@@ -34,6 +34,9 @@ class wpdb {
 	var $optiongroups;
 	var $optiongroup_options;
 	var $postmeta;
+	var $terms;
+	var $term_taxonomy;
+	var $term_relationships;
 
 	var $charset;
 	var $collate;

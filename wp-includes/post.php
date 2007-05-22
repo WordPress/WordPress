@@ -459,10 +459,8 @@ function wp_get_post_tags( $post_id = 0 ) {
 
 	$post_id = (int) $post_id;
 	
-	if ( !isset( $tag_cache[$blog_id][$post_id] ) )
-		update_post_category_cache( $post_id ); // loads $tag_cache
-
-	return $tag_cache[$blog_id][$post_id];
+	$tags = get_object_terms($post_id, 'post_tag');
+	return $tags;
 }
 
 function wp_get_recent_posts($num = 10) {
@@ -792,76 +790,11 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	
 	if ( !$post_id )
 		return false;
-	
-	// prevent warnings for unintialized variables
-	$tag_ids = array();
 
 	if ( empty($tags) )
 		$tags = array();
 	$tags = (is_array($tags)) ? $tags : explode( ',', $tags );
-	
-	foreach ( $tags as $tag ) {
-		$tag = trim( $tag );
-		if ( !$tag_slug = sanitize_title( $tag ) )
-			continue; // discard
-		if ( !$tag_id = tag_exists( $tag ) )
-			$tag_id = wp_create_tag( $tag );
-		$tag_ids[] = $tag_id;
-	}
-
-	if ( empty($tag_ids) && ( !empty($tags) || $append ) )
-		return false;
-	
-	$tag_ids = array_unique( $tag_ids );
-	
-	// First the old tags
-	$old_tags = $wpdb->get_col("
-		SELECT category_id
-		FROM $wpdb->post2cat
-		WHERE post_id = '$post_id' AND rel_type = 'tag'");
-	
-	if ( !$old_tags ) {
-		$old_tags = array();
-	} else {
-		$old_tags = array_unique( $old_tags );
-	}
-	
-	// Delete any?
-	$delete_tags = array_diff( $old_tags, $tag_ids);
-	if ( $delete_tags && !$append ) {
-		foreach ( $delete_tags as $del ) {
-			$wpdb->query("
-				DELETE FROM $wpdb->post2cat
-				WHERE category_id = '$del'
-					AND post_id = '$post_id'
-					AND rel_type = 'tag'
-				");
-		}
-	}
-	
-	// Add any?
-	$add_tags = array_diff( $tag_ids, $old_tags );
-	if ( $add_tags ) {
-		foreach ( $add_tags as $new_tag ) {
-			$new_tag = (int) $new_tag;
-			if ( !empty($new_tag) )
-				$wpdb->query("
-					INSERT INTO $wpdb->post2cat (post_id, category_id, rel_type) 
-					VALUES ('$post_id', '$new_tag', 'tag')");
-		}
-	}
-	
-	// Update category counts.
-	$all_affected_tags = array_unique( array_merge( $tag_ids, $old_tags ) );
-	foreach ( $all_affected_tags as $tag_id ) {
-		$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$tag_id' AND rel_type = 'tag'" );
-		$wpdb->query( "UPDATE $wpdb->categories SET tag_count = '$count', type = type | " . TAXONOMY_TAG . " WHERE cat_ID = '$tag_id'" );
-		if ( $count == 0 )
-			$wpdb->query( "UPDATE $wpdb->categories SET type = type & ~". TAXONOMY_TAG . " WHERE cat_ID = '$tag_id'" );
-		clean_category_cache( $tag_id );
-		do_action( 'edit_category', $tag_id );
-		do_action( 'edit_tag', $tag_id );
-	}
+	add_term_relationship($tags, $post_id, 'post_tag');
 }
 
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {

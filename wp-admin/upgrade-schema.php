@@ -10,20 +10,29 @@ if ( version_compare(mysql_get_server_info(), '4.1.0', '>=') ) {
 		$charset_collate .= " COLLATE $wpdb->collate";
 }
 
-$wp_queries="CREATE TABLE $wpdb->categories (
-  cat_ID bigint(20) NOT NULL auto_increment,
-  cat_name varchar(55) NOT NULL default '',
-  category_nicename varchar(200) NOT NULL default '',
-  category_description longtext NOT NULL,
-  category_parent bigint(20) NOT NULL default '0',
-  category_count bigint(20) NOT NULL default '0',
-  link_count bigint(20) NOT NULL default '0',
-  tag_count bigint(20) NOT NULL default '0',
-  posts_private tinyint(1) NOT NULL default '0',
-  links_private tinyint(1) NOT NULL default '0',
-  type tinyint NOT NULL default '1',
-  PRIMARY KEY  (cat_ID),
-  KEY category_nicename (category_nicename)
+$wp_queries="CREATE TABLE $wpdb->terms (
+ term_id bigint(20) NOT NULL auto_increment,
+ name varchar(55) NOT NULL default '',
+ slug varchar(200) NOT NULL default '',
+ term_group bigint(10) NOT NULL default 0,
+ PRIMARY KEY  (term_id),
+ UNIQUE KEY slug (slug)
+) $charset_collate;
+CREATE TABLE $wpdb->term_taxonomy (
+ term_taxonomy_id bigint(20) NOT NULL auto_increment,
+ term_id bigint(20) NOT NULL default 0,
+ taxonomy varchar(32) NOT NULL default '',
+ description longtext NOT NULL,
+ parent bigint(20) NOT NULL default 0,
+ count bigint(20) NOT NULL default 0,
+ PRIMARY KEY (term_taxonomy_id),
+ UNIQUE KEY (term_id, taxonomy)
+) $charset_collate;
+CREATE TABLE $wpdb->term_relationships (
+ object_id bigint(20) NOT NULL default 0,
+ term_taxonomy_id bigint(20) NOT NULL default 0,
+ PRIMARY KEY  (object_id),
+ KEY (term_taxonomy_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
@@ -44,13 +53,6 @@ CREATE TABLE $wpdb->comments (
   PRIMARY KEY  (comment_ID),
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID)
-) $charset_collate;
-CREATE TABLE $wpdb->link2cat (
-  rel_id bigint(20) NOT NULL auto_increment,
-  link_id bigint(20) NOT NULL default '0',
-  category_id bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (rel_id),
-  KEY link_id (link_id,category_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->links (
   link_id bigint(20) NOT NULL auto_increment,
@@ -85,14 +87,6 @@ CREATE TABLE $wpdb->options (
   autoload enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (option_id,blog_id,option_name),
   KEY option_name (option_name)
-) $charset_collate;
-CREATE TABLE $wpdb->post2cat (
-  rel_id bigint(20) NOT NULL auto_increment,
-  post_id bigint(20) NOT NULL default '0',
-  category_id bigint(20) NOT NULL default '0',
-  rel_type varchar(64) NOT NULL default 'category',
-  PRIMARY KEY  (rel_id),
-  KEY post_id (post_id,category_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->postmeta (
   meta_id bigint(20) NOT NULL auto_increment,

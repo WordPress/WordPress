@@ -664,16 +664,13 @@ function get_tags_to_edit( $post_id ) {
 	if ( !$post_id )
 		return false;
 
-	$tags = $wpdb->get_results( "
-		     SELECT category_id, cat_name
-		     FROM $wpdb->categories, $wpdb->post2cat
-		     WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$post_id' AND rel_type = 'tag'
-		     " );
+	$tags = wp_get_post_tags($post_id);
+
 	if ( !$tags )
 		return false;
 
 	foreach ( $tags as $tag )
-		$tag_names[] = $tag->cat_name;
+		$tag_names[] = $tag->name;
 	$tags_to_edit = join( ', ', $tag_names );
 	$tags_to_edit = attribute_escape( $tags_to_edit );
 	$tags_to_edit = apply_filters( 'tags_to_edit', $tags_to_edit );

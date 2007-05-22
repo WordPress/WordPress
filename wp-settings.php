@@ -116,6 +116,9 @@ $wpdb->links          = $wpdb->prefix . 'links';
 $wpdb->options        = $wpdb->prefix . 'options';
 $wpdb->postmeta       = $wpdb->prefix . 'postmeta';
 $wpdb->usermeta       = $wpdb->prefix . 'usermeta';
+$wpdb->terms          = $wpdb->prefix . 'terms';
+$wpdb->term_taxonomy  = $wpdb->prefix . 'term_taxonomy';
+$wpdb->term_relationships = $wpdb->prefix . 'term_relationships';
 
 if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;
@@ -168,6 +171,7 @@ require (ABSPATH . WPINC . '/cron.php');
 require (ABSPATH . WPINC . '/version.php');
 require (ABSPATH . WPINC . '/deprecated.php');
 require (ABSPATH . WPINC . '/script-loader.php');
+require (ABSPATH . WPINC . '/taxonomy.php');
 
 if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
     // Used to guarantee unique hash cookies

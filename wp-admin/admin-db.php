@@ -282,27 +282,14 @@ function category_exists($cat_name) {
 }
 
 function tag_exists($tag_name) {
-	global $wpdb;
-	if (! $tag_nicename = sanitize_title($tag_name))
-		return 0;
-
-	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$tag_nicename' AND ( type & " . TAXONOMY_TAG .  " != 0 )");
+	return is_term($tag_name, 'post_tag');
 }
 
 function wp_create_tag($tag_name) {
 	if ( $id = tag_exists($tag_name) )
 		return $id;
-	$tag_array = array('cat_name' => $tag_name, 'type' => TAXONOMY_TAG);
 
-	if ( $id = category_object_exists($tag_name) ) {
-		$category = get_category($id);
-		$tag_array['type'] = $category->type | $tag_array['type'];
-		$tag_array['cat_ID'] = $id;
-		$id = wp_update_category($tag_array);
-		return $id;
-	} else {
-		return wp_insert_category($tag_array);
-	}
+	$tag_id = add_term($tag_name, 'post_tag');	
 }
 
 function wp_delete_user($id, $reassign = 'novalue') {
