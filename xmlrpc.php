@@ -208,7 +208,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$allow_pings = ("open" == $page->ping_status) ? 1 : 0;
 
 			// Format page date.
-			$page_date = mysql2date("Ymd\TH:i:s", $page->post_date_gmt);
+			$page_date = mysql2date("Ymd\TH:i:s\Z", $page->post_date_gmt);
 
 			// Pull the categories info together.
 			$categories = array();
@@ -438,7 +438,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// The date needs to be formated properly.
 		$num_pages = count($page_list);
 		for($i = 0; $i < $num_pages; $i++) {
-			$post_date = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date_gmt);
+			$post_date = mysql2date("Ymd\TH:i:s\Z", $page_list[$i]->post_date_gmt);
 			$page_list[$i]->dateCreated = new IXR_Date($post_date);
 
 			unset($page_list[$i]->post_date_gmt);
@@ -1269,7 +1269,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  if ($postdata['post_date'] != '') {
 
-	    $post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date_gmt']);
+	    $post_date = mysql2date('Ymd\TH:i:s\Z', $postdata['post_date_gmt']);
 
 	    $categories = array();
 	    $catids = wp_get_post_categories($post_ID);
@@ -1337,7 +1337,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ($posts_list as $entry) {
 
-			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s\Z', $entry['post_date_gmt']);
 			$categories = array();
 			$catids = wp_get_post_categories($entry['ID']);
 			foreach($catids as $catid) {
@@ -1522,7 +1522,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ($posts_list as $entry) {
 
-			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s\Z', $entry['post_date_gmt']);
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
