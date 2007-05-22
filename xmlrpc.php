@@ -1150,7 +1150,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$menu_order = $content_struct["wp_page_order"];
 		}
 
-		$post_author = $user->ID;
+		$post_author = $postdata["post_author"];
 
 		// Only set the post_author if one is set.
 		if(
