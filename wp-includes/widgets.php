@@ -523,12 +523,10 @@ function wp_widget_text($args, $number = 1) {
 	extract($args);
 	$options = get_option('widget_text');
 	$title = $options[$number]['title'];
-	if ( empty($title) )
-		$title = '&nbsp;';
 	$text = apply_filters( 'the_content', $options[$number]['text'] );
 ?>
 		<?php echo $before_widget; ?>
-			<?php !empty( $title ) ? print($before_title . $title . $after_title) : null; ?>
+			<?php if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
 			<div class="textwidget"><?php echo $text; ?></div>
 		<?php echo $after_widget; ?>
 <?php
