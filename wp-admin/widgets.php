@@ -68,9 +68,11 @@ function wp_widgets_admin_head() {
 		$A(Draggables.drags).map(function(o) {o.startDrag(null); o.finishDrag(null);});
 		//for ( var n in Draggables.drags ) {
 		for ( n=0; n<=Draggables.drags.length; n++ ) {
-			if ( Draggables.drags[n].element.id == 'lastmodule' ) {
-				Draggables.drags[n].destroy();
-				break;
+			if ( parseInt( n ) ) {
+				if ( Draggables.drags[n].element.id == 'lastmodule' ) {
+					Draggables.drags[n].destroy();
+					break;
+				}
 			}
 		}
 		resetPaletteHeight();
