@@ -65,6 +65,26 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		$tt_id = (int) $wpdb->insert_id;
 	}
 
+	if ($update) {
+		do_action("edit_term", $term_id, $tt_id);
+		do_action("edit_$taxonomy", $term_id, $tt_id);
+	} else {
+		do_action("create_term", $term_id, $tt_id);
+		do_action("create_$taxonomy", $term_id, $tt_id);
+	}
+
+	$term_id = apply_filters('term_id_filter', $term_id, $tt_id, $update);
+
+	//clean_term_cache($term_id);
+
+	if ($update) {
+		do_action("edited_term", $term_id, $tt_id);
+		do_action("edited_$taxonomy", $term_id, $tt_id);
+	} else {
+		do_action("created_term", $term_id, $tt_id);
+		do_action("created_$taxonomy", $term_id, $tt_id);
+	}
+
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
 }
 
