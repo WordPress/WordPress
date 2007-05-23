@@ -1,5 +1,32 @@
 <?php
 
+$wp_taxonomies =
+array('category' => array('object_type' => 'post', 'hierarchical' => true),
+'post_tag' => array('object_type' => 'post', 'hierarchical' => false),
+'link_category' => array('object_type' => 'link', 'hierarchical' => false));
+
+function is_taxonomy( $taxonomy ) {
+	global $wp_taxonomies;
+
+	return isset($wp_taxonomies[$taxonomy]);	
+}
+
+function get_taxonomy( $taxonomy ) {
+	global $wp_taxonomies;
+
+	if ( ! is_taxonomy($taxonomy) )
+		return false;
+
+	return $wp_taxonomies[$taxonomy];
+}
+
+function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
+	global $wp_taxonomies;
+
+	$args['object_type'] = $object_type;
+	$wp_taxonomies[$taxonomy] = $args;
+}
+
 /**
  * Adds a new term to the database.  Optionally marks it as an alias of an existing term.
  * @param int|string $term The term to add or update.
@@ -8,6 +35,9 @@
  */
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
+
+	if ( ! is_taxonomy($taxonomy) )
+		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
 	$update = false;
 	if ( is_int($term) ) {
@@ -257,21 +287,44 @@ function get_object_terms($object_id, $taxonomy, $args = array()) {
 function &get_terms($taxonomies, $args = '') {
 	global $wpdb;
 
-	if ( !is_array($taxonomies) )
+	$single_taxonomy = false;
+	if ( !is_array($taxonomies) ) {
+		$single_taxonomy = true;
 		$taxonomies = array($taxonomies);
+	}
+
 	$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
-		'number' => '', 'get' => 'everything');
+		'number' => '', 'get' => 'everything', 'slug' => '', 'parent' => '',
+		'hierarchical' => true, 'child_of' => 0);
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = (int) $args['number'];
+	if ( ! $single_taxonomy ) {
+		$args['child_of'] = 0;
+		$args['hierarchical'] = false;
+	} else {
+		$tax = get_taxonomy($taxonomy);
+		if ( !$tax['hierarchical'] ) {
+			$args['child_of'] = 0;
+			$args['hierarchical'] = false;	
+		}
+	}
 	extract($args);
+
+	$key = md5( serialize( $args ) . serialize( $taxonomies ) );
+	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {
+		if ( isset( $cache[ $key ] ) )
+			return apply_filters('get_terms', $cache[$key], $taxonomies, $args);
+	}
 
 	if ( 'count' == $orderby )
 		$orderby = 'tt.count';
 	else if ( 'name' == $orderby )
 		$orderby = 't.name';
+	else
+		$orderby = 't.term_id';
 
 	$where = '';
 	$inclusions = '';
@@ -310,7 +363,17 @@ function &get_terms($taxonomies, $args = '') {
 	$exclusions = apply_filters('list_terms_exclusions', $exclusions, $args );
 	$where .= $exclusions;
 
-	if ( $hide_empty )
+	if ( !empty($slug) ) {
+		$slug = sanitize_title($slug);
+		$where = " AND t.slug = '$slug'";
+	}
+
+	if ( !empty($parent) ) {
+		$parent = (int) $parent;
+		$where = " AND tt.parent = '$parent'";
+	}
+
+	if ( $hide_empty && !$hierarchical )
 		$where .= ' AND tt.count > 0';
 
 	if ( !empty($number) )
@@ -333,6 +396,37 @@ function &get_terms($taxonomies, $args = '') {
 	if ( empty($terms) )
 		return array();
 
+	if ( $child_of || $hierarchical ) {
+		$children = _get_term_hierarchy($taxonomies[0]);
+		if ( ! empty($children) )
+			$terms = & _get_term_children($child_of, $terms);
+	}
+
+	/*
+	// Update category counts to include children.
+	if ( $pad_counts )
+		_pad_category_counts($type, $categories);
+
+	// Make sure we show empty categories that have children.
+	if ( $hierarchical && $hide_empty ) {
+		foreach ( $categories as $k => $category ) {
+			if ( ! $category->{'link' == $type ? 'link_count' : 'category_count'} ) {
+				$children = _get_cat_children($category->cat_ID, $categories);
+				foreach ( $children as $child )
+					if ( $child->{'link' == $type ? 'link_count' : 'category_count'} )
+						continue 2;
+
+				// It really is empty
+				unset($categories[$k]);
+			}
+		}
+	}
+	reset ( $categories );
+	*/
+
+	$cache[ $key ] = $terms;
+	wp_cache_add( 'get_terms', $cache, 'terms' );
+
 	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
 	return $terms;
 }
@@ -344,17 +438,18 @@ function &get_term(&$term, $taxonomy, $output = OBJECT) {
 		return null;
 
 	if ( is_object($term) ) {
-		wp_cache_add($term->term_id, $term, "term:$taxonomy");
+		wp_cache_add($term->term_id, $term, $taxonomy);
 		$_term = $term;
 	} else {
 		$term = (int) $term;
-		if ( ! $_term = wp_cache_get($term, "term:$taxonomy") ) {
+		if ( ! $_term = wp_cache_get($term, $taxonomy) ) {
 			$_term = $wpdb->get_row("SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = '$term' LIMIT 1");
-			wp_cache_add($term, $_term, "term:$taxonomy");
+			wp_cache_add($term, $_term, $taxonomy);
 		}
 	}
 
 	$_term = apply_filters('get_term', $_term, $taxonomy);
+	$_term = apply_filters("get_$taxonomy", $_term, $taxonomy);
 
 	if ( $output == OBJECT ) {
 		return $_term;
@@ -365,6 +460,87 @@ function &get_term(&$term, $taxonomy, $output = OBJECT) {
 	} else {
 		return $_term;
 	}
+}
+
+function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
+	global $wpdb;
+
+	if ( ! is_taxonomy($taxonomy) )
+		return false;
+
+	if ( 'slug' == $field ) {
+		$field = 't.slug';
+		$value = sanitize_title($field);
+		if ( empty($value) )
+			return false;
+	} else if ( 'name' == $field ) {
+		// Assume already escaped
+		$field = 't.name';
+	} else {
+		$field = 't.term_id';
+		$value = (int) $value;
+	}
+
+	$term = $wpdb->get_row("SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = '$taxonomy' AND $field = '$value' LIMIT 1");
+	if ( !$term )
+		return false;
+
+	wp_cache_add($term->term_id, $term, $taxonomy);
+
+	if ( $output == OBJECT ) {
+		return $term;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($term);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($term));
+	} else {
+		return $term;
+	}
+}
+
+function _get_term_hierarchy($taxonomy) {
+	// TODO Make sure taxonomy is hierarchical
+	$children = get_option("{$taxonomy}_children");
+	if ( is_array($children) )
+		return $children;
+
+	$children = array();
+	$terms = get_terms('category', 'hide_empty=0&hierarchical=0');
+	foreach ( $terms as $term ) {
+		if ( $term->parent > 0 )
+			$children[$cterm->parent][] = $term->term_id;
+	}
+	update_option("{$taxonomy}_children", $children);
+
+	return $children;
+}
+
+function &_get_term_children($term_id, $terms) {
+	if ( empty($terms) )
+		return array();
+
+	$term_list = array();
+	$has_children = _get_term_hierarchy();
+
+	if  ( ( 0 != $term_id ) && ! isset($has_children[$term_id]) )
+		return array();
+
+	foreach ( $terms as $term ) {
+		if ( $term->term_id == $term_id )
+			continue;
+
+		if ( $term->parent == $term_id ) {
+			$term_list[] = $term;
+
+			if ( !isset($has_children[$term->term_id]) )
+				continue;
+
+			if ( $children = _get_cat_children($term->term_id, $terms) )
+				$term_list = array_merge($term_list, $children);
+		}
+	}
+
+	return $term_list;
 }
 
 ?>

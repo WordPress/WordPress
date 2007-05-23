@@ -7,7 +7,7 @@ function get_all_category_ids() {
 	global $wpdb;
 
 	if ( ! $cat_ids = wp_cache_get('all_category_ids', 'category') ) {
-		$cat_ids = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
+		$cat_ids = get_terms('category', 'get=ids&hierarchical=0&hide_empty=0');
 		wp_cache_add('all_category_ids', $cat_ids, 'category');
 	}
 
@@ -15,169 +15,14 @@ function get_all_category_ids() {
 }
 
 function &get_categories($args = '') {
-	global $wpdb, $category_links;
-	
-	$defaults = array(
-		'type' => 'post', 'child_of' => 0, 
-		'orderby' => 'name', 'order' => 'ASC', 
-		'hide_empty' => true, 'include_last_update_time' => false, 
-		'hierarchical' => 1, 'exclude' => '', 
-		'include' => '', 'number' => '', 
-		'pad_counts' => false
-	);
-	
-	$r = wp_parse_args( $args, $defaults );
-	
-	if ( $r['orderby'] == 'count' ) {
-		$r['orderby'] = 'category_count';
-	} else {
-		$r['orderby'] = 'cat_' . $r['orderby'];
-	}
-	
-	extract( $r );
-
-	$key = md5( serialize( $r ) );
-	if ( $cache = wp_cache_get( 'get_categories', 'category' ) )
-		if ( isset( $cache[ $key ] ) )
-			return apply_filters('get_categories', $cache[$key], $r);
-
-	$where = 'cat_ID > 0';
-	$inclusions = '';
-	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of and exclude params if using include
-		$exclude = '';
-		$incategories = preg_split('/[\s,]+/',$include);
-		if ( count($incategories) ) {
-			foreach ( $incategories as $incat ) {
-				if (empty($inclusions))
-					$inclusions = ' AND ( cat_ID = ' . intval($incat) . ' ';
-				else
-					$inclusions .= ' OR cat_ID = ' . intval($incat) . ' ';
-			}
-		}
-	}
-	if (!empty($inclusions))
-		$inclusions .= ')';
-	$where .= $inclusions;
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$excategories = preg_split('/[\s,]+/',$exclude);
-		if ( count($excategories) ) {
-			foreach ( $excategories as $excat ) {
-				if (empty($exclusions))
-					$exclusions = ' AND ( cat_ID <> ' . intval($excat) . ' ';
-				else
-					$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
-				// TODO: Exclude children of excluded cats?   Note: children are getting excluded
-			}
-		}
-	}
-	if (!empty($exclusions))
-		$exclusions .= ')';
-	$exclusions = apply_filters('list_cats_exclusions', $exclusions, $r );
-	$where .= $exclusions;
-
-	if ( $hide_empty && !$hierarchical ) {
-		if ( 'link' == $type )
-			$where .= ' AND link_count > 0';
-		else
-			$where .= ' AND category_count > 0';
-	} else {
-		$where .= ' AND ( type & ' . TAXONOMY_CATEGORY . ' != 0 ) ';
-	}
-
-	
-
-	if ( !empty($number) )
-		$number = 'LIMIT ' . $number;
-	else
-		$number = '';
-
-	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where ORDER BY $orderby $order $number");
-
-	if ( empty($categories) )
-		return array();
-
-	// TODO: Integrate this into the main query.
-	if ( $include_last_update_time ) {
-		$stamps = $wpdb->get_results("SELECT category_id, UNIX_TIMESTAMP( MAX(post_date) ) AS ts FROM $wpdb->posts, $wpdb->post2cat, $wpdb->categories
-							WHERE post_status = 'publish' AND post_id = ID AND $where GROUP BY category_id");
-		global $cat_stamps;
-		foreach ($stamps as $stamp)
-			$cat_stamps[$stamp->category_id] = $stamp->ts;
-		function stamp_cat($cat) {
-			global $cat_stamps;
-			$cat->last_update_timestamp = $cat_stamps[$cat->cat_ID];
-			return $cat;
-		}
-		$categories = array_map('stamp_cat', $categories);
-		unset($cat_stamps);
-	}
-
-	if ( $child_of || $hierarchical ) {
-		$children = _get_category_hierarchy();
-		if ( ! empty($children) )
-			$categories = & _get_cat_children($child_of, $categories);
-	}
-
-	// Update category counts to include children.
-	if ( $pad_counts )
-		_pad_category_counts($type, $categories);
-
-	// Make sure we show empty categories that have children.
-	if ( $hierarchical && $hide_empty ) {
-		foreach ( $categories as $k => $category ) {
-			if ( ! $category->{'link' == $type ? 'link_count' : 'category_count'} ) {
-				$children = _get_cat_children($category->cat_ID, $categories);
-				foreach ( $children as $child )
-					if ( $child->{'link' == $type ? 'link_count' : 'category_count'} )
-						continue 2;
-
-				// It really is empty
-				unset($categories[$k]);
-			}
-		}
-	}
-	reset ( $categories );
-
-	$cache[ $key ] = $categories;
-	wp_cache_add( 'get_categories', $cache, 'category' );
-
-	$categories = apply_filters('get_categories', $categories, $r);
-	return $categories;
+	// TODO Add back compat fields into each object.
+	return get_terms('category', $args);
 }
 
 // Retrieves category data given a category ID or category object.
 // Handles category caching.
 function &get_category(&$category, $output = OBJECT) {
-	global $wpdb;
-
-	if ( empty($category) )
-		return null;
-
-	if ( is_object($category) ) {
-		wp_cache_add($category->cat_ID, $category, 'category');
-		$_category = $category;
-	} else {
-		$category = (int) $category;
-		if ( ! $_category = wp_cache_get($category, 'category') ) {
-			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category' LIMIT 1");
-			wp_cache_add($category, $_category, 'category');
-		}
-	}
-
-	$_category = apply_filters('get_category', $_category);
-
-	if ( $output == OBJECT ) {
-		return $_category;
-	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($_category);
-	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($_category));
-	} else {
-		return $_category;
-	}
+	return get_term($category, 'category', $output);
 }
 
 function get_category_by_path($category_path, $full_match = true, $output = OBJECT) {
@@ -192,7 +37,7 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	foreach ( (array) $category_paths as $pathdir )
 		$full_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
 
-	$categories = $wpdb->get_results("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE category_nicename = '$leaf_path'");
+	$categories = get_terms('category', "slug=$leaf_path");
 
 	if ( empty($categories) )
 		return NULL;
@@ -200,38 +45,34 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	foreach ($categories as $category) {
 		$path = '/' . $leaf_path;
 		$curcategory = $category;
-		while ( ($curcategory->category_parent != 0) && ($curcategory->category_parent != $curcategory->cat_ID) ) {
-			$curcategory = $wpdb->get_row("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE cat_ID = '$curcategory->category_parent'");
-			$path = '/' . $curcategory->category_nicename . $path;
+		while ( ($curcategory->parent != 0) && ($curcategory->parent != $curcategory->term_id) ) {
+			$curcategory = get_term($curcategory->parent);
+			$path = '/' . $curcategory->slug . $path;
 		}
 
 		if ( $path == $full_path )
-			return get_category($category->cat_ID, $output);
+			return get_category($category->term_id, $output);
 	}
 
 	// If full matching is not required, return the first cat that matches the leaf.
 	if ( ! $full_match )
-		return get_category($categories[0]->cat_ID, $output);
+		return get_category($categories[0]->term_id, $output);
 
 	return NULL;
 }
 
 function get_category_by_slug( $slug  ) {
-	global $wpdb;
-	$slug = sanitize_title( $slug );
-	if ( empty( $slug ) )
-		return false;
-	$category = $wpdb->get_var( "SELECT * FROM $wpdb->categories WHERE category_nicename = '$slug' " );
-	return get_category( $category );
+	return get_term_by('slug', $slug, 'category');
 }
 
 // Get the ID of a category from its name
 function get_cat_ID($cat_name='General') {
 	global $wpdb;
 
-	$cid = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
-
-	return $cid?$cid:1;	// default to cat 1
+	$cat = get_term_by('name', $cat_name, 'category');
+	if ($cat)
+		return $cat->term_id;
+	return 0;
 }
 
 // Deprecate
@@ -252,13 +93,13 @@ function cat_is_ancestor_of($cat1, $cat2) {
 	if ( is_int($cat2) ) 
 		$cat2 = & get_category($cat2); 
 
-	if ( !$cat1->cat_ID || !$cat2->category_parent ) 
+	if ( !$cat1->term_id || !$cat2->parent ) 
 		return false; 
 
-	if ( $cat2->category_parent == $cat1->cat_ID ) 
+	if ( $cat2->parent == $cat1->term_id ) 
 		return true; 
 
-	return cat_is_ancestor_of($cat1, get_category($cat2->parent_category)); 
+	return cat_is_ancestor_of($cat1, get_category($cat2->parent)); 
 } 
 
 //
