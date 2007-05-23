@@ -63,8 +63,8 @@ function bloginfo($show='') {
 	$info = get_bloginfo($show);
 	
 	// Don't filter URL's.
-	if (strpos($show, 'url') === false || 
-		strpos($show, 'directory') === false || 
+	if (strpos($show, 'url') === false &&
+		strpos($show, 'directory') === false &&
 		strpos($show, 'home') === false) {
 		$info = apply_filters('bloginfo', $info, $show);
 		$info = convert_chars($info);
