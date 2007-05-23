@@ -2007,6 +2007,7 @@ function wp_import_upload_form( $action ) {
 		$bytes = $size * 1024 * 1024;
 	if (strpos($size, 'g') !== false)
 		$bytes = $size * 1024 * 1024 * 1024;
+	$size = apply_filters( 'import_upload_size_limit', $size );
 ?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo attribute_escape($action) ?>">
 <p>
