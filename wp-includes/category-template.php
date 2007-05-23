@@ -5,10 +5,10 @@ function get_category_children($id, $before = '/', $after = '') {
 		return '';
 
 	$chain = '';
-
+	// TODO: consult hierarchy
 	$cat_ids = get_all_category_ids();
 	foreach ( $cat_ids as $cat_id ) {
-		if ( $cat_id == $id)
+		if ( $cat_id == $id )
 			continue;
 
 		$category = get_category($cat_id);

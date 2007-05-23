@@ -76,11 +76,11 @@ function is_category ($category = '') {
 
 	$cat_obj = $wp_query->get_queried_object();
 
-	if ( $category == $cat_obj->cat_ID )
+	if ( $category == $cat_obj->term_id )
 		return true;
-	else if ( $category == $cat_obj->cat_name )
+	else if ( $category == $cat_obj->name )
 		return true;
-	elseif ( $category == $cat_obj->category_nicename )
+	elseif ( $category == $cat_obj->slug )
 		return true;
 
 	return false;
@@ -842,7 +842,7 @@ class WP_Query {
 		} else {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
-			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) ";
+			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
 			$in_cats = $out_cats = $out_posts = '';
 			foreach ( $cat_array as $cat ) {
@@ -857,8 +857,9 @@ class WP_Query {
 			$in_cats = substr($in_cats, 0, -2);
 			$out_cats = substr($out_cats, 0, -2);
 			if ( strlen($in_cats) > 0 )
-				$in_cats = " AND $wpdb->post2cat.category_id IN ($in_cats) AND rel_type = 'category' ";
+				$in_cats = " AND $wpdb->term_taxonomy.term_id IN ({$q['cat']}) ";
 			if ( strlen($out_cats) > 0 ) {
+				// TODO
 				$ids = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE $wpdb->post2cat.category_id IN ($out_cats)");
 				if ( is_array($ids) && count($ids > 0) ) {
 					foreach ( $ids as $id )
@@ -870,7 +871,8 @@ class WP_Query {
 				else
 					$out_cats = '';
 			}
-			$whichcat = $in_cats . $out_cats;
+			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
+			$whichcat .= $in_cats . $out_cats;
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
@@ -882,8 +884,6 @@ class WP_Query {
 				$reqtag = 0;
 
 			$q['tag_id'] = $reqtag;
-			// TODO: use term taxonomy
-			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat = " AND $wpdb->term_taxonomy.term_id IN ({$q['tag_id']}) AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$groupby = "{$wpdb->posts}.ID";
@@ -908,18 +908,18 @@ class WP_Query {
 				$reqcat = get_category_by_path($q['category_name'], false);
 
 			if ( !empty($reqcat) )
-				$reqcat = $reqcat->cat_ID;
+				$reqcat = $reqcat->term_id;
 			else
 				$reqcat = 0;
 
 			$q['cat'] = $reqcat;
 
-			$tables = ", $wpdb->post2cat, $wpdb->categories";
-			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
-			$whichcat = " AND category_id IN ({$q['cat']}, ";
+			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
+			$whichcat .= "AND $wpdb->term_taxonomy.term_id IN ({$q['cat']}, ";
 			$whichcat .= get_category_children($q['cat'], '', ', ');
 			$whichcat = substr($whichcat, 0, -2);
-			$whichcat .= ") AND rel_type = 'category'";
+			$whichcat .= ")";
 			$groupby = "{$wpdb->posts}.ID";
 		}
 

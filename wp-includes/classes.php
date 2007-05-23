@@ -557,7 +557,7 @@ class Walker_PageDropdown extends Walker {
 
 class Walker_Category extends Walker {
 	var $tree_type = 'category';
-	var $db_fields = array ('parent' => 'category_parent', 'id' => 'cat_ID'); //TODO: decouple this
+	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
 
 	function start_lvl($output, $depth, $args) {
 		if ( 'list' != $args['style'] )
@@ -580,13 +580,13 @@ class Walker_Category extends Walker {
 	function start_el($output, $category, $depth, $args) {
 		extract($args);
 
-		$cat_name = attribute_escape( $category->cat_name);
+		$cat_name = attribute_escape( $category->name);
 		$cat_name = apply_filters( 'list_cats', $cat_name, $category );
-		$link = '<a href="' . get_category_link( $category->cat_ID ) . '" ';
-		if ( $use_desc_for_title == 0 || empty($category->category_description) )
+		$link = '<a href="' . get_category_link( $category->term_id ) . '" ';
+		if ( $use_desc_for_title == 0 || empty($category->description) )
 			$link .= 'title="' . sprintf(__( 'View all posts filed under %s' ), $cat_name) . '"';
 		else
-			$link .= 'title="' . attribute_escape( apply_filters( 'category_description', $category->category_description, $category )) . '"';
+			$link .= 'title="' . attribute_escape( apply_filters( 'category_description', $category->description, $category )) . '"';
 		$link .= '>';
 		$link .= $cat_name . '</a>';
 
@@ -596,7 +596,7 @@ class Walker_Category extends Walker {
 			if ( empty($feed_image) )
 				$link .= '(';
 
-			$link .= '<a href="' . get_category_rss_link( 0, $category->cat_ID, $category->category_nicename ) . '"';
+			$link .= '<a href="' . get_category_rss_link( 0, $category->term_id, $category->slug ) . '"';
 
 			if ( empty($feed) )
 				$alt = ' alt="' . sprintf(__( 'Feed for all posts filed under %s' ), $cat_name ) . '"';
@@ -619,7 +619,7 @@ class Walker_Category extends Walker {
 		}
 
 		if ( isset($show_count) && $show_count )
-			$link .= ' (' . intval($category->category_count) . ')';
+			$link .= ' (' . intval($category->count) . ')';
 
 		if ( isset($show_date) && $show_date ) {
 			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
@@ -630,9 +630,9 @@ class Walker_Category extends Walker {
 
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
-			if ( $current_category && ($category->cat_ID == $current_category) )
+			if ( $current_category && ($category->term_id == $current_category) )
 				$output .=  ' class="current-cat"';
-			elseif ( $_current_category && ($category->cat_ID == $_current_category->category_parent) )
+			elseif ( $_current_category && ($category->term_id == $_current_category->parent) )
 				$output .=  ' class="current-cat-parent"';
 			$output .= ">$link\n";
 		} else {
@@ -654,19 +654,19 @@ class Walker_Category extends Walker {
 
 class Walker_CategoryDropdown extends Walker {
 	var $tree_type = 'category';
-	var $db_fields = array ('parent' => 'category_parent', 'id' => 'cat_ID'); //TODO: decouple this
+	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
 
 	function start_el($output, $category, $depth, $args) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
-		$cat_name = apply_filters('list_cats', $category->cat_name, $category);
-		$output .= "\t<option value=\"".$category->cat_ID."\"";
-		if ( $category->cat_ID == $args['selected'] )
+		$cat_name = apply_filters('list_cats', $category->name, $category);
+		$output .= "\t<option value=\"".$category->term_id."\"";
+		if ( $category->term_id == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
 		$output .= $pad.$cat_name;
 		if ( $args['show_count'] )
-			$output .= '&nbsp;&nbsp;('. $category->category_count .')';
+			$output .= '&nbsp;&nbsp;('. $category->count .')';
 		if ( $args['show_last_update'] ) {
 			$format = 'Y-m-d';
 			$output .= '&nbsp;&nbsp;' . gmdate($format, $category->last_update_timestamp);
