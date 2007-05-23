@@ -769,7 +769,7 @@ function dropdown_link_categories( $default = 0 ) {
 
 // Dandy new recursive multiple category stuff.
 function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
-	if (!$categories )
+	if ( !$categories )
 		$categories = get_categories( 'hide_empty=0' );
 
 	$children = _get_category_hierarchy();
@@ -777,10 +777,10 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
 	if ( $categories ) {
 		ob_start();
 		foreach ( $categories as $category ) {
-			if ( $category->category_parent == $parent) {
+			if ( $category->parent == $parent) {
 				echo "\t" . _cat_row( $category, $level );
-				if ( isset($children[$category->cat_ID]) )
-					cat_rows( $category->cat_ID, $level +1, $categories );
+				if ( isset($children[$category->term_id]) )
+					cat_rows( $category->term_id, $level +1, $categories );
 			}
 		}
 		$output = ob_get_contents();
@@ -799,12 +799,11 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__( 'Edit' )."</a></td>";
+		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
 		$default_cat_id = (int) get_option( 'default_category' );
-		$default_link_cat_id = (int) get_option( 'default_link_category' );
 
-		if ( ($category->cat_ID != $default_cat_id ) && ($category->cat_ID != $default_link_cat_id ) )
-			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . js_escape(sprintf( __("You are about to delete the category '%s'.\nAll posts that were only assigned to this category will be assigned to the '%s' category.\nAll links that were only assigned to this category will be assigned to the '%s' category.\n'OK' to delete, 'Cancel' to stop." ), $category->cat_name, get_catname( $default_cat_id ), get_catname( $default_link_cat_id ) )) . "' );\" class='delete'>".__( 'Delete' )."</a>";
+		if ( $category->term_id != $default_cat_id )
+			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id ) . "' onclick=\"return deleteSomething( 'cat', $category->term_id, '" . js_escape(sprintf( __("You are about to delete the category '%s'.\nAll posts that were only assigned to this category will be assigned to the '%s' category.\nAll links that were only assigned to this category will be assigned to the '%s' category.\n'OK' to delete, 'Cancel' to stop." ), $category->name, get_catname( $default_cat_id ), get_catname( $default_link_cat_id ) )) . "' );\" class='delete'>".__( 'Delete' )."</a>";
 		else
 			$edit .= "<td style='text-align:center'>".__( "Default" );
 	} else
@@ -812,15 +811,13 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$class = ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || " class='alternate'" == $class ) ? '' : " class='alternate'";
 
-	$category->category_count = number_format_i18n( $category->category_count );
-	$category->link_count = number_format_i18n( $category->link_count );
-	$posts_count = ( $category->category_count > 0 ) ? "<a href='edit.php?cat=$category->cat_ID'>$category->category_count</a>" : $category->category_count;
-	return "<tr id='cat-$category->cat_ID'$class>
-		<th scope='row' style='text-align: center'>$category->cat_ID</th>
-		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->cat_name ) . "</td>
-		<td>$category->category_description</td>
+	$category->count = number_format_i18n( $category->count );
+	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
+	return "<tr id='cat-$category->term_id'$class>
+		<th scope='row' style='text-align: center'>$category->term_id</th>
+		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->name ) . "</td>
+		<td>$category->description</td>
 		<td align='center'>$posts_count</td>
-		<td align='center'>$category->link_count</td>
 		<td>$edit</td>\n\t</tr>\n";
 }
 

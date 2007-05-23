@@ -99,7 +99,6 @@ $messages[5] = __('Category not updated.');
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
-        <th scope="col" width="90" style="text-align: center"><?php _e('Links') ?></th>
         <th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
 	</tr>
 	</thead>

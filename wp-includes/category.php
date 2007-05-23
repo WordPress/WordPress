@@ -84,7 +84,7 @@ function get_catname($cat_ID) {
 function get_cat_name($cat_id) {
 	$cat_id = (int) $cat_id;
 	$category = &get_category($cat_id);
-	return $category->cat_name;
+	return $category->name;
 }
 
 function cat_is_ancestor_of($cat1, $cat2) { 
@@ -174,19 +174,7 @@ function _pad_category_counts($type, &$categories) {
 }
 
 function _get_category_hierarchy() {
-	$children = get_option('category_children');
-	if ( is_array($children) )
-		return $children;
-
-	$children = array();
-	$categories = get_categories('hide_empty=0&hierarchical=0');
-	foreach ( $categories as $cat ) {
-		if ( $cat->category_parent > 0 )
-			$children[$cat->category_parent][] = $cat->cat_ID;
-	}
-	update_option('category_children', $children);
-
-	return $children;
+	return _get_term_hierarchy('category');
 }
 
 // Tags

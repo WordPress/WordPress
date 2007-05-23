@@ -39,13 +39,83 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	if ( ! is_taxonomy($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 
-	$update = false;
-	if ( is_int($term) ) {
-		$update = true;
-		$term_id = $term;
-	} else {
-		$name = $term;
+	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
+	$args = wp_parse_args($args, $defaults);
+	extract($args);
+
+	$name = $term;
+	$parent = (int) $parent;
+
+	if ( empty($slug) )
+		$slug = sanitize_title($name);
+	else
+		$slug = sanitize_title($slug);
+
+	$term_group = 0;	
+	if ( $alias_of ) {
+		$alias = $wpdb->fetch_row("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$alias_of'");
+		if ( $alias->term_group ) {
+			// The alias we want is already in a group, so let's use that one.
+			$term_group = $alias->term_group;
+		} else {
+			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
+			$term_group = $wpdb->get_var("SELECT MAX() term_group FROM $wpdb->terms GROUP BY term_group") + 1;
+			$wpdb->query("UPDATE $wpdb->terms SET term_group = $term_group WHERE term_id = $alias->term_id");
+		}
 	}
+
+	if ( ! $term_id = is_term($slug) ) {
+		$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
+		$term_id = (int) $wpdb->insert_id;
+	}
+
+	if ( empty($slug) ) {
+		$slug = sanitize_title($slug, $term_id);
+		$wpdb->query("UPDATE $wpdb->terms SET slug = '$slug' WHERE term_id = '$term_id'");
+	}
+		
+	$tt_id = $wpdb->get_var("SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = $term_id");
+
+	if ( !empty($tt_id) )
+		return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
+
+	$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '0')");
+	$tt_id = (int) $wpdb->insert_id;
+
+	do_action("create_term", $term_id, $tt_id);
+	do_action("create_$taxonomy", $term_id, $tt_id);
+
+	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
+
+	//clean_term_cache($term_id);
+
+	do_action("created_term", $term_id, $tt_id);
+	do_action("created_$taxonomy", $term_id, $tt_id);
+
+	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
+}
+
+/**
+ * Removes a term from the database.
+ */
+function wp_delete_term() {}
+
+function wp_update_term( $term, $taxonomy, $args = array() ) {
+	global $wpdb;
+
+	if ( ! is_taxonomy($taxonomy) )
+		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
+
+	$term_id = (int) $term;
+
+	// First, get all of the original args
+	$term = get_term ($term_id, $taxonomy, ARRAY_A);
+
+	// Escape data pulled from DB.
+	$term = add_magic_quotes($term);
+
+	// Merge old and new args with new args overwriting old ones.
+	$args = array_merge($term, $args);
 
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
@@ -71,12 +141,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		}
 	}
 
-	if ( $update ) {
-		$wpdb->query("UPDATE $wpdb->terms SET name = '$name', slug = '$slug', term_group = '$term_group' WHERE term_id = '$term_id'");
-	} else if ( ! $term_id = is_term($slug) ) {
-		$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
-		$term_id = (int) $wpdb->insert_id;
-	}
+	$wpdb->query("UPDATE $wpdb->terms SET name = '$name', slug = '$slug', term_group = '$term_group' WHERE term_id = '$term_id'");
 
 	if ( empty($slug) ) {
 		$slug = sanitize_title($slug, $term_id);
@@ -85,57 +150,19 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		
 	$tt_id = $wpdb->get_var("SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = $term_id");
 
-	if ( !$update && !empty($tt_id) )
-		return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
+	$wpdb->query("UPDATE $wpdb->term_taxonomy SET term_id = '$term_id', taxonomy = '$taxonomy', description = '$description', parent = '$parent', count = 0 WHERE term_taxonomy_id = '$tt_id'");
 
-	if ( $update ) {
-		$wpdb->query("UPDATE $wpdb->term_taxonomy SET term_id = '$term_id', taxonomy = '$taxonomy', description = '$description', parent = '$parent', count = 0 WHERE term_taxonomy_id = '$tt_id'");
-	} else {
-		$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '0')");
-		$tt_id = (int) $wpdb->insert_id;
-	}
+	do_action("edit_term", $term_id, $tt_id);
+	do_action("edit_$taxonomy", $term_id, $tt_id);
 
-	if ($update) {
-		do_action("edit_term", $term_id, $tt_id);
-		do_action("edit_$taxonomy", $term_id, $tt_id);
-	} else {
-		do_action("create_term", $term_id, $tt_id);
-		do_action("create_$taxonomy", $term_id, $tt_id);
-	}
-
-	$term_id = apply_filters('term_id_filter', $term_id, $tt_id, $update);
+	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
 	//clean_term_cache($term_id);
 
-	if ($update) {
-		do_action("edited_term", $term_id, $tt_id);
-		do_action("edited_$taxonomy", $term_id, $tt_id);
-	} else {
-		do_action("created_term", $term_id, $tt_id);
-		do_action("created_$taxonomy", $term_id, $tt_id);
-	}
+	do_action("edited_term", $term_id, $tt_id);
+	do_action("edited_$taxonomy", $term_id, $tt_id);
 
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
-}
-
-/**
- * Removes a term from the database.
- */
-function wp_delete_term() {}
-
-function wp_update_term( $term, $taxonomy, $fields = array() ) {
-	$term = (int) $term;
-
-	// First, get all of the original fields
-	$term = get_term ($term, $taxonomy, ARRAY_A);
-
-	// Escape data pulled from DB.
-	$term = add_magic_quotes($term);
-
-	// Merge old and new fields with new fields overwriting old ones.
-	$fields = array_merge($term, $fields);
-
-	return wp_insert_term($term, $taxonomy, $fields);
 }
 
 /**

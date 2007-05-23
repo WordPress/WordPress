@@ -84,83 +84,46 @@ function wp_insert_category($catarr) {
 
 	extract($catarr);
 
-	if( trim( $cat_name ) == '' )
+	if ( trim( $cat_name ) == '' )
 		return 0;
 
 	$cat_ID = (int) $cat_ID;
 
 	// Are we updating or creating?
-	if (!empty ($cat_ID))
+	if ( !empty ($cat_ID) )
 		$update = true;
 	else
 		$update = false;
 
-	$cat_name = apply_filters('pre_category_name', $cat_name);
+	$name = $cat_name;
+	$description = $category_description;
+	$slug = $category_nicename;
+	$parent = $category_parent;
 
-	if (empty ($category_nicename))
-		$category_nicename = sanitize_title($cat_name);
+	$name = apply_filters('pre_category_name', $name);
+
+	if ( empty ($slug) )
+		$slug = sanitize_title($slug);
 	else
-		$category_nicename = sanitize_title($category_nicename);
-	$category_nicename = apply_filters('pre_category_nicename', $category_nicename);
+		$slug = sanitize_title($slug);
+	$slug = apply_filters('pre_category_nicename', $slug);
 
-	if (empty ($category_description))
-		$category_description = '';
-	$category_description = apply_filters('pre_category_description', $category_description);
+	if ( empty ($description) )
+		$description = '';
+	$description = apply_filters('pre_category_description', $description);
 
-	$category_parent = (int) $category_parent;
-	if ( empty($category_parent) || !get_category( $category_parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $category_parent) ) )
-		$category_parent = 0;
+	$parent = (int) $parent;
+	if ( empty($parent) || !get_category( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
+		$parent = 0;
 
-	if ( isset($posts_private) )
-		$posts_private = (int) $posts_private;
+	$args = compact('slug', 'parent', 'description');
+
+	if ( $update )
+		$cat_ID = wp_update_term($cat_ID, 'category', $args);
 	else
-		$posts_private = 0;
+		$cat_ID = wp_insert_term($cat_name, 'category', $args);
 
-	if ( isset($links_private) )
-		$links_private = (int) $links_private;
-	else
-		$links_private = 0;
-
-	if ( empty($type) )
-		$type = TAXONOMY_CATEGORY;
-
-	// Let's check if we have this category already, if so just do an update
-	if ( !$update && $cat_ID = category_object_exists( $category_nicename ) )
-		$update = true;
-
-	if (!$update) {
-		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent, links_private, posts_private, type) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$category_parent', '$links_private', '$posts_private', '$type')");
-		$cat_ID = (int) $wpdb->insert_id;
-	} else {
-		$wpdb->query ("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent', links_private = '$links_private', posts_private = '$posts_private', type = '$type' WHERE cat_ID = '$cat_ID'");
-	}
-
-	if ( $category_nicename == '' ) {
-		$category_nicename = sanitize_title($cat_name, $cat_ID );
-		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
-	}
-
-	// Keep in mind when using this filter and altering the cat_ID that the two queries above
-	// have already taken place with the OLD cat_ID
-	// Also note that you may have post2cat entries with the old cat_ID if this is an update
-
-	if ($update) {
-		do_action('edit_category', $cat_ID);
-	} else {
-		do_action('create_category', $cat_ID);
-		do_action('add_category', $cat_ID);
-	}
-
-	$cat_ID = apply_filters('cat_id_filter', $cat_ID, $update);
-
-	clean_category_cache($cat_ID);
-
-	if ($update)
-		do_action('edited_category', $cat_ID);
-	else
-		do_action('created_category', $cat_ID);
-	
-	return $cat_ID;
+	return $cat_ID['term_id'];
 }
 
 function wp_update_category($catarr) {
