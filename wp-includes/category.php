@@ -1,8 +1,5 @@
 <?php
 
-define('TAXONOMY_CATEGORY', 1);
-define('TAXONOMY_TAG', 2);
-
 function get_all_category_ids() {
 	global $wpdb;
 

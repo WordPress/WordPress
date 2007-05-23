@@ -162,16 +162,8 @@ function wp_delete_category($cat_ID) {
 function wp_create_category($cat_name) {
 	if ( $id = category_exists($cat_name) )
 		return $id;
-	$cat_array = array('cat_name' => $cat_name, 'type' => TAXONOMY_CATEGORY);
 
-	if ( $id = category_object_exists($cat_name) ) {
-		$category = get_category($id);
-		$cat_array['type'] = $category->type | $cat_array['type'];
-		$cat_array['cat_ID'] = $id;
-		return wp_update_category($cat_array);
-	} else {
-		return wp_insert_category($cat_array);
-	}
+	return wp_insert_category( array('cat_name' => $cat_name) );
 }
 
 function wp_create_categories($categories, $post_id = '') {
@@ -190,20 +182,8 @@ function wp_create_categories($categories, $post_id = '') {
 	return $cat_ids;
 }
 
-function category_object_exists($cat_name) {
-	global $wpdb;
-	if (!$category_nicename = sanitize_title($cat_name))
-		return 0;
-
-	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename'");
-}
-
 function category_exists($cat_name) {
-	global $wpdb;
-	if (!$category_nicename = sanitize_title($cat_name))
-		return 0;
-
-	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename' AND ( type & " . TAXONOMY_CATEGORY .  " != 0 )");
+	return is_term($cat_name, 'category');
 }
 
 function tag_exists($tag_name) {
@@ -214,7 +194,7 @@ function wp_create_tag($tag_name) {
 	if ( $id = tag_exists($tag_name) )
 		return $id;
 
-	$tag_id = wp_insert_term($tag_name, 'post_tag');	
+	return wp_insert_term($tag_name, 'post_tag');	
 }
 
 function wp_delete_user($id, $reassign = 'novalue') {
