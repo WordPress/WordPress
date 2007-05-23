@@ -678,25 +678,10 @@ function get_tags_to_edit( $post_id ) {
 }
 
 function get_nested_categories( $default = 0, $parent = 0 ) {
-	global $post_ID, $link_id, $mode, $wpdb;
+	global $post_ID, $mode, $wpdb;
 
 	if ( $post_ID ) {
-		$checked_categories = $wpdb->get_col( "
-		     SELECT category_id
-		     FROM $wpdb->categories, $wpdb->post2cat
-		     WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$post_ID' AND rel_type = 'category'
-		     " );
-
-		if ( count( $checked_categories ) == 0 ) {
-			// No selected categories, strange
-			$checked_categories[] = $default;
-		}
-	} else if ( $link_id ) {
-		$checked_categories = $wpdb->get_col( "
-		     SELECT category_id
-		     FROM $wpdb->categories, $wpdb->link2cat
-		     WHERE $wpdb->link2cat.category_id = cat_ID AND $wpdb->link2cat.link_id = '$link_id'
-		     " );
+		$checked_categories = wp_get_post_categories($post_ID);
 
 		if ( count( $checked_categories ) == 0 ) {
 			// No selected categories, strange
@@ -706,12 +691,12 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 		$checked_categories[] = $default;
 	}
 
-	$cats = return_categories_list( $parent);
+	$cats = get_categories("child_of=$parent&hide_empty=0&get=ids");
 	$result = array ();
 
 	if ( is_array( $cats ) ) {
 		foreach ( $cats as $cat) {
-			$result[$cat]['children'] = get_nested_categories( $default, $cat);
+			//$result[$cat]['children'] = get_nested_categories( $default, $cat);
 			$result[$cat]['cat_ID'] = $cat;
 			$result[$cat]['checked'] = in_array( $cat, $checked_categories );
 			$result[$cat]['cat_name'] = get_the_category_by_ID( $cat);
@@ -754,7 +739,7 @@ function dropdown_link_categories( $default = 0 ) {
 		$checked_categories[] = $default;
 	}
 
-	$categories = get_terms('link_category', 'orderby=count');
+	$categories = get_terms('link_category', 'orderby=count&hide_empty=0');
 	
 	if ( empty($categories) )
 		return;
@@ -772,7 +757,7 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
 	if ( !$categories )
 		$categories = get_categories( 'hide_empty=0' );
 
-	$children = _get_category_hierarchy();
+	$children = _get_term_hierarchy('category');
 
 	if ( $categories ) {
 		ob_start();
@@ -959,14 +944,14 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
 
 	if ( $categories ) {
 		foreach ( $categories as $category ) {
-			if ( $currentcat != $category->cat_ID && $parent == $category->category_parent) {
+			if ( $currentcat != $category->term_id && $parent == $category->parent) {
 				$pad = str_repeat( '&#8211; ', $level );
-				$category->cat_name = wp_specialchars( $category->cat_name );
-				echo "\n\t<option value='$category->cat_ID'";
-				if ( $currentparent == $category->cat_ID )
+				$category->name = wp_specialchars( $category->name );
+				echo "\n\t<option value='$category->term_id'";
+				if ( $currentparent == $category->term_id )
 					echo " selected='selected'";
-				echo ">$pad$category->cat_name</option>";
-				wp_dropdown_cats( $currentcat, $currentparent, $category->cat_ID, $level +1, $categories );
+				echo ">$pad$category->name</option>";
+				wp_dropdown_cats( $currentcat, $currentparent, $category->term_id, $level +1, $categories );
 			}
 		}
 	} else {

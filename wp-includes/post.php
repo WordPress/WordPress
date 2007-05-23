@@ -447,11 +447,8 @@ function wp_delete_post($postid = 0) {
 function wp_get_post_categories($post_id = 0) {
 	$post_id = (int) $post_id;
 
-	$cats = &get_the_category($post_id);
-	$cat_ids = array();
-	foreach ( $cats as $cat )
-		$cat_ids[] = (int) $cat->cat_ID;
-	return array_unique($cat_ids);
+	$cats = get_object_terms($post_id, 'category', 'get=ids');
+	return $cats;
 }
 
 function wp_get_post_tags( $post_id = 0 ) {
@@ -805,54 +802,10 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	if (!is_array($post_categories) || 0 == count($post_categories) || empty($post_categories))
 		$post_categories = array(get_option('default_category'));
 
+	$post_categories = array_map('intval', $post_categories);
 	$post_categories = array_unique($post_categories);
 
-	// First the old categories
-	$old_categories = $wpdb->get_col("
-		SELECT category_id
-		FROM $wpdb->post2cat
-		WHERE post_id = '$post_ID' AND rel_type = 'category'");
-
-	if (!$old_categories) {
-		$old_categories = array();
-	} else {
-		$old_categories = array_unique($old_categories);
-	}
-
-	// Delete any?
-	$delete_cats = array_diff($old_categories,$post_categories);
-
-	if ($delete_cats) {
-		foreach ($delete_cats as $del) {
-			$wpdb->query("
-				DELETE FROM $wpdb->post2cat
-				WHERE category_id = '$del'
-					AND post_id = '$post_ID' AND rel_type = 'category'
-				");
-		}
-	}
-
-	// Add any?
-	$add_cats = array_diff($post_categories, $old_categories);
-
-	if ($add_cats) {
-		foreach ($add_cats as $new_cat) {
-			$new_cat = (int) $new_cat;
-			if ( !empty($new_cat) )
-				$wpdb->query("
-					INSERT INTO $wpdb->post2cat (post_id, category_id) 
-					VALUES ('$post_ID', '$new_cat')");
-		}
-	}
-
-	// Update category counts.
-	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
-	foreach ( $all_affected_cats as $cat_id ) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id' AND rel_type = 'category'");
-		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count', type = type | " . TAXONOMY_CATEGORY . " WHERE cat_ID = '$cat_id'");
-		clean_category_cache($cat_id);
-		do_action('edit_category', $cat_id);
-	}
+	return wp_set_object_terms($post_ID, $post_categories, 'category');
 }	// wp_set_post_categories()
 
 //

@@ -224,6 +224,8 @@ function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
 	if ( ! $append ) {
 		$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
 		$old_terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($in_taxonomies) AND tr.object_id = '$object_id'");
+		if ( empty($old_terms) )
+			$old_terms = array();
 	}
 
 	$tt_ids = array();
@@ -262,6 +264,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
 function get_object_terms($object_id, $taxonomy, $args = array()) {
 	global $wpdb;
 	$taxonomies = ($single_taxonomy = !is_array($taxonomy)) ? array($taxonomy) : $taxonomy;
+	// TODO cast to int
 	$object_ids = ($single_object = !is_array($object_id)) ? array($object_id) : $object_id;
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'get' => 'everything');
