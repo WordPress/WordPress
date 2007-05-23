@@ -150,51 +150,13 @@ function wp_delete_category($cat_ID) {
 	global $wpdb;
 
 	$cat_ID = (int) $cat_ID;
-	$default_cat = get_option('default_category');
-	$default_link_cat = get_option('default_link_category');
+	$default = get_option('default_category');
 
-	// Don't delete either of the default cats
-	if ( $cat_ID == $default_cat || $cat_ID == $default_link_cat )
+	// Don't delete the default cat
+	if ( $cat_ID == $default )
 		return 0;
 
-	$category = get_category($cat_ID);
-
-	$parent = $category->category_parent;
-
-	// Delete the category if it is not also a tag.
-	if ( 0 == ($category->type & TAXONOMY_TAG) ) {
-		if ( !$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'") )
-			return 0;
-	} else {
-		$wpdb->query("UPDATE $wpdb->categories SET type = type & ~" . TAXONOMY_CATEGORY . " WHERE cat_ID = '$cat_ID'");
-	}
-	// Update children to point to new parent
-	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$parent' WHERE category_parent = '$cat_ID'");
-
-	// Only set posts and links to the default category if they're not in another category already
-	$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE category_id='$cat_ID' AND rel_type = 'category'");
-	foreach ( (array) $posts as $post_id ) {
-		$cats = wp_get_post_categories($post_id);
-		if ( 1 == count($cats) )
-			$cats = array($default_cat);
-		else
-			$cats = array_diff($cats, array($cat_ID));
-		wp_set_post_categories($post_id, $cats);
-	}
-
-	$links = $wpdb->get_col("SELECT link_id FROM $wpdb->link2cat WHERE category_id='$cat_ID'");
-	foreach ( (array) $links as $link_id ) {
-		$cats = wp_get_link_cats($link_id);
-		if ( 1 == count($cats) )
-			$cats = array($default_link_cat);
-		else
-			$cats = array_diff($cats, array($cat_ID));
-		wp_set_link_cats($link_id, $cats);
-	}
-
-	clean_category_cache($cat_ID);
-	do_action('delete_category', $cat_ID);
-	return 1;
+	return wp_delete_term($cat_ID, 'category', "default=$default");
 }
 
 function wp_create_category($cat_name) {

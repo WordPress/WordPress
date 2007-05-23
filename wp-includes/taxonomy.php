@@ -20,6 +20,14 @@ function get_taxonomy( $taxonomy ) {
 	return $wp_taxonomies[$taxonomy];
 }
 
+function is_taxonomy_hierarchical($taxonomy) {
+	if ( ! is_taxonomy($taxonomy) )
+		return false;
+
+	$taxonomy = get_taxonomy($taxonomy);
+	return $taxonomy['hierarchical'];
+}
+
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies;
 
@@ -98,7 +106,51 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 /**
  * Removes a term from the database.
  */
-function wp_delete_term() {}
+function wp_delete_term( $term, $taxonomy, $args = array() ) {
+	global $wpdb;
+
+	$term = (int) $term;
+
+	if ( ! $ids = is_term($term, $taxonomy) )
+		return false;
+	$tt_id = $ids['term_taxonomy_id'];
+
+	$defaults = array();
+	$args = wp_parse_args($args, $defaults);
+	extract($args);
+
+	if ( isset($default) ) {
+		$default = (int) $default;
+		if ( ! is_term($default, $taxonomy) )
+			unset($default);
+	}
+
+	// Update children to point to new parent
+	if ( is_taxonomy_hierarchical($taxonomy) ) {
+		$term_obj = get_term($term, $taxonomy);
+		$parent = $term_obj->parent;
+
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET parent = '$parent' WHERE parent = '$term_obj->term_id' AND taxonomy = '$taxonomy'");
+	}
+
+	$objects = $wpdb->get_col("SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$tt_id'");
+
+	foreach ( (array) $objects as $object ) {
+		$terms = get_object_terms($object, $taxonomy, 'get=ids');
+		if ( 1 == count($terms) && isset($default) )
+			$terms = array($default);
+		else
+			$terms = array_diff($terms, array($term));
+		wp_set_object_terms($object, $terms, $taxonomy);
+	}
+
+	$wpdb->query("DELETE FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = '$tt_id'");
+
+	//clean_term_cache($term, $taxonomy);
+	do_action("delete_$taxonomy", $term, $tt_id);
+
+	return true;
+}
 
 function wp_update_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
