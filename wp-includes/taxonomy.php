@@ -1,23 +1,32 @@
 <?php
 
-// TODO: add_term(), edit_term(), and remove_term() work with terms within context of
-// taxonomies.  insert_term(), update_term(), delete_term() work with just the terms table.
-// insert_term_taxonomy(), update_term_taxonomy(), and delete_term_taxonomy() work
-// with just the term taxonomy table.  Right now we only have add_term().
-
 /**
  * Adds a new term to the database.  Optionally marks it as an alias of an existing term.
- * @param string $term The term to add.
+ * @param int|string $term The term to add or update.
  * @param string $taxonomy The taxonomy to which to add the term
  * @param int|string $alias_of The id or slug of the new term's alias.
  */
-function add_term( $term, $taxonomy, $args = array() ) {
+function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
 
-	$slug = sanitize_title($term);
-	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0);
+	$update = false;
+	if ( is_int($term) ) {
+		$update = true;
+		$term_id = $term;
+	} else {
+		$name = $term;
+	}
+
+	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
 	extract($args);
+
+	$parent = (int) $parent;
+
+	if ( empty($slug) )
+		$slug = sanitize_title($name);
+	else
+		$slug = sanitize_title($slug);
 
 	$term_group = 0;	
 	if ( $alias_of ) {
@@ -32,27 +41,53 @@ function add_term( $term, $taxonomy, $args = array() ) {
 		}
 	}
 
-	if ( ! $term_id = is_term($slug) ) {
-		$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$term', '$slug', '$term_group')");
+	if ( $update ) {
+		$wpdb->query("UPDATE $wpdb->terms SET name = '$name', slug = '$slug', term_group = '$term_group' WHERE term_id = '$term_id'");
+	} else if ( ! $term_id = is_term($slug) ) {
+		$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
 		$term_id = (int) $wpdb->insert_id;
 	}
-	
+
+	if ( empty($slug) ) {
+		$slug = sanitize_title($slug, $term_id);
+		$wpdb->query("UPDATE $wpdb->terms SET slug = '$slug' WHERE term_id = '$term_id'");
+	}
+		
 	$tt_id = $wpdb->get_var("SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = $term_id");
 
-	if ( !empty($tt_id) )
-		return $term_id;
-			
-	$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '0')");
-	$tt_id = (int) $wpdb->insert_id;
+	if ( !$update && !empty($tt_id) )
+		return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
+
+	if ( $update ) {
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET term_id = '$term_id', taxonomy = '$taxonomy', description = '$description', parent = '$parent', count = 0 WHERE term_taxonomy_id = '$tt_id'");
+	} else {
+		$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '0')");
+		$tt_id = (int) $wpdb->insert_id;
+	}
+
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
 }
 
 /**
  * Removes a term from the database.
  */
-function remove_term() {}
-	
-	
+function wp_delete_term() {}
+
+function wp_update_term( $term, $taxonomy, $fields = array() ) {
+	$term = (int) $term;
+
+	// First, get all of the original fields
+	$term = get_term ($term, $taxonomy, ARRAY_A);
+
+	// Escape data pulled from DB.
+	$term = add_magic_quotes($term);
+
+	// Merge old and new fields with new fields overwriting old ones.
+	$fields = array_merge($term, $fields);
+
+	return wp_insert_term($term, $taxonomy, $fields);
+}
+
 /**
  * Returns the index of a defined term, or 0 (false) if the term doesn't exist.
  */
@@ -119,7 +154,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
 	foreach ( $taxonomies as $taxonomy ) {
 		foreach ($terms as $term) {
 			if ( !$id = is_term($term, $taxonomy) )
-				$id = add_term($term, $taxonomy);
+				$id = wp_insert_term($term, $taxonomy);
 			$id = $id['term_taxonomy_id'];
 			$tt_ids[] = $id;
 			if ( $wpdb->get_var("SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id = '$id'") )

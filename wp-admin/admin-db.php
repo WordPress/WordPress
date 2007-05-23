@@ -289,7 +289,7 @@ function wp_create_tag($tag_name) {
 	if ( $id = tag_exists($tag_name) )
 		return $id;
 
-	$tag_id = add_term($tag_name, 'post_tag');	
+	$tag_id = wp_insert_term($tag_name, 'post_tag');	
 }
 
 function wp_delete_user($id, $reassign = 'novalue') {
