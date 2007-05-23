@@ -463,78 +463,22 @@ function wp_delete_link($link_id) {
 	do_action('deleted_link', $link_id);
 }
 
-function wp_get_link_cats($link_ID = 0) {
-	global $wpdb;
+function wp_get_link_cats($link_id = 0) {
 
-	$sql = "SELECT category_id
-		FROM $wpdb->link2cat
-		WHERE link_id = $link_ID
-		ORDER BY category_id";
+	$cats = get_object_terms($link_id, 'link_category', 'get=ids');
 
-	$result = $wpdb->get_col($sql);
-
-	if ( !$result )
-		$result = array();
-
-	return array_unique($result);
+	return array_unique($cats);
 }
 
-function wp_set_link_cats($link_ID = 0, $link_categories = array()) {
-	global $wpdb;
+function wp_set_link_cats($link_id = 0, $link_categories = array()) {
 	// If $link_categories isn't already an array, make it one:
 	if (!is_array($link_categories) || 0 == count($link_categories))
 		$link_categories = array(get_option('default_link_category'));
 
+	$link_categories = array_map('intval', $link_categories);
 	$link_categories = array_unique($link_categories);
 
-	// First the old categories
-	$old_categories = $wpdb->get_col("
-		SELECT category_id
-		FROM $wpdb->link2cat
-		WHERE link_id = '$link_ID'");
-
-	if (!$old_categories) {
-		$old_categories = array();
-	} else {
-		$old_categories = array_unique($old_categories);
-	}
-
-	// Delete any?
-	$delete_cats = array_diff($old_categories,$link_categories);
-
-	if ($delete_cats) {
-		foreach ($delete_cats as $del) {
-			$del = (int) $del;
-			$wpdb->query("
-				DELETE FROM $wpdb->link2cat
-				WHERE category_id = '$del'
-					AND link_id = '$link_ID'
-				");
-		}
-	}
-
-	// Add any?
-	$add_cats = array_diff($link_categories, $old_categories);
-
-	if ($add_cats) {
-		foreach ($add_cats as $new_cat) {
-			$new_cat = (int) $new_cat;
-			if ( !empty($new_cat) )
-				$wpdb->query("
-					INSERT INTO $wpdb->link2cat (link_id, category_id)
-					VALUES ('$link_ID', '$new_cat')");
-		}
-	}
-
-	// Update category counts.
-	$all_affected_cats = array_unique(array_merge($link_categories, $old_categories));
-	foreach ( $all_affected_cats as $cat_id ) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->link2cat, $wpdb->links WHERE $wpdb->links.link_id = $wpdb->link2cat.link_id AND category_id = '$cat_id'");
-		$wpdb->query("UPDATE $wpdb->categories SET link_count = '$count' WHERE cat_ID = '$cat_id'");
-		wp_cache_delete($cat_id, 'category');
-		do_action('edit_category', $cat_id);
-	}
-
+	wp_set_object_terms($link_id, $link_categories, 'link_category');
 }	// wp_set_link_cats()
 
 function post_exists($title, $content = '', $post_date = '') {

@@ -740,20 +740,11 @@ function dropdown_categories( $default = 0 ) {
 	write_nested_categories( get_nested_categories( $default) );
 }
 
-function return_link_categories_list( $parent = 0 ) {
-	global $wpdb;
-	return $wpdb->get_col( "SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND ( type & " . TAXONOMY_CATEGORY . " != 0 ) AND ( category_count = 0 OR link_count != 0 ) ORDER BY link_count DESC" );
-}
-
-function get_nested_link_categories( $default = 0, $parent = 0 ) {
-	global $post_ID, $link_id, $mode, $wpdb;
+function dropdown_link_categories( $default = 0 ) {
+	global $link_id;
 
 	if ( $link_id ) {
-		$checked_categories = $wpdb->get_col( "
-		     SELECT category_id
-		     FROM $wpdb->categories, $wpdb->link2cat
-		     WHERE $wpdb->link2cat.category_id = cat_ID AND $wpdb->link2cat.link_id = '$link_id'
-		     " );
+		$checked_categories = wp_get_link_cats($link_id);
 
 		if ( count( $checked_categories ) == 0 ) {
 			// No selected categories, strange
@@ -763,25 +754,17 @@ function get_nested_link_categories( $default = 0, $parent = 0 ) {
 		$checked_categories[] = $default;
 	}
 
-	$cats = return_link_categories_list( $parent);
-	$result = array ();
+	$categories = get_terms('link_category', 'orderby=count');
+	
+	if ( empty($categories) )
+		return;
 
-	if ( is_array( $cats ) ) {
-		foreach ( $cats as $cat) {
-			$result[$cat]['children'] = get_nested_link_categories( $default, $cat);
-			$result[$cat]['cat_ID'] = $cat;
-			$result[$cat]['checked'] = in_array( $cat, $checked_categories );
-			$result[$cat]['cat_name'] = get_the_category_by_ID( $cat);
-		}
+	foreach ( $categories as $category ) {
+		$cat_id = $category->term_id;
+		$name = wp_specialchars( apply_filters('the_category', $category->name));
+		$checked = in_array( $cat_id, $checked_categories );
+		echo '<li id="category-', $cat_id, '"><label for="in-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="post_category[]" id="in-category-', $cat_id, '"', ($checked ? ' checked="checked"' : "" ), '/> ', $name, "</label></li>";
 	}
-
-	usort( $result, 'sort_cats' );
-
-	return $result;
-}
-
-function dropdown_link_categories( $default = 0 ) {
-	write_nested_categories( get_nested_link_categories( $default) );
 }
 
 // Dandy new recursive multiple category stuff.

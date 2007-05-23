@@ -182,35 +182,55 @@ function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
  * @return array The requested term data.	 	 	 
  */
-function get_object_terms($object_id, $taxonomy) {
+function get_object_terms($object_id, $taxonomy, $args = array()) {
 	global $wpdb;
 	$taxonomies = ($single_taxonomy = !is_array($taxonomy)) ? array($taxonomy) : $taxonomy;
 	$object_ids = ($single_object = !is_array($object_id)) ? array($object_id) : $object_id;
 
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'get' => 'everything');
+	$args = wp_parse_args( $args, $defaults );
+	extract($args);
+
+	if ( 'count' == $orderby )
+		$orderby = 'tt.count';
+	else if ( 'name' == $orderby )
+		$orderby = 't.name';
+
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
 
-	if ( $taxonomy_data = $wpdb->get_results("SELECT t.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) ORDER BY t.name") ) {
-		if ($single_taxonomy && $single_object) {
-			// Just one kind of taxonomy for one object.
-			return $taxonomy_data;
-		} else {
-			foreach ($taxonomy_data as $data) {
-				if ($single_taxonomy) {
-					// Many objects, one taxonomy type.
-					$return[$data->object_id][] = $data;
-				} elseif ($single_object) {
-					// One object, many taxonomies.
-					$return[$data->taxonomy][] = $data;
-				} else {
-					// Many objects, many taxonomies.
-					$return[$data->object_id][$data->taxonomy][] = $data;
-				}
-			}
-			return $return;			
-		}
-	} else {
+	if ( 'everything' == $get )
+		$select_this = 't.*';
+	else if ( 'ids' == $get )
+		$select_this = 't.term_id';
+
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) ORDER BY $orderby $order";
+
+	if ( 'everything' == $get )
+		$taxonomy_data = $wpdb->get_results($query);
+	else if ( 'ids' == $get )
+		$taxonomy_data = $wpdb->get_col($query);
+
+	if ( ! $taxonomy_data )
 		return array();
+
+	if ($single_taxonomy && $single_object) {
+		// Just one kind of taxonomy for one object.
+		return $taxonomy_data;
+	} else {
+		foreach ($taxonomy_data as $data) {
+			if ($single_taxonomy) {
+				// Many objects, one taxonomy type.
+				$return[$data->object_id][] = $data;
+			} elseif ($single_object) {
+				// One object, many taxonomies.
+				$return[$data->taxonomy][] = $data;
+			} else {
+				// Many objects, many taxonomies.
+				$return[$data->object_id][$data->taxonomy][] = $data;
+			}
+		}
+		return $return;			
 	}
 }
 
@@ -223,7 +243,7 @@ function &get_terms($taxonomies, $args = '') {
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
-		'number' => '');
+		'number' => '', 'get' => 'everything');
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = (int) $args['number'];
 	extract($args);
@@ -278,7 +298,17 @@ function &get_terms($taxonomies, $args = '') {
 	else
 		$number = '';
 
-	$terms = $wpdb->get_results("SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number");
+	if ( 'everything' == $get )
+		$select_this = 't.*, tt.*';
+	else if ( 'ids' == $get )
+		$select_this = 't.term_id';
+
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
+
+	if ( 'everything' == $get )
+		$terms = $wpdb->get_results($query);
+	else if ( 'ids' == $get )
+		$terms = $wpdb->get_col($query);
 
 	if ( empty($terms) )
 		return array();

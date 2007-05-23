@@ -159,8 +159,8 @@ if ( $links ) {
 					?><td><?php
 					$cat_names = array();
 					foreach ($link->link_category as $category) {
-						$cat_name = get_the_category_by_ID($category);
-						$cat_name = wp_specialchars(apply_filters('link_category', $cat_name));
+						$cat = get_term($category, 'link_category');
+						$cat_name = wp_specialchars(apply_filters('link_category', $cat->name));
 						if ( $cat_id != $category )
 							$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
 						$cat_names[] = $cat_name;
