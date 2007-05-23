@@ -160,6 +160,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	global $wpdb, $wp_locale, $wp_query;
 
 	$cat = get_query_var('cat');
+	$tag = get_query_var('tag_id');
 	$p = get_query_var('p');
 	$name = get_query_var('name');
 	$category_name = get_query_var('category_name');
@@ -186,6 +187,12 @@ function wp_title($sep = '&raquo;', $display = true) {
 		}
 		$title = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'");
 		$title = apply_filters('single_cat_title', $title);
+	}
+
+	if ( !empty($tag) ) {
+		$tag = get_term($tag, 'post_tag');
+		if ( ! empty($tag->name) )
+			$title = apply_filters('single_tag_title', $tag->slug);
 	}
 
 	// If there's an author

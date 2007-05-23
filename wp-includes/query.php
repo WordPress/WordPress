@@ -94,8 +94,8 @@ function is_tag( $slug = '' ) {
 	if ( empty( $slug ) )
 		return true;
 
-	$cat_obj = $wp_query->get_queried_object();
-	if ( $category == $cat_obj->category_nicename )
+	$tag_obj = $wp_query->get_queried_object();
+	if ( $slug == $tag_obj->slug )
 		return true;
 	return false;
 }
@@ -875,17 +875,17 @@ class WP_Query {
 		}
 
 		if ( '' != $q['tag'] ) {
-			$reqcat= get_category_by_slug( $q['tag'] );
-			if ( !empty($reqcat) )
-				$reqcat = $reqcat->cat_ID;
+			$reqtag = is_term( $q['tag'], 'post_tag' );
+			if ( !empty($reqtag) )
+				$reqtag = $reqtag['term_id'];
 			else
-				$reqcat = 0;
+				$reqtag = 0;
 
-			$q['cat'] = $reqcat;
-
+			$q['tag_id'] = $reqtag;
+			// TODO: use term taxonomy
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
-			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
-			$whichcat = " AND category_id IN ({$q['cat']}) AND rel_type = 'tag' ";
+			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$whichcat = " AND $wpdb->term_taxonomy.term_id IN ({$q['tag_id']}) AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$groupby = "{$wpdb->posts}.ID";
 		}
 

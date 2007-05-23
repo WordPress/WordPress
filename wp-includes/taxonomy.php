@@ -125,6 +125,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
 			if ( $wpdb->get_var("SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id = '$id'") )
 				continue;
 			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$object_id', '$id')");
+			$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = count + 1 WHERE term_taxonomy_id = $id");
 		}
 	}
 
@@ -133,6 +134,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
 		if ( $delete_terms ) {
 			$delete_terms = "'" . implode("', '", $delete_terms) . "'";
 			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE term_taxonomy_id IN ($delete_terms)");
+			$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = count - 1 WHERE term_taxonomy_id IN ($delete_terms)");
 		}
 	}
 
@@ -151,9 +153,9 @@ function get_object_terms($object_id, $taxonomy) {
 	$object_ids = ($single_object = !is_array($object_id)) ? array($object_id) : $object_id;
 
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
-	$object_ids = implode(', ', $object_ids);		
+	$object_ids = implode(', ', $object_ids);
 
-	if ( $taxonomy_data = $wpdb->get_results("SELECT t.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids)") ) {
+	if ( $taxonomy_data = $wpdb->get_results("SELECT t.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) ORDER BY t.name") ) {
 		if ($single_taxonomy && $single_object) {
 			// Just one kind of taxonomy for one object.
 			return $taxonomy_data;
@@ -174,7 +176,110 @@ function get_object_terms($object_id, $taxonomy) {
 		}
 	} else {
 		return array();
-	}		
-}	
+	}
+}
+
+function &get_terms($taxonomies, $args = '') {
+	global $wpdb;
+
+	if ( !is_array($taxonomies) )
+		$taxonomies = array($taxonomies);
+	$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
+
+	$defaults = array('orderby' => 'name', 'order' => 'ASC',
+		'hide_empty' => true, 'exclude' => '', 'include' => '',
+		'number' => '');
+	$args = wp_parse_args( $args, $defaults );
+	$args['number'] = (int) $args['number'];
+	extract($args);
+
+	if ( 'count' == $orderby )
+		$orderby = 'tt.count';
+	else if ( 'name' == $orderby )
+		$orderby = 't.name';
+
+	$where = '';
+	$inclusions = '';
+	if ( !empty($include) ) {
+		$exclude = '';
+		$interms = preg_split('/[\s,]+/',$include);
+		if ( count($interms) ) {
+			foreach ( $interms as $interm ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( t.term_id = ' . intval($interm) . ' ';
+				else
+					$inclusions .= ' OR t.term_id = ' . intval($interm) . ' ';
+			}
+		}
+	}
+
+	if ( !empty($inclusions) )
+		$inclusions .= ')';
+	$where .= $inclusions;
+
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$exterms = preg_split('/[\s,]+/',$exclude);
+		if ( count($exterms) ) {
+			foreach ( $exterms as $exterm ) {
+				if (empty($exclusions))
+					$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
+				else
+					$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
+			}
+		}
+	}
+
+	if ( !empty($exclusions) )
+		$exclusions .= ')';
+	$exclusions = apply_filters('list_terms_exclusions', $exclusions, $args );
+	$where .= $exclusions;
+
+	if ( $hide_empty )
+		$where .= ' AND tt.count > 0';
+
+	if ( !empty($number) )
+		$number = 'LIMIT ' . $number;
+	else
+		$number = '';
+
+	$terms = $wpdb->get_results("SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number");
+
+	if ( empty($terms) )
+		return array();
+
+	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
+	return $terms;
+}
+
+function &get_term(&$term, $taxonomy, $output = OBJECT) {
+	global $wpdb;
+
+	if ( empty($term) )
+		return null;
+
+	if ( is_object($term) ) {
+		wp_cache_add($term->term_id, $term, "term:$taxonomy");
+		$_term = $term;
+	} else {
+		$term = (int) $term;
+		if ( ! $_term = wp_cache_get($term, "term:$taxonomy") ) {
+			$_term = $wpdb->get_row("SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = '$term' LIMIT 1");
+			wp_cache_add($term, $_term, "term:$taxonomy");
+		}
+	}
+
+	$_term = apply_filters('get_term', $_term, $taxonomy);
+
+	if ( $output == OBJECT ) {
+		return $_term;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($_term);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($_term));
+	} else {
+		return $_term;
+	}
+}
 
 ?>

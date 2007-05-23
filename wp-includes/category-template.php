@@ -311,8 +311,8 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		return;
 	$counts = $tag_links = array();
 	foreach ( (array) $tags as $tag ) {
-		$counts[$tag->cat_name] = $tag->tag_count;
-		$tag_links[$tag->cat_name] = get_tag_link( $tag->cat_ID );
+		$counts[$tag->name] = $tag->count;
+		$tag_links[$tag->name] = get_tag_link( $tag->term_id );
 	}
 
 	$min_count = min($counts);
@@ -384,20 +384,19 @@ function walk_category_dropdown_tree() {
 
 function get_tag_link( $tag_id ) {
 	global $wp_rewrite;
-	$catlink = $wp_rewrite->get_tag_permastruct();
+	$taglink = $wp_rewrite->get_tag_permastruct();
 
-	$category = &get_category($tag_id);
-	$category_nicename = $category->category_nicename;
+	$tag = &get_term($tag_id, 'post_tag');
+	$slug = $tag->slug;
 
 	if ( empty($catlink) ) {
 		$file = get_option('home') . '/';
-		$catlink = $file . '?tag=' . $category_nicename;
+		$taglink = $file . '?tag=' . $slug;
 	} else {
-
-		$catlink = str_replace('%tag%', $category_nicename, $catlink);
-		$catlink = get_option('home') . user_trailingslashit($catlink, 'category');
+		$taglink = str_replace('%tag%', $slug, $taglink);
+		$taglink = get_option('home') . user_trailingslashit($taglink, 'category');
 	}
-	return apply_filters('tag_link', $catlink, $tag_id);
+	return apply_filters('tag_link', $taglink, $tag_id);
 }
 
 function get_the_tags( $id = 0 ) {
@@ -426,7 +425,7 @@ function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
 	
 	$tag_list = $before;
 	foreach ( $tags as $tag )
-		$tag_links[] = '<a href="' . get_tag_link($tag->cat_ID) . '">' . $tag->cat_name . '</a>';
+		$tag_links[] = '<a href="' . get_tag_link($tag->term_id) . '">' . $tag->slug . '</a>';
 
 	$tag_links = join( $sep, $tag_links );
 	$tag_links = apply_filters( 'the_tags', $tag_links );
