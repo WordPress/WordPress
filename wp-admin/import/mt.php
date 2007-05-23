@@ -22,9 +22,18 @@ class MT_Import {
 		$this->header();
 ?>
 <div class="narrow">
-<p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or Typepad entries into WordPress. To begin, choose a file to upload and click Upload file and import.'); ?></p>
+<p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or Typepad entries into WordPress. To begin, either choose a file to upload and click "Upload file and import," or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click "Import mt-export.txt"'); ?></p>
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
-	<p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>
+<form method="post" action="<?php echo add_query_arg('step', 1); ?>" class="import-upload-form">
+<?php wp_nonce_field('import-upload'); ?>
+<p>
+	<input type="hidden" name="upload_type" value="ftp" />
+<?php _e('Or use <code>mt-export.txt</code> in your <code>/wp-content/</code> directory'); ?></p>
+<p class="submit">
+<input type="submit" value="<?php _e(sprintf('Import %s', 'mt-export.txt &raquo;')); ?>" />
+</p>
+</form>
+<p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>
 </div>
 <?php
 		$this->footer();
@@ -138,7 +147,7 @@ class MT_Import {
 ?>
 <div class="wrap">
 <h2><?php _e('Assign Authors'); ?></h2>
-<p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
+<p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as admin\'s entries.'); ?></p>
 <p><?php _e('Below, you can see the names of the authors of the MovableType posts in <i>italics</i>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>
 <p><?php _e('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)'); ?></p>
 	<?php
@@ -163,7 +172,15 @@ class MT_Import {
 	}
 
 	function select_authors() {
-		$file = wp_import_handle_upload();
+		if ( $_POST['upload_type'] === 'ftp' ) {
+			$file['file'] = @file(ABSPATH . '/wp-content/mt-export.txt');
+			if ( !$file['file'] || !count($file['file']) )
+				$file['error'] = __('<code>mt-export.txt</code> does not exist</code>');
+			else
+				$file['file'] = ABSPATH . '/wp-content/mt-export.txt';
+		} else {
+			$file = wp_import_handle_upload();
+		}
 		if ( isset($file['error']) ) {
 			$this->header();
 			echo '<p>'.__('Sorry, there has been an error').'.</p>';
@@ -400,8 +417,10 @@ class MT_Import {
 
 	function import() {
 		$this->id = (int) $_GET['id'];
-
-		$this->file = get_attached_file($this->id);
+		if ( $this->id == 0 )
+			$this->file = ABSPATH . '/wp-content/mt-export.txt';
+		else
+			$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$this->get_entries();
 		$this->process_posts();
