@@ -645,11 +645,6 @@ function checked( $checked, $current) {
 		echo ' checked="checked"';
 }
 
-function return_categories_list( $parent = 0 ) {
-	global $wpdb;
-	return $wpdb->get_col( "SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND ( type & " . TAXONOMY_CATEGORY . " != 0 ) AND ( link_count = 0 OR category_count != 0 ) ORDER BY category_count DESC" );
-}
-
 function sort_cats( $cat1, $cat2 ) {
 	if ( $cat1['checked'] || $cat2['checked'] )
 		return ( $cat1['checked'] && !$cat2['checked'] ) ? -1 : 1;

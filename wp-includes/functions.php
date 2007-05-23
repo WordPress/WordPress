@@ -650,7 +650,8 @@ function clean_page_cache($id) {
 
 function update_post_category_cache($post_ids) {
 	global $wpdb, $category_cache, $tag_cache, $blog_id;
-
+	// TODO
+	return;
 	if ( empty($post_ids) )
 		return;
 
