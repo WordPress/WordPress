@@ -373,9 +373,9 @@ function wp_widget_pages_control() {
 			<p><label for="pages-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?> 
 				<select name="pages-sortby" id="pages-sortby">
-					<option value="post_title"<?php if ( $options['sortby'] == 'post_title' ) { ?> selected="selected"<?php } ?>><?php _e('Page title'); ?></option>
-					<option value="menu_order"<?php if ( $options['sortby'] == 'menu_order' ) { ?> selected="selected"<?php } ?>><?php _e('Menu order'); ?></option>
-					<option value="ID"<?php if ( $options['sortby'] == 'ID' ) { ?> selected="selected"<?php } ?>><?php _e( 'Page ID' ); ?></option>
+					<option value="post_title"<?php selected( $options['sortby'], 'post_title' ); ?>><?php _e('Page title'); ?></option>
+					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Menu order'); ?></option>
+					<option value="ID"<?php selected( $options['sortby'], 'ID' ); ?>><?php _e( 'Page ID' ); ?></option>
 				</select></label></p>
 			<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
 <?php
