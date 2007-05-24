@@ -150,35 +150,6 @@ CREATE TABLE $wpdb->usermeta (
   KEY meta_key (meta_key)
 ) $charset_collate;";
 
-// Old tables that will die soon
-$wp_queries.="CREATE TABLE $wpdb->categories (
-  cat_ID bigint(20) NOT NULL auto_increment,
-  cat_name varchar(55) NOT NULL default '',
-  category_nicename varchar(200) NOT NULL default '',
-  category_description longtext NOT NULL,
-  category_parent bigint(20) NOT NULL default '0',
-  category_count bigint(20) NOT NULL default '0',
-  link_count bigint(20) NOT NULL default '0',
-  posts_private tinyint(1) NOT NULL default '0',
-  links_private tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (cat_ID),
-  KEY category_nicename (category_nicename)
-) $charset_collate;
-CREATE TABLE $wpdb->link2cat (
-  rel_id bigint(20) NOT NULL auto_increment,
-  link_id bigint(20) NOT NULL default '0',
-  category_id bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (rel_id),
-  KEY link_id (link_id,category_id)
-) $charset_collate;
-CREATE TABLE $wpdb->post2cat (
-  rel_id bigint(20) NOT NULL auto_increment,
-  post_id bigint(20) NOT NULL default '0',
-  category_id bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (rel_id),
-  KEY post_id (post_id,category_id)
-) $charset_collate;";
-
 function populate_options() {
 	global $wpdb, $wp_db_version;
 
