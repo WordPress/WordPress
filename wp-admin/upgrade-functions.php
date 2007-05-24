@@ -185,9 +185,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 4351 )
 		upgrade_old_slugs();
 	
-	if ( $wp_current_db_version < 5200 ) {
+	if ( $wp_current_db_version < 5539 )
 		upgrade_230();
-	}
+
 	
 	maybe_disable_automattic_widgets();
 
@@ -572,10 +572,70 @@ function upgrade_210() {
 }
 
 function upgrade_230() {
-	global $wp_current_db_version;
+	global $wp_current_db_version, $wpdb;
 	
 	if ( $wp_current_db_version < 5200 ) {
 		populate_roles_230();
+	}
+
+	// Convert categories to terms.
+	$tt_ids = array();
+	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories");
+	foreach ($categories as $category) {
+		$term_id = (int) $category->cat_ID;
+		$name = $wpdb->escape($category->cat_name);
+		$description = $wpdb->escape($category->category_description);
+		$slug = $wpdb->escape($category->category_nicename);
+		$parent = $wpdb->escape($category->category_parent);
+		$wpdb->query("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES ('$term_id', '$name', '$slug', '$term_group')");
+
+		if ( !empty($category->category_count) ) {
+			$count = (int) $category->category_count;
+			$taxonomy = 'category';
+			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
+			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
+		} else if ( !empty($category->link_count) ) {
+			$count = (int) $category->link_count;
+			$taxonomy = 'link_category';
+			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
+			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
+		} else if ( !empty($category->tag_count) ) {
+			$count = (int) $category->tag_count;
+			$taxonomy = 'post_tag';
+			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
+			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
+		} else {
+			$count = 0;
+			$taxonomy = 'category';
+			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
+			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
+		}
+	}
+
+	$posts = $wpdb->get_results("SELECT * FROM $wpdb->post2cat");
+	foreach ( $posts as $post ) {
+		$post_id = (int) $post->post_id;
+		$term_id = (int) $post->category_id;
+		$taxonomy = 'category';
+		if ( !empty($post->rel_type) && 'tag' == $post->rel_type)
+			$taxonomy = 'tag';
+		$tt_id = $tt_ids[$term_id][$taxonomy];
+		if ( empty($tt_id) )
+			continue;
+
+		$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$post_id', '$tt_id')");
+	}
+
+	$links = $wpdb->get_results("SELECT * FROM $wpdb->link2cat");
+	foreach ( $links as $link ) {
+		$link_id = (int) $link->link_id;
+		$term_id = (int) $link->category_id;
+		$taxonomy = 'link_category';
+		$tt_id = $tt_ids[$term_id][$taxonomy];
+		if ( empty($tt_id) )
+			continue;
+
+		$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$link_id', '$tt_id')");
 	}
 }
 
