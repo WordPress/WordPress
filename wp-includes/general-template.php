@@ -943,9 +943,12 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	<?php
 }
 
+function get_search_query() {
+	return apply_filters( 'get_search_query', stripslashes( get_query_var( 's' ) ) );
+}
+
 function the_search_query() {
-	global $s;
-	echo attribute_escape(stripslashes($s));
+	echo attribute_escape( apply_filters( 'the_search_query', get_search_query() ) );
 }
 
 function language_attributes() {
