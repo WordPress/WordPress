@@ -319,11 +319,16 @@ function get_comment_to_edit($id) {
 
 	$comment = get_comment($id);
 
+	$comment->comment_ID = (int) $comment->comment_ID;
+	$comment->comment_post_ID = (int) $comment->comment_post_ID;
+
 	$comment->comment_content = format_to_edit($comment->comment_content, $richedit);
 	$comment->comment_content = apply_filters('comment_edit_pre', $comment->comment_content);
+	$comment->comment_content = apply_filters( 'comment_text', $comment->comment_content );
 
 	$comment->comment_author = format_to_edit($comment->comment_author);
 	$comment->comment_author_email = format_to_edit($comment->comment_author_email);
+	$comment->comment_author_url = clean_url($comment->comment_author_url);
 	$comment->comment_author_url = format_to_edit($comment->comment_author_url);
 
 	return $comment;
@@ -862,6 +867,7 @@ function list_meta($meta) {
 
 		$entry['meta_key'] = attribute_escape( $entry['meta_key']);
 		$entry['meta_value'] = attribute_escape( $entry['meta_value']);
+		$entry['meta_id'] = (int) $entry['meta_id'];
 		echo "
 			<tr class='$style'>
 				<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>

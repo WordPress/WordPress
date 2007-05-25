@@ -194,7 +194,7 @@ case 'confirmdeletecomment':
 	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
 
-	if ( ! $comment = get_comment($comment) )
+	if ( ! $comment = get_comment_to_edit($comment) )
 		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	

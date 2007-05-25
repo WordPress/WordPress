@@ -8,7 +8,7 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 <form name="post" action="post.php" method="post" id="post">
 <?php wp_nonce_field('update-comment_' . $comment->comment_ID) ?>
 <div class="wrap">
-<input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
+<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
 <script type="text/javascript">
@@ -20,19 +20,19 @@ addLoadEvent(focusit);
 <fieldset id="namediv">
     <legend><?php _e('Name:') ?></legend>
 	<div>
-	  <input type="text" name="newcomment_author" size="22" value="<?php echo $comment->comment_author ?>" tabindex="1" id="name" />
+	  <input type="text" name="newcomment_author" size="22" value="<?php echo attribute_escape($comment->comment_author); ?>" tabindex="1" id="name" />
     </div>
 </fieldset>
 <fieldset id="emaildiv">
         <legend><?php _e('E-mail:') ?></legend>
 		<div>
-		  <input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email ?>" tabindex="2" id="email" />
+		  <input type="text" name="newcomment_author_email" size="30" value="<?php echo attribute_escape($comment->comment_author_email); ?>" tabindex="2" id="email" />
     </div>
 </fieldset>
 <fieldset id="uridiv">
         <legend><?php _e('URI:') ?></legend>
 		<div>
-		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo $comment->comment_author_url ?>" tabindex="3" id="URL" />
+		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo attribute_escape($comment->comment_author_url); ?>" tabindex="3" id="URL" />
     </div>
 </fieldset>
 
