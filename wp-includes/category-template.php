@@ -386,7 +386,7 @@ function get_tag_link( $tag_id ) {
 	$tag = &get_term($tag_id, 'post_tag');
 	$slug = $tag->slug;
 
-	if ( empty($catlink) ) {
+	if ( empty($taglink) ) {
 		$file = get_option('home') . '/';
 		$taglink = $file . '?tag=' . $slug;
 	} else {
