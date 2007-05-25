@@ -25,14 +25,14 @@ CREATE TABLE $wpdb->term_taxonomy (
  description longtext NOT NULL,
  parent bigint(20) NOT NULL default 0,
  count bigint(20) NOT NULL default 0,
- PRIMARY KEY (term_taxonomy_id),
- UNIQUE KEY (term_id,taxonomy)
+ PRIMARY KEY  (term_taxonomy_id),
+ UNIQUE KEY term_id_taxonomy (term_id,taxonomy)
 ) $charset_collate;
 CREATE TABLE $wpdb->term_relationships (
  object_id bigint(20) NOT NULL default 0,
  term_taxonomy_id bigint(20) NOT NULL default 0,
- PRIMARY KEY  (object_id, term_taxonomy_id),
- KEY (term_taxonomy_id)
+ PRIMARY KEY  (object_id,term_taxonomy_id),
+ KEY term_taxonomy_id (term_taxonomy_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
