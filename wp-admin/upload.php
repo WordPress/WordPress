@@ -16,7 +16,7 @@ $post_id = (int) $post_id;
 if ( $action == 'edit' && !$ID )
 	wp_die(__("You are not allowed to be here"));
 
-require_once('upload-functions.php');
+require_once('includes/upload.php');
 if ( !$tab )
 	$tab = 'browse-all';
 

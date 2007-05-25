@@ -1,4 +1,5 @@
 <?php
+
 function wp_upload_display( $dims = false, $href = '' ) {
 	global $post;
 	$id = get_the_ID();

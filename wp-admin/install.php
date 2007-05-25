@@ -6,7 +6,7 @@ if (!file_exists('../wp-config.php')) {
 }
 
 require_once('../wp-config.php');
-require_once('./upgrade-functions.php');
+require_once('./includes/upgrade.php');
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];

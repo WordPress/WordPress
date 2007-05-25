@@ -1,0 +1,170 @@
+<?php
+
+function got_mod_rewrite() {
+	global $is_apache;
+
+	// take 3 educated guesses as to whether or not mod_rewrite is available
+	if ( !$is_apache )
+		return false;
+
+	if ( function_exists( 'apache_get_modules' ) ) {
+		if ( !in_array( 'mod_rewrite', apache_get_modules() ) )
+			return false;
+	}
+
+	return true;
+}
+
+// Returns an array of strings from a file (.htaccess ) from between BEGIN
+// and END markers.
+function extract_from_markers( $filename, $marker ) {
+	$result = array ();
+
+	if (!file_exists( $filename ) ) {
+		return $result;
+	}
+
+	if ( $markerdata = explode( "\n", implode( '', file( $filename ) ) ));
+	{
+		$state = false;
+		foreach ( $markerdata as $markerline ) {
+			if (strpos($markerline, '# END ' . $marker) !== false)
+				$state = false;
+			if ( $state )
+				$result[] = $markerline;
+			if (strpos($markerline, '# BEGIN ' . $marker) !== false)
+				$state = true;
+		}
+	}
+
+	return $result;
+}
+
+// Inserts an array of strings into a file (.htaccess ), placing it between
+// BEGIN and END markers.  Replaces existing marked info.  Retains surrounding
+// data.  Creates file if none exists.
+// Returns true on write success, false on failure.
+function insert_with_markers( $filename, $marker, $insertion ) {
+	if (!file_exists( $filename ) || is_writeable( $filename ) ) {
+		if (!file_exists( $filename ) ) {
+			$markerdata = '';
+		} else {
+			$markerdata = explode( "\n", implode( '', file( $filename ) ) );
+		}
+
+		$f = fopen( $filename, 'w' );
+		$foundit = false;
+		if ( $markerdata ) {
+			$state = true;
+			foreach ( $markerdata as $n => $markerline ) {
+				if (strpos($markerline, '# BEGIN ' . $marker) !== false)
+					$state = false;
+				if ( $state ) {
+					if ( $n + 1 < count( $markerdata ) )
+						fwrite( $f, "{$markerline}\n" );
+					else
+						fwrite( $f, "{$markerline}" );
+				}
+				if (strpos($markerline, '# END ' . $marker) !== false) {
+					fwrite( $f, "# BEGIN {$marker}\n" );
+					if ( is_array( $insertion ))
+						foreach ( $insertion as $insertline )
+							fwrite( $f, "{$insertline}\n" );
+					fwrite( $f, "# END {$marker}\n" );
+					$state = true;
+					$foundit = true;
+				}
+			}
+		}
+		if (!$foundit) {
+			fwrite( $f, "# BEGIN {$marker}\n" );
+			foreach ( $insertion as $insertline )
+				fwrite( $f, "{$insertline}\n" );
+			fwrite( $f, "# END {$marker}\n" );
+		}
+		fclose( $f );
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function save_mod_rewrite_rules() {
+	global $is_apache, $wp_rewrite;
+	$home_path = get_home_path();
+
+	if (!$wp_rewrite->using_mod_rewrite_permalinks() )
+		return false;
+
+	if (!((!file_exists( $home_path.'.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path.'.htaccess' ) ) )
+		return false;
+
+	if (! got_mod_rewrite() )
+		return false;
+
+	$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
+	return insert_with_markers( $home_path.'.htaccess', 'WordPress', $rules );
+}
+
+function update_recently_edited( $file ) {
+	$oldfiles = (array ) get_option( 'recently_edited' );
+	if ( $oldfiles ) {
+		$oldfiles = array_reverse( $oldfiles );
+		$oldfiles[] = $file;
+		$oldfiles = array_reverse( $oldfiles );
+		$oldfiles = array_unique( $oldfiles );
+		if ( 5 < count( $oldfiles ))
+			array_pop( $oldfiles );
+	} else {
+		$oldfiles[] = $file;
+	}
+	update_option( 'recently_edited', $oldfiles );
+}
+
+// If siteurl or home changed, reset cookies and flush rewrite rules.
+function update_home_siteurl( $old_value, $value ) {
+	global $wp_rewrite, $user_login, $user_pass_md5;
+
+	if ( defined( "WP_INSTALLING" ) )
+		return;
+
+	// If home changed, write rewrite rules to new location.
+	$wp_rewrite->flush_rules();
+	// Clear cookies for old paths.
+	wp_clearcookie();
+	// Set cookies for new paths.
+	wp_setcookie( $user_login, $user_pass_md5, true, get_option( 'home' ), get_option( 'siteurl' ));
+}
+
+add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );
+add_action( 'update_option_siteurl', 'update_home_siteurl', 10, 2 );
+
+function url_shorten( $url ) {
+	$short_url = str_replace( 'http://', '', stripslashes( $url ));
+	$short_url = str_replace( 'www.', '', $short_url );
+	if ('/' == substr( $short_url, -1 ))
+		$short_url = substr( $short_url, 0, -1 );
+	if ( strlen( $short_url ) > 35 )
+		$short_url = substr( $short_url, 0, 32 ).'...';
+	return $short_url;
+}
+
+function wp_reset_vars( $vars ) {
+	for ( $i=0; $i<count( $vars ); $i += 1 ) {
+		$var = $vars[$i];
+		global $$var;
+
+		if (!isset( $$var ) ) {
+			if ( empty( $_POST["$var"] ) ) {
+				if ( empty( $_GET["$var"] ) )
+					$$var = '';
+				else
+					$$var = $_GET["$var"];
+			} else {
+				$$var = $_POST["$var"];
+			}
+		}
+	}
+}
+
+?>

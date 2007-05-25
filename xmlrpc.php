@@ -39,7 +39,7 @@ header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 exit;
 }
 
-include_once(ABSPATH . 'wp-admin/admin-functions.php');
+include_once(ABSPATH . 'wp-admin/includes/admin.php');
 include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 // Turn off all warnings and errors.
@@ -489,10 +489,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		if(!current_user_can("manage_categories", $page_id)) {
 			return(new IXR_Error(401, __("Sorry, you do not have the right to add a category.")));
 		}
-
-		// We need this to make use of the wp_insert_category()
-		// funciton.
-		require_once(ABSPATH . "wp-admin/admin-db.php");
 
 		// If no slug was provided make it empty so that
 		// WordPress will generate one.

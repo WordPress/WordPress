@@ -5,7 +5,7 @@ if (!file_exists('../wp-config.php'))
 
 require('../wp-config.php');
 timer_start();
-require_once(ABSPATH . '/wp-admin/upgrade-functions.php');
+require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
 
 if (isset($_GET['step']))
 	$step = (int) $_GET['step'];

@@ -1,7 +1,6 @@
 <?php
 require_once('../wp-config.php');
-require_once('admin-functions.php');
-require_once('admin-db.php');
+require_once('wp-includes/admin.php');
 
 define('DOING_AJAX', true);
 
