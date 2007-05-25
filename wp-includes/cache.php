@@ -186,16 +186,7 @@ class WP_Object_Cache {
 	}
 
 	function load_group_from_db($group) {
-		global $wpdb;
-
-		if ('category' == $group) {
-			$this->cache['category'] = array ();
-			if ($dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories")) {
-				foreach ($dogs as $catt)
-					$this->cache['category'][$catt->cat_ID] = $catt;
-			}
-		}
-
+		return;
 	}
 
 	function make_group_dir($group, $perms) {
