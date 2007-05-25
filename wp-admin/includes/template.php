@@ -354,6 +354,7 @@ function list_meta( $meta ) {
 		$key_js = js_escape( $entry['meta_key'] );
 		$entry['meta_key']   = attribute_escape($entry['meta_key']);
 		$entry['meta_value'] = attribute_escape($entry['meta_value']);
+		$entry['meta_id'] = (int) $entry['meta_id'];
 		$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 		$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
 		$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
@@ -393,7 +394,7 @@ function meta_form() {
 <?php
 
 	foreach ( $keys as $key ) {
-		$key = attribute_escape( $key);
+		$key = attribute_escape( $key );
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>

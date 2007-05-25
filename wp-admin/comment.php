@@ -39,7 +39,7 @@ case 'mac':
 	$nonce_action = 'cdc' == $action ? 'delete-comment_' : 'approve-comment_';
 	$nonce_action .= $comment;
 
-	if ( ! $comment = get_comment($comment) )
+	if ( ! $comment = get_comment_to_edit($comment) )
 		wp_die(__('Oops, no comment with this ID.').sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
@@ -91,12 +91,12 @@ case 'mac':
 <?php if ( $comment->comment_author_url ) { ?>
 <tr>
 <th scope="row"><?php _e('URL:'); ?></th>
-<td><?php echo "<a href='$comment->comment_author_url'>$comment->comment_author_url</a>"; ?></td>
+<td><a href='<?php echo $comment->comment_author_url; ?>'><?php echo $comment->comment_author_url; ?></a></td>
 </tr>
 <?php } ?>
 <tr>
 <th scope="row" valign="top"><p><?php _e('Comment:'); ?></p></th>
-<td><?php echo apply_filters( 'comment_text', $comment->comment_content ); ?></td>
+<td><?php echo $comment->comment_content; ?></td>
 </tr>
 </table>
 
@@ -155,7 +155,7 @@ case 'unapprovecomment':
 	if ((wp_get_referer() != "") && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$comment->comment_post_ID.'&c=1#comments');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p=' . (int) $comment->comment_post_ID.'&c=1#comments');
 	}
 	exit();
 	break;
@@ -185,7 +185,7 @@ case 'approvecomment':
 	if ((wp_get_referer() != "") && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$comment->comment_post_ID.'&c=1#comments');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p=' . (int) $comment->comment_post_ID.'&c=1#comments');
 	}
 	exit();
 	break;

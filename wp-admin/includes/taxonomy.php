@@ -11,6 +11,9 @@ function category_exists($cat_name) {
 function get_category_to_edit( $id ) {
 	$category = get_category( $id );
 
+	$category->term_id = (int) $category->term_id;
+	$category->parent = (int) $category->parent;
+
 	return $category;
 }
 

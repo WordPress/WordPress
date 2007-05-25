@@ -174,6 +174,8 @@ function get_post_to_edit( $id ) {
 
 	$post->post_password = format_to_edit( $post->post_password );
 
+	$post->menu_order = (int) $post->menu_order;
+
 	if ( $post->post_type == 'page' )
 		$post->page_template = get_post_meta( $id, '_wp_page_template', true );
 
