@@ -315,6 +315,8 @@ function update_option($option_name, $newvalue) {
 
 	wp_protect_special_option($option_name);
 
+	$newvalue = sanitize_option($option_name, $newvalue);
+
 	if ( is_string($newvalue) )
 		$newvalue = trim($newvalue);
 
