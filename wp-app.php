@@ -415,7 +415,7 @@ EOD;
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
 
 		if(!current_user_can($cap))
-			$this->auth_required('Sorry, you do not have the right to edit/publish new posts.');
+			$this->auth_required(__('Sorry, you do not have the right to edit/publish new posts.'));
 
 		$blog_ID = (int ) $blog_id;
 		$post_status = ($publish) ? 'publish' : 'draft';
@@ -433,7 +433,7 @@ EOD;
 		$postID = wp_insert_post($post_data);
 
 		if (!$postID) {
-			$this->internal_error('Sorry, your entry could not be posted. Something wrong happened.');
+			$this->internal_error(__('Sorry, your entry could not be posted. Something wrong happened.'));
 		}
 
 		$output = $this->get_entry($postID);
@@ -472,7 +472,7 @@ EOD;
 		$this->escape($GLOBALS['entry']);
 
 		if(!current_user_can('edit_post', $entry['ID']))
-			$this->auth_required('Sorry, you do not have the right to edit this post.');
+			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 
 		$publish = (isset($parsed->draft) && trim($parsed->draft) == 'yes') ? false : true;
 
@@ -492,7 +492,7 @@ EOD;
 		$result = wp_update_post($postdata);
 
 		if (!$result) {
-			$this->internal_error('For some strange yet very annoying reason, this post could not be edited.');
+			$this->internal_error(__('For some strange yet very annoying reason, this post could not be edited.'));
 		}
 
 		log_app('function',"put_post($postID)");
@@ -506,7 +506,7 @@ EOD;
 		$this->set_current_entry($postID);
 
 		if(!current_user_can('edit_post', $postID)) {
-			$this->auth_required('Sorry, you do not have the right to delete this post.');
+			$this->auth_required(__('Sorry, you do not have the right to delete this post.'));
 		}
 
 		if ($entry['post_type'] == 'attachment') {
@@ -515,7 +515,7 @@ EOD;
 			$result = wp_delete_post($postID);
 
 			if (!$result) {
-				$this->internal_error('For some strange yet very annoying reason, this post could not be deleted.');
+				$this->internal_error(__('For some strange yet very annoying reason, this post could not be deleted.'));
 			}
 
 			log_app('function',"delete_post($postID)");
@@ -543,7 +543,7 @@ EOD;
 		$type = $this->get_accepted_content_type();
 
 		if(!current_user_can('upload_files'))
-			$this->auth_required('You do not have permission to upload files.');
+			$this->auth_required(__('You do not have permission to upload files.'));
 
 		$fp = fopen("php://input", "rb");
 		$bits = NULL;

@@ -970,14 +970,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			switch($post_type) {
 				case "post":
 					if(!current_user_can("edit_others_posts")) {
-						return(new IXR_Error(401, "You are not allowed to " .
-							"post as this user"));
+						return(new IXR_Error(401, __("You are not allowed to post as this user")));
 					}
 					break;
 				case "page":
 					if(!current_user_can("edit_others_pages")) {
-						return(new IXR_Error(401, "You are not allowed to " .
-							"create pages as this user"));
+						return(new IXR_Error(401, __("You are not allowed to create pages as this user")));
 					}
 					break;
 				default:
@@ -1156,14 +1154,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			switch($post_type) {
 				case "post":
 					if(!current_user_can("edit_others_posts")) {
-						return(new IXR_Error(401, "You are not allowed to " .
-							"change the post author as this user."));
+						return(new IXR_Error(401, __("You are not allowed to change the post author as this user.")));
 					}
 					break;
 				case "page":
 					if(!current_user_can("edit_others_pages")) {
-						return(new IXR_Error(401, "You are not allowed to " .
-							"change the page author as this user."));
+						return(new IXR_Error(401, __("You are not allowed to change the page author as this user.")));
 					}
 					break;
 				default:
@@ -1467,7 +1463,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$upload = wp_upload_bits($name, $type, $bits, $overwrite);
 		if ( ! empty($upload['error']) ) {
-			$errorString = 'Could not write file ' . $name . ' (' . $upload['error'] . ')';
+			$errorString = sprintf(__('Could not write file %1$s (%2$s)'), $name, $upload['error']);
 			logIO('O', '(MW) ' . $errorString);
 			return new IXR_Error(500, $errorString);
 		}
@@ -1778,7 +1774,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		} else {
 			// TODO: Attempt to extract a post ID from the given URL
-	  		return new IXR_Error(33, 'The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
 		}
 		$post_ID = (int) $post_ID;
 
@@ -1788,14 +1784,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post = get_post($post_ID);
 
 		if ( !$post ) // Post_ID not found
-	  		return new IXR_Error(33, 'The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
 
 		if ( $post_ID == url_to_postid($pagelinkedfrom) )
 			return new IXR_Error(0, __('The source URL and the target URL cannot both point to the same resource.'));
 
 		// Check if pings are on
 		if ( 'closed' == $post->ping_status )
-	  		return new IXR_Error(33, 'The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
 
 		// Let's check that the remote site didn't already pingback this entry
 		$result = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_ID' AND comment_author_url = '$pagelinkedfrom'");
@@ -1877,7 +1873,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment_ID = wp_new_comment($commentdata);
 		do_action('pingback_post', $comment_ID);
 
-		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
+		return sprintf(__('Pingback from %1$s to %2$s registered. Keep the web talking! :-)'), $pagelinkedfrom, $pagelinkedto);
 	}
 
 
@@ -1895,7 +1891,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_ID = url_to_postid($url);
 		if (!$post_ID) {
 			// We aren't sure that the resource is available and/or pingback enabled
-	  		return new IXR_Error(33, 'The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
+	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
 		}
 
 		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
