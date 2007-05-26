@@ -98,7 +98,7 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 		$checked_categories[] = $default;
 	}
 
-	$cats = get_categories("child_of=$parent&hide_empty=0&get=ids");
+	$cats = get_categories("child_of=$parent&hide_empty=0&fields=ids");
 	$result = array ();
 
 	if ( is_array( $cats ) ) {

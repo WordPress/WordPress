@@ -447,7 +447,7 @@ function wp_delete_post($postid = 0) {
 function wp_get_post_categories($post_id = 0) {
 	$post_id = (int) $post_id;
 
-	$cats = get_object_terms($post_id, 'category', 'get=ids');
+	$cats = get_object_terms($post_id, 'category', 'get=fields');
 	return $cats;
 }
 

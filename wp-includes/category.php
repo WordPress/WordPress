@@ -4,7 +4,7 @@ function get_all_category_ids() {
 	global $wpdb;
 
 	if ( ! $cat_ids = wp_cache_get('all_category_ids', 'category') ) {
-		$cat_ids = get_terms('category', 'get=ids&hierarchical=0&hide_empty=0');
+		$cat_ids = get_terms('category', 'fields=ids&get=all');
 		wp_cache_add('all_category_ids', $cat_ids, 'category');
 	}
 

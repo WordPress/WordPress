@@ -16,7 +16,7 @@ class WP_Categories_to_Tags {
 	function populate_all_categories() {
 		global $wpdb;
 		
-		$this->all_categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE (type & ~ " . TAXONOMY_TAG . ") != 0 AND category_count > 0 ORDER BY cat_name ASC");
+		$this->all_categories = get_categories('get=all');
 	}
 	
 	function welcome() {
@@ -40,13 +40,13 @@ class WP_Categories_to_Tags {
 		print '<form action="admin.php?import=wp-cat2tag&amp;step=2" method="post">';
 		print '<ul style="list-style:none">';
 		
-		$hier = _get_category_hierarchy();
+		$hier = _get_term_hierarchy('category');
 		
 		foreach ($this->all_categories as $category) {
-			if ((int) $category->category_parent == 0) {
-				print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($category->cat_ID) . '" /> ' . $category->cat_name . ' (' . $category->category_count . ')</label>';
+			if ((int) $category->parent == 0) {
+				print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($category->term_id) . '" /> ' . $category->name . ' (' . $category->count . ')</label>';
 				
-				if (isset($hier[$category->cat_ID])) {
+				if (isset($hier[$category->term_id])) {
 					$this->_category_children($category, $hier);
 				}
 				
@@ -63,12 +63,12 @@ class WP_Categories_to_Tags {
 	function _category_children($parent, $hier) {
 		print '<ul style="list-style:none">';
 		
-		foreach ($hier[$parent->cat_ID] as $child_id) {
+		foreach ($hier[$parent->term_id] as $child_id) {
 			$child =& get_category($child_id);
 			
-			print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($child->cat_ID) . '" /> ' . $child->cat_name . ' (' . $child->category_count . ')</label>';
+			print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($child->term_id) . '" /> ' . $child->name . ' (' . $child->count . ')</label>';
 			
-			if (isset($hier[$child->cat_ID])) {
+			if (isset($hier[$child->term_id])) {
 				$this->_category_children($child, $hier);
 			}
 			
@@ -83,9 +83,9 @@ class WP_Categories_to_Tags {
 		
 		$cat_id = (int) $cat_id;
 		
-		$maybe_exists = $wpdb->get_results("SELECT cat_ID from $wpdb->categories WHERE cat_ID = '$cat_id'");
+		$maybe_exists = category_exists($cat_id);
 		
-		if (count($maybe_exists) > 0) {
+		if ( $maybe_exists ) {
 			return true;
 		} else {
 			return false;
@@ -101,8 +101,10 @@ class WP_Categories_to_Tags {
 			print '</div>';
 		}
 		
-		$this->categories_to_convert = $_POST['cats_to_convert'];
-		$hier = _get_category_hierarchy();
+		
+		if ( empty($this->categories_to_convert) )
+			$this->categories_to_convert = $_POST['cats_to_convert'];
+		$hier = _get_term_hierarchy('category');
 		
 		print '<ul>';
 		
@@ -116,24 +118,14 @@ class WP_Categories_to_Tags {
 			} else {
 				$category =& get_category($cat_id);
 				
-				if ($category->link_count > 0) {
-					$type = $category->type | TAXONOMY_TAG;
-				} else {
-					$type = TAXONOMY_TAG;
-				}
-				
 				// Set the category itself to $type from above
-				$wpdb->query("UPDATE $wpdb->categories SET type = '$type' WHERE cat_ID = '{$category->cat_ID}'");
-				
-				// Set relationships in post2cat to 'tag', category_count becomes tag_count
-				$wpdb->query("UPDATE $wpdb->post2cat SET rel_type = 'tag' WHERE category_ID = '{$category->cat_ID}'");
-				$wpdb->query("UPDATE $wpdb->categories SET tag_count = '{$category->category_count}', category_count = '0' WHERE cat_ID = '{$category->cat_ID}'");
+				$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = '$type' WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
 				
 				// Set all parents to 0 (root-level) if their parent was the converted tag
-				$wpdb->query("UPDATE $wpdb->categories SET category_parent = 0 WHERE category_parent = '{$category->cat_ID}'");
+				$wpdb->query("UPDATE $wpdb->term_taxonomy SET parent = 0 WHERE parent = '{$category->term_id}' AND taxonomy = 'category'");
 				
 				// Clean the cache
-				clean_category_cache($category->cat_ID);
+				clean_category_cache($category->term_id);
 				
 				_e('Converted successfully.');
 			}
@@ -160,16 +152,9 @@ class WP_Categories_to_Tags {
 	
 	function convert_all() {
 		global $wpdb;
-		
-		$cats = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE (type & ~ " . TAXONOMY_TAG . ") != 0 AND category_count > 0");
-		
-		$_POST['cats_to_convert'] = array();
-		
-		foreach ($cats as $cat) {
-			$_POST['cats_to_convert'][] = $cat->cat_ID;
-		}
-		
-		$this->convert_them();
+
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = '$type', parent = 0 WHERE taxonomy = 'category'");
+		clean_category_cache($category->term_id);
 	}
 	
 	function init() {

@@ -136,7 +136,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$objects = $wpdb->get_col("SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$tt_id'");
 
 	foreach ( (array) $objects as $object ) {
-		$terms = get_object_terms($object, $taxonomy, 'get=ids');
+		$terms = get_object_terms($object, $taxonomy, 'fields=ids');
 		if ( 1 == count($terms) && isset($default) )
 			$terms = array($default);
 		else
@@ -319,7 +319,7 @@ function get_object_terms($object_id, $taxonomy, $args = array()) {
 	// TODO cast to int
 	$object_ids = ($single_object = !is_array($object_id)) ? array($object_id) : $object_id;
 
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'get' => 'everything');
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'all');
 	$args = wp_parse_args( $args, $defaults );
 	extract($args);
 
@@ -331,16 +331,16 @@ function get_object_terms($object_id, $taxonomy, $args = array()) {
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
 
-	if ( 'everything' == $get )
+	if ( 'all' == $fields )
 		$select_this = 't.*';
-	else if ( 'ids' == $get )
+	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) ORDER BY $orderby $order";
 
-	if ( 'everything' == $get )
+	if ( 'all' == $fields )
 		$taxonomy_data = $wpdb->get_results($query);
-	else if ( 'ids' == $get )
+	else if ( 'ids' == $fields )
 		$taxonomy_data = $wpdb->get_col($query);
 
 	if ( ! $taxonomy_data )
@@ -379,19 +379,21 @@ function &get_terms($taxonomies, $args = '') {
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
-		'number' => '', 'get' => 'everything', 'slug' => '', 'parent' => '',
-		'hierarchical' => true, 'child_of' => 0);
+		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
+		'hierarchical' => true, 'child_of' => 0, 'get' => '');
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = (int) $args['number'];
 	if ( ! $single_taxonomy ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
-	} else {
-		$tax = get_taxonomy($taxonomy);
-		if ( !$tax['hierarchical'] ) {
-			$args['child_of'] = 0;
-			$args['hierarchical'] = false;	
-		}
+	} else if ( !is_taxonomy_hierarchical($taxonomies[0]) ) {
+		$args['child_of'] = 0;
+		$args['hierarchical'] = false;
+	}
+	if ( 'all' == $args['get'] ) {
+		$args['child_of'] = 0;
+		$args['hide_empty'] = 0;
+		$args['hierarchical'] = false;
 	}
 	extract($args);
 
@@ -463,16 +465,16 @@ function &get_terms($taxonomies, $args = '') {
 	else
 		$number = '';
 
-	if ( 'everything' == $get )
+	if ( 'all' == $fields )
 		$select_this = 't.*, tt.*';
-	else if ( 'ids' == $get )
+	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
 
-	if ( 'everything' == $get )
+	if ( 'all' == $fields )
 		$terms = $wpdb->get_results($query);
-	else if ( 'ids' == $get )
+	else if ( 'ids' == $fields )
 		$terms = $wpdb->get_col($query);
 
 	if ( empty($terms) )
