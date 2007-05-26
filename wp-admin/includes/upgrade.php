@@ -578,13 +578,28 @@ function upgrade_230() {
 
 	// Convert categories to terms.
 	$tt_ids = array();
-	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories");
+	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_ID");
 	foreach ($categories as $category) {
 		$term_id = (int) $category->cat_ID;
 		$name = $wpdb->escape($category->cat_name);
 		$description = $wpdb->escape($category->category_description);
 		$slug = $wpdb->escape($category->category_nicename);
 		$parent = $wpdb->escape($category->category_parent);
+		$term_group = 0;
+
+		// Associate terms with the same slug in a term group and make slugs unique.
+		if ( $exists = $wpdb->get_results("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$slug'") ) {
+			$num = count($exists);
+			$num++;
+			$slug = $slug . "-$num";
+			$term_group = $exists[0]->term_group;
+			$id = $exists[0]->term_id;
+			if ( empty( $term_group ) ) {
+				$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
+				$wpdb->query("UPDATE $wpdb->terms SET term_group = '$term_group' WHERE term_id = '$id'");
+			}
+		}
+
 		$wpdb->query("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES ('$term_id', '$name', '$slug', '$term_group')");
 
 		if ( !empty($category->category_count) ) {
