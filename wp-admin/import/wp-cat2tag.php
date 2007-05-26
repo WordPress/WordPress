@@ -119,7 +119,7 @@ class WP_Categories_to_Tags {
 				$category =& get_category($cat_id);
 				
 				// Set the category itself to $type from above
-				$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = '$type' WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
+				$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = 'post_tag' WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
 				
 				// Set all parents to 0 (root-level) if their parent was the converted tag
 				$wpdb->query("UPDATE $wpdb->term_taxonomy SET parent = 0 WHERE parent = '{$category->term_id}' AND taxonomy = 'category'");
@@ -153,7 +153,7 @@ class WP_Categories_to_Tags {
 	function convert_all() {
 		global $wpdb;
 
-		$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = '$type', parent = 0 WHERE taxonomy = 'category'");
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = 'post_tag', parent = 0 WHERE taxonomy = 'category'");
 		clean_category_cache($category->term_id);
 	}
 	
