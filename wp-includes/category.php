@@ -122,4 +122,16 @@ function &get_tags($args = '') {
 	return $tags;
 }
 
+//
+// Cache
+//
+
+function update_category_cache() {
+	return true;
+}
+
+function clean_category_cache($id) {
+	clean_term_cache($id, 'category');
+}
+
 ?>

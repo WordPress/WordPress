@@ -95,7 +95,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
-	//clean_term_cache($term_id);
+	clean_term_cache($term_id, $taxonomy);
 
 	do_action("created_term", $term_id, $tt_id);
 	do_action("created_$taxonomy", $term_id, $tt_id);
@@ -146,7 +146,8 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	$wpdb->query("DELETE FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = '$tt_id'");
 
-	//clean_term_cache($term, $taxonomy);
+	clean_term_cache($term, $taxonomy);
+
 	do_action("delete_$taxonomy", $term, $tt_id);
 
 	return true;
@@ -209,7 +210,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 
 	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
-	//clean_term_cache($term_id);
+	clean_term_cache($term_id, $taxonomy);
 
 	do_action("edited_term", $term_id, $tt_id);
 	do_action("edited_$taxonomy", $term_id, $tt_id);
@@ -509,7 +510,7 @@ function &get_terms($taxonomies, $args = '') {
 	*/
 
 	$cache[ $key ] = $terms;
-	wp_cache_add( 'get_terms', $cache, 'terms' );
+	wp_cache_add( 'get_terms', $cache, 'term' );
 
 	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
 	return $terms;
@@ -580,6 +581,14 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
 	} else {
 		return $term;
 	}
+}
+
+function clean_term_cache($id, $taxonomy) {
+	wp_cache_delete($id, $taxonomy);
+	wp_cache_delete('all_ids', $taxonomy);
+	wp_cache_delete('get', $taxonomy);
+	delete_option("{$taxonomy}_children");
+	wp_cache_delete('get_terms', 'terms');
 }
 
 function _get_term_hierarchy($taxonomy) {

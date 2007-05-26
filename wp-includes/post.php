@@ -412,7 +412,7 @@ function wp_delete_post($postid = 0) {
 
 	if ( 'publish' == $post->post_status && 'post' == $post->post_type ) {
 		$categories = wp_get_post_categories($post->ID);
-		if( is_array( $categories ) ) {
+		if ( is_array( $categories ) ) {
 			foreach ( $categories as $cat_id ) {
 				$wpdb->query("UPDATE $wpdb->categories SET category_count = category_count - 1 WHERE cat_ID = '$cat_id'");
 				wp_cache_delete($cat_id, 'category');
@@ -1592,6 +1592,215 @@ function get_private_posts_cap_sql($post_type) {
 	$sql .= ')';
 
 	return $sql;
+}
+
+function get_lastpostdate($timezone = 'server') {
+	global $cache_lastpostdate, $pagenow, $wpdb, $blog_id;
+	$add_seconds_blog = get_option('gmt_offset') * 3600;
+	$add_seconds_server = date('Z');
+	if ( !isset($cache_lastpostdate[$blog_id][$timezone]) ) {
+		switch(strtolower($timezone)) {
+			case 'gmt':
+				$lastpostdate = $wpdb->get_var("SELECT post_date_gmt FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				break;
+			case 'blog':
+				$lastpostdate = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				break;
+			case 'server':
+				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				break;
+		}
+		$cache_lastpostdate[$blog_id][$timezone] = $lastpostdate;
+	} else {
+		$lastpostdate = $cache_lastpostdate[$blog_id][$timezone];
+	}
+	return $lastpostdate;
+}
+
+function get_lastpostmodified($timezone = 'server') {
+	global $cache_lastpostmodified, $pagenow, $wpdb, $blog_id;
+	$add_seconds_blog = get_option('gmt_offset') * 3600;
+	$add_seconds_server = date('Z');
+	if ( !isset($cache_lastpostmodified[$blog_id][$timezone]) ) {
+		switch(strtolower($timezone)) {
+			case 'gmt':
+				$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
+				break;
+			case 'blog':
+				$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
+				break;
+			case 'server':
+				$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
+				break;
+		}
+		$lastpostdate = get_lastpostdate($timezone);
+		if ( $lastpostdate > $lastpostmodified ) {
+			$lastpostmodified = $lastpostdate;
+		}
+		$cache_lastpostmodified[$blog_id][$timezone] = $lastpostmodified;
+	} else {
+		$lastpostmodified = $cache_lastpostmodified[$blog_id][$timezone];
+	}
+	return $lastpostmodified;
+}
+
+//
+// Cache
+//
+
+function update_post_cache(&$posts) {
+	global $post_cache, $blog_id;
+
+	if ( !$posts )
+		return;
+
+	for ($i = 0; $i < count($posts); $i++) {
+		$post_cache[$blog_id][$posts[$i]->ID] = &$posts[$i];
+	}
+}
+
+function clean_post_cache($id) {
+	global $post_cache, $post_meta_cache, $category_cache, $tag_cache, $blog_id;
+
+	if ( isset( $post_cache[$blog_id][$id] ) )
+		unset( $post_cache[$blog_id][$id] );
+
+	if ( isset ($post_meta_cache[$blog_id][$id] ) )
+		unset( $post_meta_cache[$blog_id][$id] );
+
+	if ( isset( $category_cache[$blog_id][$id]) )
+		unset ( $category_cache[$blog_id][$id] );
+
+	if ( isset( $tag_cache[$blog_id][$id]) )
+		unset ( $tag_cache[$blog_id][$id] );
+}
+
+function update_page_cache(&$pages) {
+	global $page_cache, $blog_id;
+
+	if ( !$pages )
+		return;
+
+	for ($i = 0; $i < count($pages); $i++) {
+		$page_cache[$blog_id][$pages[$i]->ID] = &$pages[$i];
+		wp_cache_add($pages[$i]->ID, $pages[$i], 'pages');
+	}
+}
+
+function clean_page_cache($id) {
+	global $page_cache, $blog_id;
+
+	if ( isset( $page_cache[$blog_id][$id] ) )
+		unset( $page_cache[$blog_id][$id] );
+
+	wp_cache_delete($id, 'pages');
+	wp_cache_delete( 'all_page_ids', 'pages' );
+	wp_cache_delete( 'get_pages', 'page' );
+}
+
+function update_post_category_cache($post_ids) {
+	global $wpdb, $category_cache, $tag_cache, $blog_id;
+	// TODO
+	return;
+	if ( empty($post_ids) )
+		return;
+
+	if ( is_array($post_ids) )
+		$post_id_list = implode(',', $post_ids);
+
+	$post_id_array = (array) explode(',', $post_ids);
+	$count = count( $post_id_array);
+	for ( $i = 0; $i < $count; $i++ ) {
+		$post_id = (int) $post_id_array[ $i ];
+		if ( isset( $category_cache[$blog_id][$post_id] ) ) {
+			unset( $post_id_array[ $i ] );
+			continue;
+		}
+	}
+	if ( count( $post_id_array ) == 0 )
+		return;
+	$post_id_list = join( ',', $post_id_array ); // with already cached stuff removed
+
+	$dogs = $wpdb->get_results("SELECT post_id, category_id, rel_type FROM $wpdb->post2cat WHERE post_id IN ($post_id_list)");
+
+	if ( empty($dogs) )
+		return;
+
+	foreach ($dogs as $catt) {
+		if ( 'category' == $catt->rel_type )
+			$category_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
+		elseif ( 'tag' == $catt->rel_type )
+			$tag_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
+	}
+}
+
+function update_post_caches(&$posts) {
+	global $post_cache, $category_cache, $post_meta_cache, $tag_cache;
+	global $wpdb, $blog_id;
+
+	// No point in doing all this work if we didn't match any posts.
+	if ( !$posts )
+		return;
+
+	// Get the categories for all the posts
+	for ($i = 0; $i < count($posts); $i++) {
+		$post_id_array[] = $posts[$i]->ID;
+		$post_cache[$blog_id][$posts[$i]->ID] = &$posts[$i];
+	}
+
+	$post_id_list = implode(',', $post_id_array);
+
+	update_post_category_cache($post_id_list);
+
+	update_postmeta_cache($post_id_list);
+}
+
+function update_postmeta_cache($post_id_list = '') {
+	global $wpdb, $post_meta_cache, $blog_id;
+
+	// We should validate this comma-separated list for the upcoming SQL query
+	$post_id_list = preg_replace('|[^0-9,]|', '', $post_id_list);
+
+	if ( empty( $post_id_list ) )
+		return false;
+
+	// we're marking each post as having its meta cached (with no keys... empty array), to prevent posts with no meta keys from being queried again
+	// any posts that DO have keys will have this empty array overwritten with a proper array, down below
+	$post_id_array = (array) explode(',', $post_id_list);
+	$count = count( $post_id_array);
+	for ( $i = 0; $i < $count; $i++ ) {
+		$post_id = (int) $post_id_array[ $i ];
+		if ( isset( $post_meta_cache[$blog_id][$post_id] ) ) { // If the meta is already cached
+			unset( $post_id_array[ $i ] );
+			continue;
+		}
+		$post_meta_cache[$blog_id][$post_id] = array();
+	}
+	if ( count( $post_id_array ) == 0 )
+		return;
+	$post_id_list = join( ',', $post_id_array ); // with already cached stuff removeds
+
+	// Get post-meta info
+	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
+		// Change from flat structure to hierarchical:
+		if ( !isset($post_meta_cache) )
+			$post_meta_cache[$blog_id] = array();
+
+		foreach ($meta_list as $metarow) {
+			$mpid = (int) $metarow['post_id'];
+			$mkey = $metarow['meta_key'];
+			$mval = $metarow['meta_value'];
+
+			// Force subkeys to be array type:
+			if ( !isset($post_meta_cache[$blog_id][$mpid]) || !is_array($post_meta_cache[$blog_id][$mpid]) )
+				$post_meta_cache[$blog_id][$mpid] = array();
+			if ( !isset($post_meta_cache[$blog_id][$mpid]["$mkey"]) || !is_array($post_meta_cache[$blog_id][$mpid]["$mkey"]) )
+				$post_meta_cache[$blog_id][$mpid]["$mkey"] = array();
+
+			// Add a value to the current pid/key:
+			$post_meta_cache[$blog_id][$mpid][$mkey][] = $mval;
+		}
+	}
 }
 
 ?>
