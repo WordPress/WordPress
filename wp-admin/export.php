@@ -61,14 +61,14 @@ if ( isset( $_GET['author'] ) && $_GET['author'] != 'all' ) {
 
 $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 
-$categories = (array) $wpdb->get_results("SELECT cat_ID, cat_name, category_nicename, category_description, category_parent, posts_private, links_private FROM $wpdb->categories LEFT JOIN $wpdb->post2cat ON (category_id = cat_id) LEFT JOIN $wpdb->posts ON (post_id <=> id) $where GROUP BY cat_id");
+$categories = (array) get_categories('get=all');
 
 function wxr_missing_parents($categories) {
 	if ( !is_array($categories) || empty($categories) )
 		return array();
 
 	foreach ( $categories as $category )
-		$parents[$category->cat_ID] = $category->category_parent;
+		$parents[$category->term_id] = $category->parent;
 
 	$parents = array_unique(array_diff($parents, array_keys($parents)));
 
@@ -79,7 +79,7 @@ function wxr_missing_parents($categories) {
 }
 
 while ( $parents = wxr_missing_parents($categories) ) {
-	$found_parents = $wpdb->get_results("SELECT cat_ID, cat_name, category_nicename, category_description, category_parent, posts_private, links_private FROM $wpdb->categories WHERE cat_ID IN (" . join(', ', $parents) . ")");
+	$found_parents = get_categories("include=" . join(', ', $parents));
 	if ( is_array($found_parents) && count($found_parents) )
 		$categories = array_merge($categories, $found_parents);
 	else
@@ -90,8 +90,8 @@ while ( $parents = wxr_missing_parents($categories) ) {
 $pass = 0;
 $passes = 1000 + count($categories);
 while ( ( $cat = array_shift($categories) ) && ++$pass < $passes ) {
-	if ( $cat->category_parent == 0 || isset($cats[$cat->category_parent]) ) {
-		$cats[$cat->cat_ID] = $cat;
+	if ( $cat->parent == 0 || isset($cats[$cat->parent]) ) {
+		$cats[$cat->term_id] = $cat;
 	} else {
 		$categories[] = $cat;
 	}
@@ -110,17 +110,17 @@ function wxr_cdata($str) {
 }
 
 function wxr_cat_name($c) {
-	if ( empty($c->cat_name) )
+	if ( empty($c->name) )
 		return;
 
-	echo '<wp:cat_name>' . wxr_cdata($c->cat_name) . '</wp:cat_name>';
+	echo '<wp:cat_name>' . wxr_cdata($c->name) . '</wp:cat_name>';
 }
 
 function wxr_category_description($c) {
-	if ( empty($c->category_description) )
+	if ( empty($c->description) )
 		return;
 
-	echo '<wp:category_description>' . wxr_cdata($c->category_description) . '</wp:category_description>';
+	echo '<wp:category_description>' . wxr_cdata($c->description) . '</wp:category_description>';
 }
 
 print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
@@ -163,7 +163,7 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 	<generator>http://wordpress.org/?v=<?php bloginfo_rss('version'); ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
 <?php if ( $cats ) : foreach ( $cats as $c ) : ?>
-	<wp:category><wp:category_nicename><?php echo $c->category_nicename; ?></wp:category_nicename><wp:category_parent><?php echo $c->category_parent ? $cats[$c->category_parent]->cat_name : ''; ?></wp:category_parent><wp:posts_private><?php echo $c->posts_private ? '1' : '0'; ?></wp:posts_private><wp:links_private><?php echo $c->links_private ? '1' : '0'; ?></wp:links_private><?php wxr_cat_name($c); ?><?php wxr_category_description($c); ?></wp:category>
+	<wp:category><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->name : ''; ?></wp:category_parent><?php wxr_cat_name($c); ?><?php wxr_category_description($c); ?></wp:category>
 <?php endforeach; endif; ?>
 	<?php do_action('rss2_head'); ?>
 	<?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>

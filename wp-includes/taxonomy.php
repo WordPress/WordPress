@@ -35,6 +35,12 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$wp_taxonomies[$taxonomy] = $args;
 }
 
+function wp_count_terms( $taxonomy ) {
+	global $wpdb;
+
+	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_taxonomy WHERE taxonomy = '$taxonomy'");
+}
+
 /**
  * Adds a new term to the database.  Optionally marks it as an alias of an existing term.
  * @param int|string $term The term to add or update.

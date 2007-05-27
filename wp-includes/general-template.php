@@ -185,8 +185,9 @@ function wp_title($sep = '&raquo;', $display = true) {
 				else
 					$category_name = $category_name[count($category_name)-2]; // there was a trailling slash
 		}
-		$title = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'");
-		$title = apply_filters('single_cat_title', $title);
+		$cat = get_term_by('slug', $category_name, 'category');
+		if ( $cat )
+			$title = apply_filters('single_cat_title', $cat->name);
 	}
 
 	if ( !empty($tag) ) {

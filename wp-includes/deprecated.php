@@ -56,7 +56,7 @@ function start_wp() {
 function the_category_ID($echo = true) {
 	// Grab the first cat in the list.
 	$categories = get_the_category();
-	$cat = $categories[0]->cat_ID;
+	$cat = $categories[0]->term_id;
 
 	if ( $echo )
 		echo $cat;
@@ -217,12 +217,10 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />',
 												 $limit = -1, $show_updated = 0) {
 		global $wpdb;
 		$cat_id = -1;
-		$results = $wpdb->get_results("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
-		if ($results) {
-				foreach ($results as $result) {
-						$cat_id = $result->cat_ID;
-				}
-		}
+		$cat = get_term_by('name', $cat_name, 'link_category');
+		if ( $cat )
+			$cat_id = $cat->term_id;
+
 		get_links($cat_id, $before, $after, $between, $show_images, $orderby,
 							$show_description, $show_rating, $limit, $show_updated);
 }
@@ -235,10 +233,10 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />',
 function wp_get_linksbyname($category, $args = '') {
 	global $wpdb;
 
-	$cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category' LIMIT 1");
-
-	if (! $cat_id)
-		return;
+	$cat = get_term_by('name', $cat_name, 'link_category');
+	if ( !$cat )
+		return false;
+	$cat_id = $cat->term_id;	
 
 	$args = add_query_arg('category', $cat_id, $args);
 	wp_get_links($args);
@@ -263,17 +261,13 @@ function wp_get_linksbyname($category, $args = '') {
  **   echo '<li>'.$link->link_name.'</li>';
  ** }
  **/
-// Deprecate in favor of get_linkz().
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
 		global $wpdb;
 		$cat_id = -1;
-		//$results = $wpdb->get_results("SELECT cat_id FROM $wpdb->linkcategories WHERE cat_name='$cat_name'");
-		// TODO: Fix me.
-		if ($results) {
-				foreach ($results as $result) {
-						$cat_id = $result->cat_id;
-				}
-		}
+		$cat = get_term_by('name', $cat_name, 'link_category');
+		if ( $cat )
+			$cat_id = $cat->term_id;	
+
 		return get_linkobjects($cat_id, $orderby, $limit);
 }
 
@@ -313,41 +307,17 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  ** link_notes
  **/
 // Deprecate in favor of get_linkz().
-function get_linkobjects($category = -1, $orderby = 'name', $limit = -1) {
+function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
 		global $wpdb;
 
-		$sql = "SELECT * FROM $wpdb->links WHERE link_visible = 'Y'";
-		if ($category != -1) {
-				$sql .= " AND link_category = $category ";
-		}
-		if ($orderby == '')
-				$orderby = 'id';
-		if (substr($orderby,0,1) == '_') {
-				$direction = ' DESC';
-				$orderby = substr($orderby,1);
-		}
-		if (strcasecmp('rand',$orderby) == 0) {
-				$orderby = 'rand()';
-		} else {
-				$orderby = " link_" . $orderby;
-		}
-		$sql .= ' ORDER BY ' . $orderby;
-		$sql .= $direction;
-		/* The next 2 lines implement LIMIT TO processing */
-		if ($limit != -1)
-				$sql .= " LIMIT $limit";
+		$links = get_bookmarks("category=$category&orderby=$orderby&limit=$limit");
 
-		$results = $wpdb->get_results($sql);
-		if ($results) {
-				foreach ($results as $result) {
-						$result->link_url         = $result->link_url;
-						$result->link_name        = $result->link_name;
-						$result->link_description = $result->link_description;
-						$result->link_notes       = $result->link_notes;
-						$newresults[] = $result;
-				}
+		$links_array = array();
+		foreach ($links as $link) {
+			$links_array[] = $link;	
 		}
-		return $newresults;
+
+		return $links_array;
 }
 
 /** function get_linksbyname_withrating()
