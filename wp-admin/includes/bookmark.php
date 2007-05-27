@@ -44,17 +44,9 @@ function wp_delete_link($link_id) {
 
 	do_action('delete_link', $link_id);
 
-	$categories = wp_get_link_cats($link_id);
-	if( is_array( $categories ) ) {
-		foreach ( $categories as $category ) {
-			$wpdb->query("UPDATE $wpdb->categories SET link_count = link_count - 1 WHERE cat_ID = '$category'");
-			wp_cache_delete($category, 'category');
-			do_action('edit_category', $cat_id);
-		}
-	}
+	wp_delete_object_term_relationships($link_id, 'link_category');
 
-	$wpdb->query("DELETE FROM $wpdb->link2cat WHERE link_id = '$link_id'");
-	return $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");
+	$wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");
 	
 	do_action('deleted_link', $link_id);
 }

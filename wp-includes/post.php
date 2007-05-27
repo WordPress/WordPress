@@ -410,16 +410,8 @@ function wp_delete_post($postid = 0) {
 
 	do_action('delete_post', $postid);
 
-	if ( 'publish' == $post->post_status && 'post' == $post->post_type ) {
-		$categories = wp_get_post_categories($post->ID);
-		if ( is_array( $categories ) ) {
-			foreach ( $categories as $cat_id ) {
-				$wpdb->query("UPDATE $wpdb->categories SET category_count = category_count - 1 WHERE cat_ID = '$cat_id'");
-				wp_cache_delete($cat_id, 'category');
-				do_action('edit_category', $cat_id);
-			}
-		}
-	}
+	// TODO delete for pluggable post taxonomies too
+	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
 
 	if ( 'page' == $post->post_type )
 		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_type = 'page'");
@@ -429,8 +421,6 @@ function wp_delete_post($postid = 0) {
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
-
-	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
@@ -444,19 +434,24 @@ function wp_delete_post($postid = 0) {
 	return $post;
 }
 
-function wp_get_post_categories($post_id = 0) {
+function wp_get_post_categories( $post_id = 0, $args = array() ) {
 	$post_id = (int) $post_id;
 
-	$cats = get_object_terms($post_id, 'category', 'get=fields');
+	$defaults = array('fields' => 'ids');
+	$args = wp_parse_args( $args, $defaults );
+
+	$cats = get_object_terms($post_id, 'category', $args);
 	return $cats;
 }
 
-function wp_get_post_tags( $post_id = 0 ) {
-	global $tag_cache, $blog_id;
-
+function wp_get_post_tags( $post_id = 0, $args = array() ) {
 	$post_id = (int) $post_id;
+
+	$defaults = array('fields' => 'all');
+	$args = wp_parse_args( $args, $defaults );
 	
-	$tags = get_object_terms($post_id, 'post_tag');
+	$tags = get_object_terms($post_id, 'post_tag', $args);
+
 	return $tags;
 }
 
