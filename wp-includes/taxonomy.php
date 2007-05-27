@@ -113,7 +113,6 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 
 	$terms = get_object_terms($object_id, $taxonomies, 'fields=tt_ids');
 	$in_terms = "'" . implode("', '", $terms) . "'";
-	error_log("Terms: " . var_export($terms, true), 0);
 	$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id IN ($in_terms)");
 
 	// Assume all taxonomies have the same object type
