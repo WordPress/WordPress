@@ -13,6 +13,7 @@ function get_all_category_ids() {
 
 function &get_categories($args = '') {
 	// TODO Add back compat fields into each object.
+	// Set taxonomy to link_category if type=link
 	return get_terms('category', $args);
 }
 

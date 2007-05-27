@@ -53,7 +53,7 @@ function wp_delete_link($link_id) {
 
 function wp_get_link_cats($link_id = 0) {
 
-	$cats = get_object_terms($link_id, 'link_category', 'get=ids');
+	$cats = get_object_terms($link_id, 'link_category', 'fields=ids');
 
 	return array_unique($cats);
 }

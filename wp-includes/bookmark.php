@@ -76,8 +76,8 @@ function get_bookmarks($args = '') {
 		$exclusions .= ')';
 
 	if ( ! empty($category_name) ) {
-		if ( $cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category_name' LIMIT 1") )
-			$category = $cat_id;
+		if ( $category = get_term_by('name', $category_name, 'link_category') );
+			$category = $category->term_id;
 	}
 
 	$category_query = '';
@@ -87,15 +87,15 @@ function get_bookmarks($args = '') {
 		if ( count($incategories) ) {
 			foreach ( $incategories as $incat ) {
 				if (empty($category_query))
-					$category_query = ' AND ( category_id = ' . intval($incat) . ' ';
+					$category_query = ' AND ( tt.term_id = ' . intval($incat) . ' ';
 				else
-					$category_query .= ' OR category_id = ' . intval($incat) . ' ';
+					$category_query .= ' OR tt.term_id = ' . intval($incat) . ' ';
 			}
 		}
 	}
 	if (!empty($category_query)) {
-		$category_query .= ')';
-		$join = " LEFT JOIN $wpdb->link2cat ON ($wpdb->links.link_id = $wpdb->link2cat.link_id) ";
+		$category_query .= ") AND taxonomy = 'link_category'";
+		$join = " LEFT JOIN $wpdb->term_relationships AS tr ON ($wpdb->links.link_id = tr.object_id) LEFT JOIN $wpdb->term_taxonomy as tt ON tt.term_taxonomy_id = tr.term_taxonomy_id";
 	}
 
 	if (get_option('links_recently_updated_time')) {

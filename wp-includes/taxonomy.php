@@ -242,6 +242,8 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 }
 
 function wp_update_term_count( $terms, $taxonomy ) {
+	global $wpdb;
+
 	if ( empty($terms) )
 		return false;
 
