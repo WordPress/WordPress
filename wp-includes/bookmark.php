@@ -76,7 +76,7 @@ function get_bookmarks($args = '') {
 		$exclusions .= ')';
 
 	if ( ! empty($category_name) ) {
-		if ( $category = get_term_by('name', $category_name, 'link_category') );
+		if ( $category = get_term_by('name', $category_name, 'link_category') ) 
 			$category = $category->term_id;
 	}
 
