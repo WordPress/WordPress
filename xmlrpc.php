@@ -534,7 +534,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username				= $args[1];
 		$password				= $args[2];
 		$category				= $args[3];
-		$max_results			= $args[4];
+		$max_results			= (int) $args[4];
 
 		if(!$this->login_pass_ok($username, $password)) {
 			return($this->error);
