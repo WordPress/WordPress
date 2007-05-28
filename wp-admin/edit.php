@@ -10,7 +10,7 @@ $_GET['m']   = (int) $_GET['m'];
 $_GET['cat'] = (int) $_GET['cat'];
 $post_stati  = array(	//	array( adj, noun )
 			'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
-			'future' => array(__('Future dated'), __('Future dated posts')),
+			'future' => array(__('Scheduled'), __('Scheduled posts')),
 			'private' => array(__('Private'), __('Private posts')),
 			'publish' => array(__('Published'), __('Published posts'))
 		);
@@ -124,7 +124,7 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 	<fieldset><legend><?php _e('Category&hellip;') ?></legend>
 		<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
 	</fieldset>
-	<input type="submit" id="post-query-submit" value="<?php _e('Go &#187;'); ?>" class="button" /> 
+	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" /> 
 </form>
 
 <br style="clear:both;" />

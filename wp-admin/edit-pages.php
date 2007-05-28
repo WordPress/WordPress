@@ -7,7 +7,6 @@ require_once('admin-header.php');
 
 $post_stati  = array(	//	array( adj, noun )
 			'draft'   => array(__('Draft'), __('Draft pages')),
-			'future'  => array(__('Future dated'), __('Future dated pages')),
 			'private' => array(__('Private'), __('Private pages')),
 			'publish' => array(__('Published'), __('Published pages'))
 		);
@@ -51,7 +50,7 @@ printf( _c( '%1$s%2$s|manage pages header' ), $post_status_label, $h2_search );
 		</select>
 	</fieldset>
 
-	<input type="submit" id="post-query-submit" value="<?php _e('Go &#187;'); ?>" class="button" />
+	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
 </form>
 
 <br style="clear:both;" />
