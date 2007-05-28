@@ -1024,8 +1024,10 @@ class WP_Query {
 
 			if ( is_admin() )
 				$where .= " OR post_status = 'future' OR post_status = 'draft'";
-
-			$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR post_status = 'private'" : " OR post_author = $user_ID AND post_status = 'private'";
+			
+			if ( is_user_logged_in() ) {
+				$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR post_status = 'private'" : " OR post_author = $user_ID AND post_status = 'private'";
+			}
 
 			$where .= ')';
 		}
