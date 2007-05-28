@@ -4,12 +4,11 @@ require_once('admin.php');
 function index_js() {
 ?>
 <script type="text/javascript">
-Event.observe( window, 'load', dashboard_init, false );
-function dashboard_init() {
-	var update1 = new Ajax.Updater( 'incominglinks', 'index-extra.php?jax=incominglinks' );
-	var update2 = new Ajax.Updater( 'devnews', 'index-extra.php?jax=devnews' );
-	var update3 = new Ajax.Updater( 'planetnews', 'index-extra.php?jax=planetnews'	);
-}
+	jQuery(function() {
+		jQuery('#incominglinks').load('index-extra.php?jax=incominglinks');
+		jQuery('#devnews').load('index-extra.php?jax=devnews');
+		jQuery('#planetnews').load('index-extra.php?jax=planetnews');
+	});
 </script>
 <?php
 }
