@@ -790,22 +790,25 @@ input.delete:hover {
 	width: 320px;
 }
 
-#searchform {
+#searchform fieldset {
 	float: left;
-	margin-right: 1em;
-	width: 18em;
+	margin: 0 1.5ex 1em 0;
+	padding: 0;
 }
 
-#viewarc {
-	float: left;
-	width: 23em;
-	margin-bottom: 1em;
+#searchform fieldset legend {
+	padding: 0 0 .2em 1px;
+}
+	
+#searchform #s {
+	padding: 4px 3px;
 }
 
-#viewcat {
+#searchform #post-query-submit {
 	float: left;
-	width: 30em;
-	margin-bottom: 1em;
+	margin: 14px 0 1em;
+	position: relative;
+	top: .35em;
 }
 
 #postcustom .updatemeta, #postcustom .deletemeta {

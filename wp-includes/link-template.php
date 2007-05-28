@@ -471,9 +471,9 @@ function get_pagenum_link($pagenum = 1) {
 	$request = preg_replace('|^'. $home_root . '|', '', $request);
 	$request = preg_replace('|^/+|', '', $request);
 	
-	if ( !$wp_rewrite->using_permalinks() ) {
+	if ( !$wp_rewrite->using_permalinks() || is_admin() ) {
 		$base = trailingslashit( get_bloginfo( 'home' ) );
-		
+
 		if ( $pagenum > 1 ) {
 			$result = add_query_arg( 'paged', $pagenum, $base . $request );
 		} else {

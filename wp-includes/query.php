@@ -995,30 +995,39 @@ class WP_Query {
 		}
 
 		if ( $this->is_attachment ) {
-			$where .= " AND (post_type = 'attachment')";
+			$where .= " AND post_type = 'attachment'";
 		} elseif ($this->is_page) {
-			$where .= " AND (post_type = 'page')";
+			$where .= " AND post_type = 'page'";
 		} elseif ($this->is_single) {
-			$where .= " AND (post_type = 'post')";
+			$where .= " AND post_type = 'post'";
 		} else {
-			$where .= " AND (post_type = '$post_type' AND (post_status = 'publish'";
+			$where .= " AND post_type = '$post_type'";
+		}
+
+		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
+			$q_status = explode(',', $q['post_status']);
+			$r_status = array();
+			if ( in_array( 'draft'  , $q_status ) )
+				$r_status[] = "post_status = 'draft'";
+			if ( in_array( 'future' , $q_status ) )
+				$r_status[] = "post_status = 'future'";
+			if ( in_array( 'inherit' , $q_status ) )
+				$r_status[] = "post_status = 'inherit'";
+			if ( in_array( 'private', $q_status ) )
+				$r_status[] = "post_status = 'private'";
+			if ( in_array( 'publish', $q_status ) )
+				$r_status[] = "post_status = 'publish'";
+			if ( !empty($r_status) )
+				$where .= " AND (" . join( ' OR ', $r_status ) . ")";
+		} elseif ( !$this->is_singular ) {
+			$where .= " AND (post_status = 'publish'";
 
 			if ( is_admin() )
 				$where .= " OR post_status = 'future' OR post_status = 'draft'";
 
-			if ( is_user_logged_in() ) {
-				if ( 'post' == $post_type )
-					$cap = 'read_private_posts';
-				else
-					$cap = 'read_private_pages';
+			$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR post_status = 'private'" : " OR post_author = $user_ID AND post_status = 'private'";
 
-				if ( current_user_can($cap) )
-					$where .= " OR post_status = 'private'";
-				else
-				$where .= " OR post_author = $user_ID AND post_status = 'private'";
-			}
-
-			$where .= '))';
+			$where .= ')';
 		}
 
 		// Apply filters on where and join prior to paging so that any

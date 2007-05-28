@@ -445,11 +445,11 @@ function map_meta_cap($cap, $user_id) {
 function current_user_can($capability) {
 	$current_user = wp_get_current_user();
 
-	$args = array_slice(func_get_args(), 1);
-	$args = array_merge(array($capability), $args);
-
 	if ( empty($current_user) )
 		return false;
+
+	$args = array_slice(func_get_args(), 1);
+	$args = array_merge(array($capability), $args);
 
 	return call_user_func_array(array(&$current_user, 'has_cap'), $args);
 }
