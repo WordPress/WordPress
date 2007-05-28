@@ -4,9 +4,11 @@
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/validate.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/link.js"></script>
 	<base target="_self" />
 </head>
+<!-- WordPress: onload after the init();'); -->
 <body id="link" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';document.getElementById('href').focus();" style="display: none">
 <form onsubmit="insertLink();return false;" action="#">
 	<div class="tabs">
@@ -23,7 +25,7 @@
             <td nowrap="nowrap"><label for="href">{$lang_insert_link_url}</label></td>
             <td><table border="0" cellspacing="0" cellpadding="0"> 
 				  <tr> 
-					<td><input id="href" name="href" type="text" value="" style="width: 200px" /></td> 
+					<td><input id="href" name="href" type="text" value="" style="width: 200px" onchange="checkPrefix(this);" /></td> 
 					<td id="hrefbrowsercontainer">&nbsp;</td>
 				  </tr> 
 				</table></td>
@@ -87,6 +89,7 @@
 	</div>
 
 	<div class="mceActionPanel">
+		<!-- WordPress: Buttons are reversed! -->
 		<div style="float: left">
 			<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
 		</div>

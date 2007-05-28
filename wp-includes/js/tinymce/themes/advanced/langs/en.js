@@ -82,10 +82,12 @@ invalid_data : 'Error: Invalid values entered, these are marked in red.',
 more_colors : 'More colors',
 color_picker_tab : 'Picker',
 color_picker : 'Color picker',
-web_colors_tab : 'Web safe',
-web_colors : 'Web safe colors',
+web_colors_tab : 'Palette',
+web_colors : 'Palette colors',
 named_colors_tab : 'Named',
 named_colors : 'Named colors',
 color : 'Color:',
-color_name : 'Name:'
+color_name : 'Name:',
+is_email : 'The URL you entered seems to be an email address, do you want to add the required mailto: prefix?',
+is_external : 'The URL you entered seems to external link, do you want to add the required http:// prefix?'
 });

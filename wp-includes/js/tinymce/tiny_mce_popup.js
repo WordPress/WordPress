@@ -31,7 +31,7 @@ TinyMCE_Popup.prototype = {
 
 	init : function() {
 		var win = window.opener ? window.opener : window.dialogArguments, c;
-		var inst;
+		var inst, re, title, divElm;
 
 		if (!win)
 			win = this.findWin(window);
@@ -61,18 +61,18 @@ TinyMCE_Popup.prototype = {
 			inst.selectionBookmark = inst.selection.getBookmark(true);
 
 		// Setup dir
-		if (tinyMCELang['lang_dir'])
-			document.dir = tinyMCELang['lang_dir'];
+		if (tinyMCELang.lang_dir)
+			document.dir = tinyMCELang.lang_dir;
 
 		// Setup title
-		var re = new RegExp('{|\\\$|}', 'g');
-		var title = document.title.replace(re, "");
-		if (typeof tinyMCELang[title] != "undefined") {
-			var divElm = document.createElement("div");
+		re = new RegExp('{|\\\$|}', 'g');
+		title = document.title.replace(re, "");
+		if (typeof(tinyMCELang[title]) != "undefined") {
+			divElm = document.createElement("div");
 			divElm.innerHTML = tinyMCELang[title];
 			document.title = divElm.innerHTML;
 
-			if (tinyMCE.setWindowTitle != null)
+			if (typeof(tinyMCE.setWindowTitle) != 'undefined')
 				tinyMCE.setWindowTitle(window, divElm.innerHTML);
 		}
 
@@ -98,7 +98,7 @@ TinyMCE_Popup.prototype = {
 		if (tinyMCE.getWindowArg('mce_replacevariables', true))
 			body.innerHTML = tinyMCE.applyTemplate(body.innerHTML, tinyMCE.windowArgs);
 
-		dir = tinyMCE.selectedInstance.settings['directionality'];
+		dir = tinyMCE.selectedInstance.settings.directionality;
 		if (dir == "rtl" && document.forms && document.forms.length > 0) {
 			elms = document.forms[0].elements;
 			for (i=0; i<elms.length; i++) {
@@ -111,7 +111,7 @@ TinyMCE_Popup.prototype = {
 			body.style.display = 'block';
 
 		// Execute real onload (Opera fix)
-		if (tinyMCEPopup.onLoadEval != "")
+		if (tinyMCEPopup.onLoadEval !== '')
 			eval(tinyMCEPopup.onLoadEval);
 	},
 
@@ -123,6 +123,8 @@ TinyMCE_Popup.prototype = {
 	},
 
 	resizeToInnerSize : function() {
+		var i, doc, body, oldMargin, wrapper, iframe, nodes, dx, dy;
+
 		// Netscape 7.1 workaround
 		if (this.isWindow && tinyMCE.isNS71) {
 			window.resizeBy(0, 10);
@@ -130,9 +132,8 @@ TinyMCE_Popup.prototype = {
 		}
 
 		if (this.isWindow) {
-			var doc = document;
-			var body = doc.body;
-			var oldMargin, wrapper, iframe, nodes, dx, dy;
+			doc = document;
+			body = doc.body;
 
 			if (body.style.display == 'none')
 				body.style.display = 'block';
@@ -149,7 +150,7 @@ TinyMCE_Popup.prototype = {
 
 			// Wrap body elements
 			nodes = doc.body.childNodes;
-			for (var i=nodes.length-1; i>=0; i--) {
+			for (i=nodes.length-1; i>=0; i--) {
 				if (wrapper.hasChildNodes())
 					wrapper.insertBefore(nodes[i].cloneNode(true), wrapper.firstChild);
 				else
@@ -164,7 +165,7 @@ TinyMCE_Popup.prototype = {
 			// Create iframe
 			iframe = document.createElement("iframe");
 			iframe.id = "mcWinIframe";
-			iframe.src = document.location.href.toLowerCase().indexOf('https') == -1 ? "about:blank" : tinyMCE.settings['default_document'];
+			iframe.src = document.location.href.toLowerCase().indexOf('https') == -1 ? "about:blank" : tinyMCE.settings.default_document;
 			iframe.width = "100%";
 			iframe.height = "100%";
 			iframe.style.margin = '0';
@@ -191,6 +192,7 @@ TinyMCE_Popup.prototype = {
 	resizeToContent : function() {
 		var isMSIE = (navigator.appName == "Microsoft Internet Explorer");
 		var isOpera = (navigator.userAgent.indexOf("Opera") != -1);
+		var elm, width, height, x, y, dx, dy;
 
 		if (isOpera)
 			return;
@@ -198,11 +200,11 @@ TinyMCE_Popup.prototype = {
 		if (isMSIE) {
 			try { window.resizeTo(10, 10); } catch (e) {}
 
-			var elm = document.body;
-			var width = elm.offsetWidth;
-			var height = elm.offsetHeight;
-			var dx = (elm.scrollWidth - width) + 4;
-			var dy = elm.scrollHeight - height;
+			elm = document.body;
+			width = elm.offsetWidth;
+			height = elm.offsetHeight;
+			dx = (elm.scrollWidth - width) + 4;
+			dy = elm.scrollHeight - height;
 
 			try { window.resizeBy(dx, dy); } catch (e) {}
 		} else {
@@ -211,8 +213,8 @@ TinyMCE_Popup.prototype = {
 				window.resizeBy(window.innerWidth * 2, window.innerHeight * 2);
 				window.sizeToContent();
 				window.scrollTo(0, 0);
-				var x = parseInt(screen.width / 2.0) - (window.outerWidth / 2.0);
-				var y = parseInt(screen.height / 2.0) - (window.outerHeight / 2.0);
+				x = parseInt(screen.width / 2.0) - (window.outerWidth / 2.0);
+				y = parseInt(screen.height / 2.0) - (window.outerHeight / 2.0);
 				window.moveTo(x, y);
 			}
 		}
@@ -223,8 +225,10 @@ TinyMCE_Popup.prototype = {
 	},
 
 	restoreSelection : function() {
+		var inst;
+
 		if (this.storeSelection) {
-			var inst = tinyMCE.selectedInstance;
+			inst = tinyMCE.selectedInstance;
 
 			inst.getWin().focus();
 
@@ -272,9 +276,11 @@ TinyMCE_Popup.prototype = {
 	},
 
 	importClass : function(c) {
+		var n;
+
 		window[c] = function() {};
 
-		for (var n in window.opener[c].prototype)
+		for (n in window.opener[c].prototype)
 			window[c].prototype[n] = window.opener[c].prototype[n];
 
 		window[c].constructor = window.opener[c].constructor;

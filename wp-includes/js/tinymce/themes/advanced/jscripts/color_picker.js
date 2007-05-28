@@ -153,7 +153,7 @@ function generateWebColors() {
 
 	for (i=0; i<colors.length; i++) {
 		h += '<td bgcolor="' + colors[i] + '">'
-			+ '<a href="javascript:selectColor();" onfocus="showColor(\'' + colors[i] +  '\');" onmouseover="showColor(\'' + colors[i] +  '\');">'
+			+ '<a href="javascript:insertAction();" onfocus="showColor(\'' + colors[i] +  '\');" onmouseover="showColor(\'' + colors[i] +  '\');">'
 			+ '<img border="0" src="images/spacer.gif" width="10" height="10" title="' + colors[i] +  '" alt="' + colors[i] +  '" /></a></td>';
 		if ((i+1) % 18 == 0)
 			h += '</tr><tr>';
@@ -173,20 +173,11 @@ function generateNamedColors() {
 
 	for (n in named) {
 		v = named[n];
-		h += '<a href="javascript:selectColor();" onmouseover="showColor(\'' + n +  '\',\'' + v + '\');" style="background-color: ' + n + '"><!-- IE --></a>'
+		h += '<a href="javascript:insertAction();" onmouseover="showColor(\'' + n +  '\',\'' + v + '\');" style="background-color: ' + n + '"><!-- IE --></a>'
 	}
 
 	el.innerHTML = h;
 	el.className = 'generated';
-}
-
-function selectColor() {
-	var color = document.getElementById("color").value;
-
-	if(window.opener)
-		window.opener.tinyMCE.execInstanceCommand(tinyMCE.getWindowArg('editor_id'),tinyMCE.getWindowArg('command'),false,color);
-
-	window.close();
 }
 
 function dechex(n) {

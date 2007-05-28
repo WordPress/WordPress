@@ -7,6 +7,7 @@
 	<script language="javascript" type="text/javascript" src="jscripts/image.js"></script>
 	<base target="_self" />
 </head>
+<!-- WordPress: extra onload stuff is WP -->
 <body id="image" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';document.getElementById('src').focus();" style="display: none">
 <form onsubmit="insertImage();return false;" action="#">
 	<div class="tabs">
@@ -22,7 +23,7 @@
             <td nowrap="nowrap"><label for="src">{$lang_insert_image_src}</label></td>
             <td><table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input id="src" name="src" type="text" value="" style="width: 200px" onchange="getImageData();"></td>
+                  <td><input id="src" name="src" type="text" value="" style="width: 200px" onchange="getImageData();" /></td>
                   <td id="srcbrowsercontainer">&nbsp;</td>
                 </tr>
               </table></td>
@@ -47,7 +48,7 @@
 		  <!-- /Image list -->
           <tr>
             <td nowrap="nowrap"><label for="alt">{$lang_insert_image_alt}</label></td>
-            <td><input id="alt" name="alt" type="text" value="" style="width: 200px"></td>
+            <td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
           </tr>
           <tr>
             <td nowrap="nowrap"><label for="align">{$lang_insert_image_align}</label></td>
@@ -66,27 +67,28 @@
           </tr>
           <tr>
             <td nowrap="nowrap"><label for="width">{$lang_insert_image_dimensions}</label></td>
-            <td><input id="width" name="width" type="text" value="" size="4" maxlength="4">
+            <td><input id="width" name="width" type="text" value="" size="3" maxlength="5" />
               x
-              <input id="height" name="height" type="text" value="" size="4" maxlength="4"></td>
+              <input id="height" name="height" type="text" value="" size="3" maxlength="5" /></td>
           </tr>
           <tr>
             <td nowrap="nowrap"><label for="border">{$lang_insert_image_border}</label></td>
-            <td><input id="border" name="border" type="text" value="" size="4" maxlength="4"></td>
+            <td><input id="border" name="border" type="text" value="" size="3" maxlength="3" /></td>
           </tr>
           <tr>
             <td nowrap="nowrap"><label for="vspace">{$lang_insert_image_vspace}</label></td>
-            <td><input id="vspace" name="vspace" type="text" value="" size="4" maxlength="4"></td>
+            <td><input id="vspace" name="vspace" type="text" value="" size="3" maxlength="3" /></td>
           </tr>
           <tr>
             <td nowrap="nowrap"><label for="hspace">{$lang_insert_image_hspace}</label></td>
-            <td><input id="hspace" name="hspace" type="text" value="" size="4" maxlength="4"></td>
+            <td><input id="hspace" name="hspace" type="text" value="" size="3" maxlength="3" /></td>
           </tr>
         </table>
 		</div>
 	</div>
 
 	<div class="mceActionPanel">
+		<!-- WordPress: buttons reversed! -->
 		<div style="float: left">
 			<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
 		</div>

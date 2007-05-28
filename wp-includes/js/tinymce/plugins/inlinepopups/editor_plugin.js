@@ -1,5 +1,5 @@
 /**
- * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
+ * $Id: editor_plugin_src.js 268 2007-04-28 15:52:59Z spocke $
  *
  * Moxiecode DHTML Windows script.
  *
@@ -82,22 +82,28 @@ TinyMCE_Engine.prototype.openWindow = function(template, args) {
 	// Center div in editor area
 	pos.absLeft += Math.round((elm.firstChild.clientWidth / 2) - (width / 2));
 	pos.absTop += Math.round((elm.firstChild.clientHeight / 2) - (height / 2));
-
-	url += tinyMCE.settings['imp_version'] ? (url.indexOf('?')==-1?'?':'&') + 'ver=' + tinyMCE.settings['imp_version'] : ''; // WordPress cache buster
+	
+	// WordPress cache buster
+	url += tinyMCE.settings['imp_version'] ? (url.indexOf('?')==-1?'?':'&') + 'ver=' + tinyMCE.settings['imp_version'] : '';
 
 	mcWindows.open(url, mcWindows.idCounter++, "modal=yes,width=" + width+ ",height=" + height + ",resizable=" + resizable + ",scrollbars=" + scrollbars + ",statusbar=" + resizable + ",left=" + pos.absLeft + ",top=" + pos.absTop + ",minWidth=" + minWidth + ",minHeight=" + minHeight );
 };
 
 TinyMCE_Engine.prototype.closeWindow = function(win) {
 	var gotit = false, n, w;
+
 	for (n in mcWindows.windows) {
 		w = mcWindows.windows[n];
-		if (typeof(w) == 'function') continue;
+
+		if (typeof(w) == 'function')
+			continue;
+
 		if (win.name == w.id + '_iframe') {
 			w.close();
 			gotit = true;
 		}
 	}
+
 	if (!gotit)
 		this.orgCloseWindow(win);
 
@@ -392,7 +398,10 @@ TinyMCE_Windows.prototype.open = function(url, name, features) {
 	html += '<html>';
 	html += '<head>';
 	html += '<title>Wrapper iframe</title>';
+	
+	// WordPress: put the window buttons on the left as in Macs
 	if (this.isMac) html += '<style type="text/css">.mceWindowTitle{float:none;margin:0;width:100%;text-align:center;}.mceWindowClose{float:none;position:absolute;left:0px;top:0px;}</style>';
+	
 	html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 	html += '<link href="' + this.getParam("css_file") + '" rel="stylesheet" type="text/css" />';
 	html += '</head>';

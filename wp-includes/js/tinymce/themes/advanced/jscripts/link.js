@@ -24,10 +24,12 @@ function init() {
 		if (option.value == tinyMCE.getWindowArg('target'))
 			option.selected = true;
 	}
-
+	
+	// WordPress -- next 3 lines
 	document.forms[0].href.value = tinyMCE.getWindowArg('href') || 'http://';
 	document.forms[0].href.select();
 	document.forms[0].href.focus();
+	
 	document.forms[0].linktitle.value = tinyMCE.getWindowArg('title');
 	document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
 
@@ -52,6 +54,14 @@ function init() {
 	}
 }
 
+function checkPrefix(n) {
+	if (Validator.isEmail(n) && !/^\s*mailto:/i.test(n.value) && confirm(tinyMCE.getLang('lang_is_email')))
+		n.value = 'mailto:' + n.value;
+
+	if (/^\s*www./i.test(n.value) && confirm(tinyMCE.getLang('lang_is_external')))
+		n.value = 'http://' + n.value;
+}
+
 function insertLink() {
 	var href = document.forms[0].href.value;
 	var target = document.forms[0].target.options[document.forms[0].target.selectedIndex].value;
@@ -61,7 +71,7 @@ function insertLink() {
 	
 	// WordPress: Make anchors absolute;
 	if (href.charAt(0) == '#')
-		href = tinyMCE.settings['document_base_url'] + href;
+		href = tinyMCE.settings.document_base_url + href;
 
 	if (target == '_self')
 		target = '';
