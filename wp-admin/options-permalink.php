@@ -161,9 +161,9 @@ checked="checked"
 
 <h3><?php _e('Optional'); ?></h3>
 <?php if ($is_apache) : ?>
-	<p><?php _e('If you like, you may enter a custom prefix for your category <abbr title="Universal Resource Locator">URL</abbr>s here. For example, <code>/taxonomy/tags</code> would make your category links like <code>http://example.org/taxonomy/tags/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
+	<p><?php _e('If you like, you may enter custom bases for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>/topics/</code> as your category base would make your category links like <code>http://example.org/topics/uncategorized/</code>. If you leave these blank the defaults will be used.') ?></p>
 <?php else : ?>
-	<p><?php _e('If you like, you may enter a custom prefix for your category <abbr title="Universal Resource Locator">URL</abbr>s here. For example, <code>/index.php/taxonomy/tags</code> would make your category links like <code>http://example.org/index.php/taxonomy/tags/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
+	<p><?php _e('If you like, you may enter custom bases for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>/topics/</code> as your category base would make your category links like <code>http://example.org/index.php/topics/uncategorized/</code>. If you leave these blank the defaults will be used.') ?></p>
 <?php endif; ?>
 	<p> 
   <?php _e('Category base'); ?>: <input name="category_base" id="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" /> 
