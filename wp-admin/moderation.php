@@ -113,7 +113,7 @@ if ( !$comments ) {
 }
 
 $total = count( $comments );
-$per = 20;
+$per = 100;
 
 if ( isset( $_GET['paged'] ) ) {
 	$page = (int) $_GET['paged'];
