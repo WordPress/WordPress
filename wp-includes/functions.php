@@ -754,7 +754,7 @@ function get_num_queries() {
 }
 
 function bool_from_yn($yn) {
-		if ($yn == 'Y') return 1;
+		if (strtoupper( $yn ) == 'Y') return 1;
 		return 0;
 }
 
