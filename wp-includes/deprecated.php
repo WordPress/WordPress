@@ -479,4 +479,9 @@ function get_settings($option) {
 	return get_option($option);
 }
 
+// Use the_permalink().
+function permalink_link() {
+	the_permalink();
+}
+
 ?>

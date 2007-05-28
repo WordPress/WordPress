@@ -6,11 +6,6 @@ function the_permalink() {
 }
 
 
-function permalink_link() { // For backwards compatibility
-	echo apply_filters('the_permalink', get_permalink());
-}
-
-
 /**
  * Conditionally adds a trailing slash if the permalink structure
  * has a trailing slash, strips the trailing slash if not
