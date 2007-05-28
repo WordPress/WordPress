@@ -753,9 +753,8 @@ function get_num_queries() {
 	return $wpdb->num_queries;
 }
 
-function bool_from_yn($yn) {
-		if (strtoupper( $yn ) == 'Y') return 1;
-		return 0;
+function bool_from_yn( $yn ) {
+	return ( strtolower( $yn ) == 'y' );
 }
 
 function do_feed() {
