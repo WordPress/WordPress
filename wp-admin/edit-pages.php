@@ -15,6 +15,7 @@ $post_stati  = array(	//	array( adj, noun )
 
 $post_status_label = _c('Pages|manage pages header');
 $post_listing_pageable = true;
+$post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
 	$post_listing_pageable = false;
@@ -58,10 +59,7 @@ printf( _c( '%1$s%2$s|manage pages header' ), $post_status_label, $h2_search );
 <?php
 wp("post_type=page&orderby=menu_order&what_to_show=posts$post_status_q&posts_per_page=-1&posts_per_archive_page=-1&order=asc");
 
-if ( $_GET['s'] )
-	$all = false;
-else
-	$all = true;
+$all = !( $h2_search || $post_status_q );
 
 if ($posts) {
 ?>
