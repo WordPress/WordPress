@@ -73,8 +73,8 @@ function get_permalink($id = 0) {
 		$category = '';
 		if (strpos($permalink, '%category%') !== false) {
 			$cats = get_the_category($post->ID);
-			$category = $cats[0]->category_nicename;
-			if ( $parent=$cats[0]->category_parent )
+			$category = $cats[0]->slug;
+			if ( $parent=$cats[0]->parent )
 				$category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
 		}
 
@@ -359,9 +359,9 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
 		$cat_array = get_the_category($post->ID);
-		$join .= ' AND (category_id = ' . intval($cat_array[0]->cat_ID);
+		$join .= ' AND (category_id = ' . intval($cat_array[0]->term_id);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= ' OR category_id = ' . intval($cat_array[$i]->cat_ID);
+			$join .= ' OR category_id = ' . intval($cat_array[$i]->term_id);
 		}
 		$join .= ')';
 	}
@@ -396,9 +396,9 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
 		$cat_array = get_the_category($post->ID);
-		$join .= ' AND (category_id = ' . intval($cat_array[0]->cat_ID);
+		$join .= ' AND (category_id = ' . intval($cat_array[0]->term_id);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= ' OR category_id = ' . intval($cat_array[$i]->cat_ID);
+			$join .= ' OR category_id = ' . intval($cat_array[$i]->term_id);
 		}
 		$join .= ')';
 	}
