@@ -1,10 +1,11 @@
 <?php
 
-$wp_taxonomies =
-array('category' => array('object_type' => 'post', 'hierarchical' => true, 'update_count_callback' => '_update_post_term_count'),
-'post_tag' => array('object_type' => 'post', 'hierarchical' => false, 'update_count_callback' => '_update_post_term_count'),
-'link_category' => array('object_type' => 'link', 'hierarchical' => false));
+$wp_taxonomies = array();
+$wp_taxonomies['category'] = (object) array('name' => 'category', 'object_type' => 'post', 'hierarchical' => true, 'update_count_callback' => '_update_post_term_count');
+$wp_taxonomies['post_tag'] = (object) array('name' => 'post_tag', 'object_type' => 'post', 'hierarchical' => false, 'update_count_callback' => '_update_post_term_count');
+$wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'object_type' => 'link', 'hierarchical' => false);
 
+//error_log(var_export($wp_taxonomies, true), 0);
 function is_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
 
@@ -25,14 +26,18 @@ function is_taxonomy_hierarchical($taxonomy) {
 		return false;
 
 	$taxonomy = get_taxonomy($taxonomy);
-	return $taxonomy['hierarchical'];
+	return $taxonomy->hierarchical;
 }
 
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies;
 
+	$defaults = array('hierarchical' => false, 'update_count_callback' => '');
+	$args = wp_parse_args($args, $defaults);
+
+	$args['name'] = $taxonomy;
 	$args['object_type'] = $object_type;
-	$wp_taxonomies[$taxonomy] = $args;
+	$wp_taxonomies[$taxonomy] = (object) $args;
 }
 
 function wp_count_terms( $taxonomy ) {
@@ -259,8 +264,8 @@ function wp_update_term_count( $terms, $taxonomy ) {
 	$terms = array_map('intval', $terms);
 
 	$taxonomy = get_taxonomy($taxonomy);
-	if ( isset($taxonomy['update_count_callback']) )
-		return call_user_func($taxonomy['update_count_callback'], $terms);
+	if ( isset($taxonomy->update_count_callback) )
+		return call_user_func($taxonomy->update_count_callback, $terms);
 
 	// Default count updater
 	$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
@@ -337,6 +342,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		$term_ids[] = $id['term_id'];
 		$id = $id['term_taxonomy_id'];
 		$tt_ids[] = $id;
+
 		if ( $wpdb->get_var("SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id = '$id'") )
 			continue;
 		$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$object_id', '$id')");
@@ -400,7 +406,7 @@ function get_object_terms($object_ids, $taxonomies, $args = array()) {
 	else if ( 'ids' == $fields )
 		$taxonomy_data = $wpdb->get_col($query);
 	else if ( 'tt_ids' == $fields )
-		$taxonomy_data = $wpdb->get_col("SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id IN ($object_ids) ORDER BY term_taxonomy_id $order");
+		$taxonomy_data = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) ORDER BY tr.term_taxonomy_id $order");
 
 	if ( ! $taxonomy_data )
 		return array();
