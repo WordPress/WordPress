@@ -359,11 +359,11 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 
 	$join = '';
 	if ( $in_same_cat ) {
-		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
-		$cat_array = get_the_category($post->ID);
-		$join .= ' AND (category_id = ' . intval($cat_array[0]->term_id);
+		$join = " INNER JOIN $wpdb->term_relationships AS tr ON $wpdb->posts.ID = tr.object_id ";
+		$cat_array = get_object_terms($post->ID, 'category', 'fields=tt_ids');
+		$join .= ' AND (tr.term_taxonomy_id = ' . intval($cat_array[0]);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= ' OR category_id = ' . intval($cat_array[$i]->term_id);
+			$join .= ' OR tr.term_taxonomy_id = ' . intval($cat_array[$i]);
 		}
 		$join .= ')';
 	}
@@ -371,11 +371,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	$sql_exclude_cats = '';
 	if ( !empty($excluded_categories) ) {
 		$blah = explode(' and ', $excluded_categories);
-		foreach ( $blah as $category ) {
-			$category = intval($category);
-			$sql_cat_ids = " OR pc.category_ID = '$category'";
-		}
-		$posts_in_ex_cats = $wpdb->get_col("SELECT p.ID FROM $wpdb->posts p LEFT JOIN $wpdb->post2cat pc ON pc.post_id=p.ID WHERE 1 = 0 $sql_cat_ids GROUP BY p.ID");
+		$posts_in_ex_cats = get_objects_in_term($blah, 'category');
 		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 
@@ -396,11 +392,11 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 
 	$join = '';
 	if ( $in_same_cat ) {
-		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
-		$cat_array = get_the_category($post->ID);
-		$join .= ' AND (category_id = ' . intval($cat_array[0]->term_id);
+		$join = " INNER JOIN $wpdb->term_relationships AS tr ON $wpdb->posts.ID = tr.object_id ";
+		$cat_array = get_object_terms($post->ID, 'category', 'fields=tt_ids');
+		$join .= ' AND (tr.term_taxonomy_id = ' . intval($cat_array[0]);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= ' OR category_id = ' . intval($cat_array[$i]->term_id);
+			$join .= ' OR tr.term_taxonomy_id = ' . intval($cat_array[$i]);
 		}
 		$join .= ')';
 	}
@@ -408,11 +404,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	$sql_exclude_cats = '';
 	if ( !empty($excluded_categories) ) {
 		$blah = explode(' and ', $excluded_categories);
-		foreach ( $blah as $category ) {
-			$category = intval($category);
-			$sql_cat_ids = " OR pc.category_ID = '$category'";
-		}
-		$posts_in_ex_cats = $wpdb->get_col("SELECT p.ID from $wpdb->posts p LEFT JOIN $wpdb->post2cat pc ON pc.post_id = p.ID WHERE 1 = 0 $sql_cat_ids GROUP BY p.ID");
+		$posts_in_ex_cats = get_objects_in_term($blah, 'category');
 		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 

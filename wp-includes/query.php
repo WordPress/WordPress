@@ -849,6 +849,7 @@ class WP_Query {
 				$cat = intval($cat);
 				$in = (strpos($cat, '-') !== false) ? false : true;
 				$cat = trim($cat, '-');
+				// TODO make an array, not a string, for out_cats.  use get_term_children()
 				if ( $in )
 					$in_cats .= "$cat, " . get_category_children($cat, '', ', ');
 				else
@@ -860,7 +861,7 @@ class WP_Query {
 				$in_cats = " AND $wpdb->term_taxonomy.term_id IN ({$q['cat']}) ";
 			if ( strlen($out_cats) > 0 ) {
 				// TODO use get_objects_in_term
-				$ids = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE $wpdb->post2cat.category_id IN ($out_cats)");
+				$ids = get_objects_in_terms($out_cats, 'category');
 				if ( is_array($ids) && count($ids > 0) ) {
 					foreach ( $ids as $id )
 						$out_posts .= "$id, ";

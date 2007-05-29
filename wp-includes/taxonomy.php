@@ -379,6 +379,8 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract($args);
 
+	$terms = array_map('intval', $terms);
+
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$terms = "'" . implode("', '", $terms) . "'";
 

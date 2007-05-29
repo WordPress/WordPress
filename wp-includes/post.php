@@ -230,13 +230,13 @@ function get_posts($args) {
 		$exclusions .= ')';
 
 	$query  = "SELECT DISTINCT * FROM $wpdb->posts ";
-	$query .= empty( $category ) ? '' : ", $wpdb->post2cat "; 
+	$query .= empty( $category ) ? '' : ", $wpdb->term_relationships, $wpdb->term_taxonomy  "; 
 	$query .= empty( $meta_key ) ? '' : ", $wpdb->postmeta ";
 	$query .= " WHERE 1=1 ";
 	$query .= empty( $post_type ) ? '' : "AND post_type = '$post_type' ";
 	$query .= empty( $post_status ) ? '' : "AND post_status = '$post_status' ";
 	$query .= "$exclusions $inclusions " ;
-	$query .= empty( $category ) ? '' : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") ";
+	$query .= empty( $category ) ? '' : "AND ($wpdb->posts.ID = $wpdb->term_relationships.object_id AND $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND $wpdb->term_taxonomy.term_id = " . $category. ") ";
 	$query .= empty( $post_parent ) ? '' : "AND $wpdb->posts.post_parent = '$post_parent' ";
 	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )";
 	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . ' ' . $order;
@@ -1695,7 +1695,7 @@ function clean_page_cache($id) {
 }
 
 function update_post_category_cache($post_ids) {
-	global $wpdb, $category_cache, $tag_cache, $blog_id;
+	global $wpdb, $term_cache, $blog_id;
 	// TODO
 	return;
 	if ( empty($post_ids) )
@@ -1708,30 +1708,26 @@ function update_post_category_cache($post_ids) {
 	$count = count( $post_id_array);
 	for ( $i = 0; $i < $count; $i++ ) {
 		$post_id = (int) $post_id_array[ $i ];
-		if ( isset( $category_cache[$blog_id][$post_id] ) ) {
+		if ( isset( $term_cache[$blog_id][$post_id] ) ) {
 			unset( $post_id_array[ $i ] );
 			continue;
 		}
 	}
 	if ( count( $post_id_array ) == 0 )
 		return;
-	$post_id_list = join( ',', $post_id_array ); // with already cached stuff removed
 
-	$dogs = $wpdb->get_results("SELECT post_id, category_id, rel_type FROM $wpdb->post2cat WHERE post_id IN ($post_id_list)");
+	$dogs = get_object_terms($post_id_array, array('category', 'post_tag'));
 
 	if ( empty($dogs) )
 		return;
 
 	foreach ($dogs as $catt) {
-		if ( 'category' == $catt->rel_type )
-			$category_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
-		elseif ( 'tag' == $catt->rel_type )
-			$tag_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
+		$term_cache[$blog_id][$catt->post_id][$catt->taxonomy][$catt->category_id] = &get_category($catt->category_id);
 	}
 }
 
 function update_post_caches(&$posts) {
-	global $post_cache, $category_cache, $post_meta_cache, $tag_cache;
+	global $post_cache;
 	global $wpdb, $blog_id;
 
 	// No point in doing all this work if we didn't match any posts.
