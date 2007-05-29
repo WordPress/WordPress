@@ -76,7 +76,7 @@ include ('admin-header.php');
 <form name="profile" id="your-profile" action="user-edit.php" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
-	<input type="hidden" name="wp_http_referer" value="<?php echo wp_specialchars($wp_http_referer); ?>" />
+	<input type="hidden" name="wp_http_referer" value="<?php echo clean_url($wp_http_referer); ?>" />
 <?php endif; ?>
 <p>
 <input type="hidden" name="from" value="profile" />
