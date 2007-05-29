@@ -179,4 +179,69 @@ function setup_userdata($user_id = '') {
 	$user_identity	= $user->display_name;
 }
 
+function wp_dropdown_users( $args = '' ) {
+	global $wpdb;
+	$defaults = array(
+		'show_option_all' => '', 'show_option_none' => '',
+		'orderby' => 'display_name', 'order' => 'ASC',
+		'include' => '', 'exclude' => '',
+		'show' => 'display_name', 'echo' => 1,
+		'selected' => 0, 'name' => 'user', 'class' => ''
+	);
+	
+	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
+
+	$query = "SELECT * FROM $wpdb->users";
+
+	$query_where = array();
+
+	if ( is_array($include) )
+		$include = join(',', $include);
+	$include = preg_replace('/[^0-9,]/', '', $include); // (int)
+	if ( $include )
+		$query_where[] = "ID IN ($include)";
+
+	if ( is_array($exclude) )
+		$exclude = join(',', $exclude);
+	$exclude = preg_replace('/[^0-9,]/', '', $exclude); // (int)
+	if ( $exclude )
+		$query_where[] = "ID NOT IN ($exclude)";
+
+	if ( $query_where )
+		$query .= " WHERE " . join(' AND', $query_where);
+
+	$query .= " ORDER BY $orderby $order";
+
+	$users = $wpdb->get_results( $query );
+
+	$output = '';
+	if ( !empty($users) ) {
+		$output = "<select name='$name' id='$name' class='$class'>\n";
+
+		if ( $show_option_all )
+			$output .= "\t<option value='0'>$show_option_all</option>\n";
+
+		if ( $show_option_none )
+			$output .= "\t<option value='-1'>$show_option_none</option>\n";
+
+		foreach ( $users as $user ) {
+			$user->ID = (int) $user->ID;
+			$_selected = $user->ID == $selected ? " selected='selected'" : '';
+			$output .= "\t<option value='$user->ID'$_selected>" . wp_specialchars($user->$show) . "</option>\n";
+		}
+
+		$output .= "</select>";
+	}
+
+	$output = apply_filters('wp_dropdown_users', $output);
+
+	if ( $echo )
+		echo $output;
+
+	return $output;
+}
+
 ?>

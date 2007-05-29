@@ -116,22 +116,13 @@ addLoadEvent(focusit);
 <?php endif; ?>
 
 <?php 
-$authors = get_editable_authors( $current_user->id ); // TODO: ROLE SYSTEM
+$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $authors && count( $authors ) > 1 ) :
 ?>
 <fieldset id="authordiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post Author'); ?></h3>
 <div class="dbx-content">
-<select name="post_author_override" id="post_author_override">
-<?php
-foreach ($authors as $o) :
-$o = get_userdata( $o->ID );
-if ( $post->post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
-else $selected = '';
-echo "<option value='" . (int) $o->ID . "' $selected>" . wp_specialchars( $o->display_name ) . "</option>";
-endforeach;
-?>
-</select>
+<?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
 </div>
 </fieldset>
 <?php endif; ?>

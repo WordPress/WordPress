@@ -16,17 +16,10 @@ $post_stati  = array(	//	array( adj, noun )
 		);
 
 $post_status_q = '';
-$author_q = '';
 $post_status_label = _c('Posts|manage posts header');
-$post_listing_pageable = true;
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
-	$post_listing_pageable = false;
 	$post_status_q = '&post_status=' . $_GET['post_status'];
-	if ( in_array( $_GET['post_status'], array('draft', 'private') ) )
-		$author_q = "&author=$user_ID";
-	elseif ( 'publish' == $_GET['post_status'] );
-		$post_listing_pageable = true;
 }
 ?>
 
@@ -34,7 +27,7 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 
 <?php
 
-wp("what_to_show=posts$author_q$post_status_q&posts_per_page=15&posts_per_archive_page=-1");
+wp("what_to_show=posts$post_status_q&posts_per_page=15");
 
 do_action('restrict_manage_posts');
 
@@ -65,10 +58,15 @@ if ( is_single() ) {
 	else
 		$h2_noun = $post_status_label;
 	// Use $_GET instead of is_ since they can override each other
+	$h2_author = '';
+	if ( isset($_GET['author']) && $_GET['author'] ) {
+		$author_user = get_userdata( get_query_var( 'author' ) );
+		$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
+	}
 	$h2_search = isset($_GET['s'])   && $_GET['s']   ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( get_search_query() ) ) : '';
 	$h2_cat    = isset($_GET['cat']) && $_GET['cat'] ? ' ' . sprintf( __('in &#8220;%s&#8221;'), single_cat_title('', false) ) : '';
 	$h2_month  = isset($_GET['m'])   && $_GET['m']   ? ' ' . sprintf( __('during %s'), single_month_title(' ', false) ) : '';
-	printf( _c( '%1$s%2$s%3$s%4$s|manage posts header' ), $h2_noun, $h2_search, $h2_cat, $h2_month );
+	printf( _c( '%1$s%2$s%3$s%4$s%5$s|manage posts header' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_month );
 }
 ?></h2>
 
@@ -86,8 +84,16 @@ if ( is_single() ) {
 		</select>
 	</fieldset>
 
-<?php
+<?php 
+$editable_ids = get_editable_user_ids( $user_ID );
+if ( $editable_ids && count( $editable_ids ) > 1 ) :
+?>
+	<fieldset><legend><?php _e('Author&hellip;'); ?></legend>
+		<?php wp_dropdown_users( array('include' => $editable_ids, 'show_option_all' => __('Any'), 'name' => 'author', 'selected' => isset($_GET['author']) ? $_GET['author'] : 0) ); ?>
+	</fieldset>
 
+<?php
+endif;
 
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
 
@@ -129,31 +135,7 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 
 <br style="clear:both;" />
 
-<?php
-if ( $post_status_q && ( false !== strpos($post_status_q, 'draft') || false !== strpos($post_status_q, 'private') ) ) {
-	echo '<h3>' . __('Your Posts') . "</h3>\n";
-	include( 'edit-post-rows.php' );
-
-	$editable_ids = get_editable_user_ids( $user_ID );
-
-	if ( $editable_ids && count($editable_ids) > 1 ) {
-		$_editable_ids = join(',', array_diff($editable_ids, array($user_ID)));
-
-		$post_status_q = "&post_status=" . $_GET['post_status'];
-
-		unset($GLOBALS['day']); // setup_postdata does this
-		wp("what_to_show=posts&author=$_editable_ids$post_status_q&posts_per_page=-1&posts_per_archive_page=-1");
-
-		if ( have_posts() ) {
-			echo '<h3>' . __("Others' Posts") . "</h3>\n";
-			include( 'edit-post-rows.php' );
-		}
-	}
-
-} else {
-	include( 'edit-post-rows.php' );
-}
-?>
+<?php include( 'edit-post-rows.php' ); ?>
 
 <div id="ajax-response"></div>
 

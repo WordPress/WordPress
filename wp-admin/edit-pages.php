@@ -13,14 +13,10 @@ $post_stati  = array(	//	array( adj, noun )
 
 
 $post_status_label = _c('Pages|manage pages header');
-$post_listing_pageable = true;
 $post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
-	$post_listing_pageable = false;
 	$post_status_q = '&post_status=' . $_GET['post_status'];
-	if ( 'publish' == $_GET['post_status'] );
-		$post_listing_pageable = true;
 }
 
 ?>
@@ -30,7 +26,12 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 <h2><?php
 // Use $_GET instead of is_ since they can override each other
 $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes( $_GET['s'] ) ) ) : '';
-printf( _c( '%1$s%2$s|manage pages header' ), $post_status_label, $h2_search );
+$h2_author = '';
+if ( isset($_GET['author']) && $_GET['author'] ) {
+	$author_user = get_userdata( (int) $_GET['author'] );
+	$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
+}
+printf( _c( '%1$s%2$s%3$s|manage pages header' ), $post_status_label, $h2_author, $h2_search );
 ?></h2>
 
 <p><?php _e('Pages are like posts except they live outside of the normal blog chronology and can be hierarchical. You can use pages to organize and manage any amount of content.'); ?> <a href="page-new.php"><?php _e('Create a new page &raquo;'); ?></a></p>
@@ -49,6 +50,14 @@ printf( _c( '%1$s%2$s|manage pages header' ), $post_status_label, $h2_search );
 <?php	endforeach; ?>
 		</select>
 	</fieldset>
+
+<?php $editable_ids = get_editable_user_ids( $user_ID ); if ( $editable_ids && count( $editable_ids ) > 1 ) : ?>
+
+	<fieldset><legend><?php _e('Author&hellip;'); ?></legend>
+		<?php wp_dropdown_users( array('include' => $editable_ids, 'show_option_all' => __('Any'), 'name' => 'author', 'selected' => isset($_GET['author']) ? $_GET['author'] : 0) ); ?>
+	</fieldset>
+
+<?php endif; ?>
 
 	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
 </form>
