@@ -44,7 +44,7 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 		$path = '/' . $leaf_path;
 		$curcategory = $category;
 		while ( ($curcategory->parent != 0) && ($curcategory->parent != $curcategory->term_id) ) {
-			$curcategory = get_term($curcategory->parent);
+			$curcategory = get_term($curcategory->parent, 'category');
 			$path = '/' . $curcategory->slug . $path;
 		}
 
