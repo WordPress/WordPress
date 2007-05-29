@@ -1365,11 +1365,12 @@ function wp_delete_attachment($postid) {
 	$meta = wp_get_attachment_metadata( $postid );
 	$file = get_attached_file( $postid );
 
+	// TODO delete for pluggable post taxonomies too
+	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
+
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = '$postid'");
 
 	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = '$postid'");
-
-	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = '$postid'");
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$postid'");
 
