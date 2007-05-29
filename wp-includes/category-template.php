@@ -69,15 +69,24 @@ function get_the_category($id = false) {
 	$categories = get_object_terms($id, 'category');
 
 	if ( !empty($categories) )
-		usort($categories, '_get_the_category_usort');
+		usort($categories, '_usort_terms_by_name');
 	else
 		$categories = array();
 
 	return $categories;
 }
 
-function _get_the_category_usort($a, $b) {
-	return strcmp($a->category_name, $b->category_name);
+function _usort_terms_by_name($a, $b) {
+	return strcmp($a->name, $b->name);
+}
+
+function _usort_terms_by_ID($a, $b) { 
+	if ( $a->term_id > $b->term_id ) 
+		return 1; 
+	elseif ( $a->term_id < $b->term_id ) 
+		return -1; 
+	else 
+		return 0; 
 }
 
 function get_the_category_by_ID($cat_ID) {
