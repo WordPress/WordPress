@@ -844,36 +844,34 @@ class WP_Query {
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
-			$in_cats = $out_cats = $out_posts = '';
+			$in_cats = $out_cats = array();
+			$include_cats = $exclude_cats = '';
 			foreach ( $cat_array as $cat ) {
 				$cat = intval($cat);
-				$in = (strpos($cat, '-') !== false) ? false : true;
-				$cat = trim($cat, '-');
-				// TODO make an array, not a string, for out_cats.  use get_term_children()
-				if ( $in )
-					$in_cats .= "$cat, " . get_category_children($cat, '', ', ');
-				else
-					$out_cats .= "$cat, " . get_category_children($cat, '', ', ');
+				$in = ($cat > 0);
+				$cat = abs($cat);
+				if ( $in ) {
+					$in_cats[] = $cat;
+					$in_cats = array_merge($in_cats, get_term_children($cat, 'category'));
+				} else {
+					$out_cats[] = $cat;
+					$out_cats = arry_merge($out_cats, get_term_children($cat, 'category'));
+				}
 			}
-			$in_cats = substr($in_cats, 0, -2);
-			$out_cats = substr($out_cats, 0, -2);
-			if ( strlen($in_cats) > 0 )
-				$in_cats = " AND $wpdb->term_taxonomy.term_id IN ({$q['cat']}) ";
-			if ( strlen($out_cats) > 0 ) {
-				// TODO use get_objects_in_term
+			if ( ! empty($in_cats) ) {
+				$include_cats = "'" . implode("', '", $in_cats) . "'";
+				$include_cats = " AND $wpdb->term_taxonomy.term_id IN ($include_cats) ";
+			}
+
+			if ( !empty($out_cats) ) {
 				$ids = get_objects_in_terms($out_cats, 'category');
 				if ( is_array($ids) && count($ids > 0) ) {
-					foreach ( $ids as $id )
-						$out_posts .= "$id, ";
-					$out_posts = substr($out_posts, 0, -2);
+					$out_posts = "'" . implode("', '", $ids) . "'";
+					$exclude_cats = " AND $wpdb->posts.ID NOT IN ($out_posts)";
 				}
-				if ( strlen($out_posts) > 0 )
-					$out_cats = " AND $wpdb->posts.ID NOT IN ($out_posts)";
-				else
-					$out_cats = '';
 			}
 			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
-			$whichcat .= $in_cats . $out_cats;
+			$whichcat .= $include_cats . $exclude_cats;
 			$groupby = "{$wpdb->posts}.ID";
 		}
 

@@ -656,6 +656,22 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
 	}
 }
 
+function get_term_children( $term, $taxonomy ) {
+	$terms = _get_term_hierarchy($taxonomy);
+
+	if ( ! isset($terms[$term]) )
+		return array();
+
+	$children = $terms[$term];
+
+	foreach ( $terms[$term] as $child ) {
+		if ( isset($terms[$child]) )
+			$children = array_merge($children, get_term_children($child, $taxonomy));
+	}
+
+	return $children;
+}
+
 function clean_term_cache($ids, $taxonomy) {
 	if ( !is_array($ids) )
 		$ids = array($ids);
