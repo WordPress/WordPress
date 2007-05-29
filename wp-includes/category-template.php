@@ -83,6 +83,15 @@ function _get_the_category_usort($a, $b) {
 	return strcmp($a->category_name, $b->category_name);
 }
 
+function _get_the_category_usort_by_ID($a, $b) {
+	if ( $a->cat_ID > $b->cat_ID )
+		return 1;
+	elseif ( $a->cat_ID < $b->cat_ID )
+		return -1;
+	else
+		return 0;
+}
+
 function get_the_category_by_ID($cat_ID) {
 	$cat_ID = (int) $cat_ID;
 	$category = &get_category($cat_ID);

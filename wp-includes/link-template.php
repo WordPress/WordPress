@@ -77,6 +77,8 @@ function get_permalink($id = 0) {
 		$category = '';
 		if (strpos($permalink, '%category%') !== false) {
 			$cats = get_the_category($post->ID);
+			if ( $cats )
+				usort($cats, '_get_the_category_usort_by_ID'); // order by ID
 			$category = $cats[0]->category_nicename;
 			if ( $parent=$cats[0]->category_parent )
 				$category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
