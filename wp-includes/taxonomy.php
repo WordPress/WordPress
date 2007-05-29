@@ -5,7 +5,6 @@ $wp_taxonomies['category'] = (object) array('name' => 'category', 'object_type' 
 $wp_taxonomies['post_tag'] = (object) array('name' => 'post_tag', 'object_type' => 'post', 'hierarchical' => false, 'update_count_callback' => '_update_post_term_count');
 $wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'object_type' => 'link', 'hierarchical' => false);
 
-//error_log(var_export($wp_taxonomies, true), 0);
 function is_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
 
@@ -714,11 +713,20 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 		return array();
 
 	foreach ( $terms as $term ) {
+		$use_id = false;
+		if ( !is_object($term) ) {
+			$term = get_term($term, $taxonomy);
+			$use_id = true;
+		}
+
 		if ( $term->term_id == $term_id )
 			continue;
 
 		if ( $term->parent == $term_id ) {
-			$term_list[] = $term;
+			if ( $use_id )
+				$term_list[] = $term->term_id;
+			else
+				$term_list[] = $term;
 
 			if ( !isset($has_children[$term->term_id]) )
 				continue;
