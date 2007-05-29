@@ -366,6 +366,30 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	return $tt_ids;
 }
 
+function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
+	global $wpdb;
+
+	if ( !is_array( $terms) )
+		$terms = array($terms);
+
+	if ( !is_array($taxonomies) )
+		$taxonomies = array($taxonomies);
+
+	$defaults = array('order' => 'ASC');
+	$args = wp_parse_args( $args, $defaults );
+	extract($args);
+
+	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
+	$terms = "'" . implode("', '", $terms) . "'";
+
+	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($in_terms) ORDER BY tr.object_id $order");
+
+	if ( ! $object_ids )
+		return array();
+
+	return $object_ids;
+}
+
 /**
  * Returns the terms associated with the given object(s), in the supplied taxonomies.
  * @param int|array $object_id The id of the object(s)) to retrieve for.

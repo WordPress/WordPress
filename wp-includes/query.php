@@ -859,7 +859,7 @@ class WP_Query {
 			if ( strlen($in_cats) > 0 )
 				$in_cats = " AND $wpdb->term_taxonomy.term_id IN ({$q['cat']}) ";
 			if ( strlen($out_cats) > 0 ) {
-				// TODO
+				// TODO use get_objects_in_term
 				$ids = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE $wpdb->post2cat.category_id IN ($out_cats)");
 				if ( is_array($ids) && count($ids > 0) ) {
 					foreach ( $ids as $id )
