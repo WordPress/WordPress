@@ -347,6 +347,8 @@ function get_post_to_edit( $id ) {
 	$post->post_title = apply_filters( 'title_edit_pre', $post->post_title );
 
 	$post->post_password = format_to_edit( $post->post_password );
+	
+	$post->menu_order = (int) $post->menu_order;
 
 	if ( $post->post_type == 'page' )
 		$post->page_template = get_post_meta( $id, '_wp_page_template', true );
@@ -396,12 +398,17 @@ function get_default_post_to_edit() {
 
 function get_comment_to_edit( $id ) {
 	$comment = get_comment( $id );
+	
+	$comment->comment_ID = (int) $comment->comment_ID;
+	$comment->comment_post_ID = (int) $comment->comment_post_ID;
 
 	$comment->comment_content = format_to_edit( $comment->comment_content, user_can_richedit() );
 	$comment->comment_content = apply_filters( 'comment_edit_pre', $comment->comment_content);
+	$comment->comment_content = apply_filters( 'comment_text', $comment->comment_content );
 
 	$comment->comment_author = format_to_edit( $comment->comment_author );
 	$comment->comment_author_email = format_to_edit( $comment->comment_author_email );
+	$comment->comment_author_url = clean_url($comment->comment_author_url);
 	$comment->comment_author_url = format_to_edit( $comment->comment_author_url );
 
 	return $comment;
@@ -409,6 +416,9 @@ function get_comment_to_edit( $id ) {
 
 function get_category_to_edit( $id ) {
 	$category = get_category( $id );
+	
+	$category->term_id = (int) $category->term_id;
+	$category->parent = (int) $category->parent;
 
 	return $category;
 }
@@ -1026,6 +1036,7 @@ function list_meta( $meta ) {
 		$key_js = js_escape( $entry['meta_key'] );
 		$entry['meta_key']   = attribute_escape($entry['meta_key']);
 		$entry['meta_value'] = attribute_escape($entry['meta_value']);
+		$entry['meta_id'] = (int) $entry['meta_id'];
 		$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 		$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
 		$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
@@ -1078,7 +1089,7 @@ function meta_form() {
 <?php
 
 	foreach ( $keys as $key ) {
-		$key = attribute_escape( $key);
+		$key = attribute_escape( $key );
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>

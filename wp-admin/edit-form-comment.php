@@ -2,13 +2,13 @@
 $submitbutton_text = __('Edit Comment &raquo;');
 $toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
 $form_action = 'editedcomment';
-$form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment->comment_ID . "' />\n<input type='hidden' name='comment_post_ID' value='".$comment->comment_post_ID;
+$form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment->comment_ID . "' />\n<input type='hidden' name='comment_post_ID' value='" . $comment->comment_post_ID;
 ?>
 
 <form name="post" action="comment.php" method="post" id="post">
 <?php wp_nonce_field('update-comment_' . $comment->comment_ID) ?>
 <div class="wrap">
-<input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
+<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
 <script type="text/javascript">
@@ -20,19 +20,19 @@ addLoadEvent(focusit);
 <fieldset id="namediv">
     <legend><label for="name"><?php _e('Name:') ?></label></legend>
 	<div>
-	  <input type="text" name="newcomment_author" size="25" value="<?php echo $comment->comment_author ?>" tabindex="1" id="name" />
+	  <input type="text" name="newcomment_author" size="25" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
     </div>
 </fieldset>
 <fieldset id="emaildiv">
         <legend><label for="email"><?php _e('E-mail:') ?></label></legend>
 		<div>
-		  <input type="text" name="newcomment_author_email" size="20" value="<?php echo $comment->comment_author_email ?>" tabindex="2" id="email" />
+		  <input type="text" name="newcomment_author_email" size="20" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
     </div>
 </fieldset>
 <fieldset id="uridiv">
         <legend><label for="newcomment_author_url"><?php _e('URL:') ?></label></legend>
 		<div>
-		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo $comment->comment_author_url ?>" tabindex="3" />
+		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="3" />
     </div>
 </fieldset>
 
