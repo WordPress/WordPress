@@ -35,7 +35,7 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	foreach ( (array) $category_paths as $pathdir )
 		$full_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
 
-	$categories = get_terms('category', "slug=$leaf_path");
+	$categories = get_terms('category', "get=all&slug=$leaf_path");
 
 	if ( empty($categories) )
 		return NULL;
