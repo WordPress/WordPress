@@ -700,10 +700,10 @@ function _get_term_hierarchy($taxonomy) {
 		return $children;
 
 	$children = array();
-	$terms = get_terms($taxonomy, 'hide_empty=0&hierarchical=0');
+	$terms = get_terms($taxonomy, 'get=all');
 	foreach ( $terms as $term ) {
 		if ( $term->parent > 0 )
-			$children[$cterm->parent][] = $term->term_id;
+			$children[$term->parent][] = $term->term_id;
 	}
 	update_option("{$taxonomy}_children", $children);
 
