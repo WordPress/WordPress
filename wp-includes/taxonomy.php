@@ -39,10 +39,18 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$wp_taxonomies[$taxonomy] = (object) $args;
 }
 
-function wp_count_terms( $taxonomy ) {
+function wp_count_terms( $taxonomy, $args = array() ) {
 	global $wpdb;
 
-	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_taxonomy WHERE taxonomy = '$taxonomy'");
+	$defaults = array('ignore_empty' => false);
+	$args = wp_parse_args($args, $defaults);
+	extract($args);
+
+	$where = '';
+	if ( $ignore_empty )
+		$where = 'AND count > 0';
+
+	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_taxonomy WHERE taxonomy = '$taxonomy' $where");
 }
 
 /**
