@@ -60,13 +60,15 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_the_category($id = false) {
-	global $post, $category_cache, $blog_id;
+	global $post, $term_cache, $blog_id;
 
 	$id = (int) $id;
 	if ( !$id )
 		$id = (int) $post->ID;
 
-	$categories = get_object_terms($id, 'category');
+	$categories = get_post_term_cache($id, 'category');
+	if ( false === $categories )
+		$categories = get_object_terms($id, 'category');
 
 	if ( !empty($categories) )
 		usort($categories, '_usort_terms_by_name');
@@ -416,7 +418,10 @@ function get_the_tags( $id = 0 ) {
 	if ( !$id ) 
 		$id = (int) $post->ID;
 
-	$tags = wp_get_post_tags( $id );
+	$tags = get_post_term_cache($id, 'post_tag');
+	if ( false === $tags )
+		$tags = get_object_terms($id, 'post_tag');
+
 	$tags = apply_filters( 'get_the_tags', $tags );
 	if ( empty( $tags ) ) 
 		return false; 

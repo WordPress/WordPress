@@ -428,23 +428,27 @@ function get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$object_ids = implode(', ', $object_ids);
 
 	if ( 'all' == $fields )
-		$select_this = 't.*';
+		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
+	else if ( 'all_with_object_id' == $fields )
+		$select_this = 't.*, tt.*, tr.object_id';
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) ORDER BY $orderby $order";
 
-	if ( 'all' == $fields )
-		$taxonomy_data = $wpdb->get_results($query);
-	else if ( 'ids' == $fields )
-		$taxonomy_data = $wpdb->get_col($query);
-	else if ( 'tt_ids' == $fields )
-		$taxonomy_data = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) ORDER BY tr.term_taxonomy_id $order");
+	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
+		$terms = $wpdb->get_results($query);
+		update_term_cache($terms);
+	} else if ( 'ids' == $fields ) {
+		$terms = $wpdb->get_col($query);
+	} else if ( 'tt_ids' == $fields ) {
+		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) ORDER BY tr.term_taxonomy_id $order");
+	}
 
-	if ( ! $taxonomy_data )
+	if ( ! $terms )
 		return array();
 
-	return $taxonomy_data;
+	return $terms;
 }
 
 function &get_terms($taxonomies, $args = '') {
@@ -553,10 +557,12 @@ function &get_terms($taxonomies, $args = '') {
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
 
-	if ( 'all' == $fields )
+	if ( 'all' == $fields ) {
 		$terms = $wpdb->get_results($query);
-	else if ( 'ids' == $fields )
+		update_term_cache($terms);
+	} else if ( 'ids' == $fields ) {
 		$terms = $wpdb->get_col($query);
+	}
 
 	if ( empty($terms) )
 		return array();
@@ -590,7 +596,7 @@ function &get_terms($taxonomies, $args = '') {
 	*/
 
 	$cache[ $key ] = $terms;
-	wp_cache_add( 'get_terms', $cache, 'term' );
+	wp_cache_set( 'get_terms', $cache, 'term' );
 
 	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
 	return $terms;
@@ -677,6 +683,16 @@ function get_term_children( $term, $taxonomy ) {
 	}
 
 	return $children;
+}
+
+function update_term_cache($terms, $taxonomy = '') {
+	foreach ( $terms as $term ) {
+		$term_taxonomy = $taxonomy;
+		if ( empty($term_taxonomy) )
+			$term_taxonomy = $term->taxonomy;
+
+		wp_cache_add($term->term_id, $term, $term_taxonomy);
+	}
 }
 
 function clean_term_cache($ids, $taxonomy) {

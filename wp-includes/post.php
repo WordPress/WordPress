@@ -1656,7 +1656,7 @@ function update_post_cache(&$posts) {
 }
 
 function clean_post_cache($id) {
-	global $post_cache, $post_meta_cache, $category_cache, $tag_cache, $blog_id;
+	global $post_cache, $post_meta_cache, $post_term_cache, $blog_id;
 
 	if ( isset( $post_cache[$blog_id][$id] ) )
 		unset( $post_cache[$blog_id][$id] );
@@ -1664,11 +1664,8 @@ function clean_post_cache($id) {
 	if ( isset ($post_meta_cache[$blog_id][$id] ) )
 		unset( $post_meta_cache[$blog_id][$id] );
 
-	if ( isset( $category_cache[$blog_id][$id]) )
-		unset ( $category_cache[$blog_id][$id] );
-
-	if ( isset( $tag_cache[$blog_id][$id]) )
-		unset ( $tag_cache[$blog_id][$id] );
+	if ( isset( $post_term_cache[$blog_id][$id]) )
+		unset ( $post_term_cache[$blog_id][$id] );
 }
 
 function update_page_cache(&$pages) {
@@ -1694,10 +1691,19 @@ function clean_page_cache($id) {
 	wp_cache_delete( 'get_pages', 'page' );
 }
 
-function update_post_category_cache($post_ids) {
-	global $wpdb, $term_cache, $blog_id;
-	// TODO
-	return;
+function &get_post_term_cache($id, $taxonomy) {
+	global $post_term_cache, $blog_id;
+
+	if ( isset($post_term_cache[$blog_id][$id][$taxonomy]) )
+		return $post_term_cache[$blog_id][$id][$taxonomy];
+
+	return false;
+}
+
+// TODO abstract this to work for any object.
+function update_post_term_cache($post_ids) {
+	global $wpdb, $post_term_cache, $blog_id;
+
 	if ( empty($post_ids) )
 		return;
 
@@ -1708,7 +1714,7 @@ function update_post_category_cache($post_ids) {
 	$count = count( $post_id_array);
 	for ( $i = 0; $i < $count; $i++ ) {
 		$post_id = (int) $post_id_array[ $i ];
-		if ( isset( $term_cache[$blog_id][$post_id] ) ) {
+		if ( isset( $post_term_cache[$blog_id][$post_id] ) ) {
 			unset( $post_id_array[ $i ] );
 			continue;
 		}
@@ -1716,13 +1722,19 @@ function update_post_category_cache($post_ids) {
 	if ( count( $post_id_array ) == 0 )
 		return;
 
-	$dogs = get_object_terms($post_id_array, array('category', 'post_tag'));
+	$terms = get_object_terms($post_id_array, array('category', 'post_tag'), 'fields=all_with_object_id');
 
-	if ( empty($dogs) )
+	if ( empty($terms) )
 		return;
 
-	foreach ($dogs as $catt) {
-		$term_cache[$blog_id][$catt->post_id][$catt->taxonomy][$catt->category_id] = &get_category($catt->category_id);
+	foreach ( $terms as $term )
+		$post_term_cache[$blog_id][$term->object_id][$term->taxonomy][$term->term_id] = $term;
+
+	foreach ( $post_id_array as $id ) {
+		if ( ! isset($post_term_cache[$blog_id][$id]) ) {
+			$post_term_cache[$blog_id][$id]['category'] = array();
+			$post_term_cache[$blog_id][$id]['post_tag'] = array();
+		}
 	}
 }
 
@@ -1742,7 +1754,7 @@ function update_post_caches(&$posts) {
 
 	$post_id_list = implode(',', $post_id_array);
 
-	update_post_category_cache($post_id_list);
+	update_post_term_cache($post_id_list);
 
 	update_postmeta_cache($post_id_list);
 }
