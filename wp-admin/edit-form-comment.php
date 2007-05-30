@@ -53,8 +53,8 @@ addLoadEvent(focusit);
 <table width="100%" cellspacing="2" cellpadding="5" class="editform">
 	<tr>
 		<th scope="row" valign="top"><?php _e('Comment Status') ?>:</th>
-		<td><label for="comment_status_approved" class="selectit"><input id="comment_status_approved" name="comment_status" type="radio" value="1" <?php checked($comment->comment_approved, '1'); ?> /> <?php _e('Approved') ?></label><br />
-		<label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> /> <?php _e('Moderated') ?></label><br />
+		<td><label for="comment_status_approved" class="selectit"><input id="comment_status_approved" name="comment_status" type="radio" value="1" <?php checked($comment->comment_approved, '1'); ?> /> <?php _e('Approved') ?></label> &nbsp; 
+		<label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> /> <?php _e('Moderated') ?></label> &nbsp; 
 		<label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> /> <?php _e('Spam') ?></label></td>
 	</tr>
 
@@ -66,8 +66,8 @@ addLoadEvent(focusit);
 <?php endif; ?>
 
 	<tr>
-		<th scope="row" valign="top"><?php _e('Delete'); $delete_nonce = wp_create_nonce( 'delete-comment_' . $comment->comment_ID ); ?>:</th>
-		<td><input name="deletecomment" class="button delete" type="submit" id="deletecomment" tabindex="10" value="<?php _e('Delete this comment') ?>" <?php echo "onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { document.forms.post._wpnonce.value = '$delete_nonce'; return true; } return false;\""; ?> /> 
+		<th scope="row" valign="top">&nbsp;</th>
+		<td><input name="deletecomment" class="button delete" type="submit" id="deletecomment" tabindex="10" value="<?php _e('Delete this comment') ?>" <?php echo "onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { document.forms.post._wpnonce.value = '" . wp_create_nonce( 'delete-comment_' . $comment->comment_ID ) . "'; return true; } return false;\""; ?> /> 
 		<input type="hidden" name="c" value="<?php echo $comment->comment_ID ?>" />
 		<input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
 		<input type="hidden" name="noredir" value="1" />
