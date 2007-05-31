@@ -391,7 +391,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$terms = "'" . implode("', '", $terms) . "'";
 
-	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($in_terms) ORDER BY tr.object_id $order");
+	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($terms) ORDER BY tr.object_id $order");
 
 	if ( ! $object_ids )
 		return array();
