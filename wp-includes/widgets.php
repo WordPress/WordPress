@@ -332,12 +332,13 @@ function wp_widget_pages( $args ) {
 	
 	$title = empty( $options['title'] ) ? __( 'Pages' ) : $options['title'];
 	$sortby = empty( $options['sortby'] ) ? 'menu_order' : $options['sortby'];
+	$exclude = empty( $options['exclude'] ) ? '' : '&exclude=' . $options['exclude'];
 	
 	if ( $sortby == 'menu_order' ) {
 		$sortby = 'menu_order, post_title';
 	}
 	
-	$out = wp_list_pages( 'title_li=&echo=0&sort_column=' . $sortby );
+	$out = wp_list_pages( 'title_li=&echo=0&sort_column=' . $sortby . $exclude );
 	
 	if ( !empty( $out ) ) {
 ?>
@@ -363,12 +364,15 @@ function wp_widget_pages_control() {
 		} else {
 			$newoptions['sortby'] = 'menu_order';
 		}
+		
+		$newoptions['exclude'] = strip_tags( stripslashes( $_POST['pages-exclude'] ) );
 	}
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
 		update_option('widget_pages', $options);
 	}
 	$title = attribute_escape($options['title']);
+	$exclude = attribute_escape( $options['exclude'] );
 ?>
 			<p><label for="pages-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?> 
@@ -377,6 +381,8 @@ function wp_widget_pages_control() {
 					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Menu order'); ?></option>
 					<option value="ID"<?php selected( $options['sortby'], 'ID' ); ?>><?php _e( 'Page ID' ); ?></option>
 				</select></label></p>
+			<p><label for="pages-exclude"><?php _e( 'Exclude:' ); ?> <input type="text" value="<?php echo $exclude; ?>" name="pages-exclude" id="pages-exclude" style="width: 180px;" /></label><br />
+			<small><?php _e( 'Page IDs, separated by commas.' ); ?></small></p>
 			<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
 <?php
 }
@@ -956,7 +962,7 @@ function wp_widgets_init() {
 	$dims150 = array('height' => 150, 'width' => 300);
 	$class = array('classname' => 'widget_pages');
 	wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $class);
-	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control', $dims90);
+	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control', $dims150);
 	$class['classname'] = 'widget_calendar';
 	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $class);
 	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control', $dims90);
