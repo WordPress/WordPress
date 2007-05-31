@@ -109,6 +109,7 @@ function get_bloginfo($show='') {
 			break;
 		case 'comments_atom_url':
 			$output = get_feed_link('comments_atom');
+			break;
 		case 'comments_rss2_url':
 			$output = get_feed_link('comments_rss2');
 			break;
