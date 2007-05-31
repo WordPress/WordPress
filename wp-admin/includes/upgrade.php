@@ -61,39 +61,44 @@ function wp_install_defaults($user_id) {
 	global $wpdb;
 
 	// Default category
-	$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_count, category_description) VALUES ('0', '".$wpdb->escape(__('Uncategorized'))."', '".sanitize_title(__('Uncategorized'))."', '1', '')");
+	$cat_name = $wpdb->escape(__('Uncategorized'));
+	$cat_slug = sanitize_title(__('Uncategorized'));
+	$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$cat_name', '$cat_slug', '0')");
+	$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('1', 'category', '', '0', '1')");
 
 	// Default link category
-	$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, link_count, category_description) VALUES ('0', '".$wpdb->escape(__('Blogroll'))."', '".sanitize_title(__('Blogroll'))."', '7', '')");
+	$cat_name = $wpdb->escape(__('Blogroll'));
+	$cat_slug = sanitize_title(__('Blogroll'));
+	$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$cat_name', '$cat_slug', '0')");
+	$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('2', 'link_category', '', '0', '7')");
 
 	// Now drop in some default links
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://inphotos.org/', 'Donncha', 0, 'http://inphotos.org/feed/', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (1, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (1, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://zengun.org/weblog/', 'Michel', 0, 'http://zengun.org/weblog/feed/', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (2, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (2, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://boren.nu/', 'Ryan', 0, 'http://boren.nu/feed/', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (3, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (3, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://photomatt.net/', 'Matt', 0, 'http://xml.photomatt.net/feed/', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (4, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (4, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://zed1.com/journalized/', 'Mike', 0, 'http://zed1.com/journalized/feed/', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (5, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (5, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://www.alexking.org/', 'Alex', 0, 'http://www.alexking.org/blog/wp-rss2.php', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (6, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (6, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://dougal.gunters.org/', 'Dougal', 0, 'http://dougal.gunters.org/feed/', '');");
-	$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (7, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (7, 2)" );
 
 	// First post
 	$now = date('Y-m-d H:i:s');
 	$now_gmt = gmdate('Y-m-d H:i:s');
 	$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_excerpt, post_title, post_category, post_name, post_modified, post_modified_gmt, comment_count, to_ping, pinged, post_content_filtered) VALUES ($user_id, '$now', '$now_gmt', '".$wpdb->escape(__('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!'))."', '', '".$wpdb->escape(__('Hello world!'))."', '0', '".$wpdb->escape(__('hello-world'))."', '$now', '$now_gmt', '1', '', '', '')");
-
-	$wpdb->query( "INSERT INTO $wpdb->post2cat (`rel_id`, `post_id`, `category_id`) VALUES (1, 1, 1)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (1, 1)" );
 
 	// Default comment
 	$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_date, comment_date_gmt, comment_content) VALUES ('1', '".$wpdb->escape(__('Mr WordPress'))."', '', 'http://wordpress.org/', '$now', '$now_gmt', '".$wpdb->escape(__('Hi, this is a comment.<br />To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.'))."')");
