@@ -1664,8 +1664,7 @@ function clean_post_cache($id) {
 	if ( isset ($post_meta_cache[$blog_id][$id] ) )
 		unset( $post_meta_cache[$blog_id][$id] );
 
-	if ( isset( $post_term_cache[$blog_id][$id]) )
-		unset ( $post_term_cache[$blog_id][$id] );
+	clean_object_term_cache($id, 'post');
 }
 
 function update_page_cache(&$pages) {
@@ -1691,53 +1690,6 @@ function clean_page_cache($id) {
 	wp_cache_delete( 'get_pages', 'page' );
 }
 
-function &get_post_term_cache($id, $taxonomy) {
-	global $post_term_cache, $blog_id;
-
-	if ( isset($post_term_cache[$blog_id][$id][$taxonomy]) )
-		return $post_term_cache[$blog_id][$id][$taxonomy];
-
-	return false;
-}
-
-// TODO abstract this to work for any object.
-function update_post_term_cache($post_ids) {
-	global $wpdb, $post_term_cache, $blog_id;
-
-	if ( empty($post_ids) )
-		return;
-
-	if ( is_array($post_ids) )
-		$post_id_list = implode(',', $post_ids);
-
-	$post_id_array = (array) explode(',', $post_ids);
-	$count = count( $post_id_array);
-	for ( $i = 0; $i < $count; $i++ ) {
-		$post_id = (int) $post_id_array[ $i ];
-		if ( isset( $post_term_cache[$blog_id][$post_id] ) ) {
-			unset( $post_id_array[ $i ] );
-			continue;
-		}
-	}
-	if ( count( $post_id_array ) == 0 )
-		return;
-
-	$terms = get_object_terms($post_id_array, array('category', 'post_tag'), 'fields=all_with_object_id');
-
-	if ( empty($terms) )
-		return;
-
-	foreach ( $terms as $term )
-		$post_term_cache[$blog_id][$term->object_id][$term->taxonomy][$term->term_id] = $term;
-
-	foreach ( $post_id_array as $id ) {
-		if ( ! isset($post_term_cache[$blog_id][$id]) ) {
-			$post_term_cache[$blog_id][$id]['category'] = array();
-			$post_term_cache[$blog_id][$id]['post_tag'] = array();
-		}
-	}
-}
-
 function update_post_caches(&$posts) {
 	global $post_cache;
 	global $wpdb, $blog_id;
@@ -1754,7 +1706,7 @@ function update_post_caches(&$posts) {
 
 	$post_id_list = implode(',', $post_id_array);
 
-	update_post_term_cache($post_id_list);
+	update_object_term_cache($post_id_list, 'post');
 
 	update_postmeta_cache($post_id_list);
 }

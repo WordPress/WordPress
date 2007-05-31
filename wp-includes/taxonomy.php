@@ -399,6 +399,18 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	return $object_ids;
 }
 
+function get_object_taxonomies($object_type) {
+	global $wp_taxonomies;
+
+	$taxonomies = array();
+	foreach ( $wp_taxonomies as $taxonomy ) {
+		if ( $object_type == $taxonomy->object_type )
+			$taxonomies[] = $taxonomy->name;
+	}
+
+	return $taxonomies;
+}
+
 /**
  * Returns the terms associated with the given object(s), in the supplied taxonomies.
  * @param int|array $object_id The id of the object(s)) to retrieve for.
@@ -407,7 +419,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  */
 function get_object_terms($object_ids, $taxonomies, $args = array()) {
 	global $wpdb;
-	error_log("Objects: " . var_export($object_ids, true), 0);
+
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
@@ -713,6 +725,69 @@ function clean_term_cache($ids, $taxonomy) {
 	wp_cache_delete('get', $taxonomy);
 	delete_option("{$taxonomy}_children");
 	wp_cache_delete('get_terms', 'terms');
+}
+
+function clean_object_term_cache($object_ids, $object_type) {
+	global $object_term_cache, $blog_id;
+
+	if ( !is_array($ids) )
+		$ids = array($ids);
+
+	$taxonomies = get_object_taxonomies($object_type);
+
+	foreach ( $ids as $id ) {
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( isset($object_term_cache[$blog_id][$id][$taxonomy]) )
+				unset($object_term_cache[$blog_id][$id][$taxonomy]);
+		}
+	}
+}
+
+function &get_object_term_cache($id, $taxonomy) {
+	global $object_term_cache, $blog_id;
+
+	if ( isset($object_term_cache[$blog_id][$id][$taxonomy]) )
+		return $object_term_cache[$blog_id][$id][$taxonomy];
+
+	if ( isset($object_term_cache[$blog_id][$id]) )
+		return array();
+
+	return false;
+}
+
+function update_object_term_cache($object_ids, $object_type) {
+	global $wpdb, $object_term_cache, $blog_id;
+
+	if ( empty($object_ids) )
+		return;
+
+	if ( !is_array($object_ids) )
+		$object_ids = explode(',', $object_ids);
+
+	$count = count( $object_ids);
+	for ( $i = 0; $i < $count; $i++ ) {
+		$object_id = (int) $object_ids[ $i ];
+		if ( isset( $object_term_cache[$blog_id][$object_id] ) ) {
+			unset( $object_ids[ $i ] );
+			continue;
+		}
+	}
+
+	if ( count( $object_ids ) == 0 )
+		return;
+
+	$terms = get_object_terms($object_ids, get_object_taxonomies($object_type), 'fields=all_with_object_id');
+
+	if ( empty($terms) )
+		return;
+
+	foreach ( $terms as $term )
+		$object_term_cache[$blog_id][$term->object_id][$term->taxonomy][$term->term_id] = $term;
+
+	foreach ( $object_ids as $id ) {
+		if ( ! isset($object_term_cache[$blog_id][$id]) )
+				$object_term_cache[$blog_id][$id] = array();
+	}
 }
 
 function _get_term_hierarchy($taxonomy) {

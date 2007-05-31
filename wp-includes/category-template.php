@@ -66,7 +66,7 @@ function get_the_category($id = false) {
 	if ( !$id )
 		$id = (int) $post->ID;
 
-	$categories = get_post_term_cache($id, 'category');
+	$categories = get_object_term_cache($id, 'category');
 	if ( false === $categories )
 		$categories = get_object_terms($id, 'category');
 
@@ -418,7 +418,7 @@ function get_the_tags( $id = 0 ) {
 	if ( !$id ) 
 		$id = (int) $post->ID;
 
-	$tags = get_post_term_cache($id, 'post_tag');
+	$tags = get_object_term_cache($id, 'post_tag');
 	if ( false === $tags )
 		$tags = get_object_terms($id, 'post_tag');
 
