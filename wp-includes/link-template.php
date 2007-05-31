@@ -484,7 +484,7 @@ function get_pagenum_link($pagenum = 1) {
 			$query_string = '';
 		}
 		
-		$request = preg_replace( '|/?page/(.+)/?$|', '', $request);
+		$request = preg_replace( '|page/(.+)/?$|', '', $request);
 		
 		$base = trailingslashit( get_bloginfo( 'url' ) );
 		
@@ -494,8 +494,6 @@ function get_pagenum_link($pagenum = 1) {
 		
 		if ( $pagenum > 1 ) {
 			$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( 'page/' . $pagenum, 'paged' );
-		} else {
-			$request = user_trailingslashit( $request );
 		}
 		
 		$result = $base . $request . $query_string;
