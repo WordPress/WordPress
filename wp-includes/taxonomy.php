@@ -407,7 +407,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  */
 function get_object_terms($object_ids, $taxonomies, $args = array()) {
 	global $wpdb;
-	
+	error_log("Objects: " . var_export($object_ids, true), 0);
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
@@ -481,6 +481,12 @@ function &get_terms($taxonomies, $args = '') {
 		$args['hierarchical'] = false;
 	}
 	extract($args);
+
+	if ( $child_of ) {
+		$hierarchy = _get_term_hierarchy($taxonomies[0]);
+		if ( !isset($hierarchy[$child_of]) )
+			return array();
+	}
 
 	$key = md5( serialize( $args ) . serialize( $taxonomies ) );
 	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {

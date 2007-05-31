@@ -85,26 +85,27 @@ function sort_cats( $cat1, $cat2 ) {
 }
 
 function get_nested_categories( $default = 0, $parent = 0 ) {
-	global $post_ID, $mode, $wpdb;
+	global $post_ID, $mode, $wpdb, $checked_categories;
 
-	if ( $post_ID ) {
-		$checked_categories = wp_get_post_categories($post_ID);
+	if ( empty($checked_categories) ) {
+		if ( $post_ID ) {
+			$checked_categories = wp_get_post_categories($post_ID);
 
-		if ( count( $checked_categories ) == 0 ) {
-			// No selected categories, strange
+			if ( count( $checked_categories ) == 0 ) {
+				// No selected categories, strange
+			$checked_categories[] = $default;
+			}
+		} else {
 			$checked_categories[] = $default;
 		}
-	} else {
-		$checked_categories[] = $default;
 	}
 
 	$cats = get_categories("child_of=$parent&hide_empty=0&fields=ids");
-	$result = array ();
 
+	$result = array ();
 	if ( is_array( $cats ) ) {
 		foreach ( $cats as $cat) {
-			// TODO fix hierarchy
-			//$result[$cat]['children'] = get_nested_categories( $default, $cat);
+			$result[$cat]['children'] = get_nested_categories( $default, $cat);
 			$result[$cat]['cat_ID'] = $cat;
 			$result[$cat]['checked'] = in_array( $cat, $checked_categories );
 			$result[$cat]['cat_name'] = get_the_category_by_ID( $cat);
