@@ -899,10 +899,11 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	//<!--
 	edCanvas = document.getElementById('<?php echo $id; ?>');
 	<?php if ( $prev_id && user_can_richedit() ) : ?>
+	// If tinyMCE is defined.
+	if ( typeof tinyMCE != 'undefined' ) {
 	// This code is meant to allow tabbing from Title to Post (TinyMCE).
-	if ( tinyMCE.isMSIE )
-		document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e)
-			{
+		if ( tinyMCE.isMSIE ) {
+			document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
 				e = e ? e : window.event;
 				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
 					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
@@ -915,9 +916,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 					return false;
 				}
 			}
-	else
-		document.getElementById('<?php echo $prev_id; ?>').onkeypress = function (e)
-			{
+		} else {
+			document.getElementById('<?php echo $prev_id; ?>').onkeypress = function (e) {
 				e = e ? e : window.event;
 				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
 					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
@@ -930,6 +930,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 					return false;
 				}
 			}
+		}
+	}
 	<?php endif; ?>
 	//-->
 	</script>
