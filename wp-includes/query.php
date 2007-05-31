@@ -855,7 +855,7 @@ class WP_Query {
 					$in_cats = array_merge($in_cats, get_term_children($cat, 'category'));
 				} else {
 					$out_cats[] = $cat;
-					$out_cats = arry_merge($out_cats, get_term_children($cat, 'category'));
+					$out_cats = array_merge($out_cats, get_term_children($cat, 'category'));
 				}
 			}
 			if ( ! empty($in_cats) ) {
@@ -864,7 +864,7 @@ class WP_Query {
 			}
 
 			if ( !empty($out_cats) ) {
-				$ids = get_objects_in_terms($out_cats, 'category');
+				$ids = get_objects_in_term($out_cats, 'category');
 				if ( is_array($ids) && count($ids > 0) ) {
 					$out_posts = "'" . implode("', '", $ids) . "'";
 					$exclude_cats = " AND $wpdb->posts.ID NOT IN ($out_posts)";
