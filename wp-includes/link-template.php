@@ -474,8 +474,6 @@ function get_pagenum_link($pagenum = 1) {
 			$result = $base . $request;
 		}
 	} else {
-		$request = preg_replace( '|/?page/(.+)/?$|', '', $request);
-		
 		$qs_regex = '|\?.*?$|';
 		preg_match( $qs_regex, $request, $qs_match );
 		
@@ -485,6 +483,8 @@ function get_pagenum_link($pagenum = 1) {
 		} else {
 			$query_string = '';
 		}
+		
+		$request = preg_replace( '|/?page/(.+)/?$|', '', $request);
 		
 		$base = trailingslashit( get_bloginfo( 'url' ) );
 		
