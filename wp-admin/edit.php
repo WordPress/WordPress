@@ -29,8 +29,6 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 
 wp("what_to_show=posts$post_status_q&posts_per_page=15");
 
-do_action('restrict_manage_posts');
-
 // define the columns to display, the syntax is 'internal name' => 'display name'
 $posts_columns = array(
 	'id'         => '<div style="text-align: center">' . __('ID') . '</div>',
@@ -132,6 +130,8 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 	</fieldset>
 	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" /> 
 </form>
+
+<?php do_action('restrict_manage_posts'); ?>
 
 <br style="clear:both;" />
 
