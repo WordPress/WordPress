@@ -40,7 +40,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 				printf(__('By: %s'), get_comment_author_rss());
 			}
 		?></title>
-		<link rel="alternate" href="<?php comment_link(); ?>" type="<?php bloginfo_rss('content_type'); ?>" />
+		<link rel="alternate" href="<?php comment_link(); ?>" type="<?php bloginfo_rss('html_type'); ?>" />
 
 		<author>
 			<name><?php comment_author_rss(); ?></name>
