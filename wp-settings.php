@@ -146,7 +146,11 @@ if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === fa
 		$link = 'install.php';
 	else
 		$link = 'wp-admin/install.php';
-	wp_die(sprintf("It doesn't look like you've installed WP yet. Try running <a href='%s'>install.php</a>.", $link));
+	
+	wp_die( sprintf( 
+		__( 'It doesn&#8217;t look like you&#8217;ve installed WP yet. Try running <a href="%s">install.php</a>.' ), 
+		$link
+	) );
 }
 
 require (ABSPATH . WPINC . '/formatting.php');
