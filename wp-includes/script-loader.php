@@ -72,6 +72,7 @@ class WP_Scripts {
 		$this->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 		
 		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.2');
+		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '1.0.3');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2');
 		
 		if ( is_admin() ) {
@@ -113,7 +114,7 @@ class WP_Scripts {
 			$this->add( 'admin-comments', '/wp-admin/edit-comments.js', array('listman'), '20070327' );
 			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
 			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
-			$this->add( 'upload', '/wp-admin/upload.js', array('prototype'), '20070306' );
+			$this->add( 'upload', '/wp-admin/upload.js', array('jquery'), '20070518' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),
 				'back' => __('&laquo; Back'),
