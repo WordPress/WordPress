@@ -100,7 +100,7 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 		}
 	}
 
-	$cats = get_categories("child_of=$parent&hide_empty=0&fields=ids");
+	$cats = get_categories("parent=$parent&hide_empty=0&fields=ids");
 
 	$result = array ();
 	if ( is_array( $cats ) ) {

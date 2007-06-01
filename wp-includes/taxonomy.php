@@ -480,13 +480,12 @@ function &get_terms($taxonomies, $args = '') {
 		'hierarchical' => true, 'child_of' => 0, 'get' => '');
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = (int) $args['number'];
-	if ( ! $single_taxonomy ) {
-		$args['child_of'] = 0;
-		$args['hierarchical'] = false;
-	} else if ( !is_taxonomy_hierarchical($taxonomies[0]) ) {
+	if ( !$single_taxonomy || !is_taxonomy_hierarchical($taxonomies[0]) ||
+		'' != $args['parent'] ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
 	}
+
 	if ( 'all' == $args['get'] ) {
 		$args['child_of'] = 0;
 		$args['hide_empty'] = 0;
@@ -497,6 +496,12 @@ function &get_terms($taxonomies, $args = '') {
 	if ( $child_of ) {
 		$hierarchy = _get_term_hierarchy($taxonomies[0]);
 		if ( !isset($hierarchy[$child_of]) )
+			return array();
+	}
+
+	if ( $parent ) {
+		$hierarchy = _get_term_hierarchy($taxonomies[0]);
+		if ( !isset($hierarchy[$parent]) )
 			return array();
 	}
 
@@ -555,7 +560,7 @@ function &get_terms($taxonomies, $args = '') {
 		$where = " AND t.slug = '$slug'";
 	}
 
-	if ( !empty($parent) ) {
+	if ( '' != $parent ) {
 		$parent = (int) $parent;
 		$where = " AND tt.parent = '$parent'";
 	}
