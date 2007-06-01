@@ -15,10 +15,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	if ( isset($attachment_data['width']) )
 		list($width,$height) = wp_shrink_dimensions($attachment_data['width'], $attachment_data['height'], 171, 128);
 
-	ob_start();
-		the_title();
-		$post_title = attribute_escape(ob_get_contents());
-	ob_end_clean();
+	$post_title = attribute_escape( the_title( '', '', false ) );
 	$post_content = attribute_escape(apply_filters( 'content_edit_pre', $post->post_content ));
 
 	$class = 'text';
