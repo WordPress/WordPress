@@ -178,15 +178,17 @@ function wp_list_authors($args = '') {
 	$defaults = array( 
 		'optioncount' => false, 'exclude_admin' => true, 
 		'show_fullname' => false, 'hide_empty' => true, 
-		'feed' => '', 'feed_image' => ''
+		'feed' => '', 'feed_image' => '', 'echo' => true
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract($r);
-	
+
+	$return = '';
+
 	// TODO:  Move select to get_authors().
 	$authors = $wpdb->get_results("SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name");
-	
+
 	$author_count = array();
 	foreach ((array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_status = 'publish' GROUP BY post_author") as $row) {
 		$author_count[$row->post_author] = $row->count;
@@ -201,7 +203,7 @@ function wp_list_authors($args = '') {
 			$name = "$author->first_name $author->last_name";
 
 		if ( !($posts == 0 && $hide_empty) )
-			echo "<li>";
+			$return .= '<li>';
 		if ( $posts == 0 ) {
 			if ( !$hide_empty )
 				$link = $name;
@@ -240,8 +242,11 @@ function wp_list_authors($args = '') {
 		}
 
 		if ( !($posts == 0 && $hide_empty) )
-			echo "$link</li>";
+			$return .= $link . '</li>';
 	}
+	if ( !$echo )
+		return $return;
+	echo $return;
 }
 
 ?>
