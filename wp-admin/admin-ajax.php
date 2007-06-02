@@ -125,6 +125,28 @@ case 'add-category' : // On the Fly
 	}
 	$x->send();
 	break;
+case 'add-link-category' : // On the Fly
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+	$names = explode(',', $_POST['newcat']);
+	$x = new WP_Ajax_Response();
+	foreach ( $names as $cat_name ) {
+		$cat_name = trim($cat_name);
+		if ( !$slug = sanitize_title($cat_name) )
+			die('0');
+		if ( !$cat_id = category_exists( $cat_name ) ) {
+			$cat_id = wp_insert_term( $cat_name, 'link_category' );
+			$cat_id = $cat_id['term_id'];
+		}
+		$cat_name = wp_specialchars(stripslashes($cat_name));
+		$x->add( array(
+			'what' => 'link-category',
+			'id' => $cat_id,
+			'data' => "<li id='link-category-$cat_id'><label for='in-link-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='link_category[]' id='in-link-category-$cat_id'/> $cat_name</label></li>"
+		) );
+	}
+	$x->send();
+	break;
 case 'add-cat' : // From Manage->Categories
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');

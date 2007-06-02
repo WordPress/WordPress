@@ -109,6 +109,11 @@ class WP_Scripts {
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')
 			) );
+			$this->add( 'ajaxlinkcat', '/wp-admin/js/link-cat.js', array('listman'), '200700601' );
+			$this->localize( 'ajaxlinkcat', 'linkcatL10n', array(
+				'add' => attribute_escape(__('Add')),
+				'how' => __('Separate multiple categories with commas.')
+			) );
 			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('listman'), '3684' );
 			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('listman'), '3733' );
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('listman'), '20070327' );

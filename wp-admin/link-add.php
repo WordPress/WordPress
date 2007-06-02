@@ -13,7 +13,7 @@ wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
 
 wp_enqueue_script( array('xfn', 'dbx-admin-key?pagenow=link.php') );
 if ( current_user_can( 'manage_categories' ) )
-	wp_enqueue_script( 'ajaxcat' );
+	wp_enqueue_script( 'ajaxlinkcat' );
 require('admin-header.php');
 ?>
 

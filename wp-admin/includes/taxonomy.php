@@ -5,7 +5,10 @@
 //
 
 function category_exists($cat_name) {
-	return is_term($cat_name, 'category');
+	$id = is_term($cat_name, 'category');
+	if ( is_array($id) )
+		$id = $id['term_id'];
+	return $id;
 }
 
 function get_category_to_edit( $id ) {

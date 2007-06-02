@@ -157,7 +157,7 @@ function dropdown_link_categories( $default = 0 ) {
 		$cat_id = $category->term_id;
 		$name = wp_specialchars( apply_filters('the_category', $category->name));
 		$checked = in_array( $cat_id, $checked_categories );
-		echo '<li id="category-', $cat_id, '"><label for="in-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="post_category[]" id="in-category-', $cat_id, '"', ($checked ? ' checked="checked"' : "" ), '/> ', $name, "</label></li>";
+		echo '<li id="link-category-', $cat_id, '"><label for="in-link-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="link_category[]" id="in-link-category-', $cat_id, '"', ($checked ? ' checked="checked"' : "" ), '/> ', $name, "</label></li>";
 	}
 }
 
