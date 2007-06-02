@@ -2,11 +2,12 @@
 
 function get_plugin_data( $plugin_file ) {
 	$plugin_data = implode( '', file( $plugin_file ));
-	preg_match( "|Plugin Name:(.*)|i", $plugin_data, $plugin_name );
-	preg_match( "|Plugin URI:(.*)|i", $plugin_data, $plugin_uri );
-	preg_match( "|Description:(.*)|i", $plugin_data, $description );
-	preg_match( "|Author:(.*)|i", $plugin_data, $author_name );
-	preg_match( "|Author URI:(.*)|i", $plugin_data, $author_uri );
+	preg_match( '|Plugin Name:(.*)$|mi', $plugin_data, $plugin_name );
+	preg_match( '|Plugin URI:(.*)$|mi', $plugin_data, $plugin_uri );
+	preg_match( '|Description:(.*)$|mi', $plugin_data, $description );
+	preg_match( '|Author:(.*)$|mi', $plugin_data, $author_name );
+	preg_match( '|Author URI:(.*)$|mi', $plugin_data, $author_uri );
+	
 	if ( preg_match( "|Version:(.*)|i", $plugin_data, $version ))
 		$version = trim( $version[1] );
 	else

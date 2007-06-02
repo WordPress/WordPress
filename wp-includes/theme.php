@@ -73,12 +73,12 @@ function get_theme_data( $theme_file ) {
 	
 	$theme_data = implode( '', file( $theme_file ) );
 	$theme_data = str_replace ( '\r', '\n', $theme_data ); 
-	preg_match( '|Theme Name:(.*)|i', $theme_data, $theme_name );
-	preg_match( '|Theme URI:(.*)|i', $theme_data, $theme_uri );
-	preg_match( '|Description:(.*)|i', $theme_data, $description );
-	preg_match( '|Author:(.*)|i', $theme_data, $author_name );
-	preg_match( '|Author URI:(.*)|i', $theme_data, $author_uri );
-	preg_match( '|Template:(.*)|i', $theme_data, $template );
+	preg_match( '|Theme Name:(.*)$|mi', $theme_data, $theme_name );
+	preg_match( '|Theme URI:(.*)$|mi', $theme_data, $theme_uri );
+	preg_match( '|Description:(.*)$|mi', $theme_data, $description );
+	preg_match( '|Author:(.*)$|mi', $theme_data, $author_name );
+	preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri );
+	preg_match( '|Template:(.*)$|mi', $theme_data, $template );
 	
 	if ( preg_match( '|Version:(.*)|i', $theme_data, $version ) )
 		$version = wp_kses( trim( $version[1] ), $themes_allowed_tags );
