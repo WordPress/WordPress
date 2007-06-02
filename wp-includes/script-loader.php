@@ -93,7 +93,7 @@ class WP_Scripts {
 				break;
 			endswitch;
 			if ( $man ) {
-				$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key.js', array('dbx'), '20070417' );
+				$this->add( 'dbx-admin-key', '/wp-admin/js/dbx-admin-key.js', array('dbx'), '20070417' );
 				$this->localize( 'dbx-admin-key', 'dbxL10n', array(
 					'manager' => $man,
 					'open' => __('open'),
@@ -104,17 +104,17 @@ class WP_Scripts {
 					'toggleKey' => __(', or press the enter key to %toggle% it'),
 				) );
 			}
-			$this->add( 'ajaxcat', '/wp-admin/cat.js', array('listman'), '20070417' );
+			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array('listman'), '20070417' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')
 			) );
-			$this->add( 'admin-categories', '/wp-admin/categories.js', array('listman'), '3684' );
-			$this->add( 'admin-custom-fields', '/wp-admin/custom-fields.js', array('listman'), '3733' );
-			$this->add( 'admin-comments', '/wp-admin/edit-comments.js', array('listman'), '20070327' );
-			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
-			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
-			$this->add( 'upload', '/wp-admin/upload.js', array('jquery'), '20070518' );
+			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('listman'), '3684' );
+			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('listman'), '3733' );
+			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('listman'), '20070327' );
+			$this->add( 'admin-users', '/wp-admin/js/users.js', array('listman'), '4583' );
+			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
+			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),
 				'back' => __('&laquo; Back'),

@@ -14,10 +14,10 @@ function wp_widgets_admin_head() {
 	define( 'WP_WIDGETS_WIDTH', 1 + 262 * ( count( $wp_registered_sidebars ) ) );
 	define( 'WP_WIDGETS_HEIGHT', 35 * ( count( $wp_registered_widgets ) ) );
 ?>
-	<link rel="stylesheet" href="widgets.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/css/widgets.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<!--[if IE 7]>
 	<style type="text/css">
-	#palette {float:left;}
+		#palette { float:left; }
 	</style>
 	<![endif]-->
 	<style type="text/css">
@@ -27,7 +27,7 @@ function wp_widgets_admin_head() {
 <?php
 	if ( get_bloginfo( 'text_direction' ) == 'rtl' ) { 
 ?>
-	<link rel="stylesheet" href="widgets-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/css/widgets-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php
 	}
 	

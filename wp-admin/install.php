@@ -19,9 +19,9 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e('WordPress &rsaquo; Installation'); ?></title>
-	<link rel="stylesheet" href="install.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="css/install.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
-	<link rel="stylesheet" href="install-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="css/install-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<?php endif; ?>
 </head>
 <body>
