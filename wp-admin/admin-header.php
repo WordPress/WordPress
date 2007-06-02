@@ -1,5 +1,5 @@
 <?php
-@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 if (!isset($_GET["page"])) require_once('admin.php');
 if ( $editing ) {
 	wp_enqueue_script( array('dbx-admin-key?pagenow=' . attribute_escape($pagenow),'admin-custom-fields') );

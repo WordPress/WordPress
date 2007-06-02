@@ -1,5 +1,5 @@
 <?php
-header('Content-type: application/atom+xml; charset=' . get_option('blog_charset'), true);
+header('Content-Type: application/atom+xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
 ?>

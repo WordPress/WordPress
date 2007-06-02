@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/xml;charset=' . get_option('blog_charset'), true);
+header('Content-Type: text/xml;charset=' . get_option('blog_charset'), true);
 
 echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; 
 ?>

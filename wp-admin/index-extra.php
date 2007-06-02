@@ -2,7 +2,7 @@
 require_once('admin.php');
 require_once (ABSPATH . WPINC . '/rss.php');
 
-@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 switch ( $_GET['jax'] ) {
 

@@ -176,9 +176,9 @@ class WP {
 			status_header( 404 );
 			if ( !is_user_logged_in() )
 				nocache_headers();
-			@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+			@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 		} else if ( empty($this->query_vars['feed']) ) {
-			@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+			@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed
 			if ( $this->query_vars['withcomments']
@@ -729,7 +729,7 @@ class WP_Ajax_Response {
 	}
 
 	function send() {
-		header('Content-type: text/xml');
+		header('Content-Type: text/xml');
 		echo "<?xml version='1.0' standalone='yes'?><wp_ajax>";
 		foreach ( $this->responses as $response )
 			echo $response;

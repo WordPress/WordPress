@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 
-@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));

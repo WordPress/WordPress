@@ -51,7 +51,7 @@ $filename = 'wordpress.' . date('Y-m-d') . '.xml';
 
 header('Content-Description: File Transfer');
 header("Content-Disposition: attachment; filename=$filename");
-header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
+header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 
 $where = '';
 if ( isset( $_GET['author'] ) && $_GET['author'] != 'all' ) {

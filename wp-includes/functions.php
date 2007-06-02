@@ -743,7 +743,7 @@ function nocache_headers() {
 
 function cache_javascript_headers() {
 	$expiresOffset = 864000; // 10 days
-	header("Content-type: text/javascript; charset=" . get_bloginfo('charset'));
+	header("Content-Type: text/javascript; charset=" . get_bloginfo('charset'));
 	header("Vary: Accept-Encoding"); // Handle proxies
 	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
 }
@@ -797,7 +797,7 @@ function do_feed_atom($for_comments) {
 }
 
 function do_robots() {
-	header('Content-type: text/plain; charset=utf-8');
+	header('Content-Type: text/plain; charset=utf-8');
 
 	do_action('do_robotstxt');
 

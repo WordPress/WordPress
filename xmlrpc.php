@@ -18,7 +18,7 @@ if ( isset($HTTP_RAW_POST_DATA) )
 include('./wp-config.php');
 
 if ( isset( $_GET['rsd'] ) ) { // http://archipelago.phrasewise.com/rsd 
-header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
+header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 
 ?>
 <?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
