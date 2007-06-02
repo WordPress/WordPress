@@ -13,8 +13,8 @@ function index_js() {
 <?php
 }
 add_action( 'admin_head', 'index_js' );
-wp_enqueue_script('prototype');
-wp_enqueue_script('interface');
+
+wp_enqueue_script( 'jquery' );
 
 $title = __('Dashboard'); 
 $parent_file = 'index.php';
