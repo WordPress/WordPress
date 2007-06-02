@@ -31,9 +31,9 @@ function login_header($title = 'Login', $message = '') {
 <head>
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/css/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
-	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/css/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php endif; ?>
 	<!--[if IE]><style type="text/css">#login h1 a { margin-top: 35px; } #login #login_error { margin-bottom: 10px; }</style><![endif]--><!-- Curse you, IE! -->
 	<script type="text/javascript">
