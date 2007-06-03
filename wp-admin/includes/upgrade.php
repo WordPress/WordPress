@@ -607,22 +607,29 @@ function upgrade_230() {
 
 		$wpdb->query("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES ('$term_id', '$name', '$slug', '$term_group')");
 
+		$count = 0;
 		if ( !empty($category->category_count) ) {
 			$count = (int) $category->category_count;
 			$taxonomy = 'category';
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
 			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
-		} else if ( !empty($category->link_count) ) {
+		}
+
+		if ( !empty($category->link_count) ) {
 			$count = (int) $category->link_count;
 			$taxonomy = 'link_category';
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
 			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
-		} else if ( !empty($category->tag_count) ) {
+		}
+
+		if ( !empty($category->tag_count) ) {
 			$count = (int) $category->tag_count;
 			$taxonomy = 'post_tag';
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
 			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
-		} else {
+		}
+		
+		if ( empty($count) ) {
 			$count = 0;
 			$taxonomy = 'category';
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
