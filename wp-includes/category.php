@@ -12,9 +12,13 @@ function get_all_category_ids() {
 }
 
 function &get_categories($args = '') {
-	// TODO Add back compat fields into each object.
-	// Set taxonomy to link_category if type=link
-	return get_terms('category', $args);
+	$defaults = array('type' => 'category');
+	$args = wp_parse_args($args, $defaults);
+
+	$taxonomy = 'category';
+	if ( 'link' == $args['type'] )
+		$taxonomy = 'link_category';
+	return get_terms($taxonomy, $args);
 }
 
 // Retrieves category data given a category ID or category object.
