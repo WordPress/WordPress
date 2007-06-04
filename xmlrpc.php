@@ -925,8 +925,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
+      $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 	  $user = set_current_user(0, $user_login);
-	  if ( !current_user_can('publish_posts') )
+	  if ( !current_user_can($cap) )
 	    return new IXR_Error(401, __('Sorry, you can not post on this weblog or category.'));
 
 		// The post_type defaults to post, but could also be page.
