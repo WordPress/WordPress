@@ -67,10 +67,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
+	$args['name'] = $term;
+	$args = sanitize_term($args, $taxonomy, 'db');
 	extract($args);
-
-	$name = $term;
-	$parent = (int) $parent;
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
@@ -205,6 +204,8 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	// First, get all of the original args
 	$term = get_term ($term_id, $taxonomy, ARRAY_A);
 
+	$term = sanitize_term($term, $taxonomy, 'db');
+
 	// Escape data pulled from DB.
 	$term = add_magic_quotes($term);
 
@@ -222,7 +223,6 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	else
 		$slug = sanitize_title($slug);
 
-	$term_group = 0;	
 	if ( $alias_of ) {
 		$alias = $wpdb->fetch_row("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$alias_of'");
 		if ( $alias->term_group ) {
@@ -230,7 +230,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 			$term_group = $alias->term_group;
 		} else {
 			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
-			$term_group = $wpdb->get_var("SELECT MAX() term_group FROM $wpdb->terms GROUP BY term_group") + 1;
+			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
 			$wpdb->query("UPDATE $wpdb->terms SET term_group = $term_group WHERE term_id = $alias->term_id");
 		}
 	}
@@ -244,7 +244,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 		
 	$tt_id = $wpdb->get_var("SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = $term_id");
 
-	$wpdb->query("UPDATE $wpdb->term_taxonomy SET term_id = '$term_id', taxonomy = '$taxonomy', description = '$description', parent = '$parent', count = 0 WHERE term_taxonomy_id = '$tt_id'");
+	$wpdb->query("UPDATE $wpdb->term_taxonomy SET term_id = '$term_id', taxonomy = '$taxonomy', description = '$description', parent = '$parent' WHERE term_taxonomy_id = '$tt_id'");
 
 	do_action("edit_term", $term_id, $tt_id);
 	do_action("edit_$taxonomy", $term_id, $tt_id);
@@ -708,15 +708,79 @@ function get_term_children( $term, $taxonomy ) {
 	return $children;
 }
 
-function update_term_cache($terms, $taxonomy = '') {
-	foreach ( $terms as $term ) {
-		$term_taxonomy = $taxonomy;
-		if ( empty($term_taxonomy) )
-			$term_taxonomy = $term->taxonomy;
+function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
+	$term = (int) $term;
+	$term = get_term( $term, $taxonomy );
 
-		wp_cache_add($term->term_id, $term, $term_taxonomy);
-	}
+	if ( !is_object($term) )
+		return '';
+
+	if ( !isset($term->$field) )
+		return '';
+
+	return sanitize_term_field($field, $term->$field, $term->term_id, $taxonomy, $context);
 }
+
+function get_term_to_edit( $id, $taxonomy ) {
+	$term = get_term( $id, $taxonomy );
+
+	if ( !is_object($term) )
+		return '';
+
+	return sanitize_term($term, $taxonomy, 'edit');
+}
+
+function sanitize_term($term, $taxonomy, $context = 'display') {
+	$fields = array('term_id', 'name', 'description', 'slug', 'count', 'term_group');
+
+	$do_object = false;
+	if ( is_object($term) )
+		$do_object = true;
+
+	foreach ( $fields as $field ) {
+		if ( $do_object )
+			$term->$field = sanitize_term_field($field, $term->$field, $term->term_id, $taxonomy, $context);
+		else
+			$term[$field] = sanitize_term_field($field, $term[$field], $term['term_id'], $taxonomy, $context);	
+	}
+
+	return $term;
+}
+
+function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
+	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field
+		|| 'term_group' == $field )
+		$value = (int) $value;
+
+	if ( 'edit' == $context ) {
+		$value = apply_filters("edit_term_$field", $value, $term_id, $taxonomy);
+		$value = apply_filters("edit_${taxonomy}_$field", $value, $term_id);
+		if ( 'description' == $field )
+			$value = format_to_edit($value);
+		else
+			$value = attribute_escape($value);
+	} else if ( 'db' == $context ) {
+		$value = apply_filters("pre_term_$field", $value, $taxonomy);
+		$value = apply_filters("pre_${taxonomy}_$field", $value);	
+	} else {
+		// Use display filters by default.
+		$value = apply_filters("term_$field", $value, $term_id, $taxonomy, $context);
+		$value = apply_filters("${taxonomy}_$field", $value, $term_id, $context);
+	}
+
+	// TODO: attribute is usually done in an edit context, so display filters probably
+	// not appropriate.
+	if ( 'attribute' == $context )
+		$value = attribute_escape($value);
+	else if ( 'js' == $context )
+		$value = js_escape($value);
+
+	return $value;
+}
+
+//
+// Cache
+//
 
 function clean_term_cache($ids, $taxonomy) {
 	if ( !is_array($ids) )
@@ -730,6 +794,16 @@ function clean_term_cache($ids, $taxonomy) {
 	wp_cache_delete('get', $taxonomy);
 	delete_option("{$taxonomy}_children");
 	wp_cache_delete('get_terms', 'terms');
+}
+
+function update_term_cache($terms, $taxonomy = '') {
+	foreach ( $terms as $term ) {
+		$term_taxonomy = $taxonomy;
+		if ( empty($term_taxonomy) )
+			$term_taxonomy = $term->taxonomy;
+
+		wp_cache_add($term->term_id, $term, $term_taxonomy);
+	}
 }
 
 function clean_object_term_cache($object_ids, $object_type) {
@@ -794,6 +868,10 @@ function update_object_term_cache($object_ids, $object_type) {
 				$object_term_cache[$blog_id][$id] = array();
 	}
 }
+
+//
+// Private
+//
 
 function _get_term_hierarchy($taxonomy) {
 	// TODO Make sure taxonomy is hierarchical

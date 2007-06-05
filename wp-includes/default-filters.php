@@ -2,6 +2,7 @@
 
 // Some default filters
 add_filter('bloginfo','wp_specialchars');
+add_filter('term_description', 'wptexturize');
 add_filter('category_description', 'wptexturize');
 add_filter('list_cats', 'wptexturize');
 add_filter('comment_author', 'wptexturize');
@@ -51,6 +52,13 @@ add_filter('comment_text', 'wpautop', 30);
 add_filter('comment_text', 'convert_smilies', 20);
 
 add_filter('comment_excerpt', 'convert_chars');
+
+// Terms
+add_filter('pre_term_name', 'strip_tags');
+add_filter('pre_term_name', 'trim');
+add_filter('pre_term_name', 'wp_filter_kses');
+add_filter('pre_term_name', 'wp_specialchars', 30);
+add_filter('pre_term_description', 'wp_filter_kses');
 
 // Categories
 add_filter('pre_category_name', 'strip_tags');
