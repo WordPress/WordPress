@@ -219,7 +219,7 @@ function wp_upload_tab_upload_action() {
 
 		// Construct the attachment array
 		$attachment = array(
-			'post_title' => $post_title ? $post_title : $filename,
+			'post_title' => $post_title,
 			'post_content' => $post_content,
 			'post_type' => 'attachment',
 			'post_parent' => $post_id,
