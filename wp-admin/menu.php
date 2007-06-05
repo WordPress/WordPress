@@ -46,6 +46,7 @@ $submenu['edit.php'][40] = array(__('Export'), 'import', 'export.php');
 $submenu['link-manager.php'][5] = array(__('Manage Blogroll'), 'manage_links', 'link-manager.php');
 $submenu['link-manager.php'][10] = array(__('Add Link'), 'manage_links', 'link-add.php');
 $submenu['link-manager.php'][20] = array(__('Import Links'), 'manage_links', 'link-import.php');
+$submenu['link-manager.php'][30] = array(__('Categories'), 'manage_links', 'edit-link-categories.php');
 
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.

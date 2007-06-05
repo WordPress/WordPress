@@ -36,9 +36,6 @@ case 'delete':
     if ( $cat_ID == get_option('default_category') )
 		wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
-    if ( $cat_ID == get_option('default_link_category') )
-		wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one for links"), $cat_name));
-
 	wp_delete_category($cat_ID);
 
 	wp_redirect('categories.php?message=2');
@@ -113,7 +110,7 @@ cat_rows();
 
 <?php if ( current_user_can('manage_categories') ) : ?>
 <div class="wrap">
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts and links in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong> and links that were only assigned to the deleted category are set to <strong>%s</strong>.'), apply_filters('the_category', get_catname(get_option('default_category'))), apply_filters('the_category', get_catname(get_option('default_link_category')))) ?></p>
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_catname(get_option('default_category')))) ?></p>
 </div>
 
 <?php include('edit-category-form.php'); ?>

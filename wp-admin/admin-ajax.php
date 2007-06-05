@@ -134,7 +134,7 @@ case 'add-link-category' : // On the Fly
 		$cat_name = trim($cat_name);
 		if ( !$slug = sanitize_title($cat_name) )
 			die('0');
-		if ( !$cat_id = category_exists( $cat_name ) ) {
+		if ( !$cat_id = is_term( $cat_name, 'link_category' ) ) {
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
 			$cat_id = $cat_id['term_id'];
 		}
