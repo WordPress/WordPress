@@ -80,7 +80,7 @@ function wp_insert_category($catarr) {
 	$name = apply_filters('pre_category_name', $name);
 
 	if ( empty ($slug) )
-		$slug = sanitize_title($slug);
+		$slug = sanitize_title($name);
 	else
 		$slug = sanitize_title($slug);
 	$slug = apply_filters('pre_category_nicename', $slug);
@@ -93,7 +93,7 @@ function wp_insert_category($catarr) {
 	if ( empty($parent) || !get_category( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
 		$parent = 0;
 
-	$args = compact('slug', 'parent', 'description');
+	$args = compact('name', 'slug', 'parent', 'description');
 
 	if ( $update )
 		$cat_ID = wp_update_term($cat_ID, 'category', $args);
