@@ -216,8 +216,6 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	$args = wp_parse_args($args, $defaults);
 	extract($args);
 
-	$parent = (int) $parent;
-
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
 	else
@@ -238,7 +236,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	$wpdb->query("UPDATE $wpdb->terms SET name = '$name', slug = '$slug', term_group = '$term_group' WHERE term_id = '$term_id'");
 
 	if ( empty($slug) ) {
-		$slug = sanitize_title($slug, $term_id);
+		$slug = sanitize_title($name, $term_id);
 		$wpdb->query("UPDATE $wpdb->terms SET slug = '$slug' WHERE term_id = '$term_id'");
 	}
 		
