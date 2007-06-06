@@ -915,14 +915,12 @@ class WP_Query {
 
 			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
-			$whichcat .= "AND $wpdb->term_taxonomy.term_id IN ({$q['cat']}, ";
-			$whichcat .= get_category_children($q['cat'], '', ', ');
-			$whichcat = substr($whichcat, 0, -2);
-			$whichcat .= ")";
+			$in_cats = array($q['cat']);
+			$in_cats = array_merge($in_cats, get_term_children($q['cat'], 'category'));
+			$in_cats = "'" . implode("', '", $in_cats) . "'";
+			$whichcat .= "AND $wpdb->term_taxonomy.term_id IN ($in_cats)";
 			$groupby = "{$wpdb->posts}.ID";
 		}
-
-
 
 		// Author/user stuff
 

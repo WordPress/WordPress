@@ -172,8 +172,8 @@ function category_description($category = 0) {
 	global $cat;
 	if ( !$category )
 		$category = $cat;
-	$category = & get_category($category);
-	return apply_filters('category_description', $category->description, $category->term_id);
+
+	return get_term_field('description', $category, 'category');
 }
 
 function wp_dropdown_categories($args = '') {
