@@ -166,6 +166,7 @@ $comments = array_slice( $comments, $start, $stop );
 					| <?php _e( 'IP:' ); ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP(); ?>"><?php comment_author_IP(); ?></a>
 				</p>
 				
+				<p>
 					<?php comment_text(); ?>
 				</p>
 
@@ -183,8 +184,6 @@ $comments = array_slice( $comments, $start, $stop );
 					<label for="comment-<?php comment_ID(); ?>-delete"><input type="radio" name="comment[<?php comment_ID(); ?>]" id="comment-<?php comment_ID(); ?>-delete" value="delete" /> <?php _e( 'Delete' ); ?></label> &nbsp;
 					<label for="comment-<?php comment_ID(); ?>-nothing"><input type="radio" name="comment[<?php comment_ID(); ?>]" id="comment-<?php comment_ID(); ?>-nothing" value="later" checked="checked" /> <?php _e( 'No action' ); ?></label>
 				</small></p>
-				
-				<p>
 			</li>
 		<?php
 		}
