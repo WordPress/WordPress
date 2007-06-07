@@ -166,17 +166,16 @@ $comments = array_slice( $comments, $start, $stop );
 					| <?php _e( 'IP:' ); ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP(); ?>"><?php comment_author_IP(); ?></a>
 				</p>
 				
+					<?php comment_text(); ?>
+				</p>
+
 				<p><small>
 					<?php comment_date( __( 'M j, g:i A' ) ); ?> &#8212; 
 					[ <a href="comment.php?action=editcomment&amp;c=<?php comment_ID(); ?>" title="<?php _e( 'Edit this comment' ); ?>"><?php _e( 'Edit' ); ?></a> | 
 					<a href="post.php?action=deletecomment&amp;p=<?php echo $comment->comment_post_ID; ?>" title="<?php _e( 'Delete this comment' ); ?>" onclick="return deleteSomething( 'comment', <?php comment_ID(); ?>, '<?php echo js_escape( sprintf( __( 'You are about to delete this comment by \'%s\'.\n\'OK\' to delete, \'Cancel\' to stop.' ), get_comment_author() ) ); ?>', theCommentList );"><?php _e( 'Delete' ); ?></a> ] &#8212; 
 					<a href="<?php echo get_permalink( $comment->comment_post_ID ); ?>" title="<?php _e( 'View the post' ); ?>"><?php printf( __( 'View post &#8220;%s&#8221;' ), get_the_title( $comment->comment_post_ID ) ); ?></a>
 				</small></p>
-				
-				<p>
-					<?php comment_text(); ?>
-				</p>
-				
+
 				<p><small>
 					<?php _e( 'Bulk action:' ); ?>
 					<label for="comment-<?php comment_ID(); ?>-approve"><input type="radio" name="comment[<?php comment_ID(); ?>]" id="comment-<?php comment_ID(); ?>-approve" value="approve" /> <?php _e( 'Approve' ); ?></label> &nbsp;
@@ -184,6 +183,8 @@ $comments = array_slice( $comments, $start, $stop );
 					<label for="comment-<?php comment_ID(); ?>-delete"><input type="radio" name="comment[<?php comment_ID(); ?>]" id="comment-<?php comment_ID(); ?>-delete" value="delete" /> <?php _e( 'Delete' ); ?></label> &nbsp;
 					<label for="comment-<?php comment_ID(); ?>-nothing"><input type="radio" name="comment[<?php comment_ID(); ?>]" id="comment-<?php comment_ID(); ?>-nothing" value="later" checked="checked" /> <?php _e( 'No action' ); ?></label>
 				</small></p>
+				
+				<p>
 			</li>
 		<?php
 		}
@@ -218,7 +219,7 @@ $comments = array_slice( $comments, $start, $stop );
 				}
 			}
 		
-			document.write( '<p style="text-align:center;"><strong><?php _e( 'Mark all:' ); ?></strong> <a href="javascript:mark_all_as(\'approve\')"><?php _e( 'Approved' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'spam\')"><?php _e( 'Spam' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'delete\')"><?php _e( 'Deleted' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'later\')"><?php _e( 'Later' ); ?></a></p>' );
+			document.write( '<p><strong><?php _e( 'Mark all:' ); ?></strong> <a href="javascript:mark_all_as(\'approve\')"><?php _e( 'Approved' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'spam\')"><?php _e( 'Spam' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'delete\')"><?php _e( 'Deleted' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'later\')"><?php _e( 'Later' ); ?></a></p>' );
 		// ]]>
 		</script>
 	</form>
