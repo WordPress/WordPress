@@ -27,6 +27,6 @@ get_header();
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
 
-<?php posts_nav_link(' &#8212; ', __('&laquo; Previous Page'), __('Next Page &raquo;')); ?>
+<?php posts_nav_link(' &#8212; ', __('&laquo; Older Posts'), __('Newer Posts &raquo;')); ?>
 
 <?php get_footer(); ?>
