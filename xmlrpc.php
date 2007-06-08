@@ -1437,6 +1437,21 @@ class wp_xmlrpc_server extends IXR_Server {
 		$type = $data['type'];
 		$bits = $data['bits'];
 
+		logIO('O', '(MW) Received '.strlen($bits).' bytes');
+
+		if ( !$this->login_pass_ok($user_login, $user_pass) )
+			return $this->error;
+
+		set_current_user(0, $user_login);
+		if ( !current_user_can('upload_files') ) {
+			logIO('O', '(MW) User does not have upload_files capability');
+			$this->error = new IXR_Error(401, __('You are not allowed to upload files to this site.'));
+			return $this->error;
+		}
+
+		if ( $upload_err = apply_filters( "pre_upload_error", false ) )
+			return new IXR_Error(500, $upload_err);
+
 		if(!empty($data["overwrite"]) && ($data["overwrite"] == true)) {
 			// Get postmeta info on the object.
 			$old_file = $wpdb->get_row("
@@ -1454,21 +1469,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			$filename = preg_replace("/^wpid\d+-/", "", $name);
 			$name = "wpid{$old_file->ID}-{$filename}";
 		}
-
-		logIO('O', '(MW) Received '.strlen($bits).' bytes');
-
-		if ( !$this->login_pass_ok($user_login, $user_pass) )
-			return $this->error;
-
-		set_current_user(0, $user_login);
-		if ( !current_user_can('upload_files') ) {
-			logIO('O', '(MW) User does not have upload_files capability');
-			$this->error = new IXR_Error(401, __('You are not allowed to upload files to this site.'));
-			return $this->error;
-		}
-
-		if ( $upload_err = apply_filters( "pre_upload_error", false ) )
-			return new IXR_Error(500, $upload_err);
 
 		$upload = wp_upload_bits($name, $type, $bits, $overwrite);
 		if ( ! empty($upload['error']) ) {
