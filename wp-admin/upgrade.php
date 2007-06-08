@@ -18,9 +18,9 @@ else
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<title><?php _e('WordPress &rsaquo; Upgrade'); ?></title>
-	<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/install.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/css/install.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
-	<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/install-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/css/install-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<?php endif; ?>
 </head>
 <body>
