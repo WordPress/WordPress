@@ -612,9 +612,11 @@ function wp_widget_text_register() {
 function wp_widget_categories($args, $number = 1) {
 	extract($args);
 	$options = get_option('widget_categories');
+	
 	$c = $options[$number]['count'] ? '1' : '0';
 	$h = $options[$number]['hierarchical'] ? '1' : '0';
 	$d = $options[$number]['dropdown'] ? '1' : '0';
+	
 	$title = empty($options[$number]['title']) ? __('Categories') : $options[$number]['title'];
 
 	echo $before_widget;
@@ -667,16 +669,25 @@ function wp_widget_categories_control( $number ) {
 		update_option('widget_categories', $options);
 	}
 	
-	$count = $options[$number]['count'] ? 'checked="checked"' : '';
-	$hierarchical = $options[$number]['hierarchical'] ? 'checked="checked"' : '';
-	$dropdown = $options[$number]['dropdown'] ? 'checked="checked"' : '';
-	$title = attribute_escape($options[$number]['title']);
+	$title = attribute_escape( $options[$number]['title'] );
 ?>
-			<p><label for="categories-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="categories-title" name="categories-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="categories-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="categories-count" name="categories-count" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="categories-hierarchical" style="text-align:right;"><?php _e('Show hierarchy'); ?> <input class="checkbox" type="checkbox" <?php echo $hierarchical; ?> id="categories-hierarchical" name="categories-hierarchical" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="categories-dropdown" style="text-align:right;"><?php _e('Display as a drop down'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="categories-dropdown" name="categories-dropdown" /></label></p>
-			<input type="hidden" id="categories-submit" name="categories-submit" value="1" />
+			<p><label for="categories-title-<?php echo $number; ?>">
+				<?php _e( 'Title:' ); ?> <input style="width:300px" id="categories-title-<?php echo $number; ?>" name="categories-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
+			</label></p>
+			
+			<p><label for="categories-dropdown-<?php echo $number; ?>">
+				<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="categories-dropdown-<?php echo $number; ?>"<?php echo $options[$number]['dropdown'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show as dropdown' ); ?>
+			</label></p>
+			
+			<p><label for="categories-count-<?php echo $number; ?>">
+				<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="categories-count-<?php echo $number; ?>"<?php echo $options[$number]['count'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show post counts' ); ?>
+			</label></p>
+			
+			<p><label for="categories-hierarchical-<?php echo $number; ?>">
+				<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="categories-hierarchical-<?php echo $number; ?>"<?php echo $options[$number]['count'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show hierarchy' ); ?>
+			</label></p>
+			
+			<input type="hidden" id="categories-submit-<?php echo $number; ?>" name="categories-submit-<?php echo $number; ?>" />
 <?php
 }
 
