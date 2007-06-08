@@ -301,6 +301,7 @@ function comments_template( $file = '/comments.php' ) {
 	// keep $comments for legacy's sake (remember $table*? ;) )
 	$comments = $wp_query->comments = apply_filters( 'comments_array', $comments, $post->ID );
 	$wp_query->comment_count = count($wp_query->comments);
+	update_comment_cache($comments);
 
 	define('COMMENTS_TEMPLATE', true);
 	$include = apply_filters('comments_template', TEMPLATEPATH . $file );

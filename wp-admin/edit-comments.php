@@ -151,7 +151,8 @@ if ( $extra_comments ) : ?>
   </tr>
 </thead>';
 		foreach ($comments as $comment) {
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
+		$post = get_post($comment->comment_post_ID);
+		$authordata = get_userdata($post->post_author);
 		$comment_status = wp_get_comment_status($comment->comment_ID);
 		$class = ('alternate' == $class) ? '' : 'alternate';
 		$class .= ('unapproved' == $comment_status) ? ' unapproved' : '';

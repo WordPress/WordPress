@@ -71,7 +71,7 @@ function get_approved_comments($post_id) {
 // Retrieves comment data given a comment ID or comment object.
 // Handles comment caching.
 function &get_comment(&$comment, $output = OBJECT) {
-	global $comment_cache, $wpdb;
+	global $wpdb;
 
 	if ( empty($comment) ) {
 		if ( isset($GLOBALS['comment']) )
@@ -79,20 +79,19 @@ function &get_comment(&$comment, $output = OBJECT) {
 		else
 			$_comment = null;
 	} elseif ( is_object($comment) ) {
-		if ( !isset($comment_cache[$comment->comment_ID]) )
-			$comment_cache[$comment->comment_ID] = &$comment;
-		$_comment = & $comment_cache[$comment->comment_ID];
+		wp_cache_add($comment->comment_ID, $comment, 'comment');
+		$_comment = $comment;
 	} else {
 		$comment = (int) $comment;
 		if ( isset($GLOBALS['comment']) && ($GLOBALS['comment']->comment_ID == $comment) ) {
 			$_comment = & $GLOBALS['comment'];
-		} elseif ( !isset($comment_cache[$comment]) ) {
+		} elseif ( ! $_comment = wp_cache_get($comment, 'comment') ) {
 			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment' LIMIT 1");
-			$comment_cache[$comment->comment_ID] = & $_comment;
-		} else {
-			$_comment = & $comment_cache[$comment];
+			wp_cache_add($_comment->comment_ID, $_comment, 'comment');
 		}
 	}
+
+	$_comment = apply_filters('get_comment', $_comment);
 
 	if ( $output == OBJECT ) {
 		return $_comment;
@@ -285,6 +284,8 @@ function wp_delete_comment($comment_id) {
 	if ( $post_id && $comment->comment_approved == 1 )
 		wp_update_comment_count($post_id);
 
+	clean_comment_cache($comment_id);
+
 	do_action('wp_set_comment_status', $comment_id, 'delete');
 	return true;
 }
@@ -293,15 +294,19 @@ function wp_delete_comment($comment_id) {
 function wp_get_comment_status($comment_id) {
 	global $wpdb;
 
-	$result = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
+	$comment = get_comment($comment_id);
+	if ( !$comment )
+		return false;
 
-	if ( $result == NULL )
+	$approved = $comment->comment_approved;
+
+	if ( $approved == NULL )
 		return 'deleted';
-	elseif ( $result == '1' )
+	elseif ( $approved == '1' )
 		return 'approved';
-	elseif ( $result == '0' )
+	elseif ( $approved == '0' )
 		return 'unapproved';
-	elseif ( $result == 'spam' )
+	elseif ( $approved == 'spam' )
 		return 'spam';
 	else
 		return false;
@@ -438,9 +443,12 @@ function wp_set_comment_status($comment_id, $comment_status) {
 	if ( !$wpdb->query($query) )
 		return false;
 
+	clean_comment_cache($comment_id);
+
 	do_action('wp_set_comment_status', $comment_id, $comment_status);
 	$comment = get_comment($comment_id);
 	wp_update_comment_count($comment->comment_post_ID);
+
 	return true;
 }
 
@@ -479,6 +487,8 @@ function wp_update_comment($commentarr) {
 		WHERE comment_ID = $comment_ID" );
 
 	$rval = $wpdb->rows_affected;
+
+	clean_comment_cache($comment_ID);
 	wp_update_comment_count($comment_post_ID);
 	do_action('edit_comment', $comment_ID);
 	return $rval;
@@ -791,6 +801,19 @@ function weblog_ping($server = '', $path = '') {
 	$home = trailingslashit( get_option('home') );
 	if ( !$client->query('weblogUpdates.extendedPing', get_option('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
 		$client->query('weblogUpdates.ping', get_option('blogname'), $home);
+}
+
+//
+// Cache
+//
+
+function clean_comment_cache($id) {
+	wp_cache_delete($id, 'comment');
+}
+
+function update_comment_cache($comments) {
+	foreach ( $comments as $comment )
+		wp_cache_add($comment->comment_ID, $comment, 'comment');
 }
 
 ?>

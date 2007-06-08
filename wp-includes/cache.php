@@ -63,6 +63,7 @@ class WP_Object_Cache {
 	var $dirty_objects = array ();
 	var $non_existant_objects = array ();
 	var $global_groups = array ('users', 'userlogins', 'usermeta');
+	var $non_persistent_groups = array('comment');
 	var $blog_id;
 	var $cold_cache_hits = 0;
 	var $warm_cache_hits = 0;
@@ -308,6 +309,9 @@ class WP_Object_Cache {
 		// Loop over dirty objects and save them.
 		$errors = 0;
 		foreach ($this->dirty_objects as $group => $ids) {
+			if ( in_array($group, $this->non_persistent_groups) )
+				continue;
+
 			$group_dir = $this->make_group_dir($group, $dir_perms);
 
 			$ids = array_unique($ids);

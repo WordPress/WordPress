@@ -250,6 +250,8 @@ function _wp_get_comment_list( $s = false, $start, $num ) {
 		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date DESC LIMIT $start, $num" );
 	}
 
+	update_comment_cache($comments);
+
 	$total = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 
 	return array($comments, $total);
@@ -260,7 +262,8 @@ function _wp_comment_list_item( $id, $alt = 0 ) {
 	$id = (int) $id;
 	$comment =& get_comment( $id );
 	$class = '';
-	$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
+	$post = get_post($comment->comment_post_ID);
+	$authordata = get_userdata($post->post_author);
 	$comment_status = wp_get_comment_status($comment->comment_ID);
 	if ( 'unapproved' == $comment_status )
 		$class .= ' unapproved';
