@@ -150,6 +150,7 @@ if ( 1 == count($posts) ) {
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ($comments) {
+		update_comment_cache($comments);
 	?>
 <h3 id="comments"><?php _e('Comments') ?></h3>
 <ol id="the-comment-list" class="commentlist">
@@ -158,7 +159,8 @@ $i = 0;
 foreach ($comments as $comment) {
 
 		++$i; $class = '';
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
+		$post = get_post($comment->comment_post_ID);
+		$authordata = get_userdata($post->post_author);
 			$comment_status = wp_get_comment_status($comment->comment_ID);
 			if ('unapproved' == $comment_status)
 				$class .= ' unapproved';
