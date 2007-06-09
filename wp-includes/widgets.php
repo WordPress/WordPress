@@ -609,22 +609,20 @@ function wp_widget_text_register() {
 	add_action('sidebar_admin_page', 'wp_widget_text_page');
 }
 
-function wp_widget_categories($args, $number = 1) {
+function wp_widget_categories($args) {
 	extract($args);
 	$options = get_option('widget_categories');
-	
-	$c = $options[$number]['count'] ? '1' : '0';
-	$h = $options[$number]['hierarchical'] ? '1' : '0';
-	$d = $options[$number]['dropdown'] ? '1' : '0';
-	
-	$title = empty($options[$number]['title']) ? __('Categories') : $options[$number]['title'];
+	$c = $options['count'] ? '1' : '0';
+	$h = $options['hierarchical'] ? '1' : '0';
+	$d = $options['dropdown'] ? '1' : '0';
+	$title = empty($options['title']) ? __('Categories') : $options['title'];
 
 	echo $before_widget;
 	echo $before_title . $title . $after_title; 
 
 	$cat_args = "orderby=name&show_count={$c}&hierarchical={$h}";
 
-	if ( $d ) {
+	if($d) {
 		wp_dropdown_categories($cat_args . '&show_option_none= ' . __('Select Category'));
 ?>
 
@@ -650,118 +648,29 @@ function wp_widget_categories($args, $number = 1) {
 	echo $after_widget;
 }
 
-function wp_widget_categories_control( $number ) {
+function wp_widget_categories_control() {
 	$options = $newoptions = get_option('widget_categories');
-	
-	if ( !is_array( $options ) ) {
-		$options = $newoptions = get_option( 'widget_categories' );
+	if ( $_POST['categories-submit'] ) {
+		$newoptions['count'] = isset($_POST['categories-count']);
+		$newoptions['hierarchical'] = isset($_POST['categories-hierarchical']);
+		$newoptions['dropdown'] = isset($_POST['categories-dropdown']);
+		$newoptions['title'] = strip_tags(stripslashes($_POST['categories-title']));
 	}
-	
-	if ( $_POST['categories-submit-' . $number] ) {
-		$newoptions[$number]['count'] = isset($_POST['categories-count-' . $number]);
-		$newoptions[$number]['hierarchical'] = isset($_POST['categories-hierarchical-' . $number]);
-		$newoptions[$number]['dropdown'] = isset($_POST['categories-dropdown-' . $number]);
-		$newoptions[$number]['title'] = strip_tags(stripslashes($_POST['categories-title-' . $number]));
-	}
-	
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
 		update_option('widget_categories', $options);
 	}
-	
-	$title = attribute_escape( $options[$number]['title'] );
+	$count = $options['count'] ? 'checked="checked"' : '';
+	$hierarchical = $options['hierarchical'] ? 'checked="checked"' : '';
+	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
+	$title = attribute_escape($options['title']);
 ?>
-			<p><label for="categories-title-<?php echo $number; ?>">
-				<?php _e( 'Title:' ); ?> <input style="width:300px" id="categories-title-<?php echo $number; ?>" name="categories-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
-			</label></p>
-			
-			<p><label for="categories-dropdown-<?php echo $number; ?>">
-				<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="categories-dropdown-<?php echo $number; ?>"<?php echo $options[$number]['dropdown'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show as dropdown' ); ?>
-			</label></p>
-			
-			<p><label for="categories-count-<?php echo $number; ?>">
-				<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="categories-count-<?php echo $number; ?>"<?php echo $options[$number]['count'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show post counts' ); ?>
-			</label></p>
-			
-			<p><label for="categories-hierarchical-<?php echo $number; ?>">
-				<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="categories-hierarchical-<?php echo $number; ?>"<?php echo $options[$number]['count'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show hierarchy' ); ?>
-			</label></p>
-			
-			<input type="hidden" id="categories-submit-<?php echo $number; ?>" name="categories-submit-<?php echo $number; ?>" />
+			<p><label for="categories-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="categories-title" name="categories-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="categories-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="categories-count" name="categories-count" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="categories-hierarchical" style="text-align:right;"><?php _e('Show hierarchy'); ?> <input class="checkbox" type="checkbox" <?php echo $hierarchical; ?> id="categories-hierarchical" name="categories-hierarchical" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="categories-dropdown" style="text-align:right;"><?php _e('Display as a drop down'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="categories-dropdown" name="categories-dropdown" /></label></p>
+			<input type="hidden" id="categories-submit" name="categories-submit" value="1" />
 <?php
-}
-
-function wp_widget_categories_setup() {
-	$options = $newoptions = get_option( 'widget_categories' );
-	
-	if ( isset( $_POST['categories-number-submit'] ) ) {
-		$number = (int) $_POST['categories-number'];
-		
-		if ( $number > 9 ) {
-			$number = 9;
-		} elseif ( $number < 1 ) {
-			$number = 1;
-		}
-		
-		$newoptions['number'] = $number;
-	}
-	
-	if ( $newoptions != $options ) {
-		$options = $newoptions;
-		update_option( 'widget_categories', $options );
-		wp_widget_categories_register( $options['number'] );
-	}
-}
-
-function wp_widget_categories_page() {
-	$options = get_option( 'widget_categories' );
-?>
-	<div class="wrap">
-		<form method="post">
-			<h2><?php _e( 'Categories Widgets' ); ?></h2>
-			<p style="line-height: 30px;"><?php _e( 'How many categories widgets would you like?' ); ?>
-				<select id="categories-number" name="categories-number" value="<?php echo attribute_escape( $options['number'] ); ?>">
-					<?php
-						for ( $i = 1; $i < 10; $i++ ) {
-							echo '<option value="' . $i . '"' . ( $i == $options['number'] ? ' selected="selected"' : '' ) . '>' . $i . "</option>\n";
-						}
-					?>
-				</select>
-				<span class="submit">
-					<input type="submit" value="<?php echo attribute_escape( __( 'Save' ) ); ?>" id="categories-number-submit" name="categories-number-submit" />
-				</span>
-			</p>
-		</form>
-	</div>
-<?php
-}
-
-function wp_widget_categories_register() {
-	$options = get_option( 'widget_categories' );
-	$number = (int) $options['number'];
-	
-	if ( $number > 9 ) {
-		$number = 9;
-	} elseif ( $number < 1 ) {
-		$number = 1;
-	}
-	
-	$dims = array( 'width' => 460, 'height' => 350 );
-	$class = array( 'classname' => 'widget_catgories' );
-	
-	for ( $i = 1; $i <= 9; $i++ ) {
-		$name = sprintf( __( 'Categories %d' ), $i );
-		$id = 'categories-' . $i;
-		
-		$widget_callback = ( $i <= $number ) ? 'wp_widget_categories' : '';
-		$control_callback = ( $i <= $number ) ? 'wp_widget_categories_control' : '';
-		
-		wp_register_sidebar_widget( $id, $name, $widget_callback, $class, $i );
-		wp_register_widget_control( $id, $name, $control_callback, $dims, $i );
-	}
-	
-	add_action( 'sidebar_admin_setup', 'wp_widget_categories_setup' );
-	add_action( 'sidebar_admin_page', 'wp_widget_categories_page' );
 }
 
 function wp_widget_recent_entries($args) {
@@ -1045,42 +954,37 @@ function wp_widget_rss_register() {
 }
 
 function wp_widgets_init() {
-	$GLOBALS['wp_register_widget_defaults'] = true;
-	
-	$dims90 = array( 'height' => 90, 'width' => 300 );
-	$dims100 = array( 'height' => 100, 'width' => 300 );
-	$dims150 = array( 'height' => 150, 'width' => 300 );
-	
+	global $wp_register_widget_defaults;
+
+	$wp_register_widget_defaults = true;
+	$dims90 = array('height' => 90, 'width' => 300);
+	$dims100 = array('height' => 100, 'width' => 300);
+	$dims150 = array('height' => 150, 'width' => 300);
 	$class = array('classname' => 'widget_pages');
 	wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $class);
 	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control', $dims150);
-	
 	$class['classname'] = 'widget_calendar';
 	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $class);
 	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control', $dims90);
-	
 	$class['classname'] = 'widget_archives';
 	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $class);
 	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control', $dims100);
-	
 	$class['classname'] = 'widget_links';
 	wp_register_sidebar_widget('links', __('Links'), 'wp_widget_links', $class);
-	
 	$class['classname'] = 'widget_meta';
 	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $class);
 	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control', $dims90);
-	
 	$class['classname'] = 'widget_search';
 	wp_register_sidebar_widget('search', __('Search'), 'wp_widget_search', $class);
-	
+	$class['classname'] = 'widget_categories';
+	wp_register_sidebar_widget('categories', __('Categories'), 'wp_widget_categories', $class);
+	wp_register_widget_control('categories', __('Categories'), 'wp_widget_categories_control', $dims150);
 	$class['classname'] = 'widget_recent_entries';
 	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $class);
 	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control', $dims90);
-	
 	wp_widget_text_register();
 	wp_widget_rss_register();
 	wp_widget_recent_comments_register();
-	wp_widget_categories_register();
 
 	$wp_register_widget_defaults = false;
 
