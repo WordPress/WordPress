@@ -378,7 +378,7 @@ function wp_widget_pages_control() {
 			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?> 
 				<select name="pages-sortby" id="pages-sortby">
 					<option value="post_title"<?php selected( $options['sortby'], 'post_title' ); ?>><?php _e('Page title'); ?></option>
-					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Menu order'); ?></option>
+					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Page order'); ?></option>
 					<option value="ID"<?php selected( $options['sortby'], 'ID' ); ?>><?php _e( 'Page ID' ); ?></option>
 				</select></label></p>
 			<p><label for="pages-exclude"><?php _e( 'Exclude:' ); ?> <input type="text" value="<?php echo $exclude; ?>" name="pages-exclude" id="pages-exclude" style="width: 180px;" /></label><br />
