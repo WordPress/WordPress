@@ -384,7 +384,7 @@ function kubrick_theme_page() {
 			</form>
 		</div>
 		<div id="jsForm">
-			<form style="display:inline;" method="post" name="hicolor" id="hicolor" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+			<form style="display:inline;" method="post" name="hicolor" id="hicolor" action="<?php echo attribute_escape($_SERVER['REQUEST_URI']); ?>">
 				<?php wp_nonce_field('kubrick-header'); ?>
 	<input type="button" onclick="tgt=document.getElementById('fontcolor');colorSelect(tgt,'pick1');return false;" name="pick1" id="pick1" value="<?php echo attribute_escape(__('Font Color')); ?>"></input>
 		<input type="button" onclick="tgt=document.getElementById('uppercolor');colorSelect(tgt,'pick2');return false;" name="pick2" id="pick2" value="<?php echo attribute_escape(__('Upper Color')); ?>"></input>
