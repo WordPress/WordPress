@@ -60,7 +60,7 @@ $post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
 	}
 ?>
 </ul>
-<p class="readmore"><a href="<?php echo apply_filters( 'dashboard_secondary_link', 'http://planet.wordpress.org/' ); ?>"><?php _e('Read more'); ?> &raquo;</a></p>
+<p class="readmore"><a href="<?php echo apply_filters( 'dashboard_secondary_link', 'http://planet.wordpress.org/' ); ?>"><?php _e('Read more &raquo;'); ?></a></p>
 <?php
 }
 break;

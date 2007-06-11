@@ -39,10 +39,10 @@ $numcomments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE commen
 if ( $comments || $numcomments ) :
 ?>
 <div>
-<h3><?php _e('Comments'); ?> <a href="edit-comments.php" title="<?php _e('More comments...'); ?>">&raquo;</a></h3>
+<h3><?php printf( __( 'Comments <a href="%s" title="More comments&#8230;">&raquo;</a>' ), 'edit-comments.php' ); ?></h3> 
 
 <?php if ( $numcomments ) : ?>
-<p><strong><a href="moderation.php"><?php echo sprintf(__('Comments in moderation (%s)'), number_format_i18n($numcomments) ); ?> &raquo;</a></strong></p>
+<p><strong><a href="moderation.php"><?php echo sprintf(__('Comments in moderation (%s) &raquo;'), number_format_i18n($numcomments) ); ?></a></strong></p>
 <?php endif; ?>
 
 <ul>
@@ -63,7 +63,7 @@ foreach ($comments as $comment) {
 if ( $recentposts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql('post') . " AND post_date_gmt < '$today' ORDER BY post_date DESC LIMIT 5") ) :
 ?>
 <div>
-<h3><?php _e('Posts'); ?> <a href="edit.php" title="<?php _e('More posts...'); ?>">&raquo;</a></h3>
+<h3><?php printf( __( 'Posts <a href="%s" title="More posts&#8230;">&raquo;</a>' ), 'edit.php' ); ?></h3>
 <ul>
 <?php
 foreach ($recentposts as $post) {

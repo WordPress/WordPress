@@ -169,7 +169,7 @@ Event.observe( window, 'load', hide_text );
 <input type="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
 <input type="button" value="<?php _e('Select a Text Color'); ?>" onclick="colorSelect($('textcolor'), 'pickcolor')" id="pickcolor" /><input type="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
 <?php wp_nonce_field('custom-header') ?>
-<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" value="<?php _e('Save Changes'); ?> &raquo;" /></form>
+<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" value="<?php _e('Save Changes &raquo;'); ?>" /></form>
 <?php } ?>
 
 <div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;visibility:hidden;"> </div>
@@ -183,7 +183,7 @@ Event.observe( window, 'load', hide_text );
 <input type="hidden" name="action" value="save" />
 <?php wp_nonce_field('custom-header') ?>
 <p class="submit">
-<input type="submit" value="<?php _e('Upload'); ?> &raquo;" />
+<input type="submit" value="<?php _e('Upload &raquo;'); ?>" />
 </p>
 </form>
 
