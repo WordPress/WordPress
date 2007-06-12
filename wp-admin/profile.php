@@ -39,7 +39,7 @@ $bookmarklet_height= 440;
 
 <p class="submit"><input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" /></p>
 
-<fieldset>
+<fieldset id="information">
 <legend><?php _e('Name'); ?></legend>
 <p><label><?php _e('Username: (no editing)'); ?><br />
 <input type="text" name="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
@@ -72,7 +72,7 @@ $bookmarklet_height= 440;
 </select></label></p>
 </fieldset>
 
-<fieldset>
+<fieldset id="contact-info">
 <legend><?php _e('Contact Info'); ?></legend>
 
 <p><label><?php _e('E-mail: (required)') ?><br />
@@ -95,7 +95,7 @@ $bookmarklet_height= 440;
 </p>
 </fieldset>
 <br clear="all" />
-<fieldset>
+<fieldset id="about-yourself">
 <legend><?php _e('About Yourself'); ?></legend>
 <p class="desc"><?php _e('Share a little biographical information. '); ?></p>
 <p><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea></p>
@@ -105,7 +105,7 @@ $bookmarklet_height= 440;
 $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
-<fieldset>
+<fieldset id="update-password">
 <legend><?php _e('Update Your Password'); ?></legend>
 <p class="desc"><?php _e('If you would like to change your password type a new one twice below. Otherwise leave this blank.'); ?></p>
 <p><label><?php _e('New Password:'); ?><br />
