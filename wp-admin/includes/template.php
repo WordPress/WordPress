@@ -378,6 +378,7 @@ function meta_form() {
 	$keys = $wpdb->get_col( "
 		SELECT meta_key
 		FROM $wpdb->postmeta
+		WHERE meta_key NOT LIKE '_%'
 		GROUP BY meta_key
 		ORDER BY meta_id DESC
 		LIMIT $limit" );
