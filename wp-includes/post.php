@@ -606,7 +606,7 @@ function wp_insert_post($postarr = array()) {
 		if ($post_name_check || in_array($post_name, $wp_rewrite->feeds) ) {
 			$suffix = 2;
 			do {
-				$alt_post_name = $post_name . "-$suffix";
+				$alt_post_name = substr($post_name, 0, 200-(strlen($suffix)+1)). "-$suffix";
 				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_type = '$post_type' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
 				$suffix++;
 			} while ($post_name_check);
