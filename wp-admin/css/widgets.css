@@ -70,7 +70,7 @@ body {
 	cursor: pointer;
 	padding: 0 3px 1px;
 	border-top: 4px solid #6da6d1;
-	background: url( images/fade-butt.png ) -5px 0px;
+	background: url( ../images/fade-butt.png ) -5px 0px;
 }
 
 * html .popper {
