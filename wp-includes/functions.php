@@ -324,6 +324,7 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	}
 
 	$value = maybe_serialize($value);
+	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
 
 	if ( 'yes' == $autoload ) {
 		$alloptions = wp_load_alloptions();
