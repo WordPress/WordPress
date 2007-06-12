@@ -84,25 +84,27 @@ class MT_Import {
 		return $user_id;
 	}
 
-	function get_entries() {
-		set_magic_quotes_runtime(0);
-		$importdata = file($this->file); // Read the file into an array
-		$importdata = implode('', $importdata); // squish it
-		$importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
-		$importdata = preg_replace("/\n--------\n/", "--MT-ENTRY--\n", $importdata);
-		$this->posts = explode("--MT-ENTRY--", $importdata);
-	}
-
 	function get_mt_authors() {
-		$temp = array ();
-		$i = -1;
-		foreach ($this->posts as $post) {
-			if ('' != trim($post)) {
-				++ $i;
-				preg_match("|AUTHOR:(.*)|", $post, $thematch);
-				$thematch = trim($thematch[1]);
-				array_push($temp, "$thematch"); //store the extracted author names in a temporary array
-			}
+		$temp = array();
+		$authors = array();
+
+		$handle = fopen($this->file, 'r');
+		if ( $handle == null )
+			return false;
+
+		$in_comment = false;
+		while ( $line = fgets($handle) ) {
+			$line = trim($line);
+
+			if ( 'COMMENT:' == $line )
+				$in_comment = true;
+			else if ( '-----' == $line )
+				$in_comment = false;
+
+			if ( $in_comment || 0 !== strpos($line,"AUTHOR:") )
+				continue;
+
+			$temp[] = trim( substr($line, strlen("AUTHOR:")) );
 		}
 
 		//we need to find unique values of author names, while preserving the order, so this function emulates the unique_value(); php function, without the sorting.
@@ -113,6 +115,8 @@ class MT_Import {
 			if (!(in_array($next, $authors)))
 				array_push($authors, "$next");
 		}
+
+		fclose($handle);
 
 		return $authors;
 	}
@@ -173,11 +177,9 @@ class MT_Import {
 
 	function select_authors() {
 		if ( $_POST['upload_type'] === 'ftp' ) {
-			$file['file'] = @file(ABSPATH . '/wp-content/mt-export.txt');
-			if ( !$file['file'] || !count($file['file']) )
+			$file['file'] = ABSPATH . '/wp-content/mt-export.txt';
+			if ( !file_exists($file['file']) )
 				$file['error'] = __('<code>mt-export.txt</code> does not exist</code>');
-			else
-				$file['file'] = ABSPATH . '/wp-content/mt-export.txt';
 		} else {
 			$file = wp_import_handle_upload();
 		}
@@ -191,226 +193,217 @@ class MT_Import {
 		$this->file = $file['file'];
 		$this->id = (int) $file['id'];
 
-		$this->get_entries();
 		$this->mt_authors_form();
+	}
+
+	function save_post(&$post, &$comments, &$pings) {
+		// Reset the counter
+		set_time_limit(30);
+		$post = get_object_vars($post);
+		$post = add_magic_quotes($post);
+		$post = (object) $post;
+
+		if ( $post_id = post_exists($post->post_title, '', $post->post_date) ) {
+			echo '<li>';
+			printf(__('Post <i>%s</i> already exists.'), stripslashes($post->post_title));
+		} else {
+			echo '<li>';
+			printf(__('Importing post <i>%s</i>...'), stripslashes($post->post_title));
+
+			if ( '' != $post->extended )
+					$post->post_content .= "\n<!--more-->\n$post->extended";
+
+			$post->post_author = $this->checkauthor($post->post_author); //just so that if a post already exists, new users are not created by checkauthor
+			$post_id = wp_insert_post($post);
+
+			// Add categories.
+			if ( 0 != count($post->categories) ) {
+				wp_create_categories($post->categories, $post_id);
+			}
+		}
+
+		$num_comments = 0;
+		foreach ( $comments as $comment ) {
+			$comment = get_object_vars($comment);
+			$comment = add_magic_quotes($comment);
+
+			if ( !comment_exists($comment['comment_author'], $comment['comment_date'])) {
+				$comment['comment_post_ID'] = $post_id;
+				$comment = wp_filter_comment($comment);
+				wp_insert_comment($comment);
+				$num_comments++;
+			}
+		}
+
+		if ( $num_comments )
+			printf(' '.__('(%s comments)'), $num_comments);
+
+		$num_pings = 0;
+		foreach ( $pings as $ping ) {
+			$ping = get_object_vars($ping);
+			$ping = add_magic_quotes($ping);
+
+			if ( !comment_exists($ping['comment_author'], $ping['comment_date'])) {
+				$ping['comment_content'] = "<strong>{$ping['title']}</strong>\n\n{$ping['comment_content']}";
+				$ping['comment_post_ID'] = $post_id;
+				$ping = wp_filter_comment($ping);
+				wp_insert_comment($ping);
+				$num_pings++;
+			}
+		}
+
+		if ( $num_pings )
+			printf(' '.__('(%s pings)'), $num_pings);
+
+		echo "</li>";
+		//ob_flush();flush();
 	}
 
 	function process_posts() {
 		global $wpdb;
-		$i = -1;
+
+		$handle = fopen($this->file, 'r');
+		if ( $handle == null )
+			return false;
+
+		$context = '';
+		$post = new StdClass();
+		$comment = new StdClass();
+		$comments = array();
+		$ping = new StdClass();
+		$pings = array();
+		
 		echo "<div class='wrap'><ol>";
-		foreach ($this->posts as $post) {
-			if ('' != trim($post)) {
-				++ $i;
-				unset ($post_categories);
 
-				// Take the pings out first
-				preg_match("|(-----\n\nPING:.*)|s", $post, $pings);
-				$post = preg_replace("|(-----\n\nPING:.*)|s", '', $post);
+		while ( $line = fgets($handle) ) {
+			$line = trim($line);
 
-				// Then take the comments out
-				preg_match("|(-----\nCOMMENT:.*)|s", $post, $comments);
-				$post = preg_replace("|(-----\nCOMMENT:.*)|s", '', $post);
-
-				// We ignore the keywords
-				$post = preg_replace("|(-----\nKEYWORDS:.*)|s", '', $post);
-
-				// We want the excerpt
-				preg_match("|-----\nEXCERPT:(.*)|s", $post, $excerpt);
-				$post_excerpt = $wpdb->escape(trim($excerpt[1]));
-				$post = preg_replace("|(-----\nEXCERPT:.*)|s", '', $post);
-
-				// We're going to put extended body into main body with a more tag
-				preg_match("|-----\nEXTENDED BODY:(.*)|s", $post, $extended);
-				$extended = trim($extended[1]);
-				if ('' != $extended)
-					$extended = "\n<!--more-->\n$extended";
-				$post = preg_replace("|(-----\nEXTENDED BODY:.*)|s", '', $post);
-
-				// Now for the main body
-				preg_match("|-----\nBODY:(.*)|s", $post, $body);
-				$body = trim($body[1]);
-				$post_content = $wpdb->escape($body.$extended);
-				$post = preg_replace("|(-----\nBODY:.*)|s", '', $post);
-
-				// Grab the metadata from what's left
-				$metadata = explode("\n", $post);
-				foreach ($metadata as $line) {
-					preg_match("/^(.*?):(.*)/", $line, $token);
-					$key = trim($token[1]);
-					$value = trim($token[2]);
-					// Now we decide what it is and what to do with it
-					switch ($key) {
-						case '' :
-							break;
-						case 'AUTHOR' :
-							$post_author = $value;
-							break;
-						case 'TITLE' :
-							$post_title = $wpdb->escape($value);
-							break;
-						case 'STATUS' :
-							// "publish" and "draft" enumeration items match up; no change required
-							$post_status = $value;
-							if (empty ($post_status))
-								$post_status = 'publish';
-							break;
-						case 'ALLOW COMMENTS' :
-							$post_allow_comments = $value;
-							if ($post_allow_comments == 1) {
-								$comment_status = 'open';
-							} else {
-								$comment_status = 'closed';
-							}
-							break;
-						case 'CONVERT BREAKS' :
-							$post_convert_breaks = $value;
-							break;
-						case 'ALLOW PINGS' :
-							$ping_status = trim($meta[2][0]);
-							if ($ping_status == 1) {
-								$ping_status = 'open';
-							} else {
-								$ping_status = 'closed';
-							}
-							break;
-						case 'PRIMARY CATEGORY' :
-							if (! empty ($value) )
-								$post_categories[] = $wpdb->escape($value);
-							break;
-						case 'CATEGORY' :
-							if (! empty ($value) )
-								$post_categories[] = $wpdb->escape($value);
-							break;
-						case 'DATE' :
-							$post_modified = strtotime($value);
-							$post_modified = date('Y-m-d H:i:s', $post_modified);
-							$post_modified_gmt = get_gmt_from_date("$post_modified");
-							$post_date = $post_modified;
-							$post_date_gmt = $post_modified_gmt;
-							break;
-						default :
-							// echo "\n$key: $value";
-							break;
-					} // end switch
-				} // End foreach
-
-				// Let's check to see if it's in already
-				if ($post_id = post_exists($post_title, '', $post_date)) {
-					echo '<li>';
-					printf(__('Post <i>%s</i> already exists.'), stripslashes($post_title));
-				} else {
-					echo '<li>';
-					printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
-
-					$post_author = $this->checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
-
-					$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt');
-					$post_id = wp_insert_post($postdata);
-					// Add categories.
-					if (0 != count($post_categories)) {
-						wp_create_categories($post_categories, $post_id);
-					}
+			if ( '-----' == $line ) {
+				// Finishing a multi-line field
+				if ( 'comment' == $context ) {
+					$comments[] = $comment;
+					$comment = new StdClass();
+				} else if ( 'ping' == $context ) {
+					$pings[] = $ping;
+					$ping = new StdClass();
 				}
-
-				$comment_post_ID = (int) $post_id;
-				$comment_approved = 1;
-
-				// Now for comments
-				$comments = explode("-----\nCOMMENT:", $comments[0]);
-				$num_comments = 0;
-				foreach ($comments as $comment) {
-					if ('' != trim($comment)) {
-						// Author
-						preg_match("|AUTHOR:(.*)|", $comment, $comment_author);
-						$comment_author = $wpdb->escape(trim($comment_author[1]));
-						$comment = preg_replace('|(\n?AUTHOR:.*)|', '', $comment);
-						preg_match("|EMAIL:(.*)|", $comment, $comment_author_email);
-						$comment_author_email = $wpdb->escape(trim($comment_author_email[1]));
-						$comment = preg_replace('|(\n?EMAIL:.*)|', '', $comment);
-
-						preg_match("|IP:(.*)|", $comment, $comment_author_IP);
-						$comment_author_IP = trim($comment_author_IP[1]);
-						$comment = preg_replace('|(\n?IP:.*)|', '', $comment);
-
-						preg_match("|URL:(.*)|", $comment, $comment_author_url);
-						$comment_author_url = $wpdb->escape(trim($comment_author_url[1]));
-						$comment = preg_replace('|(\n?URL:.*)|', '', $comment);
-
-						preg_match("|DATE:(.*)|", $comment, $comment_date);
-						$comment_date = trim($comment_date[1]);
-						$comment_date = date('Y-m-d H:i:s', strtotime($comment_date));
-						$comment = preg_replace('|(\n?DATE:.*)|', '', $comment);
-
-						$comment_content = $wpdb->escape(trim($comment));
-						$comment_content = str_replace('-----', '', $comment_content);
-						// Check if it's already there
-						if (!comment_exists($comment_author, $comment_date)) {
-							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_approved');
-							$commentdata = wp_filter_comment($commentdata);
-							wp_insert_comment($commentdata);
-							$num_comments++;
-						}
-					}
+				$context = '';
+			} else if ( '--------' == $line ) {
+				// Finishing a post.
+				$context = '';
+				$this->save_post($post, $comments, $pings);
+				$post = new StdClass;
+				$comment = new StdClass();
+				$ping = new StdClass();
+				$comments = array();
+				$pings = array();
+			} else if ( 'BODY:' == $line ) {
+				$context = 'body';
+			} else if ( 'EXTENDED BODY:' == $line ) {
+				$context = 'extended';
+			} else if ( 'EXCERPT:' == $line ) {
+				$context = 'excerpt';
+			} else if ( 'KEYWORDS:' == $line ) {
+				$context = 'keywords';
+			} else if ( 'COMMENT:' == $line ) {
+				$context = 'comment';
+			} else if ( 'PING:' == $line ) {
+				$context = 'ping';
+			} else if ( 0 === strpos($line, "AUTHOR:") ) {
+				$author = trim( substr($line, strlen("AUTHOR:")) );
+				if ( '' == $context )
+					$post->post_author = $author;
+				else if ( 'comment' == $context )
+					 $comment->comment_author = $author;
+			} else if ( 0 === strpos($line, "TITLE:") ) {
+				$title = trim( substr($line, strlen("TITLE:")) );
+				if ( '' == $context )
+					$post->post_title = $title;
+				else if ( 'ping' == $context )
+					$ping->title = $title;
+			} else if ( 0 === strpos($line, "STATUS:") ) {
+				$status = trim( substr($line, strlen("STATUS:")) );
+				if ( empty($status) )
+					$status = 'publish';
+				$post->post_status = $status;
+			} else if ( 0 === strpos($line, "ALLOW COMMENTS:") ) {
+				$allow = trim( substr($line, strlen("ALLOW COMMENTS:")) );
+				if ( $allow == 1 )
+					$post->comment_status = 'open';
+				else
+					$post->comment_status = 'closed';
+			} else if ( 0 === strpos($line, "ALLOW PINGS:") ) {
+				$allow = trim( substr($line, strlen("ALLOW PINGS:")) );
+				if ( $allow == 1 )
+					$post->ping_status = 'open';
+				else
+					$post->ping_status = 'closed';
+			} else if ( 0 === strpos($line, "CATEGORY:") ) {
+				$category = trim( substr($line, strlen("CATEGORY:")) );
+				if ( '' != $category )
+					$post->categories[] = $category;
+			} else if ( 0 === strpos($line, "PRIMARY CATEGORY:") ) {
+				$category = trim( substr($line, strlen("PRIMARY CATEGORY:")) );
+				if ( '' != $category )
+					$post->categories[] = $category;
+			} else if ( 0 === strpos($line, "DATE:") ) {
+				$date = trim( substr($line, strlen("DATE:")) );
+				$date = strtotime($date);
+				$date = date('Y-m-d H:i:s', $date);
+				$date_gmt = get_gmt_from_date($date);
+				if ( '' == $context ) {
+					$post->post_modified = $date;
+					$post->post_modified_gmt = $date_gmt;
+					$post->post_date = $date;
+					$post->post_date_gmt = $date_gmt;
+				} else if ( 'comment' == $context ) {
+					$comment->comment_date = $date;	
+				} else if ( 'ping' == $context ) {
+					$ping->comment_date = $date;	
 				}
-				if ( $num_comments )
-					printf(' '.__('(%s comments)'), $num_comments);
+			} else if ( 0 === strpos($line, "EMAIL:") ) {
+				$email = trim( substr($line, strlen("EMAIL:")) );
+				if ( 'comment' == $context )
+					$comment->comment_author_email = $email;
+				else
+					$ping->comment_author_email = $email;
+			} else if ( 0 === strpos($line, "IP:") ) {
+				$ip = trim( substr($line, strlen("IP:")) );
+				if ( 'comment' == $context )
+					$comment->comment_author_IP = $ip;
+				else
+					$ping->comment_author_IP = $ip;
+			} else if ( 0 === strpos($line, "URL:") ) {
+				$url = trim( substr($line, strlen("URL:")) );
+				if ( 'comment' == $context )
+					$comment->comment_author_url = $url;
+				else
+					$ping->comment_author_url = $url;
+			} else if ( 0 === strpos($line, "BLOG NAME:") ) {
+				$blog = trim( substr($line, strlen("BLOG NAME:")) );
+				$ping->comment_author = $blog;
+			} else {
+				// Processing multi-line field, check context.
 
-				// Finally the pings
-				// fix the double newline on the first one
-				$pings[0] = str_replace("-----\n\n", "-----\n", $pings[0]);
-				$pings = explode("-----\nPING:", $pings[0]);
-				$num_pings = 0;
-				foreach ($pings as $ping) {
-					if ('' != trim($ping)) {
-						// 'Author'
-						preg_match("|BLOG NAME:(.*)|", $ping, $comment_author);
-						$comment_author = $wpdb->escape(trim($comment_author[1]));
-						$ping = preg_replace('|(\n?BLOG NAME:.*)|', '', $ping);
-
-						preg_match("|IP:(.*)|", $ping, $comment_author_IP);
-						$comment_author_IP = trim($comment_author_IP[1]);
-						$ping = preg_replace('|(\n?IP:.*)|', '', $ping);
-
-						preg_match("|URL:(.*)|", $ping, $comment_author_url);
-						$comment_author_url = $wpdb->escape(trim($comment_author_url[1]));
-						$ping = preg_replace('|(\n?URL:.*)|', '', $ping);
-
-						preg_match("|DATE:(.*)|", $ping, $comment_date);
-						$comment_date = trim($comment_date[1]);
-						$comment_date = date('Y-m-d H:i:s', strtotime($comment_date));
-						$ping = preg_replace('|(\n?DATE:.*)|', '', $ping);
-
-						preg_match("|TITLE:(.*)|", $ping, $ping_title);
-						$ping_title = $wpdb->escape(trim($ping_title[1]));
-						$ping = preg_replace('|(\n?TITLE:.*)|', '', $ping);
-
-						$comment_content = $wpdb->escape(trim($ping));
-						$comment_content = str_replace('-----', '', $comment_content);
-
-						$comment_content = "<strong>$ping_title</strong>\n\n$comment_content";
-
-						$comment_type = 'trackback';
-
-						// Check if it's already there
-						if (!comment_exists($comment_author, $comment_date)) {
-							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_type', 'comment_approved');
-							$commentdata = wp_filter_comment($commentdata);
-							wp_insert_comment($commentdata);
-							$num_pings++;
-						}
-					}
+				$line .= "\n";
+				if ( 'body' == $context ) {
+					$post->post_content .= $line;
+				} else if ( 'extended' ==  $context ) {
+					$post->extended .= $line;
+				} else if ( 'excerpt' == $context ) {
+					$post->post_excerpt .= $line;
+				} else if ( 'comment' == $context ) {
+					$comment->comment_content .= $line;
+				} else if ( 'ping' == $context ) {
+					$ping->comment_content .= $line;
 				}
-				if ( $num_pings )
-					printf(' '.__('(%s pings)'), $num_pings);
-
-				echo "</li>";
 			}
 		}
 
 		echo '</ol>';
 
 		wp_import_cleanup($this->id);
+		do_action('import_done', 'mt');
 
 		echo '<h3>'.sprintf(__('All done. <a href="%s">Have fun!</a>'), get_option('home')).'</h3></div>';
 	}
@@ -422,7 +415,6 @@ class MT_Import {
 		else
 			$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
-		$this->get_entries();
 		$this->process_posts();
 	}
 
