@@ -860,7 +860,7 @@ function wp_widget_rss($args, $number = 1) {
 			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>$summary</li>";
 		}
 	} else {
-		echo __('<li>An error has occured; the feed is probably down. Try again later.</li>');
+		echo '<li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li>';
 	}
 ?>
 			</ul>
