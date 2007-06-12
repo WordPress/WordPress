@@ -1,26 +1,28 @@
 <?php
+// Turn register globals off
+function wp_unregister_GLOBALS() {
+	if ( !ini_get('register_globals') )
+		return;
 
-if ( ini_get( 'register_globals' ) ) {
-	if ( isset( $_REQUEST['GLOBALS'] ) ) {
-		die( 'GLOBALS overwrite attempt detected. Exiting.' );
-	}
-	
-	$no_unset = array( 'GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix' );
-	$input = array_merge( $_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, is_array( $_SESSION ) ? $_SESSION : array() );
-	
-	foreach ( $input as $key => $val ) {
-		if ( !in_array( $key, $no_unset ) && isset( $GLOBALS[$k] ) ) {
+	if ( isset($_REQUEST['GLOBALS']) )
+		die('GLOBALS overwrite attempt detected');
+
+	// Variables that shouldn't be unset
+	$noUnset = array('GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix');
+
+	$input = array_merge($_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset($_SESSION) && is_array($_SESSION) ? $_SESSION : array());
+	foreach ( $input as $k => $v ) 
+		if ( !in_array($k, $noUnset) && isset($GLOBALS[$k]) ) {
 			$GLOBALS[$k] = NULL;
-			unset( $GLOBALS[$key] );
+			unset($GLOBALS[$k]);
 		}
-	}
-	
-	unset( $no_unset, $input );
 }
+
+wp_unregister_GLOBALS(); 
 
 unset( $wp_filter, $cache_userdata, $cache_lastcommentmodified, $cache_lastpostdate, $cache_settings, $category_cache, $cache_categories );
 
-if ( !isset( $blog_id ) )
+if ( ! isset($blog_id) )
 	$blog_id = 1;
 
 // Fix for IIS, which doesn't set REQUEST_URI
