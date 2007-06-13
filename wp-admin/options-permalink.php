@@ -131,19 +131,19 @@ $structures = array(
 <p>
 	<label>
 <input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> 
-<?php _e('Default'); ?><br /> <span> &raquo; <code><?php echo get_option('home'); ?>/?p=123</code></span>
+<?php _e('Default'); ?><br /> <span> <?php echo _c('&raquo;|Used as a list bullet'); ?> <code><?php echo get_option('home'); ?>/?p=123</code></span>
    </label>
 </p>
 <p>
 	<label>
 <input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> 
-<?php _e('Date and name based'); ?><br /> <span> &raquo; <code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></span>
+<?php _e('Date and name based'); ?><br /> <span> <?php echo _c('&raquo;|Used as a list bullet'); ?> <code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></span>
    </label>
 </p>
 <p>
 	<label>
 <input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> 
-<?php _e('Numeric'); ?><br /> <span> &raquo; <code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></span>
+<?php _e('Numeric'); ?><br /> <span> <?php echo _c('&raquo;|Used as a list bullet'); ?> <code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></span>
    </label>
 </p>
 <p>
