@@ -224,6 +224,8 @@ if ( !function_exists('wp_login') ) :
 function wp_login($username, $password, $already_md5 = false) {
 	global $wpdb, $error;
 
+	$username = sanitize_user($username);
+
 	if ( '' == $username )
 		return false;
 
