@@ -155,10 +155,10 @@ function get_the_category_list($separator = '', $parents='') {
 	return apply_filters('the_category', $thelist, $separator, $parents);
 }
 
-function in_category($category) { // Check if the current post is in the given category
-	global $category_cache, $post, $blog_id;
+function in_category( $category ) { // Check if the current post is in the given category
+	global $object_term_cache, $post, $blog_id;
 
-	if ( isset( $category_cache[$blog_id][$post->ID][$category] ) )
+	if ( isset( $object_term_cache[$blog_id][$post->ID]['category'][$category] ) )
 		return true;
 	else
 		return false;
