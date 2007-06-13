@@ -26,7 +26,9 @@ $more = 1;
 	<entry>
 		<author>
 			<name><?php the_author() ?></name>
+			<?php $author_url = get_the_author_url(); if ( !empty($author_url) ) : ?>
 			<uri><?php the_author_url()?></uri>
+			<?php endif; ?>
 		</author>
 		<title type="<?php html_type_rss(); ?>"><![CDATA[<?php the_title_rss() ?>]]></title>
 		<link rel="alternate" type="text/html" href="<?php permalink_single_rss() ?>" />
