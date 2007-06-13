@@ -1165,10 +1165,10 @@ function wp_die( $message, $title = '' ) {
 <head>
 	<title><?php echo $title ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" href="<?php echo $admin_dir; ?>install.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install.css" type="text/css" />
 <?php 
 if ( ( $wp_locale ) && ('rtl' == $wp_locale->text_direction) ) : ?>
-	<link rel="stylesheet" href="<?php echo $admin_dir; ?>install-rtl.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install-rtl.css" type="text/css" />
 <?php endif; ?>
 </head>
 <body>
