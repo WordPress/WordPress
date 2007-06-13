@@ -817,23 +817,26 @@ function parse_w3cdtf ( $date_str ) {
 	}
 }
 
-function wp_rss ($url, $num_items) {
-	//ini_set("display_errors", false); uncomment to suppress php errors thrown if the feed is not returned.
-	$rss = fetch_rss($url);
-		if ( $rss ) {
-			echo "<ul>";
-			$rss->items = array_slice($rss->items, 0, $num_items);
-				foreach ($rss->items as $item ) {
-					echo "<li>\n";
-					echo "<a href='$item[link]' title='$item[description]'>";
-					echo htmlentities($item['title']);
-					echo "</a><br />\n";
-					echo "</li>\n";
-				}
-			echo "</ul>";
-	}
-		else {
-			echo 'An error has occurred the feed is probably down, try again later.';
+function wp_rss( $url, $num_items = -1 ) {
+	if ( $rss = fetch_rss( $url ) ) {
+		echo '<ul>';
+		
+		if ( $num_items !== -1 ) {
+			$rss->items = array_slice( $rss->items, 0, $num_items );
+		}
+		
+		foreach ( $rss->items as $item ) {
+			printf(
+				'<li><a href="%1$s" title="%2$s">%3$s</a></li>', 
+				clean_url( $item['link'] ), 
+				attribute_escape( strip_tags( $item['description'] ) ), 
+				htmlentities( $item['title'] )
+			);
+		}
+		
+		echo '</ul>';
+	} else {
+		_e( 'An error has occurred, which probably means the feed is down. Try again later.' );
 	}
 }
 
