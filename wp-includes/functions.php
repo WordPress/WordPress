@@ -627,7 +627,7 @@ function add_query_arg() {
 	}
 	$ret = trim($ret, '?');
 	$ret = $protocol . $base . $ret . $frag;
-	$ret = trim($ret, '?');
+	$ret = rtrim($ret, '?');
 	return $ret;
 }
 
