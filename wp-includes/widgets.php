@@ -389,7 +389,7 @@ function wp_widget_pages_control() {
 
 function wp_widget_links($args) {
 	global $wp_db_version;
-	extract($args);
+	extract($args, EXTR_SKIP);
 	if ( $wp_db_version < 3582 ) {
 		// This ONLY works with li/h2 sidebars.
 		get_links_list();

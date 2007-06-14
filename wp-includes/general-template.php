@@ -330,7 +330,7 @@ function wp_get_archives($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	if ( '' == $type )
 		$type = 'monthly';

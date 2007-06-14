@@ -168,7 +168,7 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	}
 
 	// Compact the input, apply the filters, and extract them back out
-	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ) );
+	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ), EXTR_SKIP );
 
 	// Default headers
 	if ( empty( $headers ) ) {

@@ -143,7 +143,7 @@ function wp_link_pages($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	global $post, $id, $page, $numpages, $multipage, $more, $pagenow;
 	if ( $more_file != '' )
@@ -256,7 +256,7 @@ function wp_dropdown_pages($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	$pages = get_pages($r);
 	$output = '';
@@ -287,7 +287,7 @@ function wp_list_pages($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	$output = '';
 	$current_page = 0;

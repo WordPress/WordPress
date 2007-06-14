@@ -35,7 +35,7 @@ function get_bookmarks($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) )

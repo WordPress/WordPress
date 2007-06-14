@@ -192,7 +192,7 @@ function wp_dropdown_users( $args = '' ) {
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	$query = "SELECT * FROM $wpdb->users";
 

@@ -44,7 +44,7 @@ function wp_count_terms( $taxonomy, $args = array() ) {
 
 	$defaults = array('ignore_empty' => false);
 	$args = wp_parse_args($args, $defaults);
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	$where = '';
 	if ( $ignore_empty )
@@ -69,7 +69,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$args = wp_parse_args($args, $defaults);
 	$args['name'] = $term;
 	$args = sanitize_term($args, $taxonomy, 'db');
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
@@ -153,7 +153,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	$defaults = array();
 	$args = wp_parse_args($args, $defaults);
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	if ( isset($default) ) {
 		$default = (int) $default;
@@ -214,7 +214,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
@@ -382,7 +382,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 
 	$defaults = array('order' => 'ASC');
 	$args = wp_parse_args( $args, $defaults );
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	$terms = array_map('intval', $terms);
 
@@ -427,7 +427,7 @@ function get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'all');
 	$args = wp_parse_args( $args, $defaults );
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	if ( 'count' == $orderby )
 		$orderby = 'tt.count';
@@ -489,7 +489,7 @@ function &get_terms($taxonomies, $args = '') {
 		$args['hide_empty'] = 0;
 		$args['hierarchical'] = false;
 	}
-	extract($args);
+	extract($args, EXTR_SKIP);
 
 	if ( $child_of ) {
 		$hierarchy = _get_term_hierarchy($taxonomies[0]);

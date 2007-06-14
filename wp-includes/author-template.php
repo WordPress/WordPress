@@ -370,7 +370,7 @@ function wp_list_authors($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$return = '';
 

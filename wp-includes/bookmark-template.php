@@ -25,7 +25,7 @@ function wp_get_links($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
 } // end wp_get_links
@@ -247,7 +247,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	foreach ( (array) $bookmarks as $bookmark ) {
 		if ( !isset($bookmark->recently_updated) )
@@ -327,7 +327,7 @@ function wp_list_bookmarks($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r );
+	extract( $r, EXTR_SKIP );
 
 	$output = '';
 

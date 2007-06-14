@@ -285,7 +285,7 @@ function comments_template( $file = '/comments.php' ) {
 
 	$req = get_option('require_name_email');
 	$commenter = wp_get_current_commenter();
-	extract($commenter);
+	extract($commenter, EXTR_SKIP);
 
 	// TODO: Use API instead of SELECTs.
 	if ( $user_ID) {
