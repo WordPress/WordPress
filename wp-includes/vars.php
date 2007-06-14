@@ -38,7 +38,7 @@ $is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? tru
 $wp_header_to_desc = apply_filters( 'wp_header_to_desc_array', array(
 	100 => 'Continue',
 	101 => 'Switching Protocols',
-	
+
 	200 => 'OK',
 	201 => 'Created',
 	202 => 'Accepted',
@@ -46,7 +46,7 @@ $wp_header_to_desc = apply_filters( 'wp_header_to_desc_array', array(
 	204 => 'No Content',
 	205 => 'Reset Content',
 	206 => 'Partial Content',
-	
+
 	300 => 'Multiple Choices',
 	301 => 'Moved Permanently',
 	302 => 'Found',
@@ -54,7 +54,7 @@ $wp_header_to_desc = apply_filters( 'wp_header_to_desc_array', array(
 	304 => 'Not Modified',
 	305 => 'Use Proxy',
 	307 => 'Temporary Redirect',
-	
+
 	400 => 'Bad Request',
 	401 => 'Unauthorized',
 	403 => 'Forbidden',
@@ -72,7 +72,7 @@ $wp_header_to_desc = apply_filters( 'wp_header_to_desc_array', array(
 	415 => 'Unsupported Media Type',
 	416 => 'Requested Range Not Satisfiable',
 	417 => 'Expectation Failed',
-	
+
 	500 => 'Internal Server Error',
 	501 => 'Not Implemented',
 	502 => 'Bad Gateway',

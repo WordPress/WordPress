@@ -7,7 +7,7 @@ function get_plugin_data( $plugin_file ) {
 	preg_match( '|Description:(.*)$|mi', $plugin_data, $description );
 	preg_match( '|Author:(.*)$|mi', $plugin_data, $author_name );
 	preg_match( '|Author URI:(.*)$|mi', $plugin_data, $author_uri );
-	
+
 	if ( preg_match( "|Version:(.*)|i", $plugin_data, $version ))
 		$version = trim( $version[1] );
 	else

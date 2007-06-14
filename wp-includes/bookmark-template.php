@@ -9,12 +9,12 @@
  **/
 function wp_get_links($args = '') {
 	global $wpdb;
-	
+
 	if ( strpos( $args, '=' ) === false ) {
 		$cat_id = $args;
 		$args = add_query_arg( 'category', $cat_id, $args );
 	}
-	
+
 	$defaults = array(
 		'category' => -1, 'before' => '', 
 		'after' => '<br />', 'between' => ' ', 
@@ -23,7 +23,7 @@ function wp_get_links($args = '') {
 		'limit' => -1, 'show_updated' => true, 
 		'echo' => true
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
@@ -131,7 +131,7 @@ function get_links($category = -1,
 
 		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
-		
+
 		if ($show_rating) {
 			$output .= $between . get_linkrating($row);
 		}
@@ -245,7 +245,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		'show_images' => 1, 'before' => '<li>', 
 		'after' => '</li>', 'between' => "\n"
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
@@ -302,11 +302,11 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
-		
+
 		if ($show_rating) {
 			$output .= $between . get_linkrating($bookmark);
 		}
-		
+
 		$output .= "$after\n";
 	} // end while
 
@@ -325,7 +325,7 @@ function wp_list_bookmarks($args = '') {
 		'class' => 'linkcat', 'category_before' => '<li id="%id" class="%class">', 
 		'category_after' => '</li>'
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 

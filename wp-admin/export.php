@@ -133,9 +133,9 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 	categories. You may use this file to transfer that content from one site to 
 	another. This file is not intended to serve as a complete backup of your 
 	blog.
-	
+
 	To import this information into a WordPress blog follow these steps:
-	
+
 	1.	Log into that blog as an administrator.
 	2.	Go to Manage > Import in the blog's admin.
 	3.	Choose "WordPress" from the list of importers.

@@ -49,7 +49,7 @@ class TinyPspellShell {
 
 		$data = shell_exec($this->cmd);
         @unlink($this->tmpfile);
-		
+
 		$returnData = array();
 		$dataArr = preg_split("/\n/", $data, -1, PREG_SPLIT_NO_EMPTY);
 

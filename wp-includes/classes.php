@@ -692,7 +692,7 @@ class WP_Ajax_Response {
 			'id' => '0', 'old_id' => false, 
 			'data' => '', 'supplemental' => array()
 		);
-		
+
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r );
 

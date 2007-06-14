@@ -505,7 +505,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if(empty($category["description"])) {
 			$category["description"] = "";
 		}
-	
+
 		$new_category = array(
 			"cat_name"				=> $category["name"],
 			"category_nicename"		=> $category["slug"],
@@ -784,7 +784,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if (!$this->login_pass_ok($user_login, $user_pass)) {
 	    return $this->error;
 	  }
-	  
+
 	  $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 	  $user = set_current_user(0, $user_login);
 	  if ( !current_user_can($cap) )
@@ -1216,7 +1216,7 @@ class wp_xmlrpc_server extends IXR_Server {
       if(isset($content_struct["mt_allow_comments"])) {
 		$comment_status = (int) $content_struct["mt_allow_comments"];
       }
-	  
+
 	  // Do some timestamp voodoo
 	  $dateCreatedd = $content_struct['dateCreated'];
 	  if (!empty($dateCreatedd)) {

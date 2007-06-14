@@ -49,7 +49,7 @@ class TinyGoogleSpell {
 
 	function _xmlChars($string) {
 	   $trans = get_html_translation_table(HTML_ENTITIES, ENT_QUOTES);
-	
+
 	   foreach ($trans as $k => $v)
 			$trans[$k] = "&#".ord($k).";";
 

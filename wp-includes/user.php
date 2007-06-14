@@ -188,9 +188,9 @@ function wp_dropdown_users( $args = '' ) {
 		'show' => 'display_name', 'echo' => 1,
 		'selected' => 0, 'name' => 'user', 'class' => ''
 	);
-	
+
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 

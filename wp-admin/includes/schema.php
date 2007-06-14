@@ -392,7 +392,7 @@ function populate_roles_210() {
 
 function populate_roles_230() {
 	$role = get_role( 'administrator' );
-	
+
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'unfiltered_upload' );
 	}

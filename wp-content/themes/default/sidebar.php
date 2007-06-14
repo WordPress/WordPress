@@ -40,7 +40,7 @@
 			<p>You are currently browsing the <a href="<?php echo bloginfo('url'); ?>/"><?php echo bloginfo('name'); ?></a> weblog archives.</p>
 
 			<?php } ?>
-				
+
 			</li> <?php }?>
 
 			<?php wp_list_pages('title_li=<h2>Pages</h2>' ); ?>
@@ -67,7 +67,7 @@
 				</ul>
 				</li>
 			<?php } ?>
-			
+
 			<?php endif; ?>
 		</ul>
 	</div>

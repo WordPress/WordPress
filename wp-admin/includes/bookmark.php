@@ -46,7 +46,7 @@ function wp_delete_link($link_id) {
 	wp_delete_object_term_relationships($link_id, 'link_category');
 
 	$wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");
-	
+
 	do_action('deleted_link', $link_id);
 
 	return true;

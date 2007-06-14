@@ -138,7 +138,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 
 		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
 			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
-		
+
 		if ( !$ext )
 			$ext = strrchr($file['name'], '.');
 	}

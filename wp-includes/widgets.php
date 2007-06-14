@@ -59,7 +59,7 @@ function register_sidebar($args = array()) {
 
 function unregister_sidebar( $name ) {
 	global $wp_registered_sidebars;
-		
+
 	if ( isset( $wp_registered_sidebars[$name] ) )
 		unset( $wp_registered_sidebars[$name] );
 }
@@ -329,17 +329,17 @@ function wp_get_widget_defaults() {
 function wp_widget_pages( $args ) {
 	extract( $args );
 	$options = get_option( 'widget_pages' );
-	
+
 	$title = empty( $options['title'] ) ? __( 'Pages' ) : $options['title'];
 	$sortby = empty( $options['sortby'] ) ? 'menu_order' : $options['sortby'];
 	$exclude = empty( $options['exclude'] ) ? '' : '&exclude=' . $options['exclude'];
-	
+
 	if ( $sortby == 'menu_order' ) {
 		$sortby = 'menu_order, post_title';
 	}
-	
+
 	$out = wp_list_pages( 'title_li=&echo=0&sort_column=' . $sortby . $exclude );
-	
+
 	if ( !empty( $out ) ) {
 ?>
 	<?php echo $before_widget; ?>
@@ -356,15 +356,15 @@ function wp_widget_pages_control() {
 	$options = $newoptions = get_option('widget_pages');
 	if ( $_POST['pages-submit'] ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST['pages-title']));
-		
+
 		$sortby = stripslashes( $_POST['pages-sortby'] );
-		
+
 		if ( in_array( $sortby, array( 'post_title', 'menu_order', 'ID' ) ) ) {
 			$newoptions['sortby'] = $sortby;
 		} else {
 			$newoptions['sortby'] = 'menu_order';
 		}
-		
+
 		$newoptions['exclude'] = strip_tags( stripslashes( $_POST['pages-exclude'] ) );
 	}
 	if ( $options != $newoptions ) {
@@ -798,7 +798,7 @@ function wp_widget_recent_comments_register() {
 	$class = array('classname' => 'widget_recent_comments');
 	wp_register_sidebar_widget('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments', $class);
 	wp_register_widget_control('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments_control', $dims);
-	
+
 	if ( is_active_widget('wp_widget_recent_comments') )
 		add_action('wp_head', 'wp_widget_recent_comments_style');
 }

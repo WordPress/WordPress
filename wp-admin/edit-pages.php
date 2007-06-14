@@ -41,7 +41,7 @@ printf( _c( '%1$s%2$s%3$s|manage pages header' ), $post_status_label, $h2_author
 		<input type="text" name="s" id="s" value="<?php echo attribute_escape( stripslashes( $_GET['s'] ) ); ?>" size="17" />
 	</fieldset>
 
-        
+
 	<fieldset><legend><?php _e('Page Type&hellip;'); ?></legend>
 		<select name='post_status'>
 			<option<?php selected( @$_GET['post_status'], 0 ); ?> value='0'><?php _e('Any'); ?></option>

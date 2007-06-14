@@ -141,7 +141,7 @@ function wp_link_pages($args = '') {
 		'previouspagelink' => __('Previous page'), 'pagelink' => '%', 
 		'more_file' => '', 'echo' => 1
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
@@ -254,7 +254,7 @@ function wp_dropdown_pages($args = '') {
 		'selected' => 0, 'echo' => 1, 
 		'name' => 'page_id', 'show_option_none' => ''
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
@@ -285,7 +285,7 @@ function wp_list_pages($args = '') {
 		'title_li' => __('Pages'), 'echo' => 1, 
 		'authors' => '', 'sort_column' => 'menu_order, post_title'
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 

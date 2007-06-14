@@ -25,7 +25,7 @@ function get_link($bookmark_id, $output = OBJECT) {
 
 function get_bookmarks($args = '') {
 	global $wpdb;
-	
+
 	$defaults = array(
 		'orderby' => 'name', 'order' => 'ASC', 
 		'limit' => -1, 'category' => '', 
@@ -33,7 +33,7 @@ function get_bookmarks($args = '') {
 		'show_updated' => 0, 'include' => '', 
 		'exclude' => ''
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 

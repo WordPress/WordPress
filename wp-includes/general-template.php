@@ -61,7 +61,7 @@ function wp_meta() {
 
 function bloginfo($show='') {
 	$info = get_bloginfo($show);
-	
+
 	// Don't filter URL's.
 	if (strpos($show, 'url') === false &&
 		strpos($show, 'directory') === false &&
@@ -322,13 +322,13 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 
 function wp_get_archives($args = '') {
 	global $wpdb, $wp_locale;
-	
+
 	$defaults = array(
 		'type' => 'monthly', 'limit' => '', 
 		'format' => 'html', 'before' => '', 
 		'after' => '', 'show_post_count' => false
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 
@@ -593,10 +593,10 @@ function get_calendar($initial = true) {
 	);
 	if ( $ak_post_titles ) {
 		foreach ( $ak_post_titles as $ak_post_title ) {
-			
+
 				$post_title = apply_filters( "the_title", $ak_post_title->post_title );
 				$post_title = str_replace('"', '&quot;', wptexturize( $post_title ));
-								
+
 				if ( empty($ak_titles_for_day['day_'.$ak_post_title->dom]) )
 					$ak_titles_for_day['day_'.$ak_post_title->dom] = '';
 				if ( empty($ak_titles_for_day["$ak_post_title->dom"]) ) // first one
@@ -817,7 +817,7 @@ function rich_edit_exists() {
 
 function user_can_richedit() {
 	global $wp_rich_edit, $pagenow;
-	
+
 	if ( !isset( $wp_rich_edit) ) {
 		if ( get_user_option( 'rich_editing' ) == 'true' && 
 			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) || 

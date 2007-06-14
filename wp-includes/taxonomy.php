@@ -98,7 +98,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		$slug = sanitize_title($slug, $term_id);
 		$wpdb->query("UPDATE $wpdb->terms SET slug = '$slug' WHERE term_id = '$term_id'");
 	}
-		
+
 	$tt_id = $wpdb->get_var("SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = $term_id");
 
 	if ( !empty($tt_id) )
@@ -135,7 +135,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 
 		wp_update_term_count($terms, $taxonomy);
 	}
-	
+
 	// TODO clear the cache
 }
 
@@ -239,7 +239,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 		$slug = sanitize_title($name, $term_id);
 		$wpdb->query("UPDATE $wpdb->terms SET slug = '$slug' WHERE term_id = '$term_id'");
 	}
-		
+
 	$tt_id = $wpdb->get_var("SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.term_id = $term_id");
 
 	$wpdb->query("UPDATE $wpdb->term_taxonomy SET term_id = '$term_id', taxonomy = '$taxonomy', description = '$description', parent = '$parent' WHERE term_taxonomy_id = '$tt_id'");
@@ -300,7 +300,7 @@ function is_term($term, $taxonomy = '') {
 
 	return $wpdb->get_row("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = '$taxonomy'", ARRAY_A);
 }
-	
+
 /**
  * Given an array of terms, returns those that are defined term slugs.  Ignores integers.
  * @param array $terms The term slugs to check for a definition.
@@ -316,7 +316,7 @@ function get_defined_terms($terms) {
 	$terms = "'" . implode("', '", $searches) . "'";
 	return $wpdb->get_col("SELECT slug FROM $wpdb->terms WHERE slug IN ($terms)");
 }
-	
+
 /**
  * Relates an object (post, link etc) to a term and taxonomy type.  Creates the term and taxonomy
  * relationship if it doesn't already exist.  Creates a term if it doesn't exist (using the slug).
@@ -331,7 +331,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 	if ( ! is_taxonomy($taxonomy) )
 		return false;
-	
+
 	if ( !is_array($terms) )
 		$terms = array($terms);
 

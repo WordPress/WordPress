@@ -362,7 +362,7 @@ function get_author_name( $auth_id ) {
  */
 function wp_list_authors($args = '') {
 	global $wpdb;
-	
+
 	$defaults = array( 
 		'optioncount' => false, 'exclude_admin' => true, 
 		'show_fullname' => false, 'hide_empty' => true, 

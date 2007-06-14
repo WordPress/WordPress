@@ -70,7 +70,7 @@ function get_theme_data( $theme_file ) {
 		'em' => array(),
 		'strong' => array()
 	);
-	
+
 	$theme_data = implode( '', file( $theme_file ) );
 	$theme_data = str_replace ( '\r', '\n', $theme_data ); 
 	preg_match( '|Theme Name:(.*)$|mi', $theme_data, $theme_name );
@@ -79,24 +79,24 @@ function get_theme_data( $theme_file ) {
 	preg_match( '|Author:(.*)$|mi', $theme_data, $author_name );
 	preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri );
 	preg_match( '|Template:(.*)$|mi', $theme_data, $template );
-	
+
 	if ( preg_match( '|Version:(.*)|i', $theme_data, $version ) )
 		$version = wp_kses( trim( $version[1] ), $themes_allowed_tags );
 	else
 		$version = '';
-	
+
 	if ( preg_match('|Status:(.*)|i', $theme_data, $status) )
 		$status = wp_kses( trim( $status[1] ), $themes_allowed_tags );
 	else
 		$status = 'publish';
-	
+
 	$name = $theme = wp_kses( trim( $theme_name[1] ), $themes_allowed_tags );
 	$theme_uri = clean_url( trim( $theme_uri[1] ) );
 	$description = wptexturize( wp_kses( trim( $description[1] ), $themes_allowed_tags ) );
 	$template = wp_kses( trim( $template[1] ), $themes_allowed_tags );
-	
+
 	$author_uri = clean_url( trim( $author_uri[1] ) );
-	
+
 	if ( empty( $author_uri[1] ) ) {
 		$author = wp_kses( trim( $author_name[1] ), $themes_allowed_tags );
 	} else {

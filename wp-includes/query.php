@@ -461,7 +461,7 @@ class WP_Query {
 			$qv['attachment_id'] = $qv['subpost_id'];
 
 		$qv['attachment_id'] = (int) $qv['attachment_id'];
-		
+
 		if ( ('' != $qv['attachment']) || !empty($qv['attachment_id']) ) {
 			$this->is_single = true;
 			$this->is_attachment = true;
@@ -1021,7 +1021,7 @@ class WP_Query {
 
 			if ( is_admin() )
 				$where .= " OR post_status = 'future' OR post_status = 'draft'";
-			
+
 			if ( is_user_logged_in() ) {
 				$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR post_status = 'private'" : " OR post_author = $user_ID AND post_status = 'private'";
 			}

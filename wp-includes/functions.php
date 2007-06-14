@@ -706,9 +706,9 @@ function wp($query_vars = '') {
 
 function get_status_header_desc( $code ) {
 	global $wp_header_to_desc;
-	
+
 	$code = (int) $code;
-	
+
 	if ( isset( $wp_header_to_desc[$code] ) ) {
 		return $wp_header_to_desc[$code];
 	} else {
@@ -718,7 +718,7 @@ function get_status_header_desc( $code ) {
 
 function status_header( $header ) {
 	$text = get_status_header_desc( $header );
-	
+
 	if ( empty( $text ) )
 		return false;
 
@@ -1296,7 +1296,7 @@ function wp_parse_args( $args, $defaults = '' ) {
 			$r = stripslashes_deep( $r );
 		}
 	}
-	
+
 	if ( is_array( $defaults ) ) {
 		return array_merge( $defaults, $r );
 	} else {

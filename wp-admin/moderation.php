@@ -19,48 +19,48 @@ if ( isset( $_POST['comment'] ) && is_array( $_POST['comment'] ) ) {
 
 if ( $action == 'update' ) {
 	check_admin_referer( 'moderate-comments' );
-	
+
 	if ( !current_user_can( 'moderate_comments' ) ) {
 		wp_die( __( 'Your level is not high enough to moderate comments.' ) );
 	}
-	
+
 	$item_ignored = 0;
 	$item_deleted = 0;
 	$item_approved = 0;
 	$item_spam = 0;
-	
+
 	foreach ( $comment as $k => $v ) {
 		if ( $feelinglucky && $v == 'later' ) {
 			$v = 'delete';
 		}
-		
+
 		switch ( $v ) {
 			case 'later' :
 				$item_ignored++;
 			break;
-			
+
 			case 'delete' :
 				wp_set_comment_status( $k, 'delete' );
 				$item_deleted++;
 			break;
-			
+
 			case 'spam' :
 				wp_set_comment_status( $k, 'spam' );
 				$item_spam++;
 			break;
-			
+
 			case 'approve' :
 				wp_set_comment_status( $k, 'approve' );
-				
+
 				if ( get_option( 'comments_notify' ) == true ) {
 					wp_notify_postauthor( $k );
 				}
-				
+
 				$item_approved++;
 			break;
 		}
 	}
-	
+
 	wp_redirect( basename( __FILE__ ) . '?ignored=' . $item_ignored . '&deleted=' . $item_deleted . '&approved=' . $item_approved . '&spam=' . $item_spam );
 	exit;
 }
@@ -77,25 +77,25 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
 	$deleted = isset( $_GET['deleted'] ) ? (int) $_GET['deleted'] : 0;
 	$spam = isset( $_GET['ignored'] ) ? (int) $_GET['spam'] : 0;
-	
+
 	if ( $approved > 0 || $deleted > 0 || $spam > 0 ) {
 		echo '<div id="moderated" class="updated fade"><p>';
-	
+
 		if ( $approved > 0 ) {
 			printf( __ngettext( '%s comment approved.', '%s comments approved.', $approved ), $approved );
 			echo '<br />';
 		}
-	
+
 		if ( $deleted > 0 ) {
 			printf( __ngettext( '%s comment deleted', '%s comments deleted.', $deleted ), $deleted );
 			echo '<br />';
 		}
-	
+
 		if ( $spam > 0 ) {
 			printf( __ngettext( '%s comment marked as spam', '%s comments marked as spam', $spam ), $spam );
 			echo '<br />';
 		}
-	
+
 		echo '</p></div>';
 	}
 }
@@ -137,23 +137,23 @@ $comments = array_slice( $comments, $start, $stop );
 
 ?>
 	<h2><?php _e( 'Moderation Queue' ); ?></h2>
-	
+
 	<?php
 		if ( $page_links ) {
 			echo '<p class="pagenav">' . $page_links . '</p>';
 		}
 	?>
-	
+
 	<form name="approval" id="approval" action="<?php echo basename( __FILE__ ); ?>" method="post">
 		<?php wp_nonce_field( 'moderate-comments' ); ?>
 		<input type="hidden" name="action" value="update" />
 		<ol id="the-comments-list" class="commentlist">
 	<?php
 		$i = 0;
-		
+
 		foreach ( $comments as $comment ) {
 			$class = 'js-unapproved';
-			
+
 			if ( $i++ % 2 ) {
 				$class .= ' alternate';
 			}
@@ -165,7 +165,7 @@ $comments = array_slice( $comments, $start, $stop );
 					<?php if ( !empty( $comment->comment_author_url ) && $comment->comment_author_url != 'http://' ) { ?>| <?php comment_author_url_link(); ?> <?php } ?>
 					| <?php _e( 'IP:' ); ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP(); ?>"><?php comment_author_IP(); ?></a>
 				</p>
-				
+
 				<p>
 					<?php comment_text(); ?>
 				</p>
@@ -189,25 +189,25 @@ $comments = array_slice( $comments, $start, $stop );
 		}
 	?>
 		</ol>
-		
+
 		<?php
 			if ( $page_links ) {
 				echo '<p class="pagenav">' . $page_links . '</p>';
 			}
 		?>
-		
+
 		<div id="ajax-response"></div>
-		
+
 		<noscript>
 			<p class="submit">
 				<label for="feelinglucky"><input name="feelinglucky" id="feelinglucky" type="checkbox" value="true" /> <?php _e( 'Delete every comment marked &#8220;defer.&#8221; <strong>Warning: This can&#8217;t be undone.</strong>' ); ?></label>
 			</p>
 		</noscript>
-		
+
 		<p class="submit">
 			<input type="submit" id="submit" name="submit" value="<?php _e( 'Bulk Moderate Comments &raquo;' ); ?>" />
 		</p>
-		
+
 		<script type="text/javascript">
 		// <![CDATA[
 			function mark_all_as( what ) {
@@ -217,7 +217,7 @@ $comments = array_slice( $comments, $start, $stop );
 					}
 				}
 			}
-		
+
 			document.write( '<p><strong><?php _e( 'Mark all:' ); ?></strong> <a href="javascript:mark_all_as(\'approve\')"><?php _e( 'Approved' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'spam\')"><?php _e( 'Spam' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'delete\')"><?php _e( 'Deleted' ); ?></a> &ndash; <a href="javascript:mark_all_as(\'later\')"><?php _e( 'Later' ); ?></a></p>' );
 		// ]]>
 		</script>

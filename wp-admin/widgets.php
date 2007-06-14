@@ -10,7 +10,7 @@ wp_enqueue_script( 'scriptaculous-dragdrop' );
 
 function wp_widgets_admin_head() {
 	global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls;
-	
+
 	define( 'WP_WIDGETS_WIDTH', 1 + 262 * ( count( $wp_registered_sidebars ) ) );
 	define( 'WP_WIDGETS_HEIGHT', 35 * ( count( $wp_registered_widgets ) ) );
 ?>
@@ -30,13 +30,13 @@ function wp_widgets_admin_head() {
 	<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/css/widgets-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php
 	}
-	
+
 	$cols = array();
 	foreach ( $wp_registered_sidebars as $index => $sidebar ) {
 		$cols[] = '\'' . $index . '\'';
 	}
 	$cols = implode( ', ', $cols );
-	
+
 	$widgets = array();
 	foreach ( $wp_registered_widgets as $name => $widget ) {
 		$widgets[] = '\'' . $widget['id'] . '\'';
@@ -179,19 +179,19 @@ do_action( 'sidebar_admin_setup' );
 
 function wp_widget_draggable( $name ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls;
-	
+
 	if ( !isset( $wp_registered_widgets[$name] ) ) {
 		return;
 	}
-	
+
 	$sanitized_name = sanitize_title( $wp_registered_widgets[$name]['id'] );
 	$link_title = __( 'Configure' );
 	$popper = ( isset( $wp_registered_widget_controls[$name] ) ) 
 		? ' <div class="popper" id="' . $sanitized_name . 'popper" title="' . $link_title . '">&#8801;</div>'
 		: '';
-	
+
 	$output = '<li class="module" id="widgetprefix-%1$s"><span class="handle">%2$s</span></li>';
-	
+
 	printf( $output, $sanitized_name, $wp_registered_widgets[$name]['name'] . $popper );
 }
 
@@ -204,11 +204,11 @@ if ( count( $wp_registered_sidebars ) < 1 ) {
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'No Sidebars Defined' ); ?></h2>
-		
+
 		<p><?php _e( 'You are seeing this message because the theme you are currently using isn&#8217;t widget-aware, meaning that it has no sidebars that you are able to change. For information on making your theme widget-aware, please <a href="http://automattic.com/code/widgets/themes/">follow these instructions</a>.' ); /* TODO: article on codex */; ?></p>
 	</div>
 <?php
-	
+
 	require_once 'admin-footer.php';
 	exit;
 }
@@ -221,23 +221,23 @@ if ( empty( $sidebars_widgets ) ) {
 
 if ( isset( $_POST['action'] ) ) {
 	check_admin_referer( 'widgets-save-widget-order' );
-	
+
 	switch ( $_POST['action'] ) {
 		case 'default' :
 			$sidebars_widgets = wp_get_widget_defaults();
 			wp_set_sidebars_widgets( $sidebars_widgets );
 		break;
-		
+
 		case 'save_widget_order' :
 			$sidebars_widgets = array();
-			
+
 			foreach ( $wp_registered_sidebars as $index => $sidebar ) {
 				$postindex = $index . 'order';
-				
+
 				parse_str( $_POST[$postindex], $order );
-				
+
 				$new_order = $order[$index];
-				
+
 				if ( is_array( $new_order ) ) {
 					foreach ( $new_order as $sanitized_name ) {
 						foreach ( $wp_registered_widgets as $name => $widget ) {
@@ -248,7 +248,7 @@ if ( isset( $_POST['action'] ) ) {
 					}
 				}
 			}
-			
+
 			wp_set_sidebars_widgets( $sidebars_widgets );
 		break;
 	}
@@ -260,14 +260,14 @@ $inactive_widgets = array();
 
 foreach ( $wp_registered_widgets as $name => $widget ) {
 	$is_active = false;
-	
+
 	foreach ( $wp_registered_sidebars as $index => $sidebar ) {
 		if ( is_array( $sidebars_widgets[$index] ) && in_array( $name, $sidebars_widgets[$index] ) ) {
 			$is_active = true;
 			break;
 		}
 	}
-	
+
 	if ( !$is_active ) {
 		$inactive_widgets[] = $name;
 	}
@@ -297,9 +297,9 @@ if ( isset( $_POST['action'] ) ) {
 ?>
 	<div class="wrap">
 		<h2><?php _e( 'Sidebar Arrangement' ); ?></h2>
-		
+
 		<p><?php _e( 'You can drag and drop widgets onto your sidebar below.' ); ?></p>
-		
+
 		<form id="sbadmin" method="post" onsubmit="serializeAll();">
 			<p class="submit">
 				<input type="submit" value="<?php _e( 'Save Changes &raquo;' ); ?>" />
@@ -309,17 +309,17 @@ if ( isset( $_POST['action'] ) ) {
 				foreach ( $wp_registered_sidebars as $index => $sidebar ) {
 			?>
 				<input type="hidden" id="<?php echo $index; ?>order" name="<?php echo $index; ?>order" value="" />
-				
+
 				<div class="dropzone">
 					<h3><?php echo $sidebar['name']; ?></h3>
-					
+
 					<div id="<?php echo $index; ?>placematt" class="module placemat">
 						<span class="handle">
 							<h4><?php _e( 'Default Sidebar' ); ?></h4>
 							<?php _e( 'Your theme will display its usual sidebar when this box is empty. Dragging widgets into this box will replace the usual sidebar with your customized sidebar.' ); ?>
 						</span>
 					</div>
-					
+
 					<ul id="<?php echo $index; ?>">
 					<?php
 						if ( is_array( $sidebars_widgets[$index] ) ) {
@@ -333,14 +333,14 @@ if ( isset( $_POST['action'] ) ) {
 			<?php
 				}
 			?>
-			
+
 			<br class="clear" />
-			
+
 			</div>
-		
+
 			<div id="palettediv">
 				<h3><?php _e( 'Available Widgets' ); ?></h3>
-			
+
 				<ul id="palette">
 				<?php
 					foreach ( $inactive_widgets as $name ) {
@@ -350,7 +350,7 @@ if ( isset( $_POST['action'] ) ) {
 					<li id="lastmodule"><span></span></li>
 				</ul>
 			</div>
-		
+
 			<script type="text/javascript">
 			// <![CDATA[
 			<?php foreach ( $containers as $container ) { ?>
@@ -362,13 +362,13 @@ if ( isset( $_POST['action'] ) ) {
 			<?php } ?>
 			// ]]>
 			</script>
-		
+
 			<p class="submit">
 			<?php wp_nonce_field( 'widgets-save-widget-order' ); ?>
 				<input type="hidden" name="action" id="action" value="save_widget_order" />
 				<input type="submit" value="<?php _e( 'Save Changes &raquo;' ); ?>" />
 			</p>
-		
+
 			<div id="controls">
 			<?php foreach ( $wp_registered_widget_controls as $name => $widget ) { ?>
 				<div class="hidden" id="<?php echo $widget['id']; ?>control">
@@ -381,12 +381,12 @@ if ( isset( $_POST['action'] ) ) {
 			<?php } ?>
 			</div>
 		</form>
-		
+
 		<br class="clear" />
 	</div>
-	
+
 	<div id="shadow"> </div>
-	
+
 	<?php do_action( 'sidebar_admin_page' ); ?>
 
 <?php require_once 'admin-footer.php'; ?>

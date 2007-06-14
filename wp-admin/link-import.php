@@ -98,7 +98,7 @@ foreach ($categories as $category) {
 			} else {
 				$opml = file_get_contents($opml_url);
 			}
-			
+
 			include_once('link-parse-opml.php');
 
 			$link_count = count($names);

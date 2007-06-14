@@ -186,9 +186,9 @@ function wp_dropdown_categories($args = '') {
 		'selected' => 0, 'hierarchical' => 0, 
 		'name' => 'cat', 'class' => 'postform'
 	);
-	
+
 	$defaults['selected'] = ( is_category() ) ? get_query_var('cat') : 0;
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	$r['include_last_update_time'] = $r['show_last_update'];
 	extract( $r );
@@ -236,19 +236,19 @@ function wp_list_categories($args = '') {
 		'feed_image' => '', 'exclude' => '', 
 		'hierarchical' => true, 'title_li' => __('Categories')
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
-	
+
 	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] ) {
 		$r['pad_counts'] = true;
 	}
-	
+
 	if ( isset( $r['show_date'] ) ) {
 		$r['include_last_update_time'] = $r['show_date'];
 	}
-	
+
 	extract( $r );
-	
+
 	$categories = get_categories($r);
 
 	$output = '';
@@ -262,13 +262,13 @@ function wp_list_categories($args = '') {
 			$output .= __("No categories");
 	} else {
 		global $wp_query;
-		
+
 		if( !empty($show_option_all) )
 			if ('list' == $style )  
 				$output .= '<li><a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a></li>';
 			else
 				$output .= '<a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a>';
-		
+
 		if ( is_category() )
 			$r['current_category'] = $wp_query->get_queried_object_id();
 
@@ -409,12 +409,12 @@ function get_tag_link( $tag_id ) {
 
 function get_the_tags( $id = 0 ) {
 	global $post; 
- 
+
  	$id = (int) $id;
 
 	if ( ! $id && ! in_the_loop() ) 
 		return false; // in-the-loop function 
- 
+
 	if ( !$id ) 
 		$id = (int) $post->ID;
 
@@ -433,7 +433,7 @@ function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
 
 	if ( empty( $tags ) )
 		return false;
-	
+
 	$tag_list = $before;
 	foreach ( $tags as $tag )
 		$tag_links[] = '<a href="' . get_tag_link($tag->term_id) . '" rel="tag">' . $tag->slug . '</a>';

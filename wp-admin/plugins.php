@@ -31,12 +31,12 @@ if ( isset($_GET['action']) ) {
 	} elseif ($_GET['action'] == 'deactivate-all') {
 		check_admin_referer('deactivate-all');
 		$current = get_option('active_plugins');
-		
+
 		foreach ($current as $plugin) {
 			array_splice($current, array_search($plugin, $current), 1);
 			do_action('deactivate_' . $plugin);
 		}
-		
+
 		update_option('active_plugins', array());
 		wp_redirect('plugins.php?deactivate-all=true');
 	}

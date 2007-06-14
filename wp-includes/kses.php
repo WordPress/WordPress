@@ -182,7 +182,7 @@ if (!CUSTOM_TAGS) {
 		'ol' => array(), 
 		'var' => array()
 	);
-	
+
 	$allowedtags = array(
 		'a' => array(
 			'href' => array(), 'title' => array()

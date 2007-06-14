@@ -251,14 +251,14 @@ class WP_Import {
 
 		echo '<h3>'.sprintf(__('All done.').' <a href="%s">'.__('Have fun!').'</a>', get_option('home')).'</h3>';
 	}
-  
+
 	function process_post($post) {
 		global $wpdb;
 
 		$post_ID = (int) $this->get_tag( $post, 'wp:post_id' );
   		if ( $post_ID && !empty($this->posts_processed[$post_ID][1]) ) // Processed already
 			return 0;
-      
+
 		// There are only ever one of these
 		$post_title     = $this->get_tag( $post, 'title' );
 		$post_date      = $this->get_tag( $post, 'wp:post_date' );
@@ -311,7 +311,7 @@ class WP_Import {
 			// Memorize old and new ID.
 			if ( $post_id && $post_ID && $this->posts_processed[$post_ID] )
 				$this->posts_processed[$post_ID][1] = $post_id; // New ID.
-			
+
 			// Add categories.
 			if (count($categories) > 0) {
 				$post_cats = array();

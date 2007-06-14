@@ -273,21 +273,21 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 
 function get_edit_post_link( $id = 0 ) {
 	$post = &get_post( $id );
-	
+
 	if ( $post->post_type == 'attachment' ) {
 		return;
 	} elseif ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
-		
+
 		$file = 'page';
 	} else {
 		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
-		
+
 		$file = 'post';
 	}
-	
+
 	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . '/wp-admin/' . $file . '.php?action=edit&amp;post=' . $post->ID, $post->ID );
 }
 
@@ -299,12 +299,12 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	} elseif ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
-		
+
 		$file = 'page';
 	} else {
 		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
-		
+
 		$file = 'post';
 	}
 
@@ -315,7 +315,7 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 function get_edit_comment_link( $comment_id = 0 ) {
 	$comment = &get_comment( $comment_id );
 	$post = &get_post( $comment->comment_post_ID );
-	
+
 	if ( $post->post_type == 'attachment' ) {
 		return;
 	} elseif ( $post->post_type == 'page' ) {
@@ -453,18 +453,18 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
-	
+
 	$pagenum = (int) $pagenum;
-	
+
 	$request = remove_query_arg( 'paged' );
-	
+
 	$home_root = parse_url(get_option('home'));
 	$home_root = $home_root['path'];
 	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
-	
+
 	$request = preg_replace('|^'. $home_root . '|', '', $request);
 	$request = preg_replace('|^/+|', '', $request);
-	
+
 	if ( !$wp_rewrite->using_permalinks() || is_admin() ) {
 		$base = trailingslashit( get_bloginfo( 'home' ) );
 
@@ -476,29 +476,29 @@ function get_pagenum_link($pagenum = 1) {
 	} else {
 		$qs_regex = '|\?.*?$|';
 		preg_match( $qs_regex, $request, $qs_match );
-		
+
 		if ( $qs_match[0] ) {
 			$query_string = $qs_match[0];
 			$request = preg_replace( $qs_regex, '', $request );
 		} else {
 			$query_string = '';
 		}
-		
+
 		$request = preg_replace( '|page/(.+)/?$|', '', $request);
-		
+
 		$base = trailingslashit( get_bloginfo( 'url' ) );
-		
+
 		if ( $wp_rewrite->using_index_permalinks() && $pagenum > 1 ) {
 			$base .= 'index.php/';
 		}
-		
+
 		if ( $pagenum > 1 ) {
 			$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( 'page/' . $pagenum, 'paged' );
 		}
-		
+
 		$result = $base . $request . $query_string;
 	}
-	
+
 	return $result;
 }
 

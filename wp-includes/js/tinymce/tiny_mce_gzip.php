@@ -110,7 +110,7 @@ if ($index > -1) {
 
 	// Patch loading functions
 	//$content .= "tinyMCE_GZ.start();";
-	
+
 	// Do init based on index
 	$content .= "tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);";
 

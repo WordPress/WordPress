@@ -6,7 +6,7 @@ $parent_file = 'options-general.php';
 
 include('./admin-header.php');
 ?>
- 
+
 <div class="wrap">
 <h2><?php _e('General Options') ?></h2>
 <form method="post" action="options.php"> 

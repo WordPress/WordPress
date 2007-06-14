@@ -149,7 +149,7 @@ function dropdown_link_categories( $default = 0 ) {
 	}
 
 	$categories = get_terms('link_category', 'orderby=count&hide_empty=0');
-	
+
 	if ( empty($categories) )
 		return;
 
@@ -421,7 +421,7 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 
 	if ( $for_post )
 		$edit = ( ('draft' == $post->post_status ) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date ) ) ? false : true;
- 
+
 	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );

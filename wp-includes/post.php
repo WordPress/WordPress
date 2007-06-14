@@ -27,7 +27,7 @@ function update_attached_file( $attachment_id, $file ) {
 
 function &get_children($args = '', $output = OBJECT) {
 	global $post_cache, $wpdb, $blog_id;
-	
+
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
 			$args = 'post_parent=' . (int) $GLOBALS['post']->post_parent;
@@ -39,12 +39,12 @@ function &get_children($args = '', $output = OBJECT) {
 	} elseif ( is_numeric( $args ) ) {
 		$args = 'post_parent=' . (int) $args;
 	}
-	
+
 	$defaults = array(
 		'numberposts' => -1, 'post_type' => '', 
 		'post_status' => '', 'post_parent' => 0
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 
 	$children = get_posts( $r );
@@ -174,7 +174,7 @@ function get_post_type($post = false) {
 
 function get_posts($args) {
 	global $wpdb;
-	
+
 	$defaults = array(
 		'numberposts' => 5, 'offset' => 0, 
 		'category' => 0, 'orderby' => 'post_date', 
@@ -183,10 +183,10 @@ function get_posts($args) {
 		'meta_value' =>'', 'post_type' => 'post', 
 		'post_status' => 'publish', 'post_parent' => 0
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
-	
+
 	$numberposts = (int) $numberposts;
 	$offset = (int) $offset;
 	$category = (int) $category;
@@ -430,7 +430,7 @@ function wp_delete_post($postid = 0) {
 	}
 
 	do_action('deleted_post', $postid);
-	
+
 	return $post;
 }
 
@@ -449,7 +449,7 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
 
 	$defaults = array('fields' => 'all');
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	$tags = get_object_terms($post_id, 'post_tag', $args);
 
 	return $tags;
@@ -777,9 +777,9 @@ function wp_add_post_tags($post_id = 0, $tags = '') {
 function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	/* $append - true = don't delete existing tags, just add on, false = replace the tags with the new tags */
 	global $wpdb;
-	
+
 	$post_id = (int) $post_id;
-	
+
 	if ( !$post_id )
 		return false;
 
@@ -1040,7 +1040,7 @@ function get_page_uri($page_id) {
 
 function &get_pages($args = '') {
 	global $wpdb;
-	
+
 	$defaults = array(
 		'child_of' => 0, 'sort_order' => 'ASC', 
 		'sort_column' => 'post_title', 'hierarchical' => 1, 
@@ -1048,7 +1048,7 @@ function &get_pages($args = '') {
 		'meta_key' => '', 'meta_value' => '', 
 		'authors' => ''
 	);
-	
+
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r );
 

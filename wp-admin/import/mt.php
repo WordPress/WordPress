@@ -272,7 +272,7 @@ class MT_Import {
 		$comments = array();
 		$ping = new StdClass();
 		$pings = array();
-		
+
 		echo "<div class='wrap'><ol>";
 
 		while ( $line = fgets($handle) ) {

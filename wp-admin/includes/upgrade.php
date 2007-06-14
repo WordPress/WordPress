@@ -187,11 +187,11 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 4351 )
 		upgrade_old_slugs();
-	
+
 	if ( $wp_current_db_version < 5539 )
 		upgrade_230();
 
-	
+
 	maybe_disable_automattic_widgets();
 
 	$wp_rewrite->flush_rules();
@@ -576,7 +576,7 @@ function upgrade_210() {
 
 function upgrade_230() {
 	global $wp_current_db_version, $wpdb;
-	
+
 	if ( $wp_current_db_version < 5200 ) {
 		populate_roles_230();
 	}
@@ -628,7 +628,7 @@ function upgrade_230() {
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
 			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
 		}
-		
+
 		if ( empty($count) ) {
 			$count = 0;
 			$taxonomy = 'category';
@@ -756,15 +756,15 @@ function get_alloptions_110() {
 // Version of get_option that is private to install/upgrade.
 function __get_option($setting) {
 	global $wpdb;
-	
+
 	if ( $setting == 'home' && defined( 'WP_HOME' ) ) {
 		return preg_replace( '|/+$|', '', constant( 'WP_HOME' ) );
 	}
-	
+
 	if ( $setting == 'siteurl' && defined( 'WP_SITEURL' ) ) {
 		return preg_replace( '|/+$|', '', constant( 'WP_SITEURL' ) );
 	}
-	
+
 	$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
 
 	if ( 'home' == $setting && '' == $option )
@@ -1208,7 +1208,7 @@ function wp_check_mysql_version() {
 
 function maybe_disable_automattic_widgets() {
 	$plugins = __get_option( 'active_plugins' );
-	
+
 	foreach ( (array) $plugins as $plugin ) {
 		if ( basename( $plugin ) == 'widgets.php' ) {
 			array_splice( $plugins, array_search( $plugin, $plugins ), 1 );

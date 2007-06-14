@@ -1,7 +1,7 @@
 <?php
 
 class UTW_Import {
-	
+
 	function header()  {
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import Ultimate Tag Warrior').'</h2>';
@@ -23,18 +23,18 @@ class UTW_Import {
 		echo '</form>';
 		echo '</div>';
 	}
-	
-	
+
+
 	function dispatch () {
 		if ( empty( $_GET['step'] ) ) {
 			$step = 0;
 		} else {
 			$step = (int) $_GET['step'];
 		}
-		
+
 		// load the header
 		$this->header();
-		
+
 		switch ( $step ) {
 			case 0 :
 				$this->greet();
@@ -52,18 +52,18 @@ class UTW_Import {
 				$this->cleanup_import();
 				break;
 		}
-		
+
 		// load the footer
 		$this->footer();
 	}
-	
-	
+
+
 	function import_tags ( ) {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading UTW Tags&#8230;').'</h3></p>';
-		
+
 		$tags = $this->get_utw_tags();
-		
+
 		// if we didn't get any tags back, that's all there is folks!
 		if ( !is_array($tags) ) {
 			echo '<p>' . __('No Tags Found!') . '</p>';
@@ -77,37 +77,37 @@ class UTW_Import {
 			}
 
 			add_option('utwimp_tags', $tags);
-			
+
 
 			$count = count($tags);
-			
+
 			echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags were read.'), $count ) . '<br /></p>';
 			echo '<p>' . __('The following tags were found:') . '</p>';
-			
+
 			echo '<ul>';
-			
+
 			foreach ( $tags as $tag_id => $tag_name ) {
-				
+
 				echo '<li>' . $tag_name . '</li>';
-				
+
 			}
-			
+
 			echo '</ul>';
-			
+
 			echo '<br />';
-			
+
 			echo '<p>' . __('If you don&#8217;t want to import any of these tags, you should delete them from the UTW tag management page and then re-run this import.') . '</p>';
-			
-			
+
+
 		}
-		
+
 		echo '<form action="admin.php?import=utw&amp;step=2" method="post">';
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 2 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
-	
-	
+
+
 	function import_posts ( ) {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading UTW Post Tags&#8230;').'</h3></p>';
@@ -128,12 +128,12 @@ class UTW_Import {
 			}
 
 			add_option('utwimp_posts', $posts);
-				
+
 
 			$count = count($posts);
-				
+
 			echo '<p>' . sprintf( __('Done! <strong>%s</strong> tag to post relationships were read.'), $count ) . '<br /></p>';
-				
+
 		}
 
 		echo '<form action="admin.php?import=utw&amp;step=3" method="post">';
@@ -142,8 +142,8 @@ class UTW_Import {
 		echo '</div>';
 
 	}
-	
-	
+
+
 	function import_t2p ( ) {
 
 		echo '<div class="narrow">';
@@ -151,7 +151,7 @@ class UTW_Import {
 
 		// run that funky magic!
 		$tags_added = $this->tag2post();
-		
+
 		echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags where added!'), $tags_added ) . '<br /></p>';
 
 		echo '<form action="admin.php?import=utw&amp;step=4" method="post">';
@@ -160,104 +160,104 @@ class UTW_Import {
 		echo '</div>';
 
 	}
-	
-	
+
+
 	function get_utw_tags ( ) {
-	
+
 		global $wpdb;
-		
+
 		// read in all the tags from the UTW tags table: should be wp_tags
 		$tags_query = "SELECT tag_id, tag FROM " . $wpdb->prefix . "tags";
-		
+
 		$tags = $wpdb->get_results($tags_query);
-		
+
 		// rearrange these tags into something we can actually use
 		foreach ( $tags as $tag ) {
-			
+
 			$new_tags[$tag->tag_id] = $tag->tag;
-			
+
 		}
-		
+
 		return $new_tags;
 
 	}
-	
+
 	function get_utw_posts ( ) {
-		
+
 		global $wpdb;
-		
+
 		// read in all the posts from the UTW post->tag table: should be wp_post2tag
 		$posts_query = "SELECT tag_id, post_id FROM " . $wpdb->prefix . "post2tag";
-		
+
 		$posts = $wpdb->get_results($posts_query);
-		
+
 		return $posts;
-		
+
 	}
-	
-	
+
+
 	function tag2post ( ) {
-		
+
 		// get the tags and posts we imported in the last 2 steps
 		$tags = get_option('utwimp_tags');
 		$posts = get_option('utwimp_posts');
-		
+
 		// null out our results
 		$tags_added = 0;
-		
+
 		// loop through each post and add its tags to the db
 		foreach ( $posts as $this_post ) {
-			
+
 			$the_post = (int) $this_post->post_id;
 			$the_tag = (int) $this_post->tag_id;
-			
+
 			// what's the tag name for that id?
 			$the_tag = $tags[$the_tag];
-			
+
 			// screw it, just try to add the tag
 			wp_add_post_tags($the_post, $the_tag);
 
 			$tags_added++;
-			
+
 		}
-		
+
 		// that's it, all posts should be linked to their tags properly, pending any errors we just spit out!
 		return $tags_added;
-		
-		
+
+
 	}
-	
-	
+
+
 	function cleanup_import ( ) {
-		
+
 		delete_option('utwimp_tags');
 		delete_option('utwimp_posts');
-		
+
 		$this->done();
-		
+
 	}
-	
-	
+
+
 	function done ( ) {
-		
+
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Import Complete!').'</h3></p>';
-		
+
 		echo '<p>' . __('OK, so we lied about this being a 5-step program! You&#8217;re done!') . '</p>';
-		
+
 		echo '<p>' . __('Now wasn&#8217;t that easy?') . '</p>';
-		
+
 		echo '</div>';
-		
+
 	}
-	
+
 
 	function UTW_Import ( ) {
-		
+
 		// Nothing.
-		
+
 	}
-	
+
 }
 
 

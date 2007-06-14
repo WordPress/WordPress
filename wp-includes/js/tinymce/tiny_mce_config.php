@@ -48,7 +48,7 @@
 		$mce_css = str_replace('http://', 'https://', $mce_css);
 		$mce_popups_css = str_replace('http://', 'https://', $mce_popups_css);
 	}
-	
+
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
 ?>
 

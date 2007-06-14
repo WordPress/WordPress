@@ -115,7 +115,7 @@
 				$words = preg_split("/ |\n/", $check, -1, PREG_SPLIT_NO_EMPTY);
 				$result = $tinyspell->checkWords($words);
 			break;
-	
+
 			case "suggest":
 				$result = $tinyspell->getSuggestion($check);
 			break;
@@ -138,7 +138,7 @@
 			header('Content-type: text/xml; charset=utf-8');
 			$body  = '<?xml version="1.0" encoding="utf-8" ?>';
 			$body .= "\n";
-			
+
 			if (count($result) == 0)
 				$body .= '<res id="' . $id . '" cmd="'. $cmd .'" />';
 			else

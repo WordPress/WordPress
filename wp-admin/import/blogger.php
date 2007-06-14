@@ -915,7 +915,7 @@ class AtomParser {
 			if(count($this->in_content) == 2) {
 				array_push($this->in_content, ">");
 			}
-		 
+
 			array_push($this->in_content, "<". $this->ns_to_prefix($name) ."{$xmlns_str}{$attrs_str}");
 		} else if(in_array($tag, $this->ATOM_CONTENT_ELEMENTS) || in_array($tag, $this->ATOM_SIMPLE_ELEMENTS)) {
 			$this->in_content = array();
