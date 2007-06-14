@@ -181,21 +181,34 @@ function get_nonauthor_user_ids() {
 	return $wpdb->get_col( $query );
 }
 
-function get_others_drafts( $user_id ) {
+function get_others_unpublished_posts($user_id, $type='any') {
 	global $wpdb;
 	$user = get_userdata( $user_id );
 	$level_key = $wpdb->prefix . 'user_level';
 
 	$editable = get_editable_user_ids( $user_id );
 
+	if ( in_array($type, array('draft', 'pending')) )
+		$type_sql = " post_status = '$type' ";
+	else
+		$type_sql = " ( post_status = 'draft' OR post_status = 'pending' ) ";
+
 	if( !$editable ) {
-		$other_drafts = '';
+		$other_unpubs = '';
 	} else {
 		$editable = join(',', $editable);
-		$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author IN ($editable) AND post_author != '$user_id' ");
+		$other_unpubs = $wpdb->get_results("SELECT ID, post_title, post_author FROM $wpdb->posts WHERE post_type = 'post' AND $type_sql AND post_author IN ($editable) AND post_author != '$user_id' ");
 	}
 
-	return apply_filters('get_others_drafts', $other_drafts);
+	return apply_filters('get_others_drafts', $other_unpubs);
+}
+
+function get_others_drafts($user_id) {
+	return get_others_unpublished_posts($user_id, 'draft');
+}
+
+function get_others_pending($user_id) {
+	return get_others_unpublished_posts($user_id, 'pending');
 }
 
 function get_user_to_edit( $user_id ) {

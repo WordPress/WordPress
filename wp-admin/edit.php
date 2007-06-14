@@ -11,9 +11,12 @@ $_GET['cat'] = (int) $_GET['cat'];
 $post_stati  = array(	//	array( adj, noun )
 			'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
 			'future' => array(__('Scheduled'), __('Scheduled posts')),
+			'pending' => array(__('Pending Review'), __('Pending posts')),
 			'private' => array(__('Private'), __('Private posts')),
 			'publish' => array(__('Published'), __('Published posts'))
 		);
+
+$avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
 
 $post_status_q = '';
 $post_status_label = _c('Posts|manage posts header');
@@ -30,14 +33,16 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 wp("what_to_show=posts$post_status_q&posts_per_page=15");
 
 // define the columns to display, the syntax is 'internal name' => 'display name'
-$posts_columns = array(
-	'id'         => '<div style="text-align: center">' . __('ID') . '</div>',
-	'date'       => __('When'),
-	'title'      => __('Title'),
-	'categories' => __('Categories'),
-	'comments'   => '<div style="text-align: center">' . __('Comments') . '</div>',
-	'author'     => __('Author')
-);
+$posts_columns = array();
+$posts_columns['id'] = '<div style="text-align: center">' . __('ID') . '</div>';
+if ( !in_array($_GET['post_status'], array('pending', 'draft')) )
+	$posts_columns['date'] = __('When');
+$posts_columns['title'] = __('Title');
+$posts_columns['categories'] = __('Categories');
+if ( 'publish' == $_GET['post_status'] )
+	$posts_columns['comments'] = '<div style="text-align: center">' . __('Comments') . '</div>';
+$posts_columns['author'] = __('Author');
+
 $posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
 // you can not edit these at the moment
@@ -57,9 +62,14 @@ if ( is_single() ) {
 		$h2_noun = $post_status_label;
 	// Use $_GET instead of is_ since they can override each other
 	$h2_author = '';
-	if ( isset($_GET['author']) && $_GET['author'] ) {
-		$author_user = get_userdata( get_query_var( 'author' ) );
-		$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
+	$_GET['author'] = (int) $_GET['author'];
+	if ( $_GET['author'] != 0 ) {
+		if ( $_GET['author'] == '-' . $user_ID ) { // author exclusion
+			$h2_author = ' ' . __('by other authors');
+		} else {
+			$author_user = get_userdata( get_query_var( 'author' ) );
+			$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));	
+		}
 	}
 	$h2_search = isset($_GET['s'])   && $_GET['s']   ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( get_search_query() ) ) : '';
 	$h2_cat    = isset($_GET['cat']) && $_GET['cat'] ? ' ' . sprintf( __('in &#8220;%s&#8221;'), single_cat_title('', false) ) : '';
@@ -73,10 +83,10 @@ if ( is_single() ) {
 		<input type="text" name="s" id="s" value="<?php the_search_query(); ?>" size="17" /> 
 	</fieldset>
 
-	<fieldset><legend><?php _e('Post Type&hellip;'); ?></legend> 
+	<fieldset><legend><?php _e('Status&hellip;'); ?></legend> 
 		<select name='post_status'>
 			<option<?php selected( @$_GET['post_status'], 0 ); ?> value='0'><?php _e('Any'); ?></option>
-<?php	foreach ( $post_stati as $status => $label ) : ?>
+<?php	foreach ( $post_stati as $status => $label ) : if ( !in_array($status, $avail_post_stati) ) continue; ?>
 			<option<?php selected( @$_GET['post_status'], $status ); ?> value='<?php echo $status; ?>'><?php echo $label[0]; ?></option>
 <?php	endforeach; ?>
 		</select>

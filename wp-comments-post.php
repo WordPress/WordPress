@@ -19,7 +19,7 @@ if ( empty($status->comment_status) ) {
 } elseif ( 'closed' ==  $status->comment_status ) {
 	do_action('comment_closed', $comment_post_ID);
 	wp_die( __('Sorry, comments are closed for this item.') );
-} elseif ( 'draft' == $status->post_status ) {
+} elseif ( in_array($status->post_status, array('draft', 'pending') ) ) {
 	do_action('comment_on_draft', $comment_post_ID);
 	exit;
 }

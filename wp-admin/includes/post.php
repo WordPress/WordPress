@@ -64,10 +64,10 @@ function edit_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ('publish' == $_POST['post_status'] && !current_user_can( 'edit_published_pages' ))
-			$_POST['post_status'] = 'draft';
+			$_POST['post_status'] = 'pending';
 	} else {
 		if ('publish' == $_POST['post_status'] && !current_user_can( 'edit_published_posts' ))
-			$_POST['post_status'] = 'draft';
+			$_POST['post_status'] = 'pending';
 	}
 
 	if (!isset( $_POST['comment_status'] ))
@@ -268,10 +268,10 @@ function wp_write_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ('publish' == $_POST['post_status'] && !current_user_can( 'publish_pages' ) )
-			$_POST['post_status'] = 'draft';
+			$_POST['post_status'] = 'pending';
 	} else {
 		if ('publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' ) )
-			$_POST['post_status'] = 'draft';
+			$_POST['post_status'] = 'pending';
 	}
 
 	if (!isset( $_POST['comment_status'] ))

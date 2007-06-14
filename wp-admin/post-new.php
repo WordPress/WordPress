@@ -24,31 +24,83 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Post saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post &raquo;'); ?></a></p></div>
 <?php
 endif;
+?>
 
-if ( $drafts = get_users_drafts( $user_ID ) ) { ?>
-<div class="wrap">
-<p><strong><?php _e('Your Drafts:') ?></strong>
+
 <?php
-// Show drafts.
-	$num_drafts = count($drafts);
-	if ( $num_drafts > 15 ) $num_drafts = 15;
-	for ( $i = 0; $i < $num_drafts; $i++ ) {
-		$draft = $drafts[$i];
-		if ( 0 != $i )
-			echo ', ';
-		if ( empty($draft->post_title) )
-			$draft->post_title = sprintf(__('Post # %s'), $draft->ID);
-		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
+$my_drafts = get_users_drafts($user_ID);
+$pending = get_others_pending($user_ID);
+$others_drafts = get_others_drafts($user_ID);
+
+if ( !empty($my_drafts) || !empty($pending) || !empty($others_drafts) ) {
+	echo '<div class="wrap" id="draft-nag">';
+
+	if ( $my_drafts ) {
+		echo '<p><strong>' . __( 'Your Drafts:' ) . '</strong> ';
+		if ( count($my_drafts) < 3 ) {
+			$i = 0;
+			foreach ( $my_drafts as $post ) {
+				if ( $i++ != 0 )
+					echo ', ';
+				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
+				the_title();
+				echo '</a>';
+			}
+			echo '.</p>';
+		} else {
+			printf(
+				__( 'You have <a href="%s">%d drafts</a>.' ) . '</p>', 
+				'edit.php?post_status=draft&author=' . $user_ID, count($my_drafts)
+			);
+		}
 	}
 
-	if ( 15 < count($drafts) ) { ?>
-		, <a href="edit.php"><?php echo sprintf(__('and %s more &raquo;'), (count($drafts) - 15) ); ?></a>
-	<?php } ?>
-.</p>
-</div>
-<?php
-}
+	if ( $pending ) {
+		echo '<p><strong>' . __( 'Pending Review:' ) . '</strong> ';
+		if ( count($pending) < 3 ) {
+			$i = 0;
+			foreach ( $pending as $post ) {
+				if ( $i++ != 0 )
+					echo ', ';
+				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
+				the_title();
+				echo '</a>';
+			}
+			echo '.</p>';
+		} else {
+			printf(
+				__( 'There are <a href="%s">%d drafts pending review</a>.' ) . '</p>', 
+				'edit.php?post_status=pending', count($pending)
+			);
+		}
+	}
 
+	if ( $others_drafts ) {
+		echo '<p><strong>' . __( 'Others&#8217; Drafts:' ) . '</strong> ';
+		if ( count($others_drafts) < 3 ) {
+			$i = 0;
+			foreach ( $others_drafts as $post ) {
+				if ( $i++ != 0 )
+					echo ', ';
+				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
+				the_title();
+				echo '</a>';
+			}
+			echo '.</p>';
+		} else {
+			printf(
+				__( 'There are <a href="%s">%d in-progress drafts by other authors</a>.' ) . '</p>', 
+				'edit.php?post_status=pending&author=-' . $user_ID, count($others_drafts)
+			);
+		}
+	}
+
+	echo "</div>\n";
+}
+?>
+
+
+<?php
 // Show post form.
 $post = get_default_post_to_edit();
 include('edit-form-advanced.php');

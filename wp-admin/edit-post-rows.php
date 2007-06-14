@@ -10,7 +10,7 @@
 	</thead>
 	<tbody id="the-list">
 <?php
-if ($posts) {
+if ( have_posts() ) {
 $bgcolor = '';
 while (have_posts()) : the_post();
 add_filter('the_title','wp_specialchars');
@@ -97,7 +97,7 @@ endwhile;
     <td colspan="8"><?php _e('No posts found.') ?></td> 
   </tr> 
 <?php
-} // end if ($posts)
+} // end if ( have_posts() )
 ?>
 	</tbody>
 </table>

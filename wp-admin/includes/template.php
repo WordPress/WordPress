@@ -420,7 +420,7 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 	global $wp_locale, $post, $comment;
 
 	if ( $for_post )
-		$edit = ( ('draft' == $post->post_status ) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date ) ) ? false : true;
+		$edit = ( in_array($post->post_status, array('draft', 'pending') ) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date ) ) ? false : true;
 
 	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
 

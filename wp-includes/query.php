@@ -1006,6 +1006,8 @@ class WP_Query {
 			$r_status = array();
 			if ( in_array( 'draft'  , $q_status ) )
 				$r_status[] = "post_status = 'draft'";
+			if ( in_array( 'pending', $q_status ) )
+				$r_status[] = "post_status = 'pending'";
 			if ( in_array( 'future' , $q_status ) )
 				$r_status[] = "post_status = 'future'";
 			if ( in_array( 'inherit' , $q_status ) )
@@ -1020,7 +1022,7 @@ class WP_Query {
 			$where .= " AND (post_status = 'publish'";
 
 			if ( is_admin() )
-				$where .= " OR post_status = 'future' OR post_status = 'draft'";
+				$where .= " OR post_status = 'future' OR post_status = 'draft' OR post_status = 'pending'";
 
 			if ( is_user_logged_in() ) {
 				$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR post_status = 'private'" : " OR post_author = $user_ID AND post_status = 'private'";
@@ -1128,7 +1130,7 @@ class WP_Query {
 					// User must be logged in to view unpublished posts.
 					$this->posts = array();
 				} else {
-					if ('draft' == $status) {
+					if  (in_array($status, array('draft', 'pending')) ) {
 						// User must have edit permissions on the draft to preview.
 						if (! current_user_can('edit_post', $this->posts[0]->ID)) {
 							$this->posts = array();

@@ -553,12 +553,12 @@ function wp_insert_post($postarr = array()) {
 
 	// If the post date is empty (due to having been new or a draft) and status is not 'draft', set date to now
 	if (empty($post_date)) {
-		if ( 'draft' != $post_status )
+		if ( !in_array($post_status, array('draft', 'pending')) )
 			$post_date = current_time('mysql');
 	}
 
 	if (empty($post_date_gmt)) {
-		if ( 'draft' != $post_status )
+		if ( !in_array($post_status, array('draft', 'pending')) )
 			$post_date_gmt = get_gmt_from_date($post_date);
 	}
 
@@ -738,7 +738,7 @@ function wp_update_post($postarr = array()) {
 		$post_cats = $post['post_category'];
 
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user
-	if ( 'draft' == $post['post_status'] && empty($postarr['edit_date']) && empty($postarr['post_date']) &&
+	if ( in_array($post['post_status'], array('draft', 'pending')) && empty($postarr['edit_date']) && empty($postarr['post_date']) &&
 			 ('0000-00-00 00:00:00' == $post['post_date']) )
 		$clear_date = true;
 	else
