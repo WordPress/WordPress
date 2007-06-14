@@ -564,12 +564,12 @@ add_query_arg(associative_array, oldquery_or_uri)
 function add_query_arg() {
 	$ret = '';
 	if ( is_array(func_get_arg(0)) ) {
-		if ( @func_num_args() < 2 || '' == @func_get_arg(1) )
+		if ( @func_num_args() < 2 || false === @func_get_arg(1) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
 			$uri = @func_get_arg(1);
 	} else {
-		if ( @func_num_args() < 3 || '' == @func_get_arg(2) )
+		if ( @func_num_args() < 3 || false === @func_get_arg(2) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
 			$uri = @func_get_arg(2);
@@ -641,7 +641,7 @@ remove_query_arg(removekey, [oldquery_or_uri]) or
 remove_query_arg(removekeyarray, [oldquery_or_uri])
 */
 
-function remove_query_arg($key, $query='') {
+function remove_query_arg($key, $query=FALSE) {
 	if ( is_array($key) ) { // removing multiple keys
 		foreach ( (array) $key as $k )
 			$query = add_query_arg($k, FALSE, $query);
