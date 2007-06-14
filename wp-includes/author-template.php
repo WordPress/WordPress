@@ -385,7 +385,7 @@ function wp_list_authors($args = '') {
 	foreach ( (array) $authors as $author ) {
 		$author = get_userdata( $author->ID );
 		$posts = (isset($author_count[$author->ID])) ? $author_count[$author->ID] : 0;
-		$name = $author->nickname;
+		$name = $author->display_name;
 
 		if ( $show_fullname && ($author->first_name != '' && $author->last_name != '') )
 			$name = "$author->first_name $author->last_name";
