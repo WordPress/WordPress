@@ -1118,4 +1118,11 @@ function wp_make_link_relative( $link ) {
 	return preg_replace('|https?://[^/]+(/.*)|i', '$1', $link );
 }
 
+function wp_parse_str( $string, &$array ) {
+	parse_str( $string, $array );
+	if ( get_magic_quotes_gpc() )
+		$array = stripslashes_deep( $array ); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
+	$array = apply_filters( 'wp_parse_str', $array );
+}
+
 ?>

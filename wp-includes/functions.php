@@ -801,9 +801,7 @@ function add_query_arg() {
 		$query = $uri;
 	}
 
-	parse_str($query, $qs);
-	if ( get_magic_quotes_gpc() )
-		$qs = stripslashes_deep($qs); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
+	wp_parse_str($query, $qs);
 	$qs = urlencode_deep($qs);
 	if ( is_array(func_get_arg(0)) ) {
 		$kayvees = func_get_arg(0);
@@ -1481,21 +1479,15 @@ function smilies_init() {
 }
 
 function wp_parse_args( $args, $defaults = '' ) {
-	if ( is_array($args) ) :
+	if ( is_array( $args ) )
 		$r =& $args;
-	else :
-		parse_str( $args, $r );
-		if ( get_magic_quotes_gpc() )
-			$r = stripslashes_deep( $r );
-	endif;
+	else
+		wp_parse_str( $args, $r );
 
-	if ( is_array($defaults) ) :
-		extract($defaults);
-		extract($r);
-		return compact(array_keys($defaults)); // only those options defined in $defaults
-	else :
+	if ( is_array( $defaults ) )
+		return array_merge( $defaults, $r );
+	else
 		return $r;
-	endif;
 }
 
 function wp_maybe_load_widgets() {
