@@ -67,7 +67,7 @@ function get_permalink($id = 0) {
 
 	$permalink = get_option('permalink_structure');
 
-	if ( '' != $permalink && 'draft' != $post->post_status ) {
+	if ( '' != $permalink && !in_array($post->post_status, array('draft', 'pending')) ) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';
