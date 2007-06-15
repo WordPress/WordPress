@@ -436,7 +436,7 @@ function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
 
 	$tag_list = $before;
 	foreach ( $tags as $tag )
-		$tag_links[] = '<a href="' . get_tag_link($tag->term_id) . '" rel="tag">' . $tag->slug . '</a>';
+		$tag_links[] = '<a href="' . get_tag_link($tag->term_id) . '" rel="tag">' . $tag->name . '</a>';
 
 	$tag_links = join( $sep, $tag_links );
 	$tag_links = apply_filters( 'the_tags', $tag_links );
