@@ -59,7 +59,7 @@ function wp_delete_category($cat_ID) {
 function wp_insert_category($catarr) {
 	global $wpdb;
 
-	extract($catarr);
+	extract($catarr, EXTR_SKIP);
 
 	if ( trim( $cat_name ) == '' )
 		return 0;

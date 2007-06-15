@@ -77,7 +77,7 @@ function get_link_to_edit( $link_id ) {
 function wp_insert_link($linkdata) {
 	global $wpdb, $current_user;
 
-	extract($linkdata);
+	extract($linkdata, EXTR_SKIP);
 
 	$update = false;
 
