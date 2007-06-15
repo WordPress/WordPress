@@ -182,7 +182,7 @@ function get_posts($args) {
 		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '',
 		'meta_key' => '', 'meta_value' =>'', 'post_type' => 'post', 'post_status' => 'publish', 'post_parent' => 0);
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 	$numberposts = (int) $numberposts;
 	$offset = (int) $offset;
 	$category = (int) $category;
@@ -490,7 +490,7 @@ function wp_insert_post($postarr = array()) {
 		$postarr = get_object_vars($postarr);
 
 	// export array as variables
-	extract($postarr);
+	extract($postarr, EXTR_SKIP);
 
 	// Are we updating or creating?
 	$update = false;
@@ -881,7 +881,7 @@ function trackback_url_list($tb_list, $post_id) {
 		$postdata = wp_get_single_post($post_id, ARRAY_A);
 
 		// import postdata as variables
-		extract($postdata);
+		extract($postdata, EXTR_SKIP);
 
 		// form an excerpt
 		$excerpt = strip_tags($post_excerpt?$post_excerpt:$post_content);
@@ -1067,7 +1067,7 @@ function &get_pages($args = '') {
 	$defaults = array('child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title',
 				'hierarchical' => 1, 'exclude' => '', 'include' => '', 'meta_key' => '', 'meta_value' => '', 'authors' => '');
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_pages', 'page' ) )
@@ -1221,7 +1221,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		$object = get_object_vars($object);
 
 	// Export array as variables
-	extract($object);
+	extract($object, EXTR_SKIP);
 
 	// Get the basics.
 	$post_content    = apply_filters('content_save_pre',   $post_content);

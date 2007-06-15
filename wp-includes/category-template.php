@@ -191,7 +191,7 @@ function wp_dropdown_categories($args = '') {
 	$defaults['selected'] = ( is_category() ) ? get_query_var('cat') : 0;
 	$r = array_merge($defaults, $r);
 	$r['include_last_update_time'] = $r['show_last_update'];
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$categories = get_categories($r);
 
@@ -242,7 +242,7 @@ function wp_list_categories($args = '') {
 		$r['pad_counts'] = true;
 	if ( isset($r['show_date']) )
 		$r['include_last_update_time'] = $r['show_date'];
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$categories = get_categories($r);
 

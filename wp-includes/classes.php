@@ -506,7 +506,7 @@ class Walker_Page extends Walker {
 	function start_el($output, $page, $depth, $current_page, $args) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
-		extract($args);
+		extract($args, EXTR_SKIP);
 		$css_class = 'page_item';
 		$_current_page = get_page( $current_page );
 		if ( $page->ID == $current_page )
@@ -696,7 +696,7 @@ class WP_Ajax_Response {
 				'data' => '', 'supplemental' => array());
 
 		$r = array_merge($defaults, $r);
-		extract($r);
+		extract($r, EXTR_SKIP);
 
 		if ( is_wp_error($id) ) {
 			$data = $id;

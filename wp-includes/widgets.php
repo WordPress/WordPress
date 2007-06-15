@@ -389,7 +389,7 @@ function wp_widget_pages_control() {
 
 function wp_widget_links($args) {
 	global $wp_db_version;
-	extract($args);
+	extract($args, EXTR_SKIP);
 	if ( $wp_db_version < 3582 ) {
 		// This ONLY works with li/h2 sidebars.
 		get_links_list();
@@ -805,7 +805,7 @@ function wp_widget_recent_comments_register() {
 
 function wp_widget_rss($args, $number = 1) {
 	require_once(ABSPATH . WPINC . '/rss.php');
-	extract($args);
+	extract($args, EXTR_SKIP);
 	$options = get_option('widget_rss');
 	if ( isset($options['error']) && $options['error'] )
 		return;

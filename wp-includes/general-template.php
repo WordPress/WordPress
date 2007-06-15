@@ -322,7 +322,7 @@ function wp_get_archives($args = '') {
 
 	$defaults = array('type' => 'monthly', 'limit' => '', 'format' => 'html', 'before' => '', 'after' => '', 'show_post_count' => false);
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	if ( '' == $type )
 		$type = 'monthly';

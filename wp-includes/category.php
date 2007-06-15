@@ -28,7 +28,7 @@ function &get_categories($args = '') {
 	else
 		$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
 	$r['number'] = (int) $r['number'];
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_categories', 'category' ) )

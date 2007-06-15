@@ -82,7 +82,7 @@ switch($step) {
 
 <?php
 	$result = wp_install($weblog_title, 'admin', $admin_email, $public);
-	extract($result);
+	extract($result, EXTR_SKIP);
 ?>
 
 <p><em><?php _e('Finished!'); ?></em></p>

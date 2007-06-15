@@ -32,7 +32,7 @@ function validate_username( $username ) {
 function wp_insert_user($userdata) {
 	global $wpdb;
 
-	extract($userdata);
+	extract($userdata, EXTR_SKIP);
 
 	// Are we updating or creating?
 	if ( !empty($ID) ) {

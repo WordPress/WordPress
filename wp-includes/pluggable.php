@@ -168,7 +168,7 @@ function wp_mail($to, $subject, $message, $headers = '') {
 
 	$mail = compact('to', 'subject', 'message', 'headers');
 	$mail = apply_filters('wp_mail', $mail);
-	extract($mail);
+	extract($mail, EXTR_SKIP);
 
 	if ( $headers == '' ) {
 		$headers = "MIME-Version: 1.0\n" .

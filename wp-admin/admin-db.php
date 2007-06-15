@@ -82,7 +82,7 @@ function get_nonauthor_user_ids() {
 function wp_insert_category($catarr) {
 	global $wpdb;
 
-	extract($catarr);
+	extract($catarr, EXTR_SKIP);
 
 	if( trim( $cat_name ) == '' )
 		return 0;
@@ -297,7 +297,7 @@ function wp_revoke_user($id) {
 function wp_insert_link($linkdata) {
 	global $wpdb, $current_user;
 
-	extract($linkdata);
+	extract($linkdata, EXTR_SKIP);
 
 	$update = false;
 

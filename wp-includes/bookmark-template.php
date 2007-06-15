@@ -253,7 +253,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	$defaults = array('show_updated' => 0, 'show_description' => 0, 'show_images' => 1, 'before' => '<li>',
 		'after' => '</li>', 'between' => "\n");
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	foreach ( (array) $bookmarks as $bookmark ) {
 		if ( !isset($bookmark->recently_updated) )
@@ -331,7 +331,7 @@ function wp_list_bookmarks($args = '') {
 		'category_orderby' => 'name', 'category_order' => 'ASC', 'class' => 'linkcat',
 		'category_before' => '<li id="%id" class="%class">', 'category_after' => '</li>');
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$output = '';
 

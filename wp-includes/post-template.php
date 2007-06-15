@@ -141,7 +141,7 @@ function wp_link_pages($args = '') {
 	$defaults = array('before' => '<p>' . __('Pages:'), 'after' => '</p>', 'next_or_number' => 'number', 'nextpagelink' => __('Next page'),
 			'previouspagelink' => __('Previous page'), 'pagelink' => '%', 'more_file' => '', 'echo' => 1);
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	global $id, $page, $numpages, $multipage, $more, $pagenow;
 	if ( $more_file != '' )
@@ -255,7 +255,7 @@ function wp_dropdown_pages($args = '') {
 	$defaults = array('depth' => 0, 'child_of' => 0, 'selected' => 0, 'echo' => 1,
 		'name' => 'page_id', 'show_option_none' => '');
 	$r = array_merge($defaults, $r);
-	extract($r);
+	extract($r, EXTR_SKIP);
 
 	$pages = get_pages($r);
 	$output = '';
