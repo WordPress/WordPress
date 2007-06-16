@@ -381,7 +381,7 @@ foreach($roleclasses as $role => $roleclass) {
 <?php if ( !empty($role) ) : ?>
 	<th colspan="7"><h3><?php echo $wp_roles->role_names[$role]; ?></h3></th>
 <?php else : ?>
-	<th colspan="7"><h3><em><?php _e('No role for this blog'); ?></h3></th>
+	<th colspan="7"><h3><em><?php _e('No role for this blog'); ?></em></h3></th>
 <?php endif; ?>
 </tr>
 <tr class="thead">
