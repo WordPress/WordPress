@@ -37,7 +37,7 @@ class WP_Import {
 	function get_tag( $string, $tag ) {
 		global $wpdb;
 		preg_match("|<$tag.*?>(.*?)</$tag>|is", $string, $return);
-		$return = preg_replace('|<!\[CDATA\[(.*)\]\]>|', '$1', $return[1]);
+		$return = preg_replace('|^<!\[CDATA\[(.*)\]\]>$|s', '$1', $return[1]);
 		$return = $wpdb->escape( trim( $return ) );
 		return $return;
 	}
