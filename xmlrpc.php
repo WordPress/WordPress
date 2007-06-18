@@ -845,7 +845,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if ( !current_user_can('edit_post', $post_ID) )
 	    return new IXR_Error(401, __('Sorry, you do not have the right to edit this post.'));
 
-	  extract($actual_post);
+	  extract($actual_post, EXTR_SKIP);
 
 	  if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
 	  	return new IXR_Error(401, __('Sorry, you do not have the right to publish this post.'));
@@ -1121,8 +1121,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return(new IXR_Error(404, __("Invalid post id.")));
 		}
 
-	  extract($postdata);
 		$this->escape($postdata);
+		extract($postdata, EXTR_SKIP);
 
 		// Let WordPress manage slug if none was provided.
 		$post_name = "";
