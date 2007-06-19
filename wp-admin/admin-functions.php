@@ -1149,7 +1149,7 @@ function delete_meta( $mid ) {
 function update_meta( $mid, $mkey, $mvalue ) {
 	global $wpdb;
 
-	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug' );
+	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
 
 	if ( in_array($mkey, $protected) )
 		return false;
