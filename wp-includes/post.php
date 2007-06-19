@@ -440,7 +440,7 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
 	$defaults = array('fields' => 'ids');
 	$args = wp_parse_args( $args, $defaults );
 
-	$cats = get_object_terms($post_id, 'category', $args);
+	$cats = wp_get_object_terms($post_id, 'category', $args);
 	return $cats;
 }
 
@@ -450,7 +450,7 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
 	$defaults = array('fields' => 'all');
 	$args = wp_parse_args( $args, $defaults );
 
-	$tags = get_object_terms($post_id, 'post_tag', $args);
+	$tags = wp_get_object_terms($post_id, 'post_tag', $args);
 
 	return $tags;
 }

@@ -360,7 +360,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	$join = '';
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON $wpdb->posts.ID = tr.object_id ";
-		$cat_array = get_object_terms($post->ID, 'category', 'fields=tt_ids');
+		$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=tt_ids');
 		$join .= ' AND (tr.term_taxonomy_id = ' . intval($cat_array[0]);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
 			$join .= ' OR tr.term_taxonomy_id = ' . intval($cat_array[$i]);
@@ -393,7 +393,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	$join = '';
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON $wpdb->posts.ID = tr.object_id ";
-		$cat_array = get_object_terms($post->ID, 'category', 'fields=tt_ids');
+		$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=tt_ids');
 		$join .= ' AND (tr.term_taxonomy_id = ' . intval($cat_array[0]);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
 			$join .= ' OR tr.term_taxonomy_id = ' . intval($cat_array[$i]);

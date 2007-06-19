@@ -68,7 +68,7 @@ function get_the_category($id = false) {
 
 	$categories = get_object_term_cache($id, 'category');
 	if ( false === $categories )
-		$categories = get_object_terms($id, 'category');
+		$categories = wp_get_object_terms($id, 'category');
 
 	if ( !empty($categories) )
 		usort($categories, '_usort_terms_by_name');
@@ -420,7 +420,7 @@ function get_the_tags( $id = 0 ) {
 
 	$tags = get_object_term_cache($id, 'post_tag');
 	if ( false === $tags )
-		$tags = get_object_terms($id, 'post_tag');
+		$tags = wp_get_object_terms($id, 'post_tag');
 
 	$tags = apply_filters( 'get_the_tags', $tags );
 	if ( empty( $tags ) ) 
