@@ -1000,31 +1000,67 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_more = $content_struct['mt_text_more'];
 
 		if(isset($content_struct["mt_allow_comments"])) {
-			switch((int) $content_struct["mt_allow_comments"]) {
-				case 0:
-					$comment_status = "closed";
-					break;
-				case 1:
-					$comment_status = "open";
-					break;
-				default:
-					$comment_status = get_option("default_comment_status");
-					break;
+			if(!is_numeric($content_struct["mt_allow_comments"])) {
+				switch($content_struct["mt_allow_comments"]) {
+					case "closed":
+						$comment_status = "closed";
+						break;
+					case "open":
+						$comment_status = "open";
+						break;
+					default:
+						$comment_status = get_option("default_comment_status");
+						break;
+				}
 			}
+			else {
+				switch((int) $content_struct["mt_allow_comments"]) {
+					case 0:
+						$comment_status = "closed";
+						break;
+					case 1:
+						$comment_status = "open";
+						break;
+					default:
+						$comment_status = get_option("default_comment_status");
+						break;
+				}
+			}
+		}
+		else {
+			$comment_status = get_option("default_comment_status");
 		}
 
 		if(isset($content_struct["mt_allow_pings"])) {
-			switch((int) $content_struct["mt_allow_pings"]) {
-				case 0:
-					$ping_status = "closed";
-					break;
-				case 1:
-					$ping_status = "open";
-					break;
-				default:
-					$ping_status = get_option("default_ping_status");
-					break;
+			if(!is_numeric($content_struct["mt_allow_pings"])) {
+				switch($content["mt_allow_pings"]) {
+					case "closed":
+						$ping_status = "closed";
+						break;
+					case "open":
+						$ping_status = "open";
+						break;
+					default:
+						$ping_status = get_option("default_ping_status");
+						break;
+				}
 			}
+			else {
+				switch((int) $content_struct["mt_allow_pings"]) {
+					case 0:
+						$ping_status = "closed";
+						break;
+					case 1:
+						$ping_status = "open";
+						break;
+					default:
+						$ping_status = get_option("default_ping_status");
+						break;
+				}
+			}
+		}
+		else {
+			$ping_status = get_option("default_ping_status");
 		}
 
 	  if ($post_more) {
@@ -1178,15 +1214,61 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_author = $content_struct["wp_author_id"];
 		}
 
-		// Only set ping_status if it was provided.
+		if(isset($content_struct["mt_allow_comments"])) {
+			if(!is_numeric($content_struct["mt_allow_comments"])) {
+				switch($content_struct["mt_allow_comments"]) {
+					case "closed":
+						$comment_status = "closed";
+						break;
+					case "open":
+						$comment_status = "open";
+						break;
+					default:
+						$comment_status = get_option("default_comment_status");
+						break;
+				}
+			}
+			else {
+				switch((int) $content_struct["mt_allow_comments"]) {
+					case 0:
+						$comment_status = "closed";
+						break;
+					case 1:
+						$comment_status = "open";
+						break;
+					default:
+						$comment_status = get_option("default_comment_status");
+						break;
+				}
+			}
+		}
+
 		if(isset($content_struct["mt_allow_pings"])) {
-			switch((int) $content_struct["mt_allow_pings"]) {
-				case 0:
-					$ping_status = "closed";
-					break;
-				case 1:
-					$ping_status = "open";
-					break;
+			if(!is_numeric($content_struct["mt_allow_pings"])) {
+				switch($content["mt_allow_pings"]) {
+					case "closed":
+						$ping_status = "closed";
+						break;
+					case "open":
+						$ping_status = "open";
+						break;
+					default:
+						$ping_status = get_option("default_ping_status");
+						break;
+				}
+			}
+			else {
+				switch((int) $content_struct["mt_allow_pings"]) {
+					case 0:
+						$ping_status = "closed";
+						break;
+					case 1:
+						$ping_status = "open";
+						break;
+					default:
+						$ping_status = get_option("default_ping_status");
+						break;
+				}
 			}
 		}
 
@@ -1221,10 +1303,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if ( is_array($to_ping) )
 	  	$to_ping = implode(' ', $to_ping);
 
-      if(isset($content_struct["mt_allow_comments"])) {
-		$comment_status = (int) $content_struct["mt_allow_comments"];
-      }
-	  
 	  // Do some timestamp voodoo
 	  $dateCreatedd = $content_struct['dateCreated'];
 	  if (!empty($dateCreatedd)) {
