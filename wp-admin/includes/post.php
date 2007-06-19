@@ -336,7 +336,7 @@ function add_meta( $post_ID ) {
 	global $wpdb;
 	$post_ID = (int) $post_ID;
 
-	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug' );
+	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
 
 	$metakeyselect = $wpdb->escape( stripslashes( trim( $_POST['metakeyselect'] ) ) );
 	$metakeyinput = $wpdb->escape( stripslashes( trim( $_POST['metakeyinput'] ) ) );
@@ -411,7 +411,7 @@ function has_meta( $postid ) {
 function update_meta( $mid, $mkey, $mvalue ) {
 	global $wpdb;
 
-	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug' );
+	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
 
 	if ( in_array($mkey, $protected) )
 		return false;
