@@ -1103,7 +1103,7 @@ function htmlentities2($myHTML) {
 // Escape single quotes, specialchar double quotes, and fix line endings.
 function js_escape($text) {
 	$safe_text = wp_specialchars($text, 'double');
-	$safe_text = str_replace('&#039;', "'", $safe_text);
+	$safe_text = preg_replace('/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes($safe_text));
 	$safe_text = preg_replace("/\r?\n/", "\\n", addslashes($safe_text));
 	return apply_filters('js_escape', $safe_text, $text);
 }
