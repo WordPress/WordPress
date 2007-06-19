@@ -467,7 +467,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 		$taxonomies = array($taxonomies);
 
 	foreach ( $taxonomies as $taxonomy ) {
-		$terms = get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
+		$terms = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
 		$in_terms = "'" . implode("', '", $terms) . "'";
 		$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id IN ($in_terms)");
 
@@ -510,7 +510,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$objects = $wpdb->get_col("SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$tt_id'");
 
 	foreach ( (array) $objects as $object ) {
-		$terms = get_object_terms($object, $taxonomy, 'fields=ids');
+		$terms = wp_get_object_terms($object, $taxonomy, 'fields=ids');
 		if ( 1 == count($terms) && isset($default) )
 			$terms = array($default);
 		else
