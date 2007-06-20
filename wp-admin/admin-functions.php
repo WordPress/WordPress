@@ -938,6 +938,8 @@ function add_meta($post_ID) {
 	global $wpdb;
 	$post_ID = (int) $post_ID;
 
+	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
+
 	$metakeyselect = $wpdb->escape(stripslashes(trim($_POST['metakeyselect'])));
 	$metakeyinput = $wpdb->escape(stripslashes(trim($_POST['metakeyinput'])));
 	$metavalue = maybe_serialize(stripslashes((trim($_POST['metavalue']))));
@@ -952,6 +954,9 @@ function add_meta($post_ID) {
 
 		if ($metakeyinput)
 			$metakey = $metakeyinput; // default
+
+		if ( in_array($metakey, $protected) )
+			return false;
 
 		$result = $wpdb->query("
 						INSERT INTO $wpdb->postmeta 
@@ -970,6 +975,12 @@ function delete_meta($mid) {
 
 function update_meta($mid, $mkey, $mvalue) {
 	global $wpdb;
+
+	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
+
+	if ( in_array($mkey, $protected) )
+		return false;
+
 	$mvalue = maybe_serialize(stripslashes($mvalue));
 	$mvalue = $wpdb->escape($mvalue);
 	$mid = (int) $mid;
