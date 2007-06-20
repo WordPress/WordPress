@@ -381,6 +381,8 @@ function is_term($term, $taxonomy = '') {
 	global $wpdb;
 
 	if ( is_int($term) ) {
+		if ( 0 == $term )
+			return 0;
 		$where = "t.term_id = '$term'";
 	} else {
 		if ( ! $term = sanitize_title($term) )
@@ -599,6 +601,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	if ( ! is_taxonomy($taxonomy) )
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
+
+	if ( is_int($term) && 0 == $term )
+		return new WP_Error('invalid_term_id', __('Invalid term ID'));
 
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
