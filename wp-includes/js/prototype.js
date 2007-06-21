@@ -1,4 +1,4 @@
-/*  Prototype JavaScript framework, version 1.5.1
+/*  Prototype JavaScript framework, version 1.5.1.1
  *  (c) 2005-2007 Sam Stephenson
  *
  *  Prototype is freely distributable under the terms of an MIT-style license.
@@ -7,7 +7,7 @@
 /*--------------------------------------------------------------------------*/
 
 var Prototype = {
-  Version: '1.5.1',
+  Version: '1.5.1.1',
 
   Browser: {
     IE:     !!(window.attachEvent && !window.opera),
@@ -24,8 +24,8 @@ var Prototype = {
        document.createElement('form').__proto__)
   },
 
-  ScriptFragment: '<script[^>]*>([\\s\\S]*?)<\/script>', 
-  JSONFilter: /^\/\*-secure-\s*(.*)\s*\*\/\s*$/,
+  ScriptFragment: '<script[^>]*>([\\S\\s]*?)<\/script>',
+  JSONFilter: /^\/\*-secure-([\s\S]*)\*\/\s*$/,
 
   emptyFunction: function() { },
   K: function(x) { return x }
@@ -364,11 +364,15 @@ Object.extend(String.prototype, {
     return this.sub(filter || Prototype.JSONFilter, '#{1}');
   },
 
+  isJSON: function() {
+    var str = this.replace(/\\./g, '@').replace(/"[^"\\\n\r]*"/g, '');
+    return (/^[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]*$/).test(str);
+  },
+
   evalJSON: function(sanitize) {
     var json = this.unfilterJSON();
     try {
-      if (!sanitize || (/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/.test(json)))
-        return eval('(' + json + ')');
+      if (!sanitize || json.isJSON()) return eval('(' + json + ')');
     } catch (e) { }
     throw new SyntaxError('Badly formed JSON string: ' + this.inspect());
   },
@@ -1270,10 +1274,12 @@ if (Prototype.BrowserFeatures.XPath) {
 
 } else document.getElementsByClassName = function(className, parentElement) {
   var children = ($(parentElement) || document.body).getElementsByTagName('*');
-  var elements = [], child;
+  var elements = [], child, pattern = new RegExp("(^|\\s)" + className + "(\\s|$)");
   for (var i = 0, length = children.length; i < length; i++) {
     child = children[i];
-    if (Element.hasClassName(child, className))
+    var elementClassName = child.className;
+    if (elementClassName.length == 0) continue;
+    if (elementClassName == className || elementClassName.match(pattern))
       elements.push(Element.extend(child));
   }
   return elements;
