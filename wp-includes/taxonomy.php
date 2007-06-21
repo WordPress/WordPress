@@ -472,7 +472,6 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 		$terms = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
 		$in_terms = "'" . implode("', '", $terms) . "'";
 		$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id IN ($in_terms)");
-
 		wp_update_term_count($terms, $taxonomy);
 	}
 
@@ -701,9 +700,8 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	if ( ! $append ) {
 		$delete_terms = array_diff($old_terms, $tt_ids);
 		if ( $delete_terms ) {
-			$delete_terms = "'" . implode("', '", $delete_terms) . "'";
-			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE term_taxonomy_id IN ($delete_terms)");
-			$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = count - 1 WHERE term_taxonomy_id IN ($delete_terms)");
+			$in_delete_terms = "'" . implode("', '", $delete_terms) . "'";
+			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE term_taxonomy_id IN ($in_delete_terms)");
 			wp_update_term_count($delete_terms, $taxonomy);
 		}
 	}
