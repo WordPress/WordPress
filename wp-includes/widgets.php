@@ -1082,6 +1082,9 @@ function wp_widget_rss_register() {
 }
 
 function wp_widgets_init() {
+	if ( !is_blog_installed() )
+		return;
+
 	$GLOBALS['wp_register_widget_defaults'] = true;
 	
 	$dims90 = array( 'height' => 90, 'width' => 300 );
