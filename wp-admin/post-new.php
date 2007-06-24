@@ -32,69 +32,48 @@ $my_drafts = get_users_drafts($user_ID);
 $pending = get_others_pending($user_ID);
 $others_drafts = get_others_drafts($user_ID);
 
+$nag_posts_limit = (int) apply_filters('nag_posts_limit', 3);
+
+$nag_posts = array(
+	array(
+		'my_drafts',
+		__('Your Drafts:'),
+		'edit.php?post_status=draft&amp;author=' . $user_ID,
+		count($my_drafts)),
+	array(
+		'pending',
+		__('Pending Review:'),
+		'edit.php?post_status=pending',
+		count($pending)),
+	array(
+		'others_drafts',
+		__('Others&#8217; Drafts:'),
+		'edit.php?post_status=pending&author=-' . $user_ID,
+		count($others_drafts))
+	);
+
 if ( !empty($my_drafts) || !empty($pending) || !empty($others_drafts) ) {
 	echo '<div class="wrap" id="draft-nag">';
 
-	if ( $my_drafts ) {
-		echo '<p><strong>' . __( 'Your Drafts:' ) . '</strong> ';
-		if ( count($my_drafts) < 3 ) {
+	foreach ( $nag_posts as $nag ) {
+		if ( ${$nag[0]} ) {
+			echo '<p><strong>' . wp_specialchars($nag[1]) . '</strong> ';
 			$i = 0;
-			foreach ( $my_drafts as $post ) {
-				if ( $i++ != 0 )
-					echo ', ';
+			foreach ( ${$nag[0]} as $post ) {
+				$i++;
+				if ( $i > $nag_posts_limit )
+					break;
 				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
 				the_title();
 				echo '</a>';
-			}
-			echo '.</p>';
-		} else {
-			printf(
-				__( 'You have <a href="%s">%d drafts</a>.' ) . '</p>', 
-				'edit.php?post_status=draft&author=' . $user_ID, count($my_drafts)
-			);
-		}
-	}
-
-	if ( $pending ) {
-		echo '<p><strong>' . __( 'Pending Review:' ) . '</strong> ';
-		if ( count($pending) < 3 ) {
-			$i = 0;
-			foreach ( $pending as $post ) {
-				if ( $i++ != 0 )
+				if ( $i < min($nag[3], $nag_posts_limit) )
 					echo ', ';
-				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
-				the_title();
-				echo '</a>';
 			}
+			if ( $nag[3] > $nag_posts_limit )
+				printf(__(', and <a href="%s">%d more</a>'), $nag[2], $nag[3] - $nag_posts_limit);
 			echo '.</p>';
-		} else {
-			printf(
-				__( 'There are <a href="%s">%d drafts pending review</a>.' ) . '</p>', 
-				'edit.php?post_status=pending', count($pending)
-			);
 		}
 	}
-
-	if ( $others_drafts ) {
-		echo '<p><strong>' . __( 'Others&#8217; Drafts:' ) . '</strong> ';
-		if ( count($others_drafts) < 3 ) {
-			$i = 0;
-			foreach ( $others_drafts as $post ) {
-				if ( $i++ != 0 )
-					echo ', ';
-				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
-				the_title();
-				echo '</a>';
-			}
-			echo '.</p>';
-		} else {
-			printf(
-				__( 'There are <a href="%s">%d in-progress drafts by other authors</a>.' ) . '</p>', 
-				'edit.php?post_status=pending&author=-' . $user_ID, count($others_drafts)
-			);
-		}
-	}
-
 	echo "</div>\n";
 }
 ?>
