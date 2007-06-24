@@ -39,7 +39,7 @@ if ( !in_array($_GET['post_status'], array('pending', 'draft')) )
 	$posts_columns['date'] = __('When');
 $posts_columns['title'] = __('Title');
 $posts_columns['categories'] = __('Categories');
-if ( 'publish' == $_GET['post_status'] )
+if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
 	$posts_columns['comments'] = '<div style="text-align: center">' . __('Comments') . '</div>';
 $posts_columns['author'] = __('Author');
 
