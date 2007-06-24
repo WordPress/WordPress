@@ -29,7 +29,11 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		<th scope="row" style="text-align: center"><?php echo $id ?></th>
 		<?php
 		break;
-
+	case 'modified':
+		?>
+		<td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Never'); else the_modified_time(__('Y-m-d \<\b\r \/\> g:i:s a')); ?></td>
+		<?php
+		break;
 	case 'date':
 		?>
 		<td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Unpublished'); else the_time(__('Y-m-d \<\b\r \/\> g:i:s a')); ?></td>

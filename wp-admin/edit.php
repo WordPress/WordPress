@@ -30,12 +30,27 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 
 <?php
 
-wp("what_to_show=posts$post_status_q&posts_per_page=15");
+if ( 'pending' === $_GET['post_status'] ) {
+	$order = 'ASC';
+	$orderby = 'modified';
+} elseif ( 'draft' === $_GET['post_status'] ) {
+	$order = 'DESC';
+	$orderby = 'modified';
+} else {
+	$order = 'DESC';
+	$orderby = 'date';
+}
+
+wp("what_to_show=posts$post_status_q&posts_per_page=15&order=$order&orderby=$orderby");
 
 // define the columns to display, the syntax is 'internal name' => 'display name'
 $posts_columns = array();
 $posts_columns['id'] = '<div style="text-align: center">' . __('ID') . '</div>';
-if ( !in_array($_GET['post_status'], array('pending', 'draft')) )
+if ( 'draft' === $_GET['post_status'] )
+	$posts_columns['modified'] = __('Modified');
+elseif ( 'pending' === $_GET['post_status'] )
+	$posts_columns['modified'] = __('Submitted');
+else
 	$posts_columns['date'] = __('When');
 $posts_columns['title'] = __('Title');
 $posts_columns['categories'] = __('Categories');
