@@ -193,11 +193,13 @@ function get_others_unpublished_posts($user_id, $type='any') {
 	else
 		$type_sql = " ( post_status = 'draft' OR post_status = 'pending' ) ";
 
+	$dir = ( 'pending' == $type ) ? 'ASC' : 'DESC';
+
 	if( !$editable ) {
 		$other_unpubs = '';
 	} else {
 		$editable = join(',', $editable);
-		$other_unpubs = $wpdb->get_results("SELECT ID, post_title, post_author FROM $wpdb->posts WHERE post_type = 'post' AND $type_sql AND post_author IN ($editable) AND post_author != '$user_id' ");
+		$other_unpubs = $wpdb->get_results("SELECT ID, post_title, post_author FROM $wpdb->posts WHERE post_type = 'post' AND $type_sql AND post_author IN ($editable) AND post_author != '$user_id' ORDER BY post_modified $dir");
 	}
 
 	return apply_filters('get_others_drafts', $other_unpubs);
@@ -231,7 +233,7 @@ function get_user_to_edit( $user_id ) {
 function get_users_drafts( $user_id ) {
 	global $wpdb;
 	$user_id = (int) $user_id;
-	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = $user_id ORDER BY ID DESC";
+	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = $user_id ORDER BY post_modified DESC";
 	$query = apply_filters('get_users_drafts', $query);
 	return $wpdb->get_results( $query );
 }
