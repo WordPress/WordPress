@@ -226,7 +226,7 @@ function &get_terms($taxonomies, $args = '') {
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
-		'hierarchical' => true, 'child_of' => 0, 'get' => '');
+		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name_like' => '');
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = (int) $args['number'];
 	if ( !$single_taxonomy || !is_taxonomy_hierarchical($taxonomies[0]) ||
@@ -308,6 +308,9 @@ function &get_terms($taxonomies, $args = '') {
 		$slug = sanitize_title($slug);
 		$where = " AND t.slug = '$slug'";
 	}
+
+	if ( !empty($name_like) )
+		$where = " AND t.name LIKE '{$name_like}%'";
 
 	if ( '' != $parent ) {
 		$parent = (int) $parent;

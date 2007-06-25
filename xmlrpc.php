@@ -546,13 +546,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$limit = "LIMIT {$max_results}";
 		}
 
-		$category_suggestions = $wpdb->get_results("
-			SELECT cat_ID category_id,
-				cat_name category_name
-			FROM {$wpdb->categories}
-			WHERE cat_name LIKE '{$category}%'
-			{$limit}
-		");
+		$category_suggestions = get_categories("get=all&number=$max_results&name_like=$category");
 
 		return($category_suggestions);
 	}
