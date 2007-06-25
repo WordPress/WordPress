@@ -41,7 +41,8 @@ function edit_comment() {
 }
 
 function get_comment_to_edit( $id ) {
-	$comment = get_comment( $id );
+	if ( !$comment = get_comment($id) )
+		return false;
 
 	$comment->comment_ID = (int) $comment->comment_ID;
 	$comment->comment_post_ID = (int) $comment->comment_post_ID;
