@@ -384,7 +384,7 @@ function get_categories_xml() {
 	$categories = "";
 	$cats = get_categories("hierarchical=0&hide_empty=0");
 	foreach ((array) $cats as $cat) {
-		$categories .= "    <category term=\"" . attribute_escape($cat->cat_name) .  "\" />\n";
+		$categories .= "    <category term=\"" . attribute_escape($cat->name) .  "\" />\n";
 	}
         $output = <<<EOD
 <app:categories xmlns:app="http://purl.org/atom/app#"
@@ -936,7 +936,7 @@ $post = $GLOBALS['post'];
 		<link rel="edit" href="<?php $this->the_entry_url() ?>" />
 	<?php } ?>
 	<?php foreach(get_the_category() as $category) { ?>
-	 <category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
+	 <category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->name?>" />
 	<?php } ?>   <summary type="html"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 	<?php if ( strlen( $GLOBALS['post']->post_content ) ) : ?>
 	<content type="html"><![CDATA[<?php echo get_the_content('', 0, '') ?>]]></content>
@@ -992,7 +992,7 @@ $post = $GLOBALS['post'];
 	<link rel="edit" href="<?php $this->the_entry_url() ?>" />
 <?php } ?>
 <?php foreach(get_the_category() as $category) { ?>
-	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
+	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->name?>" />
 	<summary type="html"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php }
 	if ( strlen( $GLOBALS['post']->post_content ) ) : ?>
