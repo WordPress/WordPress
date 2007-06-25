@@ -29,13 +29,13 @@ else
 	$cats = array (get_category($link_cat));
 
 foreach ((array) $cats as $cat) {
-	$catname = apply_filters('link_category', $cat->cat_name);
+	$catname = apply_filters('link_category', $cat->name);
 
 ?>
 <outline type="category" title="<?php echo attribute_escape($catname); ?>">
 <?php
 
-	$bookmarks = get_bookmarks("category={$cat->cat_ID}");
+	$bookmarks = get_bookmarks("category={$cat->term_id}");
 	foreach ((array) $bookmarks as $bookmark) {
 		$title = attribute_escape(apply_filters('link_title', $bookmark->link_name));
 ?>
