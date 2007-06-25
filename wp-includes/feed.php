@@ -150,7 +150,7 @@ function get_the_category_rss($type = 'rss') {
 	$home = get_bloginfo_rss('home');
 	$the_list = '';
 	foreach ( (array) $categories as $category ) {
-		$cat_name = convert_chars($category->cat_name);
+		$cat_name = convert_chars($category->name);
 		if ( 'rdf' == $type )
 			$the_list .= "\n\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
 		if ( 'atom' == $type )
