@@ -1479,15 +1479,14 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$categories_struct = array();
 
-		// FIXME: can we avoid using direct SQL there?
-		if ($cats = $wpdb->get_results("SELECT cat_ID,cat_name,category_parent FROM $wpdb->categories", ARRAY_A)) {
-			foreach ($cats as $cat) {
-				$struct['categoryId'] = $cat['cat_ID'];
-				$struct['parentId'] = $cat['category_parent'];
-				$struct['description'] = $cat['cat_name'];
-				$struct['categoryName'] = $cat['cat_name'];
-				$struct['htmlUrl'] = wp_specialchars(get_category_link($cat['cat_ID']));
-				$struct['rssUrl'] = wp_specialchars(get_category_rss_link(false, $cat['cat_ID'], $cat['cat_name']));
+		if ( $cats = get_categories('get=all') ) {
+			foreach ( $cats as $cat ) {
+				$struct['categoryId'] = $cat->term_id;
+				$struct['parentId'] = $cat->parent;
+				$struct['description'] = $cat->name;
+				$struct['categoryName'] = $cat->name;
+				$struct['htmlUrl'] = wp_specialchars(get_category_link($cat->term_id));
+				$struct['rssUrl'] = wp_specialchars(get_category_rss_link(false, $cat->term_id, $cat->name));
 
 				$categories_struct[] = $struct;
 			}
