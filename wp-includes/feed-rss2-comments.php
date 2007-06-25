@@ -29,7 +29,6 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		<title><?php
 			if ( !is_singular() ) {
 				$title = get_the_title($comment_post->ID);
-				$title = apply_filters('the_title', $title);
 				$title = apply_filters('the_title_rss', $title);
 				printf(__('Comment on %1$s by %2$s'), $title, get_comment_author_rss());
 			} else {

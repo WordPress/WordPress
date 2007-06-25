@@ -22,7 +22,6 @@ function wp_title_rss($sep = '&#187;') {
 
 function get_the_title_rss() {
 	$title = get_the_title();
-	$title = apply_filters('the_title', $title);
 	$title = apply_filters('the_title_rss', $title);
 	return $title;
 }

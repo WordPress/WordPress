@@ -18,17 +18,20 @@ function get_the_ID() {
 
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
-	if ( strlen($title) > 0 ) {
-		$title = apply_filters('the_title', $before . $title . $after, $before, $after);
-		if ( $echo )
-			echo $title;
-		else
-			return $title;
-	}
+
+	if ( strlen($title) <= 0 )
+		return;
+
+	$title = $before . $title . $after;
+
+	if ( $echo )
+		echo $title;
+	else
+		return $title;
 }
 
 
-function get_the_title($id = 0) {
+function get_the_title( $id = 0 ) {
 	$post = &get_post($id);
 
 	$title = $post->post_title;
@@ -37,7 +40,7 @@ function get_the_title($id = 0) {
 	else if ( 'private' == $post->post_status )
 		$title = sprintf(__('Private: %s'), $title);
 
-	return $title;
+	return apply_filters( 'the_title', $title );
 }
 
 function the_guid( $id = 0 ) {

@@ -364,7 +364,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 	if (!empty($CSSclass)) {
 		echo ' class="'.$CSSclass.'"';
 	}
-	$title = attribute_escape(apply_filters('the_title', get_the_title()));
+	$title = attribute_escape(get_the_title());
 	echo ' title="' . sprintf( __('Comment on %s'), $title ) .'">';
 	comments_number($zero, $one, $more, $number);
 	echo '</a>';
