@@ -673,8 +673,9 @@ EOD;
 		}
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
+		$filetype = wp_check_filetype($location);
 
-		if(!isset($location))
+		if(!isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']))
 			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
 
 		header('Content-Type: ' . $entry['post_mime_type']);
@@ -707,8 +708,9 @@ EOD;
 		}
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
+		$filetype = wp_check_filetype($location);
 
-		if(!isset($location))
+		if(!isset($location) || 'attachment' != $entry['post_type'] || empty($filetype['ext']))
 			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
 
 		$fp = fopen("php://input", "rb");
