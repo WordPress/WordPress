@@ -170,11 +170,9 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	// Compact the input, apply the filters, and extract them back out
 	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ), EXTR_SKIP );
 
-	// Default headers
+	// Headers
 	if ( empty( $headers ) ) {
-		$headers = array(
-			'MIME-Version' => '1.0'
-		);
+		$headers = array();
 	} elseif ( !is_array( $headers ) ) {
 		// Explode the headers out, so this function can take both 
 		// string headers and an array of headers.
