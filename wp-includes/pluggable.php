@@ -194,20 +194,20 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 
 				// Mainly for legacy -- process a From: header if it's there
 				if ( $name == 'From' ) {
-					if ( strpos( '<', $content ) !== false ) {
+					if ( strpos($content, '<' ) !== false ) {
 						// So... making my life hard again?
-						$from_name = substr( $content, 0, strpos( '<', $content ) - 1 );
+						$from_name = substr( $content, 0, strpos( $content, '<' ) - 1 );
 						$from_name = str_replace( '"', '', $from_name );
 						$from_name = trim( $from_name );
 
-						$from_email = substr( $content, strpos( '<', $content ) + 1 );
+						$from_email = substr( $content, strpos( $content, '<' ) + 1 );
 						$from_email = str_replace( '>', '', $from_email );
 						$from_email = trim( $from_email );
 					} else {
 						$from_name = trim( $content );
 					}
 				} elseif ( $name == 'Content-Type' ) {
-					if ( strpos( ';', $content ) !== false ) {
+					if ( strpos( $content,';' ) !== false ) {
 						list( $type, $charset ) = explode( ';', $content );
 						$content_type = trim( $content_type );
 						$charset = trim( str_replace( array( 'charset=', '"' ), '', $charset ) );
