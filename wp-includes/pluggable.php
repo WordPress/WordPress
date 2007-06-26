@@ -193,7 +193,7 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 				$content = trim( $content );
 
 				// Mainly for legacy -- process a From: header if it's there
-				if ( $name == 'From' ) {
+				if ( 'from' == strtolower($name) ) {
 					if ( strpos($content, '<' ) !== false ) {
 						// So... making my life hard again?
 						$from_name = substr( $content, 0, strpos( $content, '<' ) - 1 );
@@ -206,7 +206,7 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 					} else {
 						$from_name = trim( $content );
 					}
-				} elseif ( $name == 'Content-Type' ) {
+				} elseif ( 'content-type' == strtolower($name) ) {
 					if ( strpos( $content,';' ) !== false ) {
 						list( $type, $charset ) = explode( ';', $content );
 						$content_type = trim( $content_type );
@@ -281,7 +281,7 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	}
 
 	// Set the content-type and charset
-	$phpmailer->ContentType = apply_filters( 'wp_mail_content_type', 'text/plain' );
+	$phpmailer->ContentType = apply_filters( 'wp_mail_content_type', $content_type );
 	$phpmailer->CharSet = apply_filters( 'wp_mail_charset', $charset );
 
 	// Set custom headers
