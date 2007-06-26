@@ -183,6 +183,8 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 		if ( !empty( $tempheaders ) ) {
 			// Iterate through the raw headers
 			foreach ( $tempheaders as $header ) {
+				if ( strpos($header, ':') === false )
+					continue;
 				// Explode them out
 				list( $name, $content ) = explode( ':', trim( $header ), 2 );
 
@@ -207,7 +209,7 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 				} elseif ( 'content-type' == strtolower($name) ) {
 					if ( strpos( $content,';' ) !== false ) {
 						list( $type, $charset ) = explode( ';', $content );
-						$content_type = trim( $content_type );
+						$content_type = trim( $type );
 						$charset = trim( str_replace( array( 'charset=', '"' ), '', $charset ) );
 					} else {
 						$content_type = trim( $content );
@@ -266,6 +268,8 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 		$content_type = 'text/plain';
 	}
 
+	$content_type = apply_filters( 'wp_mail_content_type', $content_type );
+
 	// Set whether it's plaintext or not, depending on $content_type
 	if ( $content_type == 'text/html' ) {
 		$phpmailer->IsHTML( true );
@@ -279,7 +283,6 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	}
 
 	// Set the content-type and charset
-	$phpmailer->ContentType = apply_filters( 'wp_mail_content_type', $content_type );
 	$phpmailer->CharSet = apply_filters( 'wp_mail_charset', $charset );
 
 	// Set custom headers
@@ -519,8 +522,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 			$reply_to = "Reply-To: \"$comment->comment_author_email\" <$comment->comment_author_email>";
 	}
 
-	$message_headers = "MIME-Version: 1.0\n"
-		. "$from\n"
+	$message_headers = "$from\n"
 		. "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 
 	if ( isset($reply_to) )
