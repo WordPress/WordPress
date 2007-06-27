@@ -165,7 +165,7 @@ function the_author_email() {
 function get_the_author_url() {
 	global $authordata;
 
-	if ( 'http://' == $authordata>user_url )
+	if ( 'http://' == $authordata->user_url )
 		return '';
 
 	return $authordata->user_url;
