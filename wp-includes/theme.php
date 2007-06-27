@@ -79,6 +79,7 @@ function get_theme_data( $theme_file ) {
 	$name = trim( $name );
 	$theme = $name;
 	$theme_uri = trim( $theme_uri[1] );
+	$template = trim( $template[1] );
 
 	if ( '' == $author_uri[1] ) {
 		$author = trim( $author_name[1] );
