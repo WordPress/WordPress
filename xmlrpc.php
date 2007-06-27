@@ -431,7 +431,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if ( !current_user_can('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you do not have the right to edit this post.');
 
-	  extract($actual_post);
+	  extract($actual_post, EXTR_SKIP);
 
 	  if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
 	  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
@@ -597,8 +597,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
 	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
-	  extract($postdata);
 		$this->escape($postdata);
+		extract($postdata, EXTR_SKIP);
 
 	  $post_title = $content_struct['title'];
 	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
