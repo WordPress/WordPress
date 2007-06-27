@@ -740,7 +740,7 @@ function pingback($content, $post_ID) {
 			// when set to true, this outputs debug messages by itself
 			$client->debug = false;
 
-			if ( $client->query('pingback.ping', $pagelinkedfrom, $pagelinkedto ) )
+			if ( $client->query('pingback.ping', $pagelinkedfrom, $pagelinkedto) || ( isset($client->error->code) && 48 == $client->error->code ) ) // Already registered
 				add_ping( $post_ID, $pagelinkedto );
 		}
 	}
