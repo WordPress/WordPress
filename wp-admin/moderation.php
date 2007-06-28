@@ -173,7 +173,7 @@ $comments = array_slice( $comments, $start, $stop );
 				<p><small>
 					<?php comment_date( __( 'M j, g:i A' ) ); ?> &#8212; 
 					[ <a href="comment.php?action=editcomment&amp;c=<?php comment_ID(); ?>" title="<?php _e( 'Edit this comment' ); ?>"><?php _e( 'Edit' ); ?></a> | 
-					<a href="post.php?action=deletecomment&amp;p=<?php echo $comment->comment_post_ID; ?>" title="<?php _e( 'Delete this comment' ); ?>" onclick="return deleteSomething( 'comment', <?php comment_ID(); ?>, '<?php echo js_escape( sprintf( __( 'You are about to delete this comment by \'%s\'.\n\'OK\' to delete, \'Cancel\' to stop.' ), get_comment_author() ) ); ?>', theCommentList );"><?php _e( 'Delete' ); ?></a> ] &#8212; 
+					<a href="post.php?action=deletecomment&amp;p=<?php echo $comment->comment_post_ID; ?>" title="<?php _e( 'Delete this comment' ); ?>" onclick="return deleteSomething( 'comment', <?php comment_ID(); ?>, '<?php echo js_escape( sprintf( __( "You are about to delete this comment by '%s'.\n'OK' to delete, 'Cancel' to stop." ), get_comment_author() ) ); ?>', theCommentList );"><?php _e( 'Delete' ); ?></a> ] &#8212; 
 					<a href="<?php echo get_permalink( $comment->comment_post_ID ); ?>" title="<?php _e( 'View the post' ); ?>"><?php printf( __( 'View post &#8220;%s&#8221;' ), get_the_title( $comment->comment_post_ID ) ); ?></a>
 				</small></p>
 
