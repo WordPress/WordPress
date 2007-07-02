@@ -704,7 +704,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		$delete_terms = array_diff($old_terms, $tt_ids);
 		if ( $delete_terms ) {
 			$in_delete_terms = "'" . implode("', '", $delete_terms) . "'";
-			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE term_taxonomy_id IN ($in_delete_terms)");
+			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id IN ($in_delete_terms)");
 			wp_update_term_count($delete_terms, $taxonomy);
 		}
 	}
