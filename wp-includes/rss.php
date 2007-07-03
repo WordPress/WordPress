@@ -1,4 +1,6 @@
 <?php
+do_action('load_feed_engine');
+
 /*
  * Project:     MagpieRSS: a simple RSS integration tool
  * File:        A compiled file for RSS syndication
@@ -775,6 +777,7 @@ class RSSCache {
 	}
 }
 
+if ( !function_exists('parse_w3cdtf') ) :
 function parse_w3cdtf ( $date_str ) {
 
 	# regex to match wc3dtf
@@ -816,7 +819,9 @@ function parse_w3cdtf ( $date_str ) {
 		return -1;
 	}
 }
+endif;
 
+if ( !function_exists('wp_rss') ) :
 function wp_rss( $url, $num_items = -1 ) {
 	if ( $rss = fetch_rss( $url ) ) {
 		echo '<ul>';
@@ -839,7 +844,9 @@ function wp_rss( $url, $num_items = -1 ) {
 		_e( 'An error has occurred, which probably means the feed is down. Try again later.' );
 	}
 }
+endif;
 
+if ( !function_exists('get_rss') ) :
 function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 	$rss = fetch_rss($url);
 	if ( $rss ) {
@@ -855,4 +862,6 @@ function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 		return false;
 	}
 }
+endif;
+
 ?>
