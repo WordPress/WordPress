@@ -116,6 +116,26 @@ class wpdb {
 			return mysql_real_escape_string( $string, $this->dbh );
 	}
 
+	/**
+	 * Escapes content by reference for insertion into the database, for security
+	 * @param string $s
+	 */
+	function escape_by_ref(&$s) {
+		$s = $this->escape($s);
+	}
+
+	/**
+	 * Prepares a SQL query for safe use, using sprintf() syntax
+	 */
+	function prepare($args=NULL) {
+		if ( NULL === $args )
+			return;
+		$args = func_get_args();
+		$query = array_shift($args);
+		array_walk($args, array(&$this, 'escape_by_ref'));
+		return @call_user_func_array('sprintf', array_merge(array($query), $args));
+	}
+
 	// ==================================================================
 	//	Print SQL/DB error.
 
