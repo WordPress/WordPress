@@ -132,8 +132,10 @@ class wpdb {
 			return;
 		$args = func_get_args();
 		$query = array_shift($args);
+		$query = str_replace("'%s'", '%s', $query); // in case someone mistakenly already quoted it
+		$query = str_replace('%s', "'%s'", $query); // quote the strings
 		array_walk($args, array(&$this, 'escape_by_ref'));
-		return @call_user_func_array('sprintf', array_merge(array($query), $args));
+		return @vsprintf($query, $args);
 	}
 
 	// ==================================================================
