@@ -540,13 +540,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		// Only set a limit if one was provided.
-		$limit = "";
-		if(!empty($max_results)) {
-			$limit = "LIMIT {$max_results}";
-		}
-
-		$category_suggestions = get_categories("get=all&number=$max_results&name_like=$category");
+		$args = array('get' => 'all', 'number' => $max_results, 'name_like' => $category);
+		$category_suggestions = get_categories($args);
 
 		return($category_suggestions);
 	}
