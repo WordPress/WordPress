@@ -240,7 +240,7 @@ function wp_kses_hook($string, $allowed_html, $allowed_protocols)
 # You add any kses hooks here.
 ###############################################################################
 {
-	$string = apply_filters( 'pre_kses', $string );
+	$string = apply_filters('pre_kses', $string, $allowed_html, $allowed_protocols);
 	return $string;
 } # function wp_kses_hook
 
