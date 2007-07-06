@@ -12,6 +12,7 @@ add_filter('the_title', 'wptexturize');
 add_filter('the_content', 'wptexturize');
 add_filter('the_excerpt', 'wptexturize');
 add_filter('bloginfo', 'wptexturize');
+add_filter('pre_kses', 'wp_pre_kses_less_than');
 
 // Comments, trackbacks, pingbacks
 add_filter('pre_comment_author_name', 'strip_tags');

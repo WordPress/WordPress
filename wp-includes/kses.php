@@ -230,16 +230,17 @@ function wp_kses($string, $allowed_html, $allowed_protocols = array ('http', 'ht
 	$string = wp_kses_no_null($string);
 	$string = wp_kses_js_entities($string);
 	$string = wp_kses_normalize_entities($string);
-	$string = wp_kses_hook($string);
 	$allowed_html_fixed = wp_kses_array_lc($allowed_html);
+	$string = wp_kses_hook($string, $allowed_html_fixed, $allowed_protocols); // WP changed the order of these funcs and added args to wp_kses_hook
 	return wp_kses_split($string, $allowed_html_fixed, $allowed_protocols);
 } # function wp_kses
 
-function wp_kses_hook($string)
+function wp_kses_hook($string, $allowed_html, $allowed_protocols)
 ###############################################################################
 # You add any kses hooks here.
 ###############################################################################
 {
+	$string = apply_filters( 'pre_kses', $string );
 	return $string;
 } # function wp_kses_hook
 
