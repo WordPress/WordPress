@@ -165,7 +165,7 @@ if ( $authors && count( $authors ) > 1 ) :
 <?php echo $saveasdraft; ?>
 <input type="submit" name="submit" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
-if ('publish' != $post->post_status || 0 == $post_ID) {
+if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
