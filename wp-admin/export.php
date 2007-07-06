@@ -45,7 +45,7 @@ foreach ( $authors as $id ) {
 <?php
 
 function export_wp() {
-global $wpdb, $posts, $post;
+global $wpdb, $post_ids, $post;
 
 $filename = 'wordpress.' . date('Y-m-d') . '.xml';
 
@@ -59,7 +59,8 @@ if ( isset( $_GET['author'] ) && $_GET['author'] != 'all' ) {
 	$where = " WHERE post_author = '$author_id' ";
 }
 
-$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
+// grab a snapshot of post IDs, just in case it changes during the export
+$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 
 $categories = (array) get_categories('get=all');
 
@@ -166,7 +167,13 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 	<wp:category><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->name : ''; ?></wp:category_parent><?php wxr_cat_name($c); ?><?php wxr_category_description($c); ?></wp:category>
 <?php endforeach; endif; ?>
 	<?php do_action('rss2_head'); ?>
-	<?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+	<?php if ($post_ids) {
+		// fetch 20 posts at a time rather than loading the entire table into memory
+		while ( $next_posts = array_splice($post_ids, 0, 20) ) {
+			$where = "WHERE ID IN (".join(',', $next_posts).")";
+			$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
+				foreach ($posts as $post) { 
+			start_wp(); ?>
 <item>
 <title><?php the_title_rss() ?></title>
 <link><?php permalink_single_rss() ?></link>
@@ -216,7 +223,7 @@ if ( $comments ) { foreach ( $comments as $c ) { ?>
 </wp:comment>
 <?php } } ?>
 	</item>
-<?php } } ?>
+<?php } } } ?>
 </channel>
 </rss>
 <?php
