@@ -314,14 +314,11 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 
 	wp_protect_special_option($name);
 
-	// Make sure the option doesn't already exist we can check the cache before we ask for a db query
+	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get('notoptions', 'options');
-	if ( is_array($notoptions) && isset($notoptions[$name]) ) {
-		unset($notoptions[$name]);
-		wp_cache_set('notoptions', $notoptions, 'options');
-	} elseif ( false !== get_option($name) ) {
+	if ( !is_array($notoptions) || !isset($notoptions[$name]) )
+		if ( false !== get_option($name) )
 			return;
-	}
 
 	$value = maybe_serialize($value);
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
@@ -332,6 +329,13 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 		wp_cache_set('alloptions', $alloptions, 'options');
 	} else {
 		wp_cache_set($name, $value, 'options');
+	}
+
+	// This option exists now
+	$notoptions = wp_cache_get('notoptions', 'options'); // yes, again... we need it to be fresh
+	if ( is_array($notoptions) && isset($notoptions[$name]) ) {
+		unset($notoptions[$name]);
+		wp_cache_set('notoptions', $notoptions, 'options');
 	}
 
 	$name = $wpdb->escape($name);
