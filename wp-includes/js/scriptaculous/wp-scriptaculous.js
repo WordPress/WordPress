@@ -1,4 +1,6 @@
-// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+// script.aculo.us scriptaculous.js v1.7.1_beta3, Fri May 25 17:19:41 +0200 2007
+
+// Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -10,28 +12,44 @@
 // 
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+// For details, see the script.aculo.us web site: http://script.aculo.us/
 
 var Scriptaculous = {
-  Version: '1.7.0',
+  Version: '1.7.1_beta3',
   require: function(libraryName) {
     // inserting via DOM fails in Safari 2.0, so brute force approach
     document.write('<script type="text/javascript" src="'+libraryName+'"></script>');
   },
+  REQUIRED_PROTOTYPE: '1.5.1',
   load: function() {
+    function convertVersionString(versionString){
+      var r = versionString.split('.');
+      return parseInt(r[0])*100000 + parseInt(r[1])*1000 + parseInt(r[2]);
+    }
+ 
     if((typeof Prototype=='undefined') || 
        (typeof Element == 'undefined') || 
        (typeof Element.Methods=='undefined') ||
-       parseFloat(Prototype.Version.split(".")[0] + "." +
-                  Prototype.Version.split(".")[1]) < 1.5)
-       throw("script.aculo.us requires the Prototype JavaScript framework >= 1.5.0");
+       (convertVersionString(Prototype.Version) < 
+        convertVersionString(Scriptaculous.REQUIRED_PROTOTYPE)))
+       throw("script.aculo.us requires the Prototype JavaScript framework >= " +
+        Scriptaculous.REQUIRED_PROTOTYPE);
     
     $A(document.getElementsByTagName("script")).findAll( function(s) {
       return (s.src && s.src.match(/scriptaculous\.js(\?.*)?$/))
     }).each( function(s) {
       var path = s.src.replace(/scriptaculous\.js(\?.*)?$/,'');
       var includes = s.src.match(/\?.*load=([a-z,]*)/);
-      if ( includes )
-       includes[1].split(',').each(
+      (includes ? includes[1] : 'builder,effects,dragdrop,controls,slider,sound').split(',').each(
        function(include) { Scriptaculous.require(path+include+'.js') });
     });
   }

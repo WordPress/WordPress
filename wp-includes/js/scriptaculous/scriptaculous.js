@@ -1,4 +1,4 @@
-// script.aculo.us scriptaculous.js v1.7.1_beta2, Sat Apr 28 15:20:12 CEST 2007
+// script.aculo.us scriptaculous.js v1.7.1_beta3, Fri May 25 17:19:41 +0200 2007
 
 // Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 // 
@@ -24,7 +24,7 @@
 // For details, see the script.aculo.us web site: http://script.aculo.us/
 
 var Scriptaculous = {
-  Version: '1.7.1_beta2',
+  Version: '1.7.1_beta3',
   require: function(libraryName) {
     // inserting via DOM fails in Safari 2.0, so brute force approach
     document.write('<script type="text/javascript" src="'+libraryName+'"></script>');

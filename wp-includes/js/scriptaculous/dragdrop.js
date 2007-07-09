@@ -1,4 +1,4 @@
-// script.aculo.us dragdrop.js v1.7.1_beta2, Sat Apr 28 15:20:12 CEST 2007
+// script.aculo.us dragdrop.js v1.7.1_beta3, Fri May 25 17:19:41 +0200 2007
 
 // Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005-2007 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
@@ -638,6 +638,12 @@ var Sortable = {
       scrollSensitivity: 20,
       scrollSpeed: 15,
       format:      this.SERIALIZE_RULE,
+      
+      // these take arrays of elements or ids and can be 
+      // used for better initialization performance
+      elements:    false,
+      handles:     false,
+
       onChange:    Prototype.emptyFunction,
       onUpdate:    Prototype.emptyFunction
     }, arguments[1] || {});
@@ -702,10 +708,9 @@ var Sortable = {
       options.droppables.push(element);
     }
 
-    (this.findElements(element, options) || []).each( function(e) {
-      // handles are per-draggable
-      var handle = options.handle ? 
-        $(e).down('.'+options.handle,0) : e;    
+    (options.elements || this.findElements(element, options) || []).each( function(e,i) {
+      var handle = options.handles ? $(options.handles[i]) :
+        (options.handle ? $(e).getElementsByClassName(options.handle)[0] : e); 
       options.draggables.push(
         new Draggable(e, Object.extend(options_for_draggable, { handle: handle })));
       Droppables.add(e, options_for_droppable);
