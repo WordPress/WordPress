@@ -92,7 +92,7 @@ function get_extended($post) {
 
 // Retrieves post data given a post ID or post object.
 // Handles post caching.
-function &get_post(&$post, $output = OBJECT) {
+function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 	global $post_cache, $wpdb, $blog_id;
 
 	if ( empty($post) ) {
@@ -124,6 +124,8 @@ function &get_post(&$post, $output = OBJECT) {
 	if ( defined('WP_IMPORTING') )
 		unset($post_cache[$blog_id]);
 
+	$_post = sanitize_post($_post, $filter);
+
 	if ( $output == OBJECT ) {
 		return $_post;
 	} elseif ( $output == ARRAY_A ) {
@@ -133,6 +135,22 @@ function &get_post(&$post, $output = OBJECT) {
 	} else {
 		return $_post;
 	}
+}
+
+function get_post_field( $field, $post, $context = 'display' ) {
+	$post = (int) $post;
+	$post = get_term( $post );
+
+	if ( is_wp_error($post) )
+		return $post;
+
+	if ( !is_object($post) )
+		return '';
+
+	if ( !isset($post->$field) )
+		return '';
+
+	return sanitize_post_field($field, $post->$field, $post->ID, $context);
 }
 
 // Takes a post ID, returns its mime type.
@@ -398,6 +416,78 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
 	return $custom[$key];
 }
 
+function sanitize_post($post, $context = 'display') {
+	// TODO: Use array keys instead of hard coded list
+	$fields = array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_date', 'post_date_gmt', 'post_parent', 'menu_order', 'post_mime_type');
+
+	if ( 'raw' == $context )
+		return $post;
+
+	$do_object = false;
+	if ( is_object($post) )
+		$do_object = true;
+
+	foreach ( $fields as $field ) {
+		if ( $do_object )
+			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
+		else
+			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);	
+	}
+
+	return $post;
+}
+
+function sanitize_post_field($field, $value, $post_id, $context) {
+	$int_fields = array('ID', 'post_parent', 'menu_order');
+	if ( in_array($field, $int_fields) )
+		$value = (int) $value;
+
+	$prefixed = false;
+	if ( false !== strpos($field, 'post_') ) {
+		$prefixed = true;
+		$field_no_prefix = str_replace('post_', '', $field);
+	}
+
+	if ( 'edit' == $context ) {
+		$format_to_edit = array('post_content', 'post_excerpt', 'post_title', 'post_password');
+
+		if ( $prefixed ) {
+			$value = apply_filters("edit_$field", $value, $post_id);
+			// Old school
+			$value = apply_filters("${field_no_prefix}_edit_pre", $value, $post_id);
+		} else {
+			$value = apply_filters("edit_post_$field", $value, $post_id);
+		}
+
+		if ( in_array($field, $format_to_edit) ) {
+			if ( 'post_content' == $field )
+				$value = format_to_edit($value, user_can_richedit());
+			else
+				$value = format_to_edit($value);
+		} else {
+			$value = attribute_escape($value);
+		}
+	} else if ( 'db' == $context ) {
+		if ( $prefixed ) {
+			$value = apply_filters("pre_$field", $value);
+			$value = apply_filters("${field_no_prefix}_save_pre", $value);
+		} else {
+			$value = apply_filters("pre_post_$field", $value);
+			$value = apply_filters("${field}_pre", $value);
+		}
+	} else {
+		// Use display filters by default.
+		$value = apply_filters("post_$field", $value, $post_id, $context);
+	}
+
+	if ( 'attribute' == $context )
+		$value = attribute_escape($value);
+	else if ( 'js' == $context )
+		$value = js_escape($value);
+
+	return $value;
+}
+
 function wp_delete_post($postid = 0) {
 	global $wpdb, $wp_rewrite;
 	$postid = (int) $postid;
@@ -491,8 +581,14 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 function wp_insert_post($postarr = array()) {
 	global $wpdb, $wp_rewrite, $allowedtags, $user_ID;
 
-	if ( is_object($postarr) )
-		$postarr = get_object_vars($postarr);
+	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
+		'ping_status' => get_option('default_ping_status'), 'post_pingback' => get_option('default_pingback_flag'),
+		'post_parent' => 0, 'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
+
+	$postarr = wp_parse_args($postarr, $defaults);
+
+	if ( empty($postarr['no_filter']) )
+		$postarr = sanitize_post($postarr, 'db');
 
 	// export array as variables
 	extract($postarr, EXTR_SKIP);
@@ -503,20 +599,6 @@ function wp_insert_post($postarr = array()) {
 		$update = true;
 		$post = & get_post($ID);
 		$previous_status = $post->post_status;
-	}
-
-	// Get the basics.
-	if ( empty($no_filter) ) {
-		$post_content    = apply_filters('content_save_pre',   $post_content);
-		$post_content_filtered = apply_filters('content_filtered_save_pre',   $post_content_filtered);
-		$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
-		$post_title      = apply_filters('title_save_pre',     $post_title);
-		$post_category   = apply_filters('category_save_pre',  $post_category);
-		$post_status     = apply_filters('status_save_pre',    $post_status);
-		$post_name       = apply_filters('name_save_pre',      $post_name);
-		$comment_status  = apply_filters('comment_status_pre', $comment_status);
-		$ping_status     = apply_filters('ping_status_pre',    $ping_status);
-		$tags_input      = apply_filters('tags_input_pre',     $tags_input);
 	}
 
 	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) )

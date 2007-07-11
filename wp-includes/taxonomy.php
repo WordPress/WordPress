@@ -439,8 +439,6 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters("${taxonomy}_$field", $value, $term_id, $context);
 	}
 
-	// TODO: attribute is usually done in an edit context, so display filters probably
-	// not appropriate.
 	if ( 'attribute' == $context )
 		$value = attribute_escape($value);
 	else if ( 'js' == $context )

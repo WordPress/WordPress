@@ -161,20 +161,7 @@ function get_default_post_to_edit() {
 // Get an existing post and format it for editing.
 function get_post_to_edit( $id ) {
 
-	$post = get_post( $id );
-
-	$post->post_content = format_to_edit( $post->post_content, user_can_richedit() );
-	$post->post_content = apply_filters( 'content_edit_pre', $post->post_content);
-
-	$post->post_excerpt = format_to_edit( $post->post_excerpt);
-	$post->post_excerpt = apply_filters( 'excerpt_edit_pre', $post->post_excerpt);
-
-	$post->post_title = format_to_edit( $post->post_title );
-	$post->post_title = apply_filters( 'title_edit_pre', $post->post_title );
-
-	$post->post_password = format_to_edit( $post->post_password );
-
-	$post->menu_order = (int) $post->menu_order;
+	$post = get_post( $id, OBJECT, 'edit' );
 
 	if ( $post->post_type == 'page' )
 		$post->page_template = get_post_meta( $id, '_wp_page_template', true );

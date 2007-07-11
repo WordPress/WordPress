@@ -1290,7 +1290,9 @@ function smilies_init() {
 }
 
 function wp_parse_args( $args, $defaults = '' ) {
-	if ( is_array( $args ) )
+	if ( is_object($args) )
+		$r = get_object_vars($args);
+	else if ( is_array( $args ) )
 		$r =& $args;
 	else
 		wp_parse_str( $args, $r );
