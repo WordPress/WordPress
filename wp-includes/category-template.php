@@ -339,7 +339,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		asort($counts);
 
 	if ( 'DESC' == $order )
-		$counts = array_reverse( $tag_counts, true );
+		$counts = array_reverse( $counts, true );
 
 	$a = array();
 

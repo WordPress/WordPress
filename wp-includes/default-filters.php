@@ -184,5 +184,10 @@ add_action('mce_options', '_mce_set_direction');
 add_action('init', 'smilies_init', 5);
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1);
+add_action('publish_post', '_publish_post_hook', 5, 1);
+add_action('future_post', '_future_post_hook', 5, 2);
+add_action('future_page', '_future_post_hook', 5, 2);
+add_action('save_post', '_save_post_hook', 5, 2);
+add_action('transition_post_status', '_transition_post_status', 5, 3);
 
 ?>

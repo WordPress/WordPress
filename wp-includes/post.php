@@ -139,7 +139,7 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 
 function get_post_field( $field, $post, $context = 'display' ) {
 	$post = (int) $post;
-	$post = get_term( $post );
+	$post = get_post( $post );
 
 	if ( is_wp_error($post) )
 		return $post;
@@ -420,9 +420,6 @@ function sanitize_post($post, $context = 'display') {
 	// TODO: Use array keys instead of hard coded list
 	$fields = array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_date', 'post_date_gmt', 'post_parent', 'menu_order', 'post_mime_type');
 
-	if ( 'raw' == $context )
-		return $post;
-
 	$do_object = false;
 	if ( is_object($post) )
 		$do_object = true;
@@ -441,6 +438,9 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 	$int_fields = array('ID', 'post_parent', 'menu_order');
 	if ( in_array($field, $int_fields) )
 		$value = (int) $value;
+
+	if ( 'raw' == $context )
+		return $value;
 
 	$prefixed = false;
 	if ( false !== strpos($field, 'post_') ) {
@@ -586,9 +586,7 @@ function wp_insert_post($postarr = array()) {
 		'post_parent' => 0, 'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
 
 	$postarr = wp_parse_args($postarr, $defaults);
-
-	if ( empty($postarr['no_filter']) )
-		$postarr = sanitize_post($postarr, 'db');
+	$postarr = sanitize_post($postarr, 'db');
 
 	// export array as variables
 	extract($postarr, EXTR_SKIP);
@@ -597,8 +595,9 @@ function wp_insert_post($postarr = array()) {
 	$update = false;
 	if ( !empty($ID) ) {
 		$update = true;
-		$post = & get_post($ID);
-		$previous_status = $post->post_status;
+		$previous_status = get_post_field('post_status', $ID);
+	} else {
+		$previous_status = 'new';
 	}
 
 	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) )
@@ -608,7 +607,6 @@ function wp_insert_post($postarr = array()) {
 	if (0 == count($post_category) || !is_array($post_category)) {
 		$post_category = array(get_option('default_category'));
 	}
-	$post_cat = $post_category[0];
 
 	if ( empty($post_author) )
 		$post_author = $user_ID;
@@ -631,7 +629,6 @@ function wp_insert_post($postarr = array()) {
 	} else {
 		$post_name = sanitize_title($post_name);
 	}
-
 
 	// If the post date is empty (due to having been new or a draft) and status is not 'draft', set date to now
 	if (empty($post_date)) {
@@ -738,7 +735,6 @@ function wp_insert_post($postarr = array()) {
 
 	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
-		$wp_rewrite->flush_rules();
 	} else {
 		clean_post_cache($post_ID);
 	}
@@ -747,55 +743,17 @@ function wp_insert_post($postarr = array()) {
 	if ( ! $update )
 		$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 
-	if ( $update) {
-		if ($previous_status != 'publish' && $post_status == 'publish') {
-			// Reset GUID if transitioning to publish.
-			$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
-			do_action('private_to_published', $post_ID);
-		}
+	$post = get_post($post_ID);
+	if ( !empty($page_template) )
+		$post->page_template = $page_template;
 
-		do_action('edit_post', $post_ID);
-	}
+	wp_transition_post_status($post_status, $previous_status, $post);
 
-	if ($post_status == 'publish' && $post_type == 'post') {
-		do_action('publish_post', $post_ID);
-		if ( defined('XMLRPC_REQUEST') )
-			do_action('xmlrpc_publish_post', $post_ID);
-		if ( defined('APP_REQUEST') )
-			do_action('app_publish_post', $post_ID);
+	if ( $update)
+		do_action('edit_post', $post_ID, $post);
 
-		if ( !defined('WP_IMPORTING') ) {
-			if ( $post_pingback )
-				$result = $wpdb->query("
-					INSERT INTO $wpdb->postmeta
-					(post_id,meta_key,meta_value)
-					VALUES ('$post_ID','_pingme','1')
-				");
-			$result = $wpdb->query("
-				INSERT INTO $wpdb->postmeta
-				(post_id,meta_key,meta_value)
-				VALUES ('$post_ID','_encloseme','1')
-			");
-			wp_schedule_single_event(time(), 'do_pings');
-		}
-	} else if ($post_type == 'page') {
-		if ( !empty($page_template) )
-			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
-				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
-
-		if ( $post_status == 'publish' )
-			do_action('publish_page', $post_ID);
-	}
-
-	// Always clears the hook in case the post status bounced from future to draft.
-	wp_clear_scheduled_hook('publish_future_post', $post_ID);
-
-	// Schedule publication.
-	if ( 'future' == $post_status )
-		wp_schedule_single_event(strtotime($post_date_gmt. ' GMT'), 'publish_future_post', array($post_ID));
-
-	do_action('save_post', $post_ID);
-	do_action('wp_insert_post', $post_ID);
+	do_action('save_post', $post_ID, $post);
+	do_action('wp_insert_post', $post_ID, $post);
 
 	return $post_ID;
 }
@@ -841,6 +799,8 @@ function wp_update_post($postarr = array()) {
 }
 
 function wp_publish_post($post_id) {
+	global $wpdb;
+
 	$post = get_post($post_id);
 
 	if ( empty($post) )
@@ -849,7 +809,15 @@ function wp_publish_post($post_id) {
 	if ( 'publish' == $post->post_status )
 		return;
 
-	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id, 'no_filter' => true));
+	$wpdb->query( "UPDATE $wpdb->posts SET post_status = 'publish' WHERE ID = '$post_id'" );
+
+	$old_status = $post->post_status;
+	$post->post_status = 'publish';
+	wp_transition_post_status('publish', $old_status, $post);
+
+	do_action('edit_post', $post_id, $post);
+	do_action('save_post', $post_id, $post);
+	do_action('wp_insert_post', $post_id, $post);
 }
 
 function wp_add_post_tags($post_id = 0, $tags = '') {
@@ -886,6 +854,14 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 
 	return wp_set_object_terms($post_ID, $post_categories, 'category');
 }	// wp_set_post_categories()
+
+function wp_transition_post_status($new_status, $old_status, $post) {
+	if ( $new_status != $old_status ) {
+		do_action('transition_post_status', $new_status, $old_status, $post);
+		do_action("${old_status}_to_$new_status", $post);
+	}
+	do_action("${new_status}_$post->post_type", $post->ID, $post);
+}
 
 //
 // Trackback and ping functions
@@ -1840,6 +1816,69 @@ function update_postmeta_cache($post_id_list = '') {
 			// Add a value to the current pid/key:
 			$post_meta_cache[$blog_id][$mpid][$mkey][] = $mval;
 		}
+	}
+}
+
+//
+// Hooks
+//
+
+function _transition_post_status($new_status, $old_status, $post) {
+	global $wpdb;
+
+	if ( $old_status != 'publish' && $new_status == 'publish' ) {
+			// Reset GUID if transitioning to publish.
+			$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post->ID) . "' WHERE ID = '$post->ID'");
+			do_action('private_to_published', $post->ID);  // Deprecated, use private_to_publish
+	}
+
+	// Always clears the hook in case the post status bounced from future to draft.
+	wp_clear_scheduled_hook('publish_future_post', $post->ID);
+}
+
+function _future_post_hook($post_id, $post) {
+	// Schedule publication.
+	wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', array($post->ID));
+}
+
+function _publish_post_hook($post_id) {
+	global $wpdb;
+
+	if ( defined('XMLRPC_REQUEST') )
+		do_action('xmlrpc_publish_post', $post_id);
+	if ( defined('APP_REQUEST') )
+		do_action('app_publish_post', $post_id);
+
+	if ( defined('WP_IMPORTING') )
+		return;
+
+	$post = get_post($post_id);
+
+	if ( $post->post_pingback )
+		$result = $wpdb->query("
+			INSERT INTO $wpdb->postmeta
+			(post_id,meta_key,meta_value)
+			VALUES ('$post_id','_pingme','1')
+		");
+	$result = $wpdb->query("
+		INSERT INTO $wpdb->postmeta
+		(post_id,meta_key,meta_value)
+		VALUES ('$post_id','_encloseme','1')
+	");
+	wp_schedule_single_event(time(), 'do_pings');
+}
+
+function _save_post_hook($post_id, $post) {
+	if ( $post->post_type == 'page' ) {
+		if ( !empty($post->page_template) )
+			if ( ! update_post_meta($post_id, '_wp_page_template',  $post->page_template))
+				add_post_meta($post_id, '_wp_page_template',  $post->page_template, true);
+
+		clean_page_cache($post_id);
+		global $wp_rewrite;
+		$wp_rewrite->flush_rules();
+	} else {
+		clean_post_cache($post_id);
 	}
 }
 
