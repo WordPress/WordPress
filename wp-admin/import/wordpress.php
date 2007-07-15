@@ -85,39 +85,46 @@ class WP_Import {
 
 	function get_entries() {
 		set_magic_quotes_runtime(0);
-		$importdata = array_map('rtrim', file($this->file)); // Read the file into an array
 
 		$this->posts = array();
 		$this->categories = array();
 		$num = 0;
 		$doing_entry = false;
-		foreach ($importdata as $importline) {
-			if ( false !== strpos($importline, '<wp:category>') ) {
-				preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
-				$this->categories[] = $category[1];
-				continue;
-			}
-			if ( false !== strpos($importline, '<item>') ) {
-				$this->posts[$num] = '';
-				$doing_entry = true;
-				continue;	
-			}
-			if ( false !== strpos($importline, '</item>') ) {
-				$num++;
-				$doing_entry = false;
-				continue;	
-			}
-			if ( $doing_entry ) {
-				$this->posts[$num] .= $importline . "\n";
-			}
-		}
 
-		foreach ($this->posts as $post) {
-			$post_ID = (int) $this->get_tag( $post, 'wp:post_id' );
-			if ($post_ID) {
-				$this->posts_processed[$post_ID][0] = &$post;
-				$this->posts_processed[$post_ID][1] = 0;
+		$fp = fopen($this->file, 'r');
+		if ($fp) {
+			while ( !feof($fp) ) {
+				$importline = rtrim(fgets($fp));
+
+				if ( false !== strpos($importline, '<wp:category>') ) {
+					preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
+					$this->categories[] = $category[1];
+					continue;
+				}
+				if ( false !== strpos($importline, '<item>') ) {
+					$this->posts[$num] = '';
+					$doing_entry = true;
+					continue;	
+				}
+				if ( false !== strpos($importline, '</item>') ) {
+					$num++;
+					$doing_entry = false;
+					continue;	
+				}
+				if ( $doing_entry ) {
+					$this->posts[$num] .= $importline . "\n";
+				}
 			}
+
+			foreach ($this->posts as $post) {
+				$post_ID = (int) $this->get_tag( $post, 'wp:post_id' );
+				if ($post_ID) {
+					$this->posts_processed[$post_ID][0] = &$post;
+					$this->posts_processed[$post_ID][1] = 0;
+				}
+			}
+
+			fclose($fp);
 		}
 	}
 
