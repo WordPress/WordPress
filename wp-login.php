@@ -345,6 +345,7 @@ default:
 ?>
 
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
+<?php if ( !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 	<p>
 		<label><?php _e('Username:') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
@@ -359,11 +360,16 @@ default:
 		<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" />
 		<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
 	</p>
+<?php else : ?>
+	<p>&nbsp;</p>
+<?php endif; ?>
 </form>
 </div>
 
 <ul>
-<?php if (get_option('users_can_register')) : ?>
+<?php if ( in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+<?php elseif (get_option('users_can_register')) : ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
 	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>

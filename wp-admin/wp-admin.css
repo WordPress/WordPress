@@ -688,6 +688,7 @@ input.delete:hover {
 	padding: 0 50px 25px;
 	_width: 325px;
 	_margin: 0 auto;
+	height: 200px;
 }
 
 #login #login_error {
