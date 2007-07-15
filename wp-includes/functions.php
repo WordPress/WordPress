@@ -91,6 +91,22 @@ function number_format_i18n($number, $decimals = null) {
 	return number_format($number, $decimals, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep']);
 }
 
+function size_format($bytes, $decimals = null) {
+	// technically the correct unit names for powers of 1024 are KiB, MiB etc
+	// see http://en.wikipedia.org/wiki/Byte
+	$quant = array(
+		'TB' => pow(1024, 4),
+		'GB' => pow(1024, 3),
+		'MB' => pow(1024, 2),
+		'kB' => pow(1024, 1),
+		'B'  => pow(1024, 0),
+	);
+
+	foreach ($quant as $unit => $mag)
+		if ( intval($bytes) >= $mag )
+			return number_format_i18n($bytes / $mag, $decimals) . ' ' . $unit;
+}
+
 function get_weekstartend($mysqlstring, $start_of_week) {
 	$my = substr($mysqlstring,0,4);
 	$mm = substr($mysqlstring,8,2);

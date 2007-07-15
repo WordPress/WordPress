@@ -5,8 +5,9 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	$id = get_the_ID();
 	$attachment_data = wp_get_attachment_metadata( $id );
 	$is_image = (int) wp_attachment_is_image();
+	$filesystem_path = get_attached_file( $id );
 	if ( !isset($attachment_data['width']) && $is_image ) {
-		if ( $image_data = getimagesize( get_attached_file( $id ) ) ) {
+		if ( $image_data = getimagesize( $filesystem_path ) ) {
 			$attachment_data['width'] = $image_data[0];
 			$attachment_data['height'] = $image_data[1];
 			wp_update_attachment_metadata( $id, $attachment_data );
@@ -38,6 +39,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		$r .= "\t\t\t$innerHTML";
 	if ( $href )
 		$r .= "</a>\n";
+	$r .= "\t\t\t\t<span class='upload-file-size'>".size_format(filesize($filesystem_path))."</span>\n";
 	$r .= "\n\t\t<div class='upload-file-data'>\n\t\t\t<p>\n";
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-$id' id='attachment-url-$id' value='$src' />\n";
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-base-$id' id='attachment-url-base-$id' value='$src_base' />\n";
