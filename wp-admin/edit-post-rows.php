@@ -15,8 +15,10 @@ $bgcolor = '';
 while (have_posts()) : the_post();
 add_filter('the_title','wp_specialchars');
 $class = ('alternate' == $class) ? '' : 'alternate';
+global $current_user;
+$post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
 ?>
-	<tr id='post-<?php echo $id; ?>' class='<?php echo $class; ?>'>
+	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $class . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>'>
 
 <?php
 
