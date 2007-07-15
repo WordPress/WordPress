@@ -291,7 +291,7 @@ function get_plugin_page_hook( $plugin_page, $parent_page ) {
 	if ( isset( $wp_filter[$hook] ))
 		return $hook;
 	else
-		return '';
+		return null;
 }
 
 function get_plugin_page_hookname( $plugin_page, $parent_page ) {
