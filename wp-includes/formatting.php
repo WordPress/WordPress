@@ -413,8 +413,14 @@ function funky_javascript_fix($text) {
 	return $text;
 }
 
+function balanceTags( $text, $force = false ) {
+	if ( !$force && get_option('use_balanceTags') == 0 )
+		return $text;
+	return force_balance_tags( $text );
+}
+
 /*
- balanceTags
+ force_balance_tags
 
  Balances Tags of string using a modified stack.
 
@@ -433,11 +439,7 @@ function funky_javascript_fix($text) {
 	     Added Cleaning Hooks
 	1.0  First Version
 */
-function balanceTags($text, $force = false) {
-
-	if ( !$force && get_option('use_balanceTags') == 0 )
-		return $text;
-
+function force_balance_tags( $text ) {
 	$tagstack = array(); $stacksize = 0; $tagqueue = ''; $newtext = '';
 	$single_tags = array('br', 'hr', 'img', 'input'); //Known single-entity/self-closing tags
 	$nestable_tags = array('blockquote', 'div', 'span'); //Tags that can be immediately nested within themselves
@@ -534,10 +536,6 @@ function balanceTags($text, $force = false) {
 	$newtext = str_replace("<    !--","< !--",$newtext);
 
 	return $newtext;
-}
-
-function force_balance_tags($text) {
-	return balanceTags($text, true);
 }
 
 function format_to_edit($content, $richedit = false) {
