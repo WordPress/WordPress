@@ -582,8 +582,8 @@ function wp_insert_post($postarr = array()) {
 	global $wpdb, $wp_rewrite, $allowedtags, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
-		'ping_status' => get_option('default_ping_status'), 'post_pingback' => get_option('default_pingback_flag'),
-		'post_parent' => 0, 'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
+		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
+		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
 
 	$postarr = wp_parse_args($postarr, $defaults);
 	$postarr = sanitize_post($postarr, 'db');
@@ -655,8 +655,6 @@ function wp_insert_post($postarr = array()) {
 	}
 	if ( empty($ping_status) )
 		$ping_status = get_option('default_ping_status');
-	if ( empty($post_pingback) )
-		$post_pingback = get_option('default_pingback_flag');
 
 	if ( isset($to_ping) )
 		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
@@ -1328,8 +1326,6 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	}
 	if ( empty($ping_status) )
 		$ping_status = get_option('default_ping_status');
-	if ( empty($post_pingback) )
-		$post_pingback = get_option('default_pingback_flag');
 
 	if ( isset($to_ping) )
 		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
@@ -1854,7 +1850,7 @@ function _publish_post_hook($post_id) {
 
 	$post = get_post($post_id);
 
-	if ( $post->post_pingback )
+	if ( get_option('default_pingback_flag') )
 		$result = $wpdb->query("
 			INSERT INTO $wpdb->postmeta
 			(post_id,meta_key,meta_value)
