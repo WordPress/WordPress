@@ -57,6 +57,7 @@ case 'edit':
 		wp_enqueue_script('prototype');
 		wp_enqueue_script('autosave');
 	}
+	wp_enqueue_script('jcalendar');
 	require_once('admin-header.php');
 
 	if ( !current_user_can('edit_post', $post_ID) )

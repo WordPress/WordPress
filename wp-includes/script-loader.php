@@ -74,6 +74,19 @@ class WP_Scripts {
 		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.3.1');
 		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '1.0.3');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2');
+		$this->add( 'jcalendar', '/wp-includes/js/jquery/jcalendar.js', array('jquery'), '0.5' );
+
+		// this would be much nicer if localize used json so it could handle arrays
+		global $wp_locale;
+		$this->localize( 'jcalendar', 'jcalendar_L10n', array(
+			'days' => array_values($wp_locale->weekday_abbrev),
+			'months' => array_values($wp_locale->month),
+			'navLinks' => array(
+				'p' => __('Prev'),
+				'n' => __('Next'),
+				't' => __('Today'),
+			),
+		) );
 
 		if ( is_admin() ) {
 			global $pagenow;
@@ -205,15 +218,26 @@ class WP_Scripts {
 
 		echo "<script type='text/javascript'>\n";
 		echo "/* <![CDATA[ */\n";
-		echo "\t$object_name = {\n";
-		$eol = '';
-		foreach ( $this->scripts[$handle]->l10n as $var => $val ) {
-			echo "$eol\t\t$var: \"" . js_escape( $val ) . '"';
-			$eol = ",\n";
-		}
-		echo "\n\t}\n";
-		echo "/* ]]> */\n";
+		echo $this->js_encode_array( $object_name, $this->scripts[$handle]->l10n );
+		echo "\n/* ]]> */\n";
 		echo "</script>\n";
+	}
+
+	/**
+	 * Poor man's json: recursively encode an associative array of strings or arrays as a javascript array definition
+	 */
+	function js_encode_array( $name, $vals, $level=0 ) {
+		$out = array();
+		foreach ( $vals as $var => $val ) {
+			if ( is_array($val) )
+				$out[] = $this->js_encode_array( $var, $val, $level+1 );
+			else
+				$out[] = str_repeat("\t", $level+1) . "{$var}: \"" . js_escape( $val ) . '"';
+		}
+
+		return str_repeat("\t", $level) . "{$name} " . ($level ? ':' : '=') . " {\n"
+			. join( ",\n", $out )
+			. "\n" . str_repeat("\t", $level) . "}";
 	}
 
 	/**
