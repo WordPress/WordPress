@@ -1332,70 +1332,9 @@ a.page-numbers:hover {
 	margin: 0 6px;
 }
 
-/* jcalendar */
-
-#moremeta select.jcalendar-select-day, #moremeta select.jcalendar-select-month, #moremeta select.jcalendar-select-year {
-	font-size: 11px;
-	width: auto;
+a.view-link {
+	position: absolute;
+	right: 5%;
+	margin-right: 220px;
+	text-decoration:underline;
 }
-
-div.jcalendar table {
-color:#000;
-width: 100%;
-background: #a1a5a9;
-}
-
-div.jcalendar table th {
-font-size: 10px;
-background:#eee;
-}
-
-div.jcalendar table td {
-background:#f9f9f9;
-padding:0;
-}
-
-div.jcalendar table th.weekend {
-background:#ddd;
-}
-
-div.jcalendar table td.weekend {
-background:#e9e9e9;
-}
-
-div.jcalendar table td a {
-font-size: 11px;
-color:#333;
-display:block;
-line-height:1.7em;
-text-align:center;
-text-decoration:none;
-}
-
-div.jcalendar table td.today a {
-background:#777;
-border-color:#aaa;
-color:#fff;
-font-weight:700;
-}
-
-div.jcalendar table td a:hover,div.jcalendar table td a:focus,div.jcalendar table td a:active {
-background:#77b0d3;
-color:#fff;
-padding:0;
-}
-
-div.jcalendar table td a.selected {
-background:#2685af;
-color:#E3EFF5;
-}
-
-div.jcalendar-links {
-text-align:center;
-}
-
-div.jcalendar-links a {
-font-size: 11px;
-margin: 0 .4em;
-}
-

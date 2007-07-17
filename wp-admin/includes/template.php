@@ -416,39 +416,13 @@ function meta_form() {
 
 }
 
-// return an option/select list with correct html escaping
-function input_dropdown($name, $vals, $selected=null, $class='', $onchange='') {
-
-	// cf. http://www.w3.org/TR/html401/appendix/notes.html#h-B.3.2.2
-	$out = '<select name="' . htmlspecialchars($name) . '" class="' . htmlspecialchars($class) . '" onchange="' . htmlspecialchars($onchange) . '">' . "\n";
-	foreach ($vals as $k=>$v) {
-		$out .= '<option value="' . htmlspecialchars($k) . '"';
-		if ( $selected !== null and $k == $selected )
-			$out .= ' selected="selected"';
-		$out .= '>' . htmlspecialchars($v) . "</option>\n";
-	}
-	$out .= "</select>\n";
-
-	return $out;
-}
-
-// return an array of month names for the current locale, indexed 1..12
-function locale_months() {
-	global $wp_locale;
-
-	$months = array();
-	foreach ( range(1, 12) as $m )
-		$months[$m] = $wp_locale->get_month( $m );
-	return $months;
-}
-
 function touch_time( $edit = 1, $for_post = 1 ) {
 	global $wp_locale, $post, $comment;
 
 	if ( $for_post )
 		$edit = ( in_array($post->post_status, array('draft', 'pending') ) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date ) ) ? false : true;
 
-	echo '<fieldset class="jcalendar"><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
+	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
@@ -459,30 +433,18 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
 	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
 
-	echo '<div class="jcalendar-selects">';
-	echo input_dropdown( 'mm', locale_months(), $mm, 'jcalendar-select-month', 'edit_date.checked=true' );
-
-	foreach ( range(1, 31) as $i )
-		$days[$i] = $i;
-	echo input_dropdown( 'jj', $days, $jj, 'jcalendar-select-day', 'edit_date.checked=true' );
-
-	foreach ( range(1970, 2038) as $i )
-		$years[$i] = $i;
-	echo input_dropdown( 'aa', $years, $aa, 'jcalendar-select-year', 'edit_date.checked=true' );
-	echo '</div>';
-
-	$jcal_css_url = get_bloginfo('wpurl') . '/wp-includes/js/jquery/css/jcalendar.css?version=' . get_bloginfo('version');
-
+	echo "<select name=\"mm\" onchange=\"edit_date.checked=true\">\n";
+	for ( $i = 1; $i < 13; $i = $i +1 ) {
+		echo "\t\t\t<option value=\"$i\"";
+		if ( $i == $mm )
+			echo ' selected="selected"';
+		echo '>' . $wp_locale->get_month( $i ) . "</option>\n";
+	}
 ?>
-<script type="text/javascript">
-<!--
-jQuery(document).ready(function() {
-	jQuery.jcalendar.setLanguageStrings(jcalendar_L10n.days, jcalendar_L10n.months, jcalendar_L10n.navLinks);
-	jQuery('fieldset.jcalendar').jcalendar();
-});
-// -->
-</script>
-@ <input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onchange="edit_date.checked=true" /> :
+</select>
+<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" onchange="edit_date.checked=true"/>
+<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" onchange="edit_date.checked=true" /> @
+<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onchange="edit_date.checked=true" /> :
 <input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <?php
