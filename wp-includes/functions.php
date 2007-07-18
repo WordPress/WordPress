@@ -394,10 +394,16 @@ function maybe_serialize($data) {
 }
 
 function gzip_compression() {
-	if ( !get_option('gzipcompression') ) return false;
+	if ( !get_option( 'gzipcompression' ) ) {
+		return false;
+	}
 
-	if ( extension_loaded('zlib') ) {
-		ob_start('ob_gzhandler');
+	if ( ( ini_get( 'zlib.output_compression' ) == 'On' || ini_get( 'zlib.output_compression_level' ) > 0 ) || ini_get( 'output_handler' ) == 'ob_gzhandler' ) {
+		return false;
+	}
+	
+	if ( extension_loaded( 'zlib' ) ) {
+		ob_start( 'ob_gzhandler' );
 	}
 }
 
