@@ -89,21 +89,28 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 	}
 }
 
+/**
+ * Updates the htaccess file with the current rules if it is writable.
+ *
+ * Always writes to the file if it exists and is writable to ensure that we blank out old rules.
+ */
+
 function save_mod_rewrite_rules() {
-	global $is_apache, $wp_rewrite;
+	global $wp_rewrite;
+	
 	$home_path = get_home_path();
+	$htaccess_file = $home_path.'.htaccess';
 
-	if (!$wp_rewrite->using_mod_rewrite_permalinks() )
-		return false;
-
-	if (!((!file_exists( $home_path.'.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path.'.htaccess' ) ) )
-		return false;
-
-	if (! got_mod_rewrite() )
-		return false;
-
-	$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
-	return insert_with_markers( $home_path.'.htaccess', 'WordPress', $rules );
+	// If the file doesn't already exists check for write access to the directory and whether of not we have some rules.
+	// else check for write access to the file.
+	if ((!file_exists($htaccess_file) && is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
+		if ( got_mod_rewrite() ) {
+			$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
+			return insert_with_markers( $htaccess_file, 'WordPress', $rules );
+		}
+	}
+	
+	return false;
 }
 
 function update_recently_edited( $file ) {
