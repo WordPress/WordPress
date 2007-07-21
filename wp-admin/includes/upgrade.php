@@ -670,7 +670,12 @@ function upgrade_230() {
 		$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'linkcategories');
 	}
 
-	//  TODO: Recalculate all counts
+	// Recalculate all counts
+	$terms = $wpdb->get_col("SELECT term_taxonomy_id FROM $wpdb->term_taxonomy");
+	foreach ( (array) $terms as $term ) {
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
+	}
 }
 
 function upgrade_old_slugs() {
