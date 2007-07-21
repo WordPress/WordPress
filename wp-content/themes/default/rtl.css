@@ -3,18 +3,23 @@
 .narrowcolumn, .alignleft, .widecolumn .smallattachment { float: right; }
 .alignright, #commentform #submit { float: left; }
 
-#page, #wp-calendar #prev a { text-align: right; }
+#page, .post, #wp-calendar #prev a { text-align: right; }
 
+body, #commentform p { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
 
-body, #commentform p { font-family: Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+small { font-family: 'Geeza Pro', Tahoma, Arial, Helvetica, Sans-Serif; }
 
-small { font-family: Tahoma, Arial, Helvetica, Sans-Serif; }
+h1, h2, h3 { font-family: 'Al Bayan', 'Traditional Arabic', 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif; }
 
-.commentlist li, #commentform input, #commentform textarea { font: 0.9em Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+#sidebar h2 { font-family: 'Al Bayan', 'Traditional Arabic', 'Lucida Grande', Verdana, Sans-Serif; }
 
-#sidebar { font: 1em Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+.commentlist li, #commentform input, #commentform textarea { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
 
-#wp-calendar caption { font: bold 1.3em Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+#sidebar { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+#wp-calendar caption { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+acronym, abbr, span.caps { letter-spacing: normal; }
 
 #header { margin: 0 1px 0 0; }
 
@@ -40,24 +45,34 @@ img.alignleft { margin: 0 0 2px 7px; }
 
 .commentlist p { margin: 10px 0 10px 5px; }
 
-#sidebar { margin-right: 545px; }
-
-#wp-calendar #prev a, html>body .entry ul { padding-right: 10px; }
-
 html>body .entry li { margin: 7px 10px 8px 0; }
 
 html>body .entry ul {
+	margin-left: auto;
 	margin-right: 0px;
 	padding: 0 30px 0 0;
 }
 
+#sidebar {
+	margin-left: auto;
+	margin-right: 545px;
+}
+
+#wp-calendar #prev a, html>body .entry ul {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
 blockquote {
-	margin: 15px 10px 0 30px;
-	padding-right: 20px;
+	border-left: 0;
 	border-right: 5px solid #ddd;
+	padding-left: 0;
+	padding-right: 20px;
+	margin: 15px 10px 0 30px;
 }
 
 #wp-calendar #next a {
+	padding-right: 0;
 	padding-left: 10px;
 	text-align: left;
 }
