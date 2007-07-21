@@ -454,14 +454,6 @@ function upgrade_160() {
 		$wpdb->query("ALTER TABLE $wpdb->users DROP $old");
 	$wpdb->show_errors();
 
-	if ( 0 == $wpdb->get_var("SELECT SUM(category_count) FROM $wpdb->categories") ) { // Create counts
-		$categories = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
-		foreach ( $categories as $cat_id ) {
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
-			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
-		}
-	}
-
 	// populate comment_count field of posts table
 	$comments = $wpdb->get_results( "SELECT comment_post_ID, COUNT(*) as c FROM $wpdb->comments WHERE comment_approved = '1' GROUP BY comment_post_ID" );
 	if( is_array( $comments ) ) {
@@ -523,54 +515,6 @@ function upgrade_210() {
 		if ( !empty($posts) )
 			foreach ( $posts as $post )
 				wp_schedule_single_event(mysql2date('U', $post->post_date), 'publish_future_post', array($post->ID));
-	}
-
-	if ( $wp_current_db_version < 3570 ) {
-		// Create categories for link categories if a category with the same
-		// name doesn't exist.  Create a map of link cat IDs to cat IDs.
-		$link_cat_id_map = array();
-		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM " . $wpdb->prefix . 'linkcategories');
-		foreach ( $link_cats as $link_cat) {
-			if ( $cat_id = category_exists($link_cat->cat_name) ) {
-				$link_cat_id_map[$link_cat->cat_id] = $cat_id;
-				$default_link_cat = $cat_id;
-			} else {
-				$link_cat_id_map[$link_cat->cat_id] = wp_create_category($link_cat->cat_name);
-				$default_link_cat = $link_cat_id_map[$link_cat->cat_id];
-			}
-		}
-
-		// Associate links to cats.
-		$links = $wpdb->get_results("SELECT link_id, link_category FROM $wpdb->links");
-		if ( !empty($links) ) foreach ( $links as $link ) {
-			if ( 0 == $link->link_category )
-				continue;
-			if ( ! isset($link_cat_id_map[$link->link_category]) )
-				continue;
-			$link_cat = $link_cat_id_map[$link->link_category];
-			$cat = $wpdb->get_row("SELECT * FROM $wpdb->link2cat WHERE link_id = '$link->link_id' AND category_id = '$link_cat'");
-			if ( !$cat ) {
-				$wpdb->query("INSERT INTO $wpdb->link2cat (link_id, category_id)
-					VALUES ('$link->link_id', '$link_cat')");
-			}
-		}
-
-		// Set default to the last category we grabbed during the upgrade loop.
-		update_option('default_link_category', $default_link_cat);
-
-		// Count links per category.
-		if ( 0 == $wpdb->get_var("SELECT SUM(link_count) FROM $wpdb->categories") ) {
-			$categories = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
-			foreach ( $categories as $cat_id ) {
-				$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->link2cat, $wpdb->links WHERE $wpdb->links.link_id = $wpdb->link2cat.link_id AND category_id = '$cat_id'");
-				$wpdb->query("UPDATE $wpdb->categories SET link_count = '$count' WHERE cat_ID = '$cat_id'");
-			}
-		}
-	}
-
-	if ( $wp_current_db_version < 4772 ) {
-		// Obsolete linkcategories table
-		$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'linkcategories');
 	}
 }
 
@@ -651,17 +595,82 @@ function upgrade_230() {
 		$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$post_id', '$tt_id')");
 	}
 
-	$links = $wpdb->get_results("SELECT * FROM $wpdb->link2cat");
-	foreach ( $links as $link ) {
-		$link_id = (int) $link->link_id;
-		$term_id = (int) $link->category_id;
-		$taxonomy = 'link_category';
-		$tt_id = $tt_ids[$term_id][$taxonomy];
-		if ( empty($tt_id) )
-			continue;
+	// < 3570 we used linkcategories.  >= 3570 we used categories and link2cat.
+	if ( $wp_current_db_version < 3570 ) {
+		// Create link_category terms for link categories.  Create a map of link cat IDs
+		// to link_category terms.
+		$link_cat_id_map = array();
+		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM " . $wpdb->prefix . 'linkcategories');
+		foreach ( $link_cats as $category) {
+			$cat_id = (int) $category->cat_id;
+			$term_id = 0;
+			$name = $wpdb->escape($category->cat_name);
+			$slug = sanitize_title($name);
+			$term_group = 0;
+	
+			// Associate terms with the same slug in a term group and make slugs unique.
+			if ( $exists = $wpdb->get_results("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$slug'") ) {
+				$num = count($exists);
+				$num++;
+				$slug = $slug . "-$num";
+				$term_group = $exists[0]->term_group;
+				$term_id = $exists[0]->term_id;
+				if ( empty( $term_group ) ) {
+					$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
+					$wpdb->query("UPDATE $wpdb->terms SET term_group = '$term_group' WHERE term_id = '$term_id'");
+				}
+			}
 
-		$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$link_id', '$tt_id')");
+			if ( !empty($term_id) ) {
+				$wpdb->query("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES ('$term_id', '$name', '$slug', '$term_group')");
+			} else {
+				$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
+				$term_id = (int) $wpdb->insert_id;	
+			}
+
+			$link_cat_id_map[$cat_id] = $term_id;
+			$default_link_cat = $term_id;
+
+			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', 'link_category', '', '0', '0')");
+			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
+		}
+
+		// Associate links to cats.
+		$links = $wpdb->get_results("SELECT link_id, link_category FROM $wpdb->links");
+		if ( !empty($links) ) foreach ( $links as $link ) {
+			if ( 0 == $link->link_category )
+				continue;
+			if ( ! isset($link_cat_id_map[$link->link_category]) )
+				continue;
+			$tt_id = $tt_ids[$term_id]['link_category'];
+			if ( empty($tt_id) )
+				continue;
+
+			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$link->link_id', '$tt_id')");
+		}
+
+		// Set default to the last category we grabbed during the upgrade loop.
+		update_option('default_link_category', $default_link_cat);
+	} else {
+		$links = $wpdb->get_results("SELECT * FROM $wpdb->link2cat");
+		foreach ( $links as $link ) {
+			$link_id = (int) $link->link_id;
+			$term_id = (int) $link->category_id;
+			$taxonomy = 'link_category';
+			$tt_id = $tt_ids[$term_id][$taxonomy];
+			if ( empty($tt_id) )
+				continue;
+
+			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$link_id', '$tt_id')");
+		}
 	}
+
+	if ( $wp_current_db_version < 4772 ) {
+		// Obsolete linkcategories table
+		$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'linkcategories');
+	}
+
+	//  TODO: Recalculate all counts
 }
 
 function upgrade_old_slugs() {
