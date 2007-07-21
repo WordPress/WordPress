@@ -12,8 +12,8 @@
 <?php
 if ( have_posts() ) {
 $bgcolor = '';
-while (have_posts()) : the_post();
 add_filter('the_title','wp_specialchars');
+while (have_posts()) : the_post();
 $class = ('alternate' == $class) ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
