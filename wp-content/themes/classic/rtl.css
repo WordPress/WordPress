@@ -1,0 +1,82 @@
+/* Based on Arabic (RTL) version of WordPress Classic theme, converted by Serdal (Serdal.com) */
+
+#menu ul ul, #wp-calendar caption, #wp-calendar #prev a { text-align: right; }
+#wp-calendar #next a, .feedback { text-align: left; }
+
+blockquote {
+	border-left: 0;
+	border-right: 5px solid #ccc;
+	margin-left: auto;
+	margin-right: 1.5em;
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+body { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif; }
+
+h2 { font: 95% 'Al Bayan', 'Traditional Arabic', "Times New Roman", Times, serif; }
+
+p, li, .feedback {
+	font: 90%/175% 'Geeza Pro', Tahoma, 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	text-align: justify;
+}
+
+acronym, abbr, span.caps, h2, p, li, #header, #menu ul li, #menu ul ul li, #wp-calendar td, .feedback, .meta, .meta a { letter-spacing: normal; }
+
+#commentlist li ul {
+	border-left: 0;
+	border-right: 1px solid #ddd;
+}
+
+#content {
+	margin: 30px 3em 0 13em;
+	padding-right: 0;
+	padding-left: 60px;
+}
+
+#header {
+	border-left: solid 1px #9a9;
+	border-right: solid 1px #565;
+	font: normal normal 230% 'Al Bayan', 'Traditional Arabic', 'Times New Roman', Times, serif;
+	padding: 15px 60px 15px 10px;
+}
+
+#menu {
+	border-left: 0;
+	border-right: 1px dotted #ccc;
+	padding: 20px 30px 10px 0;
+	right: auto;
+	left: 2px;
+}
+
+#menu form { margin: 0 13px 0 0; }
+
+#menu ul {
+	padding-left: 0;
+	padding-right: 3px;
+}
+
+#menu ul li { font: normal normal 110% 'Geeza Pro', Tahoma, 'Times New Roman', Times, serif; }
+
+#menu ul ul li {
+	font: normal normal 12px/115% 'Geeza Pro', Tahoma, 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	padding-left: 0;
+	padding-right: 12px;
+}
+
+#menu ul ul ul.children {
+	padding-left: 0;
+	padding-right: 4px;
+}
+
+#wp-calendar #next a {
+	padding-right: 0;
+	padding-left: 10px;
+}
+
+#wp-calendar #prev a {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
+#wp-calendar td { font: normal normal 12px 'Geeza Pro', Tahoma, 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif; }
