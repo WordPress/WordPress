@@ -104,7 +104,7 @@ class WP_Scripts {
 					'toggleKey' => __(', or press the enter key to %toggle% it'),
 				) );
 			}
-			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array('listman'), '20070417' );
+			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array('listman'), '20070724' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')
