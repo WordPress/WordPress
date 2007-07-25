@@ -18,13 +18,22 @@ function &get_categories($args = '') {
 	$taxonomy = 'category';
 	if ( 'link' == $args['type'] )
 		$taxonomy = 'link_category';
-	return get_terms($taxonomy, $args);
+	$categories = get_terms($taxonomy, $args);
+
+	foreach ( $categories as $category )
+		_make_cat_compat($category);
+
+	return $categories;
 }
 
 // Retrieves category data given a category ID or category object.
 // Handles category caching.
 function &get_category(&$category, $output = OBJECT) {
-	return get_term($category, 'category', $output);
+	$category = get_term($category, 'category', $output);
+
+	_make_cat_compat($category);
+
+	return $category;
 }
 
 function get_category_by_path($category_path, $full_match = true, $output = OBJECT) {
@@ -64,7 +73,11 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 }
 
 function get_category_by_slug( $slug  ) {
-	return get_term_by('slug', $slug, 'category');
+	$category = get_term_by('slug', $slug, 'category');
+	if ( $category )
+		_make_cat_compat($category);
+
+	return $category;
 }
 
 // Get the ID of a category from its name
@@ -137,6 +150,28 @@ function update_category_cache() {
 
 function clean_category_cache($id) {
 	clean_term_cache($id, 'category');
+}
+
+//
+// Private helpers
+//
+
+function _make_cat_compat( &$category) {
+	if ( is_object($category) ) {
+		$category->cat_ID = &$category->term_id;
+		$category->category_count = &$category->count;
+		$category->category_description = &$category->description;
+		$category->cat_name = &$category->name;
+		$category->category_nicename = &$category->slug;
+		$category->category_parent = &$category->parent;
+	} else if ( is_array($category) && isset($category['term_id']) ) {
+		$category['cat_ID'] = &$category['term_id'];
+		$category['category_count'] = &$category['count'];
+		$category['category_description'] = &$category['description'];
+		$category['cat_name'] = &$category['name'];
+		$category['category_nicename'] = &$category['slug'];
+		$category['category_parent'] = &$category['parent'];
+	}
 }
 
 ?>
