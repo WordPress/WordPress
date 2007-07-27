@@ -485,7 +485,7 @@ function do_enclose( $content, $post_ID ) {
 	global $wp_version, $wpdb;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');
 
-	$log = debug_fopen(ABSPATH . '/enclosures.log', 'a');
+	$log = debug_fopen(ABSPATH . 'enclosures.log', 'a');
 	$post_links = array();
 	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
 

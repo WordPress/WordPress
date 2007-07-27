@@ -35,7 +35,7 @@ if (isset($_GET['page'])) {
 	$plugin_page = plugin_basename($plugin_page);
 }
 
-require(ABSPATH . '/wp-admin/menu.php');
+require(ABSPATH . 'wp-admin/menu.php');
 
 // Handle plugin admin pages.
 if (isset($plugin_page)) {
@@ -44,7 +44,7 @@ if (isset($plugin_page)) {
 	if ( $page_hook ) {
 		do_action('load-' . $page_hook);
 		if (! isset($_GET['noheader']))
-			require_once(ABSPATH . '/wp-admin/admin-header.php');
+			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		do_action($page_hook);
 	} else {
@@ -58,7 +58,7 @@ if (isset($plugin_page)) {
 		do_action('load-' . $plugin_page);
 
 		if (! isset($_GET['noheader']))
-			require_once(ABSPATH . '/wp-admin/admin-header.php');
+			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		include(ABSPATH . PLUGINDIR . "/$plugin_page");
 	}

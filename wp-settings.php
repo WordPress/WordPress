@@ -196,8 +196,8 @@ require (ABSPATH . WPINC . '/vars.php');
 
 // Check for hacks file if the option is enabled
 if (get_option('hack_file')) {
-	if (file_exists(ABSPATH . '/my-hacks.php'))
-		require(ABSPATH . '/my-hacks.php');
+	if (file_exists(ABSPATH . 'my-hacks.php'))
+		require(ABSPATH . 'my-hacks.php');
 }
 
 if ( get_option('active_plugins') ) {

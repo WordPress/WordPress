@@ -49,9 +49,9 @@ do_action('admin_head');
 <div id="user_info"><p><?php printf(__('Howdy, <strong>%s</strong>.'), $user_identity) ?> [<a href="<?php echo get_option('siteurl'); ?>/wp-login.php?action=logout" title="<?php _e('Log out of this account') ?>"><?php _e('Sign Out'); ?></a>, <a href="profile.php"><?php _e('My Profile'); ?></a>] </p></div>
 
 <?php
-require(ABSPATH . '/wp-admin/menu-header.php');
+require(ABSPATH . 'wp-admin/menu-header.php');
 
 if ( $parent_file == 'options-general.php' ) {
-	require(ABSPATH . '/wp-admin/options-head.php');
+	require(ABSPATH . 'wp-admin/options-head.php');
 }
 ?>

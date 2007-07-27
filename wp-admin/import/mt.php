@@ -177,7 +177,7 @@ class MT_Import {
 
 	function select_authors() {
 		if ( $_POST['upload_type'] === 'ftp' ) {
-			$file['file'] = ABSPATH . '/wp-content/mt-export.txt';
+			$file['file'] = ABSPATH . 'wp-content/mt-export.txt';
 			if ( !file_exists($file['file']) )
 				$file['error'] = __('<code>mt-export.txt</code> does not exist</code>');
 		} else {
@@ -411,7 +411,7 @@ class MT_Import {
 	function import() {
 		$this->id = (int) $_GET['id'];
 		if ( $this->id == 0 )
-			$this->file = ABSPATH . '/wp-content/mt-export.txt';
+			$this->file = ABSPATH . 'wp-content/mt-export.txt';
 		else
 			$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
