@@ -57,8 +57,16 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 	case 'comments':
 		?>
 		<td style="text-align: center">
-			<?php comments_number("<a href='edit.php?p=$id&amp;c=1'>" . __('0') . '</a>', "<a href='edit.php?p=$id&amp;c=1'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1'>" . __('%') . '</a>') ?>
-			</td>
+		<?php
+		$left = get_pending_comments_num( $post->ID );
+		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
+		if ( $left )
+			echo '<strong>';
+		comments_number("<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase'>" . __('0') . '</a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase'>" . __('%') . '</a>');
+		if ( $left )
+			echo '</strong>';
+		?>
+		</td>
 		<?php
 		break;
 

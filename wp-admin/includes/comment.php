@@ -58,4 +58,11 @@ function get_comment_to_edit( $id ) {
 	return $comment;
 }
 
+function get_pending_comments_num( $post_id ) {
+	global $wpdb;
+	$post_id = (int) $post_id;
+	$pending = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = $post_id AND comment_approved = '0'" );
+	return $pending;
+}
+
 ?>
