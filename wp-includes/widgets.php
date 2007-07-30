@@ -632,7 +632,7 @@ function wp_widget_categories($args, $number = 1) {
     var dropdown = document.getElementById("cat");
     function onCatChange() {
 		if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
-	        location.href = "<?php echo get_option('siteurl'); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
+			location.href = "<?php echo get_option('home'); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
 		}
     }
     dropdown.onchange = onCatChange;
