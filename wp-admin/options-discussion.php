@@ -18,12 +18,12 @@ include('admin-header.php');
 <li> 
 <label for="default_pingback_flag"> 
 <input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked('1', get_option('default_pingback_flag')); ?> /> 
-<?php _e('Attempt to notify any Weblogs linked to from the article (slows down posting.)') ?></label> 
+<?php _e('Attempt to notify any blogs linked to from the article (slows down posting.)') ?></label> 
 </li> 
 <li> 
 <label for="default_ping_status"> 
 <input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_option('default_ping_status')); ?> /> 
-<?php _e('Allow link notifications from other Weblogs (pingbacks and trackbacks.)') ?></label> 
+<?php _e('Allow link notifications from other blogs (pingbacks and trackbacks.)') ?></label> 
 </li> 
 <li> 
 <label for="default_comment_status"> 

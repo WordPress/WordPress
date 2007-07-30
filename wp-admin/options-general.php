@@ -14,14 +14,14 @@ include('./admin-header.php');
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
 <table class="optiontable"> 
 <tr valign="top"> 
-<th scope="row"><?php _e('Weblog title:') ?></th> 
+<th scope="row"><?php _e('Blog title:') ?></th> 
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="40" /></td> 
 </tr> 
 <tr valign="top"> 
 <th scope="row"><?php _e('Tagline:') ?></th> 
 <td><input name="blogdescription" type="text" id="blogdescription" style="width: 95%" value="<?php form_option('blogdescription'); ?>" size="45" />
 <br />
-<?php _e('In a few words, explain what this weblog is about.') ?></td> 
+<?php _e('In a few words, explain what this blog is about.') ?></td> 
 </tr> 
 <tr valign="top"> 
 <th scope="row"><?php _e('WordPress address (URL):') ?></th> 
@@ -63,7 +63,7 @@ include('./admin-header.php');
 <td><code><?php echo gmdate(__('Y-m-d g:i:s a')); ?></code></td> 
 </tr>
 <tr>
-<th scope="row"><?php _e('Times in the weblog should differ by:') ?> </th>
+<th scope="row"><?php _e('Times in the blog should differ by:') ?> </th>
 <td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php form_option('gmt_offset'); ?>" /> 
 <?php _e('hours') ?> (<?php _e('Your timezone offset, for example <code>-6</code> for Central Time.'); ?>)</td>
 </tr>

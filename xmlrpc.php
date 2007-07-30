@@ -707,7 +707,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(401, __('Sorry, this user can not edit the template.'));
 	  }
 
-	  /* warning: here we make the assumption that the weblog's URL is on the same server */
+	  /* warning: here we make the assumption that the blog's URL is on the same server */
 	  $filename = get_option('home') . '/';
 	  $filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
@@ -742,7 +742,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(401, __('Sorry, this user can not edit the template.'));
 	  }
 
-	  /* warning: here we make the assumption that the weblog's URL is on the same server */
+	  /* warning: here we make the assumption that the blog's URL is on the same server */
 	  $filename = get_option('home') . '/';
 	  $filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
@@ -777,7 +777,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 	  $user = set_current_user(0, $user_login);
 	  if ( !current_user_can($cap) )
-	    return new IXR_Error(401, __('Sorry, you can not post on this weblog or category.'));
+	    return new IXR_Error(401, __('Sorry, you are not allowed to post on this blog.'));
 
 	  $post_status = ($publish) ? 'publish' : 'draft';
 
@@ -917,7 +917,7 @@ class wp_xmlrpc_server extends IXR_Server {
       $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 	  $user = set_current_user(0, $user_login);
 	  if ( !current_user_can($cap) )
-	    return new IXR_Error(401, __('Sorry, you can not post on this weblog or category.'));
+	    return new IXR_Error(401, __('Sorry, you are not allowed to post on this blog.'));
 
 		// The post_type defaults to post, but could also be page.
 		$post_type = "post";
@@ -1457,7 +1457,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 
-	/* metaweblog.getCategories ...returns the list of categories on a given weblog */
+	/* metaweblog.getCategories ...returns the list of categories on a given blog */
 	function mw_getCategories($args) {
 
 		global $wpdb;
@@ -1613,7 +1613,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 
-	/* mt.getCategoryList ...returns the list of categories on a given weblog */
+	/* mt.getCategoryList ...returns the list of categories on a given blog */
 	function mt_getCategoryList($args) {
 
 		global $wpdb;

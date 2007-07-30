@@ -45,7 +45,7 @@ switch($step) {
 <form id="setup" method="post" action="install.php?step=2">
 	<table width="100%">
 		<tr>
-			<th width="33%"><?php _e('Weblog title:'); ?></th>
+			<th width="33%"><?php _e('Blog title:'); ?></th>
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
 		</tr>
 		<tr>

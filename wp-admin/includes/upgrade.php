@@ -123,7 +123,7 @@ You can log in to the administrator account with the following information:
 Username: %2\$s
 Password: %3\$s
 
-We hope you enjoy your new weblog. Thanks!
+We hope you enjoy your new blog. Thanks!
 
 --The WordPress Team
 http://wordpress.org/
