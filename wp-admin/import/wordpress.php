@@ -37,7 +37,8 @@ class WP_Import {
 	function get_tag( $string, $tag ) {
 		global $wpdb;
 		preg_match("|<$tag.*?>(.*?)</$tag>|is", $string, $return);
-		$return = $wpdb->escape( trim( $return[1] ) );
+		$return = preg_replace('|^<!\[CDATA\[(.*)\]\]>$|s', '$1', $return[1]);
+		$return = $wpdb->escape( trim( $return ) );
 		return $return;
 	}
 
@@ -215,7 +216,7 @@ class WP_Import {
 		$cat_names = (array) $wpdb->get_col("SELECT cat_name FROM $wpdb->categories");
 
 		while ( $c = array_shift($this->categories) ) {
-			$cat_name = trim(str_replace(array ('<![CDATA[', ']]>'), '', $this->get_tag( $c, 'wp:cat_name' )));
+			$cat_name = trim($this->get_tag( $c, 'wp:cat_name' ));
 
 			// If the category exists we leave it alone
 			if ( in_array($cat_name, $cat_names) )
@@ -274,7 +275,6 @@ class WP_Import {
 		$post_author    = $this->get_tag( $post, 'dc:creator' );
 
 		$post_content = $this->get_tag( $post, 'content:encoded' );
-		$post_content = str_replace(array ('<![CDATA[', ']]>'), '', $post_content);
 		$post_content = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $post_content);
 		$post_content = str_replace('<br>', '<br />', $post_content);
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
