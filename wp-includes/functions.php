@@ -299,6 +299,7 @@ function is_serialized_string($data) {
 
 /* Options functions */
 
+// expects $setting to already be SQL-escaped
 function get_settings($setting) {
 	global $wpdb;
 
@@ -376,14 +377,17 @@ function get_alloptions() {
 	return apply_filters('all_options', $all_options);
 }
 
+// expects $option_name to NOT be SQL-escaped
 function update_option($option_name, $newvalue) {
 	global $wpdb;
+
+	$safe_option_name = $wpdb->escape($option_name);
 
 	if ( is_string($newvalue) )
 		$newvalue = trim($newvalue);
 
 	// If the new and old values are the same, no need to update.
-	$oldvalue = get_option($option_name);
+	$oldvalue = get_option($safe_option_name);
 	if ( $newvalue == $oldvalue ) {
 		return false;
 	}
@@ -416,11 +420,14 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 }
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
+// expects $name to NOT be SQL-escaped
 function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	global $wpdb;
 
+	$safe_name = $wpdb->escape($name);
+
 	// Make sure the option doesn't already exist
-	if ( false !== get_option($name) )
+	if ( false !== get_option($safe_name) )
 		return;
 
 	$value = maybe_serialize($value);
