@@ -233,7 +233,7 @@ function user_row( $user_object, $style = '' ) {
 function _wp_get_comment_list( $s = false, $start, $num ) {
 	global $wpdb;
 
-	$start = (int) $start;
+	$start = abs( (int) $start );
 	$num = (int) $num;
 
 	if ( $s ) {
