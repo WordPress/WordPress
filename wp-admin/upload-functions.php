@@ -107,7 +107,7 @@ function wp_upload_form() {
 	$enctype = $id ? '' : ' enctype="multipart/form-data"';
 	$post_id = (int) $post_id;
 ?>
-	<form<?php echo $enctype; ?> id="upload-file" method="post" action="<?php echo get_option('siteurl') . '/wp-admin/upload.php?style=' . attribute_escape($style) . '&amp;tab=upload&amp;post_id=' . $post_id; ?>">
+	<form<?php echo $enctype; ?> id="upload-file" method="post" action="<?php echo get_option('siteurl') . '/wp-admin/upload.php?style=' . attribute_escape($style . '&amp;tab=upload&amp;post_id=' . $post_id); ?>">
 <?php
 	if ( $id ) :
 		$attachment = get_post_to_edit( $id );
@@ -202,7 +202,7 @@ function wp_upload_tab_upload_action() {
 
 		if ( !current_user_can( 'upload_files' ) )
 			wp_die( __('You are not allowed to upload files.')
-				. " <a href='" . get_option('siteurl') . "/wp-admin/upload.php?style=$style&amp;tab=browse-all&amp;post_id=$post_id'>"
+				. " <a href='" . get_option('siteurl') . "/wp-admin/upload.php?style=" . attribute_escape($style . "&amp;tab=browse-all&amp;post_id=$post_id") . "'>"
 				. __('Browse Files') . '</a>'
 			);
 
@@ -212,7 +212,7 @@ function wp_upload_tab_upload_action() {
 
 		if ( isset($file['error']) )
 			wp_die($file['error'] . "<br /><a href='" . get_option('siteurl')
-			. "/wp-admin/upload.php?style=$style&amp;tab=$from_tab&amp;post_id=$post_id'>" . __('Back to Image Uploading') . '</a>'
+			. "/wp-admin/upload.php?style=" . attribute_escape($style . "&amp;tab=$from_tab&amp;post_id=$post_id") . "'>" . __('Back to Image Uploading') . '</a>'
 		);
 
 		$url = $file['url'];
@@ -259,7 +259,7 @@ function wp_upload_tab_upload_action() {
 
 		if ( !current_user_can('edit_post', (int) $ID) )
 			wp_die( __('You are not allowed to delete this attachment.')
-				. " <a href='" . get_option('siteurl') . "/wp-admin/upload.php?style=$style&amp;tab=$from_tab&amp;post_id=$post_id'>"
+				. " <a href='" . get_option('siteurl') . "/wp-admin/upload.php?style=" . attribute_escape($style . "&amp;tab=$from_tab&amp;post_id=$post_id") . "'>"
 				. __('Go back') . '</a>'
 			);
 
