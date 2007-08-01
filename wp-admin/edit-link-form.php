@@ -241,6 +241,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 		</td>
 	</tr>
 </table>
+</div>
 </fieldset>
 </div>
 
