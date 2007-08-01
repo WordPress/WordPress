@@ -177,6 +177,7 @@ function is_serialized_string($data) {
 
 /* Options functions */
 
+// expects $setting to already be SQL-escaped
 function get_option($setting) {
 	global $wpdb;
 
@@ -276,18 +277,20 @@ function wp_load_alloptions() {
 	return $alloptions;
 }
 
+// expects $option_name to NOT be SQL-escaped
 function update_option($option_name, $newvalue) {
 	global $wpdb;
 
 	wp_protect_special_option($option_name);
 
+	$safe_option_name = $wpdb->escape($option_name);
 	$newvalue = sanitize_option($option_name, $newvalue);
 
 	if ( is_string($newvalue) )
 		$newvalue = trim($newvalue);
 
 	// If the new and old values are the same, no need to update.
-	$oldvalue = get_option($option_name);
+	$oldvalue = get_option($safe_option_name);
 	if ( $newvalue === $oldvalue ) {
 		return false;
 	}
@@ -325,15 +328,17 @@ function update_option($option_name, $newvalue) {
 }
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
+// expects $name to NOT be SQL-escaped
 function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	global $wpdb;
 
 	wp_protect_special_option($name);
+	$safe_name = $wpdb->escape($name);
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get('notoptions', 'options');
 	if ( !is_array($notoptions) || !isset($notoptions[$name]) )
-		if ( false !== get_option($name) )
+		if ( false !== get_option($safe_name) )
 			return;
 
 	$value = maybe_serialize($value);
