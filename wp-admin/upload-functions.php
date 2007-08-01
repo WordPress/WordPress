@@ -105,8 +105,9 @@ function wp_upload_form() {
 	$id = get_the_ID();
 	global $post_id, $tab, $style;
 	$enctype = $id ? '' : ' enctype="multipart/form-data"';
+	$post_id = (int) $post_id;
 ?>
-	<form<?php echo $enctype; ?> id="upload-file" method="post" action="<?php echo get_option('siteurl') . "/wp-admin/upload.php?style=$style&amp;tab=upload&amp;post_id=$post_id"; ?>">
+	<form<?php echo $enctype; ?> id="upload-file" method="post" action="<?php echo get_option('siteurl') . '/wp-admin/upload.php?style=' . attribute_escape($style) . '&amp;tab=upload&amp;post_id=' . $post_id; ?>">
 <?php
 	if ( $id ) :
 		$attachment = get_post_to_edit( $id );
