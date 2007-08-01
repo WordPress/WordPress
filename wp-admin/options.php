@@ -56,10 +56,11 @@ $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name
 
 foreach ( (array) $options as $option) :
 	$disabled = '';
+	$option->option_name = attribute_escape($option->option_name);
 	if ( is_serialized($option->option_value) ) {
 		if ( is_serialized_string($option->option_value) ) {
 			// this is a serialized string, so we should display it
-			$value = wp_specialchars(maybe_unserialize($option->option_value), 'single');
+			$value = maybe_unserialize($option->option_value);
 			$options_to_update[] = $option->option_name;
 			$class = 'all-options';
 		} else {
@@ -68,7 +69,7 @@ foreach ( (array) $options as $option) :
 			$class = 'all-options disabled';
 		}
 	} else {
-		$value = wp_specialchars($option->option_value, 'single');
+		$value = $option->option_value;
 		$options_to_update[] = $option->option_name;
 		$class = 'all-options';
 	}
@@ -77,8 +78,8 @@ foreach ( (array) $options as $option) :
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
 <td>";
 
-	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
-	else echo "<input class='$class' type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "'$disabled />";
+	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>" . wp_specialchars($value) . "</textarea>";
+	else echo "<input class='$class' type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . attribute_escape($value) . "'$disabled />";
 
 	echo "</td>
 	<td>$option->option_description</td>
@@ -87,7 +88,7 @@ endforeach;
 ?>
   </table>
 <?php $options_to_update = implode(',', $options_to_update); ?>
-<p class="submit"><input type="hidden" name="page_options" value="<?php echo attribute_escape($options_to_update); ?>" /><input type="submit" name="Update" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<p class="submit"><input type="hidden" name="page_options" value="<?php echo $options_to_update; ?>" /><input type="submit" name="Update" value="<?php _e('Update Options &raquo;') ?>" /></p>
   </form>
 </div>
 
