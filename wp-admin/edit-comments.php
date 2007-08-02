@@ -76,7 +76,7 @@ if ( !empty( $_POST['delete_comments'] ) ) :
 endif;
 
 if ( isset( $_GET['apage'] ) )
-	$page = (int) $_GET['apage'];
+	$page = abs( (int) $_GET['apage'] );
 else
 	$page = 1;
 
