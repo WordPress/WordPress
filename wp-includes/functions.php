@@ -183,7 +183,7 @@ function get_option($setting) {
 
 	// Allow plugins to short-circuit options.
 	$pre = apply_filters( 'pre_option_' . $setting, false ); 
-	if ( $pre ) 
+	if ( false !== $pre ) 
 		return $pre; 
 
 	// prevent non-existent options from triggering multiple queries
