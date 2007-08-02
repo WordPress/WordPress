@@ -74,10 +74,9 @@ foreach ($categories as $category) {
 
      <h2><?php _e('Importing...') ?></h2>
 <?php
-                $cat_id = $_POST['cat_id'];
-                if (($cat_id == '') || ($cat_id == 0)) {
-                    $cat_id  = 1;
-                }
+				$cat_id = abs( (int) $_POST['cat_id'] );
+				if ( $cat_id < 1 )
+					$cat_id  = 1;
 
                 $opml_url = $_POST['opml_url'];
                 if (isset($opml_url) && $opml_url != '' && $opml_url != 'http://') {
