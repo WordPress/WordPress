@@ -377,6 +377,7 @@ class MagpieRSS {
 }
 require_once( dirname(__FILE__) . '/class-snoopy.php');
 
+if ( !function_exists('fetch_rss') ) :
 function fetch_rss ($url) {
 	// initialize constants
 	init();
@@ -503,6 +504,7 @@ function fetch_rss ($url) {
 
 	} // end if ( !MAGPIE_CACHE_ON ) {
 } // end fetch_rss()
+endif;
 
 function _fetch_remote_file ($url, $headers = "" ) {
 	// Snoopy is an HTTP client in PHP
