@@ -1,5 +1,5 @@
 <?php
-require_once( dirname( dirname(__FILE__) ) . '/wp-config.php');
+require_once('../wp-config.php');
 require_once( ABSPATH . 'wp-includes/class-snoopy.php');
 
 if ( !get_option('use_linksupdate') )

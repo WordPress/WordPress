@@ -1,7 +1,7 @@
 <?php
 ignore_user_abort(true);
 define('DOING_CRON', TRUE);
-require_once('wp-config.php');
+require_once('./wp-config.php');
 
 if ( $_GET['check'] != wp_hash('187425') )
 	exit;

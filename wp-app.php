@@ -9,8 +9,8 @@
 
 define('APP_REQUEST', true);
 
-require_once('wp-config.php');
-require_once('wp-includes/post-template.php');
+require_once('./wp-config.php');
+require_once(ABSPATH . WPINC . '/post-template.php');
 
 // Attempt to automatically detect whether to use querystring
 // or PATH_INFO, based on our environment:
