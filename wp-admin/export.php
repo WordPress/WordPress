@@ -203,7 +203,7 @@ $comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post
 if ( $comments ) { foreach ( $comments as $c ) { ?>
 <wp:comment>
 <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>
-<wp:comment_author><?php echo wxr_cdata($c->comment_author); ?></wp:comment_author>
+<wp:comment_author><?php echo $c->comment_author; ?></wp:comment_author>
 <wp:comment_author_email><?php echo $c->comment_author_email; ?></wp:comment_author_email>
 <wp:comment_author_url><?php echo $c->comment_author_url; ?></wp:comment_author_url>
 <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
