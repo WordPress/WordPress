@@ -142,12 +142,16 @@ include_once(ABSPATH . WPINC . '/gettext.php');
 require_once (ABSPATH . WPINC . '/l10n.php');
 
 if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === false && !defined('WP_INSTALLING')) ) {
-	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
-		$link = 'install.php';
+	if ( defined('WP_SITEURL') )
+		$link = WP_SITEURL . '/wp-admin/install.php'; 
+	elseif (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
+		$link = preg_replace('|/wp-admin/?.*?$|', '/', $_SERVER['PHP_SELF']) . 'wp-admin/install.php';
 	else
-		$link = 'wp-admin/install.php';
-
-	wp_die( sprintf( 'It doesn&#8217;t look like you&#8217;ve installed WP yet. Try running <a href="%s">install.php</a>.', $link ) );
+		$link = preg_replace('|/[^/]+?$|', '/', $_SERVER['PHP_SELF']) . 'wp-admin/install.php';
+	require_once(ABSPATH . WPINC . '/kses.php');
+	require_once(ABSPATH . WPINC . '/pluggable.php');
+	wp_redirect($link);
+	die(); // have to die here ~ Mark
 }
 
 require (ABSPATH . WPINC . '/formatting.php');

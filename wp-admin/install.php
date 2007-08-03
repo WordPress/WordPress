@@ -32,15 +32,14 @@ if ( is_blog_installed() ) die('<h1>'.__('Already Installed').'</h1><p>'.__('You
 
 switch($step) {
 	case 0:
+	case 1: // in case people are directly linking to this
 ?>
-<p><?php printf(__('Welcome to WordPress installation. We&#8217;re now going to go through a few steps to get you up and running with the latest in personal publishing platforms. You may want to peruse the <a href="%s">ReadMe documentation</a> at your leisure.'), '../readme.html'); ?></p>
-<h2 class="step"><a href="install.php?step=1"><?php _e('First Step &raquo;'); ?></a></h2>
-<?php
-		break;
-	case 1:
-?>
-<h1><?php _e('First Step'); ?></h1>
-<p><?php _e("Before we begin we need a little bit of information. Don't worry, you can always change these later."); ?></p>
+<h1>Welcome</h1>
+<p><?php printf(__('Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure.  Otherwise, just fill in the information below and you\'ll be on your way to using the most extendable and powerful personal publishing platform in the world.'), '../readme.html'); ?></p>
+<!--<h2 class="step"><a href="install.php?step=1"><?php _e('First Step &raquo;'); ?></a></h2>-->
+
+<h1><?php _e('Information needed'); ?></h1>
+<p><?php _e("Please provide the following information.  Don't worry, you can always change these settings later."); ?></p>
 
 <form id="setup" method="post" action="install.php?step=2">
 	<table width="100%">
@@ -54,11 +53,11 @@ switch($step) {
 		</tr>
 		<tr>
 			<th scope="row"  valign="top"> <?php __('Privacy:'); ?></th>
-			<td><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('I would like my blog to appear in search engines like Google and Technorati.'); ?></label></td>
+			<td><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
 		</tr>
 	</table>
-	<p><em><?php _e('Double-check that email address before continuing.'); ?></em></p>
-	<h2 class="step"><input type="submit" name="Submit" value="<?php _e('Continue to Second Step &raquo;'); ?>" /></h2>
+	<p><em><?php _e('Double-check your email address before continuing.'); ?></em></p>
+	<h2 class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress &raquo;'); ?>" /></h2>
 </form>
 
 <?php
@@ -70,25 +69,21 @@ switch($step) {
 		$public = (int) $_POST['blog_public'];
 		// check e-mail address
 		if (empty($admin_email)) {
-			die(__("<strong>ERROR</strong>: please type your e-mail address"));
+			// TODO: poka-yoke
+			die(__("<strong>ERROR</strong>: you must provide an e-mail address"));
 		} else if (!is_email($admin_email)) {
-			die(__("<strong>ERROR</strong>: the e-mail address isn't correct"));
+			// TODO: poka-yoke
+			die(__('<strong>ERROR</strong>: that isn\'t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>'));
 		}
 
-?>
-<h1><?php _e('Second Step'); ?></h1>
-<p><?php _e('Now we&#8217;re going to create the database tables and fill them with some default data.'); ?></p>
-
-
-<?php
 	$result = wp_install($weblog_title, 'admin', $admin_email, $public);
 	extract($result, EXTR_SKIP);
 ?>
 
-<p><em><?php _e('Finished!'); ?></em></p>
+<h1><?php _e('Success!'); ?></h1>
 
-<p><?php printf(__('Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $password); ?></p>
-<p><?php _e('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you. If you lose it, you will have to delete the tables from the database yourself, and re-install WordPress. So to review:'); ?></p>
+<p><?php printf(__('WordPress has been installed.  Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $password); ?></p>
+<p><?php _e('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.'); ?></p>
 
 <dl>
 	<dt><?php _e('Username'); ?></dt>
@@ -98,7 +93,7 @@ switch($step) {
 	<dt><?php _e('Login address'); ?></dt>
 		<dd><a href="../wp-login.php">wp-login.php</a></dd>
 </dl>
-<p><?php _e('Were you expecting more steps? Sorry to disappoint. All done! :)'); ?></p>
+<p><?php _e('Were you expecting more steps? Sorry to disappoint. :)'); ?></p>
 
 <?php
 		break;
