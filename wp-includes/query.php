@@ -450,9 +450,9 @@ class WP_Query {
 		$qv['day'] = (int) $qv['day'];
 		$qv['w'] = (int) $qv['w'];
 		$qv['m'] =  (int) $qv['m'];
-		if ( '' != $qv['hour'] ) $qv['hour'] = (int) $qv['hour'];
-		if ( '' != $qv['minute'] ) $qv['minute'] = (int) $qv['minute'];
-		if ( '' != $qv['second'] ) $qv['second'] = (int) $qv['second'];
+		if ( '' !== $qv['hour'] ) $qv['hour'] = (int) $qv['hour'];
+		if ( '' !== $qv['minute'] ) $qv['minute'] = (int) $qv['minute'];
+		if ( '' !== $qv['second'] ) $qv['second'] = (int) $qv['second'];
 
 		// Compat.  Map subpost to attachment.
 		if ( '' != $qv['subpost'] )
@@ -469,7 +469,7 @@ class WP_Query {
 			$this->is_single = true;
 		} elseif ( $qv['p'] ) {
 			$this->is_single = true;
-		} elseif ( ('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day']) ) {
+		} elseif ( ('' !== $qv['hour']) && ('' !== $qv['minute']) &&('' !== $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day']) ) {
 			// If year, month, day, hour, minute, and second are set, a single
 			// post is being queried.
 			$this->is_single = true;
@@ -481,17 +481,17 @@ class WP_Query {
 		} else {
 		// Look for archive queries.  Dates, categories, authors.
 
-			if ( '' != $qv['second'] ) {
+			if ( '' !== $qv['second'] ) {
 				$this->is_time = true;
 				$this->is_date = true;
 			}
 
-			if ( '' != $qv['minute'] ) {
+			if ( '' !== $qv['minute'] ) {
 				$this->is_time = true;
 				$this->is_date = true;
 			}
 
-			if ( '' != $qv['hour'] ) {
+			if ( '' !== $qv['hour'] ) {
 				$this->is_time = true;
 				$this->is_date = true;
 			}
@@ -739,13 +739,13 @@ class WP_Query {
 				$where .= ' AND SECOND(post_date)=' . substr($q['m'], 12, 2);
 		}
 
-		if ( '' != $q['hour'] )
+		if ( '' !== $q['hour'] )
 			$where .= " AND HOUR(post_date)='" . $q['hour'] . "'";
 
-		if ( '' != $q['minute'] )
+		if ( '' !== $q['minute'] )
 			$where .= " AND MINUTE(post_date)='" . $q['minute'] . "'";
 
-		if ( '' != $q['second'] )
+		if ( '' !== $q['second'] )
 			$where .= " AND SECOND(post_date)='" . $q['second'] . "'";
 
 		if ( $q['year'] )
