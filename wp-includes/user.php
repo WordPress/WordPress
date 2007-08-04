@@ -91,6 +91,9 @@ function get_usermeta( $user_id, $meta_key = '') {
 	global $wpdb;
 	$user_id = (int) $user_id;
 
+	if ( !$user_id )
+		return false;
+
 	if ( !empty($meta_key) ) {
 		$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 		$metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
