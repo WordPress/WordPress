@@ -101,10 +101,10 @@ $wp_rewrite->flush_rules();
 
 <?php if (isset($_POST['submit'])) : ?>
 <div id="message" class="updated fade"><p><?php
-if ($writable)
-	_e('Permalink structure updated.');
+if ( $permalink_structure && !$usingpi && !$writable )
+	_e('You should update your .htaccess now.');
 else
-	_e('You should update your .htaccess now.'); 
+	_e('Permalink structure updated.');
 ?></p></div>
 <?php endif; ?>
 
