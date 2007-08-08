@@ -1183,7 +1183,6 @@ function &get_pages($args = '') {
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
 
 	$pages = $wpdb->get_results($query);
-	$pages = apply_filters('get_pages', $pages, $r);
 
 	if ( empty($pages) )
 		return array();
@@ -1196,6 +1195,8 @@ function &get_pages($args = '') {
 
 	$cache[ $key ] = $pages;
 	wp_cache_set( 'get_pages', $cache, 'page' );
+
+	$pages = apply_filters('get_pages', $pages, $r);
 
 	return $pages;
 }
