@@ -1834,6 +1834,7 @@ function _transition_post_status($new_status, $old_status, $post) {
 
 function _future_post_hook($post_id, $post) {
 	// Schedule publication.
+	wp_clear_scheduled_hook( 'publish_future_post', $post->ID );
 	wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', array($post->ID));
 }
 
