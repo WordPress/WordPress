@@ -170,7 +170,7 @@ form, label input {
 
 h2 {
 	color: #333;
-	font: normal 32px serif;
+	font: normal 32px Georgia, "Times New Roman", Times, serif;
 	margin: 5px 10px;
 	background: url( images/heading-bg.gif ) repeat-x bottom;
 }
