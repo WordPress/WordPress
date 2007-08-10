@@ -260,6 +260,8 @@ class wpdb {
 		$this->func_call = "\$db->get_var(\"$query\",$x,$y)";
 		if ( $query )
 			$this->query($query);
+		else
+			return null;
 
 		// Extract var out of cached results based x,y vals
 		if ( $this->last_result[$y] ) {
@@ -281,6 +283,8 @@ class wpdb {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
 		if ( $query )
 			$this->query($query);
+		else
+			return null;
 
 		if ( !isset($this->last_result[$y]) )
 			return null;
@@ -305,6 +309,8 @@ class wpdb {
 	function get_col($query = null , $x = 0) {
 		if ( $query )
 			$this->query($query);
+		else
+			return null;
 
 		// Extract the column values
 		for ( $i=0; $i < count($this->last_result); $i++ ) {
@@ -324,6 +330,8 @@ class wpdb {
 
 		if ( $query )
 			$this->query($query);
+		else
+			return null;
 
 		// Send back array of objects. Each row is an object
 		if ( $output == OBJECT ) {
