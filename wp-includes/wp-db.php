@@ -260,8 +260,6 @@ class wpdb {
 		$this->func_call = "\$db->get_var(\"$query\",$x,$y)";
 		if ( $query )
 			$this->query($query);
-		else
-			return null;
 
 		// Extract var out of cached results based x,y vals
 		if ( $this->last_result[$y] ) {
