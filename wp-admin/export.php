@@ -47,6 +47,8 @@ foreach ( $authors as $id ) {
 function export_wp() {
 global $wpdb, $post_ids, $post;
 
+do_action('export_wp');
+
 $filename = 'wordpress.' . date('Y-m-d') . '.xml';
 
 header('Content-Description: File Transfer');
