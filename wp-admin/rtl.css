@@ -1,205 +1,247 @@
-#viewarc, #viewcat, #namediv, #emaildiv, #uridiv, #planetnews li, #login ul li, #your-profile fieldset, 
-	#footer .logo, .alignleft .available-theme { float: right; }
+#viewarc, #viewcat, #namediv, #emaildiv, #uridiv, #planetnews li, #login ul li, #your-profile fieldset, #footer .logo, .alignleft .available-theme {
+	float: right;
+	}
 
-#templateside, .alignright { float: left; }
+#templateside, .alignright {
+	float: left;
+	}
 
-#login #send, .readmore, .widefat th { text-align: right; }
+#login #send, .readmore, .widefat th {
+	text-align: right;
+	}
 
-#postcustomsubmit, form#upload th, .submit, .editform th { text-align: left; }
+#postcustomsubmit, form#upload th, .submit, .editform th {
+	text-align: left;
+	}
 
-#devnews h4, #wphead h1, #your-profile legend, fieldset.options legend, 
-	#planetnews li .post { font-family: Tahoma, Georgia, "Times New Roman", Times, serif; }
+#devnews h4, #wphead h1, #your-profile legend, fieldset.options legend, #planetnews li .post {
+	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
+	}
 
-#wphead { padding: .8em 2em .8em 19em; }
+#wphead {
+	padding: .8em 2em .8em 19em;
+	}
 
-#wphead h1 { font-size: 2.4em; }
+#wphead h1 {
+	font-size: 2.4em;
+	}
 
-#postdiv, #titlediv, #guiddiv, #tagdiv { margin: 0 0 0 8px; }
+#postdiv, #titlediv, #guiddiv, #tagdiv {
+	margin: 0 0 0 8px;
+	}
 
-#ed_toolbar input { margin: 3px 0 2px 2px; }
+#ed_toolbar input {
+	margin: 3px 0 2px 2px;
+	}
 
-#edButtons input, #edButtons input:active { margin: 0px 0 -1px 2px; }
+#edButtons input, #edButtons input:active {
+	margin: 0px 0 -1px 2px;
+	}
 
-body, td { font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana; }
+body, td {
+	font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana;
+	}
 
-h2 { font: normal 32px/5px serif; }
+h1, h2, h3, h4, h5 {
+	font-family: "Times New Roman", Times, serif;
+	}
+h3.dbx-handle {
+	font-family: tahoma, Verdana, Arial, Helvetica, sans-serif;
+	}
 
-textarea, input, select { font:  13px Tahoma, Verdana, Arial, Helvetica, sans-serif; }
+textarea, input, select {
+	font:  13px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	}
 
-.quicktags, .search { font: 12px Tahoma, Georgia, "Times New Roman", Times, serif; }
+.quicktags, .search {
+	font: 12px Tahoma, Georgia, "Times New Roman", Times, serif;
+	}
 
-.updated, .confirm { padding: 0 3em 0 1em; }
+.updated, .confirm {
+	padding: 0 3em 0 1em;
+	}
 
 .submit input, .submit input:focus, .button, .button:focus {
 	border-left-color: #999;
 	border-right-color: #ccc;
-}
+	}
 
 .submit input:active, .button:active {
 	border-left-color: #ccc;
 	border-right-color: #999;
-}
+	}
 
 #adminmenu {
 	padding: .2em 2em .3em .2em;
 	height: 28px;
-}
-
-#adminmenu li { line-height: 160%; }
+	}
 
 #adminmenu a {
 	margin: 0 0 0 10px;
 	display: block;
 	float: right;
-}
+	font: 700 16px/130% "Times New Roman", Times, serif;
+	}
 
 #adminmenu a.current {
 	border-right: 0;
 	border-left: 2px solid #4f96c8;
-}
+	}
 
-#submenu, #minisub { padding: 1px 3em 0 2em; }
+#submenu, #minisub {
+	padding: 1px 3em 0 2em;
+	}
 
-#submenu { height: 28px; }
-
-#submenu li { line-height: 160%; }
+#submenu {
+	height: 28px;
+	}
 
 #submenu a {
 	margin: 0 0 0 10px;
 	display: block;
 	float: right;
-}
+	line-height: 155%;
+	}
 
 #submenu .current {
 	border-right: 0;
 	border-left: 2px solid #045290;
-}
+	}
 
 #currenttheme img {
 	float: right;
 	margin-right: auto;
 	margin-left: 1em;
-}
+	}
 
 #postdiv #quicktags {
 	padding-right: 0;
 	padding-left: 6px;
-}
+	}
 
 .readmore {
 	margin-right: auto;
 	margin-left: 5em;
-}
+	}
 
 #postexcerpt div, #attachmentlinks div {
 	margin-right: auto;
 	margin-left: 8px;
-}
+	}
 
 * html #postexcerpt .dbx-toggle-open {
 	padding-right: 0;
 	padding-left: 8px;
-}
+	}
 
 #searchform {
 	float: right;
 	margin-right: auto;
 	margin-left: 1em;
-}
+	}
 
 #poststuff {
 	margin-right: auto;
 	margin-left: 16em;
-}
+	}
 
 #template div {
 	margin-right: auto;
 	margin-left: 190px;
-}
+	}
 
 * html #template div {
 	margin-right: auto;
 	margin-left: 0px;
-}
+	}
 
 #user_info {
 	right: auto;
 	left: 1em;
-}
-
+	}
+	
 #zeitgeist {
 	float: left;
 	margin-left: auto;
 	margin-right: 1em;
-}
+	}
 
 #zeitgeist ul {
 	margin: 0 .6em .3em 0;
 	padding: 0 .6em 0 0;
-}
+	}
+
+.wrap ul {
+	margin-left: 500px;
+	}
 
 #categorydiv ul {
 	margin-left: auto;
 	margin-right: 10px;
-}
-
-#moremeta fieldset div { margin: 2px 0px 0 0; }
+	}
 
 #moremeta {
-	margin-right: auto;
+	margin-right: 0;
 	margin-left: 15px;
 	right: auto;
-	left: 5%;
-}
-
+	left: 6%;
+	}
+	
 #moremeta .dbx-content {
 	background: url(images/box-butt.gif) no-repeat bottom left;
-	padding-right: 0;
-	padding-left: 2px;
-}
+	padding-right: 10px;
+	padding-left: 0;
+	text-align: right;
+	}
+	
+#moremeta .dbx-handle {
+	background: #2685af url(images/box-head.gif) no-repeat left;
+	margin-top: -2px;
+	}
 
-#moremeta .dbx-handle { background: #2685af url(images/box-head.gif) no-repeat left; }
-
-#moremeta .dbx-box { background: url(images/box-bg.gif) repeat-y left; }
+#moremeta .dbx-box {
+	background: url(images/box-bg.gif) repeat-y left;
+	padding-bottom: 0;
+	}
 
 a.dbx-toggle, a.dbx-toggle:visited {
 	right: auto;
 	left: 2px;
-}
+	}
 
-#advancedstuff a.dbx-toggle, #advancedstuff a.dbx-toggle-open:visited {
-	right: auto;
-	left: 5px;
-}
-
-#advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
-	right: auto;
-	left: 5px;
-}
 
 #categorychecklist {
 	margin-right: auto;
 	margin-left: 6px;
-}
+	}
 
 #ajax-response.alignleft {
 	margin-left: auto;
 	margin-right: 2em;
-}
+	}
 
 #postdivrich #edButtons {
 	padding-left: 0;
 	padding-right: 3px;
-}
+	}
 
 .page-numbers {
 	margin-right: auto;
 	margin-left: 3px;
-}
+	}
 
 a.view-link {
 	right:auto;
 	left:5%;
 	margin-right:0;
 	margin-left:220px;
-}
+	}
+#advancedstuff {
+	direction: ltr;
+	}
+#advancedstuff .dbx-handle {
+	text-align: right;
+	}
+#advancedstuff .dbx-content * {
+	direction: rtl;
+	}

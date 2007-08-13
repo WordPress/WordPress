@@ -4,7 +4,8 @@
 
 * html #palettediv ul { padding: 0 10px 0 0; }
 
-#palettediv ul { padding: 0 10px 0 0; }
+#palettediv ul { padding: 0 10px 0 0;
+ margin-left: 1px!important;}
 
 * .handle, #lastmodule span {
 	border-right: 1px solid #f2f2f2;
