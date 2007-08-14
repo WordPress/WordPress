@@ -789,12 +789,14 @@ function wp_update_term_count( $terms, $taxonomy ) {
 	$terms = array_map('intval', $terms);
 
 	$taxonomy = get_taxonomy($taxonomy);
-	if ( isset($taxonomy->update_count_callback) )
+	if ( !empty($taxonomy->update_count_callback) )
 		return call_user_func($taxonomy->update_count_callback, $terms);
 
 	// Default count updater
-	$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
-	$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
+	foreach ($terms as $term) {
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
+	}
 
 	return true;
 }
