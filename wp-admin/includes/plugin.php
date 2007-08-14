@@ -42,15 +42,15 @@ function get_plugins() {
 	$plugin_root = ABSPATH . PLUGINDIR;
 
 	// Files in wp-content/plugins directory
-	$plugins_dir = @ dir( $plugin_root);
+	$plugins_dir = @ opendir( $plugin_root);
 	if ( $plugins_dir ) {
-		while (($file = $plugins_dir->read() ) !== false ) {
+		while (($file = readdir( $plugins_dir ) ) !== false ) {
 			if ( substr($file, 0, 1) == '.' )
 				continue;
 			if ( is_dir( $plugin_root.'/'.$file ) ) {
-				$plugins_subdir = @ dir( $plugin_root.'/'.$file );
+				$plugins_subdir = @ opendir( $plugin_root.'/'.$file );
 				if ( $plugins_subdir ) {
-					while (($subfile = $plugins_subdir->read() ) !== false ) {
+					while (($subfile = readdir( $plugins_subdir ) ) !== false ) {
 						if ( substr($subfile, 0, 1) == '.' )
 							continue;
 						if ( substr($subfile, -4) == '.php' )
@@ -63,6 +63,8 @@ function get_plugins() {
 			}
 		}
 	}
+	@closedir( $plugins_dir );
+	@closedir( $plugins_subdir );
 
 	if ( !$plugins_dir || !$plugin_files )
 		return $wp_plugins;
