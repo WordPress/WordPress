@@ -132,7 +132,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
 
 	if ( 'slug' == $field ) {
 		$field = 't.slug';
-		$value = sanitize_title($field);
+		$value = sanitize_title($value);
 		if ( empty($value) )
 			return false;
 	} else if ( 'name' == $field ) {
