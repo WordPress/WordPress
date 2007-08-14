@@ -197,7 +197,7 @@ class WP_Import {
 			echo '</li>';
 		}
 
-		echo '<input type="submit" value="Submit">'.'<br/>';
+		echo '<input type="submit" value="Submit">'.'<br />';
 		echo '</form>';
 		echo '</ol>';
 

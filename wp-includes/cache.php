@@ -355,14 +355,14 @@ class WP_Object_Cache {
 
 	function stats() {
 		echo "<p>";
-		echo "<strong>Cold Cache Hits:</strong> {$this->cold_cache_hits}<br/>";
-		echo "<strong>Warm Cache Hits:</strong> {$this->warm_cache_hits}<br/>";
-		echo "<strong>Cache Misses:</strong> {$this->cache_misses}<br/>";
+		echo "<strong>Cold Cache Hits:</strong> {$this->cold_cache_hits}<br />";
+		echo "<strong>Warm Cache Hits:</strong> {$this->warm_cache_hits}<br />";
+		echo "<strong>Cache Misses:</strong> {$this->cache_misses}<br />";
 		echo "</p>";
 
 		foreach ($this->cache as $group => $cache) {
 			echo "<p>";
-			echo "<strong>Group:</strong> $group<br/>";
+			echo "<strong>Group:</strong> $group<br />";
 			echo "<strong>Cache:</strong>";
 			echo "<pre>";
 			print_r($cache);

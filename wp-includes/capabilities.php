@@ -267,7 +267,7 @@ class WP_User {
 		// Must have ALL requested caps
 		$capabilities = apply_filters('user_has_cap', $this->allcaps, $caps, $args);
 		foreach ($caps as $cap) {
-			//echo "Checking cap $cap<br/>";
+			//echo "Checking cap $cap<br />";
 			if(empty($capabilities[$cap]) || !$capabilities[$cap])
 				return false;
 		}
@@ -295,14 +295,14 @@ function map_meta_cap($cap, $user_id) {
 		break;
 	case 'delete_post':
 		$author_data = get_userdata($user_id);
-		//echo "post ID: {$args[0]}<br/>";
+		//echo "post ID: {$args[0]}<br />";
 		$post = get_post($args[0]);
 		if ( 'page' == $post->post_type ) {
 			$args = array_merge(array('delete_page', $user_id), $args);
 			return call_user_func_array('map_meta_cap', $args);
 		}
 		$post_author_data = get_userdata($post->post_author);
-		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
+		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br />";
 		// If the user is the author...
 		if ($user_id == $post_author_data->ID) {
 			// If the post is published...
@@ -323,10 +323,10 @@ function map_meta_cap($cap, $user_id) {
 		break;
 	case 'delete_page':
 		$author_data = get_userdata($user_id);
-		//echo "post ID: {$args[0]}<br/>";
+		//echo "post ID: {$args[0]}<br />";
 		$page = get_page($args[0]);
 		$page_author_data = get_userdata($page->post_author);
-		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br/>";
+		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br />";
 		// If the user is the author...
 		if ($user_id == $page_author_data->ID) {
 			// If the page is published...
@@ -349,14 +349,14 @@ function map_meta_cap($cap, $user_id) {
 		// edit_others_posts
 	case 'edit_post':
 		$author_data = get_userdata($user_id);
-		//echo "post ID: {$args[0]}<br/>";
+		//echo "post ID: {$args[0]}<br />";
 		$post = get_post($args[0]);
 		if ( 'page' == $post->post_type ) {
 			$args = array_merge(array('edit_page', $user_id), $args);
 			return call_user_func_array('map_meta_cap', $args);
 		}
 		$post_author_data = get_userdata($post->post_author);
-		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
+		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br />";
 		// If the user is the author...
 		if ($user_id == $post_author_data->ID) {
 			// If the post is published...
@@ -377,10 +377,10 @@ function map_meta_cap($cap, $user_id) {
 		break;
 	case 'edit_page':
 		$author_data = get_userdata($user_id);
-		//echo "post ID: {$args[0]}<br/>";
+		//echo "post ID: {$args[0]}<br />";
 		$page = get_page($args[0]);
 		$page_author_data = get_userdata($page->post_author);
-		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br/>";
+		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br />";
 		// If the user is the author...
 		if ($user_id == $page_author_data->ID) {
 			// If the page is published...

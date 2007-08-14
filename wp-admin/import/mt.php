@@ -169,7 +169,7 @@ class MT_Import {
 			echo '</li>';
 		}
 
-		echo '<input type="submit" value="'.__('Submit').'">'.'<br/>';
+		echo '<input type="submit" value="'.__('Submit').'">'.'<br />';
 		echo '</form>';
 		echo '</ol></div>';
 

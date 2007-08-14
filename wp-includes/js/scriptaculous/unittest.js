@@ -121,7 +121,7 @@ Test.Unit.Logger.prototype = {
     this.loglines = $('loglines');
   },
   _toHTML: function(txt) {
-    return txt.escapeHTML().replace(/\n/g,"<br/>");
+    return txt.escapeHTML().replace(/\n/g,"<br />");
   },
   addLinksToResults: function(){ 
     $$("tr.failed .nameCell").each( function(td){ // todo: limit to children of this.log
