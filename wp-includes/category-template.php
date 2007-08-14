@@ -156,9 +156,12 @@ function get_the_category_list($separator = '', $parents='') {
 }
 
 function in_category( $category ) { // Check if the current post is in the given category
-	global $object_term_cache, $post, $blog_id;
+	global $post, $blog_id;
 
-	if ( isset( $object_term_cache[$blog_id][$post->ID]['category'][$category] ) )
+	$categories = get_object_term_cache($post->ID, 'category');
+	if ( false === $categories )
+		$categories = get_object_terms($post->ID, 'category');
+	if(array_key_exists($category, $categories))
 		return true;
 	else
 		return false;
