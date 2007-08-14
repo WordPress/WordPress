@@ -431,7 +431,7 @@ function get_the_tags( $id = 0 ) {
 	return $tags; 
 }
 
-function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
+function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
 	$tags = get_the_tags();
 
 	if ( empty( $tags ) )
@@ -447,7 +447,11 @@ function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
 
 	$tag_list .= $after;
 
-	echo $tag_list;
+	return $tag_list;
+}
+
+function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
+	echo get_the_tag_list($before, $sep, $after);
 }
 
 ?>
