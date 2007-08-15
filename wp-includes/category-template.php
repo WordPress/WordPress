@@ -160,7 +160,7 @@ function in_category( $category ) { // Check if the current post is in the given
 
 	$categories = get_object_term_cache($post->ID, 'category');
 	if ( false === $categories )
-		$categories = get_object_terms($post->ID, 'category');
+		$categories = wp_get_object_terms($post->ID, 'category');
 	if(array_key_exists($category, $categories))
 		return true;
 	else
