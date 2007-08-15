@@ -413,6 +413,12 @@ class WP_Query {
 				$array[$key] = '';
 		}
 
+		$array_keys = array('category__in', 'category__not_in', 'category__and');
+		
+		foreach ( $array_keys as $key ) {
+			if ( !isset($array[$key]))
+				$array[$key] = array();
+		}
 		return $array;
 	}
 
@@ -546,6 +552,26 @@ class WP_Query {
 
 			if ( '' != $qv['category_name'] ) {
 				$this->is_category = true;
+			}
+
+			if ( !is_array($qv['category__in']) || empty($qv['category__in']) ) {
+				$qv['category__in'] = array();
+			} else {
+				$qv['category__in'] = array_map('intval', $qv['category__in']);
+				$this->is_category = true;	
+			}
+
+			if ( !is_array($qv['category___not_in']) || empty($qv['category__not_in']) ) {
+				$qv['category__not_in'] = array();
+			} else {
+				$qv['category__not_in'] = array_map('intval', $qv['category__not_in']);
+			}
+
+			if ( !is_array($qv['category__and']) || empty($qv['category__and']) ) {
+				$qv['category__and'] = array();
+			} else {
+				$qv['category__and'] = array_map('intval', $qv['category__and']);
+				$this->is_category = true;	
 			}
 
 			if (  '' != $qv['tag'] )
@@ -842,37 +868,47 @@ class WP_Query {
 		} else {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
-			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
-			$in_cats = $out_cats = array();
-			$include_cats = $exclude_cats = '';
 			foreach ( $cat_array as $cat ) {
 				$cat = intval($cat);
 				$in = ($cat > 0);
 				$cat = abs($cat);
 				if ( $in ) {
-					$in_cats[] = $cat;
-					$in_cats = array_merge($in_cats, get_term_children($cat, 'category'));
+					$q['category__in'][] = $cat;
+					$q['category__in'] = array_merge($q['category__in'], get_term_children($cat, 'category'));
 				} else {
-					$out_cats[] = $cat;
-					$out_cats = array_merge($out_cats, get_term_children($cat, 'category'));
+					$q['category__not_in'][] = $cat;
+					$q['category__not_in'] = array_merge($q['category__not_in'], get_term_children($cat, 'category'));
 				}
 			}
-			if ( ! empty($in_cats) ) {
-				$include_cats = "'" . implode("', '", $in_cats) . "'";
-				$include_cats = " AND $wpdb->term_taxonomy.term_id IN ($include_cats) ";
-			}
+		}
 
-			if ( !empty($out_cats) ) {
-				$ids = get_objects_in_term($out_cats, 'category');
-				if ( is_array($ids) && count($ids > 0) ) {
-					$out_posts = "'" . implode("', '", $ids) . "'";
-					$exclude_cats = " AND $wpdb->posts.ID NOT IN ($out_posts)";
-				}
-			}
-			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
-			$whichcat .= $include_cats . $exclude_cats;
+		if ( !empty($q['category__in']) || !empty($q['category__not_in']) || !empty($q['category__and']) ) {
 			$groupby = "{$wpdb->posts}.ID";
+		}
+
+		if ( !empty($q['category__in']) ) {
+			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
+			$include_cats = "'" . implode("', '", $q['category__in']) . "'";
+			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_cats) ";
+		}
+
+		if ( !empty($q['category__not_in']) ) {
+			$ids = get_objects_in_term($q['category__not_in'], 'category');
+			if ( is_array($ids) && count($ids > 0) ) {
+				$out_posts = "'" . implode("', '", $ids) . "'";
+				$whichcat .= " AND $wpdb->posts.ID NOT IN ($out_posts)";
+			}
+		}
+
+		if ( !empty($q['category__and']) ) {
+			$count = 0;
+			foreach ( $q['category__and'] as $category_and ) {
+				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) ";
+				$whichcat .= " AND tt$count.term_id = '$category_and' ";
+				$count++;
+			}
 		}
 
 		if ( '' != $q['tag'] ) {
