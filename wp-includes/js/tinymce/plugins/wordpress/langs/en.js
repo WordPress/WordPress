@@ -15,7 +15,7 @@ else {
 tinyMCE.addToLang('',{
 wordpress_more_button : 'Split post with More tag (' + metaKey + '+t)',
 wordpress_page_button : 'Split post with Page tag',
-wordpress_adv_button : 'Show/Hide Advanced Toolbar (' + metaKey + '+b)',
+wordpress_adv_button : 'Show/Hide Advanced Toolbar (' + metaKey + '+v)',
 wordpress_more_alt : 'More...',
 wordpress_page_alt : '...page...',
 help_button_title : 'Help (' + metaKey + '+h)',
