@@ -1,4 +1,4 @@
-#sbreset, #lastmodule, #palettediv .module, .dropzone, .dropzone ul { float: right; }
+#sbreset, #lastmodule, #palettediv .module, .dropzone, .dropzone ul, .placematt { float: right; }
 
 * .module, #lastmodule { text-align: right; }
 

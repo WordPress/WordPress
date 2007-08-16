@@ -17,7 +17,7 @@ function wp_widgets_admin_head() {
 	<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/css/widgets.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<!--[if IE 7]>
 	<style type="text/css">
-		#palette { float:left; }
+		#palette { float: <?php echo ( get_bloginfo( 'text_direction' ) == 'rtl' ) ? 'right' : 'left'; ?>; }
 	</style>
 	<![endif]-->
 	<style type="text/css">
