@@ -138,13 +138,13 @@ function get_lastcommentmodified($timezone = 'server') {
 	if ( !isset($cache_lastcommentmodified[$timezone]) ) {
 		switch ( strtolower($timezone)) {
 			case 'gmt':
-				$lastcommentmodified = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_date_gmt <= '$now' ORDER BY comment_date_gmt DESC LIMIT 1");
+				$lastcommentmodified = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_date_gmt <= '$now' AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
 				break;
 			case 'blog':
-				$lastcommentmodified = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_date_gmt <= '$now' ORDER BY comment_date_gmt DESC LIMIT 1");
+				$lastcommentmodified = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_date_gmt <= '$now' AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
 				break;
 			case 'server':
-				$lastcommentmodified = $wpdb->get_var("SELECT DATE_ADD(comment_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->comments WHERE comment_date_gmt <= '$now' ORDER BY comment_date_gmt DESC LIMIT 1");
+				$lastcommentmodified = $wpdb->get_var("SELECT DATE_ADD(comment_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->comments WHERE comment_date_gmt <= '$now' AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
 				break;
 		}
 		$cache_lastcommentmodified[$timezone] = $lastcommentmodified;
