@@ -897,7 +897,7 @@ input.delete:hover {
 	font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-#wphead h1 span {
+#wphead h1 span#viewsite {
 	font-size: .4em;
 	letter-spacing: 0;
 }
