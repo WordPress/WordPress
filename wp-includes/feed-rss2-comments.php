@@ -5,7 +5,9 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
-	xmlns:content="http://purl.org/rss/1.0/modules/content/">
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	>
 <channel>
 	<title><?php
 		if ( is_singular() )
@@ -37,7 +39,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 			}
 		?></title>
 		<link><?php comment_link() ?></link>
-		<author><?php echo get_comment_author_rss() ?></author>
+		<dc:creator><?php echo get_comment_author_rss() ?></dc:creator>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid><?php comment_link() ?></guid>
 <?php if (!empty($comment_post->post_password) && $_COOKIE['wp-postpass'] != $comment_post->post_password) : ?>
