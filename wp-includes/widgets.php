@@ -332,13 +332,13 @@ function wp_widget_pages( $args ) {
 	
 	$title = empty( $options['title'] ) ? __( 'Pages' ) : $options['title'];
 	$sortby = empty( $options['sortby'] ) ? 'menu_order' : $options['sortby'];
-	$exclude = empty( $options['exclude'] ) ? '' : '&exclude=' . $options['exclude'];
+	$exclude = empty( $options['exclude'] ) ? '' : $options['exclude'];
 	
 	if ( $sortby == 'menu_order' ) {
 		$sortby = 'menu_order, post_title';
 	}
 	
-	$out = wp_list_pages( 'title_li=&echo=0&sort_column=' . $sortby . $exclude );
+	$out = wp_list_pages( array('title_li' => '', 'echo' => 0, 'sort_column' => $sortby, 'exclude' => $exclude) );
 	
 	if ( !empty( $out ) ) {
 ?>
