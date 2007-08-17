@@ -208,7 +208,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$allow_pings = ("open" == $page->ping_status) ? 1 : 0;
 
 			// Format page date.
-			$page_date = mysql2date("Ymd\TH:i:s\Z", $page->post_date_gmt);
+			$page_date = mysql2date("Ymd\TH:i:s", $page->post_date);
+			$page_date_gmt = mysql2date("Ymd\TH:i:s", $page->post_date_gmt);
 
 			// Pull the categories info together.
 			$categories = array();
@@ -240,7 +241,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				"wp_page_parent_title"	=> $parent_title,
 				"wp_page_order"			=> $page->menu_order,
 				"wp_author_id"			=> $author->ID,
-				"wp_author_display_name"	=> $author->display_name
+				"wp_author_display_name"	=> $author->display_name,
+				"date_created_gmt"		=> new IXR_Date($page_date_gmt)
 			);
 
 			return($page_struct);
@@ -429,7 +431,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			SELECT ID page_id,
 				post_title page_title,
 				post_parent page_parent_id,
-				post_date_gmt
+				post_date_gmt,
+				post_date
 			FROM {$wpdb->posts}
 			WHERE post_type = 'page'
 			ORDER BY ID
@@ -438,10 +441,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		// The date needs to be formated properly.
 		$num_pages = count($page_list);
 		for($i = 0; $i < $num_pages; $i++) {
-			$post_date = mysql2date("Ymd\TH:i:s\Z", $page_list[$i]->post_date_gmt);
+			$post_date = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date);
+			$post_date_gmt = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date_gmt);
+
 			$page_list[$i]->dateCreated = new IXR_Date($post_date);
+			$page_list[$i]->date_created_gmt = new IXR_Date($post_date_gmt);
 
 			unset($page_list[$i]->post_date_gmt);
+			unset($page_list[$i]->post_date);
 		}
 
 		return($page_list);
@@ -1054,16 +1061,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if ( is_array($to_ping) )
 	  	$to_ping = implode(' ', $to_ping);
 
-	  // Do some timestamp voodoo
-	  $dateCreatedd = $content_struct['dateCreated'];
-	  if (!empty($dateCreatedd)) {
-	    $dateCreated = $dateCreatedd->getIso();
-	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
-	    $post_date_gmt = iso8601_to_datetime($dateCreated. "Z", GMT);
-	  } else {
-	    $post_date     = current_time('mysql');
-	    $post_date_gmt = current_time('mysql', 1);
-	  }
+		// Do some timestamp voodoo
+		$dateCreatedd = $content_struct['dateCreated'];
+		if (!empty($dateCreatedd)) {
+			$dateCreated = $dateCreatedd->getIso();
+			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+		} else {
+			$post_date = current_time('mysql');
+			$post_date_gmt = current_time('mysql', 1);
+		}
 
 	  $catnames = $content_struct['categories'];
 	  logIO('O', 'Post cats: ' . printr($catnames,true));
@@ -1341,7 +1348,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  if ($postdata['post_date'] != '') {
 
-	    $post_date = mysql2date('Ymd\TH:i:s\Z', $postdata['post_date_gmt']);
+	    $post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date']);
+	    $post_date_gmt = mysql2date('Ymd\TH:i:s', $postdata['post_date_gmt']);
 
 	    $categories = array();
 	    $catids = wp_get_post_categories($post_ID);
@@ -1376,7 +1384,8 @@ class wp_xmlrpc_server extends IXR_Server {
           'wp_slug' => $postdata['post_name'],
           'wp_password' => $postdata['post_password'],
           'wp_author_id' => $author->ID,
-          'wp_author_display_name'	=> $author->display_name
+          'wp_author_display_name'	=> $author->display_name,
+          'date_created_gmt' => new IXR_Date($post_date_gmt)
 	    );
 
 	    return $resp;
@@ -1409,7 +1418,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ($posts_list as $entry) {
 
-			$post_date = mysql2date('Ymd\TH:i:s\Z', $entry['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
+
 			$categories = array();
 			$catids = wp_get_post_categories($entry['ID']);
 			foreach($catids as $catid) {
@@ -1443,7 +1454,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'wp_slug' => $entry['post_name'],
 				'wp_password' => $entry['post_password'],
 				'wp_author_id' => $author->ID,
-				'wp_author_display_name' => $author->display_name
+				'wp_author_display_name' => $author->display_name,
+				'date_created_gmt' => new IXR_Date($post_date_gmt)
 			);
 
 		}
@@ -1593,13 +1605,15 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ($posts_list as $entry) {
 
-			$post_date = mysql2date('Ymd\TH:i:s\Z', $entry['post_date_gmt']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),
 				'userid' => $entry['post_author'],
 				'postid' => $entry['ID'],
 				'title' => $entry['post_title'],
+				'date_created_gmt' => new IXR_Date($post_date_gmt)
 			);
 
 		}
