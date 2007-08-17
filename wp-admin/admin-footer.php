@@ -1,8 +1,11 @@
 
 <div id="footer">
-<p class="logo"><a href="http://wordpress.org/" id="wordpress-logo"><img src="images/wordpress-logo.png" alt="WordPress" /></a></p>
-<p class="docs"><?php _e('<a href="http://codex.wordpress.org/">Documentation</a>'); ?> &#8212; <?php _e('<a href="http://wordpress.org/support/">Support Forums</a>'); ?><br />
-<?php printf( __('Version %s'), get_bloginfo('version') ); ?></p>
+<p><?php 
+
+$upgrade = apply_filters( 'update_footer', '' );
+printf( __( 'Thank you for creating with <a href="%s">WordPress</a> | <a href="%s">Documentation</a> | <a href="%s">Feedback</a> %s' ), 'http://wordpress.org/', 'http://codex.wordpress.org/', 'http://wordpress.org/support/forum/4', $upgrade ) 
+
+?></p>
 </div>
 <?php do_action('admin_footer', ''); ?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>

@@ -175,7 +175,7 @@ h2 {
 	background: url( images/heading-bg.gif ) repeat-x bottom;
 }
 
-img, #footer a {
+img {
 	border: 0;
 }
 
@@ -653,24 +653,15 @@ input.delete:hover {
 
 #footer {
 	clear: both;
-	text-align: center;
-	width: 500px;
-	margin: auto;
-	height: 100px;
+	height: 35px;
+	padding-left: 40px;
+	margin: 15px 5%;
+	background: url('images/logo-ghost.png') no-repeat top left;
 }
 
-#footer .docs {
-	padding-top: 19px;
-	line-height: 160%;
-}
-
-#footer .docs a {
-	text-decoration: underline;
-}
-#footer .logo {
-	float: left;
+#footer p {
 	margin: 0;
-	padding: 0;
+	padding: 5px 0;
 }
 
 #login {
@@ -1337,4 +1328,24 @@ a.view-link {
 	right: 5%;
 	margin-right: 220px;
 	text-decoration:underline;
+}
+
+#update-nag {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #fff;
+	border-bottom: 2px solid #911;
+	text-align: center;
+	font-size: 11px;
+	height: 18px;
+}
+
+.nagtime {
+	padding-top: 15px;
+}
+
+.nagtime #user_info {
+	top: 17px ;
 }

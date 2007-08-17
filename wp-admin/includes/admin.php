@@ -12,6 +12,7 @@ require_once(ABSPATH . 'wp-admin/includes/taxonomy.php');
 require_once(ABSPATH . 'wp-admin/includes/template.php');
 require_once(ABSPATH . 'wp-admin/includes/theme.php');
 require_once(ABSPATH . 'wp-admin/includes/user.php');
+require_once(ABSPATH . 'wp-admin/includes/update.php');
 
 require_once(ABSPATH . WPINC . '/registration.php');
 
