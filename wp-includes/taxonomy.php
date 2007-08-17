@@ -4,11 +4,36 @@
 // Taxonomy Registration
 //
 
+/**
+ * @global array $wp_taxonomies Fill me out please
+ */
 $wp_taxonomies = array();
 $wp_taxonomies['category'] = (object) array('name' => 'category', 'object_type' => 'post', 'hierarchical' => true, 'update_count_callback' => '_update_post_term_count');
 $wp_taxonomies['post_tag'] = (object) array('name' => 'post_tag', 'object_type' => 'post', 'hierarchical' => false, 'update_count_callback' => '_update_post_term_count');
 $wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'object_type' => 'link', 'hierarchical' => false);
 
+/**
+ * get_object_taxonomies() - Appears to return all of the names that are of $object_type
+ *
+ * It appears that this function can be used to find all of the names inside of
+ * $wp_taxonomies global variable.
+ *
+ * @example 
+ *      <?php $taxonomies = get_object_taxonomies('post'); ?>
+ *      Should result in <pre>Array(
+ *      'category',
+ *      'post_tag'
+ *      )</pre>
+ *
+ * @package Taxonomy
+ * @global array $wp_taxonomies
+ * @param string $object_type Name of the type of taxonomy object
+ * @return array The names of all within the object_type.
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function get_object_taxonomies($object_type) {
 	global $wp_taxonomies;
 
@@ -21,6 +46,21 @@ function get_object_taxonomies($object_type) {
 	return $taxonomies;
 }
 
+/**
+ * get_taxonomy() - Returns the "taxonomy" object of $taxonomy.
+ *
+ * The get_taxonomy function will first check that the parameter string given
+ * is a taxonomy object and if it is, it will return it.
+ *
+ * @package Taxonomy
+ * @global array $wp_taxonomies
+ * @param string $taxonomy Name of taxonomy object to return
+ * @return object The Taxonomy Object
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function get_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
 
@@ -30,12 +70,39 @@ function get_taxonomy( $taxonomy ) {
 	return $wp_taxonomies[$taxonomy];
 }
 
+/**
+ * is_taxonomy() - Checks that the taxonomy name exists
+ *
+ * @package Taxonomy
+ * @global array $wp_taxonomies
+ * @param string $taxonomy Name of taxonomy object
+ * @return bool Whether the taxonomy exists or not.
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function is_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
 
 	return isset($wp_taxonomies[$taxonomy]);	
 }
 
+/**
+ * is_taxonomy_hierarchical() - Whether the taxonomy object is hierarchical
+ *
+ * Checks to make sure that the taxonomy is an object first. Then Gets the object, and finally
+ * returns the hierarchical value in the object.
+ *
+ * @package Taxonomy
+ * @global array $wp_taxonomies
+ * @param string $taxonomy Name of taxonomy object
+ * @return bool Whether the taxonomy is hierarchical
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function is_taxonomy_hierarchical($taxonomy) {
 	if ( ! is_taxonomy($taxonomy) )
 		return false;
@@ -44,6 +111,33 @@ function is_taxonomy_hierarchical($taxonomy) {
 	return $taxonomy->hierarchical;
 }
 
+/**
+ * register_taxonomy() - Create or modify a taxonomy object.
+ *
+ * A simple function for creating or modifying a taxonomy object based on the parameters given.
+ * The function will accept an array (third optional parameter), along with strings for the 
+ * taxonomy name and another string for the object type.
+ *
+ * The function keeps a default set, allowing for the $args to be optional but allow the other
+ * functions to still work. It is possible to overwrite the default set, which contains two
+ * keys: hierarchical and update_count_callback.
+ *
+ * hierarachical has some defined purpose at other parts of the API, but is bool value.
+ *
+ * update_count_callback works much like a hook, in that it will be called (or something from
+ *      somewhere).
+ *
+ * @package Taxonomy
+ * @global array $wp_taxonomies
+ * @param string $taxonomy Name of taxonomy object
+ * @param string $object_type Name of the object type for the taxonomy object.
+ * @param array $args See above description for the two keys values.
+ * @return null Nothing is returned, so expect error maybe or use is_taxonomy() to check.
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	global $wp_taxonomies;
 
@@ -59,6 +153,34 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 // Term API
 //
 
+/**
+ * get_objects_in_term() - Return object_ids of valid taxonomy and term
+ *
+ * The strings of $taxonomies must exist before this function will continue. On failure of finding
+ * a valid taxonomy, it will return an WP_Error class, kind of like Exceptions in PHP 5, except you
+ * can't catch them. Even so, you can still test for the WP_Error class and get the error message.
+ *
+ * The $terms aren't checked the same as $taxonomies, but still need to exist for $object_ids to
+ * be returned.
+ *
+ * It is possible to change the order that object_ids is returned by either using PHP sort family 
+ * functions or using the database by using $args with either ASC or DESC array. The value should
+ * be in the key named 'order'.
+ *
+ * @package Taxonomy
+ * @subpackage Term
+ * @global object $wpdb Database Query
+ * @param string|array $terms String of term or array of string values of terms that will be used
+ * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
+ * @param array $args Change the order of the object_ids, either ASC or DESC
+ * @return object WP_Error - A PHP 4 compatible Exception class prototype
+ * @return array Empty array if there are no $object_ids
+ * @return array Array of $object_ids
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	global $wpdb;
 
@@ -90,6 +212,23 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	return $object_ids;
 }
 
+/**
+ * get_term() - 
+ *
+ * 
+ *
+ * @package Taxonomy
+ * @subpackage Term
+ * @global object $wpdb Database Query
+ * @param int|object $term
+ * @param string $taxonomy
+ * @param string $output Either OBJECT, ARRAY_A, or ARRAY_N
+ * @return mixed Term Row from database
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function &get_term(&$term, $taxonomy, $output = OBJECT) {
 	global $wpdb;
 
@@ -124,6 +263,24 @@ function &get_term(&$term, $taxonomy, $output = OBJECT) {
 	}
 }
 
+/**
+ * get_term_by() - 
+ *
+ * 
+ *
+ * @package Taxonomy
+ * @subpackage Term
+ * @global object $wpdb Database Query
+ * @param string $field 
+ * @param string $value 
+ * @param string $taxonomy 
+ * @param string $output Either OBJECT, ARRAY_A, or ARRAY_N
+ * @return mixed Term Row from database
+ *
+ * @internal
+ *      This won't appear but just a note to say that this is all conjecture and parts or whole
+ *      might be inaccurate or wrong.
+ */
 function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
 	global $wpdb;
 

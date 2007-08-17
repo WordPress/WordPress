@@ -1,12 +1,14 @@
 <?php
 
-function get_bookmark($bookmark_id, $output = OBJECT) {
+function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
 	$bookmark_id = (int) $bookmark_id;
 	$link = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = '$bookmark_id'");
 	$link->link_category = wp_get_link_cats($bookmark_id);
 
+	$link = sanitize_bookmark($link, $filter);
+	
 	if ( $output == OBJECT ) {
 		return $link;
 	} elseif ( $output == ARRAY_A ) {
@@ -140,6 +142,79 @@ function get_bookmarks($args = '') {
 	wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
 
 	return apply_filters('get_bookmarks', $results, $r);
+}
+
+function sanitize_bookmark($bookmark, $context = 'display') {
+	$fields = array('link_id', 'link_url', 'link_name', 'link_image', 'link_target', 'link_category',
+		'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_updated',
+		'link_rel', 'link_', 'link_notes', 'link_rss', );
+
+	$do_object = false;
+	if ( is_object($bookmark) )
+		$do_object = true;
+
+	foreach ( $fields as $field ) {
+		if ( $do_object )
+			$bookmark->$field = sanitize_bookmark_field($field, $bookmark->$field, $bookmark->link_id, $context);
+		else
+			$bookmark[$field] = sanitize_bookmark_field($field, $bookmark[$field], $bookmark['link_id'], $context);	
+	}
+
+	return $bookmark;
+}
+
+function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
+	$int_fields = array('ID', 'bookmark_parent', 'menu_order');
+	if ( in_array($field, $int_fields) )
+		$value = (int) $value;
+
+	if ( 'raw' == $context )
+		return $value;
+
+	$prefixed = false;
+	if ( false !== strpos($field, 'bookmark_') ) {
+		$prefixed = true;
+		$field_no_prefix = str_replace('bookmark_', '', $field);
+	}
+
+	if ( 'edit' == $context ) {
+		$format_to_edit = array('bookmark_content', 'bookmark_excerpt', 'bookmark_title', 'bookmark_password');
+
+		if ( $prefixed ) {
+			$value = apply_filters("edit_$field", $value, $bookmark_id);
+			// Old school
+			$value = apply_filters("${field_no_prefix}_edit_pre", $value, $bookmark_id);
+		} else {
+			$value = apply_filters("edit_bookmark_$field", $value, $bookmark_id);
+		}
+
+		if ( in_array($field, $format_to_edit) ) {
+			if ( 'bookmark_content' == $field )
+				$value = format_to_edit($value, user_can_richedit());
+			else
+				$value = format_to_edit($value);
+		} else {
+			$value = attribute_escape($value);
+		}
+	} else if ( 'db' == $context ) {
+		if ( $prefixed ) {
+			$value = apply_filters("pre_$field", $value);
+			$value = apply_filters("${field_no_prefix}_save_pre", $value);
+		} else {
+			$value = apply_filters("pre_bookmark_$field", $value);
+			$value = apply_filters("${field}_pre", $value);
+		}
+	} else {
+		// Use display filters by default.
+		$value = apply_filters("bookmark_$field", $value, $bookmark_id, $context);
+	}
+
+	if ( 'attribute' == $context )
+		$value = attribute_escape($value);
+	else if ( 'js' == $context )
+		$value = js_escape($value);
+
+	return $value;
 }
 
 function delete_get_bookmark_cache() {
