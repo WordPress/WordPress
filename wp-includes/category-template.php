@@ -75,6 +75,10 @@ function get_the_category($id = false) {
 	else
 		$categories = array();
 
+	foreach(array_keys($categories) as $key) {
+		_make_cat_compat($categories[$key]);
+	}
+
 	return $categories;
 }
 
