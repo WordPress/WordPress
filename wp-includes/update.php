@@ -3,6 +3,9 @@
 // A simple set of functions to check our version 1.0 update service
 
 function wp_version_check() {
+	if ( strpos($_SERVER['PHP_SELF'], 'install.php') !== false || defined('WP_INSTALLING') )
+		return;
+
 	global $wp_version;
 	$php_version = phpversion();
 	
