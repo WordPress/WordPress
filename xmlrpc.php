@@ -1033,7 +1033,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if(isset($content_struct["mt_allow_pings"])) {
 			if(!is_numeric($content_struct["mt_allow_pings"])) {
-				switch($content["mt_allow_pings"]) {
+				switch($content_struct["mt_allow_pings"]) {
 					case "closed":
 						$ping_status = "closed";
 						break;
@@ -1245,7 +1245,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if(isset($content_struct["mt_allow_pings"])) {
 			if(!is_numeric($content_struct["mt_allow_pings"])) {
-				switch($content["mt_allow_pings"]) {
+				switch($content_struct["mt_allow_pings"]) {
 					case "closed":
 						$ping_status = "closed";
 						break;
