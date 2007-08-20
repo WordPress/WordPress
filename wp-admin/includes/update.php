@@ -14,7 +14,6 @@ function core_update_footer( $msg ) {
 	break;
 
 	case 'upgrade' :
-		add_action( 'admin_footer', 'update_nag' );
 		return sprintf( __( '| <strong>Your WordPress %s is out of date. <a href="%s">Please update</a>.</strong>' ), $GLOBALS['wp_version'], $cur->url );
 	break;
 
@@ -28,19 +27,14 @@ add_filter( 'update_footer', 'core_update_footer' );
 
 function update_nag() {
 $cur = get_option( 'update_core' );
+
+if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
+	return false;
+
 ?>
 <div id="update-nag"><?php printf( __('Update Available! <a href="%s">Please upgrade now</a>.'), $cur->url ); ?></div>
 <?php
 }
-
-function update_nag_body( $class ) {
-	$cur = get_option( 'update_core' );
-	
-	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
-		return $class;
-
-	return "nagtime $class";
-}
-add_filter( 'admin_body_class', 'update_nag_body' );
+add_action( 'admin_notices', 'update_nag', 3 );
 
 ?>
