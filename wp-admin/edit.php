@@ -193,7 +193,7 @@ foreach ($comments as $comment) {
 				$class .= ' alternate';
 			echo "<li id='comment-$comment->comment_ID' class='$class'>";
 ?>
-<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
+<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=edit"><?php comment_author_IP() ?></a></p>
 
 <?php comment_text() ?>
 

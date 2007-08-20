@@ -161,7 +161,7 @@ if ( $extra_comments ) : ?>
     <td style="text-align: center"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td><?php comment_author_link() ?></td>
     <td><?php comment_author_email_link() ?></td>
-    <td><a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></td>
+    <td><a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=edit"><?php comment_author_IP() ?></a></td>
     <td><?php comment_excerpt(); ?></td>
     <td>
     	<?php if ('unapproved' == $comment_status) { ?>
