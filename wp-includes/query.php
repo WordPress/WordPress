@@ -22,6 +22,11 @@ function &query_posts($query) {
 	return $GLOBALS['wp_query']->query($query);
 }
 
+function wp_reset_query() {
+	unset($GLOBALS['wp_query']);
+	$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
+}
+
 /*
  * Query type checks.
  */
