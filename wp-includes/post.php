@@ -477,7 +477,10 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		}
 	} else {
 		// Use display filters by default.
-		$value = apply_filters("post_$field", $value, $post_id, $context);
+		if ( $prefixed )
+			$value = apply_filters($field, $value, $post_id, $context);
+		else
+			$value = apply_filters("post_$field", $value, $post_id, $context);
 	}
 
 	if ( 'attribute' == $context )

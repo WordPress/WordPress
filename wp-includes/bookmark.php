@@ -1,12 +1,14 @@
 <?php
 
-function get_bookmark($bookmark_id, $output = OBJECT) {
+function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
 	$bookmark_id = (int) $bookmark_id;
 	$link = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = '$bookmark_id'");
 	$link->link_category = wp_get_link_cats($bookmark_id);
 
+	$link = sanitize_bookmark($link, $filter);
+	
 	if ( $output == OBJECT ) {
 		return $link;
 	} elseif ( $output == ARRAY_A ) {
@@ -16,6 +18,22 @@ function get_bookmark($bookmark_id, $output = OBJECT) {
 	} else {
 		return $link;
 	}
+}
+
+function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
+	$bookmark = (int) $bookmark;
+	$bookmark = get_bookmark( $bookmark );
+
+	if ( is_wp_error($bookmark) )
+		return $bookmark;
+
+	if ( !is_object($bookmark) )
+		return '';
+
+	if ( !isset($bookmark->$field) )
+		return '';
+
+	return sanitize_bookmark_field($field, $bookmark->$field, $bookmark->link_id, $context);
 }
 
 // Deprecate
@@ -140,6 +158,67 @@ function get_bookmarks($args = '') {
 	wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
 
 	return apply_filters('get_bookmarks', $results, $r);
+}
+
+function sanitize_bookmark($bookmark, $context = 'display') {
+	$fields = array('link_id', 'link_url', 'link_name', 'link_image', 'link_target', 'link_category',
+		'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_updated',
+		'link_rel', 'link_notes', 'link_rss', );
+
+	$do_object = false;
+	if ( is_object($bookmark) )
+		$do_object = true;
+
+	foreach ( $fields as $field ) {
+		if ( $do_object )
+			$bookmark->$field = sanitize_bookmark_field($field, $bookmark->$field, $bookmark->link_id, $context);
+		else
+			$bookmark[$field] = sanitize_bookmark_field($field, $bookmark[$field], $bookmark['link_id'], $context);	
+	}
+
+	return $bookmark;
+}
+
+function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
+	$int_fields = array('link_id', 'link_rating');
+	if ( in_array($field, $int_fields) )
+		$value = (int) $value;
+
+	$yesno = array('link_visible');
+	if ( in_array($field, $yesno) )
+		$value = preg_replace('/[^YNyn]/', '', $value);
+
+	if ( 'link_target' == $field ) {
+		$targets = array('_top', '_blank');
+		if ( ! in_array($value, $targets) )
+			$value = '';		
+	}
+
+	if ( 'raw' == $context )
+		return $value;
+
+	if ( 'edit' == $context ) {
+		$format_to_edit = array('link_notes');
+		$value = apply_filters("edit_$field", $value, $bookmark_id);
+
+		if ( in_array($field, $format_to_edit) ) {
+			$value = format_to_edit($value);
+		} else {
+			$value = attribute_escape($value);
+		}
+	} else if ( 'db' == $context ) {
+		$value = apply_filters("pre_$field", $value);
+	} else {
+		// Use display filters by default.
+		$value = apply_filters($field, $value, $bookmark_id, $context);
+	}
+
+	if ( 'attribute' == $context )
+		$value = attribute_escape($value);
+	else if ( 'js' == $context )
+		$value = js_escape($value);
+
+	return $value;
 }
 
 function delete_get_bookmark_cache() {

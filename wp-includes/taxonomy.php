@@ -229,7 +229,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  *      This won't appear but just a note to say that this is all conjecture and parts or whole
  *      might be inaccurate or wrong.
  */
-function &get_term(&$term, $taxonomy, $output = OBJECT) {
+function &get_term(&$term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
 	if ( empty($term) )
@@ -251,6 +251,7 @@ function &get_term(&$term, $taxonomy, $output = OBJECT) {
 
 	$_term = apply_filters('get_term', $_term, $taxonomy);
 	$_term = apply_filters("get_$taxonomy", $_term, $taxonomy);
+	$_term = sanitize_term($_term, $taxonomy, $filter);
 
 	if ( $output == OBJECT ) {
 		return $_term;
@@ -559,7 +560,7 @@ function is_term($term, $taxonomy = '') {
 }
 
 function sanitize_term($term, $taxonomy, $context = 'display') {
-	$fields = array('term_id', 'name', 'description', 'slug', 'count', 'term_group');
+	$fields = array('term_id', 'name', 'description', 'slug', 'count', 'parent', 'term_group');
 
 	$do_object = false;
 	if ( is_object($term) )
