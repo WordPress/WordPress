@@ -236,7 +236,7 @@ function wp_get_linksbyname($category, $args = '') {
 	$cat = get_term_by('name', $cat_name, 'link_category');
 	if ( !$cat )
 		return false;
-	$cat_id = $cat->term_id;	
+	$cat_id = $cat->term_id;
 
 	$args = add_query_arg('category', $cat_id, $args);
 	wp_get_links($args);
@@ -266,7 +266,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
 		$cat_id = -1;
 		$cat = get_term_by('name', $cat_name, 'link_category');
 		if ( $cat )
-			$cat_id = $cat->term_id;	
+			$cat_id = $cat->term_id;
 
 		return get_linkobjects($cat_id, $orderby, $limit);
 }
@@ -314,7 +314,7 @@ function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
 
 		$links_array = array();
 		foreach ($links as $link) {
-			$links_array[] = $link;	
+			$links_array[] = $link;
 		}
 
 		return $links_array;
@@ -482,6 +482,11 @@ function get_settings($option) {
 // Use the_permalink().
 function permalink_link() {
 	the_permalink();
+}
+
+// Use the_permalink_rss()
+function permalink_single_rss($file = '') {
+	the_permalink_rss();
 }
 
 ?>

@@ -69,11 +69,10 @@ function the_excerpt_rss() {
 	echo apply_filters('the_excerpt_rss', $output);
 }
 
+function the_permalink_rss() {
+	echo apply_filters('the_permalink_rss', get_permalink());
 
-function permalink_single_rss($file = '') {
-	echo get_permalink();
 }
-
 
 function comment_link() {
 	echo get_comment_link();
