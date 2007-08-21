@@ -538,11 +538,17 @@ function upgrade_230() {
 
 		// Associate terms with the same slug in a term group and make slugs unique.
 		if ( $exists = $wpdb->get_results("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$slug'") ) {
-			$num = count($exists);
-			$num++;
-			$slug = $slug . "-$num";
 			$term_group = $exists[0]->term_group;
 			$id = $exists[0]->term_id;
+			$num = 2;
+			do {
+				$alt_slug = $slug . "-$num";
+				$num++;
+				$slug_check = $wpdb->get_var("SELECT slug FROM $wpdb->terms WHERE slug = '$alt_slug'");
+			} while ( $slug_check );
+
+			$slug = $alt_slug;
+
 			if ( empty( $term_group ) ) {
 				$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
 				$wpdb->query("UPDATE $wpdb->terms SET term_group = '$term_group' WHERE term_id = '$id'");
