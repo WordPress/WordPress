@@ -164,9 +164,9 @@ if ( $extra_comments ) : ?>
     <td><a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=edit"><?php comment_author_IP() ?></a></td>
     <td><?php comment_excerpt(); ?></td>
     <td>
-    	<?php if ('unapproved' == $comment_status) { ?>
-    		(Unapproved)
-    	<?php } else { ?>
+    	<?php if ('unapproved' == $comment_status) {
+    		_e('Unapproved');
+    	} else { ?>
     		<a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php comment_ID() ?>" class="edit"><?php _e('View') ?></a>
     	<?php } ?>
     </td>
