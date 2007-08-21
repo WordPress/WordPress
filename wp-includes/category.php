@@ -128,7 +128,7 @@ function &get_tags($args = '') {
 			return apply_filters('get_tags', $cache[$key], $args);
 
 
-	$tags = get_terms('post_tag');
+	$tags = get_terms('post_tag', $args);
 
 	if ( empty($tags) )
 		return array();

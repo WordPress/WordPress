@@ -1294,6 +1294,11 @@ class WP_Query {
 			$category = &get_category($cat);
 			$this->queried_object = &$category;
 			$this->queried_object_id = (int) $cat;
+		} else if ($this->is_tag) {
+			$tag_id = $this->get('tag_id');
+			$tag = &get_term($tag_id, 'post_tag');
+			$this->queried_object = &$tag;
+			$this->queried_object_id = (int) $tag_id;
 		} else if ($this->is_posts_page) {
 			$this->queried_object = & get_page(get_option('page_for_posts'));
 			$this->queried_object_id = (int) $this->queried_object->ID;

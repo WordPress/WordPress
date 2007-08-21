@@ -277,6 +277,21 @@ function single_cat_title($prefix = '', $display = true ) {
 }
 
 
+function single_tag_title($prefix = '', $display = true ) {
+	$tag_id = intval( get_query_var('tag_id') );
+	if ( !empty($tag_id) ) {
+		$my_tag = &get_term($tag_id, 'post_tag');
+		$my_tag_name = apply_filters('single_tag_title', $my_tag->name);
+		if ( !empty($my_tag_name) ) {
+			if ( $display )
+				echo $prefix.strip_tags($my_tag_name);
+			else
+				return strip_tags($my_tag_name);
+		}
+	}
+}
+
+
 function single_month_title($prefix = '', $display = true ) {
 	global $wp_locale;
 
