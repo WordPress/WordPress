@@ -1670,7 +1670,7 @@ function get_lastpostdate($timezone = 'server') {
 	} else {
 		$lastpostdate = $cache_lastpostdate[$blog_id][$timezone];
 	}
-	return $lastpostdate;
+	return apply_filters( 'get_lastpostdate', $lastpostdate );
 }
 
 function get_lastpostmodified($timezone = 'server') {
@@ -1697,7 +1697,7 @@ function get_lastpostmodified($timezone = 'server') {
 	} else {
 		$lastpostmodified = $cache_lastpostmodified[$blog_id][$timezone];
 	}
-	return $lastpostmodified;
+	return apply_filters( 'get_lastpostmodified', $lastpostmodified );
 }
 
 //
