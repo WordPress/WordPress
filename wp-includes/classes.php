@@ -511,10 +511,10 @@ class Walker_Page extends Walker {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
 		extract($args, EXTR_SKIP);
-		$css_class = 'page_item';
+		$css_class = 'page_item page-item-'.$page->ID;
 		$_current_page = get_page( $current_page );
 		if ( $page->ID == $current_page )
-			$css_class .= ' current_page_item';
+			$css_class .= ' current_page_item ';
 		elseif ( $_current_page && $page->ID == $_current_page->post_parent )
 			$css_class .= ' current_page_parent';
 
@@ -634,10 +634,12 @@ class Walker_Category extends Walker {
 
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
+			$class = 'cat-item cat-item-'.$category->term_id;
 			if ( $current_category && ($category->term_id == $current_category) )
-				$output .=  ' class="current-cat"';
+				$class .=  ' current-cat';
 			elseif ( $_current_category && ($category->term_id == $_current_category->parent) )
-				$output .=  ' class="current-cat-parent"';
+				$class .=  ' current-cat-parent';
+			$output .=  ' class="'.$class.'"';
 			$output .= ">$link\n";
 		} else {
 			$output .= "\t$link<br />\n";
@@ -692,8 +694,8 @@ class WP_Ajax_Response {
 	// a WP_Error object can be passed in 'id' or 'data'
 	function add( $args = '' ) {
 		$defaults = array(
-			'what' => 'object', 'action' => false, 
-			'id' => '0', 'old_id' => false, 
+			'what' => 'object', 'action' => false,
+			'id' => '0', 'old_id' => false,
 			'data' => '', 'supplemental' => array()
 		);
 
