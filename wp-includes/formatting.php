@@ -1128,6 +1128,11 @@ function sanitize_option($option, $value) { // Remember to call stripslashes!
 		case 'default_post_edit_rows':
 		case 'mailserver_port':
 		case 'comment_max_links':
+		case 'page_on_front':
+		case 'rss_excerpt_length':
+		case 'default_category':
+		case 'default_email_category':
+		case 'default_link_category':
 			$value = abs((int) $value);
 			break;
 
