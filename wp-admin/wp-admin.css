@@ -1330,17 +1330,22 @@ a.view-link {
 	text-decoration:underline;
 }
 
-#update-nag {
+#update-nag, .plugin-update {
 	border-bottom: 1px solid #ccc;
 	background: #fffeeb;
-	text-align: center;
 	line-height: 29px;
 	font-size: 12px;
 	color: #555;
+	text-align: center;
 }
-#update-nag a {
+
+#update-nag a, .plugin-update a {
 	font-size: 1.1em;
 }
-#update-nag a:link {
+#update-nag a:link, .plugin-update a:link {
 	color: #036;
+}
+
+.plugin-update {
+	text-align: left;
 }

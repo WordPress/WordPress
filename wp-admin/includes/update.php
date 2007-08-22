@@ -37,4 +37,79 @@ if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
 }
 add_action( 'admin_notices', 'update_nag', 3 );
 
+function wp_update_plugins() {
+	global $wp_version;
+	$plugins = get_plugins();
+	$active  = get_option( 'active_plugins' );
+	$current = get_option( 'update_plugins' );
+
+	$new_option = '';
+	$new_option->last_checked = time();
+
+	$plugin_changed = false;
+	foreach ( $plugins as $file => $p ) {
+		$new_option->checked[ $file ] = $p['Version'];
+
+		if ( !isset( $current->checked[ $file ] ) ) {
+			$plugin_changed = true;
+			continue;
+		}
+
+		if ( $current->checked[ $file ] != $p['Version'] )
+			$plugin_changed = true;
+	}
+
+	if ( 
+		isset( $current->last_checked ) && 
+		43200 > ( time() - $current->last_checked ) && 
+		!$plugin_changed
+	)
+		return false;
+
+	$to_send->plugins = $plugins;
+	$to_send->active = $active;
+	$send = serialize( $to_send );
+
+	$request = 'plugins=' . urlencode( $send );
+	$http_request  = "POST /plugins/update-check/1.0/ HTTP/1.0\r\n";
+	$http_request .= "Host: api.wordpress.org\r\n";
+	$http_request .= "Content-Type: application/x-www-form-urlencoded; charset=" . get_option('blog_charset') . "\r\n";
+	$http_request .= "Content-Length: " . strlen($request) . "\r\n";
+	$http_request .= 'User-Agent: WordPress/' . $wp_version . '; ' . get_bloginfo('url') . "\r\n";
+	$http_request .= "\r\n";
+	$http_request .= $request;
+
+	$response = '';
+	if( false != ( $fs = @fsockopen( 'api.wordpress.org', 80, $errno, $errstr, 3) ) ) {
+		fwrite($fs, $http_request);
+
+		while ( !feof($fs) )
+			$response .= fgets($fs, 1160); // One TCP-IP packet
+		fclose($fs);
+		$response = explode("\r\n\r\n", $response, 2);
+	}
+
+	$response = unserialize( $response[1] );
+
+	if ( $response )
+		$new_option->response = $response;
+
+	update_option( 'update_plugins', $new_option );
+}
+add_action( 'load-plugins.php', 'wp_update_plugins' );
+
+function wp_plugin_update_row( $file ) {
+	global $plugin_data;
+	$current = get_option( 'update_plugins' );
+	if ( !isset( $current->response[ $file ] ) )
+		return false;
+
+	$r = $current->response[ $file ];
+
+	echo "<tr><td colspan='5' class='plugin-update'>";
+	printf( __('There is a new version of %s available. <a href="%s">Download version %s here</a>.'), $plugin_data['Name'], $r->url, $r->new_version );
+	echo "</td></tr>";
+}
+add_action( 'after_plugin_row', 'wp_plugin_update_row' );
+
 ?>

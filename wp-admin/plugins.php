@@ -163,6 +163,7 @@ if (empty($plugins)) {
 		<td>$edit</td>";
 		echo"
 	</tr>";
+	do_action( 'after_plugin_row', $plugin_file );
 	}
 ?>
 
