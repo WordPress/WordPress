@@ -14,10 +14,10 @@ body {
 }
 
 .dropzone {
+	border: 1px solid #bbb;
 	float: left;
 	margin-right: 10px;
 	padding: 5px;
-	border: 1px solid #bbb;
 	background-color: #f0f8ff;
 }
 
@@ -26,15 +26,21 @@ body {
 	color: #333;
 }
 
-.dropzone ul {
-	list-style-type: none;
-	width: 240px;
-	float: left;
-	margin: 0;
-	padding: 0;
+.dropzone input {
+	display: none;
 }
 
-* .module, #lastmodule {
+.dropzone ul {
+	float: left;
+	list-style-type: none;
+	width: 240px;
+	margin: 0;
+	min-height: 200px;
+	padding: 0;
+	display: block;
+}
+
+* .module {
 	width: 238px;
 	padding: 0;
 	margin: 5px 0;
@@ -42,14 +48,16 @@ body {
 	display: block;
 	border: 1px solid #ccc;
 	background-color: #fbfbfb;
+	position: relative;
 	text-align: left;
 	line-height: 25px;
 }
 
-* .handle, #lastmodule span {
+* .handle {
 	display: block;
 	width: 216px;
 	padding: 0 10px;
+	position: relative;
 	border-top: 1px solid #f2f2f2;
 	border-right: 1px solid #e8e8e8;
 	border-bottom: 1px solid #e8e8e8;
@@ -83,53 +91,67 @@ body {
 	clear: left;
 }
 
-.placematt {
+.placemat {
 	cursor: default;
-	margin: 10px 0 0;
+	margin: 0;
 	padding: 0;
-	width: 238px;
-	float:left;
-	background-color: #ffe;
+	position: relative;
 }
 
-* html .placematt {
-	margin-top: 5px;
-}
-
-.placematt h4 {
+.placemat h4 {
 	text-align: center;
-	margin-bottom: 5px;
 }
 
-.placematt span {
+.placemat span {
+	background-color: #ffe;
+	border: 1px solid #ccc;
 	padding: 0 10px 10px;
+	position: absolute;
 	text-align: justify;
 }
-
 
 #palettediv {
 	border: 1px solid #bbb;
 	background-color: #f0f8ff;
 	height:auto;
 	margin-top: 10px;
+	padding-bottom: 10px;
+}
+
+#palettediv:after, #zones:after, .dropzone:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+#palettediv, #zones, .dropzone {
+	display: block;
+	min-height: 1px;
+}
+
+* html #palettediv, * html #zones, * html .dropzone {
+	height: 1%;
 }
 
 #palettediv h3 {
 	text-align: center;
 	color: #333;
+	min-height: 1px;
 }
 
 #palettediv ul {
 	padding: 0 0 0 10px;
 }
 
-#palettediv .module, #lastmodule {
+#palettediv .module {
 	margin-right: 10px;
 	float: left;
 	width: 120px;
 }
 
-#palettediv .handle, #lastmodule span {
+#palettediv .handle {
 	height: 40px;
 	font-size: 90%;
 	width: 110px;
@@ -140,18 +162,9 @@ body {
 	visibility: hidden;
 }
 
-#lastmodule {
-	visibility: hidden;
-}
-
 * html #palettediv ul {
 	margin: 0;
 	padding: 0 0 0 10px;
-}
-
-* html #palettediv .module {
-	float: none;
-	display: inline;
 }
 
 #controls {
@@ -211,4 +224,13 @@ body {
 	top: 0px;
 	left: 0px;
 	width: 100%;
+}
+
+#dragHelper {
+	position: absolute;
+}
+
+#dragHelper li.module {
+	display: block;
+	float: left;
 }
