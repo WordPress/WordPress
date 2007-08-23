@@ -11,7 +11,7 @@ function wptexturize($text) {
 	// if a plugin has provided an autocorrect array, use it
 	if ( isset($wp_cockneyreplace) ) {
 		$cockney = array_keys($wp_cockneyreplace);
-		$cockney_replace = array_values($wp_cockneyreplace);
+		$cockneyreplace = array_values($wp_cockneyreplace);
 	} else {
 		$cockney = array("'tain't","'twere","'twas","'tis","'twill","'til","'bout","'nuff","'round","'cause");
 		$cockneyreplace = array("&#8217;tain&#8217;t","&#8217;twere","&#8217;twas","&#8217;tis","&#8217;twill","&#8217;til","&#8217;bout","&#8217;nuff","&#8217;round","&#8217;cause");
