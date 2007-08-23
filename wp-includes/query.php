@@ -606,6 +606,12 @@ class WP_Query {
 			}
 		}
 
+		if ( !empty($qv['post_type']) )
+			$qv['post_type'] = sanitize_user($qv['post_type'], true);
+
+		if ( !empty($qv['post_status']) )
+			$qv['post_status'] = sanitize_user($qv['post_status'], true);
+
 		if ( $this->is_posts_page && !$qv['withcomments'] )
 			$this->is_comment_feed = false;
 
