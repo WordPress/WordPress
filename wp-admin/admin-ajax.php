@@ -307,7 +307,7 @@ case 'autosave-generate-nonces' :
 			die(wp_create_nonce('update-page_' . $ID));
 		}
 	}
-	die($_POST['post_type']);
+	die('0');
 break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
