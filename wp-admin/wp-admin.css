@@ -103,14 +103,14 @@ thead, .thead {
 	padding: 1em;
 }
 
-a.edit, a.delete, a.edit:hover, a.delete:hover {
+a.view, a.edit, a.delete, a.view:hover, a.edit:hover, a.delete:hover {
 	border-bottom: none;
 	display: block;
 	padding: 5px 0;
 	text-align: center;
 }
 
-a.edit:hover {
+a.view:hover, a.edit:hover {
 	background: #ccc;
 	color: #036;
 }

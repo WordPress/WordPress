@@ -78,7 +78,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'control_view':
 		?>
-		<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
+		<td><a href="<?php the_permalink(); ?>" rel="permalink" class="view"><?php _e('View'); ?></a></td>
 		<?php
 		break;
 
