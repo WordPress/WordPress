@@ -4,7 +4,7 @@
 function redirect_canonical() {
 	global $wp_rewrite, $posts;
 
-	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() )
+	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() )
 		return;
 
 	// build the URL in the address bar
