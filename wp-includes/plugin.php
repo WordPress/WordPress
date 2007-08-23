@@ -235,8 +235,9 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
  * @return string The name of a plugin.
  */
 function plugin_basename($file) {
-	$file = preg_replace('|\\\\+|', '\\\\', $file);
-	$file = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', $file);
+	$file = str_replace('\\','/',$file); // sanitize for Win32 installs
+	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
+	$file = preg_replace('|^.*/wp-content/plugins/|','',$file); // get relative path from plugins dir
 	return $file;
 }
 
