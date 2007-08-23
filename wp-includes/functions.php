@@ -1029,7 +1029,6 @@ function wp_check_filetype($filename, $mimes = null) {
 		'js' => 'application/javascript',
 		'pdf' => 'application/pdf',
 		'doc' => 'application/msword',
-		'odt' => 'application/vnd.oasis.opendocument.text',
 		'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
 		'wri' => 'application/vnd.ms-write',
 		'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
@@ -1040,7 +1039,16 @@ function wp_check_filetype($filename, $mimes = null) {
 		'tar' => 'application/x-tar',
 		'zip' => 'application/zip',
 		'gz|gzip' => 'application/x-gzip',
-		'exe' => 'application/x-msdownload'
+		'exe' => 'application/x-msdownload',
+		// openoffice formats
+		'odt' => 'application/vnd.oasis.opendocument.text',
+		'odp' => 'application/vnd.oasis.opendocument.presentation',
+		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+		'odg' => 'application/vnd.oasis.opendocument.graphics',
+		'odc' => 'application/vnd.oasis.opendocument.chart',
+		'odb' => 'application/vnd.oasis.opendocument.database',
+		'odf' => 'application/vnd.oasis.opendocument.formula',
+
 	));
 
 	$type = false;
