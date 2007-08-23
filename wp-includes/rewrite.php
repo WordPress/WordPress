@@ -136,6 +136,15 @@ function url_to_postid($url) {
 
 			// Substitute the substring matches into the query.
 			eval("\$query = \"$query\";");
+			// Filter out non-public query vars
+			global $wp;
+			parse_str($query, $query_vars);
+			$query = array();
+			foreach ( $query_vars as $key => $value ) {
+				if ( in_array($key, $wp->public_query_vars) )
+					$query[$key] = $value;
+			}
+			// Do the query
 			$query = new WP_Query($query);
 			if ( $query->is_single || $query->is_page )
 				return $query->post->ID;
