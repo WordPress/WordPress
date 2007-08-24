@@ -220,7 +220,7 @@ class WP_Import {
 	function process_categories() {
 		global $wpdb;
 
-		$cat_names = (array) $wpdb->get_col("SELECT cat_name FROM $wpdb->categories");
+		$cat_names = (array) get_terms('category', 'fields=names');
 
 		while ( $c = array_shift($this->categories) ) {
 			$cat_name = trim($this->get_tag( $c, 'wp:cat_name' ));
@@ -323,8 +323,13 @@ class WP_Import {
 			if (count($categories) > 0) {
 				$post_cats = array();
 				foreach ($categories as $category) {
-					$cat_ID = (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name = '$category'");
+					$slug = sanitize_term_field('slug', $category, 0, 'category', 'db');
+					$cat = get_term_by('slug', $slug, 'category');
+					$cat_ID = 0;
+					if ( ! empty($cat) )
+						$cat_ID = $cat->term_id;
 					if ($cat_ID == 0) {
+						$category = $wpdb->escape($category);
 						$cat_ID = wp_insert_category(array('cat_name' => $category));
 					}
 					$post_cats[] = $cat_ID;

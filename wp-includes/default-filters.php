@@ -35,6 +35,12 @@ foreach ( $filters as $filter ) {
 	add_filter($filter, 'wp_filter_kses');
 }
 
+// Slugs
+$filters = array('pre_term_slug');
+foreach ( $filters as $filter ) {
+	add_filter($filter, 'sanitize_title');
+}
+
 // Places to balance tags on input
 $filters = array('content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comment_content');
 foreach ( $filters as $filter ) {

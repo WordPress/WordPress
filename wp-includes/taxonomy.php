@@ -282,7 +282,7 @@ function &get_term(&$term, $taxonomy, $output = OBJECT, $filter = 'raw') {
  *      This won't appear but just a note to say that this is all conjecture and parts or whole
  *      might be inaccurate or wrong.
  */
-function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
+function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
 	if ( ! is_taxonomy($taxonomy) )
@@ -306,6 +306,8 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT) {
 		return false;
 
 	wp_cache_add($term->term_id, $term, $taxonomy);
+
+	$term = sanitize_term($term, $taxonomy, $filter);
 
 	if ( $output == OBJECT ) {
 		return $term;
@@ -487,6 +489,8 @@ function &get_terms($taxonomies, $args = '') {
 		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
+	else if ( 'names' == $fields )
+		$select_this == 't.name';
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
 
@@ -771,8 +775,6 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
-	else
-		$slug = sanitize_title($slug);
 
 	$term_group = 0;	
 	if ( $alias_of ) {
