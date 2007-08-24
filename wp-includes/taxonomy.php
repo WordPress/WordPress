@@ -229,7 +229,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  *      This won't appear but just a note to say that this is all conjecture and parts or whole
  *      might be inaccurate or wrong.
  */
-function &get_term(&$term, $taxonomy, $output = OBJECT, $filter = 'raw') {
+function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
 	if ( empty($term) )
@@ -884,8 +884,6 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	// First, get all of the original args
 	$term = get_term ($term_id, $taxonomy, ARRAY_A);
 
-	$term = sanitize_term($term, $taxonomy, 'db');
-
 	// Escape data pulled from DB.
 	$term = add_magic_quotes($term);
 
@@ -894,12 +892,11 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
+	$args = sanitize_term($args, $taxonomy, 'db');
 	extract($args, EXTR_SKIP);
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
-	else
-		$slug = sanitize_title($slug);
 
 	if ( $alias_of ) {
 		$alias = $wpdb->fetch_row("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$alias_of'");

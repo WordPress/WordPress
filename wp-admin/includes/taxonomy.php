@@ -12,11 +12,7 @@ function category_exists($cat_name) {
 }
 
 function get_category_to_edit( $id ) {
-	$category = get_category( $id );
-
-	$category->term_id = (int) $category->term_id;
-	$category->parent = (int) $category->parent;
-
+	$category = get_category( $id, OBJECT, 'edit' );
 	return $category;
 }
 
@@ -90,7 +86,7 @@ function wp_insert_category($catarr) {
 	$description = apply_filters('pre_category_description', $description);
 
 	$parent = (int) $parent;
-	if ( empty($parent) || !get_category( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
+	if ( empty($parent) || !category_exists( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
 		$parent = 0;
 
 	$args = compact('name', 'slug', 'parent', 'description');

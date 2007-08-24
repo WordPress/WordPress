@@ -28,8 +28,8 @@ function &get_categories($args = '') {
 
 // Retrieves category data given a category ID or category object.
 // Handles category caching.
-function &get_category(&$category, $output = OBJECT) {
-	$category = get_term($category, 'category', $output);
+function &get_category($category, $output = OBJECT, $filter = 'raw') {
+	$category = get_term($category, 'category', $output, $filter);
 
 	_make_cat_compat($category);
 
