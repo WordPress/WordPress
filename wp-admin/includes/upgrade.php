@@ -92,7 +92,7 @@ function wp_install_defaults($user_id) {
 	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (6, 2)" );
 
 	$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://planet.wordpress.org/', 'WordPress Planet', 0, '', '');");
-	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (7s, 2)" );
+	$wpdb->query( "INSERT INTO $wpdb->term_relationships (`object_id`, `term_taxonomy_id`) VALUES (7, 2)" );
 
 	// First post
 	$now = date('Y-m-d H:i:s');
