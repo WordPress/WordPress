@@ -606,6 +606,8 @@ function upgrade_230() {
 		// Create link_category terms for link categories.  Create a map of link cat IDs
 		// to link_category terms.
 		$link_cat_id_map = array();
+		$default_link_cat = 0;
+		$tt_ids = array();
 		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM " . $wpdb->prefix . 'linkcategories');
 		foreach ( $link_cats as $category) {
 			$cat_id = (int) $category->cat_id;
@@ -616,20 +618,11 @@ function upgrade_230() {
 	
 			// Associate terms with the same slug in a term group and make slugs unique.
 			if ( $exists = $wpdb->get_results("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$slug'") ) {
-				$num = count($exists);
-				$num++;
-				$slug = $slug . "-$num";
 				$term_group = $exists[0]->term_group;
 				$term_id = $exists[0]->term_id;
-				if ( empty( $term_group ) ) {
-					$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
-					$wpdb->query("UPDATE $wpdb->terms SET term_group = '$term_group' WHERE term_id = '$term_id'");
-				}
 			}
 
-			if ( !empty($term_id) ) {
-				$wpdb->query("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES ('$term_id', '$name', '$slug', '$term_group')");
-			} else {
+			if ( empty($term_id) ) {
 				$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
 				$term_id = (int) $wpdb->insert_id;	
 			}
@@ -638,7 +631,7 @@ function upgrade_230() {
 			$default_link_cat = $term_id;
 
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', 'link_category', '', '0', '0')");
-			$tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
+			$tt_ids[$term_id] = (int) $wpdb->insert_id;
 		}
 
 		// Associate links to cats.
@@ -648,7 +641,8 @@ function upgrade_230() {
 				continue;
 			if ( ! isset($link_cat_id_map[$link->link_category]) )
 				continue;
-			$tt_id = $tt_ids[$term_id]['link_category'];
+			$term_id = $link_cat_id_map[$link->link_category];
+			$tt_id = $tt_ids[$term_id];
 			if ( empty($tt_id) )
 				continue;
 
