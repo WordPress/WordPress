@@ -31,6 +31,9 @@ class UTW_Import {
 		} else {
 			$step = (int) $_GET['step'];
 		}
+		
+		if ( $step > 1 )
+			check_admin_referer('import-utw');
 
 		// load the header
 		$this->header();
@@ -102,6 +105,7 @@ class UTW_Import {
 		}
 
 		echo '<form action="admin.php?import=utw&amp;step=2" method="post">';
+		wp_nonce_field('import-utw');
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 2 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
@@ -137,6 +141,7 @@ class UTW_Import {
 		}
 
 		echo '<form action="admin.php?import=utw&amp;step=3" method="post">';
+		wp_nonce_field('import-utw');
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 3 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
@@ -155,6 +160,7 @@ class UTW_Import {
 		echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags where added!'), $tags_added ) . '<br /></p>';
 
 		echo '<form action="admin.php?import=utw&amp;step=4" method="post">';
+		wp_nonce_field('import-utw');
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 4 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';

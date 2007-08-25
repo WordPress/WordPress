@@ -38,6 +38,7 @@ class WP_Categories_to_Tags {
 
 	function categories_form() {
 		print '<form action="admin.php?import=wp-cat2tag&amp;step=2" method="post">';
+		wp_nonce_field('import-cat2tag');
 		print '<ul style="list-style:none">';
 
 		$hier = _get_term_hierarchy('category');
@@ -144,6 +145,7 @@ class WP_Categories_to_Tags {
 		print '<p>' . __('You are about to convert all categories to tags. Are you sure you want to continue?') . '</p>';
 
 		print '<form action="admin.php?import=wp-cat2tag" method="post">';
+		wp_nonce_field('import-cat2tag');
 		print '<p style="text-align:center" class="submit"><input type="submit" value="' . __('Yes') . '" name="yes_convert_all_cats" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="' . __('No') . '" name="no_dont_do_it" /></p>';
 		print '</form>';
 
@@ -158,7 +160,6 @@ class WP_Categories_to_Tags {
 	}
 
 	function init() {
-		echo '<!--'; print_r($_POST); print_r($_GET); echo '-->';
 
 		if (isset($_POST['maybe_convert_all_cats'])) {
 			$step = 3;
@@ -177,6 +178,9 @@ class WP_Categories_to_Tags {
 			print '<p>' . __('Cheatin&#8217; uh?') . '</p>';
 			print '</div>';
 		} else {
+			if ( $step > 1 )
+				check_admin_referer('import-cat2tag');
+
 			switch ($step) {
 				case 1 :
 					$this->welcome();
