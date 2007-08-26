@@ -698,7 +698,7 @@ function the_date_xml() {
 
 
 function the_date($d='', $before='', $after='', $echo = true) {
-	global $id, $post, $day, $previousday, $newday;
+	global $id, $post, $day, $previousday;
 	$the_date = '';
 	if ( $day != $previousday ) {
 		$the_date .= $before;

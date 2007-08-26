@@ -1389,7 +1389,7 @@ function wp_old_slug_redirect () {
 
 // Setup global post data.
 function setup_postdata($post) {
-	global $id, $postdata, $authordata, $day, $page, $pages, $multipage, $more, $numpages, $wp_query;
+	global $id, $postdata, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages, $wp_query;
 	global $pagenow;
 
 	$id = (int) $post->ID;
