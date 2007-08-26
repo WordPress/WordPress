@@ -420,9 +420,9 @@ EOD;
 		$blog_ID = (int ) $blog_id;
 		$post_status = ($publish) ? 'publish' : 'draft';
 		$post_author = (int) $user->ID;
-		$post_title = $entry->title;
-		$post_content = $entry->content;
-		$post_excerpt = $entry->summary;
+		$post_title = $this->escape($entry->title);
+		$post_content = $this->escape($entry->content);
+		$post_excerpt = $this->escape($entry->summary);
 		$post_date = current_time('mysql');
 		$post_date_gmt = current_time('mysql', 1);
 
@@ -478,9 +478,9 @@ EOD;
 
 		extract($entry);
 
-		$post_title = $parsed->title;
-		$post_content = $parsed->content;
-		$post_excerpt = $parsed->summary;
+		$post_title = $this->escape($parsed->title);
+		$post_content = $this->escape($parsed->content);
+		$post_excerpt = $this->escape($parsed->summary);
 
 		// let's not go backwards and make something draft again.
 		if(!$publish && $post_status == 'draft') {
@@ -619,8 +619,8 @@ EOD;
 
 		extract($entry);
 
-		$post_title = $parsed->title;
-		$post_content = $parsed->content;
+		$post_title = $this->escape($parsed->title);
+		$post_content = $this->escape($parsed->content);
 
 		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt');
 
