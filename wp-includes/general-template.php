@@ -186,15 +186,15 @@ function wp_title($sep = '&raquo;', $display = true) {
 				else
 					$category_name = $category_name[count($category_name)-2]; // there was a trailling slash
 		}
-		$cat = get_term_by('slug', $category_name, 'category');
+		$cat = get_term_by('slug', $category_name, 'category', OBJECT, 'display');
 		if ( $cat )
 			$title = apply_filters('single_cat_title', $cat->name);
 	}
 
 	if ( !empty($tag) ) {
-		$tag = get_term($tag, 'post_tag');
+		$tag = get_term($tag, 'post_tag', OBJECT, 'display');
 		if ( ! empty($tag->name) )
-			$title = apply_filters('single_tag_title', $tag->slug);
+			$title = apply_filters('single_tag_title', $tag->name);
 	}
 
 	// If there's an author
