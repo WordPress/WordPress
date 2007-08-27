@@ -106,6 +106,7 @@ add_filter('mce_plugins', '_mce_load_rtl_plugin');
 add_filter('mce_buttons', '_mce_add_direction_buttons');
 add_filter('pre_kses', 'wp_pre_kses_less_than');
 add_filter('sanitize_title', 'sanitize_title_with_dashes');
+add_action('check_comment_flood', 'check_comment_flood_db', 10, 3);
 add_filter('comment_flood_filter', 'wp_throttle_comment_flood', 10, 3);
 add_filter('pre_comment_content', 'wp_rel_nofollow', 15);
 add_filter('comment_email', 'antispambot');

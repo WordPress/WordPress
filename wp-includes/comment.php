@@ -191,16 +191,7 @@ function wp_allow_comment($commentdata) {
 	if ( $wpdb->get_var($dupe) )
 		wp_die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
 
-	// Simple flood-protection
-	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$comment_author_IP' OR comment_author_email = '$comment_author_email' ORDER BY comment_date DESC LIMIT 1") ) {
-		$time_lastcomment = mysql2date('U', $lasttime);
-		$time_newcomment  = mysql2date('U', $comment_date_gmt);
-		$flood_die = apply_filters('comment_flood_filter', false, $time_lastcomment, $time_newcomment);
-		if ( $flood_die ) {
-			do_action('comment_flood_trigger', $time_lastcomment, $time_newcomment);
-			wp_die( __('You are posting comments too quickly.  Slow down.') );
-		}
-	}
+	do_action( 'check_comment_flood', $comment_author_IP, $comment_author_email, $comment_date_gmt );
 
 	if ( $user_id ) {
 		$userdata = get_userdata($user_id);
@@ -225,6 +216,18 @@ function wp_allow_comment($commentdata) {
 	return $approved;
 }
 
+function check_comment_flood_db( $ip, $email, $date ) {
+	global $wpdb;
+	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$ip' OR comment_author_email = '$email' ORDER BY comment_date DESC LIMIT 1") ) {
+		$time_lastcomment = mysql2date('U', $lasttime);
+		$time_newcomment  = mysql2date('U', $date);
+		$flood_die = apply_filters('comment_flood_filter', false, $time_lastcomment, $time_newcomment);
+		if ( $flood_die ) {
+			do_action('comment_flood_trigger', $time_lastcomment, $time_newcomment);
+			wp_die( __('You are posting comments too quickly.  Slow down.') );
+		}
+	}
+}
 
 function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
 	global $wpdb;
