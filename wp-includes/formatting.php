@@ -1074,6 +1074,8 @@ function wp_richedit_pre($text) {
 }
 
 function clean_url( $url, $protocols = null ) {
+	$original_url = $url;
+
 	if ('' == $url) return $url;
 	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%]|i', '', $url);
 	$strip = array('%0d', '%0a');
@@ -1089,7 +1091,8 @@ function clean_url( $url, $protocols = null ) {
 		$protocols = array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet'); 
 	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
 		return '';
-	return $url;
+
+	return apply_filters('clean_url', $url, $original_url);
 }
 
 // Borrowed from the PHP Manual user notes. Convert entities, while

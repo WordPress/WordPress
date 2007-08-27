@@ -1054,7 +1054,8 @@ function update_term_cache($terms, $taxonomy = '') {
 //
 
 function _get_term_hierarchy($taxonomy) {
-	// TODO Make sure taxonomy is hierarchical
+	if ( !is_taxonomy_hierarchical($taxonomy) )
+		return array();
 	$children = get_option("{$taxonomy}_children");
 	if ( is_array($children) )
 		return $children;
