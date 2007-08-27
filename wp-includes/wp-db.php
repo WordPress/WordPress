@@ -307,17 +307,11 @@ class wpdb {
 	function get_col($query = null , $x = 0) {
 		if ( $query )
 			$this->query($query);
-		else
-			return null;
 
-		if ( !$this->last_result )
-			return null;
-
-		$i = 0;
-		foreach( $this->last_result as $row ) {
-			$arr = array_values( (array) $row );
-			$new_array[$i] =  $arr[0];
-			$i++;
+		$new_array = array();
+		// Extract the column values
+		for ( $i=0; $i < count($this->last_result); $i++ ) {
+			$new_array[$i] = $this->get_var(null, $x, $i);
 		}
 		return $new_array;
 	}
