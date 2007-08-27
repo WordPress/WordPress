@@ -210,7 +210,7 @@ class MT_Import {
 			echo '<li>';
 			printf(__('Importing post <i>%s</i>...'), stripslashes($post->post_title));
 
-			if ( '' != $post->extended )
+			if ( '' != trim( $post->extended ) )
 					$post->post_content .= "\n<!--more-->\n$post->extended";
 
 			$post->post_author = $this->checkauthor($post->post_author); //just so that if a post already exists, new users are not created by checkauthor
