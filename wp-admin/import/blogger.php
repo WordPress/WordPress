@@ -84,7 +84,7 @@ class Blogger_Import {
 		if ( empty($this->blogs) ) {
 			$headers = array(
 				"GET /feeds/default/blogs HTTP/1.0",
-				"Host: www2.blogger.com",
+				"Host: www.blogger.com",
 				"Authorization: AuthSub token=\"$this->token\""
 			);
 			$request = join( "\r\n", $headers ) . "\r\n\r\n";
