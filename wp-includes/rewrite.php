@@ -6,7 +6,7 @@
 //Add a straight rewrite rule
 function add_rewrite_rule($regex, $redirect, $after = 'bottom') {
 	global $wp_rewrite;
-	$wp_rewrite->add_rule($regex, $redirect);
+	$wp_rewrite->add_rule($regex, $redirect, $after);
 }
 
 //Add a new tag (like %postname%)
