@@ -6,9 +6,9 @@ wp_enqueue_script( 'listman' );
 require_once('admin-header.php');
 
 $post_stati  = array(	//	array( adj, noun )
+			'publish' => array(__('Published'), __('Published pages')),
 			'draft'   => array(__('Draft'), __('Draft pages')),
-			'private' => array(__('Private'), __('Private pages')),
-			'publish' => array(__('Published'), __('Published pages'))
+			'private' => array(__('Private'), __('Private pages'))
 		);
 
 

@@ -9,11 +9,11 @@ require_once('admin-header.php');
 $_GET['m']   = (int) $_GET['m'];
 $_GET['cat'] = (int) $_GET['cat'];
 $post_stati  = array(	//	array( adj, noun )
-			'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
+			'publish' => array(__('Published'), __('Published posts')),
 			'future' => array(__('Scheduled'), __('Scheduled posts')),
 			'pending' => array(__('Pending Review'), __('Pending posts')),
-			'private' => array(__('Private'), __('Private posts')),
-			'publish' => array(__('Published'), __('Published posts'))
+			'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
+			'private' => array(__('Private'), __('Private posts'))
 		);
 
 $avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
