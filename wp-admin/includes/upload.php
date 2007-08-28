@@ -339,10 +339,7 @@ add_action( 'upload_files_browse', 'wp_upload_tab_browse_action' );
 add_action( 'upload_files_browse-all', 'wp_upload_tab_browse_action' );
 
 function wp_upload_admin_head() {
-	global $wp_locale;
-	echo "<link rel='stylesheet' href='" . get_bloginfo('wpurl') . '/wp-admin/css/upload.css?version=' . get_bloginfo('version') . "a' type='text/css' />\n";
-	if ( 'rtl' == $wp_locale->text_direction )
-		echo "<link rel='stylesheet' href='" . get_bloginfo('wpurl') . '/wp-admin/css/upload-rtl.css?version=' . get_bloginfo('version') . "a' type='text/css' />\n";
+	wp_admin_css( 'css/upload' );
 	if ( 'inline' == @$_GET['style'] ) {
 		echo "<style type='text/css' media='screen'>\n";
 		echo "\t#upload-menu { position: absolute; z-index: 2; }\n";

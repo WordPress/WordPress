@@ -1063,4 +1063,18 @@ function paginate_links( $args = '' ) {
 	endswitch;
 	return $r;
 }
+
+function wp_admin_css_uri( $file = 'wp-admin' ) {
+	$_file = add_query_arg( 'version', get_bloginfo( 'version' ), get_option( 'siteurl' ) . "/wp-admin/$file.css" );
+	return apply_filters( 'wp_admin_css_uri', $_file, $file );
+}
+
+function wp_admin_css( $file = 'wp-admin' ) {
+	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $file ) . "' type='text/css' />\n", $file );
+	if ( 'rtl' == get_bloginfo( 'text_direction' ) ) {
+		$rtl = ( 'wp-admin' == $file ) ? 'rtl' : "$file-rtl";
+		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $rtl ) . "' type='text/css' />\n", $rtl );
+	}
+}
+
 ?>

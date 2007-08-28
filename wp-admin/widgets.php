@@ -10,18 +10,13 @@ wp_enqueue_script('interface');
 function wp_widgets_admin_head() {
 	global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls;
 ?>
-	<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/css/widgets.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<?php wp_admin_css( 'css/widgets' ); ?>
 	<!--[if IE 7]>
 	<style type="text/css">
 		#palette { float: <?php echo ( get_bloginfo( 'text_direction' ) == 'rtl' ) ? 'right' : 'left'; ?>; }
 	</style>
 	<![endif]-->
 <?php
-	if ( get_bloginfo( 'text_direction' ) == 'rtl' ) { 
-?>
-	<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/css/widgets-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
-<?php
-	}
 
 	$cols = array();
 	foreach ( $wp_registered_sidebars as $index => $sidebar ) {

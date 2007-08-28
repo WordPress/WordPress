@@ -63,10 +63,7 @@ if ( 'inline' == $style ) : ?>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; WordPress</title>
-<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
-<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
-<link rel="stylesheet" href="<?php bloginfo( 'wpurl' ); ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
-<?php endif; ?> 
+<?php wp_admin_css(); ?>
 <script type="text/javascript">
 //<![CDATA[
 function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}else{ var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}}
