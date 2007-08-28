@@ -2,18 +2,6 @@
 /**
 	Add These Functions to make our lives easier
 **/
-if(!function_exists('get_catbynicename'))
-{
-	function get_catbynicename($category_nicename)
-	{
-	global $wpdb;
-
-	$cat_id -= 0; 	// force numeric
-	$name = $wpdb->get_var('SELECT cat_ID FROM '.$wpdb->categories.' WHERE category_nicename="'.$category_nicename.'"');
-
-	return $name;
-	}
-}
 
 if(!function_exists('get_comment_count'))
 {
@@ -338,8 +326,12 @@ class Textpattern_Import {
 
 				// Make Post-to-Category associations
 				$cats = array();
-				if($cat1 = get_catbynicename($Category1)) { $cats[1] = $cat1; }
-				if($cat2 = get_catbynicename($Category2)) { $cats[2] = $cat2; }
+				$category1 = get_category_by_slug($Category1);
+				$category1 = $category1->term_id;
+				$category2 = get_category_by_slug($Category2);
+				$category2 = $category1->term_id;
+				if($cat1 = $category1) { $cats[1] = $cat1; }
+				if($cat2 = $category2) { $cats[2] = $cat2; }
 
 				if(!empty($cats)) { wp_set_post_categories($ret_id, $cats); }
 			}
