@@ -3,7 +3,7 @@
 <p><?php 
 
 $upgrade = apply_filters( 'update_footer', '' );
-printf( __( 'Thank you for creating with <a href="%s">WordPress</a> | <a href="%s">Documentation</a> | <a href="%s">Feedback</a> %s' ), 'http://wordpress.org/', 'http://codex.wordpress.org/', 'http://wordpress.org/support/forum/4', $upgrade ) 
+echo __('Thank you for creating with <a href="http://wordpress.org/">WordPress</a>').' | '.__('<a href="http://codex.wordpress.org/">Documentation</a>').' | '.__('<a href="http://wordpress.org/support/forum/4">Feedback</a>').' '.$upgrade; 
 
 ?></p>
 </div>

@@ -10,16 +10,16 @@ function core_update_footer( $msg ) {
 
 	switch ( $cur->response ) {
 	case 'development' :
-		return sprintf( __( '| You are using a development version (%s). Cool! Please <a href="%s">stay updated</a>.' ), $GLOBALS['wp_version'], 'http://wordpress.org/download/svn/' );
+		return sprintf( '| '.__( 'You are using a development version (%s). Cool! Please <a href="%s">stay updated</a>.' ), $GLOBALS['wp_version'], 'http://wordpress.org/download/svn/' );
 	break;
 
 	case 'upgrade' :
-		return sprintf( __( '| <strong>Your WordPress %s is out of date. <a href="%s">Please update</a>.</strong>' ), $GLOBALS['wp_version'], $cur->url );
+		return sprintf( '| <strong>'.__( 'Your WordPress %s is out of date. <a href="%s">Please update</a>.' ).'</strong>', $GLOBALS['wp_version'], $cur->url );
 	break;
 
 
 	case 'latest' :
-		return sprintf( __( '| Version %s' ), $GLOBALS['wp_version'] );
+		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
 	break;
 	}
 }
