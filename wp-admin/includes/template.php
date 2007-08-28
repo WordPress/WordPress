@@ -559,21 +559,36 @@ function wp_dropdown_roles( $default = false ) {
 	echo $p . $r;
 }
 
+function wp_convert_hr_to_bytes( $size ) {
+	$size = strtolower($size);
+	$bytes = (int) $size;
+	if ( strpos($size, 'k') !== false )
+		$bytes = intval($size) * 1024;
+	elseif ( strpos($size, 'm') !== false )
+		$bytes = intval($size) * 1024 * 1024;
+	elseif ( strpos($size, 'g') !== false )
+		$bytes = intval($size) * 1024 * 1024 * 1024;
+	return $bytes;
+}
+
+function wp_convert_bytes_to_hr( $bytes ) {
+	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+	$log = log( $bytes, 1024 );
+	$power = (int) $log;
+	$size = pow(1024, $log - $power);
+	return $size . $units[$power];
+}
+
 function wp_import_upload_form( $action ) {
-	$size = strtolower( ini_get( 'upload_max_filesize' ) );
-	$bytes = 0;
-	if (strpos($size, 'k') !== false)
-		$bytes = $size * 1024;
-	if (strpos($size, 'm') !== false)
-		$bytes = $size * 1024 * 1024;
-	if (strpos($size, 'g') !== false)
-		$bytes = $size * 1024 * 1024 * 1024;
-	$size = apply_filters( 'import_upload_size_limit', $size );
+	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
+	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
+	$bytes = apply_filters( 'import_upload_size_limit', min($u_bytes, $p_bytes), $u_bytes, $p_bytes );
+	$size = wp_convert_bytes_to_hr( $bytes );
 ?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo attribute_escape($action) ?>">
 <p>
 <?php wp_nonce_field('import-upload'); ?>
-<label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?> )
+<label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?>)
 <input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
