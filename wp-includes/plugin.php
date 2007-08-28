@@ -207,7 +207,7 @@ function do_action_ref_array($tag, $args) {
 			if ( !is_null($the_['function']) )
 				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
-	} while ( next($wp_filter[$tag]) );
+	} while ( next($wp_filter[$tag]) !== false );
 
 }
 
