@@ -60,6 +60,9 @@ function get_permalink($id = 0) {
 	);
 
 	$post = &get_post($id);
+
+	if ( empty($post->ID) ) return FALSE;
+
 	if ( $post->post_type == 'page' )
 		return get_page_link($post->ID);
 	elseif ($post->post_type == 'attachment')
