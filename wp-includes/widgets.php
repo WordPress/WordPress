@@ -837,7 +837,7 @@ function wp_flush_widget_recent_entries() {
 }
 
 add_action('save_post', 'wp_flush_widget_recent_entries');
-add_action('post_deleted', 'wp_flush_widget_recent_entries');
+add_action('deleted_post', 'wp_flush_widget_recent_entries');
 
 function wp_widget_recent_entries_control() {
 	$options = $newoptions = get_option('widget_recent_entries');
