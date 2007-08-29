@@ -989,6 +989,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
 
+		$tags_input = $content_struct['mt_keywords'];
+
 		if(isset($content_struct["mt_allow_comments"])) {
 			if(!is_numeric($content_struct["mt_allow_comments"])) {
 				switch($content_struct["mt_allow_comments"]) {
@@ -1083,7 +1085,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  // We've got all the data -- post it:
-	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order');
+	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input');
 
 	  $post_ID = wp_insert_post($postdata);
 
@@ -1276,6 +1278,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_more = $content_struct['mt_text_more'];
 	  $post_status = $publish ? 'publish' : 'draft';
 
+	  $tags_input = $content_struct['mt_keywords'];
+
 	  if ( ('publish' == $post_status) ) {
 	  	if ( ( 'page' == $post_type ) && !current_user_can('publish_pages') )
 	  		return new IXR_Error(401, __('Sorry, you do not have the right to publish this page.'));
@@ -1303,7 +1307,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  // We've got all the data -- post it:
-	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author');
+	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input');
 
 	  $result = wp_update_post($newpost);
 	  if (!$result) {
@@ -1345,6 +1349,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $categories[] = get_cat_name($catid);
 	    }
 
+		$tagnames = array();
+		$tags = wp_get_post_tags( $post_ID );
+		if ( !empty( $tags ) ) {
+			foreach ( $tags as $tag ) {
+				$tagnames[] = $tag->name;
+			}
+			$tagnames = implode( ', ', $tagnames );
+		} else {
+			$tagnames = '';
+		}
+
 	    $post = get_extended($postdata['post_content']);
 	    $link = post_permalink($postdata['ID']);
 
@@ -1369,6 +1384,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'mt_text_more' => $post['extended'],
 	      'mt_allow_comments' => $allow_comments,
 	      'mt_allow_pings' => $allow_pings,
+		  'mt_keywords' => $tagnames,
           'wp_slug' => $postdata['post_name'],
           'wp_password' => $postdata['post_password'],
           'wp_author_id' => $author->ID,
@@ -1415,6 +1431,17 @@ class wp_xmlrpc_server extends IXR_Server {
 				$categories[] = get_cat_name($catid);
 			}
 
+			$tagnames = array();
+			$tags = wp_get_post_tags( $entry['ID'] );
+			if ( !empty( $tags ) ) {
+				foreach ( $tags as $tag ) {
+					$tagnames[] = $tag->name;
+				}
+				$tagnames = implode( ', ', $tagnames );
+			} else {
+				$tagnames = '';
+			}
+
 			$post = get_extended($entry['post_content']);
 			$link = post_permalink($entry['ID']);
 
@@ -1439,6 +1466,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'mt_text_more' => $post['extended'],
 				'mt_allow_comments' => $allow_comments,
 				'mt_allow_pings' => $allow_pings,
+				'mt_keywords' => $tagnames,
 				'wp_slug' => $entry['post_name'],
 				'wp_password' => $entry['post_password'],
 				'wp_author_id' => $author->ID,
