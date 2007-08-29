@@ -285,6 +285,9 @@ function wp_write_post() {
 	// Create the post.
 	$post_ID = wp_insert_post( $_POST );
 
+	if ( empty($post_ID) )
+		return 0;
+
 	add_meta( $post_ID );
 
 	// Reunite any orphaned attachments with their parent

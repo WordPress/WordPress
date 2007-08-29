@@ -38,6 +38,9 @@ case 'post':
 	if ( isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
 
+	if ( empty($post_ID) )
+		$location = 'post-new.php';
+
 	wp_redirect($location);
 	exit();
 	break;
