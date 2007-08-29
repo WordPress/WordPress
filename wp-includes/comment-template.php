@@ -223,18 +223,17 @@ function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pin
 
 function get_trackback_url() {
 	global $id;
-	$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . $id;
-
-	if ( '' != get_option('permalink_structure') )
+	if ( '' != get_option('permalink_structure') ) {
 		$tb_url = trailingslashit(get_permalink()) . user_trailingslashit('trackback', 'single_trackback');
-
+	} else {
+		$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . $id;
+	}
 	return apply_filters('trackback_url', $tb_url);
 }
-function trackback_url( $display = true ) {
-	if ( $display)
-		echo get_trackback_url();
-	else
-		return get_trackback_url();
+
+function trackback_url($deprecated = true) { // remove backwards compat in 2.4
+	if ($deprecated) echo get_trackback_url();
+	else return get_trackback_url();
 }
 
 function trackback_rdf($timezone = 0) {
@@ -250,7 +249,7 @@ function trackback_rdf($timezone = 0) {
 		the_permalink();
 		echo '"'."\n";
 		echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', wptexturize(strip_tags(get_the_title()))).'"'."\n";
-		echo '    trackback:ping="'.trackback_url(0).'"'." />\n";
+		echo '    trackback:ping="'.get_trackback_url().'"'." />\n";
 		echo '</rdf:RDF>';
 	}
 }
