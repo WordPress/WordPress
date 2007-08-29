@@ -679,6 +679,8 @@ input.delete:hover {
 	padding: 0 50px 25px;
 	_width: 325px;
 	_margin: 0 auto;
+	min-height: 200px;
+	height: auto !important; /* min-height fast hack */
 	height: 200px;
 }
 
