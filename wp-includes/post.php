@@ -385,6 +385,17 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 }
 
 
+function delete_post_meta_by_key($post_meta_key) {
+	global $wpdb, $post_meta_cache, $blog_id;
+	$post_meta_key = $wpdb->escape($post_meta_key);
+	if ( $wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_key = '$post_meta_key'") ) {
+		unset($post_meta_cache[$blog_id]); // not worth doing the work to iterate through the cache
+		return true;
+	}
+	return false;
+}
+
+
 function get_post_custom($post_id = 0) {
 	global $id, $post_meta_cache, $wpdb, $blog_id;
 
