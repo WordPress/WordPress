@@ -96,10 +96,11 @@ class WP_Categories_to_Tags {
 	function convert_them() {
 		global $wpdb;
 
-		if (!isset($_POST['cats_to_convert']) || !is_array($_POST['cats_to_convert'])) {
+		if ( (!isset($_POST['cats_to_convert']) || !is_array($_POST['cats_to_convert'])) && empty($this->categories_to_convert)) {
 			print '<div class="narrow">';
 			print '<p>' . sprintf(__('Uh, oh. Something didn\'t work. Please <a href="%s">try again</a>.'), 'admin.php?import=wp-cat2tag') . '</p>';
 			print '</div>';
+			return;
 		}
 
 
@@ -109,15 +110,21 @@ class WP_Categories_to_Tags {
 
 		print '<ul>';
 
-		foreach ($this->categories_to_convert as $cat_id) {
+		foreach ( (array) $this->categories_to_convert as $cat_id) {
 			$cat_id = (int) $cat_id;
 
-			print '<li>' . __('Converting category') . ' #' . $cat_id . '... ';
+			print '<li>' . sprintf(__('Converting category #%s ... '),  $cat_id);
 
 			if (!$this->_category_exists($cat_id)) {
 				_e('Category doesn\'t exist!');
 			} else {
 				$category =& get_category($cat_id);
+
+				if ( tag_exists($wpdb->escape($category->name)) ) {
+					_e('Category is already a tag.');
+					print '</li>';
+					continue;
+				}
 
 				// Set the category itself to $type from above
 				$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = 'post_tag' WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
@@ -155,8 +162,8 @@ class WP_Categories_to_Tags {
 	function convert_all() {
 		global $wpdb;
 
-		$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = 'post_tag', parent = 0 WHERE taxonomy = 'category'");
-		clean_category_cache($category->term_id);
+		$this->categories_to_convert = get_categories('fields=ids&get=all');
+		$this->convert_them();
 	}
 
 	function init() {
