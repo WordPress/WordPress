@@ -64,28 +64,31 @@ function redirect_canonical() {
 				$redirect['query'] = remove_query_arg('author', $redirect['author']);
 		}
 
-		// paging
-		if ( is_paged() && strpos($redirect['query'], 'paged=') !== false ) {
-			if ( $paged = get_query_var('paged') ) {
-				if ( $paged > 1 ) {
-					if ( !$redirect_url )
-						$redirect_url = $requested_url;
-					$paged_redirect = @parse_url($redirect_url);
-					$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']);
-					$paged_redirect['path'] = trailingslashit($paged_redirect['path']);
-					if ( $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
-						$paged_redirect['path'] .= 'index.php/';
-					$paged_redirect['path'] .= user_trailingslashit("page/$paged");
-					$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
-				}
-				$redirect['query'] = remove_query_arg('paged', $redirect['query']);
+	// paging
+		if ( $paged = get_query_var('paged') ) {
+			if ( $paged > 1 ) {
+				if ( !$redirect_url )
+					$redirect_url = $requested_url;
+				$paged_redirect = @parse_url($redirect_url);
+				$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']);
+				$paged_redirect['path'] = trailingslashit($paged_redirect['path']);
+				if ( $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
+					$paged_redirect['path'] .= 'index.php/';
+				$paged_redirect['path'] .= user_trailingslashit("page/$paged");
+				$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
 			}
+			$redirect['query'] = remove_query_arg('paged', $redirect['query']);
 		}
 	}
 
 	// tack on any additional query vars
-	if ( $redirect_url && $redirect['query'] )
-		$redirect_url .= '?' . $redirect['query'];
+	if ( $redirect_url && $redirect['query'] ) {
+		if ( strpos($redirect_url, '?') !== false )
+			$redirect_url .= '&';
+		else
+			$redirect_url .= '?';
+		$redirect_url .= $redirect['query'];
+	}
 
 	if ( !$redirect_url ) { // we're only going down this road if we don't have a WP-generated link from above
 
