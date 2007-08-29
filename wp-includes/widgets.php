@@ -966,10 +966,10 @@ function wp_widget_rss($args, $number = 1) {
 ?>
 		<?php echo $before_widget; ?>
 			<?php $title ? print($before_title . $title . $after_title) : null; ?>
-			<ul>
 <?php
-	if ( is_array( $rss->items ) ) {
+	if ( is_array( $rss->items ) && !empty( $rss->items ) ) {
 		$rss->items = array_slice($rss->items, 0, $num_items);
+		echo '<ul>';
 		foreach ($rss->items as $item ) {
 			while ( strstr($item['link'], 'http') != $item['link'] )
 				$item['link'] = substr($item['link'], 1);
@@ -987,13 +987,12 @@ function wp_widget_rss($args, $number = 1) {
 			}
 			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>$summary</li>";
 		}
+		echo '</ul>';
 	} else {
-		echo '<li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li>';
+		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
 	}
-?>
-			</ul>
-		<?php echo $after_widget; ?>
-<?php
+	
+	echo $after_widget;
 }
 
 function wp_widget_rss_control($number) {
