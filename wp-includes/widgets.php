@@ -810,7 +810,7 @@ function wp_widget_recent_entries($args) {
 	else if ( $number > 15 )
 		$number = 15;
 
-	$r = new WP_Query("showposts=$number&what_to_show=posts&nopaging=0");
+	$r = new WP_Query("showposts=$number&what_to_show=posts&nopaging=0&post_status=publish");
 	if ($r->have_posts()) :
 ?>
 		<?php echo $before_widget; ?>
