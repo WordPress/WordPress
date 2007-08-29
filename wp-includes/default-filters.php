@@ -56,6 +56,12 @@ foreach ( $filters as $filter ) {
 	add_filter($filter, 'wp_specialchars');
 }
 
+// Format for RSS
+$filters = array('term_name_rss');
+foreach ( $filters as $filter ) {
+	add_filter($filter, 'convert_chars');
+}
+
 // Display filters
 add_filter('the_title', 'wptexturize');
 add_filter('the_title', 'convert_chars');

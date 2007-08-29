@@ -146,17 +146,34 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
 
 function get_the_category_rss($type = 'rss') {
 	$categories = get_the_category();
+	$tags = get_the_tags();
 	$home = get_bloginfo_rss('home');
 	$the_list = '';
-	foreach ( (array) $categories as $category ) {
-		$cat_name = convert_chars($category->name);
+	$cat_names = array();
+
+	$filter = 'rss';
+	if ( 'atom' == $type )
+		$filter = 'raw';
+
+	if ( !empty($categories) ) foreach ( (array) $categories as $category ) {
+		$cat_names[] = sanitize_term_field('name', $category->name, $category->term_id, 'category', $filter);		
+	}
+
+	if ( !empty($tags) ) foreach ( (array) $tags as $tag ) {
+		$cat_names[] = sanitize_term_field('name', $tag->name, $tag->term_id, 'post_tag', $filter);		
+	}
+
+	$cat_names = array_unique($cat_names);
+
+	foreach ( $cat_names as $cat_name ) {
 		if ( 'rdf' == $type )
 			$the_list .= "\n\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
 		if ( 'atom' == $type )
-			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', attribute_escape( apply_filters( 'get_bloginfo_rss', get_bloginfo( 'url' ) ) ), attribute_escape( $category->name ) );
+			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', attribute_escape( apply_filters( 'get_bloginfo_rss', get_bloginfo( 'url' ) ) ), attribute_escape( $cat_name ) );
 		else
 			$the_list .= "\n\t\t<category><![CDATA[$cat_name]]></category>\n";
 	}
+
 	return apply_filters('the_category_rss', $the_list, $type);
 }
 

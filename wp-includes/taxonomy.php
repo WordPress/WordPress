@@ -594,7 +594,10 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 			$value = attribute_escape($value);
 	} else if ( 'db' == $context ) {
 		$value = apply_filters("pre_term_$field", $value, $taxonomy);
-		$value = apply_filters("pre_${taxonomy}_$field", $value);	
+		$value = apply_filters("pre_${taxonomy}_$field", $value);
+	} else if ( 'rss' == $context ) {
+		$value = apply_filters("term_${field}_rss", $value, $taxonomy);
+		$value = apply_filters("${taxonomy}_$field_rss", $value);
 	} else {
 		// Use display filters by default.
 		$value = apply_filters("term_$field", $value, $term_id, $taxonomy, $context);
