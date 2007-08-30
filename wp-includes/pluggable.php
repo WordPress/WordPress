@@ -398,7 +398,7 @@ function wp_redirect($location, $status = 302) {
 	if ( !$location ) // allows the wp_redirect filter to cancel a redirect
 		return false; 
 
-	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $location);
+	$location = preg_replace('|[^a-z0-9-~\+_\.\?#=&;,/:%]|i', '', $location);
 	$location = wp_kses_no_null($location);
 
 	$strip = array('%0d', '%0a');
