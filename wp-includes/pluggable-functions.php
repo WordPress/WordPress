@@ -259,7 +259,7 @@ if ( !function_exists('wp_redirect') ) :
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
 
-	$location = preg_replace('|[^a-z0-9-~\+_\.\?#=&;,/:%]|i', '', $location);
+	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $location);
 
 	// remove %0d and %0a from location
 	$strip = array('%0d', '%0a');
