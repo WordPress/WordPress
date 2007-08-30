@@ -4,9 +4,6 @@
 
 function core_update_footer( $msg ) {
 	$cur = get_option( 'update_core' );
-	
-	if ( ! isset( $cur->response ) )
-		return $msg;
 
 	switch ( $cur->response ) {
 	case 'development' :
@@ -17,8 +14,8 @@ function core_update_footer( $msg ) {
 		return sprintf( '| <strong>'.__( 'Your WordPress %s is out of date. <a href="%s">Please update</a>.' ).'</strong>', $GLOBALS['wp_version'], $cur->url );
 	break;
 
-
 	case 'latest' :
+	default :
 		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
 	break;
 	}
