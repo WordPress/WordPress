@@ -640,8 +640,6 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 		$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id IN ($in_terms)");
 		wp_update_term_count($terms, $taxonomy);
 	}
-
-	// TODO clear the cache
 }
 
 /**
@@ -870,9 +868,6 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		}
 	}
 
-	// TODO clean old_terms. Need term_id instead of tt_id
-	clean_term_cache($term_ids, $taxonomy);
-
 	return $tt_ids;
 }
 
@@ -949,14 +944,18 @@ function wp_update_term_count( $terms, $taxonomy ) {
 	$terms = array_map('intval', $terms);
 
 	$taxonomy = get_taxonomy($taxonomy);
-	if ( !empty($taxonomy->update_count_callback) )
-		return call_user_func($taxonomy->update_count_callback, $terms);
+	if ( !empty($taxonomy->update_count_callback) ) {
+		call_user_func($taxonomy->update_count_callback, $terms);
+	} else {
+		// Default count updater
+		foreach ($terms as $term) {
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
+			$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
+		}
 
-	// Default count updater
-	foreach ($terms as $term) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
-		$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
 	}
+
+	clean_term_cache($terms);
 
 	return true;
 }
@@ -981,17 +980,35 @@ function clean_object_term_cache($object_ids, $object_type) {
 	}
 }
 
-function clean_term_cache($ids, $taxonomy) {
+function clean_term_cache($ids, $taxonomy = '') {
+	global $wpdb;
+
 	if ( !is_array($ids) )
 		$ids = array($ids);
 
-	foreach ( $ids as $id ) {
-		wp_cache_delete($id, $taxonomy);
+	$taxonomies = array();
+	// If no taxonomy, assume tt_ids.
+	if ( empty($taxonomy) ) {
+		$tt_ids = implode(', ', $ids);
+		$terms = $wpdb->get_results("SELECT term_id, taxonomy FROM $wpdb->term_taxonomy WHERE term_taxonomy_id IN ($tt_ids)");
+		foreach ( (array) $terms as $term ) {
+			$taxonomies[] = $term->taxonomy;
+			wp_cache_delete($term->term_id, $term->taxonomy);
+		}
+		$taxonomies = array_unique($taxonomies);
+	} else {
+		foreach ( $ids as $id ) {
+			wp_cache_delete($id, $taxonomy);
+		}
+		$taxonomies = array($taxonomy);
 	}
 
-	wp_cache_delete('all_ids', $taxonomy);
-	wp_cache_delete('get', $taxonomy);
-	delete_option("{$taxonomy}_children");
+	foreach ( $taxonomies as $taxonomy ) { 
+		wp_cache_delete('all_ids', $taxonomy);
+		wp_cache_delete('get', $taxonomy);
+		delete_option("{$taxonomy}_children");
+	}
+
 	wp_cache_delete('get_terms', 'terms');
 }
 
