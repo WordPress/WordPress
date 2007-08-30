@@ -3,6 +3,9 @@
 // The admin side of our 1.0 update system
 
 function core_update_footer( $msg ) {
+	if ( !current_user_can('manage_options') )
+		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
+
 	$cur = get_option( 'update_core' );
 
 	switch ( $cur->response ) {
@@ -23,14 +26,17 @@ function core_update_footer( $msg ) {
 add_filter( 'update_footer', 'core_update_footer' );
 
 function update_nag() {
-$cur = get_option( 'update_core' );
+	$cur = get_option( 'update_core' );
 
-if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
-	return false;
+	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
+		return false;
 
-?>
-<div id="update-nag"><?php printf( __('A new version of WordPress is available! <a href="%s">Please update now</a>.'), $cur->url ); ?></div>
-<?php
+	if ( current_user_can('manage_options') )
+		$msg = sprintf( __('A new version of WordPress is available! <a href="%s">Please update now</a>.'), $cur->url );
+	else
+		$msg = __('A new version of WordPress is available! Please notify the site administrator.');
+
+	echo "<div id='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'update_nag', 3 );
 
