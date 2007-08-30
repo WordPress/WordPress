@@ -32,7 +32,7 @@ if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
 	return false;
 
 ?>
-<div id="update-nag"><?php printf( __('Update Available! <a href="%s">Please upgrade now</a>.'), $cur->url ); ?></div>
+<div id="update-nag"><?php printf( __('A new version of WordPress is available! <a href="%s">Please update now</a>.'), $cur->url ); ?></div>
 <?php
 }
 add_action( 'admin_notices', 'update_nag', 3 );
