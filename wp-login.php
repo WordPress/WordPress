@@ -150,9 +150,9 @@ case 'retrievepassword' :
 <?php if (get_option('users_can_register')) : ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Login') ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a></li>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display' )); ?></a></li>
 <?php else : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display' )); ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Login') ?></a></li>
 <?php endif; ?>
 </ul>
@@ -272,7 +272,7 @@ case 'register' :
 <ul>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Login') ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
 </ul>
 
 </body>
@@ -365,13 +365,13 @@ default:
 
 <ul>
 <?php if ( in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
 <?php elseif (get_option('users_can_register')) : ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
 <?php else : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
+	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
 <?php endif; ?>
 </ul>

@@ -117,6 +117,14 @@ function cat_is_ancestor_of($cat1, $cat2) {
 	return cat_is_ancestor_of($cat1, get_category($cat2->parent)); 
 } 
 
+function sanitize_category($category, $context = 'display') {
+	return sanitize_term($category, 'category', $context);
+}
+
+function sanitize_category_field($field, $value, $cat_id, $context) {
+	return sanitize_term_field($field, $value, $cat_id, 'category', $context);
+}
+
 // Tags
 
 function &get_tags($args = '') {

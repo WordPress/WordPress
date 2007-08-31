@@ -60,19 +60,7 @@ function wp_meta() {
 
 
 function bloginfo($show='') {
-	$info = get_bloginfo($show);
-
-	// Don't filter URL's.
-	if (strpos($show, 'url') === false &&
-		strpos($show, 'directory') === false &&
-		strpos($show, 'home') === false) {
-		$info = apply_filters('bloginfo', $info, $show);
-		$info = convert_chars($info);
-	} else {
-		$info = apply_filters('bloginfo_url', $info, $show);
-	}
-
-	echo $info;
+	echo get_bloginfo($show, 'display');
 }
 
 /**
@@ -81,7 +69,7 @@ function bloginfo($show='') {
  * without "// DEPRECATED" are the preferred and recommended ways 
  * to get the information.
  */
-function get_bloginfo($show='') {
+function get_bloginfo($show = '', $filter = 'raw') {
 
 	switch($show) {
 		case 'url' :
@@ -153,6 +141,20 @@ function get_bloginfo($show='') {
 			$output = get_option('blogname');
 			break;
 	}
+
+	$url = true;
+	if (strpos($show, 'url') === false &&
+		strpos($show, 'directory') === false &&
+		strpos($show, 'home') === false)
+		$url = false;
+			
+	if ( 'display' == $filter ) {
+		if ( $url )
+			$output = apply_filters('bloginfo_url', $output, $show);
+		else
+			$output = apply_filters('bloginfo', $output, $show);
+	}
+
 	return $output;
 }
 

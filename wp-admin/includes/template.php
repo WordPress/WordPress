@@ -286,7 +286,7 @@ if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	}
 	echo " | <a href=\"" . wp_nonce_url("comment.php?action=deletecomment&amp;dt=spam&amp;p=" . $comment->comment_post_ID . "&amp;c=" . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to mark as spam this comment by '%s'.\n'Cancel' to stop, 'OK' to mark as spam."), $comment->comment_author))  . "', theCommentList );\">" . __('Spam') . "</a> ";
 }
-$post = get_post($comment->comment_post_ID);
+$post = get_post($comment->comment_post_ID, OBJECT, 'display');
 $post_title = wp_specialchars( $post->post_title, 'double' );
 $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 ?>

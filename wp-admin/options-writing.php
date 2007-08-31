@@ -33,6 +33,7 @@ include('admin-header.php');
 <?php
 $categories = get_categories('get=all');
 foreach ($categories as $category) :
+$category = sanitize_category($category);
 if ($category->term_id == get_option('default_category')) $selected = " selected='selected'";
 else $selected = '';
 echo "\n\t<option value='$category->term_id' $selected>$category->name</option>";
@@ -44,8 +45,9 @@ endforeach;
 <th scope="row"><?php _e('Default link category:') ?></th>
 <td><select name="default_link_category" id="default_link_category">
 <?php
-$categories = get_terms('link_category', 'get=all');
-foreach ($categories as $category) :
+$link_categories = get_terms('link_category', 'get=all');
+foreach ($link_categories as $category) :
+$category = sanitize_term($category, 'link_category');
 if ($category->term_id == get_option('default_link_category')) $selected = " selected='selected'";
 else $selected = '';
 echo "\n\t<option value='$category->term_id' $selected>$category->name</option>";
@@ -83,6 +85,7 @@ endforeach;
 <?php
 //Alreay have $categories from default_category
 foreach ($categories as $category) :
+$category = sanitize_category($category);
 if ($category->cat_ID == get_option('default_email_category')) $selected = " selected='selected'";
 else $selected = '';
 echo "\n\t<option value='$category->cat_ID' $selected>$category->cat_name</option>";
