@@ -4,8 +4,8 @@ function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
 	$bookmark_id = (int) $bookmark_id;
-	$link = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = '$bookmark_id'");
-	$link->link_category = wp_get_link_cats($bookmark_id);
+	$link = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = '$bookmark_id' LIMIT 1");
+	$link->link_category = array_unique( wp_get_object_terms($link_id, 'link_category', 'fields=ids') );
 
 	$link = sanitize_bookmark($link, $filter);
 	
