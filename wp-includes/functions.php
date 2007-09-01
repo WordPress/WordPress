@@ -644,17 +644,17 @@ function add_query_arg() {
 		$qs[func_get_arg(0)] = func_get_arg(1);
 	}
 
-	foreach($qs as $k => $v) {
-		if ( $v !== FALSE ) {
-			if ( $ret != '' )
-				$ret .= '&';
-			if ( empty($v) && !preg_match('|[?&]' . preg_quote($k, '|') . '=|', $query) )
-				$ret .= $k;
-			else
-				$ret .= "$k=$v";
-		}
+	foreach ( $qs as $k => $v ) {
+		if ( $v === false )
+			unset($qs[$k]);
 	}
+
+	if ( ini_get('arg_separator.output') === '&')
+		$ret = http_build_query($qs, '', '&');
+	else
+		$ret = _http_build_query($qs, NULL, '&');
 	$ret = trim($ret, '?');
+	$ret = preg_replace('#=(&|$)#', '$1', $ret);
 	$ret = $protocol . $base . $ret . $frag;
 	$ret = rtrim($ret, '?');
 	return $ret;
