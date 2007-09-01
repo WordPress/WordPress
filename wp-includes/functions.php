@@ -606,6 +606,8 @@ function add_query_arg() {
 			$uri = @func_get_arg(2);
 	}
 
+	$uri = str_replace('&amp;', '&', $uri);
+
 	if ( $frag = strstr($uri, '#') )
 		$uri = substr($uri, 0, -strlen($frag));
 	else
