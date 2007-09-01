@@ -106,9 +106,10 @@ $numtags = wp_count_terms('post_tag');
 $post_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Posts">post</a>', '%1$s <a href="%2$s" title="Posts">posts</a>', $numposts), number_format_i18n($numposts), 'edit.php');
 $comm_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Comments">comment</a>', '%1$s <a href="%2$s" title="Comments">comments</a>', $numcomms), number_format_i18n($numcomms), 'edit-comments.php');
 $cat_str  = sprintf(__ngettext('%1$s <a href="%2$s" title="Categories">category</a>', '%1$s <a href="%2$s" title="Categories">categories</a>', $numcats), number_format_i18n($numcats), 'categories.php');
+$tag_str  = sprintf(__ngettext('%1$s tag', '%1$s tags', $numtags), number_format_i18n($numtags));
 ?>
 
-<p><?php printf(__('There are currently %1$s and %2$s, contained within %3$s and %4$s tags.'), $post_str, $comm_str, $cat_str, $numtags); ?></p>
+<p><?php printf(__('There are currently %1$s and %2$s, contained within %3$s and %4$s.'), $post_str, $comm_str, $cat_str, $tag_str); ?></p>
 </div>
 
 <?php do_action('activity_box_end'); ?>
