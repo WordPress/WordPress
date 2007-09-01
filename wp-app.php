@@ -13,24 +13,7 @@ require_once('./wp-config.php');
 require_once(ABSPATH . WPINC . '/post-template.php');
 require_once(ABSPATH . WPINC . '/atomlib.php');
 
-// Attempt to automatically detect whether to use querystring
-// or PATH_INFO, based on our environment:
-$use_querystring = $wp_version == 'MU' ? 1 : 0;
-
-// If using querystring, we need to put the path together manually:
-if ($use_querystring) {
-	$GLOBALS['use_querystring'] = $use_querystring;
-	$action = $_GET['action'];
-	$eid = (int) $_GET['eid'];
-
-	$_SERVER['PATH_INFO'] = $action;
-
-	if ($eid) {
-		$_SERVER['PATH_INFO'] .= "/$eid";
-	}
-} else {
-	$_SERVER['PATH_INFO'] = str_replace( '.*/wp-app.php', '', $_SERVER['REQUEST_URI'] );
-}
+$_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/', '', $_SERVER['REQUEST_URI'] );
 
 $app_logging = 0;
 
@@ -142,7 +125,7 @@ class AtomServer {
 
 		// redirect to /service in case no path is found.
 		if(strlen($path) == 0 || $path == '/') {
-				$this->redirect($this->get_service_url());
+			$this->redirect($this->get_service_url());
 		}
 	
 		// dispatch
@@ -150,22 +133,22 @@ class AtomServer {
 			if(preg_match($regex, $path, $matches)) {
 			if(isset($funcs[$method])) {
 
-						// authenticate regardless of the operation and set the current
-						// user. each handler will decide if auth is required or not.
-						$this->authenticate();               
-						$u = wp_get_current_user();
-						if(!isset($u) || $u->ID == 0) {
-							if ($always_authenticate) {
-								$this->auth_required('Credentials required.');
-							}
-						}
+				// authenticate regardless of the operation and set the current
+				// user. each handler will decide if auth is required or not.
+				$this->authenticate();               
+				$u = wp_get_current_user();
+				if(!isset($u) || $u->ID == 0) {
+					if ($always_authenticate) {
+						$this->auth_required('Credentials required.');
+					}
+				}
 
-						array_shift($matches);
-						call_user_func_array(array(&$this,$funcs[$method]), $matches);
-						exit();
+				array_shift($matches);
+				call_user_func_array(array(&$this,$funcs[$method]), $matches);
+				exit();
 			} else {
-						// only allow what we have handlers for...
-						$this->not_allowed(array_keys($funcs));
+				// only allow what we have handlers for...
+				$this->not_allowed(array_keys($funcs));
 			}
 			}
 		}
@@ -245,7 +228,6 @@ EOD;
 			array_push($catnames, $cat["term"]);
 		
 		$wp_cats = get_categories(array('hide_empty' => false));
-		log_app('CATEGORIES :', print_r($wp_cats,true));
 		
 		$post_category = array();
 		
@@ -351,8 +333,6 @@ EOD;
 
 		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'post_date', 'post_date_gmt');
 		$this->escape($postdata);
-
-		log_app('UPDATING ENTRY WITH:', print_r($postdata,true));
 
 		$result = wp_update_post($postdata);
 
@@ -606,23 +586,14 @@ EOD;
 	}
 
 	function get_entries_url($page = NULL) {
-		global $use_querystring;
 		if($GLOBALS['post_type'] == 'attachment') {
 			$path = $this->MEDIA_PATH;
 		} else {
 			$path = $this->ENTRIES_PATH;
 		}
-		$url = get_bloginfo('url') . '/' . $this->script_name;
-		if ($use_querystring) {
-			$url .= '?action=/' . $path;
-			if(isset($page) && is_int($page)) {
-				$url .= "&amp;eid=$page";
-			}
-		} else {
-			$url .= '/' . $path;
-			if(isset($page) && is_int($page)) {
-				$url .= "/$page";
-			}
+		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $path;
+		if(isset($page) && is_int($page)) {
+			$url .= "/$page";
 		}
 		return $url;
 	}
@@ -633,14 +604,7 @@ EOD;
 	}
 
 	function get_categories_url($page = NULL) {
-		global $use_querystring;
-		$url = get_bloginfo('url') . '/' . $this->script_name;
-		if ($use_querystring) {
-			$url .= '?action=/' . $this->CATEGORIES_PATH;
-		} else {
-			$url .= '/' . $this->CATEGORIES_PATH;
-		}
-		return $url;
+		return get_bloginfo('url') . '/' . $this->script_name . '/' . $this->CATEGORIES_PATH;
 	}
 
 	function the_categories_url() {
@@ -649,18 +613,9 @@ EOD;
 	}
 
 	function get_attachments_url($page = NULL) {
-		global $use_querystring;
-		$url = get_bloginfo('url') . '/' . $this->script_name;
-		if ($use_querystring) {
-			$url .= '?action=/' . $this->MEDIA_PATH;
-			if(isset($page) && is_int($page)) {
-				$url .= "&amp;eid=$page";
-			}
-		} else {
-			$url .= '/' . $this->MEDIA_PATH;
-			if(isset($page) && is_int($page)) {
-				$url .= "/$page";
-			}
+		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->MEDIA_PATH;
+		if(isset($page) && is_int($page)) {
+			$url .= "/$page";
 		}
 		return $url;
 	}
@@ -671,28 +626,16 @@ EOD;
 	}
 
 	function get_service_url() {
-		global $use_querystring;
-		$url = get_bloginfo('url') . '/' . $this->script_name;
-		if ($use_querystring) {
-			$url .= '?action=/' . $this->SERVICE_PATH;
-		} else {
-			$url .= '/' . $this->SERVICE_PATH;
-		}
-		return $url;
+		return get_bloginfo('url') . '/' . $this->script_name . '/' . $this->SERVICE_PATH;
 	}
 
 	function get_entry_url($postID = NULL) {
-		global $use_querystring;
 		if(!isset($postID)) {
 			global $post;
 			$postID = (int) $GLOBALS['post']->ID;
 		}
 
-		if ($use_querystring) {
-			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->ENTRY_PATH . "&amp;eid=$postID";
-		} else {
-			$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->ENTRY_PATH . "/$postID";
-		}
+		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->ENTRY_PATH . "/$postID";
 
 		log_app('function',"get_entry_url() = $url");
 		return $url;
@@ -704,17 +647,12 @@ EOD;
 	}
 
 	function get_media_url($postID = NULL) {
-		global $use_querystring;
 		if(!isset($postID)) {
 			global $post;
 			$postID = (int) $GLOBALS['post']->ID;
 		}
 
-		if ($use_querystring) {
-			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->MEDIA_SINGLE_PATH ."/file&amp;eid=$postID";
-		} else {
-			$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->MEDIA_SINGLE_PATH ."/file/$postID";
-		}
+		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->MEDIA_SINGLE_PATH ."/file/$postID";
 
 		log_app('function',"get_media_url() = $url");
 		return $url;
@@ -767,7 +705,7 @@ EOD;
 
 		$count = get_option('posts_per_rss');
 
-		wp('what_to_show=posts&posts_per_page=' . $count . '&offset=' . ($page-1));
+		wp('what_to_show=posts&posts_per_page=' . $count . '&offset=' . ($count * ($page-1) ));
 
 		$post = $GLOBALS['post'];
 		$posts = $GLOBALS['posts'];
@@ -783,6 +721,7 @@ EOD;
 		$next_page = (($page + 1) > $last_page) ? NULL : $page + 1;
 		$prev_page = ($page - 1) < 1 ? NULL : $page - 1;
 		$last_page = ((int)$last_page == 1 || (int)$last_page == 0) ? NULL : (int) $last_page;
+		$self_page = $page > 1 ? $page : NULL; 
 ?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
 <id><?php $this->the_entries_url() ?></id>
 <updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></updated>
@@ -796,46 +735,15 @@ EOD;
 <link rel="next" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($next_page) ?>" />
 <?php endif; ?>
 <link rel="last" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($last_page) ?>" />
-<link rel="self" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url() ?>" />
+<link rel="self" type="<?php echo $this->ATOM_CONTENT_TYPE ?>" href="<?php $this->the_entries_url($self_page) ?>" />
 <rights type="text">Copyright <?php echo mysql2date('Y', get_lastpostdate('blog')); ?></rights>
 <generator uri="http://wordpress.com/" version="1.0.5-dc">WordPress.com Atom API</generator>
-<?php if ( have_posts() ) : while ( have_posts() ) : the_post();
-$post = $GLOBALS['post'];
-?>
-<entry>
-		<id><?php the_guid($post->ID); ?></id>
-		<title type="text"><![CDATA[<?php the_title_rss() ?>]]></title>
-		<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
-		<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
-		<app:edited><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></app:edited>
-		<app:control>
-			<app:draft><?php echo ($GLOBALS['post']->post_status == 'draft' ? 'yes' : 'no') ?></app:draft>
-		</app:control>
-		<author>
-			<name><?php the_author()?></name>
-			<email><?php the_author_email()?></email>
-		<?php if (get_the_author_url() && get_the_author_url() != 'http://') { ?>
-			<uri><?php the_author_url()?></uri>
-		<?php } ?>
-		</author>
-	<?php if($GLOBALS['post']->post_type == 'attachment') { ?>
-		<link rel="edit-media" href="<?php $this->the_media_url() ?>" />
-		<content type="<?php echo $GLOBALS['post']->post_mime_type ?>" src="<?php the_guid(); ?>"/>
-	<?php } else { ?>
-		<link href="<?php the_permalink_rss() ?>" />
-		<?php if ( strlen( $GLOBALS['post']->post_content ) ) : ?>
-			<content type="html"><![CDATA[<?php echo get_the_content('', 0, '') ?>]]></content>
-		<?php endif; ?>
-	<?php } ?>
-		<link rel="edit" href="<?php $this->the_entry_url() ?>" />
-	<?php foreach(get_the_category() as $category) { ?>
-		<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
-	<?php } ?>
-		<summary type="html"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
-	</entry>
-<?php
-	endwhile;
-	endif;
+<?php if ( have_posts() ) {
+			while ( have_posts() ) {
+				the_post();
+				$this->echo_entry();
+			}
+		}
 ?></feed>
 <?php
 		$feed = ob_get_contents();
@@ -856,15 +764,27 @@ $post = $GLOBALS['post'];
 				break;
 		}
 		query_posts($varname . '=' . $postID);
-		if ( have_posts() ) : while ( have_posts() ) : the_post();
-		$post = $GLOBALS['post'];
-		?>
-		<?php log_app('$post',print_r($GLOBALS['post'],true)); ?>
+		if ( have_posts() ) {
+			while ( have_posts() ) {
+				the_post();
+				$this->echo_entry();
+				log_app('$post',print_r($GLOBALS['post'],true));
+				$entry = ob_get_contents();
+				break;
+			}
+		}
+		ob_end_clean();
+
+		log_app('get_entry returning:',$entry);
+		return $entry;
+	}
+
+	function echo_entry() { ?>
 <entry xmlns="<?php echo $this->ATOM_NS ?>"
        xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
-	<id><?php the_guid($post->ID); ?></id>
-	<title type="text"><![CDATA[<?php the_title_rss() ?>]]></title>
-
+	<id><?php the_guid($GLOBALS['post']->ID); ?></id>
+<?php list($content_type, $content) = $this->prep_content(get_the_title()); ?>
+	<title type="<?php echo $content_type ?>"><?php echo $content ?></title>
 	<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 	<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
 	<app:edited><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></app:edited>
@@ -874,34 +794,49 @@ $post = $GLOBALS['post'];
 	<author>
 		<name><?php the_author()?></name>
 		<email><?php the_author_email()?></email>
-	<?php if (get_the_author_url() && get_the_author_url() != 'http://') { ?>
+<?php if (get_the_author_url() && get_the_author_url() != 'http://') { ?>
 		<uri><?php the_author_url()?></uri>
-	<?php } ?>
+<?php } ?>
 	</author>
 <?php if($GLOBALS['post']->post_type == 'attachment') { ?>
 	<link rel="edit-media" href="<?php $this->the_media_url() ?>" />
 	<content type="<?php echo $GLOBALS['post']->post_mime_type ?>" src="<?php the_guid(); ?>"/>
 <?php } else { ?>
 	<link href="<?php the_permalink_rss() ?>" />
-	<?php if ( strlen( $GLOBALS['post']->post_content ) ) : ?>
-		<content type="<?php echo $GLOBALS['post']->post_mime_tpye ?>"><![CDATA[<?php echo get_the_content('', 0, '') ?>]]></content>
-	<?php endif; ?>
+<?php if ( strlen( $GLOBALS['post']->post_content ) ) :
+list($content_type, $content) = $this->prep_content(get_the_content()); ?>
+	<content type="<?php echo $content_type ?>"><?php echo $content ?></content>
+<?php endif; ?>
 <?php } ?>
 	<link rel="edit" href="<?php $this->the_entry_url() ?>" />
 <?php foreach(get_the_category() as $category) { ?>
 	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
 <?php } ?>
-	<summary type="html"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
-	</entry>
-<?php
-		$entry = ob_get_contents();
-		break;
-		endwhile;
-		endif;
-		ob_end_clean();
+<?php list($content_type, $content) = $this->prep_content(get_the_excerpt()); ?>
+	<summary type="<?php echo $content_type ?>"><?php echo $content ?></summary>
+</entry>
+<?php }
 
-		log_app('get_entry returning:',$entry);
-		return $entry;
+	function prep_content($data) {
+		if (strpos($data, '<') === false && strpos($data, '&') === false) {
+			return array('text', $data);
+		}
+
+		$parser = xml_parser_create();
+		xml_parse($parser, '<div>' . $data . '</div>', true);
+		$code = xml_get_error_code($parser);
+		xml_parser_free($parser);
+
+		if (!$code) {
+			$data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
+			return array('xhtml', $data);
+		}
+
+		if (strpos($data, ']]>') == false) {
+			return array('html', "<![CDATA[$data]]>");
+		} else {
+			return array('html', htmlspecialchars($data));
+		}
 	}
 
 	function ok() {
@@ -997,7 +932,6 @@ EOD;
 	}
 
 	function created($post_ID, $content, $post_type = 'post') {
-		global $use_querystring;
 		log_app('created()::$post_ID',"$post_ID, $post_type");
 		$edit = $this->get_entry_url($post_ID);
 		switch($post_type) {
@@ -1005,11 +939,7 @@ EOD;
 				$ctloc = $this->get_entry_url($post_ID);
 				break;
 			case 'attachment':
-				if ($use_querystring) {
-					$edit = get_bloginfo('url') . '/' . $this->script_name . "?action=/attachments&amp;eid=$post_ID";
-				} else {
-					$edit = get_bloginfo('url') . '/' . $this->script_name . "/attachments/$post_ID";
-				}
+				$edit = get_bloginfo('url') . '/' . $this->script_name . "/attachments/$post_ID";
 				break;
 		}
 		header("Content-Type: $this->ATOM_CONTENT_TYPE");
