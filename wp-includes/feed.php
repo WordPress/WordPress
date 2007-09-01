@@ -182,6 +182,32 @@ function the_category_rss($type = 'rss') {
 	echo get_the_category_rss($type);
 }
 
+function get_tag_feed_link($tag_id, $feed = 'rss2') {
+	$tag_id = (int) $tag_id;
+
+	$tag = get_tag($tag_id);
+	
+	if ( empty($tag) || is_wp_error($tag) )
+		return false;
+		
+	$permalink_structure = get_option('permalink_structure');
+
+	if ( '' == $permalink_structure ) {
+		$link = get_option('home') . "?feed=$feed&amp;tag=" . $tag->slug;
+	} else {
+		$link = get_tag_link($tag->term_id);
+		if ( 'rss2' == $feed )
+			$feed_link = 'feed';
+		else
+			$feed_link = "feed/$feed";
+		$link = $link . user_trailingslashit($feed_link, 'feed');
+	}
+
+	$link = apply_filters('tag_feed_link', $link, $feed);
+
+	return $link;
+}
+
 function html_type_rss() {
 	$type = get_bloginfo('html_type');
 	if (strpos($type, 'xhtml') !== false)

@@ -148,6 +148,10 @@ function &get_tags($args = '') {
 	return $tags;
 }
 
+function &get_tag($tag, $output = OBJECT, $filter = 'raw') {
+	return get_term($tag, 'post_tag', $output, $filter);
+}
+
 //
 // Cache
 //
