@@ -35,7 +35,7 @@
 <h2 id="postcomment"><?php _e('Leave a comment'); ?></h2>
 
 <?php if ( get_option('comment_registration') && !$user_ID ) : ?>
-<p><?php printf(__('You must be <a href="%s">logged in</a> to post a comment.'), get_option('siteurl')."/wp-login.php?redirect_to=".get_the_permalink());?></p>
+<p><?php printf(__('You must be <a href="%s">logged in</a> to post a comment.'), get_option('siteurl')."/wp-login.php?redirect_to=".urlencode(get_permalink()));?></p>
 <?php else : ?>
 
 <form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
