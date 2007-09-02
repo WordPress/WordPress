@@ -20,6 +20,8 @@ if ( defined('RELOCATE') ) { // Move flag is set
 		update_option('siteurl', dirname($schema . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) );
 }
 
+//Set a cookie now to see if they are supported by the browser.
+setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
 
 // Rather than duplicating this HTML all over the place, we'll stick it in function
 function login_header($title = 'Login', $message = '') {
@@ -306,6 +308,10 @@ default:
 	}
 
 	do_action_ref_array('wp_authenticate', array(&$user_login, &$user_pass));
+
+	// If cookies are disabled we can't log in even with a valid user+pass
+	if ( $_POST && empty($_COOKIE[TEST_COOKIE]) )
+		$errors['test_cookie'] = __('<strong>ERROR</strong>: WordPress requires Cookies but your browser does not support them or they are blocked.');
 
 	if ( $user_login && $user_pass && empty( $errors ) ) {
 		$user = new WP_User(0, $user_login);
