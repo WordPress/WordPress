@@ -828,8 +828,12 @@ list($content_type, $content) = $this->prep_content(get_the_content()); ?>
 		xml_parser_free($parser);
 
 		if (!$code) {
-			$data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
-			return array('xhtml', $data);
+		        if (strpos($data, '<') === false) {
+			        return array('text', $data);
+                        } else {
+			        $data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
+			        return array('xhtml', $data);
+                        }
 		}
 
 		if (strpos($data, ']]>') == false) {

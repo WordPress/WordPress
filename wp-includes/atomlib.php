@@ -203,7 +203,7 @@ class AtomParser {
                     if(count($c) == 3) {
                         array_push($newcontent, $c[2]);
                     } else {
-                        if($this->is_xhtml) {
+                        if($this->is_xhtml || $this->is_text) {
                             array_push($newcontent, $this->xml_escape($c));
                         } else {
                             array_push($newcontent, $c);
