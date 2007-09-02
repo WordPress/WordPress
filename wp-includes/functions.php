@@ -606,8 +606,6 @@ function add_query_arg() {
 			$uri = @func_get_arg(2);
 	}
 
-	$uri = str_replace('&amp;', '&', $uri);
-
 	if ( $frag = strstr($uri, '#') )
 		$uri = substr($uri, 0, -strlen($frag));
 	else
@@ -638,7 +636,6 @@ function add_query_arg() {
 	}
 
 	wp_parse_str($query, $qs);
-	$qs = urlencode_deep($qs);
 	if ( is_array(func_get_arg(0)) ) {
 		$kayvees = func_get_arg(0);
 		$qs = array_merge($qs, $kayvees);
@@ -853,6 +850,7 @@ function is_blog_installed() {
 }
 
 function wp_nonce_url($actionurl, $action = -1) {
+	$actionurl = str_replace('&amp;', '&', $actionurl);
 	return wp_specialchars(add_query_arg('_wpnonce', wp_create_nonce($action), $actionurl));
 }
 
