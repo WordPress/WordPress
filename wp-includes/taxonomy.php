@@ -967,12 +967,12 @@ function wp_update_term_count( $terms, $taxonomy ) {
 function clean_object_term_cache($object_ids, $object_type) {
 	global $object_term_cache, $blog_id;
 
-	if ( !is_array($ids) )
-		$ids = array($ids);
+	if ( !is_array($object_ids) )
+		$object_ids = array($object_ids);
 
 	$taxonomies = get_object_taxonomies($object_type);
 
-	foreach ( $ids as $id ) {
+	foreach ( $object_ids as $id ) {
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( isset($object_term_cache[$blog_id][$id][$taxonomy]) )
 				unset($object_term_cache[$blog_id][$id][$taxonomy]);
