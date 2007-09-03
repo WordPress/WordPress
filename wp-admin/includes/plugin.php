@@ -18,7 +18,7 @@ function get_plugin_data( $plugin_file ) {
 	$name = $plugin_name[1];
 	$name = trim( $name );
 	$plugin = $name;
-	if ('' != $plugin_uri[1] && '' != $name ) {
+	if ('' != trim($plugin_uri[1]) && '' != $name ) {
 		$plugin = '<a href="' . trim( $plugin_uri[1] ) . '" title="'.__( 'Visit plugin homepage' ).'">'.$plugin.'</a>';
 	}
 
