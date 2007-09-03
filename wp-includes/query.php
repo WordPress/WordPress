@@ -34,7 +34,7 @@ function wp_reset_query() {
 function is_admin () {
 	global $wp_query;
 
-	return ($wp_query->is_admin || (strpos($_SERVER['REQUEST_URI'], 'wp-admin/') !== false));
+	return ($wp_query->is_admin || (stripos($_SERVER['REQUEST_URI'], 'wp-admin/') !== false));
 }
 
 function is_archive () {
