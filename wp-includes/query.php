@@ -405,6 +405,7 @@ class WP_Query {
 			, 'w'
 			, 'category_name'
 			, 'tag'
+			, 'tag_id'
 			, 'author_name'
 			, 'feed'
 			, 'tb'
@@ -418,7 +419,8 @@ class WP_Query {
 				$array[$key] = '';
 		}
 
-		$array_keys = array('category__in', 'category__not_in', 'category__and');
+		$array_keys = array('category__in', 'category__not_in', 'category__and',
+			'tag__in', 'tag__not_in', 'tag__and');
 		
 		foreach ( $array_keys as $key ) {
 			if ( !isset($array[$key]))
@@ -581,6 +583,30 @@ class WP_Query {
 
 			if (  '' != $qv['tag'] )
 				$this->is_tag = true;
+
+			$qv['tag__id'] = (int) $qv['tag__id'];
+			if (  !empty($qv['tag__id']) )
+				$this->is_tag = true;
+
+			if ( !is_array($qv['tag__in']) || empty($qv['tag__in']) ) {
+				$qv['tag__in'] = array();
+			} else {
+				$qv['tag__in'] = array_map('intval', $qv['tag__in']);
+				$this->is_tag = true;	
+			}
+
+			if ( !is_array($qv['tag___not_in']) || empty($qv['tag__not_in']) ) {
+				$qv['tag__not_in'] = array();
+			} else {
+				$qv['tag__not_in'] = array_map('intval', $qv['tag__not_in']);
+			}
+
+			if ( !is_array($qv['tag__and']) || empty($qv['tag__and']) ) {
+				$qv['tag__and'] = array();
+			} else {
+				$qv['tag__and'] = array_map('intval', $qv['tag__and']);
+				$this->is_category = true;	
+			}
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
@@ -922,19 +948,6 @@ class WP_Query {
 			}
 		}
 
-		if ( '' != $q['tag'] ) {
-			$reqtag = is_term( $q['tag'], 'post_tag' );
-			if ( !empty($reqtag) )
-				$reqtag = $reqtag['term_id'];
-			else
-				$reqtag = 0;
-
-			$q['tag_id'] = $reqtag;
-			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
-			$whichcat = " AND $wpdb->term_taxonomy.term_id IN ({$q['tag_id']}) AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
-			$groupby = "{$wpdb->posts}.ID";
-		}
-
 		// Category stuff for nice URLs
 		if ( '' != $q['category_name'] ) {
 			$reqcat = get_category_by_path($q['category_name']);
@@ -967,6 +980,46 @@ class WP_Query {
 			$in_cats = "'" . implode("', '", $in_cats) . "'";
 			$whichcat .= "AND $wpdb->term_taxonomy.term_id IN ($in_cats)";
 			$groupby = "{$wpdb->posts}.ID";
+		}
+
+		// Tags
+		if ( '' != $q['tag'] ) {
+			$reqtag = is_term( $q['tag'], 'post_tag' );
+			if ( !empty($reqtag) )
+				$reqtag = $reqtag['term_id'];
+			else
+				$reqtag = 0;
+
+			$q['tag_id'] = $reqtag;
+			$q['tag__in'][] = $reqtag;
+		}
+
+		if ( !empty($q['tag__in']) || !empty($q['tag__not_in']) || !empty($q['tag__and']) ) {
+			$groupby = "{$wpdb->posts}.ID";
+		}
+
+		if ( !empty($q['tag__in']) ) {
+			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
+			$include_tags = "'" . implode("', '", $q['tag__in']) . "'";
+			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_tags) ";
+		}
+
+		if ( !empty($q['tag__not_in']) ) {
+			$ids = get_objects_in_term($q['tag__not_in'], 'post_tag');
+			if ( is_array($ids) && count($ids > 0) ) {
+				$out_posts = "'" . implode("', '", $ids) . "'";
+				$whichcat .= " AND $wpdb->posts.ID NOT IN ($out_posts)";
+			}
+		}
+
+		if ( !empty($q['tag__and']) ) {
+			$count = 0;
+			foreach ( $q['tag__and'] as $tag_and ) {
+				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) ";
+				$whichcat .= " AND tt$count.term_id = '$tag_and' ";
+				$count++;
+			}
 		}
 
 		// Author/user stuff
