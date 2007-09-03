@@ -69,7 +69,7 @@ foreach ($theme_names as $theme_name) {
 	$author = $themes[$theme_name]['Author'];
 	$screenshot = $themes[$theme_name]['Screenshot'];
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
-	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=$template&amp;stylesheet=$stylesheet", 'switch-theme_' . $template);
+	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
 ?>
 <div class="available-theme">
 <h3><a href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
