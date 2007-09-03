@@ -584,8 +584,8 @@ class WP_Query {
 			if (  '' != $qv['tag'] )
 				$this->is_tag = true;
 
-			$qv['tag__id'] = (int) $qv['tag__id'];
-			if (  !empty($qv['tag__id']) )
+			$qv['tag_id'] = (int) $qv['tag_id'];
+			if (  !empty($qv['tag_id']) )
 				$this->is_tag = true;
 
 			if ( !is_array($qv['tag__in']) || empty($qv['tag__in']) ) {
