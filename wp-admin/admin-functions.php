@@ -105,6 +105,8 @@ function wp_write_post() {
 		$_POST['post_date'] = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
 		$_POST['post_date_gmt'] = get_gmt_from_date( $_POST['post_date'] );
 	}
+	
+	unset($_POST['no_filter']);
 
 	// Create the post.
 	$post_ID = wp_insert_post( $_POST );
@@ -283,6 +285,8 @@ function edit_post() {
 			delete_meta( $key );
 	}
 
+	unset($_POST['no_filter']);
+	
 	add_meta( $post_ID );
 
 	wp_update_post( $_POST );
