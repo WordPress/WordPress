@@ -420,7 +420,7 @@ class WP_Query {
 		}
 
 		$array_keys = array('category__in', 'category__not_in', 'category__and',
-			'tag__in', 'tag__not_in', 'tag__and');
+			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and');
 		
 		foreach ( $array_keys as $key ) {
 			if ( !isset($array[$key]))
@@ -606,6 +606,20 @@ class WP_Query {
 			} else {
 				$qv['tag__and'] = array_map('intval', $qv['tag__and']);
 				$this->is_category = true;	
+			}
+
+			if ( !is_array($qv['tag_slug__in']) || empty($qv['tag_slug__in']) ) {
+				$qv['tag_slug__in'] = array();
+			} else {
+				$qv['tag_slug__in'] = array_map('sanitize_title', $qv['tag_slug__in']);
+				$this->is_tag = true;	
+			}
+
+			if ( !is_array($qv['tag_slug__and']) || empty($qv['tag_slug__amd']) ) {
+				$qv['tag_slug__and'] = array();
+			} else {
+				$qv['tag_slug__and'] = array_map('sanitize_title', $qv['tag_slug__and']);
+				$this->is_tag = true;	
 			}
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
@@ -984,17 +998,33 @@ class WP_Query {
 
 		// Tags
 		if ( '' != $q['tag'] ) {
-			$reqtag = is_term( $q['tag'], 'post_tag' );
-			if ( !empty($reqtag) )
-				$reqtag = $reqtag['term_id'];
-			else
-				$reqtag = 0;
+			if ( strpos($q['tag'], ',') !== false ) {
+				$tags = preg_split('/[,\s]+/', $q['tag']);
+				foreach ( (array) $tags as $tag ) {
+					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$q['tag_slug__in'][] = $tag;
+				}
+			} else if ( preg_match('/[+\s]+/', $q['tag']) ) {
+				$tags = preg_split('/[+\s]+/', $q['tag']);
+				foreach ( (array) $tags as $tag ) {
+					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$q['tag_slug__and'][] = $tag;
+				}
+			} else {
+				$q['tag'] = sanitize_term_field('slug', $q['tag'], 0, 'post_tag', 'db');
+				$reqtag = is_term( $q['tag'], 'post_tag' );
+				if ( !empty($reqtag) )
+					$reqtag = $reqtag['term_id'];
+				else
+					$reqtag = 0;
 
-			$q['tag_id'] = $reqtag;
-			$q['tag__in'][] = $reqtag;
+				$q['tag_id'] = $reqtag;
+				$q['tag__in'][] = $reqtag;
+			}
 		}
 
-		if ( !empty($q['tag__in']) || !empty($q['tag__not_in']) || !empty($q['tag__and']) ) {
+		if ( !empty($q['tag__in']) || !empty($q['tag__not_in']) || !empty($q['tag__and']) ||
+			!empty($q['tag_slug__in']) || !empty($q['tag_slug__and']) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
@@ -1005,6 +1035,13 @@ class WP_Query {
 			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_tags) ";
 		}
 
+		if ( !empty($q['tag_slug__in']) ) {
+			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) LEFT JOIN $wpdb->terms ON ($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id) ";
+			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
+			$include_tags = "'" . implode("', '", $q['tag_slug__in']) . "'";
+			$whichcat .= " AND $wpdb->terms.slug IN ($include_tags) ";
+		}
+
 		if ( !empty($q['tag__not_in']) ) {
 			$ids = get_objects_in_term($q['tag__not_in'], 'post_tag');
 			if ( is_array($ids) && count($ids > 0) ) {
@@ -1013,11 +1050,11 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($q['tag__and']) ) {
+		if ( !empty($q['tag_slug__and']) ) {
 			$count = 0;
-			foreach ( $q['tag__and'] as $tag_and ) {
-				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) ";
-				$whichcat .= " AND tt$count.term_id = '$tag_and' ";
+			foreach ( $q['tag_slug__and'] as $tag_and ) {
+				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) LEFT JOIN $wpdb->terms AS term$count ON (tt$count.term_id = term$count.term_id) ";
+				$whichcat .= " AND term$count.slug = '$tag_and' ";
 				$count++;
 			}
 		}
