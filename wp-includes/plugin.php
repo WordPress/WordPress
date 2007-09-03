@@ -19,7 +19,7 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 	global $wp_filter, $merged_filters;
 
 	// So the format is wp_filter['tag']['array of priorities']['array of functions serialized']['array of ['array (functions, accepted_args)]']
-	$wp_filter[$tag][$priority][serialize($function_to_add)] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
+	$wp_filter[$tag][$priority][_wp_filter_build_unique_id($tag, $function_to_add, $priority)] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
 	unset( $merged_filters[ $tag ] );
 	return true;
 }
@@ -98,8 +98,8 @@ function merge_filters($tag) {
  */
 function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
 	global $wp_filter, $merged_filters;
-
-	unset($GLOBALS['wp_filter'][$tag][$priority][serialize($function_to_remove)]);
+	
+	unset($GLOBALS['wp_filter'][$tag][$priority][_wp_filter_build_unique_id($tag, $function_to_remove, $priority)]);
 	unset( $merged_filters[ $tag ] );
 
 	return true;
@@ -277,6 +277,31 @@ function register_activation_hook($file, $function) {
 function register_deactivation_hook($file, $function) {
 	$file = plugin_basename($file);
 	add_action('deactivate_' . $file, $function);
+}
+
+function _wp_filter_build_unique_id($tag, $function, $priority = 10)
+{
+	global $wp_filter;
+	
+	// If function then just skip all of the tests and not overwrite the following.
+	if( is_string($function) )
+		return $function;
+	// Object Class Calling
+	else if(is_object($function[0]) )
+	{
+		$obj_idx = get_class($function[0]).$function[1];
+		if( is_null($function[0]->wp_filter_id) ) {
+			$count = count((array)$wp_filter[$tag][$priority]);
+			$function[0]->wp_filter_id = $count;
+			$obj_idx .= $count;
+			unset($count);
+		} else
+			$obj_idx .= $function[0]->wp_filter_id;
+		return $obj_idx;
+	}
+	// Static Calling
+	else if( is_string($function[0]) )
+		return $function[0].$function[1];
 }
 
 ?>
