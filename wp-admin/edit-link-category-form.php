@@ -33,12 +33,6 @@ if ( ! empty($cat_ID) ) {
 			<td><input name="slug" id="slug" type="text" value="<?php echo $category->slug; ?>" size="40" /></td>
 		</tr>
 		<tr>
-			<th scope="row" valign="top"><label for="parent"><?php _e('Category parent:') ?></label></th>
-			<td>        
-	  			<?php wp_dropdown_categories('hide_empty=0&name=parent&orderby=name&selected=' . $category->parent . '&hierarchical=1&show_option_none=' . __('None')); ?>
-	  		</td>
-		</tr>
-		<tr>
 			<th scope="row" valign="top"><label for="description"><?php _e('Description: (optional)') ?></label></th>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea></td>
 		</tr>
