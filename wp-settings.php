@@ -111,7 +111,7 @@ if ( !defined('LANGDIR') ) {
 if ( !defined('PLUGINDIR') )
 	define('PLUGINDIR', 'wp-content/plugins'); // no leading slash, no trailing slash
 if ( file_exists(ABSPATH . 'wp-content/db.php') )
-	require (ABSPATH . 'wp-content/db.php');
+	require_once (ABSPATH . 'wp-content/db.php');
 else
 	require_once (ABSPATH . WPINC . '/wp-db.php');
 
