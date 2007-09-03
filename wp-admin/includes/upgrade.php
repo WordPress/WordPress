@@ -615,7 +615,7 @@ function upgrade_230() {
 			$name = $wpdb->escape($category->cat_name);
 			$slug = sanitize_title($name);
 			$term_group = 0;
-	
+
 			// Associate terms with the same slug in a term group and make slugs unique.
 			if ( $exists = $wpdb->get_results("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$slug'") ) {
 				$term_group = $exists[0]->term_group;

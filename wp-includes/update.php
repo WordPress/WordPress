@@ -8,7 +8,7 @@ function wp_version_check() {
 
 	global $wp_version;
 	$php_version = phpversion();
-	
+
 	$current = get_option( 'update_core' );
 	$locale = get_locale();
 
@@ -35,11 +35,11 @@ function wp_version_check() {
 		while ( !feof( $fs ) )
 			$response .= fgets( $fs, 1160 ); // One TCP-IP packet
 		fclose( $fs );
-	
+
 		$response = explode("\r\n\r\n", $response, 2);
 		$body = trim( $response[1] );
 		$body = str_replace(array("\r\n", "\r"), "\n", $body);
-	
+
 		$returns = explode("\n", $body);
 
 		$new_option->response = $returns[0];

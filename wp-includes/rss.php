@@ -827,11 +827,11 @@ if ( !function_exists('wp_rss') ) :
 function wp_rss( $url, $num_items = -1 ) {
 	if ( $rss = fetch_rss( $url ) ) {
 		echo '<ul>';
-		
+
 		if ( $num_items !== -1 ) {
 			$rss->items = array_slice( $rss->items, 0, $num_items );
 		}
-		
+
 		foreach ( $rss->items as $item ) {
 			printf(
 				'<li><a href="%1$s" title="%2$s">%3$s</a></li>', 
@@ -840,7 +840,7 @@ function wp_rss( $url, $num_items = -1 ) {
 				htmlentities( $item['title'] )
 			);
 		}
-		
+
 		echo '</ul>';
 	} else {
 		_e( 'An error has occurred, which probably means the feed is down. Try again later.' );

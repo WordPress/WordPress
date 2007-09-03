@@ -8,7 +8,7 @@ function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	$link->link_category = array_unique( wp_get_object_terms($link_id, 'link_category', 'fields=ids') );
 
 	$link = sanitize_bookmark($link, $filter);
-	
+
 	if ( $output == OBJECT ) {
 		return $link;
 	} elseif ( $output == ARRAY_A ) {

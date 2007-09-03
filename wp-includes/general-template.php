@@ -147,7 +147,7 @@ function get_bloginfo($show = '', $filter = 'raw') {
 		strpos($show, 'directory') === false &&
 		strpos($show, 'home') === false)
 		$url = false;
-			
+
 	if ( 'display' == $filter ) {
 		if ( $url )
 			$output = apply_filters('bloginfo_url', $output, $show);

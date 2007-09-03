@@ -1,7 +1,7 @@
 <?php
 
 class JeromesKeyword_Import {
-	
+
 	function header()  {
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import Jerome&#8217;s Keywords').'</h2>';
@@ -29,17 +29,17 @@ class JeromesKeyword_Import {
 		echo '</div>';
 	}
 
-	
+
 	function dispatch () {
 		if ( empty( $_GET['step'] ) ) {
 			$step = 0;
 		} else {
 			$step = (int) $_GET['step'];
 		}
-		
+
 		// load the header
 		$this->header();
-		
+
 		switch ( $step ) {
 			case 0 :
 				$this->greet();
@@ -68,18 +68,18 @@ class JeromesKeyword_Import {
 				$this->done();
 				break;
 		}
-		
+
 		// load the footer
 		$this->footer();
 	}
-	
-	
+
+
 	function check_V1_post_keyword ( $precheck = true ) {
 		global $wpdb;
-		
+
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading Jerome&#8217;s Keywords Tags&#8230;').'</h3></p>';
-		
+
 		// import Jerome's Keywords tags 
 		$qry = "SELECT post_id, meta_id, meta_key, meta_value FROM $wpdb->postmeta WHERE $wpdb->postmeta.meta_key = 'keywords'";
 		$metakeys = $wpdb->get_results($qry);
@@ -113,7 +113,7 @@ class JeromesKeyword_Import {
 		    echo '</ul>';
 
 		}
-		
+
 		echo '<form action="admin.php?import=jkw&amp;step='.($precheck? 2:6).'" method="post">';
 		wp_nonce_field('import-jkw');
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next &raquo;').'" /></p>';
@@ -124,10 +124,10 @@ class JeromesKeyword_Import {
 
 	function check_V2_post_keyword ( $precheck = true ) {
 		global $wpdb;
-		
+
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading Jerome&#8217;s Keywords Tags&#8230;').'</h3></p>';
-		
+
 	        // import Jerome's Keywords tags 
 	        $tablename = $wpdb->prefix . substr(get_option('jkeywords_keywords_table'), 1, -1);
 	        $qry = "SELECT post_id, tag_name FROM $tablename";
@@ -139,12 +139,12 @@ class JeromesKeyword_Import {
 	        else {
 	            $count = count($metakeys);
 		    echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags were read.'), $count ) . '<br /></p>';
-			
+
 		    echo '<ul>';
 
 	            foreach($metakeys as $post_meta) {
 	                $keyword = addslashes(trim($post_meta->tag_name));
-	                
+
 	                if ($keyword != ''){
 	                    echo '<li>' . $post_meta->post_id . '&nbsp;-&nbsp;' . $keyword . '</li>';
 	                    if( !$precheck ){
@@ -156,7 +156,7 @@ class JeromesKeyword_Import {
 		    echo '</ul>';
 
 		}
-		
+
 		echo '<form action="admin.php?import=jkw&amp;step='.($precheck? 4:5).'" method="post">';
 		wp_nonce_field('import-jkw');
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next &raquo;').'" /></p>';
@@ -174,21 +174,21 @@ class JeromesKeyword_Import {
                     'keywords_table' => 'jkeywords',    // table where keywords/tags are stored
                     'query_varname'  => 'tag',          // HTTP var name used for tag searches
                     'template'       => 'keywords.php', // template file to use for displaying tag queries
-                
+
                     'meta_always_include' => '',        // meta keywords to always include
                     'meta_includecats' => 'default',    // default' => include cats in meta keywords only for home page
                                                         // all' => includes cats on every page, none' => never included
-                    
+
                     'meta_autoheader'    => '1',        // automatically output meta keywords in header
                     'search_strict'      => '1',        // returns only exact tag matches if true
                     'use_feed_cats'      => '1',        // insert tags into feeds as categories
-                
+
                     /* post tag options */
                     'post_linkformat'    => '',         // post tag format (initialized to $link_localsearch)
                     'post_tagseparator'  => ', ',       // tag separator character(s)
                     'post_includecats'   => '0',        // include categories in post's tag list
                     'post_notagstext'    => 'none',     // text to display if no tags found
-                    
+
                     /* tag cloud options */
                     'cloud_linkformat'   => '',         // post tag format (initialized to $link_tagcloud)
                     'cloud_tagseparator' => ' ',        // tag separator character(s)
@@ -199,32 +199,32 @@ class JeromesKeyword_Import {
                     'cloud_scalemax'     => '0',        // maximum value for count scaling (no scaling if zero)
                     'cloud_scalemin'     => '0'         // minimum value for count scaling
                     );
-                
+
 	        $tablename = $wpdb->prefix . substr(get_option('jkeywords_keywords_table'), 1, -1);
-		
+
 		$wpdb->query('DROP TABLE IF EXISTS ' . $tablename);
-		
+
                 foreach($options as $optname => $optval) {
                     delete_option('jkeywords_' . $optname);
                 }
-                
+
 		$this->done();
 	}
-	
-	
+
+
 	function done ( ) {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Import Complete!').'</h3></p>';		
 		echo '</div>';
 	}
-	
+
 
 	function JeromesKeyword_Import ( ) {
-		
+
 		// Nothing.
-		
+
 	}
-	
+
 }
 
 

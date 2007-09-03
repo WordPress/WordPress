@@ -286,7 +286,7 @@ function register_deactivation_hook($file, $function) {
 function _wp_filter_build_unique_id($tag, $function, $priority = 10)
 {
 	global $wp_filter;
-	
+
 	// If function then just skip all of the tests and not overwrite the following.
 	// Static Calling
 	if( is_string($function) )

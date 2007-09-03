@@ -186,10 +186,10 @@ function get_tag_feed_link($tag_id, $feed = 'rss2') {
 	$tag_id = (int) $tag_id;
 
 	$tag = get_tag($tag_id);
-	
+
 	if ( empty($tag) || is_wp_error($tag) )
 		return false;
-		
+
 	$permalink_structure = get_option('permalink_structure');
 
 	if ( '' == $permalink_structure ) {

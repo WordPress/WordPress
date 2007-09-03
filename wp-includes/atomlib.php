@@ -47,7 +47,7 @@ class AtomParser {
     var $current;
 
     function AtomParser() {
-        
+
         $this->feed = new AtomFeed();
         $this->current = null;
         $this->map_attrs_func = create_function('$k,$v', 'return "$k=\"$v\"";');
@@ -87,7 +87,7 @@ class AtomParser {
         $fp = fopen($this->FILE, "r");
         while ($data = fread($fp, 4096)) {
             if($this->debug) $this->content .= $data;
-            
+
             if(!xml_parse($parser, $data, feof($fp))) {
                 trigger_error(sprintf(__('XML error: %s at line %d')."\n",
                     xml_error_string(xml_get_error_code($xml_parser)),

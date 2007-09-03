@@ -406,7 +406,7 @@ function gzip_compression() {
 	if ( ( ini_get( 'zlib.output_compression' ) == 'On' || ini_get( 'zlib.output_compression_level' ) > 0 ) || ini_get( 'output_handler' ) == 'ob_gzhandler' ) {
 		return false;
 	}
-	
+
 	if ( extension_loaded( 'zlib' ) ) {
 		ob_start( 'ob_gzhandler' );
 	}

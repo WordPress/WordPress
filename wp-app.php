@@ -127,7 +127,7 @@ class AtomServer {
 		if(strlen($path) == 0 || $path == '/') {
 			$this->redirect($this->get_service_url());
 		}
-	
+
 		// dispatch
 		foreach($this->selectors as $regex => $funcs) {
 			if(preg_match($regex, $path, $matches)) {
@@ -220,17 +220,17 @@ EOD;
 		}
 
 		$entry = array_pop($parser->feed->entries);
-		
+
 		log_app('Received entry:', print_r($entry,true));
-		
+
 		$catnames = array();
 		foreach($entry->categories as $cat)
 			array_push($catnames, $cat["term"]);
-		
+
 		$wp_cats = get_categories(array('hide_empty' => false));
-		
+
 		$post_category = array();
-		
+
 		foreach($wp_cats as $cat) {
 			if(in_array($cat->cat_name, $catnames))
 				array_push($post_category, $cat->cat_ID);
@@ -252,7 +252,7 @@ EOD;
 		$pubtimes = $this->get_publish_time($entry);
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
-		
+
 		if ( isset( $_SERVER['HTTP_SLUG'] ) )
 			$post_name = $_SERVER['HTTP_SLUG'];
 
@@ -1113,21 +1113,21 @@ EOD;
 	}
 
 	function rfc3339_str2time($str) {
-	   
+
 	    $match = false;
 	    if(!preg_match("/(\d{4}-\d{2}-\d{2})T(\d{2}\:\d{2}\:\d{2})\.?\d{0,3}(Z|[+-]+\d{2}\:\d{2})/", $str, $match))
 			return false;
-	
+
 	    if($match[3] == 'Z')
 			$match[3] == '+0000';
-	
+
 	    return strtotime($match[1] . " " . $match[2] . " " . $match[3]);
 	}       
 
 	function get_publish_time($entry) {
 
 	    $pubtime = $this->rfc3339_str2time($entry->published);
-	   
+
 	    if(!$pubtime) {
 			return array(current_time('mysql'),current_time('mysql',1));
 	    } else {

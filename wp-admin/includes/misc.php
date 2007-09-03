@@ -97,7 +97,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 
 function save_mod_rewrite_rules() {
 	global $wp_rewrite;
-	
+
 	$home_path = get_home_path();
 	$htaccess_file = $home_path.'.htaccess';
 
@@ -109,7 +109,7 @@ function save_mod_rewrite_rules() {
 			return insert_with_markers( $htaccess_file, 'WordPress', $rules );
 		}
 	}
-	
+
 	return false;
 }
 

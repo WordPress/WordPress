@@ -31,7 +31,7 @@ class UTW_Import {
 		} else {
 			$step = (int) $_GET['step'];
 		}
-		
+
 		if ( $step > 1 )
 			check_admin_referer('import-utw');
 

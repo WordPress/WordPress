@@ -421,7 +421,7 @@ class WP_Query {
 
 		$array_keys = array('category__in', 'category__not_in', 'category__and',
 			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and');
-		
+
 		foreach ( $array_keys as $key ) {
 			if ( !isset($array[$key]))
 				$array[$key] = array();

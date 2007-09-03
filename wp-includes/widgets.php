@@ -606,11 +606,11 @@ function wp_widget_text_register() {
 function wp_widget_categories($args, $number = 1) {
 	extract($args);
 	$options = get_option('widget_categories');
-	
+
 	$c = $options[$number]['count'] ? '1' : '0';
 	$h = $options[$number]['hierarchical'] ? '1' : '0';
 	$d = $options[$number]['dropdown'] ? '1' : '0';
-	
+
 	$title = empty($options[$number]['title']) ? __('Categories') : $options[$number]['title'];
 
 	echo $before_widget;
@@ -646,60 +646,60 @@ function wp_widget_categories($args, $number = 1) {
 
 function wp_widget_categories_control( $number ) {
 	$options = $newoptions = get_option('widget_categories');
-	
+
 	if ( !is_array( $options ) ) {
 		$options = $newoptions = get_option( 'widget_categories' );
 	}
-	
+
 	if ( $_POST['categories-submit-' . $number] ) {
 		$newoptions[$number]['count'] = isset($_POST['categories-count-' . $number]);
 		$newoptions[$number]['hierarchical'] = isset($_POST['categories-hierarchical-' . $number]);
 		$newoptions[$number]['dropdown'] = isset($_POST['categories-dropdown-' . $number]);
 		$newoptions[$number]['title'] = strip_tags(stripslashes($_POST['categories-title-' . $number]));
 	}
-	
+
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
 		update_option('widget_categories', $options);
 	}
-	
+
 	$title = attribute_escape( $options[$number]['title'] );
 ?>
 			<p><label for="categories-title-<?php echo $number; ?>">
 				<?php _e( 'Title:' ); ?> <input style="width:300px" id="categories-title-<?php echo $number; ?>" name="categories-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
 			</label></p>
-			
+
 			<p><label for="categories-dropdown-<?php echo $number; ?>">
 				<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="categories-dropdown-<?php echo $number; ?>"<?php echo $options[$number]['dropdown'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show as dropdown' ); ?>
 			</label></p>
-			
+
 			<p><label for="categories-count-<?php echo $number; ?>">
 				<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="categories-count-<?php echo $number; ?>"<?php echo $options[$number]['count'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show post counts' ); ?>
 			</label></p>
-			
+
 			<p><label for="categories-hierarchical-<?php echo $number; ?>">
 				<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="categories-hierarchical-<?php echo $number; ?>"<?php echo $options[$number]['hierarchical'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show hierarchy' ); ?>
 			</label></p>
-			
+
 			<input type="hidden" id="categories-submit-<?php echo $number; ?>" name="categories-submit-<?php echo $number; ?>" value="1" />
 <?php
 }
 
 function wp_widget_categories_setup() {
 	$options = $newoptions = get_option( 'widget_categories' );
-	
+
 	if ( isset( $_POST['categories-number-submit'] ) ) {
 		$number = (int) $_POST['categories-number'];
-		
+
 		if ( $number > 9 ) {
 			$number = 9;
 		} elseif ( $number < 1 ) {
 			$number = 1;
 		}
-		
+
 		$newoptions['number'] = $number;
 	}
-	
+
 	if ( $newoptions != $options ) {
 		$options = $newoptions;
 		update_option( 'widget_categories', $options );
@@ -770,27 +770,27 @@ function wp_widget_categories_register() {
 	if ( !isset($options['number']) )
 		$options = wp_widget_categories_upgrade();
 	$number = (int) $options['number'];
-	
+
 	if ( $number > 9 ) {
 		$number = 9;
 	} elseif ( $number < 1 ) {
 		$number = 1;
 	}
-	
+
 	$dims = array( 'width' => 350, 'height' => 170 );
 	$class = array( 'classname' => 'widget_catgories' );
-	
+
 	for ( $i = 1; $i <= 9; $i++ ) {
 		$name = sprintf( __( 'Categories %d' ), $i );
 		$id = 'categories-' . $i;
-		
+
 		$widget_callback = ( $i <= $number ) ? 'wp_widget_categories' : '';
 		$control_callback = ( $i <= $number ) ? 'wp_widget_categories_control' : '';
-		
+
 		wp_register_sidebar_widget( $id, $name, $widget_callback, $class, $i );
 		wp_register_widget_control( $id, $name, $control_callback, $dims, $i );
 	}
-	
+
 	add_action( 'sidebar_admin_setup', 'wp_widget_categories_setup' );
 	add_action( 'sidebar_admin_page', 'wp_widget_categories_page' );
 }
@@ -985,7 +985,7 @@ function wp_widget_rss($args, $number = 1) {
 	} else {
 		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
 	}
-	
+
 	echo $after_widget;
 }
 
@@ -1079,37 +1079,37 @@ function wp_widgets_init() {
 		return;
 
 	$GLOBALS['wp_register_widget_defaults'] = true;
-	
+
 	$dims90 = array( 'height' => 90, 'width' => 300 );
 	$dims100 = array( 'height' => 100, 'width' => 300 );
 	$dims150 = array( 'height' => 150, 'width' => 300 );
-	
+
 	$class = array('classname' => 'widget_pages');
 	wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $class);
 	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control', $dims150);
-	
+
 	$class['classname'] = 'widget_calendar';
 	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $class);
 	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control', $dims90);
-	
+
 	$class['classname'] = 'widget_archives';
 	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $class);
 	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control', $dims100);
-	
+
 	$class['classname'] = 'widget_links';
 	wp_register_sidebar_widget('links', __('Links'), 'wp_widget_links', $class);
-	
+
 	$class['classname'] = 'widget_meta';
 	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $class);
 	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control', $dims90);
-	
+
 	$class['classname'] = 'widget_search';
 	wp_register_sidebar_widget('search', __('Search'), 'wp_widget_search', $class);
-	
+
 	$class['classname'] = 'widget_recent_entries';
 	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $class);
 	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control', $dims90);
-	
+
 	wp_widget_categories_register();
 	wp_widget_text_register();
 	wp_widget_rss_register();
