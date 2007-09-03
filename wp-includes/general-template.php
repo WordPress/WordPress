@@ -1067,7 +1067,12 @@ function paginate_links( $args = '' ) {
 }
 
 function wp_admin_css_uri( $file = 'wp-admin' ) {
-	$_file = add_query_arg( 'version', get_bloginfo( 'version' ), get_option( 'siteurl' ) . "/wp-admin/$file.css" );
+	if ( defined('WP_INSTALLING') )
+	{
+		$_file = add_query_arg( 'version', get_bloginfo( 'version' ), "./$file.css" );
+	} else {
+		$_file = add_query_arg( 'version', get_bloginfo( 'version' ), get_option( 'siteurl' ) . "/wp-admin/$file.css" );
+	}	
 	return apply_filters( 'wp_admin_css_uri', $_file, $file );
 }
 
