@@ -83,7 +83,7 @@ if ( is_single() ) {
 			$h2_author = ' ' . __('by other authors');
 		} else {
 			$author_user = get_userdata( get_query_var( 'author' ) );
-			$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));	
+			$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
 		}
 	}
 	$h2_search = isset($_GET['s'])   && $_GET['s']   ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( get_search_query() ) ) : '';
@@ -94,11 +94,11 @@ if ( is_single() ) {
 ?></h2>
 
 <form name="searchform" id="searchform" action="" method="get">
-	<fieldset><legend><?php _e('Search terms&hellip;'); ?></legend> 
-		<input type="text" name="s" id="s" value="<?php the_search_query(); ?>" size="17" /> 
+	<fieldset><legend><?php _e('Search terms&hellip;'); ?></legend>
+		<input type="text" name="s" id="s" value="<?php the_search_query(); ?>" size="17" />
 	</fieldset>
 
-	<fieldset><legend><?php _e('Status&hellip;'); ?></legend> 
+	<fieldset><legend><?php _e('Status&hellip;'); ?></legend>
 		<select name='post_status'>
 			<option<?php selected( @$_GET['post_status'], 0 ); ?> value='0'><?php _e('Any'); ?></option>
 <?php	foreach ( $post_stati as $status => $label ) : if ( !in_array($status, $avail_post_stati) ) continue; ?>
@@ -107,7 +107,7 @@ if ( is_single() ) {
 		</select>
 	</fieldset>
 
-<?php 
+<?php
 $editable_ids = get_editable_user_ids( $user_ID );
 if ( $editable_ids && count( $editable_ids ) > 1 ) :
 ?>
@@ -153,7 +153,7 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 	<fieldset><legend><?php _e('Category&hellip;') ?></legend>
 		<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
 	</fieldset>
-	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" /> 
+	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
 </form>
 
 <?php do_action('restrict_manage_posts'); ?>

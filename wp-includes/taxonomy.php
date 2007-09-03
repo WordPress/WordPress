@@ -18,7 +18,7 @@ $wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'obj
  * It appears that this function can be used to find all of the names inside of
  * $wp_taxonomies global variable.
  *
- * @example 
+ * @example
  *      <?php $taxonomies = get_object_taxonomies('post'); ?>
  *      Should result in <pre>Array(
  *      'category',
@@ -85,7 +85,7 @@ function get_taxonomy( $taxonomy ) {
 function is_taxonomy( $taxonomy ) {
 	global $wp_taxonomies;
 
-	return isset($wp_taxonomies[$taxonomy]);	
+	return isset($wp_taxonomies[$taxonomy]);
 }
 
 /**
@@ -115,7 +115,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * register_taxonomy() - Create or modify a taxonomy object.
  *
  * A simple function for creating or modifying a taxonomy object based on the parameters given.
- * The function will accept an array (third optional parameter), along with strings for the 
+ * The function will accept an array (third optional parameter), along with strings for the
  * taxonomy name and another string for the object type.
  *
  * The function keeps a default set, allowing for the $args to be optional but allow the other
@@ -163,7 +163,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * The $terms aren't checked the same as $taxonomies, but still need to exist for $object_ids to
  * be returned.
  *
- * It is possible to change the order that object_ids is returned by either using PHP sort family 
+ * It is possible to change the order that object_ids is returned by either using PHP sort family
  * functions or using the database by using $args with either ASC or DESC array. The value should
  * be in the key named 'order'.
  *
@@ -213,9 +213,9 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 }
 
 /**
- * get_term() - 
+ * get_term() -
  *
- * 
+ *
  *
  * @package Taxonomy
  * @subpackage Term
@@ -265,16 +265,16 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 }
 
 /**
- * get_term_by() - 
+ * get_term_by() -
  *
- * 
+ *
  *
  * @package Taxonomy
  * @subpackage Term
  * @global object $wpdb Database Query
- * @param string $field 
- * @param string $value 
- * @param string $taxonomy 
+ * @param string $field
+ * @param string $value
+ * @param string $taxonomy
  * @param string $output Either OBJECT, ARRAY_A, or ARRAY_N
  * @return mixed Term Row from database
  *
@@ -574,7 +574,7 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
 		if ( $do_object )
 			$term->$field = sanitize_term_field($field, $term->$field, $term->term_id, $taxonomy, $context);
 		else
-			$term[$field] = sanitize_term_field($field, $term[$field], $term['term_id'], $taxonomy, $context);	
+			$term[$field] = sanitize_term_field($field, $term[$field], $term['term_id'], $taxonomy, $context);
 	}
 
 	return $term;
@@ -700,7 +700,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
  * Returns the terms associated with the given object(s), in the supplied taxonomies.
  * @param int|array $object_id The id of the object(s)) to retrieve for.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
- * @return array The requested term data.	 	 	 
+ * @return array The requested term data.
  */
 function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	global $wpdb;
@@ -777,7 +777,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
 
-	$term_group = 0;	
+	$term_group = 0;
 	if ( $alias_of ) {
 		$alias = $wpdb->fetch_row("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$alias_of'");
 		if ( $alias->term_group ) {
@@ -1003,7 +1003,7 @@ function clean_term_cache($ids, $taxonomy = '') {
 		$taxonomies = array($taxonomy);
 	}
 
-	foreach ( $taxonomies as $taxonomy ) { 
+	foreach ( $taxonomies as $taxonomy ) {
 		wp_cache_delete('all_ids', $taxonomy);
 		wp_cache_delete('get', $taxonomy);
 		delete_option("{$taxonomy}_children");

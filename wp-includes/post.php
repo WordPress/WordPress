@@ -41,7 +41,7 @@ function &get_children($args = '', $output = OBJECT) {
 	}
 
 	$defaults = array(
-		'numberposts' => -1, 'post_type' => '', 
+		'numberposts' => -1, 'post_type' => '',
 		'post_status' => '', 'post_parent' => 0
 	);
 
@@ -194,11 +194,11 @@ function get_posts($args) {
 	global $wpdb;
 
 	$defaults = array(
-		'numberposts' => 5, 'offset' => 0, 
-		'category' => 0, 'orderby' => 'post_date', 
-		'order' => 'DESC', 'include' => '', 
-		'exclude' => '', 'meta_key' => '', 
-		'meta_value' =>'', 'post_type' => 'post', 
+		'numberposts' => 5, 'offset' => 0,
+		'category' => 0, 'orderby' => 'post_date',
+		'order' => 'DESC', 'include' => '',
+		'exclude' => '', 'meta_key' => '',
+		'meta_value' =>'', 'post_type' => 'post',
 		'post_status' => 'publish', 'post_parent' => 0
 	);
 
@@ -248,7 +248,7 @@ function get_posts($args) {
 		$exclusions .= ')';
 
 	$query  = "SELECT DISTINCT * FROM $wpdb->posts ";
-	$query .= empty( $category ) ? '' : ", $wpdb->term_relationships, $wpdb->term_taxonomy  "; 
+	$query .= empty( $category ) ? '' : ", $wpdb->term_relationships, $wpdb->term_taxonomy  ";
 	$query .= empty( $meta_key ) ? '' : ", $wpdb->postmeta ";
 	$query .= " WHERE 1=1 ";
 	$query .= empty( $post_type ) ? '' : "AND post_type = '$post_type' ";
@@ -439,7 +439,7 @@ function sanitize_post($post, $context = 'display') {
 		if ( $do_object )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
 		else
-			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);	
+			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
 	}
 
 	return $post;
@@ -1114,10 +1114,10 @@ function &get_pages($args = '') {
 	global $wpdb;
 
 	$defaults = array(
-		'child_of' => 0, 'sort_order' => 'ASC', 
-		'sort_column' => 'post_title', 'hierarchical' => 1, 
-		'exclude' => '', 'include' => '', 
-		'meta_key' => '', 'meta_value' => '', 
+		'child_of' => 0, 'sort_order' => 'ASC',
+		'sort_column' => 'post_title', 'hierarchical' => 1,
+		'exclude' => '', 'include' => '',
+		'meta_key' => '', 'meta_value' => '',
 		'authors' => ''
 	);
 
@@ -1131,7 +1131,7 @@ function &get_pages($args = '') {
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include 
+		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include
 		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
@@ -1160,7 +1160,7 @@ function &get_pages($args = '') {
 			}
 		}
 	}
-	if (!empty($exclusions)) 
+	if (!empty($exclusions))
 		$exclusions .= ')';
 
 	$author_query = '';
@@ -1190,7 +1190,7 @@ function &get_pages($args = '') {
 	}
 
 	$query = "SELECT * FROM $wpdb->posts " ;
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
+	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ;
 	$query .= " WHERE (post_type = 'page' AND post_status = 'publish') $exclusions $inclusions " ;
 	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
 	$query .= $author_query;
@@ -1621,7 +1621,7 @@ function wp_check_for_changed_slugs($post_id) {
  * SQL code that can be added to a WHERE clause; this SQL is constructed
  * to allow all published posts, and all private posts to which the user
  * has access.
- * 
+ *
  * @param string $post_type currently only supports 'post' or 'page'.
  * @return string SQL code that can be added to a where clause.
  */

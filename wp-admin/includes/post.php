@@ -334,7 +334,7 @@ function add_meta( $post_ID ) {
 	$metavalue = $wpdb->escape( $metavalue );
 
 	if ( ('0' === $metavalue || !empty ( $metavalue ) ) && ((('#NONE#' != $metakeyselect) && !empty ( $metakeyselect) ) || !empty ( $metakeyinput) ) ) {
-		// We have a key/value pair. If both the select and the 
+		// We have a key/value pair. If both the select and the
 		// input for the key have data, the input takes precedence:
 
  		if ('#NONE#' != $metakeyselect)
@@ -347,8 +347,8 @@ function add_meta( $post_ID ) {
 			return false;
 
 		$result = $wpdb->query( "
-						INSERT INTO $wpdb->postmeta 
-						(post_id,meta_key,meta_value ) 
+						INSERT INTO $wpdb->postmeta
+						(post_id,meta_key,meta_value )
 						VALUES ('$post_ID','$metakey','$metavalue' )
 					" );
 		return $wpdb->insert_id;

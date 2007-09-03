@@ -1,5 +1,5 @@
 <?php
-require_once('admin.php'); 
+require_once('admin.php');
 
 function index_js() {
 ?>
@@ -16,7 +16,7 @@ add_action( 'admin_head', 'index_js' );
 
 wp_enqueue_script( 'jquery' );
 
-$title = __('Dashboard'); 
+$title = __('Dashboard');
 $parent_file = 'index.php';
 require_once('admin-header.php');
 
@@ -39,7 +39,7 @@ $numcomments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE commen
 if ( $comments || $numcomments ) :
 ?>
 <div>
-<h3><?php printf( __( 'Comments <a href="%s" title="More comments&#8230;">&raquo;</a>' ), 'edit-comments.php' ); ?></h3> 
+<h3><?php printf( __( 'Comments <a href="%s" title="More comments&#8230;">&raquo;</a>' ), 'edit-comments.php' ); ?></h3>
 
 <?php if ( $numcomments ) : ?>
 <p><strong><a href="moderation.php"><?php echo sprintf(__('Comments in moderation (%s) &raquo;'), number_format_i18n($numcomments) ); ?></a></strong></p>

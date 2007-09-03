@@ -151,7 +151,7 @@ function wp_create_tag($tag_name) {
 	if ( $id = tag_exists($tag_name) )
 		return $id;
 
-	return wp_insert_term($tag_name, 'post_tag');	
+	return wp_insert_term($tag_name, 'post_tag');
 }
 
 ?>

@@ -154,7 +154,7 @@ case 'delete':
 		if ( ! wp_delete_attachment($post_id) )
 			wp_die( __('Error in deleting...') );
 	} else {
-		if ( !wp_delete_post($post_id) ) 
+		if ( !wp_delete_post($post_id) )
 			wp_die( __('Error in deleting...') );
 	}
 

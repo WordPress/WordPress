@@ -12,9 +12,9 @@ function wp_version_check() {
 	$current = get_option( 'update_core' );
 	$locale = get_locale();
 
-	if ( 
-		isset( $current->last_checked ) && 
-		43200 > ( time() - $current->last_checked ) && 
+	if (
+		isset( $current->last_checked ) &&
+		43200 > ( time() - $current->last_checked ) &&
 		$current->version_checked == $wp_version
 	)
 		return false;

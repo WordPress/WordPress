@@ -86,13 +86,13 @@ function _usort_terms_by_name($a, $b) {
 	return strcmp($a->name, $b->name);
 }
 
-function _usort_terms_by_ID($a, $b) { 
-	if ( $a->term_id > $b->term_id ) 
-		return 1; 
-	elseif ( $a->term_id < $b->term_id ) 
-		return -1; 
-	else 
-		return 0; 
+function _usort_terms_by_ID($a, $b) {
+	if ( $a->term_id > $b->term_id )
+		return 1;
+	elseif ( $a->term_id < $b->term_id )
+		return -1;
+	else
+		return 0;
 }
 
 function get_the_category_by_ID($cat_ID) {
@@ -185,12 +185,12 @@ function category_description($category = 0) {
 
 function wp_dropdown_categories($args = '') {
 	$defaults = array(
-		'show_option_all' => '', 'show_option_none' => '', 
-		'orderby' => 'ID', 'order' => 'ASC', 
-		'show_last_update' => 0, 'show_count' => 0, 
-		'hide_empty' => 1, 'child_of' => 0, 
-		'exclude' => '', 'echo' => 1, 
-		'selected' => 0, 'hierarchical' => 0, 
+		'show_option_all' => '', 'show_option_none' => '',
+		'orderby' => 'ID', 'order' => 'ASC',
+		'show_last_update' => 0, 'show_count' => 0,
+		'hide_empty' => 1, 'child_of' => 0,
+		'exclude' => '', 'echo' => 1,
+		'selected' => 0, 'hierarchical' => 0,
 		'name' => 'cat', 'class' => 'postform'
 	);
 
@@ -235,12 +235,12 @@ function wp_dropdown_categories($args = '') {
 
 function wp_list_categories($args = '') {
 	$defaults = array(
-		'show_option_all' => '', 'orderby' => 'name', 
-		'order' => 'ASC', 'show_last_update' => 0, 
-		'style' => 'list', 'show_count' => 0, 
-		'hide_empty' => 1, 'use_desc_for_title' => 1, 
-		'child_of' => 0, 'feed' => '', 
-		'feed_image' => '', 'exclude' => '', 
+		'show_option_all' => '', 'orderby' => 'name',
+		'order' => 'ASC', 'show_last_update' => 0,
+		'style' => 'list', 'show_count' => 0,
+		'hide_empty' => 1, 'use_desc_for_title' => 1,
+		'child_of' => 0, 'feed' => '',
+		'feed_image' => '', 'exclude' => '',
 		'hierarchical' => true, 'title_li' => __('Categories')
 	);
 
@@ -271,7 +271,7 @@ function wp_list_categories($args = '') {
 		global $wp_query;
 
 		if( !empty($show_option_all) )
-			if ('list' == $style )  
+			if ('list' == $style )
 				$output .= '<li><a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a></li>';
 			else
 				$output .= '<a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a>';
@@ -295,7 +295,7 @@ function wp_list_categories($args = '') {
 
 function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
-		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45, 
+		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
 		'exclude' => '', 'include' => ''
 	);
@@ -417,14 +417,14 @@ function get_tag_link( $tag_id ) {
 }
 
 function get_the_tags( $id = 0 ) {
-	global $post; 
+	global $post;
 
  	$id = (int) $id;
 
-	if ( ! $id && ! in_the_loop() ) 
-		return false; // in-the-loop function 
+	if ( ! $id && ! in_the_loop() )
+		return false; // in-the-loop function
 
-	if ( !$id ) 
+	if ( !$id )
 		$id = (int) $post->ID;
 
 	$tags = get_object_term_cache($id, 'post_tag');
@@ -432,9 +432,9 @@ function get_the_tags( $id = 0 ) {
 		$tags = wp_get_object_terms($id, 'post_tag');
 
 	$tags = apply_filters( 'get_the_tags', $tags );
-	if ( empty( $tags ) ) 
-		return false; 
-	return $tags; 
+	if ( empty( $tags ) )
+		return false;
+	return $tags;
 }
 
 function get_the_tag_list( $before = '', $sep = '', $after = '' ) {

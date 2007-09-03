@@ -23,4 +23,4 @@ if ( current_user_can('edit_pages') ) {
 }
 ?>
 
-<?php include('admin-footer.php'); ?> 
+<?php include('admin-footer.php'); ?>

@@ -90,7 +90,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 	#keys .right { text-align: left; }
 	td b { font-family: Tahoma, "Times New Roman", Times, serif }
 </style>
-<?php endif; ?> 
+<?php endif; ?>
 <script type="text/javascript">
 	window.onkeydown = window.onkeypress = function (e) {
 		e = e ? e : window.event;

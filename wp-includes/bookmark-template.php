@@ -16,11 +16,11 @@ function wp_get_links($args = '') {
 	}
 
 	$defaults = array(
-		'category' => -1, 'before' => '', 
-		'after' => '<br />', 'between' => ' ', 
-		'show_images' => true, 'orderby' => 'name', 
-		'show_description' => true, 'show_rating' => false, 
-		'limit' => -1, 'show_updated' => true, 
+		'category' => -1, 'before' => '',
+		'after' => '<br />', 'between' => ' ',
+		'show_images' => true, 'orderby' => 'name',
+		'show_description' => true, 'show_rating' => false,
+		'limit' => -1, 'show_updated' => true,
 		'echo' => true
 	);
 
@@ -241,8 +241,8 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 
 function _walk_bookmarks($bookmarks, $args = '' ) {
 	$defaults = array(
-		'show_updated' => 0, 'show_description' => 0, 
-		'show_images' => 1, 'before' => '<li>', 
+		'show_updated' => 0, 'show_description' => 0,
+		'show_images' => 1, 'before' => '<li>',
 		'after' => '</li>', 'between' => "\n"
 	);
 
@@ -264,8 +264,8 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = attribute_escape(apply_filters('link_description', $bookmark->link_description)); 
- 		$name = attribute_escape(apply_filters('link_title', $bookmark->link_name)); 
+		$desc = attribute_escape(apply_filters('link_description', $bookmark->link_description));
+ 		$name = attribute_escape(apply_filters('link_title', $bookmark->link_name));
  		$title = $desc;
 
 		if ( $show_updated )
@@ -315,14 +315,14 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 function wp_list_bookmarks($args = '') {
 	$defaults = array(
-		'orderby' => 'name', 'order' => 'ASC', 
-		'limit' => -1, 'category' => '', 
-		'category_name' => '', 'hide_invisible' => 1, 
-		'show_updated' => 0, 'echo' => 1, 
-		'categorize' => 1, 'title_li' => __('Bookmarks'), 
-		'title_before' => '<h2>', 'title_after' => '</h2>', 
-		'category_orderby' => 'name', 'category_order' => 'ASC', 
-		'class' => 'linkcat', 'category_before' => '<li id="%id" class="%class">', 
+		'orderby' => 'name', 'order' => 'ASC',
+		'limit' => -1, 'category' => '',
+		'category_name' => '', 'hide_invisible' => 1,
+		'show_updated' => 0, 'echo' => 1,
+		'categorize' => 1, 'title_li' => __('Bookmarks'),
+		'title_before' => '<h2>', 'title_after' => '</h2>',
+		'category_orderby' => 'name', 'category_order' => 'ASC',
+		'class' => 'linkcat', 'category_before' => '<li id="%id" class="%class">',
 		'category_after' => '</li>'
 	);
 

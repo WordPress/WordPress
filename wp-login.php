@@ -214,7 +214,7 @@ case 'register' :
 		require_once( ABSPATH . WPINC . '/registration.php');
 
 		$user_login = sanitize_user( $_POST['user_login'] );
-		$user_email = apply_filters( 'user_registration_email', $_POST['user_email'] ); 
+		$user_email = apply_filters( 'user_registration_email', $_POST['user_email'] );
 
 		// Check the username
 		if ( $user_login == '' )

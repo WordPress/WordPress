@@ -60,9 +60,9 @@ case 'editedcat':
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	if ( wp_update_term($cat_ID, 'link_category', $_POST) )
-		wp_redirect('edit-link-categories.php?message=3'); 
+		wp_redirect('edit-link-categories.php?message=3');
 	else
-		wp_redirect('edit-link-categories.php?message=5'); 
+		wp_redirect('edit-link-categories.php?message=5');
 
 	exit;
 break;

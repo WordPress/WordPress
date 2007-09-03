@@ -46,7 +46,7 @@ function redirect_canonical() {
 			if ( $redirect_url )
 				$redirect['query'] = remove_query_arg('m', $redirect['query']);
 		// now moving on to non ?m=X year/month/day links
-		} elseif ( is_day() && get_query_var('year') && get_query_var('monthnum') && isset($_GET['day']) ) { 
+		} elseif ( is_day() && get_query_var('year') && get_query_var('monthnum') && isset($_GET['day']) ) {
 			if ( $redirect_url = get_day_link(get_query_var('year'), get_query_var('monthnum'), get_query_var('day')) )
 				$redirect['query'] = remove_query_arg(array('year', 'monthnum', 'day'), $redirect['query']);
 		} elseif ( is_month() && get_query_var('year') && isset($_GET['monthnum']) ) {

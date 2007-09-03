@@ -816,7 +816,7 @@ class Snoopy
 				$cookie_headers .= $cookieKey."=".urlencode($cookieVal)."; ";
 				}
 				$headers .= substr($cookie_headers,0,-2) . "\r\n";
-			} 
+			}
 		}
 		if(!empty($this->rawheaders))
 		{

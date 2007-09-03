@@ -102,20 +102,20 @@ function get_cat_name($cat_id) {
 	return $category->name;
 }
 
-function cat_is_ancestor_of($cat1, $cat2) { 
-	if ( is_int($cat1) ) 
-		$cat1 = & get_category($cat1); 
-	if ( is_int($cat2) ) 
-		$cat2 = & get_category($cat2); 
+function cat_is_ancestor_of($cat1, $cat2) {
+	if ( is_int($cat1) )
+		$cat1 = & get_category($cat1);
+	if ( is_int($cat2) )
+		$cat2 = & get_category($cat2);
 
-	if ( !$cat1->term_id || !$cat2->parent ) 
-		return false; 
+	if ( !$cat1->term_id || !$cat2->parent )
+		return false;
 
-	if ( $cat2->parent == $cat1->term_id ) 
-		return true; 
+	if ( $cat2->parent == $cat1->term_id )
+		return true;
 
-	return cat_is_ancestor_of($cat1, get_category($cat2->parent)); 
-} 
+	return cat_is_ancestor_of($cat1, get_category($cat2->parent));
+}
 
 function sanitize_category($category, $context = 'display') {
 	return sanitize_term($category, 'category', $context);

@@ -174,7 +174,7 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	if ( empty( $headers ) ) {
 		$headers = array();
 	} elseif ( !is_array( $headers ) ) {
-		// Explode the headers out, so this function can take both 
+		// Explode the headers out, so this function can take both
 		// string headers and an array of headers.
 		$tempheaders = (array) explode( "\n", $headers );
 		$headers = array();
@@ -396,7 +396,7 @@ function wp_redirect($location, $status = 302) {
 	$location = apply_filters('wp_redirect', $location, $status);
 
 	if ( !$location ) // allows the wp_redirect filter to cancel a redirect
-		return false; 
+		return false;
 
 	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $location);
 	$location = wp_kses_no_null($location);
@@ -558,7 +558,7 @@ function wp_notify_moderator($comment_id) {
 	global $wpdb;
 
 	if( get_option( "moderation_notify" ) == 0 )
-		return true; 
+		return true;
 
 	$comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
 	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");

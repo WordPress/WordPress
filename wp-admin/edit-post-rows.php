@@ -102,14 +102,14 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 	}
 }
 ?>
-	</tr> 
+	</tr>
 <?php
 endwhile;
 } else {
 ?>
-  <tr style='background-color: <?php echo $bgcolor; ?>'> 
-    <td colspan="8"><?php _e('No posts found.') ?></td> 
-  </tr> 
+  <tr style='background-color: <?php echo $bgcolor; ?>'>
+    <td colspan="8"><?php _e('No posts found.') ?></td>
+  </tr>
 <?php
 } // end if ( have_posts() )
 ?>

@@ -1,10 +1,10 @@
 <?php
 header('Content-Type: text/xml;charset=' . get_option('blog_charset'), true);
 
-echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; 
+echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
-<rss version="2.0" 
+<rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	>

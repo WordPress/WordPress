@@ -139,7 +139,7 @@ class FileReader {
 
 }
 
-// Preloads entire file in memory first, then creates a StringReader 
+// Preloads entire file in memory first, then creates a StringReader
 // over it (it assumes knowledge of StringReader internals)
 class CachedFileReader extends StringReader {
   function CachedFileReader($filename) {

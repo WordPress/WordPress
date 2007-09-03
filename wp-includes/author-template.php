@@ -300,10 +300,10 @@ function the_author_posts() {
 /* the_author_posts_link() requires no get_, use get_author_posts_url() */
 function the_author_posts_link($deprecated = '') {
 	global $authordata;
-	printf( 
-		'<a href="%1$s" title="%2$s">%3$s</a>', 
-		get_author_posts_url( $authordata->ID, $authordata->user_nicename ), 
-		sprintf( __( 'Posts by %s' ), attribute_escape( get_the_author() ) ), 
+	printf(
+		'<a href="%1$s" title="%2$s">%3$s</a>',
+		get_author_posts_url( $authordata->ID, $authordata->user_nicename ),
+		sprintf( __( 'Posts by %s' ), attribute_escape( get_the_author() ) ),
 		get_the_author()
 	);
 }
@@ -363,9 +363,9 @@ function get_author_name( $auth_id ) {
 function wp_list_authors($args = '') {
 	global $wpdb;
 
-	$defaults = array( 
-		'optioncount' => false, 'exclude_admin' => true, 
-		'show_fullname' => false, 'hide_empty' => true, 
+	$defaults = array(
+		'optioncount' => false, 'exclude_admin' => true,
+		'show_fullname' => false, 'hide_empty' => true,
 		'feed' => '', 'feed_image' => '', 'echo' => true
 	);
 

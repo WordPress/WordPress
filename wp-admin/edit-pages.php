@@ -71,7 +71,7 @@ $all = !( $h2_search || $post_status_q );
 
 if ($posts) {
 ?>
-<table class="widefat"> 
+<table class="widefat">
   <thead>
   <tr>
     <th scope="col" style="text-align: center"><?php _e('ID') ?></th>

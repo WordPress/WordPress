@@ -96,7 +96,7 @@ foreach ($submenu as $parent => $sub) {
 // Menus for which the original parent is not acessible due to lack of privs will have the next
 // submenu in line be assigned as the new menu parent.
 foreach ( $menu as $id => $data ) {
-	if ( empty($submenu[$data[2]]) ) 
+	if ( empty($submenu[$data[2]]) )
 		continue;
 	$subs = $submenu[$data[2]];
 	$first_sub = array_shift($subs);

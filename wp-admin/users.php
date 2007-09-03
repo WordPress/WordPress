@@ -359,7 +359,7 @@ default:
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-	<h3><?php 
+	<h3><?php
 	if ( 0 == $wp_user_search->first_user && $wp_user_search->total_users_for_query <= 50 )
 		printf(__('%3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query);
 	else
@@ -450,11 +450,11 @@ foreach ( (array) $roleclass as $user_object ) {
 
 <div class="narrow">
 
-<?php 
-	if ( get_option('users_can_register') ) 
-		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php') . '</p>'; 
-	else 
-        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>'; 
+<?php
+	if ( get_option('users_can_register') )
+		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php') . '</p>';
+	else
+        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
 ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser">
 <?php wp_nonce_field('add-user') ?>

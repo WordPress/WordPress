@@ -275,18 +275,18 @@ function the_post() {
 }
 
 /*
- * Comments loop. 
- */ 
+ * Comments loop.
+ */
 
-function have_comments() { 
-	global $wp_query; 
-	return $wp_query->have_comments(); 
-} 
+function have_comments() {
+	global $wp_query;
+	return $wp_query->have_comments();
+}
 
-function the_comment() { 
-	global $wp_query; 
-	return $wp_query->the_comment(); 
-}  
+function the_comment() {
+	global $wp_query;
+	return $wp_query->the_comment();
+}
 
 /*
  * WP_Query
@@ -565,7 +565,7 @@ class WP_Query {
 				$qv['category__in'] = array();
 			} else {
 				$qv['category__in'] = array_map('intval', $qv['category__in']);
-				$this->is_category = true;	
+				$this->is_category = true;
 			}
 
 			if ( !is_array($qv['category___not_in']) || empty($qv['category__not_in']) ) {
@@ -578,7 +578,7 @@ class WP_Query {
 				$qv['category__and'] = array();
 			} else {
 				$qv['category__and'] = array_map('intval', $qv['category__and']);
-				$this->is_category = true;	
+				$this->is_category = true;
 			}
 
 			if (  '' != $qv['tag'] )
@@ -592,7 +592,7 @@ class WP_Query {
 				$qv['tag__in'] = array();
 			} else {
 				$qv['tag__in'] = array_map('intval', $qv['tag__in']);
-				$this->is_tag = true;	
+				$this->is_tag = true;
 			}
 
 			if ( !is_array($qv['tag___not_in']) || empty($qv['tag__not_in']) ) {
@@ -605,21 +605,21 @@ class WP_Query {
 				$qv['tag__and'] = array();
 			} else {
 				$qv['tag__and'] = array_map('intval', $qv['tag__and']);
-				$this->is_category = true;	
+				$this->is_category = true;
 			}
 
 			if ( !is_array($qv['tag_slug__in']) || empty($qv['tag_slug__in']) ) {
 				$qv['tag_slug__in'] = array();
 			} else {
 				$qv['tag_slug__in'] = array_map('sanitize_title', $qv['tag_slug__in']);
-				$this->is_tag = true;	
+				$this->is_tag = true;
 			}
 
 			if ( !is_array($qv['tag_slug__and']) || empty($qv['tag_slug__amd']) ) {
 				$qv['tag_slug__and'] = array();
 			} else {
 				$qv['tag_slug__and'] = array_map('sanitize_title', $qv['tag_slug__and']);
-				$this->is_tag = true;	
+				$this->is_tag = true;
 			}
 
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
@@ -902,7 +902,7 @@ class WP_Query {
 				$search .= "{$searchand}((post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}'))";
 				$searchand = ' AND ';
 			}
-			$term = addslashes_gpc($q['s']); 
+			$term = addslashes_gpc($q['s']);
 			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
 				$search .= " OR (post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}')";
 
@@ -1224,7 +1224,7 @@ class WP_Query {
 		}
 
 		// Apply post-paging filters on where and join.  Only plugins that
-		// manipulate paging queries should use these hooks.	
+		// manipulate paging queries should use these hooks.
 
 		// Announce current selection parameters.  For use by caching plugins.
 		do_action( 'posts_selection', $where . $groupby . $q['orderby'] . $limits . $join );

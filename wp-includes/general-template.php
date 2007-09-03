@@ -64,9 +64,9 @@ function bloginfo($show='') {
 }
 
 /**
- * Note: some of these values are DEPRECATED. Meaning they could be 
- * taken out at any time and shouldn't be relied upon. Options 
- * without "// DEPRECATED" are the preferred and recommended ways 
+ * Note: some of these values are DEPRECATED. Meaning they could be
+ * taken out at any time and shouldn't be relied upon. Options
+ * without "// DEPRECATED" are the preferred and recommended ways
  * to get the information.
  */
 function get_bloginfo($show = '', $filter = 'raw') {
@@ -341,8 +341,8 @@ function wp_get_archives($args = '') {
 	global $wpdb, $wp_locale;
 
 	$defaults = array(
-		'type' => 'monthly', 'limit' => '', 
-		'format' => 'html', 'before' => '', 
+		'type' => 'monthly', 'limit' => '',
+		'format' => 'html', 'before' => '',
 		'after' => '', 'show_post_count' => false
 	);
 
@@ -390,7 +390,7 @@ function wp_get_archives($args = '') {
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_month_link($arcresult->year,	$arcresult->month);
 				$text = sprintf(__('%1$s %2$d'), $wp_locale->get_month($arcresult->month), $arcresult->year);
-				if ( $show_post_count ) 
+				if ( $show_post_count )
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
@@ -836,8 +836,8 @@ function user_can_richedit() {
 	global $wp_rich_edit, $pagenow;
 
 	if ( !isset( $wp_rich_edit) ) {
-		if ( get_user_option( 'rich_editing' ) == 'true' && 
-			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) || 
+		if ( get_user_option( 'rich_editing' ) == 'true' &&
+			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) ||
 				!preg_match( '!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT'] ) )
 				&& 'comment.php' != $pagenow ) {
 			$wp_rich_edit = true;
@@ -901,7 +901,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 				var startPos = myField.selectionStart;
 				var endPos = myField.selectionEnd;
 				myField.value = myField.value.substring(0, startPos)
-				              + myValue 
+				              + myValue
 		                      + myField.value.substring(endPos, myField.value.length);
 				myField.focus();
 				myField.selectionStart = startPos + myValue.length;
@@ -987,7 +987,7 @@ function language_attributes() {
 }
 
 function paginate_links( $args = '' ) {
-	$defaults = array( 
+	$defaults = array(
 		'base' => '%_%', // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
 		'format' => '?page=%#%', // ?page=%#% : %#% is replaced by the page number
 		'total' => 1,
@@ -1072,7 +1072,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 		$_file = add_query_arg( 'version', get_bloginfo( 'version' ), "./$file.css" );
 	} else {
 		$_file = add_query_arg( 'version', get_bloginfo( 'version' ), get_option( 'siteurl' ) . "/wp-admin/$file.css" );
-	}	
+	}
 	return apply_filters( 'wp_admin_css_uri', $_file, $file );
 }
 

@@ -109,19 +109,19 @@ function textconv ($s) {
 **/
 class Dotclear_Import {
 
-	function header() 
+	function header()
 	{
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import DotClear').'</h2>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
 	}
 
-	function footer() 
+	function footer()
 	{
 		echo '</div>';
 	}
 
-	function greet() 
+	function greet()
 	{
 		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a DotClear database into your blog.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your DotClear Configuration settings are as follows:').'</p>';

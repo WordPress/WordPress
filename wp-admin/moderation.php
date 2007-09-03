@@ -124,12 +124,12 @@ if ( isset( $_GET['paged'] ) ) {
 $start = ( $page * $per ) - $per;
 $stop = $start + $per;
 
-$page_links = paginate_links( array( 
-	'base' => add_query_arg( 'paged', '%#%' ), 
-	'format' => '', 
-	'total' => ceil( $total / $per ), 
-	'current' => $page, 
-	'prev_text' => '&laquo;', 
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'total' => ceil( $total / $per ),
+	'current' => $page,
+	'prev_text' => '&laquo;',
 	'next_text' => '&raquo;'
 ) );
 
@@ -160,7 +160,7 @@ $comments = array_slice( $comments, $start, $stop );
 		?>
 			<li id="comment-<?php comment_ID(); ?>" class="<?php echo $class; ?>">
 				<p>
-					<strong><?php comment_author(); ?></strong> 
+					<strong><?php comment_author(); ?></strong>
 					<?php if ( !empty( $comment->comment_author_email ) ) { ?>| <?php comment_author_email_link(); ?> <?php } ?>
 					<?php if ( !empty( $comment->comment_author_url ) && $comment->comment_author_url != 'http://' ) { ?>| <?php comment_author_url_link(); ?> <?php } ?>
 					| <?php _e( 'IP:' ); ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP(); ?>"><?php comment_author_IP(); ?></a>
@@ -171,9 +171,9 @@ $comments = array_slice( $comments, $start, $stop );
 				</p>
 
 				<p><small>
-					<?php comment_date( __( 'M j, g:i A' ) ); ?> &#8212; 
-					[ <a href="comment.php?action=editcomment&amp;c=<?php comment_ID(); ?>" title="<?php _e( 'Edit this comment' ); ?>"><?php _e( 'Edit' ); ?></a> | 
-					<a href="post.php?action=deletecomment&amp;p=<?php echo $comment->comment_post_ID; ?>" title="<?php _e( 'Delete this comment' ); ?>" onclick="return deleteSomething( 'comment', <?php comment_ID(); ?>, '<?php echo js_escape( sprintf( __( "You are about to delete this comment by '%s'.\n'OK' to delete, 'Cancel' to stop." ), get_comment_author() ) ); ?>', theCommentList );"><?php _e( 'Delete' ); ?></a> ] &#8212; 
+					<?php comment_date( __( 'M j, g:i A' ) ); ?> &#8212;
+					[ <a href="comment.php?action=editcomment&amp;c=<?php comment_ID(); ?>" title="<?php _e( 'Edit this comment' ); ?>"><?php _e( 'Edit' ); ?></a> |
+					<a href="post.php?action=deletecomment&amp;p=<?php echo $comment->comment_post_ID; ?>" title="<?php _e( 'Delete this comment' ); ?>" onclick="return deleteSomething( 'comment', <?php comment_ID(); ?>, '<?php echo js_escape( sprintf( __( "You are about to delete this comment by '%s'.\n'OK' to delete, 'Cancel' to stop." ), get_comment_author() ) ); ?>', theCommentList );"><?php _e( 'Delete' ); ?></a> ] &#8212;
 					<a href="<?php echo get_permalink( $comment->comment_post_ID ); ?>" title="<?php _e( 'View the post' ); ?>"><?php printf( __( 'View post &#8220;%s&#8221;' ), get_the_title( $comment->comment_post_ID ) ); ?></a>
 				</small></p>
 

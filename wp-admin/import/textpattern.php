@@ -26,14 +26,14 @@ if(!function_exists('link_exists'))
 **/
 class Textpattern_Import {
 
-	function header() 
+	function header()
 	{
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import Textpattern').'</h2>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
 	}
 
-	function footer() 
+	function footer()
 	{
 		echo '</div>';
 	}

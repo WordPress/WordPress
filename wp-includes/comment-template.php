@@ -289,7 +289,7 @@ function comments_template( $file = '/comments.php' ) {
 	// TODO: Use API instead of SELECTs.
 	if ( $user_ID) {
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND (comment_approved = '1' OR ( user_id = '$user_ID' AND comment_approved = '0' ) )  ORDER BY comment_date");
-	} else if ( empty($comment_author) ) { 
+	} else if ( empty($comment_author) ) {
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 	} else {
 		$author_db = $wpdb->escape($comment_author);

@@ -357,9 +357,9 @@ class MT_Import {
 					$post->post_date = $date;
 					$post->post_date_gmt = $date_gmt;
 				} else if ( 'comment' == $context ) {
-					$comment->comment_date = $date;	
+					$comment->comment_date = $date;
 				} else if ( 'ping' == $context ) {
-					$ping->comment_date = $date;	
+					$ping->comment_date = $date;
 				}
 			} else if ( 0 === strpos($line, "EMAIL:") ) {
 				$email = trim( substr($line, strlen("EMAIL:")) );

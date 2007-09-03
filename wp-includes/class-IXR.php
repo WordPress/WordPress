@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
    IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002-2005
    Version 1.7 (beta) - Simon Willison, 23rd May 2005
    Site:   http://scripts.incutio.com/xmlrpc/
@@ -254,7 +254,7 @@ class IXR_Message {
             }
         }
 		$this->_currentTagContents = '';
-    }       
+    }
 }
 
 
@@ -379,7 +379,7 @@ EOD;
                 'specUrl' => 'http://www.xmlrpc.com/discuss/msgReader$1208',
                 'specVersion' => 1
             ),
-        );   
+        );
     }
     function getCapabilities($args) {
         return $this->capabilities;
@@ -584,7 +584,7 @@ class IXR_Error {
       </struct>
     </value>
   </fault>
-</methodResponse> 
+</methodResponse>
 
 EOD;
         return $xml;
@@ -658,27 +658,27 @@ class IXR_IntrospectionServer extends IXR_Server {
             'specVersion' => 1
         );
         $this->addCallback(
-            'system.methodSignature', 
-            'this:methodSignature', 
-            array('array', 'string'), 
+            'system.methodSignature',
+            'this:methodSignature',
+            array('array', 'string'),
             'Returns an array describing the return type and required parameters of a method'
         );
         $this->addCallback(
-            'system.getCapabilities', 
-            'this:getCapabilities', 
-            array('struct'), 
+            'system.getCapabilities',
+            'this:getCapabilities',
+            array('struct'),
             'Returns a struct describing the XML-RPC specifications supported by this server'
         );
         $this->addCallback(
-            'system.listMethods', 
-            'this:listMethods', 
-            array('array'), 
+            'system.listMethods',
+            'this:listMethods',
+            array('array'),
             'Returns an array of available methods on this server'
         );
         $this->addCallback(
-            'system.methodHelp', 
-            'this:methodHelp', 
-            array('string', 'string'), 
+            'system.methodHelp',
+            'this:methodHelp',
+            array('string', 'string'),
             'Returns a documentation string for the specified method'
         );
     }

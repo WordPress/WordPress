@@ -139,7 +139,7 @@ case 'delete':
 		if ( ! wp_delete_attachment($page_id) )
 			wp_die( __('Error in deleting...') );
 	} else {
-		if ( !wp_delete_post($page_id) ) 
+		if ( !wp_delete_post($page_id) )
 			wp_die( __('Error in deleting...') );
 	}
 

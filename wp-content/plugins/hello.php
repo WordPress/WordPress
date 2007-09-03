@@ -6,7 +6,7 @@ Description: This is not just a plugin, it symbolizes the hope and enthusiasm of
 Author: Matt Mullenweg
 Version: 1.5
 Author URI: http://photomatt.net/
-*/ 
+*/
 
 // These are the lyrics to Hello Dolly
 $lyrics = "Hello, Dolly

@@ -919,7 +919,7 @@ class AtomParser {
 			array_push($this->in_content, "<". $this->ns_to_prefix($name) ."{$xmlns_str}{$attrs_str}");
 		} else if(in_array($tag, $this->ATOM_CONTENT_ELEMENTS) || in_array($tag, $this->ATOM_SIMPLE_ELEMENTS)) {
 			$this->in_content = array();
-			$this->is_xhtml = $attrs['type'] == 'xhtml'; 
+			$this->is_xhtml = $attrs['type'] == 'xhtml';
 			array_push($this->in_content, array($tag,$this->depth));
 		} else if($tag == 'link') {
 			array_push($this->entry->links, $attrs);
@@ -935,7 +935,7 @@ class AtomParser {
 		$tag = array_pop(split(":", $name));
 
 		if(!empty($this->in_content)) {
-			if($this->in_content[0][0] == $tag && 
+			if($this->in_content[0][0] == $tag &&
 			$this->in_content[0][1] == $this->depth) {
 				array_shift($this->in_content);
 				if($this->is_xhtml) {
@@ -998,14 +998,14 @@ class AtomParser {
 					}
 				}
 			}
-		} 
+		}
 		return $name;
 	}
 
 	function xml_escape($string)
 	{
-			 return str_replace(array('&','"',"'",'<','>'), 
-				array('&amp;','&quot;','&apos;','&lt;','&gt;'), 
+			 return str_replace(array('&','"',"'",'<','>'),
+				array('&amp;','&quot;','&apos;','&lt;','&gt;'),
 				$string );
 	}
 }

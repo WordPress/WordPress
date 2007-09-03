@@ -624,7 +624,7 @@ function upgrade_230() {
 
 			if ( empty($term_id) ) {
 				$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
-				$term_id = (int) $wpdb->insert_id;	
+				$term_id = (int) $wpdb->insert_id;
 			}
 
 			$link_cat_id_map[$cat_id] = $term_id;

@@ -39,14 +39,14 @@ function getNumChecked(form)
 </script>
 <div class="wrap">
 <h2><?php _e('Comments'); ?></h2>
-<form name="searchform" action="" method="get" id="editcomments"> 
-  <fieldset> 
-  <legend><?php _e('Show Comments That Contain...') ?></legend> 
-  <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo attribute_escape($_GET['s']); ?>" size="17" /> 
-  <input type="submit" name="submit" value="<?php _e('Search') ?>"  />  
+<form name="searchform" action="" method="get" id="editcomments">
+  <fieldset>
+  <legend><?php _e('Show Comments That Contain...') ?></legend>
+  <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo attribute_escape($_GET['s']); ?>" size="17" />
+  <input type="submit" name="submit" value="<?php _e('Search') ?>"  />
   <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
   <?php _e('(Searches within comment text, e-mail, URL, and IP address.)') ?>
-  </fieldset> 
+  </fieldset>
 </form>
 <p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>
 <?php
@@ -88,7 +88,7 @@ $comments = array_slice($_comments, 0, 20);
 $extra_comments = array_slice($_comments, 20);
 
 $page_links = paginate_links( array(
-	'base' => add_query_arg( 'apage', '%#%' ), 
+	'base' => add_query_arg( 'apage', '%#%' ),
 	'format' => '',
 	'total' => ceil($total / 20),
 	'current' => $page
@@ -176,7 +176,7 @@ if ( $extra_comments ) : ?>
 		echo "<a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;c=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to delete this comment by '%s'. \n  'Cancel' to stop, 'OK' to delete."), $comment->comment_author ))  . "', theCommentList );\" class='delete'>" . __('Delete') . "</a> ";
 		} ?></td>
   </tr>
-		<?php 
+		<?php
 		} // end foreach
 	?></table>
 <p class="submit"><input type="submit" name="delete_button" class="delete" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="var numchecked = getNumChecked(document.getElementById('deletecomments')); if(numchecked < 1) { alert('<?php echo js_escape(__("Please select some comments to delete")); ?>'); return false } return confirm('<?php echo sprintf(js_escape(__("You are about to delete %s comments permanently \n  'Cancel' to stop, 'OK' to delete.")), "' + numchecked + '"); ?>')" />

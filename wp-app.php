@@ -135,7 +135,7 @@ class AtomServer {
 
 				// authenticate regardless of the operation and set the current
 				// user. each handler will decide if auth is required or not.
-				$this->authenticate();               
+				$this->authenticate();
 				$u = wp_get_current_user();
 				if(!isset($u) || $u->ID == 0) {
 					if ($always_authenticate) {
@@ -322,7 +322,7 @@ EOD;
 		$post_excerpt = $parsed->summary[1];
 		$pubtimes = $this->get_publish_time($entry);
 		$post_date = $pubtimes[0];
-		$post_date_gmt = $pubtimes[1];     
+		$post_date_gmt = $pubtimes[1];
 
 		// let's not go backwards and make something draft again.
 		if(!$publish && $post_status == 'draft') {
@@ -721,7 +721,7 @@ EOD;
 		$next_page = (($page + 1) > $last_page) ? NULL : $page + 1;
 		$prev_page = ($page - 1) < 1 ? NULL : $page - 1;
 		$last_page = ((int)$last_page == 1 || (int)$last_page == 0) ? NULL : (int) $last_page;
-		$self_page = $page > 1 ? $page : NULL; 
+		$self_page = $page > 1 ? $page : NULL;
 ?><feed xmlns="<?php echo $this->ATOM_NS ?>" xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
 <id><?php $this->the_entries_url() ?></id>
 <updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></updated>
@@ -1122,7 +1122,7 @@ EOD;
 			$match[3] == '+0000';
 
 	    return strtotime($match[1] . " " . $match[2] . " " . $match[3]);
-	}       
+	}
 
 	function get_publish_time($entry) {
 

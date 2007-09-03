@@ -104,12 +104,12 @@ class WP_Import {
 				if ( false !== strpos($importline, '<item>') ) {
 					$this->posts[$num] = '';
 					$doing_entry = true;
-					continue;	
+					continue;
 				}
 				if ( false !== strpos($importline, '</item>') ) {
 					$num++;
 					$doing_entry = false;
-					continue;	
+					continue;
 				}
 				if ( $doing_entry ) {
 					$this->posts[$num] .= $importline . "\n";
@@ -335,7 +335,7 @@ class WP_Import {
 					$post_cats[] = $cat_ID;
 				}
 				wp_set_post_categories($post_id, $post_cats);
-			}	
+			}
 		}
 
 		// Now for comments

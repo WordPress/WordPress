@@ -7,7 +7,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	xml:lang="<?php echo get_option('rss_language'); ?>"
 	<?php do_action('atom_ns'); ?>
 >
-	<title type="text"><?php 
+	<title type="text"><?php
 		if ( is_singular() )
 			printf(__('Comments on: %s'), get_the_title_rss());
 		elseif ( is_search() )

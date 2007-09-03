@@ -84,23 +84,23 @@ addLoadEvent(focusit);
 <input name="advanced_view" type="hidden" value="1" />
 <label for="comment_status" class="selectit">
 <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
-<?php _e('Allow Comments') ?></label> 
+<?php _e('Allow Comments') ?></label>
 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
 </div>
 </fieldset>
 
 <fieldset id="passworddiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Password') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Post Password') ?></h3>
 <div class="dbx-content"><input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></div>
 </fieldset>
 
 <fieldset id="slugdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Slug') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Post Slug') ?></h3>
 <div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" /></div>
 </fieldset>
 
 <fieldset id="poststatusdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Status') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Post Status') ?></h3>
 <div class="dbx-content">
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
@@ -117,7 +117,7 @@ addLoadEvent(focusit);
 </fieldset>
 <?php endif; ?>
 
-<?php 
+<?php
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $authors && count( $authors ) > 1 ) :
 ?>
@@ -163,19 +163,19 @@ if ( $authors && count( $authors ) > 1 ) :
 <p class="submit">
 <span id="autosave"></span>
 <?php echo $saveasdraft; ?>
-<input type="submit" name="submit" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" /> 
-<?php 
+<input type="submit" name="submit" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
+<?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
-	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
+	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
 <?php else : ?>
-	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" /> 
+	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
 <?php
 }
 ?>
-<input name="referredby" type="hidden" id="referredby" value="<?php 
+<input name="referredby" type="hidden" id="referredby" value="<?php
 if ( !empty($_REQUEST['popupurl']) )
 	echo clean_url(stripslashes($_REQUEST['popupurl']));
 else if ( url_to_postid(wp_get_referer()) == $post_ID )

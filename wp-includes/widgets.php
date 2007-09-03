@@ -375,7 +375,7 @@ function wp_widget_pages_control() {
 	$exclude = attribute_escape( $options['exclude'] );
 ?>
 			<p><label for="pages-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?> 
+			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?>
 				<select name="pages-sortby" id="pages-sortby">
 					<option value="post_title"<?php selected( $options['sortby'], 'post_title' ); ?>><?php _e('Page title'); ?></option>
 					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Page order'); ?></option>
@@ -390,8 +390,8 @@ function wp_widget_pages_control() {
 function wp_widget_links($args) {
 	extract($args, EXTR_SKIP);
 	wp_list_bookmarks(array(
-		'title_before' => $before_title, 'title_after' => $after_title, 
-		'category_before' => $before_widget, 'category_after' => $after_widget, 
+		'title_before' => $before_title, 'title_after' => $after_title,
+		'category_before' => $before_widget, 'category_after' => $after_widget,
 		'show_images' => true, 'class' => 'linkcat widget'
 	));
 }
@@ -417,14 +417,14 @@ function wp_widget_archives($args) {
 	$d = $options['dropdown'] ? '1' : '0';
 	$title = empty($options['title']) ? __('Archives') : $options['title'];
 
-	echo $before_widget; 
+	echo $before_widget;
 	echo $before_title . $title . $after_title;
 
-	if($d) { 
+	if($d) {
 ?>
 		<select name="archive-dropdown" onChange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo attribute_escape(__('Select Month')); ?></option> <?php wp_get_archives("type=monthly&format=option&show_post_count=$c"); ?> </select>
-<?php	
-	} else { 
+<?php
+	} else {
 ?>
 		<ul>
 		<?php wp_get_archives("type=monthly&show_post_count=$c"); ?>
@@ -432,7 +432,7 @@ function wp_widget_archives($args) {
 <?php
 	}
 
-	echo $after_widget; 
+	echo $after_widget;
 }
 
 function wp_widget_archives_control() {
@@ -614,7 +614,7 @@ function wp_widget_categories($args, $number = 1) {
 	$title = empty($options[$number]['title']) ? __('Categories') : $options[$number]['title'];
 
 	echo $before_widget;
-	echo $before_title . $title . $after_title; 
+	echo $before_title . $title . $after_title;
 
 	$cat_args = "orderby=name&show_count={$c}&hierarchical={$h}";
 

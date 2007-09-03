@@ -94,7 +94,7 @@ include('edit-form-advanced.php');
 <?php
 if ($is_NS4 || $is_gecko) {
 ?>
-<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}location.href='<?php echo get_option('siteurl') ?>/wp-admin/post-new.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press It - %s'), wp_specialchars(get_option('blogname'))); ?></a> 
+<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}location.href='<?php echo get_option('siteurl') ?>/wp-admin/post-new.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press It - %s'), wp_specialchars(get_option('blogname'))); ?></a>
 <?php
 } else if ($is_winIE) {
 ?>
@@ -109,15 +109,15 @@ window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=50
 <br />
 <br />
 <?php _e('One-click bookmarklet:') ?><br />
-<a href="javascript:oneclickbookmarklet(0);"><?php _e('click here') ?></a> 
+<a href="javascript:oneclickbookmarklet(0);"><?php _e('click here') ?></a>
 <?php
 } else if ($is_opera) {
 ?>
-<a href="javascript:location.href='<?php echo get_option('siteurl'); ?>/wp-admin/post-new.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_option('blogname')); ?></a> 
+<a href="javascript:location.href='<?php echo get_option('siteurl'); ?>/wp-admin/post-new.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_option('blogname')); ?></a>
 <?php
 } else if ($is_macIE) {
 ?>
-<a href="javascript:Q='';location.href='<?php echo get_option('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_option('blogname')); ?></a> 
+<a href="javascript:Q='';location.href='<?php echo get_option('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_option('blogname')); ?></a>
 <?php
 }
 ?>

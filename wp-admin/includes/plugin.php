@@ -261,8 +261,8 @@ function get_admin_page_title() {
 	} else {
 		foreach (array_keys( $submenu ) as $parent) {
 			foreach ( $submenu[$parent] as $submenu_array ) {
-				if ( isset( $plugin_page ) && 
-					($plugin_page == $submenu_array[2] ) && 
+				if ( isset( $plugin_page ) &&
+					($plugin_page == $submenu_array[2] ) &&
 					(($parent == $pagenow ) || ($parent == $plugin_page ) || ($plugin_page == $hook ) || (($pagenow == 'admin.php' ) && ($parent1 != $submenu_array[2] ) ) )
 					) {
 						$title = $submenu_array[3];

@@ -8,9 +8,9 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	if ( empty($m) ) {
 		return false;
 	}
-	$i = mktime( 
-		(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ), 
-		(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 ) 
+	$i = mktime(
+		(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
+		(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )
 	);
 
 	if( 'U' == $dateformatstring )
@@ -182,9 +182,9 @@ function get_option($setting) {
 	global $wpdb;
 
 	// Allow plugins to short-circuit options.
-	$pre = apply_filters( 'pre_option_' . $setting, false ); 
-	if ( false !== $pre ) 
-		return $pre; 
+	$pre = apply_filters( 'pre_option_' . $setting, false );
+	if ( false !== $pre )
+		return $pre;
 
 	// prevent non-existent options from triggering multiple queries
 	$notoptions = wp_cache_get('notoptions', 'options');
@@ -1203,7 +1203,7 @@ function wp_die( $message, $title = '' ) {
 	<title><?php echo $title ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install.css" type="text/css" />
-<?php 
+<?php
 if ( ( $wp_locale ) && ('rtl' == $wp_locale->text_direction) ) : ?>
 	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install-rtl.css" type="text/css" />
 <?php endif; ?>
@@ -1220,13 +1220,13 @@ if ( ( $wp_locale ) && ('rtl' == $wp_locale->text_direction) ) : ?>
 }
 
 function _config_wp_home($url = '') {
-	if ( defined( 'WP_HOME' ) ) 
+	if ( defined( 'WP_HOME' ) )
 		return WP_HOME;
 	else return $url;
 }
 
 function _config_wp_siteurl($url = '') {
-	if ( defined( 'WP_SITEURL' ) ) 
+	if ( defined( 'WP_SITEURL' ) )
 		return WP_SITEURL;
 	else return $url;
 }

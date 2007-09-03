@@ -139,9 +139,9 @@ function has_excerpt( $id = 0 ) {
 
 function wp_link_pages($args = '') {
 	$defaults = array(
-		'before' => '<p>' . __('Pages:'), 'after' => '</p>', 
-		'next_or_number' => 'number', 'nextpagelink' => __('Next page'), 
-		'previouspagelink' => __('Previous page'), 'pagelink' => '%', 
+		'before' => '<p>' . __('Pages:'), 'after' => '</p>',
+		'next_or_number' => 'number', 'nextpagelink' => __('Next page'),
+		'previouspagelink' => __('Previous page'), 'pagelink' => '%',
 		'more_file' => '', 'echo' => 1
 	);
 
@@ -253,8 +253,8 @@ function the_meta() {
 
 function wp_dropdown_pages($args = '') {
 	$defaults = array(
-		'depth' => 0, 'child_of' => 0, 
-		'selected' => 0, 'echo' => 1, 
+		'depth' => 0, 'child_of' => 0,
+		'selected' => 0, 'echo' => 1,
 		'name' => 'page_id', 'show_option_none' => ''
 	);
 
@@ -282,10 +282,10 @@ function wp_dropdown_pages($args = '') {
 
 function wp_list_pages($args = '') {
 	$defaults = array(
-		'depth' => 0, 'show_date' => '', 
-		'date_format' => get_option('date_format'), 
-		'child_of' => 0, 'exclude' => '', 
-		'title_li' => __('Pages'), 'echo' => 1, 
+		'depth' => 0, 'show_date' => '',
+		'date_format' => get_option('date_format'),
+		'child_of' => 0, 'exclude' => '',
+		'title_li' => __('Pages'), 'echo' => 1,
 		'authors' => '', 'sort_column' => 'menu_order, post_title'
 	);
 

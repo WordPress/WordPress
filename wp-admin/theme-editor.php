@@ -97,7 +97,7 @@ default:
  </form>
  </div>
 
- <div class="wrap"> 
+ <div class="wrap">
   <?php
 	if ( is_writeable($real_file) ) {
 		echo '<h2>' . sprintf(__('Editing <code>%s</code>'), $file_show) . '</h2>';

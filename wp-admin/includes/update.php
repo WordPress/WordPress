@@ -62,9 +62,9 @@ function wp_update_plugins() {
 			$plugin_changed = true;
 	}
 
-	if ( 
-		isset( $current->last_checked ) && 
-		43200 > ( time() - $current->last_checked ) && 
+	if (
+		isset( $current->last_checked ) &&
+		43200 > ( time() - $current->last_checked ) &&
 		!$plugin_changed
 	)
 		return false;

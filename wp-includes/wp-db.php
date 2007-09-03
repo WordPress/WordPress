@@ -82,7 +82,7 @@ class wpdb {
 	}
 
 	function __destruct() {
-		return true;	
+		return true;
 	}
 
 	/**

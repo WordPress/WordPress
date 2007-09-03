@@ -39,7 +39,7 @@ function edit_user( $user_id = 0 ) {
 	if ( isset( $_POST['pass2'] ))
 		$pass2 = $_POST['pass2'];
 
-	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) { 
+	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) {
 		if( $user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap( 'edit_users' ))
 			$user->role = $_POST['role'];
 	}

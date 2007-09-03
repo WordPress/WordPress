@@ -11,14 +11,14 @@ function wp_unregister_GLOBALS() {
 	$noUnset = array('GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix');
 
 	$input = array_merge($_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset($_SESSION) && is_array($_SESSION) ? $_SESSION : array());
-	foreach ( $input as $k => $v ) 
+	foreach ( $input as $k => $v )
 		if ( !in_array($k, $noUnset) && isset($GLOBALS[$k]) ) {
 			$GLOBALS[$k] = NULL;
 			unset($GLOBALS[$k]);
 		}
 }
 
-wp_unregister_GLOBALS(); 
+wp_unregister_GLOBALS();
 
 unset( $wp_filter, $cache_userdata, $cache_lastcommentmodified, $cache_lastpostdate, $cache_settings, $category_cache, $cache_categories );
 
@@ -158,7 +158,7 @@ require_once (ABSPATH . WPINC . '/l10n.php');
 
 if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === false && !defined('WP_INSTALLING')) ) {
 	if ( defined('WP_SITEURL') )
-		$link = WP_SITEURL . '/wp-admin/install.php'; 
+		$link = WP_SITEURL . '/wp-admin/install.php';
 	elseif (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
 		$link = preg_replace('|/wp-admin/?.*?$|', '/', $_SERVER['PHP_SELF']) . 'wp-admin/install.php';
 	else
@@ -199,7 +199,7 @@ require (ABSPATH . WPINC . '/canonical.php');
 if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
     // Used to guarantee unique hash cookies
     $cookiehash = md5(get_option('siteurl'));
-	define('COOKIEHASH', $cookiehash); 
+	define('COOKIEHASH', $cookiehash);
 }
 
 if ( !defined('USER_COOKIE') )
