@@ -195,7 +195,7 @@ EOD;
 		$categories = "";
 		$cats = get_categories("hierarchical=0&hide_empty=0");
 		foreach ((array) $cats as $cat) {
-			$categories .= "    <category term=\"" . attribute_escape($cat->cat_name) .  "\" />\n";
+			$categories .= "    <category term=\"" . attribute_escape($cat->name) .  "\" />\n";
 }
 		$output = <<<EOD
 <app:categories xmlns:app="$this->ATOMPUB_NS"
@@ -232,8 +232,8 @@ EOD;
 		$post_category = array();
 
 		foreach($wp_cats as $cat) {
-			if(in_array($cat->cat_name, $catnames))
-				array_push($post_category, $cat->cat_ID);
+			if(in_array($cat->name, $catnames))
+				array_push($post_category, $cat->term_id);
 		}
 
 		$publish = (isset($entry->draft) && trim($entry->draft) == 'yes') ? false : true;
@@ -810,7 +810,7 @@ list($content_type, $content) = $this->prep_content(get_the_content()); ?>
 <?php } ?>
 	<link rel="edit" href="<?php $this->the_entry_url() ?>" />
 <?php foreach(get_the_category() as $category) { ?>
-	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
+	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->name?>" />
 <?php } ?>
 <?php list($content_type, $content) = $this->prep_content(get_the_excerpt()); ?>
 	<summary type="<?php echo $content_type ?>"><?php echo $content ?></summary>
