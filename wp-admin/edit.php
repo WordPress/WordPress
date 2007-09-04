@@ -19,7 +19,7 @@ $post_stati  = array(	//	array( adj, noun )
 $avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
 
 $post_status_q = '';
-$post_status_label = _c('Posts|manage posts header');
+$post_status_label = __('Posts');
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
 	$post_status_q = '&post_status=' . $_GET['post_status'];
@@ -89,7 +89,7 @@ if ( is_single() ) {
 	$h2_search = isset($_GET['s'])   && $_GET['s']   ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( get_search_query() ) ) : '';
 	$h2_cat    = isset($_GET['cat']) && $_GET['cat'] ? ' ' . sprintf( __('in &#8220;%s&#8221;'), single_cat_title('', false) ) : '';
 	$h2_month  = isset($_GET['m'])   && $_GET['m']   ? ' ' . sprintf( __('during %s'), single_month_title(' ', false) ) : '';
-	printf( _c( '%1$s%2$s%3$s%4$s%5$s|manage posts header' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_month );
+	printf( _c( '%1$s%2$s%3$s%4$s%5$s|You can reorder these: 1: Posts, 2: by %s, 3: matching %s, 4: in %s, 5: during %s' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_month );
 }
 ?></h2>
 

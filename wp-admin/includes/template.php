@@ -449,7 +449,7 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <?php
 	if ( $edit ) {
-		printf( __('Existing timestamp: %1$s %2$s, %3$s @ %4$s:%5$s' ), $wp_locale->get_month( $mm ), $jj, $aa, $hh, $mn );
+		printf( _c( 'Existing timestamp: %1$s %2$s, %3$s @ %4$s:%5$s|1: month, 2: month string, 3: full year, 4: hours, 5: minutes' ), $wp_locale->get_month( $mm ), $jj, $aa, $hh, $mn );
 	}
 ?>
 </fieldset>

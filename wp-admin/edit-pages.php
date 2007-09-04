@@ -12,7 +12,7 @@ $post_stati  = array(	//	array( adj, noun )
 		);
 
 
-$post_status_label = _c('Pages|manage pages header');
+$post_status_label = __('Pages');
 $post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
@@ -31,7 +31,7 @@ if ( isset($_GET['author']) && $_GET['author'] ) {
 	$author_user = get_userdata( (int) $_GET['author'] );
 	$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
 }
-printf( _c( '%1$s%2$s%3$s|manage pages header' ), $post_status_label, $h2_author, $h2_search );
+printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by %s, 3: matching %s' ), $post_status_label, $h2_author, $h2_search );
 ?></h2>
 
 <p><?php _e('Pages are like posts except they live outside of the normal blog chronology and can be hierarchical. You can use pages to organize and manage any amount of content.'); ?> <a href="page-new.php"><?php _e('Create a new page &raquo;'); ?></a></p>

@@ -90,13 +90,13 @@ class WP_Locale {
 		// Numbers formatting
 		// See http://php.net/number_format
 
-		$trans = __('number_format_decimals');
+		$trans = _c('number_format_decimals|$decimals argument for http://php.net/number_format, default is 0');
 		$this->number_format['decimals'] = ('number_format_decimals' == $trans) ? 0 : $trans;
 
-		$trans = __('number_format_decimal_point');
+		$trans = _c('number_format_decimal_point|$dec_point argument for http://php.net/number_format, default is .');
 		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
 
-		$trans = __('number_format_thousands_sep');
+		$trans = _c('number_format_thousands_sep|$thousands_sep argument for http://php.net/number_format, default is ,');
 		$this->number_format['thousands_sep'] = ('number_format_thousands_sep' == $trans) ? ',' : $trans;
 
 		// Import global locale vars set during inclusion of $locale.php.
