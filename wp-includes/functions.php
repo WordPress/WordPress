@@ -627,7 +627,7 @@ function add_query_arg() {
 			$base = $parts[0] . '?';
 			$query = $parts[1];
 		}
-	} elseif (!empty($protocol) || strpos($uri, '/') !== false) {
+	} elseif (!empty($protocol) || ( strpos($uri, '/') !== false && strpos($uri, '=') === false ) ) {
 		$base = $uri . '?';
 		$query = '';
 	} else {
