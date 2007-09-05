@@ -82,7 +82,6 @@ foreach ( (array) $options as $option) :
 	else echo "<input class='$class' type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . attribute_escape($value) . "'$disabled />";
 
 	echo "</td>
-	<td>$option->option_description</td>
 </tr>";
 endforeach;
 ?>

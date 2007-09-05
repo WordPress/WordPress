@@ -77,13 +77,7 @@ CREATE TABLE $wpdb->options (
   option_id bigint(20) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
   option_name varchar(64) NOT NULL default '',
-  option_can_override enum('Y','N') NOT NULL default 'Y',
-  option_type int(11) NOT NULL default '1',
   option_value longtext NOT NULL,
-  option_width int(11) NOT NULL default '20',
-  option_height int(11) NOT NULL default '8',
-  option_description tinytext NOT NULL,
-  option_admin_level int(11) NOT NULL default '1',
   autoload enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (option_id,blog_id,option_name),
   KEY option_name (option_name)
@@ -155,9 +149,9 @@ function populate_options() {
 
 	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
 	$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-	add_option('siteurl', $guessurl, __('WordPress web address'));
-	add_option('blogname', __('My Blog'), __('Blog title'));
-	add_option('blogdescription', __('Just another WordPress weblog'), __('Short tagline'));
+	add_option('siteurl', $guessurl);
+	add_option('blogname', __('My Blog'));
+	add_option('blogdescription', __('Just another WordPress weblog'));
 	add_option('new_users_can_blog', 0);
 	add_option('users_can_register', 0);
 	add_option('admin_email', 'you@example.com');
@@ -203,7 +197,7 @@ function populate_options() {
 	add_option('comment_max_links', 2);
 	add_option('gmt_offset', date('Z') / 3600);
 	// 1.5
-	add_option('default_email_category', 1, __('Posts by email go to this category'));
+	add_option('default_email_category', 1);
 	add_option('recently_edited');
 	add_option('use_linksupdate', 0);
 	add_option('template', 'default');

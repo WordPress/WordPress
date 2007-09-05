@@ -329,7 +329,7 @@ function update_option($option_name, $newvalue) {
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
 // expects $name to NOT be SQL-escaped
-function add_option($name, $value = '', $description = '', $autoload = 'yes') {
+function add_option($name, $value = '', $deprecated = '', $autoload = 'yes') {
 	global $wpdb;
 
 	wp_protect_special_option($name);
@@ -361,8 +361,7 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 
 	$name = $wpdb->escape($name);
 	$value = $wpdb->escape($value);
-	$description = $wpdb->escape($description);
-	$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, option_description, autoload) VALUES ('$name', '$value', '$description', '$autoload')");
+	$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES ('$name', '$value', '$autoload')");
 
 	return;
 }

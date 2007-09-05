@@ -191,6 +191,8 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 5539 )
 		upgrade_230();
 
+	if ( $wp_current_db_version < 6039 )
+		upgrade_230_options_table();
 
 	maybe_disable_automattic_widgets();
 
@@ -676,6 +678,15 @@ function upgrade_230() {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
 		$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
 	}
+}
+
+function upgrade_230_options_table() {
+	global $wpdb;
+	$old_options_fields = array( 'option_can_override', 'option_type', 'option_width', 'option_height', 'option_description', 'option_admin_level' );
+	$wpdb->hide_errors();
+	foreach ( $old_options_fields as $old )
+		$wpdb->query("ALTER TABLE $wpdb->options DROP $old");
+	$wpdb->show_errors();
 }
 
 function upgrade_old_slugs() {
