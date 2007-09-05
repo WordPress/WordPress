@@ -129,6 +129,8 @@ add_filter('get_the_excerpt', 'wp_trim_excerpt');
 
 add_filter('sanitize_title', 'sanitize_title_with_dashes');
 
+add_filter('wp_title', 'wp_specialchars');
+
 // RSS filters
 add_filter('the_title_rss', 'strip_tags');
 add_filter('the_title_rss', 'ent2ncr', 8);

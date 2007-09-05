@@ -413,18 +413,8 @@ class WP_Query {
 		$this->query_vars = $this->fill_query_vars($this->query_vars);
 		$qv = &$this->query_vars;
 
-		if ( ! empty($qv['robots']) ) {
+		if ( ! empty($qv['robots']) )
 			$this->is_robots = true;
-			return;
-		}
-
-		if ('404' == $qv['error']) {
-			$this->is_404 = true;
-			if ( !empty($query) ) {
-				do_action_ref_array('parse_query', array(&$this));
-			}
-			return;
-		}
 
 		$qv['p'] =  (int) $qv['p'];
 		$qv['page_id'] =  (int) $qv['page_id'];
@@ -617,6 +607,9 @@ class WP_Query {
 
 		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
 		// Done correcting is_* for page_on_front and page_for_posts
+
+		if ('404' == $qv['error'])
+			$this->set_404();
 
 		if ( !empty($query) )
 			do_action_ref_array('parse_query', array(&$this));
