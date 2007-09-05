@@ -34,6 +34,7 @@ class wpdb {
 	var $optiongroups;
 	var $optiongroup_options;
 	var $postmeta;
+	var $usermeta;
 	var $terms;
 	var $term_taxonomy;
 	var $term_relationships;
