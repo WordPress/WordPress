@@ -37,7 +37,6 @@ case 'update':
 	}
 
 	$goback = add_query_arg('updated', 'true', wp_get_referer());
-	$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
 	wp_redirect($goback);
     break;
 
