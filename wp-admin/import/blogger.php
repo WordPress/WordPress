@@ -509,10 +509,10 @@ class Blogger_Import {
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
 
 		// Checks for duplicates
-		if (
-			isset( $this->blogs[$importing_blog]['posts'][$entry->old_permalink] ) ||
-			post_exists( $post_title, $post_content, $post_date )
-		) {
+		if ( isset( $this->blogs[$importing_blog]['posts'][$entry->old_permalink] ) ) {
+			++$this->blogs[$importing_blog]['posts_skipped'];
+		} elseif ( $post_id = post_exists( $post_title, $post_content, $post_date ) ) {
+			$this->blogs[$importing_blog]['posts'][$entry->old_permalink] = $post_id;
 			++$this->blogs[$importing_blog]['posts_skipped'];
 		} else {
 			$post = compact('post_date', 'post_content', 'post_title', 'post_status');
