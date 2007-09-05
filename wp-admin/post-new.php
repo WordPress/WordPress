@@ -48,7 +48,7 @@ $nag_posts = array(
 	array(
 		'others_drafts',
 		__('Others&#8217; Drafts:'),
-		'edit.php?post_status=pending&author=-' . $user_ID,
+		'edit.php?post_status=draft&author=-' . $user_ID,
 		count($others_drafts))
 	);
 
