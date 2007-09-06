@@ -119,6 +119,8 @@ addLoadEvent(focusit);
 
 <?php
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+if ( $post->post_author && !in_array($post->post_author, $authors) )
+	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) :
 ?>
 <fieldset id="authordiv" class="dbx-box">
