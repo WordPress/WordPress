@@ -171,6 +171,9 @@ function upgrade_all() {
 			$wp_current_db_version = 2541;
 	}
 
+	if ( $wp_current_db_version < 6039 )
+		upgrade_230_options_table();
+
 	populate_options();
 
 	if ( $wp_current_db_version < 2541 ) {
@@ -191,9 +194,6 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 5539 )
 		upgrade_230();
-
-	if ( $wp_current_db_version < 6039 )
-		upgrade_230_options_table();
 
 	maybe_disable_automattic_widgets();
 
