@@ -210,7 +210,8 @@ function dynamic_sidebar($index = 1) {
 		$params = array_merge(array($sidebar), (array) $wp_registered_widgets[$id]['params']);
 
 		// Substitute HTML id and class attributes into before_widget
-		$params[0]['before_widget'] = sprintf($params[0]['before_widget'], $id, $wp_registered_widgets[$id]['classname']);
+		$classname_ = ( is_array($wp_registered_widgets[$id]['classname']) ) ? implode('_', $wp_registered_widgets[$id]['classname']) : $wp_registered_widgets[$id]['classname'];
+		$params[0]['before_widget'] = sprintf($params[0]['before_widget'], $id, $classname_);
 
 		if ( is_callable($callback) ) {
 			call_user_func_array($callback, $params);
