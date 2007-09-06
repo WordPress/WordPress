@@ -680,6 +680,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 			$terms = array($default);
 		else
 			$terms = array_diff($terms, array($term));
+		$terms = array_map('intval', $terms);
 		wp_set_object_terms($object, $terms, $taxonomy);
 	}
 
