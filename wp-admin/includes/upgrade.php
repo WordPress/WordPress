@@ -673,10 +673,13 @@ function upgrade_230() {
 	}
 
 	// Recalculate all counts
-	$terms = $wpdb->get_col("SELECT term_taxonomy_id FROM $wpdb->term_taxonomy");
+	$terms = $wpdb->get_results("SELECT term_taxonomy_id, taxonomy FROM $wpdb->term_taxonomy");
 	foreach ( (array) $terms as $term ) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term'");
-		$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term'");
+		if ( ('post_tag' == $term->taxonomy) || ('category' == $term->taxonomy) )
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type = 'post' AND term_taxonomy_id = '$term->term_taxonomy_id'");
+		else
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = '$term->term_taxonomy_id'");
+		$wpdb->query("UPDATE $wpdb->term_taxonomy SET count = '$count' WHERE term_taxonomy_id = '$term->term_taxonomy_id'");
 	}
 }
 
