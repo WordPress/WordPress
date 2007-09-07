@@ -108,7 +108,7 @@ for ($i=1; $i <= $count; $i++) :
 		}
 	endforeach;
 
-	$subject = trim(str_replace(get_option('subjectprefix'), '', $subject));
+	$subject = trim($subject);
 
 	if ($content_type == 'multipart/alternative') {
 		$content = explode('--'.$boundary, $content);
