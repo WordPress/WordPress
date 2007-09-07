@@ -57,7 +57,7 @@ if (empty($post->post_status)) $post->post_status = 'draft';
 <input type="hidden" id="post_type" name="post_type" value="post" />
 
 <?php echo $form_extra ?>
-<?php if (isset($_GET['message']) && 2 > $_GET['message']) : ?>
+<?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
 <script type="text/javascript">
 function focusit() {
 	// focus on first input field
