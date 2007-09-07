@@ -1182,7 +1182,11 @@ function wp_die( $message, $title = '' ) {
 		$message = "<p>$message</p>";
 	}
 
-	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
+	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) 
+		$admin_dir = WP_SITEURL.'/wp-admin/'; 
+	elseif (function_exists('get_bloginfo') && '' != get_bloginfo('wpurl'))
+		$admin_dir = get_bloginfo('wpurl').'/wp-admin/'; 
+	elseif (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
 		$admin_dir = '';
 	else
 		$admin_dir = 'wp-admin/';
