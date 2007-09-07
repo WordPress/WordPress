@@ -152,11 +152,13 @@ if (empty($plugins)) {
 		else
 			$edit = '';
 
+		$author = ( empty($plugin_data['Author']) ) ? '' :  ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
+
 		echo "
 	<tr $style>
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
-		<td class='desc'><p>{$plugin_data['Description']} <cite>".sprintf(__('By %s'), $plugin_data['Author']).".</cite></p></td>
+		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
 		<td class='togl'>$toggle</td>";
 		if ( current_user_can('edit_plugins') )
 		echo "
