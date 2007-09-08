@@ -105,25 +105,34 @@ if (!function_exists('http_build_query')) {
 }
 
 // from php.net (modified by Mark Jaquith to behave like the native PHP5 function)
-function _http_build_query($data, $prefix=null, $sep=null, $key='') {
+function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=true) {
 	$ret = array();
+	if ( $urlencode ) {
+		$lsb = '%5B';
+		$rsb = '%5D';
+	} else {
+		$lsb = '[';
+		$rsb = ']';
+	}
 	foreach ( (array) $data as $k => $v ) {
-		$k = urlencode($k);
+		if ( $urlencode)
+			$k = urlencode($k);
 		if ( is_int($k) && $prefix != null )
 			$k = $prefix.$k;
 		if ( !empty($key) )
 			$k = $key . '%5B' . $k . '%5D';
-
 		if ( $v === NULL )
 			continue;
 		elseif ( $v === FALSE )
 			$v = '0';
 
 		if ( is_array($v) || is_object($v) )
-			array_push($ret,_http_build_query($v, '', $sep, $k));
-		else
+			array_push($ret,_http_build_query($v, '', $sep, $k, $urlencode));
+		elseif ( $urlencode )
 			array_push($ret, $k.'='.urlencode($v));
-		}
+		else
+			array_push($ret, $k.'='.$v);
+	}
 
 	if ( NULL === $sep )
 		$sep = ini_get('arg_separator.output');

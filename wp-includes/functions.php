@@ -581,6 +581,10 @@ function is_new_day() {
 	}
 }
 
+function build_query($data) {
+	return _http_build_query($data, NULL, '&', '', false);
+}
+
 /*
 add_query_arg: Returns a modified querystring by adding
 a single key & value or an associative array.
@@ -635,6 +639,7 @@ function add_query_arg() {
 	}
 
 	wp_parse_str($query, $qs);
+	$qs = urlencode_deep($qs); // this re-URL-encodes things that were already in the query string
 	if ( is_array(func_get_arg(0)) ) {
 		$kayvees = func_get_arg(0);
 		$qs = array_merge($qs, $kayvees);
@@ -647,10 +652,7 @@ function add_query_arg() {
 			unset($qs[$k]);
 	}
 
-	if ( ini_get('arg_separator.output') === '&')
-		$ret = http_build_query($qs, '', '&');
-	else
-		$ret = _http_build_query($qs, NULL, '&');
+	$ret = build_query($qs);
 	$ret = trim($ret, '?');
 	$ret = preg_replace('#=(&|$)#', '$1', $ret);
 	$ret = $protocol . $base . $ret . $frag;
