@@ -20,11 +20,7 @@ $avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->post
 
 $post_status_q = '';
 $post_status_label = __('Posts');
-
-if ( !isset($_GET['post_status']) )
-	$_GET['post_status'] = 'publish';
-
-if ( in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
+if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
 	$post_status_q = '&post_status=' . $_GET['post_status'];
 }
