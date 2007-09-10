@@ -20,8 +20,8 @@ function &get_categories($args = '') {
 		$taxonomy = 'link_category';
 	$categories = get_terms($taxonomy, $args);
 
-	foreach ( $categories as $category )
-		_make_cat_compat($category);
+	foreach ( array_keys($categories) as $k )
+		_make_cat_compat($categories[$k]);
 
 	return $categories;
 }
