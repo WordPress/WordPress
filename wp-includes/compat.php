@@ -120,7 +120,7 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
 		if ( is_int($k) && $prefix != null )
 			$k = $prefix.$k;
 		if ( !empty($key) )
-			$k = $key . '%5B' . $k . '%5D';
+			$k = $key . $lsb . $k . $rsb;
 		if ( $v === NULL )
 			continue;
 		elseif ( $v === FALSE )
