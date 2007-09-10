@@ -491,10 +491,11 @@ function get_pagenum_link($pagenum = 1) {
 		}
 
 		$request = preg_replace( '|page/(.+)/?$|', '', $request);
+		$request = preg_replace( '|^index\.php/|', '', $request);
 
 		$base = trailingslashit( get_bloginfo( 'url' ) );
 
-		if ( $wp_rewrite->using_index_permalinks() && $pagenum > 1 ) {
+		if ( $wp_rewrite->using_index_permalinks() && ( $pagenum > 1 || ( 'page' == get_option('show_on_front') && get_option('page_on_front') )) ) {
 			$base .= 'index.php/';
 		}
 
