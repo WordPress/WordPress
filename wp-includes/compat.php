@@ -107,20 +107,14 @@ if (!function_exists('http_build_query')) {
 // from php.net (modified by Mark Jaquith to behave like the native PHP5 function)
 function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=true) {
 	$ret = array();
-	if ( $urlencode ) {
-		$lsb = '%5B';
-		$rsb = '%5D';
-	} else {
-		$lsb = '[';
-		$rsb = ']';
-	}
+
 	foreach ( (array) $data as $k => $v ) {
 		if ( $urlencode)
 			$k = urlencode($k);
 		if ( is_int($k) && $prefix != null )
 			$k = $prefix.$k;
 		if ( !empty($key) )
-			$k = $key . $lsb . $k . $rsb;
+			$k = $key . '%5B' . $k . '%5D';
 		if ( $v === NULL )
 			continue;
 		elseif ( $v === FALSE )
