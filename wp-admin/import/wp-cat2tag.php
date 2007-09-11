@@ -16,7 +16,11 @@ class WP_Categories_to_Tags {
 	function populate_all_categories() {
 		global $wpdb;
 
-		$this->all_categories = get_categories('get=all');
+		$categories = get_categories('get=all');
+		foreach ( $categories as $category ) {
+			if ( !tag_exists($wpdb->escape($category->name)) )
+				$this->all_categories[] = $category;	
+		}
 	}
 
 	function welcome() {
@@ -172,7 +176,9 @@ class WP_Categories_to_Tags {
 	function convert_all() {
 		global $wpdb;
 
-		$this->categories_to_convert = get_categories('fields=ids&get=all');
+		$this->populate_all_categories();
+		foreach ( $this->all_categories as $category )
+			$this->categories_to_convert[] = $category->term_id;
 		$this->convert_them();
 	}
 
