@@ -158,6 +158,9 @@ endif;
 
 if ( !function_exists( 'wp_mail' ) ) :
 function wp_mail( $to, $subject, $message, $headers = '' ) {
+	// Compact the input, apply the filters, and extract them back out
+	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ) );
+
 	global $phpmailer;
 
 	// (Re)create it, if it's gone missing
@@ -166,9 +169,6 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 		require_once ABSPATH . WPINC . '/class-smtp.php';
 		$phpmailer = new PHPMailer();
 	}
-
-	// Compact the input, apply the filters, and extract them back out
-	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ), EXTR_SKIP );
 
 	// Headers
 	if ( empty( $headers ) ) {
