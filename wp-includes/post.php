@@ -1273,28 +1273,20 @@ function is_local_attachment($url) {
 function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	global $wpdb, $user_ID;
 
-	if ( is_object($object) )
-		$object = get_object_vars($object);
+	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
+		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
+		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
 
-	// Export array as variables
+	$object = wp_parse_args($object, $defaults);
+	$object = sanitize_post($object, 'db');
+
+	// export array as variables
 	extract($object, EXTR_SKIP);
-
-	// Get the basics.
-	$post_content    = apply_filters('content_save_pre',   $post_content);
-	$post_content_filtered = apply_filters('content_filtered_save_pre',   $post_content_filtered);
-	$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
-	$post_title      = apply_filters('title_save_pre',     $post_title);
-	$post_category   = apply_filters('category_save_pre',  $post_category);
-	$post_name       = apply_filters('name_save_pre',      $post_name);
-	$comment_status  = apply_filters('comment_status_pre', $comment_status);
-	$ping_status     = apply_filters('ping_status_pre',    $ping_status);
-	$post_mime_type  = apply_filters('post_mime_type_pre', $post_mime_type);
 
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
 		$post_category = array(get_option('default_category'));
 	}
-	$post_cat = $post_category[0];
 
 	if ( empty($post_author) )
 		$post_author = $user_ID;
@@ -1328,9 +1320,9 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		$post_name = $alt_post_name;
 	}
 
-	if (empty($post_date))
+	if ( empty($post_date) )
 		$post_date = current_time('mysql');
-	if (empty($post_date_gmt))
+	if ( empty($post_date_gmt) )
 		$post_date_gmt = current_time('mysql', 1);
 
 	if ( empty($comment_status) ) {
@@ -1359,11 +1351,6 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 
 	if ( !isset($post_password) )
 		$post_password = '';
-
-	if ( isset($to_ping) )
-		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
-	else
-		$to_ping = '';
 
 	if ( ! isset($pinged) )
 		$pinged = '';
