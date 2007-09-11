@@ -416,13 +416,17 @@ function meta_form() {
 
 }
 
-function touch_time( $edit = 1, $for_post = 1 ) {
+function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	global $wp_locale, $post, $comment;
 
 	if ( $for_post )
 		$edit = ( in_array($post->post_status, array('draft', 'pending') ) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date ) ) ? false : true;
+	
+	$tab_index_attribute = '';
+	if ( (int) $tab_index > 0 )
+		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
-	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
+	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
@@ -433,7 +437,7 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
 	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
 
-	echo "<select name=\"mm\" onchange=\"edit_date.checked=true\">\n";
+	echo "<select name=\"mm\" onchange=\"edit_date.checked=true\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
 		echo "\t\t\t<option value=\"$i\"";
 		if ( $i == $mm )
@@ -442,10 +446,10 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 	}
 ?>
 </select>
-<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" onchange="edit_date.checked=true"/>
-<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" onchange="edit_date.checked=true" /> @
-<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onchange="edit_date.checked=true" /> :
-<input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
+<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> />
+<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> /> @
+<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> /> :
+<input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> />
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <?php
 	if ( $edit ) {

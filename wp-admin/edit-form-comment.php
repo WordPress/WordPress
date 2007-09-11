@@ -33,7 +33,7 @@ addLoadEvent(focusit);
 <fieldset id="uridiv">
         <legend><label for="newcomment_author_url"><?php _e('URL:') ?></label></legend>
 		<div>
-		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="3" />
+		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="2" />
     </div>
 </fieldset>
 
@@ -54,15 +54,15 @@ addLoadEvent(focusit);
 <table width="100%" cellspacing="2" cellpadding="5" class="editform">
 	<tr>
 		<th scope="row" valign="top"><?php _e('Comment Status') ?>:</th>
-		<td><label for="comment_status_approved" class="selectit"><input id="comment_status_approved" name="comment_status" type="radio" value="1" <?php checked($comment->comment_approved, '1'); ?> /> <?php _e('Approved') ?></label> &nbsp;
-		<label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> /> <?php _e('Moderated') ?></label> &nbsp;
-		<label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> /> <?php _e('Spam') ?></label></td>
+		<td><label for="comment_status_approved" class="selectit"><input id="comment_status_approved" name="comment_status" type="radio" value="1" <?php checked($comment->comment_approved, '1'); ?> tabindex="4" /> <?php _e('Approved') ?></label> &nbsp;
+		<label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> tabindex="4" /> <?php _e('Moderated') ?></label> &nbsp;
+		<label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> tabindex="4" /> <?php _e('Spam') ?></label></td>
 	</tr>
 
 <?php if ( current_user_can('edit_posts') ) : ?>
 	<tr>
 		<th scope="row" valign="top"><?php _e('Edit time'); ?>:</th>
-		<td><?php touch_time(('editcomment' == $action), 0); ?> </td>
+		<td><?php touch_time(('editcomment' == $action), 0, 5); ?> </td>
 	</tr>
 <?php endif; ?>
 
