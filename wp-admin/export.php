@@ -65,6 +65,7 @@ if ( isset( $_GET['author'] ) && $_GET['author'] != 'all' ) {
 $post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 
 $categories = (array) get_categories('get=all');
+$tags = (array) get_tags('get=all');
 
 function wxr_missing_parents($categories) {
 	if ( !is_array($categories) || empty($categories) )
@@ -126,6 +127,20 @@ function wxr_category_description($c) {
 	echo '<wp:category_description>' . wxr_cdata($c->description) . '</wp:category_description>';
 }
 
+function wxr_tag_name($t) {
+	if ( empty($t->name) )
+		return;
+
+	echo '<wp:tag_name>' . wxr_cdata($t->name) . '</wp:tag_name>';
+}
+
+function wxr_tag_description($t) {
+	if ( empty($t->description) )
+		return;
+
+	echo '<wp:tag_description>' . wxr_cdata($t->description) . '</wp:tag_description>';
+}
+
 print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 
 ?>
@@ -167,6 +182,9 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 	<language><?php echo get_option('rss_language'); ?></language>
 <?php if ( $cats ) : foreach ( $cats as $c ) : ?>
 	<wp:category><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->name : ''; ?></wp:category_parent><?php wxr_cat_name($c); ?><?php wxr_category_description($c); ?></wp:category>
+<?php endforeach; endif; ?>
+<?php if ( $tags ) : foreach ( $tags as $t ) : ?>
+	<wp:tag><wp:tag_slug><?php echo $t->slug; ?></wp:tag_slug><?php wxr_tag_name($t); ?><?php wxr_tag_description($t); ?></wp:tag>
 <?php endforeach; endif; ?>
 	<?php do_action('rss2_head'); ?>
 	<?php if ($post_ids) {
