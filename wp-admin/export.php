@@ -193,7 +193,7 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 			$where = "WHERE ID IN (".join(',', $next_posts).")";
 			$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 				foreach ($posts as $post) {
-			start_wp(); ?>
+			setup_postdata($post); ?>
 <item>
 <title><?php the_title_rss() ?></title>
 <link><?php the_permalink_rss() ?></link>
