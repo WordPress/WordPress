@@ -1,16 +1,18 @@
 <?php
 // Based on "Permalink Redirect" from Scott Yang and "Enforce www. Preference" by Mark Jaquith
 
-function redirect_canonical() {
+function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 	global $wp_rewrite, $posts, $is_IIS;
 
 	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) )
 		return;
 
-	// build the URL in the address bar
-	$requested_url  = ( isset($_SERVER['HTTPS'] ) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
-	$requested_url .= $_SERVER['HTTP_HOST'];
-	$requested_url .= $_SERVER['REQUEST_URI'];
+	if ( !$requested_url ) {
+		// build the URL in the address bar
+		$requested_url  = ( isset($_SERVER['HTTPS'] ) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
+		$requested_url .= $_SERVER['HTTP_HOST'];
+		$requested_url .= $_SERVER['REQUEST_URI'];
+	}
 
 	$original = @parse_url($requested_url);
 	if ( false === $original )
@@ -126,6 +128,10 @@ if ( $redirect_url )
 		$redirect['path'] = user_trailingslashit($redirect['path'], $user_ts_type);
 	}
 
+	// Always trailing slash the 'home' URL
+	if ( $redirect['path'] == $user_home['path'] )
+		$redirect['path'] = trailingslashit($redirect['path']);
+
 	if ( array($original['host'], $original['path'], $original['query']) !== array($redirect['host'], $redirect['path'], $redirect['query']) ) {
 		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
 		if ( $redirect['query'] )
@@ -135,8 +141,19 @@ if ( $redirect_url )
 	if ( $redirect_url && $redirect_url != $requested_url ) {
 		// var_dump($redirect_url); die();
 		$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
-		wp_redirect($redirect_url, 301);
-		exit();
+		if ( $do_redirect) {
+			// protect against chained redirects
+			if ( !redirect_canonical($redirect_url, false) ) {
+				wp_redirect($redirect_url, 301);
+				exit();
+			} else {
+				return false;
+			}
+		} else {
+			return $redirect_url;
+		}
+	} else {
+		return false;
 	}
 }
 
