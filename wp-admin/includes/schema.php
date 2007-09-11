@@ -132,7 +132,8 @@ CREATE TABLE $wpdb->users (
   user_status int(11) NOT NULL default '0',
   display_name varchar(250) NOT NULL default '',
   PRIMARY KEY  (ID),
-  KEY user_login_key (user_login)
+  KEY user_login_key (user_login),
+  KEY user_nicename (user_nicename)
 ) $charset_collate;
 CREATE TABLE $wpdb->usermeta (
   umeta_id bigint(20) NOT NULL auto_increment,
