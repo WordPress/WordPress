@@ -605,7 +605,7 @@ class WP_Query {
 				$this->is_tag = true;
 			}
 
-			if ( !is_array($qv['tag_slug__and']) || empty($qv['tag_slug__amd']) ) {
+			if ( !is_array($qv['tag_slug__and']) || empty($qv['tag_slug__and']) ) {
 				$qv['tag_slug__and'] = array();
 			} else {
 				$qv['tag_slug__and'] = array_map('sanitize_title', $qv['tag_slug__and']);
@@ -1026,6 +1026,9 @@ class WP_Query {
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag__in']) . "'";
 			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_tags) ";
+			$reqtag = is_term( $q['tag__in'][0], 'post_tag' );
+			if ( !empty($reqtag) )
+				$q['tag_id'] = $reqtag['term_id'];
 		}
 
 		if ( !empty($q['tag_slug__in']) ) {
@@ -1033,6 +1036,9 @@ class WP_Query {
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag_slug__in']) . "'";
 			$whichcat .= " AND $wpdb->terms.slug IN ($include_tags) ";
+			$reqtag = is_term( $q['tag_slug__in'][0], 'post_tag' );
+			if ( !empty($reqtag) )
+				$q['tag_id'] = $reqtag['term_id'];
 		}
 
 		if ( !empty($q['tag__not_in']) ) {
@@ -1043,6 +1049,18 @@ class WP_Query {
 			}
 		}
 
+		if ( !empty($q['tag__and']) ) {
+			$count = 0;
+			foreach ( $q['tag__and'] as $tag_and ) {
+				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) ";
+				$whichcat .= " AND tt$count.term_id = '$tag_and' ";
+				$count++;
+			}
+			$reqtag = is_term( $q['tag__and'][0], 'post_tag' );
+			if ( !empty($reqtag) )
+				$q['tag_id'] = $reqtag['term_id'];
+		}
+
 		if ( !empty($q['tag_slug__and']) ) {
 			$count = 0;
 			foreach ( $q['tag_slug__and'] as $tag_and ) {
@@ -1050,6 +1068,9 @@ class WP_Query {
 				$whichcat .= " AND term$count.slug = '$tag_and' ";
 				$count++;
 			}
+			$reqtag = is_term( $q['tag_slug__and'][0], 'post_tag' );
+			if ( !empty($reqtag) )
+				$q['tag_id'] = $reqtag['term_id'];
 		}
 
 		// Author/user stuff
