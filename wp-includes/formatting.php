@@ -1194,6 +1194,7 @@ function sanitize_option($option, $value) { // Remember to call stripslashes!
 			$value = clean_url($value);
 			break;
 		default :
+			$value = apply_filters("sanitize_option_{$option}", $value, $option);
 			break;
 	}
 
