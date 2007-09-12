@@ -50,12 +50,14 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
-	return "<tr id='cat-$category->term_id'$class>
+	$output = "<tr id='cat-$category->term_id'$class>
 		<th scope='row' style='text-align: center'>$category->term_id</th>
 		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->name ) . "</td>
 		<td>$category->description</td>
 		<td align='center'>$posts_count</td>
 		<td>$edit</td>\n\t</tr>\n";
+
+	return apply_filters('cat_row', $output);
 }
 
 function checked( $checked, $current) {
