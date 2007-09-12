@@ -241,7 +241,8 @@ function wp_list_categories($args = '') {
 		'hide_empty' => 1, 'use_desc_for_title' => 1,
 		'child_of' => 0, 'feed' => '',
 		'feed_image' => '', 'exclude' => '',
-		'hierarchical' => true, 'title_li' => __('Categories')
+		'hierarchical' => true, 'title_li' => __('Categories'),
+		'echo' => 1
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -290,7 +291,12 @@ function wp_list_categories($args = '') {
 	if ( $title_li && 'list' == $style )
 		$output .= '</ul></li>';
 
-	echo apply_filters('wp_list_categories', $output);
+	$output = apply_filters('wp_list_categories', $output);
+
+	if ( $echo )
+		echo $output;
+	else
+		return $output;
 }
 
 function wp_tag_cloud( $args = '' ) {
