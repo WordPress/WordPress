@@ -123,36 +123,11 @@ function get_userdatabylogin($user_login) {
 
 	$user_login = $wpdb->escape($user_login);
 
-	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'") )
+	if ( !$user_ID = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$user_login'") )
 		return false;
 
-	$wpdb->hide_errors();
-	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user->ID'");
-	$wpdb->show_errors();
-
-	if ($metavalues) {
-		foreach ( $metavalues as $meta ) {
-			$value = maybe_unserialize($meta->meta_value);
-			$user->{$meta->meta_key} = $value;
-
-			// We need to set user_level from meta, not row
-			if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
-				$user->user_level = $meta->meta_value;
-		}
-	}
-
-	// For backwards compat.
-	if ( isset($user->first_name) )
-		$user->user_firstname = $user->first_name;
-	if ( isset($user->last_name) )
-		$user->user_lastname = $user->last_name;
-	if ( isset($user->description) )
-		$user->user_description = $user->description;
-
-	wp_cache_add($user->ID, $user, 'users');
-	wp_cache_add($user->user_login, $user->ID, 'userlogins');
+	$user = get_userdata($user_ID);
 	return $user;
-
 }
 endif;
 
