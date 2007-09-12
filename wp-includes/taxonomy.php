@@ -386,19 +386,22 @@ function &get_terms($taxonomies, $args = '') {
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
-		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '');
+		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '',
+		'pad_counts' => false);
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = (int) $args['number'];
 	if ( !$single_taxonomy || !is_taxonomy_hierarchical($taxonomies[0]) ||
 		'' != $args['parent'] ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
+		$args['pad_counts'] = false;
 	}
 
 	if ( 'all' == $args['get'] ) {
 		$args['child_of'] = 0;
 		$args['hide_empty'] = 0;
 		$args['hierarchical'] = false;
+		$args['pad_counts'] = false;
 	}
 	extract($args, EXTR_SKIP);
 
@@ -510,11 +513,9 @@ function &get_terms($taxonomies, $args = '') {
 			$terms = & _get_term_children($child_of, $terms, $taxonomies[0]);
 	}
 
-	/*
-	// Update category counts to include children.
+	// Update term counts to include children.
 	if ( $pad_counts )
-		_pad_category_counts($type, $categories);
-	*/
+		_pad_term_counts($terms, $taxonomies[0]);
 
 	// Make sure we show empty categories that have children.
 	if ( $hierarchical && $hide_empty ) {
@@ -1127,6 +1128,24 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 	}
 
 	return $term_list;
+}
+
+// Recalculates term counts by including items from child terms
+// Assumes all relevant children are already in the $terms argument
+function _pad_term_counts(&$terms, $taxonomy) {
+	$term_hier = _get_term_hierarchy($taxonomy);
+
+	if ( empty($term_hier) )
+		return;
+
+	foreach ( $terms as $key => $term ) {
+		if ( $children = _get_term_children($term->term_id, $terms, $taxonomy) ) {
+			foreach ( $children as $child ) {
+				$child = get_term($child, $taxonomy);
+				$terms[$key]->count += $child->count;
+			}
+		}
+	}
 }
 
 //
