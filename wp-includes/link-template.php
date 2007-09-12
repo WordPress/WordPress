@@ -167,7 +167,7 @@ function get_attachment_link($id = false) {
 		else
 			$parentlink = get_permalink( $object->post_parent );
 		if (strpos($parentlink, '?') === false)
-			$link = trim($parentlink, '/') . '/' . $object->post_name . '/';
+			$link = trailingslashit($parentlink) . $object->post_name . '/';
 	}
 
 	if (! $link ) {
