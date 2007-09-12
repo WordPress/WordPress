@@ -132,6 +132,10 @@ if ( $redirect_url )
 	if ( $redirect['path'] == $user_home['path'] )
 		$redirect['path'] = trailingslashit($redirect['path']);
 
+	// Ignore differences in host capitalization, as this can lead to infinite redirects
+	if ( strtolower($original['host']) == strtolower($redirect['host']) )
+		$redirect['host'] = $original['host'];
+
 	if ( array($original['host'], $original['path'], $original['query']) !== array($redirect['host'], $redirect['path'], $redirect['query']) ) {
 		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
 		if ( $redirect['query'] )
