@@ -78,7 +78,7 @@ if (isset($plugin_page)) {
 	}
 
 	// Allow plugins to define importers as well
-	if (! function_exists($wp_importers[$importer][2]))
+	if (! is_callable($wp_importers[$importer][2]))
 	{
 		if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
 		{
