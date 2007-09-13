@@ -366,7 +366,7 @@ class MT_Import {
 				if ( 'comment' == $context )
 					$comment->comment_author_email = $email;
 				else
-					$ping->comment_author_email = $email;
+					$ping->comment_author_email = '';
 			} else if ( 0 === strpos($line, "IP:") ) {
 				$ip = trim( substr($line, strlen("IP:")) );
 				if ( 'comment' == $context )
