@@ -401,29 +401,7 @@ class wpdb {
 	function bail($message) { // Just wraps errors in a nice header and footer
 		if ( !$this->show_errors )
 			return false;
-
-		header('Content-Type: text/html; charset=utf-8');
-
-		if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
-			$admin_dir = '';
-		else
-			$admin_dir = 'wp-admin/';
-
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>WordPress &rsaquo; Error</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" href="<?php echo $admin_dir; ?>install.css" type="text/css" />
-</head>
-<body>
-	<h1 id="logo"><img alt="WordPress" src="<?php echo $admin_dir; ?>images/wordpress-logo.png" /></h1>
-	<p><?php echo $message; ?></p>
-</body>
-</html>
-<?php
-		die();
+		wp_die($message);
 	}
 }
 

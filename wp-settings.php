@@ -113,6 +113,10 @@ if ( !defined('LANGDIR') ) {
 
 if ( !defined('PLUGINDIR') )
 	define('PLUGINDIR', 'wp-content/plugins'); // no leading slash, no trailing slash
+
+require (ABSPATH . WPINC . '/compat.php');
+require (ABSPATH . WPINC . '/functions.php');
+
 if ( file_exists(ABSPATH . 'wp-content/db.php') )
 	require_once (ABSPATH . 'wp-content/db.php');
 else
@@ -122,7 +126,7 @@ else
 $wpdb->prefix = $table_prefix;
 
 if ( preg_match('|[^a-z0-9_]|i', $wpdb->prefix) && !file_exists(ABSPATH . 'wp-content/db.php') )
-	die("<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.");
+	wp_die("<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.");
 
 // Table names
 $wpdb->posts          = $wpdb->prefix . 'posts';
@@ -150,9 +154,6 @@ else
 	require_once (ABSPATH . WPINC . '/cache.php');
 
 wp_cache_init();
-
-require (ABSPATH . WPINC . '/compat.php');
-require (ABSPATH . WPINC . '/functions.php');
 
 require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/plugin.php');

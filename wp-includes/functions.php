@@ -1240,13 +1240,17 @@ function wp_die( $message, $title = '' ) {
 	else
 		$admin_dir = 'wp-admin/';
 
-	if ( !did_action('admin_head') ) :
+	if ( !function_exists('did_action') || !did_action('admin_head') ) :
+	status_header(500);
+	nocache_headers();
 	header('Content-Type: text/html; charset=utf-8');
 
-	if ( empty($title) )
-		$title = __('WordPress &rsaquo; Error');
-
-
+	if ( empty($title) ){
+		if( function_exists('__') )
+			$title = __('WordPress &rsaquo; Error');
+		else
+			$title = 'WordPress &rsaquo; Error';
+	}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
