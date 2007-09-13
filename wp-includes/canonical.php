@@ -89,17 +89,17 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 		}
 	}
 
-// tack on any additional query vars
-if ( $redirect_url && $redirect['query'] ) {
-	if ( strpos($redirect_url, '?') !== false )
-		$redirect_url .= '&';
-	else
-		$redirect_url .= '?';
-	$redirect_url .= $redirect['query'];
-}
+	// tack on any additional query vars
+	if ( $redirect_url && $redirect['query'] ) {
+		if ( strpos($redirect_url, '?') !== false )
+			$redirect_url .= '&';
+		else
+			$redirect_url .= '?';
+		$redirect_url .= $redirect['query'];
+	}
 
-if ( $redirect_url )
-	$redirect = @parse_url($redirect_url);
+	if ( $redirect_url )
+		$redirect = @parse_url($redirect_url);
 
 	// www.example.com vs example.com
 	$user_home = @parse_url(get_option('home'));
