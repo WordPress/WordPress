@@ -65,7 +65,7 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 
 
 function the_excerpt_rss() {
-	$output = get_the_excerpt(true);
+	$output = get_the_excerpt();
 	echo apply_filters('the_excerpt_rss', $output);
 }
 

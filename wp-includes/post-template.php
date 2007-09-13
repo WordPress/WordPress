@@ -118,7 +118,7 @@ function the_excerpt() {
 }
 
 
-function get_the_excerpt($fakeit = true) {
+function get_the_excerpt($deprecated = true) {
 	global $id, $post;
 	$output = '';
 	$output = $post->post_excerpt;
