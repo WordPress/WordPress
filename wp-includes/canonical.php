@@ -105,6 +105,12 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 	$user_home = @parse_url(get_option('home'));
 	$redirect['host'] = $user_home['host'];
 
+	// Handle ports
+	if ( isset($user_home['port']) )
+		$redirect['port'] = $user_home['port'];
+	else
+		unset($redirect['port']);
+
 	// trailing /index.php or /index.php/
 	$redirect['path'] = preg_replace('|/index.php/?$|', '/', $redirect['path']);
 
@@ -136,8 +142,11 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 	if ( strtolower($original['host']) == strtolower($redirect['host']) )
 		$redirect['host'] = $original['host'];
 
-	if ( array($original['host'], $original['path'], $original['query']) !== array($redirect['host'], $redirect['path'], $redirect['query']) ) {
-		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
+	if ( array($original['host'], $original['port'], $original['path'], $original['query']) !== array($redirect['host'], $redirect['port'], $redirect['path'], $redirect['query']) ) {
+		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'];
+		if ( isset($redirect['port']) )
+		 	$redirect_url .= ':' . $redirect['port'];
+		$redirect_url .= $redirect['path'];
 		if ( $redirect['query'] )
 			$redirect_url .= '?' . $redirect['query'];
 	}
