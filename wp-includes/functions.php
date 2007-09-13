@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__).'/compat.php');
-
 function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	global $wp_locale;
 	$m = $mysqlstring;
