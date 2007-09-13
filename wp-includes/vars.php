@@ -44,7 +44,7 @@ $is_IE = ( $is_macIE || $is_winIE );
 $is_apache = ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false)) ? true : false;
 $is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? true : false;
 
-$wp_header_to_desc = apply_filters( 'wp_header_to_desc_array', array(
+$wp_header_to_desc = array(
 	100 => 'Continue',
 	101 => 'Switching Protocols',
 
@@ -88,6 +88,6 @@ $wp_header_to_desc = apply_filters( 'wp_header_to_desc_array', array(
 	503 => 'Service Unavailable',
 	504 => 'Gateway Timeout',
 	505 => 'HTTP Version Not Supported'
-) );
+);
 
 ?>
