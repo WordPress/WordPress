@@ -72,14 +72,14 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 				if ( !$redirect_url )
 					$redirect_url = $requested_url;
 				$paged_redirect = @parse_url($redirect_url);
-				$paged_redirect['path'] = preg_replace('|/page/[0-9]+?/?$|', '/', $paged_redirect['path']); // strip off any existing paging
+				$paged_redirect['path'] = preg_replace('|/page/[0-9]+?(/+)?$|', '/', $paged_redirect['path']); // strip off any existing paging
 				$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']); // strip off trailing /index.php/
-				if ( $paged > 1 && !is_singular() ) {
+				if ( $paged > 1 && !is_single() ) {
 					$paged_redirect['path'] = trailingslashit($paged_redirect['path']);
 					if ( $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
 						$paged_redirect['path'] .= 'index.php/';
 					$paged_redirect['path'] .= user_trailingslashit("page/$paged", 'paged');
-				} elseif ( !is_home() && !is_singular() ){
+				} elseif ( !is_home() && !is_single() ){
 					$paged_redirect['path'] = user_trailingslashit($paged_redirect['path'], 'paged');
 				}
 				$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
@@ -132,6 +132,8 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 				}
 			}
 		$redirect['path'] = user_trailingslashit($redirect['path'], $user_ts_type);
+	} elseif ( is_home() ) {
+		$redirect['path'] = trailingslashit($redirect['path']);
 	}
 
 	// Always trailing slash the 'home' URL
