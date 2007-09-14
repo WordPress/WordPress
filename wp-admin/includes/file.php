@@ -140,7 +140,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
 
 		if ( !$ext )
-			$ext = strrchr($file['name'], '.');
+			$ext = ltrim(strrchr($file['name'], '.'), '.');
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
