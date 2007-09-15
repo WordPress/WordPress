@@ -974,7 +974,7 @@ function &get_page(&$page, $output = OBJECT) {
 	global $wpdb, $blog_id;
 
 	if ( empty($page) ) {
-		if ( isset($GLOBALS['page']) ) {
+		if ( isset( $GLOBALS['page'] ) && isset( $GLOBALS['page']->ID ) ) {
 			$_page = & $GLOBALS['page'];
 			wp_cache_add($_page->ID, $_page, 'pages');
 		} else {
