@@ -612,7 +612,7 @@ function &get_terms($taxonomies, $args = '') {
 	reset ( $terms );
 
 	$cache[ $key ] = $terms;
-	wp_cache_set( 'get_terms', $cache, 'term' );
+	wp_cache_set( 'get_terms', $cache, 'terms' );
 
 	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
 	return $terms;
