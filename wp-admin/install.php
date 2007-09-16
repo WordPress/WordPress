@@ -31,7 +31,7 @@ switch($step) {
 	case 0:
 	case 1: // in case people are directly linking to this
 ?>
-<h1>Welcome</h1>
+<h1><?php _e('Welcome'); ?></h1>
 <p><?php printf(__('Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure.  Otherwise, just fill in the information below and you\'ll be on your way to using the most extendable and powerful personal publishing platform in the world.'), '../readme.html'); ?></p>
 <!--<h2 class="step"><a href="install.php?step=1"><?php _e('First Step &raquo;'); ?></a></h2>-->
 
