@@ -868,6 +868,8 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
+	else if ( 'names' == $fields ) 
+		$select_this = 't.name';
 	else if ( 'all_with_object_id' == $fields )
 		$select_this = 't.*, tt.*, tr.object_id';
 
@@ -876,7 +878,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
 		$terms = $wpdb->get_results($query);
 		update_term_cache($terms);
-	} else if ( 'ids' == $fields ) {
+	} else if ( 'ids' == $fields || 'names' == $fields ) {
 		$terms = $wpdb->get_col($query);
 	} else if ( 'tt_ids' == $fields ) {
 		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) ORDER BY tr.term_taxonomy_id $order");

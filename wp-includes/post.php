@@ -581,12 +581,14 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 
 	$post = get_post($postid, $mode);
 
-	// Set categories
+	// Set categories and tags
 	if($mode == OBJECT) {
 		$post->post_category = wp_get_post_categories($postid);
+		$post->tags_input = wp_get_post_tags($postid, array('fields' => 'names'));
 	}
 	else {
 		$post['post_category'] = wp_get_post_categories($postid);
+		$post['tags_input'] = wp_get_post_tags($postid, array('fields' => 'names'));
 	}
 
 	return $post;
