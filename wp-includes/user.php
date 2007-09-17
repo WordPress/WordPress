@@ -108,13 +108,8 @@ function get_usermeta( $user_id, $meta_key = '') {
 			return '';
 	}
 
-	foreach ($metas as $index => $meta) {
-		@ $value = unserialize($meta->meta_value);
-		if ( $value === FALSE )
-			$value = $meta->meta_value;
-
-		$values[] = $value;
-	}
+	foreach ($metas as $meta) 
+		$values[] = maybe_unserialize($meta->meta_value);
 
 	if ( count($values) == 1 )
 		return $values[0];
