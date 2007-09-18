@@ -940,6 +940,8 @@ class WP_Query {
 
 		if ( !empty($q['category__not_in']) ) {
 			$ids = get_objects_in_term($q['category__not_in'], 'category');
+			if ( is_wp_error( $ids ) ) 
+				return $ids;
 			if ( is_array($ids) && count($ids > 0) ) {
 				$out_posts = "'" . implode("', '", $ids) . "'";
 				$whichcat .= " AND $wpdb->posts.ID NOT IN ($out_posts)";
@@ -1415,6 +1417,8 @@ class WP_Query {
 		} else if ($this->is_tag) {
 			$tag_id = $this->get('tag_id');
 			$tag = &get_term($tag_id, 'post_tag');
+			if ( is_wp_error( $tag ) )
+				return $tag;
 			$this->queried_object = &$tag;
 			$this->queried_object_id = (int) $tag_id;
 		} else if ($this->is_posts_page) {

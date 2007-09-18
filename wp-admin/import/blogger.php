@@ -380,7 +380,9 @@ class Blogger_Import {
 						$entry = "<feed>$entry</feed>";
 						$AtomParser = new AtomParser();
 						$AtomParser->parse( $entry );
-						$this->import_post($AtomParser->entry);
+						$result = $this->import_post($AtomParser->entry);
+						if ( is_wp_error( $result ) ) 
+							return $result;
 						unset($AtomParser);
 					}
 				} else break;
@@ -518,6 +520,8 @@ class Blogger_Import {
 			$post = compact('post_date', 'post_content', 'post_title', 'post_status');
 
 			$post_id = wp_insert_post($post);
+			if ( is_wp_error( $post_id ) ) 
+				return $post_id;
 
 			wp_create_categories( array_map( 'addslashes', $entry->categories ), $post_id );
 
@@ -531,6 +535,7 @@ class Blogger_Import {
 			++$this->blogs[$importing_blog]['posts_done'];
 		}
 		$this->save_vars();
+		return;
 	}
 
 	function import_comment( $entry ) {
@@ -767,7 +772,9 @@ class Blogger_Import {
 		if ( isset( $_REQUEST['blog'] ) ) {
 			$blog = is_array($_REQUEST['blog']) ? array_shift( array_keys( $_REQUEST['blog'] ) ) : $_REQUEST['blog'];
 			$blog = (int) $blog;
-			$this->import_blog( $blog );
+			$result = $this->import_blog( $blog );
+			if ( is_wp_error( $result ) )
+				echo $result->get_error_message();
 		} elseif ( isset($_GET['token']) )
 			$this->auth();
 		elseif ( $this->token && $this->token_is_valid() )

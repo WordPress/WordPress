@@ -12,6 +12,8 @@ function bloginfo_rss($show = '') {
 
 function get_wp_title_rss($sep = '&#187;') {
 	$title = wp_title($sep, false);
+	if ( is_wp_error( $title ) )
+		return $title->get_error_message();
 	$title = apply_filters('get_wp_title_rss', $title);
 	return $title;
 }

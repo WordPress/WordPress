@@ -800,6 +800,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_data = compact('blog_ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status');
 
 	  $post_ID = wp_insert_post($post_data);
+	  if ( is_wp_error( $post_ID ) )
+	  	return new IXR_Error(500, $post_ID->get_error_message());
 
 	  if (!$post_ID) {
 	    return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
@@ -1088,6 +1090,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input');
 
 	  $post_ID = wp_insert_post($postdata);
+	  if ( is_wp_error( $post_ID ) )
+	  	return new IXR_Error(500, $post_ID->get_error_message());
 
 	  if (!$post_ID) {
 	    return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));

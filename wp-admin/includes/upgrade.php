@@ -992,7 +992,7 @@ function dbDelta($queries, $execute = true) {
 						}
 						// Add the column list to the index create string
 						$index_string .= ' ('.$index_columns.')';
-
+						error_log("Index string: $index_string", 0);
 						if(!(($aindex = array_search($index_string, $indices)) === false)) {
 							unset($indices[$aindex]);
 							//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br />Found index:".$index_string."</pre>\n";

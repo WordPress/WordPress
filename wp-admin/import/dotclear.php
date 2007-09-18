@@ -364,6 +364,8 @@ class Dotclear_Import {
 							'ping_status'		=> $comment_status_map[$post_open_tb],
 							'comment_count'		=> $post_nb_comment + $post_nb_trackback)
 							);
+					if ( is_wp_error( $ret_id ) )
+						return $ret_id;
 				}
 				else
 				{
@@ -382,6 +384,8 @@ class Dotclear_Import {
 							'ping_status'		=> $comment_status_map[$post_open_tb],
 							'comment_count'		=> $post_nb_comment + $post_nb_trackback)
 							);
+					if ( is_wp_error( $ret_id ) )
+						return $ret_id;
 				}
 				$dcposts2wpposts[$post_id] = $ret_id;
 
@@ -562,7 +566,9 @@ class Dotclear_Import {
 	{
 		// Post Import
 		$posts = $this->get_dc_posts();
-		$this->posts2wp($posts);
+		$result = $this->posts2wp($posts);
+		if ( is_wp_error( $result ) )
+			return $result;
 
 		echo '<form action="admin.php?import=dotclear&amp;step=4" method="post">';
 		wp_nonce_field('import-dotclear');
@@ -710,7 +716,9 @@ class Dotclear_Import {
 				$this->import_users();
 				break;
 			case 3 :
-				$this->import_posts();
+				$result = $this->import_posts();
+				if ( is_wp_error( $result ) )
+					echo $result->get_error_message();
 				break;
 			case 4 :
 				$this->import_comments();

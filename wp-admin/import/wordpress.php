@@ -250,8 +250,11 @@ class WP_Import {
 		$i = -1;
 		echo '<ol>';
 
-		foreach ($this->posts as $post)
-			$this->process_post($post);
+		foreach ($this->posts as $post) {
+			$result = $this->process_post($post);
+			if ( is_wp_error( $result ) )
+				return $result;
+		}
 
 		echo '</ol>';
 
@@ -303,7 +306,11 @@ class WP_Import {
 			// If it has parent, process parent first.
 			$post_parent = (int) $post_parent;
 			if ($parent = $this->posts_processed[$post_parent]) {
-				if (!$parent[1]) $this->process_post($parent[0]); // If not yet, process the parent first.
+				if (!$parent[1]) { 
+					$result = $this->process_post($parent[0]); // If not yet, process the parent first.
+					if ( is_wp_error( $result ) )
+						return $result;
+				}
 				$post_parent = $parent[1]; // New ID of the parent;
 			}
 
@@ -314,6 +321,8 @@ class WP_Import {
 
 			$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'post_name', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt', 'guid', 'post_parent', 'menu_order', 'post_type');
 			$comment_post_ID = $post_id = wp_insert_post($postdata);
+			if ( is_wp_error( $post_id ) )
+				return $post_id;
 
 			// Memorize old and new ID.
 			if ( $post_id && $post_ID && $this->posts_processed[$post_ID] )
@@ -382,7 +391,9 @@ class WP_Import {
 		$this->get_authors_from_post();
 		$this->get_entries();
 		$this->process_categories();
-		$this->process_posts();
+		$result = $this->process_posts();
+		if ( is_wp_error( $result ) )
+			return $result;
 	}
 
 	function dispatch() {
@@ -402,7 +413,9 @@ class WP_Import {
 				break;
 			case 2:
 				check_admin_referer('import-wordpress');
-				$this->import();
+				$result = $this->import();
+				if ( is_wp_error( $result ) )
+					echo $result->get_error_message();
 				break;
 		}
 		$this->footer();

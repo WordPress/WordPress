@@ -110,6 +110,8 @@ class RSS_Import {
 				_e('Post already imported');
 			} else {
 				$post_id = wp_insert_post($post);
+				if ( is_wp_error( $post_id ) )
+					return $post_id;
 				if (!$post_id) {
 					_e("Couldn't get post ID");
 					return;
@@ -135,7 +137,9 @@ class RSS_Import {
 
 		$this->file = $file['file'];
 		$this->get_posts();
-		$this->import_posts();
+		$result = $this->import_posts();
+		if ( is_wp_error( $result ) )
+			return $result;
 		wp_import_cleanup($file['id']);
 
 		echo '<h3>';
@@ -157,7 +161,9 @@ class RSS_Import {
 				break;
 			case 1 :
 				check_admin_referer('import-upload');
-				$this->import();
+				$result = $this->import();
+				if ( is_wp_error( $result ) )
+					echo $result->get_error_message();
 				break;
 		}
 

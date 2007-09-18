@@ -148,6 +148,8 @@ for ($i=1; $i <= $count; $i++) :
 	$post_data = add_magic_quotes($post_data);
 
 	$post_ID = wp_insert_post($post_data);
+	if ( is_wp_error( $post_ID ) ) 
+		echo "\n" . $post_ID->get_error_message();
 
 	if (!$post_ID) {
 		// we couldn't post, for whatever reason. better move forward to the next email

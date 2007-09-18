@@ -233,6 +233,8 @@ class GM_Import {
 
 				$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt');
 				$post_ID = wp_insert_post($postdata);
+				if ( is_wp_error( $post_ID ) )
+					return $post_ID;
 			}
 
 			$c=count($entry);
@@ -287,6 +289,7 @@ class GM_Import {
 <p><?php _e('Completed GreyMatter import!') ?></p>
 <?php
 	$this->footer();
+	return;
 	}
 
 	function dispatch() {
@@ -301,7 +304,9 @@ class GM_Import {
 				break;
 			case 1:
 				check_admin_referer('import-greymatter');
-				$this->import();
+				$result = $this->import();
+				if ( is_wp_error( $result ) )
+					echo $result->get_error_message();
 				break;
 		}
 	}

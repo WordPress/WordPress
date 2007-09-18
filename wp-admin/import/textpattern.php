@@ -305,6 +305,8 @@ class Textpattern_Import {
 						'post_name'			=> $url_title,
 						'comment_count'		=> $comments_count)
 						);
+					if ( is_wp_error( $ret_id ) )
+						return $ret_id;
 				}
 				else
 				{
@@ -321,6 +323,8 @@ class Textpattern_Import {
 						'post_name'			=> $url_title,
 						'comment_count'		=> $comments_count)
 						);
+					if ( is_wp_error( $ret_id ) )
+						return $ret_id;
 				}
 				$txpposts2wpposts[$ID] = $ret_id;
 
@@ -498,7 +502,9 @@ class Textpattern_Import {
 	{
 		// Post Import
 		$posts = $this->get_txp_posts();
-		$this->posts2wp($posts);
+		$result = $this->posts2wp($posts);
+		if ( is_wp_error( $result ) )
+			return $result;
 
 		echo '<form action="admin.php?import=textpattern&amp;step=4" method="post">';
 		wp_nonce_field('import-textpattern');
@@ -638,7 +644,9 @@ class Textpattern_Import {
 				$this->import_users();
 				break;
 			case 3 :
-				$this->import_posts();
+				$result = $this->import_posts();
+				if ( is_wp_error( $result ) ) 
+					echo $result->get_error_message();
 				break;
 			case 4 :
 				$this->import_comments();

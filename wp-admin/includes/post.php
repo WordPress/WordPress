@@ -284,6 +284,8 @@ function wp_write_post() {
 
 	// Create the post.
 	$post_ID = wp_insert_post( $_POST );
+	if ( is_wp_error( $post_ID ) )
+		return $post_ID;
 
 	if ( empty($post_ID) )
 		return 0;

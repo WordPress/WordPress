@@ -8,7 +8,8 @@ function get_importers() {
 
 function register_importer( $id, $name, $description, $callback ) {
 	global $wp_importers;
-
+	if ( is_wp_error( $callback ) )
+		return $callback;
 	$wp_importers[$id] = array ( $name, $description, $callback );
 }
 

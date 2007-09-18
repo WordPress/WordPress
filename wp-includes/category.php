@@ -30,6 +30,8 @@ function &get_categories($args = '') {
 // Handles category caching.
 function &get_category($category, $output = OBJECT, $filter = 'raw') {
 	$category = get_term($category, 'category', $output, $filter);
+	if ( is_wp_error( $category ) )
+		return $category;
 
 	_make_cat_compat($category);
 
@@ -58,6 +60,8 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 		$curcategory = $category;
 		while ( ($curcategory->parent != 0) && ($curcategory->parent != $curcategory->term_id) ) {
 			$curcategory = get_term($curcategory->parent, 'category');
+			if ( is_wp_error( $curcategory ) )
+				return $curcategory;
 			$path = '/' . $curcategory->slug . $path;
 		}
 

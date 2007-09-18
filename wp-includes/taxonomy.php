@@ -391,7 +391,6 @@ function get_term_children( $term, $taxonomy ) {
 function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
 	$term = (int) $term;
 	$term = get_term( $term, $taxonomy );
-
 	if ( is_wp_error($term) )
 		return $term;
 
@@ -801,6 +800,8 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	// Update children to point to new parent
 	if ( is_taxonomy_hierarchical($taxonomy) ) {
 		$term_obj = get_term($term, $taxonomy);
+		if ( is_wp_error( $term_obj ) )
+			return $term_obj;
 		$parent = $term_obj->parent;
 
 		$wpdb->query("UPDATE $wpdb->term_taxonomy SET parent = '$parent' WHERE parent = '$term_obj->term_id' AND taxonomy = '$taxonomy'");
@@ -1252,6 +1253,8 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 		$use_id = false;
 		if ( !is_object($term) ) {
 			$term = get_term($term, $taxonomy);
+			if ( is_wp_error( $term ) )
+				return $term;
 			$use_id = true;
 		}
 

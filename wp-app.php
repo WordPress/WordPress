@@ -262,6 +262,8 @@ EOD;
 		log_app('Inserting Post. Data:', print_r($post_data,true));
 
 		$postID = wp_insert_post($post_data);
+		if ( is_wp_error( $postID ) )
+			$this->internal_error($postID->get_error_message());
 
 		if (!$postID) {
 			$this->internal_error(__('Sorry, your entry could not be posted. Something wrong happened.'));

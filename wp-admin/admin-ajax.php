@@ -204,8 +204,11 @@ case 'add-meta' :
 		$now = current_time('timestamp', 1);
 		if ( $pid = wp_insert_post( array(
 			'post_title' => sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now))
-		) ) )
+		) ) ) {
+			if ( is_wp_error( $pid ) )
+				return $pid;
 			$mid = add_meta( $pid );
+		}
 		else
 			die('0');
 	} else if ( !$mid = add_meta( $id ) ) {

@@ -71,6 +71,8 @@ class LJ_Import {
 				printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
 				$postdata = compact('post_author', 'post_date', 'post_content', 'post_title', 'post_status');
 				$post_id = wp_insert_post($postdata);
+				if ( is_wp_error( $post_id ) )
+					return $post_id;
 				if (!$post_id) {
 					_e("Couldn't get post ID");
 					echo '</li>';
@@ -132,7 +134,9 @@ class LJ_Import {
 		}
 
 		$this->file = $file['file'];
-		$this->import_posts();
+		$result = $this->import_posts();
+		if ( is_wp_error( $result ) )
+			return $result;
 		wp_import_cleanup($file['id']);
 
 		echo '<h3>';
@@ -154,7 +158,9 @@ class LJ_Import {
 				break;
 			case 1 :
 				check_admin_referer('import-upload');
-				$this->import();
+				$result = $this->import();
+				if ( is_wp_error( $result ) )
+					echo $result->get_error_message();
 				break;
 		}
 

@@ -195,6 +195,8 @@ function wp_title($sep = '&raquo;', $display = true) {
 
 	if ( !empty($tag) ) {
 		$tag = get_term($tag, 'post_tag', OBJECT, 'display');
+		if ( is_wp_error( $tag ) ) 
+			return $tag;
 		if ( ! empty($tag->name) )
 			$title = apply_filters('single_tag_title', $tag->name);
 	}
