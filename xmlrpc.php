@@ -1840,7 +1840,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$title = '';
 
 		$pagelinkedfrom = str_replace('&amp;', '&', $pagelinkedfrom);
-		$pagelinkedto   = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedto);
+		$pagelinkedto = str_replace('&amp;', '&', $pagelinkedto);
+		$pagelinkedto = str_replace('&', '&amp;', $pagelinkedto);
 
 		$error_code = -1;
 
@@ -1966,7 +1967,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( empty($context) ) // Link to target not found
 			return new IXR_Error(17, __('The source URL does not contain a link to the target URL, and so cannot be used as a source.'));
 
-		$pagelinkedfrom = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedfrom);
+		$pagelinkedfrom = str_replace('&', '&amp;', $pagelinkedfrom);
 
 		$context = '[...] ' . wp_specialchars( $excerpt ) . ' [...]';
 		$original_pagelinkedfrom = $pagelinkedfrom;
