@@ -78,7 +78,7 @@ case 'logout' :
 	if ( isset( $_REQUEST['redirect_to'] ) )
 		$redirect_to = $_REQUEST['redirect_to'];
 
-	wp_redirect($redirect_to);
+	wp_safe_redirect($redirect_to);
 	exit();
 
 break;
@@ -324,7 +324,7 @@ default:
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
 			do_action('wp_login', $user_login);
-			wp_redirect($redirect_to);
+			wp_safe_redirect($redirect_to);
 			exit();
 		} else {
 			if ( $using_cookie )

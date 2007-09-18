@@ -399,6 +399,24 @@ function wp_redirect($location, $status = 302) {
 }
 endif;
 
+if ( !function_exists('wp_safe_redirect') ) :
+/**
+ * performs a safe (local) redirect, using wp_redirect()
+ * @return void
+ **/
+function wp_safe_redirect($location, $status = 302) {
+	if ( $location{0} == '/' ) {
+		if ( $location{1} == '/' )
+			$location = get_option('home') . '/';
+	} else {
+		if ( substr($location, 0, strlen(get_option('home'))) != get_option('home') )
+			$location = get_option('home') . '/';
+	}
+
+	wp_redirect($location, $status);
+}
+endif;
+
 if ( !function_exists('wp_get_cookie_login') ):
 function wp_get_cookie_login() {
 	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) )
