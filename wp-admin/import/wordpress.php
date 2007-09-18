@@ -88,6 +88,7 @@ class WP_Import {
 
 		$this->posts = array();
 		$this->categories = array();
+		$this->tags = array();
 		$num = 0;
 		$doing_entry = false;
 
@@ -99,6 +100,11 @@ class WP_Import {
 				if ( false !== strpos($importline, '<wp:category>') ) {
 					preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
 					$this->categories[] = $category[1];
+					continue;
+				}
+				if ( false !== strpos($importline, '<wp:tag>') ) {
+					preg_match('|<wp:tag>(.*?)</wp:tag>|is', $importline, $tag);
+					$this->tags[] = $tag[1];
 					continue;
 				}
 				if ( false !== strpos($importline, '<item>') ) {
@@ -243,6 +249,27 @@ class WP_Import {
 			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name');
 
 			$cat_ID = wp_insert_category($catarr);
+		}
+	}
+
+	function process_tags() {
+		global $wpdb;
+
+		$tag_names = (array) get_terms('post_tag', 'fields=names');
+
+		while ( $c = array_shift($this->tags) ) {
+			$tag_name = trim($this->get_tag( $c, 'wp:tag_name' ));
+
+			// If the category exists we leave it alone
+			if ( in_array($tag_name, $tag_names) )
+				continue;
+
+			$slug = $this->get_tag( $c, 'wp:tag_slug' );
+			$description = $this->get_tag( $c, 'wp:tag_description' );
+
+			$tagarr = compact('slug', 'description');
+
+			$tag_ID = wp_insert_term($tag_name, 'post_tag', $tagarr);
 		}
 	}
 
@@ -391,6 +418,7 @@ class WP_Import {
 		$this->get_authors_from_post();
 		$this->get_entries();
 		$this->process_categories();
+		$this->process_tags();
 		$result = $this->process_posts();
 		if ( is_wp_error( $result ) )
 			return $result;
