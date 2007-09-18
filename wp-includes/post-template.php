@@ -19,7 +19,7 @@ function get_the_ID() {
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
 
-	if ( strlen($title) <= 0 )
+	if ( strlen($title) == 0 )
 		return;
 
 	$title = $before . $title . $after;
@@ -30,6 +30,25 @@ function the_title($before = '', $after = '', $echo = true) {
 		return $title;
 }
 
+function the_title_attribute( $args = '' ) {
+	$title = get_the_title();
+
+	if ( strlen($title) == 0 )
+		return;
+
+	$defaults = array('before' => '', 'after' =>  '', 'echo' => true);
+	$r = wp_parse_args($args, $defaults);
+	extract( $r, EXTR_SKIP );
+
+
+	$title = $before . $title . $after;
+	$title = attribute_escape(strip_tags($title));
+
+	if ( $echo )
+		echo $title;
+	else
+		return $title;
+}
 
 function get_the_title( $id = 0 ) {
 	$post = &get_post($id);
