@@ -188,6 +188,8 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <?php endforeach; endif; ?>
 	<?php do_action('rss2_head'); ?>
 	<?php if ($post_ids) {
+		global $wp_query;
+		$wp_query->in_the_loop = true;  // Fake being in the loop.
 		// fetch 20 posts at a time rather than loading the entire table into memory
 		while ( $next_posts = array_splice($post_ids, 0, 20) ) {
 			$where = "WHERE ID IN (".join(',', $next_posts).")";
