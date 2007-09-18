@@ -195,6 +195,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 5539 )
 		upgrade_230();
 
+	if ( $wp_current_db_version < 6124 )
+		upgrade_230_old_tables();
+
 	maybe_disable_automattic_widgets();
 
 	$wp_rewrite->flush_rules();
@@ -691,6 +694,13 @@ function upgrade_230_options_table() {
 	foreach ( $old_options_fields as $old )
 		$wpdb->query("ALTER TABLE $wpdb->options DROP $old");
 	$wpdb->show_errors();
+}
+
+function upgrade_230_old_tables() {
+	global $wpdb;
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'categories');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'link2cat');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'post2cat');
 }
 
 function upgrade_old_slugs() {
