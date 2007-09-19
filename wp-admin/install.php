@@ -50,7 +50,7 @@ switch($step) {
 			<td><input name="admin_email" type="text" id="admin_email" size="25" /></td>
 		</tr>
 		<tr>
-			<th scope="row"  valign="top"> <?php __('Privacy:'); ?></th>
+			<td>&nbsp;</td>
 			<td><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
 		</tr>
 	</table>
