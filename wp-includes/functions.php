@@ -1241,9 +1241,11 @@ function wp_die( $message, $title = '' ) {
 		$admin_dir = 'wp-admin/';
 
 	if ( !function_exists('did_action') || !did_action('admin_head') ) :
-	status_header(500);
-	nocache_headers();
-	header('Content-Type: text/html; charset=utf-8');
+	if( !headers_sent() ){
+		status_header(500);
+		nocache_headers();
+		header('Content-Type: text/html; charset=utf-8');
+	}
 
 	if ( empty($title) ){
 		if( function_exists('__') )

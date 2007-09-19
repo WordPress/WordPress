@@ -1,19 +1,28 @@
 <?php
 define('WP_INSTALLING', true);
 
+require_once('../wp-includes/compat.php');
+require_once('../wp-includes/functions.php');
+
 if (!file_exists('../wp-config-sample.php'))
-	die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
+	wp_die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
 
 $configFile = file('../wp-config-sample.php');
 
-if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
+if ( !is_writable('../')) 
+	wp_die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
+// Check if wp-config.php has been created
+if (file_exists('../wp-config.php'))
+	wp_die("<p>The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p>");
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];
 else
 	$step = 0;
-header( 'Content-Type: text/html; charset=utf-8' );
+
+function display_header(){
+	header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -76,12 +85,11 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 <?php
-// Check if wp-config.php has been created
-if (file_exists('../wp-config.php'))
-	die("<p>The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p></body></html>");
+}//end function display_header();
 
 switch($step) {
 	case 0:
+		display_header();
 ?>
 
 <p>Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.</p>
@@ -98,6 +106,7 @@ switch($step) {
 	break;
 
 	case 1:
+		display_header();
 	?>
 </p>
 <form method="post" action="setup-config.php?step=2">
@@ -177,6 +186,8 @@ switch($step) {
 	}
 	fclose($handle);
 	chmod('../wp-config.php', 0666);
+	
+	display_header();
 ?>
 <p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to <a href="install.php">run the install!</a></p>
 <?php
