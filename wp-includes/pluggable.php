@@ -373,6 +373,24 @@ function wp_redirect($location, $status = 302) {
 	if ( !$location ) // allows the wp_redirect filter to cancel a redirect
 		return false;
 
+	$location = wp_sanitize_redirect($location);
+
+	if ( $is_IIS ) {
+		header("Refresh: 0;url=$location");
+	} else {
+		if ( php_sapi_name() != 'cgi-fcgi' )
+			status_header($status); // This causes problems on IIS and some FastCGI setups
+		header("Location: $location");
+	}
+}
+endif;
+
+if ( !function_exists('wp_sanitize_redirect') ) :
+/**
+ * sanitizes a URL for use in a redirect
+ * @return string redirect-sanitized URL
+ **/
+function wp_sanitize_redirect($location) {
 	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $location);
 	$location = wp_kses_no_null($location);
 
@@ -388,14 +406,7 @@ function wp_redirect($location, $status = 302) {
 			}
 		}
 	}
-
-	if ( $is_IIS ) {
-		header("Refresh: 0;url=$location");
-	} else {
-		if ( php_sapi_name() != 'cgi-fcgi' )
-			status_header($status); // This causes problems on IIS and some FastCGI setups
-		header("Location: $location");
-	}
+	return $location;
 }
 endif;
 
@@ -405,13 +416,19 @@ if ( !function_exists('wp_safe_redirect') ) :
  * @return void
  **/
 function wp_safe_redirect($location, $status = 302) {
-	if ( $location{0} == '/' ) {
-		if ( $location{1} == '/' )
-			$location = get_option('home') . '/';
-	} else {
-		if ( substr($location, 0, strlen(get_option('home'))) != get_option('home') )
-			$location = get_option('home') . '/';
-	}
+
+	// Need to look at the URL the way it will end up in wp_redirect()
+	$location = wp_sanitize_redirect($location);
+
+	// browsers will assume 'http' is your protocol, and will obey a redirect to a URL starting with '//'
+	if ( substr($location, 0, 2) == '//' )
+		$location = 'http:' . $location;
+
+	$lp  = parse_url($location);
+	$wpp = parse_url(get_option('home'));
+
+	if ( isset($lp['host']) && $lp['host'] != $wpp['host'] )
+		$location = get_option('siteurl') . '/wp-admin/';
 
 	wp_redirect($location, $status);
 }
