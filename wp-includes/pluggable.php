@@ -349,6 +349,12 @@ function check_admin_referer($action = -1) {
 
 if ( !function_exists('check_ajax_referer') ) :
 function check_ajax_referer() {
+	$current_name = '';
+	if ( ( $current = wp_get_current_user() ) && $current->ID )
+		$current_name = $current->data->user_login;
+	if ( !$current_name )
+		die('-1');
+
 	$cookie = explode('; ', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
 	foreach ( $cookie as $tasty ) {
 		if ( false !== strpos($tasty, USER_COOKIE) )
@@ -356,7 +362,8 @@ function check_ajax_referer() {
 		if ( false !== strpos($tasty, PASS_COOKIE) )
 			$pass = substr(strstr($tasty, '='), 1);
 	}
-	if ( !wp_login( $user, $pass, true ) )
+
+	if ( $current_name != $user || !wp_login( $user, $pass, true ) )
 		die('-1');
 	do_action('check_ajax_referer');
 }
