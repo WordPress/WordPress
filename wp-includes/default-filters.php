@@ -48,12 +48,20 @@ foreach ( $filters as $filter ) {
 }
 
 // Format strings for display.
-$filters = array('comment_author', 'term_name', 'term_description', 'link_name', 'link_description',
+$filters = array('comment_author', 'term_name', 'link_name', 'link_description',
 	'link_notes', 'bloginfo', 'wp_title');
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'wptexturize');
 	add_filter($filter, 'convert_chars');
 	add_filter($filter, 'wp_specialchars');
+}
+
+// Format text area for display.
+$filters = array('term_description');
+foreach ( $filters as $filter ) {
+	add_filter($filter, 'wptexturize');
+	add_filter($filter, 'convert_chars');
+	add_filter($filter, 'wpautop');
 }
 
 // Format for RSS
