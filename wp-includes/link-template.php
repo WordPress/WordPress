@@ -358,7 +358,7 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	global $post, $wpdb;
 
-	if( !is_single() || is_attachment() )
+	if( empty($post) || !is_single() || is_attachment() )
 		return null;
 
 	$current_post_date = $post->post_date;
@@ -391,7 +391,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	global $post, $wpdb;
 
-	if( !is_single() || is_attachment() )
+	if( empty($post) || !is_single() || is_attachment() )
 		return null;
 
 	$current_post_date = $post->post_date;
