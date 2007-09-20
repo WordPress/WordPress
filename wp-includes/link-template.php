@@ -501,7 +501,8 @@ function get_pagenum_link($pagenum = 1) {
 		}
 
 		$request = preg_replace( '|page/(.+)/?$|', '', $request);
-		$request = preg_replace( '|^index\.php/|', '', $request);
+		$request = preg_replace( '|^index\.php|', '', $request);
+		$request = ltrim($request, '/');
 
 		$base = trailingslashit( get_bloginfo( 'url' ) );
 
