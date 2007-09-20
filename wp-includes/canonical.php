@@ -18,6 +18,9 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 	if ( false === $original )
 		return;
 
+	// Some PHP setups turn requests for / into /index.php in REQUEST_URI
+	$original['path'] = preg_replace('|/index\.php$|', '/', $original['path']);
+
 	$redirect = $original;
 	$redirect_url = false;
 
@@ -111,8 +114,8 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 	else
 		unset($redirect['port']);
 
-	// trailing /index.php or /index.php/
-	$redirect['path'] = preg_replace('|/index.php/?$|', '/', $redirect['path']);
+	// trailing /index.php/
+	$redirect['path'] = preg_replace('|/index.php/$|', '/', $redirect['path']);
 
 	// strip /index.php/ when we're not using PATHINFO permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )
