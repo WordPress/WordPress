@@ -1,247 +1,133 @@
-#viewarc, #viewcat, #namediv, #emaildiv, #uridiv, #planetnews li, #login ul li, #your-profile fieldset, #footer .logo, .alignleft .available-theme {
-	float: right;
+html,
+.dbx-handle,
+#post_name,
+input[name=link_url],
+input[name=link_image],
+input[name=opml_url],
+input[name=file],
+input#rss_uri,
+#template #newcontent,
+#devnews,
+#planetnews,
+#content,
+body.login #login a,
+#newcomment_author_url,
+#email {
+	direction: ltr;
 	}
-
-#templateside, .alignright {
-	float: left;
+#adminmenu,
+#submenu,
+#minisub,
+.wrap,
+.updated,
+.confirm,
+#devnews h3,
+#planetnews h3,
+#wphead,
+#user_info,
+body.login,
+#login_error {
+	direction: rtl;
 	}
-
-#login #send, .readmore, .widefat th {
-	text-align: right;
-	}
-
-#postcustomsubmit, form#upload th, .submit, .editform th {
+p.submit,
+.dbx-handle {
 	text-align: left;
 	}
-
-#devnews h4, #wphead h1, #your-profile legend, fieldset.options legend, #planetnews li .post {
-	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
+html *,
+select,
+input,
+table * {
+	font-family: tahoma, Tahoma, "Times New Roman", Times, serif;
 	}
-
 #wphead {
 	padding: .8em 2em .8em 19em;
 	}
-
-#wphead h1 {
-	font-size: 2.4em;
+#user_info {
+	right: auto;
+	left: 1em;
 	}
-
-#postdiv, #titlediv, #guiddiv, #tagdiv {
-	margin: 0 0 0 8px;
-	}
-
-#ed_toolbar input {
-	margin: 3px 0 2px 2px;
-	}
-
-#edButtons input, #edButtons input:active {
-	margin: 0px 0 -1px 2px;
-	}
-
-body, td {
-	font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana;
-	}
-
-h1, h2, h3, h4, h5 {
-	font-family: "Times New Roman", Times, serif;
-	}
-h3.dbx-handle {
-	font-family: tahoma, Verdana, Arial, Helvetica, sans-serif;
-	}
-
-textarea, input, select {
-	font:  13px Tahoma, Verdana, Arial, Helvetica, sans-serif;
-	}
-
-.quicktags, .search {
-	font: 12px Tahoma, Georgia, "Times New Roman", Times, serif;
-	}
-
-.updated, .confirm {
-	padding: 0 3em 0 1em;
-	}
-
-.submit input, .submit input:focus, .button, .button:focus {
-	border-left-color: #999;
-	border-right-color: #ccc;
-	}
-
-.submit input:active, .button:active {
-	border-left-color: #ccc;
-	border-right-color: #999;
-	}
-
 #adminmenu {
 	padding: .2em 2em .3em .2em;
 	height: 28px;
 	}
-
+* html #adminmenu {
+	padding-bottom: 0;
+	}
 #adminmenu a {
 	margin: 0 0 0 10px;
 	display: block;
 	float: right;
 	font: 700 16px/130% "Times New Roman", Times, serif;
 	}
-
 #adminmenu a.current {
 	border-right: 0;
 	border-left: 2px solid #4f96c8;
 	}
-
 #submenu, #minisub {
 	padding: 1px 3em 0 2em;
 	}
-
 #submenu {
 	height: 28px;
 	}
-
 #submenu a {
 	margin: 0 0 0 10px;
 	display: block;
 	float: right;
 	line-height: 155%;
 	}
-
 #submenu .current {
 	border-right: 0;
 	border-left: 2px solid #045290;
 	}
-
-#currenttheme img {
-	float: right;
-	margin-right: auto;
-	margin-left: 1em;
+.dbx-content input, .dbx-content select {
+	margin-right: 8px;
 	}
-
-#postdiv #quicktags {
-	padding-right: 0;
-	padding-left: 6px;
+#newcat {
+	width: 100px;
 	}
-
-.readmore {
-	margin-right: auto;
-	margin-left: 5em;
+.updated, .confirm {
+	background-position: 98.5%;
+	padding: 0 3em 0 1em;
 	}
-
-#postexcerpt div, #attachmentlinks div {
-	margin-right: auto;
-	margin-left: 8px;
-	}
-
-* html #postexcerpt .dbx-toggle-open {
-	padding-right: 0;
-	padding-left: 8px;
-	}
-
-#searchform {
-	float: right;
-	margin-right: auto;
-	margin-left: 1em;
-	}
-
-#poststuff {
-	margin-right: auto;
-	margin-left: 16em;
-	}
-
-#template div {
-	margin-right: auto;
-	margin-left: 190px;
-	}
-
-* html #template div {
-	margin-right: auto;
-	margin-left: 0px;
-	}
-
-#user_info {
-	right: auto;
-	left: 1em;
-	}
-	
-#zeitgeist {
-	float: left;
-	margin-left: auto;
-	margin-right: 1em;
-	}
-
-#zeitgeist ul {
-	margin: 0 .6em .3em 0;
-	padding: 0 .6em 0 0;
-	}
-
-.wrap ul {
-	margin-left: 500px;
-	}
-
-#categorydiv ul {
-	margin-left: auto;
-	margin-right: 10px;
-	}
-
-#moremeta {
-	margin-right: 0;
-	margin-left: 15px;
-	right: auto;
-	left: 6%;
-	}
-	
-#moremeta .dbx-content {
-	background: url(images/box-butt.gif) no-repeat bottom left;
-	padding-right: 10px;
-	padding-left: 0;
-	text-align: right;
-	}
-	
-#moremeta .dbx-handle {
-	background: #2685af url(images/box-head.gif) no-repeat left;
-	margin-top: -2px;
-	}
-
-#moremeta .dbx-box {
-	background: url(images/box-bg.gif) repeat-y left;
-	padding-bottom: 0;
-	}
-
-a.dbx-toggle, a.dbx-toggle:visited {
-	right: auto;
-	left: 2px;
-	}
-
-
-#categorychecklist {
-	margin-right: auto;
-	margin-left: 6px;
-	}
-
-#ajax-response.alignleft {
-	margin-left: auto;
-	margin-right: 2em;
-	}
-
-#postdivrich #edButtons {
-	padding-left: 0;
-	padding-right: 3px;
-	}
-
 .page-numbers {
 	margin-right: auto;
 	margin-left: 3px;
 	}
-
+.wrap ul {
+	margin-right: 45%;
+	margin-left: 0;
+	}
+* html .wrap ul {
+	margin-right: 50%;
+	}
+.wrap h2 {
+	font-family: "Times New Roman", Times, serif;
+	}
+#zeitgeist {
+	margin-right: 1em;
+	}
+#zeitgeist ul {
+	margin: 0 .6em .3em 0;
+	padding: 0 .6em 0 0;
+	}
+#categorydiv ul {
+	margin-left: auto;
+	margin-right: 10px;
+	}
 a.view-link {
-	right:auto;
-	left:5%;
-	margin-right:0;
-	margin-left:220px;
+	left: 6%;
+	right: auto;
+	margin-right: auto;
 	}
-#advancedstuff {
-	direction: ltr;
+#postdiv #quicktags {
+	padding-right: 0;
+	padding-left: 6px;
+	margin-right: 0;
 	}
-#advancedstuff .dbx-handle {
-	text-align: right;
+.options ul {
+	margin-right: 0;
 	}
-#advancedstuff .dbx-content * {
-	direction: rtl;
+*form#template > div > textarea#newcontent {
+	margin-right: -300px;
+	width: 107%;
 	}
