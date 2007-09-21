@@ -316,6 +316,15 @@ class WP_Import {
 		$post_content = str_replace('<br>', '<br />', $post_content);
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
 
+		preg_match_all('|<category domain="tag">(.*?)</category>|is', $post, $tags);
+		$tags = $tags[1];
+
+		$tag_index = 0;
+		foreach ($tags as $tag) {
+			$tags[$tag_index] = $wpdb->escape($this->unhtmlentities(str_replace(array ('<![CDATA[', ']]>'), '', $tag)));
+			$tag_index++;
+		}
+
 		preg_match_all('|<category>(.*?)</category>|is', $post, $categories);
 		$categories = $categories[1];
 
@@ -371,6 +380,25 @@ class WP_Import {
 					$post_cats[] = $cat_ID;
 				}
 				wp_set_post_categories($post_id, $post_cats);
+			}
+
+			// Add tags.
+			if (count($tags) > 0) {
+				$post_tags = array();
+				foreach ($tags as $tag) {
+					$slug = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$tag_obj = get_term_by('slug', $slug, 'post_tag');
+					$tag_id = 0;
+					if ( ! empty($tag_obj) )
+						$tag_id = $tag_obj->term_id;
+					if ( $tag_id == 0 ) {
+						$tag = $wpdb->escape($tag);
+						$tag_id = wp_insert_term($tag, 'post_tag');
+						$tag_id = $tag_id['term_id'];
+					}
+					$post_tags[] = $tag_id;
+				}
+				wp_set_post_tags($post_id, $post_tags);
 			}
 		}
 

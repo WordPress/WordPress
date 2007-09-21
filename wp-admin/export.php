@@ -141,6 +141,27 @@ function wxr_tag_description($t) {
 	echo '<wp:tag_description>' . wxr_cdata($t->description) . '</wp:tag_description>';
 }
 
+function wxr_post_taxonomy() {
+	$categories = get_the_category();
+	$tags = get_the_tags();
+	$cat_names = array();
+	$tag_names = array();
+	$the_list = '';
+	$filter = 'rss';
+
+	if ( !empty($categories) ) foreach ( (array) $categories as $category ) {
+		$cat_name = sanitize_term_field('name', $category->name, $category->term_id, 'category', $filter);
+		$the_list .= "\n\t\t<category><![CDATA[$cat_name]]></category>\n";
+	}
+
+	if ( !empty($tags) ) foreach ( (array) $tags as $tag ) {
+		$tag_name = sanitize_term_field('name', $tag->name, $tag->term_id, 'post_tag', $filter);
+		$the_list .= "\n\t\t<category domain=\"tag\"><![CDATA[$tag_name]]></category>\n";
+	}
+
+	echo $the_list;
+}
+
 print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 
 ?>
@@ -201,7 +222,7 @@ print '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <link><?php the_permalink_rss() ?></link>
 <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
 <dc:creator><?php the_author() ?></dc:creator>
-<?php the_category_rss() ?>
+<?php wxr_post_taxonomy() ?>
 
 <guid isPermaLink="false"><?php the_guid(); ?></guid>
 <description></description>
