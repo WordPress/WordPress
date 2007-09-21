@@ -48,6 +48,8 @@ class WP_Categories_to_Tags {
 		$hier = _get_term_hierarchy('category');
 
 		foreach ($this->all_categories as $category) {
+			$category = sanitize_term( $category, 'category', 'display' );
+		
 			if ((int) $category->parent == 0) {
 				print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($category->term_id) . '" /> ' . $category->name . ' (' . $category->count . ')</label>';
 
