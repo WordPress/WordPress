@@ -291,6 +291,8 @@ function single_tag_title($prefix = '', $display = true ) {
 
 	if ( !empty($tag_id) ) {
 		$my_tag = &get_term($tag_id, 'post_tag', OBJECT, 'display');
+		if ( is_wp_error( $my_tag ) ) 
+			return false;
 		$my_tag_name = apply_filters('single_tag_title', $my_tag->name);
 		if ( !empty($my_tag_name) ) {
 			if ( $display )
