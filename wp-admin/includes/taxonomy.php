@@ -73,18 +73,6 @@ function wp_insert_category($catarr) {
 	$slug = $category_nicename;
 	$parent = $category_parent;
 
-	$name = apply_filters('pre_category_name', $name);
-
-	if ( empty ($slug) )
-		$slug = sanitize_title($name);
-	else
-		$slug = sanitize_title($slug);
-	$slug = apply_filters('pre_category_nicename', $slug);
-
-	if ( empty ($description) )
-		$description = '';
-	$description = apply_filters('pre_category_description', $description);
-
 	$parent = (int) $parent;
 	if ( empty($parent) || !category_exists( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
 		$parent = 0;
@@ -96,6 +84,9 @@ function wp_insert_category($catarr) {
 	else
 		$cat_ID = wp_insert_term($cat_name, 'category', $args);
 
+	if ( is_wp_error($cat_ID) )
+		return 0;
+
 	return $cat_ID['term_id'];
 }
 
@@ -104,7 +95,7 @@ function wp_update_category($catarr) {
 
 	$cat_ID = (int) $catarr['cat_ID'];
 
-	if( $cat_ID == $catarr['category_parent'] )
+	if ( $cat_ID == $catarr['category_parent'] )
 		return false;
 
 	// First, get all of the original fields

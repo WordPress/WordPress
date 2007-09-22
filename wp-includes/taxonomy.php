@@ -707,6 +707,10 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 	} else if ( 'db' == $context ) {
 		$value = apply_filters("pre_term_$field", $value, $taxonomy);
 		$value = apply_filters("pre_${taxonomy}_$field", $value);
+		// Back compat filters
+		if ( 'slug' == $field )
+			$value = apply_filters('pre_category_nicename', $value);
+			
 	} else if ( 'rss' == $context ) {
 		$value = apply_filters("term_${field}_rss", $value, $taxonomy);
 		$value = apply_filters("${taxonomy}_$field_rss", $value);
@@ -914,6 +918,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
 	$args['name'] = $term;
+	$args['taxonomy'] = $taxonomy;
 	$args = sanitize_term($args, $taxonomy, 'db');
 	extract($args, EXTR_SKIP);
 
@@ -934,6 +939,12 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	if ( ! $term_id = is_term($slug) ) {
+		$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
+		$term_id = (int) $wpdb->insert_id;
+	} else if ( is_taxonomy_hierarchical($taxonomy) && !empty($parent) ) {
+		// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
+		// by incorporating parent slugs.
+		$slug = wp_unique_term_slug($slug, (object) $args);
 		$wpdb->query("INSERT INTO $wpdb->terms (name, slug, term_group) VALUES ('$name', '$slug', '$term_group')");
 		$term_id = (int) $wpdb->insert_id;
 	}
@@ -1019,6 +1030,38 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	return $tt_ids;
 }
 
+function wp_unique_term_slug($slug, $term) {
+	global $wpdb;
+
+	// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
+	// by incorporating parent slugs.
+	if ( is_taxonomy_hierarchical($term->taxonomy) && !empty($term->parent) ) {
+		$the_parent = $term->parent;
+		while ( ! empty($the_parent) ) {
+			$parent_term = get_term($the_parent, $term->taxonomy);
+			if ( is_wp_error($parent_term) || empty($parent_term) )
+				break;
+				$slug .= '-' . $parent_term->slug;
+			if ( empty($parent_term->parent) )
+				break;
+			$the_parent = $parent_term->parent;
+		}
+	}
+
+	// If we didn't get a unique slug, try appending a number to make it unique.
+	if ( $wpdb->get_var("SELECT slug FROM $wpdb->terms WHERE slug = '$slug'") ) {
+		$num = 2;
+		do {
+			$alt_slug = $slug . "-$num";
+			$num++;
+			$slug_check = $wpdb->get_var("SELECT slug FROM $wpdb->terms WHERE slug = '$alt_slug'");
+		} while ( $slug_check );
+		$slug = $alt_slug;
+	}
+
+	return $slug;
+}
+
 function wp_update_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
 
@@ -1041,8 +1084,11 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	$args = sanitize_term($args, $taxonomy, 'db');
 	extract($args, EXTR_SKIP);
 
-	if ( empty($slug) )
+	$empty_slug = false;
+	if ( empty($slug) ) {
+		$empty_slug = true;
 		$slug = sanitize_title($name);
+	}
 
 	if ( $alias_of ) {
 		$alias = $wpdb->fetch_row("SELECT term_id, term_group FROM $wpdb->terms WHERE slug = '$alias_of'");
@@ -1054,6 +1100,17 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
 			$wpdb->query("UPDATE $wpdb->terms SET term_group = $term_group WHERE term_id = $alias->term_id");
 		}
+	}
+
+	// Check for duplicate slug
+	$id = $wpdb->get_var("SELECT term_id FROM $wpdb->terms WHERE slug = '$slug'");
+	if ( $id && ($id != $term_id) ) {
+		// If an empty slug was passed, reset the slug to something unique.
+		// Otherwise, bail.
+		if ( $empty_slug )
+			$slug = wp_unique_term_slug($slug, (object) $args);
+		else
+			return new WP_Error('duplicate_term_slug', sprintf(__('The slug "%s" is already in use by another term'), $slug));
 	}
 
 	$wpdb->query("UPDATE $wpdb->terms SET name = '$name', slug = '$slug', term_group = '$term_group' WHERE term_id = '$term_id'");
