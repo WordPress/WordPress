@@ -1272,7 +1272,7 @@ function is_local_attachment($url) {
 	return false;
 }
 
-function wp_insert_attachment($object, $file = false, $post_parent = 0) {
+function wp_insert_attachment($object, $file = false, $parent = 0) {
 	global $wpdb, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
@@ -1280,6 +1280,9 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
 
 	$object = wp_parse_args($object, $defaults);
+	if ( !empty($parent) )
+		$object['post_parent'] = $parent;
+
 	$object = sanitize_post($object, 'db');
 
 	// export array as variables

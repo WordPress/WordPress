@@ -201,6 +201,7 @@ addLoadEvent( function() {
 			h += "<td><textarea name='post_content' id='post_content'>" + this.currentImage.description + "</textarea></td>";
 			h += "</tr><tr id='buttons' class='submit'><td colspan='2'><input type='button' id='delete' name='delete' class='delete alignleft' value='" + this.deleteText + "' onclick='theFileList.deleteFile(" + id + ");' />";
 			h += "<input type='hidden' name='from_tab' value='" + this.tab + "' />";
+			h += "<input type='hidden' name='post_parent' value='" + parseInt(this.postID,10) + "' />";
 			h += "<input type='hidden' name='action' id='action-value' value='save' />";
 			h += "<input type='hidden' name='ID' value='" + id + "' />";
 			h += "<input type='hidden' name='_wpnonce' value='" + this.nonce + "' />";
