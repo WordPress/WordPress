@@ -3,7 +3,7 @@
 // A simple set of functions to check our version 1.0 update service
 
 function wp_version_check() {
-	if ( strpos($_SERVER['PHP_SELF'], 'install.php') !== false || defined('WP_INSTALLING') )
+	if ( !function_exists('fsockopen') || strpos($_SERVER['PHP_SELF'], 'install.php') !== false || defined('WP_INSTALLING') )
 		return;
 
 	global $wp_version;
@@ -30,7 +30,7 @@ function wp_version_check() {
 	$http_request .= "\r\n";
 
 	$response = '';
-	if ( false !== ( $fs = @fsockopen( 'api.wordpress.org', 80, $errno, $errstr, 3 ) ) ) {
+	if ( false !== ( $fs = @fsockopen( 'api.wordpress.org', 80, $errno, $errstr, 3 ) ) && is_resource($fs) ) {
 		fwrite( $fs, $http_request );
 		while ( !feof( $fs ) )
 			$response .= fgets( $fs, 1160 ); // One TCP-IP packet

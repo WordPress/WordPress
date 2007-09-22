@@ -42,6 +42,10 @@ add_action( 'admin_notices', 'update_nag', 3 );
 
 function wp_update_plugins() {
 	global $wp_version;
+
+	if ( !function_exists('fsockopen') )
+		return false;
+
 	$plugins = get_plugins();
 	$active  = get_option( 'active_plugins' );
 	$current = get_option( 'update_plugins' );
@@ -83,7 +87,7 @@ function wp_update_plugins() {
 	$http_request .= $request;
 
 	$response = '';
-	if( false != ( $fs = @fsockopen( 'api.wordpress.org', 80, $errno, $errstr, 3) ) ) {
+	if( false != ( $fs = @fsockopen( 'api.wordpress.org', 80, $errno, $errstr, 3) ) && is_resource($fs) ) {
 		fwrite($fs, $http_request);
 
 		while ( !feof($fs) )
