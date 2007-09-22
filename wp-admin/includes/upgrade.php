@@ -1012,7 +1012,7 @@ function dbDelta($queries, $execute = true) {
 				}
 
 				// For every remaining index specified for the table
-				foreach($indices as $index) {
+				foreach ( (array) $indices as $index ) {
 					// Push a query line into $cqueries that adds the index to that table
 					$cqueries[] = "ALTER TABLE {$table} ADD $index";
 					$for_update[$table.'.'.$fieldname] = 'Added index '.$table.' '.$index;
