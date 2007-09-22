@@ -218,8 +218,8 @@ function get_option($setting) {
 	if ( 'home' == $setting && '' == $value )
 		return get_option('siteurl');
 
-	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
-		$value = preg_replace('|/+$|', '', $value);
+	if ( in_array($setting, array('siteurl', 'home', 'category_base', 'tag_base')) )
+		$value = untrailingslashit($value);
 
 	return apply_filters( 'option_' . $setting, maybe_unserialize($value) );
 }
