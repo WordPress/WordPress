@@ -25,8 +25,8 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = attribute_escape(apply_filters('link_description', $bookmark->link_description));
- 		$name = attribute_escape(apply_filters('link_title', $bookmark->link_name));
+		$desc = attribute_escape(sanitize_bookmark_field('link_description', $row->link_description, $row->link_id, 'display'));
+		$name = attribute_escape(sanitize_bookmark_field('link_name', $row->link_name, $row->link_id, 'display'));
  		$title = $desc;
 
 		if ( $show_updated )

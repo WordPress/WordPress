@@ -585,8 +585,8 @@ function get_links($category = -1,
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = attribute_escape($row->link_description);
-		$name = attribute_escape($row->link_name);
+		$desc = attribute_escape(sanitize_bookmark_field('link_description', $row->link_description, $row->link_id, 'display'));
+		$name = attribute_escape(sanitize_bookmark_field('link_name', $row->link_name, $row->link_id, 'display'));
 		$title = $desc;
 
 		if ( $show_updated )
@@ -667,7 +667,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 			// Handle each category.
 
 			// Display the category name
-			echo '	<li id="linkcat-' . $cat->term_id . '" class="linkcat"><h2>' . $cat->name . "</h2>\n\t<ul>\n";
+			echo '  <li id="linkcat-' . $cat->term_id . '" class="linkcat"><h2>' . apply_filters('link_category', $cat->name ) . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
 			get_links($cat->term_id, '<li>', "</li>", "\n", true, 'name', false);
 
@@ -704,7 +704,7 @@ function links_popup_script($text = 'Links', $width=400, $height=400, $file='lin
 
 
 function get_linkrating($link) {
-	return apply_filters('link_rating', $link->link_rating);
+	return sanitize_bookmark_field('link_rating', $link->link_rating, $link->link_id, 'display');
 }
 
 /** function get_linkcatname()
