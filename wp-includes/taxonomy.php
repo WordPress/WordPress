@@ -1338,19 +1338,46 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 // Recalculates term counts by including items from child terms
 // Assumes all relevant children are already in the $terms argument
 function _pad_term_counts(&$terms, $taxonomy) {
+	global $wpdb;
+
+	// This function only works for post categories.
+	if ( 'category' != $taxonomy )
+		return;
+
 	$term_hier = _get_term_hierarchy($taxonomy);
 
 	if ( empty($term_hier) )
 		return;
 
+	$term_items = array();
+
 	foreach ( $terms as $key => $term ) {
-		if ( $children = _get_term_children($term->term_id, $terms, $taxonomy) ) {
-			foreach ( $children as $child ) {
-				$child = get_term($child, $taxonomy);
-				$terms[$key]->count += $child->count;
-			}
+		$terms_by_id[$term->term_id] = & $terms[$key];
+		$term_ids[$term->term_taxonomy_id] = $term->term_id;
+	}
+
+	// Get the object and term ids and stick them in a lookup table
+	$results = $wpdb->get_results("SELECT object_id, term_taxonomy_id FROM $wpdb->term_relationships LEFT JOIN $wpdb->posts ON object_id = ID WHERE term_taxonomy_id IN (".join(',', array_keys($term_ids)).") AND post_type = 'post' AND post_status = 'publish'");
+	foreach ( $results as $row ) {
+		$id = $term_ids[$row->term_taxonomy_id];
+		++$term_items[$id][$row->object_id];
+	}
+
+	// Touch every ancestor's lookup row for each post in each term
+	foreach ( $term_ids as $term_id ) {
+		$child = $term_id;
+		while ( $parent = $terms_by_id[$child]->parent ) {
+			if ( !empty($term_items[$term_id]) )
+				foreach ( $term_items[$term_id] as $item_id => $touches )
+					++$term_items[$parent][$item_id];
+			$child = $parent;
 		}
 	}
+
+	// Transfer the touched cells 
+	foreach ( (array) $term_items as $id => $items )
+		if ( isset($terms_by_id[$id]) )
+			$terms_by_id[$id]->count = count($items);
 }
 
 //
