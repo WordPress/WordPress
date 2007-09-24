@@ -111,18 +111,11 @@ cat_rows();
 <?php if ( current_user_can('manage_categories') ) : ?>
 <div class="wrap">
 <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_catname(get_option('default_category')))) ?></p>
+<p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p>
 </div>
 
 <?php include('edit-category-form.php'); ?>
 
-<div class="wrap">
-<h3><?php _e('Importers &amp; Converters'); ?></h3>
-
-<ul>
-	<li><a href="admin.php?import=wp-cat2tag"><?php _e('Selectively convert categories to tags'); ?></a></li>
-	<li><a href="admin.php?import=utw"><?php _e('Import Ultimate Tag Warrior tags'); ?></a></li>
-</ul>
-</div>
 <?php endif; ?>
 
 <?php
