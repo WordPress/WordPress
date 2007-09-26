@@ -786,7 +786,7 @@ function wp_widget_categories_register() {
 	}
 
 	$dims = array( 'width' => 350, 'height' => 170 );
-	$class = array( 'classname' => 'widget_catgories' );
+	$class = array( 'classname' => 'widget_categories' );
 
 	for ( $i = 1; $i <= 9; $i++ ) {
 		$name = sprintf( __( 'Categories %d' ), $i );
