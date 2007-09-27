@@ -180,15 +180,15 @@ function redirect_guess_404_permalink() {
 	if ( !get_query_var('name') )
 		return false;
 
-	$where = "post_name LIKE '" . $wpdb->escape(get_query_var('name')) . "%'";
+	$where = $wpdb->prepare("post_name LIKE %s", get_query_var('name') . '%');
 
 	// if any of year, monthnum, or day are set, use them to refine the query
 	if ( get_query_var('year') )
-		$where .= " AND YEAR(post_date) = '" . $wpdb->escape(get_query_var('year')) . "'";
+		$where .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var('year'));
 	if ( get_query_var('monthnum') )
-		$where .= " AND MONTH(post_date) = '" . $wpdb->escape(get_query_var('monthnum')) . "'";
+		$where .= $wpdb->prepare(" AND MONTH(post_date) = %d", get_query_var('monthnum'));
 	if ( get_query_var('day') )
-		$where .= " AND DAYOFMONTH(post_date) = '" . $wpdb->escape(get_query_var('day')) . "'";
+		$where .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", get_query_var('day'));
 
 	$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE $where AND post_status = 'publish'");
 	if ( !$post_id )

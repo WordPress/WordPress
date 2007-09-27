@@ -41,11 +41,12 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 			$domain = $uri['host'];
 			$uri = parse_url( get_option('home') );
 			$home_domain = $uri['host'];
-			if ( $wpdb->get_var("SELECT link_id FROM $wpdb->links WHERE link_url LIKE ('%$domain%') LIMIT 1") || $domain == $home_domain )
+			if ( $wpdb->get_var($wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_url LIKE (%s) LIMIT 1", '%'.$domain.'%')) || $domain == $home_domain )
 				return true;
 			else
 				return false;
 		} elseif ( $author != '' && $email != '' ) {
+			// expected_slashed ($author, $email)
 			$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author = '$author' AND comment_author_email = '$email' and comment_approved = '1' LIMIT 1");
 			if ( ( 1 == $ok_to_comment ) &&
 				( empty($mod_keys) || false === strpos( $email, $mod_keys) ) )
@@ -62,9 +63,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 
 function get_approved_comments($post_id) {
 	global $wpdb;
-
-	$post_id = (int) $post_id;
-	return $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1' ORDER BY comment_date");
+	return $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1' ORDER BY comment_date", $post_id));
 }
 
 
@@ -82,11 +81,10 @@ function &get_comment(&$comment, $output = OBJECT) {
 		wp_cache_add($comment->comment_ID, $comment, 'comment');
 		$_comment = $comment;
 	} else {
-		$comment = (int) $comment;
 		if ( isset($GLOBALS['comment']) && ($GLOBALS['comment']->comment_ID == $comment) ) {
 			$_comment = & $GLOBALS['comment'];
 		} elseif ( ! $_comment = wp_cache_get($comment, 'comment') ) {
-			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment' LIMIT 1");
+			$_comment = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment));
 			wp_cache_add($_comment->comment_ID, $_comment, 'comment');
 		}
 	}
@@ -109,7 +107,7 @@ function &get_comment(&$comment, $output = OBJECT) {
 function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) { // less flexible, but saves DB queries
 	global $postc, $id, $commentdata, $wpdb;
 	if ( $no_cache ) {
-		$query = "SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment_ID'";
+		$query = $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d", $comment_ID);
 		if ( false == $include_unapproved )
 			$query .= " AND comment_approved = '1'";
 		$myrow = $wpdb->get_row($query, ARRAY_A);
@@ -138,13 +136,13 @@ function get_lastcommentmodified($timezone = 'server') {
 	if ( !isset($cache_lastcommentmodified[$timezone]) ) {
 		switch ( strtolower($timezone)) {
 			case 'gmt':
-				$lastcommentmodified = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_date_gmt <= '$now' AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
+				$lastcommentmodified = $wpdb->get_var($wpdb->prepare("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_date_gmt <= %s AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1", $now));
 				break;
 			case 'blog':
-				$lastcommentmodified = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_date_gmt <= '$now' AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
+				$lastcommentmodified = $wpdb->get_var($wpdb->prepare("SELECT comment_date FROM $wpdb->comments WHERE comment_date_gmt <= %s AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1", $now));
 				break;
 			case 'server':
-				$lastcommentmodified = $wpdb->get_var("SELECT DATE_ADD(comment_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->comments WHERE comment_date_gmt <= '$now' AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
+				$lastcommentmodified = $wpdb->get_var($wpdb->prepare("SELECT DATE_ADD(comment_date_gmt, INTERVAL %s SECOND) FROM $wpdb->comments WHERE comment_date_gmt <= %s AND comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1", $add_seconds_server, $now));
 				break;
 		}
 		$cache_lastcommentmodified[$timezone] = $lastcommentmodified;
@@ -183,6 +181,7 @@ function wp_allow_comment($commentdata) {
 	extract($commentdata, EXTR_SKIP);
 
 	// Simple duplicate check
+	// expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
 	$dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND ( comment_author = '$comment_author' ";
 	if ( $comment_author_email )
 		$dupe .= "OR comment_author_email = '$comment_author_email' ";
@@ -195,7 +194,7 @@ function wp_allow_comment($commentdata) {
 	if ( $user_id ) {
 		$userdata = get_userdata($user_id);
 		$user = new WP_User($user_id);
-		$post_author = $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = '$comment_post_ID' LIMIT 1");
+		$post_author = $wpdb->get_var($wpdb->prepare("SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1", $comment_post_ID));
 	}
 
 	if ( $userdata && ( $user_id == $post_author || $user->has_cap('level_9') ) ) {
