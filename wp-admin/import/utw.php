@@ -157,7 +157,7 @@ class UTW_Import {
 		// run that funky magic!
 		$tags_added = $this->tag2post();
 
-		echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags where added!'), $tags_added ) . '<br /></p>';
+		echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags were added!'), $tags_added ) . '<br /></p>';
 
 		echo '<form action="admin.php?import=utw&amp;step=4" method="post">';
 		wp_nonce_field('import-utw');
