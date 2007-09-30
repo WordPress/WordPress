@@ -95,8 +95,12 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 }
 timer_start();
 
-// Change to E_ALL for development/debugging
-error_reporting(E_ALL ^ E_NOTICE);
+// Add define('WPDEBUG',true); to wp-config.php to enable display of notices during development.
+if (defined('WPDEBUG') and WPDEBUG == true) {
+   error_reporting(E_ALL);
+} else {
+   error_reporting(E_ALL ^ E_NOTICE);
+}
 
 // For an advanced caching plugin to use, static because you would only want one
 if ( defined('WP_CACHE') )
