@@ -257,11 +257,11 @@ function populate_roles_160() {
 	global $wp_roles;
 
 	// Add roles
-	add_role('administrator', __('Administrator'));
-	add_role('editor', __('Editor'));
-	add_role('author', __('Author'));
-	add_role('contributor', __('Contributor'));
-	add_role('subscriber', __('Subscriber'));
+	add_role('administrator', _c('Administrator|User role'));
+	add_role('editor', _c('Editor|User role'));
+	add_role('author', _c('Author|User role'));
+	add_role('contributor', _c('Contributor|User role'));
+	add_role('subscriber', _c('Subscriber|User role'));
 
 	// Add caps for Administrator role
 	$role = get_role('administrator');
