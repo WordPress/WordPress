@@ -95,8 +95,8 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 }
 timer_start();
 
-// Add define('WPDEBUG',true); to wp-config.php to enable display of notices during development.
-if (defined('WPDEBUG') and WPDEBUG == true) {
+// Add define('WP_DEBUG',true); to wp-config.php to enable display of notices during development.
+if (defined('WP_DEBUG') and WP_DEBUG == true) {
    error_reporting(E_ALL);
 } else {
    error_reporting(E_ALL ^ E_NOTICE);
