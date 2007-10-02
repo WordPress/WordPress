@@ -367,9 +367,9 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id ";
 		$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=tt_ids');
-		$join .= ' AND (tr.term_taxonomy_id = ' . intval($cat_array[0]);
+		$join .= $wpdb->prepare(' AND (tr.term_taxonomy_id = %d', $cat_array[0]);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= ' OR tr.term_taxonomy_id = ' . intval($cat_array[$i]);
+			$join .= $wpdb->prepare(' OR tr.term_taxonomy_id = %d', $cat_array[$i]);
 		}
 		$join .= ')';
 	}
@@ -382,7 +382,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	}
 
 	$join  = apply_filters( 'get_previous_post_join', $join, $in_same_cat, $excluded_categories );
-	$where = apply_filters( 'get_previous_post_where', "WHERE p.post_date < '$current_post_date' AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql", $in_same_cat, $excluded_categories );
+	$where = apply_filters( 'get_previous_post_where', $wpdb->prepare("WHERE p.post_date < %s AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql", $current_post_date), $in_same_cat, $excluded_categories );
 	$sort  = apply_filters( 'get_previous_post_sort', 'ORDER BY p.post_date DESC LIMIT 1' );
 
 	return @$wpdb->get_row("SELECT p.ID, p.post_title FROM $wpdb->posts AS p $join $where $sort");
@@ -400,9 +400,9 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id ";
 		$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=tt_ids');
-		$join .= ' AND (tr.term_taxonomy_id = ' . intval($cat_array[0]);
+		$join .= $wpdb->prepare(' AND (tr.term_taxonomy_id = %d', $cat_array[0]);
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= ' OR tr.term_taxonomy_id = ' . intval($cat_array[$i]);
+			$join .= $wpdb->prepare(' OR tr.term_taxonomy_id = $d', $cat_array[$i]);
 		}
 		$join .= ')';
 	}
@@ -415,7 +415,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	}
 
 	$join  = apply_filters( 'get_next_post_join', $join, $in_same_cat, $excluded_categories );
-	$where = apply_filters( 'get_next_post_where', "WHERE p.post_date > '$current_post_date' AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql AND p.ID != $post->ID", $in_same_cat, $excluded_categories );
+	$where = apply_filters( 'get_next_post_where', $wpdb->prepare("WHERE p.post_date > %s AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql AND p.ID != %d", $current_post_date, $post->ID), $in_same_cat, $excluded_categories );
 	$sort  = apply_filters( 'get_next_post_sort', 'ORDER BY p.post_date ASC LIMIT 1' );
 
 	return @$wpdb->get_row("SELECT p.ID, p.post_title FROM $wpdb->posts AS p $join $where $sort");

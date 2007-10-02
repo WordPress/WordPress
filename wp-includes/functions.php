@@ -199,6 +199,7 @@ function get_option($setting) {
 		if ( false === $value ) {
 			if ( defined('WP_INSTALLING') )
 				$wpdb->hide_errors();
+			// expected_slashed ($setting)
 			$row = $wpdb->get_row("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1");
 			if ( defined('WP_INSTALLING') )
 				$wpdb->show_errors();
@@ -315,9 +316,7 @@ function update_option($option_name, $newvalue) {
 		wp_cache_set($option_name, $newvalue, 'options');
 	}
 
-	$newvalue = $wpdb->escape($newvalue);
-	$option_name = $wpdb->escape($option_name);
-	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
+	$wpdb->query($wpdb->prepare("UPDATE $wpdb->options SET option_value = %s WHERE option_name = %s", $newvalue, $option_name));
 	if ( $wpdb->rows_affected == 1 ) {
 		do_action("update_option_{$option_name}", $oldvalue, $_newvalue);
 		return true;
@@ -357,9 +356,7 @@ function add_option($name, $value = '', $deprecated = '', $autoload = 'yes') {
 		wp_cache_set('notoptions', $notoptions, 'options');
 	}
 
-	$name = $wpdb->escape($name);
-	$value = $wpdb->escape($value);
-	$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES ('$name', '$value', '$autoload')");
+	$wpdb->query($wpdb->prepare("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES (%s, %s, %s)", $name, $value, $autoload));
 
 	return;
 }
@@ -370,8 +367,10 @@ function delete_option($name) {
 	wp_protect_special_option($name);
 
 	// Get the ID, if no ID then return
+	// expected_slashed ($name)
 	$option = $wpdb->get_row("SELECT option_id, autoload FROM $wpdb->options WHERE option_name = '$name'");
 	if ( !$option->option_id ) return false;
+	// expected_slashed ($name)
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = '$name'");
 	if ( 'yes' == $option->autoload ) {
 		$alloptions = wp_load_alloptions();
@@ -514,15 +513,15 @@ function do_enclose( $content, $post_ID ) {
 	endforeach;
 
 	foreach ($post_links as $url) :
-		if ( $url != '' && !$wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE post_id = '$post_ID' AND meta_key = 'enclosure' AND meta_value LIKE ('$url%')") ) {
+		if ( $url != '' && !$wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, $url.'%')) ) {
 			if ( $headers = wp_get_http_headers( $url) ) {
 				$len = (int) $headers['content-length'];
 				$type = $wpdb->escape( $headers['content-type'] );
 				$allowed_types = array( 'video', 'audio' );
 				if ( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
 					$meta_value = "$url\n$len\n$type\n";
-					$wpdb->query( "INSERT INTO `$wpdb->postmeta` ( `post_id` , `meta_key` , `meta_value` )
-					VALUES ( '$post_ID', 'enclosure' , '$meta_value')" );
+					$wpdb->query($wpdb->prepare("INSERT INTO `$wpdb->postmeta` ( `post_id` , `meta_key` , `meta_value` )
+					VALUES ( %d, 'enclosure' , %s)", $post_ID, $meta_value));
 				}
 			}
 		}

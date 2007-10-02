@@ -60,7 +60,7 @@ endif;
 if ( !function_exists('get_userdata') ) :
 function get_userdata( $user_id ) {
 	global $wpdb;
-	$user_id = (int) $user_id;
+	$user_id = abs(intval($user_id));
 	if ( $user_id == 0 )
 		return false;
 
@@ -69,11 +69,11 @@ function get_userdata( $user_id ) {
 	if ( $user )
 		return $user;
 
-	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$user_id' LIMIT 1") )
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id)) )
 		return false;
 
 	$wpdb->hide_errors();
-	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
+	$metavalues = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user_id));
 	$wpdb->show_errors();
 
 	if ($metavalues) {
@@ -121,9 +121,7 @@ function get_userdatabylogin($user_login) {
 	if ( $userdata )
 		return $userdata;
 
-	$user_login = $wpdb->escape($user_login);
-
-	if ( !$user_ID = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$user_login'") )
+	if ( !$user_ID = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_login = %s", $user_login)) )
 		return false;
 
 	$user = get_userdata($user_ID);
@@ -579,8 +577,8 @@ function wp_notify_moderator($comment_id) {
 	if( get_option( "moderation_notify" ) == 0 )
 		return true;
 
-	$comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
-	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+	$comment = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID=%d LIMIT 1", $comment_id));
+	$post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID=%d LIMIT 1", $comment->comment_post_ID));
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 	$comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");

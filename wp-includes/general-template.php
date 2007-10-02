@@ -208,7 +208,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	}
 	if ( !empty($author_name) ) {
 		// We do a direct query here because we don't cache by nicename.
-		$title = $wpdb->get_var("SELECT display_name FROM $wpdb->users WHERE user_nicename = '$author_name'");
+		$title = $wpdb->get_var($wpdb->prepare("SELECT display_name FROM $wpdb->users WHERE user_nicename = %s", $author_name));
 	}
 
 	// If there's a month
@@ -255,7 +255,7 @@ function single_post_title($prefix = '', $display = true) {
 
 	if ( intval($p) || '' != $name ) {
 		if ( !$p )
-			$p = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '$name'");
+			$p = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s", $name));
 		$post = & get_post($p);
 		$title = $post->post_title;
 		$title = apply_filters('single_post_title', $title);
@@ -363,7 +363,7 @@ function wp_get_archives($args = '') {
 		$type = 'monthly';
 
 	if ( '' != $limit ) {
-		$limit = (int) $limit;
+		$limit = abs(intval($limit));
 		$limit = ' LIMIT '.$limit;
 	}
 
