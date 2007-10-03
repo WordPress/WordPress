@@ -102,7 +102,7 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 			$_post = null;
 	} elseif ( is_object($post) ) {
 		if ( 'page' == $post->post_type )
-			return get_page($post, $output);
+			return get_page($post, $output, $filter);
 		if ( !isset($post_cache[$blog_id][$post->ID]) )
 			$post_cache[$blog_id][$post->ID] = &$post;
 		$_post = & $post_cache[$blog_id][$post->ID];
@@ -111,12 +111,12 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 		if ( isset($post_cache[$blog_id][$post]) )
 			$_post = & $post_cache[$blog_id][$post];
 		elseif ( $_post = wp_cache_get($post, 'pages') )
-			return get_page($_post, $output);
+			return get_page($_post, $output, $filter);
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
 			$_post = & $wpdb->get_row($query);
 			if ( 'page' == $_post->post_type )
-				return get_page($_post, $output);
+				return get_page($_post, $output, $filter);
 			$post_cache[$blog_id][$post] = & $_post;
 		}
 	}
@@ -972,7 +972,7 @@ function get_all_page_ids() {
 
 // Retrieves page data given a page ID or page object.
 // Handles page caching.
-function &get_page(&$page, $output = OBJECT) {
+function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
 	global $wpdb, $blog_id;
 
 	if ( empty($page) ) {
@@ -985,7 +985,7 @@ function &get_page(&$page, $output = OBJECT) {
 		}
 	} elseif ( is_object($page) ) {
 		if ( 'post' == $page->post_type )
-			return get_post($page, $output);
+			return get_post($page, $output, $filter);
 		wp_cache_add($page->ID, $page, 'pages');
 		$_page = $page;
 	} else {
@@ -998,18 +998,20 @@ function &get_page(&$page, $output = OBJECT) {
 				$_page = & $GLOBALS['page'];
 				wp_cache_add($_page->ID, $_page, 'pages');
 			} elseif ( isset($GLOBALS['post_cache'][$blog_id][$page]) ) { // it's actually a page, and is cached
-				return get_post($page, $output);
+				return get_post($page, $output, $filter);
 			} else { // it's not in any caches, so off to the DB we go
 				// Why are we using assignment for this query?
 				$_page = & $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1");
 				if ( 'post' == $_page->post_type )
-					return get_post($_page, $output);
+					return get_post($_page, $output, $filter);
 				// Potential issue: we're not checking to see if the post_type = 'page'
 				// So all non-'post' posts will get cached as pages.
 				wp_cache_add($_page->ID, $_page, 'pages');
 			}
 		}
 	}
+
+	$_page = sanitize_post($_page, $filter);
 
 	// at this point, one way or another, $_post contains the page object
 
