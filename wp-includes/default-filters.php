@@ -25,9 +25,18 @@ foreach ( $filters as $filter ) {
 	add_filter($filter, 'wp_filter_kses');
 }
 
-// URL
+// Save URL
 $filters = array('pre_comment_author_url', 'pre_user_url', 'pre_link_url', 'pre_link_image',
-	'pre_link_rss', 'comment_url');
+	'pre_link_rss');
+foreach ( $filters as $filter ) {
+	add_filter($filter, 'strip_tags');
+	add_filter($filter, 'trim');
+	add_filter($filter, 'sanitize_url');
+	add_filter($filter, 'wp_filter_kses');
+}
+
+// Display URL
+$filters = array('user_url', 'link_url', 'link_image', 'link_rss', 'comment_url');
 foreach ( $filters as $filter ) {
 	add_filter($filter, 'strip_tags');
 	add_filter($filter, 'trim');

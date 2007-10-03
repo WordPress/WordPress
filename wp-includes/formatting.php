@@ -1087,7 +1087,7 @@ function wp_richedit_pre($text) {
 	return apply_filters('richedit_pre', $output);
 }
 
-function clean_url( $url, $protocols = null ) {
+function clean_url( $url, $protocols = null, $context = 'display' ) {
 	$original_url = $url;
 
 	if ('' == $url) return $url;
@@ -1103,13 +1103,20 @@ function clean_url( $url, $protocols = null ) {
 		substr( $url, 0, 1 ) != '/' && !preg_match('/^[a-z0-9-]+?\.php/i', $url) )
 		$url = 'http://' . $url;
 
-	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+	// Replace ampersands ony when displaying.
+	if ( 'display' == $context )
+		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+
 	if ( !is_array($protocols) )
 		$protocols = array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet');
 	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
 		return '';
 
-	return apply_filters('clean_url', $url, $original_url);
+	return apply_filters('clean_url', $url, $original_url, $context);
+}
+
+function sanitize_url( $url, $protocols = null ) {
+	return clean_url( $url, $protocols, 'db');
 }
 
 // Borrowed from the PHP Manual user notes. Convert entities, while
