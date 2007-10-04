@@ -948,15 +948,6 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($q['category__and']) ) {
-			$count = 0;
-			foreach ( $q['category__and'] as $category_and ) {
-				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) ";
-				$whichcat .= " AND tt$count.term_id = '$category_and' ";
-				$count++;
-			}
-		}
-
 		// Category stuff for nice URLs
 		if ( '' != $q['category_name'] ) {
 			$reqcat = get_category_by_path($q['category_name']);
@@ -1051,28 +1042,32 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($q['tag__and']) ) {
-			$count = 0;
-			foreach ( $q['tag__and'] as $tag_and ) {
-				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) ";
-				$whichcat .= " AND tt$count.term_id = '$tag_and' ";
-				$count++;
-			}
-			$reqtag = is_term( $q['tag__and'][0], 'post_tag' );
-			if ( !empty($reqtag) )
-				$q['tag_id'] = $reqtag['term_id'];
-		}
+		// Tag and slug intersections.
+		$intersections = array('category__and' => 'category', 'tag__and' => 'post_tag', 'tag_slug__and' => 'post_tag');
+		foreach ($intersections as $item => $taxonomy) {
+			if ( empty($q[$item]) ) continue;
 
-		if ( !empty($q['tag_slug__and']) ) {
-			$count = 0;
-			foreach ( $q['tag_slug__and'] as $tag_and ) {
-				$join .= " LEFT JOIN $wpdb->term_relationships AS tr$count ON ($wpdb->posts.ID = tr$count.object_id) LEFT JOIN $wpdb->term_taxonomy AS tt$count ON (tr$count.term_taxonomy_id = tt$count.term_taxonomy_id) LEFT JOIN $wpdb->terms AS term$count ON (tt$count.term_id = term$count.term_id) ";
-				$whichcat .= " AND term$count.slug = '$tag_and' ";
-				$count++;
+			if ( $item != 'category__and' ) {
+				$reqtag = is_term( $q[$item][0], 'post_tag' );
+				if ( !empty($reqtag) )
+					$q['tag_id'] = $reqtag['term_id'];
 			}
-			$reqtag = is_term( $q['tag_slug__and'][0], 'post_tag' );
-			if ( !empty($reqtag) )
-				$q['tag_id'] = $reqtag['term_id'];
+
+			$taxonomy_field = $item == 'tag_slug__and' ? 'slug' : 'term_id';
+
+			$q[$item] = array_unique($q[$item]);
+			$tsql = "SELECT p.ID FROM $wpdb->posts p LEFT JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) LEFT JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) LEFT JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
+			$tsql .= "WHERE tt.taxonomy = '$taxonomy' AND t.$taxonomy_field IN ('" . implode("', '", $q[$item]) . "')";
+			$tsql .= "GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
+
+			$post_ids = $wpdb->get_col($tsql);
+
+			if ( count($post_ids) )
+				$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
+			else {
+				$whichcat = " AND 0 = 1";
+				break;
+			}
 		}
 
 		// Author/user stuff
