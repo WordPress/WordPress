@@ -87,7 +87,7 @@ function edit_user( $user_id = 0 ) {
 			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password twice.' ));
 	} else {
 		if ((empty ( $pass1 ) && !empty ( $pass2 ) ) || (empty ( $pass2 ) && !empty ( $pass1 ) ) )
-			$errors->add( 'pass', __( "<strong>ERROR</strong>: you typed your new password only once." ));
+			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ));
 	}
 
 	/* Check for "\" in password */
@@ -96,23 +96,23 @@ function edit_user( $user_id = 0 ) {
 
 	/* checking the password has been typed twice the same */
 	if ( $pass1 != $pass2 )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please type the same password in the two password fields.' ));
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.' ));
 
 	if (!empty ( $pass1 ))
 		$user->user_pass = $pass1;
 
 	if ( !$update && !validate_username( $user->user_login ) )
-		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.' ));
+		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid. Please enter a valid username.' ));
 
 	if (!$update && username_exists( $user->user_login ))
-		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered, please choose another one.' ));
+		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ));
 
 	/* checking e-mail address */
 	if ( empty ( $user->user_email ) ) {
-		$errors->add( 'user_email', __( "<strong>ERROR</strong>: please type an e-mail address" ));
+		$errors->add( 'user_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ));
 	} else
 		if (!is_email( $user->user_email ) ) {
-			$errors->add( 'user_email', __( "<strong>ERROR</strong>: the email address isn't correct" ));
+			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The e-mail address isn't correct." ));
 		}
 
 	if ( $errors->get_error_codes() )
