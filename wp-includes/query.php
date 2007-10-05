@@ -1057,8 +1057,8 @@ class WP_Query {
 
 			$q[$item] = array_unique($q[$item]);
 			$tsql = "SELECT p.ID FROM $wpdb->posts p LEFT JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) LEFT JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) LEFT JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
-			$tsql .= "WHERE tt.taxonomy = '$taxonomy' AND t.$taxonomy_field IN ('" . implode("', '", $q[$item]) . "')";
-			$tsql .= "GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
+			$tsql .= " WHERE tt.taxonomy = '$taxonomy' AND t.$taxonomy_field IN ('" . implode("', '", $q[$item]) . "')";
+			$tsql .= " GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
 
 			$post_ids = $wpdb->get_col($tsql);
 
