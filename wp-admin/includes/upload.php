@@ -39,7 +39,9 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		$r .= "\t\t\t$innerHTML";
 	if ( $href )
 		$r .= "</a>\n";
-	$r .= "\t\t\t\t<span class='upload-file-size'>".size_format(filesize($filesystem_path))."</span>\n";
+	$size = @filesize($filesystem_path);
+	if ( !empty($size) )
+		$r .= "\t\t\t\t<span class='upload-file-size'>".size_format($size)."</span>\n";
 	$r .= "\n\t\t<div class='upload-file-data'>\n\t\t\t<p>\n";
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-$id' id='attachment-url-$id' value='$src' />\n";
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-base-$id' id='attachment-url-base-$id' value='$src_base' />\n";
