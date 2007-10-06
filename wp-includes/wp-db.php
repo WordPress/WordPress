@@ -403,6 +403,27 @@ class wpdb {
 			return false;
 		wp_die($message);
 	}
+	/**
+	 * Checks wether of not the database version is high enough to support the features WordPress uses
+	 * @global $wp_version
+	 */
+	function check_database_version()
+	{
+		global $wp_version;
+		// Make sure the server has MySQL 4.0
+		$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info());
+		if ( version_compare($mysql_version, '4.0.0', '<') )
+			return new WP_Error('database_version',sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $wp_version));
+	}
+
+	/**
+	 * This function is called when WordPress is generating the table schema to determine wether or not the current database
+	 * supports or needs the collation statements.
+	 */
+	function supports_collation()
+	{
+		return ( version_compare(mysql_get_server_info(), '4.1.0', '>=') );
+	}
 }
 
 if ( ! isset($wpdb) )

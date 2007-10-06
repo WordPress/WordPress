@@ -1239,12 +1239,10 @@ function translate_level_to_role($level) {
 }
 
 function wp_check_mysql_version() {
-	global $wp_version;
-
-	// Make sure the server has MySQL 4.0
-	$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info());
-	if ( version_compare($mysql_version, '4.0.0', '<') )
-		die(sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $wp_version));
+	global $wpdb;
+	$result = $wpdb->check_database_version();
+	if ( is_wp_error( $result ) )
+		die( $result->get_error_message() );
 }
 
 function maybe_disable_automattic_widgets() {
