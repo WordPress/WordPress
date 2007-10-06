@@ -18,7 +18,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<subtitle type="text"><?php bloginfo_rss('description'); ?></subtitle>
 
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastcommentmodified('GMT')); ?></updated>
-	<generator uri="http://wordpress.org/" version="<?php bloginfo('version'); ?>">WordPress</generator>
+	<?php the_generator( 'atom' ); ?>
 
 	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" href="<?php bloginfo_rss('home'); ?>" />
 	<link rel="self" type="application/atom+xml" href="<?php bloginfo_rss('comments_atom_url'); ?>" />

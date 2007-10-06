@@ -14,7 +14,7 @@ if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 	$link_cat = intval($link_cat);
 }
 ?><?php echo '<?xml version="1.0"?'.">\n"; ?>
-<!-- generator="wordpress/<?php bloginfo_rss('version') ?>" -->
+<?php the_generator( 'comment' ); ?>
 <opml version="1.0">
 	<head>
 		<title>Links for <?php echo attribute_escape(get_bloginfo('name', 'display').$cat_name); ?></title>

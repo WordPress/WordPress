@@ -181,7 +181,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <!-- 6. WordPress will then import each of the posts, comments, and categories -->
 <!--    contained in this file into your blog -->
 
-<!-- generator="wordpress/<?php bloginfo_rss('version') ?>" created="<?php echo date('Y-m-d H:i'); ?>"-->
+<?php the_generator('export');?>
 <rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"

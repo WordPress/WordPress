@@ -1075,4 +1075,50 @@ function wp_admin_css( $file = 'wp-admin' ) {
 	}
 }
 
+/**
+ * Outputs the XHTML generator that is generated on the wp_head hook.
+ */
+function wp_generator()
+{
+	the_generator( apply_filters( 'wp_generator_type', 'xhtml' ) );
+}
+
+/**
+ * Outputs the generator XML or Comment for RSS, ATOM, etc.
+ * @param {String} $type The type of generator to return.
+ */
+function the_generator ( $type ) {
+	echo apply_filters('the_generator',get_the_generator($type),$type) . "\n";
+}
+
+/**
+ * Creates the generator XML or Comment for RSS, ATOM, etc.
+ * @param {String} $type The type of generator to return.
+ */
+function get_the_generator ( $type ) {
+	switch ($type) {
+		case 'html':
+			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '">';
+			break;
+		case 'xhtml':
+			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '" />';
+			break;
+		case 'atom':
+			$gen = '<generator uri="http://wordpress.org/" version="' . get_bloginfo_rss( 'version' ) . '">WordPress</generator>';
+			break;
+		case 'rss2':
+			$gen = '<generator>http://wordpress.org/?v=' . get_bloginfo_rss( 'version' ) . '</generator>';
+			break;
+		case 'rdf':
+			$gen = '<admin:generatorAgent rdf:resource="http://wordpress.org/?v=' . get_bloginfo_rss( 'version' ) . '" />';
+			break;
+		case 'comment':
+			$gen = '<!-- generator="WordPress/' . get_bloginfo( 'version' ) . '" -->';
+			break;
+		case 'export':
+			$gen = '<!-- generator="wordpress/' . get_bloginfo_rss('version') . '" created="'. date('Y-m-d H:i') . '"-->';
+			break;
+	}
+	return apply_filters( "get_the_generator_{$type}", $gen, $type );
+}
 ?>

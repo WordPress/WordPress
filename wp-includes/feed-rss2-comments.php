@@ -3,7 +3,6 @@ header('Content-Type: text/xml;charset=' . get_option('blog_charset'), true);
 
 echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 ?>
-<!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -20,7 +19,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 	<link><?php (is_single()) ? the_permalink_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
-	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
+	<?php the_generator( 'rss2' ); ?>
 	<?php do_action('commentsrss2_head'); ?>
 <?php
 if ( have_comments() ) : while ( have_comments() ) : the_comment();

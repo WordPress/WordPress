@@ -6,8 +6,6 @@
 
 	<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 
-	<meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats please -->
-
 	<style type="text/css" media="screen">
 		@import url( <?php bloginfo('stylesheet_url'); ?> );
 	</style>
