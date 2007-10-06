@@ -117,11 +117,7 @@ if ( !defined('PLUGINDIR') )
 require (ABSPATH . WPINC . '/compat.php');
 require (ABSPATH . WPINC . '/functions.php');
 
-if ( file_exists(ABSPATH . 'wp-content/db.php') )
-	require_once (ABSPATH . 'wp-content/db.php');
-else
-	require_once (ABSPATH . WPINC . '/wp-db.php');
-
+require_wp_db();
 // $table_prefix is deprecated as of 2.1
 $wpdb->prefix = $table_prefix;
 
