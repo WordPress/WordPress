@@ -38,6 +38,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	if ( current_user_can( 'manage_categories' ) ) {
 		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
 		$default_cat_id = (int) get_option( 'default_category' );
+		$default_link_cat_id = (int) get_option( 'default_link_category' );
 
 		if ( $category->term_id != $default_cat_id )
 			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id ) . "' onclick=\"return deleteSomething( 'cat', $category->term_id, '" . js_escape(sprintf( __("You are about to delete the category '%s'.\nAll posts that were only assigned to this category will be assigned to the '%s' category.\nAll links that were only assigned to this category will be assigned to the '%s' category.\n'OK' to delete, 'Cancel' to stop." ), $category->name, get_catname( $default_cat_id ), get_catname( $default_link_cat_id ) )) . "' );\" class='delete'>".__( 'Delete' )."</a>";
