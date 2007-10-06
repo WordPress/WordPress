@@ -1416,21 +1416,4 @@ function wp_ob_end_flush_all()
 	while ( @ob_end_flush() );
 }
 
-/*
- * require_wp_db() - require_once the correct database class file.
- *
- * This function is used to load the database class file either at runtime or by wp-admin/setup-config.php
- * We must globalise $wpdb to ensure that it is defined globally by the inline code in wp-db.php
- *
- * @global $wpdb
- */
-function require_wp_db()
-{
-	global $wpdb;
-	if ( file_exists(ABSPATH . 'wp-content/db.php') )
-		require_once (ABSPATH . 'wp-content/db.php');
-	else
-		require_once (ABSPATH . WPINC . '/wp-db.php');
-}
-
 ?>
