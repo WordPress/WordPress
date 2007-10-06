@@ -1,5 +1,8 @@
 <?php
 define('WP_INSTALLING', true);
+//These two defines are required to allow us to use require_wp_db() to load the database class while being wp-content/wp-db.php aware
+define('ABSPATH', dirname(dirname(__FILE__)).'/');
+define('WPINC', 'wp-includes');
 
 require_once('../wp-includes/compat.php');
 require_once('../wp-includes/functions.php');
@@ -160,7 +163,7 @@ switch($step) {
 	define('DB_HOST', $dbhost);
 
 	// We'll fail here if the values are no good.
-	require_once('../wp-includes/wp-db.php');
+	require_wp_db();
 	$handle = fopen('../wp-config.php', 'w');
 
 	foreach ($configFile as $line_num => $line) {
