@@ -445,6 +445,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 			}
 		} else {
 			$post->iconsize = array($imagesize[0], $imagesize[1]);
+			$constraint = '';
 		}
 	}
 
