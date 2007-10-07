@@ -283,6 +283,33 @@ function register_deactivation_hook($file, $function) {
 	add_action('deactivate_' . $file, $function);
 }
 
+/**
+ * @access private
+ *
+ * _wp_filter_build_unique_id() - Build Unique ID for storage and retrieval
+ *
+ * This function is used to fix the issue where serialized, when used with 
+ * classes that updated their properties, wouldn't be able to remove actions.
+ *
+ * How it works is that it first checks if the $function parameter is a string
+ * and passes it through, untouched. Functions won't need to be changed, since
+ * there can only be one declared.
+ * 
+ * The second type that will be passed through untouched, is for static methods
+ * in classes. They don't need to be changed since they are much like functions
+ * in that you can only call one of them.
+ *
+ * The main purpose of this function is for classes, which can have more than
+ * one declared and you want to add more than one hook for each one that is 
+ * declared, or want to change properties internal of the class that you declared
+ * the hook.
+ *
+ * @global $wp_filter
+ * @param string $tag Used in counting how many hooks were applied
+ * @param string|array $function Used for creating unique id
+ * @param int $priority Used in counting how many hooks were applied
+ * @return string Unique ID for usage as array key
+ */
 function _wp_filter_build_unique_id($tag, $function, $priority = 10)
 {
 	global $wp_filter;
