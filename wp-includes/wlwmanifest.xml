@@ -9,8 +9,8 @@
   
   <weblog>
     <serviceName>WordPress</serviceName>
-    <imageUrl>images/wlw/WpIcon.png</imageUrl>
-    <watermarkImageUrl>images/wlw/WpWatermark.png</watermarkImageUrl>
+    <imageUrl>images/wlw/wp-icon.png</imageUrl>
+    <watermarkImageUrl>images/wlw/wp-watermark.png</watermarkImageUrl>
     <homepageLinkText>View site</homepageLinkText>
     <adminLinkText>Dashboard</adminLinkText>
     <adminUrl>
@@ -29,7 +29,7 @@
     <button>
       <id>0</id>
       <text>Manage Comments</text>
-      <imageUrl>images/wlw/WpComments.png</imageUrl>
+      <imageUrl>images/wlw/wp-comments.png</imageUrl>
       <clickUrl>
         <![CDATA[ 
 				{blog-postapi-url}/../wp-admin/edit-comments.php
