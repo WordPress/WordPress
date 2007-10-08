@@ -1210,7 +1210,7 @@ function &get_pages($args = '') {
 	$pages = $wpdb->get_results($query);
 
 	if ( empty($pages) )
-		return array();
+		return apply_filters('get_pages', array(), $r);
 
 	// Update cache.
 	update_page_cache($pages);
