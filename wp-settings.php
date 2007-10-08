@@ -38,8 +38,12 @@ if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 	}
 	else {
 		// If root then simulate that no script-name was specified
-		if (empty($_SERVER['PATH_INFO']))
-			$_SERVER['REQUEST_URI'] = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/')) . '/';
+		if (empty($_SERVER['PATH_INFO'])) {
+			if (isset($_SERVER['ORIG_PATH_INFO']))
+				$_SERVER['REQUEST_URI'] = $_SERVER['ORIG_PATH_INFO'];
+			else
+				$_SERVER['REQUEST_URI'] = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/')) . '/';
+    }
 		elseif ( $_SERVER['PATH_INFO'] == $_SERVER['SCRIPT_NAME'] )
 			// Some IIS + PHP configurations puts the script-name in the path-info (No need to append it twice)
 			$_SERVER['REQUEST_URI'] = $_SERVER['PATH_INFO'];
