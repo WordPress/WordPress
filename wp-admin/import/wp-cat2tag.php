@@ -140,10 +140,22 @@ class WP_Categories_to_Tags {
 					foreach ( $posts as $post ) {
 						if ( !$wpdb->get_var("SELECT object_id FROM $wpdb->term_relationships WHERE object_id = '$post' AND term_taxonomy_id = '$id'") )						
 							$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$post', '$id')");
+						clean_post_cache($post);
 					}
 				} else {
+					$tt_ids = $wpdb->get_col("SELECT term_taxonomy_id FROM $wpdb->term_taxonomy WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
+					if ( $tt_ids ) {
+						$posts = $wpdb->get_col("SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id IN (" . join(',', $tt_ids) . ") GROUP BY object_id");
+						foreach ( (array) $posts as $post )
+							clean_post_cache($post);
+					}
+
 					// Change the category to a tag.
 					$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = 'post_tag' WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
+
+					$terms = $wpdb->get_col("SELECT term_id FROM $wpdb->term_taxonomy WHERE parent = '{$category->term_id}' AND taxonomy = 'category'");
+					foreach ( (array) $terms as $term )
+						clean_category_cache($term);
 
 					// Set all parents to 0 (root-level) if their parent was the converted tag
 					$wpdb->query("UPDATE $wpdb->term_taxonomy SET parent = 0 WHERE parent = '{$category->term_id}' AND taxonomy = 'category'");
