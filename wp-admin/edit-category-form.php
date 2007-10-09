@@ -9,7 +9,7 @@ if ( ! empty($cat_ID) ) {
 } else {
 	$heading = __('Add Category');
 	$submit_text = __('Add Category &raquo;');
-	$form = '<form name="addcat" id="addcat" method="post" action="categories.php">';
+	$form = '<form name="addcat" id="addcat" method="post" action="categories.php" class="add:the-list:">';
 	$action = 'addcat';
 	$nonce_action = 'add-category';
 	do_action('add_category_form_pre', $category);
@@ -43,7 +43,7 @@ if ( ! empty($cat_ID) ) {
 			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->description); ?></textarea></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" name="submit" value="<?php echo $submit_text ?>" /></p>
+<p class="submit"><input type="submit" class="add:the-list:cat:addcat" name="submit" value="<?php echo $submit_text ?>" /></p>
 <?php do_action('edit_category_form', $category); ?>
 </form>
 </div>

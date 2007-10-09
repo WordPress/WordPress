@@ -2,7 +2,7 @@
 require_once('admin.php');
 $title = __('Pages');
 $parent_file = 'edit.php';
-wp_enqueue_script( 'listman' );
+wp_enqueue_script( 'wp-lists' );
 require_once('admin-header.php');
 
 $post_stati  = array(	//	array( adj, noun )
@@ -20,9 +20,12 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 }
 
 ?>
-
+<script>
+/* <![CDATA[ */
+jQuery(function($){$('#the-list').wpList();});
+/* ]]> */
+</script>
 <div class="wrap">
-
 <h2><?php
 // Use $_GET instead of is_ since they can override each other
 $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes( $_GET['s'] ) ) ) : '';
@@ -81,7 +84,7 @@ if ($posts) {
 	<th scope="col" colspan="3" style="text-align: center"><?php _e('Action'); ?></th>
   </tr>
   </thead>
-  <tbody id="the-list">
+  <tbody id="the-list" class="list:page">
 <?php page_rows(0, 0, $posts, $all); ?>
   </tbody>
 </table>

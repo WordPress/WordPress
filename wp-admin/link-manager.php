@@ -6,7 +6,7 @@
 
 require_once ('admin.php');
 
-wp_enqueue_script( 'listman' );
+wp_enqueue_script( 'wp-lists' );
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
@@ -46,7 +46,7 @@ switch ($order_by) {
 }
 ?>
 <script type="text/javascript">
-<!--
+/* <![CDATA[ */
 function checkAll(form)
 {
 	for (i = 0, n = form.elements.length; i < n; i++) {
@@ -58,7 +58,10 @@ function checkAll(form)
 		}
 	}
 }
-//-->
+
+jQuery(function($){$('#the-list').wpList();});
+
+/* ]]> */
 </script>
 
 <?php
@@ -128,7 +131,7 @@ if ( $links ) {
 	<th style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('links'));" /></th>
 	</tr>
 	</thead>
-	<tbody id="the-list">
+	<tbody id="the-list" class="list:link">
 <?php
 	foreach ($links as $link) {
 		$link = sanitize_bookmark($link);
@@ -176,8 +179,8 @@ if ( $links ) {
 					?><td align='center'><?php echo $visible; ?></td><?php
 					break;
 				case 'action':
-					echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=edit" class="edit">'.__('Edit').'</a></td>';
-					echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." onclick=\"return deleteSomething( 'link', $link->link_id , '".js_escape(sprintf(__("You are about to delete the '%s' link to %s.\n'Cancel' to stop, 'OK' to delete."), $link->link_name, $link->link_url )).'\' );" class="delete">'.__('Delete').'</a></td>';
+					echo "<td><a href='link.php?link_id=$link->link_id&amp;action=edit' class='edit'>" . __('Edit') . '</a></td>';
+					echo "<td><a href='" . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . "' class='delete:the-list:link-$link->link_id delete'>" . __('Delete') . '</a></td>';
 					break;
 				default:
 					?>

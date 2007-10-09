@@ -1,26 +1,33 @@
-function customFieldsOnComplete( what, where, update, transport ) {
-	var pidEl = $('post_ID');
-	pidEl.name = 'post_ID';
-	pidEl.value = getNodeValue(transport.responseXML, 'postid');
-	var aEl = $('hiddenaction')
-	if ( aEl.value == 'post' ) aEl.value = 'postajaxpost';
-}
-addLoadEvent(customFieldsAddIn);
-function customFieldsAddIn() {
-	theList.showLink=0;
-	theList.addComplete = customFieldsOnComplete;
-	if (!theList.theList) return false;
-	inputs = theList.theList.getElementsByTagName('input');
-	for ( var i=0; i < inputs.length; i++ ) {
-		if ('text' == inputs[i].type) {
-			inputs[i].setAttribute('autocomplete', 'off');
-			inputs[i].onkeypress = function(e) {return killSubmit('theList.ajaxUpdater("meta", "meta-' + parseInt(this.name.slice(5),10) + '");', e); };
-		}
-		if ('updatemeta' == inputs[i].className) {
-			inputs[i].onclick = function(e) {return killSubmit('theList.ajaxUpdater("meta", "meta-' + parseInt(this.parentNode.parentNode.id.slice(5),10) + '");', e); };
-		}
+jQuery( function($) {
+	var before = function() {
+		var nonce = $('#newmeta [@name=_ajax_nonce]').val();
+		var postId = $('#post_ID').val();
+		if ( !nonce || !postId ) { return false; }
+		return [nonce,postId];
 	}
 
-	$('metakeyinput').onkeypress = function(e) {return killSubmit('theList.inputData+="&id="+$("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
-	$('updatemetasub').onclick = function(e) {return killSubmit('theList.inputData+="&id="+$("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
-}
+	var addBefore = function( s ) {
+		var b = before();
+		if ( !b ) { return false; }
+		s.data = s.data.replace(/_ajax_nonce=[a-f0-9]+/, '_ajax_nonce=' + b[0]) + '&post_id=' + b[1];
+		return s;
+	};
+
+	var addAfter = function( r, s ) {
+		var postId = $('postid', r).text();
+		if ( !postId ) { return; }
+		$('#post_ID').attr( 'name', 'post_ID' ).val( postId );
+		var h = $('#hiddenaction');
+		if ( 'post' == h.val() ) { h.val( 'postajaxpost' ); }
+	};
+
+	var delBefore = function( s ) {
+		var b = before(); if ( !b ) return false;
+		s.data._ajax_nonce = b[0]; s.data.post_id = b[1];
+		return s;
+	}
+
+	$('#the-list')
+		.wpList( { addBefore: addBefore, addAfter: addAfter, delBefore: delBefore } )
+		.find('.updatemeta, .deletemeta').attr( 'type', 'button' );
+} );

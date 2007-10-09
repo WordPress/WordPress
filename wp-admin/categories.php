@@ -99,7 +99,7 @@ $messages[5] = __('Category not updated.');
         <th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
 	</tr>
 	</thead>
-	<tbody id="the-list">
+	<tbody id="the-list" class="list:cat">
 <?php
 cat_rows();
 ?>

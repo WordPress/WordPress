@@ -696,11 +696,13 @@ class WP_Ajax_Response {
 		$defaults = array(
 			'what' => 'object', 'action' => false,
 			'id' => '0', 'old_id' => false,
+			'position' => 1, // -1 = top, 1 = bottom, html ID = after, -html ID = before
 			'data' => '', 'supplemental' => array()
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
+		$postition = preg_replace( '/[^a-z0-9:_-]/i', '', $position );
 
 		if ( is_wp_error($id) ) {
 			$data = $id;
@@ -724,7 +726,7 @@ class WP_Ajax_Response {
 
 		$x = '';
 		$x .= "<response action='{$action}_$id'>"; // The action attribute in the xml output is formatted like a nonce action
-		$x .=	"<$what id='$id'" . ( false !== $old_id ? "old_id='$old_id'>" : '>' );
+		$x .=	"<$what id='$id' " . ( false === $old_id ? '' : "old_id='$old_id' " ) . "position='$position'>";
 		$x .=		$response;
 		$x .=		$s;
 		$x .=	"</$what>";

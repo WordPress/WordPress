@@ -61,6 +61,11 @@ class WP_Scripts {
 			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20070823' );
+		$this->localize( 'wp-lists', 'wpListL10n', array(
+			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
+		) );
+
 		$this->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/scriptaculous.js', array('prototype'), '1.7.1-b3');
 		$this->add( 'scriptaculous-builder', '/wp-includes/js/scriptaculous/builder.js', array('scriptaculous-root'), '1.7.1-b3');
 		$this->add( 'scriptaculous-dragdrop', '/wp-includes/js/scriptaculous/dragdrop.js', array('scriptaculous-builder', 'scriptaculous-effects'), '1.7.1-b3');
@@ -105,20 +110,16 @@ class WP_Scripts {
 					'toggleKey' => __(', or press the enter key to %toggle% it'),
 				) );
 			}
-			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array('listman'), '20070724' );
+			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20070823' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')
 			) );
-			$this->add( 'ajaxlinkcat', '/wp-admin/js/link-cat.js', array('listman'), '200700601' );
-			$this->localize( 'ajaxlinkcat', 'linkcatL10n', array(
-				'add' => attribute_escape(__('Add')),
-				'how' => __('Separate multiple categories with commas.')
-			) );
-			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('listman'), '3684' );
-			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('listman'), '3733' );
-			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('listman'), '20070327' );
-			$this->add( 'admin-users', '/wp-admin/js/users.js', array('listman'), '4583' );
+			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20070823' );
+			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
+			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20070822' );
+			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20070823' );
+			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->localize( 'upload', 'uploadL10n', array(

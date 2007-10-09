@@ -74,8 +74,8 @@ addLoadEvent(focusit);
 <fieldset id="categorydiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3>
 <div class="dbx-content">
-<p id="jaxcat"></p>
-<ul id="categorychecklist"><?php dropdown_categories(); ?></ul></div>
+<p id="jaxcat"><?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?></p>
+<ul id="categorychecklist" class="list:category"><?php dropdown_categories(); ?></ul></div>
 </fieldset>
 
 <fieldset id="commentstatusdiv" class="dbx-box">

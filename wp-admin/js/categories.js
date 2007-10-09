@@ -1,16 +1,18 @@
-addLoadEvent(function() {
-	if (!theList.theList) return false;
-	document.forms.addcat.submit.onclick = function(e) {return killSubmit('theList.ajaxAdder("cat", "addcat");', e); };
-	theList.addComplete = function(what, where, update, transport) {
-		var name = getNodeValue(transport.responseXML, 'name').unescapeHTML();
-		var id = transport.responseXML.getElementsByTagName(what)[0].getAttribute('id');
-		var options = document.forms['addcat'].category_parent.options;
+jQuery(function($) {
+	var options = document.forms['addcat'].category_parent.options;
+
+	var addAfter = function( r, settings ) {
+		var name = $("<span>" + $('name', r).text() + "</span>").html();
+		var id = $('cat', r).attr('id');
 		options[options.length] = new Option(name, id);
-	};
-	theList.delComplete = function(what, id) {
-		var options = document.forms['addcat'].category_parent.options;
+	}
+
+	var delAfter = function( r, settings ) {
+		var id = $('cat', r).attr('id');
 		for ( var o = 0; o < options.length; o++ )
 			if ( id == options[o].value )
 				options[o] = null;
-	};
+	}
+
+	var a = $('#the-list').wpList( { addAfter: addAfter, delAfter: delAfter } );
 });

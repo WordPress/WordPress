@@ -4,50 +4,45 @@ require_once('includes/admin.php');
 
 define('DOING_AJAX', true);
 
-check_ajax_referer();
 if ( !is_user_logged_in() )
 	die('-1');
 
 function get_out_now() { exit; }
 add_action( 'shutdown', 'get_out_now', -1 );
 
-function wp_ajax_meta_row( $pid, $mid, $key, $value ) {
-	$value = attribute_escape($value);
-	$key_js = addslashes(wp_specialchars($key, 'double'));
-	$key = attribute_escape($key);
-	$r .= "<tr id='meta-$mid'><td valign='top'>";
-	$r .= "<input name='meta[$mid][key]' tabindex='6' onkeypress='return killSubmit(\"theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);\",event);' type='text' size='20' value='$key' />";
-	$r .= "</td><td><textarea name='meta[$mid][value]' tabindex='6' rows='2' cols='30'>$value</textarea></td><td align='center'>";
-	$r .= "<input name='updatemeta' type='button' class='updatemeta' tabindex='6' value='".attribute_escape(__('Update'))."' onclick='return theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);' /><br />";
-	$r .= "<input name='deletemeta[$mid]' type='submit' onclick=\"return deleteSomething( 'meta', $mid, '";
-	$r .= js_escape(sprintf(__("You are about to delete the '%s' custom field on this post.\n'OK' to delete, 'Cancel' to stop."), $key_js));
-	$r .= "' );\" class='deletemeta' tabindex='6' value='".attribute_escape(__('Delete'))."' /></td></tr>";
-	return $r;
-}
-
 $id = (int) $_POST['id'];
-switch ( $_POST['action'] ) :
-case 'delete-comment' :
-	if ( !$comment = get_comment( $id ) )
-		die('0');
-	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
-		die('-1');
-
-	if ( wp_delete_comment( $comment->comment_ID ) )
-		die('1');
-	else	die('0');
+switch ( $action = $_POST['action'] ) :
+case 'add-post' :
+	check_ajax_referer( 'add-post' );
+	add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; $start += intval(trim($b[2])) - 1; return "LIMIT $start, 1";' ) );
+	wp_edit_posts_query( '_POST' );
+	$posts_columns = wp_manage_posts_columns();
+	ob_start();
+		include( 'edit-post-rows.php' );
+		$data = ob_get_contents();
+	ob_end_clean();
+	if ( !preg_match('|<tbody.+?>(.+)</tbody>|s', $data, $matches) )
+		my_dump($data);
+	$data = trim($matches[1]);
+	$x = new WP_Ajax_Response( array( 'what' => 'post', 'id' => $id, 'data' => $data ) );
+	$x->send();
 	break;
-case 'delete-comment-as-spam' :
+case 'delete-comment' :
+	check_ajax_referer( "delete-comment_$id" );
 	if ( !$comment = get_comment( $id ) )
 		die('0');
 	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 
-	if ( wp_set_comment_status( $comment->comment_ID, 'spam' ) )
-		die('1');
-	else	die('0');
+	if ( isset($_POST['spam']) && 1 == $_POST['spam'] )
+		$r = wp_set_comment_status( $comment->comment_ID, 'spam' );
+	else
+		$r = wp_delete_comment( $comment->comment_ID );
+
+	die( $r ? '1' : '0' );
 	break;
 case 'delete-cat' :
+	check_ajax_referer( "delete-category_$id" );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
@@ -56,6 +51,7 @@ case 'delete-cat' :
 	else	die('0');
 	break;
 case 'delete-link' :
+	check_ajax_referer( "delete-bookmark_$id" );
 	if ( !current_user_can( 'manage_links' ) )
 		die('-1');
 
@@ -64,6 +60,7 @@ case 'delete-link' :
 	else	die('0');
 	break;
 case 'delete-meta' :
+	check_ajax_referer( 'change_meta' );
 	if ( !$meta = get_post_meta_by_id( $id ) )
 		die('0');
 	if ( !current_user_can( 'edit_post', $meta->post_id ) )
@@ -73,14 +70,17 @@ case 'delete-meta' :
 	die('0');
 	break;
 case 'delete-post' :
+	check_ajax_referer( "{$action}_$id" );
 	if ( !current_user_can( 'delete_post', $id ) )
 		die('-1');
 
 	if ( wp_delete_post( $id ) )
 		die('1');
-	else	die('0');
+	else
+		die('0');
 	break;
 case 'delete-page' :
+	check_ajax_referer( "{$action}_$id" );
 	if ( !current_user_can( 'delete_page', $id ) )
 		die('-1');
 
@@ -97,15 +97,18 @@ case 'dim-comment' :
 		die('-1');
 
 	if ( 'unapproved' == wp_get_comment_status($comment->comment_ID) ) {
+		check_ajax_referer( "approve-comment_$id" );
 		if ( wp_set_comment_status( $comment->comment_ID, 'approve' ) )
 			die('1');
 	} else {
+		check_ajax_referer( "unapprove-comment_$id" );
 		if ( wp_set_comment_status( $comment->comment_ID, 'hold' ) )
 			die('1');
 	}
 	die('0');
 	break;
 case 'add-category' : // On the Fly
+	check_ajax_referer( $action );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 	$names = explode(',', $_POST['newcat']);
@@ -120,12 +123,14 @@ case 'add-category' : // On the Fly
 		$x->add( array(
 			'what' => 'category',
 			'id' => $cat_id,
-			'data' => "<li id='category-$cat_id'><label for='in-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='post_category[]' id='in-category-$cat_id'/> $cat_name</label></li>"
+			'data' => "<li id='category-$cat_id'><label for='in-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='post_category[]' id='in-category-$cat_id'/> $cat_name</label></li>",
+			'position' => -1
 		) );
 	}
 	$x->send();
 	break;
 case 'add-link-category' : // On the Fly
+	check_ajax_referer( $action );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 	$names = explode(',', $_POST['newcat']);
@@ -136,18 +141,20 @@ case 'add-link-category' : // On the Fly
 			die('0');
 		if ( !$cat_id = is_term( $cat_name, 'link_category' ) ) {
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
-			$cat_id = $cat_id['term_id'];
 		}
+		$cat_id = $cat_id['term_id'];
 		$cat_name = wp_specialchars(stripslashes($cat_name));
 		$x->add( array(
 			'what' => 'link-category',
 			'id' => $cat_id,
-			'data' => "<li id='link-category-$cat_id'><label for='in-link-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='link_category[]' id='in-link-category-$cat_id'/> $cat_name</label></li>"
+			'data' => "<li id='link-category-$cat_id'><label for='in-link-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='link_category[]' id='in-link-category-$cat_id'/> $cat_name</label></li>",
+			'position' => -1
 		) );
 	}
 	$x->send();
 	break;
 case 'add-cat' : // From Manage->Categories
+	check_ajax_referer( 'add-category' );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 	if ( !$cat = wp_insert_category( $_POST ) )
@@ -155,28 +162,29 @@ case 'add-cat' : // From Manage->Categories
 	if ( !$cat = get_category( $cat ) )
 		die('0');
 	$level = 0;
-	$cat_full_name = $cat->cat_name;
+	$cat_full_name = $cat->name;
 	$_cat = $cat;
-	while ( $_cat->category_parent ) {
-		$_cat = get_category( $_cat->category_parent );
-		$cat_full_name = $_cat->cat_name . ' &#8212; ' . $cat_full_name;
+	while ( $_cat->parent ) {
+		$_cat = get_category( $_cat->parent );
+		$cat_full_name = $_cat->name . ' &#8212; ' . $cat_full_name;
 		$level++;
 	}
 	$cat_full_name = attribute_escape($cat_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'cat',
-		'id' => $cat->cat_ID,
+		'id' => $cat->term_id,
 		'data' => _cat_row( $cat, $level, $cat_full_name ),
-		'supplemental' => array('name' => $cat_full_name, 'show-link' => sprintf(__( 'Category <a href="#%s">%s</a> added' ), "cat-$cat->cat_ID", $cat_full_name))
+		'supplemental' => array('name' => $cat_full_name, 'show-link' => sprintf(__( 'Category <a href="#%s">%s</a> added' ), "cat-$cat->term_id", $cat_full_name))
 	) );
 	$x->send();
 	break;
 case 'add-comment' :
+	check_ajax_referer( $action );
 	if ( !current_user_can( 'edit_post', $id ) )
 		die('-1');
 	$search = isset($_POST['s']) ? $_POST['s'] : false;
-	$start = isset($_POST['page']) ? intval($_POST['page']) * 25 : 25;
+	$start = isset($_POST['page']) ? intval($_POST['page']) * 25 - 1: 24;
 
 	list($comments, $total) = _wp_get_comment_list( $search, $start, 1 );
 
@@ -198,58 +206,70 @@ case 'add-comment' :
 	$x->send();
 	break;
 case 'add-meta' :
-	if ( !current_user_can( 'edit_post', $id ) )
-		die('-1');
-	if ( $id < 0 ) {
-		$now = current_time('timestamp', 1);
-		if ( $pid = wp_insert_post( array(
-			'post_title' => sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now))
-		) ) ) {
-			if ( is_wp_error( $pid ) )
-				return $pid;
-			$mid = add_meta( $pid );
-		}
-		else
+	check_ajax_referer( 'change_meta' );
+	$c = 0;
+	$pid = (int) $_POST['post_id'];
+	if ( isset($_POST['addmeta']) ) {
+		if ( !current_user_can( 'edit_post', $pid ) )
+			die('-1');
+		if ( $pid < 0 ) {
+			$now = current_time('timestamp', 1);
+			if ( $pid = wp_insert_post( array(
+				'post_title' => sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now))
+			) ) ) {
+				if ( is_wp_error( $pid ) ) {
+					$x = new WP_Ajax_Response( array(
+						'what' => 'meta',
+						'data' => $pid
+					) );
+					$x->send();
+				}
+				$mid = add_meta( $pid );
+			} else {
+				die('0');
+			}
+		} else if ( !$mid = add_meta( $pid ) ) {
 			die('0');
-	} else if ( !$mid = add_meta( $id ) ) {
-		die('0');
-	}
+		}
 
-	$meta = get_post_meta_by_id( $mid );
-	$key = $meta->meta_key;
-	$value = $meta->meta_value;
-	$pid = (int) $meta->post_id;
-
-	$x = new WP_Ajax_Response( array(
-		'what' => 'meta',
-		'id' => $mid,
-		'data' => wp_ajax_meta_row( $pid, $mid, $key, $value ),
-		'supplemental' => array('postid' => $pid)
-	) );
-	$x->send();
-	break;
-case 'update-meta' :
-	$mid = (int) array_pop(array_keys($_POST['meta']));
-	$key = $_POST['meta'][$mid]['key'];
-	$value = $_POST['meta'][$mid]['value'];
-	if ( !$meta = get_post_meta_by_id( $mid ) )
-		die('0'); // if meta doesn't exist
-	if ( !current_user_can( 'edit_post', $meta->post_id ) )
-		die('-1');
-	if ( $u = update_meta( $mid, $key, $value ) ) {
+		$meta = get_post_meta_by_id( $mid );
+		$pid = (int) $meta->post_id;
+		$meta = get_object_vars( $meta );
+		$x = new WP_Ajax_Response( array(
+			'what' => 'meta',
+			'id' => $mid,
+			'data' => _list_meta_row( $meta, $c ),
+			'position' => 1,
+			'supplemental' => array('postid' => $pid)
+		) );
+	} else {
+		$mid = (int) array_pop(array_keys($_POST['meta']));
+		$key = $_POST['meta'][$mid]['key'];
+		$value = $_POST['meta'][$mid]['value'];
+		if ( !$meta = get_post_meta_by_id( $mid ) )
+			die('0'); // if meta doesn't exist
+		if ( !current_user_can( 'edit_post', $meta->post_id ) )
+			die('-1');
+		if ( !$u = update_meta( $mid, $key, $value ) )
+			die('1'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
 		$key = stripslashes($key);
 		$value = stripslashes($value);
 		$x = new WP_Ajax_Response( array(
 			'what' => 'meta',
-			'id' => $mid,
-			'data' => wp_ajax_meta_row( $meta->post_id, $mid, $key, $value ),
+			'id' => $mid, 'old_id' => $mid,
+			'data' => _list_meta_row( array(
+				'meta_key' => $key,
+				'meta_value' => $value,
+				'meta_id' => $mid
+			), $c ),
+			'position' => 0,
 			'supplemental' => array('postid' => $meta->post_id)
 		) );
-		$x->send();
 	}
-	die('1'); // We know meta exists; we also know it's unchanged (or DB error, in which case there are bigger problems).
+	$x->send();
 	break;
 case 'add-user' :
+	check_ajax_referer( $action );
 	if ( !current_user_can('edit_users') )
 		die('-1');
 	require_once(ABSPATH . WPINC . '/registration.php');
@@ -261,15 +281,20 @@ case 'add-user' :
 		exit;
 	}
 	$user_object = new WP_User( $user_id );
+
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
 		'id' => $user_id,
 		'data' => user_row( $user_object ),
-		'supplemental' => array('show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login))
+		'supplemental' => array(
+			'show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login),
+			'role' => $user_object->roles[0]
+		)
 	) );
 	$x->send();
 	break;
 case 'autosave' : // The name of this action is hardcoded in edit_post()
+	check_ajax_referer( $action );
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_status'] = 'draft';
@@ -300,6 +325,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	die('0');
 break;
 case 'autosave-generate-nonces' :
+	check_ajax_referer( $action );
 	$ID = (int) $_POST['post_ID'];
 	if($_POST['post_type'] == 'post') {
 		if(current_user_can('edit_post', $ID))

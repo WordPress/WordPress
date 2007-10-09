@@ -42,8 +42,8 @@ function xfn_check($class, $value = '', $type = 'check') {
 <fieldset id="categorydiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3>
 <div class="dbx-content">
-<p id="jaxcat"></p>
-<ul id="linkcategorychecklist"><?php dropdown_link_categories(get_option('default_link_category')); ?></ul>
+<p id="jaxcat"><?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?></p>
+<ul id="categorychecklist" class="list:link-category"><?php dropdown_link_categories(get_option('default_link_category')); ?></ul>
 </div>
 </fieldset>
 

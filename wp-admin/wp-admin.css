@@ -819,6 +819,10 @@ input.delete:hover {
 	width: 95%;
 }
 
+#postcustom table #addmetasub {
+	width: auto;
+}
+
 #poststuff {
 	margin-right: 16em;
 }

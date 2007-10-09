@@ -468,4 +468,41 @@ function _relocate_children( $old_ID, $new_ID ) {
 	return $wpdb->query( "UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID" );
 }
 
+function wp_edit_posts_query( $q = '_GET' ) {
+	global $wpdb;
+	$$q['m']   = (int) $$q['m'];
+	$$q['cat'] = (int) $$q['cat'];
+	$post_stati  = array(	//	array( adj, noun )
+				'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
+				'future' => array(__('Scheduled'), __('Scheduled posts')),
+				'pending' => array(__('Pending Review'), __('Pending posts')),
+				'private' => array(__('Private'), __('Private posts')),
+				'publish' => array(__('Published'), __('Published posts'))
+			);
+
+	$avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
+
+	$post_status_q = '';
+	$post_status_label = _c('Posts|manage posts header');
+	if ( isset($$q['post_status']) && in_array( $$q['post_status'], array_keys($post_stati) ) ) {
+		$post_status_label = $post_stati[$$q['post_status']][1];
+		$post_status_q = '&post_status=' . $$q['post_status'];
+	}
+
+	if ( 'pending' === $$q['post_status'] ) {
+		$order = 'ASC';
+		$orderby = 'modified';
+	} elseif ( 'draft' === $$q['post_status'] ) {
+		$order = 'DESC';
+		$orderby = 'modified';
+	} else {
+		$order = 'DESC';
+		$orderby = 'date';
+	}
+
+	wp("what_to_show=posts$post_status_q&posts_per_page=20&order=$order&orderby=$orderby");
+
+	return array($post_stati, $avail_post_stati);
+}
+
 ?>

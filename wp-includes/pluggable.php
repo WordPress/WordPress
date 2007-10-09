@@ -346,23 +346,26 @@ function check_admin_referer($action = -1) {
 }endif;
 
 if ( !function_exists('check_ajax_referer') ) :
-function check_ajax_referer() {
-	$current_name = '';
-	if ( ( $current = wp_get_current_user() ) && $current->ID )
-		$current_name = $current->data->user_login;
-	if ( !$current_name )
-		die('-1');
+function check_ajax_referer( $action = -1 ) {
+	$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
+	if ( !wp_verify_nonce( $nonce, $action ) ) {
+		$current_name = '';
+		if ( ( $current = wp_get_current_user() ) && $current->ID )
+			$current_name = $current->data->user_login;
+		if ( !$current_name )
+			die('-1');
 
-	$cookie = explode('; ', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
-	foreach ( $cookie as $tasty ) {
-		if ( false !== strpos($tasty, USER_COOKIE) )
-			$user = substr(strstr($tasty, '='), 1);
-		if ( false !== strpos($tasty, PASS_COOKIE) )
-			$pass = substr(strstr($tasty, '='), 1);
+		$cookie = explode('; ', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
+		foreach ( $cookie as $tasty ) {
+			if ( false !== strpos($tasty, USER_COOKIE) )
+				$user = substr(strstr($tasty, '='), 1);
+			if ( false !== strpos($tasty, PASS_COOKIE) )
+				$pass = substr(strstr($tasty, '='), 1);
+		}
+
+		if ( $current_name != $user || !wp_login( $user, $pass, true ) )
+			die('-1');
 	}
-
-	if ( $current_name != $user || !wp_login( $user, $pass, true ) )
-		die('-1');
 	do_action('check_ajax_referer');
 }
 endif;

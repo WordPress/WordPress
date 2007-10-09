@@ -393,7 +393,7 @@ foreach($roleclasses as $role => $roleclass) {
 	<th colspan="2" style="text-align: center"><?php _e('Actions') ?></th>
 </tr>
 </tbody>
-<tbody id="role-<?php echo $role; ?>"><?php
+<tbody id="role-<?php echo $role; ?>" class="list:user user-list"><?php
 $style = '';
 foreach ( (array) $roleclass as $user_object ) {
 	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
@@ -456,7 +456,7 @@ foreach ( (array) $roleclass as $user_object ) {
 	else
         echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
 ?>
-<form action="#add-new-user" method="post" name="adduser" id="adduser">
+<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:user-list:">
 <?php wp_nonce_field('add-user') ?>
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
@@ -506,6 +506,11 @@ foreach ( (array) $roleclass as $user_object ) {
 	<input name="adduser" type="submit" id="addusersub" value="<?php _e('Add User &raquo;') ?>" />
 </p>
 </form>
+
+<table style="color:red">
+<tbody id="user-list" class="list:user">
+</tbody>
+</table>
 
 </div>
 </div>

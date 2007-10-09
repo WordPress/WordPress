@@ -3,67 +3,21 @@ require_once('admin.php');
 
 $title = __('Posts');
 $parent_file = 'edit.php';
-wp_enqueue_script( 1 == $_GET['c'] ? 'admin-comments' : 'listman' );
+wp_enqueue_script( 'admin-posts' );
+if ( 1 == $_GET['c'] )
+	wp_enqueue_script( 'admin-comments' );
 require_once('admin-header.php');
 
-$_GET['m']   = (int) $_GET['m'];
-$_GET['cat'] = (int) $_GET['cat'];
-$post_stati  = array(	//	array( adj, noun )
-			'publish' => array(__('Published'), __('Published posts')),
-			'future' => array(__('Scheduled'), __('Scheduled posts')),
-			'pending' => array(__('Pending Review'), __('Pending posts')),
-			'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
-			'private' => array(__('Private'), __('Private posts'))
-		);
-
-$avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
-
-$post_status_q = '';
-$post_status_label = __('Posts');
-if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
-	$post_status_label = $post_stati[$_GET['post_status']][1];
-	$post_status_q = '&post_status=' . $_GET['post_status'];
-}
+add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; return "LIMIT $start, 20";' ) );
+list($post_stati, $avail_post_stati) = wp_edit_posts_query();
+$wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
 ?>
 
 <div class="wrap">
 
 <?php
 
-if ( 'pending' === $_GET['post_status'] ) {
-	$order = 'ASC';
-	$orderby = 'modified';
-} elseif ( 'draft' === $_GET['post_status'] ) {
-	$order = 'DESC';
-	$orderby = 'modified';
-} else {
-	$order = 'DESC';
-	$orderby = 'date';
-}
-
-wp("what_to_show=posts$post_status_q&posts_per_page=15&order=$order&orderby=$orderby");
-
-// define the columns to display, the syntax is 'internal name' => 'display name'
-$posts_columns = array();
-$posts_columns['id'] = '<div style="text-align: center">' . __('ID') . '</div>';
-if ( 'draft' === $_GET['post_status'] )
-	$posts_columns['modified'] = __('Modified');
-elseif ( 'pending' === $_GET['post_status'] )
-	$posts_columns['modified'] = __('Submitted');
-else
-	$posts_columns['date'] = __('When');
-$posts_columns['title'] = __('Title');
-$posts_columns['categories'] = __('Categories');
-if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
-	$posts_columns['comments'] = '<div style="text-align: center">' . __('Comments') . '</div>';
-$posts_columns['author'] = __('Author');
-
-$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
-
-// you can not edit these at the moment
-$posts_columns['control_view']   = '';
-$posts_columns['control_edit']   = '';
-$posts_columns['control_delete'] = '';
+$posts_columns = wp_manage_posts_columns();
 
 ?>
 
@@ -154,6 +108,8 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 		<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
 	</fieldset>
 	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
+	<?php wp_nonce_field( 'add-post', '_ajax_nonce', false ); ?>
+	<input type="button" id="get-extra-button" class="add:the-extra-list:searchform" style="display:none" />
 </form>
 
 <?php do_action('restrict_manage_posts'); ?>
