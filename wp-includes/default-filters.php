@@ -136,6 +136,7 @@ add_filter('comment_email', 'antispambot');
 
 // Actions
 add_action('wp_head', 'rsd_link');
+add_action('wp_head', 'wlwmanifest_link');
 add_action('wp_head', 'locale_stylesheet');
 add_action('publish_future_post', 'wp_publish_post', 10, 1);
 add_action('wp_head', 'noindex', 1);
