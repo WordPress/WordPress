@@ -710,7 +710,6 @@ function wp_insert_post($postarr = array()) {
 	if ($update) {
 		// expected_slashed (everything!)
 		$wpdb->query(
-			$wpdb->prepare(
 			"UPDATE IGNORE $wpdb->posts SET
 			post_author = '$post_author',
 			post_date = '$post_date',
@@ -729,18 +728,16 @@ function wp_insert_post($postarr = array()) {
 			pinged = '$pinged',
 			post_modified = '".current_time('mysql')."',
 			post_modified_gmt = '".current_time('mysql',1)."',
-			post_parent = %d,
+			post_parent = '$post_parent',
 			menu_order = '$menu_order'
-			WHERE ID = %d"
-			, $post_parent, $post_ID ));
+			WHERE ID = $post_ID");
 	} else {
 		// expected_slashed (everything!)
 		$wpdb->query(
-			$wpdb->prepare(
 			"INSERT IGNORE INTO $wpdb->posts
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', %d, '$menu_order', '$post_mime_type')", $post_parent));
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
 			$post_ID = (int) $wpdb->insert_id;
 	}
 
@@ -1374,7 +1371,6 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ($update) {
 		// expected_slashed (everything!)
 		$wpdb->query(
-			$wpdb->prepare(
 			"UPDATE $wpdb->posts SET
 			post_author = '$post_author',
 			post_date = '$post_date',
@@ -1393,19 +1389,18 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 			pinged = '$pinged',
 			post_modified = '".current_time('mysql')."',
 			post_modified_gmt = '".current_time('mysql',1)."',
-			post_parent = %d,
+			post_parent = '$post_parent',
 			menu_order = '$menu_order',
 			post_mime_type = '$post_mime_type',
 			guid = '$guid'
-			WHERE ID = %d", $post_parent, $post_ID));
+			WHERE ID = $post_ID");
 	} else {
 		// expected_slashed (everything!)
 		$wpdb->query(
-			$wpdb->prepare(
 			"INSERT INTO $wpdb->posts
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', %d, '$menu_order', '$post_mime_type', '$guid')", $post_parent ));
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
 			$post_ID = (int) $wpdb->insert_id;
 	}
 
