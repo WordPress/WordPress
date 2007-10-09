@@ -630,7 +630,7 @@ function wp_widget_categories($args, $number = 1) {
 		wp_dropdown_categories($cat_args . '&show_option_none= ' . __('Select Category'));
 ?>
 
-<script lang='javascript'><!--
+<script type='text/javascript'><!--
     var dropdown = document.getElementById("cat");
     function onCatChange() {
 		if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
