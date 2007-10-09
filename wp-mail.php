@@ -63,9 +63,8 @@ for ($i=1; $i <= $count; $i++) :
 			// Set the author using the email address (To or Reply-To, the last used)
 			// otherwise use the site admin
 			if (preg_match('/From: /', $line) | preg_match('/Reply-To: /', $line))  {
-				$author=trim($line);
-				if ( ereg("([a-zA-Z0-9\_\-\.]+@[\a-zA-z0-9\_\-\.]+)", $author , $regs) ) {
-					$author = $regs[1];
+				$author = sanitize_email($line);
+				if ( is_email($author) ) {
 					echo "Author = {$author} <p>";
 					$author = $wpdb->escape($author);
 					$result = $wpdb->get_row("SELECT ID FROM $wpdb->users WHERE user_email='$author' LIMIT 1");
