@@ -1432,4 +1432,13 @@ function require_wp_db()
 		require_once (ABSPATH . WPINC . '/wp-db.php');
 }
 
+/**
+ * Converts input to an absolute integer
+ * @param mixed $maybeint data you wish to have convered to an absolute integer
+ * @return int an absolute integer
+ */
+function absint($maybeint) {
+	return abs(intval($maybeint));
+}
+
 ?>
