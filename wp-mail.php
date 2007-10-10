@@ -62,8 +62,8 @@ for ($i=1; $i <= $count; $i++) :
 
 			// Set the author using the email address (To or Reply-To, the last used)
 			// otherwise use the site admin
-			if (preg_match('/From: /', $line) | preg_match('/Reply-To: /', $line))  {
-				$author = sanitize_email($line);
+			if ( preg_match('/(From|Reply-To): /', $line) )  {
+				$author = sanitize_email(preg_replace('/(From|Reply-To): /', '', $line));
 				if ( is_email($author) ) {
 					echo "Author = {$author} <p>";
 					$author = $wpdb->escape($author);
