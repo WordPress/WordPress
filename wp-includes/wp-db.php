@@ -251,6 +251,35 @@ class wpdb {
 	}
 
 	/**
+	 * Insert an array of data into a table
+	 * @param string $table WARNING: not sanitized!
+	 * @param array $data should not already be SQL-escaped
+	 * @return mixed results of $this->query()
+	 */
+	function db_insert($table, $data) {
+		$data = add_magic_quotes($data);
+		$fields = array_keys($data);
+		return $this->query("INSERT INTO $table (`" . implode('`,`',$fields) . "`) VALUES ('".implode("','",$data)."')");
+	}
+
+	/**
+	 * Update a row in the table with an array of data
+	 * @param string $table WARNING: not sanitized!
+	 * @param array $data should not already be SQL-escaped
+	 * @param string $where_col the column of the WHERE statement.  WARNING: not sanitized!
+	 * @param string $where_val the value of the WHERE statement.  Should not already be SQL-escaped.
+	 * @return mixed results of $this->query()
+	 */
+	function db_update($table, $data, $where_col, $where_val){
+		$data = add_magic_quotes($data);
+		$bits = array();
+		foreach ( array_keys($data) as $k )
+			$bits[] = "`$k`='$data[$k]'";
+		$where_val = $wpdb->escape($where_val);
+		return $this->query("UPDATE $table SET ".implode(', ',$bits)." WHERE $where_col = '$where_val' LIMIT 1");
+	}
+
+	/**
 	 * Get one variable from the database
 	 * @param string $query (can be null as well, for caching, see codex)
 	 * @param int $x = 0 row num to return

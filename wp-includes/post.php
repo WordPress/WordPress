@@ -1368,46 +1368,22 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ( ! isset($pinged) )
 		$pinged = '';
 
+	// expected_slashed (everything!)
+	$data = array();
+	foreach ( array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid') as $f )
+		$data[$f] = stripslashes($$f);
+	unset($f);
+
 	if ($update) {
-		// expected_slashed (everything!)
-		$wpdb->query(
-			"UPDATE $wpdb->posts SET
-			post_author = '$post_author',
-			post_date = '$post_date',
-			post_date_gmt = '$post_date_gmt',
-			post_content = '$post_content',
-			post_content_filtered = '$post_content_filtered',
-			post_title = '$post_title',
-			post_excerpt = '$post_excerpt',
-			post_status = '$post_status',
-			post_type = '$post_type',
-			comment_status = '$comment_status',
-			ping_status = '$ping_status',
-			post_password = '$post_password',
-			post_name = '$post_name',
-			to_ping = '$to_ping',
-			pinged = '$pinged',
-			post_modified = '".current_time('mysql')."',
-			post_modified_gmt = '".current_time('mysql',1)."',
-			post_parent = '$post_parent',
-			menu_order = '$menu_order',
-			post_mime_type = '$post_mime_type',
-			guid = '$guid'
-			WHERE ID = $post_ID");
+		$wpdb->db_update($wpdb->posts, $data, 'ID', $post_ID);
 	} else {
-		// expected_slashed (everything!)
-		$wpdb->query(
-			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
-			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
-			$post_ID = (int) $wpdb->insert_id;
+		$wpdb->db_insert($wpdb->posts, $data);
+		$post_ID = (int) $wpdb->insert_id;
 	}
 
 	if ( empty($post_name) ) {
 		$post_name = sanitize_title($post_title, $post_ID);
-		// expected_slashed ($post_name)
-		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = %d", $post_ID));
+		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_name = '%s' WHERE ID = %d", $post_name, $post_ID));
 	}
 
 	wp_set_post_categories($post_ID, $post_category);
