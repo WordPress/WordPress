@@ -179,8 +179,8 @@ class WP_Scripts {
 
 					$src = add_query_arg('ver', $ver, $src);
 					$src = clean_url(apply_filters( 'script_loader_src', $src ));
-					echo "<script type='text/javascript' src='$src'></script>\n";
 					$this->print_scripts_l10n( $handle );
+					echo "<script type='text/javascript' src='$src'></script>\n";
 				}
 				$this->printed[] = $handle;
 			}
