@@ -436,7 +436,7 @@ function wp_safe_redirect($location, $status = 302) {
 
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), $lp['host']);
 
-	if ( isset($lp['host']) && !in_array($lp['host'], $allowed_hosts) )
+	if ( isset($lp['host']) && ( !in_array($lp['host'], $allowed_hosts) && $lp['host'] != strtolower($wpp['host'])) )
 		$location = get_option('siteurl') . '/wp-admin/';
 
 	wp_redirect($location, $status);
