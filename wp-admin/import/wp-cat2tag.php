@@ -63,7 +63,7 @@ class WP_Categories_to_Tags {
 
 		print '</ul>';
 
-		print '<p class="submit"><input type="submit" name="maybe_convert_all_cats" value="' . __('Convert All Categories') . '" /> <input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
+		print '<p class="submit"><input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
 		print '</form>';
 	}
 
@@ -140,10 +140,22 @@ class WP_Categories_to_Tags {
 					foreach ( $posts as $post ) {
 						if ( !$wpdb->get_var("SELECT object_id FROM $wpdb->term_relationships WHERE object_id = '$post' AND term_taxonomy_id = '$id'") )						
 							$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$post', '$id')");
+						clean_post_cache($post);
 					}
 				} else {
+					$tt_ids = $wpdb->get_col("SELECT term_taxonomy_id FROM $wpdb->term_taxonomy WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
+					if ( $tt_ids ) {
+						$posts = $wpdb->get_col("SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id IN (" . join(',', $tt_ids) . ") GROUP BY object_id");
+						foreach ( (array) $posts as $post )
+							clean_post_cache($post);
+					}
+
 					// Change the category to a tag.
 					$wpdb->query("UPDATE $wpdb->term_taxonomy SET taxonomy = 'post_tag' WHERE term_id = '{$category->term_id}' AND taxonomy = 'category'");
+
+					$terms = $wpdb->get_col("SELECT term_id FROM $wpdb->term_taxonomy WHERE parent = '{$category->term_id}' AND taxonomy = 'category'");
+					foreach ( (array) $terms as $term )
+						clean_category_cache($term);
 
 					// Set all parents to 0 (root-level) if their parent was the converted tag
 					$wpdb->query("UPDATE $wpdb->term_taxonomy SET parent = 0 WHERE parent = '{$category->term_id}' AND taxonomy = 'category'");
@@ -160,41 +172,9 @@ class WP_Categories_to_Tags {
 		print '</ul>';
 	}
 
-	function convert_all_confirm() {
-		print '<div class="narrow">';
-
-		print '<h3>' . __('Confirm') . '</h3>';
-
-		print '<p>' . __('You are about to convert all categories to tags. Are you sure you want to continue?') . '</p>';
-
-		print '<form action="admin.php?import=wp-cat2tag" method="post">';
-		wp_nonce_field('import-cat2tag');
-		print '<p style="text-align:center" class="submit"><input type="submit" value="' . __('Yes') . '" name="yes_convert_all_cats" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="' . __('No') . '" name="no_dont_do_it" /></p>';
-		print '</form>';
-
-		print '</div>';
-	}
-
-	function convert_all() {
-		global $wpdb;
-
-		$this->populate_all_categories();
-		foreach ( $this->all_categories as $category )
-			$this->categories_to_convert[] = $category->term_id;
-		$this->convert_them();
-	}
-
 	function init() {
 
-		if (isset($_POST['maybe_convert_all_cats'])) {
-			$step = 3;
-		} elseif (isset($_POST['yes_convert_all_cats'])) {
-			$step = 4;
-		} elseif (isset($_POST['no_dont_do_it'])) {
-			die('no_dont_do_it');
-		} else {
-			$step = (isset($_GET['step'])) ? (int) $_GET['step'] : 1;
-		}
+		$step = (isset($_GET['step'])) ? (int) $_GET['step'] : 1;
 
 		$this->header();
 
@@ -213,14 +193,6 @@ class WP_Categories_to_Tags {
 
 				case 2 :
 					$this->convert_them();
-				break;
-
-				case 3 :
-					$this->convert_all_confirm();
-				break;
-
-				case 4 :
-					$this->convert_all();
 				break;
 			}
 		}
