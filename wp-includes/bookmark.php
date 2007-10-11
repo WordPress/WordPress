@@ -112,7 +112,7 @@ function get_bookmarks($args = '') {
 	}
 	if (!empty($category_query)) {
 		$category_query .= ") AND taxonomy = 'link_category'";
-		$join = " LEFT JOIN $wpdb->term_relationships AS tr ON ($wpdb->links.link_id = tr.object_id) LEFT JOIN $wpdb->term_taxonomy as tt ON tt.term_taxonomy_id = tr.term_taxonomy_id";
+		$join = " INNER JOIN $wpdb->term_relationships AS tr ON ($wpdb->links.link_id = tr.object_id) INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_taxonomy_id = tr.term_taxonomy_id";
 	}
 
 	if (get_option('links_recently_updated_time')) {
