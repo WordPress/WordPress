@@ -63,7 +63,7 @@ class WP_Categories_to_Tags {
 
 		print '</ul>';
 
-		print '<p class="submit"><input type="submit" name="maybe_convert_all_cats" value="' . __('Convert All Categories') . '" /> <input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
+		print '<p class="submit"><input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
 		print '</form>';
 	}
 
@@ -172,41 +172,9 @@ class WP_Categories_to_Tags {
 		print '</ul>';
 	}
 
-	function convert_all_confirm() {
-		print '<div class="narrow">';
-
-		print '<h3>' . __('Confirm') . '</h3>';
-
-		print '<p>' . __('You are about to convert all categories to tags. Are you sure you want to continue?') . '</p>';
-
-		print '<form action="admin.php?import=wp-cat2tag" method="post">';
-		wp_nonce_field('import-cat2tag');
-		print '<p style="text-align:center" class="submit"><input type="submit" value="' . __('Yes') . '" name="yes_convert_all_cats" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="' . __('No') . '" name="no_dont_do_it" /></p>';
-		print '</form>';
-
-		print '</div>';
-	}
-
-	function convert_all() {
-		global $wpdb;
-
-		$this->populate_all_categories();
-		foreach ( $this->all_categories as $category )
-			$this->categories_to_convert[] = $category->term_id;
-		$this->convert_them();
-	}
-
 	function init() {
 
-		if (isset($_POST['maybe_convert_all_cats'])) {
-			$step = 3;
-		} elseif (isset($_POST['yes_convert_all_cats'])) {
-			$step = 4;
-		} elseif (isset($_POST['no_dont_do_it'])) {
-			die('no_dont_do_it');
-		} else {
-			$step = (isset($_GET['step'])) ? (int) $_GET['step'] : 1;
-		}
+		$step = (isset($_GET['step'])) ? (int) $_GET['step'] : 1;
 
 		$this->header();
 
@@ -225,14 +193,6 @@ class WP_Categories_to_Tags {
 
 				case 2 :
 					$this->convert_them();
-				break;
-
-				case 3 :
-					$this->convert_all_confirm();
-				break;
-
-				case 4 :
-					$this->convert_all();
 				break;
 			}
 		}
