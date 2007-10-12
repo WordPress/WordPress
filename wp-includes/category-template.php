@@ -376,7 +376,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tag_id = $tag_ids[$tag];
 		$tag_link = clean_url($tag_links[$tag]);
 		$tag = str_replace(' ', '&nbsp;', wp_specialchars( $tag ));
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( sprintf( __('%d topics'), $count ) ) . "'$rel style='font-size: " .
+		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( sprintf( __ngettext('%d topic','%d topics',$count), $count ) ) . "'$rel style='font-size: " .
 			( $smallest + ( ( $count - $min_count ) * $font_step ) )
 			. "$unit;'>$tag</a>";
 	}
