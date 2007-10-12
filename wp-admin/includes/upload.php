@@ -31,6 +31,9 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	$src = wp_make_link_relative( $src_base );
 	$src_base = str_replace($src, '', $src_base);
 
+	if ( !trim($post_title) )
+		$post_title = basename($src);
+
 	$r = '';
 
 	if ( $href )
