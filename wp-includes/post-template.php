@@ -492,4 +492,38 @@ function get_the_password_form() {
 	return $output;
 }
 
+/**
+ * is_page_template() - Determine wether or not we are in a page template
+ *
+ * This template tag allows you to determine wether or not you are in a page template.
+ * You can optional provide a template name and then the check will be specific to
+ * that template.
+ *
+ * @package Template Tags
+ * @global object $wp_query
+ * @param string $template The specific template name if specific matching is required
+ */
+function is_page_template($template = '') {
+	if (!is_page()) {
+		return false;
+	}
+
+	global $wp_query;
+
+	$page = $wp_query->get_queried_object();
+	$custom_fields = get_post_custom_values('_wp_page_template',$page->ID);
+	$page_template = $custom_fields[0];
+
+	// We have no argument passed so just see if a page_template has been specified
+	if ( empty( $template ) ) {
+		if (!empty( $page_template ) ) {
+			return true;
+		}
+	} elseif ( $template == $page_template) {
+		return true;
+	}
+
+	return false;
+}
+
 ?>
