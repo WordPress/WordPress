@@ -45,10 +45,10 @@ switch ($step) {
 <p style="clear: both; margin-top: 1em;"><?php _e('Now select a category you want to put these links in.') ?><br />
 <?php _e('Category:') ?> <select name="cat_id">
 <?php
-$categories = get_categories('hide_empty=0');
+$categories = get_terms('link_category', 'get=all');
 foreach ($categories as $category) {
 ?>
-<option value="<?php echo $category->cat_ID; ?>"><?php echo wp_specialchars(apply_filters('link_category', $category->cat_name)); ?></option>
+<option value="<?php echo $category->term_id; ?>"><?php echo wp_specialchars(apply_filters('link_category', $category->name)); ?></option>
 <?php
 } // end foreach
 ?>
