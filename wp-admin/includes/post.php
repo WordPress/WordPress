@@ -348,6 +348,8 @@ function add_meta( $post_ID ) {
 		if ( in_array($metakey, $protected) )
 			return false;
 
+		wp_cache_delete($post_ID, 'post_meta');
+
 		$result = $wpdb->query( "
 						INSERT INTO $wpdb->postmeta
 						(post_id,meta_key,meta_value )
@@ -361,6 +363,9 @@ function add_meta( $post_ID ) {
 function delete_meta( $mid ) {
 	global $wpdb;
 	$mid = (int) $mid;
+
+	$post_id = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	wp_cache_delete($post_id, 'post_meta');
 
 	return $wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_id = '$mid'" );
 }
@@ -407,6 +412,9 @@ function update_meta( $mid, $mkey, $mvalue ) {
 
 	if ( in_array($mkey, $protected) )
 		return false;
+
+	$post_id = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	wp_cache_delete($post_id, 'post_meta');
 
 	$mvalue = maybe_serialize( stripslashes( $mvalue ));
 	$mvalue = $wpdb->escape( $mvalue );

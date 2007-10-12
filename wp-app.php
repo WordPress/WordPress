@@ -696,7 +696,7 @@ EOD;
 	}
 
 	function get_feed($page = 1, $post_type = 'post') {
-		global $post, $wp, $wp_query, $posts, $wpdb, $blog_id, $post_cache;
+		global $post, $wp, $wp_query, $posts, $wpdb, $blog_id;
 		log_app('function',"get_feed($page, '$post_type')");
 		ob_start();
 
@@ -715,7 +715,6 @@ EOD;
 		$wp_query = $GLOBALS['wp_query'];
 		$wpdb = $GLOBALS['wpdb'];
 		$blog_id = (int) $GLOBALS['blog_id'];
-		$post_cache = $GLOBALS['post_cache'];
 		log_app('function',"query_posts(# " . print_r($wp_query, true) . "#)");
 
 		log_app('function',"total_count(# $wp_query->max_num_pages #)");
@@ -756,7 +755,7 @@ EOD;
 	function get_entry($postID, $post_type = 'post') {
 		log_app('function',"get_entry($postID, '$post_type')");
 		ob_start();
-		global $posts, $post, $wp_query, $wp, $wpdb, $blog_id, $post_cache;
+		global $posts, $post, $wp_query, $wp, $wpdb, $blog_id;
 		switch($post_type) {
 			case 'post':
 				$varname = 'p';
