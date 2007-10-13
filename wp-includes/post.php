@@ -640,6 +640,14 @@ function wp_insert_post($postarr = array()) {
 			$post_date_gmt = get_gmt_from_date($post_date);
 	}
 
+	if ( $update ) {
+		$post_modified     = current_time( 'mysql' );
+		$post_modified_gmt = current_time( 'mysql', 1 );
+	} else {
+		$post_modified     = $post_date;
+		$post_modified_gmt = $post_date_gmt;
+	}
+
 	if ( 'publish' == $post_status ) {
 		$now = gmdate('Y-m-d H:i:59');
 		if ( mysql2date('U', $post_date_gmt) > mysql2date('U', $now) )
@@ -677,8 +685,7 @@ function wp_insert_post($postarr = array()) {
 		$post_password = '';
 
 	if ( 'draft' != $post_status ) {
-		// expected_slashed ($post_name, $post_type)
-		$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_type = '$post_type' AND ID != %d AND post_parent = %d LIMIT 1", $post_ID, $post_parent));
+		$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $post_name, $post_type, $post_ID, $post_parent));
 
 		if ($post_name_check || in_array($post_name, $wp_rewrite->feeds) ) {
 			$suffix = 2;
@@ -692,44 +699,21 @@ function wp_insert_post($postarr = array()) {
 		}
 	}
 
+	// expected_slashed (everything!)
+	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order' ) );
+	$data = stripslashes_deep( $data );
+
 	if ($update) {
-		// expected_slashed (everything!)
-		$wpdb->query(
-			"UPDATE IGNORE $wpdb->posts SET
-			post_author = '$post_author',
-			post_date = '$post_date',
-			post_date_gmt = '$post_date_gmt',
-			post_content = '$post_content',
-			post_content_filtered = '$post_content_filtered',
-			post_title = '$post_title',
-			post_excerpt = '$post_excerpt',
-			post_status = '$post_status',
-			post_type = '$post_type',
-			comment_status = '$comment_status',
-			ping_status = '$ping_status',
-			post_password = '$post_password',
-			post_name = '$post_name',
-			to_ping = '$to_ping',
-			pinged = '$pinged',
-			post_modified = '".current_time('mysql')."',
-			post_modified_gmt = '".current_time('mysql',1)."',
-			post_parent = '$post_parent',
-			menu_order = '$menu_order'
-			WHERE ID = $post_ID");
+		$wpdb->db_update( $wpdb->posts, $data, 'ID', $post_ID );
 	} else {
-		// expected_slashed (everything!)
-		$wpdb->query(
-			"INSERT IGNORE INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
-			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
-			$post_ID = (int) $wpdb->insert_id;
+		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
+		$wpdb->db_insert( $wpdb->posts, $data );
+		$post_ID = (int) $wpdb->insert_id;
 	}
 
 	if ( empty($post_name) && 'draft' != $post_status ) {
 		$post_name = sanitize_title($post_title, $post_ID);
-		// expected_slashed ($post_name)
-		$wpdb->query($wpdb->prepare("UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = %d", $post_ID));
+		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_name = %s WHERE ID = %d", $post_name, $post_ID ) );
 	}
 
 	wp_set_post_categories( $post_ID, $post_category );
@@ -1306,10 +1290,8 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		$pinged = '';
 
 	// expected_slashed (everything!)
-	$data = array();
-	foreach ( array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid') as $f )
-		$data[$f] = stripslashes($$f);
-	unset($f);
+	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' ) );
+	$data = stripslashes_deep( $data );
 
 	if ($update) {
 		$wpdb->db_update($wpdb->posts, $data, 'ID', $post_ID);
