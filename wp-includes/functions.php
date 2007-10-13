@@ -909,12 +909,18 @@ function do_robots() {
 
 
 function is_blog_installed() {
-	global $wpdb;
+	global $wpdb, $wp_is_blog_installed;
+
+	// Set flag so we don't do the query more than once.
+	if ( isset($wp_is_blog_installed) )
+		return $wp_is_blog_installed;
+
 	$wpdb->hide_errors();
 	$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 	$wpdb->show_errors();
 
-	return !empty( $installed );
+	$wp_is_blog_installed = !empty( $installed ) ? true : false;
+	return $wp_is_blog_installed;
 }
 
 
