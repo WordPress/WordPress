@@ -275,7 +275,7 @@ class wpdb {
 		$bits = array();
 		foreach ( array_keys($data) as $k )
 			$bits[] = "`$k`='$data[$k]'";
-		$where_val = $wpdb->escape($where_val);
+		$where_val = $this->escape($where_val);
 		return $this->query("UPDATE $table SET ".implode(', ',$bits)." WHERE $where_col = '$where_val' LIMIT 1");
 	}
 
