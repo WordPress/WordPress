@@ -21,8 +21,7 @@ function username_exists( $username ) {
  */
 function email_exists( $email ) {
 	global $wpdb;
-	$email = $wpdb->escape( $email );
-	return $wpdb->get_var( "SELECT ID FROM $wpdb->users WHERE user_email = '$email'" );
+	return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_email = %s", $email) );
 }
 
 /**
@@ -98,18 +97,13 @@ function wp_insert_user($userdata) {
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
 
+	$data = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name' );
+
 	if ( $update ) {
-		$query = "UPDATE $wpdb->users SET user_pass='$user_pass', user_email='$user_email', user_url='$user_url', user_nicename = '$user_nicename', display_name = '$display_name' WHERE ID = '$ID'";
-		$query = apply_filters('update_user_query', $query);
-		$wpdb->query( $query );
+		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
 		$user_id = (int) $ID;
 	} else {
-		$query = "INSERT INTO $wpdb->users
-		(user_login, user_pass, user_email, user_url, user_registered, user_nicename, display_name)
-	VALUES
-		('$user_login', '$user_pass', '$user_email', '$user_url', '$user_registered', '$user_nicename', '$display_name')";
-		$query = apply_filters('create_user_query', $query);
-		$wpdb->query( $query );
+		$wpdb->insert( $wpdb->users, $data + compact( 'user_login' ) );
 		$user_id = (int) $wpdb->insert_id;
 	}
 
@@ -145,13 +139,10 @@ function wp_insert_user($userdata) {
 
 /**
  * Update an user in the database.
- * @global object $wpdb WordPress database layer.
  * @param array $userdata An array of user data.
  * @return int The updated user's ID.
  */
 function wp_update_user($userdata) {
-	global $wpdb;
-
 	$ID = (int) $userdata['ID'];
 
 	// First, get all of the original fields
