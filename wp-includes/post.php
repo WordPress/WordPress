@@ -1666,7 +1666,7 @@ function update_postmeta_cache($post_ids) {
 		return false;
 
 	$ids = array();
-	foreach ( $post_ids as $id ) {
+	foreach ( (array) $post_ids as $id ) {
 		if ( false === wp_cache_get($id, 'post_meta') )
 			$ids[] = $id;
 	}
@@ -1678,7 +1678,7 @@ function update_postmeta_cache($post_ids) {
 	$id_list = join(',', $ids);
 	$cache = array();
 	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN ($id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
-		foreach ($meta_list as $metarow) {
+		foreach ( (array) $meta_list as $metarow) {
 			$mpid = (int) $metarow['post_id'];
 			$mkey = $metarow['meta_key'];
 			$mval = $metarow['meta_value'];
@@ -1694,7 +1694,7 @@ function update_postmeta_cache($post_ids) {
 		}
 	}
 
-	foreach ( $ids as $id ) {
+	foreach ( (array) $ids as $id ) {
 		if ( ! isset($cache[$id]) )
 			$cache[$id] = array();
 	}
