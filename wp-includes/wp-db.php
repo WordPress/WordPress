@@ -266,20 +266,17 @@ class wpdb {
 	 * Update a row in the table with an array of data
 	 * @param string $table WARNING: not sanitized!
 	 * @param array $data should not already be SQL-escaped
-	 * @param mixed $where_col_or_array if a string, it represents the column of the WHERE statement.  If an array (named), it can represent multiple col = 'value' pairs that will be joined with ANDs  WARNING: the column names are not sanitized!
-	 * @param string $where_val the value of the WHERE statement.  Should not already be SQL-escaped.
+	 * @param array $where a named array of WHERE column => value relationships.  Multiple member pairs will be joined with ANDs.  WARNING: the column names are not currently sanitized!
 	 * @return mixed results of $this->query()
 	 */
-	function update($table, $data, $where_col_or_array, $where_val=NULL){
+	function update($table, $data, $where){
 		$data = add_magic_quotes($data);
 		$bits = $wheres = array();
 		foreach ( array_keys($data) as $k )
 			$bits[] = "`$k` = '$data[$k]'";
 
-		if ( is_string( $where_col_or_array ) )
-			$wheres = array( "$where_col_or_array = '" . $this->escape($where_val) . "'" );
-		elseif ( is_array( $where_col_or_array ) )
-			foreach ( $where_col_or_array as $c => $v )
+		if ( is_array( $where ) )
+			foreach ( $where as $c => $v )
 				$wheres[] = "$c = '" . $this->escape( $v ) . "'";
 		else
 			return false;

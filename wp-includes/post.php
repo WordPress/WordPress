@@ -259,52 +259,50 @@ function get_posts($args) {
 // Post meta functions
 //
 
-function add_post_meta($post_id, $key, $value, $unique = false) {
+function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	global $wpdb;
 
-	if ( $unique ) {
-		// expected_slashed ($key)
-		if ( $wpdb->get_var($wpdb->prepare("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = '$key' AND post_id = %d", $post_id)) ) {
-			return false;
-		}
-	}
+	// expected_slashed ($meta_key)
+	$meta_key = stripslashes($meta_key);
+
+	if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) )
+		return false;
 
 	$cache = wp_cache_get($post_id, 'post_meta');
 	if ( ! is_array($cache) )
 		$cache = array();
-	$cache[$key][] = $value;
+	// expected_slashed ($meta_key)
+	$cache[$wpdb->escape($meta_key)][] = $meta_value;
 
 	wp_cache_set($post_id, $cache, 'post_meta');
 
-	$value = maybe_serialize($value);
+	$meta_value = maybe_serialize($meta_value);
 
-	// expected_slashed ($key)
-	$wpdb->query($wpdb->prepare("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value) VALUES (%d,'$key',%s)", $post_id, $value));
-
+	$wpdb->insert( $wpdb->postmeta, compact( 'post_id', 'meta_key', 'meta_value' ) );
 	return true;
 }
 
 function delete_post_meta($post_id, $key, $value = '') {
 	global $wpdb;
 
-	if ( empty($value) ) {
-		// expected_slashed ($key)
-		$meta_id = $wpdb->get_var($wpdb->prepare("SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = '$key'", $post_id));
-	} else {
-		// expected_slashed ($key, $value)
-		$meta_id = $wpdb->get_var($wpdb->prepare("SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = '$key' AND meta_value = '$value'", $post_id));
-	}
+	$post_id = absint( $post_id );
+
+	// expected_slashed ($key, $value)
+	$key = stripslashes( $key );
+	$value = stripslashes( $value );
+
+	if ( empty( $value ) )
+		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $key ) );
+	else
+		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $key, $value ) );
 
 	if ( !$meta_id )
 		return false;
 
-	if ( empty($value) ) {
-		// expected_slashed ($key)
-		$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = '$key'", $post_id));
-	} else {
-		// expected_slashed ($key, $value)
-		$wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = '$key' AND meta_value = '$value'", $post_id));
-	}
+	if ( empty( $value ) )
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $key ) );
+	else
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $key, $value ) );
 
 	wp_cache_delete($post_id, 'post_meta');
 
@@ -341,30 +339,29 @@ function get_post_meta($post_id, $key, $single = false) {
 	}
 }
 
-function update_post_meta($post_id, $key, $value, $prev_value = '') {
+function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	global $wpdb;
 
-	$original_value = $value;
-	$value = maybe_serialize($value);
+	$original_value = $meta_value;
+	$meta_value = maybe_serialize($meta_value);
 
 	$original_prev = $prev_value;
 	$prev_value = maybe_serialize($prev_value);
 
-	// expected_slashed ($key)
-	if (! $wpdb->get_var($wpdb->prepare("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = '$key' AND post_id = %d", $post_id)) ) {
+	// expected_slashed ($meta_key)
+	$meta_key = stripslashes($meta_key);
+
+	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) )
 		return false;
-	}
 
-	if ( empty($prev_value) ) {
-		// expected_slashed ($key)
-		$wpdb->query($wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = '$key' AND post_id = %d", $value, $post_id));
-	} else {
-		// expected_slashed ($key)
-		$wpdb->query($wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = '$key' AND post_id = %d AND meta_value = %s", $value, $post_id, $prev_value));
-	}
+	$data  = compact( 'meta_value' );
+	$where = compact( 'meta_key', 'post_id' );
 
+	if ( !empty( $prev_value ) )
+		$where['meta_value'] = $prev_value;
+
+	$wpdb->update( $wpdb->postmeta, $data, $where );
 	wp_cache_delete($post_id, 'post_meta');
-
 	return true;
 }
 
@@ -500,10 +497,13 @@ function wp_delete_post($postid = 0) {
 	// TODO delete for pluggable post taxonomies too
 	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
 
-	if ( 'page' == $post->post_type )
-		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = %d AND post_type = 'page'", $postid ));
+	$parent_data = array( 'post_parent' => $post->post_parent );
+	$parent_where = array( 'post_parent' => $postid );
 
-	$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %s WHERE post_parent = %d AND post_type = 'attachment'", $post->post_parent, $postid ));
+	if ( 'page' == $post->post_type )
+		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
+
+	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
 
@@ -702,9 +702,10 @@ function wp_insert_post($postarr = array()) {
 	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order' ) );
 	$data = stripslashes_deep( $data );
+	$where = array( 'ID' => $post_ID );
 
 	if ($update) {
-		$wpdb->update( $wpdb->posts, $data, 'ID', $post_ID );
+		$wpdb->update( $wpdb->posts, $data, $where );
 	} else {
 		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
 		$wpdb->insert( $wpdb->posts, $data );
@@ -713,7 +714,7 @@ function wp_insert_post($postarr = array()) {
 
 	if ( empty($post_name) && 'draft' != $post_status ) {
 		$post_name = sanitize_title($post_title, $post_ID);
-		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_name = %s WHERE ID = %d", $post_name, $post_ID ) );
+		$wpdb->update( $wpdb->posts, compact( 'post_name' ), $where );
 	}
 
 	wp_set_post_categories( $post_ID, $post_category );
@@ -727,7 +728,7 @@ function wp_insert_post($postarr = array()) {
 
 	// Set GUID
 	if ( ! $update )
-		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET guid = %s WHERE ID = %d", get_permalink($post_ID), $post_ID ));
+		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
 
 	$post = get_post($post_ID);
 	if ( !empty($page_template) )
@@ -795,7 +796,7 @@ function wp_publish_post($post_id) {
 	if ( 'publish' == $post->post_status )
 		return;
 
-	$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_status = 'publish' WHERE ID = %d", $post_id ));
+	$wpdb->update( $wpdb->posts, array( 'post_status' => 'publish' ), array( 'ID' => $post_id ) );
 
 	$old_status = $post->post_status;
 	$post->post_status = 'publish';
@@ -862,7 +863,8 @@ function add_ping($post_id, $uri) { // Add a URL to those already pung
 	$new = implode("\n", $pung);
 	$new = apply_filters('add_ping', $new);
 	// expected_slashed ($new)
-	return $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET pinged = '$new' WHERE ID = %d", $post_id ));
+	$new = stripslashes($new);
+	return $wpdb->update( $wpdb->posts, array( 'pinged' => $new ), array( 'ID' => $post_id ) );
 }
 
 function get_enclosed($post_id) { // Get enclosures already enclosed for a post
@@ -1293,16 +1295,16 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' ) );
 	$data = stripslashes_deep( $data );
 
-	if ($update) {
-		$wpdb->update($wpdb->posts, $data, 'ID', $post_ID);
+	if ( $update ) {
+		$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_ID ) );
 	} else {
-		$wpdb->insert($wpdb->posts, $data);
+		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
 	}
 
 	if ( empty($post_name) ) {
 		$post_name = sanitize_title($post_title, $post_ID);
-		$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_name = '%s' WHERE ID = %d", $post_name, $post_ID));
+		$wpdb->update( $wpdb->posts, compact( $post_name ), array( 'ID' => $post_ID ) );
 	}
 
 	wp_set_post_categories($post_ID, $post_category);
@@ -1712,7 +1714,7 @@ function _transition_post_status($new_status, $old_status, $post) {
 
 	if ( $old_status != 'publish' && $new_status == 'publish' ) {
 			// Reset GUID if transitioning to publish.
-			$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET guid = %s WHERE ID = %d", get_permalink($post->ID), $post->ID ));
+			$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post->ID ) ), array( 'ID' => $post->ID ) );
 			do_action('private_to_published', $post->ID);  // Deprecated, use private_to_publish
 	}
 
@@ -1739,17 +1741,10 @@ function _publish_post_hook($post_id) {
 
 	$post = get_post($post_id);
 
+	$data = array( 'post_id' => $post_id, 'meta_value' => '1' );
 	if ( get_option('default_pingback_flag') )
-		$result = $wpdb->query( $wpdb->prepare( "
-			INSERT INTO $wpdb->postmeta
-			(post_id,meta_key,meta_value)
-			VALUES (%s,'_pingme','1')
-		", $post_id ));
-	$result = $wpdb->query( $wpdb->prepare( "
-		INSERT INTO $wpdb->postmeta
-		(post_id,meta_key,meta_value)
-		VALUES (%s,'_encloseme','1')
-	", $post_id ));
+		$wpdb->insert( $wpdb->postmeta, $data + array( 'meta_key' => '_pingme' ) );
+	$wpdb->insert( $wpdb->postmeta, $data + array( 'meta_key' => '_encloseme' ) );
 	wp_schedule_single_event(time(), 'do_pings');
 }
 
