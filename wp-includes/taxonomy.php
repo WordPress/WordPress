@@ -642,13 +642,10 @@ function is_term($term, $taxonomy = '') {
 		$where = $wpdb->prepare( "t.slug = %s", $term );
 	}
 
-	$term_id = $wpdb->get_var("SELECT term_id FROM $wpdb->terms as t WHERE $where");
+	if ( !empty($taxonomy) )
+		return $wpdb->get_row("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = '$taxonomy'", ARRAY_A);
 
-	if ( empty($taxonomy) || empty($term_id) )
-		return $term_id;
-
-	$taxonomy = $wpdb->escape( $taxonomy );
-	return $wpdb->get_row("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = '$taxonomy'", ARRAY_A);
+	return $wpdb->get_var("SELECT term_id FROM $wpdb->terms as t WHERE $where");
 }
 
 /**
