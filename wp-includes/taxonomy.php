@@ -1159,7 +1159,7 @@ function wp_update_term_count( $terms, $taxonomy ) {
 		// Default count updater
 		foreach ($terms as $term) {
 			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term) );
-			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxnomy_id' => $term ) );
+			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		}
 
 	}
@@ -1174,19 +1174,11 @@ function wp_update_term_count( $terms, $taxonomy ) {
 //
 
 function clean_object_term_cache($object_ids, $object_type) {
-	global $object_term_cache, $blog_id;
-
 	if ( !is_array($object_ids) )
 		$object_ids = array($object_ids);
 
-	$taxonomies = get_object_taxonomies($object_type);
-
-	foreach ( $object_ids as $id ) {
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( isset($object_term_cache[$blog_id][$id][$taxonomy]) )
-				unset($object_term_cache[$blog_id][$id][$taxonomy]);
-		}
-	}
+	foreach ( $object_ids as $id )
+		wp_cache_delete($id, 'object_terms');
 }
 
 function clean_term_cache($ids, $taxonomy = '') {
@@ -1222,19 +1214,19 @@ function clean_term_cache($ids, $taxonomy = '') {
 }
 
 function &get_object_term_cache($id, $taxonomy) {
-	global $object_term_cache, $blog_id;
-
-	if ( isset($object_term_cache[$blog_id][$id][$taxonomy]) )
-		return $object_term_cache[$blog_id][$id][$taxonomy];
-
-	if ( isset($object_term_cache[$blog_id][$id]) )
-		return array();
+	$terms = wp_cache_get($id, 'object_terms');
+	if ( false !== $terms ) {
+		if ( isset($terms[$taxonomy]) )
+			return $terms[$taxonomy];
+		else
+			return array();
+	}
 
 	return false;
 }
 
 function update_object_term_cache($object_ids, $object_type) {
-	global $wpdb, $object_term_cache, $blog_id;
+	global $wpdb;
 
 	if ( empty($object_ids) )
 		return;
@@ -1242,30 +1234,30 @@ function update_object_term_cache($object_ids, $object_type) {
 	if ( !is_array($object_ids) )
 		$object_ids = explode(',', $object_ids);
 
-	$count = count( $object_ids);
-	for ( $i = 0; $i < $count; $i++ ) {
-		$object_id = (int) $object_ids[ $i ];
-		if ( isset( $object_term_cache[$blog_id][$object_id] ) ) {
-			unset( $object_ids[ $i ] );
-			continue;
-		}
+	$object_ids = array_map('intval', $object_ids);
+
+	$ids = array();
+	foreach ( (array) $object_ids as $id ) {
+		if ( false === wp_cache_get($id, 'object_terms') )
+			$ids[] = $id;
 	}
 
-	if ( count( $object_ids ) == 0 )
-		return;
+	if ( empty( $ids ) )
+		return false;
 
-	$terms = wp_get_object_terms($object_ids, get_object_taxonomies($object_type), 'fields=all_with_object_id');
+	$terms = wp_get_object_terms($ids, get_object_taxonomies($object_type), 'fields=all_with_object_id');
 
-	if ( empty($terms) )
-		return;
+	$object_terms = array();
+	foreach ( (array) $terms as $term )
+		$object_terms[$term->object_id][$term->taxonomy][$term->term_id] = $term;
 
-	foreach ( $terms as $term )
-		$object_term_cache[$blog_id][$term->object_id][$term->taxonomy][$term->term_id] = $term;
-
-	foreach ( $object_ids as $id ) {
-		if ( ! isset($object_term_cache[$blog_id][$id]) )
-				$object_term_cache[$blog_id][$id] = array();
+	foreach ( $ids as $id ) {
+		if ( ! isset($object_terms[$id]) )
+				$object_terms[$id] = array();
 	}
+
+	foreach ( $object_terms as $id => $value )
+		wp_cache_set($id, $value, 'object_terms');
 }
 
 function update_term_cache($terms, $taxonomy = '') {
@@ -1393,7 +1385,7 @@ function _update_post_term_count( $terms ) {
 
 	foreach ( $terms as $term ) {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type = 'post' AND term_taxonomy_id = %d", $term ) );
-		$wpdb->update( $wpdb->term_taxnomoy, compact( 'count' ), array( 'term_taxnomy_id' => $term ) );
+		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 	}
 }
 
