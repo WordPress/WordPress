@@ -266,17 +266,24 @@ class wpdb {
 	 * Update a row in the table with an array of data
 	 * @param string $table WARNING: not sanitized!
 	 * @param array $data should not already be SQL-escaped
-	 * @param string $where_col the column of the WHERE statement.  WARNING: not sanitized!
+	 * @param mixed $where_col_or_array if a string, it represents the column of the WHERE statement.  If an array (named), it can represent multiple col = 'value' pairs that will be joined with ANDs  WARNING: the column names are not sanitized!
 	 * @param string $where_val the value of the WHERE statement.  Should not already be SQL-escaped.
 	 * @return mixed results of $this->query()
 	 */
-	function update($table, $data, $where_col, $where_val){
+	function update($table, $data, $where_col_or_array, $where_val=NULL){
 		$data = add_magic_quotes($data);
-		$bits = array();
+		$bits = $wheres = array();
 		foreach ( array_keys($data) as $k )
-			$bits[] = "`$k`='$data[$k]'";
-		$where_val = $this->escape($where_val);
-		return $this->query("UPDATE $table SET ".implode(', ',$bits)." WHERE $where_col = '$where_val' LIMIT 1");
+			$bits[] = "`$k` = '$data[$k]'";
+
+		if ( is_string( $where_col_or_array ) )
+			$wheres = array( "$where_col_or_array = '" . $this->escape($where_val) . "'" );
+		elseif ( is_array( $where_col_or_array ) )
+			foreach ( $where_col_or_array as $c => $v )
+				$wheres[] = "$c = '" . $this->escape( $v ) . "'";
+		else
+			return false;
+		return $this->query( "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres ) . ' LIMIT 1' );
 	}
 
 	/**
