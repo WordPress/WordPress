@@ -704,10 +704,10 @@ function wp_insert_post($postarr = array()) {
 	$data = stripslashes_deep( $data );
 
 	if ($update) {
-		$wpdb->db_update( $wpdb->posts, $data, 'ID', $post_ID );
+		$wpdb->update( $wpdb->posts, $data, 'ID', $post_ID );
 	} else {
 		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
-		$wpdb->db_insert( $wpdb->posts, $data );
+		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
 	}
 
@@ -1294,9 +1294,9 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	$data = stripslashes_deep( $data );
 
 	if ($update) {
-		$wpdb->db_update($wpdb->posts, $data, 'ID', $post_ID);
+		$wpdb->update($wpdb->posts, $data, 'ID', $post_ID);
 	} else {
-		$wpdb->db_insert($wpdb->posts, $data);
+		$wpdb->insert($wpdb->posts, $data);
 		$post_ID = (int) $wpdb->insert_id;
 	}
 

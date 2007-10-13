@@ -256,7 +256,7 @@ class wpdb {
 	 * @param array $data should not already be SQL-escaped
 	 * @return mixed results of $this->query()
 	 */
-	function db_insert($table, $data) {
+	function insert($table, $data) {
 		$data = add_magic_quotes($data);
 		$fields = array_keys($data);
 		return $this->query("INSERT INTO $table (`" . implode('`,`',$fields) . "`) VALUES ('".implode("','",$data)."')");
@@ -270,7 +270,7 @@ class wpdb {
 	 * @param string $where_val the value of the WHERE statement.  Should not already be SQL-escaped.
 	 * @return mixed results of $this->query()
 	 */
-	function db_update($table, $data, $where_col, $where_val){
+	function update($table, $data, $where_col, $where_val){
 		$data = add_magic_quotes($data);
 		$bits = array();
 		foreach ( array_keys($data) as $k )
