@@ -267,7 +267,7 @@ class WP_Object_Cache {
 		if (empty ($group))
 			$group = 'default';
 
-		if (NULL == $data)
+		if (NULL === $data)
 			$data = '';
 
 		$this->cache[$group][$id] = $data;

@@ -1665,6 +1665,13 @@ function update_postmeta_cache($post_ids) {
 	if ( empty( $post_ids ) )
 		return false;
 
+	if ( !is_array($post_ids) ) {
+		$post_ids = preg_replace('|[^0-9,]|', '', $post_ids);
+		$post_ids = explode(',', $post_ids);
+	}
+
+	$post_ids = array_map('intval', $post_ids);
+
 	$ids = array();
 	foreach ( (array) $post_ids as $id ) {
 		if ( false === wp_cache_get($id, 'post_meta') )
