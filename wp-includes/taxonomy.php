@@ -832,6 +832,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	clean_term_cache($term, $taxonomy);
 
+	do_action('delete_term', $term, $tt_id, $taxonomy);
 	do_action("delete_$taxonomy", $term, $tt_id);
 
 	return true;
@@ -1176,6 +1177,8 @@ function clean_object_term_cache($object_ids, $object_type) {
 
 	foreach ( $object_ids as $id )
 		wp_cache_delete($id, 'object_terms');
+
+	do_action('clean_object_term_cache', $object_ids, $object_type);
 }
 
 function clean_term_cache($ids, $taxonomy = '') {
@@ -1208,6 +1211,8 @@ function clean_term_cache($ids, $taxonomy = '') {
 	}
 
 	wp_cache_delete('get_terms', 'terms');
+
+	do_action('clean_term_cache', $ids, $taxonomy);
 }
 
 function &get_object_term_cache($id, $taxonomy) {

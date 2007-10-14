@@ -514,6 +514,8 @@ function wp_delete_post($postid = 0) {
 	if ( 'page' == $post->post_type ) {
 		clean_page_cache($postid);
 		$wp_rewrite->flush_rules();
+	} else {
+		clean_post_cache($postid);
 	}
 
 	do_action('deleted_post', $postid);
@@ -1358,6 +1360,8 @@ function wp_delete_attachment($postid) {
 	if ( ! empty($file) )
 		@ unlink($file);
 
+	clean_post_cache($postid);
+
 	do_action('delete_attachment', $postid);
 
 	return $post;
@@ -1627,6 +1631,8 @@ function clean_post_cache($id) {
 	wp_cache_delete($id, 'post_meta');
 
 	clean_object_term_cache($id, 'post');
+
+	do_action('clean_post_cache', $id);
 }
 
 function update_page_cache(&$pages) {
@@ -1638,6 +1644,8 @@ function clean_page_cache($id) {
 
 	wp_cache_delete( 'all_page_ids', 'pages' );
 	wp_cache_delete( 'get_pages', 'page' );
+
+	do_action('clean_page_cache', $id);
 }
 
 function update_post_caches(&$posts) {
