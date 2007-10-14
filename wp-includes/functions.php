@@ -909,7 +909,7 @@ function do_robots() {
 
 
 function is_blog_installed() {
-	global $wpdb, $wp_is_blog_installed;
+	global $wpdb;
 
 	// Check cache first.  If options table goes away and we have true cached, oh well.  
 	if ( wp_cache_get('is_blog_installed') )
