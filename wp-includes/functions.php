@@ -911,16 +911,18 @@ function do_robots() {
 function is_blog_installed() {
 	global $wpdb, $wp_is_blog_installed;
 
-	// Set flag so we don't do the query more than once.
-	if ( isset($wp_is_blog_installed) )
-		return $wp_is_blog_installed;
+	// Check cache first.  If options table goes away and we have true cached, oh well.  
+	if ( wp_cache_get('is_blog_installed') )
+		return true;
 
 	$wpdb->hide_errors();
 	$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
 	$wpdb->show_errors();
 
-	$wp_is_blog_installed = !empty( $installed ) ? true : false;
-	return $wp_is_blog_installed;
+	$installed = !empty( $installed ) ? true : false;
+	wp_cache_set('is_blog_installed', $installed);
+
+	return $installed;
 }
 
 
