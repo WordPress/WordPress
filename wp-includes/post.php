@@ -938,9 +938,9 @@ function trackback_url_list($tb_list, $post_id) {
 function get_all_page_ids() {
 	global $wpdb;
 
-	if ( ! $page_ids = wp_cache_get('all_page_ids', 'pages') ) {
+	if ( ! $page_ids = wp_cache_get('all_page_ids', 'posts') ) {
 		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'page'");
-		wp_cache_add('all_page_ids', $page_ids, 'pages');
+		wp_cache_add('all_page_ids', $page_ids, 'posts');
 	}
 
 	return $page_ids;
@@ -1057,7 +1057,7 @@ function &get_pages($args = '') {
 	extract( $r, EXTR_SKIP );
 
 	$key = md5( serialize( $r ) );
-	if ( $cache = wp_cache_get( 'get_pages', 'page' ) )
+	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) )
 		if ( isset( $cache[ $key ] ) )
 			return apply_filters('get_pages', $cache[ $key ], $r );
 
@@ -1141,7 +1141,7 @@ function &get_pages($args = '') {
 		$pages = & get_page_children($child_of, $pages);
 
 	$cache[ $key ] = $pages;
-	wp_cache_set( 'get_pages', $cache, 'page' );
+	wp_cache_set( 'get_pages', $cache, 'posts' );
 
 	$pages = apply_filters('get_pages', $pages, $r);
 
@@ -1642,8 +1642,8 @@ function update_page_cache(&$pages) {
 function clean_page_cache($id) {
 	clean_post_cache($id);
 
-	wp_cache_delete( 'all_page_ids', 'pages' );
-	wp_cache_delete( 'get_pages', 'page' );
+	wp_cache_delete( 'all_page_ids', 'posts' );
+	wp_cache_delete( 'get_pages', 'posts' );
 
 	do_action('clean_page_cache', $id);
 }
