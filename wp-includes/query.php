@@ -932,7 +932,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['category__in']) ) {
-			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
 			$include_cats = "'" . implode("', '", $q['category__in']) . "'";
 			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_cats) ";
@@ -973,7 +973,7 @@ class WP_Query {
 
 			$q['cat'] = $reqcat;
 
-			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat = " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
 			$in_cats = array($q['cat']);
 			$in_cats = array_merge($in_cats, get_term_children($q['cat'], 'category'));
@@ -1015,7 +1015,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['tag__in']) ) {
-			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
+			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag__in']) . "'";
 			$whichcat .= " AND $wpdb->term_taxonomy.term_id IN ($include_tags) ";
@@ -1025,7 +1025,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['tag_slug__in']) ) {
-			$join = " LEFT JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) LEFT JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) LEFT JOIN $wpdb->terms ON ($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id) ";
+			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) INNER JOIN $wpdb->terms ON ($wpdb->term_taxonomy.term_id = $wpdb->terms.term_id) ";
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag_slug__in']) . "'";
 			$whichcat .= " AND $wpdb->terms.slug IN ($include_tags) ";
@@ -1056,7 +1056,7 @@ class WP_Query {
 			$taxonomy_field = $item == 'tag_slug__and' ? 'slug' : 'term_id';
 
 			$q[$item] = array_unique($q[$item]);
-			$tsql = "SELECT p.ID FROM $wpdb->posts p LEFT JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) LEFT JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) LEFT JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
+			$tsql = "SELECT p.ID FROM $wpdb->posts p INNER JOIN $wpdb->term_relationships tr ON (p.ID = tr.object_id) INNER JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) INNER JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
 			$tsql .= " WHERE tt.taxonomy = '$taxonomy' AND t.$taxonomy_field IN ('" . implode("', '", $q[$item]) . "')";
 			$tsql .= " GROUP BY p.ID HAVING count(p.ID) = " . count($q[$item]);
 
