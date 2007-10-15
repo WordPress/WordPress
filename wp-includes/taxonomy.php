@@ -1,11 +1,16 @@
 <?php
+/**
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @since 2.3
+ */
 
 //
 // Taxonomy Registration
 //
 
 /**
- * @global array $wp_taxonomies Fill me out please
+ * @global array $wp_taxonomies Default Taxonomy Objects
  */
 $wp_taxonomies = array();
 $wp_taxonomies['category'] = (object) array('name' => 'category', 'object_type' => 'post', 'hierarchical' => true, 'update_count_callback' => '_update_post_term_count');
@@ -25,7 +30,9 @@ $wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'obj
  *      'post_tag'
  *      )</pre>
  *
- * @package Taxonomy
+ * @package WordPress
+ * @subpackage Taxonomy
+ * 
  * @global array $wp_taxonomies
  * @param string $object_type Name of the type of taxonomy object
  * @return array The names of all within the object_type.
@@ -51,7 +58,9 @@ function get_object_taxonomies($object_type) {
  * The get_taxonomy function will first check that the parameter string given
  * is a taxonomy object and if it is, it will return it.
  *
- * @package Taxonomy
+ * @package WordPress
+ * @subpackage Taxonomy
+ * 
  * @global array $wp_taxonomies
  * @param string $taxonomy Name of taxonomy object to return
  * @return object|bool The Taxonomy Object or false if taxonomy doesn't exist
@@ -71,7 +80,9 @@ function get_taxonomy( $taxonomy ) {
 /**
  * is_taxonomy() - Checks that the taxonomy name exists
  *
- * @package Taxonomy
+ * @package WordPress
+ * @subpackage Taxonomy
+ * 
  * @global array $wp_taxonomies
  * @param string $taxonomy Name of taxonomy object
  * @return bool Whether the taxonomy exists or not.
@@ -91,9 +102,11 @@ function is_taxonomy( $taxonomy ) {
  * Checks to make sure that the taxonomy is an object first. Then Gets the object, and finally
  * returns the hierarchical value in the object.
  *
- * A false return value, might also mean that the taxonomy does not exist.
+ * A false return value might also mean that the taxonomy does not exist.
  *
- * @package Taxonomy
+ * @package WordPress
+ * @subpackage Taxonomy
+ * 
  * @global array $wp_taxonomies
  * @param string $taxonomy Name of taxonomy object
  * @return bool Whether the taxonomy is hierarchical
@@ -125,7 +138,9 @@ function is_taxonomy_hierarchical($taxonomy) {
  * update_count_callback works much like a hook, in that it will be called (or something from
  *      somewhere).
  *
- * @package Taxonomy
+ * @package WordPress
+ * @subpackage Taxonomy
+ * 
  * @global array $wp_taxonomies
  * @param string $taxonomy Name of taxonomy object
  * @param string $object_type Name of the object type for the taxonomy object.
@@ -164,8 +179,10 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * functions or using the database by using $args with either ASC or DESC array. The value should
  * be in the key named 'order'.
  *
- * @package Taxonomy
- * @subpackage Term
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global object $wpdb Database Query
  * @param string|array $terms String of term or array of string values of terms that will be used
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
@@ -211,21 +228,35 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 }
 
 /**
- * get_term() -
+ * get_term() - Get all Term data from database by Term ID.
  *
+ * The usage of the get_term function is to apply filters to a term object.
+ * It is possible to get a term object from the database before applying the
+ * filters. 
  *
+ * $term ID must be part of $taxonomy, to get from the database. Failure, might be
+ * able to be captured by the hooks. Failure would be the same value as $wpdb returns for the
+ * get_row method.
  *
- * @package Taxonomy
- * @subpackage Term
+ * There are two hooks, one is specifically for each term, named 'get_term', and the second is 
+ * for the taxonomy name. Both hooks gets the term object, and the taxonomy name as parameters.
+ * Both hooks are expected to return a Term object.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global object $wpdb Database Query
- * @param int|object $term
- * @param string $taxonomy
- * @param string $output Either OBJECT, ARRAY_A, or ARRAY_N
+ * @param int|object $term If integer, will get from database. If object will apply filters and return $term.
+ * @param string $taxonomy Taxonomy name that $term is part of.
+ * @param string $output Constant OBJECT, ARRAY_A, or ARRAY_N
+ * @param string $filter 
  * @return mixed Term Row from database
  *
  * @internal
- *      This won't appear but just a note to say that this is all conjecture and parts or whole
- *      might be inaccurate or wrong.
+ *   This is all conjecture and might be partially or completely inaccurate.
+ *   Uses custom hook phpdoc documentation that isn't compatible with phpDoc. Useful for a custom
+ *   solution if used in an uniform fashion throughout the code base.
  */
 function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
@@ -249,21 +280,30 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	
 	/**
 	 * @internal
-	 * Filter tag is basically: filter 'type' 'hook_name' 'description'
 	 *
 	 * Takes two parameters the term Object and the taxonomy name. Must return term object.
-	 * @filter object get_term Used in @see get_term() as a catch-all filter for every $term
+	 * Used in @see get_term() as a catch-all filter for every $term.
+	 * 
+	 * @hook-name get_term
+	 * @hook-return object
+	 * @hook-param object $_term The current term object
+	 * @hook-param string $taxonomy What taxonomy the term is in.
 	 */
 	$_term = apply_filters('get_term', $_term, $taxonomy);
+	
 	/**
 	 * @internal
-	 * Filter tag is basically: filter 'type' 'hook_name' 'description'
 	 *
 	 * Takes two parameters the term Object and the taxonomy name. Must return term object.
 	 * $taxonomy will be the taxonomy name, so for example, if 'category', it would be 'get_category'
 	 * as the filter name.
+	 *
 	 * Useful for custom taxonomies or plugging into default taxonomies.
-	 * @filter object get_$taxonomy Used in @see get_term() as specific filter for each $taxonomy.
+	 * 
+	 * @hook-name get_$taxonomy
+	 * @hook-return object
+	 * @hook-param object $_term The current term object
+	 * @hook-param string $taxonomy What taxonomy the term is in.
 	 */
 	$_term = apply_filters("get_$taxonomy", $_term, $taxonomy);
 	$_term = sanitize_term($_term, $taxonomy, $filter);
@@ -280,22 +320,31 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 }
 
 /**
- * get_term_by() -
+ * get_term_by() - Get all Term data from database by Term field and data.
  *
+ * Warning: $value is not escaped for 'name' $field. You must do it yourself, if required.
  *
+ * The default $field is 'id', therefore it is possible to also use null for field, but not
+ * recommended that you do so.
  *
- * @package Taxonomy
- * @subpackage Term
+ * If $value does not exist, the return value will be false. If $taxonomy exists and $field
+ * and $value combinations exist, the Term will be returned.
+ * 
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global object $wpdb Database Query
- * @param string $field
- * @param string $value
- * @param string $taxonomy
- * @param string $output Either OBJECT, ARRAY_A, or ARRAY_N
+ * @param string $field Either 'slug', 'name', or 'id'
+ * @param string|int $value Search for this term value
+ * @param string $taxonomy Taxonomy Name
+ * @param string $output Constant OBJECT, ARRAY_A, or ARRAY_N
+ * @param string $filter 
  * @return mixed Term Row from database
  *
  * @internal
- *      This won't appear but just a note to say that this is all conjecture and parts or whole
- *      might be inaccurate or wrong.
+ *      This is all conjecture and might be partially or completely inaccurate.
  */
 function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
@@ -343,8 +392,10 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  *
  * Only useful for taxonomies which are hierarchical.
  * 
- * @package Taxonomy
- * @subpackage Term
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global object $wpdb Database Query
  * @param string $term Name of Term to get children
  * @param string $taxonomy Taxonomy Name
@@ -379,8 +430,10 @@ function get_term_children( $term, $taxonomy ) {
  * contextual reasons and for simplicity of usage. @see sanitize_term_field() for
  * more information.
  *
- * @package Taxonomy
- * @subpackage Term
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @param string $field Term field to fetch
  * @param int $term Term ID
  * @param string $taxonomy Taxonomy Name
@@ -411,8 +464,10 @@ function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
  * Return value is @see sanitize_term() and usage is for sanitizing the term
  * for editing. Function is for contextual and simplicity.
  * 
- * @package Taxonomy
- * @subpackage Term
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @param int|object $id Term ID or Object
  * @param string $taxonomy Taxonomy Name
  * @return mixed @see sanitize_term()
@@ -437,8 +492,10 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * 
  * 
- * @package Taxonomy
- * @subpackage Term
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @param string|array Taxonomy name or list of Taxonomy names
  * @param string|array $args ??
  * @return array List of Term Objects and their children.
@@ -624,6 +681,10 @@ function &get_terms($taxonomies, $args = '') {
  *
  * Returns the index of a defined term, or 0 (false) if the term doesn't exist.
  *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global $wpdb Database Object
  * @param int|string $term The term to check
  * @param string $taxonomy The taxonomy name to use
@@ -657,6 +718,10 @@ function is_term($term, $taxonomy = '') {
  *
  * The $term is expected to be either an array or an object.
  *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @param array|object $term The term to check
  * @param string $taxonomy The taxonomy name to use
  * @param string $context Default is display
@@ -683,6 +748,10 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  * sanitize_term_field() - 
  *
  *
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
  *
  * @global object $wpdb Database Object
  * @param string $field Term field to sanitize
@@ -735,6 +804,10 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
  * @example array('ignore_empty' => true); See @see wp_parse_args() for more
  * information on parsing $args.
  *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global object $wpdb Database Object
  * @param string $taxonomy Taxonomy name
  * @param array|string $args Overwrite defaults
@@ -760,6 +833,10 @@ function wp_count_terms( $taxonomy, $args = array() ) {
  *
  *
  *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global object $wpdb Database Object
  * @param int $object_id ??
  * @param string|array $taxonomy List of Taxonomy Names or single Taxonomy name.
@@ -781,7 +858,19 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 }
 
 /**
- * Removes a term from the database.
+ * wp_delete_term() - Removes a term from the database.
+ *
+ *
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
+ * @global object $wpdb Database Object
+ * @param int $term Term ID
+ * @param string $taxonomy Taxonomy Name
+ * @param array|string $args Change Default
+ * @param bool Returns false if not term; true if completes delete action.
  */
 function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
@@ -839,10 +928,19 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 }
 
 /**
- * Returns the terms associated with the given object(s), in the supplied taxonomies.
+ * wp_get_object_terms() - Returns the terms associated with the given object(s), in the supplied taxonomies.
+ *
+ * 
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
+ * @global $wpdb Database Object
  * @param int|array $object_id The id of the object(s)) to retrieve for.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
- * @return array The requested term data.
+ * @param array|string $args Change what is returned
+ * @return array The requested term data.	 	 	 
  */
 function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	global $wpdb;
@@ -901,6 +999,10 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  * wp_insert_term() - Adds a new term to the database. Optionally marks it as an alias of an existing term.
  *
  * 
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
  *
  * @global $wpdb Database Object
  * @param int|string $term The term to add or update.
@@ -983,11 +1085,16 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * Relates an object (post, link etc) to a term and taxonomy type.  Creates the term and taxonomy
  * relationship if it doesn't already exist.  Creates a term if it doesn't exist (using the slug).
  *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
  * @global $wpdb Database Object
  * @param int $object_id The object to relate to.
  * @param array|int|string $term The slug or id of the term.
  * @param array|string $taxonomy The context in which to relate the term to the object.
  * @param bool $append If false will delete difference of terms.
+ * @return array Affected Term IDs
  */
 function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	global $wpdb;
@@ -1032,6 +1139,30 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	return $tt_ids;
 }
 
+/**
+ * wp_unique_term_slug() - Will make @see $slug unique, if it isn't already
+ * 
+ * The @see $slug has to be unique global to every taxonomy, meaning that one taxonomy
+ * term can't have a matching slug with another taxonomy term. Each slug has to be
+ * globally unique for every taxonomy.
+ *
+ * The way this works is that if the taxonomy that the term belongs to is heirarchical
+ * and has a parent, it will append that parent to the @see $slug.
+ *
+ * If that still doesn't return an unique slug, then it try to append a number until
+ * it finds a number that is truely unique.
+ * 
+ * The only purpose for @see $term is for appending a parent, if one exists.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term
+ *
+ * @global $wpdb Database Object
+ * @param string $slug The string that will be tried for a unique slug
+ * @param object $term The term object that the $slug will belong too
+ * @return string Will return a true unique slug.
+ */
 function wp_unique_term_slug($slug, $term) {
 	global $wpdb;
 
@@ -1064,6 +1195,21 @@ function wp_unique_term_slug($slug, $term) {
 	return $slug;
 }
 
+/**
+ * wp_update_term() - 
+ * 
+ * 
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
+ * @global $wpdb Database Object
+ * @param int $term The ID of the term
+ * @param string $taxonomy The context in which to relate the term to the object.
+ * @param array|string $args Overwrite defaults
+ * @return array Returns Term ID and Taxonomy Term ID
+ */
 function wp_update_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
 
@@ -1139,6 +1285,23 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
 }
 
+/**
+ * wp_update_term_count() - Updates the amount of terms in taxonomy
+ * 
+ * If there is a taxonomy callback applyed, then it will be called for updating the count.
+ *
+ * The default action is to count what the amount of terms have the relationship of term ID.
+ * Once that is done, then update the database.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Term 
+ *
+ * @global $wpdb Database Object
+ * @param int|array $terms The ID of the terms
+ * @param string $taxonomy The context of the term.
+ * @return bool If no terms will return false, and if successful will return true.
+ */
 function wp_update_term_count( $terms, $taxonomy ) {
 	global $wpdb;
 
@@ -1171,6 +1334,21 @@ function wp_update_term_count( $terms, $taxonomy ) {
 // Cache
 //
 
+/**
+ * clean_object_term_cache() - 
+ * 
+ * 
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Cache 
+ *
+ * @global $object_term_cache 
+ * @global $blog_id The id of the blog, in case there is more than one blog using the library.
+ * @param int|array $object_ids 
+ * @param string $object_type @see get_object_taxonomies
+ * @return null
+ */
 function clean_object_term_cache($object_ids, $object_type) {
 	if ( !is_array($object_ids) )
 		$object_ids = array($object_ids);
@@ -1181,6 +1359,21 @@ function clean_object_term_cache($object_ids, $object_type) {
 	do_action('clean_object_term_cache', $object_ids, $object_type);
 }
 
+/**
+ * clean_term_cache() - 
+ * 
+ * 
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Cache 
+ *
+ * @global $object_term_cache 
+ * @global $blog_id The id of the blog, in case there is more than one blog using the library.
+ * @param int|array $ids 
+ * @param string $taxonomy Can be empty and will assume tt_ids, else will use for context.
+ * @return null
+ */
 function clean_term_cache($ids, $taxonomy = '') {
 	global $wpdb;
 
@@ -1294,6 +1487,21 @@ function _get_term_hierarchy($taxonomy) {
 	return $children;
 }
 
+/**
+ * @access private
+ * _get_term_children() - Get array of child terms
+ * 
+ * If $terms is an array of objects, then objects will returned from the function.
+ * If $terms is an array of IDs, then an array of ids of children will be returned.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ *
+ * @param int $term_id Look for this Term ID in $terms
+ * @param array $terms List of Term IDs
+ * @param string $taxonomy Term Context
+ * @return array 
+ */
 function &_get_term_children($term_id, $terms, $taxonomy) {
 	if ( empty($terms) )
 		return array();
@@ -1333,8 +1541,19 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 	return $term_list;
 }
 
-// Recalculates term counts by including items from child terms
-// Assumes all relevant children are already in the $terms argument
+/**
+ * @access private
+ * _pad_term_counts() - Add count of children to parent count
+ * 
+ * Recalculates term counts by including items from child terms.
+ * Assumes all relevant children are already in the $terms argument
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ *
+ * @param array $terms List of Term IDs
+ * @param string $taxonomy Term Context
+ */
 function _pad_term_counts(&$terms, $taxonomy) {
 	global $wpdb;
 
@@ -1382,6 +1601,19 @@ function _pad_term_counts(&$terms, $taxonomy) {
 // Default callbacks
 //
 
+/**
+ * @access private
+ * _update_post_term_count() - Will update term count based on posts
+ * 
+ * Private function for the default callback for post_tag and category taxonomies.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @category Callback 
+ *
+ * @global $wpdb Database Object
+ * @param array $terms List of Term IDs
+ */
 function _update_post_term_count( $terms ) {
 	global $wpdb;
 
