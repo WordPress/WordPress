@@ -1,3 +1,4 @@
+<?php if ( ! defined('ABSPATH') ) die(); ?>
 <table class="widefat">
 	<thead>
 	<tr>
