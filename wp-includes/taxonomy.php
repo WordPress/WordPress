@@ -1026,6 +1026,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$args = sanitize_term($args, $taxonomy, 'db');
 	extract($args, EXTR_SKIP);
 
+	// expected_slashed ($name)
+	$name = stripslashes($name);
+
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
 
