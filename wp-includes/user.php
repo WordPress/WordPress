@@ -15,12 +15,8 @@ function get_usernumposts($userid) {
 
 // TODO: xmlrpc only.  Maybe move to xmlrpc.php.
 function user_pass_ok($user_login,$user_pass) {
-	global $cache_userdata;
-	if ( empty($cache_userdata[$user_login]) ) {
-		$userdata = get_userdatabylogin($user_login);
-	} else {
-		$userdata = $cache_userdata[$user_login];
-	}
+	$userdata = get_userdatabylogin($user_login);
+
 	return (md5($user_pass) == $userdata->user_pass);
 }
 
