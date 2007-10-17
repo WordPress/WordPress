@@ -533,6 +533,7 @@ function upgrade_230() {
 
 	// Convert categories to terms.
 	$tt_ids = array();
+	$have_tags = false;
 	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_ID");
 	foreach ($categories as $category) {
 		$term_id = (int) $category->cat_ID;
@@ -579,6 +580,7 @@ function upgrade_230() {
 		}
 
 		if ( !empty($category->tag_count) ) {
+			$have_tags = true;
 			$count = (int) $category->tag_count;
 			$taxonomy = 'post_tag';
 			$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '$count')");
@@ -593,7 +595,11 @@ function upgrade_230() {
 		}
 	}
 
-	$posts = $wpdb->get_results("SELECT * FROM $wpdb->post2cat");
+	$select = 'post_id, category_id';
+	if ( $have_tags )
+		$select .= ', rel_type';
+
+	$posts = $wpdb->get_results("SELECT $select FROM $wpdb->post2cat GROUP BY post_id, category_id");
 	foreach ( $posts as $post ) {
 		$post_id = (int) $post->post_id;
 		$term_id = (int) $post->category_id;
@@ -658,7 +664,7 @@ function upgrade_230() {
 		// Set default to the last category we grabbed during the upgrade loop.
 		update_option('default_link_category', $default_link_cat);
 	} else {
-		$links = $wpdb->get_results("SELECT * FROM $wpdb->link2cat");
+		$links = $wpdb->get_results("SELECT link_id, category_id FROM $wpdb->link2cat GROUP BY link_id, category_id");
 		foreach ( $links as $link ) {
 			$link_id = (int) $link->link_id;
 			$term_id = (int) $link->category_id;
@@ -1002,7 +1008,6 @@ function dbDelta($queries, $execute = true) {
 						}
 						// Add the column list to the index create string
 						$index_string .= ' ('.$index_columns.')';
-						error_log("Index string: $index_string", 0);
 						if(!(($aindex = array_search($index_string, $indices)) === false)) {
 							unset($indices[$aindex]);
 							//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br />Found index:".$index_string."</pre>\n";
