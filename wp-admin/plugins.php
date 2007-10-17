@@ -4,22 +4,9 @@ require_once('admin.php');
 if ( isset($_GET['action']) ) {
 	if ('activate' == $_GET['action']) {
 		check_admin_referer('activate-plugin_' . $_GET['plugin']);
-		$current = get_option('active_plugins');
-		$plugin = trim($_GET['plugin']);
-		if ( validate_file($plugin) )
-			wp_die(__('Invalid plugin.'));
-		if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
-			wp_die(__('Plugin file does not exist.'));
-		if (!in_array($plugin, $current)) {
-			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), 'plugins.php?error=true&plugin=' . $plugin)); // we'll override this later if the plugin can be included without fatal error
-			ob_start();
-			@include(ABSPATH . PLUGINDIR . '/' . $plugin);
-			$current[] = $plugin;
-			sort($current);
-			update_option('active_plugins', $current);
-			do_action('activate_' . $plugin);
-			ob_end_clean();
-		}
+		$result = activate_plugin($_GET['plugin']);
+		if( is_wp_error( $result ) )
+			wp_die( $result->get_error_message() );
 		wp_redirect('plugins.php?activate=true'); // overrides the ?error=true one above
 	} elseif ('error_scrape' == $_GET['action']) {
 		$plugin = trim($_GET['plugin']);
@@ -31,21 +18,11 @@ if ( isset($_GET['action']) ) {
 		include(ABSPATH . PLUGINDIR . '/' . $plugin);
 	} elseif ('deactivate' == $_GET['action']) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
-		$current = get_option('active_plugins');
-		array_splice($current, array_search( $_GET['plugin'], $current), 1 ); // Array-fu!
-		update_option('active_plugins', $current);
-		do_action('deactivate_' . trim( $_GET['plugin'] ));
+		deactivate_plugins($_GET['plugin']);
 		wp_redirect('plugins.php?deactivate=true');
 	} elseif ($_GET['action'] == 'deactivate-all') {
 		check_admin_referer('deactivate-all');
-		$current = get_option('active_plugins');
-
-		foreach ($current as $plugin) {
-			array_splice($current, array_search($plugin, $current), 1);
-			do_action('deactivate_' . $plugin);
-		}
-
-		update_option('active_plugins', array());
+		deactivate_all_plugins();
 		wp_redirect('plugins.php?deactivate-all=true');
 	}
 	exit;

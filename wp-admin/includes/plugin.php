@@ -86,6 +86,48 @@ function get_plugins() {
 	return $wp_plugins;
 }
 
+function activate_plugin($plugin) {
+		$current = get_option('active_plugins');
+		$plugin = trim($plugin);
+
+		if ( validate_file($plugin) )
+			return new WP_Error('plugin_invalid', __('Invalid plugin.'));
+		if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
+			return new WP_Error('plugin_not_found', __('Plugin file does not exist.'));
+
+		if (!in_array($plugin, $current)) {
+			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), 'plugins.php?error=true&plugin=' . $plugin)); // we'll override this later if the plugin can be included without fatal error
+			ob_start();
+			@include(ABSPATH . PLUGINDIR . '/' . $plugin);
+			$current[] = $plugin;
+			sort($current);
+			update_option('active_plugins', $current);
+			do_action('activate_' . $plugin);
+			ob_end_clean();
+		}
+
+		return null;
+}
+
+function deactivate_plugins($plugins) {
+	$current = get_option('active_plugins');
+
+	if(!is_array($plugins))
+		$plugins = array($plugins);
+
+	foreach($plugins as $plugin) {
+		array_splice($current, array_search( $plugin, $current), 1 ); // Array-fu!
+		do_action('deactivate_' . trim( $plugin ));
+	}
+
+	update_option('active_plugins', $current);
+}
+
+function deactivate_all_plugins() {
+	$current = get_option('active_plugins');
+	deactivate_plugins($current);
+}
+
 //
 // Menu
 //
