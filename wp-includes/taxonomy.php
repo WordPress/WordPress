@@ -1119,6 +1119,8 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	foreach ($terms as $term) {
 		if ( !$id = is_term($term, $taxonomy) )
 			$id = wp_insert_term($term, $taxonomy);
+		if ( is_wp_error($id) )
+			return $id;
 		$term_ids[] = $id['term_id'];
 		$id = $id['term_taxonomy_id'];
 		$tt_ids[] = $id;
