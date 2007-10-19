@@ -131,48 +131,21 @@ if ( 1 == count($posts) ) {
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ($comments) {
+		// Make sure comments, post, and post_author are cached
 		update_comment_cache($comments);
+		$post = get_post($id);
+		$authordata = get_userdata($post->post_author);
 	?>
 <h3 id="comments"><?php _e('Comments') ?></h3>
-<ol id="the-comment-list" class="commentlist">
+<ol id="the-comment-list" class="list:comment commentlist">
 <?php
-$i = 0;
-foreach ($comments as $comment) {
-
-		++$i; $class = '';
-		$post = get_post($comment->comment_post_ID);
-		$authordata = get_userdata($post->post_author);
-			$comment_status = wp_get_comment_status($comment->comment_ID);
-			if ('unapproved' == $comment_status)
-				$class .= ' unapproved';
-			if ($i % 2)
-				$class .= ' alternate';
-			echo "<li id='comment-$comment->comment_ID' class='$class'>";
-?>
-<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=edit"><?php comment_author_IP() ?></a></p>
-
-<?php comment_text() ?>
-
-<p><?php comment_date(__('M j, g:i A')); ?> &#8212; [
-<?php
-if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."'>" . __('Edit') . '</a>';
-	echo ' | <a href="' . wp_nonce_url('comment.php?action=deletecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . js_escape(sprintf(__("You are about to delete this comment by '%s'.\n'Cancel' to stop, 'OK' to delete."), $comment->comment_author)) . "', theCommentList );\">" . __('Delete') . '</a> ';
-	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'unapprove-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Unapprove') . '</a> </span>';
-		echo '<span class="approve"> | <a href="' . wp_nonce_url('comment.php?action=approvecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'approve-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Approve') . '</a> </span>';
-	}
-	echo " | <a href=\"" . wp_nonce_url("comment.php?action=deletecomment&amp;dt=spam&amp;p=" . $comment->comment_post_ID . "&amp;c=" . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to mark as spam this comment by '%s'.\n'Cancel' to stop, 'OK' to mark as spam."), $comment->comment_author)) . "', theCommentList );\">" . __('Spam') . "</a> ";
-}
-?> ]
-</p>
-		</li>
-
-<?php //end of the loop, don't delete
-		} // end foreach
+		$i = 0;
+		foreach ( $comments as $comment ) {
+			_wp_comment_list_item( $comment->comment_ID, ++$i );
+		}
 	echo '</ol>';
-	}//end if comments
-	?>
+	} // end if comments
+?>
 <?php } ?>
 </div>
 

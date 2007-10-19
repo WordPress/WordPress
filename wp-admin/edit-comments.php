@@ -105,7 +105,6 @@ if ('view' == $mode) {
 		echo "<ol id='the-comment-list' class='list:comment commentlist' $start>\n";
 		$i = 0;
 		foreach ( $comments as $comment ) {
-			get_comment( $comment ); // Cache it
 			_wp_comment_list_item( $comment->comment_ID, ++$i );
 		}
 		echo "</ol>\n\n";

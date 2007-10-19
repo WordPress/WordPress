@@ -318,11 +318,14 @@ if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$id", "delete-comment_$id" ) );
 	echo " | <a href='$url' class='delete:the-comment-list:comment-$id::spam=1'>" . __('Spam') . '</a> ';
 }
-$post = get_post($comment->comment_post_ID, OBJECT, 'display');
-$post_title = wp_specialchars( $post->post_title, 'double' );
-$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
+if ( !is_single() ) {
+	$post = get_post($comment->comment_post_ID, OBJECT, 'display');
+	$post_title = wp_specialchars( $post->post_title, 'double' );
+	$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 ?>
- ] &#8212; <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a></p>
+ ] &#8212; <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a>
+<?php } ?>
+</p>
 		</li>
 <?php
 }
