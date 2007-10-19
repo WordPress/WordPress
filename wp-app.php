@@ -12,6 +12,7 @@ define('APP_REQUEST', true);
 require_once('./wp-config.php');
 require_once(ABSPATH . WPINC . '/post-template.php');
 require_once(ABSPATH . WPINC . '/atomlib.php');
+require_once(ABSPATH . WPINC . '/feed.php');
 
 $_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/', '', $_SERVER['REQUEST_URI'] );
 
@@ -784,7 +785,7 @@ EOD;
 <entry xmlns="<?php echo $this->ATOM_NS ?>"
        xmlns:app="<?php echo $this->ATOMPUB_NS ?>" xml:lang="<?php echo get_option('rss_language'); ?>">
 	<id><?php the_guid($GLOBALS['post']->ID); ?></id>
-<?php list($content_type, $content) = $this->prep_content(get_the_title()); ?>
+<?php list($content_type, $content) = prep_atom_text_construct(get_the_title()); ?>
 	<title type="<?php echo $content_type ?>"><?php echo $content ?></title>
 	<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 	<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
@@ -805,7 +806,7 @@ EOD;
 <?php } else { ?>
 	<link href="<?php the_permalink_rss() ?>" />
 <?php if ( strlen( $GLOBALS['post']->post_content ) ) :
-list($content_type, $content) = $this->prep_content(get_the_content()); ?>
+list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 	<content type="<?php echo $content_type ?>"><?php echo $content ?></content>
 <?php endif; ?>
 <?php } ?>
@@ -813,36 +814,10 @@ list($content_type, $content) = $this->prep_content(get_the_content()); ?>
 <?php foreach(get_the_category() as $category) { ?>
 	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->name?>" />
 <?php } ?>
-<?php list($content_type, $content) = $this->prep_content(get_the_excerpt()); ?>
+<?php list($content_type, $content) = prep_atom_text_construct(get_the_excerpt()); ?>
 	<summary type="<?php echo $content_type ?>"><?php echo $content ?></summary>
 </entry>
 <?php }
-
-	function prep_content($data) {
-		if (strpos($data, '<') === false && strpos($data, '&') === false) {
-			return array('text', $data);
-		}
-
-		$parser = xml_parser_create();
-		xml_parse($parser, '<div>' . $data . '</div>', true);
-		$code = xml_get_error_code($parser);
-		xml_parser_free($parser);
-
-		if (!$code) {
-		        if (strpos($data, '<') === false) {
-			        return array('text', $data);
-                        } else {
-			        $data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
-			        return array('xhtml', $data);
-                        }
-		}
-
-		if (strpos($data, ']]>') == false) {
-			return array('html', "<![CDATA[$data]]>");
-		} else {
-			return array('html', htmlspecialchars($data));
-		}
-	}
 
 	function ok() {
 		log_app('Status','200: OK');
