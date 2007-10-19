@@ -18,9 +18,7 @@ function register_sidebars($number = 1, $args = array()) {
 	if ( is_string($args) )
 		parse_str($args, $args);
 
-	$i = 1;
-
-	while ( $i <= $number ) {
+	for ( $i=1; $i <= $number; $i++ ) {
 		$_args = $args;
 		if ( $number > 1 ) {
 			$_args['name'] = isset($args['name']) ? $args['name'] : sprintf(__('Sidebar %d'), $i);
@@ -29,7 +27,6 @@ function register_sidebars($number = 1, $args = array()) {
 		}
 		$_args['id'] = isset($args['id']) ? $args['id'] : "sidebar-$i";
 		register_sidebar($_args);
-		++$i;
 	}
 }
 
