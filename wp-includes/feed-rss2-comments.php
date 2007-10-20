@@ -6,6 +6,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 <rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
 	>
 <channel>
 	<title><?php
@@ -16,6 +17,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 		else
 			printf(__('Comments for %s'), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
 	?></title>
+	<atom:link href="<?php bloginfo('comments_rss2_url') ?>" rel="self" type="application/rss+xml" />
 	<link><?php (is_single()) ? the_permalink_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
