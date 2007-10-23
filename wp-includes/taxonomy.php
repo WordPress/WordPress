@@ -1429,15 +1429,7 @@ function clean_term_cache($ids, $taxonomy = '') {
  * @return bool|array Empty array if $terms found, but not $taxonomy. False if nothing is in cache for $taxonomy and $id.
  */
 function &get_object_term_cache($id, $taxonomy) {
-	$terms = wp_cache_get($id, 'object_terms');
-	if ( false !== $terms ) {
-		if ( isset($terms[$taxonomy]) )
-			return $terms[$taxonomy];
-		else
-			return array();
-	}
-
-	return false;
+	return wp_cache_get($id, "{$taxonomy}_relationships");
 }
 
 /**
@@ -1465,28 +1457,42 @@ function update_object_term_cache($object_ids, $object_type) {
 
 	$object_ids = array_map('intval', $object_ids);
 
+	$taxonomies = get_object_taxonomies($object_type);
+
 	$ids = array();
 	foreach ( (array) $object_ids as $id ) {
-		if ( false === wp_cache_get($id, 'object_terms') )
-			$ids[] = $id;
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( false === wp_cache_get($id, "{$taxonomy}_relationships") ) {
+				$ids[] = $id;
+				break;
+			}
+		}
 	}
 
 	if ( empty( $ids ) )
 		return false;
 
-	$terms = wp_get_object_terms($ids, get_object_taxonomies($object_type), 'fields=all_with_object_id');
+	$terms = wp_get_object_terms($ids, $taxonomies, 'fields=all_with_object_id');
 
 	$object_terms = array();
 	foreach ( (array) $terms as $term )
 		$object_terms[$term->object_id][$term->taxonomy][$term->term_id] = $term;
 
 	foreach ( $ids as $id ) {
-		if ( ! isset($object_terms[$id]) )
-				$object_terms[$id] = array();
+		foreach ( $taxonomies  as $taxonomy ) {
+			if ( ! isset($object_terms[$id][$taxonomy]) ) {
+				if ( !isset($object_terms[$id]) )
+					$object_terms[$id] = array();
+				$object_terms[$id][$taxonomy] = array();
+			}
+		}
 	}
 
-	foreach ( $object_terms as $id => $value )
-		wp_cache_set($id, $value, 'object_terms');
+	foreach ( $object_terms as $id => $value ) {
+		foreach ( $value as $taxonomy => $terms ) {
+			wp_cache_set($id, $terms, "{$taxonomy}_relationships");
+		}
+	}
 }
 
 /**
