@@ -559,6 +559,10 @@ function &get_terms($taxonomies, $args = '') {
 		$orderby = 'tt.count';
 	else if ( 'name' == $orderby )
 		$orderby = 't.name';
+	else if ( 'slug' == $orderby )
+		$orderby = 't.slug';
+	else if ( 'term_group' == $orderby )
+		$orderby = 't.term_group';
 	else
 		$orderby = 't.term_id';
 
