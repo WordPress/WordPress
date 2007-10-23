@@ -1035,7 +1035,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$term_group = 0;
 	if ( $alias_of ) {
-		$alias = $wpdb->fetch_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $alias_of) );
+		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $alias_of) );
 		if ( $alias->term_group ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
@@ -1245,7 +1245,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	if ( $alias_of ) {
-		$alias = $wpdb->fetch_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $alias_of) );
+		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $alias_of) );
 		if ( $alias->term_group ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
