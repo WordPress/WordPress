@@ -1045,7 +1045,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			$term_group = $alias->term_group;
 		} else {
 			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
-			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
+			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms") + 1;
 			$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->terms SET term_group = %d WHERE term_id = %d", $term_group, $alias->term_id ) );
 		}
 	}
@@ -1255,7 +1255,7 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 			$term_group = $alias->term_group;
 		} else {
 			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
-			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms GROUP BY term_group") + 1;
+			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms") + 1;
 			$wpdb->update( $wpdb->terms, compact('term_group'), array( 'term_id' => $alias->term_id ) );
 		}
 	}
