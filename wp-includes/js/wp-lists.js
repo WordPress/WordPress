@@ -282,9 +282,10 @@ var wpList = {
 		}
 
 		if ( 'none' != s.addColor ) {
+			var b = e.css( 'background-color' );
+			if ( b == 'transparent' ) { b = ''; }
 			Fat.fade_element(e.attr('id'),null,700,s.addColor);
 			setTimeout( function() {
-				var b = e.css( 'background-color' );
 				var g = e.css( 'background-color', '' ).css( 'background-color' );
 				if ( b != g ) { e.css( 'background-color', b ); }
 			}, 705 );

@@ -61,7 +61,7 @@ class WP_Scripts {
 			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20070823' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20071023' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
@@ -118,7 +118,7 @@ class WP_Scripts {
 			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20070823' );
 			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20070822' );
-			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20070823' );
+			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20071023' );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );

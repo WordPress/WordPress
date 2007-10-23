@@ -476,10 +476,12 @@ function _relocate_children( $old_ID, $new_ID ) {
 	return $wpdb->query( "UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID" );
 }
 
-function wp_edit_posts_query( $q = '_GET' ) {
+function wp_edit_posts_query( $q = false ) {
 	global $wpdb;
-	$$q['m']   = (int) $$q['m'];
-	$$q['cat'] = (int) $$q['cat'];
+	if ( false === $q )
+		$q = $_GET;
+	$q['m']   = (int) $q['m'];
+	$q['cat'] = (int) $q['cat'];
 	$post_stati  = array(	//	array( adj, noun )
 				'draft' => array(__('Draft'), _c('Drafts|manage posts header')),
 				'future' => array(__('Scheduled'), __('Scheduled posts')),
@@ -492,15 +494,15 @@ function wp_edit_posts_query( $q = '_GET' ) {
 
 	$post_status_q = '';
 	$post_status_label = _c('Posts|manage posts header');
-	if ( isset($$q['post_status']) && in_array( $$q['post_status'], array_keys($post_stati) ) ) {
-		$post_status_label = $post_stati[$$q['post_status']][1];
-		$post_status_q = '&post_status=' . $$q['post_status'];
+	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) ) {
+		$post_status_label = $post_stati[$q['post_status']][1];
+		$post_status_q = '&post_status=' . $q['post_status'];
 	}
 
-	if ( 'pending' === $$q['post_status'] ) {
+	if ( 'pending' === $q['post_status'] ) {
 		$order = 'ASC';
 		$orderby = 'modified';
-	} elseif ( 'draft' === $$q['post_status'] ) {
+	} elseif ( 'draft' === $q['post_status'] ) {
 		$order = 'DESC';
 		$orderby = 'modified';
 	} else {

@@ -108,8 +108,6 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 		<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
 	</fieldset>
 	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
-	<?php wp_nonce_field( 'add-post', '_ajax_nonce', false ); ?>
-	<input type="button" id="get-extra-button" class="add:the-extra-list:searchform" style="display:none" />
 </form>
 
 <?php do_action('restrict_manage_posts'); ?>
@@ -117,6 +115,10 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 <br style="clear:both;" />
 
 <?php include( 'edit-post-rows.php' ); ?>
+
+<form action="" method="post" id="get-extra-posts" class="add:the-extra-list:" style="display:none">
+	<?php wp_nonce_field( 'add-post', '_ajax_nonce', false ); ?>
+</form>
 
 <div id="ajax-response"></div>
 

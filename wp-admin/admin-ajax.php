@@ -15,7 +15,9 @@ switch ( $action = $_POST['action'] ) :
 case 'add-post' :
 	check_ajax_referer( 'add-post' );
 	add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; $start += intval(trim($b[2])) - 1; return "LIMIT $start, 1";' ) );
-	wp_edit_posts_query( '_POST' );
+	wp_edit_posts_query( $_POST );
+	if ( !have_posts() )
+		die('1');
 	$posts_columns = wp_manage_posts_columns();
 	ob_start();
 		include( 'edit-post-rows.php' );

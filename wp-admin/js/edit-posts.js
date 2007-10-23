@@ -6,7 +6,7 @@ if ( document.location.href.match(/(\?|&)c=/) )
 else
 	delAfter = function() {
 		list[0].wpList.add( extra.children(':eq(0)').remove().clone() );
-		$('#get-extra-button').click();
+		$('#get-extra-posts').submit();
 	}
 
 var addBefore = function ( settings ) {
