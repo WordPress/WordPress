@@ -1033,6 +1033,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	// expected_slashed ($name)
 	$name = stripslashes($name);
+	$description = stripslashes($description);
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
@@ -1241,6 +1242,10 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	$args = wp_parse_args($args, $defaults);
 	$args = sanitize_term($args, $taxonomy, 'db');
 	extract($args, EXTR_SKIP);
+
+	// expected_slashed ($name)
+	$name = stripslashes($name);
+	$description = stripslashes($description);
 
 	$empty_slug = false;
 	if ( empty($slug) ) {
