@@ -1632,6 +1632,8 @@ function clean_post_cache($id) {
 
 	clean_object_term_cache($id, 'post');
 
+	wp_cache_delete( 'wp_get_archives', 'general' );
+
 	do_action('clean_post_cache', $id);
 }
 

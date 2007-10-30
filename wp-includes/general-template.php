@@ -394,7 +394,16 @@ function wp_get_archives($args = '') {
 	$join = apply_filters('getarchives_join', "", $r);
 
 	if ( 'monthly' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
+		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit";
+		$key = md5($query);
+		$cache = wp_cache_get( 'wp_get_archives' , 'general');
+		if ( !isset( $cache[ $key ] ) ) {
+			$arcresults = $wpdb->get_results($query);
+			$cache[ $key ] = $arcresults;
+			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+		} else {
+			$arcresults = $cache[ $key ];
+		}
 		if ( $arcresults ) {
 			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
@@ -406,7 +415,16 @@ function wp_get_archives($args = '') {
 			}
 		}
 	} elseif ('yearly' == $type) {
-         $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date DESC" . $limit);
+		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date DESC $limit";
+		$key = md5($query);
+		$cache = wp_cache_get( 'wp_get_archives' , 'general');
+		if ( !isset( $cache[ $key ] ) ) {
+			$arcresults = $wpdb->get_results($query);
+			$cache[ $key ] = $arcresults;
+			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+		} else {
+			$arcresults = $cache[ $key ];
+		}
 		if ($arcresults) {
 			$afterafter = $after;
 			foreach ($arcresults as $arcresult) {
@@ -418,7 +436,16 @@ function wp_get_archives($args = '') {
 			}
 		}
 	} elseif ( 'daily' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date DESC" . $limit);
+		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date DESC $limit";
+		$key = md5($query);
+		$cache = wp_cache_get( 'wp_get_archives' , 'general');
+		if ( !isset( $cache[ $key ] ) ) {
+			$arcresults = $wpdb->get_results($query);
+			$cache[ $key ] = $arcresults;
+			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+		} else {
+			$arcresults = $cache[ $key ];
+		}
 		if ( $arcresults ) {
 			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
@@ -432,7 +459,16 @@ function wp_get_archives($args = '') {
 		}
 	} elseif ( 'weekly' == $type ) {
 		$start_of_week = get_option('start_of_week');
-		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY WEEK(post_date, $start_of_week), YEAR(post_date) ORDER BY post_date DESC" . $limit);
+		$query = "SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY WEEK(post_date, $start_of_week), YEAR(post_date) ORDER BY post_date DESC $limit";
+		$key = md5($query);
+		$cache = wp_cache_get( 'wp_get_archives' , 'general');
+		if ( !isset( $cache[ $key ] ) ) {
+			$arcresults = $wpdb->get_results($query);
+			$cache[ $key ] = $arcresults;
+			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+		} else {
+			$arcresults = $cache[ $key ];
+		}
 		$arc_w_last = '';
 		$afterafter = $after;
 		if ( $arcresults ) {
@@ -453,7 +489,16 @@ function wp_get_archives($args = '') {
 		}
 	} elseif ( ( 'postbypost' == $type ) || ('alpha' == $type) ) {
 		('alpha' == $type) ? $orderby = "post_title ASC " : $orderby = "post_date DESC ";
-		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit");
+		$query = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
+		$key = md5($query);
+		$cache = wp_cache_get( 'wp_get_archives' , 'general');
+		if ( !isset( $cache[ $key ] ) ) {
+			$arcresults = $wpdb->get_results($query);
+			$cache[ $key ] = $arcresults;
+			wp_cache_add( 'wp_get_archives', $cache, 'general' );
+		} else {
+			$arcresults = $cache[ $key ];
+		}
 		if ( $arcresults ) {
 			foreach ( $arcresults as $arcresult ) {
 				if ( $arcresult->post_date != '0000-00-00 00:00:00' ) {
