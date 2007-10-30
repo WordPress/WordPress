@@ -1,7 +1,23 @@
 <?php
+/**
+ * A simple set of functions to check our version 1.0 update service
+ *
+ * @package WordPress
+ * @since 2.3
+ */
 
-// A simple set of functions to check our version 1.0 update service
-
+/**
+ * wp_version_check() - Check WordPress version against the newest version.
+ *
+ * The WordPress version, PHP version, and Locale is sent. Checks against the WordPress server at 
+ * api.wordpress.org server. Will only check if PHP has fsockopen enabled and WordPress isn't installing.
+ *
+ * @package WordPress
+ * @since 2.3
+ * @uses $wp_version Used to check against the newest WordPress version.
+ *
+ * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
+ */
 function wp_version_check() {
 	if ( !function_exists('fsockopen') || strpos($_SERVER['PHP_SELF'], 'install.php') !== false || defined('WP_INSTALLING') )
 		return;
