@@ -20,6 +20,7 @@ class wpdb {
 	var $last_query;
 	var $col_info;
 	var $queries;
+	var $prefix = '';
 
 	// Our tables
 	var $posts;
@@ -29,16 +30,13 @@ class wpdb {
 	var $comments;
 	var $links;
 	var $options;
-	var $optiontypes;
-	var $optionvalues;
-	var $optiongroups;
-	var $optiongroup_options;
 	var $postmeta;
 	var $usermeta;
 	var $terms;
 	var $term_taxonomy;
 	var $term_relationships;
-
+	var $tables = array('users', 'usermeta', 'posts', 'categories', 'post2cat', 'comments', 'links', 'link2cat', 'options',
+			'postmeta', 'terms', 'term_taxonomy', 'term_relationships');
 	var $charset;
 	var $collate;
 
@@ -84,6 +82,26 @@ class wpdb {
 
 	function __destruct() {
 		return true;
+	}
+
+	function set_prefix($prefix) {
+
+		if ( preg_match('|[^a-z0-9_]|i', $prefix) )
+			return new WP_Error('invalid_db_prefix', 'Invalid database prefix'); // No gettext here
+
+		$old_prefix = $this->prefix;
+		$this->prefix = $prefix;
+
+		foreach ( $this->tables as $table )
+			$this->$table = $this->prefix . $table;
+
+		if ( defined('CUSTOM_USER_TABLE') )
+			$this->users = CUSTOM_USER_TABLE;
+
+		if ( defined('CUSTOM_USER_META_TABLE') )
+			$this->usermeta = CUSTOM_USER_META_TABLE;
+
+		return $old_prefix;
 	}
 
 	/**
