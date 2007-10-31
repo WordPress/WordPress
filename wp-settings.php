@@ -118,33 +118,13 @@ if ( !defined('PLUGINDIR') )
 
 require (ABSPATH . WPINC . '/compat.php');
 require (ABSPATH . WPINC . '/functions.php');
+require (ABSPATH . WPINC . '/classes.php');
 
 require_wp_db();
-// $table_prefix is deprecated as of 2.1
-$wpdb->prefix = $table_prefix;
+$prefix = $wpdb->set_prefix($table_prefix);
 
-if ( preg_match('|[^a-z0-9_]|i', $wpdb->prefix) && !file_exists(ABSPATH . 'wp-content/db.php') )
+if ( is_wp_error($prefix) )
 	wp_die("<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.");
-
-// Table names
-$wpdb->posts          = $wpdb->prefix . 'posts';
-$wpdb->users          = $wpdb->prefix . 'users';
-$wpdb->categories     = $wpdb->prefix . 'categories';
-$wpdb->post2cat       = $wpdb->prefix . 'post2cat';
-$wpdb->comments       = $wpdb->prefix . 'comments';
-$wpdb->link2cat       = $wpdb->prefix . 'link2cat';
-$wpdb->links          = $wpdb->prefix . 'links';
-$wpdb->options        = $wpdb->prefix . 'options';
-$wpdb->postmeta       = $wpdb->prefix . 'postmeta';
-$wpdb->usermeta       = $wpdb->prefix . 'usermeta';
-$wpdb->terms          = $wpdb->prefix . 'terms';
-$wpdb->term_taxonomy  = $wpdb->prefix . 'term_taxonomy';
-$wpdb->term_relationships = $wpdb->prefix . 'term_relationships';
-
-if ( defined('CUSTOM_USER_TABLE') )
-	$wpdb->users = CUSTOM_USER_TABLE;
-if ( defined('CUSTOM_USER_META_TABLE') )
-	$wpdb->usermeta = CUSTOM_USER_META_TABLE;
 
 if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
 	require_once (ABSPATH . 'wp-content/object-cache.php');
@@ -153,7 +133,6 @@ else
 
 wp_cache_init();
 
-require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');
 include_once(ABSPATH . WPINC . '/streams.php');

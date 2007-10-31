@@ -52,6 +52,36 @@ case 'delete-cat' :
 		die('1');
 	else	die('0');
 	break;
+case 'delete-link-cat' :
+	check_ajax_referer( "delete-link-category_$id" );
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+
+	$cat_name = get_term_field('name', $id, 'link_category');
+
+	// Don't delete the default cats.
+	if ( $id == get_option('default_link_category') ) {
+		$x = new WP_AJAX_Response( array(
+			'what' => 'link-cat',
+			'id' => $id,
+			'data' => new WP_Error( 'default-link-cat', sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name) )
+		) );
+		$x->send();
+	}
+
+	$r = wp_delete_term($id, 'link_category');
+	if ( !$r )
+		die('0');
+	if ( is_wp_error($r) ) {
+		$x = new WP_AJAX_Response( array(
+			'what' => 'link-cat',
+			'id' => $id,
+			'data' => $r
+		) );
+		$x->send();
+	}
+	die('1');
+	break;
 case 'delete-link' :
 	check_ajax_referer( "delete-bookmark_$id" );
 	if ( !current_user_can( 'manage_links' ) )
@@ -178,6 +208,32 @@ case 'add-cat' : // From Manage->Categories
 		'id' => $cat->term_id,
 		'data' => _cat_row( $cat, $level, $cat_full_name ),
 		'supplemental' => array('name' => $cat_full_name, 'show-link' => sprintf(__( 'Category <a href="#%s">%s</a> added' ), "cat-$cat->term_id", $cat_full_name))
+	) );
+	$x->send();
+	break;
+case 'add-link-cat' : // From Blogroll -> Categories
+	check_ajax_referer( 'add-link-category' );
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+
+	$r = wp_insert_term($_POST['name'], 'link_category', $_POST );
+	if ( is_wp_error( $r ) ) {
+		$x = new WP_AJAX_Response( array(
+			'what' => 'link-cat',
+			'id' => $r
+		) );
+		$x->send();
+	}
+
+	extract($r, EXTR_SKIP);
+
+	if ( !$link_cat = link_cat_row( $term_id ) )
+		die('0');
+		
+	$x = new WP_Ajax_Response( array(
+		'what' => 'link-cat',
+		'id' => $term_id,
+		'data' => $link_cat
 	) );
 	$x->send();
 	break;

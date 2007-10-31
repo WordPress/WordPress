@@ -115,7 +115,7 @@ class WP_Scripts {
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')
 			) );
-			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20070823' );
+			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20071031' );
 			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20070822' );
 			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20071023' );

@@ -34,6 +34,8 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
 function _cat_row( $category, $level, $name_override = false ) {
 	global $class;
 
+	$category = get_category( $category );
+
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
 		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
@@ -47,7 +49,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	} else
 		$edit = '';
 
-	$class = ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || " class='alternate'" == $class ) ? '' : " class='alternate'";
+	$class = " class='alternate'" == $class ? '' : " class='alternate'";
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
@@ -59,6 +61,41 @@ function _cat_row( $category, $level, $name_override = false ) {
 		<td>$edit</td>\n\t</tr>\n";
 
 	return apply_filters('cat_row', $output);
+}
+
+function link_cat_row( $category ) {
+	global $class;
+
+	if ( !$category = get_term( $category, 'link_category' ) )
+		return false;
+	if ( is_wp_error( $category ) )
+		return $category;
+
+	if ( current_user_can( 'manage_categories' ) ) {
+		$edit = "<a href='link-category.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
+		$default_cat_id = (int) get_option( 'default_link_category' );
+
+		$delete_url = wp_nonce_url( "link-category.php?action=delete&amp;cat_ID=$category->term_id", "delete-link-category_$category->term_id" );
+		if ( $category->term_id != $default_cat_id )
+			$edit .= "<td><a href='$delete_url' class='delete:the-list:link-cat-$category->term_id delete'>" . __( 'Delete' ) . "</a>";
+		else
+			$edit .= "<td style='text-align:center'>" . __( "Default" );
+	} else {
+		$edit = '';
+	}
+
+	$class = " class='alternate'" == $class ? '' : " class='alternate'";
+
+	$category->count = number_format_i18n( $category->count );
+	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
+	$output = "<tr id='link-cat-$category->term_id'$class>
+		<th scope='row' style='text-align: center'>$category->term_id</th>
+		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->name ) . "</td>
+		<td>$category->description</td>
+		<td align='center'>$count</td>
+		<td>$edit</td>\n\t</tr>\n";
+
+	return apply_filters( 'link_cat_row', $output );
 }
 
 function checked( $checked, $current) {

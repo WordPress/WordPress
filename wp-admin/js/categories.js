@@ -1,5 +1,7 @@
 jQuery(function($) {
-	var options = document.forms['addcat'].category_parent.options;
+	var options = false
+	if ( document.forms['addcat'].category_parent )
+		options = document.forms['addcat'].category_parent.options;
 
 	var addAfter = function( r, settings ) {
 		var name = $("<span>" + $('name', r).text() + "</span>").html();
@@ -14,5 +16,8 @@ jQuery(function($) {
 				options[o] = null;
 	}
 
-	var a = $('#the-list').wpList( { addAfter: addAfter, delAfter: delAfter } );
+	if ( options )
+		$('#the-list').wpList( { addAfter: addAfter, delAfter: delAfter } );
+	else
+		$('#the-list').wpList();
 });
