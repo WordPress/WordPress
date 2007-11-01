@@ -1306,7 +1306,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	if ( empty($post_name) ) {
 		$post_name = sanitize_title($post_title, $post_ID);
-		$wpdb->update( $wpdb->posts, compact( $post_name ), array( 'ID' => $post_ID ) );
+		$wpdb->update( $wpdb->posts, compact("post_name"), array( 'ID' => $post_ID ) );
 	}
 
 	wp_set_post_categories($post_ID, $post_category);
