@@ -61,7 +61,7 @@ class WP_Scripts {
 			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20071023' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20071101' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
@@ -110,7 +110,7 @@ class WP_Scripts {
 					'toggleKey' => __(', or press the enter key to %toggle% it'),
 				) );
 			}
-			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20070823' );
+			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')

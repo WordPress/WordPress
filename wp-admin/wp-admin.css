@@ -184,6 +184,10 @@ input:focus, textarea:focus, label:focus {
 	border: 1px solid #686868;
 }
 
+.form-invalid {
+	background-color: #FF9999 !important;
+}
+
 label {
 	cursor: pointer;
 }

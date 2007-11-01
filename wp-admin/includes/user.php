@@ -82,21 +82,25 @@ function edit_user( $user_id = 0 ) {
 	/* checking the password has been typed twice */
 	do_action_ref_array( 'check_passwords', array ( $user->user_login, & $pass1, & $pass2 ));
 
-	if (!$update ) {
-		if ( $pass1 == '' || $pass2 == '' )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password twice.' ));
+	if ( $update ) {
+		if ( empty($pass1) && !empty($pass2) )
+			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ), array( 'form-field' => 'pass1' ) );
+		elseif ( !empty($pass1) && empty($pass2) )
+			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ), array( 'form-field' => 'pass2' ) );
 	} else {
-		if ((empty ( $pass1 ) && !empty ( $pass2 ) ) || (empty ( $pass2 ) && !empty ( $pass1 ) ) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ));
+		if ( empty($pass1) )
+			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password.' ), array( 'form-field' => 'pass1' ) );
+		elseif ( empty($pass2) )
+			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password twice.' ), array( 'form-field' => 'pass2' ) );
 	}
 
 	/* Check for "\" in password */
 	if( strpos( " ".$pass1, "\\" ) )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ));
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 
 	/* checking the password has been typed twice the same */
 	if ( $pass1 != $pass2 )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.' ));
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.' ), array( 'form-field' => 'pass1' ) );
 
 	if (!empty ( $pass1 ))
 		$user->user_pass = $pass1;
@@ -109,10 +113,10 @@ function edit_user( $user_id = 0 ) {
 
 	/* checking e-mail address */
 	if ( empty ( $user->user_email ) ) {
-		$errors->add( 'user_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ));
+		$errors->add( 'user_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ), array( 'form-field' => 'email' ) );
 	} else
 		if (!is_email( $user->user_email ) ) {
-			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The e-mail address isn't correct." ));
+			$errors->add( 'user_email', __( "<strong>ERROR</strong>: The e-mail address isn't correct." ), array( 'form-field' => 'email' ) );
 		}
 
 	if ( $errors->get_error_codes() )

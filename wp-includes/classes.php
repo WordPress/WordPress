@@ -710,11 +710,31 @@ class WP_Ajax_Response {
 		}
 
 		$response = '';
-		if ( is_wp_error($data) )
-			foreach ( $data->get_error_codes() as $code )
+		if ( is_wp_error($data) ) {
+			foreach ( $data->get_error_codes() as $code ) { 
 				$response .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message($code) . "]]></wp_error>";
-		else
+				if ( !$error_data = $data->get_error_data($code) )
+					continue;
+				$class = '';
+				if ( is_object($error_data) ) {
+					$class = ' class="' . get_class($error_data) . '"';
+					$error_data = get_object_vars($error_data);
+				}
+
+				$response .= "<wp_error_data code='$code'$class>";
+
+				if ( is_scalar($error_data) ) {
+					$response .= "<![CDATA[$v]]>";
+				} elseif ( is_array($error_data) ) {
+					foreach ( $error_data as $k => $v )
+						$response .= "<$k><![CDATA[$v]]></$k>";
+				}
+
+				$response .= "</wp_error_data>";
+			}
+		} else {
 			$response = "<response_data><![CDATA[$data]]></response_data>";
+		}
 
 		$s = '';
 		if ( (array) $supplemental )

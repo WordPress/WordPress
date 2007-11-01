@@ -454,34 +454,34 @@ foreach ( (array) $roleclass as $user_object ) {
 	if ( get_option('users_can_register') )
 		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php') . '</p>';
 	else
-        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
+	        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
 ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:user-list:">
 <?php wp_nonce_field('add-user') ?>
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
-	<tr>
+	<tr class="form-field form-required">
 		<th scope="row" width="33%"><?php _e('Username (required)') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
 		<td width="66%"><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" /></td>
 	</tr>
-	<tr>
+	<tr class="form-field">
 		<th scope="row"><?php _e('First Name') ?> </th>
 		<td><input name="first_name" type="text" id="first_name" value="<?php echo $new_user_firstname; ?>" /></td>
 	</tr>
-	<tr>
+	<tr class="form-field">
 		<th scope="row"><?php _e('Last Name') ?> </th>
 		<td><input name="last_name" type="text" id="last_name" value="<?php echo $new_user_lastname; ?>" /></td>
 	</tr>
-	<tr>
+	<tr class="form-field form-required">
 		<th scope="row"><?php _e('E-mail (required)') ?></th>
 		<td><input name="email" type="text" id="email" value="<?php echo $new_user_email; ?>" /></td>
 	</tr>
-	<tr>
+	<tr class="form-field">
 		<th scope="row"><?php _e('Website') ?></th>
 		<td><input name="url" type="text" id="url" value="<?php echo $new_user_uri; ?>" /></td>
 	</tr>
 
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
-	<tr>
+	<tr class="form-field form-required">
 		<th scope="row"><?php _e('Password (twice)') ?> </th>
 		<td><input name="pass1" type="password" id="pass1" />
 		<br />
@@ -489,7 +489,7 @@ foreach ( (array) $roleclass as $user_object ) {
 	</tr>
 <?php endif; ?>
 
-	<tr>
+	<tr class="form-field">
 		<th scope="row"><?php _e('Role'); ?></th>
 		<td><select name="role" id="role">
 			<?php

@@ -13,11 +13,20 @@ wpAjax = {
 		}
 		return r;
 	},
-	parseAjaxResponse: function( x, r ) { // 1 = good, 0 = strange (bad data?), -1 = you lack permission
+	parseAjaxResponse: function( x, r, e ) { // 1 = good, 0 = strange (bad data?), -1 = you lack permission
 		var re = $('#' + r).html('');
 		if ( x && typeof x == 'object' && x.getElementsByTagName('wp_ajax') ) {
-			if ( $('wp_error', x).each( function() { re.append('<p>' + this.firstChild.nodeValue + '</p>'); } ).size() ) {
-				return !re.wrap( '<div class="error"></div>' );
+			var errs = $('wp_error', x);
+			if ( errs.size() ) {
+				var err = '';
+				errs.each( function() {
+					var code = $(this).attr('code');
+					if ( formField = $('wp_error_data[@code="' + code + '"] form-field', x).text() )
+						code = formField;
+					wpAjax.invalidateForm( $('#' + e + ' :input[@name="' + code + '"]' ).parents('.form-field:first') );
+					err += '<p>' + this.firstChild.nodeValue + '</p>';
+				} );
+				return !re.html( '<div class="error">' + err + '</div>' );
 			}
 			return true;
 		}
@@ -26,6 +35,9 @@ wpAjax = {
 		if ( -1 == x ) { return !re.html('<div class="error"><p>You do not have permission to do that.</p></div>'); }
 		else if ( 0 === x ) { return !re.html('<div class="error"><p>AJAX is teh b0rked.</p></div>'); }
 		return true;
+	},
+	invalidateForm: function( jQ ) {
+		jQ.addClass( 'form-invalid' ).change( function() { $(this).removeClass( 'form-invalid' ); } );
 	}
 };
 
@@ -91,6 +103,12 @@ var wpList = {
 		s.nonce = wpList.nonce(e,s);
 
 		var es = $('#' + s.element + ' :input').not('[@name=_ajax_nonce], [@name=_wpnonce], [@name=action]');
+		var required = $('#' + s.element + ' .form-required:has(:input[@value=""]), #' + s.element + ' .form-required:input[@value=""]');
+		if ( required.size() ) {
+			wpAjax.invalidateForm( required );
+			return false;
+		}
+
 		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( cls[4] || '' ) ) );
 		var formData = $.isFunction(es.fieldSerialize) ? es.fieldSerialize() : es.serialize();
 		if ( formData ) { s.data += '&' + formData; }
@@ -102,7 +120,7 @@ var wpList = {
 		if ( !s.data.match(/_ajax_nonce=[a-f0-9]+/) ) { return true; }
 
 		s.success = function(r) {
-			if ( !wpAjax.parseAjaxResponse(r, s.response) ) { return false; }
+			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) { return false; }
 
 			$(s.what + ' response_data', r).each( function() {
 				var t = $(this);
@@ -164,7 +182,7 @@ var wpList = {
 		}
 
 		s.success = function(r) {
-			if ( !wpAjax.parseAjaxResponse(r, s.response) ) {
+			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
 				clearTimeout(hideTO);
 				func = function() { $('#' + s.element).css( 'background-color', '#FF3333' ).show(); list.wpList.recolor(); };
 				func(); setTimeout(func, 705); // In case it's still fading
@@ -218,7 +236,7 @@ var wpList = {
 		var dimTO = setTimeout( function() { $('#' + s.element).css( 'background-color', '' ); }, 705 );
 
 		s.success = function(r) {
-			if ( !wpAjax.parseAjaxResponse(r, s.response) ) {
+			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
 				clearTimeout(dimTO);
 				func = function() { $('#' + s.element).css( 'background-color', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass); };
 				func(); setTimeout(func, 705);

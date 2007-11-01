@@ -147,10 +147,10 @@ case 'add-category' : // On the Fly
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
 		$cat_name = trim($cat_name);
-		if ( !$category_nicename = sanitize_title($cat_name) )
-			die('0');
-		if ( !$cat_id = category_exists( $cat_name ) )
-			$cat_id = wp_create_category( $cat_name );
+		$category_nicename = sanitize_title($cat_name);
+		if ( '' === $category_nicename )
+			continue;
+		$cat_id = wp_create_category( $cat_name );
 		$cat_name = wp_specialchars(stripslashes($cat_name));
 		$x->add( array(
 			'what' => 'category',
@@ -169,8 +169,9 @@ case 'add-link-category' : // On the Fly
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
 		$cat_name = trim($cat_name);
-		if ( !$slug = sanitize_title($cat_name) )
-			die('0');
+		$slug = sanitize_title($cat_name);
+		if ( '' === $slug )
+			continue;
 		if ( !$cat_id = is_term( $cat_name, 'link_category' ) ) {
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
 		}
@@ -189,6 +190,15 @@ case 'add-cat' : // From Manage->Categories
 	check_ajax_referer( 'add-category' );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
+
+	if ( '' === trim($_POST['cat_name']) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'cat',
+			'id' => new WP_Error( 'cat_name', __('You did not enter a category name.') )
+		) );
+		$x->send();
+	}
+
 	if ( !$cat = wp_insert_category( $_POST ) )
 		die('0');
 	if ( !$cat = get_category( $cat ) )
@@ -215,6 +225,14 @@ case 'add-link-cat' : // From Blogroll -> Categories
 	check_ajax_referer( 'add-link-category' );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
+
+	if ( '' === trim($_POST['name']) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'link-cat',
+			'id' => new WP_Error( 'name', __('You did not enter a category name.') )
+		) );
+		$x->send();
+	}
 
 	$r = wp_insert_term($_POST['name'], 'link_category', $_POST );
 	if ( is_wp_error( $r ) ) {
@@ -270,6 +288,8 @@ case 'add-meta' :
 	if ( isset($_POST['addmeta']) ) {
 		if ( !current_user_can( 'edit_post', $pid ) )
 			die('-1');
+		if ( '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
+			die('1');
 		if ( $pid < 0 ) {
 			$now = current_time('timestamp', 1);
 			if ( $pid = wp_insert_post( array(
@@ -334,9 +354,11 @@ case 'add-user' :
 	if ( !$user_id = add_user() )
 		die('0');
 	elseif ( is_wp_error( $user_id ) ) {
-		foreach( $user_id->get_error_messages() as $message )
-			echo "<p>$message<p>";
-		exit;
+		$x = new WP_Ajax_Response( array(
+			'what' => 'user',
+			'id' => $user_id
+		) );
+		$x->send();
 	}
 	$user_object = new WP_User( $user_id );
 
