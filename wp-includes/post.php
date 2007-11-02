@@ -713,7 +713,7 @@ function wp_insert_post($postarr = array()) {
 		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
 		
-		/* use the newly genearted $post_ID */
+		// use the newly generated $post_ID
 		$where = array( 'ID' => $post_ID );
 	}
 
