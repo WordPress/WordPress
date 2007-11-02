@@ -640,8 +640,11 @@ function &get_terms($taxonomies, $args = '') {
 		$terms = $wpdb->get_col($query);
 	}
 
-	if ( empty($terms) )
-		return array();
+	if ( empty($terms) ) {
+		$cache[ $key ] = array();
+		wp_cache_set( 'get_terms', $cache, 'terms' );
+		return apply_filters('get_terms', array(), $taxonomies, $args);
+	}
 
 	if ( $child_of || $hierarchical ) {
 		$children = _get_term_hierarchy($taxonomies[0]);
