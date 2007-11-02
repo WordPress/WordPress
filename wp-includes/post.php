@@ -712,6 +712,9 @@ function wp_insert_post($postarr = array()) {
 		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
 		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
+		
+		/* use the newly genearted $post_ID */
+		$where = array( 'ID' => $post_ID );
 	}
 
 	if ( empty($post_name) && 'draft' != $post_status ) {
