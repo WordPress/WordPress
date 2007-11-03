@@ -773,6 +773,9 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		|| 'term_group' == $field )
 		$value = (int) $value;
 
+	if ( 'raw' == $context )
+		return $value;
+
 	if ( 'edit' == $context ) {
 		$value = apply_filters("edit_term_$field", $value, $term_id, $taxonomy);
 		$value = apply_filters("edit_${taxonomy}_$field", $value, $term_id);
