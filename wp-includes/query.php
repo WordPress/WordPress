@@ -868,12 +868,12 @@ class WP_Query {
 
 		// If a post number is specified, load that post
 		if ( $q['p'] )
-			$where = ' AND ID = ' . $q['p'];
+			$where = " AND {$wpdb->posts}.ID = " . $q['p'];
 
 		if ( $q['page_id'] ) {
 			if  ( ('page' != get_option('show_on_front') ) || ( $q['page_id'] != get_option('page_for_posts') ) ) {
 				$q['p'] = $q['page_id'];
-				$where = ' AND ID = ' . $q['page_id'];
+				$where = " AND {$wpdb->posts}.ID = " . $q['page_id'];
 			}
 		}
 
