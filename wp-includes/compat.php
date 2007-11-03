@@ -147,4 +147,15 @@ if (!function_exists('stripos')) {
 	}
 }
 
+// Added in PHP 4.3.0?
+if (!defined('IMAGETYPE_GIF'))
+    define('IMAGETYPE_GIF', 1);
+
+if (!defined('IMAGETYPE_JPEG'))
+    define('IMAGETYPE_JPEG', 2);
+
+if (!defined('IMAGETYPE_PNG'))
+    define('IMAGETYPE_PNG', 3);
+
+
 ?>
