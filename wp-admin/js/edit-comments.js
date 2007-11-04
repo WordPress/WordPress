@@ -3,13 +3,15 @@ jQuery(function($) {
 
 var dimAfter = function( r, settings ) {
 	var a = $('#awaitmod');
-	a.html( parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 ) );
+	var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
+	a.html( n.toString() );
 }
 
 var delAfter = function( r, settings ) {
 	var a = $('#awaitmod');
-	if ( $('#' + settings.element).is('.unapproved') && parseInt(a.html(),10) > 0 ) {
-		a.html( parseInt(a.html(),10) - 1 );
+	if ( a.parent('.current').size() || $('#' + settings.element).is('.unapproved') && parseInt(a.html(),10) > 0 ) {
+		var n = parseInt(a.html(),10) - 1;
+		a.html( n.toString() );
 	}
 
 	if ( extra.size() == 0 || extra.children().size() == 0 ) {
