@@ -152,6 +152,12 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			if ( @file_exists($thumb) )
 				$metadata['thumb'] = basename($thumb);
 		}
+		
+		// fetch additional metadata from exif/iptc
+		$image_meta = wp_read_image_metadata( $file );
+		if ($image_meta)
+			$metadata['image_meta'] = $image_meta;
+
 	}
 	return apply_filters( 'wp_generate_attachment_metadata', $metadata );
 }
@@ -220,6 +226,86 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
 		//Image Height will be greatest
 		return array( (int) ($width / $height * $hmax ), $hmax );
 	}
+}
+
+// convert a fraction string to a decimal
+function wp_exif_frac2dec($str) {
+	@list( $n, $d ) = explode( '/', $str );
+	if ( !empty($d) )
+		return $n / $d;
+	return $str;
+}
+
+// convert the exif date format to a unix timestamp
+function wp_exif_date2ts($str) {
+	// seriously, who formats a date like 'YYYY:MM:DD hh:mm:ss'?
+	@list( $date, $time ) = explode( ' ', trim($str) );
+	@list( $y, $m, $d ) = explode( ':', $date );
+
+	return strtotime( "{$y}-{$m}-{$d} {$time}" );
+}
+
+// get extended image metadata, exif or iptc as available
+function wp_read_image_metadata( $file ) {
+	if ( !file_exists( $file ) )
+		return false;
+
+	// exif contains a bunch of data we'll probably never need formatted in ways that are difficult to use.
+	// We'll normalize it and just extract the fields that are likely to be useful.  Fractions and numbers
+	// are converted to floats, dates to unix timestamps, and everything else to strings.
+	$meta = array(
+		'aperture' => 0,
+		'credit' => '',
+		'camera' => '',
+		'caption' => '',
+		'created_timestamp' => 0,
+		'copyright' => '',
+		'focal_length' => 0,
+		'iso' => 0,
+		'shutter_speed' => 0,
+		'title' => '',
+	);
+
+	// read iptc first, since it might contain data not available in exif such as caption, description etc
+	if ( is_callable('iptcparse') ) {
+		getimagesize($file, $info);
+		if ( !empty($info['APP13']) ) {
+			$iptc = iptcparse($info['APP13']);
+			if ( !empty($iptc['2#110'][0]) ) // credit
+				$meta['credit'] = trim( $iptc['2#110'][0] );
+			elseif ( !empty($iptc['2#080'][0]) ) // byline
+				$meta['credit'] = trim( $iptc['2#080'][0] );
+			if ( !empty($iptc['2#055'][0]) and !empty($iptc['2#060'][0]) ) // created datee and time
+				$meta['created_timestamp'] = strtotime($iptc['2#055'][0] . ' ' . $iptc['2#060'][0]);
+			if ( !empty($iptc['2#120'][0]) ) // caption
+				$meta['caption'] = trim( $iptc['2#120'][0] );
+			if ( !empty($iptc['2#116'][0]) ) // copyright
+				$meta['copyright'] = trim( $iptc['2#116'][0] );
+			if ( !empty($iptc['2#005'][0]) ) // title
+				$meta['title'] = trim( $iptc['2#005'][0] );
+		 }
+	}
+
+	// fetch additional info from exif if available
+	if ( is_callable('exif_read_data') ) {
+		$exif = exif_read_data( $file );
+		if (!empty($exif['FNumber']))
+			$meta['aperture'] = round( wp_exif_frac2dec( $exif['FNumber'] ), 2 );
+		if (!empty($exif['Model']))
+			$meta['camera'] = trim( $exif['Model'] );
+		if (!empty($exif['DateTimeDigitized']))
+			$meta['created_timestamp'] = wp_exif_date2ts($exif['DateTimeDigitized']);
+		if (!empty($exif['FocalLength']))
+			$meta['focal_length'] = wp_exif_frac2dec( $exif['FocalLength'] );
+		if (!empty($exif['ISOSpeedRatings']))
+			$meta['iso'] = $exif['ISOSpeedRatings'];
+		if (!empty($exif['ExposureTime']))
+			$meta['shutter_speed'] = wp_exif_frac2dec( $exif['ExposureTime'] );
+	}
+	// FIXME: try other exif libraries if available
+
+	return apply_filters( 'wp_read_image_metadata', $meta, $file );
+
 }
 
 ?>
