@@ -94,7 +94,8 @@ function wpautop($pee, $br = 1) {
 
 
 function seems_utf8($Str) { # by bmorel at ssi dot fr
-	for ($i=0; $i<strlen($Str); $i++) {
+	$length = strlen($Str);
+	for ($i=0; $i < $length; $i++) {
 		if (ord($Str[$i]) < 0x80) continue; # 0bbbbbbb
 		elseif ((ord($Str[$i]) & 0xE0) == 0xC0) $n=1; # 110bbbbb
 		elseif ((ord($Str[$i]) & 0xF0) == 0xE0) $n=2; # 1110bbbb
@@ -103,7 +104,7 @@ function seems_utf8($Str) { # by bmorel at ssi dot fr
 		elseif ((ord($Str[$i]) & 0xFE) == 0xFC) $n=5; # 1111110b
 		else return false; # Does not match any model
 		for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
-			if ((++$i == strlen($Str)) || ((ord($Str[$i]) & 0xC0) != 0x80))
+			if ((++$i == $length) || ((ord($Str[$i]) & 0xC0) != 0x80))
 			return false;
 		}
 	}
@@ -132,27 +133,32 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
 	$unicode = '';
 	$values = array();
 	$num_octets = 1;
+	$unicode_length = 0;
 
-	for ($i = 0; $i < strlen( $utf8_string ); $i++ ) {
+	$string_length = strlen( $utf8_string );
+	for ($i = 0; $i < $string_length; $i++ ) {
 
 		$value = ord( $utf8_string[ $i ] );
 
 		if ( $value < 128 ) {
-			if ( $length && ( strlen($unicode) + 1 > $length ) )
+			if ( $length && ( $unicode_length >= $length ) )
 				break;
 			$unicode .= chr($value);
+			$unicode_length++;
 		} else {
 			if ( count( $values ) == 0 ) $num_octets = ( $value < 224 ) ? 2 : 3;
 
 			$values[] = $value;
 
-			if ( $length && ( (strlen($unicode) + ($num_octets * 3)) > $length ) )
+			if ( $length && ( $unicode_length + ($num_octets * 3) ) > $length )
 				break;
 			if ( count( $values ) == $num_octets ) {
 				if ($num_octets == 3) {
 					$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
+					$unicode_length += 9;
 				} else {
 					$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]);
+					$unicode_length += 6;
 				}
 
 				$values = array();
