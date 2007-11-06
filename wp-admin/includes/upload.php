@@ -17,7 +17,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		list($width,$height) = wp_shrink_dimensions($attachment_data['width'], $attachment_data['height'], 171, 128);
 	// check for extended metadata from exif/iptc
 	if ( !isset($attachment_data['image_meta']) && $is_image ) {
-		$image_meta = wp_read_image_meta( $filesystem_path );
+		$image_meta = wp_read_image_metadata( $filesystem_path );
 		$attachment_data['image_meta'] = $image_meta;
 		wp_update_attachment_metadata( $id, $attachment_data );
 	}
