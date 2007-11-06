@@ -30,18 +30,15 @@ $more = 1;
 			<uri><?php the_author_url()?></uri>
 			<?php endif; ?>
 		</author>
-<?php list($content_type, $content) = prep_atom_text_construct(get_the_title()); ?>
-	        <title type="<?php echo $content_type ?>"><?php echo $content ?></title>
+		<title type="<?php html_type_rss(); ?>"><![CDATA[<?php the_title_rss() ?>]]></title>
 		<link rel="alternate" type="text/html" href="<?php the_permalink_rss() ?>" />
 		<id><?php the_guid(); ?></id>
 		<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 		<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
 		<?php the_category_rss('atom') ?>
-<?php list($content_type, $content) = prep_atom_text_construct(get_the_excerpt()); ?>
-	        <summary type="<?php echo $content_type ?>"><?php echo $content ?></summary>
+		<summary type="<?php html_type_rss(); ?>"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php if ( !get_option('rss_use_excerpt') ) : ?>
-<?php list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
-	        <content type="<?php echo $content_type ?>" xml:base="<?php the_permalink_rss()?>"><?php echo $content ?></content>
+		<content type="<?php html_type_rss(); ?>" xml:base="<?php the_permalink_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
 <?php endif; ?>
 <?php atom_enclosure(); ?>
 <?php do_action('atom_entry'); ?>
