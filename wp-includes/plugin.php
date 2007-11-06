@@ -107,7 +107,9 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * @return string The text in <tt>$string</tt> after all hooked functions are applied to it.
  */
 function apply_filters($tag, $value) {
-	global $wp_filter, $merged_filters;
+	global $wp_filter, $merged_filters, $wp_current_filter;
+
+	@$wp_current_filter[] = $tag;
 
 	// Do 'all' actions first
 	if ( isset($wp_filter['all']) ) {
@@ -120,8 +122,10 @@ function apply_filters($tag, $value) {
 		} while ( next($wp_filter['all']) !== false );
 	}
 
-	if ( !isset($wp_filter[$tag]) )
+	if ( !isset($wp_filter[$tag]) ) {
+		array_pop($wp_current_filter);
 		return $value;
+	}
 
 	// Sort
 	if ( !isset( $merged_filters[ $tag ] ) ) {
@@ -142,6 +146,8 @@ function apply_filters($tag, $value) {
 			}
 
 	} while ( next($wp_filter[$tag]) !== false );
+	
+	array_pop( $wp_current_filter );
 
 	return $value;
 }
@@ -178,6 +184,15 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
 	}
 
 	return $r;
+}
+
+
+/**
+ * Return the name of the current filter or action.
+ */
+function current_filter() {
+	global $wp_current_filter;
+	return end( $wp_current_filter );
 }
 
 
@@ -233,7 +248,7 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * @return null Will return null if $tag does not exist in $wp_filter array
  */
 function do_action($tag, $arg = '') {
-	global $wp_action, $wp_actions;
+	global $wp_action, $wp_actions, $wp_current_filter;
 
 	if ( is_array($wp_actions) )
 		$wp_actions[] = $tag;
@@ -248,6 +263,8 @@ function do_action($tag, $arg = '') {
 	for ( $a = 2; $a < func_num_args(); $a++ )
 		$args[] = func_get_arg($a);
 
+	@$wp_current_filter[] = $tag;
+
 	// Do 'all' actions first
 	if ( isset($wp_action['all']) ) {
 		do {
@@ -258,9 +275,11 @@ function do_action($tag, $arg = '') {
 		} while ( next($wp_action['all']) !== false );
 	}
 
-	if ( !isset($wp_action[$tag]) )
+	if ( !isset($wp_action[$tag]) ) {
+		array_pop($wp_current_filter);
 		return;
-
+	}
+		
 	// Sort
 	if ( !isset( $merged_actions[ $tag ] ) ) {
 		reset($wp_action[$tag]);
@@ -277,6 +296,7 @@ function do_action($tag, $arg = '') {
 
 	} while ( next($wp_action[$tag]) !== false );
 
+		array_pop($wp_current_filter);
 }
 
 /**
