@@ -396,7 +396,7 @@ function do_action_ref_array($tag, $args) {
  * @return boolean Whether the function is removed.
  */
 function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
-	$function_to_remove = _wp_filter_build_unique_id($tag, $function_to_remove, $priority);
+	$function_to_remove = _wp_filter_build_unique_id($tag, $function_to_remove, $priority, 'action');
 
 	$r = isset($GLOBALS['wp_action'][$tag][$priority][$function_to_remove]);
 
