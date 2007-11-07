@@ -428,6 +428,10 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
 }
 
 function sanitize_post($post, $context = 'display') {
+
+	if ( 'raw' == $context )
+		return $post;
+
 	// TODO: Use array keys instead of hard coded list
 	$fields = array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_date', 'post_date_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'post_category');
 

@@ -663,6 +663,10 @@ function is_term($term, $taxonomy = '') {
  * @return array|object Term with all fields sanitized
  */
 function sanitize_term($term, $taxonomy, $context = 'display') {
+
+	if ( 'raw' == $context )
+		return $term;
+
 	$fields = array('term_id', 'name', 'description', 'slug', 'count', 'parent', 'term_group');
 
 	$do_object = false;
