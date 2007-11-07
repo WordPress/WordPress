@@ -79,6 +79,35 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 }
 
 /**
+ * Check if any filter has been registered for a hook.  Optionally returns the priority on that hook for the specified function.
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 2.4
+ * @global array $wp_filter Stores all of the filters
+ *
+ * @param string $tag The name of the filter hook.
+ * @param callback $function_to_check optional.  If specified, return the priority of that function on this hook or false if not attached.
+ * @return int|boolean
+ */
+function has_filter($tag, $function_to_check = false) {
+	global $wp_filter;
+
+	$has = !empty($wp_filter[$tag]);
+	if ( false === $function_to_check || false == $has )
+		return $has;
+
+	if ( !$idx = _wp_filter_build_unique_id($tag, $function_to_check, false, 'filter') )
+		return false;
+
+	foreach ( array_keys($wp_filter[$tag]) as $priority ) {
+		if ( isset($wp_filter[$tag][$priority][$idx]) )
+			return $priority;
+	}
+
+	return false;
+}
+
+/**
  * Call the functions added to a filter hook.
  *
  * The callback functions attached to filter hook <tt>$tag</tt> are invoked by
@@ -180,6 +209,8 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
 
 	if ( true === $r) {
 		unset($GLOBALS['wp_filter'][$tag][$priority][$function_to_remove]);
+		if ( empty($GLOBALS['wp_filter'][$tag][$priority]) )
+			unset($GLOBALS['wp_filter'][$tag][$priority]);
 		unset($GLOBALS['merged_filters'][$tag]);
 	}
 
@@ -325,8 +356,6 @@ function did_action($tag) {
  * @see do_action() This function is identical, but the arguments passed to
  * the functions hooked to <tt>$tag</tt> are supplied using an array.
  *
- * @uses merge_filters()
- *
  * @package WordPress
  * @subpackage Plugin
  * @since 2.1
@@ -377,13 +406,40 @@ function do_action_ref_array($tag, $args) {
 }
 
 /**
+ * Check if any action has been registered for a hook.  Optionally returns the priority on that hook for the specified function.
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 2.4
+ * @global array $wp_action Stores all of the actions
+ *
+ * @param string $tag The name of the action hook.
+ * @param callback $function_to_check optional.  If specified, return the priority of that function on this hook or false if not attached.
+ * @return int|boolean
+ */
+function has_action($tag, $function_to_check = false) {
+	global $wp_action;
+
+	$has = !empty($wp_action[$tag]);
+	if ( false === $function_to_check || false == $has )
+		return $has;
+
+	if ( !$idx = _wp_filter_build_unique_id($tag, $function_to_check, false, 'action') )
+		return false;
+
+	foreach ( array_keys($wp_action[$tag]) as $priority ) {
+		if ( isset($wp_action[$tag][$priority][$idx]) )
+			return $priority;
+	}
+
+	return false;
+}
+
+/**
  * Removes a function from a specified action hook.
  *
  * This function removes a function attached to a specified action hook. This
  * method can be used to remove default functions attached to a specific filter
  * hook and possibly replace them with a substitute.
- *
- * @uses remove_filter() Uses remove_filter to remove actions added.
  *
  * @package WordPress
  * @subpackage Plugin
@@ -402,6 +458,8 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
 
 	if ( true === $r) {
 		unset($GLOBALS['wp_action'][$tag][$priority][$function_to_remove]);
+		if ( empty($GLOBALS['wp_action'][$tag][$priority]) )
+			unset($GLOBALS['wp_action'][$tag][$priority]);
 		unset($GLOBALS['merged_actions'][$tag]);
 	}
 
@@ -513,7 +571,7 @@ function register_deactivation_hook($file, $function) {
  * @global array $wp_filter Storage for all of the filters and actions
  * @param string $tag Used in counting how many hooks were applied
  * @param string|array $function Used for creating unique id
- * @param int $priority Used in counting how many hooks were applied
+ * @param int|bool $priority Used in counting how many hooks were applied.  If === false and $function is an object reference, we return the unique id only if it already has one, false otherwise.
  * @param string $type filter or action
  * @return string Unique ID for usage as array key
  */
@@ -528,6 +586,8 @@ function _wp_filter_build_unique_id($tag, $function, $priority, $type)
 	else if (is_object($function[0]) ) {
 		$obj_idx = get_class($function[0]).$function[1];
 		if ( !isset($function[0]->wp_filter_id) ) {
+			if ( false === $priority )
+				return false;
 			if ( 'filter' == $type )
 				$count = count((array)$wp_filter[$tag][$priority]);
 			else

@@ -238,8 +238,7 @@ class WP {
 		}
 
 		// query_string filter deprecated.  Use request filter instead.
-		global $wp_filter;
-		if ( isset($wp_filter['query_string']) ) {  // Don't bother filtering and parsing if no plugins are hooked in.
+		if ( has_filter('query_string') ) {  // Don't bother filtering and parsing if no plugins are hooked in.
 			$this->query_string = apply_filters('query_string', $this->query_string);
 			parse_str($this->query_string, $this->query_vars);
 		}

@@ -329,10 +329,8 @@ function get_admin_page_title() {
 }
 
 function get_plugin_page_hook( $plugin_page, $parent_page ) {
-	global $wp_filter;
-
 	$hook = get_plugin_page_hookname( $plugin_page, $parent_page );
-	if ( isset( $wp_filter[$hook] ))
+	if ( has_action($hook) )
 		return $hook;
 	else
 		return null;

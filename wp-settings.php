@@ -20,7 +20,7 @@ function wp_unregister_GLOBALS() {
 
 wp_unregister_GLOBALS();
 
-unset( $wp_filter, $cache_lastcommentmodified, $cache_lastpostdate );
+unset( $wp_filter, $wp_action, $cache_lastcommentmodified, $cache_lastpostdate );
 
 if ( ! isset($blog_id) )
 	$blog_id = 1;
