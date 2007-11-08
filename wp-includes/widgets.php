@@ -86,8 +86,6 @@ function wp_register_sidebar_widget($id, $name, $output_callback, $options = arr
 
 	global $wp_registered_widgets, $wp_register_widget_defaults;
 
-	$id = sanitize_title($id);
-
 	if ( empty($output_callback) ) {
 		unset($wp_registered_widgets[$id]);
 		return;
@@ -141,8 +139,6 @@ function register_widget_control($name, $control_callback, $width = '', $height 
 
 function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
 	global $wp_registered_widget_controls, $wp_register_widget_defaults;
-
-	$id = sanitize_title($id);
 
 	if ( empty($control_callback) ) {
 		unset($wp_registered_widget_controls[$id]);
