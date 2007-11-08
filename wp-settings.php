@@ -243,7 +243,6 @@ $wp_query     =& $wp_the_query;
 $wp_rewrite   =& new WP_Rewrite();
 $wp           =& new WP();
 
-validate_current_theme();
 define('TEMPLATEPATH', get_template_directory());
 define('STYLESHEETPATH', get_stylesheet_directory());
 
