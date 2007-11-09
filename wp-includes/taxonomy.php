@@ -1206,7 +1206,12 @@ function wp_unique_term_slug($slug, $term) {
 	}
 
 	// If we didn't get a unique slug, try appending a number to make it unique.
-	if ( $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug ) ) ) {
+	if ( !empty($args['term_id']) )
+		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $args['term_id'] );
+	else
+		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s $where", $slug );
+
+	if ( $wpdb->get_var( $query ) ) {
 		$num = 2;
 		do {
 			$alt_slug = $slug . "-$num";
@@ -1281,9 +1286,9 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	// Check for duplicate slug
 	$id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->terms WHERE slug = %s", $slug ) );
 	if ( $id && ($id != $term_id) ) {
-		// If an empty slug was passed, reset the slug to something unique.
+		// If an empty slug was passed or the parent changed, reset the slug to something unique.
 		// Otherwise, bail.
-		if ( $empty_slug )
+		if ( $empty_slug || ( $parent != $term->parent) )
 			$slug = wp_unique_term_slug($slug, (object) $args);
 		else
 			return new WP_Error('duplicate_term_slug', sprintf(__('The slug "%s" is already in use by another term'), $slug));
