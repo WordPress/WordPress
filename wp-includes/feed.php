@@ -127,7 +127,19 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
 	return $link;
 }
 
-
+/** get_category_feed_link() - Get the feed link for a given category
+ *
+ * Returns a link to the feed for all post in a given category.  A specific feed can be requested
+ * or left blank to get the default feed.
+ *
+ * @package WordPress
+ * @subpackage Feed
+ * @since 2.4
+ *
+ * @param int $cat_id ID of a category
+ * @param string $feed Feed type
+ * @return string Link to the feed for the category specified by $cat_id
+*/
 function get_category_feed_link($cat_id, $feed = 'rss2') {
 	$cat_id = (int) $cat_id;
 	
