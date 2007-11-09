@@ -128,17 +128,36 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
 }
 
 
-function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
+function get_category_feed_link($cat_id, $feed = 'rss2') {
+	$cat_id = (int) $cat_id;
+	
+	$category = get_category($cat_id);
+	
+	if ( empty($category) || is_wp_error($category) )
+		return false;
+	
 	$permalink_structure = get_option('permalink_structure');
 
 	if ( '' == $permalink_structure ) {
-		$link = get_option('home') . '?feed=rss2&amp;cat=' . $cat_ID;
+		$link = get_option('home') . "?feed=$feed&amp;cat=" . $cat_id;
 	} else {
-		$link = get_category_link($cat_ID);
-		$link = trailingslashit($link) . user_trailingslashit('feed', 'feed');
+		$link = get_category_link($cat_id);
+		if( 'rss2' == $feed )
+			$feed_link = 'feed';
+		else
+			$feed_link = "feed/$feed";
+		
+		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
 	}
 
-	$link = apply_filters('category_feed_link', $link);
+	$link = apply_filters('category_feed_link', $link, $feed);
+	
+	return $link;
+}
+
+
+function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
+	$link = get_category_feed_link($cat_ID, $feed = 'rss2');
 
 	if ( $echo )
 		echo $link;
