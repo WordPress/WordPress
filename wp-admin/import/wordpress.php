@@ -396,7 +396,7 @@ class WP_Import {
 						$tag_id = wp_insert_term($tag, 'post_tag');
 						$tag_id = $tag_id['term_id'];
 					}
-					$post_tags[] = $tag_id;
+					$post_tags[] = intval($tag_id);
 				}
 				wp_set_post_tags($post_id, $post_tags);
 			}
