@@ -63,10 +63,10 @@ function edit_post() {
 		$_POST['post_status'] = 'draft';
 
 	if ( 'page' == $_POST['post_type'] ) {
-		if ('publish' == $_POST['post_status'] && !current_user_can( 'edit_published_pages' ))
+		if ('publish' == $_POST['post_status'] && !current_user_can( 'publish_pages' ))
 			$_POST['post_status'] = 'pending';
 	} else {
-		if ('publish' == $_POST['post_status'] && !current_user_can( 'edit_published_posts' ))
+		if ('publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' ))
 			$_POST['post_status'] = 'pending';
 	}
 
