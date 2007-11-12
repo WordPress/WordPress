@@ -199,10 +199,19 @@ case 'add-cat' : // From Manage->Categories
 		$x->send();
 	}
 
-	if ( !$cat = wp_insert_category( $_POST ) )
+	$cat = wp_insert_category( $_POST, true );
+
+	if ( is_wp_error($cat) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'cat',
+			'id' => $cat
+		) );
+		$x->send();
+	}
+
+	if ( !$cat || (!$cat = get_category( $cat )) )
 		die('0');
-	if ( !$cat = get_category( $cat ) )
-		die('0');
+
 	$level = 0;
 	$cat_full_name = $cat->name;
 	$_cat = $cat;

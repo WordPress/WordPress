@@ -52,7 +52,7 @@ function wp_delete_category($cat_ID) {
 	return wp_delete_term($cat_ID, 'category', "default=$default");
 }
 
-function wp_insert_category($catarr) {
+function wp_insert_category($catarr, $wp_error = false) {
 	global $wpdb;
 
 	extract($catarr, EXTR_SKIP);
@@ -84,8 +84,12 @@ function wp_insert_category($catarr) {
 	else
 		$cat_ID = wp_insert_term($cat_name, 'category', $args);
 
-	if ( is_wp_error($cat_ID) )
-		return 0;
+	if ( is_wp_error($cat_ID) ) {
+		if ( $wp_error )
+			return $cat_ID;
+		else
+			return 0;
+	}
 
 	return $cat_ID['term_id'];
 }
