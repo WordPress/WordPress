@@ -302,7 +302,6 @@ function wp_login($username, $password, $already_md5 = false) {
 			return true;
 		} else {
 			$error = __('<strong>ERROR</strong>: Incorrect password.');
-			$pwd = '';
 			return false;
 		}
 	}
