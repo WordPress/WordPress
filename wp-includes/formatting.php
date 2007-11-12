@@ -664,7 +664,7 @@ function wp_rel_nofollow_callback( $matches ) {
 function convert_smilies($text) {
 	global $wp_smiliessearch, $wp_smiliesreplace;
     $output = '';
-	if (get_option('use_smilies')) {
+	if ( get_option('use_smilies') && !empty($wp_smiliessearch) && !empty($wp_smiliesreplace) ) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
 		$stop = count($textarr);// loop stuff
