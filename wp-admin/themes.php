@@ -5,14 +5,7 @@ if ( isset($_GET['action']) ) {
 	check_admin_referer('switch-theme_' . $_GET['template']);
 
 	if ('activate' == $_GET['action']) {
-		if ( isset($_GET['template']) )
-			update_option('template', $_GET['template']);
-
-		if ( isset($_GET['stylesheet']) )
-			update_option('stylesheet', $_GET['stylesheet']);
-
-		do_action('switch_theme', get_current_theme());
-
+		switch_theme($_GET['template'], $_GET['stylesheet']);
 		wp_redirect('themes.php?activated=true');
 		exit;
 	}

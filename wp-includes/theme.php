@@ -294,6 +294,9 @@ function get_theme($theme) {
 }
 
 function get_current_theme() {
+	if ( $theme = get_option('current_theme') )
+		return $theme;
+
 	$themes = get_themes();
 	$theme_names = array_keys($themes);
 	$current_template = get_option('template');
@@ -309,6 +312,8 @@ function get_current_theme() {
 			}
 		}
 	}
+
+	update_option('current_theme', $current_theme);
 
 	return $current_theme;
 }
@@ -447,22 +452,26 @@ function locale_stylesheet() {
 	echo '<link rel="stylesheet" href="' . $stylesheet . '" type="text/css" media="screen" />';
 }
 
+function switch_theme($template, $stylesheet) {
+	update_option('template', $template);
+	update_option('stylesheet', $stylesheet);
+	delete_option('current_theme');
+	$theme = get_current_theme();
+	do_action('switch_theme', $theme);
+}
+
 function validate_current_theme() {
 	// Don't validate during an install/upgrade.
 	if ( defined('WP_INSTALLING') )
 		return true;
 
 	if ( get_template() != 'default' && !file_exists(get_template_directory() . '/index.php') ) {
-		update_option('template', 'default');
-		update_option('stylesheet', 'default');
-		do_action('switch_theme', 'Default');
+		switch_theme('default', 'default');
 		return false;
 	}
 
 	if ( get_stylesheet() != 'default' && !file_exists(get_template_directory() . '/style.css') ) {
-		update_option('template', 'default');
-		update_option('stylesheet', 'default');
-		do_action('switch_theme', 'Default');
+		switch_theme('default', 'default');
 		return false;
 	}
 
