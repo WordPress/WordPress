@@ -3,13 +3,15 @@
 class WP_Import {
 
 	var $posts = array ();
-	var $posts_processed = array ();
+	var $post_ids_processed = array ();
     // Array of arrays. [[0] => XML fragment, [1] => New post ID]
 	var $file;
 	var $id;
 	var $mtnames = array ();
 	var $newauthornames = array ();
+	var $allauthornames = array ();
 	var $j = -1;
+	var $another_pass = false;
 
 	function header() {
 		echo '<div class="wrap">';
@@ -83,69 +85,65 @@ class WP_Import {
 		return $user_id;
 	}
 
-	function get_entries() {
+	function get_entries($process_post_func=NULL) {
 		set_magic_quotes_runtime(0);
 
-		$this->posts = array();
-		$this->categories = array();
-		$this->tags = array();
-		$num = 0;
-		$doing_entry = false;
+#		$this->posts = array();
+#		$this->categories = array();
+#		$this->tags = array();
+#		$num = 0;
 
-		$fp = fopen($this->file, 'r');
-		if ($fp) {
-			while ( !feof($fp) ) {
-				$importline = rtrim(fgets($fp));
-
-				if ( false !== strpos($importline, '<wp:category>') ) {
-					preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
-					$this->categories[] = $category[1];
-					continue;
+		for ($i=0; $i<2; $i++) {
+			$this->another_pass = false;
+			$doing_entry = false;
+	
+			$fp = fopen($this->file, 'r');
+			if ($fp) {
+				while ( !feof($fp) ) {
+					$importline = rtrim(fgets($fp));
+	
+					if ( false !== strpos($importline, '<wp:category>') ) {
+						preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
+						$this->categories[] = $category[1];
+						continue;
+					}
+					if ( false !== strpos($importline, '<wp:tag>') ) {
+						preg_match('|<wp:tag>(.*?)</wp:tag>|is', $importline, $tag);
+						$this->tags[] = $tag[1];
+						continue;
+					}
+					if ( false !== strpos($importline, '<item>') ) {
+						$this->post = '';
+						$doing_entry = true;
+						continue;
+					}
+					if ( false !== strpos($importline, '</item>') ) {
+						$num++;
+						$doing_entry = false;
+						if ($process_post_func)
+							call_user_func($process_post_func, $this->post);
+						continue;
+					}
+					if ( $doing_entry ) {
+						$this->post .= $importline . "\n";
+					}
 				}
-				if ( false !== strpos($importline, '<wp:tag>') ) {
-					preg_match('|<wp:tag>(.*?)</wp:tag>|is', $importline, $tag);
-					$this->tags[] = $tag[1];
-					continue;
-				}
-				if ( false !== strpos($importline, '<item>') ) {
-					$this->posts[$num] = '';
-					$doing_entry = true;
-					continue;
-				}
-				if ( false !== strpos($importline, '</item>') ) {
-					$num++;
-					$doing_entry = false;
-					continue;
-				}
-				if ( $doing_entry ) {
-					$this->posts[$num] .= $importline . "\n";
-				}
+	
+				fclose($fp);
 			}
-
-			foreach ($this->posts as $post) {
-				$post_ID = (int) $this->get_tag( $post, 'wp:post_id' );
-				if ($post_ID) {
-					$this->posts_processed[$post_ID][0] = &$post;
-					$this->posts_processed[$post_ID][1] = 0;
-				}
-			}
-
-			fclose($fp);
+			
+			// skip the second loop iteration unless it's needed
+			if ( !$this->another_pass )
+				break;
 		}
+
 	}
-
+	
 	function get_wp_authors() {
-		$temp = array ();
-		$i = -1;
-		foreach ($this->posts as $post) {
-			if ('' != trim($post)) {
-				++ $i;
-				$author = $this->get_tag( $post, 'dc:creator' );
-				array_push($temp, "$author"); //store the extracted author names in a temporary array
-			}
-		}
+		$this->get_entries(array(&$this, 'process_author'));
 
 		// We need to find unique values of author names, while preserving the order, so this function emulates the unique_value(); php function, without the sorting.
+		$temp = $this->allauthornames;
 		$authors[0] = array_shift($temp);
 		$y = count($temp) + 1;
 		for ($x = 1; $x < $y; $x ++) {
@@ -181,6 +179,7 @@ class WP_Import {
 				array_push($this->newauthornames, "$formnames[$i]");
 			}
 		}
+		
 	}
 
 	function wp_authors_form() {
@@ -210,16 +209,7 @@ class WP_Import {
 	}
 
 	function select_authors() {
-		$file = wp_import_handle_upload();
-		if ( isset($file['error']) ) {
-			echo '<p>'.__('Sorry, there has been an error.').'</p>';
-			echo '<p><strong>' . $file['error'] . '</strong></p>';
-			return;
-		}
-		$this->file = $file['file'];
-		$this->id = (int) $file['id'];
-
-		$this->get_entries();
+		$this->get_entries(array(&$this, 'process_author'));
 		$this->wp_authors_form();
 	}
 
@@ -273,15 +263,18 @@ class WP_Import {
 		}
 	}
 
+	function process_author($post) {
+		$author = $this->get_tag( $post, 'dc:creator' );
+		if ($author)
+			$this->allauthornames[] = $author;
+	}
+
 	function process_posts() {
+		return; //FIXME
 		$i = -1;
 		echo '<ol>';
 
-		foreach ($this->posts as $post) {
-			$result = $this->process_post($post);
-			if ( is_wp_error( $result ) )
-				return $result;
-		}
+		$this->get_entries(array(&$this, 'process_post'));
 
 		echo '</ol>';
 
@@ -292,9 +285,9 @@ class WP_Import {
 
 	function process_post($post) {
 		global $wpdb;
-
+		
 		$post_ID = (int) $this->get_tag( $post, 'wp:post_id' );
-  		if ( $post_ID && !empty($this->posts_processed[$post_ID][1]) ) // Processed already
+  		if ( $post_ID && !empty($this->post_ids_processed[$post_ID]) ) // Processed already
 			return 0;
 
 		// There are only ever one of these
@@ -341,13 +334,15 @@ class WP_Import {
 
 			// If it has parent, process parent first.
 			$post_parent = (int) $post_parent;
-			if ($parent = $this->posts_processed[$post_parent]) {
-				if (!$parent[1]) { 
-					$result = $this->process_post($parent[0]); // If not yet, process the parent first.
-					if ( is_wp_error( $result ) )
-						return $result;
+			if ($post_parent) {
+				if ( $parent = $this->post_ids_processed[$post_parent] ) {
+					$post_parent = $parent;  // new ID of the parent
 				}
-				$post_parent = $parent[1]; // New ID of the parent;
+				else {
+					// wait until the parent has been processed
+					$this->another_pass = true;
+					return;
+				}
 			}
 
 			echo '<li>';
@@ -361,8 +356,9 @@ class WP_Import {
 				return $post_id;
 
 			// Memorize old and new ID.
-			if ( $post_id && $post_ID && $this->posts_processed[$post_ID] )
-				$this->posts_processed[$post_ID][1] = $post_id; // New ID.
+			if ( $post_id && $post_ID ) {
+				$this->post_ids_processed[intval($post_ID)] = intval($post_id);
+			}
 
 			// Add categories.
 			if (count($categories) > 0) {
@@ -439,17 +435,29 @@ class WP_Import {
 		} }
 	}
 
-	function import() {
-		$this->id = (int) $_GET['id'];
+	function import($id) {
+		$this->id = (int) $id;
 
 		$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
-		$this->get_entries();
+		$this->get_entries(array(&$this, 'process_post'));
 		$this->process_categories();
 		$this->process_tags();
 		$result = $this->process_posts();
 		if ( is_wp_error( $result ) )
 			return $result;
+	}
+	
+	function handle_upload() {
+		$file = wp_import_handle_upload();
+		if ( isset($file['error']) ) {
+			echo '<p>'.__('Sorry, there has been an error.').'</p>';
+			echo '<p><strong>' . $file['error'] . '</strong></p>';
+			return false;
+		}
+		$this->file = $file['file'];
+		$this->id = (int) $file['id'];
+		return true;
 	}
 
 	function dispatch() {
@@ -465,11 +473,12 @@ class WP_Import {
 				break;
 			case 1 :
 				check_admin_referer('import-upload');
-				$this->select_authors();
+				if ( $this->handle_upload() )
+					$this->select_authors();
 				break;
 			case 2:
 				check_admin_referer('import-wordpress');
-				$result = $this->import();
+				$result = $this->import( $_GET['id'] );
 				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();
 				break;
