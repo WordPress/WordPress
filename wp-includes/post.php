@@ -504,9 +504,22 @@ function wp_delete_post($postid = 0) {
 	$parent_data = array( 'post_parent' => $post->post_parent );
 	$parent_where = array( 'post_parent' => $postid );
 
-	if ( 'page' == $post->post_type )
-		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
+	if ( 'page' == $post->post_type) {
+	 	// if the page is defined in option page_on_front or post_for_posts, 
+		// adjust the corresponding options
+		if ( get_option('page_on_front') == $postid ) {
+			update_option('show_on_front', 'posts');
+			delete_option('page_on_front');
+		}
+		if ( get_option('page_for_posts') == $postid ) {
+			delete_option('page_for_posts');
+		}
 
+		// Point children of this page to its parent
+		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
+	}
+
+	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
