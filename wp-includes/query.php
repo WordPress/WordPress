@@ -1230,9 +1230,6 @@ class WP_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 
-		// Announce current selection parameters.  For use by caching plugins.
-		do_action( 'posts_selection', $where . $groupby . $q['orderby'] . $limits . $join );
-
 		$where = apply_filters('posts_where_paged', $where);
 		$groupby = apply_filters('posts_groupby', $groupby);
 		if ( ! empty($groupby) )
@@ -1247,6 +1244,9 @@ class WP_Query {
 		$found_rows = '';
 		if ( !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
+
+		// Announce current selection parameters.  For use by caching plugins.
+		do_action( 'posts_selection', $where . $groupby . $q['orderby'] . $limits . $join );
 
 		$request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 		$this->request = apply_filters('posts_request', $request);
