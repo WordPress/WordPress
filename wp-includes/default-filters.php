@@ -134,6 +134,9 @@ add_filter('comment_flood_filter', 'wp_throttle_comment_flood', 10, 3);
 add_filter('pre_comment_content', 'wp_rel_nofollow', 15);
 add_filter('comment_email', 'antispambot');
 
+//Atom SSL support
+add_filter('atom_service_url','atom_service_url_filter');
+
 // Actions
 add_action('wp_head', 'rsd_link');
 add_action('wp_head', 'wlwmanifest_link');

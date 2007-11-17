@@ -1484,4 +1484,36 @@ function absint( $maybeint ) {
 	return abs( intval( $maybeint ) );
 }
 
+/**
+ * Determines if the blog can be accessed over SSL
+ * @return bool whether of not SSL access is available
+ */
+function url_is_accessable_via_ssl($url)
+{
+	if (in_array('curl', get_loaded_extensions())) {
+		 $ssl = preg_replace( '/^http:\/\//', 'https://',  $url );
+
+		 $ch = curl_init();
+		 curl_setopt($ch, CURLOPT_URL, $ssl);
+		 curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+		 $data = curl_exec ($ch);
+
+		 $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		 curl_close ($ch);
+
+		 if ($status == 200 || $status == 401) {
+			 return true;
+		 }
+	}
+	return false;
+}
+
+function atom_service_url_filter($url)
+{
+	if ( url_is_accessable_via_ssl($url) )
+		return  preg_replace( '/^http:\/\//', 'https://',  $url );
+}
 ?>

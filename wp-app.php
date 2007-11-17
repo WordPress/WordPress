@@ -68,7 +68,6 @@ class AtomServer {
 	var $MEDIA_SINGLE_PATH = "attachment";
 
 	var $params = array();
-	var $script_name = "wp-app.php";
 	var $media_content_types = array('image/*','audio/*','video/*');
 	var $atom_content_types = array('application/atom+xml');
 
@@ -80,6 +79,10 @@ class AtomServer {
 	function AtomServer() {
 
 		$this->script_name = array_pop(explode('/',$_SERVER['SCRIPT_NAME']));
+		$this->app_base = get_bloginfo('url') . '/' . $this->script_name . '/';
+		if ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) {
+			$this->app_base = preg_replace( '/^http:\/\//', 'https://', $this->app_base );
+		}
 
 		$this->selectors = array(
 			'@/service$@' =>
@@ -594,7 +597,7 @@ EOD;
 		} else {
 			$path = $this->ENTRIES_PATH;
 		}
-		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $path;
+		$url = $this->app_base . $path;
 		if(isset($page) && is_int($page)) {
 			$url .= "/$page";
 		}
@@ -607,7 +610,7 @@ EOD;
 	}
 
 	function get_categories_url($page = NULL) {
-		return get_bloginfo('url') . '/' . $this->script_name . '/' . $this->CATEGORIES_PATH;
+		return $this->app_base . $this->CATEGORIES_PATH;
 	}
 
 	function the_categories_url() {
@@ -616,7 +619,7 @@ EOD;
 	}
 
 	function get_attachments_url($page = NULL) {
-		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->MEDIA_PATH;
+		$url = $this->app_base . $this->MEDIA_PATH;
 		if(isset($page) && is_int($page)) {
 			$url .= "/$page";
 		}
@@ -629,7 +632,7 @@ EOD;
 	}
 
 	function get_service_url() {
-		return get_bloginfo('url') . '/' . $this->script_name . '/' . $this->SERVICE_PATH;
+		return $this->app_base . $this->SERVICE_PATH;
 	}
 
 	function get_entry_url($postID = NULL) {
@@ -638,7 +641,7 @@ EOD;
 			$postID = (int) $GLOBALS['post']->ID;
 		}
 
-		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->ENTRY_PATH . "/$postID";
+		$url = $this->app_base . $this->ENTRY_PATH . "/$postID";
 
 		log_app('function',"get_entry_url() = $url");
 		return $url;
@@ -655,7 +658,7 @@ EOD;
 			$postID = (int) $GLOBALS['post']->ID;
 		}
 
-		$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->MEDIA_SINGLE_PATH ."/file/$postID";
+		$url = $this->app_base . $this->MEDIA_SINGLE_PATH ."/file/$postID";
 
 		log_app('function',"get_media_url() = $url");
 		return $url;
@@ -919,7 +922,7 @@ EOD;
 				$ctloc = $this->get_entry_url($post_ID);
 				break;
 			case 'attachment':
-				$edit = get_bloginfo('url') . '/' . $this->script_name . "/attachments/$post_ID";
+				$edit = $this->app_base . "attachments/$post_ID";
 				break;
 		}
 		header("Content-Type: $this->ATOM_CONTENT_TYPE");
