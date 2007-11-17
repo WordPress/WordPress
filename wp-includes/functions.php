@@ -1515,5 +1515,7 @@ function atom_service_url_filter($url)
 {
 	if ( url_is_accessable_via_ssl($url) )
 		return  preg_replace( '/^http:\/\//', 'https://',  $url );
+	else
+		return $url;
 }
 ?>
