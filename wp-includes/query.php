@@ -1232,21 +1232,31 @@ class WP_Query {
 
 		$where = apply_filters('posts_where_paged', $where);
 		$groupby = apply_filters('posts_groupby', $groupby);
-		if ( ! empty($groupby) )
-			$groupby = 'GROUP BY ' . $groupby;
 		$join = apply_filters('posts_join_paged', $join);
 		$orderby = apply_filters('posts_orderby', $q['orderby']);
-		if ( !empty( $orderby ) )
-			$orderby = 'ORDER BY ' . $orderby;
 		$distinct = apply_filters('posts_distinct', $distinct);
 		$fields = apply_filters('posts_fields', "$wpdb->posts.*");
 		$limits = apply_filters( 'post_limits', $limits );
+
+		// Announce current selection parameters.  For use by caching plugins.
+		do_action( 'posts_selection', $where . $groupby . $orderby . $limits . $join );
+
+		// Filter again for the benefit of caching plugins.  Regular plugins should use the hooks above.
+		$where = apply_filters('posts_where_request', $where);
+		$groupby = apply_filters('posts_groupby_request', $groupby);
+		$join = apply_filters('posts_join_request', $join);
+		$orderby = apply_filters('posts_orderby_request', $orderby);
+		$distinct = apply_filters('posts_distinct_request', $distinct);
+		$fields = apply_filters('posts_fields_request', $fields);
+		$limits = apply_filters( 'post_limits_request', $limits );
+
+		if ( ! empty($groupby) )
+			$groupby = 'GROUP BY ' . $groupby;
+		if ( !empty( $orderby ) )
+			$orderby = 'ORDER BY ' . $orderby;
 		$found_rows = '';
 		if ( !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
-
-		// Announce current selection parameters.  For use by caching plugins.
-		do_action( 'posts_selection', $where . $groupby . $q['orderby'] . $limits . $join );
 
 		$request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 		$this->request = apply_filters('posts_request', $request);
