@@ -228,7 +228,7 @@ class wpdb {
 		++$this->num_queries;
 
 		if (SAVEQUERIES)
-			$this->queries[] = array( $query, $this->timer_stop() );
+			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
 
 		// If there is an error then take note of it..
 		if ( mysql_error($this->dbh) ) {
@@ -475,6 +475,35 @@ class wpdb {
 	{
 		return ( version_compare(mysql_get_server_info(), '4.1.0', '>=') );
 	}
+
+	/**
+	 * Get the name of the function that called wpdb.
+	 * @return string the name of the calling function
+	 */
+	function get_caller() {
+		// requires PHP 4.3+
+		if ( !is_callable('debug_backtrace') )
+			return '';
+
+		$bt = debug_backtrace();
+		$caller = '';
+
+		foreach ( $bt as $trace ) {
+			if ( @$trace['class'] == __CLASS__ )
+				continue;
+			elseif ( strtolower(@$trace['function']) == 'call_user_func_array' )
+				continue;
+			elseif ( strtolower(@$trace['function']) == 'apply_filters' )
+				continue;
+			elseif ( strtolower(@$trace['function']) == 'do_action' )
+				continue;
+	
+			$caller = $trace['function'];
+			break;
+		}
+		return $caller;
+	}
+
 }
 
 if ( ! isset($wpdb) )
