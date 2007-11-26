@@ -5,17 +5,15 @@ addLoadEvent( function() {
 		tab: '',
 		postID: 0,
 
-		toQueryParams: function(qryStrOrig) {
-			var params = new Object();
-			var qryStr = qryStrOrig;
-			var i = 0;
-			do {
-				params[qryStr.split("=")[0].replace(/&/, "")] = ( qryStr.split("=")[1] ) ? qryStr.split("=")[1].split(/&|$/)[0] : '';
-				qryStr = ( qryStr.split("=")[1] ) ? qryStr.split(qryStr.split("=")[1].split(/&|$/)[0])[1] : '';
-				i++;
-			} 
-			while(i < (qryStrOrig.split("=").length - 1));
-			return params;
+		toQueryParams: function( s ) {
+			var r = {}; if ( !s ) { return r; }
+			var q = s.split('?'); if ( q[1] ) { s = q[1]; }
+			var pp = s.split('&');
+			for ( var i in pp ) {
+				var p = pp[i].split('=');
+				r[p[0]] = p[1];
+			}
+			return r;
 		},
 
 		toQueryString: function(params) {
