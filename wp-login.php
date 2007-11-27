@@ -68,7 +68,7 @@ function login_header($title = 'Login', $message = '') {
 	}
 } // End of login_header()
 
-
+$http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
 switch ($action) {
 
 case 'logout' :
@@ -90,7 +90,7 @@ case 'retrievepassword' :
 	$user_login = '';
 	$user_pass = '';
 
-	if ( $_POST ) {
+	if ( $http_post ) {
 		if ( empty( $_POST['user_login'] ) )
 			$errors['user_login'] = __('<strong>ERROR</strong>: The username field is empty.');
 		if ( empty( $_POST['user_email'] ) )
@@ -212,7 +212,7 @@ case 'register' :
 		exit();
 	}
 
-	if ( $_POST ) {
+	if ( $http_post ) {
 		require_once( ABSPATH . WPINC . '/registration.php');
 
 		$user_login = sanitize_user( $_POST['user_login'] );
@@ -295,7 +295,7 @@ default:
 	else
 		$redirect_to = $_REQUEST['redirect_to'];
 
-	if ( $_POST ) {
+	if ( $http_post ) {
 		$user_login = $_POST['log'];
 		$user_login = sanitize_user( $user_login );
 		$user_pass  = $_POST['pwd'];
@@ -312,7 +312,7 @@ default:
 	do_action_ref_array('wp_authenticate', array(&$user_login, &$user_pass));
 
 	// If cookies are disabled we can't log in even with a valid user+pass
-	if ( $_POST && empty($_COOKIE[TEST_COOKIE]) )
+	if ( $http_post && empty($_COOKIE[TEST_COOKIE]) )
 		$errors['test_cookie'] = __('<strong>ERROR</strong>: WordPress requires Cookies but your browser does not support them or they are blocked.');
 
 	if ( $user_login && $user_pass && empty( $errors ) ) {
@@ -334,9 +334,9 @@ default:
 		}
 	}
 
-	if ( $_POST && empty( $user_login ) )
+	if ( $http_post && empty( $user_login ) )
 		$errors['user_login'] = __('<strong>ERROR</strong>: The username field is empty.');
-	if ( $_POST && empty( $user_pass ) )
+	if ( $http_post && empty( $user_pass ) )
 		$errors['user_pass'] = __('<strong>ERROR</strong>: The password field is empty.');
 
 	// Some parts of this script use the main login form to display a message
