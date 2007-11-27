@@ -78,7 +78,6 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 
 	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
 
 	return true;
 }
@@ -142,7 +141,6 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 
 	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
 
 	return true;
 }
@@ -236,6 +234,37 @@ function wp_dropdown_users( $args = '' ) {
 		echo $output;
 
 	return $output;
+}
+
+function _fill_user( &$user ) {
+	global $wpdb;
+
+	$wpdb->hide_errors();
+	$metavalues = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user->ID));
+	$wpdb->show_errors();
+
+	if ( $metavalues ) {
+		foreach ( $metavalues as $meta ) {
+			$value = maybe_unserialize($meta->meta_value);
+			$user->{$meta->meta_key} = $value;
+		}
+	}
+
+	$level = $wpdb->prefix . 'user_level';
+	if ( isset( $user->{$level} ) )
+		$user->user_level = $user->{$level};
+
+	// For backwards compat.
+	if ( isset($user->first_name) )
+		$user->user_firstname = $user->first_name;
+	if ( isset($user->last_name) )
+		$user->user_lastname = $user->last_name;
+	if ( isset($user->description) )
+		$user->user_description = $user->description;
+
+	wp_cache_add($user->ID, $user, 'users');
+	wp_cache_add($user->user_login, $user->ID, 'userlogins');
+	wp_cache_add($user->user_email, $user->ID, 'useremail');
 }
 
 ?>

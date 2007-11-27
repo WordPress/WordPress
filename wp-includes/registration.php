@@ -6,7 +6,7 @@
  * @return mixed The user's ID on success, and null on failure.
  */
 function username_exists( $username ) {
-	if ( $user = get_userdatabylogin( sanitize_user( $username ) ) ) {
+	if ( $user = get_userdatabylogin( $username ) ) {
 		return $user->ID;
 	} else {
 		return null;
@@ -20,8 +20,10 @@ function username_exists( $username ) {
  * @return mixed The user's ID on success, and false on failure.
  */
 function email_exists( $email ) {
-	global $wpdb;
-	return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_email = %s", $email) );
+	if ( $user = get_user_by_email($email) )
+		return $user->ID;
+
+	return false;
 }
 
 /**

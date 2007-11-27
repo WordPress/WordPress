@@ -272,6 +272,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
+	wp_cache_delete($user->user_email, 'useremail');
 
 	return true;
 }

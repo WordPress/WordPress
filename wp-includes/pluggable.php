@@ -60,43 +60,25 @@ endif;
 if ( !function_exists('get_userdata') ) :
 function get_userdata( $user_id ) {
 	global $wpdb;
+
 	$user_id = abs(intval($user_id));
 	if ( $user_id == 0 )
 		return false;
 
 	$user = wp_cache_get($user_id, 'users');
 
-	if ( $user )
+	if ( '0' === $user )
+		return false;
+	else if ( $user )
 		return $user;
 
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id)) )
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id)) ) {
+		wp_cache_add($user_id, 0, 'users');
 		return false;
+	}
 
-	$wpdb->hide_errors();
-	$metavalues = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user_id));
-	$wpdb->show_errors();
+	_fill_user($user);
 
-	if ($metavalues) {
-		foreach ( $metavalues as $meta ) {
-			$value = maybe_unserialize($meta->meta_value);
-			$user->{$meta->meta_key} = $value;
-
-			// We need to set user_level from meta, not row
-			if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
-				$user->user_level = $meta->meta_value;
-		} // end foreach
-	} //end if
-
-	// For backwards compat.
-	if ( isset($user->first_name) )
-		$user->user_firstname = $user->first_name;
-	if ( isset($user->last_name) )
-		$user->user_lastname = $user->last_name;
-	if ( isset($user->description) )
-		$user->user_description = $user->description;
-
-	wp_cache_add($user_id, $user, 'users');
-	wp_cache_add($user->user_login, $user_id, 'userlogins');
 	return $user;
 }
 endif;
@@ -116,15 +98,50 @@ function get_userdatabylogin($user_login) {
 		return false;
 
 	$user_id = wp_cache_get($user_login, 'userlogins');
-	$userdata = wp_cache_get($user_id, 'users');
-
-	if ( $userdata )
-		return $userdata;
-
-	if ( !$user_ID = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_login = %s", $user_login)) )
+	if ( '0' === $user_id )
 		return false;
 
-	$user = get_userdata($user_ID);
+	$user = false;
+	if ( false !== $user_id )
+		$user = wp_cache_get($user_id, 'users');
+
+	if ( false !== $user )
+		return $user;
+
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_login = %s", $user_login)) ) {
+		wp_cache_add($user_login, 0, 'userlogins');
+		return false;
+	}
+
+	_fill_user($user);
+
+	return $user;
+}
+endif;
+
+if ( !function_exists('get_user_by_email') ) :
+function get_user_by_email($email) {
+	global $wpdb;
+
+	$user_id = wp_cache_get($email, 'useremail');
+
+	if ( '0' === $user_id )
+		return false;
+
+	$user = false;
+	if ( false !== $user_id )
+		$user = wp_cache_get($user_id, 'users');
+
+	if ( false !== $user )
+		return $user;
+
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_email = %s", $email)) ) {
+		wp_cache_add($email, 0, 'useremail');
+		return false;
+	}
+
+	_fill_user($user);
+
 	return $user;
 }
 endif;
