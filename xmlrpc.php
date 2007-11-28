@@ -1010,6 +1010,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			else {
 				switch((int) $content_struct["mt_allow_comments"]) {
 					case 0:
+					case 2:
 						$comment_status = "closed";
 						break;
 					case 1:
@@ -1225,6 +1226,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			else {
 				switch((int) $content_struct["mt_allow_comments"]) {
 					case 0:
+					case 2:
 						$comment_status = "closed";
 						break;
 					case 1:
