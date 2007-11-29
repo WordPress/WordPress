@@ -27,6 +27,8 @@ for ($i=1; $i <= $count; $i++) :
 	$content_transfer_encoding = '';
 	$boundary = '';
 	$bodysignal = 0;
+	$post_author = 1;
+	$author_found = false;
 	$dmonths = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 	foreach ($message as $line) :
 		if (strlen($line) < 3) $bodysignal = 1;
@@ -70,14 +72,18 @@ for ($i=1; $i <= $count; $i++) :
 				$author = sanitize_email($author);
 				if ( is_email($author) ) {
 					echo "Author = {$author} <p>";
-					$author = $wpdb->escape($author);
-					$result = $wpdb->get_row("SELECT ID FROM $wpdb->users WHERE user_email='$author' LIMIT 1");
-					if (!$result)
+					$userdata = get_user_by_email($author);
+					if (!$userdata) {
 						$post_author = 1;
-					else
-						$post_author = $result->ID;
-				} else
+						$author_found = false;
+					} else {
+						$post_author = $userdata->ID;
+						$author_found = true;
+					}
+				} else {
 					$post_author = 1;
+					$author_found = false;
+				}
 			}
 
 			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
@@ -111,6 +117,18 @@ for ($i=1; $i <= $count; $i++) :
 		}
 	endforeach;
 
+	// Set $post_status based on $author_found and on author's publish_posts capability
+	if ($author_found) {
+		$user = new WP_User($post_author);
+		if ($user->has_cap('publish_posts'))
+			$post_status = 'publish';
+		else
+			$post_status = 'pending';
+	} else {
+		// Author not found in DB, set status to pending.  Author already set to admin.
+		$post_status = 'pending';
+	}
+
 	$subject = trim($subject);
 
 	if ($content_type == 'multipart/alternative') {
@@ -143,9 +161,6 @@ for ($i=1; $i <= $count; $i++) :
 	if (empty($post_categories)) $post_categories[] = get_option('default_email_category');
 
 	$post_category = $post_categories;
-
-	// or maybe we should leave the choice to email drafts? propose a way
-	$post_status = 'publish';
 
 	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category', 'post_status');
 	$post_data = add_magic_quotes($post_data);
