@@ -497,7 +497,7 @@ function wp_update_comment($commentarr) {
 
 
 function wp_update_comment_count($post_id) {
-	global $wpdb, $comment_count_cache;
+	global $wpdb;
 	$post_id = (int) $post_id;
 	if ( !$post_id )
 		return false;
@@ -507,7 +507,6 @@ function wp_update_comment_count($post_id) {
 	$old = (int) $post->comment_count;
 	$new = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1'");
 	$wpdb->query("UPDATE $wpdb->posts SET comment_count = '$new' WHERE ID = '$post_id'");
-	$comment_count_cache[$post_id] = $new;
 
 	if ( 'page' == $post->post_type )
 		clean_page_cache( $post_id );
