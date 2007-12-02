@@ -307,21 +307,32 @@ function wp_login($username, $password, $already_md5 = false) {
 	}
 
 	$login = get_userdatabylogin($username);
-	//$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
 
-	if (!$login) {
+	if ( !$login || ($login->user_login != $username) ) {
 		$error = __('<strong>ERROR</strong>: Invalid username.');
 		return false;
-	} else {
-		// If the password is already_md5, it has been double hashed.
-		// Otherwise, it is plain text.
-		if ( ($already_md5 && md5($login->user_pass) == $password) || ($login->user_login == $username && $login->user_pass == md5($password)) ) {
-			return true;
-		} else {
-			$error = __('<strong>ERROR</strong>: Incorrect password.');
-			return false;
-		}
 	}
+
+	// If the password is already_md5, it has been double hashed.
+	// Otherwise, it is plain text.
+	if ( !$already_md5 ) {
+		if ( wp_check_password($password, $login->user_pass) ) {
+			// If using old md5 password, rehash.
+			if ( strlen($login->user_pass) <= 32 ) {
+				$hash = wp_hash_password($password);
+				$wpdb->query("UPDATE $wpdb->users SET user_pass = '$hash', user_activation_key = '' WHERE ID = '$login->ID'");
+				wp_cache_delete($login->ID, 'users');
+			}
+
+			return true;
+		}
+	} else {
+		if ( md5($login->user_pass) == $password )
+			return true;
+	}
+
+	$error = __('<strong>ERROR</strong>: Incorrect password.');
+	return false;
 }
 endif;
 
@@ -473,8 +484,10 @@ endif;
 
 if ( !function_exists('wp_setcookie') ) :
 function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
-	if ( !$already_md5 )
-		$password = md5( md5($password) ); // Double hash the password in the cookie.
+	$user = get_userdatabylogin($username);
+	if ( !$already_md5) {
+		$password = md5($user->user_pass); // Double hash the password in the cookie.
+	}
 
 	if ( empty($home) )
 		$cookiepath = COOKIEPATH;
@@ -697,6 +710,39 @@ function wp_hash($data) {
 	} else {
 		return md5($data . $salt);
 	}
+}
+endif;
+
+if ( !function_exists('wp_hash_password') ) :
+function wp_hash_password($password) {
+	global $wp_hasher;
+
+	if ( empty($wp_hasher) ) {
+		require_once( ABSPATH . 'wp-includes/class-phpass.php');
+		// By default, use the portable hash from phpass
+		$wp_hasher = new PasswordHash(8, TRUE);
+	}
+	
+	return $wp_hasher->HashPassword($password); 
+}
+endif;
+
+if ( !function_exists('wp_check_password') ) :
+function wp_check_password($password, $hash) {
+	global $wp_hasher;
+
+	if ( strlen($hash) <= 32 )
+		return ( $hash == md5($password) );
+
+	// If the stored hash is longer than an MD5, presume the
+	// new style phpass portable hash.
+	if ( empty($wp_hasher) ) {
+		require_once( ABSPATH . 'wp-includes/class-phpass.php');
+		// By default, use the portable hash from phpass
+		$wp_hasher = new PasswordHash(8, TRUE);
+	}
+
+	return $wp_hasher->CheckPassword($password, $hash);
 }
 endif;
 

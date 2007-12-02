@@ -16,8 +16,7 @@ function get_usernumposts($userid) {
 // TODO: xmlrpc only.  Maybe move to xmlrpc.php.
 function user_pass_ok($user_login,$user_pass) {
 	$userdata = get_userdatabylogin($user_login);
-
-	return (md5($user_pass) == $userdata->user_pass);
+	return wp_check_password($user_pass, $userdata->user_pass);
 }
 
 //

@@ -54,8 +54,8 @@ function wp_insert_user($userdata) {
 		$update = true;
 	} else {
 		$update = false;
-		// Password is not hashed when creating new user.
-		$user_pass = md5($user_pass);
+		// Hash the password
+		$user_pass = wp_hash_password($user_pass);
 	}
 
 	$user_login = sanitize_user($user_login, true);
@@ -156,7 +156,7 @@ function wp_update_user($userdata) {
 	// If password is changing, hash it now.
 	if ( ! empty($userdata['user_pass']) ) {
 		$plaintext_pass = $userdata['user_pass'];
-		$userdata['user_pass'] = md5($userdata['user_pass']);
+		$userdata['user_pass'] = wp_hash_password($userdata['user_pass']);
 	}
 
 	// Merge old and new fields with new fields overwriting old ones.
