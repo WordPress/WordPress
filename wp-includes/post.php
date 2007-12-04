@@ -1168,44 +1168,6 @@ function &get_pages($args = '') {
 	return $pages;
 }
 
-function generate_page_uri_index() {
-	global $wpdb;
-
-	//get pages in order of hierarchy, i.e. children after parents
-	$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page'"));
-	//now reverse it, because we need parents after children for rewrite rules to work properly
-	$posts = array_reverse($posts, true);
-
-	$page_uris = array();
-	$page_attachment_uris = array();
-
-	if ($posts) {
-
-		foreach ($posts as $id => $post) {
-
-			// URL => page name
-			$uri = get_page_uri($id);
-			$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $id ));
-			if ( $attachments ) {
-				foreach ( $attachments as $attachment ) {
-					$attach_uri = get_page_uri($attachment->ID);
-					$page_attachment_uris[$attach_uri] = $attachment->ID;
-				}
-			}
-
-			$page_uris[$uri] = $id;
-		}
-
-		delete_option('page_uris');
-		update_option('page_uris', $page_uris);
-
-		if ( $page_attachment_uris ) {
-			delete_option('page_attachment_uris');
-			update_option('page_attachment_uris', $page_attachment_uris);
-		}
-	}
-}
-
 //
 // Attachment functions
 //

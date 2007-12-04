@@ -185,6 +185,7 @@ class WP_Rewrite {
 	var $non_wp_rules = array(); //rules that don't redirect to WP's index.php
 	var $endpoints;
 	var $use_verbose_rules = false;
+	var $use_verbose_page_rules = true;
 	var $rewritecode =
 		array(
 					'%year%',
@@ -277,12 +278,55 @@ class WP_Rewrite {
 		return "$match_prefix$number$match_suffix";
 	}
 
+	function page_uri_index() {
+		global $wpdb;
+
+		//get pages in order of hierarchy, i.e. children after parents
+		$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page'"));
+		//now reverse it, because we need parents after children for rewrite rules to work properly
+		$posts = array_reverse($posts, true);
+
+		$page_uris = array();
+		$page_attachment_uris = array();
+
+		if ( !$posts )
+			return array( array(), array() );
+	
+
+		foreach ($posts as $id => $post) {
+			// URL => page name
+			$uri = get_page_uri($id);
+			$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $id ));
+			if ( $attachments ) {
+				foreach ( $attachments as $attachment ) {
+					$attach_uri = get_page_uri($attachment->ID);
+					$page_attachment_uris[$attach_uri] = $attachment->ID;
+				}
+			}
+
+			$page_uris[$uri] = $id;
+		}
+
+		return array( $page_uris, $page_attachment_uris );
+	}
+
 	function page_rewrite_rules() {
-		$uris = get_option('page_uris');
-		$attachment_uris = get_option('page_attachment_uris');
+		global $wpdb;
 
 		$rewrite_rules = array();
 		$page_structure = $this->get_page_permastruct();
+
+		if ( ! $this->use_verbose_page_rules ) {
+			$this->add_rewrite_tag('%pagename%', "(.+)", 'pagename=');
+			$rewrite_rules = array_merge($rewrite_rules, $this->generate_rewrite_rules($page_structure, EP_PAGES));
+			return $rewrite_rules;
+		}
+
+		$page_uris = $this->page_uri_index();
+		$uris = $page_uris[0];
+		$attachment_uris = $page_uris[1];
+
+
 		if( is_array( $attachment_uris ) ) {
 			foreach ($attachment_uris as $uri => $pagename) {
 				$this->add_rewrite_tag('%pagename%', "($uri)", 'attachment=');
@@ -785,7 +829,10 @@ class WP_Rewrite {
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
 		// Put them together.
-		$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+		if ( $this->use_verbose_page_rules )
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+		else
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
 
 		do_action_ref_array('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
@@ -900,7 +947,6 @@ class WP_Rewrite {
 	}
 
 	function flush_rules() {
-		generate_page_uri_index();
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
 		if ( function_exists('save_mod_rewrite_rules') )
