@@ -73,7 +73,7 @@ function get_permalink($id = 0) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';
-		if (strpos($permalink, '%category%') !== false) {
+		if ( strpos($permalink, '%category%') !== false ) {
 			$cats = get_the_category($post->ID);
 			if ( $cats )
 				usort($cats, '_usort_terms_by_ID'); // order by ID
@@ -82,8 +82,12 @@ function get_permalink($id = 0) {
 				$category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
 		}
 
-		$authordata = get_userdata($post->post_author);
-		$author = $authordata->user_nicename;
+		$author = '';
+		if ( strpos($permalink, '%author%') !== false ) {
+			$authordata = get_userdata($post->post_author);
+			$author = $authordata->user_nicename;
+		}
+
 		$date = explode(" ",date('Y m d H i s', $unixtime));
 		$rewritereplace =
 		array(
