@@ -1395,7 +1395,8 @@ class wp_xmlrpc_server extends IXR_Server {
           'wp_password' => $postdata['post_password'],
           'wp_author_id' => $author->ID,
           'wp_author_display_name'	=> $author->display_name,
-          'date_created_gmt' => new IXR_Date($post_date_gmt)
+          'date_created_gmt' => new IXR_Date($post_date_gmt),
+		  'post_status' => $postdata['post_status']
 	    );
 
 	    return $resp;
@@ -1477,7 +1478,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'wp_password' => $entry['post_password'],
 				'wp_author_id' => $author->ID,
 				'wp_author_display_name' => $author->display_name,
-				'date_created_gmt' => new IXR_Date($post_date_gmt)
+				'date_created_gmt' => new IXR_Date($post_date_gmt),
+				'post_status' => $entry['post_status']
 			);
 
 		}
