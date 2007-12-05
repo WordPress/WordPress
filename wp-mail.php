@@ -14,9 +14,14 @@ $pop3 = new POP3();
 if (!$pop3->connect(get_option('mailserver_url'), get_option('mailserver_port')))
 	wp_die($pop3->ERROR);
 
-$count = $pop3->login(get_option('mailserver_login'), get_option('mailserver_pass'));
-if (0 == $count) wp_die(__('There doesn&#8217;t seem to be any new mail.'));
+if (!$pop3->user(get_option('mailserver_login')))
+	wp_die($pop3->ERROR);
 
+$count = $pop3->pass(get_option('mailserver_pass'));
+if (false === $count)
+	wp_die($pop3->ERROR);
+if (0 == $count)
+	echo "<p>There doesn't seem to be any new mail.</p>\n"; // will fall-through to end of for loop
 
 for ($i=1; $i <= $count; $i++) :
 
