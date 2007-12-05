@@ -2,7 +2,6 @@
 
 // Update an existing post with values provided in $_POST.
 function edit_post() {
-	global $user_ID;
 
 	$post_ID = (int) $_POST['post_ID'];
 
@@ -350,11 +349,11 @@ function add_meta( $post_ID ) {
 
 		wp_cache_delete($post_ID, 'post_meta');
 
-		$result = $wpdb->query( "
-						INSERT INTO $wpdb->postmeta
-						(post_id,meta_key,meta_value )
-						VALUES ('$post_ID','$metakey','$metavalue' )
-					" );
+		$wpdb->query( "
+				INSERT INTO $wpdb->postmeta
+				(post_id,meta_key,meta_value )
+				VALUES ('$post_ID','$metakey','$metavalue' )
+			" );
 		return $wpdb->insert_id;
 	}
 	return false;
@@ -428,7 +427,6 @@ function update_meta( $mid, $mkey, $mvalue ) {
 
 // Replace hrefs of attachment anchors with up-to-date permalinks.
 function _fix_attachment_links( $post_ID ) {
-	global $wp_rewrite;
 
 	$post = & get_post( $post_ID, ARRAY_A );
 

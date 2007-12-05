@@ -78,7 +78,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 }
 
 function wp_upload_view() {
-	global $style, $post_id, $style;
+	global $style, $style;
 	$id = get_the_ID();
 	$attachment_data = wp_get_attachment_metadata( $id );
 ?>
@@ -268,7 +268,6 @@ function wp_upload_tab_upload_action() {
 		$url = $file['url'];
 		$type = $file['type'];
 		$file = $file['file'];
-		$filename = basename($file);
 
 		// Construct the attachment array
 		$attachment = array(

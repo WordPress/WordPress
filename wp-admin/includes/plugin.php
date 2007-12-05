@@ -153,7 +153,6 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 	global $menu;
 	global $_wp_real_parent_file;
 	global $_wp_submenu_nopriv;
-	global $_wp_menu_nopriv;
 
 	$file = plugin_basename( $file );
 

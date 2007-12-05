@@ -100,8 +100,6 @@ function wxr_tag_description($t) {
 function wxr_post_taxonomy() {
 	$categories = get_the_category();
 	$tags = get_the_tags();
-	$cat_names = array();
-	$tag_names = array();
 	$the_list = '';
 	$filter = 'rss';
 

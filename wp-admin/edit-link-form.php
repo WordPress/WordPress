@@ -11,7 +11,7 @@ if ( ! empty($link_id) ) {
 	$nonce_action = 'add-bookmark';
 }
 
-function xfn_check($class, $value = '', $type = 'check') {
+function xfn_check($class, $value = '', $depreciated = null) {
 	global $link;
 
 	$link_rel = $link->link_rel;

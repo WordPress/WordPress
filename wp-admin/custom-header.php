@@ -224,8 +224,6 @@ Event.observe( window, 'load', hide_text );
 		// Save the data
 		$id = wp_insert_attachment($object, $file);
 
-		$upload = array('file' => $file, 'id' => $id);
-
 		list($width, $height, $type, $attr) = getimagesize( $file );
 
 		if ( $width == HEADER_IMAGE_WIDTH && $height == HEADER_IMAGE_HEIGHT ) {

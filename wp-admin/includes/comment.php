@@ -8,9 +8,7 @@ function comment_exists($comment_author, $comment_date) {
 }
 
 function edit_comment() {
-	global $user_ID;
 
-	$comment_ID = (int) $_POST['comment_ID'];
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 
 	if (!current_user_can( 'edit_post', $comment_post_ID ))

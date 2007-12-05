@@ -187,8 +187,6 @@ function get_nonauthor_user_ids() {
 
 function get_others_unpublished_posts($user_id, $type='any') {
 	global $wpdb;
-	$user = get_userdata( $user_id );
-	$level_key = $wpdb->prefix . 'user_level';
 
 	$editable = get_editable_user_ids( $user_id );
 
@@ -246,7 +244,6 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
 	$id = (int) $id;
-	$user = get_userdata($id);
 
 	if ($reassign == 'novalue') {
 		$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");

@@ -40,7 +40,6 @@ function _cat_row( $category, $level, $name_override = false ) {
 	if ( current_user_can( 'manage_categories' ) ) {
 		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
 		$default_cat_id = (int) get_option( 'default_category' );
-		$default_link_cat_id = (int) get_option( 'default_link_category' );
 
 		if ( $category->term_id != $default_cat_id )
 			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id ) . "' class='delete:the-list:cat-$category->term_id delete'>".__( 'Delete' )."</a>";
@@ -90,7 +89,7 @@ function link_cat_row( $category ) {
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='link-cat-$category->term_id'$class>
 		<th scope='row' style='text-align: center'>$category->term_id</th>
-		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->name ) . "</td>
+		<td>" . ( $name_override ? $name_override : $category->name ) . "</td>
 		<td>$category->description</td>
 		<td align='center'>$count</td>
 		<td>$edit</td>\n\t</tr>\n";
@@ -125,7 +124,7 @@ function sort_cats( $cat1, $cat2 ) {
 }
 
 function get_nested_categories( $default = 0, $parent = 0 ) {
-	global $post_ID, $mode, $wpdb, $checked_categories;
+	global $post_ID, $wpdb, $checked_categories;
 
 	if ( empty($checked_categories) ) {
 		if ( $post_ID ) {
@@ -390,7 +389,6 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
 }
 
 function list_meta( $meta ) {
-	global $post_ID;
 	// Exit if no meta
 	if (!$meta ) {
 		echo '<tbody id="the-list" class="list:meta"><tr style="display: none;"><td>&nbsp;</td></tr></tbody>'; //TBODY needed for list-manipulation JS
@@ -433,7 +431,6 @@ function _list_meta_row( $entry, &$count ) {
 		}
 	}
 
-	$key_js = js_escape( $entry['meta_key'] );
 	$entry['meta_key']   = attribute_escape($entry['meta_key']);
 	$entry['meta_value'] = attribute_escape($entry['meta_value']);
 	$entry['meta_id'] = (int) $entry['meta_id'];
