@@ -42,7 +42,7 @@ function get_object_taxonomies($object_type) {
 
 	$taxonomies = array();
 	foreach ( $wp_taxonomies as $taxonomy ) {
-		if ( $object_type == $taxonomy->object_type )
+		if ( $object_type === $taxonomy->object_type )
 			$taxonomies[] = $taxonomy->name;
 	}
 
