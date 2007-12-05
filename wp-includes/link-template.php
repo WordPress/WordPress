@@ -360,39 +360,14 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 // Navigation links
 
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
-	global $post, $wpdb;
-
-	if( empty($post) || !is_single() || is_attachment() )
-		return null;
-
-	$current_post_date = $post->post_date;
-
-	$join = '';
-	if ( $in_same_cat ) {
-		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id ";
-		$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=tt_ids');
-		$join .= $wpdb->prepare(' AND (tr.term_taxonomy_id = %d', $cat_array[0]);
-		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= $wpdb->prepare(' OR tr.term_taxonomy_id = %d', $cat_array[$i]);
-		}
-		$join .= ')';
-	}
-
-	$sql_exclude_cats = '';
-	if ( !empty($excluded_categories) ) {
-		$blah = explode(' and ', $excluded_categories);
-		$posts_in_ex_cats = get_objects_in_term($blah, 'category');
-		$posts_in_ex_cats_sql = 'AND p.ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
-	}
-
-	$join  = apply_filters( 'get_previous_post_join', $join, $in_same_cat, $excluded_categories );
-	$where = apply_filters( 'get_previous_post_where', $wpdb->prepare("WHERE p.post_date < %s AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql", $current_post_date), $in_same_cat, $excluded_categories );
-	$sort  = apply_filters( 'get_previous_post_sort', 'ORDER BY p.post_date DESC LIMIT 1' );
-
-	return @$wpdb->get_row("SELECT p.ID, p.post_title FROM $wpdb->posts AS p $join $where $sort");
+	return get_adjacent_post($in_same_cat, $excluded_categories);
 }
 
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
+	return get_adjacent_post($in_same_cat, $excluded_categories, false);
+}
+
+function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $previous = true) {
 	global $post, $wpdb;
 
 	if( empty($post) || !is_single() || is_attachment() )
@@ -401,58 +376,52 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	$current_post_date = $post->post_date;
 
 	$join = '';
-	if ( $in_same_cat ) {
-		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id ";
-		$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=tt_ids');
-		$join .= $wpdb->prepare(' AND (tr.term_taxonomy_id = %d', $cat_array[0]);
-		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
-			$join .= $wpdb->prepare(' OR tr.term_taxonomy_id = $d', $cat_array[$i]);
+	if ( $in_same_cat || !empty($excluded_categories) ) {
+		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
+
+		if ( $in_same_cat ) {
+			$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=ids');
+			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode($cat_array, ',') . ')';
 		}
-		$join .= ')';
+
+		$posts_in_ex_cats_sql = "AND tt.taxonomy = 'category'";
+		if ( !empty($excluded_categories) ) {
+			$excluded_categories = array_map('intval', explode(' and ', $excluded_categories));
+			if ( !empty($cat_array) ) {
+				$excluded_categories = array_diff($excluded_categories, $cat_array);
+				$posts_in_ex_cats_sql = '';
+			}
+
+			if ( !empty($excluded_categories) ) {
+				$posts_in_ex_cats_sql = " AND tt.term_id NOT IN (" . implode($excluded_categories, ',') . ')';
+			}
+		}
 	}
 
-	$sql_exclude_cats = '';
-	if ( !empty($excluded_categories) ) {
-		$blah = explode(' and ', $excluded_categories);
-		$posts_in_ex_cats = get_objects_in_term($blah, 'category');
-		$posts_in_ex_cats_sql = 'AND p.ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
-	}
+	$adjacent = $previous ? 'previous' : 'next';
+	$op = $previous ? '<' : '>';
+	$order = $previous ? 'DESC' : 'ASC';
 
-	$join  = apply_filters( 'get_next_post_join', $join, $in_same_cat, $excluded_categories );
-	$where = apply_filters( 'get_next_post_where', $wpdb->prepare("WHERE p.post_date > %s AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql AND p.ID != %d", $current_post_date, $post->ID), $in_same_cat, $excluded_categories );
-	$sort  = apply_filters( 'get_next_post_sort', 'ORDER BY p.post_date ASC LIMIT 1' );
+	$join  = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_cat, $excluded_categories );
+	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare("WHERE p.post_date $op %s AND p.post_type = 'post' AND p.post_status = 'publish' $posts_in_ex_cats_sql", $current_post_date), $in_same_cat, $excluded_categories );
+	$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1" );
 
-	return @$wpdb->get_row("SELECT p.ID, p.post_title FROM $wpdb->posts AS p $join $where $sort");
+	return $wpdb->get_row("SELECT p.* FROM $wpdb->posts AS p $join $where $sort");
 }
 
-
 function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
-
-	if ( is_attachment() )
-		$post = & get_post($GLOBALS['post']->post_parent);
-	else
-		$post = get_previous_post($in_same_cat, $excluded_categories);
-
-	if ( !$post )
-		return;
-
-	$title = $post->post_title;
-
-	if ( empty($post->post_title) )
-		$title = __('Previous Post');
-
-	$title = apply_filters('the_title', $title, $post);
-	$string = '<a href="'.get_permalink($post->ID).'">';
-	$link = str_replace('%title', $title, $link);
-	$link = $pre . $string . $link . '</a>';
-
-	$format = str_replace('%link', $link, $format);
-
-	echo $format;
+	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, true);
 }
 
 function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
-	$post = get_next_post($in_same_cat, $excluded_categories);
+	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, false);
+}
+
+function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true) {
+	if ( $previous && is_attachment() )
+		$post = & get_post($GLOBALS['post']->post_parent);
+	else
+		$post = get_adjacent_post($in_same_cat, $excluded_categories, $previous);
 
 	if ( !$post )
 		return;
@@ -460,12 +429,13 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 	$title = $post->post_title;
 
 	if ( empty($post->post_title) )
-		$title = __('Next Post');
+		$title = $previous ? __('Previous Post') : __('Next Post');
 
 	$title = apply_filters('the_title', $title, $post);
-	$string = '<a href="'.get_permalink($post->ID).'">';
+	$string = '<a href="'.get_permalink($post).'">';
 	$link = str_replace('%title', $title, $link);
 	$link = $string . $link . '</a>';
+
 	$format = str_replace('%link', $link, $format);
 
 	echo $format;
