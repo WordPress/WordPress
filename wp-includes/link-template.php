@@ -230,7 +230,7 @@ function get_day_link($year, $month, $day) {
 	}
 }
 
-function get_feed_link($feed='rss2') {
+function get_feed_link($feed = '') {
 	global $wp_rewrite;
 
 	$permalink = $wp_rewrite->get_feed_permastruct();
@@ -240,13 +240,16 @@ function get_feed_link($feed='rss2') {
 			$permalink = $wp_rewrite->get_comment_feed_permastruct();
 		}
 
-		if ( 'rss2' == $feed )
+		if ( get_default_feed() == $feed )
 			$feed = '';
 
 		$permalink = str_replace('%feed%', $feed, $permalink);
 		$permalink = preg_replace('#/+#', '/', "/$permalink");
 		$output =  get_option('home') . user_trailingslashit($permalink, 'feed');
 	} else {
+		if ( empty($feed) )
+			$feed = get_default_feed();
+
 		if ( false !== strpos($feed, 'comments_') )
 			$feed = str_replace('comments_', 'comments-', $feed);
 
@@ -256,15 +259,18 @@ function get_feed_link($feed='rss2') {
 	return apply_filters('feed_link', $output, $feed);
 }
 
-function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
+function get_post_comments_feed_link($post_id = '', $feed = '') {
 	global $id;
 
 	if ( empty($post_id) )
 		$post_id = (int) $id;
 
+	if ( empty($feed) )
+		$feed = get_default_feed();
+
 	if ( '' != get_option('permalink_structure') ) {
 		$url = trailingslashit( get_permalink($post_id) ) . 'feed';
-		if ( 'rss2' != $feed )
+		if ( $feed != get_default_feed() )
 			$url .= "/$feed";
 		$url = user_trailingslashit($url, 'single_feed');
 	} else {
@@ -276,6 +282,119 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 	}
 
 	return apply_filters('post_comments_feed_link', $url);
+}
+
+/** post_comments_feed_link() - Output the comment feed link for a post.
+ *
+ * Prints out the comment feed link for a post.  Link text is placed in the
+ * anchor.  If no link text is specified, default text is used.  If no post ID
+ * is specified, the current post is used.
+ *
+ * @package WordPress
+ * @subpackage Feed
+ * @since 2.4
+ *
+ * @param string Descriptive text
+ * @param int Optional post ID.  Default to current post.
+ * @return string Link to the comment feed for the current post
+*/
+function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
+	$url = get_post_comments_feed_link($post_id, $feed);
+	if ( empty($link_text) )
+		$link_text = __('Comments Feed');
+
+	echo "<a href='$url'>$link_text</a>";
+}
+
+function get_author_feed_link( $author_id, $feed = '' ) {
+	$author_id = (int) $author_id;
+	$permalink_structure = get_option('permalink_structure');
+
+	if ( empty($feed) )
+		$feed = get_default_feed();
+
+	if ( '' == $permalink_structure ) {
+		$link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
+	} else {
+		$link = get_author_posts_url($author_id, $author_nicename);
+		$link = trailingslashit($link) . user_trailingslashit('feed', 'feed');
+	}
+
+	$link = apply_filters('author_feed_link', $link);
+
+	return $link;
+}
+
+/** get_category_feed_link() - Get the feed link for a given category
+ *
+ * Returns a link to the feed for all post in a given category.  A specific feed can be requested
+ * or left blank to get the default feed.
+ *
+ * @package WordPress
+ * @subpackage Feed
+ * @since 2.4
+ *
+ * @param int $cat_id ID of a category
+ * @param string $feed Feed type
+ * @return string Link to the feed for the category specified by $cat_id
+*/
+function get_category_feed_link($cat_id, $feed = '') {
+	$cat_id = (int) $cat_id;
+	
+	$category = get_category($cat_id);
+	
+	if ( empty($category) || is_wp_error($category) )
+		return false;
+
+	if ( empty($feed) )
+		$feed = get_default_feed();
+
+	$permalink_structure = get_option('permalink_structure');
+
+	if ( '' == $permalink_structure ) {
+		$link = get_option('home') . "?feed=$feed&amp;cat=" . $cat_id;
+	} else {
+		$link = get_category_link($cat_id);
+		if( $feed == get_default_feed() )
+			$feed_link = 'feed';
+		else
+			$feed_link = "feed/$feed";
+		
+		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
+	}
+
+	$link = apply_filters('category_feed_link', $link, $feed);
+	
+	return $link;
+}
+
+function get_tag_feed_link($tag_id, $feed = '') {
+	$tag_id = (int) $tag_id;
+
+	$tag = get_tag($tag_id);
+
+	if ( empty($tag) || is_wp_error($tag) )
+		return false;
+
+	$permalink_structure = get_option('permalink_structure');
+
+	if ( empty($feed) )
+		$feed = get_default_feed();
+
+	if ( '' == $permalink_structure ) {
+		$link = get_option('home') . "?feed=$feed&amp;tag=" . $tag->slug;
+	} else {
+		$link = get_tag_link($tag->term_id);
+		if ( $feed == get_default_feed() )
+			$feed_link = 'feed';
+		else
+			$feed_link = "feed/$feed";
+		$link = $link . user_trailingslashit($feed_link, 'feed');
+	}
+
+	$link = apply_filters('tag_feed_link', $link, $feed);
+
+	return $link;
 }
 
 function get_edit_post_link( $id = 0 ) {

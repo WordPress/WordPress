@@ -5,9 +5,12 @@ function get_bloginfo_rss($show = '') {
 	return apply_filters('get_bloginfo_rss', convert_chars($info));
 }
 
-
 function bloginfo_rss($show = '') {
 	echo apply_filters('bloginfo_rss', get_bloginfo_rss($show));
+}
+
+function get_default_feed() {
+	return apply_filters('default_feed', 'rss2');
 }
 
 function get_wp_title_rss($sep = '&#187;') {
@@ -80,16 +83,13 @@ function comment_link() {
 	echo get_comment_link();
 }
 
-
 function get_comment_author_rss() {
 	return apply_filters('comment_author_rss', get_comment_author() );
 }
 
-
 function comment_author_rss() {
 	echo get_comment_author_rss();
 }
-
 
 function comment_text_rss() {
 	$comment_text = get_comment_text();
@@ -97,85 +97,9 @@ function comment_text_rss() {
 	echo $comment_text;
 }
 
-
-function comments_rss_link($link_text = 'Comments RSS', $deprecated = '') {
-	$url = get_post_comments_feed_link();
-	echo "<a href='$url'>$link_text</a>";
-}
-
-
 function comments_rss($deprecated = '') {
 	return get_post_comments_feed_link();
 }
-
-
-function get_author_rss_link($echo = false, $author_id, $author_nicename) {
-	$author_id = (int) $author_id;
-	$permalink_structure = get_option('permalink_structure');
-
-	if ( '' == $permalink_structure ) {
-		$link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
-	} else {
-		$link = get_author_posts_url($author_id, $author_nicename);
-		$link = trailingslashit($link) . user_trailingslashit('feed', 'feed');
-	}
-
-	$link = apply_filters('author_feed_link', $link);
-
-	if ( $echo )
-		echo $link;
-	return $link;
-}
-
-/** get_category_feed_link() - Get the feed link for a given category
- *
- * Returns a link to the feed for all post in a given category.  A specific feed can be requested
- * or left blank to get the default feed.
- *
- * @package WordPress
- * @subpackage Feed
- * @since 2.4
- *
- * @param int $cat_id ID of a category
- * @param string $feed Feed type
- * @return string Link to the feed for the category specified by $cat_id
-*/
-function get_category_feed_link($cat_id, $feed = 'rss2') {
-	$cat_id = (int) $cat_id;
-	
-	$category = get_category($cat_id);
-	
-	if ( empty($category) || is_wp_error($category) )
-		return false;
-	
-	$permalink_structure = get_option('permalink_structure');
-
-	if ( '' == $permalink_structure ) {
-		$link = get_option('home') . "?feed=$feed&amp;cat=" . $cat_id;
-	} else {
-		$link = get_category_link($cat_id);
-		if( 'rss2' == $feed )
-			$feed_link = 'feed';
-		else
-			$feed_link = "feed/$feed";
-		
-		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
-	}
-
-	$link = apply_filters('category_feed_link', $link, $feed);
-	
-	return $link;
-}
-
-
-function get_category_rss_link($echo = false, $cat_ID, $deprecated = '') {
-	$link = get_category_feed_link($cat_ID, 'rss2');
-
-	if ( $echo )
-		echo $link;
-	return $link;
-}
-
 
 function get_the_category_rss($type = 'rss') {
 	$categories = get_the_category();
@@ -209,35 +133,8 @@ function get_the_category_rss($type = 'rss') {
 	return apply_filters('the_category_rss', $the_list, $type);
 }
 
-
 function the_category_rss($type = 'rss') {
 	echo get_the_category_rss($type);
-}
-
-function get_tag_feed_link($tag_id, $feed = 'rss2') {
-	$tag_id = (int) $tag_id;
-
-	$tag = get_tag($tag_id);
-
-	if ( empty($tag) || is_wp_error($tag) )
-		return false;
-
-	$permalink_structure = get_option('permalink_structure');
-
-	if ( '' == $permalink_structure ) {
-		$link = get_option('home') . "?feed=$feed&amp;tag=" . $tag->slug;
-	} else {
-		$link = get_tag_link($tag->term_id);
-		if ( 'rss2' == $feed )
-			$feed_link = 'feed';
-		else
-			$feed_link = "feed/$feed";
-		$link = $link . user_trailingslashit($feed_link, 'feed');
-	}
-
-	$link = apply_filters('tag_feed_link', $link, $feed);
-
-	return $link;
 }
 
 function html_type_rss() {

@@ -863,7 +863,7 @@ function do_feed() {
 	$feed = preg_replace( '/^_+/', '', $feed );
 
 	if ( $feed == '' || $feed == 'feed' )
-		$feed = 'rss2';
+		$feed = get_default_feed();
 
 	$hook = 'do_feed_' . $feed;
 	do_action( $hook, $wp_query->is_comment_feed );

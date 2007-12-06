@@ -366,7 +366,7 @@ function wp_list_authors($args = '') {
 	$defaults = array(
 		'optioncount' => false, 'exclude_admin' => true,
 		'show_fullname' => false, 'hide_empty' => true,
-		'feed' => '', 'feed_image' => '', 'echo' => true
+		'feed' => '', 'feed_image' => '', 'feed_type' => '', 'echo' => true
 	);
 
 	$r = wp_parse_args( $args, $defaults );

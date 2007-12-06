@@ -729,4 +729,24 @@ function get_linkcatname($id = 0) {
 	return $cat->name;
 }
 
+
+function comments_rss_link($link_text = 'Comments RSS', $deprecated = '') {
+	post_comments_feed_link($link_text);
+}
+
+function get_category_rss_link($echo = false, $cat_ID, $deprecated = '') {
+	$link = get_category_feed_link($cat_ID, $feed = 'rss2');
+
+	if ( $echo )
+		echo $link;
+	return $link;
+}
+
+function get_author_rss_link($echo = false, $author_id, $deprecated = '') {
+	$link = get_author_feed_link($author_id);
+	if ( $echo )
+		echo $link;
+	return $link;
+}
+
 ?>
