@@ -363,7 +363,7 @@ function sanitize_title_with_dashes($title) {
 	return $title;
 }
 
-function convert_chars($content, $flag = 'obsolete') {
+function convert_chars($content, $deprecated = '') {
 	// Translation of invalid Unicode references range to valid range
 	$wp_htmltranswinuni = array(
 	'&#128;' => '&#8364;', // the Euro sign
@@ -560,7 +560,6 @@ function format_to_edit($content, $richedit = false) {
 }
 
 function format_to_post($content) {
-	global $wpdb;
 	$content = apply_filters('format_to_post', $content);
 	return $content;
 }
@@ -783,7 +782,7 @@ function human_time_diff( $from, $to = '' ) {
 	} else if (($diff <= 86400) && ($diff > 3600)) {
 		$hours = round($diff / 3600);
 		if ($hours <= 1) {
-			$hour = 1;
+			$hours = 1;
 		}
 		$since = sprintf(__ngettext('%s hour', '%s hours', $hours), $hours);
 	} elseif ($diff >= 86400) {
@@ -797,7 +796,6 @@ function human_time_diff( $from, $to = '' ) {
 }
 
 function wp_trim_excerpt($text) { // Fakes an excerpt if needed
-	global $post;
 	if ( '' == $text ) {
 		$text = get_the_content('');
 		$text = apply_filters('the_content', $text);

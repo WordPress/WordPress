@@ -1,8 +1,6 @@
 <?php
 
 function get_all_category_ids() {
-	global $wpdb;
-
 	if ( ! $cat_ids = wp_cache_get('all_category_ids', 'category') ) {
 		$cat_ids = get_terms('category', 'fields=ids&get=all');
 		wp_cache_add('all_category_ids', $cat_ids, 'category');
@@ -39,7 +37,6 @@ function &get_category($category, $output = OBJECT, $filter = 'raw') {
 }
 
 function get_category_by_path($category_path, $full_match = true, $output = OBJECT) {
-	global $wpdb;
 	$category_path = rawurlencode(urldecode($category_path));
 	$category_path = str_replace('%2F', '/', $category_path);
 	$category_path = str_replace('%20', ' ', $category_path);
@@ -86,8 +83,6 @@ function get_category_by_slug( $slug  ) {
 
 // Get the ID of a category from its name
 function get_cat_ID($cat_name='General') {
-	global $wpdb;
-
 	$cat = get_term_by('name', $cat_name, 'category');
 	if ($cat)
 		return $cat->term_id;
@@ -132,8 +127,6 @@ function sanitize_category_field($field, $value, $cat_id, $context) {
 // Tags
 
 function &get_tags($args = '') {
-	global $wpdb, $category_links;
-
 	$key = md5( serialize( $args ) );
 	if ( $cache = wp_cache_get( 'get_tags', 'category' ) )
 		if ( isset( $cache[ $key ] ) )

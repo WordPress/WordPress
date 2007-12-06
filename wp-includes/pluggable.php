@@ -528,8 +528,6 @@ endif;
 
 if ( ! function_exists('wp_notify_postauthor') ) :
 function wp_notify_postauthor($comment_id, $comment_type='') {
-	global $wpdb;
-
 	$comment = get_comment($comment_id);
 	$post    = get_post($comment->comment_post_ID);
 	$user    = get_userdata( $post->post_author );

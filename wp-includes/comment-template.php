@@ -38,7 +38,6 @@ function comment_author_email_link($linktext='', $before='', $after='') {
 }
 
 function get_comment_author_link() {
-	global $comment;
 	$url    = get_comment_author_url();
 	$author = get_comment_author();
 
@@ -72,7 +71,6 @@ function comment_author_url() {
 }
 
 function get_comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
-	global $comment;
 	$url = get_comment_author_url();
 	$display = ($linktext != '') ? $linktext : $url;
 	$display = str_replace( 'http://www.', '', $display );
@@ -146,7 +144,6 @@ function comments_link( $file = '', $echo = true ) {
 }
 
 function get_comments_number( $post_id = 0 ) {
-	global $wpdb, $id;
 	$post_id = (int) $post_id;
 
 	if ( !$post_id )
@@ -237,7 +234,6 @@ function trackback_url($deprecated = true) { // remove backwards compat in 2.4
 }
 
 function trackback_rdf($timezone = 0) {
-	global $id;
 	if (stripos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
 		echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 				xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -309,7 +305,7 @@ function comments_template( $file = '/comments.php' ) {
 }
 
 function comments_popup_script($width=400, $height=400, $file='') {
-		global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
+		global $wpcommentspopupfile, $wpcommentsjavascript;
 
 		if (empty ($file)) {
 			$wpcommentspopupfile = '';  // Use the index.
@@ -323,7 +319,7 @@ function comments_popup_script($width=400, $height=400, $file='') {
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb;
+	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post;
 
 	if ( is_single() || is_page() )
 		return;

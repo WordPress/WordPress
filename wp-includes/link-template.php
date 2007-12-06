@@ -232,9 +232,6 @@ function get_day_link($year, $month, $day) {
 
 function get_feed_link($feed='rss2') {
 	global $wp_rewrite;
-	$do_perma = 0;
-	$feed_url = get_option('siteurl');
-	$comment_feed_url = $feed_url;
 
 	$permalink = $wp_rewrite->get_feed_permastruct();
 	if ( '' != $permalink ) {
@@ -494,7 +491,7 @@ function get_pagenum_link($pagenum = 1) {
 }
 
 function get_next_posts_page_link($max_page = 0) {
-	global $paged, $pagenow;
+	global $paged;
 
 	if ( !is_single() ) {
 		if ( !$paged )
@@ -510,7 +507,7 @@ function next_posts($max_page = 0) {
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
-	global $paged, $wpdb, $wp_query;
+	global $paged, $wp_query;
 	if ( !$max_page ) {
 		$max_page = $wp_query->max_num_pages;
 	}
@@ -525,7 +522,7 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 }
 
 function get_previous_posts_page_link() {
-	global $paged, $pagenow;
+	global $paged;
 
 	if ( !is_single() ) {
 		$nextpage = intval($paged) - 1;

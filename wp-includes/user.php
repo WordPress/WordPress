@@ -75,7 +75,6 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 	else
 		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 
-	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
 
 	return true;
@@ -138,7 +137,6 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		return false;
 	}
 
-	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
 
 	return true;

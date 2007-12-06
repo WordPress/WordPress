@@ -105,7 +105,7 @@ function &get_comment(&$comment, $output = OBJECT) {
 
 // Deprecate in favor of get_comment()?
 function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) { // less flexible, but saves DB queries
-	global $postc, $id, $commentdata, $wpdb;
+	global $postc, $id, $wpdb;
 	if ( $no_cache ) {
 		$query = $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d", $comment_ID);
 		if ( false == $include_unapproved )
@@ -129,7 +129,7 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
 
 
 function get_lastcommentmodified($timezone = 'server') {
-	global $cache_lastcommentmodified, $pagenow, $wpdb;
+	global $cache_lastcommentmodified, $wpdb;
 	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
@@ -228,8 +228,6 @@ function check_comment_flood_db( $ip, $email, $date ) {
 }
 
 function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
-	global $wpdb;
-
 	do_action('wp_blacklist_check', $author, $email, $url, $comment, $user_ip, $user_agent);
 
 	if ( preg_match_all('/&#(\d+);/', $comment . $author . $url, $chars) ) {
@@ -293,8 +291,6 @@ function wp_delete_comment($comment_id) {
 
 
 function wp_get_comment_status($comment_id) {
-	global $wpdb;
-
 	$comment = get_comment($comment_id);
 	if ( !$comment )
 		return false;
@@ -686,7 +682,7 @@ function generic_ping($post_id = 0) {
 
 
 function pingback($content, $post_ID) {
-	global $wp_version, $wpdb;
+	global $wp_version;
 	include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 	// original code by Mort (http://mort.mine.nu:8080)

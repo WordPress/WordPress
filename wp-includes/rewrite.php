@@ -311,8 +311,6 @@ class WP_Rewrite {
 	}
 
 	function page_rewrite_rules() {
-		global $wpdb;
-
 		$rewrite_rules = array();
 		$page_structure = $this->get_page_permastruct();
 

@@ -2,7 +2,7 @@
 // Based on "Permalink Redirect" from Scott Yang and "Enforce www. Preference" by Mark Jaquith
 
 function redirect_canonical($requested_url=NULL, $do_redirect=true) {
-	global $wp_rewrite, $posts, $is_IIS;
+	global $wp_rewrite, $is_IIS;
 
 	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() )
 		return;
@@ -176,7 +176,7 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 }
 
 function redirect_guess_404_permalink() {
-	global $wp_query, $wpdb;
+	global $wpdb;
 	if ( !get_query_var('name') )
 		return false;
 

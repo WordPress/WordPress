@@ -164,8 +164,6 @@ function wp_title($sep = '&raquo;', $display = true) {
 
 	$cat = get_query_var('cat');
 	$tag = get_query_var('tag_id');
-	$p = get_query_var('p');
-	$name = get_query_var('name');
 	$category_name = get_query_var('category_name');
 	$author = get_query_var('author');
 	$author_name = get_query_var('author_name');
@@ -386,9 +384,6 @@ function wp_get_archives($args = '') {
 		$archive_week_end_date_format = get_option('date_format');
 	}
 
-	$add_hours = intval(get_option('gmt_offset'));
-	$add_minutes = intval(60 * (get_option('gmt_offset') - $add_hours));
-
 	//filters
 	$where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'", $r );
 	$join = apply_filters('getarchives_join', "", $r);
@@ -524,7 +519,7 @@ function calendar_week_mod($num) {
 
 
 function get_calendar($initial = true) {
-	global $wpdb, $m, $monthnum, $year, $timedifference, $wp_locale, $posts;
+	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
@@ -547,8 +542,6 @@ function get_calendar($initial = true) {
 
 	// week_begins = 0 stands for Sunday
 	$week_begins = intval(get_option('start_of_week'));
-	$add_hours = intval(get_option('gmt_offset'));
-	$add_minutes = intval(60 * (get_option('gmt_offset') - $add_hours));
 
 	// Let's figure out when we are
 	if ( !empty($monthnum) && !empty($year) ) {
@@ -560,7 +553,6 @@ function get_calendar($initial = true) {
 		$d = (($w - 1) * 7) + 6; //it seems MySQL's weeks disagree with PHP's
 		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
 	} elseif ( !empty($m) ) {
-		$calendar = substr($m, 0, 6);
 		$thisyear = ''.intval(substr($m, 0, 4));
 		if ( strlen($m) < 6 )
 				$thismonth = '01';
@@ -755,7 +747,7 @@ function the_date_xml() {
 
 
 function the_date($d='', $before='', $after='', $echo = true) {
-	global $id, $post, $day, $previousday;
+	global $post, $day, $previousday;
 	$the_date = '';
 	if ( $day != $previousday ) {
 		$the_date .= $before;
@@ -842,7 +834,7 @@ function get_post_modified_time( $d = 'U', $gmt = false ) { // returns timestamp
 
 
 function the_weekday() {
-	global $wp_locale, $id, $post;
+	global $wp_locale, $post;
 	$the_weekday = $wp_locale->get_weekday(mysql2date('w', $post->post_date));
 	$the_weekday = apply_filters('the_weekday', $the_weekday);
 	echo $the_weekday;
@@ -850,7 +842,7 @@ function the_weekday() {
 
 
 function the_weekday_date($before='',$after='') {
-	global $wp_locale, $id, $post, $day, $previousweekday;
+	global $wp_locale, $post, $day, $previousweekday;
 	$the_weekday_date = '';
 	if ( $day != $previousweekday ) {
 		$the_weekday_date .= $before;

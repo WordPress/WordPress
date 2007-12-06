@@ -75,8 +75,6 @@ function load_textdomain($domain, $mofile) {
 }
 
 function load_default_textdomain() {
-	global $l10n;
-
 	$locale = get_locale();
 	if ( empty($locale) )
 		$locale = 'en_US';

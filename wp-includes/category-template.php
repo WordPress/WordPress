@@ -66,7 +66,7 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_the_category($id = false) {
-	global $post, $term_cache, $blog_id;
+	global $post, $term_cache;
 
 	$id = (int) $id;
 	if ( !$id )
@@ -168,7 +168,7 @@ function get_the_category_list($separator = '', $parents='') {
 }
 
 function in_category( $category ) { // Check if the current post is in the given category
-	global $post, $blog_id;
+	global $post;
 
 	$categories = get_object_term_cache($post->ID, 'category');
 	if ( false === $categories )

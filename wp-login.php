@@ -27,7 +27,7 @@ if ( SITECOOKIEPATH != COOKIEPATH )
 
 // Rather than duplicating this HTML all over the place, we'll stick it in function
 function login_header($title = 'Login', $message = '') {
-	global $errors, $error, $wp_locale;
+	global $errors, $error;
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

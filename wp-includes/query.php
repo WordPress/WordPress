@@ -728,7 +728,7 @@ class WP_Query {
 	}
 
 	function &get_posts() {
-		global $wpdb, $pagenow, $user_ID;
+		global $wpdb, $user_ID;
 
 		do_action_ref_array('pre_get_posts', array(&$this));
 
@@ -741,8 +741,6 @@ class WP_Query {
 		$distinct = '';
 		$whichcat = '';
 		$whichauthor = '';
-		$whichpage = '';
-		$result = '';
 		$where = '';
 		$limits = '';
 		$join = '';
@@ -788,10 +786,6 @@ class WP_Query {
 			$q['page'] = (int) $q['page'];
 			$q['page'] = abs($q['page']);
 		}
-
-		$add_hours = intval(get_option('gmt_offset'));
-		$add_minutes = intval(60 * (get_option('gmt_offset') - $add_hours));
-		$wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
@@ -1495,8 +1489,7 @@ function wp_old_slug_redirect () {
 
 // Setup global post data.
 function setup_postdata($post) {
-	global $id, $postdata, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages, $wp_query;
-	global $pagenow;
+	global $id, $authordata, $day, $currentmonth, $page, $pages, $multipage, $more, $numpages;
 
 	$id = (int) $post->ID;
 

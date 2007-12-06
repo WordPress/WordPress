@@ -98,19 +98,19 @@ function comment_text_rss() {
 }
 
 
-function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = 'nolongerused') {
+function comments_rss_link($link_text = 'Comments RSS', $deprecated = '') {
 	$url = get_post_comments_feed_link();
 	echo "<a href='$url'>$link_text</a>";
 }
 
 
-function comments_rss($commentsrssfilename = 'nolongerused') {
+function comments_rss($deprecated = '') {
 	return get_post_comments_feed_link();
 }
 
 
 function get_author_rss_link($echo = false, $author_id, $author_nicename) {
-	$auth_ID = (int) $author_id;
+	$author_id = (int) $author_id;
 	$permalink_structure = get_option('permalink_structure');
 
 	if ( '' == $permalink_structure ) {
@@ -168,8 +168,8 @@ function get_category_feed_link($cat_id, $feed = 'rss2') {
 }
 
 
-function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
-	$link = get_category_feed_link($cat_ID, $feed = 'rss2');
+function get_category_rss_link($echo = false, $cat_ID, $deprecated = '') {
+	$link = get_category_feed_link($cat_ID, 'rss2');
 
 	if ( $echo )
 		echo $link;
@@ -180,7 +180,6 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
 function get_the_category_rss($type = 'rss') {
 	$categories = get_the_category();
 	$tags = get_the_tags();
-	$home = get_bloginfo_rss('home');
 	$the_list = '';
 	$cat_names = array();
 
@@ -252,7 +251,7 @@ function html_type_rss() {
 
 
 function rss_enclosure() {
-	global $id, $post;
+	global $post;
 	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
 		return;
 
@@ -267,7 +266,7 @@ function rss_enclosure() {
 }
 
 function atom_enclosure() {
-	global $id, $post;
+	global $post;
 	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
 		return;
 

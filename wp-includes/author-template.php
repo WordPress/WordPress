@@ -316,7 +316,7 @@ function the_author_posts_link($deprecated = '') {
  * @return string The URL to the author's page.
  */
 function get_author_posts_url($author_id, $author_nicename = '') {
-	global $wpdb, $wp_rewrite, $post;
+	global $wp_rewrite;
 	$auth_ID = (int) $author_id;
 	$link = $wp_rewrite->get_author_permastruct();
 

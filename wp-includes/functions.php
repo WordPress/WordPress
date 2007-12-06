@@ -108,23 +108,25 @@ function size_format( $bytes, $decimals = null ) {
 }
 
 
-function get_weekstartend( $mysqlstring, $start_of_week ) {
+function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	$my = substr( $mysqlstring, 0, 4 );
 	$mm = substr( $mysqlstring, 8, 2 );
 	$md = substr( $mysqlstring, 5, 2 );
 	$day = mktime( 0, 0, 0, $md, $mm, $my );
 	$weekday = date( 'w', $day );
 	$i = 86400;
+	if( !is_numeric($a) )
+		$start_of_week = get_option( 'start_of_week' );
 
-	if ( $weekday < get_option( 'start_of_week' ) )
-		$weekday = 7 - ( get_option( 'start_of_week' ) - $weekday );
+	if ( $weekday < $start_of_week )
+		$weekday = 7 - $start_of_week - $weekday;
 
-	while ( $weekday > get_option( 'start_of_week' ) ) {
+	while ( $weekday > $start_of_week ) {
 		$weekday = date( 'w', $day );
-		if ( $weekday < get_option( 'start_of_week' ) )
-			$weekday = 7 - ( get_option( 'start_of_week' ) - $weekday );
+		if ( $weekday < $start_of_week )
+			$weekday = 7 - $start_of_week - $weekday;
 
-		$day = $day - 86400;
+		$day -= 86400;
 		$i = 0;
 	}
 	$week['start'] = $day + 86400 - $i;
@@ -488,7 +490,7 @@ function debug_fclose( $fp ) {
 }
 
 function do_enclose( $content, $post_ID ) {
-	global $wp_version, $wpdb;
+	global $wpdb;
 	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 
 	$log = debug_fopen( ABSPATH . 'enclosures.log', 'a' );
@@ -1028,7 +1030,7 @@ function wp_upload_dir() {
 	return apply_filters( 'upload_dir', $uploads );
 }
 
-function wp_upload_bits( $name, $type, $bits ) {
+function wp_upload_bits( $name, $deprecated, $bits ) {
 	if ( empty( $name ) )
 		return array( 'error' => __( "Empty filename" ) );
 
@@ -1066,7 +1068,7 @@ function wp_upload_bits( $name, $type, $bits ) {
 	if ( ! $ifp )
 		return array( 'error' => sprintf( __( 'Could not write file %s' ), $new_file ) );
 
-	$success = @fwrite( $ifp, $bits );
+	@fwrite( $ifp, $bits );
 	fclose( $ifp );
 	// Set correct file permissions
 	$stat = @ stat( dirname( $new_file ) );
@@ -1211,7 +1213,7 @@ function wp_explain_nonce( $action ) {
 
 
 function wp_nonce_ays( $action ) {
-	global $pagenow, $menu, $submenu, $parent_file, $submenu_file;
+	global $pagenow;
 
 	$adminurl = get_option( 'siteurl' ) . '/wp-admin';
 	if ( wp_get_referer() )
@@ -1499,7 +1501,7 @@ function url_is_accessable_via_ssl($url)
 		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-		 $data = curl_exec ($ch);
+		 curl_exec($ch);
 
 		 $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		 curl_close ($ch);

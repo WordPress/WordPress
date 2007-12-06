@@ -138,7 +138,6 @@ class WP_User {
 	var $allcaps = array();
 
 	function WP_User($id, $name = '') {
-		global $wpdb;
 
 		if ( empty($id) && empty($name) )
 			return;

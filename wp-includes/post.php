@@ -26,8 +26,6 @@ function update_attached_file( $attachment_id, $file ) {
 }
 
 function &get_children($args = '', $output = OBJECT) {
-	global $wpdb;
-
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
 			$args = 'post_parent=' . (int) $GLOBALS['post']->post_parent;
@@ -163,7 +161,7 @@ function get_post_status($ID = '') {
 }
 
 function get_post_type($post = false) {
-	global $wpdb, $posts;
+	global $posts;
 
 	if ( false === $post )
 		$post = $posts[0];
@@ -310,8 +308,6 @@ function delete_post_meta($post_id, $key, $value = '') {
 }
 
 function get_post_meta($post_id, $key, $single = false) {
-	global $wpdb;
-
 	$post_id = (int) $post_id;
 
 	$meta_cache = wp_cache_get($post_id, 'post_meta');
@@ -342,10 +338,7 @@ function get_post_meta($post_id, $key, $single = false) {
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	global $wpdb;
 
-	$original_value = $meta_value;
 	$meta_value = maybe_serialize($meta_value);
-
-	$original_prev = $prev_value;
 	$prev_value = maybe_serialize($prev_value);
 
 	// expected_slashed ($meta_key)
@@ -378,7 +371,7 @@ function delete_post_meta_by_key($post_meta_key) {
 
 
 function get_post_custom($post_id = 0) {
-	global $id, $wpdb;
+	global $id;
 
 	if ( !$post_id )
 		$post_id = (int) $id;
@@ -577,8 +570,6 @@ function wp_get_recent_posts($num = 10) {
 }
 
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
-	global $wpdb;
-
 	$postid = (int) $postid;
 
 	$post = get_post($postid, $mode);
@@ -597,7 +588,7 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 }
 
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $wp_rewrite, $allowedtags, $user_ID;
+	global $wpdb, $wp_rewrite, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
@@ -768,8 +759,6 @@ function wp_insert_post($postarr = array()) {
 }
 
 function wp_update_post($postarr = array()) {
-	global $wpdb;
-
 	if ( is_object($postarr) )
 		$postarr = get_object_vars($postarr);
 
@@ -835,7 +824,6 @@ function wp_add_post_tags($post_id = 0, $tags = '') {
 
 function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	/* $append - true = don't delete existing tags, just add on, false = replace the tags with the new tags */
-	global $wpdb;
 
 	$post_id = (int) $post_id;
 
@@ -849,8 +837,6 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 }
 
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
-	global $wpdb;
-
 	$post_ID = (int) $post_ID;
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories) || 0 == count($post_categories) || empty($post_categories))
@@ -890,7 +876,6 @@ function add_ping($post_id, $uri) { // Add a URL to those already pung
 }
 
 function get_enclosed($post_id) { // Get enclosures already enclosed for a post
-	global $wpdb;
 	$custom_fields = get_post_custom( $post_id );
 	$pung = array();
 	if ( !is_array( $custom_fields ) )
@@ -1226,8 +1211,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		$post_name = sanitize_title($post_name);
 
 	// expected_slashed ($post_name)
-	$post_name_check =
-		$wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'inherit' AND ID != %d LIMIT 1", $post_ID));
+	$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'inherit' AND ID != %d LIMIT 1", $post_ID));
 
 	if ($post_name_check) {
 		$suffix = 2;
@@ -1547,8 +1531,7 @@ function get_private_posts_cap_sql($post_type) {
 }
 
 function get_lastpostdate($timezone = 'server') {
-	global $cache_lastpostdate, $pagenow, $wpdb, $blog_id;
-	$add_seconds_blog = get_option('gmt_offset') * 3600;
+	global $cache_lastpostdate, $wpdb, $blog_id;
 	$add_seconds_server = date('Z');
 	if ( !isset($cache_lastpostdate[$blog_id][$timezone]) ) {
 		switch(strtolower($timezone)) {
@@ -1570,8 +1553,7 @@ function get_lastpostdate($timezone = 'server') {
 }
 
 function get_lastpostmodified($timezone = 'server') {
-	global $cache_lastpostmodified, $pagenow, $wpdb, $blog_id;
-	$add_seconds_blog = get_option('gmt_offset') * 3600;
+	global $cache_lastpostmodified, $wpdb, $blog_id;
 	$add_seconds_server = date('Z');
 	if ( !isset($cache_lastpostmodified[$blog_id][$timezone]) ) {
 		switch(strtolower($timezone)) {
@@ -1633,8 +1615,6 @@ function clean_page_cache($id) {
 }
 
 function update_post_caches(&$posts) {
-	global $wpdb;
-
 	// No point in doing all this work if we didn't match any posts.
 	if ( !$posts )
 		return;
@@ -1737,8 +1717,6 @@ function _publish_post_hook($post_id) {
 
 	if ( defined('WP_IMPORTING') )
 		return;
-
-	$post = get_post($post_id);
 
 	$data = array( 'post_id' => $post_id, 'meta_value' => '1' );
 	if ( get_option('default_pingback_flag') )

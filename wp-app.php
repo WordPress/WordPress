@@ -215,7 +215,7 @@ EOD;
 	 * Create Post (No arguments)
 	 */
 	function create_post() {
-		global $blog_id, $wpdb;
+		global $blog_id, $user_ID;
 		$this->get_accepted_content_type($this->atom_content_types);
 
 		$parser = new AtomParser();
@@ -249,7 +249,7 @@ EOD;
 
 		$blog_ID = (int ) $blog_id;
 		$post_status = ($publish) ? 'publish' : 'draft';
-		$post_author = (int) $user->ID;
+		$post_author = (int) $user_ID;
 		$post_title = $entry->title[1];
 		$post_content = $entry->content[1];
 		$post_excerpt = $entry->summary[1];
@@ -269,9 +269,8 @@ EOD;
 		if ( is_wp_error( $postID ) )
 			$this->internal_error($postID->get_error_message());
 
-		if (!$postID) {
+		if (!$postID)
 			$this->internal_error(__('Sorry, your entry could not be posted. Something wrong happened.'));
-		}
 
 		// getting warning here about unable to set headers
 		// because something in the cache is printing to the buffer
@@ -296,8 +295,6 @@ EOD;
 	}
 
 	function put_post($postID) {
-		global $wpdb;
-
 		// checked for valid content-types (atom+xml)
 		// quick check and exit
 		$this->get_accepted_content_type($this->atom_content_types);
@@ -313,7 +310,6 @@ EOD;
 
 		// check for not found
 		global $entry;
-		$entry = $GLOBALS['entry'];
 		$this->set_current_entry($postID);
 
 		if(!current_user_can('edit_post', $entry['ID']))
@@ -376,8 +372,6 @@ EOD;
 	}
 
 	function get_attachment($postID = NULL) {
-
-		global $entry;
 		if (!isset($postID)) {
 			$this->get_attachments();
 		} else {
@@ -389,7 +383,6 @@ EOD;
 	}
 
 	function create_attachment() {
-		global $wp, $wpdb, $wp_query, $blog_id;
 
 		$type = $this->get_accepted_content_type();
 
@@ -418,9 +411,8 @@ EOD;
 
 		$url = $file['url'];
 		$file = $file['file'];
-		$filename = basename($file);
 
-		$header = apply_filters('wp_create_file_in_uploads', $file); // replicate
+		apply_filters('wp_create_file_in_uploads', $file); // replicate
 
 		// Construct the attachment array
 		$attachment = array(
@@ -433,11 +425,10 @@ EOD;
 			);
 
 		// Save the data
-		$postID = wp_insert_attachment($attachment, $file, $post);
+		$postID = wp_insert_attachment($attachment, $file);
 
-		if (!$postID) {
+		if (!$postID)
 			$this->internal_error(__('Sorry, your entry could not be posted. Something wrong happened.'));
-		}
 
 		$output = $this->get_entry($postID, 'attachment');
 
@@ -446,8 +437,6 @@ EOD;
 	}
 
 	function put_attachment($postID) {
-		global $wpdb;
-
 		// checked for valid content-types (atom+xml)
 		// quick check and exit
 		$this->get_accepted_content_type($this->atom_content_types);
@@ -465,8 +454,6 @@ EOD;
 
 		if(!current_user_can('edit_post', $entry['ID']))
 			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
-
-		$publish = (isset($parsed->draft) && trim($parsed->draft) == 'yes') ? false : true;
 
 		extract($entry);
 
@@ -546,8 +533,6 @@ EOD;
 
 	function put_file($postID) {
 
-		$type = $this->get_accepted_content_type();
-
 		// first check if user can upload
 		if(!current_user_can('upload_files'))
 			$this->auth_required(__('You do not have permission to upload files.'));
@@ -605,17 +590,15 @@ EOD;
 	}
 
 	function the_entries_url($page = NULL) {
-		$url = $this->get_entries_url($page);
-		echo $url;
+		echo $this->get_entries_url($page);
 	}
 
-	function get_categories_url($page = NULL) {
+	function get_categories_url($deprecated = '') {
 		return $this->app_base . $this->CATEGORIES_PATH;
 	}
 
 	function the_categories_url() {
-		$url = $this->get_categories_url();
-		echo $url;
+		echo $this->get_categories_url();
 	}
 
 	function get_attachments_url($page = NULL) {
@@ -627,8 +610,7 @@ EOD;
 	}
 
 	function the_attachments_url($page = NULL) {
-		$url = $this->get_attachments_url($page);
-		echo $url;
+		echo $this->get_attachments_url($page);
 	}
 
 	function get_service_url() {
@@ -638,7 +620,7 @@ EOD;
 	function get_entry_url($postID = NULL) {
 		if(!isset($postID)) {
 			global $post;
-			$postID = (int) $GLOBALS['post']->ID;
+			$postID = (int) $post->ID;
 		}
 
 		$url = $this->app_base . $this->ENTRY_PATH . "/$postID";
@@ -648,14 +630,13 @@ EOD;
 	}
 
 	function the_entry_url($postID = NULL) {
-		$url = $this->get_entry_url($postID);
-		echo $url;
+		echo $this->get_entry_url($postID);
 	}
 
 	function get_media_url($postID = NULL) {
 		if(!isset($postID)) {
 			global $post;
-			$postID = (int) $GLOBALS['post']->ID;
+			$postID = (int) $post->ID;
 		}
 
 		$url = $this->app_base . $this->MEDIA_SINGLE_PATH ."/file/$postID";
@@ -665,8 +646,7 @@ EOD;
 	}
 
 	function the_media_url($postID = NULL) {
-		$url = $this->get_media_url($postID);
-		echo $url;
+		echo $this->get_media_url($postID);
 	}
 
 	function set_current_entry($postID) {
@@ -759,7 +739,6 @@ EOD;
 	function get_entry($postID, $post_type = 'post') {
 		log_app('function',"get_entry($postID, '$post_type')");
 		ob_start();
-		global $posts, $post, $wp_query, $wp, $wpdb, $blog_id;
 		switch($post_type) {
 			case 'post':
 				$varname = 'p';

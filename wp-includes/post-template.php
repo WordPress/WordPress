@@ -81,9 +81,8 @@ function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file
 
 
 function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
-	global $id, $post, $more, $single, $withcomments, $page, $pages, $multipage, $numpages;
-	global $preview;
-	global $pagenow;
+	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
+
 	$output = '';
 
 	if ( !empty($post->post_password) ) { // if there's a password
@@ -137,8 +136,8 @@ function the_excerpt() {
 }
 
 
-function get_the_excerpt($deprecated = true) {
-	global $id, $post;
+function get_the_excerpt($deprecated = '') {
+	global $post;
 	$output = '';
 	$output = $post->post_excerpt;
 	if ( !empty($post->post_password) ) { // if there's a password
@@ -167,7 +166,7 @@ function wp_link_pages($args = '') {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	global $post, $id, $page, $numpages, $multipage, $more, $pagenow;
+	global $post, $page, $numpages, $multipage, $more, $pagenow;
 	if ( $more_file != '' )
 		$file = $more_file;
 	else
@@ -249,8 +248,6 @@ function post_custom( $key = '' ) {
 
 // this will probably change at some point...
 function the_meta() {
-	global $id;
-
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
 		foreach ( $keys as $key ) {
@@ -385,8 +382,6 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
 		return false;
-
-	$imagedata = wp_get_attachment_metadata( $post->ID );
 
 	$file = get_attached_file( $post->ID );
 

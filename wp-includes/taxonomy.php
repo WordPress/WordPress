@@ -773,8 +773,7 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  * @return mixed sanitized field
  */
 function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
-	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field
-		|| 'term_group' == $field )
+	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field || 'term_group' == $field )
 		$value = (int) $value;
 
 	if ( 'raw' == $context )
@@ -1209,7 +1208,7 @@ function wp_unique_term_slug($slug, $term) {
 	if ( !empty($args['term_id']) )
 		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $args['term_id'] );
 	else
-		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s $where", $slug );
+		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug );
 
 	if ( $wpdb->get_var( $query ) ) {
 		$num = 2;
@@ -1471,8 +1470,6 @@ function &get_object_term_cache($id, $taxonomy) {
  * @return null|array Null value is given with empty $object_ids.
  */
 function update_object_term_cache($object_ids, $object_type) {
-	global $wpdb;
-
 	if ( empty($object_ids) )
 		return;
 
