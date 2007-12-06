@@ -124,7 +124,7 @@ function sort_cats( $cat1, $cat2 ) {
 }
 
 function get_nested_categories( $default = 0, $parent = 0 ) {
-	global $post_ID, $wpdb, $checked_categories;
+	global $post_ID, $checked_categories;
 
 	if ( empty($checked_categories) ) {
 		if ( $post_ID ) {
@@ -226,7 +226,7 @@ function wp_manage_posts_columns() {
 }
 
 function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
-	global $wpdb, $class, $post;
+	global $class, $post;
 
 	if (!$pages )
 		$pages = get_pages( 'sort_column=menu_order' );
@@ -257,7 +257,8 @@ function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
   </tr>
 
 <?php
-		if ( $hierarchy ) page_rows( $id, $level + 1, $pages );
+		if ( $hierarchy )
+			page_rows( $id, $level + 1, $pages );
 	}
 }
 
@@ -322,7 +323,7 @@ function _wp_get_comment_list( $s = false, $start, $num ) {
 }
 
 function _wp_comment_list_item( $id, $alt = 0 ) {
-	global $authordata, $comment, $wpdb;
+	global $authordata, $comment;
 	$comment =& get_comment( $id );
 	$id = (int) $comment->comment_ID;
 	$class = '';
@@ -367,7 +368,6 @@ if ( !is_single() ) {
 }
 
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
-	global $wpdb;
 	if (!$categories )
 		$categories = get_categories( 'hide_empty=0' );
 
@@ -440,7 +440,6 @@ function _list_meta_row( $entry, &$count ) {
 	$r .= "\n\t\t<td align='center'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']} updatemeta' /><br />";
 	$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
 	$r .= "class='delete:the-list:meta-{$entry['meta_id']} deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' />";
-	$r .= "<input type='hidden' name='_ajax_nonce' value='$nonce' />";
 	$r .= "</td>\n\t</tr>";
 	return $r;
 }

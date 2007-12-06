@@ -254,8 +254,6 @@ function populate_roles() {
 }
 
 function populate_roles_160() {
-	global $wp_roles;
-
 	// Add roles
 	add_role('administrator', _c('Administrator|User role'));
 	add_role('editor', _c('Editor|User role'));

@@ -228,7 +228,7 @@ Event.observe( window, 'load', hide_text );
 
 		if ( $width == HEADER_IMAGE_WIDTH && $height == HEADER_IMAGE_HEIGHT ) {
 			set_theme_mod('header_image', clean_url($url));
-			$header = apply_filters('wp_create_file_in_uploads', $file, $id); // For replication
+			apply_filters('wp_create_file_in_uploads', $file, $id); // For replication
 			return $this->finished();
 		} elseif ( $width > HEADER_IMAGE_WIDTH ) {
 			$oitar = $width / HEADER_IMAGE_WIDTH;

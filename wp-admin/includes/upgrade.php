@@ -6,7 +6,7 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 require_once(ABSPATH . 'wp-admin/includes/schema.php');
 
 if ( !function_exists('wp_install') ) :
-function wp_install($blog_title, $user_name, $user_email, $public, $meta='') {
+function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='') {
 	global $wp_rewrite;
 
 	wp_check_mysql_version();

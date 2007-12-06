@@ -151,8 +151,6 @@ function wp_set_link_cats($link_id = 0, $link_categories = array()) {
 }	// wp_set_link_cats()
 
 function wp_update_link($linkdata) {
-	global $wpdb;
-
 	$link_id = (int) $linkdata['link_id'];
 
 	$link = get_link($link_id, ARRAY_A);

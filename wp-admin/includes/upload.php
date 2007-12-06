@@ -78,7 +78,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 }
 
 function wp_upload_view() {
-	global $style, $style;
+	global $style;
 	$id = get_the_ID();
 	$attachment_data = wp_get_attachment_metadata( $id );
 ?>

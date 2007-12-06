@@ -40,8 +40,6 @@ function wp_create_categories($categories, $post_id = '') {
 }
 
 function wp_delete_category($cat_ID) {
-	global $wpdb;
-
 	$cat_ID = (int) $cat_ID;
 	$default = get_option('default_category');
 
@@ -53,8 +51,6 @@ function wp_delete_category($cat_ID) {
 }
 
 function wp_insert_category($catarr, $wp_error = false) {
-	global $wpdb;
-
 	extract($catarr, EXTR_SKIP);
 
 	if ( trim( $cat_name ) == '' )
@@ -95,8 +91,6 @@ function wp_insert_category($catarr, $wp_error = false) {
 }
 
 function wp_update_category($catarr) {
-	global $wpdb;
-
 	$cat_ID = (int) $catarr['cat_ID'];
 
 	if ( $cat_ID == $catarr['category_parent'] )
@@ -119,8 +113,6 @@ function wp_update_category($catarr) {
 //
 
 function get_tags_to_edit( $post_id ) {
-	global $wpdb;
-
 	$post_id = (int) $post_id;
 	if ( !$post_id )
 		return false;

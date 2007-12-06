@@ -16,7 +16,7 @@
  * This function can handle most image file formats which PHP supports.
  * If PHP does not have the functionality to save in a file of the same format, the thumbnail will be created as a jpeg.
  */
-function wp_create_thumbnail( $file, $max_side, $depreciated = '' ) {
+function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 	if ( ctype_digit( $file ) ) // Handle int as attachment ID
 		$file = get_attached_file( $file );
 

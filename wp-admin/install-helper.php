@@ -16,7 +16,7 @@ function maybe_create_table($table_name, $create_ddl) {
 		}
 	}
 	//didn't find it try to create it.
-	$q = $wpdb->query($create_ddl);
+	$wpdb->query($create_ddl);
 	// we cannot directly tell that whether this succeeded!
 	foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
 		if ($table == $table_name) {
@@ -41,7 +41,7 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
 			}
 	}
 	//didn't find it try to create it.
-	$q = $wpdb->query($create_ddl);
+	$wpdb->query($create_ddl);
 	// we cannot directly tell that whether this succeeded!
 	foreach ($wpdb->get_col("DESC $table_name",0) as $column ) {
 		if ($column == $column_name) {
@@ -63,7 +63,7 @@ function maybe_drop_column($table_name, $column_name, $drop_ddl) {
 	foreach ($wpdb->get_col("DESC $table_name",0) as $column ) {
 		if ($column == $column_name) {
 			//found it try to drop it.
-			$q = $wpdb->query($drop_ddl);
+			$wpdb->query($drop_ddl);
 			// we cannot directly tell that whether this succeeded!
 			foreach ($wpdb->get_col("DESC $table_name",0) as $column ) {
 				if ($column == $column_name) {
