@@ -347,9 +347,9 @@ if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " | <a href='$url' class='delete:the-comment-list:comment-$id'>" . __('Delete') . '</a> ';
 	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
 		$url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$id", "unapprove-comment_$id" ) );
-		echo "<span class='unapprove'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:FF3333'>" . __('Unapprove') . '</a> </span>';
+		echo "<span class='unapprove'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:FFFF33'>" . __('Unapprove') . '</a> </span>';
 		$url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$id", "approve-comment_$id" ) );
-		echo "<span class='approve'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:FFFF33:FFFF33'>" . __('Approve') . '</a> </span>';
+		echo "<span class='approve'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:33FF33:33FF33'>" . __('Approve') . '</a> </span>';
 	}
 	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$id", "delete-comment_$id" ) );
 	echo " | <a href='$url' class='delete:the-comment-list:comment-$id::spam=1'>" . __('Spam') . '</a> ';
