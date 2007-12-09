@@ -291,10 +291,6 @@ function update_option( $option_name, $newvalue ) {
 	$safe_option_name = $wpdb->escape( $option_name );
 	$newvalue = sanitize_option( $option_name, $newvalue );
 
-	// Likely legacy -- can we drop this?
-	if ( is_string( $newvalue ) )
-		$newvalue = trim( $newvalue );
-
 	// If the new and old values are the same, no need to update.
 	$oldvalue = get_option( $safe_option_name );
 	if ( $newvalue === $oldvalue )
