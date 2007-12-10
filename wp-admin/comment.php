@@ -4,70 +4,84 @@ require_once('admin.php');
 $parent_file = 'edit-comments.php';
 $submenu_file = 'edit-comments.php';
 
-wp_reset_vars(array('action'));
+wp_reset_vars( array('action') );
 
 if ( isset( $_POST['deletecomment'] ) )
 	$action = 'deletecomment';
 
-switch($action) {
-case 'editcomment':
+function comment_footer_die( $msg ) {  // $msg is assumed to contain HTML and be sanitized
+	echo "<div class='wrap'><p>$msg</p></div>";
+	include('admin-footer.php');
+	die;
+}
+
+switch( $action ) {
+
+case 'editcomment' :
 	$title = __('Edit Comment');
 
-	require_once ('admin-header.php');
+	require_once('admin-header.php');
 
-	$comment = (int) $_GET['c'];
+	$comment_id = absint( $_GET['c'] );
 
-	if ( ! $comment = get_comment($comment) )
-		wp_die(__('Oops, no comment with this ID.').sprintf(' <a href="%s">'.__('Go back').'</a>!', 'javascript:history.go(-1)'));
+	if ( !$comment = get_comment( $comment_id ) )
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'javascript:history.go(-1)') );
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		wp_die( __('You are not allowed to edit comments on this post.') );
+		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
-	$comment = get_comment_to_edit($comment);
+	$comment = get_comment_to_edit( $comment_id );
 
 	include('edit-form-comment.php');
 
 	break;
 
-case 'cdc':
-case 'mac':
+case 'cdc' :
+case 'mac' :
 
-	require_once('./admin-header.php');
+	require_once('admin-header.php');
 
-	$comment = (int) $_GET['c'];
+	$comment_id = absint( $_GET['c'] );
 	$formaction = 'cdc' == $action ? 'deletecomment' : 'approvecomment';
 	$nonce_action = 'cdc' == $action ? 'delete-comment_' : 'approve-comment_';
-	$nonce_action .= $comment;
+	$nonce_action .= $comment_id;
 
-	if ( ! $comment = get_comment_to_edit($comment) )
-		wp_die(__('Oops, no comment with this ID.').sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php'));
+	if ( !$comment = get_comment_to_edit( $comment_id ) )
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php') );
 
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		wp_die( 'cdc' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
+	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
+		comment_footer_die( 'cdc' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 ?>
 <div class='wrap'>
 
 <div class="narrow">
-<?php if ( 'spam' == $_GET['dt'] ) { ?>
-<p><?php echo '<strong>'.__('Caution:').'</strong> '.__('You are about to mark the following comment as spam:'); ?></p>
-<?php } elseif ( 'cdc' == $action ) { ?>
-<p><?php echo '<strong>'.__('Caution:').'</strong> '.__('You are about to delete the following comment:'); ?></p>
-<?php } else { ?>
-<p><?php echo '<strong>'.__('Caution:').'</strong> '.__('You are about to approve the following comment:'); ?></p>
-<?php } ?>
+<?php
+if ( 'spam' == $_GET['dt'] ) {
+	$caution_msg = __('You are about to mark the following comment as spam:');
+	$button = __('Spam Comment &raquo;');
+} elseif ( 'cdc' == $action ) {
+	$caution_msg = __('You are about to delete the following comment:');
+	$button = __('Delete Comment &raquo;');
+} else {
+	$caution_msg = __('You are about to approve the following comment:');
+	$button = __('Approve Comment &raquo;');
+}
+?>
+
+<p><strong><?php _e('Caution:'); ?></strong> <?php echo $caution_msg; ?></p>
 
 <p><?php _e('Are you sure you want to do that?'); ?></p>
 
-<form action='<?php echo get_option('siteurl'); ?>/wp-admin/comment.php' method='get'>
+<form action='comment.php' method='get'>
 
 <table width="100%">
 <tr>
-<td><input type='button' value='<?php _e('No'); ?>' onclick="self.location='<?php echo get_option('siteurl'); ?>/wp-admin/edit-comments.php';" /></td>
-<td align="right"><input type='submit' value='<?php _e('Yes'); ?>' /></td>
+<td><input type='button' class="button" value='<?php _e('No'); ?>' onclick="self.location='<?php echo get_option('siteurl'); ?>/wp-admin/edit-comments.php';" /></td>
+<td align="right"><input type='submit' class="button" value='<?php echo $button; ?>' /></td>
 </tr>
 </table>
 
-<?php wp_nonce_field($nonce_action); ?>
+<?php wp_nonce_field( $nonce_action ); ?>
 <input type='hidden' name='action' value='<?php echo $formaction; ?>' />
 <?php if ( 'spam' == $_GET['dt'] ) { ?>
 <input type='hidden' name='dt' value='spam' />
@@ -95,7 +109,7 @@ case 'mac':
 </tr>
 <?php } ?>
 <tr>
-<th scope="row" valign="top"><p><?php _e('Comment:'); ?></p></th>
+<th scope="row" valign="top"><?php _e('Comment:'); ?></th>
 <td><?php echo $comment->comment_content; ?></td>
 </tr>
 </table>
@@ -105,107 +119,108 @@ case 'mac':
 <?php
 	break;
 
-case 'deletecomment':
-	$comment = (int) $_REQUEST['c'];
-	check_admin_referer('delete-comment_' . $comment);
+case 'deletecomment' :
+	$comment_id = absint( $_REQUEST['c'] );
+	check_admin_referer( 'delete-comment_' . $comment_id );
 
-	if ( isset($_REQUEST['noredir']) ) {
+	if ( isset( $_REQUEST['noredir'] ) )
 		$noredir = true;
-	} else {
+	else
 		$noredir = false;
-	}
 
-	if ( ! $comment = get_comment($comment) )
-			 wp_die(__('Oops, no comment with this ID.').sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php'));
+	if ( !$comment = get_comment( $comment_id ) )
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
 
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		wp_die( __('You are not allowed to edit comments on this post.') );
+	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
+		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
 	if ( 'spam' == $_REQUEST['dt'] )
-		wp_set_comment_status($comment->comment_ID, 'spam');
+		wp_set_comment_status( $comment->comment_ID, 'spam' );
 	else
-		wp_delete_comment($comment->comment_ID);
+		wp_delete_comment( $comment->comment_ID );
 
-	if ((wp_get_referer() != '') && (false == $noredir)) {
-		wp_redirect(wp_get_referer());
-	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit-comments.php');
-	}
+	if ( '' != wp_get_referer() && false == $noredir )
+		wp_redirect( wp_get_referer() );
+	else
+		wp_redirect( get_option('siteurl') . '/wp-admin/edit-comments.php' );
+
+	die;
+	break;
+
+case 'unapprovecomment' :
+	$comment_id = absint( $_GET['c'] );
+	check_admin_referer( 'unapprove-comment_' . $comment_id );
+
+	if ( isset( $_GET['noredir'] ) )
+		$noredir = true;
+	else
+		$noredir = false;
+
+	if ( !$comment = get_comment( $comment_id ) )
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php') );
+
+	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
+		comment_footer_die( __('You are not allowed to edit comments on this post, so you cannot disapprove this comment.') );
+
+	wp_set_comment_status( $comment->comment_ID, 'hold' );
+
+	if ( '' != wp_get_referer() && false == $noredir )
+		wp_redirect( wp_get_referer() );
+	else
+		wp_redirect( get_option('siteurl') . '/wp-admin/edit.php?p=' . absint( $comment->comment_post_ID ) . '&c=1#comments' );
+
 	exit();
 	break;
 
-case 'unapprovecomment':
-	$comment = (int) $_GET['c'];
-	check_admin_referer('unapprove-comment_' . $comment);
+case 'approvecomment' :
+	$comment_id = absint( $_GET['c'] );
+	check_admin_referer( 'approve-comment_' . $comment_id );
 
-	if (isset($_GET['noredir'])) {
+	if ( isset( $_GET['noredir'] ) )
 		$noredir = true;
-	} else {
+	else
 		$noredir = false;
-	}
 
-	if ( ! $comment = get_comment($comment) )
-		wp_die(__('Oops, no comment with this ID.').sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php'));
+	if ( !$comment = get_comment( $comment_id ) )
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php') );
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		wp_die( __('You are not allowed to edit comments on this post, so you cannot disapprove this comment.') );
+		comment_footer_die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 
-	wp_set_comment_status($comment->comment_ID, "hold");
+	wp_set_comment_status( $comment->comment_ID, 'approve' );
 
-	if ((wp_get_referer() != "") && (false == $noredir)) {
-		wp_redirect(wp_get_referer());
-	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p=' . (int) $comment->comment_post_ID.'&c=1#comments');
-	}
+	if ( true == get_option('comments_notify') )
+		wp_notify_postauthor( $comment->comment_ID );
+
+
+	if ( '' != wp_get_referer() && false == $noredir )
+		wp_redirect( wp_get_referer() );
+	else
+		wp_redirect( get_option('siteurl') . '/wp-admin/edit.php?p=' . absint( $comment->comment_post_ID ) . '&c=1#comments' );
+
 	exit();
 	break;
 
-case 'approvecomment':
-	$comment = (int) $_GET['c'];
-	check_admin_referer('approve-comment_' . $comment);
+case 'editedcomment' :
 
-	if (isset($_GET['noredir'])) {
-		$noredir = true;
-	} else {
-		$noredir = false;
-	}
+	$comment_id = absint( $_POST['comment_ID'] );
+	$comment_post_id = absint( $_POST['comment_post_id'] );
 
-	if ( ! $comment = get_comment($comment) )
-		wp_die(__('Oops, no comment with this ID.').sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit.php'));
-
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		wp_die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
-
-	wp_set_comment_status($comment->comment_ID, "approve");
-	if (get_option("comments_notify") == true) {
-		wp_notify_postauthor($comment->comment_ID);
-	}
-
-
-	if ((wp_get_referer() != "") && (false == $noredir)) {
-		wp_redirect(wp_get_referer());
-	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p=' . (int) $comment->comment_post_ID.'&c=1#comments');
-	}
-	exit();
-	break;
-
-case 'editedcomment':
-
-	$comment_ID = (int) $_POST['comment_ID'];
-	$comment_post_ID = (int) $_POST['comment_post_id'];
-
-	check_admin_referer('update-comment_' . $comment_ID);
+	check_admin_referer( 'update-comment_' . $comment_id );
 
 	edit_comment();
 
-	$location = ( empty($_POST['referredby']) ? "edit.php?p=$comment_post_ID&c=1" : $_POST['referredby'] ) . '#comment-' . $comment_ID;
-	$location = apply_filters('comment_edit_redirect', $location, $comment_ID);
-	wp_redirect($location);
+	$location = ( empty( $_POST['referredby'] ) ? "edit.php?p=$comment_post_id&c=1" : $_POST['referredby'] ) . '#comment-' . $comment_id;
+	$location = apply_filters( 'comment_edit_redirect', $location, $comment_id );
+	wp_redirect( $location );
+
 	exit();
 	break;
+
 default:
+	wp_die( __('Unknown action.') );
 	break;
+
 } // end switch
 
 include('admin-footer.php');
