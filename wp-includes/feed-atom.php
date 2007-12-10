@@ -42,6 +42,9 @@ $more = 1;
 <?php endif; ?>
 <?php atom_enclosure(); ?>
 <?php do_action('atom_entry'); ?>
+		<link rel="replies" type="text/html" href="<?php the_permalink_rss() ?>#comments" thr:count="<?php echo get_comments_number()?>"/>
+		<link rel="replies" type="appication/atom+xml" href="<?php echo get_post_comments_feed_link(0,'atom') ?>" thr:count="<?php echo get_comments_number()?>"/>
+		<thr:total><?php echo get_comments_number()?></thr:total>
 	</entry>
 	<?php endwhile ; ?>
 </feed>
