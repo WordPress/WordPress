@@ -338,29 +338,30 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 		}
 	}
 
-	echo '<a href="';
+	$comments_popup_link = '<a href="';
 	if ($wpcommentsjavascript) {
 		if ( empty($wpcommentspopupfile) )
 			$home = get_option('home');
 		else
 			$home = get_option('siteurl');
-		echo $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
-		echo '" onclick="wpopen(this.href); return false"';
+		$comments_popup_link .= $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
+		$comments_popup_link .=  '" onclick="wpopen(this.href); return false"';
 	} else { // if comments_popup_script() is not in the template, display simple comment link
 		if ( 0 == $number )
-			echo get_permalink() . '#respond';
+			$comments_popup_link .=  get_permalink() . '#respond';
 		else
-			comments_link();
-		echo '"';
+			$comments_popup_link .=  comments_link();
+		$comments_popup_link .=   '"';
 	}
 
 	if (!empty($CSSclass)) {
-		echo ' class="'.$CSSclass.'"';
+		$comments_popup_link .= ' class="'.$CSSclass.'"';
 	}
 	$title = attribute_escape(get_the_title());
-	echo ' title="' . sprintf( __('Comment on %s'), $title ) .'">';
+	$comments_popup_link .= ' title="' . sprintf( __('Comment on %s'), $title ) .'">';
 	comments_number($zero, $one, $more, $number);
-	echo '</a>';
+	$comments_popup_link .= '</a>';
+	echo apply_filters('comments_popup_link', $comments_popup_link);
 }
 
 ?>
