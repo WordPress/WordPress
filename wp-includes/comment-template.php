@@ -318,50 +318,52 @@ function comments_popup_script($width=400, $height=400, $file='') {
 		echo $javascript;
 }
 
-function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
+function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post;
 
 	if ( is_single() || is_page() )
 		return;
 
-	$number = get_comments_number($id);
+	$number = get_comments_number( $id );
 
 	if ( 0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status ) {
-		echo '<span' . ((!empty($CSSclass)) ? ' class="' . $CSSclass . '"' : '') . '>' . $none . '</span>';
+		echo '<span' . ((!empty($css_class)) ? ' class="' . $css_class . '"' : '') . '>' . $none . '</span>';
 		return;
 	}
 
 	if ( !empty($post->post_password) ) { // if there's a password
-		if ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
-			echo(__('Enter your password to view comments'));
+		if ( $_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password ) {  // and it doesn't match the cookie
+			echo __('Enter your password to view comments');
 			return;
 		}
 	}
 
-	$comments_popup_link = '<a href="';
-	if ($wpcommentsjavascript) {
-		if ( empty($wpcommentspopupfile) )
+	echo '<a href="';
+	if ( $wpcommentsjavascript ) {
+		if ( empty( $wpcommentspopupfile ) )
 			$home = get_option('home');
 		else
 			$home = get_option('siteurl');
-		$comments_popup_link .= $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
-		$comments_popup_link .=  '" onclick="wpopen(this.href); return false"';
+		echo $home . '/' . $wpcommentspopupfile . '?comments_popup=' . $id;
+		echo '" onclick="wpopen(this.href); return false"';
 	} else { // if comments_popup_script() is not in the template, display simple comment link
 		if ( 0 == $number )
-			$comments_popup_link .=  get_permalink() . '#respond';
+			echo get_permalink() . '#respond';
 		else
-			$comments_popup_link .=  comments_link();
-		$comments_popup_link .=   '"';
+			comments_link();
+		echo '"';
 	}
 
-	if (!empty($CSSclass)) {
-		$comments_popup_link .= ' class="'.$CSSclass.'"';
+	if ( !empty( $css_class ) ) {
+		echo ' class="'.$css_class.'" ';
 	}
-	$title = attribute_escape(get_the_title());
-	$comments_popup_link .= ' title="' . sprintf( __('Comment on %s'), $title ) .'">';
-	comments_number($zero, $one, $more, $number);
-	$comments_popup_link .= '</a>';
-	echo apply_filters('comments_popup_link', $comments_popup_link);
+	$title = attribute_escape( get_the_title() );
+	
+	echo apply_filters( 'comments_popup_link_attributes', '' );
+
+	echo ' title="' . sprintf( __('Comment on %s'), $title ) . '">';
+	comments_number( $zero, $one, $more, $number );
+	echo '</a>';
 }
 
 ?>
