@@ -131,6 +131,7 @@ function autosave() {
 	autosaveAjax.setVar("post_ID", $("post_ID").value);
 	autosaveAjax.setVar("post_title", form.post_title.value);
 	autosaveAjax.setVar("post_type", form.post_type.value);
+	autosaveAjax.setVar("tags_input", form.tags_input.value);
 	if ( form.comment_status.checked )
 		autosaveAjax.setVar("comment_status", 'open');
 	if ( form.ping_status.checked )

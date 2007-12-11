@@ -388,6 +388,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_status'] = 'draft';
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
+	$_POST['tags_input'] = explode(",", $_POST['tags_input']);
 	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
 		unset($_POST['post_category']);
 
