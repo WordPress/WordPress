@@ -1,5 +1,8 @@
 <?php
 
+// version number for the export format.  bump this when something changes that might affect compatibility.
+define('WXR_VERSION', '1.0');
+
 function export_wp($author='') {
 global $wpdb, $post_ids, $post;
 
@@ -69,6 +72,19 @@ function wxr_cdata($str) {
 	return $str;
 }
 
+function wxr_site_url() {
+	global $current_site;
+	
+	// mu: the base url
+	if ( isset($current_site->domain) ) {
+		return 'http://'.$current_site->domain.$current_site->path;
+	}
+	// wp: the blog url
+	else {
+		return get_bloginfo_rss('url');
+	}
+}
+
 function wxr_cat_name($c) {
 	if ( empty($c->name) )
 		return;
@@ -105,12 +121,18 @@ function wxr_post_taxonomy() {
 
 	if ( !empty($categories) ) foreach ( (array) $categories as $category ) {
 		$cat_name = sanitize_term_field('name', $category->name, $category->term_id, 'category', $filter);
+		// for backwards compatibility
 		$the_list .= "\n\t\t<category><![CDATA[$cat_name]]></category>\n";
+		// forwards compatibility: use a unique identifier for each cat to avoid clashes
+		// http://trac.wordpress.org/ticket/5447
+		$the_list .= "\n\t\t<category domain=\"category\" nicename=\"{$category->slug}\"><![CDATA[$cat_name]]></category>\n";
 	}
 
 	if ( !empty($tags) ) foreach ( (array) $tags as $tag ) {
 		$tag_name = sanitize_term_field('name', $tag->name, $tag->term_id, 'post_tag', $filter);
 		$the_list .= "\n\t\t<category domain=\"tag\"><![CDATA[$tag_name]]></category>\n";
+		// forwards compatibility as above
+		$the_list .= "\n\t\t<category domain=\"tag\" nicename=\"{$tag->slug}\"><![CDATA[$tag_name]]></category>\n";
 	}
 
 	echo $the_list;
@@ -140,7 +162,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:wp="http://wordpress.org/export/1.0/"
+	xmlns:wp="http://wordpress.org/export/<?php echo WXR_VERSION; ?>/"
 >
 
 <channel>
@@ -150,6 +172,9 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php bloginfo_rss('version'); ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
+	<wp:wxr_version><?php echo WXR_VERSION; ?></wp:wxr_version>
+	<wp:base_site_url><?php echo wxr_site_url(); ?></wp:base_site_url>
+	<wp:base_blog_url><?php bloginfo_rss('url'); ?></wp:base_blog_url>
 <?php if ( $cats ) : foreach ( $cats as $c ) : ?>
 	<wp:category><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->name : ''; ?></wp:category_parent><?php wxr_cat_name($c); ?><?php wxr_category_description($c); ?></wp:category>
 <?php endforeach; endif; ?>
@@ -187,6 +212,10 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <wp:menu_order><?php echo $post->menu_order; ?></wp:menu_order>
 <wp:post_type><?php echo $post->post_type; ?></wp:post_type>
 <?php
+if ($post->post_type == 'attachment') { ?>
+<wp:attachment_url><?php echo wp_get_attachment_url($post->ID); ?></wp:attachment_url>
+<?php } ?>
+<?php
 $postmeta = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = $post->ID");
 if ( $postmeta ) {
 ?>
@@ -212,6 +241,7 @@ if ( $comments ) { foreach ( $comments as $c ) { ?>
 <wp:comment_approved><?php echo $c->comment_approved; ?></wp:comment_approved>
 <wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
 <wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
+<wp:comment_user_id><?php echo $c->user_id; ?></wp:comment_user_id>
 </wp:comment>
 <?php } } ?>
 	</item>
