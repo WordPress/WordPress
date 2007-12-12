@@ -2,9 +2,8 @@
 
 class WP_Import {
 
-	var $posts = array ();
 	var $post_ids_processed = array ();
-    // Array of arrays. [[0] => XML fragment, [1] => New post ID]
+	var $orphans = array ();
 	var $file;
 	var $id;
 	var $mtnames = array ();
@@ -88,54 +87,43 @@ class WP_Import {
 	function get_entries($process_post_func=NULL) {
 		set_magic_quotes_runtime(0);
 
-#		$this->posts = array();
-#		$this->categories = array();
-#		$this->tags = array();
-#		$num = 0;
+		$doing_entry = false;
 
-		for ($i=0; $i<2; $i++) {
-			$this->another_pass = false;
-			$doing_entry = false;
-	
-			$fp = fopen($this->file, 'r');
-			if ($fp) {
-				while ( !feof($fp) ) {
-					$importline = rtrim(fgets($fp));
-	
-					if ( false !== strpos($importline, '<wp:category>') ) {
-						preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
-						$this->categories[] = $category[1];
-						continue;
-					}
-					if ( false !== strpos($importline, '<wp:tag>') ) {
-						preg_match('|<wp:tag>(.*?)</wp:tag>|is', $importline, $tag);
-						$this->tags[] = $tag[1];
-						continue;
-					}
-					if ( false !== strpos($importline, '<item>') ) {
-						$this->post = '';
-						$doing_entry = true;
-						continue;
-					}
-					if ( false !== strpos($importline, '</item>') ) {
-						$num++;
-						$doing_entry = false;
-						if ($process_post_func)
-							call_user_func($process_post_func, $this->post);
-						continue;
-					}
-					if ( $doing_entry ) {
-						$this->post .= $importline . "\n";
-					}
+		$fp = fopen($this->file, 'r');
+		if ($fp) {
+			while ( !feof($fp) ) {
+				$importline = rtrim(fgets($fp));
+
+				if ( false !== strpos($importline, '<wp:category>') ) {
+					preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
+					$this->categories[] = $category[1];
+					continue;
 				}
-	
-				fclose($fp);
+				if ( false !== strpos($importline, '<wp:tag>') ) {
+					preg_match('|<wp:tag>(.*?)</wp:tag>|is', $importline, $tag);
+					$this->tags[] = $tag[1];
+					continue;
+				}
+				if ( false !== strpos($importline, '<item>') ) {
+					$this->post = '';
+					$doing_entry = true;
+					continue;
+				}
+				if ( false !== strpos($importline, '</item>') ) {
+					$num++;
+					$doing_entry = false;
+					if ($process_post_func)
+						call_user_func($process_post_func, $this->post);
+					continue;
+				}
+				if ( $doing_entry ) {
+					$this->post .= $importline . "\n";
+				}
 			}
-			
-			// skip the second loop iteration unless it's needed
-			if ( !$this->another_pass )
-				break;
+
+			fclose($fp);
 		}
+			
 
 	}
 	
@@ -270,7 +258,6 @@ class WP_Import {
 	}
 
 	function process_posts() {
-		return; //FIXME
 		$i = -1;
 		echo '<ol>';
 
@@ -335,13 +322,13 @@ class WP_Import {
 			// If it has parent, process parent first.
 			$post_parent = (int) $post_parent;
 			if ($post_parent) {
+				// if we already know the parent, map it to the local ID
 				if ( $parent = $this->post_ids_processed[$post_parent] ) {
 					$post_parent = $parent;  // new ID of the parent
 				}
 				else {
-					// wait until the parent has been processed
-					$this->another_pass = true;
-					return;
+					// record the parent for later
+					$this->orphans[intval($post_ID)] = $post_parent;
 				}
 			}
 
@@ -434,16 +421,36 @@ class WP_Import {
 			add_post_meta( $post_id, $key, $value );
 		} }
 	}
+	
+	// update the post_parent of orphans now that we know the local id's of all parents
+	function backfill_parents() {
+		global $wpdb;
+		
+		foreach ($this->orphans as $child_id => $parent_id) {
+			$local_child_id = $this->post_ids_processed[$child_id];
+			$local_parent_id = $this->post_ids_processed[$parent_id];
+			if ($local_child_id and $local_parent_id) {
+				$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_parent = %d WHERE ID = %d", $local_parent_id, $local_child_id));
+			}
+		}
+	}
 
 	function import($id) {
 		$this->id = (int) $id;
 
-		$this->file = get_attached_file($this->id);
+		$file = get_attached_file($this->id);
+		$this->import_file($file);
+	}
+		
+	function import_file($file) {
+		$this->file = $file;
+		
 		$this->get_authors_from_post();
-		$this->get_entries(array(&$this, 'process_post'));
+		$this->get_entries();
 		$this->process_categories();
 		$this->process_tags();
 		$result = $this->process_posts();
+		$this->backfill_parents();
 		if ( is_wp_error( $result ) )
 			return $result;
 	}
