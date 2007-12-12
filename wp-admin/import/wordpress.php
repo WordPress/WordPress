@@ -446,11 +446,13 @@ class WP_Import {
 		$this->file = $file;
 		
 		$this->get_authors_from_post();
+		wp_defer_term_counting(true);
 		$this->get_entries();
 		$this->process_categories();
 		$this->process_tags();
 		$result = $this->process_posts();
 		$this->backfill_parents();
+		wp_defer_term_counting(false);
 		if ( is_wp_error( $result ) )
 			return $result;
 	}
