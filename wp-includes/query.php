@@ -841,6 +841,12 @@ class WP_Query {
 				$q['pagename'] = sanitize_title(basename($page_paths));
 				$q['name'] = $q['pagename'];
 				$where .= " AND (ID = '$reqpage')";
+				$reqpage_obj = get_page($reqpage);
+				if ( 'attachment' == $reqpage_obj->post_type ) {
+					$this->is_attachment = true;
+					$this->is_page = false;
+					$q['attachment_id'] = $reqpage;
+				}
 			}
 		} elseif ('' != $q['attachment']) {
 			$q['attachment'] = str_replace('%2F', '/', urlencode(urldecode($q['attachment'])));
