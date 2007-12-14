@@ -13,6 +13,7 @@ $wp_register_widget_defaults = false;
 /* Template tags & API functions */
 
 function register_sidebars($number = 1, $args = array()) {
+	global $wp_registered_sidebars;
 	$number = (int) $number;
 
 	if ( is_string($args) )
@@ -20,12 +21,23 @@ function register_sidebars($number = 1, $args = array()) {
 
 	for ( $i=1; $i <= $number; $i++ ) {
 		$_args = $args;
+
 		if ( $number > 1 ) {
-			$_args['name'] = isset($args['name']) ? $args['name'] : sprintf(__('Sidebar %d'), $i);
+			$_args['name'] = isset($args['name']) ? sprintf($args['name'], $i) : sprintf(__('Sidebar %d'), $i);
 		} else {
 			$_args['name'] = isset($args['name']) ? $args['name'] : __('Sidebar');
 		}
-		$_args['id'] = isset($args['id']) ? $args['id'] : "sidebar-$i";
+
+		if (isset($args['id'])) {
+			$_args['id'] = $args['id'];
+		} else {
+			$n = count($wp_registered_sidebars);
+			do {
+				$n++;
+				$_args['id'] = "sidebar-$n";
+			} while (isset($wp_registered_sidebars[$_args['id']]));
+		}
+
 		register_sidebar($_args);
 	}
 }
