@@ -1,9 +1,25 @@
 <?php
+/**
+ * Post functions and post utility function
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ */
 
-//
-// Post functions
-//
-
+/**
+ * get_attached_file() - Get metadata for an attached file
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @param int $attachment_id Attachment ID
+ * @param bool $unfiltered Whether to apply filters or not
+ * @return array {@internal Missing Description}}
+ */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
 	if ( $unfiltered )
@@ -11,6 +27,19 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
 	return apply_filters( 'get_attached_file', $file, $attachment_id );
 }
 
+/**
+ * update_attached_file() - Update attached file metadata
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $attachment_id Attachment ID
+ * @param string $file {@internal Missing Description}}
+ * @return bool|mixed {@internal Missing Description}}
+ */
 function update_attached_file( $attachment_id, $file ) {
 	if ( !get_post( $attachment_id ) )
 		return false;
@@ -25,6 +54,19 @@ function update_attached_file( $attachment_id, $file ) {
 		return add_post_meta( $attachment_id, '_wp_attached_file', $file );
 }
 
+/**
+ * get_children() - Get post children
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @param mixed $args {@internal Missing Description}}
+ * @param string $output {@internal Missing Description}}
+ * @return mixed {@internal Missing Description}}
+ */
 function &get_children($args = '', $output = OBJECT) {
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
@@ -70,7 +112,18 @@ function &get_children($args = '', $output = OBJECT) {
 	}
 }
 
-// get extended entry info (<!--more-->)
+/**
+ * get_extended() - get extended entry info (<!--more-->)
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ *
+ * @param string $post {@internal Missing Description}}
+ * @return array {@internal Missing Description}}
+ */
 function get_extended($post) {
 	//Match the new style more links
 	if ( preg_match('/<!--more(.*?)?-->/', $post, $matches) ) {
@@ -87,8 +140,21 @@ function get_extended($post) {
 	return array('main' => $main, 'extended' => $extended);
 }
 
-// Retrieves post data given a post ID or post object.
-// Handles post caching.
+/**
+ * get_post() - Retrieves post data given a post ID or post object.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5.1
+ * @uses $wpdb
+ *
+ * @param int|object &$post post ID or post object
+ * @param string $output {@internal Missing Description}}
+ * @param string $filter {@internal Missing Description}}
+ * @return mixed {@internal Missing Description}}
+ */
 function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
@@ -121,6 +187,18 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 	}
 }
 
+/**
+ * get_post_field() - Retrieve a field based on a post ID.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @param string $field {@internal Missing Description}}
+ * @param id $post Post ID
+ * @param string $context Optional. How to filter the field
+ * @return WP_Error|string Value in post field or WP_Error on failure
+ */
 function get_post_field( $field, $post, $context = 'display' ) {
 	$post = (int) $post;
 	$post = get_post( $post );
@@ -137,7 +215,16 @@ function get_post_field( $field, $post, $context = 'display' ) {
 	return sanitize_post_field($field, $post->$field, $post->ID, $context);
 }
 
-// Takes a post ID, returns its mime type.
+/**
+ * get_post_mime_type() - Takes a post ID, returns its mime type.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @param int $ID Post ID
+ * @return bool|string False on failure or returns the mime type
+ */
 function get_post_mime_type($ID = '') {
 	$post = & get_post($ID);
 
@@ -147,6 +234,18 @@ function get_post_mime_type($ID = '') {
 	return false;
 }
 
+/**
+ * get_post_status() - Takes a post ID and returns its status
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @param int $ID {@internal Missing Description}}
+ * @return string|bool post status or false
+ */
 function get_post_status($ID = '') {
 	$post = get_post($ID);
 
@@ -160,6 +259,21 @@ function get_post_status($ID = '') {
 	return false;
 }
 
+/**
+ * get_post_type() - Returns post type
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @uses $wpdb
+ * @uses $posts {@internal Missing Description}}
+ *
+ * @param mixed $post post object or post ID
+ * @return mixed post type or false
+ */
 function get_post_type($post = false) {
 	global $posts;
 
@@ -174,6 +288,19 @@ function get_post_type($post = false) {
 	return false;
 }
 
+/**
+ * get_posts() - Returns a number of posts
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.2
+ * @uses $wpdb
+ *
+ * @param array $args {@internal Missing Description}}
+ * @return array {@internal Missing Description}}
+ */
 function get_posts($args) {
 	global $wpdb;
 
@@ -257,6 +384,22 @@ function get_posts($args) {
 // Post meta functions
 //
 
+/**
+ * add_post_meta() - adds metadata for post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @param string $key {@internal Missing Description}}
+ * @param mixed $value {@internal Missing Description}}
+ * @param bool $unique whether to check for a value with the same key
+ * @return bool {@internal Missing Description}}
+ */
 function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	global $wpdb;
 
@@ -280,6 +423,21 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	return true;
 }
 
+/**
+ * delete_post_meta() - delete post metadata
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @param string $key {@internal Missing Description}}
+ * @param mixed $value {@internal Missing Description}}
+ * @return bool {@internal Missing Description}}
+ */
 function delete_post_meta($post_id, $key, $value = '') {
 	global $wpdb;
 
@@ -307,6 +465,21 @@ function delete_post_meta($post_id, $key, $value = '') {
 	return true;
 }
 
+/**
+ * get_post_meta() - Get a post meta field
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @param string $key The meta key to retrieve
+ * @param bool $single Whether to return a single value
+ * @return mixed {@internal Missing Description}}
+ */
 function get_post_meta($post_id, $key, $single = false) {
 	$post_id = (int) $post_id;
 
@@ -335,6 +508,22 @@ function get_post_meta($post_id, $key, $single = false) {
 	}
 }
 
+/**
+ * update_post_meta() - Update a post meta field
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @param string $key {@internal Missing Description}}
+ * @param mixed $value {@internal Missing Description}}
+ * @param mixed $prev_value previous value (for differentiating between meta fields with the same key and post ID)
+ * @return bool {@internal Missing Description}}
+ */
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	global $wpdb;
 
@@ -358,18 +547,42 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	return true;
 }
 
-
+/**
+ * delete_post_meta_by_key() - Delete everything from post meta matching $post_meta_key
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ * @uses $wpdb
+ *
+ * @param string $post_meta_key What to search for when deleting
+ * @return bool Whether the post meta key was deleted from the database
+ */
 function delete_post_meta_by_key($post_meta_key) {
 	global $wpdb;
 	if ( $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key)) ) {
-		// TODO Get post_ids and delete cache
+		/** @todo Get post_ids and delete cache */
 		// wp_cache_delete($post_id, 'post_meta');
 		return true;
 	}
 	return false;
 }
 
-
+/**
+ * get_post_custom() - Retrieve post custom fields
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.2
+ *
+ * @uses $id
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @return array {@internal Missing Description}}
+ */
 function get_post_custom($post_id = 0) {
 	global $id;
 
@@ -384,6 +597,16 @@ function get_post_custom($post_id = 0) {
 	return wp_cache_get($post_id, 'post_meta');
 }
 
+/**
+ * get_post_custom_keys() - Retrieve post custom field names
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.2
+ *
+ * @param int $post_id post ID
+ * @return array|null Either array of the keys, or null if keys would not be retrieved
+ */
 function get_post_custom_keys( $post_id = 0 ) {
 	$custom = get_post_custom( $post_id );
 
@@ -423,6 +646,21 @@ function sanitize_post($post, $context = 'display') {
 	return $post;
 }
 
+/**
+ * sanitize_post_field() - Sanitize post field based on context
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @param string $field The Post Object field name
+ * @param string $value The Post Object value
+ * @param int $postid Post ID
+ * @param string $context How to sanitize post fields
+ * @return string Sanitized value
+ */
 function sanitize_post_field($field, $value, $post_id, $context) {
 	$int_fields = array('ID', 'post_parent', 'menu_order');
 	if ( in_array($field, $int_fields) )
@@ -480,6 +718,18 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 	return $value;
 }
 
+/**
+ * wp_delete_post() - Deletes a Post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ *
+ * @param int $postid post ID
+ * @return mixed {@internal Missing Description}}
+ */
 function wp_delete_post($postid = 0) {
 	global $wpdb, $wp_rewrite;
 
@@ -491,7 +741,7 @@ function wp_delete_post($postid = 0) {
 
 	do_action('delete_post', $postid);
 
-	// TODO delete for pluggable post taxonomies too
+	/** @todo delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
 
 	$parent_data = array( 'post_parent' => $post->post_parent );
@@ -533,6 +783,22 @@ function wp_delete_post($postid = 0) {
 	return $post;
 }
 
+/**
+ * wp_get_post_categories() - Retrieve the list of categories for a post
+ *
+ * Compatibility layer for themes and plugins. Also an easy layer of abstraction
+ * away from the complexity of the taxonomy layer.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @uses wp_get_object_terms() Retrieves the categories. Args details can be found here
+ *
+ * @param int $post_id Optional. The Post ID
+ * @param array $args Optional. Overwrite the defaults
+ * @return array {@internal Missing Description}}
+ */
 function wp_get_post_categories( $post_id = 0, $args = array() ) {
 	$post_id = (int) $post_id;
 
@@ -543,6 +809,19 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
 	return $cats;
 }
 
+/**
+ * wp_get_post_tags() - Retrieve the post tags
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @uses wp_get_object_terms() Gets the tags for returning. Args can be found here
+ *
+ * @param int $post_id Optional. The Post ID
+ * @param array $args Optional. Overwrite the defaults
+ * @return mixed The tags the post has currently
+ */
 function wp_get_post_tags( $post_id = 0, $args = array() ) {
 	$post_id = (int) $post_id;
 
@@ -554,6 +833,18 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
 	return $tags;
 }
 
+/**
+ * wp_get_recent_posts() - Get the $num most recent posts
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ *
+ * @param int $num number of posts to get
+ * @return array {@internal Missing Description}}
+ */
 function wp_get_recent_posts($num = 10) {
 	global $wpdb;
 
@@ -569,6 +860,20 @@ function wp_get_recent_posts($num = 10) {
 	return $result?$result:array();
 }
 
+/**
+ * wp_get_single_post() - Get one post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ * @uses $wpdb
+ *
+ * @param int $postid post ID
+ * @param string $mode How to return result, either OBJECT, ARRAY_N, or ARRAY_A
+ * @return object|array Post object or array holding post contents and information
+ */
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	$postid = (int) $postid;
 
@@ -587,6 +892,23 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	return $post;
 }
 
+/**
+ * wp_insert_post() - Insert a post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ *
+ * @uses $wpdb
+ * @uses $wp_rewrite
+ * @uses $user_ID
+ * @uses $allowedtags
+ *
+ * @param array $postarr post contents
+ * @return int post ID or 0 on error
+ */
 function wp_insert_post($postarr = array()) {
 	global $wpdb, $wp_rewrite, $user_ID;
 
@@ -758,6 +1080,19 @@ function wp_insert_post($postarr = array()) {
 	return $post_ID;
 }
 
+/**
+ * wp_update_post() - Update a post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ * @uses $wpdb
+ *
+ * @param array $postarr post data
+ * @return int {@internal Missing Description}}
+ */
 function wp_update_post($postarr = array()) {
 	if ( is_object($postarr) )
 		$postarr = get_object_vars($postarr);
@@ -796,6 +1131,19 @@ function wp_update_post($postarr = array()) {
 	return wp_insert_post($postarr);
 }
 
+/**
+ * wp_publish_post() - Mark a post as "published"
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ * @uses $wpdb
+ *
+ * @param int $post_id Post ID
+ * @return int|null {@internal Missing Description}}
+ */
 function wp_publish_post($post_id) {
 	global $wpdb;
 
@@ -836,6 +1184,20 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	wp_set_object_terms($post_id, $tags, 'post_tag', $append);
 }
 
+/**
+ * wp_set_post_categories() - Set categories for a post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ * @uses $wpdb
+ *
+ * @param int $post_ID post ID
+ * @param array $post_categories
+ * @return bool|mixed {@internal Missing Description}}
+ */
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$post_ID = (int) $post_ID;
 	// If $post_categories isn't already an array, make it one:
@@ -850,6 +1212,19 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	return wp_set_object_terms($post_ID, $post_categories, 'category');
 }	// wp_set_post_categories()
 
+/**
+ * wp_transition_post_status() - Change the post transition status
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @param string $new_status {@internal Missing Description}}
+ * @param string $old_status {@internal Missing Description}}
+ * @param int $post {@internal Missing Description}}
+ */
 function wp_transition_post_status($new_status, $old_status, $post) {
 	if ( $new_status != $old_status ) {
 		do_action('transition_post_status', $new_status, $old_status, $post);
@@ -862,7 +1237,21 @@ function wp_transition_post_status($new_status, $old_status, $post) {
 // Trackback and ping functions
 //
 
-function add_ping($post_id, $uri) { // Add a URL to those already pung
+/**
+ * add_ping() - Add a URL to those already pung
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @param string $uri {@internal Missing Description}}
+ * @return mixed {@internal Missing Description}}
+ */
+function add_ping($post_id, $uri) {
 	global $wpdb;
 	$pung = $wpdb->get_var( $wpdb->prepare( "SELECT pinged FROM $wpdb->posts WHERE ID = %d", $post_id ));
 	$pung = trim($pung);
@@ -893,7 +1282,20 @@ function get_enclosed($post_id) { // Get enclosures already enclosed for a post
 	return $pung;
 }
 
-function get_pung($post_id) { // Get URLs already pung for a post
+/**
+ * get_pung() - Get URLs already pinged for a post
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @return array {@internal Missing Description}}
+ */
+function get_pung($post_id) {
 	global $wpdb;
 	$pung = $wpdb->get_var( $wpdb->prepare( "SELECT pinged FROM $wpdb->posts WHERE ID = %d", $post_id ));
 	$pung = trim($pung);
@@ -902,7 +1304,20 @@ function get_pung($post_id) { // Get URLs already pung for a post
 	return $pung;
 }
 
-function get_to_ping($post_id) { // Get any URLs in the todo list
+/**
+ * get_to_ping() - Get any URLs in the todo list
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param int $post_id post ID
+ * @return array {@internal Missing Description}}
+ */
+function get_to_ping($post_id) {
 	global $wpdb;
 	$to_ping = $wpdb->get_var( $wpdb->prepare( "SELECT to_ping FROM $wpdb->posts WHERE ID = %d", $post_id ));
 	$to_ping = trim($to_ping);
@@ -911,8 +1326,18 @@ function get_to_ping($post_id) { // Get any URLs in the todo list
 	return $to_ping;
 }
 
-// do trackbacks for a list of urls
-// accepts a comma-separated list of trackback urls and a post id
+/**
+ * trackback_url_list() - Do trackbacks for a list of urls
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.0.1
+ *
+ * @param string $tb_list comma separated list of URLs
+ * @param int $post_id post ID
+ */
 function trackback_url_list($tb_list, $post_id) {
 	if (!empty($tb_list)) {
 		// get post data
@@ -940,6 +1365,18 @@ function trackback_url_list($tb_list, $post_id) {
 // Page functions
 //
 
+/**
+ * get_all_page_ids() - Get a list of page IDs
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ * @uses $wpdb
+ *
+ * @return array {@internal Missing Description}}
+ */
 function get_all_page_ids() {
 	global $wpdb;
 
@@ -951,9 +1388,20 @@ function get_all_page_ids() {
 	return $page_ids;
 }
 
-
-// Retrieves page data given a page ID or page object.
-// Handles page caching.
+/**
+ * get_page() - Retrieves page data given a page ID or page object
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5.1
+ *
+ * @param mixed &$page page object or page ID
+ * @param string $output what to output
+ * @param string $filter How the return value should be filtered.
+ * @return mixed {@internal Missing Description}}
+ */
 function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
 	if ( empty($page) ) {
 		if ( isset( $GLOBALS['page'] ) && isset( $GLOBALS['page']->ID ) )
@@ -965,6 +1413,20 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
 	return get_post($page, $output, $filter);
 }
 
+/**
+ * get_page_by_path() - Retrieves a page given its path
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ * @uses $wpdb
+ *
+ * @param string $page_path page path
+ * @param string $output output type
+ * @return mixed {@internal Missing Description}}
+ */
 function get_page_by_path($page_path, $output = OBJECT) {
 	global $wpdb;
 	$page_path = rawurlencode(urldecode($page_path));
@@ -996,6 +1458,20 @@ function get_page_by_path($page_path, $output = OBJECT) {
 	return NULL;
 }
 
+/**
+ * get_page_by_title() - Retrieve a page given its title
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ * @uses $wpdb
+ *
+ * @param string $page_title page title
+ * @param string $output output type
+ * @return mixed {@internal Missing Description}}
+ */
 function get_page_by_title($page_title, $output = OBJECT) {
 	global $wpdb;
 	$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type='page'", $page_title ));
@@ -1005,6 +1481,19 @@ function get_page_by_title($page_title, $output = OBJECT) {
 	return NULL;
 }
 
+/**
+ * get_page_children() - Retrieve child pages
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5.1
+ *
+ * @param int $page_id page ID
+ * @param array $pages list of pages
+ * @return array {@internal Missing Description}}
+ */
 function &get_page_children($page_id, $pages) {
 	$page_list = array();
 	foreach ( $pages as $page ) {
@@ -1017,8 +1506,20 @@ function &get_page_children($page_id, $pages) {
 	return $page_list;
 }
 
-//fetches the pages returned as a FLAT list, but arranged in order of their hierarchy, i.e., child parents
-//immediately follow their parents
+/**
+ * get_page_hierarchy() - {@internal Missing Short Description}}
+ *
+ * Fetches the pages returned as a FLAT list, but arranged in order of their hierarchy,
+ * i.e., child parents immediately follow their parents.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @param array $posts posts array
+ * @param int $parent parent page ID
+ * @return array {@internal Missing Description}}
+ */
 function get_page_hierarchy($posts, $parent = 0) {
 	$result = array ( );
 	if ($posts) { foreach ($posts as $post) {
@@ -1031,6 +1532,18 @@ function get_page_hierarchy($posts, $parent = 0) {
 	return $result;
 }
 
+/**
+ * get_page_uri() - Builds a page URI
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ *
+ * @param int $page_id page ID
+ * @return string {@internal Missing Description}}
+ */
 function get_page_uri($page_id) {
 	$page = get_page($page_id);
 	$uri = urldecode($page->post_name);
@@ -1047,6 +1560,19 @@ function get_page_uri($page_id) {
 	return $uri;
 }
 
+/**
+ * get_pages() - Retrieve a list of pages
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.5
+ * @uses $wpdb
+ *
+ * @param mixed $args Optional. Array or string of options
+ * @return array List of pages matching defaults or $args
+ */
 function &get_pages($args = '') {
 	global $wpdb;
 
@@ -1157,6 +1683,18 @@ function &get_pages($args = '') {
 // Attachment functions
 //
 
+/**
+ * is_local_attachment() - Check if the attachment URI is local one and is really an attachment.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @param string $url URL to check
+ * @return bool {@internal Missing Description}}
+ */
 function is_local_attachment($url) {
 	if (strpos($url, get_bloginfo('url')) === false)
 		return false;
@@ -1170,6 +1708,23 @@ function is_local_attachment($url) {
 	return false;
 }
 
+/**
+ * wp_insert_attachment() - Insert an attachment
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ *
+ * @uses $wpdb
+ * @uses $user_ID
+ *
+ * @param object $object attachment object
+ * @param string $file filename
+ * @param int $post_parent parent post ID
+ * @return int {@internal Missing Description}}
+ */
 function wp_insert_attachment($object, $file = false, $parent = 0) {
 	global $wpdb, $user_ID;
 
@@ -1291,6 +1846,19 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	return $post_ID;
 }
 
+/**
+ * wp_delete_attachment() - Delete an attachment
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.0
+ * @uses $wpdb
+ *
+ * @param int $postid attachment Id
+ * @return mixed {@internal Missing Description}}
+ */
 function wp_delete_attachment($postid) {
 	global $wpdb;
 
@@ -1303,7 +1871,7 @@ function wp_delete_attachment($postid) {
 	$meta = wp_get_attachment_metadata( $postid );
 	$file = get_attached_file( $postid );
 
-	// TODO delete for pluggable post taxonomies too
+	/** @todo Delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->posts WHERE ID = %d", $postid ));
@@ -1333,6 +1901,19 @@ function wp_delete_attachment($postid) {
 	return $post;
 }
 
+/**
+ * wp_get_attachment_metadata() - Retrieve metadata for an attachment
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id attachment ID
+ * @param bool $unfiltered Optional, default is false. If true, filters are not run
+ * @return array {@internal Missing Description}}
+ */
 function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
@@ -1344,6 +1925,19 @@ function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
 	return apply_filters( 'wp_get_attachment_metadata', $data, $post->ID );
 }
 
+/**
+ * wp_update_attachment_metadata() - Update metadata for an attachment
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id attachment ID
+ * @param array $data attachment data
+ * @return int {@internal Missing Description}}
+ */
 function wp_update_attachment_metadata( $post_id, $data ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
@@ -1359,6 +1953,18 @@ function wp_update_attachment_metadata( $post_id, $data ) {
 		return add_post_meta( $post->ID, '_wp_attachment_metadata', $data );
 }
 
+/**
+ * wp_get_attachment_url() - Retrieve the URL for an attachment
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id attachment ID
+ * @return string {@internal Missing Description}}
+ */
 function wp_get_attachment_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
@@ -1372,6 +1978,18 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	return apply_filters( 'wp_get_attachment_url', $url, $post->ID );
 }
 
+/**
+ * wp_get_attachment_thumb_file() - Retrieve thumbnail for an attachment
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id attachment ID
+ * @return mixed {@internal Missing Description}}
+ */
 function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
@@ -1386,6 +2004,18 @@ function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	return false;
 }
 
+/**
+ * wp_get_attachment_thumb_url() - Retrieve URL for an attachment thumbnail
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id attachment ID
+ * @return string {@internal Missing Description}}
+ */
 function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
@@ -1401,6 +2031,18 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	return apply_filters( 'wp_get_attachment_thumb_url', $url, $post->ID );
 }
 
+/**
+ * wp_attachment_is_image() - Check if the attachment is an image
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id attachment ID
+ * @return bool {@internal Missing Description}}
+ */
 function wp_attachment_is_image( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
@@ -1418,6 +2060,18 @@ function wp_attachment_is_image( $post_id = 0 ) {
 	return false;
 }
 
+/**
+ * wp_mime_type_icon() - Retrieve the icon for a MIME type
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param string $mime MIME type
+ * @return string|bool {@internal Missing Description}}
+ */
 function wp_mime_type_icon( $mime = 0 ) {
 	$post_id = 0;
 	if ( is_numeric($mime) ) {
@@ -1457,6 +2111,18 @@ function wp_mime_type_icon( $mime = 0 ) {
 	return apply_filters( 'wp_mime_type_icon', $src, $mime, $post_id ); // Last arg is 0 if function pass mime type.
 }
 
+/**
+ * wp_check_for_changed_slugs() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.1
+ *
+ * @param int $post_id The Post ID
+ * @return int Same as $post_id
+ */
 function wp_check_for_changed_slugs($post_id) {
 	if ( !strlen($_POST['wp-old-slug']) )
 		return $post_id;
@@ -1485,11 +2151,20 @@ function wp_check_for_changed_slugs($post_id) {
 }
 
 /**
+ * get_private_posts_cap_sql() - {@internal Missing Short Description}}
+ *
  * This function provides a standardized way to appropriately select on
  * the post_status of posts/pages. The function will return a piece of
  * SQL code that can be added to a WHERE clause; this SQL is constructed
  * to allow all published posts, and all private posts to which the user
  * has access.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.2
+ *
+ * @uses $user_ID
+ * @uses apply_filters() Call 'pub_priv_sql_capability' filter for plugins with different post types
  *
  * @param string $post_type currently only supports 'post' or 'page'.
  * @return string SQL code that can be added to a where clause.
@@ -1530,6 +2205,25 @@ function get_private_posts_cap_sql($post_type) {
 	return $sql;
 }
 
+/**
+ * get_lastpostdate() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 0.71
+ *
+ * @uses $wpdb
+ * @uses $blog_id
+ * @uses apply_filters() Calls 'get_lastpostdate' filter
+ *
+ * @global mixed $cache_lastpostdate Stores the last post date
+ * @global mixed $pagenow The current page being viewed
+ *
+ * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
+ * @return string The date of the last post.
+ */
 function get_lastpostdate($timezone = 'server') {
 	global $cache_lastpostdate, $wpdb, $blog_id;
 	$add_seconds_server = date('Z');
@@ -1552,6 +2246,25 @@ function get_lastpostdate($timezone = 'server') {
 	return apply_filters( 'get_lastpostdate', $lastpostdate, $timezone );
 }
 
+/**
+ * get_lastpostmodified() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 1.2
+ *
+ * @uses $wpdb
+ * @uses $blog_id
+ * @uses apply_filters() Calls 'get_lastpostmodified' filter
+ *
+ * @global mixed $cache_lastpostmodified Stores the date the last post was modified
+ * @global mixed $pagenow The current page being viewed
+ *
+ * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
+ * @return string The date the post was last modified.
+ */
 function get_lastpostmodified($timezone = 'server') {
 	global $cache_lastpostmodified, $wpdb, $blog_id;
 	$add_seconds_server = date('Z');
@@ -1578,10 +2291,17 @@ function get_lastpostmodified($timezone = 'server') {
 	return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
 }
 
-//
-// Cache
-//
-
+/**
+ * update_post_cache() - Updates posts in cache
+ *
+ * @usedby update_page_cache() update_page_cache() aliased by this function.
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 1.5.1
+ *
+ * @param array $posts Array of post objects
+ */
 function update_post_cache(&$posts) {
 	if ( !$posts )
 		return;
@@ -1590,6 +2310,20 @@ function update_post_cache(&$posts) {
 		wp_cache_add($post->ID, $post, 'posts');
 }
 
+/**
+ * clean_post_cache() - Will clean the post in the cache
+ *
+ * Cleaning means delete from the cache of the post. Will call to clean
+ * the term object cache associated with the post ID.
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 2.0
+ *
+ * @uses do_action() Will call the 'clean_post_cache' hook action.
+ *
+ * @param int $id The Post ID in the cache to clean
+ */
 function clean_post_cache($id) {
 	wp_cache_delete($id, 'posts');
 	wp_cache_delete($id, 'post_meta');
@@ -1601,10 +2335,35 @@ function clean_post_cache($id) {
 	do_action('clean_post_cache', $id);
 }
 
+/**
+ * update_page_cache() - Alias of update_post_cache()
+ *
+ * @see update_post_cache() Posts and pages are the same, alias is intentional
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 1.5.1
+ *
+ * @param array $pages list of page objects
+ */
 function update_page_cache(&$pages) {
 	update_post_cache($pages);
 }
 
+/**
+ * clean_page_cache() - Will clean the page in the cache
+ *
+ * Clean (read: delete) page from cache that matches $id. Will also clean
+ * cache associated with 'all_page_ids' and 'get_pages'.
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 2.0
+ *
+ * @uses do_action() Will call the 'clean_page_cache' hook action.
+ *
+ * @param int $id Page ID to clean
+ */
 function clean_page_cache($id) {
 	clean_post_cache($id);
 
@@ -1614,6 +2373,20 @@ function clean_page_cache($id) {
 	do_action('clean_page_cache', $id);
 }
 
+/**
+ * update_post_caches() - Call major cache updating functions for list of Post objects.
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 1.5
+ *
+ * @uses $wpdb
+ * @uses update_post_cache()
+ * @uses update_object_term_cache()
+ * @uses update_postmeta_cache()
+ *
+ * @param array $posts Array of Post objects
+ */
 function update_post_caches(&$posts) {
 	// No point in doing all this work if we didn't match any posts.
 	if ( !$posts )
@@ -1631,6 +2404,20 @@ function update_post_caches(&$posts) {
 	update_postmeta_cache($post_ids);
 }
 
+/**
+ * update_postmeta_cache() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Cache
+ * @since 2.1
+ *
+ * @uses $wpdb
+ *
+ * @param array $post_ids {@internal Missing Description}}
+ * @return bool|array Returns false if there is nothing to update or an array of metadata
+ */
 function update_postmeta_cache($post_ids) {
 	global $wpdb;
 
@@ -1688,6 +2475,21 @@ function update_postmeta_cache($post_ids) {
 // Hooks
 //
 
+/**
+ * _transition_post_status() - Hook {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @uses $wpdb
+ *
+ * @param string $new_status {@internal Missing Description}}
+ * @param string $old_status {@internal Missing Description}}
+ * @param object $post Object type containing the post information
+ */
 function _transition_post_status($new_status, $old_status, $post) {
 	global $wpdb;
 
@@ -1701,12 +2503,40 @@ function _transition_post_status($new_status, $old_status, $post) {
 	wp_clear_scheduled_hook('publish_future_post', $post->ID);
 }
 
+/**
+ * _future_post_hook() - Hook used to schedule publication for a post marked for the future.
+ *
+ * The $post properties used and must exist are 'ID' and 'post_date_gmt'.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @param int $post_id Not Used. Can be set to null.
+ * @param object $post Object type containing the post information
+ */
 function _future_post_hook($post_id, $post) {
-	// Schedule publication.
 	wp_clear_scheduled_hook( 'publish_future_post', $post->ID );
 	wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', array($post->ID));
 }
 
+/**
+ * _publish_post_hook() - Hook {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @uses $wpdb
+ * @uses XMLRPC_REQUEST
+ * @uses APP_REQUEST
+ * @uses do_action Calls 'xmlprc_publish_post' action if XMLRPC_REQUEST is defined. Calls 'app_publish_post'
+ *	action if APP_REQUEST is defined.
+ *
+ * @param int $post_id The ID in the database table of the post being published
+ */
 function _publish_post_hook($post_id) {
 	global $wpdb;
 
@@ -1725,6 +2555,25 @@ function _publish_post_hook($post_id) {
 	wp_schedule_single_event(time(), 'do_pings');
 }
 
+/**
+ * _save_post_hook() - Hook used to prevent page/post cache and rewrite rules from staying dirty
+ *
+ * Does two things. If the post is a page and has a template then it will update/add that
+ * template to the meta. For both pages and posts, it will clean the post cache to make sure
+ * that the cache updates to the changes done recently. For pages, the rewrite rules of
+ * WordPress are flushed to allow for any changes.
+ *
+ * The $post parameter, only uses 'post_type' property and 'page_template' property.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.3
+ *
+ * @uses $wp_rewrite Flushes Rewrite Rules.
+ *
+ * @param int $post_id The ID in the database table for the $post
+ * @param object $post Object type containing the post information
+ */
 function _save_post_hook($post_id, $post) {
 	if ( $post->post_type == 'page' ) {
 		if ( !empty($post->page_template) )
