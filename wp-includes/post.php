@@ -758,7 +758,10 @@ function wp_delete_post($postid = 0) {
 			delete_option('page_for_posts');
 		}
 
-		// Point children of this page to its parent
+		// Point children of this page to its parent, also clean the cache of affected children
+		$children_query = $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_parent = %d AND post_type='page'", $postid);
+		$children = $wpdb->get_results($children_query); 
+
 		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
 	}
 
@@ -773,6 +776,10 @@ function wp_delete_post($postid = 0) {
 
 	if ( 'page' == $post->post_type ) {
 		clean_page_cache($postid);
+
+		foreach ( (array) $children as $child ) 
+			clean_page_cache($child->ID);
+
 		$wp_rewrite->flush_rules();
 	} else {
 		clean_post_cache($postid);
