@@ -68,7 +68,9 @@ printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by {s}, 3: matchin
 <br style="clear:both;" />
 
 <?php
-wp("post_type=page&orderby=menu_order&what_to_show=posts$post_status_q&posts_per_page=-1&posts_per_archive_page=-1&order=asc");
+$query_str = "post_type=page&orderby=menu_order title&what_to_show=posts$post_status_q&posts_per_page=-1&posts_per_archive_page=-1&order=asc";
+$query_str = apply_filters('manage_pages_query', $query_str);
+wp($query_str);
 
 $all = !( $h2_search || $post_status_q );
 
@@ -85,7 +87,7 @@ if ($posts) {
   </tr>
   </thead>
   <tbody id="the-list" class="list:page">
-<?php page_rows(0, 0, $posts, $all); ?>
+  <?php page_rows($posts); ?>  
   </tbody>
 </table>
 

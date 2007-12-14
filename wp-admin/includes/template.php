@@ -225,45 +225,90 @@ function wp_manage_posts_columns() {
 	return $posts_columns;
 }
 
-function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
-	global $class, $post;
+/*
+ * display one row if the page doesn't have any children
+ * otherwise, display the row and its children in subsequent rows
+ */
+function display_page_row( $page, &$children_pages, $level = 0 ) {
+	global $post;
+	static $class;
+	
+	$post = $page;
+	setup_postdata($page);
 
-	if (!$pages )
-		$pages = get_pages( 'sort_column=menu_order' );
+	$page->post_title = wp_specialchars( $page->post_title );
+	$pad = str_repeat( '&#8212; ', $level );
+	$id = (int) $page->ID;
+	$class = ('alternate' == $class ) ? '' : 'alternate';
 
-	if (! $pages )
-		return false;
-
-	foreach ( $pages as $post) {
-		setup_postdata( $post);
-		if ( $hierarchy && ($post->post_parent != $parent) )
-			continue;
-
-		$post->post_title = wp_specialchars( $post->post_title );
-		$pad = str_repeat( '&#8212; ', $level );
-		$id = (int) $post->ID;
-		$class = ('alternate' == $class ) ? '' : 'alternate';
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'>
-    <th scope="row" style="text-align: center"><?php echo $post->ID; ?></th>
+    <th scope="row" style="text-align: center"><?php echo $page->ID; ?></th>
     <td>
-      <?php echo $pad; ?><?php the_title() ?>
+      <?php echo $pad; ?><?php the_title(); ?>
     </td>
     <td><?php the_author() ?></td>
-    <td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Unpublished'); else echo mysql2date( __('Y-m-d g:i a'), $post->post_modified ); ?></td>
+    <td><?php if ( '0000-00-00 00:00:00' ==$page->post_modified ) _e('Unpublished'); else echo mysql2date( __('Y-m-d g:i a'), $page->post_modified ); ?></td>
     <td><a href="<?php the_permalink(); ?>" rel="permalink" class="view"><?php _e( 'View' ); ?></a></td>
     <td><?php if ( current_user_can( 'edit_page', $id ) ) { echo "<a href='page.php?action=edit&amp;post=$id' class='edit'>" . __( 'Edit' ) . "</a>"; } ?></td>
     <td><?php if ( current_user_can( 'delete_page', $id ) ) { echo "<a href='" . wp_nonce_url( "page.php?action=delete&amp;post=$id", 'delete-page_' . $id ) .  "' class='delete:the-list:page-$id delete'>" . __( 'Delete' ) . "</a>"; } ?></td>
   </tr>
 
 <?php
-		if ( $hierarchy )
-			page_rows( $id, $level + 1, $pages );
+
+	if ( ! $children_pages )
+		return true; 
+
+	for ( $i=0; $i < count($children_pages); $i++ ) {
+
+		$child = $children_pages[$i];
+			
+		if ( $child->post_parent == $id ) {
+	        array_splice($children_pages, $i, 1); 
+			display_page_row($child, $children_pages, $level+1);
+			$i--; 
+		}
 	}
 }
 
+/*
+ * displays pages in hierarchical order 
+ */
+function page_rows( $pages ) {
+	if ( ! $pages )
+		$pages = get_pages( 'sort_column=menu_order' );
+
+	if ( ! $pages )
+		return false;
+
+	// splice pages into two parts: those without parent and those with parent
+
+	$top_level_pages = array();
+	$children_pages  = array();
+
+	foreach ( $pages as $page ) {
+		if ( 0 == $page->post_parent )
+			$top_level_pages[] = $page; 
+		else
+			$children_pages[] = $page; 
+	}
+
+	foreach ( $top_level_pages as $page )
+		display_page_row($page, $children_pages, 0);
+	
+	/* 
+	 * display the remaining children_pages which are orphans
+	 * having orphan requires parental attention
+	 */
+	 if ( count($children_pages) > 0 ) {
+	 	$empty_array = array(); 
+	 	foreach ($children_pages as $orphan_page)
+	 		display_page_row($orphan_page, $empty_array, 0);
+	 }
+}
+
 function user_row( $user_object, $style = '' ) {
-	if ( !(is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
+	if ( !( is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
 		$user_object = new WP_User( (int) $user_object );
 	$email = $user_object->user_email;
 	$url = $user_object->user_url;

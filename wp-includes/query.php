@@ -1113,7 +1113,7 @@ class WP_Query {
 			$q['orderby'] = 'post_date '.$q['order'];
 		} else {
 			// Used to filter values
-			$allowed_keys = array('author', 'date', 'category', 'title', 'modified', 'menu_order');
+			$allowed_keys = array('author', 'date', 'category', 'title', 'modified', 'menu_order', 'parent', 'ID');
 			$q['orderby'] = urldecode($q['orderby']);
 			$q['orderby'] = addslashes_gpc($q['orderby']);
 			$orderby_array = explode(' ',$q['orderby']);
@@ -1123,11 +1123,16 @@ class WP_Query {
 			for ($i = 0; $i < count($orderby_array); $i++) {
 				// Only allow certain values for safety
 				$orderby = $orderby_array[$i];
-				if ( 'menu_order' != $orderby )
+				if ( !('menu_order' == $orderby || 'ID' == $orderby ))
 					$orderby = 'post_' . $orderby;
 				if ( in_array($orderby_array[$i], $allowed_keys) )
-					$q['orderby'] .= (($i == 0) ? '' : ',') . "$orderby {$q['order']}";
+					$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
 			}
+			/* append ASC or DESC at the end */ 
+			if ( !empty($q['orderby'])){
+				$q['orderby'] .= " {$q['order']}";
+			}
+			
 			if ( empty($q['orderby']) )
 				$q['orderby'] = 'post_date '.$q['order'];
 		}
