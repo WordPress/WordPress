@@ -386,9 +386,10 @@ function is_wp_error($thing) {
 	return false;
 }
 
-
-// A class for displaying various tree-like structures. Extend the Walker class to use it, see examples at the bottom
-
+/* 
+ * A class for displaying various tree-like structures. 
+ * Extend the Walker class to use it, see examples at the bottom
+ */
 class Walker {
 	var $tree_type;
 	var $db_fields;
@@ -399,94 +400,106 @@ class Walker {
 	function start_el($output)  { return $output; }
 	function end_el($output)    { return $output; }
 
-	function walk($elements, $to_depth) {
-		$args = array_slice(func_get_args(), 2); $parents = array(); $depth = 1; $previous_element = ''; $output = '';
+	/*
+ 	 * display one element if the element doesn't have any children
+ 	 * otherwise, display the element and its children
+ 	 */
+	function display_element( $element, &$children_elements, $max_depth, $depth=0, $args, $output ) {
+	
+		if ( !$element)
+			return $output; 
+		
+		if ( $max_depth != 0 ) {
+			if ($depth >= $max_depth)
+				return $output; 
+		}
+	
+		$id_field = $this->db_fields['id'];
+		$parent_field = $this->db_fields['parent'];
+	
+		//display this element
+		$cb_args = array_merge( array($output, $element, $depth), $args);
+		$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 
-		//padding at the end
-		$last_element->post_parent = 0;
-		$last_element->post_id = 0;
-		$elements[] = $last_element;
+		if ( !$children_elements ) {
+			//close off this element
+			$cb_args = array_merge( array($output, $element, $depth), $args);
+			$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
+			return $output; 
+		}
+	
+		for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
+			$child = $children_elements[$i];
+			
+			if ( $child->$parent_field == $element->$id_field ) {
+				
+				array_splice( $children_elements, $i, 1 ); 
+				
+				//start the child delimiter
+				$cb_args = array_merge( array($output, $depth), $args);
+				$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
+				
+				$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
+				
+				//end the child delimiter
+				$cb_args = array_merge( array($output, $depth), $args);
+				$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
+				$i--; 
+			}
+		}
+		return $output; 
+	}
+
+	/*
+ 	* displays array of elements hierarchically
+ 	* max_depth = -1 means flatly display every element 
+ 	* max_depth = 0  means display all levels 
+ 	* max_depth > 0  specifies the number of display levels. 
+ 	*/
+	function walk( $elements, $max_depth) {
+	
+		$args = array_slice(func_get_args(), 2);
+		$output = '';
 
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
 
-		$flat = ($to_depth == -1) ? true : false;
-
-		foreach ( $elements as $element ) {
-			// If flat, start and end the element and skip the level checks.
-			if ( $flat) {
-				// Start the element.
-				if ( isset($element->$id_field) && $element->$id_field != 0 ) {
-					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
-					$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
-				}
-
-				// End the element.
-				if ( isset($element->$id_field) && $element->$id_field != 0 ) {
-					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
-					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-				}
-
-				continue;
-			}
-
-			// Walk the tree.
-			if ( !empty($previous_element) && ($element->$parent_field == $previous_element->$id_field) ) {
-				// Previous element is my parent. Descend a level.
-				array_unshift($parents, $previous_element);
-				if ( !$to_depth || ($depth < $to_depth) ) { //only descend if we're below $to_depth
-					$cb_args = array_merge( array($output, $depth), $args);
-					$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-				} else if ( $to_depth && $depth == $to_depth  ) {  // If we've reached depth, end the previous element.
-					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
-					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-				}
-				$depth++; //always do this so when we start the element further down, we know where we are
-			} else if ( $element->$parent_field == $previous_element->$parent_field) {
-				// On the same level as previous element.
-				if ( !$to_depth || ($depth <= $to_depth) ) {
-					$cb_args = array_merge( array($output, $previous_element, $depth - 1), $args);
-					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-				}
-			} else if ( $depth > 1 ) {
-				// Ascend one or more levels.
-				if ( !$to_depth || ($depth <= $to_depth) ) {
-					$cb_args = array_merge( array($output, $previous_element, $depth - 1), $args);
-					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-				}
-
-				while ( $parent = array_shift($parents) ) {
-					$depth--;
-					if ( !$to_depth || ($depth < $to_depth) ) {
-						$cb_args = array_merge( array($output, $depth), $args);
-						$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
-						$cb_args = array_merge( array($output, $parent, $depth - 1), $args);
-						$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-					}
-					if ( $element->$parent_field == $parents[0]->$id_field ) {
-						break;
-					}
-				}
-			} else if ( !empty($previous_element) ) {
-				// Close off previous element.
-				if ( !$to_depth || ($depth <= $to_depth) ) {
-					$cb_args = array_merge( array($output, $previous_element, $depth - 1), $args);
-					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-				}
-			}
-
-			// Start the element.
-			if ( !$to_depth || ($depth <= $to_depth) ) {
-				if ( $element->$id_field != 0 ) {
-					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
-					$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
-				}
-			}
-
-			$previous_element = $element;
+		$flat = ($max_depth == -1) ? true : false;
+		if ( $flat ) {
+			$empty_array = array(); 
+			foreach ( $elements as $e ) 	
+				$output = $this->display_element( $e, $empty_array, 1, 0, $args, $output );
+			return $output; 
 		}
-
-		return $output;
+		
+		/* 
+		 * need to display in hierarchical order 
+		 * splice elements into two buckets: those without parent and those with parent
+		 */
+	
+		$top_level_elements = array();
+		$children_elements  = array();
+	
+		foreach ( $elements as $e) {
+			if ( 0 == $e->$parent_field )
+				$top_level_elements[] = $e; 
+			else
+				$children_elements[] = $e; 
+		}
+	
+		foreach ( $top_level_elements as $e )
+			$output = $this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
+			
+		/* 
+		* if we are displaying all levels, and remaining children_elements is not empty, 
+		* then we got orphans, which should be displayed regardless
+	 	*/
+		if ( ( $max_depth == 0 ) && sizeof( $children_elements ) > 0 ) {
+			$empty_array = array(); 
+			foreach ( $children_elements as $orphan_e )
+				$output = $this->display_element( $orphan_e, $empty_array, 1, 0, $args, $output );
+		 }
+		 return $output;
 	}
 }
 
