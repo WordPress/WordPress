@@ -235,7 +235,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  * name as parameters. Both hooks are expected to return a Term object.
  *
  * 'get_term' hook - Takes two parameters the term Object and the taxonomy name. Must return
- * term object. Used in @see get_term() as a catch-all filter for every $term.
+ * term object. Used in get_term() as a catch-all filter for every $term.
  *
  * 'get_$taxonomy' hook - Takes two parameters the term Object and the taxonomy name. Must return
  * term object. $taxonomy will be the taxonomy name, so for example, if 'category', it would be
@@ -246,11 +246,13 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
  * @since 2.3
  *
  * @uses $wpdb
+ * @uses sanitize_term() Cleanses the term based on $filter context before returning.
+ * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param int|object $term If integer, will get from database. If object will apply filters and return $term.
  * @param string $taxonomy Taxonomy name that $term is part of.
  * @param string $output Constant OBJECT, ARRAY_A, or ARRAY_N
- * @param string $filter {@internal Missing Description}}
+ * @param string $filter Optional, default is raw or no WordPress defined filter will applied.
  * @return mixed|null|WP_Error Term Row from database. Will return null if $term is empty. If taxonomy does not
  * exist then WP_Error will be returned.
  */
@@ -305,12 +307,14 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
  * @since 2.3
  *
  * @uses $wpdb
+ * @uses sanitize_term() Cleanses the term based on $filter context before returning.
+ * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param string $field Either 'slug', 'name', or 'id'
  * @param string|int $value Search for this term value
  * @param string $taxonomy Taxonomy Name
  * @param string $output Constant OBJECT, ARRAY_A, or ARRAY_N
- * @param string $filter {@internal Missing Description}}
+ * @param string $filter Optional, default is raw or no WordPress defined filter will applied.
  * @return mixed Term Row from database. Will return false if $taxonomy does not exist or $term was not found.
  */
 function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw') {
@@ -394,7 +398,7 @@ function get_term_children( $term, $taxonomy ) {
  * get_term_field() - Get sanitized Term field
  * 
  * Does checks for $term, based on the $taxonomy. The function is for
- * contextual reasons and for simplicity of usage. @see sanitize_term_field() for
+ * contextual reasons and for simplicity of usage. See sanitize_term_field() for
  * more information.
  *
  * @package WordPress
@@ -406,7 +410,7 @@ function get_term_children( $term, $taxonomy ) {
  * @param string $field Term field to fetch
  * @param int $term Term ID
  * @param string $taxonomy Taxonomy Name
- * @param string $context {@internal Missing Description}}
+ * @param string $context Optional, default is display. Look at sanitize_term_field() for available options.
  * @return mixed Will return an empty string if $term is not an object or if $field is not set in $term.
  */
 function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
@@ -427,7 +431,7 @@ function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
 /**
  * get_term_to_edit() - Sanitizes Term for editing
  *
- * Return value is @see sanitize_term() and usage is for sanitizing the term
+ * Return value is sanitize_term() and usage is for sanitizing the term
  * for editing. Function is for contextual and simplicity.
  * 
  * @package WordPress
@@ -494,6 +498,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * @uses $wpdb
  * @uses wp_parse_args() Merges the defaults with those defined by $args and allows for strings.
+ *
  *
  * @param string|array Taxonomy name or list of Taxonomy names
  * @param string|array $args The values of what to search for when returning terms
@@ -716,9 +721,9 @@ function is_term($term, $taxonomy = '') {
 /**
  * sanitize_term() - Sanitize Term all fields
  *
- * Relys on @see sanitize_term_field() to sanitize the term. The difference
+ * Relys on sanitize_term_field() to sanitize the term. The difference
  * is that this function will sanitize <strong>all</strong> fields. The context
- * is based on @see sanitize_term_field().
+ * is based on sanitize_term_field().
  *
  * The $term is expected to be either an array or an object.
  *
@@ -755,9 +760,15 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
 }
 
 /**
- * sanitize_term_field() - {@internal Missing Short Description}}
+ * sanitize_term_field() - Cleanse the field value in the term based on the context
  *
- * {@internal Missing Long Description}}
+ * Passing a term field value through the function should be assumed to have cleansed
+ * the value for whatever context the term field is going to be used.
+ *
+ * If no context or an unsupported context is given, then default filters will be applied.
+ *
+ * There are enough filters for each context to support a custom filtering without creating
+ * your own filter function. Simply create a function that hooks into the filter you need.
  *
  * @package WordPress
  * @subpackage Taxonomy
@@ -843,9 +854,11 @@ function wp_count_terms( $taxonomy, $args = array() ) {
 }
 
 /**
- * wp_delete_object_term_relationships() - {@internal Missing Short Description}}
+ * wp_delete_object_term_relationships() - Will unlink the term from the taxonomy
  *
- * {@internal Missing Long Description}}
+ * Will remove the term's relationship to the taxonomy, not the term or taxonomy itself.
+ * The term and taxonomy will still exist. Will require the term's object ID to perform
+ * the operation.
  *
  * @package WordPress
  * @subpackage Taxonomy
@@ -874,17 +887,25 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 /**
  * wp_delete_term() - Removes a term from the database.
  *
- * {@internal Missing Long Description}}
+ * If the term is a parent of other terms, then the children will be updated
+ * to that term's parent.
+ *
+ * The $args 'default' will only override the terms found, if there is only one
+ * term found. Any other and the found terms are used.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
+ *
  * @uses $wpdb
+ * @uses do_action() Calls both 'delete_term' and 'delete_$taxonomy' action hooks,
+ *	passing term object, term id. 'delete_term' gets an additional parameter with
+ *	the $taxonomy parameter.
  *
  * @param int $term Term ID
  * @param string $taxonomy Taxonomy Name
- * @param array|string $args Change Default
- * @return bool Returns false if not term; true if completes delete action.
+ * @param array|string $args Optional. Change 'default' term id and override found term ids.
+ * @return bool|WP_Error Returns false if not term; true if completes delete action.
  */
 function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
@@ -945,16 +966,31 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 }
 
 /**
- * wp_get_object_terms() - Returns the terms associated with the given object(s), in the supplied taxonomies.
+ * wp_get_object_terms() - Retrieves the terms associated with the given object(s), in the supplied taxonomies.
  *
- * {@internal Missing Long Description}}
+ * The following information has to do the $args parameter and for what can be contained in the string
+ * or array of that parameter, if it exists.
+ *
+ * The first argument is called, 'orderby' and has the default value of 'name'. The other value that is
+ * supported is 'count'.
+ *
+ * The second argument is called, 'order' and has the default value of 'ASC'. The only other value that
+ * will be acceptable is 'DESC'.
+ *
+ * The final argument supported is called, 'fields' and has the default value of 'all'. There are
+ * multiple other options that can be used instead. Supported values are as follows: 'all', 'ids',
+ * 'names', and finally 'all_with_object_id'.
+ *
+ * The fields argument also decides what will be returned. If 'all' or 'all_with_object_id' is choosen or
+ * the default kept intact, then all matching terms objects will be returned. If either 'ids' or 'names'
+ * is used, then an array of all matching term ids or term names will be returned respectively.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
  * @uses $wpdb
  *
- * @param int|array $object_id The id of the object(s)) to retrieve.
+ * @param int|array $object_id The id of the object(s) to retrieve.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
  * @param array|string $args Change what is returned
  * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if $taxonomy does not exist.
@@ -1015,12 +1051,43 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 /**
  * wp_insert_term() - Adds a new term to the database. Optionally marks it as an alias of an existing term.
  *
- * {@internal Missing Long Description}}
+ * Error handling is assigned for the nonexistance of the $taxonomy and $term parameters before inserting.
+ * If both the term id and taxonomy exist previously, then an array will be returned that contains the term
+ * id and the contents of what is returned. The keys of the array are 'term_id' and 'term_taxonomy_id' containing
+ * numeric values.
+ *
+ * It is assumed that the term does not yet exist or the above will apply. The term will be first added to the term
+ * table and then related to the taxonomy if everything is well. If everything is correct, then several actions
+ * will be run prior to a filter and then several actions will be run after the filter is run.
+ *
+ * The arguments decide how the term is handled based on the $args parameter. The following
+ * is a list of the available overrides and the defaults.
+ *
+ * 'alias_of'. There is no default, but if added, expected is the slug that the term will be an alias of.
+ * Expected to be a string.
+ *
+ * 'description'. There is no default. If exists, will be added to the database along with the term. Expected
+ * to be a string.
+ *
+ * 'parent'. Expected to be numeric and default is 0 (zero). Will assign value of 'parent' to the term.
+ *
+ * 'slug'. Expected to be a string. There is no default.
+ *
+ * If 'slug' argument exists then the slug will be checked to see if it is not a valid term. If that check
+ * succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check
+ * is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check
+ * succeeds, the term will be inserted and the term id will be given.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
  * @uses $wpdb
+ *
+ * @uses do_action() Calls 'create_term' hook with the term id and taxonomy id as parameters.
+ * @uses do_action() Calls 'create_$taxonomy' hook with term id and taxonomy id as parameters.
+ * @uses apply_filters() Calls 'term_id_filter' hook with term id and taxonomy id as parameters.
+ * @uses do_action() Calls 'created_term' hook with the term id and taxonomy id as parameters.
+ * @uses do_action() Calls 'created_$taxonomy' hook with term id and taxonomy id as parameters.
  *
  * @param int|string $term The term to add or update.
  * @param string $taxonomy The taxonomy to which to add the term
@@ -1101,10 +1168,13 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 }
 
 /**
- * wp_set_object_terms() - {@internal Missing Short Description}}
+ * wp_set_object_terms() - Create Term and Taxonomy Relationships
  * 
- * Relates an object (post, link etc) to a term and taxonomy type.  Creates the term and taxonomy
- * relationship if it doesn't already exist.  Creates a term if it doesn't exist (using the slug).
+ * Relates an object (post, link etc) to a term and taxonomy type. Creates the term and taxonomy
+ * relationship if it doesn't already exist. Creates a term if it doesn't exist (using the slug).
+ *
+ * A relationship means that the term is grouped in or belongs to the taxonomy. A term has no
+ * meaning until it is given context by defining which taxonomy it exists under.
  *
  * @package WordPress
  * @subpackage Taxonomy
@@ -1224,19 +1294,39 @@ function wp_unique_term_slug($slug, $term) {
 }
 
 /**
- * wp_update_term() - {@internal Missing Short Description}}
+ * wp_update_term() - Update term based on arguments provided
  *
- * {@internal Missing Long Description}}
+ * The $args will indiscriminately override all values with the same field name. Care
+ * must be taken to not override important information need to update or update will
+ * fail (or perhaps create a new term, neither would be acceptable).
+ *
+ * Defaults will set 'alias_of', 'description', 'parent', and 'slug' if not defined
+ * in $args already.
+ *
+ * 'alias_of' will create a term group, if it doesn't already exist, and update it for
+ * the $term.
+ *
+ * If the 'slug' argument in $args is missing, then the 'name' in $args will be used.
+ * It should also be noted that if you set 'slug' and it isn't unique then a WP_Error
+ * will be passed back. If you don't pass any slug, then a unique one will be created
+ * for you.
+ *
+ * For what can be overrode in $args, check the term scheme can contain and stay away
+ * from the term keys.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
+ *
  * @uses $wpdb
+ * @uses do_action() Will call both 'edit_term' and 'edit_$taxonomy' twice.
+ * @uses apply_filters() Will call the 'term_id_filter' filter and pass the term id and
+ *	taxonomy id.
  *
  * @param int $term The ID of the term
  * @param string $taxonomy The context in which to relate the term to the object.
- * @param array|string $args Overwrite defaults
- * @return array Returns Term ID and Taxonomy Term ID
+ * @param array|string $args Overwrite term field values
+ * @return array|WP_Error Returns Term ID and Taxonomy Term ID
  */
 function wp_update_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
@@ -1402,18 +1492,21 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 //
 
 /**
- * clean_object_term_cache() - {@internal Missing Short Description}}
+ * clean_object_term_cache() - Removes the taxonomy relationship to terms from the cache.
  *
- * {@internal Missing Long Description}}
+ * Will remove the entire taxonomy relationship containing term $object_id. The term IDs
+ * have to exist within the taxonomy $object_type for the deletion to take place.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
  *
  * @see get_object_taxonomies() for more on $object_type
+ * @uses do_action() Will call action hook named, 'clean_object_term_cache' after completion.
+ *	Passes, function params in same order.
  *
- * @param int|array $object_ids {@internal Missing Description}}
- * @param string $object_type {@internal Missing Description}}
+ * @param int|array $object_ids Single or list of term object ID(s)
+ * @param string $object_type The taxonomy object type
  */
 function clean_object_term_cache($object_ids, $object_type) {
 	if ( !is_array($object_ids) )
@@ -1427,16 +1520,14 @@ function clean_object_term_cache($object_ids, $object_type) {
 }
 
 /**
- * clean_term_cache() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * clean_term_cache() - Will remove all of the term ids from the cache
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
  * @uses $wpdb
  *
- * @param int|array $ids {@internal Missing Description}}
+ * @param int|array $ids Single or list of Term IDs
  * @param string $taxonomy Can be empty and will assume tt_ids, else will use for context.
  */
 function clean_term_cache($ids, $taxonomy = '') {
@@ -1474,16 +1565,16 @@ function clean_term_cache($ids, $taxonomy = '') {
 }
 
 /**
- * get_object_term_cache() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * get_object_term_cache() - Retrieves the taxonomy relationship to the term object id.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
  *
- * @param int|array $ids {@internal Missing Description}}
- * @param string $taxonomy {@internal Missing Description}}
+ * @uses wp_cache_get() Retrieves taxonomy relationship from cache
+ *
+ * @param int|array $id Term object ID
+ * @param string $taxonomy Taxonomy Name
  * @return bool|array Empty array if $terms found, but not $taxonomy. False if nothing is in cache for $taxonomy and $id.
  */
 function &get_object_term_cache($id, $taxonomy) {
@@ -1491,18 +1582,27 @@ function &get_object_term_cache($id, $taxonomy) {
 }
 
 /**
- * get_object_term_cache() - {@internal Missing Short Description}}
+ * update_object_term_cache() - Updates the cache for Term ID(s)
  *
- * {@internal Missing Long Description}}
+ * Will only update the cache for terms not already cached.
+ *
+ * The $object_ids expects that the ids be separated by commas, if it is
+ * a string.
+ *
+ * It should be noted that update_object_term_cache() is very time extensive.
+ * It is advised that the function is not called very often or at least not 
+ * for a lot of terms that exist in a lot of taxonomies. The amount of time
+ * increases for each term and it also increases for each taxonomy the term
+ * belongs to.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
- * @uses $wpdb
+ * @uses wp_get_object_terms() Used to get terms from the database to update
  *
- * @param string|array $object_ids {@internal Missing Description}}
- * @param string $object_type {@internal Missing Description}}
- * @return null|array Null value is given with empty $object_ids.
+ * @param string|array $object_ids Single or list of term object ID(s)
+ * @param string $object_type The taxonomy object type
+ * @return null|bool Null value is given with empty $object_ids. False if 
  */
 function update_object_term_cache($object_ids, $object_type) {
 	if ( empty($object_ids) )
@@ -1578,14 +1678,15 @@ function update_term_cache($terms, $taxonomy = '') {
 /**
  * _get_term_hierarchy() - Retrieves children of taxonomy
  *
- * {@internal Missing Long Description}}
- *
  * @package WordPress
  * @subpackage Taxonomy
  * @access private
  * @since 2.3
  *
- * @param string $taxonomy {@internal Missing Description}}
+ * @uses update_option() Stores all of the children in "$taxonomy_children" option.
+ *	That is the name of the taxonomy, immediately followed by '_children'.
+ *
+ * @param string $taxonomy Taxonomy Name
  * @return array Empty if $taxonomy isn't hierarachical or returns children.
  */
 function _get_term_hierarchy($taxonomy) {
