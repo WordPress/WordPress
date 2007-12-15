@@ -744,4 +744,18 @@ function wp_check_password($password, $hash) {
 }
 endif;
 
+if ( !function_exists('wp_generate_password') ) :
+/**
+ * Generates a random password drawn from the defined set of characters
+ * @return string the password
+ **/
+function wp_generate_password() {
+	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	$length = 7;
+	$password = '';
+	for ( $i = 0; $i < $length; $i++ )
+		$password .= substr($chars, mt_rand(0, 61), 1);
+	return $password;
+}
+endif;
 ?>

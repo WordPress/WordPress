@@ -224,7 +224,7 @@ function populate_options() {
 	}
 
 	// 2.0.3
-	add_option('secret', md5(uniqid(microtime())));
+	add_option('secret', wp_generate_password());
 
 	// 2.1
 	add_option('blog_public', '1');

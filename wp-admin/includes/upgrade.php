@@ -35,7 +35,7 @@ function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='
 	// being shared among blogs.  Just set the role in that case.
 	$user_id = username_exists($user_name);
 	if ( !$user_id ) {
-		$random_password = substr(md5(uniqid(microtime())), 0, 6);
+		$random_password = wp_generate_password();
 		$user_id = wp_create_user($user_name, $random_password, $user_email);
 	} else {
 		$random_password = __('User already exists.  Password inherited.');

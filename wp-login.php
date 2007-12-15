@@ -110,9 +110,9 @@ case 'retrievepassword' :
 				do_action('retreive_password', $user_login);  // Misspelled and deprecated
 				do_action('retrieve_password', $user_login);
 
-				// Generate something random for a password... md5'ing current time with a rand salt
+				// Generate something random for a key...
 				$key = substr( md5( uniqid( microtime() ) ), 0, 8);
-				// Now insert the new pass md5'd into the db
+				// Now insert the new md5 key into the db
 				$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
 				$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
 				$message .= get_option('siteurl') . "\r\n\r\n";
@@ -182,8 +182,8 @@ case 'rp' :
 
 	do_action('password_reset');
 
-	// Generate something random for a password... md5'ing current time with a rand salt
-	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
+	// Generate something random for a password...
+	$new_pass = wp_generate_password();
 	$new_hash = wp_hash_password($new_pass); 
 	$wpdb->query("UPDATE $wpdb->users SET user_pass = '$new_hash', user_activation_key = '' WHERE ID = '$user->ID'");
 	wp_cache_delete($user->ID, 'users');
@@ -241,7 +241,7 @@ case 'register' :
 		$errors = apply_filters( 'registration_errors', $errors );
 
 		if ( empty( $errors ) ) {
-			$user_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
+			$user_pass = wp_generate_password();
 
 			$user_id = wp_create_user( $user_login, $user_pass, $user_email );
 			if ( !$user_id )
