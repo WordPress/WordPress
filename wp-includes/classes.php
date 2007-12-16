@@ -408,50 +408,52 @@ class Walker {
 	
 		if ( !$element)
 			return $output; 
-		
+			
 		if ( $max_depth != 0 ) {
 			if ($depth >= $max_depth)
 				return $output; 
 		}
-	
+		
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
 	
+		if ($depth > 0) {
+			//start the child delimiter
+			$cb_args = array_merge( array($output, $depth), $args);
+			$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
+		} 
+			
 		//display this element
 		$cb_args = array_merge( array($output, $element, $depth), $args);
 		$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 
-		if ( !$children_elements ) {
-			//close off this element
-			$cb_args = array_merge( array($output, $element, $depth), $args);
-			$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-			return $output; 
-		}
-	
 		for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
-			$child = $children_elements[$i];
 			
+			$child = $children_elements[$i];
 			if ( $child->$parent_field == $element->$id_field ) {
 				
-				array_splice( $children_elements, $i, 1 ); 
-				
-				//start the child delimiter
-				$cb_args = array_merge( array($output, $depth), $args);
-				$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-				
+				array_splice( $children_elements, $i, 1 );
 				$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
-				
-				//end the child delimiter
-				$cb_args = array_merge( array($output, $depth), $args);
-				$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
 				$i--; 
 			}
 		}
+		
+		//end this element
+		$cb_args = array_merge( array($output, $element, $depth), $args);
+		$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
+		
+		if ($depth > 0) {
+			//end the child delimiter
+			$cb_args = array_merge( array($output, $depth), $args);
+			$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
+		}
+		
 		return $output; 
 	}
 
 	/*
  	* displays array of elements hierarchically
+ 	* it is a generic function which does not assume any existing order of elements
  	* max_depth = -1 means flatly display every element 
  	* max_depth = 0  means display all levels 
  	* max_depth > 0  specifies the number of display levels. 
@@ -460,6 +462,9 @@ class Walker {
 	
 		$args = array_slice(func_get_args(), 2);
 		$output = '';
+
+		if ($max_depth < -1) //invalid parameter
+			return $output; 
 
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
