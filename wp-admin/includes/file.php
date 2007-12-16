@@ -147,26 +147,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 	if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
 		return $upload_error_handler( $file, $uploads['error'] );
 
-	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
-	if ( isset( $unique_filename_callback ) && function_exists( $unique_filename_callback ) ) {
-		$filename = $unique_filename_callback( $uploads['path'], $file['name'] );
-	} else {
-		$number = '';
-		$filename = str_replace( '#', '_', $file['name'] );
-		$filename = str_replace( array( '\\', "'" ), '', $filename );
-		if ( empty( $ext) )
-			$ext = '';
-		else
-			$ext = ".$ext";
-		while ( file_exists( $uploads['path'] . "/$filename" ) ) {
-			if ( '' == "$number$ext" )
-				$filename = $filename . ++$number . $ext;
-			else
-				$filename = str_replace( "$number$ext", ++$number . $ext, $filename );
-		}
-		$filename = str_replace( $ext, '', $filename );
-		$filename = sanitize_title_with_dashes( $filename ) . $ext;
-	}
+	$filename = wp_unique_filename( $uploads['path'], $file['name'], $ext, $unique_filename_callback );
 
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";

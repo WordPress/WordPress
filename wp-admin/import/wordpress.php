@@ -10,7 +10,8 @@ class WP_Import {
 	var $newauthornames = array ();
 	var $allauthornames = array ();
 	var $j = -1;
-	var $another_pass = false;
+	var $fetch_attachments = false;
+	var $url_remap = array ();
 
 	function header() {
 		echo '<div class="wrap">';
@@ -189,10 +190,17 @@ class WP_Import {
 			$this->users_form($j);
 			echo '</li>';
 		}
+?>	
+</ol>	
+<h2><?php _e('Import Attachments'); ?></h2>
+<p>
+	<input type="checkbox" value="1" name="attachments" id="import-attachments" />
+	<label for="import-attachments"><?php _e('Download and import file attachments') ?></label>
+</p>
 
+<?php
 		echo '<input type="submit" value="Submit">'.'<br />';
 		echo '</form>';
-		echo '</ol>';
 
 	}
 
@@ -295,7 +303,7 @@ class WP_Import {
 		$post_content = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $post_content);
 		$post_content = str_replace('<br>', '<br />', $post_content);
 		$post_content = str_replace('<hr>', '<hr />', $post_content);
-
+		
 		preg_match_all('|<category domain="tag">(.*?)</category>|is', $post, $tags);
 		$tags = $tags[1];
 
@@ -333,12 +341,24 @@ class WP_Import {
 			}
 
 			echo '<li>';
-			printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
 
 			$post_author = $this->checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
 			$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'post_name', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt', 'guid', 'post_parent', 'menu_order', 'post_type');
-			$comment_post_ID = $post_id = wp_insert_post($postdata);
+			if ($post_type == 'attachment') {
+				$remote_url = $this->get_tag( $post, 'wp:attachment_url' );
+				if ( !$remote_url )
+					$remote_url = $guid;
+					
+				$comment_post_ID = $post_id = $this->process_attachment($postdata, $remote_url);
+				if ( !$post_id or is_wp_error($post_id) )
+					return $post_id;
+			}
+			else {
+				printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
+				$comment_post_ID = $post_id = wp_insert_post($postdata);
+			}
+			
 			if ( is_wp_error( $post_id ) )
 				return $post_id;
 
@@ -420,6 +440,79 @@ class WP_Import {
 			$value = stripslashes($value); // add_post_meta() will escape.
 			add_post_meta( $post_id, $key, $value );
 		} }
+		
+		print "</li>\n";
+	}
+	
+	function process_attachment($postdata, $remote_url) {
+		if ($this->fetch_attachments and $remote_url) {
+			printf( __('Importing attachment <i>%s</i>... '), htmlspecialchars($remote_url) );
+			$upload = $this->fetch_remote_file($postdata, $remote_url);
+			if ( is_wp_error($upload) ) {
+				printf( __('Remote file error: %s'), htmlspecialchars($upload->get_error_message()) );
+				return $upload;
+			}
+			else {
+				print '('.size_format(filesize($upload['file'])).')';
+			}
+				
+			$postdata['guid'] = $upload['url'];
+
+			// as per wp-admin/includes/upload.php
+			$post_id = wp_insert_attachment($postdata, $upload['file']);
+			wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
+			return $post_id;
+		}
+		else {
+			printf( __('Skipping attachment <i>%s</i>'), htmlspecialchars($remote_url) );
+		}
+	}
+	
+	function fetch_remote_file($post, $url) {
+		$upload = wp_upload_dir($post['post_date']);
+		
+		// extract the file name and extension from the url
+		$file_name = basename($url);
+
+		// get placeholder file in the upload dir with a unique sanitized filename
+		$upload = wp_upload_bits( $file_name, 0, '', $post['post_date']);
+		if ( $upload['error'] ) {
+			echo $upload['error'];
+			return new WP_Error( 'upload_dir_error', $upload['error'] );
+		}
+		
+		// fetch the remote url and write it to the placeholder file
+		$headers = wp_get_http($url, $upload['file']);
+		
+		// make sure the fetch was successful
+		if ( $headers['response'] != '200' )
+			return new WP_Error( 'import_file_error', __(sprintf('Remote file returned error response %d', intval($headers['response']))) );
+		elseif ( isset($headers['content-length']) && filesize($upload['file']) != $headers['content-length'] )
+			return new WP_Error( 'import_file_error', __('Remote file is incorrect size') );
+			
+		// keep track of the old and new urls so we can substitute them later
+		$this->url_remap[$url] = $upload['url'];
+		// if the remote url is redirected somewhere else, keep track of the destination too
+		if ( $headers['x-final-location'] != $url )
+			$this->url_remap[$headers['x-final-location']] = $upload['url'];
+		
+		return $upload;
+		
+	}
+	
+	// update url references in post bodies to point to the new local files
+	function backfill_attachment_urls() {
+		
+		// make sure we do the longest urls first, in case one is a substring of another
+		function cmpr_strlen($a, $b) {
+			return strlen($b) - strlen($a);
+		}
+		uksort($this->url_remap, 'cmpr_strlen');
+				
+		global $wpdb;
+		foreach ($this->url_remap as $from_url => $to_url) {
+			$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, '%s', '%s')", $from_url, $to_url) );
+		}
 	}
 	
 	// update the post_parent of orphans now that we know the local id's of all parents
@@ -435,8 +528,9 @@ class WP_Import {
 		}
 	}
 
-	function import($id) {
+	function import($id, $fetch_attachments = false) {
 		$this->id = (int) $id;
+		$this->fetch_attachments = (bool) $fetch_attachments;
 
 		$file = get_attached_file($this->id);
 		$this->import_file($file);
@@ -452,6 +546,7 @@ class WP_Import {
 		$this->process_tags();
 		$result = $this->process_posts();
 		$this->backfill_parents();
+		$this->backfill_attachment_urls();
 		wp_defer_term_counting(false);
 		if ( is_wp_error( $result ) )
 			return $result;
@@ -487,7 +582,7 @@ class WP_Import {
 				break;
 			case 2:
 				check_admin_referer('import-wordpress');
-				$result = $this->import( $_GET['id'] );
+				$result = $this->import( $_GET['id'], $_POST['attachments'] );
 				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();
 				break;

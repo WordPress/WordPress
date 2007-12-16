@@ -531,8 +531,10 @@ function do_enclose( $content, $post_ID ) {
 	}
 }
 
-
-function wp_get_http_headers( $url, $red = 1 ) {
+// perform a HTTP HEAD or GET request
+// if $file_path is a writable filename, this will do a GET request and write the file to that path
+// returns a list of HTTP headers
+function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	global $wp_version;
 	@set_time_limit( 60 );
 
@@ -545,7 +547,12 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	if ( !isset( $parts['port'] ) )
 		$parts['port'] = 80;
 
-	$head = "HEAD $file HTTP/1.1\r\nHOST: $host\r\nUser-Agent: WordPress/" . $wp_version . "\r\n\r\n";
+	if ( $file_path )
+		$request_type = 'GET';
+	else
+		$request_type = 'HEAD';
+		
+	$head = "$request_type $file HTTP/1.1\r\nHOST: $host\r\nUser-Agent: WordPress/" . $wp_version . "\r\n\r\n";
 
 	$fp = @fsockopen( $host, $parts['port'], $err_num, $err_msg, 3 );
 	if ( !$fp )
@@ -555,7 +562,6 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	fputs( $fp, $head );
 	while ( !feof( $fp ) && strpos( $response, "\r\n\r\n" ) == false )
 		$response .= fgets( $fp, 2048 );
-	fclose( $fp );
 	preg_match_all( '/(.*?): (.*)\r/', $response, $matches );
 	$count = count( $matches[1] );
 	for ( $i = 0; $i < $count; $i++ ) {
@@ -567,10 +573,40 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
 
 		$code = $headers['response'];
-		if ( ( '302' == $code || '301' == $code ) && isset( $headers['location'] ) )
-				return wp_get_http_headers( $headers['location'], ++$red );
+		if ( ( '302' == $code || '301' == $code ) && isset( $headers['location'] ) ) {
+				fclose($fp);
+				return wp_get_http_headers( $headers['location'], $get, ++$red );
+		}
+	
+	// make a note of the final location, so the caller can tell if we were redirected or not
+	$headers['x-final-location'] = $url;
 
+	// HEAD request only
+	if ( !$file_path ) {
+		fclose($fp);
+		return $headers;
+	}
+	
+	// GET request - fetch and write it to the supplied filename
+	$content_length = $headers['content-length'];
+	$got_bytes = 0;
+	$out_fp = fopen($file_path, 'w');
+	while ( !feof($fp) ) {
+		$buf = fread( $fp, 4096 );
+		fwrite( $out_fp, $buf );
+		$got_bytes += strlen($buf);
+		// don't read past the content-length
+		if ($content_length and $got_bytes >= $content_length)
+			break;
+	}
+	
+	fclose($out_fp);
+	fclose($fp);
 	return $headers;
+}
+
+function wp_get_http_headers( $url ) {
+	return wp_get_http( $url, false );
 }
 
 
@@ -992,7 +1028,7 @@ function wp_mkdir_p( $target ) {
 
 
 // Returns an array containing the current upload directory's path and url, or an error message.
-function wp_upload_dir() {
+function wp_upload_dir( $time = NULL ) {
 	$siteurl = get_option( 'siteurl' );
 	//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
 	$path = str_replace( ABSPATH, '', trim( get_option( 'upload_path' ) ) );
@@ -1009,7 +1045,8 @@ function wp_upload_dir() {
 
 	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
 		// Generate the yearly and monthly dirs
-		$time = current_time( 'mysql' );
+		if ( !$time )
+			$time = current_time( 'mysql' );
 		$y = substr( $time, 0, 4 );
 		$m = substr( $time, 5, 2 );
 		$dir = $dir . "/$y/$m";
@@ -1026,7 +1063,35 @@ function wp_upload_dir() {
 	return apply_filters( 'upload_dir', $uploads );
 }
 
-function wp_upload_bits( $name, $deprecated, $bits ) {
+// return a filename that is sanitized and unique for the given directory
+function wp_unique_filename( $dir, $name, $ext, $unique_filename_callback = NULL ) {
+	
+	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
+	if ( $unique_filename_callback && function_exists( $unique_filename_callback ) ) {
+		$filename = $unique_filename_callback( $dir, $name );
+	} else {
+		$number = '';
+		$filename = str_replace( '#', '_', $name );
+		$filename = str_replace( array( '\\', "'" ), '', $filename );
+		if ( empty( $ext) )
+			$ext = '';
+		else
+			$ext = ".$ext";
+		$filename = $filename . $ext;
+		while ( file_exists( $dir . "/$filename" ) ) {
+			if ( '' == "$number$ext" )
+				$filename = $filename . ++$number . $ext;
+			else
+				$filename = str_replace( "$number$ext", ++$number . $ext, $filename );
+		}
+		$filename = str_replace( $ext, '', $filename );
+		$filename = sanitize_title_with_dashes( $filename ) . $ext;
+	}
+	
+	return $filename;
+}
+
+function wp_upload_bits( $name, $deprecated, $bits, $time = NULL ) {
 	if ( empty( $name ) )
 		return array( 'error' => __( "Empty filename" ) );
 
@@ -1034,25 +1099,16 @@ function wp_upload_bits( $name, $deprecated, $bits ) {
 	if ( !$wp_filetype['ext'] )
 		return array( 'error' => __( "Invalid file type" ) );
 
-	$upload = wp_upload_dir();
+	$upload = wp_upload_dir( $time );
 
 	if ( $upload['error'] !== false )
 		return $upload;
 
-	$number = '';
 	$filename = $name;
 	$path_parts = pathinfo( $filename );
 	$ext = $path_parts['extension'];
-	if ( empty( $ext ) )
-		$ext = '';
-	else
-		$ext = ".$ext";
-	while ( file_exists( $upload['path'] . "/$filename" ) ) {
-		if ( '' == "$number$ext" )
-			$filename = $filename . ++$number . $ext;
-		else
-			$filename = str_replace( "$number$ext", ++$number . $ext, $filename );
-	}
+	
+	$filename = wp_unique_filename( $upload['path'], $path_parts['basename'], $ext );
 
 	$new_file = $upload['path'] . "/$filename";
 	if ( ! wp_mkdir_p( dirname( $new_file ) ) ) {
