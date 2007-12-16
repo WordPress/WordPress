@@ -6,6 +6,7 @@ define('DB_PASSWORD', 'yourpasswordhere'); // ...and password
 define('DB_HOST', 'localhost');    // 99% chance you won't need to change this value
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
+define('SECRET_KEY', ''); // Change this to a unique phrase.
 
 // You can have multiple installations in one database if you give each a unique prefix
 $table_prefix  = 'wp_';   // Only numbers, letters, and underscores please!

@@ -167,8 +167,8 @@ function wp_update_user($userdata) {
 	$current_user = wp_get_current_user();
 	if ( $current_user->id == $ID ) {
 		if ( isset($plaintext_pass) ) {
-			wp_clearcookie();
-			wp_setcookie($userdata['user_login'], $plaintext_pass);
+			wp_clear_auth_cookie();
+			wp_set_auth_cookie($ID);
 		}
 	}
 

@@ -186,9 +186,11 @@ if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
 }
 
 if ( !defined('USER_COOKIE') )
-	define('USER_COOKIE', 'wordpressuser_'. COOKIEHASH);
+	define('USER_COOKIE', 'wordpressuser_' . COOKIEHASH);
 if ( !defined('PASS_COOKIE') )
-	define('PASS_COOKIE', 'wordpresspass_'. COOKIEHASH);
+	define('PASS_COOKIE', 'wordpresspass_' . COOKIEHASH);
+if ( !defined('AUTH_COOKIE') )
+	define('AUTH_COOKIE', 'wordpress_' . COOKIEHASH);
 if ( !defined('TEST_COOKIE') )
 	define('TEST_COOKIE', 'wordpress_test_cookie');
 if ( !defined('COOKIEPATH') )

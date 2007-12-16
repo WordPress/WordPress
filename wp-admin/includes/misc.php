@@ -128,7 +128,7 @@ function update_recently_edited( $file ) {
 	update_option( 'recently_edited', $oldfiles );
 }
 
-// If siteurl or home changed, reset cookies and flush rewrite rules.
+// If siteurl or home changed, flush rewrite rules.
 function update_home_siteurl( $old_value, $value ) {
 	global $wp_rewrite, $user_login, $user_pass_md5;
 
@@ -137,10 +137,6 @@ function update_home_siteurl( $old_value, $value ) {
 
 	// If home changed, write rewrite rules to new location.
 	$wp_rewrite->flush_rules();
-	// Clear cookies for old paths.
-	wp_clearcookie();
-	// Set cookies for new paths.
-	wp_setcookie( $user_login, $user_pass_md5, true, get_option( 'home' ), get_option( 'siteurl' ));
 }
 
 add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );

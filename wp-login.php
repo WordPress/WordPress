@@ -288,7 +288,6 @@ case 'login' :
 default:
 	$user_login = '';
 	$user_pass = '';
-	$using_cookie = FALSE;
 
 	if ( !isset( $_REQUEST['redirect_to'] ) || is_user_logged_in() )
 		$redirect_to = 'wp-admin/';
@@ -296,24 +295,30 @@ default:
 		$redirect_to = $_REQUEST['redirect_to'];
 
 	if ( $http_post ) {
+		// If cookies are disabled we can't log in even with a valid user+pass
+		if ( empty($_COOKIE[TEST_COOKIE]) )
+			$errors['test_cookie'] = __('<strong>ERROR</strong>: WordPress requires Cookies but your browser does not support them or they are blocked.');
+		
 		$user_login = $_POST['log'];
 		$user_login = sanitize_user( $user_login );
 		$user_pass  = $_POST['pwd'];
 		$rememberme = $_POST['rememberme'];
+
+		do_action_ref_array('wp_authenticate', array(&$user_login, &$user_pass));
 	} else {
-		$cookie_login = wp_get_cookie_login();
-		if ( ! empty($cookie_login) ) {
-			$using_cookie = true;
-			$user_login = $cookie_login['login'];
-			$user_pass = $cookie_login['password'];
+		$user = wp_validate_auth_cookie();
+		if ( !$user ) {
+			$errors['expiredsession'] = __('Your session has expired.');
+		} else {
+			$user = new WP_User($user);
+
+			// If the user can't edit posts, send them to their profile.
+			if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
+				$redirect_to = get_option('siteurl') . '/wp-admin/profile.php';
+			wp_safe_redirect($redirect_to);
+			exit();
 		}
 	}
-
-	do_action_ref_array('wp_authenticate', array(&$user_login, &$user_pass));
-
-	// If cookies are disabled we can't log in even with a valid user+pass
-	if ( $http_post && empty($_COOKIE[TEST_COOKIE]) )
-		$errors['test_cookie'] = __('<strong>ERROR</strong>: WordPress requires Cookies but your browser does not support them or they are blocked.');
 
 	if ( $user_login && $user_pass && empty( $errors ) ) {
 		$user = new WP_User(0, $user_login);
@@ -322,15 +327,11 @@ default:
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
 			$redirect_to = get_option('siteurl') . '/wp-admin/profile.php';
 
-		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
-			if ( !$using_cookie )
-				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
+		if ( wp_login($user_login, $user_pass) ) {
+			wp_set_auth_cookie($user->ID, $rememberme);
 			do_action('wp_login', $user_login);
 			wp_safe_redirect($redirect_to);
 			exit();
-		} else {
-			if ( $using_cookie )
-				$errors['expiredsession'] = __('Your session has expired.');
 		}
 	}
 
