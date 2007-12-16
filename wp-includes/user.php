@@ -236,9 +236,9 @@ function wp_dropdown_users( $args = '' ) {
 function _fill_user( &$user ) {
 	global $wpdb;
 
-	$wpdb->hide_errors();
+	$show = $wpdb->hide_errors();
 	$metavalues = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user->ID));
-	$wpdb->show_errors();
+	$wpdb->show_errors($show);
 
 	if ( $metavalues ) {
 		foreach ( $metavalues as $meta ) {
