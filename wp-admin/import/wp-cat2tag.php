@@ -1,16 +1,16 @@
-<?php
+<?php 
 
 class WP_Categories_to_Tags {
 	var $categories_to_convert = array();
 	var $all_categories = array();
 
 	function header() {
-		print '<div class="wrap">';
-		print '<h2>' . __('Convert Categories to Tags') . '</h2>';
+		echo '<div class="wrap">';
+		echo '<h2>' . __('Convert Categories to Tags') . '</h2>';
 	}
 
 	function footer() {
-		print '</div>';
+		echo '</div>';
 	}
 
 	function populate_all_categories() {
@@ -26,24 +26,51 @@ class WP_Categories_to_Tags {
 	function welcome() {
 		$this->populate_all_categories();
 
-		print '<div class="narrow">';
+		echo '<div class="narrow">';
 
 		if (count($this->all_categories) > 0) {
-			print '<p>' . __('Howdy! This converter allows you to selectively convert existing categories to tags. To get started, check the checkboxes of the categories you wish to be converted, then click the Convert button.') . '</p>';
-			print '<p>' . __('Keep in mind that if you convert a category with child categories, those child categories get their parent setting removed, so they\'re in the root.') . '</p>';
+			echo '<p>' . __('Hey there. Here you can selectively converts existing categories to tags. To get started, check the categories you wish to be converted, then click the Convert button.') . '</p>';
+			echo '<p>' . __('Keep in mind that if you convert a category with child categories, the children become top-level orphans.') . '</p>';
 
 			$this->categories_form();
 		} else {
-			print '<p>'.__('You have no categories to convert!').'</p>';
+			echo '<p>'.__('You have no categories to convert!').'</p>';
 		}
 
-		print '</div>';
+		echo '</div>';
 	}
 
 	function categories_form() {
-		print '<form action="admin.php?import=wp-cat2tag&amp;step=2" method="post">';
+?>
+<script type="text/javascript">
+<!--
+var checkflag = "false";
+function check_all_rows() {
+	field = document.formlist;
+	if ( 'false' == checkflag ) {
+		for ( i = 0; i < field.length; i++ ) {
+			if ( 'cats_to_convert[]' == field[i].name )
+				field[i].checked = true;
+		}
+		checkflag = 'true';
+		return '<?php _e('Uncheck All') ?>'; 
+	} else {
+		for ( i = 0; i < field.length; i++ ) {
+			if ( 'cats_to_convert[]' == field[i].name )
+				field[i].checked = false;
+		}
+		checkflag = 'false';
+		return '<?php _e('Check All') ?>'; 
+	}
+}
+
+//  -->
+</script>
+<?php
+		echo '<form name="formlist" id="formlist" action="admin.php?import=wp-cat2tag&amp;step=2" method="post">
+		<p><input type="button" value="' . __('Check All') . '"' . ' onClick="this.value=check_all_rows()"></p>';
 		wp_nonce_field('import-cat2tag');
-		print '<ul style="list-style:none">';
+		echo '<ul style="list-style:none">';
 
 		$hier = _get_term_hierarchy('category');
 
@@ -51,38 +78,39 @@ class WP_Categories_to_Tags {
 			$category = sanitize_term( $category, 'category', 'display' );
 		
 			if ((int) $category->parent == 0) {
-				print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($category->term_id) . '" /> ' . $category->name . ' (' . $category->count . ')</label>';
+				echo '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($category->term_id) . '" /> ' . $category->name . ' (' . $category->count . ')</label>';
 
 				if (isset($hier[$category->term_id])) {
 					$this->_category_children($category, $hier);
 				}
 
-				print '</li>';
+				echo '</li>';
 			}
 		}
 
-		print '</ul>';
+		echo '</ul>';
 
-		print '<p class="submit"><input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
-		print '</form>';
+		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Convert Tags &raquo;') . '" /></p>';
+
+		echo '</form>';
 	}
 
 	function _category_children($parent, $hier) {
-		print '<ul style="list-style:none">';
+		echo '<ul style="list-style:none">';
 
 		foreach ($hier[$parent->term_id] as $child_id) {
 			$child =& get_category($child_id);
 
-			print '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($child->term_id) . '" /> ' . $child->name . ' (' . $child->count . ')</label>';
+			echo '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($child->term_id) . '" /> ' . $child->name . ' (' . $child->count . ')</label>';
 
 			if (isset($hier[$child->term_id])) {
 				$this->_category_children($child, $hier);
 			}
 
-			print '</li>';
+			echo '</li>';
 		}
 
-		print '</ul>';
+		echo '</ul>';
 	}
 
 	function _category_exists($cat_id) {
@@ -103,9 +131,9 @@ class WP_Categories_to_Tags {
 		global $wpdb;
 
 		if ( (!isset($_POST['cats_to_convert']) || !is_array($_POST['cats_to_convert'])) && empty($this->categories_to_convert)) {
-			print '<div class="narrow">';
-			print '<p>' . sprintf(__('Uh, oh. Something didn\'t work. Please <a href="%s">try again</a>.'), 'admin.php?import=wp-cat2tag') . '</p>';
-			print '</div>';
+			echo '<div class="narrow">';
+			echo '<p>' . sprintf(__('Uh, oh. Something didn&#8217;t work. Please <a href="%s">try again</a>.'), 'admin.php?import=wp-cat2tag') . '</p>';
+			echo '</div>';
 			return;
 		}
 
@@ -114,12 +142,12 @@ class WP_Categories_to_Tags {
 			$this->categories_to_convert = $_POST['cats_to_convert'];
 		$hier = _get_term_hierarchy('category');
 
-		print '<ul>';
+		echo '<ul>';
 
 		foreach ( (array) $this->categories_to_convert as $cat_id) {
 			$cat_id = (int) $cat_id;
 
-			print '<li>' . sprintf(__('Converting category #%s ... '),  $cat_id);
+			echo '<li>' . sprintf(__('Converting category #%s ... '),  $cat_id);
 
 			if (!$this->_category_exists($cat_id)) {
 				_e('Category doesn\'t exist!');
@@ -128,7 +156,7 @@ class WP_Categories_to_Tags {
 
 				if ( tag_exists($wpdb->escape($category->name)) ) {
 					_e('Category is already a tag.');
-					print '</li>';
+					echo '</li>';
 					continue;
 				}
 
@@ -166,10 +194,11 @@ class WP_Categories_to_Tags {
 				_e('Converted successfully.');
 			}
 
-			print '</li>';
+			echo '</li>';
 		}
 
-		print '</ul>';
+		echo '</ul>';
+		echo '<p>' . sprintf( __('We&#8217;re all done here, but you can always <a href="%s">convert more</a>.'), 'admin.php?import=wp-cat2tag' ) . '</p>';
 	}
 
 	function init() {
@@ -179,9 +208,9 @@ class WP_Categories_to_Tags {
 		$this->header();
 
 		if (!current_user_can('manage_categories')) {
-			print '<div class="narrow">';
-			print '<p>' . __('Cheatin&#8217; uh?') . '</p>';
-			print '</div>';
+			echo '<div class="narrow">';
+			echo '<p>' . __('Cheatin&#8217; uh?') . '</p>';
+			echo '</div>';
 		} else {
 			if ( $step > 1 )
 				check_admin_referer('import-cat2tag');
