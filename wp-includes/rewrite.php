@@ -969,6 +969,16 @@ class WP_Rewrite {
 		unset($this->feed_structure);
 		unset($this->comment_feed_structure);
 		$this->use_trailing_slashes = ( substr($this->permalink_structure, -1, 1) == '/' ) ? true : false;
+
+		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
+		$structure = ltrim($this->permalink_structure, '/');
+		if ( 0 === strpos($structure, '%postname%') ||
+			 0 === strpos($structure, '%category%') ||
+			 0 === strpos($structure, '%tag%') ||
+			 0 === strpos($structure, '%author%') )
+			 $this->use_verbose_page_rules = true;
+		else
+			$this->use_verbose_page_rules = false;
 	}
 
 	function set_permalink_structure($permalink_structure) {
