@@ -152,11 +152,13 @@ function is_page ($page = '') {
 
 	$page_obj = $wp_query->get_queried_object();
 
-	if ( $page == $page_obj->ID )
+	$page = (array) $page;
+    
+    if ( in_array( $page_obj->ID, $page ) )
 		return true;
-	elseif ( $page == $page_obj->post_title )
+	elseif ( in_array( $page_obj->post_title, $page ) )
 		return true;
-	else if ( $page == $page_obj->post_name )
+	else if ( in_array( $page_obj->post_name, $page ) )
 		return true;
 
 	return false;
