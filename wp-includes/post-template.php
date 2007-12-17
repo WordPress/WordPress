@@ -318,6 +318,7 @@ function wp_list_pages($args = '') {
 	$r['exclude'] = implode(',', apply_filters('wp_list_pages_excludes', explode(',', $r['exclude'])));
 
 	// Query pages.
+	$r['hierarchical'] = 0;
 	$pages = get_pages($r);
 
 	if ( !empty($pages) ) {
