@@ -433,10 +433,10 @@ if ( !function_exists('check_ajax_referer') ) :
 function check_ajax_referer( $action = -1 ) {
 	$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
 	if ( !wp_verify_nonce( $nonce, $action ) ) {
-		$current_name = '';
+		$current_id = '';
 		if ( ( $current = wp_get_current_user() ) && $current->ID )
-			$current_name = $current->user_login;
-		if ( !$current_name )
+			$current_id = $current->ID;
+		if ( !$current_id )
 			die('-1');
 
 		$auth_cookie = '';
@@ -446,7 +446,13 @@ function check_ajax_referer( $action = -1 ) {
 				$auth_cookie = substr(strstr($tasty, '='), 1);
 		}
 
-		if ( $current_name != $user || empty($auth_cookie) || !wp_validate_auth_cookie( $auth_cookie ) )
+		if ( empty($auth_cookie) )
+			die('-1');
+
+		if ( ! $user_id = wp_validate_auth_cookie( $auth_cookie ) )
+			die('-1');
+	
+		if ( $current_id != $user_id )
 			die('-1');
 	}
 	do_action('check_ajax_referer');
