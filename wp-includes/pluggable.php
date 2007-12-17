@@ -304,24 +304,21 @@ function wp_login($username, $password, $deprecated = false) {
 		return false;
 	}
 
-	$login = get_userdatabylogin($username);
+	$user = get_userdatabylogin($username);
 
-	if ( !$login || ($login->user_login != $username) ) {
+	if ( !$user || ($user->user_login != $username) ) {
 		$error = __('<strong>ERROR</strong>: Invalid username.');
 		return false;
 	}
 
-	if ( !wp_check_password($password, $login->user_pass) ) {
+	if ( !wp_check_password($password, $user->user_pass) ) {
 		$error = __('<strong>ERROR</strong>: Incorrect password.');
 		return false;
 	}
 
 	// If using old md5 password, rehash.
-	if ( strlen($login->user_pass) <= 32 ) {
-		$hash = wp_hash_password($password);
-		$wpdb->query("UPDATE $wpdb->users SET user_pass = '$hash', user_activation_key = '' WHERE ID = '$login->ID'");
-		wp_cache_delete($login->ID, 'users');
-	}
+	if ( strlen($user->user_pass) <= 32 )
+		wp_set_password($password, $user->ID);
 
 	return true;
 }
@@ -767,6 +764,17 @@ function wp_generate_password() {
 	for ( $i = 0; $i < $length; $i++ )
 		$password .= substr($chars, mt_rand(0, 61), 1);
 	return $password;
+}
+endif;
+
+if ( !function_exists('wp_set_password') ) :
+function wp_set_password( $password, $user_id ) {
+	global $wpdb;
+
+	$hash = wp_hash_password($password);
+	$query = $wpdb->prepare("UPDATE $wpdb->users SET user_pass = %s, user_activation_key = '' WHERE ID = %d", $hash, $user_id);
+	$wpdb->query($query);
+	wp_cache_delete($user_id, 'users');
 }
 endif;
 

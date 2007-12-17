@@ -184,9 +184,7 @@ case 'rp' :
 
 	// Generate something random for a password...
 	$new_pass = wp_generate_password();
-	$new_hash = wp_hash_password($new_pass); 
-	$wpdb->query("UPDATE $wpdb->users SET user_pass = '$new_hash', user_activation_key = '' WHERE ID = '$user->ID'");
-	wp_cache_delete($user->ID, 'users');
+	wp_set_password($new_pass, $user->ID);
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= get_option('siteurl') . "/wp-login.php\r\n";
