@@ -303,8 +303,10 @@ function page_rows( $pages ) {
 	 */
 	 if ( count($children_pages) > 0 ) {
 	 	$empty_array = array(); 
-	 	foreach ($children_pages as $orphan_page)
-	 		display_page_row($orphan_page, $empty_array, 0);
+	 	foreach ( $children_pages as $orphan_page ) { 
+			clean_page_cache( $orphan_page->ID);
+			display_page_row( $orphan_page, $empty_array, 0 );
+		} 
 	 }
 }
 
