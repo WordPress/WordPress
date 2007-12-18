@@ -1064,7 +1064,12 @@ function wp_upload_dir( $time = NULL ) {
 }
 
 // return a filename that is sanitized and unique for the given directory
-function wp_unique_filename( $dir, $name, $ext, $unique_filename_callback = NULL ) {
+function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL ) {
+	
+	// separate the filename into a name and extension
+	$info = pathinfo($filename);
+	$ext = $info['extension'];
+	$name = basename($filename, ".{$ext}");
 	
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
 	if ( $unique_filename_callback && function_exists( $unique_filename_callback ) ) {
@@ -1103,12 +1108,8 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = NULL ) {
 
 	if ( $upload['error'] !== false )
 		return $upload;
-
-	$filename = $name;
-	$path_parts = pathinfo( $filename );
-	$ext = $path_parts['extension'];
 	
-	$filename = wp_unique_filename( $upload['path'], $path_parts['basename'], $ext );
+	$filename = wp_unique_filename( $upload['path'], $name );
 
 	$new_file = $upload['path'] . "/$filename";
 	if ( ! wp_mkdir_p( dirname( $new_file ) ) ) {

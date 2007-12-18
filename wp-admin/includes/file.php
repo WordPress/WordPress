@@ -147,7 +147,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 	if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
 		return $upload_error_handler( $file, $uploads['error'] );
 
-	$filename = wp_unique_filename( $uploads['path'], $file['name'], $ext, $unique_filename_callback );
+	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
 
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
