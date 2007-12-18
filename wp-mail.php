@@ -12,14 +12,14 @@ $phone_delim = '::';
 $pop3 = new POP3();
 
 if (!$pop3->connect(get_option('mailserver_url'), get_option('mailserver_port')))
-	wp_die($pop3->ERROR);
+	wp_die(wp_specialchars($pop3->ERROR));
 
 if (!$pop3->user(get_option('mailserver_login')))
-	wp_die($pop3->ERROR);
+	wp_die(wp_specialchars($pop3->ERROR));
 
 $count = $pop3->pass(get_option('mailserver_pass'));
 if (false === $count)
-	wp_die($pop3->ERROR);
+	wp_die(wp_specialchars($pop3->ERROR));
 if (0 == $count)
 	echo "<p>There doesn't seem to be any new mail.</p>\n"; // will fall-through to end of for loop
 
@@ -171,7 +171,7 @@ for ($i=1; $i <= $count; $i++) :
 	$post_data = add_magic_quotes($post_data);
 
 	$post_ID = wp_insert_post($post_data);
-	if ( is_wp_error( $post_ID ) ) 
+	if ( is_wp_error( $post_ID ) )
 		echo "\n" . $post_ID->get_error_message();
 
 	if (!$post_ID) {
