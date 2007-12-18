@@ -575,7 +575,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 		$code = $headers['response'];
 		if ( ( '302' == $code || '301' == $code ) && isset( $headers['location'] ) ) {
 				fclose($fp);
-				return wp_get_http_headers( $headers['location'], $get, ++$red );
+				return wp_get_http( $headers['location'], $file_path, ++$red );
 		}
 	
 	// make a note of the final location, so the caller can tell if we were redirected or not
@@ -605,8 +605,8 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	return $headers;
 }
 
-function wp_get_http_headers( $url ) {
-	return wp_get_http( $url, false );
+function wp_get_http_headers( $url, $red = 1 ) {
+	return wp_get_http( $url, false, $red );
 }
 
 
