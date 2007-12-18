@@ -22,8 +22,10 @@
 	}
 
 	// Set up init variables
-	$valid_elements = 'p/-div[*],-strong/-b[*],-em/-i[*],-font[*],-ul[*],-ol[*],-li[*],*[*]';
+	$valid_elements = '*[*]';
 	$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
+	
+	$invalid_elements = apply_filters('mce_invalid_elements', '');
 
 	$plugins = array('inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress');
 	$plugins = apply_filters('mce_plugins', $plugins);
@@ -81,6 +83,7 @@ initArray = {
 	button_tile_map : true,
 	content_css : "<?php echo $mce_css; ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
+	invalid_elements : "<?php echo $invalid_elements; ?>",
 	save_callback : 'TinyMCE_wordpressPlugin.saveCallback',
 	imp_version : "<?php echo intval($_GET['ver']); ?>",
 <?php do_action('mce_options'); ?>
