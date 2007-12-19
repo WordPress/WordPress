@@ -397,6 +397,38 @@ function get_tag_feed_link($tag_id, $feed = '') {
 	return $link;
 }
 
+function get_search_feed_link($search_query = '', $feed = '') {
+	if ( empty($search_query) )
+		$search = attribute_escape(get_search_query());
+	else
+		$search = attribute_escape(stripslashes($search_query));
+	
+	if ( empty($feed) )
+		$feed = get_default_feed();
+	
+	$link = get_option('home') . "?s=$search&amp;feed=$feed";
+	
+	$link = apply_filters('search_feed_link', $link);
+	
+	return $link;
+}
+
+function get_search_comments_feed_link($search_query = '', $feed = '') {
+	if ( empty($search_query) )
+		$search = attribute_escape(get_search_query());
+	else
+		$search = attribute_escape(stripslashes($search_query));
+	
+	if ( empty($feed) )
+		$feed = get_default_feed();
+	
+	$link = get_option('home') . "?s=$search&amp;feed=comments-$feed";
+	
+	$link = apply_filters('search_feed_link', $link);
+	
+	return $link;
+}
+
 function get_edit_post_link( $id = 0 ) {
 	$post = &get_post( $id );
 
