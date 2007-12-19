@@ -1,6 +1,51 @@
 <?php
 require_once('admin.php');
 
+function profile_js ( ) {
+?>
+<script type="text/javascript">
+	function check_pass_strength ( ) {
+
+		var pass = jQuery('#pass1').val();
+		var user = jQuery('#user_login').val();
+
+		// get the result as an object, i'm tired of typing it
+		var res = jQuery('#pass-strength-result');
+
+		var strength = passwordStrength(pass, user);
+
+		jQuery(res).removeClass('short bad good strong');
+
+		if ( strength == 'Bad' ) {
+			jQuery(res).addClass('bad');
+			jQuery(res).html( pwsL10n.bad );
+		}
+		else if ( strength == 'Good' ) {
+			jQuery(res).addClass('good');
+			jQuery(res).html( pwsL10n.good );
+		}
+		else if ( strength == 'Strong' ) {
+			jQuery(res).addClass('strong');
+			jQuery(res).html( pwsL10n.strong );
+		}
+		else {
+			// this catches 'Too short' and the off chance anything else comes along
+			jQuery(res).addClass('short');
+			jQuery(res).html( pwsL10n.short );
+		}
+
+	}
+
+	jQuery(document).ready( function() { jQuery('#pass1').keyup( check_pass_strength ) } );
+</script>
+<?php
+}
+
+add_action('admin_head', 'profile_js');
+
+wp_enqueue_script('jquery');
+wp_enqueue_script('password-strength-meter');
+
 $title = __('Profile');
 
 if ( current_user_can('edit_users') )
@@ -42,7 +87,7 @@ $bookmarklet_height= 440;
 <fieldset id="information">
 <legend><?php _e('Name'); ?></legend>
 <p><label><?php _e('Username: (no editing)'); ?><br />
-<input type="text" name="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
+<input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
 </label></p>
 
 <p><label><?php _e('First name:') ?><br />
@@ -114,6 +159,10 @@ if ( $show_password_fields ) :
 <p><label><?php _e('Type it one more time:'); ?><br />
 <input type="password" name="pass2" id="pass2" size="16" value="" />
 </label></p>
+<p><strong><?php _e('Password Strength:'); ?></strong></p>
+<div id="pass-strength-result"><?php _e('Too short'); ?></div>
+<!--[if IE 6]><div id="pass-strength-iesucks"><?php _e("If you weren&#8217;t using this sucky IE6, there would be pretty colors... and cookies!"); ?></div><![endif]-->
+<p><?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"£$%^&( in your password.'); ?></p>
 </fieldset>
 <?php endif; ?>
 

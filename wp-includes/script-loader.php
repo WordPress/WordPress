@@ -117,6 +117,13 @@ class WP_Scripts {
 			) );
 			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20071031' );
 			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
+			$this->add( 'password-strength-meter', '/wp-admin/js/passwordStrengthMeter.js', array('jquery'), '20070405' ); 
+			$this->localize( 'password-strength-meter', 'pwsL10n', array( 
+				'short' => __('Too short'), 
+				'bad' => __('Bad'), 
+				'good' => __('Good'), 
+				'strong' => __('Strong') 
+			) );
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20071104' );
 			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20071023' );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
