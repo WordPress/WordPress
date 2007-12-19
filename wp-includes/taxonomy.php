@@ -707,7 +707,7 @@ function is_term($term, $taxonomy = '') {
 			return 0;
 		$where = $wpdb->prepare( "t.term_id = %d", $term );
 	} else {
-		if ( ! $term = sanitize_title($term) )
+		if ( '' === $term = sanitize_title($term) )
 			return 0;
 		$where = $wpdb->prepare( "t.slug = %s", $term );
 	}

@@ -329,9 +329,8 @@ function sanitize_title($title, $fallback_title = '') {
 	$title = strip_tags($title);
 	$title = apply_filters('sanitize_title', $title);
 
-	if (empty($title)) {
+	if ( '' === $title || false === $title )
 		$title = $fallback_title;
-	}
 
 	return $title;
 }
