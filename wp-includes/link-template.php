@@ -622,7 +622,7 @@ function get_pagenum_link($pagenum = 1) {
 			$query_string = '';
 		}
 
-		$request = preg_replace( '|page/(.+)/?$|', '', $request);
+		$request = preg_replace( '|page/\d+/?$|', '', $request);
 		$request = preg_replace( '|^index\.php|', '', $request);
 		$request = ltrim($request, '/');
 
