@@ -1187,7 +1187,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 
 	if ( empty($tags) )
 		$tags = array();
-	$tags = (is_array($tags)) ? $tags : explode( ',', $tags );
+	$tags = (is_array($tags)) ? $tags : explode( ',', trim($tags, " \s\n\t\r\0\x0B,") );
 	wp_set_object_terms($post_id, $tags, 'post_tag', $append);
 }
 
