@@ -14,7 +14,7 @@ class BunnyTags_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports tags from an existing Bunny&#8217;s Technorati Tags installation into this blog using the new WordPress native tagging structure.').'</p>';
+		echo '<p>'.__('Howdy! This imports tags from an existing Bunny&#8217;s Technorati Tags installation into this blog using the WordPress native tagging structure.').'</p>';
 		echo '<p>'.__('This is suitable for Bunny&#8217;s Technorati Tags version 0.6.').'</p>';
 		echo '<p><strong>'.__('All existing Bunny&#8217;s Technorati Tags will be removed after import.').'</strong></p>';
 		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
@@ -110,6 +110,6 @@ class BunnyTags_Import {
 $btt_import = new BunnyTags_Import();
 
 // add it to the import page!
-register_importer('btt', 'Bunny&#8217;s Technorati Tags', __('Import Bunny&#8217;s Technorati Tags into the new native tagging structure.'), array($btt_import, 'dispatch'));
+register_importer('btt', 'Bunny&#8217;s Technorati Tags', __('Import Bunny&#8217;s Technorati Tags into the native tagging structure.'), array($btt_import, 'dispatch'));
 
 ?>
