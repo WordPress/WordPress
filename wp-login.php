@@ -306,7 +306,7 @@ default:
 	} else {
 		$user = wp_validate_auth_cookie();
 		if ( !$user ) {
-			if ( empty($_GET['loggedout']) )
+			if ( empty($_GET['loggedout']) && !empty($_COOKIE[AUTH_COOKIE]) )
 				$errors['expiredsession'] = __('Your session has expired.');
 		} else {
 			$user = new WP_User($user);
