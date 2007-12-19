@@ -117,7 +117,7 @@ class WP_Scripts {
 			) );
 			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20071031' );
 			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
-			$this->add( 'password-strength-meter', '/wp-admin/js/passwordStrengthMeter.js', array('jquery'), '20070405' ); 
+			$this->add( 'password-strength-meter', '/wp-admin/js/password-strength-meter.js', array('jquery'), '20070405' ); 
 			$this->localize( 'password-strength-meter', 'pwsL10n', array( 
 				'short' => __('Too short'), 
 				'bad' => __('Bad'), 
