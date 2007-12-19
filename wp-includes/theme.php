@@ -485,7 +485,7 @@ function get_theme_mod($name, $default = false) {
 	if ( isset($mods[$name]) )
 		return apply_filters( "theme_mod_$name", $mods[$name] );
 
-	return apply_filters( "theme_mod_$name", sprintf($default, get_template_directory_uri()) );
+	return apply_filters( "theme_mod_$name", sprintf($default, get_template_directory_uri(), get_stylesheet_directory_uri()) );
 }
 
 function set_theme_mod($name, $value) {
