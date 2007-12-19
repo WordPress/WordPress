@@ -1000,17 +1000,23 @@ function the_search_query() {
 	echo attribute_escape( apply_filters( 'the_search_query', get_search_query() ) );
 }
 
-function language_attributes() {
+function language_attributes($doctype = 'html') {
+	$attributes = array();
 	$output = '';
+		
 	if ( $dir = get_bloginfo('text_direction') )
-		$output = "dir=\"$dir\"";
+		$attributes[] = "dir=\"$dir\"";
+	
 	if ( $lang = get_bloginfo('language') ) {
-		if ( $dir ) $output .= ' ';
-		if ( get_option('html_type') == 'text/html' )
-			$output .= "lang=\"$lang\"";
-		else $output .= "xml:lang=\"$lang\"";
+		if ( get_option('html_type') == 'text/html' || $doctype == 'xhtml' )
+			$attributes[] = "lang=\"$lang\"";
+		
+		if ( get_option('html_type') != 'text/html' || $doctype == 'xhtml' )
+			$attributes[] = "xml:lang=\"$lang\"";
 	}
-
+	
+	$output = implode(' ', $attributes);
+	$output = apply_filters('language_attributes', $output);
 	echo $output;
 }
 
