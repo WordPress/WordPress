@@ -84,6 +84,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getAuthors'			=> 'this:wp_getAuthors',
 			'wp.getCategories'		=> 'this:mw_getCategories',		// Alias
 			'wp.newCategory'		=> 'this:wp_newCategory',
+			'wp.deleteCategory'		=> 'this:wp_deleteCategory',
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
 			'wp.uploadFile'			=> 'this:mw_newMediaObject',	// Alias
 
@@ -492,7 +493,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Set the user context and make sure they are
 		// allowed to add a category.
 		set_current_user(0, $username);
-		if(!current_user_can("manage_categories", $page_id)) {
+		if(!current_user_can("manage_categories")) {
 			return(new IXR_Error(401, __("Sorry, you do not have the right to add a category.")));
 		}
 
@@ -526,6 +527,31 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		return($cat_id);
 	}
+
+	/**
+	 * WordPress XML-RPC API
+	 * wp_deleteCategory
+	 */
+	function wp_deleteCategory($args) {
+		$this->escape($args);
+
+		$blog_id		= (int) $args[0];
+		$username		= $args[1];
+		$password		= $args[2];
+		$category_id	= (int) $args[3];
+
+		if( !$this->login_pass_ok( $username, $password ) ) {
+			return $this->error;
+		}
+
+		set_current_user(0, $username);
+		if( !current_user_can("manage_categories") ) {
+			return new IXR_Error( 401, __( "Sorry, you do not the right to delete a category." ) );
+		}
+
+		return wp_delete_category( $category_id );
+	}
+
 
 	/**
 	 * WordPress XML-RPC API
