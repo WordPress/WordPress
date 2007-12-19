@@ -172,6 +172,49 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 	}
 
+	function get_custom_fields($post_id) { 
+		$post_id = (int) $post_id; 
+
+		$custom_fields = array(); 
+
+		foreach ( (array) has_meta($post_id) as $meta ) { 
+			// Don't expose protected fields. 
+			if ( strpos($meta['meta_key'], '_wp_') === 0 ) { 
+				continue; 
+			} 
+
+			$custom_fields[] = array( 
+				"id"    => $meta['meta_id'], 
+				"key"   => $meta['meta_key'], 
+				"value" => $meta['meta_value'] 
+			); 
+		} 
+
+		return $custom_fields; 
+	} 
+
+	function set_custom_fields($post_id, $fields) { 
+		$post_id = (int) $post_id; 
+
+		foreach ( (array) $fields as $meta ) { 
+			if ( isset($meta['id']) ) { 
+				$meta['id'] = (int) $meta['id']; 
+
+				if ( isset($meta['key']) ) { 
+					update_meta($meta['id'], $meta['key'], $meta['value']); 
+				} 
+				else { 
+					delete_meta($meta['id']); 
+				} 
+			} 
+			else { 
+				$_POST['metakeyinput'] = $meta['key']; 
+				$_POST['metavalue'] = $meta['value']; 
+				add_meta($post_id); 
+			} 
+		} 
+	} 
+
 	/**
 	 * WordPress XML-RPC API
 	 * wp_getPage
@@ -243,7 +286,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				"wp_page_order"			=> $page->menu_order,
 				"wp_author_id"			=> $author->ID,
 				"wp_author_display_name"	=> $author->display_name,
-				"date_created_gmt"		=> new IXR_Date($page_date_gmt)
+				"date_created_gmt"		=> new IXR_Date($page_date_gmt),
+				"custom_fields"			=> $this->get_custom_fields($page_id)
 			);
 
 			return($page_struct);
@@ -1112,6 +1156,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$post_ID) {
 			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
 		}
+
+		if ( isset($content_struct['custom_fields']) ) { 
+			$this->set_custom_fields($post_ID, $content_struct['custom_fields']); 
+		} 
 		
 		$this->attach_uploads( $post_ID, $post_content );
 		
@@ -1332,6 +1380,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$result) {
 			return new IXR_Error(500, __('Sorry, your entry could not be edited. Something wrong happened.'));
 		}
+
+		if ( isset($content_struct['custom_fields']) ) { 
+			$this->set_custom_fields($post_ID, $content_struct['custom_fields']); 
+		} 
+
 		$this->attach_uploads( $ID, $post_content );
 		
 		logIO('O',"(MW) Edited ! ID: $post_ID");
@@ -1404,7 +1457,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'wp_author_id' => $author->ID,
 				'wp_author_display_name'	=> $author->display_name,
 				'date_created_gmt' => new IXR_Date($post_date_gmt),
-				'post_status' => $postdata['post_status']
+				'post_status' => $postdata['post_status'],
+				'custom_fields' => $this->get_custom_fields($post_ID)
 			);
 			
 			return $resp;
@@ -1487,7 +1541,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'wp_author_id' => $author->ID,
 				'wp_author_display_name' => $author->display_name,
 				'date_created_gmt' => new IXR_Date($post_date_gmt),
-				'post_status' => $entry['post_status']
+				'post_status' => $entry['post_status'],
+				'custom_fields' => $this->get_custom_fields($entry['ID'])
 			);
 
 		}
