@@ -1,4 +1,6 @@
 <?php
+define('WP_ADMIN', TRUE);
+
 if ( defined('ABSPATH') )
 	require_once( ABSPATH . 'wp-config.php');
 else
