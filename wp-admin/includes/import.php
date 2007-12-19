@@ -2,7 +2,8 @@
 
 function get_importers() {
 	global $wp_importers;
-	uasort($wp_importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
+	if ( is_array($wp_importers) )
+		uasort($wp_importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
 	return $wp_importers;
 }
 
