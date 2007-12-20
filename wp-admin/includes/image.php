@@ -33,6 +33,13 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 	list($image_new_width, $image_new_height) = wp_shrink_dimensions( $sourceImageWidth, $sourceImageHeight, $max_side, $max_side);
 
 	$thumbnail = imagecreatetruecolor( $image_new_width, $image_new_height);
+
+	// preserve PNG transparency
+	if( IMAGETYPE_PNG == $sourceImageType && function_exists( 'imagealphablending' ) &&	function_exists( 'imagesavealpha' )) {
+		imagealphablending($thumbnail, false);
+		imagesavealpha($thumbnail,true);
+	}	
+	
 	@ imagecopyresampled( $thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $sourceImageWidth, $sourceImageHeight );
 
 	imagedestroy( $image ); // Free up memory 
