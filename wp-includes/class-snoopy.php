@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Snoopy - the PHP net client
+ * @author Monte Ohrt <monte@ispi.net>
+ * @copyright 1999-2000 ispi, all rights reserved
+ * @version 1.01
+ * @license GNU Lesser GPL
+ * @link http://snoopy.sourceforge.net/
+ * @package Snoopy
+ */
 /*************************************************
 
 Snoopy - the PHP net client

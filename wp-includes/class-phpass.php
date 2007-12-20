@@ -1,4 +1,12 @@
 <?php
+/**
+ * Portable PHP password hashing framework.
+ * @package phpass
+ * @since 2.4
+ * @version 0.1
+ * @link http://www.openwall.com/phpass/
+ */
+
 #
 # Portable PHP password hashing framework.
 #
