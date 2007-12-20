@@ -260,14 +260,14 @@ function display_page_row( $page, &$children_pages, $level = 0 ) {
 	if ( ! $children_pages )
 		return true; 
 
-	for ( $i=0; $i < count($children_pages); $i++ ) {
+	for ( $i = 0; $i < count($children_pages); $i++ ) {
 
 		$child = $children_pages[$i];
 			
 		if ( $child->post_parent == $id ) {
-	        array_splice($children_pages, $i, 1); 
+			array_splice($children_pages, $i, 1); 
 			display_page_row($child, $children_pages, $level+1);
-			$i--; 
+			$i = -1; //as numeric keys in $children_pages are not preserved after splice
 		}
 	}
 }
