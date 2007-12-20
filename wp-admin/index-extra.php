@@ -9,12 +9,12 @@ switch ( $_GET['jax'] ) {
 case 'incominglinks' :
 
 $rss_feed = apply_filters( 'dashboard_incoming_links_feed', 'http://blogsearch.google.com/blogsearch_feeds?hl=en&scoring=d&ie=utf-8&num=10&output=rss&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) );
-$more_link = apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.google.com/blogsearch?hl=en&scoring=d&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) );
+
 
 $rss = @fetch_rss( $rss_feed );
 if ( isset($rss->items) && 1 < count($rss->items) ) { // Technorati returns a 1-item feed when it has no results
 ?>
-<h3><?php _e('Incoming Links'); ?> <cite><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('More &raquo;'); ?></a></cite></h3>
+
 <ul>
 <?php
 $rss->items = array_slice($rss->items, 0, 10);
@@ -24,19 +24,21 @@ foreach ($rss->items as $item ) {
 <?php } ?>
 </ul>
 <?php
+} else {
+?>
+<p><?php _e('No incoming links found... yet.'); ?></p>
+<?php
 }
 break;
 
 case 'devnews' :
 $rss = @fetch_rss(apply_filters( 'dashboard_primary_feed', 'http://wordpress.org/development/feed/' ));
 if ( isset($rss->items) && 0 != count($rss->items) ) {
-?>
-<h3><?php echo apply_filters( 'dashboard_primary_title', __('WordPress Development Blog') ); ?></h3>
-<?php
-$rss->items = array_slice($rss->items, 0, 3);
+
+$rss->items = array_slice($rss->items, 0, 2);
 foreach ($rss->items as $item ) {
 ?>
-<h4><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php printf(__('%s ago'), human_time_diff(strtotime($item['pubdate'], time() ) ) ); ?></h4>
+<h4><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a> <?php gmdate( 'Y/m/d', strtotime( $item['pubdate'] ) ); ?></h4>
 <p><?php echo $item['description']; ?></p>
 <?php
 	}
