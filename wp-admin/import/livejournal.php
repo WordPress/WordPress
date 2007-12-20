@@ -119,7 +119,7 @@ class LJ_Import {
 			}
 			if ( $num_comments ) {
 				echo ' ';
-				printf(__('(%s comments)'), $num_comments);
+				printf(__ngettext('(%s comment)', '(%s comments)', $num_comments), $num_comments);
 			}
 			echo '</li>';
 		}

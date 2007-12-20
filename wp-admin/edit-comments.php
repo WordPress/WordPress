@@ -68,7 +68,7 @@ if ( !empty( $_POST['delete_comments'] ) ) :
 	endforeach;
 	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
 	if ( !empty( $_POST['spam_button'] ) ) {
-		printf(__ngettext('%s comment marked as spam', '%s comments marked as spam.', $i), $i);
+		printf(__ngettext('%s comment marked as spam.', '%s comments marked as spam.', $i), $i);
 	} else {
 		printf(__ngettext('%s comment deleted.', '%s comments deleted.', $i), $i);
 	}

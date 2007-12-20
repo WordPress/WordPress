@@ -82,12 +82,12 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 		echo '<div id="moderated" class="updated fade"><p>';
 
 		if ( $approved > 0 ) {
-			printf( __ngettext( '%s comment approved.', '%s comments approved.', $approved ), $approved );
+			printf( __ngettext( '%s comment approved', '%s comments approved', $approved ), $approved );
 			echo '<br />';
 		}
 
 		if ( $deleted > 0 ) {
-			printf( __ngettext( '%s comment deleted', '%s comments deleted.', $deleted ), $deleted );
+			printf( __ngettext( '%s comment deleted', '%s comments deleted', $deleted ), $deleted );
 			echo '<br />';
 		}
 

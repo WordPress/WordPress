@@ -526,7 +526,7 @@ class Dotclear_Import {
 			}
 			add_option('dclinks2wplinks',$dclinks2wplinks);
 			echo '<p>';
-			printf(__('Done! <strong>%s</strong> links or link categories imported'), $count);
+			printf(__ngettext('Done! <strong>%s</strong> link or link category imported.', 'Done! <strong>%s</strong> links or link categories imported.', $count), $count);
 			echo '<br /><br /></p>';
 			return true;
 		}

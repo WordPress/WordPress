@@ -238,7 +238,7 @@ class MT_Import {
 		}
 
 		if ( $num_comments )
-			printf(' '.__('(%s comments)'), $num_comments);
+			printf(' '.__ngettext('(%s comment)', '(%s comments)', $num_comments), $num_comments);
 
 		$num_pings = 0;
 		foreach ( $pings as $ping ) {
@@ -255,7 +255,7 @@ class MT_Import {
 		}
 
 		if ( $num_pings )
-			printf(' '.__('(%s pings)'), $num_pings);
+			printf(' '.__ngettext('(%s ping)', '(%s pings)', $num_pings), $num_pings);
 
 		echo "</li>";
 		//ob_flush();flush();

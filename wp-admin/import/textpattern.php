@@ -462,7 +462,7 @@ class Textpattern_Import {
 			}
 			add_option('txplinks2wplinks',$txplinks2wplinks);
 			echo '<p>';
-			printf(__('Done! <strong>%s</strong> Links imported'), $count);
+			printf(__ngettext('Done! <strong>%s</strong> link imported', 'Done! <strong>%s</strong> links imported', $count), $count);
 			echo '<br /><br /></p>';
 			return true;
 		}
