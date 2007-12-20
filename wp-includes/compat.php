@@ -178,5 +178,10 @@ if (!defined('IMAGETYPE_JPEG'))
 if (!defined('IMAGETYPE_PNG'))
     define('IMAGETYPE_PNG', 3);
 
+if (!defined('IMAGETYPE_TIFF_MM'))
+	define('IMAGETYPE_TIFF_MM',7);
+
+if (!defined('IMAGETYPE_TIFF_MM'))
+	define('IMAGETYPE_TIFF_MM',8);
 
 ?>
