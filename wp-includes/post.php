@@ -1168,6 +1168,12 @@ function wp_publish_post($post_id) {
 	$post->post_status = 'publish';
 	wp_transition_post_status('publish', $old_status, $post);
 
+	// Update counts for the post's terms.
+	foreach ( get_object_taxonomies('post') as $taxonomy ) {
+		$terms = wp_get_object_terms($post_id, $taxonomy, 'fields=tt_ids');
+		wp_update_term_count($terms, $taxonomy);
+	}
+
 	do_action('edit_post', $post_id, $post);
 	do_action('save_post', $post_id, $post);
 	do_action('wp_insert_post', $post_id, $post);
