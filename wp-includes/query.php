@@ -560,7 +560,7 @@ class WP_Query {
 				$this->is_category = true;
 			}
 
-			if ( !is_array($qv['category___not_in']) || empty($qv['category__not_in']) ) {
+			if ( !is_array($qv['category__not_in']) || empty($qv['category__not_in']) ) {
 				$qv['category__not_in'] = array();
 			} else {
 				$qv['category__not_in'] = array_map('intval', $qv['category__not_in']);
@@ -587,7 +587,7 @@ class WP_Query {
 				$this->is_tag = true;
 			}
 
-			if ( !is_array($qv['tag___not_in']) || empty($qv['tag__not_in']) ) {
+			if ( !is_array($qv['tag__not_in']) || empty($qv['tag__not_in']) ) {
 				$qv['tag__not_in'] = array();
 			} else {
 				$qv['tag__not_in'] = array_map('intval', $qv['tag__not_in']);
