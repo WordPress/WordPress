@@ -6,6 +6,7 @@ define('WPINC', 'wp-includes');
 
 require_once('../wp-includes/compat.php');
 require_once('../wp-includes/functions.php');
+require_once('../wp-includes/classes.php');
 
 if (!file_exists('../wp-config-sample.php'))
 	wp_die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
@@ -164,6 +165,9 @@ switch($step) {
 
 	// We'll fail here if the values are no good.
 	require_wp_db();
+	if ( !empty($wpdb->error) )
+		wp_die($wpdb->error->get_error_message());
+
 	$handle = fopen('../wp-config.php', 'w');
 
 	foreach ($configFile as $line_num => $line) {
