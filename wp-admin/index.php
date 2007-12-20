@@ -31,8 +31,6 @@ $today = current_time('mysql', 1);
 <h3><?php _e('Right Now'); ?> <a href="post-new.php"><?php _e('Write a New Page'); ?></a> <a href="page-new.php"><?php _e('Write a New Post'); ?></a></h3>
 
 <?php
-// I'm not sure how to internationalize this, Nikolay?
-
 $num_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'" );
 
 $num_pages = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish'" );
@@ -47,30 +45,39 @@ $num_cats  = wp_count_terms('category');
 
 $num_tags = wp_count_terms('post_tag');
 
-$sentence = 'You have ';
-if ( $num_posts )
-	$sentence .= '<a href="edit.php">' . number_format( $num_posts ) . ' posts</a>, ';
+$post_type_texts = array();
 
-if ( $num_pages )
-	$sentence .= '<a href="edit-pages.php">' . number_format( $num_pages ) . ' pages</a>, ';
+if ( $num_posts ) {
+	$post_type_texts[] = '<a href="edit.php">'.sprintf( __ngettext( '%d post', '%d posts', $num_posts ), number_format_i18n( $num_posts ) ).'</a>';
+}
+if ( $num_pages ) {
+	$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%d page', '%d pages', $num_pages ), number_format_i18n( $num_pages ) ).'</a>';
+}
+if ( $num_drafts ) {
+	$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%d draft', '%d drafts', $num_drafts ), number_format_i18n( $num_drafts ) ).'</a>';
+}
+if ( $num_future ) {
+	$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%d scheduled post', '%d scheduled posts', $num_future ), number_format_i18n( $num_future ) ).'</a>';
+}
 
-if ( $num_drafts )
-	$sentence .= '<a href="edit.php?post_status=draft">' . number_format( $num_drafts ) . ' drafts</a>, ';
+$cats_text = '<a href="categories.php">'.sprintf( __ngettext( '%d category', '%d categories', $num_cats ), number_format_i18n( $num_cats ) ).'</a>';
+$tags_text = sprintf( __ngettext( '%d tag', '%d tags', $num_tags ), number_format_i18n( $num_tags ) );
 
-if ( $num_future )
-	$sentence .= '<a href="edit.php?post_status=future">' . number_format( $num_future ) . ' scheduled posts</a>, ';
+$post_type_text = implode(', ', $post_type_texts);
 
 // There is always a category
-$sentence .= 'contained within <a href="categories.php">' . number_format( $num_cats ) . ' categories</a> and ' . number_format( $num_tags ) . ' tags.';
+$sentence = sprintf( __( 'You have %1$s, contained within %2$s and %3$s.' ), $post_type_text, $cats_text, $tags_text );
 
 ?>
 <p><?php echo $sentence; ?></p>
 <?php
 $ct = current_theme_info();
 $sidebars_widgets = wp_get_sidebars_widgets();
-$num_widgets = count( $sidebar_widgets );
+$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ) );
+$widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), $num_widgets );
 ?>
-<p>You use the <?php echo $ct->title; ?> theme with <a href='widgets.php'><?php echo $num_widgets; ?> widgets</a>. <a href="themes.php">Change Theme</a>. You're using BetaPress TODO.</p>
+<p><?php printf( __( 'You are using %1$s theme with %2$s.' ), $ct->title, $widgets_text ); ?> <a href="themes.php"><?php _e('Change Theme'); ?></a>. You're using BetaPress TODO.</p>
+<p>
 <?php do_action( 'rightnow_end' ); ?>
 <?php do_action( 'activity_box_end' ); ?>
 </div>
@@ -78,7 +85,7 @@ $num_widgets = count( $sidebar_widgets );
 <div id="dashboard-widgets">
 
 <div class="dashboard-widget">
-<div class="dashboard-widget-edit"><a href="">See All</a> | <a href="">Edit</a></div>
+<div class="dashboard-widget-edit"><a href=""><?php _e('See All'); ?></a> | <a href=""><?php _e('Edit'); ?></a></div>
 <h3>Recent Comments</h3>
 
 <?php
@@ -111,8 +118,8 @@ foreach ($comments as $comment) {
 <?php
 $more_link = apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.google.com/blogsearch?hl=en&scoring=d&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) );
 ?>
-<div class="dashboard-widget-edit"><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('See All'); ?></a> | <a href="">Edit</a></div>
-<h3>Incoming Links</h3>
+<div class="dashboard-widget-edit"><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('See All'); ?></a> | <a href=""><?php _e('Edit'); ?></a></div>
+<h3><?php _e('Incoming Links'); ?></h3>
 
 <div id="incominglinks"></div>
 </div>
@@ -121,7 +128,7 @@ $more_link = apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.
 <?php
 $recentposts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql('post') . " AND post_date_gmt < '$today' ORDER BY post_date DESC LIMIT 5");
 ?>
-<div class="dashboard-widget-edit"><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('See All'); ?></a> | <a href="">Edit</a></div>
+<div class="dashboard-widget-edit"><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('See All'); ?></a> | <a href=""><?php _e('Edit'); ?></a></div>
 <h3>Recent Posts</h3>
 
 <ul>
@@ -138,7 +145,7 @@ foreach ($recentposts as $post) {
 </div>
 
 <div class="dashboard-widget">
-<div class="dashboard-widget-edit"><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('See All'); ?></a> | <a href="">Edit</a> | <a href="">RSS</a></div>
+<div class="dashboard-widget-edit"><a href="<?php echo htmlspecialchars( $more_link ); ?>"><?php _e('See All'); ?></a> | <a href=""><?php _e('Edit'); ?></a> | <a href=""><?php _e('RSS'); ?></a></div>
 <h3><?php echo apply_filters( 'dashboard_primary_title', __('Blog') ); ?></h3>
 
 <div id="devnews"></div>
@@ -146,7 +153,7 @@ foreach ($recentposts as $post) {
 
 <?php do_action( 'dashboard_widgets' ); ?>
 
-<p><a href="">Customize this page</a>.</p>
+<p><a href=""><?php _e('Customize this page'); ?></a>.</p>
 
 </div>
 
