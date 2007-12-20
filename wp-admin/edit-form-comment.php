@@ -42,9 +42,16 @@ addLoadEvent(focusit);
 	<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url'); ?>
 </fieldset>
 
-<p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
-  <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
-</p>
+<?php
+    $post = get_post($comment->comment_post_ID); //get the post
+    $post_title = $post->post_title; // and its title
+?>
+    <div>
+        <a href="<?php echo get_permalink($comment->comment_post_ID); ?>" class="view-comment-post-link" target="_blank"><?php echo sprintf('%s &raquo;',$post_title); ?></a>
+        <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
+        <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
+        </p>
+    </div>
 
 </div>
 

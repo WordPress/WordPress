@@ -1384,3 +1384,8 @@ a.view-link {
 	background-color: #59ef86;
 	border: 1px solid #319f52;
 }
+
+a.view-comment-post-link {
+	position: absolute;
+	text-decoration:underline;
+}
