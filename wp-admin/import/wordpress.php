@@ -366,7 +366,7 @@ class WP_Import {
 			if ( $post_id && $post_ID ) {
 				$this->post_ids_processed[intval($post_ID)] = intval($post_id);
 			}
-
+			
 			// Add categories.
 			if (count($categories) > 0) {
 				$post_cats = array();
@@ -438,10 +438,22 @@ class WP_Import {
 			$key   = $this->get_tag( $p, 'wp:meta_key' );
 			$value = $this->get_tag( $p, 'wp:meta_value' );
 			$value = stripslashes($value); // add_post_meta() will escape.
-			add_post_meta( $post_id, $key, $value );
+			
+			$this->process_post_meta($post_id, $key, $value);
+
 		} }
 		
+		do_action('import_post_added', $post_id);
 		print "</li>\n";
+	}
+	
+	function process_post_meta($post_id, $key, $value) {
+		// the filter can return false to skip a particular metadata key
+		$_key = apply_filters('import_post_meta_key', $key);
+		if ( $_key ) {
+			add_post_meta( $post_id, $_key, $value );
+			do_action('import_post_meta', $post_id, $_key, $value);
+		}
 	}
 	
 	function process_attachment($postdata, $remote_url) {
@@ -455,12 +467,29 @@ class WP_Import {
 			else {
 				print '('.size_format(filesize($upload['file'])).')';
 			}
+			
+			if ( $info = wp_check_filetype($upload['file']) ) {
+				$postdata['post_mime_type'] = $info['type'];
+			}
+			else {
+				print __('Invalid file type');
+				return;
+			}
 				
 			$postdata['guid'] = $upload['url'];
 
 			// as per wp-admin/includes/upload.php
 			$post_id = wp_insert_attachment($postdata, $upload['file']);
 			wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
+			
+			// remap the thumbnail url.  this isn't perfect because we're just guessing the original url.
+			if ( preg_match('@^image/@', $info['type']) && $thumb_url = wp_get_attachment_thumb_url($post_id) ) {
+				$parts = pathinfo($remote_url);
+				$ext = $parts['extension'];
+				$name = basename($parts['basename'], ".{$ext}");
+				$this->url_remap[$parts['dirname'] . '/' . $name . '.thumbnail.' . $ext] = $thumb_url;
+			}
+			
 			return $post_id;
 		}
 		else {
@@ -499,19 +528,24 @@ class WP_Import {
 		return $upload;
 		
 	}
+
+	// sort by strlen, longest string first
+	function cmpr_strlen($a, $b) {
+		return strlen($b) - strlen($a);
+	}
 	
 	// update url references in post bodies to point to the new local files
 	function backfill_attachment_urls() {
 		
 		// make sure we do the longest urls first, in case one is a substring of another
-		function cmpr_strlen($a, $b) {
-			return strlen($b) - strlen($a);
-		}
-		uksort($this->url_remap, 'cmpr_strlen');
+		uksort($this->url_remap, array(&$this, 'cmpr_strlen'));
 				
 		global $wpdb;
 		foreach ($this->url_remap as $from_url => $to_url) {
+			// remap urls in post_content
 			$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, '%s', '%s')", $from_url, $to_url) );
+			// remap enclosure urls
+			$result = $wpdb->query( $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, '%s', '%s') WHERE meta_key='enclosure'", $from_url, $to_url) );
 		}
 	}
 	
@@ -527,11 +561,19 @@ class WP_Import {
 			}
 		}
 	}
+	
+	function is_valid_meta_key($key) {
+		// skip _wp_attached_file metadata since we'll regenerate it from scratch
+		if ( $key == '_wp_attached_file' )
+			return false;
+		return $key;
+	}
 
 	function import($id, $fetch_attachments = false) {
 		$this->id = (int) $id;
 		$this->fetch_attachments = (bool) $fetch_attachments;
 
+		add_filter('import_post_meta_key', array($this, 'is_valid_meta_key'));
 		$file = get_attached_file($this->id);
 		$this->import_file($file);
 	}
@@ -547,6 +589,11 @@ class WP_Import {
 		$result = $this->process_posts();
 		$this->backfill_parents();
 		$this->backfill_attachment_urls();
+		
+		// clear the caches after backfilling
+		foreach ($this->post_ids_processed as $post_id)
+			clean_post_cache($post_id);
+		
 		wp_defer_term_counting(false);
 		if ( is_wp_error( $result ) )
 			return $result;
