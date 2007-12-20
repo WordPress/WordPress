@@ -203,7 +203,7 @@ function dynamic_sidebar($index = 1) {
 
 	$sidebars_widgets = wp_get_sidebars_widgets();
 
-	if ( empty($wp_registered_sidebars[$index]) || !is_array($sidebars_widgets[$index]) || empty($sidebars_widgets[$index]) )
+	if ( empty($wp_registered_sidebars[$index]) || !array_key_exists($index, $sidebars_widgets) || !is_array($sidebars_widgets[$index]) || empty($sidebars_widgets[$index]) )
 		return false;
 
 	$sidebar = $wp_registered_sidebars[$index];

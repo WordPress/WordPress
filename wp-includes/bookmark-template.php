@@ -4,12 +4,15 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	$defaults = array(
 		'show_updated' => 0, 'show_description' => 0,
 		'show_images' => 1, 'before' => '<li>',
-		'after' => '</li>', 'between' => "\n"
+		'after' => '</li>', 'between' => "\n",
+		'show_rating' => 0
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	$output = ''; // Blank string to start with.
+	
 	foreach ( (array) $bookmarks as $bookmark ) {
 		if ( !isset($bookmark->recently_updated) )
 			$bookmark->recently_updated = false;

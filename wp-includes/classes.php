@@ -527,6 +527,9 @@ class Walker_Page extends Walker {
 	function start_el($output, $page, $depth, $current_page, $args) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
+		else
+			$indent = '';
+			
 		extract($args, EXTR_SKIP);
 		$css_class = 'page_item page-item-'.$page->ID;
 		$_current_page = get_page( $current_page );
@@ -646,15 +649,15 @@ class Walker_Category extends Walker {
 			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
 		}
 
-		if ( $current_category )
+		if ( isset($current_category) && $current_category )
 			$_current_category = get_category( $current_category );
 
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
 			$class = 'cat-item cat-item-'.$category->term_id;
-			if ( $current_category && ($category->term_id == $current_category) )
+			if ( isset($current_category) && $current_category && ($category->term_id == $current_category) )
 				$class .=  ' current-cat';
-			elseif ( $_current_category && ($category->term_id == $_current_category->parent) )
+			elseif ( isset($_current_category) && $_current_category && ($category->term_id == $_current_category->parent) )
 				$class .=  ' current-cat-parent';
 			$output .=  ' class="'.$class.'"';
 			$output .= ">$link\n";

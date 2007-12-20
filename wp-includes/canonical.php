@@ -20,7 +20,7 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 
 	// Some PHP setups turn requests for / into /index.php in REQUEST_URI
 	$original['path'] = preg_replace('|/index\.php$|', '/', $original['path']);
-
+	
 	$redirect = $original;
 	$redirect_url = false;
 
