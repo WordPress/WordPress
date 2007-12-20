@@ -103,7 +103,7 @@ if ( !extension_loaded('mysql') && !file_exists(ABSPATH . 'wp-content/db.php') )
  * @package WordPress
  * @global int $timestart Seconds and Microseconds added together from when function is called
  * @return bool Always returns true
- * @since 1.5
+ * @since 0.71
  */
 function timer_start() {
 	global $timestart;
@@ -130,7 +130,7 @@ function timer_start() {
  * most cases, you only need to echo it.
  *
  * @package WordPress
- * @since 1.5
+ * @since 0.71
  * @global int $timestart Seconds and Microseconds added together from when timer_start() is called
  * @global int $timeend  Seconds and Microseconds added together from when function is called
  *
