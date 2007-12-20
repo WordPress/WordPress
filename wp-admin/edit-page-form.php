@@ -176,8 +176,12 @@ if (current_user_can('upload_files')) {
 
 <div id="advancedstuff" class="dbx-group">
 
+<div class="dbx-b-ox-wrapper">
 <fieldset id="postcustom" class="dbx-box">
+<div class="dbx-h-andle-wrapper">
 <h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
+</div>
+<div class="dbx-c-ontent-wrapper">
 <div id="postcustomstuff" class="dbx-content">
 <table cellpadding="3">
 <?php
@@ -189,9 +193,11 @@ list_meta($metadata);
 <?php
 	meta_form();
 ?>
-</div>
 <div id="ajax-response"></div>
+</div>
+</div>
 </fieldset>
+</div>
 
 <?php do_action('dbx_page_advanced'); ?>
 
