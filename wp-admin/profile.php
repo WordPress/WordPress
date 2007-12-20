@@ -161,8 +161,7 @@ if ( $show_password_fields ) :
 </label></p>
 <p><strong><?php _e('Password Strength:'); ?></strong></p>
 <div id="pass-strength-result"><?php _e('Too short'); ?></div>
-<!--[if IE 6]><div id="pass-strength-iesucks"><?php _e("If you weren&#8217;t using this sucky IE6, there would be pretty colors... and cookies!"); ?></div><![endif]-->
-<p><?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"£$%^&( in your password.'); ?></p>
+<p><?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&( in your password.'); ?></p>
 </fieldset>
 <?php endif; ?>
 

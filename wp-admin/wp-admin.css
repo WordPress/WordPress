@@ -1368,24 +1368,19 @@ a.view-link {
 #pass-strength-result.short { 
 	background-color: #e3e3e3;
 	border: 1px solid #000000; 
-} 
+}
 
 #pass-strength-result.bad { 
 	background-color: #ffeff7;
 	border: 1px solid #cc6699; 
-} 
+}
 
 #pass-strength-result.good { 
 	background-color: #effff4;
 	border: 1px solid #66cc87; 
-} 
+}
 
 #pass-strength-result.strong { 
 	background-color: #59ef86;
 	border: 1px solid #319f52;
-} 
-
-#pass-strength-iesucks { 
-	font-size: 8pt; 
-	text-align: center; 
-} 
+}
