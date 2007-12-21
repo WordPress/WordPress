@@ -28,7 +28,7 @@ $today = current_time('mysql', 1);
 <h2><?php _e('Dashboard'); ?></h2>
 
 <div id="rightnow">
-<h3><?php _e('Right Now'); ?> <a href="post-new.php"><?php _e('Write a New Page'); ?></a> <a href="page-new.php"><?php _e('Write a New Post'); ?></a></h3>
+<h3><?php _e('Right Now'); ?> <a href="post-new.php"><?php _e('Write a New Post'); ?></a> <a href="page-new.php"><?php _e('Write a New Page'); ?></a></h3>
 
 <?php
 $num_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'" );
