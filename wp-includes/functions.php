@@ -198,10 +198,10 @@ function get_option($setting) {
 
 		if ( false === $value ) {
 			if ( defined('WP_INSTALLING') )
-				$wpdb->hide_errors();
+				$show = $wpdb->hide_errors();
 			$row = $wpdb->get_row("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1");
 			if ( defined('WP_INSTALLING') )
-				$wpdb->show_errors();
+				$wpdb->show_errors($show);
 
 			if( is_object( $row) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
 				$value = $row->option_value;
@@ -236,11 +236,11 @@ function form_option($option) {
 
 function get_alloptions() {
 	global $wpdb, $wp_queries;
-	$wpdb->hide_errors();
+	$show = $wpdb->hide_errors();
 	if ( !$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'") ) {
 		$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
 	}
-	$wpdb->show_errors();
+	$wpdb->show_errors($show);
 
 	foreach ($options as $option) {
 		// "When trying to design a foolproof system,
@@ -263,10 +263,10 @@ function wp_load_alloptions() {
 	$alloptions = wp_cache_get('alloptions', 'options');
 
 	if ( !$alloptions ) {
-		$wpdb->hide_errors();
+		$show = $wpdb->hide_errors();
 		if ( !$alloptions_db = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'") )
 			$alloptions_db = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
-		$wpdb->show_errors();
+		$wpdb->show_errors($show);
 		$alloptions = array();
 		foreach ( (array) $alloptions_db as $o )
 			$alloptions[$o->option_name] = $o->option_value;
@@ -892,9 +892,9 @@ function do_robots() {
 
 function is_blog_installed() {
 	global $wpdb;
-	$wpdb->hide_errors();
+	$show = $wpdb->hide_errors();
 	$installed = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
-	$wpdb->show_errors();
+	$wpdb->show_errors($show);
 
 	$install_status = !empty( $installed ) ? TRUE : FALSE;
 	return $install_status;

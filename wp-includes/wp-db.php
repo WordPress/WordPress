@@ -15,7 +15,7 @@ if (!defined('SAVEQUERIES'))
 
 class wpdb {
 
-	var $show_errors = true;
+	var $show_errors = false;
 	var $num_queries = 0;
 	var $last_query;
 	var $col_info;
@@ -149,29 +149,38 @@ class wpdb {
 		$EZSQL_ERROR[] =
 		array ('query' => $this->last_query, 'error_str' => $str);
 
+		$error_str = "WordPress database error $str for query $this->last_query";
+		if ( $caller = $this->get_caller() )
+			$error_str .= " made by $caller";
+		error_log($error_str, 0);
+
+		// Is error output turned on or not..
+		if ( !$this->show_errors )
+			return false;
+
 		$str = htmlspecialchars($str, ENT_QUOTES);
 		$query = htmlspecialchars($this->last_query, ENT_QUOTES);
-		// Is error output turned on or not..
-		if ( $this->show_errors ) {
-			// If there is an error then take note of it
-			print "<div id='error'>
-			<p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
-			<code>$query</code></p>
-			</div>";
-		} else {
-			return false;
-		}
+
+		// If there is an error then take note of it
+		print "<div id='error'>
+		<p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
+		<code>$query</code></p>
+		</div>";
 	}
 
 	// ==================================================================
 	//	Turn error handling on or off..
 
-	function show_errors() {
-		$this->show_errors = true;
+	function show_errors( $show = true ) {
+		$errors = $this->show_errors;
+		$this->show_errors = $show;
+		return $errors;
 	}
 
 	function hide_errors() {
+		$show = $this->show_errors;
 		$this->show_errors = false;
+		return $show;
 	}
 
 	// ==================================================================
