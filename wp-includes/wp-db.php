@@ -222,7 +222,7 @@ class wpdb {
 	//	Basic Query	- see docs for more detail
 
 	function query($query) {
-		if ( ! $ready )
+		if ( ! $this->ready )
 			return false;
 
 		// filter the query, if filters are available
