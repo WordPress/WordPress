@@ -626,18 +626,36 @@ function antispambot($emailaddy, $mailto=0) {
 	return $emailNOSPAMaddy;
 }
 
+function _make_url_clickable_cb($matches) {
+	$url = $matches[2];
+	$url = clean_url($url);
+	if ( empty($url) )
+		return $matches[0];
+		error_log($matches[0], 0);
+	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>";
+}
+
+function _make_web_ftp_clickable_cb($matches) {
+	$dest = $matches[2];
+	$dest = 'http://' . $dest;
+	$dest = clean_url($dest);
+	if ( empty($dest) )
+		return $matches[0];
+
+	return $matches[1] . "<a href=\"$dest\" rel=\"nofollow\">$dest</a>";
+}
+
+function _make_email_clickable_cb($matches) {
+	$email = $matches[2] . '@' . $matches[3];
+	return $matches[1] . "<a href=\"mailto:$email\">$email</a>";
+}
+
 function make_clickable($ret) {
 	$ret = ' ' . $ret;
 	// in testing, using arrays here was found to be faster
-	$ret = preg_replace(
-		array(
-			'#([\s>])([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*)#is',
-			'#([\s>])((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*)#is',
-			'#([\s>])([a-z0-9\-_.]+)@([^,< \n\r]+)#i'),
-		array(
-			'$1<a href="$2" rel="nofollow">$2</a>',
-			'$1<a href="http://$2" rel="nofollow">$2</a>',
-			'$1<a href="mailto:$2@$3">$2@$3</a>'),$ret);
+	$ret = preg_replace_callback('#([\s>])([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*)#is', '_make_url_clickable_cb', $ret);
+	$ret = preg_replace_callback('#([\s>])((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*)#is', '_make_web_ftp_clickable_cb', $ret);
+	$ret = preg_replace_callback('#([\s>])([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})#i', '_make_email_clickable_cb', $ret);
 	// this one is not in an array because we need it to run last, for cleanup of accidental links within links
 	$ret = preg_replace("#(<a( [^>]+?>|>))<a [^>]+?>([^>]+?)</a></a>#i", "$1$3</a>", $ret);
 	$ret = trim($ret);
