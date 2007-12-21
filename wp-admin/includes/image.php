@@ -35,10 +35,10 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 	$thumbnail = imagecreatetruecolor( $image_new_width, $image_new_height);
 
 	// preserve PNG transparency
-	if( IMAGETYPE_PNG == $sourceImageType && function_exists( 'imagealphablending' ) &&	function_exists( 'imagesavealpha' )) {
-		imagealphablending($thumbnail, false);
-		imagesavealpha($thumbnail,true);
-	}	
+	if ( IMAGETYPE_PNG == $sourceImageType && function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' ) ) {
+		imagealphablending( $thumbnail, false);
+		imagesavealpha( $thumbnail, true);
+	}
 	
 	@ imagecopyresampled( $thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $sourceImageWidth, $sourceImageHeight );
 
