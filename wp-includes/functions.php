@@ -1529,6 +1529,37 @@ function require_wp_db() {
 		require_once( ABSPATH . WPINC . '/wp-db.php' );
 }
 
+function dead_db() {
+	global $wpdb;
+
+	// Load custom DB error template, if present.
+	if ( file_exists( ABSPATH . 'wp-content/db-error.php' ) ) {
+		require_once( ABSPATH . 'wp-content/db-error.php' );
+		die();
+	}
+
+	// If installing or in the admin, provide the verbose message.
+	if ( defined('WP_INSTALLING') || defined('WP_ADMIN') )
+		wp_die($wpdb->error);
+
+	// Otherwise, be terse.
+	status_header( 500 );
+	nocache_headers();
+	header( 'Content-Type: text/html; charset=utf-8' );
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php if ( function_exists( 'language_attributes' ) ) language_attributes(); ?>>
+<head>
+	<title>Database Error</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	<h1>Error establishing a database connection</h1>
+</body>
+</html>
+<?php
+	die();
+}
 
 /**
  * Converts input to an absolute integer
@@ -1573,4 +1604,5 @@ function atom_service_url_filter($url)
 	else
 		return $url;
 }
+
 ?>

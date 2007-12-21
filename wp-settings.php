@@ -196,6 +196,10 @@ require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/classes.php');
 
 require_wp_db();
+
+if ( !empty($wpdb->error) )
+	dead_db();
+
 $prefix = $wpdb->set_prefix($table_prefix);
 
 if ( is_wp_error($prefix) )
