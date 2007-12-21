@@ -20,6 +20,7 @@ class wpdb {
 	var $last_query;
 	var $col_info;
 	var $queries;
+	var $ready = false;
 
 	// Our tables
 	var $posts;
@@ -74,12 +75,14 @@ class wpdb {
 </ul>
 <p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
 ");
+			return;
 		}
 
 		if ( !empty($this->charset) && version_compare(mysql_get_server_info(), '4.1.0', '>=') )
  			$this->query("SET NAMES '$this->charset'");
 
 		$this->select($dbname);
+		$this->ready = true;
 	}
 
 	function __destruct() {
@@ -101,6 +104,7 @@ class wpdb {
 <li>On some systems the name of your database is prefixed with your username, so it would be like username_wordpress. Could that be the problem?</li>
 </ul>
 <p>If you don't know how to setup a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>");
+			return;
 		}
 	}
 
@@ -195,6 +199,9 @@ class wpdb {
 	//	Basic Query	- see docs for more detail
 
 	function query($query) {
+		if ( ! $ready )
+			return false;
+
 		// filter the query, if filters are available
 		// NOTE: some queries are made before the plugins have been loaded, and thus cannot be filtered with this method
 		if ( function_exists('apply_filters') )
