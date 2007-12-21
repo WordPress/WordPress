@@ -32,9 +32,9 @@ function wp_reset_query() {
  */
 
 function is_admin () {
-	global $wp_query;
-
-	return ($wp_query->is_admin || (stripos($_SERVER['REQUEST_URI'], 'wp-admin/') !== false));
+	if ( defined('WP_ADMIN') ) 
+		return WP_ADMIN;
+	return false;
 }
 
 function is_archive () {
