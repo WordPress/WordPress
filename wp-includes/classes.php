@@ -465,33 +465,51 @@ class Walker {
 
 		if ($max_depth < -1) //invalid parameter
 			return $output; 
-
+			
+		if (empty($elements)) //nothing to walk
+			return $output; 
+			
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
-
-		$flat = ($max_depth == -1) ? true : false;
-		if ( $flat ) {
+	
+		// flat display
+		if ( -1 == $max_depth ) {
 			$empty_array = array(); 
 			foreach ( $elements as $e ) 	
 				$output = $this->display_element( $e, $empty_array, 1, 0, $args, $output );
 			return $output; 
 		}
-		
+	
 		/* 
 		 * need to display in hierarchical order 
 		 * splice elements into two buckets: those without parent and those with parent
 		 */
-	
 		$top_level_elements = array();
 		$children_elements  = array();
-	
 		foreach ( $elements as $e) {
 			if ( 0 == $e->$parent_field )
 				$top_level_elements[] = $e; 
 			else
 				$children_elements[] = $e; 
 		}
-	
+		
+		/* 
+		 * none of the elements is top level
+		 * the first one must be root of the sub elements
+		 */
+		if ( !$top_level_elements ) {
+			
+			$root = $children_elements[0];
+			for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
+			
+				$child = $children_elements[$i];
+				if ($root->$parent_field == $child->$parent_field )
+					$top_level_elements[] = $child; 
+					array_splice( $children_elements, $i, 1 );
+					$i--; 
+			}
+		}
+		
 		foreach ( $top_level_elements as $e )
 			$output = $this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
 			
