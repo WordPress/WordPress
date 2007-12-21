@@ -13,6 +13,7 @@ if (isset($_GET['step']))
 	$step = $_GET['step'];
 else
 	$step = 0;
+function display_header(){
 header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -24,13 +25,17 @@ header( 'Content-Type: text/html; charset=utf-8' );
 </head>
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+
 <?php
+}//end function display_header();
+
 // Let's check to make sure WP isn't already installed.
-if ( is_blog_installed() ) die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');
+if ( is_blog_installed() ) {display_header(); die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');}
 
 switch($step) {
 	case 0:
 	case 1: // in case people are directly linking to this
+	  display_header();
 ?>
 <h1><?php _e('Welcome'); ?></h1>
 <p><?php printf(__('Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure.  Otherwise, just fill in the information below and you\'ll be on your way to using the most extendable and powerful personal publishing platform in the world.'), '../readme.html'); ?></p>
@@ -61,6 +66,9 @@ switch($step) {
 <?php
 		break;
 	case 2:
+	  if ( !empty($wpdb->error) )
+		wp_die($wpdb->error->get_error_message());
+	display_header();	
 		// Fill in the data we gathered
 		$weblog_title = stripslashes($_POST['weblog_title']);
 		$admin_email = stripslashes($_POST['admin_email']);

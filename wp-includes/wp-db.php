@@ -97,6 +97,7 @@ class wpdb {
 <p>We were able to connect to the database server (which means your username and password is okay) but not able to select the <code>$db</code> database.</p>
 <ul>
 <li>Are you sure it exists?</li>
+<li>Does the user <code>".DB_USER."</code> have permission to use the <code>$db</code> database?</li>
 <li>On some systems the name of your database is prefixed with your username, so it would be like username_wordpress. Could that be the problem?</li>
 </ul>
 <p>If you don't know how to setup a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>");
@@ -408,8 +409,13 @@ class wpdb {
 	 * @param string $message
 	 */
 	function bail($message) { // Just wraps errors in a nice header and footer
-		if ( !$this->show_errors )
+		if ( !$this->show_errors ) {
+			if ( class_exists('WP_Error') )
+				$this->error = new WP_Error('500', $message);
+			else
+				$this->error = $message;
 			return false;
+		}
 		wp_die($message);
 	}
 }
