@@ -631,7 +631,6 @@ function _make_url_clickable_cb($matches) {
 	$url = clean_url($url);
 	if ( empty($url) )
 		return $matches[0];
-		error_log($matches[0], 0);
 	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>";
 }
 
