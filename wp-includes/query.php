@@ -749,8 +749,12 @@ class WP_Query {
 		$search = '';
 		$groupby = '';
 
-		if ( !isset($q['post_type']) )
-			$q['post_type'] = 'post';
+		if ( !isset($q['post_type']) ) {
+			if ( $this->is_search )
+				$q['post_type'] = 'any';
+			else
+				$q['post_type'] = 'post';
+		}
 		$post_type = $q['post_type'];
 		if ( !isset($q['posts_per_page']) || $q['posts_per_page'] == 0 )
 			$q['posts_per_page'] = get_option('posts_per_page');
@@ -885,8 +889,7 @@ class WP_Query {
 			$q['s'] = stripslashes($q['s']);
 			if ($q['sentence']) {
 				$q['search_terms'] = array($q['s']);
-			}
-			else {
+			} else {
 				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $q[s], $matches);
 				$q['search_terms'] = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
 			}
@@ -897,7 +900,7 @@ class WP_Query {
 				$search .= "{$searchand}((post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}'))";
 				$searchand = ' AND ';
 			}
-			$term = addslashes_gpc($q['s']);
+			$term = $wpdb->escape($q['s']);
 			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
 				$search .= " OR (post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}')";
 
@@ -1145,6 +1148,8 @@ class WP_Query {
 			$where .= " AND post_type = 'page'";
 		} elseif ($this->is_single) {
 			$where .= " AND post_type = 'post'";
+		} elseif ( 'any' == $post_type ) {
+			$where .= '';
 		} else {
 			$where .= " AND post_type = '$post_type'";
 		}
