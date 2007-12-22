@@ -76,11 +76,12 @@ class wpdb {
 			return;
 		}
 
+		$this->ready = true;
+
 		if ( !empty($this->charset) && version_compare(mysql_get_server_info(), '4.1.0', '>=') )
  			$this->query("SET NAMES '$this->charset'");
 
 		$this->select($dbname);
-		$this->ready = true;
 	}
 
 	function __destruct() {
@@ -113,6 +114,7 @@ class wpdb {
 	 */
 	function select($db) {
 		if (!@mysql_select_db($db, $this->dbh)) {
+			$this->ready = false;
 			$this->bail("
 <h1>Can&#8217;t select database</h1>
 <p>We were able to connect to the database server (which means your username and password is okay) but not able to select the <code>$db</code> database.</p>
