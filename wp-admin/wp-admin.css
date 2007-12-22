@@ -6,11 +6,7 @@
 * html .wrap { height: 1% }
 /* For Win IE's eyes only */
 
-body {
-	border: none;
-}
 a {
-	border-bottom: 1px solid #69c;
 	color: #00019b;
 	text-decoration: none;
 }
@@ -66,6 +62,22 @@ a.delete:hover {
 	clear: both;
 	text-align: right;
 	margin-right: 5em;
+}
+
+.wrap {
+	margin: 0;
+	padding: 0;
+	margin-left: 10px;
+	margin-right: 25%;
+}
+
+.wrap h2 {
+	font: 24px Georgia, "Times New Roman", Times, serif;
+	color: #666;
+	border-bottom: 1px solid #dadada;
+	padding: 0;
+	margin: 0;
+	padding-bottom: 10px;
 }
 
 .widefat {
@@ -124,7 +136,7 @@ a:hover {
 }
 
 body	{
-	background: #f9fcfe;
+	background: #fff;
 	color: #000;
 	margin: 0;
 	padding: 0;
@@ -166,13 +178,6 @@ fieldset.options legend {
 form, label input {
 	margin: 0;
 	padding: 0;
-}
-
-h2 {
-	color: #333;
-	font: normal 32px Georgia, "Times New Roman", Times, serif;
-	margin: 5px 10px;
-	background: url( images/heading-bg.gif ) repeat-x bottom;
 }
 
 img {
@@ -422,13 +427,7 @@ form#upload #post_content {
 	padding: 0 1em 0 1em;
 }
 
-.wrap {
-	background: #fff;
-	border: 1px solid #ccc;
-	clear: both;
-	margin: 15px 5%;
-	padding: 1em;
-}
+
 
 .narrow {
 	width: 450px;
@@ -439,14 +438,6 @@ form#upload #post_content {
 	line-height: 150%;
 }
 
-.wrap h2 {
-	margin: 0 0 .5em;
-	clear: both;
-}
-
-* html .wrap h2 {
-	margin-top: 1em;
-}
 
 table .vers {
 	text-align: center;
@@ -460,82 +451,6 @@ input.disabled, textarea.disabled {
 	background: #ccc;
 }
 
-#adminmenu {
-	background: #83B4D8;
-	border-top: 3px solid #448abd;
-	margin: 0;
-	padding: .2em .2em .3em 2em;
-}
-
-#adminmenu .current, #submenu .current {
-	font-weight: bold;
-	text-decoration: none;
-}
-
-#adminmenu a {
-	color: #000;
-	font-size: 14px;
-	font-weight: normal;
-	margin: 0;
-	padding: 3px 5px;
-	border-bottom: none;
-}
-
-#adminmenu a:hover, #adminmenu a.current {
-	background: #ddeaf4;
-	color: #333;
-}
-
-#adminmenu li, #submenu li {
-	display: inline;
-	line-height: 200%;
-	list-style: none;
-	text-align: center;
-	white-space: nowrap;
-}
-
-#adminmenu a.current {
-	background: #0d324f;
-	border-right: 2px solid #4f96c8;
-	border-top: 1px solid #96c0de;
-	color: #fff;
-	padding-bottom: 8px;
-}
-
-#submenu, #minisub {
-	background: #0d324f;
-	border-bottom: none;
-	margin: 0;
-	padding: 3px 2em 0 3em;
-}
-
-#minisub {
-	height: 6px;
-}
-
-#submenu .current {
-	background: #f9fcfe;
-	border-top: 1px solid #045290;
-	border-right: 2px solid #045290;
-	color: #000;
-}
-
-#submenu a {
-	border: none;
-	color: #fff;
-	font-size: 12px;
-	padding: .3em .4em .4em;
-}
-
-#submenu a:hover {
-	background: #ddeaf4;
-	color: #393939;
-}
-
-#submenu li {
-	line-height: 180%;
-	height: 25px;
-}
 
 #categorydiv input, #poststatusdiv input, #commentstatusdiv input, #pingstatusdiv input {
 	border: none;
@@ -653,19 +568,6 @@ input.delete:hover {
 	margin: 0;
 	height: 4em;
 	width: 100%;
-}
-
-#footer {
-	clear: both;
-	height: 35px;
-	padding-left: 40px;
-	margin: 15px 5%;
-	background: url('images/logo-ghost.png') no-repeat top left;
-}
-
-#footer p {
-	margin: 0;
-	padding: 5px 0;
 }
 
 #login {
@@ -866,41 +768,6 @@ input.delete:hover {
 	list-style: none;
 	margin: .5em;
 	padding: 0;
-}
-
-#user_info {
-	position: absolute;
-	right: 1em;
-	top: 0;
-	color: #fff;
-	font-size: .9em;
-}
-
-#user_info a {
-	color: #fff;
-}
-
-#wphead {
-	background: #14568a;
-	padding: .8em 19em .8em 2em;
-	color: #c3def1;
-}
-
-#wphead a {
-	color: #fff;
-}
-
-#wphead h1 {
-	font-size: 2.5em;
-	font-weight: normal;
-	letter-spacing: -.05em;
-	margin: 0;
-	font-family: Georgia, "Times New Roman", Times, serif;
-}
-
-#wphead h1 span#viewsite {
-	font-size: .4em;
-	letter-spacing: 0;
 }
 
 #zeitgeist {
@@ -1388,4 +1255,142 @@ a.view-link {
 a.view-comment-post-link {
 	position: absolute;
 	text-decoration:underline;
+}
+
+/* Admin Header */
+
+#user_info {
+	position: absolute;
+	right: 25%;
+	top: 10px;
+	color: #fff;
+	font-size: 12px;
+}
+
+#user_info p {
+	margin: 0;
+	padding: 0;
+}
+
+#user_info a {
+	color: #fff;
+}
+
+#wphead {
+	border-top: 35px solid #464646;
+	background: #e4f2fd;
+}
+
+#wphead #viewsite {
+	position: absolute;
+	margin-top: 8px;
+	margin-left: 10px;
+}
+#wphead #viewsite a {
+	background-color: #c6d9e9;
+	font: 14px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 6px;
+	display: block;
+	-moz-border-radius: 2px;
+	color: #246;
+	letter-spacing: normal;
+}
+#wphead h1 {
+	font: normal 36px Georgia, "Times New Roman", Times, serif;
+	color: #555;
+	letter-spacing: -.03em;
+	padding: 15px 15px 18px;
+	margin: 0;
+}
+
+#adminmenu {
+	margin: 0;
+	list-style: none;
+	background: #e4f2fd;
+	border-bottom: 1px solid #c6d9e9;
+	padding-left: 10px;
+}
+
+#adminmenu a {
+	font-size: 16px;
+	color: #2583ad;
+	padding: 6px 6px;
+	line-height: 200%;
+	border: 1px solid #e4f2fd;
+	border-bottom: 1px solid #c6d9e9;
+}
+
+#adminmenu a:hover, #adminmenu a.current, #adminmenu a.current:hover {
+	background: #fff;
+	color: #d54e21;
+	border: 1px solid #c6d9e9;
+	font-weight: bold;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-bottom: 1px solid #fff;
+}
+
+#adminmenu a:hover {
+	border-bottom: 1px solid #c6d9e9;
+	font-weight: normal;
+}
+
+#adminmenu li, #submenu li {
+	display: inline;
+	line-height: 200%;
+	list-style: none;
+	text-align: center;
+	white-space: nowrap;
+}
+
+#adminmenu #awaiting-mod {
+	color: #fff;
+	font-size: 10px;
+	width: 23px;
+	position: absolute;
+	margin-left: -15px;
+	margin-top: -13px;
+	background-image: url(images/comment-pill.gif);
+	background-position: 0 10px;
+	background-repeat: no-repeat;
+}
+
+#submenu {
+	margin: 0;
+	list-style: none;
+	padding: 12px 0 15px 0;
+}
+
+#submenu a {
+	font-size: 14px;
+	color: #2583ad;
+	padding: 0 0 8px 17px;
+}
+
+#submenu a.current, #submenu a:hover {
+	color: #d54e21;
+}
+
+#minisub { /* for empty submenus */
+	height: 15px;
+}
+
+/* Admin Footer */
+
+#footer {
+	clear: both;
+	height: 65px;
+	padding: 10px 0 0 65px;
+	margin: 0;
+	background: #464646 url('images/logo-ghost.png') no-repeat 20px 10px;
+	color: #999;
+}
+
+#footer a {
+	color: #fff;
+}
+
+#footer p {
+	margin: 0;
+	padding: 5px 0;
 }

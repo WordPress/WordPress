@@ -15,15 +15,18 @@ if (strpos($_SERVER['REQUEST_URI'], 'page-new.php') !== false)
 else
 	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
 
-$menu[15] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
+$awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
+if ( 100 < $awaiting_mod )
+	$awaiting_mod = '99+'; // to not blow out layout
+$menu[15] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod'>$awaiting_mod</span>" ), 'edit_posts', 'edit-comments.php');
 $menu[20] = array(__('Blogroll'), 'manage_links', 'link-manager.php');
-$menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
+$menu[25] = array(__('Design'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
 	$menu[35] = array(__('Users'), 'edit_users', 'users.php');
 else
 	$menu[35] = array(__('Profile'), 'read', 'profile.php');
-$menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
+$menu[40] = array(__('Settings'), 'manage_options', 'options-general.php');
 
 
 $_wp_real_parent_file['post.php'] = 'post-new.php'; // Back-compat
