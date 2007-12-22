@@ -129,7 +129,7 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 
 <?php
 
-if ( 1 == count($posts) ) {
+if ( 1 == count($posts) && isset( $_GET['p'] ) ) {
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ($comments) {
