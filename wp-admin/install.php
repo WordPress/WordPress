@@ -66,9 +66,10 @@ switch($step) {
 <?php
 		break;
 	case 2:
-	  if ( !empty($wpdb->error) )
-		wp_die($wpdb->error->get_error_message());
-	display_header();	
+		if ( !empty($wpdb->error) )
+			wp_die($wpdb->error->get_error_message());
+
+		display_header();	
 		// Fill in the data we gathered
 		$weblog_title = stripslashes($_POST['weblog_title']);
 		$admin_email = stripslashes($_POST['admin_email']);
@@ -82,8 +83,9 @@ switch($step) {
 			die(__('<strong>ERROR</strong>: that isn\'t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>'));
 		}
 
-	$result = wp_install($weblog_title, 'admin', $admin_email, $public);
-	extract($result, EXTR_SKIP);
+		$wpdb->show_errors();
+		$result = wp_install($weblog_title, 'admin', $admin_email, $public);
+		extract($result, EXTR_SKIP);
 ?>
 
 <h1><?php _e('Success!'); ?></h1>
