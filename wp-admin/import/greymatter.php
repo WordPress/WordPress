@@ -283,6 +283,7 @@ class GM_Import {
 			echo '... <strong>'.__('Done').'</strong></li>';
 		}
 	}
+	do_action('import_done', 'greymatter');
 	?>
 </ul><strong><?php _e('Done') ?></strong></li></ul>
 <p>&nbsp;</p>

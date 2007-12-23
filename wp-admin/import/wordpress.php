@@ -274,6 +274,7 @@ class WP_Import {
 		echo '</ol>';
 
 		wp_import_cleanup($this->id);
+		do_action('import_done', 'wordpress');
 
 		echo '<h3>'.sprintf(__('All done.').' <a href="%s">'.__('Have fun!').'</a>', get_option('home')).'</h3>';
 	}

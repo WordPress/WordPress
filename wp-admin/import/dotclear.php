@@ -615,6 +615,7 @@ class Dotclear_Import {
 		delete_option('dcname');
 		delete_option('dchost');
 		delete_option('dccharset');
+		do_action('import_done', 'dotclear');
 		$this->tips();
 	}
 

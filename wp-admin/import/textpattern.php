@@ -550,6 +550,7 @@ class Textpattern_Import {
 		delete_option('txppass');
 		delete_option('txpname');
 		delete_option('txphost');
+		do_action('import_done', 'textpattern');
 		$this->tips();
 	}
 

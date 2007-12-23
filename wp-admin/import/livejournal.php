@@ -138,6 +138,7 @@ class LJ_Import {
 		if ( is_wp_error( $result ) )
 			return $result;
 		wp_import_cleanup($file['id']);
+		do_action('import_done', 'livejournal');
 
 		echo '<h3>';
 		printf(__('All done. <a href="%s">Have fun!</a>'), get_option('home'));
