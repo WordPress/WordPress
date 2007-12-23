@@ -336,8 +336,8 @@ function wp_validate_auth_cookie($cookie = '') {
 
 	$expired = $expiration;
 
-	// Allow a grace period for POST requests
-	if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
+	// Allow a grace period for POST and AJAX requests
+	if ( defined('DOING_AJAX') || 'POST' == $_SERVER['REQUEST_METHOD'] )
 		$expired += 3600;
 
 	if ( $expired < time() )
@@ -699,18 +699,17 @@ endif;
 
 if ( !function_exists('wp_salt') ) :
 function wp_salt() {
+
+	if ( defined('SECRET_KEY') && '' != SECRET_KEY )
+		return SECRET_KEY;
+
 	$salt = get_option('secret');
 	if ( empty($salt) ) {
 		$salt = wp_generate_password();
 		update_option('secret', $salt);
 	}
 
-	if ( !defined('SECRET_KEY') || '' == SECRET_KEY )
-		$secret_key = DB_PASSWORD . DB_USER . DB_NAME . DB_HOST . ABSPATH;
-	else
-		$secret_key = SECRET_KEY;
-		
-	return $salt . $secret_key;
+	return $salt;
 }
 endif;
 

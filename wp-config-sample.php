@@ -6,6 +6,10 @@ define('DB_PASSWORD', 'yourpasswordhere'); // ...and password
 define('DB_HOST', 'localhost');    // 99% chance you won't need to change this value
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
+
+// Change SECRET_KEY to a unique phrase.  You won't have to remember it later,
+// so make it long and complicated.  You can visit https://www.grc.com/passwords.htm
+// to get a phrase generated for you.
 define('SECRET_KEY', ''); // Change this to a unique phrase.
 
 // You can have multiple installations in one database if you give each a unique prefix
