@@ -12,7 +12,7 @@ include('./admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
-<table class="optiontable">
+<table class="niceblue">
 <tr valign="top">
 <th scope="row"><?php _e('Blog title:') ?></th>
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="40" /></td>
@@ -54,10 +54,6 @@ include('./admin-header.php');
 <select name="default_role" id="default_role"><?php wp_dropdown_roles( get_option('default_role') ); ?></select></label>
 </td>
 </tr>
-</table>
-<fieldset class="options">
-<legend><?php _e('Date and Time') ?></legend>
-<table class="optiontable">
 <tr>
 <th scope="row"><?php _e('<abbr title="Coordinated Universal Time">UTC</abbr> time is:') ?> </th>
 <td><code><?php echo gmdate(__('Y-m-d g:i:s a')); ?></code></td>
@@ -93,7 +89,6 @@ endfor;
 </select></td>
 </tr>
 </table>
-</fieldset>
 
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
 <input type="hidden" name="action" value="update" />

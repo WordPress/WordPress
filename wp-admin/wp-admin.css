@@ -343,46 +343,14 @@ form#upload #post_content {
 }
 
 .submit input, .submit input:focus, .button, .button:focus {
-	background: url( images/fade-butt.png );
-	border: 3px double #999;
-	border-left-color: #ccc;
-	border-top-color: #ccc;
-	color: #333;
-	padding: 0.25em;
-}
-
-.submit input:active, .button:active {
-	background: #f4f4f4;
-	border: 3px double #ccc;
-	border-left-color: #999;
-	border-top-color: #999;
-}
-
-.button, .button:focus {
-	padding: 0.15em;
-}
-
-* html .button {
-	padding: 0;
+	background: url(images/fade-butt.png);
+	color: #246;
+	padding: 0.3em;
+	-moz-border-radius: 4px;
 }
 
 .submit, .editform th, #postcustomsubmit {
 	text-align: right;
-}
-
-.optiontable {
-	width: 100%;
-}
-
-.optiontable td, .optiontable th {
-	padding: .5em;
-}
-
-.optiontable th {
-	width: 33%;
-	text-align: right;
-	font-size: 1.3em;
-	font-weight: normal;
 }
 
 .unapproved {
@@ -427,11 +395,9 @@ form#upload #post_content {
 	padding: 0 1em 0 1em;
 }
 
-
-
 .narrow {
-	width: 450px;
-	margin: auto;
+	width: 70%;
+	margin-bottom: 40px;
 }
 
 .narrow p {
@@ -1393,4 +1359,27 @@ a.view-comment-post-link {
 #footer p {
 	margin: 0;
 	padding: 5px 0;
+}
+
+/* Tables used on comment.php and option/setting pages */
+
+.niceblue {
+	border-collapse: collapse;
+	margin-top: 1em;
+}
+
+.niceblue td {
+	margin-bottom: 9px;
+	padding: 10px;
+	border-bottom: 8px solid #fff;
+}
+
+.niceblue th {
+	text-align: left;
+	padding: 10px;
+	border-bottom: 8px solid #fff;
+}
+
+.niceblue tr {
+	background: #eaf3fa;
 }

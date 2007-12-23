@@ -15,7 +15,7 @@ include('admin-header.php');
 <?php if ( get_pages() ): ?>
 <fieldset class="options">
 <legend><?php _e('Front Page') ?></legend>
-<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
+<table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Front page displays:')?></th>
 <td>
@@ -48,7 +48,7 @@ include('admin-header.php');
 
 <fieldset class="options">
 <legend><?php _e('Blog Pages') ?></legend>
-<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
+<table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Show at most:') ?></th>
 <td>
@@ -75,7 +75,7 @@ include('admin-header.php');
 </tr>
 </table>
 </fieldset>
-<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
+<table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Encoding for pages and feeds:') ?></th>
 <td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" size="20" class="code" /><br />

@@ -12,7 +12,8 @@ include('admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
-<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
+
+<table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th>
 <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " />
@@ -61,7 +62,7 @@ endforeach;
 <legend><?php _e('Post via e-mail') ?></legend>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), wp_generate_password(), wp_generate_password(), wp_generate_password()) ?></p>
 
-<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
+<table class="niceblue">
 <tr valign="top">
 <th scope="row"><?php _e('Mail server:') ?></th>
 <td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />

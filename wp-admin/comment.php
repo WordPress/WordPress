@@ -91,25 +91,25 @@ if ( 'spam' == $_GET['dt'] ) {
 <input type='hidden' name='noredir' value='1' />
 </form>
 
-<table class="editform" cellpadding="5">
+<table class="niceblue" cellpadding="5">
 <tr class="alt">
-<th scope="row"><?php _e('Author:'); ?></th>
+<th scope="row"><?php _e('Author'); ?></th>
 <td><?php echo $comment->comment_author; ?></td>
 </tr>
 <?php if ( $comment->comment_author_email ) { ?>
 <tr>
-<th scope="row"><?php _e('E-mail:'); ?></th>
+<th scope="row"><?php _e('E-mail'); ?></th>
 <td><?php echo $comment->comment_author_email; ?></td>
 </tr>
 <?php } ?>
 <?php if ( $comment->comment_author_url ) { ?>
 <tr>
-<th scope="row"><?php _e('URL:'); ?></th>
+<th scope="row"><?php _e('URL'); ?></th>
 <td><a href='<?php echo $comment->comment_author_url; ?>'><?php echo $comment->comment_author_url; ?></a></td>
 </tr>
 <?php } ?>
 <tr>
-<th scope="row" valign="top"><?php _e('Comment:'); ?></th>
+<th scope="row" valign="top"><?php _e('Comment'); ?></th>
 <td><?php echo $comment->comment_content; ?></td>
 </tr>
 </table>

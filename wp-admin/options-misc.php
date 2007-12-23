@@ -15,7 +15,7 @@ include('admin-header.php');
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
 <fieldset class="options">
 <legend><?php _e('Uploading'); ?></legend>
-<table class="editform optiontable">
+<table class="niceblue">
 <tr valign="top">
 <th scope="row"><?php _e('Store uploads in this folder'); ?>:</th>
 <td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo attribute_escape(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" size="40" />
