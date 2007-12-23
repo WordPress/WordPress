@@ -231,7 +231,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.getPage");
+		do_action('xmlrpc_call', 'wp.getPage');
 
 		// Lookup page info.
 		$page = get_page($page_id);
@@ -315,7 +315,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.getPages");
+		do_action('xmlrpc_call', 'wp.getPages');
 
 		// Lookup info on pages.
 		$pages = get_pages();
@@ -355,7 +355,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.newPage");
+		do_action('xmlrpc_call', 'wp.newPage');
 
 		// Set the user context and check if they are allowed
 		// to add new pages.
@@ -387,7 +387,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.deletePage");
+		do_action('xmlrpc_call', 'wp.deletePage');
 
 		// Get the current page based on the page_id and
 		// make sure it is a page and not a post.
@@ -431,7 +431,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.editPage");
+		do_action('xmlrpc_call', 'wp.editPage');
 
 		// Get the page data and make sure it is a page.
 		$actual_page = wp_get_single_post($page_id, ARRAY_A);
@@ -481,7 +481,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.getPageList");
+		do_action('xmlrpc_call', 'wp.getPageList');
 
 		// Get list of pages ids and titles
 		$page_list = $wpdb->get_results("
@@ -527,7 +527,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.getAuthors");
+		do_action('xmlrpc_call', 'wp.getAuthors');
 
 		return(get_users_of_blog());
 	}
@@ -548,7 +548,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.newCategory");
+		do_action('xmlrpc_call', 'wp.newCategory');
 
 		// Set the user context and make sure they are
 		// allowed to add a category.
@@ -604,7 +604,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "wp.deleteCategory");
+		do_action('xmlrpc_call', 'wp.deleteCategory');
 
 		set_current_user(0, $username);
 		if( !current_user_can("manage_categories") ) {
@@ -632,7 +632,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		do_action("xmlrpc_call", "wp.suggestCategories");
+		do_action('xmlrpc_call', 'wp.suggestCategories');
 
 		$category_suggestions = array();
 		$args = array('get' => 'all', 'number' => $max_results, 'name__like' => $category);
@@ -664,7 +664,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.getUsersBlogs");
+		do_action('xmlrpc_call', 'blogger.getUsersBlogs');
 
 		set_current_user(0, $user_login);
 		$is_admin = current_user_can('level_8');
@@ -692,7 +692,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.getUserInfo");
+		do_action('xmlrpc_call', 'blogger.getUserInfo');
 
 		$user_data = get_userdatabylogin($user_login);
 
@@ -722,7 +722,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.getPost");
+		do_action('xmlrpc_call', 'blogger.getPost');
 
 		$post_data = wp_get_single_post($post_ID, ARRAY_A);
 
@@ -757,7 +757,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.getRecentPosts");
+		do_action('xmlrpc_call', 'blogger.getRecentPosts');
 
 		$posts_list = wp_get_recent_posts($num_posts);
 
@@ -807,7 +807,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  do_action("xmlrpc_call", "blogger.getTemplate");
+	  do_action('xmlrpc_call', 'blogger.getTemplate');
 
 	  set_current_user(0, $user_login);
 	  if ( !current_user_can('edit_themes') ) {
@@ -844,7 +844,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.setTemplate");
+		do_action('xmlrpc_call', 'blogger.setTemplate');
 
 		set_current_user(0, $user_login);
 		if ( !current_user_can('edit_themes') ) {
@@ -881,7 +881,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.newPost");
+		do_action('xmlrpc_call', 'blogger.newPost');
 
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
 		$user = set_current_user(0, $user_login);
@@ -930,7 +930,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.editPost");
+		do_action('xmlrpc_call', 'blogger.editPost');
 
 		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
 		
@@ -979,7 +979,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "blogger.deletePost");
+		do_action('xmlrpc_call', 'blogger.deletePost');
 
 		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
 		
@@ -1020,7 +1020,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "metaWeblog.newPost");
+		do_action('xmlrpc_call', 'metaWeblog.newPost');
 
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
 		$user = set_current_user(0, $user_login);
@@ -1237,7 +1237,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "metaWeblog.editPost");
+		do_action('xmlrpc_call', 'metaWeblog.editPost');
 
 		$user = set_current_user(0, $user_login);
 
@@ -1448,7 +1448,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "metaWeblog.getPost");
+		do_action('xmlrpc_call', 'metaWeblog.getPost');
 
 		$postdata = wp_get_single_post($post_ID, ARRAY_A);
 		
@@ -1526,7 +1526,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "metaWeblog.getRecentPosts");
+		do_action('xmlrpc_call', 'metaWeblog.getRecentPosts');
 
 		$posts_list = wp_get_recent_posts($num_posts);
 
@@ -1615,7 +1615,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "metaWeblog.getCategories");
+		do_action('xmlrpc_call', 'metaWeblog.getCategories');
 
 		$categories_struct = array();
 
@@ -1657,7 +1657,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$this->login_pass_ok($user_login, $user_pass) )
 			return $this->error;
 
-		do_action("xmlrpc_call", "metaWeblog.newMediaObject");
+		do_action('xmlrpc_call', 'metaWeblog.newMediaObject');
 
 		set_current_user(0, $user_login);
 		if ( !current_user_can('upload_files') ) {
@@ -1775,7 +1775,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "mt.getCategoryList");
+		do_action('xmlrpc_call', 'mt.getCategoryList');
 
 		$categories_struct = array();
 
@@ -1806,7 +1806,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "mt.getPostCategories");
+		do_action('xmlrpc_call', 'mt.getPostCategories');
 
 		$categories = array();
 		$catids = wp_get_post_categories(intval($post_ID));
@@ -1839,7 +1839,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "mt.setPostCategories");
+		do_action('xmlrpc_call', 'mt.setPostCategories');
 
 		set_current_user(0, $user_login);
 		if ( !current_user_can('edit_post', $post_ID) )
@@ -1858,7 +1858,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* mt.supportedMethods ...returns an array of methods supported by this server */
 	function mt_supportedMethods($args) {
 
-		do_action("xmlrpc_call", "mt.supportedMethods");
+		do_action('xmlrpc_call', 'mt.supportedMethods');
 
 		$supported_methods = array();
 		foreach($this->methods as $key=>$value) {
@@ -1883,7 +1883,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post_ID = intval($args);
 
-		do_action("xmlrpc_call", "mt.getTrackbackPings");
+		do_action('xmlrpc_call', 'mt.getTrackbackPings');
 
 		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
 
@@ -1927,7 +1927,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		do_action("xmlrpc_call", "mt.publishPost");
+		do_action('xmlrpc_call', 'mt.publishPost');
 
 		set_current_user(0, $user_login);
 		if ( !current_user_can('edit_post', $post_ID) )
@@ -1957,7 +1957,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	function pingback_ping($args) {
 		global $wpdb;
 
-		do_action("xmlrpc_call", "pingback.ping");
+		do_action('xmlrpc_call', 'pingback.ping');
 
 		$this->escape($args);
 
@@ -2121,7 +2121,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		global $wpdb;
 
-		do_action("xmlrpc_call", "pingback.extensions.getPingsbacks");
+		do_action('xmlrpc_call', 'pingback.extensions.getPingsbacks');
 
 		$this->escape($args);
 
