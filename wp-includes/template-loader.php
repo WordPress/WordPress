@@ -1,4 +1,8 @@
 <?php
+/**
+ * Loads the correct template based on the visitor's url
+ * @package WordPress
+ */
 if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	do_action('template_redirect');
 	if ( is_robots() ) {
