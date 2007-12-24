@@ -1611,6 +1611,7 @@ function &get_pages($args = '') {
 		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
+		$hierarchical = false;
 		$incpages = preg_split('/[\s,]+/',$include);
 		if ( count($incpages) ) {
 			foreach ( $incpages as $incpage ) {
