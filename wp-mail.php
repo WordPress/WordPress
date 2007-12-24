@@ -12,7 +12,7 @@ $phone_delim = '::';
 $pop3 = new POP3();
 
 if (!$pop3->connect(get_option('mailserver_url'), get_option('mailserver_port')))
-	wp_die($pop3->ERROR);
+	wp_die(wp_specialchars($pop3->ERROR));
 
 $count = $pop3->login(get_option('mailserver_login'), get_option('mailserver_pass'));
 if (0 == $count) wp_die(__('There doesn&#8217;t seem to be any new mail.'));
@@ -166,7 +166,7 @@ for ($i=1; $i <= $count; $i++) :
 	echo "\n<b>Posted content:</b><br /><pre>".$content.'</pre></p>';
 
 	if(!$pop3->delete($i)) {
-		echo '<p>Oops '.$pop3->ERROR.'</p></div>';
+		echo '<p>Oops '.wp_specialchars($pop3->ERROR).'</p></div>';
 		$pop3->reset();
 		exit;
 	} else {
