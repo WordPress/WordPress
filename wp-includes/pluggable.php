@@ -700,16 +700,21 @@ endif;
 if ( !function_exists('wp_salt') ) :
 function wp_salt() {
 
-	if ( defined('SECRET_KEY') && '' != SECRET_KEY )
-		return SECRET_KEY;
+	$secret_key = '';
+	if ( defined('SECRET_KEY') && ('' != SECRET_KEY) && ('put your unique phrase here' != SECRET_KEY) )
+		$secret_key = SECRET_KEY;
 
-	$salt = get_option('secret');
-	if ( empty($salt) ) {
-		$salt = wp_generate_password();
-		update_option('secret', $salt);
+	if ( defined('SECRET_SALT') ) {
+		$salt = SECRET_SALT;
+	} else {
+		$salt = get_option('secret');
+		if ( empty($salt) ) {
+			$salt = wp_generate_password();
+			update_option('secret', $salt);
+		}
 	}
 
-	return $salt;
+	return apply_filters('salt', $salt);
 }
 endif;
 
