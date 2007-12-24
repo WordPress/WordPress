@@ -1,5 +1,22 @@
 <?php
+/**
+ * Link/Bookmark API
+ *
+ * @package WordPress
+ * @subpackage Bookmark
+ */
 
+/**
+ * get_bookmark() - Get Bookmark data based on ID
+ *
+ * @since 2.1
+ * @uses $wpdb Database Object
+ *
+ * @param int $bookmark_id
+ * @param string $output Optional. Either OBJECT, ARRAY_N, or ARRAY_A constant
+ * @param string $filter Optional, default is 'raw'.
+ * @return array|object Type returned depends on $output value.
+ */
 function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
@@ -19,6 +36,18 @@ function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 	}
 }
 
+/**
+ * get_bookmark_field() - Gets single bookmark data item or field.
+ *
+ * @since 2.3
+ * @uses get_bookmark() Gets bookmark object using $bookmark as ID
+ * @uses sanitize_bookmark_field() Sanitizes Bookmark field based on $context.
+ *
+ * @param string $field The name of the data field to return
+ * @param int $bookmark The bookmark ID to get field
+ * @param string $context Optional. The context of how the field will be used.
+ * @return string
+ */
 function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
 	$bookmark = (int) $bookmark;
 	$bookmark = get_bookmark( $bookmark );
@@ -35,11 +64,45 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
 	return sanitize_bookmark_field($field, $bookmark->$field, $bookmark->link_id, $context);
 }
 
-// Deprecate
+/**
+ * get_link() - Returns bookmark data based on ID.
+ *
+ * @since 2.0
+ * @deprecated Use get_bookmark()
+ * @see get_bookmark()
+ *
+ * @param int $bookmark_id ID of link
+ * @param string $output Either OBJECT, ARRAY_N, or ARRAY_A
+ * @return object|array
+ */
 function get_link($bookmark_id, $output = OBJECT) {
 	return get_bookmark($bookmark_id, $output);
 }
 
+/**
+ * get_bookmarks() - Retrieves the list of bookmarks
+ *
+ * Attempts to retrieve from the cache first based on MD5 hash of arguments. If
+ * that fails, then the query will be built from the arguments and executed. The
+ * results will be stored to the cache.
+ *
+ * List of default arguments are as follows:
+ * 'orderby' - Default is 'name' (string). How to order the links by. String is based off of the bookmark scheme.
+ * 'order' - Default is 'ASC' (string). Either 'ASC' or 'DESC'. Orders in either ascending or descending order.
+ * 'limit' - Default is -1 (integer) or show all. The amount of bookmarks to display.
+ * 'category' - Default is empty string (string). Include the links in what category ID(s).
+ * 'category_name' - Default is empty string (string). Get links by category name.
+ * 'hide_invisible' - Default is 1 (integer). Whether to show (default) or hide links marked as 'invisible'.
+ * 'show_updated' - Default is 0 (integer). Will show the time of when the bookmark was last updated.
+ * 'include' - Default is empty string (string). Include other categories separated by commas.
+ * 'exclude' - Default is empty string (string). Exclude other categories separated by commas.
+ *
+ * @since 2.1
+ * @uses $wpdb Database Object
+ *
+ * @param string|array $args List of arguments to overwrite the defaults
+ * @return array List of bookmark row objects
+ */
 function get_bookmarks($args = '') {
 	global $wpdb;
 
@@ -61,9 +124,9 @@ function get_bookmarks($args = '') {
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-	$exclude = '';  //ignore exclude, category, and category_name params if using include
-	$category = '';
-	$category_name = '';
+		$exclude = '';  //ignore exclude, category, and category_name params if using include
+		$category = '';
+		$category_name = '';
 		$inclinks = preg_split('/[\s,]+/',$include);
 		if ( count($inclinks) ) {
 			foreach ( $inclinks as $inclink ) {
@@ -159,6 +222,15 @@ function get_bookmarks($args = '') {
 	return apply_filters('get_bookmarks', $results, $r);
 }
 
+/**
+ * sanitize_bookmark() - Sanitizes all bookmark fields
+ *
+ * @since 2.3
+ *
+ * @param object|array $bookmark Bookmark row
+ * @param string $context Optional, default is 'display'. How to filter the fields
+ * @return object|array Same type as $bookmark but with fields sanitized.
+ */
 function sanitize_bookmark($bookmark, $context = 'display') {
 	$fields = array('link_id', 'link_url', 'link_name', 'link_image', 'link_target', 'link_category',
 		'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_updated',
@@ -178,6 +250,28 @@ function sanitize_bookmark($bookmark, $context = 'display') {
 	return $bookmark;
 }
 
+/**
+ * sanitize_bookmark_field() - Sanitizes a bookmark field
+ *
+ * Sanitizes the bookmark fields based on what the field name is. If the field has a
+ * strict value set, then it will be tested for that, else a more generic filtering is
+ * applied. After the more strict filter is applied, if the $context is 'raw' then the
+ * value is immediately return.
+ *
+ * Hooks exist for the more generic cases. With the 'edit' context, the 'edit_$field'
+ * filter will be called and passed the $value and $bookmark_id respectively. With the
+ * 'db' context, the 'pre_$field' filter is called and passed the value. The 'display'
+ * context is the final context and has the $field has the filter name and is passed the
+ * $value, $bookmark_id, and $context respectively.
+ *
+ * @since 2.3
+ *
+ * @param string $field The bookmark field
+ * @param mixed $value The bookmark field value
+ * @param int $bookmark_id Bookmark ID
+ * @param string $context How to filter the field value. Either 'raw', 'edit', 'attribute', 'js', 'db', or 'display'
+ * @return mixed The filtered value 
+ */
 function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	$int_fields = array('link_id', 'link_rating');
 	if ( in_array($field, $int_fields) )
@@ -220,6 +314,12 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	return $value;
 }
 
+/**
+ * delete_get_bookmark_cache() - Deletes entire bookmark cache
+ *
+ * @since 2.1
+ * @uses wp_cache_delete() Deletes the contents of 'get_bookmarks'
+ */
 function delete_get_bookmark_cache() {
 	wp_cache_delete( 'get_bookmarks', 'bookmark' );
 }
