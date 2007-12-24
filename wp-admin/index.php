@@ -28,7 +28,7 @@ $today = current_time('mysql', 1);
 <h2><?php _e('Dashboard'); ?></h2>
 
 <div id="rightnow">
-<h3><?php _e('Right Now'); ?> <a href="post-new.php"><?php _e('Write a New Post'); ?></a> <a href="page-new.php"><?php _e('Write a New Page'); ?></a></h3>
+<h3 class="reallynow"><?php _e('Right Now'); ?> <a href="post-new.php" class="rbutton"><?php _e('Write a New Post'); ?></a> <a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a></h3>
 
 <?php
 $num_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'" );
@@ -69,14 +69,14 @@ $post_type_text = implode(', ', $post_type_texts);
 $sentence = sprintf( __( 'You have %1$s, contained within %2$s and %3$s.' ), $post_type_text, $cats_text, $tags_text );
 
 ?>
-<p><?php echo $sentence; ?></p>
+<p class="youhave"><?php echo $sentence; ?></p>
 <?php
 $ct = current_theme_info();
 $sidebars_widgets = wp_get_sidebars_widgets();
 $num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ) );
 $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), $num_widgets );
 ?>
-<p><?php printf( __( 'You are using %1$s theme with %2$s.' ), $ct->title, $widgets_text ); ?> <a href="themes.php"><?php _e('Change Theme'); ?></a>. You're using BetaPress TODO.</p>
+<p><?php printf( __( 'You are using %1$s theme with %2$s.' ), $ct->title, "<a href='widgets.php'>$widgets_text</a>" ); ?> <a href="themes.php" class="rbutton"><?php _e('Change Theme'); ?></a> You're using BetaPress TODO.</p>
 <p>
 <?php do_action( 'rightnow_end' ); ?>
 <?php do_action( 'activity_box_end' ); ?>

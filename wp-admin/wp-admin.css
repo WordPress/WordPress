@@ -16,58 +16,10 @@ a.delete:hover {
 	color: #fff;
 }
 
-#devnews h4 {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 18px;
-	font-weight: normal;
-}
-
-#planetnews ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#planetnews li {
-	width: 17%;
-	margin: 1%;
-	float: left;
-}
-
-#planetnews li a {
-	display: block;
-	padding: .5em;
-	background: #ddd;
-	height: 6em;
-	overflow: hidden;
-}
-
-#planetnews cite {
-	font-size: 11px;
-}
-
-#planetnews li .post {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 18px;
-	display: block;
-	height: 60px;
-	overflow: hidden;
-}
-
-#planetnews .hidden {
-	display: none;
-}
-
-.readmore {
-	clear: both;
-	text-align: right;
-	margin-right: 5em;
-}
-
 .wrap {
 	margin: 0;
 	padding: 0;
-	margin-left: 10px;
+	margin-left: 15px;
 	margin-right: 25%;
 }
 
@@ -76,8 +28,9 @@ a.delete:hover {
 	color: #666;
 	border-bottom: 1px solid #dadada;
 	padding: 0;
-	margin: 0;
-	padding-bottom: 10px;
+	margin: 0 0 0 -5px;
+	padding-bottom: 5px;
+	clear: both;
 }
 
 .widefat {
@@ -381,18 +334,30 @@ form#upload #post_content {
 	display: none;
 }
 
-.updated, .confirm {
-	background: #CFEBF7 url(images/notice.gif) no-repeat 1em;
-	border: 1px solid #2580B2;
-	margin: 1em 5% 10px;
-	padding: 0 1em 0 3em;
+.updated, .error {
+	margin-left: 15px;
+	padding: 0 15px;
+	margin-bottom: 20px;
+	margin-right: 25%;
+}
+
+.updated a, .error a {
+	text-decoration: underline;
+}
+
+.updated {
+	background: #ddedfa;
+	border: 1px solid #c6d9e9;
+}
+
+.updated a {
+	color: #448abd;
+	font-weight: bold;
 }
 
 .error {
 	background: #FFEFF7;
 	border: 1px solid #c69;
-	margin: 1em 5% 10px;
-	padding: 0 1em 0 1em;
 }
 
 .narrow {
@@ -1382,4 +1347,52 @@ a.view-comment-post-link {
 
 .niceblue tr {
 	background: #eaf3fa;
+}
+
+/* Dashboard stuff, possibly to go in separate file? */
+
+#rightnow {
+	border: 1px solid #ccc;
+	padding: 2px;
+	margin-top: 10px;
+}
+
+#rightnow .reallynow {
+	background: #d54e21;
+	padding: 12px;
+	color: #fff;
+	font-size: 15px;
+	margin: 0;
+}
+
+#rightnow .rbutton {
+	background: #ebebeb;
+	-moz-border-radius: 5px;
+	padding: 6px;
+	font-weight: normal;
+	color: #264761;
+	border-bottom: none;
+}
+
+#rightnow .reallynow a {
+	float: right;
+	margin-left: 5px;
+	font-size: 14px;
+	margin-top: -24px;
+}
+
+#rightnow .youhave {
+	background: #f0f6fb;
+	font-size:  14px;
+	padding: 10px;
+}
+
+#rightnow p {
+	padding: 0 10px;
+}
+
+#rightnow a {
+	color: #448abd;
+	font-weight: bold;
+	border-bottom: 1px solid #448abd;
 }
