@@ -114,7 +114,7 @@ class gettext_reader {
 
 		$this->STREAM = $Reader;
 		$magic = $this->readint();
-		if ($magic == ($MAGIC1 & 0xFFFFFFFF) || $magic == ($MAGIC3 & 0xFFFFFFFF)) { // to make sure it works for 64-bit platforms
+		if ($magic == $MAGIC1 || $magic == $MAGIC3) { // to make sure it works for 64-bit platforms
 			$this->BYTEORDER = 0;
 		} elseif ($magic == ($MAGIC2 & 0xFFFFFFFF)) {
 			$this->BYTEORDER = 1;
