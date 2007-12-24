@@ -123,8 +123,8 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 <div id="ajax-response"></div>
 
 <div class="navigation">
-<div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries')) ?></div>
-<div class="alignright"><?php previous_posts_link(__('Next Entries &raquo;')) ?></div>
+<div class="alignleft"><?php next_posts_link(__('&laquo; Older Entries')) ?></div>
+<div class="alignright"><?php previous_posts_link(__('Newer Entries &raquo;')) ?></div>
 </div>
 
 <?php
