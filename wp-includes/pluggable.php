@@ -373,6 +373,8 @@ function wp_set_auth_cookie($user_id, $remember = false) {
 
 	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
 
+	do_action('set_auth_cookie', $cookie, $expire);
+
 	setcookie(AUTH_COOKIE, $cookie, $expire, COOKIEPATH, COOKIE_DOMAIN);
 	if ( COOKIEPATH != SITECOOKIEPATH )
 		setcookie(AUTH_COOKIE, $cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN);
