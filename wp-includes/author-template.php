@@ -53,7 +53,7 @@ function get_the_author_description() {
 /**
  * the_author_description() - Echo the description of the author of the current post in the Loop.
  *
- * @since 1.0.1
+ * @since 1.0.0
  * @see get_the_author_description()
  */
 function the_author_description() {
@@ -399,7 +399,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 /**
  * get_author_name() - Get the specified author's preferred display name.
  *
- * @since 1.0.1
+ * @since 1.0.0
  * @param int $auth_id The ID of the author.
  * @return string The author's display name.
  */
