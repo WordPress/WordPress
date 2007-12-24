@@ -9,6 +9,9 @@ class WP_Import {
 	var $mtnames = array ();
 	var $newauthornames = array ();
 	var $allauthornames = array ();
+	
+	var $author_ids = array ();
+	
 	var $j = -1;
 	var $fetch_attachments = false;
 	var $url_remap = array ();
@@ -44,56 +47,48 @@ class WP_Import {
 		return $return;
 	}
 
-	function users_form($n) {
-		global $wpdb, $testing;
-		$users = $wpdb->get_results("SELECT user_login FROM $wpdb->users ORDER BY user_login");
-?><select name="userselect[<?php echo $n; ?>]">
-	<option value="#NONE#">- Select -</option>
-	<?php
-		foreach ($users as $user) {
-			echo '<option value="'.$user->user_login.'">'.$user->user_login.'</option>';
-		}
-?>
-	</select>
-	<?php
+	function has_gzip() {
+		return is_callable('gzopen');
 	}
-
-	//function to check the authorname and do the mapping
-	function checkauthor($author) {
-		global $wpdb;
-		//mtnames is an array with the names in the mt import file
-		$pass = 'changeme';
-		if (!(in_array($author, $this->mtnames))) { //a new mt author name is found
-			++ $this->j;
-			$this->mtnames[$this->j] = $author; //add that new mt author name to an array
-			$user_id = username_exists($this->newauthornames[$this->j]); //check if the new author name defined by the user is a pre-existing wp user
-			if (!$user_id) { //banging my head against the desk now.
-				if ($this->newauthornames[$this->j] == 'left_blank') { //check if the user does not want to change the authorname
-					$user_id = wp_create_user($author, $pass);
-					$this->newauthornames[$this->j] = $author; //now we have a name, in the place of left_blank.
-				} else {
-					$user_id = wp_create_user($this->newauthornames[$this->j], $pass);
-				}
-			} else {
-				return $user_id; // return pre-existing wp username if it exists
-			}
-		} else {
-			$key = array_search($author, $this->mtnames); //find the array key for $author in the $mtnames array
-			$user_id = username_exists($this->newauthornames[$key]); //use that key to get the value of the author's name from $newauthornames
-		}
-
-		return $user_id;
+	
+	function fopen($filename, $mode='r') {
+		if ( $this->has_gzip() )
+			return gzopen($filename, $mode);
+		return fopen($filename, $mode);
+	}
+	
+	function feof($fp) {
+		if ( $this->has_gzip() )
+			return gzeof($fp);
+		return feof($fp);
+	}
+	
+	function fgets($fp, $len=8192) {
+		if ( $this->has_gzip() )
+			return gzgets($fp, $len);
+		return fgets($fp, $len);
+	}
+	
+	function fclose($fp) {
+		if ( $this->has_gzip() )
+			return gzclose($fp);
+		return fclose($fp);
 	}
 
 	function get_entries($process_post_func=NULL) {
 		set_magic_quotes_runtime(0);
 
 		$doing_entry = false;
+		$is_wxr_file = false;
 
-		$fp = fopen($this->file, 'r');
+		$fp = $this->fopen($this->file, 'r');
 		if ($fp) {
-			while ( !feof($fp) ) {
-				$importline = rtrim(fgets($fp));
+			while ( !$this->feof($fp) ) {
+				$importline = rtrim($this->fgets($fp));
+				
+				// this doesn't check that the file is perfectly valid but will at least confirm that it's not the wrong format altogether
+				if ( !$is_wxr_file && preg_match('|xmlns:wp="http://wordpress[.]org/export/\d+[.]\d+/"|', $importline) )
+					$is_wxr_file = true;
 
 				if ( false !== strpos($importline, '<wp:category>') ) {
 					preg_match('|<wp:category>(.*?)</wp:category>|is', $importline, $category);
@@ -122,15 +117,14 @@ class WP_Import {
 				}
 			}
 
-			fclose($fp);
+			$this->fclose($fp);
 		}
-			
+
+		return $is_wxr_file;
 
 	}
 	
 	function get_wp_authors() {
-		$this->get_entries(array(&$this, 'process_author'));
-
 		// We need to find unique values of author names, while preserving the order, so this function emulates the unique_value(); php function, without the sorting.
 		$temp = $this->allauthornames;
 		$authors[0] = array_shift($temp);
@@ -145,27 +139,37 @@ class WP_Import {
 	}
 
 	function get_authors_from_post() {
-		$formnames = array ();
-		$selectnames = array ();
-
-		foreach ($_POST['user'] as $key => $line) {
-			$newname = trim(stripslashes($line));
-			if ($newname == '')
-				$newname = 'left_blank'; //passing author names from step 1 to step 2 is accomplished by using POST. left_blank denotes an empty entry in the form.
-			array_push($formnames, "$newname");
-		} // $formnames is the array with the form entered names
-
-		foreach ($_POST['userselect'] as $user => $key) {
-			$selected = trim(stripslashes($key));
-			array_push($selectnames, "$selected");
-		}
-
-		$count = count($formnames);
-		for ($i = 0; $i < $count; $i ++) {
-			if ($selectnames[$i] != '#NONE#') { //if no name was selected from the select menu, use the name entered in the form
-				array_push($this->newauthornames, "$selectnames[$i]");
-			} else {
-				array_push($this->newauthornames, "$formnames[$i]");
+		global $current_user;
+		
+		// this will populate $this->author_ids with a list of author_names => user_ids
+		
+		foreach ( $_POST['author_in'] as $i => $in_author_name ) {
+			
+			if ( !empty($_POST['user_select'][$i]) ) {
+				// an existing user was selected in the dropdown list
+				$user = get_userdata( intval($_POST['user_select'][$i]) );
+				if ( isset($user->ID) )
+					$this->author_ids[$in_author_name] = $user->ID;
+			}
+			elseif ( $this->allow_create_users() ) {
+				// nothing was selected in the dropdown list, so we'll use the name in the text field
+				
+				$new_author_name = trim($_POST['user_create'][$i]);
+				// if the user didn't enter a name, assume they want to use the same name as in the import file
+				if ( empty($new_author_name) )
+					$new_author_name = $in_author_name;
+				
+				$user_id = username_exists($new_author_name);
+				if ( !$user_id ) { 
+					$user_id = wp_create_user($new_author_name, 'changeme');
+				}
+				
+				$this->author_ids[$in_author_name] = $user_id;
+			}
+			
+			// failsafe: if the user_id was invalid, default to the current user
+			if ( empty($this->author_ids[$in_author_name]) ) {
+				$this->author_ids[$in_author_name] = intval($current_user->ID);
 			}
 		}
 		
@@ -175,8 +179,10 @@ class WP_Import {
 ?>
 <h2><?php _e('Assign Authors'); ?></h2>
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
-<p><?php _e('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)'); ?></p>
-	<?php
+<?php
+	if ( $this->allow_create_users() ) {
+		echo '<p>'.__('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)')."</p>\n";
+	}
 
 
 		$authors = $this->get_wp_authors();
@@ -186,10 +192,12 @@ class WP_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
-			$this->users_form($j);
+			echo '<li>'.__('Import author:').' <strong>'.$author.'</strong><br />';
+			$this->users_form($j, $author);
 			echo '</li>';
 		}
+		
+		if ( $this->allow_fetch_attachments() ) {
 ?>	
 </ol>	
 <h2><?php _e('Import Attachments'); ?></h2>
@@ -199,15 +207,60 @@ class WP_Import {
 </p>
 
 <?php
+		}
+	
 		echo '<input type="submit" value="Submit">'.'<br />';
 		echo '</form>';
 
 	}
+	
+	function users_form($n, $author) {
+		
+		if ( $this->allow_create_users() ) {
+			printf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user_create['.intval($n).']'.'" maxlength="30"> <br />');
+		}
+		else {
+			echo __('Map to existing').'<br />';
+		}
+
+		// keep track of $n => $author name
+		echo '<input type="hidden" name="author_in['.intval($n).']" value="'.htmlspecialchars($author).'" />';
+		
+		$users = get_users_of_blog();
+?><select name="user_select[<?php echo $n; ?>]">
+	<option value="0">- Select -</option>
+	<?php
+		foreach ($users as $user) {
+			echo '<option value="'.$user->user_id.'">'.$user->user_login.'</option>';
+		}
+?>
+	</select>
+	<?php
+	}
 
 	function select_authors() {
-		$this->get_entries(array(&$this, 'process_author'));
-		$this->wp_authors_form();
+		$is_wxr_file = $this->get_entries(array(&$this, 'process_author'));
+		if ( $is_wxr_file ) {
+			$this->wp_authors_form();
+		}
+		else {
+			echo '<h2>'.__('Invalid file').'</h2>';
+			echo '<p>'.__('Please upload a valid WXR (WordPress eXtended RSS) export file.').'</p>';
+		}
 	}
+
+	// fetch the user ID for a given author name, respecting the mapping preferences
+	function checkauthor($author) {
+		global $current_user;
+		
+		if ( !empty($this->author_ids[$author]) )
+			return $this->author_ids[$author];
+			
+		// failsafe: map to the current user
+		return $current_user->ID;
+	}
+
+
 
 	function process_categories() {
 		global $wpdb;
@@ -515,10 +568,20 @@ class WP_Import {
 		$headers = wp_get_http($url, $upload['file']);
 		
 		// make sure the fetch was successful
-		if ( $headers['response'] != '200' )
-			return new WP_Error( 'import_file_error', __(sprintf('Remote file returned error response %d', intval($headers['response']))) );
-		elseif ( isset($headers['content-length']) && filesize($upload['file']) != $headers['content-length'] )
+		if ( $headers['response'] != '200' ) {
+			@unlink($upload['file']);
+			return new WP_Error( 'import_file_error', sprintf(__('Remote file returned error response %d'), intval($headers['response'])) );
+		}
+		elseif ( isset($headers['content-length']) && filesize($upload['file']) != $headers['content-length'] ) {
+			@unlink($upload['file']);
 			return new WP_Error( 'import_file_error', __('Remote file is incorrect size') );
+		}
+			
+		$max_size = $this->max_attachment_size();
+		if ( !empty($max_size) and filesize($upload['file']) > $max_size ) {
+			@unlink($upload['file']);
+			return new WP_Error( 'import_file_error', sprintf(__('Remote file is too large, limit is %s', size_format($max_size))) );
+		}
 			
 		// keep track of the old and new urls so we can substitute them later
 		$this->url_remap[$url] = $upload['url'];
@@ -570,13 +633,31 @@ class WP_Import {
 		return $key;
 	}
 
+	// give the user the option of creating new users to represent authors in the import file?
+	function allow_create_users() {
+		return apply_filters('import_allow_create_users', true);
+	}
+	
+	// give the user the option of downloading and importing attached files
+	function allow_fetch_attachments() {
+		return apply_filters('import_allow_fetch_attachments', true);
+	}
+
+	function max_attachment_size() {
+		// can be overridden with a filter - 0 means no limit
+		return apply_filters('import_attachment_size_limit', 0);
+	}
+	
+
 	function import($id, $fetch_attachments = false) {
 		$this->id = (int) $id;
-		$this->fetch_attachments = (bool) $fetch_attachments;
+		$this->fetch_attachments = ($this->allow_fetch_attachments() && (bool) $fetch_attachments);
 
 		add_filter('import_post_meta_key', array($this, 'is_valid_meta_key'));
+		do_action('import_start');
 		$file = get_attached_file($this->id);
 		$this->import_file($file);
+		do_action('import_end');
 	}
 		
 	function import_file($file) {
