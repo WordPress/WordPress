@@ -1,5 +1,40 @@
 <?php
+/**
+ * Bookmark Template Functions for usage in Themes
+ *
+ * @package WordPress
+ * @subpackage Template
+ */
 
+/**
+ * _walk_bookmarks() - The formatted output of a list of bookmarks
+ *
+ * The $bookmarks array must contain bookmark objects and will be iterated over
+ * to retrieve the bookmark to be used in the output.
+ *
+ * The output is formatted as HTML with no way to change that format. However, what
+ * is between, before, and after can be changed. The link itself will be HTML.
+ *
+ * This function is used internally by wp_list_bookmarks() and should not be used by
+ * themes.
+ *
+ * The defaults for overwriting are:
+ * 'show_updated' - Default is 0 (integer). Will show the time of when the bookmark was last updated.
+ * 'show_description' - Default is 0 (integer). Whether to show the description of the bookmark.
+ * 'show_images' - Default is 1 (integer). Whether to show link image if available.
+ * 'before' - Default is '<li>' (string). The html or text to prepend to each bookmarks.
+ * 'after' - Default is '</li>' (string). The html or text to append to each bookmarks.
+ * 'between' - Default is '\n' (string). The string for use in between the link, description, and image.
+ * 'show_rating' - Default is 0 (integer). Whether to show the link rating.
+ *
+ * @since 2.1
+ * @access private
+ * @usedby wp_list_bookmarks()
+ *
+ * @param array $bookmarks List of bookmarks to traverse
+ * @param string|array $args Optional. Overwrite the defaults.
+ * @return string Formatted output in HTML
+ */
 function _walk_bookmarks($bookmarks, $args = '' ) {
 	$defaults = array(
 		'show_updated' => 0, 'show_description' => 0,
@@ -77,6 +112,46 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	return $output;
 }
 
+/**
+ * wp_list_bookmarks() - Retrieve or echo all of the bookmarks
+ *
+ * List of default arguments are as follows:
+ * 'orderby' - Default is 'name' (string). How to order the links by. String is based off of the bookmark scheme.
+ * 'order' - Default is 'ASC' (string). Either 'ASC' or 'DESC'. Orders in either ascending or descending order.
+ * 'limit' - Default is -1 (integer) or show all. The amount of bookmarks to display.
+ * 'category' - Default is empty string (string). Include the links in what category ID(s).
+ * 'category_name' - Default is empty string (string). Get links by category name.
+ * 'hide_invisible' - Default is 1 (integer). Whether to show (default) or hide links marked as 'invisible'.
+ * 'show_updated' - Default is 0 (integer). Will show the time of when the bookmark was last updated.
+ * 'echo' - Default is 1 (integer). Whether to echo (default) or return the formatted bookmarks.
+ * 'categorize' - Default is 1 (integer). Whether to show links listed by category (default) or show links in one column.
+ *
+ * These options define how the Category name will appear before the category links are displayed, if 'categorize' is 1.
+ * If 'categorize' is 0, then it will display for only the 'title_li' string and only if 'title_li' is not empty.
+ * 'title_li' - Default is 'Bookmarks' (translatable string). What to show before the links appear.
+ * 'title_before' - Default is '<h2>' (string). The HTML or text to show before the 'title_li' string.
+ * 'title_after' - Default is '</h2>' (string). The HTML or text to show after the 'title_li' string.
+ * 'class' - Default is 'linkcat' (string). The CSS class to use for the 'title_li'.
+ *
+ * 'category_before' - Default is '<li id="%id" class="%class">'. String must contain '%id' and '%class' to get
+ * the id of the category and the 'class' argument. These are used for formatting in themes. Argument will be displayed
+ * before the 'title_before' argument.
+ * 'category_after' - Default is '</li>' (string). The HTML or text that will appear after the list of links.
+ *
+ * These are only used if 'categorize' is set to 1 or true.
+ * 'category_orderby' - Default is 'name'. How to order the bookmark category based on term scheme.
+ * 'category_order' - Default is 'ASC'. Set the order by either ASC (ascending) or DESC (descending).
+ *
+ * @see _walk_bookmarks() For other arguments that can be set in this function and passed to _walk_bookmarks().
+ * @see get_bookmarks() For other arguments that can be set in this function and passed to get_bookmarks().
+ *
+ * @since 2.1
+ * @uses _list_bookmarks() Used to iterate over all of the bookmarks and return the html
+ * @uses get_terms() Gets all of the categories that are for links.
+ *
+ * @param string|array $args Optional. Overwrite the defaults of the function
+ * @return string|null Will only return if echo option is set to not echo. Default is not return anything.
+ */
 function wp_list_bookmarks($args = '') {
 	$defaults = array(
 		'orderby' => 'name', 'order' => 'ASC',
