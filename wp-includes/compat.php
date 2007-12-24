@@ -1,7 +1,10 @@
 <?php
-
-/* Functions missing from older PHP versions */
-
+/**
+ * WordPress implementation for PHP functions missing from older PHP versions.
+ *
+ * @package PHP
+ * @access private
+ */
 
 /* Added in PHP 4.2.0 */
 
