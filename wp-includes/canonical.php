@@ -1,7 +1,38 @@
 <?php
-// Based on "Permalink Redirect" from Scott Yang and "Enforce www. Preference" by Mark Jaquith
+/**
+ * Canonical API to handle WordPress Redirecting
+ *
+ * Based on "Permalink Redirect" from Scott Yang and "Enforce www. Preference" by Mark Jaquith
+ *
+ * @author Scott Yang
+ * @author Mark Jaquith
+ * @package WordPress
+ * @since 2.3
+ */
 
-function redirect_canonical($requested_url=NULL, $do_redirect=true) {
+/**
+ * redirect_canonical() - Redirects incoming links to the proper URL based on the site url
+ *
+ * Search engines consider www.somedomain.com and somedomain.com to be two different URLs
+ * when they both go to the same location. This SEO enhancement prevents penality for
+ * duplicate content by redirecting all incoming links to one or the other.
+ *
+ * Prevents redirection for feeds, trackbacks, searches, comment popup, and admin URLs.
+ * Does not redirect on IIS, page/post previews, and on form data.
+ *
+ * Will also attempt to find the correct link when a user enters a URL that does not exist
+ * based on exact WordPress query. Will instead try to parse the URL or query in an attempt
+ * to figure the correct page to go to.
+ *
+ * @since 2.3
+ * @uses $wp_rewrite
+ * @uses $is_IIS
+ *
+ * @param string $requested_url Optional. The URL that was requested, used to figure if redirect is needed.
+ * @param bool $do_redirect Optional. Redirect to the new URL.
+ * @return null|false|string Null, if redirect not needed. False, if redirect not needed or the string of the URL
+ */
+function redirect_canonical($requested_url=null, $do_redirect=true) {
 	global $wp_rewrite, $is_IIS;
 
 	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() )
@@ -175,6 +206,14 @@ function redirect_canonical($requested_url=NULL, $do_redirect=true) {
 	}
 }
 
+/**
+ * redirect_guess_404_permalink() - Tries to guess correct post based on query vars
+ *
+ * @since 2.3
+ * @uses $wpdb
+ *
+ * @return bool|string Returns False, if it can't find post, returns correct location on success.
+ */
 function redirect_guess_404_permalink() {
 	global $wpdb;
 	if ( !get_query_var('name') )
