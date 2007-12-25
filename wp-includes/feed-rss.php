@@ -1,4 +1,10 @@
 <?php
+/**
+ * RSS 0.92 Feed Template for displaying RSS 0.92 Posts feed.
+ *
+ * @package WordPress
+ */
+
 header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 

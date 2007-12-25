@@ -1,4 +1,10 @@
 <?php
+/**
+ * Atom Feed Template for displaying Atom Posts feed.
+ *
+ * @package WordPress
+ */
+
 header('Content-Type: application/atom+xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 

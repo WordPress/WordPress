@@ -1,4 +1,10 @@
 <?php
+/**
+ * Atom Feed Template for displaying Atom Comments feed.
+ *
+ * @package WordPress
+ */
+
 header('Content-Type: application/atom+xml; charset=' . get_option('blog_charset'), true);
 echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>';
 ?>

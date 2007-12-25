@@ -1,4 +1,10 @@
 <?php
+/**
+ * RSS 1 RDF Feed Template for displaying RSS 1 Posts feed.
+ *
+ * @package WordPress
+ */
+
 header('Content-Type: application/rdf+xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
