@@ -1424,7 +1424,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		$this_user = set_current_user( 0, $user_login );
+
 		foreach ($posts_list as $entry) {
+			if ( 
+				!empty( $entry['post_password'] ) 
+				&& !current_user_can( 'edit_post', $entry['ID'] )
+			) {
+				unset( $entry['post_password'] );
+			}
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
