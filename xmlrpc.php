@@ -471,7 +471,23 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
-		return(get_users_of_blog());
+		set_current_user(0, $username);
+		if(!current_user_can("edit_posts")) {
+			return(new IXR_Error(401, __("Sorry, you can not edit posts on this blog.")));
+        }
+
+		do_action('xmlrpc_call', 'wp.getAuthors');
+
+		$authors = array();
+		foreach( (array) get_users_of_blog() as $row ) {
+			$authors[] = array(
+				"user_id"       => $row->user_id,
+				"user_login"    => $row->user_login,
+				"display_name"  => $row->display_name
+			);
+		}
+
+		return($authors);
 	}
 
 	/**
