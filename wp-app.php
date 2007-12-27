@@ -781,7 +781,6 @@ EOD;
 	</app:control>
 	<author>
 		<name><?php the_author()?></name>
-		<email><?php the_author_email()?></email>
 <?php if (get_the_author_url() && get_the_author_url() != 'http://') { ?>
 		<uri><?php the_author_url()?></uri>
 <?php } ?>
