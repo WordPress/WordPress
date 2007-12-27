@@ -231,6 +231,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_page', $page_id ) )
+			return new IXR_Error( 401, __( 'Sorry, you can not edit this page.' ) );
+
 		do_action('xmlrpc_call', 'wp.getPage');
 
 		// Lookup page info.
@@ -314,6 +318,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if(!$this->login_pass_ok($username, $password)) {
 			return($this->error);
 		}
+
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_pages' ) )
+			return new IXR_Error( 401, __( 'Sorry, you can not edit pages.' ) );
 
 		do_action('xmlrpc_call', 'wp.getPages');
 
@@ -481,6 +489,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_pages' ) )
+			return new IXR_Error( 401, __( 'Sorry, you can not edit pages.' ) );
+
 		do_action('xmlrpc_call', 'wp.getPageList');
 
 		// Get list of pages ids and titles
@@ -646,6 +658,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return($this->error);
 		}
 
+		set_current_user(0, $username);
+		if( !current_user_can( 'edit_posts' ) ) 
+			return new IXR_Error( 401, __( 'Sorry, you must be able to publish to this blog in order to view categories.' ) );
+
 		do_action('xmlrpc_call', 'wp.suggestCategories');
 
 		$category_suggestions = array();
@@ -706,6 +722,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		set_current_user( 0, $user_login );
+		if( !current_user_can( 'edit_posts' ) ) 
+			return new IXR_Error( 401, __( 'Sorry, you do not have access to user data on this blog.' ) );
+
 		do_action('xmlrpc_call', 'blogger.getUserInfo');
 
 		$user_data = get_userdatabylogin($user_login);
@@ -714,7 +734,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			'nickname'  => $user_data->nickname,
 			'userid'    => $user_data->ID,
 			'url'       => $user_data->user_url,
-			'email'     => $user_data->user_email,
 			'lastname'  => $user_data->last_name,
 			'firstname' => $user_data->first_name
 		);
@@ -735,6 +754,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$this->login_pass_ok($user_login, $user_pass)) {
 			return $this->error;
 		}
+
+		set_current_user( 0, $user_login );
+		if( !current_user_can( 'edit_post', $post_ID ) ) 
+			return new IXR_Error( 401, __( 'Sorry, you can not edit this post.' ) );
 
 		do_action('xmlrpc_call', 'blogger.getPost');
 
@@ -775,12 +798,16 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$posts_list = wp_get_recent_posts($num_posts);
 
+		set_current_user( 0, $user_login );
+
 		if (!$posts_list) {
 			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
 			return $this->error;
 		}
 
 		foreach ($posts_list as $entry) {
+			if( !current_user_can( 'edit_post', $entry['ID'] ) )
+				continue;
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 			$categories = implode(',', wp_get_post_categories($entry['ID']));
@@ -1462,6 +1489,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		set_current_user( 0, $user_login );
+		if( !current_user_can( 'edit_post', $post_ID ) )
+			return new IXR_Error( 401, __( 'Sorry, you can not edit this post.' ) );
+
 		do_action('xmlrpc_call', 'metaWeblog.getPost');
 
 		$postdata = wp_get_single_post($post_ID, ARRAY_A);
@@ -1549,15 +1580,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		$this_user = set_current_user( 0, $user_login );
+		set_current_user( 0, $user_login );
 
 		foreach ($posts_list as $entry) {
-			if ( 
-				!empty( $entry['post_password'] ) 
-				&& !current_user_can( 'edit_post', $entry['ID'] )
-			) {
-				unset( $entry['post_password'] );
-			}
+			if( !current_user_can( 'edit_post', $entry['ID'] ) )
+				continue;
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
@@ -1636,6 +1663,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$this->login_pass_ok($user_login, $user_pass)) {
 			return $this->error;
 		}
+
+		set_current_user( 0, $user_login );
+		if( !current_user_can( 'edit_posts' ) )
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this blog in order to view categories.' ) );
 
 		do_action('xmlrpc_call', 'metaWeblog.getCategories');
 
@@ -1760,7 +1791,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		set_current_user( 0, $user_login );
+
 		foreach ($posts_list as $entry) {
+			if( !current_user_can( 'edit_post', $entry['ID'] ) ) 
+				continue;
 
 			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 			$post_date_gmt = mysql2date('Ymd\TH:i:s', $entry['post_date_gmt']);
@@ -1797,11 +1832,14 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		set_current_user( 0, $user_login );
+		if( !current_user_can( 'edit_posts' ) )
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this blog in order to view categories.' ) );
+
 		do_action('xmlrpc_call', 'mt.getCategoryList');
 
 		$categories_struct = array();
 
-		// FIXME: can we avoid using direct SQL there?
 		if ( $cats = get_categories('hide_empty=0&hierarchical=0') ) {
 			foreach ($cats as $cat) {
 				$struct['categoryId'] = $cat->term_id;
@@ -1827,6 +1865,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$this->login_pass_ok($user_login, $user_pass)) {
 			return $this->error;
 		}
+
+		set_current_user( 0, $user_login );
+		if( !current_user_can( 'edit_post', $post_ID ) )
+			return new IXR_Error( 401, __( 'Sorry, you can not edit this post.' ) );
 
 		do_action('xmlrpc_call', 'mt.getPostCategories');
 
