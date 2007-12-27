@@ -748,7 +748,7 @@ function wp_delete_post($postid = 0) {
 	$parent_where = array( 'post_parent' => $postid );
 
 	if ( 'page' == $post->post_type) {
-	 	// if the page is defined in option page_on_front or post_for_posts, 
+	 	// if the page is defined in option page_on_front or post_for_posts,
 		// adjust the corresponding options
 		if ( get_option('page_on_front') == $postid ) {
 			update_option('show_on_front', 'posts');
@@ -760,7 +760,7 @@ function wp_delete_post($postid = 0) {
 
 		// Point children of this page to its parent, also clean the cache of affected children
 		$children_query = $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE post_parent = %d AND post_type='page'", $postid);
-		$children = $wpdb->get_results($children_query); 
+		$children = $wpdb->get_results($children_query);
 
 		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
 	}
@@ -777,7 +777,7 @@ function wp_delete_post($postid = 0) {
 	if ( 'page' == $post->post_type ) {
 		clean_page_cache($postid);
 
-		foreach ( (array) $children as $child ) 
+		foreach ( (array) $children as $child )
 			clean_page_cache($child->ID);
 
 		$wp_rewrite->flush_rules();
@@ -1049,7 +1049,7 @@ function wp_insert_post($postarr = array()) {
 		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
 		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
-		
+
 		// use the newly generated $post_ID
 		$where = array( 'ID' => $post_ID );
 	}
@@ -1193,7 +1193,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 
 	if ( empty($tags) )
 		$tags = array();
-	$tags = (is_array($tags)) ? $tags : explode( ',', trim($tags, " \s\n\t\r\0\x0B,") );
+	$tags = (is_array($tags)) ? $tags : explode( ',', trim($tags, " \n\t\r\0\x0B,") );
 	wp_set_object_terms($post_id, $tags, 'post_tag', $append);
 }
 
