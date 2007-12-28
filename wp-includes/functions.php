@@ -1605,4 +1605,73 @@ function atom_service_url_filter($url)
 		return $url;
 }
 
+/**
+ * _deprecated_function() - Marks a function as deprecated and informs when it has been used.
+ *
+ * There is a hook deprecated_function_run that will be called that can be used to get the backtrace 
+ * up to what file and function called the deprecated function.
+ *
+ * The current behavior is to trigger an user error if WP_DEBUG is defined and is true.
+ * 
+ * This function is to be used in every function in depreceated.php
+ *
+ * @package WordPress
+ * @package Debug
+ * @since 2.4
+ * @access private
+ *
+ * @uses do_action() Calls 'deprecated_function_run' and passes the function name and what to use instead.
+ * @uses apply_filters() Calls 'deprecated_function_trigger_error' and expects boolean value of true to do trigger or false to not trigger error.
+ *
+ * @param string $function The function that was called
+ * @param string $version The version of WordPress that depreceated the function
+ * @param string $replacement Optional. The function that should have been called
+ */
+function _deprecated_function($function, $version, $replacement=null) {
+
+	do_action('deprecated_function_run', $function, $replacement);
+
+	// Allow plugin to filter the output error trigger
+	if( defined('WP_DEBUG') && ( true === WP_DEBUG ) && apply_filters( 'deprecated_function_trigger_error', true )) {
+		if( !is_null($replacement) )
+			trigger_error( printf( __("%s is <strong>deprecated</strong> since version %s! Use %s instead."), $function, $version, $replacement ) );
+		else
+			trigger_error( printf( __("%s is <strong>deprecated</strong since version %s with no alternative available."), $function, $version ) );
+	}
+}
+
+/**
+ * _deprecated_file() - Marks a file as deprecated and informs when it has been used.
+ *
+ * There is a hook deprecated_file_included that will be called that can be used to get the backtrace 
+ * up to what file and function included the deprecated file.
+ *
+ * The current behavior is to trigger an user error if WP_DEBUG is defined and is true.
+ * 
+ * This function is to be used in every file that is depreceated
+ *
+ * @package WordPress
+ * @package Debug
+ * @since 2.4
+ * @access private
+ *
+ * @uses do_action() Calls 'deprecated_file_included' and passes the file name and what to use instead.
+ * @uses apply_filters() Calls 'deprecated_file_trigger_error' and expects boolean value of true to do trigger or false to not trigger error.
+ *
+ * @param string $file The file that was included
+ * @param string $version The version of WordPress that depreceated the function
+ * @param string $replacement Optional. The function that should have been called
+ */
+function _deprecated_file($file, $version, $replacement=null) {
+
+	do_action('deprecated_file_included', $file, $replacement);
+
+	// Allow plugin to filter the output error trigger
+	if( defined('WP_DEBUG') && ( true === WP_DEBUG ) && apply_filters( 'deprecated_file_trigger_error', true )) {
+		if( !is_null($replacement) )
+			trigger_error( printf( __("%s is <strong>deprecated</strong> since version %s! Use %s instead."), $file, $version, $replacement ) );
+		else
+			trigger_error( printf( __("%s is <strong>deprecated</strong since version %s with no alternative available."), $file, $version ) );
+	}
+}
 ?>

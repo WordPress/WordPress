@@ -86,6 +86,8 @@ $tablepostmeta = $wpdb->postmeta;
  * @return array
  */
 function get_postdata($postid) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_post()');
+
 	$post = &get_post($postid);
 
 	$postdata = array (
@@ -118,6 +120,8 @@ function get_postdata($postid) {
 function start_wp() {
 	global $wp_query, $post;
 
+	_deprecated_function(__FUNCTION__, '1.5', __('new WordPress Loop') );
+
 	// Since the old style loop is being used, advance the query iterator here.
 	$wp_query->next_post();
 
@@ -135,6 +139,8 @@ function start_wp() {
  * @return null|int
  */
 function the_category_ID($echo = true) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_the_category()');
+
 	// Grab the first cat in the list.
 	$categories = get_the_category();
 	$cat = $categories[0]->term_id;
@@ -157,6 +163,9 @@ function the_category_ID($echo = true) {
  */
 function the_category_head($before='', $after='') {
 	global $currentcat, $previouscat;
+
+	_deprecated_function(__FUNCTION__, '0.0', 'get_the_category_by_ID()');
+
 	// Grab the first cat in the list.
 	$categories = get_the_category();
 	$currentcat = $categories[0]->category_id;
@@ -183,6 +192,8 @@ function the_category_head($before='', $after='') {
  * @param string $excluded_categories
  */
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
+
+	_deprecated_function(__FUNCTION__, '0.0', 'previous_post_link()');
 
 	if ( empty($in_same_cat) || 'no' == $in_same_cat )
 		$in_same_cat = false;
@@ -217,6 +228,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
  * @param string $excluded_categories
  */
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
+	_deprecated_function(__FUNCTION__, '0.0', 'next_post_link()');
 
 	if ( empty($in_same_cat) || 'no' == $in_same_cat )
 		$in_same_cat = false;
@@ -249,6 +261,8 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
  * @return bool
  */
 function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	$author_data = get_userdata($user_id);
 	return ($author_data->user_level > 1);
 }
@@ -266,6 +280,8 @@ function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
  * @return bool
  */
 function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	$author_data = get_userdata($user_id);
 	return ($author_data->user_level >= 1);
 }
@@ -283,6 +299,8 @@ function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
  * @return bool
  */
 function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
+	_deprecated_function(__FUNCTION__, '0', 'current_user_can()');
+
 	$author_data = get_userdata($user_id);
 	$post = get_post($post_id);
 	$post_author_data = get_userdata($post->post_author);
@@ -309,6 +327,8 @@ function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	// right now if one can edit, one can delete
 	return user_can_edit_post($user_id, $post_id, $blog_id);
 }
@@ -326,6 +346,8 @@ function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_set_post_date($user_id, $blog_id = 1, $category_id = 'None') {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	$author_data = get_userdata($user_id);
 	return (($author_data->user_level > 4) && user_can_create_post($user_id, $blog_id, $category_id));
 }
@@ -344,6 +366,8 @@ function user_can_set_post_date($user_id, $blog_id = 1, $category_id = 'None') {
  * @return bool
  */
 function user_can_edit_post_date($user_id, $post_id, $blog_id = 1) {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	$author_data = get_userdata($user_id);
 	return (($author_data->user_level > 4) && user_can_edit_post($user_id, $post_id, $blog_id));
 }
@@ -362,6 +386,8 @@ function user_can_edit_post_date($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_edit_post_comments($user_id, $post_id, $blog_id = 1) {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	// right now if one can edit a post, one can edit comments made on it
 	return user_can_edit_post($user_id, $post_id, $blog_id);
 }
@@ -380,6 +406,8 @@ function user_can_edit_post_comments($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	// right now if one can edit comments, one can delete comments
 	return user_can_edit_post_comments($user_id, $post_id, $blog_id);
 }
@@ -396,6 +424,8 @@ function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_edit_user($user_id, $other_user) {
+	_deprecated_function(__FUNCTION__, '0.0', 'current_user_can()');
+
 	$user  = get_userdata($user_id);
 	$other = get_userdata($other_user);
 	if ( $user->user_level > $other->user_level || $user->user_level > 8 || $user->ID == $other->ID )
@@ -427,6 +457,8 @@ function user_can_edit_user($user_id, $other_user) {
 function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', $between = " ", $show_images = true, $orderby = 'id',
 						 $show_description = true, $show_rating = false,
 						 $limit = -1, $show_updated = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_links()');
+
 	$cat_id = -1;
 	$cat = get_term_by('name', $cat_name, 'link_category');
 	if ( $cat )
@@ -447,6 +479,8 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', 
  * @return bool|null
  */
 function wp_get_linksbyname($category, $args = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_get_links()');
+
 	$cat = get_term_by('name', $category, 'link_category');
 	if ( !$cat )
 		return false;
@@ -478,6 +512,8 @@ function wp_get_linksbyname($category, $args = '') {
  * @return unknown
  */
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_linkobjects()');
+
 	$cat_id = -1;
 	$cat = get_term_by('name', $cat_name, 'link_category');
 	if ( $cat )
@@ -529,6 +565,8 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  * @return unknown
  */
 function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_bookmarks()');
+
 	$links = get_bookmarks("category=$category&orderby=$orderby&limit=$limit");
 
 	$links_array = array();
@@ -560,6 +598,7 @@ function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
  */
 function get_linksbyname_withrating($cat_name = "noname", $before = '', $after = '<br />', $between = " ",
 									$show_images = true, $orderby = 'id', $show_description = true, $limit = -1, $show_updated = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_bookmarks()');
 
 	get_linksbyname($cat_name, $before, $after, $between, $show_images, $orderby, $show_description, true, $limit, $show_updated);
 }
@@ -586,6 +625,7 @@ function get_linksbyname_withrating($cat_name = "noname", $before = '', $after =
  */
 function get_links_withrating($category = -1, $before = '', $after = '<br />', $between = " ", $show_images = true,
 							  $orderby = 'id', $show_description = true, $limit = -1, $show_updated = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_bookmarks()');
 
 	get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, true, $limit, $show_updated);
 }
@@ -600,6 +640,7 @@ function get_links_withrating($category = -1, $before = '', $after = '<br />', $
  * @return int Only returns 0.
  */
 function get_autotoggle($id = 0) {
+	_deprecated_function(__FUNCTION__, '0.0' );
 	return 0;
 }
 
@@ -631,6 +672,8 @@ function get_autotoggle($id = 0) {
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, 
 				   $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0, 
 				   $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=false) {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_categories()');
+
 	$query = compact('optionall', 'all', 'sort_column', 'sort_order', 'file', 'list', 'optiondates', 'optioncount', 'hide_empty', 'use_desc_for_title', 'children',
 		'child_of', 'categories', 'recurse', 'feed', 'feed_image', 'exclude', 'hierarchical');
 	return wp_list_cats($query);
@@ -645,6 +688,8 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
  * @return unknown
  */
 function wp_list_cats($args = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_categories()');
+
 	$r = wp_parse_args( $args );
 
 	// Map to new names.
@@ -685,6 +730,7 @@ function wp_list_cats($args = '') {
 function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = 'asc',
 		$show_last_update = 0, $show_count = 0, $hide_empty = 1, $optionnone = false,
 		$selected = 0, $exclude = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_dropdown_categories()');
 
 	$show_option_all = '';
 	if ( $optionall )
@@ -707,6 +753,8 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
  * @see WP_Scripts
  */
 function tinymce_include() {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_print_scripts()/WP_Scripts');
+
 	wp_print_script('wp_tiny_mce');
 }
 
@@ -724,6 +772,8 @@ function tinymce_include() {
  * @return unknown
  */
 function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_authors()');
+
 	$args = compact('optioncount', 'exclude_admin', 'show_fullname', 'hide_empty', 'feed', 'feed_image');
 	return wp_list_authors($args);
 }
@@ -738,6 +788,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
  * @return unknown
  */
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_get_post_categories()');
 	return wp_get_post_categories($post_ID);
 }
 
@@ -754,6 +805,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
  * @return unknown
  */
 function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_set_post_categories()');
 	return wp_set_post_categories($post_ID, $post_categories);
 }
 
@@ -771,6 +823,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
  * @return unknown
  */
 function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_get_archives()');
 	$args = compact('type', 'limit', 'format', 'before', 'after', 'show_post_count');
 	return wp_get_archives($args);
 }
@@ -788,6 +841,8 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
  * @return string|null
  */
 function get_author_link($echo = false, $author_id, $author_nicename = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_author_posts_url()');
+
 	$link = get_author_posts_url($author_id, $author_nicename);
 
 	if ( $echo )
@@ -813,6 +868,8 @@ function get_author_link($echo = false, $author_id, $author_nicename = '') {
  */
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', 
 					$pagelink='%', $more_file='') {
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_link_pages()');
+
 	$args = compact('before', 'after', 'next_or_number', 'nextpagelink', 'previouspagelink', 'pagelink', 'more_file');
 	return wp_link_pages($args);
 }
@@ -828,6 +885,8 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
  * @return string
  */
 function get_settings($option) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_option()');
+
 	return get_option($option);
 }
 
@@ -839,6 +898,7 @@ function get_settings($option) {
  * @see the_permalink()
  */
 function permalink_link() {
+	_deprecated_function(__FUNCTION__, '0.0', 'the_permalink()');
 	the_permalink();
 }
 
@@ -852,6 +912,7 @@ function permalink_link() {
  * @param string $file
  */
 function permalink_single_rss($file = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'the_permalink_rss()');
 	the_permalink_rss();
 }
 
@@ -867,6 +928,8 @@ function permalink_single_rss($file = '') {
  * @return null|string
  */
 function wp_get_links($args = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_bookmarks()');
+
 	if ( strpos( $args, '=' ) === false ) {
 		$cat_id = $args;
 		$args = add_query_arg( 'category', $cat_id, $args );
@@ -913,6 +976,7 @@ function wp_get_links($args = '') {
  */
 function get_links($category = -1, $before = '', $after = '<br />', $between = ' ', $show_images = true, $orderby = 'name',
 			$show_description = true, $show_rating = false, $limit = -1, $show_updated = 1, $echo = true) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_bookmarks()');
 
 	$order = 'ASC';
 	if ( substr($orderby, 0, 1) == '_' ) {
@@ -1007,6 +1071,8 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
  * @param string $$deprecated Not Used 
  */
 function get_links_list($order = 'name', $deprecated = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_categories()');
+
 	$order = strtolower($order);
 
 	// Handle link category sorting
@@ -1053,6 +1119,8 @@ function get_links_list($order = 'name', $deprecated = '') {
  * @param bool $count the number of links in the db
  */
 function links_popup_script($text = 'Links', $width=400, $height=400, $file='links.all.php', $count = true) {
+	_deprecated_function(__FUNCTION__, '0.0' );
+
 	if ( $count )
 		$counts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->links");
 
@@ -1075,6 +1143,7 @@ function links_popup_script($text = 'Links', $width=400, $height=400, $file='lin
  * @return unknown
  */
 function get_linkrating($link) {
+	_deprecated_function(__FUNCTION__, '0.0', 'sanitize_bookmark_field()');
 	return sanitize_bookmark_field('link_rating', $link->link_rating, $link->link_id, 'display');
 }
 
@@ -1089,6 +1158,8 @@ function get_linkrating($link) {
  * @return string
  */
 function get_linkcatname($id = 0) {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_category()');
+
 	$id = (int) $id;
 
 	if ( empty($id) )
@@ -1116,6 +1187,7 @@ function get_linkcatname($id = 0) {
  * @param string $deprecated Not used
  */
 function comments_rss_link($link_text = 'Comments RSS', $deprecated = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'post_comments_feed_link()');
 	post_comments_feed_link($link_text);
 }
 
@@ -1132,6 +1204,8 @@ function comments_rss_link($link_text = 'Comments RSS', $deprecated = '') {
  * @return string|null
  */
 function get_category_rss_link($echo = false, $cat_ID = 1, $deprecated = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_category_feed_link()');
+
 	$link = get_category_feed_link($cat_ID, $feed = 'rss2');
 
 	if ( $echo )
@@ -1152,6 +1226,8 @@ function get_category_rss_link($echo = false, $cat_ID = 1, $deprecated = '') {
  * @return string|null
  */
 function get_author_rss_link($echo = false, $author_id = 1, $deprecated = '') {
+	_deprecated_function(__FUNCTION__, '0.0', 'get_author_feed_link()');
+
 	$link = get_author_feed_link($author_id);
 	if ( $echo )
 		echo $link;

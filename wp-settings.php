@@ -156,7 +156,7 @@ timer_start();
 if (defined('WP_DEBUG') and WP_DEBUG == true) {
    error_reporting(E_ALL);
 } else {
-   error_reporting(E_ALL ^ E_NOTICE);
+   error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
 }
 
 // For an advanced caching plugin to use, static because you would only want one
