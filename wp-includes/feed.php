@@ -97,10 +97,6 @@ function comment_text_rss() {
 	echo $comment_text;
 }
 
-function comments_rss($deprecated = '') {
-	return get_post_comments_feed_link();
-}
-
 function get_the_category_rss($type = 'rss') {
 	$categories = get_the_category();
 	$tags = get_the_tags();

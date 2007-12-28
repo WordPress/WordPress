@@ -1234,4 +1234,33 @@ function get_author_rss_link($echo = false, $author_id = 1, $deprecated = '') {
 	return $link;
 }
 
+/**
+ * comments_rss() - Return link to the post RSS feed 
+ *
+ * @since 1.5
+ * @deprecated Use get_post_comments_feed_link()
+ * @see get_post_comments_feed_link()
+ *
+ * @param string $deprecated Not used
+ * @return string
+ */
+function comments_rss($deprecated = '') {
+	_deprecated_function(__FUNCTION__, '2.2', 'get_post_comments_feed_link()');
+	return get_post_comments_feed_link();
+}
+
+/**
+ * create_user() - An alias of wp_create_user().
+ * @param string $username The user's username.
+ * @param string $password The user's password.
+ * @param string $email The user's email (optional).
+ * @return int The new user's ID.
+ * @deprecated Use wp_create_user()
+ * @see wp_create_user()
+ */
+function create_user($username, $password, $email) {
+	_deprecated_function( __FUNCTION__, '2.0', 'wp_create_user()' );
+	return wp_create_user($username, $password, $email);
+}
+
 ?>

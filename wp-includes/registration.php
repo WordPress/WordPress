@@ -177,7 +177,7 @@ function wp_update_user($userdata) {
 
 /**
  * A simpler way of inserting an user into the database.
- * See also: wp_insert_user().
+ * @see wp_insert_user().
  * @global object $wpdb WordPress database layer.
  * @param string $username The user's username.
  * @param string $password The user's password.
@@ -193,18 +193,6 @@ function wp_create_user($username, $password, $email = '') {
 
 	$userdata = compact('user_login', 'user_email', 'user_pass');
 	return wp_insert_user($userdata);
-}
-
-/**
- * An alias of wp_create_user().
- * @param string $username The user's username.
- * @param string $password The user's password.
- * @param string $email The user's email (optional).
- * @return int The new user's ID.
- * @deprecated
- */
-function create_user($username, $password, $email) {
-	return wp_create_user($username, $password, $email);
 }
 
 ?>

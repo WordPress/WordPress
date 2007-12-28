@@ -48,7 +48,7 @@ $more = 1;
 		<content:encoded><![CDATA[<?php the_excerpt_rss() ?>]]></content:encoded>
 	<?php endif; ?>
 <?php endif; ?>
-		<wfw:commentRss><?php echo comments_rss(); ?></wfw:commentRss>
+		<wfw:commentRss><?php echo get_post_comments_feed_link(); ?></wfw:commentRss>
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	</item>
