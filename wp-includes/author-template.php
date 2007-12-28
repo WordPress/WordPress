@@ -24,9 +24,16 @@ function get_the_author($deprecated = '') {
 /**
  * the_author() - Echo the name of the author of the current post in the Loop.
  *
+ * The behavior of this function is based off of old functionality predating get_the_author().
+ * This function is not deprecated, but is designed to echo the value from get_the_author()
+ * and as an result of any old theme that might still use the old behavior will also
+ * pass the value from get_the_author().
+ *
+ * The normal, expected behavior of this function is to echo the author and not return it.
+ * However, backwards compatiability has to be maintained.
+ *
  * @since 0.71
  * @see get_the_author()
- * @deprecated Use get_the_author()
  *
  * @param string $deprecated Deprecated.
  * @param string $deprecated_echo Echo the string or return it. Deprecated, use get_the_author().
