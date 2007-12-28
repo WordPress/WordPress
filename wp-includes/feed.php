@@ -178,13 +178,16 @@ function atom_enclosure() {
 }
 
 /**
- * prep_atom_text_construct() - determine if given string of data is
- * type text, html, or xhtml, per RFC 4287 section 3.1.
+ * prep_atom_text_construct() - Determine the type of a given string of data
+ *
+ * Tell whether the type is text, html, or xhtml, per RFC 4287 section 3.1.
  *
  * In the case of WordPress, text is defined as containing no markup,
  * xhtml is defined as "well formed", and html as tag soup (i.e., the rest).
  *
  * Container div tags are added to xhtml values, per section 3.1.1.3.
+ *
+ * @link http://www.atomenabled.org/developers/syndication/atom-format-spec.php#rfc.section.3.1
  *
  * @package WordPress
  * @subpackage Feed
@@ -192,7 +195,6 @@ function atom_enclosure() {
  *
  * @param string $data input string
  * @return array $result array(type, value)
- * @link http://www.atomenabled.org/developers/syndication/atom-format-spec.php#rfc.section.3.1
  */
 function prep_atom_text_construct($data) {
 	if (strpos($data, '<') === false && strpos($data, '&') === false) {
@@ -205,12 +207,12 @@ function prep_atom_text_construct($data) {
 	xml_parser_free($parser);
 
 	if (!$code) {
-		       if (strpos($data, '<') === false) {
-			       return array('text', $data);
-                       } else {
-			       $data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
-			       return array('xhtml', $data);
-                       }
+		if (strpos($data, '<') === false) {
+			return array('text', $data);
+		} else {
+			$data = "<div xmlns='http://www.w3.org/1999/xhtml'>$data</div>";
+			return array('xhtml', $data);
+		}
 	}
 
 	if (strpos($data, ']]>') == false) {
