@@ -163,6 +163,10 @@ class AtomServer {
 
 	function get_service() {
 		log_app('function','get_service()');
+
+		if( !current_user_can( 'edit_posts' ) ) 
+			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
+
 		$entries_url = attribute_escape($this->get_entries_url());
 		$categories_url = attribute_escape($this->get_categories_url());
 		$media_url = attribute_escape($this->get_attachments_url());
@@ -192,8 +196,11 @@ EOD;
 	}
 
 	function get_categories_xml() {
-
 		log_app('function','get_categories_xml()');
+
+		if( !current_user_can( 'edit_posts' ) ) 
+			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
+
 		$home = attribute_escape(get_bloginfo_rss('home'));
 
 		$categories = "";
@@ -285,8 +292,11 @@ EOD;
 	}
 
 	function get_post($postID) {
-
 		global $entry;
+
+		if( !current_user_can( 'edit_post', $postID ) )
+			$this->auth_required( __( 'Sorry, you do not have the right to access this post.' ) ); 
+
 		$this->set_current_entry($postID);
 		$output = $this->get_entry($postID);
 		log_app('function',"get_post($postID)");
@@ -372,6 +382,9 @@ EOD;
 	}
 
 	function get_attachment($postID = NULL) {
+		if( !current_user_can( 'upload_files' ) )
+			$this->auth_required( __( 'Sorry, you do not have the right to file uploads on this blog.' ) );
+
 		if (!isset($postID)) {
 			$this->get_attachments();
 		} else {
