@@ -80,7 +80,7 @@ function kubrick_header_display_string() {
 add_action('admin_menu', 'kubrick_add_theme_page');
 
 function kubrick_add_theme_page() {
-	if ( $_GET['page'] == basename(__FILE__) ) {
+	if ( array_key_exists( 'page', $_GET ) && $_GET['page'] == basename(__FILE__) ) {
 		if ( 'save' == $_REQUEST['action'] ) {
 			check_admin_referer('kubrick-header');
 			if ( isset($_REQUEST['njform']) ) {
