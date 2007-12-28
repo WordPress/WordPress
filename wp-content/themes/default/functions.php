@@ -80,8 +80,8 @@ function kubrick_header_display_string() {
 add_action('admin_menu', 'kubrick_add_theme_page');
 
 function kubrick_add_theme_page() {
-	if ( array_key_exists( 'page', $_GET ) && $_GET['page'] == basename(__FILE__) ) {
-		if ( 'save' == $_REQUEST['action'] ) {
+	if ( isset( $_GET['page'] ) && $_GET['page'] == basename(__FILE__) ) {
+		if ( isset( $_REQUEST['action'] ) && 'save' == $_REQUEST['action'] ) {
 			check_admin_referer('kubrick-header');
 			if ( isset($_REQUEST['njform']) ) {
 				if ( isset($_REQUEST['defaults']) ) {
@@ -354,7 +354,7 @@ function kubrick_theme_page_head() {
 }
 
 function kubrick_theme_page() {
-	if ( $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>'.__('Options saved.').'</strong></p></div>';
+	if ( isset( $_REQUEST['saved'] ) ) echo '<div id="message" class="updated fade"><p><strong>'.__('Options saved.').'</strong></p></div>';
 ?>
 <div class='wrap'>
 	<div id="kubrick-header">
