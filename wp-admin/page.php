@@ -54,7 +54,7 @@ case 'edit':
 
 	if($post->post_status == 'draft') {
 		wp_enqueue_script('prototype');
-		wp_enqueue_script('interface');
+		wp_enqueue_script('jquery');
 		wp_enqueue_script('autosave');
 	}
 	require_once('admin-header.php');
