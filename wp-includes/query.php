@@ -644,7 +644,7 @@ class WP_Query {
 		if ('' != $qv['preview'])
 			$this->is_preview = true;
 
-		if ( strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
+		if ( is_admin() )
 			$this->is_admin = true;
 
 		if ( false !== strpos($qv['feed'], 'comments-') ) {
