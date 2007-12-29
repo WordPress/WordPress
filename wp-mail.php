@@ -162,8 +162,7 @@ for ($i=1; $i <= $count; $i++) :
 	do_action('publish_phone', $post_ID);
 
 	echo "\n<p><b>Author:</b> " . wp_specialchars($post_author) . "</p>";
-	echo "\n<p><b>Posted title:</b> " . sanitize_post_field('post_title', $post_title, $post_ID, 'display') . "<br />";
-	echo "\n<b>Posted content:</b><br /><pre>". sanitize_post_field('post_content', $post_content, $post_ID, 'display') . '</pre></p>';
+	echo "\n<p><b>Posted title:</b> " . wp_specialchars($post_title) . "<br />";
 
 	if(!$pop3->delete($i)) {
 		echo '<p>Oops '.wp_specialchars($pop3->ERROR).'</p></div>';
