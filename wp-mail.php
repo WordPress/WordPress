@@ -129,9 +129,6 @@ for ($i=1; $i <= $count; $i++) :
 	$content = explode($phone_delim, $content);
 	$content[1] ? $content = $content[1] : $content = $content[0];
 
-	echo "<p><b>Content-type:</b> $content_type, <b>Content-Transfer-Encoding:</b> $content_transfer_encoding, <b>boundary:</b> $boundary</p>\n";
-	echo "<p><b>Raw content:</b><br /><pre>".$content.'</pre></p>';
-
 	$content = trim($content);
 
 	$post_content = apply_filters('phone_content', $content);
