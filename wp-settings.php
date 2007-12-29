@@ -203,7 +203,7 @@ if ( !empty($wpdb->error) )
 $prefix = $wpdb->set_prefix($table_prefix);
 
 if ( is_wp_error($prefix) )
-	wp_die("<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.");
+	wp_die('<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.');
 
 if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
 	require_once (ABSPATH . 'wp-content/object-cache.php');
