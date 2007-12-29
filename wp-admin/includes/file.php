@@ -43,6 +43,9 @@ function get_real_file_to_edit( $file ) {
 }
 
 function validate_file( $file, $allowed_files = '' ) {
+	if ( false !== strpos( $file, '..' ))
+		return 1;
+
 	if ( false !== strpos( $file, './' ))
 		return 1;
 
