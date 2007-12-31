@@ -357,6 +357,19 @@ function wp_validate_auth_cookie($cookie = '') {
 }
 endif;
 
+if ( !function_exists('wp_generate_auth_cookie') ) :
+function wp_generate_auth_cookie($user_id, $expiration) {
+	$user = get_userdata($user_id);
+
+	$key = wp_hash($user->user_login . $expiration);
+	$hash = hash_hmac('md5', $user->user_login . $expiration, $key);
+
+	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
+
+	return apply_filters('auth_cookie', $cookie, $user_id, $expiration);
+}
+endif;
+
 if ( !function_exists('wp_set_auth_cookie') ) :
 function wp_set_auth_cookie($user_id, $remember = false) {
 	$user = get_userdata($user_id);
@@ -368,10 +381,7 @@ function wp_set_auth_cookie($user_id, $remember = false) {
 		$expire = 0;
 	}
 
-	$key = wp_hash($user->user_login . $expiration);
-	$hash = hash_hmac('md5', $user->user_login . $expiration, $key);
-
-	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
+	$cookie = wp_generate_auth_cookie($user_id, $expiration);
 
 	do_action('set_auth_cookie', $cookie, $expire);
 
