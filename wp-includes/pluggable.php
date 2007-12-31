@@ -372,8 +372,6 @@ endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
 function wp_set_auth_cookie($user_id, $remember = false) {
-	$user = get_userdata($user_id);
-
 	if ( $remember ) {
 		$expiration = $expire = time() + 1209600;
 	} else {
