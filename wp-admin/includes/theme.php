@@ -14,6 +14,7 @@ function current_theme_info() {
 	$ct->screenshot = $themes[$current_theme]['Screenshot'];
 	$ct->description = $themes[$current_theme]['Description'];
 	$ct->author = $themes[$current_theme]['Author'];
+	$ct->tags = $themes[$current_theme]['Tags'];
 	return $ct;
 }
 

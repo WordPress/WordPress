@@ -90,6 +90,11 @@ function get_theme_data( $theme_file ) {
 	else
 		$status = 'publish';
 
+	if ( preg_match('|Tags:(.*)|i', $theme_data, $tags) )
+		$tags = array_map( 'trim', explode( ',', wp_kses( trim( $tags[1] ), array() ) ) );
+	else
+		$tags = array();
+
 	$name = $theme = wp_kses( trim( $theme_name[1] ), $themes_allowed_tags );
 	$theme_uri = clean_url( trim( $theme_uri[1] ) );
 	$description = wptexturize( wp_kses( trim( $description[1] ), $themes_allowed_tags ) );
@@ -103,7 +108,7 @@ function get_theme_data( $theme_file ) {
 		$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), wp_kses( trim( $author_name[1] ), $themes_allowed_tags ) );
 	}
 
-	return array( 'Name' => $name, 'Title' => $theme, 'URI' => $theme_uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Status' => $status );
+	return array( 'Name' => $name, 'Title' => $theme, 'URI' => $theme_uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Status' => $status, 'Tags' => $tags );
 }
 
 function get_themes() {
@@ -261,7 +266,7 @@ function get_themes() {
 			}
 		}
 
-		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot);
+		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot, 'Tags' => $theme_data['Tags']);
 	}
 
 	// Resolve theme dependencies.

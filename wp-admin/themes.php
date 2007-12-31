@@ -40,6 +40,9 @@ $ct = current_theme_info();
 <?php } else { ?>
 	<p><?php printf(__('All of this theme&#8217;s files are located in <code>%2$s</code>.'), $ct->title, $ct->template_dir, $ct->stylesheet_dir); ?></p>
 <?php } ?>
+<?php if ( $ct->tags ) : ?>
+<p><?php _e('Tags:'); ?> <?php echo join(', ', $ct->tags); ?></p>
+<?php endif; ?>
 </div>
 
 <h2><?php _e('Available Themes'); ?></h2>
@@ -62,6 +65,7 @@ foreach ($theme_names as $theme_name) {
 	$author = $themes[$theme_name]['Author'];
 	$screenshot = $themes[$theme_name]['Screenshot'];
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
+	$tags = $themes[$theme_name]['Tags'];
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
 ?>
 <div class="available-theme">
@@ -74,6 +78,9 @@ foreach ($theme_names as $theme_name) {
 </a>
 
 <p><?php echo $description; ?></p>
+<?php if ( $tags ) : ?>
+<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
+<?php endif; ?>
 </div>
 <?php } // end foreach theme_names ?>
 
