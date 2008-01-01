@@ -376,7 +376,9 @@ class WP_Import {
 			$cat_index++;
 		}
 
-		if ($post_id = post_exists($post_title, '', $post_date)) {
+		$post_exists = post_exists($post_title, '', $post_date);
+		
+		if ( $post_exists ) {
 			echo '<li>';
 			printf(__('Post <i>%s</i> already exists.'), stripslashes($post_title));
 		} else {
@@ -475,7 +477,8 @@ class WP_Import {
 			$comment_type         = $this->get_tag( $comment, 'wp:comment_type');
 			$comment_parent       = $this->get_tag( $comment, 'wp:comment_parent');
 
-			if ( !comment_exists($comment_author, $comment_date) ) {
+			// if this is a new post we can skip the comment_exists() check
+			if ( !$post_exists || !comment_exists($comment_author, $comment_date) ) {
 				$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_approved', 'comment_type', 'comment_parent');
 				wp_insert_comment($commentdata);
 				$num_comments++;
@@ -648,35 +651,45 @@ class WP_Import {
 		return apply_filters('import_attachment_size_limit', 0);
 	}
 	
-
-	function import($id, $fetch_attachments = false) {
-		$this->id = (int) $id;
-		$this->fetch_attachments = ($this->allow_fetch_attachments() && (bool) $fetch_attachments);
-
-		add_filter('import_post_meta_key', array($this, 'is_valid_meta_key'));
-		do_action('import_start');
-		$file = get_attached_file($this->id);
-		$this->import_file($file);
-		do_action('import_end');
-	}
-		
-	function import_file($file) {
-		$this->file = $file;
-		
-		$this->get_authors_from_post();
+	function import_start() {
 		wp_defer_term_counting(true);
-		$this->get_entries();
-		$this->process_categories();
-		$this->process_tags();
-		$result = $this->process_posts();
-		$this->backfill_parents();
-		$this->backfill_attachment_urls();
+		wp_defer_comment_counting(true);
+		do_action('import_start');
+	}
+	
+	function import_end() {
+		do_action('import_end');
 		
 		// clear the caches after backfilling
 		foreach ($this->post_ids_processed as $post_id)
 			clean_post_cache($post_id);
 		
 		wp_defer_term_counting(false);
+		wp_defer_comment_counting(false);
+	}
+
+	function import($id, $fetch_attachments = false) {
+		$this->id = (int) $id;
+		$this->fetch_attachments = ($this->allow_fetch_attachments() && (bool) $fetch_attachments);
+
+		add_filter('import_post_meta_key', array($this, 'is_valid_meta_key'));
+		$file = get_attached_file($this->id);
+		$this->import_file($file);
+	}
+		
+	function import_file($file) {
+		$this->file = $file;
+		
+		$this->import_start();
+		$this->get_authors_from_post();
+		$this->get_entries();
+		$this->process_categories();
+		$this->process_tags();
+		$result = $this->process_posts();
+		$this->backfill_parents();
+		$this->backfill_attachment_urls();
+		$this->import_end();
+		
 		if ( is_wp_error( $result ) )
 			return $result;
 	}

@@ -491,8 +491,41 @@ function wp_update_comment($commentarr) {
 	return $rval;
 }
 
+function wp_defer_comment_counting($defer=NULL) {
+	static $_defer = false;
+	
+	if ( is_bool($defer) ) {
+		$_defer = $defer;
+		// flush any deferred counts
+		if ( !$defer )
+			wp_update_comment_count( NULL, true );
+	}
+	
+	return $_defer;
+}
 
-function wp_update_comment_count($post_id) {
+function wp_update_comment_count($post_id, $do_deferred=false) {
+	static $_deferred = array();
+	
+	if ( $do_deferred ) {
+		$_deferred = array_unique($_deferred);
+		foreach ( $_deferred as $i => $_post_id ) {
+			wp_update_comment_count_now($_post_id);
+			unset( $_deferred[$i] );
+		}
+	}
+	
+	if ( wp_defer_comment_counting() ) {
+		$_deferred[] = $post_id;
+		return true;
+	}
+	elseif ( $post_id ) {
+		return wp_update_comment_count_now($post_id);
+	}
+		
+}
+
+function wp_update_comment_count_now($post_id) {
 	global $wpdb;
 	$post_id = (int) $post_id;
 	if ( !$post_id )
