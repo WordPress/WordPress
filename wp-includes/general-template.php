@@ -581,7 +581,7 @@ function get_calendar($initial = true) {
 			LIMIT 1");
 
 	echo '<table id="wp-calendar" summary="' . __('Calendar') . '">
-	<caption>' . $wp_locale->get_month($thismonth) . ' ' . date('Y', $unixmonth) . '</caption>
+	<caption>' . sprintf(_c('%1$s %2$s|Used as a calendar caption'), $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
 
