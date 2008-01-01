@@ -153,6 +153,53 @@ function get_lastcommentmodified($timezone = 'server') {
 }
 
 
+function get_comment_count( $post_id = 0 ) {
+    global $wpdb;
+
+    $post_id = (int) $post_id;
+
+    $where = '';
+    if ( $post_id > 0 ) {
+        $where = "WHERE comment_post_ID = {$post_id}";
+    }
+
+    $totals = (array) $wpdb->get_results(" 
+        SELECT comment_approved, COUNT( * ) AS total 
+        FROM {$wpdb->comments} 
+        {$where} 
+        GROUP BY comment_approved 
+    ", ARRAY_A);
+
+    $comment_count = array(                         
+        "approved"              => 0,                
+        "awaiting_moderation"   => 0,
+        "spam"                  => 0,
+        "total_comments"        => 0
+    ); 
+
+    foreach ( $totals as $i => $row ) { 
+        switch ( $row['comment_approved'] ) { 
+            case 'spam': 
+                $comment_count['spam'] = $row['total']; 
+                $comment_count["total_comments"] += $row['total'];
+                break; 
+            case 1: 
+                $comment_count['approved'] = $row['total']; 
+                $comment_count['total_comments'] += $row['total'];
+                break; 
+            case 0:
+                $comment_count['awaiting_moderation'] = $row['total'];
+                $comment_count['total_comments'] += $row['total'];
+                break;
+            default:
+                break;
+        }
+    }
+
+    return $comment_count;
+}
+
+
 function sanitize_comment_cookies() {
 	if ( isset($_COOKIE['comment_author_'.COOKIEHASH]) ) {
 		$comment_author = apply_filters('pre_comment_author_name', $_COOKIE['comment_author_'.COOKIEHASH]);

@@ -87,6 +87,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.deleteCategory'		=> 'this:wp_deleteCategory',
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
 			'wp.uploadFile'			=> 'this:mw_newMediaObject',	// Alias
+			'wp.getCommentCount'	=> 'this:wp_getCommentCount',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -674,6 +675,26 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return($category_suggestions);
+	}
+
+	function wp_getCommentCount( $args ) {
+		$this->escape($args); 
+
+		$blog_id	= (int) $args[0]; 
+		$username	= $args[1]; 
+		$password	= $args[2]; 
+		$post_id	= (int) $args[3];  
+
+		if( !$this->login_pass_ok( $username, $password ) ) {  
+			return new IXR_Error( 403, __( 'Bad login/pass combination.' ) ); 
+		}  
+
+		set_current_user( 0, $username );  
+		if( !current_user_can( 'edit_posts' ) ) {  
+			return new IXR_Error( 403, __( 'You are not allowed details about comments.' ) );  
+		} 
+
+		return get_comment_count( $post_id );
 	}
 
 
