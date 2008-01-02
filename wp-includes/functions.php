@@ -1636,7 +1636,7 @@ function _deprecated_function($function, $version, $replacement=null) {
 		if( !is_null($replacement) )
 			trigger_error( printf( __("%s is <strong>deprecated</strong> since version %s! Use %s instead."), $function, $version, $replacement ) );
 		else
-			trigger_error( printf( __("%s is <strong>deprecated</strong since version %s with no alternative available."), $function, $version ) );
+			trigger_error( printf( __("%s is <strong>deprecated</strong> since version %s with no alternative available."), $function, $version ) );
 	}
 }
 
@@ -1671,7 +1671,7 @@ function _deprecated_file($file, $version, $replacement=null) {
 		if( !is_null($replacement) )
 			trigger_error( printf( __("%s is <strong>deprecated</strong> since version %s! Use %s instead."), $file, $version, $replacement ) );
 		else
-			trigger_error( printf( __("%s is <strong>deprecated</strong since version %s with no alternative available."), $file, $version ) );
+			trigger_error( printf( __("%s is <strong>deprecated</strong> since version %s with no alternative available."), $file, $version ) );
 	}
 }
 ?>
