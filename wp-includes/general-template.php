@@ -159,7 +159,7 @@ function get_bloginfo($show = '', $filter = 'raw') {
 }
 
 
-function wp_title($sep = '&raquo;', $display = true) {
+function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	global $wpdb, $wp_locale, $wp_query;
 
 	$cat = get_query_var('cat');
@@ -235,7 +235,12 @@ function wp_title($sep = '&raquo;', $display = true) {
 	if ( !empty($title) )
 		$prefix = " $sep ";
 
-	$title = $prefix . $title;
+ 	// Determines position of the separator
+	if ( 'right' == $seplocation )
+		$title = $title . $prefix;
+	else
+		$title = $prefix . $title;
+	
 	$title = apply_filters('wp_title', $title, $sep);
 
 	// Send it out
@@ -243,6 +248,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 		echo $title;
 	else
 		return $title;
+
 }
 
 
