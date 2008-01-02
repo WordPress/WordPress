@@ -289,6 +289,36 @@ function get_post_type($post = false) {
 }
 
 /**
+ * set_post_type() - Set post type
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.4
+ *
+ * @uses $wpdb
+ * @uses $posts {@internal Missing Description}}
+ *
+ * @param mixed $post_id post ID
+ * @param mixed post type
+ * @return bool {@internal Missing Description}}
+ */
+function set_post_type( $post_id = 0, $post_type = 'post' ) {
+	global $wpdb;
+
+	$post_type = sanitize_post_field('post_type', $post_type, $post_id, 'db');
+	$return = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_type = %s WHERE ID = %d", $post_type, $post_id) );
+
+	if ( 'page' == $post_type )
+		clean_page_cache($post_id);
+	else
+		clean_post_cache($post_id);
+
+	return $return;
+}
+
+/**
  * get_posts() - Returns a number of posts
  *
  * {@internal Missing Long Description}}
