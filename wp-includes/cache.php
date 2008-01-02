@@ -6,11 +6,7 @@ function wp_cache_add($key, $data, $flag = '', $expire = 0) {
 }
 
 function wp_cache_close() {
-	global $wp_object_cache;
-
-	if ( ! isset($wp_object_cache) )
-		return;
-	return $wp_object_cache->save();
+	return true;
 }
 
 function wp_cache_delete($id, $flag = '') {
