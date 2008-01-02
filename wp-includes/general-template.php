@@ -863,12 +863,12 @@ function wp_footer() {
 }
 
 function rsd_link() {
-	echo '	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="' . get_bloginfo('wpurl') . "/xmlrpc.php?rsd\" />\n";
+	echo '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="' . get_bloginfo('wpurl') . "/xmlrpc.php?rsd\" />\n";
 }
 
 function wlwmanifest_link() {
-	echo ' <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="'
-		. get_bloginfo('wpurl') . '/wp-includes/wlwmanifest.xml" /> ';
+	echo '<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="'
+		. get_bloginfo('wpurl') . '/wp-includes/wlwmanifest.xml" /> ' . "\n";
 }
 
 function noindex() {
@@ -1141,10 +1141,10 @@ function the_generator ( $type ) {
 function get_the_generator ( $type ) {
 	switch ($type) {
 		case 'html':
-			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '">';
+			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '">' . "\n";
 			break;
 		case 'xhtml':
-			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '" />';
+			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '" />' . "\n";
 			break;
 		case 'atom':
 			$gen = '<generator uri="http://wordpress.org/" version="' . get_bloginfo_rss( 'version' ) . '">WordPress</generator>';
