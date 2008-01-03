@@ -18,7 +18,7 @@ else
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
 if ( 100 < $awaiting_mod )
 	$awaiting_mod = '99+'; // to not blow out layout
-$menu[15] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod'>$awaiting_mod</span>" ), 'edit_posts', 'edit-comments.php');
+$menu[15] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='comment-count'>$awaiting_mod</span>" ), 'edit_posts', 'edit-comments.php');
 $menu[20] = array(__('Blogroll'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Design'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
@@ -35,7 +35,7 @@ $submenu['post-new.php'][10] = array(__('Write Page'), 'edit_pages', 'page-new.p
 
 $submenu['edit-comments.php'][5] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
-$submenu['edit-comments.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), "<span id='awaitmod'>$awaiting_mod</span>"), 'edit_posts', 'moderation.php');
+$submenu['edit-comments.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), "<span id='awaitmod' class='comment-count'>$awaiting_mod</span>"), 'edit_posts', 'moderation.php');
 
 
 $submenu['edit.php'][5] = array(__('Posts'), 'edit_posts', 'edit.php');
