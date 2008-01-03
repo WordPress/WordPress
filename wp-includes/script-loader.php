@@ -11,8 +11,6 @@ class WP_Scripts {
 	}
 
 	function default_scripts() {
-		$this->add( 'dbx', '/wp-includes/js/dbx.js', false, '2.05' );
-
 		$this->add( 'fat', '/wp-includes/js/fat.js', false, '1.0-RC1_3660' );
 
 		$this->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
@@ -100,18 +98,6 @@ class WP_Scripts {
 				$man = 'linkmeta';
 				break;
 			endswitch;
-			if ( $man ) {
-				$this->add( 'dbx-admin-key', '/wp-admin/js/dbx-admin-key.js', array('dbx'), '20070417' );
-				$this->localize( 'dbx-admin-key', 'dbxL10n', array(
-					'manager' => $man,
-					'open' => __('open'),
-					'close' => __('close'),
-					'moveMouse' => __('click-down and drag to move this box'),
-					'toggleMouse' => __('click to %toggle% this box'),
-					'moveKey' => __('use the arrow keys to move this box'),
-					'toggleKey' => __(', or press the enter key to %toggle% it'),
-				) );
-			}
 			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),

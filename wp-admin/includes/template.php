@@ -505,7 +505,7 @@ function meta_form() {
 	if ( $keys )
 		natcasesort($keys);
 ?>
-<h3><?php _e( 'Add a new custom field:' ) ?></h3>
+<p><strong><?php _e( 'Add a new custom field:' ) ?></strong></p>
 <table id="newmeta" cellspacing="3" cellpadding="3">
 	<tr>
 <th colspan="2"><?php _e( 'Key' ) ?></th>

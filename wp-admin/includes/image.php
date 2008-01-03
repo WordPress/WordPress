@@ -317,4 +317,11 @@ function wp_read_image_metadata( $file ) {
 
 }
 
+function media_buttons() { // just a placeholder for now
+?>
+<img src="./images/media-buttons.gif" alt="" />
+<?php
+}
+add_action( 'media_buttons', 'media_buttons' );
+
 ?>

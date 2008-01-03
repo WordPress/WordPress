@@ -922,17 +922,20 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	<style type="text/css">
 		#postdivrich table, #postdivrich #quicktags {border-top: none;}
 		#quicktags {border-bottom: none; padding-bottom: 2px; margin-bottom: -1px;}
-		#edButtons {border-bottom: 1px solid #ccc;}
 	</style>
-	<div id='edButtons' style='display:none;'>
+	<div id='editor-toolbar' style='display:none;'>
 		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors("<?php echo $id; ?>")' /></div>
-		<input id='edButtonPreview' class='edButtonFore' type='button' value='<?php _e('Visual'); ?>' />
-		<input id='edButtonHTML' class='edButtonBack' type='button' value='<?php _e('Code'); ?>' onclick='switchEditors("<?php echo $id; ?>")' />
+		<a id='edButtonHTML' class='' onclick='switchEditors("<?php echo $id; ?>")'><?php _e('HTML'); ?></a>
+        <a id='edButtonPreview' class='active'><?php _e('Visual'); ?></a>
+        <div id="media-buttons">
+        <?php _e('Add media:'); ?>
+        <?php do_action( 'media_buttons'); ?>
+        </div>
 	</div>
 	<script type="text/javascript">
 	// <![CDATA[
 		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
-			document.getElementById('edButtons').style.display = 'block';
+			document.getElementById('editor-toolbar').style.display = 'block';
 	// ]]>
 	</script>
 

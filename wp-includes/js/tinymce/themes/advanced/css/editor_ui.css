@@ -6,9 +6,9 @@
 .mceLabel, .mceLabelDisabled {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt;}
 .mceLabel {color: #000000;}
 .mceLabelDisabled {cursor: text; color: #999999;}
-.mceEditor {background: #F0F0EE; border: 1px solid #cccccc; padding: 0; margin: 0;}
+.mceEditor {background: #F0F0EE; border: 1px solid #ddd; padding: 0; margin: 0;}
 .mceEditorArea { font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; background: #FFFFFF; padding: 0; margin: 0; }
-.mceToolbarTop, .mceToolbarBottom {background: #F0F0EE; line-height: 1px; font-size: 1px;}
+.mceToolbarTop, .mceToolbarBottom {background: #cee1ef; line-height: 1px; font-size: 1px;}
 .mceToolbarTop {border-bottom: 1px solid #cccccc; padding-bottom: 1px;}
 .mceToolbarBottom {border-top: 1px solid #cccccc;}
 .mceToolbarContainer {display: block; position: relative; left: 0; top: 0; width: 100%;}
@@ -26,7 +26,7 @@
 
 /* Button CSS rules */
 
-a.mceButtonDisabled img, a.mceButtonNormal img, a.mceButtonSelected img {width: 20px; height: 20px; cursor: default; margin-top: 1px; margin-left: 1px;}
+a.mceButtonDisabled img, a.mceButtonNormal img, a.mceButtonSelected img {width: 20px; height: 20px; cursor: default; margin: 5px; background: #e9e8e8 url(../../../../../../../wp-admin/images/fade-butt.png); -moz-border-radius: 2px; border: 1px solid #ccc;}
 a.mceButtonDisabled img {border: 0 !important;}
 a.mceButtonNormal img, a.mceButtonSelected img {border: 1px solid #F0F0EE !important;}
 a.mceButtonSelected img {border: 1px solid #6779AA !important; background-color: #D4D5D8;}

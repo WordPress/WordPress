@@ -561,8 +561,8 @@ function switchEditors(id) {
 }
 
 function edToggle(A, B) {
-	A.className = 'edButtonFore';
-	B.className = 'edButtonBack';
+	A.className = 'active';
+	B.className = '';
 
 	B.onclick = A.onclick;
 	A.onclick = null;

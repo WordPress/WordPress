@@ -68,96 +68,25 @@ addLoadEvent(focusit);
 <?php endif; ?>
 <div id="poststuff">
 
-<div id="moremeta">
-<div id="grabit" class="dbx-group">
-
-<fieldset id="categorydiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Categories') ?></h3>
-<div class="dbx-content">
-<p id="jaxcat"><?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?></p>
-<ul id="categorychecklist" class="list:category"><?php dropdown_categories(); ?></ul></div>
-</fieldset>
-
-<fieldset id="commentstatusdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Discussion') ?></h3>
-<div class="dbx-content">
-<input name="advanced_view" type="hidden" value="1" />
-<label for="comment_status" class="selectit">
-<input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
-<?php _e('Allow Comments') ?></label>
-<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
-</div>
-</fieldset>
-
-<fieldset id="passworddiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Password') ?></h3>
-<div class="dbx-content"><input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></div>
-</fieldset>
-
-<fieldset id="slugdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Slug') ?></h3>
-<div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" /></div>
-</fieldset>
-
-<fieldset id="poststatusdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Status') ?></h3>
-<div class="dbx-content">
-<?php if ( current_user_can('publish_posts') ) : ?>
-	<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
-<?php endif; ?>
-	<label for="post_status_pending" class="selectit"><input id="post_status_pending" name="post_status" type="radio" value="pending" <?php checked($post->post_status, 'pending'); ?> /> <?php _e('Pending Review') ?></label>
-	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
-	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
-</fieldset>
-
-<?php if ( current_user_can('edit_posts') ) : ?>
-<fieldset id="posttimestampdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Timestamp'); ?></h3>
-<div class="dbx-content"><?php touch_time(($action == 'edit')); ?></div>
-</fieldset>
-<?php endif; ?>
-
-<?php
-$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
-if ( $post->post_author && !in_array($post->post_author, $authors) )
-	$authors[] = $post->post_author;
-if ( $authors && count( $authors ) > 1 ) :
-?>
-<fieldset id="authordiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Author'); ?></h3>
-<div class="dbx-content">
-<?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
-</div>
-</fieldset>
-<?php endif; ?>
-
-<?php do_action('dbx_post_sidebar'); ?>
-
-</div>
+<div id="titlediv">
+<h3><?php _e('Title') ?></h3>
+<div class="inside"><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape($post->post_title); ?>" id="title" /></div>
 </div>
 
-<fieldset id="titlediv">
-	<legend><?php _e('Title') ?></legend>
-	<div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape($post->post_title); ?>" id="title" /></div>
-</fieldset>
-
-<fieldset id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>">
-<legend><?php _e('Post') ?>
-
-<?php if ( 'publish' == $post->post_status ) { ?>
-<a href="<?php echo clean_url(get_permalink($post->ID)); ?>" class="view-link" target="_blank"><?php _e('View &raquo;'); ?></a>
-<?php } elseif ( 'edit' == $action ) { ?>
-<a href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" class="view-link" target="_blank"><?php _e('Preview &raquo;'); ?></a>
-<?php } ?>
-</legend>
-
-	<?php the_editor($post->post_content); ?>
-</fieldset>
+<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
+<h3><?php _e('Post') ?></h3>
+<?php the_editor($post->post_content); ?>
+</div>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
 <p class="submit">
+<?php if ( 'publish' == $post->post_status ) { ?>
+<a href="<?php echo clean_url(get_permalink($post->ID)); ?>" class="view-link" target="_blank"><?php _e('View &raquo;'); ?></a>
+<?php } elseif ( 'edit' == $action ) { ?>
+<a href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" class="view-link" target="_blank"><?php _e('Preview &raquo;'); ?></a>
+<?php } ?>
 <span id="autosave"></span>
 <?php echo $saveasdraft; ?>
 <input type="submit" name="submit" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
@@ -181,10 +110,26 @@ else
 	echo clean_url(stripslashes(wp_get_referer()));
 ?>" /></p>
 
+<div id="tagsdiv" class="postbox">
+<h3><?php _e('Tags'); ?></h3>
+<div class="inside">
+<p id="jaxtag"><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></p>
+<p id="tagchecklist"></p>
+</div>
+</div>
+
+<div id="categorydiv" class="postbox">
+<h3><?php _e('Categories') ?></h3>
+<div class="inside">
+<p id="jaxcat"><?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?></p>
+<ul id="categorychecklist" class="list:category"><?php dropdown_categories(); ?></ul>
+</div>
+</div>
+
 <?php do_action('edit_form_advanced'); ?>
 
 <?php
-if (current_user_can('upload_files')) {
+if (current_user_can('upload_files') && false) {
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
 	$uploading_iframe_src = wp_nonce_url("upload.php?style=inline&amp;tab=upload&amp;post_id=$uploading_iframe_ID", 'inlineuploading');
 	$uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
@@ -193,57 +138,28 @@ if (current_user_can('upload_files')) {
 }
 ?>
 
-<div id="advancedstuff" class="dbx-group" >
+<h2><?php _e('Advanced Options'); ?></h2>
 
-<div class="dbx-b-ox-wrapper">
-<fieldset id="tagdiv" class="dbx-box">
-<div class="dbx-h-andle-wrapper">
-<h3 class="dbx-handle"><?php _e('Tags (separate multiple tags with commas: cats, pet food, dogs)'); ?></h3>
-</div>
-<div class="dbx-c-ontent-wrapper">
-<div class="dbx-content">
-<p id="jaxtag">
-<input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" />
-</p>
-<p id="tagchecklist"></p>
-</div></div>
-</fieldset>
+<div id="postexcerpt" class="postbox">
+<h3><?php _e('Optional Excerpt') ?></h3>
+<div class="inside"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
 </div>
 
-<div class="dbx-b-ox-wrapper">
-<fieldset id="postexcerpt" class="dbx-box">
-<div class="dbx-h-andle-wrapper">
-<h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>
-</div>
-<div class="dbx-c-ontent-wrapper">
-<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
-</div></div>
-</fieldset>
-</div>
-
-<div class="dbx-b-ox-wrapper">
-<fieldset id="trackbacksdiv" class="dbx-box">
-<div class="dbx-h-andle-wrapper">
-<h3 class="dbx-handle"><?php _e('Trackbacks') ?></h3>
-</div>
-<div class="dbx-c-ontent-wrapper">
-<div class="dbx-content"><?php _e('Send trackbacks to:'); ?> <?php echo $form_trackback; ?> (<?php _e('Separate multiple URLs with spaces'); ?>)
+<div id="trackbacksdiv" class="postbox">
+<h3><?php _e('Trackbacks') ?></h3>
+<div class="inside">
+<?php _e('Send trackbacks to:'); ?> <?php echo $form_trackback; ?> (<?php _e('Separate multiple URLs with spaces'); ?>)
 <?php
 if ( ! empty($pings) )
 	echo $pings;
 ?>
 </div>
 </div>
-</fieldset>
-</div>
 
-<div class="dbx-b-ox-wrapper">
-<fieldset id="postcustom" class="dbx-box">
-<div class="dbx-h-andle-wrapper">
-<h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
-</div>
-<div class="dbx-c-ontent-wrapper">
-<div id="postcustomstuff" class="dbx-content">
+<div id="postcustom" class="postbox">
+<h3><?php _e('Custom Fields') ?></h3>
+<div class="inside">
+<div id="postcustomstuff">
 <table cellpadding="3">
 <?php
 $metadata = has_meta($post_ID);
@@ -257,10 +173,69 @@ list_meta($metadata);
 <div id="ajax-response"></div>
 </div>
 </div>
-</fieldset>
 </div>
 
 <?php do_action('dbx_post_advanced'); ?>
+
+<div id="commentstatusdiv" class="postbox">
+<h3><?php _e('Discussion') ?></h3>
+<div class="inside">
+<input name="advanced_view" type="hidden" value="1" />
+<label for="comment_status" class="selectit">
+<input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
+<?php _e('Allow Comments') ?></label>
+<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
+</div>
+</div>
+
+<div id="passworddiv" class="postbox">
+<h3><?php _e('Post Password') ?></h3>
+<div class="inside">
+<input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" />
+</div>
+</div>
+
+<div id="slugdiv" class="postbox">
+<h3><?php _e('Post Slug') ?></h3>
+<div class="inside">
+<input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
+</div>
+</div>
+
+<div id="poststatusdiv" class="postbox">
+<h3><?php _e('Post Status') ?></h3>
+<div class="inside">
+<?php if ( current_user_can('publish_posts') ) : ?>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
+<?php endif; ?>
+<label for="post_status_pending" class="selectit"><input id="post_status_pending" name="post_status" type="radio" value="pending" <?php checked($post->post_status, 'pending'); ?> /> <?php _e('Pending Review') ?></label>
+  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
+  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label>
+</div>
+</div>
+
+<?php if ( current_user_can('edit_posts') ) : ?>
+<div id="posttimestampdiv" class="postbox">
+<h3><?php _e('Post Timestamp'); ?></h3>
+<div class="inside"><?php touch_time(($action == 'edit')); ?></div>
+</div>
+<?php endif; ?>
+
+<?php
+$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+if ( $post->post_author && !in_array($post->post_author, $authors) )
+	$authors[] = $post->post_author;
+if ( $authors && count( $authors ) > 1 ) :
+?>
+<div id="authordiv" class="postbox">
+<h3><?php _e('Post Author'); ?></h3>
+<div class="inside">
+<?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
+</div>
+</div>
+<?php endif; ?>
+
+<?php do_action('dbx_post_sidebar'); ?>
 
 </div>
 

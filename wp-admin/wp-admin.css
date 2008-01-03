@@ -99,25 +99,6 @@ body, td {
 	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
-fieldset {
-	border: none;
-	padding: 3px;
-}
-
-fieldset label.selectit {
-	display: block;
-	font-size: 11px;
-	padding: 0 2px;
-}
-
-fieldset label.selectit:hover {
-	background: #e9e9e9;
-}
-
-fieldset legend {
-	padding: .1em .3em;
-}
-
 fieldset.options {
 	padding: 1em;
 }
@@ -372,11 +353,6 @@ input.disabled, textarea.disabled {
 	background: #ccc;
 }
 
-
-#categorydiv input, #poststatusdiv input, #commentstatusdiv input, #pingstatusdiv input {
-	border: none;
-}
-
 #postdiv, #titlediv, #guiddiv {
 	margin: 0 8px 0 0;
 	padding: 0;
@@ -395,11 +371,6 @@ input.disabled, textarea.disabled {
 #postdivrich #content {
 	padding: 5px;
 	line-height: 140%;
-}
-
-#titlediv input, #guiddiv input {
-	margin: 0;
-	width: 100%;
 }
 
 #currenttheme img {
@@ -466,23 +437,11 @@ input.delete:hover {
 	margin-bottom: 3px;
 }
 
-#title {
-	font-size: 1.7em;
-	padding: 4px 3px;
-}
-
-#postexcerpt div, #attachmentlinks div {
-	margin-right: 8px;
-}
 
 #attachmentlinks textarea {
 	width: 100%;
 	height: 2.5em;
 	margin-bottom: 6px;
-}
-
-* html #postexcerpt .dbx-toggle-open, * html #postexcerpt .dbx-toggle-open {
-	padding-right: 8px;
 }
 
 #excerpt, .attachmentlinks {
@@ -691,46 +650,6 @@ input.delete:hover {
 	padding: 0;
 }
 
-#zeitgeist {
-	background: #eee;
-	border: 1px solid #c5c5c5;
-	float: right;
-	font-size: 90%;
-	margin-bottom: .5em;
-	margin-left: 1em;
-	margin-top: .5em;
-	padding: 1em;
-	width: 40%;
-}
-
-#zeitgeist h2, fieldset legend a {
-	background: none;
-}
-
-* html #zeitgeist h2 {
-	padding-top: 10px;
-}
-
-#zeitgeist h3 {
-	border-bottom: 1px solid #ccc;
-	font-size: 16px;
-	margin: 1em 0 0;
-}
-
-#zeitgeist h3 cite {
-	font-size: 12px;
-	font-style: normal;
-}
-
-#zeitgeist li, #zeitgeist p {
-	margin: .2em 0;
-}
-
-#zeitgeist ul {
-	margin: 0 0 .3em .6em;
-	padding: 0 0 0 .6em;
-}
-
 .active td {
 	background: #BEB;
 }
@@ -765,77 +684,9 @@ set display:none; */
 	position: absolute;
 }
 
-/* Box stuff */
-.dbx-clone {
-	position: absolute;
-	visibility: hidden;
-}
-.dbx-clone, .dbx-clone .dbx-handle-cursor {
-	cursor: move !important;
-}
-.dbx-dummy {
-	display: block;
-	width: 0;
-	height: 0;
-	overflow: hidden;
-}
-.dbx-group, .dbx-box, .dbx-handle {
-	position: relative;
-	display: block;
-}
-
-#grabit {
-	width: 188px;
-}
-
 * html #themeselect {
 	padding: 0 3px;
 	height: 22px;
-}
-
-/****************************************************************
-avoid padding, margins or borders on dbx-box,
-to reduce visual discrepancies between it and the clone.
-overall, dbx-box is best left as visually unstyled as possible
-*****************************************************************/
-.dbx-box {
-	margin: 0;
-	padding: 0;
-	border: none;
-}
-
-/* Can change this */
-#moremeta fieldset, #advancedstuff fieldset {
-	margin-bottom: 1em;
-}
-#moremeta fieldset div {
-	margin: 2px 0 0 0;
-	padding: 7px;
-}
-#moremeta {
-	line-height: 130%;
-	margin-right: 15px;
-	position: absolute;
-	right: 5%;
-	width: 14.5em;
-}
-#moremeta select {
-	width: 96%;
-}
-
-#slugdiv input, #passworddiv input, #authordiv select, #thumbdiv input, #parentdiv input {
-	margin-top: .5em;
-	width: 90%;
-}
-
-#moremeta h3, #advancedstuff h3 {
-	padding: 3px;
-	font-weight: normal;
-	font-size: 13px;
-}
-
-#advancedstuff div {
-	margin-top: .5em;
 }
 
 #categorydiv ul {
@@ -888,155 +739,7 @@ overall, dbx-box is best left as visually unstyled as possible
 	font-size: 22px;
 }
 
-/* default box styles */
 
-/* toggle state of inner content area */
-.dbx-box-open .dbx-content {
-	display: block;
-}
-.dbx-box-closed .dbx-content {
-	display: none;
-}
-
-#moremeta .dbx-content {
-	background: url(images/box-butt.gif) no-repeat bottom right;
-	padding-bottom: 15px;
-	padding-right: 2px;
-}
-
-#moremeta fieldset.dbx-box-closed {
-	background: url(images/box-butt.gif) no-repeat bottom;
-	padding-bottom: 9px;
-}
-
-/* handles */
-
-.dbx-handle {
-	background: #2685af;
-	padding: 6px 1em 2px;
-	font-size: 12px;
-	margin: 0;
-	color: #E3EFF5;
-}
-
-#moremeta .dbx-handle {
-	padding: 6px 1em 2px;
-	font-size: 12px;
-	background: #2685af url(images/box-head.gif) no-repeat right;
-}
-
-#moremeta .dbx-box {
-	background: url(images/box-bg.gif) repeat-y right;
-}
-
-#advancedstuff h3.dbx-handle {
-	margin-left: 7px;
-	margin-bottom: -7px;
-	padding: 6px 1em 0 3px;
-	height: 19px;
-	font-size: 12px;
-	background: #2685af url(images/box-head-right.gif) no-repeat top right;
-}
-
-#advancedstuff div.dbx-h-andle-wrapper {
-	margin: 0 0 0 -7px;
-	background: #fff url(images/box-head-left.gif) no-repeat top left;
-}
-
-#advancedstuff div.dbx-content {
-	margin-left: 8px;
-	background: url(images/box-bg-right.gif) repeat-y right;
-	padding: 10px 10px 15px 0;
-}
-
-#postexcerpt div.dbx-content {
-	margin-right: 0;
-	padding-right: 17px;
-}
-
-#advancedstuff div.dbx-c-ontent-wrapper {
-	margin-left: -7px;
-	margin-right: 0;
-	background: url(images/box-bg-left.gif) repeat-y left;
-}
-
-#advancedstuff fieldset.dbx-box {
-	padding-bottom: 9px;
-	margin-left: 6px;
-	background: url(images/box-butt-right.gif) no-repeat bottom right;
-}
-
-#advancedstuff div.dbx-b-ox-wrapper {
-	background: url(images/box-butt-left.gif) no-repeat bottom left;
-}
-
-#advancedstuff .dbx-box-closed div.dbx-c-ontent-wrapper {
-	padding-bottom: 2px;
-	background: url(images/box-butt-left.gif) no-repeat bottom left;
-}
-
-#advancedstuff .dbx-box {
-	background: url(images/box-butt-right.gif) no-repeat bottom right;
-}
-
-/* handle cursors */
-.dbx-handle-cursor {
-	cursor: move;
-}
-
-/* toggle images */
-a.dbx-toggle, a.dbx-toggle:visited {
-	display: block;
-	overflow: hidden;
-	background-image: url( images/toggle.gif );
-	position: absolute;
-	top: 0;
-	right: 0;
-	background-repeat: no-repeat;
-	border: 0;
-	margin: 0;
-	padding: 0;
-}
-
-#moremeta a.dbx-toggle, #moremeta a.dbx-toggle-open:visited {
-	height: 25px;
-	width: 27px;
-	background-position: 0 0;
-}
-
-#moremeta a.dbx-toggle-open, #moremeta a.dbx-toggle-open:visited {
-	height: 25px;
-	width: 27px;
-	background-position: 0 -25px;
-}
-
-#advancedstuff a.dbx-toggle, #advancedstuff a.dbx-toggle-open:visited {
-	height: 22px;
-	width: 22px;
-	top: 3px;
-	right: 5px;
-	background-position: 0 -3px;
-}
-
-#advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
-	height: 22px;
-	width: 22px;
-	top: 3px;
-	right: 5px;
-	background-position: 0 -28px;
-}
-
-#categorychecklist {
-	margin-right: 6px;
-}
-
-/* additional clone styles */
-.dbx-clone {
-	opacity: 0.8;
-	-moz-opacity: 0.8;
-	-khtml-opacity: 0.8;
-	filter: alpha(opacity=80);
-}
 
 #newcat {
 	width: 120px;
@@ -1075,27 +778,6 @@ input #catadd {
 	margin-left: 2em;
 }
 
-#postdivrich #edButtons {
-	padding-left: 3px;
-}
-
-#postdivrich #content, #postdivrich #content:active {
-	border: 1px solid #ccc;
-}
-
-#edButtons input, #edButtons input:active {
-	margin: 0 2px -1px;
-}
-
-#edButtons input.edButtonFore, #edButtons input.edButtonFore:active {
-	background: #f0f0ee;
-	border-bottom: 1px solid #f0f0ee;
-}
-
-#edButtons input.edButtonBack, #edButtons input.edButtonBack:active {
-	background: #fff url( images/fade-butt.png ) repeat-x 0 15px;
-	border-bottom: 1px solid #ccc;
-}
 
 .page-numbers {
 	padding: 4px 7px;
@@ -1119,13 +801,6 @@ a.page-numbers:hover {
 .pagenav span {
 	font-weight: bold;
 	margin: 0 6px;
-}
-
-a.view-link {
-	position: absolute;
-	right: 5%;
-	margin-right: 220px;
-	text-decoration:underline;
 }
 
 #update-nag, .plugin-update {
@@ -1453,3 +1128,70 @@ a.view-comment-post-link {
 	text-decoration: underline;
 	color: black;
 }
+
+#poststuff h3 {
+	background: #eaf3fa;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 10px 5px;
+	margin: 0 0 10px;
+}
+
+#poststuff fieldset {
+	border: 1px solid #ccc;pa
+	padding: 2px;
+}
+
+#poststuff .postbox, #titlediv {
+	margin-left: 20px;
+	border: 1px solid #ebebeb;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 2px;
+	margin-bottom: 10px;
+}
+
+#poststuff .postarea {
+	margin-left: 20px;
+	margin-right: 8px;
+}
+
+#poststuff .inside {
+	margin: 0 12px 15px;
+}
+
+#poststuff #title {
+	font-size: 1.7em;
+	padding: 4px 3px;
+	width: 98%;
+}
+
+#poststuff #editor-toolbar {
+	position: relative;
+	height: 30px;
+	margin-top: -40px;
+}
+
+#poststuff #edButtonPreview, #poststuff #edButtonHTML {
+	display: block;
+	height: 18px;
+	padding: 5px;
+	margin-right: 8px;
+	float: right;
+	cursor: pointer;
+	color: #2583ad;
+}
+
+#poststuff #editor-toolbar .active {
+	background: #cee1ef;
+	color: #333;
+	font-weight: bold;
+	-moz-border-radius: 2px;
+}
+
+#poststuff #media-buttons {
+	float: right;
+	margin-right: 20px;
+	margin-top: 5px;
+}
+
