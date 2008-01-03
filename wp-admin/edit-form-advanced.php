@@ -157,11 +157,6 @@ if ( $authors && count( $authors ) > 1 ) :
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<fieldset id="tagdiv">
-	<legend><?php _e('Tags (separate multiple tags with commas: cats, pet food, dogs)'); ?></legend>
-	<div><input type="text" name="tags_input" class="tags-input" id="tags-input" size="30" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></div>
-</fieldset>
-
 <p class="submit">
 <span id="autosave"></span>
 <?php echo $saveasdraft; ?>
@@ -201,13 +196,28 @@ if (current_user_can('upload_files')) {
 <div id="advancedstuff" class="dbx-group" >
 
 <div class="dbx-b-ox-wrapper">
+<fieldset id="tagdiv" class="dbx-box">
+<div class="dbx-h-andle-wrapper">
+<h3 class="dbx-handle"><?php _e('Tags (separate multiple tags with commas: cats, pet food, dogs)'); ?></h3>
+</div>
+<div class="dbx-c-ontent-wrapper">
+<div class="dbx-content">
+<p id="jaxtag">
+<input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" />
+</p>
+<p id="tagchecklist"></p>
+</div></div>
+</fieldset>
+</div>
+
+<div class="dbx-b-ox-wrapper">
 <fieldset id="postexcerpt" class="dbx-box">
 <div class="dbx-h-andle-wrapper">
 <h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>
 </div>
 <div class="dbx-c-ontent-wrapper">
-<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
-</div>
+<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
+</div></div>
 </fieldset>
 </div>
 

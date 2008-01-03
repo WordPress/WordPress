@@ -58,10 +58,13 @@ case 'edit':
 		exit();
 	}
 
-	if($post->post_status == 'draft') {
+	wp_enqueue_script('post');
+
+	if( 'draft' == $post->post_status ) {
 		wp_enqueue_script('prototype');
 		wp_enqueue_script('autosave');
 	}
+
 	require_once('admin-header.php');
 
 	if ( !current_user_can('edit_post', $post_ID) )

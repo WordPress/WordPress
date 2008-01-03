@@ -6,6 +6,8 @@ $editing = true;
 wp_enqueue_script('prototype');
 wp_enqueue_script('jquery');
 wp_enqueue_script('autosave');
+wp_enqueue_script('post');
+
 require_once ('./admin-header.php');
 
 if ( ! current_user_can('edit_posts') ) { ?>

@@ -7,6 +7,19 @@ define('DOING_AJAX', true);
 if ( !is_user_logged_in() )
 	die('-1');
 
+if ( 'ajax-tag-search' == $_GET['action'] ) {
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+
+	$s = $_GET['q']; // is this slashed already?
+
+	if ( strstr( $s, ',' ) )
+		die; // it's a multiple tag insert, we won't find anything
+	$results = $wpdb->get_col( "SELECT name FROM $wpdb->terms WHERE name LIKE ('%$s%')" );
+	echo join( $results, "\n" );
+	die;
+}
+
 function get_out_now() { exit; }
 add_action( 'shutdown', 'get_out_now', -1 );
 

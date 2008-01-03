@@ -80,6 +80,8 @@ class WP_Scripts {
 		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.4');
 		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '1.0.3');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2');
+		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
+		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
 
 		if ( is_admin() ) {
 			global $pagenow;
@@ -129,6 +131,7 @@ class WP_Scripts {
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest'), '20080102' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),
 				'back' => __('&laquo; Back'),
