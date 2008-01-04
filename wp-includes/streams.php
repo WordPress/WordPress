@@ -1,5 +1,11 @@
 <?php
-/*
+/**
+ * PHP-Gettext External Library: StreamReader classes
+ *
+ * @package External
+ * @subpackage PHP-gettext
+ *
+ * @internal 
    Copyright (c) 2003, 2005 Danilo Segan <danilo@kvota.net>.
 
    This file is part of PHP-gettext.
@@ -18,7 +24,7 @@
    along with PHP-gettext; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-*/
+ */
 
 
 // Simple class to wrap file streams, string streams, etc.

@@ -1,5 +1,11 @@
 <?php
-/*
+/**
+ * PHP-Gettext External Library: gettext_reader class
+ *
+ * @package External
+ * @subpackage PHP-gettext
+ *
+ * @internal
 	 Copyright (c) 2003 Danilo Segan <danilo@kvota.net>.
 	 Copyright (c) 2005 Nico Kaiser <nico@siriux.net>
 
