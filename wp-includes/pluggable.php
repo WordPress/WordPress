@@ -291,8 +291,8 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 endif;
 
 if ( !function_exists('wp_login') ) :
-function wp_login($username, $password, $deprecated = false) {
-	global $wpdb, $error;
+function wp_login($username, $password, $deprecated = '') {
+	global $error;
 
 	$username = sanitize_user($username);
 
@@ -802,6 +802,7 @@ endif;
 // Deprecated. Use wp_set_auth_cookie()
 if ( !function_exists('wp_setcookie') ) :
 function wp_setcookie($username, $password = '', $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
+	_deprecated_function( __FUNCTION__, '2.4', 'wp_set_auth_cookie()' );
 	$user = get_userdatabylogin($username);
 	wp_set_auth_cookie($user->ID, $remember);
 }
@@ -810,6 +811,7 @@ endif;
 // Deprecated. Use wp_clear_auth_cookie()
 if ( !function_exists('wp_clearcookie') ) :
 function wp_clearcookie() {
+	_deprecated_function( __FUNCTION__, '2.4', 'wp_clear_auth_cookie()' );
 	wp_clear_auth_cookie();
 }
 endif;
@@ -817,6 +819,7 @@ endif;
 // Deprecated.  No alternative.
 if ( !function_exists('wp_get_cookie_login') ):
 function wp_get_cookie_login() {
+	_deprecated_function( __FUNCTION__, '2.4', '' );
 	return false;
 }
 endif;

@@ -114,8 +114,6 @@ function check_all_rows() {
 	}
 
 	function _category_exists($cat_id) {
-		global $wpdb;
-
 		$cat_id = (int) $cat_id;
 
 		$maybe_exists = category_exists($cat_id);

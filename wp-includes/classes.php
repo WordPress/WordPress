@@ -740,7 +740,7 @@ class WP_Ajax_Response {
 
 		$r = wp_parse_args( $args, $defaults );
 		extract( $r, EXTR_SKIP );
-		$postition = preg_replace( '/[^a-z0-9:_-]/i', '', $position );
+		$position = preg_replace( '/[^a-z0-9:_-]/i', '', $position );
 
 		if ( is_wp_error($id) ) {
 			$data = $id;

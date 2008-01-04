@@ -911,7 +911,7 @@ function permalink_link() {
  *
  * @param string $file
  */
-function permalink_single_rss($file = '') {
+function permalink_single_rss($deprecated = '') {
 	_deprecated_function(__FUNCTION__, '0.0', 'the_permalink_rss()');
 	the_permalink_rss();
 }
@@ -1206,7 +1206,7 @@ function comments_rss_link($link_text = 'Comments RSS', $deprecated = '') {
 function get_category_rss_link($echo = false, $cat_ID = 1, $deprecated = '') {
 	_deprecated_function(__FUNCTION__, '0.0', 'get_category_feed_link()');
 
-	$link = get_category_feed_link($cat_ID, $feed = 'rss2');
+	$link = get_category_feed_link($cat_ID, 'rss2');
 
 	if ( $echo )
 		echo $link;
@@ -1261,6 +1261,17 @@ function comments_rss($deprecated = '') {
 function create_user($username, $password, $email) {
 	_deprecated_function( __FUNCTION__, '2.0', 'wp_create_user()' );
 	return wp_create_user($username, $password, $email);
+}
+
+/**
+ * documentation_link() - Unused Admin function
+ * @since 2.0
+ * @param string $deprecated Unknown
+ * @deprecated 2.4
+ */
+function documentation_link( $deprecated = '' ) {
+	_deprecated_function( __FUNCTION__, '2.4', '' );
+	return;
 }
 
 ?>

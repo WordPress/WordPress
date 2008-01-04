@@ -115,7 +115,7 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	$day = mktime( 0, 0, 0, $md, $mm, $my );
 	$weekday = date( 'w', $day );
 	$i = 86400;
-	if( !is_numeric($a) )
+	if( !is_numeric($start_of_week) )
 		$start_of_week = get_option( 'start_of_week' );
 
 	if ( $weekday < $start_of_week )

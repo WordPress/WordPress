@@ -806,7 +806,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 			
 	} else if ( 'rss' == $context ) {
 		$value = apply_filters("term_${field}_rss", $value, $taxonomy);
-		$value = apply_filters("${taxonomy}_$field_rss", $value);
+		$value = apply_filters("${taxonomy}_${field}_rss", $value);
 	} else {
 		// Use display filters by default.
 		$value = apply_filters("term_$field", $value, $term_id, $taxonomy, $context);

@@ -32,7 +32,7 @@ function permalink_anchor($mode = 'id') {
 	global $post;
 	switch ( strtolower($mode) ) {
 		case 'title':
-			$title = sanitize_title($post->post_title) . '-' . $id;
+			$title = sanitize_title($post->post_title) . '-' . $post->ID;
 			echo '<a id="'.$title.'"></a>';
 			break;
 		case 'id':
@@ -316,7 +316,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 	if ( '' == $permalink_structure ) {
 		$link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
 	} else {
-		$link = get_author_posts_url($author_id, $author_nicename);
+		$link = get_author_posts_url($author_id);
 		$link = trailingslashit($link) . user_trailingslashit('feed', 'feed');
 	}
 

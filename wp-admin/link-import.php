@@ -123,7 +123,7 @@ else
 } // end else
 
 if ( ! $blogrolling )
-	apply_filters( 'wp_delete_file', $opml_url);
+	do_action( 'wp_delete_file', $opml_url);
 	@unlink($opml_url);
 ?>
 </div>

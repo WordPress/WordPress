@@ -112,6 +112,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 
 	// If you override this, you must provide $ext and $type!!!!
 	$test_type = true;
+	$mimes = false;
 
 	// Install user overrides. Did we mention that this voids your warranty?
 	if ( is_array( $overrides ) )

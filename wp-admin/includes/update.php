@@ -2,7 +2,7 @@
 
 // The admin side of our 1.0 update system
 
-function core_update_footer( $msg ) {
+function core_update_footer( $msg = '' ) {
 	if ( !current_user_can('manage_options') )
 		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
 

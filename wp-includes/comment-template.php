@@ -340,10 +340,10 @@ function get_comments_link() {
  *
  * @since 0.71
  *
- * @param string $file Not Used
- * @param bool $echo Not Used
+ * @param string $deprecated Not Used
+ * @param bool $deprecated Not Used
  */
-function comments_link( $file = '', $echo = true ) {
+function comments_link( $deprecated = '', $deprecated = '' ) {
 	echo get_comments_link();
 }
 
@@ -357,6 +357,7 @@ function comments_link( $file = '', $echo = true ) {
  * @return int The number of comments a post has
  */
 function get_comments_number( $post_id = 0 ) {
+	global $id;
 	$post_id = (int) $post_id;
 
 	if ( !$post_id )
@@ -536,9 +537,9 @@ function trackback_url($deprecated = true) {
  *
  * @since 0.71
  *
- * @param int $timezone Not used
+ * @param int $deprecated Not used (Was $timezone = 0)
  */
-function trackback_rdf($timezone = 0) {
+function trackback_rdf($deprecated = '') {
 	if (stripos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') === false) {
 		echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 				xmlns:dc="http://purl.org/dc/elements/1.1/"

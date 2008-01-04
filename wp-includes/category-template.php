@@ -66,7 +66,7 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_the_category($id = false) {
-	global $post, $term_cache;
+	global $post;
 
 	$id = (int) $id;
 	if ( !$id )

@@ -2563,7 +2563,7 @@ function _transition_post_status($new_status, $old_status, $post) {
  * @param int $post_id Not Used. Can be set to null.
  * @param object $post Object type containing the post information
  */
-function _future_post_hook($post_id, $post) {
+function _future_post_hook($deprecated = '', $post) {
 	wp_clear_scheduled_hook( 'publish_future_post', $post->ID );
 	wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', array($post->ID));
 }

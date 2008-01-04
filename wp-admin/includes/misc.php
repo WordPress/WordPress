@@ -130,7 +130,7 @@ function update_recently_edited( $file ) {
 
 // If siteurl or home changed, flush rewrite rules.
 function update_home_siteurl( $old_value, $value ) {
-	global $wp_rewrite, $user_login, $user_pass_md5;
+	global $wp_rewrite;
 
 	if ( defined( "WP_INSTALLING" ) )
 		return;

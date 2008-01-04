@@ -105,7 +105,7 @@ function &get_comment(&$comment, $output = OBJECT) {
 
 // Deprecate in favor of get_comment()?
 function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) { // less flexible, but saves DB queries
-	global $postc, $id, $wpdb;
+	global $postc, $wpdb;
 	if ( $no_cache ) {
 		$query = $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d", $comment_ID);
 		if ( false == $include_unapproved )
@@ -130,7 +130,6 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
 
 function get_lastcommentmodified($timezone = 'server') {
 	global $cache_lastcommentmodified, $wpdb;
-	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
 	if ( !isset($cache_lastcommentmodified[$timezone]) ) {
@@ -177,7 +176,7 @@ function get_comment_count( $post_id = 0 ) {
         "total_comments"        => 0
     ); 
 
-    foreach ( $totals as $i => $row ) { 
+    foreach ( $totals as $row ) { 
         switch ( $row['comment_approved'] ) { 
             case 'spam': 
                 $comment_count['spam'] = $row['total']; 
@@ -519,7 +518,7 @@ function wp_update_comment($commentarr) {
 
 	$comment_date_gmt = get_gmt_from_date($comment_date);
 
-	$result = $wpdb->query(
+	$wpdb->query(
 		"UPDATE $wpdb->comments SET
 			comment_content      = '$comment_content',
 			comment_author       = '$comment_author',
@@ -609,7 +608,6 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	$pingback_str_dquote = 'rel="pingback"';
 	$pingback_str_squote = 'rel=\'pingback\'';
 	$x_pingback_str = 'x-pingback: ';
-	$pingback_href_original_pos = 27;
 
 	extract(parse_url($url), EXTR_SKIP);
 

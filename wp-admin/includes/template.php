@@ -102,11 +102,6 @@ function checked( $checked, $current) {
 		echo ' checked="checked"';
 }
 
-// TODO: Remove?
-function documentation_link( $for ) {
-	return;
-}
-
 function selected( $selected, $current) {
 	if ( $selected == $current)
 		echo ' selected="selected"';

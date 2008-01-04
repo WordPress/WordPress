@@ -425,7 +425,7 @@ EOD;
 		$url = $file['url'];
 		$file = $file['file'];
 
-		apply_filters('wp_create_file_in_uploads', $file); // replicate
+		do_action('wp_create_file_in_uploads', $file); // replicate
 
 		// Construct the attachment array
 		$attachment = array(
