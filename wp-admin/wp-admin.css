@@ -899,6 +899,31 @@ a.view-comment-post-link {
 	margin: 0;
 }
 
+/* menu stuff */
+
+#dashmenu {
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	top: 7px;
+	left: 0;
+	padding-left: 12px;
+}
+
+#dashmenu a {
+	color: #999;
+	padding: 6px;
+	line-height: 220%;
+	margin-right: 8px;
+}
+
+#dashmenu a:hover, #dashmenu a.current, #dashmenu a.current:hover {
+	background: #e4f2fd;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;		
+	color: #555;
+}
+
 #adminmenu {
 	margin: 0;
 	list-style: none;
@@ -910,7 +935,7 @@ a.view-comment-post-link {
 #adminmenu a {
 	font-size: 16px;
 	color: #2583ad;
-	padding: 6px 6px;
+	padding: 6px;
 	line-height: 200%;
 	border: 1px solid #e4f2fd;
 	border-bottom: 1px solid #c6d9e9;
@@ -931,12 +956,34 @@ a.view-comment-post-link {
 	font-weight: normal;
 }
 
-#adminmenu li, #submenu li {
+#sidemenu {
+	margin: 0;
+	color: #999;
+	list-style: none;
+	position: absolute;
+	right: 25%;
+	top: 55px;
+	padding-left: 10px;
+}
+
+#sidemenu a {
+	color: #2583ad;
+	padding: 3px;
+	line-height: 200%;
+}
+
+#sidemenu a:hover, #sidemenu a.current, #sidemenu a.current:hover {
+	color: #d54e21;
+}
+
+#dashmenu li, #adminmenu li, #submenu li, #sidemenu li {
 	display: inline;
 	line-height: 200%;
 	list-style: none;
 	text-align: center;
 	white-space: nowrap;
+	margin: 0;
+	padding: 0;
 }
 
 #adminmenu #awaiting-mod {
@@ -970,6 +1017,8 @@ a.view-comment-post-link {
 #minisub { /* for empty submenus */
 	height: 15px;
 }
+
+/* end menu stuff */
 
 /* Admin Footer */
 

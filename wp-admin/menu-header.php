@@ -1,11 +1,45 @@
-<ul id="adminmenu">
 <?php
 $self = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 $self = preg_replace('|^.*/plugins/|i', '', $self);
 
 get_admin_page_parent();
 
-foreach ($menu as $item) {
+// We're going to do this loop three times
+?>
+
+<ul id="dashmenu">
+<?php
+foreach ( $menu as $key => $item ) {
+	if ( 3 < $key ) // get each menu item before 3
+		continue;
+	$class = '';
+	// 0 = name, 1 = capability, 2 = file
+	if (( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
+
+	if ( !empty($submenu[$item[2]]) ) {
+		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
+		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+			echo "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
+		else
+			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
+	} else if ( current_user_can($item[1]) ) {
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
+			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
+		else
+			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
+	}
+}
+do_action( 'dashmenu' );
+?>
+</ul>
+
+<ul id="adminmenu">
+<?php
+foreach ( $menu as $key => $item ) {
+	if ( 5 > $key || $key > 25 ) // get each menu item before 3
+		continue;
+
 	$class = '';
 
 	// 0 = name, 1 = capability, 2 = file
@@ -25,9 +59,39 @@ foreach ($menu as $item) {
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
 	}
 }
-
+do_action( 'adminmenu' );
 ?>
 </ul>
+
+<ul id="sidemenu">
+<?php
+foreach ( $menu as $key => $item ) {
+	if ( 26 > $key ) // get each menu item before 3
+		continue;
+
+	$class = '';
+
+	// 0 = name, 1 = capability, 2 = file
+	if (( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
+
+	if ( !empty($submenu[$item[2]]) ) {
+		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
+		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+			echo "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a> |</li>";
+		else
+			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a> |</li>";
+	} else if ( current_user_can($item[1]) ) {
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
+			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a> |</li>";
+		else
+			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a> |</li>";
+	}
+}
+do_action( 'sidemenu' );
+?>
+</ul>
+
 
 <?php
 // Sub-menu
