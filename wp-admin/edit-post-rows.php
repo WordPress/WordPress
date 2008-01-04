@@ -66,7 +66,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
 		if ( $left )
 			echo '<strong>';
-		comments_number("<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase'>" . __('0') . '</a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase'>" . __('%') . '</a>');
+		comments_number("<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count'>" . __('0') . '</a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count'>" . __('%') . '</a>');
 		if ( $left )
 			echo '</strong>';
 		?>

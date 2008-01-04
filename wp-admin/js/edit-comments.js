@@ -3,15 +3,21 @@ jQuery(function($) {
 
 var dimAfter = function( r, settings ) {
 	$('.comment-count').each( function() {
-		var a = $('#' + this.id );
+		var a = $(this);
 		var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
+		a.html( n.toString() );
+	});
+	// we need to do the opposite for this guy, TODO: update title
+	$('.post-com-count').each( function() {
+		var a = $(this);
+		var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? -1 : 1 );
 		a.html( n.toString() );
 	});
 }
 
 var delAfter = function( r, settings ) {
 	$('.comment-count').each( function() {
-		var a = $('#' + this.id );
+		var a = $(this);
 		if ( a.parent('.current').size() || $('#' + settings.element).is('.unapproved') && parseInt(a.html(),10) > 0 ) {
 			var n = parseInt(a.html(),10) - 1;
 			a.html( n.toString() );
