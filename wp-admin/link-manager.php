@@ -16,8 +16,8 @@ if (empty ($cat_id))
 if (empty ($order_by))
 	$order_by = 'order_name';
 
-$title = __('Manage Blogroll');
-$this_file = $parent_file = 'link-manager.php';
+$title = __('Manage Links');
+$this_file = $parent_file = 'edit.php';
 include_once ("./admin-header.php");
 
 if (!current_user_can('manage_links'))
@@ -75,7 +75,8 @@ if ( isset($_GET['deleted']) ) {
 
 <div class="wrap">
 
-<h2><?php _e('Blogroll Management'); ?></h2>
+<h2><?php _e('Manage Links'); ?></h2>
+<p><a href="link-add.php"><?php _e('Add Link'); ?></a> | <a href="edit-link-categories.php"><?php _e('Link Categories'); ?></a> | <a href="link-import.php"><?php _e('Import Links'); ?></a></p>
 <p><?php _e('Here you <a href="link-add.php">add links</a> to sites that you visit often and share them on your blog. When you have a list of links in your sidebar to other blogs, it&#8217;s called a &#8220;blogroll.&#8221;'); ?></p>
 <form id="cats" method="get" action="">
 <p><?php

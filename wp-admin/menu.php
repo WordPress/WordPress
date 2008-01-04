@@ -31,6 +31,7 @@ $menu[40] = array(__('Settings'), 'manage_options', 'options-general.php');
 $_wp_real_parent_file['post.php'] = 'post-new.php'; // Back-compat
 $submenu['post-new.php'][5] = array(__('Post'), 'edit_posts', 'post-new.php');
 $submenu['post-new.php'][10] = array(__('Page'), 'edit_pages', 'page-new.php');
+$submenu['post-new.php'][15] = array(__('Link'), 'manage_links', 'link-add.php');
 
 $submenu['edit-comments.php'][5] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
@@ -44,11 +45,6 @@ $submenu['edit.php'][20] = array(__('Categories'), 'manage_categories', 'categor
 $submenu['edit.php'][25] = array(__('Media Library'), 'upload_files', 'upload.php');
 $submenu['edit.php'][30] = array(__('Import'), 'import', 'import.php');
 $submenu['edit.php'][35] = array(__('Export'), 'import', 'export.php');
-
-
-$submenu['edit.php'][50] = array(__('Add Link'), 'manage_links', 'link-add.php'); // todo: axe
-$submenu['edit.php'][55] = array(__('Import Links'), 'manage_links', 'link-import.php'); // todo: axe
-$submenu['edit.php'][60] = array(__('Categories'), 'manage_links', 'edit-link-categories.php'); // todo: axe
 
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.

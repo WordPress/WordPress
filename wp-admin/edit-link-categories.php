@@ -1,8 +1,8 @@
 <?php
 require_once('admin.php');
 
-$title = __('Categories');
-$parent_file = 'link-manager.php';
+$title = __('Link Categories');
+$parent_file = 'edit.php';
 
 wp_enqueue_script( 'admin-categories' );
 require_once ('admin-header.php');
