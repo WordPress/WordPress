@@ -2,13 +2,11 @@
 
 /* Global Variables */
 
-global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_styles, $wp_registered_widget_defaults;
+global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls;
 
 $wp_registered_sidebars = array();
 $wp_registered_widgets = array();
 $wp_registered_widget_controls = array();
-$wp_registered_widget_styles = array();
-$wp_register_widget_defaults = false;
 
 /* Template tags & API functions */
 
@@ -95,8 +93,7 @@ function register_sidebar_widget($name, $output_callback, $classname = '') {
 }
 
 function wp_register_sidebar_widget($id, $name, $output_callback, $options = array()) {
-
-	global $wp_registered_widgets, $wp_register_widget_defaults;
+	global $wp_registered_widgets;
 
 	if ( empty($output_callback) ) {
 		unset($wp_registered_widgets[$id]);
@@ -113,8 +110,18 @@ function wp_register_sidebar_widget($id, $name, $output_callback, $options = arr
 	);
 	$widget = array_merge($widget, $options);
 
-	if ( is_callable($output_callback) && ( !isset($wp_registered_widgets[$id]) || !$wp_register_widget_defaults) )
+	if ( is_callable($output_callback) && ( !isset($wp_registered_widgets[$id]) || did_action( 'widgets_init' ) ) )
 		$wp_registered_widgets[$id] = $widget;
+}
+
+function wp_widget_description( $id ) {
+	if ( !is_scalar($id) )
+		return;
+
+	global $wp_registered_widgets;
+
+	if ( isset($wp_registered_widgets[$id]['description']) )
+		return wp_specialchars( $wp_registered_widgets[$id]['description'] );
 }
 
 function unregister_sidebar_widget($id) {
@@ -149,23 +156,27 @@ function register_widget_control($name, $control_callback, $width = '', $height 
 	call_user_func_array('wp_register_widget_control', $args);
 }
 
+/* $options: height, width, id_base
+ *   height: never used
+ *   width:  width of fully expanded control form.  Try hard to use the default width.
+ *   id_base: for widgets which allow multiple instances (such as the text widget), an id_base must be provided.
+ *            the widget id will ennd up looking like {$id_base}-{$unique_number}
+ */
 function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
-	global $wp_registered_widget_controls, $wp_register_widget_defaults;
+	global $wp_registered_widget_controls;
 
 	if ( empty($control_callback) ) {
 		unset($wp_registered_widget_controls[$id]);
 		return;
 	}
 
-	if ( isset($wp_registered_widget_controls[$id]) && $wp_register_widget_defaults )
+	if ( isset($wp_registered_widget_controls[$id]) && !did_action( 'widgets_init' ) )
 		return;
 
-	$defaults = array('width' => 300, 'height' => 200);
+	$defaults = array('width' => 250, 'height' => 200 ); // height is never used
 	$options = wp_parse_args($options, $defaults);
 	$options['width'] = (int) $options['width'];
 	$options['height'] = (int) $options['height'];
-	$options['width'] = $options['width'] > 90 ? $options['width'] + 60 : 360;
-	$options['height'] = $options['height'] > 60 ? $options['height'] + 40 : 240;
 
 	$widget = array(
 		'name' => $name,
@@ -234,15 +245,17 @@ function dynamic_sidebar($index = 1) {
 	return $did_one;
 }
 
+/* @return mixed false if widget is not active or id of sidebar in which the widget is active
+ */
 function is_active_widget($callback) {
 	global $wp_registered_widgets;
 
 	$sidebars_widgets = wp_get_sidebars_widgets(false);
 
-	if ( is_array($sidebars_widgets) ) foreach ( $sidebars_widgets as $widgets )
+	if ( is_array($sidebars_widgets) ) foreach ( $sidebars_widgets as $sidebar => $widgets )
 		if ( is_array($widgets) ) foreach ( $widgets as $widget )
 			if ( $wp_registered_widgets[$widget]['callback'] == $callback )
-				return true;
+				return $sidebar;
 
 	return false;
 }
@@ -387,16 +400,22 @@ function wp_widget_pages_control() {
 	$title = attribute_escape($options['title']);
 	$exclude = attribute_escape( $options['exclude'] );
 ?>
-			<p><label for="pages-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?>
-				<select name="pages-sortby" id="pages-sortby">
+		<p><label for="pages-title"><?php _e('Title:'); ?> <input class="widefat" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
+		<p>
+			<label for="pages-sortby"><?php _e( 'Sort by:' ); ?>
+				<select name="pages-sortby" id="pages-sortby" class="widefat">
 					<option value="post_title"<?php selected( $options['sortby'], 'post_title' ); ?>><?php _e('Page title'); ?></option>
 					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Page order'); ?></option>
 					<option value="ID"<?php selected( $options['sortby'], 'ID' ); ?>><?php _e( 'Page ID' ); ?></option>
-				</select></label></p>
-			<p><label for="pages-exclude"><?php _e( 'Exclude:' ); ?> <input type="text" value="<?php echo $exclude; ?>" name="pages-exclude" id="pages-exclude" style="width: 180px;" /></label><br />
-			<small><?php _e( 'Page IDs, separated by commas.' ); ?></small></p>
-			<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
+				</select>
+			</label>
+		</p>
+		<p>
+			<label for="pages-exclude"><?php _e( 'Exclude:' ); ?> <input type="text" value="<?php echo $exclude; ?>" name="pages-exclude" id="pages-exclude" class="widefat" /></label>
+			<br />
+			<small><?php _e( 'Page IDs, separated by commas.' ); ?></small>
+		</p>
+		<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
 <?php
 }
 
@@ -463,9 +482,12 @@ function wp_widget_archives_control() {
 	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
 	$title = attribute_escape($options['title']);
 ?>
-			<p><label for="archives-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="archives-title" name="archives-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="archives-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="archives-dropdown"><?php _e('Display as a drop down'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="archives-dropdown" name="archives-dropdown" /></label></p>
+			<p><label for="archives-title"><?php _e('Title:'); ?> <input class="widefat" id="archives-title" name="archives-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p>
+				<label for="archives-count"><input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /> <?php _e('Show post counts'); ?></label>
+				<br />
+				<label for="archives-dropdown"><input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="archives-dropdown" name="archives-dropdown" /> <?php _e('Display as a drop down'); ?></label>
+			</p>
 			<input type="hidden" id="archives-submit" name="archives-submit" value="1" />
 <?php
 }
@@ -499,7 +521,7 @@ function wp_widget_meta_control() {
 	}
 	$title = attribute_escape($options['title']);
 ?>
-			<p><label for="meta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="meta-title" name="meta-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p><label for="meta-title"><?php _e('Title:'); ?> <input class="widefat" id="meta-title" name="meta-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<input type="hidden" id="meta-submit" name="meta-submit" value="1" />
 <?php
 }
@@ -527,14 +549,23 @@ function wp_widget_calendar_control() {
 	}
 	$title = attribute_escape($options['title']);
 ?>
-			<p><label for="calendar-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="calendar-title" name="calendar-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p><label for="calendar-title"><?php _e('Title:'); ?> <input class="widefat" id="calendar-title" name="calendar-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<input type="hidden" id="calendar-submit" name="calendar-submit" value="1" />
 <?php
 }
 
-function wp_widget_text($args, $number = 1) {
-	extract($args);
+// See large comment section at end of this file
+function wp_widget_text($args, $widget_args = 1) {
+	extract( $args, EXTR_SKIP );
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract( $widget_args, EXTR_SKIP );
+
 	$options = get_option('widget_text');
+	if ( !isset($options[$number]) )
+		return;
+
 	$title = $options[$number]['title'];
 	$text = apply_filters( 'widget_text', $options[$number]['text'] );
 ?>
@@ -545,80 +576,98 @@ function wp_widget_text($args, $number = 1) {
 <?php
 }
 
-function wp_widget_text_control($number) {
-	$options = $newoptions = get_option('widget_text');
-	if ( !is_array($options) )
-		$options = $newoptions = array();
-	if ( $_POST["text-submit-$number"] ) {
-		$newoptions[$number]['title'] = strip_tags(stripslashes($_POST["text-title-$number"]));
-		$newoptions[$number]['text'] = stripslashes($_POST["text-text-$number"]);
-		if ( !current_user_can('unfiltered_html') )
-			$newoptions[$number]['text'] = stripslashes(wp_filter_post_kses($newoptions[$number]['text']));
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_text', $options);
-	}
-	$title = attribute_escape($options[$number]['title']);
-	$text = format_to_edit($options[$number]['text']);
-?>
-			<input style="width: 450px;" id="text-title-<?php echo $number; ?>" name="text-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
-			<textarea style="width: 450px; height: 280px;" id="text-text-<?php echo $number; ?>" name="text-text-<?php echo $number; ?>"><?php echo $text; ?></textarea>
-			<input type="hidden" id="text-submit-<?php echo "$number"; ?>" name="text-submit-<?php echo "$number"; ?>" value="1" />
-<?php
-}
+function wp_widget_text_control($widget_args) {
+	global $wp_registered_widgets;
+	static $updated = false;
 
-function wp_widget_text_setup() {
-	$options = $newoptions = get_option('widget_text');
-	if ( isset($_POST['text-number-submit']) ) {
-		$number = (int) $_POST['text-number'];
-		if ( $number > 9 ) $number = 9;
-		if ( $number < 1 ) $number = 1;
-		$newoptions['number'] = $number;
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_text', $options);
-		wp_widget_text_register($options['number']);
-	}
-}
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract( $widget_args, EXTR_SKIP );
 
-function wp_widget_text_page() {
 	$options = get_option('widget_text');
+	if ( !is_array($options) )
+		$options = array();
+
+	if ( !$updated && !empty($_POST['sidebar']) ) {
+		$sidebar = (string) $_POST['sidebar'];
+
+		$sidebars_widgets = wp_get_sidebars_widgets();
+		if ( isset($sidebars_widgets[$sidebar]) )
+			$this_sidebar =& $sidebars_widgets[$sidebar];
+		else
+			$this_sidebar = array();
+
+		foreach ( $this_sidebar as $_widget_id ) {
+			if ( 'wp_widget_text' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
+				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
+				unset($options[$widget_number]);
+			}
+		}
+
+		foreach ( (array) $_POST['widget-text'] as $widget_number => $widget_text ) {
+			$title = strip_tags(stripslashes($widget_text['title']));
+			if ( current_user_can('unfiltered_html') )
+				$text = stripslashes( $widget_text['text'] );
+			else
+				$text = stripslashes(wp_filter_post_kses( $widget_text['text'] ));
+			$options[$widget_number] = compact( 'title', 'text' );
+		}
+
+		update_option('widget_text', $options);
+		$updated = true;
+	}
+
+	if ( -1 == $number ) {
+		$title = '';
+		$text = '';
+		$number = '%i%';
+	} else {
+		$title = attribute_escape($options[$number]['title']);
+		$text = format_to_edit($options[$number]['text']);
+	}
 ?>
-	<div class="wrap">
-		<form method="POST">
-			<h2><?php _e('Text Widgets'); ?></h2>
-			<p style="line-height: 30px;"><?php _e('How many text widgets would you like?'); ?>
-			<select id="text-number" name="text-number" value="<?php echo $options['number']; ?>">
-<?php for ( $i = 1; $i < 10; ++$i ) echo "<option value='$i' ".($options['number']==$i ? "selected='selected'" : '').">$i</option>"; ?>
-			</select>
-			<span class="submit"><input type="submit" name="text-number-submit" id="text-number-submit" value="<?php echo attribute_escape(__('Save')); ?>" /></span></p>
-		</form>
-	</div>
+		<p>
+			<input class="widefat" id="text-title-<?php echo $number; ?>" name="widget-text[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" />
+			<textarea class="widefat" rows="16" cols="20" id="text-text-<?php echo $number; ?>" name="widget-text[<?php echo $number; ?>][text]"><?php echo $text; ?></textarea>
+			<input type="hidden" id="text-submit-<?php echo $number; ?>" name="text-submit-<?php echo $number; ?>" value="1" />
+		</p>
 <?php
 }
 
 function wp_widget_text_register() {
 	$options = get_option('widget_text');
-	$number = $options['number'];
-	if ( $number < 1 ) $number = 1;
-	if ( $number > 9 ) $number = 9;
-	$dims = array('width' => 460, 'height' => 350);
-	$class = array('classname' => 'widget_text');
-	for ($i = 1; $i <= 9; $i++) {
-		$name = sprintf(__('Text %d'), $i);
-		$id = "text-$i"; // Never never never translate an id
-		wp_register_sidebar_widget($id, $name, $i <= $number ? 'wp_widget_text' : /* unregister */ '', $class, $i);
-		wp_register_widget_control($id, $name, $i <= $number ? 'wp_widget_text_control' : /* unregister */ '', $dims, $i);
+	$widget_ops = array('classname' => 'widget_text', 'description' => __('Arbitrary text or HTML'));
+	$control_ops = array('width' => 460, 'height' => 350, 'id_base' => 'text');
+	$name = __('Text');
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$options ) {
+		wp_register_sidebar_widget( 'text-1', $name, 'wp_widget_text', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'text-1', $name, 'wp_widget_text_control', $control_ops, array( 'number' => -1 ) );
 	}
-	add_action('sidebar_admin_setup', 'wp_widget_text_setup');
-	add_action('sidebar_admin_page', 'wp_widget_text_page');
+
+	foreach ( array_keys($options) as $o ) {
+		// Old widgets can have null values for some reason
+		if ( !isset($options[$o]['title']) || !isset($options[$o]['text']) )
+			continue;
+		$id = "text-$o"; // Never never never translate an id
+		wp_register_sidebar_widget($id, $name, 'wp_widget_text', $widget_ops, array( 'number' => $o ));
+		wp_register_widget_control($id, $name, 'wp_widget_text_control', $control_ops, array( 'number' => $o ));
+	}
 }
 
-function wp_widget_categories($args, $number = 1) {
-	extract($args);
+// See large comment section at end of this file
+function wp_widget_categories($args, $widget_args = 1) {
+	extract($args, EXTR_SKIP);
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract($widget_args, EXTR_SKIP);
+
 	$options = get_option('widget_categories');
+	if ( !isset($options[$number]) )
+		return;
 
 	$c = $options[$number]['count'] ? '1' : '0';
 	$h = $options[$number]['hierarchical'] ? '1' : '0';
@@ -635,7 +684,8 @@ function wp_widget_categories($args, $number = 1) {
 		wp_dropdown_categories($cat_args . '&show_option_none= ' . __('Select Category'));
 ?>
 
-<script type='text/javascript'><!--
+<script type='text/javascript'>
+/* <![CDATA[ */
     var dropdown = document.getElementById("cat");
     function onCatChange() {
 		if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
@@ -643,7 +693,8 @@ function wp_widget_categories($args, $number = 1) {
 		}
     }
     dropdown.onchange = onCatChange;
---></script>
+/* ]]> */
+</script>
 
 <?php
 	} else {
@@ -657,96 +708,122 @@ function wp_widget_categories($args, $number = 1) {
 	echo $after_widget;
 }
 
-function wp_widget_categories_control( $number ) {
-	$options = $newoptions = get_option('widget_categories');
+function wp_widget_categories_control( $widget_args ) {
+	global $wp_registered_widgets;
+	static $updated = false;
 
-	if ( !is_array( $options ) ) {
-		$options = $newoptions = get_option( 'widget_categories' );
-	}
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract($widget_args, EXTR_SKIP);
 
-	if ( $_POST['categories-submit-' . $number] ) {
-		$newoptions[$number]['count'] = isset($_POST['categories-count-' . $number]);
-		$newoptions[$number]['hierarchical'] = isset($_POST['categories-hierarchical-' . $number]);
-		$newoptions[$number]['dropdown'] = isset($_POST['categories-dropdown-' . $number]);
-		$newoptions[$number]['title'] = strip_tags(stripslashes($_POST['categories-title-' . $number]));
-	}
+	$options = get_option('widget_categories');
 
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
+	if ( !is_array( $options ) )
+		$options = array();
+
+	if ( !$updated && !empty($_POST['sidebar']) ) {
+		$sidebar = (string) $_POST['sidebar'];
+		
+		$sidebars_widgets = wp_get_sidebars_widgets();
+		if ( isset($sidebars_widgets[$sidebar]) )
+			$this_sidebar =& $sidebars_widgets[$sidebar];
+		else
+			$this_sidebar = array();
+		
+		foreach ( $this_sidebar as $_widget_id ) {
+			if ( 'wp_widget_categories' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
+				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
+				unset($options[$widget_number]);
+			}   
+		}
+
+		foreach ( (array) $_POST['widget-categories'] as $widget_number => $widget_cat ) {
+			$title = trim(strip_tags(stripslashes($widget_cat['title'])));
+			$count = isset($widget_cat['count']);
+			$hierarchical = isset($widget_cat['hierarchical']);
+			$dropdown = isset($widget_cat['dropdown']);
+			$options[$widget_number] = compact( 'title', 'count', 'hierarchical', 'dropdown' );
+		}
+
 		update_option('widget_categories', $options);
+		$updated = true;
 	}
 
-	$title = attribute_escape( $options[$number]['title'] );
+	if ( -1 == $number ) {
+		$title = '';
+		$count = false;
+		$hierarchical = false;
+		$dropdown = false;
+		$number = '%i%';
+	} else {
+		$title = attribute_escape( $options[$number]['title'] );
+		$count = (bool) $options[$number]['count'];
+		$hierarchical = (bool) $options[$number]['hierarchical'];
+		$dropdown = (bool) $options[$number]['dropdown'];
+	}
 ?>
-			<p><label for="categories-title-<?php echo $number; ?>">
-				<?php _e( 'Title:' ); ?> <input style="width:300px" id="categories-title-<?php echo $number; ?>" name="categories-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
-			</label></p>
+			<p>
+				<label for="categories-title-<?php echo $number; ?>">
+					<?php _e( 'Title:' ); ?> 
+					<input class="widefat" id="categories-title-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" />
+				</label>
+			</p>
 
-			<p><label for="categories-dropdown-<?php echo $number; ?>">
-				<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="categories-dropdown-<?php echo $number; ?>"<?php echo $options[$number]['dropdown'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show as dropdown' ); ?>
-			</label></p>
-
-			<p><label for="categories-count-<?php echo $number; ?>">
-				<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="categories-count-<?php echo $number; ?>"<?php echo $options[$number]['count'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show post counts' ); ?>
-			</label></p>
-
-			<p><label for="categories-hierarchical-<?php echo $number; ?>">
-				<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="categories-hierarchical-<?php echo $number; ?>"<?php echo $options[$number]['hierarchical'] ? ' checked="checked"' : ''; ?> /> <?php _e( 'Show hierarchy' ); ?>
-			</label></p>
+			<p>
+				<label for="categories-dropdown-<?php echo $number; ?>">
+					<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][dropdown]"<?php checked( $dropdown, true ); ?> />
+					<?php _e( 'Show as dropdown' ); ?>
+				</label>
+				<br />
+				<label for="categories-count-<?php echo $number; ?>">
+					<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][count]"<?php checked( $count, true ); ?> />
+					<?php _e( 'Show post counts' ); ?>
+				</label>
+				<br />
+				<label for="categories-hierarchical-<?php echo $number; ?>">
+					<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][hierarchical]"<?php checked( $hierarchical, true ); ?> />
+					<?php _e( 'Show hierarchy' ); ?>
+				</label>
+			</p>
 
 			<input type="hidden" id="categories-submit-<?php echo $number; ?>" name="categories-submit-<?php echo $number; ?>" value="1" />
 <?php
 }
 
-function wp_widget_categories_setup() {
-	$options = $newoptions = get_option( 'widget_categories' );
-
-	if ( isset( $_POST['categories-number-submit'] ) ) {
-		$number = (int) $_POST['categories-number'];
-
-		if ( $number > 9 ) {
-			$number = 9;
-		} elseif ( $number < 1 ) {
-			$number = 1;
-		}
-
-		$newoptions['number'] = $number;
-	}
-
-	if ( $newoptions != $options ) {
-		$options = $newoptions;
-		update_option( 'widget_categories', $options );
-		wp_widget_categories_register( $options['number'] );
-	}
-}
-
-function wp_widget_categories_page() {
+function wp_widget_categories_register() {
 	$options = get_option( 'widget_categories' );
-?>
-	<div class="wrap">
-		<form method="post">
-			<h2><?php _e( 'Categories Widgets' ); ?></h2>
-			<p style="line-height: 30px;"><?php _e( 'How many categories widgets would you like?' ); ?>
-				<select id="categories-number" name="categories-number" value="<?php echo attribute_escape( $options['number'] ); ?>">
-					<?php
-						for ( $i = 1; $i < 10; $i++ ) {
-							echo '<option value="' . $i . '"' . ( $i == $options['number'] ? ' selected="selected"' : '' ) . '>' . $i . "</option>\n";
-						}
-					?>
-				</select>
-				<span class="submit">
-					<input type="submit" value="<?php echo attribute_escape( __( 'Save' ) ); ?>" id="categories-number-submit" name="categories-number-submit" />
-				</span>
-			</p>
-		</form>
-	</div>
-<?php
+	if ( isset($options['title']) )
+		$options = wp_widget_categories_upgrade();
+
+	$widget_ops = array( 'classname' => 'widget_categories', 'description' => __( "A list or dropdown of categories" ) );
+
+	$name = __( 'Categories' );
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$options ) {
+		wp_register_sidebar_widget( 'categories-1', $name, 'wp_widget_categories', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'categories-1', $name, 'wp_widget_categories_control', array( 'id_base' => 'categories' ), array( 'number' => -1 ) );
+	}
+
+	foreach ( array_keys($options) as $o ) {
+		// Old widgets can have null values for some reason
+		if ( !isset($options[$o]['title']) )
+			continue;
+		$id = "categories-$o";
+		wp_register_sidebar_widget( $id, $name, 'wp_widget_categories', $widget_ops, array( 'number' => $o ) );
+		wp_register_widget_control( $id, $name, 'wp_widget_categories_control', array( 'id_base' => 'categories' ), array( 'number' => $o ) );
+	}
+
 }
 
 function wp_widget_categories_upgrade() {
 	$options = get_option( 'widget_categories' );
 
-	$newoptions = array( 'number' => 1, 1 => $options );
+	if ( !isset( $options['title'] ) )
+		return $options;
+
+	$newoptions = array( 1 => $options );
 
 	update_option( 'widget_categories', $newoptions );
 
@@ -764,48 +841,7 @@ function wp_widget_categories_upgrade() {
 			update_option( 'sidebars_widgets', $new_widgets );
 	}
 
-	if ( isset( $_POST['categories-submit'] ) ) {
-		$_POST['categories-submit-1'] = $_POST['categories-submit'];
-		$_POST['categories-count-1'] = $_POST['categories-count'];
-		$_POST['categories-hierarchical-1'] = $_POST['categories-hierarchical'];
-		$_POST['categories-dropdown-1'] = $_POST['categories-dropdown'];
-		$_POST['categories-title-1'] = $_POST['categories-title'];
-		foreach ( $_POST as $k => $v )
-			if ( substr($k, -5) == 'order' )
-				$_POST[$k] = str_replace('categories', 'categories-1', $v);
-	}
-
 	return $newoptions;
-}
-
-function wp_widget_categories_register() {
-	$options = get_option( 'widget_categories' );
-	if ( !isset($options['number']) )
-		$options = wp_widget_categories_upgrade();
-	$number = (int) $options['number'];
-
-	if ( $number > 9 ) {
-		$number = 9;
-	} elseif ( $number < 1 ) {
-		$number = 1;
-	}
-
-	$dims = array( 'width' => 350, 'height' => 170 );
-	$class = array( 'classname' => 'widget_categories' );
-
-	for ( $i = 1; $i <= 9; $i++ ) {
-		$name = sprintf( __( 'Categories %d' ), $i );
-		$id = 'categories-' . $i;
-
-		$widget_callback = ( $i <= $number ) ? 'wp_widget_categories' : '';
-		$control_callback = ( $i <= $number ) ? 'wp_widget_categories_control' : '';
-
-		wp_register_sidebar_widget( $id, $name, $widget_callback, $class, $i );
-		wp_register_widget_control( $id, $name, $control_callback, $dims, $i );
-	}
-
-	add_action( 'sidebar_admin_setup', 'wp_widget_categories_setup' );
-	add_action( 'sidebar_admin_page', 'wp_widget_categories_page' );
 }
 
 function wp_widget_recent_entries($args) {
@@ -861,8 +897,13 @@ function wp_widget_recent_entries_control() {
 	if ( !$number = (int) $options['number'] )
 		$number = 5;
 ?>
-			<p><label for="recent-entries-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="recent-entries-title" name="recent-entries-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p><label for="recent-entries-number"><?php _e('Number of posts to show:'); ?> <input style="width: 25px; text-align: center;" id="recent-entries-number" name="recent-entries-number" type="text" value="<?php echo $number; ?>" /></label> <?php _e('(at most 15)'); ?></p>
+
+			<p><label for="recent-entries-title"><?php _e('Title:'); ?> <input class="widefat" id="recent-entries-title" name="recent-entries-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p>
+				<label for="recent-entries-number"><?php _e('Number of posts to show:'); ?> <input style="width: 25px; text-align: center;" id="recent-entries-number" name="recent-entries-number" type="text" value="<?php echo $number; ?>" /></label>
+				<br />
+				<small><?php _e('(at most 15)'); ?></small>
+			</p>
 			<input type="hidden" id="recent-entries-submit" name="recent-entries-submit" value="1" />
 <?php
 }
@@ -916,8 +957,12 @@ function wp_widget_recent_comments_control() {
 	if ( !$number = (int) $options['number'] )
 		$number = 5;
 ?>
-			<p><label for="recent-comments-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="recent-comments-title" name="recent-comments-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p><label for="recent-comments-number"><?php _e('Number of comments to show:'); ?> <input style="width: 25px; text-align: center;" id="recent-comments-number" name="recent-comments-number" type="text" value="<?php echo $number; ?>" /></label> <?php _e('(at most 15)'); ?></p>
+			<p><label for="recent-comments-title"><?php _e('Title:'); ?> <input class="widefat" id="recent-comments-title" name="recent-comments-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p>
+				<label for="recent-comments-number"><?php _e('Number of comments to show:'); ?> <input style="width: 25px; text-align: center;" id="recent-comments-number" name="recent-comments-number" type="text" value="<?php echo $number; ?>" /></label>
+				<br />
+				<small><?php _e('(at most 15)'); ?></small>
+			</p>
 			<input type="hidden" id="recent-comments-submit" name="recent-comments-submit" value="1" />
 <?php
 }
@@ -929,21 +974,30 @@ function wp_widget_recent_comments_style() {
 }
 
 function wp_widget_recent_comments_register() {
-	$dims = array('width' => 320, 'height' => 90);
-	$class = array('classname' => 'widget_recent_comments');
-	wp_register_sidebar_widget('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments', $class);
-	wp_register_widget_control('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments_control', $dims);
+	$widget_ops = array('classname' => 'widget_recent_comments', 'description' => __( 'The most recent comments' ) );
+	wp_register_sidebar_widget('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments', $widget_ops);
+	wp_register_widget_control('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments_control');
 
 	if ( is_active_widget('wp_widget_recent_comments') )
 		add_action('wp_head', 'wp_widget_recent_comments_style');
 }
 
-function wp_widget_rss($args, $number = 1) {
-	require_once(ABSPATH . WPINC . '/rss.php');
-	extract($args);
+// See large comment section at end of this file
+function wp_widget_rss($args, $widget_args = 1) {
+	extract($args, EXTR_SKIP);
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widegt_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract($widget_args, EXTR_SKIP);
+
 	$options = get_option('widget_rss');
-	if ( isset($options['error']) && $options['error'] )
+
+	if ( !isset($options[$number]) )
 		return;
+
+	if ( isset($options[$number]['error']) && $options[$number]['error'] )
+		return;
+
 	$num_items = (int) $options[$number]['items'];
 	$show_summary = $options[$number]['show_summary'];
 	if ( empty($num_items) || $num_items < 1 || $num_items > 10 ) $num_items = 10;
@@ -952,6 +1006,9 @@ function wp_widget_rss($args, $number = 1) {
 		$url = substr($url, 1);
 	if ( empty($url) )
 		return;
+
+	require_once(ABSPATH . WPINC . '/rss.php');
+
 	$rss = fetch_rss($url);
 	$link = clean_url(strip_tags($rss->channel['link']));
 	while ( strstr($link, 'http') != $link )
@@ -1002,88 +1059,123 @@ function wp_widget_rss($args, $number = 1) {
 	echo $after_widget;
 }
 
-function wp_widget_rss_control($number) {
-	$options = $newoptions = get_option('widget_rss');
-	if ( $_POST["rss-submit-$number"] ) {
-		$newoptions[$number]['items'] = (int) $_POST["rss-items-$number"];
-		$url = sanitize_url(strip_tags(stripslashes($_POST["rss-url-$number"])));
-		$newoptions[$number]['title'] = trim(strip_tags(stripslashes($_POST["rss-title-$number"])));
-		if ( $url !== $options[$number]['url'] ) {
-			require_once(ABSPATH . WPINC . '/rss.php');
-			$rss = fetch_rss($url);
-			if ( is_object($rss) ) {
-				$newoptions[$number]['url'] = $url;
-				$newoptions[$number]['error'] = false;
-			} else {
-				$newoptions[$number]['error'] = true;
-				$newoptions[$number]['url'] = wp_specialchars(__('Error: could not find an RSS or ATOM feed at that URL.'), 1);
+function wp_widget_rss_control($widget_args) {
+	global $wp_registered_widgets;
+	static $updated = false;
+
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract($widget_args, EXTR_SKIP);
+
+	$options = get_option('widget_rss');
+	if ( !is_array($options) )
+		$options = array();
+
+	$urls = array();
+	foreach ( $options as $option )
+		if ( isset($option['url']) )
+			$urls[$option['url']] = true;
+
+	if ( !$updated && !empty($_POST['sidebar']) ) {
+		$sidebar = (string) $_POST['sidebar'];
+
+		$sidebars_widgets = wp_get_sidebars_widgets();
+		if ( isset($sidebars_widgets[$sidebar]) )
+			$this_sidebar =& $sidebars_widgets[$sidebar];
+		else
+			$this_sidebar = array();
+	
+		foreach ( $this_sidebar as $_widget_id ) {
+			if ( 'wp_widget_rss' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
+				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
+				unset($options[$widget_number]);
 			}
 		}
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_rss', $options);
-	}
-	$url = attribute_escape($options[$number]['url']);
-	$items = (int) $options[$number]['items'];
-	$title = attribute_escape($options[$number]['title']);
-	if ( empty($items) || $items < 1 ) $items = 10;
-?>
-			<p style="text-align:center;"><?php _e('Enter the RSS feed URL here:'); ?></p>
-			<input style="width: 400px;" id="rss-url-<?php echo "$number"; ?>" name="rss-url-<?php echo "$number"; ?>" type="text" value="<?php echo $url; ?>" />
-			<p style="text-align:center;"><?php _e('Give the feed a title (optional):'); ?></p>
-			<input style="width: 400px;" id="rss-title-<?php echo "$number"; ?>" name="rss-title-<?php echo "$number"; ?>" type="text" value="<?php echo $title; ?>" />
-			<p style="text-align:center; line-height: 30px;"><?php _e('How many items would you like to display?'); ?> <select id="rss-items-<?php echo $number; ?>" name="rss-items-<?php echo $number; ?>"><?php for ( $i = 1; $i <= 10; ++$i ) echo "<option value='$i' ".($items==$i ? "selected='selected'" : '').">$i</option>"; ?></select></p>
-			<input type="hidden" id="rss-submit-<?php echo "$number"; ?>" name="rss-submit-<?php echo $number; ?>" value="1" />
-<?php
-}
 
-function wp_widget_rss_setup() {
-	$options = $newoptions = get_option('widget_rss');
-	if ( isset($_POST['rss-number-submit']) ) {
-		$number = (int) $_POST['rss-number'];
-		if ( $number > 9 ) $number = 9;
-		if ( $number < 1 ) $number = 1;
-		$newoptions['number'] = $number;
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_rss', $options);
-		wp_widget_rss_register($options['number']);
-	}
-}
+		foreach( (array) $_POST['widget-rss'] as $widget_number => $widget_rss ) {
+			$items = (int) $widget_rss['items'];
+			if ( $items < 1 )
+				$items = 10;
+			$url = sanitize_url(strip_tags(stripslashes($widget_rss['url'])));
+			$title = trim(strip_tags(stripslashes($widget_rss['title'])));
 
-function wp_widget_rss_page() {
-	$options = get_option('widget_rss');
+			if ( !isset($urls[$url]) ) {
+				require_once(ABSPATH . WPINC . '/rss.php');
+				$rss = fetch_rss($url);
+				$error = false;
+				if ( !is_object($rss) ) {
+					$url = wp_specialchars(__('Error: could not find an RSS or ATOM feed at that URL.'), 1);
+					$error = sprintf(__('Error in RSS %1$d'), $widget_number );
+				}
+			}
+			$options[$widget_number] = compact( 'title', 'url', 'items', 'error' );
+		}
+
+		update_option('widget_rss', $options);
+		$updated = true;
+	}
+
+	if ( -1 == $number ) {
+		$title = '';
+		$url = '';
+		$items = 10;
+		$error = false;
+		$number = '%i%';
+	} else {
+		$title = attribute_escape($options[$number]['title']);
+		$url = attribute_escape($options[$number]['url']);
+		$items = (int) $options[$number]['items'];
+		if ( $items < 1 )
+			$items = 10;
+		$error = $options[$number]['error'];
+	}
+
 ?>
-	<div class="wrap">
-		<form method="POST">
-			<h2><?php _e('RSS Feed Widgets'); ?></h2>
-			<p style="line-height: 30px;"><?php _e('How many RSS widgets would you like?'); ?>
-			<select id="rss-number" name="rss-number" value="<?php echo $options['number']; ?>">
-<?php for ( $i = 1; $i < 10; ++$i ) echo "<option value='$i' ".($options['number']==$i ? "selected='selected'" : '').">$i</option>"; ?>
-			</select>
-			<span class="submit"><input type="submit" name="rss-number-submit" id="rss-number-submit" value="<?php echo attribute_escape(__('Save')); ?>" /></span></p>
-		</form>
-	</div>
+			<p>
+				<label for="rss-url-<?php echo $number; ?>"><?php _e('Enter the RSS feed URL here:'); ?>
+					<input class="widefat" id="rss-url-<?php echo $number; ?>" name="widget-rss[<?php echo $number; ?>][url]" type="text" value="<?php echo $url; ?>" />
+				</label>
+			</p>
+			<p>
+				<label for="rss-title-<?php echo $number; ?>"><?php _e('Give the feed a title (optional):'); ?>
+					<input class="widefat" id="rss-title-<?php echo $number; ?>" name="widget-rss[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" />
+				</label>
+			</p>
+			<p>
+				<label for="rss-items-<?php echo $number; ?>"><?php _e('How many items would you like to display?'); ?>
+					<select id="rss-items-<?php echo $number; ?>" name="widget-rss[<?php echo $number; ?>][items]">
+						<?php
+							for ( $i = 1; $i <= 10; ++$i )
+								echo "<option value='$i' " . ( $items == $i ? "selected='selected'" : '' ) . ">$i</option>";
+						?>
+					</select>
+				</label>
+			</p>
+			<input type="hidden" id="rss-submit-<?php echo $number; ?>" name="rss-submit-<?php echo $number; ?>" value="1" />
 <?php
 }
 
 function wp_widget_rss_register() {
 	$options = get_option('widget_rss');
-	$number = $options['number'];
-	if ( $number < 1 ) $number = 1;
-	if ( $number > 9 ) $number = 9;
-	$dims = array('width' => 410, 'height' => 200);
-	$class = array('classname' => 'widget_rss');
-	for ($i = 1; $i <= 9; $i++) {
-		$name = sprintf(__('RSS %d'), $i);
-		$id = "rss-$i"; // Never never never translate an id
-		wp_register_sidebar_widget($id, $name, $i <= $number ? 'wp_widget_rss' : /* unregister */ '', $class, $i);
-		wp_register_widget_control($id, $name, $i <= $number ? 'wp_widget_rss_control' : /* unregister */ '', $dims, $i);
+	$widget_ops = array('classname' => 'widget_rss', 'description' => __( 'Entries from any RSS or Atom feed' ));
+	$control_ops = array('width' => 410, 'height' => 200, 'id_base' => 'rss');
+	$name = __('RSS');
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$options ) {
+		wp_register_sidebar_widget( 'rss-1', $name, 'wp_widget_rss', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'rss-1', $name, 'wp_widget_rss_control', $control_ops, array( 'number' => -1 ) );
 	}
-	add_action('sidebar_admin_setup', 'wp_widget_rss_setup');
-	add_action('sidebar_admin_page', 'wp_widget_rss_page');
+
+	foreach ( array_keys($options) as $o ) {
+		// Old widgets can have null values for some reason
+		if ( !isset($options[$o]['url']) || !isset($options[$o]['title']) || !isset($options[$o]['items']) )
+			contine;
+		$id = "rss-$o"; // Never never never translate an id
+		wp_register_sidebar_widget($id, $name, 'wp_widget_rss', $widget_ops, array( 'number' => $o ));
+		wp_register_widget_control($id, $name, 'wp_widget_rss_control', $control_ops, array( 'number' => $o ));
+	}
 }
 
 function wp_widget_tag_cloud($args) {
@@ -1112,7 +1204,7 @@ function wp_widget_tag_cloud_control() {
 	$title = attribute_escape( $options['title'] );
 ?>
 	<p><label for="tag-cloud-title">
-	<?php _e('Title:') ?> <input type="text" style="width:300px" id="tag-cloud-title" name="tag-cloud-title" value="<?php echo $title ?>" /></label>
+	<?php _e('Title:') ?> <input type="text" class="widefat" id="tag-cloud-title" name="tag-cloud-title" value="<?php echo $title ?>" /></label>
 	</p>
 	<input type="hidden" name="tag-cloud-submit" id="tag-cloud-submit" value="1" />
 <?php
@@ -1122,52 +1214,165 @@ function wp_widgets_init() {
 	if ( !is_blog_installed() )
 		return;
 
-	$GLOBALS['wp_register_widget_defaults'] = true;
+	$widget_ops = array('classname' => 'widget_pages', 'description' => __( "Your blog's WordPress Pages") );
+	wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $widget_ops);
+	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control' );
 
-	$dims90 = array( 'height' => 90, 'width' => 300 );
-	$dims100 = array( 'height' => 100, 'width' => 300 );
-	$dims150 = array( 'height' => 150, 'width' => 300 );
+	$widget_ops = array('classname' => 'widget_calendar', 'description' => __( "A calendar of your blog's posts") );
+	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $widget_ops);
+	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control' );
 
-	$class = array('classname' => 'widget_pages');
-	wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $class);
-	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control', $dims150);
+	$widget_ops = array('classname' => 'widget_archive', 'description' => __( "A monthly archive of your blog's posts") );
+	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $widget_ops);
+	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control' );
 
-	$class['classname'] = 'widget_calendar';
-	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $class);
-	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control', $dims90);
+	$widget_ops = array('classname' => 'widget_links', 'description' => __( "Your blogroll") );
+	wp_register_sidebar_widget('links', __('Links'), 'wp_widget_links', $widget_ops);
 
-	$class['classname'] = 'widget_archives';
-	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $class);
-	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control', $dims100);
+	$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
+	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
+	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control' );
 
-	$class['classname'] = 'widget_links';
-	wp_register_sidebar_widget('links', __('Links'), 'wp_widget_links', $class);
+	$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your blog") );
+	wp_register_sidebar_widget('search', __('Search'), 'wp_widget_search', $widget_ops);
 
-	$class['classname'] = 'widget_meta';
-	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $class);
-	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control', $dims90);
+	$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
+	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $widget_ops);
+	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control' );
 
-	$class['classname'] = 'widget_search';
-	wp_register_sidebar_widget('search', __('Search'), 'wp_widget_search', $class);
-
-	$class['classname'] = 'widget_recent_entries';
-	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $class);
-	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control', $dims90);
-
-	$class['classname'] = 'widget_tag_cloud';
-	wp_register_sidebar_widget('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud', $class);
-	wp_register_widget_control('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud_control', 'width=300&height=160');
+	$widget_ops = array('classname' => 'widget_tag_cloud', 'description' => __( "Your most used tags in cloud format") );
+	wp_register_sidebar_widget('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud', $widget_ops);
+	wp_register_widget_control('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud_control' );
 
 	wp_widget_categories_register();
 	wp_widget_text_register();
 	wp_widget_rss_register();
 	wp_widget_recent_comments_register();
 
-	$GLOBALS['wp_register_widget_defaults'] = false;
-
 	do_action('widgets_init');
 }
 
 add_action('init', 'wp_widgets_init', 1);
+
+/* Pattern for widget which allows multiple instances (such as the text widget)
+
+// Displays widget on blag
+// $widget_args: number
+//    number: which of the several widgets of this type do we mean
+function widget_many( $args, $widget_args = 1 ) {
+	extract( $args, EXTR_SKIP );
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract( $widget_args, EXTR_SKIP );
+	
+	// Data should be stored as array:  array( number => data for that instance of the widget, ... )
+	$options = get_option('widget_many');
+	if ( !isset($options[$number]) )
+		return;
+
+	echo $before_widget;
+
+	// Do stuff for this widget, drawing data from $options[$number]
+
+	echo $after_widget;
+}
+
+// Displays form for a particular instance of the widget.  Also updates the data after a POST submit
+// $widget_args: number
+//    number: which of the several widgets of this type do we mean
+function widget_many_control( $widget_args = 1 ) {
+	global $wp_registered_widgets;
+	static $updated = false; // Whether or not we have already updated the data after a POST submit
+
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract( $widget_args, EXTR_SKIP );
+
+	// Data should be stored as array:  array( number => data for that instance of the widget, ... )
+	$options = get_option('widget_many');
+	if ( !is_array($options) )
+		$options = array();
+
+	// We need to update the data
+	if ( !$updated && !empty($_POST['sidebar']) ) {
+		// Tells us what sidebar to put the data in
+		$sidebar = (string) $_POST['sidebar'];
+
+		$sidebars_widgets = wp_get_sidebars_widgets();
+		if ( isset($sidebars_widgets[$sidebar]) )
+			$this_sidebar =& $sidebars_widgets[$sidebar];
+		else
+			$this_sidebar = array();
+
+		foreach ( $this_sidebar as $_widget_id ) {
+			// Remove all widgets of this type from the sidebar.  We'll add the new data in a second.  This makes sure we don't get any duplicate data
+			// since widget ids aren't necessarily persistent across multiple updates
+			if ( 'widget_many' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
+				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
+				unset($options[$widget_number]);
+			}
+		}
+
+		foreach ( (array) $_POST['widget-many'] as $widget_number => $widget_many_instance ) {
+			// compile data from $widget_many_instance
+			$something = wp_specialchars( $widget_many_instance['something'] );
+			$options[$widget_number] = array( 'something' => $something );  // Even simple widgets should store stuff in array, rather than in scalar
+		}
+
+		update_option('widget_text', $options);
+
+		$updated = true; // So that we don't go through this more than once
+	}
+
+
+	// Here we echo out the form
+	if ( -1 == $number ) { // We echo out a template for a form which can be converted to a specific form later via JS
+		$something = '';
+		$number = '%i%';
+	} else {
+		$something = attribute_escape($options[$number]['something']);
+	}
+
+	// The form has inputs with names like widget-many[$number][something] so that all data for that instance of
+	// the widget are stored in one $_POST variable: $_POST['widget-many'][$number]
+?>
+		<p>
+			<input class="widefat" id="widget-many-something-<?php echo $number; ?>" name="widget-many[<?php echo $number; ?>][something]" type="text" value="<?php echo $data; ?>" />
+			<input type="hidden" id="widget-many-submit-<?php echo $number; ?>" name="widget-many-<?php echo $number; ?>" value="1" />
+		</p>
+<?php
+}
+
+// Registers each instance of our widget on startup
+function widget_many_register() {
+	$options = get_option('widget_many');
+	$widget_ops = array('classname' => 'widget_many', 'description' => __('Widget which allows multiple instances'));
+	$control_ops = array('width' => 400, 'height' => 350, 'id_base' => 'many');
+	$name = __('Many');
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$options ) {
+		wp_register_sidebar_widget( 'many-1', $name, 'widget_many', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'many-1', $name, 'widget_many_control', $control_ops, array( 'number' => -1 ) );
+	}
+
+	foreach ( array_keys($options) as $o ) {
+		// Old widgets can have null values for some reason
+		if ( !isset($options[$o]['something']) ) // we used 'something' above in our exampple.  Replace with with whatever your real data are.
+			continue;
+
+		// $id should look like {$id_base}-{$o}
+		$id = "many-$o"; // Never never never translate an id
+		wp_register_sidebar_widget( $id, $name, 'wp_widget_text', $widget_ops, array( 'number' => $o ) );
+		wp_register_widget_control( $id, $name, 'wp_widget_text_control', $control_ops, array( 'number' => $o ) );
+	}
+}
+
+// This is important
+add_action( 'widgets_init', 'widget_many_register' )
+
+*/
 
 ?>

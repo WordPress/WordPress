@@ -79,7 +79,7 @@ class WP_Scripts {
 
 		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.4');
 		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '1.0.3');
-		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2');
+		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
 		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
 		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
 		$this->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
@@ -143,6 +143,7 @@ class WP_Scripts {
 				'saveText' => attribute_escape(__('Save &raquo;')),
 				'confirmText' => __("Are you sure you want to delete the file '%title%'?\nClick ok to delete or cancel to go back.")
 			) );
+			$this->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), mt_rand() );
 		}
 	}
 
