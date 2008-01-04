@@ -434,7 +434,7 @@ class Walker {
 				
 				array_splice( $children_elements, $i, 1 );
 				$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
-				$i--; 
+				$i = -1; 
 			}
 		}
 		

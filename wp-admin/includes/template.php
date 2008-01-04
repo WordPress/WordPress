@@ -283,6 +283,14 @@ function page_rows( $pages ) {
 	$children_pages  = array();
 
 	foreach ( $pages as $page ) {
+		
+		// catch and repair bad pages 
+		if ( $page->post_parent == $page->ID ) {
+			$page->post_parent = 0; 
+			$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = '0' WHERE ID = %d", $page->ID) );
+			clean_page_cache( $page->ID );
+		}
+		 
 		if ( 0 == $page->post_parent )
 			$top_level_pages[] = $page; 
 		else
