@@ -244,9 +244,9 @@ var TinyMCE_wordpressPlugin = {
 
 				// Handle table badness.
 				content = content.replace(new RegExp('<(table( [^>]*)?)>.*?<((tr|thead)( [^>]*)?)>', 'mg'), '<$1><$3>');
-				content = content.replace(new RegExp('<(tr|thead|tfoot)>.*?<((td|th)( [^>]*)?)>', 'mg'), '<$1><$2>');
+				content = content.replace(new RegExp('<((?:tr|thead|tfoot)(?: [^>]*)?)>.*?<((td|th)( [^>]*)?)>', 'mg'), '<$1><$2>');
 				content = content.replace(new RegExp('</(td|th)>.*?<(td( [^>]*)?|th( [^>]*)?|/tr|/thead|/tfoot)>', 'mg'), '</$1><$2>');
-				content = content.replace(new RegExp('</tr>.*?<(tr|/table)>', 'mg'), '</tr><$1>');
+				content = content.replace(new RegExp('</tr>.*?<(tr( [^>]*)?|/table)>', 'mg'), '</tr><$1>');
 				content = content.replace(new RegExp('<(/?(table|tbody|tr|th|td)[^>]*)>(\\s*|(<br ?/?>)*)*', 'g'), '<$1>');
 
 				// Pretty it up for the source editor.
