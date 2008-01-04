@@ -60,10 +60,8 @@ case 'edit':
 
 	wp_enqueue_script('post');
 
-	if( 'draft' == $post->post_status ) {
-		wp_enqueue_script('prototype');
+	if ( 'draft' == $post->post_status )
 		wp_enqueue_script('autosave');
-	}
 
 	require_once('admin-header.php');
 

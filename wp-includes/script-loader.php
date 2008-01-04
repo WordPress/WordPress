@@ -36,7 +36,7 @@ class WP_Scripts {
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
-		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('prototype', 'sack'), '20070306');
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('jquery', 'schedule'), '20080104');
 		$this->localize( 'autosave', 'autosaveL10n', array(
 			'autosaveInterval' => apply_filters('autosave_interval', '120'),
 			'errorText' => __('Error: %response%'),
@@ -80,6 +80,7 @@ class WP_Scripts {
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2');
 		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
 		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
+		$this->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
 
 		if ( is_admin() ) {
 			global $pagenow;

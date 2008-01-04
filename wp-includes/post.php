@@ -1002,11 +1002,15 @@ function wp_insert_post($postarr = array()) {
 	if (empty($post_date)) {
 		if ( !in_array($post_status, array('draft', 'pending')) )
 			$post_date = current_time('mysql');
+		else
+			$post_date = '0000-00-00 00:00:00';
 	}
 
 	if (empty($post_date_gmt)) {
 		if ( !in_array($post_status, array('draft', 'pending')) )
 			$post_date_gmt = get_gmt_from_date($post_date);
+		else
+			$post_date_gmt = '0000-00-00 00:00:00';
 	}
 
 	if ( $update ) {
