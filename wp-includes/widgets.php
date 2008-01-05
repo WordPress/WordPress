@@ -636,7 +636,8 @@ function wp_widget_text_control($widget_args) {
 }
 
 function wp_widget_text_register() {
-	$options = get_option('widget_text');
+	if ( !$options = get_option('widget_text') )
+		$options = array();
 	$widget_ops = array('classname' => 'widget_text', 'description' => __('Arbitrary text or HTML'));
 	$control_ops = array('width' => 460, 'height' => 350, 'id_base' => 'text');
 	$name = __('Text');
@@ -792,7 +793,9 @@ function wp_widget_categories_control( $widget_args ) {
 }
 
 function wp_widget_categories_register() {
-	$options = get_option( 'widget_categories' );
+	if ( !$options = get_option( 'widget_categories' ) )
+		$options = array();
+
 	if ( isset($options['title']) )
 		$options = wp_widget_categories_upgrade();
 
@@ -1157,7 +1160,8 @@ function wp_widget_rss_control($widget_args) {
 }
 
 function wp_widget_rss_register() {
-	$options = get_option('widget_rss');
+	if ( !$options = get_option('widget_rss') )
+		$options = array();
 	$widget_ops = array('classname' => 'widget_rss', 'description' => __( 'Entries from any RSS or Atom feed' ));
 	$control_ops = array('width' => 410, 'height' => 200, 'id_base' => 'rss');
 	$name = __('RSS');
@@ -1347,7 +1351,9 @@ function widget_many_control( $widget_args = 1 ) {
 
 // Registers each instance of our widget on startup
 function widget_many_register() {
-	$options = get_option('widget_many');
+	if ( !$options = get_option('widget_many') )
+		$options = array();
+
 	$widget_ops = array('classname' => 'widget_many', 'description' => __('Widget which allows multiple instances'));
 	$control_ops = array('width' => 400, 'height' => 350, 'id_base' => 'many');
 	$name = __('Many');
