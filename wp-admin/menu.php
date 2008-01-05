@@ -18,8 +18,8 @@ else
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
 if ( 100 < $awaiting_mod )
 	$awaiting_mod = '99+'; // to not blow out layout
-$menu[15] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='comment-count'>$awaiting_mod</span>" ), 'edit_posts', 'edit-comments.php');
-$menu[25] = array(__('Design'), 'switch_themes', 'themes.php');
+$menu[15] = array(__('Design'), 'switch_themes', 'themes.php');
+$menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='comment-count'>$awaiting_mod</span>" ), 'edit_posts', 'edit-comments.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
 	$menu[35] = array(__('Users'), 'edit_users', 'users.php');
