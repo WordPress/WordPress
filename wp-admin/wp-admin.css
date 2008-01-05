@@ -895,8 +895,9 @@ a.view-comment-post-link {
 	font: normal 36px Georgia, "Times New Roman", Times, serif;
 	color: #555;
 	letter-spacing: -.03em;
-	padding: 15px 15px 18px;
+	padding: 15px 170px 18px 15px;
 	margin: 0;
+	margin-right: 25%;
 }
 
 /* menu stuff */
