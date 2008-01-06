@@ -1,4 +1,32 @@
 <?php
+/**
+ * WordPress Translation API
+ *
+ * @package WordPress
+ * @subpackage i18n
+ */
+
+/**
+ * get_locale() - Gets the current locale
+ *
+ * If the locale is set, then it will filter the locale
+ * in the 'locale' filter hook and return the value.
+ *
+ * If the locale is not set already, then the WPLANG
+ * constant is used if it is defined. Then it is filtered
+ * through the 'locale' filter hook and the value for the
+ * locale global set and the locale is returned.
+ *
+ * The process to get the locale should only be done once
+ * but the locale will always be filtered using the
+ * 'locale' hook.
+ *
+ * @since 1.5.0
+ * @uses apply_filters() Calls 'locale' hook on locale value
+ * @uses $locale Gets the locale stored in the global
+ *
+ * @return string The locale of the blog or from the 'locale' hook
+ */
 function get_locale() {
 	global $locale;
 
@@ -17,6 +45,25 @@ function get_locale() {
 	return $locale;
 }
 
+/**
+ * translate() - Retrieve the translated text
+ *
+ * If the domain is set in the $l10n global, then the text is run
+ * through the domain's translate method. After it is passed to
+ * the 'gettext' filter hook, along with the untranslated text as
+ * the second parameter.
+ *
+ * If the domain is not set, the the $text is just returned.
+ *
+ * @since 2.2.0
+ * @uses $l10n Gets list of domain translated string (gettext_reader) objects
+ * @uses apply_filters() Calls 'gettext' on domain translated text
+ *		with the untranslated text as second parameter
+ *
+ * @param string $text Text to translate
+ * @param string $domain Domain to retrieve the translated text
+ * @return string Translated text
+ */
 function translate($text, $domain) {
 	global $l10n;
 
@@ -26,16 +73,62 @@ function translate($text, $domain) {
 		return $text;
 }
 
-// Return a translated string.
+/**
+ * __() - Retrieve a translated string
+ *
+ * __() is a convenience function which retrieves the translated
+ * string from the translate().
+ *
+ * @see translate() An alias of translate()
+ * @since 2.1.0
+ *
+ * @param string $text Text to translate
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated text
+ */
 function __($text, $domain = 'default') {
 	return translate($text, $domain);
 }
 
-// Echo a translated string.
+// .
+/**
+ * _e() - Display a translated string
+ *
+ * _e() is a convenience function which displays the returned
+ * translated text from translate().
+ *
+ * @see translate() Echos returned translate() string
+ * @since 1.2.0
+ *
+ * @param string $text Text to translate
+ * @param string $domain Optional. Domain to retrieve the translated text
+ */
 function _e($text, $domain = 'default') {
 	echo translate($text, $domain);
 }
 
+/**
+ * _c() - Retrieve context translated string
+ *
+ * Quite a few times, there will be collisions with similar
+ * translatable text found in more than two places but with
+ * different translated context.
+ *
+ * In order to use the separate contexts, the _c() function
+ * is used and the translatable string uses a pipe ('|')
+ * which has the context the string is in.
+ *
+ * When the translated string is returned, it is everything
+ * before the pipe, not including the pipe character. If
+ * there is no pipe in the translated text then everything
+ * is returned.
+ *
+ * @since 2.2.0
+ *
+ * @param string $text Text to translate
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated context string without pipe
+ */
 function _c($text, $domain = 'default') {
 	$whole = translate($text, $domain);
 	$last_bar = strrpos($whole, '|');
@@ -46,7 +139,28 @@ function _c($text, $domain = 'default') {
 	}
 }
 
-// Return the plural form.
+/**
+ * __ngettext() - Retrieve the plural or single form based on the amount
+ *
+ * If the domain is not set in the $l10n list, then a comparsion
+ * will be made and either $plural or $single parameters returned.
+ *
+ * If the domain does exist, then the parameters $single, $plural,
+ * and $number will first be passed to the domain's ngettext method.
+ * Then it will be passed to the 'ngettext' filter hook along with
+ * the same parameters. The expected type will be a string.
+ *
+ * @since 1.2.0
+ * @uses $l10n Gets list of domain translated string (gettext_reader) objects
+ * @uses apply_filters() Calls 'ngettext' hook on domains text returned, 
+ *		along with $single, $plural, and $number parameters. Expected to return string.
+ *
+ * @param string $single The text that will be used if $number is 1
+ * @param string $plural The text that will be used if $number is not 1
+ * @param int $number The number to compare against to use either $single or $plural
+ * @param string $domain Optional. The domain identifier the text should be retrieved in
+ * @return string Either $single or $plural translated text
+ */
 function __ngettext($single, $plural, $number, $domain = 'default') {
 	global $l10n;
 
@@ -60,6 +174,24 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
 	}
 }
 
+/**
+ * load_textdomain() - Loads MO file into the list of domains
+ *
+ * If the domain already exists, the inclusion will fail. If the
+ * MO file is not readable, the inclusion will fail.
+ *
+ * On success, the mofile will be placed in the $l10n global by
+ * $domain and will be an gettext_reader object.
+ *
+ * @since 1.5.0
+ * @uses $l10n Gets list of domain translated string (gettext_reader) objects
+ * @uses CacheFileReader Reads the MO file
+ * @uses gettext_reader Allows for retrieving translated strings
+ *
+ * @param string $domain Unique identifier for retrieving translated strings
+ * @param string $mofile Path to the .mo file
+ * @return null On failure returns null and also on success returns nothing.
+ */
 function load_textdomain($domain, $mofile) {
 	global $l10n;
 
@@ -74,6 +206,14 @@ function load_textdomain($domain, $mofile) {
 	$l10n[$domain] = new gettext_reader($input);
 }
 
+/**
+ * load_default_textdomain() - Loads default translated strings based on locale
+ *
+ * Loads the .mo file in LANGDIR constant path from WordPress root.
+ * The translated (.mo) file is named based off of the locale.
+ *
+ * @since 1.5.0
+ */
 function load_default_textdomain() {
 	$locale = get_locale();
 	if ( empty($locale) )
@@ -84,6 +224,24 @@ function load_default_textdomain() {
 	load_textdomain('default', $mofile);
 }
 
+/**
+ * load_plugin_textdomain() - Loads the plugin's translated strings
+ *
+ * If the path is not given then it will be the root of the plugin
+ * directory. The .mo file should be named based on the domain with a
+ * dash followed by a dash, and then the locale exactly.
+ *
+ * The plugin may place all of the .mo files in another folder and set
+ * the $path based on the relative location from ABSPATH constant. The
+ * plugin may use the constant PLUGINDIR and/or plugin_basename() to
+ * get path of the plugin and then add the folder which holds the .mo
+ * files.
+ *
+ * @since 1.5.0
+ *
+ * @param string $domain Unique identifier for retrieving translated strings
+ * @param string $path Optional. Path of the folder where the .mo files reside.
+ */
 function load_plugin_textdomain($domain, $path = false) {
 	$locale = get_locale();
 	if ( empty($locale) )
@@ -96,6 +254,18 @@ function load_plugin_textdomain($domain, $path = false) {
 	load_textdomain($domain, $mofile);
 }
 
+/**
+ * load_theme_textdomain() - Includes theme's translated strings for the theme
+ *
+ * If the current locale exists as a .mo file in the theme's root directory, it
+ * will be included in the translated strings by the $domain.
+ *
+ * The .mo files must be named based on the locale exactly.
+ *
+ * @since 1.5.0
+ *
+ * @param string $domain Unique identifier for retrieving translated strings
+ */
 function load_theme_textdomain($domain) {
 	$locale = get_locale();
 	if ( empty($locale) )
