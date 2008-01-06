@@ -54,9 +54,16 @@
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
 ?>
 
+wpEditorInit = function() {
+	// Activate tinyMCE if it's the user's default editor
+	if ( ( 'undefined' == typeof wpTinyMCEConfig ) || 'tinymce' == wpTinyMCEConfig.defaultEditor )
+		tinyMCE.execCommand("mceAddControl", true, 'content');
+};
+
 initArray = {
 	mode : "specific_textareas",
 	editor_selector : "mceEditor",
+	oninit : "wpEditorInit",
 	width : "100%",
 	theme : "advanced",
 	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",

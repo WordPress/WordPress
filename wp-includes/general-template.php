@@ -907,6 +907,15 @@ function user_can_richedit() {
 	return apply_filters('user_can_richedit', $wp_rich_edit);
 }
 
+function wp_default_editor() {
+	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
+	if ( $user = wp_get_current_user() ) { // look for cookie
+		if ( isset($_COOKIE['wordpress_editor_' . $user->ID]) && in_array($_COOKIE['wordpress_editor_' . $user->ID], array('tinymce', 'html', 'test') ) )
+			$r = $_COOKIE['wordpress_editor_' . $user->ID];
+	}
+	return apply_filters( 'wp_default_editor', $r ); // filter
+}
+
 function the_editor($content, $id = 'content', $prev_id = 'title') {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
@@ -915,7 +924,12 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	$rows = "rows='$rows'";
 
 	if ( user_can_richedit() ) :
-		add_filter('the_editor_content', 'wp_richedit_pre');
+		$wp_default_editor = wp_default_editor();
+		$active = " class='active'";
+		$inactive = " onclick='switchEditors(\"$id\");'";
+
+		if ( 'tinymce' == $wp_default_editor )
+			add_filter('the_editor_content', 'wp_richedit_pre');
 
 		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
 	?>
@@ -925,13 +939,15 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	</style>
 	<div id='editor-toolbar' style='display:none;'>
 		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors("<?php echo $id; ?>")' /></div>
-		<a id='edButtonHTML' class='' onclick='switchEditors("<?php echo $id; ?>")'><?php _e('HTML'); ?></a>
-        <a id='edButtonPreview' class='active'><?php _e('Visual'); ?></a>
-        <div id="media-buttons">
-        <?php _e('Add media:'); ?>
-        <?php do_action( 'media_buttons'); ?>
-        </div>
+		<a id='edButtonHTML'<?php echo 'html' == $wp_default_editor ? $active : $inactive; ?>><?php _e('HTML'); ?></a>
+	        <a id='edButtonPreview'<?php echo 'tinymce' == $wp_default_editor ? $active : $inactive; ?>><?php _e('Visual'); ?></a>
+
+	        <div id="media-buttons">
+	        <?php _e('Add media:'); ?>
+	        <?php do_action( 'media_buttons'); ?>
+	        </div>
 	</div>
+
 	<script type="text/javascript">
 	// <![CDATA[
 		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
@@ -939,20 +955,23 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	// ]]>
 	</script>
 
-	<?php endif; ?>
+	<?php endif; // user_can_richedit() ?>
+
 	<div id="quicktags">
 	<?php wp_print_scripts( 'quicktags' ); ?>
 	<script type="text/javascript">edToolbar()</script>
 	</div>
+
+	<?php if ( 'html' != $wp_default_editor ) : ?>
 	<script type="text/javascript">
 	// <![CDATA[
 		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
 			document.getElementById("quicktags").style.display="none";
 	// ]]>
 	</script>
-	<?php
+	<?php endif; // 'html' != $wp_default_editor
 
-	$the_editor = apply_filters('the_editor', "<div><textarea class='mceEditor' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
+	$the_editor = apply_filters('the_editor', "<div><textarea class='' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
 
 	printf($the_editor, $the_editor_content);

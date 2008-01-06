@@ -50,7 +50,7 @@ if (empty($post->post_status)) $post->post_status = 'draft';
 
 ?>
 
-<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
+<input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo $form_action ?>" />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <input type="hidden" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />

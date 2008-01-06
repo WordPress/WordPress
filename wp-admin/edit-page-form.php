@@ -33,7 +33,7 @@ if (isset($mode) && 'bookmarklet' == $mode) {
 	echo '<input type="hidden" name="mode" value="bookmarklet" />';
 }
 ?>
-<input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
+<input type="hidden" id="user-id" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value='<?php echo $form_action ?>' />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <?php echo $form_extra ?>

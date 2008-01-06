@@ -6,7 +6,7 @@
 <?php if (isset($mode) && 'bookmarklet' == $mode) : ?>
 <input type="hidden" name="mode" value="bookmarklet" />
 <?php endif; ?>
-<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
+<input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='post' />
 
 <script type="text/javascript">

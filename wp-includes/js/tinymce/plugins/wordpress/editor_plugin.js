@@ -523,6 +523,7 @@ function switchEditors(id) {
 			pdr.style.height = 'auto';
 			pdr.style.overflow = 'display';
 		}
+		wpSetDefaultEditor( 'html' );
 	} else {
 		edToggle(P, H);
 		edCloseAllTags(); // :-(
@@ -557,6 +558,7 @@ function switchEditors(id) {
 			pdr.style.height = 'auto';
 			pdr.style.overflow = 'display';
 		}
+		wpSetDefaultEditor( 'tinymce' );
 	}
 }
 
@@ -566,6 +568,19 @@ function edToggle(A, B) {
 
 	B.onclick = A.onclick;
 	A.onclick = null;
+}
+
+function wpSetDefaultEditor( editor ) {
+	try {
+		editor = escape( editor.toString() );
+	} catch(err) {
+		editor = 'tinymce';
+	}
+
+	var userID = document.getElementById('user-id');
+	var date = new Date();
+	date.setTime(date.getTime()+(10*365*24*60*60*1000));
+	document.cookie = "wordpress_editor_" + userID.value + "=" + editor + "; expires=" + date.toGMTString();
 }
 
 function wpautop(pee) {

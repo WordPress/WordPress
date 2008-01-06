@@ -402,10 +402,6 @@ input.delete:hover {
 	padding-right: 6px;
 }
 
-#postdivrich #quicktags {
-	display: none;
-}
-
 #quicktags #ed_toolbar {
 	padding: 0 2px;
 }
