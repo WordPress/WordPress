@@ -397,12 +397,12 @@ TinyMCE_Windows.prototype.open = function(url, name, features) {
 	html += '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">';
 	html += '<html>';
 	html += '<head>';
+	html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 	html += '<title>Wrapper iframe</title>';
 	
 	// WordPress: put the window buttons on the left as in Macs
 	if (this.isMac) html += '<style type="text/css">.mceWindowTitle{float:none;margin:0;width:100%;text-align:center;}.mceWindowClose{float:none;position:absolute;left:0px;top:0px;}</style>';
 	
-	html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 	html += '<link href="' + this.getParam("css_file") + '" rel="stylesheet" type="text/css" />';
 	html += '</head>';
 	html += '<body onload="parent.mcWindows.onLoad(\'' + name + '\');">';

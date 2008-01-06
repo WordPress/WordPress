@@ -167,8 +167,8 @@ MCWindows.prototype.open = function(url, name, features) {
 	html += '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">';
 	html += '<html>';
 	html += '<head>';
-	html += '<title>Wrapper iframe</title>';
 	html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
+	html += '<title>Wrapper iframe</title>';
 	html += '<link href="../jscripts/tiny_mce/themes/advanced/css/editor_ui.css" rel="stylesheet" type="text/css" />';
 	html += '</head>';
 	html += '<body onload="parent.mcWindows.onLoad(\'' + name + '\');">';

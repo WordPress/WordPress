@@ -3875,7 +3875,7 @@ TinyMCE_Control.prototype = {
 		// Setup base HTML
 		doc = this.contentDocument;
 		if (dynamicIFrame) {
-			html = tinyMCE.getParam('doctype') + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + tinyMCE.settings.base_href + '" /><title>blank_page</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body class="mceContentBody"></body></html>';
+			html = tinyMCE.getParam('doctype') + '<html><head xmlns="http://www.w3.org/1999/xhtml"><base href="' + tinyMCE.settings.base_href + '" /><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>blank_page</title></head><body class="mceContentBody"></body></html>';
 
 			try {
 				if (!this.isHidden())
