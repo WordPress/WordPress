@@ -11,6 +11,7 @@ class WP_Import {
 	var $allauthornames = array ();
 	
 	var $author_ids = array ();
+	var $tags = array ();
 	
 	var $j = -1;
 	var $fetch_attachments = false;
