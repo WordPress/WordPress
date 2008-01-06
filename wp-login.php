@@ -340,7 +340,7 @@ default:
 		$errors['user_pass'] = __('<strong>ERROR</strong>: The password field is empty.');
 
 	// Some parts of this script use the main login form to display a message
-	if		( TRUE == $_GET['loggedout'] )			$errors['loggedout']		= __('Successfully logged you out.');
+	if		( TRUE == $_GET['loggedout'] )			$errors['loggedout']		= __('You are now logged out.');
 	elseif	( 'disabled' == $_GET['registration'] )	$errors['registerdiabled']	= __('User registration is currently not allowed.');
 	elseif	( 'confirm' == $_GET['checkemail'] )	$errors['confirm']			= __('Check your e-mail for the confirmation link.');
 	elseif	( 'newpass' == $_GET['checkemail'] )	$errors['newpass']			= __('Check your e-mail for your new password.');
