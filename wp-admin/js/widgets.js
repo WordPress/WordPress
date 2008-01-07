@@ -102,11 +102,20 @@ jQuery(function($) {
 
 	$('a.widget-control-add').click( addClick );
 
+	var widgetSortable;
+	var widgetSortableInit = function() {
+		try { // a hack to make sortables work in jQuery 1.2+ and IE7
+			$('#current-sidebar .widget-control-list').SortableDestroy();
+		} catch(e) {}
+		widgetSortable = $('#current-sidebar .widget-control-list').Sortable( {
+			accept: 'widget-sortable',
+			helperclass: 'sorthelper',
+			handle: 'h4.widget-title',
+			onStop: widgetSortableInit
+		} );
+	}
+
 	// initialize sortable
-	var widgetSortable = $('#current-sidebar .widget-control-list').Sortable( {
-		accept: 'widget-sortable',
-		helperclass: 'sorthelper',
-		handle: 'h4.widget-title'
-	} );
+	widgetSortableInit();
 
 });
