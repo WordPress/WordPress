@@ -4,39 +4,12 @@ require_once('admin.php');
 $title = __('Edit Comments');
 $parent_file = 'edit-comments.php';
 wp_enqueue_script( 'admin-comments' );
+wp_enqueue_script('admin-forms');
 
 require_once('admin-header.php');
 if (empty($_GET['mode'])) $mode = 'view';
 else $mode = attribute_escape($_GET['mode']);
 ?>
-
-<script type="text/javascript">
-<!--
-function checkAll(form)
-{
-	for (i = 0, n = form.elements.length; i < n; i++) {
-		if(form.elements[i].type == "checkbox") {
-			if(form.elements[i].checked == true)
-				form.elements[i].checked = false;
-			else
-				form.elements[i].checked = true;
-		}
-	}
-}
-
-function getNumChecked(form)
-{
-	var num = 0;
-	for (i = 0, n = form.elements.length; i < n; i++) {
-		if(form.elements[i].type == "checkbox") {
-			if(form.elements[i].checked == true)
-				num++;
-		}
-	}
-	return num;
-}
-//-->
-</script>
 <div class="wrap">
 <h2><?php _e('Comments'); ?></h2>
 <form name="searchform" action="" method="get" id="editcomments">

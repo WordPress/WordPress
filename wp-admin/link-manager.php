@@ -7,6 +7,7 @@
 require_once ('admin.php');
 
 wp_enqueue_script( 'wp-lists' );
+wp_enqueue_script('admin-forms');
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
@@ -45,25 +46,7 @@ switch ($order_by) {
 		break;
 }
 ?>
-<script type="text/javascript">
-/* <![CDATA[ */
-function checkAll(form)
-{
-	for (i = 0, n = form.elements.length; i < n; i++) {
-		if(form.elements[i].type == "checkbox") {
-			if(form.elements[i].checked == true)
-				form.elements[i].checked = false;
-			else
-				form.elements[i].checked = true;
-		}
-	}
-}
-
-jQuery(function($){$('#the-list').wpList();});
-
-/* ]]> */
-</script>
-
+<script type="text/javascript" src="js/edit-comments.js"></script>
 <?php
 if ( isset($_GET['deleted']) ) {
 	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';

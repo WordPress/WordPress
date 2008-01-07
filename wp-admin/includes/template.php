@@ -313,7 +313,7 @@ function page_rows( $pages ) {
 	 }
 }
 
-function user_row( $user_object, $style = '' ) {
+function user_row( $user_object, $style = '', $role = '' ) {
 	if ( !( is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
 		$user_object = new WP_User( (int) $user_object );
 	$email = $user_object->user_email;
@@ -326,7 +326,7 @@ function user_row( $user_object, $style = '' ) {
 		$short_url =  substr( $short_url, 0, 32 ).'...';
 	$numposts = get_usernumposts( $user_object->ID );
 	$r = "<tr id='user-$user_object->ID'$style>
-		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' value='{$user_object->ID}' /> <label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
+		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /> <label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
 		<td><label for='user_{$user_object->ID}'><strong>$user_object->user_login</strong></label></td>
 		<td><label for='user_{$user_object->ID}'>$user_object->first_name $user_object->last_name</label></td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>

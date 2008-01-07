@@ -119,6 +119,7 @@ class WP_Scripts {
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20071104' );
 			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20071023' );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
+			$this->add( 'admin-forms', '/wp-admin/js/forms.js', array('wp-lists'), '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->add( 'post', '/wp-admin/js/post.js', array('suggest'), '20080102' );

@@ -209,6 +209,7 @@ case 'delete':
 <form action="" method="post" name="updateusers" id="updateusers">
 <?php wp_nonce_field('delete-users') ?>
 <?php echo $referer; ?>
+
 <div class="wrap">
 <h2><?php _e('Delete Users'); ?></h2>
 <p><?php _e('You have specified these users for deletion:'); ?></p>
@@ -270,7 +271,8 @@ case 'adduser':
 
 default:
 	wp_enqueue_script('admin-users');
-
+	wp_enqueue_script('admin-forms');
+	
 	include('admin-header.php');
 
 	// Query the users
@@ -385,6 +387,7 @@ foreach($roleclasses as $role => $roleclass) {
 <?php endif; ?>
 </tr>
 <tr class="thead">
+	<th><input type="checkbox" onclick="checkAllUsers('<?php echo $role; ?>')"/></th>
 	<th><?php _e('ID') ?></th>
 	<th><?php _e('Username') ?></th>
 	<th><?php _e('Name') ?></th>
@@ -397,7 +400,7 @@ foreach($roleclasses as $role => $roleclass) {
 $style = '';
 foreach ( (array) $roleclass as $user_object ) {
 	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
-	echo "\n\t" . user_row($user_object, $style);
+	echo "\n\t" . user_row($user_object, $style, $role);
 }
 ?>
 

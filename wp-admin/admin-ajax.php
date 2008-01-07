@@ -387,7 +387,7 @@ case 'add-user' :
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
 		'id' => $user_id,
-		'data' => user_row( $user_object ),
+		'data' => user_row( $user_object, '', $user_object->roles[0] ),
 		'supplemental' => array(
 			'show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login),
 			'role' => $user_object->roles[0]
