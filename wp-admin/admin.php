@@ -28,7 +28,7 @@ $time_format = get_option('time_format');
 
 wp_reset_vars(array('profile', 'redirect', 'redirect_url', 'a', 'popuptitle', 'popupurl', 'text', 'trackback', 'pingback'));
 
-wp_enqueue_script( 'admin' );
+wp_enqueue_script( 'fat' );
 
 $editing = false;
 

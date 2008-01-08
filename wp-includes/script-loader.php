@@ -84,10 +84,8 @@ class WP_Scripts {
 		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
 		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
 		$this->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
-		$this->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '1.0');
 
 		if ( is_admin() ) {
-			$this->add( 'admin', '/wp-admin/js/admin.js', array('jquery-color'), '20080107');
 			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),
