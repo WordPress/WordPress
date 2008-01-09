@@ -34,7 +34,6 @@ class WP_Scripts {
 
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
 		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20080105' );
-		$this->localize( 'wp_tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
@@ -435,6 +434,12 @@ function wp_prototype_before_jquery( $js_array ) {
 	return $js_array;
 }
 
+// These localizations require information that may not be loaded even by init
+function wp_just_in_time_script_localization() {
+	wp_localize_script( 'wp_tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
+}
+
+add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 
 ?>
