@@ -13,10 +13,16 @@ list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 $wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
 ?>
 
+<?php
+if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
+<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit post'); ?></a></p></div>
+<?php
+endif;
+?>
+
 <div class="wrap">
 
 <?php
-
 $posts_columns = wp_manage_posts_columns();
 
 ?>

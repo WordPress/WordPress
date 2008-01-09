@@ -12,14 +12,12 @@ if ( isset( $_POST['deletepost'] ) )
 switch($action) {
 case 'postajaxpost':
 case 'post':
-	$parent_file = 'post-new.php';
-	$submenu_file = 'post-new.php';
 	check_admin_referer('add-post');
 
 	$post_ID = 'post' == $action ? write_post() : edit_post();
 
 	// Redirect.
-	if (!empty($_POST['mode'])) {
+	if ( !empty( $_POST['mode'] ) ) {
 	switch($_POST['mode']) {
 		case 'bookmarklet':
 			$location = $_POST['referredby'];
@@ -35,13 +33,13 @@ case 'post':
 		$location = "post-new.php?posted=$post_ID";
 	}
 
-	if ( isset($_POST['save']) )
+	if ( isset( $_POST['save'] ) )
 		$location = "post.php?action=edit&post=$post_ID";
 
-	if ( empty($post_ID) )
+	if ( empty( $post_ID ) )
 		$location = 'post-new.php';
 
-	wp_redirect($location);
+	wp_redirect( $location );
 	exit();
 	break;
 
@@ -139,7 +137,7 @@ case 'editpost':
 		} elseif ($action == 'editattachment') {
 			$location = 'attachments.php';
 		} else {
-			$location = 'post-new.php';
+			$location = 'edit.php?posted=' . $post_ID;
 		}
 	}
 
