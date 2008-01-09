@@ -52,6 +52,11 @@ function tag_press_key( e ) {
 	}
 }
 
+function add_postbox_toggles() {
+	jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
+	jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); } );
+}
+
 addLoadEvent( function() {
 	jQuery('#tags-input').hide();
 	tag_update_quickclicks();
@@ -74,4 +79,5 @@ addLoadEvent( function() {
 
 	// auto-suggest stuff
 	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { onSelect: tag_flush_to_text, delay: 500, minchars: 2 } );
+	add_postbox_toggles();
 });

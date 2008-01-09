@@ -1176,6 +1176,10 @@ a.view-comment-post-link {
 	color: black;
 }
 
+#poststuff h2 {
+	margin-bottom: 20px;
+}
+
 #poststuff h3 {
 	background: #eaf3fa;
 	font-size: 15px;
@@ -1242,3 +1246,33 @@ a.view-comment-post-link {
 	margin-top: 5px;
 }
 
+#poststuff .togbox {
+	background-color:#b2b2b2;
+	background-image:url(images/toggle-arrow.gif);
+	background-position:-10px 18px;
+	background-repeat:no-repeat;
+	display:block;
+	height:44px;
+	margin-left:-19px;
+	margin-top:-13px;
+	overflow:hidden;
+	position:absolute;
+	text-indent:-9999px;
+	width:12px;
+	-moz-border-radius-topleft: 2px;
+	-moz-border-radius-bottomleft: 3px;
+}
+
+#poststuff .closed .inside {
+	display: none;
+}
+
+#poststuff .closed h3 {
+	margin: 0;
+}
+
+#poststuff .closed .togbox {
+	background-color:#2583ad;
+	background-image:url(images/toggle-arrow.gif);
+	background-position: 5px 18px;
+}
