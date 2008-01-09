@@ -172,11 +172,11 @@ var wpList = {
 		}
 		if ( !s.data._ajax_nonce ) { return true; }
 
-		var func = function() { $('#' + s.element).css( 'background-color', '' ).hide(); list.wpList.recolor(); };
+		var func = function() { list.wpList.recolor(); };
 		var hideTO = -1;
 		if ( 'none' != s.delColor ) {
-			Fat.fade_element(s.element,null,700,s.delColor);
-			hideTO = setTimeout(func, 705);
+			$('#' + s.element).animate( { backgroundColor:  s.delColor }, 100 ).slideUp();
+			hideTO = setTimeout(func, 500);
 		} else {
 			func();
 		}
@@ -227,13 +227,20 @@ var wpList = {
 			if ( !s ) { return true; }
 		}
 
-		if ( !s.data._ajax_nonce ) { return true; }
-
+		var thisclass = $('#' + s.element).attr('class');
+		if ( thisclass && thisclass.match(/alternate/) )
+			var color = '#f1f1f1';
+		else
+			var color =  '#fff';
 		var isClass = $('#' + s.element).toggleClass(s.dimClass).is('.' + s.dimClass);
-		if ( isClass && 'none' != s.dimAddColor ) { Fat.fade_element(s.element,null,700,s.dimAddColor); }
-		else if ( !isClass && 'none' != s.dimDelColor ) { Fat.fade_element(s.element,null,700,s.dimDelColor); }
+		if ( isClass && 'none' != s.dimAddColor ) { 
+			$('#' + s.element).animate( { backgroundColor:  s.dimAddColor }, 50 ).animate( { backgroundColor: color }, 400 );
+		}
+		else if ( !isClass && 'none' != s.dimDelColor ) {
+			$('#' + s.element).animate( { backgroundColor:  s.dimDelColor }, 50 ).animate( { backgroundColor: color }, 400 );
+		}
 
-		var dimTO = setTimeout( function() { $('#' + s.element).css( 'background-color', '' ); }, 705 );
+		if ( !s.data._ajax_nonce ) { return true; }
 
 		s.success = function(r) {
 			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
@@ -302,11 +309,8 @@ var wpList = {
 		if ( 'none' != s.addColor ) {
 			var b = e.css( 'background-color' );
 			if ( b == 'transparent' ) { b = ''; }
-			Fat.fade_element(e.attr('id'),null,700,s.addColor);
-			setTimeout( function() {
-				var g = e.css( 'background-color', '' ).css( 'background-color' );
-				if ( b != g ) { e.css( 'background-color', b ); }
-			}, 705 );
+			
+			$('#' + s.element).css('background-color', s.addColor).animate( { backgroundColor: '#fff' }, 300 );
 		}
 		list.each( function() { this.wpList.process( e ); } );
 		return e;

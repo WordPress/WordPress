@@ -11,8 +11,7 @@ class WP_Scripts {
 	}
 
 	function default_scripts() {
-		$this->add( 'fat', '/wp-includes/js/fat.js', false, '1.0-RC1_3660' );
-
+		$this->add( 'common', '/wp-admin/js/common.js', false, '1.0' );
 		$this->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
 
 		$this->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3958' );
@@ -56,7 +55,7 @@ class WP_Scripts {
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
 
-		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'fat'), '20070306' );
+		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'jquery-color'), '20070306' );
 		$this->localize( 'listman', 'listManL10n', array(
 			'jumpText' => __('Jump to new item'),
 			'delText' => __('Are you sure you want to delete this %thing%?')
@@ -78,8 +77,9 @@ class WP_Scripts {
 
 		$this->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
-		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.2b2');
+		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.2b2-color');
 		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '2.02');
+		$this->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '2.0');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
 		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
 		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');

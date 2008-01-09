@@ -317,13 +317,15 @@ form#upload #post_content {
 }
 
 .updated {
-	background: #ddedfa;
-	border: 1px solid #c6d9e9;
+	background: #ffffe0;
+	border: 1px solid #e6db55;
 }
 
 .updated a {
-	color: #448abd;
-	font-weight: bold;
+	color: #2583ad;
+	text-decoration: none;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #2583ad;
 }
 
 .error {
@@ -1177,6 +1179,7 @@ a.view-comment-post-link {
 }
 
 #poststuff h2 {
+	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
@@ -1274,5 +1277,5 @@ a.view-comment-post-link {
 #poststuff .closed .togbox {
 	background-color:#2583ad;
 	background-image:url(images/toggle-arrow.gif);
-	background-position: 5px 18px;
+	background-position: 4px 18px;
 }
