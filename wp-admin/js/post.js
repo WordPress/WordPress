@@ -73,5 +73,5 @@ addLoadEvent( function() {
 	});
 
 	// auto-suggest stuff
-	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { onSelect: tag_flush_to_text } );
+	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { onSelect: tag_flush_to_text, delay: 500, minchars: 2 } );
 });
