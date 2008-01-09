@@ -724,7 +724,7 @@ function wp_salt() {
 		}
 	}
 
-	return apply_filters('salt', $salt);
+	return apply_filters('salt', $secret_key . $salt);
 }
 endif;
 
