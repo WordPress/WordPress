@@ -87,7 +87,7 @@ initArray = {
 	fix_list_elements : true,
 	gecko_spellcheck : true,
 	entities : "38,amp,60,lt,62,gt",
-	button_tile_map : true,
+	button_tile_map : false,
 	content_css : "<?php echo $mce_css; ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
 	invalid_elements : "<?php echo $invalid_elements; ?>",
