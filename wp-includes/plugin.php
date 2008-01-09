@@ -73,7 +73,7 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 2.4
+ * @since 2.5
  * @global array $wp_filter Stores all of the filters
  *
  * @param string $tag The name of the filter hook.
@@ -212,7 +212,7 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 2.4
+ * @since 2.5
  *
  * @return string Hook name of the current filter or action.
  */
@@ -395,7 +395,7 @@ function do_action_ref_array($tag, $args) {
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 2.4
+ * @since 2.5
  * @see has_filter() has_action() is an alias of has_filter().
  *
  * @param string $tag The name of the action hook.
@@ -508,16 +508,15 @@ function register_deactivation_hook($file, $function) {
  * _wp_call_all_hook() - Calls the 'all' hook, which will process the functions hooked into it.
  *
  * The 'all' hook passes all of the arguments or parameters that were used for the
- * hook, which this function was called for. The first parameter will have to be tested
- * as it will be the hook name.
+ * hook, which this function was called for.
  *
  * This function is used internally for apply_filters(), do_action(), and do_action_ref_array()
  * and is not meant to be used from outside those functions. This function does not check for the
- * existent of the all hook, so it will fail unless the all hook exists prior to this function call.
+ * existence of the all hook, so it will fail unless the all hook exists prior to this function call.
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 2.4
+ * @since 2.5
  * @access private
  *
  * @uses $wp_filter Used to process all of the functions in the 'all' hook

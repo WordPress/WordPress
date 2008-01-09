@@ -1,13 +1,22 @@
 <?php
-do_action('load_feed_engine');
+/**
+ * MagpieRSS: a simple RSS integration tool
+ *
+ * A compiled file for RSS syndication
+ *
+ * @author Kellan Elliott-McCrea <kellan@protest.net>
+ * @version 0.51
+ * @license GPL
+ *
+ * @package External
+ * @subpackage MagpieRSS
+ */
 
 /*
- * Project:     MagpieRSS: a simple RSS integration tool
- * File:        A compiled file for RSS syndication
- * Author:      Kellan Elliott-McCrea <kellan@protest.net>
- * Version:		0.51
- * License:		GPL
+ * Hook to use another RSS object instead of MagpieRSS
  */
+do_action('load_feed_engine');
+
 
 define('RSS', 'RSS');
 define('ATOM', 'Atom');

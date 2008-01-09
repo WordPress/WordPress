@@ -3,19 +3,17 @@
  * Used to setup and fix common variables and include
  * the WordPress procedural and class library.
  *
- * You should not have to change this file and allows for some configuration
- * in wp-config.php.
+ * You should not have to change this file and allows
+ * for some configuration in wp-config.php.
  *
  * @package WordPress
- * @since 1.5
  */
 
 /**
- * Turn register globals off
+ * wp_unregister_GLOBALS() - Turn register globals off
  *
  * @access private
- * @package WordPress
- * @since 2.0
+ * @since 2.1.0
  * @return null Will return null if register_globals PHP directive was disabled
  */
 function wp_unregister_GLOBALS() {
@@ -38,14 +36,14 @@ function wp_unregister_GLOBALS() {
 
 wp_unregister_GLOBALS();
 
-unset( $wp_filter, $wp_action, $cache_lastcommentmodified, $cache_lastpostdate );
+unset( $wp_filter, $cache_lastcommentmodified, $cache_lastpostdate );
 
 /**
  * The $blog_id global, which you can change in the config allows you to create a simple
  * multiple blog installation using just one WordPress and changing $blog_id around.
  *
  * @global int $blog_id
- * @since 2.0
+ * @since 2.0.0
  */
 if ( ! isset($blog_id) )
 	$blog_id = 1;
@@ -97,13 +95,12 @@ if ( !extension_loaded('mysql') && !file_exists(ABSPATH . 'wp-content/db.php') )
 	die( 'Your PHP installation appears to be missing the MySQL which is required for WordPress.' );
 
 /**
- * PHP 4 standard microtime start capture
+ * timer_start() - PHP 4 standard microtime start capture
  *
  * @access private
- * @package WordPress
+ * @since 0.71
  * @global int $timestart Seconds and Microseconds added together from when function is called
  * @return bool Always returns true
- * @since 0.71
  */
 function timer_start() {
 	global $timestart;
@@ -114,7 +111,7 @@ function timer_start() {
 }
 
 /**
- * Return and/or display the time from the page start to when function is called.
+ * timer_stop() - Return and/or display the time from the page start to when function is called.
  *
  * You can get the results and print them by doing:
  * <code>
@@ -129,7 +126,6 @@ function timer_start() {
  * which will do what the above does. If you need the result, you can assign it to a variable, but
  * most cases, you only need to echo it.
  *
- * @package WordPress
  * @since 0.71
  * @global int $timestart Seconds and Microseconds added together from when timer_start() is called
  * @global int $timeend  Seconds and Microseconds added together from when function is called
@@ -154,9 +150,9 @@ timer_start();
 
 // Add define('WP_DEBUG',true); to wp-config.php to enable display of notices during development.
 if (defined('WP_DEBUG') and WP_DEBUG == true) {
-   error_reporting(E_ALL);
+	error_reporting(E_ALL);
 } else {
-   error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
+	error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
 }
 
 // For an advanced caching plugin to use, static because you would only want one
@@ -166,7 +162,7 @@ if ( defined('WP_CACHE') )
 /**
  * Stores the location of the WordPress directory of functions, classes, and core content.
  *
- * @since 1.5
+ * @since 1.0.0
  */
 define('WPINC', 'wp-includes');
 
@@ -175,7 +171,7 @@ if ( !defined('LANGDIR') ) {
 	 * Stores the location of the language directory. First looks for language folder in wp-content 
 	 * and uses that folder if it exists. Or it uses the "languages" folder in WPINC.
 	 *
-	 * @since 1.5
+	 * @since 2.1.0
 	 */
 	if ( file_exists(ABSPATH . 'wp-content/languages') && @is_dir(ABSPATH . 'wp-content/languages') )
 		define('LANGDIR', 'wp-content/languages'); // no leading slash, no trailing slash
@@ -185,6 +181,9 @@ if ( !defined('LANGDIR') ) {
 
 /**
  * Allows for the plugins directory to be moved from the default location.
+ *
+ * This isn't used everywhere. Constant is not used in plugin_basename()
+ * which might cause conflicts with changing this.
  *
  * @since 2.1
  */
@@ -270,49 +269,49 @@ if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.0
+ * @since 2.0.0
  */
 if ( !defined('USER_COOKIE') )
 	define('USER_COOKIE', 'wordpressuser_' . COOKIEHASH);
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.0
+ * @since 2.0.0
  */
 if ( !defined('PASS_COOKIE') )
 	define('PASS_COOKIE', 'wordpresspass_' . COOKIEHASH);
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.4
+ * @since 2.5
  */
 if ( !defined('AUTH_COOKIE') )
 	define('AUTH_COOKIE', 'wordpress_' . COOKIEHASH);
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.3
+ * @since 2.3.0
  */
 if ( !defined('TEST_COOKIE') )
 	define('TEST_COOKIE', 'wordpress_test_cookie');
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.0
+ * @since 1.2.0
  */
 if ( !defined('COOKIEPATH') )
 	define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('home') . '/' ) );
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.0
+ * @since 1.5.0
  */
 if ( !defined('SITECOOKIEPATH') )
 	define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('siteurl') . '/' ) );
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.0
+ * @since 2.0.0
  */
 if ( !defined('COOKIE_DOMAIN') )
 	define('COOKIE_DOMAIN', false);
@@ -360,7 +359,7 @@ do_action('sanitize_comment_cookies');
 /**
  * WordPress Query object
  * @global object $wp_the_query
- * @since 2.0
+ * @since 2.0.0
  */
 $wp_the_query =& new WP_Query();
 
@@ -368,21 +367,21 @@ $wp_the_query =& new WP_Query();
  * Holds the reference to @see $wp_the_query
  * Use this global for WordPress queries
  * @global object $wp_query
- * @since 2.0
+ * @since 1.5.0
  */
 $wp_query     =& $wp_the_query;
 
 /**
  * Holds the WordPress Rewrite object for creating pretty URLs
  * @global object $wp_rewrite
- * @since 2.0
+ * @since 1.5.0
  */
 $wp_rewrite   =& new WP_Rewrite();
 
 /**
  * WordPress Object
  * @global object $wp
- * @since 2.0
+ * @since 2.0.0
  */
 $wp           =& new WP();
 
@@ -402,6 +401,10 @@ define('STYLESHEETPATH', get_stylesheet_directory());
 // Load the default text localization domain.
 load_default_textdomain();
 
+/**
+ * The locale of the blog
+ * @since 1.5.0
+ */
 $locale = get_locale();
 $locale_file = ABSPATH . LANGDIR . "/$locale.php";
 if ( is_readable($locale_file) )
@@ -413,7 +416,7 @@ require_once(ABSPATH . WPINC . '/locale.php');
 /**
  * WordPress Locale object for loading locale domain date and various strings.
  * @global object $wp_locale
- * @since 2.1
+ * @since 2.1.0
  */
 $wp_locale =& new WP_Locale();
 
@@ -424,11 +427,10 @@ if ( file_exists(TEMPLATEPATH . '/functions.php') )
 	include(TEMPLATEPATH . '/functions.php');
 
 /**
- * Runs just before PHP shuts down execution.
+ * shutdown_action_hook() - Runs just before PHP shuts down execution.
  *
  * @access private
- * @package WordPress
- * @since 1.5
+ * @since 1.2
  */
 function shutdown_action_hook() {
 	do_action('shutdown');

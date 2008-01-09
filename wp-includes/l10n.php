@@ -53,7 +53,7 @@ function get_locale() {
  * the 'gettext' filter hook, along with the untranslated text as
  * the second parameter.
  *
- * If the domain is not set, the the $text is just returned.
+ * If the domain is not set, the $text is just returned.
  *
  * @since 2.2.0
  * @uses $l10n Gets list of domain translated string (gettext_reader) objects
