@@ -2,59 +2,41 @@
 require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
-	if ('activate' == $_GET['action']) {
+	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('activate-plugin_' . $_GET['plugin']);
-		$result = activate_plugin($_GET['plugin']);
-		if( is_wp_error( $result ) )
+		$result = activate_plugin($_GET['plugin'], 'plugins.php?error=true&plugin=' . $plugin);
+		if ( is_wp_error( $result ) )
 			wp_die( $result->get_error_message() );
 		wp_redirect('plugins.php?activate=true'); // overrides the ?error=true one above
-	} elseif ('error_scrape' == $_GET['action']) {
+	} elseif ( 'error_scrape' == $_GET['action'] ) {
 		$plugin = trim($_GET['plugin']);
 		check_admin_referer('plugin-activation-error_' . $plugin);
-		if ( validate_file($plugin) )
-			wp_die(__('Invalid plugin.'));
-		if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
-			wp_die(__('Plugin file does not exist.'));
+		$valid = validate_plugin($plugin);
+		if ( is_wp_error($valid) )
+			wp_die($valid);
 		include(ABSPATH . PLUGINDIR . '/' . $plugin);
-	} elseif ('deactivate' == $_GET['action']) {
+	} elseif ( 'deactivate' == $_GET['action'] ) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
 		deactivate_plugins($_GET['plugin']);
 		wp_redirect('plugins.php?deactivate=true');
-	} elseif ($_GET['action'] == 'deactivate-all') {
+	} elseif ( 'deactivate-all' == $_GET['action'] ) {
 		check_admin_referer('deactivate-all');
 		deactivate_all_plugins();
 		wp_redirect('plugins.php?deactivate-all=true');
+	} elseif ('reactivate-all' == $_GET['action']) {
+		check_admin_referer('reactivate-all');
+		reactivate_all_plugins('plugins.php?errors=true');
+		wp_redirect('plugins.php?reactivate-all=true'); // overrides the ?error=true one above
 	}
+
 	exit;
 }
 
 $title = __('Manage Plugins');
 require_once('admin-header.php');
 
-// Clean up options
-// If any plugins don't exist, axe 'em
+validate_active_plugins();
 
-$check_plugins = get_option('active_plugins');
-
-// Sanity check.  If the active plugin list is not an array, make it an
-// empty array.
-if ( !is_array($check_plugins) ) {
-	$check_plugins = array();
-	update_option('active_plugins', $check_plugins);
-}
-
-// If a plugin file does not exist, remove it from the list of active
-// plugins.
-foreach ($check_plugins as $check_plugin) {
-	if (!file_exists(ABSPATH . PLUGINDIR . '/' . $check_plugin)) {
-			$current = get_option('active_plugins');
-			$key = array_search($check_plugin, $current);
-			if ( false !== $key && NULL !== $key ) {
-				unset($current[$key]);
-				update_option('active_plugins', $current);
-			}
-	}
-}
 ?>
 
 <?php if ( isset($_GET['error']) ) : ?>
@@ -67,12 +49,16 @@ foreach ($check_plugins as $check_plugin) {
 		}
 	?>
 	</div>
+<?php elseif ( isset($_GET['errors']) ) : ?>
+	<div id="message" class="updated fade"><p><?php _e('Some plugins could not be reactivated because they triggered a <strong>fatal error</strong>.') ?></p></div>
 <?php elseif ( isset($_GET['activate']) ) : ?>
 	<div id="message" class="updated fade"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
 <?php elseif ( isset($_GET['deactivate']) ) : ?>
 	<div id="message" class="updated fade"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p></div>
 <?php elseif (isset($_GET['deactivate-all'])) : ?>
 	<div id="message" class="updated fade"><p><?php _e('All plugins <strong>deactivated</strong>.'); ?></p></div>
+<?php elseif (isset($_GET['reactivate-all'])) : ?>
+	<div id="message" class="updated fade"><p><?php _e('All plugins <strong>reactivated</strong>.'); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">
@@ -148,7 +134,20 @@ if (empty($plugins)) {
 
 <tr>
 	<td colspan="3">&nbsp;</td>
-	<td colspan="2" style="width:12em;"><a href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>" class="delete"><?php _e('Deactivate All Plugins'); ?></a></td>
+	<td colspan="2" style="width:12em;">
+	<?php 
+	$active = get_option('active_plugins');
+	$inactive = get_option('deactivated_plugins');
+	if ( !empty($active) ) {
+	?>
+	<a href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>" class="delete"><?php _e('Deactivate All Plugins'); ?></a>
+	<?php 
+	} elseif ( empty($active) && !empty($inactive) ) {
+	?>
+	<a href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate All Plugins'); ?></a>
+	<?php
+	} // endif active/inactive plugin check
+	?>
 </tr>
 
 </table>

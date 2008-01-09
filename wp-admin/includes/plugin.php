@@ -86,17 +86,17 @@ function get_plugins() {
 	return $wp_plugins;
 }
 
-function activate_plugin($plugin) {
+function activate_plugin($plugin, $redirect = '') {
 		$current = get_option('active_plugins');
 		$plugin = trim($plugin);
 
-		if ( validate_file($plugin) )
-			return new WP_Error('plugin_invalid', __('Invalid plugin.'));
-		if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
-			return new WP_Error('plugin_not_found', __('Plugin file does not exist.'));
+		$valid = validate_plugin($plugin);
+		if ( is_wp_error($valid) )
+			return $valid;
 
-		if (!in_array($plugin, $current)) {
-			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), 'plugins.php?error=true&plugin=' . $plugin)); // we'll override this later if the plugin can be included without fatal error
+		if ( !in_array($plugin, $current) ) {
+			if ( !empty($redirect) )
+				wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 			ob_start();
 			@include(ABSPATH . PLUGINDIR . '/' . $plugin);
 			$current[] = $plugin;
@@ -112,10 +112,10 @@ function activate_plugin($plugin) {
 function deactivate_plugins($plugins) {
 	$current = get_option('active_plugins');
 
-	if(!is_array($plugins))
+	if ( !is_array($plugins) )
 		$plugins = array($plugins);
 
-	foreach($plugins as $plugin) {
+	foreach ( $plugins as $plugin ) {
 		array_splice($current, array_search( $plugin, $current), 1 ); // Array-fu!
 		do_action('deactivate_' . trim( $plugin ));
 	}
@@ -125,7 +125,69 @@ function deactivate_plugins($plugins) {
 
 function deactivate_all_plugins() {
 	$current = get_option('active_plugins');
+	if ( empty($current) )
+		return;
+
 	deactivate_plugins($current);
+
+	update_option('deactivated_plugins', $current);
+}
+
+function reactivate_all_plugins($redirect = '') {
+	$plugins = get_option('deactivated_plugins');
+
+	if ( empty($plugins) )
+		return;
+
+	if ( !empty($redirect) )
+		wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
+
+	$errors = array();
+	foreach ( (array) $plugins as $plugin ) {
+		$result = activate_plugin($plugin);
+		if ( is_wp_error($result) )
+			$errors[$plugin] = $result;
+	}
+
+	delete_option('deactivated_plugins');
+
+	if ( !empty($errors) )
+		return new WP_Error('plugins_invalid', __('One of the plugins is invalid.'), $errors);
+
+	return true;
+}
+
+function validate_active_plugins() {
+	$check_plugins = get_option('active_plugins');
+
+	// Sanity check.  If the active plugin list is not an array, make it an
+	// empty array.
+	if ( !is_array($check_plugins) ) {
+		update_option('active_plugins', array());
+		return;
+	}
+
+	// If a plugin file does not exist, remove it from the list of active
+	// plugins.
+	foreach ( $check_plugins as $check_plugin ) {
+		if ( !file_exists(ABSPATH . PLUGINDIR . '/' . $check_plugin) ) {
+			$current = get_option('active_plugins');
+			$key = array_search($check_plugin, $current);
+			if ( false !== $key && NULL !== $key ) {
+				unset($current[$key]);
+				update_option('active_plugins', $current);
+			}
+		}
+	}
+}
+
+function validate_plugin($plugin) {
+	if ( validate_file($plugin) )
+		return new WP_Error('plugin_invalid', __('Invalid plugin.'));
+	if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
+		return new WP_Error('plugin_not_found', __('Plugin file does not exist.'));
+
+	return 0;
 }
 
 //
