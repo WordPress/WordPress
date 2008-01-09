@@ -84,6 +84,7 @@ class WP_Scripts {
 		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
 		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
 		$this->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
+		$this->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1');
 
 		if ( is_admin() ) {
 			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
@@ -107,6 +108,7 @@ class WP_Scripts {
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->add( 'post', '/wp-admin/js/post.js', array('suggest'), '20080102' );
+			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),
 				'back' => __('&laquo; Back'),

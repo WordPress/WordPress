@@ -1,0 +1,103 @@
+div#media-upload-header {
+	background-color: #eaf3fa;
+	margin: none;
+	padding: 1em 0.5em 0.5em 0.5em;
+	font-weight: bold;
+}
+
+ul#media-upload-tabs {
+	display:inline;
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	font-size: 0.9em;
+}
+
+ul#media-upload-tabs li {
+	display:inline;
+}
+
+ul#media-upload-tabs li:after {
+	content: " | ";
+}
+
+ul#media-upload-tabs li.last:after {
+	content: "";
+}
+
+
+
+div#media-upload-error {
+	margin: 1em;
+	font-weight: bold;
+	color: #f00;
+}
+
+form.media-upload-form {
+	margin: 1em;
+}
+
+.media-upload-form label, .media-upload-form legend {
+	display:block;
+	font-weight: bold;
+	margin-bottom: 0.5em;
+}
+
+.media-upload-form label.form-help {
+	color: #9a9a9a;
+	font-style: italic;
+	font-weight: normal;
+}
+
+.media-upload-form p {
+	margin: 0 1em 1em 0;
+}
+
+.media-upload-form input[type="text"], .media-upload-form input[type="file"] {
+	width: 100%;
+}
+
+.media-upload-form fieldset {
+	border: none;
+	text-align: justify;
+	margin-bottom: 1em;
+}
+
+.media-upload-form button.button-ok {
+	float: right;
+	background-color: #ebebeb;
+	color: #1f4569;
+	border: none;
+	padding: 0.5em;
+}
+
+.media-upload-form a.button-cancel {
+	float: right;
+	background-color: #fff;
+	color: #9a9a9a;
+	font-size: 0.8em;
+	text-decoration: underline;
+	margin: 0.5em 1em;
+}
+
+/* specific to the image upload form */
+.media-upload-form fieldset#image-align label {
+	display: inline;
+	padding: 0 28px;
+}
+
+#image-align-none-label {
+	background: url(../images/align-none.png) no-repeat center left;
+}
+
+#image-align-left-label {
+	background: url(../images/align-left.png) no-repeat center left;
+}
+
+#image-align-center-label {
+	background: url(../images/align-center.png) no-repeat center left;
+}
+
+#image-align-right-label {
+	background: url(../images/align-right.png) no-repeat center left;
+}
