@@ -438,6 +438,8 @@ function shutdown_action_hook() {
 }
 register_shutdown_function('shutdown_action_hook');
 
+$wp->init();  // Sets up current user.
+
 // Everything is loaded and initialized.
 do_action('init');
 
