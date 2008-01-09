@@ -31,7 +31,7 @@ function tag_update_quickclicks() {
 		}
 	});
 	if ( shown )
-		jQuery( '#tagchecklist' ).prepend( '<strong>Tags used on this post:</strong><br />' );
+		jQuery( '#tagchecklist' ).prepend( '<strong>'+postL10n.tagsUsed+'</strong><br />' );
 }
 
 function tag_flush_to_text() {
@@ -54,30 +54,40 @@ function tag_press_key( e ) {
 
 function add_postbox_toggles() {
 	jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
-	jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); } );
+	jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); save_postboxes_state(); } );
+}
+
+function save_postboxes_state() {
+	var closed = jQuery('.postbox').filter('.closed').map(function() { return this.id; }).get().join(',');
+	jQuery.post(postL10n.requestFile, {
+		action: 'closed-postboxes',
+		closed: closed,
+		cookie: document.cookie});
 }
 
 addLoadEvent( function() {
 	jQuery('#tags-input').hide();
 	tag_update_quickclicks();
 	// add the quickadd form
-	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" size="16" autocomplete="off" value="Add new tag" /><input type="button" class="button" id="tagadd" value="' + catL10n.add + '"/><input type="hidden"/><input type="hidden"/><span class="howto">Separate tags with commas</span></span>');
+	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '"/><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
 	jQuery('#tagadd').click( tag_flush_to_text );
 //	jQuery('#newtag').keydown( tag_press_key );
 	jQuery('#newtag').focus(function() {
-		if ( this.value == 'Add new tag' ) {
+		if ( this.value == postL10n.addTag ) {
 			this.value = '';
 			this.style.color = '#333';
 		}
 	});
 	jQuery('#newtag').blur(function() {
 		if ( this.value == '' ) {
-			this.value = 'Add new tag';
+			this.value = postL10n.addTag;
 			this.style.color = '#999'
 		}
 	});
 
 	// auto-suggest stuff
 	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { onSelect: tag_flush_to_text, delay: 500, minchars: 2 } );
+
+	// postboxes
 	add_postbox_toggles();
 });

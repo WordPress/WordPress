@@ -110,7 +110,7 @@ else
 	echo clean_url(stripslashes(wp_get_referer()));
 ?>" /></p>
 
-<div id="tagsdiv" class="postbox">
+<div id="tagsdiv" class="postbox <?php echo postbox_classes('tagsdiv'); ?>">
 <h3><?php _e('Tags'); ?></h3>
 <div class="inside">
 <p id="jaxtag"><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></p>
@@ -118,7 +118,7 @@ else
 </div>
 </div>
 
-<div id="categorydiv" class="postbox">
+<div id="categorydiv" class="postbox <?php echo postbox_classes('categorydiv'); ?>">
 <h3><?php _e('Categories') ?></h3>
 <div class="inside">
 <p id="jaxcat"><?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?></p>
@@ -140,12 +140,12 @@ if (current_user_can('upload_files') && false) {
 
 <h2><?php _e('Advanced Options'); ?></h2>
 
-<div id="postexcerpt" class="postbox">
+<div id="postexcerpt" class="postbox <?php echo postbox_classes('postexcerpt'); ?>">
 <h3><?php _e('Optional Excerpt') ?></h3>
 <div class="inside"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
 </div>
 
-<div id="trackbacksdiv" class="postbox">
+<div id="trackbacksdiv" class="postbox <?php echo postbox_classes('trackbacksdiv'); ?>">
 <h3><?php _e('Trackbacks') ?></h3>
 <div class="inside">
 <?php _e('Send trackbacks to:'); ?> <?php echo $form_trackback; ?> (<?php _e('Separate multiple URLs with spaces'); ?>)
@@ -156,7 +156,7 @@ if ( ! empty($pings) )
 </div>
 </div>
 
-<div id="postcustom" class="postbox">
+<div id="postcustom" class="postbox <?php echo postbox_classes('postcustom'); ?>">
 <h3><?php _e('Custom Fields') ?></h3>
 <div class="inside">
 <div id="postcustomstuff">
@@ -177,7 +177,7 @@ list_meta($metadata);
 
 <?php do_action('dbx_post_advanced'); ?>
 
-<div id="commentstatusdiv" class="postbox">
+<div id="commentstatusdiv" class="postbox <?php echo postbox_classes('commentstatusdiv'); ?>">
 <h3><?php _e('Discussion') ?></h3>
 <div class="inside">
 <input name="advanced_view" type="hidden" value="1" />
@@ -188,21 +188,21 @@ list_meta($metadata);
 </div>
 </div>
 
-<div id="passworddiv" class="postbox">
+<div id="passworddiv" class="postbox <?php echo postbox_classes('passworddiv'); ?>">
 <h3><?php _e('Post Password') ?></h3>
 <div class="inside">
 <input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" />
 </div>
 </div>
 
-<div id="slugdiv" class="postbox">
+<div id="slugdiv" class="postbox <?php echo postbox_classes('slugdiv'); ?>">
 <h3><?php _e('Post Slug') ?></h3>
 <div class="inside">
 <input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
 </div>
 </div>
 
-<div id="poststatusdiv" class="postbox">
+<div id="poststatusdiv" class="postbox <?php echo postbox_classes('poststatusdiv'); ?>">
 <h3><?php _e('Post Status') ?></h3>
 <div class="inside">
 <?php if ( current_user_can('publish_posts') ) : ?>
@@ -215,7 +215,7 @@ list_meta($metadata);
 </div>
 
 <?php if ( current_user_can('edit_posts') ) : ?>
-<div id="posttimestampdiv" class="postbox">
+<div id="posttimestampdiv" class="postbox <?php echo postbox_classes('posttimestampdiv'); ?>">
 <h3><?php _e('Post Timestamp'); ?></h3>
 <div class="inside"><?php touch_time(($action == 'edit')); ?></div>
 </div>
@@ -227,7 +227,7 @@ if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) :
 ?>
-<div id="authordiv" class="postbox">
+<div id="authordiv" class="postbox <?php echo postbox_classes('authordiv'); ?>">
 <h3><?php _e('Post Author'); ?></h3>
 <div class="inside">
 <?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>

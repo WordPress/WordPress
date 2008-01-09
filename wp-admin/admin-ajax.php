@@ -441,6 +441,13 @@ case 'autosave-generate-nonces' :
 	}
 	die('0');
 break;
+case 'closed-postboxes' :
+	check_ajax_referer( $action );
+	$closed = explode(',', $_POST['closed']);
+	if (!is_array($closed)) break;
+	$current_user = wp_get_current_user();
+	update_usermeta($current_user->ID, 'closedpostboxes', $closed);
+break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

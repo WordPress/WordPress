@@ -108,6 +108,13 @@ class WP_Scripts {
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->add( 'post', '/wp-admin/js/post.js', array('suggest'), '20080102' );
+			$this->localize( 'post', 'postL10n', array(
+				'tagsUsed' =>  __('Tags used on this post:'),
+				'add' => attribute_escape(__('Add')),
+				'addTag' => attribute_escape(__('Add new tag')),
+				'separate' => __('Separate tags with commas'),
+				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+			) );
 			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),

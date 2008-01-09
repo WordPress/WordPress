@@ -513,4 +513,11 @@ function wp_edit_posts_query( $q = false ) {
 	return array($post_stati, $avail_post_stati);
 }
 
+function postbox_classes( $id ) {
+	$current_user = wp_get_current_user();
+	$closed = get_usermeta( $current_user->ID, 'closedpostboxes' );
+	if ( !is_array( $closed ) ) return '';
+	return in_array( $id, $closed )? 'closed' : '';
+}
+
 ?>
