@@ -127,14 +127,15 @@ else
 	<p id="category-add" class="wp-hidden-child">
 		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" />
 		<?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) ); ?>
-		<a id="category-add-sumbit" class="add:categorychecklist:categorydiv button" href="<?php echo wp_nonce_url( '', 'add-category' ); ?>"><?php _e( 'Add' ); ?></a>
+		<input type="button" id="category-add-sumbit" class="add:categorychecklist:categorydiv button" value="<?php _e( 'Add' ); ?>" />
+		<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
 		<span id="category-ajax-response"></span>
 	</p>
 </div>
 
 <ul id="category-tabs">
 	<li class="ui-tabs-selected"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
-	<li><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
+	<li class="wp-no-js-hidden"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
 </ul>
 
 <div id="categories-all" class="ui-tabs-panel">
@@ -143,7 +144,7 @@ else
 	</ul>
 </div>
 
-<div id="categories-pop" class="ui-tabs-panel">
+<div id="categories-pop" class="ui-tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
 		<?php wp_popular_categories_checklist(); ?>
 	</ul>

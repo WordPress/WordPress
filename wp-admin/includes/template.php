@@ -188,20 +188,15 @@ function dropdown_categories( $default = 0, $parent = 0 ) {
 }
 
 function wp_popular_categories_checklist( $default = 0, $number = 10 ) {
-	global $checked_categories;
-
-	wp_set_checked_post_categories( $default );
-
 	$categories = get_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number ) );
 
 	foreach ( (array) $categories as $category ) {
 		$id = "popular-category-$category->term_id";
-		$checked = in_array( $category->term_id, $checked_categories ) ? ' checked="checked"' : '';		
 		?>
 
 		<li id="<?php echo $id; ?>">
 			<label class="selectit" for="in-<?php echo $id; ?>">
-				<input id="in-<?php echo $id; ?>" type="checkbox" name="post_category[]" value="<?php echo (int) $category->term_id; ?>"<?php echo $checked; ?> />
+				<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
 				<?php echo wp_specialchars( apply_filters( 'the_category', $category->name ) ); ?>
 			</label>
 		</li>

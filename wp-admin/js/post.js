@@ -95,6 +95,17 @@ addLoadEvent( function() {
 	jQuery('#category-add-sumbit').click( function() { newCat.focus(); } );
 	var newCatParent = false;
 	var newCatParentOption = false;
+	var noSyncChecks = false; // prophylactic. necessary?
+	var syncChecks = function() {
+		if ( noSyncChecks )
+			return;
+		noSyncChecks = true;
+		var th = jQuery(this);
+		var c = th.is(':checked');
+		var id = th.val().toString();
+		jQuery('#in-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
+		noSyncChecks = false;
+	};
 	var catAddAfter = function( r, s ) {
 		if ( !newCatParent ) newCatParent = jQuery('#newcat_parent');
 		if ( !newCatParentOption ) newCatParentOption = newCatParent.find( 'option[value=-1]' );
@@ -102,14 +113,16 @@ addLoadEvent( function() {
 			var t = jQuery(jQuery(this).text());
 			t.find( 'label' ).each( function() {
 				var th = jQuery(this);
-				var id = th.find('input').val();
-				if ( newCatParent.find( 'option[value=' + id + ']' ).size() )
+				var val = th.find('input').val();
+				var id = th.find('input')[0].id
+				jQuery('#' + id).change( syncChecks );
+				if ( newCatParent.find( 'option[value=' + val + ']' ).size() )
 					return;
 				var name = jQuery.trim( th.text() );
-				var o = jQuery( '<option value="' +  parseInt( id, 10 ) + '"></option>' ).text( name );
+				var o = jQuery( '<option value="' +  parseInt( val, 10 ) + '"></option>' ).text( name );
 				newCatParent.prepend( o );
-				newCatParentOption.attr( 'selected', true );
 			} );
+			newCatParentOption.attr( 'selected', true );
 		} );
 	};
 	jQuery('#categorychecklist').wpList( {
@@ -122,4 +135,5 @@ addLoadEvent( function() {
 		categoryTabs.tabsClick( 1 );
 		return false;
 	} );
+	jQuery('.categorychecklist :checkbox').change( syncChecks ).filter( ':checked' ).change();
 });

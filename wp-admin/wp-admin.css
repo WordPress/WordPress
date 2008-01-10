@@ -1237,6 +1237,10 @@ a.view-comment-post-link {
 	width: 30%;
 }
 
+#category-add input#category-add-sumbit {
+	width: auto;
+}
+
 #categorydiv ul#category-tabs {
 	float: left;
 	width: 120px;
@@ -1279,5 +1283,6 @@ ul.categorychecklist li {
 
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
+.wp-no-js-hidden { display: none; }
 .ui-tabs-hide { display: none; }
 .form-input-tip { color: #999; }
