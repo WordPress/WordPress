@@ -184,9 +184,7 @@ function get_bookmarks($args = '') {
 		$recently_updated_test = '';
 	}
 
-	if ($show_updated) {
-		$get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
-	}
+	$get_updated = ( $show_updated ) ? ', UNIX_TIMESTAMP(link_updated) AS link_updated_f ' : '';
 
 	$orderby = strtolower($orderby);
 	$length = '';

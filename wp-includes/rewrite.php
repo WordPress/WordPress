@@ -67,9 +67,11 @@ function url_to_postid($url) {
 	$url = apply_filters('url_to_postid', $url);
 
 	// First, check to see if there is a 'p=N' or 'page_id=N' to match against
-	preg_match('#[?&](p|page_id)=(\d+)#', $url, $values);
-	$id = intval($values[2]);
-	if ( $id ) return $id;
+	if ( preg_match('#[?&](p|page_id)=(\d+)#', $url, $values) )	{
+		$id = absint($values[2]);
+		if ($id)
+			return $id;
+	}
 
 	// Check to see if we are using rewrite rules
 	$rewrite = $wp_rewrite->wp_rewrite_rules();
@@ -591,6 +593,8 @@ class WP_Rewrite {
 		for ($i = 0; $i < $num_tokens; ++$i) {
 			if (0 < $i) {
 				$queries[$i] = $queries[$i - 1] . '&';
+			} else {
+				$queries[$i] = '';
 			}
 
 			$query_token = str_replace($this->rewritecode, $this->queryreplace, $tokens[0][$i]) . $this->preg_index($i+1);
@@ -628,7 +632,7 @@ class WP_Rewrite {
 			//make a list of tags, and store how many there are in $num_toks
 			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
 			//get the 'tagname=$matches[i]'
-			$query = $queries[$num_toks - 1];
+			$query = ( isset($queries) && is_array($queries) ) ? $queries[$num_toks - 1] : '';
 
 			//set up $ep_mask_specific which is used to match more specific URL types
 			switch ($dirs[$j]) {
@@ -721,7 +725,7 @@ class WP_Rewrite {
 					$subfeedquery = $subquery . '&feed=' . $this->preg_index(2);
 
 					//do endpoints for attachments
-					if ($endpoint) { foreach ($ep_query_append as $regex => $ep) {
+					if (! empty($endpoint) ) { foreach ($ep_query_append as $regex => $ep) {
 						if ($ep[0] & EP_ATTACHMENT) {
 							$rewrite[$sub1 . $regex] = $subquery . '?' . $ep[1] . $this->preg_index(2);
 							$rewrite[$sub2 . $regex] = $subquery . '?' . $ep[1] . $this->preg_index(2);

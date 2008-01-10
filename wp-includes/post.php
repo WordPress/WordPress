@@ -157,12 +157,13 @@ function get_extended($post) {
  */
 function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
+	$null = null;
 
 	if ( empty($post) ) {
 		if ( isset($GLOBALS['post']) )
 			$_post = & $GLOBALS['post'];
 		else
-			return null;
+			return $null;
 	} elseif ( is_object($post) ) {
 		wp_cache_add($post->ID, $post, 'posts');
 		$_post = &$post;

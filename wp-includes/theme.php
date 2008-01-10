@@ -76,9 +76,16 @@ function get_theme_data( $theme_file ) {
 	preg_match( '|Theme Name:(.*)$|mi', $theme_data, $theme_name );
 	preg_match( '|Theme URI:(.*)$|mi', $theme_data, $theme_uri );
 	preg_match( '|Description:(.*)$|mi', $theme_data, $description );
-	preg_match( '|Author:(.*)$|mi', $theme_data, $author_name );
-	preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri );
-	preg_match( '|Template:(.*)$|mi', $theme_data, $template );
+
+	if ( preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri ) )
+		$author_uri = clean_url( trim( $author_uri[1]) );
+	else
+		$author_uti = '';
+
+	if ( preg_match( '|Template:(.*)$|mi', $theme_data, $template ) )
+		$template = wp_kses( trim( $template[1], $themes_allowed_tags ) );
+	else
+		$template = '';
 
 	if ( preg_match( '|Version:(.*)|i', $theme_data, $version ) )
 		$version = wp_kses( trim( $version[1] ), $themes_allowed_tags );
@@ -98,14 +105,15 @@ function get_theme_data( $theme_file ) {
 	$name = $theme = wp_kses( trim( $theme_name[1] ), $themes_allowed_tags );
 	$theme_uri = clean_url( trim( $theme_uri[1] ) );
 	$description = wptexturize( wp_kses( trim( $description[1] ), $themes_allowed_tags ) );
-	$template = wp_kses( trim( $template[1] ), $themes_allowed_tags );
 
-	$author_uri = clean_url( trim( $author_uri[1] ) );
-
-	if ( empty( $author_uri[1] ) ) {
-		$author = wp_kses( trim( $author_name[1] ), $themes_allowed_tags );
+	if ( preg_match( '|Author:(.*)$|mi', $theme_data, $author_name ) ) {
+		if ( empty( $author_uri ) ) {
+			$author = wp_kses( trim( $author_name[1] ), $themes_allowed_tags );
+		} else {
+			$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), wp_kses( trim( $author_name[1] ), $themes_allowed_tags ) );
+		}
 	} else {
-		$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), wp_kses( trim( $author_name[1] ), $themes_allowed_tags ) );
+		$author = __('Anonymous');
 	}
 
 	return array( 'Name' => $name, 'Title' => $theme, 'URI' => $theme_uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Status' => $status, 'Tags' => $tags );

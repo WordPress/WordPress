@@ -506,6 +506,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  */
 function &get_terms($taxonomies, $args = '') {
 	global $wpdb;
+	$empty_array = array();
 
 	$single_taxonomy = false;
 	if ( !is_array($taxonomies) ) {
@@ -545,13 +546,13 @@ function &get_terms($taxonomies, $args = '') {
 	if ( $child_of ) {
 		$hierarchy = _get_term_hierarchy($taxonomies[0]);
 		if ( !isset($hierarchy[$child_of]) )
-			return array();
+			return $empty_array;
 	}
 
 	if ( $parent ) {
 		$hierarchy = _get_term_hierarchy($taxonomies[0]);
 		if ( !isset($hierarchy[$parent]) )
-			return array();
+			return $empty_array;
 	}
 
 	$key = md5( serialize( $args ) . serialize( $taxonomies ) );
@@ -1581,7 +1582,8 @@ function clean_term_cache($ids, $taxonomy = '') {
  * @return bool|array Empty array if $terms found, but not $taxonomy. False if nothing is in cache for $taxonomy and $id.
  */
 function &get_object_term_cache($id, $taxonomy) {
-	return wp_cache_get($id, "{$taxonomy}_relationships");
+	$cache = wp_cache_get($id, "{$taxonomy}_relationships");
+	return $cache;
 }
 
 /**
@@ -1727,14 +1729,15 @@ function _get_term_hierarchy($taxonomy) {
  * @return array Empty if $terms is empty else returns full list of child terms.
  */
 function &_get_term_children($term_id, $terms, $taxonomy) {
+	$empty_array = array();
 	if ( empty($terms) )
-		return array();
+		return $empty_array;
 
 	$term_list = array();
 	$has_children = _get_term_hierarchy($taxonomy);
 
 	if  ( ( 0 != $term_id ) && ! isset($has_children[$term_id]) )
-		return array();
+		return $empty_array;
 
 	foreach ( $terms as $term ) {
 		$use_id = false;

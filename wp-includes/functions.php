@@ -990,9 +990,10 @@ function wp_original_referer_field() {
 
 
 function wp_get_referer() {
-	foreach ( array( $_REQUEST['_wp_http_referer'], $_SERVER['HTTP_REFERER'] ) as $ref )
-		if ( !empty( $ref ) )
-			return $ref;
+	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
+		return $_REQUEST['_wp_http_referer'];
+	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) 
+		return $_SERVER['HTTP_REFERER'];
 	return false;
 }
 

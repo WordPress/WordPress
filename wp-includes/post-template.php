@@ -56,7 +56,7 @@ function get_the_title( $id = 0 ) {
 	$title = $post->post_title;
 	if ( !empty($post->post_password) )
 		$title = sprintf(__('Protected: %s'), $title);
-	else if ( 'private' == $post->post_status )
+	else if ( isset($post->post_status) && 'private' == $post->post_status )
 		$title = sprintf(__('Private: %s'), $title);
 
 	return apply_filters( 'the_title', $title );
@@ -443,6 +443,8 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 			$post->iconsize = array($imagesize[0], $imagesize[1]);
 			$constraint = '';
 		}
+	} else {
+		$constraint = '';
 	}
 
 	$post_title = attribute_escape($post->post_title);

@@ -142,7 +142,7 @@ function _get_page_link( $id = false ) {
 
 	$pagestruct = $wp_rewrite->get_page_permastruct();
 
-	if ( '' != $pagestruct && 'draft' != $post->post_status ) {
+	if ( '' != $pagestruct && isset($post->post_status) && 'draft' != $post->post_status ) {
 		$link = get_page_uri($id);
 		$link = str_replace('%pagename%', $link, $pagestruct);
 		$link = get_option('home') . "/$link";
@@ -597,7 +597,7 @@ function get_pagenum_link($pagenum = 1) {
 	$request = remove_query_arg( 'paged' );
 
 	$home_root = parse_url(get_option('home'));
-	$home_root = $home_root['path'];
+	$home_root = ( isset($home_root['path']) ) ? $home_root['path'] : '';
 	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
 
 	$request = preg_replace('|^'. $home_root . '|', '', $request);
