@@ -687,27 +687,6 @@ set display:none; */
 	height: 22px;
 }
 
-#categorydiv ul {
-	list-style: none;
-	padding: 0;
-	margin-left: 10px;
-}
-
-#categorychecklist {
-	height: 12em;
-	overflow: auto;
-	margin-top: 8px;
-}
-
-#categorychecklist li {
-	margin: 0;
-	padding: 0;
-}
-
-#ajaxcat input {
-	border: 1px solid #ccc;
-}
-
 #your-profile #rich_editing {
 	border: none;
 	background: #fff;
@@ -737,39 +716,10 @@ set display:none; */
 	font-size: 22px;
 }
 
-
-
-#newcat {
-	width: 120px;
-	margin-right: 5px;
-}
-
-input #catadd {
-	background: #a4a4a4;
-	border-bottom: 1px solid #898989;
-	border-left: 1px solid #bcbcbc;
-	border-right: 1px solid #898989;
-	border-top: 1px solid #bcbcbc;
-	color: #fff;
-	font-size: 10px;
-	padding: 0;
-	margin: 0;
-	font-weight: bold;
-	height: 20px;
-	margin-bottom: 2px;
-	text-align: center;
-	width: 37px;
-}
-
 #howto {
 	font-size: 11px;
 	margin: 0 5px;
 	display: block;
-}
-
-#jaxcat {
-	margin: 0;
-	padding: 0;
 }
 
 #ajax-response.alignleft {
@@ -1279,3 +1229,58 @@ a.view-comment-post-link {
 	background-image:url(images/toggle-arrow.gif);
 	background-position: 4px 18px;
 }
+
+/* Categories */
+
+#categorydiv #category-adder {
+	margin-left: 120px;
+	padding: 4px 0;
+}
+
+#category-add input, #category-add select {
+	width: 30%;
+}
+
+#categorydiv ul#category-tabs {
+	float: left;
+	width: 120px;
+	text-align: right;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 -120px 0 0;
+	padding: 0;
+}
+
+ul#category-tabs li {
+	padding: 8px;
+}
+
+ul#category-tabs li.ui-tabs-selected {
+	background-color: #CEE1EF;
+}
+
+div.ui-tabs-panel {
+	margin: 0 0 0 120px;
+	padding: .5em .9em;
+	height: 12em;
+	overflow: auto;
+	border: 4px solid #CEE1EF;
+}
+
+#categorydiv ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#categorydiv ul.categorychecklist ul {
+	margin-left: 18px;
+}
+
+ul.categorychecklist li {
+	margin: 0;
+	padding: 0;
+}
+
+/* Global classes */
+.wp-hidden-children .wp-hidden-child { display: none; }
+.ui-tabs-hide { display: none; }

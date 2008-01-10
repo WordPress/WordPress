@@ -121,8 +121,34 @@ else
 <div id="categorydiv" class="postbox <?php echo postbox_classes('categorydiv'); ?>">
 <h3><?php _e('Categories') ?></h3>
 <div class="inside">
-<p id="jaxcat"><?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?></p>
-<ul id="categorychecklist" class="list:category"><?php dropdown_categories(); ?></ul>
+
+<div id="category-adder" class="wp-hidden-children">
+	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
+	<p id="category-add" class="wp-hidden-child">
+		<input type="text" name="newcat" id="newcat" class="form-required" value="<?php _e( 'New category name' ); ?>" />
+		<?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) ); ?>
+		<a id="category-add-sumbit" class="add:categorychecklist:categorydiv button" href="<?php echo wp_nonce_url( '', 'add-category' ); ?>"><?php _e( 'Add' ); ?></a>
+		<span id="category-ajax-response"></span>
+	</p>
+</div>
+
+<ul id="category-tabs">
+	<li class="ui-tabs-selected"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
+	<li><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
+</ul>
+
+<div id="categories-all" class="ui-tabs-panel">
+	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+		<?php dropdown_categories(); ?>
+	</ul>
+</div>
+
+<div id="categories-pop" class="ui-tabs-panel">
+	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
+		<?php wp_popular_categories_checklist(); ?>
+	</ul>
+</div>
+
 </div>
 </div>
 

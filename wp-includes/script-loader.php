@@ -60,7 +60,7 @@ class WP_Scripts {
 			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20071101' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080109' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
@@ -85,6 +85,8 @@ class WP_Scripts {
 		$this->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
 		$this->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1');
 
+		$this->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery'), '3' );
+
 		if ( is_admin() ) {
 			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
@@ -106,7 +108,7 @@ class WP_Scripts {
 			$this->add( 'admin-forms', '/wp-admin/js/forms.js', array('wp-lists'), '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest'), '20080102' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists'), '20080109' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),
@@ -137,7 +139,7 @@ class WP_Scripts {
 				'saveText' => attribute_escape(__('Save &raquo;')),
 				'confirmText' => __("Are you sure you want to delete the file '%title%'?\nClick ok to delete or cancel to go back.")
 			) );
-			$this->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), mt_rand() );
+			$this->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20080109' );
 		}
 	}
 

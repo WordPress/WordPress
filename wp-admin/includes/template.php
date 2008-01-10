@@ -118,7 +118,7 @@ function sort_cats( $cat1, $cat2 ) {
 		return strcasecmp( $cat1['cat_name'], $cat2['cat_name'] );
 }
 
-function get_nested_categories( $default = 0, $parent = 0 ) {
+function wp_set_checked_post_categories( $default = 0 ) {
 	global $post_ID, $checked_categories;
 
 	if ( empty($checked_categories) ) {
@@ -134,15 +134,33 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 		}
 	}
 
-	$cats = get_categories("parent=$parent&hide_empty=0&fields=ids");
+}
+function get_nested_categories( $default = 0, $parent = 0 ) {
+	global $checked_categories;
 
-	$result = array ();
-	if ( is_array( $cats ) ) {
-		foreach ( $cats as $cat) {
-			$result[$cat]['children'] = get_nested_categories( $default, $cat);
-			$result[$cat]['cat_ID'] = $cat;
-			$result[$cat]['checked'] = in_array( $cat, $checked_categories );
-			$result[$cat]['cat_name'] = get_the_category_by_ID( $cat);
+	wp_set_checked_post_categories( $default = 0 );
+
+	if ( is_object($parent) ) { // Hack: if passed a category object, will return nested cats with parent as root
+		$root = array(
+			'children' => get_nested_categories( $default, $parent->term_id ),
+			'cat_ID' => $parent->term_id,
+			'checked' => isset($parent->_is_checked) && $parent->_is_checked,
+			'cat_name' => get_the_category_by_ID( $parent->term_id )
+		);
+		$result = array( $parent->term_id => $root );
+	} else {
+		$parent = (int) $parent;
+
+		$cats = get_categories("parent=$parent&hide_empty=0&fields=ids");
+
+		$result = array();
+		if ( is_array( $cats ) ) {
+			foreach ( $cats as $cat ) {
+				$result[$cat]['children'] = get_nested_categories( $default, $cat );
+				$result[$cat]['cat_ID'] = $cat;
+				$result[$cat]['checked'] = in_array( $cat, $checked_categories );
+				$result[$cat]['cat_name'] = get_the_category_by_ID( $cat );
+			}
 		}
 	}
 
@@ -165,8 +183,31 @@ function write_nested_categories( $categories ) {
 	}
 }
 
-function dropdown_categories( $default = 0 ) {
-	write_nested_categories( get_nested_categories( $default) );
+function dropdown_categories( $default = 0, $parent = 0 ) {
+	write_nested_categories( get_nested_categories( $default, $parent ) );
+}
+
+function wp_popular_categories_checklist( $default = 0, $number = 10 ) {
+	global $checked_categories;
+
+	wp_set_checked_post_categories( $default );
+
+	$categories = get_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number ) );
+
+	foreach ( (array) $categories as $category ) {
+		$id = "popular-category-$category->term_id";
+		$checked = in_array( $category->term_id, $checked_categories ) ? ' checked="checked"' : '';		
+		?>
+
+		<li id="<?php echo $id; ?>">
+			<label class="selectit" for="in-<?php echo $id; ?>">
+				<input id="in-<?php echo $id; ?>" type="checkbox" name="post_category[]" value="<?php echo (int) $category->term_id; ?>"<?php echo $checked; ?> />
+				<?php echo wp_specialchars( apply_filters( 'the_category', $category->name ) ); ?>
+			</label>
+		</li>
+
+		<?php
+	}
 }
 
 function dropdown_link_categories( $default = 0 ) {

@@ -90,4 +90,29 @@ addLoadEvent( function() {
 
 	// postboxes
 	add_postbox_toggles();
+
+	// category tabs
+	var categoryTabs =jQuery('#category-tabs').tabs();
+
+	// Ajax Cat
+	var newCat = jQuery('#newcat').one( 'focus', function() { jQuery(this).val( '' ) } );
+	jQuery('#category-add-sumbit').click( function() { newCat.focus(); } );
+	var catAddAfter = function( r, s ) {
+		jQuery(s.what + ' response_data', r).each( function() {
+			var t = jQuery(jQuery(this).text());
+			var o = jQuery( '<option value="' +  parseInt( t.find(':input').val(), 10 ) + '"></option>' );
+			o.text( jQuery.trim( t.text() ) );
+			jQuery('#newcat_parent').prepend( o );
+		} );
+	};
+	jQuery('#categorychecklist').wpList( {
+		alt: '',
+		response: 'category-ajax-response',
+		addAfter: catAddAfter
+	} );
+	jQuery('#category-add-toggle').click( function() {
+		jQuery(this).parents('div:first').toggleClass( 'wp-hidden-children' );
+		categoryTabs.tabsClick( 1 );
+		return false;
+	} );
 });

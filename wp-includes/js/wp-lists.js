@@ -309,8 +309,7 @@ var wpList = {
 		if ( 'none' != s.addColor ) {
 			var b = e.css( 'background-color' );
 			if ( b == 'transparent' ) { b = ''; }
-			
-			$('#' + s.element).css('background-color', s.addColor).animate( { backgroundColor: '#fff' }, 300 );
+			e.css('background-color', s.addColor).animate( { backgroundColor: '#fff' }, 300 );
 		}
 		list.each( function() { this.wpList.process( e ); } );
 		return e;
@@ -321,6 +320,8 @@ var wpList = {
 		e = $(e);
 		if ( list.wpList && e.parents( '#' + list.id ).size() ) { return; }
 		e.find(':input').each( function() {
+			if ( $(this).parents('.form-no-clear').size() )
+				return;
 			var t = this.type.toLowerCase(); var tag = this.tagName.toLowerCase();
 			if ( 'text' == t || 'password' == t || 'textarea' == tag ) { this.value = ''; }
 			else if ( 'checkbox' == t || 'radio' == t ) { this.checked = false; }

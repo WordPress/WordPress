@@ -16,11 +16,11 @@ function get_category_to_edit( $id ) {
 	return $category;
 }
 
-function wp_create_category($cat_name) {
+function wp_create_category( $cat_name, $parent = 0 ) {
 	if ( $id = category_exists($cat_name) )
 		return $id;
 
-	return wp_insert_category( array('cat_name' => $cat_name) );
+	return wp_insert_category( array('cat_name' => $cat_name, 'category_parent' => $parent) );
 }
 
 function wp_create_categories($categories, $post_id = '') {

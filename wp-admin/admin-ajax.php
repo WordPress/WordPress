@@ -157,20 +157,48 @@ case 'add-category' : // On the Fly
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 	$names = explode(',', $_POST['newcat']);
+	if ( 0 > $parent = (int) $_POST['newcat_parent'] )
+		$parent = 0;
+
+	$checked_categories = array_map( 'absint', (array) $_POST['post_category'] );
+
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
 		$cat_name = trim($cat_name);
 		$category_nicename = sanitize_title($cat_name);
 		if ( '' === $category_nicename )
 			continue;
-		$cat_id = wp_create_category( $cat_name );
-		$cat_name = wp_specialchars(stripslashes($cat_name));
+		$cat_id = wp_create_category( $cat_name, $parent );
+		$checked_categories[] = $cat_id;
+		if ( $parent ) // Do these all at once in a second
+			continue;
+		$category = get_category( $cat_id );
+		$category->_is_checked = true;
+		ob_start();
+			dropdown_categories( 0, $category );
+		$data = ob_get_contents();
+		ob_end_clean();
 		$x->add( array(
 			'what' => 'category',
 			'id' => $cat_id,
-			'data' => "<li id='category-$cat_id'><label for='in-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='post_category[]' id='in-category-$cat_id'/> $cat_name</label></li>",
+			'data' => $data,
 			'position' => -1
 		) );
+	}
+	if ( $parent ) { // Foncy - replace the parent and all its children
+		$parent = get_category( $parent );
+		ob_start();
+			dropdown_categories( 0, $parent );
+		$data = ob_get_contents();
+		ob_end_clean();
+		$x->add( array(
+			'what' => 'category',
+			'id' => $parent->term_id,
+			'old_id' => $parent->term_id,
+			'data' => $data,
+			'position' => -1
+		) );
+
 	}
 	$x->send();
 	break;

@@ -2,8 +2,6 @@
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 if (!isset($_GET["page"])) require_once('admin.php');
 if ( $editing ) {
-	if ( current_user_can('manage_categories') )
-		wp_enqueue_script( 'ajaxcat' );
 	if ( user_can_richedit() )
 		wp_enqueue_script( 'wp_tiny_mce' );
 }
