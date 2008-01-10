@@ -250,7 +250,7 @@ function wp_list_categories($args = '') {
 		'child_of' => 0, 'feed' => '', 'feed_type' => '',
 		'feed_image' => '', 'exclude' => '',
 		'hierarchical' => true, 'title_li' => __('Categories'),
-		'echo' => 1
+		'echo' => 1, 'depth' => 0
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -289,7 +289,7 @@ function wp_list_categories($args = '') {
 			$r['current_category'] = $wp_query->get_queried_object_id();
 
 		if ( $hierarchical )
-			$depth = 0;  // Walk the full depth.
+			$depth = $r['depth'];
 		else
 			$depth = -1; // Flat.
 
