@@ -952,7 +952,8 @@ function wp_insert_post($postarr = array()) {
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
-		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '');
+		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
+		'guid' => '');
 
 	$postarr = wp_parse_args($postarr, $defaults);
 	$postarr = sanitize_post($postarr, 'db');
@@ -986,10 +987,12 @@ function wp_insert_post($postarr = array()) {
 	if ( empty($post_type) )
 		$post_type = 'post';
 
-	// Get the post ID.
-	if ( $update )
+	// Get the post ID and GUID
+	if ( $update ) {
 		$post_ID = (int) $ID;
-
+		$guid = get_post_field( 'guid', $post_ID );
+	}
+	
 	// Create a valid post name.  Drafts are allowed to have an empty
 	// post name.
 	if ( empty($post_name) ) {
@@ -1074,7 +1077,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	// expected_slashed (everything!)
-	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order' ) );
+	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
 	$data = stripslashes_deep( $data );
 	$where = array( 'ID' => $post_ID );
 
@@ -1097,6 +1100,8 @@ function wp_insert_post($postarr = array()) {
 	wp_set_post_categories( $post_ID, $post_category );
 	wp_set_post_tags( $post_ID, $tags_input );
 
+	$current_guid = get_post_field( 'guid', $post_ID );
+
 	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
 	} else {
@@ -1104,7 +1109,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	// Set GUID
-	if ( ! $update )
+	if ( !$update && '' == $current_guid )
 		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
 
 	$post = get_post($post_ID);
@@ -2543,9 +2548,10 @@ function _transition_post_status($new_status, $old_status, $post) {
 	global $wpdb;
 
 	if ( $old_status != 'publish' && $new_status == 'publish' ) {
-			// Reset GUID if transitioning to publish.
+		// Reset GUID if transitioning to publish and it is empty
+		if ( '' == get_the_guid($post->ID) )
 			$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post->ID ) ), array( 'ID' => $post->ID ) );
-			do_action('private_to_published', $post->ID);  // Deprecated, use private_to_publish
+		do_action('private_to_published', $post->ID);  // Deprecated, use private_to_publish
 	}
 
 	// Always clears the hook in case the post status bounced from future to draft.

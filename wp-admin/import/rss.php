@@ -71,7 +71,7 @@ class RSS_Import {
 				$cat_index++;
 			}
 
-			preg_match('|<guid.+?>(.*?)</guid>|is', $post, $guid);
+			preg_match('|<guid.*?>(.*?)</guid>|is', $post, $guid);
 			if ($guid)
 				$guid = $wpdb->escape(trim($guid[1]));
 			else
