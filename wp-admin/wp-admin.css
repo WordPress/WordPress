@@ -1090,10 +1090,6 @@ a.view-comment-post-link {
 	background: url(images/xit.gif) no-repeat -10px 0;
 }
 
-#newtag {
-	color: #999;
-}
-
 .howto {
 	font-style: italic;
 	display: block;
@@ -1284,3 +1280,4 @@ ul.categorychecklist li {
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
 .ui-tabs-hide { display: none; }
+.form-input-tip { color: #999; }

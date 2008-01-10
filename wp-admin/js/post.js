@@ -69,20 +69,16 @@ addLoadEvent( function() {
 	jQuery('#tags-input').hide();
 	tag_update_quickclicks();
 	// add the quickadd form
-	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '"/><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
+	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '"/><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
 	jQuery('#tagadd').click( tag_flush_to_text );
 //	jQuery('#newtag').keydown( tag_press_key );
 	jQuery('#newtag').focus(function() {
-		if ( this.value == postL10n.addTag ) {
-			this.value = '';
-			this.style.color = '#333';
-		}
+		if ( this.value == postL10n.addTag )
+			jQuery(this).val( '' ).removeClass( 'form-input-tip' );
 	});
 	jQuery('#newtag').blur(function() {
-		if ( this.value == '' ) {
-			this.value = postL10n.addTag;
-			this.style.color = '#999'
-		}
+		if ( this.value == '' )
+			jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
 	});
 
 	// auto-suggest stuff
@@ -95,14 +91,25 @@ addLoadEvent( function() {
 	var categoryTabs =jQuery('#category-tabs').tabs();
 
 	// Ajax Cat
-	var newCat = jQuery('#newcat').one( 'focus', function() { jQuery(this).val( '' ) } );
+	var newCat = jQuery('#newcat').one( 'focus', function() { jQuery(this).val( '' ).removeClass( 'form-input-tip' ) } );
 	jQuery('#category-add-sumbit').click( function() { newCat.focus(); } );
+	var newCatParent = false;
+	var newCatParentOption = false;
 	var catAddAfter = function( r, s ) {
+		if ( !newCatParent ) newCatParent = jQuery('#newcat_parent');
+		if ( !newCatParentOption ) newCatParentOption = newCatParent.find( 'option[value=-1]' );
 		jQuery(s.what + ' response_data', r).each( function() {
 			var t = jQuery(jQuery(this).text());
-			var o = jQuery( '<option value="' +  parseInt( t.find(':input').val(), 10 ) + '"></option>' );
-			o.text( jQuery.trim( t.text() ) );
-			jQuery('#newcat_parent').prepend( o );
+			t.find( 'label' ).each( function() {
+				var th = jQuery(this);
+				var id = th.find('input').val();
+				if ( newCatParent.find( 'option[value=' + id + ']' ).size() )
+					return;
+				var name = jQuery.trim( th.text() );
+				var o = jQuery( '<option value="' +  parseInt( id, 10 ) + '"></option>' ).text( name );
+				newCatParent.prepend( o );
+				newCatParentOption.attr( 'selected', true );
+			} );
 		} );
 	};
 	jQuery('#categorychecklist').wpList( {

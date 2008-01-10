@@ -267,25 +267,17 @@ var wpList = {
 		list = $(this);
 		e = $(e);
 
-		var old = false; var next = false;
+		var old = false;
 		var _s = { pos: 0, id: 0, oldId: null };
 		if ( 'string' == typeof s ) { s = { what: s }; }
 		s = $.extend(_s, this.wpList.settings, s);
 
 		if ( !e.size() || !s.what ) { return false; }
-		if ( s.oldId ) {
-			old = $('#' + s.what + '-' + s.oldId);
-			next = old.next();
-			old.remove();
-		}
-		if ( s.id ) { $('#' + s.what + '-' + s.id).remove(); }
+		if ( s.oldId ) { old = $('#' + s.what + '-' + s.oldId); }
+		if ( s.id && ( s.id != s.oldId || !old || !old.size() ) ) { $('#' + s.what + '-' + s.id).remove(); }
 
 		if ( old && old.size() ) {
-			if ( next && next.size() ) {
-				next.before(e);
-			} else {
-				list.append(e);
-			}
+			old.replaceWith(e);
 		} else if ( isNaN(s.pos) ) {
 			var ba = 'after';
 			if ( '-' == s.pos.substr(0,1) ) {
@@ -331,8 +323,6 @@ var wpList = {
 
 	process: function(el) {
 		var list = this;
-		var bl = function() { currentFormEl = false; };
-		var fo = function() { currentFormEl = this; };
 		var a = $("[@class^=add:" + list.id + ":]", el || null)
 			.filter('form').submit( function() { return list.wpList.add(this); } ).end()
 			.not('form').click( function() { return list.wpList.add(this); } ).each( function() {
@@ -340,16 +330,15 @@ var wpList = {
 				var c = wpList.parseClass(this,'add')[2] || addEl.id;
 				if ( !c ) { return; }
 				var forms = []; var ins = [];
-				$('#' + c + ' :input').click( function() { $(this).unbind( 'blur', bl ).unbind( 'focus', fo ).blur( bl ).focus( fo ).focus(); } ).each( function() {
+				$('#' + c + ' :input').focus( function() { currentFormEl = this; } ).blur( function() { currentFormEl = false; } ).each( function() {
 					ins.push(this);
 					$.merge(forms,$(this).parents('form'));
 					forms = $.unique(forms);
 				} );
 				$(forms).submit( function() {
-					var e = currentFormEl;
-					if ( 0 <= $.inArray(e,ins) ) {
+					if ( 0 <= $.inArray(currentFormEl,ins) ) {
 						$(addEl).trigger( 'click' );
-						$(e).focus();
+						$(currentFormEl).focus();
 						return false;
 					}
 				} );

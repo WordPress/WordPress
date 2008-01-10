@@ -60,7 +60,7 @@ class WP_Scripts {
 			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080109' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080110' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
@@ -108,7 +108,7 @@ class WP_Scripts {
 			$this->add( 'admin-forms', '/wp-admin/js/forms.js', array('wp-lists'), '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists'), '20080109' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists'), '20080110' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),

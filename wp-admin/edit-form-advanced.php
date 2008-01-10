@@ -125,7 +125,7 @@ else
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="category-add" class="wp-hidden-child">
-		<input type="text" name="newcat" id="newcat" class="form-required" value="<?php _e( 'New category name' ); ?>" />
+		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" />
 		<?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) ); ?>
 		<a id="category-add-sumbit" class="add:categorychecklist:categorydiv button" href="<?php echo wp_nonce_url( '', 'add-category' ); ?>"><?php _e( 'Add' ); ?></a>
 		<span id="category-ajax-response"></span>

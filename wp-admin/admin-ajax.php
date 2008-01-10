@@ -173,7 +173,7 @@ case 'add-category' : // On the Fly
 		if ( $parent ) // Do these all at once in a second
 			continue;
 		$category = get_category( $cat_id );
-		$category->_is_checked = true;
+		$checked_categories[] = $cat_id;
 		ob_start();
 			dropdown_categories( 0, $category );
 		$data = ob_get_contents();

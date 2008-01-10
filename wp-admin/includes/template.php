@@ -144,7 +144,7 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 		$root = array(
 			'children' => get_nested_categories( $default, $parent->term_id ),
 			'cat_ID' => $parent->term_id,
-			'checked' => isset($parent->_is_checked) && $parent->_is_checked,
+			'checked' => in_array( $parent->term_id, $checked_categories ),
 			'cat_name' => get_the_category_by_ID( $parent->term_id )
 		);
 		$result = array( $parent->term_id => $root );
