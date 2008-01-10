@@ -1,20 +1,110 @@
 <?php
+/**
+ * Date and Time Locale object
+ *
+ * @package WordPress
+ * @subpackage i18n
+ */
 
-// Date and Time
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ */
 class WP_Locale {
+	/**
+	 * Stores the translated strings for the full weekday names.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $weekday;
+
+	/**
+	 * Stores the translated strings for the one character weekday names.
+	 *
+	 * There is a hack to make sure that Tuesday and Thursday, as well
+	 * as Sunday and Saturday don't conflict. See init() method for more.
+	 *
+	 * @see WP_Locale::init() for how to handle the hack.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $weekday_initial;
+
+	/**
+	 * Stores the translated strings for the abbreviated weekday names.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $weekday_abbrev;
 
+	/**
+	 * Stores the translated strings for the full month names.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $month;
+
+	/**
+	 * Stores the translated strings for the abbreviated month names.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $month_abbrev;
 
+	/**
+	 * Stores the translated strings for 'am' and 'pm'.
+	 *
+	 * Also the capalized versions.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $meridiem;
 
+	/**
+	 * The text direction of the locale language.
+	 *
+	 * Default is left to right 'ltr'.
+	 *
+	 * @since 2.1.0
+	 * @var string
+	 * @access private
+	 */
 	var $text_direction = 'ltr';
+
+	/**
+	 * Imports the global version to the class property.
+	 *
+	 * @since 2.1.0
+	 * @var array
+	 * @access private
+	 */
 	var $locale_vars = array('text_direction');
 
+	/**
+	 * Sets up the translated strings and object properties.
+	 *
+	 * The method creates the translatable strings for various
+	 * calendar elements. Which allows for specifying locale
+	 * specific calendar names and text direction.
+	 *
+	 * @since 2.1.0
+	 * @access private
+	 */
 	function init() {
 		// The Weekdays
 		$this->weekday[0] = __('Sunday');
@@ -107,35 +197,117 @@ class WP_Locale {
 
 	}
 
+	/**
+	 * Retrieve the full translated weekday word.
+	 *
+	 * Week starts on translated Sunday and can be fetched
+	 * by using 0 (zero). So the week starts with 0 (zero)
+	 * and ends on Saturday with is fetched by using 6 (six).
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param int $weekday_number 0 for Sunday through 6 Saturday
+	 * @return string Full translated weekday
+	 */
 	function get_weekday($weekday_number) {
 		return $this->weekday[$weekday_number];
 	}
 
+	/**
+	 * Retrieve the translated weekday initial.
+	 *
+	 * The weekday initial is retrieved by the translated
+	 * full weekday word. When translating the weekday initial
+	 * pay attention to make sure that the starting letter does
+	 * not conflict.
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param string $weekday_name
+	 * @return string
+	 */
 	function get_weekday_initial($weekday_name) {
 		return $this->weekday_initial[$weekday_name];
 	}
 
+	/**
+	 * Retrieve the translated weekday abbreviation.
+	 *
+	 * The weekday abbreviation is retrieved by the translated
+	 * full weekday word.
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param string $weekday_name Full translated weekday word
+	 * @return string Translated weekday abbreviation
+	 */
 	function get_weekday_abbrev($weekday_name) {
 		return $this->weekday_abbrev[$weekday_name];
 	}
 
+	/**
+	 * Retrieve the full translated month by month number.
+	 *
+	 * The $month_number parameter has to be a string
+	 * because it must have the '0' in front of any number
+	 * that is less than 10. Starts from '01' and ends at
+	 * '12'.
+	 *
+	 * You can use an integer instead and it will add the
+	 * '0' before the numbers less than 10 for you.
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param string|int $month_number '01' through '12'
+	 * @return string Translated full month name
+	 */
 	function get_month($month_number) {
 		return $this->month[zeroise($month_number, 2)];
 	}
 
-	function get_month_initial($month_name) {
-		return $this->month_initial[$month_name];
-	}
-
+	/**
+	 * Retrieve translated version of month abbreviation string.
+	 *
+	 * The $month_name parameter is expected to be the translated or
+	 * translatable version of the month.
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param string $month_name Translated month to get abbreviated version
+	 * @return string Translated abbreviated month
+	 */
 	function get_month_abbrev($month_name) {
 		return $this->month_abbrev[$month_name];
 	}
 
+	/**
+	 * Retrieve translated version of meridiem string.
+	 *
+	 * The $meridiem parameter is expected to not be translated.
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param string $meridiem Either 'am', 'pm', 'AM', or 'PM'. Not translated version.
+	 * @return string Translated version
+	 */
 	function get_meridiem($meridiem) {
 		return $this->meridiem[$meridiem];
 	}
 
-	// Global variables are deprecated. For backwards compatibility only.
+	/**
+	 * Global variables are deprecated. For backwards compatibility only.
+	 *
+	 * @deprecated For backwards compatibility only.
+	 * @access private
+	 *
+	 * @since 2.1.0
+	 */
 	function register_globals() {
 		$GLOBALS['weekday']         = $this->weekday;
 		$GLOBALS['weekday_initial'] = $this->weekday_initial;
@@ -144,6 +316,15 @@ class WP_Locale {
 		$GLOBALS['month_abbrev']    = $this->month_abbrev;
 	}
 
+	/**
+	 * PHP4 style constructor which calls helper methods to set up object variables
+	 *
+	 * @uses WP_Locale::init()
+	 * @uses WP_Locale::register_globals()
+	 * @since 2.1.0
+	 *
+	 * @return WP_Locale
+	 */
 	function WP_Locale() {
 		$this->init();
 		$this->register_globals();
