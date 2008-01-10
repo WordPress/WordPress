@@ -88,6 +88,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
 			'wp.uploadFile'			=> 'this:mw_newMediaObject',	// Alias
 			'wp.getCommentCount'	=> 'this:wp_getCommentCount',
+			'wp.getPostStatusList'	=> 'this:wp_getPostStatusList',
+			'wp.getPageStatusList'	=> 'this:wp_getPageStatusList',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -698,6 +700,46 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 
+	function wp_getPostStatusList( $args ) {
+		$this->escape( $args );
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+
+		if( !$this->login_pass_ok( $username, $password ) ) {
+			return new IXR_Error( 403, __( 'Bad login/pass combination.' ) );
+		}
+
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_posts' ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+		}
+
+		return get_post_statuses( );
+	}
+
+
+	function wp_getPageStatusList( $args ) {
+		$this->escape( $args );
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+
+		if( !$this->login_pass_ok( $username, $password ) ) {
+			return new IXR_Error( 403, __( 'Bad login/pass combination.' ) );
+		}
+
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_posts' ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed acces to details about this blog.' ) );
+		}
+
+		return get_page_statuses( );
+	}
+
+
 	/* Blogger API functions
 	 * specs on http://plant.blogger.com/api and http://groups.yahoo.com/group/bloggerDev/
 	 */
@@ -1147,7 +1189,26 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post_title = $content_struct['title'];
 		$post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
+
 		$post_status = $publish ? 'publish' : 'draft';
+		if( isset( $content_struct['post_status'] ) ) {
+			switch( $content_struct['post_status'] ) {
+				case 'draft':
+				case 'private':
+				case 'publish':
+					$post_status = $content_struct['post_status'];
+					break;
+				case 'pending':
+					// Pending is only valid for posts, not pages.
+					if( $post_type === 'post' ) {
+						$post_status = $content_struct['post_status'];
+					}
+					break;
+				default:
+					$post_status = $publish ? 'publish' : 'draft';
+					break;
+			}
+		}
 		
 		$post_excerpt = $content_struct['mt_excerpt'];
 		$post_more = $content_struct['mt_text_more'];
@@ -1447,7 +1508,26 @@ class wp_xmlrpc_server extends IXR_Server {
 		
 		$post_excerpt = $content_struct['mt_excerpt'];
 		$post_more = $content_struct['mt_text_more'];
+
 		$post_status = $publish ? 'publish' : 'draft';
+		if( isset( $content_struct['post_status'] ) ) {
+			switch( $content_struct['post_status'] ) {
+				case 'draft':
+				case 'private':
+				case 'publish':
+					$post_status = $content_struct['post_status'];
+					break;
+				case 'pending':
+					// Pending is only valid for posts, not pages.
+					if( $post_type === 'post' ) {
+						$post_status = $content_struct['post_status'];
+					}
+					break;
+				default:
+					$post_status = $publish ? 'publish' : 'draft';
+					break;
+			}
+		}
 		
 		$tags_input = $content_struct['mt_keywords'];
 
@@ -1545,6 +1625,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			
 			$allow_comments = ('open' == $postdata['comment_status']) ? 1 : 0;
 			$allow_pings = ('open' == $postdata['ping_status']) ? 1 : 0;
+
+			// Consider future posts as published
+			if( $postdata['post_status'] === 'future' ) {
+				$postdata['post_status'] = 'publish';
+			}
 			
 			$resp = array(
 				'dateCreated' => new IXR_Date($post_date),
@@ -1635,6 +1720,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$allow_comments = ('open' == $entry['comment_status']) ? 1 : 0;
 			$allow_pings = ('open' == $entry['ping_status']) ? 1 : 0;
+
+			// Consider future posts as published
+			if( $entry['post_status'] === 'future' ) {
+				$entry['post_status'] = 'publish';
+			}
 
 			$struct[] = array(
 				'dateCreated' => new IXR_Date($post_date),

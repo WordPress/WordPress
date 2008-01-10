@@ -261,6 +261,51 @@ function get_post_status($ID = '') {
 }
 
 /**
+ * get_post_statuses( ) - Retuns the possible user post status values
+ *
+ * Posts have a limited set of valid status values, this provides the
+ * post_status values and descriptions.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.4
+ *
+ * @return array
+ */
+function get_post_statuses( ) {
+	$status = array(
+		'draft'			=> __('Draft'),
+		'pending'		=> __('Pending Review'),
+		'private'		=> __('Private'),
+		'publish'		=> __('Published')
+	);
+
+	return $status;
+}
+
+/**
+ * get_page_statuses( ) - Retuns the possible user page status values
+ *
+ * Pages have a limited set of valid status values, this provides the
+ * post_status values and descriptions.
+ *
+ * @package WordPress
+ * @subpackage Page
+ * @since 2.4
+ *
+ * @return array
+ */
+function get_page_statuses( ) {
+	$status = array(
+		'draft'			=> __('Draft'),
+		'private'		=> __('Private'),
+		'publish'		=> __('Published')
+	);
+
+	return $status;
+}
+
+/**
  * get_post_type() - Returns post type
  *
  * {@internal Missing Long Description}}
