@@ -1191,17 +1191,18 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
 
 		$post_status = $publish ? 'publish' : 'draft';
-		if( isset( $content_struct['post_status'] ) ) {
-			switch( $content_struct['post_status'] ) {
+
+		if( isset( $content_struct["{$post_type}_status"] ) ) {
+			switch( $content_struct["{$post_type}_status"] ) {
 				case 'draft':
 				case 'private':
 				case 'publish':
-					$post_status = $content_struct['post_status'];
+					$post_status = $content_struct["{$post_type}_status"];
 					break;
 				case 'pending':
 					// Pending is only valid for posts, not pages.
 					if( $post_type === 'post' ) {
-						$post_status = $content_struct['post_status'];
+						$post_status = $content_struct["{$post_type}_status"];
 					}
 					break;
 				default:
@@ -1510,17 +1511,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_more = $content_struct['mt_text_more'];
 
 		$post_status = $publish ? 'publish' : 'draft';
-		if( isset( $content_struct['post_status'] ) ) {
-			switch( $content_struct['post_status'] ) {
+		if( isset( $content_struct["{$post_type}_status"] ) ) {
+			switch( $content_struct["{$post_type}_status"] ) {
 				case 'draft':
 				case 'private':
 				case 'publish':
-					$post_status = $content_struct['post_status'];
+					$post_status = $content_struct["{$post_type}_status"];
 					break;
 				case 'pending':
 					// Pending is only valid for posts, not pages.
 					if( $post_type === 'post' ) {
-						$post_status = $content_struct['post_status'];
+						$post_status = $content_struct["{$post_type}_status"];
 					}
 					break;
 				default:
