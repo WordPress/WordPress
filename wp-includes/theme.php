@@ -83,7 +83,7 @@ function get_theme_data( $theme_file ) {
 		$author_uti = '';
 
 	if ( preg_match( '|Template:(.*)$|mi', $theme_data, $template ) )
-		$template = wp_kses( trim( $template[1], $themes_allowed_tags ) );
+		$template = wp_kses( trim( $template[1] ), $themes_allowed_tags );
 	else
 		$template = '';
 
