@@ -238,7 +238,6 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 
 	// Set the from name and email
 	$phpmailer->From = apply_filters( 'wp_mail_from', $from_email );
-	$phpmailer->Sender = apply_filters( 'wp_mail_from', $from_email );
 	$phpmailer->FromName = apply_filters( 'wp_mail_from_name', $from_name );
 
 	// Set destination address
