@@ -1,9 +1,24 @@
 <?php
-
-	/* These functions can be replaced via plugins.  They are loaded after
-	 plugins are loaded. */
+/**
+ * These functions can be replaced via plugins. They are loaded after
+ * plugins are loaded.
+ *
+ * @package WordPress
+ */
 
 if ( !function_exists('set_current_user') ) :
+/**
+ * set_current_user() - Populates global user information for any user
+ *
+ * Set $id to null and specify a name if you do not know a user's ID
+ *
+ * @since 2.0.1
+ * @see wp_set_current_user() An alias of wp_set_current_user()
+ *
+ * @param int|null $id User ID.
+ * @param string $name Optional. The user's username
+ * @return object returns wp_set_current_user()
+ */
 function set_current_user($id, $name = '') {
 	return wp_set_current_user($id, $name);
 }
@@ -37,6 +52,15 @@ function wp_get_current_user() {
 endif;
 
 if ( !function_exists('get_currentuserinfo') ) :
+/**
+ * get_currentuserinfo() - Populate global variables with information about the currently logged in user
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @return unknown {@internal Missing Description}}
+ */
 function get_currentuserinfo() {
 	global $current_user;
 
@@ -56,6 +80,16 @@ function get_currentuserinfo() {
 endif;
 
 if ( !function_exists('get_userdata') ) :
+/**
+ * get_userdata() - Get an object containing data about a user
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $user_id {@internal Missing Description}}
+ * @return unknown {@internal Missing Description}}
+ */
 function get_userdata( $user_id ) {
 	global $wpdb;
 
@@ -82,12 +116,31 @@ function get_userdata( $user_id ) {
 endif;
 
 if ( !function_exists('update_user_cache') ) :
+/**
+ * update_user_cache() - Updates a users cache when overridden by a plugin
+ *
+ * Core function does nothing.
+ *
+ * @since 1.5
+ *
+ * @return bool Only returns true
+ */
 function update_user_cache() {
 	return true;
 }
 endif;
 
 if ( !function_exists('get_userdatabylogin') ) :
+/**
+ * get_userdatabylogin() - Grabs some info about a user based on their login name
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param string $user_login {@internal Missing Description}}
+ * @return unknown {@internal Missing Description}}
+ */
 function get_userdatabylogin($user_login) {
 	global $wpdb;
 	$user_login = sanitize_user( $user_login );
@@ -145,6 +198,19 @@ function get_user_by_email($email) {
 endif;
 
 if ( !function_exists( 'wp_mail' ) ) :
+/**
+ * wp_mail() - Function to send mail, similar to PHP's mail
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.1
+ *
+ * @param string $to {@internal Missing Description}}
+ * @param string $subject {@internal Missing Description}}
+ * @param string $message {@internal Missing Description}}
+ * @param string $headers {@internal Missing Description}}
+ * @return unknown {@internal Missing Description}}
+ */
 function wp_mail( $to, $subject, $message, $headers = '' ) {
 	// Compact the input, apply the filters, and extract them back out
 	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ) );
@@ -290,6 +356,18 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 endif;
 
 if ( !function_exists('wp_login') ) :
+/**
+ * wp_login() - Checks a users login information and logs them in if it checks out
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.2
+ *
+ * @param string $username {@internal Missing Description}}
+ * @param string $password {@internal Missing Description}}
+ * @param bool $deprecated {@internal Missing Description}}
+ * @return unknown {@internal Missing Description}}
+ */
 function wp_login($username, $password, $deprecated = '') {
 	global $error;
 
@@ -402,6 +480,15 @@ function wp_clear_auth_cookie() {
 endif;
 
 if ( !function_exists('is_user_logged_in') ) :
+/**
+ * is_user_logged_in() - Checks if the current visitor is a logged in user
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @return bool {@internal Missing Description}}
+ */
 function is_user_logged_in() {
 	$user = wp_get_current_user();
 
@@ -413,6 +500,13 @@ function is_user_logged_in() {
 endif;
 
 if ( !function_exists('auth_redirect') ) :
+/**
+ * auth_redirect() - Checks if a user is logged in, if not it redirects them to the login page
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5
+ */
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
 	if ( (!empty($_COOKIE[AUTH_COOKIE]) &&
@@ -427,6 +521,15 @@ function auth_redirect() {
 endif;
 
 if ( !function_exists('check_admin_referer') ) :
+/**
+ * check_admin_referer() - Makes sure that a user was referred from another admin page, to avoid security exploits
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.0
+ *
+ * @param unknown_type $action {@internal Missing Description}}
+ */
 function check_admin_referer($action = -1) {
 	$adminurl = strtolower(get_option('siteurl')).'/wp-admin';
 	$referer = strtolower(wp_get_referer());
@@ -468,9 +571,17 @@ function check_ajax_referer( $action = -1 ) {
 }
 endif;
 
-// Cookie safe redirect.  Works around IIS Set-Cookie bug.
-// http://support.microsoft.com/kb/q176113/
 if ( !function_exists('wp_redirect') ) :
+/**
+ * wp_redirect() - Redirects to another page, with a workaround for the IIS Set-Cookie bug
+ *
+ * @link http://support.microsoft.com/kb/q176113/
+ * @since 1.5.1
+ *
+ * @param string $location {@internal Missing Description}}
+ * @param int $status {@internal Missing Description}}
+ * @return unknown {@internal Missing Description}}
+ */
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
 
@@ -493,7 +604,10 @@ endif;
 
 if ( !function_exists('wp_sanitize_redirect') ) :
 /**
- * sanitizes a URL for use in a redirect
+ * wp_sanitize_redirect() - Sanitizes a URL for use in a redirect
+ *
+ * @since 2.3
+ *
  * @return string redirect-sanitized URL
  **/
 function wp_sanitize_redirect($location) {
@@ -518,8 +632,11 @@ endif;
 
 if ( !function_exists('wp_safe_redirect') ) :
 /**
- * performs a safe (local) redirect, using wp_redirect()
- * @return void
+ * wp_safe_redirect() - Performs a safe (local) redirect, using wp_redirect()
+ *
+ * @since 2.3
+ *
+ * @return void Does not return anything
  **/
 function wp_safe_redirect($location, $status = 302) {
 
@@ -543,6 +660,15 @@ function wp_safe_redirect($location, $status = 302) {
 endif;
 
 if ( ! function_exists('wp_notify_postauthor') ) :
+/**
+ * wp_notify_postauthor() - Notify an author of a comment/trackback/pingback to one of their posts
+ *
+ * @since 1.0
+ *
+ * @param int $comment_id Comment ID
+ * @param string $comment_type Optional. The comment type either 'comment' (default), 'trackback', or 'pingback'
+ * @return bool False if user email does not exist. True on completion.
+ */
 function wp_notify_postauthor($comment_id, $comment_type='') {
 	$comment = get_comment($comment_id);
 	$post    = get_post($comment->comment_post_ID);
@@ -612,12 +738,16 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 }
 endif;
 
-/* wp_notify_moderator
-   notifies the moderator of the blog (usually the admin)
-   about a new comment that waits for approval
-   always returns true
- */
 if ( !function_exists('wp_notify_moderator') ) :
+/**
+ * wp_notify_moderator() - Notifies the moderator of the blog about a new comment that is awaiting approval
+ *
+ * @since 1.0
+ * @uses $wpdb
+ *
+ * @param int $comment_id Comment ID
+ * @return bool Always returns true
+ */
 function wp_notify_moderator($comment_id) {
 	global $wpdb;
 
@@ -657,6 +787,14 @@ function wp_notify_moderator($comment_id) {
 endif;
 
 if ( !function_exists('wp_new_user_notification') ) :
+/**
+ * wp_new_user_notification() - Notify the blog admin of a new user, normally via email
+ *
+ * @since 2.0
+ *
+ * @param int $user_id User ID
+ * @param string $plaintext_pass Optional. The user's plaintext password
+ */
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$user = new WP_User($user_id);
 
@@ -682,6 +820,18 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 endif;
 
 if ( !function_exists('wp_verify_nonce') ) :
+/**
+ * wp_verify_nonce() - Verify that correct nonce was used with time limit
+ *
+ * The user is given an amount of time to use the token, so therefore, since
+ * the UID and $action remain the same, the independent variable is the time.
+ *
+ * @since 2.0.4
+ *
+ * @param string $nonce Nonce that was used in the form to verify
+ * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
+ * @return bool Whether the nonce check passed or failed.
+ */
 function wp_verify_nonce($nonce, $action = -1) {
 	$user = wp_get_current_user();
 	$uid = (int) $user->id;
@@ -696,6 +846,14 @@ function wp_verify_nonce($nonce, $action = -1) {
 endif;
 
 if ( !function_exists('wp_create_nonce') ) :
+/**
+ * wp_create_nonce() - Creates a random, one time use token
+ *
+ * @since 2.0.4
+ *
+ * @param string|int $action Scalar value to add context to the nonce.
+ * @return string The one use form token
+ */
 function wp_create_nonce($action = -1) {
 	$user = wp_get_current_user();
 	$uid = (int) $user->id;
@@ -707,6 +865,39 @@ function wp_create_nonce($action = -1) {
 endif;
 
 if ( !function_exists('wp_salt') ) :
+/**
+ * wp_salt() - Get salt to add to hashes to help prevent attacks
+ *
+ * You can set the salt by defining two areas. One is in the database and
+ * the other is in your wp-config.php file. The database location is defined
+ * in the option named 'secret', but most likely will not need to be changed.
+ *
+ * The second, located in wp-config.php, is a constant named 'SECRET_KEY', but
+ * is not required. If the constant is not defined then the database constants
+ * will be used, since they are most likely given to be unique. However, given
+ * that the salt will be added to the password and can be seen, the constant
+ * is recommended to be set manually.
+ *
+ * <code>
+ * define('SECRET_KEY', 'mAry1HadA15|\/|b17w55w1t3asSn09w');
+ * </code>
+ *
+ * Attention: Do not use above example!
+ *
+ * Salting passwords helps against tools which has stored hashed values
+ * of common dictionary strings. The added values makes it harder to crack
+ * if given salt string is not weak.
+ *
+ * Salting only helps if the string is not predictable and should be
+ * made up of various characters. Think of the salt as a password for
+ * securing your passwords, but common among all of your passwords.
+ * Therefore the salt should be as long as possible as as difficult as
+ * possible, because you will not have to remember it.
+ *
+ * @since 2.5
+ *
+ * @return string Salt value from either 'SECRET_KEY' or 'secret' option
+ */
 function wp_salt() {
 
 	$secret_key = '';
@@ -728,6 +919,15 @@ function wp_salt() {
 endif;
 
 if ( !function_exists('wp_hash') ) :
+/**
+ * wp_hash() - Get hash of given string
+ *
+ * @since 2.0.4
+ * @uses wp_salt() Get WordPress salt
+ *
+ * @param string $data Plain text to hash
+ * @return string Hash of $data
+ */
 function wp_hash($data) {
 	$salt = wp_salt();
 
@@ -740,6 +940,20 @@ function wp_hash($data) {
 endif;
 
 if ( !function_exists('wp_hash_password') ) :
+/**
+ * wp_hash_password() - Create a hash (encrypt) of a plain text password
+ *
+ * For integration with other applications, this function can be
+ * overwritten to instead use the other package password checking
+ * algorithm.
+ *
+ * @since 2.5
+ * @global object $wp_hasher PHPass object
+ * @uses PasswordHash::HashPassword
+ *
+ * @param string $password Plain text user password to hash
+ * @return string The hash string of the password
+ */
 function wp_hash_password($password) {
 	global $wp_hasher;
 
@@ -754,6 +968,28 @@ function wp_hash_password($password) {
 endif;
 
 if ( !function_exists('wp_check_password') ) :
+/**
+ * wp_check_password() - Checks the plaintext password against the encrypted Password
+ *
+ * Maintains compatibility between old version and the new cookie
+ * authentication protocol using PHPass library. The $hash parameter
+ * is the encrypted password and the function compares the plain text
+ * password when encypted similarly against the already encrypted
+ * password to see if they match.
+ *
+ * For integration with other applications, this function can be
+ * overwritten to instead use the other package password checking
+ * algorithm.
+ *
+ * @since 2.5
+ * @global object $wp_hasher PHPass object used for checking the password
+ *	against the $hash + $password
+ * @uses PasswordHash::CheckPassword
+ *
+ * @param string $password Plaintext user's password
+ * @param string $hash Hash of the user's password to check against.
+ * @return bool False, if the $password does not match the hashed password
+ */
 function wp_check_password($password, $hash) {
 	global $wp_hasher;
 
@@ -774,8 +1010,11 @@ endif;
 
 if ( !function_exists('wp_generate_password') ) :
 /**
- * Generates a random password drawn from the defined set of characters
- * @return string the password
+ * wp_generate_password() - Generates a random password drawn from the defined set of characters
+ *
+ * @since 2.5
+ *
+ * @return string The random password
  **/
 function wp_generate_password() {
 	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -788,6 +1027,20 @@ function wp_generate_password() {
 endif;
 
 if ( !function_exists('wp_set_password') ) :
+/**
+ * wp_set_password() - Updates the user's password with a new encrypted one
+ *
+ * For integration with other applications, this function can be
+ * overwritten to instead use the other package password checking
+ * algorithm.
+ *
+ * @since 2.5
+ * @uses $wpdb WordPress database object for queries
+ * @uses wp_hash_password() Used to encrypt the user's password before passing to the database
+ *
+ * @param string $password The plaintext new user password
+ * @param int $user_id User ID
+ */
 function wp_set_password( $password, $user_id ) {
 	global $wpdb;
 
@@ -798,8 +1051,21 @@ function wp_set_password( $password, $user_id ) {
 }
 endif;
 
-// Deprecated. Use wp_set_auth_cookie()
 if ( !function_exists('wp_setcookie') ) :
+/**
+ * wp_setcookie() - Sets a cookie for a user who just logged in
+ *
+ * @since 1.5
+ * @deprecated Use wp_set_auth_cookie()
+ * @see wp_set_auth_cookie()
+ *
+ * @param string  $username The user's username
+ * @param string  $password Optional. The user's password
+ * @param bool $already_md5 Optional. Whether the password has already been through MD5
+ * @param string $home Optional. Will be used instead of COOKIEPATH if set
+ * @param string $siteurl Optional. Will be used instead of SITECOOKIEPATH if set
+ * @param bool $remember Optional. Remember that the user is logged in
+ */
 function wp_setcookie($username, $password = '', $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
 	_deprecated_function( __FUNCTION__, '2.4', 'wp_set_auth_cookie()' );
 	$user = get_userdatabylogin($username);
@@ -807,16 +1073,32 @@ function wp_setcookie($username, $password = '', $already_md5 = false, $home = '
 }
 endif;
 
-// Deprecated. Use wp_clear_auth_cookie()
 if ( !function_exists('wp_clearcookie') ) :
+/**
+ * wp_clearcookie() - Clears the authentication cookie, logging the user out
+ *
+ * @since 1.5
+ * @deprecated Use wp_clear_auth_cookie()
+ * @see wp_clear_auth_cookie()
+ */
 function wp_clearcookie() {
 	_deprecated_function( __FUNCTION__, '2.4', 'wp_clear_auth_cookie()' );
 	wp_clear_auth_cookie();
 }
 endif;
 
-// Deprecated.  No alternative.
 if ( !function_exists('wp_get_cookie_login') ):
+/**
+ * wp_get_cookie_login() - Gets the user cookie login
+ *
+ * This function is deprecated and should no longer be extended as it won't
+ * be used anywhere in WordPress. Also, plugins shouldn't use it either.
+ *
+ * @since 2.0.4
+ * @deprecated No alternative
+ *
+ * @return bool Always returns false
+ */
 function wp_get_cookie_login() {
 	_deprecated_function( __FUNCTION__, '2.4', '' );
 	return false;
