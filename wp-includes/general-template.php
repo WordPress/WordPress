@@ -986,6 +986,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	// This code is meant to allow tabbing from Title to Post (TinyMCE).
 		if ( tinyMCE.isMSIE ) {
 			document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
+				if ( tinyMCE.idCounter == 0 )
+					return true;
 				e = e ? e : window.event;
 				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
 					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
@@ -1000,6 +1002,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 			}
 		} else {
 			document.getElementById('<?php echo $prev_id; ?>').onkeypress = function (e) {
+				if ( tinyMCE.idCounter == 0 )
+					return true;
 				e = e ? e : window.event;
 				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
 					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
