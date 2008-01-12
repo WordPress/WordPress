@@ -990,7 +990,7 @@ function do_all_pings() {
 	}
 
 	// Do Trackbacks
-	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
+	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE to_ping <> '' AND post_status = 'publish'");
 	if ( is_array($trackbacks) ) {
 		foreach ( $trackbacks as $trackback )
 			do_trackbacks($trackback->ID);
