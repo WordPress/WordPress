@@ -71,7 +71,6 @@ addLoadEvent( function() {
 	// add the quickadd form
 	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '"/><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
 	jQuery('#tagadd').click( tag_flush_to_text );
-//	jQuery('#newtag').keydown( tag_press_key );
 	jQuery('#newtag').focus(function() {
 		if ( this.value == postL10n.addTag )
 			jQuery(this).val( '' ).removeClass( 'form-input-tip' );
@@ -82,7 +81,8 @@ addLoadEvent( function() {
 	});
 
 	// auto-suggest stuff
-	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { onSelect: tag_flush_to_text, delay: 500, minchars: 2 } );
+	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2 } );
+	jQuery('#newtag').keypress( tag_press_key );
 
 	// postboxes
 	add_postbox_toggles();
