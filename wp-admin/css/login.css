@@ -1,0 +1,66 @@
+* { margin: 0; padding: 0; }
+
+body {
+	background-color: #fff;
+	color: #333;
+	border-top: 30px solid #464646;
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+}
+
+form {
+	background-color: #eaf3fa;
+	margin-left: 8px;
+	-moz-border-radius: 3px;
+	padding: 16px;
+	font-weight: bold;
+}
+
+form .forgetmenot { font-weight: normal; float: left; }
+
+form .submit { float: right; }
+
+form .submit input { padding: 2px; }
+
+form input { color: #246; }
+
+form p { margin-bottom: 24px; }
+
+h1 a {
+	background: #fff url(../images/logo-login.gif) no-repeat;
+	width: 292px;
+	height: 66px;
+	text-indent: -9999px;
+	overflow: hidden;
+	padding-bottom: 15px;
+	display: block;
+}
+
+#backtoblog a {
+	position: absolute;
+	color: #ccc;
+	top: 7px;
+	left: 15px;
+	text-decoration: none;
+}
+
+#backtoblog a:hover { color: #fff; }
+
+#login { width: 292px; margin: 7em auto; }
+
+#login_error, .message {
+	margin: 0 0 16px 8px;
+	background-color: #fffbcc;
+	border: 1px solid #e6db55;
+	padding: 12px;
+}
+
+#nav { margin: 0 0 0 8px; padding: 16px; }
+
+#nav a { color: #777; }
+
+#user_pass, #user_login, #user_email {
+	font-size: 20px;
+	width: 97%;
+	padding: 3px;
+	margin-right: 6px;
+}

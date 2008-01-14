@@ -35,8 +35,7 @@ function login_header($title = 'Login', $message = '') {
 <head>
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<?php wp_admin_css(); ?>
-	<!--[if IE]><style type="text/css">#login h1 a { margin-top: 35px; } #login #login_error { margin-bottom: 10px; }</style><![endif]--><!-- Curse you, IE! -->
+	<link rel='stylesheet' href='wp-admin/css/login.css' type='text/css' />
 	<script type="text/javascript">
 		function focusit() {
 			document.getElementById('user_login').focus();
@@ -138,28 +137,30 @@ case 'retrievepassword' :
 
 <form name="lostpasswordform" id="lostpasswordform" action="wp-login.php?action=lostpassword" method="post">
 	<p>
-		<label><?php _e('Username:') ?><br />
+		<label><?php _e('Username') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($_POST['user_login'])); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
-		<label><?php _e('E-mail:') ?><br />
+		<label><?php _e('E-mail') ?><br />
 		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo attribute_escape(stripslashes($_POST['user_email'])); ?>" size="25" tabindex="20" /></label>
 	</p>
 <?php do_action('lostpassword_form'); ?>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Get New Password &raquo;'); ?>" tabindex="100" /></p>
+    <div><br clear="all" /></div>
 </form>
+
+<p id="nav">
+<?php if (get_option('users_can_register')) : ?>
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> | 
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a>
+<?php else : ?>
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a>
+<?php endif; ?>
+</p>
+
 </div>
 
-<ul>
-<?php if (get_option('users_can_register')) : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display' )); ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a></li>
-<?php else : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display' )); ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a></li>
-<?php endif; ?>
-</ul>
+<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
 </body>
 </html>
@@ -258,24 +259,27 @@ case 'register' :
 
 <form name="registerform" id="registerform" action="wp-login.php?action=register" method="post">
 	<p>
-		<label><?php _e('Username:') ?><br />
+		<label><?php _e('Username') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
-		<label><?php _e('E-mail:') ?><br />
+		<label><?php _e('E-mail') ?><br />
 		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo attribute_escape(stripslashes($user_email)); ?>" size="25" tabindex="20" /></label>
 	</p>
 <?php do_action('register_form'); ?>
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Register &raquo;'); ?>" tabindex="100" /></p>
+    <div><br clear="all" /></div>
 </form>
+
+<p id="nav">
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> | 
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+</p>
+
 </div>
 
-<ul>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-</ul>
+<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
 </body>
 </html>
@@ -352,38 +356,38 @@ default:
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
 <?php if ( !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 	<p>
-		<label><?php _e('Username:') ?><br />
+		<label><?php _e('Username') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
-		<label><?php _e('Password:') ?><br />
+		<label><?php _e('Password') ?><br />
 		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
 	</p>
 <?php do_action('login_form'); ?>
-	<p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p>
+	<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me'); ?></label></p>
 	<p class="submit">
 		<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log in'); ?> &raquo;" tabindex="100" />
 		<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
+  <div><br clear="all" /></div>
 	</p>
 <?php else : ?>
 	<p>&nbsp;</p>
 <?php endif; ?>
 </form>
+
+<p id="nav">
+<?php if ( in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
+<?php elseif (get_option('users_can_register')) : ?>
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a> |
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<?php else : ?>
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<?php endif; ?>
+</p>
+
 </div>
 
-<ul>
-<?php if ( in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
-<?php elseif (get_option('users_can_register')) : ?>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
-<?php else : ?>
-	<li><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title', 'display')); ?></a></li>
-	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-<?php endif; ?>
-</ul>
-
+<p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
 </body>
 </html>
