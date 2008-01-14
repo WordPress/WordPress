@@ -20,9 +20,11 @@ function get_footer() {
 }
 
 
-function get_sidebar() {
+function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar' );
-	if ( file_exists( TEMPLATEPATH . '/sidebar.php') )
+	if ( isset($name) && file_exists( TEMPLATEPATH . "/sidebar-{$name}.php") )
+		load_template( TEMPLATEPATH . "/sidebar-{$name}.php");
+	elseif ( file_exists( TEMPLATEPATH . '/sidebar.php') )
 		load_template( TEMPLATEPATH . '/sidebar.php');
 	else
 		load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
