@@ -1226,6 +1226,25 @@ a.view-comment-post-link {
 	background-position: 4px 18px;
 }
 
+#submitpost {
+	position: fixed;
+	background-color: #eaf3fa;
+	width: 250px;
+	top: 225px;
+	right: 25%;
+	margin-right: -125px;
+}
+
+#submitpost #previewview {
+	background-color: #2683ae;
+}
+
+#submitpost .submit {
+	text-align: left;
+	background-color: #464646;
+	padding: 15px 10px;
+}
+
 /* Categories */
 
 #categorydiv #category-adder {

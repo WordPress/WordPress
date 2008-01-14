@@ -81,14 +81,31 @@ addLoadEvent(focusit);
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<p class="submit">
+<div id="submitpost">
+
+<div id="previewview">
 <?php if ( 'publish' == $post->post_status ) { ?>
 <a href="<?php echo clean_url(get_permalink($post->ID)); ?>" class="view-link" target="_blank"><?php _e('View &raquo;'); ?></a>
 <?php } elseif ( 'edit' == $action ) { ?>
 <a href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" class="view-link" target="_blank"><?php _e('Preview &raquo;'); ?></a>
 <?php } ?>
-<span id="autosave"></span>
-<?php echo $saveasdraft; ?>
+</div>
+
+<div class="inside">
+
+
+<p>
+<?php if ( current_user_can('publish_posts') ) : ?>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
+<?php endif; ?>
+<label for="post_status_pending" class="selectit"><input id="post_status_pending" name="post_status" type="radio" value="pending" <?php checked($post->post_status, 'pending'); ?> /> <?php _e('Pending Review') ?></label>
+<label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
+</p>
+
+<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Keep this post private') ?></label></p>
+</div>
+
+<p class="submit">
 <input type="submit" name="submit" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
@@ -101,6 +118,15 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 <?php
 }
 ?>
+</p>
+
+</div>
+
+<p class="submit">
+
+<span id="autosave"></span>
+
+
 <input name="referredby" type="hidden" id="referredby" value="<?php
 if ( !empty($_REQUEST['popupurl']) )
 	echo clean_url(stripslashes($_REQUEST['popupurl']));
@@ -226,18 +252,6 @@ list_meta($metadata);
 <h3><?php _e('Post Slug') ?></h3>
 <div class="inside">
 <input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
-</div>
-</div>
-
-<div id="poststatusdiv" class="postbox <?php echo postbox_classes('poststatusdiv'); ?>">
-<h3><?php _e('Post Status') ?></h3>
-<div class="inside">
-<?php if ( current_user_can('publish_posts') ) : ?>
-<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
-<?php endif; ?>
-<label for="post_status_pending" class="selectit"><input id="post_status_pending" name="post_status" type="radio" value="pending" <?php checked($post->post_status, 'pending'); ?> /> <?php _e('Pending Review') ?></label>
-  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
-  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label>
 </div>
 </div>
 
