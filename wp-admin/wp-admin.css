@@ -971,6 +971,16 @@ a.view-comment-post-link {
 
 /* Admin Footer */
 
+html, body {
+	height:100%;
+}
+#wpwrap { 
+	position: relative; 
+	min-height: 100%;
+}
+#wpcontent{
+	padding-bottom: 65px;
+}
 #footer {
 	clear: both;
 	height: 65px;
@@ -978,6 +988,8 @@ a.view-comment-post-link {
 	margin: 0;
 	background: #464646 url('images/logo-ghost.png') no-repeat 20px 10px;
 	color: #999;
+	position: relative; 
+ 	margin-top: -75px; 
 }
 
 #footer a {
@@ -1305,3 +1317,4 @@ ul.categorychecklist li {
 .wp-no-js-hidden { display: none; }
 .ui-tabs-hide { display: none; }
 .form-input-tip { color: #999; }
+

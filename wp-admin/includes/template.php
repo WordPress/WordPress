@@ -664,12 +664,12 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 function browse_happy() {
 	$getit = __( 'WordPress recommends a better browser' );
 	echo '
-		<p id="bh" style="text-align: center;"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></p>
+		<p id="bh" style="float: right"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></p>
 		';
 }
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)
-	add_action( 'admin_footer', 'browse_happy' );
+	add_action( 'in_admin_footer', 'browse_happy' );
 
 function the_attachment_links( $id = false ) {
 	$id = (int) $id;

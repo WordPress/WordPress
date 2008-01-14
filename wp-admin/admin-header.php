@@ -36,6 +36,8 @@ do_action('admin_head');
 ?>
 </head>
 <body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ); ?>">
+<div id="wpwrap">
+<div id="wpcontent">
 <div id="wphead">
 <h1><?php bloginfo('name'); ?> <span id="viewsite"><a href="<?php echo get_option('home') . '/'; ?>"><?php _e('Visit Site') ?></a></span></h1>
 </div>
