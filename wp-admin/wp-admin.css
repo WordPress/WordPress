@@ -806,8 +806,8 @@ a.view-comment-post-link {
 #user_info {
 	position: absolute;
 	right: 25%;
-	top: 10px;
-	color: #fff;
+	top: 9px;
+	color: #ccc;
 	font-size: 12px;
 }
 
@@ -821,7 +821,7 @@ a.view-comment-post-link {
 }
 
 #wphead {
-	border-top: 35px solid #464646;
+	border-top: 30px solid #464646;
 	background: #e4f2fd;
 }
 
@@ -854,14 +854,15 @@ a.view-comment-post-link {
 	margin: 0;
 	list-style: none;
 	position: absolute;
-	top: 7px;
+	top: 4px;
 	left: 0;
+	font-size: 12px;
 	padding-left: 12px;
 }
 
 #dashmenu a {
 	color: #999;
-	padding: 6px;
+	padding: 4px 6px;
 	line-height: 220%;
 	margin-right: 8px;
 }
@@ -1241,14 +1242,26 @@ html, body {
 #submitpost {
 	position: fixed;
 	background-color: #eaf3fa;
-	width: 250px;
-	top: 225px;
+	width: 200px;
+	top: 194px;
 	right: 25%;
-	margin-right: -125px;
+	-moz-border-radius: 3px;
 }
 
 #submitpost #previewview {
 	background-color: #2683ae;
+	padding: 15px 10px;
+}
+
+#submitpost #previewview a {
+	background: #ebebeb;
+	-moz-border-radius: 5px;
+	padding: 6px;
+	font-weight: normal;
+	color: #264761;
+	border-bottom: none;
+	font-size: 14px;
+
 }
 
 #submitpost .submit {
