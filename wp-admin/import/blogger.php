@@ -12,7 +12,7 @@ class Blogger_Import {
 		$auth_url = "https://www.google.com/accounts/AuthSubRequest";
 		$title = __('Import Blogger');
 		$welcome = __('Howdy! This importer allows you to import posts and comments from your Blogger account into your WordPress blog.');
-		$prereqs = __('To use this importer, you must have a Google account, an upgraded (New, was Beta) blog, and it must be on blogspot or a custom domain (not FTP).');
+		$prereqs = __('To use this importer, you must have a Google account and an upgraded (New, was Beta) blog hosted on blogspot.com or a custom domain (not FTP).');
 		$stepone = __('The first thing you need to do is tell Blogger to let WordPress access your account. You will be sent back here after providing authorization.');
 		$auth = __('Authorize');
 
