@@ -127,7 +127,7 @@ function url_to_postid($url) {
 	foreach ($rewrite as $match => $query) {
 		// If the requesting file is the anchor of the match, prepend it
 		// to the path info.
-		if ( (! empty($url)) && (strpos($match, $url) === 0) ) {
+		if ( (! empty($url)) && (strpos($match, $url) === 0) && ($url != $request)) {
 			$request_match = $url . '/' . $request;
 		}
 
