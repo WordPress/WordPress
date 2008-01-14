@@ -321,10 +321,16 @@ function wp_tag_cloud( $args = '' ) {
 		return;
 
 	$return = wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
+
 	if ( is_wp_error( $return ) )
 		return false;
-	else 
-		echo apply_filters( 'wp_tag_cloud', $return, $args );
+
+	$return = apply_filters( 'wp_tag_cloud', $return, $args );
+
+	if ( 'array' == $args['format'] )
+		return $return;
+
+	echo $return;
 }
 
 // $tags = prefetched tag array ( get_tags() )
