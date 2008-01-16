@@ -122,6 +122,9 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 <?php endif; ?>
 <?php
 }
+
+if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
+	echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete post') . "</a>";
 ?>
 </p>
 
@@ -284,10 +287,6 @@ if ( $authors && count( $authors ) > 1 ) :
 <?php do_action('dbx_post_sidebar'); ?>
 
 </div>
-
-<?php if ('edit' == $action) : $delete_nonce = wp_create_nonce( 'delete-post_' . $post_ID ); ?>
-<input name="deletepost" class="button delete" type="submit" id="deletepost" tabindex="10" value="<?php echo ( 'draft' == $post->post_status ) ? __('Delete this draft') : __('Delete this post'); ?>" <?php echo "onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { document.forms.post._wpnonce.value = '$delete_nonce'; return true;}return false;\""; ?> />
-<?php endif; ?>
 
 </div>
 
