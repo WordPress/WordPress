@@ -2,6 +2,9 @@
 require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
+	if ( isset($_GET['plugin']) )
+		$plugin = trim($_GET['plugin']);
+
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('activate-plugin_' . $_GET['plugin']);
 		$result = activate_plugin($_GET['plugin'], 'plugins.php?error=true&plugin=' . $plugin);
@@ -9,7 +12,6 @@ if ( isset($_GET['action']) ) {
 			wp_die( $result->get_error_message() );
 		wp_redirect('plugins.php?activate=true'); // overrides the ?error=true one above
 	} elseif ( 'error_scrape' == $_GET['action'] ) {
-		$plugin = trim($_GET['plugin']);
 		check_admin_referer('plugin-activation-error_' . $plugin);
 		$valid = validate_plugin($plugin);
 		if ( is_wp_error($valid) )
