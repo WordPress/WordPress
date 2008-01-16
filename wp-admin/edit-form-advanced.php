@@ -93,13 +93,18 @@ addLoadEvent(focusit);
 
 <div class="inside">
 
-
+<p><strong> <?php _e('Publish Status') ?></strong></p>
 <p>
+<select name='post_status'>
 <?php if ( current_user_can('publish_posts') ) : ?>
-<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
+<?php ( 'private' == $post-post_status ) ? $pub_value = 'private' : $pub_value = 'publish'; ?>
+<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'future' ); selected( $post->post_status, 'private' );?> value='<?php echo $pub_value ?>'><?php _e('Published') ?></option>
+<?php else: ?>
+<option<?php selected( $post->post_status, 'private' ); ?> value='private'><?php _e('Published') ?></option>
 <?php endif; ?>
-<label for="post_status_pending" class="selectit"><input id="post_status_pending" name="post_status" type="radio" value="pending" <?php checked($post->post_status, 'pending'); ?> /> <?php _e('Pending Review') ?></label>
-<label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
+<option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
+<option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
+</select>
 </p>
 
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Keep this post private') ?></label></p>
