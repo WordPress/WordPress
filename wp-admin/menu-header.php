@@ -90,6 +90,7 @@ do_action( 'adminmenu' );
 
 <ul id="sidemenu">
 <?php
+$side_items = array();
 foreach ( $menu as $key => $item ) {
 	if ( 26 > $key || $key > 40 )
 		continue;
@@ -103,16 +104,18 @@ foreach ( $menu as $key => $item ) {
 		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-			echo "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a> |</li>";
+			$side_items[] = "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 		else
-			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a> |</li>";
+			$side_items[] = "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 	} else if ( current_user_can($item[1]) ) {
 		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
-			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a> |</li>";
+			$side_items[] = "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
 		else
-			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a> |</li>";
+			$side_items[] = "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a>";
 	}
 }
+echo implode(" |</li>", $side_items);
+unset($side_items);
 do_action( 'sidemenu' );
 ?>
 </ul>
