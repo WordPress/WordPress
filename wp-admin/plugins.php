@@ -16,6 +16,8 @@ if ( isset($_GET['action']) ) {
 		$valid = validate_plugin($plugin);
 		if ( is_wp_error($valid) )
 			wp_die($valid);
+		error_reporting( E_ALL ^ E_NOTICE );
+		@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
 		include(ABSPATH . PLUGINDIR . '/' . $plugin);
 	} elseif ( 'deactivate' == $_GET['action'] ) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
@@ -45,7 +47,7 @@ validate_active_plugins();
 	<div id="message" class="updated fade"><p><?php _e('Plugin could not be activated because it triggered a <strong>fatal error</strong>.') ?></p>
 	<?php
 		$plugin = trim($_GET['plugin']);
-		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin) && 1 == strtolower(ini_get('display_errors'))) { ?>
+		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $plugin) ) { ?>
 	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo attribute_escape($plugin); ?>&amp;_wpnonce=<?php echo attribute_escape($_GET['_error_nonce']); ?>"></iframe>
 	<?php
 		}
