@@ -41,7 +41,7 @@ function image_upload_form( $action_url, $values = array(), $error = null ) {
 	<label for="image-url" class="form-help"><?php _e('e.g., http://www.wordpress.org/'); ?></label></p>
 <p><label for="image-title"><?php _e('&lt;title&gt;'); ?></label>
 	<input type="text" name="image-title" id="image-title" />
-	<label for="image-url" class="form-help"><?php _e('e.g., The Mona Lisa, one of many paintings in the Lourve'); ?></label></p>
+	<label for="image-url" class="form-help"><?php _e('e.g., The Mona Lisa, one of many paintings in the Louvre'); ?></label></p>
 <fieldset id="image-align">
 	<legend><?php _e('Alignment'); ?></legend>
 	<input type="radio" name="image-align" id="image-align-none" value="none" <?php if ($image_align == 'none' || !$image_align) echo ' checked="checked"'; ?>/>
