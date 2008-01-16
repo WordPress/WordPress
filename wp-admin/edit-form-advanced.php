@@ -141,8 +141,11 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 	echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete post') . "</a>";
 ?>
+<?php if ($post_ID): ?>
+<br />
+<?php printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
+<?php endif; ?>
 </p>
-
 </div>
 
 <p class="submit">
