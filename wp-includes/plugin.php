@@ -448,7 +448,7 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
 function plugin_basename($file) {
 	$file = str_replace('\\','/',$file); // sanitize for Win32 installs
 	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
-	$file = preg_replace('|^.*/wp-content/plugins/|','',$file); // get relative path from plugins dir
+	$file = preg_replace('|^.*/' . PLUGINDIR . '/|','',$file); // get relative path from plugins dir
 	return $file;
 }
 
