@@ -114,7 +114,7 @@ foreach ( $menu as $key => $item ) {
 			$side_items[] = "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a>";
 	}
 }
-echo implode(" |</li>", $side_items);
+echo implode(' |</li>', $side_items) . '</li>';
 unset($side_items);
 do_action( 'sidemenu' );
 ?>
