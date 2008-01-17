@@ -20,9 +20,6 @@ if ( 'ajax-tag-search' == $_GET['action'] ) {
 	die;
 }
 
-function get_out_now() { exit; }
-add_action( 'shutdown', 'get_out_now', -1 );
-
 $id = (int) $_POST['id'];
 switch ( $action = $_POST['action'] ) :
 case 'add-post' :
