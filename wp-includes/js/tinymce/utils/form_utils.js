@@ -1,31 +1,21 @@
 /**
- * $Id: form_utils.js 162 2007-01-03 16:16:52Z spocke $
+ * $Id: form_utils.js 520 2008-01-07 16:30:32Z spocke $
  *
  * Various form utilitiy functions.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-var themeBaseURL = tinyMCE.baseURL + '/themes/' + tinyMCE.getParam("theme");
+var themeBaseURL = tinyMCEPopup.editor.baseURI.toAbsolute('themes/' + tinyMCEPopup.getParam("theme"));
 
 function getColorPickerHTML(id, target_form_element) {
 	var h = "";
 
-	h += '<a id="' + id + '_link" href="javascript:void(0);" onkeydown="pickColor(event,\'' + target_form_element +'\');" onmousedown="pickColor(event,\'' + target_form_element +'\');return false;">';
-	h += '<img id="' + id + '" src="' + themeBaseURL + '/images/color.gif"';
-	h += ' onmouseover="this.className=\'mceButtonOver\'"';
-	h += ' onmouseout="this.className=\'mceButtonNormal\'"';
-	h += ' onmousedown="this.className=\'mceButtonDown\'"';
-	h += ' width="20" height="16" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
-	h += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" /></a>';
+	h += '<a id="' + id + '_link" href="javascript:;" onclick="tinyMCEPopup.pickColor(event,\'' + target_form_element +'\');" onmousedown="return false;" class="pickcolor">';
+	h += '<span id="' + id + '" title="' + tinyMCEPopup.getLang('browse') + '"></span></a>';
 
 	return h;
-}
-
-function pickColor(e, target_form_element) {
-	if ((e.keyCode == 32 || e.keyCode == 13) || e.type == "mousedown")
-		tinyMCEPopup.pickColor(e, target_form_element);
 }
 
 function updateColor(img_id, form_element_id) {
@@ -40,34 +30,30 @@ function setBrowserDisabled(id, state) {
 		if (state) {
 			lnk.setAttribute("realhref", lnk.getAttribute("href"));
 			lnk.removeAttribute("href");
-			tinyMCE.switchClass(img, 'mceButtonDisabled', true);
+			tinyMCEPopup.dom.addClass(img, 'disabled');
 		} else {
 			lnk.setAttribute("href", lnk.getAttribute("realhref"));
-			tinyMCE.switchClass(img, 'mceButtonNormal', false);
+			tinyMCEPopup.dom.removeClass(img, 'disabled');
 		}
 	}
 }
 
 function getBrowserHTML(id, target_form_element, type, prefix) {
-	var option = prefix + "_" + type + "_browser_callback";
-	var cb = tinyMCE.getParam(option, tinyMCE.getParam("file_browser_callback"));
-	if (cb == null)
+	var option = prefix + "_" + type + "_browser_callback", cb, html;
+
+	cb = tinyMCEPopup.getParam(option, tinyMCEPopup.getParam("file_browser_callback"));
+
+	if (!cb)
 		return "";
 
-	var html = "";
-
-	html += '<a id="' + id + '_link" href="javascript:openBrower(\'' + id + '\',\'' + target_form_element + '\', \'' + type + '\',\'' + option + '\');" onmousedown="return false;">';
-	html += '<img id="' + id + '" src="' + themeBaseURL + '/images/browse.gif"';
-	html += ' onmouseover="this.className=\'mceButtonOver\';"';
-	html += ' onmouseout="this.className=\'mceButtonNormal\';"';
-	html += ' onmousedown="this.className=\'mceButtonDown\';"';
-	html += ' width="20" height="18" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
-	html += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" /></a>';
+	html = "";
+	html += '<a id="' + id + '_link" href="javascript:openBrowser(\'' + id + '\',\'' + target_form_element + '\', \'' + type + '\',\'' + option + '\');" onmousedown="return false;" class="browse">';
+	html += '<span id="' + id + '" title="' + tinyMCEPopup.getLang('browse') + '"></span></a>';
 
 	return html;
 }
 
-function openBrower(img_id, target_form_element, type, option) {
+function openBrowser(img_id, target_form_element, type, option) {
 	var img = document.getElementById(img_id);
 
 	if (img.className != "mceButtonDisabled")
@@ -119,8 +105,8 @@ function addSelectValue(form_obj, field_name, name, value) {
 function addClassesToList(list_id, specific_option) {
 	// Setup class droplist
 	var styleSelectElm = document.getElementById(list_id);
-	var styles = tinyMCE.getParam('theme_advanced_styles', false);
-	styles = tinyMCE.getParam(specific_option, styles);
+	var styles = tinyMCEPopup.getParam('theme_advanced_styles', false);
+	styles = tinyMCEPopup.getParam(specific_option, styles);
 
 	if (styles) {
 		var stylesAr = styles.split(';');
@@ -136,10 +122,9 @@ function addClassesToList(list_id, specific_option) {
 			}
 		}
 	} else {
-		// Use auto impored classes
-		var csses = tinyMCE.getCSSClasses(tinyMCE.getWindowArg('editor_id'));
-		for (var i=0; i<csses.length; i++)
-			styleSelectElm.options[styleSelectElm.length] = new Option(csses[i], csses[i]);
+		tinymce.each(tinyMCEPopup.editor.dom.getClasses(), function(o) {
+			styleSelectElm.options[styleSelectElm.length] = new Option(o.title || o['class'], o['class']);
+		});
 	}
 }
 
@@ -196,7 +181,7 @@ function getCSSSize(size) {
 }
 
 function getStyle(elm, attrib, style) {
-	var val = tinyMCE.getAttrib(elm, attrib);
+	var val = tinyMCEPopup.dom.getAttrib(elm, attrib);
 
 	if (val != '')
 		return '' + val;
@@ -204,7 +189,5 @@ function getStyle(elm, attrib, style) {
 	if (typeof(style) == 'undefined')
 		style = attrib;
 
-	val = eval('elm.style.' + style);
-
-	return val == null ? '' : '' + val;
+	return tinyMCEPopup.dom.getStyle(elm, style);
 }

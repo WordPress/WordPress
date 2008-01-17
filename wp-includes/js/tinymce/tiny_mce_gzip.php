@@ -9,9 +9,14 @@
  * enables the browser to do two requests instead of one for each .js file.
  * Notice: This script defaults the button_tile_map option to true for extra performance.
  */
-
-	@require_once('../../../wp-config.php');  // For get_bloginfo().
-
+    
+    @require_once('../../../wp-config.php');  // For get_bloginfo().
+?>
+	var scriptURL = '<?php echo get_bloginfo('wpurl') . '/' . WPINC; ?>/js/tinymce/tiny_mce.js';
+	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + scriptURL + '"></script>');
+<?php     
+    exit; // tiny_mce_gzip.php needs changes, but also it's much easier to test the js when it's not in one big file
+    
 	// Get input
 	$plugins = explode(',', getParam("plugins", ""));
 	$languages = explode(',', getParam("languages", ""));

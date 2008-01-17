@@ -27,14 +27,14 @@
 	
 	$invalid_elements = apply_filters('mce_invalid_elements', '');
 
-	$plugins = array('inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress');
+	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media' );
 	$plugins = apply_filters('mce_plugins', $plugins);
 	$plugins = implode($plugins, ',');
 
-	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'separator', 'link', 'unlink', 'image', 'wp_more', 'separator', 'spellchecker', 'separator', 'wp_help', 'wp_adv', 'wp_adv_start', 'formatselect', 'underline', 'justifyfull', 'forecolor', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo', 'wp_adv_end'));
+	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'separator', 'link', 'unlink', 'image', 'wp_more', 'separator', 'spellchecker', 'separator', 'wp_help', 'wp_adv', 'wp_adv_start', 'wp_adv_end'));
 	$mce_buttons = implode($mce_buttons, ',');
 
-	$mce_buttons_2 = apply_filters('mce_buttons_2', array());
+	$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', 'media', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo'));
 	$mce_buttons_2 = implode($mce_buttons_2, ',');
 
 	$mce_buttons_3 = apply_filters('mce_buttons_3', array());
@@ -54,25 +54,34 @@
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
 ?>
 
+/*
 wpEditorInit = function() {
 	// Activate tinyMCE if it's the user's default editor
 	if ( ( 'undefined' == typeof wpTinyMCEConfig ) || 'tinymce' == wpTinyMCEConfig.defaultEditor )
-		tinyMCE.execCommand("mceAddControl", true, 'content');
+		tinyMCE.execCommand('mceAddControl', false, 'content');
 };
+*/
+
+wpEditorInit = function() {
+    if ( ( 'undefined' != typeof wpTinyMCEConfig ) && 'tinymce' != wpTinyMCEConfig.defaultEditor )
+        tinyMCE.get('content').hide();
+}
 
 initArray = {
-	mode : "specific_textareas",
-	editor_selector : "mceEditor",
+	mode : "exact",
+	elements : "content",
+//	editor_selector : "mceEditor",
 	oninit : "wpEditorInit",
 	width : "100%",
 	theme : "advanced",
+	skin : "o2k7",
 	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
 	theme_advanced_buttons2 : "<?php echo $mce_buttons_2; ?>",
 	theme_advanced_buttons3 : "<?php echo $mce_buttons_3; ?>",
 	language : "<?php echo $mce_locale; ?>",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
-	theme_advanced_path_location : "bottom",
+	theme_advanced_statusbar_location : "bottom",
 	theme_advanced_resizing : true,
 	browsers : "<?php echo $mce_browsers; ?>",
 	dialog_type : "modal",

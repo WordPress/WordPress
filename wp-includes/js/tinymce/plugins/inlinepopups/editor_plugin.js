@@ -1,826 +1,559 @@
 /**
- * $Id: editor_plugin_src.js 268 2007-04-28 15:52:59Z spocke $
- *
- * Moxiecode DHTML Windows script.
+ * $Id: editor_plugin_src.js 520 2008-01-07 16:30:32Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
-// Patch openWindow, closeWindow TinyMCE functions
+(function() {
+	var DOM = tinymce.DOM, Element = tinymce.dom.Element, Event = tinymce.dom.Event, each = tinymce.each, is = tinymce.is;
 
-var TinyMCE_InlinePopupsPlugin = {
-	getInfo : function() {
-		return {
-			longname : 'Inline Popups',
-			author : 'Moxiecode Systems AB',
-			authorurl : 'http://tinymce.moxiecode.com',
-			infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/inlinepopups',
-			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
-		};
-	}
-};
+	tinymce.create('tinymce.plugins.InlinePopups', {
+		init : function(ed, url) {
+			// Replace window manager
+			ed.onBeforeRenderUI.add(function() {
+				ed.windowManager = new tinymce.InlineWindowManager(ed);
+				DOM.loadCSS(url + '/skins/' + (ed.settings.inlinepopups_skin || 'clearlooks2') + "/window.css");
+			});
+		},
 
-tinyMCE.addPlugin("inlinepopups", TinyMCE_InlinePopupsPlugin);
-
-// Patch openWindow, closeWindow TinyMCE functions
-
-TinyMCE_Engine.prototype.orgOpenWindow = TinyMCE_Engine.prototype.openWindow;
-TinyMCE_Engine.prototype.orgCloseWindow = TinyMCE_Engine.prototype.closeWindow;
-
-TinyMCE_Engine.prototype.openWindow = function(template, args) {
-	// Does the caller support inline
-	if (args['inline'] != "yes" || tinyMCE.isOpera || tinyMCE.getParam("plugins").indexOf('inlinepopups') == -1) {
-		mcWindows.selectedWindow = null;
-		args['mce_inside_iframe'] = false;
-		this.orgOpenWindow(template, args);
-		return;
-	}
-
-	var url, resizable, scrollbars;
-
-	args['mce_inside_iframe'] = true;
-	tinyMCE.windowArgs = args;
-
-	if (template['file'].charAt(0) != '/' && template['file'].indexOf('://') == -1)
-		url = tinyMCE.baseURL + "/themes/" + tinyMCE.getParam("theme") + "/" + template['file'];
-	else
-		url = template['file'];
-
-	if (!(width = parseInt(template['width'])))
-		width = 320;
-
-	if (!(height = parseInt(template['height'])))
-		height = 200;
-
-	if (!(minWidth = parseInt(template['minWidth'])))
-		minWidth = 100;
-
-	if (!(minHeight = parseInt(template['minHeight'])))
-		minHeight = 100;
-
-	resizable = (args && args['resizable']) ? args['resizable'] : "no";
-	scrollbars = (args && args['scrollbars']) ? args['scrollbars'] : "no";
-
-	height += 18;
-
-	// Replace all args as variables in URL
-	for (var name in args) {
-		if (typeof(args[name]) == 'function')
-			continue;
-
-		url = tinyMCE.replaceVar(url, name, escape(args[name]));
-	}
-
-	var elm = document.getElementById(this.selectedInstance.editorId + '_parent');
-
-	if (tinyMCE.hasPlugin('fullscreen') && this.selectedInstance.getData('fullscreen').enabled)
-		pos = { absLeft: 0, absTop: 0 };
-	else
-		pos = tinyMCE.getAbsPosition(elm);
-
-	// Center div in editor area
-	pos.absLeft += Math.round((elm.firstChild.clientWidth / 2) - (width / 2));
-	pos.absTop += Math.round((elm.firstChild.clientHeight / 2) - (height / 2));
-	
-	// WordPress cache buster
-	url += tinyMCE.settings['imp_version'] ? (url.indexOf('?')==-1?'?':'&') + 'ver=' + tinyMCE.settings['imp_version'] : '';
-
-	mcWindows.open(url, mcWindows.idCounter++, "modal=yes,width=" + width+ ",height=" + height + ",resizable=" + resizable + ",scrollbars=" + scrollbars + ",statusbar=" + resizable + ",left=" + pos.absLeft + ",top=" + pos.absTop + ",minWidth=" + minWidth + ",minHeight=" + minHeight );
-};
-
-TinyMCE_Engine.prototype.closeWindow = function(win) {
-	var gotit = false, n, w;
-
-	for (n in mcWindows.windows) {
-		w = mcWindows.windows[n];
-
-		if (typeof(w) == 'function')
-			continue;
-
-		if (win.name == w.id + '_iframe') {
-			w.close();
-			gotit = true;
+		getInfo : function() {
+			return {
+				longname : 'InlinePopups',
+				author : 'Moxiecode Systems AB',
+				authorurl : 'http://tinymce.moxiecode.com',
+				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/inlinepopups',
+				version : tinymce.majorVersion + "." + tinymce.minorVersion
+			};
 		}
-	}
-
-	if (!gotit)
-		this.orgCloseWindow(win);
-
-	tinyMCE.selectedInstance.getWin().focus(); 
-};
-
-TinyMCE_Engine.prototype.setWindowTitle = function(win_ref, title) {
-	for (var n in mcWindows.windows) {
-		var win = mcWindows.windows[n];
-		if (typeof(win) == 'function')
-			continue;
-
-		if (win_ref.name == win.id + "_iframe")
-			window.frames[win.id + "_iframe"].document.getElementById(win.id + '_title').innerHTML = title;
-	}
-};
-
-// * * * * * TinyMCE_Windows classes below
-
-// Windows handler
-function TinyMCE_Windows() {
-	this.settings = new Array();
-	this.windows = new Array();
-	this.isMSIE = (navigator.appName == "Microsoft Internet Explorer");
-	this.isGecko = navigator.userAgent.indexOf('Gecko') != -1;
-	this.isSafari = navigator.userAgent.indexOf('Safari') != -1;
-	this.isMac = navigator.userAgent.indexOf('Mac') != -1;
-	this.isMSIE5_0 = this.isMSIE && (navigator.userAgent.indexOf('MSIE 5.0') != -1);
-	this.action = "none";
-	this.selectedWindow = null;
-	this.lastSelectedWindow = null;
-	this.zindex = 1001;
-	this.mouseDownScreenX = 0;
-	this.mouseDownScreenY = 0;
-	this.mouseDownLayerX = 0;
-	this.mouseDownLayerY = 0;
-	this.mouseDownWidth = 0;
-	this.mouseDownHeight = 0;
-	this.idCounter = 0;
-};
-
-TinyMCE_Windows.prototype.init = function(settings) {
-	this.settings = settings;
-
-	if (this.isMSIE)
-		this.addEvent(document, "mousemove", mcWindows.eventDispatcher);
-	else
-		this.addEvent(window, "mousemove", mcWindows.eventDispatcher);
-
-	this.addEvent(document, "mouseup", mcWindows.eventDispatcher);
-
-	this.addEvent(window, "resize", mcWindows.eventDispatcher);
-	this.addEvent(document, "scroll", mcWindows.eventDispatcher);
-
-	this.doc = document;
-};
-
-TinyMCE_Windows.prototype.getBounds = function() {
-	if (!this.bounds) {
-		var vp = tinyMCE.getViewPort(window);
-		var top, left, bottom, right, docEl = this.doc.documentElement;
-
-		top    = vp.top;
-		left   = vp.left;
-		bottom = vp.height + top - 2;
-		right  = vp.width  + left - 22; // TODO this number is platform dependant
-		// x1, y1, x2, y2
-		this.bounds = [left, top, right, bottom];
-	}
-	return this.bounds;
-};
-
-TinyMCE_Windows.prototype.clampBoxPosition = function(x, y, w, h, minW, minH) {
-	var bounds = this.getBounds();
-
-	x = Math.max(bounds[0], Math.min(bounds[2], x + w) - w);
-	y = Math.max(bounds[1], Math.min(bounds[3], y + h) - h);
-
-	return this.clampBoxSize(x, y, w, h, minW, minH);
-};
-
-TinyMCE_Windows.prototype.clampBoxSize = function(x, y, w, h, minW, minH) {
-	var bounds = this.getBounds();
-
-	return [
-		x, y,
-		Math.max(minW, Math.min(bounds[2], x + w) - x),
-		Math.max(minH, Math.min(bounds[3], y + h) - y)
-	];
-};
-
-TinyMCE_Windows.prototype.getParam = function(name, default_value) {
-	var value = null;
-
-	value = (typeof(this.settings[name]) == "undefined") ? default_value : this.settings[name];
-
-	// Fix bool values
-	if (value == "true" || value == "false")
-		return (value == "true");
-
-	return value;
-};
-
-TinyMCE_Windows.prototype.eventDispatcher = function(e) {
-	e = typeof(e) == "undefined" ? window.event : e;
-
-	if (mcWindows.selectedWindow == null)
-		return;
-
-	// Switch focus
-	if (mcWindows.isGecko && e.type == "mousedown") {
-		var elm = e.currentTarget;
-
-		for (var n in mcWindows.windows) {
-			var win = mcWindows.windows[n];
-
-			if (win.headElement == elm || win.resizeElement == elm) {
-				win.focus();
-				break;
-			}
-		}
-	}
-
-	switch (e.type) {
-		case "mousemove":
-			mcWindows.selectedWindow.onMouseMove(e);
-			break;
-
-		case "mouseup":
-			mcWindows.selectedWindow.onMouseUp(e);
-			break;
-
-		case "mousedown":
-			mcWindows.selectedWindow.onMouseDown(e);
-			break;
-
-		case "focus":
-			mcWindows.selectedWindow.onFocus(e);
-			break;
-		case "scroll":
-		case "resize":
-			if (mcWindows.clampUpdateTimeout)
-				clearTimeout(mcWindows.clampUpdateTimeout);
-			mcWindows.clampEventType = e.type;
-			mcWindows.clampUpdateTimeout =
-				setTimeout(function () {mcWindows.updateClamping()}, 100);
-			break;
-	}
-};
-
-TinyMCE_Windows.prototype.updateClamping = function () {
-	var clamp, oversize, etype = mcWindows.clampEventType;
-
-	this.bounds = null; // Recalc window bounds on resize/scroll
-	this.clampUpdateTimeout = null;
-
-	for (var n in this.windows) {
-		win = this.windows[n];
-		if (typeof(win) == 'function' || ! win.winElement) continue;
-
-		clamp = mcWindows.clampBoxPosition(
-			win.left, win.top,
-			win.winElement.scrollWidth,
-			win.winElement.scrollHeight,
-			win.features.minWidth,
-			win.features.minHeight
-		);
-		oversize = (
-			clamp[2] != win.winElement.scrollWidth ||
-			clamp[3] != win.winElement.scrollHeight
-		) ? true : false;
-
-		if (!oversize || win.features.resizable == "yes" || etype != "scroll")
-			win.moveTo(clamp[0], clamp[1]);
-		if (oversize && win.features.resizable == "yes")
-			win.resizeTo(clamp[2], clamp[3]);
-	}
-};
-
-TinyMCE_Windows.prototype.addEvent = function(obj, name, handler) {
-	if (this.isMSIE)
-		obj.attachEvent("on" + name, handler);
-	else
-		obj.addEventListener(name, handler, false);
-};
-
-TinyMCE_Windows.prototype.cancelEvent = function(e) {
-	if (this.isMSIE) {
-		e.returnValue = false;
-		e.cancelBubble = true;
-	} else
-		e.preventDefault();
-};
-
-TinyMCE_Windows.prototype.parseFeatures = function(opts) {
-	// Cleanup the options
-	opts = opts.toLowerCase();
-	opts = opts.replace(/;/g, ",");
-	opts = opts.replace(/[^0-9a-z=,]/g, "");
-
-	var optionChunks = opts.split(',');
-	var options = new Array();
-
-	options['left'] = "10";
-	options['top'] = "10";
-	options['width'] = "300";
-	options['height'] = "300";
-	options['minwidth'] = "100";
-	options['minheight'] = "100";
-	options['resizable'] = "yes";
-	options['minimizable'] = "yes";
-	options['maximizable'] = "yes";
-	options['close'] = "yes";
-	options['movable'] = "yes";
-	options['statusbar'] = "yes";
-	options['scrollbars'] = "auto";
-	options['modal'] = "no";
-
-	if (opts == "")
-		return options;
-
-	for (var i=0; i<optionChunks.length; i++) {
-		var parts = optionChunks[i].split('=');
-
-		if (parts.length == 2)
-			options[parts[0]] = parts[1];
-	}
-
-	options['left'] = parseInt(options['left']);
-	options['top'] = parseInt(options['top']);
-	options['width'] = parseInt(options['width']);
-	options['height'] = parseInt(options['height']);
-	options['minWidth'] = parseInt(options['minwidth']);
-	options['minHeight'] = parseInt(options['minheight']);
-
-	return options;
-};
-
-TinyMCE_Windows.prototype.open = function(url, name, features) {
-	this.lastSelectedWindow = this.selectedWindow;
-
-	var win = new TinyMCE_Window();
-	var winDiv, html = "", id;
-	var imgPath = this.getParam("images_path");
-
-	features = this.parseFeatures(features);
-
-	// Clamp specified dimensions
-	var clamp = mcWindows.clampBoxPosition(
-		features['left'], features['top'],
-		features['width'], features['height'],
-		features['minWidth'], features['minHeight']
-	);
-
-	features['left'] = clamp[0];
-	features['top'] = clamp[1];
-
-	if (features['resizable'] == "yes") {
-		features['width'] = clamp[2];
-		features['height'] = clamp[3];
-	}
-
-	// Create div
-	id = "mcWindow_" + name;
-	win.deltaHeight = 18;
-
-	if (features['statusbar'] == "yes") {
-		win.deltaHeight += 13;
-
-		if (this.isMSIE)
-			win.deltaHeight += 1;
-	}
-
-	width = parseInt(features['width']);
-	height = parseInt(features['height'])-win.deltaHeight;
-
-	if (this.isMSIE)
-		width -= 2;
-
-	// Setup first part of window
-	win.id = id;
-	win.url = url;
-	win.name = name;
-	win.features = features;
-	this.windows[name] = win;
-
-	iframeWidth = width;
-	iframeHeight = height;
-
-	// Create inner content
-	html += '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">';
-	html += '<html>';
-	html += '<head>';
-	html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
-	html += '<title>Wrapper iframe</title>';
-	
-	// WordPress: put the window buttons on the left as in Macs
-	if (this.isMac) html += '<style type="text/css">.mceWindowTitle{float:none;margin:0;width:100%;text-align:center;}.mceWindowClose{float:none;position:absolute;left:0px;top:0px;}</style>';
-	
-	html += '<link href="' + this.getParam("css_file") + '" rel="stylesheet" type="text/css" />';
-	html += '</head>';
-	html += '<body onload="parent.mcWindows.onLoad(\'' + name + '\');">';
-
-	html += '<div id="' + id + '_container" class="mceWindow">';
-	html += '<div id="' + id + '_head" class="mceWindowHead" onmousedown="parent.mcWindows.windows[\'' + name + '\'].focus();">';
-	html += '  <div id="' + id + '_title" class="mceWindowTitle"';
-	html += '  onselectstart="return false;" unselectable="on" style="-moz-user-select: none !important;"></div>';
-	html += '    <div class="mceWindowHeadTools">';
-	html += '      <a href="javascript:parent.mcWindows.windows[\'' + name + '\'].close();" target="_self" onmousedown="return false;" class="mceWindowClose"><img border="0" src="' + imgPath + '/window_close.gif" /></a>';
-	if (features['resizable'] == "yes" && features['maximizable'] == "yes")
-		html += '      <a href="javascript:parent.mcWindows.windows[\'' + name + '\'].maximize();" target="_self" onmousedown="return false;" class="mceWindowMaximize"><img border="0" src="' + imgPath + '/window_maximize.gif" /></a>';
-	// html += '      <a href="javascript:mcWindows.windows[\'' + name + '\'].minimize();" target="_self" onmousedown="return false;" class="mceWindowMinimize"></a>';
-	html += '    </div>';
-	html += '</div><div id="' + id + '_body" class="mceWindowBody" style="width: ' + width + 'px; height: ' + height + 'px;">';
-	html += '<iframe id="' + id + '_iframe" name="' + id + '_iframe" frameborder="0" width="' + iframeWidth + '" height="' + iframeHeight + '" src="' + url + '" class="mceWindowBodyIframe" scrolling="' + features['scrollbars'] + '"></iframe></div>';
-
-	if (features['statusbar'] == "yes") {
-		html += '<div id="' + id + '_statusbar" class="mceWindowStatusbar" onmousedown="parent.mcWindows.windows[\'' + name + '\'].focus();">';
-
-		if (features['resizable'] == "yes") {
-			if (this.isGecko)
-				html += '<div id="' + id + '_resize" class="mceWindowResize"><div style="background-image: url(\'' + imgPath + '/window_resize.gif\'); width: 12px; height: 12px;"></div></div>';
-			else
-				html += '<div id="' + id + '_resize" class="mceWindowResize"><img onmousedown="parent.mcWindows.windows[\'' + name + '\'].focus();" border="0" src="' + imgPath + '/window_resize.gif" /></div>';
-		}
-
-		html += '</div>';
-	}
-
-	html += '</div>';
-
-	html += '</body>';
-	html += '</html>';
-
-	// Create iframe
-	this.createFloatingIFrame(id, features['left'], features['top'], features['width'], features['height'], html);
-};
-
-// Blocks the document events by placing a image over the whole document
-TinyMCE_Windows.prototype.setDocumentLock = function(state) {
-	var elm = document.getElementById('mcWindowEventBlocker');
-
-	if (state) {
-		if (elm == null) {
-			elm = document.createElement("div");
-
-			elm.id = "mcWindowEventBlocker";
-			elm.style.position = "absolute";
-			elm.style.left = "0";
-			elm.style.top = "0";
-
-			document.body.appendChild(elm);
-		}
-
-		elm.style.display = "none";
-
-		var imgPath = this.getParam("images_path");
-		var width = document.body.clientWidth;
-		var height = document.body.clientHeight;
-
-		elm.style.width = width;
-		elm.style.height = height;
-		elm.innerHTML = '<img src="' + imgPath + '/spacer.gif" width="' + width + '" height="' + height + '" />';
-
-		elm.style.zIndex = mcWindows.zindex-1;
-		elm.style.display = "block";
-	} else if (elm != null) {
-		if (mcWindows.windows.length == 0)
-			elm.parentNode.removeChild(elm);
-		else
-			elm.style.zIndex = mcWindows.zindex-1;
-	}
-};
-
-// Gets called when wrapper iframe is initialized
-TinyMCE_Windows.prototype.onLoad = function(name) {
-	var win = mcWindows.windows[name];
-	var id = "mcWindow_" + name;
-	var wrapperIframe = window.frames[id + "_iframe"].frames[0];
-	var wrapperDoc = window.frames[id + "_iframe"].document;
-	var doc = window.frames[id + "_iframe"].document;
-	var winDiv = document.getElementById("mcWindow_" + name + "_div");
-	var realIframe = window.frames[id + "_iframe"].frames[0];
-
-	// Set window data
-	win.id = "mcWindow_" + name;
-	win.winElement = winDiv;
-	win.bodyElement = doc.getElementById(id + '_body');
-	win.iframeElement = doc.getElementById(id + '_iframe');
-	win.headElement = doc.getElementById(id + '_head');
-	win.titleElement = doc.getElementById(id + '_title');
-	win.resizeElement = doc.getElementById(id + '_resize');
-	win.containerElement = doc.getElementById(id + '_container');
-	win.left = win.features['left'];
-	win.top = win.features['top'];
-	win.frame = window.frames[id + '_iframe'].frames[0];
-	win.wrapperFrame = window.frames[id + '_iframe'];
-	win.wrapperIFrameElement = document.getElementById(id + "_iframe");
-
-	// Add event handlers
-	mcWindows.addEvent(win.headElement, "mousedown", mcWindows.eventDispatcher);
-
-	if (win.resizeElement != null)
-		mcWindows.addEvent(win.resizeElement, "mousedown", mcWindows.eventDispatcher);
-
-	if (mcWindows.isMSIE) {
-		mcWindows.addEvent(realIframe.document, "mousemove", mcWindows.eventDispatcher);
-		mcWindows.addEvent(realIframe.document, "mouseup", mcWindows.eventDispatcher);
-	} else {
-		mcWindows.addEvent(realIframe, "mousemove", mcWindows.eventDispatcher);
-		mcWindows.addEvent(realIframe, "mouseup", mcWindows.eventDispatcher);
-		mcWindows.addEvent(realIframe, "focus", mcWindows.eventDispatcher);
-	}
-
-	for (var i=0; i<window.frames.length; i++) {
-		if (!window.frames[i]._hasMouseHandlers) {
-			if (mcWindows.isMSIE) {
-				mcWindows.addEvent(window.frames[i].document, "mousemove", mcWindows.eventDispatcher);
-				mcWindows.addEvent(window.frames[i].document, "mouseup", mcWindows.eventDispatcher);
-			} else {
-				mcWindows.addEvent(window.frames[i], "mousemove", mcWindows.eventDispatcher);
-				mcWindows.addEvent(window.frames[i], "mouseup", mcWindows.eventDispatcher);
+	});
+
+	tinymce.create('tinymce.InlineWindowManager:tinymce.WindowManager', {
+		InlineWindowManager : function(ed) {
+			var t = this;
+
+			t.parent(ed);
+			t.zIndex = 1000;
+		},
+
+		open : function(f, p) {
+			var t = this, id, opt = '', ed = t.editor, dw = 0, dh = 0, vp, po, mdf, clf, we, w;
+
+			f = f || {};
+			p = p || {};
+
+			// Run native windows
+			if (!f.inline)
+				return t.parent(f, p);
+
+			t.bookmark = ed.selection.getBookmark('simple');
+			id = DOM.uniqueId();
+			vp = DOM.getViewPort();
+			f.width = parseInt(f.width || 320);
+			f.height = parseInt(f.height || 240) + (tinymce.isIE ? 8 : 0);
+			f.min_width = parseInt(f.min_width || 150);
+			f.min_height = parseInt(f.min_height || 100);
+			f.max_width = parseInt(f.max_width || 2000);
+			f.max_height = parseInt(f.max_height || 2000);
+			f.left = f.left || Math.round(Math.max(vp.x, vp.x + (vp.w / 2.0) - (f.width / 2.0)));
+			f.top = f.top || Math.round(Math.max(vp.y, vp.y + (vp.h / 2.0) - (f.height / 2.0)));
+			f.movable = f.resizable = true;
+			p.mce_width = f.width;
+			p.mce_height = f.height;
+			p.mce_inline = true;
+			p.mce_window_id = id;
+
+			// Transpose
+//			po = DOM.getPos(ed.getContainer());
+//			f.left -= po.x;
+//			f.top -= po.y;
+
+			t.features = f;
+			t.params = p;
+			t.onOpen.dispatch(t, f, p);
+
+			if (f.type) {
+				opt += ' modal ' + f.type;
+				f.resizable = false;
 			}
 
-			window.frames[i]._hasMouseHandlers = true;
-		}
-	}
+			if (f.statusbar)
+				opt += ' statusbar';
 
-	if (mcWindows.isMSIE) {
-		mcWindows.addEvent(win.frame.document, "mousemove", mcWindows.eventDispatcher);
-		mcWindows.addEvent(win.frame.document, "mouseup", mcWindows.eventDispatcher);
-	} else {
-		mcWindows.addEvent(win.frame, "mousemove", mcWindows.eventDispatcher);
-		mcWindows.addEvent(win.frame, "mouseup", mcWindows.eventDispatcher);
-		mcWindows.addEvent(win.frame, "focus", mcWindows.eventDispatcher);
-	}
+			if (f.resizable)
+				opt += ' resizable';
 
-	// Dispatch open window event
-	var func = this.getParam("on_open_window", "");
-	if (func != "")
-		eval(func + "(win);");
+			if (f.minimizable)
+				opt += ' minimizable';
 
-	win.focus();
+			if (f.maximizable)
+				opt += ' maximizable';
 
-	if (win.features['modal'] == "yes")
-		mcWindows.setDocumentLock(true);
-};
+			if (f.movable)
+				opt += ' movable';
 
-TinyMCE_Windows.prototype.createFloatingIFrame = function(id_prefix, left, top, width, height, html) {
-	var iframe = document.createElement("iframe");
-	var div = document.createElement("div"), doc;
+			// Create DOM objects
+			t._addAll(document.body, 
+				['div', {id : id, 'class' : ed.settings.inlinepopups_skin || 'clearlooks2', style : 'width:100px;height:100px'}, 
+					['div', {id : id + '_wrapper', 'class' : 'wrapper' + opt},
+						['div', {id : id + '_top', 'class' : 'top'}, 
+							['div', {'class' : 'left'}],
+							['div', {'class' : 'center'}],
+							['div', {'class' : 'right'}],
+							['span', {id : id + '_title'}, f.title || '']
+						],
 
-	width = parseInt(width);
-	height = parseInt(height)+1;
+						['div', {id : id + '_middle', 'class' : 'middle'}, 
+							['div', {id : id + '_left', 'class' : 'left'}],
+							['span', {id : id + '_content'}],
+							['div', {id : id + '_right', 'class' : 'right'}]
+						],
 
-	// Create wrapper div
-	div.setAttribute("id", id_prefix + "_div");
-	div.setAttribute("width", width);
-	div.setAttribute("height", (height));
-	div.style.position = "absolute";
+						['div', {id : id + '_bottom', 'class' : 'bottom'},
+							['div', {'class' : 'left'}],
+							['div', {'class' : 'center'}],
+							['div', {'class' : 'right'}],
+							['span', {id : id + '_status'}, 'Content']
+						],
 
-	div.style.left = left + "px";
-	div.style.top = top + "px";
-	div.style.width = width + "px";
-	div.style.height = (height) + "px";
-	div.style.backgroundColor = "white";
-	div.style.display = "none";
-
-	if (this.isGecko) {
-		iframeWidth = width + 2;
-		iframeHeight = height + 2;
-	} else {
-		iframeWidth = width;
-		iframeHeight = height + 1;
-	}
-
-	// Create iframe
-	iframe.setAttribute("id", id_prefix + "_iframe");
-	iframe.setAttribute("name", id_prefix + "_iframe");
-	iframe.setAttribute("border", "0");
-	iframe.setAttribute("frameBorder", "0");
-	iframe.setAttribute("marginWidth", "0");
-	iframe.setAttribute("marginHeight", "0");
-	iframe.setAttribute("leftMargin", "0");
-	iframe.setAttribute("topMargin", "0");
-	iframe.setAttribute("width", iframeWidth);
-	iframe.setAttribute("height", iframeHeight);
-	// iframe.setAttribute("src", "../jscripts/tiny_mce/blank.htm");
-	// iframe.setAttribute("allowtransparency", "false");
-	iframe.setAttribute("scrolling", "no");
-	iframe.style.width = iframeWidth + "px";
-	iframe.style.height = iframeHeight + "px";
-	iframe.style.backgroundColor = "white";
-	div.appendChild(iframe);
-
-	document.body.appendChild(div);
-
-	// Fixed MSIE 5.0 issue
-	div.innerHTML = div.innerHTML;
-
-	if (this.isSafari) {
-		// Give Safari some time to setup
-		window.setTimeout(function() {
-			var doc = window.frames[id_prefix + '_iframe'].document;
-			doc.open();
-			doc.write(html);
-			doc.close();
-		}, 10);
-	} else {
-		doc = window.frames[id_prefix + '_iframe'].window.document;
-		doc.open();
-		doc.write(html);
-		doc.close();
-	}
-
-	div.style.display = "block";
-
-	return div;
-};
-
-// Window instance
-function TinyMCE_Window() {
-};
-
-TinyMCE_Window.prototype.focus = function() {
-	if (this != mcWindows.selectedWindow) {
-		this.winElement.style.zIndex = ++mcWindows.zindex;
-		mcWindows.lastSelectedWindow = mcWindows.selectedWindow;
-		mcWindows.selectedWindow = this;
-	}
-};
-
-TinyMCE_Window.prototype.minimize = function() {
-};
-
-TinyMCE_Window.prototype.maximize = function() {
-	if (this.restoreSize) {
-		this.moveTo(this.restoreSize[0], this.restoreSize[1]);
-		this.resizeTo(this.restoreSize[2], this.restoreSize[3]);
-		this.updateClamping();
-		this.restoreSize = null;
-	} else {
-		var bounds = mcWindows.getBounds();
-		this.restoreSize = [
-			this.left, this.top,
-			this.winElement.scrollWidth,
-			this.winElement.scrollHeight
-		];
-		this.moveTo(bounds[0], bounds[1]);
-		this.resizeTo(
-			bounds[2] - bounds[0],
-			bounds[3] - bounds[1]
-		);
-	}
-};
-
-TinyMCE_Window.prototype.startResize = function() {
-	mcWindows.action = "resize";
-};
-
-TinyMCE_Window.prototype.startMove = function(e) {
-	mcWindows.action = "move";
-};
-
-TinyMCE_Window.prototype.close = function() {
-	if (this.frame && this.frame['tinyMCEPopup'])
-		this.frame['tinyMCEPopup'].restoreSelection();
-
-	if (mcWindows.lastSelectedWindow != null)
-		mcWindows.lastSelectedWindow.focus();
-
-	var mcWindowsNew = new Array();
-	for (var n in mcWindows.windows) {
-		var win = mcWindows.windows[n];
-		if (typeof(win) == 'function')
-			continue;
-
-		if (win.name != this.name)
-			mcWindowsNew[n] = win;
-	}
-
-	mcWindows.windows = mcWindowsNew;
-
-	// alert(mcWindows.doc.getElementById(this.id + "_iframe"));
-
-	var e = mcWindows.doc.getElementById(this.id + "_iframe");
-	e.parentNode.removeChild(e);
-
-	var e = mcWindows.doc.getElementById(this.id + "_div");
-	e.parentNode.removeChild(e);
-
-	mcWindows.setDocumentLock(false);
-};
-
-TinyMCE_Window.prototype.onMouseMove = function(e) {
-	var clamp;
-	// Calculate real X, Y
-	var dx = e.screenX - mcWindows.mouseDownScreenX;
-	var dy = e.screenY - mcWindows.mouseDownScreenY;
-
-	switch (mcWindows.action) {
-		case "resize":
-			clamp = mcWindows.clampBoxSize(
-				this.left, this.top,
-				mcWindows.mouseDownWidth + (e.screenX - mcWindows.mouseDownScreenX),
-				mcWindows.mouseDownHeight + (e.screenY - mcWindows.mouseDownScreenY),
-				this.features.minWidth, this.features.minHeight
+						['a', {'class' : 'move', href : 'javascript:;'}],
+						['a', {'class' : 'min', href : 'javascript:;', onmousedown : 'return false;'}],
+						['a', {'class' : 'max', href : 'javascript:;', onmousedown : 'return false;'}],
+						['a', {'class' : 'med', href : 'javascript:;', onmousedown : 'return false;'}],
+						['a', {'class' : 'close', href : 'javascript:;', onmousedown : 'return false;'}],
+						['a', {id : id + '_resize_n', 'class' : 'resize resize-n', href : 'javascript:;'}],
+						['a', {id : id + '_resize_s', 'class' : 'resize resize-s', href : 'javascript:;'}],
+						['a', {id : id + '_resize_w', 'class' : 'resize resize-w', href : 'javascript:;'}],
+						['a', {id : id + '_resize_e', 'class' : 'resize resize-e', href : 'javascript:;'}],
+						['a', {id : id + '_resize_nw', 'class' : 'resize resize-nw', href : 'javascript:;'}],
+						['a', {id : id + '_resize_ne', 'class' : 'resize resize-ne', href : 'javascript:;'}],
+						['a', {id : id + '_resize_sw', 'class' : 'resize resize-sw', href : 'javascript:;'}],
+						['a', {id : id + '_resize_se', 'class' : 'resize resize-se', href : 'javascript:;'}]
+					]
+				]
 			);
 
-			this.resizeTo(clamp[2], clamp[3]);
+			DOM.setStyles(id, {top : -10000, left : -10000});
 
-			mcWindows.cancelEvent(e);
-			break;
+			// Fix gecko rendering bug, where the editors iframe messed with window contents
+			if (tinymce.isGecko)
+				DOM.setStyle(id, 'overflow', 'auto');
 
-		case "move":
-			this.left = mcWindows.mouseDownLayerX + (e.screenX - mcWindows.mouseDownScreenX);
-			this.top = mcWindows.mouseDownLayerY + (e.screenY - mcWindows.mouseDownScreenY);
-			this.updateClamping();
+			// Measure borders
+			if (!f.type) {
+				dw += DOM.get(id + '_left').clientWidth;
+				dw += DOM.get(id + '_right').clientWidth;
+				dh += DOM.get(id + '_top').clientHeight;
+				dh += DOM.get(id + '_bottom').clientHeight;
+			}
 
-			mcWindows.cancelEvent(e);
-			break;
-	}
-};
+			// Resize window
+			DOM.setStyles(id, {top : f.top, left : f.left, width : f.width + dw, height : f.height + dh});
 
-TinyMCE_Window.prototype.moveTo = function (x, y) {
-	this.left = x;
-	this.top = y;
+			if (!f.type) {
+				DOM.add(id + '_content', 'iframe', {id : id + '_ifr', src : 'javascript:""', frameBorder : 0, style : 'border:0;width:10px;height:10px'});
+				DOM.setStyles(id + '_ifr', {width : f.width, height : f.height});
+				DOM.setAttrib(id + '_ifr', 'src', f.url || f.file);
+			} else {
+				DOM.add(id + '_wrapper', 'a', {id : id + '_ok', 'class' : 'button ok', href : 'javascript:;', onmousedown : 'return false;'}, 'Ok');
 
-	this.winElement.style.left = this.left + "px";
-	this.winElement.style.top = this.top + "px";
-};
+				if (f.type == 'confirm')
+					DOM.add(id + '_wrapper', 'a', {'class' : 'button cancel', href : 'javascript:;', onmousedown : 'return false;'}, 'Cancel');
 
-TinyMCE_Window.prototype.resizeTo = function (width, height) {
-	this.wrapperIFrameElement.style.width = (width+2) + 'px';
-	this.wrapperIFrameElement.style.height = (height+2) + 'px';
-	this.wrapperIFrameElement.width = width+2;
-	this.wrapperIFrameElement.height = height+2;
-	this.winElement.style.width = width + 'px';
-	this.winElement.style.height = height + 'px';
+				DOM.add(id + '_middle', 'div', {'class' : 'icon'});
+				DOM.setHTML(id + '_content', f.content.replace('\n', '<br />'));
+			}
 
-	height = height - this.deltaHeight;
+			// Register events
+			mdf = Event.add(id, 'mousedown', function(e) {
+				var n = e.target, w, vp;
 
-	this.containerElement.style.width = width + 'px';
-	this.iframeElement.style.width = width + 'px';
-	this.iframeElement.style.height = height + 'px';
-	this.bodyElement.style.width = width + 'px';
-	this.bodyElement.style.height = height + 'px';
-	this.headElement.style.width = width + 'px';
-	//this.statusElement.style.width = width + 'px';
-};
+				w = t.windows[id];
+				t.focus(id);
 
-TinyMCE_Window.prototype.updateClamping = function () {
-	var clamp, oversize;
+				if (n.nodeName == 'A' || n.nodeName == 'a') {
+					if (n.className == 'max') {
+						w.oldPos = w.element.getXY();
+						w.oldSize = w.element.getSize();
 
-	clamp = mcWindows.clampBoxPosition(
-		this.left, this.top,
-		this.winElement.scrollWidth,
-		this.winElement.scrollHeight,
-		this.features.minWidth, this.features.minHeight
-	);
-	oversize = (
-		clamp[2] != this.winElement.scrollWidth ||
-		clamp[3] != this.winElement.scrollHeight
-	) ? true : false;
+						vp = DOM.getViewPort();
 
-	this.moveTo(clamp[0], clamp[1]);
-	if (this.features.resizable == "yes" && oversize)
-		this.resizeTo(clamp[2], clamp[3]);
-};
+						// Reduce viewport size to avoid scrollbars
+						vp.w -= 2;
+						vp.h -= 2;
 
-function debug(msg) {
-	document.getElementById('debug').value += msg + "\n";
-}
+						w.element.moveTo(vp.x, vp.y);
+						w.element.resizeTo(vp.w, vp.h);
+						DOM.setStyles(id + '_ifr', {width : vp.w - w.deltaWidth, height : vp.h - w.deltaHeight});
+						DOM.addClass(id + '_wrapper', 'maximized');
+					} else if (n.className == 'med') {
+						// Reset to old size
+						w.element.moveTo(w.oldPos.x, w.oldPos.y);
+						w.element.resizeTo(w.oldSize.w, w.oldSize.h);
+						w.iframeElement.resizeTo(w.oldSize.w - w.deltaWidth, w.oldSize.h - w.deltaHeight);
 
-TinyMCE_Window.prototype.onMouseUp = function(e) {
-	mcWindows.action = "none";
-};
+						DOM.removeClass(id + '_wrapper', 'maximized');
+					} else if (n.className == 'move')
+						return t._startDrag(id, e, n.className);
+					else if (DOM.hasClass(n, 'resize'))
+						return t._startDrag(id, e, n.className.substring(7));
+				}
+			});
 
-TinyMCE_Window.prototype.onFocus = function(e) {
-	// Gecko only handler
-	var winRef = e.currentTarget;
+			clf = Event.add(id, 'click', function(e) {
+				var n = e.target;
 
-	for (var n in mcWindows.windows) {
-		var win = mcWindows.windows[n];
-		if (typeof(win) == 'function')
-			continue;
+				t.focus(id);
 
-		if (winRef.name == win.id + "_iframe") {
-			win.focus();
-			return;
+				if (n.nodeName == 'A' || n.nodeName == 'a') {
+					switch (n.className) {
+						case 'close':
+							t.close(null, id);
+							return Event.cancel(e);
+
+						case 'button ok':
+						case 'button cancel':
+							f.button_func(n.className == 'button ok');
+							return Event.cancel(e);
+					}
+				}
+			});
+
+			// Add window
+			t.windows = t.windows || {};
+			w = t.windows[id] = {
+				id : id,
+				mousedown_func : mdf,
+				click_func : clf,
+				element : new Element(id, {blocker : 1, container : ed.getContainer()}),
+				iframeElement : new Element(id + '_ifr'),
+				features : f,
+				deltaWidth : dw,
+				deltaHeight : dh
+			};
+
+			w.iframeElement.on('focus', function() {
+				t.focus(id);
+			});
+
+			t.focus(id);
+			t._fixIELayout(id, 1);
+
+//			if (DOM.get(id + '_ok'))
+//				DOM.get(id + '_ok').focus();
+
+			return w;
+		},
+
+		focus : function(id) {
+			var t = this, w = t.windows[id];
+
+			w.zIndex = this.zIndex++;
+			w.element.setStyle('zIndex', w.zIndex);
+			w.element.update();
+
+			id = id + '_wrapper';
+			DOM.removeClass(t.lastId, 'focus');
+			DOM.addClass(id, 'focus');
+			t.lastId = id;
+		},
+
+		_addAll : function(te, ne) {
+			var i, n, t = this, dom = tinymce.DOM;
+
+			if (is(ne, 'string'))
+				te.appendChild(dom.doc.createTextNode(ne));
+			else if (ne.length) {
+				te = te.appendChild(dom.create(ne[0], ne[1]));
+
+				for (i=2; i<ne.length; i++)
+					t._addAll(te, ne[i]);
+			}
+		},
+
+		_startDrag : function(id, se, ac) {
+			var t = this, mu, mm, d = document, eb, w = t.windows[id], we = w.element, sp = we.getXY(), p, sz, ph, cp, vp, sx, sy, sex, sey, dx, dy, dw, dh;
+
+			// Get positons and sizes
+//			cp = DOM.getPos(t.editor.getContainer());
+			cp = {x : 0, y : 0};
+			vp = DOM.getViewPort();
+
+			// Reduce viewport size to avoid scrollbars
+			vp.w -= 2;
+			vp.h -= 2;
+
+			sex = se.screenX;
+			sey = se.screenY;
+			dx = dy = dw = dh = 0;
+
+			// Handle mouse up
+			mu = Event.add(d, 'mouseup', function(e) {
+				Event.remove(d, 'mouseup', mu);
+				Event.remove(d, 'mousemove', mm);
+
+				if (eb)
+					eb.remove();
+
+				we.moveBy(dx, dy);
+				we.resizeBy(dw, dh);
+				sz = we.getSize();
+				DOM.setStyles(id + '_ifr', {width : sz.w - w.deltaWidth, height : sz.h - w.deltaHeight});
+				t._fixIELayout(id, 1);
+
+				return Event.cancel(e);
+			});
+
+			if (ac != 'move')
+				startMove();
+
+			function startMove() {
+				if (eb)
+					return;
+
+				t._fixIELayout(id, 0);
+
+				// Setup event blocker
+				DOM.add(d.body, 'div', {
+					id : 'mceEventBlocker',
+					'class' : 'mceEventBlocker ' + (t.editor.settings.inlinepopups_skin || 'clearlooks2'),
+					style : {left : vp.x, top : vp.y, width : vp.w - 20, height : vp.h - 20, zIndex : 20001}
+				});
+				eb = new Element('mceEventBlocker');
+				eb.update();
+
+				// Setup placeholder
+				p = we.getXY();
+				sz = we.getSize();
+				sx = cp.x + p.x - vp.x;
+				sy = cp.y + p.y - vp.y;
+				DOM.add(eb.get(), 'div', {id : 'mcePlaceHolder', 'class' : 'placeholder', style : {left : sx, top : sy, width : sz.w, height : sz.h}});
+				ph = new Element('mcePlaceHolder');
+			};
+
+			// Handle mouse move/drag
+			mm = Event.add(d, 'mousemove', function(e) {
+				var x, y, v;
+
+				startMove();
+
+				x = e.screenX - sex;
+				y = e.screenY - sey;
+
+				switch (ac) {
+					case 'resize-w':
+						dx = x;
+						dw = 0 - x;
+						break;
+
+					case 'resize-e':
+						dw = x;
+						break;
+
+					case 'resize-n':
+					case 'resize-nw':
+					case 'resize-ne':
+						if (ac == "resize-nw") {
+							dx = x;
+							dw = 0 - x;
+						} else if (ac == "resize-ne")
+							dw = x;
+
+						dy = y;
+						dh = 0 - y;
+						break;
+
+					case 'resize-s':
+					case 'resize-sw':
+					case 'resize-se':
+						if (ac == "resize-sw") {
+							dx = x;
+							dw = 0 - x;
+						} else if (ac == "resize-se")
+							dw = x;
+
+						dh = y;
+						break;
+
+					case 'move':
+						dx = x;
+						dy = y;
+						break;
+				}
+
+				// Boundary check
+				if (dw < (v = w.features.min_width - sz.w)) {
+					if (dx !== 0)
+						dx += dw - v;
+
+					dw = v;
+				}
+	
+				if (dh < (v = w.features.min_height - sz.h)) {
+					if (dy !== 0)
+						dy += dh - v;
+
+					dh = v;
+				}
+
+				dw = Math.min(dw, w.features.max_width - sz.w);
+				dh = Math.min(dh, w.features.max_height - sz.h);
+				dx = Math.max(dx, vp.x - (sx + vp.x));
+				dy = Math.max(dy, vp.y - (sy + vp.y));
+				dx = Math.min(dx, (vp.w + vp.x) - (sx + sz.w + vp.x));
+				dy = Math.min(dy, (vp.h + vp.y) - (sy + sz.h + vp.y));
+
+				// Move if needed
+				if (dx + dy !== 0) {
+					if (sx + dx < 0)
+						dx = 0;
+	
+					if (sy + dy < 0)
+						dy = 0;
+
+					ph.moveTo(sx + dx, sy + dy);
+				}
+
+				// Resize if needed
+				if (dw + dh !== 0)
+					ph.resizeTo(sz.w + dw, sz.h + dh);
+
+				return Event.cancel(e);
+			});
+
+			return Event.cancel(se);
+		},
+
+		resizeBy : function(dw, dh, id) {
+			var w = this.windows[id];
+
+			if (w) {
+				w.element.resizeBy(dw, dh);
+				w.iframeElement.resizeBy(dw, dh);
+			}
+		},
+
+		close : function(win, id) {
+			var t = this, w, d = document, ix = 0, fw;
+
+			// Probably not inline
+			if (!id && win) {
+				t.parent(win);
+				return;
+			}
+
+			if (w = t.windows[id]) {
+				t.onClose.dispatch(t);
+				Event.remove(d, 'mousedown', w.mousedownFunc);
+				Event.remove(d, 'click', w.clickFunc);
+
+				DOM.setAttrib(id + '_ifr', 'src', 'javascript:""'); // Prevent leak
+				w.element.remove();
+				delete t.windows[id];
+
+				// Find front most window and focus that
+				each (t.windows, function(w) {
+					if (w.zIndex > ix) {
+						fw = w;
+						ix = w.zIndex;
+					}
+				});
+
+				if (fw)
+					t.focus(fw.id);
+			}
+		},
+
+		setTitle : function(ti, id) {
+			DOM.get(id + '_title').innerHTML = DOM.encode(ti);
+		},
+
+		alert : function(txt, cb, s) {
+			var t = this, w;
+
+			w = t.open({
+				title : t,
+				type : 'alert',
+				button_func : function(s) {
+					if (cb)
+						cb.call(s || t, s);
+
+					t.close(null, w.id);
+				},
+				content : DOM.encode(t.editor.getLang(txt, txt)),
+				inline : 1,
+				width : 400,
+				height : 130
+			});
+		},
+
+		confirm : function(txt, cb, s) {
+			var t = this, w;
+
+			w = t.open({
+				title : t,
+				type : 'confirm',
+				button_func : function(s) {
+					if (cb)
+						cb.call(s || t, s);
+
+					t.close(null, w.id);
+				},
+				content : DOM.encode(t.editor.getLang(txt, txt)),
+				inline : 1,
+				width : 400,
+				height : 130
+			});
+		},
+
+		// Internal functions
+
+		_fixIELayout : function(id, s) {
+			var w, img;
+
+			if (!tinymce.isIE6)
+				return;
+
+			// Fixes the bug where hover flickers and does odd things in IE6
+			each(['n','s','w','e','nw','ne','sw','se'], function(v) {
+				var e = DOM.get(id + '_resize_' + v);
+
+				DOM.setStyles(e, {
+					width : s ? e.clientWidth : '',
+					height : s ? e.clientHeight : '',
+					cursor : DOM.getStyle(e, 'cursor', 1)
+				});
+
+				DOM.setStyle(id + "_bottom", 'bottom', '-1px');
+
+				e = 0;
+			});
+
+			// Fixes graphics glitch
+			if (w = this.windows[id]) {
+				// Fixes rendering bug after resize
+				w.element.hide();
+				w.element.show();
+
+				// Forced a repaint of the window
+				//DOM.get(id).style.filter = '';
+
+				// IE has a bug where images used in CSS won't get loaded
+				// sometimes when the cache in the browser is disabled
+				// This fix tries to solve it by loading the images using the image object
+				each(DOM.select('div,a', id), function(e, i) {
+					if (e.currentStyle.backgroundImage != 'none') {
+						img = new Image();
+						img.src = e.currentStyle.backgroundImage.replace(/url\(\"(.+)\"\)/, '$1');
+					}
+				});
+
+				DOM.get(id).style.filter = '';
+			}
 		}
-	}
-};
+	});
 
-TinyMCE_Window.prototype.onMouseDown = function(e) {
-	var elm = mcWindows.isMSIE ? this.wrapperFrame.event.srcElement : e.target;
+	// Register plugin
+	tinymce.PluginManager.add('inlinepopups', tinymce.plugins.InlinePopups);
+})();
 
-	mcWindows.mouseDownScreenX = e.screenX;
-	mcWindows.mouseDownScreenY = e.screenY;
-	mcWindows.mouseDownLayerX = this.left;
-	mcWindows.mouseDownLayerY = this.top;
-	mcWindows.mouseDownWidth = parseInt(this.winElement.style.width);
-	mcWindows.mouseDownHeight = parseInt(this.winElement.style.height);
-
-	if (this.resizeElement != null && elm == this.resizeElement.firstChild)
-		this.startResize(e);
-	else
-		this.startMove(e);
-
-	mcWindows.cancelEvent(e);
-};
-
-// Global instance
-var mcWindows = new TinyMCE_Windows();
-
-// Initialize windows
-mcWindows.init({
-	images_path : tinyMCE.baseURL + "/plugins/inlinepopups/images",
-	css_file : tinyMCE.baseURL + "/plugins/inlinepopups/css/inlinepopup.css"
-});

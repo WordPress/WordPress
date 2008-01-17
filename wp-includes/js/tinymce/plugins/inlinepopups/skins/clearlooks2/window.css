@@ -1,0 +1,87 @@
+/* Clearlooks 2 */
+
+/* General */
+.clearlooks2 div, .clearlooks2 span, .clearlooks2 a {position:absolute; border:0; padding:0; margin:0; background:transparent; font-family:Arial,Verdana; font-size:11px; color:#000; text-decoration:none; font-weight:normal; width:auto; height:auto; overflow:hidden; display:block}
+.clearlooks2 {position:absolute}
+.clearlooks2 .wrapper {position:static}
+.mceEventBlocker {position:absolute; left:0; top:0; background:url(img/horizontal.gif) no-repeat 0 -75px; width:100%; height:100%}
+.clearlooks2 .placeholder {border:1px solid #000; background:#888; top:0; left:0; opacity:0.5; filter:alpha(opacity=50)}
+
+/* Top */
+.clearlooks2 .top, .clearlooks2 .top div {top:0; width:100%; height:23px}
+.clearlooks2 .top .left {width:6px; background:url(img/corners.gif)}
+.clearlooks2 .top .center {right:6px; width:100%; height:23px; background:url(img/horizontal.gif) 12px 0; clip:rect(auto auto auto 12px)}
+.clearlooks2 .top .right {right:0; width:6px; height:23px; background:url(img/corners.gif) -12px 0}
+.clearlooks2 .top span {width:100%; text-align:center; vertical-align:middle; line-height:23px; font-weight:bold}
+.clearlooks2 .focus .top .left {background:url(img/corners.gif) -6px 0}
+.clearlooks2 .focus .top .center {background:url(img/horizontal.gif) 0 -23px}
+.clearlooks2 .focus .top .right {background:url(img/corners.gif) -18px 0}
+.clearlooks2 .focus .top span {color:#FFF}
+
+/* Middle */
+.clearlooks2 .middle, .clearlooks2 .middle div {top:0}
+.clearlooks2 .middle {width:100%; height:100%; clip:rect(23px auto auto auto)}
+.clearlooks2 .middle .left {left:0; width:5px; height:100%; background:url(img/vertical.gif) -5px 0}
+.clearlooks2 .middle span {top:23px; left:5px; width:100%; height:100%; background:#FFF}
+.clearlooks2 .middle .right {right:0; width:5px; height:100%; background:url(img/vertical.gif)}
+
+/* Bottom */
+.clearlooks2 .bottom, .clearlooks2 .bottom div {height:6px}
+.clearlooks2 .bottom {left:0; bottom:0; width:100%}
+.clearlooks2 .bottom div {top:0}
+.clearlooks2 .bottom .left {left:0; width:5px; background:url(img/corners.gif) -34px -6px}
+.clearlooks2 .bottom .center {left:5px; width:100%; background:url(img/horizontal.gif) 0 -46px}
+.clearlooks2 .bottom .right {right:0; width:5px; background: url(img/corners.gif) -34px 0}
+.clearlooks2 .bottom span {display:none}
+.clearlooks2 .statusbar .bottom, .clearlooks2 .statusbar .bottom div {height:23px}
+.clearlooks2 .statusbar .bottom .left {background:url(img/corners.gif) -29px 0}
+.clearlooks2 .statusbar .bottom .center {background:url(img/horizontal.gif) 0 -52px}
+.clearlooks2 .statusbar .bottom .right {background:url(img/corners.gif) -24px 0}
+.clearlooks2 .statusbar .bottom span {display:block; left:7px; font-family:Arial, Verdana; font-size:11px; line-height:23px}
+
+/* Actions */
+.clearlooks2 a {width:29px; height:16px; top:3px;}
+.clearlooks2 .close {right:6px; background:url(img/buttons.gif) -87px 0}
+.clearlooks2 .min {display:none; right:68px; background:url(img/buttons.gif) 0 0}
+.clearlooks2 .med {display:none; right:37px; background:url(img/buttons.gif) -29px 0}
+.clearlooks2 .max {display:none; right:37px; background:url(img/buttons.gif) -58px 0}
+.clearlooks2 .move {display:none;width:100%;cursor:move;background:url(img/corners.gif) no-repeat -100px -100px}
+.clearlooks2 .movable .move {display:block}
+.clearlooks2 .focus .close {right:6px; background:url(img/buttons.gif) -87px -16px}
+.clearlooks2 .focus .min {right:68px; background:url(img/buttons.gif) 0 -16px}
+.clearlooks2 .focus .med {right:37px; background:url(img/buttons.gif) -29px -16px}
+.clearlooks2 .focus .max {right:37px; background:url(img/buttons.gif) -58px -16px}
+.clearlooks2 .focus .close:hover {right:6px; background:url(img/buttons.gif) -87px -32px}
+.clearlooks2 .focus .close:hover {right:6px; background:url(img/buttons.gif) -87px -32px}
+.clearlooks2 .focus .min:hover {right:68px; background:url(img/buttons.gif) 0 -32px}
+.clearlooks2 .focus .med:hover {right:37px; background:url(img/buttons.gif) -29px -32px}
+.clearlooks2 .focus .max:hover {right:37px; background:url(img/buttons.gif) -58px -32px}
+
+/* Resize */
+.clearlooks2 .resize {top:auto; left:auto; display:none; width:5px; height:5px; background:url(img/horizontal.gif) no-repeat 0 -75px}
+.clearlooks2 .resizable .resize {display:block}
+.clearlooks2 .resizable .min, .clearlooks2 .max {display:none}
+.clearlooks2 .minimizable .min {display:block}
+.clearlooks2 .maximizable .max {display:block}
+.clearlooks2 .maximized .med {display:block}
+.clearlooks2 .maximized .max {display:none}
+.clearlooks2 a.resize-n {top:0; left:0; width:100%; cursor:n-resize}
+.clearlooks2 a.resize-nw {top:0; left:0; cursor:nw-resize}
+.clearlooks2 a.resize-ne {top:0; right:0; cursor:ne-resize}
+.clearlooks2 a.resize-w {top:0; left:0; height:100%; cursor:w-resize;}
+.clearlooks2 a.resize-e {top:0; right:0; height:100%; cursor:e-resize}
+.clearlooks2 a.resize-s {bottom:0; left:0; width:100%; cursor:s-resize}
+.clearlooks2 a.resize-sw {bottom:0; left:0; cursor:sw-resize}
+.clearlooks2 a.resize-se {bottom:0; right:0; cursor:se-resize}
+
+/* Alert/Confirm */
+.clearlooks2 .button {font-weight:bold; bottom:10px; width:80px; height:30px; background:url(img/button.gif); line-height:30px; vertical-align:middle; text-align:center; outline:0}
+.clearlooks2 .middle .icon {left:15px; top:35px; width:32px; height:32px}
+.clearlooks2 .alert .middle span, .clearlooks2 .confirm .middle span {background:transparent;left:60px; top:35px; width:320px; height:50px; font-weight:bold; overflow:auto; white-space:normal}
+.clearlooks2 a:hover {font-weight:bold;}
+.clearlooks2 .alert .middle, .clearlooks2 .confirm .middle {background:#D6D7D5}
+.clearlooks2 .alert .ok {left:50%; top:auto; margin-left: -40px}
+.clearlooks2 .alert .icon {background:url(img/alert.gif)}
+.clearlooks2 .confirm .ok {left:50%; top:auto; margin-left: -90px}
+.clearlooks2 .confirm .cancel {left:50%; top:auto}
+.clearlooks2 .confirm .icon {background:url(img/confirm.gif)}

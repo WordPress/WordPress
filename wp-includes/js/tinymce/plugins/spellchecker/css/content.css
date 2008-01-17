@@ -1,4 +1,1 @@
-.mceItemHiddenSpellWord {
-	background: url('../images/wline.gif') repeat-x bottom left;
-	cursor: default;
-}
+.mceItemHiddenSpellWord {background:url(../img/wline.gif) repeat-x bottom left; cursor:default;}

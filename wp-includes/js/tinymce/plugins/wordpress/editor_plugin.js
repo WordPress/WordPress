@@ -1,5 +1,5 @@
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('wordpress', 'en');
+//tinyMCE.importPluginLanguagePack('wordpress', 'en');
 
 var TinyMCE_wordpressPlugin = {
 	getInfo : function() {
@@ -287,6 +287,10 @@ var TinyMCE_wordpressPlugin = {
 	saveCallback : function(el, content, body) {
 		// We have a TON of cleanup to do.
 
+        if ( tinyMCE.activeEditor.isHidden() ) {
+    //        return content;            
+        }
+    
 		// Mark </p> if it has any attributes.
 		content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
 
@@ -294,7 +298,7 @@ var TinyMCE_wordpressPlugin = {
 		// content = content.replace(new RegExp('&amp;', 'g'), '&');
 
 		// Get it ready for wpautop.
-		content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
+        content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
 		content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '\n\n');
 		content = content.replace(new RegExp('\\n\\s*\\n', 'mgi'), '\n\n');
 		content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '\n');
@@ -304,7 +308,12 @@ var TinyMCE_wordpressPlugin = {
 		content = content.replace(new RegExp('\\s*<(('+blocklist+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
 		content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
 		content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
-
+		
+		if ( content.indexOf('<object') != -1 ) {
+            content = content.replace(new RegExp('\\s*<param([^>]*)>\\s*', 'g'), "<param$1>"); // no pee inside object/embed
+            content = content.replace(new RegExp('\\s*</embed>\\s*', 'g'), '</embed>');
+        }
+		
 		// Unmark special paragraph closing tags
 		content = content.replace(new RegExp('</p#>', 'g'), '</p>\n');
 		content = content.replace(new RegExp('\\s*(<p[^>]+>.*</p>)', 'mg'), '\n$1');
@@ -365,7 +374,7 @@ var TinyMCE_wordpressPlugin = {
 	}
 };
 
-tinyMCE.addPlugin("wordpress", TinyMCE_wordpressPlugin);
+//tinyMCE.addPlugin("wordpress", TinyMCE_wordpressPlugin);
 
 /* This little hack protects our More and Page placeholders from the removeformat command */
 tinyMCE.orgExecCommand = tinyMCE.execCommand;
@@ -476,7 +485,7 @@ function switchEditors(id) {
 	var ta = document.getElementById(id);
 	var pdr = ta.parentNode;
 
-	if ( inst ) {
+	if ( ! inst.isHidden(id) ) { 
 		edToggle(H, P);
 
 		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
@@ -492,19 +501,19 @@ function switchEditors(id) {
 		var table = document.getElementById(inst.editorId + '_parent').getElementsByTagName('table')[0];
 		var y1 = table.offsetTop + table.offsetHeight;
 
-		if ( TinyMCE_AdvancedTheme._getCookie("TinyMCE_" + inst.editorId + "_height") == null ) {
+		if ( tinymce.util.Cookie.get("TinyMCE_" + inst.editorId + "_height") == null ) {
 			var expires = new Date();
 			expires.setTime(expires.getTime() + 3600000 * 24 * 30);
 			var offset = tinyMCE.isMSIE ? 1 : 2;
-			TinyMCE_AdvancedTheme._setCookie("TinyMCE_" + inst.editorId + "_height", "" + (table.offsetHeight - offset), expires);
+			tinymce.util.Cookie.set("TinyMCE_" + inst.editorId + "_height", "" + (table.offsetHeight - offset), expires);
 		}
 
 		// Unload the rich editor
-		inst.triggerSave(false, false);
-		htm = inst.formElement.value;
-		tinyMCE.removeMCEControl(id);
-		document.getElementById(id).value = htm;
-		--tinyMCE.idCounter;
+		// inst.triggerSave(false, false);
+		// inst.formElement.value;
+		inst.hide(); // tinyMCE.removeMCEControl(id);
+		// document.getElementById(id).value = htm;
+		// --tinyMCE.idCounter;
 
 		// Reveal Quicktags and textarea
 		qt.style.display = 'block';
@@ -543,14 +552,14 @@ function switchEditors(id) {
 		ta.parentNode.style.paddingRight = '0px';
 
 		// Load the rich editor with formatted html
-		if ( tinyMCE.isMSIE ) {
+		//if ( tinyMCE.isMSIE ) {
+		//	ta.value = wpautop(ta.value);
+		//	tinyMCE.addMCEControl(ta, id);
+		//} else {
 			ta.value = wpautop(ta.value);
-			tinyMCE.addMCEControl(ta, id);
-		} else {
-			htm = wpautop(ta.value);
-			tinyMCE.addMCEControl(ta, id);
-			tinyMCE.getInstanceById(id).execCommand('mceSetContent', null, htm);
-		}
+			inst.show() // tinyMCE.addMCEControl(ta, id);
+			//tinyMCE.getInstanceById(id).execCommand('mceSetContent', null, htm);
+		//}
 
 		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
 		} else {

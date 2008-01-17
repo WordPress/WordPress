@@ -1,0 +1,193 @@
+/* Reset */
+.defaultSkin table, .defaultSkin tbody, .defaultSkin a, .defaultSkin img, .defaultSkin tr, .defaultSkin div, .defaultSkin td, .defaultSkin iframe, .defaultSkin span, .defaultSkin * {border:0; margin:0; padding:0; background:transparent; white-space:nowrap; text-decoration:none; font-weight:normal; cursor:default; color:#000; vertical-align:baseline}
+.defaultSkin a:hover, .defaultSkin a:link, .defaultSkin a:visited, .defaultSkin a:active {text-decoration:none; font-weight:normal; cursor:default; color:#000}
+.defaultSkin table td {vertical-align:middle}
+
+/* Containers */
+.defaultSkin table {background:#F0F0EE}
+.defaultSkin iframe {display:block; background:#FFF}
+.defaultSkin .mceToolbar {height:26px}
+.defaultSkin .left {text-align:left}
+.defaultSkin .right {text-align:right}
+
+/* External */
+.defaultSkin .mceExternalToolbar {position:absolute; border:1px solid #CCC; border-bottom:0; display:none;}
+.defaultSkin .mceExternalToolbar td.mceToolbar {padding-right:13px;}
+.defaultSkin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url(../../img/icons.gif) -820px 0}
+
+/* Layout */
+.defaultSkin table.mceLayout {border:0; border-left:1px solid #CCC; border-right:1px solid #CCC}
+.defaultSkin table.mceLayout tr.first td {border-top:1px solid #CCC}
+.defaultSkin table.mceLayout tr.last td {border-bottom:1px solid #CCC}
+.defaultSkin table.mceToolbar, .defaultSkin tr.first .mceToolbar tr td, .defaultSkin tr.last .mceToolbar tr td {border:0; margin:0; padding:0;}
+.defaultSkin td.mceToolbar {padding-top:1px; vertical-align:top}
+.defaultSkin .mceIframeContainer {border-top:1px solid #CCC; border-bottom:1px solid #CCC}
+.defaultSkin .mceStatusbar {position:relative; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; padding:2px; color:#000; display:block}
+.defaultSkin .mceStatusbar a.resize {display:block; position:absolute; top:0; right:0; background:url(../../img/icons.gif) -800px 0; width:20px; height:20px}
+.defaultSkin .mceStatusbar a:hover {text-decoration:underline}
+.defaultSkin table.mceToolbar {margin-left:3px}
+.defaultSkin span.icon, .defaultSkin img.icon {display:block; width:20px; height:20px}
+.defaultSkin .icon {background:url(../../img/icons.gif) no-repeat 20px 20px}
+
+/* Button */
+.defaultSkin .mceButton {display:block; border:1px solid #F0F0EE; width:20px; height:20px; margin-right:1px;}
+.defaultSkin a.mceButtonEnabled:hover {border:1px solid #0A246A; background-color:#B2BBD0}
+.defaultSkin a.mceButtonActive, .defaultSkin a.mceButtonSelected {border:1px solid #0A246A; background-color:#C2CBE0}
+.defaultSkin .mceButtonDisabled .icon {opacity:0.3; filter:alpha(opacity=30)}
+
+/* Separator */
+.defaultSkin .mceSeparator {display:block; background:url(../../img/icons.gif) -180px 0; width:2px; height:20px; margin:2px 2px 0 4px}
+
+/* ListBox */
+.defaultSkin .mceListBox, .defaultSkin .mceListBox a {display:block}
+.defaultSkin .mceListBox .text {padding-left:4px; width:70px; text-align:left; border:1px solid #CCC; border-right:0; background:#FFF; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; height:20px; line-height:20px; overflow:hidden}
+.defaultSkin .mceListBox .open {width:9px; height:20px; background:url(../../img/icons.gif) -741px 0; margin-right:2px; border:1px solid #CCC;}
+.defaultSkin table.mceListBoxEnabled:hover .text, .defaultSkin .mceListBoxHover .text, .defaultSkin .mceListBoxSelected .text {border:1px solid #A2ABC0; border-right:0; background:#FFF}
+.defaultSkin table.mceListBoxEnabled:hover .open, .defaultSkin .mceListBoxHover .open, .defaultSkin .mceListBoxSelected .open {background-color:#FFF; border:1px solid #A2ABC0}
+.defaultSkin .mceListBoxDisabled a.text {color:gray; background-color:transparent;}
+.defaultSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
+.defaultSkin .mceOldBoxModel .mceListBox .text {height:22px}
+.defaultSkin .mceOldBoxModel .mceListBox .open {width:11px; height:22px;}
+.defaultSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; background:#F0F0EE; border:1px solid gray; margin-right:2px;}
+
+/* SplitButton */
+.defaultSkin .mceSplitButton {width:32px; height:20px}
+.defaultSkin .mceSplitButton a, .defaultSkin .mceSplitButton span {height:20px; display:block}
+.defaultSkin .mceSplitButton a.action {width:20px; border:1px solid #F0F0EE; border-right:0;}
+.defaultSkin .mceSplitButton span.action {width:20px; background:url(../../img/icons.gif) 20px 20px;}
+.defaultSkin .mceSplitButton a.open {width:9px; border:1px solid #F0F0EE;}
+.defaultSkin .mceSplitButton span.open {width:9px; background:url(../../img/icons.gif) -741px 0;}
+.defaultSkin table.mceSplitButtonEnabled:hover a.action, .defaultSkin .mceSplitButtonHover a.action, .defaultSkin .mceSplitButtonSelected a.action {border:1px solid #0A246A; border-right:0; background-color:#B2BBD0}
+.defaultSkin table.mceSplitButtonEnabled:hover a.open, .defaultSkin .mceSplitButtonHover a.open, .defaultSkin .mceSplitButtonSelected a.open {border:1px solid #0A246A;}
+.defaultSkin table.mceSplitButtonEnabled:hover span.open, .defaultSkin .mceSplitButtonHover span.open, .defaultSkin .mceSplitButtonSelected span.open {background-color:#B2BBD0}
+.defaultSkin .mceSplitButtonDisabled .action, .defaultSkin .mceSplitButtonDisabled span.open {opacity:0.3; filter:alpha(opacity=30)}
+.defaultSkin .mceSplitButtonActive a.action {border:1px solid #0A246A; background-color:#C2CBE0}
+.defaultSkin .mceSplitButtonActive a.open {border-left:0;}
+
+/* ColorSplitButton */
+.defaultSkin div.mceColorSplitMenu table {background:#FFF; border:1px solid gray}
+.defaultSkin .mceColorSplitMenu td {padding:2px}
+.defaultSkin .mceColorSplitMenu a {display:block; width:9px; height:9px; overflow:hidden; border:1px solid #808080}
+.defaultSkin .mceColorSplitMenu td.morecolors {padding:1px 3px 1px 1px}
+.defaultSkin .mceColorSplitMenu a.morecolors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
+.defaultSkin .mceColorSplitMenu a.morecolors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
+.defaultSkin a.mceMoreColors:hover {border:1px solid #0A246A}
+.defaultSkin .mceColorPreview {position:absolute; top:15px; left:2px; width:16px; height:4px; overflow:hidden}
+
+/* Menu */
+.defaultSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #D4D0C8}
+.defaultSkin .noIcons span.icon {width:0;}
+.defaultSkin .noIcons a .text {padding-left:10px}
+.defaultSkin .mceMenu table {background:#FFF}
+.defaultSkin .mceMenu a, .defaultSkin .mceMenu span, .defaultSkin .mceMenu {display:block}
+.defaultSkin .mceMenu td {height:20px}
+.defaultSkin .mceMenu a {position:relative;padding:3px 0 4px 0}
+.defaultSkin .mceMenu .text {position:relative; display:block; font-family:Tahoma,Verdana,Arial,Helvetica; color:#000; cursor:default; margin:0; padding:0 25px 0 25px; display:block}
+.defaultSkin .mceMenu span.text, .defaultSkin .mceMenu .preview {font-size:11px}
+.defaultSkin .mceMenu pre.text {font-family:Monospace}
+.defaultSkin .mceMenu .icon {position:absolute; top:0; left:0; width:22px;}
+.defaultSkin .mceMenu .mceMenuItemEnabled a:hover, .defaultSkin .mceMenu .mceMenuItemActive {background-color:#dbecf3}
+.defaultSkin td.mceMenuItemSeparator {background:#DDD; height:1px}
+.defaultSkin .mceMenuItemTitle a {border:0; background:#EEE; border-bottom:1px solid #DDD}
+.defaultSkin .mceMenuItemTitle span.text {color:#000; font-weight:bold; padding-left:4px}
+.defaultSkin .mceMenuItemDisabled .text {color:#888}
+.defaultSkin .mceMenuItemSelected .icon {background:url(img/menu_check.gif)}
+.defaultSkin .noIcons .mceMenuItemSelected a {background:url(img/menu_arrow.gif) no-repeat -6px center}
+.defaultSkin .mceMenu span.mceMenuLine {display:none}
+.defaultSkin .mceMenuItemSub a {background:url(img/menu_arrow.gif) no-repeat top right;}
+
+/* Progress,Resize */
+.defaultSkin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; filter:alpha(opacity=50); background:#FFF}
+.defaultSkin .mceProgress {position:absolute; left:0; top:0; z-index:1001; background:url(img/progress.gif) no-repeat; width:32px; height:32px; margin:-16px 0 0 -16px}
+.defaultSkin .mcePlaceHolder {border:1px dotted gray}
+
+/* Theme */
+.defaultSkin span.bold {background-position:0 0}
+.defaultSkin span.italic {background-position:-60px 0}
+.defaultSkin span.underline {background-position:-140px 0}
+.defaultSkin span.strikethrough {background-position:-120px 0}
+.defaultSkin span.undo {background-position:-160px 0}
+.defaultSkin span.redo {background-position:-100px 0}
+.defaultSkin span.cleanup {background-position:-40px 0}
+.defaultSkin span.bullist {background-position:-20px 0}
+.defaultSkin span.numlist {background-position:-80px 0}
+.defaultSkin span.justifyleft {background-position:-460px 0}
+.defaultSkin span.justifyright {background-position:-480px 0}
+.defaultSkin span.justifycenter {background-position:-420px 0}
+.defaultSkin span.justifyfull {background-position:-440px 0}
+.defaultSkin span.anchor {background-position:-200px 0}
+.defaultSkin span.indent {background-position:-400px 0}
+.defaultSkin span.outdent {background-position:-540px 0}
+.defaultSkin span.link {background-position:-500px 0}
+.defaultSkin span.unlink {background-position:-640px 0}
+.defaultSkin span.sub {background-position:-600px 0}
+.defaultSkin span.sup {background-position:-620px 0}
+.defaultSkin span.removeformat {background-position:-580px 0}
+.defaultSkin span.newdocument {background-position:-520px 0}
+.defaultSkin span.image {background-position:-380px 0}
+.defaultSkin span.help {background-position:-340px 0}
+.defaultSkin span.code {background-position:-260px 0}
+.defaultSkin span.hr {background-position:-360px 0}
+.defaultSkin span.visualaid {background-position:-660px 0}
+.defaultSkin span.charmap {background-position:-240px 0}
+.defaultSkin span.paste {background-position:-560px 0}
+.defaultSkin span.copy {background-position:-700px 0}
+.defaultSkin span.cut {background-position:-680px 0}
+.defaultSkin span.blockquote {background-position:-220px 0}
+.defaultSkin .forecolor span.action {background-position:-720px 0}
+.defaultSkin .backcolor span.action {background-position:-760px 0}
+.defaultSkin .forecolorpicker {background-position:-720px 0}
+.defaultSkin .backcolorpicker {background-position:-760px 0}
+
+/* Plugins */
+.defaultSkin span.advhr {background-position:-0px -20px}
+.defaultSkin span.ltr {background-position:-20px -20px}
+.defaultSkin span.rtl {background-position:-40px -20px}
+.defaultSkin span.emotions {background-position:-60px -20px}
+.defaultSkin span.fullpage {background-position:-80px -20px}
+.defaultSkin span.fullscreen {background-position:-100px -20px}
+.defaultSkin span.iespell {background-position:-120px -20px}
+.defaultSkin span.insertdate {background-position:-140px -20px}
+.defaultSkin span.inserttime {background-position:-160px -20px}
+.defaultSkin span.absolute {background-position:-180px -20px}
+.defaultSkin span.backward {background-position:-200px -20px}
+.defaultSkin span.forward {background-position:-220px -20px}
+.defaultSkin span.insert_layer {background-position:-240px -20px}
+.defaultSkin span.insertlayer {background-position:-260px -20px}
+.defaultSkin span.movebackward {background-position:-280px -20px}
+.defaultSkin span.moveforward {background-position:-300px -20px}
+.defaultSkin span.media {background-position:-320px -20px}
+.defaultSkin span.nonbreaking {background-position:-340px -20px}
+.defaultSkin span.pastetext {background-position:-360px -20px}
+.defaultSkin span.pasteword {background-position:-380px -20px}
+.defaultSkin span.selectall {background-position:-400px -20px}
+.defaultSkin span.preview {background-position:-420px -20px}
+.defaultSkin span.print {background-position:-440px -20px}
+.defaultSkin span.cancel {background-position:-460px -20px}
+.defaultSkin span.save {background-position:-480px -20px}
+.defaultSkin span.replace {background-position:-500px -20px}
+.defaultSkin span.search {background-position:-520px -20px}
+.defaultSkin span.styleprops {background-position:-560px -20px}
+.defaultSkin span.table {background-position:-580px -20px}
+.defaultSkin span.cell_props {background-position:-600px -20px}
+.defaultSkin span.delete_table {background-position:-620px -20px}
+.defaultSkin span.delete_col {background-position:-640px -20px}
+.defaultSkin span.delete_row {background-position:-660px -20px}
+.defaultSkin span.col_after {background-position:-680px -20px}
+.defaultSkin span.col_before {background-position:-700px -20px}
+.defaultSkin span.row_after {background-position:-720px -20px}
+.defaultSkin span.row_before {background-position:-740px -20px}
+.defaultSkin span.merge_cells {background-position:-760px -20px}
+.defaultSkin span.table_props {background-position:-980px -20px}
+.defaultSkin span.row_props {background-position:-780px -20px}
+.defaultSkin span.split_cells {background-position:-800px -20px}
+.defaultSkin span.template {background-position:-820px -20px}
+.defaultSkin span.visualchars {background-position:-840px -20px}
+.defaultSkin span.abbr {background-position:-860px -20px}
+.defaultSkin span.acronym {background-position:-880px -20px}
+.defaultSkin span.attribs {background-position:-900px -20px}
+.defaultSkin span.cite {background-position:-920px -20px}
+.defaultSkin span.del {background-position:-940px -20px}
+.defaultSkin span.ins {background-position:-960px -20px}
+.defaultSkin span.pagebreak {background-position:0 -40px}
+.defaultSkin .spellchecker span.action {background-position:-540px -20px}

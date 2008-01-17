@@ -1,0 +1,193 @@
+/* Reset */
+.o2k7Skin table, .o2k7Skin tbody, .o2k7Skin a, .o2k7Skin img, .o2k7Skin tr, .o2k7Skin div, .o2k7Skin td, .o2k7Skin iframe, .o2k7Skin span, .o2k7Skin * {border:0; margin:0; padding:0; background:transparent; white-space:nowrap; text-decoration:none; font-weight:normal; cursor:default; color:#000; vertical-align:baseline}
+.o2k7Skin a:hover, .o2k7Skin a:link, .o2k7Skin a:visited, .o2k7Skin a:active {text-decoration:none; font-weight:normal; cursor:default; color:#000}
+.o2k7Skin table td {vertical-align:middle}
+
+/* Containers */
+.o2k7Skin table {background:#E5EFFD}
+.o2k7Skin iframe {display:block; background:#FFF}
+.o2k7Skin .mceToolbar {height:26px}
+
+/* External */
+.o2k7Skin .mceExternalToolbar {position:absolute; border:1px solid #ABC6DD; border-bottom:0; display:none}
+.o2k7Skin .mceExternalToolbar td.mceToolbar {padding-right:13px;}
+.o2k7Skin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url(../../img/icons.gif) -820px 0}
+
+/* Layout */
+.o2k7Skin table.mceLayout {border:0; border-left:1px solid #ABC6DD; border-right:1px solid #ABC6DD}
+.o2k7Skin table.mceLayout tr.first td {border-top:1px solid #ABC6DD}
+.o2k7Skin table.mceLayout tr.last td {border-bottom:1px solid #ABC6DD}
+.o2k7Skin table.mceToolbar, .o2k7Skin tr.first .mceToolbar tr td, .o2k7Skin tr.last .mceToolbar tr td {border:0; margin:0; padding:0}
+.o2k7Skin .mceIframeContainer {border-top:1px solid #ABC6DD; border-bottom:1px solid #ABC6DD}
+.o2k7Skin .mceStatusbar {display:block; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; height:20px;}
+.o2k7Skin .mceStatusbar div {float:left; padding:2px;}
+.o2k7Skin .mceStatusbar a.resize {display:block; float:right; background:url(../../img/icons.gif) -800px 0; width:20px; height:20px}
+.o2k7Skin .mceStatusbar a:hover {text-decoration:underline}
+.o2k7Skin table.mceToolbar {margin-left:3px}
+.o2k7Skin .mceToolbar .mceToolbarStart span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px; }
+.o2k7Skin .mceToolbar .mceToolbarEnd span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px}
+.o2k7Skin .mceToolbar .mceToolbarEndListBox span {display:none}
+.o2k7Skin span.icon, .o2k7Skin img.icon {display:block; width:20px; height:20px}
+.o2k7Skin .icon {background:url(../../img/icons.gif) no-repeat 20px 20px}
+
+/* Button */
+.o2k7Skin .mceButton {display:block; background:url(img/button_bg.png); width:22px; height:22px}
+.o2k7Skin a.mceButton span, .o2k7Skin a.mceButton img {margin-left:1px}
+.o2k7Skin .mceOldBoxModel a.mceButton span, .o2k7Skin .mceOldBoxModel a.mceButton img {margin:0 0 0 1px}
+.o2k7Skin a.mceButtonEnabled:hover {background-color:#B2BBD0; background-position:0 -22px}
+.o2k7Skin a.mceButtonActive, .o2k7Skin a.mceButtonSelected {background-position:0 -44px}
+.o2k7Skin .mceButtonDisabled .icon {opacity:0.3; filter:alpha(opacity=30)}
+
+/* Separator */
+.o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}
+
+/* ListBox */
+.o2k7Skin .mceListBox, .o2k7Skin .mceListBox a {display:block}
+.o2k7Skin .mceListBox .text {padding-left:4px; text-align:left; width:70px; border:1px solid #b3c7e1; border-right:0; background:#eaf2fb; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; height:20px; line-height:20px; overflow:hidden}
+.o2k7Skin .mceListBox .open {width:14px; height:22px; background:url(img/button_bg.png) -66px 0; margin-right:2px}
+.o2k7Skin table.mceListBoxEnabled:hover .text, .o2k7Skin .mceListBoxHover .text, .o2k7Skin .mceListBoxSelected .text {background:#FFF}
+.o2k7Skin table.mceListBoxEnabled:hover .open, .o2k7Skin .mceListBoxHover .open, .o2k7Skin .mceListBoxSelected .open {background-position:-66px -22px}
+.o2k7Skin .mceListBoxDisabled .text {color:gray}
+.o2k7Skin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
+.o2k7Skin .mceOldBoxModel .mceListBox .text {height:22px}
+.o2k7Skin select.mceListBox {font-family:Tahoma,Verdana,Arial,Helvetica; font-size:12px; border:1px solid #b3c7e1; background:#FFF;}
+
+/* SplitButton */
+.o2k7Skin .mceSplitButton, .o2k7Skin .mceSplitButton a, .o2k7Skin .mceSplitButton span {display:block; height:22px}
+.o2k7Skin .mceSplitButton {background:url(img/button_bg.png)}
+.o2k7Skin .mceSplitButton a.action {width:22px}
+.o2k7Skin .mceSplitButton span.action {width:22px; background:url(../../img/icons.gif) 20px 20px}
+.o2k7Skin .mceSplitButton a.open {width:10px}
+.o2k7Skin .mceSplitButton span.open {width:10px; background:url(img/button_bg.png) -44px 0}
+.o2k7Skin table.mceSplitButtonEnabled:hover a.action, .o2k7Skin .mceSplitButtonHover a.action, .o2k7Skin .mceSplitButtonSelected {background:url(img/button_bg.png) 0 -22px}
+.o2k7Skin table.mceSplitButtonEnabled:hover span.open, .o2k7Skin .mceSplitButtonHover span.open, .o2k7Skin .mceSplitButtonSelected span.open {background-position:-44px -44px}
+.o2k7Skin .mceSplitButtonDisabled .action {opacity:0.3; filter:alpha(opacity=30)}
+.o2k7Skin .mceSplitButtonActive {background-position:0 -44px}
+
+/* ColorSplitButton */
+.o2k7Skin div.mceColorSplitMenu table {background:#FFF; border:1px solid gray}
+.o2k7Skin .mceColorSplitMenu td {padding:2px}
+.o2k7Skin .mceColorSplitMenu a {display:block; width:9px; height:9px; overflow:hidden; border:1px solid #808080}
+.o2k7Skin .mceColorSplitMenu td.morecolors {padding:1px 3px 1px 1px}
+.o2k7Skin .mceColorSplitMenu a.morecolors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
+.o2k7Skin .mceColorSplitMenu a.morecolors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
+.o2k7Skin a.mceMoreColors:hover {border:1px solid #0A246A}
+.o2k7Skin .mceColorPreview {position:absolute; top:15px; left:2px; width:16px; height:4px; overflow:hidden}
+
+/* Menu */
+.o2k7Skin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #ABC6DD}
+.o2k7Skin .noIcons span.icon {width:0;}
+.o2k7Skin .noIcons a .text {padding-left:10px}
+.o2k7Skin .mceMenu table {background:#FFF}
+.o2k7Skin .mceMenu a, .o2k7Skin .mceMenu span, .o2k7Skin .mceMenu {display:block}
+.o2k7Skin .mceMenu td {height:20px}
+.o2k7Skin .mceMenu a {position:relative;padding:3px 0 4px 0}
+.o2k7Skin .mceMenu .text {position:relative; display:block; font-family:Tahoma,Verdana,Arial,Helvetica; color:#000; cursor:default; margin:0; padding:0 25px 0 25px; display:block}
+.o2k7Skin .mceMenu span.text, .o2k7Skin .mceMenu .preview {font-size:11px}
+.o2k7Skin .mceMenu pre.text {font-family:Monospace}
+.o2k7Skin .mceMenu .icon {position:absolute; top:0; left:0; width:22px;}
+.o2k7Skin .mceMenu .mceMenuItemEnabled a:hover, .o2k7Skin .mceMenu .mceMenuItemActive {background-color:#dbecf3}
+.o2k7Skin td.mceMenuItemSeparator {background:#DDD; height:1px}
+.o2k7Skin .mceMenuItemTitle a {border:0; background:#E5EFFD; border-bottom:1px solid #ABC6DD}
+.o2k7Skin .mceMenuItemTitle span.text {color:#000; font-weight:bold; padding-left:4px}
+.o2k7Skin .mceMenuItemDisabled .text {color:#888}
+.o2k7Skin .mceMenuItemSelected .icon {background:url(../default/img/menu_check.gif)}
+.o2k7Skin .noIcons .mceMenuItemSelected a {background:url(../default/img/menu_arrow.gif) no-repeat -6px center}
+.o2k7Skin .mceMenu span.mceMenuLine {display:none}
+.o2k7Skin .mceMenuItemSub a {background:url(../default/img/menu_arrow.gif) no-repeat top right;}
+
+/* Progress,Resize */
+.o2k7Skin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; filter:alpha(opacity=50); background:#FFF}
+.o2k7Skin .mceProgress {position:absolute; left:0; top:0; z-index:1001; background:url(../default/img/progress.gif) no-repeat; width:32px; height:32px; margin:-16px 0 0 -16px}
+.o2k7Skin .mcePlaceHolder {border:1px dotted gray}
+
+/* Theme */
+.o2k7Skin span.bold {background-position:0 0}
+.o2k7Skin span.italic {background-position:-60px 0}
+.o2k7Skin span.underline {background-position:-140px 0}
+.o2k7Skin span.strikethrough {background-position:-120px 0}
+.o2k7Skin span.undo {background-position:-160px 0}
+.o2k7Skin span.redo {background-position:-100px 0}
+.o2k7Skin span.cleanup {background-position:-40px 0}
+.o2k7Skin span.bullist {background-position:-20px 0}
+.o2k7Skin span.numlist {background-position:-80px 0}
+.o2k7Skin span.justifyleft {background-position:-460px 0}
+.o2k7Skin span.justifyright {background-position:-480px 0}
+.o2k7Skin span.justifycenter {background-position:-420px 0}
+.o2k7Skin span.justifyfull {background-position:-440px 0}
+.o2k7Skin span.anchor {background-position:-200px 0}
+.o2k7Skin span.indent {background-position:-400px 0}
+.o2k7Skin span.outdent {background-position:-540px 0}
+.o2k7Skin span.link {background-position:-500px 0}
+.o2k7Skin span.unlink {background-position:-640px 0}
+.o2k7Skin span.sub {background-position:-600px 0}
+.o2k7Skin span.sup {background-position:-620px 0}
+.o2k7Skin span.removeformat {background-position:-580px 0}
+.o2k7Skin span.newdocument {background-position:-520px 0}
+.o2k7Skin span.image {background-position:-380px 0}
+.o2k7Skin span.help {background-position:-340px 0}
+.o2k7Skin span.code {background-position:-260px 0}
+.o2k7Skin span.hr {background-position:-360px 0}
+.o2k7Skin span.visualaid {background-position:-660px 0}
+.o2k7Skin span.charmap {background-position:-240px 0}
+.o2k7Skin span.paste {background-position:-560px 0}
+.o2k7Skin span.copy {background-position:-700px 0}
+.o2k7Skin span.cut {background-position:-680px 0}
+.o2k7Skin span.blockquote {background-position:-220px 0}
+.o2k7Skin .forecolor span.action {background-position:-720px 0}
+.o2k7Skin .backcolor span.action {background-position:-760px 0}
+.o2k7Skin .forecolorpicker {background-position:-720px 0}
+.o2k7Skin .backcolorpicker {background-position:-760px 0}
+
+/* Plugins */
+.o2k7Skin span.advhr {background-position:-0px -20px}
+.o2k7Skin span.ltr {background-position:-20px -20px}
+.o2k7Skin span.rtl {background-position:-40px -20px}
+.o2k7Skin span.emotions {background-position:-60px -20px}
+.o2k7Skin span.fullpage {background-position:-80px -20px}
+.o2k7Skin span.fullscreen {background-position:-100px -20px}
+.o2k7Skin span.iespell {background-position:-120px -20px}
+.o2k7Skin span.insertdate {background-position:-140px -20px}
+.o2k7Skin span.inserttime {background-position:-160px -20px}
+.o2k7Skin span.absolute {background-position:-180px -20px}
+.o2k7Skin span.backward {background-position:-200px -20px}
+.o2k7Skin span.forward {background-position:-220px -20px}
+.o2k7Skin span.insert_layer {background-position:-240px -20px}
+.o2k7Skin span.insertlayer {background-position:-260px -20px}
+.o2k7Skin span.movebackward {background-position:-280px -20px}
+.o2k7Skin span.moveforward {background-position:-300px -20px}
+.o2k7Skin span.media {background-position:-320px -20px}
+.o2k7Skin span.nonbreaking {background-position:-340px -20px}
+.o2k7Skin span.pastetext {background-position:-360px -20px}
+.o2k7Skin span.pasteword {background-position:-380px -20px}
+.o2k7Skin span.selectall {background-position:-400px -20px}
+.o2k7Skin span.preview {background-position:-420px -20px}
+.o2k7Skin span.print {background-position:-440px -20px}
+.o2k7Skin span.cancel {background-position:-460px -20px}
+.o2k7Skin span.save {background-position:-480px -20px}
+.o2k7Skin span.replace {background-position:-500px -20px}
+.o2k7Skin span.search {background-position:-520px -20px}
+.o2k7Skin span.styleprops {background-position:-560px -20px}
+.o2k7Skin span.table {background-position:-580px -20px}
+.o2k7Skin span.cell_props {background-position:-600px -20px}
+.o2k7Skin span.delete_table {background-position:-620px -20px}
+.o2k7Skin span.delete_col {background-position:-640px -20px}
+.o2k7Skin span.delete_row {background-position:-660px -20px}
+.o2k7Skin span.col_after {background-position:-680px -20px}
+.o2k7Skin span.col_before {background-position:-700px -20px}
+.o2k7Skin span.row_after {background-position:-720px -20px}
+.o2k7Skin span.row_before {background-position:-740px -20px}
+.o2k7Skin span.merge_cells {background-position:-760px -20px}
+.o2k7Skin span.table_props {background-position:-980px -20px}
+.o2k7Skin span.row_props {background-position:-780px -20px}
+.o2k7Skin span.split_cells {background-position:-800px -20px}
+.o2k7Skin span.template {background-position:-820px -20px}
+.o2k7Skin span.visualchars {background-position:-840px -20px}
+.o2k7Skin span.abbr {background-position:-860px -20px}
+.o2k7Skin span.acronym {background-position:-880px -20px}
+.o2k7Skin span.attribs {background-position:-900px -20px}
+.o2k7Skin span.cite {background-position:-920px -20px}
+.o2k7Skin span.del {background-position:-940px -20px}
+.o2k7Skin span.ins {background-position:-960px -20px}
+.o2k7Skin span.pagebreak {background-position:0 -40px}
+.o2k7Skin .spellchecker span.action {background-position:-540px -20px}

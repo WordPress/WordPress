@@ -1,18 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>{$lang_insert_image_title}</title>
-	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
-	<script language="javascript" type="text/javascript" src="jscripts/image.js"></script>
+	<title>{#advanced_dlg.image_title}</title>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script type="text/javascript" src="js/image.js"></script>
 	<base target="_self" />
 </head>
-<!-- WordPress: extra onload stuff is WP -->
-<body id="image" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';document.getElementById('src').focus();" style="display: none">
-<form onsubmit="insertImage();return false;" action="#">
+<body id="image" style="display: none">
+<form onsubmit="ImageDialog.update();return false;" action="#">
 	<div class="tabs">
 		<ul>
-			<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{$lang_insert_image_title}</a></span></li>
+			<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#advanced_dlg.image_title}</a></span></li>
 		</ul>
 	</div>
 
@@ -20,81 +20,65 @@
 		<div id="general_panel" class="panel current">
      <table border="0" cellpadding="4" cellspacing="0">
           <tr>
-            <td nowrap="nowrap"><label for="src">{$lang_insert_image_src}</label></td>
+            <td nowrap="nowrap"><label for="src">{#advanced_dlg.image_src}</label></td>
             <td><table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input id="src" name="src" type="text" value="" style="width: 200px" onchange="getImageData();" /></td>
+                  <td><input id="src" name="src" type="text" value="" style="width: 200px" onchange="ImageDialog.getImageData();" /></td>
                   <td id="srcbrowsercontainer">&nbsp;</td>
                 </tr>
               </table></td>
           </tr>
-		  <!-- Image list -->
-		  <script language="javascript">
-			if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) {
-				var html = "";
-
-				html += '<tr><td><label for="image_list">{$lang_image_list}</label></td>';
-				html += '<td><select id="image_list" name="image_list" style="width: 200px" onchange="this.form.src.value=this.options[this.selectedIndex].value;resetImageData();getImageData();">';
-				html += '<option value="">---</option>';
-
-				for (var i=0; i<tinyMCEImageList.length; i++)
-					html += '<option value="' + tinyMCEImageList[i][1] + '">' + tinyMCEImageList[i][0] + '</option>';
-
-				html += '</select></td></tr>';
-
-				document.write(html);
-			}
-		  </script>
-		  <!-- /Image list -->
+		  <tr>
+			<td><label for="image_list">{#advanced_dlg.image_list}</label></td>
+			<td><select id="image_list" name="image_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;document.getElementById('alt').value=this.options[this.selectedIndex].text;"></select></td>
+		  </tr>
           <tr>
-            <td nowrap="nowrap"><label for="alt">{$lang_insert_image_alt}</label></td>
+            <td nowrap="nowrap"><label for="alt">{#advanced_dlg.image_alt}</label></td>
             <td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><label for="align">{$lang_insert_image_align}</label></td>
-            <td><select id="align" name="align">
-                <option value="">{$lang_insert_image_align_default}</option>
-                <option value="baseline">{$lang_insert_image_align_baseline}</option>
-                <option value="top">{$lang_insert_image_align_top}</option>
-                <option value="middle">{$lang_insert_image_align_middle}</option>
-                <option value="bottom">{$lang_insert_image_align_bottom}</option>
-                <option value="texttop">{$lang_insert_image_align_texttop}</option>
-                <option value="absmiddle">{$lang_insert_image_align_absmiddle}</option>
-                <option value="absbottom">{$lang_insert_image_align_absbottom}</option>
-                <option value="left">{$lang_insert_image_align_left}</option>
-                <option value="right">{$lang_insert_image_align_right}</option>
+            <td nowrap="nowrap"><label for="align">{#advanced_dlg.image_align}</label></td>
+            <td><select id="align" name="align" onchange="ImageDialog.updateStyle();">
+                <option value="">{#not_set}</option>
+                <option value="baseline">{#advanced_dlg.image_align_baseline}</option>
+                <option value="top">{#advanced_dlg.image_align_top}</option>
+                <option value="middle">{#advanced_dlg.image_align_middle}</option>
+                <option value="bottom">{#advanced_dlg.image_align_bottom}</option>
+                <option value="text-top">{#advanced_dlg.image_align_texttop}</option>
+                <option value="text-bottom">{#advanced_dlg.image_align_textbottom}</option>
+                <option value="left">{#advanced_dlg.image_align_left}</option>
+                <option value="right">{#advanced_dlg.image_align_right}</option>
               </select></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><label for="width">{$lang_insert_image_dimensions}</label></td>
+            <td nowrap="nowrap"><label for="width">{#advanced_dlg.image_dimensions}</label></td>
             <td><input id="width" name="width" type="text" value="" size="3" maxlength="5" />
               x
               <input id="height" name="height" type="text" value="" size="3" maxlength="5" /></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><label for="border">{$lang_insert_image_border}</label></td>
-            <td><input id="border" name="border" type="text" value="" size="3" maxlength="3" /></td>
+            <td nowrap="nowrap"><label for="border">{#advanced_dlg.image_border}</label></td>
+            <td><input id="border" name="border" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><label for="vspace">{$lang_insert_image_vspace}</label></td>
-            <td><input id="vspace" name="vspace" type="text" value="" size="3" maxlength="3" /></td>
+            <td nowrap="nowrap"><label for="vspace">{#advanced_dlg.image_vspace}</label></td>
+            <td><input id="vspace" name="vspace" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><label for="hspace">{$lang_insert_image_hspace}</label></td>
-            <td><input id="hspace" name="hspace" type="text" value="" size="3" maxlength="3" /></td>
+            <td nowrap="nowrap"><label for="hspace">{#advanced_dlg.image_hspace}</label></td>
+            <td><input id="hspace" name="hspace" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
           </tr>
         </table>
 		</div>
 	</div>
 
 	<div class="mceActionPanel">
-		<!-- WordPress: buttons reversed! -->
 		<div style="float: left">
-			<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
+			<input type="button" id="insert" name="insert" value="{#insert}" onclick="ImageDialog.update();" />
 		</div>
 
 		<div style="float: right">
-			<input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();" />
+			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 		</div>
 	</div>
 </form>

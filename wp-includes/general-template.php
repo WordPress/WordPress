@@ -952,7 +952,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 
 	<script type="text/javascript">
 	// <![CDATA[
-		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
+		if ( typeof tinyMCE != "undefined" )
 			document.getElementById('editor-toolbar').style.display = 'block';
 	// ]]>
 	</script>
@@ -967,7 +967,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	<?php if ( 'html' != $wp_default_editor ) : ?>
 	<script type="text/javascript">
 	// <![CDATA[
-		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
+		if ( typeof tinyMCE != "undefined" )
 			document.getElementById("quicktags").style.display="none";
 	// ]]>
 	</script>

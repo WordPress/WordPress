@@ -1,19 +1,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>{$lang_theme_charmap_title}</title>
+	<title>{#advanced_dlg.charmap_title}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
-	<script language="javascript" type="text/javascript" src="jscripts/charmap.js"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="js/charmap.js"></script>
 	<base target="_self" />
 </head>
-<body onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+<body style="display: none">
 <table align="center" border="0" cellspacing="0" cellpadding="2">
     <tr>
-        <td colspan="2" class="title">{$lang_theme_charmap_title}</td>
+        <td colspan="2" class="title">{#advanced_dlg.charmap_title}</td>
     </tr>
     <tr>
-        <td rowspan="2" align="left" valign="top">
-            <script language="javascript" type="text/javascript">renderCharMapHTML();</script>
+        <td id="charmap" rowspan="2" align="left" valign="top">
+			<!-- Chars will be rendered here -->
         </td>
         <td width="100" align="center" valign="top">
             <table border="0" cellpadding="0" cellspacing="0" width="100" style="height: 100px">

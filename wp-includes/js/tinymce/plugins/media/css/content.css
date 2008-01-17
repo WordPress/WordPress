@@ -1,0 +1,6 @@
+.mceItemFlash, .mceItemShockWave, .mceItemQuickTime, .mceItemWindowsMedia, .mceItemRealMedia {border:1px dotted #cc0000; background-position:center; background-repeat:no-repeat; background-color:#ffffcc;}
+.mceItemShockWave {background-image: url(../img/shockwave.gif);}
+.mceItemFlash {background-image:url(../img/flash.gif);}
+.mceItemQuickTime {background-image:url(../img/quicktime.gif);}
+.mceItemWindowsMedia {background-image:url(../img/windowsmedia.gif);}
+.mceItemRealMedia {background-image:url(../img/realmedia.gif);}
