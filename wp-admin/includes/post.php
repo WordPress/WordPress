@@ -524,4 +524,40 @@ function postbox_classes( $id ) {
 	}
 }
 
+function get_sample_permalink($id, $name = null) {
+	$post = &get_post($id);
+	$original_status = $post->post_status;
+	$original_date = $post->post_date;
+	$original_name = $post->post_name;
+	if (in_array($post->post_status, array('draft', 'pending'))) {
+		$post->post_status = 'publish';
+		$post->post_date = date('Y-m-d H:i:s');
+		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
+	}
+	if (!is_null($name)) {
+		$post->post_name = sanitize_title($name, $post->ID); 
+	}
+	$permalink = get_permalink($post, true);
+	$permalink = array($permalink, $post->post_name);
+	$post->post_status = $original_status;
+	$post->post_date = $original_date;
+	$post->post_name = $original_name;
+	return $permalink;
+}
+
+function get_sample_permalink_html($id, $new_slug=null) {
+	$post = &get_post($id);
+	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_slug);
+	if (false === strpos($permalink, '%postname%')) {
+		return '';
+	}
+	$title = __('You can edit this part of the permalink using the Edit button on the right');
+	if (strlen($post_name) > 30) {
+		$post_name = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
+	}
+	$post_name_html = '<span id="editable-post-name" title="'.$title.'">'.$post_name.'</span>';
+	$display_link = str_replace('%postname%', $post_name_html, $permalink);
+	return $display_link;
+} 
+
 ?>

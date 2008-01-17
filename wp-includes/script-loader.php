@@ -114,6 +114,8 @@ class WP_Scripts {
 				'add' => attribute_escape(__('Add')),
 				'addTag' => attribute_escape(__('Add new tag')),
 				'separate' => __('Separate tags with commas'),
+				'save' => __('Save'),
+				'cancel' => __('Cancel'),
 				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
 			) );
 			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );

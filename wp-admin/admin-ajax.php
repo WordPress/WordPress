@@ -473,6 +473,11 @@ case 'closed-postboxes' :
 	$current_user = wp_get_current_user();
 	update_usermeta($current_user->ID, 'closedpostboxes', $closed);
 break;
+case 'sample-permalink':
+	check_ajax_referer( $action );
+	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
+	die(get_sample_permalink_html($post_id, $_POST['new_slug']));
+break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

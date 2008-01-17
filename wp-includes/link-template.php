@@ -43,7 +43,7 @@ function permalink_anchor($mode = 'id') {
 }
 
 
-function get_permalink($id = 0) {
+function get_permalink($id = 0, $leavename=false) {
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
@@ -51,11 +51,11 @@ function get_permalink($id = 0) {
 		'%hour%',
 		'%minute%',
 		'%second%',
-		'%postname%',
+		$leavename? '' : '%postname%',
 		'%post_id%',
 		'%category%',
 		'%author%',
-		'%pagename%'
+		$leavename? '' : '%pagename%',
 	);
 
 	$post = &get_post($id);
