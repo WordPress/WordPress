@@ -260,7 +260,7 @@ EOD;
 		$post_title = $entry->title[1];
 		$post_content = $entry->content[1];
 		$post_excerpt = $entry->summary[1];
-		$pubtimes = $this->get_publish_time($entry);
+		$pubtimes = $this->get_publish_time($entry->published);
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
 
@@ -332,7 +332,7 @@ EOD;
 		$post_title = $parsed->title[1];
 		$post_content = $parsed->content[1];
 		$post_excerpt = $parsed->summary[1];
-		$pubtimes = $this->get_publish_time($entry);
+		$pubtimes = $this->get_publish_time($parsed->published);
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
 
@@ -578,7 +578,7 @@ EOD;
 		fclose($localfp);
 
 		$ID = $entry['ID'];
-		$pubtimes = $this->get_publish_time($entry);
+		$pubtimes = $this->get_publish_time($entry->published);
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
 
@@ -1098,9 +1098,9 @@ EOD;
 	    return strtotime($match[1] . " " . $match[2] . " " . $match[3]);
 	}
 
-	function get_publish_time($entry) {
+	function get_publish_time($published) {
 
-	    $pubtime = $this->rfc3339_str2time($entry->published);
+	    $pubtime = $this->rfc3339_str2time($published);
 
 	    if(!$pubtime) {
 			return array(current_time('mysql'),current_time('mysql',1));
