@@ -69,7 +69,6 @@ function starify($string) {
 if ( isset($HTTP_RAW_POST_DATA) )
   logIO("I", $HTTP_RAW_POST_DATA);
 
-
 class wp_xmlrpc_server extends IXR_Server {
 
 	function wp_xmlrpc_server() {
@@ -663,7 +662,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		set_current_user(0, $username);
 		if( !current_user_can( 'edit_posts' ) ) 
-			return new IXR_Error( 401, __( 'Sorry, you must be able to publish to this blog in order to view categories.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts to this blog in order to view categories.' ) );
 
 		do_action('xmlrpc_call', 'wp.suggestCategories');
 
@@ -696,6 +695,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 403, __( 'You are not allowed details about comments.' ) );  
 		} 
 
+		do_action('xmlrpc_call', 'wp.getCommentCount');
+
 		return get_comment_count( $post_id );
 	}
 
@@ -716,6 +717,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
 		}
 
+		do_action('xmlrpc_call', 'wp.getPostStatusList');
+
 		return get_post_statuses( );
 	}
 
@@ -735,6 +738,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if( !current_user_can( 'edit_posts' ) ) {
 			return new IXR_Error( 403, __( 'You are not allowed acces to details about this blog.' ) );
 		}
+
+		do_action('xmlrpc_call', 'wp.getPageStatusList');
 
 		return get_page_statuses( );
 	}
@@ -1896,6 +1901,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		do_action('xmlrpc_call', 'mt.getRecentPostTitles');
+
 		$posts_list = wp_get_recent_posts($num_posts);
 
 		if (!$posts_list) {
@@ -2048,6 +2055,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* mt.supportedTextFilters ...returns an empty array because we don't
 		 support per-post text filters yet */
 	function mt_supportedTextFilters($args) {
+		do_action('xmlrpc_call', 'mt.supportedTextFilters');
 		return apply_filters('xmlrpc_text_filters', array());
 	}
 
