@@ -25,6 +25,23 @@ function set_current_user($id, $name = '') {
 endif;
 
 if ( !function_exists('wp_set_current_user') ) :
+/**
+ * wp_set_current_user() - Changes the current user by ID or name
+ *
+ * Set $id to null and specify a name if you do not know a user's ID
+ *
+ * Some WordPress functionality is based on the current user and
+ * not based on the signed in user. Therefore, it opens the ability
+ * to edit and perform actions on users who aren't signed in.
+ *
+ * @since 2.0.4
+ * @global object $current_user The current user object which holds the user data.
+ * @uses do_action() Calls 'set_current_user' hook after setting the current user.
+ *
+ * @param int $id User ID
+ * @param string $name User's username
+ * @return WP_User Current user User object
+ */
 function wp_set_current_user($id, $name = '') {
 	global $current_user;
 
@@ -42,6 +59,13 @@ function wp_set_current_user($id, $name = '') {
 endif;
 
 if ( !function_exists('wp_get_current_user') ) :
+/**
+ * wp_get_current_user() - Retrieve the current user object
+ *
+ * @since 2.0.4
+ *
+ * @return WP_User Current user WP_User object
+ */
 function wp_get_current_user() {
 	global $current_user;
 
@@ -55,11 +79,16 @@ if ( !function_exists('get_currentuserinfo') ) :
 /**
  * get_currentuserinfo() - Populate global variables with information about the currently logged in user
  *
- * {@internal Missing Long Description}}
+ * Will set the current user, if the current user is not set. The current
+ * user will be set to the logged in person. If no user is logged in, then
+ * it will set the current user to 0, which is invalid and won't have any
+ * permissions.
  *
  * @since 0.71
+ * @uses $current_user Checks if the current user is set
+ * @uses wp_validate_auth_cookie() Retrieves current logged in user.
  *
- * @return unknown {@internal Missing Description}}
+ * @return bool|null False on XMLRPC Request and invalid auth cookie. Null when current user set
  */
 function get_currentuserinfo() {
 	global $current_user;
@@ -81,14 +110,12 @@ endif;
 
 if ( !function_exists('get_userdata') ) :
 /**
- * get_userdata() - Get an object containing data about a user
- *
- * {@internal Missing Long Description}}
+ * get_userdata() - Retrieve user info by user ID
  *
  * @since 0.71
  *
- * @param unknown_type $user_id {@internal Missing Description}}
- * @return unknown {@internal Missing Description}}
+ * @param int $user_id User ID
+ * @return bool|object False on failure, User DB row object
  */
 function get_userdata( $user_id ) {
 	global $wpdb;
@@ -132,14 +159,12 @@ endif;
 
 if ( !function_exists('get_userdatabylogin') ) :
 /**
- * get_userdatabylogin() - Grabs some info about a user based on their login name
- *
- * {@internal Missing Long Description}}
+ * get_userdatabylogin() - Retrieve user info by login name
  *
  * @since 0.71
  *
- * @param string $user_login {@internal Missing Description}}
- * @return unknown {@internal Missing Description}}
+ * @param string $user_login User's username
+ * @return bool|object False on failure, User DB row object
  */
 function get_userdatabylogin($user_login) {
 	global $wpdb;
@@ -171,6 +196,14 @@ function get_userdatabylogin($user_login) {
 endif;
 
 if ( !function_exists('get_user_by_email') ) :
+/**
+ * get_user_by_email() - Retrieve user info by email
+ *
+ * @since 2.5
+ *
+ * @param string $email User's email address
+ * @return bool|object False on failure, User DB row object
+ */
 function get_user_by_email($email) {
 	global $wpdb;
 
@@ -201,15 +234,40 @@ if ( !function_exists( 'wp_mail' ) ) :
 /**
  * wp_mail() - Function to send mail, similar to PHP's mail
  *
- * {@internal Missing Long Description}}
+ * A true return value does not automatically mean that the
+ * user received the email successfully. It just only means
+ * that the method used was able to process the request
+ * without any errors.
+ *
+ * Using the two 'wp_mail_from' and 'wp_mail_from_name' hooks
+ * allow from creating a from address like 'Name <email@address.com>'
+ * when both are set. If just 'wp_mail_from' is set, then just
+ * the email address will be used with no name.
+ *
+ * The default content type is 'text/plain' which does not
+ * allow using HTML. However, you can set the content type
+ * of the email by using the 'wp_mail_content_type' filter.
+ *
+ * The default charset is based on the charset used on the
+ * blog. The charset can be set using the 'wp_mail_charset'
+ * filter.
  *
  * @since 1.2.1
+ * @uses apply_filters() Calls 'wp_mail' hook on an array of all of the parameters.
+ * @uses apply_filters() Calls 'wp_mail_from' hook to get the from email address.
+ * @uses apply_filters() Calls 'wp_mail_from_name' hook to get the from address name.
+ * @uses apply_filters() Calls 'wp_mail_content_type' hook to get the email content type.
+ * @uses apply_filters() Calls 'wp_mail_charset' hook to get the email charset
+ * @uses do_action_ref_array() Calls 'phpmailer_init' hook on the reference to
+ *		phpmailer object.
+ * @uses PHPMailer
+ * @
  *
- * @param string $to {@internal Missing Description}}
- * @param string $subject {@internal Missing Description}}
- * @param string $message {@internal Missing Description}}
- * @param string $headers {@internal Missing Description}}
- * @return unknown {@internal Missing Description}}
+ * @param string $to Email address to send message
+ * @param string $subject Email subject
+ * @param string $message Message contents
+ * @param string|array $headers Optional. Additional headers.
+ * @return bool Whether the email contents were sent successfully.
  */
 function wp_mail( $to, $subject, $message, $headers = '' ) {
 	// Compact the input, apply the filters, and extract them back out
@@ -359,14 +417,21 @@ if ( !function_exists('wp_login') ) :
 /**
  * wp_login() - Checks a users login information and logs them in if it checks out
  *
- * {@internal Missing Long Description}}
+ * Use the global $error to get the reason why the login failed.
+ * If the username is blank, no error will be set, so assume
+ * blank username on that case.
+ *
+ * Plugins extending this function should also provide the global
+ * $error and set what the error is, so that those checking the
+ * global for why there was a failure can utilize it later.
  *
  * @since 1.2.2
+ * @global string $error Error when false is returned
  *
- * @param string $username {@internal Missing Description}}
- * @param string $password {@internal Missing Description}}
- * @param bool $deprecated {@internal Missing Description}}
- * @return unknown {@internal Missing Description}}
+ * @param string $username User's username
+ * @param string $password User's password
+ * @param bool $deprecated Not used
+ * @return bool False on login failure, true on successful check
  */
 function wp_login($username, $password, $deprecated = '') {
 	global $error;
@@ -402,6 +467,20 @@ function wp_login($username, $password, $deprecated = '') {
 endif;
 
 if ( !function_exists('wp_validate_auth_cookie') ) :
+/**
+ * wp_validate_auth_cookie() - Validates authentication cookie
+ *
+ * The checks include making sure that the authentication cookie
+ * is set and pulling in the contents (if $cookie is not used).
+ *
+ * Makes sure the cookie is not expired. Verifies the hash in
+ * cookie is what is should be and compares the two.
+ *
+ * @since 2.5
+ *
+ * @param string $cookie Optional. If used, will validate contents instead of cookie's
+ * @return bool|int False if invalid cookie, User ID if valid.
+ */
 function wp_validate_auth_cookie($cookie = '') {
 	if ( empty($cookie) ) {
 		if ( empty($_COOKIE[AUTH_COOKIE]) )
@@ -435,6 +514,17 @@ function wp_validate_auth_cookie($cookie = '') {
 endif;
 
 if ( !function_exists('wp_generate_auth_cookie') ) :
+/**
+ * wp_generate_auth_cookie() - Generate authentication cookie contents
+ *
+ * @since 2.5
+ * @uses apply_filters() Calls 'auth_cookie' hook on $cookie contents, User ID
+ *		and expiration of cookie.
+ *
+ * @param int $user_id User ID
+ * @param int $expiration Cookie expiration in seconds
+ * @return string Authentication cookie contents
+ */
 function wp_generate_auth_cookie($user_id, $expiration) {
 	$user = get_userdata($user_id);
 
@@ -448,6 +538,19 @@ function wp_generate_auth_cookie($user_id, $expiration) {
 endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
+/**
+ * wp_set_auth_cookie() - Sets the authentication cookies based User ID
+ *
+ * The $remember parameter increases the time that the cookie will
+ * be kept. The default the cookie is kept without remembering is
+ * two days. When $remember is set, the cookies will be kept for
+ * 14 days or two weeks.
+ *
+ * @since 2.5
+ *
+ * @param int $user_id User ID
+ * @param bool $remember Whether to remember the user or not
+ */
 function wp_set_auth_cookie($user_id, $remember = false) {
 	if ( $remember ) {
 		$expiration = $expire = time() + 1209600;
@@ -467,6 +570,11 @@ function wp_set_auth_cookie($user_id, $remember = false) {
 endif;
 
 if ( !function_exists('wp_clear_auth_cookie') ) :
+/**
+ * wp_clear_auth_cookie() - Deletes all of the cookies associated with authentication
+ *
+ * @since 2.5
+ */
 function wp_clear_auth_cookie() {
 	setcookie(AUTH_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
 	setcookie(AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
@@ -483,11 +591,9 @@ if ( !function_exists('is_user_logged_in') ) :
 /**
  * is_user_logged_in() - Checks if the current visitor is a logged in user
  *
- * {@internal Missing Long Description}}
- *
  * @since 2.0.0
  *
- * @return bool {@internal Missing Description}}
+ * @return bool True if user is logged in, false if not logged in.
  */
 function is_user_logged_in() {
 	$user = wp_get_current_user();
@@ -503,15 +609,13 @@ if ( !function_exists('auth_redirect') ) :
 /**
  * auth_redirect() - Checks if a user is logged in, if not it redirects them to the login page
  *
- * {@internal Missing Long Description}}
- *
  * @since 1.5
  */
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
 	if ( (!empty($_COOKIE[AUTH_COOKIE]) &&
 				!wp_validate_auth_cookie($_COOKIE[AUTH_COOKIE])) ||
-			 (empty($_COOKIE[AUTH_COOKIE])) ) {
+			(empty($_COOKIE[AUTH_COOKIE])) ) {
 		nocache_headers();
 
 		wp_redirect(get_option('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
@@ -524,11 +628,10 @@ if ( !function_exists('check_admin_referer') ) :
 /**
  * check_admin_referer() - Makes sure that a user was referred from another admin page, to avoid security exploits
  *
- * {@internal Missing Long Description}}
- *
  * @since 1.2.0
+ * @uses do_action() Calls 'check_admin_referer' on $action.
  *
- * @param unknown_type $action {@internal Missing Description}}
+ * @param string $action Action nonce
  */
 function check_admin_referer($action = -1) {
 	$adminurl = strtolower(get_option('siteurl')).'/wp-admin';
@@ -542,6 +645,13 @@ function check_admin_referer($action = -1) {
 }endif;
 
 if ( !function_exists('check_ajax_referer') ) :
+/**
+ * check_ajax_referer() - Verifies the AJAX request to prevent processing requests external of the blog.
+ *
+ * @since 2.0.4
+ *
+ * @param string $action Action nonce
+ */
 function check_ajax_referer( $action = -1 ) {
 	$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
 	if ( !wp_verify_nonce( $nonce, $action ) ) {
@@ -563,7 +673,7 @@ function check_ajax_referer( $action = -1 ) {
 
 		if ( ! $user_id = wp_validate_auth_cookie( $auth_cookie ) )
 			die('-1');
-	
+
 		if ( $current_id != $user_id )
 			die('-1');
 	}
@@ -577,10 +687,11 @@ if ( !function_exists('wp_redirect') ) :
  *
  * @link http://support.microsoft.com/kb/q176113/
  * @since 1.5.1
+ * @uses apply_filters() Calls 'wp_redirect' hook on $location and $status.
  *
- * @param string $location {@internal Missing Description}}
- * @param int $status {@internal Missing Description}}
- * @return unknown {@internal Missing Description}}
+ * @param string $location The path to redirect to
+ * @param int $status Status code to use
+ * @return bool False if $location is not set
  */
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
@@ -634,7 +745,16 @@ if ( !function_exists('wp_safe_redirect') ) :
 /**
  * wp_safe_redirect() - Performs a safe (local) redirect, using wp_redirect()
  *
+ * Checks whether the $location is using an allowed host, if it has an absolute
+ * path. A plugin can therefore set or remove allowed host(s) to or from the list.
+ *
+ * If the host is not allowed, then the redirect is to wp-admin on the siteurl
+ * instead. This prevents malicious redirects which redirect to another host, but
+ * only used in a few places.
+ *
  * @since 2.3
+ * @uses apply_filters() Calls 'allowed_redirect_hosts' on an array containing 
+ *		WordPress host string and $location host string.
  *
  * @return void Does not return anything
  **/
@@ -663,7 +783,7 @@ if ( ! function_exists('wp_notify_postauthor') ) :
 /**
  * wp_notify_postauthor() - Notify an author of a comment/trackback/pingback to one of their posts
  *
- * @since 1.0
+ * @since 1.0.0
  *
  * @param int $comment_id Comment ID
  * @param string $comment_type Optional. The comment type either 'comment' (default), 'trackback', or 'pingback'
