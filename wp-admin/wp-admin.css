@@ -936,16 +936,39 @@ a.view-comment-post-link {
 	padding: 0;
 }
 
-#adminmenu #awaiting-mod {
-	color: #fff;
-	font-size: 10px;
-	width: 23px;
+#adminmenu li a #awaiting-mod {
 	position: absolute;
-	margin-left: -15px;
-	margin-top: -13px;
-	background-image: url(images/comment-pill.gif);
-	background-position: 0 10px;
+	margin-left: -1.2em;
+	margin-top: -0.2em;
+	font-size: 0.7em;
+	background-image: url(images/comment-stalk.gif);
 	background-repeat: no-repeat;
+	background-position: 0 bottom;
+	height: 0.9em;
+	width: 1em;
+}
+
+#adminmenu li a:hover #awaiting-mod {
+	background-position: -80px bottom;
+}
+
+#adminmenu li a #awaiting-mod span {
+	color: #fff;
+	top: -0.8em;
+	right: 0;
+	position: absolute;
+	display: block;
+	height: 1.3em;
+	line-height: 1.3em;
+	padding: 0 0.8em;
+	background-color: #d54e21;
+	-moz-border-radius: 0.3em;
+	-khtml-border-radius: 0.3em;
+	border-radius: 0.3em;
+}
+
+#adminmenu li a:hover #awaiting-mod span {
+	background-color: #264761;
 }
 
 #submenu {
@@ -1343,5 +1366,6 @@ ul.categorychecklist li {
 .wp-no-js-hidden { display: none; }
 .ui-tabs-hide { display: none; }
 .form-input-tip { color: #999; }
+
 
 
