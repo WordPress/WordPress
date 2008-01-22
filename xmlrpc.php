@@ -736,7 +736,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		set_current_user( 0, $username );
 		if( !current_user_can( 'edit_posts' ) ) {
-			return new IXR_Error( 403, __( 'You are not allowed acces to details about this blog.' ) );
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
 		}
 
 		do_action('xmlrpc_call', 'wp.getPageStatusList');
