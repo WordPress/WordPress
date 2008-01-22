@@ -1062,7 +1062,7 @@ function wp_insert_post($postarr = array()) {
 			$post_date_gmt = '0000-00-00 00:00:00';
 	}
 
-	if ( $update ) {
+	if ( $update || '0000-00-00 00:00:00' == $post_date ) {
 		$post_modified     = current_time( 'mysql' );
 		$post_modified_gmt = current_time( 'mysql', 1 );
 	} else {

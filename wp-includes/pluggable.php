@@ -413,56 +413,49 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 }
 endif;
 
-if ( !function_exists('wp_login') ) :
 /**
- * wp_login() - Checks a users login information and logs them in if it checks out
- *
- * Use the global $error to get the reason why the login failed.
- * If the username is blank, no error will be set, so assume
- * blank username on that case.
- *
- * Plugins extending this function should also provide the global
- * $error and set what the error is, so that those checking the
- * global for why there was a failure can utilize it later.
- *
- * @since 1.2.2
- * @global string $error Error when false is returned
+ * wp_authenticate() - Checks a user's login information and logs them in if it checks out
+ * @since 2.5
  *
  * @param string $username User's username
  * @param string $password User's password
- * @param bool $deprecated Not used
- * @return bool False on login failure, true on successful check
+ * @return WP_Error|WP_User WP_User object if login successful, otherwise WP_Error object.
  */
-function wp_login($username, $password, $deprecated = '') {
-	global $error;
-
+if ( !function_exists('wp_authenticate') ) :
+function wp_authenticate($username, $password) {
 	$username = sanitize_user($username);
 
 	if ( '' == $username )
-		return false;
+		return new WP_Error('empty_username', __('<strong>ERROR</strong>: The username field is empty.'));
 
-	if ( '' == $password ) {
-		$error = __('<strong>ERROR</strong>: The password field is empty.');
-		return false;
-	}
+	if ( '' == $password )
+		return new WP_Error('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
 
 	$user = get_userdatabylogin($username);
 
-	if ( !$user || ($user->user_login != $username) ) {
-		$error = __('<strong>ERROR</strong>: Invalid username.');
-		return false;
-	}
+	if ( !$user || ($user->user_login != $username) )
+		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
 
-	if ( !wp_check_password($password, $user->user_pass) ) {
-		$error = __('<strong>ERROR</strong>: Incorrect password.');
-		return false;
-	}
+	if ( !wp_check_password($password, $user->user_pass) )
+		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
 
 	// If using old md5 password, rehash.
 	if ( strlen($user->user_pass) <= 32 )
 		wp_set_password($password, $user->ID);
 
-	return true;
+	return new WP_User($user->ID);
+}
+endif;
+
+/**
+ * wp_logout() - Log the current user out
+ * @since 2.5
+ *
+ */
+if ( !function_exists('wp_logout') ) :
+function wp_logout() {
+	wp_clear_auth_cookie();
+	do_action('wp_logout');
 }
 endif;
 
@@ -1221,6 +1214,40 @@ if ( !function_exists('wp_get_cookie_login') ):
  */
 function wp_get_cookie_login() {
 	_deprecated_function( __FUNCTION__, '2.4', '' );
+	return false;
+}
+endif;
+
+if ( !function_exists('wp_login') ) :
+/**
+ * wp_login() - Checks a users login information and logs them in if it checks out
+ *
+ * Use the global $error to get the reason why the login failed.
+ * If the username is blank, no error will be set, so assume
+ * blank username on that case.
+ *
+ * Plugins extending this function should also provide the global
+ * $error and set what the error is, so that those checking the
+ * global for why there was a failure can utilize it later.
+ *
+ * @since 1.2.2
+ * @deprecated Use wp_signin()
+ * @global string $error Error when false is returned
+ *
+ * @param string $username User's username
+ * @param string $password User's password
+ * @param bool $deprecated Not used
+ * @return bool False on login failure, true on successful check
+ */
+function wp_login($username, $password, $deprecated = '') {
+	global $error;
+
+	$user = wp_authenticate($username, $password);
+
+	if ( ! is_wp_error($user) )
+		return true;
+
+	$error = $user->get_error_message();
 	return false;
 }
 endif;

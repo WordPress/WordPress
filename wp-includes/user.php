@@ -1,5 +1,58 @@
 <?php
 
+function wp_signon( $credentials = '' ) {
+	if ( empty($credentials) ) {
+		if ( ! empty($_POST['log']) )
+			$credentials['user_login'] = $_POST['log'];
+		if ( ! empty($_POST['pwd']) )
+			$credentials['user_password'] = $_POST['pwd'];
+		if ( ! empty($_POST['rememberme']) )
+			$credentials['remember'] = $_POST['rememberme'];
+	}
+
+	if ( !empty($credentials['user_login']) )
+		$credentials['user_login'] = sanitize_user($credentials['user_login']);
+	if ( !empty($credentials['user_password']) )
+		$credentials['user_password'] = trim($credentials['user_password']);
+	if ( !empty($credentials['remember']) )
+		$credentials['remember'] = true;
+	else
+		$credentials['remember'] = false;
+
+	// If no credential info provided, check cookie.
+	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
+			$user = wp_validate_auth_cookie();
+			if ( $user ) 
+				return new WP_User($user);
+
+			if ( !empty($_COOKIE[AUTH_COOKIE]) )
+				return new WP_Error('expired_session', __('Your session has expired.'));
+
+			// If the cookie is not set, be silent.
+			return new WP_Error();
+	}
+
+	if ( empty($credentials['user_login']) || empty($credentials['user_password']) ) {
+		$error = new WP_Error();
+
+		if ( empty($credentials['user_login']) )
+			$error->add('empty_username', __('<strong>ERROR</strong>: The username field is empty.'));
+		if ( empty($credentials['user_password']) )
+			$error->add('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
+		return $error;
+	}
+
+	do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
+
+	$user = wp_authenticate($credentials['user_login'], $credentials['user_password']);
+	if ( is_wp_error($user) )
+		return $user;
+
+	wp_set_auth_cookie($user->ID);
+	do_action('wp_login', $credentials['user_login']);
+	return $user;
+}
+
 function get_profile($field, $user = false) {
 	global $wpdb;
 	if ( !$user )
@@ -15,8 +68,11 @@ function get_usernumposts($userid) {
 
 // TODO: xmlrpc only.  Maybe move to xmlrpc.php.
 function user_pass_ok($user_login,$user_pass) {
-	$userdata = get_userdatabylogin($user_login);
-	return wp_check_password($user_pass, $userdata->user_pass);
+	$user = wp_authenticate($user_login, $user_pass);
+	if ( is_wp_error($user) )
+		return false;
+
+	return true;
 }
 
 //
