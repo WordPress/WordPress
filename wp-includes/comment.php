@@ -992,11 +992,10 @@ function do_all_pings() {
 	}
 
 	// Do Trackbacks
-	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE to_ping <> '' AND post_status = 'publish'");
-	if ( is_array($trackbacks) ) {
+	$trackbacks = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE to_ping <> '' AND post_status = 'publish'");
+	if ( is_array($trackbacks) )
 		foreach ( $trackbacks as $trackback )
-			do_trackbacks($trackback->ID);
-	}
+			do_trackbacks($trackback);
 
 	//Do Update Services/Generic Pings
 	generic_ping();
