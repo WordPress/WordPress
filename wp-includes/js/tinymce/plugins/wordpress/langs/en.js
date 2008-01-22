@@ -12,7 +12,7 @@ else {
 	var metaKey = 'Alt';
 }
 
-tinyMCE.addToLang('',{
+tinyMCE.addI18n('',{
 wordpress_more_button : 'Split post with More tag (' + metaKey + '+t)',
 wordpress_page_button : 'Split post with Page tag',
 wordpress_adv_button : 'Show/Hide Advanced Toolbar (' + metaKey + '+v)',

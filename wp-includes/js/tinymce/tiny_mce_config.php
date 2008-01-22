@@ -27,7 +27,7 @@
 	
 	$invalid_elements = apply_filters('mce_invalid_elements', '');
 
-	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media' );
+	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'wphelp', 'media' );
 	$plugins = apply_filters('mce_plugins', $plugins);
 	$plugins = implode($plugins, ',');
 
