@@ -332,9 +332,12 @@ EOD;
 		$post_title = $parsed->title[1];
 		$post_content = $parsed->content[1];
 		$post_excerpt = $parsed->summary[1];
-		$pubtimes = $this->get_publish_time($parsed->published);
+		$pubtimes = $this->get_publish_time($entry->published);
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
+		$pubtimes = $this->get_publish_time($parsed->updated);
+		$post_modified = $pubtimes[0];
+		$post_modified_gmt = $pubtimes[1];
 
 		// let's not go backwards and make something draft again.
 		if(!$publish && $post_status == 'draft') {
@@ -343,7 +346,7 @@ EOD;
 			$post_status = 'publish';
 		}
 
-		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'post_date', 'post_date_gmt');
+		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt');
 		$this->escape($postdata);
 
 		$result = wp_update_post($postdata);
@@ -472,8 +475,11 @@ EOD;
 
 		$post_title = $parsed->title[1];
 		$post_content = $parsed->content[1];
+		$pubtimes = $this->get_publish_time($parsed->updated);
+		$post_modified = $pubtimes[0];
+		$post_modified_gmt = $pubtimes[1];
 
-		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt');
+		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'post_modified', 'post_modified_gmt');
 		$this->escape($postdata);
 
 		$result = wp_update_post($postdata);
@@ -581,8 +587,11 @@ EOD;
 		$pubtimes = $this->get_publish_time($entry->published);
 		$post_date = $pubtimes[0];
 		$post_date_gmt = $pubtimes[1];
+		$pubtimes = $this->get_publish_time($parsed->updated);
+		$post_modified = $pubtimes[0];
+		$post_modified_gmt = $pubtimes[1];
 
-		$post_data = compact('ID', 'post_date', 'post_date_gmt');
+		$post_data = compact('ID', 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt');
 		$result = wp_update_post($post_data);
 
 		if (!$result) {
@@ -708,7 +717,7 @@ EOD;
 
 		$count = get_option('posts_per_rss');
 
-		wp('what_to_show=posts&posts_per_page=' . $count . '&offset=' . ($count * ($page-1) ));
+		wp('what_to_show=posts&posts_per_page=' . $count . '&offset=' . ($count * ($page-1) . '&orderby=modified'));
 
 		$post = $GLOBALS['post'];
 		$posts = $GLOBALS['posts'];

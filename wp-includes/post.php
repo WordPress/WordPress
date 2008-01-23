@@ -1883,6 +1883,11 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ( empty($post_date_gmt) )
 		$post_date_gmt = current_time('mysql', 1);
 
+	if ( empty($post_modified) )
+                $post_modified = $post_date;
+	if ( empty($post_modified_gmt) )
+                $post_modified_gmt = $post_date_gmt;
+
 	if ( empty($comment_status) ) {
 		if ( $update )
 			$comment_status = 'closed';
