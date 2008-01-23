@@ -441,7 +441,7 @@ function get_posts($args) {
 	$query .= empty( $post_type ) ? '' : $wpdb->prepare("AND post_type = %s ", $post_type);
 	$query .= empty( $post_status ) ? '' : $wpdb->prepare("AND post_status = %s ", $post_status);
 	$query .= "$exclusions $inclusions " ;
-	$query .= empty( $category ) ? '' : $wpdb->prepare("AND ($wpdb->posts.ID = $wpdb->term_relationships.object_id AND $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND $wpdb->term_taxonomy.term_id = %d AND $wpdb->term_taxonomy.taxonomy = 'category')");
+	$query .= empty( $category ) ? '' : $wpdb->prepare("AND ($wpdb->posts.ID = $wpdb->term_relationships.object_id AND $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND $wpdb->term_taxonomy.term_id = %d AND $wpdb->term_taxonomy.taxonomy = 'category')", $category);
 	$query .= empty( $post_parent ) ? '' : $wpdb->prepare("AND $wpdb->posts.post_parent = %d ", $post_parent);
 	// expected_slashed ($meta_key, $meta_value) -- Also, this looks really funky, doesn't seem like it works
 	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )";
