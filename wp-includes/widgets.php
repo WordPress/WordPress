@@ -874,6 +874,7 @@ function wp_widget_recent_entries($args) {
 			</ul>
 		<?php echo $after_widget; ?>
 <?php
+		wp_reset_query();  // Restore global post data stomped by the_post().
 	endif;
 	wp_cache_add('widget_recent_entries', ob_get_flush());
 }

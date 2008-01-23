@@ -48,7 +48,7 @@ function wp_signon( $credentials = '' ) {
 	if ( is_wp_error($user) )
 		return $user;
 
-	wp_set_auth_cookie($user->ID);
+	wp_set_auth_cookie($user->ID, $credentials['remember']);
 	do_action('wp_login', $credentials['user_login']);
 	return $user;
 }
