@@ -1121,7 +1121,9 @@ function wp_check_password($password, $hash) {
 		$wp_hasher = new PasswordHash(8, TRUE);
 	}
 
-	return $wp_hasher->CheckPassword($password, $hash);
+	$check = $wp_hasher->CheckPassword($password, $hash);
+
+	return apply_filters('check_password', $check, $password, $hash);
 }
 endif;
 
