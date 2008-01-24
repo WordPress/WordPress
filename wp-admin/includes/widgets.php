@@ -192,7 +192,7 @@ function wp_widget_control( $key, $widget, $display = 'display' ) {
 
 					<?php if ( $control && 'edit' != $display ) : ?>
 
-					<a class="widget-action widget-control-save edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Save'); ?></a>
+					<a class="widget-action widget-control-save edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Change'); ?></a>
 
 					<?php endif; ?>
 
