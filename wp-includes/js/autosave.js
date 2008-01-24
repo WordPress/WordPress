@@ -28,7 +28,7 @@ function autosave_update_post_ID(response) {
 
 	if(isNaN(res)) {
 		message = autosaveL10n.errorText.replace(/%response%/g, response);
-	} else {
+	} else if( res > 0 ) {
 		message = autosaveL10n.saveText.replace(/%time%/g, autosave_cur_time());
 		jQuery('#post_ID').attr({name: "post_ID"});
 		jQuery('#post_ID').val(res);
@@ -42,6 +42,8 @@ function autosave_update_post_ID(response) {
 			jQuery('#_wpnonce').val(html);
 		});
 		jQuery('#hiddenaction').val('editpost');
+	} else {
+		message = autosaveL10n.failText;
 	}
 	jQuery('#autosave').html(message);
 	autosave_enable_buttons();

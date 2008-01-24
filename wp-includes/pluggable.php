@@ -661,8 +661,10 @@ function check_ajax_referer( $action = -1 ) {
 		$auth_cookie = '';
 		$cookie = explode('; ', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
 		foreach ( $cookie as $tasty ) {
-			if ( false !== strpos($tasty, AUTH_COOKIE) )
+			if ( false !== strpos($tasty, AUTH_COOKIE . '=') ) {
 				$auth_cookie = substr(strstr($tasty, '='), 1);
+				break;
+			}
 		}
 
 		if ( empty($auth_cookie) )

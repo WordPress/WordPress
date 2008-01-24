@@ -37,10 +37,11 @@ class WP_Scripts {
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
-		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('jquery', 'schedule'), '20080104');
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('prototype', 'sack'), '20080124');
 		$this->localize( 'autosave', 'autosaveL10n', array(
 			'autosaveInterval' => apply_filters('autosave_interval', '120'),
 			'errorText' => __('Error: %response%'),
+			'failText' => __('Error: Autosave Failed.'),
 			'saveText' => __('Saved at %time%.'),
 			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
 			'savingText' => __('Saving Draft...')
