@@ -433,11 +433,15 @@ function wp_authenticate($username, $password) {
 
 	$user = get_userdatabylogin($username);
 
-	if ( !$user || ($user->user_login != $username) )
+	if ( !$user || ($user->user_login != $username) ) {
+		do_action( 'wp_login_failed', $username );
 		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
+	}
 
-	if ( !wp_check_password($password, $user->user_pass) )
+	if ( !wp_check_password($password, $user->user_pass) ) {
+		do_action( 'wp_login_failed', $username );
 		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
+	}
 
 	// If using old md5 password, rehash.
 	if ( strlen($user->user_pass) <= 32 )
