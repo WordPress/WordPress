@@ -232,6 +232,65 @@ function dropdown_link_categories( $default = 0 ) {
 	}
 }
 
+// Tag stuff
+
+// Returns a single tag row (see tag_rows below)
+// Note: this is also used in admin-ajax.php!
+function _tag_row( $tag, $class = '' ) {
+		$count = number_format_i18n( $tag->count );
+		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
+		
+		$out = '';
+		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
+		$out .= '<th scope="row">' . $tag->term_id . '</th>';
+
+		$out .= '<td>' . apply_filters( 'term_name', $tag->name ) . '</td>';
+
+		$out .= "<td>$count</td>";		
+		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '" class="edit">' .
+			__( 'Edit' ) . "</a></td>" .
+			'<td><a href="' . wp_nonce_url( "edit-tags.php?action=delete&amp;tag_ID=$tag->term_id", 
+					'delete-tag_' . $tag->term_id ) . 
+				'" class="delete:the-list:tag-' . $tag->term_id . ' delete">' .
+				__( 'Delete' ) . "</a></td>";
+		$out .= '</tr>';
+		
+		return $out;
+}
+
+// Outputs appropriate rows for the Nth page of the Tag Management screen,
+// assuming M tags displayed at a time on the page 
+// Returns the number of tags displayed
+function tag_rows( $page = 0, $pagesize = 20 ) {
+	
+	// Get a page worth of tags
+	$start = $page * $pagesize;
+	$tags = get_terms( 'post_tag', "offset=$start&number=$pagesize&hide_empty=0"  );
+	
+	// convert it to table rows
+	$out = '';
+	$class = '';
+	$i = 0;
+	$count = 0;
+	foreach( $tags as $tag ) {
+		if( $i ) {
+			$i = 0;
+			$class = ' class="alternate"';
+		} else {
+			$i = 1;
+			$class = '';
+		}
+
+		$out .= _tag_row( $tag, $class );
+		$count++;
+	}
+	
+	// filter and send to screen
+	$out = apply_filters('tag_rows', $out);
+	echo $out;
+	return $count;
+}
+
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_posts_columns() {
 	$posts_columns = array();

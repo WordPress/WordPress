@@ -525,9 +525,10 @@ function &get_terms($taxonomies, $args = '') {
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
 		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '',
-		'pad_counts' => false);
+		'pad_counts' => false, 'offset' => '');
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = absint( $args['number'] );
+	$args['offset'] = absint( $args['offset'] );
 	if ( !$single_taxonomy || !is_taxonomy_hierarchical($taxonomies[0]) ||
 		'' != $args['parent'] ) {
 		$args['child_of'] = 0;
@@ -625,9 +626,13 @@ function &get_terms($taxonomies, $args = '') {
 	if ( $hide_empty && !$hierarchical )
 		$where .= ' AND tt.count > 0';
 
-	if ( !empty($number) )
-		$number = 'LIMIT ' . $number;
-	else
+	if ( !empty($number) ) {
+		if( $offset )
+			$number = 'LIMIT ' . $offset . ',' . $number;
+		else 
+			$number = 'LIMIT ' . $number;
+		
+	} else
 		$number = '';
 
 	if ( 'all' == $fields )

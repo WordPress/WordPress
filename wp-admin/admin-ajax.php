@@ -62,6 +62,15 @@ case 'delete-cat' :
 		die('1');
 	else	die('0');
 	break;
+case 'delete-tag' :
+	check_ajax_referer( "delete-tag_$id" );
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+
+	if ( wp_delete_term($id, 'post_tag'))
+		die('1');
+	else	die('0');
+	break;
 case 'delete-link-cat' :
 	check_ajax_referer( "delete-link-category_$id" );
 	if ( !current_user_can( 'manage_categories' ) )
@@ -299,6 +308,43 @@ case 'add-link-cat' : // From Blogroll -> Categories
 		'what' => 'link-cat',
 		'id' => $term_id,
 		'data' => $link_cat
+	) );
+	$x->send();
+	break;
+case 'add-tag' : // From Manage->Tags
+	check_ajax_referer( 'add-tag' );
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
+
+	if ( '' === trim($_POST['name']) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'tag',
+			'id' => new WP_Error( 'name', __('You did not enter a tag name.') )
+		) );
+		$x->send();
+	}
+
+	$tag = wp_insert_term($_POST['name'], 'post_tag', $_POST );
+
+	if ( is_wp_error($tag) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'tag',
+			'id' => $tag
+		) );
+		$x->send();
+	}
+
+	if ( !$tag || (!$tag = get_term( $tag['term_id'], 'post_tag' )) )
+		die('0');
+
+	$tag_full_name = $tag->name;
+	$tag_full_name = attribute_escape($tag_full_name);
+
+	$x = new WP_Ajax_Response( array(
+		'what' => 'tag',
+		'id' => $tag->term_id,
+		'data' => _tag_row( $tag ),
+		'supplemental' => array('name' => $tag_full_name, 'show-link' => sprintf(__( 'Tag <a href="#%s">%s</a> added' ), "tag-$tag->term_id", $tag_full_name))
 	) );
 	$x->send();
 	break;
