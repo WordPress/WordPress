@@ -40,10 +40,11 @@ $submenu['edit.php'][5] = array(__('Posts'), 'edit_posts', 'edit.php');
 $submenu['edit.php'][10] = array(__('Pages'), 'edit_pages', 'edit-pages.php');
 $submenu['edit.php'][15] = array(__('Links'), 'manage_links', 'link-manager.php');
 $submenu['edit.php'][20] = array(__('Categories'), 'manage_categories', 'categories.php');
-$submenu['edit.php'][21] = array(__('Tags'), 'manage_categories', 'edit-tags.php');
-$submenu['edit.php'][25] = array(__('Media Library'), 'upload_files', 'upload.php');
-$submenu['edit.php'][30] = array(__('Import'), 'import', 'import.php');
-$submenu['edit.php'][35] = array(__('Export'), 'import', 'export.php');
+$submenu['edit.php'][25] = array(__('Tags'), 'manage_categories', 'edit-tags.php');
+$submenu['edit.php'][30] = array(__('Link Categories'), 'manage_categories', 'edit-link-categories.php');
+$submenu['edit.php'][35] = array(__('Media Library'), 'upload_files', 'upload.php');
+$submenu['edit.php'][40] = array(__('Import'), 'import', 'import.php');
+$submenu['edit.php'][45] = array(__('Export'), 'import', 'export.php');
 
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
