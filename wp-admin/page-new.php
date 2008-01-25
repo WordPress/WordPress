@@ -4,6 +4,10 @@ $title = __('New Page');
 $parent_file = 'post-new.php';
 $editing = true;
 wp_enqueue_script('autosave');
+wp_enqueue_script('post');
+wp_enqueue_script('thickbox');
+wp_enqueue_script('media-upload');
+
 require_once('admin-header.php');
 ?>
 

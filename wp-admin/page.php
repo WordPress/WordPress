@@ -52,6 +52,10 @@ case 'edit':
 		exit();
 	}
 
+	wp_enqueue_script('post');
+	wp_enqueue_script('thickbox');
+	wp_enqueue_script('media-upload');
+
 	if ( 'draft' == $post->post_status )
 		wp_enqueue_script('autosave');
 
