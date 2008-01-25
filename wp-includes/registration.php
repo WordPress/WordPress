@@ -158,6 +158,7 @@ function wp_insert_user($userdata) {
 		$user_registered = gmdate('Y-m-d H:i:s');
 
 	$data = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
+	$data = stripslashes_deep( $data );
 
 	if ( $update ) {
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
