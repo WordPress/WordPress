@@ -489,7 +489,7 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 
 	$wpdb->insert( $wpdb->postmeta, compact( 'post_id', 'meta_key', 'meta_value' ) );
 
-	wp_delete_cache($post_id, 'post_meta');
+	wp_cache_delete($post_id, 'post_meta');
 
 	return true;
 }
