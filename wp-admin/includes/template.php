@@ -745,10 +745,15 @@ function wp_convert_bytes_to_hr( $bytes ) {
 	return $size . $units[$power];
 }
 
-function wp_import_upload_form( $action ) {
+function wp_max_upload_size() {
 	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
 	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
-	$bytes = apply_filters( 'import_upload_size_limit', min($u_bytes, $p_bytes), $u_bytes, $p_bytes );
+	$bytes = apply_filters( 'upload_size_limit', min($u_bytes, $p_bytes), $u_bytes, $p_bytes );
+	return $bytes;
+}
+
+function wp_import_upload_form( $action ) {
+	$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
 	$size = wp_convert_bytes_to_hr( $bytes );
 ?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo attribute_escape($action) ?>">

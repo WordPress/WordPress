@@ -1,5 +1,9 @@
 <?php
 require_once('admin.php');
+wp_enqueue_script('swfupload');
+wp_enqueue_script('swfupload-degrade');
+wp_enqueue_script('swfupload-queue');
+wp_enqueue_script('swfupload-handlers');
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 

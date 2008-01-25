@@ -41,6 +41,7 @@ form.media-upload-form {
 	display:block;
 	font-weight: bold;
 	margin-bottom: 0.5em;
+	margin: 0 0 0.5em 0;
 }
 
 .media-upload-form label.form-help {
@@ -58,9 +59,11 @@ form.media-upload-form {
 }
 
 .media-upload-form fieldset {
+	width: 100%;
 	border: none;
 	text-align: justify;
-	margin-bottom: 1em;
+	margin: 0 0 1em 0;
+	padding: 0;
 }
 
 .media-upload-form button.button-ok {
@@ -83,7 +86,8 @@ form.media-upload-form {
 /* specific to the image upload form */
 .media-upload-form fieldset#image-align label {
 	display: inline;
-	padding: 0 28px;
+	padding: 0 0 0 28px;
+	margin: 0 0;
 }
 
 #image-align-none-label {
@@ -100,4 +104,88 @@ form.media-upload-form {
 
 #image-align-right-label {
 	background: url(../images/align-right.png) no-repeat center left;
+}
+
+.pinkynail {
+	max-width: 40px;
+	max-height: 40px;
+}
+
+#multimedia-items {
+	border: 1px solid #c0c0c0;
+	border-bottom: none;
+	width: 623px;
+}
+.multimedia-item {
+	border-bottom: 1px solid #d0d0d0;
+	width: 623px;
+	position: relative;
+}
+span.filename {
+	position: absolute;
+	left: 46px;
+	top: 0px;
+	line-height: 36px;
+	z-index: 2;
+}
+.progress {
+	width: 623px;
+	height: 36px;
+}
+.bar {
+	width: 0px;
+	height: 36px;
+	background-color: #e8e8e8;
+	border-right: 3px solid #99d;
+}
+.multimedia-item .thumbnail {
+
+}
+.multimedia-item .pinkynail {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	max-width: 40px;
+	max-height: 40px;
+}
+.describe {
+	display: none;
+	border-top: 1px solid #d0d0d0;
+	padding: 5px;
+}
+.describe fieldset {
+	width: 470px;
+	float: right;
+}
+.describe img {
+	float: left;
+}
+.describe input[type="text"], .describe textarea {
+	width: 450px;
+}
+.describe label {
+	padding-right: 1em;
+}
+
+a.delete {
+	clear: both;
+}
+.describe-toggle-on, .describe-toggle-off {
+	line-height: 36px;
+	z-index: 2;
+	position: absolute;
+	top: 0px;
+	right: 20px;
+}
+.describe-toggle-off {
+	display: none;
+}
+.clickmask {
+	background: transparent;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	cursor: pointer;
+	border: none;
+	z-index: 10;
 }
