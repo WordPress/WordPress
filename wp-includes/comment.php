@@ -552,7 +552,7 @@ function wp_insert_comment($commentdata) {
 	extract($commentdata, EXTR_SKIP);
 
 	if ( ! isset($comment_author_IP) )
-		$comment_author_IP = preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] );
+		$comment_author_IP = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	if ( ! isset($comment_date) )
 		$comment_date = current_time('mysql');
 	if ( ! isset($comment_date_gmt) )
