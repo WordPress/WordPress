@@ -126,19 +126,21 @@ echo $role_list . '</select>';
 
 <p><label><?php _e('Display name publicly as:') ?> <br />
 <select name="display_name">
-<option value="<?php echo $profileuser->display_name; ?>"><?php echo $profileuser->display_name; ?></option>
-<option value="<?php echo $profileuser->nickname ?>"><?php echo $profileuser->nickname ?></option>
-<option value="<?php echo $profileuser->user_login ?>"><?php echo $profileuser->user_login ?></option>
-<?php if ( !empty( $profileuser->first_name ) ) : ?>
-<option value="<?php echo $profileuser->first_name ?>"><?php echo $profileuser->first_name ?></option>
-<?php endif; ?>
-<?php if ( !empty( $profileuser->last_name ) ) : ?>
-<option value="<?php echo $profileuser->last_name ?>"><?php echo $profileuser->last_name ?></option>
-<?php endif; ?>
-<?php if ( !empty( $profileuser->first_name ) && !empty( $profileuser->last_name ) ) : ?>
-<option value="<?php echo $profileuser->first_name." ".$profileuser->last_name ?>"><?php echo $profileuser->first_name." ".$profileuser->last_name ?></option>
-<option value="<?php echo $profileuser->last_name." ".$profileuser->first_name ?>"><?php echo $profileuser->last_name." ".$profileuser->first_name ?></option>
-<?php endif; ?>
+<?php
+	$public_display = array();
+	$public_display[] = $profileuser->display_name;
+	$public_display[] = $profileuser->nickname;
+	$public_display[] = $profileuser->user_login;
+	$public_display[] = $profileuser->first_name;
+	$public_display[] = $profileuser->first_name.' '.$profileuser->last_name;
+	$public_display[] = $profileuser->last_name.' '.$profileuser->first_name;
+	$public_display = array_unique(array_filter(array_map('trim', $public_display)));
+	foreach($public_display as $item) {
+?>
+	<option value="<?php echo $item; ?>"><?php echo $item; ?></option>
+<?php
+	}
+?>
 </select></label></p>
 </fieldset>
 
