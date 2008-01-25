@@ -132,8 +132,6 @@ function &get_tags($args = '') {
 	if ( empty($tags) )
 		return array();
 
-	$cache[ $key ] = $tags;
-
 	$tags = apply_filters('get_tags', $tags, $args);
 	return $tags;
 }
