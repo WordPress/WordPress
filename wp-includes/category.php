@@ -127,19 +127,12 @@ function sanitize_category_field($field, $value, $cat_id, $context) {
 // Tags
 
 function &get_tags($args = '') {
-	$key = md5( serialize( $args ) );
-	if ( $cache = wp_cache_get( 'get_tags', 'category' ) )
-		if ( isset( $cache[ $key ] ) )
-			return apply_filters('get_tags', $cache[$key], $args);
-
-
 	$tags = get_terms('post_tag', $args);
 
 	if ( empty($tags) )
 		return array();
 
 	$cache[ $key ] = $tags;
-	wp_cache_set( 'get_tags', $cache, 'category' );
 
 	$tags = apply_filters('get_tags', $tags, $args);
 	return $tags;
