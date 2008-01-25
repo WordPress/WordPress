@@ -485,17 +485,12 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) )
 		return false;
 
-	$cache = wp_cache_get($post_id, 'post_meta');
-	if ( ! is_array($cache) )
-		$cache = array();
-	// expected_slashed ($meta_key)
-	$cache[$wpdb->escape($meta_key)][] = $meta_value;
-
-	wp_cache_set($post_id, $cache, 'post_meta');
-
 	$meta_value = maybe_serialize($meta_value);
 
 	$wpdb->insert( $wpdb->postmeta, compact( 'post_id', 'meta_key', 'meta_value' ) );
+
+	wp_delete_cache($post_id, 'post_meta');
+
 	return true;
 }
 
