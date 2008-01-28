@@ -1,4 +1,4 @@
-// this file shoudl contain all the scripts used in the post/edit page
+// this file contains all the scripts used in the post/edit page
 
 function new_tag_remove_tag() {
 	var id = jQuery( this ).attr( 'id' );
@@ -52,19 +52,6 @@ function tag_press_key( e ) {
 	}
 }
 
-function add_postbox_toggles() {
-	jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
-	jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); save_postboxes_state(); } );
-}
-
-function save_postboxes_state() {
-	var closed = jQuery('.postbox').filter('.closed').map(function() { return this.id; }).get().join(',');
-	jQuery.post(postL10n.requestFile, {
-		action: 'closed-postboxes',
-		closed: closed,
-		cookie: document.cookie});
-}
-
 function edit_permalink(post_id) {
 	var i, c = 0;
 	var e = jQuery('#editable-post-name');
@@ -112,6 +99,17 @@ function make_slugedit_clickable() {
 }
 
 addLoadEvent( function() {
+	// postboxes
+	add_postbox_toggles();
+
+	// If no tags on the page, skip the tag and category stuff.
+	if ( !jQuery('#tags-input').size() ) {
+		return;	
+	}
+
+	// Editable slugs
+	make_slugedit_clickable();
+
 	jQuery('#tags-input').hide();
 	tag_update_quickclicks();
 	// add the quickadd form
@@ -129,9 +127,6 @@ addLoadEvent( function() {
 	// auto-suggest stuff
 	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2 } );
 	jQuery('#newtag').keypress( tag_press_key );
-
-	// postboxes
-	add_postbox_toggles();
 
 	// category tabs
 	var categoryTabs =jQuery('#category-tabs').tabs();
@@ -182,6 +177,4 @@ addLoadEvent( function() {
 		return false;
 	} );
 	jQuery('.categorychecklist :checkbox').change( syncChecks ).filter( ':checked' ).change();
-
-	make_slugedit_clickable();
 });
