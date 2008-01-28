@@ -103,8 +103,10 @@ function size_format( $bytes, $decimals = null ) {
 	);
 
 	foreach ( $quant as $unit => $mag )
-		if ( intval( $bytes ) >= $mag )
+		if ( doubleval($bytes) >= $mag )
 			return number_format_i18n( $bytes / $mag, $decimals ) . ' ' . $unit;
+
+	return false;
 }
 
 
