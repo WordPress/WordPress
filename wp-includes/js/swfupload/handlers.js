@@ -109,6 +109,7 @@ function fileQueueError(fileObj, error_code, message)  {
 	else {
 		wpQueueError(swfuploadL10n.default_error);
 	}
+}
 
 function fileQueued(fileObj) {
 	try {

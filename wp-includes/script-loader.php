@@ -88,7 +88,7 @@ class WP_Scripts {
 		$this->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.0.2');
 		$this->add( 'swfupload-degrade', '/wp-includes/js/swfupload/plugins/swfupload.graceful_degradation.js', array('swfupload'), '2.0.2');
 		$this->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2.0.2');
-		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2');
+		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2-20080128');
 		// these error messages came from the sample swfupload js, they might need changing.
 		$this->localize( 'swfupload-handlers', 'swfuploadL10n', array(
 				'queue_limit_exceeded' => 'You have attempted to queue too many files.',
