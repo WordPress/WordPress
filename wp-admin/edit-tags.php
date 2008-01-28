@@ -86,6 +86,14 @@ $messages[5] = __('Tag not updated.');
 <?php else : ?>
 	<h2><?php _e('Tags') ?> </h2>
 <?php endif; ?>
+
+<form name="searchform" id="searchform" action="" method="get">
+	<input type="text" name="s" id="s" value="<?php echo attribute_escape( stripslashes( $_GET[ 's' ]) ); ?>" size="17" />
+	<input type="submit" id="post-query-submit" value="<?php _e('Search Tags'); ?>" class="button" />
+</form>
+<br style="clear:both;" />
+
+
 <table class="widefat">
 	<thead>
 	<tr>
@@ -101,7 +109,9 @@ $pagenum = absint( $_GET['pagenum'] );
 if( !$tagsperpage || $tagsperpage < 0 ) {
 	$tagsperpage = 20;
 }
-$count = tag_rows( $pagenum, $tagsperpage );
+$searchterms = trim( $_GET['s'] );
+
+$count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 ?>
 	</tbody>
 </table>

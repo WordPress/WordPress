@@ -261,11 +261,17 @@ function _tag_row( $tag, $class = '' ) {
 // Outputs appropriate rows for the Nth page of the Tag Management screen,
 // assuming M tags displayed at a time on the page 
 // Returns the number of tags displayed
-function tag_rows( $page = 0, $pagesize = 20 ) {
+function tag_rows( $page = 0, $pagesize = 20, $searchterms = '' ) {
 	
 	// Get a page worth of tags
 	$start = $page * $pagesize;
-	$tags = get_terms( 'post_tag', "offset=$start&number=$pagesize&hide_empty=0"  );
+
+	$args = array('offset' => $start, 'number' => $pagesize, 'hide_empty' => 0);
+ 
+	if ( !empty( $searchterms ) )
+		$args['name__like'] = $searchterms;
+
+	$tags = get_terms( 'post_tag', $args );
 	
 	// convert it to table rows
 	$out = '';
