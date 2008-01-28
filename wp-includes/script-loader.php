@@ -131,7 +131,7 @@ class WP_Scripts {
 			$this->add( 'admin-forms', '/wp-admin/js/forms.js', array('wp-lists'), '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists'), '20080110' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists'), '20080128' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),
