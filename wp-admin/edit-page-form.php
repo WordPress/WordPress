@@ -136,7 +136,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 
 <h2><?php _e('Advanced Options'); ?></h2>
 
-<div id="postcustom" class="postbox <?php echo postbox_classes('postcustom'); ?>">
+<div id="pagepostcustom" class="postbox <?php echo postbox_classes('pagepostcustom'); ?>">
 <h3><?php _e('Custom Fields') ?></h3>
 <div class="inside">
 <div id="postcustomstuff">
@@ -155,7 +155,7 @@ list_meta($metadata);
 </div>
 </div>
 
-<div id="commentstatusdiv" class="postbox <?php echo postbox_classes('commentstatusdiv'); ?>">
+<div id="pagecommentstatusdiv" class="postbox <?php echo postbox_classes('pagecommentstatusdiv'); ?>">
 <h3><?php _e('Discussion') ?></h3>
 <div class="inside">
 <input name="advanced_view" type="hidden" value="1" />
@@ -166,21 +166,21 @@ list_meta($metadata);
 </div>
 </div>
 
-<div id="passworddiv" class="postbox <?php echo postbox_classes('passworddiv'); ?>">
+<div id="pagepassworddiv" class="postbox <?php echo postbox_classes('pagepassworddiv'); ?>">
 <h3><?php _e('Page Password') ?></h3>
 <div class="inside">
 <input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" />
 </div>
 </div>
 
-<div id="slugdiv" class="postbox <?php echo postbox_classes('slugdiv'); ?>">
+<div id="pageslugdiv" class="postbox <?php echo postbox_classes('pageslugdiv'); ?>">
 <h3><?php _e('Page Slug') ?></h3>
 <div class="inside">
 <input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
 </div>
 </div>
 
-<div id="parentdiv" class="postbox <?php echo postbox_classes('parentdiv'); ?>">
+<div id="pageparentdiv" class="postbox <?php echo postbox_classes('pageparentdiv'); ?>">
 <h3><?php _e('Page Parent') ?></h3>
 <div class="inside">
 <select name="parent_id">
@@ -191,7 +191,7 @@ list_meta($metadata);
 </div>
 
 <?php if ( 0 != count( get_page_templates() ) ) { ?>
-<div id="templatediv" class="postbox <?php echo postbox_classes('templatediv'); ?>">
+<div id="pagetemplatediv" class="postbox <?php echo postbox_classes('pagetemplatediv'); ?>">
 <h3><?php _e('Page Template') ?></h3>
 <div class="inside">
 <select name="page_template">
@@ -202,7 +202,7 @@ list_meta($metadata);
 </div>
 <?php } ?>
 
-<div id="orderdiv" class="postbox <?php echo postbox_classes('orderdiv'); ?>">
+<div id="pageorderdiv" class="postbox <?php echo postbox_classes('pageorderdiv'); ?>">
 <h3><?php _e('Page Order') ?></h3>
 <div class="inside">
 <input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" />
@@ -215,7 +215,7 @@ if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) :
 ?>
-<div id="authordiv" class="postbox <?php echo postbox_classes('authordiv'); ?>">
+<div id="pageauthordiv" class="postbox <?php echo postbox_classes('pageauthordiv'); ?>">
 <h3><?php _e('Post Author'); ?></h3>
 <div class="inside">
 <?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
