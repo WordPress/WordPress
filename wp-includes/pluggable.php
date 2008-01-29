@@ -438,6 +438,12 @@ function wp_authenticate($username, $password) {
 		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
 	}
 
+	$user = apply_filters('wp_authenticate_user', $user, $password);
+	if ( is_wp_error($user) ) {
+		do_action( 'wp_login_failed', $username );
+		return $user;
+	}
+
 	if ( !wp_check_password($password, $user->user_pass) ) {
 		do_action( 'wp_login_failed', $username );
 		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
