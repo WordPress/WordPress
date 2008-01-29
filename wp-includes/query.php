@@ -27,7 +27,7 @@ function wp_reset_query() {
 	$GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
 	global $wp_query;
 	if ( !empty($wp_query->post) ) {
-		$GLOBALS['post'] = $wp_query->next_post();
+		$GLOBALS['post'] = $wp_query->post;
 		setup_postdata($wp_query->post);
 	}
 }
