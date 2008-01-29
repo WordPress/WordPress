@@ -1282,9 +1282,9 @@ class WP_Query {
 		// Raw results filter.  Prior to status checks.
 		$this->posts = apply_filters('posts_results', $this->posts);
 
-		if ( $this->is_comment_feed && $this->is_singular ) {
+		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
 			$cjoin = apply_filters('comment_feed_join', '');
-			$cwhere = apply_filters('comment_feed_where', "WHERE comment_post_ID = {$this->posts[0]->ID} AND comment_approved = '1'");
+			$cwhere = apply_filters('comment_feed_where', "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'");
 			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss');
 			$this->comments = $wpdb->get_results($comments_request);
 			$this->comment_count = count($this->comments);
