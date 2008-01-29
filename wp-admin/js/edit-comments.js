@@ -2,7 +2,7 @@ var list; var extra;
 jQuery(function($) {
 
 var dimAfter = function( r, settings ) {
-	$('.comment-count').each( function() {
+	$('.comment-count span').each( function() {
 		var a = $(this);
 		var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
 		a.html( n.toString() );
@@ -16,7 +16,7 @@ var dimAfter = function( r, settings ) {
 }
 
 var delAfter = function( r, settings ) {
-	$('.comment-count').each( function() {
+	$('.comment-count span').each( function() {
 		var a = $(this);
 		if ( a.parent('.current').size() || $('#' + settings.element).is('.unapproved') && parseInt(a.html(),10) > 0 ) {
 			var n = parseInt(a.html(),10) - 1;
