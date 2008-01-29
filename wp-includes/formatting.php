@@ -1164,6 +1164,15 @@ function attribute_escape($text) {
 	$safe_text = wp_specialchars($text, true);
 	return apply_filters('attribute_escape', $safe_text, $text);
 }
+/**
+ * Escapes text for SQL LIKE special characters % and _
+ *
+ * @param string text the text to be escaped
+ * @return string text, safe for inclusion in LIKE query
+ */
+function like_escape($text) {
+	return str_replace(array("%", "_"), array("\\%", "\\_"), $text);
+}
 
 function wp_make_link_relative( $link ) {
 	return preg_replace('|https?://[^/]+(/.*)|i', '$1', $link );

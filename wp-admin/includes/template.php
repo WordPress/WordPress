@@ -268,8 +268,9 @@ function tag_rows( $page = 0, $pagesize = 20, $searchterms = '' ) {
 
 	$args = array('offset' => $start, 'number' => $pagesize, 'hide_empty' => 0);
  
-	if ( !empty( $searchterms ) )
-		$args['name__like'] = '%' . $searchterms;
+	if ( !empty( $searchterms ) ) {
+		$args['name__like'] = '%' . like_escape( $searchterms );
+	}
 
 	$tags = get_terms( 'post_tag', $args );
 	
