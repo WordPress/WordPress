@@ -177,6 +177,16 @@ function wp_widget_control( $key, $widget, $display = 'display' ) {
 			</h4>
 
 			<div class="widget-control"<?php if ( 'edit' == $display ) echo ' style="display: block;"'; ?>>
+				<div class="widget-control-actions">
+
+					<?php if ( $control && 'edit' != $display ) : ?>
+
+					<a class="widget-action widget-control-save edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Save'); ?></a>
+
+					<?php endif; ?>
+
+					<a class="widget-action widget-control-remove delete alignright" href="<?php echo add_query_arg( array( 'remove' => $id_format, 'key' => $key ), wp_nonce_url( null, "remove-widget_$widget[id]" ) ); ?>"><?php _e('Remove'); ?></a>
+					<br class="clear" />
 
 				<?php
 				if ( $control )

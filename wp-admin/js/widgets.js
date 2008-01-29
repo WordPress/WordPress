@@ -1,10 +1,6 @@
 jQuery(function($) {
 	$('.noscript-action').remove();
 
-	// TODO: i18n
-	var addText  = 'Add';
-	var editText = 'Edit';
-	var cancText = 'Cancel';
 	var increment = 1;
 
 	// Open or close widget control form
@@ -16,12 +12,12 @@ jQuery(function($) {
 				t.animate( { height: 'hide' } );
 				if ( width > 250 )
 					li.animate( { marginLeft: 0 } );
-				t.siblings('h4').children('a').text( editText );
+				t.siblings('h4').children('a').text( widgetsL10n.edit );
 			} else {
 				t.animate( { height: 'show' } );
 				if ( width > 250 )
 					li.animate( { marginLeft: ( width - 250 ) * -1 } );
-				t.siblings('h4').children('a').text( cancText );
+				t.siblings('h4').children('a').text( widgetsL10n.cancel );
 			}
 		} ).end();
 	};
@@ -54,7 +50,7 @@ jQuery(function($) {
 			increment++;
 			newLi.html( newLi.html().replace( /%i%/g, i ) );
 		} else {
-			$(this).text( editText ).unbind().click( editClick );
+			$(this).text( widgetsL10n.edit ).unbind().click( editClick );
 			// save form content in textarea so we don't have any conflicting HTML ids
 			oldLi.html( '<textarea>' + oldLi.html() + '</textarea>' );
 		}
@@ -91,7 +87,7 @@ jQuery(function($) {
 			$(this).parents('li:first').remove();
 			var t = $('#widget-list ul#widget-control-info-' + w + ' textarea');
 			t.parent().html( t.text() ).parents('li.widget-list-item:first').children( 'h4' ).children('a.widget-action')
-				.show().text( addText ).unbind().click( addClick );
+				.show().text( widgetsL10n.add ).unbind().click( addClick );
 			var n = parseInt( $('#widget-count').text(), 10 ) - 1;
 			$('#widget-count').text( n.toString() )
 			return false;
