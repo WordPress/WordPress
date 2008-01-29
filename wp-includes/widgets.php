@@ -848,7 +848,7 @@ function wp_widget_categories_upgrade() {
 }
 
 function wp_widget_recent_entries($args) {
-	if ( $output = wp_cache_get('widget_recent_entries') )
+	if ( $output = wp_cache_get('widget_recent_entries', 'widget') )
 		return print($output);
 
 	ob_start();
@@ -876,15 +876,16 @@ function wp_widget_recent_entries($args) {
 <?php
 		wp_reset_query();  // Restore global post data stomped by the_post().
 	endif;
-	wp_cache_add('widget_recent_entries', ob_get_flush());
+	wp_cache_add('widget_recent_entries', ob_get_flush(), 'widget');
 }
 
 function wp_flush_widget_recent_entries() {
-	wp_cache_delete('widget_recent_entries');
+	wp_cache_delete('widget_recent_entries', 'widget');
 }
 
 add_action('save_post', 'wp_flush_widget_recent_entries');
 add_action('deleted_post', 'wp_flush_widget_recent_entries');
+add_action('switch_theme', 'wp_flush_widget_recent_entries');
 
 function wp_widget_recent_entries_control() {
 	$options = $newoptions = get_option('widget_recent_entries');
