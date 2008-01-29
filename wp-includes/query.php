@@ -1196,7 +1196,7 @@ class WP_Query {
 
 		// Paging
 		if ( empty($q['nopaging']) && !$this->is_singular ) {
-			$page = abs(intval($q['paged']));
+			$page = absint($q['paged']);
 			if (empty($page)) {
 				$page = 1;
 			}
@@ -1206,7 +1206,7 @@ class WP_Query {
 				$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
 				$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
 			} else { // we're ignoring $page and using 'offset'
-				$q['offset'] = abs(intval($q['offset']));
+				$q['offset'] = absint($q['offset']);
 				$pgstrt = $q['offset'] . ', ';
 				$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 			}

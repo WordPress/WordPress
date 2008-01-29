@@ -120,7 +120,7 @@ if ( !function_exists('get_userdata') ) :
 function get_userdata( $user_id ) {
 	global $wpdb;
 
-	$user_id = abs(intval($user_id));
+	$user_id = absint($user_id);
 	if ( $user_id == 0 )
 		return false;
 

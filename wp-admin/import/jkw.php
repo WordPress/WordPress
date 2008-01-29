@@ -33,7 +33,7 @@ class JeromesKeyword_Import {
 		if ( empty($_GET['step']) )
 			$step = 0;
 		else
-			$step = abs(intval($_GET['step']));
+			$step = absint($_GET['step']);
 
 		// load the header
 		$this->header();

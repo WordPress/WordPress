@@ -369,7 +369,7 @@ function wp_get_archives($args = '') {
 		$type = 'monthly';
 
 	if ( '' != $limit ) {
-		$limit = abs(intval($limit));
+		$limit = absint($limit);
 		$limit = ' LIMIT '.$limit;
 	}
 
