@@ -1295,9 +1295,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			$to_ping = implode(' ', $to_ping);
 
 		// Do some timestamp voodoo
-		$dateCreatedd = $content_struct['dateCreated'];
-		if (!empty($dateCreatedd)) {
-			$dateCreated = $dateCreatedd->getIso();
+		if ( !empty( $content_struct['date_created_gmt'] ) )
+			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
+		elseif ( !empty( $content_struct['dateCreated']) )
+			$dateCreated = $content_struct['dateCreated']->getIso();
+
+		if ( !empty( $dateCreated ) ) {
 			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 			$post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
 		} else {
@@ -1551,13 +1554,16 @@ class wp_xmlrpc_server extends IXR_Server {
 		$to_ping = $content_struct['mt_tb_ping_urls'];
 		if ( is_array($to_ping) )
 			$to_ping = implode(' ', $to_ping);
-		
+
 		// Do some timestamp voodoo
-		$dateCreatedd = $content_struct['dateCreated'];
-		if (!empty($dateCreatedd)) {
-			$dateCreated = $dateCreatedd->getIso();
-			$post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
-			$post_date_gmt = iso8601_to_datetime($dateCreated . "Z", GMT);
+		if ( !empty( $content_struct['date_created_gmt'] ) )
+			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
+		elseif ( !empty( $content_struct['dateCreated']) )
+			$dateCreated = $content_struct['dateCreated']->getIso();
+
+		if ( !empty( $dateCreated ) ) {
+			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
 		} else {
 			$post_date     = $postdata['post_date'];
 			$post_date_gmt = $postdata['post_date_gmt'];
