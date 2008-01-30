@@ -199,7 +199,8 @@ function wp_dropdown_categories($args = '') {
 		'hide_empty' => 1, 'child_of' => 0,
 		'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0,
-		'name' => 'cat', 'class' => 'postform'
+		'name' => 'cat', 'class' => 'postform',
+		'depth' => 0
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var('cat') : 0;
@@ -225,7 +226,7 @@ function wp_dropdown_categories($args = '') {
 		}
 
 		if ( $hierarchical )
-			$depth = 0;  // Walk the full depth.
+			$depth = $r['$depth'];  // Walk the full depth.
 		else
 			$depth = -1; // Flat.
 
