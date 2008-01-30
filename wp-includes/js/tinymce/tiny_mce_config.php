@@ -27,14 +27,14 @@
 	
 	$invalid_elements = apply_filters('mce_invalid_elements', '');
 
-	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'wphelp', 'media' );
+	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'wphelp', 'media', 'fullscreen' );
 	$plugins = apply_filters('mce_plugins', $plugins);
 	$plugins = implode($plugins, ',');
 
 	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'separator', 'link', 'unlink', 'image', 'wp_more', 'separator', 'spellchecker', 'separator', 'wp_help', 'wp_adv', 'wp_adv_start', 'wp_adv_end'));
 	$mce_buttons = implode($mce_buttons, ',');
 
-	$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', 'media', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo'));
+	$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', 'media', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo', 'fullscreen'));
 	$mce_buttons_2 = implode($mce_buttons_2, ',');
 
 	$mce_buttons_3 = apply_filters('mce_buttons_3', array());

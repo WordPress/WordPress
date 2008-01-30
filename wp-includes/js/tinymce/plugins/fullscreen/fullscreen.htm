@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_fullscreen_title}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<script type="text/javascript" src="../../tiny_mce.js"></script>
+	<script type="text/javascript">
+		function patchCallback(settings, key) {
+			if (settings[key])
+				settings[key] = "window.opener." + settings[key];
+		}
+
+		var settings = {}, paSe = window.opener.tinyMCE.activeEditor.settings;
+
+		// Clone array
+		for (var n in paSe)
+			settings[n] = paSe[n];
+
+		// Override options for fullscreen
+		for (var n in paSe.fullscreen_settings)
+			settings[n] = paSe.fullscreen_settings[n];
+
+		// Patch callbacks, make them point to window.opener
+		patchCallback(settings, 'urlconverter_callback');
+		patchCallback(settings, 'insertlink_callback');
+		patchCallback(settings, 'insertimage_callback');
+		patchCallback(settings, 'setupcontent_callback');
+		patchCallback(settings, 'save_callback');
+		patchCallback(settings, 'onchange_callback');
+		patchCallback(settings, 'init_instance_callback');
+		patchCallback(settings, 'file_browser_callback');
+		patchCallback(settings, 'cleanup_callback');
+		patchCallback(settings, 'execcommand_callback');
+		patchCallback(settings, 'oninit');
+
+		// Set options
+		delete settings.id;
+		settings['mode'] = 'exact';
+		settings['elements'] = 'fullscreenarea';
+		settings['add_unload_trigger'] = false;
+		settings['ask'] = false;
+		settings['document_base_url'] = window.opener.tinyMCE.activeEditor.documentBaseURI.getURI();
+		settings['fullscreen_is_enabled'] = true;
+		settings['fullscreen_editor_id'] = window.opener.tinyMCE.activeEditor.id;
+		settings['theme_advanced_resizing'] = false;
+
+		function unloadHandler(e) {
+			moveContent();
+		}
+
+		function moveContent() {
+			window.opener.tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent({format : 'raw'}));
+		}
+
+		function closeFullscreen() {
+			moveContent();
+			window.close();
+		}
+
+		// Add onunload
+		tinymce.dom.Event.add(window, "beforeunload", unloadHandler);
+
+		function doParentSubmit() {
+			moveContent();
+
+			if (window.opener.tinyMCE.selectedInstance.formElement.form)
+				window.opener.tinyMCE.selectedInstance.formElement.form.submit();
+
+			window.close();
+
+			return false;
+		}
+
+		function init() {
+			var e = document.getElementById('fullscreenarea');
+			e.value = window.opener.tinyMCE.activeEditor.getContent({format : 'raw'});
+			settings['width'] = e.clientWidth;
+			settings['height'] = e.clientHeight;
+			tinyMCE.init(settings);
+		}
+	</script>
+	<base target="_self" />
+</head>
+<body onload="init();" style="margin:0; overflow:hidden; height:100%;" scrolling="no" scroll="no">
+<form onsubmit="doParentSubmit();" style="height: 100%">
+<textarea id="fullscreenarea" style="width:100%; height:100%"></textarea>
+</form>
+</body>
+</html>
