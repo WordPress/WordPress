@@ -1,8 +1,11 @@
 <?php
 
-$is_profile_page = isset($is_profile_page) && $is_profile_page? true : false;
-
 require_once('admin.php');
+
+if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE )
+	$is_profile_page = true;
+else
+	$is_profile_page = false;
 
 function profile_js ( ) {
 ?>
@@ -52,10 +55,10 @@ if ( $is_profile_page ) {
 
 $title = $is_profile_page? __('Profile') : __('Edit User');
 if ( current_user_can('edit_users') && !$is_profile_page )
-	$parent_file = 'users.php';
+	$submenu_file = 'users.php';
 else
-	$parent_file = 'profile.php';
-$submenu_file = 'users.php';
+	$submenu_file = 'profile.php';
+$parent_file = 'users.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer'));
 

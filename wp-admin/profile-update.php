@@ -2,9 +2,6 @@
 
 require_once('admin.php');
 
-$parent_file = 'profile.php';
-$submenu_file = 'profile.php';
-
 check_admin_referer('update-profile_' . $user_ID);
 
 if ( !$_POST )
