@@ -226,7 +226,7 @@ function wp_dropdown_categories($args = '') {
 		}
 
 		if ( $hierarchical )
-			$depth = $r['$depth'];  // Walk the full depth.
+			$depth = $r['depth'];  // Walk the full depth.
 		else
 			$depth = -1; // Flat.
 
