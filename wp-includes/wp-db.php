@@ -64,7 +64,7 @@ class wpdb {
 		if ( defined('DB_COLLATE') )
 			$this->collate = DB_COLLATE;
 
-		$this->dbh = @mysql_connect($dbhost, $dbuser, $dbpassword);
+		$this->dbh = @mysql_connect($dbhost, $dbuser, $dbpassword, true);
 		if (!$this->dbh) {
 			$this->bail("
 <h1>Error establishing a database connection</h1>
@@ -81,7 +81,7 @@ class wpdb {
 
 		$this->ready = true;
 
-		if ( !empty($this->charset) && version_compare(mysql_get_server_info(), '4.1.0', '>=') )
+		if ( !empty($this->charset) && version_compare(mysql_get_server_info($this->dbh), '4.1.0', '>=') )
  			$this->query("SET NAMES '$this->charset'");
 
 		$this->select($dbname);
@@ -493,7 +493,7 @@ class wpdb {
 	{
 		global $wp_version;
 		// Make sure the server has MySQL 4.0
-		$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info());
+		$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info($this->dbh));
 		if ( version_compare($mysql_version, '4.0.0', '<') )
 			return new WP_Error('database_version',sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $wp_version));
 	}
@@ -504,7 +504,7 @@ class wpdb {
 	 */
 	function supports_collation()
 	{
-		return ( version_compare(mysql_get_server_info(), '4.1.0', '>=') );
+		return ( version_compare(mysql_get_server_info($this->dbh), '4.1.0', '>=') );
 	}
 
 	/**
