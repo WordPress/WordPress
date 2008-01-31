@@ -25,7 +25,7 @@
 	<p><?php _e('No comments yet.'); ?></p>
 <?php endif; ?>
 
-<p><?php comments_rss_link(__('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.')); ?>
+<p><?php post_comments_feed_link(__('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.')); ?>
 <?php if ( pings_open() ) : ?>
 	<a href="<?php trackback_url() ?>" rel="trackback"><?php _e('TrackBack <abbr title="Universal Resource Locator">URL</abbr>'); ?></a>
 <?php endif; ?>
