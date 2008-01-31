@@ -1,6 +1,7 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>{$lang_fullscreen_title}</title>
+	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<script type="text/javascript" src="../../tiny_mce.js"></script>
 	<script type="text/javascript">
@@ -69,20 +70,21 @@
 
 			return false;
 		}
-
-		function init() {
-			var e = document.getElementById('fullscreenarea');
-			e.value = window.opener.tinyMCE.activeEditor.getContent({format : 'raw'});
-			settings['width'] = e.clientWidth;
-			settings['height'] = e.clientHeight;
-			tinyMCE.init(settings);
-		}
 	</script>
 	<base target="_self" />
 </head>
-<body onload="init();" style="margin:0; overflow:hidden; height:100%;" scrolling="no" scroll="no">
-<form onsubmit="doParentSubmit();" style="height: 100%">
+<body style="margin:0;overflow:hidden;width:100%;height:100%" scrolling="no" scroll="no">
+<form onsubmit="doParentSubmit();">
 <textarea id="fullscreenarea" style="width:100%; height:100%"></textarea>
 </form>
+
+<script type="text/javascript">
+		var e = document.getElementById('fullscreenarea');
+		e.value = window.opener.tinyMCE.activeEditor.getContent({format : 'raw'});
+		settings['width'] = window.innerWidth || document.body.clientWidth;
+		settings['height'] = (window.innerHeight || document.body.clientHeight) - 18;
+		tinyMCE.init(settings);
+</script>
+
 </body>
 </html>

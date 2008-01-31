@@ -928,19 +928,20 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	if ( user_can_richedit() ) :
 		$wp_default_editor = wp_default_editor();
 		$active = " class='active'";
-		$inactive = " onclick='switchEditors(\"$id\");'";
+		$inactive = " onclick='switchEditors.go(\"$id\");'";
 
 		if ( 'tinymce' == $wp_default_editor )
 			add_filter('the_editor_content', 'wp_richedit_pre');
 
-		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
-	?>
-	<style type="text/css">
+		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it. 
+        ?>	
+    <style type="text/css">
 		#postdivrich table, #postdivrich #quicktags {border-top: none;}
 		#quicktags {border-bottom: none; padding-bottom: 2px; margin-bottom: -1px;}
 	</style>
+	
 	<div id='editor-toolbar' style='display:none;'>
-		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors("<?php echo $id; ?>")' /></div>
+		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors.go("<?php echo $id; ?>")' /></div>
 		<a id='edButtonHTML'<?php echo 'html' == $wp_default_editor ? $active : $inactive; ?>><?php _e('HTML'); ?></a>
 	        <a id='edButtonPreview'<?php echo 'tinymce' == $wp_default_editor ? $active : $inactive; ?>><?php _e('Visual'); ?></a>
 
@@ -973,7 +974,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	</script>
 	<?php endif; // 'html' != $wp_default_editor
 
-	$the_editor = apply_filters('the_editor', "<div><textarea class='' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
+	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea class='' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
 
 	printf($the_editor, $the_editor_content);
@@ -986,39 +987,18 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	// If tinyMCE is defined.
 	if ( typeof tinyMCE != 'undefined' ) {
 	// This code is meant to allow tabbing from Title to Post (TinyMCE).
-		if ( tinyMCE.isMSIE ) {
-			document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
-				if ( tinyMCE.idCounter == 0 )
-					return true;
-				e = e ? e : window.event;
-				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
-					if(typeof i ==  'undefined')
-						return true;
-					tinyMCE.execCommand("mceStartTyping");
-					this.blur();
-					i.contentWindow.focus();
-					e.returnValue = false;
-					return false;
-				}
-			}
-		} else {
-			document.getElementById('<?php echo $prev_id; ?>').onkeypress = function (e) {
-				if ( tinyMCE.idCounter == 0 )
-					return true;
-				e = e ? e : window.event;
-				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
-					if(typeof i ==  'undefined')
-						return true;
-					tinyMCE.execCommand("mceStartTyping");
-					this.blur();
-					i.contentWindow.focus();
-					e.returnValue = false;
-					return false;
-				}
-			}
-		}
+        document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
+            e = e || window.event;
+            if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+                if ( tinyMCE.activeEditor ) {
+                    e = null;
+                    if ( tinyMCE.activeEditor.isHidden() ) return true;
+                    tinyMCE.activeEditor.focus();
+                    return false;
+                }
+                return true;
+            }
+        }
 	}
 	<?php endif; ?>
 	//-->

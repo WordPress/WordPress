@@ -30,10 +30,10 @@ class WP_Scripts {
 		$this->add( 'colorpicker', '/wp-includes/js/colorpicker.js', false, '3517' );
 
 		// Modify this version when tinyMCE plugins are changed
-		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_gzip.php', false, '20080105' );
+		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_gzip.php', false, '20080129' );
 
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
-		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20080105' );
+		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20080129' );
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 

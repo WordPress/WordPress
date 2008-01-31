@@ -306,6 +306,7 @@ function insertChar(chr) {
 	if (tinyMCEPopup.isWindow)
 		window.focus();
 
+	tinyMCEPopup.editor.focus();
 	tinyMCEPopup.close();
 }
 

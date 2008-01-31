@@ -9,15 +9,21 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <script type="text/javascript" src="tiny_mce_popup.js"></script>
 <?php wp_admin_css(); ?>
 <style type="text/css">
-	#wphead {
-		padding-top: 5px;
+	body {
+        background-color: #eaf3ea;
+    }
+    #wphead {
+		padding-top: 2px;
 		padding-left: 15px;
 		font-size: 80%;
+		border-top: 0;
+		background-color: #eaf3ea;
 	}
 	#adminmenu {
 		padding-top: 2px;
 		padding-left: 15px;
 		font-size: 80%;
+		background-color: #eaf3ea;
 	}
 	#user_info {
 		right: 5%;
@@ -38,6 +44,8 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		margin: 0;
 		padding: 5px 20px 10px;
 		background-color: #fff;
+		border-left: 1px solid #c6d9e9;
+		border-bottom: 1px solid #c6d9e9;
 	}
 	* html {
         overflow-x: hidden;
@@ -113,7 +121,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 			c = d('content'+i.toString());
 			t = d('tab'+i.toString());
 			if ( n == i ) {
-				c.className = 'vizible';
+				c.className = '';
 				t.className = 'current';
 			} else {
 				c.className = 'hidden';
@@ -136,7 +144,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <body>
 <div class="zerosize"></div>
 <div id="wphead"><h1><?php echo get_bloginfo('blogtitle'); ?></h1></div>
-<div id="user_info"><p><strong><?php _e('Rich Editor Help') ?></strong></p></div>
+
 <ul id="adminmenu">
 	<li><a id="tab1" href="javascript:flipTab(1)" title="<?php _e('Basics of Rich Editing') ?>" accesskey="1" class="current"><?php _e('Basics') ?></a></li>
 	<li><a id="tab2" href="javascript:flipTab(2)" title="<?php _e('Advanced use of the Rich Editor') ?>" accesskey="2"><?php _e('Advanced') ?></a></li>
@@ -189,13 +197,18 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 	<p><?php _e('For more information about this software visit the <a href="http://tinymce.moxiecode.com" target="_blank">TinyMCE website</a>.') ?></p>
 
 	<div id="buttoncontainer">
-		<a href="http://www.moxiecode.com" target="_new"><img src="http://tinymce.moxiecode.com/images/gotmoxie.png" alt="<?php _e('Got Moxie?') ?>" border="0" /></a>
-		<a href="http://sourceforge.net/projects/tinymce/" target="_blank"><img src="http://sourceforge.net/sflogo.php?group_id=103281" alt="<?php _e('Hosted By Sourceforge') ?>" border="0" /></a>
-		<a href="http://www.freshmeat.net/projects/tinymce" target="_blank"><img src="http://tinymce.moxiecode.com/images/fm.gif" alt="<?php _e('Also on freshmeat') ?>" border="0" /></a>
+		<a href="http://www.moxiecode.com" target="_new"><img src="themes/advanced/img/gotmoxie.png" alt="<?php _e('Got Moxie?') ?>" border="0" /></a>
+		<a href="http://sourceforge.net/projects/tinymce/" target="_blank"><img src="themes/advanced/img/sflogo.png" alt="<?php _e('Hosted By Sourceforge') ?>" border="0" /></a>
+		<a href="http://www.freshmeat.net/projects/tinymce" target="_blank"><img src="themes/advanced/img/fm.gif" alt="<?php _e('Also on freshmeat') ?>" border="0" /></a>
 	</div>
 
 </div>
+</div>
 
+<div class="mceActionPanel">
+	<div style="margin: 8px auto; text-align: center;padding-bottom: 10px;">
+		<input type="button" id="cancel" name="cancel" value="<?php _e('Close'); ?>" title="<?php _e('Close'); ?>" onclick="tinyMCEPopup.close();" />
+	</div>
 </div>
 
 </body>

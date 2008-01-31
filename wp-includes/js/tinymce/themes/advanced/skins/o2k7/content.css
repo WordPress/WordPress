@@ -1,4 +1,4 @@
-body, td, pre {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px;}
+body, td, pre {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px;}
 body {background:#FFF;}
 .mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceVisualAid {border: 1px dashed #BBB;}
 a.mceItemAnchor {width:12px; line-height:6px; overflow:hidden; padding-left:12px; background:url(../default/img/items.gif) no-repeat bottom left;}

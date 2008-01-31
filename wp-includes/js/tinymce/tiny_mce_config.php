@@ -25,59 +25,46 @@
 	$valid_elements = '*[*]';
 	$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
 	
-	$invalid_elements = apply_filters('mce_invalid_elements', '');
+    $invalid_elements = apply_filters('mce_invalid_elements', '');
 
-	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'wphelp', 'media', 'fullscreen' );
+	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen' );
 	$plugins = apply_filters('mce_plugins', $plugins);
 	$plugins = implode($plugins, ',');
 
-	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'separator', 'link', 'unlink', 'image', 'wp_more', 'separator', 'spellchecker', 'separator', 'wp_help', 'wp_adv', 'wp_adv_start', 'wp_adv_end'));
+	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'outdent', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', '|', 'wp_help', 'wp_adv' ));
 	$mce_buttons = implode($mce_buttons, ',');
 
-	$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', 'media', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo', 'fullscreen'));
+
+	$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', '|', 'removeformat', 'cleanup', '|', 'media', 'charmap', 'blockquote', '|', 'undo', 'redo', 'fullscreen' ));
 	$mce_buttons_2 = implode($mce_buttons_2, ',');
 
 	$mce_buttons_3 = apply_filters('mce_buttons_3', array());
 	$mce_buttons_3 = implode($mce_buttons_3, ',');
+	
+	$mce_buttons_4 = apply_filters('mce_buttons_4', array());
+	$mce_buttons_4 = implode($mce_buttons_4, ',');
 
 	$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera', 'safari'));
 	$mce_browsers = implode($mce_browsers, ',');
 
-	$mce_popups_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/popups.css';
-	$mce_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/wordpress.css';
+	$mce_css = get_option('siteurl') . '/wp-includes/js/tinymce/wordpress.css';
 	$mce_css = apply_filters('mce_css', $mce_css);
-	if ( $_SERVER['HTTPS'] == 'on' ) {
+	if ( $_SERVER['HTTPS'] == 'on' )
 		$mce_css = str_replace('http://', 'https://', $mce_css);
-		$mce_popups_css = str_replace('http://', 'https://', $mce_popups_css);
-	}
 
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
 ?>
 
-/*
-wpEditorInit = function() {
-	// Activate tinyMCE if it's the user's default editor
-	if ( ( 'undefined' == typeof wpTinyMCEConfig ) || 'tinymce' == wpTinyMCEConfig.defaultEditor )
-		tinyMCE.execCommand('mceAddControl', false, 'content');
-};
-*/
-
-wpEditorInit = function() {
-    if ( ( 'undefined' != typeof wpTinyMCEConfig ) && 'tinymce' != wpTinyMCEConfig.defaultEditor )
-        tinyMCE.get('content').hide();
-}
-
 initArray = {
-	mode : "exact",
-	elements : "content",
-//	editor_selector : "mceEditor",
-	oninit : "wpEditorInit",
-	width : "100%",
+	mode : "none",
+	onpageload : "wpEditorInit",
+    width : "100%",
 	theme : "advanced",
-	skin : "o2k7",
+	skin : "wp_theme",
 	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
 	theme_advanced_buttons2 : "<?php echo $mce_buttons_2; ?>",
 	theme_advanced_buttons3 : "<?php echo $mce_buttons_3; ?>",
+	theme_advanced_buttons4 : "<?php echo $mce_buttons_4; ?>",
 	language : "<?php echo $mce_locale; ?>",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
@@ -94,14 +81,15 @@ initArray = {
 	convert_newlines_to_brs : false,
 	remove_linebreaks : false,
 	fix_list_elements : true,
+	fix_table_elements : true,
 	gecko_spellcheck : true,
 	entities : "38,amp,60,lt,62,gt",
-	button_tile_map : false,
+	accessibility_focus : false,
+	tab_focus : ":next",
 	content_css : "<?php echo $mce_css; ?>",
-	valid_elements : "<?php echo $valid_elements; ?>",
-	invalid_elements : "<?php echo $invalid_elements; ?>",
-	save_callback : 'TinyMCE_wordpressPlugin.saveCallback',
-	imp_version : "<?php echo intval($_GET['ver']); ?>",
+	<?php if ( $valid_elements ) echo 'valid_elements : "' . $valid_elements . '",' . "\n"; ?>
+	<?php if ( $invalid_elements ) echo 'invalid_elements : "' . $invalid_elements . '",' . "\n"; ?>
+    save_callback : "switchEditors.saveCallback",
 <?php do_action('mce_options'); ?>
 	plugins : "<?php echo $plugins; ?>"
 };
@@ -112,4 +100,4 @@ initArray = {
 	do_action('tinymce_before_init');
 ?>
 
-tinyMCE.init(initArray);
+tinyMCE_GZ.init(initArray);

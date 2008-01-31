@@ -17,11 +17,11 @@
 
 		<div class="mceActionPanel">
 			<div style="float: left">
-				<input type="button" id="insert" name="insert" value="{#insert}" onclick="saveContent();" />
+				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 			</div>
 
 			<div style="float: right">
-				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+				<input type="submit" id="insert" name="insert" value="{#insert}" onclick="saveContent();" />
 			</div>
 		</div>
 	</form>

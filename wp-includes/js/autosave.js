@@ -82,7 +82,7 @@ function autosave_enable_buttons() {
 }
 
 function autosave() {
-	var rich = ((typeof tinyMCE != "undefined") && tinyMCE.getInstanceById('content')) ? true : false;
+	var rich = ( (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) ? true : false;
 	var post_data = {
 			action: "autosave",
 			post_ID:  jQuery("#post_ID").val() || 0,
@@ -93,14 +93,13 @@ function autosave() {
 		};
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
-	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 || rich == false ) {
-		post_data["content"] = jQuery("#content").val();
-	} else {
+	if ( rich ) {
 		// Don't run while the TinyMCE spellcheck is on.
-		if(tinyMCE.selectedInstance.spellcheckerOn) return;
-		tinyMCE.wpTriggerSave();
-		post_data["content"] = jQuery("#content").val();
-	}
+		if ( tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) return;
+		tinyMCE.triggerSave();
+	} 
+	
+    post_data["content"] = jQuery("#content").val();
 
 	if(post_data["post_title"].length==0 || post_data["content"].length==0 || post_data["post_title"] + post_data["content"] == autosaveLast) {
 		return;
@@ -122,12 +121,10 @@ function autosave() {
 	if( jQuery("#excerpt"))
 		post_data["excerpt"] = jQuery("#excerpt").val();
 
-	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 || rich == false ) {
-		post_data["content"] = jQuery("#content").val();
-	} else {
-		tinyMCE.wpTriggerSave();
-		post_data["content"] = jQuery("#content").val();
-	}
+	if ( rich ) 
+        tinyMCE.triggerSave();
+    
+	post_data["content"] = jQuery("#content").val();
 
 	if(parseInt(post_data["post_ID"]) < 1) {
 		post_data["temp_ID"] = post_data["post_ID"];

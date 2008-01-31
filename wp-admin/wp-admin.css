@@ -370,9 +370,14 @@ input.disabled, textarea.disabled {
 	width: 100%;
 }
 
-#postdivrich #content {
-	padding: 5px;
-	line-height: 140%;
+#editorcontainer #content {
+	padding: 0;
+	line-height: 150%;
+	border: 0 none;
+}
+
+#editorcontainer {
+	padding: 6px;
 }
 
 #currenttheme img {
@@ -394,10 +399,9 @@ input.delete:hover {
 }
 
 #postdivrich #quicktags {
-	background: #f0f0ee;
+	background: #cee1ef;
 	padding: 0;
-	border: 1px solid #ccc;
-	border-bottom: none;
+	border: 0 none;
 }
 
 #postdiv #quicktags {
@@ -1178,7 +1182,7 @@ html, body {
 	padding: 2px;
 }
 
-#poststuff .postbox, #titlediv {
+#poststuff .postbox, #titlediv, #poststuff .postarea {
 	margin-left: 20px;
 	border: 1px solid #ebebeb;
 	border-right: 1px solid #ccc;
@@ -1188,7 +1192,6 @@ html, body {
 }
 
 #poststuff .postarea {
-	margin-left: 20px;
 	margin-right: 8px;
 }
 
@@ -1223,7 +1226,7 @@ html, body {
 
 #poststuff #edButtonPreview, #poststuff #edButtonHTML {
 	display: block;
-	height: 18px;
+	height: 20px;
 	padding: 5px;
 	margin-right: 8px;
 	float: right;
@@ -1235,7 +1238,8 @@ html, body {
 	background: #cee1ef;
 	color: #333;
 	font-weight: bold;
-	-moz-border-radius: 2px;
+	-moz-border-radius-topright: 2px;
+	-moz-border-radius-topleft: 2px;
 }
 
 #poststuff #media-buttons {
