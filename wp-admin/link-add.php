@@ -11,8 +11,9 @@ wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
 	'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
 	'notes', 'linkcheck[]'));
 
-if ( current_user_can( 'manage_categories' ) )
-	wp_enqueue_script( 'ajaxcat' );
+wp_enqueue_script('link');
+wp_enqueue_script('thickbox');
+
 require('admin-header.php');
 ?>
 

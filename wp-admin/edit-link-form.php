@@ -30,26 +30,80 @@ function xfn_check($class, $value = '', $deprecated = '') {
 }
 ?>
 
-<div class="wrap">
-<h2><?php echo $heading ?></h2>
 <?php echo $form ?>
 <?php wp_nonce_field($nonce_action); ?>
 
+<div class="wrap">
+
 <div id="poststuff">
-<div id="moremeta">
-<div id="grabit" class="dbx-group">
 
-<fieldset id="categorydiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Categories') ?></h3>
-<div class="dbx-content">
-<p id="jaxcat"><?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?></p>
-<ul id="categorychecklist" class="list:link-category"><?php dropdown_link_categories(get_option('default_link_category')); ?></ul>
+<div id="namediv">
+<h3><?php _e('Name') ?></h3>
+<div class="inside">
+	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" />
 </div>
-</fieldset>
+</div>
 
-<fieldset class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Target') ?></h3>
-<div class="dbx-content">
+<div id="addressdiv">
+<h3><?php _e('Address') ?></h3>
+<div class="inside">
+	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
+</div>
+</div>
+
+<div id="descriptiondiv">
+<h3><?php _e('Description') ?></h3>
+<div class="inside">
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" />
+</div>
+</div>
+
+<div id="submitpost">
+<p class="submit">
+<input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
+</p>
+</div>
+
+<div id="linkcategorydiv" class="postbox <?php echo postbox_classes('linkcategorydiv'); ?>">
+<h3><?php _e('Categories') ?></h3>
+<div class="inside">
+
+<div id="category-adder" class="wp-hidden-children">
+	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
+	<p id="category-add" class="wp-hidden-child">
+		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" />
+		<?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) ); ?>
+		<input type="button" id="category-add-sumbit" class="add:categorychecklist:linkcategorydiv button" value="<?php _e( 'Add' ); ?>" />
+		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
+		<span id="category-ajax-response"></span>
+	</p>
+</div>
+
+<ul id="category-tabs">
+	<li class="ui-tabs-selected"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
+	<li class="wp-no-js-hidden"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
+</ul>
+
+<div id="categories-all" class="ui-tabs-panel">
+	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+		<?php dropdown_link_categories(); ?>
+	</ul>
+</div>
+
+<div id="categories-pop" class="ui-tabs-panel" style="display: none;">
+	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
+		<?php wp_popular_categories_checklist(); ?>
+	</ul>
+</div>
+
+</div>
+</div>
+
+<h2><?php _e('Advanced Options'); ?></h2>
+
+<div id="linktargetdiv" class="postbox <?php echo postbox_classes('linktargetdiv'); ?>">
+<h3><?php _e('Target') ?></h3>
+<div class="inside">
 <label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
 <code>_blank</code></label>
@@ -60,11 +114,11 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
 <?php _e('none') ?></label>
 </div>
-</fieldset>
+</div>
 
-<fieldset class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Visible') ?></h3>
-<div class="dbx-content">
+<div id="linkvisiblediv" class="postbox <?php echo postbox_classes('linkvisiblediv'); ?>">
+<h3><?php _e('Visible') ?></h3>
+<div class="inside">
 <label for="link_visible_yes" class="selectit">
 <input id="link_visible_yes" type="radio" name="link_visible" <?php if ($link->link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />
 <?php _e('Yes') ?></label>
@@ -72,35 +126,11 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <input id="link_visible_no" type="radio" name="link_visible" <?php if ($link->link_visible == 'N') echo "checked='checked'"; ?> value="N" />
 <?php _e('No') ?></label>
 </div>
-</fieldset>
-
-</div>
 </div>
 
-<table class="editform" width="100%" cellspacing="2" cellpadding="5">
-<tr>
-<th scope="row" valign="top"><label for="link_name"><?php _e('Name:') ?></label></th>
-<td><input type="text" name="link_name" id="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></td>
-</tr>
-<tr>
-<th width="20%" scope="row" valign="top"><label for="link_url"><?php _e('Address:') ?></label></th>
-<td width="80%"><input type="text" name="link_url" id="link_url" value="<?php echo $link->link_url; if ( empty( $link->link_url ) ) echo 'http://'; ?>" style="width: 95%" /></td>
-</tr>
-<tr>
-<th scope="row" valign="top"><label for="link_description"><?php _e('Description:') ?></label></th>
-<td><input type="text" name="link_description" id="link_description" value="<?php echo $link->link_description; ?>" style="width: 95%" /></td>
-</tr>
-</table>
-
-<p class="submit">
-<input type="submit" name="submit" value="<?php echo $submit_text ?>" />
-</p>
-
-<div id="advancedstuff" class="dbx-group" >
-
-<fieldset id="xfn" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Link Relationship (XFN)') ?></h3>
-<div class="dbx-content">
+<div id="linkxfndiv" class="postbox <?php echo postbox_classes('linkxfndiv'); ?>">
+<h3><?php _e('Link Relationship (XFN)') ?></h3>
+<div class="inside">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
 		<th width="20%" scope="row"><?php _e('rel:') ?></th>
@@ -209,11 +239,11 @@ function xfn_check($class, $value = '', $deprecated = '') {
 	</tr>
 </table>
 </div>
-</fieldset>
+</div>
 
-<fieldset id="advanced" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Advanced') ?></h3>
-<div class="dbx-content">
+<div id="linkadvanceddiv" class="postbox <?php echo postbox_classes('linkadvanceddiv'); ?>">
+<h3><?php _e('Advanced') ?></h3>
+<div class="inside">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
 		<th width="20%" scope="row"><?php _e('Image Address:') ?></th>
@@ -242,7 +272,6 @@ function xfn_check($class, $value = '', $deprecated = '') {
 	</tr>
 </table>
 </div>
-</fieldset>
 </div>
 
 <?php if ( $link_id ) : ?>
@@ -253,6 +282,11 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <?php else: ?>
 <input type="hidden" name="action" value="add" />
 <?php endif; ?>
+
 </div>
+
+</div>
+
+</div>
+
 </form>
-</div>

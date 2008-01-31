@@ -142,6 +142,7 @@ class WP_Scripts {
 				'cancel' => __('Cancel'),
 				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
 			) );
+			$this->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080131' );
 			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),
