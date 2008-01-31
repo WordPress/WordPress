@@ -1,8 +1,57 @@
 <?php
+
+$is_profile_page = isset($is_profile_page) && $is_profile_page? true : false;
+
 require_once('admin.php');
 
-$title = __('Edit User');
-if ( current_user_can('edit_users') )
+function profile_js ( ) {
+?>
+<script type="text/javascript">
+	function check_pass_strength ( ) {
+
+		var pass = jQuery('#pass1').val();
+		var user = jQuery('#user_login').val();
+
+		// get the result as an object, i'm tired of typing it
+		var res = jQuery('#pass-strength-result');
+
+		var strength = passwordStrength(pass, user);
+
+		jQuery(res).removeClass('short bad good strong');
+
+		if ( strength == 'Bad' ) {
+			jQuery(res).addClass('bad');
+			jQuery(res).html( pwsL10n.bad );
+		}
+		else if ( strength == 'Good' ) {
+			jQuery(res).addClass('good');
+			jQuery(res).html( pwsL10n.good );
+		}
+		else if ( strength == 'Strong' ) {
+			jQuery(res).addClass('strong');
+			jQuery(res).html( pwsL10n.strong );
+		}
+		else {
+			// this catches 'Too short' and the off chance anything else comes along
+			jQuery(res).addClass('short');
+			jQuery(res).html( pwsL10n.short );
+		}
+
+	}
+
+	jQuery(document).ready( function() { jQuery('#pass1').keyup( check_pass_strength ) } );
+</script>
+<?php
+}
+
+if ( $is_profile_page ) {
+	add_action('admin_head', 'profile_js');
+	wp_enqueue_script('jquery');
+	wp_enqueue_script('password-strength-meter');
+}
+
+$title = $is_profile_page? __('Profile') : __('Edit User');
+if ( current_user_can('edit_users') && !$is_profile_page )
 	$parent_file = 'users.php';
 else
 	$parent_file = 'profile.php';
@@ -15,7 +64,12 @@ $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashe
 $user_id = (int) $user_id;
 
 if ( !$user_id )
-	wp_die(__('Invalid user ID.'));
+	if ( $is_profile_page ) {
+		$current_user = wp_get_current_user();
+		$user_id = $current_user->ID;
+	} else {
+		wp_die(__('Invalid user ID.'));
+	}
 
 switch ($action) {
 case 'switchposts':
@@ -33,10 +87,14 @@ check_admin_referer('update-user_' . $user_id);
 if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('You do not have permission to edit this user.'));
 
+if ( $is_profile_page ) {
+	do_action('personal_options_update');
+}
+
 $errors = edit_user($user_id);
 
 if( !is_wp_error( $errors ) ) {
-	$redirect = "user-edit.php?user_id=$user_id&updated=true";
+	$redirect = ($is_profile_page? "profile.php?" : "user-edit.php?user_id=$user_id&"). "updated=true";
 	$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
 	wp_redirect($redirect);
 	exit;
@@ -54,7 +112,7 @@ include ('admin-header.php');
 <?php if ( isset($_GET['updated']) ) : ?>
 <div id="message" class="updated fade">
 	<p><strong><?php _e('User updated.') ?></strong></p>
-	<?php if ( $wp_http_referer ) : ?>
+	<?php if ( $wp_http_referer && !$is_profile_page ) : ?>
 	<p><a href="users.php"><?php _e('&laquo; Back to Authors and Users'); ?></a></p>
 	<?php endif; ?>
 </div>
@@ -71,9 +129,9 @@ include ('admin-header.php');
 <?php endif; ?>
 
 <div class="wrap">
-<h2><?php _e('Edit User'); ?></h2>
+<h2><?php $is_profile_page? _e('Your Profile and Personal Options') : _e('Edit User'); ?></h2>
 
-<form name="profile" id="your-profile" action="user-edit.php" method="post">
+<form name="profile" id="your-profile" action="" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo clean_url($wp_http_referer); ?>" />
@@ -83,16 +141,27 @@ include ('admin-header.php');
 <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
 </p>
 
-<p><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></p>
+<h3><?php _e('Personal Options'); ?></h3>
 
-<p class="submit"><input type="submit" value="<?php _e('Update User &raquo;'); ?>" name="submit" /></p>
+<?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
+<p><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></p>
+<?php endif; ?>
+
+<?php
+	if ( $is_profile_page ) {
+		do_action('profile_personal_options');
+	}
+?>
+
+<p class="submit"><input type="submit" value="<?php $is_profile_page? _e('Update Profile &raquo;') : _e('Update User &raquo;'); ?>" name="submit" /></p>
 
 <fieldset>
 <legend><?php _e('Name'); ?></legend>
 <p><label><?php _e('Username: (no editing)'); ?><br />
-<input type="text" name="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
+<input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
 </label></p>
 
+<?php if ( !$is_profile_page ): ?>
 <p><label><?php _e('Role:') ?><br />
 <?php
 // print_r($profileuser);
@@ -114,6 +183,7 @@ else
 	$role_list .= '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 echo $role_list . '</select>';
 ?></label></p>
+<?php endif; ?>
 
 <p><label><?php _e('First name:') ?><br />
 <input type="text" name="first_name" value="<?php echo $profileuser->first_name ?>" /></label></p>
@@ -168,7 +238,7 @@ echo $role_list . '</select>';
 </fieldset>
 <br clear="all" />
 <fieldset>
-<legend><?php _e('About the user'); ?></legend>
+<legend><?php $is_profile_page? _e('About Yourself') : _e('About the user'); ?></legend>
 <p class="desc"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p>
 <p><textarea name="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea></p>
 </fieldset>
@@ -178,18 +248,29 @@ $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
 <fieldset>
-<legend><?php _e("Update User's Password"); ?></legend>
-<p class="desc"><?php _e("If you would like to change the user's password type a new one twice below. Otherwise leave this blank."); ?></p>
+<legend><?php $is_profile_page? _e('Update Your Password') : _e("Update User's Password"); ?></legend>
+<p class="desc"><?php _e("If you would like to change the password type a new one twice below. Otherwise leave this blank."); ?></p>
 <p><label><?php _e('New Password:'); ?><br />
-<input type="password" name="pass1" size="16" value="" />
+<input type="password" name="pass1" id="pass1" size="16" value="" />
 </label></p>
 <p><label><?php _e('Type it one more time:'); ?><br />
-<input type="password" name="pass2" size="16" value="" />
+<input type="password" name="pass2" id="pass2" size="16" value="" />
 </label></p>
+<?php if ( $is_profile_page ): ?>
+<p><strong><?php _e('Password Strength:'); ?></strong></p>
+<div id="pass-strength-result"><?php _e('Too short'); ?></div>
+<p><?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&( in your password.'); ?></p>
+<?php endif; ?>
 </fieldset>
 <?php endif; ?>
 
-<?php do_action('edit_user_profile'); ?>
+<?php
+	if ( $is_profile_page ) { 
+		do_action('show_user_profile');
+	} else {
+		do_action('edit_user_profile');
+	}
+?>
 
 <br clear="all" />
 	<table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
@@ -216,7 +297,7 @@ if ( $show_password_fields ) :
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-	<input type="submit" value="<?php _e('Update User &raquo;') ?>" name="submit" />
+	<input type="submit" value="<?php $is_profile_page? _e('Update Profile &raquo;') : _e('Update User &raquo;') ?>" name="submit" />
  </p>
 </form>
 </div>
