@@ -134,6 +134,33 @@ function is_feed () {
 	return $wp_query->is_feed;
 }
 
+/**
+ * is_front() - Is it the front of the site, whether blog view or a WP Page?
+ *
+ * @since 2.5
+ * @uses is_home
+ * @uses get_option
+ *
+ * @return bool True if front of site
+ */
+function is_front () { 
+	// most likely case 
+	if ( 'posts' == get_option('show_on_front') && is_home() ) 
+		return true; 
+	elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') && is_page(get_option('page_on_front')) ) 
+		return true; 
+	else 
+		return false; 
+} 
+
+/**
+ * is_home() - Is it the blog view homepage?
+ *
+ * @since 2.1
+ * @global object $wp_query
+ *
+ * @return bool True if blog view homepage
+ */
 function is_home () {
 	global $wp_query;
 
