@@ -339,7 +339,7 @@ class wpdb {
 			$this->query($query);
 
 		// Extract var out of cached results based x,y vals
-		if ( $this->last_result[$y] ) {
+		if ( !empty( $this->last_result[$y] ) ) {
 			$values = array_values(get_object_vars($this->last_result[$y]));
 		}
 

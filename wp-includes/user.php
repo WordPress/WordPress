@@ -216,7 +216,7 @@ function setup_userdata($user_id = '') {
 
 	$userdata = $user->data;
 	$user_login	= $user->user_login;
-	$user_level	= (int) $user->user_level;
+	$user_level	= (int) isset($user->user_level) ? $user->user_level : 0;
 	$user_ID	= (int) $user->ID;
 	$user_email	= $user->user_email;
 	$user_url	= $user->user_url;

@@ -524,6 +524,7 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 	$current_post_date = $post->post_date;
 
 	$join = '';
+	$posts_in_ex_cats_sql = '';
 	if ( $in_same_cat || !empty($excluded_categories) ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
@@ -615,7 +616,7 @@ function get_pagenum_link($pagenum = 1) {
 		$qs_regex = '|\?.*?$|';
 		preg_match( $qs_regex, $request, $qs_match );
 
-		if ( $qs_match[0] ) {
+		if ( !empty( $qs_match[0] ) ) {
 			$query_string = $qs_match[0];
 			$request = preg_replace( $qs_regex, '', $request );
 		} else {

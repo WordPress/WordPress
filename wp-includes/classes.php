@@ -185,14 +185,14 @@ class WP {
 			@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed
-			if ( $this->query_vars['withcomments']
-				|| ( !$this->query_vars['withoutcomments']
-					&& ( $this->query_vars['p']
-						|| $this->query_vars['name']
-						|| $this->query_vars['page_id']
-						|| $this->query_vars['pagename']
-						|| $this->query_vars['attachment']
-						|| $this->query_vars['attachment_id']
+			if ( !empty($this->query_vars['withcomments'])
+				|| ( empty($this->query_vars['withoutcomments'])
+					&& ( !empty($this->query_vars['p'])
+						|| !empty($this->query_vars['name'])
+						|| !empty($this->query_vars['page_id'])
+						|| !empty($this->query_vars['pagename'])
+						|| !empty($this->query_vars['attachment'])
+						|| !empty($this->query_vars['attachment_id'])
 					)
 				)
 			)
@@ -208,7 +208,7 @@ class WP {
 				$client_etag = stripslashes(stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
 			else $client_etag = false;
 
-			$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+			$client_last_modified = empty($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? '' : trim($_SERVER['HTTP_IF_MODIFIED_SINCE']);
 			// If string is empty, return 0. If not, attempt to parse into a timestamp
 			$client_modified_timestamp = $client_last_modified ? strtotime($client_last_modified) : 0;
 

@@ -174,7 +174,7 @@ function register_new_user($user_login, $user_email) {
 // Main
 //
 
-$action = $_REQUEST['action'];
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 $errors = new WP_Error();
 
 if ( isset($_GET['key']) )
@@ -351,17 +351,17 @@ default:
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
 	// Some parts of this script use the main login form to display a message
-	if		( TRUE == $_GET['loggedout'] )			$errors->add('loggedout', __('You are now logged out.'));
-	elseif	( 'disabled' == $_GET['registration'] )	$errors->add('registerdiabled', __('User registration is currently not allowed.'));
-	elseif	( 'confirm' == $_GET['checkemail'] )	$errors->add('confirm', __('Check your e-mail for the confirmation link.'));
-	elseif	( 'newpass' == $_GET['checkemail'] )	$errors->add('newpass', __('Check your e-mail for your new password.'));
-	elseif	( 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'));
+	if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )			$errors->add('loggedout', __('You are now logged out.'));
+	elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )	$errors->add('registerdiabled', __('User registration is currently not allowed.'));
+	elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )	$errors->add('confirm', __('Check your e-mail for the confirmation link.'));
+	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )	$errors->add('newpass', __('Check your e-mail for your new password.'));
+	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'));
 
 	login_header(__('Login'), '', $errors);
 ?>
 
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
-<?php if ( !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
+<?php if ( !isset($_GET['checkemail']) || !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 	<p>
 		<label><?php _e('Username') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
@@ -384,7 +384,7 @@ default:
 </form>
 
 <p id="nav">
-<?php if ( in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
+<?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 <?php elseif (get_option('users_can_register')) : ?>
 <a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a> |
 <a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>

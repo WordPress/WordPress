@@ -86,7 +86,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 	$output = '';
 
 	if ( !empty($post->post_password) ) { // if there's a password
-		if ( stripslashes($_COOKIE['wp-postpass_'.COOKIEHASH]) != $post->post_password ) {	// and it doesn't match the cookie
+		if ( !isset($_COOKIE['wp-postpass_'.COOKIEHASH]) || stripslashes($_COOKIE['wp-postpass_'.COOKIEHASH]) != $post->post_password ) {	// and it doesn't match the cookie
 			$output = get_the_password_form();
 			return $output;
 		}
@@ -141,7 +141,7 @@ function get_the_excerpt($deprecated = '') {
 	$output = '';
 	$output = $post->post_excerpt;
 	if ( !empty($post->post_password) ) { // if there's a password
-		if ( $_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password ) {  // and it doesn't match the cookie
+		if ( !isset($_COOKIE['wp-postpass_'.COOKIEHASH]) || $_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password ) {  // and it doesn't match the cookie
 			$output = __('There is no excerpt because this is a protected post.');
 			return $output;
 		}

@@ -145,7 +145,7 @@ function html_type_rss() {
 
 function rss_enclosure() {
 	global $post;
-	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
+	if ( !empty($post->post_password) && (!isset($_COOKIE['wp-postpass_'.COOKIEHASH]) || $_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
 		return;
 
 	foreach (get_post_custom() as $key => $val) {
