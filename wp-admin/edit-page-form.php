@@ -27,15 +27,14 @@ if ( 0 != $post_ID && $sendto == get_permalink($post_ID) )
 <?php
 wp_nonce_field($nonce_action);
 
-if (isset($mode) && 'bookmarklet' == $mode) {
+if (isset($mode) && 'bookmarklet' == $mode)
 	echo '<input type="hidden" name="mode" value="bookmarklet" />';
-}
 ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value='<?php echo $form_action ?>' />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <?php echo $form_extra ?>
-<input type="hidden" id="post_type" name="post_type" value="page" />
+<input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 
 <script type="text/javascript">
 // <![CDATA[

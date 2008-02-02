@@ -143,6 +143,7 @@ function get_default_post_to_edit() {
 		$post_excerpt = '';
 
 	$post->post_status = 'draft';
+	$post->post_type = 'post';
 	$post->comment_status = get_option( 'default_comment_status' );
 	$post->ping_status = get_option( 'default_ping_status' );
 	$post->post_pingback = get_option( 'default_pingback_flag' );
@@ -155,6 +156,12 @@ function get_default_post_to_edit() {
 	$post->menu_order = 0;
 
 	return $post;
+}
+
+function get_default_page_to_edit() {
+ 	$page = get_default_post_to_edit();
+ 	$page->post_type = 'page';
+ 	return $page;
 }
 
 // Get an existing post and format it for editing.

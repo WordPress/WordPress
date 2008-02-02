@@ -18,8 +18,7 @@ require_once('admin-header.php');
 <?php
 if ( current_user_can('edit_pages') ) {
 	$action = 'post';
-	$post = get_default_post_to_edit();
-	$post->post_type = 'page';
+	$post = get_default_page_to_edit();
 
 	include('edit-page-form.php');
 }

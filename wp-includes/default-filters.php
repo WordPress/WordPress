@@ -62,6 +62,12 @@ foreach ( $filters as $filter ) {
 	add_filter($filter, 'sanitize_title');
 }
 
+// Keys
+$filters = array('pre_post_type');
+foreach ( $filters as $filter ) {
+	add_filter($filter, 'sanitize_user');
+}
+
 // Places to balance tags on input
 $filters = array('content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comment_content');
 foreach ( $filters as $filter ) {

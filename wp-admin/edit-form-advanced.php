@@ -46,15 +46,13 @@ if ('' != $post->pinged) {
 
 $saveasdraft = '<input name="save" type="submit" id="save" tabindex="3" value="' . attribute_escape( __('Save and Continue Editing') ) . '" />';
 
-if (empty($post->post_status)) $post->post_status = 'draft';
-
 ?>
 
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo $form_action ?>" />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <input type="hidden" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
-<input type="hidden" id="post_type" name="post_type" value="post" />
+<input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 
 <?php echo $form_extra ?>
 <?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
