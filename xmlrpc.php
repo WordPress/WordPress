@@ -1379,10 +1379,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			!empty($content_struct["post_type"])
 			&& ($content_struct["post_type"] == "page")
 		) {
+			if( !current_user_can( 'edit_page', $post_ID ) ) {
+				return(new IXR_Error(401, __("Sorry, you do not have the right to edit this page.")));
+			}
+
 			$post_type = "page";
 		}
 
-		// Edit page caps are checked in editPage.  Just check post here.
 		if ( ( 'post' == $post_type ) && !current_user_can('edit_post', $post_ID) )
 			return new IXR_Error(401, __('Sorry, you can not edit this post.'));
 
