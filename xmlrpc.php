@@ -1196,6 +1196,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			!empty($content_struct["post_type"])
 			&& ($content_struct["post_type"] == "page")
 		) {
+			if( !current_user_can( 'edit_page', $post_ID ) ) {
+				return(new IXR_Error(401, __("Sorry, you do not have the right to edit this page.")));
+			}
+
 			$post_type = "page";
 		}
 
