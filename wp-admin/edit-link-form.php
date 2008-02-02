@@ -70,9 +70,8 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
-	<p id="category-add" class="wp-hidden-child">
+	<p id="link-category-add" class="wp-hidden-child">
 		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" />
-		<?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category') ) ); ?>
 		<input type="button" id="category-add-sumbit" class="add:categorychecklist:linkcategorydiv button" value="<?php _e( 'Add' ); ?>" />
 		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
 		<span id="category-ajax-response"></span>
@@ -92,7 +91,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <div id="categories-pop" class="ui-tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
-		<?php wp_popular_categories_checklist(); ?>
+		<?php wp_popular_terms_checklist('link_category'); ?>
 	</ul>
 </div>
 

@@ -187,8 +187,8 @@ function dropdown_categories( $default = 0, $parent = 0 ) {
 	write_nested_categories( get_nested_categories( $default, $parent ) );
 }
 
-function wp_popular_categories_checklist( $default = 0, $number = 10 ) {
-	$categories = get_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number ) );
+function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
+	$categories = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number ) );
 
 	foreach ( (array) $categories as $category ) {
 		$id = "popular-category-$category->term_id";

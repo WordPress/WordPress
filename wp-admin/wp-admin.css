@@ -1365,6 +1365,30 @@ ul.categorychecklist li {
 	padding: 0;
 }
 
+#linkcategorydiv #category-adder {
+	margin-left: 120px;
+	padding: 4px 0;
+}
+
+#linkcategorydiv ul#category-tabs {
+	float: left;
+	width: 120px;
+	text-align: right;
+	/* Negative margin for the sake of those without JS: all tabs display */
+	margin: 0 -120px 0 0;
+	padding: 0;
+}
+
+#linkcategorydiv ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#linkcategorydiv ul.categorychecklist ul {
+	margin-left: 18px;
+}
+
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
 .wp-no-js-hidden { display: none; }

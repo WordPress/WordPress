@@ -132,6 +132,9 @@ class WP_Scripts {
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery'), '20080128' );
+			$this->localize( 'postbox', 'postboxL10n', array(
+				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+			) );
 			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox'), '20080128' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),

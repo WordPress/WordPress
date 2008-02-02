@@ -5,7 +5,7 @@ function add_postbox_toggles() {
 
 function save_postboxes_state() {
 	var closed = jQuery('.postbox').filter('.closed').map(function() { return this.id; }).get().join(',');
-	jQuery.post(postL10n.requestFile, {
+	jQuery.post(postboxL10n.requestFile, {
 		action: 'closed-postboxes',
 		closed: closed,
 		cookie: document.cookie});

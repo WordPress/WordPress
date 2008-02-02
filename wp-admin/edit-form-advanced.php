@@ -210,7 +210,7 @@ else
 
 <div id="categories-pop" class="ui-tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
-		<?php wp_popular_categories_checklist(); ?>
+		<?php wp_popular_terms_checklist('category'); ?>
 	</ul>
 </div>
 
