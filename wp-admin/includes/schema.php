@@ -251,6 +251,7 @@ function populate_roles() {
 	populate_roles_160();
 	populate_roles_210();
 	populate_roles_230();
+	populate_roles_250();
 }
 
 function populate_roles_160() {
@@ -387,6 +388,14 @@ function populate_roles_230() {
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'unfiltered_upload' );
+	}
+}
+
+function populate_roles_250() {
+	$role = get_role( 'administrator' );
+
+	if ( !empty( $role ) ) {
+		$role->add_cap( 'edit_dashboard' );
 	}
 }
 

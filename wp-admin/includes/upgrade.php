@@ -198,6 +198,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 6124 )
 		upgrade_230_old_tables();
 
+	if ( $wp_current_db_version < 6689 )
+		upgrade_250();
+
 	maybe_disable_automattic_widgets();
 
 	$wp_rewrite->flush_rules();
@@ -715,6 +718,14 @@ function upgrade_old_slugs() {
 	$wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '_wp_old_slug' WHERE meta_key = 'old_slug'");
 }
 
+
+function upgrade_250() {
+	global $wp_current_db_version;
+
+	if ( $wp_current_db_version < 6689 ) {
+		populate_roles_250();
+	}
+}
 
 // The functions we use to actually do stuff
 
