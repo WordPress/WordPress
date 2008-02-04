@@ -108,7 +108,7 @@ function wp_dashboard_setup() {
 	// Filter widget order
 	$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', $dashboard_widgets );
 
-	$wp_dashboard_sidebars = array( 'wp_dashboard' => $dashboard_widgets );
+	$wp_dashboard_sidebars = array( 'wp_dashboard' => $dashboard_widgets, 'array_version' => 3.5 );
 
 	add_filter( 'dynamic_sidebar_params', 'wp_dashboard_dynamic_sidebar_params' );
 

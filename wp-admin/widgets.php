@@ -52,11 +52,11 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 
 	/* Hack #1
 	 * The widget_control is overloaded.  It updates the widget's options AND echoes out the widget's HTML form.
-	 * Since we want to update before sending out any headers, we have to catchi it with an output buffer
+	 * Since we want to update before sending out any headers, we have to catch it with an output buffer,
 	 */
 	ob_start();
 		/* There can be multiple widgets of the same type, but the widget_control for that
-		 * widget type needs only be called once.
+		 * widget type needs only be called once if it's a multi-widget.
 		 */
 		$already_done = array();
 
@@ -64,8 +64,14 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 			if ( in_array( $control['callback'], $already_done ) )
 				continue;
 
-			if ( is_callable( $control['callback'] ) )
+			if ( is_callable( $control['callback'] ) ) {
 				call_user_func_array( $control['callback'], $control['params'] );
+				$control_output = ob_get_contents();
+				if ( false !== strpos( $control_output, '%i%' ) ) // if it's a multi-widget, only call control function once.
+					$already_done[] = $control['callback'];
+			}
+
+			ob_clean();
 		}
 	ob_end_clean();
 
@@ -75,7 +81,7 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 			unset($_POST['widget-id'][$key]);
 
 	// Reset the key numbering and stare
-	$new_sidebar = array_values( $_POST['widget-id'] );
+	$new_sidebar = isset( $_POST['widget-id'] ) && is_array( $_POST['widget-id'] ) ? array_values( $_POST['widget-id'] ) : array();
 	$sidebars_widgets[$_POST['sidebar']] = $new_sidebar;
 	wp_set_sidebars_widgets( $sidebars_widgets );
 

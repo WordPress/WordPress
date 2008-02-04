@@ -21,9 +21,8 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 		$no_widgets_shown = true;
 		$already_shown = array();
 		foreach ( $wp_registered_widgets as $name => $widget ) :
-			if ( in_array( $widget['callback'], $already_shown ) )
+			if ( in_array( $widget['callback'], $already_shown ) ) // We already showed this multi-widget
 				continue;
-			$already_shown[] = $widget['callback'];
 
 			if ( $search_terms ) {
 				$hit = false;
@@ -52,6 +51,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 			ob_end_clean();
 
 			if ( !$sidebar || false !== strpos( $widget_control_template, '%i%' ) ) {
+				$already_shown[] = $widget['callback']; // it's a multi-widget.  We only need to show it in the list once.
 				$action = 'add'; 
 				$add_url = wp_nonce_url( add_query_arg( array(
 					'sidebar' => $sidebar,
@@ -66,7 +66,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 					'edit' => $widget['id'],
 					'key' => array_search( $widget['id'], $sidebars_widgets[$sidebar] ),
 				) );
-				$widget_control_template = "<textarea>$widget_control_template</textarea>";
+				$widget_control_template = '<textarea>' . htmlspecialchars( $widget_control_template ) . '</textarea>';
 			}
 
 			$no_widgets_shown = false;

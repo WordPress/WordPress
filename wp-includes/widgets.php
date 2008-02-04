@@ -159,7 +159,7 @@ function register_widget_control($name, $control_callback, $width = '', $height 
 /* $options: height, width, id_base
  *   height: never used
  *   width:  width of fully expanded control form.  Try hard to use the default width.
- *   id_base: for widgets which allow multiple instances (such as the text widget), an id_base must be provided.
+ *   id_base: for multi-widgets (widgets which allow multiple instances such as the text widget), an id_base must be provided.
  *            the widget id will ennd up looking like {$id_base}-{$unique_number}
  */
 function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
@@ -1389,7 +1389,7 @@ function wp_widgets_init() {
 
 add_action('init', 'wp_widgets_init', 1);
 
-/* Pattern for widget which allows multiple instances (such as the text widget)
+/* Pattern for multi-widget (allows multiple instances such as the text widget).
 
 // Displays widget on blag
 // $widget_args: number
