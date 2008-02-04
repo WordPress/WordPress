@@ -562,14 +562,15 @@ function trackback_rdf($deprecated = '') {
  * @since 1.5
  * @uses $post
  *
+ * @param int $post_id An optional post ID to check instead of the current post.
  * @return bool True if the comments are open
  */
-function comments_open() {
-	global $post;
-	if ( 'open' == $post->comment_status )
-		return true;
-	else
-		return false;
+function comments_open( $post_id=NULL ) {
+
+	$_post = get_post($post_id);
+	
+	$open = ( 'open' == $_post->comment_status );
+	return apply_filters( 'comments_open', $open, $post_id );
 }
 
 /**
@@ -578,14 +579,15 @@ function comments_open() {
  * @since 1.5
  * @uses $post 
  *
+ * @param int $post_id An optional post ID to check instead of the current post.
  * @return bool True if pings are accepted
  */
-function pings_open() {
-	global $post;
-	if ( 'open' == $post->ping_status )
-		return true;
-	else
-		return false;
+function pings_open( $post_id=NULL ) {
+
+	$_post = get_post($post_id);
+
+	$open = ( 'open' == $post->ping_status );
+	return apply_filters( 'pings_open', $open, $post_id );
 }
 
 /**

@@ -16,7 +16,7 @@ $status = $wpdb->get_row("SELECT post_status, comment_status FROM $wpdb->posts W
 if ( empty($status->comment_status) ) {
 	do_action('comment_id_not_found', $comment_post_ID);
 	exit;
-} elseif ( 'closed' ==  $status->comment_status ) {
+} elseif ( !comments_open($comment_post_ID) ) {
 	do_action('comment_closed', $comment_post_ID);
 	wp_die( __('Sorry, comments are closed for this item.') );
 } elseif ( in_array($status->post_status, array('draft', 'pending') ) ) {
