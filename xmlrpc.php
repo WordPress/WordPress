@@ -1128,21 +1128,30 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$this->login_pass_ok($user_login, $user_pass)) {
 			return $this->error;
 		}
+		$user = set_current_user(0, $user_login);
 
 		do_action('xmlrpc_call', 'metaWeblog.newPost');
 
-		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
-		$user = set_current_user(0, $user_login);
-		if ( !current_user_can($cap) )
-			return new IXR_Error(401, __('Sorry, you are not allowed to post on this blog.'));
+		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
+		$error_message = __( 'Sorry, you are not allowed to publish posts on this blog.' );
+		$post_type = 'post';
+		if( !empty( $content_struct['post_type'] ) ) {
+			if( $content_struct['post_type'] == 'page' ) {
+				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
+				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
+				$post_type = 'page';
+			}
+			elseif( $content_type['post_type'] == 'post' ) {
+				// This is the default, no changes needed
+			}
+			else {
+				// No other post_type values are allowed here
+				return new IXR_Error( 401, __( 'Invalid post type.' ) );
+			}
+		}
 
-		// The post_type defaults to post, but could also be page.
-		$post_type = "post";
-		if(
-			!empty($content_struct["post_type"])
-			&& ($content_struct["post_type"] == "page")
-		) {
-			$post_type = "page";
+		if( !current_user_can( $cap ) ) {
+			return new IXR_Error( 401, $error_message );
 		}
 
 		// Let WordPress generate the post_name (slug) unless
@@ -1368,26 +1377,31 @@ class wp_xmlrpc_server extends IXR_Server {
 		if (!$this->login_pass_ok($user_login, $user_pass)) {
 			return $this->error;
 		}
+		$user = set_current_user(0, $user_login);
 
 		do_action('xmlrpc_call', 'metaWeblog.editPost');
 
-		$user = set_current_user(0, $user_login);
-
-		// The post_type defaults to post, but could also be page.
-		$post_type = "post";
-		if(
-			!empty($content_struct["post_type"])
-			&& ($content_struct["post_type"] == "page")
-		) {
-			if( !current_user_can( 'edit_page', $post_ID ) ) {
-				return(new IXR_Error(401, __("Sorry, you do not have the right to edit this page.")));
+		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
+		$error_message = __( 'Sorry, you are not allowed to publish posts on this blog.' );
+		$post_type = 'post';
+		if( !empty( $content_struct['post_type'] ) ) {
+			if( $content_struct['post_type'] == 'page' ) {
+				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
+				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
+				$post_type = 'page';
 			}
-
-			$post_type = "page";
+			elseif( $content_type['post_type'] == 'post' ) {
+				// This is the default, no changes needed
+			}
+			else {
+				// No other post_type values are allowed here
+				return new IXR_Error( 401, __( 'Invalid post type.' ) );
+			}
 		}
 
-		if ( ( 'post' == $post_type ) && !current_user_can('edit_post', $post_ID) )
-			return new IXR_Error(401, __('Sorry, you can not edit this post.'));
+		if( !current_user_can( $cap ) ) {
+			return new IXR_Error( 401, $error_message );
+		}
 
 		$postdata = wp_get_single_post($post_ID, ARRAY_A);
 
