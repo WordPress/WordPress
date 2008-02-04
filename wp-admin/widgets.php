@@ -85,9 +85,6 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 	$sidebars_widgets[$_POST['sidebar']] = $new_sidebar;
 	wp_set_sidebars_widgets( $sidebars_widgets );
 
-	// Re-register just in case
-	wp_widgets_init();
-
 	wp_redirect( add_query_arg( 'message', 'updated' ) );
 	exit;
 }
