@@ -52,7 +52,8 @@ CREATE TABLE $wpdb->comments (
   user_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (comment_ID),
   KEY comment_approved (comment_approved),
-  KEY comment_post_ID (comment_post_ID)
+  KEY comment_post_ID (comment_post_ID),
+  KEY comment_approved_date (comment_approved,comment_date)
 ) $charset_collate;
 CREATE TABLE $wpdb->links (
   link_id bigint(20) NOT NULL auto_increment,
