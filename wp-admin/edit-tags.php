@@ -87,6 +87,11 @@ $messages[5] = __('Tag not updated.');
 	<h2><?php _e('Tags') ?> </h2>
 <?php endif; ?>
 
+<p id="tag-search">
+		<input type="text" id="tag-search-input" name="s" value="<?php echo attribute_escape( stripslashes( $_GET[ 's' ]) ); ?>" />
+		<input type="submit" id="post-query-submit" value="<?php _e( 'Search Widgets' ); ?>" />
+</p>
+
 <form name="searchform" id="searchform" action="" method="get">
 	<input type="text" name="s" id="s" value="<?php echo attribute_escape( stripslashes( $_GET[ 's' ]) ); ?>" size="17" />
 	<input type="submit" id="post-query-submit" value="<?php _e('Search Tags'); ?>" class="button" />
@@ -117,7 +122,7 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 </table>
 <?php
 
-$baseurl = get_bloginfo( 'home') . '/wp-admin/edit-tags.php?pagenum=';
+$baseurl = get_bloginfo( 'siteurl' ) . '/wp-admin/edit-tags.php?pagenum=';
 if( $pagenum >= 1 ) {
 	echo '<a href="' . $baseurl . ($pagenum - 1 ) . '">&lt;&lt;' . __('Previous Tags') . '</a>';
 	if( $count == $tagsperpage ) {
