@@ -54,6 +54,29 @@ if ( is_single() ) {
 }
 ?></h2>
 
+<ul id="statusmenu">
+<?php
+$status_links = array();
+foreach ( $post_stati as $status => $label ) {
+	$class = '';
+
+	if ( !in_array($status, $avail_post_stati) )
+		continue;
+
+	$num_posts = wp_count_posts('post', $status);
+	if ( $status == $_GET['post_status'] )
+		$class = ' class="current"';
+
+	$status_links[] = "<li><a href=\"edit.php?post_status=$status\"$class>" .
+	sprintf($label[1], $num_posts) . '</a>';
+}
+$class = empty($_GET['post_status']) ? ' class="current"' : '';
+$status_links[] = "<li><a href=\"edit.php\"$class>All Posts</a>";
+echo implode(' |</li>', $status_links) . '</li>';
+unset($status_links);
+?>
+</ul>
+
 <form name="searchform" id="searchform" action="" method="get">
 	<fieldset><legend><?php _e('Search terms&hellip;'); ?></legend>
 		<input type="text" name="s" id="s" value="<?php the_search_query(); ?>" size="17" />

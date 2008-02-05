@@ -995,6 +995,23 @@ a.view-comment-post-link {
 	height: 15px;
 }
 
+#statusmenu {
+	margin: 0;
+	color: #999;
+	list-style: none;
+	white-space: nowrap;
+	left: 0;
+}
+
+#statusmenu a {
+	color: #2583ad;
+	padding: 3px;
+	line-height: 200%;
+}
+
+#statusmenu a:hover, #statusmenu a.current, #statusmenu a.current:hover {
+	color: #d54e21;
+}
 /* end menu stuff */
 
 /* Admin Footer */
