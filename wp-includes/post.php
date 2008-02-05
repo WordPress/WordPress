@@ -790,6 +790,25 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 }
 
 /**
+ * wp_count_posts() - Count number of posts with a given type and status
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.5
+ *
+ * @param string $type Post type
+ * @param string $status Post status
+ * @return int Number of posts
+ */
+function wp_count_posts( $type = 'post', $status = 'publish' ) {
+	global $wpdb;
+
+	return $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = %s AND post_status = %s", $type, $status) );
+}
+
+/**
  * wp_delete_post() - Deletes a Post
  *
  * {@internal Missing Long Description}}

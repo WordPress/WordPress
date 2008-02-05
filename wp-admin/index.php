@@ -37,13 +37,13 @@ $today = current_time('mysql', 1);
 <h3 class="reallynow"><?php _e('Right Now'); ?> <a href="post-new.php" class="rbutton"><?php _e('Write a New Post'); ?></a> <a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a></h3>
 
 <?php
-$num_posts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'" );
+$num_posts = wp_count_posts('post', 'publish');
 
-$num_pages = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish'" );
+$num_pages = wp_count_posts('page', 'publish');
 
-$num_drafts = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft'" );
+$num_drafts = wp_count_posts('post', 'draft');
 
-$num_future = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'future'" );
+$num_future = wp_count_posts('post', 'future');
 
 $num_comments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
 
