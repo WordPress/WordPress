@@ -488,21 +488,18 @@ function wp_edit_posts_query( $q = false ) {
 	$q['m']   = (int) $q['m'];
 	$q['cat'] = (int) $q['cat'];
 	$post_stati  = array(	//	array( adj, noun )
-				'publish' => array(__('Published'), __('Published (%s)')),
-				'future' => array(__('Scheduled'), __('Scheduled (5s)')),
-				'pending' => array(__('Pending Review'), __('Pending Review (%s)')),
-				'draft' => array(__('Draft'), _c('Draft (%s)|manage posts header')),
-				'private' => array(__('Private'), __('Private (%s)'))
+				'publish' => array(__('Published'), __('Published posts'), __('Published (%s)')),
+				'future' => array(__('Scheduled'), __('Scheduled posts'), __('Scheduled (%s)')),
+				'pending' => array(__('Pending Review'), __('Pending posts'), __('Pending Review (%s)')),
+				'draft' => array(__('Draft'), _c('Drafts|manage posts header'), _c('Draft (%s)|manage posts header')),
+				'private' => array(__('Private'), __('Private posts'), __('Private (%s)'))
 			);
 
 	$avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
 
 	$post_status_q = '';
-	$post_status_label = _c('Posts|manage posts header');
-	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) ) {
-		$post_status_label = $post_stati[$q['post_status']][1];
+	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) )
 		$post_status_q = '&post_status=' . $q['post_status'];
-	}
 
 	if ( 'pending' === $q['post_status'] ) {
 		$order = 'ASC';

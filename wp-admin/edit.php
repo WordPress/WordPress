@@ -31,6 +31,9 @@ $posts_columns = wp_manage_posts_columns();
 if ( is_single() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
 } else {
+	$post_status_label = _c('Posts|manage posts header');
+	if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) )
+        $post_status_label = $post_stati[$_GET['post_status']][1];
 	if ( $post_listing_pageable && !is_archive() && !is_search() )
 		$h2_noun = is_paged() ? sprintf(__( 'Previous %s' ), $post_status_label) : sprintf(__('Latest %s'), $post_status_label);
 	else
@@ -68,7 +71,7 @@ foreach ( $post_stati as $status => $label ) {
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href=\"edit.php?post_status=$status\"$class>" .
-	sprintf($label[1], $num_posts) . '</a>';
+	sprintf($label[2], $num_posts) . '</a>';
 }
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href=\"edit.php\"$class>All Posts</a>";
