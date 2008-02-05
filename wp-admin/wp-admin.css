@@ -1389,6 +1389,19 @@ ul.categorychecklist li {
 	margin-left: 18px;
 }
 
+/* pasitioning etc. */
+form#tags-filter {
+        position: relative;
+}
+
+p#tag-search {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 0;
+}
+
+
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
 .wp-no-js-hidden { display: none; }

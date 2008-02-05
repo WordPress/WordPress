@@ -67,6 +67,8 @@ break;
 default:
 
 wp_enqueue_script( 'admin-tags' );
+wp_enqueue_script('admin-forms');
+
 require_once ('admin-header.php');
 
 $messages[1] = __('Tag added.');
@@ -81,22 +83,27 @@ $messages[5] = __('Tag not updated.');
 <?php endif; ?>
 
 <div class="wrap">
+
+<form id="tags-filter" action="" method="get">
 <?php if ( current_user_can('manage_categories') ) : ?>
 	<h2><?php printf(__('Tags (<a href="%s">add new</a>)'), '#addtag') ?> </h2>
 <?php else : ?>
 	<h2><?php _e('Tags') ?> </h2>
 <?php endif; ?>
-
-<form name="searchform" id="searchform" action="" method="get">
-	<input type="text" name="s" id="s" value="<?php echo attribute_escape( stripslashes( $_GET[ 's' ]) ); ?>" size="17" />
-	<input type="submit" id="post-query-submit" value="<?php _e('Search Tags'); ?>" class="button" />
+	<p id="tag-search">
+		<input type="text" id="tag-search-input" name="s" value="<?php echo attribute_escape( stripslashes( $_GET[ 's' ]) ); ?>" />
+		<input type="submit" value="<?php _e( 'Search Tags' ); ?>" />
+	</p>
 </form>
+
 <br style="clear:both;" />
 
-
+<form name="deletetags" id="deletetags" action="" method="post">
+<?php wp_nonce_field('bulk-tags'); ?>
 <table class="widefat">
 	<thead>
 	<tr>
+		<th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('deletetags'));" /></th>
 		<th scope="col" style="text-align: center"><?php _e('ID') ?></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
@@ -115,6 +122,7 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 ?>
 	</tbody>
 </table>
+</form>
 <?php
 
 $baseurl = get_bloginfo( 'wpurl' ) . '/wp-admin/edit-tags.php?pagenum=';

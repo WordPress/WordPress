@@ -242,6 +242,7 @@ function _tag_row( $tag, $class = '' ) {
 
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
+		$out .= '<td style="text-align: center"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></td>';
 		$out .= '<th scope="row">' . $tag->term_id . '</th>';
 
 		$out .= '<td>' . apply_filters( 'term_name', $tag->name ) . '</td>';
