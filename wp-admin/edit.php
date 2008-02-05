@@ -27,6 +27,7 @@ $posts_columns = wp_manage_posts_columns();
 
 ?>
 
+<form id="posts-filter" action="" method="get">
 <h2><?php
 if ( is_single() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
@@ -56,6 +57,10 @@ if ( is_single() ) {
 	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month );
 }
 ?></h2>
+<p id="post-search">
+	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" />
+</p>
 
 <ul id="statusmenu">
 <?php
@@ -80,7 +85,6 @@ unset($status_links);
 ?>
 </ul>
 
-<form name="searchform" id="searchform" action="" method="get">
 	<fieldset><legend><?php _e('Search terms&hellip;'); ?></legend>
 		<input type="text" name="s" id="s" value="<?php the_search_query(); ?>" size="17" />
 	</fieldset>

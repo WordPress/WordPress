@@ -1418,6 +1418,26 @@ p#tag-search {
         margin: 0;
 }
 
+form#posts-filter {
+        position: relative;
+}
+
+p#post-search {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 0;
+}
+
+#posts-filter fieldset {
+	float: left;
+	margin: 0 1.5ex 1em 0;
+	padding: 0;
+}
+
+#posts-filter fieldset legend {
+	padding: 0 0 .2em 1px;
+}
 
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
