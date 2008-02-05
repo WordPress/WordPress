@@ -117,7 +117,7 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 </table>
 <?php
 
-$baseurl = get_bloginfo( 'siteurl' ) . '/wp-admin/edit-tags.php?pagenum=';
+$baseurl = get_bloginfo( 'wpurl' ) . '/wp-admin/edit-tags.php?pagenum=';
 if( $pagenum >= 1 ) {
 	echo '<a href="' . $baseurl . ($pagenum - 1 ) . '">&lt;&lt;' . __('Previous Tags') . '</a>';
 	if( $count == $tagsperpage ) {
