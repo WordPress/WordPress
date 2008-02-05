@@ -268,7 +268,7 @@ if ( $show_password_fields ) :
 <?php endif; ?>
 
 <?php
-	if ( $is_profile_page ) { 
+	if ( $is_profile_page ) {
 		do_action('show_user_profile');
 	} else {
 		do_action('edit_user_profile');

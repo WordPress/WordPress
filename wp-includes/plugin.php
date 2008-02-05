@@ -164,7 +164,7 @@ function apply_filters($tag, $value) {
 			}
 
 	} while ( next($wp_filter[$tag]) !== false );
-	
+
 	array_pop( $wp_current_filter );
 
 	return $value;
@@ -504,7 +504,7 @@ function register_deactivation_hook($file, $function) {
 	add_action('deactivate_' . $file, $function);
 }
 
-/** 
+/**
  * _wp_call_all_hook() - Calls the 'all' hook, which will process the functions hooked into it.
  *
  * The 'all' hook passes all of the arguments or parameters that were used for the
@@ -523,9 +523,9 @@ function register_deactivation_hook($file, $function) {
  *
  * @param array $args The collected parameters from the hook that was called.
  * @param string $hook Optional. The hook name that was used to call the 'all' hook.
- */ 
-function _wp_call_all_hook($args) { 
-	global $wp_filter; 
+ */
+function _wp_call_all_hook($args) {
+	global $wp_filter;
 
 	reset( $wp_filter['all'] );
 	do {

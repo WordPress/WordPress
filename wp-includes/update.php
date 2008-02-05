@@ -9,7 +9,7 @@
 /**
  * wp_version_check() - Check WordPress version against the newest version.
  *
- * The WordPress version, PHP version, and Locale is sent. Checks against the WordPress server at 
+ * The WordPress version, PHP version, and Locale is sent. Checks against the WordPress server at
  * api.wordpress.org server. Will only check if PHP has fsockopen enabled and WordPress isn't installing.
  *
  * @package WordPress

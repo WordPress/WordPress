@@ -174,7 +174,7 @@ define('WPINC', 'wp-includes');
 
 if ( !defined('LANGDIR') ) {
 	/**
-	 * Stores the location of the language directory. First looks for language folder in wp-content 
+	 * Stores the location of the language directory. First looks for language folder in wp-content
 	 * and uses that folder if it exists. Or it uses the "languages" folder in WPINC.
 	 *
 	 * @since 2.1.0

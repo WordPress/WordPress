@@ -37,7 +37,7 @@ function wp_reset_query() {
  */
 
 function is_admin () {
-	if ( defined('WP_ADMIN') ) 
+	if ( defined('WP_ADMIN') )
 		return WP_ADMIN;
 	return false;
 }
@@ -143,15 +143,15 @@ function is_feed () {
  *
  * @return bool True if front of site
  */
-function is_front () { 
-	// most likely case 
-	if ( 'posts' == get_option('show_on_front') && is_home() ) 
-		return true; 
-	elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') && is_page(get_option('page_on_front')) ) 
-		return true; 
-	else 
-		return false; 
-} 
+function is_front () {
+	// most likely case
+	if ( 'posts' == get_option('show_on_front') && is_home() )
+		return true;
+	elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') && is_page(get_option('page_on_front')) )
+		return true;
+	else
+		return false;
+}
 
 /**
  * is_home() - Is it the blog view homepage?
@@ -185,7 +185,7 @@ function is_page ($page = '') {
 	$page_obj = $wp_query->get_queried_object();
 
 	$page = (array) $page;
-    
+
     if ( in_array( $page_obj->ID, $page ) )
 		return true;
 	elseif ( in_array( $page_obj->post_title, $page ) )
@@ -977,7 +977,7 @@ class WP_Query {
 
 		if ( !empty($q['category__not_in']) ) {
 			$ids = get_objects_in_term($q['category__not_in'], 'category');
-			if ( is_wp_error( $ids ) ) 
+			if ( is_wp_error( $ids ) )
 				return $ids;
 			if ( is_array($ids) && count($ids > 0) ) {
 				$out_posts = "'" . implode("', '", $ids) . "'";
@@ -1165,11 +1165,11 @@ class WP_Query {
 				if ( in_array($orderby_array[$i], $allowed_keys) )
 					$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
 			}
-			/* append ASC or DESC at the end */ 
+			/* append ASC or DESC at the end */
 			if ( !empty($q['orderby'])){
 				$q['orderby'] .= " {$q['order']}";
 			}
-			
+
 			if ( empty($q['orderby']) )
 				$q['orderby'] = 'post_date '.$q['order'];
 		}

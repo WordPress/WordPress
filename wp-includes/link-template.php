@@ -340,9 +340,9 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 */
 function get_category_feed_link($cat_id, $feed = '') {
 	$cat_id = (int) $cat_id;
-	
+
 	$category = get_category($cat_id);
-	
+
 	if ( empty($category) || is_wp_error($category) )
 		return false;
 
@@ -359,12 +359,12 @@ function get_category_feed_link($cat_id, $feed = '') {
 			$feed_link = 'feed';
 		else
 			$feed_link = "feed/$feed";
-		
+
 		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
 	}
 
 	$link = apply_filters('category_feed_link', $link, $feed);
-	
+
 	return $link;
 }
 
@@ -402,14 +402,14 @@ function get_search_feed_link($search_query = '', $feed = '') {
 		$search = attribute_escape(get_search_query());
 	else
 		$search = attribute_escape(stripslashes($search_query));
-	
+
 	if ( empty($feed) )
 		$feed = get_default_feed();
-	
+
 	$link = get_option('home') . "?s=$search&amp;feed=$feed";
-	
+
 	$link = apply_filters('search_feed_link', $link);
-	
+
 	return $link;
 }
 
@@ -418,14 +418,14 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 		$search = attribute_escape(get_search_query());
 	else
 		$search = attribute_escape(stripslashes($search_query));
-	
+
 	if ( empty($feed) )
 		$feed = get_default_feed();
-	
+
 	$link = get_option('home') . "?s=$search&amp;feed=comments-$feed";
-	
+
 	$link = apply_filters('search_feed_link', $link);
-	
+
 	return $link;
 }
 

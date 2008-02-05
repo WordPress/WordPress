@@ -69,7 +69,7 @@ switch($step) {
 		if ( !empty($wpdb->error) )
 			wp_die($wpdb->error->get_error_message());
 
-		display_header();	
+		display_header();
 		// Fill in the data we gathered
 		$weblog_title = stripslashes($_POST['weblog_title']);
 		$admin_email = stripslashes($_POST['admin_email']);

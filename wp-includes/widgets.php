@@ -730,18 +730,18 @@ function wp_widget_categories_control( $widget_args ) {
 
 	if ( !$updated && !empty($_POST['sidebar']) ) {
 		$sidebar = (string) $_POST['sidebar'];
-		
+
 		$sidebars_widgets = wp_get_sidebars_widgets();
 		if ( isset($sidebars_widgets[$sidebar]) )
 			$this_sidebar =& $sidebars_widgets[$sidebar];
 		else
 			$this_sidebar = array();
-		
+
 		foreach ( $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_categories' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
 				unset($options[$widget_number]);
-			}   
+			}
 		}
 
 		foreach ( (array) $_POST['widget-categories'] as $widget_number => $widget_cat ) {
@@ -771,7 +771,7 @@ function wp_widget_categories_control( $widget_args ) {
 ?>
 			<p>
 				<label for="categories-title-<?php echo $number; ?>">
-					<?php _e( 'Title:' ); ?> 
+					<?php _e( 'Title:' ); ?>
 					<input class="widefat" id="categories-title-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" />
 				</label>
 			</p>
@@ -1155,7 +1155,7 @@ function wp_widget_rss_control($widget_args) {
 			$this_sidebar =& $sidebars_widgets[$sidebar];
 		else
 			$this_sidebar = array();
-	
+
 		foreach ( $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_rss' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
@@ -1283,7 +1283,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 		} else {
 			$link = clean_url(strip_tags($rss->channel['link']));
 			while ( strstr($link, 'http') != $link )
-				$link = substr($link, 1);			
+				$link = substr($link, 1);
 		}
 	}
 
@@ -1400,7 +1400,7 @@ function widget_many( $args, $widget_args = 1 ) {
 		$widget_args = array( 'number' => $widget_args );
 	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 	extract( $widget_args, EXTR_SKIP );
-	
+
 	// Data should be stored as array:  array( number => data for that instance of the widget, ... )
 	$options = get_option('widget_many');
 	if ( !isset($options[$number]) )

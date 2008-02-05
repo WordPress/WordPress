@@ -293,7 +293,7 @@ class WP_Rewrite {
 
 		if ( !$posts )
 			return array( array(), array() );
-	
+
 
 		foreach ($posts as $id => $post) {
 			// URL => page name

@@ -13,7 +13,7 @@ if (!file_exists('../wp-config-sample.php'))
 
 $configFile = file('../wp-config-sample.php');
 
-if ( !is_writable('../')) 
+if ( !is_writable('../'))
 	wp_die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
 // Check if wp-config.php has been created
@@ -194,7 +194,7 @@ switch($step) {
 	}
 	fclose($handle);
 	chmod('../wp-config.php', 0666);
-	
+
 	display_header();
 ?>
 <p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to <a href="install.php">run the install!</a></p>

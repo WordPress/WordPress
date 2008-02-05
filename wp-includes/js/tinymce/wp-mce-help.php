@@ -129,13 +129,13 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 			}
 		}
 	}
-    
+
     function init() {
         document.getElementById('version').innerHTML = tinymce.majorVersion + "." + tinymce.minorVersion;
         document.getElementById('date').innerHTML = tinymce.releaseDate;
     }
     tinyMCEPopup.onInit.add(init);
-    
+
     // For modal dialogs in IE
     if (tinymce.isIE)
 	   document.write('<base target="_self" />');
@@ -190,7 +190,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 
 <div id="content4" class="hidden">
 	<h2><?php _e('About TinyMCE'); ?></h2>
-	
+
     <p><?php _e('Version:'); ?> <span id="version"></span> (<span id="date"></span>)</p>
 	<p><?php printf(__('TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control released as Open Source under %sLGPL</a>	by Moxiecode Systems AB. It has the ability to convert HTML TEXTAREA fields or other HTML elements to editor instances.'), '<a href="'.get_bloginfo('url').'/wp-includes/js/tinymce/license.txt" target="_blank" title="'.__('GNU Library General Public Licence').'">') ?></p>
 	<p><?php _e('Copyright &copy; 2003-2007, <a href="http://www.moxiecode.com" target="_blank">Moxiecode Systems AB</a>, All rights reserved.') ?></p>

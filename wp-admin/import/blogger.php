@@ -381,7 +381,7 @@ class Blogger_Import {
 						$AtomParser = new AtomParser();
 						$AtomParser->parse( $entry );
 						$result = $this->import_post($AtomParser->entry);
-						if ( is_wp_error( $result ) ) 
+						if ( is_wp_error( $result ) )
 							return $result;
 						unset($AtomParser);
 					}
@@ -520,7 +520,7 @@ class Blogger_Import {
 			$post = compact('post_date', 'post_content', 'post_title', 'post_status');
 
 			$post_id = wp_insert_post($post);
-			if ( is_wp_error( $post_id ) ) 
+			if ( is_wp_error( $post_id ) )
 				return $post_id;
 
 			wp_create_categories( array_map( 'addslashes', $entry->categories ), $post_id );

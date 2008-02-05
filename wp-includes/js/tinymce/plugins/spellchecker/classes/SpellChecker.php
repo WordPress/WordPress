@@ -20,7 +20,7 @@ class SpellChecker {
 	 * Simple loopback function everything that gets in will be send back.
 	 *
 	 * @param $args.. Arguments.
-	 * @return {Array} Array of all input arguments. 
+	 * @return {Array} Array of all input arguments.
 	 */
 	function &loopback(/* args.. */) {
 		return func_get_args();

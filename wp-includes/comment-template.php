@@ -130,7 +130,7 @@ function comment_author_link() {
  *
  * @since 1.5
  * @uses $comment
- * @uses apply_filters() 
+ * @uses apply_filters()
  *
  * @return unknown
  */
@@ -166,7 +166,7 @@ function get_comment_author_url() {
  * comment_author_url() - Display the url of the author of the current comment
  *
  * @since 0.71
- * @uses apply_filters() 
+ * @uses apply_filters()
  * @uses get_comment_author_url() Retrieves the comment author's URL
  */
 function comment_author_url() {
@@ -568,7 +568,7 @@ function trackback_rdf($deprecated = '') {
 function comments_open( $post_id=NULL ) {
 
 	$_post = get_post($post_id);
-	
+
 	$open = ( 'open' == $_post->comment_status );
 	return apply_filters( 'comments_open', $open, $post_id );
 }
@@ -577,7 +577,7 @@ function comments_open( $post_id=NULL ) {
  * pings_open() - Whether the current post is open for pings
  *
  * @since 1.5
- * @uses $post 
+ * @uses $post
  *
  * @param int $post_id An optional post ID to check instead of the current post.
  * @return bool True if pings are accepted
@@ -757,7 +757,7 @@ function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more =
 		echo ' class="'.$css_class.'" ';
 	}
 	$title = attribute_escape( get_the_title() );
-	
+
 	echo apply_filters( 'comments_popup_link_attributes', '' );
 
 	echo ' title="' . sprintf( __('Comment on %s'), $title ) . '">';

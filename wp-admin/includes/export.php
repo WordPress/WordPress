@@ -74,7 +74,7 @@ function wxr_cdata($str) {
 
 function wxr_site_url() {
 	global $current_site;
-	
+
 	// mu: the base url
 	if ( isset($current_site->domain) ) {
 		return 'http://'.$current_site->domain.$current_site->path;

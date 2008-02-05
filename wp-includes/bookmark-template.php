@@ -47,7 +47,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	$output = ''; // Blank string to start with.
-	
+
 	foreach ( (array) $bookmarks as $bookmark ) {
 		if ( !isset($bookmark->recently_updated) )
 			$bookmark->recently_updated = false;

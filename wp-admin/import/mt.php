@@ -215,7 +215,7 @@ class MT_Import {
 
 			$post->post_author = $this->checkauthor($post->post_author); //just so that if a post already exists, new users are not created by checkauthor
 			$post_id = wp_insert_post($post);
-			if ( is_wp_error( $post_id ) ) 
+			if ( is_wp_error( $post_id ) )
 				return $post_id;
 
 			// Add categories.
@@ -294,7 +294,7 @@ class MT_Import {
 				// Finishing a post.
 				$context = '';
 				$result = $this->save_post($post, $comments, $pings);
-				if ( is_wp_error( $result ) ) 
+				if ( is_wp_error( $result ) )
 					return $result;
 				$post = new StdClass;
 				$comment = new StdClass();
@@ -420,7 +420,7 @@ class MT_Import {
 			$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$result = $this->process_posts();
-		if ( is_wp_error( $result ) ) 
+		if ( is_wp_error( $result ) )
 			return $result;
 	}
 

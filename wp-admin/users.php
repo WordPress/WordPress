@@ -176,7 +176,7 @@ case 'adduser':
 default:
 	wp_enqueue_script('admin-users');
 	wp_enqueue_script('admin-forms');
-	
+
 	include('admin-header.php');
 
 	// Query the users

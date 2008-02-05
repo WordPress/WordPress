@@ -446,7 +446,7 @@ function user_can_edit_user($user_id, $other_user) {
  * @param string 	$after 		Optional. The html to output after the link.
  * @param string 	$between 	Optional. The html to output between the link/image and it's description. Not used if no image or $show_images is true.
  * @param bool 		$show_images Optional. Whether to show images (if defined).
- * @param string 	$orderby	Optional. The order to output the links. E.g. 'id', 'name', 'url', 'description' or 'rating'. Or maybe owner. 
+ * @param string 	$orderby	Optional. The order to output the links. E.g. 'id', 'name', 'url', 'description' or 'rating'. Or maybe owner.
  *		If you start the name with an underscore the order will be reversed. You can also specify 'rand' as the order which will return links in a
  *		random order.
  * @param bool 		$show_description Optional. Whether to show the description if show_images=false/not defined.
@@ -505,8 +505,8 @@ function wp_get_linksbyname($category, $args = '') {
  * @see get_linkobjects()
  *
  * @param string $cat_name The category name to use. If no match is found uses all.
- * @param string $orderby The order to output the links. E.g. 'id', 'name', 'url', 'description', or 'rating'. 
- *		Or maybe owner. If you start the name with an underscore the order will be reversed. You can also 
+ * @param string $orderby The order to output the links. E.g. 'id', 'name', 'url', 'description', or 'rating'.
+ *		Or maybe owner. If you start the name with an underscore the order will be reversed. You can also
  *		specify 'rand' as the order which will return links in a random order.
  * @param int $limit Limit to X entries. If not specified, all entries are shown.
  * @return unknown
@@ -558,7 +558,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  *
  * @param int $category The category to use. If no category supplied uses all
  * @param string $orderby the order to output the links. E.g. 'id', 'name', 'url',
- *		'description', or 'rating'. Or maybe owner. If you start the name with an 
+ *		'description', or 'rating'. Or maybe owner. If you start the name with an
  *		underscore the order will be reversed. You can also specify 'rand' as the
  *		order which will return links in a random order.
  * @param int $limit Limit to X entries. If not specified, all entries are shown.
@@ -589,7 +589,7 @@ function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
  * @param string $between The html to output between the link/image and it's description. Not used if no image or show_images is true
  * @param bool $show_images Whether to show images (if defined).
  * @param string $orderby the order to output the links. E.g. 'id', 'name', 'url',
- *		'description', or 'rating'. Or maybe owner. If you start the name with an 
+ *		'description', or 'rating'. Or maybe owner. If you start the name with an
  *		underscore the order will be reversed. You can also specify 'rand' as the
  *		order which will return links in a random order.
  * @param bool $show_description Whether to show the description if show_images=false/not defined
@@ -616,7 +616,7 @@ function get_linksbyname_withrating($cat_name = "noname", $before = '', $after =
  * @param string $between The html to output between the link/image and it's description. Not used if no image or show_images == true
  * @param bool $show_images Whether to show images (if defined).
  * @param string $orderby The order to output the links. E.g. 'id', 'name', 'url',
- *		'description', or 'rating'. Or maybe owner. If you start the name with an 
+ *		'description', or 'rating'. Or maybe owner. If you start the name with an
  *		underscore the order will be reversed. You can also specify 'rand' as the
  *		order which will return links in a random order.
  * @param bool $show_description Whether to show the description if show_images=false/not defined.
@@ -669,8 +669,8 @@ function get_autotoggle($id = 0) {
  * @param bool $hierarchical
  * @return unknown
  */
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, 
-				   $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0, 
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0,
+				   $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0,
 				   $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=false) {
 	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_categories()');
 
@@ -866,7 +866,7 @@ function get_author_link($echo = false, $author_id, $author_nicename = '') {
  * @param string $more_file
  * @return string
  */
-function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', 
+function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page',
 					$pagelink='%', $more_file='') {
 	_deprecated_function(__FUNCTION__, '0.0', 'wp_link_pages()');
 
@@ -1068,7 +1068,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
  * @see get_categories()
  *
  * @param string $order Sort link categories by 'name' or 'id'
- * @param string $$deprecated Not Used 
+ * @param string $$deprecated Not Used
  */
 function get_links_list($order = 'name', $deprecated = '') {
 	_deprecated_function(__FUNCTION__, '0.0', 'get_categories()');
@@ -1214,7 +1214,7 @@ function get_category_rss_link($echo = false, $cat_ID = 1, $deprecated = '') {
 }
 
 /**
- * get_author_rss_link() - Print/Return link to author RSS feed 
+ * get_author_rss_link() - Print/Return link to author RSS feed
  *
  * @since 1.2
  * @deprecated Use get_author_feed_link()
@@ -1235,7 +1235,7 @@ function get_author_rss_link($echo = false, $author_id = 1, $deprecated = '') {
 }
 
 /**
- * comments_rss() - Return link to the post RSS feed 
+ * comments_rss() - Return link to the post RSS feed
  *
  * @since 1.5
  * @deprecated Use get_post_comments_feed_link()

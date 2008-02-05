@@ -244,30 +244,30 @@ function get_comment_count( $post_id = 0 ) {
 		$where = "WHERE comment_post_ID = {$post_id}";
 	}
 
-	$totals = (array) $wpdb->get_results(" 
-		SELECT comment_approved, COUNT( * ) AS total 
-		FROM {$wpdb->comments} 
-		{$where} 
-		GROUP BY comment_approved 
+	$totals = (array) $wpdb->get_results("
+		SELECT comment_approved, COUNT( * ) AS total
+		FROM {$wpdb->comments}
+		{$where}
+		GROUP BY comment_approved
 	", ARRAY_A);
 
-	$comment_count = array(                         
-		"approved"              => 0,                
+	$comment_count = array(
+		"approved"              => 0,
 		"awaiting_moderation"   => 0,
 		"spam"                  => 0,
 		"total_comments"        => 0
-	); 
+	);
 
-	foreach ( $totals as $row ) { 
-		switch ( $row['comment_approved'] ) { 
-			case 'spam': 
-				$comment_count['spam'] = $row['total']; 
+	foreach ( $totals as $row ) {
+		switch ( $row['comment_approved'] ) {
+			case 'spam':
+				$comment_count['spam'] = $row['total'];
 				$comment_count["total_comments"] += $row['total'];
-				break; 
-			case 1: 
-				$comment_count['approved'] = $row['total']; 
+				break;
+			case 1:
+				$comment_count['approved'] = $row['total'];
 				$comment_count['total_comments'] += $row['total'];
-				break; 
+				break;
 			case 0:
 				$comment_count['awaiting_moderation'] = $row['total'];
 				$comment_count['total_comments'] += $row['total'];
@@ -788,14 +788,14 @@ function wp_update_comment($commentarr) {
  */
 function wp_defer_comment_counting($defer=null) {
 	static $_defer = false;
-	
+
 	if ( is_bool($defer) ) {
 		$_defer = $defer;
 		// flush any deferred counts
 		if ( !$defer )
 			wp_update_comment_count( null, true );
 	}
-	
+
 	return $_defer;
 }
 
@@ -819,7 +819,7 @@ function wp_defer_comment_counting($defer=null) {
  */
 function wp_update_comment_count($post_id, $do_deferred=false) {
 	static $_deferred = array();
-	
+
 	if ( $do_deferred ) {
 		$_deferred = array_unique($_deferred);
 		foreach ( $_deferred as $i => $_post_id ) {
@@ -827,7 +827,7 @@ function wp_update_comment_count($post_id, $do_deferred=false) {
 			unset( $_deferred[$i] ); /** @todo Move this outside of the foreach and reset $_deferred to an array instead */
 		}
 	}
-	
+
 	if ( wp_defer_comment_counting() ) {
 		$_deferred[] = $post_id;
 		return true;
@@ -835,7 +835,7 @@ function wp_update_comment_count($post_id, $do_deferred=false) {
 	elseif ( $post_id ) {
 		return wp_update_comment_count_now($post_id);
 	}
-		
+
 }
 
 /**
@@ -847,7 +847,7 @@ function wp_update_comment_count($post_id, $do_deferred=false) {
  * @uses do_action() Calls 'edit_posts' hook on $post_id and $post
  *
  * @param int $post_id Post ID
- * @return bool False on '0' $post_id or if post with ID does not exist. True on success. 
+ * @return bool False on '0' $post_id or if post with ID does not exist. True on success.
  */
 function wp_update_comment_count_now($post_id) {
 	global $wpdb;

@@ -70,7 +70,7 @@ class STP_Import {
 			if ( get_option('stpimp_posts') ) {
 				delete_option('stpimp_posts');
 			}
-			
+
 			add_option('stpimp_posts', $posts);
 			$count = count($posts);
 			echo '<p>' . sprintf( __ngettext('Done! <strong>%s</strong> tag to post relationships were read.', 'Done! <strong>%s</strong> tags to post relationships were read.', $count), $count ) . '<br /></p>';
@@ -87,10 +87,10 @@ class STP_Import {
 	function import_t2p ( ) {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Adding Tags to Posts&#8230;').'</h3></p>';
-		
+
 		// run that funky magic!
 		$tags_added = $this->tag2post();
-		
+
 		echo '<p>' . sprintf( __ngettext('Done! <strong>%s</strong> tags where added!', 'Done! <strong>%s</strong> tags where added!', $tags_added), $tags_added ) . '<br /></p>';
 		echo '<form action="admin.php?import=stp&amp;step=3" method="post">';
 		wp_nonce_field('import-stp');

@@ -31,7 +31,7 @@ $wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'obj
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
- * 
+ *
  * @uses $wp_taxonomies
  *
  * @param string $object_type Name of the type of taxonomy object
@@ -80,7 +80,7 @@ function get_taxonomy( $taxonomy ) {
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
- * 
+ *
  * @uses $wp_taxonomies
  *
  * @param string $taxonomy Name of taxonomy object
@@ -139,7 +139,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @subpackage Taxonomy
  * @since 2.3
  * @uses $wp_taxonomies Inserts new taxonomy object into the list
- * 
+ *
  * @param string $taxonomy Name of taxonomy object
  * @param string $object_type Name of the object type for the taxonomy object.
  * @param array|string $args See above description for the two keys values.
@@ -275,7 +275,7 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 			wp_cache_add($term, $_term, $taxonomy);
 		}
 	}
-	
+
 	$_term = apply_filters('get_term', $_term, $taxonomy);
 	$_term = apply_filters("get_$taxonomy", $_term, $taxonomy);
 	$_term = sanitize_term($_term, $taxonomy, $filter);
@@ -362,7 +362,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  * the same array. Only useful for taxonomies which are hierarchical.
  *
  * Will return an empty array if $term does not exist in $taxonomy.
- * 
+ *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
@@ -396,7 +396,7 @@ function get_term_children( $term, $taxonomy ) {
 
 /**
  * get_term_field() - Get sanitized Term field
- * 
+ *
  * Does checks for $term, based on the $taxonomy. The function is for
  * contextual reasons and for simplicity of usage. See sanitize_term_field() for
  * more information.
@@ -433,7 +433,7 @@ function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
  *
  * Return value is sanitize_term() and usage is for sanitizing the term
  * for editing. Function is for contextual and simplicity.
- * 
+ *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3
@@ -629,9 +629,9 @@ function &get_terms($taxonomies, $args = '') {
 	if ( !empty($number) ) {
 		if( $offset )
 			$number = 'LIMIT ' . $offset . ',' . $number;
-		else 
+		else
 			$number = 'LIMIT ' . $number;
-		
+
 	} else
 		$number = '';
 
@@ -809,7 +809,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		// Back compat filters
 		if ( 'slug' == $field )
 			$value = apply_filters('pre_category_nicename', $value);
-			
+
 	} else if ( 'rss' == $context ) {
 		$value = apply_filters("term_${field}_rss", $value, $taxonomy);
 		$value = apply_filters("${taxonomy}_${field}_rss", $value);
@@ -1032,7 +1032,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
-	else if ( 'names' == $fields ) 
+	else if ( 'names' == $fields )
 		$select_this = 't.name';
 	else if ( 'all_with_object_id' == $fields )
 		$select_this = 't.*, tt.*, tr.object_id';
@@ -1175,7 +1175,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 /**
  * wp_set_object_terms() - Create Term and Taxonomy Relationships
- * 
+ *
  * Relates an object (post, link etc) to a term and taxonomy type. Creates the term and taxonomy
  * relationship if it doesn't already exist. Creates a term if it doesn't exist (using the slug).
  *
@@ -1213,7 +1213,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	foreach ($terms as $term) {
 		if ( !strlen(trim($term)) )
 			continue;
-		
+
 		if ( !$id = is_term($term, $taxonomy) )
 			$id = wp_insert_term($term, $taxonomy);
 		if ( is_wp_error($id) )
@@ -1243,7 +1243,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 /**
  * wp_unique_term_slug() - Will make slug unique, if it isn't already
- * 
+ *
  * The $slug has to be unique global to every taxonomy, meaning that one taxonomy
  * term can't have a matching slug with another taxonomy term. Each slug has to be
  * globally unique for every taxonomy.
@@ -1253,7 +1253,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
  *
  * If that still doesn't return an unique slug, then it try to append a number until
  * it finds a number that is truely unique.
- * 
+ *
  * The only purpose for $term is for appending a parent, if one exists.
  *
  * @package WordPress
@@ -1420,20 +1420,20 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 // if no value is supplied, the current value of the defer setting is returned
 function wp_defer_term_counting($defer=NULL) {
 	static $_defer = false;
-	
+
 	if ( is_bool($defer) ) {
 		$_defer = $defer;
 		// flush any deferred counts
 		if ( !$defer )
 			wp_update_term_count( NULL, NULL, true );
 	}
-	
+
 	return $_defer;
 }
 
 /**
  * wp_update_term_count() - Updates the amount of terms in taxonomy
- * 
+ *
  * If there is a taxonomy callback applyed, then it will be called for updating the count.
  *
  * The default action is to count what the amount of terms have the relationship of term ID.
@@ -1470,7 +1470,7 @@ function wp_update_term_count( $terms, $taxonomy, $do_deferred=false ) {
 		$_deferred[$taxonomy] = array_unique( array_merge($_deferred[$taxonomy], $terms) );
 		return true;
 	}
-	
+
 	return wp_update_term_count_now( $terms, $taxonomy );
 }
 
@@ -1600,7 +1600,7 @@ function &get_object_term_cache($id, $taxonomy) {
  * a string.
  *
  * It should be noted that update_object_term_cache() is very time extensive.
- * It is advised that the function is not called very often or at least not 
+ * It is advised that the function is not called very often or at least not
  * for a lot of terms that exist in a lot of taxonomies. The amount of time
  * increases for each term and it also increases for each taxonomy the term
  * belongs to.
@@ -1612,7 +1612,7 @@ function &get_object_term_cache($id, $taxonomy) {
  *
  * @param string|array $object_ids Single or list of term object ID(s)
  * @param string $object_type The taxonomy object type
- * @return null|bool Null value is given with empty $object_ids. False if 
+ * @return null|bool Null value is given with empty $object_ids. False if
  */
 function update_object_term_cache($object_ids, $object_type) {
 	if ( empty($object_ids) )
@@ -1719,7 +1719,7 @@ function _get_term_hierarchy($taxonomy) {
 
 /**
  * _get_term_children() - Get array of child terms
- * 
+ *
  * If $terms is an array of objects, then objects will returned from the function.
  * If $terms is an array of IDs, then an array of ids of children will be returned.
  *
@@ -1775,7 +1775,7 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 
 /**
  * _pad_term_counts() - Add count of children to parent count
- * 
+ *
  * Recalculates term counts by including items from child terms.
  * Assumes all relevant children are already in the $terms argument
  *
@@ -1826,7 +1826,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
 		}
 	}
 
-	// Transfer the touched cells 
+	// Transfer the touched cells
 	foreach ( (array) $term_items as $id => $items )
 		if ( isset($terms_by_id[$id]) )
 			$terms_by_id[$id]->count = count($items);
@@ -1838,7 +1838,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
 
 /**
  * _update_post_term_count() - Will update term count based on posts
- * 
+ *
  * Private function for the default callback for post_tag and category taxonomies.
  *
  * @package WordPress

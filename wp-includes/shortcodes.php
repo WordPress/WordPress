@@ -30,7 +30,7 @@ function bartag_func($atts) {
 		'foo' => 'no foo',
 		'baz' => 'default baz',
 	), $atts));
-	
+
 	return "foo = {$foo}";
 }
 add_shortcode('bartag', 'bartag_func');

@@ -104,7 +104,7 @@ class WP_Scripts {
 				'security_error' => 'Security error.',
 				'file_cancelled' => 'File cancelled.',
 				'upload_stopped' => 'Upload stopped.',
-				
+
 		) );
 
 		$this->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery'), '3' );
@@ -118,12 +118,12 @@ class WP_Scripts {
 			$this->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20071031' );
 			$this->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists'), '20071031' );
 			$this->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
-			$this->add( 'password-strength-meter', '/wp-admin/js/password-strength-meter.js', array('jquery'), '20070405' ); 
-			$this->localize( 'password-strength-meter', 'pwsL10n', array( 
-				'short' => __('Too short'), 
-				'bad' => __('Bad'), 
-				'good' => __('Good'), 
-				'strong' => __('Strong') 
+			$this->add( 'password-strength-meter', '/wp-admin/js/password-strength-meter.js', array('jquery'), '20070405' );
+			$this->localize( 'password-strength-meter', 'pwsL10n', array(
+				'short' => __('Too short'),
+				'bad' => __('Bad'),
+				'good' => __('Good'),
+				'strong' => __('Strong')
 			) );
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20071104' );
 			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20071023' );
@@ -274,7 +274,7 @@ class WP_Scripts {
 					return false; // Abort this branch.
 				else
 					continue; // We're at the top level.  Move on to the next one.
-			}					
+			}
 
 			$this->to_print[$handle] = true;
 		}

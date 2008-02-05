@@ -5,7 +5,7 @@
  * @package External
  * @subpackage PHP-gettext
  *
- * @internal 
+ * @internal
    Copyright (c) 2003, 2005 Danilo Segan <danilo@kvota.net>.
 
    This file is part of PHP-gettext.

@@ -646,7 +646,7 @@ class Textpattern_Import {
 				break;
 			case 3 :
 				$result = $this->import_posts();
-				if ( is_wp_error( $result ) ) 
+				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();
 				break;
 			case 4 :

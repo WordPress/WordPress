@@ -528,7 +528,7 @@ class wpdb {
 				continue;
 			elseif ( strtolower(@$trace['function']) == 'do_action' )
 				continue;
-	
+
 			$caller = $trace['function'];
 			break;
 		}

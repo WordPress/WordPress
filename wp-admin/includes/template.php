@@ -239,41 +239,41 @@ function dropdown_link_categories( $default = 0 ) {
 function _tag_row( $tag, $class = '' ) {
 		$count = number_format_i18n( $tag->count );
 		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
-		
+
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
 		$out .= '<th scope="row">' . $tag->term_id . '</th>';
 
 		$out .= '<td>' . apply_filters( 'term_name', $tag->name ) . '</td>';
 
-		$out .= "<td>$count</td>";		
+		$out .= "<td>$count</td>";
 		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '" class="edit">' .
 			__( 'Edit' ) . "</a></td>" .
-			'<td><a href="' . wp_nonce_url( "edit-tags.php?action=delete&amp;tag_ID=$tag->term_id", 
-					'delete-tag_' . $tag->term_id ) . 
+			'<td><a href="' . wp_nonce_url( "edit-tags.php?action=delete&amp;tag_ID=$tag->term_id",
+					'delete-tag_' . $tag->term_id ) .
 				'" class="delete:the-list:tag-' . $tag->term_id . ' delete">' .
 				__( 'Delete' ) . "</a></td>";
 		$out .= '</tr>';
-		
+
 		return $out;
 }
 
 // Outputs appropriate rows for the Nth page of the Tag Management screen,
-// assuming M tags displayed at a time on the page 
+// assuming M tags displayed at a time on the page
 // Returns the number of tags displayed
 function tag_rows( $page = 0, $pagesize = 20, $searchterms = '' ) {
-	
+
 	// Get a page worth of tags
 	$start = $page * $pagesize;
 
 	$args = array('offset' => $start, 'number' => $pagesize, 'hide_empty' => 0);
- 
+
 	if ( !empty( $searchterms ) ) {
 		$args['name__like'] = '%' . like_escape( $searchterms );
 	}
 
 	$tags = get_terms( 'post_tag', $args );
-	
+
 	// convert it to table rows
 	$out = '';
 	$class = '';
@@ -291,7 +291,7 @@ function tag_rows( $page = 0, $pagesize = 20, $searchterms = '' ) {
 		$out .= _tag_row( $tag, $class );
 		$count++;
 	}
-	
+
 	// filter and send to screen
 	$out = apply_filters('tag_rows', $out);
 	echo $out;
@@ -330,7 +330,7 @@ function wp_manage_posts_columns() {
 function display_page_row( $page, &$children_pages, $level = 0 ) {
 	global $post;
 	static $class;
-	
+
 	$post = $page;
 	setup_postdata($page);
 
@@ -355,14 +355,14 @@ function display_page_row( $page, &$children_pages, $level = 0 ) {
 <?php
 
 	if ( ! $children_pages )
-		return true; 
+		return true;
 
 	for ( $i = 0; $i < count($children_pages); $i++ ) {
 
 		$child = $children_pages[$i];
-			
+
 		if ( $child->post_parent == $id ) {
-			array_splice($children_pages, $i, 1); 
+			array_splice($children_pages, $i, 1);
 			display_page_row($child, $children_pages, $level+1);
 			$i = -1; //as numeric keys in $children_pages are not preserved after splice
 		}
@@ -370,7 +370,7 @@ function display_page_row( $page, &$children_pages, $level = 0 ) {
 }
 
 /*
- * displays pages in hierarchical order 
+ * displays pages in hierarchical order
  */
 function page_rows( $pages ) {
 	if ( ! $pages )
@@ -385,33 +385,33 @@ function page_rows( $pages ) {
 	$children_pages  = array();
 
 	foreach ( $pages as $page ) {
-		
-		// catch and repair bad pages 
+
+		// catch and repair bad pages
 		if ( $page->post_parent == $page->ID ) {
-			$page->post_parent = 0; 
+			$page->post_parent = 0;
 			$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = '0' WHERE ID = %d", $page->ID) );
 			clean_page_cache( $page->ID );
 		}
-		 
+
 		if ( 0 == $page->post_parent )
-			$top_level_pages[] = $page; 
+			$top_level_pages[] = $page;
 		else
-			$children_pages[] = $page; 
+			$children_pages[] = $page;
 	}
 
 	foreach ( $top_level_pages as $page )
 		display_page_row($page, $children_pages, 0);
-	
-	/* 
+
+	/*
 	 * display the remaining children_pages which are orphans
 	 * having orphan requires parental attention
 	 */
 	 if ( count($children_pages) > 0 ) {
-	 	$empty_array = array(); 
-	 	foreach ( $children_pages as $orphan_page ) { 
+	 	$empty_array = array();
+	 	foreach ( $children_pages as $orphan_page ) {
 			clean_page_cache( $orphan_page->ID);
 			display_page_row( $orphan_page, $empty_array, 0 );
-		} 
+		}
 	 }
 }
 
@@ -649,7 +649,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 
 	if ( $for_post )
 		$edit = ( in_array($post->post_status, array('draft', 'pending') ) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date ) ) ? false : true;
-	
+
 	$tab_index_attribute = '';
 	if ( (int) $tab_index > 0 )
 		$tab_index_attribute = " tabindex=\"$tab_index\"";

@@ -553,7 +553,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 		$request_type = 'GET';
 	else
 		$request_type = 'HEAD';
-		
+
 	$head = "$request_type $file HTTP/1.1\r\nHOST: $host\r\nUser-Agent: WordPress/" . $wp_version . "\r\n\r\n";
 
 	$fp = @fsockopen( $host, $parts['port'], $err_num, $err_msg, 3 );
@@ -579,7 +579,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 				fclose($fp);
 				return wp_get_http( $headers['location'], $file_path, ++$red );
 		}
-	
+
 	// make a note of the final location, so the caller can tell if we were redirected or not
 	$headers['x-final-location'] = $url;
 
@@ -588,7 +588,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 		fclose($fp);
 		return $headers;
 	}
-	
+
 	// GET request - fetch and write it to the supplied filename
 	$content_length = $headers['content-length'];
 	$got_bytes = 0;
@@ -601,7 +601,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 		if ($content_length and $got_bytes >= $content_length)
 			break;
 	}
-	
+
 	fclose($out_fp);
 	fclose($fp);
 	return $headers;
@@ -947,7 +947,7 @@ function do_robots() {
 function is_blog_installed() {
 	global $wpdb;
 
-	// Check cache first.  If options table goes away and we have true cached, oh well.  
+	// Check cache first.  If options table goes away and we have true cached, oh well.
 	if ( wp_cache_get('is_blog_installed') )
 		return true;
 
@@ -994,7 +994,7 @@ function wp_original_referer_field() {
 function wp_get_referer() {
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
 		return $_REQUEST['_wp_http_referer'];
-	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) 
+	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
 		return $_SERVER['HTTP_REFERER'];
 	return false;
 }
@@ -1068,12 +1068,12 @@ function wp_upload_dir( $time = NULL ) {
 
 // return a filename that is sanitized and unique for the given directory
 function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL ) {
-	
+
 	// separate the filename into a name and extension
 	$info = pathinfo($filename);
 	$ext = $info['extension'];
 	$name = basename($filename, ".{$ext}");
-	
+
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
 	if ( $unique_filename_callback && function_exists( $unique_filename_callback ) ) {
 		$filename = $unique_filename_callback( $dir, $name );
@@ -1095,7 +1095,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL )
 		$filename = str_replace( $ext, '', $filename );
 		$filename = sanitize_title_with_dashes( $filename ) . $ext;
 	}
-	
+
 	return $filename;
 }
 
@@ -1111,7 +1111,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = NULL ) {
 
 	if ( $upload['error'] !== false )
 		return $upload;
-	
+
 	$filename = wp_unique_filename( $upload['path'], $name );
 
 	$new_file = $upload['path'] . "/$filename";
@@ -1225,7 +1225,7 @@ function wp_explain_nonce( $action ) {
 		$trans['add']['bookmark']      = array( __( 'Are you sure you want to add this link?' ), false );
 		$trans['delete']['bookmark']   = array( __( 'Are you sure you want to delete this link: &quot;%s&quot;?' ), 'use_id' );
 		$trans['update']['bookmark']   = array( __( 'Are you sure you want to edit this link: &quot;%s&quot;?' ), 'use_id' );
-		$trans['bulk']['bookmarks']    = array( __( 'Are you sure you want to bulk modify links?' ), false ); 
+		$trans['bulk']['bookmarks']    = array( __( 'Are you sure you want to bulk modify links?' ), false );
 
 		$trans['add']['page']          = array( __( 'Are you sure you want to add this page?' ), false );
 		$trans['delete']['page']       = array( __( 'Are you sure you want to delete this page: &quot;%s&quot;?' ), 'get_the_title' );
@@ -1322,10 +1322,10 @@ function wp_die( $message, $title = '' ) {
 		$message = "<p>$message</p>";
 	}
 
-	if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL ) 
-		$admin_dir = WP_SITEURL . '/wp-admin/'; 
+	if ( defined( 'WP_SITEURL' ) && '' != WP_SITEURL )
+		$admin_dir = WP_SITEURL . '/wp-admin/';
 	elseif ( function_exists( 'get_bloginfo' ) && '' != get_bloginfo( 'wpurl' ) )
-		$admin_dir = get_bloginfo( 'wpurl' ) . '/wp-admin/'; 
+		$admin_dir = get_bloginfo( 'wpurl' ) . '/wp-admin/';
 	elseif ( strpos( $_SERVER['PHP_SELF'], 'wp-admin' ) !== false )
 		$admin_dir = '';
 	else
@@ -1555,7 +1555,7 @@ function dead_db() {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Database Error</title>
-	
+
 </head>
 <body>
 	<h1>Error establishing a database connection</h1>
@@ -1612,11 +1612,11 @@ function atom_service_url_filter($url)
 /**
  * _deprecated_function() - Marks a function as deprecated and informs when it has been used.
  *
- * There is a hook deprecated_function_run that will be called that can be used to get the backtrace 
+ * There is a hook deprecated_function_run that will be called that can be used to get the backtrace
  * up to what file and function called the deprecated function.
  *
  * The current behavior is to trigger an user error if WP_DEBUG is defined and is true.
- * 
+ *
  * This function is to be used in every function in depreceated.php
  *
  * @package WordPress
@@ -1647,11 +1647,11 @@ function _deprecated_function($function, $version, $replacement=null) {
 /**
  * _deprecated_file() - Marks a file as deprecated and informs when it has been used.
  *
- * There is a hook deprecated_file_included that will be called that can be used to get the backtrace 
+ * There is a hook deprecated_file_included that will be called that can be used to get the backtrace
  * up to what file and function included the deprecated file.
  *
  * The current behavior is to trigger an user error if WP_DEBUG is defined and is true.
- * 
+ *
  * This function is to be used in every file that is depreceated
  *
  * @package WordPress

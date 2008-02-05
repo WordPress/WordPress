@@ -24,7 +24,7 @@
 	// Set up init variables
 	$valid_elements = '*[*]';
 	$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
-	
+
     $invalid_elements = apply_filters('mce_invalid_elements', '');
 
 	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen' );
@@ -40,7 +40,7 @@
 
 	$mce_buttons_3 = apply_filters('mce_buttons_3', array());
 	$mce_buttons_3 = implode($mce_buttons_3, ',');
-	
+
 	$mce_buttons_4 = apply_filters('mce_buttons_4', array());
 	$mce_buttons_4 = implode($mce_buttons_4, ',');
 

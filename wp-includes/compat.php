@@ -69,7 +69,7 @@ function hash_hmac($algo, $data, $key, $raw_output = false) {
 		$key = pack($pack, $algo($key));
 	else if (strlen($key) < 64)
 		$key = str_pad($key, 64, chr(0));
-        
+
 	$ipad = (substr($key, 0, 64) ^ str_repeat(chr(0x36), 64));
 	$opad = (substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64));
 

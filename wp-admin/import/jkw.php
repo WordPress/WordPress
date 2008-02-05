@@ -77,7 +77,7 @@ class JeromesKeyword_Import {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading Jerome&#8217;s Keywords Tags&#8230;').'</h3></p>';
 
-		// import Jerome's Keywords tags 
+		// import Jerome's Keywords tags
 		$metakeys = $wpdb->get_results("SELECT post_id, meta_id, meta_key, meta_value FROM $wpdb->postmeta WHERE $wpdb->postmeta.meta_key = 'keywords'");
 		if ( !is_array($metakeys)) {
 			echo '<p>' . __('No Tags Found!') . '</p>';
@@ -117,7 +117,7 @@ class JeromesKeyword_Import {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading Jerome&#8217;s Keywords Tags&#8230;').'</h3></p>';
 
-		// import Jerome's Keywords tags 
+		// import Jerome's Keywords tags
 		$tablename = $wpdb->prefix . substr(get_option('jkeywords_keywords_table'), 1, -1);
 		$metakeys = $wpdb->get_results("SELECT post_id, tag_name FROM $tablename");
 		if ( !is_array($metakeys) ) {

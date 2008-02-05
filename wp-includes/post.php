@@ -1032,7 +1032,7 @@ function wp_insert_post($postarr = array()) {
 		$post_ID = (int) $ID;
 		$guid = get_post_field( 'guid', $post_ID );
 	}
-	
+
 	// Create a valid post name.  Drafts are allowed to have an empty
 	// post name.
 	if ( empty($post_name) ) {

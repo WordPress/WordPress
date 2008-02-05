@@ -195,7 +195,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 
 	if ( !empty($tag) ) {
 		$tag = get_term($tag, 'post_tag', OBJECT, 'display');
-		if ( is_wp_error( $tag ) ) 
+		if ( is_wp_error( $tag ) )
 			return $tag;
 		if ( ! empty($tag->name) )
 			$title = apply_filters('single_tag_title', $tag->name);
@@ -242,7 +242,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$title = $title . $prefix;
 	else
 		$title = $prefix . $title;
-	
+
 	$title = apply_filters('wp_title', $title, $sep);
 
 	// Send it out
@@ -297,7 +297,7 @@ function single_tag_title($prefix = '', $display = true ) {
 
 	if ( !empty($tag_id) ) {
 		$my_tag = &get_term($tag_id, 'post_tag', OBJECT, 'display');
-		if ( is_wp_error( $my_tag ) ) 
+		if ( is_wp_error( $my_tag ) )
 			return false;
 		$my_tag_name = apply_filters('single_tag_title', $my_tag->name);
 		if ( !empty($my_tag_name) ) {
@@ -933,13 +933,13 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 		if ( 'tinymce' == $wp_default_editor )
 			add_filter('the_editor_content', 'wp_richedit_pre');
 
-		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it. 
-        ?>	
+		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
+        ?>
     <style type="text/css">
 		#postdivrich table, #postdivrich #quicktags {border-top: none;}
 		#quicktags {border-bottom: none; padding-bottom: 2px; margin-bottom: -1px;}
 	</style>
-	
+
 	<div id='editor-toolbar' style='display:none;'>
 		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors.go("<?php echo $id; ?>")' /></div>
 		<a id='edButtonHTML'<?php echo 'html' == $wp_default_editor ? $active : $inactive; ?>><?php _e('HTML'); ?></a>
@@ -1017,18 +1017,18 @@ function the_search_query() {
 function language_attributes($doctype = 'html') {
 	$attributes = array();
 	$output = '';
-		
+
 	if ( $dir = get_bloginfo('text_direction') )
 		$attributes[] = "dir=\"$dir\"";
-	
+
 	if ( $lang = get_bloginfo('language') ) {
 		if ( get_option('html_type') == 'text/html' || $doctype == 'xhtml' )
 			$attributes[] = "lang=\"$lang\"";
-		
+
 		if ( get_option('html_type') != 'text/html' || $doctype == 'xhtml' )
 			$attributes[] = "xml:lang=\"$lang\"";
 	}
-	
+
 	$output = implode(' ', $attributes);
 	$output = apply_filters('language_attributes', $output);
 	echo $output;

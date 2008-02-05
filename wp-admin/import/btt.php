@@ -61,7 +61,7 @@ class BunnyTags_Import {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Reading Bunny&#8217;s Technorati Tags&#8230;').'</h3></p>';
 
-		// import Bunny's Keywords tags 
+		// import Bunny's Keywords tags
 		$metakeys = $wpdb->get_results("SELECT post_id, meta_id, meta_key, meta_value FROM $wpdb->postmeta WHERE $wpdb->postmeta.meta_key = 'tags'");
 		if ( !is_array($metakeys)) {
 			echo '<p>' . __('No Tags Found!') . '</p>';

@@ -12,7 +12,7 @@
 
 //error_reporting(E_ALL);
     @require_once('../../../wp-config.php');  // For get_bloginfo().
-    
+
     // Headers
     $expiresOffset = 3600 * 24 * 10; // Cache for 10 days in browser cache
 	header("Content-type: text/javascript");
@@ -72,26 +72,26 @@ if ( isset($_GET['load']) ) {
 	$core = getParam( 'core', 'true' ) == 'true';
 	$suffix = getParam( 'suffix', '_src' ) == '_src' ? '_src' : '';
 	$cachePath = realpath('.'); // Cache path, this is where the .gz files will be stored
-	
+
 	$content = '';
 	$encodings = array();
 	$supportsGzip = false;
 	$enc = '';
 	$cacheKey = '';
-	
+
 	// WP. Language handling could be improved... Concat all translated langs files and store in /wp-content/languages as .mo?
 	$theme = getParam( 'theme', 'advanced' );
 	$themes = array($theme);
-	
+
     $language = getParam( 'language', 'en' );
     $languages = array($language);
-	
+
     if ( $language != strtolower($language) )
 		$languages[] = strtolower($language);
-	
+
     if ( $language != substr($language, 0, 2) )
 		$languages[] = substr($language, 0, 2);
-	
+
     $diskCache = false;
 	$isJS = true;
 	$suffix = '';
@@ -158,10 +158,10 @@ if ( isset($_GET['load']) ) {
 	$lang_content = '';
 	foreach ( $languages as $lang )
 		$lang_content .= getFileContents('langs/' . $lang . '.js');
-	
+
     if ( empty($lang_content) && file_exists('langs/en.js') )
 		$lang_content .= getFileContents('langs/en.js');
-	
+
     $content .= $lang_content;
 
 	// Add themes
@@ -171,10 +171,10 @@ if ( isset($_GET['load']) ) {
 		$lang_content = '';
 		foreach ( $languages as $lang )
 			$lang_content .= getFileContents( 'themes/' . $theme . '/langs/' . $lang . '.js' );
-		
+
         if ( empty($lang_content) && file_exists( 'themes/' . $theme . '/langs/en.js' ) )
 			$lang_content .= getFileContents( 'themes/' . $theme . '/langs/en.js' );
-		
+
         $content .= $lang_content;
 	}
 
@@ -185,10 +185,10 @@ if ( isset($_GET['load']) ) {
 		$lang_content = '';
 		foreach ( $languages as $lang )
 			$lang_content .= getFileContents( 'plugins/' . $plugin . '/langs/' . $lang . '.js' );
-		
+
         if ( empty($lang_content) && file_exists( 'plugins/' . $plugin . '/langs/en.js' ) )
 			$lang_content .= getFileContents( 'plugins/' . $plugin . '/langs/en.js' );
-		
+
         $content .= $lang_content;
 	}
 
@@ -235,16 +235,16 @@ var tinyMCE_GZ = {
 		debug : false,
 		suffix : ''
 	},
-    
+
     opt : {},
-    
+
 	init : function(arr, cb) {
 		var t = this, n, s, nl = document.getElementsByTagName('script');
-        
+
         t.opt = arr;
 
 		t.settings.themes = arr.theme;
-        t.settings.plugins = arr.plugins; 
+        t.settings.plugins = arr.plugins;
         t.settings.languages = arr.language;
         s = t.settings;
         t.cb = cb || '';
@@ -256,7 +256,7 @@ var tinyMCE_GZ = {
 				t.baseURL = n.src.substring(0, n.src.lastIndexOf('/'));
 		}
         tinyMCEPreInit.base = t.baseURL;
-        
+
 		if (!t.coreLoaded)
 			t.loadScripts(1, s.themes, s.plugins, s.languages);
 	},
@@ -274,13 +274,13 @@ var tinyMCE_GZ = {
 
 			return x;
 		};
-        
+
 		// Build query string
 		q = 'load=true&js=true&diskcache=' + (s.disk_cache ? 'true' : 'false') + '&core=' + (co ? 'true' : 'false') + '&suffix=' + escape(s.suffix) + '&themes=' + escape(th) + '&plugins=' + escape(pl) + '&languages=' + escape(la);
 
 		if (co)
 			t.coreLoaded = 1;
-    
+
     // Easier to debug with this...
 	//	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + t.baseURL + '/' + s.page_name + '?' + q + '"></script>');
 

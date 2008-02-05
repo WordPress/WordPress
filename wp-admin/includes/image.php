@@ -21,7 +21,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 		$file = get_attached_file( $file );
 
 	$image = wp_load_image( $file );
-	
+
 	if ( !is_resource( $image ) )
 		return $image;
 
@@ -39,10 +39,10 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 		imagealphablending( $thumbnail, false);
 		imagesavealpha( $thumbnail, true);
 	}
-	
+
 	@ imagecopyresampled( $thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $sourceImageWidth, $sourceImageHeight );
 
-	imagedestroy( $image ); // Free up memory 
+	imagedestroy( $image ); // Free up memory
 
 	// If no filters change the filename, we'll do a default transformation.
 	if ( basename( $file ) == $thumb = apply_filters( 'thumbnail_filename', basename( $file ) ) )
@@ -67,12 +67,12 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 			break;
 	}
 
-	imagedestroy( $thumbnail ); // Free up memory 
-	
-	// Set correct file permissions 
-	$stat = stat( dirname( $thumbpath )); 
+	imagedestroy( $thumbnail ); // Free up memory
+
+	// Set correct file permissions
+	$stat = stat( dirname( $thumbpath ));
 	$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
-	@ chmod( $thumbpath, $perms ); 
+	@ chmod( $thumbpath, $perms );
 
 	return apply_filters( 'wp_create_thumbnail', $thumbpath );
 }
@@ -114,8 +114,8 @@ function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_
 		imageantialias( $dst, true );
 
 	imagecopyresampled( $dst, $src, 0, 0, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h );
-	
-	imagedestroy( $src ); // Free up memory 
+
+	imagedestroy( $src ); // Free up memory
 
 	if ( ! $dst_file )
 		$dst_file = str_replace( basename( $src_file ), 'cropped-' . basename( $src_file ), $src_file );
@@ -159,7 +159,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			if ( @file_exists($thumb) )
 				$metadata['thumb'] = basename($thumb);
 		}
-		
+
 		// fetch additional metadata from exif/iptc
 		$image_meta = wp_read_image_metadata( $file );
 		if ($image_meta)

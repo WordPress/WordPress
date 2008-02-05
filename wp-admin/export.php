@@ -4,7 +4,7 @@ require_once('includes/export.php');
 $title = __('Export');
 $parent_file = 'edit.php';
 
-if ( isset( $_GET['download'] ) ) {	
+if ( isset( $_GET['download'] ) ) {
 	export_wp( $_GET['author'] );
 	die();
 }

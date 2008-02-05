@@ -152,7 +152,7 @@ function _c($text, $domain = 'default') {
  *
  * @since 1.2.0
  * @uses $l10n Gets list of domain translated string (gettext_reader) objects
- * @uses apply_filters() Calls 'ngettext' hook on domains text returned, 
+ * @uses apply_filters() Calls 'ngettext' hook on domains text returned,
  *		along with $single, $plural, and $number parameters. Expected to return string.
  *
  * @param string $single The text that will be used if $number is 1

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class WP_Categories_to_Tags {
 	var $categories_to_convert = array();
@@ -19,7 +19,7 @@ class WP_Categories_to_Tags {
 		$categories = get_categories('get=all');
 		foreach ( $categories as $category ) {
 			if ( !tag_exists($wpdb->escape($category->name)) )
-				$this->all_categories[] = $category;	
+				$this->all_categories[] = $category;
 		}
 	}
 
@@ -53,14 +53,14 @@ function check_all_rows() {
 				field[i].checked = true;
 		}
 		checkflag = 'true';
-		return '<?php _e('Uncheck All') ?>'; 
+		return '<?php _e('Uncheck All') ?>';
 	} else {
 		for ( i = 0; i < field.length; i++ ) {
 			if ( 'cats_to_convert[]' == field[i].name )
 				field[i].checked = false;
 		}
 		checkflag = 'false';
-		return '<?php _e('Check All') ?>'; 
+		return '<?php _e('Check All') ?>';
 	}
 }
 
@@ -76,7 +76,7 @@ function check_all_rows() {
 
 		foreach ($this->all_categories as $category) {
 			$category = sanitize_term( $category, 'category', 'display' );
-		
+
 			if ((int) $category->parent == 0) {
 				echo '<li><label><input type="checkbox" name="cats_to_convert[]" value="' . intval($category->term_id) . '" /> ' . $category->name . ' (' . $category->count . ')</label>';
 
@@ -164,7 +164,7 @@ function check_all_rows() {
 					$id = $id['term_taxonomy_id'];
 					$posts = get_objects_in_term($category->term_id, 'category');
 					foreach ( $posts as $post ) {
-						if ( !$wpdb->get_var("SELECT object_id FROM $wpdb->term_relationships WHERE object_id = '$post' AND term_taxonomy_id = '$id'") )						
+						if ( !$wpdb->get_var("SELECT object_id FROM $wpdb->term_relationships WHERE object_id = '$post' AND term_taxonomy_id = '$id'") )
 							$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$post', '$id')");
 						clean_post_cache($post);
 					}

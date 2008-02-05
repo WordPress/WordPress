@@ -164,7 +164,7 @@ class AtomServer {
 	function get_service() {
 		log_app('function','get_service()');
 
-		if( !current_user_can( 'edit_posts' ) ) 
+		if( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
 
 		$entries_url = attribute_escape($this->get_entries_url());
@@ -198,7 +198,7 @@ EOD;
 	function get_categories_xml() {
 		log_app('function','get_categories_xml()');
 
-		if( !current_user_can( 'edit_posts' ) ) 
+		if( !current_user_can( 'edit_posts' ) )
 			$this->auth_required( __( 'Sorry, you do not have the right to access this blog.' ) );
 
 		$home = attribute_escape(get_bloginfo_rss('home'));
@@ -295,7 +295,7 @@ EOD;
 		global $entry;
 
 		if( !current_user_can( 'edit_post', $postID ) )
-			$this->auth_required( __( 'Sorry, you do not have the right to access this post.' ) ); 
+			$this->auth_required( __( 'Sorry, you do not have the right to access this post.' ) );
 
 		$this->set_current_entry($postID);
 		$output = $this->get_entry($postID);

@@ -58,7 +58,7 @@ function wp_dashboard_setup() {
 	wp_register_widget_control( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_empty', array(),
 		array( 'widget_id' => 'dashboard_plugins' )
 	);
-	
+
 
 	// Primary feed (Dev Blog) Widget
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
@@ -91,7 +91,7 @@ function wp_dashboard_setup() {
 			'items' => 15
 		);
 	}
-	wp_register_sidebar_widget( 'dashboard_secondary', $widget_options['dashboard_secondary']['title'], 'wp_dashboard_empty', 
+	wp_register_sidebar_widget( 'dashboard_secondary', $widget_options['dashboard_secondary']['title'], 'wp_dashboard_empty',
 		array( 'all_link' => $widget_options['dashboard_secondary']['link'], 'feed_link' => $widget_options['dashboard_secondary']['url'], 'width' => 'full' )
 	);
 	wp_register_widget_control( 'dashboard_secondary', __( 'Secondary Feed' ), 'wp_dashboard_rss_control', array(),

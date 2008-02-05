@@ -268,7 +268,7 @@ function sanitize_bookmark($bookmark, $context = 'display') {
  * @param mixed $value The bookmark field value
  * @param int $bookmark_id Bookmark ID
  * @param string $context How to filter the field value. Either 'raw', 'edit', 'attribute', 'js', 'db', or 'display'
- * @return mixed The filtered value 
+ * @return mixed The filtered value
  */
 function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 	$int_fields = array('link_id', 'link_rating');

@@ -139,13 +139,13 @@ if (empty($plugins)) {
 <tr>
 	<td colspan="3">&nbsp;</td>
 	<td colspan="2" style="width:12em;">
-	<?php 
+	<?php
 	$active = get_option('active_plugins');
 	$inactive = get_option('deactivated_plugins');
 	if ( !empty($active) ) {
 	?>
 	<a href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>" class="delete"><?php _e('Deactivate All Plugins'); ?></a>
-	<?php 
+	<?php
 	} elseif ( empty($active) && !empty($inactive) ) {
 	?>
 	<a href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate All Plugins'); ?></a>

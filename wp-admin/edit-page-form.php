@@ -48,7 +48,7 @@ addLoadEvent(focusit);
 
 <div id="titlediv">
 <h3><?php _e('Title') ?></h3>
-<div class="inside"> 
+<div class="inside">
   <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" />
 </div>
 </div>

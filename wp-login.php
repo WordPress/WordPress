@@ -64,7 +64,7 @@ function retrieve_password() {
 
 	if ( $errors->get_error_code() )
 		return $errors;
-	
+
 	if ( !$user_data ) {
 		$errors->add('invalidcombo', __('<strong>ERROR</strong>: Invalid username or e-mail.'));
 		return $errors;
@@ -170,7 +170,7 @@ function register_new_user($user_login, $user_email) {
 	return $user_id;
 }
 
-// 
+//
 // Main
 //
 
@@ -242,7 +242,7 @@ case 'retrievepassword' :
 
 <p id="nav">
 <?php if (get_option('users_can_register')) : ?>
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> | 
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> |
 <a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a>
 <?php else : ?>
 <a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a>
@@ -311,7 +311,7 @@ case 'register' :
 </form>
 
 <p id="nav">
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> | 
+<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> |
 <a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 </p>
 
@@ -336,11 +336,11 @@ default:
 	if ( !is_wp_error($user) ) {
 		// If the user can't edit posts, send them to their profile.
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
-			$redirect_to = get_option('siteurl') . '/wp-admin/profile.php';	
+			$redirect_to = get_option('siteurl') . '/wp-admin/profile.php';
 		wp_safe_redirect($redirect_to);
 		exit();
 	}
-	
+
 	$errors = $user;
 	// Clear errors if loggedout is set.
 	if ( !empty($_GET['loggedout']) )

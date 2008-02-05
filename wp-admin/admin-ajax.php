@@ -303,7 +303,7 @@ case 'add-link-cat' : // From Blogroll -> Categories
 
 	if ( !$link_cat = link_cat_row( $term_id ) )
 		die('0');
-		
+
 	$x = new WP_Ajax_Response( array(
 		'what' => 'link-cat',
 		'id' => $term_id,

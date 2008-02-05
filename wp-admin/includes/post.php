@@ -542,7 +542,7 @@ function get_sample_permalink($id, $name = null) {
 		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
 	}
 	if (!is_null($name)) {
-		$post->post_name = sanitize_title($name, $post->ID); 
+		$post->post_name = sanitize_title($name, $post->ID);
 	}
 	$permalink = get_permalink($post, true);
 	$permalink = array($permalink, $post->post_name);
@@ -565,6 +565,6 @@ function get_sample_permalink_html($id, $new_slug=null) {
 	$post_name_html = '<span id="editable-post-name" title="'.$title.'">'.$post_name.'</span>';
 	$display_link = str_replace('%postname%', $post_name_html, $permalink);
 	return $display_link;
-} 
+}
 
 ?>

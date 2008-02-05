@@ -15,7 +15,7 @@ function image_upload_form( $action_url, $values = array(), $error = null ) {
 	$image_title = attribute_escape( @$values['image-title'] );
 	$image_align = @$values['image-url'];
 	$post_id = $_GET['post_id'];
-	
+
 ?>
 <div id="media-upload-header">
 <h3>Add Image</h3>
@@ -33,7 +33,7 @@ function image_upload_form( $action_url, $values = array(), $error = null ) {
 <script type="text/javascript">
 <!--
 
-jQuery(document).ready(function(){ 
+jQuery(document).ready(function(){
 	var swfu = new SWFUpload({
 			upload_url : "<?php echo get_option('siteurl').'/wp-admin/async-upload.php'; ?>",
 			flash_url : "<?php echo get_option('siteurl').'/wp-includes/js/swfupload/swfupload_f9.swf'; ?>",
@@ -59,9 +59,9 @@ jQuery(document).ready(function(){
 				progressTarget : "flash-upload-ui",
 				cancelButtonId : "btnCancel2"
 			},
-			
+
 			debug: false,
-		
+
 		});
 
 	document.getElementById("flash-browse-button").onclick = function () { swfu.selectFile(); };
@@ -107,7 +107,7 @@ jQuery(document).ready(function(){
 }
 
 function image_upload_handler() {
-	
+
 	if ( !current_user_can('upload_files') ) {
 		return new wp_error( 'upload_not_allowed', __('You are not allowed to upload files.') );
 	}
@@ -119,7 +119,7 @@ function image_upload_handler() {
 	else {
 		// Add Image button was clicked
 		check_admin_referer('inlineuploading');
-	
+
 		// if the async flash uploader was used, the attachment has already been inserted and its ID is passed in post.
 		// otherwise this is a regular form post and we still have to handle the upload and create the attachment.
 		if ( !empty($_POST['attachment_id']) ) {
@@ -134,7 +134,7 @@ function image_upload_handler() {
 		else {
 			$id = image_upload_post();
 		}
-		
+
 		// if the input was invalid, redisplay the form with its current values
 		if ( is_wp_error($id) )
 			wp_iframe( 'image_upload_form', get_option('siteurl') . '/wp-admin/media-upload.php?type=image', $_POST, $id );
@@ -150,7 +150,7 @@ function async_image_callback($id) {
 	$thumb_url = wp_get_attachment_thumb_url($id);
 	if ( empty($thumb_url) )
 		$thumb_url = wp_mime_type_icon($id);
-		
+
 	if ($thumb_url) {
 		$out = '<p><input type="hidden" name="attachment_id" id="attachment_id" value="'.intval($id).'" />'
 			. '<img src="'.wp_get_attachment_thumb_url($id).'" class="pinkynail" /> '
@@ -160,11 +160,11 @@ function async_image_callback($id) {
 		$out = '<p><input type="hidden" name="attachment_id" id="attachment_id" value="'.intval($id).'" />'
 			. basename(wp_get_attachment_url($id)).'</p>';
 	}
-	
+
 	$post = get_post($id);
 	$title = addslashes($post->post_title);
 	$alt = addslashes($post->post_content);
-	
+
 	// populate the input fields with post data (which in turn comes from exif/iptc)
 	$out .= <<<EOF
 <script type="text/javascript">
@@ -174,7 +174,7 @@ jQuery('#image-title').val('{$title}').attr('disabled', false);
 jQuery('#image-url').attr('disabled', false);
 jQuery('#image-add').attr('disabled', false);
 -->
-</script>	
+</script>
 EOF;
 
 	return $out;
@@ -184,10 +184,10 @@ add_filter('async_upload_image', 'async_image_callback');
 
 
 function image_send_to_editor($id, $alt, $title, $align, $url='') {
-	
+
 	$img_src = wp_get_attachment_url($id);
 	$meta = wp_get_attachment_metadata($id);
-	
+
 	$hwstring = '';
 	if ( isset($meta['width'], $meta['height']) )
 		$hwstring = ' width="'.intval($meta['width']).'" height="'.intval($meta['height']).'"';
@@ -207,7 +207,7 @@ function media_send_to_editor($html) {
 top.send_to_editor('<?php echo addslashes($html); ?>');
 top.tb_remove();
 -->
-</script>	
+</script>
 	<?php
 }
 
@@ -217,21 +217,21 @@ function image_upload_post() {
 		return new wp_error( 'image_file_required', __('Please choose an image file to upload') );
 	if ( empty($_POST['image-alt']) )
 		return new wp_error( 'image_alt_required', __('Please enter an &lt;alt&gt; description') );
-	
+
 	$overrides = array('test_form'=>false);
 	$file = wp_handle_upload($_FILES['image-file'], $overrides);
 
 	if ( isset($file['error']) )
 		return new wp_error( 'upload_error', $file['error'] );
-		
+
 	$url = $file['url'];
 	$type = $file['type'];
 	$file = $file['file'];
-	
+
 	$post_title = trim($_POST['image-title']);
 	$post_content = trim($_POST['image-alt']);
 	$post_parent = intval($_POST['parent_post_id']);
-		
+
 	// Construct the attachment array
 	$attachment = array(
 		'post_title' => $post_title,
@@ -247,7 +247,7 @@ function image_upload_post() {
 	if ( !is_wp_error($id) )
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 
-	return $id;		
+	return $id;
 }
 
 // this handles the file upload POST itself, creating the attachment post

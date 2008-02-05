@@ -87,7 +87,7 @@ if ($posts) {
   </tr>
   </thead>
   <tbody id="the-list" class="list:page">
-  <?php page_rows($posts); ?>  
+  <?php page_rows($posts); ?>
   </tbody>
 </table>
 

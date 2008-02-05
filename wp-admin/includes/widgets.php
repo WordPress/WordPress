@@ -52,7 +52,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 
 			if ( !$sidebar || false !== strpos( $widget_control_template, '%i%' ) ) {
 				$already_shown[] = $widget['callback']; // it's a multi-widget.  We only need to show it in the list once.
-				$action = 'add'; 
+				$action = 'add';
 				$add_url = wp_nonce_url( add_query_arg( array(
 					'sidebar' => $sidebar,
 					'add' => $widget['id'],
@@ -111,7 +111,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 		</li>
 
 		<?php endforeach; if ( $no_widgets_shown ) : ?>
-		
+
 		<li><?php _e( 'No matching widgets' ); ?></li>
 
 		<?php endif; ?>

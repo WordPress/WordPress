@@ -22,7 +22,7 @@ function wp_signon( $credentials = '' ) {
 	// If no credential info provided, check cookie.
 	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
 			$user = wp_validate_auth_cookie();
-			if ( $user ) 
+			if ( $user )
 				return new WP_User($user);
 
 			if ( !empty($_COOKIE[AUTH_COOKIE]) )
@@ -157,7 +157,7 @@ function get_usermeta( $user_id, $meta_key = '') {
 			return '';
 	}
 
-	foreach ($metas as $meta) 
+	foreach ($metas as $meta)
 		$values[] = maybe_unserialize($meta->meta_value);
 
 	if ( count($values) == 1 )

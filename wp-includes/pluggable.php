@@ -504,7 +504,7 @@ function wp_validate_auth_cookie($cookie = '') {
 
 	$key = wp_hash($username . $expiration);
 	$hash = hash_hmac('md5', $username . $expiration, $key);
-	
+
 	if ( $hmac != $hash )
 		return false;
 
@@ -586,7 +586,7 @@ function wp_clear_auth_cookie() {
 	setcookie(USER_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
 	setcookie(PASS_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
 	setcookie(USER_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
-	setcookie(PASS_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);	
+	setcookie(PASS_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
 }
 endif;
 
@@ -758,7 +758,7 @@ if ( !function_exists('wp_safe_redirect') ) :
  * only used in a few places.
  *
  * @since 2.3
- * @uses apply_filters() Calls 'allowed_redirect_hosts' on an array containing 
+ * @uses apply_filters() Calls 'allowed_redirect_hosts' on an array containing
  *		WordPress host string and $location host string.
  *
  * @return void Does not return anything
@@ -1087,8 +1087,8 @@ function wp_hash_password($password) {
 		// By default, use the portable hash from phpass
 		$wp_hasher = new PasswordHash(8, TRUE);
 	}
-	
-	return $wp_hasher->HashPassword($password); 
+
+	return $wp_hasher->HashPassword($password);
 }
 endif;
 

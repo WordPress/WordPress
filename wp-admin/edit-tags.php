@@ -42,8 +42,8 @@ case 'edit':
 
 	require_once ('admin-header.php');
 	$tag_ID = (int) $_GET['tag_ID'];
-	
-	$tag = get_term($tag_ID, 'post_tag', OBJECT, 'edit'); 
+
+	$tag = get_term($tag_ID, 'post_tag', OBJECT, 'edit');
 	include('edit-tag-form.php');
 
 break;
