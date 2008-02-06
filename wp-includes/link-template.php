@@ -139,6 +139,8 @@ function _get_page_link( $id = false ) {
 
 	if ( !$id )
 		$id = (int) $post->ID;
+	else
+		$post = &get_post($id);
 
 	$pagestruct = $wp_rewrite->get_page_permastruct();
 
