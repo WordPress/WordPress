@@ -88,6 +88,7 @@ addLoadEvent(focusit);
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
 <h3><?php _e('Post') ?></h3>
 <?php the_editor($post->post_content); ?>
+<?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
 </div>
 
 <?php echo $form_pingback ?>

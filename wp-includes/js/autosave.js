@@ -36,7 +36,7 @@ function autosave_update_post_ID(response) {
 		jQuery.post(autosaveL10n.requestFile, {
 			action: "autosave-generate-nonces",
 			post_ID: res,
-			cookie: document.cookie,
+			autosavenonce: jQuery('#autosavenonce').val(),
 			post_type: jQuery('#post_type').val()
 		}, function(html) {
 			jQuery('#_wpnonce').val(html);
@@ -87,7 +87,7 @@ function autosave() {
 			action: "autosave",
 			post_ID:  jQuery("#post_ID").val() || 0,
 			post_title: jQuery("#title").val() || "",
-			cookie: document.cookie,
+			autosavenonce: jQuery('#autosavenonce').val(),
 			tags_input: jQuery("#tags-input").val() || "",
 			post_type: jQuery('#post_type').val() || ""
 		};
@@ -99,7 +99,7 @@ function autosave() {
 		tinyMCE.triggerSave();
 	} 
 	
-    post_data["content"] = jQuery("#content").val();
+	post_data["content"] = jQuery("#content").val();
 
 	if(post_data["post_title"].length==0 || post_data["content"].length==0 || post_data["post_title"] + post_data["content"] == autosaveLast) {
 		return;

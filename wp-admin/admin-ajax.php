@@ -467,7 +467,7 @@ case 'add-user' :
 	$x->send();
 	break;
 case 'autosave' : // The name of this action is hardcoded in edit_post()
-	check_ajax_referer( $action );
+	check_ajax_referer( 'autosave', 'autosavenonce' );
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_status'] = 'draft';
@@ -499,7 +499,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	die('0');
 break;
 case 'autosave-generate-nonces' :
-	check_ajax_referer( $action );
+	check_ajax_referer( 'autosave', 'autosavenonce' );
 	$ID = (int) $_POST['post_ID'];
 	if($_POST['post_type'] == 'post') {
 		if(current_user_can('edit_post', $ID))

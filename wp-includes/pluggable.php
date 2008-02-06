@@ -635,11 +635,12 @@ if ( !function_exists('check_admin_referer') ) :
  * @uses do_action() Calls 'check_admin_referer' on $action.
  *
  * @param string $action Action nonce
+ * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
-function check_admin_referer($action = -1) {
+function check_admin_referer($action = -1, $query_arg = '_wpnonce' ) {
 	$adminurl = strtolower(get_option('siteurl')).'/wp-admin';
 	$referer = strtolower(wp_get_referer());
-	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) &&
+	if ( !wp_verify_nonce($_REQUEST[$query_arg], $action) &&
 		!(-1 == $action && strpos($referer, $adminurl) !== false)) {
 		wp_nonce_ays($action);
 		die();
@@ -654,34 +655,17 @@ if ( !function_exists('check_ajax_referer') ) :
  * @since 2.0.4
  *
  * @param string $action Action nonce
+ * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
-function check_ajax_referer( $action = -1 ) {
-	$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
-	if ( !wp_verify_nonce( $nonce, $action ) ) {
-		$current_id = '';
-		if ( ( $current = wp_get_current_user() ) && $current->ID )
-			$current_id = $current->ID;
-		if ( !$current_id )
-			die('-1');
+function check_ajax_referer( $action = -1, $query_arg = false ) {
+	if ( $query_arg )
+		$nonce = $_REQUEST[$query_arg];
+	else
+		$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
 
-		$auth_cookie = '';
-		$cookie = explode('; ', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
-		foreach ( $cookie as $tasty ) {
-			if ( false !== strpos($tasty, AUTH_COOKIE . '=') ) {
-				$auth_cookie = substr(strstr($tasty, '='), 1);
-				break;
-			}
-		}
+	if ( !wp_verify_nonce( $nonce, $action ) ) 
+		die('-1');
 
-		if ( empty($auth_cookie) )
-			die('-1');
-
-		if ( ! $user_id = wp_validate_auth_cookie( $auth_cookie ) )
-			die('-1');
-
-		if ( $current_id != $user_id )
-			die('-1');
-	}
 	do_action('check_ajax_referer');
 }
 endif;

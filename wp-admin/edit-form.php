@@ -39,6 +39,7 @@ addLoadEvent(focusit);
  }
 ?>
 <div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $post->post_content ?></textarea></div>
+<?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
 </fieldset>
 
 
