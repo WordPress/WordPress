@@ -79,6 +79,19 @@ function the_permalink_rss() {
 
 }
 
+function comment_guid() {
+	echo get_comment_guid();
+}
+
+function get_comment_guid() {
+	global $comment;
+
+	if ( !is_object($comment) )
+		return false;
+
+	return get_the_guid($comment->comment_post_ID) . '#comment-' . $comment->comment_ID;
+}
+
 function comment_link() {
 	echo get_comment_link();
 }
