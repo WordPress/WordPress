@@ -175,7 +175,8 @@ function get_themes() {
 			}
 		}
 	}
-	@closedir($theme_dir);
+	if ( is_dir( $theme_dir ) )
+		@closedir( $theme_dir );
 
 	if ( !$themes_dir || !$theme_files )
 		return $themes;
