@@ -135,7 +135,7 @@ function is_feed () {
 }
 
 /**
- * is_front() - Is it the front of the site, whether blog view or a WP Page?
+ * is_front_page() - Is it the front of the site, whether blog view or a WP Page?
  *
  * @since 2.5
  * @uses is_home
@@ -143,7 +143,7 @@ function is_feed () {
  *
  * @return bool True if front of site
  */
-function is_front () {
+function is_front_page () {
 	// most likely case
 	if ( 'posts' == get_option('show_on_front') && is_home() )
 		return true;
