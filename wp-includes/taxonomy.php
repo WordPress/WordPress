@@ -640,14 +640,14 @@ function &get_terms($taxonomies, $args = '') {
 	else if ( 'ids' == $fields )
 		$select_this = 't.term_id';
 	else if ( 'names' == $fields )
-		$select_this == 't.name';
+		$select_this = 't.name';
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
 
 	if ( 'all' == $fields ) {
 		$terms = $wpdb->get_results($query);
 		update_term_cache($terms);
-	} else if ( 'ids' == $fields ) {
+	} else if ( ('ids' == $fields) || ('names' == $fields) ) {
 		$terms = $wpdb->get_col($query);
 	}
 
