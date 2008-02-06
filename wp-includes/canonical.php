@@ -187,22 +187,25 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			$redirect_url .= '?' . $redirect['query'];
 	}
 
-	if ( $redirect_url && $redirect_url != $requested_url ) {
-		// var_dump($redirect_url); die();
-		$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
-		if ( $do_redirect) {
-			// protect against chained redirects
-			if ( !redirect_canonical($redirect_url, false) ) {
-				wp_redirect($redirect_url, 301);
-				exit();
-			} else {
-				return false;
-			}
+	if ( !$redirect_url || $redirect_url == $requested_url )
+	 	return false;
+
+	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning FALSE
+	$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
+
+	if ( !$redirect_url || $redirect_url == $requested_url ) // yes, again -- in case the filter aborted the request
+	 	return false;
+
+	if ( $do_redirect ) {
+		// protect against chained redirects
+		if ( !redirect_canonical($redirect_url, false) ) {
+			wp_redirect($redirect_url, 301);
+			exit();
 		} else {
-			return $redirect_url;
+			return false;
 		}
 	} else {
-		return false;
+		return $redirect_url;
 	}
 }
 
