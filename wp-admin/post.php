@@ -46,6 +46,11 @@ case 'post':
 case 'edit':
 	$title = __('Edit');
 	$editing = true;
+
+	if ( empty( $_GET['post'] ) ) {
+		wp_redirect("post.php");
+		exit();
+	}
 	$post_ID = $p = (int) $_GET['post'];
 	$post = get_post($post_ID);
 
