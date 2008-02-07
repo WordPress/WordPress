@@ -350,6 +350,7 @@ class WP_Import {
 		$post_parent    = $this->get_tag( $post, 'wp:post_parent' );
 		$menu_order     = $this->get_tag( $post, 'wp:menu_order' );
 		$post_type      = $this->get_tag( $post, 'wp:post_type' );
+		$post_password  = $this->get_tag( $post, 'wp:post_password' );
 		$guid           = $this->get_tag( $post, 'guid' );
 		$post_author    = $this->get_tag( $post, 'dc:creator' );
 
@@ -400,7 +401,7 @@ class WP_Import {
 
 			$post_author = $this->checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
-			$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_status', 'post_name', 'comment_status', 'ping_status', 'guid', 'post_parent', 'menu_order', 'post_type');
+			$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_status', 'post_name', 'comment_status', 'ping_status', 'guid', 'post_parent', 'menu_order', 'post_type', 'post_password');
 			if ($post_type == 'attachment') {
 				$remote_url = $this->get_tag( $post, 'wp:attachment_url' );
 				if ( !$remote_url )

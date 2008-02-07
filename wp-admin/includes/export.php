@@ -192,7 +192,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 				foreach ($posts as $post) {
 			setup_postdata($post); ?>
 <item>
-<title><?php the_title_rss() ?></title>
+<title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
 <link><?php the_permalink_rss() ?></link>
 <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
 <dc:creator><?php the_author() ?></dc:creator>
@@ -211,6 +211,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <wp:post_parent><?php echo $post->post_parent; ?></wp:post_parent>
 <wp:menu_order><?php echo $post->menu_order; ?></wp:menu_order>
 <wp:post_type><?php echo $post->post_type; ?></wp:post_type>
+<wp:post_password><?php echo $post->post_password; ?></wp:post_password>
 <?php
 if ($post->post_type == 'attachment') { ?>
 <wp:attachment_url><?php echo wp_get_attachment_url($post->ID); ?></wp:attachment_url>
