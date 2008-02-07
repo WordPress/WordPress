@@ -268,12 +268,16 @@ form#upload #post_content {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
+.submit {
+	margin: 1.5em 0;
+}
+
 .submit input, .submit input:focus, .button, .button:focus {
 	color: #246;
 	padding: 2px;
 }
 
-.submit, .editform th, #postcustomsubmit {
+.editform th, #postcustomsubmit {
 	text-align: right;
 }
 
@@ -731,6 +735,12 @@ set display:none; */
 }
 
 
+div.nav {
+	background-color: #eaf3fa;
+	padding: 0.7em 1em;
+	margin: .7em 0;
+}
+
 .page-numbers {
 	padding: 4px 7px;
 	border: 1px solid #fff;
@@ -748,6 +758,11 @@ a.page-numbers:hover {
 .page-numbers.current {
 	border: 1px solid #999;
 	font-weight: bold;
+}
+
+p.pagenav {
+	margin: 0;
+	display: inline;
 }
 
 .pagenav span {

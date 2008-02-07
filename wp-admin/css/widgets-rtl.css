@@ -1,38 +1,44 @@
-.dropzone,
-#palettediv,
-.handle,
-.controlform {
-	direction: rtl;
-	text-align: justify;
-	}
-.dropzone {
+div.widget-liquid-left-holder {
 	float: right;
-	margin-left: 10px;
-	margin-right: auto;
-	width: 240px;
-	}
-* html .dropzone ul {
+	clear: right;
+	margin-left: -310px;
 	margin-right: 0;
-	}
-* .handle, #lastmodule span {
-	border-left: 1px solid #e8e8e8;
-	border-right: 1px solid #f2f2f2;
-	}
-* .popper {
+}
+
+div.widget-liquid-left {
+	margin-right: 0;
+	margin-left: 310px;
+}
+
+div.widget-liquid-right {
+	float: left;
+	clear: left;
+}
+
+p#widget-search {
+	left: 0;
 	right: auto;
-	left: 3px;
-	}
-#palettediv .module, #lastmodule {
-	margin-right: auto;
-	margin-left: 10px;
+}
+
+ul#widget-list li.widget-list-item h4.widget-title {
 	float: right;
-	}
-#palettediv ul {
-	padding: 0 10px 0 0;
+}
+
+ul#widget-list li.widget-list-item div.widget-description {
+	margin: 0 200px 0 0;
+	padding: 0 4em 0 0;
+}
+
+h4.widget-title a {
+	left: 1em;
+	right: auto;
+}
+
+li.widget-list-control-item div.widget-control {
+	padding: 0 0 0 10px;
+}
+
+ul.widget-control-list div.widget-control-actions {
+	margin-left: -10px;
 	margin-right: 0;
-	width: 100%;
-	}
-.placemat {
-	margin-right: 0;
-	float: right;
-	}
+}

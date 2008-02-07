@@ -1,6 +1,7 @@
 <?php
 
 require_once( 'admin.php' );
+require_once(ABSPATH . 'wp-admin/includes/widgets.php');
 
 if ( ! current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
@@ -146,7 +147,7 @@ $page_links = paginate_links( array(
 	'current' => $page
 ));
 */
-$page_links = false;
+$page_links = '&nbsp;';
 
 // Unsanitized!
 $widget_search = isset($_GET['s']) ? $_GET['s'] : false;
@@ -180,44 +181,37 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 	<h2><?php _e( 'Widgets' ); ?></h2>
 	<p id="widget-search">
 		<input type="text" id="widget-search-input" name="s" value="<?php echo attribute_escape( $widget_search ); ?>" />
-		<input type="submit" value="<?php _e( 'Search Widgets' ); ?>" />
+		<input type="submit" class="button" value="<?php _e( 'Search Widgets' ); ?>" />
 	</p>
 
 	<div class="widget-liquid-left-holder">
 	<div id="available-widgets-filter" class="widget-liquid-left">
 		<h3><?php printf( __('Available Widgets %s'), '<a href="#help:avaliable-widgets" class="wp-context-help">?</a>' ); ?></h3>
-		<p>
+		<div class="nav">
 			<select name="show">
 <?php foreach ( $show_values as $show_value => $show_text ) : $show_value = attribute_escape( $show_value ); ?>
 				<option value='<?php echo $show_value; ?>'<?php selected( $show_value, $show ); ?>><?php echo wp_specialchars( $show_text ); ?></option>
 <?php endforeach; ?>
 			</select>
 			<input type="submit" value="<?php _e('Show' ); ?>" />
-		</p>
-<?php if ( $page_links ) : ?>
-		<p class="pagenav">
-			<?php echo $page_links; ?>
-
-		</p>
-<?php endif; ?>
+			<p class="pagenav">
+				<?php echo $page_links; ?>
+			</p>
+		</div>
 	</div>
 	</div>
 
 	<div id="available-sidebars" class="widget-liquid-right">
 		<h3><?php printf( __('Current Widgets %s'), '<a href="#help:current-widgets" class="wp-context-help">?</a>' ); ?></h3>
 
-<?php if ( 1 < $sidebars_count ) : ?>
-
-		<p>
+		<div class="nav">
 			<select id="sidebar-selector" name="sidebar">
 <?php foreach ( $wp_registered_sidebars as $sidebar_id => $registered_sidebar ) : $sidebar_id = attribute_escape( $sidebar_id ); ?>
 				<option value='<?php echo $sidebar_id; ?>'<?php selected( $sidebar_id, $sidebar ); ?>><?php echo wp_specialchars( $registered_sidebar['name'] ); ?></option>
 <?php endforeach; ?>
 			</select>
 			<input type="submit" value="<?php _e('Go' ); ?>" />
-		</p>
-
-<?php endif; ?>
+		</div>
 
 	</div>
 
@@ -229,13 +223,11 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 
 			<?php wp_list_widgets( $show, $widget_search ); // This lists all the widgets for the query ( $show, $search ) ?>
 
-<?php if ( $page_links ) : ?>
-			<p class="pagenav">
-				<?php echo $page_links; ?>
-
-			</p>
-<?php endif; ?>
-
+			<div class="nav">
+				<p class="pagenav">
+					<?php echo $page_links; ?>
+				</p>
+			</div>
 		</div>
 	</div>
 
@@ -259,6 +251,8 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 
 		</div>
 	</div>
+
+	<br class="clear" />
 
 	<p class="submit">
 		<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time(); ?>" />
