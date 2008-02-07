@@ -957,6 +957,15 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 			document.getElementById('editor-toolbar').style.display = 'block';
 	// ]]>
 	</script>
+	
+	<?php else: // Rich editor is disabled in profile but we still need the media buttons	?>
+		
+	<div id='editor-toolbar' style='display:block;'>
+	        <div id="media-buttons">
+	        <?php _e('Add media:'); ?>
+	        <?php do_action( 'media_buttons'); ?>
+	        </div>
+	</div>
 
 	<?php endif; // user_can_richedit() ?>
 
