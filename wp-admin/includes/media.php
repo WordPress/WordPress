@@ -182,6 +182,20 @@ EOF;
 
 add_filter('async_upload_image', 'async_image_callback');
 
+// scale down the default size of an image so it's a better fit for the editor and theme
+function image_constrain_size_for_editor($width, $height) {
+	// pick a reasonable default width for the image
+	// $content_width might be set in the theme's functions.php
+	if ( !empty($GLOBALS['content_width']) )
+		$max_width = $GLOBALS['content_width'];
+	else
+		$max_width = 500;
+
+	$max_width = apply_filters( 'editor_max_image_width', $max_width );
+	$max_height = apply_filters( 'editor_max_image_height', $max_width );
+	
+	return wp_shrink_dimensions( $width, $height, $max_width, $max_height );
+}
 
 function image_send_to_editor($id, $alt, $title, $align, $url='') {
 
@@ -189,13 +203,17 @@ function image_send_to_editor($id, $alt, $title, $align, $url='') {
 	$meta = wp_get_attachment_metadata($id);
 
 	$hwstring = '';
-	if ( isset($meta['width'], $meta['height']) )
-		$hwstring = ' width="'.intval($meta['width']).'" height="'.intval($meta['height']).'"';
+	if ( isset($meta['width'], $meta['height']) ) {
+		list( $width, $height ) = image_constrain_size_for_editor( $meta['width'], $meta['height'] );
+		$hwstring = ' width="'.intval($width).'" height="'.intval($height).'"';
+	}
 
 	$html = '<img src="'.attribute_escape($img_src).'" rel="attachment wp-att-'.attribute_escape($id).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'"'.$hwstring.' class="align-'.attribute_escape($align).'" />';
 
 	if ( $url )
 		$html = '<a href="'.attribute_escape($url).'">'.$html.'</a>';
+		
+	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
 
 	media_send_to_editor($html);
 }
