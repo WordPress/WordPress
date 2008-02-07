@@ -75,6 +75,41 @@ include('admin-header.php');
 </tr>
 </table>
 </fieldset>
+
+<fieldset class="options">
+<legend><?php _e('Avatars') ?></legend>
+<table class="niceblue">
+<tr valign="top">
+<th width="33%" scope="row"><?php _e('Show Avatars?') ?></th>
+<td>
+<select name="show_avatars" id="show_avatars">
+<?php
+	$yesorno = array(0 => __("Don't show Avatars"), 1 => __('Show Avatars'));
+	foreach ( $yesorno as $key => $value) {
+		$selected = (get_option('show_avatars') == $key) ? 'selected="selected"' : '';
+		echo "\n\t<option value='$key' $selected>$value</option>";
+	}
+?>
+</select>
+</td>
+</tr>
+<tr valign="top">
+<th width="33%" scope="row"><?php _e('Show Avatars with Rating:') ?></th>
+<td>
+<select name="avatar_rating" id="avatar_rating">
+<?php
+$ratings = array( 'G' => _c('G|rating'), 'PG' => _c('PG|Rating'), 'R' => _c('R|Rating'), 'X' => _c('X|Rating'));
+foreach ($ratings as $key => $rating) :
+	$selected = (get_option('avatar_rating') == $key) ? 'selected="selected"' : '';
+	echo "\n\t<option value='$key' $selected>$rating</option>";
+endforeach;
+?>
+</select>
+</td>
+</tr>
+</table>
+</fieldset>
+
 <table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Encoding for pages and feeds:') ?></th>
@@ -88,7 +123,7 @@ include('admin-header.php');
 </p>
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="posts_per_page,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts" />
+<input type="hidden" name="page_options" value="posts_per_page,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts,show_avatars,avatar_rating" />
 <input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
 </p>
 </form>

@@ -1162,6 +1162,62 @@ function wp_set_password( $password, $user_id ) {
 }
 endif;
 
+if ( !function_exists( 'get_avatar' ) ) :
+/**
+ * get_avatar() - Get avatar for a user
+ *
+ * Retrieve the avatar for a user provided a user ID or email address
+ *
+ * @since 2.5
+ * @param int|string $id_or_email A user ID or email address
+ * @param int $size Size of the avatar image
+ * @param string $default URL to a default image to use if no avatar is available
+ * @return string <img> tag for the user's avatar
+*/
+function get_avatar( $id_or_email, $size = '96', $default = '' ) {
+	if ( ! get_option('show_avatars') )
+		return false;
+
+	if ( is_numeric($id_or_email) ) {
+		$id = (int) $id_or_email;
+		$user = get_userdata($id);
+		if ( !$user)
+			$email = '';
+		else
+			$email = $user->user_email;
+	} else {
+		$email = $id_or_email;
+	}
+
+	$default_sizes = array(16, 32, 48, 96, 128);
+	if ( empty($default) ) {
+		if ( in_array($size, $default_sizes) )
+			$default = trailingslashit(get_bloginfo('wpurl')) . "wp-includes/images/avatar/unknown-$size.jpg";
+		else
+			$default = trailingslashit(get_bloginfo('wpurl')) . "wp-includes/images/avatar/unknown-96.jpg";
+	}
+
+	if ( !empty($email) ) {
+		$default = urlencode( $default );
+
+		$out = 'http://www.gravatar.com/avatar.php?gravatar_id=';
+		$out .= md5( $email );
+		$out .= "&amp;size={$size}";
+		$out .= "&amp;default={$default}";
+
+		$rating = get_option('avatar_rating');
+		if ( !empty( $rating ) )
+			$out .= "&amp;rating={$rating}";
+
+		$avatar = "<img alt='' src='{$out}' class='avatar avatar-{$size}' height='{$size}' width='{$size}' />";
+	} else {
+		$avatar = "<img alt='' src='{$default}' />";
+	}
+
+	return apply_filters('get_avatar', $avatar, $id_or_email, $size, $default);
+}
+endif;
+
 if ( !function_exists('wp_setcookie') ) :
 /**
  * wp_setcookie() - Sets a cookie for a user who just logged in
