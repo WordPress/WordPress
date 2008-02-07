@@ -1189,17 +1189,11 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 		$email = $id_or_email;
 	}
 
-	$default_sizes = array(16, 32, 48, 96, 128);
-	if ( empty($default) ) {
-		if ( in_array($size, $default_sizes) )
-			$default = trailingslashit(get_bloginfo('wpurl')) . "wp-includes/images/avatar/unknown-$size.jpg";
-		else
-			$default = trailingslashit(get_bloginfo('wpurl')) . "wp-includes/images/avatar/unknown-96.jpg";
-	}
+	if ( empty($default) )
+		$default = 'http://www.gravatar.com/avatar.php?gravatar_id=' . md5('unknown@gravatar.com') . "&size=$size";
+	$default = urlencode( $default );
 
 	if ( !empty($email) ) {
-		$default = urlencode( $default );
-
 		$out = 'http://www.gravatar.com/avatar.php?gravatar_id=';
 		$out .= md5( $email );
 		$out .= "&amp;size={$size}";
