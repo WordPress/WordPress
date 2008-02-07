@@ -2,11 +2,11 @@
 
 function get_bloginfo_rss($show = '') {
 	$info = strip_tags(get_bloginfo($show));
-	return apply_filters('get_bloginfo_rss', convert_chars($info));
+	return apply_filters('get_bloginfo_rss', convert_chars($info), $show);
 }
 
 function bloginfo_rss($show = '') {
-	echo apply_filters('bloginfo_rss', get_bloginfo_rss($show));
+	echo apply_filters('bloginfo_rss', get_bloginfo_rss($show), $show);
 }
 
 function get_default_feed() {
