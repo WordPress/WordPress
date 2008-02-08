@@ -77,7 +77,7 @@ class WP_Scripts {
 
 		$this->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
-		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.2');
+		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.3');
 		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '2.02');
 		$this->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '2.0');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
