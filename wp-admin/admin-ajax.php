@@ -513,11 +513,16 @@ case 'autosave-generate-nonces' :
 	die('0');
 break;
 case 'closed-postboxes' :
-	check_ajax_referer( $action );
-	$closed = explode(',', $_POST['closed']);
+	check_ajax_referer( 'closedpostboxes', 'closedpostboxesnonce' );
+	$closed = isset( $_POST['closed'] )? $_POST['closed'] : '';
+	$closed = explode( ',', $_POST['closed'] );
+	$page = isset( $_POST['page'] )? $_POST['page'] : '';
+	if ( !preg_match( '/^[a-z-]+$/', $page ) ) {
+		die(-1);
+	}
 	if (!is_array($closed)) break;
 	$current_user = wp_get_current_user();
-	update_usermeta($current_user->ID, 'closedpostboxes', $closed);
+	update_usermeta($current_user->ID, 'closedpostboxes_'.$page, $closed);
 break;
 case 'sample-permalink':
 	check_ajax_referer( $action );

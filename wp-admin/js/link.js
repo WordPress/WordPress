@@ -1,6 +1,6 @@
 addLoadEvent( function() {
 	// postboxes
-	add_postbox_toggles();
+	add_postbox_toggles('link');
 
 	// category tabs
 	var categoryTabs = jQuery('#category-tabs').tabs();

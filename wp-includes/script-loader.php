@@ -135,16 +135,20 @@ class WP_Scripts {
 			$this->localize( 'postbox', 'postboxL10n', array(
 				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
 			) );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox'), '20080128' );
+			$this->add( 'slug', '/wp-admin/js/slug.js', array('jquery'), '20080208' );
+			$this->localize( 'slug', 'slugL10n', array(
+				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+				'save' => __('Save'),
+				'cancel' => __('Cancel'),
+			) );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080128' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),
 				'addTag' => attribute_escape(__('Add new tag')),
 				'separate' => __('Separate tags with commas'),
-				'save' => __('Save'),
-				'cancel' => __('Cancel'),
-				'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
 			) );
+			$this->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox'), '20080208' );
 			$this->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080131' );
 			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );
 			$this->localize( 'upload', 'uploadL10n', array(

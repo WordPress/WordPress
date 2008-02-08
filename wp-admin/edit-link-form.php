@@ -32,6 +32,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <?php echo $form ?>
 <?php wp_nonce_field($nonce_action); ?>
+<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 
 <div class="wrap">
 
@@ -64,7 +65,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </p>
 </div>
 
-<div id="linkcategorydiv" class="postbox <?php echo postbox_classes('linkcategorydiv'); ?>">
+<div id="linkcategorydiv" class="postbox <?php echo postbox_classes('linkcategorydiv', 'link'); ?>">
 <h3><?php _e('Categories') ?></h3>
 <div class="inside">
 
@@ -100,7 +101,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <h2><?php _e('Advanced Options'); ?></h2>
 
-<div id="linktargetdiv" class="postbox <?php echo postbox_classes('linktargetdiv'); ?>">
+<div id="linktargetdiv" class="postbox <?php echo postbox_classes('linktargetdiv', 'link'); ?>">
 <h3><?php _e('Target') ?></h3>
 <div class="inside">
 <label for="link_target_blank" class="selectit">
@@ -115,7 +116,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 </div>
 
-<div id="linkvisiblediv" class="postbox <?php echo postbox_classes('linkvisiblediv'); ?>">
+<div id="linkvisiblediv" class="postbox <?php echo postbox_classes('linkvisiblediv', 'link'); ?>">
 <h3><?php _e('Visible') ?></h3>
 <div class="inside">
 <label for="link_visible_yes" class="selectit">
@@ -127,7 +128,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 </div>
 
-<div id="linkxfndiv" class="postbox <?php echo postbox_classes('linkxfndiv'); ?>">
+<div id="linkxfndiv" class="postbox <?php echo postbox_classes('linkxfndiv', 'link'); ?>">
 <h3><?php _e('Link Relationship (XFN)') ?></h3>
 <div class="inside">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
@@ -240,7 +241,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 </div>
 
-<div id="linkadvanceddiv" class="postbox <?php echo postbox_classes('linkadvanceddiv'); ?>">
+<div id="linkadvanceddiv" class="postbox <?php echo postbox_classes('linkadvanceddiv', 'link'); ?>">
 <h3><?php _e('Advanced') ?></h3>
 <div class="inside">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
