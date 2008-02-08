@@ -99,6 +99,8 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 </div>
 
+<?php do_meta_boxes('link', 'normal', $link); ?>
+
 <h2><?php _e('Advanced Options'); ?></h2>
 
 <div id="linktargetdiv" class="postbox <?php echo postbox_classes('linktargetdiv', 'link'); ?>">
@@ -273,6 +275,8 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </table>
 </div>
 </div>
+
+<?php do_meta_boxes('link', 'advanced', $link); ?>
 
 <?php if ( $link_id ) : ?>
 <input type="hidden" name="action" value="save" />

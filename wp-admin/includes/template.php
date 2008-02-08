@@ -853,22 +853,30 @@ function wp_remember_old_slug() {
  * @param string $id String for use in the 'id' attribute of tags.
  * @param string $title Title of the meta box
  * @param string $callback Function that fills the box with the desired content.  The function should echo its output.
- * @param string $context The context in which the box should be displayed.  edit_post, edit_page, edit_link, edit_post_advanced...
+ * @param string $page The type of edit page on which to show the box (post, page, link)
+ * @param string $context The context within the page where the boxes should show ('normal', 'advanced')
  */
-function add_meta_box($id, $title, $callback, $context) {
+function add_meta_box($id, $title, $callback, $page, $context = 'advanced') {
 	global $wp_meta_boxes;
 
-	$wp_meta_boxes[$context][] = array('id' => $id, 'title' => $title, 'callback' => $callback);
+	if  ( !isset($wp_meta_boxes) )
+		$wp_meta_boxes = array();
+	if ( !isset($wp_meta_boxes[$page]) )
+		$wp_meta_boxes[$page] = array();
+	if ( !isset($wp_meta_boxes[$page][$context]) )
+		$wp_meta_boxes[$page][$context] = array();
+
+	$wp_meta_boxes[$page][$context][] = array('id' => $id, 'title' => $title, 'callback' => $callback);
 }
 
-function do_meta_boxes($context, $object) {
+function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;
 
-	if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$context]) )
+	if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
 		return;
 
-	foreach ( (array) $wp_meta_boxes[$context] as $box ) {
-		echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id']) . '">' . "\n";
+	foreach ( (array) $wp_meta_boxes[$page][$context] as $box ) {
+		echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
 		echo "<h3>{$box['title']}</h3>\n";
 		echo '<div class="inside">' . "\n";
 		call_user_func($box['callback'], $object);
@@ -877,4 +885,9 @@ function do_meta_boxes($context, $object) {
 	}
 }
 
+function test_box($post) {
+	echo "Hello $post->ID";
+}
+
+add_meta_box('test', 'Test', 'test_box', 'post');
 ?>

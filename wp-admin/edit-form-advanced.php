@@ -219,7 +219,7 @@ else
 </div>
 </div>
 
-<?php do_meta_boxes('edit_post', $post); ?>
+<?php do_meta_boxes('post', 'normal', $post); ?>
 
 <?php do_action('edit_form_advanced'); ?>
 
@@ -318,7 +318,7 @@ if ( $authors && count( $authors ) > 1 ) :
 </div>
 <?php endif; ?>
 
-<?php do_meta_boxes('edit_post_advanced', $post); ?>
+<?php do_meta_boxes('post', 'advanced', $post); ?>
 
 <?php do_action('dbx_post_sidebar'); ?>
 

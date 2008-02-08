@@ -133,6 +133,8 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 
 </p>
 
+<?php do_meta_boxes('post', 'normal', $post); ?>
+
 <?php do_action('edit_page_form'); ?>
 
 <h2><?php _e('Advanced Options'); ?></h2>
@@ -223,6 +225,8 @@ if ( $authors && count( $authors ) > 1 ) :
 </div>
 </div>
 <?php endif; ?>
+
+<?php do_meta_boxes('page', 'advanced', $post); ?>
 
 </div>
 
