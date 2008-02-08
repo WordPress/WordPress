@@ -845,4 +845,36 @@ function wp_remember_old_slug() {
 		echo '<input type="hidden" id="wp-old-slug" name="wp-old-slug" value="' . $name . '" />';
 }
 
+/**
+ * add_meta_box() - Add a meta box to an edit form
+ *
+ * @since 2.5
+ *
+ * @param string $id String for use in the 'id' attribute of tags.
+ * @param string $title Title of the meta box
+ * @param string $callback Function that fills the box with the desired content.  The function should echo its output.
+ * @param string $context The context in which the box should be displayed.  edit_post, edit_page, edit_link, edit_post_advanced...
+ */
+function add_meta_box($id, $title, $callback, $context) {
+	global $wp_meta_boxes;
+
+	$wp_meta_boxes[$context][] = array('id' => $id, 'title' => $title, 'callback' => $callback);
+}
+
+function do_meta_boxes($context, $object) {
+	global $wp_meta_boxes;
+
+	if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$context]) )
+		return;
+
+	foreach ( (array) $wp_meta_boxes[$context] as $box ) {
+		echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id']) . '">' . "\n";
+		echo "<h3>{$box['title']}</h3>\n";
+		echo '<div class="inside">' . "\n";
+		call_user_func($box['callback'], $object);
+		echo "</div>\n";
+		echo "</div>\n";
+	}
+}
+
 ?>
