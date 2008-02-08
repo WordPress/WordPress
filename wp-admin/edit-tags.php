@@ -38,6 +38,22 @@ case 'delete':
 
 break;
 
+case 'bulk-delete':
+	check_admin_referer('bulk-tags');
+
+	if ( !current_user_can('manage_categories') )
+		wp_die(__('Cheatin&#8217; uh?'));
+
+	$tags = $_POST['delete_tags'];
+	foreach( $tags as $tag_ID ) {
+	  wp_delete_term( $tag_ID, 'post_tag');
+	}
+
+	wp_redirect('edit-tags.php?message=6');
+	exit;
+
+break;
+
 case 'edit':
 
 	require_once ('admin-header.php');
@@ -76,6 +92,7 @@ $messages[2] = __('Tag deleted.');
 $messages[3] = __('Tag updated.');
 $messages[4] = __('Tag not added.');
 $messages[5] = __('Tag not updated.');
+$messages[6] = __('Tags deleted.');
 ?>
 
 <?php if (isset($_GET['message'])) : ?>
@@ -100,6 +117,7 @@ $messages[5] = __('Tag not updated.');
 
 <form name="deletetags" id="deletetags" action="" method="post">
 <?php wp_nonce_field('bulk-tags'); ?>
+<input type="hidden" name="action" value="bulk-delete" />
 <table class="widefat">
 	<thead>
 	<tr>
@@ -122,6 +140,7 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 ?>
 	</tbody>
 </table>
+<p class="submit"><input type="submit" class="button" name="deletetags" id="deletetags" value="<?php _e('Delete Checked Tags &raquo;') ?>" onclick="return confirm('<?php echo js_escape(__("You are about to delete these tags permanently.\n'Cancel' to stop, 'OK' to delete.")); ?>')" /></p>
 </form>
 <?php
 
