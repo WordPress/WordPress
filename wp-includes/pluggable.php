@@ -1190,7 +1190,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 	}
 
 	if ( empty($default) )
-		$default = 'http://www.gravatar.com/avatar.php?gravatar_id=' . md5('unknown@gravatar.com') . "&size=$size";
+		$default = "http://www.gravatar.com/avatar.php?gravatar_id=ad516503a11cd5ca435acc9bb6523536&size=$size"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
 	$default = urlencode( $default );
 
 	if ( !empty($email) ) {
