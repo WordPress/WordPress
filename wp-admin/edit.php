@@ -11,6 +11,9 @@ require_once('admin-header.php');
 add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; return "LIMIT $start, 20";' ) );
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 $wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
+
+if ( !isset( $_GET['paged'] ) )
+	$_GET['paged'] = 1;
 ?>
 
 <?php
@@ -32,7 +35,7 @@ $posts_columns = wp_manage_posts_columns();
 if ( is_single() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
 } else {
-	$post_status_label = _c('Posts|manage posts header');
+	$post_status_label = _c('Manage Posts|manage posts header');
 	if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) )
         $post_status_label = $post_stati[$_GET['post_status']][1];
 	if ( $post_listing_pageable && !is_archive() && !is_search() )
@@ -57,12 +60,8 @@ if ( is_single() ) {
 	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month );
 }
 ?></h2>
-<p id="post-search">
-	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" />
-</p>
 
-<ul id="statusmenu">
+<ul class="subsubsub">
 <?php
 $status_links = array();
 foreach ( $post_stati as $status => $label ) {
@@ -85,25 +84,31 @@ unset($status_links);
 ?>
 </ul>
 
-	<fieldset><legend><?php _e('Status&hellip;'); ?></legend>
-		<select name='post_status'>
-			<option<?php selected( @$_GET['post_status'], 0 ); ?> value='0'><?php _e('Any'); ?></option>
-<?php	foreach ( $post_stati as $status => $label ) : if ( !in_array($status, $avail_post_stati) ) continue; ?>
-			<option<?php selected( @$_GET['post_status'], $status ); ?> value='<?php echo $status; ?>'><?php echo $label[0]; ?></option>
-<?php	endforeach; ?>
-		</select>
-	</fieldset>
+<p id="post-search">
+	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" />
+</p>
+
+<?php do_action('restrict_manage_posts'); ?>
+
+<br style="clear:both;" />
+
+<div class="tablenav">
 
 <?php
-$editable_ids = get_editable_user_ids( $user_ID );
-if ( $editable_ids && count( $editable_ids ) > 1 ) :
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'total' => ceil($wp_query->found_posts / 15),
+	'current' => $_GET['paged']
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
-	<fieldset><legend><?php _e('Author&hellip;'); ?></legend>
-		<?php wp_dropdown_users( array('include' => $editable_ids, 'show_option_all' => __('Any'), 'name' => 'author', 'selected' => isset($_GET['author']) ? $_GET['author'] : 0) ); ?>
-	</fieldset>
 
+<div style="float: left">
 <?php
-endif;
 
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
 
@@ -112,38 +117,35 @@ $arc_result = $wpdb->get_results( $arc_query );
 $month_count = count($arc_result);
 
 if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
-
-	<fieldset><legend><?php _e('Month&hellip;') ?></legend>
-		<select name='m'>
-			<option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Any'); ?></option>
-		<?php
-		foreach ($arc_result as $arc_row) {
-			if ( $arc_row->yyear == 0 )
-				continue;
-			$arc_row->mmonth = zeroise($arc_row->mmonth, 2);
-
-			if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
-				$default = ' selected="selected"';
-			else
-				$default = '';
-
-			echo "<option$default value='$arc_row->yyear$arc_row->mmonth'>";
-			echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
-			echo "</option>\n";
-		}
-		?>
-		</select>
-	</fieldset>
-
+<select name='m'>
+<option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
+<?php
+foreach ($arc_result as $arc_row) {
+	if ( $arc_row->yyear == 0 )
+		continue;
+	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
+	
+	if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
+		$default = ' selected="selected"';
+	else
+		$default = '';
+	
+	echo "<option$default value='$arc_row->yyear$arc_row->mmonth'>";
+	echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
+	echo "</option>\n";
+}
+?>
+</select>
 <?php } ?>
 
-	<fieldset><legend><?php _e('Category&hellip;') ?></legend>
-		<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
-	</fieldset>
-	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
-</form>
+<?php wp_dropdown_categories('show_option_all='.__('View all categories').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
+<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
 
-<?php do_action('restrict_manage_posts'); ?>
+</div>
+
+<br style="clear:both;" />
+</div>
+</form>
 
 <br style="clear:both;" />
 
@@ -154,6 +156,15 @@ if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?
 </form>
 
 <div id="ajax-response"></div>
+
+<div class="tablenav">
+
+<?php
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+</div>
 
 <div class="navigation">
 <div class="alignleft"><?php next_posts_link(__('&laquo; Older Entries')) ?></div>

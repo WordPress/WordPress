@@ -7,7 +7,7 @@
 /* For Win IE's eyes only */
 
 a {
-	color: #00019b;
+	color: #2583ad;
 	text-decoration: none;
 }
 
@@ -326,7 +326,6 @@ form#upload #post_content {
 }
 
 .updated a {
-	color: #2583ad;
 	text-decoration: none;
 	padding-bottom: 2px;
 	border-bottom: 1px solid #2583ad;
@@ -745,6 +744,7 @@ div.nav {
 	padding: 4px 7px;
 	border: 1px solid #fff;
 	margin-right: 3px;
+	background-color: #fff;
 }
 
 a.page-numbers {
@@ -756,8 +756,10 @@ a.page-numbers:hover {
 }
 
 .page-numbers.current {
-	border: 1px solid #999;
+	border: 1px solid #328ab2;
 	font-weight: bold;
+	background-color: #328ab2;
+	color: #fff;
 }
 
 p.pagenav {
@@ -903,7 +905,6 @@ a.view-comment-post-link {
 
 #adminmenu a {
 	font-size: 16px;
-	color: #2583ad;
 	padding: 6px;
 	line-height: 200%;
 	border: 1px solid #e4f2fd;
@@ -936,7 +937,6 @@ a.view-comment-post-link {
 }
 
 #sidemenu a {
-	color: #2583ad;
 	padding: 3px;
 	line-height: 200%;
 }
@@ -998,7 +998,6 @@ a.view-comment-post-link {
 
 #submenu a {
 	font-size: 14px;
-	color: #2583ad;
 	padding: 0 0 8px 17px;
 }
 
@@ -1010,22 +1009,32 @@ a.view-comment-post-link {
 	height: 15px;
 }
 
-#statusmenu {
-	margin: 0;
+.subsubsub {
+	margin: 15px 0 10px 0;
+	padding: 0;
 	color: #999;
 	list-style: none;
 	white-space: nowrap;
-	left: 0;
 }
 
-#statusmenu a {
-	color: #2583ad;
+.subsubsub li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.subsubsub a {
 	padding: 3px;
 	line-height: 200%;
 }
 
-#statusmenu a:hover, #statusmenu a.current, #statusmenu a.current:hover {
+.subsubsub a:hover, .subsubsub a.current:hover {
 	color: #d54e21;
+}
+
+.subsubsub a.current {
+	color: #000;
+	font-weight: bold;
 }
 /* end menu stuff */
 
@@ -1454,11 +1463,22 @@ p#post-search {
 	padding: 0 0 .2em 1px;
 }
 
+.tablenav {
+	background-color: #e4f2fd;
+	padding: 10px;
+	clear: both;
+}
+
+.tablenav .dots {
+	border-color: #e4f2fd;
+}
+
+.tablenav .tablenav-pages {
+	float: right;
+}
+
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
 .wp-no-js-hidden { display: none; }
 .ui-tabs-hide { display: none; }
 .form-input-tip { color: #999; }
-
-
-
