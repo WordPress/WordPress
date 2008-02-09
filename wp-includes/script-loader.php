@@ -33,8 +33,8 @@ class WP_Scripts {
 		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_gzip.php', false, '20080208' );
 
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
-		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20080129' );
-
+		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20080208' );
+		
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
 		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('jquery', 'schedule'), '20080206');
@@ -179,6 +179,7 @@ class WP_Scripts {
 				'edit' => __('Edit'),
 				'cancel' => __('Cancel'),
 			));
+			$this->add( 'editor', '/wp-admin/js/editor.js', array('tiny_mce'), '20080208' );
 		}
 	}
 
