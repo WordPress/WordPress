@@ -1111,6 +1111,13 @@ function wp_richedit_pre($text) {
 	return apply_filters('richedit_pre', $output);
 }
 
+function wp_htmledit_pre($output) {
+	if ( !empty($output) )
+		$output = htmlspecialchars($output, ENT_NOQUOTES); // convert only < > &
+
+	return apply_filters('htmledit_pre', $output);
+}
+
 function clean_url( $url, $protocols = null, $context = 'display' ) {
 	$original_url = $url;
 

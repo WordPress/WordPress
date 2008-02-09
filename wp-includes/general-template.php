@@ -932,6 +932,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 
 		if ( 'tinymce' == $wp_default_editor )
 			add_filter('the_editor_content', 'wp_richedit_pre');
+		else if ( 'html' == $wp_default_editor )
+			add_filter('the_editor_content', 'wp_htmledit_pre');
 
 		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
         ?>
