@@ -70,7 +70,6 @@ include('admin-header.php');
 <td>
 <p><label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_option('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_option('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label></p>
-<p><?php _e('Note: If you use the <code>&lt;!--more--&gt;</code> feature, it will cut off posts in RSS feeds.'); ?></p>
 </td>
 </tr>
 </table>
