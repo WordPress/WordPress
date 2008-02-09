@@ -1,5 +1,5 @@
 <?php
-/**
+/** Based on:
  * $Id: tiny_mce_gzip.php 315 2007-10-25 14:03:43Z spocke $
  *
  * @author Moxiecode
@@ -10,18 +10,12 @@
  * Notice: This script defaults the button_tile_map option to true for extra performance.
  */
 
-//error_reporting(E_ALL);
-    @require_once('../../../wp-config.php');  // For get_bloginfo().
-
-    // Headers
-    $expiresOffset = 3600 * 24 * 10; // Cache for 10 days in browser cache
-	header("Content-type: text/javascript");
-	header("Vary: Accept-Encoding");  // Handle proxies
-	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
+@require_once('../../../wp-config.php');  // For get_bloginfo().
+cache_javascript_headers();
 
 if ( isset($_GET['load']) ) {
 
-    function getParam( $name, $def = false ) {
+	function getParam( $name, $def = false ) {
 		if ( ! isset($_GET[$name]) )
 			return $def;
 
@@ -31,7 +25,7 @@ if ( isset($_GET['load']) ) {
 	function getFileContents($path) {
 		$path = realpath($path);
 
-		if ( !$path || !@is_file($path) )
+		if ( ! $path || !@is_file($path) )
 			return '';
 
 		if ( function_exists('file_get_contents') )
@@ -52,7 +46,7 @@ if ( isset($_GET['load']) ) {
 
 	function putFileContents( $path, $content ) {
 		if ( function_exists('file_put_contents') )
-			return @file_put_contents($path, $content);
+			return @file_put_contents( $path, $content );
 
 		$fp = @fopen($path, 'wb');
 		if ($fp) {
@@ -61,40 +55,19 @@ if ( isset($_GET['load']) ) {
 		}
 	}
 
+	// WP defaults
+	$themes = explode( ',', getParam('themes', 'advanced') );
 
-	// Get input
+	$language = getParam( 'languages', 'en' );
+	$language = strtolower( substr($language, 0, 2) ); // only ISO 639-1
+
 	$plugins = explode( ',', getParam('plugins', '') );
-	$languages = explode( ',', getParam('languages', '') );
-	$themes = explode( ',', getParam('themes', '') );
-	$diskCache = getParam( 'diskcache', '' ) == 'true';
-	$isJS = getParam( 'js', '' ) == 'true';
-	$compress = getParam( 'compress', 'true' ) == 'true';
-	$core = getParam( 'core', 'true' ) == 'true';
-	$suffix = getParam( 'suffix', '_src' ) == '_src' ? '_src' : '';
 	$cachePath = realpath('.'); // Cache path, this is where the .gz files will be stored
 
-	$content = '';
 	$encodings = array();
-	$supportsGzip = false;
-	$enc = '';
-	$cacheKey = '';
-
-	// WP. Language handling could be improved... Concat all translated langs files and store in /wp-content/languages as .mo?
-	$theme = getParam( 'theme', 'advanced' );
-	$themes = array($theme);
-
-    $language = getParam( 'language', 'en' );
-    $languages = array($language);
-
-    if ( $language != strtolower($language) )
-		$languages[] = strtolower($language);
-
-    if ( $language != substr($language, 0, 2) )
-		$languages[] = substr($language, 0, 2);
-
-    $diskCache = false;
-	$isJS = true;
-	$suffix = '';
+	$supportsGzip = $diskCache = false;
+	$compress = $core = true;
+	$suffix = $content = $enc = $cacheKey = '';
 
 	// Custom extra javascripts to pack
 	// WP - add a hook for external plugins to be compressed too?
@@ -103,14 +76,7 @@ if ( isset($_GET['load']) ) {
 		'some custom .js file'
 	*/);
 
-	// Is called directly then auto init with default settings
-	if ( ! $isJS ) {
-		echo getFileContents('tiny_mce_gzip.js');
-		echo 'tinyMCE_GZ.init({});';
-		die();
-	}
-
-    // Setup cache info
+	// Setup cache info
 	if ( $diskCache ) {
 		if ( ! $cachePath )
 			die('Real path failed.');
@@ -129,10 +95,10 @@ if ( isset($_GET['load']) ) {
 	}
 
 	// Check if it supports gzip
-	if ( isset($_SERVER['HTTP_ACCEPT_ENCODING']) )
-		$encodings = explode( ',', strtolower( preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING']) ) );
+	if ( isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) )
+		$encodings = explode(',', strtolower(preg_replace( '/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING']) ) );
 
-	if ( ( in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------']) ) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') ) {
+	if ( ( in_array('gzip', $encodings ) || in_array( 'x-gzip', $encodings ) || isset($_SERVER['---------------']) ) && function_exists( 'ob_gzhandler' ) && ! ini_get('zlib.output_compression') ) {
 		$enc = in_array( 'x-gzip', $encodings ) ? 'x-gzip' : 'gzip';
 		$supportsGzip = true;
 	}
@@ -142,55 +108,29 @@ if ( isset($_GET['load']) ) {
 		if ( $compress )
 			header('Content-Encoding: ' . $enc);
 
-		echo getFileContents($cacheFile);
+		echo getFileContents( $cacheFile );
 		die();
 	}
 
 	// Add core
 	if ( $core == 'true' ) {
-		$content .= getFileContents('tiny_mce' . $suffix . '.js');
+		$content .= getFileContents( 'tiny_mce' . $suffix . '.js' );
 
 		// Patch loading functions
 		$content .= 'tinyMCE_GZ.start();';
 	}
 
-	// Add core languages
-	$lang_content = '';
-	foreach ( $languages as $lang )
-		$lang_content .= getFileContents('langs/' . $lang . '.js');
-
-    if ( empty($lang_content) && file_exists('langs/en.js') )
-		$lang_content .= getFileContents('langs/en.js');
-
-    $content .= $lang_content;
+	// Add all languages (WP)
+	include_once( dirname(__file__).'/langs/wp-langs.php' );
+	$content .= $strings;
 
 	// Add themes
-	foreach ( $themes as $theme ) {
-		$content .= getFileContents( 'themes/' . $theme . '/editor_template' . $suffix . '.js');
-
-		$lang_content = '';
-		foreach ( $languages as $lang )
-			$lang_content .= getFileContents( 'themes/' . $theme . '/langs/' . $lang . '.js' );
-
-        if ( empty($lang_content) && file_exists( 'themes/' . $theme . '/langs/en.js' ) )
-			$lang_content .= getFileContents( 'themes/' . $theme . '/langs/en.js' );
-
-        $content .= $lang_content;
-	}
-
+	foreach ( $themes as $theme ) 
+		$content .= getFileContents( 'themes/' . $theme . '/editor_template' . $suffix . '.js' );
+	
 	// Add plugins
-	foreach ( $plugins as $plugin ) {
-		$content .= getFileContents('plugins/' . $plugin . '/editor_plugin' . $suffix . '.js');
-
-		$lang_content = '';
-		foreach ( $languages as $lang )
-			$lang_content .= getFileContents( 'plugins/' . $plugin . '/langs/' . $lang . '.js' );
-
-        if ( empty($lang_content) && file_exists( 'plugins/' . $plugin . '/langs/en.js' ) )
-			$lang_content .= getFileContents( 'plugins/' . $plugin . '/langs/en.js' );
-
-        $content .= $lang_content;
-	}
+	foreach ( $plugins as $plugin ) 
+		$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin' . $suffix . '.js' );
 
 	// Add custom files
 	foreach ( $custom as $file )
@@ -209,7 +149,7 @@ if ( isset($_GET['load']) ) {
 			$cacheData = $content;
 
 		// Write gz file
-		if ( $diskCache && $cacheKey != '' )
+		if ( $diskCache && '' != $cacheKey )
 			putFileContents( $cacheFile, $cacheData );
 
 		// Stream to client
@@ -236,18 +176,19 @@ var tinyMCE_GZ = {
 		suffix : ''
 	},
 
-    opt : {},
+	opt : {},
 
-	init : function(arr, cb) {
-		var t = this, n, s, nl = document.getElementsByTagName('script');
+	init : function(o, cb) {
+		var t = this, n, s = t.settings, nl = document.getElementsByTagName('script');
 
-        t.opt = arr;
+		t.opt = o;
 
-		t.settings.themes = arr.theme;
-        t.settings.plugins = arr.plugins;
-        t.settings.languages = arr.language;
-        s = t.settings;
-        t.cb = cb || '';
+		s.themes = o.theme;
+		s.plugins = o.plugins; 
+		s.languages = o.language;
+		t.settings = s;
+
+		t.cb = cb || '';
 
 		for (i=0; i<nl.length; i++) {
 			n = nl[i];
@@ -255,8 +196,8 @@ var tinyMCE_GZ = {
 			if (n.src && n.src.indexOf('tiny_mce') != -1)
 				t.baseURL = n.src.substring(0, n.src.lastIndexOf('/'));
 		}
-        tinyMCEPreInit.base = t.baseURL;
-
+		tinyMCEPreInit.base = t.baseURL;
+		
 		if (!t.coreLoaded)
 			t.loadScripts(1, s.themes, s.plugins, s.languages);
 	},
@@ -281,7 +222,6 @@ var tinyMCE_GZ = {
 		if (co)
 			t.coreLoaded = 1;
 
-    // Easier to debug with this...
 	//	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + t.baseURL + '/' + s.page_name + '?' + q + '"></script>');
 
 		// Send request

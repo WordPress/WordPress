@@ -2,7 +2,8 @@
 	@ require('../../../wp-config.php');
 	cache_javascript_headers();
 
-	function wp_translate_tinymce_lang($text) {
+	// deprecated
+    function wp_translate_tinymce_lang($text) {
 		if ( ! function_exists('__') ) {
 			return $text;
 		} else {
@@ -52,7 +53,7 @@
 	if ( $_SERVER['HTTPS'] == 'on' )
 		$mce_css = str_replace('http://', 'https://', $mce_css);
 
-	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
+	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 ?>
 
 initArray = {
@@ -76,10 +77,6 @@ initArray = {
 	convert_urls : false,
 	relative_urls : false,
 	remove_script_host : false,
-	force_p_newlines : true,
-	force_br_newlines : false,
-	convert_newlines_to_brs : false,
-	remove_linebreaks : false,
 	fix_list_elements : true,
 	fix_table_elements : true,
 	gecko_spellcheck : true,
@@ -89,7 +86,7 @@ initArray = {
 	content_css : "<?php echo $mce_css; ?>",
 	<?php if ( $valid_elements ) echo 'valid_elements : "' . $valid_elements . '",' . "\n"; ?>
 	<?php if ( $invalid_elements ) echo 'invalid_elements : "' . $invalid_elements . '",' . "\n"; ?>
-    save_callback : "switchEditors.saveCallback",
+	save_callback : "switchEditors.saveCallback",
 <?php do_action('mce_options'); ?>
 	plugins : "<?php echo $plugins; ?>"
 };
