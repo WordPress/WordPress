@@ -1559,7 +1559,7 @@ function setup_postdata($post) {
 	$page = get_query_var('page');
 	if ( !$page )
 		$page = 1;
-	if ( is_single() || is_page() )
+	if ( is_single() || is_page() || is_feed() )
 		$more = 1;
 	$content = $post->post_content;
 	if ( preg_match('/<!--nextpage-->/', $content) ) {
