@@ -135,7 +135,7 @@ if ($allowed_files) :
 ?>
 </p>
 <?php else : ?>
-<p><em><?php _e('If this file were writable you could edit it.'); ?></em></p>
+<p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
 <?php endif; ?>
 	</form>
 	<?php
