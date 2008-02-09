@@ -54,20 +54,20 @@ $num_tags = wp_count_terms('post_tag');
 $post_type_texts = array();
 
 if ( $num_posts ) {
-	$post_type_texts[] = '<a href="edit.php">'.sprintf( __ngettext( '%d post', '%d posts', $num_posts ), number_format_i18n( $num_posts ) ).'</a>';
+	$post_type_texts[] = '<a href="edit.php">'.sprintf( __ngettext( '%s post', '%s posts', $num_posts ), number_format_i18n( $num_posts ) ).'</a>';
 }
 if ( $num_pages ) {
-	$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%d page', '%d pages', $num_pages ), number_format_i18n( $num_pages ) ).'</a>';
+	$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages ), number_format_i18n( $num_pages ) ).'</a>';
 }
 if ( $num_drafts ) {
-	$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%d draft', '%d drafts', $num_drafts ), number_format_i18n( $num_drafts ) ).'</a>';
+	$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%s draft', '%s drafts', $num_drafts ), number_format_i18n( $num_drafts ) ).'</a>';
 }
 if ( $num_future ) {
-	$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%d scheduled post', '%d scheduled posts', $num_future ), number_format_i18n( $num_future ) ).'</a>';
+	$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%s scheduled post', '%s scheduled posts', $num_future ), number_format_i18n( $num_future ) ).'</a>';
 }
 
-$cats_text = '<a href="categories.php">'.sprintf( __ngettext( '%d category', '%d categories', $num_cats ), number_format_i18n( $num_cats ) ).'</a>';
-$tags_text = sprintf( __ngettext( '%d tag', '%d tags', $num_tags ), number_format_i18n( $num_tags ) );
+$cats_text = '<a href="categories.php">'.sprintf( __ngettext( '%s category', '%s categories', $num_cats ), number_format_i18n( $num_cats ) ).'</a>';
+$tags_text = sprintf( __ngettext( '%s tag', '%s tags', $num_tags ), number_format_i18n( $num_tags ) );
 
 $post_type_text = implode(', ', $post_type_texts);
 
