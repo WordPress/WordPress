@@ -93,14 +93,19 @@ addLoadEvent(focusit);
 <?php
 if ($post_ID):
 
-if ( 'future' == $post->post_status )
+if ( 'future' == $post->post_status ) {
 	$time = __('Scheduled for:<br />%1$s at %2$s');
-else if ( 'publish' == $post->post_status )
+	$date = $post->post_date;
+} else if ( 'publish' == $post->post_status ) {
 	$time = __('Published on:<br />%1$s at %2$s');
-else
+	$date = $post->post_date;
+} else {
 	$time = __('Saved on:<br />%1$s at %2$s');
+	$date = $post->post_modified;
+}
+
 ?>
-<p><?php printf($time, mysql2date(get_option('date_format'), $post->post_date), mysql2date(get_option('time_format'), $post->post_date)); ?>
+<p><?php printf($time, mysql2date(get_option('date_format'), $date), mysql2date(get_option('time_format'), $date)); ?>
 <?php endif; ?>
 </div>
 
