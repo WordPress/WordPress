@@ -19,6 +19,7 @@ var ImageDialog = {
 		e = ed.selection.getNode();
 
 		this.fillFileList('image_list', 'tinyMCEImageList');
+		this.fillClassList('class_list');
 
 		if (e.nodeName == 'IMG') {
 			f.src.value = ed.dom.getAttrib(e, 'src');
@@ -31,6 +32,7 @@ var ImageDialog = {
 			f.insert.value = ed.getLang('update');
 			this.styleVal = ed.dom.getAttrib(e, 'style');
 			selectByValue(f, 'image_list', f.src.value);
+			selectByValue(f, 'class_list', ed.dom.getAttrib(e, 'class'));
 			selectByValue(f, 'align', this.getAttrib(e, 'align'));
 			this.updateStyle();
 		}
@@ -75,7 +77,8 @@ var ImageDialog = {
 			src : f.src.value,
 			alt : f.alt.value,
 			width : f.width.value,
-			height : f.height.value
+			height : f.height.value,
+			'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
 		});
 
 		el = ed.selection.getNode();
@@ -232,7 +235,32 @@ var ImageDialog = {
 		this.preloadImg.onload = this.updateImageData;
 		this.preloadImg.onerror = this.resetImageData;
 		this.preloadImg.src = tinyMCEPopup.editor.documentBaseURI.toAbsolute(f.src.value);
+	},
+	
+	fillClassList : function(id) {
+		var dom = tinyMCEPopup.dom, lst = dom.get(id), v, cl;
+
+		if (v = tinyMCEPopup.getParam('theme_advanced_styles')) {
+			cl = [];
+
+			tinymce.each(v.split(';'), function(v) {
+				var p = v.split('=');
+
+				cl.push({'title' : p[0], 'class' : p[1]});
+			});
+		} else
+			cl = tinyMCEPopup.editor.dom.getClasses();
+
+		if (cl.length > 0) {
+			lst.options[lst.options.length] = new Option(tinyMCEPopup.getLang('not_set'), '');
+
+			tinymce.each(cl, function(o) {
+				lst.options[lst.options.length] = new Option(o.title || o['class'], o['class']);
+			});
+		} else
+			dom.remove(dom.getParent(id, 'tr'));
 	}
+	
 };
 
 ImageDialog.preInit();

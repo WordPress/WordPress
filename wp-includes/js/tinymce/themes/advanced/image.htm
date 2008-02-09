@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="panel_wrapper">
-		<div id="general_panel" class="panel current">
+	<div id="general_panel" class="panel current">
      <table border="0" cellpadding="4" cellspacing="0">
           <tr>
             <td nowrap="nowrap"><label for="src">{#advanced_dlg.image_src}</label></td>
@@ -37,9 +37,20 @@
             <td nowrap="nowrap"><label for="alt">{#advanced_dlg.image_alt}</label></td>
             <td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
           </tr>
-          <tr>
-            <td nowrap="nowrap"><label for="align">{#advanced_dlg.image_align}</label></td>
-            <td><select id="align" name="align" onchange="ImageDialog.updateStyle();">
+			<tr>
+				<td nowrap="nowrap"><label for="class_list">{#class_name}</label></td>
+				<td><select id="class_list" name="class_list"></select></td>
+			</tr>
+			<tr>
+            <td nowrap="nowrap"><label for="width">{#advanced_dlg.image_dimensions}</label></td>
+            <td><input id="width" name="width" type="text" value="" size="3" maxlength="5" />
+              x
+              <input id="height" name="height" type="text" value="" size="3" maxlength="5" /></td>
+          </tr>
+		  <tr><td colspan="2" style="padding-top:12px;"><strong>{#advanced.style_select}:</strong></td></tr>
+		  <tr>
+			<td nowrap="nowrap"><label for="align">{#advanced_dlg.image_align}</label></td>
+            <td style="width: 200px"><select id="align" name="align" onchange="ImageDialog.updateStyle();">
                 <option value="">{#not_set}</option>
                 <option value="baseline">{#advanced_dlg.image_align_baseline}</option>
                 <option value="top">{#advanced_dlg.image_align_top}</option>
@@ -52,22 +63,16 @@
               </select></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><label for="width">{#advanced_dlg.image_dimensions}</label></td>
-            <td><input id="width" name="width" type="text" value="" size="3" maxlength="5" />
-              x
-              <input id="height" name="height" type="text" value="" size="3" maxlength="5" /></td>
-          </tr>
-          <tr>
-            <td nowrap="nowrap"><label for="border">{#advanced_dlg.image_border}</label></td>
-            <td><input id="border" name="border" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
-          </tr>
-          <tr>
             <td nowrap="nowrap"><label for="vspace">{#advanced_dlg.image_vspace}</label></td>
             <td><input id="vspace" name="vspace" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
           </tr>
           <tr>
             <td nowrap="nowrap"><label for="hspace">{#advanced_dlg.image_hspace}</label></td>
             <td><input id="hspace" name="hspace" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap"><label for="border">{#advanced_dlg.image_border}</label></td>
+            <td><input id="border" name="border" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
           </tr>
         </table>
 		</div>

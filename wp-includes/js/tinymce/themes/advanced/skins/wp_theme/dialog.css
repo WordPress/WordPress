@@ -85,7 +85,7 @@ a.charmap {color:#000; text-decoration:none}
 
 /* Panels */
 .panel_wrapper div.panel {display:none;}
-.panel_wrapper div.current {display:block; width:100%; height:300px; overflow:visible;}
+.panel_wrapper div.current {display:block; height:300px; width:100%; overflow:visible;}
 .panel_wrapper {border:1px solid #919B9C; border-top:0px; padding:10px; padding-top:5px; clear:both; background:white;}
 
 /* Columns */
@@ -101,7 +101,7 @@ h3 {font-size:14px;}
 
 /* Dialog specific */
 #link .panel_wrapper, #link div.current {height:125px;}
-#image .panel_wrapper, #image div.current {height:200px;}
+#image .panel_wrapper, #image div.current {height:255px;}
 #plugintable thead {font-weight:bold; background:#DDD;}
 #plugintable, #about #plugintable td {border:1px solid #919B9C;}
 #plugintable {width:96%; margin-top:10px;}
@@ -115,3 +115,4 @@ h3 {font-size:14px;}
 #colorpicker #namedcolors {width:150px;}
 #colorpicker #namedcolors a {display:block; float:left; width:10px; height:10px; margin:1px 1px 0 0; overflow:hidden;}
 #colorpicker #colornamecontainer {margin-top:5px;}
+#colorpicker #picker_panel fieldset {margin:auto;width:325px;}
