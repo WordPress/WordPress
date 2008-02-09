@@ -1,20 +1,5 @@
 /* This file contains the CSS data for the editable area(iframe) of TinyMCE */
 
-.alignleft {
-float: left;
-}
-
-.alignright {
-float: right;
-}
-
-/*
-.aligncenter {
-margin-left: auto;
-margin-right: auto;
-}
-*/
-/* css for the editor */
 body {
 	background: #fff;
 	color: #000;
