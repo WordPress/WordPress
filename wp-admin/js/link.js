@@ -34,6 +34,7 @@ addLoadEvent( function() {
 	};
 	jQuery('#categorychecklist').wpList( {
 		alt: '',
+		what: 'link-category',
 		response: 'category-ajax-response',
 		addAfter: catAddAfter
 	} );
