@@ -1,0 +1,93 @@
+/* styles for use by people extending the WordPress interface */
+
+a { color: #2583ad; text-decoration: none; }
+
+a:hover, .subsubsub a:hover, .subsubsub a.current:hover { color: #d54e21; }
+
+body	{
+	background: #ffffff;
+	color: #333333;
+	margin: 0;
+	padding: 0;
+}
+
+body, td {
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+}
+
+form, label input { margin: 0; padding: 0; }
+
+img { border: 0; }
+
+label { cursor: pointer; }
+
+li, dd { margin-bottom: 6px; }
+
+p, li, dl, dd, dt { line-height: 140%; }
+
+textarea, input, select {
+	font: 13px Verdana, Arial, Helvetica, sans-serif;
+	margin: 1px;
+	padding: 3px;
+}
+
+.alignleft { float: left; }
+
+.alignright { float: right; }
+
+.alternate { background: #f9f9f9; }
+
+.clear { clear: both; height: 2px; }
+
+.hidden { display: none; }
+
+.subsubsub {
+	color: #999999;
+	list-style: none;
+	margin: 15px 0 10px 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+.subsubsub a { line-height: 200%; padding: 3px; }
+
+.subsubsub a.current { color: #000000; font-weight: bold; }
+
+.subsubsub li { display: inline; margin: 0; padding: 0; }
+
+.widefat {
+	border: 1px solid #cccccc;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.widefat td, .widefat th {
+	border-bottom: 1px solid #cccccc;
+	font-size: 12px;
+	padding: 10px 6px 20px 6px;
+}
+
+.widefat th {
+	padding-bottom: 8px;
+	padding-top: 10px;
+	text-align: left;
+}
+
+.widefat thead, .thead { background: #464646; color: #d7d7d7; }
+
+.wrap {
+	margin: 0;
+	margin-left: 15px;
+	margin-right: 15%;
+	padding: 0;
+}
+
+.wrap h2 {
+	border-bottom: 1px solid #dadada;
+	clear: both;
+	color: #666666;
+	font: 24px Georgia, "Times New Roman", Times, serif;
+	margin: 0 0 0 -5px;
+	padding: 0;
+	padding-bottom: 5px;
+}

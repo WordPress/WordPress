@@ -302,24 +302,22 @@ function tag_rows( $page = 0, $pagesize = 20, $searchterms = '' ) {
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_posts_columns() {
 	$posts_columns = array();
-	$posts_columns['id'] = '<div style="text-align: center">' . __('ID') . '</div>';
+	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" name="TODO" /></div>';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Submitted');
 	else
-		$posts_columns['date'] = __('When');
+		$posts_columns['date'] = __('Date');
 	$posts_columns['title'] = __('Title');
-	$posts_columns['categories'] = __('Categories');
-	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
-		$posts_columns['comments'] = '<div style="text-align: center">' . __('Comments') . '</div>';
 	$posts_columns['author'] = __('Author');
+	$posts_columns['categories'] = __('Categories');
+	$posts_columns['tags'] = __('Tags');
+	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
+		$posts_columns['comments'] = '<div style="text-align: center"><img alt="" src="images/comment-grey-bubble.png" /></div>';
+	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
-	// you can not edit these at the moment
-	$posts_columns['control_view']   = '';
-	$posts_columns['control_edit']   = '';
-	$posts_columns['control_delete'] = '';
 
 	return $posts_columns;
 }

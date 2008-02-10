@@ -1,49 +1,12 @@
-* html #poststuff {
-	height: 100%; /* kill peekaboo bug in IE */
-}
 
-/* This is the Holly Hack \*/
-* html .wrap { height: 1% }
-/* For Win IE's eyes only */
 
-a {
-	color: #2583ad;
-	text-decoration: none;
-}
 
 a.delete:hover {
 	background: #c00;
 	color: #fff;
 }
 
-.wrap {
-	margin: 0;
-	padding: 0;
-	margin-left: 15px;
-	margin-right: 25%;
-}
 
-.wrap h2 {
-	font: 24px Georgia, "Times New Roman", Times, serif;
-	color: #666;
-	border-bottom: 1px solid #dadada;
-	padding: 0;
-	margin: 0 0 0 -5px;
-	padding-bottom: 5px;
-	clear: both;
-}
-
-.widefat {
-	width: 100%;
-}
-
-.widefat td, .widefat th {
-	padding: 5px 6px;
-}
-
-.widefat th {
-	text-align: left;
-}
 
 .plugins p {
 	margin: 4px;
@@ -58,86 +21,14 @@ a.delete:hover {
 	font-size: 16px;
 }
 
-thead, .thead {
-	background: #dfdfdf
-}
-
 #import-upload-form {
 	margin: auto;
 	background: #eee;
 	padding: 1em;
 }
 
-a.view, a.edit, a.delete, a.view:hover, a.edit:hover, a.delete:hover {
-	border-bottom: none;
-	display: block;
-	padding: 5px 0;
-	text-align: center;
-}
-
-a.view:hover, a.edit:hover {
-	background: #ccc;
-	color: #036;
-}
-
-a:visited {
-	color: #004;
-}
-
-a:hover {
-	color: #069;
-}
-
-body	{
-	background: #fff;
-	color: #333;
-	margin: 0;
-	padding: 0;
-}
-
-body, td {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-}
-
-fieldset.options {
-	padding: 1em;
-}
-
-fieldset.options legend {
-	font-size: 1.5em;
-	font-weight: bold;
-	font-family: Georgia, "Times New Roman", Times, serif;
-}
-
-form, label input {
-	margin: 0;
-	padding: 0;
-}
-
-img {
-	border: 0;
-}
-
 .form-invalid {
 	background-color: #FF9999 !important;
-}
-
-label {
-	cursor: pointer;
-}
-
-li, dd {
-	margin-bottom: 6px;
-}
-
-p, li, dl, dd, dt {
-	line-height: 140%;
-}
-
-textarea, input, select {
-	font: 13px Verdana, Arial, Helvetica, sans-serif;
-	margin: 1px;
-	padding: 3px;
 }
 
 #uploading {
@@ -163,18 +54,6 @@ form#upload #post_content {
 .attpreview {
 	width: 1px; /* hug */
 	text-align: center;
-}
-
-.alignleft {
-	float: left
-}
-
-.alignright {
-	float: right;
-}
-
-.alternate {
-	background: #f1f1f1;
 }
 
 .anchors {
@@ -234,22 +113,6 @@ form#upload #post_content {
 .commentlist p {
 	padding: 0;
 	margin: 0 0 .8em;
-}
-
-.clear {
-	clear: both;
-	height: 2px;
-}
-
-.hidden {
-	display: none;
-}
-
-.navigation {
-	display: block;
-	text-align: center;
-	margin-top: 10px;
-	margin-bottom: 30px;
 }
 
 .post-categories {
@@ -313,7 +176,7 @@ form#upload #post_content {
 	margin-left: 15px;
 	padding: 0 15px;
 	margin-bottom: 20px;
-	margin-right: 25%;
+	margin-right: 15%;
 }
 
 .updated a, .error a {
@@ -453,119 +316,6 @@ input.delete:hover {
 	margin: 0;
 	height: 4em;
 	width: 100%;
-}
-
-#login {
-	position: relative;
-	background: url('images/login-bkg-tile.gif') no-repeat top center;
-	color: #fff;
-	margin: 5em auto 1em;
-	padding: 20px 0 0;
-	width: 425px;
-	_width: 390px;
-}
-
-#login form {
-	background: url('images/login-bkg-bottom.gif') no-repeat bottom center;
-	padding: 0 50px 25px;
-	_width: 325px;
-	_margin: 0 auto;
-	min-height: 200px;
-	height: auto !important; /* min-height fast hack */
-	height: 200px;
-}
-
-#login #login_error {
-	background: #0e3350;
-	border: 1px solid #2571ab;
-	color: #ebcd4e;
-	font-size: 11px;
-	font-weight: bold;
-	padding: .6em;
-	width: 310px;
-	margin: 0 50px;
-	text-align: center;
-}
-
-#login p { 
-	font-size: 12px;
-}
-
-#login p.message { 
-	width: 310px;
-	margin: 0 auto 1em;
-}
-
-#login #login_error a {
-	color: #ebcd4e;
-	border-color: #ebcd4e;
-}
-
-#login #send {
-	color: #fff;
-	text-align: left;
-	font-weight: normal;
-	font-size: 1.1em;
-	_width: 325px;
-	_margin: 0 auto 15px;
-}
-
-#login h1 a {
-	margin: 0 auto;
-	height: 88px;
-	width: 320px;
-	display: block;
-	border-bottom: none;
-	text-indent: -9999px;
-}
-
-#login .message {
-	font-size: 10pt;
-	text-align: center;
-}
-
-#login .register {
-	font-size: 20px;
-}
-
-#login input {
-	padding: 4px;
-}
-
-.login ul, #protected #login .bottom {
-	list-style: none;
-	width: 325px;
-	margin: 0 auto;
-	padding: 0;
-	line-height: 1.2;
-}
-
-.login ul li {
-	font-size: 11px;
-}
-
-.login ul li a {
-	color: #0d324f;
-	border: none;
-}
-
-#login ul li a:hover {
-	color: #fff;
-}
-
-#login .input {
-	font-size: 1.8em;
-	margin-top: 3px;
-	width: 97%;
-}
-
-#login p label { 
-	font-size: 11px;
-}
-
-#login #submit {
-	margin: 0;
-	font-size: 15px;
 }
 
 .plugins p {
@@ -741,7 +491,7 @@ div.nav {
 }
 
 .page-numbers {
-	padding: 4px 7px;
+	padding: 2px 4px;
 	border: 1px solid #fff;
 	margin-right: 3px;
 	background-color: #fff;
@@ -770,6 +520,37 @@ p.pagenav {
 .pagenav span {
 	font-weight: bold;
 	margin: 0 6px;
+}
+
+.tablenav .dots {
+	background-color: #e4f2fd;
+	border-color: #e4f2fd;
+}
+
+.tablenav .next, .tablenav .prev{
+	border-color: #e4f2fd;
+	background-color: #e4f2fd;
+	border-bottom: 1px solid #2583ad;
+	padding: 0;
+	color: #2583ad;
+}
+
+.tablenav .next:hover, .tablenav .prev:hover {
+	color: #d54e21;
+	border-color: #e4f2fd;
+	border-bottom: 1px solid #d54e21;
+}
+
+.tablenav {
+	background-color: #e4f2fd;
+	padding: 10px;
+	clear: both;
+}
+
+.tablenav .tablenav-pages {
+	float: right;
+	height: 24px;
+	padding-top: 6px;
 }
 
 #update-nag, .plugin-update {
@@ -826,7 +607,7 @@ a.view-comment-post-link {
 
 #user_info {
 	position: absolute;
-	right: 25%;
+	right: 15%;
 	top: 9px;
 	color: #ccc;
 	font-size: 12px;
@@ -866,7 +647,7 @@ a.view-comment-post-link {
 	letter-spacing: -.03em;
 	padding: 15px 170px 18px 15px;
 	margin: 0;
-	margin-right: 25%;
+	margin-right: 15%;
 }
 
 /* menu stuff */
@@ -883,7 +664,7 @@ a.view-comment-post-link {
 
 #dashmenu a {
 	color: #999;
-	padding: 4px 6px;
+	padding: 5px 6px;
 	line-height: 220%;
 	margin-right: 8px;
 }
@@ -901,6 +682,11 @@ a.view-comment-post-link {
 	background: #e4f2fd;
 	border-bottom: 1px solid #c6d9e9;
 	padding-left: 10px;
+}
+
+/* Because we don't want visited on these links */
+#adminmenu a, #submenu a {
+	color: #2583ad;
 }
 
 #adminmenu a {
@@ -931,7 +717,7 @@ a.view-comment-post-link {
 	color: #999;
 	list-style: none;
 	position: absolute;
-	right: 25%;
+	right: 15%;
 	top: 55px;
 	padding-left: 10px;
 }
@@ -965,6 +751,49 @@ a.view-comment-post-link {
 	background-position: 0 bottom;
 	height: 0.9em;
 	width: 1em;
+}
+
+.post-com-count {
+	background-image: url(images/comment-stalk.gif);
+	background-repeat: no-repeat;
+	background-position: -240px bottom;
+	height: 0.9em;
+	margin-top: 7px;
+	width: 1em;
+	display: block;
+	position: absolute;
+	color: #fff;
+}
+
+.post-com-count span {
+	color: #fff;
+	top: -0.7em;
+	right: 0;
+	position: absolute;
+	display: block;
+	height: 1.3em;
+	line-height: 1.3em;
+	padding: 0 0.6em;
+	background-color: #bbb;
+	-moz-border-radius: 0.3em;
+	-khtml-border-radius: 0.3em;
+	border-radius: 0.3em;
+}
+
+strong .post-com-count {
+	background-position: -160px bottom;
+}
+
+strong .post-com-count span {
+	background-color: #2583ad;
+}
+
+.post-com-count:hover {
+	background-position: 0 bottom;
+}
+
+.post-com-count:hover span {
+	background-color: #d54e21;
 }
 
 #adminmenu li a:hover #awaiting-mod {
@@ -1009,33 +838,6 @@ a.view-comment-post-link {
 	height: 15px;
 }
 
-.subsubsub {
-	margin: 15px 0 10px 0;
-	padding: 0;
-	color: #999;
-	list-style: none;
-	white-space: nowrap;
-}
-
-.subsubsub li {
-	display: inline;
-	margin: 0;
-	padding: 0;
-}
-
-.subsubsub a {
-	padding: 3px;
-	line-height: 200%;
-}
-
-.subsubsub a:hover, .subsubsub a.current:hover {
-	color: #d54e21;
-}
-
-.subsubsub a.current {
-	color: #000;
-	font-weight: bold;
-}
 /* end menu stuff */
 
 /* Admin Footer */
@@ -1321,11 +1123,11 @@ html, body {
 }
 
 #submitpost {
-	position: fixed;
+	position: absolute;
 	background-color: #eaf3fa;
 	width: 200px;
 	top: 194px;
-	right: 25%;
+	right: 15%;
 	-moz-border-radius: 3px;
 }
 
@@ -1461,20 +1263,6 @@ p#post-search {
 
 #posts-filter fieldset legend {
 	padding: 0 0 .2em 1px;
-}
-
-.tablenav {
-	background-color: #e4f2fd;
-	padding: 10px;
-	clear: both;
-}
-
-.tablenav .dots {
-	border-color: #e4f2fd;
-}
-
-.tablenav .tablenav-pages {
-	float: right;
 }
 
 /* Global classes */

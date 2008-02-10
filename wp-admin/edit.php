@@ -108,6 +108,7 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
+<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
 <?php
 
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
@@ -163,12 +164,7 @@ foreach ($arc_result as $arc_row) {
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
-
-</div>
-
-<div class="navigation">
-<div class="alignleft"><?php next_posts_link(__('&laquo; Older Entries')) ?></div>
-<div class="alignright"><?php previous_posts_link(__('Newer Entries &raquo;')) ?></div>
+<br style="clear:both;" />
 </div>
 
 <?php
