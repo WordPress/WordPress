@@ -16,8 +16,10 @@
 
 			// Hides the specified toolbar and resizes the iframe
 			ed.onPostRender.add(function() {
-				DOM.hide(ed.controlManager.get(tbId).id);
-				t._resizeIframe(ed, tbId, 28);
+				if ( ed.getParam('wordpress_adv_hidden', 1) ) {
+					DOM.hide(ed.controlManager.get(tbId).id);
+					t._resizeIframe(ed, tbId, 28);
+				}
 			});
 
 			// Register buttons
@@ -33,7 +35,6 @@
 				title : 'wordpress.wp_page_desc',
 				image : url + '/img/page.gif',
 				onclick : function() {
-		//			ed.execCommand('mcePageBreak');
 					ed.execCommand('mceInsertContent', 0, nextpageHTML);
 				}
 			});
@@ -61,10 +62,12 @@
 						cm.setActive('wp_adv', 1);
 						DOM.show(id);
 						t._resizeIframe(ed, tbId, -28);
+						ed.settings.wordpress_adv_hidden = 0;
 					} else {
 						cm.setActive('wp_adv', 0);
 						DOM.hide(id);
 						t._resizeIframe(ed, tbId, 28);
+						ed.settings.wordpress_adv_hidden = 1;
 					}
 				}
 			});
