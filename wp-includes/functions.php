@@ -403,13 +403,6 @@ function maybe_serialize( $data ) {
 }
 
 
-function gzip_compression() {
-	if ( !get_option( 'gzipcompression' ) || ini_get( 'zlib.output_compression' ) == 'On' || ini_get( 'zlib.output_compression_level' ) > 0  || ini_get( 'output_handler' ) == 'ob_gzhandler' || !extension_loaded( 'zlib' ) )
-		return false;
-	ob_start( 'ob_gzhandler' );
-}
-
-
 function make_url_footnote( $content ) {
 	preg_match_all( '/<a(.+?)href=\"(.+?)\"(.*?)>(.+?)<\/a>/', $content, $matches );
 	$j = 0;

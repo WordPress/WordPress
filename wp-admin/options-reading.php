@@ -116,10 +116,6 @@ endforeach;
 <?php _e('The character encoding you write your blog in (UTF-8 is <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></td>
 </tr>
 </table>
-<p>
-<label><input type="checkbox" name="gzipcompression" value="1" <?php checked('1', get_option('gzipcompression')); ?> />
-<?php _e('WordPress should compress articles (gzip) if browsers ask for them') ?></label>
-</p>
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="posts_per_page,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts,show_avatars,avatar_rating" />
