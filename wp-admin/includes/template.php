@@ -429,7 +429,8 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$short_url =  substr( $short_url, 0, 32 ).'...';
 	$numposts = get_usernumposts( $user_object->ID );
 	$r = "<tr id='user-$user_object->ID'$style>
-		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /> <label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
+		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></td>
+		<td><label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
 		<td><label for='user_{$user_object->ID}'><strong>$user_object->user_login</strong></label></td>
 		<td><label for='user_{$user_object->ID}'>$user_object->first_name $user_object->last_name</label></td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>

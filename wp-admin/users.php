@@ -291,12 +291,13 @@ foreach($roleclasses as $role => $roleclass) {
 <?php endif; ?>
 </tr>
 <tr class="thead">
-	<th><input type="checkbox" onclick="checkAllUsers('<?php echo $role; ?>')"/></th>
+	<th><input type="checkbox" onclick="checkAllUsers('<?php echo $role; ?>')"/> </th>
 	<th><?php _e('ID') ?></th>
 	<th><?php _e('Username') ?></th>
 	<th><?php _e('Name') ?></th>
 	<th><?php _e('E-mail') ?></th>
 	<th><?php _e('Website') ?></th>
+	<th><?php _e('Posts created') ?></th>
 	<th colspan="2" style="text-align: center"><?php _e('Actions') ?></th>
 </tr>
 </tbody>
