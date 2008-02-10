@@ -200,7 +200,7 @@ function atom_enclosure() {
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.4
+ * @since 2.5
  *
  * @param string $data input string
  * @return array $result array(type, value)

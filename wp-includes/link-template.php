@@ -294,7 +294,7 @@ function get_post_comments_feed_link($post_id = '', $feed = '') {
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.4
+ * @since 2.5
  *
  * @param string Descriptive text
  * @param int Optional post ID.  Default to current post.
@@ -334,7 +334,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.4
+ * @since 2.5
  *
  * @param int $cat_id ID of a category
  * @param string $feed Feed type

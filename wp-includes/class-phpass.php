@@ -2,7 +2,7 @@
 /**
  * Portable PHP password hashing framework.
  * @package phpass
- * @since 2.4
+ * @since 2.5
  * @version 0.1
  * @link http://www.openwall.com/phpass/
  */

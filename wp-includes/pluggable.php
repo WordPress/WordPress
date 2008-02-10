@@ -1228,7 +1228,7 @@ if ( !function_exists('wp_setcookie') ) :
  * @param bool $remember Optional. Remember that the user is logged in
  */
 function wp_setcookie($username, $password = '', $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
-	_deprecated_function( __FUNCTION__, '2.4', 'wp_set_auth_cookie()' );
+	_deprecated_function( __FUNCTION__, '2.5', 'wp_set_auth_cookie()' );
 	$user = get_userdatabylogin($username);
 	wp_set_auth_cookie($user->ID, $remember);
 }
@@ -1243,7 +1243,7 @@ if ( !function_exists('wp_clearcookie') ) :
  * @see wp_clear_auth_cookie()
  */
 function wp_clearcookie() {
-	_deprecated_function( __FUNCTION__, '2.4', 'wp_clear_auth_cookie()' );
+	_deprecated_function( __FUNCTION__, '2.5', 'wp_clear_auth_cookie()' );
 	wp_clear_auth_cookie();
 }
 endif;
@@ -1261,7 +1261,7 @@ if ( !function_exists('wp_get_cookie_login') ):
  * @return bool Always returns false
  */
 function wp_get_cookie_login() {
-	_deprecated_function( __FUNCTION__, '2.4', '' );
+	_deprecated_function( __FUNCTION__, '2.5', '' );
 	return false;
 }
 endif;

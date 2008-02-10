@@ -524,7 +524,7 @@ function get_trackback_url() {
  * @since 0.71
  * @uses get_trackback_url() Gets the trackback url for the current post
  *
- * @param bool $deprecated Remove backwards compat in 2.4
+ * @param bool $deprecated Remove backwards compat in 2.5
  * @return void|string Should only be used to echo the trackback URL, use get_trackback_url() for the result instead.
  */
 function trackback_url($deprecated = true) {

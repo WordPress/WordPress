@@ -1614,7 +1614,7 @@ function atom_service_url_filter($url)
  *
  * @package WordPress
  * @package Debug
- * @since 2.4
+ * @since 2.5
  * @access private
  *
  * @uses do_action() Calls 'deprecated_function_run' and passes the function name and what to use instead.
@@ -1649,7 +1649,7 @@ function _deprecated_function($function, $version, $replacement=null) {
  *
  * @package WordPress
  * @package Debug
- * @since 2.4
+ * @since 2.5
  * @access private
  *
  * @uses do_action() Calls 'deprecated_file_included' and passes the file name and what to use instead.

@@ -268,7 +268,7 @@ function get_post_status($ID = '') {
  *
  * @package WordPress
  * @subpackage Post
- * @since 2.4
+ * @since 2.5
  *
  * @return array
  */
@@ -291,7 +291,7 @@ function get_post_statuses( ) {
  *
  * @package WordPress
  * @subpackage Page
- * @since 2.4
+ * @since 2.5
  *
  * @return array
  */
@@ -341,7 +341,7 @@ function get_post_type($post = false) {
  *
  * @package WordPress
  * @subpackage Post
- * @since 2.4
+ * @since 2.5
  *
  * @uses $wpdb
  * @uses $posts {@internal Missing Description}}

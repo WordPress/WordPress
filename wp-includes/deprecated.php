@@ -1267,10 +1267,10 @@ function create_user($username, $password, $email) {
  * documentation_link() - Unused Admin function
  * @since 2.0
  * @param string $deprecated Unknown
- * @deprecated 2.4
+ * @deprecated 2.5
  */
 function documentation_link( $deprecated = '' ) {
-	_deprecated_function( __FUNCTION__, '2.4', '' );
+	_deprecated_function( __FUNCTION__, '2.5', '' );
 	return;
 }
 
