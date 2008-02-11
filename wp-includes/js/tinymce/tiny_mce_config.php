@@ -1,100 +1,272 @@
-<?php
-	@ require('../../../wp-config.php');
-	cache_javascript_headers();
+<?php 
+// some code below is from:
+/**
+ * $Id: tiny_mce_gzip.php 315 2007-10-25 14:03:43Z spocke $
+ *
+ * @author Moxiecode
+ * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
+ *
+ * This file compresses the TinyMCE JavaScript using GZip.
+ **/
+  
+@ require('../../../wp-config.php');
 
-	// deprecated
-    function wp_translate_tinymce_lang($text) {
-		if ( ! function_exists('__') ) {
-			return $text;
-		} else {
-			$search1 = "/^tinyMCELang\\[(['\"])(.*)\\1\]( ?= ?)(['\"])(.*)\\4/Uem";
-			$replace1 = "'tinyMCELang[\\1\\2\\1]\\3'.stripslashes('\\4').__('\\5').stripslashes('\\4')";
+function getFileContents($path) {
+	$path = realpath($path);
 
-			$search2 = "/ : (['\"])(.*)\\1/Uem";
-			$replace2 = "' : '.stripslashes('\\1').__('\\2').stripslashes('\\1')";
+	if ( ! $path || ! @is_file($path) )
+		return '';
 
-			$search = array($search1, $search2);
-			$replace = array($replace1, $replace2);
+	if ( function_exists('file_get_contents') )
+		return @file_get_contents($path);
 
-			$text = preg_replace($search, $replace, $text);
+	$content = '';
+	$fp = @fopen($path, 'r');
+	if ( ! $fp )
+		return '';
 
-			return $text;
-		}
+	while ( ! feof($fp) )
+		$content .= fgets($fp);
+
+	fclose($fp);
+	return $content;
+}
+
+function putFileContents( $path, $content ) {
+	if ( function_exists('file_put_contents') )
+		return @file_put_contents( $path, $content );
+
+	$fp = @fopen( $path, 'wb' );
+	if ($fp) {
+		fwrite( $fp, $content );
+		fclose($fp);
 	}
+}
 
-	// Set up init variables
-	$valid_elements = '*[*]';
-	$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
+// Set up init variables
+$https = ( isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'] ) ? true : false;
+	
+$baseurl = get_option('siteurl') . '/wp-includes/js/tinymce';
+$baseurl = $https ? str_replace('http://', 'https://', $baseurl) : $baseurl;
 
-    $invalid_elements = apply_filters('mce_invalid_elements', '');
+$mce_css = $baseurl . '/wordpress.css';
+$mce_css = apply_filters('mce_css', $mce_css);
+$mce_css = $https ? str_replace('http://', 'https://', $mce_css) : $mce_css;
 
-	$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen' );
-	$plugins = apply_filters('mce_plugins', $plugins);
-	$plugins = implode($plugins, ',');
+$valid_elements = '*[*]';
+$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
+	
+$invalid_elements = apply_filters('mce_invalid_elements', '');
 
-	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'outdent', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', '|', 'wp_help', 'wp_adv' ));
-	$mce_buttons = implode($mce_buttons, ',');
+$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen' );
 
+/* 
+The following filter takes an associative array of external plugins for TinyMCE in the form "name" => "url".
+It adds the plugin's name (including the required dash) to TinyMCE's plugins init and the call to PluginManager to load the plugin. 
+The url should be absolute and should include the js file name to be loaded. 
+Example: array( 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js' ). 
+If the plugin uses a button, it should be added with one of the "$mce_buttons" filters.
+*/
+$mce_external_plugins = apply_filters('mce_external_plugins', array()); 
 
-	$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', '|', 'removeformat', 'cleanup', '|', 'media', 'charmap', 'blockquote', '|', 'undo', 'redo', 'fullscreen' ));
-	$mce_buttons_2 = implode($mce_buttons_2, ',');
+$ext_plugins = "\n";
+foreach ( $mce_external_plugins as $name => $url ) {
+	$plugins[] = '-' . $name;
+	$url = $https ? str_replace('http://', 'https://', $url) : $url;
+	
+	$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
+}
 
-	$mce_buttons_3 = apply_filters('mce_buttons_3', array());
-	$mce_buttons_3 = implode($mce_buttons_3, ',');
+$plugins = implode($plugins, ',');
 
-	$mce_buttons_4 = apply_filters('mce_buttons_4', array());
-	$mce_buttons_4 = implode($mce_buttons_4, ',');
+$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'outdent', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', '|', 'wp_help', 'wp_adv' ));
+$mce_buttons = implode($mce_buttons, ',');
 
-	$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera', 'safari'));
-	$mce_browsers = implode($mce_browsers, ',');
+$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', '|', 'removeformat', 'cleanup', '|', 'media', 'charmap', 'blockquote', '|', 'undo', 'redo', 'fullscreen' ));
+$mce_buttons_2 = implode($mce_buttons_2, ',');
 
-	$mce_css = get_option('siteurl') . '/wp-includes/js/tinymce/wordpress.css';
-	$mce_css = apply_filters('mce_css', $mce_css);
-	if ( $_SERVER['HTTPS'] == 'on' )
-		$mce_css = str_replace('http://', 'https://', $mce_css);
+$mce_buttons_3 = apply_filters('mce_buttons_3', array());
+$mce_buttons_3 = implode($mce_buttons_3, ',');
+	
+$mce_buttons_4 = apply_filters('mce_buttons_4', array());
+$mce_buttons_4 = implode($mce_buttons_4, ',');
 
-	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
+// all these browsers are now 100% supported, no need for this
+//$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera', 'safari'));
+//$mce_browsers = implode($mce_browsers, ',');
+
+$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
+
+// TinyMCE init settings
+$initArray = array (
+	'mode' => 'none',
+	'onpageload' => 'wpEditorInit',
+    'width' => '100%',
+	'theme' => 'advanced',
+	'skin' => 'wp_theme',
+	'theme_advanced_buttons1' => "$mce_buttons",
+	'theme_advanced_buttons2' => "$mce_buttons_2",
+	'theme_advanced_buttons3' => "$mce_buttons_3",
+	'theme_advanced_buttons4' => "$mce_buttons_4",
+	'language' => "$mce_locale",
+	'theme_advanced_toolbar_location' => 'top',
+	'theme_advanced_toolbar_align' => 'left',
+	'theme_advanced_statusbar_location' => 'bottom',
+	'theme_advanced_resizing' => true,
+	'theme_advanced_resize_horizontal' => false,
+//	'browsers' => "$mce_browsers",
+	'dialog_type' => 'modal',
+	'convert_urls' => false,
+	'relative_urls' => false,
+	'remove_script_host' => false,
+	'fix_list_elements' => true,
+	'fix_table_elements' => true,
+	'gecko_spellcheck' => true,
+	'entities' => '38,amp,60,lt,62,gt',
+	'accessibility_focus' => false,
+	'tab_focus' => ':next',
+	'content_css' => "$mce_css",
+	'save_callback' => 'switchEditors.saveCallback',
+	'plugins' => "$plugins",
+	// pass-through the settings for compression and caching, so they can be changed with "tiny_mce_before_init"
+	'disk_cache' => true,
+	'compress' => true,
+	'del_old_cache' => true
+);
+
+if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
+if ( $invalid_elements ) $initArray['invalid_elements'] = $invalid_elements;
+
+// For people who really REALLY know what they're doing with TinyMCE
+// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
+$initArray = apply_filters('tiny_mce_before_init', $initArray); // changed from action to filter
+
+// support for deprecated actions
+ob_start();
+do_action('mce_options');
+$mce_deprecated1 = ob_get_contents() || '';
+ob_end_clean();
+
+/*
+// Do we need to support this? Most likely will breal TinyMCE 3...
+ob_start();
+do_action('tinymce_before_init');
+$mce_deprecated2 = ob_get_contents() || '';
+ob_end_clean();
+*/
+
+// Settings for the gzip compression and cache
+$cache_path = dirname(__FILE__); // Cache path, this is where the .gz files will be stored
+$cache_ext = '.js';
+
+$disk_cache = ( ! isset($initArray['disk_cache']) || false == $initArray['disk_cache'] ) ? false : true;
+$compress = ( ! isset($initArray['compress']) || false == $initArray['compress'] ) ? false : true;
+$del_old_cache = ( ! isset($initArray['del_old_cache']) || false == $initArray['del_old_cache'] ) ? false : true;
+
+$initArray['disk_cache'] = $initArray['compress'] = $initArray['del_old_cache'] = null;
+unset( $initArray['disk_cache'], $initArray['compress'], $initArray['del_old_cache'] );
+
+$plugins = explode( ',', $initArray['plugins'] );
+$theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
+$language = isset($initArray['language']) ? substr( $initArray['language'], 0, 2 ) : 'en';
+$enc = $cacheKey = $suffix = $mce_options = '';	
+
+// Custom extra javascripts to pack
+$custom_js = array(); //$custom_js = apply_filters('tinymce_custom_js', array());
+
+// Check if supports gzip
+if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
+	$encodings = explode( ',', strtolower( preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING']) ) );
+
+	if ( (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------']) ) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') ) {
+		$enc = in_array('x-gzip', $encodings) ? 'x-gzip' : 'gzip';
+		$cache_ext = '.gz';
+	}
+}
+
+// Setup cache info
+if ( $disk_cache && $cache_path ) {
+
+	$ver = isset($_GET['ver']) ? (int) $_GET['ver'] : '';
+	$cacheKey = $initArray['plugins'] . $language . $theme . $suffix . $ver;
+
+	foreach ( $custom_js as $file )
+		$cacheKey .= $file;
+
+	$cacheKey = md5( $cacheKey );
+	$cache_file = $cache_path . '/tiny_mce_' . $cacheKey . $cache_ext;
+}
+
+cache_javascript_headers();
+
+// Use cached file if exists
+if ( $disk_cache && file_exists($cache_file) ) {
+	if ( '.gz' == $cache_ext )
+		header( 'Content-Encoding: ' . $enc );
+
+	echo getFileContents( $cache_file );
+	exit;
+}
+
+foreach ( $initArray as $k => $v ) 
+    $mce_options .= $k . ':"' . $v . '", ';
+
+$mce_options .= $mce_deprecated1;
+$mce_options = rtrim( trim($mce_options), '\n\r,' );
+
+$content = 'var tinyMCEPreInit = { suffix : "' . $suffix . '", base : "' . $baseurl . '" };';
+$content .= 'var tinyMCE_GZ = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false, suffix : "' . $suffix . '" }, baseURL : "' . $baseurl . '" };';
+
+// Load patch
+$content .= getFileContents( 'tiny_mce_ext.js' );
+
+// Add core
+$content .= getFileContents( 'tiny_mce' . $suffix . '.js' );
+
+// Patch loading functions
+$content .= 'tinyMCE_GZ.start();';
+
+// Add all languages (WP)
+include_once( dirname(__FILE__).'/langs/wp-langs.php' );
+$content .= $strings;
+
+// Add themes
+$content .= getFileContents( 'themes/' . $theme . '/editor_template' . $suffix . '.js' );
+
+// Add plugins
+foreach ( $plugins as $plugin ) 
+	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin' . $suffix . '.js' );
+
+// Add custom files
+foreach ( $custom_js as $file )
+	$content .= getFileContents($file);
+
+// Add external plugins and init 
+$content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});'; // $mce_deprecated2 . 
+
+// Generate GZIP'd content
+if ( '.gz' == $cache_ext ) {
+	header('Content-Encoding: ' . $enc);
+	$cache_data = gzencode( $content, 9, FORCE_GZIP );
+} else
+	$cache_data = $content;
+
+// Stream to client
+echo $cache_data;
+
+// Write file
+if ( '' != $cacheKey ) {
+	if ( $del_old_cache ) {
+		$old_key = getFileContents('tiny_mce_compressed_key');
+			
+		if ( '' != $old_key ) { //  && $old_key != $cacheKey
+			$old_cache = $cache_path . '/tiny_mce_' . $old_key . $cache_ext;
+			@unlink($old_cache);
+		}
+			
+		putFileContents( 'tiny_mce_compressed_key', $cacheKey );
+	}
+		
+	putFileContents( $cache_file, $cache_data );
+}
 ?>
-
-initArray = {
-	mode : "none",
-	onpageload : "wpEditorInit",
-    width : "100%",
-	theme : "advanced",
-	skin : "wp_theme",
-	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
-	theme_advanced_buttons2 : "<?php echo $mce_buttons_2; ?>",
-	theme_advanced_buttons3 : "<?php echo $mce_buttons_3; ?>",
-	theme_advanced_buttons4 : "<?php echo $mce_buttons_4; ?>",
-	language : "<?php echo $mce_locale; ?>",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_statusbar_location : "bottom",
-	theme_advanced_resizing : true,
-	browsers : "<?php echo $mce_browsers; ?>",
-	dialog_type : "modal",
-	theme_advanced_resize_horizontal : false,
-	convert_urls : false,
-	relative_urls : false,
-	remove_script_host : false,
-	fix_list_elements : true,
-	fix_table_elements : true,
-	gecko_spellcheck : true,
-	entities : "38,amp,60,lt,62,gt",
-	accessibility_focus : false,
-	tab_focus : ":next",
-	content_css : "<?php echo $mce_css; ?>",
-	<?php if ( $valid_elements ) echo 'valid_elements : "' . $valid_elements . '",' . "\n"; ?>
-	<?php if ( $invalid_elements ) echo 'invalid_elements : "' . $invalid_elements . '",' . "\n"; ?>
-	save_callback : "switchEditors.saveCallback",
-<?php do_action('mce_options'); ?>
-	plugins : "<?php echo $plugins; ?>"
-};
-
-<?php
-	// For people who really REALLY know what they're doing with TinyMCE
-	// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
-	do_action('tinymce_before_init');
-?>
-
-tinyMCE_GZ.init(initArray);

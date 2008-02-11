@@ -1382,32 +1382,14 @@ function _config_wp_siteurl( $url = '' ) {
 }
 
 
-function _mce_set_direction() {
+function _mce_set_direction( $input ) {
 	global $wp_locale;
 
 	if ( 'rtl' == $wp_locale->text_direction ) {
-		echo 'directionality : "rtl" ,';
-		echo 'theme_advanced_toolbar_align : "right" ,';
-	}
-}
-
-
-function _mce_load_rtl_plugin( $input ) {
-	global $wp_locale;
-
-	if ( 'rtl' == $wp_locale->text_direction )
-		$input[] = 'directionality';
-
-	return $input;
-}
-
-
-function _mce_add_direction_buttons( $input ) {
-	global $wp_locale;
-
-	if ( 'rtl' == $wp_locale->text_direction ) {
-		$new_buttons = array( 'separator', 'ltr', 'rtl' );
-		$input = array_merge( $input, $new_buttons );
+		$input['directionality'] = 'rtl';
+		$input['theme_advanced_toolbar_align'] = 'right';
+		$input['plugins'] .= ',directionality';
+		$input['theme_advanced_buttons2'] .= ',|,ltr,rtl';
 	}
 
 	return $input;
