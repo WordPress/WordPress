@@ -23,55 +23,60 @@ class WP_Filesystem_ftpsockets{
 							'bmp'=>FTP_BINARY
 							);
 	
-	function WP_Filesystem_ftpsockets($opt=''){
+	function WP_Filesystem_ftpsockets($opt='') {
 		//Check if possible to use ftp functions.
 		if( ! @include_once ABSPATH . 'wp-admin/includes/class-ftp.php' )
 				return false;
 		$this->ftp = new FTP();
+
 		//Set defaults:
-		if( ! isset($opt['port']) || empty($opt['port']) )
+		if ( empty($opt['port']) )
 			$this->options['port'] = 21;
 		else
 			$this->options['port'] = $opt['port'];
 
-		if( ! isset($opt['hostname']) || empty($opt['hostname']) )
-			$this->errors['require']['hostname'] = __('Hostname');
+		if ( empty($opt['hostname']) )
+			$this->errors->add('empty_hostname', __('FTP hostname is required'));
 		else
 			$this->options['hostname'] = $opt['hostname'];
 
-		if( isset($opt['base']) && ! empty($opt['base']) )
+		if ( isset($opt['base']) && ! empty($opt['base']) )
 			$this->wp_base = $opt['base'];
 
-		//Check if the options provided are OK.
-		if( ! isset($opt['username']) || empty ($opt['username']) )
-			$this->errors['require']['username'] = __('Username');
+		// Check if the options provided are OK.
+		if ( empty ($opt['username']) )
+			$this->errors->add('empty_username', __('FTP username is required'));
 		else
 			$this->options['username'] = $opt['username'];
 
-		if( ! isset($opt['password']) ||  empty ($opt['password']) )
-			$this->errors['require']['password'] = __('Password');	
+		if ( empty ($opt['password']) )
+			$this->errors->add('empty_password', __('FTP password is required'));	
 		else
 			$this->options['password'] = $opt['password'];
 	}
-	function connect(){
-		if( ! $this->ftp )
+
+	function connect() {
+		if ( ! $this->ftp )
 			return false;
 			
-		if( ! $this->ftp->connect($this->options['hostname'], $this->options['port'], $this->timeout) ){
-			$this->errors['server'] = __('Failed to connect to FTP Server') . ' ' . $this->options['hostname'] . ':' . $this->options['port'];
+		if ( ! $this->ftp->connect($this->options['hostname'], $this->options['port'], $this->timeout) ) {
+			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
 			return false;
 		}
-		if( ! $this->ftp->login($this->options['username'], $this->options['password']) ){
-			$this->errors['auth'] = __('Username/Password incorrect') . ' ' . 
-				$this->options['username'] . ':********@' .$this->options['hostname'] . ':' . $this->options['port'];
+
+		if ( ! $this->ftp->login($this->options['username'], $this->options['password']) ) {
+			$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
 			return false;
 		}
+
 		return true;
 	}
-	function setDefaultPermissions($perm){
+
+	function setDefaultPermissions($perm) {
 		$this->permission = $perm;
 	}
-	function find_base_dir($base = '.',$echo = false){
+
+	function find_base_dir($base = '.',$echo = false) {
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
 		if( empty( $base ) ) $base = '/';
 		if( '/' != substr($base, -1) ) $base .= '/';
@@ -253,16 +258,19 @@ class WP_Filesystem_ftpsockets{
 	function move($source,$destination,$overwrite=false){
 		return $this->ftp->rename($source,$destination);
 	}
-	function delete($file,$recursive=false){
-		if( $this->is_file($file) )
+
+	function delete($file,$recursive=false) {
+		if ( $this->is_file($file) )
 			return $this->ftp->delete($file);
-		if( !$recursive )
+		if ( !$recursive )
 			return $this->ftp->rmdir($file);
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename){
+		foreach ($filelist as $filename) {
 			$this->delete($file.'/'.$filename,$recursive);
 		}
+		return $this->ftp->rmdir($file);
 	}
+
 	function exists($file){
 		return $this->ftp->is_exists($file);
 	}

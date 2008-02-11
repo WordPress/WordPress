@@ -273,18 +273,19 @@ class WP_Filesystem_FTPext{
 	function move($source,$destination,$overwrite=false){
 		return ftp_rename($this->link,$source,$destination);
 	}
-	function delete($file,$recursive=false){
-		if( $this->is_file($file) )
+
+	function delete($file,$recursive=false) {
+		if ( $this->is_file($file) )
 			return ftp_delete($this->link,$file);
-		if( !$recursive )
+		if ( !$recursive )
 			return ftp_rmdir($this->link,$file);
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename => $fileinfo){
-			echo "Delete $file/$filename<br />";
+		foreach ($filelist as $filename => $fileinfo) {
 			$this->delete($file.'/'.$filename,$recursive);
 		}
 		return ftp_rmdir($this->link,$file);
 	}
+
 	function exists($file){
 		$list = ftp_rawlist($this->link,$file,false);
 		if( ! $list )
