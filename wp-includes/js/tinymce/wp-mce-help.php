@@ -7,7 +7,10 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php _e('Rich Editor Help') ?></title>
 <script type="text/javascript" src="tiny_mce_popup.js"></script>
-<?php wp_admin_css(); ?>
+<?php 
+wp_admin_css( 'css/global' );
+wp_admin_css();
+?>
 <style type="text/css">
 	body {
         background-color: #eaf3ea;

@@ -13,7 +13,10 @@ if ('b' == $_GET['a']) {
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=UTF-8" />
 <title>WordPress &#8250; Posted</title>
-<?php wp_admin_css(); ?>
+<?php 
+wp_admin_css( 'css/global' );
+wp_admin_css();
+?>
 </head>
 <body>
 	<p>Posted !</p>
@@ -28,7 +31,10 @@ if ('b' == $_GET['a']) {
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('blog_charset'); ?>" />
 <title>WordPress &#8250; Sidebar</title>
-<?php wp_admin_css(); ?>
+<?php 
+wp_admin_css( 'css/global' );
+wp_admin_css();
+?>
 <style type="text/css" media="screen">
 form {
 	padding: 3px;
