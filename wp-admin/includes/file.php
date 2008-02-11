@@ -171,4 +171,135 @@ function wp_handle_upload( &$file, $overrides = false ) {
 	return $return;
 }
 
+/**
+* Downloads a url to a local file using the Snoopy HTTP Class
+*
+* @param string $url the URL of the file to download
+* @return mixed false on failure, string Filename on success.
+*/
+function download_url( $url ) {
+	//WARNING: The file is not automatically deleted, The script must unlink() the file.
+	if( ! $url )
+		return false;
+
+	$tmpfname = tempnam('/tmp', 'wpupdate');
+	if( ! $tmpfname )
+		return false;
+
+	$handle = fopen($tmpfname, 'w');
+	if( ! $handle )
+		return false;
+
+	require_once( ABSPATH . 'wp-includes/class-snoopy.php' );
+	$snoopy = new Snoopy();
+	$snoopy->fetch($url);
+	
+	fwrite($handle, $snoopy->results);
+	fclose($handle);
+
+	return $tmpfname;
+}
+
+function unzip_file($file, $to) {
+	global $wp_filesystem;
+
+	if ( ! $wp_filesystem || !is_object($wp_filesystem) )
+		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
+			
+	$fs =& $wp_filesystem;
+
+	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+
+	$archive = new PclZip($file);
+
+	// Is the archive valid?
+	if ( false == ($archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING)) )
+		return new WP_Error('incompatible_archive', __('Incompatible archive'), $archive->error_string);
+
+	if ( 0 == count($archive_files) )
+		return new WP_Error('empty_archive', __('Empty archive'));
+
+	$to = trailingslashit($to);
+	$path = explode('/', $to);
+	$tmppath = '';
+	for ( $j = 0; $j < count($path) - 1; $j++ ) {
+		$tmppath .= $path[$j] . '/';
+		if ( ! $fs->is_dir($tmppath) ) {
+			$fs->mkdir($tmppath);
+		} else {
+			$fs->setDefaultPermissions( $fs->getchmod($tmppath) );
+		}
+	}
+
+	foreach ($archive_files as $file) {
+		$path = explode('/', $file['filename']);
+		$tmppath = '';
+
+		// Loop through each of the items and check that the folder exists.
+		for ( $j = 0; $j < count($path) - 1; $j++ ) {
+			$tmppath .= $path[$j] . '/';
+			if ( ! $fs->is_dir($to . $tmppath) )
+				$fs->mkdir($to . $tmppath);
+		}
+
+		// We've made sure the folders are there, so let's extract the file now:
+		if ( ! $file['folder'] )
+			$fs->put_contents( $to . $file['filename'], $file['content']);
+	}
+}
+
+function copy_dir($from, $to) {
+	global $wp_filesystem;
+
+	$dirlist = $wp_filesystem->dirlist($from);
+
+	$from = trailingslashit($from);
+	$to = trailingslashit($to);
+
+	foreach ( (array) $dirlist as $filename => $fileinfo ) {
+		if ( 'file' == $fileinfo['type'] ) {
+			$wp_filesystem->copy($from . $filename, $to . $filename, true);
+		} elseif ( 'folder' == $fileinfo['type'] ) {
+			$wp_filesystem->mkdir($to . $filename);
+			copy_dir($from . $filename, $to . $filename);
+		}
+	}
+}
+
+function WP_Filesystem( $args = false, $preference = false ) {
+	global $wp_filesystem;
+
+	$method = get_filesystem_method($preference);
+	if ( ! $method )
+		return false;
+
+	require_once('class-wp-filesystem-'.$method.'.php');
+	$method = "WP_Filesystem_$method";
+
+	$wp_filesystem = new $method($args);
+
+	if ( $wp_filesystem->errors->get_error_code() )
+		return false;
+
+	if ( !$wp_filesystem->connect() )
+		return false; //There was an erorr connecting to the server.
+
+	return true;
+}
+
+function get_filesystem_method() {
+	$tempFile = tempnam('/tmp', 'WPU');
+
+	if ( getmyuid() == fileowner($tempFile) ) {
+		unlink($tempFile);
+		//return 'direct';
+	} else {
+		unlink($tempFile);
+	}
+
+	if ( extension_loaded('ftp') ) return 'ftpext';
+	if ( extension_loaded('sockets') ) return 'ftpsockets';
+	return false;
+}
+
 ?>

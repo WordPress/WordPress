@@ -114,9 +114,82 @@ function wp_plugin_update_row( $file ) {
 	$r = $current->response[ $file ];
 
 	echo "<tr><td colspan='5' class='plugin-update'>";
-	printf( __('There is a new version of %s available. <a href="%s">Download version %s here</a>.'), $plugin_data['Name'], $r->url, $r->new_version );
+	printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a> or <a href="%4$s">upgrade automatically</a>.'), $plugin_data['Name'], $r->url, $r->new_version, "update.php?action=upgrade-plugin&amp;plugin=$file" );
 	echo "</td></tr>";
 }
 add_action( 'after_plugin_row', 'wp_plugin_update_row' );
+
+function wp_update_plugin($plugin, $feedback = '') {
+	global $wp_filesystem;
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	// Is an update available?
+	$current = get_option( 'update_plugins' );
+	if ( !isset( $current->response[ $plugin ] ) )
+		return new WP_Error('up_to_date', __('The plugin is at the latest version.'));
+
+	// Is a filesystem accessor setup?
+	if ( ! $wp_filesystem || !is_object($wp_filesystem) )
+		WP_Filesystem();
+
+	if ( ! is_object($wp_filesystem) )
+		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
+
+	if ( $wp_filesystem->errors->get_error_code() ) 
+		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
+
+	// Get the URL to the zip file
+	$r = $current->response[ $plugin ];
+
+	if ( empty($r->package) )
+		return new WP_Error('no_package', __('Upgrade package not available.'));
+
+	// Download the package
+	$package = $r->package;
+	apply_filters('update_feedback', __("Downloading update from $package"));
+	$file = download_url($package);
+
+	if ( !$file )
+		return new WP_Error('download_failed', __('Download failed.'));
+
+	$name = basename($plugin, '.php');
+	$working_dir = ABSPATH . 'wp-content/upgrade/' . $name;
+
+	// Clean up working directory
+	$wp_filesystem->delete($working_dir, true);
+
+	apply_filters('update_feedback', __("Unpacking the update"));
+	// Unzip package to working directory
+	$result = unzip_file($file, $working_dir);
+	if ( is_wp_error($result) ) {
+		unlink($file);
+		$wp_filesystem->delete($working_dir, true);
+		return $result;
+	}
+
+	// Once installed, delete the package
+	unlink($file);
+	
+	// Remove the existing plugin.
+	apply_filters('update_feedback', __("Removing the old version of the plugin"));
+	$wp_filesystem->delete(ABSPATH . PLUGINDIR . "/$plugin");
+	$plugin_dir = dirname(ABSPATH . PLUGINDIR . "/$plugin");
+
+	// If plugin is in its own directory, recursively delete the directory.
+	if ( '.' != $plugin_dir )
+		$wp_filesystem->delete($plugin_dir, true);
+
+	apply_filters('update_feedback', __("Installing the latest version"));
+	// Copy new version of plugin into place.
+	copy_dir($working_dir, ABSPATH . PLUGINDIR);
+
+	// Remove working directory
+	$wp_filesystem->delete($working_dir, true);
+
+	// Force refresh of plugin update information
+	delete_option('update_plugins');
+}
 
 ?>
