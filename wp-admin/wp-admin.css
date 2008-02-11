@@ -1091,6 +1091,10 @@ html, body {
 	margin-top: 5px;
 }
 
+#poststuff #media-buttons a {
+	margin-right: 8px;
+}
+
 #poststuff .togbox {
 	background-color:#b2b2b2;
 	background-image:url(images/toggle-arrow.gif);

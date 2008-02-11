@@ -98,7 +98,7 @@ jQuery(document).ready(function(){
 </fieldset>
 <p>
 	<button name="image-add" id="image-add" class="button-ok" value="1"><?php _e('Add Image'); ?></button>
-	<a href="#" onclick="return top.tb_remove();" id="image-cancel" class="button-cancel"><?php _e('Cancel'); ?></a>
+	<a href="#" onClick="return top.tb_remove();" id="image-cancel" class="button-cancel"><?php _e('Cancel'); ?></a>
 </p>
 	<input type="hidden" name="post_id" value="<?php echo attribute_escape($post_id); ?>" />
 	<?php wp_nonce_field( 'inlineuploading' ); ?>
@@ -351,10 +351,14 @@ function media_buttons() { // just a placeholder for now
 	$multimedia_upload_iframe_src = wp_nonce_url("media-upload.php?type=multimedia&amp;post_id=$uploading_iframe_ID", 'inlineuploading');
 	$multimedia_upload_iframe_src = apply_filters('multimedia_upload_iframe_src', $multimedia_upload_iframe_src);
 	$out = <<<EOF
-<a href="{$multimedia_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox">Multimedia</a>
-<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=460" class="thickbox">
-<img src="./images/media-buttons.gif" alt="" />
-</a>
+
+<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=480" class="thickbox"><img src='images/media-button-image.gif' alt='' /></a>
+<a href="{$multimedia_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-gallery.gif' alt='' /></a>
+<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-video.gif' alt='' /></a>
+<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-music.gif' alt='' /></a>
+<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-other.gif' alt='' /></a>
+
+
 EOF;
 	echo $out;
 }
