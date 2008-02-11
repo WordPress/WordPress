@@ -3,9 +3,10 @@ function edit_permalink(post_id) {
 	var e = jQuery('#editable-post-name');
 	var revert_e = e.html();	
 	var real_slug = jQuery('#post_name');
+	var revert_slug = real_slug.html();
 	var b = jQuery('#edit-slug-buttons');
 	var revert_b = b.html();
-	var old_slug = e.children('span').html();
+	var full = jQuery('#editable-post-name-full').html();
 
 	b.html('<a href="" class="save">'+slugL10n.save+'</a> <a class="cancel" href="">'+slugL10n.cancel+'</a>');
 	b.children('.save').click(function() {
@@ -25,13 +26,13 @@ function edit_permalink(post_id) {
 	jQuery('#edit-slug-buttons .cancel').click(function() {
 		e.html(revert_e);
 		b.html(revert_b);
-		real_slug.attr('value', revert_e);
+		real_slug.attr('value', revert_slug);
 		return false;
 	});
-	for(i=0; i < revert_e.length; ++i) {
-		if ('%' == revert_e.charAt(i)) c++;
+	for(i=0; i < full.length; ++i) {
+		if ('%' == full.charAt(i)) c++;
 	}
-	slug_value = (c > revert_e.length/4)? '' : revert_e;
+	slug_value = (c > full.length/4)? '' : full;
 	e.html('<input type="text" id="new-post-slug" value="'+slug_value+'" />').children('input').keypress(function(e){
 		var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
 		// on enter, just save the new slug, don't save the post

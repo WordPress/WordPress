@@ -1053,6 +1053,7 @@ html, body {
 }
 #edit-slug-box strong {color: #777;}
 #editable-post-name {background-color: #FFFBCC;}
+#editable-post-name-full {display: none;}
 #editable-post-name input {width: 16em;}
 #edit-slug-buttons a.save {
 	background-color: #ebebeb;
