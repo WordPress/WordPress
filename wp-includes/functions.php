@@ -1070,7 +1070,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL )
 
 	// separate the filename into a name and extension
 	$info = pathinfo($filename);
-	$ext = strtolower( $info['extension'] );
+	$ext = $info['extension'];
 	$name = basename($filename, ".{$ext}");
 
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
@@ -1083,7 +1083,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL )
 		if ( empty( $ext) )
 			$ext = '';
 		else
-			$ext = ".$ext";
+			$ext = strtolower( ".$ext" );
 		$filename = $filename . $ext;
 		while ( file_exists( $dir . "/$filename" ) ) {
 			if ( '' == "$number$ext" )

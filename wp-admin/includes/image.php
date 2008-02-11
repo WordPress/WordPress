@@ -40,7 +40,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 		imagesavealpha( $thumbnail, true);
 	}
 
-	@ imagecopyresampled( $thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $sourceImageWidth, $sourceImageHeight );
+	imagecopyresampled( $thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $sourceImageWidth, $sourceImageHeight );
 
 	imagedestroy( $image ); // Free up memory
 
@@ -153,9 +153,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$max = apply_filters( 'wp_thumbnail_creation_size_limit', absint( WP_MEMORY_LIMIT ) * 1024 * 1024, $attachment_id, $file );
 
 		if ( $max < 0 || $metadata['width'] * $metadata['height'] < $max ) {
-			$max_side = apply_filters( 'wp_thumbnail_max_side_length', 128, $attachment_id, $file );
+			$max_side = apply_filters( 'wp_thumbnail_max_side_length', 140, $attachment_id, $file );
 			$thumb = wp_create_thumbnail( $file, $max_side );
-
 			if ( @file_exists($thumb) )
 				$metadata['thumb'] = basename($thumb);
 		}
@@ -188,7 +187,9 @@ function wp_load_image( $file ) {
 	if ( ! function_exists('imagecreatefromstring') )
 		return __('The GD image library is not installed.');
 
-	$image = @imagecreatefromstring( @file_get_contents( $file ) );
+	// Set artificially high because GD uses uncompressed images in memory
+	@ini_set('memory_limit', '256M');
+	$image = imagecreatefromstring( file_get_contents( $file ) );
 
 	if ( !is_resource( $image ) )
 		return sprintf(__("File '%s' is not an image."), $file);

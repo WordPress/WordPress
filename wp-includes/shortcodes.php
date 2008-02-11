@@ -146,8 +146,6 @@ function gallery_shortcode($attr) {
 	$output = "
 		<style type='text/css'>
 			.gallery {
-				width: 450px;
-				left: 50%;
 				margin: auto;
 			}
 			.gallery div {
@@ -156,7 +154,7 @@ function gallery_shortcode($attr) {
 				text-align: center;
 				width: 33%;			}
 			.gallery img {
-				border: 3px solid #cfcfcf;
+				border: 2px solid #cfcfcf;
 			}
 		</style>
 		<div class='gallery'>
