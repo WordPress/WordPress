@@ -150,7 +150,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 		$metadata['file'] = $file;
 
-		$max = apply_filters( 'wp_thumbnail_creation_size_limit', 3 * 1024 * 1024, $attachment_id, $file );
+		$max = apply_filters( 'wp_thumbnail_creation_size_limit', abs( inval( WP_MEMORY_LIMIT ) ) * 1024 * 1024, $attachment_id, $file );
 
 		if ( $max < 0 || $metadata['width'] * $metadata['height'] < $max ) {
 			$max_side = apply_filters( 'wp_thumbnail_max_side_length', 128, $attachment_id, $file );
