@@ -123,7 +123,7 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 }
 
 if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
-	echo "<a href='" . wp_nonce_url("page.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete page') . "</a>";
+	echo "<a href='" . wp_nonce_url("page.php?action=delete&amp;post=$post_ID", 'delete-page_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete page') . "</a>";
 ?>
 <?php if ($post_ID): ?>
 <br />
