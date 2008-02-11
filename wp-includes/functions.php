@@ -1026,10 +1026,16 @@ function wp_mkdir_p( $target ) {
 // Returns an array containing the current upload directory's path and url, or an error message.
 function wp_upload_dir( $time = NULL ) {
 	$siteurl = get_option( 'siteurl' );
-	//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
-	$path = str_replace( ABSPATH, '', trim( get_option( 'upload_path' ) ) );
-	$dir = ABSPATH . $path;
-	$url = trailingslashit( $siteurl ) . $path;
+	$upload_path = $dir = get_option( 'upload_path' );
+	
+	if ( $upload_path != realpath( $upload_path ) ) { // not an absolute path
+		//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
+		$path = str_replace( ABSPATH, '', trim( $upload_path ) );
+		$dir = ABSPATH . $path;
+	}
+
+	if ( !$url = get_option( 'upload_url_path' ) )
+		$url = trailingslashit( $siteurl ) . $path;
 
 	if ( $dir == ABSPATH ) // the option was empty
 		$dir = ABSPATH . 'wp-content/uploads';
