@@ -47,10 +47,14 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		if ( '0000-00-00 00:00:00' ==$post->post_date ) {
 			_e('Unpublished');
 		} else {
-			if ( ( time() - get_post_time() ) < 86400 )
-				echo sprintf( __('%s ago'), human_time_diff( get_post_time() ) );
-			else
+			if ( ( abs(time() - get_post_time()) ) < 86400 ) {
+				if ( ( 'future' == $post->post_status) )
+					echo sprintf( __('%s from now'), human_time_diff( get_post_time() ) );
+				else
+					echo sprintf( __('%s ago'), human_time_diff( get_post_time() ) );
+			} else {
 				the_time(__('Y/m/d'));
+			}
 		}
 		?></a></td>
 		<?php
