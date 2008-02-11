@@ -525,7 +525,7 @@ case 'closed-postboxes' :
 	update_usermeta($current_user->ID, 'closedpostboxes_'.$page, $closed);
 break;
 case 'sample-permalink':
-	check_ajax_referer( $action );
+	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
 	die(get_sample_permalink_html($post_id, $_POST['new_slug']));
 break;

@@ -14,7 +14,7 @@ function edit_permalink(post_id) {
 			action: 'sample-permalink',
 			post_id: post_id,
 			new_slug: new_slug,
-			cookie: document.cookie}, function(data) {
+			samplepermalinknonce: jQuery('#samplepermalinknonce').val()}, function(data) {
 				jQuery('#sample-permalink').html(data);
 				b.html(revert_b);
 				real_slug.attr('value', new_slug);	
