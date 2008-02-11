@@ -884,9 +884,4 @@ function do_meta_boxes($page, $context, $object) {
 	}
 }
 
-function test_box($post) {
-	echo "Hello $post->ID";
-}
-
-add_meta_box('test', 'Test', 'test_box', 'post');
 ?>
