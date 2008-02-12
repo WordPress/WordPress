@@ -111,7 +111,7 @@ function get_bookmarks($args = '') {
 		'limit' => -1, 'category' => '',
 		'category_name' => '', 'hide_invisible' => 1,
 		'show_updated' => 0, 'include' => '',
-		'exclude' => ''
+		'exclude' => '', 'search' => ''
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -158,6 +158,11 @@ function get_bookmarks($args = '') {
 	if ( ! empty($category_name) ) {
 		if ( $category = get_term_by('name', $category_name, 'link_category') )
 			$category = $category->term_id;
+	}
+
+	if ( ! empty($search) ) {
+		$search = like_escape($search);
+		$search = " AND ( (link_url LIKE '%$search%') OR (link_name LIKE '%$search%') OR (link_description LIKE '%$search%') ) ";
 	}
 
 	$category_query = '';
@@ -207,7 +212,7 @@ function get_bookmarks($args = '') {
 		$visible = "AND link_visible = 'Y'";
 
 	$query = "SELECT * $length $recently_updated_test $get_updated FROM $wpdb->links $join WHERE 1=1 $visible $category_query";
-	$query .= " $exclusions $inclusions";
+	$query .= " $exclusions $inclusions $search";
 	$query .= " ORDER BY $orderby $order";
 	if ($limit != -1)
 		$query .= " LIMIT $limit";

@@ -13,7 +13,7 @@ $post_stati  = array(	//	array( adj, noun )
 		'private' => array(__('Private'), __('Private pages'), __('Private (%s)'))
 	);
 
-$post_status_label = __('Pages');
+$post_status_label = __('Manage Pages');
 $post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
@@ -66,7 +66,7 @@ unset($status_links);
 </ul>
 
 <p id="post-search">
-	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
 	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" />
 </p>
 
