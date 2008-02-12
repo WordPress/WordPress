@@ -25,11 +25,6 @@ endif;
 
 <div class="wrap">
 
-<?php
-$posts_columns = wp_manage_posts_columns();
-
-?>
-
 <form id="posts-filter" action="" method="get">
 <h2><?php
 if ( is_single() ) {

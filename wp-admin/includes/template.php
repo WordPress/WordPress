@@ -318,6 +318,24 @@ function wp_manage_posts_columns() {
 	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
+	return $posts_columns;
+}
+
+function wp_manage_pages_columns() {
+	$posts_columns = array();
+	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" name="TODO" /></div>';
+	if ( 'draft' === $_GET['post_status'] )
+		$posts_columns['modified'] = __('Modified');
+	elseif ( 'pending' === $_GET['post_status'] )
+		$posts_columns['modified'] = __('Submitted');
+	else
+		$posts_columns['date'] = __('Date');
+	$posts_columns['title'] = __('Title');
+	$posts_columns['author'] = __('Author');
+	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
+		$posts_columns['comments'] = '<div style="text-align: center"><img alt="" src="images/comment-grey-bubble.png" /></div>';
+	$posts_columns['status'] = __('Status');
+	$posts_columns = apply_filters('manage_pages_columns', $posts_columns);
 
 	return $posts_columns;
 }
@@ -337,19 +355,109 @@ function display_page_row( $page, &$children_pages, $level = 0 ) {
 	$pad = str_repeat( '&#8212; ', $level );
 	$id = (int) $page->ID;
 	$class = ('alternate' == $class ) ? '' : 'alternate';
-
+	$posts_columns = wp_manage_pages_columns();
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'>
-    <th scope="row" style="text-align: center"><?php echo $page->ID; ?></th>
-    <td>
-      <?php echo $pad; ?><?php the_title(); ?>
-    </td>
-    <td><?php the_author() ?></td>
-    <td><?php if ( '0000-00-00 00:00:00' ==$page->post_modified ) _e('Unpublished'); else echo mysql2date( __('Y-m-d g:i a'), $page->post_modified ); ?></td>
-    <td><a href="<?php the_permalink(); ?>" rel="permalink" class="view"><?php _e( 'View' ); ?></a></td>
-    <td><?php if ( current_user_can( 'edit_page', $id ) ) { echo "<a href='page.php?action=edit&amp;post=$id' class='edit'>" . __( 'Edit' ) . "</a>"; } ?></td>
-    <td><?php if ( current_user_can( 'delete_page', $id ) ) { echo "<a href='" . wp_nonce_url( "page.php?action=delete&amp;post=$id", 'delete-page_' . $id ) .  "' class='delete:the-list:page-$id delete'>" . __( 'Delete' ) . "</a>"; } ?></td>
-  </tr>
+  
+  
+ <?php
+
+foreach ($posts_columns as $column_name=>$column_display_name) {
+
+	switch ($column_name) {
+
+	case 'cb':
+		?>
+		<th scope="row" style="text-align: center"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
+		<?php
+		break;
+	case 'modified':
+		?>
+		<td><?php if ( '0000-00-00 00:00:00' ==$page->post_modified ) _e('Never'); else the_modified_time(__('Y/m/d \<\b\r \/\> g:i:s a')); ?></td>
+		<?php
+		break;
+	case 'date':
+		?>
+		<td><a href="<?php the_permalink(); ?>" rel="permalink">
+		<?php 
+		if ( '0000-00-00 00:00:00' ==$page->post_date ) {
+			_e('Unpublished');
+		} else {
+			if ( ( abs(time() - get_post_time()) ) < 86400 ) {
+				if ( ( 'future' == $page->post_status) )
+					echo sprintf( __('%s from now'), human_time_diff( get_post_time() ) );
+				else
+					echo sprintf( __('%s ago'), human_time_diff( get_post_time() ) );
+			} else {
+				the_time(__('Y/m/d'));
+			}
+		}
+		?></a></td>
+		<?php
+		break;
+	case 'title':
+		?>
+		<td><strong><a href="page.php?action=edit&post=<?php the_ID(); ?>"><?php echo $pad; the_title() ?></a></strong>
+		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
+		<?php
+		break;
+
+	case 'comments':
+		?>
+		<td style="text-align: center">
+		<?php
+		$left = get_pending_comments_num( $page->ID );
+		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
+		if ( $left )
+			echo '<strong>';
+		comments_number("<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('0') . '</span></a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('1') . '</span></a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('%') . '</span></a>');
+		if ( $left )
+			echo '</strong>';
+		?>
+		</td>
+		<?php
+		break;
+
+	case 'author':
+		?>
+		<td><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<?php
+		break;
+
+	case 'status':
+		?>
+		<td>
+		<?php
+		switch ( $page->post_status ) {
+			case 'publish' :
+			case 'private' :
+				_e('Published');
+				break;
+			case 'future' :
+				_e('Scheduled');
+				break;
+			case 'pending' :
+				_e('Pending Review');
+				break;
+			case 'draft' :
+				_e('Unpublished');
+				break;
+		}
+		?>
+		</td>
+		<?php
+		break;
+
+	default:
+		?>
+		<td><?php do_action('manage_pages_custom_column', $column_name, $id); ?></td>
+		<?php
+		break;
+	}
+}
+ ?>
+  
+   </tr>
 
 <?php
 

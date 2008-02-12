@@ -481,6 +481,13 @@ function _relocate_children( $old_ID, $new_ID ) {
 	return $wpdb->query( "UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID" );
 }
 
+function get_available_post_statuses($type = 'post') {
+	global $wpdb;
+
+	$stati = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = %s", $type));
+	return $stati;
+}
+
 function wp_edit_posts_query( $q = false ) {
 	global $wpdb;
 	if ( false === $q )
@@ -495,7 +502,7 @@ function wp_edit_posts_query( $q = false ) {
 				'private' => array(__('Private'), __('Private posts'), __('Private (%s)'))
 			);
 
-	$avail_post_stati = $wpdb->get_col("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = 'post'");
+	$avail_post_stati = get_available_post_statuses('post');
 
 	$post_status_q = '';
 	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) )

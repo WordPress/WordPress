@@ -6,11 +6,12 @@ wp_enqueue_script( 'wp-lists' );
 require_once('admin-header.php');
 
 $post_stati  = array(	//	array( adj, noun )
-			'publish' => array(__('Published'), __('Published pages')),
-			'draft'   => array(__('Draft'), __('Draft pages')),
-			'private' => array(__('Private'), __('Private pages'))
-		);
-
+		'publish' => array(__('Published'), __('Published pages'), __('Published (%s)')),
+		'future' => array(__('Scheduled'), __('Scheduled pages'), __('Scheduled (%s)')),
+		'pending' => array(__('Pending Review'), __('Pending pages'), __('Pending Review (%s)')),
+		'draft' => array(__('Draft'), _c('Drafts|manage posts header'), _c('Draft (%s)|manage posts header')),
+		'private' => array(__('Private'), __('Private pages'), __('Private (%s)'))
+	);
 
 $post_status_label = __('Pages');
 $post_status_q = '';
@@ -26,6 +27,7 @@ jQuery(function($){$('#the-list').wpList();});
 /* ]]> */
 </script>
 <div class="wrap">
+<form id="posts-filter" action="" method="get">
 <h2><?php
 // Use $_GET instead of is_ since they can override each other
 $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes( $_GET['s'] ) ) ) : '';
@@ -37,32 +39,47 @@ if ( isset($_GET['author']) && $_GET['author'] ) {
 printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by {s}, 3: matching {s}' ), $post_status_label, $h2_author, $h2_search );
 ?></h2>
 
-<p><?php _e('Pages are like posts except they live outside of the normal blog chronology and can be hierarchical. You can use pages to organize and manage any amount of content.'); ?> <a href="page-new.php"><?php _e('Create a new page &raquo;'); ?></a></p>
+<ul class="subsubsub">
+<?php
 
-<form name="searchform" id="searchform" action="" method="get">
-	<fieldset><legend><?php _e('Search Terms&hellip;') ?></legend>
-		<input type="text" name="s" id="s" value="<?php echo attribute_escape( stripslashes( $_GET['s'] ) ); ?>" size="17" />
-	</fieldset>
+$avail_post_stati = get_available_post_statuses('page');
+	
+$status_links = array();
+foreach ( $post_stati as $status => $label ) {
+	$class = '';
 
+	if ( !in_array($status, $avail_post_stati) )
+		continue;
 
-	<fieldset><legend><?php _e('Page Type&hellip;'); ?></legend>
-		<select name='post_status'>
-			<option<?php selected( @$_GET['post_status'], 0 ); ?> value='0'><?php _e('Any'); ?></option>
-<?php	foreach ( $post_stati as $status => $label ) : ?>
-			<option<?php selected( @$_GET['post_status'], $status ); ?> value='<?php echo $status; ?>'><?php echo $label[0]; ?></option>
-<?php	endforeach; ?>
-		</select>
-	</fieldset>
+	$num_posts = wp_count_posts('page', $status);
+	if ( $status == $_GET['post_status'] )
+		$class = ' class="current"';
 
-<?php $editable_ids = get_editable_user_ids( $user_ID ); if ( $editable_ids && count( $editable_ids ) > 1 ) : ?>
+	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
+	sprintf($label[2], $num_posts) . '</a>';
+}
+$class = empty($_GET['post_status']) ? ' class="current"' : '';
+$status_links[] = "<li><a href=\"edit-pages.php\"$class>All Pages</a>";
+echo implode(' |</li>', $status_links) . '</li>';
+unset($status_links);
+?>
+</ul>
 
-	<fieldset><legend><?php _e('Author&hellip;'); ?></legend>
-		<?php wp_dropdown_users( array('include' => $editable_ids, 'show_option_all' => __('Any'), 'name' => 'author', 'selected' => isset($_GET['author']) ? $_GET['author'] : 0) ); ?>
-	</fieldset>
+<p id="post-search">
+	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" />
+</p>
 
-<?php endif; ?>
+<br style="clear:both;" />
 
-	<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
+<div class="tablenav">
+
+<div style="float: left">
+<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+</div>
+
+<br style="clear:both;" />
+</div>
 </form>
 
 <br style="clear:both;" />
@@ -79,11 +96,10 @@ if ($posts) {
 <table class="widefat">
   <thead>
   <tr>
-    <th scope="col" style="text-align: center"><?php _e('ID') ?></th>
-    <th scope="col"><?php _e('Title') ?></th>
-    <th scope="col"><?php _e('Owner') ?></th>
-	<th scope="col"><?php _e('Updated') ?></th>
-	<th scope="col" colspan="3" style="text-align: center"><?php _e('Action'); ?></th>
+<?php $posts_columns = wp_manage_pages_columns(); ?>
+<?php foreach($posts_columns as $column_display_name) { ?>
+	<th scope="col"><?php echo $column_display_name; ?></th>
+<?php } ?>
   </tr>
   </thead>
   <tbody id="the-list" class="list:page">
@@ -100,8 +116,6 @@ if ($posts) {
 <?php
 } // end if ($posts)
 ?>
-
-<h3><a href="page-new.php"><?php _e('Create New Page &raquo;'); ?></a></h3>
 
 </div>
 

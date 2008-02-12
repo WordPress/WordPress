@@ -3,6 +3,7 @@
 	<thead>
 	<tr>
 
+<?php $posts_columns = wp_manage_posts_columns(); ?>
 <?php foreach($posts_columns as $column_display_name) { ?>
 	<th scope="col"><?php echo $column_display_name; ?></th>
 <?php } ?>
