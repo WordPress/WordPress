@@ -525,7 +525,7 @@ function &get_terms($taxonomies, $args = '') {
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
 		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '',
-		'pad_counts' => false, 'offset' => '');
+		'pad_counts' => false, 'offset' => '', 'search' => '');
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
@@ -634,6 +634,11 @@ function &get_terms($taxonomies, $args = '') {
 
 	} else
 		$number = '';
+
+	if ( !empty($search) ) {
+		$search = like_escape($search);
+		$where .= " AND (t.name LIKE '%$search%')";
+	}
 
 	if ( 'all' == $fields )
 		$select_this = 't.*, tt.*';

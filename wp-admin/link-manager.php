@@ -117,7 +117,7 @@ $link_columns = apply_filters('manage_link_columns', $link_columns);
 if ( 'all' == $cat_id )
 	$cat_id = '';
 $args = array('category' => $cat_id, 'hide_invisible' => 0, 'orderby' => $sqlorderby, 'hide_empty' => 0);
-if ( $_GET['s'] )
+if ( !empty($_GET['s']) )
 	$args['search'] = $_GET['s'];
 $links = get_bookmarks( $args );
 if ( $links ) {

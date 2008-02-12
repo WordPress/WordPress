@@ -6,8 +6,12 @@
 
 // Dandy new recursive multiple category stuff.
 function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
-	if ( !$categories )
-		$categories = get_categories( 'hide_empty=0' );
+	if ( !$categories ) {
+		$args = array('hide_empty' => 0);
+		if ( !empty($_GET['s']) )
+			$args['search'] = $_GET['s'];
+		$categories = get_categories( $args );
+	}
 
 	$children = _get_term_hierarchy('category');
 
@@ -38,26 +42,21 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
+		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id'>". ( $name_override ? $name_override : $pad . ' ' . $category->name ) ."</a>";
 		$default_cat_id = (int) get_option( 'default_category' );
-
-		if ( $category->term_id != $default_cat_id )
-			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id ) . "' class='delete:the-list:cat-$category->term_id delete'>".__( 'Delete' )."</a>";
-		else
-			$edit .= "<td style='text-align:center'>".__( "Default" );
-	} else
-		$edit = '';
+	} else {
+		$edit = ( $name_override ? $name_override : $pad . ' ' . $category->name );
+	}
 
 	$class = " class='alternate'" == $class ? '' : " class='alternate'";
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='cat-$category->term_id'$class>
-		<th scope='row' style='text-align: center'>$category->term_id</th>
-		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->name ) . "</td>
+		<th scope='row' style='text-align: center'><input type='checkbox' name='delete[]' value='$category->term_id' /></th>
+		<td>$edit</td>
 		<td>$category->description</td>
-		<td align='center'>$posts_count</td>
-		<td>$edit</td>\n\t</tr>\n";
+		<td align='center'>$posts_count</td>\n\t</tr>\n";
 
 	return apply_filters('cat_row', $output);
 }
