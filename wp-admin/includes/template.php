@@ -242,17 +242,10 @@ function _tag_row( $tag, $class = '' ) {
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
 		$out .= '<td style="text-align: center"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></td>';
-		$out .= '<th scope="row">' . $tag->term_id . '</th>';
-
-		$out .= '<td>' . apply_filters( 'term_name', $tag->name ) . '</td>';
+		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
+			apply_filters( 'term_name', $tag->name ) . '</td>';
 
 		$out .= "<td>$count</td>";
-		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '" class="edit">' .
-			__( 'Edit' ) . "</a></td>" .
-			'<td><a href="' . wp_nonce_url( "edit-tags.php?action=delete&amp;tag_ID=$tag->term_id",
-					'delete-tag_' . $tag->term_id ) .
-				'" class="delete:the-list:tag-' . $tag->term_id . ' delete">' .
-				__( 'Delete' ) . "</a></td>";
 		$out .= '</tr>';
 
 		return $out;
@@ -261,15 +254,15 @@ function _tag_row( $tag, $class = '' ) {
 // Outputs appropriate rows for the Nth page of the Tag Management screen,
 // assuming M tags displayed at a time on the page
 // Returns the number of tags displayed
-function tag_rows( $page = 0, $pagesize = 20, $searchterms = '' ) {
+function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 
 	// Get a page worth of tags
-	$start = $page * $pagesize;
+	$start = ($page - 1) * $pagesize;
 
 	$args = array('offset' => $start, 'number' => $pagesize, 'hide_empty' => 0);
 
 	if ( !empty( $searchterms ) ) {
-		$args['name__like'] = '%' . like_escape( $searchterms );
+		$args['search'] = $searchterms;
 	}
 
 	$tags = get_terms( 'post_tag', $args );

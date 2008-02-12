@@ -101,16 +101,46 @@ $messages[6] = __('Tags deleted.');
 
 <div class="wrap">
 
-<form id="tags-filter" action="" method="get">
+<form id="posts-filter" action="" method="get">
 <?php if ( current_user_can('manage_categories') ) : ?>
-	<h2><?php printf(__('Tags (<a href="%s">add new</a>)'), '#addtag') ?> </h2>
+	<h2><?php printf(__('Manage Tags (<a href="%s">add new</a>)'), '#addtag') ?> </h2>
 <?php else : ?>
-	<h2><?php _e('Tags') ?> </h2>
+	<h2><?php _e('Manage Tags') ?> </h2>
 <?php endif; ?>
-	<p id="tag-search">
-		<input type="text" id="tag-search-input" name="s" value="<?php echo attribute_escape( stripslashes( $_GET[ 's' ]) ); ?>" />
-		<input type="submit" value="<?php _e( 'Search Tags' ); ?>" />
-	</p>
+
+<p id="post-search">
+	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" />
+</p>
+
+<br style="clear:both;" />
+
+<div class="tablenav">
+
+<?php
+$pagenum = absint( $_GET['pagenum'] );
+if ( empty($pagenum) )
+	$pagenum = 1;
+if( !$tagsperpage || $tagsperpage < 0 )
+	$tagsperpage = 20;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'pagenum', '%#%' ),
+	'format' => '',
+	'total' => ceil(wp_count_terms('post_tag') / $tagsperpage),
+	'current' => $pagenum
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div style="float: left">
+<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+</div>
+
+<br style="clear:both;" />
+</div>
 </form>
 
 <br style="clear:both;" />
@@ -122,18 +152,13 @@ $messages[6] = __('Tags deleted.');
 	<thead>
 	<tr>
 		<th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('deletetags'));" /></th>
-		<th scope="col" style="text-align: center"><?php _e('ID') ?></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
-        <th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:tag">
 <?php
-$pagenum = absint( $_GET['pagenum'] );
-if( !$tagsperpage || $tagsperpage < 0 ) {
-	$tagsperpage = 20;
-}
+
 $searchterms = trim( $_GET['s'] );
 
 $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
@@ -142,22 +167,15 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 </table>
 <p class="submit"><input type="submit" class="button" name="deletetags" id="deletetags" value="<?php _e('Delete Checked Tags &raquo;') ?>" onclick="return confirm('<?php echo js_escape(__("You are about to delete these tags permanently.\n'Cancel' to stop, 'OK' to delete.")); ?>')" /></p>
 </form>
+
+<div class="tablenav">
+
 <?php
-
-$baseurl = get_bloginfo( 'wpurl' ) . '/wp-admin/edit-tags.php?pagenum=';
-if( $pagenum >= 1 ) {
-	echo '<a href="' . $baseurl . ($pagenum - 1 ) . '">&lt;&lt;' . __('Previous Tags') . '</a>';
-	if( $count == $tagsperpage ) {
-		echo ' | ';
-	}
-}
-
-
-if( $count == $tagsperpage ) {
-	echo '<a href="' . $baseurl . ($pagenum + 1 ) . '">' . __('Next Tags') . '&gt;&gt;</a>';
-}
-
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
+<br style="clear:both;" />
+</div>
 
 </div>
 
