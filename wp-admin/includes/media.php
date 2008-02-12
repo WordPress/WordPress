@@ -444,6 +444,8 @@ function get_multimedia_item( $attachment_id ) {
 	$thumb_url = wp_get_attachment_thumb_url( $attachment_id );
 	if ( empty($thumb_url) )
 		$thumb_url = wp_mime_type_icon( $attachment_id );
+	if ( empty($thumb_url) && ( $post =& get_post( $attachment_id ) ) && substr($post->post_mime_type, 0, 5) == 'image' )
+			$thumb_url = wp_get_attachment_url( $attachment_id );
 
 	$title_label = __('Title');
 	$description_label = __('Description');
@@ -493,7 +495,7 @@ function get_multimedia_item( $attachment_id ) {
 
 	$item .= "
 		</fieldset>
-		<p><a id='del$attachment_id' class='delete' href='$delete_href'>$delete</a></p>
+		<p class='delete'><a id='del$attachment_id' class='delete' href='$delete_href'>$delete</a></p>
 	</div>
 ";
 

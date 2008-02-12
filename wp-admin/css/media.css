@@ -139,14 +139,15 @@ span.filename {
 	border-right: 3px solid #99d;
 }
 .multimedia-item .thumbnail {
-
+	max-width: 128px;
+	max-height: 128px;
 }
 .multimedia-item .pinkynail {
 	position: absolute;
-	top: 3px;
-	left: 3px;
+	top: 2px;
+	left: 2px;
+	height: 32px;
 	max-width: 40px;
-	max-height: 40px;
 }
 .describe {
 	display: none;
@@ -166,9 +167,12 @@ span.filename {
 .describe label {
 	padding-right: 1em;
 }
-
-a.delete {
+p.delete {
 	clear: both;
+	margin: 0;
+}
+p.delete a {
+	padding: 4px;
 }
 .describe-toggle-on, .describe-toggle-off {
 	line-height: 36px;
