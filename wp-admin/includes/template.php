@@ -410,7 +410,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
 		if ( $left )
 			echo '<strong>';
-		comments_number("<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('0') . '</span></a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('1') . '</span></a>', "<a href='edit.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('%') . '</span></a>');
+		comments_number("<a href='edit-pages.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('0') . '</span></a>', "<a href='edit-pages.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('1') . '</span></a>', "<a href='edit-pages.php?p=$id&amp;c=1' title='$pending_phrase' class='post-com-count comment-count'><span>" . __('%') . '</span></a>');
 		if ( $left )
 			echo '</strong>';
 		?>

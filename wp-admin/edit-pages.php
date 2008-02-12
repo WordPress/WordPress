@@ -67,7 +67,7 @@ unset($status_links);
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" />
+	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" />
 </p>
 
 <br style="clear:both;" />
