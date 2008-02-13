@@ -126,6 +126,12 @@ cat_rows();
 	</tbody>
 </table>
 
+<br style="clear:both;" />
+
+<div class="tablenav">
+<br style="clear:both;" />
+</div>
+
 </div>
 
 <?php if ( current_user_can('manage_categories') ) : ?>

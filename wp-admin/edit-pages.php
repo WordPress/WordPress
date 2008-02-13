@@ -117,6 +117,10 @@ if ($posts) {
 } // end if ($posts)
 ?>
 
+<div class="tablenav">
+<br style="clear:both;" />
+</div>
+
 </div>
 
 <?php include('admin-footer.php'); ?>

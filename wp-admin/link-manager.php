@@ -203,6 +203,10 @@ if ( $links ) {
 
 <div id="ajax-response"></div>
 
+<div class="tablenav">
+<br style="clear:both;" />
+</div>
+
 </form>
 
 <?php } ?>

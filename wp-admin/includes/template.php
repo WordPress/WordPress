@@ -70,28 +70,21 @@ function link_cat_row( $category ) {
 		return $category;
 
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a href='link-category.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>".__( 'Edit' )."</a></td>";
+		$edit = "<a href='link-category.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>". ( $name_override ? $name_override : $category->name ) ."</a>";
 		$default_cat_id = (int) get_option( 'default_link_category' );
-
-		$delete_url = wp_nonce_url( "link-category.php?action=delete&amp;cat_ID=$category->term_id", "delete-link-category_$category->term_id" );
-		if ( $category->term_id != $default_cat_id )
-			$edit .= "<td><a href='$delete_url' class='delete:the-list:link-cat-$category->term_id delete'>" . __( 'Delete' ) . "</a>";
-		else
-			$edit .= "<td style='text-align:center'>" . __( "Default" );
 	} else {
-		$edit = '';
+		$edit = ( $name_override ? $name_override : $category->name );
 	}
 
 	$class = " class='alternate'" == $class ? '' : " class='alternate'";
 
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='link-cat-$category->term_id'$class>
-		<th scope='row' style='text-align: center'>$category->term_id</th>
-		<td>" . ( $name_override ? $name_override : $category->name ) . "</td>
+	$output = "<tr id='link-cat-$category->term_id'$class>" .
+		'<td style="text-align: center"> <input type="checkbox" name="delete_tags[]" value="' . $category->term_id . '" /></td>' .
+		"<td>$edit</td>
 		<td>$category->description</td>
-		<td align='center'>$count</td>
-		<td>$edit</td>\n\t</tr>\n";
+		<td align='center'>$count</td>";
 
 	return apply_filters( 'link_cat_row', $output );
 }

@@ -19,24 +19,68 @@ if (isset($_GET['message'])) : ?>
 <?php endif; ?>
 
 <div class="wrap">
+
+<form id="posts-filter" action="" method="get">
 <?php if ( current_user_can('manage_categories') ) : ?>
-	<h2><?php printf(__('Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
+	<h2><?php printf(__('Manage Link Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
 <?php else : ?>
-	<h2><?php _e('Categories') ?> </h2>
+	<h2><?php _e('Manage Link Categories') ?> </h2>
 <?php endif; ?>
+
+<p id="post-search">
+	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" />
+</p>
+
+<br style="clear:both;" />
+
+<div class="tablenav">
+
+<?php
+$pagenum = absint( $_GET['pagenum'] );
+if ( empty($pagenum) )
+	$pagenum = 1;
+if( !$catsperpage || $catsperpage < 0 )
+	$catsperpage = 3;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'pagenum', '%#%' ),
+	'format' => '',
+	'total' => ceil(wp_count_terms('link_category') / $catsperpage),
+	'current' => $pagenum
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div style="float: left">
+<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+</div>
+
+<br style="clear:both;" />
+</div>
+</form>
+
+<br style="clear:both;" />
+
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col" style="text-align: center"><?php _e('ID') ?></th>
+        <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('deletetags'));" /></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Links') ?></th>
-        <th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:link-cat">
 <?php
-$categories = get_terms( 'link_category', 'hide_empty=0' );
+$start = ($pagenum - 1) * $catsperpage;
+$args = array('offset' => $start, 'number' => $catsperpage, 'hide_empty' => 0);
+if ( !empty( $_GET['s'] ) )
+	$args['search'] = $_GET['s'];
+
+$categories = get_terms( 'link_category', $args );
 if ( $categories ) {
 	$output = '';
 	foreach ( $categories as $category ) {
@@ -51,6 +95,17 @@ if ( $categories ) {
 ?>
 	</tbody>
 </table>
+
+<br style="clear:both;" />
+
+<div class="tablenav">
+
+<?php
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+<br style="clear:both;" />
+</div>
 
 </div>
 
