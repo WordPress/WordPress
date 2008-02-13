@@ -374,6 +374,13 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	if ( 'DESC' == $order )
 		$counts = array_reverse( $counts, true );
+	elseif ( 'RAND' == $order ) {
+		$keys = array_rand( $counts, count($counts) );
+		foreach ( $keys as $key )
+			$temp[$key] = $counts[$key];
+		$counts = $temp;
+		unset($temp);
+	}
 
 	$a = array();
 
