@@ -1,8 +1,37 @@
 <?php
 require_once('admin.php');
+
+// Handle bulk deletes
+if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
+	check_admin_referer('bulk-pages');
+	foreach( (array) $_GET['delete'] as $post_id_del ) {
+		$post_del = & get_post($post_id_del);
+
+		if ( !current_user_can('delete_page', $post_id_del) )
+			wp_die( __('You are not allowed to delete this page.') );
+
+		if ( $post_del->post_type == 'attachment' ) {
+			if ( ! wp_delete_attachment($post_id_del) )
+				wp_die( __('Error in deleting...') );
+		} else {
+			if ( !wp_delete_post($post_id_del) )
+				wp_die( __('Error in deleting...') );
+		}
+	}
+
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'page.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/page-new.php';
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/attachments.php';
+	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+
+	wp_redirect($sendback);
+	exit();
+}
+
 $title = __('Pages');
 $parent_file = 'edit.php';
 wp_enqueue_script( 'wp-lists' );
+wp_enqueue_script('admin-forms');
 require_once('admin-header.php');
 
 $post_stati  = array(	//	array( adj, noun )
@@ -75,12 +104,12 @@ unset($status_links);
 <div class="tablenav">
 
 <div style="float: left">
-<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<?php wp_nonce_field('bulk-pages'); ?>
 </div>
 
 <br style="clear:both;" />
 </div>
-</form>
 
 <br style="clear:both;" />
 
@@ -106,6 +135,8 @@ if ($posts) {
   <?php page_rows($posts); ?>
   </tbody>
 </table>
+
+</form>
 
 <div id="ajax-response"></div>
 
