@@ -1141,7 +1141,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
 				$post_type = 'page';
 			}
-			elseif( $content_type['post_type'] == 'post' ) {
+			elseif( $content_struct['post_type'] == 'post' ) {
 				// This is the default, no changes needed
 			}
 			else {
@@ -1390,7 +1390,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
 				$post_type = 'page';
 			}
-			elseif( $content_type['post_type'] == 'post' ) {
+			elseif( $content_struct['post_type'] == 'post' ) {
 				// This is the default, no changes needed
 			}
 			else {
