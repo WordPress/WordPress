@@ -8,6 +8,45 @@ function image_upload_tabs() {
 	return apply_filters('image_upload_tabs', $_default_tabs);
 }
 
+function the_image_upload_tabs() {
+	$tabs = image_upload_tabs();
+
+	if ( !empty($tabs) ) {
+		echo "<ul id='media-upload-tabs'>\n";
+		if ( isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) )
+			$current = $_GET['tab'];
+		else
+			$current = array_shift(array_keys($tabs));
+		foreach ( $tabs as $callback => $text ) {
+			if ( ++$i == count($tabs) )
+				$class = ' class="last"';
+			if ( $callback == $current )
+				$disabled = ' disabled="disabled"';
+			else
+				$disabled = '';
+			$href = add_query_arg('tab', $callback);
+			if ( $callback == $current )
+				$link = $text;
+			else
+				$link = "<a href='$href'>$text</a>";
+			echo "\t<li$class>$link</li>\n";
+		}
+		echo "</ul>\n";
+	}
+}
+
+function image_upload_callback() {
+	$tabs = image_upload_tabs();
+	if ( isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) && is_callable($_GET['tab']) )
+		return $_GET['tab']();
+	elseif ( is_callable($first = array_shift(array_keys($tabs))) )
+		return $first();
+	else
+		return image_upload_handler();
+}
+
+add_action('media_upload_image', 'image_upload_callback');
+
 function image_upload_form( $action_url, $values = array(), $error = null ) {
 	$action_url = attribute_escape( $action_url );
 	$image_alt = attribute_escape( @$values['image-alt'] );
@@ -18,12 +57,8 @@ function image_upload_form( $action_url, $values = array(), $error = null ) {
 
 ?>
 <div id="media-upload-header">
-<h3>Add Image</h3>
-<ul id="media-upload-tabs">
-	<li><?php _e('From Computer'); ?></li>
-	<li><?php _e('Media Library'); ?></li>
-	<li class="last"><?php _e('Flickr'); ?></li>
-</ul>
+<h3><?php _e('Add Image') ?></h3>
+<?php the_image_upload_tabs(); ?>
 </div>
 <div id="media-upload-error">
 <?php if ($error) {
@@ -388,7 +423,6 @@ function media_admin_css() {
 }
 
 add_action('media_upload_multimedia', 'multimedia_upload_handler');
-add_action('media_upload_image', 'image_upload_handler');
 add_action('admin_head_image_upload_form', 'media_admin_css');
 
 function multimedia_upload_handler() {
