@@ -16,13 +16,6 @@ if ( !isset( $_GET['paged'] ) )
 	$_GET['paged'] = 1;
 ?>
 
-<?php
-if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit post'); ?></a></p></div>
-<?php
-endif;
-?>
-
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
@@ -78,6 +71,13 @@ echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
 ?>
 </ul>
+
+<?php
+if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
+<div id="message" class="updated fade"><strong><p><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit post'); ?></a></p></div>
+<?php
+endif;
+?>
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />

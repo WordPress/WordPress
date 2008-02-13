@@ -126,9 +126,7 @@ case 'editpost':
 			$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
 		$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
-		if ($_POST['save']) {
-			$location = "post.php?action=edit&post=$post_ID";
-		} elseif ($_POST['addemeta']) {
+		if ($_POST['addemeta']) {
 			$location = add_query_arg( 'message', 2, wp_get_referer() );
 			$location = explode('#', $location);
 			$location = $location[0] . '#postcustom';
@@ -140,10 +138,12 @@ case 'editpost':
 			$location = $_POST['referredby'];
 			if ( $_POST['referredby'] == 'redo' )
 				$location = get_permalink( $post_ID );
+			if (false !== strpos($location, 'edit.php') )
+				$location = add_query_arg('posted', $post_ID, $location);
 		} elseif ($action == 'editattachment') {
 			$location = 'attachments.php';
 		} else {
-			$location = 'edit.php?posted=' . $post_ID;
+			$location = "post.php?action=edit&post=$post_ID";
 		}
 	}
 
