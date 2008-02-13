@@ -110,7 +110,7 @@ case 'editpost':
 	} else {
 		if ($_POST['save']) {
 			$location = "page.php?action=edit&post=$page_ID";
-		} elseif ($_POST['addemeta']) {
+		} elseif ($_POST['addmeta']) {
 			$location = add_query_arg( 'message', 2, wp_get_referer() );
 			$location = explode('#', $location);
 			$location = $location[0] . '#postcustom';
