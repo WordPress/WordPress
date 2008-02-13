@@ -138,7 +138,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 
 </p>
 
-<?php do_meta_boxes('post', 'normal', $post); ?>
+<?php do_meta_boxes('page', 'normal', $post); ?>
 
 <?php do_action('edit_page_form'); ?>
 
