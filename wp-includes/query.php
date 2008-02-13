@@ -65,11 +65,13 @@ function is_author ($author = '') {
 
 	$author_obj = $wp_query->get_queried_object();
 
-	if ( $author == $author_obj->ID )
+	$author = (array) $author;
+
+	if ( in_array( $author_obj->ID, $author ) )
 		return true;
-	elseif ( $author == $author_obj->nickname )
+	elseif ( in_array( $author_obj->nickname, $author ) )
 		return true;
-	elseif ( $author == $author_obj->user_nicename )
+	elseif ( in_array( $author_obj->user_nicename, $author ) )
 		return true;
 
 	return false;
@@ -86,11 +88,13 @@ function is_category ($category = '') {
 
 	$cat_obj = $wp_query->get_queried_object();
 
-	if ( $category == $cat_obj->term_id )
+	$category = (array) $category;
+
+	if ( in_array( $cat_obj->term_id, $category ) )
 		return true;
-	else if ( $category == $cat_obj->name )
+	elseif ( in_array( $cat_obj->name, $category ) )
 		return true;
-	elseif ( $category == $cat_obj->slug )
+	elseif ( in_array( $cat_obj->slug, $category ) )
 		return true;
 
 	return false;
@@ -98,6 +102,7 @@ function is_category ($category = '') {
 
 function is_tag( $slug = '' ) {
 	global $wp_query;
+
 	if ( !$wp_query->is_tag )
 		return false;
 
@@ -105,8 +110,12 @@ function is_tag( $slug = '' ) {
 		return true;
 
 	$tag_obj = $wp_query->get_queried_object();
-	if ( $slug == $tag_obj->slug )
+
+	$slug = (array) $slug;
+
+	if ( in_array( $tag_obj->slug, $slug ) )
 		return true;
+
 	return false;
 }
 
@@ -240,11 +249,13 @@ function is_single ($post = '') {
 
 	$post_obj = $wp_query->get_queried_object();
 
-	if ( $post == $post_obj->ID )
+	$post = (array) $post;
+
+	if ( in_array( $post_obj->ID, $post ) )
 		return true;
-	elseif ( $post == $post_obj->post_title )
+	elseif ( in_array( $post_obj->post_title, $post ) )
 		return true;
-	elseif ( $post == $post_obj->post_name )
+	elseif ( in_array( $post_obj->post_name, $post ) )
 		return true;
 
 	return false;
