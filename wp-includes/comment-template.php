@@ -582,11 +582,11 @@ function comments_open( $post_id=NULL ) {
  * @param int $post_id An optional post ID to check instead of the current post.
  * @return bool True if pings are accepted
  */
-function pings_open( $post_id=NULL ) {
+function pings_open( $post_id = NULL ) {
 
 	$_post = get_post($post_id);
 
-	$open = ( 'open' == $post->ping_status );
+	$open = ( 'open' == $_post->ping_status );
 	return apply_filters( 'pings_open', $open, $post_id );
 }
 
