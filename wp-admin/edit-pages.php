@@ -45,18 +45,18 @@ printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by {s}, 3: matchin
 $avail_post_stati = get_available_post_statuses('page');
 	
 $status_links = array();
+$num_posts = wp_count_posts('page');
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
 	if ( !in_array($status, $avail_post_stati) )
 		continue;
-
-	$num_posts = wp_count_posts('page', $status);
+	
 	if ( $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
-	sprintf($label[2], $num_posts) . '</a>';
+	sprintf($label[2], $num_posts->$status) . '</a>';
 }
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href=\"edit-pages.php\"$class>All Pages</a>";

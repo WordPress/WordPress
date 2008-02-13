@@ -782,7 +782,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 }
 
 /**
- * wp_count_posts() - Count number of posts with a given type and status
+ * wp_count_posts() - Count number of posts with a given type
  *
  * {@internal Missing Long Description}}
  *
@@ -791,13 +791,19 @@ function sanitize_post_field($field, $value, $post_id, $context) {
  * @since 2.5
  *
  * @param string $type Post type
- * @param string $status Post status
- * @return int Number of posts
+ * @return array Number of posts for each status
  */
-function wp_count_posts( $type = 'post', $status = 'publish' ) {
+function wp_count_posts( $type = 'post' ) {
 	global $wpdb;
 
-	return $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = %s AND post_status = %s", $type, $status) );
+	$count = $wpdb->get_results( $wpdb->prepare( "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s GROUP BY post_status", $type ), ARRAY_A );
+
+	$stats = array( );
+	foreach( (array) $count as $row_num => $row ) {
+		$stats[$row['post_status']] = $row['num_posts'];
+	}
+
+	return (object) $stats;
 }
 
 /**

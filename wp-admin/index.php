@@ -37,15 +37,8 @@ $today = current_time('mysql', 1);
 <h3 class="reallynow"><?php _e('Right Now'); ?> <a href="post-new.php" class="rbutton"><?php _e('Write a New Post'); ?></a> <a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a></h3>
 
 <?php
-$num_posts = wp_count_posts('post', 'publish');
-
-$num_pages = wp_count_posts('page', 'publish');
-
-$num_drafts = wp_count_posts('post', 'draft');
-
-$num_future = wp_count_posts('post', 'future');
-
-$num_comments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
+$num_posts = wp_count_posts( 'post' );
+$num_pages = wp_count_posts( 'page' );
 
 $num_cats  = wp_count_terms('category');
 
@@ -53,17 +46,17 @@ $num_tags = wp_count_terms('post_tag');
 
 $post_type_texts = array();
 
-if ( $num_posts ) {
-	$post_type_texts[] = '<a href="edit.php">'.sprintf( __ngettext( '%s post', '%s posts', $num_posts ), number_format_i18n( $num_posts ) ).'</a>';
+if ( !empty($num_posts->publish) ) {
+	$post_type_texts[] = '<a href="edit.php">'.sprintf( __ngettext( '%s post', '%s posts', $num_posts->publish ), number_format_i18n( $num_posts->publish ) ).'</a>';
 }
-if ( $num_pages ) {
-	$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages ), number_format_i18n( $num_pages ) ).'</a>';
+if ( !empty($num_pages->publish) ) {
+	$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
 }
-if ( $num_drafts ) {
-	$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%s draft', '%s drafts', $num_drafts ), number_format_i18n( $num_drafts ) ).'</a>';
+if ( !empty($num_posts->draft) ) {
+	$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%s draft', '%s drafts', $num_posts->draft ), number_format_i18n( $num_posts->draft ) ).'</a>';
 }
-if ( $num_future ) {
-	$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%s scheduled post', '%s scheduled posts', $num_future ), number_format_i18n( $num_future ) ).'</a>';
+if ( !empty($num_posts->future) ) {
+	$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%s scheduled post', '%s scheduled posts', $num_posts->future ), number_format_i18n( $num_posts->future ) ).'</a>';
 }
 
 $cats_text = '<a href="categories.php">'.sprintf( __ngettext( '%s category', '%s categories', $num_cats ), number_format_i18n( $num_cats ) ).'</a>';

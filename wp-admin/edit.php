@@ -52,18 +52,18 @@ if ( is_single() ) {
 <ul class="subsubsub">
 <?php
 $status_links = array();
+$num_posts = wp_count_posts('post');
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
 	if ( !in_array($status, $avail_post_stati) )
 		continue;
 
-	$num_posts = wp_count_posts('post', $status);
 	if ( $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href=\"edit.php?post_status=$status\"$class>" .
-	sprintf($label[2], $num_posts) . '</a>';
+	sprintf($label[2], $num_posts->$status) . '</a>';
 }
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
 $status_links[] = "<li><a href=\"edit.php\"$class>All Posts</a>";
