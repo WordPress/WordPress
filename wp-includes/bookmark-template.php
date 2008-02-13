@@ -201,6 +201,8 @@ function wp_list_bookmarks($args = '') {
 		}
 	}
 
+	$output = apply_filters( "wp_list_bookmarks", $output );
+
 	if ( !$echo )
 		return $output;
 	echo $output;
