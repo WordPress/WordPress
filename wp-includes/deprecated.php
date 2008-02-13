@@ -1274,4 +1274,13 @@ function documentation_link( $deprecated = '' ) {
 	return;
 }
 
+/**
+ * gzip_compression() - Unused function
+ * 
+ * @deprecated 2.5
+*/
+
+function gzip_compression() {
+	return false;
+}
 ?>
