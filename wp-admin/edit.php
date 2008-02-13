@@ -1,9 +1,37 @@
 <?php
 require_once('admin.php');
 
+// Handle bulk deletes
+if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
+	check_admin_referer('bulk-posts');
+	foreach( (array) $_GET['delete'] as $post_id_del ) {
+		$post_del = & get_post($post_id_del);
+
+		if ( !current_user_can('delete_post', $post_id_del) )
+			wp_die( __('You are not allowed to delete this post.') );
+
+		if ( $post_del->post_type == 'attachment' ) {
+			if ( ! wp_delete_attachment($post_id_del) )
+				wp_die( __('Error in deleting...') );
+		} else {
+			if ( !wp_delete_post($post_id_del) )
+				wp_die( __('Error in deleting...') );
+		}
+	}
+
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'post.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/post-new.php';
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/attachments.php';
+	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+
+	wp_redirect($sendback);
+	exit();
+}
+
 $title = __('Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script( 'admin-posts' );
+wp_enqueue_script('admin-forms');
 if ( 1 == $_GET['c'] )
 	wp_enqueue_script( 'admin-comments' );
 require_once('admin-header.php');
@@ -14,6 +42,7 @@ $wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 bu
 
 if ( !isset( $_GET['paged'] ) )
 	$_GET['paged'] = 1;
+
 ?>
 
 <div class="wrap">
@@ -74,7 +103,7 @@ unset($status_links);
 
 <?php
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated fade"><strong><p><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit post'); ?></a></p></div>
+<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit post'); ?></a></p></div>
 <?php
 endif;
 ?>
@@ -103,7 +132,8 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<?php wp_nonce_field('bulk-posts'); ?>
 <?php
 
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
@@ -141,11 +171,12 @@ foreach ($arc_result as $arc_row) {
 
 <br style="clear:both;" />
 </div>
-</form>
 
 <br style="clear:both;" />
 
 <?php include( 'edit-post-rows.php' ); ?>
+
+</form>
 
 <form action="" method="post" id="get-extra-posts" class="add:the-extra-list:" style="display:none">
 	<?php wp_nonce_field( 'add-post', '_ajax_nonce', false ); ?>

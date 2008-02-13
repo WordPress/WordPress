@@ -287,7 +287,7 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_posts_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" name="TODO" /></div>';
+	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )
@@ -308,7 +308,7 @@ function wp_manage_posts_columns() {
 
 function wp_manage_pages_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" name="TODO" /></div>';
+	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )
