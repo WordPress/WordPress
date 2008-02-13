@@ -151,7 +151,7 @@ function register_new_user($user_login, $user_email) {
 	} elseif ( email_exists( $user_email ) )
 		$errors->add('email_exists', __('<strong>ERROR</strong>: This email is already registered, please choose another one.'));
 
-	do_action('register_post');
+	do_action('register_post', $user_login, $user_email, $errors);
 
 	$errors = apply_filters( 'registration_errors', $errors );
 
