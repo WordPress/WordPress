@@ -166,6 +166,16 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 <?php printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
 <?php endif; ?>
 </p>
+
+<?php if ($post_ID): ?>
+<p><strong><?php _e('Related') ?></strong></p>
+
+<ul>
+<li><a href="edit.php?p=<?php echo $post_ID ?>"><?php _e('See Comments on this Post') ?></a></li>
+<li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
+<li><a href="edit.php"><?php _e('Manage All Posts') ?></a></li>
+</ul>
+<?php endif; ?>
 </div>
 
 <p class="submit">
