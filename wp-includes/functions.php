@@ -1256,7 +1256,7 @@ function wp_explain_nonce( $action ) {
 				$object = $matches[4];
 				if ( 'use_id' != $lookup )
 					$object = call_user_func( $lookup, $object );
-				return sprintf( $trans[$verb][$noun][0], $object );
+				return sprintf( $trans[$verb][$noun][0], wp_specialchars($object) );
 			} else {
 				return $trans[$verb][$noun][0];
 			}
