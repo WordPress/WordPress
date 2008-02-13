@@ -39,7 +39,7 @@ $today = current_time('mysql', 1);
 <h2><?php _e('Dashboard'); ?></h2>
 
 <div id="rightnow">
-<h3 class="reallynow"><?php _e('Right Now'); ?> <a href="post-new.php" class="rbutton"><?php _e('Write a New Post'); ?></a> <a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a></h3>
+<h3 class="reallynow"><span><?php _e('Right Now'); ?></span> <a href="post-new.php" class="rbutton"><?php _e('Write a New Post'); ?></a> <a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a><br class="clear" /></h3>
 
 <?php
 $num_posts = wp_count_posts( 'post' );

@@ -6,26 +6,36 @@
 
 #rightnow .reallynow {
 	background: #d54e21;
-	padding: 12px;
+	padding: 6px;
 	color: #fff;
 	font-size: 15px;
+	line-height: 2;
 	margin: 0;
 }
 
 #rightnow .rbutton {
 	background: #ebebeb;
 	-moz-border-radius: 5px;
-	padding: 6px;
 	font-weight: normal;
 	color: #264761;
+	padding: 6px;
 	border-bottom: none;
 }
 
+#rightnow .reallynow span {
+	display: block;
+	text-align: left;
+	float: left;
+	padding: 0 6px;
+}
+
 #rightnow .reallynow a {
+	display: block;
+	text-align: right;
 	float: right;
-	margin-left: 5px;
+	padding: 0 6px;
 	font-size: 14px;
-	margin-top: -24px;
+	margin: 1px 6px 0 0;
 }
 
 #rightnow .youhave {
@@ -69,7 +79,7 @@ div.dashboard-widget-holder.full {
 }
 
 div.dashboard-widget-holder.double div.dashboard-widget {
-	height: 53em;
+	height: 52em;
 	padding-bottom: 28px /* lame */
 }
 
