@@ -44,7 +44,7 @@ do_action('admin_head');
 <div id="wphead">
 <h1><?php bloginfo('name'); ?> <span id="viewsite"><a href="<?php echo get_option('home') . '/'; ?>"><?php _e('Visit Site') ?></a></span></h1>
 </div>
-<div id="user_info"><p><?php printf(__('Howdy, <strong>%s</strong>.'), $user_identity) ?> [<a href="<?php echo get_option('siteurl'); ?>/wp-login.php?action=logout" title="<?php _e('Log out of this account') ?>"><?php _e('Log Out'); ?></a>, <a href="profile.php"><?php _e('My Profile'); ?></a>] </p></div>
+<div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s">%2$s</a>!'), 'profile.php', $user_identity) ?> | <a href="<?php echo get_option('siteurl'); ?>/wp-login.php?action=logout" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a> | <?php printf(__('<a href="%s">Help</a>'), 'http://codex.wordpress.org/') ?> | <?php printf(__('<a href="%s">Forums</a>'), 'http://wordpress.org/support/') ?></p></div>
 
 <?php
 require(ABSPATH . 'wp-admin/menu-header.php');
