@@ -95,6 +95,7 @@ $post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
 	}
 ?>
 </ul>
+<br class="clear" />
 <?php
 }
 break;

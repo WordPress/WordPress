@@ -895,54 +895,6 @@ html, body {
 	background: #eaf3fa;
 }
 
-/* Dashboard stuff, possibly to go in separate file? */
-
-#rightnow {
-	border: 1px solid #ccc;
-	padding: 2px;
-	margin-top: 10px;
-}
-
-#rightnow .reallynow {
-	background: #d54e21;
-	padding: 12px;
-	color: #fff;
-	font-size: 15px;
-	margin: 0;
-}
-
-#rightnow .rbutton {
-	background: #ebebeb;
-	-moz-border-radius: 5px;
-	padding: 6px;
-	font-weight: normal;
-	color: #264761;
-	border-bottom: none;
-}
-
-#rightnow .reallynow a {
-	float: right;
-	margin-left: 5px;
-	font-size: 14px;
-	margin-top: -24px;
-}
-
-#rightnow .youhave {
-	background: #f0f6fb;
-	font-size:  14px;
-	padding: 10px;
-}
-
-#rightnow p {
-	padding: 0 10px;
-}
-
-#rightnow a {
-	color: #448abd;
-	font-weight: bold;
-	border-bottom: 1px solid #448abd;
-}
-
 /* Post Screen */
 
 #tagchecklist {

@@ -20,6 +20,11 @@ function index_js() {
 }
 add_action( 'admin_head', 'index_js' );
 
+function index_css() {
+	wp_admin_css( 'css/dashboard' );
+}
+add_action( 'admin_head', 'index_css' );
+
 wp_enqueue_script( 'jquery' );
 
 $title = __('Dashboard');
@@ -79,6 +84,8 @@ $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), 
 <?php do_action( 'rightnow_end' ); ?>
 <?php do_action( 'activity_box_end' ); ?>
 </div><!-- rightnow -->
+
+<br class="clear" />
 
 <?php wp_dashboard(); ?>
 
