@@ -173,6 +173,7 @@ function gallery_shortcode($attr) {
 	}
 
 	$output .= "
+			<br style='clear: both;' >
 		</div>
 ";
 
