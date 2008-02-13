@@ -696,23 +696,15 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
 }
 
 function sanitize_post($post, $context = 'display') {
-
 	if ( 'raw' == $context )
 		return $post;
 
-	// TODO: Use array keys instead of hard coded list
-	$fields = array('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_date', 'post_date_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'post_category');
-
-	$do_object = false;
 	if ( is_object($post) )
-		$do_object = true;
-
-	foreach ( $fields as $field ) {
-		if ( $do_object )
+		foreach ( array_keys(get_object_vars($post)) as $field )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
-		else
+	else
+		foreach ( array_keys($post) as $field )
 			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
-	}
 
 	return $post;
 }
