@@ -41,7 +41,7 @@ $pagenum = absint( $_GET['pagenum'] );
 if ( empty($pagenum) )
 	$pagenum = 1;
 if( !$catsperpage || $catsperpage < 0 )
-	$catsperpage = 3;
+	$catsperpage = 20;
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
