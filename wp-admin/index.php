@@ -60,7 +60,7 @@ if ( !empty($num_posts->future) ) {
 }
 
 $cats_text = '<a href="categories.php">'.sprintf( __ngettext( '%s category', '%s categories', $num_cats ), number_format_i18n( $num_cats ) ).'</a>';
-$tags_text = sprintf( __ngettext( '%s tag', '%s tags', $num_tags ), number_format_i18n( $num_tags ) );
+$tags_text = '<a href="edit-tags.php">'.sprintf( __ngettext( '%s tag', '%s tags', $num_tags ), number_format_i18n( $num_tags ) ).'</a>';
 
 $post_type_text = implode(', ', $post_type_texts);
 
