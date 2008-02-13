@@ -16,6 +16,10 @@ unset($current_user);
 require_once('admin.php');
 
 header('Content-Type: text/plain');
+
+if ( !current_user_can('upload_files') )
+	wp_die(__('You do not have permission to upload files.'));
+
 $id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 if (is_wp_error($id)) {
 	echo '<div id="media-upload-error">'.wp_specialchars($id->get_error_message()).'</div>';
