@@ -519,23 +519,25 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	if ( strlen( $short_url ) > 35 )
 		$short_url =  substr( $short_url, 0, 32 ).'...';
 	$numposts = get_usernumposts( $user_object->ID );
+	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
+		$edit = add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" );
+		$edit = "<a href=\"$edit\">$user_object->user_login</a>";
+	} else {
+		$edit = $user_object->user_login;
+	}
 	$r = "<tr id='user-$user_object->ID'$style>
 		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></td>
-		<td><label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
-		<td><label for='user_{$user_object->ID}'><strong>$user_object->user_login</strong></label></td>
-		<td><label for='user_{$user_object->ID}'>$user_object->first_name $user_object->last_name</label></td>
+		<td><strong>$edit</strong></td>
+		<td>$user_object->first_name $user_object->last_name</td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>
 		<td><a href='$url' title='website: $url'>$short_url</a></td>";
-	$r .= "\n\t\t<td align='center'>";
+	$r .= "\n\t\t<td>";
 	if ( $numposts > 0 ) {
 		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
-		$r .= sprintf(__ngettext( 'View %s post', 'View %s posts', $numposts ), $numposts);
+		$r .= $numposts;
 		$r .= '</a>';
-	}
-	$r .= "</td>\n\t\t<td>";
-	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
-		$edit_link = add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" );
-		$r .= "<a href='$edit_link' class='edit'>".__( 'Edit' )."</a>";
+	} else {
+		$r .= 0;
 	}
 	$r .= "</td>\n\t</tr>";
 	return $r;

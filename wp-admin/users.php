@@ -292,13 +292,11 @@ foreach($roleclasses as $role => $roleclass) {
 </tr>
 <tr class="thead">
 	<th><input type="checkbox" onclick="checkAllUsers('<?php echo $role; ?>')"/> </th>
-	<th><?php _e('ID') ?></th>
 	<th><?php _e('Username') ?></th>
 	<th><?php _e('Name') ?></th>
 	<th><?php _e('E-mail') ?></th>
 	<th><?php _e('Website') ?></th>
-	<th><?php _e('Posts created') ?></th>
-	<th colspan="2" style="text-align: center"><?php _e('Actions') ?></th>
+	<th><?php _e('Posts') ?></th>
 </tr>
 </tbody>
 <tbody id="role-<?php echo $role; ?>" class="list:user user-list"><?php
@@ -356,8 +354,6 @@ foreach ( (array) $roleclass as $user_object ) {
 <?php endif; ?>
 <div id="ajax-response"></div>
 
-<div class="narrow">
-
 <?php
 	if ( get_option('users_can_register') )
 		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php') . '</p>';
@@ -366,10 +362,10 @@ foreach ( (array) $roleclass as $user_object ) {
 ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:user-list:">
 <?php wp_nonce_field('add-user') ?>
-<table class="editform" width="100%" cellspacing="2" cellpadding="5">
+<table class="niceblue">
 	<tr class="form-field form-required">
-		<th scope="row" width="33%"><?php _e('Username (required)') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
-		<td width="66%"><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" /></td>
+		<th scope="row"><?php _e('Username (required)') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
+		<td ><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" /></td>
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><?php _e('First Name') ?> </th>
@@ -420,7 +416,6 @@ foreach ( (array) $roleclass as $user_object ) {
 </tbody>
 </table>
 
-</div>
 </div>
 
 <?php
