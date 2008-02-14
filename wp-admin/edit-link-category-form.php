@@ -23,10 +23,10 @@ if ( ! empty($cat_ID) ) {
 <input type="hidden" name="action" value="<?php echo $action ?>" />
 <input type="hidden" name="cat_ID" value="<?php echo $category->term_id ?>" />
 <?php wp_nonce_field($nonce_action); ?>
-	<table class="editform" width="100%" cellspacing="2" cellpadding="5">
+	<table class="niceblue" width="100%">
 		<tr class="form-field form-required">
-			<th width="33%" scope="row" valign="top"><label for="name"><?php _e('Category name:') ?></label></th>
-			<td width="67%"><input name="name" id="name" type="text" value="<?php echo $category->name; ?>" size="40" /></td>
+			<th scope="row" valign="top"><label for="name"><?php _e('Category name:') ?></label></th>
+			<td><input name="name" id="name" type="text" value="<?php echo $category->name; ?>" size="40" /></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Category slug:') ?></label></th>
