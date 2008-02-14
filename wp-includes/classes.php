@@ -417,6 +417,12 @@ class Walker {
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
 
+		if ($depth > 0) {
+			//start the child delimiter
+			$cb_args = array_merge( array($output, $depth), $args);
+			$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
+		}
+
 		//display this element
 		$cb_args = array_merge( array($output, $element, $depth), $args);
 		$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
@@ -426,28 +432,21 @@ class Walker {
 			$child = $children_elements[$i];
 			if ( $child->$parent_field == $element->$id_field ) {
 
-				if ( !isset($newlevel) ) {
-					$newlevel = true; 
-					//start the child delimiter
-					$cb_args = array_merge( array($output, $depth), $args);
-					$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-				}
-				
 				array_splice( $children_elements, $i, 1 );
 				$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
 				$i = -1;
 			}
 		}
 
-		if ( isset($newlevel) && $newlevel ){
+		//end this element
+		$cb_args = array_merge( array($output, $element, $depth), $args);
+		$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
+
+		if ($depth > 0) {
 			//end the child delimiter
 			$cb_args = array_merge( array($output, $depth), $args);
 			$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
 		}
-		
-		//end this element
-		$cb_args = array_merge( array($output, $element, $depth), $args);
-		$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 
 		return $output;
 	}
