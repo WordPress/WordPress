@@ -171,7 +171,7 @@ checked="checked"
 	  <?php _e('Tag base'); ?>: <input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" />
      </p>
     <p class="submit">
-      <input type="submit" name="submit" value="<?php _e('Update Permalink Structure') ?>" />
+      <input type="submit" name="submit" value="<?php _e('Save Changes') ?>" />
     </p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>

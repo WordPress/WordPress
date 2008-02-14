@@ -14,12 +14,12 @@ include('admin-header.php');
 
 <table class="niceblue">
 <tr valign="top">
-<th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th>
+<th scope="row"> <?php _e('Size of the post box') ?></th>
 <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " />
 <?php _e('lines') ?></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Formatting:') ?></th>
+<th scope="row"><?php _e('Formatting') ?></th>
 <td>
 <label for="use_smilies">
 <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_option('use_smilies')); ?> />
@@ -28,7 +28,7 @@ include('admin-header.php');
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Default post category:') ?></th>
+<th scope="row"><?php _e('Default Post Category') ?></th>
 <td><select name="default_category" id="default_category">
 <?php
 $categories = get_categories('get=all');
@@ -42,7 +42,7 @@ endforeach;
 </select></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Default link category:') ?></th>
+<th scope="row"><?php _e('Default Link Category') ?></th>
 <td><select name="default_link_category" id="default_link_category">
 <?php
 $link_categories = get_terms('link_category', 'get=all');
@@ -62,24 +62,24 @@ endforeach;
 
 <table class="niceblue">
 <tr valign="top">
-<th scope="row"><?php _e('Mail server:') ?></th>
+<th scope="row"><?php _e('Mail Server') ?></th>
 <td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
 <label for="mailserver_port"><?php _e('Port:') ?></label>
 <input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" size="6" />
 </td>
 </tr>
 <tr valign="top">
-<th width="33%" scope="row"><?php _e('Login name:') ?></th>
+<th scope="row"><?php _e('Login Name') ?></th>
 <td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option('mailserver_login'); ?>" size="40" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Password:') ?></th>
+<th scope="row"><?php _e('Password') ?></th>
 <td>
 <input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option('mailserver_pass'); ?>" size="40" />
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Default mail category:') ?></th>
+<th scope="row"><?php _e('Default Mail Category') ?></th>
 <td><select name="default_email_category" id="default_email_category">
 <?php
 //Alreay have $categories from default_category

@@ -13,7 +13,7 @@ include('./admin-header.php');
 <?php wp_nonce_field('update-options') ?>
 <table class="niceblue">
 <tr valign="top">
-<th scope="row"><?php _e('Blog visibility:') ?> </th>
+<th scope="row"><?php _e('Blog Visibility') ?> </th>
 <td>
 <p><input id="blog-public" type="radio" name="blog_public" value="1" <?php checked('1', get_option('blog_public')); ?> />
 <label for="blog-public"><?php _e('I would like my blog to be visible to everyone, including search engines (like Google, Sphere, Technorati) and archivers');?></label></p>

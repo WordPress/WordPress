@@ -14,7 +14,7 @@ include('admin-header.php');
 <table class="niceblue">
 <?php if ( get_pages() ): ?>
 <tr valign="top">
-<th scope="row"><?php _e('Front page displays:')?></th>
+<th scope="row"><?php _e('Front page displays')?></th>
 <td>
 	<p><label>
 		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked('posts', get_option('show_on_front')); ?> />
@@ -41,17 +41,17 @@ include('admin-header.php');
 </tr>
 <?php endif; ?>
 <tr valign="top">
-<th scope="row"><?php _e('Blog pages show at most:') ?></th>
+<th scope="row"><?php _e('Blog pages show at most') ?></th>
 <td>
 <input name="posts_per_page" type="text" id="posts_per_page" value="<?php form_option('posts_per_page'); ?>" size="3" /> <?php _e('posts') ?>
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Syndication feeds show the most recent:') ?></th>
+<th scope="row"><?php _e('Syndication feeds show the most recent') ?></th>
 <td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php form_option('posts_per_rss'); ?>" size="3" /> <?php _e('posts') ?></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('For each article in a feed, show:') ?> </th>
+<th scope="row"><?php _e('For each article in a feed, show') ?> </th>
 <td>
 <p><label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_option('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_option('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label></p>
@@ -72,7 +72,7 @@ include('admin-header.php');
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Show Avatars with Rating:') ?></th>
+<th scope="row"><?php _e('Show Avatars with Rating') ?></th>
 <td>
 <select name="avatar_rating" id="avatar_rating">
 <?php
@@ -86,7 +86,7 @@ endforeach;
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Encoding for pages and feeds:') ?></th>
+<th scope="row"><?php _e('Encoding for pages and feeds') ?></th>
 <td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" size="20" class="code" /><br />
 <?php _e('The character encoding you write your blog in (UTF-8 is <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></td>
 </tr>

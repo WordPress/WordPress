@@ -15,7 +15,7 @@ include('admin-header.php');
 <h3><?php _e('Uploading'); ?></h3>
 <table class="niceblue">
 <tr valign="top">
-<th scope="row"><?php _e('Store uploads in this folder'); ?>:</th>
+<th scope="row"><?php _e('Store uploads in this folder'); ?></th>
 <td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo attribute_escape(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" size="40" />
 <br />
 <?php _e('Default is <code>wp-content/uploads</code>'); ?>
@@ -23,7 +23,7 @@ include('admin-header.php');
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e('Full URL path to files (optional)'); ?>:</th>
+<th scope="row"><?php _e('Full URL path to files (optional)'); ?></th>
 <td><input name="upload_url_path" type="text" id="upload_url_path" class="code" value="<?php echo attribute_escape( get_option('upload_url_path')); ?>" size="40" />
 </td>
 </tr>
