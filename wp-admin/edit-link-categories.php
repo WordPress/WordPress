@@ -1,10 +1,33 @@
 <?php
 require_once('admin.php');
 
+// Handle bulk deletes
+if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
+	check_admin_referer('bulk-link-categories');
+
+	if ( !current_user_can('manage_categories') )
+		wp_die(__('Cheatin&#8217; uh?'));
+
+	foreach( (array) $_GET['delete'] as $cat_ID ) {
+		$cat_name = get_term_field('name', $cat_ID, 'link_category');
+
+		// Don't delete the default cats.
+		if ( $cat_ID == get_option('default_link_category') )
+			wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+
+		wp_delete_term($cat_ID, 'link_category');
+	}
+
+	wp_redirect('edit-link-categories.php?message=6');
+	exit();
+}
+
 $title = __('Link Categories');
 $parent_file = 'edit.php';
 
 wp_enqueue_script( 'admin-categories' );
+wp_enqueue_script('admin-forms');
+
 require_once ('admin-header.php');
 
 $messages[1] = __('Category added.');
@@ -12,6 +35,7 @@ $messages[2] = __('Category deleted.');
 $messages[3] = __('Category updated.');
 $messages[4] = __('Category not added.');
 $messages[5] = __('Category not updated.');
+$messages[6] = __('Categories deleted.');
 
 if (isset($_GET['message'])) : ?>
 
@@ -55,19 +79,19 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<?php wp_nonce_field('bulk-link-categories'); ?>
 </div>
 
 <br style="clear:both;" />
 </div>
-</form>
 
 <br style="clear:both;" />
 
 <table class="widefat">
 	<thead>
 	<tr>
-        <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('deletetags'));" /></th>
+        <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Links') ?></th>
@@ -95,6 +119,7 @@ if ( $categories ) {
 ?>
 	</tbody>
 </table>
+</form>
 
 <br style="clear:both;" />
 

@@ -81,7 +81,7 @@ function link_cat_row( $category ) {
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='link-cat-$category->term_id'$class>" .
-		'<td style="text-align: center"> <input type="checkbox" name="delete_tags[]" value="' . $category->term_id . '" /></td>' .
+		'<td style="text-align: center"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></td>' .
 		"<td>$edit</td>
 		<td>$category->description</td>
 		<td align='center'>$count</td>";
