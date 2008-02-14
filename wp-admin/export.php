@@ -26,7 +26,7 @@ require_once ('admin-header.php');
 <th><?php _e('Restrict Author:'); ?></th>
 <td>
 <select name="author">
-<option value="all" selected="selected"><?php _e('All'); ?></option>
+<option value="all" selected="selected"><?php _e('All Authors'); ?></option>
 <?php
 $authors = $wpdb->get_col( "SELECT post_author FROM $wpdb->posts GROUP BY post_author" );
 foreach ( $authors as $id ) {
