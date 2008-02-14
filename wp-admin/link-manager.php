@@ -1,10 +1,25 @@
 <?php
 
-
-// Links
-// Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
-
 require_once ('admin.php');
+
+// Handle bulk deletes
+if ( isset($_GET['deleteit']) && isset($_GET['linkcheck']) ) {
+	check_admin_referer('bulk-bookmarks');
+
+	if ( ! current_user_can('manage_links') )
+		wp_die( __('You do not have sufficient permissions to edit the links for this blog.') );
+
+	foreach ( (array) $_GET['linkcheck'] as $link_id) {
+		$link_id = (int) $link_id;
+
+		wp_delete_link($link_id);
+	}
+
+	$sendback = wp_get_referer();
+	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+	wp_redirect($sendback);
+	exit;
+}
 
 wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script('admin-forms');
@@ -71,8 +86,8 @@ if ( isset($_GET['deleted']) ) {
 <div class="tablenav">
 
 <div style="float: left">
-<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
-
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<?php wp_nonce_field('bulk-posts'); ?>
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
 $select_cat = "<select name=\"cat_id\">\n";
@@ -98,7 +113,6 @@ echo $select_order;
 
 <br style="clear:both;" />
 </div>
-</form>
 
 <br style="clear:both;" />
 
@@ -123,7 +137,6 @@ $links = get_bookmarks( $args );
 if ( $links ) {
 ?>
 
-<form id="links" method="post" action="link.php">
 <?php wp_nonce_field('bulk-bookmarks') ?>
 <input type="hidden" name="link_id" value="" />
 <input type="hidden" name="action" value="" />
@@ -132,7 +145,7 @@ if ( $links ) {
 <table class="widefat">
 	<thead>
 	<tr>
-	<th style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('links'));" /></th>
+	<th style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
 <?php foreach($link_columns as $column_display_name) {
 	echo $column_display_name;
 } ?>
@@ -200,6 +213,7 @@ if ( $links ) {
 ?>
 	</tbody>
 </table>
+</form>
 
 <div id="ajax-response"></div>
 
