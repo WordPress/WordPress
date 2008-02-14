@@ -1,17 +1,17 @@
 <?php
 require_once('admin.php');
 
-$title = __('Writing Options');
+$title = __('Writing Settings');
 $parent_file = 'options-general.php';
 
 include('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Writing Options') ?></h2>
+<h2><?php _e('Writing Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Settings &raquo;') ?>" /></p>
 
 <table class="niceblue">
 <tr valign="top">
@@ -117,7 +117,7 @@ endforeach;
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category" />
-<input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
+<input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
 </p>
 </form>
 </div>

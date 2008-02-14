@@ -1,14 +1,14 @@
 <?php
 require_once('./admin.php');
 
-$title = __('Privacy Options');
+$title = __('Privacy Settings');
 $parent_file = 'options-general.php';
 
 include('./admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Privacy Options') ?></h2>
+<h2><?php _e('Privacy Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <table class="niceblue">
@@ -24,7 +24,7 @@ include('./admin-header.php');
 </tr>
 </table>
 
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="blog_public" />
 </p>

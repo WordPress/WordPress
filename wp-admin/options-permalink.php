@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 
-$title = __('Permalink Options');
+$title = __('Permalink Settings');
 $parent_file = 'options-general.php';
 
 function add_js() {
@@ -127,7 +127,7 @@ $structures = array(
 	$prefix . '/archives/%post_id%'
 	);
 ?>
-<h3><?php _e('Common options:'); ?></h3>
+<h3><?php _e('Common settings:'); ?></h3>
 <p>
 	<label>
 <input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> />

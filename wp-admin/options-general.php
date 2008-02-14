@@ -1,17 +1,17 @@
 <?php
 require_once('./admin.php');
 
-$title = __('General Options');
+$title = __('General Settings');
 $parent_file = 'options-general.php';
 
 include('./admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('General Options') ?></h2>
+<h2><?php _e('General Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
 <table class="niceblue">
 <tr valign="top">
 <th scope="row"><?php _e('Blog title:') ?></th>
@@ -75,7 +75,7 @@ include('./admin-header.php');
 </tr>
 <tr>
 <th scope="row">&nbsp;</th>
-<td><?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Update options" to update sample output.') ?> </td>
+<td><?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') ?> </td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Weeks in the calendar should start on:') ?></th>
@@ -90,7 +90,7 @@ endfor;
 </tr>
 </table>
 
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="<?php if ( ! defined( 'WP_SITEURL' ) ) echo 'siteurl,'; if ( ! defined( 'WP_HOME' ) ) echo 'home,'; ?>blogname,blogdescription,admin_email,users_can_register,gmt_offset,date_format,time_format,start_of_week,comment_registration,default_role" />
 </p>

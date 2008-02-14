@@ -1,17 +1,17 @@
 <?php
 require_once('admin.php');
 
-$title = __('Reading Options');
+$title = __('Reading Settings');
 $parent_file = 'options-general.php';
 
 include('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Reading Options') ?></h2>
+<h2><?php _e('Reading Settings') ?></h2>
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
 <?php if ( get_pages() ): ?>
 <fieldset class="options">
 <legend><?php _e('Front Page') ?></legend>
@@ -119,7 +119,7 @@ endforeach;
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="posts_per_page,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts,show_avatars,avatar_rating" />
-<input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
+<input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
 </p>
 </form>
 </div>

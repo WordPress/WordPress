@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 
-$title = __('Miscellaneous Options');
+$title = __('Miscellaneous Settings');
 $parent_file = 'options-general.php';
 
 include('admin-header.php');
@@ -9,10 +9,10 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Miscellaneous Options') ?></h2>
+<h2><?php _e('Miscellaneous Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
 <fieldset class="options">
 <legend><?php _e('Uploading'); ?></legend>
 <table class="niceblue">
@@ -51,7 +51,7 @@ include('admin-header.php');
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path,upload_url_path" />
-<input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
+<input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
 </p>
 </form>
 </div>
