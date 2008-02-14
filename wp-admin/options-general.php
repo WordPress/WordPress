@@ -11,7 +11,7 @@ include('./admin-header.php');
 <h2><?php _e('General Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<table class="niceblue">
+<table class="niceblue" width="100%">
 <tr valign="top">
 <th scope="row"><?php _e('Blog Title') ?></th>
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="40" /></td>

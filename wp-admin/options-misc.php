@@ -13,7 +13,7 @@ include('admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <h3><?php _e('Uploading'); ?></h3>
-<table class="niceblue">
+<table class="niceblue" width="100%">
 <tr valign="top">
 <th scope="row"><?php _e('Store uploads in this folder'); ?></th>
 <td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo attribute_escape(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" size="40" />
