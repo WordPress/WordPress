@@ -1029,6 +1029,12 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$orderby = 'tt.count';
 	else if ( 'name' == $orderby )
 		$orderby = 't.name';
+	else if ( 'slug' == $orderby )
+		$orderby = 't.slug';
+	else if ( 'term_group' == $orderby )
+		$orderby = 't.term_group';
+	else
+		$orderby = 't.term_id';
 
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
