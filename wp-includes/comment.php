@@ -1061,11 +1061,11 @@ function do_trackbacks($post_id) {
  */
 function generic_ping($post_id = 0) {
 	$services = get_option('ping_sites');
-	$services = preg_replace("|(\s)+|", '$1', $services); // Kill dupe lines
-	$services = trim($services);
-	if ( '' != $services ) {
-		$services = explode("\n", $services);
-		foreach ( (array) $services as $service )
+
+	$services = explode("\n", $services);
+	foreach ( (array) $services as $service ) {
+		$service = trim($service);
+		if ( '' != $service )
 			weblog_ping($service);
 	}
 
