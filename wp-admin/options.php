@@ -48,7 +48,6 @@ default:
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
-	<p class="submit"><input type="submit" name="Update" value="<?php _e('Save Changes &raquo;') ?>" /></p>
   <table width="98%">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
@@ -86,7 +85,7 @@ endforeach;
 ?>
   </table>
 <?php $options_to_update = implode(',', $options_to_update); ?>
-<p class="submit"><input type="hidden" name="page_options" value="<?php echo $options_to_update; ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes &raquo;') ?>" /></p>
+<p class="submit"><input type="hidden" name="page_options" value="<?php echo $options_to_update; ?>" /><input type="submit" name="Update" value="<?php _e('Save Changes') ?>" /></p>
   </form>
 </div>
 

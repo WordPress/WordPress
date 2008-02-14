@@ -11,7 +11,6 @@ include('admin-header.php');
 <h2><?php _e('Discussion Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
 <h3><?php _e('Usual settings for an article:') ?></h3>
 <small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
 <ul>
@@ -74,7 +73,7 @@ include('admin-header.php');
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys" />
-<input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
+<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>
 </div>

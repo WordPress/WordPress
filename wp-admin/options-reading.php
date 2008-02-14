@@ -11,7 +11,6 @@ include('admin-header.php');
 <h2><?php _e('Reading Settings') ?></h2>
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
 <?php if ( get_pages() ): ?>
 <h3><?php _e('Front Page') ?></h3>
 <table class="niceblue">
@@ -112,7 +111,7 @@ endforeach;
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="posts_per_page,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts,show_avatars,avatar_rating" />
-<input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
+<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>
 </div>

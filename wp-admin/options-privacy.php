@@ -24,7 +24,7 @@ include('./admin-header.php');
 </tr>
 </table>
 
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" />
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="blog_public" />
 </p>
