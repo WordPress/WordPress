@@ -23,7 +23,7 @@ if ( ! empty($cat_ID) ) {
 <input type="hidden" name="action" value="<?php echo $action ?>" />
 <input type="hidden" name="cat_ID" value="<?php echo $category->term_id ?>" />
 <?php wp_nonce_field($nonce_action); ?>
-	<table class="niceblue" width="100%">
+	<table class="niceblue">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
 			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo attribute_escape($category->name); ?>" size="40" /></td>

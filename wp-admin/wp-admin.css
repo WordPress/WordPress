@@ -877,6 +877,7 @@ html, body {
 .niceblue {
 	border-collapse: collapse;
 	margin-top: 1em;
+	width: 100%;
 }
 
 .niceblue td {

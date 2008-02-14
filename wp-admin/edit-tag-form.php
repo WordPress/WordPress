@@ -23,7 +23,7 @@ if ( ! empty($tag_ID) ) {
 <input type="hidden" name="action" value="<?php echo $action ?>" />
 <input type="hidden" name="tag_ID" value="<?php echo $tag->term_id ?>" />
 <?php wp_nonce_field($nonce_action); ?>
-	<table class="niceblue" width="100%">
+	<table class="niceblue">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Tag name:') ?></label></th>
 			<td><input name="name" id="name" type="text" value="<?php echo attribute_escape($tag->name); ?>" size="40" /></td>

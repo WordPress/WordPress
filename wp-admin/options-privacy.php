@@ -11,7 +11,7 @@ include('./admin-header.php');
 <h2><?php _e('Privacy Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<table class="niceblue" width="100%">
+<table class="niceblue">
 <tr valign="top">
 <th scope="row"><?php _e('Blog Visibility') ?> </th>
 <td>
