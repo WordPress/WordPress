@@ -1033,6 +1033,8 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$orderby = 't.slug';
 	else if ( 'term_group' == $orderby )
 		$orderby = 't.term_group';
+	else if ( 'term_order' == $orderby )
+		$orderby = 'tr.term_order';
 	else
 		$orderby = 't.term_id';
 
@@ -1247,6 +1249,18 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id IN ($in_delete_terms)");
 			wp_update_term_count($delete_terms, $taxonomy);
 		}
+	}
+
+	$t = get_taxonomy($taxonomy);
+	if ( ! $append && $t->sort ) {
+		$values = array();
+		$term_order = 0;
+		$final_term_ids = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
+		foreach ( $term_ids as $term_id )
+			if ( in_array($term_id, $final_term_ids) )
+				$values[] = $wpdb->prepare( "(%d, %d, %d)", $object_id, $term_id, ++$term_order);
+		if ( $values )
+			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id, term_order) VALUES " . join(',', $values) . " ON DUPLICATE KEY UPDATE term_order = VALUES(term_order)");
 	}
 
 	return $tt_ids;
