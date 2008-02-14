@@ -6,6 +6,9 @@ $parent_file = 'edit.php';
 
 wp_reset_vars(array('action', 'tag'));
 
+if ( isset($_GET['deleteit']) && isset($_GET['delete_tags']) )
+	$action = 'bulk-delete';
+
 switch($action) {
 
 case 'addtag':
@@ -44,9 +47,9 @@ case 'bulk-delete':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	$tags = $_POST['delete_tags'];
-	foreach( $tags as $tag_ID ) {
-	  wp_delete_term( $tag_ID, 'post_tag');
+	$tags = $_GET['delete_tags'];
+	foreach( (array) $tags as $tag_ID ) {
+		wp_delete_term( $tag_ID, 'post_tag');
 	}
 
 	wp_redirect('edit-tags.php?message=6');
@@ -136,22 +139,20 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
-</div>
-
-<br style="clear:both;" />
-</div>
-</form>
-
-<br style="clear:both;" />
-
-<form name="deletetags" id="deletetags" action="" method="post">
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
 <?php wp_nonce_field('bulk-tags'); ?>
+</div>
+
+<br style="clear:both;" />
+</div>
+
+<br style="clear:both;" />
+
 <input type="hidden" name="action" value="bulk-delete" />
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('deletetags'));" /></th>
+		<th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
 	</tr>
@@ -165,8 +166,9 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 ?>
 	</tbody>
 </table>
-<p class="submit"><input type="submit" class="button" name="deletetags" id="deletetags" value="<?php _e('Delete Checked Tags &raquo;') ?>" onclick="return confirm('<?php echo js_escape(__("You are about to delete these tags permanently.\n'Cancel' to stop, 'OK' to delete.")); ?>')" /></p>
 </form>
+
+<br style="clear:both;" />
 
 <div class="tablenav">
 
