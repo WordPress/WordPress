@@ -58,8 +58,7 @@ endforeach;
 </tr>
 </table>
 
-<fieldset class="options">
-<legend><?php _e('Post via e-mail') ?></legend>
+<h3><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), wp_generate_password(), wp_generate_password(), wp_generate_password()) ?></p>
 
 <table class="niceblue">
@@ -95,10 +94,8 @@ endforeach;
 </select></td>
 </tr>
 </table>
-</fieldset>
 
-<fieldset class="options">
-<legend><?php _e('Update Services') ?></legend>
+<h3><?php _e('Update Services') ?></h3>
 
 <?php if ( get_option('blog_public') ) : ?>
 
@@ -111,8 +108,6 @@ endforeach;
 	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog\'s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?>
 
 <?php endif; ?>
-
-</fieldset>
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />

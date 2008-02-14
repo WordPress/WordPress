@@ -13,8 +13,7 @@ include('admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
-<fieldset class="options">
-<legend><?php _e('Uploading'); ?></legend>
+<h3><?php _e('Uploading'); ?></h3>
 <table class="niceblue">
 <tr valign="top">
 <th scope="row"><?php _e('Store uploads in this folder'); ?>:</th>
@@ -40,7 +39,6 @@ include('admin-header.php');
 </td>
 </tr>
 </table>
-</fieldset>
 
 <p><input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1" <?php checked('1', get_option('use_linksupdate')); ?> />
 <label for="use_linksupdate"><?php _e('Track Links&#8217; Update Times') ?></label></p>

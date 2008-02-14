@@ -13,8 +13,7 @@ include('admin-header.php');
 <?php wp_nonce_field('update-options') ?>
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
 <?php if ( get_pages() ): ?>
-<fieldset class="options">
-<legend><?php _e('Front Page') ?></legend>
+<h3><?php _e('Front Page') ?></h3>
 <table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Front page displays:')?></th>
@@ -43,11 +42,9 @@ include('admin-header.php');
 </td>
 </tr>
 </table>
-</fieldset>
 <?php endif; ?>
 
-<fieldset class="options">
-<legend><?php _e('Blog Pages') ?></legend>
+<h3><?php _e('Blog Pages') ?></h3>
 <table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Show at most:') ?></th>
@@ -58,8 +55,7 @@ include('admin-header.php');
 </table>
 </fieldset>
 
-<fieldset class="options">
-<legend><?php _e('Syndication Feeds') ?></legend>
+<h3><?php _e('Syndication Feeds') ?></h3>
 <table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Show the most recent:') ?></th>
@@ -73,10 +69,8 @@ include('admin-header.php');
 </td>
 </tr>
 </table>
-</fieldset>
 
-<fieldset class="options">
-<legend><?php _e('Avatars') ?></legend>
+<h3><?php _e('Avatars') ?></h3>
 <table class="niceblue">
 <tr valign="top">
 <th width="33%" scope="row"><?php _e('Show Avatars?') ?></th>
@@ -107,7 +101,6 @@ endforeach;
 </td>
 </tr>
 </table>
-</fieldset>
 
 <table class="niceblue">
 <tr valign="top">

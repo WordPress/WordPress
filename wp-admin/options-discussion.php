@@ -12,8 +12,8 @@ include('admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes &raquo;') ?>" /></p>
-<fieldset class="options">
-<legend><?php echo __('Usual settings for an article:').'<br /><small><em>('.__('These settings may be overridden for individual articles.').')</em></small>'; ?></legend>
+<h3><?php _e('Usual settings for an article:') ?></h3>
+<small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
 <ul>
 <li>
 <label for="default_pingback_flag">
@@ -31,9 +31,8 @@ include('admin-header.php');
 <?php _e('Allow people to post comments on the article') ?></label>
 </li>
 </ul>
-</fieldset>
-<fieldset class="options">
-<legend><?php _e('E-mail me whenever:') ?></legend>
+
+<h3><?php _e('E-mail me whenever:') ?></h3>
 <ul>
 <li>
 <label for="comments_notify">
@@ -46,9 +45,8 @@ include('admin-header.php');
 <?php _e('A comment is held for moderation') ?> </label>
 </li>
 </ul>
-</fieldset>
-<fieldset class="options">
-<legend><?php _e('Before a comment appears:') ?></legend>
+
+<h3><?php _e('Before a comment appears:') ?></h3>
 <ul>
 <li>
 <label for="comment_moderation">
@@ -58,23 +56,21 @@ include('admin-header.php');
 <li><label for="require_name_email"><input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_option('require_name_email')); ?> /> <?php _e('Comment author must fill out name and e-mail') ?></label></li>
 <li><label for="comment_whitelist"><input type="checkbox" name="comment_whitelist" id="comment_whitelist" value="1" <?php checked('1', get_option('comment_whitelist')); ?> /> <?php _e('Comment author must have a previously approved comment') ?></label></li>
 </ul>
-</fieldset>
-<fieldset class="options">
-<legend><?php _e('Comment Moderation') ?></legend>
+
+<h3><?php _e('Comment Moderation') ?></h3>
 <p><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_option('comment_max_links'). '" />' ) ?></p>
 
 <p><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="moderation.php">moderation queue</a>. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></p>
 <p>
 <textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('moderation_keys'); ?></textarea>
 </p>
-</fieldset>
-<fieldset class="options">
-<legend><?php _e('Comment Blacklist') ?></legend>
+
+<h3><?php _e('Comment Blacklist') ?></h3>
 <p><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></p>
 <p>
 <textarea name="blacklist_keys" cols="60" rows="4" id="blacklist_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('blacklist_keys'); ?></textarea>
 </p>
-</fieldset>
+
 <p class="submit">
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys" />
