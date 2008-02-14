@@ -146,7 +146,7 @@ if ( 'future' == $post->post_status ) {
 </div>
 
 <p class="submit">
-<input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
+<input type="submit" name="save" id="save-post" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
 ?>

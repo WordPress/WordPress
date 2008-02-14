@@ -45,6 +45,11 @@ function tag_flush_to_text() {
 	return false;
 }
 
+function tag_save_on_publish() {
+	if ( jQuery('#newtag').val() != postL10n.addTag )
+		tag_flush_to_text();
+}
+
 function tag_press_key( e ) {
 	if ( 13 == e.keyCode ) {
 		tag_flush_to_text();
@@ -77,6 +82,10 @@ addLoadEvent( function() {
 		if ( this.value == '' )
 			jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
 	});
+
+	// auto-save tags on post save/publish
+	jQuery('#publish').click( tag_save_on_publish );
+	jQuery('#save-post').click( tag_save_on_publish );
 
 	// auto-suggest stuff
 	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2 } );
