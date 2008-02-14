@@ -72,6 +72,24 @@
 				}
 			});
 
+			// Add class "alignleft" or "alignright" when selecting align for images.
+			ed.onBeforeExecCommand.add(function( editor, cmd ) {
+				var node, dir, xdir;
+	
+				if ( ( cmd.indexOf('Justify') != -1 ) && ( node = editor.selection.getNode() ) ) {
+					if ( node.nodeName !== 'IMG' ) return;
+					dir = cmd.substring(7).toLowerCase();
+					if ( 'JustifyCenter' == cmd || editor.queryCommandState( cmd ) ) {
+						editor.dom.removeClass( node, "alignleft" );
+						editor.dom.removeClass( node, "alignright" );
+					} else {
+						xdir = ( dir == 'left' ) ? 'right' : 'left';
+						editor.dom.removeClass( node, "align"+xdir );
+						editor.dom.addClass( node, "align"+dir );
+					}
+				}
+			});
+			
 			// Add listeners to handle more break
 			t._handleMoreBreak(ed, url);
 		},

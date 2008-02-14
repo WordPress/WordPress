@@ -29,6 +29,7 @@ var ImageDialog = {
 			f.width.value = ed.dom.getAttrib(e, 'width');
 			f.height.value = ed.dom.getAttrib(e, 'height');
 			f.insert.value = ed.getLang('update');
+			f.class_name.value = ed.dom.getAttrib(e, 'class');
 			this.styleVal = ed.dom.getAttrib(e, 'style');
 			selectByValue(f, 'image_list', f.src.value);
 			selectByValue(f, 'align', this.getAttrib(e, 'align'));
@@ -69,17 +70,15 @@ var ImageDialog = {
 				align : getSelectValue(f, 'align')
 			});
 		} else {
-			args = tinymce.extend(args, {
-				style : this.styleVal,
-				'class' : f.class_name.value
-			});
+			args.style = this.styleVal;
 		}
 		
 		tinymce.extend(args, {
 			src : f.src.value,
 			alt : f.alt.value,
 			width : f.width.value,
-			height : f.height.value
+			height : f.height.value,
+			'class' : f.class_name.value
 		});
 
 		el = ed.selection.getNode();
@@ -96,27 +95,31 @@ var ImageDialog = {
 	},
 
 	updateStyle : function() {
-		var dom = tinyMCEPopup.dom, st, v, f = document.forms[0];
+		var dom = tinyMCEPopup.dom, st, v, cls, oldcls, rep, f = document.forms[0];
 
 		if (tinyMCEPopup.editor.settings.inline_styles) {
 			st = tinyMCEPopup.dom.parseStyle(this.styleVal);
 
 			// Handle align
 			v = getSelectValue(f, 'align');
+			cls = f.class_name.value || '';
+			cls = cls ? cls.replace(/alignright\s*|alignleft\s*/g, '') : '';
+			cls = cls ? cls.replace(/^\s*(.+?)\s*$/, '$1') : '';
 			if (v) {
 				if (v == 'left' || v == 'right') {
 					st['float'] = v;
 					delete st['vertical-align'];
-					f.class_name.value = (v == 'right') ? 'alignright' : 'alignleft';
+					oldcls = cls ? ' '+cls : '';
+					f.class_name.value = 'align' + v + oldcls;
 				} else {
 					st['vertical-align'] = v;
 					delete st['float'];
-					f.class_name.value = null;
+					f.class_name.value = cls;
 				}
 			} else {
 				delete st['float'];
 				delete st['vertical-align'];
-				f.class_name.value = null;
+				f.class_name.value = cls;
 			}
 
 			// Handle border
