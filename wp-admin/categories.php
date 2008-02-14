@@ -6,6 +6,9 @@ $parent_file = 'edit.php';
 
 wp_reset_vars(array('action', 'cat'));
 
+if ( isset($_GET['deleteit']) && isset($_GET['delete']) )
+	$action = 'bulk-delete';
+
 switch($action) {
 
 case 'addcat':
@@ -43,6 +46,29 @@ case 'delete':
 
 break;
 
+case 'bulk-delete':
+	check_admin_referer('bulk-categories');
+
+	if ( !current_user_can('manage_categories') )
+		wp_die( __('You are not allowed to delete categories.') );
+
+	foreach ( (array) $_GET['delete'] as $cat_ID ) {
+		$cat_name = get_catname($cat_ID);
+
+		// Don't delete the default cats.
+		if ( $cat_ID == get_option('default_category') )
+			wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+
+		wp_delete_category($cat_ID);
+	}
+
+	$sendback = wp_get_referer();
+	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+
+	wp_redirect($sendback);
+	exit();
+
+break;
 case 'edit':
 
 	require_once ('admin-header.php');
@@ -70,6 +96,8 @@ break;
 default:
 
 wp_enqueue_script( 'admin-categories' );
+wp_enqueue_script('admin-forms');
+
 require_once ('admin-header.php');
 
 $messages[1] = __('Category added.');
@@ -101,22 +129,22 @@ $messages[5] = __('Category not updated.');
 <div class="tablenav">
 
 <div style="float: left">
-<input type="button" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<?php wp_nonce_field('bulk-categories'); ?>
 </div>
 
 <br style="clear:both;" />
 </div>
-</form>
 
 <br style="clear:both;" />
 
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col"><div style="text-align: center"><input type="checkbox" name="TODO" /></div></th>
+		<th scope="col"><div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></div></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
-        <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
+        <th scope="col" style="text-align: center"><?php _e('Posts') ?></th>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:cat">
@@ -125,6 +153,7 @@ cat_rows();
 ?>
 	</tbody>
 </table>
+</form>
 
 <br style="clear:both;" />
 
