@@ -37,27 +37,30 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		<?php
 		break;
 	case 'modified':
-		?>
-		<td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Never'); else the_modified_time(__('Y/m/d \<\b\r \/\> g:i:s a')); ?></td>
-		<?php
-		break;
 	case 'date':
-		?>
-		<td><a href="<?php the_permalink(); ?>" rel="permalink">
-		<?php 
-		if ( '0000-00-00 00:00:00' ==$post->post_date ) {
-			_e('Unpublished');
+		if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
+			$t_time = $h_time = __('Unpublished');
 		} else {
-			if ( ( abs(time() - get_post_time()) ) < 86400 ) {
-				if ( ( 'future' == $post->post_status) )
-					echo sprintf( __('%s from now'), human_time_diff( get_post_time() ) );
-				else
-					echo sprintf( __('%s ago'), human_time_diff( get_post_time() ) );
+			if ( 'modified' == $column_name ) {
+				$t_time = get_the_modified_time(__('Y/m/d g:i:s A'));
+				$m_time = $post->post_modified;
+				$time = get_post_modified_time();
 			} else {
-				the_time(__('Y/m/d'));
+				$t_time = get_the_time(__('Y/m/d g:i:s A'));
+				$m_time = $post->post_date;
+				$time = get_post_time();
+			}
+			if ( ( abs(time() - $time) ) < 86400 ) {
+				if ( ( 'future' == $post->post_status) )
+					$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
+				else
+					$h_time = sprintf( __('%s ago'), human_time_diff( $time ) );
+			} else {
+				$h_time = mysql2date(__('Y/m/d'), $m_time);
 			}
 		}
-		?></a></td>
+		?>
+		<td><a href="<?php the_permalink(); ?>" rel="permalink" title="<?php echo $t_time ?>"><?php echo $h_time ?></a></td>
 		<?php
 		break;
 	case 'title':
