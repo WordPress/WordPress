@@ -64,8 +64,11 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		<?php
 		break;
 	case 'title':
+		$title = get_the_title();
+		if ( empty($title) )
+			$title = __('(no title)');
 		?>
-		<td><strong><a href="post.php?action=edit&post=<?php the_ID(); ?>"><?php the_title() ?></a></strong>
+		<td><strong><a href="post.php?action=edit&post=<?php the_ID(); ?>"><?php echo $title ?></a></strong>
 		<?php if ('private' == $post->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
 		<?php
 		break;
