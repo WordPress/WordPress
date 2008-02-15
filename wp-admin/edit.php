@@ -95,7 +95,7 @@ foreach ( $post_stati as $status => $label ) {
 	sprintf($label[2], $num_posts->$status) . '</a>';
 }
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit.php\"$class>All Posts</a>";
+$status_links[] = "<li><a href=\"edit.php\"$class><?php _e('All Posts'); ?></a>";
 echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
 ?>
