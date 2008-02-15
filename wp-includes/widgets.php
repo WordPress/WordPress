@@ -1043,7 +1043,7 @@ function wp_widget_rss($args, $widget_args = 1) {
 	echo $after_widget;
 }
 
-function wp_widget_rss_output( $rss, $args = null ) {
+function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_string( $rss ) ) {
 		require_once(ABSPATH . WPINC . '/rss.php');
 		if ( !$rss = fetch_rss($rss) )
