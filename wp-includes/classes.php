@@ -409,44 +409,44 @@ class Walker {
 		if ( !$element)
 			return $output;
 
-		if ( $max_depth != 0 ) {
-			if ($depth >= $max_depth)
-				return $output;
-		}
-
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
-
-		if ($depth > 0) {
-			//start the child delimiter
-			$cb_args = array_merge( array($output, $depth), $args);
-			$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-		}
 
 		//display this element
 		$cb_args = array_merge( array($output, $element, $depth), $args);
 		$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 
-		for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
+		if ( $max_depth == 0 || 
+		     ($max_depth != 0 &&  $max_depth > $depth+1 )) { //whether to descend
+		
+			for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
+				
+				$child = $children_elements[$i];
+				if ( $child->$parent_field == $element->$id_field ) {
 
-			$child = $children_elements[$i];
-			if ( $child->$parent_field == $element->$id_field ) {
-
-				array_splice( $children_elements, $i, 1 );
-				$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
-				$i = -1;
+					if ( !isset($newlevel) ) {
+						$newlevel = true; 
+						//start the child delimiter
+						$cb_args = array_merge( array($output, $depth), $args);
+						$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
+					}
+				
+					array_splice( $children_elements, $i, 1 );
+					$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
+					$i = -1;
+				}
 			}
 		}
-
-		//end this element
-		$cb_args = array_merge( array($output, $element, $depth), $args);
-		$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
-
-		if ($depth > 0) {
+		
+		if ( isset($newlevel) && $newlevel ){
 			//end the child delimiter
 			$cb_args = array_merge( array($output, $depth), $args);
 			$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
 		}
+		
+		//end this element
+		$cb_args = array_merge( array($output, $element, $depth), $args);
+		$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 
 		return $output;
 	}
