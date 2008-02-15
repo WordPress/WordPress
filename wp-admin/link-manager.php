@@ -87,7 +87,6 @@ if ( isset($_GET['deleted']) ) {
 
 <div style="float: left">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
-<?php wp_nonce_field('bulk-posts'); ?>
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
 $select_cat = "<select name=\"cat_id\">\n";
@@ -138,10 +137,6 @@ if ( $links ) {
 ?>
 
 <?php wp_nonce_field('bulk-bookmarks') ?>
-<input type="hidden" name="link_id" value="" />
-<input type="hidden" name="action" value="" />
-<input type="hidden" name="order_by" value="<?php echo attribute_escape($order_by); ?>" />
-<input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
 <table class="widefat">
 	<thead>
 	<tr>
@@ -220,8 +215,6 @@ if ( $links ) {
 <div class="tablenav">
 <br style="clear:both;" />
 </div>
-
-</form>
 
 <?php } ?>
 
