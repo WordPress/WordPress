@@ -1,0 +1,5 @@
+/* Fixes for IE bugs */
+
+#poststuff .postbox h3 {
+	padding-left: 23px;
+}
