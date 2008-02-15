@@ -148,7 +148,6 @@ if ( $page_links )
 
 <br style="clear:both;" />
 
-<input type="hidden" name="action" value="bulk-delete" />
 <table class="widefat">
 	<thead>
 	<tr>
