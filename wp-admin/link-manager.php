@@ -19,6 +19,9 @@ if ( isset($_GET['deleteit']) && isset($_GET['linkcheck']) ) {
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	wp_redirect($sendback);
 	exit;
+} elseif ( !empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+	 exit; 
 }
 
 wp_enqueue_script( 'wp-lists' );

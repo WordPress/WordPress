@@ -20,6 +20,9 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 
 	wp_redirect('edit-link-categories.php?message=6');
 	exit();
+} elseif ( !empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+	 exit; 
 }
 
 $title = __('Link Categories');

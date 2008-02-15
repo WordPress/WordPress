@@ -95,6 +95,11 @@ break;
 
 default:
 
+if ( !empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+	 exit; 
+}
+
 wp_enqueue_script( 'admin-categories' );
 wp_enqueue_script('admin-forms');
 
