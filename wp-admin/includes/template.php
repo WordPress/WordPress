@@ -381,8 +381,11 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		<?php
 		break;
 	case 'title':
+		$title = get_the_title();
+		if ( empty($title) )
+			$title = __('(no title)');
 		?>
-		<td><strong><a href="page.php?action=edit&post=<?php the_ID(); ?>"><?php echo $pad; the_title() ?></a></strong>
+		<td><strong><a href="page.php?action=edit&post=<?php the_ID(); ?>"><?php echo $pad; echo $title ?></a></strong>
 		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
 		<?php
 		break;
