@@ -168,6 +168,7 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 </p>
 
 <?php if ($post_ID): ?>
+<div class="inside">
 <p><strong><?php _e('Related') ?></strong></p>
 
 <ul>
@@ -176,6 +177,7 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 <li><a href="edit.php"><?php _e('Manage All Posts') ?></a></li>
 </ul>
 <?php endif; ?>
+</div>
 </div>
 
 <p class="submit">
