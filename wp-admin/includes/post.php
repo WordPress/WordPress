@@ -56,7 +56,7 @@ function edit_post() {
 		$_POST['post_status'] = 'draft';
 	if ('' != $_POST['saveasprivate'] )
 		$_POST['post_status'] = 'private';
-	if ('' != $_POST['publish'] )
+	if ( ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
 		$_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced'] )
 		$_POST['post_status'] = 'draft';
@@ -254,7 +254,7 @@ function wp_write_post() {
 		$_POST['post_status'] = 'draft';
 	if ('' != $_POST['saveasprivate'] )
 		$_POST['post_status'] = 'private';
-	if ('' != $_POST['publish'] )
+	if ( ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
 		$_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced'] )
 		$_POST['post_status'] = 'draft';
