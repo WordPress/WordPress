@@ -289,6 +289,7 @@ class WP_User_Search {
 	var $results;
 	var $search_term;
 	var $page;
+	var $role;
 	var $raw_page;
 	var $users_per_page = 50;
 	var $first_user;
@@ -299,10 +300,11 @@ class WP_User_Search {
 	var $too_many_total_users = false;
 	var $search_errors;
 
-	function WP_User_Search ($search_term = '', $page = '') { // constructor
+	function WP_User_Search ($search_term = '', $page = '', $role = '') { // constructor
 		$this->search_term = $search_term;
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
 		$this->page = (int) ( '' == $page ) ? 1 : $page;
+		$this->role = $role;
 
 		$this->prepare_query();
 		$this->query();
@@ -314,6 +316,7 @@ class WP_User_Search {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
 		$this->query_limit = 'LIMIT ' . $this->first_user . ',' . $this->users_per_page;
+		$search_sql = '';
 		if ( $this->search_term ) {
 			$searches = array();
 			$search_sql = 'AND (';
@@ -322,7 +325,13 @@ class WP_User_Search {
 			$search_sql .= implode(' OR ', $searches);
 			$search_sql .= ')';
 		}
-		$this->query_from_where = "FROM $wpdb->users WHERE 1=1 $search_sql";
+		
+		$this->query_from_where = "FROM $wpdb->users";
+		if ( $this->role )
+			$this->query_from_where .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE '%$this->role%'";
+		else
+			$this->query_from_where .= " WHERE 1=1";
+		$this->query_from_where .= " $search_sql";
 
 	}
 
@@ -345,8 +354,6 @@ class WP_User_Search {
 			$this->paging_text = paginate_links( array(
 				'total' => ceil($this->total_users_for_query / $this->users_per_page),
 				'current' => $this->page,
-				'prev_text' => __('&laquo; Previous Page'),
-				'next_text' => __('Next Page &raquo;'),
 				'base' => 'users.php?%_%',
 				'format' => 'userspage=%#%',
 				'add_args' => array( 'usersearch' => urlencode($this->search_term) )

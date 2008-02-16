@@ -511,6 +511,8 @@ function page_rows( $pages ) {
 }
 
 function user_row( $user_object, $style = '', $role = '' ) {
+	global $wp_roles;
+
 	if ( !( is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
 		$user_object = new WP_User( (int) $user_object );
 	$email = $user_object->user_email;
@@ -533,7 +535,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		<td><strong>$edit</strong></td>
 		<td>$user_object->first_name $user_object->last_name</td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>
-		<td><a href='$url' title='website: $url'>$short_url</a></td>";
+		<td>{$wp_roles->role_names[$role]}</td>";
 	$r .= "\n\t\t<td>";
 	if ( $numposts > 0 ) {
 		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
