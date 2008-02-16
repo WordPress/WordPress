@@ -209,7 +209,7 @@ class WP_Import {
 <?php
 		}
 
-		echo '<input type="submit" value="Submit">'.'<br />';
+		echo '<input type="submit" value="'.attribute_escape( __('Submit') ).'">'.'<br />';
 		echo '</form>';
 
 	}
@@ -228,7 +228,7 @@ class WP_Import {
 
 		$users = get_users_of_blog();
 ?><select name="user_select[<?php echo $n; ?>]">
-	<option value="0">- Select -</option>
+	<option value="0"><?php _e('- Select -'); ?></option>
 	<?php
 		foreach ($users as $user) {
 			echo '<option value="'.$user->user_id.'">'.$user->user_login.'</option>';
