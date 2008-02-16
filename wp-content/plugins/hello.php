@@ -59,10 +59,11 @@ function dolly_css() {
 	#dolly {
 		position: absolute;
 		top: 2.3em;
-margin: 0; padding: 0;
-		right: 1em;
+		margin: 0;
+		padding: 0;
+		right: 15%;
 		font-size: 16px;
-		color: #f1f1f1;
+		color: #d54e21;
 	}
 	</style>
 	";
