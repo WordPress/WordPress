@@ -176,8 +176,8 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 <li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
 <li><a href="edit.php"><?php _e('Manage All Posts') ?></a></li>
 </ul>
-<?php endif; ?>
 </div>
+<?php endif; ?>
 </div>
 
 <p class="submit">
