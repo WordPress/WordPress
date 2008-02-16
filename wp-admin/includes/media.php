@@ -174,7 +174,7 @@ function image_upload_handler() {
 		if ( is_wp_error($id) )
 			wp_iframe( 'image_upload_form', get_option('siteurl') . '/wp-admin/media-upload.php?type=image', $_POST, $id );
 		else {
-			image_send_to_editor($id, $_POST['image-alt'], $_POST['image-title'], $_POST['image-align'], $_POST['image-url']);
+			media_send_to_editor(get_image_send_to_editor($id, $_POST['image-alt'], $_POST['image-title'], $_POST['image-align'], $_POST['image-url']));
 		}
 	}
 }
@@ -232,7 +232,7 @@ function image_constrain_size_for_editor($width, $height) {
 	return wp_shrink_dimensions( $width, $height, $max_width, $max_height );
 }
 
-function image_send_to_editor($id, $alt, $title, $align, $url='') {
+function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false) {
 
 	$img_src = wp_get_attachment_url($id);
 	$meta = wp_get_attachment_metadata($id);
@@ -243,14 +243,15 @@ function image_send_to_editor($id, $alt, $title, $align, $url='') {
 		$hwstring = ' width="'.intval($width).'" height="'.intval($height).'"';
 	}
 
-	$html = '<img src="'.attribute_escape($img_src).'" rel="attachment wp-att-'.attribute_escape($id).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'"'.$hwstring.' class="align-'.attribute_escape($align).'" />';
+	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'"'.$hwstring.' class="align-'.attribute_escape($align).'" />';
 
+	$rel = $rel ? ' rel="attachment wp-att-'.attribute_escape($id).'"' : '';
 	if ( $url )
-		$html = '<a href="'.attribute_escape($url).'">'.$html.'</a>';
+		$html = "<a href='".attribute_escape($url)."'$rel>$html</a>";
 		
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
 
-	media_send_to_editor($html);
+	return $html;
 }
 
 function media_send_to_editor($html) {
@@ -262,6 +263,7 @@ top.tb_remove();
 -->
 </script>
 	<?php
+	exit;
 }
 
 // this handles the file upload POST itself, validating input and inserting the file if it's valid
@@ -430,36 +432,60 @@ function multimedia_upload_handler() {
 		return new wp_error( 'upload_not_allowed', __('You are not allowed to upload files.') );
 	}
 
-	if ( empty($_POST) ) {
-		// no button click, we're just displaying the form
-			wp_iframe( 'multimedia_upload_form' );
-	} elseif ( empty($_POST['upload-button']) ) {
-		// Insert multimedia button was clicked
-		check_admin_referer('multimedia-form');
+	// no button click, we're just displaying the form
+	if ( empty($_POST) )
+		return wp_iframe( 'multimedia_upload_form' );
 
-		if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
-			$post = $_post = get_post($attachment_id, ARRAY_A);
-			$post['post_content'] = $attachment['post_content'];
-			$post['post_title'] = $attachment['post_title'];
-			if ( $post != $_post )
-				wp_update_post($post);
+	check_admin_referer('multimedia-form');
 
-			if ( $taxonomies = get_object_taxonomies('attachment') ) foreach ( $taxonomies as $t )
-				if ( isset($attachment[$t]) )
-					wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[$t])), $t, false);
-		}
-
-		media_send_to_editor('[gallery]');
-	} else {
+	// Insert multimedia button was clicked
+	if ( !empty($_FILES) ) {
 		// Upload File button was clicked
 
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 
-		wp_iframe( 'multimedia_upload_form' );
+		if ( is_wp_error($id) )
+			$errors['upload_error'] = $id;
 	}
+
+	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
+		$post = $_post = get_post($attachment_id, ARRAY_A);
+		if ( isset($attachment['post_content']) )
+			$post['post_content'] = $attachment['post_content'];
+		if ( isset($attachment['post_title']) )
+			$post['post_title'] = $attachment['post_title'];
+		if ( isset($attachment['post_excerpt']) )
+			$post['post_excerpt'] = $attachment['post_excerpt'];
+
+		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
+
+		if ( isset($post['errors']) ) {
+			$errors[$attachment_id] = $post['errors'];
+			unset($post['errors']);
+		}
+
+		if ( $post != $_post )
+			wp_update_post($post);
+
+		foreach ( get_attachment_taxonomies($post) as $t )
+			if ( isset($attachment[$t]) )
+				wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[$t])), $t, false);
+	}
+
+	if ( isset($_POST['insert-multimedia']) )
+		return media_send_to_editor('[gallery]');
+
+	if ( isset($_POST['send']) ) {
+		$send_id = (int) array_shift(array_keys($_POST['send']));
+		$attachment = $_POST['attachments'][$send_id];
+		$html = apply_filters('media_send_to_editor', get_the_attachment_link($send_id, 0, array(125,125), !empty($attachment['post_content'])), $send_id, $attachment);
+		return media_send_to_editor($html);
+	}
+
+	wp_iframe( 'multimedia_upload_form', $errors );
 }
 
-function get_multimedia_items( $post_id ) {
+function get_multimedia_items( $post_id, $errors ) {
 	$attachments = get_children("post_parent=$post_id&post_type=attachment&orderby=\"menu_order ASC, ID ASC\"");
 
 	if ( empty($attachments) )
@@ -467,14 +493,169 @@ function get_multimedia_items( $post_id ) {
 
 	foreach ( $attachments as $id => $attachment ) {
 		$output .= "\n<div id='multimedia-item-$id' class='multimedia-item preloaded'><div id='media-upload-error-$id'></div><span class='filename'></span><div class='progress'><div class='bar'></div></div>";
-		$output .= get_multimedia_item($id);
+		$output .= get_multimedia_item($id, isset($errors[$id]) ? $errors[$id] : null);
 		$output .= "	<div class='progress clickmask'></div>\n</div>";
 	}
 
 	return $output;
 }
 
-function get_multimedia_item( $attachment_id ) {
+function get_attachment_taxonomies($attachment) {
+	if ( is_int( $attachment ) )
+		$attachment = get_post($attachment);
+	else if ( is_array($attachment) )
+		$attachment = (object) $attachment;
+
+	if ( ! is_object($attachment) )
+		return array();
+
+	$filename = basename($attachment->guid);
+
+	$objects = array('attachment');
+
+	if ( false !== strpos($filename, '.') )
+		$objects[] = 'attachment:' . substr($filename, strrpos($filename, '.') + 1);
+	if ( !empty($attachment->post_mime_type) ) {
+		$objects[] = 'attachment:' . $attachment->post_mime_type;
+		if ( false !== strpos($attachment->post_mime_type, '/') )
+			foreach ( explode('/', $attachment->post_mime_type) as $token )
+				if ( !empty($token) )
+					$objects[] = "attachment:$token";
+	}
+
+	$taxonomies = array();
+	foreach ( $objects as $object )
+		if ( $taxes = get_object_taxonomies($object) )
+			$taxonomies = array_merge($taxonomies, $taxes);
+
+	return array_unique($taxonomies);
+}
+
+function image_attachment_fields_to_edit($form_fields, $post) {
+	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
+		$form_fields['post_title']['required'] = true;
+		$form_fields['post_excerpt']['label'] = __('Alternate Text');
+		$form_fields['post_content']['label'] = __('Description');
+
+		if ( strlen(trim($post->post_excerpt)) == 0 )
+			$form_fields['post_excerpt']['helps'][] = __('Alternate Text helps people who can not see the image.');
+
+		$form_fields['_send']['url'] = array(
+			'label' => __('Link URL'),
+			'input' => 'html',
+			'html'  => '',
+			'helps'  => __('If filled, this will override the default link URL.'),
+		);
+		$form_fields['_send']['align'] = array(
+			'label' => __('Alignment'),
+			'input' => 'html',
+			'html'  => "
+				<input type='radio' name='attachments[$post->ID][align]' id='image-align-none-$post->ID' value='none' />
+				<label for='image-align-none-$post->ID' class='align image-align-none-label'>" . __('None') . "</label>
+				<input type='radio' name='attachments[$post->ID][align]' id='image-align-left-$post->ID' value='left' />
+				<label for='image-align-left-$post->ID' class='align image-align-left-label'>" . __('Left') . "</label>
+				<input type='radio' name='attachments[$post->ID][align]' id='image-align-center-$post->ID' value='center' />
+				<label for='image-align-center-$post->ID' class='align image-align-center-label'>" . __('Center') . "</label>
+				<input type='radio' name='attachments[$post->ID][align]' id='image-align-right-$post->ID' value='right' />
+				<label for='image-align-right-$post->ID' class='align image-align-right-label'>" . __('Right') . "</label>\n",
+		);
+	}
+	return $form_fields;
+}
+
+add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2);
+
+function image_attachment_fields_to_save($post, $attachment) {
+	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
+		if ( strlen(trim($post['post_title'])) == 0 ) {
+			$post['post_title'] = preg_replace('/\.\w+$/', '', basename($post['guid']));
+			$post['errors']['post_title']['errors'][] = __('Empty Title filled from filename.');
+		}
+	}
+
+	return $post;
+}
+
+add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2);
+
+function image_media_send_to_editor($html, $attachment_id, $attachment) {
+	$post =& get_post($attachment_id);
+	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
+		if ( !empty($attachment['url']) )
+			$url = $attachment['url'];
+		elseif ( $rel = strlen(trim($post->post_content)) )
+			$url = get_attachment_link($attachment_id);
+		else
+			$url = wp_get_attachment_url($attachment_id);
+
+		if ( isset($attachment['align']) )
+			$align = $attachment['align'];
+		else
+			$align = 'none';
+
+		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel);
+	}
+
+	return $html;
+}
+
+add_filter('media_send_to_editor', 'image_media_send_to_editor', 10, 3);
+
+function get_attachment_fields_to_edit($post, $errors = null) {
+	if ( is_int($post) )
+		$post =& get_post($post);
+	if ( is_array($post) )
+		$post = (object) $post;
+
+	$edit_post = sanitize_post($post, 'edit');
+
+	$form_fields = array(
+		'post_title'   => array(
+			'label'      => __('Title'),
+			'value'      => $edit_post->post_title,
+		),
+		'post_excerpt' => array(
+			'label'      => __('Excerpt'),
+			'value'      => $edit_post->post_excerpt,
+		),
+		'post_content' => array(
+			'label'      => __('Description'),
+			'value'      => $edit_post->post_content,
+			'input'      => 'textarea',
+			'helps'      => array(__('If filled, the default link URL will be the attachment permalink.')),
+		),
+	);
+
+	foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
+		$t = (array) get_taxonomy($taxonomy);
+		if ( empty($t['label']) )
+			$t['label'] = $taxonomy;
+		if ( empty($t['args']) )
+			$t['args'] = array();
+
+		$terms = get_object_term_cache($post->ID, $taxonomy);
+		if ( empty($terms) )
+			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
+
+		$values = array();
+
+		foreach ( $terms as $term )
+			$values[] = $term->name;
+		$t['value'] = join(', ', $values);
+
+		$form_fields[$taxonomy] = $t;
+	}
+
+	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
+	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
+	$form_fields = array_merge_recursive($form_fields, (array) $errors);
+	
+	$form_fields = apply_filters('attachment_fields_to_edit', $form_fields, $post);
+
+	return $form_fields;
+}
+
+function get_multimedia_item( $attachment_id, $errors = null, $send = true ) {
 	$thumb_url = wp_get_attachment_thumb_url( $attachment_id );
 	if ( empty($thumb_url) )
 		$thumb_url = wp_mime_type_icon( $attachment_id );
@@ -499,44 +680,104 @@ function get_multimedia_item( $attachment_id ) {
 		$tags = attribute_escape(join(', ', $tags));
 	}
 
-	$delete_href = wp_nonce_url("post.php?action=delete-post&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
-	$delete = __('Delete');
+	$form_fields = get_attachment_fields_to_edit($post, $errors);
 
+	$class = empty($errors) ? 'startclosed' : 'startopen';
 	$item = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>
 	<span class='filename new'>$filename</span>
-	<div class='slidetoggle describe'>
-		<img class='thumbnail' src='$thumb_url' alt='' />
-		<fieldset>
-		<p><label for='attachments[$attachment_id][post_title]'>$title_label</label><input type='text' id='attachments[$attachment_id][post_title]' name='attachments[$attachment_id][post_title]' value='$title' /></p>
-		<p><label for='attachments[$attachment_id][post_content]'>$description_label</label><input type='text' id='attachments[$attachment_id][post_content]' name='attachments[$attachment_id][post_content]' value='$description' /></p>
-";
+	<table class='slidetoggle describe $class'><tbody>
+		<tr>
+			<td class='A1B1' rowspan='4' colspan='2'><img class='thumbnail' src='$thumb_url' alt='' /></td>
+			<td>$filename</td>
+		</tr>
+		<tr><td>$post->post_mime_type</td></tr>
+		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
+		<tr><td>" . apply_filters('multimedia_meta', '', $post) . "</tr></td>\n";
 
-	if ( $taxonomies = get_object_taxonomies('attachment') ) foreach ( $taxonomies as $t ) {
-		$tax = get_taxonomy($t);
-		$t_title = !empty($tax->title) ? $tax->title : $t;
-		if ( false === $terms = get_object_term_cache( $attachment_id, $t ) )
-			$_terms = wp_get_object_terms($attachment_id, $t);
-		if ( $_terms ) {
-			foreach ( $_terms as $term )
-				$terms[] = $term->name;
-			$terms = join(', ', $terms);
-		} else
-			$terms = '';
-		$item .= "<p><label for='attachments[$attachment_id][$t]'>$t_title</label><input type='text' id='attachments[$attachment_id][$t]' name='attachments[$attachment_id][$t]' value='$terms' /></p>\n";
+	$defaults = array(
+		'input'      => 'text',
+		'required'   => false,
+		'value'      => '',
+		'extra_rows' => array(),
+	);
+
+	$delete_href = wp_nonce_url("post.php?action=delete-post&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
+	$delete = __('Delete');
+	$save = "<input type='submit' value='" . wp_specialchars(__('Save'), 1) . "' />";
+	$send = "<input type='submit' value='" . wp_specialchars(__('Send to Editor'), 1) . "' id='send[$attachment_id]' name='send[$attachment_id]' />";
+
+	if ( empty($form_fields['save']) && empty($form_fields['_send']) ) {
+		$form_fields['save'] = array('tr' => "\t\t<tr class='submit'><td colspan='2' class='del'><a id='del[$attachment_id]' class='delete' href='$delete_href'>$delete</a></td><td class='savesend'>$save$send</td></tr>\n");
+	} elseif ( empty($form_fields['save']) ) {
+		$form_fields['save'] = array('tr' => "\t\t<tr class='submit'><td></td><td></td><td class='savesend'>$save</td></tr>\n");
+		foreach ( $form_fields['_send'] as $id => $field )
+			$form_fields[$id] = $field;
+		$form_fields['send'] = array('tr' => "\t\t<tr class='submit'><td colspan='2' class='del'><a id='del[$attachment_id]' class='delete' href='$delete_href'>$delete</a></td><td class='savesend'>$send</td>");
 	}
 
-	$item .= "
-		</fieldset>
-		<p class='delete'><a id='del$attachment_id' class='delete' href='$delete_href'>$delete</a></p>
-	</div>
-";
+	$hidden_fields = array();
+
+	foreach ( $form_fields as $id => $field ) {
+		if ( $id{0} == '_' )
+			continue;
+
+		if ( !empty($field['tr']) ) {
+			$item .= $field['tr'];
+			continue;
+		}
+
+		$field = array_merge($defaults, $field);
+		$name = "attachments[$attachment_id][$id]";
+
+		if ( $field['input'] == 'hidden' ) {
+			$hidden_fields[$name] = $field['value'];
+			continue;
+		}
+
+		$required = $field['required'] ? '<abbr title="required">*</abbr>' : '';
+		$item .= "\t\t<tr class='$id'>\n\t\t\t<td class='label'><label for='$name'>{$field['label']}</label></td>\n\t\t\t<td class='required'>$required</td>\n\t\t\t<td class='field'>";
+		if ( !empty($field[$field['input']]) )
+			$item .= $field[$field['input']];
+		elseif ( $field['input'] == 'textarea' ) {
+			$item .= "<textarea type='text' id='$name' name='$name'>" . wp_specialchars($field['value'], 1) . "</textarea>";
+		} else {
+			$item .= "<input type='text' id='$name' name='$name' value='" . wp_specialchars($field['value'], 1) . "' />";
+		}
+		$item .= "</td>\n\t\t</tr>\n";
+
+		$extra_rows = array();
+
+		if ( !empty($field['errors']) )
+			foreach ( array_unique((array) $field['errors']) as $error )
+				$extra_rows['error'][] = $error;
+
+		if ( !empty($field['helps']) )
+			foreach ( array_unique((array) $field['helps']) as $help )
+				$extra_rows['help'][] = $help;
+
+		if ( !empty($field['extra_rows']) )
+			foreach ( $field['extra_rows'] as $class => $rows )
+				foreach ( (array) $rows as $html )
+					$extra_rows[$class][] = $html;
+
+		foreach ( $extra_rows as $class => $rows )
+			foreach ( $rows as $html )
+				$item .= "\t\t<tr><td colspan='2'></td><td class='$class'>$html</td></tr>\n";
+	}
+
+	if ( !empty($form_fields['_final']) )
+		$item .= "\t\t<tr class='final'><td colspan='3'>{$form_fields['_final']}</td></tr>\n";
+	$item .= "\t</table>\n";
+
+	foreach ( $hidden_fields as $name => $value )
+		$item .= "\t<input type='hidden' name='$name' id='$name' value='" . wp_specialchars($value, 1) . "' />\n";
 
 	return $item;
 }
 
-function multimedia_upload_form( $error = null ) {
+function multimedia_upload_form( $errors = null ) {
 	$flash_action_url = get_option('siteurl') . '/wp-admin/async-upload.php?type=multimedia';
 	$form_action_url = get_option('siteurl') . '/wp-admin/media-upload.php?type=multimedia';
 
@@ -547,8 +788,8 @@ function multimedia_upload_form( $error = null ) {
 <h3><?php _e('Add Images'); ?></h3>
 </div>
 	<div id="media-upload-error">
-<?php if ($error) { ?>
-	<?php echo $error->get_error_message(); ?>
+<?php if (isset($errors['upload_error']) && is_wp_error($errors['upload_error'])) { ?>
+	<?php echo $errors['upload_error']->get_error_message(); ?>
 <?php } ?>
 	</div>
 <script type="text/javascript">
@@ -566,6 +807,7 @@ jQuery(function($){
 			},
 			swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
 			degraded_element_id : "html-upload-ui",   // when swfupload is unavailable
+			swfupload_loaded_handler : uploadLoadedMultimedia,
 			//upload_start_handler : uploadStart,
 			upload_progress_handler : uploadProgressMultimedia,
 			//upload_error_handler : uploadError,
@@ -579,8 +821,11 @@ jQuery(function($){
 			debug: false,
 		});
 	$("#flash-browse-button").bind( "click", function(){swfu.selectFiles();});
-	$("#insert-multimedia").bind( "click", function(){jQuery(this).parents('form').get(0).submit();});
-	$(".multimedia-item.preloaded").each(function(){uploadSuccessMultimedia({id:this.id.replace(/[^0-9]/g, '')},'');jQuery('#insert-multimedia').attr('disabled', '');});
+	var preloaded = $(".multimedia-item.preloaded");
+	if ( preloaded ) {
+		jQuery('#insert-multimedia').attr('disabled', '');
+		preloaded.each(function(){uploadSuccessMultimedia({id:this.id.replace(/[^0-9]/g, '')},'');});
+	}
 	$("a.delete").bind('click',function(){$.ajax({url:'admin-ajax.php',type:'post',data:{id:this.id.replace(/del/,''),action:'delete-post',_ajax_nonce:this.href.replace(/^.*wpnonce=/,'')}});$(this).parents(".multimedia-item").eq(0).slideToggle(300, function(){$(this).remove();});return false;});
 });
 //-->
@@ -609,13 +854,13 @@ jQuery(function($){
 
 <div id="multimedia-items">
 
-<?php echo get_multimedia_items($post_id); ?>
+<?php echo get_multimedia_items($post_id, $errors); ?>
 
 </div>
 
 <p class="submit">
 	<a href="#" onClick="return top.tb_remove();" id="image-cancel" class="button-cancel"><?php _e('Cancel'); ?></a>
-	<input type="button" class="submit" id="insert-multimedia" value="<?php _e('Insert gallery into post'); ?>" disabled="disabled" />
+	<input type="submit" class="submit" id="insert-multimedia" name="insert-multimedia" value="<?php _e('Insert gallery into post'); ?>" disabled="disabled" />
 </p>
 
 <?php wp_nonce_field('multimedia-form'); ?>
@@ -626,11 +871,23 @@ jQuery(function($){
 }
 
 add_action('admin_head_multimedia_upload_form', 'media_admin_css');
-add_filter('async_upload_multimedia', 'get_multimedia_item');
+add_filter('async_upload_multimedia', 'get_multimedia_item', 10, 2);
 add_filter('media_upload_multimedia', 'multimedia_upload_handler');
 
 // Any 'attachment' taxonomy will be included in the description input form for the multi uploader
 // Example:
-//register_taxonomy('attachment_people', 'attachment', array('title' => 'People'));
+register_taxonomy(
+	// 
+	'image_people',
+	'attachment:image',
+	array(
+		'label' => __('People'),
+		'template' => __('People: %s'),
+		'sort' => true,
+		'args' => array(
+			'orderby' => 'term_order'
+		)
+	)
+);
 
 ?>

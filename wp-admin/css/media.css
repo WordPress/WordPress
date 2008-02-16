@@ -44,7 +44,7 @@ form.media-upload-form {
 	margin: 0 0 0.5em 0;
 }
 
-.media-upload-form label.form-help {
+.media-upload-form label.form-help, td.help {
 	color: #9a9a9a;
 	font-style: italic;
 	font-weight: normal;
@@ -84,25 +84,28 @@ form.media-upload-form {
 }
 
 /* specific to the image upload form */
-.media-upload-form fieldset#image-align label {
+.media-upload-form fieldset#image-align label, .align .field label {
 	display: inline;
 	padding: 0 0 0 28px;
 	margin: 0 0;
 }
+.media-upload-form fieldset#image-align input, .align .field input {
+	margin-left: 15px;
+}
 
-#image-align-none-label {
+#image-align-none-label, .image-align-none-label {
 	background: url(../images/align-none.png) no-repeat center left;
 }
 
-#image-align-left-label {
+#image-align-left-label, .image-align-left-label {
 	background: url(../images/align-left.png) no-repeat center left;
 }
 
-#image-align-center-label {
+#image-align-center-label, .image-align-center-label {
 	background: url(../images/align-center.png) no-repeat center left;
 }
 
-#image-align-right-label {
+#image-align-right-label, .image-align-right-label {
 	background: url(../images/align-right.png) no-repeat center left;
 }
 
@@ -153,26 +156,37 @@ span.filename {
 	display: none;
 	border-top: 1px solid #d0d0d0;
 	padding: 5px;
+	width: 100%;
 }
-.describe fieldset {
-	width: 470px;
-	float: right;
+.startopen .describe {
+	display: auto;
 }
-.describe img {
-	float: left;
+.required abbr {
+	color: red;
+	text-decoration: none;
+	border: none;
+}
+
+.describe label {
+	display: inline;
+}
+.describe td {
+	vertical-align: middle;
+}
+.describe td.A1 {
+	width: 132px;
+}
+.describe td.savesend {
+	text-align: right;
 }
 .describe input[type="text"], .describe textarea {
-	width: 450px;
+	width: 460px;
 }
-.describe label {
-	padding-right: 1em;
-}
-p.delete {
-	clear: both;
-	margin: 0;
-}
-p.delete a {
-	padding: 4px;
+.describe a.delete {
+	display: block;
+	text-align: center;
+	line-height: 24px;
+	width: 100%;
 }
 .describe-toggle-on, .describe-toggle-off {
 	line-height: 36px;
@@ -192,4 +206,10 @@ p.delete a {
 	cursor: pointer;
 	border: none;
 	z-index: 10;
+}
+tr.submit input {
+	width: 128px;
+}
+tr.align td.field {
+	text-align: center;
 }

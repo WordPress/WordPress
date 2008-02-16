@@ -1,3 +1,7 @@
+function uploadLoadedMultimedia() {
+	jQuery("#html-upload-ui").empty();
+}
+
 function fileDialogStart() {
 	jQuery("#media-upload-error").empty();
 }
@@ -42,7 +46,13 @@ function uploadSuccessMultimedia(fileObj, serverData) {
 	jQuery('#multimedia-item-' + fileObj.id + ' a.toggle').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).parent().eq(0).children('.toggle').toggle();jQuery(this).siblings('a.toggle').focus();return false;});
 
 	// Bind AJAX to the new Delete button
-	jQuery('#multimedia-item-' + fileObj.id + ' a.delete').bind('click',function(){jQuery.ajax({url:'admin-ajax.php',type:'post',data:{id:this.id.replace(/del/,''),action:'delete-post',_ajax_nonce:this.href.replace(/^.*wpnonce=/,'')}});jQuery(this).parents(".multimedia-item").eq(0).slideToggle(300, function(){jQuery(this).remove();});return false;});
+	jQuery('#multimedia-item-' + fileObj.id + ' a.delete').bind('click',function(){jQuery.ajax({url:'admin-ajax.php',type:'post',data:{id:this.id.replace(/[^0-9]/g,''),action:'delete-post',_ajax_nonce:this.href.replace(/^.*wpnonce=/,'')}});jQuery(this).parents(".multimedia-item").eq(0).slideToggle(300, function(){jQuery(this).remove();});return false;});
+
+	// Open this item if it says to start open
+	jQuery('#multimedia-item-' + fileObj.id + ' .startopen')
+		.removeClass('startopen')
+		.slideToggle(500)
+		.parent().eq(0).children('.toggle').toggle();
 }
 
 function uploadCompleteMultimedia(fileObj) {
