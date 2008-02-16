@@ -3,3 +3,8 @@
 #poststuff .postbox h3 {
 	padding-left: 23px;
 }
+
+#submenu li a.current {
+	background:none;
+	border:none;
+}

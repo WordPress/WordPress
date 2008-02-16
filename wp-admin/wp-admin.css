@@ -654,9 +654,8 @@ a.view-comment-post-link {
 #adminmenu {
 	margin: 0;
 	list-style: none;
-	background: #e4f2fd;
-	border-bottom: 1px solid #c6d9e9;
-	padding-left: 10px;
+	background: #e4f2fd url(images/admin-menu.gif) repeat-x bottom left;
+	padding-left: 15px;
 }
 
 /* Because we don't want visited on these links */
@@ -666,9 +665,8 @@ a.view-comment-post-link {
 
 #adminmenu a {
 	font-size: 16px;
-	padding: 6px;
+	padding: 6px 7px 6px 7px;
 	line-height: 200%;
-	border: 1px solid #e4f2fd;
 	border-bottom: 1px solid #c6d9e9;
 }
 
@@ -677,9 +675,10 @@ a.view-comment-post-link {
 	color: #d54e21;
 	border: 1px solid #c6d9e9;
 	font-weight: bold;
-	-moz-border-radius-topleft: 3px;
-	-moz-border-radius-topright: 3px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-topright: 4px;
 	border-bottom: 1px solid #fff;
+	padding: 6px;
 }
 
 #adminmenu a:hover {
