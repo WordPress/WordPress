@@ -1,0 +1,45 @@
+#template textarea {
+	font: small 'Courier New', Courier, monospace;
+	width: 97%;
+}
+
+#templateside {
+	float: right;
+	width: 200px;
+	overflow: hidden;
+	position: absolute;
+	right: 15%;
+	top: 250px;
+}
+
+#templateside h3, #postcustom p.submit {
+	margin: 0;
+}
+
+#templateside ol, #templateside ul {
+	list-style: none;
+	margin: .5em;
+	padding: 0;
+}
+
+#templateside ol li, #templateside ul li {
+	margin: 1px 0px;
+}
+
+#themeselector {
+	padding-right: 5px;
+	float: right;
+	position: relative;
+	bottom: 25px;
+}
+
+.nonessential {
+	font-size: small;
+	color: #999999;
+}
+
+.highlight {
+	background-color: #E4F2FD;
+	padding: 1px;
+	color: #d54e21;
+}

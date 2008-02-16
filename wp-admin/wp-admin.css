@@ -380,27 +380,6 @@ input.delete:hover {
 	zoom: 1;
 }
 
-#template textarea {
-	font: small 'Courier New', Courier, monospace;
-	width: 97%;
-}
-
-#templateside {
-	float: right;
-	width: 170px;
-	overflow: hidden;
-}
-
-#templateside h3, #postcustom p.submit {
-	margin: 0;
-}
-
-#templateside ol, #templateside ul {
-	list-style: none;
-	margin: .5em;
-	padding: 0;
-}
-
 .active td {
 	background: #BEB;
 }
@@ -1217,6 +1196,11 @@ p#post-search {
 
 #posts-filter fieldset legend {
 	padding: 0 0 .2em 1px;
+}
+
+.bordertitle {
+	padding-bottom: 5px;
+	border-bottom: 1px solid #dadada;
 }
 
 /* Global classes */
