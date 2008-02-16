@@ -1,12 +1,8 @@
 
-
-
 a.delete:hover {
 	background: #c00;
 	color: #fff;
 }
-
-
 
 .plugins p {
 	margin: 4px;
@@ -1228,3 +1224,7 @@ p#post-search {
 .wp-no-js-hidden { display: none; }
 .ui-tabs-hide { display: none; }
 .form-input-tip { color: #999; }
+
+.commentlist .avatar {
+	vertical-align:text-top;
+}

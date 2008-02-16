@@ -63,4 +63,26 @@ function get_pending_comments_num( $post_id ) {
 	return $pending;
 }
 
+// Add avatars to relevant places in admin, or try to
+
+function floated_admin_avatar( $name ) {
+	global $comment;
+
+	$id = $avatar = false;
+	if ( $comment->comment_author_email )
+		$id = $comment->comment_author_email;
+	if ( $comment->user_id )
+		$id = $comment->user_id;
+
+	if ( $id )
+		$avatar = get_avatar( $id, 32 );
+
+	return "$avatar $name";
+}
+
+if ( '/wp-admin/edit-comments.php' == $_SERVER['PHP_SELF'] || '/wp-admin/moderation.php' == $_SERVER['PHP_SELF'] || '/wp-admin/edit.php' == $_SERVER['PHP_SELF'] ) {
+	if ( get_option('show_avatars') )
+		add_filter( 'comment_author', 'floated_admin_avatar' );
+}
+
 ?>
