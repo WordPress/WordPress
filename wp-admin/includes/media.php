@@ -544,7 +544,7 @@ function multimedia_upload_form( $error = null ) {
 
 ?>
 <div id="media-upload-header">
-<h3>Add Images</h3>
+<h3><?php _e('Add Images'); ?></h3>
 </div>
 	<div id="media-upload-error">
 <?php if ($error) { ?>
