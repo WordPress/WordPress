@@ -291,7 +291,7 @@ class WP_User_Search {
 	var $page;
 	var $role;
 	var $raw_page;
-	var $users_per_page = 2;
+	var $users_per_page = 50;
 	var $first_user;
 	var $last_user;
 	var $query_limit;
