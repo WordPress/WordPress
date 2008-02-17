@@ -6,6 +6,11 @@ $parent_file = 'themes.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme'));
 
+add_action( 'admin_head', 'theme_editor_css' );
+function theme_editor_css(){
+	wp_admin_css( 'css/theme-editor' );
+}
+
 $themes = get_themes();
 
 if (empty($theme)) {
@@ -63,8 +68,6 @@ default:
 		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
 
 	require_once('admin-header.php');
-
-	wp_admin_css( 'css/theme-editor' );
 
 	update_recently_edited($file);
 
