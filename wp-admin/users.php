@@ -249,12 +249,28 @@ default:
 <ul class="subsubsub">
 <?php
 $role_links = array();
+$avail_roles = array();
+$users_of_blog = get_users_of_blog();
+//var_dump($users_of_blog);
+foreach ( (array) $users_of_blog as $b_user ) {
+	$b_roles = unserialize($b_user->meta_value);
+	foreach ( (array) $b_roles as $b_role => $val ) {
+		if ( !isset($avail_roles[$b_role]) )
+			$avail_roles[$b_role] = 0;
+		$avail_roles[$b_role]++;
+	}
+}
+
 foreach ( $wp_roles->get_names() as $role => $name ) {
+	if ( !isset($avail_roles[$role]) )
+		continue;
+
 	$class = '';
 
 	if ( $role == $_GET['role'] )
 		$class = ' class="current"';
 
+	$name = sprintf(_c('%1$s (%2$s)|user role with count'), $name, $avail_roles[$role]);
 	$role_links[] = "<li><a href=\"users.php?role=$role\"$class>" . $name . '</a>';
 }
 $class = empty($_GET['role']) ? ' class="current"' : '';
@@ -304,18 +320,12 @@ unset($role_links);
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-	<h3><?php
-	if ( 0 == $wp_user_search->first_user && $wp_user_search->total_users_for_query <= 50 )
-		printf(__('%3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query);
-	else
-		printf(__('%1$s &#8211; %2$s of %3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query); ?></h3>
-
 <form action="" method="post" name="updateusers" id="updateusers">
 <?php wp_nonce_field('bulk-users') ?>
 <table class="widefat">
 <tbody>
 <tr class="thead">
-	<th><input type="checkbox" onclick="checkAllUsers('<?php echo $role; ?>')"/> </th>
+	<th><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /> </th>
 	<th><?php _e('Username') ?></th>
 	<th><?php _e('Name') ?></th>
 	<th><?php _e('E-mail') ?></th>
