@@ -330,7 +330,7 @@ unset($role_links);
 <?php
 foreach ( $wp_user_search->get_results() as $userid ) {
 	$user_object = new WP_User($userid);
-	$roles = $user->roles;
+	$roles = $user_object->roles;
 	$role = array_shift($roles);
 
 	$style = '';
