@@ -654,7 +654,8 @@ a.view-comment-post-link {
 #adminmenu {
 	margin: 0;
 	list-style: none;
-	background: #e4f2fd url(images/admin-menu.gif) repeat-x bottom left;
+        background-color: #e4f2fd;
+	border-bottom: 1px solid #c6d9e9;
 	padding-left: 15px;
 }
 
@@ -667,7 +668,6 @@ a.view-comment-post-link {
 	font-size: 16px;
 	padding: 6px 7px 6px 7px;
 	line-height: 200%;
-	border-bottom: 1px solid #c6d9e9;
 }
 
 #adminmenu a:hover, #adminmenu a.current, #adminmenu a.current:hover {
@@ -677,13 +677,16 @@ a.view-comment-post-link {
 	font-weight: bold;
 	-moz-border-radius-topleft: 4px;
 	-moz-border-radius-topright: 4px;
-	border-bottom: 1px solid #fff;
 	padding: 6px;
 }
 
 #adminmenu a:hover {
-	border-bottom: 1px solid #c6d9e9;
+	border-bottom: 0;
 	font-weight: normal;
+}
+
+#adminmenu a.current, #adminmenu a.current:hover {
+	border-bottom: 2px solid #fff;
 }
 
 #sidemenu {
