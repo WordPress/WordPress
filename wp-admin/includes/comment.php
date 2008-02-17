@@ -80,7 +80,7 @@ function floated_admin_avatar( $name ) {
 	return "$avatar $name";
 }
 
-if ( '/wp-admin/edit-comments.php' == $_SERVER['PHP_SELF'] || '/wp-admin/moderation.php' == $_SERVER['PHP_SELF'] || '/wp-admin/edit.php' == $_SERVER['PHP_SELF'] ) {
+if ( is_admin() && ('edit-comments.php' == $pagenow || 'moderation.php' == $pagenow || 'edit.php' == $pagenow) ) { 
 	if ( get_option('show_avatars') )
 		add_filter( 'comment_author', 'floated_admin_avatar' );
 }
