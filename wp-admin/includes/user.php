@@ -291,10 +291,11 @@ class WP_User_Search {
 	var $page;
 	var $role;
 	var $raw_page;
-	var $users_per_page = 50;
+	var $users_per_page = 2;
 	var $first_user;
 	var $last_user;
 	var $query_limit;
+	var $query_sort;
 	var $query_from_where;
 	var $total_users_for_query = 0;
 	var $too_many_total_users = false;
@@ -315,7 +316,8 @@ class WP_User_Search {
 	function prepare_query() {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
-		$this->query_limit = 'LIMIT ' . $this->first_user . ',' . $this->users_per_page;
+		$this->query_limit = ' LIMIT ' . $this->first_user . ',' . $this->users_per_page;
+		$this->query_sort = ' ORDER BY user_login';
 		$search_sql = '';
 		if ( $this->search_term ) {
 			$searches = array();
@@ -337,7 +339,7 @@ class WP_User_Search {
 
 	function query() {
 		global $wpdb;
-		$this->results = $wpdb->get_col('SELECT ID ' . $this->query_from_where . $this->query_limit);
+		$this->results = $wpdb->get_col('SELECT ID ' . $this->query_from_where . $this->query_sort . $this->query_limit);
 
 		if ( $this->results )
 			$this->total_users_for_query = $wpdb->get_var('SELECT COUNT(ID) ' . $this->query_from_where); // no limit

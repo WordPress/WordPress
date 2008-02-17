@@ -185,14 +185,6 @@ default:
 	// Query the users
 	$wp_user_search = new WP_User_Search($_GET['usersearch'], $_GET['userspage'], $_GET['role']);
 
-	// Make the user objects
-	foreach ( $wp_user_search->get_results() as $userid ) {
-		$tmp_user = new WP_User($userid);
-		$roles = $tmp_user->roles;
-		$role = array_shift($roles);
-		$roleclasses[$role][$tmp_user->user_login] = $tmp_user;
-	}
-
 	if ( isset($_GET['update']) ) :
 		switch($_GET['update']) {
 		case 'del':
@@ -260,6 +252,7 @@ foreach ( (array) $users_of_blog as $b_user ) {
 		$avail_roles[$b_role]++;
 	}
 }
+unset($users_of_blog);
 
 foreach ( $wp_roles->get_names() as $role => $name ) {
 	if ( !isset($avail_roles[$role]) )
@@ -333,20 +326,19 @@ unset($role_links);
 	<th><?php _e('Posts') ?></th>
 </tr>
 </tbody>
+<tbody id="users" class="list:user user-list">
 <?php
-foreach ($roleclasses as $role => $roleclass) {
-	uksort($roleclass, "strnatcasecmp");
-?>
-<tbody id="role-<?php echo $role; ?>" class="list:user user-list"><?php
-$style = '';
-foreach ( (array) $roleclass as $user_object ) {
+foreach ( $wp_user_search->get_results() as $userid ) {
+	$user_object = new WP_User($userid);
+	$roles = $user->roles;
+	$role = array_shift($roles);
+
+	$style = '';
 	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 	echo "\n\t" . user_row($user_object, $style, $role);
 }
 ?>
-
 </tbody>
-<?php } ?>
 </table>
 
 <br style="clear:both;" />
