@@ -1,5 +1,10 @@
 #template textarea {
-	font: small 'Courier New', Courier, monospace;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 12px;
+	width: 97%;
+}
+
+#template p {
 	width: 97%;
 }
 

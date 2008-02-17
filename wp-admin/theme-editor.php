@@ -152,8 +152,10 @@ if ($allowed_files) :
 		 <input type="hidden" name="file" value="<?php echo $file ?>" />
 		 <input type="hidden" name="theme" value="<?php echo $theme ?>" />
 		 </div>
+		
+		<div>
 <?php if ( is_writeable($real_file) ) : ?>
-	<p class="submit">
+			<p class="submit">
 <?php
 	echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
 ?>
@@ -161,6 +163,7 @@ if ($allowed_files) :
 <?php else : ?>
 <p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="http://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
 <?php endif; ?>
+		</div>
 	</form>
 	<?php
 	} else {
