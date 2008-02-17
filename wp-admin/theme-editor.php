@@ -5,7 +5,6 @@ $title = __("Edit Themes");
 $parent_file = 'themes.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme'));
-wp_admin_css( 'css/theme-editor' );
 
 $themes = get_themes();
 
@@ -64,6 +63,8 @@ default:
 		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
 
 	require_once('admin-header.php');
+
+	wp_admin_css( 'css/theme-editor' );
 
 	update_recently_edited($file);
 
