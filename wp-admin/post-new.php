@@ -80,53 +80,10 @@ if ( !empty($my_drafts) || !empty($pending) || !empty($others_drafts) ) {
 	}
 	echo "</div>\n";
 }
-?>
 
-
-<?php
 // Show post form.
 $post = get_default_post_to_edit();
 include('edit-form-advanced.php');
-?>
 
-<?php if ( $is_NS4 || $is_gecko || $is_winIE ) { ?>
-<div id="wp-bookmarklet" class="wrap">
-<h3><?php _e('WordPress Bookmarklet'); ?></h3>
-<p><?php _e('Right click on the following link and choose &#0147;Bookmark This Link...&#0148; or &#0147;Add to Favorites...&#0148; to create a posting shortcut.'); ?></p>
-<p>
-
-<?php
-if ($is_NS4 || $is_gecko) {
+include('admin-footer.php');
 ?>
-<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}location.href='<?php echo get_option('siteurl') ?>/wp-admin/post-new.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press It - %s'), get_bloginfo('name', 'display')); ?></a>
-<?php
-} else if ($is_winIE) {
-?>
-<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;location.href='<?php echo get_option('siteurl') ?>/wp-admin/post-new.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press it - %s'), get_bloginfo('name', 'display')); ?></a>
-<script type="text/javascript">
-<!--
-function oneclickbookmarklet(blah) {
-window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=500, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=120, left=120, screenY=120, top=120");
-}
-// -->
-</script>
-<br />
-<br />
-<?php _e('One-click bookmarklet:') ?><br />
-<a href="javascript:oneclickbookmarklet(0);"><?php _e('click here') ?></a>
-<?php
-} else if ($is_opera) {
-?>
-<a href="javascript:location.href='<?php echo get_option('siteurl'); ?>/wp-admin/post-new.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_option('blogname')); ?></a>
-<?php
-} else if ($is_macIE) {
-?>
-<a href="javascript:Q='';location.href='<?php echo get_option('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_option('blogname')); ?></a>
-<?php
-}
-?>
-</p>
-</div>
-<?php } ?>
-
-<?php include('admin-footer.php'); ?>
