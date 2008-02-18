@@ -3,6 +3,9 @@
 
 $charset_collate = '';
 
+// Declare these as global in case schema.php is included from a function.
+global $wpdb, $wp_queries;
+
 if ( $wpdb->supports_collation() ) {
 	if ( ! empty($wpdb->charset) )
 		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
