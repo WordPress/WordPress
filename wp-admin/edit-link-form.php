@@ -59,10 +59,11 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 </div>
 
-<div id="submitpost">
+<div class="submitbox" id="submitlink">
 <p class="submit">
 <input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 </p>
+<?php do_action('submitlink_box'); ?>
 </div>
 
 <div id="linkcategorydiv" class="postbox <?php echo postbox_classes('linkcategorydiv', 'link'); ?>">

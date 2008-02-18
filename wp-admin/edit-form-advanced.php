@@ -96,7 +96,7 @@ addLoadEvent(focusit);
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<div id="submitpost">
+<div class="submitbox" id="submitpost">
 
 <div id="previewview">
 <?php if ( 'publish' == $post->post_status ) { ?>

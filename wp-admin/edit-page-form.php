@@ -60,7 +60,7 @@ addLoadEvent(focusit);
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
-<div id="submitpost">
+<div class="submitbox" id="submitpage">
 
 <div id="previewview">
 <?php if ( 'publish' == $post->post_status ) { ?>
@@ -130,6 +130,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <?php printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
 <?php endif; ?>
 </p>
+<?php do_action('submitpage_box'); ?>
 </div>
 
 <p class="submit">
