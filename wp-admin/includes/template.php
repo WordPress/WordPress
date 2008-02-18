@@ -754,7 +754,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	if ( (int) $tab_index > 0 )
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
-	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
+	echo '<legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
@@ -780,13 +780,6 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 <input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> />
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <?php
-	if ( $edit ) {
-		printf( _c( 'Existing timestamp: %1$s %2$s, %3$s @ %4$s:%5$s|1: month, 2: month string, 3: full year, 4: hours, 5: minutes' ), $wp_locale->get_month( $mm ), $jj, $aa, $hh, $mn );
-	}
-?>
-</fieldset>
-	<?php
-
 }
 
 function page_template_dropdown( $default = '' ) {

@@ -127,22 +127,29 @@ addLoadEvent(focusit);
 
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Keep this post private') ?></label></p>
 <?php
-if ($post_ID):
+if ($post_ID) {
 
-if ( 'future' == $post->post_status ) {
-	$time = __('Scheduled for:<br />%1$s at %2$s');
-	$date = $post->post_date;
-} else if ( 'publish' == $post->post_status ) {
-	$time = __('Published on:<br />%1$s at %2$s');
-	$date = $post->post_date;
+	if ( 'future' == $post->post_status ) {
+		$stamp = __('Scheduled for:<br />%1$s at %2$s');
+	} else if ( 'publish' == $post->post_status ) {
+		$stamp = __('Published on:<br />%1$s at %2$s');
+	} else {
+		$stamp = __('Saved on:<br />%1$s at %2$s');
+	}
+
+	$date = mysql2date(get_option('date_format'), $post->post_date);
+	$time = mysql2date(get_option('time_format'), $post->post_date);
 } else {
-	$time = __('Saved on:<br />%1$s at %2$s');
-	$date = $post->post_modified;
+	$stamp = __('Timestamp:<br />%1$s at %2$s');
+	$date = mysql2date(get_option('date_format'), current_time('mysql'));
+	$time = mysql2date(get_option('time_format'), current_time('mysql'));
 }
-
 ?>
-<p><?php printf($time, mysql2date(get_option('date_format'), $date), mysql2date(get_option('time_format'), $date)); ?>
-<?php endif; ?>
+<p><?php printf($stamp, $date, $time); ?>
+&nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
+
+<div id='timestamp'><?php touch_time(($action == 'edit')); ?></div>
+
 </div>
 
 <p class="submit">
@@ -315,13 +322,6 @@ list_meta($metadata);
 <input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
 </div>
 </div>
-
-<?php if ( current_user_can('edit_posts') ) : ?>
-<div id="posttimestampdiv" class="postbox <?php echo postbox_classes('posttimestampdiv', 'post'); ?>">
-<h3><?php _e('Post Timestamp'); ?></h3>
-<div class="inside"><?php touch_time(($action == 'edit')); ?></div>
-</div>
-<?php endif; ?>
 
 <?php
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
