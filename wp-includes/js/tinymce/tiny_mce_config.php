@@ -125,7 +125,7 @@ $initArray = array (
 	// pass-through the settings for compression and caching, so they can be changed with "tiny_mce_before_init"
 	'disk_cache' => true,
 	'compress' => true,
-	'old_cache_max' => '3' // number of cache files to keep
+	'old_cache_max' => '1' // number of cache files to keep
 );
 
 if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
@@ -252,12 +252,12 @@ echo $content;
 // Write file
 if ( '' != $cacheKey && $cache_path ) {
 	if ( $old_cache_max ) {
-		$old_keys = getFileContents('tinymce_compressed_key' . $cache_ext);
+		$old_keys = getFileContents('tinymce_compressed' . $cache_ext . '_key');
 			
 		if ( '' != $old_keys ) {
 			$keys_ar = explode( "\n", $old_keys );
-			if ( ($old_cache_max - 1) > count($old_keys_ar) )
-				$old_keys_rem = array_slice( $keys_ar, ($old_cache_max - 1) );
+			if ( 1 >= $old_cache_max ) $old_keys_rem = $keys_ar;
+			else $old_keys_rem = array_slice( $keys_ar, ($old_cache_max - 1) );
 			
 			foreach ( $old_keys_rem as $key ) {
 				$key = trim($key);
@@ -272,7 +272,7 @@ if ( '' != $cacheKey && $cache_path ) {
 			
 		}
 		
-		putFileContents( 'tinymce_compressed_key' . $cache_ext, $cacheKey );
+		putFileContents( 'tinymce_compressed' . $cache_ext . '_key', $cacheKey );
 	}
 	
 	putFileContents( $cache_file, $content );
