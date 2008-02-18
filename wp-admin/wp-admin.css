@@ -140,6 +140,10 @@ form#upload #post_content {
 	text-align: right;
 }
 
+.submit a{
+	color: #fff;
+}
+
 .unapproved {
 	color: #888;
 }
@@ -1081,6 +1085,7 @@ html, body {
 .submitbox .submit {
 	text-align: left;
 	background-color: #464646;
+	color: #fff;
 	padding: 15px 10px;
 }
 
