@@ -82,6 +82,7 @@ function user_pass_ok($user_login,$user_pass) {
 function get_user_option( $option, $user = 0 ) {
 	global $wpdb;
 
+	$option = preg_replace('|[^a-z0-9_]|i', '', $option);
 	if ( empty($user) )
 		$user = wp_get_current_user();
 	else
