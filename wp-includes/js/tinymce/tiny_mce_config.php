@@ -47,11 +47,11 @@ function putFileContents( $path, $content ) {
 $https = ( isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'] ) ? true : false;
 	
 $baseurl = get_option('siteurl') . '/wp-includes/js/tinymce';
-$baseurl = $https ? str_replace('http://', 'https://', $baseurl) : $baseurl;
+if ( $https ) str_replace('http://', 'https://', $baseurl);
 
 $mce_css = $baseurl . '/wordpress.css';
 $mce_css = apply_filters('mce_css', $mce_css);
-$mce_css = $https ? str_replace('http://', 'https://', $mce_css) : $mce_css;
+if ( $https ) str_replace('http://', 'https://', $mce_css);
 
 $valid_elements = '*[*]';
 $valid_elements = apply_filters('mce_valid_elements', $valid_elements);
@@ -72,17 +72,17 @@ $mce_external_plugins = apply_filters('mce_external_plugins', array());
 $ext_plugins = "\n";
 foreach ( $mce_external_plugins as $name => $url ) {
 	$plugins[] = '-' . $name;
-	$url = $https ? str_replace('http://', 'https://', $url) : $url;
+	if ( $https ) str_replace('http://', 'https://', $url);
 	
 	$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
 }
 
 $plugins = implode($plugins, ',');
 
-$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'outdent', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', '|', 'wp_help', 'wp_adv' ));
+$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'outdent', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv' ));
 $mce_buttons = implode($mce_buttons, ',');
 
-$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', '|', 'removeformat', 'cleanup', '|', 'media', 'charmap', 'blockquote', '|', 'undo', 'redo', 'fullscreen' ));
+$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', '|', 'removeformat', 'cleanup', '|', 'media', 'charmap', 'blockquote', '|', 'undo', 'redo', 'wp_help' ));
 $mce_buttons_2 = implode($mce_buttons_2, ',');
 
 $mce_buttons_3 = apply_filters('mce_buttons_3', array());
@@ -90,10 +90,6 @@ $mce_buttons_3 = implode($mce_buttons_3, ',');
 	
 $mce_buttons_4 = apply_filters('mce_buttons_4', array());
 $mce_buttons_4 = implode($mce_buttons_4, ',');
-
-// all these browsers are now 100% supported, no need for this
-//$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera', 'safari'));
-//$mce_browsers = implode($mce_browsers, ',');
 
 $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 
@@ -114,13 +110,11 @@ $initArray = array (
 	'theme_advanced_statusbar_location' => 'bottom',
 	'theme_advanced_resizing' => true,
 	'theme_advanced_resize_horizontal' => false,
-//	'browsers' => "$mce_browsers",
 	'dialog_type' => 'modal',
-	'convert_urls' => false,
 	'relative_urls' => false,
 	'remove_script_host' => false,
 	'fix_list_elements' => true,
-	'fix_table_elements' => true,
+//	'fix_table_elements' => true,
 	'gecko_spellcheck' => true,
 	'entities' => '38,amp,60,lt,62,gt',
 	'accessibility_focus' => false,
@@ -131,7 +125,7 @@ $initArray = array (
 	// pass-through the settings for compression and caching, so they can be changed with "tiny_mce_before_init"
 	'disk_cache' => true,
 	'compress' => true,
-	'del_old_cache' => true
+	'old_cache_max' => '3' // number of cache files to keep
 );
 
 if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
@@ -148,7 +142,7 @@ $mce_deprecated1 = ob_get_contents() || '';
 ob_end_clean();
 
 /*
-// Do we need to support this? Most likely will breal TinyMCE 3...
+// Do we need to support this? Most likely will break TinyMCE 3...
 ob_start();
 do_action('tinymce_before_init');
 $mce_deprecated2 = ob_get_contents() || '';
@@ -161,10 +155,10 @@ $cache_ext = '.js';
 
 $disk_cache = ( ! isset($initArray['disk_cache']) || false == $initArray['disk_cache'] ) ? false : true;
 $compress = ( ! isset($initArray['compress']) || false == $initArray['compress'] ) ? false : true;
-$del_old_cache = ( ! isset($initArray['del_old_cache']) || false == $initArray['del_old_cache'] ) ? false : true;
+$old_cache_max = ( isset($initArray['old_cache_max']) ) ? (int) $initArray['old_cache_max'] : 0;
 
-$initArray['disk_cache'] = $initArray['compress'] = $initArray['del_old_cache'] = null;
-unset( $initArray['disk_cache'], $initArray['compress'], $initArray['del_old_cache'] );
+$initArray['disk_cache'] = $initArray['compress'] = $initArray['old_cache_max'] = null;
+unset( $initArray['disk_cache'], $initArray['compress'], $initArray['old_cache_max'] );
 
 $plugins = explode( ',', $initArray['plugins'] );
 $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
@@ -188,13 +182,16 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 if ( $disk_cache && $cache_path ) {
 
 	$ver = isset($_GET['ver']) ? (int) $_GET['ver'] : '';
-	$cacheKey = $initArray['plugins'] . $language . $theme . $suffix . $ver;
+	$cacheKey = $suffix . $ver;
 
+	foreach ( $initArray as $v )
+		$cacheKey .= $v;
+	
 	foreach ( $custom_js as $file )
 		$cacheKey .= $file;
 
 	$cacheKey = md5( $cacheKey );
-	$cache_file = $cache_path . '/tiny_mce_' . $cacheKey . $cache_ext;
+	$cache_file = $cache_path . '/tinymce_' . $cacheKey . $cache_ext;
 }
 
 cache_javascript_headers();
@@ -209,13 +206,12 @@ if ( $disk_cache && file_exists($cache_file) ) {
 }
 
 foreach ( $initArray as $k => $v ) 
-    $mce_options .= $k . ':"' . $v . '", ';
+    $mce_options .= $k . ':"' . $v . '",';
 
 $mce_options .= $mce_deprecated1;
 $mce_options = rtrim( trim($mce_options), '\n\r,' );
 
-$content = 'var tinyMCEPreInit = { suffix : "' . $suffix . '", base : "' . $baseurl . '" };';
-$content .= 'var tinyMCE_GZ = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false, suffix : "' . $suffix . '" }, baseURL : "' . $baseurl . '" };';
+$content .= 'var tinyMCEPreInit = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false }, base : "' . $baseurl . '", suffix : "' . $suffix . '" };';
 
 // Load patch
 $content .= getFileContents( 'tiny_mce_ext.js' );
@@ -224,7 +220,7 @@ $content .= getFileContents( 'tiny_mce_ext.js' );
 $content .= getFileContents( 'tiny_mce' . $suffix . '.js' );
 
 // Patch loading functions
-$content .= 'tinyMCE_GZ.start();';
+$content .= 'tinyMCEPreInit.start();';
 
 // Add all languages (WP)
 include_once( dirname(__FILE__).'/langs/wp-langs.php' );
@@ -247,26 +243,38 @@ $content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});'; // $mce_depr
 // Generate GZIP'd content
 if ( '.gz' == $cache_ext ) {
 	header('Content-Encoding: ' . $enc);
-	$cache_data = gzencode( $content, 9, FORCE_GZIP );
-} else
-	$cache_data = $content;
+	$content = gzencode( $content, 9, FORCE_GZIP );
+}
 
 // Stream to client
-echo $cache_data;
+echo $content;
 
 // Write file
-if ( '' != $cacheKey ) {
-	if ( $del_old_cache ) {
-		$old_key = getFileContents('tiny_mce_compressed_key');
+if ( '' != $cacheKey && $cache_path ) {
+	if ( $old_cache_max ) {
+		$old_keys = getFileContents('tinymce_compressed_key' . $cache_ext);
 			
-		if ( '' != $old_key ) { //  && $old_key != $cacheKey
-			$old_cache = $cache_path . '/tiny_mce_' . $old_key . $cache_ext;
-			@unlink($old_cache);
+		if ( '' != $old_keys ) {
+			$keys_ar = explode( "\n", $old_keys );
+			if ( ($old_cache_max - 1) > count($old_keys_ar) )
+				$old_keys_rem = array_slice( $keys_ar, ($old_cache_max - 1) );
+			
+			foreach ( $old_keys_rem as $key ) {
+				$key = trim($key);
+				if ( 32 != strlen($key) ) continue;
+				$old_cache = $cache_path . '/tinymce_' . $key . $cache_ext;
+				@unlink($old_cache);
+			}
+			
+			array_unshift( $keys_ar, $cacheKey );
+			$keys_ar = array_slice( $keys_ar, 0, $old_cache_max );
+			$cacheKey = trim( implode( "\n", $keys_ar ) );
+			
 		}
-			
-		putFileContents( 'tiny_mce_compressed_key', $cacheKey );
-	}
 		
-	putFileContents( $cache_file, $cache_data );
+		putFileContents( 'tinymce_compressed_key' . $cache_ext, $cacheKey );
+	}
+	
+	putFileContents( $cache_file, $content );
 }
 ?>

@@ -53,7 +53,8 @@ case 'edit':
 	}
 
 	wp_enqueue_script('page');
-	wp_enqueue_script('editor');
+	if ( user_can_richedit() )
+		wp_enqueue_script('editor');
 	wp_enqueue_script('thickbox');
 	wp_enqueue_script('media-upload');
 

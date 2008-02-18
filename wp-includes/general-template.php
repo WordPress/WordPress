@@ -923,67 +923,40 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	if (($rows < 3) || ($rows > 100))
 		$rows = 12;
 
-	$rows = "rows='$rows'";
-
-	if ( user_can_richedit() ) :
-		$wp_default_editor = wp_default_editor();
-		$active = " class='active'";
-		$inactive = " onclick='switchEditors.go(\"$id\");'";
-
-		if ( 'tinymce' == $wp_default_editor )
-			add_filter('the_editor_content', 'wp_richedit_pre');
-		else if ( 'html' == $wp_default_editor )
-			add_filter('the_editor_content', 'wp_htmledit_pre');
-
-		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
-        ?>
-    <style type="text/css">
-		#postdivrich table, #postdivrich #quicktags {border-top: none;}
-		#quicktags {border-bottom: none; padding-bottom: 2px; margin-bottom: -1px;}
-	</style>
-
-	<div id='editor-toolbar' style='display:none;'>
-		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors.go("<?php echo $id; ?>")' /></div>
-		<a id='edButtonHTML'<?php echo 'html' == $wp_default_editor ? $active : $inactive; ?>><?php _e('HTML'); ?></a>
-	        <a id='edButtonPreview'<?php echo 'tinymce' == $wp_default_editor ? $active : $inactive; ?>><?php _e('Visual'); ?></a>
-
-	        <div id="media-buttons">
-	        <?php _e('Add media:'); ?>
-	        <?php do_action( 'media_buttons'); ?>
-	        </div>
+	$rows = "rows='$rows'";	?>
+	<div id="editor-toolbar">
+	<?php if ( user_can_richedit() ) {
+		$wp_default_editor = wp_default_editor(); ?>
+		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
+		<?php if ( 'tinymce' == $wp_default_editor ) {
+			add_filter('the_editor_content', 'wp_richedit_pre'); ?>
+			<a id="edButtonHTML" onclick="switchEditors.go('<?php echo $id; ?>');"><?php _e('HTML'); ?></a>
+			<a id="edButtonPreview" class="active"><?php _e('Visual'); ?></a>
+		<?php } elseif ( 'html' == $wp_default_editor ) {
+			add_filter('the_editor_content', 'wp_htmledit_pre'); ?>
+			<a id="edButtonHTML" class="active"><?php _e('HTML'); ?></a>
+			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>');"><?php _e('Visual'); ?></a>
+		<?php }
+	} ?>
+		<div id="media-buttons">
+		<?php _e('Add media:'); ?>
+		<?php do_action( 'media_buttons'); ?>
+		</div>
 	</div>
-
-	<script type="text/javascript">
-	// <![CDATA[
-		if ( typeof tinyMCE != "undefined" )
-			document.getElementById('editor-toolbar').style.display = 'block';
-	// ]]>
-	</script>
-	
-	<?php else: // Rich editor is disabled in profile but we still need the media buttons	?>
-		
-	<div id='editor-toolbar' style='display:block;'>
-	        <div id="media-buttons">
-	        <?php _e('Add media:'); ?>
-	        <?php do_action( 'media_buttons'); ?>
-	        </div>
-	</div>
-
-	<?php endif; // user_can_richedit() ?>
 
 	<div id="quicktags">
 	<?php wp_print_scripts( 'quicktags' ); ?>
 	<script type="text/javascript">edToolbar()</script>
 	</div>
 
-	<?php if ( 'html' != $wp_default_editor ) : ?>
-	<script type="text/javascript">
-	// <![CDATA[
-		if ( typeof tinyMCE != "undefined" )
-			document.getElementById("quicktags").style.display="none";
-	// ]]>
-	</script>
-	<?php endif; // 'html' != $wp_default_editor
+    <?php if ( 'html' != $wp_default_editor ) : ?>
+    <script type="text/javascript">
+    // <![CDATA[
+        if ( typeof tinyMCE != "undefined" )
+            document.getElementById("quicktags").style.display="none";
+    // ]]>
+    </script>
+    <?php endif; // 'html' != $wp_default_editor
 
 	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea class='' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
@@ -991,13 +964,13 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	printf($the_editor, $the_editor_content);
 
 	?>
-	<script type="text/javascript">
-	//<!--
-	edCanvas = document.getElementById('<?php echo $id; ?>');
-	<?php if ( $prev_id && user_can_richedit() ) : ?>
-	// If tinyMCE is defined.
-	if ( typeof tinyMCE != 'undefined' ) {
-	// This code is meant to allow tabbing from Title to Post (TinyMCE).
+    <script type="text/javascript">
+    // <![CDATA[
+    edCanvas = document.getElementById('<?php echo $id; ?>');
+    <?php if ( $prev_id && user_can_richedit() ) : ?>
+    // If tinyMCE is defined.
+    if ( typeof tinyMCE != 'undefined' ) {
+    // This code is meant to allow tabbing from Title to Post (TinyMCE).
         document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
             e = e || window.event;
             if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
@@ -1010,11 +983,11 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
                 return true;
             }
         }
-	}
-	<?php endif; ?>
-	//-->
-	</script>
-	<?php
+    }
+    <?php endif; ?>
+    // ]]>
+    </script>
+    <?php
 }
 
 function get_search_query() {

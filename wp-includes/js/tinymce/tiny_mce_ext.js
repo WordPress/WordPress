@@ -1,12 +1,11 @@
-
-tinyMCE_GZ.start = function() {
+tinyMCEPreInit.start = function() {
 	var t = this, each = tinymce.each, s = t.settings, sl = tinymce.ScriptLoader, ln = s.languages.split(',');
 
 	function load(u, sp) {
 		var o;
 
 		if (!sp)
-			u = t.baseURL + u;
+			u = t.base + u;
 
 		o = {url : u, state : 2};
 		sl.queue.push(o);
@@ -22,7 +21,7 @@ tinyMCE_GZ.start = function() {
 	// Add themes with languages
 	each(s.themes.split(','), function(n) {
 		if (n) {
-			load('/themes/' + n + '/editor_template' + s.suffix + '.js');
+			load('/themes/' + n + '/editor_template' + t.suffix + '.js');
 
 			each (ln, function(c) {
 				if (c)
@@ -34,7 +33,7 @@ tinyMCE_GZ.start = function() {
 	// Add plugins with languages
 	each(s.plugins.split(','), function(n) {
 		if (n && n.charAt(0) != '-') {
-			load('/plugins/' + n + '/editor_plugin' + s.suffix + '.js');
+			load('/plugins/' + n + '/editor_plugin' + t.suffix + '.js');
 
 			each (ln, function(c) {
 				if (c)

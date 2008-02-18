@@ -260,14 +260,10 @@ input.delete:hover {
 	color: #fff;
 }
 
-#postdivrich #quicktags {
+#postdivrich #quicktags, #postdiv #quicktags {
 	background: #cee1ef;
 	padding: 0;
 	border: 0 none;
-}
-
-#postdiv #quicktags {
-	padding-right: 6px;
 }
 
 #quicktags #ed_toolbar {

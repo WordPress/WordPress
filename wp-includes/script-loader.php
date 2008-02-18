@@ -29,9 +29,16 @@ class WP_Scripts {
 
 		$this->add( 'colorpicker', '/wp-includes/js/colorpicker.js', false, '3517' );
 
-		// Modify this version when tinyMCE plugins are changed
-		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
-		$this->add( 'tiny_mce', $mce_config, false, '20080209' );
+		// Let a plugin replace the visual editor
+		$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
+		$this->add( 'editor', false, $visual_editor, '20080218' );
+		
+		$this->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080208' );
+		
+		// Modify this version when tinyMCE plugins are changed.
+		$mce_version = apply_filters('tiny_mce_version', '20080209');
+		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
+		$this->localize( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
 		
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
@@ -474,12 +481,6 @@ function wp_prototype_before_jquery( $js_array ) {
 	return $js_array;
 }
 
-// These localizations require information that may not be loaded even by init
-function wp_just_in_time_script_localization() {
-	wp_localize_script( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
-}
-
-add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 
 ?>

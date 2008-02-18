@@ -5,7 +5,8 @@ $parent_file = 'post-new.php';
 $editing = true;
 wp_enqueue_script('autosave');
 wp_enqueue_script('post');
-wp_enqueue_script('editor');
+if ( user_can_richedit() )
+	wp_enqueue_script('editor');
 wp_enqueue_script('thickbox');
 wp_enqueue_script('media-upload');
 
