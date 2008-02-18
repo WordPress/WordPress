@@ -178,6 +178,7 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 </ul>
 </div>
 <?php endif; ?>
+<?php do_action('submitpost_box'); ?>
 </div>
 
 <p class="submit">
