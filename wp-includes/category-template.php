@@ -109,9 +109,9 @@ function get_the_category_by_ID($cat_ID) {
 	return $category->name;
 }
 
-function get_the_category_list($separator = '', $parents='') {
+function get_the_category_list($separator = '', $parents='', $post_id = false) {
 	global $wp_rewrite;
-	$categories = get_the_category();
+	$categories = get_the_category($post_id);
 	if (empty($categories))
 		return apply_filters('the_category', __('Uncategorized'), $separator, $parents);
 
@@ -179,8 +179,8 @@ function in_category( $category ) { // Check if the current post is in the given
 		return false;
 }
 
-function the_category($separator = '', $parents='') {
-	echo get_the_category_list($separator, $parents);
+function the_category($separator = '', $parents='', $post_id = false) {
+	echo get_the_category_list($separator, $parents, $post_id);
 }
 
 function category_description($category = 0) {
