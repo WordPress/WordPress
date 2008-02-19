@@ -15,7 +15,8 @@
 
 #rightnow .rbutton {
 	background: #ebebeb;
-	-moz-border-radius: 5px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 	font-weight: normal;
 	color: #264761;
 	padding: 6px;
