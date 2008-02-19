@@ -55,6 +55,10 @@
 	border-bottom: 1px solid #448abd;
 }
 
+#rightnow a:hover {
+	color: #d54e21;
+}
+
 div#dashboard-widgets {
 	position: relative;
 	left: 20px;

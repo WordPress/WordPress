@@ -132,8 +132,17 @@ form#upload #post_content {
 }
 
 .submit input, .submit input:focus, .button, .button:focus {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	color: #246;
-	padding: 2px;
+	padding: 6px;
+	background: #e5e5e5;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: none;
+}
+
+.submit input:hover, .button:hover {
+	color: #d54e21;
 }
 
 .editform th, #postcustomsubmit {
@@ -617,6 +626,9 @@ a.view-comment-post-link {
 	color: #246;
 	letter-spacing: normal;
 }
+#wphead #viewsite a:hover {
+	color: #d54e21;
+}
 #wphead h1 {
 	font: normal 36px Georgia, "Times New Roman", Times, serif;
 	color: #555;
@@ -1082,14 +1094,18 @@ html, body {
 
 .submitbox #previewview a {
 	background: #ebebeb;
-	-moz-border-radius: 5px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 	-webkit-border-radius: 5px;
 	padding: 6px;
 	font-weight: normal;
 	color: #264761;
 	border-bottom: none;
 	font-size: 14px;
+}
 
+.submitbox #previewview a:hover {
+	color: #d54e21;
 }
 
 .submitbox .submit {
