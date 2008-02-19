@@ -15,12 +15,14 @@
 
 #rightnow .rbutton {
 	background: #ebebeb;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
 	font-weight: normal;
 	color: #264761;
 	padding: 6px;
 	border-bottom: none;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 
 #rightnow .reallynow span {
