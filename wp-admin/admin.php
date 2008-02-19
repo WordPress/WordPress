@@ -38,6 +38,8 @@ if (isset($_GET['page'])) {
 
 require(ABSPATH . 'wp-admin/menu.php');
 
+do_action('admin_init');
+
 // Handle plugin admin pages.
 if (isset($plugin_page)) {
 	$page_hook = get_plugin_page_hook($plugin_page, $pagenow);
