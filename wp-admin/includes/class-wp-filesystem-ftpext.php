@@ -364,7 +364,8 @@ class WP_Filesystem_FTPext{
 			if (substr(strtolower($line), 0, 5) == 'total') continue;
 			$struc = array();
 			$current = preg_split("/[\s]+/",$line,9);
-			$struc['name']    	= str_replace('//','',$current[8]);
+			$name_num = count($current) - 1;
+			$struc['name']    	= str_replace('//','',$current[$name_num]);
 
 			if( '.' == $struc['name'][0] && !$incdot)
 				continue;
@@ -398,6 +399,7 @@ class WP_Filesystem_FTPext{
 			//File
 			$ret[$struc['name']] = $struc;
 		}
+		return $ret;
 	}
 	function __destruct(){
 		if( $this->link )
