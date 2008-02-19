@@ -97,7 +97,7 @@ function do_shortcode_tag($m) {
 
 function shortcode_parse_atts($text) {
 	$atts = array();
-	$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)/';
+	$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
 	if ( preg_match_all($pattern, $text, $match, PREG_SET_ORDER) ) {
 		foreach ($match as $m) {
 			if (!empty($m[1]))
@@ -106,6 +106,10 @@ function shortcode_parse_atts($text) {
 				$atts[strtolower($m[3])] = stripcslashes($m[4]);
 			elseif (!empty($m[5]))
 				$atts[strtolower($m[5])] = stripcslashes($m[6]);
+			elseif (isset($m[7]) and strlen($m[7]))
+				$atts[] = stripcslashes($m[7]);
+			elseif (isset($m[8]))
+				$atts[] = stripcslashes($m[8]);
 		}
 	}
 	return $atts;
