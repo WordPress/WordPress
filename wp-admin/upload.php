@@ -116,7 +116,7 @@ endif;
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Media' ); ?>" />
+	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
 </p>
 
 <?php do_action('restrict_manage_posts'); ?>
@@ -138,7 +138,7 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
 <?php wp_nonce_field('bulk-posts'); ?>
 <?php
 

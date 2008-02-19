@@ -134,7 +134,7 @@ form#upload #post_content {
 .submit input, .submit input:focus, .button, .button:focus {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	color: #246;
-	padding: 6px;
+	padding: 4px 6px;
 	background: #e5e5e5;
 	border: none;
 	-moz-border-radius: 2px;
@@ -145,6 +145,13 @@ form#upload #post_content {
 
 .submit input:hover, .button:hover {
 	color: #d54e21;
+}
+
+select {
+	background: #fff;
+	border: 1px solid #ddd;
+	font: 12px/14px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: none;
 }
 
 .editform th, #postcustomsubmit {
@@ -506,6 +513,13 @@ p.pagenav {
 .pagenav span {
 	font-weight: bold;
 	margin: 0 6px;
+}
+
+.tablenav .button,
+div.nav .button,
+.niceblue tr .button {
+	padding: 4px 6px;
+	background: #cee1ef;
 }
 
 .tablenav .dots {

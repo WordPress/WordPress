@@ -118,7 +118,7 @@ $messages[6] = __('Tags deleted.');
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
-	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" />
+	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" class="button" />
 </p>
 
 <br style="clear:both;" />
@@ -144,7 +144,7 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
 <?php wp_nonce_field('bulk-tags'); ?>
 </div>
 

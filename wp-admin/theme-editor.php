@@ -104,7 +104,7 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 }
 ?>
 		</select>
-		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" style="padding: 0px;" />
+		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" />
 	</form>
 </div>
 <br style="clear: both;" />
@@ -160,7 +160,7 @@ if ($allowed_files) :
 <?php if ( is_writeable($real_file) ) : ?>
 			<p class="submit">
 <?php
-	echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
+	echo "<input type='submit' name='submit' value='" . __('Update File') . "' tabindex='2' />";
 ?>
 </p>
 <?php else : ?>

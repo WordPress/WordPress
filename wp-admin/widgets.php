@@ -181,7 +181,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 	<h2><?php _e( 'Widgets' ); ?></h2>
 	<p id="widget-search">
 		<input type="text" id="widget-search-input" name="s" value="<?php echo attribute_escape( $widget_search ); ?>" />
-		<input type="submit" class="button" value="<?php _e( 'Search Widgets' ); ?>" />
+		<input type="submit" class="button" value="<?php _e( 'Search Widgets' ); ?>" class="button" />
 	</p>
 
 	<div class="widget-liquid-left-holder">
@@ -193,7 +193,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 				<option value='<?php echo $show_value; ?>'<?php selected( $show_value, $show ); ?>><?php echo wp_specialchars( $show_text ); ?></option>
 <?php endforeach; ?>
 			</select>
-			<input type="submit" value="<?php _e('Show' ); ?>" />
+			<input type="submit" value="<?php _e('Show' ); ?>" class="button" />
 			<p class="pagenav">
 				<?php echo $page_links; ?>
 			</p>
@@ -210,7 +210,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 				<option value='<?php echo $sidebar_id; ?>'<?php selected( $sidebar_id, $sidebar ); ?>><?php echo wp_specialchars( $registered_sidebar['name'] ); ?></option>
 <?php endforeach; ?>
 			</select>
-			<input type="submit" value="<?php _e('Go' ); ?>" />
+			<input type="submit" value="<?php _e('Go' ); ?>" class="button" />
 		</div>
 
 	</div>

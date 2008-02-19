@@ -126,7 +126,7 @@ $messages[5] = __('Category not updated.');
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
-	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" />
+	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 
 <br style="clear:both;" />
@@ -134,7 +134,7 @@ $messages[5] = __('Category not updated.');
 <div class="tablenav">
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
 <?php wp_nonce_field('bulk-categories'); ?>
 </div>
 

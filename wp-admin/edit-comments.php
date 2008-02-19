@@ -16,7 +16,7 @@ else $mode = attribute_escape($_GET['mode']);
   <fieldset>
   <legend><?php _e('Show Comments That Contain...') ?></legend>
   <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo attribute_escape($_GET['s']); ?>" size="17" />
-  <input type="submit" name="submit" value="<?php _e('Search') ?>"  />
+  <input type="submit" name="submit" value="<?php _e('Search') ?>" class="button" />
   <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
   <?php _e('(Searches within comment text, e-mail, URL, and IP address.)') ?>
   </fieldset>

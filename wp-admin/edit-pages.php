@@ -99,7 +99,7 @@ unset($status_links);
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
-	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" />
+	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
 </p>
 
 <br style="clear:both;" />
@@ -107,7 +107,7 @@ unset($status_links);
 <div class="tablenav">
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
 <?php wp_nonce_field('bulk-pages'); ?>
 </div>
 
