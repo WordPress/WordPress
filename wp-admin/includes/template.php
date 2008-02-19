@@ -545,12 +545,13 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	} else {
 		$edit = $user_object->user_login;
 	}
+	$role_name = translate_with_context($wp_roles->role_names[$role]);
 	$r = "<tr id='user-$user_object->ID'$style>
 		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></td>
 		<td><strong>$edit</strong></td>
 		<td>$user_object->first_name $user_object->last_name</td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>
-		<td>{$wp_roles->role_names[$role]}</td>";
+		<td>$role_name</td>";
 	$r .= "\n\t\t<td>";
 	if ( $numposts > 0 ) {
 		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
@@ -891,11 +892,13 @@ function the_attachment_links( $id = false ) {
 function wp_dropdown_roles( $default = false ) {
 	global $wp_roles;
 	$r = '';
-	foreach( $wp_roles->role_names as $role => $name )
+	foreach( $wp_roles->role_names as $role => $name ) {
+		$name = translate_with_context($name);
 		if ( $default == $role ) // Make default first in list
 			$p = "\n\t<option selected='selected' value='$role'>$name</option>";
 		else
 			$r .= "\n\t<option value='$role'>$name</option>";
+	}
 	echo $p . $r;
 }
 

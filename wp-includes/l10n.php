@@ -64,13 +64,40 @@ function get_locale() {
  * @param string $domain Domain to retrieve the translated text
  * @return string Translated text
  */
-function translate($text, $domain) {
+function translate($text, $domain = 'default') {
 	global $l10n;
 
 	if (isset($l10n[$domain]))
 		return apply_filters('gettext', $l10n[$domain]->translate($text), $text);
 	else
 		return $text;
+}
+
+/**
+ * translate_with_context() - Retrieve the translated text and strip context
+ *
+ * If the domain is set in the $l10n global, then the text is run
+ * through the domain's translate method. After it is passed to
+ * the 'gettext' filter hook, along with the untranslated text as
+ * the second parameter.
+ *
+ * If the domain is not set, the $text is just returned.
+ *
+ * @since 2.5
+ * @uses translate()
+ *
+ * @param string $text Text to translate
+ * @param string $domain Domain to retrieve the translated text
+ * @return string Translated text
+ */
+function translate_with_context($text, $domain = 'default') {
+	$whole = translate($text, $domain);
+	$last_bar = strrpos($whole, '|');
+	if ( false == $last_bar ) {
+		return $whole;
+	} else {
+		return substr($whole, 0, $last_bar);
+	}
 }
 
 /**
@@ -130,13 +157,7 @@ function _e($text, $domain = 'default') {
  * @return string Translated context string without pipe
  */
 function _c($text, $domain = 'default') {
-	$whole = translate($text, $domain);
-	$last_bar = strrpos($whole, '|');
-	if ( false == $last_bar ) {
-		return $whole;
-	} else {
-		return substr($whole, 0, $last_bar);
-	}
+	return translate_with_context($text, $domain);
 }
 
 /**

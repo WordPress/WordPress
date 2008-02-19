@@ -263,6 +263,7 @@ foreach ( $wp_roles->get_names() as $role => $name ) {
 	if ( $role == $_GET['role'] )
 		$class = ' class="current"';
 
+	$name = translate_with_context($name);
 	$name = sprintf(_c('%1$s (%2$s)|user role with count'), $name, $avail_roles[$role]);
 	$role_links[] = "<li><a href=\"users.php?role=$role\"$class>" . $name . '</a>';
 }
