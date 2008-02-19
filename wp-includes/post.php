@@ -807,6 +807,117 @@ function wp_count_posts( $type = 'post' ) {
 }
 
 /**
+ * wp_count_attachments() - Count number of attachments
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.5
+ *
+ * @param string|array $post_mime_type Array or comma-separated list of MIME patterns
+ * @return array Number of posts for each post_mime_type
+ */
+
+function wp_count_attachments( $mime_type = '' ) {
+	global $wpdb;
+
+	$and = wp_post_mime_type_where( $mime_type );
+	$count = $wpdb->get_results( "SELECT post_mime_type, COUNT( * ) AS num_posts FROM $wpdb->posts WHERE post_type = 'attachment' $and GROUP BY post_mime_type", ARRAY_A );
+
+	$stats = array( );
+	foreach( (array) $count as $row ) {
+		$stats[$row['post_mime_type']] = $row['num_posts'];
+	}
+
+	return (object) $stats;
+}
+
+/**
+ * wp_match_mime_type() - Check a MIME-Type against a list
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.5
+ *
+ * @param string|array $wildcard_mime_types e.g. audio/mpeg or image (same as image/*) or flash (same as *flash*)
+ * @param string|array $real_mime_types post_mime_type values
+ * @return array array(wildcard=>array(real types))
+ */
+function wp_match_mime_types($wildcard_mime_types, $real_mime_types) {
+	$matches = array();
+	if ( is_string($wildcard_mime_types) )
+		$wildcard_mime_types = array_map('trim', explode(',', $wildcard_mime_types));
+	if ( is_string($real_mime_types) )
+		$real_mime_types = array_map('trim', explode(',', $real_mime_types));
+	$wild = '[-._a-z0-9]*';
+	foreach ( (array) $wildcard_mime_types as $type ) {
+		$type = str_replace('*', $wild, $type);
+		$patternses[1][$type] = $type;
+		if ( false === strpos($type, '/') ) {
+			$patternses[2][$type] = "^$type/$wild$";
+			$patternses[3][$type] = "$wild$type$wild";
+		}
+	}
+	asort($patternses);
+	foreach ( $patternses as $patterns )
+		foreach ( $patterns as $type => $pattern )
+			foreach ( (array) $real_mime_types as $real )
+				if ( preg_match("#$pattern#", $real) && ( empty($matches[$type]) || false === array_search($real, $matches[$type]) ) )
+					$matches[$type][] = $real;
+	return $matches;
+}
+
+/**
+ * wp_get_post_mime_type_where() - Convert MIME types into SQL
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.5
+ *
+ * @param string|array $mime_types MIME types
+ * @return string SQL AND clause
+ */
+function wp_post_mime_type_where($post_mime_types) {
+	$where = '';
+	$wildcards = array('', '%', '%/%');
+	if ( is_string($post_mime_types) )
+		$post_mime_types = array_map('trim', explode(',', $post_mime_types));
+	foreach ( (array) $post_mime_types as $mime_type ) {
+		$mime_type = preg_replace('/\s/', '', $mime_type);
+		$slashpos = strpos($mime_type, '/');
+		if ( false !== $slashpos ) {
+			$mime_group = preg_replace('/[^-*.a-zA-Z0-9]/', '', substr($mime_type, 0, $slashpos));
+			$mime_subgroup = preg_replace('/[^-*.a-zA-Z0-9]/', '', substr($mime_type, $slashpos + 1));
+			if ( empty($mime_subgroup) )
+				$mime_subgroup = '*';
+			else
+				$mime_subgroup = str_replace('/', '', $mime_subgroup);
+			$mime_pattern = "$mime_group/$mime_subgroup";
+		} else {
+			$mime_pattern = preg_replace('/[^-*.a-zA-Z0-9]/', '', $mime_type);
+			if ( false === strpos($mime_pattern, '*') )
+				$mime_pattern .= '/*';
+		}
+
+		$mime_pattern = preg_replace('/\*+/', '%', $mime_pattern);
+
+		if ( in_array( $mime_type, $wildcards ) )
+			return '';
+
+		if ( false !== strpos($mime_pattern, '%') )
+			$wheres[] = "post_mime_type LIKE '$mime_pattern'";
+		else
+			$wheres[] = "post_mime_type = '$mime_pattern'";
+	}
+	if ( !empty($wheres) )
+		$where = ' AND (' . join(' OR ', $wheres) . ') ';
+	return $where;
+}
+
+/**
  * wp_delete_post() - Deletes a Post
  *
  * {@internal Missing Long Description}}

@@ -502,6 +502,8 @@ function wp_edit_posts_query( $q = false ) {
 				'private' => array(__('Private'), __('Private posts'), __('Private (%s)'))
 			);
 
+	$post_stati = apply_filters('post_stati', $post_stati);
+
 	$avail_post_stati = get_available_post_statuses('post');
 
 	$post_status_q = '';
@@ -522,6 +524,38 @@ function wp_edit_posts_query( $q = false ) {
 	wp("what_to_show=posts$post_status_q&posts_per_page=20&order=$order&orderby=$orderby");
 
 	return array($post_stati, $avail_post_stati);
+}
+
+function get_available_post_mime_types($type = 'attachment') {
+	global $wpdb;
+
+	$types = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_type = %s", $type));
+	return $types;
+}
+
+function wp_edit_attachments_query( $q = false ) {
+	global $wpdb;
+	if ( false === $q )
+		$q = $_GET;
+	$q['m']   = (int) $q['m'];
+	$q['cat'] = (int) $q['cat'];
+	$q['post_type'] = 'attachment';
+	$q['post_status'] = 'any';
+	$post_mime_types = array(	//	array( adj, noun )
+				'image' => array(__('Images'), __('Manage Images'), __('Images (%s)')),
+				'audio' => array(__('Audio'), __('Manage Audio'), __('Audio (%s)')),
+				'video' => array(__('Video'), __('Manage Video'), __('Video (%s)')),
+			);
+	$post_mime_types = apply_filters('post_mime_types', $post_mime_types);
+
+	$avail_post_mime_types = get_available_post_mime_types('attachment');
+
+	if ( isset($q['post_mime_type']) && !array_intersect( (array) $q['post_mime_type'], array_keys($post_mime_types) ) )
+		unset($q['post_mime_type']);
+
+	wp($q);
+
+	return array($post_mime_types, $avail_post_mime_types);
 }
 
 function postbox_classes( $id, $page ) {

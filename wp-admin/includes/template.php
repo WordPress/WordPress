@@ -306,6 +306,21 @@ function wp_manage_posts_columns() {
 	return $posts_columns;
 }
 
+// define the columns to display, the syntax is 'internal name' => 'display name'
+function wp_manage_media_columns() {
+	$posts_columns = array();
+	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';
+	$posts_columns['icon'] = '';
+	$posts_columns['media'] = _c('Media|media column header');
+	$posts_columns['desc'] = _c('Description|media column header');
+	$posts_columns['date'] = _c('Date Added|media column header');
+	$posts_columns['parent'] = _c('Appears with|media column header');
+	$posts_columns['location'] = _c('Location|media column header');
+	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
+
+	return $posts_columns;
+}
+
 function wp_manage_pages_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';

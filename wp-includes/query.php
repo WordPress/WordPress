@@ -786,6 +786,7 @@ class WP_Query {
 		$distinct = '';
 		$whichcat = '';
 		$whichauthor = '';
+		$whichmimetype = '';
 		$where = '';
 		$limits = '';
 		$join = '';
@@ -1151,7 +1152,12 @@ class WP_Query {
 			$whichauthor .= ' AND (post_author = '.intval($q['author']).')';
 		}
 
-		$where .= $search.$whichcat.$whichauthor;
+		// MIME-Type stuff for attachment browsing
+
+		if ( '' != $q['post_mime_type'] )
+			$whichmimetype = wp_post_mime_type_where($q['post_mime_type']);
+
+		$where .= $search.$whichcat.$whichauthor.$whichmimetype;
 
 		if ( empty($q['order']) || ((strtoupper($q['order']) != 'ASC') && (strtoupper($q['order']) != 'DESC')) )
 			$q['order'] = 'DESC';
