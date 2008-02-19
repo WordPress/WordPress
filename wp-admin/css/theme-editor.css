@@ -10,11 +10,8 @@
 
 #templateside {
 	float: right;
-	width: 200px;
-	overflow: hidden;
-	position: absolute;
-	right: 15%;
-	top: 250px;
+	width: 190px;
+	margin-top:-3.4em;
 }
 
 #templateside h3, #postcustom p.submit {
