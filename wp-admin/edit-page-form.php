@@ -140,18 +140,17 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <?php endif; ?>
 </p>
 
-<?php if ($post_ID): ?>
 <div class="inside">
 <p><strong><?php _e('Related') ?></strong></p>
 
 <ul>
+<?php if ($post_ID): ?>
 <li><a href="edit-pages.php?p=<?php echo $post_ID ?>"><?php _e('See Comments on this Page') ?></a></li>
+<?php endif; ?>
 <li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
 <li><a href="edit-pages.php"><?php _e('Manage All Pages') ?></a></li>
 </ul>
 </div>
-<?php endif; ?>
-
 <?php do_action('submitpage_box'); ?>
 </div>
 

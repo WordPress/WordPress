@@ -83,6 +83,15 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID", 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>";
 ?>
 </p>
+
+<div class="inside">
+<p><strong><?php _e('Related') ?></strong></p>
+
+<ul>
+<li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
+<li><a href="moderation.php"><?php _e('Moderate Comments') ?></a></li>
+</ul>
+</div>
 <?php do_action('submitcomment_box'); ?>
 </div>
 

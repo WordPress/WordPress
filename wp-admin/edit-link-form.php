@@ -75,6 +75,16 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <p class="submit">
 <input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 </p>
+
+<div class="inside">
+<p><strong><?php _e('Related') ?></strong></p>
+
+<ul>
+<li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
+<li><a href="edit-link-categories.php"><?php _e('Manage All Categories') ?></a></li>
+<li><a href="link-import.php"><?php _e('Import Links') ?></a></li>
+</ul>
+</div>
 <?php do_action('submitlink_box'); ?>
 </div>
 
