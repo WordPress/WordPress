@@ -65,6 +65,6 @@ function wp_version_check() {
 	update_option( 'update_core', $new_option );
 }
 
-add_action( 'admin_init', 'wp_version_check' );
+add_action( 'init', 'wp_version_check' );
 
 ?>
