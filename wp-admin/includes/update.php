@@ -178,7 +178,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$plugin_dir = dirname(ABSPATH . PLUGINDIR . "/$plugin");
 
 	// If plugin is in its own directory, recursively delete the directory.
-	if ( '.' != $plugin_dir )
+	if ( '.' != $plugin_dir && ABSPATH . PLUGINDIR != $plugin_dir )
 		$wp_filesystem->delete($plugin_dir, true);
 
 	apply_filters('update_feedback', __("Installing the latest version"));

@@ -2,7 +2,9 @@
 
 class WP_Filesystem_Direct{
 	var $permission = null;
+	var $errors = array();
 	function WP_Filesystem_Direct($arg){
+		$this->errors = new WP_Error();
 		$this->permission = umask();
 	}
 	function connect(){
@@ -188,11 +190,16 @@ class WP_Filesystem_Direct{
 
 	function delete($file,$recursive=false){
 		$file = str_replace('\\','/',$file); //for win32, occasional problems deleteing files otherwise
+
 		if( $this->is_file($file) )
 			return @unlink($file);
-		if( !$recursive )
+
+		if( !$recursive && $this->is_dir($file) )
 			return @rmdir($file);
+
 		$filelist = $this->dirlist($file);
+		if( ! $filelist )
+			return true; //No files exist, Say we've deleted them
 
 		$retval = true;
 		foreach($filelist as $filename=>$fileinfo){
