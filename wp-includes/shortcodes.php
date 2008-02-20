@@ -111,6 +111,8 @@ function shortcode_parse_atts($text) {
 			elseif (isset($m[8]))
 				$atts[] = stripcslashes($m[8]);
 		}
+	} else {
+		$atts = ltrim($text);
 	}
 	return $atts;
 }
