@@ -138,6 +138,19 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <?php printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
 <?php endif; ?>
 </p>
+
+<?php if ($post_ID): ?>
+<div class="inside">
+<p><strong><?php _e('Related') ?></strong></p>
+
+<ul>
+<li><a href="edit-pages.php?p=<?php echo $post_ID ?>"><?php _e('See Comments on this Page') ?></a></li>
+<li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
+<li><a href="edit-pages.php"><?php _e('Manage All Pages') ?></a></li>
+</ul>
+</div>
+<?php endif; ?>
+
 <?php do_action('submitpage_box'); ?>
 </div>
 
