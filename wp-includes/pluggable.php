@@ -126,15 +126,11 @@ function get_userdata( $user_id ) {
 
 	$user = wp_cache_get($user_id, 'users');
 
-	if ( '0' === $user )
-		return false;
-	else if ( $user )
+	if ( $user )
 		return $user;
 
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id)) ) {
-		wp_cache_add($user_id, 0, 'users');
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE ID = %d LIMIT 1", $user_id)) )
 		return false;
-	}
 
 	_fill_user($user);
 
@@ -174,8 +170,6 @@ function get_userdatabylogin($user_login) {
 		return false;
 
 	$user_id = wp_cache_get($user_login, 'userlogins');
-	if ( '0' === $user_id )
-		return false;
 
 	$user = false;
 	if ( false !== $user_id )
@@ -184,10 +178,8 @@ function get_userdatabylogin($user_login) {
 	if ( false !== $user )
 		return $user;
 
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_login = %s", $user_login)) ) {
-		wp_cache_add($user_login, 0, 'userlogins');
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_login = %s", $user_login)) )
 		return false;
-	}
 
 	_fill_user($user);
 
@@ -209,9 +201,6 @@ function get_user_by_email($email) {
 
 	$user_id = wp_cache_get($email, 'useremail');
 
-	if ( '0' === $user_id )
-		return false;
-
 	$user = false;
 	if ( false !== $user_id )
 		$user = wp_cache_get($user_id, 'users');
@@ -219,10 +208,8 @@ function get_user_by_email($email) {
 	if ( false !== $user )
 		return $user;
 
-	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_email = %s", $email)) ) {
-		wp_cache_add($email, 0, 'useremail');
+	if ( !$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_email = %s", $email)) )
 		return false;
-	}
 
 	_fill_user($user);
 
