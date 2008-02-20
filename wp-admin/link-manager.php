@@ -143,7 +143,7 @@ if ( $links ) {
 <table class="widefat">
 	<thead>
 	<tr>
-	<th style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
+	<th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
 <?php foreach($link_columns as $column_display_name) {
 	echo $column_display_name;
 } ?>
@@ -166,7 +166,7 @@ if ( $links ) {
 		++ $i;
 		$style = ($i % 2) ? '' : ' class="alternate"';
 		?><tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>><?php
-		echo '<td align="center"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></td>';
+		echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></th>';
 		foreach($link_columns as $column_name=>$column_display_name) {
 			switch($column_name) {
 				case 'name':

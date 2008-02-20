@@ -53,7 +53,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='cat-$category->term_id'$class>
-		<th scope='row' style='text-align: center'><input type='checkbox' name='delete[]' value='$category->term_id' /></th>
+		<th scope='row' class='check-column'><input type='checkbox' name='delete[]' value='$category->term_id' /></th>
 		<td>$edit</td>
 		<td>$category->description</td>
 		<td align='center'>$posts_count</td>\n\t</tr>\n";
@@ -81,7 +81,7 @@ function link_cat_row( $category ) {
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='link-cat-$category->term_id'$class>" .
-		'<td style="text-align: center"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></td>' .
+		'<th scope="row" class="check-column"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></th>' .
 		"<td>$edit</td>
 		<td>$category->description</td>
 		<td align='center'>$count</td>";
@@ -234,7 +234,7 @@ function _tag_row( $tag, $class = '' ) {
 
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
-		$out .= '<td style="text-align: center"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></td>';
+		$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
 			apply_filters( 'term_name', $tag->name ) . '</td>';
 
@@ -368,7 +368,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'cb':
 		?>
-		<th scope="row" style="text-align: center"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
 		<?php
 		break;
 	case 'modified':
@@ -550,7 +550,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	}
 	$role_name = translate_with_context($wp_roles->role_names[$role]);
 	$r = "<tr id='user-$user_object->ID'$style>
-		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></td>
+		<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>
 		<td><strong>$edit</strong></td>
 		<td>$user_object->first_name $user_object->last_name</td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>

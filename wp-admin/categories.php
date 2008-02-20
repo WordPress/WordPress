@@ -146,7 +146,7 @@ $messages[5] = __('Category not updated.');
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col"><div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></div></th>
+		<th scope="col" class="check-column"><div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></div></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col" style="text-align: center"><?php _e('Posts') ?></th>

@@ -73,6 +73,11 @@ textarea, input, select {
 	text-align: left;
 }
 
+.widefat .check-column {
+	text-align: center;
+	width: 3%;
+}
+
 .widefat thead, .thead { background: #464646; color: #d7d7d7; }
 
 .wrap {
