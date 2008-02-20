@@ -244,6 +244,10 @@ input.disabled, textarea.disabled {
 	padding: 0;
 }
 
+#titlediv, #namediv, #poststuff #namediv {
+	margin-top: 10px;
+}
+
 #postdivrich {
 	margin: 0;
 	padding: 0;
@@ -1017,6 +1021,7 @@ html, body {
 	padding: 4px 3px;
 	width: 98%;
 }
+
 #edit-slug-box {
 	margin-top: 8px;
 	color: #999;
@@ -1113,7 +1118,7 @@ html, body {
 	position: absolute;
 	background-color: #eaf3fa;
 	width: 200px;
-	top: 240px;
+	top: 234px;
 	right: 15%;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
