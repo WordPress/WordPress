@@ -1250,6 +1250,7 @@ function wp_insert_post($postarr = array()) {
 	$where = array( 'ID' => $post_ID );
 
 	if ($update) {
+		do_action( 'pre_post_update', $post_ID );
 		$wpdb->update( $wpdb->posts, $data, $where );
 	} else {
 		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
