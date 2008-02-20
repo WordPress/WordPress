@@ -13,7 +13,7 @@ function index_js() {
 		jQuery('#dashboard_incoming_links div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=incominglinks');
 		jQuery('#dashboard_primary div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=devnews');
 		jQuery('#dashboard_secondary div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=planetnews');
-		jQuery('#dashboard_plugins div.dashboard-widget-content').not( '.dashboard-widget-control' ).html( 'TODO' );
+		jQuery('#dashboard_plugins div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=plugins');
 	});
 </script>
 <?php

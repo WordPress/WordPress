@@ -231,3 +231,26 @@ div.dashboard-widget-content .comment-meta {
 #dashboard-widgets .widget_rss ul li div {
 	clear: both;
 }
+
+#dashboard_primary a.rsswidget, #dashboard_plugins h5 {
+	font-size: 1.2em;
+}
+
+#dashboard_primary span.rss-date {
+	font-size: 1.2em;
+	color: #999;
+}
+
+#dashboard_plugins h4 {
+	font-size: 1em;
+	margin: 0 0 .7em;
+}
+
+#dashboard_plugins h5 {
+	margin: 0;
+	display: inline;
+}
+
+#dashboard_plugins p {
+	margin: 0 0 1em;
+}

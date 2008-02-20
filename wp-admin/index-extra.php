@@ -99,6 +99,54 @@ $post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
 <?php
 }
 break;
+
+case 'plugins' :
+$popular = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
+$new     = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+$updated = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
+
+foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) :
+	if ( !isset($$feed->items) || 0 == count($$feed->items) )
+		continue;
+
+	$$feed->items = array_slice($$feed->items, 0, 5);
+	$item_key = array_rand($$feed->items);
+
+	// Eliminate some common badly formed plugin descriptions
+	while ( ( null !== $item_key = array_rand($$feed->items) ) && false !== strpos( $$feed->items[$item_key]['description'], 'Plugin Name:' ) )
+		unset($$feed->items[$item_key]);
+
+	if ( !isset($$feed->items[$item_key]) )
+		continue;
+
+	$item = $$feed->items[$item_key];
+
+	// current bbPress feed item titles are: user on "topic title"
+	if ( preg_match( '/"(.*)"/s', $item['title'], $matches ) )
+		$title = $matches[1];
+	else // but let's make it forward compatible if things change
+		$title = $item['title'];
+	$title = wp_specialchars( $title );
+
+	$description = wp_specialchars( strip_tags(html_entity_decode($item['description'], ENT_QUOTES)) );
+
+	list($link, $frag) = explode( '#', $item['link'] );
+
+	$link = clean_url($link);
+	$dlink = rtrim($link, '/') . '/download/';
+
+?>
+
+<h4><?php echo $label; ?></h4>
+<h5><a href="<?php echo $link; ?>"><?php echo $title; ?></a></h5> <span>(<a href="<?php echo $dlink; ?>"><?php _e( 'Download' ); ?></a>)</span>
+
+<p><?php echo $description; ?></p>
+
+<?php
+
+endforeach;
+break;
+
 }
 
 ?>
