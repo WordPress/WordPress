@@ -1186,13 +1186,21 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 	if ( ! get_option('show_avatars') )
 		return false;
 
+	$email = '';
 	if ( is_numeric($id_or_email) ) {
 		$id = (int) $id_or_email;
 		$user = get_userdata($id);
-		if ( !$user)
-			$email = '';
-		else
+		if ( $user )
 			$email = $user->user_email;
+	} elseif ( is_object($id_or_email) ) {
+		if ( !empty($id_or_email->user_id) ) {
+			$id = (int) $id_or_email->user_id;
+			$user = get_userdata();
+			if ( $user)
+				$email = $user->user_email;
+		} elseif ( !empty($id_or_email->comment_author_email) ) {
+			$email = $id_or_email->comment_author_email;
+		}
 	} else {
 		$email = $id_or_email;
 	}
