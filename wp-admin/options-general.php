@@ -54,13 +54,34 @@ include('./admin-header.php');
 </td>
 </tr>
 <tr>
-<th scope="row"><?php _e('<abbr title="Coordinated Universal Time">UTC</abbr> time is') ?> </th>
-<td><code><?php echo gmdate(__('Y-m-d g:i:s a')); ?></code></td>
-</tr>
-<tr>
-<th scope="row"><?php _e('Times in the blog should differ by') ?> </th>
-<td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php form_option('gmt_offset'); ?>" />
-<?php _e('hours') ?> (<?php _e('Your timezone offset, for example <code>-6</code> for Central Time.'); ?>)</td>
+<th scope="row"><?php _e('Your Timezone') ?> </th>
+<td>
+<select name="gmt_offset">
+<?php 
+$current_offset = get_option('gmt_offset');
+foreach ( range(-12, 12, 0.5) as $offset ) {
+	if ( 0 < $offset )
+		$offset_name = '+' . $offset;
+	elseif ( 0 == $offset )
+		$offset_name = '';
+	else
+		$offset_name = (string) $offset;
+
+	$offset_name = str_replace('.5', ':30', $offset_name);
+
+	$selected = '';
+	if ( $current_offset == $offset ) {
+		$selected = " selected='selected'";
+		$current_offset_name = $offset_name;
+	}
+	echo "<option value=\"$offset\"$selected>" . sprintf(__('UTC %s'), $offset_name) . '</option>';
+}
+?>
+</select>
+<?php _e('hours') ?><br />
+<?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), gmdate(__('Y-m-d G:i:s'))); ?><br />
+<?php if ($current_offset) printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, gmdate(__('Y-m-d G:i:s'), current_time('timestamp'))); ?>
+</td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Date Format') ?></th>

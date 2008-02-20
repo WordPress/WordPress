@@ -186,7 +186,7 @@ list_meta($metadata);
 </div>
 
 <div id="pagecommentstatusdiv" class="postbox <?php echo postbox_classes('pagecommentstatusdiv', 'page'); ?>">
-<h3><?php _e('Discussion') ?></h3>
+<h3><?php _e('Comments & Pings') ?></h3>
 <div class="inside">
 <input name="advanced_view" type="hidden" value="1" />
 <label for="comment_status" class="selectit">
@@ -197,7 +197,7 @@ list_meta($metadata);
 </div>
 
 <div id="pagepassworddiv" class="postbox <?php echo postbox_classes('pagepassworddiv', 'page'); ?>">
-<h3><?php _e('Page Password') ?></h3>
+<h3><?php _e('Password Protect This Page') ?></h3>
 <div class="inside">
 <input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" />
 </div>
