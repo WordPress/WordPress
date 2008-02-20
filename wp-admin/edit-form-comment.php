@@ -18,71 +18,81 @@ function focusit() { // focus on first input field
 }
 addLoadEvent(focusit);
 </script>
-<fieldset id="namediv">
-    <legend><label for="name"><?php _e('Name:') ?></label></legend>
-	<div>
-	  <input type="text" name="newcomment_author" size="25" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
-    </div>
-</fieldset>
-<fieldset id="emaildiv">
-        <legend><label for="email"><?php _e('E-mail:') ?></label></legend>
-		<div>
-		  <input type="text" name="newcomment_author_email" size="20" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
-    </div>
-</fieldset>
-<fieldset id="uridiv">
-        <legend><label for="newcomment_author_url"><?php _e('URL:') ?></label></legend>
-		<div>
-		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="2" />
-    </div>
-</fieldset>
 
-<fieldset style="clear: both;">
-        <legend><?php _e('Comment') ?></legend>
-	<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url'); ?>
-</fieldset>
+<div id="poststuff">
+
+<div id="namediv" class="stuffbox">
+<h3><?php _e('Name') ?></h3>
+<div class="inside">
+<input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
+</div>
+</div>
+
+<div id="emaildiv" class="stuffbox">
+<h3><?php _e('E-mail') ?></h3>
+<div class="inside">
+<input type="text" name="newcomment_author_email" size="30" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
+</div>
+</div>
+
+<div id="uridiv" class="stuffbox">
+<h3><?php _e('URL') ?></h3>
+<div class="inside">
+<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="2" />
+</div>
+</div>
+
+<div id="postdiv" class="postarea">
+<h3><?php _e('Comment') ?></h3>
+<?php the_editor($comment->comment_content, 'content'); ?>
+<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+</div>
+
+<div class="submitbox" id="submitcomment">
+
+<div id="previewview">
+<a href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View this Comment'); ?></a>
+</div>
+
+<div class="inside">
+
+<p><strong><?php _e('Approval Status') ?></strong></p>
+<p>
+<select name='comment_status'>
+<option<?php selected( $comment->comment_approved, '1' ); ?> value='1'><?php _e('Approved') ?></option>
+<option<?php selected( $comment->comment_approved, '0' ); ?> value='0'><?php _e('Moderated') ?></option>
+<option<?php selected( $comment->comment_approved, 'spam' ); ?> value='spam'><?php _e('Spam') ?></option>
+</select>
+</p>
 
 <?php
-    $post = get_post($comment->comment_post_ID); //get the post
-    $post_title = $post->post_title; // and its title
+$stamp = __('Timestamp:<br />%1$s at %2$s');
+$date = mysql2date(get_option('date_format'), $comment->comment_date);
+$time = mysql2date(get_option('time_format'), $comment->comment_date);
 ?>
-    <div>
-        <a href="<?php echo get_permalink($comment->comment_post_ID); ?>" class="view-comment-post-link" target="_blank"><?php echo sprintf('%s &raquo;',$post_title); ?></a>
-        <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
-        <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
-        </p>
-    </div>
+<p><?php printf($stamp, $date, $time); ?>
+&nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
+
+<div id='timestamp'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
 
 </div>
 
-<div class="wrap">
-<h2><?php _e('Advanced'); ?></h2>
+<p class="submit">
+<input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
+<?php
+echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID", 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>";
+?>
+</p>
+<?php do_action('submitcomment_box'); ?>
+</div>
 
-<table width="100%" cellspacing="2" cellpadding="5" class="editform">
-	<tr>
-		<th scope="row" valign="top"><?php _e('Comment Status') ?>:</th>
-		<td><label for="comment_status_approved" class="selectit"><input id="comment_status_approved" name="comment_status" type="radio" value="1" <?php checked($comment->comment_approved, '1'); ?> tabindex="4" /> <?php _e('Approved') ?></label> &nbsp;
-		<label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> tabindex="4" /> <?php _e('Moderated') ?></label> &nbsp;
-		<label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> tabindex="4" /> <?php _e('Spam') ?></label></td>
-	</tr>
+<?php do_meta_boxes('comment', 'normal', $comment); ?>
 
-<?php if ( current_user_can('edit_posts') ) : ?>
-	<tr>
-		<th scope="row" valign="top"><?php _e('Edit time'); ?>:</th>
-		<td><?php touch_time(('editcomment' == $action), 0, 5); ?> </td>
-	</tr>
-<?php endif; ?>
-
-	<tr>
-		<th scope="row" valign="top">&nbsp;</th>
-		<td><input name="deletecomment" class="button delete" type="submit" id="deletecomment" tabindex="10" value="<?php _e('Delete this comment') ?>" <?php echo "onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { document.forms.post._wpnonce.value = '" . wp_create_nonce( 'delete-comment_' . $comment->comment_ID ) . "'; return true; } return false;\""; ?> />
-		<input type="hidden" name="c" value="<?php echo $comment->comment_ID ?>" />
-		<input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
-		<input type="hidden" name="noredir" value="1" />
-	</td>
-	</tr>
-</table>
-
+<input type="hidden" name="c" value="<?php echo $comment->comment_ID ?>" />
+<input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
+<input type="hidden" name="noredir" value="1" />
+</div>
 </div>
 
 </form>

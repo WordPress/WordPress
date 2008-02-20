@@ -20,6 +20,8 @@ switch( $action ) {
 case 'editcomment' :
 	$title = __('Edit Comment');
 
+	wp_enqueue_script('comment');
+	//wp_enqueue_script('thickbox');
 	require_once('admin-header.php');
 
 	$comment_id = absint( $_GET['c'] );

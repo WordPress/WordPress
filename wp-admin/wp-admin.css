@@ -239,7 +239,7 @@ input.disabled, textarea.disabled {
 	background: #ccc;
 }
 
-#postdiv, #titlediv, #guiddiv {
+#postdiv, #titlediv, #guiddiv, #poststuff .stuffbox {
 	margin: 0 8px 0 0;
 	padding: 0;
 }
@@ -409,10 +409,6 @@ input.delete:hover {
 }
 .alternate.active .name {
 	background: #8B8;
-}
-
-#namediv, #emaildiv, #uridiv {
-	float: left;
 }
 
 #ajax-response {
@@ -999,7 +995,7 @@ html, body {
 	padding: 2px;
 }
 
-#poststuff .postbox, #titlediv, #poststuff .postarea {
+#poststuff .postbox, #titlediv, #poststuff .postarea, #poststuff .stuffbox {
 	margin-left: 20px;
 	border: 1px solid #ebebeb;
 	border-right: 1px solid #ccc;
