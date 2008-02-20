@@ -75,6 +75,7 @@ textarea, input, select {
 
 .widefat .check-column {
 	text-align: center;
+	vertical-align: text-top;
 	width: 3%;
 }
 
