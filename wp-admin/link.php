@@ -86,7 +86,7 @@ switch ($action) {
 		wp_enqueue_script('link');
 		wp_enqueue_script('thickbox');
 
-		$parent_file = 'link-manager.php';
+		$parent_file = 'edit.php';
 		$submenu_file = 'link-manager.php';
 		$title = __('Edit Link');
 
