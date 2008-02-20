@@ -62,7 +62,7 @@ edCanvas = document.getElementById('content');
 <?php endif; ?>
 
 <?php if ('bookmarklet' != $mode) {
-		echo '<input name="advanced" type="submit" id="advancededit" tabindex="7" value="' .  __('Advanced Editing &raquo;') . '" />';
+		echo '<input name="advanced" type="submit" id="advancededit" tabindex="7" value="' .  __('Advanced Editing') . '" />';
 	} ?>
 	<input name="referredby" type="hidden" id="referredby" value="<?php if ( $refby = wp_get_referer() ) echo urlencode($refby); ?>" />
 </p>

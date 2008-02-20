@@ -1,14 +1,14 @@
 <?php
 if ( ! empty($cat_ID) ) {
 	$heading = __('Edit Category');
-	$submit_text = __('Edit Category &raquo;');
+	$submit_text = __('Edit Category');
 	$form = '<form name="editcat" id="editcat" method="post" action="link-category.php">';
 	$action = 'editedcat';
 	$nonce_action = 'update-link-category_' . $cat_ID;
 	do_action('edit_link_category_form_pre', $category);
 } else {
 	$heading = __('Add Category');
-	$submit_text = __('Add Category &raquo;');
+	$submit_text = __('Add Category');
 	$form = '<form name="addcat" id="addcat" class="add:the-list:" method="post" action="link-category.php">';
 	$action = 'addcat';
 	$nonce_action = 'add-link-category';

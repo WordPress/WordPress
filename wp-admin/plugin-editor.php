@@ -135,7 +135,7 @@ if ($plugin_files) :
 	<p class="submit">
 	<?php
 		if ( isset($_GET['phperror']) )
-			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' value='" . __('Update File and Attempt to Reactivate &raquo;') . "' tabindex='2' />";
+			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' value='" . __('Update File and Attempt to Reactivate') . "' tabindex='2' />";
 		else
 			echo "<input type='submit' name='submit' value='" . __('Update File') . "' tabindex='2' />";
 	?>

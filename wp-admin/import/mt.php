@@ -30,7 +30,7 @@ class MT_Import {
 	<input type="hidden" name="upload_type" value="ftp" />
 <?php _e('Or use <code>mt-export.txt</code> in your <code>/wp-content/</code> directory'); ?></p>
 <p class="submit">
-<input type="submit" value="<?php echo attribute_escape(__('Import mt-export.txt &raquo;')); ?>" />
+<input type="submit" value="<?php echo attribute_escape(__('Import mt-export.txt')); ?>" />
 </p>
 </form>
 <p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>

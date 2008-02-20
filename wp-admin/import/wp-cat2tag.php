@@ -90,7 +90,7 @@ function check_all_rows() {
 
 		echo '</ul>';
 
-		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Convert Tags &raquo;') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Convert Tags') . '" /></p>';
 
 		echo '</form>';
 	}

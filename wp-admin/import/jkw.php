@@ -20,11 +20,11 @@ class JeromesKeyword_Import {
 		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
 		echo '<form action="admin.php?import=jkw&amp;step=1" method="post">';
 		wp_nonce_field('import-jkw');
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Version 1.x &raquo;').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Version 1.x').'" /></p>';
 		echo '</form>';
 		echo '<form action="admin.php?import=jkw&amp;step=3" method="post">';
 		wp_nonce_field('import-jkw');
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Version 2.0a &raquo;').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Version 2.0a').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
@@ -106,7 +106,7 @@ class JeromesKeyword_Import {
 
 		echo '<form action="admin.php?import=jkw&amp;step='.($precheck? 2:6).'" method="post">';
 		wp_nonce_field('import-jkw');
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next &raquo;').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
@@ -139,7 +139,7 @@ class JeromesKeyword_Import {
 		}
 		echo '<form action="admin.php?import=jkw&amp;step='.($precheck? 4:5).'" method="post">';
 		wp_nonce_field('import-jkw');
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next &raquo;').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}

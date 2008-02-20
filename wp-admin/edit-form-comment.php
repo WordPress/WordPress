@@ -1,5 +1,5 @@
 <?php
-$submitbutton_text = __('Edit Comment &raquo;');
+$submitbutton_text = __('Edit Comment');
 $toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
 $form_action = 'editedcomment';
 $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment->comment_ID . "' />\n<input type='hidden' name='comment_post_ID' value='" . $comment->comment_post_ID;

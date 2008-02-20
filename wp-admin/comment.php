@@ -60,13 +60,13 @@ case 'mac' :
 <?php
 if ( 'spam' == $_GET['dt'] ) {
 	$caution_msg = __('You are about to mark the following comment as spam:');
-	$button = __('Spam Comment &raquo;');
+	$button = __('Spam Comment');
 } elseif ( 'cdc' == $action ) {
 	$caution_msg = __('You are about to delete the following comment:');
-	$button = __('Delete Comment &raquo;');
+	$button = __('Delete Comment');
 } else {
 	$caution_msg = __('You are about to approve the following comment:');
-	$button = __('Approve Comment &raquo;');
+	$button = __('Approve Comment');
 }
 ?>
 

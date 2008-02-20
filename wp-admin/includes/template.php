@@ -756,7 +756,7 @@ function meta_form() {
 
 <tr class="submit"><td colspan="3">
 	<?php wp_nonce_field( 'change_meta', '_ajax_nonce', false ); ?>
-	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field &raquo;' ) ?>" />
+	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
 </td></tr>
 </table>
 <?php
@@ -945,7 +945,7 @@ function wp_import_upload_form( $action ) {
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 </p>
 <p class="submit">
-<input type="submit" value="<?php _e( 'Upload file and import &raquo;' ); ?>" />
+<input type="submit" value="<?php _e( 'Upload file and import' ); ?>" />
 </p>
 </form>
 <?php

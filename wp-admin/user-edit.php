@@ -156,7 +156,7 @@ include ('admin-header.php');
 	}
 ?>
 
-<p class="submit"><input type="submit" value="<?php $is_profile_page? _e('Update Profile &raquo;') : _e('Update User &raquo;'); ?>" name="submit" /></p>
+<p class="submit"><input type="submit" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User'); ?>" name="submit" /></p>
 
 <fieldset>
 <legend><?php _e('Name'); ?></legend>
@@ -300,7 +300,7 @@ if ( $show_password_fields ) :
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-	<input type="submit" value="<?php $is_profile_page? _e('Update Profile &raquo;') : _e('Update User &raquo;') ?>" name="submit" />
+	<input type="submit" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User') ?>" name="submit" />
  </p>
 </form>
 </div>

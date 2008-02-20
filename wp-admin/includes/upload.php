@@ -222,7 +222,7 @@ function wp_upload_form() {
 <?php	endif; ?>
 					<?php wp_nonce_field( 'inlineuploading' ); ?>
 					<div class="submit">
-						<input type="submit" value="<?php $id ? _e('Save &raquo;') : _e('Upload &raquo;'); ?>" />
+						<input type="submit" value="<?php $id ? _e('Save') : _e('Upload'); ?>" />
 					</div>
 				</td>
 			</tr>

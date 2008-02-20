@@ -613,7 +613,7 @@ class Blogger_Import {
 		$blogtitle = "{$blog['title']} ({$blog['host']})";
 		$mapthis = __('Blogger username');
 		$tothis = __('WordPress login');
-		$submit = js_escape( __('Save Changes &raquo;') );
+		$submit = js_escape( __('Save Changes') );
 
 		foreach ( $blog['authors'] as $i => $author )
 			$rows .= "<tr><td><label for='authors[$i]'>{$author[0]}</label></td><td><select name='authors[$i]' id='authors[$i]'>" . $this->get_user_options($author[1]) . "</select></td></tr>";

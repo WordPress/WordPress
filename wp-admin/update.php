@@ -59,7 +59,7 @@ endforeach;
 </tr>
 </table>
 <p class="submit">
-<input type="submit" name="submit" value="<?php _e('Proceed &raquo;'); ?>" />
+<input type="submit" name="submit" value="<?php _e('Proceed'); ?>" />
 </p>
 </div>
 </form>

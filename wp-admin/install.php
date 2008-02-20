@@ -39,7 +39,7 @@ switch($step) {
 ?>
 <h1><?php _e('Welcome'); ?></h1>
 <p><?php printf(__('Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure.  Otherwise, just fill in the information below and you\'ll be on your way to using the most extendable and powerful personal publishing platform in the world.'), '../readme.html'); ?></p>
-<!--<h2 class="step"><a href="install.php?step=1"><?php _e('First Step &raquo;'); ?></a></h2>-->
+<!--<h2 class="step"><a href="install.php?step=1"><?php _e('First Step'); ?></a></h2>-->
 
 <h1><?php _e('Information needed'); ?></h1>
 <p><?php _e("Please provide the following information.  Don't worry, you can always change these settings later."); ?></p>
@@ -60,7 +60,7 @@ switch($step) {
 		</tr>
 	</table>
 	<p><em><?php _e('Double-check your email address before continuing.'); ?></em></p>
-	<h2 class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress &raquo;'); ?>" /></h2>
+	<h2 class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" /></h2>
 </form>
 
 <?php

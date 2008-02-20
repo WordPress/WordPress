@@ -46,7 +46,7 @@ class Textpattern_Import {
 		echo '<form action="admin.php?import=textpattern&amp;step=1" method="post">';
 		wp_nonce_field('import-textpattern');
 		$this->db_form();
-		echo '<p class="submit"><input type="submit" name="submit" value="'.attribute_escape(__('Import Categories &raquo;')).'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.attribute_escape(__('Import Categories')).'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}

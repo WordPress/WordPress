@@ -666,7 +666,7 @@ function get_multimedia_item( $attachment_id, $errors = null, $send = true ) {
 	$description_label = __('Description');
 	$tags_label = __('Tags');
 
-	$toggle_on = __('Describe &raquo;');
+	$toggle_on = __('Describe');
 	$toggle_off = __('Describe &laquo;');
 
 	$post = get_post($attachment_id);

@@ -219,7 +219,7 @@ $comments = array_slice( $comments, $start, $stop );
 		</noscript>
 
 		<p class="submit">
-			<input type="submit" id="submit" name="submit" value="<?php _e( 'Bulk Moderate Comments &raquo;' ); ?>" />
+			<input type="submit" id="submit" name="submit" value="<?php _e( 'Bulk Moderate Comments' ); ?>" />
 		</p>
 
 		<script type="text/javascript">

@@ -38,7 +38,7 @@ foreach ( $authors as $id ) {
 </td>
 </tr>
 </table>
-<p class="submit"><input type="submit" name="submit" value="<?php _e('Download Export File'); ?> &raquo;" />
+<p class="submit"><input type="submit" name="submit" value="<?php _e('Download Export File'); ?>" />
 <input type="hidden" name="download" value="true" />
 </p>
 </form>

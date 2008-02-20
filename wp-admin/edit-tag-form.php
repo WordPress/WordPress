@@ -1,14 +1,14 @@
 <?php
 if ( ! empty($tag_ID) ) {
 	$heading = __('Edit Tag');
-	$submit_text = __('Edit Tag &raquo;');
+	$submit_text = __('Edit Tag');
 	$form = '<form name="edittag" id="edittag" method="post" action="edit-tags.php">';
 	$action = 'editedtag';
 	$nonce_action = 'update-tag_' . $tag_ID;
 	do_action('edit_tag_form_pre', $tag);
 } else {
 	$heading = __('Add Tag');
-	$submit_text = __('Add Tag &raquo;');
+	$submit_text = __('Add Tag');
 	$form = '<form name="addtag" id="addtag" method="post" action="edit-tags.php" class="add:the-list:">';
 	$action = 'addtag';
 	$nonce_action = 'add-tag';
