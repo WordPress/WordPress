@@ -918,7 +918,7 @@ function wp_default_editor() {
 	return apply_filters( 'wp_default_editor', $r ); // filter
 }
 
-function the_editor($content, $id = 'content', $prev_id = 'title') {
+function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true) {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
 		$rows = 12;
@@ -937,11 +937,14 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 			<a id="edButtonHTML" class="active"><?php _e('HTML'); ?></a>
 			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>');"><?php _e('Visual'); ?></a>
 		<?php }
-	} ?>
+	} 
+	
+	if ( $media_buttons ) { ?>
 		<div id="media-buttons">
 		<?php _e('Add media:'); ?>
 		<?php do_action( 'media_buttons'); ?>
 		</div>
+	<?php } ?>
 	</div>
 
 	<div id="quicktags">

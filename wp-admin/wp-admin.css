@@ -282,7 +282,7 @@ input.delete:hover {
 	color: #fff;
 }
 
-#postdivrich #quicktags, #postdiv #quicktags {
+#quicktags {
 	background: #cee1ef;
 	padding: 0;
 	border: 0 none;

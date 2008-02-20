@@ -44,7 +44,7 @@ addLoadEvent(focusit);
 
 <div id="postdiv" class="postarea">
 <h3><?php _e('Comment') ?></h3>
-<?php the_editor($comment->comment_content, 'content'); ?>
+<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
