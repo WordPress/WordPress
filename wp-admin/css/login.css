@@ -10,18 +10,37 @@ body {
 form {
 	background-color: #eaf3fa;
 	margin-left: 8px;
-	-moz-border-radius: 3px;
-	padding: 16px;
+	padding: 16px 16px 40px 16px;
 	font-weight: bold;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
-form .forgetmenot { font-weight: normal; float: left; }
+form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
+
+form .submit input {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-size: 14px;
+	color: #246;
+	padding: 4px 6px;
+	background: #cee1ef;
+	border: none;
+	margin-top: -6px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;	
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+
+form .submit input:hover {
+	color: #d54e21;
+}
 
 form .submit { float: right; }
 
-form .submit input { padding: 2px; }
-
-form input { color: #246; }
+form input { color: #555; }
 
 form p { margin-bottom: 24px; }
 
@@ -52,6 +71,12 @@ h1 a {
 	background-color: #fffbcc;
 	border: 1px solid #e6db55;
 	padding: 12px;
+}
+
+#login_error {
+	background-color: #f00;
+	border-color: #800;
+	color: #fff;
 }
 
 #nav { margin: 0 0 0 8px; padding: 16px; }
