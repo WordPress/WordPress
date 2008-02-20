@@ -25,15 +25,15 @@ if ( ! empty($cat_ID) ) {
 <?php wp_nonce_field($nonce_action); ?>
 	<table class="niceblue">
 		<tr class="form-field form-required">
-			<th scope="row" valign="top"><label for="name"><?php _e('Category name:') ?></label></th>
+			<th scope="row" valign="top"><label for="name"><?php _e('Category name') ?></label></th>
 			<td><input name="name" id="name" type="text" value="<?php echo $category->name; ?>" size="40" /></td>
 		</tr>
 		<tr class="form-field">
-			<th scope="row" valign="top"><label for="slug"><?php _e('Category slug:') ?></label></th>
+			<th scope="row" valign="top"><label for="slug"><?php _e('Category slug') ?></label></th>
 			<td><input name="slug" id="slug" type="text" value="<?php echo $category->slug; ?>" size="40" /></td>
 		</tr>
 		<tr class="form-field">
-			<th scope="row" valign="top"><label for="description"><?php _e('Description: (optional)') ?></label></th>
+			<th scope="row" valign="top"><label for="description"><?php _e('Description (optional)') ?></label></th>
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea></td>
 		</tr>
 	</table>

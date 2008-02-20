@@ -25,11 +25,11 @@ if ( ! empty($tag_ID) ) {
 <?php wp_nonce_field($nonce_action); ?>
 	<table class="niceblue">
 		<tr class="form-field form-required">
-			<th scope="row" valign="top"><label for="name"><?php _e('Tag name:') ?></label></th>
+			<th scope="row" valign="top"><label for="name"><?php _e('Tag name') ?></label></th>
 			<td><input name="name" id="name" type="text" value="<?php echo attribute_escape($tag->name); ?>" size="40" /></td>
 		</tr>
 		<tr class="form-field">
-			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug:') ?></label></th>
+			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug') ?></label></th>
 			<td><input name="slug" id="slug" type="text" value="<?php echo attribute_escape($tag->slug); ?>" size="40" /></td>
 		</tr>
 	</table>

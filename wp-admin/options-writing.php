@@ -64,7 +64,7 @@ endforeach;
 <tr valign="top">
 <th scope="row"><?php _e('Mail Server') ?></th>
 <td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
-<label for="mailserver_port"><?php _e('Port:') ?></label>
+<label for="mailserver_port"><?php _e('Port') ?></label>
 <input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" size="6" />
 </td>
 </tr>
