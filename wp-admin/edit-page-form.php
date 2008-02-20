@@ -23,6 +23,8 @@ if ( 0 != $post_ID && $sendto == get_permalink($post_ID) )
 
 <form name="post" action="page.php" method="post" id="post">
 <div class="wrap">
+<h2><?php _e('Write Page') ?></h2>
+<br />
 
 <?php
 wp_nonce_field($nonce_action);

@@ -35,6 +35,8 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 
 <div class="wrap">
+<h2><?php _e('Edit Link') ?></h2>
+<br />
 
 <div id="poststuff">
 

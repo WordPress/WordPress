@@ -15,6 +15,8 @@ $messages[3] = __('Custom field deleted.');
 <?php endif; ?>
 
 <div class="wrap">
+<h2><?php _e('Write Post') ?></h2>
+<br />
 <?php
 
 if (0 == $post_ID) {
