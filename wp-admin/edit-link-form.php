@@ -60,6 +60,17 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 
 <div class="submitbox" id="submitlink">
+
+<div id="previewview">
+<?php if ( !empty($link_id) ) { ?>
+<a href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
+<?php } ?>
+</div>
+
+<div class="inside">
+<p><label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label></p>
+</div>
+
 <p class="submit">
 <input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 </p>
@@ -116,18 +127,6 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <label for="link_target_none" class="selectit">
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
 <?php _e('none') ?></label>
-</div>
-</div>
-
-<div id="linkvisiblediv" class="postbox <?php echo postbox_classes('linkvisiblediv', 'link'); ?>">
-<h3><?php _e('Visible') ?></h3>
-<div class="inside">
-<label for="link_visible_yes" class="selectit">
-<input id="link_visible_yes" type="radio" name="link_visible" <?php if ($link->link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />
-<?php _e('Yes') ?></label>
-<label for="link_visible_no" class="selectit">
-<input id="link_visible_no" type="radio" name="link_visible" <?php if ($link->link_visible == 'N') echo "checked='checked'"; ?> value="N" />
-<?php _e('No') ?></label>
 </div>
 </div>
 

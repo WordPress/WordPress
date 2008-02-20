@@ -13,6 +13,8 @@ function edit_link( $link_id = '' ) {
 	$_POST['link_name'] = wp_specialchars( $_POST['link_name'] );
 	$_POST['link_image'] = wp_specialchars( $_POST['link_image'] );
 	$_POST['link_rss'] = clean_url($_POST['link_rss']);
+	if ( 'N' != $_POST['link_visible'] )
+		$_POST['link_visible'] = 'Y';
 
 	if ( !empty( $link_id ) ) {
 		$_POST['link_id'] = $link_id;
