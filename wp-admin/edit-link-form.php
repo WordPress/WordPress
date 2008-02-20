@@ -38,21 +38,21 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <div id="poststuff">
 
-<div id="namediv">
+<div id="namediv" class="stuffbox">
 <h3><?php _e('Name') ?></h3>
 <div class="inside">
 	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" />
 </div>
 </div>
 
-<div id="addressdiv">
+<div id="addressdiv" class="stuffbox">
 <h3><?php _e('Address') ?></h3>
 <div class="inside">
 	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
 </div>
 </div>
 
-<div id="descriptiondiv">
+<div id="descriptiondiv" class="stuffbox">
 <h3><?php _e('Description') ?></h3>
 <div class="inside">
 	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" />
