@@ -139,7 +139,7 @@ if ( $page_links )
 
 <div style="float: left">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
-<?php wp_nonce_field('bulk-posts'); ?>
+<?php wp_nonce_field('bulk-media'); ?>
 <?php
 
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
