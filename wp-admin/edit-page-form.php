@@ -59,6 +59,7 @@ addLoadEvent(focusit);
 <?php the_editor($post->post_content); ?>
 <?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+<?php wp_nonce_field( 'getpermalink', 'getpermalinknonce', false ); ?>
 </div>
 
 <div class="submitbox" id="submitpage">

@@ -524,6 +524,11 @@ case 'closed-postboxes' :
 	$current_user = wp_get_current_user();
 	update_usermeta($current_user->ID, 'closedpostboxes_'.$page, $closed);
 break;
+case 'get-permalink':
+	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
+	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
+	die(get_permalink($post_id));
+break;
 case 'sample-permalink':
 	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;

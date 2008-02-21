@@ -46,7 +46,24 @@ function autosave_update_post_ID(response) {
 		message = autosaveL10n.failText;
 	}
 	jQuery('#autosave').html(message);
+	autosave_update_preview_link(res);
 	autosave_enable_buttons();
+}
+
+function autosave_update_preview_link(post_id) {
+	// Add preview button if not already there
+	if ( ! jQuery('#previewview > *').get()[0] ) {
+		var post_type = jQuery('#post_type').val();
+		var previewText = 'page' == post_type ? autosaveL10n.previewPageText : autosaveL10n.previewPostText;
+		jQuery.post(autosaveL10n.requestFile, {
+			action: "get-permalink",
+			post_id: post_id,
+			getpermalinknonce: jQuery('#getpermalinknonce').val()
+		}, function(permalink) {
+			jQuery('#previewview').html('<a target="_blank" href="'+permalink+'">'+previewText+'</a>');
+		});
+		
+	}
 }
 
 function autosave_loading() {
@@ -63,6 +80,7 @@ function autosave_saved(response) {
 		message = autosaveL10n.saveText.replace(/%time%/g, autosave_cur_time());
 	}
 	jQuery('#autosave').html(message);
+	autosave_update_preview_link(res);
 	autosave_enable_buttons();
 }
 
