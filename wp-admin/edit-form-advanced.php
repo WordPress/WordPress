@@ -71,18 +71,12 @@ addLoadEvent(focusit);
 <h3><?php _e('Title') ?></h3>
 <div class="inside">
 	<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape($post->post_title); ?>" id="title" />
-<?php
-	$sample_permalink_html = get_sample_permalink_html($post->ID);
-	if ($post->ID && $sample_permalink_html):
-?>
-	<div id="edit-slug-box" style="display: <?php echo $post->ID? 'block' : 'none';?>">
-		<strong><?php _e('Permalink:'); ?></strong>
-		<span id="sample-permalink"><?php echo $sample_permalink_html; ?></span>
-		<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug" onclick="edit_permalink(<?php echo $post->ID; ?>);return false;"><?php _e('Edit');?></a></span>
+<?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
+	<div id="edit-slug-box">
+<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) : 
+	echo $sample_permalink_html;
+endif; ?>
 	</div>
-<?php
-	endif;
-	?>
 </div>
 </div>
 

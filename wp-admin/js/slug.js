@@ -16,7 +16,7 @@ function edit_permalink(post_id) {
 			post_id: post_id,
 			new_slug: new_slug,
 			samplepermalinknonce: jQuery('#samplepermalinknonce').val()}, function(data) {
-				jQuery('#sample-permalink').html(data);
+				jQuery('#edit-slug-box').html(data);
 				b.html(revert_b);
 				real_slug.attr('value', new_slug);	
 				make_slugedit_clickable();

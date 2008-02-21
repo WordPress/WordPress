@@ -527,7 +527,7 @@ break;
 case 'get-permalink':
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
-	die(get_permalink($post_id));
+	die(add_query_arg(array('preview' => 'true'), get_permalink($post_id)));
 break;
 case 'sample-permalink':
 	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );

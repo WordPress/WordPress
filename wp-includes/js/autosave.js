@@ -47,6 +47,7 @@ function autosave_update_post_ID(response) {
 	}
 	jQuery('#autosave').html(message);
 	autosave_update_preview_link(res);
+	autosave_update_slug(res);
 	autosave_enable_buttons();
 }
 
@@ -62,7 +63,19 @@ function autosave_update_preview_link(post_id) {
 		}, function(permalink) {
 			jQuery('#previewview').html('<a target="_blank" href="'+permalink+'">'+previewText+'</a>');
 		});
-		
+	}
+}
+
+function autosave_update_slug(post_id) {
+	// create slug area only if not already there
+	if ( 'undefined' != typeof make_slugedit_clickable && ! jQuery('#edit-slug-box > *').get()[0] ) {
+		jQuery.post(slugL10n.requestFile, {
+			action: 'sample-permalink',
+			post_id: post_id,
+			samplepermalinknonce: jQuery('#samplepermalinknonce').val()}, function(data) {
+				jQuery('#edit-slug-box').html(data);
+				make_slugedit_clickable();
+			});
 	}
 }
 
@@ -81,6 +94,7 @@ function autosave_saved(response) {
 	}
 	jQuery('#autosave').html(message);
 	autosave_update_preview_link(res);
+	autosave_update_slug(res);
 	autosave_enable_buttons();
 }
 
