@@ -254,3 +254,6 @@ div.dashboard-widget-content .comment-meta {
 #dashboard_plugins p {
 	margin: 0 0 1em;
 }
+
+.widget-loading {
+}

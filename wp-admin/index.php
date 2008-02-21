@@ -10,10 +10,10 @@ function index_js() {
 ?>
 <script type="text/javascript">
 	jQuery(function() {
-		jQuery('#dashboard_incoming_links div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=incominglinks');
-		jQuery('#dashboard_primary div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=devnews');
-		jQuery('#dashboard_secondary div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=planetnews');
-		jQuery('#dashboard_plugins div.dashboard-widget-content').not( '.dashboard-widget-control' ).load('index-extra.php?jax=plugins');
+		jQuery('#dashboard_incoming_links div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=incominglinks');
+		jQuery('#dashboard_primary div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=devnews');
+		jQuery('#dashboard_secondary div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=planetnews');
+		jQuery('#dashboard_plugins div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=plugins');
 	});
 </script>
 <?php

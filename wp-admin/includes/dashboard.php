@@ -32,7 +32,6 @@ function wp_dashboard_setup() {
 		array( 'all_link' => 'edit-comments.php', 'notice' => $notice, 'width' => 'half' )
 	);
 
-
 	// Incoming Links Widget
 	if ( !isset( $widget_options['dashboard_incoming_links'] ) ) {
 		$update = true;
@@ -44,7 +43,8 @@ function wp_dashboard_setup() {
 		);
 	}
 	wp_register_sidebar_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_empty',
-		array( 'all_link' => $widget_options['dashboard_incoming_links']['link'], 'feed_link' => $widget_options['dashboard_incoming_links']['url'], 'width' => 'half' )
+		array( 'all_link' => $widget_options['dashboard_incoming_links']['link'], 'feed_link' => $widget_options['dashboard_incoming_links']['url'], 'width' => 'half' ),
+		'wp_dashboard_cached_rss_widget', 'wp_dashboard_incoming_links_output'
 	);
 	wp_register_widget_control( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_rss_control', array(),
 		array( 'widget_id' => 'dashboard_incoming_links', 'form_inputs' => array( 'title' => false, 'show_summary' => false, 'show_author' => false ) )
@@ -53,12 +53,10 @@ function wp_dashboard_setup() {
 
 	// WP Plugins Widget
 	wp_register_sidebar_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_empty',
-		array( 'all_link' => 'http://wordpress.org/extend/plugins/', 'feed_link' => 'http://wordpress.org/extend/plugins/rss/', 'width' => 'half' )
+		array( 'all_link' => 'http://wordpress.org/extend/plugins/', 'feed_link' => 'http://wordpress.org/extend/plugins/rss/', 'width' => 'half' ),
+		'wp_dashboard_cached_rss_widget', 'wp_dashboard_plugins_output',
+		array( 'http://wordpress.org/extend/plugins/rss/browse/popular/', 'http://wordpress.org/extend/plugins/rss/browse/new/', 'http://wordpress.org/extend/plugins/rss/browse/updated/' )
 	);
-	wp_register_widget_control( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_empty', array(),
-		array( 'widget_id' => 'dashboard_plugins' )
-	);
-
 
 	// Primary feed (Dev Blog) Widget
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
@@ -74,7 +72,8 @@ function wp_dashboard_setup() {
 		);
 	}
 	wp_register_sidebar_widget( 'dashboard_primary', $widget_options['dashboard_primary']['title'], 'wp_dashboard_empty',
-		array( 'all_link' => $widget_options['dashboard_primary']['link'], 'feed_link' => $widget_options['dashboard_primary']['url'], 'width' => 'half', 'class' => 'widget_rss' )
+		array( 'all_link' => $widget_options['dashboard_primary']['link'], 'feed_link' => $widget_options['dashboard_primary']['url'], 'width' => 'half', 'class' => 'widget_rss' ),
+		'wp_dashboard_cached_rss_widget', 'wp_dashboard_rss_output'
 	);
 	wp_register_widget_control( 'dashboard_primary', __( 'Primary Feed' ), 'wp_dashboard_rss_control', array(),
 		array( 'widget_id' => 'dashboard_primary' )
@@ -92,12 +91,37 @@ function wp_dashboard_setup() {
 		);
 	}
 	wp_register_sidebar_widget( 'dashboard_secondary', $widget_options['dashboard_secondary']['title'], 'wp_dashboard_empty',
-		array( 'all_link' => $widget_options['dashboard_secondary']['link'], 'feed_link' => $widget_options['dashboard_secondary']['url'], 'width' => 'full' )
+		array( 'all_link' => $widget_options['dashboard_secondary']['link'], 'feed_link' => $widget_options['dashboard_secondary']['url'], 'width' => 'full' ),
+		'wp_dashboard_cached_rss_widget', 'wp_dashboard_secondary_output'
 	);
 	wp_register_widget_control( 'dashboard_secondary', __( 'Secondary Feed' ), 'wp_dashboard_rss_control', array(),
 		array( 'widget_id' => 'dashboard_secondary', 'form_inputs' => array( 'show_summary' => false, 'show_author' => false, 'show_date' => false ) )
 	);
 
+
+		/* Dashboard Widget Template
+		wp_register_sidebar_widget( $widget_id (unique slug) , $widget_title, $output_callback,
+			array(
+				'all_link'  => full url for "See All" link,
+				'feed_link' => full url for "RSS" link,
+				'width'     => 'fourth', 'third', 'half', 'full' (defaults to 'half'),
+				'height'    => 'single', 'double' (defaults to 'single'),
+			),
+			$wp_dashboard_empty_callback (only needed if using 'wp_dashboard_empty' as your $output_callback),
+			$arg, $arg, $arg... (further args passed to callbacks)
+		);
+	
+		// optional: if you want users to be able to edit the settings of your widget, you need to register a widget_control
+		wp_register_widget_control( $widget_id, $widget_control_title, $control_output_callback,
+			array(), // leave an empty array here: oddity in widget code
+			array(
+				'widget_id' => $widget_id, // Yes - again.  This is required: oddity in widget code
+				'arg'       => an arg to pass to the $control_output_callback,
+				'another'   => another arg to pass to the $control_output_callback,
+				...
+			)
+		);
+		*/
 
 	// Hook to register new widgets
 	do_action( 'wp_dashboard_setup' );
@@ -174,7 +198,7 @@ function wp_dashboard_dynamic_sidebar_params( $params ) {
 			$content_class .= ' dashboard-widget-control';
 			$wp_registered_widgets[$widget_id]['callback'] = 'wp_dashboard_empty';
 			$sidebar_widget_name = $wp_registered_widget_controls[$widget_id]['name'];
-			$params[1] = $widget_id;
+			$params[1] = 'wp_dashbaord_trigger_widget_control';
 			$sidebar_before_widget .= '<form action="' . remove_query_arg( 'edit' )  . '" method="post">';
 			$sidebar_after_widget   = "<div class='dashboard-widget-submit'><input type='hidden' name='sidebar' value='wp_dashboard' /><input type='hidden' name='widget_id' value='$widget_id' /><input type='submit' value='" . __( 'Save' ) . "' /></div></form>$sidebar_after_widget";
 			$links[] = '<a href="' . remove_query_arg( 'edit' ) . '">' . __( 'Cancel' ) . '</a>';
@@ -218,7 +242,6 @@ function wp_dashboard_dynamic_sidebar_params( $params ) {
 
 function wp_dashboard_recent_comments( $sidebar_args ) {
 	global $comment;
-
 	extract( $sidebar_args, EXTR_SKIP );
 
 	echo $before_widget;
@@ -268,8 +291,182 @@ function wp_dashboard_recent_comments( $sidebar_args ) {
 	echo $after_widget;
 }
 
-// Empty widget used for JS/AJAX created output.  Also used when widget is in edit mode.
-function wp_dashboard_empty( $sidebar_args, $widget_control_id = false ) {
+// $sidebar_args are handled by wp_dashboard_empty()
+function wp_dashboard_incoming_links_output() {
+	$widgets = get_option( 'dashboard_widget_options' );
+	@extract( @$widgets['dashboard_incoming_links'], EXTR_SKIP );
+	$rss = @fetch_rss( $url );
+	if ( isset($rss->items) && 1 < count($rss->items) )  {// Technorati returns a 1-item feed when it has no results
+
+		echo "<ul>\n";
+
+		$rss->items = array_slice($rss->items, 0, $items);
+		foreach ( $rss->items as $item ) {
+			$publisher = '';
+			$site_link = '';
+			$link = '';
+			$content = '';
+			$date = '';
+			$link = clean_url( strip_tags( $item['link'] ) );
+		
+			if ( isset( $item['author_uri'] ) )
+				$site_link = clean_url( strip_tags( $item['author_uri'] ) );
+		
+			if ( !$publisher = wp_specialchars( strip_tags( isset($item['dc']['publisher']) ? $item['dc']['publisher'] : $item['author_name'] ) ) )
+				$publisher = __( 'Somebody' );
+			if ( $site_link )
+				$publisher = "<a href='$site_link'>$publisher</a>";
+			else
+				$publisher = "<strong>$publisher</strong>";
+		
+			if ( isset($item['description']) )
+				$content = $item['description'];
+			elseif ( isset($item['summary']) )
+				$content = $item['summary'];
+			elseif ( isset($item['atom_content']) )
+				$content = $item['atom_content'];
+			else
+				$content = __( 'something' );
+			$content = strip_tags( $content );
+			if ( 50 < strlen($content) )
+				$content = substr($content, 0, 50) . ' ...';
+			$content = wp_specialchars( $content );
+			if ( $link )
+				$text = _c( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"|feed_display' );
+			else
+				$text = _c( '%1$s linked here saying, "%3$s"|feed_display' );
+		
+			if ( $show_date ) {
+				if ( $show_author || $show_summary )
+					$text .= _c( ' on %4$s|feed_display' );
+				$date = wp_specialchars( strip_tags( isset($item['pubdate']) ? $item['pubdate'] : $item['published'] ) );
+				$date = strtotime( $date );
+				$date = gmdate( get_option( 'date_format' ), $date );
+			}
+		
+			echo "\t<li>" . sprintf( _c( "$text|feed_display" ), $publisher, $link, $content, $date ) . "</li>\n";
+		}
+
+		echo "</ul>\n";
+
+	} else {
+		echo '<p>' . __('No incoming links found... yet.') . "</p>\n";
+	}
+}
+
+// $sidebar_args are handled by wp_dashboard_empty()
+function wp_dashboard_rss_output( $widget_id ) {
+	$widgets = get_option( 'dashboard_widget_options' );
+	wp_widget_rss_output( $widgets[$widget_id] );
+}
+
+// $sidebar_args are handled by wp_dashboard_empty()
+function wp_dashboard_secondary_output() {
+	$widgets = get_option( 'dashboard_widget_options' );
+	@extract( @$widgets['dashboard_secondary'], EXTR_SKIP );
+	$rss = @fetch_rss( $url );
+	if ( !isset($rss->items) || 0 == count($rss->items) )
+		return false;
+
+	echo "<ul>\n";
+
+	$rss->items = array_slice($rss->items, 0, $items);
+	foreach ($rss->items as $item ) {
+		$title = wp_specialchars($item['title']);
+		$author = preg_replace( '|(.+?):.+|s', '$1', $item['title'] );
+		$post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
+		$link = clean_url($item['link']);
+
+		echo "\t<li><a href='$link'><span class='post'>$post</span><span class='hidden'> - </span><cite>$author</cite></a></li>\n";
+	}
+
+	echo "</ul>\n<br class='clear' />\n";
+}
+
+// $sidebar_args are handled by wp_dashboard_empty()
+function wp_dashboard_plugins_output() {
+	$popular = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
+	$new     = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+	$updated = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
+
+	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) {
+		if ( !isset($$feed->items) || 0 == count($$feed->items) )
+			continue;
+
+		$$feed->items = array_slice($$feed->items, 0, 5);
+		$item_key = array_rand($$feed->items);
+
+		// Eliminate some common badly formed plugin descriptions
+		while ( ( null !== $item_key = array_rand($$feed->items) ) && false !== strpos( $$feed->items[$item_key]['description'], 'Plugin Name:' ) )
+			unset($$feed->items[$item_key]);
+
+		if ( !isset($$feed->items[$item_key]) )
+			continue;
+
+		$item = $$feed->items[$item_key];
+
+		// current bbPress feed item titles are: user on "topic title"
+		if ( preg_match( '/"(.*)"/s', $item['title'], $matches ) )
+			$title = $matches[1];
+		else // but let's make it forward compatible if things change
+			$title = $item['title'];
+		$title = wp_specialchars( $title );
+
+		$description = wp_specialchars( strip_tags(html_entity_decode($item['description'], ENT_QUOTES)) );
+
+		list($link, $frag) = explode( '#', $item['link'] );
+
+		$link = clean_url($link);
+		$dlink = rtrim($link, '/') . '/download/';
+
+		echo "<h4>$label</h4>\n";
+		echo "<h5><a href='$link'>$title</a></h5> <span>(<a href='$dlink'>" . __( 'Download' ) . "</a>)</span>\n";
+		echo "<p>$description</p>\n";
+	}
+}
+
+// Checks to see if all of the feed url in $check_urls are cached.
+// If $check_urls is empty, look for the rss feed url found in the dashboard widget optios of $widget_id.
+// If cached, call $callback, a function that echoes out output for this widget.
+// If not cache, echo a "Loading..." stub which is later replaced by AJAX call (see top of /wp-admin/index.php)
+function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
+	$loading = '<p class="widget-loading">' . __( 'Loading&#8230;' ) . '</p>';
+
+	if ( empty($check_urls) ) {
+		$widgets = get_option( 'dashboard_widget_options' );
+		if ( empty($widgets[$widget_id]['url']) ) {
+			echo $loading;
+			return false;
+		}
+		$check_urls = array( $widgets[$widget_id]['url'] );
+	}
+
+
+	require_once( ABSPATH . WPINC . '/rss.php' );
+	init(); // initialize rss constants
+
+	$cache = new RSSCache( MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE );
+
+	foreach ( $check_urls as $check_url ) {
+		$status = $cache->check_cache( $check_url );
+		if ( 'HIT' !== $status ) {
+			echo $loading;
+			return false;
+		}
+	}
+
+	if ( $callback && is_callable( $callback ) ) {
+		$args = array_slice( func_get_args(), 2 );
+		array_unshift( $args, $widget_id );
+		call_user_func_array( $callback, $args );
+	}
+
+	return true;
+}
+
+// Empty widget used for JS/AJAX created output.
+// Callback inserts content between before_widget and after_widget.  Used when widget is in edit mode.  Can also be used for custom widgets.
+function wp_dashboard_empty( $sidebar_args, $callback = false ) {
 	extract( $sidebar_args, EXTR_SKIP );
 
 	echo $before_widget;
@@ -278,8 +475,12 @@ function wp_dashboard_empty( $sidebar_args, $widget_control_id = false ) {
 	echo $widget_name;
 	echo $after_title;
 
-	if ( $widget_control_id ) // If in edit mode
-		wp_dashbaord_trigger_widget_control( $widget_control_id );
+	// When in edit mode, the callback passed to this function is the widget_control callback
+	if ( $callback && is_callable( $callback ) ) {
+		$args = array_slice( func_get_args(), 2 );
+		array_unshift( $args, $widget_id );
+		call_user_func_array( $callback, $args );
+	}
 
 	echo $after_widget;
 }
