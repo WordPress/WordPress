@@ -593,7 +593,7 @@ function get_sample_permalink($id, $name = null) {
 function get_sample_permalink_html($id, $new_slug=null) {
 	$post = &get_post($id);
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_slug);
-	if (false === strpos($permalink, '%postname%')) {
+	if (false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%')) {
 		return '';
 	}
 	$title = __('Click to edit this part of the permalink');
@@ -603,7 +603,7 @@ function get_sample_permalink_html($id, $new_slug=null) {
 		$post_name_abridged = $post_name;
 	}
 	$post_name_html = '<span id="editable-post-name" title="'.$title.'">'.$post_name_abridged.'</span><span id="editable-post-name-full">'.$post_name.'</span>';
-	$display_link = str_replace('%postname%', $post_name_html, $permalink);
+	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
 	$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $display_link . "</span>\n";
 	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug" onclick="edit_permalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
 	return $return;

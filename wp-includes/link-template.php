@@ -63,7 +63,7 @@ function get_permalink($id = 0, $leavename=false) {
 	if ( empty($post->ID) ) return FALSE;
 
 	if ( $post->post_type == 'page' )
-		return get_page_link($post->ID);
+		return get_page_link($post->ID, $leavename);
 	elseif ($post->post_type == 'attachment')
 		return get_attachment_link($post->ID);
 
@@ -118,7 +118,7 @@ function post_permalink($post_id = 0, $deprecated = '') {
 }
 
 // Respects page_on_front.  Use this one.
-function get_page_link($id = false) {
+function get_page_link($id = false, $leavename = false) {
 	global $post;
 
 	$id = (int) $id;
@@ -128,13 +128,13 @@ function get_page_link($id = false) {
 	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
 		$link = get_option('home');
 	else
-		$link = _get_page_link( $id );
+		$link = _get_page_link( $id , $leavename );
 
 	return apply_filters('page_link', $link, $id);
 }
 
 // Ignores page_on_front.  Internal use only.
-function _get_page_link( $id = false ) {
+function _get_page_link( $id = false, $leavename = false ) {
 	global $post, $wp_rewrite;
 
 	if ( !$id )
@@ -146,7 +146,7 @@ function _get_page_link( $id = false ) {
 
 	if ( '' != $pagestruct && isset($post->post_status) && 'draft' != $post->post_status ) {
 		$link = get_page_uri($id);
-		$link = str_replace('%pagename%', $link, $pagestruct);
+		$link = ( $leavename ) ? $pagestruct : str_replace('%pagename%', $link, $pagestruct);
 		$link = get_option('home') . "/$link";
 		$link = user_trailingslashit($link, 'page');
 	} else {

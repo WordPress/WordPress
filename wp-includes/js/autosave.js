@@ -12,6 +12,12 @@ function autosave_start_timer() {
 	jQuery("#post #submit").click(function() { jQuery.cancel(autosavePeriodical); });
 	jQuery("#post #publish").click(function() { jQuery.cancel(autosavePeriodical); });
 	jQuery("#post #deletepost").click(function() { jQuery.cancel(autosavePeriodical); });
+
+	// Autosave early on for a new post
+	jQuery("#content").keypress(function() {
+		if ( 1 === ( jQuery(this).val().length % 15 ) && 1 > parseInt(jQuery("#post_ID").val(),10) )
+			setTimeout(autosave, 5000);
+	});
 }
 addLoadEvent(autosave_start_timer)
 
@@ -132,6 +138,8 @@ function autosave() {
 	} 
 	
 	post_data["content"] = jQuery("#content").val();
+	if ( jQuery('#post_name').val() )
+		post_data["post_name"] = jQuery('#post_name').val();
 
 	if(post_data["post_title"].length==0 || post_data["content"].length==0 || post_data["post_title"] + post_data["content"] == autosaveLast) {
 		return;

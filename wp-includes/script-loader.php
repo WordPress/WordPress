@@ -44,7 +44,7 @@ class WP_Scripts {
 
 		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('jquery', 'schedule'), '20080221');
 		$this->localize( 'autosave', 'autosaveL10n', array(
-			'autosaveInterval' => apply_filters('autosave_interval', '120'),
+			'autosaveInterval' => apply_filters('autosave_interval', '60'),
 			'errorText' => __('Error: %response%'),
 			'failText' => __('Error: Autosave Failed.'),
 			'previewPageText' => __('Preview this Page'),
@@ -148,7 +148,7 @@ class WP_Scripts {
 				'save' => __('Save'),
 				'cancel' => __('Cancel'),
 			) );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080128' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080221' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),

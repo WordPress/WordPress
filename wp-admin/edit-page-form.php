@@ -51,6 +51,12 @@ addLoadEvent(focusit);
 <h3><?php _e('Title') ?></h3>
 <div class="inside">
   <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" />
+<?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
+	<div id="edit-slug-box">
+<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) : 
+	echo $sample_permalink_html;
+endif; ?>
+	</div>
 </div>
 </div>
 
@@ -60,6 +66,7 @@ addLoadEvent(focusit);
 <?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 <?php wp_nonce_field( 'getpermalink', 'getpermalinknonce', false ); ?>
+<?php wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false ); ?>
 </div>
 
 <div class="submitbox" id="submitpage">
