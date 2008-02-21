@@ -343,6 +343,4 @@ if ( $authors && count( $authors ) > 1 ) :
 
 </div>
 
-</div>
-
 </form>
