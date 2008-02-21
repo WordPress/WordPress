@@ -269,10 +269,6 @@ class WP {
 	function query_posts() {
 		global $wp_the_query;
 		$this->build_query_string();
-		if( $this->did_permalink && $this->query_vars['error'] == '404' ){
-			$wp_the_query->parse_query($query);
-			return;
-		}
 		$wp_the_query->query($this->query_vars);
  	}
 
