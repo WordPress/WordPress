@@ -1,5 +1,5 @@
 /**
- * $Id: form_utils.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: form_utils.js 614 2008-02-20 17:57:57Z spocke $
  *
  * Various form utilitiy functions.
  *
@@ -32,7 +32,9 @@ function setBrowserDisabled(id, state) {
 			lnk.removeAttribute("href");
 			tinyMCEPopup.dom.addClass(img, 'disabled');
 		} else {
-			lnk.setAttribute("href", lnk.getAttribute("realhref"));
+			if (lnk.getAttribute("realhref"))
+				lnk.setAttribute("href", lnk.getAttribute("realhref"));
+
 			tinyMCEPopup.dom.removeClass(img, 'disabled');
 		}
 	}

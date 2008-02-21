@@ -33,10 +33,10 @@ class WP_Scripts {
 		$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
 		$this->add( 'editor', false, $visual_editor, '20080218' );
 		
-		$this->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080208' );
+		$this->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080221' );
 		
 		// Modify this version when tinyMCE plugins are changed.
-		$mce_version = apply_filters('tiny_mce_version', '20080209');
+		$mce_version = apply_filters('tiny_mce_version', '20080221');
 		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
 		$this->localize( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
 		
@@ -187,7 +187,7 @@ class WP_Scripts {
 				'edit' => __('Edit'),
 				'cancel' => __('Cancel'),
 			));
-			$this->add( 'editor', '/wp-admin/js/editor.js', array('tiny_mce'), '20080208' );
+			$this->add( 'editor', '/wp-admin/js/editor.js', array('tiny_mce'), '20080221' );
 		}
 	}
 

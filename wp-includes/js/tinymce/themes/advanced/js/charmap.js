@@ -264,7 +264,7 @@ var charmap = [
 ];
 
 tinyMCEPopup.onInit.add(function() {
-	tinyMCEPopup.dom.setHTML('charmap', renderCharMapHTML());
+	tinyMCEPopup.dom.setHTML('charmapView', renderCharMapHTML());
 });
 
 function renderCharMapHTML() {
@@ -276,11 +276,8 @@ function renderCharMapHTML() {
 		if (charmap[i][2]==true) {
 			cols++;
 			html += ''
-				+ '<td width="' + tdWidth + '" height="' + tdHeight + '" class="charmap"'
-				+ ' onmouseover="this.className=\'charmapOver\';'
-				+ 'previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');"'
-				+ ' onmouseout="this.className=\'charmap\';"'
-				+ ' nowrap="nowrap" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');"><a style="text-decoration: none;" onfocus="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" href="javascript:insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
+				+ '<td class="charmap">'
+				+ '<a onmouseover="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" onfocus="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" href="javascript:void(0)" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
 				+ charmap[i][1]
 				+ '</a></td>';
 			if ((cols+1) % charsPerRow == 0)

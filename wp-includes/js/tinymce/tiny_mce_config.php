@@ -62,7 +62,7 @@ $plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste',
 
 /* 
 The following filter takes an associative array of external plugins for TinyMCE in the form "name" => "url".
-It adds the plugin's name (including the required dash) to TinyMCE's plugins init and the call to PluginManager to load the plugin. 
+It adds the plugin's name to TinyMCE's plugins init and the call to PluginManager to load the plugin. 
 The url should be absolute and should include the js file name to be loaded. 
 Example: array( 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js' ). 
 If the plugin uses a button, it should be added with one of the "$mce_buttons" filters.
@@ -71,7 +71,7 @@ $mce_external_plugins = apply_filters('mce_external_plugins', array());
 
 $ext_plugins = "\n";
 foreach ( $mce_external_plugins as $name => $url ) {
-	$plugins[] = '-' . $name;
+	$plugins[] = $name;
 	if ( $https ) str_replace('http://', 'https://', $url);
 	
 	$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
@@ -150,7 +150,7 @@ ob_end_clean();
 */
 
 // Settings for the gzip compression and cache
-$cache_path = dirname(__FILE__); // Cache path, this is where the .gz files will be stored
+$cache_path = dirname(__FILE__); // ABSPATH . 'wp-content/uploads/js_cache'; // Cache path, this is where the .gz files will be stored
 $cache_ext = '.js';
 
 $disk_cache = ( ! isset($initArray['disk_cache']) || false == $initArray['disk_cache'] ) ? false : true;
@@ -160,13 +160,13 @@ $old_cache_max = ( isset($initArray['old_cache_max']) ) ? (int) $initArray['old_
 $initArray['disk_cache'] = $initArray['compress'] = $initArray['old_cache_max'] = null;
 unset( $initArray['disk_cache'], $initArray['compress'], $initArray['old_cache_max'] );
 
+$isIE5 = ( ( $msie = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ) && ( (int) substr( $_SERVER['HTTP_USER_AGENT'], $msie + 5, 3 ) < 6 ) ) ? true : false;
+if ( $isIE5 ) $compress = false;
+
 $plugins = explode( ',', $initArray['plugins'] );
 $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
 $language = isset($initArray['language']) ? substr( $initArray['language'], 0, 2 ) : 'en';
 $enc = $cacheKey = $suffix = $mce_options = '';	
-
-// Custom extra javascripts to pack
-$custom_js = array(); //$custom_js = apply_filters('tinymce_custom_js', array());
 
 // Check if supports gzip
 if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
@@ -186,9 +186,6 @@ if ( $disk_cache && $cache_path ) {
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
-	
-	foreach ( $custom_js as $file )
-		$cacheKey .= $file;
 
 	$cacheKey = md5( $cacheKey );
 	$cache_file = $cache_path . '/tinymce_' . $cacheKey . $cache_ext;
@@ -233,10 +230,6 @@ $content .= getFileContents( 'themes/' . $theme . '/editor_template' . $suffix .
 foreach ( $plugins as $plugin ) 
 	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin' . $suffix . '.js' );
 
-// Add custom files
-foreach ( $custom_js as $file )
-	$content .= getFileContents($file);
-
 // Add external plugins and init 
 $content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});'; // $mce_deprecated2 . 
 
@@ -252,7 +245,8 @@ echo $content;
 // Write file
 if ( '' != $cacheKey && $cache_path ) {
 	if ( $old_cache_max ) {
-		$old_keys = getFileContents('tinymce_compressed' . $cache_ext . '_key');
+		$keys_file = $cache_path . '/tinymce_compressed' . $cache_ext . '_key';
+		$old_keys = getFileContents($keys_file);
 			
 		if ( '' != $old_keys ) {
 			$keys_ar = explode( "\n", $old_keys );
@@ -269,10 +263,9 @@ if ( '' != $cacheKey && $cache_path ) {
 			array_unshift( $keys_ar, $cacheKey );
 			$keys_ar = array_slice( $keys_ar, 0, $old_cache_max );
 			$cacheKey = trim( implode( "\n", $keys_ar ) );
-			
 		}
 		
-		putFileContents( 'tinymce_compressed' . $cache_ext . '_key', $cacheKey );
+		putFileContents( $keys_file, $cacheKey );
 	}
 	
 	putFileContents( $cache_file, $content );

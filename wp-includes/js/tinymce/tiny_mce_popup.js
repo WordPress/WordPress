@@ -3,9 +3,20 @@ var tinymce = null, tinyMCEPopup, tinyMCE;
 
 tinyMCEPopup = {
 	init : function() {
-		var t = this, w = t.getWin(), ti;
+		var t = this, w, ti, li, q, i, it;
 
-		// Find API
+		li = ('' + document.location.search).replace(/^\?/, '').split('&');
+		q = {};
+		for (i=0; i<li.length; i++) {
+			it = li[i].split('=');
+			q[unescape(it[0])] = unescape(it[1]);
+		}
+
+		if (q.mce_rdomain)
+			document.domain = q.mce_rdomain;
+
+		// Find window & API
+		w = t.getWin();
 		tinymce = w.tinymce;
 		tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
@@ -47,8 +58,11 @@ tinyMCEPopup = {
 	},
 
 	execCommand : function(cmd, ui, val, a) {
+		a = a || {};
+		a.skip_focus = 1;
+
 		this.restoreSelection();
-		return this.editor.execCommand(cmd, ui, val, a || {skip_focus : 1});
+		return this.editor.execCommand(cmd, ui, val, a);
 	},
 
 	resizeToInnerSize : function() {
@@ -83,7 +97,7 @@ tinyMCEPopup = {
 	requireLangPack : function() {
 		var u = this.getWindowArg('plugin_url') || this.getWindowArg('theme_url');
 
-		if (u && u.indexOf('wp-includes') == -1 )
+		if (u && this.editor.settings.language && u.indexOf('wp-includes') == -1)
 			document.write('<script type="text/javascript" src="' + u + '/langs/' + this.editor.settings.language + '_dlg.js' + '"></script>');
 	},
 
@@ -110,8 +124,16 @@ tinyMCEPopup = {
 	close : function() {
 		var t = this;
 
-		t.dom = null; // t.dom.doc = null; // Cleanup
-		t.editor.windowManager.close(window, t.id);
+		// To avoid domain relaxing issue in Opera
+		function close() {
+			t.editor.windowManager.close(window, t.id);
+			tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
+		};
+
+		if (tinymce.isOpera)
+			t.getWin().setTimeout(close, 0);
+		else
+			close();
 	},
 
 	// Internal functions	
@@ -139,7 +161,7 @@ tinyMCEPopup = {
 
 		// Replace a=x with a="x" in IE
 		if (tinymce.isIE)
-			h = h.replace(/ (value|title|alt)=([^\s>]+)/gi, ' $1="$2"');
+			h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
 
 		document.body.innerHTML = t.editor.translate(h);
 		document.title = ti = t.editor.translate(ti);

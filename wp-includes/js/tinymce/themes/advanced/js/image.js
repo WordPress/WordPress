@@ -56,8 +56,11 @@ var ImageDialog = {
 		var f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, args = {}, el;
 
 		if (f.src.value === '') {
-			ed.dom.remove(ed.selection.getNode());
-			ed.execCommand('mceRepaint');
+			if (ed.selection.getNode().nodeName == 'IMG') {
+				ed.dom.remove(ed.selection.getNode());
+				ed.execCommand('mceRepaint');
+			}
+
 			tinyMCEPopup.close();
 			return;
 		}
@@ -69,9 +72,8 @@ var ImageDialog = {
 				border : nl.border.value,
 				align : getSelectValue(f, 'align')
 			});
-		} else {
+		} else
 			args.style = this.styleVal;
-		}
 		
 		tinymce.extend(args, {
 			src : f.src.value,
@@ -86,9 +88,10 @@ var ImageDialog = {
 		if (el && el.nodeName == 'IMG') {
 			ed.dom.setAttribs(el, args);
 		} else {
-			ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" src="javascript:;" />');
+			ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" src="javascript:;" />', {skip_undo : 1});
 			ed.dom.setAttribs('__mce_tmp', args);
 			ed.dom.setAttrib('__mce_tmp', 'id', '');
+			ed.undoManager.add();
 		}
 
 		tinyMCEPopup.close();

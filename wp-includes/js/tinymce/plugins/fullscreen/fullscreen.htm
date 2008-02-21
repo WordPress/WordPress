@@ -43,13 +43,20 @@
 		settings['fullscreen_is_enabled'] = true;
 		settings['fullscreen_editor_id'] = window.opener.tinyMCE.activeEditor.id;
 		settings['theme_advanced_resizing'] = false;
+		settings['strict_loading_mode'] = true;
+
+		settings.save_onsavecallback = function() {
+			window.opener.tinyMCE.activeEditor.setContent(tinyMCE.get('fullscreenarea').getContent({format : 'raw'}), {format : 'raw'});
+			window.opener.tinyMCE.activeEditor.execCommand('mceSave');
+			window.close();
+		};
 
 		function unloadHandler(e) {
 			moveContent();
 		}
 
 		function moveContent() {
-			window.opener.tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent({format : 'raw'}));
+			window.opener.tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent());
 		}
 
 		function closeFullscreen() {
@@ -80,9 +87,9 @@
 
 <script type="text/javascript">
 		var e = document.getElementById('fullscreenarea');
-		e.value = window.opener.tinyMCE.activeEditor.getContent({format : 'raw'});
-		settings['width'] = window.innerWidth || document.body.clientWidth;
-		settings['height'] = (window.innerHeight || document.body.clientHeight) - 18;
+		e.value = window.opener.tinyMCE.activeEditor.getContent();
+		settings.width = window.innerWidth || document.body.clientWidth;
+		settings.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 18;
 		tinyMCE.init(settings);
 </script>
 

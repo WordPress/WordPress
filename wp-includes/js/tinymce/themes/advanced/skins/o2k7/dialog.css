@@ -58,10 +58,12 @@ a.pickcolor:hover span {background-color:#B2BBD0;}
 a.pickcolor:hover span.disabled {}
 
 /* Charmap */
-table.charmap {border-style:solid; border-width:1px; border-color:#AAA;}
-td.charmap, td.charmapOver {color:#000; border-color:#AAA; border-style:solid; border-width:1px; text-align:center; font-size:12px;}
-td.charmapOver {background:#CCC; cursor:default;}
-a.charmap {color:#000; text-decoration:none}
+table.charmap {border:1px solid #AAA; text-align:center}
+td.charmap, #charmap a {width:18px; height:18px; color:#000; border:1px solid #AAA; text-align:center; font-size:12px; vertical-align:middle; line-height: 18px;}
+#charmap a {display:block; color:#000; text-decoration:none; border:0}
+#charmap a:hover {background:#CCC;color:#2B6FB6}
+#charmap #codeN {font-size:10px; font-family:Arial,Helvetica,sans-serif; text-align:center}
+#charmap #codeV {font-size:40px; height:80px; border:1px solid #AAA; text-align:center}
 
 /* Source */
 .wordWrapCode {vertical-align:middle; border:1px none #000000; background:transparent;}
@@ -70,7 +72,7 @@ a.charmap {color:#000; text-decoration:none}
 /* Tabs classes */
 .tabs {width:100%; height:18px; line-height:normal; background:url(../default/img/tabs.gif) repeat-x 0 -72px;}
 .tabs ul {margin:0; padding:0; list-style:none;}
-.tabs li {float:left; background:url(../default/img/tabs.gif) no-repeat 0 0; margin:0 2px 0 0; padding:0 0 0 10px; line-height:18px;}
+.tabs li {float:left; background:url(../default/img/tabs.gif) no-repeat 0 0; margin:0 2px 0 0; padding:0 0 0 10px; line-height:17px; height:18px; display:block;}
 .tabs li.current {background:url(../default/img/tabs.gif) no-repeat 0 -18px; margin-right:2px;}
 .tabs span {float:left; display:block; background:url(../default/img/tabs.gif) no-repeat right -36px; padding:0px 10px 0 0;}
 .tabs .current span {background:url(../default/img/tabs.gif) no-repeat right -54px;}

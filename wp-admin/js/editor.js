@@ -89,11 +89,9 @@ switchEditors = {
             tinyMCE.triggerSave();
             ta.style.height = tinyMCE.activeEditor.contentAreaContainer.offsetHeight + 6 + 'px';
 
-            if ( tinymce.isIE6 ) 
-                ta.style.width = tinyMCE.activeEditor.contentAreaContainer.offsetWidth - 12 + 'px';
-
             ed.hide();
             ta.value = this.pre_wpautop(ta.value);
+            ta.style.width = '100%';
         
             qt.style.display = 'block';
             ec.style.padding = '6px';

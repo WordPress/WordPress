@@ -16,7 +16,7 @@ function init() {
 
 	fe = ed.selection.getNode();
 	if (/mceItem(Flash|ShockWave|WindowsMedia|QuickTime|RealMedia)/.test(ed.dom.getAttrib(fe, 'class'))) {
-		pl = "x={" + fe.title + "};";
+		pl = fe.title;
 
 		switch (ed.dom.getAttrib(fe, 'class')) {
 			case 'mceItemFlash':
@@ -63,7 +63,7 @@ function init() {
 
 	// Setup form
 	if (pl != "") {
-		pl = eval(pl);
+		pl = tinyMCEPopup.editor.plugins.media._parse(pl);
 
 		switch (type) {
 			case "flash":
@@ -493,6 +493,9 @@ function getStr(p, n, d) {
 	var e = document.forms[0].elements[(p != null ? p + "_" : "") + n];
 	var v = e.type == "text" ? e.value : e.options[e.selectedIndex].value;
 
+	if (n == 'src')
+		v = tinyMCEPopup.editor.convertURL(v, 'src', null);
+
 	return ((n == d || v == '') ? '' : n + ":'" + jsEncode(v) + "',");
 }
 
@@ -579,7 +582,7 @@ function generatePreview(c) {
 		return;
 	}
 
-	pl = eval('x={' + pl + '};');
+	pl = tinyMCEPopup.editor.plugins.media._parse(pl);
 
 	if (!pl.src) {
 		p.innerHTML = '';
