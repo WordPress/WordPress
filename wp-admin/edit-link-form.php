@@ -302,6 +302,4 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 </div>
 
-</div>
-
 </form>
