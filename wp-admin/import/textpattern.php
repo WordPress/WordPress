@@ -46,7 +46,7 @@ class Textpattern_Import {
 		echo '<form action="admin.php?import=textpattern&amp;step=1" method="post">';
 		wp_nonce_field('import-textpattern');
 		$this->db_form();
-		echo '<p class="submit"><input type="submit" name="submit" value="'.attribute_escape(__('Import Categories')).'" /></p>';
+		echo '<p class="submit"><input type="submit" class="button" name="submit" value="'.attribute_escape(__('Import')).'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
@@ -481,7 +481,7 @@ class Textpattern_Import {
 
 		echo '<form action="admin.php?import=textpattern&amp;step=2" method="post">';
 		wp_nonce_field('import-textpattern');
-		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Users')));
+		printf('<input type="submit" class="button" name="submit" value="%s" />', attribute_escape(__('Import Users')));
 		echo '</form>';
 
 	}
@@ -494,7 +494,7 @@ class Textpattern_Import {
 
 		echo '<form action="admin.php?import=textpattern&amp;step=3" method="post">';
 		wp_nonce_field('import-textpattern');
-		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Posts')));
+		printf('<input type="submit" class="button" name="submit" value="%s" />', attribute_escape(__('Import Posts')));
 		echo '</form>';
 	}
 
@@ -508,7 +508,7 @@ class Textpattern_Import {
 
 		echo '<form action="admin.php?import=textpattern&amp;step=4" method="post">';
 		wp_nonce_field('import-textpattern');
-		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Comments')));
+		printf('<input type="submit" class="button" name="submit" value="%s" />', attribute_escape(__('Import Comments')));
 		echo '</form>';
 	}
 
@@ -520,7 +520,7 @@ class Textpattern_Import {
 
 		echo '<form action="admin.php?import=textpattern&amp;step=5" method="post">';
 		wp_nonce_field('import-textpattern');
-		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Links')));
+		printf('<input type="submit" class="button" name="submit" value="%s" />', attribute_escape(__('Import Links')));
 		echo '</form>';
 	}
 
@@ -533,7 +533,7 @@ class Textpattern_Import {
 
 		echo '<form action="admin.php?import=textpattern&amp;step=6" method="post">';
 		wp_nonce_field('import-textpattern');
-		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Finish')));
+		printf('<input type="submit" class="button" name="submit" value="%s" />', attribute_escape(__('Finish')));
 		echo '</form>';
 	}
 
@@ -575,7 +575,7 @@ class Textpattern_Import {
 
 	function db_form()
 	{
-		echo '<table class="editform">';
+		echo '<table class="niceblue">';
 		printf('<tr><th scope="row"><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('Textpattern Database User:'));
 		printf('<tr><th scope="row"><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('Textpattern Database Password:'));
 		printf('<tr><th scope="row"><label for="dbname">%s</label></th><td><input type="text" id="dbname" name="dbname" /></td></tr>', __('Textpattern Database Name:'));

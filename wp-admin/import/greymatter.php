@@ -36,7 +36,7 @@ class GM_Import {
 <input type="hidden" name="step" value="1" />
 <?php wp_nonce_field('import-greymatter'); ?>
 <h3><?php _e('Second step: GreyMatter details:') ?></h3>
-<p><table cellpadding="0">
+<table class="niceblue">
 <tr>
 <td><?php _e('Path to GM files:') ?></td>
 <td><input type="text" style="width:300px" name="gmpath" value="/home/my/site/cgi-bin/greymatter/" /></td>
@@ -46,17 +46,14 @@ class GM_Import {
 <td><input type="text" style="width:300px" name="archivespath" value="/home/my/site/cgi-bin/greymatter/archives/" /></td>
 </tr>
 <tr>
-<td colspan="2"><br /><?php _e("This importer will search for files 00000001.cgi to 000-whatever.cgi,<br />so you need to enter the number of the last GM post here.<br />(if you don't know that number, just log into your FTP and look it out<br />in the entries' folder)") ?></td>
-</tr>
-<tr>
 <td><?php _e("Last entry's number:") ?></td>
-<td><input type="text" name="lastentry" value="00000001" /></td>
+<td><input type="text" name="lastentry" value="00000001" /><br />
+	<?php _e("This importer will search for files 00000001.cgi to 000-whatever.cgi,<br />so you need to enter the number of the last GM post here.<br />(if you don't know that number, just log into your FTP and look it out<br />in the entries' folder)") ?></td>
 </tr>
 </table>
 </p>
-<p><?php _e("When you're ready, click OK to start importing: ") ?><input type="submit" name="submit" value="<?php _e('OK') ?>" class="search" /></p>
+<p><input type="submit" name="submit" value="<?php _e('Start Importing') ?>" class="button" /></p>
 </form>
-<p>&nbsp</p>
 <?php
 		$this->footer();
 	}

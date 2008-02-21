@@ -4,6 +4,12 @@ a { color: #2583ad; text-decoration: none; }
 
 a:hover, .subsubsub a:hover, .subsubsub a.current:hover { color: #d54e21; }
 
+a:focus, a:active {
+	border: none;
+	-moz-outline: none;
+	outline: none;
+}
+
 body	{
 	background: #ffffff;
 	color: #333333;
@@ -93,7 +99,7 @@ textarea, input, select {
 	clear: both;
 	color: #666666;
 	font: 24px Georgia, "Times New Roman", Times, serif;
-	margin: 0 0 0 -5px;
+	margin: 5px 0 0 -4px;
 	padding: 0;
-	padding-bottom: 5px;
+	padding-bottom: 7px;
 }

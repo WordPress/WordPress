@@ -134,7 +134,7 @@ $messages[5] = __('Category not updated.');
 <div class="tablenav">
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php wp_nonce_field('bulk-categories'); ?>
 </div>
 

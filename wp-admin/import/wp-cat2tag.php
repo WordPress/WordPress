@@ -68,7 +68,7 @@ function check_all_rows() {
 </script>
 <?php
 		echo '<form name="formlist" id="formlist" action="admin.php?import=wp-cat2tag&amp;step=2" method="post">
-		<p><input type="button" value="' . __('Check All') . '"' . ' onClick="this.value=check_all_rows()"></p>';
+		<p><input type="button" class="button-secondary" value="' . __('Check All') . '"' . ' onClick="this.value=check_all_rows()"></p>';
 		wp_nonce_field('import-cat2tag');
 		echo '<ul style="list-style:none">';
 
@@ -90,7 +90,7 @@ function check_all_rows() {
 
 		echo '</ul>';
 
-		echo '<p class="submit"><input type="submit" name="submit" value="' . __('Convert Tags') . '" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="' . __('Convert Tags') . '" /></p>';
 
 		echo '</form>';
 	}

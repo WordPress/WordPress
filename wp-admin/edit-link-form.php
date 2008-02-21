@@ -73,7 +73,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 
 <p class="submit">
-<input type="submit" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
+<input type="submit" class="button" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 </p>
 
 <div class="inside">

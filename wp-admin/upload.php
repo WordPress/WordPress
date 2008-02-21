@@ -138,7 +138,7 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php wp_nonce_field('bulk-media'); ?>
 <?php
 
@@ -170,7 +170,7 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php } ?>
 
-<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button" />
+<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button-secondary" />
 
 </div>
 

@@ -20,7 +20,7 @@ class Blogger_Import {
 		<div class='wrap'><h2>$title</h2><p>$welcome</p><p>$prereqs</p><p>$stepone</p>
 			<form action='$auth_url' method='get'>
 				<p class='submit' style='text-align:left;'>
-					<input type='submit' value='$auth' />
+					<input type='submit' class='button' value='$auth' />
 					<input type='hidden' name='scope' value='http://www.blogger.com/feeds/' />
 					<input type='hidden' name='session' value='1' />
 					<input type='hidden' name='secure' value='0' />
@@ -178,7 +178,7 @@ class Blogger_Import {
 			$init .= "blogs[$i]=new blog($i,'$blogtitle','{$blog['mode']}'," . $this->get_js_status($i) . ');';
 			$pstat = "<div class='ind' id='pind$i'>&nbsp;</div><div id='pstat$i' class='stat'>$pdone/{$blog['total_posts']}</div>";
 			$cstat = "<div class='ind' id='cind$i'>&nbsp;</div><div id='cstat$i' class='stat'>$cdone/{$blog['total_comments']}</div>";
-			$rows .= "<tr id='blog$i'><td class='blogtitle'>$blogtitle</td><td class='bloghost'>{$blog['host']}</td><td class='bar'>$pstat</td><td class='bar'>$cstat</td><td class='submit'><input type='submit' id='submit$i' value='$value' /><input type='hidden' name='blog' value='$i' /></td></tr>\n";
+			$rows .= "<tr id='blog$i'><td class='blogtitle'>$blogtitle</td><td class='bloghost'>{$blog['host']}</td><td class='bar'>$pstat</td><td class='bar'>$cstat</td><td class='submit'><input type='submit' class='button' id='submit$i' value='$value' /><input type='hidden' name='blog' value='$i' /></td></tr>\n";
 		}
 
 		echo "<div class='wrap'><h2>$title</h2><noscript>$noscript</noscript><table cellpadding='5px'><thead><td>$name</td><td>$url</td><td>$posts</td><td>$comments</td><td>$action</td></thead>\n$rows</table></form></div>";
@@ -618,7 +618,7 @@ class Blogger_Import {
 		foreach ( $blog['authors'] as $i => $author )
 			$rows .= "<tr><td><label for='authors[$i]'>{$author[0]}</label></td><td><select name='authors[$i]' id='authors[$i]'>" . $this->get_user_options($author[1]) . "</select></td></tr>";
 
-		return "<div class='wrap'><h2>$heading</h2><h3>$blogtitle</h3><p>$directions</p><form action='index.php?import=blogger&noheader=true&saveauthors=1' method='post'><input type='hidden' name='blog' value='$importing_blog' /><table cellpadding='5'><thead><td>$mapthis</td><td>$tothis</td></thead>$rows<tr><td></td><td class='submit'><input type='submit' class='authorsubmit' value='$submit' /></td></tr></table></form></div>";
+		return "<div class='wrap'><h2>$heading</h2><h3>$blogtitle</h3><p>$directions</p><form action='index.php?import=blogger&noheader=true&saveauthors=1' method='post'><input type='hidden' name='blog' value='$importing_blog' /><table cellpadding='5'><thead><td>$mapthis</td><td>$tothis</td></thead>$rows<tr><td></td><td class='submit'><input type='submit' class='button authorsubmit' value='$submit' /></td></tr></table></form></div>";
 	}
 
 	function get_user_options($current) {
@@ -788,7 +788,7 @@ class Blogger_Import {
 			$restart = __('Restart');
 			$message = __('We have saved some information about your Blogger account in your WordPress database. Clearing this information will allow you to start over. Restarting will not affect any posts you have already imported. If you attempt to re-import a blog, duplicate posts and comments will be skipped.');
 			$submit = __('Clear account information');
-			echo "<div class='wrap'><h2>$restart</h2><p>$message</p><form method='post' action='?import=blogger&noheader=true'><p class='submit' style='text-align:left;'><input type='submit' value='$submit' name='restart' /></p></form></div>";
+			echo "<div class='wrap'><h2>$restart</h2><p>$message</p><form method='post' action='?import=blogger&noheader=true'><p class='submit' style='text-align:left;'><input type='submit' class='button' value='$submit' name='restart' /></p></form></div>";
 		}
 	}
 
@@ -820,9 +820,6 @@ thead td { font-weight: bold; }
 	z-index: 10;
 	position: relative;
 	text-align: center;
-}
-.submit {
-	text-align: center !important;
 }
 </style>
 <?php

@@ -149,7 +149,7 @@ case 'delete':
 		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:')."</label> $user_dropdown"; ?></li>
 	</ul>
 	<input type="hidden" name="action" value="dodelete" />
-	<p class="submit"><input type="submit" name="submit" value="<?php _e('Confirm Deletion'); ?>" class="button" /></p>
+	<p class="submit"><input type="submit" name="submit" value="<?php _e('Confirm Deletion'); ?>" class="button-secondary" /></p>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
 <?php endif; ?>
@@ -293,7 +293,7 @@ unset($role_links);
 <?php endif; ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>
 </div>
 

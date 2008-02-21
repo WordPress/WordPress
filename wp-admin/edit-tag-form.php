@@ -33,7 +33,7 @@ if ( ! empty($tag_ID) ) {
 			<td><input name="slug" id="slug" type="text" value="<?php echo attribute_escape($tag->slug); ?>" size="40" /></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" name="submit" value="<?php echo $submit_text ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo $submit_text ?>" /></p>
 <?php do_action('edit_tag_form', $tag); ?>
 </form>
 </div>

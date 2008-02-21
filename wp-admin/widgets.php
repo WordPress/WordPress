@@ -193,7 +193,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 				<option value='<?php echo $show_value; ?>'<?php selected( $show_value, $show ); ?>><?php echo wp_specialchars( $show_text ); ?></option>
 <?php endforeach; ?>
 			</select>
-			<input type="submit" value="<?php _e('Show' ); ?>" class="button" />
+			<input type="submit" value="<?php _e('Show' ); ?>" class="button-secondary" />
 			<p class="pagenav">
 				<?php echo $page_links; ?>
 			</p>
@@ -210,7 +210,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 				<option value='<?php echo $sidebar_id; ?>'<?php selected( $sidebar_id, $sidebar ); ?>><?php echo wp_specialchars( $registered_sidebar['name'] ); ?></option>
 <?php endforeach; ?>
 			</select>
-			<input type="submit" value="<?php _e('Go' ); ?>" class="button" />
+			<input type="submit" value="<?php _e('Show' ); ?>" class="button-secondary" />
 		</div>
 
 	</div>

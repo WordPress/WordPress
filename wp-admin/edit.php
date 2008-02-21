@@ -135,7 +135,7 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php wp_nonce_field('bulk-posts'); ?>
 <?php
 
@@ -168,7 +168,7 @@ foreach ($arc_result as $arc_row) {
 <?php } ?>
 
 <?php wp_dropdown_categories('show_option_all='.__('View all categories').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
-<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button" />
+<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
 
 </div>
 

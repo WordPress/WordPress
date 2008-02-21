@@ -945,7 +945,7 @@ function wp_import_upload_form( $action ) {
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 </p>
 <p class="submit">
-<input type="submit" value="<?php _e( 'Upload file and import' ); ?>" />
+<input type="submit" class="button" value="<?php _e( 'Upload file and import' ); ?>" />
 </p>
 </form>
 <?php

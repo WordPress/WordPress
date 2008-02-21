@@ -45,7 +45,7 @@ if ('' != $post->pinged) {
 	$pings .= '</ul>';
 }
 
-$saveasdraft = '<input name="save" type="submit" id="save" tabindex="3" value="' . attribute_escape( __('Save and Continue Editing') ) . '" />';
+$saveasdraft = '<input name="save" type="submit" id="save" class="button" tabindex="3" value="' . attribute_escape( __('Save and Continue Editing') ) . '" />';
 
 ?>
 
@@ -154,14 +154,14 @@ if ($post_ID) {
 </div>
 
 <p class="submit">
-<input type="submit" name="save" id="save-post" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
+<input type="submit" name="save" id="save-post" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" class="button" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
-	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
+	<input name="publish" type="submit" class="button" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
 <?php else : ?>
-	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
+	<input name="publish" type="submit" class="button" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
 <?php
 }
