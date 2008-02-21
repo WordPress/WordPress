@@ -3,7 +3,7 @@ define('WP_INSTALLING', true);
 if (!file_exists('../wp-config.php')) {
   require_once('../wp-includes/compat.php');
   require_once('../wp-includes/functions.php');
-  wp_die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>. You can <a href='setup-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.", "WordPress &rsaquo; Error");
+  wp_die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>. You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file.</p><p><a href='setup-config.php' class='button'>Create a Configuration File</a>", "WordPress &rsaquo; Error");
 }
 
 require_once('../wp-config.php');
@@ -45,22 +45,21 @@ switch($step) {
 <p><?php _e("Please provide the following information.  Don't worry, you can always change these settings later."); ?></p>
 
 <form id="setup" method="post" action="install.php?step=2">
-	<table width="100%">
+	<table class="niceblue">
 		<tr>
-			<th width="33%"><?php _e('Blog title:'); ?></th>
+			<th scope="row"><?php _e('Blog Title'); ?></th>
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
 		</tr>
 		<tr>
-			<th><?php _e('Your e-mail:'); ?></th>
-			<td><input name="admin_email" type="text" id="admin_email" size="25" /></td>
+			<th><?php _e('Your E-mail'); ?></th>
+			<td><input name="admin_email" type="text" id="admin_email" size="25" /><br />
+			<?php _e('Double-check your email address before continuing.'); ?>
 		</tr>
 		<tr>
-			<td>&nbsp;</td>
-			<td><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
+			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
 		</tr>
 	</table>
-	<p><em><?php _e('Double-check your email address before continuing.'); ?></em></p>
-	<h2 class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" /></h2>
+	<input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" class="button" />
 </form>
 
 <?php
@@ -77,7 +76,7 @@ switch($step) {
 		// check e-mail address
 		if (empty($admin_email)) {
 			// TODO: poka-yoke
-			die(__("<strong>ERROR</strong>: you must provide an e-mail address"));
+			die(__("<p><strong>ERROR</strong>: you must provide an e-mail address.</p>"));
 		} else if (!is_email($admin_email)) {
 			// TODO: poka-yoke
 			die(__('<strong>ERROR</strong>: that isn\'t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>'));
@@ -90,24 +89,25 @@ switch($step) {
 
 <h1><?php _e('Success!'); ?></h1>
 
-<p><?php printf(__('WordPress has been installed.  Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $password); ?></p>
-<p><?php _e('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.'); ?></p>
+<p><?php printf(__('WordPress has been installed. Were you expecting more steps? Sorry to disappoint.'), ''); ?></p>
 
-<dl>
-	<dt><?php _e('Username'); ?></dt>
-		<dd><code>admin</code></dd>
-	<dt><?php _e('Password'); ?></dt>
-		<dd><code><?php echo $password; ?></code></dd>
-	<dt><?php _e('Login address'); ?></dt>
-		<dd><a href="../wp-login.php">wp-login.php</a></dd>
-</dl>
-<p><?php _e('Were you expecting more steps? Sorry to disappoint. :)'); ?></p>
+<table class="niceblue">
+	<tr>
+		<th><?php _e('Username'); ?></th>
+		<td><code>admin</code></td>
+	</tr>
+	<tr>
+		<th><?php _e('Password'); ?></th>
+		<td><code><?php echo $password; ?></code><br />
+			<?php _e('<p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.</p>'); ?></td>
+	</tr>
+</table>
+
+<p><a href="../wp-login.php" class="button">Log In</a>
 
 <?php
 		break;
 }
 ?>
-
-<p id="footer"><?php _e('<a href="http://wordpress.org/">WordPress</a>, personal publishing platform.'); ?></p>
 </body>
 </html>

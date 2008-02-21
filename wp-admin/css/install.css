@@ -1,40 +1,111 @@
-html { background: #eee; }
+html { background: #f1f1f1; }
 
 body {
 	background: #fff;
-	color: #000;
-	font-family: Georgia, "Times New Roman", Times, serif;
-	margin-left: 20%;
-	margin-right: 20%;
-	padding: .2em 2em;
+	color: #333;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	margin: 2em auto 0 auto;
+	width: 700px;
+	padding: 1em 2em;
+	-webkit-border-radius: 12px;
+	font-size: 62.5%;
 }
 
+a { color: #2583ad; text-decoration: none; }
+
+a:hover { color: #d54e21; }
+
+
 h1 {
-	color: #006;
 	font-size: 18px;
-	font-weight: lighter;
+	margin-bottom: 0;
 }
 
 h2 { font-size: 16px; }
 
-p, li, dt {
-	line-height: 140%;
+p, li {
 	padding-bottom: 2px;
+	font-size: 1.3em;
+	line-height: 1.8em;
 }
 
-ul, ol { padding: 5px 5px 5px 20px; }
+code {
+	font-size: 1.3em;
+}
 
-#logo { margin-bottom: 2em; }
+ul, ol { padding: 5px 5px 5px 22px; }
+
+#logo { margin: 6px 0 14px 0px; border-bottom: none;}
 
 .step a, .step input { font-size: 2em; }
 
 td input { font-size: 1.5em; }
 
-.step, th { text-align: right; }
+.step, th { text-align: left; padding: 0; }
 
-#footer {
-	text-align: center; 
-	border-top: 1px solid #ccc; 
-	padding-top: 1em; 
-	font-style: italic;
+.submit input, .button, .button-secondary {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 6px;
+	border: none;
+	margin-left: 0;
+	font-size: 13px !important;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;	
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	color: #246;
+	background: #e5e5e5;
+}
+
+.button-secondary {
+	background: #cee1ef;
+}
+
+.submit input:hover, .button:hover, .button-secondary:hover {
+	color: #d54e21;
+}
+
+.niceblue {
+	border-collapse: collapse;
+	margin-top: 1em;
+	width: 100%;
+}
+
+.niceblue td {
+	margin-bottom: 9px;
+	padding: 10px;
+	border-bottom: 8px solid #fff;
+}
+
+.niceblue th {
+	font-size: 12px;
+	text-align: left;
+	padding: 12px 10px 10px 10px;
+	border-bottom: 8px solid #fff;
+	width: 110px;
+	vertical-align: top;
+}
+
+.niceblue tr {
+	background: #eaf3fa;
+}
+
+.niceblue code {
+	line-height: 18px;
+	font-size: 18px;
+}
+
+.niceblue p {
+	margin: 4px 0 0 0;
+	font-size: 11px;
+}
+
+h1 {
+	border-bottom: 1px solid #dadada;
+	clear: both;
+	color: #666666;
+	font: 24px Georgia, "Times New Roman", Times, serif;
+	margin: 5px 0 0 -4px;
+	padding: 0;
+	padding-bottom: 7px;
 }

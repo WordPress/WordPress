@@ -33,59 +33,8 @@ function display_header(){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>WordPress &rsaquo; Setup Configuration File</title>
+<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install.css" type="text/css" />
 
-<style media="screen" type="text/css">
-	<!--
-	html {
-		background: #eee;
-	}
-	body {
-		background: #fff;
-		color: #000;
-		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 20%;
-		margin-right: 20%;
-		padding: .2em 2em;
-	}
-
-	h1 {
-		color: #006;
-		font-size: 18px;
-		font-weight: lighter;
-	}
-
-	h2 {
-		font-size: 16px;
-	}
-
-	p, li, dt {
-		line-height: 140%;
-		padding-bottom: 2px;
-	}
-
-	ul, ol {
-		padding: 5px 5px 5px 20px;
-	}
-	#logo {
-		margin-bottom: 2em;
-	}
-	.step a, .step input {
-		font-size: 2em;
-	}
-	td input {
-		font-size: 1.5em;
-	}
-	.step, th {
-		text-align: right;
-	}
-	#footer {
-		text-align: center;
-		border-top: 1px solid #ccc;
-		padding-top: 1em;
-		font-style: italic;
-	}
-	-->
-	</style>
 </head>
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
@@ -106,17 +55,18 @@ switch($step) {
 	<li>Table prefix (if you want to run more than one WordPress in a single database) </li>
 </ol>
 <p><strong>If for any reason this automatic file creation doesn't work, don't worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>. </strong></p>
-<p>In all likelihood, these items were supplied to you by your ISP. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready, <a href="setup-config.php?step=1">let&#8217;s go</a>! </p>
+<p>In all likelihood, these items were supplied to you by your ISP. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;</p>
+
+<p><a href="setup-config.php?step=1" class="button">Let&#8217;s go!</a></p>
 <?php
 	break;
 
 	case 1:
 		display_header();
 	?>
-</p>
 <form method="post" action="setup-config.php?step=2">
 	<p>Below you should enter your database connection details. If you're not sure about these, contact your host. </p>
-	<table>
+	<table class="niceblue">
 		<tr>
 			<th scope="row">Database Name</th>
 			<td><input name="dbname" type="text" size="25" value="wordpress" /></td>
@@ -144,7 +94,7 @@ switch($step) {
 		</tr>
 	</table>
 	<h2 class="step">
-	<input name="submit" type="submit" value="Submit" />
+	<input name="submit" type="submit" value="Submit" class="button" />
 	</h2>
 </form>
 <?php
@@ -197,11 +147,12 @@ switch($step) {
 
 	display_header();
 ?>
-<p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to <a href="install.php">run the install!</a></p>
+<p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;</p>
+
+<p><a href="install.php" class="button">Run the install</a></p>
 <?php
 	break;
 }
 ?>
-<p id="footer"><a href="http://wordpress.org/">WordPress</a>, personal publishing platform.</p>
 </body>
 </html>
