@@ -218,7 +218,7 @@ class WP_Rewrite {
 					'(.+?)',
 					'(.+?)',
 					'([^/]+)',
-					'([^/]+)',
+					'([^/]+?)',
 					'(.+)'
 					);
 
@@ -317,7 +317,7 @@ class WP_Rewrite {
 		$page_structure = $this->get_page_permastruct();
 
 		if ( ! $this->use_verbose_page_rules ) {
-			$this->add_rewrite_tag('%pagename%', "(.+)", 'pagename=');
+			$this->add_rewrite_tag('%pagename%', "(.+?)", 'pagename=');
 			$rewrite_rules = array_merge($rewrite_rules, $this->generate_rewrite_rules($page_structure, EP_PAGES));
 			return $rewrite_rules;
 		}
