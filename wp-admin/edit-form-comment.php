@@ -73,7 +73,7 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 <p><?php printf($stamp, $date, $time); ?>
 &nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
 
-<div id='timestamp'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
+<div id='timestampdiv'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
 
 </div>
 

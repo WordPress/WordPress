@@ -144,12 +144,12 @@ addLoadEvent( function() {
 	} );
 	jQuery('.categorychecklist :checkbox').change( syncChecks ).filter( ':checked' ).change();
 
-	jQuery('#timestamp').css('display', 'none');
+	jQuery('#timestampdiv').css('display', 'none');
 	jQuery('.edit-timestamp').click(function () {
-		if (jQuery('#timestamp').is(":hidden")) {
-			jQuery('#timestamp').slideDown("normal");
+		if (jQuery('#timestampdiv').is(":hidden")) {
+			jQuery('#timestampdiv').slideDown("normal");
 		} else {
-			jQuery('#timestamp').hide();
+			jQuery('#timestampdiv').hide();
 		}
     });
 });

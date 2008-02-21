@@ -122,7 +122,7 @@ if ($post_ID) {
 <p><?php printf($stamp, $date, $time); ?>
 &nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
 
-<div id='timestamp'><?php touch_time(($action == 'edit')); ?></div>
+<div id='timestampdiv'><?php touch_time(($action == 'edit')); ?></div>
 
 </div>
 
@@ -194,7 +194,7 @@ list_meta($metadata);
 </div>
 
 <div id="pagecommentstatusdiv" class="postbox <?php echo postbox_classes('pagecommentstatusdiv', 'page'); ?>">
-<h3><?php _e('Comments & Pings') ?></h3>
+<h3><?php _e('Comments &amp; Pings') ?></h3>
 <div class="inside">
 <input name="advanced_view" type="hidden" value="1" />
 <label for="comment_status" class="selectit">

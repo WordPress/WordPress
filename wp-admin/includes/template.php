@@ -773,7 +773,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	if ( (int) $tab_index > 0 )
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
-	echo '<legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label></legend>';
+	echo '<input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label>';
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
