@@ -126,7 +126,7 @@ if ($allowed_files) :
 <?php foreach($themes[$theme]['Template Files'] as $template_file) :
 		$description = get_file_description($template_file);
 		$template_show = basename($template_file);
-		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span></small>" : "$description";
+		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : "$description";
 		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($template_show)</span></span>" : $filedesc;
 		?>
 		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
