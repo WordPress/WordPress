@@ -57,6 +57,30 @@ endforeach;
 </tr>
 </table>
 
+<h3><?php _e('Image sizes') ?></h3>
+<p><?php _e('The sizes listed below determine the maximum dimensions to use when inserting an image into the body of a post.'); ?></p>
+
+<table class="niceblue">
+<tr valign="top">
+<th scope="row"><?php _e('Thumbnail size:') ?></th>
+<td>
+<label for="thumbnail_size_w"><?php _e('Width:'); ?></label>
+<input name="thumbnail_size_w" type="text" id="thumbnail_size_w" value="<?php form_option('thumbnail_size_w'); ?>" size="6" />
+<label for="thumbnail_size_h"><?php _e('Height:'); ?></label>
+<input name="thumbnail_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('thumbnail_size_h'); ?>" size="6" />
+</td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Medium size:') ?></th>
+<td>
+<label for="medium_size_w"><?php _e('Width:'); ?></label>
+<input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" size="6" />
+<label for="medium_size_h"><?php _e('Height:'); ?></label>
+<input name="medium_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
+</td>
+</tr>
+</table>
+
 <h3><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), wp_generate_password(), wp_generate_password(), wp_generate_password()) ?></p>
 

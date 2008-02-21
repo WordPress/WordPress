@@ -131,6 +131,15 @@ jQuery(document).ready(function(){
 	<input type="radio" name="image-align" id="image-align-right" value="right"  <?php if ($image_align == 'right') echo ' checked="checked"'; ?>/>
 	<label for="image-align-right" id="image-align-right-label"><?php _e('Right'); ?></label>
 </fieldset>
+<fieldset id="image-size">
+	<legend><?php _e('Size'); ?></legend>
+	<input type="radio" name="image-size" id="image-size-thumb" value="thumb" <?php if ($image_size == 'thumb') echo ' checked="checked"'; ?>/>
+	<label for="image-size-thumb" id="image-size-thumb-label"><?php _e('Thumbnail'); ?></label>
+	<input type="radio" name="image-size" id="image-size-medium" value="medium" <?php if ($image_size == 'medium' || !$image_size) echo ' checked="checked"'; ?>/>
+	<label for="image-size-medium" id="image-size-medium-label"><?php _e('Medium'); ?></label>
+	<input type="radio" name="image-size" id="image-size-full" value="full" <?php if ($image_size == 'full') echo ' checked="checked"'; ?>/>
+	<label for="image-size-full" id="image-size-full-label"><?php _e('Full size'); ?></label>
+</fieldset>
 <p>
 	<button name="image-add" id="image-add" class="button-ok" value="1"><?php _e('Add Image'); ?></button>
 	<a href="#" onClick="return top.tb_remove();" id="image-cancel" class="button-cancel"><?php _e('Cancel'); ?></a>
@@ -174,7 +183,7 @@ function image_upload_handler() {
 		if ( is_wp_error($id) )
 			wp_iframe( 'image_upload_form', get_option('siteurl') . '/wp-admin/media-upload.php?type=image', $_POST, $id );
 		else {
-			media_send_to_editor(get_image_send_to_editor($id, $_POST['image-alt'], $_POST['image-title'], $_POST['image-align'], $_POST['image-url']));
+			media_send_to_editor(get_image_send_to_editor($id, $_POST['image-alt'], $_POST['image-title'], $_POST['image-align'], $_POST['image-url'], true, $_POST['image-size']));
 		}
 	}
 }
@@ -217,37 +226,16 @@ EOF;
 
 add_filter('async_upload_image', 'async_image_callback');
 
-// scale down the default size of an image so it's a better fit for the editor and theme
-function image_constrain_size_for_editor($width, $height) {
-	// pick a reasonable default width for the image
-	// $content_width might be set in the theme's functions.php
-	if ( !empty($GLOBALS['content_width']) )
-		$max_width = $GLOBALS['content_width'];
-	else
-		$max_width = 500;
 
-	$max_width = apply_filters( 'editor_max_image_width', $max_width );
-	$max_height = apply_filters( 'editor_max_image_height', $max_width );
-	
-	return wp_shrink_dimensions( $width, $height, $max_width, $max_height );
-}
+function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false, $size='medium') {
 
-function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false) {
-
-	$img_src = wp_get_attachment_url($id);
-	$meta = wp_get_attachment_metadata($id);
-
-	$hwstring = '';
-	if ( isset($meta['width'], $meta['height']) ) {
-		list( $width, $height ) = image_constrain_size_for_editor( $meta['width'], $meta['height'] );
-		$hwstring = ' width="'.intval($width).'" height="'.intval($height).'"';
-	}
-
-	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'"'.$hwstring.' class="align-'.attribute_escape($align).'" />';
+	$html = get_image_tag($id, $alt, $title, $align, $rel, $size);
 
 	$rel = $rel ? ' rel="attachment wp-att-'.attribute_escape($id).'"' : '';
 	if ( $url )
 		$html = "<a href='".attribute_escape($url)."'$rel>$html</a>";
+	elseif ( $size == 'thumb' || $size == 'medium' )
+		$html = '<a href="'.get_attachment_link($id).'"'.$rel.'>'.$html.'</a>';
 		
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
 
@@ -392,7 +380,7 @@ function media_buttons() { // just a placeholder for now
 	$multimedia_upload_iframe_src = apply_filters('multimedia_upload_iframe_src', $multimedia_upload_iframe_src);
 	$out = <<<EOF
 
-<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=480" class="thickbox"><img src='images/media-button-image.gif' alt='' /></a>
+<a href="{$image_upload_iframe_src}&TB_iframe=true&height=550&width=480" class="thickbox"><img src='images/media-button-image.gif' alt='' /></a>
 <a href="{$multimedia_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-gallery.gif' alt='' /></a>
 <a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-video.gif' alt='' /></a>
 <a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox"><img src='images/media-button-music.gif' alt='' /></a>

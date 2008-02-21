@@ -224,16 +224,27 @@ function get_udims( $width, $height) {
  *
  */
 function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
-	if ( $height <= $hmax && $width <= $wmax ){
-		//Image is smaller than max
-		return array( $width, $height);
-	} elseif ( $width / $height > $wmax / $hmax ) {
-		//Image Width will be greatest
-		return array( $wmax, (int) ($height / $width * $wmax ));
-	} else {
-		//Image Height will be greatest
-		return array( (int) ($width / $height * $hmax ), $hmax );
-	}
+	return wp_constrain_dimensions( $width, $height, $wmax, $hmax );
+}
+
+// same as wp_shrink_dimensions, except the max parameters are optional.
+// if either width or height are empty, no constraint is applied on that dimension.
+function wp_constrain_dimensions( $current_width, $current_height, $max_width=0, $max_height=0 ) {
+	if ( !$max_width and !$max_height )
+		return array( $current_width, $current_height );
+	
+	$width_ratio = $height_ratio = 1.0;
+	
+	if ( $max_width > 0 && $current_width > $max_width )
+		$width_ratio = $max_width / $current_width;
+	
+	if ( $max_height > 0 && $current_height > $max_height )
+		$height_ratio = $max_height / $current_height;
+	
+	// the smaller ratio is the one we need to fit it to the constraining box
+	$ratio = min( $width_ratio, $height_ratio );
+	
+	return array( intval($current_width * $ratio), intval($current_height * $ratio) );
 }
 
 // convert a fraction string to a decimal

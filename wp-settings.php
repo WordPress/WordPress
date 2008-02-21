@@ -263,6 +263,7 @@ require (ABSPATH . WPINC . '/taxonomy.php');
 require (ABSPATH . WPINC . '/update.php');
 require (ABSPATH . WPINC . '/canonical.php');
 require (ABSPATH . WPINC . '/shortcodes.php');
+require (ABSPATH . WPINC . '/media.php');
 
 if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
 	// Used to guarantee unique hash cookies

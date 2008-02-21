@@ -109,6 +109,11 @@ form.media-upload-form {
 	background: url(../images/align-right.png) no-repeat center left;
 }
 
+.media-upload-form fieldset#image-size label {
+	display: inline;
+	margin: 0 1em 0 0;
+}
+
 .pinkynail {
 	max-width: 40px;
 	max-height: 40px;
