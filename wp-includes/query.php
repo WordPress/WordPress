@@ -1190,10 +1190,9 @@ class WP_Query {
 				if ( in_array($orderby_array[$i], $allowed_keys) )
 					$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
 			}
-			/* append ASC or DESC at the end */
-			if ( !empty($q['orderby'])){
+			// append ASC or DESC at the end
+			if ( !empty($q['orderby']))
 				$q['orderby'] .= " {$q['order']}";
-			}
 
 			if ( empty($q['orderby']) )
 				$q['orderby'] = 'post_date '.$q['order'];
