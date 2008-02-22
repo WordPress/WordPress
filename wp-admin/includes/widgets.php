@@ -124,7 +124,7 @@ function wp_list_widget_controls( $widgets, $edit_widget = -1 ) {
 ?>
 
 		<ul class="widget-control-list">
-
+			<li />
 <?php
 	foreach ( $widgets as $key => $widget )
 		wp_widget_control( $key, $widget, $key == $edit_widget ? 'edit' : 'display' );
@@ -170,7 +170,7 @@ function wp_widget_control( $key, $widget, $display = 'display' ) {
 
 				<?php else : ?>
 
-				<a class="widget-action widget-control-edit" href="<?php echo add_query_arg( array( 'edit' => $id_format, 'key' => $key ) ); ?>"><?php _e('Edit'); ?></a>
+				<a class="widget-action widget-control-edit" href="<?php echo clean_url( add_query_arg( array( 'edit' => $id_format, 'key' => $key ) ) ); ?>"><?php _e('Edit'); ?></a>
 
 				<?php endif; ?>
 
@@ -196,7 +196,7 @@ function wp_widget_control( $key, $widget, $display = 'display' ) {
 
 					<?php endif; ?>
 
-					<a class="widget-action widget-control-remove delete alignright" href="<?php echo add_query_arg( array( 'remove' => $id_format, 'key' => $key ), wp_nonce_url( null, "remove-widget_$widget[id]" ) ); ?>"><?php _e('Remove'); ?></a>
+					<a class="widget-action widget-control-remove delete alignright" href="<?php echo clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key ), wp_nonce_url( null, "remove-widget_$widget[id]" ) ) ); ?>"><?php _e('Remove'); ?></a>
 					<br class="clear" />
 				</div>
 			</div>

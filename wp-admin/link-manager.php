@@ -211,6 +211,10 @@ if ( $links ) {
 ?>
 	</tbody>
 </table>
+
+<?php } else { ?>
+<p><?php _e('No links found.') ?></p>
+<?php } ?>
 </form>
 
 <div id="ajax-response"></div>
@@ -219,7 +223,6 @@ if ( $links ) {
 <br style="clear:both;" />
 </div>
 
-<?php } ?>
 
 </div>
 

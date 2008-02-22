@@ -145,7 +145,7 @@ function media_buttons() {
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
 	$multimedia_upload_iframe_src = "media-upload.php?type=multimedia&amp;post_id=$uploading_iframe_ID";
 	$multimedia_upload_iframe_src = apply_filters('multimedia_upload_iframe_src', $multimedia_upload_iframe_src);
-	echo "<a href='$multimedia_upload_iframe_src&TB_iframe=true&height=500&width=640' class='button thickbox'>" . __('Add media'). '</a>';
+	echo "<a href='$multimedia_upload_iframe_src&amp;TB_iframe=true&amp;height=500&amp;width=640' class='button thickbox'>" . __('Add media'). '</a>';
 }
 add_action( 'media_buttons', 'media_buttons' );
 

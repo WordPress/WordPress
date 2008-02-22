@@ -152,6 +152,7 @@ if (empty($plugins)) {
 	<?php
 	} // endif active/inactive plugin check
 	?>
+	</td>
 </tr>
 
 </table>

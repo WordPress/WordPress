@@ -76,7 +76,7 @@ endforeach;
 <label for="medium_size_w"><?php _e('Width'); ?></label>
 <input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" size="6" />
 <label for="medium_size_h"><?php _e('Height'); ?></label>
-<input name="medium_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
+<input name="medium_size_h" type="text" id="medium_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
 </td>
 </tr>
 </table>
@@ -128,7 +128,7 @@ endforeach;
 
 <?php else : ?>
 
-	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog\'s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?>
+	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog\'s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?></p>
 
 <?php endif; ?>
 

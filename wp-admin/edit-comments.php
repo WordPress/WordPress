@@ -96,6 +96,7 @@ if ( $extra_comments ) : ?>
 <input type="hidden" name="page" value="<?php echo $page; ?>" />
 <input type="hidden" name="s" value="<?php echo attribute_escape(@$_GET['s']); ?>" />
 <?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
+</form>
 </div>
 <?php endif; // $extra_comments ?>
 

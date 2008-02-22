@@ -171,9 +171,7 @@ $comments = array_slice( $comments, $start, $stop );
 					| <?php _e( 'IP:' ); ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP(); ?>"><?php comment_author_IP(); ?></a>
 				</p>
 
-				<p>
-					<?php comment_text(); ?>
-				</p>
+				<?php comment_text(); ?>
 
 				<p>
 					<?php comment_date( __( 'M j, g:i A' ) ); ?>

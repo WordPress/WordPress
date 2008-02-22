@@ -130,7 +130,7 @@ $structures = array(
 <table class="niceblue">
 	<tr>
 		<th><label><input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
-		<td><code><?php echo get_option('home'); ?>/?p=123</code></span></td>
+		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
 	</tr>
 	<tr>
 		<th><label><input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Date and name based'); ?></label></th>

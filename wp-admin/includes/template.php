@@ -84,7 +84,7 @@ function link_cat_row( $category ) {
 		'<th scope="row" class="check-column"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></th>' .
 		"<td>$edit</td>
 		<td>$category->description</td>
-		<td align='center'>$count</td>";
+		<td align='center'>$count</td></tr>";
 
 	return apply_filters( 'link_cat_row', $output );
 }
@@ -236,7 +236,7 @@ function _tag_row( $tag, $class = '' ) {
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
 		$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
-			apply_filters( 'term_name', $tag->name ) . '</td>';
+			apply_filters( 'term_name', $tag->name ) . '</a></td>';
 
 		$out .= "<td>$count</td>";
 		$out .= '</tr>';
@@ -403,7 +403,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		if ( empty($title) )
 			$title = __('(no title)');
 		?>
-		<td><strong><a href="page.php?action=edit&post=<?php the_ID(); ?>"><?php echo $pad; echo $title ?></a></strong>
+		<td><strong><a href="page.php?action=edit&amp;post=<?php the_ID(); ?>"><?php echo $pad; echo $title ?></a></strong>
 		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
 		<?php
 		break;
@@ -543,7 +543,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$short_url =  substr( $short_url, 0, 32 ).'...';
 	$numposts = get_usernumposts( $user_object->ID );
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
-		$edit = add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" );
+		$edit = clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
 		$edit = "<a href=\"$edit\">$user_object->user_login</a>";
 	} else {
 		$edit = $user_object->user_login;
@@ -616,15 +616,15 @@ function _wp_comment_list_item( $id, $alt = 0 ) {
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " <a href='comment.php?action=editcomment&amp;c=$id'>" .  __('Edit') . '</a>';
-	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$id", "delete-comment_$id" ) );
+	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&amp;p=$comment->comment_post_ID&amp;c=$id", "delete-comment_$id" ) );
 	echo " | <a href='$url' class='delete:the-comment-list:comment-$id'>" . __('Delete') . '</a> ';
 	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-		$url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$id", "unapprove-comment_$id" ) );
+		$url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&amp;p=$comment->comment_post_ID&amp;c=$id", "unapprove-comment_$id" ) );
 		echo "<span class='unapprove'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:FFFF33'>" . __('Unapprove') . '</a> </span>';
-		$url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$id", "approve-comment_$id" ) );
+		$url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&amp;p=$comment->comment_post_ID&amp;c=$id", "approve-comment_$id" ) );
 		echo "<span class='approve'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:33FF33:33FF33'>" . __('Approve') . '</a> </span>';
 	}
-	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$id", "delete-comment_$id" ) );
+	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&amp;dt=spam&amp;p=$comment->comment_post_ID&amp;c=$id", "delete-comment_$id" ) );
 	echo " | <a href='$url' class='delete:the-comment-list:comment-$id::spam=1'>" . __('Spam') . '</a> ';
 }
 if ( !is_single() ) {

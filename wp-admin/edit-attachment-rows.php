@@ -46,7 +46,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'media':
 		?>
-		<td><strong><a href="# TODO: upload.php?action=edit&post=<?php the_ID(); ?>"><?php the_title(); ?></a></strong><br />
+		<td><strong><a href="# TODO: upload.php?action=edit&amp;post=<?php the_ID(); ?>"><?php the_title(); ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', $post->guid)); ?>
 		<?php do_action('manage_media_media_column', $post->ID); ?>
 		</td>
@@ -85,7 +85,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		if ( empty($title) )
 			$title = __('(no title)');
 		?>
-		<td><strong><a href="post.php?action=edit&post=<?php echo $post->post_parent; ?>"><?php echo $title ?></a></strong></td>
+		<td><strong><a href="post.php?action=edit&amp;post=<?php echo $post->post_parent; ?>"><?php echo $title ?></a></strong></td>
 		<?php
 		break;
 

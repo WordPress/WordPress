@@ -53,7 +53,7 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 }
 
 ?>
-<script>
+<script type="text/javascript">
 /* <![CDATA[ */
 jQuery(function($){$('#the-list').wpList();});
 /* ]]> */
@@ -146,6 +146,7 @@ if ($posts) {
 <?php
 } else {
 ?>
+</form>
 <p><?php _e('No pages found.') ?></p>
 <?php
 } // end if ($posts)

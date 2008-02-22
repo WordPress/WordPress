@@ -320,8 +320,6 @@ unset($role_links);
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-<form action="" method="post" name="updateusers" id="updateusers">
-<?php wp_nonce_field('bulk-users') ?>
 <table class="widefat">
 <tbody>
 <tr class="thead">
