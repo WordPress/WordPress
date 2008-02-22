@@ -1032,6 +1032,11 @@ html, body {
 
 #poststuff .inside {
 	margin: 0 12px 15px;
+	font-size: 11px;
+}
+
+#poststuff .inside strong {
+	font-size: 14px;
 }
 
 #poststuff #title {
@@ -1137,15 +1142,20 @@ html, body {
 	background-color: #eaf3fa;
 	width: 200px;
 	right: 15%;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
+
 
 .submitbox #previewview {
 	background-color: #2683ae;
 	padding: 15px 10px;
+	-moz-border-radius-topleft: 3px;
+	-khtml-border-top-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-bottomtop: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 .submitbox #previewview a {
@@ -1168,8 +1178,19 @@ html, body {
 .submitbox .submit {
 	text-align: left;
 	background-color: #464646;
-	color: #fff;
-	padding: 15px 10px;
+	color: #ccc;
+	padding: 12px 10px 10px 10px;
+	font-size: 11px;
+}
+
+.submitbox .submit input {
+	margin-bottom: 8px;
+	margin-right: 23pxpx;
+	padding: 6px 4px;
+}
+
+.submitbox .submit a:hover {
+	border-bottom: 1px solid #ccc;
 }
 
 /* Categories */
