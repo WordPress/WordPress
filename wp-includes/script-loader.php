@@ -38,7 +38,6 @@ class WP_Scripts {
 		// Modify this version when tinyMCE plugins are changed.
 		$mce_version = apply_filters('tiny_mce_version', '20080221');
 		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
-		$this->localize( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
 		
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
@@ -484,6 +483,12 @@ function wp_prototype_before_jquery( $js_array ) {
 	return $js_array;
 }
 
+// These localizations require information that may not be loaded even by init 
+function wp_just_in_time_script_localization() { 
+	wp_localize_script( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) ); 
+}
+
+add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' ); 
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 
 ?>
