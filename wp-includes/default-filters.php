@@ -160,7 +160,7 @@ add_filter('atom_service_url','atom_service_url_filter');
 add_action('wp_head', 'rsd_link');
 add_action('wp_head', 'wlwmanifest_link');
 add_action('wp_head', 'locale_stylesheet');
-add_action('publish_future_post', 'wp_publish_post', 10, 1);
+add_action('publish_future_post', 'check_and_publish_future_post', 10, 1);
 add_action('wp_head', 'noindex', 1);
 add_action('wp_head', 'wp_print_scripts');
 add_action('wp_head', 'wp_generator');

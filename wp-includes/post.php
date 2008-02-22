@@ -1393,6 +1393,34 @@ function wp_publish_post($post_id) {
 	do_action('wp_insert_post', $post_id, $post);
 }
 
+/**
+ * check_and_publish_future_post() - check to make sure post has correct status before
+ * passing it on to be published. Invoked by cron 'publish_future_post' event
+ * This safeguard prevents cron from publishing drafts, etc. 
+ * 
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.5
+ * @uses $wpdb
+ *
+ * @param int $post_id Post ID
+ * @return int|null {@internal Missing Description}}
+ */
+function check_and_publish_future_post($post_id) {
+	
+	$post = get_post($post_id);
+
+	if ( empty($post) )
+		return;
+
+	if ( 'future' != $post->post_status )
+		return;
+
+	return wp_publish_post($post_id); 
+}
+
 function wp_add_post_tags($post_id = 0, $tags = '') {
 	return wp_set_post_tags($post_id, $tags, true);
 }
