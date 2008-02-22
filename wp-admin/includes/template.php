@@ -784,19 +784,21 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
 	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
 
-	echo "<select name=\"mm\" onchange=\"edit_date.checked=true\"$tab_index_attribute>\n";
+	$month = "<select name=\"mm\" onchange=\"edit_date.checked=true\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
-		echo "\t\t\t<option value=\"$i\"";
+		$month .= "\t\t\t<option value=\"$i\"";
 		if ( $i == $mm )
-			echo ' selected="selected"';
-		echo '>' . $wp_locale->get_month( $i ) . "</option>\n";
+			$month .= ' selected="selected"';
+		$month .= '>' . $wp_locale->get_month( $i ) . "</option>\n";
 	}
+	$month .= '</select>';
+
+	$day = '<input type="text" id="jj" name="jj" value="' . $jj . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
+	$year = '<input type="text" id="aa" name="aa" value="' . $aa . '" size="4" maxlength="5" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
+	$hour = '<input type="text" id="hh" name="hh" value="' . $hh . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
+	$minute = '<input type="text" id="mn" name="mn" value="' . $mn . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
+	printf(__('%1$s%2$s%3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
 ?>
-</select>
-<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> />
-<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> /> @
-<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> /> :
-<input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onchange="edit_date.checked=true"<?php echo $tab_index_attribute ?> />
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <?php
 }
