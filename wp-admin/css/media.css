@@ -109,11 +109,17 @@ form.media-upload-form {
 	background: url(../images/align-right.png) no-repeat center left;
 }
 
-.media-upload-form fieldset#image-size label {
+#flash-upload-ui, .insert-gallery {
+	display: none;
+}
+
+tr.image-size label {
 	display: inline;
 	margin: 0 1em 0 0;
 }
-
+tr.image-size td.field {
+	text-align: center;
+}
 .pinkynail {
 	max-width: 40px;
 	max-height: 40px;
@@ -187,11 +193,11 @@ span.filename {
 .describe input[type="text"], .describe textarea {
 	width: 460px;
 }
-.describe a.delete {
+a.delete {
 	display: block;
 	text-align: center;
-	line-height: 24px;
 	width: 100%;
+	color: #246;
 }
 .describe-toggle-on, .describe-toggle-off {
 	line-height: 36px;

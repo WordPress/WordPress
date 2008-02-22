@@ -362,8 +362,8 @@ function walk_page_dropdown_tree() {
 // Attachments
 //
 
-function the_attachment_link($id = 0, $fullsize = false, $max_dims = false) {
-	echo get_the_attachment_link($id, $fullsize, $max_dims);
+function the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
+	echo get_the_attachment_link($id, $fullsize, $max_dims, $permalink);
 }
 
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {

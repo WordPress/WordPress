@@ -1277,4 +1277,97 @@ function wp_pre_kses_less_than_callback( $matches ) {
 	return $matches[0];
 }
 
+/**
+ * wp_sprintf() - sprintf() with filters
+ */
+function wp_sprintf( $pattern ) {
+	$args = func_get_args( );
+	$len = strlen($pattern);
+	$start = 0;
+	$result = '';
+	$arg_index = 0;
+	while ( $len > $start ) {
+		// Last character: append and break
+		if ( strlen($pattern) - 1 == $start ) {
+			$result .= substr($pattern, -1);
+			break;
+		}
+
+		// Literal %: append and continue
+		if ( substr($pattern, $start, 2) == '%%' ) {
+			$start += 2;
+			$result .= '%';
+			continue;
+		}
+
+		// Get fragment before next %
+		$end = strpos($pattern, '%', $start + 1);
+		if ( false === $end )
+			$end = $len;
+		$fragment = substr($pattern, $start, $end - $start);
+
+		// Fragment has a specifier
+		if ( $pattern{$start} == '%' ) {
+			// Find numbered arguments or take the next one in order
+			if ( preg_match('/^%(\d+)\$/', $fragment, $matches) ) {
+				$arg = isset($args[$matches[1]]) ? $args[$matches[1]] : '';
+				$fragment = str_replace("%{$matches[1]}$", '%', $fragment);
+			} else {
+				++$arg_index;
+				$arg = isset($args[$arg_index]) ? $args[$arg_index] : '';
+			}
+
+			// Apply filters OR sprintf
+			$_fragment = apply_filters( 'wp_sprintf', $fragment, $arg );
+			if ( $_fragment != $fragment )
+				$fragment = $_fragment;
+			else
+				$fragment = sprintf($fragment, strval($arg) );
+		}
+
+		// Append to result and move to next fragment
+		$result .= $fragment;
+		$start = $end;
+	}
+	return $result;
+}
+
+/**
+ * wp_sprintf_l - List specifier %l for wp_sprintf
+ *
+ * @param unknown_type $pattern
+ * @param unknown_type $args
+ * @return unknown
+ */
+function wp_sprintf_l($pattern, $args) {
+	// Not a match
+	if ( substr($pattern, 0, 2) != '%l' )
+		return $pattern;
+
+	// Nothing to work with
+	if ( empty($args) )
+		return '';
+
+	// Translate and filter the delimiter set (avoid ampersands and entities here)
+	$l = apply_filters('wp_sprintf_l', array(
+		'between'          => _c(', |between list items'),
+		'between_last_two' => _c(', and |between last two list items'),
+		'between_only_two' => _c(' and |between only two list items'),
+		));
+
+	$args = (array) $args;
+	$result = array_shift($args);
+	if ( count($args) == 1 )
+		$result .= $l['between_two'] . array_shift($args);
+	// Loop when more than two args
+	while ( count($args) ) {
+		$arg = array_shift($args);
+		if ( $i == 1 )
+			$result .= $l['between_last_two'] . $arg;
+		else
+			$result .= $l['between'] . $arg;
+	}
+	return $result . substr($pattern, 2);
+}
+
 ?>

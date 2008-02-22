@@ -85,7 +85,7 @@ function get_image_tag($id, $alt, $title, $align, $rel = false, $size='medium') 
 	list( $img_src, $width, $height ) = image_downsize($id, $size);
 	$hwstring = image_hwstring($width, $height);
 
-	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'"'.$hwstring.' class="align-'.attribute_escape($align).' size-'.attribute_escape($size).' attachment wp-att-'.attribute_escape($id).'" />';
+	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'" '.$hwstring.'class="align-'.attribute_escape($align).' size-'.attribute_escape($size).' attachment wp-att-'.attribute_escape($id).'" />';
 
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
 

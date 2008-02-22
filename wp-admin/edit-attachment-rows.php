@@ -46,16 +46,17 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'media':
 		?>
-		<td><strong><a href="# TODO: upload.php?action=edit&post=<?php the_ID(); ?>"><?php the_title(); ?></a></strong>
+		<td><strong><a href="# TODO: upload.php?action=edit&post=<?php the_ID(); ?>"><?php the_title(); ?></a></strong><br />
+		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', $post->guid)); ?>
+		<?php do_action('manage_media_media_column', $post->ID); ?>
+		</td>
 		<?php
-		// TODO
 		break;
 
 	case 'desc':
 		?>
-		<td><?php has_excerpt() ? the_excerpt() : null; ?></td>
+		<td><?php echo has_excerpt() ? $post->post_excerpt : ''; ?></td>
 		<?php
-		// TODO
 		break;
 
 	case 'date':
@@ -92,12 +93,11 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		?>
 		<td><a href="<?php the_permalink(); ?>"><?php _e('Permalink'); ?></a></td>
 		<?php
-		// TODO
 		break;
 
 	default:
 		?>
-		<td><?php do_action('manage_posts_custom_column', $column_name, $id); ?></td>
+		<td><?php do_action('manage_media_custom_column', $column_name, $id); ?></td>
 		<?php
 		break;
 	}

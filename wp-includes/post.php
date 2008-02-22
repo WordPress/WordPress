@@ -2302,41 +2302,55 @@ function wp_attachment_is_image( $post_id = 0 ) {
  */
 function wp_mime_type_icon( $mime = 0 ) {
 	$post_id = 0;
-	if ( is_numeric($mime) ) {
-		$mime = (int) $mime;
-		if ( !$post =& get_post( $mime ) )
-			return false;
-		$post_id = (int) $post->ID;
-		$mime = $post->post_mime_type;
-	}
 
-	if ( empty($mime) )
-		return false;
+	$icon = wp_cache_get('mime_type_icon');
+	
+	if ( empty($icon) ) {
+		if ( is_numeric($mime) ) {
+			$mime = (int) $mime;
+			if ( !$post =& get_post( $mime ) )
+				return false;
+			$post_id = (int) $post->ID;
+			$mime = $post->post_mime_type;
+			$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $post->guid);
+		}
+	
+		$types = array();
+	
+		if ( !empty($ext) )
+			$types[] = $ext;
+	
+		$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
+		$icon_dir_uri = apply_filters( 'icon_dir_uri', get_template_directory_uri() . '/images' );
+		$image_dir = apply_filters( 'image_dir', ABSPATH . WPINC . '/images' );
+		$image_dir_uri = apply_filters( 'image_dir', get_option('siteurl') . '/' . WPINC . '/images' );
+		$dirs = array($icon_dir => $icon_dir_uri, $image_dir => $image_dir_uri);
+	
+	
+		if ( ! empty($mime) ) {
+			$types[] = substr($mime, 0, strpos($mime, '/'));
+			$types[] = substr($mime, strpos($mime, '/') + 1);
+			$types[] = str_replace('/', '_', $mime);
+		}
+	
+		$types[] = 'default';
+	
+		$exts = array('png', 'gif', 'jpg');
 
-	$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
-	$icon_dir_uri = apply_filters( 'icon_dir_uri', get_template_directory_uri() . '/images' );
-
-	$types = array(
-		substr($mime, 0, strpos($mime, '/')),
-		substr($mime, strpos($mime, '/') + 1),
-		str_replace('/', '_', $mime)
-	);
-
-	$exts = array('jpg', 'gif', 'png');
-
-	$src = false;
-
-	foreach ( $types as $type ) {
-		foreach ( $exts as $ext ) {
-			$src_file = "$icon_dir/$type.$ext";
-			if ( file_exists($src_file) ) {
-				$src = "$icon_dir_uri/$type.$ext";
-				break 2;
+		foreach ( $types as $type ) {
+			foreach ( $exts as $ext ) {
+				foreach ( $dirs as $dir => $uri ) {
+					$src_file = "$dir/$type.$ext";
+					if ( file_exists($src_file) ) {
+						$icon = "$uri/$type.$ext";
+						break 3;
+					}
+				}
 			}
 		}
 	}
 
-	return apply_filters( 'wp_mime_type_icon', $src, $mime, $post_id ); // Last arg is 0 if function pass mime type.
+	return apply_filters( 'wp_mime_type_icon', $icon, $mime, $post_id ); // Last arg is 0 if function pass mime type.
 }
 
 /**

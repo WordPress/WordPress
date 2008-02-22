@@ -125,6 +125,8 @@ add_filter('comment_excerpt', 'convert_chars');
 add_filter('list_cats', 'wptexturize');
 add_filter('single_post_title', 'wptexturize');
 
+add_filter('wp_sprintf', 'wp_sprintf_l', 10, 2);
+
 // RSS filters
 add_filter('the_title_rss', 'strip_tags');
 add_filter('the_title_rss', 'ent2ncr', 8);
