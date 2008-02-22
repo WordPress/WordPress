@@ -137,7 +137,7 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 }
 
 if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
-	echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete post') . "</a>";
+	echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;post') . "</a>";
 ?>
 <?php if ($post_ID): ?>
 <br />
@@ -145,8 +145,8 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 <?php endif; ?>
 </p>
 
-<div class="inside">
-<p><strong><?php _e('Related') ?></strong></p>
+<div class="side-info">
+<h5><?php _e('Related') ?></h5>
 
 <ul>
 <?php if ($post_ID): ?>
@@ -158,6 +158,7 @@ if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
 <li><a href="edit-tags.php"><?php _e('Manage All Tags') ?></a></li>
 </ul>
 </div>
+
 <?php do_action('submitpost_box'); ?>
 </div>
 

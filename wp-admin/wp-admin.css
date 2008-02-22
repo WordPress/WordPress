@@ -122,7 +122,36 @@ form#upload #post_content {
 }
 
 .submit {
-	margin: 1.5em 0;
+	margin: 1.5em 0 0 0;
+	-moz-border-radius-bottomleft: 3px;
+	-khtml-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-khtml-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.side-info {
+	background: #fff;
+	margin: 0;
+	padding: 4px;
+	font-size: 11px;
+}
+
+.side-info h5 {
+	padding-bottom: 8px;
+	border-bottom: 1px solid #dadada;
+	font-size: 14px;
+	margin-bottom: 6px;
+}
+
+.side-info ul {
+	margin: 0;
+	padding-left: 18px;
+	color: #666;
+	list-style: square;
 }
 
 .submit input, .button, .button-secondary {

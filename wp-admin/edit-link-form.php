@@ -55,8 +55,8 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <input type="submit" class="button" name="save" value="<?php _e('Save'); ?>" style="font-weight: bold;" tabindex="4" />
 </p>
 
-<div class="inside">
-<p><strong><?php _e('Related') ?></strong></p>
+<div class="side-info">
+<h5><?php _e('Related') ?></h5>
 
 <ul>
 <li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
