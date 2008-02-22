@@ -48,7 +48,7 @@ default:
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
-  <table width="98%">
+  <table class="niceblue">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
 
@@ -73,7 +73,7 @@ foreach ( (array) $options as $option) :
 	}
 	echo "
 <tr>
-	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
+	<th scope='row'>$option->option_name</th>
 <td>";
 
 	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>" . wp_specialchars($value) . "</textarea>";
