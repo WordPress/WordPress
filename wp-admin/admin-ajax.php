@@ -7,7 +7,7 @@ require_once('includes/admin.php');
 if ( !is_user_logged_in() )
 	die('-1');
 
-if ( 'ajax-tag-search' == $_GET['action'] ) {
+if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
@@ -20,7 +20,7 @@ if ( 'ajax-tag-search' == $_GET['action'] ) {
 	die;
 }
 
-$id = (int) $_POST['id'];
+$id = isset($_POST['id'])? (int) $_POST['id'] : 0;
 switch ( $action = $_POST['action'] ) :
 case 'add-post' :
 	check_ajax_referer( 'add-post' );
@@ -165,8 +165,8 @@ case 'add-category' : // On the Fly
 	$names = explode(',', $_POST['newcat']);
 	if ( 0 > $parent = (int) $_POST['newcat_parent'] )
 		$parent = 0;
-
-	$checked_categories = array_map( 'absint', (array) $_POST['post_category'] );
+	$post_category = isset($_POST['post_category'])? (array) $_POST['post_category'] : array();
+	$checked_categories = array_map( 'absint', (array) $post_category );
 
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {

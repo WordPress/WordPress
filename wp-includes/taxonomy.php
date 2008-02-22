@@ -640,6 +640,7 @@ function &get_terms($taxonomies, $args = '') {
 		$where .= " AND (t.name LIKE '%$search%')";
 	}
 
+	$select_this = '';
 	if ( 'all' == $fields )
 		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
@@ -1041,6 +1042,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
 
+	$select_this = '';
 	if ( 'all' == $fields )
 		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
@@ -1252,7 +1254,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	}
 
 	$t = get_taxonomy($taxonomy);
-	if ( ! $append && $t->sort ) {
+	if ( ! $append && isset($t->sort) && $t->sort ) {
 		$values = array();
 		$term_order = 0;
 		$final_term_ids = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');

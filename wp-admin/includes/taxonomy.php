@@ -51,6 +51,7 @@ function wp_delete_category($cat_ID) {
 }
 
 function wp_insert_category($catarr, $wp_error = false) {
+	$cat_defaults = array('cat_ID' => 0, 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
 	extract($catarr, EXTR_SKIP);
 
 	if ( trim( $cat_name ) == '' )

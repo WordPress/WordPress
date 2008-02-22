@@ -11,11 +11,11 @@ if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
 
 // IDs should be integers
-$ID = (int) $ID;
-$post_id = (int) $post_id;
+$ID = isset($ID)? (int) $ID : 0;
+$post_id = isset($post_id)? (int) $post_id : 0;
 
 // Require an ID for the edit screen
-if ( $action == 'edit' && !$ID )
+if ( isset($action) && $action == 'edit' && !$ID )
 	wp_die(__("You are not allowed to be here"));
 
 // upload type: image, video, file, ..?

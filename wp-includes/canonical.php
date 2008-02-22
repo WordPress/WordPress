@@ -178,6 +178,12 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	if ( strtolower($original['host']) == strtolower($redirect['host']) )
 		$redirect['host'] = $original['host'];
 
+	// prevent notices in the comparison below
+	$original['query'] = isset($redirect['query'])? $redirect['query'] : false;
+	$original['port'] = isset($redirect['port'])? $redirect['port'] : false;
+	$redirect['query'] = isset($redirect['query'])? $redirect['query'] : false;
+	$redirect['port'] = isset($redirect['port'])? $redirect['port'] : false;
+
 	if ( array($original['host'], $original['port'], $original['path'], $original['query']) !== array($redirect['host'], $redirect['port'], $redirect['path'], $redirect['query']) ) {
 		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'];
 		if ( isset($redirect['port']) )

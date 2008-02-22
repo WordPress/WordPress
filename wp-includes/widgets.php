@@ -259,7 +259,7 @@ function is_active_widget($callback) {
 
 	if ( is_array($sidebars_widgets) ) foreach ( $sidebars_widgets as $sidebar => $widgets )
 		if ( is_array($widgets) ) foreach ( $widgets as $widget )
-			if ( $wp_registered_widgets[$widget]['callback'] == $callback )
+			if ( isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback )
 				return $sidebar;
 
 	return false;

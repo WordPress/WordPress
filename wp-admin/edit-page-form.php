@@ -1,6 +1,6 @@
 <?php
 
-if (0 == $post_ID) {
+if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'post';
 	$nonce_action = 'add-page';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()

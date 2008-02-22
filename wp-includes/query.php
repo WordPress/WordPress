@@ -1154,7 +1154,7 @@ class WP_Query {
 
 		// MIME-Type stuff for attachment browsing
 
-		if ( '' != $q['post_mime_type'] )
+		if ( isset($q['post_mime_type']) && '' != $q['post_mime_type'] )
 			$whichmimetype = wp_post_mime_type_where($q['post_mime_type']);
 
 		$where .= $search.$whichcat.$whichauthor.$whichmimetype;

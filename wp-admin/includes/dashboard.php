@@ -170,7 +170,15 @@ function wp_dashboard_sidebars_widgets() { // hackery
 function wp_dashboard_dynamic_sidebar_params( $params ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls;
 
+	$sidebar_defaults = array('widget_id' => 0, 'before_widget' => '', 'after_widget' => '', 'before_title' => '', 'after_title' => '');
+	extract( $sidebar_defaults, EXTR_PREFIX_ALL, 'sidebar' );
 	extract( $params[0], EXTR_PREFIX_ALL, 'sidebar' );
+
+	if ( !isset($wp_registered_widgets[$sidebar_widget_id]) || !is_array($wp_registered_widgets[$sidebar_widget_id]) ) {
+		return $params;
+	}
+	$widget_defaults = array('id' => '', 'width' => '', 'height' => '', 'class' => '', 'feed_link' => '', 'all_link' => '', 'notice' => false, 'error' => false);
+	extract( $widget_defaults, EXTR_PREFIX_ALL, 'widget' );
 	extract( $wp_registered_widgets[$sidebar_widget_id], EXTR_PREFIX_ALL, 'widget' );
 
 	$the_classes = array();

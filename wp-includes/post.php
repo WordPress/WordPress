@@ -180,9 +180,11 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 	if ( $output == OBJECT ) {
 		return $_post;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($_post);
+		$__post = get_object_vars($_post);
+		return $__post;
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($_post));
+		$__post = array_values(get_object_vars($_post));
+		return $__post;
 	} else {
 		return $_post;
 	}
@@ -698,14 +700,17 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
 function sanitize_post($post, $context = 'display') {
 	if ( 'raw' == $context )
 		return $post;
-
-	if ( is_object($post) )
+	if ( is_object($post) ) {
+		if ( !isset($post->ID) )
+			return $post;
 		foreach ( array_keys(get_object_vars($post)) as $field )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
-	else
+	} else {
+		if ( !isset($post['ID']) )
+			return $post;
 		foreach ( array_keys($post) as $field )
 			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
-
+	}
 	return $post;
 }
 
@@ -2366,7 +2371,7 @@ function wp_mime_type_icon( $mime = 0 ) {
  * @return int Same as $post_id
  */
 function wp_check_for_changed_slugs($post_id) {
-	if ( !strlen($_POST['wp-old-slug']) )
+	if ( !isset($_POST['wp-old-slug']) || !strlen($_POST['wp-old-slug']) )
 		return $post_id;
 
 	$post = &get_post($post_id);

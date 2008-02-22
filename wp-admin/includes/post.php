@@ -28,7 +28,7 @@ function edit_post() {
 	$_POST['ID'] = (int) $_POST['post_ID'];
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
-	$_POST['post_parent'] = $_POST['parent_id'];
+	$_POST['post_parent'] = isset($_POST['parent_id'])? $_POST['parent_id'] : '';
 	$_POST['to_ping'] = $_POST['trackback_url'];
 
 	if (!empty ( $_POST['post_author_override'] ) ) {
@@ -52,13 +52,13 @@ function edit_post() {
 	}
 
 	// What to do based on which button they pressed
-	if ('' != $_POST['saveasdraft'] )
+	if ( isset($_POST['saveasdraft']) && '' != $_POST['saveasdraft'] )
 		$_POST['post_status'] = 'draft';
-	if ('' != $_POST['saveasprivate'] )
+	if ( isset($_POST['saveasprivate']) && '' != $_POST['saveasprivate'] )
 		$_POST['post_status'] = 'private';
-	if ( ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
+	if ( isset($_POST['publish']) && ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
 		$_POST['post_status'] = 'publish';
-	if ('' != $_POST['advanced'] )
+	if ( isset($_POST['advanced']) && '' != $_POST['advanced'] )
 		$_POST['post_status'] = 'draft';
 
 	if ( 'page' == $_POST['post_type'] ) {
@@ -91,12 +91,12 @@ function edit_post() {
 	}
 
 	// Meta Stuff
-	if ( $_POST['meta'] ) {
+	if ( isset($_POST['meta']) && $_POST['meta'] ) {
 		foreach ( $_POST['meta'] as $key => $value )
 			update_meta( $key, $value['key'], $value['value'] );
 	}
 
-	if ( $_POST['deletemeta'] ) {
+	if ( isset($_POST['deletemeta']) && $_POST['deletemeta'] ) {
 		foreach ( $_POST['deletemeta'] as $key => $value )
 			delete_meta( $key );
 	}
@@ -128,6 +128,7 @@ function get_default_post_to_edit() {
 		$post_title = '';
 	}
 
+	$post_content = '';
 	if ( !empty( $_REQUEST['content'] ) )
 		$post_content = wp_specialchars( stripslashes( $_REQUEST['content'] ));
 	else if ( !empty( $post_title ) ) {
@@ -142,8 +143,14 @@ function get_default_post_to_edit() {
 	else
 		$post_excerpt = '';
 
+	$post->ID = 0;
+	$post->post_name = '';
+	$post->post_author = '';
+	$post->post_date = '';
 	$post->post_status = 'draft';
 	$post->post_type = 'post';
+	$post->to_ping = '';
+	$post->pinged = '';
 	$post->comment_status = get_option( 'default_comment_status' );
 	$post->ping_status = get_option( 'default_ping_status' );
 	$post->post_pingback = get_option( 'default_pingback_flag' );
@@ -224,7 +231,7 @@ function wp_write_post() {
 	// Rename.
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
-	$_POST['post_parent'] = $_POST['parent_id'];
+	$_POST['post_parent'] = isset($_POST['parent_id'])? $_POST['parent_id'] : '';
 	$_POST['to_ping'] = $_POST['trackback_url'];
 
 	if (!empty ( $_POST['post_author_override'] ) ) {
@@ -250,13 +257,13 @@ function wp_write_post() {
 	}
 
 	// What to do based on which button they pressed
-	if ('' != $_POST['saveasdraft'] )
+	if ( isset($_POST['saveasdraft']) && '' != $_POST['saveasdraft'] )
 		$_POST['post_status'] = 'draft';
-	if ('' != $_POST['saveasprivate'] )
+	if ( isset($_POST['saveasprivate']) && '' != $_POST['saveasprivate'] )
 		$_POST['post_status'] = 'private';
-	if ( ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
+	if ( isset($_POST['publish']) && ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
 		$_POST['post_status'] = 'publish';
-	if ('' != $_POST['advanced'] )
+	if ( isset($_POST['advanced']) && '' != $_POST['advanced'] )
 		$_POST['post_status'] = 'draft';
 
 	if ( 'page' == $_POST['post_type'] ) {
@@ -571,6 +578,9 @@ function postbox_classes( $id, $page ) {
 
 function get_sample_permalink($id, $name = null) {
 	$post = &get_post($id);
+	if (!$post->ID) {
+		return array('', '');
+	}
 	$original_status = $post->post_status;
 	$original_date = $post->post_date;
 	$original_name = $post->post_name;

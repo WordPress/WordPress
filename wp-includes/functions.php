@@ -375,7 +375,7 @@ function delete_option( $name ) {
 	// Get the ID, if no ID then return
 	// expected_slashed ($name)
 	$option = $wpdb->get_row( "SELECT option_id, autoload FROM $wpdb->options WHERE option_name = '$name'" );
-	if ( !$option->option_id )
+	if ( is_null($option) || !$option->option_id )
 		return false;
 	// expected_slashed ($name)
 	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name = '$name'" );

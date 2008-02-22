@@ -127,11 +127,11 @@ case 'editpost':
 			$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
 		$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
-		if ($_POST['addmeta']) {
+		if (isset($_POST['addmeta']) && $_POST['addmeta']) {
 			$location = add_query_arg( 'message', 2, wp_get_referer() );
 			$location = explode('#', $location);
 			$location = $location[0] . '#postcustom';
-		} elseif ($_POST['deletemeta']) {
+		} elseif (isset($_POST['deletemeta']) && $_POST['deletemeta']) {
 			$location = add_query_arg( 'message', 3, wp_get_referer() );
 			$location = explode('#', $location);
 			$location = $location[0] . '#postcustom';

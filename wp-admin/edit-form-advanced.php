@@ -1,4 +1,5 @@
 <?php
+$action = isset($action)? $action : '';
 if ( isset($_GET['message']) )
 	$_GET['message'] = (int) $_GET['message'];
 $messages[1] = __('Post updated');
@@ -18,7 +19,7 @@ $messages[3] = __('Custom field deleted.');
 <h2><?php _e('Write Post') ?></h2>
 <?php
 
-if (0 == $post_ID) {
+if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'post';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
 	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
@@ -136,7 +137,7 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 <?php
 }
 
-if ( ('edit' == $action) && current_user_can('delete_post', $post_ID) )
+if ( ( 'edit' == $action) && current_user_can('delete_post', $post_ID) )
 	echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;post') . "</a>";
 ?>
 <?php if ($post_ID): ?>
