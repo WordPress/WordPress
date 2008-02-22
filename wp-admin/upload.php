@@ -38,7 +38,7 @@ if ( 1 == $_GET['c'] )
 
 require_once('admin-header.php');
 
-add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; return "LIMIT $start, 20";' ) );
+add_filter( 'post_limits', $limit_filter = create_function( '$a', 'if ( empty($_GET["paged"]) ) $_GET["paged"] = 1; $start = ( intval($_GET["paged"]) - 1 ) * 15; return "LIMIT $start, 20";' ) );
 list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 $wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
 
