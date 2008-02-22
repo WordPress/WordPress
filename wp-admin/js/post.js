@@ -151,5 +151,6 @@ addLoadEvent( function() {
 		} else {
 			jQuery('#timestampdiv').hide();
 		}
+		return false;
     });
 });
