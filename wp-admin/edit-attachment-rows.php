@@ -66,8 +66,8 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 			$t_time = get_the_time(__('Y/m/d g:i:s A'));
 			$m_time = $post->post_date;
 			$time = get_post_time();
-			if ( ( abs(time() - $time) ) < 86400 ) {
-				if ( 'future' == get_post_status($post->ID) )
+			if ( ( abs($t_diff = time() - $time) ) < 86400 ) {
+				if ( $t_diff < 0 )
 					$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
 				else
 					$h_time = sprintf( __('%s ago'), human_time_diff( $time ) );
@@ -81,9 +81,13 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		break;
 
 	case 'parent':
-		$title = get_the_title($post->post_parent);
-		if ( empty($title) )
-			$title = __('(no title)');
+		if ( $post_parent = get_post($post->post_parent) ) {
+			$title = get_the_title($post->post_parent);
+			if ( empty($title) )
+				$title = __('(no title)');
+		} else {
+			$title = '';
+		}
 		?>
 		<td><strong><a href="post.php?action=edit&amp;post=<?php echo $post->post_parent; ?>"><?php echo $title ?></a></strong></td>
 		<?php
