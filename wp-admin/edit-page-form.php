@@ -47,28 +47,6 @@ addLoadEvent(focusit);
 </script>
 <div id="poststuff">
 
-<div id="titlediv">
-<h3><?php _e('Title') ?></h3>
-<div class="inside">
-  <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" />
-<?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
-	<div id="edit-slug-box">
-<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) : 
-	echo $sample_permalink_html;
-endif; ?>
-	</div>
-</div>
-</div>
-
-<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
-<h3><?php _e('Page') ?></h3>
-<?php the_editor($post->post_content); ?>
-<?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-<?php wp_nonce_field( 'getpermalink', 'getpermalinknonce', false ); ?>
-<?php wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false ); ?>
-</div>
-
 <div class="submitbox" id="submitpage">
 
 <div id="previewview">
@@ -160,6 +138,28 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 </ul>
 </div>
 <?php do_action('submitpage_box'); ?>
+</div>
+
+<div id="titlediv">
+<h3><?php _e('Title') ?></h3>
+<div class="inside">
+  <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" />
+<?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
+	<div id="edit-slug-box">
+<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) : 
+	echo $sample_permalink_html;
+endif; ?>
+	</div>
+</div>
+</div>
+
+<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
+<h3><?php _e('Page') ?></h3>
+<?php the_editor($post->post_content); ?>
+<?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
+<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+<?php wp_nonce_field( 'getpermalink', 'getpermalinknonce', false ); ?>
+<?php wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false ); ?>
 </div>
 
 <p class="submit">

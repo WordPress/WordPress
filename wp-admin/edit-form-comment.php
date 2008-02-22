@@ -21,33 +21,6 @@ addLoadEvent(focusit);
 
 <div id="poststuff">
 
-<div id="namediv" class="stuffbox">
-<h3><?php _e('Name') ?></h3>
-<div class="inside">
-<input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
-</div>
-</div>
-
-<div id="emaildiv" class="stuffbox">
-<h3><?php _e('E-mail') ?></h3>
-<div class="inside">
-<input type="text" name="newcomment_author_email" size="30" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
-</div>
-</div>
-
-<div id="uridiv" class="stuffbox">
-<h3><?php _e('URL') ?></h3>
-<div class="inside">
-<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="2" />
-</div>
-</div>
-
-<div id="postdiv" class="postarea">
-<h3><?php _e('Comment') ?></h3>
-<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-</div>
-
 <div class="submitbox" id="submitcomment">
 
 <div id="previewview">
@@ -93,6 +66,33 @@ echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment
 </ul>
 </div>
 <?php do_action('submitcomment_box'); ?>
+</div>
+
+<div id="namediv" class="stuffbox">
+<h3><?php _e('Name') ?></h3>
+<div class="inside">
+<input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
+</div>
+</div>
+
+<div id="emaildiv" class="stuffbox">
+<h3><?php _e('E-mail') ?></h3>
+<div class="inside">
+<input type="text" name="newcomment_author_email" size="30" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
+</div>
+</div>
+
+<div id="uridiv" class="stuffbox">
+<h3><?php _e('URL') ?></h3>
+<div class="inside">
+<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="2" />
+</div>
+</div>
+
+<div id="postdiv" class="postarea">
+<h3><?php _e('Comment') ?></h3>
+<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false); ?>
+<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
 <?php do_meta_boxes('comment', 'normal', $comment); ?>
