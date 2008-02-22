@@ -11,8 +11,12 @@ $parent_file = 'users.php';
 $action = $_REQUEST['action'];
 $update = '';
 
-if ( empty($action) && isset($_GET['deleteit']) )
-	$action = 'delete';
+if ( empty($action) ) {
+	if ( isset($_GET['deleteit']) )
+		$action = 'delete';
+	elseif ( isset($_GET['changeit']) && !empty($_GET['new_role']) )
+		$action = 'promote';
+}
 
 if ( empty($_REQUEST) ) {
 	$referer = '<input type="hidden" name="wp_http_referer" value="'. attribute_escape(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
@@ -294,6 +298,8 @@ unset($role_links);
 
 <div style="float: left">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
+<select name="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option>"<?php wp_dropdown_roles(); ?></select>
+<input type="submit" value="<?php _e('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>
 </div>
 
