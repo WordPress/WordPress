@@ -15,54 +15,43 @@ include('admin-header.php');
 <tr valign="top">
 <th scope="row"><?php _e('Default article settings') ?></th>
 <td>
-<ul>
-<li>
 <label for="default_pingback_flag">
 <input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked('1', get_option('default_pingback_flag')); ?> />
 <?php _e('Attempt to notify any blogs linked to from the article (slows down posting.)') ?></label>
-</li>
-<li>
+<br />
 <label for="default_ping_status">
 <input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_option('default_ping_status')); ?> />
 <?php _e('Allow link notifications from other blogs (pingbacks and trackbacks.)') ?></label>
-</li>
-<li>
+<br />
 <label for="default_comment_status">
 <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_option('default_comment_status')); ?> />
 <?php _e('Allow people to post comments on the article') ?></label>
-</li>
-</ul>
+<br />
 <small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
 </td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('E-mail me whenever') ?></th>
 <td>
-<ul>
-<li>
 <label for="comments_notify">
 <input name="comments_notify" type="checkbox" id="comments_notify" value="1" <?php checked('1', get_option('comments_notify')); ?> />
 <?php _e('Anyone posts a comment') ?> </label>
-</li>
-<li>
+<br />
 <label for="moderation_notify">
 <input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked('1', get_option('moderation_notify')); ?> />
 <?php _e('A comment is held for moderation') ?> </label>
-</li>
-</ul>
 </td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Before a comment appears') ?></th>
 <td>
-<ul>
-<li>
 <label for="comment_moderation">
 <input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_option('comment_moderation')); ?> />
 <?php _e('An administrator must always approve the comment') ?> </label>
-</li>
-<li><label for="require_name_email"><input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_option('require_name_email')); ?> /> <?php _e('Comment author must fill out name and e-mail') ?></label></li>
-<li><label for="comment_whitelist"><input type="checkbox" name="comment_whitelist" id="comment_whitelist" value="1" <?php checked('1', get_option('comment_whitelist')); ?> /> <?php _e('Comment author must have a previously approved comment') ?></label></li>
+<br />
+<label for="require_name_email"><input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_option('require_name_email')); ?> /> <?php _e('Comment author must fill out name and e-mail') ?></label>
+<br />
+<label for="comment_whitelist"><input type="checkbox" name="comment_whitelist" id="comment_whitelist" value="1" <?php checked('1', get_option('comment_whitelist')); ?> /> <?php _e('Comment author must have a previously approved comment') ?></label></li>
 </ul>
 </td>
 </tr>

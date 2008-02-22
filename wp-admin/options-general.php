@@ -91,11 +91,8 @@ foreach ( range(-12, 12, 0.5) as $offset ) {
 <tr>
 <th scope="row"><?php _e('Time Format') ?></th>
 <td><input name="time_format" type="text" id="time_format" size="30" value="<?php form_option('time_format'); ?>" /><br />
-<?php _e('Output:') ?> <strong><?php echo gmdate(get_option('time_format'), current_time('timestamp')); ?></strong></td>
-</tr>
-<tr>
-<th scope="row">&nbsp;</th>
-<td><?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') ?> </td>
+<?php _e('Output:') ?> <strong><?php echo gmdate(get_option('time_format'), current_time('timestamp')); ?></strong><br />
+<?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') ?></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Week Starts On') ?></th>

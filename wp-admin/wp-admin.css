@@ -926,6 +926,7 @@ html, body {
 	margin-bottom: 9px;
 	padding: 10px;
 	border-bottom: 8px solid #fff;
+	line-height: 20px;
 }
 
 .niceblue th {

@@ -129,19 +129,19 @@ $structures = array(
 <h3><?php _e('Common settings'); ?></h3>
 <table class="niceblue">
 	<tr>
-		<td><label><input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label>
+		<th><label><input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></span></td>
 	</tr>
 	<tr>
-		<td><label><input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Date and name based'); ?></label></td>
+		<th><label><input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Date and name based'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
-		<td><label><input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></td>
+		<th><label><input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
 		<td><code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></td>
 	</tr>
 	<tr>
-		<td>
+		<th>
 			<label><input name="selection" id="custom_selection" type="radio" value="custom" class="tog"
 			<?php if ( !in_array($permalink_structure, $structures) ) { ?>
 			checked="checked"
@@ -149,7 +149,7 @@ $structures = array(
 			 />
 			<?php _e('Custom Structure'); ?>
 			</label>
-		</td>
+		</th>
 		<td>
 			<input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo attribute_escape($permalink_structure); ?>" size="50" />
 		</td>
@@ -173,7 +173,7 @@ $structures = array(
 		<td><input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" /></td>
 	</tr>
 </table>
-<input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" />
+<p class="submit"><input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" /></p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>
   <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Make_a_Directory_Writable">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>

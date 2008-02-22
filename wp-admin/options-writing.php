@@ -62,20 +62,20 @@ endforeach;
 
 <table class="niceblue">
 <tr valign="top">
-<th scope="row"><?php _e('Thumbnail size:') ?></th>
+<th scope="row"><?php _e('Thumbnail size') ?></th>
 <td>
-<label for="thumbnail_size_w"><?php _e('Width:'); ?></label>
+<label for="thumbnail_size_w"><?php _e('Width'); ?></label>
 <input name="thumbnail_size_w" type="text" id="thumbnail_size_w" value="<?php form_option('thumbnail_size_w'); ?>" size="6" />
-<label for="thumbnail_size_h"><?php _e('Height:'); ?></label>
+<label for="thumbnail_size_h"><?php _e('Height'); ?></label>
 <input name="thumbnail_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('thumbnail_size_h'); ?>" size="6" />
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Medium size:') ?></th>
+<th scope="row"><?php _e('Medium size') ?></th>
 <td>
-<label for="medium_size_w"><?php _e('Width:'); ?></label>
+<label for="medium_size_w"><?php _e('Width'); ?></label>
 <input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" size="6" />
-<label for="medium_size_h"><?php _e('Height:'); ?></label>
+<label for="medium_size_h"><?php _e('Height'); ?></label>
 <input name="medium_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
 </td>
 </tr>
