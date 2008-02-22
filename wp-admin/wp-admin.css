@@ -690,7 +690,7 @@ a.view-comment-post-link {
 #adminmenu {
 	margin: 0;
 	list-style: none;
-        background-color: #e4f2fd;
+	background-color: #e4f2fd;
 	border-bottom: 1px solid #c6d9e9;
 	padding-left: 11px;
 }
@@ -706,7 +706,7 @@ a.view-comment-post-link {
 	line-height: 195%;
 }
 
-#adminmenu a.current {
+#adminmenu a.current, #sidemenu a.current {
 	background: #fff;
 	color: #d54e21;
 	border: 1px solid #c6d9e9;
@@ -723,27 +723,24 @@ a.view-comment-post-link {
 	border-top-right-radius: 4px;
 }
 
-#adminmenu a:hover {
+#adminmenu a:hover, #sidemenu a:hover {
 	color: #d54e21;
 }
 
 #sidemenu {
-	margin: 0 -3px 0 0;
+	margin: 0 -6px 0 0;
 	color: #999;
 	list-style: none;
 	position: absolute;
 	right: 15%;
-	top: 55px;
+	top: 103px;
 	padding-left: 10px;
+	font-size:12px;
 }
 
 #sidemenu a {
-	padding: 3px;
-	line-height: 200%;
-}
-
-#sidemenu a:hover, #sidemenu a.current, #sidemenu a.current:hover {
-	color: #d54e21;
+	font-size: 12px;
+	padding: 6px 7px;
 }
 
 #dashmenu li, #adminmenu li, #submenu li, #sidemenu li {
