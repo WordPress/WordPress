@@ -6,6 +6,11 @@ $parent_file = 'plugins.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file'));
 
+add_action( 'admin_head', 'theme_editor_css' );
+function theme_editor_css(){
+	wp_admin_css( 'css/theme-editor' );
+}
+
 $plugins = get_plugins();
 $plugin_files = array_keys($plugins);
 
@@ -93,34 +98,41 @@ default:
  <div id="message" class="updated fade"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p></div>
 <?php endif; ?>
  <div class="wrap">
-	<?php
+<div class="bordertitle">
+	<h2 style="border: none; padding-bottom: 0px;"><?php _e('Plugin Editor'); ?></h2>
+</div>
+<br style="clear: both;" />
+<div class="tablenav" style="margin-right: 210px;">
+<div style="float: left;">
+<big><strong><?php
 	if ( in_array($file, (array) get_option('active_plugins')) ) {
 		if (is_writeable($real_file)) {
-			echo '<h2>' . sprintf(__('Editing <strong>%s</strong> (active)'), $file) . '</h2>';
+			echo sprintf(__('Editing <strong>%s</strong> (active)'), $file);
 		} else {
-		echo '<h2>' . sprintf(__('Browsing <strong>%s</strong> (active)'), $file) . '</h2>';
+		echo sprintf(__('Browsing <strong>%s</strong> (active)'), $file);
 		}
 	} else {
 		if (is_writeable($real_file)) {
-			echo '<h2>' . sprintf(__('Editing <strong>%s</strong> (inactive)'), $file) . '</h2>';
+			echo sprintf(__('Editing <strong>%s</strong> (inactive)'), $file);
 		} else {
-		echo '<h2>' . sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file) . '</h2>';
+		echo sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file);
 		}
 	}
-	?>
-	<div id="templateside">
-<h3><?php _e('Plugin files') ?></h3>
-
-<?php
-if ($plugin_files) :
-?>
-	<ul>
-	<?php foreach($plugin_files as $plugin_file) : ?>
-		 <li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>
-	<?php endforeach; ?>
-	</ul>
-<?php endif; ?>
+	?></strong></big>
 </div>
+<br style="clear: both;" />
+</div>
+<br style="clear: both;" />
+	<div id="templateside">
+	<h3 id="bordertitle" style="margin-bottom: 10px;"><?php _e("Plugin Files"); ?></h3>
+
+	<h4 style="margin-bottom: 0px;"><?php _e('Plugins'); ?></h4>
+	<ul>
+<?php foreach($plugin_files as $plugin_file) : ?>
+		<li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>
+<?php endforeach; ?>
+	</ul>
+	</div>
 <?php	if (!$error) { ?>
 	<form name="template" id="template" action="plugin-editor.php" method="post">
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
@@ -154,5 +166,4 @@ if ($plugin_files) :
 <?php
 break;
 }
-
 include("admin-footer.php") ?>
