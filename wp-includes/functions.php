@@ -1022,17 +1022,39 @@ function wp_mkdir_p( $target ) {
 	return false;
 }
 
+// Test if a give filesystem path is absolute ('/foo/bar', 'c:\windows')
+function path_is_absolute( $path ) {
+	// this is definitive if true but fails if $path does not exist or contains a symbolic link
+	if ( realpath($path) == $path )
+		return true;
+
+	if ( strlen($path) == 0 || $path{0} == '.' )
+		return false;
+	
+	// windows allows absolute paths like this
+	if ( preg_match('#^[a-zA-Z]:\\\\#', $path) )
+		return true;
+
+	// a path starting with / or \ is absolute; anything else is relative
+	return (bool) preg_match('#^[/\\\\]#', $path);
+}
+
+// Join two filesystem paths together (e.g. 'give me $path relative to $base')
+function path_join( $base, $path ) {
+	if ( path_is_absolute($path) )
+		return $path;
+	
+	return rtrim($base, '/') . '/' . ltrim($path, '/');
+}
 
 // Returns an array containing the current upload directory's path and url, or an error message.
 function wp_upload_dir( $time = NULL ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = $dir = get_option( 'upload_path' );
 	
-	if ( $upload_path != realpath( $upload_path ) ) { // not an absolute path
-		//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
-		$path = str_replace( ABSPATH, '', trim( $upload_path ) );
-		$dir = ABSPATH . $path;
-	}
+	// $dir is absolute, $path is (maybe) relative to ABSPATH
+	$dir = path_join( ABSPATH, $upload_path );
+	$path = str_replace( ABSPATH, '', trim( $upload_path ) );
 
 	if ( !$url = get_option( 'upload_url_path' ) )
 		$url = trailingslashit( $siteurl ) . $path;
@@ -1045,15 +1067,18 @@ function wp_upload_dir( $time = NULL ) {
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
+	$subdir = '';
 	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
 		// Generate the yearly and monthly dirs
 		if ( !$time )
 			$time = current_time( 'mysql' );
 		$y = substr( $time, 0, 4 );
 		$m = substr( $time, 5, 2 );
-		$dir = $dir . "/$y/$m";
-		$url = $url . "/$y/$m";
+		$subdir = "/$y/$m";
 	}
+	
+	$dir .= $subdir;
+	$url .= $subdir;
 
 	// Make sure we have an uploads dir
 	if ( ! wp_mkdir_p( $dir ) ) {
@@ -1061,7 +1086,7 @@ function wp_upload_dir( $time = NULL ) {
 		return array( 'error' => $message );
 	}
 
-		$uploads = array( 'path' => $dir, 'url' => $url, 'error' => false );
+	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'error' => false );
 	return apply_filters( 'upload_dir', $uploads );
 }
 
