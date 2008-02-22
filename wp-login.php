@@ -35,11 +35,21 @@ function login_header($title = 'Login', $message = '', $wp_error = '') {
 	}
 
 	if ( $wp_error->get_error_code() ) {
-		$errors = "\n";
-		foreach ( $wp_error->get_error_messages() as $error )
-			$errors .= '	' . $error . "<br />\n";
-
-		echo '<div id="login_error">' . apply_filters('login_errors', $errors) . "</div>\n";
+		$errors = '';
+		$messages = '';
+		foreach ( $wp_error->get_error_codes() as $code ) {
+			$severity = $wp_error->get_error_data($code);
+			foreach ( $wp_error->get_error_messages($code) as $error ) {
+				if ( 'message' == $severity )
+					$messages .= '	' . $error . "<br />\n";
+				else
+					$errors .= '	' . $error . "<br />\n";
+			}
+		}
+		if ( !empty($errors) )
+			echo '<div id="login_error">' . apply_filters('login_errors', $errors) . "</div>\n";
+		if ( !empty($messages) )
+			echo '<p class="message">' . apply_filters('login_messages', $messages) . "</p>\n";
 	}
 } // End of login_header()
 
@@ -349,11 +359,11 @@ default:
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
 	// Some parts of this script use the main login form to display a message
-	if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )			$errors->add('loggedout', __('You are now logged out.'));
+	if		( isset($_GET['loggedout']) && TRUE == $_GET['loggedout'] )			$errors->add('loggedout', __('You are now logged out.'), 'message');
 	elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )	$errors->add('registerdiabled', __('User registration is currently not allowed.'));
-	elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )	$errors->add('confirm', __('Check your e-mail for the confirmation link.'));
-	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )	$errors->add('newpass', __('Check your e-mail for your new password.'));
-	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'));
+	elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )	$errors->add('confirm', __('Check your e-mail for the confirmation link.'), 'message');
+	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )	$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
+	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 
 	login_header(__('Login'), '', $errors);
 ?>
