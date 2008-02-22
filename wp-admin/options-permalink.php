@@ -126,37 +126,35 @@ $structures = array(
 	$prefix . '/archives/%post_id%'
 	);
 ?>
-<h3><?php _e('Common settings:'); ?></h3>
-<p>
-	<label>
-<input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> />
-<?php _e('Default'); ?><br /> <span> <?php echo _c('&raquo;|Used as a list bullet'); ?> <code><?php echo get_option('home'); ?>/?p=123</code></span>
-   </label>
-</p>
-<p>
-	<label>
-<input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> />
-<?php _e('Date and name based'); ?><br /> <span> <?php echo _c('&raquo;|Used as a list bullet'); ?> <code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></span>
-   </label>
-</p>
-<p>
-	<label>
-<input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> />
-<?php _e('Numeric'); ?><br /> <span> <?php echo _c('&raquo;|Used as a list bullet'); ?> <code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></span>
-   </label>
-</p>
-<p>
-<label>
-<input name="selection" id="custom_selection" type="radio" value="custom" class="tog"
-<?php if ( !in_array($permalink_structure, $structures) ) { ?>
-checked="checked"
-<?php } ?>
- />
-<?php _e('Custom, specify below'); ?>
-</label>
-<br />
-</p>
-<p id="customstructure"><?php _e('Custom structure'); ?>: <input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo attribute_escape($permalink_structure); ?>" size="50" /></p>
+<h3><?php _e('Common settings'); ?></h3>
+<table class="niceblue">
+	<tr>
+		<td><label><input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label>
+		<td><code><?php echo get_option('home'); ?>/?p=123</code></span></td>
+	</tr>
+	<tr>
+		<td><label><input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> <?php _e('Date and name based'); ?></label></td>
+		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></td>
+	</tr>
+	<tr>
+		<td><label><input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></td>
+		<td><code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></td>
+	</tr>
+	<tr>
+		<td>
+			<label><input name="selection" id="custom_selection" type="radio" value="custom" class="tog"
+			<?php if ( !in_array($permalink_structure, $structures) ) { ?>
+			checked="checked"
+			<?php } ?>
+			 />
+			<?php _e('Custom Structure'); ?>
+			</label>
+		</td>
+		<td>
+			<input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo attribute_escape($permalink_structure); ?>" size="50" />
+		</td>
+	</tr>
+</table>
 
 <h3><?php _e('Optional'); ?></h3>
 <?php if ($is_apache) : ?>
@@ -164,15 +162,18 @@ checked="checked"
 <?php else : ?>
 	<p><?php _e('If you like, you may enter custom bases for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>/topics/</code> as your category base would make your category links like <code>http://example.org/index.php/topics/uncategorized/</code>. If you leave these blank the defaults will be used.') ?></p>
 <?php endif; ?>
-	<p>
-  <?php _e('Category base'); ?>: <input name="category_base" id="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" />
-     </p>
-	  <p>
-	  <?php _e('Tag base'); ?>: <input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" />
-     </p>
-    <p class="submit">
-      <input type="submit" name="submit" value="<?php _e('Save Changes') ?>" />
-    </p>
+
+<table class="niceblue">
+	<tr>
+		<th><?php _e('Category base'); ?></th>
+		<td><input name="category_base" id="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" /></td>
+	</tr>
+	<tr>
+		<th><?php _e('Tag base'); ?></th>
+		<td><input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" /></td>
+	</tr>
+</table>
+<input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" />
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>
   <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Make_a_Directory_Writable">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
