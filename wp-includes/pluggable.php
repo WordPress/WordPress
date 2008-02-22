@@ -1016,9 +1016,9 @@ if ( !function_exists('wp_salt') ) :
  * @return string Salt value from either 'SECRET_KEY' or 'secret' option
  */
 function wp_salt() {
-
+	global $wp_default_secret_key;
 	$secret_key = '';
-	if ( defined('SECRET_KEY') && ('' != SECRET_KEY) && ('put your unique phrase here' != SECRET_KEY) )
+	if ( defined('SECRET_KEY') && ('' != SECRET_KEY) && ( $wp_default_secret_key != SECRET_KEY) )
 		$secret_key = SECRET_KEY;
 
 	if ( defined('SECRET_SALT') ) {

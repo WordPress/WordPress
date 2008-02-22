@@ -276,6 +276,12 @@ if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
 }
 
 /**
+ * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php
+ * @since 2.5
+ */
+$wp_default_secret_key = 'put your unique phrase here';
+
+/**
  * It is possible to define this in wp-config.php
  * @since 2.0.0
  */
