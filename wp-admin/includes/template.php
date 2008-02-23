@@ -567,12 +567,21 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	return $r;
 }
 
-function _wp_get_comment_list( $s = false, $start, $num ) {
+function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 	global $wpdb;
 
 	$start = abs( (int) $start );
 	$num = (int) $num;
 
+	if ( 'moderated' == $status )
+		$approved = "comment_approved = '0'";
+	elseif ( 'approved' == $status )
+		$approved = "comment_approved = '1'";
+	elseif ( 'spam' == $status )
+		$approved = "comment_approved = 'spam'";
+	else
+		$approved = "comment_approved != 'spam'";
+	
 	if ( $s ) {
 		$s = $wpdb->escape($s);
 		$comments = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE
@@ -581,10 +590,10 @@ function _wp_get_comment_list( $s = false, $start, $num ) {
 			comment_author_url LIKE ('%$s%') OR
 			comment_author_IP LIKE ('%$s%') OR
 			comment_content LIKE ('%$s%') ) AND
-			comment_approved != 'spam'
+			$approved
 			ORDER BY comment_date_gmt DESC LIMIT $start, $num");
 	} else {
-		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
+		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $approved ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
 	}
 
 	update_comment_cache($comments);
