@@ -138,7 +138,7 @@ if ( $page_links )
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php wp_nonce_field('bulk-posts'); ?>
 <?php
-
+if ( !isset( $_GET['p'] ) ) {
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
 
 $arc_result = $wpdb->get_results( $arc_query );
@@ -169,7 +169,7 @@ foreach ($arc_result as $arc_row) {
 
 <?php wp_dropdown_categories('show_option_all='.__('View all categories').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
-
+<?php } ?>
 </div>
 
 <br style="clear:both;" />
