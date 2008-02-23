@@ -172,6 +172,7 @@ echo '<select name="role">';
 $role_list = '';
 $user_has_role = false;
 foreach($wp_roles->role_names as $role => $name) {
+	$name = translate_with_context($name);
 	if ( $profileuser->has_cap($role) ) {
 		$selected = ' selected="selected"';
 		$user_has_role = true;
