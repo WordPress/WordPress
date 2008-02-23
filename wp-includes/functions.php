@@ -5,6 +5,14 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 	$m = $mysqlstring;
 	if ( empty( $m ) )
 		return false;
+		
+	if( 'G' == $dateformatstring ) {
+		return gmmktime(
+			(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
+			(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )
+		);
+	}
+	
 	$i = mktime(
 		(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
 		(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )

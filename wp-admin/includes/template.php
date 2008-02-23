@@ -379,11 +379,11 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			if ( 'modified' == $column_name ) {
 				$t_time = get_the_modified_time(__('Y/m/d g:i:s A'));
 				$m_time = $page->post_modified;
-				$time = get_post_modified_time();
+				$time = get_post_modified_time('G', true);
 			} else {
 				$t_time = get_the_time(__('Y/m/d g:i:s A'));
 				$m_time = $page->post_date;
-				$time = get_post_time();
+				$time = get_post_time('G', true);
 			}
 			if ( ( abs(time() - $time) ) < 86400 ) {
 				if ( ( 'future' == $page->post_status) )

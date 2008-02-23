@@ -65,7 +65,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		} else {
 			$t_time = get_the_time(__('Y/m/d g:i:s A'));
 			$m_time = $post->post_date;
-			$time = get_post_time();
+			$time = get_post_time( 'G', true );
 			if ( ( abs($t_diff = time() - $time) ) < 86400 ) {
 				if ( $t_diff < 0 )
 					$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
