@@ -50,8 +50,8 @@ if ( isset($_GET['comment_status']) )
 else
 	$comment_status = '';
 $status_links = array();
-$num_posts = wp_count_posts('post');
-$stati = array('moderated' => __('Awaiting Moderation'), 'approved' => __('Approved'));
+$num_comments = wp_count_comments();
+$stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), $num_comments->moderated), 'approved' => __('Approved'));
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
@@ -74,7 +74,7 @@ unset($status_links);
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 
-<p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>
+<p><a href="?mode=view"><?php _e('Detail View') ?></a> | <a href="?mode=edit"><?php _e('List View') ?></a></p>
 
 <?php
 
@@ -147,7 +147,7 @@ if ($comments) {
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
     <td style="text-align: center; vertical-align: text-top"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td style="vertical-align: text-top">
-    <?php comment_author_link(); ?><br />
+    <p><strong class="comment-author"><?php comment_author(); ?></strong><br />
     <?php if ( !empty($author_url) ) : ?> 
     <a href="<?php echo $author_url ?>"><?php echo $author_url; ?></a> |
     <?php endif; ?>

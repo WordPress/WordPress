@@ -446,6 +446,25 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 	return false;
 }
 
+function wp_count_comments() {
+	global $wpdb;
+
+	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} GROUP BY comment_approved", ARRAY_A );
+
+	$stats = array( );
+	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam');
+	foreach( (array) $count as $row_num => $row ) {
+		$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
+	}
+
+	foreach ( $approved as $key ) {
+		if ( empty($stats[$key]) )
+			$stats[$key] = 0;
+	}
+
+	return (object) $stats;
+}
+
 /**
  * wp_delete_comment() - Removes comment ID and maybe updates post comment count
  *
