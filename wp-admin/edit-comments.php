@@ -6,32 +6,28 @@ $parent_file = 'edit-comments.php';
 wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script('admin-forms');
 
-if ( !empty( $_POST['delete_comments'] ) ) :
+if ( !empty( $_REQUEST['delete_comments'] ) ) :
 	check_admin_referer('bulk-comments');
 
-	$i = 0;
-	foreach ($_POST['delete_comments'] as $comment) : // Check the permissions on each
+	$comments_deleted = $comments_approved = $comments_spammed = 0; 
+	foreach ($_REQUEST['delete_comments'] as $comment) : // Check the permissions on each
 		$comment = (int) $comment;
 		$post_id = (int) $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
 		// $authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
-		if ( current_user_can('edit_post', $post_id) ) {
-			if ( !empty( $_POST['spam_button'] ) )
-				wp_set_comment_status($comment, 'spam');
-			else
-				wp_set_comment_status($comment, 'delete');
-			++$i;
+		if ( !current_user_can('edit_post', $post_id) )
+			continue;
+		if ( !empty( $_REQUEST['spamit'] ) ) {
+			wp_set_comment_status($comment, 'spam');
+			$comments_spammed++;
+		} elseif ( !empty( $_REQUEST['deleteit'] ) ) {
+			wp_set_comment_status($comment, 'delete');
+			$comments_deleted++;
+		} elseif ( !empty( $_REQUEST['approveit'] ) ) {
+			wp_set_comment_status($comment, 'approve');
+			$comments_approved++;
 		}
 	endforeach;
-	/*
-	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
-	if ( !empty( $_POST['spam_button'] ) ) {
-		printf(__ngettext('%s comment marked as spam.', '%s comments marked as spam.', $i), $i);
-	} else {
-		printf(__ngettext('%s comment deleted.', '%s comments deleted.', $i), $i);
-	}
-	echo '</p></div>';
-	*/
-	// TODO redirect with message
+	wp_redirect( basename( __FILE__ ) . '?deleted=' . $comments_deleted . '&approved=' . $comments_approved . '&spam=' . $comments_spammed );
 endif;
 
 require_once('admin-header.php');
@@ -66,6 +62,35 @@ echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
 ?>
 </ul>
+
+<?php
+if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
+	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
+	$deleted = isset( $_GET['deleted'] ) ? (int) $_GET['deleted'] : 0;
+	$spam = isset( $_GET['spam'] ) ? (int) $_GET['spam'] : 0;
+
+	if ( $approved > 0 || $deleted > 0 || $spam > 0 ) {
+		echo '<div id="moderated" class="updated fade"><p>';
+
+		if ( $approved > 0 ) {
+			printf( __ngettext( '%s comment approved', '%s comments approved', $approved ), $approved );
+			echo '<br />';
+		}
+
+		if ( $deleted > 0 ) {
+			printf( __ngettext( '%s comment deleted', '%s comments deleted', $deleted ), $deleted );
+			echo '<br />';
+		}
+
+		if ( $spam > 0 ) {
+			printf( __ngettext( '%s comment marked as spam', '%s comments marked as spam', $spam ), $spam );
+			echo '<br />';
+		}
+
+		echo '</p></div>';
+	}
+}
+?>
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php if (isset($_GET['s'])) echo attribute_escape($_GET['s']); ?>" />
