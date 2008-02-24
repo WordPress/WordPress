@@ -203,7 +203,7 @@ if ($comments) {
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
     <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td class="comment">
-    <p class="comment-author"><strong><?php comment_author(); ?></strong><br />
+    <p class="comment-author"><strong><a class="row-title" href="comment.php?action=editcomment&amp;c=<?php echo $comment->comment_ID?>"><?php comment_author(); ?></a></strong><br />
     <?php if ( !empty($author_url) ) : ?>
     <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a> |
     <?php endif; ?>
@@ -221,7 +221,6 @@ if ($comments) {
     	if ( 'approved' != $comment_status )
     		echo " <a href='" . $approve_url . "' class='delete:the-comment-list:comment-$comment->comment_post_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
     	echo "<a href='" . $spam_url . "' class='delete:the-comment-list:comment-$comment->comment_post_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
-    	echo "<a href='comment.php?action=editcomment&amp;c=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a> | ";
 		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . "</a> ";
 	}
 	?>
