@@ -1328,3 +1328,7 @@ p#post-search {
 .commentlist .avatar {
 	vertical-align:text-top;
 }
+
+body.minwidth {
+	min-width: 940px;
+}

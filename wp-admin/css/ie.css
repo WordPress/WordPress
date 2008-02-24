@@ -8,3 +8,16 @@
 	background:none;
 	border:none;
 }
+
+* html body.minwidth {
+	_width: expression(document.documentElement.clientWidth < 942 ? "940px" : "auto");
+}
+
+* html #poststuff #titlediv {
+	display: inline-block;
+}
+
+* html div.widget-liquid-left-holder, * html div.widget-liquid-right {
+	display: block;
+	position: relative;
+}

@@ -6,6 +6,19 @@ if ( $editing ) {
 		wp_enqueue_script( 'wp_tiny_mce' );
 }
 
+$min_width_pages = array( 'post.php', 'post-new.php', 'page.php', 'page-new.php', 'widgets.php', 'comment.php' );
+$the_current_page = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
+$ie6_no_scrollbar = true;
+
+function add_minwidth($c) {
+	return $c . 'minwidth ';
+}
+
+if ( in_array( $the_current_page, $min_width_pages ) ) {
+		$ie6_no_scrollbar = false;
+		add_filter( 'admin_body_class', 'add_minwidth' );
+}
+
 get_admin_page_title();
 
 ?>
@@ -26,7 +39,7 @@ wp_admin_css();
 //<![CDATA[
 addLoadEvent=(function(){var e=[],t,s,n,i,o,d=document,w=window,r='readyState',c='onreadystatechange',x=function(){n=1;clearInterval(t);while(i=e.shift())i();if(s)s[c]=''};return function(f){if(n)return f();if(!e[0]){d.addEventListener&&d.addEventListener("DOMContentLoaded",x,false);/*@cc_on@*//*@if(@_win32)d.write("<script id=__ie_onload defer src=//0><\/scr"+"ipt>");s=d.getElementById("__ie_onload");s[c]=function(){s[r]=="complete"&&x()};/*@end@*/if(/WebKit/i.test(navigator.userAgent))t=setInterval(function(){/loaded|complete/.test(d[r])&&x()},10);o=w.onload;w.onload=function(){x();o&&o()}}e.push(f)}})();//]]>
 </script>
-<?php if ( ($parent_file != 'link-manager.php') && ($parent_file != 'options-general.php') ) : ?>
+<?php if ( ($parent_file != 'link-manager.php') && ($parent_file != 'options-general.php') && $ie6_no_scrollbar ) : ?>
 <style type="text/css">* html { overflow-x: hidden; }</style>
 <?php endif;
 if ( isset($page_hook) )
