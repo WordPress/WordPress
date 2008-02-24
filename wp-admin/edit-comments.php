@@ -6,7 +6,7 @@ $parent_file = 'edit-comments.php';
 wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script('admin-forms');
 
-if ( !empty( $_REQUEST['delete_comments'] ) ) :
+if ( !empty( $_REQUEST['delete_comments'] ) ) {
 	check_admin_referer('bulk-comments');
 
 	$comments_deleted = $comments_approved = $comments_spammed = 0; 
@@ -27,8 +27,18 @@ if ( !empty( $_REQUEST['delete_comments'] ) ) :
 			$comments_approved++;
 		}
 	endforeach;
-	wp_redirect( basename( __FILE__ ) . '?deleted=' . $comments_deleted . '&approved=' . $comments_approved . '&spam=' . $comments_spammed );
-endif;
+	$redirect_to = basename( __FILE__ ) . '?deleted=' . $comments_deleted . '&approved=' . $comments_approved . '&spam=' . $comments_spammed;
+	if ( !empty($_REQUEST['mode']) )
+		$redirect_to = add_query_arg('mode', $_REQUEST['mode'], $redirect_to);
+	if ( !empty($_REQUEST['comment_status']) )
+		$redirect_to = add_query_arg('comment_status', $_REQUEST['comment_status'], $redirect_to);
+	if ( !empty($_REQUEST['s']) )
+		$redirect_to = add_query_arg('s', $_REQUEST['s'], $redirect_to);
+	wp_redirect( $redirect_to );
+} elseif ( !empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+	 exit; 
+}
 
 require_once('admin-header.php');
 
@@ -36,6 +46,11 @@ if ( empty($_GET['mode']) )
 	$mode = 'detail';
 else
 	$mode = attribute_escape($_GET['mode']);
+
+if ( isset($_GET['comment_status']) )
+	$comment_status = attribute_escape($_GET['comment_status']);
+else
+	$comment_status = '';
 ?>
 
 <div class="wrap">
@@ -44,10 +59,6 @@ else
 
 <ul class="subsubsub">
 <?php
-if ( isset($_GET['comment_status']) )
-	$comment_status = $_GET['comment_status'];
-else
-	$comment_status = '';
 $status_links = array();
 $num_comments = wp_count_comments();
 $stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), $num_comments->moderated), 'approved' => __('Approved'));
@@ -101,10 +112,11 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 </p>
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
 
 <ul class="view-switch">
-	<li <?php if ( 'detail' == $mode ) echo "class='current'" ?>><a href="?mode=detail"><?php _e('Detail View') ?></a></li>
-	<li <?php if ( 'list' == $mode ) echo "class='current'" ?>><a href="?mode=list"><?php _e('List View') ?></a></li>
+	<li <?php if ( 'detail' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'detail', $_SERVER['REQUEST_URI'])) ?>"><?php _e('Detail View') ?></a></li>
+	<li <?php if ( 'list' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><?php _e('List View') ?></a></li>
 </ul>
 
 <?php
