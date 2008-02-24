@@ -150,7 +150,9 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
+<?php if ( 'approved' != $comment_status ): ?>
 <input type="submit" value="<?php _e('Approve'); ?>" name="approveit" class="button-secondary" />
+<?php endif; ?>
 <input type="submit" value="<?php _e('Mark as Spam'); ?>" name="spamit" class="button-secondary" />
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php wp_nonce_field('bulk-comments'); ?>
@@ -184,13 +186,16 @@ if ($comments) {
 		$author_url = get_comment_author_url();
 		if ( 'http://' == $author_url )
 			$author_url = '';
+		$author_url_display = $author_url;
+		if ( strlen($author_url_display) > 50 )
+			$author_url_display = substr($author_url_display, 0, 49) . '...';
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
     <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td class="comment">
     <p class="comment-author"><strong><?php comment_author(); ?></strong><br />
-    <?php if ( !empty($author_url) ) : ?> 
-    <a href="<?php echo $author_url ?>"><?php echo $author_url; ?></a> |
+    <?php if ( !empty($author_url) ) : ?>
+    <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a> |
     <?php endif; ?>
     <?php if ( !empty($comment->comment_author_email) ): ?>
     <?php comment_author_email_link() ?> |
