@@ -52,7 +52,7 @@ textarea, input, select {
 
 .subsubsub a { line-height: 200%; padding: 3px; }
 
-.subsubsub a.current { color: #000; font-weight: bold; }
+.subsubsub a.current { color: #000; font-weight: bold; background: none; border: none;}
 
 .subsubsub li { display: inline; margin: 0; padding: 0; }
 
@@ -67,6 +67,7 @@ textarea, input, select {
 	border-bottom: 1px solid #ccc;
 	font-size: 10px;
 	padding: 10px 6px 20px 6px;
+	vertical-align: text-top;
 }
 
 .widefat th {

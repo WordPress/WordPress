@@ -61,7 +61,7 @@ foreach ( $stati as $status => $label ) {
 }
 $class = ( '' === $comment_status ) ? ' class="current"' : '';
 $status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('All Comments')."</a>";
-echo implode(' |</li>', $status_links) . '</li>';
+echo implode(' | </li>', $status_links) . '</li>';
 unset($status_links);
 ?>
 </ul>
@@ -102,7 +102,10 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 
-<p><a href="?mode=detail"><?php _e('Detail View') ?></a> | <a href="?mode=list"><?php _e('List View') ?></a></p>
+<ul class="view-switch">
+	<li <?php if ( 'detail' == $mode ) echo "class='current'" ?>><a href="?mode=detail"><?php _e('Detail View') ?></a></li>
+	<li <?php if ( 'list' == $mode ) echo "class='current'" ?>><a href="?mode=list"><?php _e('List View') ?></a></li>
+</ul>
 
 <?php
 
@@ -126,8 +129,6 @@ $page_links = paginate_links( array(
 ));
 
 ?>
-
-<br style="clear:both;" />
 
 <div class="tablenav">
 
@@ -165,7 +166,7 @@ if ($comments) {
 		$post = get_post($comment->comment_post_ID);
 		$authordata = get_userdata($post->post_author);
 		$comment_status = wp_get_comment_status($comment->comment_ID);
-		$class = ('alternate' == $class) ? '' : 'alternate';
+		$class = ('alternate' == $class) ? '' : '';
 		$class .= ('unapproved' == $comment_status) ? ' unapproved' : '';
 		$post_link = '<a href="' . get_comment_link() . '">' . get_the_title($comment->comment_post_ID) . '</a>';
 		$author_url = get_comment_author_url();
@@ -173,9 +174,9 @@ if ($comments) {
 			$author_url = '';
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
-    <td style="text-align: center; vertical-align: text-top"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
-    <td style="vertical-align: text-top">
-    <p><strong class="comment-author"><?php comment_author(); ?></strong><br />
+    <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
+    <td class="comment">
+    <p class="comment-author"><strong><?php comment_author(); ?></strong><br />
     <?php if ( !empty($author_url) ) : ?> 
     <a href="<?php echo $author_url ?>"><?php echo $author_url; ?></a> |
     <?php endif; ?>
@@ -183,11 +184,12 @@ if ($comments) {
     <?php comment_author_email_link() ?> |
     <?php endif; ?>
     <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
-    <p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
-   	<?php printf(__('From %1$s, %2$s at %3$s'), $post_link, get_the_time(get_option('date_format')), get_the_time()) ?>
+    </p>
+   	<p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
+   	<p><?php printf(__('From %1$s, %2$s at %3$s'), $post_link, get_the_time(get_option('date_format')), get_the_time()) ?></p>
     </td>
-    <td style="vertical-align: text-top"><?php comment_date(); ?></td>
-    <td style="vertical-align: text-top">
+    <td><?php comment_date(); ?></td>
+    <td>
     <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
     	echo "<a href='comment.php?action=editcomment&amp;c=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a> | ";
 		$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
