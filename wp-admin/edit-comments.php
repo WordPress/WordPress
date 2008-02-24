@@ -194,6 +194,11 @@ if ($comments) {
 			$ptime = sprintf( __('%s ago'), human_time_diff( $ptime ) );
 		else
 			$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $post->post_date);
+
+		$delete_url  = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+		$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
+		$spam_url    = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+			
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
     <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
@@ -213,9 +218,11 @@ if ($comments) {
     <td><?php comment_date(__('Y/m/d')); ?></td>
     <td>
     <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+    	if ( 'approved' != $comment_status )
+    		echo " <a href='" . $approve_url . "' class='delete:the-comment-list:comment-$comment->comment_post_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+    	echo "<a href='" . $spam_url . "' class='delete:the-comment-list:comment-$comment->comment_post_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
     	echo "<a href='comment.php?action=editcomment&amp;c=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a> | ";
-		$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-		echo "<a href='$url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . "</a> ";
+		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . "</a> ";
 	}
 	?>
 	</td>
