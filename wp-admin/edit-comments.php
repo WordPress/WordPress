@@ -31,8 +31,11 @@ if ( !empty( $_REQUEST['delete_comments'] ) ) :
 endif;
 
 require_once('admin-header.php');
-if (empty($_GET['mode'])) $mode = 'view';
-else $mode = attribute_escape($_GET['mode']);
+
+if ( empty($_GET['mode']) )
+	$mode = 'detail';
+else
+	$mode = attribute_escape($_GET['mode']);
 ?>
 
 <div class="wrap">
@@ -99,7 +102,7 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 
-<p><a href="?mode=view"><?php _e('Detail View') ?></a> | <a href="?mode=edit"><?php _e('List View') ?></a></p>
+<p><a href="?mode=detail"><?php _e('Detail View') ?></a> | <a href="?mode=list"><?php _e('List View') ?></a></p>
 
 <?php
 
@@ -179,8 +182,8 @@ if ($comments) {
     <?php if ( !empty($comment->comment_author_email) ): ?>
     <?php comment_author_email_link() ?> |
     <?php endif; ?>
-    <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=edit"><?php comment_author_IP() ?></a>
-    <p><?php comment_excerpt(); ?></p>
+    <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
+    <p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
    	<?php printf(__('From %1$s, %2$s at %3$s'), $post_link, get_the_time(get_option('date_format')), get_the_time()) ?>
     </td>
     <td style="vertical-align: text-top"><?php comment_date(); ?></td>
