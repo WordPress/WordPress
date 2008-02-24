@@ -189,6 +189,11 @@ if ($comments) {
 		$author_url_display = $author_url;
 		if ( strlen($author_url_display) > 50 )
 			$author_url_display = substr($author_url_display, 0, 49) . '...';
+		$ptime = get_post_time('G', true);
+		if ( ( abs(time() - $ptime) ) < 86400 )
+			$ptime = sprintf( __('%s ago'), human_time_diff( $ptime ) );
+		else
+			$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $post->post_date);
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
     <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
@@ -203,9 +208,9 @@ if ($comments) {
     <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
     </p>
    	<p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
-   	<p><?php printf(__('From %1$s, %2$s at %3$s'), $post_link, get_the_time(get_option('date_format')), get_the_time()) ?></p>
+   	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
     </td>
-    <td><?php comment_date(); ?></td>
+    <td><?php comment_date(__('Y/m/d')); ?></td>
     <td>
     <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
     	echo "<a href='comment.php?action=editcomment&amp;c=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a> | ";
