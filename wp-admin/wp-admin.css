@@ -539,6 +539,15 @@ p.pagenav {
 	margin: 0 6px;
 }
 
+.row-title {
+	font-size: 12px !important;
+	font-weight: bold;
+}
+
+.comment-column {
+	margin-left: -5px;
+}
+
 .tablenav .dots {
 	background-color: #e4f2fd;
 	border-color: #e4f2fd;
@@ -559,9 +568,10 @@ p.pagenav {
 }
 
 .tablenav {
-	background-color: #e4f2fd;
-	padding: 10px;
+	background-color: #eaf3fa;
+	padding: 10px 10px 8px;
 	clear: both;
+	margin-bottom: -10px;
 }
 
 .tablenav .tablenav-pages {
@@ -782,6 +792,10 @@ a.view-comment-post-link {
 	padding: 0;
 }
 
+#submenu li {
+	padding: 0 0 8px 17px;
+}
+
 #adminmenu li a #awaiting-mod {
 	position: absolute;
 	margin-left: -0.2em;
@@ -869,7 +883,6 @@ strong .post-com-count span {
 
 #submenu a {
 	font-size: 14px;
-	padding: 0 0 8px 17px;
 }
 
 #submenu a.current, #submenu a:hover {
@@ -1010,9 +1023,9 @@ html, body {
 
 #poststuff h3 {
 	background: #eaf3fa;
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: bold;
-	padding: 10px 5px;
+	padding: 8px 5px;
 	margin: 0 0 10px;
 }
 
@@ -1104,12 +1117,12 @@ html, body {
 #poststuff .togbox {
 	background-color:#b2b2b2;
 	background-image:url(images/toggle-arrow.gif);
-	background-position:-10px 18px;
+	background-position:-10px 16px;
 	background-repeat:no-repeat;
 	display:block;
-	height:44px;
+	height:39px;
 	margin-left:-19px;
-	margin-top:-13px;
+	margin-top:-11px;
 	overflow:hidden;
 	position:absolute;
 	text-indent:-9999px;
@@ -1135,7 +1148,7 @@ html, body {
 #poststuff .closed .togbox {
 	background-color:#2583ad;
 	background-image:url(images/toggle-arrow.gif);
-	background-position: 4px 18px;
+	background-position: 4px 16px;
 }
 
 .submitbox {

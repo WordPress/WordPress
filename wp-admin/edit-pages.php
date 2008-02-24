@@ -102,8 +102,6 @@ unset($status_links);
 	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
 </p>
 
-<br style="clear:both;" />
-
 <div class="tablenav">
 
 <div style="float: left">

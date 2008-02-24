@@ -44,7 +44,7 @@ if (empty ($importers)) {
 			$style = 'class="'.$style.'"';
 		echo "
 			<tr $style>
-				<td class='import-system'>$action</td>
+				<td class='import-system row-title'>$action</td>
 				<td class='desc'>{$data[1]}</td>
 			</tr>";
 	}

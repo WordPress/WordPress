@@ -21,7 +21,7 @@ require_once ('admin-header.php');
 <form action="" method="get">
 <h3><?php _e('Optional options'); ?></h3>
 
-<table>
+<table class="niceblue">
 <tr>
 <th><?php _e('Restrict Author:'); ?></th>
 <td>

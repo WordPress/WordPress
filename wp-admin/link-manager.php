@@ -171,7 +171,7 @@ if ( $links ) {
 			switch($column_name) {
 				case 'name':
 					
-					echo "<td><a href='link.php?link_id=$link->link_id&amp;action=edit' class='edit'>$link->link_name</a><br />";
+					echo "<td><strong><a class='row-title' href='link.php?link_id=$link->link_id&amp;action=edit' class='edit'>$link->link_name</a></strong><br />";
 					echo $link->link_description . "</td>";
 					break;
 				case 'url':

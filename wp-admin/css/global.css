@@ -4,12 +4,6 @@ a { color: #2583ad; text-decoration: none; }
 
 a:hover, .subsubsub a:hover, .subsubsub a.current:hover { color: #d54e21; }
 
-a:focus, a:active {
-	border: none;
-	-moz-outline: none;
-	outline: none;
-}
-
 body	{
 	background: #ffffff;
 	color: #333333;
@@ -48,28 +42,30 @@ textarea, input, select {
 .hidden { display: none; }
 
 .subsubsub {
-	color: #999999;
+	color: #999;
 	list-style: none;
 	margin: 15px 0 10px 0;
 	padding: 0;
 	white-space: nowrap;
+	font-size: 12px;
 }
 
 .subsubsub a { line-height: 200%; padding: 3px; }
 
-.subsubsub a.current { color: #000000; font-weight: bold; }
+.subsubsub a.current { color: #000; font-weight: bold; }
 
 .subsubsub li { display: inline; margin: 0; padding: 0; }
 
 .widefat {
-	border: 1px solid #cccccc;
+	border: 1px solid #ccc;
 	border-collapse: collapse;
 	width: 100%;
+	clear: both;
 }
 
 .widefat td, .widefat th {
-	border-bottom: 1px solid #cccccc;
-	font-size: 12px;
+	border-bottom: 1px solid #ccc;
+	font-size: 10px;
 	padding: 10px 6px 20px 6px;
 }
 

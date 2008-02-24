@@ -42,7 +42,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->term_id'>". ( $name_override ? $name_override : $pad . ' ' . $category->name ) ."</a>";
+		$edit = "<a class='row-title' href='categories.php?action=edit&amp;cat_ID=$category->term_id'>". ( $name_override ? $name_override : $pad . ' ' . $category->name ) ."</a>";
 		$default_cat_id = (int) get_option( 'default_category' );
 	} else {
 		$edit = ( $name_override ? $name_override : $pad . ' ' . $category->name );
@@ -70,7 +70,7 @@ function link_cat_row( $category ) {
 		return $category;
 
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a href='link-category.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>". ( $name_override ? $name_override : $category->name ) ."</a>";
+		$edit = "<a class='row-title' href='link-category.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>". ( $name_override ? $name_override : $category->name ) ."</a>";
 		$default_cat_id = (int) get_option( 'default_link_category' );
 	} else {
 		$edit = ( $name_override ? $name_override : $category->name );
@@ -235,7 +235,7 @@ function _tag_row( $tag, $class = '' ) {
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
 		$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
-		$out .= '<td><a href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
+		$out .= '<td><strong><a class="row-title" href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
 			apply_filters( 'term_name', $tag->name ) . '</a></td>';
 
 		$out .= "<td>$count</td>";
@@ -299,7 +299,7 @@ function wp_manage_posts_columns() {
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
 	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
-		$posts_columns['comments'] = '<div style="text-align: center"><img alt="" src="images/comment-grey-bubble.png" /></div>';
+		$posts_columns['comments'] = '<img class="comment-column" alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
@@ -403,7 +403,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		if ( empty($title) )
 			$title = __('(no title)');
 		?>
-		<td><strong><a href="page.php?action=edit&amp;post=<?php the_ID(); ?>"><?php echo $pad; echo $title ?></a></strong>
+		<td><strong><a class="row-title" href="page.php?action=edit&amp;post=<?php the_ID(); ?>"><?php echo $pad; echo $title ?></a></strong>
 		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
 		<?php
 		break;

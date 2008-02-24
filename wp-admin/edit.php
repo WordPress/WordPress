@@ -118,8 +118,6 @@ endif;
 
 <?php do_action('restrict_manage_posts'); ?>
 
-<br style="clear:both;" />
-
 <div class="tablenav">
 
 <?php
