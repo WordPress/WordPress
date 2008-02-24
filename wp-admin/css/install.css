@@ -109,3 +109,16 @@ h1 {
 	padding: 0;
 	padding-bottom: 7px;
 }
+
+#error-page {
+	margin-top: 50px;
+}
+
+#error-page p {
+	font-size: 14px;
+	line-height: 1.6em;
+}
+
+#error-page code {
+	font-size: 1em;
+}

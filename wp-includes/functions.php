@@ -1372,11 +1372,9 @@ if ( ( $wp_locale ) && ( 'rtl' == $wp_locale->text_direction ) ) : ?>
 	<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install-rtl.css" type="text/css" />
 <?php endif; ?>
 </head>
-<body>
+<body id="error-page">
 <?php endif; ?>
-	<h1 id="logo"><img alt="WordPress" src="<?php echo $admin_dir; ?>images/wordpress-logo.png" /></h1>
 	<?php echo $message; ?>
-
 </body>
 </html>
 <?php
