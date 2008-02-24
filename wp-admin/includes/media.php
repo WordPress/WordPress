@@ -236,11 +236,9 @@ function get_multimedia_items( $post_id, $errors ) {
 	if ( empty($attachments) )
 		return '';
 
-	foreach ( $attachments as $id => $attachment ) {
-		$output .= "\n<div id='multimedia-item-$id' class='multimedia-item preloaded'><div id='media-upload-error-$id'></div><span class='filename'></span><div class='progress'><div class='bar'></div></div>";
-		$output .= get_multimedia_item($id, isset($errors[$id]) ? $errors[$id] : null);
-		$output .= "	<div class='progress clickmask'></div>\n</div>";
-	}
+	foreach ( $attachments as $id => $attachment )
+		if ( $item = get_multimedia_item($id, isset($errors[$id]) ? $errors[$id] : null) )
+			$output .= "\n<div id='multimedia-item-$id' class='multimedia-item preloaded'><div id='media-upload-error-$id'></div><span class='filename'></span><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
 
 	return $output;
 }
@@ -418,7 +416,10 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 }
 
 function get_multimedia_item( $attachment_id, $errors = null, $send = true ) {
-	$thumb_url = array_shift(get_attachment_icon_src( $attachment_id ));
+	if ( ( $attachment_id = intval($attachment_id) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
+		$thumb_url = $thumb_url[1];
+	else
+		return false;
 
 	$title_label = __('Title');
 	$description_label = __('Description');
