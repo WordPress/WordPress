@@ -66,7 +66,7 @@ switch($step) {
 	?>
 <form method="post" action="setup-config.php?step=2">
 	<p>Below you should enter your database connection details. If you're not sure about these, contact your host. </p>
-	<table class="niceblue">
+	<table class="form-table">
 		<tr>
 			<th scope="row">Database Name</th>
 			<td><input name="dbname" type="text" size="25" value="wordpress" /></td>

@@ -48,7 +48,7 @@ default:
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
-  <table class="niceblue">
+  <table class="form-table">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
 

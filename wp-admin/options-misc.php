@@ -13,7 +13,7 @@ include('admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
 <h3><?php _e('Uploading'); ?></h3>
-<table class="niceblue">
+<table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e('Store uploads in this folder'); ?></th>
 <td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo attribute_escape(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" size="40" />
@@ -37,7 +37,7 @@ include('admin-header.php');
 </th>
 </tr>
 </table>
-<table class="niceblue">
+<table class="form-table">
 <tr>
 	<th colspan="2"><input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1" <?php checked('1', get_option('use_linksupdate')); ?> />
 <label for="use_linksupdate"><?php _e('Track Links&#8217; Update Times') ?></label>

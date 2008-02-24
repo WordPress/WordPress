@@ -640,7 +640,7 @@ class Dotclear_Import {
 
 	function db_form()
 	{
-		echo '<table class="niceblue">';
+		echo '<table class="form-table">';
 		printf('<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('DotClear Database User:'));
 		printf('<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('DotClear Database Password:'));
 		printf('<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __('DotClear Database Name:'));

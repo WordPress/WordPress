@@ -929,26 +929,26 @@ html, body {
 
 /* Tables used on comment.php and option/setting pages */
 
-.niceblue {
+.form-table {
 	border-collapse: collapse;
 	margin-top: 1em;
 	width: 100%;
 }
 
-.niceblue td {
+.form-table td {
 	margin-bottom: 9px;
 	padding: 10px;
 	border-bottom: 8px solid #fff;
 	line-height: 20px;
 }
 
-.niceblue th {
+.form-table th {
 	text-align: left;
 	padding: 10px;
 	border-bottom: 8px solid #fff;
 }
 
-.niceblue tr {
+.form-table tr {
 	background: #eaf3fa;
 }
 

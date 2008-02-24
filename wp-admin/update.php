@@ -31,7 +31,7 @@ function request_filesystem_credentials($form_post, $type = '') {
 <div class="wrap">
 <h2><?php _e('FTP Connection Information') ?></h2>
 <p><?php _e('To perform the requested update, FTP connection information is required.') ?></p>
-<table class="niceblue">
+<table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e('Hostname:') ?></th>
 <td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname) ?>" size="40" /></td>

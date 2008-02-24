@@ -127,7 +127,7 @@ $structures = array(
 	);
 ?>
 <h3><?php _e('Common settings'); ?></h3>
-<table class="niceblue">
+<table class="form-table">
 	<tr>
 		<th><label><input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
@@ -163,7 +163,7 @@ $structures = array(
 	<p><?php _e('If you like, you may enter custom bases for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>/topics/</code> as your category base would make your category links like <code>http://example.org/index.php/topics/uncategorized/</code>. If you leave these blank the defaults will be used.') ?></p>
 <?php endif; ?>
 
-<table class="niceblue">
+<table class="form-table">
 	<tr>
 		<th><?php _e('Category base'); ?></th>
 		<td><input name="category_base" id="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" /></td>

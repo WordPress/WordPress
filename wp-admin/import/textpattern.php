@@ -575,7 +575,7 @@ class Textpattern_Import {
 
 	function db_form()
 	{
-		echo '<table class="niceblue">';
+		echo '<table class="form-table">';
 		printf('<tr><th scope="row"><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('Textpattern Database User:'));
 		printf('<tr><th scope="row"><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('Textpattern Database Password:'));
 		printf('<tr><th scope="row"><label for="dbname">%s</label></th><td><input type="text" id="dbname" name="dbname" /></td></tr>', __('Textpattern Database Name:'));

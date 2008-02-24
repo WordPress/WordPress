@@ -65,19 +65,19 @@ td input { font-size: 1.5em; }
 	color: #d54e21;
 }
 
-.niceblue {
+.form-table {
 	border-collapse: collapse;
 	margin-top: 1em;
 	width: 100%;
 }
 
-.niceblue td {
+.form-table td {
 	margin-bottom: 9px;
 	padding: 10px;
 	border-bottom: 8px solid #fff;
 }
 
-.niceblue th {
+.form-table th {
 	font-size: 12px;
 	text-align: left;
 	padding: 12px 10px 10px 10px;
@@ -86,16 +86,16 @@ td input { font-size: 1.5em; }
 	vertical-align: top;
 }
 
-.niceblue tr {
+.form-table tr {
 	background: #eaf3fa;
 }
 
-.niceblue code {
+.form-table code {
 	line-height: 18px;
 	font-size: 18px;
 }
 
-.niceblue p {
+.form-table p {
 	margin: 4px 0 0 0;
 	font-size: 11px;
 }

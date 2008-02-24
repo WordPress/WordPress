@@ -11,7 +11,7 @@ include('admin-header.php');
 <h2><?php _e('Reading Settings') ?></h2>
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
-<table class="niceblue">
+<table class="form-table">
 <?php if ( get_pages() ): ?>
 <tr valign="top">
 <th scope="row"><?php _e('Front page displays')?></th>

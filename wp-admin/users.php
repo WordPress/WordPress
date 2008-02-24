@@ -401,7 +401,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:user-list:">
 <?php wp_nonce_field('add-user') ?>
-<table class="niceblue">
+<table class="form-table">
 	<tr class="form-field form-required">
 		<th scope="row"><?php _e('Username (required)') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
 		<td ><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" /></td>

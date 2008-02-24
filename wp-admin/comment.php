@@ -93,7 +93,7 @@ if ( 'spam' == $_GET['dt'] ) {
 <input type='hidden' name='noredir' value='1' />
 </form>
 
-<table class="niceblue" cellpadding="5">
+<table class="form-table" cellpadding="5">
 <tr class="alt">
 <th scope="row"><?php _e('Author'); ?></th>
 <td><?php echo $comment->comment_author; ?></td>

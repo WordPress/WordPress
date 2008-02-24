@@ -36,7 +36,7 @@ class GM_Import {
 <input type="hidden" name="step" value="1" />
 <?php wp_nonce_field('import-greymatter'); ?>
 <h3><?php _e('Second step: GreyMatter details:') ?></h3>
-<table class="niceblue">
+<table class="form-table">
 <tr>
 <td><?php _e('Path to GM files:') ?></td>
 <td><input type="text" style="width:300px" name="gmpath" value="/home/my/site/cgi-bin/greymatter/" /></td>

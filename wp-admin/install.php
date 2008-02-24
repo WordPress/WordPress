@@ -45,7 +45,7 @@ switch($step) {
 <p><?php _e("Please provide the following information.  Don't worry, you can always change these settings later."); ?></p>
 
 <form id="setup" method="post" action="install.php?step=2">
-	<table class="niceblue">
+	<table class="form-table">
 		<tr>
 			<th scope="row"><?php _e('Blog Title'); ?></th>
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
@@ -91,7 +91,7 @@ switch($step) {
 
 <p><?php printf(__('WordPress has been installed. Were you expecting more steps? Sorry to disappoint.'), ''); ?></p>
 
-<table class="niceblue">
+<table class="form-table">
 	<tr>
 		<th><?php _e('Username'); ?></th>
 		<td><code>admin</code></td>
