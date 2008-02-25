@@ -18,13 +18,12 @@ else
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
 $menu[15] = array(__('Design'), 'switch_themes', 'themes.php');
 $menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='comment-count'><span>$awaiting_mod</span></span>" ), 'edit_posts', 'edit-comments.php');
-$menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
+$menu[30] = array(__('Settings'), 'manage_options', 'options-general.php');
+$menu[35] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
-	$menu[35] = array(__('Users'), 'edit_users', 'users.php');
+	$menu[40] = array(__('Users'), 'edit_users', 'users.php');
 else
-	$menu[35] = array(__('Profile'), 'read', 'profile.php');
-$menu[40] = array(__('Settings'), 'manage_options', 'options-general.php');
-
+	$menu[40] = array(__('Profile'), 'read', 'profile.php');
 
 $_wp_real_parent_file['post.php'] = 'post-new.php'; // Back-compat
 $submenu['post-new.php'][5] = array(__('Post'), 'edit_posts', 'post-new.php');
