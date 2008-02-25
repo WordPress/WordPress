@@ -91,7 +91,7 @@ class STP_Import {
 		// run that funky magic!
 		$tags_added = $this->tag2post();
 
-		echo '<p>' . sprintf( __ngettext('Done! <strong>%s</strong> tags where added!', 'Done! <strong>%s</strong> tags where added!', $tags_added), $tags_added ) . '<br /></p>';
+		echo '<p>' . sprintf( __ngettext('Done! <strong>%s</strong> tag was added!', 'Done! <strong>%s</strong> tags were added!', $tags_added), $tags_added ) . '<br /></p>';
 		echo '<form action="admin.php?import=stp&amp;step=3" method="post">';
 		wp_nonce_field('import-stp');
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 3').'" /></p>';

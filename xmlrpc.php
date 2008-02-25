@@ -636,7 +636,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		set_current_user(0, $username);
 		if( !current_user_can("manage_categories") ) {
-			return new IXR_Error( 401, __( "Sorry, you do not the right to delete a category." ) );
+			return new IXR_Error( 401, __( "Sorry, you do not have the right to delete a category." ) );
 		}
 
 		return wp_delete_category( $category_id );
