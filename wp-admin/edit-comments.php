@@ -217,9 +217,9 @@ if ($comments) {
     <td>
     <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
     	if ( 'approved' != $comment_status )
-    		echo " <a href='" . $approve_url . "' class='delete:the-comment-list:comment-$comment->comment_post_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
-    	echo "<a href='" . $spam_url . "' class='delete:the-comment-list:comment-$comment->comment_post_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
-		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . "</a> ";
+    		echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+    	echo "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
+		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
 	}
 	?>
 	</td>
