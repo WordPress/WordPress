@@ -641,6 +641,8 @@ function get_pagenum_link($pagenum = 1) {
 		$result = $base . $request . $query_string;
 	}
 
+	$result = apply_filters('get_pagenum_link', $result);
+
 	return $result;
 }
 
