@@ -91,6 +91,7 @@ function retrieve_password() {
 	if ( empty($key) ) {
 		// Generate something random for a key...
 		$key = wp_generate_password();
+		do_action('retrieve_password_key', $user_login, $key);
 		// Now insert the new md5 key into the db
 		$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
 	}
@@ -118,7 +119,7 @@ function reset_password($key) {
 	if ( empty( $user ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
 
-	do_action('password_reset');
+	do_action('password_reset', $user);
 
 	// Generate something random for a password...
 	$new_pass = wp_generate_password();
