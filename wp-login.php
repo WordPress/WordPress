@@ -87,10 +87,13 @@ function retrieve_password() {
 	do_action('retreive_password', $user_login);  // Misspelled and deprecated
 	do_action('retrieve_password', $user_login);
 
-	// Generate something random for a key...
-	$key = wp_generate_password();
-	// Now insert the new md5 key into the db
-	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
+	$key = $wpdb->get_var("SELECT user_activation_key FROM $wpdb->users WHERE user_login = '$user_login'");
+	if ( empty($key) ) {
+		// Generate something random for a key...
+		$key = wp_generate_password();
+		// Now insert the new md5 key into the db
+		$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
+	}
 	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
 	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
