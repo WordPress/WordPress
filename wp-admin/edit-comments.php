@@ -153,6 +153,7 @@ if ( $page_links )
 <?php endif; ?>
 <input type="submit" value="<?php _e('Mark as Spam'); ?>" name="spamit" class="button-secondary" />
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
+<?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
 </div>
 
