@@ -71,7 +71,7 @@ $mce_external_plugins = apply_filters('mce_external_plugins', array());
 
 $ext_plugins = "\n";
 foreach ( $mce_external_plugins as $name => $url ) {
-	$plugins[] = $name;
+	$plugins[] = '-' . $name;
 	if ( $https ) str_replace('http://', 'https://', $url);
 	
 	$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
@@ -123,7 +123,7 @@ $initArray = array (
 	'save_callback' => 'switchEditors.saveCallback',
 	'plugins' => "$plugins",
 	// pass-through the settings for compression and caching, so they can be changed with "tiny_mce_before_init"
-	'disk_cache' => true,
+	'disk_cache' => false,
 	'compress' => true,
 	'old_cache_max' => '1' // number of cache files to keep
 );
@@ -264,10 +264,10 @@ if ( '' != $cacheKey && $cache_path ) {
 			$keys_ar = array_slice( $keys_ar, 0, $old_cache_max );
 			$cacheKey = trim( implode( "\n", $keys_ar ) );
 		}
-		
+
 		putFileContents( $keys_file, $cacheKey );
 	}
-	
+
 	putFileContents( $cache_file, $content );
 }
 ?>

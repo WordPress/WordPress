@@ -1,5 +1,5 @@
 tinyMCEPreInit.start = function() {
-	var t = this, each = tinymce.each, s = t.settings, sl = tinymce.ScriptLoader, ln = s.languages.split(',');
+	var t = this, each = tinymce.each, s = t.settings, sl = tinymce.ScriptLoader, ln = s.languages, th = s.themes;
 
 	function load(u, sp) {
 		var o;
@@ -12,33 +12,18 @@ tinyMCEPreInit.start = function() {
 		sl.lookup[o.url] = o;
 	};
 
-	// Add core languages
-	each (ln, function(c) {
-		if (c)
-			load('/langs/' + c + '.js');
-	});
+	sl.markDone(t.base + '/langs/' + ln + '.js');
 
-	// Add themes with languages
-	each(s.themes.split(','), function(n) {
-		if (n) {
-			load('/themes/' + n + '/editor_template' + t.suffix + '.js');
+	load('/themes/' + th + '/editor_template' + t.suffix + '.js');
+	sl.markDone(t.base + '/themes/' + th + '/langs/' + ln + '.js');
+	sl.markDone(t.base + '/themes/' + th + '/langs/' + ln + '_dlg.js');
 
-			each (ln, function(c) {
-				if (c)
-					load('/themes/' + n + '/langs/' + c + '.js');
-			});
-		}
-	});
-
-	// Add plugins with languages
 	each(s.plugins.split(','), function(n) {
 		if (n && n.charAt(0) != '-') {
 			load('/plugins/' + n + '/editor_plugin' + t.suffix + '.js');
 
-			each (ln, function(c) {
-				if (c)
-					load('/plugins/' + n + '/langs/' + c + '.js');
-			});
+			sl.markDone(t.base + '/plugins/' + n + '/langs/' + ln + '.js');
+			sl.markDone(t.base + '/plugins/' + n + '/langs/' + ln + '_dlg.js');
 		}
 	});
 };

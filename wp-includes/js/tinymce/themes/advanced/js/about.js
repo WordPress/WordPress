@@ -70,7 +70,3 @@ function insertHelpIFrame() {
 }
 
 tinyMCEPopup.onInit.add(init);
-
-// For modal dialogs in IE
-if (tinymce.isIE)
-	document.write('<base target="_self" />');
