@@ -7,6 +7,7 @@
 
 define('EZSQL_VERSION', 'WP1.25');
 define('OBJECT', 'OBJECT', true);
+define('OBJECT_K', 'OBJECT_K', false);
 define('ARRAY_A', 'ARRAY_A', false);
 define('ARRAY_N', 'ARRAY_N', false);
 
@@ -396,7 +397,7 @@ class wpdb {
 	/**
 	 * Return an entire result set from the database
 	 * @param string $query (can also be null to pull from the cache)
-	 * @param string $output ARRAY_A | ARRAY_N | OBJECT
+	 * @param string $output ARRAY_A | ARRAY_N | OBJECT_K | OBJECT
 	 * @return mixed results
 	 */
 	function get_results($query = null, $output = OBJECT) {
@@ -407,22 +408,33 @@ class wpdb {
 		else
 			return null;
 
-		// Send back array of objects. Each row is an object
 		if ( $output == OBJECT ) {
+			// Return an integer-keyed array of row objects
 			return $this->last_result;
+		} elseif ( $output == OBJECT_K ) {
+			// Return an array of row objects with keys from column 1
+			// (Duplicates are discarded)
+			foreach ( $this->last_result as $row ) {
+				$key = array_shift( get_object_vars( $row ) );
+				if ( !isset( $new_array[ $key ] ) )
+					$new_array[ $key ] = $row;
+			}
+			return $new_array;
 		} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
+			// Return an integer-keyed array of...
 			if ( $this->last_result ) {
 				$i = 0;
 				foreach( $this->last_result as $row ) {
-					$new_array[$i] = (array) $row;
 					if ( $output == ARRAY_N ) {
-						$new_array[$i] = array_values($new_array[$i]);
+						// ...integer-keyed row arrays
+						$new_array[$i] = array_values( get_object_vars( $row ) );
+					} else {
+						// ...column name-keyed row arrays
+						$new_array[$i] = get_object_vars( $row );
 					}
-					$i++;
+					++$i;
 				}
 				return $new_array;
-			} else {
-				return null;
 			}
 		}
 	}
