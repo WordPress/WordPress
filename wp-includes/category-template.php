@@ -170,6 +170,10 @@ function get_the_category_list($separator = '', $parents='', $post_id = false) {
 function in_category( $category ) { // Check if the current post is in the given category
 	global $post;
 
+	if ( !is_numeric($category) ) {
+		$category = get_cat_ID($category);
+	}
+	
 	$categories = get_object_term_cache($post->ID, 'category');
 	if ( false === $categories )
 		$categories = wp_get_object_terms($post->ID, 'category');
