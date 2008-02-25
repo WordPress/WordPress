@@ -173,7 +173,7 @@ select {
 	background: #fff;
 	border: 1px solid #ddd;
 	font: 12px/14px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: none;
+	padding: 0;
 }
 
 .submit a {
@@ -998,7 +998,7 @@ html, body {
 }
 
 #poststuff fieldset {
-	border: 1px solid #ccc;pa
+	border: 1px solid #ccc;
 	padding: 2px;
 }
 

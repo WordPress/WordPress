@@ -1,6 +1,6 @@
 div#media-upload-header {
 	background-color: #eaf3fa;
-	margin: none;
+	margin: 0;
 	padding: 1em 0.5em 0.5em 0.5em;
 	font-weight: bold;
 }
@@ -170,7 +170,7 @@ span.filename {
 	width: 100%;
 }
 .startopen .describe {
-	display: auto;
+	display: block;
 }
 .required abbr {
 	color: red;
