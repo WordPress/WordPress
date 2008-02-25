@@ -54,7 +54,7 @@ include('./admin-header.php');
 </td>
 </tr>
 <tr>
-<th scope="row"><?php _e('Your Timezone') ?> </th>
+<th scope="row"><?php _e('Timezone') ?> </th>
 <td>
 <select name="gmt_offset">
 <?php 
