@@ -1368,6 +1368,11 @@ ul.view-switch li.current a {
 	margin-right: 8px;
 }
 
+#the-comment-list p.comment-author strong a {
+	color: #2583ad;
+	border: none;
+}
+
 #the-comment-list td {
 	vertical-align: top;
 	font-size: 11px;

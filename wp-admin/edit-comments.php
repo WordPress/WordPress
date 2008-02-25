@@ -52,31 +52,6 @@ if ( isset($_GET['comment_status']) )
 else
 	$comment_status = '';
 ?>
-
-<div class="wrap">
-<form id="posts-filter" action="" method="get">
-<h2><?php _e('Manage Comments'); ?></h2>
-
-<ul class="subsubsub">
-<?php
-$status_links = array();
-$num_comments = wp_count_comments();
-$stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), $num_comments->moderated), 'approved' => __('Approved'));
-foreach ( $stati as $status => $label ) {
-	$class = '';
-
-	if ( $status == $comment_status )
-		$class = ' class="current"';
-
-	$status_links[] = "<li><a href=\"edit-comments.php?comment_status=$status\"$class>" . $label . '</a>';
-}
-$class = ( '' === $comment_status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('All Comments')."</a>";
-echo implode(' | </li>', $status_links) . '</li>';
-unset($status_links);
-?>
-</ul>
-
 <?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
@@ -105,6 +80,29 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 	}
 }
 ?>
+<div class="wrap">
+<form id="posts-filter" action="" method="get">
+<h2><?php _e('Manage Comments'); ?></h2>
+
+<ul class="subsubsub">
+<?php
+$status_links = array();
+$num_comments = wp_count_comments();
+$stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), $num_comments->moderated), 'approved' => __('Approved'));
+foreach ( $stati as $status => $label ) {
+	$class = '';
+
+	if ( $status == $comment_status )
+		$class = ' class="current"';
+
+	$status_links[] = "<li><a href=\"edit-comments.php?comment_status=$status\"$class>" . $label . '</a>';
+}
+$class = ( '' === $comment_status ) ? ' class="current"' : '';
+$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('All Comments')."</a>";
+echo implode(' | </li>', $status_links) . '</li>';
+unset($status_links);
+?>
+</ul>
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php if (isset($_GET['s'])) echo attribute_escape($_GET['s']); ?>" />
