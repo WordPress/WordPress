@@ -184,7 +184,7 @@ class wpdb {
 		$error_str = "WordPress database error $str for query $this->last_query";
 		if ( $caller = $this->get_caller() )
 			$error_str .= " made by $caller";
-		error_log($error_str, 0);
+		@error_log($error_str, 0);
 
 		// Is error output turned on or not..
 		if ( !$this->show_errors )
