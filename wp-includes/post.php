@@ -2390,9 +2390,8 @@ function wp_mime_type_icon( $mime = 0 ) {
 			$post_mimes[] = str_replace('/', '_', $mime);
 		}
 
-		$post_mimes[] = 'default';
-
 		$matches = wp_match_mime_types(array_keys($types), $post_mimes);
+		$matches['default'] = array('default');
 
 		foreach ( $matches as $match => $wilds ) {
 			if ( isset($types[$wilds[0]])) {
