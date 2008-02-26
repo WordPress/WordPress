@@ -21,3 +21,20 @@
 	display: block;
 	position: relative;
 }
+
+#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, #editorcantainer {
+display: block;
+zoom: 100%;
+}
+
+* html #editorcontainer {
+padding: 0;
+}
+
+* html #editorcontainer #content {
+position: relative;
+overflow: auto;
+padding: 6px;
+margin: auto;
+width: 98%;
+}

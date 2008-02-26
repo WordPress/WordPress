@@ -91,11 +91,18 @@ switchEditors = {
 
             ed.hide();
             ta.value = this.pre_wpautop(ta.value);
-            ta.style.width = '100%';
-        
             qt.style.display = 'block';
-            ec.style.padding = '6px';
-            ta.style.color = '';
+            
+            if ( tinymce.isIE6 ) {
+				ta.style.width = '98%';
+				ec.style.padding = '0px';
+				ta.style.padding = '6px';
+			} else {
+				ta.style.width = '100%';
+				ec.style.padding = '6px';
+            }
+			
+			ta.style.color = '';
 
             this.wpSetDefaultEditor( 'html' );
         }
