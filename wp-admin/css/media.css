@@ -84,28 +84,28 @@ form.media-upload-form {
 }
 
 /* specific to the image upload form */
-.media-upload-form fieldset#image-align label, .align .field label {
+.align .field label {
 	display: inline;
 	padding: 0 0 0 28px;
 	margin: 0 0;
 }
-.media-upload-form fieldset#image-align input, .align .field input {
+.align .field input {
 	margin-left: 15px;
 }
 
-#image-align-none-label, .image-align-none-label {
+.image-align-none-label {
 	background: url(../images/align-none.png) no-repeat center left;
 }
 
-#image-align-left-label, .image-align-left-label {
+.image-align-left-label {
 	background: url(../images/align-left.png) no-repeat center left;
 }
 
-#image-align-center-label, .image-align-center-label {
+.image-align-center-label {
 	background: url(../images/align-center.png) no-repeat center left;
 }
 
-#image-align-right-label, .image-align-right-label {
+.image-align-right-label {
 	background: url(../images/align-right.png) no-repeat center left;
 }
 
@@ -125,12 +125,12 @@ tr.image-size td.field {
 	max-height: 40px;
 }
 
-#multimedia-items {
+#media-items {
 	border: 1px solid #c0c0c0;
 	border-bottom: none;
 	width: 623px;
 }
-.multimedia-item {
+.media-item {
 	border-bottom: 1px solid #d0d0d0;
 	width: 623px;
 	position: relative;
@@ -152,11 +152,11 @@ span.filename {
 	background-color: #e8e8e8;
 	border-right: 3px solid #99d;
 }
-.multimedia-item .thumbnail {
+.media-item .thumbnail {
 	max-width: 128px;
 	max-height: 128px;
 }
-.multimedia-item .pinkynail {
+.media-item .pinkynail {
 	position: absolute;
 	top: 2px;
 	left: 2px;
@@ -200,6 +200,7 @@ a.delete {
 	color: #246;
 }
 .describe-toggle-on, .describe-toggle-off {
+	display: block;
 	line-height: 36px;
 	z-index: 2;
 	position: absolute;
@@ -223,4 +224,11 @@ tr.submit input {
 }
 tr.align td.field {
 	text-align: center;
+}
+
+.hidden {
+	height: 0px;
+	width: 0px;
+	overflow: hidden;
+	border: none;
 }

@@ -19,9 +19,12 @@ if ( isset($action) && $action == 'edit' && !$ID )
 	wp_die(__("You are not allowed to be here"));
 
 // upload type: image, video, file, ..?
-$type = @strval($_GET['type']);
+if ( isset($_GET['tab']) )
+	$tab = strval($_GET['tab']);
+else
+	$tab = apply_filters('media_upload_default_tab', 'computer');
 
 // let the action code decide how to handle the request
-do_action("media_upload_{$type}");
+do_action("media_upload_$tab");
 
 ?>

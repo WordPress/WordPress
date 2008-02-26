@@ -1,15 +1,32 @@
 <?php
 
-function image_upload_tabs() {
+function media_upload_tabs() {
 	$_default_tabs = array(
-		'image_upload_handler' => __('From Computer'), // handler function name => tab text
+		'computer' => __('From Computer'), // handler action suffix => tab text
+		'attachments' => __('Attachments'),
+		'library' => __('Media Library'),
 	);
 
-	return apply_filters('image_upload_tabs', $_default_tabs);
+	return apply_filters('media_upload_tabs', $_default_tabs);
 }
 
-function the_image_upload_tabs() {
-	$tabs = image_upload_tabs();
+function update_attachments_tab($tabs) {
+	global $wpdb;
+	if ( !isset($_REQUEST['post_id']) ) {
+		unset($tabs['attachments']);
+		return $tabs;
+	}
+	if ( intval($_REQUEST['post_id']) )
+		$attachments = $wpdb->get_var($wpdb->prepare("SELECT count(*) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $_REQUEST['post_id']));
+
+	$tabs['attachments'] = sprintf(__('Attachments (%s)'), "<span id='attachments-count'>$attachments</span>");
+
+	return $tabs;
+}
+add_filter('media_upload_tabs', 'update_attachments_tab');
+
+function the_media_upload_tabs() {
+	$tabs = media_upload_tabs();
 
 	if ( !empty($tabs) ) {
 		echo "<ul id='media-upload-tabs'>\n";
@@ -20,16 +37,12 @@ function the_image_upload_tabs() {
 		foreach ( $tabs as $callback => $text ) {
 			if ( ++$i == count($tabs) )
 				$class = ' class="last"';
-			if ( $callback == $current )
-				$disabled = ' disabled="disabled"';
-			else
-				$disabled = '';
 			$href = add_query_arg('tab', $callback);
 			if ( $callback == $current )
 				$link = $text;
 			else
 				$link = "<a href='$href'>$text</a>";
-			echo "\t<li$class>$link</li>\n";
+			echo "\t<li id='tab-$callback'$class>$link</li>\n";
 		}
 		echo "</ul>\n";
 	}
@@ -143,9 +156,9 @@ if ( is_string($content_func) )
 function media_buttons() {
 	global $post_ID, $temp_ID;
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$multimedia_upload_iframe_src = "media-upload.php?type=multimedia&amp;post_id=$uploading_iframe_ID";
-	$multimedia_upload_iframe_src = apply_filters('multimedia_upload_iframe_src', $multimedia_upload_iframe_src);
-	echo "<a href='$multimedia_upload_iframe_src&amp;TB_iframe=true&amp;height=500&amp;width=640' class='button-secondary thickbox'>" . __('Add media'). '</a>';
+	$media_upload_iframe_src = "media-upload.php?type=media&amp;post_id=$uploading_iframe_ID";
+	$media_upload_iframe_src = apply_filters('media_upload_iframe_src', $media_upload_iframe_src);
+	echo "<a href='$media_upload_iframe_src&amp;TB_iframe=true&amp;height=500&amp;width=640' class='button-secondary thickbox'>" . __('Add media'). '</a>';
 }
 add_action( 'media_buttons', 'media_buttons' );
 
@@ -169,21 +182,12 @@ function media_admin_css() {
 	wp_admin_css('css/media');
 }
 
-add_action('media_upload_multimedia', 'multimedia_upload_handler');
-add_action('admin_head_image_upload_form', 'media_admin_css');
+add_action('media_upload_media', 'media_upload_handler');
 
-function multimedia_upload_handler() {
-	if ( !current_user_can('upload_files') ) {
-		return new wp_error( 'upload_not_allowed', __('You are not allowed to upload files.') );
-	}
+function media_upload_form_handler() {
+	check_admin_referer('media-form');
 
-	// no button click, we're just displaying the form
-	if ( empty($_POST) )
-		return wp_iframe( 'multimedia_upload_form' );
-
-	check_admin_referer('multimedia-form');
-
-	// Insert multimedia button was clicked
+	// Insert media button was clicked
 	if ( !empty($_FILES) ) {
 		// Upload File button was clicked
 
@@ -217,7 +221,7 @@ function multimedia_upload_handler() {
 				wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[$t])), $t, false);
 	}
 
-	if ( isset($_POST['insert-multimedia']) )
+	if ( isset($_POST['insert-media']) )
 		return media_send_to_editor('[gallery]');
 
 	if ( isset($_POST['send']) ) {
@@ -227,18 +231,52 @@ function multimedia_upload_handler() {
 		return media_send_to_editor($html);
 	}
 
-	wp_iframe( 'multimedia_upload_form', $errors );
+	return $errors;
 }
 
-function get_multimedia_items( $post_id, $errors ) {
-	$attachments = get_children("post_parent=$post_id&post_type=attachment&orderby=\"menu_order ASC, ID ASC\"");
+function media_upload_computer() {
+	if ( !empty($_POST) ) {
+		$return = media_upload_form_handler();
+	
+		if ( is_string($return) )
+			return $return;
+		if ( is_array($return) )
+			$errors = $return;
+	}
+
+	return wp_iframe( 'media_upload_computer_form', $errors );
+}
+
+function media_upload_attachments() {
+	if ( !empty($_POST) ) {
+		$return = media_upload_form_handler();
+	
+		if ( is_string($return) )
+			return $return;
+		if ( is_array($return) )
+			$errors = $return;
+	}
+
+	return wp_iframe( 'media_upload_attachments_form', $errors );
+}
+
+function media_upload_library() {
+	if ( empty($_POST) )
+		wp_iframe( 'media_upload_library_form', $errors );
+}
+
+function get_media_items( $post_id, $errors ) {
+	if ( $post_id )
+		$attachments = get_children("post_parent=$post_id&post_type=attachment&orderby=menu_order ASC, ID&order=DESC");
+	else
+		$attachments = get_paged_attachments();
 
 	if ( empty($attachments) )
 		return '';
 
 	foreach ( $attachments as $id => $attachment )
-		if ( $item = get_multimedia_item($id, isset($errors[$id]) ? $errors[$id] : null) )
-			$output .= "\n<div id='multimedia-item-$id' class='multimedia-item preloaded'><div id='media-upload-error-$id'></div><span class='filename'></span><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
+		if ( $item = get_media_item($id, isset($errors[$id]) ? $errors[$id] : null) )
+			$output .= "\n<div id='media-item-$id' class='media-item preloaded'><div id='media-upload-error-$id'></div><span class='filename'></span><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
 
 	return $output;
 }
@@ -415,9 +453,9 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	return $form_fields;
 }
 
-function get_multimedia_item( $attachment_id, $errors = null, $send = true ) {
+function get_media_item( $attachment_id, $errors = null, $send = true ) {
 	if ( ( $attachment_id = intval($attachment_id) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
-		$thumb_url = $thumb_url[1];
+		$thumb_url = $thumb_url[0];
 	else
 		return false;
 
@@ -453,7 +491,7 @@ function get_multimedia_item( $attachment_id, $errors = null, $send = true ) {
 		</tr>
 		<tr><td>$post->post_mime_type</td></tr>
 		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
-		<tr><td>" . apply_filters('multimedia_meta', '', $post) . "</tr></td>\n";
+		<tr><td>" . apply_filters('media_meta', '', $post) . "</tr></td>\n";
 
 	$defaults = array(
 		'input'      => 'text',
@@ -536,18 +574,21 @@ function get_multimedia_item( $attachment_id, $errors = null, $send = true ) {
 	return $item;
 }
 
-function multimedia_upload_form( $errors = null ) {
-	$flash_action_url = get_option('siteurl') . '/wp-admin/async-upload.php?type=multimedia';
-	$form_action_url = get_option('siteurl') . '/wp-admin/media-upload.php?type=multimedia';
+function media_upload_header() {
+	?>
+	<div id="media-upload-header">
+	<h3><?php _e('Add Media'); ?></h3>
+	<?php the_media_upload_tabs(); ?>
+	</div>
+	<?php
+}
+
+function media_upload_form( $errors = null ) {
+	$flash_action_url = get_option('siteurl') . '/wp-admin/async-upload.php?type=media';
 
 	$post_id = intval($_REQUEST['post_id']);
 
 ?>
-<div id="media-upload-header">
-<h3><?php _e('Add Media'); ?></h3>
-<?php the_image_upload_tabs(); ?>
-</div>
-
 <div id="media-upload-error">
 <?php if (isset($errors['upload_error']) && is_wp_error($errors['upload_error'])) { ?>
 	<?php echo $errors['upload_error']->get_error_message(); ?>
@@ -564,7 +605,7 @@ jQuery(function($){
 			post_params : {
 				"post_id" : "<?php echo $post_id; ?>",
 				"auth_cookie" : "<?php echo $_COOKIE[AUTH_COOKIE]; ?>",
-				"type" : "multimedia"
+				"type" : "media"
 			},
 			swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
 			degraded_element_id : "html-upload-ui",   // when swfupload is unavailable
@@ -582,20 +623,14 @@ jQuery(function($){
 			debug: false,
 		});
 	$("#flash-browse-button").bind( "click", function(){swfu.selectFiles();});
-	var preloaded = $(".multimedia-item.preloaded");
-	if ( preloaded.length > 0 ) {
-		jQuery('#insert-multimedia').attr('disabled', '');
-		preloaded.each(function(){uploadSuccess({id:this.id.replace(/[^0-9]/g, '')},'');});
-	}
 });
 //-->
 </script>
 
-<form enctype="multipart/form-data" method="post" action="<?php echo attribute_escape($form_action_url); ?>" class="media-upload-form">
 
 <div id="flash-upload-ui">
 	<p><input id="flash-browse-button" type="button" value="<?php _e('Choose files to upload'); ?>" class="button" /></p>
-	<p><?php _e('As each upload completes, you can add titles and descriptions below.'); ?></p>
+	<p><?php _e('After a file has been uploaded, you can add titles and descriptions below.'); ?></p>
 </div>
 
 <div id="html-upload-ui">
@@ -610,27 +645,81 @@ jQuery(function($){
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
 	<br style="clear:both" />
 </div>
+<?php
+}
 
-<div id="multimedia-items">
+function media_upload_computer_form( $errors = null ) {
+	media_upload_header();
 
-<?php echo get_multimedia_items($post_id, $errors); ?>
+	$post_id = intval($_REQUEST['post_id']);
 
-</div>
+	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type=media&tab=computer&post_id=$post_id";
 
+?>
+
+<form enctype="multipart/form-data" method="post" action="<?php echo attribute_escape($form_action_url); ?>" class="media-upload-form" id="computer-form">
+<?php wp_nonce_field('media-form'); ?>
+<?php media_upload_form( $errors ); ?>
+
+<div id="media-items"></div>
 <p class="submit">
-	<input type="submit" class="submit insert-gallery" name="insert-multimedia" value="<?php _e('Insert gallery into post'); ?>" />
+	<input type="submit" class="submit insert-gallery" name="insert-media" value="<?php _e('Insert gallery into post'); ?>" />
 </p>
-
-<?php wp_nonce_field('multimedia-form'); ?>
-
 </form>
 
 <?php
 }
 
-add_action('admin_head_multimedia_upload_form', 'media_admin_css');
-add_filter('async_upload_multimedia', 'get_multimedia_item', 10, 2);
-add_filter('media_upload_multimedia', 'multimedia_upload_handler');
+function media_upload_attachments_form($errors) {
+	media_upload_header();
+
+	$post_id = intval($_REQUEST['post_id']);
+
+	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type=media&tab=attachments&post_id=$post_id";
+
+?>
+
+<script type="text/javascript">
+<!--
+jQuery(function($){
+	var preloaded = $(".media-item.preloaded");
+	if ( preloaded.length > 0 ) {
+		preloaded.each(function(){prepareMediaItem({id:this.id.replace(/[^0-9]/g, '')},'');});
+		updateMediaForm();
+	}
+});
+-->
+</script>
+
+<form enctype="multipart/form-data" method="post" action="<?php echo attribute_escape($form_action_url); ?>" class="media-upload-form" id="attachments-form">
+<?php wp_nonce_field('media-form'); ?>
+<?php //media_upload_form( $errors ); ?>
+
+<div id="media-items">
+<?php echo get_media_items($post_id, $errors); ?>
+</div>
+<p class="submit">
+	<input type="submit" class="submit insert-gallery" name="insert-media" value="<?php _e('Insert gallery into post'); ?>" />
+</p>
+<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
+</form>
+<?php
+}
+
+function media_upload_library_form($errors) {
+	media_upload_header();
+}
+
+add_filter('async_upload_media', 'get_media_item', 10, 2);
+
+add_filter('media_upload_computer', 'media_upload_computer');
+add_action('admin_head_media_upload_computer_form', 'media_admin_css');
+
+add_filter('media_upload_attachments', 'media_upload_attachments');
+add_action('admin_head_media_upload_attachments_form', 'media_admin_css');
+
+add_filter('media_upload_library', 'media_upload_library');
+add_action('admin_head_media_upload_library_form', 'media_admin_css');
 
 
 // Any 'attachment' taxonomy will be included in the description input form for the multi uploader

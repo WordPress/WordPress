@@ -7,63 +7,94 @@ function fileDialogStart() {
 	jQuery("#media-upload-error").empty();
 }
 
-// progress and success handlers for multimedia multi uploads
+// progress and success handlers for media multi uploads
 function fileQueued(fileObj) {
 	// Create a progress bar containing the filename
-	jQuery('#multimedia-items').append('<div id="multimedia-item-' + fileObj.id + '" class="multimedia-item"><span class="filename original">' + fileObj.name + '</span><div class="progress"><div class="bar"></div></div></div>');
+	jQuery('#media-items').prepend('<div id="media-item-' + fileObj.id + '" class="media-item"><span class="filename original">' + fileObj.name + '</span><div class="progress"><div class="bar"></div></div></div>');
 
 	// Disable the submit button
-	jQuery('#insert-multimedia').attr('disabled', 'disabled');
+	jQuery('#insert-media').attr('disabled', 'disabled');
 }
 
 function uploadStart(fileObj) { return true; }
 
 function uploadProgress(fileObj, bytesDone, bytesTotal) {
 	// Lengthen the progress bar
-	jQuery('#multimedia-item-' + fileObj.id + ' .bar').width(620*bytesDone/bytesTotal);
+	jQuery('#media-item-' + fileObj.id + ' .bar').width(620*bytesDone/bytesTotal);
 }
 
-function uploadSuccess(fileObj, serverData) {
-	// if async-upload returned an error message, place it in the multimedia item div and return
-	if ( serverData.match('media-upload-error') ) {
-		jQuery('#multimedia-item-' + fileObj.id).html(serverData);
-		return;
-	}
-
+function prepareMediaItem(fileObj, serverData) {
 	// Move the progress bar to 100%
-	jQuery('#multimedia-item-' + fileObj.id + ' .bar').remove();
+	jQuery('#media-item-' + fileObj.id + ' .bar').remove();
 
 	// Append the HTML returned by the server -- thumbnail and form inputs
-	jQuery('#multimedia-item-' + fileObj.id).append(serverData);
+	jQuery('#media-item-' + fileObj.id).append(serverData);
 
 	// Clone the thumbnail as a "pinkynail" -- a tiny image to the left of the filename
-	jQuery('#multimedia-item-' + fileObj.id + ' .thumbnail').clone().attr('className', 'pinkynail toggle').prependTo('#multimedia-item-' + fileObj.id);
+	jQuery('#media-item-' + fileObj.id + ' .thumbnail').clone().attr('className', 'pinkynail toggle').prependTo('#media-item-' + fileObj.id);
 
 	// Replace the original filename with the new (unique) one assigned during upload
-	jQuery('#multimedia-item-' + fileObj.id + ' .filename.original').replaceWith(jQuery('#multimedia-item-' + fileObj.id + ' .filename.new'));
+	jQuery('#media-item-' + fileObj.id + ' .filename.original').replaceWith(jQuery('#media-item-' + fileObj.id + ' .filename.new'));
 
 	// Bind toggle function to a new mask over the progress bar area
-	jQuery('#multimedia-item-' + fileObj.id + ' .progress').clone().empty().addClass('clickmask').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).siblings('.toggle').toggle();}).appendTo('#multimedia-item-' + fileObj.id);
+	jQuery('#media-item-' + fileObj.id + ' .progress').clone().empty().addClass('clickmask').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).siblings('.toggle').toggle();}).appendTo('#media-item-' + fileObj.id);
 
 	// Also bind toggle to the links
-	jQuery('#multimedia-item-' + fileObj.id + ' a.toggle').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).parent().eq(0).children('.toggle').toggle();jQuery(this).siblings('a.toggle').focus();return false;});
+	jQuery('#media-item-' + fileObj.id + ' a.toggle').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).parent().eq(0).children('.toggle').toggle();jQuery(this).siblings('a.toggle').focus();return false;});
 
 	// Bind AJAX to the new Delete button
-	jQuery('#multimedia-item-' + fileObj.id + ' a.delete').bind('click',function(){jQuery.ajax({url:'admin-ajax.php',type:'post',data:{id:this.id.replace(/[^0-9]/g,''),action:'delete-post',_ajax_nonce:this.href.replace(/^.*wpnonce=/,'')}});jQuery(this).parents(".multimedia-item").eq(0).slideToggle(300, function(){jQuery(this).remove();if(jQuery('.multimedia-item').length==0)jQuery('.insert-gallery').hide();});return false;});
+	jQuery('#media-item-' + fileObj.id + ' a.delete').bind('click',function(){
+		// Tell the server to delete it. TODO: handle exceptions
+		jQuery.ajax({url:'admin-ajax.php',type:'post',data:{
+			id : this.id.replace(/[^0-9]/g,''),
+			action : 'delete-post',
+			_ajax_nonce : this.href.replace(/^.*wpnonce=/,'')}
+			});
+		// Decrement the counter.
+		jQuery('#attachments-count').text(jQuery('#attachments-count').text()-1);
+		// Vanish it.
+		jQuery(this).parents(".media-item").eq(0).slideToggle(300,function(){jQuery(this).remove();if(jQuery('.media-item').length==0)jQuery('.insert-gallery').hide();updateMediaForm();});
+		return false;
+	});
 
-	// Open this item if it says to start open
-	jQuery('#multimedia-item-' + fileObj.id + ' .startopen')
+	// Open this item if it says to start open (e.g. to display an error)
+	jQuery('#media-item-' + fileObj.id + '.startopen')
 		.removeClass('startopen')
 		.slideToggle(500)
 		.parent().eq(0).children('.toggle').toggle();
+}
 
-	jQuery('.insert-gallery').show();
+function updateMediaForm() {
+	// Just one file, no need for collapsible part
+	if ( jQuery('#computer-form #media-items>*').length == 1 ) {
+		jQuery('#media-items .slidetoggle').slideDown(500).parent().eq(0).children('.toggle').toggle();
+		jQuery('#computer-form .slidetoggle').siblings().addClass('hidden');
+	} else {
+		jQuery('#computer-form .slidetoggle').siblings().removeClass('hidden');
+	}
+
+	// Only show Gallery button when there are at least two files.
+	if ( jQuery('#media-items>*').length > 1 )
+		jQuery('.insert-gallery').show();
+	else
+		jQuery('.insert-gallery').hide();
+}
+
+function uploadSuccess(fileObj, serverData) {
+	// if async-upload returned an error message, place it in the media item div and return
+	if ( serverData.match('media-upload-error') ) {
+		jQuery('#media-item-' + fileObj.id).html(serverData);
+		return;
+	}
+	prepareMediaItem(fileObj, serverData);
+	updateMediaForm();
+	jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
 }
 
 function uploadComplete(fileObj) {
 	// If no more uploads queued, enable the submit button
 	if ( swfu.getStats().files_queued == 0 )
-		jQuery('#insert-multimedia').attr('disabled', '');
+		jQuery('#insert-media').attr('disabled', '');
 }
 
 
