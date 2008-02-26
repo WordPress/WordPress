@@ -2,7 +2,7 @@
 class WP_Filesystem_ftpsockets{
 	var $ftp = false;
 	var $timeout = 5;
-	var $errors = array();
+	var $errors;
 	var $options = array();
 	
 	var $wp_base = '';
@@ -24,6 +24,8 @@ class WP_Filesystem_ftpsockets{
 							);
 	
 	function WP_Filesystem_ftpsockets($opt='') {
+		$this->errors = new WP_Error();
+
 		//Check if possible to use ftp functions.
 		if( ! @include_once ABSPATH . 'wp-admin/includes/class-ftp.php' )
 				return false;
