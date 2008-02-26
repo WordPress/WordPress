@@ -105,7 +105,8 @@ $messages[6] = __('Tags deleted.');
 
 <?php if (isset($_GET['message'])) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
-<?php endif; ?>
+<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+endif; ?>
 
 <div class="wrap">
 
