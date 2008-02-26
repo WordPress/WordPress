@@ -901,7 +901,12 @@ function do_feed() {
 		$feed = get_default_feed();
 
 	$hook = 'do_feed_' . $feed;
-	do_action( $hook, $wp_query->is_comment_feed );
+	if ( !has_action($hook) ) {
+		$message = sprintf( __( 'ERROR: %s is not a valid feed template' ), wp_specialchars($feed));
+		wp_die($message);
+	}
+
+	do_action( $hook, $wp_query->is_comment_feed ); 
 }
 
 
