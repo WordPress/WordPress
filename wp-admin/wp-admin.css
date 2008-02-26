@@ -159,6 +159,7 @@ form#upload #post_content {
 	border-radius: 3px;
 	color: #246;
 	background: #e5e5e5;
+	cursor: pointer;
 }
 
 .button-secondary {
