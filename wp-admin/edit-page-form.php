@@ -36,6 +36,12 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <?php echo $form_extra ?>
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php
+if ( url_to_postid(wp_get_referer()) == $post_ID )
+	echo 'redo';
+else
+	echo clean_url(stripslashes(wp_get_referer()));
+?>" />
 
 <script type="text/javascript">
 // <![CDATA[
