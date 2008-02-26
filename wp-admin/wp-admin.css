@@ -602,7 +602,7 @@ a.view-comment-post-link {
 
 #user_info {
 	position: absolute;
-	right: 15%;
+	right: 25px;
 	top: 11px;
 	color: #ccc;
 	font-size: 11px;
@@ -676,6 +676,7 @@ a.view-comment-post-link {
 #dashmenu a.current {
 	background: #e4f2fd;
 	color: #555;
+	border: none;
 	-moz-border-radius-topleft: 3px;
 	-khtml-border-top-left-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
@@ -710,16 +711,17 @@ a.view-comment-post-link {
 #adminmenu a {
 	font-size: 16px;
 	padding: 6px 7px;
-	line-height: 195%;
+	line-height: 200%;
 }
 
 #adminmenu a.current, #sidemenu a.current {
 	background: #fff;
 	color: #d54e21;
 	border: 1px solid #c6d9e9;
-	border-bottom: 2px solid #fff;
+	border-bottom: 1px solid #fff;
 	font-weight: normal;
-	padding: 6px;
+	padding-left: 6px;
+	padding-right: 6px;
 	-moz-border-radius-topleft: 4px;
 	-khtml-border-top-left-radius: 4px;
 	-webkit-border-top-left-radius: 4px;
@@ -730,24 +732,32 @@ a.view-comment-post-link {
 	border-top-right-radius: 4px;
 }
 
+#adminmenu a.current {
+	border-bottom: 2px solid #fff;
+}
+
 #adminmenu a:hover, #sidemenu a:hover {
 	color: #d54e21;
 }
 
 #sidemenu {
-	margin: 0 -6px 0 0;
+	margin: -30px 15% 0 315px;
 	color: #999;
 	list-style: none;
-	position: absolute;
-	right: 15%;
-	top: 103px;
+	position: relative;
+	float: right;
 	padding-left: 10px;
 	font-size:12px;
 }
 
 #sidemenu a {
-	font-size: 12px;
-	padding: 6px 7px;
+	padding: 0 7px;
+	display: block;
+	float: left;
+	background-color: #e4f2fd;
+	border-top: 1px solid #e4f2fd;
+	border-bottom: 1px solid #c6d9e9;
+	line-height: 28px;
 }
 
 #dashmenu li, #adminmenu li, #submenu li, #sidemenu li {
@@ -1123,7 +1133,7 @@ html, body {
 	position: absolute;
 	background-color: #eaf3fa;
 	width: 200px;
-	right: 15%;
+	right: 25px;
 }
 
 
@@ -1311,7 +1321,7 @@ p#post-search {
 }
 
 body.minwidth {
-	min-width: 940px;
+	min-width: 770px;
 }
 
 ul.view-switch {
