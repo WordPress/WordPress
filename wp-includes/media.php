@@ -92,4 +92,138 @@ function get_image_tag($id, $alt, $title, $align, $rel = false, $size='medium') 
 	return $html;
 }
 
+// same as wp_shrink_dimensions, except the max parameters are optional.
+// if either width or height are empty, no constraint is applied on that dimension.
+function wp_constrain_dimensions( $current_width, $current_height, $max_width=0, $max_height=0 ) {
+	if ( !$max_width and !$max_height )
+		return array( $current_width, $current_height );
+	
+	$width_ratio = $height_ratio = 1.0;
+	
+	if ( $max_width > 0 && $current_width > $max_width )
+		$width_ratio = $max_width / $current_width;
+	
+	if ( $max_height > 0 && $current_height > $max_height )
+		$height_ratio = $max_height / $current_height;
+	
+	// the smaller ratio is the one we need to fit it to the constraining box
+	$ratio = min( $width_ratio, $height_ratio );
+	
+	return array( intval($current_width * $ratio), intval($current_height * $ratio) );
+}
+
+// calculate dimensions and coordinates for a resized image that fits within a specified width and height
+// if $crop is true, the largest matching central portion of the image will be cropped out and resized to the required size
+function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false) {
+	
+	if ($orig_w <= 0 || $orig_h <= 0)
+		return false;
+	// at least one of dest_w or dest_h must be specific
+	if ($dest_w <= 0 && $dest_h <= 0)
+		return false;
+	
+	if ( $crop ) {
+		// crop the largest possible portion of the original image that we can size to $dest_w x $dest_h
+		$aspect_ratio = $orig_w / $orig_h;
+		$new_w = min($dest_w, $orig_w);
+		$new_h = min($dest_h, $orig_h);
+		if (!$new_w) {
+			$new_w = intval($new_h * $aspect_ratio);
+		}
+		if (!$new_h) {
+			$new_h = intval($new_w / $aspect_ratio);
+		}
+
+		$size_ratio = max($new_w / $orig_w, $new_h / $orig_h);
+		
+		$crop_w = ceil($new_w / $size_ratio);
+		$crop_h = ceil($new_h / $size_ratio);
+
+		$s_x = floor(($orig_w - $crop_w)/2);
+		$s_y = floor(($orig_h - $crop_h)/2);
+	}
+	else {
+		// don't crop, just resize using $dest_w x $dest_h as a maximum bounding box
+		$crop_w = $orig_w;
+		$crop_h = $orig_h;
+		
+		$s_x = 0;
+		$s_y = 0;
+		
+		list( $new_w, $new_h ) = wp_constrain_dimensions( $orig_w, $orig_h, $dest_w, $dest_h );
+	}
+	
+	// if the resulting image would be the same size or larger we don't want to resize it
+	if ($new_w >= $orig_w && $new_h >= $orig_h)
+		return false;
+
+	// the return array matches the parameters to imagecopyresampled()
+	// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
+	return array(0, 0, $s_x, $s_y, $new_w, $new_h, $crop_w, $crop_h);
+
+}
+
+// Scale down an image to fit a particular size and save a new copy of the image
+function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_path=null, $jpeg_quality=75) {
+
+	$image = wp_load_image( $file );
+	if ( !is_resource( $image ) )
+		return new WP_Error('error_loading_image', $image);
+
+	list($orig_w, $orig_h, $orig_type) = getimagesize( $file );
+	$dims = image_resize_dimensions($orig_w, $orig_h, $max_w, $max_h, $crop);
+	if (!$dims)
+		return $dims;
+	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
+	
+	$newimage = imagecreatetruecolor( $dst_w, $dst_h);
+
+	// preserve PNG transparency
+	if ( IMAGETYPE_PNG == $orig_type && function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' ) ) {
+		imagealphablending( $newimage, false);
+		imagesavealpha( $newimage, true);
+	}
+
+	imagecopyresampled( $newimage, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+
+	// we don't need the original in memory anymore
+	imagedestroy( $image );
+
+	// $suffix will be appended to the destination filename, just before the extension
+	if ( !$suffix )
+		$suffix = "{$dst_w}x{$dst_h}";
+
+	$info = pathinfo($file);
+	$dir = $info['dirname'];
+	$ext = $info['extension'];
+	$name = basename($file, ".{$ext}");
+	if ( !is_null($dest_path) and $_dest_path = realpath($dest_path) )
+		$dir = $_dest_path;
+	$destfilename = "{$dir}/{$name}-{$suffix}.{$ext}";
+
+	if ( $orig_type == IMAGETYPE_GIF ) {
+		if (!imagegif( $newimage, $destfilename ) )
+			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
+	}
+	elseif ( $orig_type == IMAGETYPE_PNG ) {
+		if (!imagepng( $newimage, $destfilename ) )
+			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
+	}
+	else {
+		// all other formats are converted to jpg
+		$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
+		if (!imagejpeg( $newimage, $destfilename, $jpeg_quality ) )
+			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
+	}
+
+	imagedestroy( $newimage );
+
+	// Set correct file permissions
+	$stat = stat( dirname( $destfilename ));
+	$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
+	@ chmod( $destfilename, $perms );
+
+	return $destfilename;
+}
+
 ?>
