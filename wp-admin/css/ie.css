@@ -38,3 +38,7 @@ padding: 6px;
 margin: auto;
 width: 98%;
 }
+
+form#template div {
+	width: 100%;
+}
