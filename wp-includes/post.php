@@ -2334,51 +2334,71 @@ function wp_attachment_is_image( $post_id = 0 ) {
  * @return string|bool {@internal Missing Description}}
  */
 function wp_mime_type_icon( $mime = 0 ) {
-	$post_id = 0;
+	if ( !is_numeric($mime) )
+		$icon = wp_cache_get("mime_type_icon_$mime");
 
-	$icon = wp_cache_get('mime_type_icon');
-	
 	if ( empty($icon) ) {
+		$post_id = 0;
+		$post_mimes = array();
 		if ( is_numeric($mime) ) {
 			$mime = (int) $mime;
-			if ( !$post =& get_post( $mime ) )
-				return false;
-			$post_id = (int) $post->ID;
-			$mime = $post->post_mime_type;
-			$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $post->guid);
+			if ( $post =& get_post( $mime ) ) {
+				$post_id = (int) $post->ID;
+				$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $post->guid);
+				if ( !empty($ext) )
+					$post_mimes[] = $ext;
+				$mime = $post->post_mime_type;
+			} else {
+				$mime = 0;
+			}
+		} else {
+			$post_mimes[] = $mime;
 		}
-	
-		$types = array();
-	
-		if ( !empty($ext) )
-			$types[] = $ext;
-	
-		$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
-		$icon_dir_uri = apply_filters( 'icon_dir_uri', get_template_directory_uri() . '/images' );
-		$image_dir = apply_filters( 'image_dir', ABSPATH . WPINC . '/images' );
-		$image_dir_uri = apply_filters( 'image_dir', get_option('siteurl') . '/' . WPINC . '/images' );
-		$dirs = array($icon_dir => $icon_dir_uri, $image_dir => $image_dir_uri);
-	
-	
-		if ( ! empty($mime) ) {
-			$types[] = substr($mime, 0, strpos($mime, '/'));
-			$types[] = substr($mime, strpos($mime, '/') + 1);
-			$types[] = str_replace('/', '_', $mime);
-		}
-	
-		$types[] = 'default';
-	
-		$exts = array('png', 'gif', 'jpg');
 
-		foreach ( $types as $type ) {
-			foreach ( $exts as $ext ) {
-				foreach ( $dirs as $dir => $uri ) {
-					$src_file = "$dir/$type.$ext";
-					if ( file_exists($src_file) ) {
-						$icon = "$uri/$type.$ext";
-						break 3;
+		$icon_files = wp_cache_get('icon_files');
+
+		if ( !is_array($icon_files) ) {
+			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images' );
+			$icon_dir_uri = apply_filters( 'icon_dir_uri', trailingslashit(get_option('siteurl')) . WPINC . '/images' );
+			$dirs = apply_filters( 'icon_dirs', array($icon_dir => $icon_dir_uri) );
+			$icon_files = array();
+			foreach ( $dirs as $dir => $uri) {
+				if ( $dh = opendir($dir) ) {
+					while ( false !== $file = readdir($dh) ) {
+						$file = basename($file);
+						if ( !in_array(strtolower(substr($file, -4)), array('.png', '.gif', '.jpg') ) ) {
+							if ( is_dir($file) )
+								$dirs["$dir/$file"] = "$uri/$file";
+							continue;
+						}
+						$icon_files["$dir/$file"] = "$uri/$file";
 					}
+					closedir($dh);
 				}
+			}
+			wp_cache_set('icon_files', $icon_files, 600);
+		}
+
+		// Icon basename - extension = MIME wildcard
+		foreach ( $icon_files as $file => $uri )
+			$types[ preg_replace('/^([^.]*).*$/', '$1', basename($file)) ] =& $icon_files[$file];
+
+		if ( ! empty($mime) ) {
+			$post_mimes[] = substr($mime, 0, strpos($mime, '/'));
+			$post_mimes[] = substr($mime, strpos($mime, '/') + 1);
+			$post_mimes[] = str_replace('/', '_', $mime);
+		}
+
+		$post_mimes[] = 'default';
+
+		$matches = wp_match_mime_types(array_keys($types), $post_mimes);
+
+		foreach ( $matches as $match => $wilds ) {
+			if ( isset($types[$wilds[0]])) {
+				$icon = $types[$wilds[0]];
+				if ( !is_numeric($mime) )
+					wp_cache_set("mime_type_icon_$mime", $icon);
+				break;
 			}
 		}
 	}
