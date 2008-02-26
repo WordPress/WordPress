@@ -85,7 +85,7 @@ class WP_Scripts {
 
 		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.3');
 		$this->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '2.02');
-		$this->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '2.0');
+		$this->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '2.0-4561');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
 		$this->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
 		$this->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
