@@ -918,7 +918,7 @@ function wp_default_editor() {
 	return apply_filters( 'wp_default_editor', $r ); // filter
 }
 
-function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true) {
+function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2) {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
 		$rows = 12;
@@ -960,7 +960,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
     </script>
     <?php endif; // 'html' != $wp_default_editor
 
-	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea class='' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
+	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea class='' $rows cols='40' name='$id' tabindex='$tab_index' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
 
 	printf($the_editor, $the_editor_content);

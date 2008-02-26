@@ -85,13 +85,13 @@ echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment
 <div id="uridiv" class="stuffbox">
 <h3><?php _e('URL') ?></h3>
 <div class="inside">
-<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="2" />
+<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="3" />
 </div>
 </div>
 
 <div id="postdiv" class="postarea">
 <h3><?php _e('Comment') ?></h3>
-<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false); ?>
+<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
