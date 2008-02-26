@@ -88,7 +88,7 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 <?php
 $status_links = array();
 $num_comments = wp_count_comments();
-$stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), $num_comments->moderated), 'approved' => __('Approved'));
+$stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), "<span class='comment-count'>$num_comments->moderated</span>"), 'approved' => __('Approved'));
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
@@ -178,9 +178,9 @@ if ($comments) {
 	foreach ($comments as $comment) {
 		$post = get_post($comment->comment_post_ID);
 		$authordata = get_userdata($post->post_author);
-		$comment_status = wp_get_comment_status($comment->comment_ID);
+		$the_comment_status = wp_get_comment_status($comment->comment_ID);
 		$class = ('alternate' == $class) ? '' : '';
-		$class .= ('unapproved' == $comment_status) ? ' unapproved' : '';
+		$class .= ('unapproved' == $the_comment_status) ? ' unapproved' : '';
 		$post_link = '<a href="' . get_comment_link() . '">' . get_the_title($comment->comment_post_ID) . '</a>';
 		$author_url = get_comment_author_url();
 		if ( 'http://' == $author_url )
@@ -217,8 +217,12 @@ if ($comments) {
     <td><?php comment_date(__('Y/m/d')); ?></td>
     <td>
     <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-    	if ( 'approved' != $comment_status )
-    		echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+    	if ( 'approved' != $the_comment_status ) {
+		if ( $comment_status ) // we're looking at list of only approved or only unapproved comments
+			echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+		else // we're looking at all comments
+			echo "<span class='approve'><a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:none:33FF33' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | </span>';
+	}
     	echo "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
 		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
 	}

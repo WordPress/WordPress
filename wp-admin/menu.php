@@ -17,7 +17,7 @@ else
 
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
 $menu[15] = array(__('Design'), 'switch_themes', 'themes.php');
-$menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='comment-count'><span>$awaiting_mod</span></span>" ), 'edit_posts', 'edit-comments.php');
+$menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod'><span class='comment-count'>$awaiting_mod</span></span>" ), 'edit_posts', 'edit-comments.php');
 $menu[30] = array(__('Settings'), 'manage_options', 'options-general.php');
 $menu[35] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )

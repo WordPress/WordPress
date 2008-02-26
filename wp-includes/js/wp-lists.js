@@ -21,9 +21,9 @@ wpAjax = {
 				var err = '';
 				errs.each( function() {
 					var code = $(this).attr('code');
-					if ( formField = $('wp_error_data[@code="' + code + '"] form-field', x).text() )
+					if ( formField = $('wp_error_data[code="' + code + '"] form-field', x).text() )
 						code = formField;
-					wpAjax.invalidateForm( $('#' + e + ' :input[@name="' + code + '"]' ).parents('.form-field:first') );
+					wpAjax.invalidateForm( $('#' + e + ' :input[name="' + code + '"]' ).parents('.form-field:first') );
 					err += '<p>' + this.firstChild.nodeValue + '</p>';
 				} );
 				return !re.html( '<div class="error">' + err + '</div>' );
@@ -58,7 +58,7 @@ var wpList = {
 
 	nonce: function(e,s) {
 		var url = wpAjax.unserialize(e.attr('href'));
-		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[@name=_ajax_nonce]').val() || url._wpnonce || $('#' + s.element + ' input[@name=_wpnonce]').val() || 0;
+		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name=_ajax_nonce]').val() || url._wpnonce || $('#' + s.element + ' input[name=_wpnonce]').val() || 0;
 	},
 
 	parseClass: function(e,t) {
@@ -74,11 +74,11 @@ var wpList = {
 		}, s || {} );
 		if ( $.isFunction( s.confirm ) ) {
 			if ( 'add' != a ) {
-				bg = $('#' + s.element).css('background-color');
-				$('#' + s.element).css('background-color', '#FF9966');
+				bg = $('#' + s.element).css('backgroundColor');
+				$('#' + s.element).css('backgroundColor', '#FF9966');
 			}
 			r = s.confirm.call(this,e,s,a,bg);
-			if ( 'add' != a ) { $('#' + s.element).css('background-color', bg ); }
+			if ( 'add' != a ) { $('#' + s.element).css('backgroundColor', bg ); }
 			if ( !r ) { return false; }
 		}
 		return s;
@@ -94,7 +94,7 @@ var wpList = {
 		s = wpList.pre.call( list, e, s, 'add' );
 		if ( !s ) { return false; }
 
-		if ( !e.is("[@class^=add:" + list.id + ":]") ) { return !wpList.add.call( list, e, s ); }
+		if ( !e.is("[class^=add:" + list.id + ":]") ) { return !wpList.add.call( list, e, s ); }
 
 		if ( !s.element ) { return true; }
 
@@ -102,8 +102,8 @@ var wpList = {
 
 		s.nonce = wpList.nonce(e,s);
 
-		var es = $('#' + s.element + ' :input').not('[@name=_ajax_nonce], [@name=_wpnonce], [@name=action]');
-		var required = $('#' + s.element + ' .form-required:has(:input[@value=""]), #' + s.element + ' .form-required:input[@value=""]');
+		var es = $('#' + s.element + ' :input').not('[name=_ajax_nonce], [name=_wpnonce], [name=action]');
+		var required = $('#' + s.element + ' .form-required:has(:input[value=""]), #' + s.element + ' .form-required:input[value=""]');
 		if ( required.size() ) {
 			wpAjax.invalidateForm( required );
 			return false;
@@ -172,28 +172,32 @@ var wpList = {
 		}
 		if ( !s.data._ajax_nonce ) { return true; }
 
-		var func = function() { list.wpList.recolor(); };
-		var hideTO = -1;
+		var element = $('#' + s.element);
+
 		if ( 'none' != s.delColor ) {
-			$('#' + s.element).animate( { backgroundColor:  s.delColor }, 100 ).slideUp();
-			hideTO = setTimeout(func, 500);
+			var anim = 'slideUp';
+			if ( element.css( 'display' ).match(/table/) )
+				anim = 'fadeOut'; // Can't slideup table rows and other table elements.  Known jQuery bug
+			element
+				.animate( { backgroundColor: s.delColor }, 'fast'  )[anim]( 'fast' )
+				.queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 		} else {
-			func();
+			list.wpList.recolor();
 		}
 
 		s.success = function(r) {
 			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
-				clearTimeout(hideTO);
-				func = function() { $('#' + s.element).css( 'background-color', '#FF3333' ).show(); list.wpList.recolor(); };
-				func(); setTimeout(func, 705); // In case it's still fading
+				element.stop().css( 'backgroundColor', '#FF3333' ).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
 			if ( $.isFunction(s.delAfter) ) {
 				var o = this.complete;
 				this.complete = function(x,st) {
-					var _s = $.extend( { xml: x, status: st }, s );
-					s.delAfter( r, _s );
-					if ( $.isFunction(o) ) { o(x,st); }
+					element.queue( function() {
+						var _s = $.extend( { xml: x, status: st }, s );
+						s.delAfter( r, _s );
+						if ( $.isFunction(o) ) { o(x,st); }
+					} ).dequeue();
 				};
 			}
 		};
@@ -227,40 +231,52 @@ var wpList = {
 			if ( !s ) { return true; }
 		}
 
-		var thisclass = $('#' + s.element).attr('class');
-		if ( thisclass && thisclass.match(/alternate/) )
-			var color = '#f1f1f1';
-		else
-			var color =  '#fff';
-		var isClass = $('#' + s.element).toggleClass(s.dimClass).is('.' + s.dimClass);
-		if ( isClass && 'none' != s.dimAddColor ) { 
-			$('#' + s.element).animate( { backgroundColor:  s.dimAddColor }, 50 ).animate( { backgroundColor: color }, 400 );
-		}
-		else if ( !isClass && 'none' != s.dimDelColor ) {
-			$('#' + s.element).animate( { backgroundColor:  s.dimDelColor }, 50 ).animate( { backgroundColor: color }, 400 );
+		var element = $('#' + s.element);
+		var isClass = element.toggleClass(s.dimClass).is('.' + s.dimClass);
+		var color = wpList.getColor( element );
+		element.toggleClass( s.dimClass )
+		var dimColor = isClass ? s.dimAddColor : s.dimDelColor;
+		if ( 'none' != dimColor ) {
+			element
+				.animate( { backgroundColor: dimColor }, 'fast' )
+				.queue( function() { element.toggleClass(s.dimClass); $(this).dequeue(); } )
+				.animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); } } );
 		}
 
 		if ( !s.data._ajax_nonce ) { return true; }
 
 		s.success = function(r) {
 			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
-				clearTimeout(dimTO);
-				func = function() { $('#' + s.element).css( 'background-color', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass); };
-				func(); setTimeout(func, 705);
+				element.stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
 			if ( $.isFunction(s.dimAfter) ) {
 				var o = this.complete;
 				this.complete = function(x,st) {
-					var _s = $.extend( { xml: x, status: st }, s );
-					s.dimAfter( r, _s );
-					if ( $.isFunction(o) ) { o(x,st); }
+					element.queue( function() {
+						var _s = $.extend( { xml: x, status: st }, s );
+						s.dimAfter( r, _s );
+						if ( $.isFunction(o) ) { o(x,st); }
+					} ).dequeue();
 				};
 			}
 		};
 
 		$.ajax( s );
 		return false;
+	},
+
+	// From jquery.color.js: jQuery Color Animation by John Resig
+	getColor: function( el ) {
+		if ( el.constructor == Object )
+			el = el.get(0);
+		var elem = el, color, rgbaTrans = new RegExp( "rgba\\(\\s*0,\\s*0,\\s*0,\\s*0\\s*\\)", "i" );
+		do {
+			color = jQuery.curCSS(elem, 'backgroundColor');
+			if ( color != '' && color != 'transparent' && !color.match(rgbaTrans) || jQuery.nodeName(elem, "body") )
+				break;
+		} while ( elem = elem.parentNode );
+		return color || '#ffffff';
 	},
 
 	add: function( e, s ) {
@@ -271,7 +287,6 @@ var wpList = {
 		var _s = { pos: 0, id: 0, oldId: null };
 		if ( 'string' == typeof s ) { s = { what: s }; }
 		s = $.extend(_s, this.wpList.settings, s);
-
 		if ( !e.size() || !s.what ) { return false; }
 		if ( s.oldId ) { old = $('#' + s.what + '-' + s.oldId); }
 		if ( s.id && ( s.id != s.oldId || !old || !old.size() ) ) { $('#' + s.what + '-' + s.id).remove(); }
@@ -299,9 +314,8 @@ var wpList = {
 		}
 
 		if ( 'none' != s.addColor ) {
-			var b = e.css( 'background-color' );
-			if ( b == 'transparent' ) { b = ''; }
-			e.css('background-color', s.addColor).animate( { backgroundColor: '#fff' }, 300 );
+			var color = wpList.getColor( e );
+			e.css( 'backgroundColor', s.addColor ).animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); } } );
 		}
 		list.each( function() { this.wpList.process( e ); } );
 		return e;
@@ -323,7 +337,7 @@ var wpList = {
 
 	process: function(el) {
 		var list = this;
-		var a = $("[@class^=add:" + list.id + ":]", el || null)
+		$("[class^=add:" + list.id + ":]", el || null)
 			.filter('form').submit( function() { return list.wpList.add(this); } ).end()
 			.not('form').click( function() { return list.wpList.add(this); } ).each( function() {
 				var addEl = this;
@@ -343,8 +357,8 @@ var wpList = {
 					}
 				} );
 			} );
-		var d = $("[@class^=delete:" + list.id + ":]", el || null).click( function() { return list.wpList.del(this); } );
-		var c = $("[@class^=dim:" + list.id + ":]", el || null).click( function() { return list.wpList.dim(this); } );
+		$("[class^=delete:" + list.id + ":]", el || null).click( function() { return list.wpList.del(this); } );
+		$("[class^=dim:" + list.id + ":]", el || null).click( function() { return list.wpList.dim(this); } );
 	},
 
 	recolor: function() {

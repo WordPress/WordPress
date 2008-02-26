@@ -67,7 +67,7 @@ class WP_Scripts {
 			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080110' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080226' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
