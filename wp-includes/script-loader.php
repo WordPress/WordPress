@@ -61,12 +61,6 @@ class WP_Scripts {
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
 
-		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'jquery-color'), '20070306' );
-		$this->localize( 'listman', 'listManL10n', array(
-			'jumpText' => __('Jump to new item'),
-			'delText' => __('Are you sure you want to delete this %thing%?')
-		) );
-
 		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080226' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
