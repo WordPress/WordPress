@@ -53,7 +53,7 @@ function wp_dashboard_setup() {
 
 	// WP Plugins Widget
 	wp_register_sidebar_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_empty',
-		array( 'all_link' => 'http://wordpress.org/extend/plugins/', 'feed_link' => 'http://wordpress.org/extend/plugins/rss/', 'width' => 'half' ),
+		array( 'all_link' => 'http://wordpress.org/extend/plugins/', 'feed_link' => 'http://wordpress.org/extend/plugins/rss/topics/', 'width' => 'half' ),
 		'wp_dashboard_cached_rss_widget', 'wp_dashboard_plugins_output',
 		array( 'http://wordpress.org/extend/plugins/rss/browse/popular/', 'http://wordpress.org/extend/plugins/rss/browse/new/', 'http://wordpress.org/extend/plugins/rss/browse/updated/' )
 	);
