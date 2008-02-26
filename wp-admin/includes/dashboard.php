@@ -428,7 +428,7 @@ function wp_dashboard_plugins_output() {
 		$dlink = rtrim($link, '/') . '/download/';
 
 		echo "<h4>$label</h4>\n";
-		echo "<h5><a href='$link'>$title</a></h5> <span>(<a href='$dlink'>" . __( 'Download' ) . "</a>)</span>\n";
+		echo "<h5><a href='$link'>$title</a></h5>&nbsp;<span>(<a href='$dlink'>" . __( 'Download' ) . "</a>)</span>\n";
 		echo "<p>$description</p>\n";
 	}
 }
