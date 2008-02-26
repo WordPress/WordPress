@@ -276,14 +276,14 @@ class WP_Filesystem_FTPext{
 
 	function delete($file,$recursive=false) {
 		if ( $this->is_file($file) )
-			return ftp_delete($this->link,$file);
+			return @ftp_delete($this->link,$file);
 		if ( !$recursive )
-			return ftp_rmdir($this->link,$file);
+			return @ftp_rmdir($this->link,$file);
 		$filelist = $this->dirlist($file);
 		foreach ($filelist as $filename => $fileinfo) {
 			$this->delete($file.'/'.$filename,$recursive);
 		}
-		return ftp_rmdir($this->link,$file);
+		return @ftp_rmdir($this->link,$file);
 	}
 
 	function exists($file){
@@ -297,8 +297,8 @@ class WP_Filesystem_FTPext{
 	}
 	function is_dir($path){
 		$cwd = $this->cwd();
-		if ( ftp_chdir($this->link, $path) ) {
-			ftp_chdir($this->link, $cwd);
+		if ( @ftp_chdir($this->link, $path) ) {
+			@ftp_chdir($this->link, $cwd);
 			return true;
 		}
 		return false;
