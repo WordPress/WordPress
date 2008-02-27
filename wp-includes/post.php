@@ -175,6 +175,10 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 		}
 	}
 
+	// Populate the ancestors field.
+	// Not cached since we don't clear cache for ancestors when a post changes.
+	_get_post_ancestors($_post);
+
 	$_post = sanitize_post($_post, $filter);
 
 	if ( $output == OBJECT ) {
@@ -188,6 +192,26 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 	} else {
 		return $_post;
 	}
+}
+
+/**
+ * get_post_ancestors() - Retrieve ancestors for a post
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.5
+ *
+ * @param string $field {@internal Missing Description}}
+ * @param int|object &$post post ID or post object
+ * @return array of ancestor IDs
+ */
+function get_post_ancestors($post) {
+	$post = get_post();
+
+	if ( !empty($post->ancestors) )
+		return $post->ancestors;
+
+	return array();
 }
 
 /**
@@ -2882,6 +2906,29 @@ function _save_post_hook($post_id, $post) {
 	} else {
 		clean_post_cache($post_id);
 	}
+}
+
+//
+// Private
+//
+
+function _get_post_ancestors(&$_post) {
+    global $wpdb;
+
+    if ( !empty($_post->ancestors) )
+    	return;
+ 
+    $_post->ancestors = array();
+
+    if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )
+    	return;
+
+    $id = $_post->ancestors[] = $_post->post_parent;
+    while ( $ancestor = $wpdb->get_var("SELECT `post_parent` FROM $wpdb->posts WHERE ID= '{$id}' LIMIT 1") ) {
+    	if ( $id == $ancestor )
+    		break;
+    	$id = $_post->ancestors[] = $ancestor;
+    }
 }
 
 ?>
