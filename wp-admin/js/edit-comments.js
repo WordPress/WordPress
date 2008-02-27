@@ -2,13 +2,13 @@ var list; var extra;
 jQuery(function($) {
 
 var dimAfter = function( r, settings ) {
-	$('span.comment-count').each( function() {
+	$('li span.comment-count').each( function() {
 		var a = $(this);
 		var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
 		a.html( n.toString() );
 	});
 	// we need to do the opposite for this guy, TODO: update title
-	$('.post-com-count').each( function() {
+	$('.post-com-count span.comment-count').each( function() {
 		var a = $(this);
 		var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? -1 : 1 );
 		a.html( n.toString() );

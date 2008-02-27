@@ -125,7 +125,7 @@ class WP_Scripts {
 				'good' => __('Good'),
 				'strong' => __('Strong')
 			) );
-			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20071104' );
+			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20080227' );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
 			$this->add( 'admin-forms', '/wp-admin/js/forms.js', false, '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
