@@ -29,20 +29,18 @@ function the_media_upload_tabs() {
 	$tabs = media_upload_tabs();
 
 	if ( !empty($tabs) ) {
-		echo "<ul id='media-upload-tabs'>\n";
+		echo "<ul id='sidemenu'>\n";
 		if ( isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) )
 			$current = $_GET['tab'];
 		else
 			$current = array_shift(array_keys($tabs));
 		foreach ( $tabs as $callback => $text ) {
-			if ( ++$i == count($tabs) )
-				$class = ' class="last"';
-			$href = add_query_arg('tab', $callback);
-			if ( $callback == $current )
-				$link = $text;
-			else
-				$link = "<a href='$href'>$text</a>";
-			echo "\t<li id='tab-$callback'$class>$link</li>\n";
+			$class = '';
+			if ( $current == $callback )
+				$class = " class='current'";
+			$href = add_query_arg(array('tab'=>$callback, 's'=>false, 'paged'=>false, 'post_mime_type'=>false, 'm'=>false));
+			$link = "<a href='$href'$class>$text</a>";
+			echo "\t<li id='tab-$callback'>$link</li>\n";
 		}
 		echo "</ul>\n";
 	}
@@ -261,15 +259,26 @@ function media_upload_attachments() {
 }
 
 function media_upload_library() {
-	if ( empty($_POST) )
-		wp_iframe( 'media_upload_library_form', $errors );
+	if ( !empty($_POST) ) {
+		$return = media_upload_form_handler();
+	
+		if ( is_string($return) )
+			return $return;
+		if ( is_array($return) )
+			$errors = $return;
+	}
+
+	return wp_iframe( 'media_upload_library_form', $errors );
 }
 
 function get_media_items( $post_id, $errors ) {
-	if ( $post_id )
+	if ( $post_id ) {
 		$attachments = get_children("post_parent=$post_id&post_type=attachment&orderby=menu_order ASC, ID&order=DESC");
-	else
-		$attachments = get_paged_attachments();
+	} else {
+		if ( is_array($GLOBALS['wp_the_query']->posts) )
+			foreach ( $GLOBALS['wp_the_query']->posts as $attachment )
+				$attachments[$attachment->ID] = $attachment;
+	}
 
 	if ( empty($attachments) )
 		return '';
@@ -707,7 +716,141 @@ jQuery(function($){
 }
 
 function media_upload_library_form($errors) {
+	global $wpdb, $wp_query, $wp_locale;
+
 	media_upload_header();
+
+	$post_id = intval($_REQUEST['post_id']);
+
+	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type=media&tab=library&post_id=$post_id";
+
+	$_GET['paged'] = intval($_GET['paged']);
+	if ( $_GET['paged'] < 1 )
+		$_GET['paged'] = 1;
+	$start = ( $_GET['paged'] - 1 ) * 10;
+	if ( $start < 1 )
+		$start = 0;
+	add_filter( 'post_limits', $limit_filter = create_function( '$a', "return 'LIMIT $start, 10';" ) );
+
+	list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
+
+?>
+
+<form id="filter" action="" method="get">
+<input type="hidden" name="type" value="media" />
+<input type="hidden" name="tab" value="library" />
+<input type="hidden" name="post_id" value="<?php echo $post_id; ?>" />
+<input type="hidden" name="post_mime_type" value="<?php echo $_GET['post_mime_type']; ?>" />
+
+<div id="search-filter">
+	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
+</div>
+
+<p>
+<ul class="subsubsub">
+<?php
+$type_links = array();
+$_num_posts = (array) wp_count_attachments();
+$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
+foreach ( $matches as $type => $reals )
+	foreach ( $reals as $real )
+		$num_posts[$type] += $_num_posts[$real];
+foreach ( $post_mime_types as $mime_type => $label ) {
+	$class = '';
+
+	if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
+		continue;
+
+	if ( wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
+		$class = ' class="current"';
+
+	$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false)) . "'$class>" . sprintf($label[2], $num_posts[$mime_type]) . '</a>';
+}
+$class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
+$type_links[] = "<li><a href='" . remove_query_arg(array('post_mime_type', 'paged', 'm')) . "'$class>".__('All Types')."</a>";
+echo implode(' | </li>', $type_links) . '</li>';
+unset($type_links);
+?>
+</ul>
+</p>
+
+<div class="tablenav">
+
+<?php
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'total' => ceil($wp_query->found_posts / 10),
+	'current' => $_GET['paged']
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div style="float: left">
+<?php
+
+$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'attachment' ORDER BY post_date DESC";
+
+$arc_result = $wpdb->get_results( $arc_query );
+
+$month_count = count($arc_result);
+
+if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
+<select name='m'>
+<option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
+<?php
+foreach ($arc_result as $arc_row) {
+	if ( $arc_row->yyear == 0 )
+		continue;
+	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
+	
+	if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
+		$default = ' selected="selected"';
+	else
+		$default = '';
+	
+	echo "<option$default value='$arc_row->yyear$arc_row->mmonth'>";
+	echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
+	echo "</option>\n";
+}
+?>
+</select>
+<?php } ?>
+
+<input type="submit" id="post-query-submit" value="<?php _e('Filter &#187;'); ?>" class="button-secondary" />
+
+</div>
+
+<br style="clear:both;" />
+</div>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="<?php echo attribute_escape($form_action_url); ?>" class="media-upload-form" id="attachments-form">
+
+<script type="text/javascript">
+<!--
+jQuery(function($){
+	var preloaded = $(".media-item.preloaded");
+	if ( preloaded.length > 0 ) {
+		preloaded.each(function(){prepareMediaItem({id:this.id.replace(/[^0-9]/g, '')},'');});
+		updateMediaForm();
+	}
+});
+-->
+</script>
+
+<?php wp_nonce_field('media-form'); ?>
+<?php //media_upload_form( $errors ); ?>
+
+<div id="media-items">
+<?php echo get_media_items(null, $errors); ?>
+</div>
+<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
+</form>
+<?php
 }
 
 add_filter('async_upload_media', 'get_media_item', 10, 2);

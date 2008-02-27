@@ -37,7 +37,8 @@ if ( 1 == $_GET['c'] )
 
 require_once('admin-header.php');
 
-add_filter( 'post_limits', $limit_filter = create_function( '$a', 'if ( empty($_GET["paged"]) ) $_GET["paged"] = 1; $start = ( intval($_GET["paged"]) - 1 ) * 15; return "LIMIT $start, 20";' ) );
+if ( isset($_GET['paged']) && $start = ( intval($_GET['paged']) - 1 ) * 15 )
+	add_filter( 'post_limits', $limit_filter = create_function( '$a', "return 'LIMIT $start, 15';" ) );
 list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 $wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
 
@@ -81,7 +82,7 @@ if ( is_single() ) {
 
 <ul class="subsubsub">
 <?php
-$status_links = array();
+$type_links = array();
 $_num_posts = (array) wp_count_attachments();
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 foreach ( $matches as $type => $reals )
@@ -96,13 +97,13 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href=\"upload.php?post_mime_type=$mime_type\"$class>" .
+	$type_links[] = "<li><a href=\"upload.php?post_mime_type=$mime_type\"$class>" .
 	sprintf($label[2], $num_posts[$mime_type]) . '</a>';
 }
 $class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"upload.php\"$class>".__('All Types')."</a>";
-echo implode(' |</li>', $status_links) . '</li>';
-unset($status_links);
+$type_links[] = "<li><a href=\"upload.php\"$class>".__('All Types')."</a>";
+echo implode(' | </li>', $type_links) . '</li>';
+unset($type_links);
 ?>
 </ul>
 

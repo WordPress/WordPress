@@ -1,31 +1,19 @@
 div#media-upload-header {
-	background-color: #eaf3fa;
+	background-color: #e4f2fd;
 	margin: 0;
-	padding: 1em 0.5em 0.5em 0.5em;
+	padding: 1em 0.5em 0 0.5em;
 	font-weight: bold;
+	position: relative;
+	border-bottom: 1px solid #c6d9e9;
 }
 
-ul#media-upload-tabs {
-	display:inline;
+ul#sidemenu {
+	font-weight: normal;
+	margin: 0 15px;
 	position: absolute;
 	right: 1em;
-	top: 1em;
-	font-size: 0.9em;
+	bottom: -1px;
 }
-
-ul#media-upload-tabs li {
-	display:inline;
-}
-
-ul#media-upload-tabs li:after {
-	content: " | ";
-}
-
-ul#media-upload-tabs li.last:after {
-	content: "";
-}
-
-
 
 div#media-upload-error {
 	margin: 1em;
@@ -33,8 +21,12 @@ div#media-upload-error {
 	color: #f00;
 }
 
-form.media-upload-form {
+form {
 	margin: 1em;
+}
+
+#search-filter {
+	text-align: right;
 }
 
 .media-upload-form label, .media-upload-form legend {
