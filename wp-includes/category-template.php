@@ -167,12 +167,24 @@ function get_the_category_list($separator = '', $parents='', $post_id = false) {
 	return apply_filters('the_category', $thelist, $separator, $parents);
 }
 
+/* 
+ * in_category() - Checks whether the current post is within a particular category
+ * 
+ * This function checks to see if the post is within the supplied category.  The categoy
+ * can be specified by number or name and will be checked as a name first to allow for categories with numeric names.
+ * Note: Prior to v2.5 of WordPress category names where not supported.
+ * 
+ * @since 1.2.0 
+ * 
+ * @param int|string $category 
+ * @return bool true if the post is in the supplied category
+*/ 
 function in_category( $category ) { // Check if the current post is in the given category
 	global $post;
 
-	if ( !is_numeric($category) ) {
-		$category = get_cat_ID($category);
-	}
+	$cat_ID = get_cat_ID($category);
+	if (0 != $cat_ID)
+		$category = $cat_ID;
 	
 	$categories = get_object_term_cache($post->ID, 'category');
 	if ( false === $categories )
