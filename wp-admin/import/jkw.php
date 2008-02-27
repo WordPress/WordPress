@@ -14,7 +14,7 @@ class JeromesKeyword_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports tags from an existing Jerome&#8217;s Keywords installation into this blog using the WordPress native tagging structure.').'</p>';
+		echo '<p>'.__('Howdy! This imports tags from Jerome&#8217;s Keywords into WordPress tags.').'</p>';
 		echo '<p>'.__('This is suitable for Jerome&#8217;s Keywords version 1.x and 2.0a.').'</p>';
 		echo '<p><strong>'.__('All existing Jerome&#8217;s Keywords will be removed after import.').'</strong></p>';
 		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
@@ -173,6 +173,6 @@ class JeromesKeyword_Import {
 $jkw_import = new JeromesKeyword_Import();
 
 // add it to the import page!
-register_importer('jkw', 'Jerome&#8217;s Keywords', __('Import Jerome&#8217;s Keywords into the native tagging structure.'), array($jkw_import, 'dispatch'));
+register_importer('jkw', 'Jerome&#8217;s Keywords', __('Import Jerome&#8217;s Keywords into WordPress tags.'), array($jkw_import, 'dispatch'));
 
 ?>

@@ -14,7 +14,7 @@ class UTW_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports tags from an existing Ultimate Tag Warrior 3 installation into this blog using the WordPress native tagging structure.').'</p>';
+		echo '<p>'.__('Howdy! This imports tags from Ultimate Tag Warrior 3 into WordPress tags.').'</p>';
 		echo '<p>'.__('This has not been tested on any other versions of Ultimate Tag Warrior. Mileage may vary.').'</p>';
 		echo '<p>'.__('To accommodate larger databases for those tag-crazy authors out there, we have made this into an easy 5-step program to help you kick that nasty UTW habit. Just keep clicking along and we will let you know when you are in the clear!').'</p>';
 		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
@@ -271,6 +271,6 @@ class UTW_Import {
 $utw_import = new UTW_Import();
 
 // add it to the import page!
-register_importer('utw', 'Ultimate Tag Warrior', __('Import Ultimate Tag Warrior tags into the native tagging structure.'), array($utw_import, 'dispatch'));
+register_importer('utw', 'Ultimate Tag Warrior', __('Import Ultimate Tag Warrior tags into WordPress tags.'), array($utw_import, 'dispatch'));
 
 ?>

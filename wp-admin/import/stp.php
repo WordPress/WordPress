@@ -12,7 +12,7 @@ class STP_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports tags from an existing Simple Tagging 1.6.2 installation into this blog using the WordPress native tagging structure.').'</p>';
+		echo '<p>'.__('Howdy! This imports tags from Simple Tagging 1.6.2 into WordPress tags.').'</p>';
 		echo '<p>'.__('This has not been tested on any other versions of Simple Tagging. Mileage may vary.').'</p>';
 		echo '<p>'.__('To accommodate larger databases for those tag-crazy authors out there, we have made this into an easy 4-step program to help you kick that nasty Simple Tagging habit. Just keep clicking along and we will let you know when you are in the clear!').'</p>';
 		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
@@ -151,5 +151,5 @@ class STP_Import {
 $stp_import = new STP_Import();
 
 // add it to the import page!
-register_importer('stp', 'Simple Tagging', __('Import Simple Tagging tags into the native tagging structure.'), array($stp_import, 'dispatch'));
+register_importer('stp', 'Simple Tagging', __('Import Simple Tagging tags into WordPress tags'), array($stp_import, 'dispatch'));
 ?>
