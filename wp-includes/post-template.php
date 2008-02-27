@@ -326,7 +326,7 @@ function wp_list_pages($args = '') {
 			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
 
 		global $wp_query;
-		if ( is_page() )
+		if ( is_page() || $wp_query->is_posts_page )
 			$current_page = $wp_query->get_queried_object_id();
 		$output .= walk_page_tree($pages, $r['depth'], $current_page, $r);
 
