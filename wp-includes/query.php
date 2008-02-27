@@ -894,7 +894,7 @@ class WP_Query {
 				$reqpage_obj = get_page($reqpage);
 				if ( 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
-					$this->is_page = false;
+					$this->is_page = true;
 					$q['attachment_id'] = $reqpage;
 				}
 			}
