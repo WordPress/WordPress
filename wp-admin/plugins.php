@@ -81,15 +81,38 @@ if (empty($plugins)) {
 	echo '</p>';
 } else {
 ?>
-<table class="widefat plugins">
+
+<div class="tablenav">
+	<div style="float: left">
+	<?php
+	$active = get_option('active_plugins');
+	$inactive = get_option('deactivated_plugins');
+	if ( !empty($active) ) {
+	?>
+	<a class="button-secondary" href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>" class="delete"><?php _e('Deactivate All Plugins'); ?></a>
+	<?php
+	} elseif ( empty($active) && !empty($inactive) ) {
+	?>
+	<a class="button-secondary" href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate All Plugins'); ?></a>
+	<?php
+	} // endif active/inactive plugin check
+	?>
+	</div>
+	<br style="clear:both;">
+</div>
+
+<br style="clear:both;">
+
+<table class="widefat">
 	<thead>
 	<tr>
 		<th><?php _e('Plugin'); ?></th>
 		<th style="text-align: center"><?php _e('Version'); ?></th>
 		<th><?php _e('Description'); ?></th>
-		<th style="text-align: center"<?php if ( current_user_can('edit_plugins') ) echo ' colspan="2"'; ?>><?php _e('Action'); ?></th>
+		<th <?php if ( current_user_can('edit_plugins') ) echo ' colspan="2"'; ?>><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
+	<tbody id="plugins">
 <?php
 	$style = '';
 
@@ -126,36 +149,15 @@ if (empty($plugins)) {
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
-		<td class='togl'>$toggle</td>";
-		if ( current_user_can('edit_plugins') )
-		echo "
-		<td>$edit</td>";
+		<td class='togl'>$toggle"; if ( current_user_can('edit_plugins') ) echo " | $edit</td>";
 		echo"
 	</tr>";
 	do_action( 'after_plugin_row', $plugin_file );
 	}
 ?>
-
-<tr>
-	<td colspan="3">&nbsp;</td>
-	<td colspan="2" style="width:12em;">
-	<?php
-	$active = get_option('active_plugins');
-	$inactive = get_option('deactivated_plugins');
-	if ( !empty($active) ) {
-	?>
-	<a href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>" class="delete"><?php _e('Deactivate All Plugins'); ?></a>
-	<?php
-	} elseif ( empty($active) && !empty($inactive) ) {
-	?>
-	<a href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate All Plugins'); ?></a>
-	<?php
-	} // endif active/inactive plugin check
-	?>
-	</td>
-</tr>
-
+	</tbody>
 </table>
+
 <?php
 }
 ?>

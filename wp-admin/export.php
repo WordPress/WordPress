@@ -14,16 +14,15 @@ require_once ('admin-header.php');
 
 <div class="wrap">
 <h2><?php _e('Export'); ?></h2>
-<div class="narrow">
 <p><?php _e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, comments, custom fields, and categories.'); ?></p>
 <p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>
 <form action="" method="get">
-<h3><?php _e('Optional options'); ?></h3>
+<h3><?php _e('Options'); ?></h3>
 
-<table class="niceblue">
+<table class="form-table">
 <tr>
-<th><?php _e('Restrict Author:'); ?></th>
+<th><?php _e('Restrict Author'); ?></th>
 <td>
 <select name="author">
 <option value="all" selected="selected"><?php _e('All Authors'); ?></option>
@@ -42,7 +41,6 @@ foreach ( $authors as $id ) {
 <input type="hidden" name="download" value="true" />
 </p>
 </form>
-</div>
 </div>
 
 <?php

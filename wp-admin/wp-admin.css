@@ -1,10 +1,24 @@
-.plugins p {
-	margin: 4px;
+#plugins .active td {
+	opacity:1;
+	filter:alpha(opacity=100)
+}
+
+#plugins .active td.name {
+	font-weight: bold;
+}
+
+#plugins td {
+	opacity:0.70;
+	filter:alpha(opacity=70)
+}
+
+#plugins p {
+	margin: 0 4px;
 	padding: 0;
 }
 
-.plugins .name {
-	font-size: 16px;
+#plugins .togl {
+	width: 150px;
 }
 
 .import-system {
@@ -116,7 +130,9 @@ form#upload #post_content {
 }
 
 .submit {
-	margin: 1.5em 0 0 0;
+	border-top: 1px solid #ccc;
+	padding: 1.5em 0 0 0;
+	margin: 10px 0 0 0;
 	-moz-border-radius-bottomleft: 3px;
 	-khtml-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
@@ -197,7 +213,7 @@ select {
 	margin-left: 15px;
 	padding: 0 15px;
 	margin-bottom: 20px;
-	margin-right: 15%;
+	margin-right: 15px;
 }
 
 .updated a, .error a {
@@ -395,19 +411,6 @@ input.disabled, textarea.disabled {
 	zoom: 1;
 }
 
-.active td {
-	background: #BEB;
-}
-.active .name {
-	background: #9C9;
-}
-.alternate.active td {
-	background: #ADA;
-}
-.alternate.active .name {
-	background: #8B8;
-}
-
 #ajax-response {
 	padding: .5em;
 }
@@ -522,6 +525,11 @@ p.pagenav {
 	border-color: #e4f2fd;
 }
 
+.tablenav a.button-secondary {
+	display: inline-block;
+	margin-right: 8px;
+}
+
 .tablenav .next, .tablenav .prev{
 	border-color: #e4f2fd;
 	background-color: #e4f2fd;
@@ -603,7 +611,7 @@ a.view-comment-post-link {
 
 #user_info {
 	position: absolute;
-	right: 25px;
+	right: 15px;
 	top: 11px;
 	color: #ccc;
 	font-size: 11px;
@@ -742,7 +750,7 @@ a.view-comment-post-link {
 }
 
 #sidemenu {
-	margin: -30px 15% 0 315px;
+	margin: -30px 15px 0 315px;
 	color: #999;
 	list-style: none;
 	position: relative;
@@ -912,6 +920,7 @@ html, body {
 	border-collapse: collapse;
 	margin-top: 1em;
 	width: 100%;
+	margin-bottom: -8px;
 }
 
 .form-table td {
@@ -925,6 +934,7 @@ html, body {
 	text-align: left;
 	padding: 10px;
 	border-bottom: 8px solid #fff;
+	width: 150px;
 }
 
 .form-table tr {
@@ -1134,7 +1144,7 @@ html, body {
 	position: absolute;
 	background-color: #eaf3fa;
 	width: 200px;
-	right: 25px;
+	right: 15px;
 }
 
 
@@ -1386,7 +1396,7 @@ ul.view-switch li.current a {
 
 #the-comment-list td {
 	vertical-align: top;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 #the-comment-list td.comment {
