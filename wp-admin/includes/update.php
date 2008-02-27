@@ -62,7 +62,7 @@ function wp_update_plugins() {
 			continue;
 		}
 
-		if ( $current->checked[ $file ] != $p['Version'] )
+		if ( strval($current->checked[ $file ]) !== strval($p['Version']) )
 			$plugin_changed = true;
 	}
 
