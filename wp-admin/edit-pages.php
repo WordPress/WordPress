@@ -33,7 +33,6 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 
 $title = __('Pages');
 $parent_file = 'edit.php';
-wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script('admin-forms');
 require_once('admin-header.php');
 
@@ -139,7 +138,7 @@ if ($posts) {
 <?php } ?>
   </tr>
   </thead>
-  <tbody id="the-list" class="list:page">
+  <tbody>
   <?php page_rows($posts); ?>
   </tbody>
 </table>

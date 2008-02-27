@@ -33,15 +33,12 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 
 $title = __('Posts');
 $parent_file = 'edit.php';
-wp_enqueue_script( 'admin-posts' );
 wp_enqueue_script('admin-forms');
 if ( 1 == $_GET['c'] )
 	wp_enqueue_script( 'admin-comments' );
 require_once('admin-header.php');
 
-add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; return "LIMIT $start, 20";' ) );
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
-$wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
 
 if ( !isset( $_GET['paged'] ) )
 	$_GET['paged'] = 1;
@@ -177,10 +174,6 @@ foreach ($arc_result as $arc_row) {
 
 <?php include( 'edit-post-rows.php' ); ?>
 
-</form>
-
-<form action="" method="post" id="get-extra-posts" class="add:the-extra-list:" style="display:none">
-	<?php wp_nonce_field( 'add-post', '_ajax_nonce', false ); ?>
 </form>
 
 <div id="ajax-response"></div>

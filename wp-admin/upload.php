@@ -31,7 +31,6 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 
 $title = __('Media Library');
 $parent_file = 'edit.php';
-wp_enqueue_script( 'admin-posts' );
 wp_enqueue_script( 'admin-forms' );
 if ( 1 == $_GET['c'] )
 	wp_enqueue_script( 'admin-comments' );
@@ -179,10 +178,6 @@ foreach ($arc_result as $arc_row) {
 
 <?php include( 'edit-attachment-rows.php' ); ?>
 
-</form>
-
-<form action="" method="post" id="get-extra-posts" class="add:the-extra-list:" style="display:none">
-	<?php wp_nonce_field( 'add-post', '_ajax_nonce', false ); ?>
 </form>
 
 <div id="ajax-response"></div>

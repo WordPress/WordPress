@@ -10,15 +10,13 @@
 
 	</tr>
 	</thead>
-	<tbody id="the-list" class="list:post">
+	<tbody>
 <?php
 $i_post = 0;
 if ( have_posts() ) {
 $bgcolor = '';
 add_filter('the_title','wp_specialchars');
 while (have_posts()) : the_post(); $i_post++;
-if ( 16 == $i_post )
-	echo "\t</tbody>\n\t<tbody id='the-extra-list' class='list:post' style='display: none'>\n"; // Hack!
 $class = ( $i_post > 15 || 'alternate' == $class) ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
@@ -165,7 +163,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'control_delete':
 		?>
-		<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete:the-list:post-$post->ID delete'>" . __('Delete') . "</a>"; } ?></td>
+		<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete'>" . __('Delete') . "</a>"; } ?></td>
 		<?php
 		break;
 

@@ -179,8 +179,7 @@ if ($comments) {
 		$post = get_post($comment->comment_post_ID);
 		$authordata = get_userdata($post->post_author);
 		$the_comment_status = wp_get_comment_status($comment->comment_ID);
-		$class = ('alternate' == $class) ? '' : '';
-		$class .= ('unapproved' == $the_comment_status) ? ' unapproved' : '';
+		$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
 		$post_link = '<a href="' . get_comment_link() . '">' . get_the_title($comment->comment_post_ID) . '</a>';
 		$author_url = get_comment_author_url();
 		if ( 'http://' == $author_url )

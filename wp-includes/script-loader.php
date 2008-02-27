@@ -126,9 +126,8 @@ class WP_Scripts {
 				'strong' => __('Strong')
 			) );
 			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20071104' );
-			$this->add( 'admin-posts', '/wp-admin/js/edit-posts.js', array('wp-lists'), '20071023' );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
-			$this->add( 'admin-forms', '/wp-admin/js/forms.js', array('wp-lists'), '20080108' );
+			$this->add( 'admin-forms', '/wp-admin/js/forms.js', false, '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery'), '20080128' );

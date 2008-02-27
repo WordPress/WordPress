@@ -24,7 +24,6 @@ if ( isset($_GET['deleteit']) && isset($_GET['linkcheck']) ) {
 	 exit; 
 }
 
-wp_enqueue_script( 'wp-lists' );
 wp_enqueue_script('admin-forms');
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
@@ -150,7 +149,7 @@ if ( $links ) {
 } ?>
 	</tr>
 	</thead>
-	<tbody id="the-list" class="list:link">
+	<tbody>
 <?php
 	foreach ($links as $link) {
 		$link = sanitize_bookmark($link);

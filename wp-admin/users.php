@@ -264,14 +264,17 @@ foreach ( (array) $users_of_blog as $b_user ) {
 }
 unset($users_of_blog);
 
+$current_role = false;
 foreach ( $wp_roles->get_names() as $role => $name ) {
 	if ( !isset($avail_roles[$role]) )
 		continue;
 
 	$class = '';
 
-	if ( $role == $_GET['role'] )
+	if ( $role == $_GET['role'] ) {
+		$current_role = $_GET['role'];
 		$class = ' class="current"';
+	}
 
 	$name = translate_with_context($name);
 	$name = sprintf(_c('%1$s (%2$s)|user role with count'), $name, $avail_roles[$role]);
@@ -339,12 +342,12 @@ unset($role_links);
 </tbody>
 <tbody id="users" class="list:user user-list">
 <?php
+$style = '';
 foreach ( $wp_user_search->get_results() as $userid ) {
 	$user_object = new WP_User($userid);
 	$roles = $user_object->roles;
 	$role = array_shift($roles);
 
-	$style = '';
 	$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
 	echo "\n\t" . user_row($user_object, $style, $role);
 }
@@ -399,7 +402,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	else
 	        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
 ?>
-<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:user-list:">
+<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users:">
 <?php wp_nonce_field('add-user') ?>
 <table class="form-table">
 	<tr class="form-field form-required">
@@ -437,7 +440,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 		<td><select name="role" id="role">
 			<?php
 			if ( !$new_user_role )
-				$new_user_role = get_option('default_role');
+				$new_user_role = $current_role ? $current_role : get_option('default_role');
 			wp_dropdown_roles($new_user_role);
 			?>
 			</select>
@@ -449,11 +452,6 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	<input name="adduser" type="submit" id="addusersub" value="<?php _e('Add User') ?>" />
 </p>
 </form>
-
-<table style="color:red">
-<tbody id="user-list" class="list:user">
-</tbody>
-</table>
 
 </div>
 

@@ -263,20 +263,9 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 	// convert it to table rows
 	$out = '';
 	$class = '';
-	$i = 0;
 	$count = 0;
-	foreach( $tags as $tag ) {
-		if( $i ) {
-			$i = 0;
-			$class = ' class="alternate"';
-		} else {
-			$i = 1;
-			$class = '';
-		}
-
-		$out .= _tag_row( $tag, $class );
-		$count++;
-	}
+	foreach( $tags as $tag )
+		$out .= _tag_row( $tag, ++$count % 2 ? ' class="alternate"' : '' );
 
 	// filter and send to screen
 	$out = apply_filters('tag_rows', $out);
