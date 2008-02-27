@@ -140,7 +140,6 @@ function fileDialogComplete(num_files_queued) {
 }
 
 function uploadError(fileObj, error_code, message) {
-alert(message);return;
 	// first the file specific error
 	if ( error_code == SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL ) {
 		wpFileError(fileObj, swfuploadL10n.missing_upload_url);

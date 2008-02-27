@@ -616,6 +616,7 @@ jQuery(function($){
 				"auth_cookie" : "<?php echo $_COOKIE[AUTH_COOKIE]; ?>",
 				"type" : "media"
 			},
+			file_size_limit : "<?php echo wp_max_upload_size(); ?>b",
 			swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
 			degraded_element_id : "html-upload-ui",   // when swfupload is unavailable
 			swfupload_loaded_handler : uploadLoaded,
