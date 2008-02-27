@@ -272,7 +272,7 @@ function wp_dashboard_recent_comments( $sidebar_args ) {
 			$comment_post_title = get_the_title( $comment->comment_post_ID );
 			$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
 			$comment_link = '<a class="comment-link" href="' . get_comment_link() . '">#</a>';
-			$comment_meta = sprintf( __( 'From <strong>%s</strong> on %s %s' ), get_comment_author(), $comment_post_link, $comment_link );
+			$comment_meta = sprintf( __( 'From <strong>%1$s</strong> on %2$s %3$s' ), get_comment_author(), $comment_post_link, $comment_link );
 
 			if ( $is_first ) : $is_first = false;
 ?>
