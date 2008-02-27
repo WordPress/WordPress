@@ -161,7 +161,7 @@ class WP_Import {
 
 				$user_id = username_exists($new_author_name);
 				if ( !$user_id ) {
-					$user_id = wp_create_user($new_author_name, 'changeme');
+					$user_id = wp_create_user($new_author_name, wp_generate_password());
 				}
 
 				$this->author_ids[$in_author_name] = $user_id;
@@ -181,7 +181,7 @@ class WP_Import {
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
 <?php
 	if ( $this->allow_create_users() ) {
-		echo '<p>'.__('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)')."</p>\n";
+		echo '<p>'.__('If a new user is created by WordPress, a password will be randomly generated. Manually change the user\'s details if necessary.')."</p>\n";
 	}
 
 

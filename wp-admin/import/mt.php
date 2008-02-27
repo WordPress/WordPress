@@ -61,7 +61,7 @@ class MT_Import {
 	function checkauthor($author) {
 		global $wpdb;
 		//mtnames is an array with the names in the mt import file
-		$pass = 'changeme';
+		$pass = wp_generate_password();
 		if (!(in_array($author, $this->mtnames))) { //a new mt author name is found
 			++ $this->j;
 			$this->mtnames[$this->j] = $author; //add that new mt author name to an array
@@ -153,7 +153,7 @@ class MT_Import {
 <h2><?php _e('Assign Authors'); ?></h2>
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as admin\'s entries.'); ?></p>
 <p><?php _e('Below, you can see the names of the authors of the MovableType posts in <i>italics</i>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>
-<p><?php _e('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)'); ?></p>
+<p><?php _e('If a new user is created by WordPress, a password will be randomly generated. Manually change the user\'s details if necessary.'); ?></p>
 	<?php
 
 
