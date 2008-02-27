@@ -647,12 +647,7 @@ function wp_widget_text_register() {
 	$control_ops = array('width' => 460, 'height' => 350, 'id_base' => 'text');
 	$name = __('Text');
 
-	// If there are none, we register the widget's existance with a generic template
-	if ( !$options ) {
-		wp_register_sidebar_widget( 'text-1', $name, 'wp_widget_text', $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( 'text-1', $name, 'wp_widget_text_control', $control_ops, array( 'number' => -1 ) );
-	}
-
+	$id = false;
 	foreach ( array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['title']) || !isset($options[$o]['text']) )
@@ -660,6 +655,12 @@ function wp_widget_text_register() {
 		$id = "text-$o"; // Never never never translate an id
 		wp_register_sidebar_widget($id, $name, 'wp_widget_text', $widget_ops, array( 'number' => $o ));
 		wp_register_widget_control($id, $name, 'wp_widget_text_control', $control_ops, array( 'number' => $o ));
+	}
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$id ) {
+		wp_register_sidebar_widget( 'text-1', $name, 'wp_widget_text', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'text-1', $name, 'wp_widget_text_control', $control_ops, array( 'number' => -1 ) );
 	}
 }
 
@@ -808,12 +809,7 @@ function wp_widget_categories_register() {
 
 	$name = __( 'Categories' );
 
-	// If there are none, we register the widget's existance with a generic template
-	if ( !$options ) {
-		wp_register_sidebar_widget( 'categories-1', $name, 'wp_widget_categories', $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( 'categories-1', $name, 'wp_widget_categories_control', array( 'id_base' => 'categories' ), array( 'number' => -1 ) );
-	}
-
+	$id = false;
 	foreach ( array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['title']) )
@@ -823,6 +819,11 @@ function wp_widget_categories_register() {
 		wp_register_widget_control( $id, $name, 'wp_widget_categories_control', array( 'id_base' => 'categories' ), array( 'number' => $o ) );
 	}
 
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$id ) {
+		wp_register_sidebar_widget( 'categories-1', $name, 'wp_widget_categories', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'categories-1', $name, 'wp_widget_categories_control', array( 'id_base' => 'categories' ), array( 'number' => -1 ) );
+	}
 }
 
 function wp_widget_categories_upgrade() {
@@ -1297,12 +1298,7 @@ function wp_widget_rss_register() {
 	$control_ops = array('width' => 410, 'height' => 200, 'id_base' => 'rss');
 	$name = __('RSS');
 
-	// If there are none, we register the widget's existance with a generic template
-	if ( !$options ) {
-		wp_register_sidebar_widget( 'rss-1', $name, 'wp_widget_rss', $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( 'rss-1', $name, 'wp_widget_rss_control', $control_ops, array( 'number' => -1 ) );
-	}
-
+	$id = false;
 	foreach ( array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['url']) || !isset($options[$o]['title']) || !isset($options[$o]['items']) )
@@ -1310,6 +1306,12 @@ function wp_widget_rss_register() {
 		$id = "rss-$o"; // Never never never translate an id
 		wp_register_sidebar_widget($id, $name, 'wp_widget_rss', $widget_ops, array( 'number' => $o ));
 		wp_register_widget_control($id, $name, 'wp_widget_rss_control', $control_ops, array( 'number' => $o ));
+	}
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$id ) {
+		wp_register_sidebar_widget( 'rss-1', $name, 'wp_widget_rss', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'rss-1', $name, 'wp_widget_rss_control', $control_ops, array( 'number' => -1 ) );
 	}
 }
 
@@ -1489,12 +1491,7 @@ function widget_many_register() {
 	$control_ops = array('width' => 400, 'height' => 350, 'id_base' => 'many');
 	$name = __('Many');
 
-	// If there are none, we register the widget's existance with a generic template
-	if ( !$options ) {
-		wp_register_sidebar_widget( 'many-1', $name, 'widget_many', $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( 'many-1', $name, 'widget_many_control', $control_ops, array( 'number' => -1 ) );
-	}
-
+	$registered = false;
 	foreach ( array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['something']) ) // we used 'something' above in our exampple.  Replace with with whatever your real data are.
@@ -1502,8 +1499,15 @@ function widget_many_register() {
 
 		// $id should look like {$id_base}-{$o}
 		$id = "many-$o"; // Never never never translate an id
+		$registered = true;
 		wp_register_sidebar_widget( $id, $name, 'wp_widget_text', $widget_ops, array( 'number' => $o ) );
 		wp_register_widget_control( $id, $name, 'wp_widget_text_control', $control_ops, array( 'number' => $o ) );
+	}
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$registered ) {
+		wp_register_sidebar_widget( 'many-1', $name, 'widget_many', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( 'many-1', $name, 'widget_many_control', $control_ops, array( 'number' => -1 ) );
 	}
 }
 

@@ -122,6 +122,9 @@ endif;
 
 <?php
 $query_str = "post_type=page&orderby=menu_order title&what_to_show=posts$post_status_q&posts_per_page=-1&posts_per_archive_page=-1&order=asc";
+if ( !empty($_GET['p']) ) {
+	$query_str .= "p=
+}
 $query_str = apply_filters('manage_pages_query', $query_str);
 wp($query_str);
 
@@ -159,6 +162,28 @@ if ($posts) {
 <div class="tablenav">
 <br style="clear:both;" />
 </div>
+
+<?php
+if ( 1 == count($posts) && isset( $_GET['p'] ) ) {
+
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
+	if ($comments) {
+		// Make sure comments, post, and post_author are cached
+		update_comment_cache($comments);
+		$post = get_post($id);
+		$authordata = get_userdata($post->post_author);
+	?>
+<h3 id="comments"><?php _e('Comments') ?></h3>
+<ol id="the-comment-list" class="list:comment commentlist">
+<?php
+		$i = 0;
+		foreach ( $comments as $comment ) {
+			_wp_comment_list_item( $comment->comment_ID, ++$i );
+		}
+	echo '</ol>';
+	} // end if comments
+?>
+<?php } ?>
 
 </div>
 
