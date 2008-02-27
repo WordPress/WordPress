@@ -316,5 +316,5 @@ class GM_Import {
 
 $gm_import = new GM_Import();
 
-register_importer('greymatter', __('GreyMatter'), __('Import users, posts, and comments from a Greymatter blog'), array ($gm_import, 'dispatch'));
+register_importer('greymatter', __('GreyMatter'), __('Import users, posts, and comments from a Greymatter blog.'), array ($gm_import, 'dispatch'));
 ?>

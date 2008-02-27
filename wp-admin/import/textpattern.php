@@ -670,5 +670,5 @@ class Textpattern_Import {
 }
 
 $txp_import = new Textpattern_Import();
-register_importer('textpattern', __('Textpattern'), __('Import categories, users, posts, comments, and links from a Textpattern blog'), array ($txp_import, 'dispatch'));
+register_importer('textpattern', __('Textpattern'), __('Import categories, users, posts, comments, and links from a Textpattern blog.'), array ($txp_import, 'dispatch'));
 ?>

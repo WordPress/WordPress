@@ -742,5 +742,5 @@ class Dotclear_Import {
 }
 
 $dc_import = new Dotclear_Import();
-register_importer('dotclear', __('DotClear'), __('Import categories, users, posts, comments, and links from a DotClear blog'), array ($dc_import, 'dispatch'));
+register_importer('dotclear', __('DotClear'), __('Import categories, users, posts, comments, and links from a DotClear blog.'), array ($dc_import, 'dispatch'));
 ?>

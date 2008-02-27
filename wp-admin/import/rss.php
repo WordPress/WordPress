@@ -178,5 +178,5 @@ class RSS_Import {
 
 $rss_import = new RSS_Import();
 
-register_importer('rss', __('RSS'), __('Import posts from an RSS feed'), array ($rss_import, 'dispatch'));
+register_importer('rss', __('RSS'), __('Import posts from an RSS feed.'), array ($rss_import, 'dispatch'));
 ?>

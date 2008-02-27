@@ -454,5 +454,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-register_importer('mt', __('Movable Type and TypePad'), __('Import posts and comments from a Movable Type or Typepad blog'), array ($mt_import, 'dispatch'));
+register_importer('mt', __('Movable Type and TypePad'), __('Import posts and comments from a Movable Type or Typepad blog.'), array ($mt_import, 'dispatch'));
 ?>

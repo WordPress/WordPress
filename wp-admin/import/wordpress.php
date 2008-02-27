@@ -740,6 +740,6 @@ class WP_Import {
 
 $wp_import = new WP_Import();
 
-register_importer('wordpress', 'WordPress', __('Import <strong>posts, comments, custom fields, pages, and categories</strong> from a WordPress export file'), array ($wp_import, 'dispatch'));
+register_importer('wordpress', 'WordPress', __('Import <strong>posts, comments, custom fields, pages, and categories</strong> from a WordPress export file.'), array ($wp_import, 'dispatch'));
 
 ?>

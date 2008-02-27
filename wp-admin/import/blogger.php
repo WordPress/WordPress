@@ -837,7 +837,7 @@ thead td { font-weight: bold; }
 
 $blogger_import = new Blogger_Import();
 
-register_importer('blogger', __('Blogger'), __('Import posts, comments, and users from a Blogger blog'), array ($blogger_import, 'start'));
+register_importer('blogger', __('Blogger'), __('Import posts, comments, and users from a Blogger blog.'), array ($blogger_import, 'start'));
 
 class AtomEntry {
 	var $links = array();

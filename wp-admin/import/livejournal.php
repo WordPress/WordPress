@@ -175,5 +175,5 @@ class LJ_Import {
 
 $livejournal_import = new LJ_Import();
 
-register_importer('livejournal', __('LiveJournal'), __('Import posts from a LiveJournal XML export file'), array ($livejournal_import, 'dispatch'));
+register_importer('livejournal', __('LiveJournal'), __('Import posts from a LiveJournal XML export file.'), array ($livejournal_import, 'dispatch'));
 ?>
