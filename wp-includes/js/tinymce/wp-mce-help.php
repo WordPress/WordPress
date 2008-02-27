@@ -13,20 +13,20 @@ wp_admin_css();
 ?>
 <style type="text/css">
 	body {
-        background-color: #eaf3ea;
+        background-color: #eaf3fa;
     }
     #wphead {
 		padding-top: 2px;
 		padding-left: 15px;
 		font-size: 80%;
 		border-top: 0;
-		background-color: #eaf3ea;
+		background-color: #eaf3fa;
 	}
 	#adminmenu {
 		padding-top: 2px;
 		padding-left: 15px;
 		font-size: 80%;
-		background-color: #eaf3ea;
+		background-color: #eaf3fa;
 	}
 	#user_info {
 		right: 5%;
@@ -110,13 +110,6 @@ wp_admin_css();
 </style>
 <?php endif; ?>
 <script type="text/javascript">
-	window.onkeydown = window.onkeypress = function (e) {
-		e = e ? e : window.event;
-		if ( e.keyCode == 27 && !e.shiftKey && !e.controlKey && !e.altKey ) {
-			window.close();
-		}
-	}
-
 	function d(id) { return document.getElementById(id); }
 
 	function flipTab(n) {
@@ -160,9 +153,9 @@ wp_admin_css();
 <div id="content1">
 	<h2><?php _e('Rich Editing Basics') ?></h2>
 	<p><?php _e('<em>Rich editing</em>, also called WYSIWYG for What You See Is What You Get, means your text is formatted as you type. The rich editor creates HTML code behind the scenes while you concentrate on writing. Font styles, links and images all appear approximately as they will on the internet.') ?></p>
-	<p><?php _e('WordPress includes a rich HTML editor that works well in most web browsers used today. It is powerful but it has limitations. Pasting text from other word processors may not give the results you expect. For best compatibility, use the "Paste as Plain Text" or "Paste from Word" buttons located on the extended (second) toolbar row.') ?></p>
-	<p><?php _e('While using the editor, most basic keyboard shortcuts work like in any other text editor. For example: Shift+Enter inserts line break, Ctrl+C = copy, Ctrl+X = cut, Ctrl+Z = undo, Ctrl+Y = redo, Ctrl+B = bold, Ctrl+I = italic, Ctrl+U = underline, etc. (on Mac use the Apple key instead of Ctrl).') ?></p>
-    <p><?php _e('If you do not like the way the rich editor works, you may turn it off in the Your Profile and Personal Options form, under Users in the admin menu.') ?></p>
+	<p><?php _e('WordPress includes a rich HTML editor that works well in all major web browsers used today. However editing HTML is not the same as typing text. Each web page has two major components: the structure, which is the actual HTML code and is produced by the editor as you type, and the display, that is applied to it by the currently selected WordPress theme and is defined in style.css. Furthermore WordPress is producing valid XHTML 1.0 which means that display cannot be controlled by structural elements. So inserting multiple line breaks (BR tags) after a paragraph would not produce white space on the web page. The BR tags will be stripped as invalid by the internal HTML correcting functions.') ?></p>
+	<p><?php _e('While using the editor, most basic keyboard shortcuts work like in any other text editor. For example: Shift+Enter inserts line break, Ctrl+C = copy, Ctrl+X = cut, Ctrl+Z = undo, Ctrl+Y = redo, Ctrl+B = bold, Ctrl+I = italic, Ctrl+U = underline, etc. (on Mac use the Apple key instead of Ctrl). See the Hotkeys tab for all available keyboard shortcuts.') ?></p>
+    <p><?php _e('If you do not like the way the rich editor works, you may turn it off from Your Profile submenu, under Users in the admin menu.') ?></p>
 </div>
 
 <div id="content2" class="hidden">
@@ -176,18 +169,30 @@ wp_admin_css();
 
 <div id="content3" class="hidden">
 	<h2><?php _e('Writing at Full Speed') ?></h2>
-    <p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Alt+&lt;letter>. Macintosh uses Ctrl+&lt;letter>.') ?></p>
+    <p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Ctrl + letter. Macintosh uses Apple + letter.') ?></p>
 	<table id="keys" width="100%" border="0">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
-		<tr><th>n</th><td><?php _e('Check Spelling') ?></td><th>f</th><td class="align left"><?php _e('Align Left') ?></td></tr>
-		<tr><th>j</th><td><?php _e('Justify Text') ?></td><th>c</th><td class="align center"><?php _e('Align Center') ?></td></tr>
-		<tr><th>k</th><td><strike><?php _e('Strikethrough') ?></strike></td><th>r</th><td class="align right"><?php _e('Align Right') ?></td></tr>
-		<tr><th>l</th><td><b>&bull;</b> <?php _e('List') ?></td><th>a</th><td><?php _e('Insert <span class="anchor">Anchor</span>') ?></td></tr>
-		<tr><th>o</th><td>1. <?php _e('List') ?></td><th>s</th><td><?php _e('Unlink Anchor') ?></td></tr>
-		<tr><th>q</th><td>&rarr;<?php _e('Quote/Indent') ?></td><th>m</th><td><?php _e('Insert Image') ?></td></tr>
-		<tr><th>w</th><td>&larr;<?php _e('Unquote/Outdent') ?></td><th>t</th><td><?php _e('Insert "More" Tag') ?></td></tr>
-		<tr><th>u</th><td><?php _e('Undo') ?></td><th>e</th><td><?php _e('Edit HTML') ?></td></tr>
-		<tr><th>y</th><td><?php _e('Redo') ?></td><th>h</th><td><?php _e('Open Help') ?></td></tr>
+		<tr><th>c</th><td><?php _e('Copy') ?></td><th>v</th><td><?php _e('Paste') ?></td></tr>
+		<tr><th>a</th><td><?php _e('Select all') ?></td><th>x</th><td><?php _e('Cut') ?></td></tr>
+		<tr><th>z</th><td><?php _e('Undo') ?></td><th>y</th><td><?php _e('Redo') ?></td></tr>
+		<tr><th>b</th><td><?php _e('Bold') ?></td><th>i</th><td><?php _e('Italic') ?></td></tr>
+		<tr><th>u</th><td><?php _e('Underline') ?></td><th>1</th><td><?php _e('Header 1') ?></td></tr>
+		<tr><th>2</th><td><?php _e('Header 2') ?></td><th>3</th><td><?php _e('Header 3') ?></td></tr>
+		<tr><th>4</th><td><?php _e('Header 4') ?></td><th>5</th><td><?php _e('Header 5') ?></td></tr>
+		<tr><th>6</th><td><?php _e('Header 6') ?></td><th>9</th><td><?php _e('Address') ?></td></tr>
+	</table>
+	
+	<p><?php _e('The following shortcuts use different access keys. Windows and Linux use Alt + letter. Macintosh uses Ctrl + letter.') ?></p>
+	<table id="keys" width="100%" border="0">
+		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
+		<tr><th>n</th><td><?php _e('Check Spelling') ?></td><th>l</th><td><?php _e('Align Left') ?></td></tr>
+		<tr><th>j</th><td><?php _e('Justify Text') ?></td><th>c</th><td><?php _e('Align Center') ?></td></tr>
+		<tr><th>k</th><td><strike><?php _e('Strikethrough') ?></strike></td><th>r</th><td><?php _e('Align Right') ?></td></tr>
+		<tr><th>u</th><td><b>&bull;</b> <?php _e('List') ?></td><th>s</th><td><?php _e('Insert link') ?></td></tr>
+		<tr><th>o</th><td>1. <?php _e('List') ?></td><th>d</th><td><?php _e('Remove link') ?></td></tr>
+		<tr><th>q</th><td><?php _e('Quote') ?></td><th>m</th><td><?php _e('Insert Image') ?></td></tr>
+		<tr><th>g</th><td><?php _e('Full Screen') ?></td><th>y</th><td><?php _e('Insert "More" Tag') ?></td></tr>
+		<tr><th>p</th><td><?php _e('Insert "Page break" tag') ?></td><th>x</th><td><?php _e('Help') ?></td></tr>
 	</table>
 </div>
 
