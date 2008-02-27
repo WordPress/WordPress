@@ -42,6 +42,20 @@ function get_real_file_to_edit( $file ) {
 	return $real_file;
 }
 
+function get_temp_dir() {
+	if ( defined('WP_TEMP_DIR') )
+		return trailingslashit(WP_TEMP_DIR);
+
+	$temp = ABSPATH . 'wp-content/';
+	if ( is_dir($temp) && is_writable($temp) )
+		return $temp;
+
+	if  ( function_exists('sys_get_temp_dir') )
+		return trailingslashit(sys_get_temp_dir());
+
+	return '/tmp/';
+}
+
 function validate_file( $file, $allowed_files = '' ) {
 	if ( false !== strpos( $file, '..' ))
 		return 1;
@@ -182,7 +196,7 @@ function download_url( $url ) {
 	if( ! $url )
 		return false;
 
-	$tmpfname = tempnam('/tmp', 'wpupdate');
+	$tmpfname = tempnam(get_temp_dir(), 'wpupdate');
 	if( ! $tmpfname )
 		return false;
 
@@ -288,7 +302,7 @@ function WP_Filesystem( $args = false, $preference = false ) {
 }
 
 function get_filesystem_method() {
-	$tempFile = tempnam('/tmp', 'WPU');
+	$tempFile = tempnam(get_temp_dir(), 'WPU');
 
 	if ( getmyuid() == fileowner($tempFile) ) {
 		unlink($tempFile);
