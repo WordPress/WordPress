@@ -63,12 +63,12 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 				) ), "add-widget_$widget[id]" );
 			} else {
 				$action = 'edit';
-				$edit_url = add_query_arg( array(
+				$edit_url = clean_url( add_query_arg( array(
 					'sidebar' => $sidebar,
 					'edit' => $widget['id'],
 					'key' => array_search( $widget['id'], $sidebars_widgets[$sidebar] ),
-				) );
-				$widget_control_template = '<textarea>' . htmlspecialchars( $widget_control_template ) . '</textarea>';
+				) ) );
+				$widget_control_template = '<li><textarea rows="1" cols="1">' . htmlspecialchars( $widget_control_template ) . '</textarea></li>';
 			}
 
 			$no_widgets_shown = false;

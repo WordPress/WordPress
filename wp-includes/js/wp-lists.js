@@ -8,6 +8,7 @@ wpAjax = {
 		var q = s.split('?'); if ( q[1] ) { s = q[1]; }
 		var pp = s.split('&');
 		for ( var i in pp ) {
+			if ( $.isFunction(pp.hasOwnProperty) && !pp.hasOwnProperty(i) ) { continue; }
 			var p = pp[i].split('=');
 			r[p[0]] = p[1];
 		}

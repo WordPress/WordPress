@@ -6,20 +6,35 @@ jQuery(function($) {
 	// Open or close widget control form
 	var toggleWidget = function( li ) {
 		var width = li.find('input.widget-width').val();
-		return li.children('div.widget-control').each( function() {
+
+		// it seems IE chokes on these animations because of the positioning/floating
+		var widgetAnim = $.browser.msie ? function() {
 			var t = $(this);
 			if ( t.is(':visible') ) {
-				t.animate( { height: 'hide' } );
+				li.css( 'marginLeft', 0 );
+				t.siblings('h4').children('a').text( widgetsL10n.edit );
+			} else {
+				if ( width > 250 )
+					li.css( 'marginLeft', ( width - 250 ) * -1 );
+				t.siblings('h4').children('a').text( widgetsL10n.cancel );
+			}
+			t.toggle();
+		} : function() {
+			var t = $(this);
+
+			if ( t.is(':visible') ) {
 				if ( width > 250 )
 					li.animate( { marginLeft: 0 } );
 				t.siblings('h4').children('a').text( widgetsL10n.edit );
 			} else {
-				t.animate( { height: 'show' } );
 				if ( width > 250 )
 					li.animate( { marginLeft: ( width - 250 ) * -1 } );
 				t.siblings('h4').children('a').text( widgetsL10n.cancel );
 			}
-		} ).end();
+			t.animate( { height: 'toggle' } );
+		};
+
+		return li.children('div.widget-control').each( widgetAnim ).end();
 	};
 
 	// onclick for edit links

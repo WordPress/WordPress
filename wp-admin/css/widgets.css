@@ -14,6 +14,7 @@ div.widget-liquid-right {
 	float: right;
 	clear: right;
 	width: 300px;
+	position: relative;
 }
 
 /* pasitioning etc. */
@@ -95,7 +96,6 @@ li.widget-list-control-item {
 }
 
 li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4 {
-	position: relative;
 	margin: 0;
 	background-color: #2683ae;
 	padding: .5em 1em;
@@ -113,8 +113,11 @@ h4.widget-title a {
 	border-bottom: none;
 }
 
-li.widget-list-control-item h4.widget-title a, li.widget-list-control-item h4.widget-title a:visited {
+li.widget-list-control-item h4.widget-title a,
+#dragHelper li.widget-list-control-item h4.widget-title a,
+#draghelper li.widget-list-control-item h4.widget-title a:visited {
 	color: #fff;
+	right: 2em;
 }
 
 li.widget-list-control-item h4.widget-title a:hover {
