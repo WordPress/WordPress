@@ -61,7 +61,7 @@ class WP_Scripts {
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080226' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080228' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
@@ -125,7 +125,7 @@ class WP_Scripts {
 				'good' => __('Good'),
 				'strong' => __('Strong')
 			) );
-			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20080227' );
+			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20080228' );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
 			$this->add( 'admin-forms', '/wp-admin/js/forms.js', false, '20080108' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );

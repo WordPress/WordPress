@@ -184,31 +184,46 @@ foreach ($arc_result as $arc_row) {
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 <?php
 
-if ( 1 == count($posts) && isset( $_GET['p'] ) ) {
+if ( 1 == count($posts) && isset( $_GET['p'] ) ) :
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
-	if ($comments) {
+	if ( $comments ) :
 		// Make sure comments, post, and post_author are cached
 		update_comment_cache($comments);
 		$post = get_post($id);
 		$authordata = get_userdata($post->post_author);
 	?>
-<h3 id="comments"><?php _e('Comments') ?></h3>
-<ol id="the-comment-list" class="list:comment commentlist">
+
+<br class="clear" />
+
+<table class="widefat" style="margin-top: .5em">
+<thead>
+  <tr>
+    <th scope="col"><?php _e('Comment') ?></th>
+    <th scope="col"><?php _e('Date') ?></th>
+    <th scope="col"><?php _e('Actions') ?></th>
+  </tr>
+</thead>
+<tbody id="the-comment-list" class="list:comment">
 <?php
-		$i = 0;
-		foreach ( $comments as $comment ) {
-			_wp_comment_list_item( $comment->comment_ID, ++$i );
-		}
-	echo '</ol>';
-	} // end if comments
+	foreach ($comments as $comment)
+		_wp_comment_row( $comment->comment_ID, 'detail', false );
 ?>
-<?php } ?>
+</tbody>
+</table>
+
+<?php
+
+endif; // comments
+endif; // posts;
+
+?>
+
 </div>
 
 <?php include('admin-footer.php'); ?>

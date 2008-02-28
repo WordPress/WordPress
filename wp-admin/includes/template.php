@@ -592,49 +592,64 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 	return array($comments, $total);
 }
 
-function _wp_comment_list_item( $id, $alt = 0 ) {
-	global $authordata, $comment;
-	$comment =& get_comment( $id );
-	$id = (int) $comment->comment_ID;
-	$class = '';
+function _wp_comment_row( $comment_id, $mode, $checkbox = true ) {
+	global $comment, $post;
+	$comment = get_comment( $comment_id );
 	$post = get_post($comment->comment_post_ID);
 	$authordata = get_userdata($post->post_author);
-	$comment_status = wp_get_comment_status($id);
-	if ( 'unapproved' == $comment_status )
-		$class .= ' unapproved';
-	if ( $alt % 2 )
-		$class .= ' alternate';
-	echo "<li id='comment-$id' class='$class'>";
+	$the_comment_status = wp_get_comment_status($comment->comment_ID);
+	$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
+	$post_link = '<a href="' . get_comment_link() . '">' . get_the_title($comment->comment_post_ID) . '</a>';
+	$author_url = get_comment_author_url();
+	if ( 'http://' == $author_url )
+		$author_url = '';
+	$author_url_display = $author_url;
+	if ( strlen($author_url_display) > 50 )
+		$author_url_display = substr($author_url_display, 0, 49) . '...';
+	$ptime = get_post_time('G', true);
+	if ( ( abs(time() - $ptime) ) < 86400 )
+		$ptime = sprintf( __('%s ago'), human_time_diff( $ptime ) );
+	else
+		$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $post->post_date);
+
+	$delete_url  = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
+	$spam_url    = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+			
 ?>
-<p><strong class="comment-author"><?php comment_author(); ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
-
-<?php comment_text() ?>
-
-<p><?php comment_date(__('M j, g:i A'));  ?> &#8212; [
-<?php
-if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-	echo " <a href='comment.php?action=editcomment&amp;c=$id'>" .  __('Edit') . '</a>';
-	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&amp;p=$comment->comment_post_ID&amp;c=$id", "delete-comment_$id" ) );
-	echo " | <a href='$url' class='delete:the-comment-list:comment-$id'>" . __('Delete') . '</a> ';
-	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-		$url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&amp;p=$comment->comment_post_ID&amp;c=$id", "unapprove-comment_$id" ) );
-		echo "<span class='unapprove'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:FFFF33'>" . __('Unapprove') . '</a> </span>';
-		$url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&amp;p=$comment->comment_post_ID&amp;c=$id", "approve-comment_$id" ) );
-		echo "<span class='approve'> | <a href='$url' class='dim:the-comment-list:comment-$id:unapproved:33FF33:33FF33'>" . __('Approve') . '</a> </span>';
+  <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
+<?php if ( $checkbox ) : ?>
+    <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
+<?php endif; ?>
+    <td class="comment">
+    <p class="comment-author"><strong><a class="row-title" href="comment.php?action=editcomment&amp;c=<?php echo $comment->comment_ID?>"><?php comment_author(); ?></a></strong><br />
+    <?php if ( !empty($author_url) ) : ?>
+    <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a> |
+    <?php endif; ?>
+    <?php if ( !empty($comment->comment_author_email) ): ?>
+    <?php comment_author_email_link() ?> |
+    <?php endif; ?>
+    <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
+    </p>
+   	<p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
+   	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
+    </td>
+    <td><?php comment_date(__('Y/m/d')); ?></td>
+    <td>
+    <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+    	if ( 'approved' != $the_comment_status ) {
+		if ( $comment_status ) // we're looking at list of only approved or only unapproved comments
+			echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+		else // we're looking at all comments
+			echo "<span class='approve'><a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:none:33FF33' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | </span>';
 	}
-	$url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&amp;dt=spam&amp;p=$comment->comment_post_ID&amp;c=$id", "delete-comment_$id" ) );
-	echo " | <a href='$url' class='delete:the-comment-list:comment-$id::spam=1'>" . __('Spam') . '</a> ';
-}
-if ( !is_single() ) {
-	$post = get_post($comment->comment_post_ID, OBJECT, 'display');
-	$post_title = wp_specialchars( $post->post_title, 'double' );
-	$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
-?>
- ] &#8212; <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a>
-<?php } ?>
-</p>
-		</li>
-<?php
+    	echo "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
+		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
+	}
+	?>
+	</td>
+  </tr>
+	<?php
 }
 
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {

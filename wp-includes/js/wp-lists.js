@@ -62,7 +62,12 @@ var wpList = {
 	},
 
 	parseClass: function(e,t) {
-		var c = []; try { c = $(e).attr('class').match(new RegExp(t+':[A-Za-z0-9:_=-]+'))[0].split(':'); } catch(r) {}
+		var c = [], cl;
+		try {
+			cl = $(e).attr('class') || '';
+			cl = cl.match(new RegExp(t+':[A-Za-z0-9:_=-]+'));
+			if ( cl ) { c = cl[0].split(':'); }
+		} catch(r) {}
 		return c;
 	},
 
@@ -87,11 +92,12 @@ var wpList = {
 	ajaxAdd: function( e, s ) {
 		var list = this; e = $(e); s = s || {};
 		var cls = wpList.parseClass(e,'add');
-		s = $.extend(s, {
-			element: s.element || cls[2] || e.attr( 'id' ) || null,
-			addColor: s.addColor || '#' + ( cls[3] || 'FFFF33' )
-		} );
 		s = wpList.pre.call( list, e, s, 'add' );
+
+		s.element = cls[2] || e.attr( 'id' ) || s.element || null;
+		if ( cls[3] ) { s.addColor = '#' + cls[3]; }
+		else { s.addColor = s.addColor || '#FFFF33'; }
+		
 		if ( !s ) { return false; }
 
 		if ( !e.is("[class^=add:" + list.id + ":]") ) { return !wpList.add.call( list, e, s ); }
@@ -150,11 +156,12 @@ var wpList = {
 	ajaxDel: function( e, s ) {
 		var list = this; e = $(e); s = s || {};
 		var cls = wpList.parseClass(e,'delete');
-		s = $.extend(s, {
-			element: s.element || cls[2] || null,
-			delColor: s.delColor || '#' + ( cls[3] || 'FF3333' )
-		} );
 		s = wpList.pre.call( list, e, s, 'delete' );
+
+		s.element = cls[2] || s.element || null;
+		if ( cls[3] ) { s.delColor = '#' + cls[3]; }
+		else { s.delColor = s.delColor || '#FF3333'; }
+
 		if ( !s || !s.element ) { return false; }
 
 		s.action = 'delete-' + s.what;
@@ -208,13 +215,15 @@ var wpList = {
 	ajaxDim: function( e, s ) {
 		var list = this; e = $(e); s = s || {};
 		var cls = wpList.parseClass(e,'dim');
-		s = $.extend(s, {
-			element: s.element || cls[2] || null,
-			dimClass: s.dimClass || cls[3] || null,
-			dimAddColor: s.dimAddColor || '#' + ( cls[4] || 'FFFF33' ),
-			dimDelColor: s.dimDelColor || '#' + ( cls[5] || 'FF3333' )
-		} );
 		s = wpList.pre.call( list, e, s, 'dim' );
+
+		s.element = cls[2] || s.element || null;
+		s.dimClass =  cls[3] || s.dimClass || null;
+		if ( cls[4] ) { s.dimAddColor = '#' + cls[4]; }
+		else { s.dimAddColor = s.dimAddColor || '#FFFF33'; }
+		if ( cls[5] ) { s.dimDelColor = '#' + cls[5]; }
+		else { s.dimDelColor = s.dimDelColor || '#FF3333'; }
+
 		if ( !s || !s.element || !s.dimClass ) { return true; }
 
 		s.action = 'dim-' + s.what;
@@ -280,7 +289,7 @@ var wpList = {
 	},
 
 	add: function( e, s ) {
-		list = $(this);
+		var list = $(this);
 		e = $(e);
 
 		var old = false;

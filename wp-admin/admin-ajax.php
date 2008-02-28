@@ -354,8 +354,10 @@ case 'add-comment' :
 		die('-1');
 	$search = isset($_POST['s']) ? $_POST['s'] : false;
 	$start = isset($_POST['page']) ? intval($_POST['page']) * 25 - 1: 24;
+	$status = isset($_POST['comment_status']) ? $_POST['comment_status'] : false;
+	$mode = isset($_POST['mode']) ? $_POST['mode'] : 'detail';
 
-	list($comments, $total) = _wp_get_comment_list( $search, $start, 1 );
+	list($comments, $total) = _wp_get_comment_list( $status, $search, $start, 1 );
 
 	if ( !$comments )
 		die('1');
@@ -363,7 +365,7 @@ case 'add-comment' :
 	foreach ( (array) $comments as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			_wp_comment_list_item( $comment->comment_ID );
+			_wp_comment_row( $comment->comment_ID, $mode );
 			$comment_list_item = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(

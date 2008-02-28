@@ -51,6 +51,12 @@ if ( isset($_GET['comment_status']) )
 	$comment_status = attribute_escape($_GET['comment_status']);
 else
 	$comment_status = '';
+
+if ( isset($_GET['s']) )
+	$search_dirty = $_GET['s'];
+else
+	$search_dirty = '';
+$search = attribute_escape( $search );
 ?>
 <?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
@@ -105,12 +111,13 @@ unset($status_links);
 </ul>
 
 <p id="post-search">
-	<input type="text" id="post-search-input" name="s" value="<?php if (isset($_GET['s'])) echo attribute_escape($_GET['s']); ?>" />
+	<input type="text" id="post-search-input" name="s" value="<?php echo $search; ?>" />
 	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
 </p>
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 <input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
+</form>
 
 <ul class="view-switch">
 	<li <?php if ( 'detail' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'detail', $_SERVER['REQUEST_URI'])) ?>"><?php _e('Detail View') ?></a></li>
@@ -126,7 +133,7 @@ else
 
 $start = $offset = ( $page - 1 ) * 20;
 
-list($_comments, $total) = _wp_get_comment_list( $comment_status, isset($_GET['s']) ? $_GET['s'] : false, $start, 25 ); // Grab a few extra
+list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, 25 ); // Grab a few extra
 
 $comments = array_slice($_comments, 0, 20);
 $extra_comments = array_slice($_comments, 20);
@@ -139,6 +146,8 @@ $page_links = paginate_links( array(
 ));
 
 ?>
+
+<form id="comments-form" action="" method="post">
 
 <div class="tablenav">
 
@@ -175,63 +184,27 @@ if ($comments) {
 </thead>
 <tbody id="the-comment-list" class="list:comment">
 <?php
-	foreach ($comments as $comment) {
-		$post = get_post($comment->comment_post_ID);
-		$authordata = get_userdata($post->post_author);
-		$the_comment_status = wp_get_comment_status($comment->comment_ID);
-		$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
-		$post_link = '<a href="' . get_comment_link() . '">' . get_the_title($comment->comment_post_ID) . '</a>';
-		$author_url = get_comment_author_url();
-		if ( 'http://' == $author_url )
-			$author_url = '';
-		$author_url_display = $author_url;
-		if ( strlen($author_url_display) > 50 )
-			$author_url_display = substr($author_url_display, 0, 49) . '...';
-		$ptime = get_post_time('G', true);
-		if ( ( abs(time() - $ptime) ) < 86400 )
-			$ptime = sprintf( __('%s ago'), human_time_diff( $ptime ) );
-		else
-			$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $post->post_date);
-
-		$delete_url  = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-		$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
-		$spam_url    = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-			
+	foreach ($comments as $comment)
+		_wp_comment_row( $comment->comment_ID, $mode );
 ?>
-  <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
-    <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
-    <td class="comment">
-    <p class="comment-author"><strong><a class="row-title" href="comment.php?action=editcomment&amp;c=<?php echo $comment->comment_ID?>"><?php comment_author(); ?></a></strong><br />
-    <?php if ( !empty($author_url) ) : ?>
-    <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a> |
-    <?php endif; ?>
-    <?php if ( !empty($comment->comment_author_email) ): ?>
-    <?php comment_author_email_link() ?> |
-    <?php endif; ?>
-    <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
-    </p>
-   	<p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
-   	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
-    </td>
-    <td><?php comment_date(__('Y/m/d')); ?></td>
-    <td>
-    <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-    	if ( 'approved' != $the_comment_status ) {
-		if ( $comment_status ) // we're looking at list of only approved or only unapproved comments
-			echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
-		else // we're looking at all comments
-			echo "<span class='approve'><a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:none:33FF33' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | </span>';
-	}
-    	echo "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
-		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
-	}
-	?>
-	</td>
-  </tr>
-		<?php
-		} // end foreach
-	?></tbody>
+</tbody>
+<tbody id="the-extra-comment-list" class="list:comment" style="display: none;">
+<?php
+	foreach ($extra_comments as $comment)
+		_wp_comment_row( $comment->comment_ID, $mode );
+?>
+</tbody>
 </table>
+
+</form>
+
+<form id="get-extra-comments" method="post" action="" class="add:the-extra-comment-list:" style="display: none;">
+	<input type="hidden" name="s" value="<?php echo $search; ?>" />
+	<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+	<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
+	<input type="hidden" name="page" value="<?php echo isset($_REQUEST['page']) ? absint( $_REQUEST['page'] ) : 1; ?>" />
+	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
+</form>
 
 <div id="ajax-response"></div>
 <?php
@@ -249,6 +222,8 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 <br style="clear:both;" />
+</div>
+
 </div>
 
 <?php include('admin-footer.php'); ?>

@@ -1,4 +1,4 @@
-var list; var extra;
+var theList; var theExtraList;
 jQuery(function($) {
 
 var dimAfter = function( r, settings ) {
@@ -24,15 +24,15 @@ var delAfter = function( r, settings ) {
 		}
 	});
 
-	if ( extra.size() == 0 || extra.children().size() == 0 ) {
+	if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {
 		return;
 	}
 
-	list[0].wpList.add( extra.children(':eq(0)').remove().clone() );
+	theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
 	$('#get-extra-comments').submit();
 }
 
-extra = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
-list = $('#the-comment-list').wpList( { dimAfter : dimAfter, delAfter : delAfter, addColor: 'none' } );
+theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
+theList = $('#the-comment-list').wpList( { alt: '', dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
 
 } );
