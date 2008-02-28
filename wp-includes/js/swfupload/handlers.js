@@ -9,8 +9,10 @@ function fileDialogStart() {
 
 // progress and success handlers for media multi uploads
 function fileQueued(fileObj) {
+	// Get rid of unused form
+	jQuery('.media-blank').remove();
 	// Create a progress bar containing the filename
-	jQuery('#media-items').prepend('<div id="media-item-' + fileObj.id + '" class="media-item"><span class="filename original">' + fileObj.name + '</span><div class="progress"><div class="bar"></div></div></div>');
+	jQuery('#media-items').prepend('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><span class="filename original">' + fileObj.name + '</span><div class="progress"><div class="bar"></div></div></div>');
 
 	// Disable the submit button
 	jQuery('#insert-media').attr('disabled', 'disabled');
@@ -50,8 +52,13 @@ function prepareMediaItem(fileObj, serverData) {
 			action : 'delete-post',
 			_ajax_nonce : this.href.replace(/^.*wpnonce=/,'')}
 			});
-		// Decrement the counter.
-		jQuery('#attachments-count').text(jQuery('#attachments-count').text()-1);
+
+		// Decrement the counters.
+		if ( type = jQuery('#type-of-' + this.id.replace(/[^0-9]/g,'')).val() )
+			jQuery('#' + type + '-counter').text(jQuery('#' + type + '-counter').text()-1);
+		if ( jQuery(this).parents('.media-item').eq(0).hasClass('child-of-'+post_id) )
+			jQuery('#attachments-count').text(jQuery('#attachments-count').text()-1);
+
 		// Vanish it.
 		jQuery(this).parents(".media-item").eq(0).slideToggle(300,function(){jQuery(this).remove();if(jQuery('.media-item').length==0)jQuery('.insert-gallery').hide();updateMediaForm();});
 		return false;
@@ -66,11 +73,11 @@ function prepareMediaItem(fileObj, serverData) {
 
 function updateMediaForm() {
 	// Just one file, no need for collapsible part
-	if ( jQuery('#computer-form #media-items>*').length == 1 ) {
+	if ( jQuery('.type-form #media-items>*').length == 1 ) {
 		jQuery('#media-items .slidetoggle').slideDown(500).parent().eq(0).children('.toggle').toggle();
-		jQuery('#computer-form .slidetoggle').siblings().addClass('hidden');
+		jQuery('.type-form .slidetoggle').siblings().addClass('hidden');
 	} else {
-		jQuery('#computer-form .slidetoggle').siblings().removeClass('hidden');
+		jQuery('.type-form .slidetoggle').siblings().removeClass('hidden');
 	}
 
 	// Only show Gallery button when there are at least two files.
@@ -88,7 +95,10 @@ function uploadSuccess(fileObj, serverData) {
 	}
 	prepareMediaItem(fileObj, serverData);
 	updateMediaForm();
-	jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
+
+	// Increment the counter.
+	if ( jQuery('#media-item-' + fileObj.id).hasClass('child-of-' + post_id) )
+		jQuery('#attachments-count').text(1 * jQuery('#attachments-count').text() + 1);
 }
 
 function uploadComplete(fileObj) {
@@ -116,13 +126,13 @@ function fileQueueError(fileObj, error_code, message)  {
 		wpQueueError(swfuploadL10n.queue_limit_exceeded);
 	}
 	else if ( error_code == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT ) {
-		wpQueueError(swfuploadL10n.file_exceeds_size_limit);
+		wpFileError(fileObj, swfuploadL10n.file_exceeds_size_limit);
 	}
 	else if ( error_code == SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE ) {
-		wpQueueError(swfuploadL10n.zero_byte_file);
+		wpFileError(fileObj, swfuploadL10n.zero_byte_file);
 	}
 	else if ( error_code == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE ) {
-		wpQueueError(swfuploadL10n.invalid_filetype);
+		wpFileError(fileObj, swfuploadL10n.invalid_filetype);
 	}
 	else {
 		wpQueueError(swfuploadL10n.default_error);

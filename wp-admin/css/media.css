@@ -46,10 +46,6 @@ form {
 	margin: 0 1em 1em 0;
 }
 
-.media-upload-form input[type="text"], .media-upload-form input[type="file"] {
-	width: 100%;
-}
-
 .media-upload-form fieldset {
 	width: 100%;
 	border: none;
@@ -57,7 +53,7 @@ form {
 	margin: 0 0 1em 0;
 	padding: 0;
 }
-
+/*
 .media-upload-form button.button-ok {
 	float: right;
 	background-color: #ebebeb;
@@ -74,7 +70,7 @@ form {
 	text-decoration: underline;
 	margin: 0.5em 1em;
 }
-
+*/
 /* specific to the image upload form */
 .align .field label {
 	display: inline;
@@ -156,13 +152,12 @@ span.filename {
 	max-width: 40px;
 }
 .describe {
-	display: none;
 	border-top: 1px solid #d0d0d0;
 	padding: 5px;
 	width: 100%;
 }
-.startopen .describe {
-	display: block;
+.describe.startopen, .describe.startclosed {
+	display: none;
 }
 .required abbr {
 	color: red;
@@ -179,17 +174,8 @@ span.filename {
 .describe td.A1 {
 	width: 132px;
 }
-.describe td.savesend {
-	text-align: right;
-}
 .describe input[type="text"], .describe textarea {
 	width: 460px;
-}
-a.delete {
-	display: block;
-	text-align: center;
-	width: 100%;
-	color: #246;
 }
 .describe-toggle-on, .describe-toggle-off {
 	display: block;
@@ -211,13 +197,12 @@ a.delete {
 	border: none;
 	z-index: 10;
 }
-tr.submit input {
-	width: 128px;
-}
 tr.align td.field {
 	text-align: center;
 }
-
+a.delete {
+	color: #666;
+}
 .hidden {
 	height: 0px;
 	width: 0px;
