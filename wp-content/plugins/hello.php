@@ -61,7 +61,7 @@ function dolly_css() {
 		top: 2.3em;
 		margin: 0;
 		padding: 0;
-		right: 15%;
+		right: 10px;
 		font-size: 16px;
 		color: #d54e21;
 	}
