@@ -252,7 +252,7 @@ function dynamic_sidebar($index = 1) {
 
 /* @return mixed false if widget is not active or id of sidebar in which the widget is active
  */
-function is_active_widget($callback) {
+function is_active_widget($callback, $widget_id = false) {
 	global $wp_registered_widgets;
 
 	$sidebars_widgets = wp_get_sidebars_widgets(false);
@@ -260,7 +260,9 @@ function is_active_widget($callback) {
 	if ( is_array($sidebars_widgets) ) foreach ( $sidebars_widgets as $sidebar => $widgets )
 		if ( is_array($widgets) ) foreach ( $widgets as $widget )
 			if ( isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback )
-				return $sidebar;
+				if ( !$widget_id || $widget_id == $wp_registered_widgets[$widget]['id'] )
+					return $sidebar;
+				
 
 	return false;
 }

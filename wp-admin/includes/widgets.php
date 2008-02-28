@@ -41,7 +41,8 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 					continue;
 			}
 
-			$sidebar = is_active_widget( $widget['callback'] );
+			$sidebar = is_active_widget( $widget['callback'], $widget['id'] );
+
 			if ( ( 'unused' == $show && $sidebar ) || ( 'used' == $show && !$sidebar ) )
 				continue;
 
@@ -50,8 +51,9 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 			$widget_control_template = ob_get_contents();
 			ob_end_clean();
 
-			if ( !$sidebar || false !== strpos( $widget_control_template, '%i%' ) ) {
-				$already_shown[] = $widget['callback']; // it's a multi-widget.  We only need to show it in the list once.
+			if ( !$sidebar || $is_multi = false !== strpos( $widget_control_template, '%i%' ) ) {
+				if ( $is_multi )
+					$already_shown[] = $widget['callback']; // it's a multi-widget.  We only need to show it in the list once.
 				$action = 'add';
 				$add_url = wp_nonce_url( add_query_arg( array(
 					'sidebar' => $sidebar,
