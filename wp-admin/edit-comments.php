@@ -9,7 +9,7 @@ wp_enqueue_script('admin-forms');
 if ( !empty( $_REQUEST['delete_comments'] ) ) {
 	check_admin_referer('bulk-comments');
 
-	$comments_deleted = $comments_approved = $comments_spammed = 0; 
+	$comments_deleted = $comments_approved = $comments_unapproved = $comments_spammed = 0; 
 	foreach ($_REQUEST['delete_comments'] as $comment) : // Check the permissions on each
 		$comment = (int) $comment;
 		$post_id = (int) $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
@@ -25,9 +25,12 @@ if ( !empty( $_REQUEST['delete_comments'] ) ) {
 		} elseif ( !empty( $_REQUEST['approveit'] ) ) {
 			wp_set_comment_status($comment, 'approve');
 			$comments_approved++;
+		} elseif ( !empty( $_REQUEST['unapproveit'] ) ) {
+			wp_set_comment_status($comment, 'hold');
+			$comments_unapproved++;
 		}
 	endforeach;
-	$redirect_to = basename( __FILE__ ) . '?deleted=' . $comments_deleted . '&approved=' . $comments_approved . '&spam=' . $comments_spammed;
+	$redirect_to = basename( __FILE__ ) . '?deleted=' . $comments_deleted . '&approved=' . $comments_approved . '&spam=' . $comments_spammed . '&unapproved=' . $comments_unapproved;
 	if ( !empty($_REQUEST['mode']) )
 		$redirect_to = add_query_arg('mode', $_REQUEST['mode'], $redirect_to);
 	if ( !empty($_REQUEST['comment_status']) )
@@ -161,6 +164,9 @@ if ( $page_links )
 <input type="submit" value="<?php _e('Approve'); ?>" name="approveit" class="button-secondary" />
 <?php endif; ?>
 <input type="submit" value="<?php _e('Mark as Spam'); ?>" name="spamit" class="button-secondary" />
+<?php if ( 'moderated' != $comment_status ): ?>
+<input type="submit" value="<?php _e('Unapprove'); ?>" name="unapproveit" class="button-secondary" />
+<?php endif; ?>
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
 <?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
