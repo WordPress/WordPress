@@ -639,9 +639,9 @@ function _wp_comment_row( $comment_id, $mode, $checkbox = true ) {
     <?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
     	if ( 'approved' != $the_comment_status ) {
 		if ( $comment_status ) // we're looking at list of only approved or only unapproved comments
-			echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:33FF33:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+			echo "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
 		else // we're looking at all comments
-			echo "<span class='approve'><a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:none:33FF33' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | </span>';
+			echo "<span class='approve'><a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:none:e7e7d3' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | </span>';
 	}
     	echo "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
 		echo "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
