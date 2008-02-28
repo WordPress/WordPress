@@ -122,9 +122,7 @@ endif;
 
 <?php
 $query_str = "post_type=page&orderby=menu_order title&what_to_show=posts$post_status_q&posts_per_page=-1&posts_per_archive_page=-1&order=asc";
-if ( !empty($_GET['p']) ) {
-	$query_str .= "p=
-}
+
 $query_str = apply_filters('manage_pages_query', $query_str);
 wp($query_str);
 
@@ -164,7 +162,7 @@ if ($posts) {
 </div>
 
 <?php
-if ( 1 == count($posts) && isset( $_GET['p'] ) ) {
+if ( 1 == count($posts) && isset( $_GET['page_id'] ) ) {
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ($comments) {
