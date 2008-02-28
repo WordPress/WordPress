@@ -2,6 +2,7 @@
 	border: 1px solid #ccc;
 	padding: 2px;
 	margin-top: 10px;
+	margin-right: 7px;
 }
 
 #rightnow .reallynow {
@@ -47,7 +48,7 @@
 	padding: 10px;
 }
 
-#rightnow p {
+#rightnow h3, #rightnow p {
 	padding: 0 10px;
 }
 
@@ -64,7 +65,7 @@
 div#dashboard-widgets {
 	position: relative;
 	left: 20px;
-	margin: -20px 0 0 -20px;
+	margin: -20px 6px 0 -20px;
 }
 
 div.dashboard-widget-holder {
@@ -95,15 +96,16 @@ div.dashboard-widget {
 	margin-right: 20px;
 	border: 1px solid #ccc;
 	padding: 2px;
-	height: 26em;
+	height: 27em;
 	overflow: auto;
+	font-size: 11px;
 }
 
 h3.dashboard-widget-title  {
 	background-color: #eaf3fa;
 	margin: 0;
-	padding: 0 10px;
-	font-size: 1.2em;
+	padding: 0 7px;
+	font-size: 14px;
 	line-height: 2;
 }
 
@@ -129,7 +131,7 @@ h3.dashboard-widget-title img.rss-icon {
 
 div.dashboard-widget-notice {
 	background-color: #cfe1ef;
-	padding: 0 20px;
+	padding: 0 14px;
 	font-size: 1.2em;
 	line-height: 2;
 }
@@ -163,8 +165,12 @@ div.dashboard-widget-content blockquote {
 	margin: -1em 0;
 }
 
-div.dashboard-widget-content .comment-meta {
-	font-size: 95%;
+div#dashboard_recent_comments p {
+	font-size: 14px;
+}
+
+div.dashboard-widget-content p.comment-meta {
+	font-size: 11px !important;
 }
 
 #dashboard_secondary div.dashboard-widget-content ul {
@@ -219,40 +225,43 @@ div.dashboard-widget-content .comment-meta {
 
 #dashboard-widgets .widget_rss ul li span.rss-date {
 	float: left;
-	margin: 0 0 1em;
+	margin: 0;
 }
 
 #dashboard-widgets .widget_rss ul li a {
 	float: left;
-	margin: 0 .5em 1em 0;
+	margin: 0 .5em .2em 0;
 	font-weight: bold;
 }
 
 #dashboard-widgets .widget_rss ul li div {
 	clear: both;
+	line-height: 1.5em;
 }
 
 #dashboard_primary a.rsswidget, #dashboard_plugins h5 {
-	font-size: 1.2em;
+	font-size: 14px;
 }
 
 #dashboard_primary span.rss-date {
-	font-size: 1.2em;
+	font-size: 14px;
 	color: #999;
 }
 
 #dashboard_plugins h4 {
 	font-size: 1em;
-	margin: 0 0 .7em;
+	margin: 0 0 .1em;
 }
 
 #dashboard_plugins h5 {
 	margin: 0;
 	display: inline;
+	line-height: 1.4em;
 }
 
 #dashboard_plugins p {
 	margin: 0 0 1em;
+	line-height: 1.5em;
 }
 
 .widget-loading {

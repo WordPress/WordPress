@@ -276,7 +276,7 @@ function wp_dashboard_recent_comments( $sidebar_args ) {
 
 			if ( $is_first ) : $is_first = false;
 ?>
-				<blockquote><?php comment_text(); ?></blockquote>
+				<blockquote><p>&#8220;<?php comment_excerpt(); ?>&#8221;</p></blockquote>
 				<p class='comment-meta'><?php echo $comment_meta; ?></p>
 
 				<ul id="dashboard-comments-list">

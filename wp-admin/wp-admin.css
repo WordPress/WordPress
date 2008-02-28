@@ -1400,7 +1400,8 @@ ul.view-switch li.current a {
 }
 
 #the-comment-list td.comment {
-	width: 70%;
+	width: 65%;
+	padding-right: 10%;
 }
 
 #the-comment-list td.comment p {
