@@ -34,6 +34,8 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 $title = __('Pages');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
+if ( 1 == $_GET['c'] )
+	wp_enqueue_script( 'admin-comments' );
 require_once('admin-header.php');
 
 $post_stati  = array(	//	array( adj, noun )
