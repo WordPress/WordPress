@@ -216,7 +216,6 @@ var wpList = {
 	ajaxDim: function( e, s ) {
 		var list = this; e = $(e); s = s || {};
 		var cls = wpList.parseClass(e,'dim');
-		var hide = ( 'moderated' == $('input[name="comment_status"]').val() ) ? true : false;
 		s = wpList.pre.call( list, e, s, 'dim' );
 
 		s.element = cls[2] || s.element || null;
@@ -248,14 +247,8 @@ var wpList = {
 		element.toggleClass( s.dimClass )
 		var dimColor = isClass ? s.dimAddColor : s.dimDelColor;
 		if ( 'none' != dimColor ) {
-			if ( hide ) {
-				var anim = 'slideUp';
-				if ( element.css( 'display' ).match(/table/) )
-					anim = 'fadeOut'; // Can't slideup table rows and other table elements.  Known jQuery bug
-				element.animate( { backgroundColor: dimColor }, 'fast'  )[anim]( 'fast' )
-			} else
-				element.animate( { backgroundColor: dimColor }, 'fast' )
 			element
+				.animate( { backgroundColor: dimColor }, 'fast' )
 				.queue( function() { element.toggleClass(s.dimClass); $(this).dequeue(); } )
 				.animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); } } );
 		}
