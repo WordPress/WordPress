@@ -1211,7 +1211,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 
 	if ( !empty($email) ) {
 		$out = 'http://www.gravatar.com/avatar.php?gravatar_id=';
-		$out .= md5( $email );
+		$out .= md5( strtolower( $email ) );
 		$out .= "&amp;size={$size}";
 		$out .= "&amp;default={$default}";
 
