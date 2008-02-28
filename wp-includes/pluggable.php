@@ -1182,7 +1182,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  * @param string $default URL to a default image to use if no avatar is available
  * @return string <img> tag for the user's avatar
 */
-function get_avatar( $id_or_email, $size = '96', $default = '' ) {
+function get_avatar( $id_or_email, $size = '64', $default = '' ) {
 	if ( ! get_option('show_avatars') )
 		return false;
 
