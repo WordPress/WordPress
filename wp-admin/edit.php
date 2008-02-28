@@ -212,7 +212,7 @@ if ( 1 == count($posts) && isset( $_GET['p'] ) ) :
 <tbody id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)
-		_wp_comment_row( $comment->comment_ID, 'detail', false );
+		_wp_comment_row( $comment->comment_ID, 'detail', false, false );
 ?>
 </tbody>
 </table>

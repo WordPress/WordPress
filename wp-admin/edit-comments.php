@@ -191,13 +191,13 @@ if ($comments) {
 <tbody id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)
-		_wp_comment_row( $comment->comment_ID, $mode );
+		_wp_comment_row( $comment->comment_ID, $mode, $comment_status );
 ?>
 </tbody>
 <tbody id="the-extra-comment-list" class="list:comment" style="display: none;">
 <?php
 	foreach ($extra_comments as $comment)
-		_wp_comment_row( $comment->comment_ID, $mode );
+		_wp_comment_row( $comment->comment_ID, $mode, $comment_status );
 ?>
 </tbody>
 </table>

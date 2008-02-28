@@ -592,7 +592,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 	return array($comments, $total);
 }
 
-function _wp_comment_row( $comment_id, $mode, $checkbox = true ) {
+function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true ) {
 	global $comment, $post;
 	$comment = get_comment( $comment_id );
 	$post = get_post($comment->comment_post_ID);
