@@ -137,7 +137,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 
 <ul>
 <?php if ($post_ID): ?>
-<li><a href="edit-pages.php?p=<?php echo $post_ID ?>"><?php _e('See Comments on this Page') ?></a></li>
+<li><a href="edit-pages.php?page_id=<?php echo $post_ID ?>&amp;c=1"><?php _e('See Comments on this Page') ?></a></li>
 <?php endif; ?>
 <li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
 <li><a href="edit-pages.php"><?php _e('Manage All Pages') ?></a></li>
