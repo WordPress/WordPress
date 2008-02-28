@@ -1338,7 +1338,7 @@ body.minwidth {
 ul.view-switch {
 	float: right;
 	list-style: none;
-	margin: -28px 5px 0 0;
+	margin: -28px 5px -2px 0;
 }
 
 ul.view-switch li {
