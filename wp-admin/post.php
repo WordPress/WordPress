@@ -101,6 +101,7 @@ case 'editpost':
 	check_admin_referer('update-post_' . $post_ID);
 
 	$post_ID = edit_post();
+	$post = get_post($post_ID);
 
 	if ( 'post' == $_POST['originalaction'] ) {
 		if (!empty($_POST['mode'])) {
@@ -127,7 +128,11 @@ case 'editpost':
 			$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
 		$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
-		if (isset($_POST['addmeta']) && $_POST['addmeta']) {
+		if ( isset($_POST['save']) && ( 'draft' == $post->post_status || 'pending' == $post->post_status ) ) {
+			$location = "post.php?action=edit&post=$post_ID";
+		} elseif ( isset($_POST['save']) && (empty($referredby) || $referredby == $referer) ) {
+			$location = "post.php?action=edit&post=$post_ID";
+		} elseif (isset($_POST['addmeta']) && $_POST['addmeta']) {
 			$location = add_query_arg( 'message', 2, wp_get_referer() );
 			$location = explode('#', $location);
 			$location = $location[0] . '#postcustom';
@@ -141,6 +146,8 @@ case 'editpost':
 				$location = get_permalink( $post_ID );
 			if (false !== strpos($location, 'edit.php') )
 				$location = add_query_arg('posted', $post_ID, $location);
+		} elseif ( isset($_POST['publish']) ) {
+			$location = "post-new.php?posted=$post_ID";
 		} elseif ($action == 'editattachment') {
 			$location = 'attachments.php';
 		} else {
