@@ -527,7 +527,6 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		'post_title'   => array(
 			'label'      => __('Title'),
 			'value'      => $edit_post->post_title,
-			'helps'      => __(''),
 		),
 		'post_excerpt' => array(
 			'label'      => __('Description'),
