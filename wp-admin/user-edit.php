@@ -240,7 +240,7 @@ echo $role_list . '</select>';
 <input type="text" name="jabber" value="<?php echo $profileuser->jabber ?>" /></label>
 </p>
 </fieldset>
-<br clear="all" />
+<br style="clear: both;" />
 <fieldset>
 <legend><?php $is_profile_page? _e('About Yourself') : _e('About the user'); ?></legend>
 <p class="desc"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p>
@@ -276,8 +276,8 @@ if ( $show_password_fields ) :
 	}
 ?>
 
-<br clear="all" />
-	<table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
+<br style="clear: both;" />
+	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<?php
 		if(count($profileuser->caps) > count($profileuser->roles)):
 		?>

@@ -381,7 +381,7 @@ class WP_Import {
 
 		if ( $post_exists ) {
 			echo '<li>';
-			printf(__('Post <i>%s</i> already exists.'), stripslashes($post_title));
+			printf(__('Post <em>%s</em> already exists.'), stripslashes($post_title));
 		} else {
 
 			// If it has parent, process parent first.
@@ -412,7 +412,7 @@ class WP_Import {
 					return $post_id;
 			}
 			else {
-				printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
+				printf(__('Importing post <em>%s</em>...'), stripslashes($post_title));
 				$comment_post_ID = $post_id = wp_insert_post($postdata);
 			}
 
@@ -516,7 +516,7 @@ class WP_Import {
 
 	function process_attachment($postdata, $remote_url) {
 		if ($this->fetch_attachments and $remote_url) {
-			printf( __('Importing attachment <i>%s</i>... '), htmlspecialchars($remote_url) );
+			printf( __('Importing attachment <em>%s</em>... '), htmlspecialchars($remote_url) );
 			$upload = $this->fetch_remote_file($postdata, $remote_url);
 			if ( is_wp_error($upload) ) {
 				printf( __('Remote file error: %s'), htmlspecialchars($upload->get_error_message()) );
@@ -551,7 +551,7 @@ class WP_Import {
 			return $post_id;
 		}
 		else {
-			printf( __('Skipping attachment <i>%s</i>'), htmlspecialchars($remote_url) );
+			printf( __('Skipping attachment <em>%s</em>'), htmlspecialchars($remote_url) );
 		}
 	}
 

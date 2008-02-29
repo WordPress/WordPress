@@ -170,7 +170,7 @@ wp_admin_css();
 <div id="content3" class="hidden">
 	<h2><?php _e('Writing at Full Speed') ?></h2>
     <p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Ctrl + letter. Macintosh uses Apple + letter.') ?></p>
-	<table id="keys" width="100%" border="0">
+	<table id="keys" width="100%" style="border: none;">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
 		<tr><th>c</th><td><?php _e('Copy') ?></td><th>v</th><td><?php _e('Paste') ?></td></tr>
 		<tr><th>a</th><td><?php _e('Select all') ?></td><th>x</th><td><?php _e('Cut') ?></td></tr>
@@ -183,12 +183,12 @@ wp_admin_css();
 	</table>
 	
 	<p><?php _e('The following shortcuts use different access keys. Windows and Linux use Alt + letter. Macintosh uses Ctrl + letter.') ?></p>
-	<table id="keys" width="100%" border="0">
+	<table id="keys" width="100%" style="border: none;">
 		<tr class="top"><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th><th class="key center"><?php _e('Letter') ?></th><th class="left"><?php _e('Action') ?></th></tr>
 		<tr><th>n</th><td><?php _e('Check Spelling') ?></td><th>l</th><td><?php _e('Align Left') ?></td></tr>
 		<tr><th>j</th><td><?php _e('Justify Text') ?></td><th>c</th><td><?php _e('Align Center') ?></td></tr>
-		<tr><th>k</th><td><strike><?php _e('Strikethrough') ?></strike></td><th>r</th><td><?php _e('Align Right') ?></td></tr>
-		<tr><th>u</th><td><b>&bull;</b> <?php _e('List') ?></td><th>s</th><td><?php _e('Insert link') ?></td></tr>
+		<tr><th>k</th><td><span style="text-decoration: line-through;"><?php _e('Strikethrough') ?></span></td><th>r</th><td><?php _e('Align Right') ?></td></tr>
+		<tr><th>u</th><td><strong>&bull;</strong> <?php _e('List') ?></td><th>s</th><td><?php _e('Insert link') ?></td></tr>
 		<tr><th>o</th><td>1. <?php _e('List') ?></td><th>d</th><td><?php _e('Remove link') ?></td></tr>
 		<tr><th>q</th><td><?php _e('Quote') ?></td><th>m</th><td><?php _e('Insert Image') ?></td></tr>
 		<tr><th>g</th><td><?php _e('Full Screen') ?></td><th>y</th><td><?php _e('Insert "More" Tag') ?></td></tr>
@@ -205,9 +205,9 @@ wp_admin_css();
 	<p><?php _e('For more information about this software visit the <a href="http://tinymce.moxiecode.com" target="_blank">TinyMCE website</a>.') ?></p>
 
 	<div id="buttoncontainer">
-		<a href="http://www.moxiecode.com" target="_new"><img src="themes/advanced/img/gotmoxie.png" alt="<?php _e('Got Moxie?') ?>" border="0" /></a>
-		<a href="http://sourceforge.net/projects/tinymce/" target="_blank"><img src="themes/advanced/img/sflogo.png" alt="<?php _e('Hosted By Sourceforge') ?>" border="0" /></a>
-		<a href="http://www.freshmeat.net/projects/tinymce" target="_blank"><img src="themes/advanced/img/fm.gif" alt="<?php _e('Also on freshmeat') ?>" border="0" /></a>
+		<a href="http://www.moxiecode.com" target="_new"><img src="themes/advanced/img/gotmoxie.png" alt="<?php _e('Got Moxie?') ?>" style="border: none;" /></a>
+		<a href="http://sourceforge.net/projects/tinymce/" target="_blank"><img src="themes/advanced/img/sflogo.png" alt="<?php _e('Hosted By Sourceforge') ?>" style="border: none;" /></a>
+		<a href="http://www.freshmeat.net/projects/tinymce" target="_blank"><img src="themes/advanced/img/fm.gif" alt="<?php _e('Also on freshmeat') ?>" style="border: none;" /></a>
 	</div>
 
 </div>

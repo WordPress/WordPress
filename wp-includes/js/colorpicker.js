@@ -673,15 +673,15 @@ function ColorPicker() {
 	var windowRef = (windowMode)?"window.opener.":"";
 	if (windowMode) {
 		cp_contents += "<html><head><title>Select Color</title></head>";
-		cp_contents += "<body marginwidth=0 marginheight=0 leftmargin=0 topmargin=0><center>";
+		cp_contents += "<body marginwidth=0 marginheight=0 leftmargin=0 topmargin=0><span style='text-align: center;'>";
 		}
-	cp_contents += "<table border=0 cellspacing=0 cellpadding=0>";
+	cp_contents += "<table style='border: none;' cellspacing=0 cellpadding=0>";
 	var use_highlight = (document.getElementById || document.all)?true:false;
 	for (var i=0; i<total; i++) {
 		if ((i % width) == 0) { cp_contents += "<tr>"; }
 		if (use_highlight) { var mo = 'onMouseOver="'+windowRef+'ColorPicker_highlightColor(\''+colors[i]+'\',window.document)"'; }
 		else { mo = ""; }
-		cp_contents += '<td bgcolor="'+colors[i]+'"><a href="javascript:void()" onclick="'+windowRef+'ColorPicker_pickColor(\''+colors[i]+'\','+windowRef+'window.popupWindowObjects['+cp.index+']);return false;" '+mo+'>&nbsp;</a></td>';
+		cp_contents += '<td style="background-color: '+colors[i]+';"><a href="javascript:void()" onclick="'+windowRef+'ColorPicker_pickColor(\''+colors[i]+'\','+windowRef+'window.popupWindowObjects['+cp.index+']);return false;" '+mo+'>&nbsp;</a></td>';
 		if ( ((i+1)>=total) || (((i+1) % width) == 0)) { 
 			cp_contents += "</tr>";
 			}
@@ -690,11 +690,11 @@ function ColorPicker() {
 	if (document.getElementById) {
 		var width1 = Math.floor(width/2);
 		var width2 = width = width1;
-		cp_contents += "<tr><td colspan='"+width1+"' bgcolor='#ffffff' ID='colorPickerSelectedColor'>&nbsp;</td><td colspan='"+width2+"' align='center' id='colorPickerSelectedColorValue'>#FFFFFF</td></tr>";
+		cp_contents += "<tr><td colspan='"+width1+"' style='background-color: #FFF;' ID='colorPickerSelectedColor'>&nbsp;</td><td colspan='"+width2+"' style='text-align: center;' id='colorPickerSelectedColorValue'>#FFFFFF</td></tr>";
 		}
 	cp_contents += "</table>";
 	if (windowMode) {
-		cp_contents += "</center></body></html>";
+		cp_contents += "</span></body></html>";
 		}
 	// end populate code
 

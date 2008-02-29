@@ -66,9 +66,9 @@ class LJ_Import {
 
 			echo '<li>';
 			if ($post_id = post_exists($post_title, $post_content, $post_date)) {
-				printf(__('Post <i>%s</i> already exists.'), stripslashes($post_title));
+				printf(__('Post <em>%s</em> already exists.'), stripslashes($post_title));
 			} else {
-				printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
+				printf(__('Importing post <em>%s</em>...'), stripslashes($post_title));
 				$postdata = compact('post_author', 'post_date', 'post_content', 'post_title', 'post_status');
 				$post_id = wp_insert_post($postdata);
 				if ( is_wp_error( $post_id ) )

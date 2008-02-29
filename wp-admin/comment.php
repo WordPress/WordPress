@@ -79,7 +79,7 @@ if ( 'spam' == $_GET['dt'] ) {
 <table width="100%">
 <tr>
 <td><input type='button' class="button" value='<?php _e('No'); ?>' onclick="self.location='<?php echo get_option('siteurl'); ?>/wp-admin/edit-comments.php';" /></td>
-<td align="right"><input type='submit' class="button" value='<?php echo $button; ?>' /></td>
+<td style="text-align: right;"><input type='submit' class="button" value='<?php echo $button; ?>' /></td>
 </tr>
 </table>
 

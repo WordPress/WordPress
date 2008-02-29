@@ -56,7 +56,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 		<th scope='row' class='check-column'><input type='checkbox' name='delete[]' value='$category->term_id' /></th>
 		<td>$edit</td>
 		<td>$category->description</td>
-		<td align='center'>$posts_count</td>\n\t</tr>\n";
+		<td style='text-align: center;'>$posts_count</td>\n\t</tr>\n";
 
 	return apply_filters('cat_row', $output);
 }
@@ -84,7 +84,7 @@ function link_cat_row( $category ) {
 		'<th scope="row" class="check-column"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></th>' .
 		"<td>$edit</td>
 		<td>$category->description</td>
-		<td align='center'>$count</td></tr>";
+		<td style='text-align: center;'>$count</td></tr>";
 
 	return apply_filters( 'link_cat_row', $output );
 }
@@ -722,7 +722,7 @@ function _list_meta_row( $entry, &$count ) {
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 	$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
 	$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
-	$r .= "\n\t\t<td align='center'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']} updatemeta' /><br />";
+	$r .= "\n\t\t<td style='text-align: center;'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']} updatemeta' /><br />";
 	$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
 	$r .= "class='delete:the-list:meta-{$entry['meta_id']} deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' />";
 	$r .= "</td>\n\t</tr>";
@@ -749,7 +749,7 @@ function meta_form() {
 <th><?php _e( 'Value' ) ?></th>
 </tr>
 	<tr valign="top">
-		<td align="right" width="18%">
+		<td style="text-align: right;" style="width: 18%;">
 <?php if ( $keys ) : ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#"><?php _e( '- Select -' ); ?></option>

@@ -152,7 +152,7 @@ class MT_Import {
 <div class="wrap">
 <h2><?php _e('Assign Authors'); ?></h2>
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as admin\'s entries.'); ?></p>
-<p><?php _e('Below, you can see the names of the authors of the MovableType posts in <i>italics</i>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>
+<p><?php _e('Below, you can see the names of the authors of the MovableType posts in <em>italics</em>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>
 <p><?php _e('If a new user is created by WordPress, a password will be randomly generated. Manually change the user\'s details if necessary.'); ?></p>
 	<?php
 
@@ -205,10 +205,10 @@ class MT_Import {
 
 		if ( $post_id = post_exists($post->post_title, '', $post->post_date) ) {
 			echo '<li>';
-			printf(__('Post <i>%s</i> already exists.'), stripslashes($post->post_title));
+			printf(__('Post <em>%s</em> already exists.'), stripslashes($post->post_title));
 		} else {
 			echo '<li>';
-			printf(__('Importing post <i>%s</i>...'), stripslashes($post->post_title));
+			printf(__('Importing post <em>%s</em>...'), stripslashes($post->post_title));
 
 			if ( '' != trim( $post->extended ) )
 					$post->post_content .= "\n<!--more-->\n$post->extended";

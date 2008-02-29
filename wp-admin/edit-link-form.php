@@ -145,10 +145,10 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <div id="linkxfndiv" class="postbox <?php echo postbox_classes('linkxfndiv', 'link'); ?>">
 <h3><?php _e('Link Relationship (XFN)') ?></h3>
 <div class="inside">
-<table class="editform" width="100%" cellspacing="2" cellpadding="5">
+<table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr>
-		<th width="20%" scope="row"><?php _e('rel:') ?></th>
-		<td width="80%"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
+		<th style="width: 20%;" scope="row"><?php _e('rel:') ?></th>
+		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
@@ -258,10 +258,10 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <div id="linkadvanceddiv" class="postbox <?php echo postbox_classes('linkadvanceddiv', 'link'); ?>">
 <h3><?php _e('Advanced') ?></h3>
 <div class="inside">
-<table class="editform" width="100%" cellspacing="2" cellpadding="5">
+<table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr>
-		<th width="20%" scope="row"><?php _e('Image Address:') ?></th>
-		<td width="80%"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
+		<th style="width: 20%;" scope="row"><?php _e('Image Address:') ?></th>
+		<td style="width: 80%;"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('RSS Address:') ?> </th>

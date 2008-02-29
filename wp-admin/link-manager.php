@@ -120,7 +120,7 @@ echo $select_order;
 
 <?php
 $link_columns = array(
-	'name'       => '<th width="15%">' . __('Name') . '</th>',
+	'name'       => '<th style="width: 15%;">' . __('Name') . '</th>',
 	'url'       => '<th>' . __('URL') . '</th>',
 	'categories' => '<th>' . __('Categories') . '</th>',
 	'rel'      => '<th style="text-align: center">' . __('rel') . '</th>',
@@ -196,7 +196,7 @@ if ( $links ) {
 					?><td><?php echo $link->link_rel; ?></td><?php
 					break;
 				case 'visible':
-					?><td align='center'><?php echo $visible; ?></td><?php
+					?><td style='text-align: center;'><?php echo $visible; ?></td><?php
 					break;
 				default:
 					?>

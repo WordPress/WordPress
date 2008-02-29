@@ -484,7 +484,7 @@ function wp_list_authors($args = '') {
 				$link .= '>';
 
 				if ( !empty($feed_image) )
-					$link .= "<img src=\"$feed_image\" border=\"0\"$alt$title" . ' />';
+					$link .= "<img src=\"$feed_image\" style=\"border: none;\"$alt$title" . ' />';
 				else
 					$link .= $name;
 
