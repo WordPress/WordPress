@@ -391,7 +391,7 @@ input.disabled, textarea.disabled {
 	width: auto;
 }
 
-#poststuff {
+#poststuff #post-body {
 	margin-right: 16em;
 }
 
@@ -1141,10 +1141,9 @@ html, body {
 }
 
 .submitbox {
-	position: absolute;
 	background-color: #eaf3fa;
 	width: 200px;
-	right: 15px;
+	float: right;
 }
 
 
@@ -1401,7 +1400,8 @@ ul.view-switch li.current a {
 
 #the-comment-list td.comment {
 	width: 65%;
-	padding-right: 10%;
+	max-width: 460px;
+	word-wrap: break-word;
 }
 
 #the-comment-list td.comment p {

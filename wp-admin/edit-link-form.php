@@ -67,6 +67,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <?php do_action('submitlink_box'); ?>
 </div>
 
+<div id="post-body">
 <div id="namediv" class="stuffbox">
 <h3><?php _e('Name') ?></h3>
 <div class="inside">
@@ -298,6 +299,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <input type="hidden" name="action" value="add" />
 <?php endif; ?>
 
+</div>
 </div>
 
 </div>

@@ -89,6 +89,7 @@ textarea, input, select {
 	margin-left: 15px;
 	margin-right: 15px;
 	padding: 0;
+	max-width: 960px;
 }
 
 .wrap h2 {

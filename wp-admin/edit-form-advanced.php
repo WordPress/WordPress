@@ -163,6 +163,7 @@ if ( ( 'edit' == $action) && current_user_can('delete_post', $post_ID) )
 <?php do_action('submitpost_box'); ?>
 </div>
 
+<div id="post-body">
 <div id="titlediv">
 <h3><?php _e('Title') ?></h3>
 <div class="inside">
@@ -340,7 +341,7 @@ if ( $authors && count( $authors ) > 1 ) :
 <?php do_meta_boxes('post', 'advanced', $post); ?>
 
 <?php do_action('dbx_post_sidebar'); ?>
-
+</div>
 </div>
 
 </div>
