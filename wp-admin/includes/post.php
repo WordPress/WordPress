@@ -529,7 +529,7 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
-	wp("what_to_show=posts$post_status_q&posts_per_page=20&order=$order&orderby=$orderby");
+	wp("post_type=post&what_to_show=posts$post_status_q&posts_per_page=20&order=$order&orderby=$orderby");
 
 	return array($post_stati, $avail_post_stati);
 }
