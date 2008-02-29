@@ -884,10 +884,10 @@ function wp_match_mime_types($wildcard_mime_types, $real_mime_types) {
 	$wild = '[-._a-z0-9]*';
 	foreach ( (array) $wildcard_mime_types as $type ) {
 		$type = str_replace('*', $wild, $type);
-		$patternses[1][$type] = $type;
+		$patternses[1][$type] = "^$type$";
 		if ( false === strpos($type, '/') ) {
-			$patternses[2][$type] = "^$type/$wild$";
-			$patternses[3][$type] = "$wild$type$wild";
+			$patternses[2][$type] = "^$type/";
+			$patternses[3][$type] = $type;
 		}
 	}
 	asort($patternses);
@@ -2361,7 +2361,6 @@ function wp_attachment_is_image( $post_id = 0 ) {
 function wp_mime_type_icon( $mime = 0 ) {
 	if ( !is_numeric($mime) )
 		$icon = wp_cache_get("mime_type_icon_$mime");
-
 	if ( empty($icon) ) {
 		$post_id = 0;
 		$post_mimes = array();
@@ -2370,8 +2369,11 @@ function wp_mime_type_icon( $mime = 0 ) {
 			if ( $post =& get_post( $mime ) ) {
 				$post_id = (int) $post->ID;
 				$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $post->guid);
-				if ( !empty($ext) )
+				if ( !empty($ext) ) {
 					$post_mimes[] = $ext;
+					if ( $ext_type = wp_ext2type( $ext ) )
+						$post_mimes[] = $ext_type;
+				}
 				$mime = $post->post_mime_type;
 			} else {
 				$mime = 0;
@@ -2383,16 +2385,20 @@ function wp_mime_type_icon( $mime = 0 ) {
 		$icon_files = wp_cache_get('icon_files');
 
 		if ( !is_array($icon_files) ) {
-			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images' );
-			$icon_dir_uri = apply_filters( 'icon_dir_uri', trailingslashit(get_option('siteurl')) . WPINC . '/images' );
+			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/crystal' );
+			$icon_dir_uri = apply_filters( 'icon_dir_uri', trailingslashit(get_option('siteurl')) . WPINC . '/images/crystal' );
 			$dirs = apply_filters( 'icon_dirs', array($icon_dir => $icon_dir_uri) );
 			$icon_files = array();
-			foreach ( $dirs as $dir => $uri) {
+			while ( $dirs ) {
+				$dir = array_shift(array_keys($dirs));
+				$uri = array_shift($dirs);
 				if ( $dh = opendir($dir) ) {
 					while ( false !== $file = readdir($dh) ) {
 						$file = basename($file);
+						if ( substr($file, 0, 1) == '.' )
+							continue;
 						if ( !in_array(strtolower(substr($file, -4)), array('.png', '.gif', '.jpg') ) ) {
-							if ( is_dir($file) )
+							if ( is_dir("$dir/$file") )
 								$dirs["$dir/$file"] = "$uri/$file";
 							continue;
 						}

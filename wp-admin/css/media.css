@@ -21,6 +21,12 @@ div#media-upload-error {
 	color: #f00;
 }
 
+.file-error {
+	font-weight: bold;
+	color: #f00;
+	margin: 0 15px;
+}
+
 form {
 	margin: 1em;
 }

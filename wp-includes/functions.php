@@ -1175,6 +1175,21 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = NULL ) {
 	return array( 'file' => $new_file, 'url' => $url, 'error' => false );
 }
 
+function wp_ext2type( $ext ) {
+	$ext2type = apply_filters('ext2type', array(
+		'audio' => array('aac','ac3','aif','aiff','mp1','mp2','mp3','m3a','m4a','m4b','ogg','ram','wav','wma'),
+		'video' => array('asf','avi','divx','dv','mov','mpg','mpeg','mp4','mpv','ogm','qt','rm','vob','wmv'),
+		'document' => array('doc','pages','odt','rtf','pdf'),
+		'spreadsheet' => array('xls','numbers','ods'),
+		'interactive' => array('ppt','key','odp','swf'),
+		'text' => array('txt'),
+		'archive' => array('tar','bz2','gz','cab','dmg','rar','sea','sit','sqx','zip'),
+		'code' => array('css','html','php','js'),		
+	));
+	foreach ( $ext2type as $type => $exts )
+		if ( in_array($ext, $exts) )
+			return $type;
+}
 
 function wp_check_filetype( $filename, $mimes = null ) {
 	// Accepted MIME types are set here as PCRE unless provided.

@@ -88,23 +88,23 @@ class WP_Scripts {
 		$this->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.0.2');
 		$this->add( 'swfupload-degrade', '/wp-includes/js/swfupload/plugins/swfupload.graceful_degradation.js', array('swfupload'), '2.0.2');
 		$this->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2.0.2');
-		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2-20080227');
+		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2-20080228');
 		// these error messages came from the sample swfupload js, they might need changing.
 		$this->localize( 'swfupload-handlers', 'swfuploadL10n', array(
-				'queue_limit_exceeded' => 'You have attempted to queue too many files.',
-				'file_exceeds_size_limit' => 'The file you have selected is too big.',
-				'zero_byte_file' => 'The file you selected is empty.  Please select another file.',
-				'invalid_filetype' => 'The file you choose is not an allowed file type.',
-				'default_error' => 'An error occurred in the upload. Please try again later.',
-				'missing_upload_url' => 'There was a configuration error.  Please contact the server administrator.',
-				'upload_limit_exceeded' => 'You may only upload 1 file.',
-				'http_error' => 'HTTP error.',
-				'upload_failed' => 'Upload failed.',
-				'io_error' => 'IO error.',
-				'security_error' => 'Security error.',
-				'file_cancelled' => 'File cancelled.',
-				'upload_stopped' => 'Upload stopped.',
-
+				'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
+				'file_exceeds_size_limit' => __('This file is too big. See php.ini.'),
+				'zero_byte_file' => __('The file you selected is empty. Please select another file.'),
+				'invalid_filetype' => __('The file you choose is not an allowed file type.'),
+				'default_error' => __('An error occurred in the upload. Please try again later.'),
+				'missing_upload_url' => __('There was a configuration error. Please contact the server administrator.'),
+				'upload_limit_exceeded' => __('You may only upload 1 file.'),
+				'http_error' => __('HTTP error.'),
+				'upload_failed' => __('Upload failed.'),
+				'io_error' => __('IO error.'),
+				'security_error' => __('Security error.'),
+				'file_cancelled' => __('File cancelled.'),
+				'upload_stopped' => __('Upload stopped.'),
+				'dismiss' => __('Dismiss'),
 		) );
 
 		$this->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery'), '3' );

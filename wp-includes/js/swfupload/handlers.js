@@ -117,7 +117,8 @@ function wpQueueError(message) {
 
 // file-specific message
 function wpFileError(fileObj, message) {
-	jQuery('#media-upload-error-' + fileObj.id).show().text(message);
+	jQuery('#media-item-' + fileObj.id + ' .filename').append('<span class="file-error">'+message+'</span> <button type="button" class="button dismiss">'+swfuploadL10n.dismiss+'</button>');
+	jQuery('.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
 }
 
 function fileQueueError(fileObj, error_code, message)  {
@@ -126,12 +127,15 @@ function fileQueueError(fileObj, error_code, message)  {
 		wpQueueError(swfuploadL10n.queue_limit_exceeded);
 	}
 	else if ( error_code == SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT ) {
+		fileQueued(fileObj);
 		wpFileError(fileObj, swfuploadL10n.file_exceeds_size_limit);
 	}
 	else if ( error_code == SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE ) {
+		fileQueued(fileObj);
 		wpFileError(fileObj, swfuploadL10n.zero_byte_file);
 	}
 	else if ( error_code == SWFUpload.QUEUE_ERROR.INVALID_FILETYPE ) {
+		fileQueued(fileObj);
 		wpFileError(fileObj, swfuploadL10n.invalid_filetype);
 	}
 	else {
