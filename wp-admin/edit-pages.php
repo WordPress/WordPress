@@ -54,11 +54,6 @@ if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($
 }
 
 ?>
-<script type="text/javascript">
-/* <![CDATA[ */
-jQuery(function($){$('#the-list').wpList();});
-/* ]]> */
-</script>
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
 <h2><?php
