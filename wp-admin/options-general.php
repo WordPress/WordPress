@@ -59,7 +59,9 @@ include('./admin-header.php');
 <select name="gmt_offset">
 <?php 
 $current_offset = get_option('gmt_offset');
-foreach ( range(-12, 12, 0.5) as $offset ) {
+$offset_range = array (-12, -11.5, -11, -10.5, -10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, -5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -0.5,
+	0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12);
+foreach ( $offset_range as $offset ) {
 	if ( 0 < $offset )
 		$offset_name = '+' . $offset;
 	elseif ( 0 == $offset )
