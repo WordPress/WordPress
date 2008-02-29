@@ -51,6 +51,7 @@ $post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
 	$post_status_q = '&post_status=' . $_GET['post_status'];
+	$post_status_q .= '&perm=readable';
 }
 
 ?>
@@ -73,7 +74,7 @@ printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by {s}, 3: matchin
 $avail_post_stati = get_available_post_statuses('page');
 	
 $status_links = array();
-$num_posts = wp_count_posts('page');
+$num_posts = wp_count_posts('page', 'readable');
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
