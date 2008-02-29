@@ -881,7 +881,7 @@ function wp_kses_normalize_entities($string) {
 	# Change back the allowed entities in our entity whitelist
 
 	$string = preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
-	$string = preg_replace('/&amp;#0*([0-9]{1,5});/e', 'wp_kses_normalize_entities2("\\1")', $string);
+	$string = preg_replace_callback('/&amp;#0*([0-9]{1,5});/', create_function('$matches', 'return wp_kses_normalize_entities2($matches[1]);'), $string);
 	$string = preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', '&#\\1\\2;', $string);
 
 	return $string;
