@@ -81,13 +81,15 @@ if ( is_single() ) {
 <ul class="subsubsub">
 <?php
 $status_links = array();
-$num_posts = wp_count_posts('post');
+$num_posts = wp_count_posts('post', 'readable');
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
 	if ( !in_array($status, $avail_post_stati) )
 		continue;
 
+	if ( empty($num_posts->$status) )
+		continue;
 	if ( $status == $_GET['post_status'] )
 		$class = ' class="current"';
 

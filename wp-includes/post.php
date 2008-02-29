@@ -822,10 +822,18 @@ function sanitize_post_field($field, $value, $post_id, $context) {
  * @param string $type Post type
  * @return array Number of posts for each status
  */
-function wp_count_posts( $type = 'post' ) {
+function wp_count_posts( $type = 'post', $perm = '' ) {
 	global $wpdb;
 
-	$count = $wpdb->get_results( $wpdb->prepare( "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s GROUP BY post_status", $type ), ARRAY_A );
+	$user = wp_get_current_user();
+
+	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
+	if ( 'readable' == $perm && is_user_logged_in() ) {
+		if ( !current_user_can("read_private_{$type}s") )
+			$query .= " AND (post_status != 'private' OR ( post_author = '$user->ID' AND post_status = 'private' ))";
+	}
+	$query .= ' GROUP BY post_status';
+	$count = $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
 
 	$stats = array( );
 	foreach( (array) $count as $row_num => $row ) {

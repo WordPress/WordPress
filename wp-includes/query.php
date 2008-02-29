@@ -1213,6 +1213,7 @@ class WP_Query {
 		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
 			$q_status = explode(',', $q['post_status']);
 			$r_status = array();
+			$p_status = array();
 			if ( in_array( 'draft'  , $q_status ) )
 				$r_status[] = "post_status = 'draft'";
 			if ( in_array( 'pending', $q_status ) )
@@ -1222,11 +1223,27 @@ class WP_Query {
 			if ( in_array( 'inherit' , $q_status ) )
 				$r_status[] = "post_status = 'inherit'";
 			if ( in_array( 'private', $q_status ) )
-				$r_status[] = "post_status = 'private'";
+				$p_status[] = "post_status = 'private'";
 			if ( in_array( 'publish', $q_status ) )
 				$r_status[] = "post_status = 'publish'";
-			if ( !empty($r_status) )
-				$where .= " AND (" . join( ' OR ', $r_status ) . ")";
+
+			if ( empty($q['perm'] ) || 'readable' != $q['perm'] ) {
+				$r_status = array_merge($r_status, $p_status);
+				unset($p_status);
+			}
+
+			if ( !empty($r_status) ) {
+				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can("edit_others_{$post_type}s") )
+					$where .= " AND (post_author = $user_ID " .  "AND (" . join( ' OR ', $r_status ) . "))";
+				else
+					$where .= " AND (" . join( ' OR ', $r_status ) . ")";
+			}
+			if ( !empty($p_status) ) {
+				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can("read_private_{$post_type}s") )
+					$where .= " AND (post_author = $user_ID " .  "AND (" . join( ' OR ', $p_status ) . "))";
+				else
+					$where .= " AND (" . join( ' OR ', $p_status ) . ")";
+			}
 		} elseif ( !$this->is_singular ) {
 			$where .= " AND (post_status = 'publish'";
 

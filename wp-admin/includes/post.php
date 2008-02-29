@@ -513,8 +513,10 @@ function wp_edit_posts_query( $q = false ) {
 	$avail_post_stati = get_available_post_statuses('post');
 
 	$post_status_q = '';
-	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) )
+	if ( isset($q['post_status']) && in_array( $q['post_status'], array_keys($post_stati) ) ) {
 		$post_status_q = '&post_status=' . $q['post_status'];
+		$post_status_q .= '&perm=readable';
+	}
 
 	if ( 'pending' === $q['post_status'] ) {
 		$order = 'ASC';
