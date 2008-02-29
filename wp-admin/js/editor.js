@@ -77,6 +77,7 @@ switchEditors = {
 
             qt.style.display = 'none';
             ec.style.padding = '0px';
+            ta.style.padding = '0px';
 
             ta.value = this.wpautop(ta.value);
 

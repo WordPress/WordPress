@@ -342,7 +342,7 @@ input.disabled, textarea.disabled {
 #excerpt, .attachmentlinks {
 	margin: 0;
 	height: 4em;
-	width: 100%;
+	width: 98%;
 }
 
 .plugins p {
@@ -1340,7 +1340,7 @@ p#post-search {
 }
 
 body.minwidth {
-	min-width: 770px;
+	min-width: 808px;
 }
 
 ul.view-switch {

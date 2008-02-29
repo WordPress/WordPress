@@ -1421,9 +1421,8 @@ function _mce_set_direction( $input ) {
 
 	if ( 'rtl' == $wp_locale->text_direction ) {
 		$input['directionality'] = 'rtl';
-		$input['theme_advanced_toolbar_align'] = 'right';
 		$input['plugins'] .= ',directionality';
-		$input['theme_advanced_buttons2'] .= ',|,ltr,rtl';
+		$input['theme_advanced_buttons1'] .= ',ltr';
 	}
 
 	return $input;

@@ -68,6 +68,7 @@ echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment
 <?php do_action('submitcomment_box'); ?>
 </div>
 
+<div id="post-body">
 <div id="namediv" class="stuffbox">
 <h3><?php _e('Name') ?></h3>
 <div class="inside">
@@ -101,6 +102,7 @@ echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment
 <input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
 <input type="hidden" name="noredir" value="1" />
+</div>
 </div>
 </div>
 

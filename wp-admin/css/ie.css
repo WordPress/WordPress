@@ -10,11 +10,20 @@
 }
 
 * html body.minwidth {
-	_width: expression(document.documentElement.clientWidth < 942 ? "940px" : "auto");
+	_width: expression(document.documentElement.clientWidth < 810 ? "808px" : "99.9%");
 }
 
-* html #poststuff #titlediv {
-	display: inline-block;
+* html #wpbody {
+	_width: expression(document.documentElement.clientWidth > 962 ? "960px" : "99.9%");
+}
+
+* html #poststuff .postarea, * html #poststuff #titlediv {
+	width: 95%;
+	margin-left: 2%;
+}
+
+.submitbox {
+	margin-top: 10px;
 }
 
 * html div.widget-liquid-left-holder, * html div.widget-liquid-right {
@@ -22,22 +31,23 @@
 	position: relative;
 }
 
-#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, #editorcantainer {
-display: block;
-zoom: 100%;
+#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list {
+	display: block;
+	zoom: 100%;
 }
 
 * html #editorcontainer {
-padding: 0;
+	padding: 0;
 }
 
 * html #editorcontainer #content {
-position: relative;
-overflow: auto;
-padding: 6px;
-margin: auto;
-width: 98%;
+	position: relative;
+	overflow: auto;
+	padding: 6px;
+	margin: auto;
+	width: 98%;
 }
+
 
 form#template div {
 	width: 100%;

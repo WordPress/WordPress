@@ -6,7 +6,7 @@ if ( $editing ) {
 		wp_enqueue_script( 'wp_tiny_mce' );
 }
 
-$min_width_pages = array( 'post.php', 'post-new.php', 'page.php', 'page-new.php', 'widgets.php', 'comment.php' );
+$min_width_pages = array( 'post.php', 'post-new.php', 'page.php', 'page-new.php', 'widgets.php', 'comment.php', 'link.php' );
 $the_current_page = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 $ie6_no_scrollbar = true;
 
@@ -70,3 +70,4 @@ if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');
 }
 ?>
+<div id="wpbody">

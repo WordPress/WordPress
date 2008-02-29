@@ -1,3 +1,4 @@
+</div><!-- wpbody -->
 </div><!-- wpcontent -->
 </div><!-- wpwrap -->
 <div id="footer">
