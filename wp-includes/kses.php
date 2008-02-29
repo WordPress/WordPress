@@ -825,7 +825,9 @@ function wp_kses_html_error($string) {
  * @return string Sanitized content
  */
 function wp_kses_bad_protocol_once($string, $allowed_protocols) {
-	return preg_replace('/^((&[^;]*;|[\sA-Za-z0-9])*)'.'(:|&#58;|&#[Xx]3[Aa];)\s*/e', 'wp_kses_bad_protocol_once2("\\1", $allowed_protocols)', $string);
+	global $_kses_allowed_protocols;
+	$_kses_allowed_protocols = $allowed_protocols;
+	return preg_replace_callback('/^((&[^;]*;|[\sA-Za-z0-9])*)'.'(:|&#58;|&#[Xx]3[Aa];)\s*/', create_function('$matches', 'global $_kses_allowed_protocols; return wp_kses_bad_protocol_once2($matches[1], $_kses_allowed_protocols);'), $string);
 }
 
 /**
