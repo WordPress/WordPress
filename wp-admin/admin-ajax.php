@@ -470,6 +470,8 @@ case 'add-user' :
 	break;
 case 'autosave' : // The name of this action is hardcoded in edit_post()
 	check_ajax_referer( 'autosave', 'autosavenonce' );
+	global $current_user;
+
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_status'] = 'draft';
@@ -478,17 +480,36 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
 		unset($_POST['post_category']);
 
+	$do_autosave = (bool) $_POST['autosave'];
+	$do_lock = true;
+
+	$data = '<div class="updated"><p>' . sprintf( __('Saved at %s.'), date( __('g:i:s a'), current_time( 'timestamp', true ) ) ) . '</p></div>';
+
+	$supplemental = array();
+
+	$id = 0;
 	if($_POST['post_ID'] < 0) {
 		$_POST['temp_ID'] = $_POST['post_ID'];
-		$id = wp_write_post();
-		if( is_wp_error($id) )
-			die($id->get_error_message());
-		else
-			die("$id");
+		if ( $do_autosave )
+			$id = wp_write_post();
 	} else {
 		$post_ID = (int) $_POST['post_ID'];
 		$_POST['ID'] = $post_ID;
 		$post = get_post($post_ID);
+
+		if ( $last = wp_check_post_lock( $post->ID ) ) {
+			$do_autosave = $do_lock = false;
+
+			$last_user = get_userdata( $last );
+			$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
+			$data = new WP_Error( 'locked', sprintf(
+				$_POST['post_type'] == 'page' ? __( 'Autosave disabled: %s is currently editing this page.' ) : __( 'Autosave disabled: %s is currently editing this post.' ),
+				wp_specialchars( $last_user_name )
+			) );
+
+			$supplemental['disable_autosave'] = 'disable';
+		}
+
 		if ( 'page' == $post->post_type ) {
 			if ( !current_user_can('edit_page', $post_ID) )
 				die(__('You are not allowed to edit this page.'));
@@ -496,10 +517,23 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 			if ( !current_user_can('edit_post', $post_ID) )
 				die(__('You are not allowed to edit this post.'));
 		}
-		wp_update_post($_POST);
+		if ( $do_autosave )
+			$id = wp_update_post($_POST);
+		else
+			$id = $post->ID;
 	}
-	die('0');
-break;
+
+	if ( $do_lock && $id && is_numeric($id) )
+		wp_set_post_lock( $id );
+
+	$x = new WP_Ajax_Response( array(
+		'what' => 'autosave',
+		'id' => $id,
+		'data' => $id ? $data : '',
+		'supplemental' => $supplemental
+	) );
+	$x->send();
+	break;
 case 'autosave-generate-nonces' :
 	check_ajax_referer( 'autosave', 'autosavenonce' );
 	$ID = (int) $_POST['post_ID'];

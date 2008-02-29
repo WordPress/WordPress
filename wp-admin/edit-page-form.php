@@ -36,6 +36,7 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <?php echo $form_extra ?>
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
+<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php
 if ( url_to_postid(wp_get_referer()) == $post_ID )
 	echo 'redo';
@@ -169,11 +170,7 @@ endif; ?>
 <?php wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false ); ?>
 </div>
 
-<p class="submit">
-
-<span id="autosave"></span>
-
-</p>
+<div id="autosave"></div>
 
 <?php do_meta_boxes('page', 'normal', $post); ?>
 

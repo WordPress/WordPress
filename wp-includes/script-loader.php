@@ -41,16 +41,19 @@ class WP_Scripts {
 		
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
-		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('jquery', 'schedule'), '20080221');
+		$this->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080229' . mt_rand() );
+		$this->localize( 'wp-ajax-response', 'wpAjax', array(
+			'noPerm' => 'You do not have permission to do that.',
+			'broken' => 'AJAX is teh b0rked.'
+		) );
+
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080221' . mt_rand());
 		$this->localize( 'autosave', 'autosaveL10n', array(
-			'autosaveInterval' => apply_filters('autosave_interval', '60'),
-			'errorText' => __('Error: %response%'),
-			'failText' => __('Error: Autosave Failed.'),
-			'previewPageText' => __('Preview this Page'),
-			'previewPostText' => __('Preview this Post'),
-			'saveText' => __('Saved at %time%.'),
+			'autosaveInterval' => get_option( 'autosave_interval' ),
+			'previewPageText' => __('View this Page'),
+			'previewPostText' => __('View this Post'),
 			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
-			'savingText' => __('Saving Draft...')
+			'savingText' => __('Saving&#8230;')
 		) );
 
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
@@ -61,7 +64,7 @@ class WP_Scripts {
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('jquery'), '20080228' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080228' . mt_rand());
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );

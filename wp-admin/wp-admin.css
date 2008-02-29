@@ -1033,6 +1033,15 @@ html, body {
 	margin-right: 8px;
 }
 
+#poststuff #autosave {
+	margin: 0;
+	padding: 0;
+}
+
+#poststuff #autosave div.updated, #poststuff #autosave div.error {
+	margin: 0 8px 10px 20px;
+}
+
 #poststuff .inside {
 	margin: 0 12px 15px;
 	font-size: 11px;

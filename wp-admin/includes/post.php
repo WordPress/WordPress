@@ -18,8 +18,7 @@ function edit_post() {
 		$post =& get_post( $post_ID );
 		$now = time();
 		$then = strtotime($post->post_date_gmt . ' +0000');
-		// Keep autosave_interval in sync with autosave-js.php.
-		$delta = apply_filters( 'autosave_interval', 120 ) / 2;
+		$delta = get_option( 'autosave_interval' ) / 2;
 		if ( ($now - $then) < $delta )
 			return $post_ID;
 	}
@@ -617,6 +616,39 @@ function get_sample_permalink_html($id, $new_slug=null) {
 	$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $display_link . "</span>\n";
 	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug" onclick="edit_permalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
 	return $return;
+}
+
+// false: not locked or locked by current user
+// int: user ID of user with lock
+function wp_check_post_lock( $post_id ) {
+	global $current_user;
+
+	if ( !$post = get_post( $post_id ) )
+		return false;
+
+	$lock = get_post_meta( $post->ID, '_edit_lock', true );
+	$last = get_post_meta( $post->ID, '_edit_last', true );
+
+	$time_window = apply_filters( 'wp_check_post_lock_window', get_option( 'autosave_interval' ) * 2 );
+
+	if ( $lock && $lock > time() - $time_window && $last != $current_user->ID )
+		return $last;
+	return false;
+}
+
+function wp_set_post_lock( $post_id ) {
+	global $current_user;
+	if ( !$post = get_post( $post_id ) )
+		return false;
+	if ( !$current_user || !$current_user->ID )
+		return false;
+	
+	$now = time();
+
+	if ( !add_post_meta( $post->ID, '_edit_lock', $now, true ) )
+		update_post_meta( $post->ID, '_edit_lock', $now );
+	if ( !add_post_meta( $post->ID, '_edit_last', $current_user->ID, true ) )
+		update_post_meta( $post->ID, '_edit_last', $current_user->ID );
 }
 
 ?>

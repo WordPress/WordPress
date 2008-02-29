@@ -2,46 +2,6 @@
 var currentFormEl = false;
 var fs = {add:'ajaxAdd',del:'ajaxDel',dim:'ajaxDim',process:'process',recolor:'recolor'};
 
-wpAjax = {
-	unserialize: function( s ) {
-		var r = {}; if ( !s ) { return r; }
-		var q = s.split('?'); if ( q[1] ) { s = q[1]; }
-		var pp = s.split('&');
-		for ( var i in pp ) {
-			if ( $.isFunction(pp.hasOwnProperty) && !pp.hasOwnProperty(i) ) { continue; }
-			var p = pp[i].split('=');
-			r[p[0]] = p[1];
-		}
-		return r;
-	},
-	parseAjaxResponse: function( x, r, e ) { // 1 = good, 0 = strange (bad data?), -1 = you lack permission
-		var re = $('#' + r).html('');
-		if ( x && typeof x == 'object' && x.getElementsByTagName('wp_ajax') ) {
-			var errs = $('wp_error', x);
-			if ( errs.size() ) {
-				var err = '';
-				errs.each( function() {
-					var code = $(this).attr('code');
-					if ( formField = $('wp_error_data[code="' + code + '"] form-field', x).text() )
-						code = formField;
-					wpAjax.invalidateForm( $('#' + e + ' :input[name="' + code + '"]' ).parents('.form-field:first') );
-					err += '<p>' + this.firstChild.nodeValue + '</p>';
-				} );
-				return !re.html( '<div class="error">' + err + '</div>' );
-			}
-			return true;
-		}
-		if ( isNaN(x) ) { return !re.html('<div class="error"><p>' + x + '</p></div>'); }
-		x = parseInt(x,10);
-		if ( -1 == x ) { return !re.html('<div class="error"><p>You do not have permission to do that.</p></div>'); }
-		else if ( 0 === x ) { return !re.html('<div class="error"><p>AJAX is teh b0rked.</p></div>'); }
-		return true;
-	},
-	invalidateForm: function( jQ ) {
-		jQ.addClass( 'form-invalid' ).change( function() { $(this).removeClass( 'form-invalid' ); } );
-	}
-};
-
 var wpList = {
 	settings: {
 		url: wpListL10n.url, type: 'POST',
@@ -127,21 +87,21 @@ var wpList = {
 		if ( !s.data.match(/_ajax_nonce=[a-f0-9]+/) ) { return true; }
 
 		s.success = function(r) {
-			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) { return false; }
+			var res = wpAjax.parseAjaxResponse(r, s.response, s.element);
+			if ( !res || res.errors ) { return false; }
 
-			$(s.what + ' response_data', r).each( function() {
-				var t = $(this);
-				wpList.add.call( list, t.text(), $.extend( {}, s, { // this.firstChild.nodevalue
-					pos: t.parent().attr( 'position' ) || 0,
-					id: t.parent().attr( 'id' ) || 0,
-					oldId: t.parent().attr( 'old_id' ) || null
+			jQuery.each( res.responses, function() {
+				wpList.add.call( list, this.data, $.extend( {}, s, { // this.firstChild.nodevalue
+					pos: this.position || 0,
+					id: this.id || 0,
+					oldId: this.oldId || null
 				} ) );
 			} );
 
 			if ( $.isFunction(s.addAfter) ) {
 				var o = this.complete;
 				this.complete = function(x,st) {
-					var _s = $.extend( { xml: x, status: st }, s );
+					var _s = $.extend( { xml: x, status: st, parsed: res }, s );
 					s.addAfter( r, _s );
 					if ( $.isFunction(o) ) { o(x,st); }
 				};
@@ -194,7 +154,8 @@ var wpList = {
 		}
 
 		s.success = function(r) {
-			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
+			var res = wpAjax.parseAjaxResponse(r, s.response, s.element);
+			if ( !res || res.errors ) {
 				element.stop().css( 'backgroundColor', '#FF3333' ).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
@@ -202,7 +163,7 @@ var wpList = {
 				var o = this.complete;
 				this.complete = function(x,st) {
 					element.queue( function() {
-						var _s = $.extend( { xml: x, status: st }, s );
+						var _s = $.extend( { xml: x, status: st, parsed: res }, s );
 						s.delAfter( r, _s );
 						if ( $.isFunction(o) ) { o(x,st); }
 					} ).dequeue();
@@ -256,7 +217,8 @@ var wpList = {
 		if ( !s.data._ajax_nonce ) { return true; }
 
 		s.success = function(r) {
-			if ( !wpAjax.parseAjaxResponse(r, s.response, s.element) ) {
+			var res = wpAjax.parseAjaxResponse(r, s.response, s.element);
+			if ( !res || res.errors ) {
 				element.stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
 			}
@@ -264,7 +226,7 @@ var wpList = {
 				var o = this.complete;
 				this.complete = function(x,st) {
 					element.queue( function() {
-						var _s = $.extend( { xml: x, status: st }, s );
+						var _s = $.extend( { xml: x, status: st, parsed: res }, s );
 						s.dimAfter( r, _s );
 						if ( $.isFunction(o) ) { o(x,st); }
 					} ).dequeue();

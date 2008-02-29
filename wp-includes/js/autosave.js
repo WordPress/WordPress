@@ -1,65 +1,75 @@
 var autosaveLast = '';
 var autosavePeriodical;
 
-function autosave_start_timer() {
-	autosaveLast = jQuery('#post #title').val()+jQuery('#post #content').val();
-	// Keep autosave_interval in sync with edit_post().
-	autosavePeriodical = jQuery.schedule({time: autosaveL10n.autosaveInterval * 1000, func: autosave, repeat: true, protect: true});
+jQuery(function($) {
+	autosaveLast = $('#post #title').val()+$('#post #content').val();
+	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
 	//Disable autosave after the form has been submitted
-	jQuery("#post #submit").submit(function() { jQuery.cancel(autosavePeriodical); });
-	jQuery("#post #save").click(function() { jQuery.cancel(autosavePeriodical); });
-	jQuery("#post #submit").click(function() { jQuery.cancel(autosavePeriodical); });
-	jQuery("#post #publish").click(function() { jQuery.cancel(autosavePeriodical); });
-	jQuery("#post #deletepost").click(function() { jQuery.cancel(autosavePeriodical); });
+	$("#post").submit(function() { $.cancel(autosavePeriodical); });
 
-	// Autosave early on for a new post
-	jQuery("#content").keypress(function() {
-		if ( 1 === ( jQuery(this).val().length % 15 ) && 1 > parseInt(jQuery("#post_ID").val(),10) )
+	// Autosave early on for a new post.  Why?  Should this only be run once?
+	$("#content").keypress(function() {
+		if ( 1 === ( $(this).val().length % 15 ) && 1 > parseInt($("#post_ID").val(),10) )
 			setTimeout(autosave, 5000);
 	});
-}
-addLoadEvent(autosave_start_timer)
+});
 
-function autosave_cur_time() {
-	var now = new Date();
-	return "" + ((now.getHours() >12) ? now.getHours() -12 : now.getHours()) + 
-	((now.getMinutes() < 10) ? ":0" : ":") + now.getMinutes() +
-	((now.getSeconds() < 10) ? ":0" : ":") + now.getSeconds();
-}
+// called when autosaving pre-existing post
+function autosave_saved(response) {
+	var res = wpAjax.parseAjaxResponse(response, 'autosave'); // parse the ajax response
+	var message = '';
 
-function autosave_update_post_ID(response) {
-	var res = parseInt(response);
-	var message;
+	if ( res && res.responses.length ) {
+		message = res.responses[0].data; // The saved message or error.
+		// someone else is editing: disable autosave, set errors
+		if ( res.responses[0].supplemental && 'disable' == res.responses[0].supplemental['disable_autosave'] ) {
+			autosave = function() {};
+			res = { errors: true };
+		}
 
-	if(isNaN(res)) {
-		message = autosaveL10n.errorText.replace(/%response%/g, response);
-	} else if( res > 0 ) {
-		message = autosaveL10n.saveText.replace(/%time%/g, autosave_cur_time());
-		jQuery('#post_ID').attr({name: "post_ID"});
-		jQuery('#post_ID').val(res);
-		// We need new nonces
-		jQuery.post(autosaveL10n.requestFile, {
-			action: "autosave-generate-nonces",
-			post_ID: res,
-			autosavenonce: jQuery('#autosavenonce').val(),
-			post_type: jQuery('#post_type').val()
-		}, function(html) {
-			jQuery('#_wpnonce').val(html);
-		});
-		jQuery('#hiddenaction').val('editpost');
-	} else {
-		message = autosaveL10n.failText;
+		// if no errors: add preview link and slug UI
+		if ( !res.errors ) {
+			var postID = parseInt( res.responses[0].id );
+			if ( !isNaN(postID) && postID > 0 ) {
+				autosave_update_preview_link(postID);
+				autosave_update_slug(postID);
+			}
+		}
 	}
-	jQuery('#autosave').html(message);
-	autosave_update_preview_link(res);
-	autosave_update_slug(res);
-	autosave_enable_buttons();
+	if ( message ) { jQuery('#autosave').html(message); } // update autosave message
+	autosave_enable_buttons(); // re-enable disabled form buttons
+	return res;
+}
+
+// called when autosaving new post
+function autosave_update_post_ID(response) {
+	var res = autosave_saved(response); // parse the ajax response do the above
+
+	// if no errors: update post_ID from the temporary value, grab new save-nonce for that new ID
+	if ( res && res.responses.length && !res.errors ) {
+		var postID = parseInt( res.responses[0].id );
+		if ( !isNaN(postID) && postID > 0 ) {
+			if ( postID == parseInt(jQuery('#post_ID').val()) ) { return; } // no need to do this more than once
+			jQuery('#post_ID').attr({name: "post_ID"});
+			jQuery('#post_ID').val(postID);
+			// We need new nonces
+			jQuery.post(autosaveL10n.requestFile, {
+				action: "autosave-generate-nonces",
+				post_ID: postID,
+				autosavenonce: jQuery('#autosavenonce').val(),
+				post_type: jQuery('#post_type').val()
+			}, function(html) {
+				jQuery('#_wpnonce').val(html);
+			});
+			jQuery('#hiddenaction').val('editpost');
+		}
+	}
 }
 
 function autosave_update_preview_link(post_id) {
 	// Add preview button if not already there
-	if ( ! jQuery('#previewview > *').get()[0] ) {
+	if ( !jQuery('#previewview > *').size() ) {
 		var post_type = jQuery('#post_type').val();
 		var previewText = 'page' == post_type ? autosaveL10n.previewPageText : autosaveL10n.previewPostText;
 		jQuery.post(autosaveL10n.requestFile, {
@@ -74,78 +84,69 @@ function autosave_update_preview_link(post_id) {
 
 function autosave_update_slug(post_id) {
 	// create slug area only if not already there
-	if ( 'undefined' != typeof make_slugedit_clickable && ! jQuery('#edit-slug-box > *').get()[0] ) {
-		jQuery.post(slugL10n.requestFile, {
-			action: 'sample-permalink',
-			post_id: post_id,
-			samplepermalinknonce: jQuery('#samplepermalinknonce').val()}, function(data) {
+	if ( jQuery.isFunction(make_slugedit_clickable) && !jQuery('#edit-slug-box > *').size() ) {
+		jQuery.post(
+			slugL10n.requestFile,
+			{
+				action: 'sample-permalink',
+				post_id: post_id,
+				samplepermalinknonce: jQuery('#samplepermalinknonce').val()
+			},
+			function(data) {
 				jQuery('#edit-slug-box').html(data);
 				make_slugedit_clickable();
-			});
+			}
+		);
 	}
 }
 
 function autosave_loading() {
-	jQuery('#autosave').html(autosaveL10n.savingText);
-}
-
-function autosave_saved(response) {
-	var res = parseInt(response);
-	var message;
-
-	if(isNaN(res)) {
-		message = autosaveL10n.errorText.replace(/%response%/g, response);
-	} else {
-		message = autosaveL10n.saveText.replace(/%time%/g, autosave_cur_time());
-	}
-	jQuery('#autosave').html(message);
-	autosave_update_preview_link(res);
-	autosave_update_slug(res);
-	autosave_enable_buttons();
-}
-
-function autosave_disable_buttons() {
-	jQuery("#post #save:enabled").attr('disabled', 'disabled');
-	jQuery("#post #submit:enabled").attr('disabled', 'disabled');
-	jQuery("#post #publish:enabled").attr('disabled', 'disabled');
-	jQuery("#post #deletepost:enabled").attr('disabled', 'disabled');
-	setTimeout('autosave_enable_buttons();', 1000); // Re-enable 1 sec later.  Just gives autosave a head start to avoid collisions.
+	jQuery('#autosave').html('<div class="updated"><p>' + autosaveL10n.savingText + '</p></div>');
 }
 
 function autosave_enable_buttons() {
-	jQuery("#post #save:disabled").attr('disabled', '');
-	jQuery("#post #submit:disabled").attr('disabled', '');
-	jQuery("#post #publish:disabled").attr('disabled', '');
-	jQuery("#post #deletepost:disabled").attr('disabled', '');
+	jQuery("#submitpost :button:disabled, #submitpost :submit:disabled").attr('disabled', '');
 }
 
-function autosave() {
-	var rich = ( (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) ? true : false;
+function autosave_disable_buttons() {
+	jQuery("#submitpost :button:enabled, #submitpost :submit:enabled").attr('disabled', 'disabled');
+	setTimeout(autosave_enable_buttons, 1000); // Re-enable 1 sec later.  Just gives autosave a head start to avoid collisions.
+}
+
+var autosave = function() {
+	// (bool) is rich editor enabled and active
+	var rich = (typeof tinyMCE != "undefined") && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden();
 	var post_data = {
-			action: "autosave",
-			post_ID:  jQuery("#post_ID").val() || 0,
-			post_title: jQuery("#title").val() || "",
-			autosavenonce: jQuery('#autosavenonce').val(),
-			tags_input: jQuery("#tags-input").val() || "",
-			post_type: jQuery('#post_type').val() || ""
-		};
+		action: "autosave",
+		post_ID:  jQuery("#post_ID").val() || 0,
+		post_title: jQuery("#title").val() || "",
+		autosavenonce: jQuery('#autosavenonce').val(),
+		tags_input: jQuery("#tags-input").val() || "",
+		post_type: jQuery('#post_type').val() || "",
+		autosave: 1
+	};
+
+	// We always send the ajax request in order to keep the post lock fresh.
+	// This (bool) tells whether or not to write the post to the DB during the ajax request.
+	var doAutoSave = true;
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
-	if ( rich ) {
-		// Don't run while the TinyMCE spellcheck is on.
-		if ( tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) return;
-		tinyMCE.triggerSave();
-	} 
+	if ( rich ) { tinyMCE.triggerSave(); }
 	
 	post_data["content"] = jQuery("#content").val();
 	if ( jQuery('#post_name').val() )
 		post_data["post_name"] = jQuery('#post_name').val();
 
+	// Nothing to save or no change.
 	if(post_data["post_title"].length==0 || post_data["content"].length==0 || post_data["post_title"] + post_data["content"] == autosaveLast) {
-		return;
+		doAutoSave = false
 	}
 
 	autosave_disable_buttons();
+
+	var origStatus = jQuery('#original_post_status').val();
+	if ( 'draft' != origStatus ) // autosave currently only turned on for drafts
+		doAutoSave = false;
 
 	autosaveLast = jQuery("#title").val()+jQuery("#content").val();
 	goodcats = ([]);
@@ -161,25 +162,27 @@ function autosave() {
 	if( jQuery("#excerpt"))
 		post_data["excerpt"] = jQuery("#excerpt").val();
 
-	if ( rich ) 
-        tinyMCE.triggerSave();
-    
-	post_data["content"] = jQuery("#content").val();
+	// Don't run while the TinyMCE spellcheck is on.  Why?  Who knows.
+	if ( rich && tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) {
+		doAutoSave = false;
+	}
 
 	if(parseInt(post_data["post_ID"]) < 1) {
 		post_data["temp_ID"] = post_data["post_ID"];
-		jQuery.ajaxSetup({
-			success: function(html) { autosave_update_post_ID(html); }
-		});
+		var successCallback = autosave_update_post_ID; // new post
 	} else {
-		jQuery.ajaxSetup({
-			success: function(html) { autosave_saved(html); }
-		});
+		var successCallback = autosave_saved; // pre-existing post
 	}
+
+	if ( !doAutoSave ) {
+		post_data['autosave'] = 0;
+	}
+
 	jQuery.ajax({
 		data: post_data,
-		beforeSend: function() { autosave_loading() },
+		beforeSend: doAutoSave ? autosave_loading : null,
 		type: "POST",
-		url: autosaveL10n.requestFile
+		url: autosaveL10n.requestFile,
+		success: successCallback
 	});
 }

@@ -55,6 +55,15 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <input type="hidden" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
+<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php
+if ( !empty($_REQUEST['popupurl']) )
+	echo clean_url(stripslashes($_REQUEST['popupurl']));
+else if ( url_to_postid(wp_get_referer()) == $post_ID )
+	echo 'redo';
+else
+	echo clean_url(stripslashes(wp_get_referer()));
+?>" />
 
 <?php echo $form_extra ?>
 <?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
@@ -189,19 +198,7 @@ endif; ?>
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<p class="submit">
-
-<span id="autosave"></span>
-
-
-<input name="referredby" type="hidden" id="referredby" value="<?php
-if ( !empty($_REQUEST['popupurl']) )
-	echo clean_url(stripslashes($_REQUEST['popupurl']));
-else if ( url_to_postid(wp_get_referer()) == $post_ID )
-	echo 'redo';
-else
-	echo clean_url(stripslashes(wp_get_referer()));
-?>" /></p>
+<div id="autosave"></div>
 
 <div id="tagsdiv" class="postbox <?php echo postbox_classes('tagsdiv', 'post'); ?>">
 <h3><?php _e('Tags'); ?></h3>

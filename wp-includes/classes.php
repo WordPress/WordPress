@@ -777,9 +777,11 @@ class WP_Ajax_Response {
 		}
 
 		$s = '';
-		if ( (array) $supplemental )
+		if ( (array) $supplemental ) {
 			foreach ( $supplemental as $k => $v )
 				$s .= "<$k><![CDATA[$v]]></$k>";
+			$s = "<supplemental>$s</supplemental>";
+		}
 
 		if ( false === $action )
 			$action = $_POST['action'];

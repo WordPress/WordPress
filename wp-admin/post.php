@@ -66,9 +66,16 @@ case 'edit':
 		wp_enqueue_script('editor');
 	wp_enqueue_script('thickbox');
 	wp_enqueue_script('media-upload');
-
-	if ( 'draft' == $post->post_status )
+	if ( $last = wp_check_post_lock( $post->ID ) ) {
+		$last_user = get_userdata( $last );
+		$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
+		$message = sprintf( __( '%s is currently editing this post' ), wp_specialchars( $last_user_name ) );
+		$message = str_replace( "'", "\'", "<div class='error'><p>$message</p></div>" );
+		add_action('admin_notices', create_function( '', "echo '$message';" ) );
+	} else {
+		wp_set_post_lock( $post->ID );
 		wp_enqueue_script('autosave');
+	}
 
 	require_once('admin-header.php');
 
