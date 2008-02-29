@@ -94,7 +94,10 @@ unset($status_links);
 ?>
 </ul>
 
+<?php if ( isset($_GET['post_status'] ) ) : ?>
+<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
 <?php
+endif;
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Your page has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View page'); ?></a> | <a href="page.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit page'); ?></a></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
