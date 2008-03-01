@@ -232,7 +232,11 @@ select {
 .error {
 	background: #f00; 
 	border: 1px solid #800; 
- 	color: #fff; 
+ 	color: #fff;
+}
+
+.error a {
+	color: #fff;
 }
 
 .narrow {
