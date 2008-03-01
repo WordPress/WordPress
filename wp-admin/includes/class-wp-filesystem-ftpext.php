@@ -166,9 +166,9 @@ class WP_Filesystem_FTPext{
 			$mode = $this->permission;
 		if( ! $mode )
 			return false;
-		if( ! $this->exists($file) )
+		if ( ! $this->exists($file) )
 			return false;
-		if( ! $recursive || ! $this->is_dir($file) ){
+		if ( ! $recursive || ! $this->is_dir($file) ){
 			if (!function_exists('ftp_chmod'))
 				return ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
 			return ftp_chmod($this->link,$mode,$file);
@@ -267,8 +267,9 @@ class WP_Filesystem_FTPext{
 	function copy($source,$destination,$overwrite=false){
 		if( ! $overwrite && $this->exists($destination) )
 			return false;
-		$content = $this->get_contents($source);
-		$this->put_contents($destination,$content);
+		if ( !$content = $this->get_contents($source) )
+			return false;
+		return $this->put_contents($destination,$content);
 	}
 	function move($source,$destination,$overwrite=false){
 		return ftp_rename($this->link,$source,$destination);
@@ -280,7 +281,7 @@ class WP_Filesystem_FTPext{
 		if ( !$recursive )
 			return @ftp_rmdir($this->link,$file);
 		$filelist = $this->dirlist($file);
-		foreach ($filelist as $filename => $fileinfo) {
+		foreach ((array) $filelist as $filename => $fileinfo) {
 			$this->delete($file.'/'.$filename,$recursive);
 		}
 		return @ftp_rmdir($this->link,$file);
@@ -327,11 +328,11 @@ class WP_Filesystem_FTPext{
 		if( !ftp_mkdir($this->link, $path) )
 			return false;
 		if( $chmod )
-			$this->chmod($chmod);
+			$this->chmod($path, $chmod);
 		if( $chown )
-			$this->chown($chown);
+			$this->chown($path, $chown);
 		if( $chgrp )
-			$this->chgrp($chgrp);
+			$this->chgrp($path, $chgrp);
 		return true;
 	}
 	function rmdir($path,$recursive=false){
@@ -343,6 +344,69 @@ class WP_Filesystem_FTPext{
 		//foreach($dir as $file)
 			
 	}
+
+	function parselisting($line) {
+		$is_windows = ($this->OS_remote == FTP_OS_Windows);
+		if ($is_windows && preg_match("/([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)/",$line,$lucifer)) {
+			$b = array();
+			if ($lucifer[3]<70) { $lucifer[3]+=2000; } else { $lucifer[3]+=1900; } // 4digit year fix
+			$b['isdir'] = ($lucifer[7]=="<DIR>");
+			if ( $b['isdir'] )
+				$b['type'] = 'd';
+			else
+				$b['type'] = 'f';
+			$b['size'] = $lucifer[7];
+			$b['month'] = $lucifer[1];
+			$b['day'] = $lucifer[2];
+			$b['year'] = $lucifer[3];
+			$b['hour'] = $lucifer[4];
+			$b['minute'] = $lucifer[5];
+			$b['time'] = @mktime($lucifer[4]+(strcasecmp($lucifer[6],"PM")==0?12:0),$lucifer[5],0,$lucifer[1],$lucifer[2],$lucifer[3]);
+			$b['am/pm'] = $lucifer[6];
+			$b['name'] = $lucifer[8];
+		} else if (!$is_windows && $lucifer=preg_split("/[ ]/",$line,9,PREG_SPLIT_NO_EMPTY)) {
+			//echo $line."\n";
+			$lcount=count($lucifer);
+			if ($lcount<8) return '';
+			$b = array();
+			$b['isdir'] = $lucifer[0]{0} === "d";
+			$b['islink'] = $lucifer[0]{0} === "l";
+			if ( $b['isdir'] )
+				$b['type'] = 'd';
+			elseif ( $b['islink'] )
+				$b['type'] = 'l';
+			else
+				$b['type'] = 'f';
+			$b['perms'] = $lucifer[0];
+			$b['number'] = $lucifer[1];
+			$b['owner'] = $lucifer[2];
+			$b['group'] = $lucifer[3];
+			$b['size'] = $lucifer[4];
+			if ($lcount==8) {
+				sscanf($lucifer[5],"%d-%d-%d",$b['year'],$b['month'],$b['day']);
+				sscanf($lucifer[6],"%d:%d",$b['hour'],$b['minute']);
+				$b['time'] = @mktime($b['hour'],$b['minute'],0,$b['month'],$b['day'],$b['year']);
+				$b['name'] = $lucifer[7];
+			} else {
+				$b['month'] = $lucifer[5];
+				$b['day'] = $lucifer[6];
+				if (preg_match("/([0-9]{2}):([0-9]{2})/",$lucifer[7],$l2)) {
+					$b['year'] = date("Y");
+					$b['hour'] = $l2[1];
+					$b['minute'] = $l2[2];
+				} else {
+					$b['year'] = $lucifer[7];
+					$b['hour'] = 0;
+					$b['minute'] = 0;
+				}
+				$b['time'] = strtotime(sprintf("%d %s %d %02d:%02d",$b['day'],$b['month'],$b['year'],$b['hour'],$b['minute']));
+				$b['name'] = $lucifer[8];
+			}
+		}
+
+		return $b;
+	}
+
 	function dirlist($path='.',$incdot=false,$recursive=false){
 		if( $this->is_file($path) ){
 			$limitFile = basename($path);
@@ -352,40 +416,34 @@ class WP_Filesystem_FTPext{
 		}
 		//if( ! $this->is_dir($path) )
 		//	return false;
-		$list = ftp_rawlist($this->link,$path,false); //We'll do the recursive part ourseves...
-		//var_dump($list);
-		if( ! $list )
+		$list = ftp_rawlist($this->link , '-a ' . $path, false);
+		if ( $list === false )
 			return false;
-		if( empty($list) )
+
+		$dirlist = array();
+		foreach ( $list as $k => $v ) {
+			$entry = $this->parselisting($v);
+			if ( empty($entry) )
+				continue;
+
+			if ( $entry["name"]=="." or $entry["name"]==".." )
+				continue;
+
+			$dirlist[$entry['name']] = $entry;
+		}
+
+		if ( ! $dirlist )
+			return false;
+		if ( empty($dirlist) )
 			return array();
 
 		$ret = array();
-		foreach($list as $line){
-			if (substr(strtolower($line), 0, 5) == 'total') continue;
-			$struc = array();
-			$current = preg_split("/[\s]+/",$line,9);
-			$name_num = count($current) - 1;
-			$struc['name']    	= str_replace('//','',$current[$name_num]);
-
-			if( '.' == $struc['name'][0] && !$incdot)
-				continue;
-			if( $limitFile && $struc['name'] != $limitFile)
-				continue;
-
-			$struc['perms']    	= $current[0];
-			$struc['permsn']	= $this->getnumchmodfromh($current[0]);
-			$struc['number']	= $current[1];
-			$struc['owner']    	= $current[2];
-			$struc['group']    	= $current[3];
-			$struc['size']    	= $current[4];
-			$struc['lastmod']   = $current[5].' '.$current[6];
-			$struc['time']    	= $current[7];
-
-			$struc['type']		= ('d' == $struc['perms'][0] || 'l' == $struc['perms'][0] ) ? 'folder' : 'file';
-			if('folder' == $struc['type'] ){
+		foreach ( $dirlist as $struc ) {
+			
+			if ( 'd' == $struc['type'] ) {
 				$struc['files'] = array();
 
-				if( $incdot ){
+				if ( $incdot ){
 					//We're including the doted starts
 					if( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder
 						if ($recursive)
@@ -401,6 +459,7 @@ class WP_Filesystem_FTPext{
 		}
 		return $ret;
 	}
+
 	function __destruct(){
 		if( $this->link )
 			ftp_close($this->link);

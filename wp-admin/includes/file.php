@@ -237,11 +237,11 @@ function unzip_file($file, $to) {
 	$path = explode('/', $to);
 	$tmppath = '';
 	for ( $j = 0; $j < count($path) - 1; $j++ ) {
+		$prevpath = $tmppath;
 		$tmppath .= $path[$j] . '/';
 		if ( ! $fs->is_dir($tmppath) ) {
-			$fs->mkdir($tmppath);
-		} else {
-			$fs->setDefaultPermissions( $fs->getchmod($tmppath) );
+			//$fs->setDefaultPermissions( $fs->getchmod($tmppath) );
+			$fs->mkdir($tmppath, 0755);
 		}
 	}
 
@@ -253,13 +253,18 @@ function unzip_file($file, $to) {
 		for ( $j = 0; $j < count($path) - 1; $j++ ) {
 			$tmppath .= $path[$j] . '/';
 			if ( ! $fs->is_dir($to . $tmppath) )
-				$fs->mkdir($to . $tmppath);
+				if ( !$fs->mkdir($to . $tmppath, 0755) )
+					return new WP_Error('mkdir_failed', __('Could not create directory'));
 		}
 
 		// We've made sure the folders are there, so let's extract the file now:
 		if ( ! $file['folder'] )
-			$fs->put_contents( $to . $file['filename'], $file['content']);
+			if ( !$fs->put_contents( $to . $file['filename'], $file['content']) )
+				return new WP_Error('copy_failed', __('Could not copy file'));
+			$fs->chmod($to . $file['filename'], 0644);
 	}
+
+	return true;
 }
 
 function copy_dir($from, $to) {
@@ -271,13 +276,19 @@ function copy_dir($from, $to) {
 	$to = trailingslashit($to);
 
 	foreach ( (array) $dirlist as $filename => $fileinfo ) {
-		if ( 'file' == $fileinfo['type'] ) {
-			$wp_filesystem->copy($from . $filename, $to . $filename, true);
-		} elseif ( 'folder' == $fileinfo['type'] ) {
-			$wp_filesystem->mkdir($to . $filename);
-			copy_dir($from . $filename, $to . $filename);
+		if ( 'f' == $fileinfo['type'] ) {
+			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
+				return false;
+			$wp_filesystem->chmod($to . $filename, 0644);
+		} elseif ( 'd' == $fileinfo['type'] ) {
+			if ( !$wp_filesystem->mkdir($to . $filename, 0755) )
+				return false;
+			if ( !copy_dir($from . $filename, $to . $filename) )
+				return false;
 		}
 	}
+
+	return true;
 }
 
 function WP_Filesystem( $args = false, $preference = false ) {
@@ -302,11 +313,13 @@ function WP_Filesystem( $args = false, $preference = false ) {
 }
 
 function get_filesystem_method() {
+	return 'ftpsockets';
+
 	$tempFile = tempnam(get_temp_dir(), 'WPU');
 
 	if ( getmyuid() == fileowner($tempFile) ) {
 		unlink($tempFile);
-		//return 'direct';
+		return 'direct';
 	} else {
 		unlink($tempFile);
 	}

@@ -158,7 +158,8 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$working_dir = ABSPATH . 'wp-content/upgrade/' . $name;
 
 	// Clean up working directory
-	$wp_filesystem->delete($working_dir, true);
+	if ( is_dir($working_dir) )
+		$wp_filesystem->delete($working_dir, true);
 
 	apply_filters('update_feedback', __("Unpacking the update"));
 	// Unzip package to working directory
@@ -174,16 +175,23 @@ function wp_update_plugin($plugin, $feedback = '') {
 	
 	// Remove the existing plugin.
 	apply_filters('update_feedback', __("Removing the old version of the plugin"));
-	$wp_filesystem->delete(ABSPATH . PLUGINDIR . "/$plugin");
 	$plugin_dir = dirname(ABSPATH . PLUGINDIR . "/$plugin");
-
 	// If plugin is in its own directory, recursively delete the directory.
 	if ( '.' != $plugin_dir && ABSPATH . PLUGINDIR != $plugin_dir )
-		$wp_filesystem->delete($plugin_dir, true);
+		$deleted = $wp_filesystem->delete($plugin_dir, true);
+	else
+		$deleted = $wp_filesystem->delete(ABSPATH . PLUGINDIR . "/$plugin");
+	if ( !$deleted ) {
+		$wp_filesystem->delete($working_dir, true);
+		return new WP_Error('delete_failed', __('Could not remove the old plugin'));
+	}
 
 	apply_filters('update_feedback', __("Installing the latest version"));
 	// Copy new version of plugin into place.
-	copy_dir($working_dir, ABSPATH . PLUGINDIR);
+	if ( !copy_dir($working_dir, ABSPATH . PLUGINDIR) ) {
+		//$wp_filesystem->delete($working_dir, true);
+		return new WP_Error('install_failed', __('Installation failed'));
+	}
 
 	// Remove working directory
 	$wp_filesystem->delete($working_dir, true);
