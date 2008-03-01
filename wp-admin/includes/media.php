@@ -32,8 +32,10 @@ function the_media_upload_tabs() {
 		echo "<ul id='sidemenu'>\n";
 		if ( isset($_GET['tab']) && array_key_exists($_GET['tab'], $tabs) )
 			$current = $_GET['tab'];
-		else
-			$current = array_shift(array_keys($tabs));
+		else {
+			$keys = array_keys($tabs);
+			$current = array_shift($keys);
+		}
 		foreach ( $tabs as $callback => $text ) {
 			$class = '';
 			if ( $current == $callback )
@@ -239,7 +241,8 @@ function media_upload_form_handler() {
 		return media_send_to_editor('[gallery]');
 
 	if ( isset($_POST['send']) ) {
-		$send_id = (int) array_shift(array_keys($_POST['send']));
+		$keys = array_keys($_POST['send']);
+		$send_id = (int) array_shift($keys);
 		$attachment = $_POST['attachments'][$send_id];
 		$html = apply_filters('media_send_to_editor', get_the_attachment_link($send_id, 0, array(125,125), !empty($attachment['post_content'])), $send_id, $attachment);
 		return media_send_to_editor($html);
@@ -629,7 +632,8 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 	}
 
 	if ( isset($post_mime_types) ) {
-		$type = array_shift(array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type)));
+		$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
+		$type = array_shift($keys);
 		$type = "<input type='hidden' id='type-of-$attachment_id' value='$type' />";
 	}
 
