@@ -151,5 +151,5 @@ class STP_Import {
 $stp_import = new STP_Import();
 
 // add it to the import page!
-register_importer('stp', 'Simple Tagging', __('Import Simple Tagging tags into WordPress tags'), array($stp_import, 'dispatch'));
+register_importer('stp', 'Simple Tagging', __('Import Simple Tagging tags into WordPress tags.'), array($stp_import, 'dispatch'));
 ?>
