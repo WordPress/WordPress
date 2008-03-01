@@ -330,7 +330,7 @@ unset($role_links);
 	<?php endif; ?>
 
 <table class="widefat">
-<tbody>
+<thead>
 <tr class="thead">
 	<th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /> </th>
 	<th><?php _e('Username') ?></th>
@@ -339,7 +339,7 @@ unset($role_links);
 	<th><?php _e('Role') ?></th>
 	<th><?php _e('Posts') ?></th>
 </tr>
-</tbody>
+</thead>
 <tbody id="users" class="list:user user-list">
 <?php
 $style = '';
