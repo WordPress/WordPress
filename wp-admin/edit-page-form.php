@@ -70,8 +70,7 @@ addLoadEvent(focusit);
 <p>
 <select name='post_status'>
 <?php if ( current_user_can('publish_posts') ) : ?>
-<?php $pub_value = ( 'private' == $post->post_status ) ? 'private' : 'publish'; ?>
-<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='<?php echo $pub_value ?>'><?php _e('Published') ?></option>
+<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php else: ?>
 <option<?php selected( $post->post_status, 'private' ); ?> value='private'><?php _e('Published') ?></option>
 <?php endif; ?>
