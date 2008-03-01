@@ -210,10 +210,8 @@ select {
 }
 
 .updated, .error {
-	margin-left: 15px;
+	margin: auto 25px 20px 15px;
 	padding: 0 15px;
-	margin-bottom: 20px;
-	margin-right: 15px;
 }
 
 .updated a, .error a {
@@ -232,8 +230,9 @@ select {
 }
 
 .error {
-	background: #FFEFF7;
-	border: 1px solid #c69;
+	background: #f00; 
+	border: 1px solid #800; 
+ 	color: #fff; 
 }
 
 .narrow {
