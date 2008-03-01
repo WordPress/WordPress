@@ -1061,6 +1061,12 @@ html, body {
 	width: 98%;
 }
 
+#link_name, #link_url, #link_description {
+	font-size: 1.7em;
+	padding: 4px 3px;
+	width: 98%;	
+}
+
 #edit-slug-box {
 	margin-top: 8px;
 	color: #999;
