@@ -138,7 +138,7 @@ if (empty($plugins)) {
 		if ( $style != '' )
 			$style = 'class="' . $style . '"';
 		if ( is_writable(ABSPATH . PLUGINDIR . '/' . $plugin_file) )
-			$edit = "<a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>";
+			$edit = " | <a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>";
 		else
 			$edit = '';
 
@@ -149,7 +149,7 @@ if (empty($plugins)) {
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
-		<td class='togl'>$toggle"; if ( current_user_can('edit_plugins') ) echo " | $edit</td>";
+		<td class='togl'>$toggle"; if ( current_user_can('edit_plugins') ) echo "$edit</td>";
 		echo"
 	</tr>";
 	do_action( 'after_plugin_row', $plugin_file );
