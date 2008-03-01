@@ -214,6 +214,10 @@ select {
 	padding: 0 15px;
 }
 
+.wrap .updated, .wrap .error {
+	margin: auto 0 0;
+}
+
 .updated a, .error a {
 	text-decoration: underline;
 }
@@ -414,10 +418,6 @@ input.disabled, textarea.disabled {
 	zoom: 1;
 }
 
-#ajax-response {
-	padding: .5em;
-}
-
 /* A handy div class for hiding controls.
 Some browsers will disable them when you
 set display:none; */
@@ -552,6 +552,7 @@ p.pagenav {
 	padding: 10px 10px 8px;
 	clear: both;
 	margin-bottom: -10px;
+	margin-top: 8px;
 }
 
 .tablenav .tablenav-pages {
