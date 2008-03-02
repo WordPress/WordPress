@@ -1186,6 +1186,9 @@ function get_avatar( $id_or_email, $size = '64', $default = '' ) {
 	if ( ! get_option('show_avatars') )
 		return false;
 
+	if ( !is_numeric($size) )
+		$size = '64';
+
 	$email = '';
 	if ( is_numeric($id_or_email) ) {
 		$id = (int) $id_or_email;
