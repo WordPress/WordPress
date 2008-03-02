@@ -593,7 +593,19 @@ function get_sample_permalink($id, $name = null) {
 	if (!is_null($name)) {
 		$post->post_name = sanitize_title($name, $post->ID);
 	}
+
 	$permalink = get_permalink($post, true);
+
+	// Handle page hierarchy
+	if ( 'page' == $post->post_type ) {
+		$uri = get_page_uri($post->ID);
+		$uri = str_replace($post->post_name, '', $uri);
+		$uri = untrailingslashit($uri);
+		if ( !empty($uri) )
+			$uri .='/';
+		$permalink = str_replace('%pagename%', "${uri}%pagename%", $permalink);
+	}
+
 	$permalink = array($permalink, $post->post_name);
 	$post->post_status = $original_status;
 	$post->post_date = $original_date;
