@@ -28,7 +28,7 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
-	 exit; 
+	 exit;
 }
 
 $title = __('Pages');
@@ -72,7 +72,7 @@ printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by {s}, 3: matchin
 <?php
 
 $avail_post_stati = get_available_post_statuses('page');
-	
+
 $status_links = array();
 $num_posts = wp_count_posts('page', 'readable');
 foreach ( $post_stati as $status => $label ) {
@@ -80,7 +80,7 @@ foreach ( $post_stati as $status => $label ) {
 
 	if ( !in_array($status, $avail_post_stati) )
 		continue;
-	
+
 	if ( $status == $_GET['post_status'] )
 		$class = ' class="current"';
 

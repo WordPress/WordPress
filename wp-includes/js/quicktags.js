@@ -25,15 +25,15 @@ function zeroise(number, threshold) {
 }
 
 var now = new Date();
-var datetime = now.getUTCFullYear() + '-' + 
+var datetime = now.getUTCFullYear() + '-' +
 zeroise(now.getUTCMonth() + 1, 2) + '-' +
-zeroise(now.getUTCDate(), 2) + 'T' + 
-zeroise(now.getUTCHours(), 2) + ':' + 
-zeroise(now.getUTCMinutes(), 2) + ':' + 
+zeroise(now.getUTCDate(), 2) + 'T' +
+zeroise(now.getUTCHours(), 2) + ':' +
+zeroise(now.getUTCMinutes(), 2) + ':' +
 zeroise(now.getUTCSeconds() ,2) +
 '+00:00';
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_strong'
 ,'b'
 ,'<strong>'
@@ -41,7 +41,7 @@ new edButton('ed_strong'
 ,'b'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_em'
 ,'i'
 ,'<em>'
@@ -49,7 +49,7 @@ new edButton('ed_em'
 ,'i'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_link'
 ,'link'
 ,''
@@ -57,7 +57,7 @@ new edButton('ed_link'
 ,'a'
 ); // special case
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_block'
 ,'b-quote'
 ,'\n\n<blockquote>'
@@ -66,7 +66,7 @@ new edButton('ed_block'
 );
 
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_del'
 ,'del'
 ,'<del datetime="' + datetime + '">'
@@ -74,7 +74,7 @@ new edButton('ed_del'
 ,'d'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_ins'
 ,'ins'
 ,'<ins datetime="' + datetime + '">'
@@ -82,7 +82,7 @@ new edButton('ed_ins'
 ,'s'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_img'
 ,'img'
 ,''
@@ -91,7 +91,7 @@ new edButton('ed_img'
 ,-1
 ); // special case
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_ul'
 ,'ul'
 ,'<ul>\n'
@@ -99,7 +99,7 @@ new edButton('ed_ul'
 ,'u'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_ol'
 ,'ol'
 ,'<ol>\n'
@@ -107,7 +107,7 @@ new edButton('ed_ol'
 ,'o'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_li'
 ,'li'
 ,'\t<li>'
@@ -115,7 +115,7 @@ new edButton('ed_li'
 ,'l'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_code'
 ,'code'
 ,'<code>'
@@ -123,7 +123,7 @@ new edButton('ed_code'
 ,'c'
 );
 
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_more'
 ,'more'
 ,'<!--more-->'
@@ -132,7 +132,7 @@ new edButton('ed_more'
 ,-1
 );
 /*
-edButtons[edButtons.length] = 
+edButtons[edButtons.length] =
 new edButton('ed_next'
 ,'page'
 ,'<!--nextpage-->'
@@ -220,7 +220,7 @@ function edQuickLink(i, thisSelect) {
 		if (edLinks[i].newWin == 1) {
 			newWin = ' target="_blank"';
 		}
-		var tempStr = '<a href="' + edLinks[i].URL + '"' + newWin + '>' 
+		var tempStr = '<a href="' + edLinks[i].URL + '"' + newWin + '>'
 		            + edLinks[i].display
 		            + '</a>';
 		thisSelect.selectedIndex = 0;
@@ -298,21 +298,21 @@ function edInsertTag(myField, i) {
 		if (startPos != endPos) {
 			myField.value = myField.value.substring(0, startPos)
 			              + edButtons[i].tagStart
-			              + myField.value.substring(startPos, endPos) 
+			              + myField.value.substring(startPos, endPos)
 			              + edButtons[i].tagEnd
 			              + myField.value.substring(endPos, myField.value.length);
 			cursorPos += edButtons[i].tagStart.length + edButtons[i].tagEnd.length;
 		}
 		else {
 			if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
-				myField.value = myField.value.substring(0, startPos) 
+				myField.value = myField.value.substring(0, startPos)
 				              + edButtons[i].tagStart
 				              + myField.value.substring(endPos, myField.value.length);
 				edAddTag(i);
 				cursorPos = startPos + edButtons[i].tagStart.length;
 			}
 			else {
-				myField.value = myField.value.substring(0, startPos) 
+				myField.value = myField.value.substring(0, startPos)
 				              + edButtons[i].tagEnd
 				              + myField.value.substring(endPos, myField.value.length);
 				edRemoveTag(i);
@@ -350,7 +350,7 @@ function edInsertContent(myField, myValue) {
 		var startPos = myField.selectionStart;
 		var endPos = myField.selectionEnd;
 		myField.value = myField.value.substring(0, startPos)
-		              + myValue 
+		              + myValue
                       + myField.value.substring(endPos, myField.value.length);
 		myField.focus();
 		myField.selectionStart = startPos + myValue.length;
@@ -380,9 +380,9 @@ function edInsertLink(myField, i, defaultValue) {
 function edInsertImage(myField) {
 	var myValue = prompt(quicktagsL10n.enterImageURL, 'http://');
 	if (myValue) {
-		myValue = '<img src="' 
-				+ myValue 
-				+ '" alt="' + prompt(quicktagsL10n.enterImageDescription, '') 
+		myValue = '<img src="'
+				+ myValue
+				+ '" alt="' + prompt(quicktagsL10n.enterImageDescription, '')
 				+ '" />';
 		edInsertContent(myField, myValue);
 	}

@@ -416,34 +416,34 @@ class Walker {
 		$cb_args = array_merge( array($output, $element, $depth), $args);
 		$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 
-		if ( $max_depth == 0 || 
+		if ( $max_depth == 0 ||
 		     ($max_depth != 0 &&  $max_depth > $depth+1 )) { //whether to descend
-		
+
 			for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
-				
+
 				$child = $children_elements[$i];
 				if ( $child->$parent_field == $element->$id_field ) {
 
 					if ( !isset($newlevel) ) {
-						$newlevel = true; 
+						$newlevel = true;
 						//start the child delimiter
 						$cb_args = array_merge( array($output, $depth), $args);
 						$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
 					}
-				
+
 					array_splice( $children_elements, $i, 1 );
 					$output = $this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
 					$i = -1;
 				}
 			}
 		}
-		
+
 		if ( isset($newlevel) && $newlevel ){
 			//end the child delimiter
 			$cb_args = array_merge( array($output, $depth), $args);
 			$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
 		}
-		
+
 		//end this element
 		$cb_args = array_merge( array($output, $element, $depth), $args);
 		$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);

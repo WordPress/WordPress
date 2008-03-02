@@ -110,7 +110,7 @@ if ( isset($_GET['action']) ) {
 		require_once('admin-header.php');
 		do_plugin_upgrade($plugin);
 		include('admin-footer.php');
-	} 
+	}
 
 }
 

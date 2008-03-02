@@ -4,10 +4,10 @@ class WP_Filesystem_ftpsockets{
 	var $timeout = 5;
 	var $errors;
 	var $options = array();
-	
+
 	var $wp_base = '';
 	var $permission = null;
-	
+
 	var $filetypes = array(
 							'php'=>FTP_ASCII,
 							'css'=>FTP_ASCII,
@@ -16,13 +16,13 @@ class WP_Filesystem_ftpsockets{
 							'html'=>FTP_ASCII,
 							'htm'=>FTP_ASCII,
 							'xml'=>FTP_ASCII,
-							
+
 							'jpg'=>FTP_BINARY,
 							'png'=>FTP_BINARY,
 							'gif'=>FTP_BINARY,
 							'bmp'=>FTP_BINARY
 							);
-	
+
 	function WP_Filesystem_ftpsockets($opt='') {
 		$this->errors = new WP_Error();
 
@@ -52,7 +52,7 @@ class WP_Filesystem_ftpsockets{
 			$this->options['username'] = $opt['username'];
 
 		if ( empty ($opt['password']) )
-			$this->errors->add('empty_password', __('FTP password is required'));	
+			$this->errors->add('empty_password', __('FTP password is required'));
 		else
 			$this->options['password'] = $opt['password'];
 	}
@@ -90,7 +90,7 @@ class WP_Filesystem_ftpsockets{
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
 		if( empty( $base ) ) $base = '/';
 		if( '/' != substr($base, -1) ) $base .= '/';
-		
+
 		if($echo) echo __('Changing to ') . $base  .'<br>';
 		if( false === $this->ftp->chdir($base) )
 			return false;
@@ -157,7 +157,7 @@ class WP_Filesystem_ftpsockets{
 			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
 		}
 		$this->ftp->SetType($type);
-		
+
 		$temp = tmpfile();
 		fwrite($temp,$contents);
 		fseek($temp, 0); //Skip back to the start of the file being written to
@@ -173,7 +173,7 @@ class WP_Filesystem_ftpsockets{
 	function chgrp($file,$group,$recursive=false){
 		return false;
 	}
-	
+
 	function chmod($file,$mode=false,$recursive=false){
 		if( ! $mode )
 			$mode = $this->permission;
@@ -191,16 +191,16 @@ class WP_Filesystem_ftpsockets{
 		}
 		return true;
 	}
-	
+
 	function chown($file,$owner,$recursive=false){
 		return false;
 	}
-	
+
 	function owner($file){
 		$dir = $this->dirlist($file);
 		return $dir[$file]['owner'];
 	}
-	
+
 	function getchmod($file){
 		$dir = $this->dirlist($file);
 		return $dir[$file]['permsn'];
@@ -234,21 +234,21 @@ class WP_Filesystem_ftpsockets{
 			// Unknown
 			$info = 'u';
 		}
-		
+
 		// Owner
 		$info .= (($perms & 0x0100) ? 'r' : '-');
 		$info .= (($perms & 0x0080) ? 'w' : '-');
 		$info .= (($perms & 0x0040) ?
 					(($perms & 0x0800) ? 's' : 'x' ) :
 					(($perms & 0x0800) ? 'S' : '-'));
-		
+
 		// Group
 		$info .= (($perms & 0x0020) ? 'r' : '-');
 		$info .= (($perms & 0x0010) ? 'w' : '-');
 		$info .= (($perms & 0x0008) ?
 					(($perms & 0x0400) ? 's' : 'x' ) :
 					(($perms & 0x0400) ? 'S' : '-'));
-		
+
 		// World
 		$info .= (($perms & 0x0004) ? 'r' : '-');
 		$info .= (($perms & 0x0002) ? 'w' : '-');
@@ -385,7 +385,7 @@ class WP_Filesystem_ftpsockets{
 
 		$ret = array();
 		foreach ( $list as $struc ) {
-			
+
 			if ( 'd' == $struc['type'] ) {
 				$struc['files'] = array();
 

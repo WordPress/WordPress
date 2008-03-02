@@ -132,7 +132,7 @@ var autosave = function() {
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
 	if ( rich ) { tinyMCE.triggerSave(); }
-	
+
 	post_data["content"] = jQuery("#content").val();
 	if ( jQuery('#post_name').val() )
 		post_data["post_name"] = jQuery('#post_name').val();

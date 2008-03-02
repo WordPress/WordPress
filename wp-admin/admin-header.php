@@ -27,7 +27,7 @@ get_admin_page_title();
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo wp_specialchars( strip_tags( $title ) ); ?> &#8212; WordPress</title>
-<?php 
+<?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
 ?>

@@ -4,7 +4,7 @@
 
 // scale down the default size of an image so it's a better fit for the editor and theme
 function image_constrain_size_for_editor($width, $height, $size = 'medium') {
-	
+
 	if ( $size == 'thumb' ) {
 		$max_width = intval(get_option('thumbnail_size_w'));
 		$max_height = intval(get_option('thumbnail_size_h'));
@@ -33,7 +33,7 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 	}
 
 	list( $max_width, $max_height ) = apply_filters( 'editor_max_image_size', array( $max_width, $max_height ), $size );
-	
+
 	return wp_constrain_dimensions( $width, $height, $max_width, $max_height );
 }
 
@@ -51,15 +51,15 @@ function image_hwstring($width, $height) {
 // The URL might be the original image, or it might be a resized version.
 // returns an array($url, $width, $height)
 function image_downsize($id, $size = 'medium') {
-	
+
 	$img_url = wp_get_attachment_url($id);
 	$meta = wp_get_attachment_metadata($id);
 	$width = $height = 0;
-	
+
 	// plugins can use this to provide resize services
 	if ( $out = apply_filters('image_downsize', false, $id, $size) )
 		return $out;
-	
+
 	if ( $size == 'thumb' ) {
 		// thumbnail: use the thumb as the displayed image, and constrain based on its dimensions
 		$thumb_path = wp_get_attachment_thumb_file($id);
@@ -74,9 +74,9 @@ function image_downsize($id, $size = 'medium') {
 		// any other type: use the real image and constrain it
 		list( $width, $height ) = image_constrain_size_for_editor( $meta['width'], $meta['height'], $size );
 	}
-	
+
 	return array( $img_url, $width, $height );
-	
+
 }
 
 // return an <img src /> tag for the given image attachment, scaling it down if requested
@@ -97,31 +97,31 @@ function get_image_tag($id, $alt, $title, $align, $rel = false, $size='medium') 
 function wp_constrain_dimensions( $current_width, $current_height, $max_width=0, $max_height=0 ) {
 	if ( !$max_width and !$max_height )
 		return array( $current_width, $current_height );
-	
+
 	$width_ratio = $height_ratio = 1.0;
-	
+
 	if ( $max_width > 0 && $current_width > $max_width )
 		$width_ratio = $max_width / $current_width;
-	
+
 	if ( $max_height > 0 && $current_height > $max_height )
 		$height_ratio = $max_height / $current_height;
-	
+
 	// the smaller ratio is the one we need to fit it to the constraining box
 	$ratio = min( $width_ratio, $height_ratio );
-	
+
 	return array( intval($current_width * $ratio), intval($current_height * $ratio) );
 }
 
 // calculate dimensions and coordinates for a resized image that fits within a specified width and height
 // if $crop is true, the largest matching central portion of the image will be cropped out and resized to the required size
 function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false) {
-	
+
 	if ($orig_w <= 0 || $orig_h <= 0)
 		return false;
 	// at least one of dest_w or dest_h must be specific
 	if ($dest_w <= 0 && $dest_h <= 0)
 		return false;
-	
+
 	if ( $crop ) {
 		// crop the largest possible portion of the original image that we can size to $dest_w x $dest_h
 		$aspect_ratio = $orig_w / $orig_h;
@@ -135,7 +135,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false
 		}
 
 		$size_ratio = max($new_w / $orig_w, $new_h / $orig_h);
-		
+
 		$crop_w = ceil($new_w / $size_ratio);
 		$crop_h = ceil($new_h / $size_ratio);
 
@@ -146,13 +146,13 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false
 		// don't crop, just resize using $dest_w x $dest_h as a maximum bounding box
 		$crop_w = $orig_w;
 		$crop_h = $orig_h;
-		
+
 		$s_x = 0;
 		$s_y = 0;
-		
+
 		list( $new_w, $new_h ) = wp_constrain_dimensions( $orig_w, $orig_h, $dest_w, $dest_h );
 	}
-	
+
 	// if the resulting image would be the same size or larger we don't want to resize it
 	if ($new_w >= $orig_w && $new_h >= $orig_h)
 		return false;
@@ -175,7 +175,7 @@ function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_p
 	if (!$dims)
 		return $dims;
 	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
-	
+
 	$newimage = imagecreatetruecolor( $dst_w, $dst_h);
 
 	// preserve PNG transparency

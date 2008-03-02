@@ -207,7 +207,7 @@ function download_url( $url ) {
 	require_once( ABSPATH . 'wp-includes/class-snoopy.php' );
 	$snoopy = new Snoopy();
 	$snoopy->fetch($url);
-	
+
 	fwrite($handle, $snoopy->results);
 	fclose($handle);
 
@@ -219,7 +219,7 @@ function unzip_file($file, $to) {
 
 	if ( ! $wp_filesystem || !is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
-			
+
 	$fs =& $wp_filesystem;
 
 	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');

@@ -1,8 +1,8 @@
 <?php
 require_once('admin.php');
 
-if (!current_user_can('upload_files')) 
-	wp_die(__('You do not have permission to upload files.')); 
+if (!current_user_can('upload_files'))
+	wp_die(__('You do not have permission to upload files.'));
 
 // Handle bulk deletes
 if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
@@ -26,7 +26,7 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
-	exit; 
+	exit;
 }
 
 $title = __('Media Library');
@@ -154,12 +154,12 @@ foreach ($arc_result as $arc_row) {
 	if ( $arc_row->yyear == 0 )
 		continue;
 	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
-	
+
 	if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
 		$default = ' selected="selected"';
 	else
 		$default = '';
-	
+
 	echo "<option$default value='$arc_row->yyear$arc_row->mmonth'>";
 	echo $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear";
 	echo "</option>\n";

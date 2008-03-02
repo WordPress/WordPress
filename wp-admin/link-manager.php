@@ -21,7 +21,7 @@ if ( isset($_GET['deleteit']) && isset($_GET['linkcheck']) ) {
 	exit;
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
-	 exit; 
+	 exit;
 }
 
 wp_enqueue_script('admin-forms');
@@ -170,7 +170,7 @@ if ( $links ) {
 		foreach($link_columns as $column_name=>$column_display_name) {
 			switch($column_name) {
 				case 'name':
-					
+
 					echo "<td><strong><a class='row-title' href='link.php?link_id=$link->link_id&amp;action=edit' class='edit'>$link->link_name</a></strong><br />";
 					echo $link->link_description . "</td>";
 					break;

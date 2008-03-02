@@ -22,7 +22,7 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
-	 exit; 
+	 exit;
 }
 
 $title = __('Link Categories');

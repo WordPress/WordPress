@@ -14,7 +14,7 @@ class ftp_base {
 	var $Verbose;
 	var $OS_local;
 	var $OS_remote;
-	
+
 	/* Private variables */
 	var $_lastaction;
 	var $_errors;
@@ -601,7 +601,7 @@ class ftp_base {
 			}
 		}
 		return $ret;
-		
+
 	}
 
 	function mget($remote, $local=".", $continious=false) {
@@ -649,13 +649,13 @@ class ftp_base {
 			$this->PushError("mdel","can't read remote folder list", "Can't read remote folder \"".$remote."\" contents");
 			return false;
 		}
-	
+
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
 			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
-	
+
 		foreach($list as $el) {
 			if ( empty($el) )
 				continue;
@@ -673,7 +673,7 @@ class ftp_base {
 				}
 			}
 		}
-	
+
 		if(!$this->rmdir($remote)) {
 			$this->PushError("mdel", "can't delete folder", "Can't delete remote folder \"".$remote."/".$el["name"]."\"");
 			$ret=false;
@@ -813,7 +813,7 @@ class ftp_base {
 		$this->SendMSG($fctname.': '.$msg.$tmp);
 		return(array_push($this->_error_array,$error));
 	}
-	
+
 // Rcupre une erreur externe
 	function PopError(){
 		if(count($this->_error_array)) return(array_pop($this->_error_array));

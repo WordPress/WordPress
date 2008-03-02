@@ -9,7 +9,7 @@ wp_enqueue_script('admin-forms');
 if ( !empty( $_REQUEST['delete_comments'] ) ) {
 	check_admin_referer('bulk-comments');
 
-	$comments_deleted = $comments_approved = $comments_unapproved = $comments_spammed = 0; 
+	$comments_deleted = $comments_approved = $comments_unapproved = $comments_spammed = 0;
 	foreach ($_REQUEST['delete_comments'] as $comment) : // Check the permissions on each
 		$comment = (int) $comment;
 		$post_id = (int) $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
@@ -40,7 +40,7 @@ if ( !empty( $_REQUEST['delete_comments'] ) ) {
 	wp_redirect( $redirect_to );
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
-	 exit; 
+	 exit;
 }
 
 require_once('admin-header.php');

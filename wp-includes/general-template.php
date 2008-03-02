@@ -937,8 +937,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 			<a id="edButtonHTML" class="active"><?php _e('HTML'); ?></a>
 			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>');"><?php _e('Visual'); ?></a>
 		<?php }
-	} 
-	
+	}
+
 	if ( $media_buttons ) { ?>
 		<div id="media-buttons">
 		<?php do_action( 'media_buttons' ); ?>

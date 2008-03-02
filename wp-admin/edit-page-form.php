@@ -153,7 +153,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
   <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" />
 <?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
 	<div id="edit-slug-box">
-<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) : 
+<?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) :
 	echo $sample_permalink_html;
 endif; ?>
 	</div>

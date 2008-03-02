@@ -5,17 +5,17 @@ wpEditorInit = function() {
         tinyMCE.execCommand("mceAddControl", true, "content");
 	} else {
         var H;
-        if ( H = tinymce.util.Cookie.getHash("TinyMCE_content_size") ) 
+        if ( H = tinymce.util.Cookie.getHash("TinyMCE_content_size") )
             document.getElementById('content').style.height = H.ch - 30 + 'px';
     }
 };
 
 switchEditors = {
-    
+
     saveCallback : function(el, content, body) {
-    
+
         document.getElementById(el).style.color = '#fff';
-        if ( tinyMCE.activeEditor.isHidden() ) 
+        if ( tinyMCE.activeEditor.isHidden() )
             content = document.getElementById(el).value;
         else
             content = this.pre_wpautop(content);
@@ -44,12 +44,12 @@ switchEditors = {
         content = content.replace(new RegExp('\\s*<(('+blocklist+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
         content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
         content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
-		
+
         if ( content.indexOf('<object') != -1 ) {
             content = content.replace(new RegExp('\\s*<param([^>]*)>\\s*', 'g'), "<param$1>"); // no pee inside object/embed
             content = content.replace(new RegExp('\\s*</embed>\\s*', 'g'), '</embed>');
         }
-		
+
         // Unmark special paragraph closing tags
         content = content.replace(new RegExp('</p#>', 'g'), '</p>\n');
         content = content.replace(new RegExp('\\s*(<p[^>]+>.*</p>)', 'mg'), '\n$1');
@@ -71,7 +71,7 @@ switchEditors = {
 
         if ( ! ed || ed.isHidden() ) {
             ta.style.color = '#fff';
-        
+
             this.edToggle(P, H);
             edCloseAllTags(); // :-(
 
@@ -83,7 +83,7 @@ switchEditors = {
 
             if ( ed ) ed.show();
             else tinyMCE.execCommand("mceAddControl", false, id);
-        
+
             this.wpSetDefaultEditor( 'tinymce' );
         } else {
             this.edToggle(H, P);
@@ -93,7 +93,7 @@ switchEditors = {
             ed.hide();
             ta.value = this.pre_wpautop(ta.value);
             qt.style.display = 'block';
-            
+
             if ( tinymce.isIE6 ) {
 				ta.style.width = '98%';
 				ec.style.padding = '0px';
@@ -102,7 +102,7 @@ switchEditors = {
 				ta.style.width = '100%';
 				ec.style.padding = '6px';
             }
-			
+
 			ta.style.color = '';
 
             this.wpSetDefaultEditor( 'html' );
@@ -132,10 +132,10 @@ switchEditors = {
 
     wpautop : function(pee) {
         var blocklist = 'table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]';
-    
+
         pee = pee + "\n\n";
         pee = pee.replace(new RegExp('<br />\\s*<br />', 'gi'), "\n\n");
-        pee = pee.replace(new RegExp('(<(?:'+blocklist+')[^>]*>)', 'gi'), "\n$1"); 
+        pee = pee.replace(new RegExp('(<(?:'+blocklist+')[^>]*>)', 'gi'), "\n$1");
         pee = pee.replace(new RegExp('(</(?:'+blocklist+')>)', 'gi'), "$1\n\n");
         pee = pee.replace(new RegExp("\\r\\n|\\r", 'g'), "\n");
         pee = pee.replace(new RegExp("\\n\\s*\\n+", 'g'), "\n\n");
@@ -146,7 +146,7 @@ switchEditors = {
         pee = pee.replace(new RegExp('<p><blockquote([^>]*)>', 'gi'), "<blockquote$1><p>");
         pee = pee.replace(new RegExp('</blockquote></p>', 'gi'), '</p></blockquote>');
         pee = pee.replace(new RegExp('<p>\\s*(</?(?:'+blocklist+')[^>]*>)', 'gi'), "$1");
-        pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*</p>', 'gi'), "$1"); 
+        pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*</p>', 'gi'), "$1");
         pee = pee.replace(new RegExp('\\s*\\n', 'gi'), "<br />\n");
         pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*<br />', 'gi'), "$1");
         pee = pee.replace(new RegExp('<br />(\\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)', 'gi'), '$1');

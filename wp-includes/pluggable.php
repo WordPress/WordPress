@@ -650,7 +650,7 @@ function check_ajax_referer( $action = -1, $query_arg = false ) {
 	else
 		$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
 
-	if ( !wp_verify_nonce( $nonce, $action ) ) 
+	if ( !wp_verify_nonce( $nonce, $action ) )
 		die('-1');
 
 	do_action('check_ajax_referer');
@@ -856,7 +856,7 @@ function wp_notify_moderator($comment_id) {
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 	$comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
 
-	switch ($comment->comment_type) 
+	switch ($comment->comment_type)
 	{
 		case 'trackback':
 			$notify_message  = sprintf( __('A new trackback on the post #%1$s "%2$s" is waiting for your approval'), $post->ID, $post->post_title ) . "\r\n";
@@ -882,11 +882,11 @@ function wp_notify_moderator($comment_id) {
 			$notify_message .= __('Comment: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
 			break;
 	}
-	
+
 	$notify_message .= sprintf( __('Approve it: %s'),  get_option('siteurl')."/wp-admin/comment.php?action=mac&c=$comment_id" ) . "\r\n";
 	$notify_message .= sprintf( __('Delete it: %s'), get_option('siteurl')."/wp-admin/comment.php?action=cdc&c=$comment_id" ) . "\r\n";
 	$notify_message .= sprintf( __('Spam it: %s'), get_option('siteurl')."/wp-admin/comment.php?action=cdc&dt=spam&c=$comment_id" ) . "\r\n";
-	
+
 	$strCommentsPending = sprintf( __ngettext('%s comment', '%s comments', $comments_waiting), $comments_waiting );
 	$notify_message .= sprintf( __('Currently %s are waiting for approval. Please visit the moderation panel:'), $strCommentsPending ) . "\r\n";
 	$notify_message .= get_option('siteurl') . "/wp-admin/moderation.php\r\n";

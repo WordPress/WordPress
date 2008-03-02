@@ -83,7 +83,7 @@ default:
 	?>
 <?php if (isset($_GET['a'])) : ?>
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
-<?php endif; 
+<?php endif;
 
 $description = get_file_description($file);
 $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "%s";
@@ -134,7 +134,7 @@ if ($allowed_files) :
 	</ul>
 	<h4 style="margin-bottom: 0px;"><?php _e('Styles'); ?></h4>
 	<ul>
-<?php foreach($themes[$theme]['Stylesheet Files'] as $style_file) : 
+<?php foreach($themes[$theme]['Stylesheet Files'] as $style_file) :
 		$description = get_file_description($style_file);
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description <span class='nonessential'>($style_show)</span>" : "$description";
@@ -155,7 +155,7 @@ if ($allowed_files) :
 		 <input type="hidden" name="file" value="<?php echo $file ?>" />
 		 <input type="hidden" name="theme" value="<?php echo $theme ?>" />
 		 </div>
-		
+
 		<div>
 <?php if ( is_writeable($real_file) ) : ?>
 			<p class="submit">

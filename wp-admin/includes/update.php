@@ -137,7 +137,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	if ( ! is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
-	if ( $wp_filesystem->errors->get_error_code() ) 
+	if ( $wp_filesystem->errors->get_error_code() )
 		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
 
 	// Get the URL to the zip file
@@ -172,7 +172,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	// Once installed, delete the package
 	unlink($file);
-	
+
 	// Remove the existing plugin.
 	apply_filters('update_feedback', __("Removing the old version of the plugin"));
 	$plugin_dir = dirname(ABSPATH . PLUGINDIR . "/$plugin");

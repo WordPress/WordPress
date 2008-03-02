@@ -327,7 +327,7 @@ class WP_User_Search {
 			$search_sql .= implode(' OR ', $searches);
 			$search_sql .= ')';
 		}
-		
+
 		$this->query_from_where = "FROM $wpdb->users";
 		if ( $this->role )
 			$this->query_from_where .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE '%$this->role%'";

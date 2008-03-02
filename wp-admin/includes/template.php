@@ -347,8 +347,8 @@ function display_page_row( $page, &$children_pages, $level = 0 ) {
 	$posts_columns = wp_manage_pages_columns();
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'>
-  
-  
+
+
  <?php
 
 foreach ($posts_columns as $column_name=>$column_display_name) {
@@ -451,7 +451,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 	}
 }
  ?>
-  
+
    </tr>
 
 <?php
@@ -570,7 +570,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 		$approved = "comment_approved = 'spam'";
 	else
 		$approved = "comment_approved != 'spam'";
-	
+
 	if ( $s ) {
 		$s = $wpdb->escape($s);
 		$comments = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE
@@ -615,7 +615,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$delete_url  = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
 	$spam_url    = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-			
+
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
 <?php if ( $checkbox ) : ?>

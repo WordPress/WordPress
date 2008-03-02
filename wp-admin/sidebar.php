@@ -13,7 +13,7 @@ if ('b' == $_GET['a']) {
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=UTF-8" />
 <title>WordPress &#8250; Posted</title>
-<?php 
+<?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
 ?>
@@ -31,7 +31,7 @@ wp_admin_css();
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('blog_charset'); ?>" />
 <title>WordPress &#8250; Sidebar</title>
-<?php 
+<?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
 ?>

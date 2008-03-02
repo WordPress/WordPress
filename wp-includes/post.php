@@ -1428,8 +1428,8 @@ function wp_publish_post($post_id) {
 /**
  * check_and_publish_future_post() - check to make sure post has correct status before
  * passing it on to be published. Invoked by cron 'publish_future_post' event
- * This safeguard prevents cron from publishing drafts, etc. 
- * 
+ * This safeguard prevents cron from publishing drafts, etc.
+ *
  * {@internal Missing Long Description}}
  *
  * @package WordPress
@@ -1441,7 +1441,7 @@ function wp_publish_post($post_id) {
  * @return int|null {@internal Missing Description}}
  */
 function check_and_publish_future_post($post_id) {
-	
+
 	$post = get_post($post_id);
 
 	if ( empty($post) )
@@ -1450,7 +1450,7 @@ function check_and_publish_future_post($post_id) {
 	if ( 'future' != $post->post_status )
 		return;
 
-	return wp_publish_post($post_id); 
+	return wp_publish_post($post_id);
 }
 
 function wp_add_post_tags($post_id = 0, $tags = '') {
@@ -2931,7 +2931,7 @@ function _get_post_ancestors(&$_post) {
 
     if ( !empty($_post->ancestors) )
     	return;
- 
+
     $_post->ancestors = array();
 
     if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )

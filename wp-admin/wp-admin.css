@@ -170,7 +170,7 @@ form#upload #post_content {
 	border: none;
 	font-size: 13px;
 	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;	
+	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	color: #246;
@@ -234,8 +234,8 @@ select {
 }
 
 .error {
-	background: #f00; 
-	border: 1px solid #800; 
+	background: #f00;
+	border: 1px solid #800;
  	color: #fff;
 }
 
@@ -368,7 +368,7 @@ input.disabled, textarea.disabled {
 #searchform fieldset legend {
 	padding: 0 0 .2em 1px;
 }
-	
+
 #searchform #s {
 	padding: 4px 3px;
 }
@@ -569,7 +569,7 @@ p.pagenav {
 	font-size: 12px;
 	color: #555;
 	text-align: center;
-} 
+}
 
 #update-nag a, .plugin-update a {
 	font-size: 1.1em;
@@ -578,30 +578,30 @@ p.pagenav {
 	color: #036;
 }
 
-#pass-strength-result { 
+#pass-strength-result {
 	padding: 3px 5px 3px 5px;
 	margin-top: 3px;
-	text-align: center; 
+	text-align: center;
 	background-color: #e3e3e3;
 	border: 1px solid #000000;
 }
 
-#pass-strength-result.short { 
+#pass-strength-result.short {
 	background-color: #e3e3e3;
-	border: 1px solid #000000; 
+	border: 1px solid #000000;
 }
 
-#pass-strength-result.bad { 
+#pass-strength-result.bad {
 	background-color: #ffeff7;
-	border: 1px solid #cc6699; 
+	border: 1px solid #cc6699;
 }
 
-#pass-strength-result.good { 
+#pass-strength-result.good {
 	background-color: #effff4;
-	border: 1px solid #66cc87; 
+	border: 1px solid #66cc87;
 }
 
-#pass-strength-result.strong { 
+#pass-strength-result.strong {
 	background-color: #59ef86;
 	border: 1px solid #319f52;
 }
@@ -694,7 +694,7 @@ a.view-comment-post-link {
 	-khtml-border-top-left-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
 	border-top-left-radius: 3px;
-	-moz-border-radius-topright: 3px;	
+	-moz-border-radius-topright: 3px;
 	-khtml-border-top-right-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
 	border-top-right-radius: 3px;
@@ -891,8 +891,8 @@ strong .post-com-count span {
 html, body {
 	height:100%;
 }
-#wpwrap { 
-	position: relative; 
+#wpwrap {
+	position: relative;
 	min-height: 100%;
 }
 #wpcontent{
@@ -905,8 +905,8 @@ html, body {
 	margin: 0;
 	background: #464646 url('images/logo-ghost.png') no-repeat 20px 10px;
 	color: #999;
-	position: relative; 
- 	margin-top: -75px; 
+	position: relative;
+ 	margin-top: -75px;
 }
 
 #footer a {
@@ -1064,7 +1064,7 @@ html, body {
 #link_name, #link_url, #link_description {
 	font-size: 1.7em;
 	padding: 4px 3px;
-	width: 98%;	
+	width: 98%;
 }
 
 #edit-slug-box {

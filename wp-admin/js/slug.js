@@ -1,7 +1,7 @@
 function edit_permalink(post_id) {
 	var i, c = 0;
 	var e = jQuery('#editable-post-name');
-	var revert_e = e.html();	
+	var revert_e = e.html();
 	var real_slug = jQuery('#post_name');
 	var revert_slug = real_slug.html();
 	var b = jQuery('#edit-slug-buttons');
@@ -18,7 +18,7 @@ function edit_permalink(post_id) {
 			samplepermalinknonce: jQuery('#samplepermalinknonce').val()}, function(data) {
 				jQuery('#edit-slug-box').html(data);
 				b.html(revert_b);
-				real_slug.attr('value', new_slug);	
+				real_slug.attr('value', new_slug);
 				make_slugedit_clickable();
 			});
 		return false;

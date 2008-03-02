@@ -644,7 +644,7 @@ function wp_set_post_lock( $post_id ) {
 		return false;
 	if ( !$current_user || !$current_user->ID )
 		return false;
-	
+
 	$now = time();
 
 	if ( !add_post_meta( $post->ID, '_edit_lock', $now, true ) )

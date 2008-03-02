@@ -5,14 +5,14 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 	$m = $mysqlstring;
 	if ( empty( $m ) )
 		return false;
-		
+
 	if( 'G' == $dateformatstring ) {
 		return gmmktime(
 			(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
 			(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )
 		);
 	}
-	
+
 	$i = mktime(
 		(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
 		(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )
@@ -906,7 +906,7 @@ function do_feed() {
 		wp_die($message);
 	}
 
-	do_action( $hook, $wp_query->is_comment_feed ); 
+	do_action( $hook, $wp_query->is_comment_feed );
 }
 
 
@@ -1043,7 +1043,7 @@ function path_is_absolute( $path ) {
 
 	if ( strlen($path) == 0 || $path{0} == '.' )
 		return false;
-	
+
 	// windows allows absolute paths like this
 	if ( preg_match('#^[a-zA-Z]:\\\\#', $path) )
 		return true;
@@ -1056,7 +1056,7 @@ function path_is_absolute( $path ) {
 function path_join( $base, $path ) {
 	if ( path_is_absolute($path) )
 		return $path;
-	
+
 	return rtrim($base, '/') . '/' . ltrim($path, '/');
 }
 
@@ -1064,7 +1064,7 @@ function path_join( $base, $path ) {
 function wp_upload_dir( $time = NULL ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = $dir = get_option( 'upload_path' );
-	
+
 	// $dir is absolute, $path is (maybe) relative to ABSPATH
 	$dir = path_join( ABSPATH, $upload_path );
 	$path = str_replace( ABSPATH, '', trim( $upload_path ) );
@@ -1089,7 +1089,7 @@ function wp_upload_dir( $time = NULL ) {
 		$m = substr( $time, 5, 2 );
 		$subdir = "/$y/$m";
 	}
-	
+
 	$dir .= $subdir;
 	$url .= $subdir;
 
@@ -1184,7 +1184,7 @@ function wp_ext2type( $ext ) {
 		'interactive' => array('ppt','key','odp','swf'),
 		'text' => array('txt'),
 		'archive' => array('tar','bz2','gz','cab','dmg','rar','sea','sit','sqx','zip'),
-		'code' => array('css','html','php','js'),		
+		'code' => array('css','html','php','js'),
 	));
 	foreach ( $ext2type as $type => $exts )
 		if ( in_array($ext, $exts) )

@@ -58,7 +58,7 @@ var wpList = {
 		s.element = cls[2] || e.attr( 'id' ) || s.element || null;
 		if ( cls[3] ) { s.addColor = '#' + cls[3]; }
 		else { s.addColor = s.addColor || '#FFFF33'; }
-		
+
 		if ( !s ) { return false; }
 
 		if ( !e.is("[class^=add:" + list.id + ":]") ) { return !wpList.add.call( list, e, s ); }

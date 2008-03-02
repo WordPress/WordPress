@@ -126,7 +126,7 @@ function wp_iframe($content_func /* ... */) {
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; WordPress</title>
-<?php 
+<?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
 ?>
@@ -386,7 +386,7 @@ function media_upload_file() {
 function media_upload_gallery() {
 	if ( !empty($_POST) ) {
 		$return = media_upload_form_handler();
-	
+
 		if ( is_string($return) )
 			return $return;
 		if ( is_array($return) )
@@ -399,7 +399,7 @@ function media_upload_gallery() {
 function media_upload_library() {
 	if ( !empty($_POST) ) {
 		$return = media_upload_form_handler();
-	
+
 		if ( is_string($return) )
 			return $return;
 		if ( is_array($return) )

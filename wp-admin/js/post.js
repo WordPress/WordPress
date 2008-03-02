@@ -23,7 +23,7 @@ function tag_update_quickclicks() {
 //	jQuery.merge( current_tags, current_tags ); // this doesn't work anymore, need something to array_unique
 	jQuery.each( current_tags, function( key, val ) {
 		val = val.replace( /^\s+/, '' ).replace( /\s+$/, '' ); // trim
-		if ( !val.match(/^\s+$/) && '' != val ) { 
+		if ( !val.match(/^\s+$/) && '' != val ) {
 			txt = '<span><a id="tag-check-' + key + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
 			jQuery( '#tagchecklist' ).append( txt );
 			jQuery( '#tag-check-' + key ).click( new_tag_remove_tag );
@@ -63,12 +63,12 @@ addLoadEvent( function() {
 
 	// If no tags on the page, skip the tag and category stuff.
 	if ( !jQuery('#tags-input').size() ) {
-		return;	
+		return;
 	}
 
 	// Editable slugs
 	make_slugedit_clickable();
-	
+
 	// hide advanced slug field
 	jQuery('#slugdiv').hide();
 

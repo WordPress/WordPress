@@ -4,10 +4,10 @@ class WP_Filesystem_FTPext{
 	var $timeout = 5;
 	var $errors = array();
 	var $options = array();
-	
+
 	var $wp_base = '';
 	var $permission = null;
-	
+
 	var $filetypes = array(
 							'php'=>FTP_ASCII,
 							'css'=>FTP_ASCII,
@@ -16,13 +16,13 @@ class WP_Filesystem_FTPext{
 							'html'=>FTP_ASCII,
 							'htm'=>FTP_ASCII,
 							'xml'=>FTP_ASCII,
-							
+
 							'jpg'=>FTP_BINARY,
 							'png'=>FTP_BINARY,
 							'gif'=>FTP_BINARY,
 							'bmp'=>FTP_BINARY
 							);
-	
+
 	function WP_Filesystem_FTPext($opt='') {
 		$this->errors = new WP_Error();
 
@@ -53,10 +53,10 @@ class WP_Filesystem_FTPext{
 			$this->options['username'] = $opt['username'];
 
 		if ( empty ($opt['password']) )
-			$this->errors->add('empty_password', __('FTP password is required'));	
+			$this->errors->add('empty_password', __('FTP password is required'));
 		else
 			$this->options['password'] = $opt['password'];
-		
+
 		$this->options['ssl'] = ( !empty($opt['ssl']) );
 	}
 
@@ -88,7 +88,7 @@ class WP_Filesystem_FTPext{
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
 		if( empty( $base ) ) $base = '/';
 		if( '/' != substr($base, -1) ) $base .= '/';
-		
+
 		if($echo) echo sprintf(__('Changing to %s'), $base) .'<br>';
 		if( false === ftp_chdir($this->link, $base) )
 			return false;
@@ -219,21 +219,21 @@ class WP_Filesystem_FTPext{
 			// Unknown
 			$info = 'u';
 		}
-		
+
 		// Owner
 		$info .= (($perms & 0x0100) ? 'r' : '-');
 		$info .= (($perms & 0x0080) ? 'w' : '-');
 		$info .= (($perms & 0x0040) ?
 					(($perms & 0x0800) ? 's' : 'x' ) :
 					(($perms & 0x0800) ? 'S' : '-'));
-		
+
 		// Group
 		$info .= (($perms & 0x0020) ? 'r' : '-');
 		$info .= (($perms & 0x0010) ? 'w' : '-');
 		$info .= (($perms & 0x0008) ?
 					(($perms & 0x0400) ? 's' : 'x' ) :
 					(($perms & 0x0400) ? 'S' : '-'));
-		
+
 		// World
 		$info .= (($perms & 0x0004) ? 'r' : '-');
 		$info .= (($perms & 0x0002) ? 'w' : '-');
@@ -338,11 +338,11 @@ class WP_Filesystem_FTPext{
 	function rmdir($path,$recursive=false){
 		if( ! $recursive )
 			return ftp_rmdir($this->link, $file);
-		
+
 		//TODO: Recursive Directory delete, Have to delete files from the folder first.
 		//$dir = $this->dirlist($path);
 		//foreach($dir as $file)
-			
+
 	}
 
 	function parselisting($line) {
@@ -439,7 +439,7 @@ class WP_Filesystem_FTPext{
 
 		$ret = array();
 		foreach ( $dirlist as $struc ) {
-			
+
 			if ( 'd' == $struc['type'] ) {
 				$struc['files'] = array();
 

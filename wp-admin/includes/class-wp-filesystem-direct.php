@@ -87,7 +87,7 @@ class WP_Filesystem_Direct{
 			return false;
 		if( !function_exists('posix_getpwuid') )
 			return $owneruid;
-		$ownerarray=posix_getpwuid($owneruid); 
+		$ownerarray=posix_getpwuid($owneruid);
 		return $ownerarray['name'];
 	}
 	function getchmod($file){
@@ -121,21 +121,21 @@ class WP_Filesystem_Direct{
 			// Unknown
 			$info = 'u';
 		}
-		
+
 		// Owner
 		$info .= (($perms & 0x0100) ? 'r' : '-');
 		$info .= (($perms & 0x0080) ? 'w' : '-');
 		$info .= (($perms & 0x0040) ?
 					(($perms & 0x0800) ? 's' : 'x' ) :
 					(($perms & 0x0800) ? 'S' : '-'));
-		
+
 		// Group
 		$info .= (($perms & 0x0020) ? 'r' : '-');
 		$info .= (($perms & 0x0010) ? 'w' : '-');
 		$info .= (($perms & 0x0008) ?
 					(($perms & 0x0400) ? 's' : 'x' ) :
 					(($perms & 0x0400) ? 'S' : '-'));
-		
+
 		// World
 		$info .= (($perms & 0x0004) ? 'r' : '-');
 		$info .= (($perms & 0x0002) ? 'w' : '-');
@@ -168,10 +168,10 @@ class WP_Filesystem_Direct{
 			return false;
 		if( !function_exists('posix_getgrgid') )
 			return $gid;
-		$grouparray=posix_getgrgid($gid); 
+		$grouparray=posix_getgrgid($gid);
 		return $grouparray['name'];
 	}
-	
+
 	function copy($source,$destination,$overwrite=false){
 		if( $overwrite && $this->exists($destination) )
 			return false;
@@ -210,7 +210,7 @@ class WP_Filesystem_Direct{
 			return false;
 		return $retval;
 	}
-	
+
 	function exists($file){
 		return @file_exists($file);
 	}
@@ -230,7 +230,7 @@ class WP_Filesystem_Direct{
 	function is_writable($file){
 		return @is_writable($file);
 	}
-	
+
 	function atime($file){
 		return @fileatime($file);
 	}
@@ -249,11 +249,11 @@ class WP_Filesystem_Direct{
 			$atime = time();
 		return @touch($file,$time,$atime);
 	}
-	
+
 	function mkdir($path,$chmod=false,$chown=false,$chgrp=false){
 		if( ! $chmod)
 			$chmod = $this->permission;
-			
+
 		if( !@mkdir($path,$chmod) )
 			return false;
 		if( $chown )
@@ -275,7 +275,7 @@ class WP_Filesystem_Direct{
 		}
 		return @rmdir($path);
 	}
-	
+
 	function dirlist($path,$incdot=false,$recursive=false){
 		if( $this->is_file($path) ){
 			$limitFile = basename($path);
@@ -291,12 +291,12 @@ class WP_Filesystem_Direct{
 		while (false !== ($entry = $dir->read())) {
 			$struc = array();
 			$struc['name'] 		= $entry;
-			
+
 			if( '.' == $struc['name'][0] && !$incdot)
 				continue;
 			if( $limitFile && $struc['name'] != $limitFile)
 				continue;
-			
+
 			$struc['perms'] 	= $this->gethchmod($path.'/'.$entry);
 			$struc['permsn']	= $this->getnumchmodfromh($struc['perms']);
 			$struc['number'] 	= false;
@@ -309,7 +309,7 @@ class WP_Filesystem_Direct{
 			$struc['type']		= $this->is_dir($path.'/'.$entry) ? 'd' : 'f';
 			if ('d' == $struc['type'] ){
 				$struc['files'] = array();
-				
+
 				if( $incdot ){
 					//We're including the doted starts
 					if( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder

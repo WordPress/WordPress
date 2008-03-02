@@ -9,4 +9,4 @@ function send_to_editor(h) {
 		tinyMCE.execCommand('mceInsertContent', false, h);
 	} else
 		win.edInsertContent(win.edCanvas, h);
-}				
+}

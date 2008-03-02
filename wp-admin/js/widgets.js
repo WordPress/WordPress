@@ -87,7 +87,7 @@ jQuery(function($) {
 	var addWidgetControls = function( context ) {
 		if ( !context )
 			context = document;
-		
+
 		$('a.widget-control-edit', context).click( editClick );
 
 		// onclick for save links

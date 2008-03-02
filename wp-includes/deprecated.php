@@ -1276,7 +1276,7 @@ function documentation_link( $deprecated = '' ) {
 
 /**
  * gzip_compression() - Unused function
- * 
+ *
  * @deprecated 2.5
 */
 

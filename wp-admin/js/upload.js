@@ -5,7 +5,7 @@ addLoadEvent( function() {
 		tab: '',
 		postID: 0,
 
-		// cookie create and read functions adapted from http://www.quirksmode.org/js/cookies.html	
+		// cookie create and read functions adapted from http://www.quirksmode.org/js/cookies.html
 		createCookie: function(name,value,days) {
 			if (days) {
 				var date = new Date();
@@ -28,8 +28,8 @@ addLoadEvent( function() {
 		},
 
 		assignCookieOnChange: function() {
-			jQuery(this).bind("change", function(){ 
-				theFileList.createCookie(jQuery(this).attr('name'),jQuery(this).attr('id'),365); 
+			jQuery(this).bind("change", function(){
+				theFileList.createCookie(jQuery(this).attr('name'),jQuery(this).attr('id'),365);
 			});
 		},
 
@@ -323,7 +323,7 @@ addLoadEvent( function() {
 
 	};
 
-	for ( var property in uploadL10n ) 
+	for ( var property in uploadL10n )
 		theFileList[property] = uploadL10n[property];
 	theFileList.initializeVars();
 	theFileList.initializeLinks();

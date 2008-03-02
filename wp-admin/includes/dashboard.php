@@ -110,7 +110,7 @@ function wp_dashboard_setup() {
 			$wp_dashboard_empty_callback (only needed if using 'wp_dashboard_empty' as your $output_callback),
 			$arg, $arg, $arg... (further args passed to callbacks)
 		);
-	
+
 		// optional: if you want users to be able to edit the settings of your widget, you need to register a widget_control
 		wp_register_widget_control( $widget_id, $widget_control_title, $control_output_callback,
 			array(), // leave an empty array here: oddity in widget code
@@ -316,17 +316,17 @@ function wp_dashboard_incoming_links_output() {
 			$content = '';
 			$date = '';
 			$link = clean_url( strip_tags( $item['link'] ) );
-		
+
 			if ( isset( $item['author_uri'] ) )
 				$site_link = clean_url( strip_tags( $item['author_uri'] ) );
-		
+
 			if ( !$publisher = wp_specialchars( strip_tags( isset($item['dc']['publisher']) ? $item['dc']['publisher'] : $item['author_name'] ) ) )
 				$publisher = __( 'Somebody' );
 			if ( $site_link )
 				$publisher = "<a href='$site_link'>$publisher</a>";
 			else
 				$publisher = "<strong>$publisher</strong>";
-		
+
 			if ( isset($item['description']) )
 				$content = $item['description'];
 			elseif ( isset($item['summary']) )
@@ -343,7 +343,7 @@ function wp_dashboard_incoming_links_output() {
 				$text = _c( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"|feed_display' );
 			else
 				$text = _c( '%1$s linked here saying, "%3$s"|feed_display' );
-		
+
 			if ( $show_date ) {
 				if ( $show_author || $show_summary )
 					$text .= _c( ' on %4$s|feed_display' );
@@ -351,7 +351,7 @@ function wp_dashboard_incoming_links_output() {
 				$date = strtotime( $date );
 				$date = gmdate( get_option( 'date_format' ), $date );
 			}
-		
+
 			echo "\t<li>" . sprintf( _c( "$text|feed_display" ), $publisher, $link, $content, $date ) . "</li>\n";
 		}
 

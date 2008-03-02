@@ -262,7 +262,7 @@ function is_active_widget($callback, $widget_id = false) {
 			if ( isset($wp_registered_widgets[$widget]['callback']) && $wp_registered_widgets[$widget]['callback'] == $callback )
 				if ( !$widget_id || $widget_id == $wp_registered_widgets[$widget]['id'] )
 					return $sidebar;
-				
+
 
 	return false;
 }

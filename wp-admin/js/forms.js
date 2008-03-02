@@ -13,8 +13,8 @@ function getNumChecked(form) {
 	var num = 0;
 	for (i = 0, n = form.elements.length; i < n; i++) {
 		if (form.elements[i].type == "checkbox") {
-			if (form.elements[i].checked == true) 
-				num++; 
+			if (form.elements[i].checked == true)
+				num++;
 		}
 	}
 	return num;
@@ -22,8 +22,8 @@ function getNumChecked(form) {
 
 function checkAllUsers(role) {
  var checkboxs = document.getElementsByTagName('input');
- for(var i = 0, inp; inp = checkboxs[i]; i++) 
- 	if(inp.type.toLowerCase() == 'checkbox' && inp.className == role) 
+ for(var i = 0, inp; inp = checkboxs[i]; i++)
+ 	if(inp.type.toLowerCase() == 'checkbox' && inp.className == role)
 		if(inp.checked == false)
 			inp.checked = true;
 		else
