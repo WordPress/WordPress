@@ -307,7 +307,7 @@ class WP_Filesystem_Direct{
 			$struc['lastmod']   = date('M j',$struc['lastmodunix']);
 			$struc['time']    	= date('h:i:s',$struc['lastmodunix']);
 			$struc['type']		= $this->is_dir($path.'/'.$entry) ? 'd' : 'f';
-			if('folder' == $struc['type'] ){
+			if ('d' == $struc['type'] ){
 				$struc['files'] = array();
 				
 				if( $incdot ){
