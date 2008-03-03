@@ -13,6 +13,7 @@ function new_tag_remove_tag() {
 	});
 	jQuery( '#tags-input' ).val( new_tags.join( ',' ).replace( /\s*,+\s*/, ',' ).replace( /,+/, ',' ).replace( /,+\s+,+/, ',' ).replace( /,+\s*$/, '' ).replace( /^\s*,+/, '' ) );
 	tag_update_quickclicks();
+	jQuery('#newtag').focus();
 	return false;
 }
 
@@ -41,7 +42,7 @@ function tag_flush_to_text() {
 	jQuery('#tags-input').val( newtags );
 	tag_update_quickclicks();
 	jQuery('#newtag').val('');
-	jQuery('#newtag').blur();
+	jQuery('#newtag').focus();
 	return false;
 }
 
@@ -140,6 +141,7 @@ addLoadEvent( function() {
 	jQuery('#category-add-toggle').click( function() {
 		jQuery(this).parents('div:first').toggleClass( 'wp-hidden-children' );
 		categoryTabs.tabsClick( 1 );
+		jQuery('#newcat').focus();
 		return false;
 	} );
 	jQuery('.categorychecklist :checkbox').change( syncChecks ).filter( ':checked' ).change();

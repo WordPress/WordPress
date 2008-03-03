@@ -1,4 +1,5 @@
 addLoadEvent( function() {
+	jQuery('#link_name').focus();
 	// postboxes
 	add_postbox_toggles('link');
 

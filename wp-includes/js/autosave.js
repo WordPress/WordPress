@@ -21,7 +21,7 @@ function autosave_saved(response) {
 	var res = wpAjax.parseAjaxResponse(response, 'autosave'); // parse the ajax response
 	var message = '';
 
-	if ( res && res.responses.length ) {
+	if ( res && res.responses && res.responses.length ) {
 		message = res.responses[0].data; // The saved message or error.
 		// someone else is editing: disable autosave, set errors
 		if ( res.responses[0].supplemental && 'disable' == res.responses[0].supplemental['disable_autosave'] ) {
