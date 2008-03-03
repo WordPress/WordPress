@@ -2128,7 +2128,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	if ( $file )
 		update_attached_file( $post_ID, $file );
-
+		
 	clean_post_cache($post_ID);
 
 	if ( $update) {
@@ -2316,6 +2316,10 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 		return false;
 	if ( !$url = wp_get_attachment_url( $post->ID ) )
 		return false;
+		
+	$sized = image_downsize( $post_id, 'thumbnail' );
+	if ( $sized )
+		return $sized[0];
 
 	if ( !$thumb = wp_get_attachment_thumb_file( $post->ID ) )
 		return false;

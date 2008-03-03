@@ -55,7 +55,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	$rel = $rel ? ' rel="attachment wp-att-'.attribute_escape($id).'"' : '';
 	if ( $url )
 		$html = "<a href='".attribute_escape($url)."'$rel>$html</a>";
-	elseif ( $size == 'thumb' || $size == 'medium' )
+	elseif ( $size == 'thumbnail' || $size == 'medium' )
 		$html = '<a href="'.get_attachment_link($id).'"'.$rel.'>'.$html.'</a>';
 
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
@@ -467,7 +467,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 			'label' => __('Size'),
 			'input' => 'html',
 			'html'  => "
-				" . ( $thumb ? "<input type='radio' name='attachments[$post->ID][image-size]' id='image-size-thumb-$post->ID' value='thumb' />
+				" . ( $thumb ? "<input type='radio' name='attachments[$post->ID][image-size]' id='image-size-thumb-$post->ID' value='thumbnail' />
 				<label for='image-size-thumb-$post->ID'>" . __('Thumbnail') . "</label>
 				" : '' ) . "<input type='radio' name='attachments[$post->ID][image-size]' id='image-size-medium-$post->ID' value='medium' checked='checked' />
 				<label for='image-size-medium-$post->ID'>" . __('Medium') . "</label>

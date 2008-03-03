@@ -17,63 +17,8 @@
  * If PHP does not have the functionality to save in a file of the same format, the thumbnail will be created as a jpeg.
  */
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-	if ( ctype_digit( $file ) ) // Handle int as attachment ID
-		$file = get_attached_file( $file );
-
-	$image = wp_load_image( $file );
-
-	if ( !is_resource( $image ) )
-		return $image;
-
-	list($sourceImageWidth, $sourceImageHeight, $sourceImageType) = getimagesize( $file );
-
-	if ( function_exists( 'imageantialias' ))
-		imageantialias( $image, true );
-
-	list($image_new_width, $image_new_height) = wp_shrink_dimensions( $sourceImageWidth, $sourceImageHeight, $max_side, $max_side);
-
-	$thumbnail = imagecreatetruecolor( $image_new_width, $image_new_height);
-
-	// preserve PNG transparency
-	if ( IMAGETYPE_PNG == $sourceImageType && function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' ) ) {
-		imagealphablending( $thumbnail, false);
-		imagesavealpha( $thumbnail, true);
-	}
-
-	imagecopyresampled( $thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $sourceImageWidth, $sourceImageHeight );
-
-	imagedestroy( $image ); // Free up memory
-
-	// If no filters change the filename, we'll do a default transformation.
-	if ( basename( $file ) == $thumb = apply_filters( 'thumbnail_filename', basename( $file ) ) )
-		$thumb = preg_replace( '!(\.[^.]+)?$!', '.thumbnail$1', basename( $file ), 1 );
-
-	$thumbpath = str_replace( basename( $file ), $thumb, $file );
-
-	switch( $sourceImageType ){
-		default: // We'll create a Jpeg if we cant use its native file format
-			$thumb = preg_replace( '/\\.[^\\.]+$/', '.jpg', $thumb ); //Change file extension to Jpg
-		case IMAGETYPE_JPEG:
-			if (!imagejpeg( $thumbnail, $thumbpath ) )
-				return __( 'Thumbnail path invalid' );
-			break;
-		case IMAGETYPE_GIF:
-			if (!imagegif( $thumbnail, $thumbpath ) )
-				return __( 'Thumbnail path invalid' );
-			break;
-		case IMAGETYPE_PNG:
-			if (!imagepng( $thumbnail, $thumbpath ) )
-				return __( 'Thumbnail path invalid' );
-			break;
-	}
-
-	imagedestroy( $thumbnail ); // Free up memory
-
-	// Set correct file permissions
-	$stat = stat( dirname( $thumbpath ));
-	$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
-	@ chmod( $thumbpath, $perms );
-
+	
+	$thumbpath = image_resize( $file, $max_side, $max_side );
 	return apply_filters( 'wp_create_thumbnail', $thumbpath );
 }
 
@@ -142,7 +87,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$attachment = get_post( $attachment_id );
 
 	$metadata = array();
-	if ( preg_match('!^image/!', get_post_mime_type( $attachment )) ) {
+	if ( preg_match('!^image/!', get_post_mime_type( $attachment )) && file_is_displayable_image($file) ) {
 		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
@@ -150,15 +95,16 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 		$metadata['file'] = $file;
 
-		$max = apply_filters( 'wp_thumbnail_creation_size_limit', absint( WP_MEMORY_LIMIT ) * 1024 * 1024, $attachment_id, $file );
-
-		if ( $max < 0 || $metadata['width'] * $metadata['height'] < $max ) {
-			$max_side = apply_filters( 'wp_thumbnail_max_side_length', 140, $attachment_id, $file );
-			$thumb = wp_create_thumbnail( $file, $max_side );
-			if ( @file_exists($thumb) )
-				$metadata['thumb'] = basename($thumb);
+		// make thumbnails and other intermediate sizes
+		$sizes = array('thumbnail', 'medium');
+		$sizes = apply_filters('intermediate_image_sizes', $sizes);
+		
+		foreach ($sizes as $size) {
+			$resized = image_make_intermediate_size( $file, get_option("{$size}_size_w"), get_option("{$size}_size_h"), get_option("{$size}_crop") );
+			if ( $resized )
+				$metadata['sizes'][$size] = $resized;
 		}
-
+			
 		// fetch additional metadata from exif/iptc
 		$image_meta = wp_read_image_metadata( $file );
 		if ($image_meta)
@@ -309,5 +255,28 @@ function wp_read_image_metadata( $file ) {
 
 }
 
+// is the file a real image file?
+function file_is_valid_image($path) {
+	$size = @getimagesize($path);
+	return !empty($size);
+}
+
+// is the file an image suitable for displaying within a web page?
+function file_is_displayable_image($path) {
+	$info = @getimagesize($path);
+	if ( empty($info) )
+		$result = false;
+	elseif ( !in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG)) )
+		// only gif, jpeg and png images can reliably be displayed
+		$result = false;
+	elseif ( $info['channels'] > 0 && $info['channels'] != 3 ) {
+		// some web browsers can't display cmyk or grayscale jpegs
+		$result = false;
+	}
+	else
+		$result = true;
+		
+	return apply_filters('file_is_displayable_image', $result, $path);
+}
 
 ?>

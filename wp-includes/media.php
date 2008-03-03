@@ -48,7 +48,7 @@ function image_hwstring($width, $height) {
 }
 
 // Scale an image to fit a particular size (such as 'thumb' or 'medium'), and return an image URL, height and width.
-// The URL might be the original image, or it might be a resized version.
+// The URL might be the original image, or it might be a resized version.  This function won't create a new resized copy, it will just return an already resized one if it exists.
 // returns an array($url, $width, $height)
 function image_downsize($id, $size = 'medium') {
 
@@ -60,15 +60,19 @@ function image_downsize($id, $size = 'medium') {
 	if ( $out = apply_filters('image_downsize', false, $id, $size) )
 		return $out;
 
-	if ( $size == 'thumb' ) {
-		// thumbnail: use the thumb as the displayed image, and constrain based on its dimensions
-		$thumb_path = wp_get_attachment_thumb_file($id);
-		// the actual thumbnail size isn't stored so we'll have to calculate it
-		if ( $thumb_path && ($info = getimagesize($thumb_path)) ) {
-			list( $width, $height ) = image_constrain_size_for_editor( $info[0], $info[1], $size );
-			$img_url = wp_get_attachment_thumb_url($id);
+	// try for a new style intermediate size
+	if ( $intermediate = image_get_intermediate_size($id, $size) ) {
+		$img_url = str_replace(basename($img_url), $intermediate['file'], $img_url);
+		$width = $intermediate['width'];
+		$height = $intermediate['height'];
+	}
+	elseif ( $size == 'thumbnail' ) {
+		// fall back to the old thumbnail
+		if ( $thumb_file = wp_get_attachment_thumb_file() && $info = getimagesize($thumb_file) ) {
+			$img_url = str_replace(basename($img_url), basename($thumb_file), $img_url);
+			$width = $info[0];
+			$height = $info[1];
 		}
-		// this could be improved to provide a default thumbnail if one doesn't exist
 	}
 	elseif ( isset($meta['width'], $meta['height']) ) {
 		// any other type: use the real image and constrain it
@@ -225,5 +229,32 @@ function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_p
 
 	return $destfilename;
 }
+
+// resize an image to make a thumbnail or intermediate size, and return metadata describing the new copy
+// returns false if no image was created
+function image_make_intermediate_size($file, $width, $height, $crop=false) {
+	if ( $width || $height ) {
+		$resized_file = image_resize($file, $width, $height, $crop);
+		if ( $resized_file && $info = getimagesize($resized_file) ) {
+			return array(
+				'file' => basename( $resized_file ),
+				'width' => $info[0],
+				'height' => $info[1],
+			);
+		}
+	}
+	return false;
+}
+
+function image_get_intermediate_size($post_id, $size='thumbnail') {
+	if ( !$imagedata = wp_get_attachment_metadata( $post_id ) )
+		return false;
+		
+	if ( empty($imagedata['sizes'][$size]) )
+		return false;
+		
+	return $imagedata['sizes'][$size];
+}
+
 
 ?>

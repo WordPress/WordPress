@@ -389,11 +389,10 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 
 	$file = get_attached_file( $post->ID );
 
-	if ( !$fullsize && $thumbfile = wp_get_attachment_thumb_file( $post->ID ) ) {
+	if ( !$fullsize && $src = wp_get_attachment_thumb_url( $post->ID ) ) {
 		// We have a thumbnail desired, specified and existing
 
-		$src = wp_get_attachment_thumb_url( $post->ID );
-		$src_file = $thumbfile;
+		$src_file = basename($src);
 		$class = 'attachmentthumb';
 	} elseif ( wp_attachment_is_image( $post->ID ) ) {
 		// We have an image without a thumbnail
