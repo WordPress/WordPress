@@ -483,15 +483,18 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$do_autosave = (bool) $_POST['autosave'];
 	$do_lock = true;
 
-	$data = '<div class="updated"><p>' . sprintf( __('Saved at %s.'), date( __('g:i:s a'), current_time( 'timestamp', true ) ) ) . '</p></div>';
+	$data = '';
+	$message = '<div class="updated"><p>' . sprintf( __('Saved at %s.'), date( __('g:i:s a'), current_time( 'timestamp', true ) ) ) . '</p></div>';
 
 	$supplemental = array();
 
 	$id = 0;
 	if($_POST['post_ID'] < 0) {
 		$_POST['temp_ID'] = $_POST['post_ID'];
-		if ( $do_autosave )
+		if ( $do_autosave ) {
 			$id = wp_write_post();
+			$data = $message;
+		}
 	} else {
 		$post_ID = (int) $_POST['post_ID'];
 		$_POST['ID'] = $post_ID;
@@ -517,10 +520,12 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 			if ( !current_user_can('edit_post', $post_ID) )
 				die(__('You are not allowed to edit this post.'));
 		}
-		if ( $do_autosave )
+		if ( $do_autosave ) {
 			$id = wp_update_post($_POST);
-		else
+			$data = $message;
+		} else {
 			$id = $post->ID;
+		}
 	}
 
 	if ( $do_lock && $id && is_numeric($id) )

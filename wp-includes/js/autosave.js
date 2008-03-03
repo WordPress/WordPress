@@ -17,6 +17,7 @@ jQuery(function($) {
 
 // called when autosaving pre-existing post
 function autosave_saved(response) {
+	var oldMessage = jQuery('#autosave').html();
 	var res = wpAjax.parseAjaxResponse(response, 'autosave'); // parse the ajax response
 	var message = '';
 
@@ -38,6 +39,7 @@ function autosave_saved(response) {
 		}
 	}
 	if ( message ) { jQuery('#autosave').html(message); } // update autosave message
+	else if ( oldMessage && res ) { jQuery('#autosave').html( oldMessage ); }
 	autosave_enable_buttons(); // re-enable disabled form buttons
 	return res;
 }
