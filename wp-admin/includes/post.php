@@ -577,7 +577,7 @@ function postbox_classes( $id, $page ) {
 	}
 }
 
-function get_sample_permalink($id, $name = null) {
+function get_sample_permalink($id, $title, $name = null) {
 	$post = &get_post($id);
 	if (!$post->ID) {
 		return array('', '');
@@ -585,13 +585,17 @@ function get_sample_permalink($id, $name = null) {
 	$original_status = $post->post_status;
 	$original_date = $post->post_date;
 	$original_name = $post->post_name;
+	$original_title = $post->post_title;
+
+	$post->post_title = $title;
+	$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
+
 	if (in_array($post->post_status, array('draft', 'pending'))) {
 		$post->post_status = 'publish';
 		$post->post_date = date('Y-m-d H:i:s');
-		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
 	}
 	if (!is_null($name)) {
-		$post->post_name = sanitize_title($name, $post->ID);
+		$post->post_name = sanitize_title($name? $name : $post->post_title, $post->ID);
 	}
 
 	$permalink = get_permalink($post, true);
@@ -610,12 +614,13 @@ function get_sample_permalink($id, $name = null) {
 	$post->post_status = $original_status;
 	$post->post_date = $original_date;
 	$post->post_name = $original_name;
+	$post->post_title = $original_title;
 	return $permalink;
 }
 
-function get_sample_permalink_html($id, $new_slug=null) {
+function get_sample_permalink_html($id, $new_title=null, $new_slug=null) {
 	$post = &get_post($id);
-	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_slug);
+	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 	if (false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%')) {
 		return '';
 	}

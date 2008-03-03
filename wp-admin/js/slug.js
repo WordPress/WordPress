@@ -10,11 +10,12 @@ function edit_permalink(post_id) {
 
 	b.html('<a href="" class="save">'+slugL10n.save+'</a> <a class="cancel" href="">'+slugL10n.cancel+'</a>');
 	b.children('.save').click(function() {
-		var new_slug = e.children('input').attr('value');
+		var new_slug = e.children('input').val();
 		jQuery.post(slugL10n.requestFile, {
 			action: 'sample-permalink',
 			post_id: post_id,
 			new_slug: new_slug,
+			new_title: jQuery('#title').val(),
 			samplepermalinknonce: jQuery('#samplepermalinknonce').val()}, function(data) {
 				jQuery('#edit-slug-box').html(data);
 				b.html(revert_b);
