@@ -15,6 +15,7 @@ if ( !defined('WP_MEMORY_LIMIT') )
 if ( function_exists('memory_get_usage') && ( (int) @ini_get('memory_limit') < abs(intval(WP_MEMORY_LIMIT)) ) )
 	@ini_set('memory_limit', WP_MEMORY_LIMIT);
 
+
 /**
  * wp_unregister_GLOBALS() - Turn register globals off
  *
@@ -349,6 +350,15 @@ if ( get_option('active_plugins') ) {
 }
 
 require (ABSPATH . WPINC . '/pluggable.php');
+
+/*
+ * In most cases the default internal encoding is latin1, which is of no use,
+ * since we want to use the mb_ functions for utf-8 strings
+ */
+if ( function_exists('mb_internal_encoding') )
+	mb_internal_encoding( get_option( 'blog_charset' ) );
+
+
 
 if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
 	wp_cache_postload();

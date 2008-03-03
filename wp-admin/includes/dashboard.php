@@ -335,10 +335,7 @@ function wp_dashboard_incoming_links_output() {
 				$content = $item['atom_content'];
 			else
 				$content = __( 'something' );
-			$content = strip_tags( $content );
-			if ( 50 < strlen($content) )
-				$content = substr($content, 0, 50) . ' ...';
-			$content = wp_specialchars( $content );
+			$content = wp_html_excerpt($content, 50) . ' ...';
 			if ( $link )
 				$text = _c( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"|feed_display' );
 			else
