@@ -631,7 +631,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
     <?php endif; ?>
     <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
     </p>
-   	<p><?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?></p>
+   	<?php if ( 'list' == $mode ) comment_excerpt(); else comment_text(); ?>
    	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
     </td>
     <td><?php comment_date(__('Y/m/d')); ?></td>
