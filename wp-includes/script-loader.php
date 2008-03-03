@@ -53,7 +53,7 @@ class WP_Scripts {
 			'previewPageText' => __('View this Page'),
 			'previewPostText' => __('View this Post'),
 			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
-			'savingText' => __('Saving&#8230;')
+			'savingText' => __('Saving Draft&#8230;')
 		) );
 
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');

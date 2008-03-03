@@ -103,7 +103,7 @@ function autosave_update_slug(post_id) {
 }
 
 function autosave_loading() {
-	jQuery('#autosave').html('<div class="updated"><p>' + autosaveL10n.savingText + '</p></div>');
+	jQuery('#autosave').html(autosaveL10n.savingText);
 }
 
 function autosave_enable_buttons() {

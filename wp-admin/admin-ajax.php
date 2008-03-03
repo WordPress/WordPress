@@ -484,7 +484,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$do_lock = true;
 
 	$data = '';
-	$message = '<div class="updated"><p>' . sprintf( __('Saved at %s.'), date( __('g:i:s a'), current_time( 'timestamp', true ) ) ) . '</p></div>';
+	$message = sprintf( __('Draft Saved at %s.'), date( __('g:i:s a'), current_time( 'timestamp', true ) ) );
 
 	$supplemental = array();
 
