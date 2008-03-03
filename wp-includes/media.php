@@ -73,6 +73,8 @@ function image_downsize($id, $size = 'medium') {
 			$width = $info[0];
 			$height = $info[1];
 		}
+		else
+			return false;
 	}
 	elseif ( isset($meta['width'], $meta['height']) ) {
 		// any other type: use the real image and constrain it
