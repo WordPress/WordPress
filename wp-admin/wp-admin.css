@@ -26,7 +26,11 @@
 }
 
 .form-invalid {
-	background-color: #FF9999 !important;
+	background-color: #ffebe8 !important;
+}
+
+.form-invalid input {
+	border: 1px solid #c00 !important;
 }
 
 #uploading {
@@ -234,13 +238,12 @@ select {
 }
 
 .error {
-	background: #f00;
-	border: 1px solid #800;
- 	color: #fff;
+	background: #ffebe8;
+	border: 1px solid #c00;
 }
 
 .error a {
-	color: #fff;
+	color: #c00;
 }
 
 .narrow {
@@ -943,6 +946,14 @@ html, body {
 
 .form-table tr {
 	background: #eaf3fa;
+}
+
+.form-table input {
+	border: 1px solid #c6d9e9;
+}
+
+.form-table textarea {
+	border: 1px solid #c6d9e9;
 }
 
 /* Post Screen */
