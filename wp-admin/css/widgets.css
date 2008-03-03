@@ -33,10 +33,6 @@ p#widget-search {
 	margin: 0;
 }
 
-div#widget-content {
-	border-bottom: 1px solid #ccc;
-}
-
 ul#widget-list {
 	list-style: none;
 	margin: 0;
@@ -59,6 +55,10 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	float: left;
 	background-color: #f0f0f0;
 	color: #000;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #dragHelper h4.widget-title {
@@ -93,6 +93,10 @@ ul.widget-control-list {
 li.widget-list-control-item {
 	background-color: #eaf3fa;
 	margin: 0 0 1em;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4 {
@@ -100,10 +104,22 @@ li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4 {
 	background-color: #2683ae;
 	padding: .5em 1em;
 	color: #fff;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
-div.widget-control a.widget-action, div.widget-control a.widget-action:hover {
-	padding: .5em 1em;
+.widget-control-save, .widget-control-remove {
+	padding: 4px 6px;
+	color: #246;
+	background: #cee1ef;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin-right: 8px;
+	float: left;
 }
 
 h4.widget-title a {
@@ -140,6 +156,8 @@ li.widget-list-control-item div.widget-control p {
 ul.widget-control-list div.widget-control-actions {
 	margin-right: -10px; /* Correction for padding, margin, border of inputs */
 	padding: 0 0 1em;
+	border-top: 1px solid #ccc;
+	padding: 0.5em 0 1em 0;
 }
 
 ul.widget-control-list .sorthelper {
