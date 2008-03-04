@@ -156,6 +156,7 @@ if ( is_string($content_func) )
 function media_buttons() {
 	global $post_ID, $temp_ID;
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
+	$context = apply_filters('media_buttons_context', __('Add media: %s'));
 	$media_upload_iframe_src = "media-upload.php?post_id=$uploading_iframe_ID";
 	$media_title = __('Add Media');
 	$image_upload_iframe_src = apply_filters('image_upload_iframe_src', "$media_upload_iframe_src&amp;type=image");
@@ -172,7 +173,7 @@ function media_buttons() {
 	<a href="{$media_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox" title='$media_title'><img src='images/media-button-other.gif' alt='$media_title' /></a>
 
 EOF;
-	echo $out;
+	printf($context, $out);
 }
 add_action( 'media_buttons', 'media_buttons' );
 

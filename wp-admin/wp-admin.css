@@ -563,6 +563,15 @@ p.pagenav {
 	padding-top: 6px;
 }
 
+td.media-icon {
+	vertical-align: middle;
+}
+
+td.media-icon img {
+	max-width: 60px;
+	max-height: 40px;
+}
+
 #update-nag, .plugin-update {
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
