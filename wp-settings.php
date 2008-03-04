@@ -355,9 +355,12 @@ require (ABSPATH . WPINC . '/pluggable.php');
  * In most cases the default internal encoding is latin1, which is of no use,
  * since we want to use the mb_ functions for utf-8 strings
  */
-if ( function_exists('mb_internal_encoding') )
-	mb_internal_encoding( get_option( 'blog_charset' ) );
-
+if (function_exists('mb_internal_encoding')) {
+	if (get_option('blog_charset'))
+		mb_internal_encoding(get_option('blog_charset'));
+	else
+		mb_internal_encoding('UTF-8');
+}
 
 
 if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
