@@ -1,5 +1,6 @@
 var autosaveLast = '';
 var autosavePeriodical;
+var autosaveOldMessage = '';
 
 jQuery(function($) {
 	autosaveLast = $('#post #title').val()+$('#post #content').val();
@@ -17,7 +18,6 @@ jQuery(function($) {
 
 // called when autosaving pre-existing post
 function autosave_saved(response) {
-	var oldMessage = jQuery('#autosave').html();
 	var res = wpAjax.parseAjaxResponse(response, 'autosave'); // parse the ajax response
 	var message = '';
 
@@ -39,7 +39,7 @@ function autosave_saved(response) {
 		}
 	}
 	if ( message ) { jQuery('#autosave').html(message); } // update autosave message
-	else if ( oldMessage && res ) { jQuery('#autosave').html( oldMessage ); }
+	else if ( autosaveOldMessage && res ) { jQuery('#autosave').html( autosaveOldMessage ); }
 	autosave_enable_buttons(); // re-enable disabled form buttons
 	return res;
 }
@@ -179,6 +179,8 @@ var autosave = function() {
 	if ( !doAutoSave ) {
 		post_data['autosave'] = 0;
 	}
+
+	autosaveOldMessage = jQuery('#autosave').html();
 
 	jQuery.ajax({
 		data: post_data,

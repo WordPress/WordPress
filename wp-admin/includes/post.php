@@ -113,6 +113,8 @@ function edit_post() {
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
 
+	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
+
 	return $post_ID;
 }
 
@@ -320,6 +322,8 @@ function wp_write_post() {
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
+
+	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
 
 	return $post_ID;
 }

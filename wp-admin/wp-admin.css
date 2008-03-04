@@ -1215,6 +1215,10 @@ html, body {
 	border-bottom: 1px solid #ccc;
 }
 
+.submitbox #autosave .error {
+	color: #333;
+}
+
 /* Categories */
 
 #categorydiv #category-adder {

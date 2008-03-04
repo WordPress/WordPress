@@ -472,8 +472,6 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	check_ajax_referer( 'autosave', 'autosavenonce' );
 	global $current_user;
 
-	$_POST['post_content'] = $_POST['content'];
-	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_status'] = 'draft';
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
 	$_POST['tags_input'] = explode(",", $_POST['tags_input']);
@@ -521,7 +519,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 				die(__('You are not allowed to edit this post.'));
 		}
 		if ( $do_autosave ) {
-			$id = wp_update_post($_POST);
+			$id = edit_post();
 			$data = $message;
 		} else {
 			$id = $post->ID;
