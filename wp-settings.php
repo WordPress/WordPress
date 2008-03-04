@@ -356,9 +356,7 @@ require (ABSPATH . WPINC . '/pluggable.php');
  * since we want to use the mb_ functions for utf-8 strings
  */
 if (function_exists('mb_internal_encoding')) {
-	if (get_option('blog_charset'))
-		mb_internal_encoding(get_option('blog_charset'));
-	else
+	if (!@mb_internal_encoding(get_option('blog_charset')))
 		mb_internal_encoding('UTF-8');
 }
 
