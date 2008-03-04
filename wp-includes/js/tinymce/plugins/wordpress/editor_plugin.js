@@ -103,26 +103,28 @@
 			t._handleMoreBreak(ed, url);
 			
 			// Add custom shortcuts
-			ed.addShortcut('alt+c', ed.getLang('justifycenter_desc'), 'JustifyCenter');
-			ed.addShortcut('alt+r', ed.getLang('justifyright_desc'), 'JustifyRight');
-			ed.addShortcut('alt+l', ed.getLang('justifyleft_desc'), 'JustifyLeft');
-			ed.addShortcut('alt+j', ed.getLang('justifyfull_desc'), 'JustifyFull');
-			ed.addShortcut('alt+q', ed.getLang('blockquote_desc'), 'mceBlockQuote');
-			
-			ed.addShortcut('alt+u', ed.getLang('bullist_desc'), 'InsertUnorderedList');
-			ed.addShortcut('alt+o', ed.getLang('numlist_desc'), 'InsertOrderedList');
-			ed.addShortcut('alt+k', ed.getLang('striketrough_desc'), 'Striketrough');
-			ed.addShortcut('alt+n', ed.getLang('spellchecker.desc'), 'mceSpellCheck');
-			
-			ed.addShortcut('alt+s', ed.getLang('link_desc'), 'mceLink');
-			ed.addShortcut('alt+d', ed.getLang('unlink_desc'), 'unlink');
-			ed.addShortcut('alt+m', ed.getLang('image_desc'), 'mceImage');
-			ed.addShortcut('alt+g', ed.getLang('fullscreen.desc'), 'mceFullScreen');
-			
-			ed.addShortcut('alt+z', ed.getLang('wp_adv_desc'), 'WP_Adv');
-			ed.addShortcut('alt+x', ed.getLang('help_desc'), 'WP_Help');
-			ed.addShortcut('alt+y', ed.getLang('wp_more_desc'), 'WP_More');
-			ed.addShortcut('alt+p', ed.getLang('wp_page_desc'), 'WP_Page');
+			ed.addShortcut('alt+shift+c', ed.getLang('justifycenter_desc'), 'JustifyCenter');
+			ed.addShortcut('alt+shift+r', ed.getLang('justifyright_desc'), 'JustifyRight');
+			ed.addShortcut('alt+shift+l', ed.getLang('justifyleft_desc'), 'JustifyLeft');
+			ed.addShortcut('alt+shift+j', ed.getLang('justifyfull_desc'), 'JustifyFull');
+			ed.addShortcut('alt+shift+q', ed.getLang('blockquote_desc'), 'mceBlockQuote');
+			ed.addShortcut('alt+shift+u', ed.getLang('bullist_desc'), 'InsertUnorderedList');
+			ed.addShortcut('alt+shift+o', ed.getLang('numlist_desc'), 'InsertOrderedList');
+			ed.addShortcut('alt+shift+d', ed.getLang('striketrough_desc'), 'Strikethrough');
+			ed.addShortcut('alt+shift+n', ed.getLang('spellchecker.desc'), 'mceSpellCheck');
+			ed.addShortcut('alt+shift+a', ed.getLang('link_desc'), 'mceLink');
+			ed.addShortcut('alt+shift+s', ed.getLang('unlink_desc'), 'unlink');
+			ed.addShortcut('alt+shift+m', ed.getLang('image_desc'), 'mceImage');
+			ed.addShortcut('alt+shift+g', ed.getLang('fullscreen.desc'), 'mceFullScreen');
+			ed.addShortcut('alt+shift+z', ed.getLang('wp_adv_desc'), 'WP_Adv');
+			ed.addShortcut('alt+shift+h', ed.getLang('help_desc'), 'WP_Help');
+			ed.addShortcut('alt+shift+t', ed.getLang('wp_more_desc'), 'WP_More');
+			ed.addShortcut('alt+shift+p', ed.getLang('wp_page_desc'), 'WP_Page');
+
+			if ( tinymce.isWebKit ) {
+				ed.addShortcut('alt+shift+b', ed.getLang('bold_desc'), 'Bold');
+				ed.addShortcut('alt+shift+i', ed.getLang('italic_desc'), 'Italic');
+			}
 		},
 
 		getInfo : function() {
@@ -131,7 +133,7 @@
 				author : 'WordPress', // add Moxiecode?
 				authorurl : 'http://wordpress.org',
 				infourl : 'http://wordpress.org',
-				version : '1.0a1'
+				version : '3.0'
 			};
 		},
 

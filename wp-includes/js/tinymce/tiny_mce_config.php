@@ -82,7 +82,7 @@ $plugins = implode($plugins, ',');
 $mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv' ));
 $mce_buttons = implode($mce_buttons, ',');
 
-$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', '|', 'removeformat', 'cleanup', '|', 'media', 'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' ));
+$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|', 'media', 'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' ));
 $mce_buttons_2 = implode($mce_buttons_2, ',');
 
 $mce_buttons_3 = apply_filters('mce_buttons_3', array());
@@ -114,7 +114,7 @@ $initArray = array (
 	'relative_urls' => false,
 	'remove_script_host' => false,
 	'fix_list_elements' => true,
-//	'fix_table_elements' => true,
+	'fix_table_elements' => true,
 	'gecko_spellcheck' => true,
 	'entities' => '38,amp,60,lt,62,gt',
 	'accessibility_focus' => false,
@@ -123,7 +123,7 @@ $initArray = array (
 	'save_callback' => 'switchEditors.saveCallback',
 	'plugins' => "$plugins",
 	// pass-through the settings for compression and caching, so they can be changed with "tiny_mce_before_init"
-	'disk_cache' => false,
+	'disk_cache' => true,
 	'compress' => true,
 	'old_cache_max' => '1' // number of cache files to keep
 );
@@ -141,18 +141,7 @@ do_action('mce_options');
 $mce_deprecated1 = ob_get_contents() || '';
 ob_end_clean();
 
-/*
-// Do we need to support this? Most likely will break TinyMCE 3...
-ob_start();
-do_action('tinymce_before_init');
-$mce_deprecated2 = ob_get_contents() || '';
-ob_end_clean();
-*/
-
 // Settings for the gzip compression and cache
-$cache_path = dirname(__FILE__); // ABSPATH . 'wp-content/uploads/js_cache'; // Cache path, this is where the .gz files will be stored
-$cache_ext = '.js';
-
 $disk_cache = ( ! isset($initArray['disk_cache']) || false == $initArray['disk_cache'] ) ? false : true;
 $compress = ( ! isset($initArray['compress']) || false == $initArray['compress'] ) ? false : true;
 $old_cache_max = ( isset($initArray['old_cache_max']) ) ? (int) $initArray['old_cache_max'] : 0;
@@ -162,6 +151,13 @@ unset( $initArray['disk_cache'], $initArray['compress'], $initArray['old_cache_m
 
 $isIE5 = ( ( $msie = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ) && ( (int) substr( $_SERVER['HTTP_USER_AGENT'], $msie + 5, 3 ) < 6 ) ) ? true : false;
 if ( $isIE5 ) $compress = false;
+
+// Cache path, this is where the .gz files will be stored
+$cache_path = ABSPATH . 'wp-content/uploads/js_cache'; 
+if ( $disk_cache && ! is_dir($cache_path) )
+	$disk_cache = mkdir($cache_path);
+
+$cache_ext = '.js';
 
 $plugins = explode( ',', $initArray['plugins'] );
 $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
@@ -179,7 +175,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 }
 
 // Setup cache info
-if ( $disk_cache && $cache_path ) {
+if ( $disk_cache ) {
 
 	$ver = isset($_GET['ver']) ? (int) $_GET['ver'] : '';
 	$cacheKey = $suffix . $ver;
@@ -231,7 +227,7 @@ foreach ( $plugins as $plugin )
 	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin' . $suffix . '.js' );
 
 // Add external plugins and init 
-$content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});'; // $mce_deprecated2 . 
+$content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});';
 
 // Generate GZIP'd content
 if ( '.gz' == $cache_ext ) {
@@ -243,7 +239,7 @@ if ( '.gz' == $cache_ext ) {
 echo $content;
 
 // Write file
-if ( '' != $cacheKey && $cache_path ) {
+if ( '' != $cacheKey ) {
 	if ( $old_cache_max ) {
 		$keys_file = $cache_path . '/tinymce_compressed' . $cache_ext . '_key';
 		$old_keys = getFileContents($keys_file);
