@@ -48,8 +48,10 @@ class WP_Scripts {
 		) );
 
 		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080221' . mt_rand());
+		if ( ! $autosave_interval = get_option( 'autosave_interval' ) )
+			$autosave_interval = 60;
 		$this->localize( 'autosave', 'autosaveL10n', array(
-			'autosaveInterval' => get_option( 'autosave_interval' ),
+			'autosaveInterval' => $autosave_interval,
 			'previewPageText' => __('View this Page'),
 			'previewPostText' => __('View this Post'),
 			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',

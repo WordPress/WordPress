@@ -725,8 +725,6 @@ function upgrade_250() {
 	if ( $wp_current_db_version < 6689 ) {
 		populate_roles_250();
 	}
-
-	add_option('autosave_interval', 60);
 }
 
 // The functions we use to actually do stuff
