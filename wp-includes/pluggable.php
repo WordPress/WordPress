@@ -1177,7 +1177,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  * Retrieve the avatar for a user provided a user ID or email address
  *
  * @since 2.5
- * @param int|string $id_or_email A user ID or email address
+ * @param int|string|object $id_or_email A user ID,  email address, or comment object
  * @param int $size Size of the avatar image
  * @param string $default URL to a default image to use if no avatar is available
  * @return string <img> tag for the user's avatar
