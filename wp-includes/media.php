@@ -235,7 +235,7 @@ function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_p
 function image_make_intermediate_size($file, $width, $height, $crop=false) {
 	if ( $width || $height ) {
 		$resized_file = image_resize($file, $width, $height, $crop);
-		if ( $resized_file && $info = getimagesize($resized_file) ) {
+		if ( !is_wp_error($resized_file) && $resized_file && $info = getimagesize($resized_file) ) {
 			return array(
 				'file' => basename( $resized_file ),
 				'width' => $info[0],
