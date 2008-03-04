@@ -62,9 +62,9 @@ class WP_Filesystem_FTPext{
 
 	function connect(){
 		if ( $this->options['ssl'] && function_exists('ftp_ssl_connect') ) {
-			$this->link = ftp_ssl_connect($this->options['hostname'], $this->options['port'],$this->timeout);
+			$this->link = @ftp_ssl_connect($this->options['hostname'], $this->options['port'],$this->timeout);
 		} else {
-			$this->link = ftp_connect($this->options['hostname'], $this->options['port'],$this->timeout);
+			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'],$this->timeout);
 		}
 
 		if ( ! $this->link ) {
@@ -72,7 +72,7 @@ class WP_Filesystem_FTPext{
 			return false;
 		}
 
-		if ( ! ftp_login($this->link,$this->options['username'], $this->options['password']) ) {
+		if ( ! @ftp_login($this->link,$this->options['username'], $this->options['password']) ) {
 			$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
 			return false;
 		}
@@ -119,9 +119,9 @@ class WP_Filesystem_FTPext{
 		//If we get this far, somethings gone wrong, change to / and restart the process.
 		return $this->find_base_dir('/',$echo);
 	}
-	function get_base_dir($base = '.'){
+	function get_base_dir($base = '.', $echo=false){
 		if( empty($this->wp_base) )
-			$this->wp_base = $this->find_base_dir($base);
+			$this->wp_base = $this->find_base_dir($base,$echo);
 		return $this->wp_base;
 	}
 	function get_contents($file,$type='',$resumepos=0){
@@ -298,7 +298,8 @@ class WP_Filesystem_FTPext{
 	}
 	function is_dir($path){
 		$cwd = $this->cwd();
-		if ( @ftp_chdir($this->link, $path) ) {
+		@ftp_chdir($this->link, $path);
+		if ( $this->cwd() != $cwd ) {
 			@ftp_chdir($this->link, $cwd);
 			return true;
 		}
@@ -325,7 +326,7 @@ class WP_Filesystem_FTPext{
 		return false;
 	}
 	function mkdir($path,$chmod=false,$chown=false,$chgrp=false){
-		if( !ftp_mkdir($this->link, $path) )
+		if( !@ftp_mkdir($this->link, $path) )
 			return false;
 		if( $chmod )
 			$this->chmod($path, $chmod);
@@ -337,7 +338,7 @@ class WP_Filesystem_FTPext{
 	}
 	function rmdir($path,$recursive=false){
 		if( ! $recursive )
-			return ftp_rmdir($this->link, $file);
+			return @ftp_rmdir($this->link, $file);
 
 		//TODO: Recursive Directory delete, Have to delete files from the folder first.
 		//$dir = $this->dirlist($path);

@@ -140,6 +140,9 @@ function wp_update_plugin($plugin, $feedback = '') {
 	if ( $wp_filesystem->errors->get_error_code() )
 		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
 
+	//Get the Base folder
+	$base = $wp_filesystem->get_base_dir();
+
 	// Get the URL to the zip file
 	$r = $current->response[ $plugin ];
 
@@ -148,14 +151,14 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	// Download the package
 	$package = $r->package;
-	apply_filters('update_feedback', __("Downloading update from $package"));
+	apply_filters('update_feedback', sprintf(__("Downloading update from %s"), $package));
 	$file = download_url($package);
 
 	if ( !$file )
 		return new WP_Error('download_failed', __('Download failed.'));
 
 	$name = basename($plugin, '.php');
-	$working_dir = ABSPATH . 'wp-content/upgrade/' . $name;
+	$working_dir = $base . 'wp-content/upgrade/' . $name;
 
 	// Clean up working directory
 	if ( is_dir($working_dir) )
@@ -175,12 +178,13 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	// Remove the existing plugin.
 	apply_filters('update_feedback', __("Removing the old version of the plugin"));
-	$plugin_dir = dirname(ABSPATH . PLUGINDIR . "/$plugin");
+	$plugin_dir = dirname($base . PLUGINDIR . "/$plugin");
+	$plugin_dir = trailingslashit($plugin_dir);
 	// If plugin is in its own directory, recursively delete the directory.
-	if ( '.' != $plugin_dir && ABSPATH . PLUGINDIR != $plugin_dir )
+	if ( '.' != $plugin_dir && $base . PLUGINDIR != $plugin_dir )
 		$deleted = $wp_filesystem->delete($plugin_dir, true);
 	else
-		$deleted = $wp_filesystem->delete(ABSPATH . PLUGINDIR . "/$plugin");
+		$deleted = $wp_filesystem->delete($base . PLUGINDIR . "/$plugin");
 	if ( !$deleted ) {
 		$wp_filesystem->delete($working_dir, true);
 		return new WP_Error('delete_failed', __('Could not remove the old plugin'));
@@ -188,7 +192,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	apply_filters('update_feedback', __("Installing the latest version"));
 	// Copy new version of plugin into place.
-	if ( !copy_dir($working_dir, ABSPATH . PLUGINDIR) ) {
+	if ( !copy_dir($working_dir, $base . PLUGINDIR) ) {
 		//$wp_filesystem->delete($working_dir, true);
 		return new WP_Error('install_failed', __('Installation failed'));
 	}

@@ -122,9 +122,9 @@ class WP_Filesystem_ftpsockets{
 		return $this->find_base_dir('/',$echo);
 	}
 
-	function get_base_dir($base = '.'){
+	function get_base_dir($base = '.', $echo = false){
 		if( empty($this->wp_base) )
-			$this->wp_base = $this->find_base_dir($base);
+			$this->wp_base = $this->find_base_dir($base, $echo);
 		return $this->wp_base;
 	}
 

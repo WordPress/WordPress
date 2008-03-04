@@ -13,11 +13,11 @@ class WP_Filesystem_Direct{
 	function setDefaultPermissions($perm){
 		$this->permission = $perm;
 	}
-	function find_base_dir($base = '.'){
+	function find_base_dir($base = '.', $echo = false){
 		return str_replace('\\','/',ABSPATH);
 	}
-	function get_base_dir($base = '.'){
-		return str_replace('\\','/',ABSPATH);
+	function get_base_dir($base = '.', $echo = false){
+		return find_base_dir($base, $echo);
 	}
 	function get_contents($file){
 		return @file_get_contents($file);
