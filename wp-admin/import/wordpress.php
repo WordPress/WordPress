@@ -338,6 +338,8 @@ class WP_Import {
 		$post_ID = (int) $this->get_tag( $post, 'wp:post_id' );
   		if ( $post_ID && !empty($this->post_ids_processed[$post_ID]) ) // Processed already
 			return 0;
+		
+		set_time_limit( 60 );
 
 		// There are only ever one of these
 		$post_title     = $this->get_tag( $post, 'title' );
