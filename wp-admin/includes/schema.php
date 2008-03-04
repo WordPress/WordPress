@@ -247,8 +247,8 @@ function populate_options() {
 	add_option('thumbnail_size_w', 150);
 	add_option('thumbnail_size_h', 150);
 	add_option('thumbnail_crop', 1);
-	add_option('medium_size_w', '');
-	add_option('medium_size_h', '');
+	add_option('medium_size_w', 300);
+	add_option('medium_size_h', 300);
 	add_option('autosave_interval', 60);
 
 	// Delete unused options

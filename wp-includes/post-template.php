@@ -362,10 +362,34 @@ function walk_page_dropdown_tree() {
 // Attachments
 //
 
-function the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
-	echo get_the_attachment_link($id, $fullsize, $max_dims, $permalink);
+function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $permalink = false) {
+	if ( $fullsize )
+		echo wp_get_attachment_link($id, 'full', $permalink);
+	else
+		echo wp_get_attachment_link($id, 'thumbnail', $permalink);
 }
 
+// get an attachment page link using an image or icon if possible
+function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false) {
+	$_post = & get_post( intval($id) );
+
+	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url($_post->ID) )
+		return __('Missing Attachment');
+
+	if ( $permalink )
+		$url = get_attachment_link($_post->ID);
+
+	$post_title = attribute_escape($_post->post_title);
+
+	$link_text = wp_get_attachment_image($attachment_id, $size);
+	if ( !$link_text )
+		$link_text = $_post->post_title;
+
+	return "<a href='$url' title='$post_title'>$link_text</a>";
+
+}
+
+// deprecated - use wp_get_attachment_link()
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
 	$id = (int) $id;
 	$_post = & get_post($id);
@@ -382,6 +406,8 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 	return "<a href='$url' title='$post_title'>$innerHTML</a>";
 }
 
+
+// deprecated: use wp_get_attachment_image_src()
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
@@ -413,11 +439,12 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	return array($src, $src_file);
 }
 
+// deprecated: use wp_get_attachment_image()
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
 		return false;
-
+		
 	if ( !$src = get_attachment_icon_src( $post->ID, $fullsize ) )
 		return false;
 
@@ -456,6 +483,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	return apply_filters( 'attachment_icon', $icon, $post->ID );
 }
 
+// deprecated: use wp_get_attachment_image()
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
@@ -472,7 +500,8 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 
 function prepend_attachment($content) {
 	$p = '<p class="attachment">';
-	$p .= get_the_attachment_link(false, true, array(400, 300));
+	// show the medium sized image representation of the attachment if available, and link to the raw file
+	$p .= wp_get_attachment_link(0, 'medium', false);
 	$p .= '</p>';
 	$p = apply_filters('prepend_attachment', $p);
 

@@ -18,18 +18,16 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 		$max_width = intval(get_option('medium_size_w'));
 		$max_height = intval(get_option('medium_size_h'));
 		// if no width is set, default to the theme content width if available
-		if ( !$max_width ) {
-			// $content_width might be set in the current theme's functions.php
-			if ( !empty($GLOBALS['content_width']) ) {
-				$max_width = $GLOBALS['content_width'];
-			}
-			else
-				$max_width = 500;
-		}
 	}
 	else { // $size == 'full'
-		$max_width = 0;
-		$max_height = 0;
+		// we're inserting a full size image into the editor.  if it's a really big image we'll scale it down to fit reasonably
+		// within the editor itself, and within the theme's content width if it's known.  the user can resize it in the editor
+		// if they wish.
+		if ( !empty($GLOBALS['content_width']) ) {
+			$max_width = $GLOBALS['content_width'];
+		}
+		else
+			$max_width = 500;
 	}
 
 	list( $max_width, $max_height ) = apply_filters( 'editor_max_image_size', array( $max_width, $max_height ), $size );
@@ -258,5 +256,38 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 	return $imagedata['sizes'][$size];
 }
 
+// get an image to represent an attachment - a mime icon for files, thumbnail or intermediate size for images
+// returns an array (url, width, height), or false if no image is available
+function wp_get_attachment_image_src($attachment_id, $size='thumbnail') {
+	
+	// get a thumbnail or intermediate image if there is one
+	$image = image_downsize($attachment_id, $size);
+	if ( $image ) {
+		list ( $src, $width, $height ) = $image;
+	}
+	elseif ( $src = wp_mime_type_icon($attachment_id) ) {
+		$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
+		$src_file = $icon_dir . '/' . basename($src);
+		@list($width, $height) = getimagesize($src_file);
+	}
+	
+	if ( $src && $width && $height )
+		return array( $src, $width, $height );
+	return false;
+}
+
+// as per wp_get_attachment_image_src, but returns an <img> tag
+function wp_get_attachment_image($attachment_id, $size='thumbnail') {
+
+	$html = '';
+	$image = wp_get_attachment_image_src($attachment_id, $size);
+	if ( $image ) {
+		list($src, $width, $height) = $image;
+		$hwstring = image_hwstring($width, $height);
+		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" />';
+	}
+	
+	return $html;
+}
 
 ?>
