@@ -155,7 +155,7 @@ if ( $isIE5 ) $compress = false;
 // Cache path, this is where the .gz files will be stored
 $cache_path = ABSPATH . 'wp-content/uploads/js_cache'; 
 if ( $disk_cache && ! is_dir($cache_path) )
-	$disk_cache = mkdir($cache_path);
+	$disk_cache = wp_mkdir_p($cache_path);
 
 $cache_ext = '.js';
 
