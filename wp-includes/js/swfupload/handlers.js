@@ -11,8 +11,13 @@ function fileDialogStart() {
 function fileQueued(fileObj) {
 	// Get rid of unused form
 	jQuery('.media-blank').remove();
+	// Collapse a single item
+	if ( jQuery('.type-form #media-items>*').length == 1 && jQuery('#media-items .hidden').length > 0 ) {
+		jQuery('.toggle').toggle();
+		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
+	}
 	// Create a progress bar containing the filename
-	jQuery('#media-items').prepend('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><span class="filename original">' + fileObj.name + '</span><div class="progress"><div class="bar"></div></div></div>');
+	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="filename original">' + fileObj.name + '</div><div class="progress"><div class="bar"></div></div></div>');
 
 	// Disable the submit button
 	jQuery('#insert-media').attr('disabled', 'disabled');
@@ -76,8 +81,6 @@ function updateMediaForm() {
 	if ( jQuery('.type-form #media-items>*').length == 1 ) {
 		jQuery('#media-items .slidetoggle').slideDown(500).parent().eq(0).children('.toggle').toggle();
 		jQuery('.type-form .slidetoggle').siblings().addClass('hidden');
-	} else {
-		jQuery('.type-form .slidetoggle').siblings().removeClass('hidden');
 	}
 
 	// Only show Gallery button when there are at least two files.
@@ -117,7 +120,7 @@ function wpQueueError(message) {
 
 // file-specific message
 function wpFileError(fileObj, message) {
-	jQuery('#media-item-' + fileObj.id + ' .filename').append('<span class="file-error">'+message+'</span> <button type="button" class="button dismiss">'+swfuploadL10n.dismiss+'</button>');
+	jQuery('#media-item-' + fileObj.id + ' .filename').after('<div class="file-error"><button type="button" class="button dismiss">'+swfuploadL10n.dismiss+'</button>'+message+'</div>').siblings('.progress').remove();
 	jQuery('.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
 }
 

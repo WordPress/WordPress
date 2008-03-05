@@ -1,17 +1,18 @@
 div#media-upload-header {
 	background-color: #e4f2fd;
 	margin: 0;
-	padding: 1em 0.5em 0 0.5em;
+	padding: 0 5px;
 	font-weight: bold;
 	position: relative;
 	border-bottom: 1px solid #c6d9e9;
+	height: 2.5em;
 }
 
 ul#sidemenu {
 	font-weight: normal;
-	margin: 0 15px;
+	margin: 0 5px;
 	position: absolute;
-	right: 1em;
+	left: 0px;
 	bottom: -1px;
 }
 
@@ -19,12 +20,6 @@ div#media-upload-error {
 	margin: 1em;
 	font-weight: bold;
 	color: #f00;
-}
-
-.file-error {
-	font-weight: bold;
-	color: #f00;
-	margin: 0 15px;
 }
 
 form {
@@ -59,24 +54,7 @@ form {
 	margin: 0 0 1em 0;
 	padding: 0;
 }
-/*
-.media-upload-form button.button-ok {
-	float: right;
-	background-color: #ebebeb;
-	color: #1f4569;
-	border: none;
-	padding: 0.5em;
-}
 
-.media-upload-form a.button-cancel {
-	float: right;
-	background-color: #fff;
-	color: #9a9a9a;
-	font-size: 0.8em;
-	text-decoration: underline;
-	margin: 0.5em 1em;
-}
-*/
 /* specific to the image upload form */
 .align .field label {
 	display: inline;
@@ -128,21 +106,35 @@ tr.image-size td.field {
 	border-bottom: 1px solid #d0d0d0;
 	width: 623px;
 	position: relative;
+	min-height: 36px;
 }
-span.filename {
-	position: absolute;
-	left: 46px;
-	top: 0px;
+.filename {
 	line-height: 36px;
+	margin-left: 50px;
 	z-index: 2;
 }
+button.dismiss {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	z-index: 4;
+}
+.file-error {
+	margin: 0 0 5px 50px;
+	font-weight: bold;
+	color: #f00;
+}
+
 .progress {
+	position: absolute;
+	top: 0px;
+	left: 0px;
 	width: 623px;
 	height: 36px;
 }
 .bar {
 	width: 0px;
-	height: 36px;
+	height: 100%;
 	background-color: #e8e8e8;
 	border-right: 3px solid #99d;
 }
@@ -161,6 +153,7 @@ span.filename {
 	border-top: 1px solid #d0d0d0;
 	padding: 5px;
 	width: 100%;
+	clear: both;
 }
 .describe.startopen, .describe.startclosed {
 	display: none;
@@ -201,7 +194,8 @@ span.filename {
 	left: 0px;
 	cursor: pointer;
 	border: none;
-	z-index: 10;
+	z-index: 3;
+	height: 36px;
 }
 tr.align td.field {
 	text-align: center;

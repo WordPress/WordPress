@@ -270,7 +270,7 @@ function media_upload_image() {
 		$alt = attribute_escape($_POST['insertonly']['alt']);
 		if ( isset($_POST['insertonly']['align']) ) {
 			$align = attribute_escape($_POST['insertonly']['align']);
-			$class = " class='align-$align'";
+			$class = " class='align$align'";
 		}
 		$html = "<img src='$src' alt='$alt'$class />";
 		return media_send_to_editor($html);
@@ -602,7 +602,7 @@ function get_media_items( $post_id, $errors ) {
 
 	foreach ( $attachments as $id => $attachment )
 		if ( $item = get_media_item($id, isset($errors[$id]) ? $errors[$id] : null) )
-			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div id='media-upload-error-$id'></div><span class='filename'></span><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
+			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div id='media-upload-error-$id'></div><div class='filename'></div><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
 
 	return $output;
 }
@@ -645,7 +645,7 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 	$type
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>
-	<span class='filename new'>$filename</span>
+	<div class='filename new'>$filename</div>
 	<table class='slidetoggle describe $class'><tbody>
 		<tr>
 			<td class='A1B1' rowspan='4' colspan='2'><img class='thumbnail' src='$thumb_url' alt='' /></td>
@@ -730,13 +730,10 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 	return $item;
 }
 
-function media_upload_header($title = false) {
-	if ( empty($title) )
-		$title = __('Choose a File');
+function media_upload_header() {
 	?>
 	<script type="text/javascript">post_id = <?php echo intval($_REQUEST['post_id']); ?>;</script>
 	<div id="media-upload-header">
-	<h3><?php echo $title ?></h3>
 	<?php the_media_upload_tabs(); ?>
 	</div>
 	<?php
@@ -856,7 +853,7 @@ jQuery(function($){
 }
 
 function media_upload_gallery_form($errors) {
-	media_upload_header(__('Browse attached files'));
+	media_upload_header();
 
 	$post_id = intval($_REQUEST['post_id']);
 
@@ -894,7 +891,7 @@ jQuery(function($){
 function media_upload_library_form($errors) {
 	global $wpdb, $wp_query, $wp_locale, $type, $tab, $post_mime_types;
 
-	media_upload_header(__('Browse Media Library'));
+	media_upload_header();
 
 	$post_id = intval($_REQUEST['post_id']);
 
