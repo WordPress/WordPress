@@ -725,13 +725,9 @@ function sanitize_post($post, $context = 'display') {
 	if ( 'raw' == $context )
 		return $post;
 	if ( is_object($post) ) {
-		if ( !isset($post->ID) )
-			return $post;
 		foreach ( array_keys(get_object_vars($post)) as $field )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
 	} else {
-		if ( !isset($post['ID']) )
-			return $post;
 		foreach ( array_keys($post) as $field )
 			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
 	}
