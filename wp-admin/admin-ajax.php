@@ -571,7 +571,9 @@ break;
 case 'sample-permalink':
 	check_ajax_referer( 'samplepermalink', 'samplepermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
-	die(get_sample_permalink_html($post_id, $_POST['new_title'], $_POST['new_slug']));
+	$title = isset($_POST['new_title'])? $_POST['new_title'] : '';
+	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : '';
+	die(get_sample_permalink_html($post_id, $title, $slug));
 break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );

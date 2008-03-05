@@ -92,6 +92,7 @@ function autosave_update_slug(post_id) {
 			{
 				action: 'sample-permalink',
 				post_id: post_id,
+				new_title: jQuery('#title').val(), 
 				samplepermalinknonce: jQuery('#samplepermalinknonce').val()
 			},
 			function(data) {

@@ -581,7 +581,7 @@ function postbox_classes( $id, $page ) {
 	}
 }
 
-function get_sample_permalink($id, $title, $name = null) {
+function get_sample_permalink($id, $title=null, $name = null) {
 	$post = &get_post($id);
 	if (!$post->ID) {
 		return array('', '');
@@ -589,17 +589,19 @@ function get_sample_permalink($id, $title, $name = null) {
 	$original_status = $post->post_status;
 	$original_date = $post->post_date;
 	$original_name = $post->post_name;
-	$original_title = $post->post_title;
 
-	$post->post_title = $title;
-	$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
-
+	// Hack: get_permalink would return ugly permalink for
+	// drafts, so we will fake, that our post is published
 	if (in_array($post->post_status, array('draft', 'pending'))) {
 		$post->post_status = 'publish';
 		$post->post_date = date('Y-m-d H:i:s');
+		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID); 
 	}
+
+	// If the user wants to set a new name -- override the current one
+	// Note: if empty name is supplied -- use the title instead, see #6072
 	if (!is_null($name)) {
-		$post->post_name = sanitize_title($name? $name : $post->post_title, $post->ID);
+		$post->post_name = sanitize_title($name? $name : $title, $post->ID);
 	}
 
 	$permalink = get_permalink($post, true);
