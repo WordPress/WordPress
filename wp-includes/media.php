@@ -290,4 +290,53 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail') {
 	return $html;
 }
 
+
+add_shortcode('gallery', 'gallery_shortcode');
+
+function gallery_shortcode($attr) {
+	global $post;
+
+	// Allow plugins/themes to override the default gallery template.
+	$output = apply_filters('post_gallery', '', $attr);
+	if ( $output != '' )
+		return $output;
+
+	$attachments = get_children("post_parent=$post->ID&post_type=attachment&post_mime_type=image&orderby=\"menu_order ASC, ID ASC\"");
+
+	if ( empty($attachments) )
+		return '';
+
+	$output = apply_filters('gallery_style', "
+		<style type='text/css'>
+			.gallery {
+				margin: auto;
+			}
+			.gallery div {
+				float: left;
+				margin-top: 10px;
+				text-align: center;
+				width: 33%;			}
+			.gallery img {
+				border: 2px solid #cfcfcf;
+			}
+		</style>
+		<div class='gallery'>");
+
+	foreach ( $attachments as $id => $attachment ) {
+		$link = get_the_attachment_link($id, false, array(128, 96), true);
+		$output .= "
+			<div>
+				$link
+			</div>";
+		if ( ++$i % 3 == 0 )
+			$output .= '<br style="clear: both" />';
+	}
+
+	$output .= "
+			<br style='clear: both;' >
+		</div>\n";
+
+	return $output;
+}
+
 ?>

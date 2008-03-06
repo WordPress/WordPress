@@ -128,64 +128,6 @@ function shortcode_atts($pairs, $atts) {
 	return $out;
 }
 
-add_shortcode('gallery', 'gallery_shortcode');
-
-function gallery_shortcode($attr) {
-	global $post;
-
-	// Allow plugins/themes to override the default gallery template.
-	$output = apply_filters('post_gallery', '', $attr);
-	if ( $output != '' )
-		return $output;
-
-	$attachments = get_children("post_parent=$post->ID&post_type=attachment&orderby=\"menu_order ASC, ID ASC\"");
-/*
-	foreach ( $attachments as $id => $attachment ) {
-		$meta = get_post_custom($id);
-		if ( $meta ) foreach ( $meta as $k => $v )
-			$attachments[$id]->$k = $v;
-		if ( isset($attachments[$id]->_wp_attachment_metadata[0]) )
-			$attachments[$id]->meta = unserialize($attachments[$id]->_wp_attachment_metadata[0]);
-	}
-*/
-
-	$output = "
-		<style type='text/css'>
-			.gallery {
-				margin: auto;
-			}
-			.gallery div {
-				float: left;
-				margin-top: 10px;
-				text-align: center;
-				width: 33%;			}
-			.gallery img {
-				border: 2px solid #cfcfcf;
-			}
-		</style>
-		<div class='gallery'>
-";
-
-	if ( !empty($attachments) ) foreach ( $attachments as $id => $attachment ) {
-		$src = wp_get_attachment_thumb_url($id);
-		$href = get_attachment_link($id);
-		$output .= "
-			<div>
-				<a href='$href'><img src='$src' alt='$attachment->post_title' /></a>
-			</div>
-";
-		if ( ++$i % 3 == 0 )
-			$output .= '<br style="clear: both" />';
-	}
-
-	$output .= "
-			<br style='clear: both;' >
-		</div>
-";
-
-	return $output;
-}
-
 add_filter('the_content', 'do_shortcode');
 
 ?>

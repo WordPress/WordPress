@@ -20,7 +20,7 @@ function fileQueued(fileObj) {
 	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="filename original">' + fileObj.name + '</div><div class="progress"><div class="bar"></div></div></div>');
 
 	// Disable the submit button
-	jQuery('#insert-media').attr('disabled', 'disabled');
+	jQuery('#insert-gallery').attr('disabled', 'disabled');
 }
 
 function uploadStart(fileObj) { return true; }
@@ -107,7 +107,7 @@ function uploadSuccess(fileObj, serverData) {
 function uploadComplete(fileObj) {
 	// If no more uploads queued, enable the submit button
 	if ( swfu.getStats().files_queued == 0 )
-		jQuery('#insert-media').attr('disabled', '');
+		jQuery('#insert-gallery').attr('disabled', '');
 }
 
 

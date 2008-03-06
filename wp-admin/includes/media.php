@@ -53,10 +53,9 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	$html = get_image_tag($id, $alt, $title, $align, $rel, $size);
 
 	$rel = $rel ? ' rel="attachment wp-att-'.attribute_escape($id).'"' : '';
+
 	if ( $url )
 		$html = "<a href='".attribute_escape($url)."'$rel>$html</a>";
-	elseif ( $size == 'thumbnail' || $size == 'medium' )
-		$html = '<a href="'.get_attachment_link($id).'"'.$rel.'>'.$html.'</a>';
 
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
 
@@ -238,14 +237,17 @@ function media_upload_form_handler() {
 				wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[$t])), $t, false);
 	}
 
-	if ( isset($_POST['insert-media']) )
+	if ( isset($_POST['insert-gallery']) )
 		return media_send_to_editor('[gallery]');
 
 	if ( isset($_POST['send']) ) {
 		$keys = array_keys($_POST['send']);
 		$send_id = (int) array_shift($keys);
 		$attachment = $_POST['attachments'][$send_id];
-		$html = apply_filters('media_send_to_editor', get_the_attachment_link($send_id, 0, array(125,125), !empty($attachment['post_content'])), $send_id, $attachment);
+		$html = $attachment['post_title'];
+		if ( !empty($attachment['url']) )
+			$html = "<a href='{$attachment['url']}'>$html</a>";
+		$html = apply_filters('media_send_to_editor', $html, $send_id, $attachment);
 		return media_send_to_editor($html);
 	}
 
@@ -881,7 +883,7 @@ jQuery(function($){
 <?php echo get_media_items($post_id, $errors); ?>
 </div>
 <p class="submit">
-	<input type="submit" class="submit insert-gallery" name="insert-media" value="<?php _e('Insert gallery into post'); ?>" />
+	<input type="submit" class="submit insert-gallery" name="insert-gallery" value="<?php _e('Insert gallery into post'); ?>" />
 </p>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
 </form>

@@ -381,7 +381,7 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 
 	$post_title = attribute_escape($_post->post_title);
 
-	$link_text = wp_get_attachment_image($attachment_id, $size);
+	$link_text = wp_get_attachment_image($id, $size);
 	if ( !$link_text )
 		$link_text = $_post->post_title;
 

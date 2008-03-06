@@ -4,7 +4,7 @@ function send_to_editor(h) {
 	if ( !win )
 		win = top;
 	tinyMCE = win.tinyMCE;
-	if ( typeof tinyMCE != 'undefined' && tinyMCE.getInstanceById('content') ) {
+	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.getInstanceById('content') ) && !ed.isHidden() ) {
 		tinyMCE.selectedInstance.getWin().focus();
 		tinyMCE.execCommand('mceInsertContent', false, h);
 	} else

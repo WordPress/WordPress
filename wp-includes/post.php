@@ -471,6 +471,7 @@ function get_posts($args) {
 	$query .= empty( $post_parent ) ? '' : $wpdb->prepare("AND $wpdb->posts.post_parent = %d ", $post_parent);
 	// expected_slashed ($meta_key, $meta_value) -- Also, this looks really funky, doesn't seem like it works
 	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )";
+	$query .= empty( $post_mime_type ) ? '' : wp_post_mime_type_where($post_mime_type);
 	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . ' ' . $order;
 	if ( 0 < $numberposts )
 		$query .= $wpdb->prepare(" LIMIT %d,%d", $offset, $numberposts);

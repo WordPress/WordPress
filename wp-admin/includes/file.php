@@ -159,6 +159,9 @@ function wp_handle_upload( &$file, $overrides = false ) {
 
 		if ( !$ext )
 			$ext = ltrim(strrchr($file['name'], '.'), '.');
+
+		if ( !$type )
+			$type = $file['type'];
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
