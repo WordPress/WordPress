@@ -929,6 +929,8 @@ $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_po
 foreach ( $matches as $type => $reals )
 	foreach ( $reals as $real )
 		$num_posts[$type] += $_num_posts[$real];
+$class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
+$type_links[] = "<li><a href='" . remove_query_arg(array('post_mime_type', 'paged', 'm')) . "'$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
@@ -940,8 +942,6 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 
 	$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false)) . "'$class>" . sprintf($label[2], "<span id='$mime_type-counter'>{$num_posts[$mime_type]}</span>") . '</a>';
 }
-$class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
-$type_links[] = "<li><a href='" . remove_query_arg(array('post_mime_type', 'paged', 'm')) . "'$class>".__('All Types')."</a>";
 echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);
 ?>

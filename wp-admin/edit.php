@@ -82,6 +82,8 @@ if ( is_single() ) {
 <?php
 $status_links = array();
 $num_posts = wp_count_posts('post', 'readable');
+$class = empty($_GET['post_status']) ? ' class="current"' : '';
+$status_links[] = "<li><a href=\"edit.php\"$class>".__('All Posts')."</a>";
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
@@ -96,8 +98,6 @@ foreach ( $post_stati as $status => $label ) {
 	$status_links[] = "<li><a href=\"edit.php?post_status=$status\"$class>" .
 	sprintf($label[2], $num_posts->$status) . '</a>';
 }
-$class = empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit.php\"$class>".__('All Posts')."</a>";
 echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
 ?>

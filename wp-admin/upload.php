@@ -88,6 +88,8 @@ $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_po
 foreach ( $matches as $type => $reals )
 	foreach ( $reals as $real )
 		$num_posts[$type] += $_num_posts[$real];
+$class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
+$type_links[] = "<li><a href=\"upload.php\"$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
@@ -100,8 +102,6 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	$type_links[] = "<li><a href=\"upload.php?post_mime_type=$mime_type\"$class>" .
 	sprintf($label[2], $num_posts[$mime_type]) . '</a>';
 }
-$class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
-$type_links[] = "<li><a href=\"upload.php\"$class>".__('All Types')."</a>";
 echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);
 ?>

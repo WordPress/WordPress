@@ -98,6 +98,8 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 $status_links = array();
 $num_comments = wp_count_comments();
 $stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), "<span class='comment-count'>$num_comments->moderated</span>"), 'approved' => __('Approved'));
+$class = ( '' === $comment_status ) ? ' class="current"' : '';
+$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('All Comments')."</a>";
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
@@ -106,8 +108,6 @@ foreach ( $stati as $status => $label ) {
 
 	$status_links[] = "<li><a href=\"edit-comments.php?comment_status=$status\"$class>" . $label . '</a>';
 }
-$class = ( '' === $comment_status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('All Comments')."</a>";
 echo implode(' | </li>', $status_links) . '</li>';
 unset($status_links);
 ?>

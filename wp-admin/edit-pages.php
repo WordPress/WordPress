@@ -75,6 +75,8 @@ $avail_post_stati = get_available_post_statuses('page');
 
 $status_links = array();
 $num_posts = wp_count_posts('page', 'readable');
+$class = empty($_GET['post_status']) ? ' class="current"' : '';
+$status_links[] = "<li><a href=\"edit-pages.php\"$class>".__('All Pages')."</a>";
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
@@ -87,8 +89,6 @@ foreach ( $post_stati as $status => $label ) {
 	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
 	sprintf($label[2], $num_posts->$status) . '</a>';
 }
-$class = empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit-pages.php\"$class>".__('All Pages')."</a>";
 echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
 ?>

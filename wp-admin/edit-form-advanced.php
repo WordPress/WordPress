@@ -259,7 +259,7 @@ if (current_user_can('upload_files') && false) {
 <h2><?php _e('Advanced Options'); ?></h2>
 
 <div id="postexcerpt" class="postbox <?php echo postbox_classes('postexcerpt', 'post'); ?>">
-<h3><?php _e('Optional Excerpt') ?></h3>
+<h3><?php _e('Excerpt') ?></h3>
 <div class="inside"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
 </div>
 
