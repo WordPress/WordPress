@@ -48,15 +48,6 @@ class WP_Scripts {
 		) );
 
 		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080221' . mt_rand());
-		if ( ! $autosave_interval = get_option( 'autosave_interval' ) )
-			$autosave_interval = 60;
-		$this->localize( 'autosave', 'autosaveL10n', array(
-			'autosaveInterval' => $autosave_interval,
-			'previewPageText' => __('View this Page'),
-			'previewPostText' => __('View this Post'),
-			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
-			'savingText' => __('Saving Draft&#8230;')
-		) );
 
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
 		$this->localize( 'wp-ajax', 'WPAjaxL10n', array(
@@ -487,6 +478,13 @@ function wp_prototype_before_jquery( $js_array ) {
 // These localizations require information that may not be loaded even by init
 function wp_just_in_time_script_localization() {
 	wp_localize_script( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
+	wp_localize_script( 'autosave', 'autosaveL10n', array(
+		'autosaveInterval' => AUTOSAVE_INTERVAL,
+		'previewPageText' => __('View this Page'),
+		'previewPostText' => __('View this Post'),
+		'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+		'savingText' => __('Saving Draft&#8230;')
+	) );
 }
 
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );

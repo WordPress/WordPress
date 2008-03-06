@@ -18,7 +18,7 @@ function edit_post() {
 		$post =& get_post( $post_ID );
 		$now = time();
 		$then = strtotime($post->post_date_gmt . ' +0000');
-		$delta = get_option( 'autosave_interval' ) / 2;
+		$delta = AUTOSAVE_INTERVAL / 2;
 		if ( ($now - $then) < $delta )
 			return $post_ID;
 	}
@@ -654,7 +654,7 @@ function wp_check_post_lock( $post_id ) {
 	$lock = get_post_meta( $post->ID, '_edit_lock', true );
 	$last = get_post_meta( $post->ID, '_edit_last', true );
 
-	$time_window = apply_filters( 'wp_check_post_lock_window', get_option( 'autosave_interval' ) * 2 );
+	$time_window = apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 );
 
 	if ( $lock && $lock > time() - $time_window && $last != $current_user->ID )
 		return $last;
