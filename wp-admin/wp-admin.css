@@ -650,6 +650,10 @@ a.view-comment-post-link {
 	background: #e4f2fd;
 }
 
+#wphead a, #user_info a, #dashmenu a, #adminmenu a, #submenu a, #sidemenu a {
+	text-decoration: none;
+}
+
 #wphead #viewsite {
 	position: absolute;
 	margin-top: 8px;

@@ -1,6 +1,6 @@
 /* styles for use by people extending the WordPress interface */
 
-a { color: #2583ad; text-decoration: none; }
+a { color: #2583ad; }
 
 a:hover, .subsubsub a:hover, .subsubsub a.current:hover { color: #d54e21; }
 
