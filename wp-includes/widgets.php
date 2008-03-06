@@ -608,7 +608,8 @@ function wp_widget_text_control($widget_args) {
 		foreach ( $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_text' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				unset($options[$widget_number]);
+				if ( !in_array( "text-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
+					unset($options[$widget_number]);
 			}
 		}
 
@@ -743,7 +744,8 @@ function wp_widget_categories_control( $widget_args ) {
 		foreach ( $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_categories' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				unset($options[$widget_number]);
+				if ( !in_array( "categories-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
+					unset($options[$widget_number]);
 			}
 		}
 
@@ -1162,7 +1164,8 @@ function wp_widget_rss_control($widget_args) {
 		foreach ( $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_rss' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				unset($options[$widget_number]);
+				if ( !in_array( "rss-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
+					unset($options[$widget_number]);
 			}
 		}
 
@@ -1450,7 +1453,8 @@ function widget_many_control( $widget_args = 1 ) {
 			// since widget ids aren't necessarily persistent across multiple updates
 			if ( 'widget_many' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				unset($options[$widget_number]);
+				if ( !in_array( "many-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed. "many-$widget_number" is "{id_base}-{widget_number}
+					unset($options[$widget_number]);
 			}
 		}
 

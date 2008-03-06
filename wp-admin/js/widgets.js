@@ -4,16 +4,18 @@ jQuery(function($) {
 	var increment = 1;
 
 	// Open or close widget control form
-	var toggleWidget = function( li ) {
+	var toggleWidget = function( li, disableFields ) {
 		var width = li.find('input.widget-width').val();
 
 		// it seems IE chokes on these animations because of the positioning/floating
 		var widgetAnim = $.browser.msie ? function() {
 			var t = $(this);
 			if ( t.is(':visible') ) {
+				if ( disableFields ) { t.find( ':enabled' ).not( '[name="widget-id[]"]' ).attr( 'disabled', 'disabled' ); }
 				li.css( 'marginLeft', 0 );
 				t.siblings('h4').children('a').text( widgetsL10n.edit );
 			} else {
+				t.find( ':disabled' ).attr( 'disabled', '' ); // always enable on open
 				if ( width > 250 )
 					li.css( 'marginLeft', ( width - 250 ) * -1 );
 				t.siblings('h4').children('a').text( widgetsL10n.cancel );
@@ -23,10 +25,12 @@ jQuery(function($) {
 			var t = $(this);
 
 			if ( t.is(':visible') ) {
+				if ( disableFields ) { t.find( ':enabled' ).not( '[name="widget-id[]"]' ).attr( 'disabled', 'disabled' ); }
 				if ( width > 250 )
 					li.animate( { marginLeft: 0 } );
 				t.siblings('h4').children('a').text( widgetsL10n.edit );
 			} else {
+				t.find( ':disabled' ).attr( 'disabled', '' ); // always enable on open
 				if ( width > 250 )
 					li.animate( { marginLeft: ( width - 250 ) * -1 } );
 				t.siblings('h4').children('a').text( widgetsL10n.cancel );
@@ -37,20 +41,20 @@ jQuery(function($) {
 		return li.children('div.widget-control').each( widgetAnim ).end();
 	};
 
-	// onclick for edit links
+	// onclick for edit/cancel links
 	var editClick = function() {
 		var q = wpAjax.unserialize( this.href );
 		// if link is in available widgets list, make sure it points to the current sidebar
 		if ( ( q.sidebar && q.sidebar == $('#sidebar').val() ) || q.add ) {
 			var w = q.edit || q.add;
-			toggleWidget( $('#current-sidebar .widget-control-list input[@name^="widget-id"][@value=' + w + ']').parents('li:first') ).blur();
+			toggleWidget( $('#current-sidebar .widget-control-list input[@name^="widget-id"][@value=' + w + ']').parents('li:first'), false ).blur();
 			return false;
 		} else if ( q.sidebar ) { // otherwise, redirect to correct page
 			return true;
 		}
 
 		// If link is in current widgets list, just open the form
-		toggleWidget( $(this).parents('li:first') ).blur();
+		toggleWidget( $(this).parents('li:first'), true ).blur();
 		return false;
 	};
 
@@ -92,7 +96,7 @@ jQuery(function($) {
 
 		// onclick for save links
 		$('a.widget-control-save', context).click( function() {
-			toggleWidget( $(this).parents('li:first') ).blur()
+			toggleWidget( $(this).parents('li:first'), false ).blur()
 			return false;
 		} );
 
