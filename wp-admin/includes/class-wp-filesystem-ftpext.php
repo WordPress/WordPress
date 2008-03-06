@@ -85,31 +85,37 @@ class WP_Filesystem_FTPext{
 	}
 
 	function find_base_dir($base = '.',$echo = false){
+		$abspath = str_replace('\\','/',ABSPATH); //windows: Straighten up the paths..
+		if( strpos($abspath, ':') ){ //Windows, Strip out the driveletter
+			if( preg_match("|.{1}\:(.+)|i", $abspath, $mat) )
+				$abspath = $mat[1];
+		}
+	
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
 		if( empty( $base ) ) $base = '/';
 		if( '/' != substr($base, -1) ) $base .= '/';
 
-		if($echo) echo sprintf(__('Changing to %s'), $base) .'<br>';
-		if( false === ftp_chdir($this->link, $base) )
+		if($echo) echo __('Changing to ') . $base  .'<br>';
+		if( false === $this->chdir($base) )
 			return false;
 
 		if( $this->exists($base . 'wp-settings.php') ){
-			if($echo) echo sprintf(__('Found %s'), $base . 'wp-settings.php') . '<br>';
+			if($echo) echo __('Found ') . $base . 'wp-settings.php<br>';
 			$this->wp_base = $base;
 			return $this->wp_base;
 		}
 
-		if( strpos(ABSPATH, $base) > 0)
-			$arrPath = split('/',substr(ABSPATH,strpos(ABSPATH, $base)));
+		if( strpos($abspath, $base) > 0)
+			$arrPath = split('/',substr($abspath,strpos($abspath, $base)));
 		else
-			$arrPath = split('/',ABSPATH);
+			$arrPath = split('/',$abspath);
 
 		for($i = 0; $i <= count($arrPath); $i++)
 			if( $arrPath[ $i ] == '' ) unset( $arrPath[ $i ] );
 
 		foreach($arrPath as $key=>$folder){
 			if( $this->is_dir($base . $folder) ){
-				if($echo) echo sprintf(__('Found %s'), $folder) . ' ' . sprintf(__('Changing to %s'), $base . $folder . '/') . '<br>';
+				if($echo) echo __('Found ') . $folder . ' ' . __('Changing to') . ' ' . $base . $folder . '/<br>';
 				return $this->find_base_dir($base .  $folder . '/',$echo);
 			}
 		}
@@ -158,6 +164,9 @@ class WP_Filesystem_FTPext{
 	function cwd(){
 		return ftp_pwd($this->link);
 	}
+	function chdir($dir){
+		return @ftp_chdir($dir);
+	}
 	function chgrp($file,$group,$recursive=false){
 		return false;
 	}
@@ -170,8 +179,8 @@ class WP_Filesystem_FTPext{
 			return false;
 		if ( ! $recursive || ! $this->is_dir($file) ){
 			if (!function_exists('ftp_chmod'))
-				return ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
-			return ftp_chmod($this->link,$mode,$file);
+				return @ftp_site($this->link, sprintf('CHMOD %o %s', $mode, $file));
+			return @ftp_chmod($this->link,$mode,$file);
 		}
 		//Is a directory, and we want recursive
 		$filelist = $this->dirlist($file);
@@ -267,7 +276,8 @@ class WP_Filesystem_FTPext{
 	function copy($source,$destination,$overwrite=false){
 		if( ! $overwrite && $this->exists($destination) )
 			return false;
-		if ( !$content = $this->get_contents($source) )
+		$content = $this->get_contents($source);
+		if( false === $content)
 			return false;
 		return $this->put_contents($destination,$content);
 	}

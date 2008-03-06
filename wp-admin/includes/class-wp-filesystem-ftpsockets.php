@@ -87,12 +87,18 @@ class WP_Filesystem_ftpsockets{
 	}
 
 	function find_base_dir($base = '.',$echo = false) {
+		$abspath = str_replace('\\','/',ABSPATH); //windows: Straighten up the paths..
+		if( strpos($abspath, ':') ){ //Windows, Strip out the driveletter
+			if( preg_match("|.{1}\:(.+)|i", $abspath, $mat) )
+				$abspath = $mat[1];
+		}
+	
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
 		if( empty( $base ) ) $base = '/';
 		if( '/' != substr($base, -1) ) $base .= '/';
 
 		if($echo) echo __('Changing to ') . $base  .'<br>';
-		if( false === $this->ftp->chdir($base) )
+		if( false === $this->chdir($base) )
 			return false;
 
 		if( $this->exists($base . 'wp-settings.php') ){
@@ -101,10 +107,10 @@ class WP_Filesystem_ftpsockets{
 			return $this->wp_base;
 		}
 
-		if( strpos(ABSPATH, $base) > 0)
-			$arrPath = split('/',substr(ABSPATH,strpos(ABSPATH, $base)));
+		if( strpos($abspath, $base) > 0)
+			$arrPath = split('/',substr($abspath,strpos($abspath, $base)));
 		else
-			$arrPath = split('/',ABSPATH);
+			$arrPath = split('/',$abspath);
 
 		for($i = 0; $i <= count($arrPath); $i++)
 			if( $arrPath[ $i ] == '' ) unset( $arrPath[ $i ] );
@@ -129,6 +135,9 @@ class WP_Filesystem_ftpsockets{
 	}
 
 	function get_contents($file,$type='',$resumepos=0){
+		if( ! $this->exists($file) )
+			return false;
+
 		if( empty($type) ){
 			$extension = substr(strrchr($filename, "."), 1);
 			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_AUTOASCII;
@@ -137,7 +146,7 @@ class WP_Filesystem_ftpsockets{
 		$temp = tmpfile();
 		if ( ! $this->ftp->fget($temp, $file) ) {
 			fclose($temp);
-			return false;
+			return ''; //Blank document, File does exist, Its just blank.
 		}
 		fseek($temp, 0); //Skip back to the start of the file being written to
 		$contents = '';
@@ -287,7 +296,7 @@ class WP_Filesystem_ftpsockets{
 			return false;
 
 		$content = $this->get_contents($source);
-		if ( !$content )
+		if ( false === $content )
 			return false;
 
 		return $this->put_contents($destination,$content);
