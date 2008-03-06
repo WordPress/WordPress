@@ -405,7 +405,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
 		if ( $left )
 			echo '<strong>';
-		comments_number("<a href='edit-pages.php?page_id=$id&amp;c=1' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('0') . '</span></a>', "<a href='edit-pages.php?page_id=$id&amp;c=1' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('1') . '</span></a>', "<a href='edit-pages.php?page_id=$id&amp;c=1' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('%') . '</span></a>');
+		comments_number("<a href='edit-pages.php?page_id=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('0') . '</span></a>', "<a href='edit-pages.php?page_id=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('1') . '</span></a>', "<a href='edit-pages.php?page_id=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('%') . '</span></a>');
 		if ( $left )
 			echo '</strong>';
 		?>
@@ -599,7 +599,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$authordata = get_userdata($post->post_author);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 	$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
-	$post_link = '<a href="' . get_comment_link() . '">' . get_the_title($comment->comment_post_ID) . '</a>';
+	$post_link = '<a href="edit.php?p=' . $comment->comment_post_ID . '">' . get_the_title($comment->comment_post_ID) . '</a>';
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
