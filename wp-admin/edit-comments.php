@@ -182,7 +182,7 @@ if ($comments) {
 <table class="widefat">
 <thead>
   <tr>
-    <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
+    <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('comments-form'));" /></th>
     <th scope="col"><?php _e('Comment') ?></th>
     <th scope="col"><?php _e('Date') ?></th>
     <th scope="col"><?php _e('Actions') ?></th>
