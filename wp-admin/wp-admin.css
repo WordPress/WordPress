@@ -1405,6 +1405,7 @@ ul.view-switch li.current a {
 	color: #666;
 	padding-bottom: 1px;
 	border-bottom: 1px solid #ababab;
+	text-decoration: none;
 }
 
 #the-comment-list .comment a:hover {

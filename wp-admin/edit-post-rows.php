@@ -58,7 +58,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		?>
-		<td><a href="<?php the_permalink(); ?>" rel="permalink" title="<?php echo $t_time ?>"><?php echo $h_time ?></a></td>
+		<td><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
 		<?php
 		break;
 	case 'title':
@@ -128,6 +128,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 	case 'status':
 		?>
 		<td>
+		<a href="<?php the_permalink(); ?>" rel="permalink">
 		<?php
 		switch ( $post->post_status ) {
 			case 'publish' :
@@ -145,6 +146,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 				break;
 		}
 		?>
+		</a>
 		</td>
 		<?php
 		break;
