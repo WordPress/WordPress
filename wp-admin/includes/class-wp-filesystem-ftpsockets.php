@@ -179,6 +179,10 @@ class WP_Filesystem_ftpsockets{
 		return $this->ftp->pwd();
 	}
 
+	function chdir($file){
+		return $this->ftp->chdir($file);
+	}
+	
 	function chgrp($file,$group,$recursive=false){
 		return false;
 	}
@@ -325,8 +329,8 @@ class WP_Filesystem_ftpsockets{
 
 	function is_dir($path){
 		$cwd = $this->cwd();
-		if ( $this->ftp->chdir($path) ) {
-			$this->ftp->chdir($cwd);
+		if ( $this->chdir($path) ) {
+			$this->chdir($cwd);
 			return true;
 		}
 		return false;
