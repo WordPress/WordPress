@@ -179,6 +179,7 @@ form#upload #post_content {
 	color: #246;
 	background: #e5e5e5;
 	cursor: pointer;
+	text-decoration: none;	
 }
 
 .button-secondary {
@@ -561,6 +562,10 @@ p.pagenav {
 	float: right;
 	height: 24px;
 	padding-top: 6px;
+}
+
+.tablenav .tablenav-pages a {
+	text-decoration: none;
 }
 
 td.media-icon {
@@ -1272,6 +1277,12 @@ ul#category-tabs li.ui-tabs-selected {
 	border-bottom-left-radius: 3px;
 }
 
+ul#category-tabs li.ui-tabs-selected a {
+	color: #333;
+	font-weight: bold;
+	text-decoration: none;
+}
+
 div.ui-tabs-panel {
 	margin: 0 0 0 120px;
 	padding: .5em .9em;
@@ -1298,6 +1309,10 @@ ul.categorychecklist li {
 #linkcategorydiv #category-adder {
 	margin-left: 120px;
 	padding: 4px 0;
+}
+
+#category-adder h4 {
+	margin: 0;
 }
 
 #linkcategorydiv ul#category-tabs {
@@ -1382,6 +1397,10 @@ ul.view-switch li {
 	margin: 0;
 	font-size: 12px;
 	padding: 6px;
+}
+
+ul.view-switch a {
+	text-decoration: none;
 }
 
 ul.view-switch li.current {

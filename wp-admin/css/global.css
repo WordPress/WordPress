@@ -50,7 +50,7 @@ textarea, input, select {
 	font-size: 12px;
 }
 
-.subsubsub a { line-height: 200%; padding: 3px; }
+.subsubsub a { line-height: 200%; padding: 3px; text-decoration: none; }
 
 .subsubsub a.current { color: #000; font-weight: bold; background: none; border: none;}
 
@@ -61,6 +61,10 @@ textarea, input, select {
 	border-collapse: collapse;
 	width: 100%;
 	clear: both;
+}
+
+.widefat a {
+	text-decoration: none;
 }
 
 .widefat td, .widefat th {
