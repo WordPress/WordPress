@@ -74,9 +74,8 @@ h1 a {
 }
 
 #login_error {
-	background-color: #f00;
-	border-color: #800;
-	color: #fff;
+	background-color: #ffebe8;
+	border-color: #c00;
 }
 
 #nav { margin: 0 0 0 8px; padding: 16px; }
