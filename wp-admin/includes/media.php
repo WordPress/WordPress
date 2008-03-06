@@ -451,7 +451,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 
 		$form_fields['post_content']['label'] = __('Long Description');
 
-		$thumb = wp_get_attachment_thumb_url();
+		$thumb = wp_get_attachment_thumb_url($post->ID);
 
 		$form_fields['align'] = array(
 			'label' => __('Alignment'),
