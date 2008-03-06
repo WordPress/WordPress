@@ -50,8 +50,8 @@ var LinkDialog = {
 		ed.execCommand('mceInsertLink', false, {
 			href : f.href.value,
 			title : f.linktitle.value,
-			target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : '',
-			'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : ''
+			target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : null,
+			'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
 		});
 
 		tinyMCEPopup.close();

@@ -12,45 +12,45 @@
 /* Top */
 .clearlooks2 .mceTop, 
 .clearlooks2 .mceTop div {
-top:0; 
-width:100%; 
-height:23px
+	top:0; 
+	width:100%; 
+	height:23px
 }
 .clearlooks2 .mceTop .mceLeft {
-width:55%; 
-background: #cee1ef;
-border-left: 1px solid #c6d9e9;
-border-top: 1px solid #c6d9e9;
+	width:55%; 
+	background: #cee1ef;
+	border-left: 1px solid #c6d9e9;
+	border-top: 1px solid #c6d9e9;
 }
 .clearlooks2 .mceTop .mceCenter {
 }
 .clearlooks2 .mceTop .mceRight {
-right:0; 
-width:55%; 
-height:23px; 
-background: #cee1ef;
-border-right: 1px solid #c6d9e9;
-border-top: 1px solid #c6d9e9;
+	right:0; 
+	width:55%; 
+	height:23px; 
+	background: #cee1ef;
+	border-right: 1px solid #c6d9e9;
+	border-top: 1px solid #c6d9e9;
 }
 .clearlooks2 .mceTop span {
-width:100%;
-font: 12px/20px bold "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
-text-align:center; 
-vertical-align:middle; 
-line-height:23px; 
-font-weight:bold;
+	width:100%;
+	font: 12px/20px bold "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+	text-align:center; 
+	vertical-align:middle; 
+	line-height:23px; 
+	font-weight:bold;
 }
 .clearlooks2 .mceFocus .mceTop .mceLeft {
-background: #2683ae;
-border-left: 1px solid #464646;
-border-top: 1px solid #464646;
+	background: #2683ae;
+	border-left: 1px solid #464646;
+	border-top: 1px solid #464646;
 }
 .clearlooks2 .mceFocus .mceTop .mceCenter {
 }
 .clearlooks2 .mceFocus .mceTop .mceRight {
-background: #2683ae;
-border-right: 1px solid #464646;
-border-top: 1px solid #464646;
+	background: #2683ae;
+	border-right: 1px solid #464646;
+	border-top: 1px solid #464646;
 }
 .clearlooks2 .mceFocus .mceTop span {
 color:#FFF
@@ -117,7 +117,7 @@ color:#FFF
 .clearlooks2 .mceMiddle .mceIcon {left:15px; top:35px; width:32px; height:32px;}
 .clearlooks2 .mceAlert .mceMiddle span, .clearlooks2 .mceConfirm .mceMiddle span {background:transparent;left:60px; top:35px; width:320px; height:50px; font-weight:bold; overflow:auto; white-space:normal;}
 .clearlooks2 a:hover {font-weight:bold;}
-.clearlooks2 .mceAlert .mceMiddle, .clearlooks2 .mceConfirm .mceMiddle {background:#D6D7D5;}
+.clearlooks2 .mceAlert .mceMiddle, .clearlooks2 .mceConfirm .mceMiddle {background:#eaf3fa;}
 .clearlooks2 .mceAlert .mceOk {left:50%; top:auto; margin-left: -40px;}
 .clearlooks2 .mceAlert .mceIcon {background:url(img/alert.gif);}
 .clearlooks2 .mceConfirm .mceOk {left:50%; top:auto; margin-left: -90px;}

@@ -44,7 +44,7 @@ function putFileContents( $path, $content ) {
 }
 
 // Set up init variables
-$https = ( isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'] ) ? true : false;
+$https = ( isset($_SERVER['HTTPS']) && 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false;
 	
 $baseurl = get_option('siteurl') . '/wp-includes/js/tinymce';
 if ( $https ) str_replace('http://', 'https://', $baseurl);
@@ -53,10 +53,27 @@ $mce_css = $baseurl . '/wordpress.css';
 $mce_css = apply_filters('mce_css', $mce_css);
 if ( $https ) str_replace('http://', 'https://', $mce_css);
 
-$valid_elements = '*[*]';
-$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
-	
+/*
+Setting mce_valid_elements to *[*] skips all of the internal cleanup and can cause problems.
+The minimal setting would be -strong/-b[*],-em/-i[*],*[*].
+Best is to use the default cleanup by not specifying mce_valid_elements,
+and then use extended_valid_elements to add to it.
+*/
+$valid_elements = apply_filters('mce_valid_elements', '');
 $invalid_elements = apply_filters('mce_invalid_elements', '');
+
+$extended_valid_elements = '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],bdo,code,col[*],colgroup[*],dfn,fieldset,form[*],input[*],kbd,label[*],legend[*],noscript,optgroup[*],option[*],q[cite|class],samp,textarea[*],title,var';
+
+$extended_valid_elements = apply_filters('mce_extended_valid_elements', $extended_valid_elements);
+
+/*
+The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
+By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
+The + sign marks the default language.
+More information:
+http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker
+*/
+$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
 
 $plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen' );
 
@@ -70,13 +87,13 @@ If the plugin uses a button, it should be added with one of the "$mce_buttons" f
 $mce_external_plugins = apply_filters('mce_external_plugins', array()); 
 
 $ext_plugins = "\n";
-foreach ( $mce_external_plugins as $name => $url ) {
-	$plugins[] = '-' . $name;
-	if ( $https ) str_replace('http://', 'https://', $url);
-	
-	$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
+if ( ! empty($mce_external_plugins) ) {
+	foreach ( $mce_external_plugins as $name => $url ) {
+		if ( $https ) str_replace('http://', 'https://', $url);
+		$plugins[] = '-' . $name;
+		$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
+	}
 }
-
 $plugins = implode($plugins, ',');
 
 $mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'image', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv' ));
@@ -105,6 +122,7 @@ $initArray = array (
 	'theme_advanced_buttons3' => "$mce_buttons_3",
 	'theme_advanced_buttons4' => "$mce_buttons_4",
 	'language' => "$mce_locale",
+	'spellchecker_languages' => "$mce_spellchecker_languages",
 	'theme_advanced_toolbar_location' => 'top',
 	'theme_advanced_toolbar_align' => 'left',
 	'theme_advanced_statusbar_location' => 'bottom',
@@ -113,8 +131,6 @@ $initArray = array (
 	'dialog_type' => 'modal',
 	'relative_urls' => false,
 	'remove_script_host' => false,
-	'fix_list_elements' => true,
-	'fix_table_elements' => true,
 	'gecko_spellcheck' => true,
 	'entities' => '38,amp,60,lt,62,gt',
 	'accessibility_focus' => false,
@@ -129,6 +145,7 @@ $initArray = array (
 );
 
 if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
+if ( $extended_valid_elements ) $initArray['extended_valid_elements'] = $extended_valid_elements;
 if ( $invalid_elements ) $initArray['invalid_elements'] = $invalid_elements;
 
 // For people who really REALLY know what they're doing with TinyMCE
@@ -240,28 +257,23 @@ echo $content;
 
 // Write file
 if ( '' != $cacheKey ) {
-	if ( $old_cache_max ) {
-		$keys_file = $cache_path . '/tinymce_compressed' . $cache_ext . '_key';
-		$old_keys = getFileContents($keys_file);
-			
-		if ( '' != $old_keys ) {
-			$keys_ar = explode( "\n", $old_keys );
-			if ( 1 >= $old_cache_max ) $old_keys_rem = $keys_ar;
-			else $old_keys_rem = array_slice( $keys_ar, ($old_cache_max - 1) );
-			
-			foreach ( $old_keys_rem as $key ) {
-				$key = trim($key);
-				if ( 32 != strlen($key) ) continue;
-				$old_cache = $cache_path . '/tinymce_' . $key . $cache_ext;
-				@unlink($old_cache);
-			}
-			
-			array_unshift( $keys_ar, $cacheKey );
-			$keys_ar = array_slice( $keys_ar, 0, $old_cache_max );
-			$cacheKey = trim( implode( "\n", $keys_ar ) );
-		}
+	if ( (int) $old_cache_max && is_dir($cache_path) ) {		
 
-		putFileContents( $keys_file, $cacheKey );
+		$old_cache = array();
+		$handle = opendir($cache_path);
+		while ( false !== ( $file = readdir($handle) ) ) {
+			if ( $file == '.' || $file == '..' ) continue;
+            $saved = filectime("$cache_path/$file");
+			if ( strpos($file, 'tinymce_') !== false && substr($file, -3) == $cache_ext ) $old_cache["$saved"] = $file;
+		}
+		closedir($handle);
+			
+		krsort($old_cache);
+		if ( 1 >= $old_cache_max ) $del_cache = $old_cache;
+		else $del_cache = array_slice( $old_cache, ($old_cache_max - 1) );
+			
+		foreach ( $del_cache as $key )
+			@unlink("$cache_path/$key");
 	}
 
 	putFileContents( $cache_file, $content );

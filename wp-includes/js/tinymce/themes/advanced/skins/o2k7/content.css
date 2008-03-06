@@ -1,6 +1,7 @@
-body, td, pre {background:#FFF; color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px; }
+body, td, pre {color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px;}
+body {background:#FFF;}
 body.mceForceColors {background:#FFF; color:#000;}
-.mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceVisualAid {border: 1px dashed #BBB;}
+.mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {border: 1px dashed #BBB;}
 a.mceItemAnchor {width:12px; line-height:6px; overflow:hidden; padding-left:12px; background:url(../default/img/items.gif) no-repeat bottom left;}
 img.mceItemAnchor {width:12px; height:12px; background:url(../default/img/items.gif) no-repeat;}
 img {border:0;}

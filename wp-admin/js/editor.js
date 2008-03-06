@@ -2,7 +2,7 @@ wpEditorInit = function() {
     // Activate tinyMCE if it's the user's default editor
     if ( ( 'undefined' == typeof wpTinyMCEConfig ) || 'tinymce' == wpTinyMCEConfig.defaultEditor ) {
         document.getElementById('editorcontainer').style.padding = '0px';
-        tinyMCE.execCommand("mceAddControl", true, "content");
+        tinyMCE.execCommand("mceAddControl", false, "content");
 	} else {
         var H;
         if ( H = tinymce.util.Cookie.getHash("TinyMCE_content_size") )
@@ -13,22 +13,15 @@ wpEditorInit = function() {
 switchEditors = {
 
     saveCallback : function(el, content, body) {
-
         document.getElementById(el).style.color = '#fff';
-        if ( tinyMCE.activeEditor.isHidden() )
-            content = document.getElementById(el).value;
-        else
-            content = this.pre_wpautop(content);
-
-        return content;
+        return this.pre_wpautop(content);
     },
 
     pre_wpautop : function(content) {
 	   // We have a TON of cleanup to do.
 
-        // content = content.replace(/\n|\r/g, ' ');
         // Remove anonymous, empty paragraphs.
-        content = content.replace(new RegExp('<p>(\\s|&nbsp;|<br>)*</p>', 'mg'), '');
+        content = content.replace(new RegExp('<p>(\\s|&nbsp;|<br />)*</p>', 'mg'), '');
 
         // Mark </p> if it has any attributes.
         content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
@@ -84,14 +77,12 @@ switchEditors = {
             if ( ed ) ed.show();
             else tinyMCE.execCommand("mceAddControl", false, id);
 
-            this.wpSetDefaultEditor( 'tinymce' );
+            this.wpSetDefaultEditor('tinymce');
         } else {
             this.edToggle(H, P);
-            tinyMCE.triggerSave();
-            ta.style.height = tinyMCE.activeEditor.contentAreaContainer.offsetHeight + 6 + 'px';
+            ta.style.height = ed.getContentAreaContainer().offsetHeight + 6 + 'px';
 
             ed.hide();
-            ta.value = this.pre_wpautop(ta.value);
             qt.style.display = 'block';
 
             if ( tinymce.isIE6 ) {
@@ -104,8 +95,7 @@ switchEditors = {
             }
 
 			ta.style.color = '';
-
-            this.wpSetDefaultEditor( 'html' );
+            this.wpSetDefaultEditor('html');
         }
     },
 
@@ -117,7 +107,7 @@ switchEditors = {
         A.onclick = null;
     },
 
-    wpSetDefaultEditor : function( editor ) {
+    wpSetDefaultEditor : function(editor) {
         try {
             editor = escape( editor.toString() );
         } catch(err) {

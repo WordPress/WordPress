@@ -76,6 +76,7 @@
 .defaultSkin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
 .defaultSkin a.mceMoreColors:hover {border:1px solid #0A246A}
 .defaultSkin .mceColorPreview {position:absolute; top:15px; left:2px; width:16px; height:4px; overflow:hidden}
+.defaultSkin .mce_forecolor, .defaultSkin .mce_backcolor {position:relative}
 
 /* Menu */
 .defaultSkin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #D4D0C8}

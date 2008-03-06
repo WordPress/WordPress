@@ -24,9 +24,10 @@
 .o2k7Skin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize}
 .o2k7Skin .mceStatusbar a:hover {text-decoration:underline}
 .o2k7Skin table.mceToolbar {margin-left:3px}
-.o2k7Skin .mceToolbar .mceToolbarStart span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px; }
+.o2k7Skin .mceToolbar .mceToolbarStart span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px; margin-left:3px;}
+.o2k7Skin .mceToolbar td.mceFirst span {margin:0}
 .o2k7Skin .mceToolbar .mceToolbarEnd span {display:block; background:url(img/button_bg.png) -22px 0; width:1px; height:22px}
-.o2k7Skin .mceToolbar .mceToolbarEndListBox span {display:none}
+.o2k7Skin .mceToolbar .mceToolbarEndListBox span, .o2k7Skin .mceToolbar .mceToolbarStartListBox span {display:none}
 .o2k7Skin span.mceIcon, .o2k7Skin img.mceIcon {display:block; width:20px; height:20px}
 .o2k7Skin .mceIcon {background:url(../../img/icons.gif) no-repeat 20px 20px}
 .o2k7Skin td.mceCenter {text-align:center;}
@@ -45,9 +46,10 @@
 .o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}
 
 /* ListBox */
+.o2k7Skin .mceListBox {margin-left:3px}
 .o2k7Skin .mceListBox, .o2k7Skin .mceListBox a {display:block}
 .o2k7Skin .mceListBox .mceText {padding-left:4px; text-align:left; width:70px; border:1px solid #b3c7e1; border-right:0; background:#eaf2fb; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; height:20px; line-height:20px; overflow:hidden}
-.o2k7Skin .mceListBox .mceOpen {width:14px; height:22px; background:url(img/button_bg.png) -66px 0; margin-right:2px}
+.o2k7Skin .mceListBox .mceOpen {width:14px; height:22px; background:url(img/button_bg.png) -66px 0}
 .o2k7Skin table.mceListBoxEnabled:hover .mceText, .o2k7Skin .mceListBoxHover .mceText, .o2k7Skin .mceListBoxSelected .mceText {background:#FFF}
 .o2k7Skin table.mceListBoxEnabled:hover .mceOpen, .o2k7Skin .mceListBoxHover .mceOpen, .o2k7Skin .mceListBoxSelected .mceOpen {background-position:-66px -22px}
 .o2k7Skin .mceListBoxDisabled .mceText {color:gray}
@@ -76,6 +78,7 @@
 .o2k7Skin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
 .o2k7Skin a.mceMoreColors:hover {border:1px solid #0A246A}
 .o2k7Skin .mceColorPreview {position:absolute; top:15px; left:2px; width:16px; height:4px; overflow:hidden}
+.o2k7Skin .mce_forecolor, .o2k7Skin .mce_backcolor {position:relative}
 
 /* Menu */
 .o2k7Skin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #ABC6DD}
