@@ -176,7 +176,7 @@ $structures = array(
 <p class="submit"><input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" /></p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>
-  <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Make_a_Directory_Writable">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
+  <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
 	<p><textarea rows="5" style="width: 98%;" name="rules" id="rules"><?php echo wp_specialchars($wp_rewrite->mod_rewrite_rules()); ?></textarea></p>
