@@ -89,7 +89,7 @@ if ( isset($_GET['deleted']) ) {
 <div class="tablenav">
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
 $select_cat = "<select name=\"cat_id\">\n";

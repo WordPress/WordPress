@@ -300,7 +300,7 @@ unset($role_links);
 <?php endif; ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <select name="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option>"<?php wp_dropdown_roles(); ?></select>
 <input type="submit" value="<?php _e('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>

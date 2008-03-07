@@ -167,7 +167,7 @@ if ( $page_links )
 <?php if ( 'moderated' != $comment_status ): ?>
 <input type="submit" value="<?php _e('Unapprove'); ?>" name="unapproveit" class="button-secondary" />
 <?php endif; ?>
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
 </div>

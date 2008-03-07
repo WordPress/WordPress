@@ -82,7 +82,7 @@ if ( $page_links )
 ?>
 
 <div style="float: left">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary" />
+<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-link-categories'); ?>
 </div>
 

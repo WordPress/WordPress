@@ -15,10 +15,6 @@ div#current-widgets, #postcustom table, #your-profile fieldset, a.page-numbers, 
 	border-color: #ccc;
 }
 
-div#media-upload-error, .file-error, .required abbr, .widget-control-remove:hover {
-	color: #f00;
-}
-
 div.dashboard-widget-error {
 	background-color: #c43;
 }
@@ -182,7 +178,7 @@ ul.widget-control-list .sorthelper {
 	border-bottom-color: #dadada;
 }
 
-.side-info ul, a.delete {
+.side-info ul {
 	color: #666;
 }
 
@@ -492,4 +488,8 @@ ul.widget-control-list .sorthelper {
 
 #wphead h1, #dashmenu a.current:hover {
 	color: #555;
+}
+
+div#media-upload-error, .file-error, .required abbr, .widget-control-remove:hover, .delete:hover {
+	color: #f00;
 }
