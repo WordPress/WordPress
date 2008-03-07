@@ -24,7 +24,8 @@ foreach ( $menu as $key => $item ) {
 		else
 			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 	} else if ( current_user_can($item[1]) ) {
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
+		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
 			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
@@ -53,7 +54,8 @@ foreach ( $menu as $key => $item ) {
 		else
 			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 	} else if ( current_user_can($item[1]) ) {
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
+		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
 			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
@@ -77,7 +79,8 @@ foreach ( $menu as $key => $item ) {
 		else
 			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 	} else if ( current_user_can($item[1]) ) {
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
+		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
 			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
@@ -108,7 +111,8 @@ foreach ( $menu as $key => $item ) {
 		else
 			$side_items[] = "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 	} else if ( current_user_can($item[1]) ) {
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") )
+		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
+		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
 			$side_items[] = "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
 		else
 			$side_items[] = "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a>";
