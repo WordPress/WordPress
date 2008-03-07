@@ -71,21 +71,24 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <div id="namediv" class="stuffbox">
 <h3><?php _e('Name') ?></h3>
 <div class="inside">
-	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" />
+	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" /><br />
+    <?php _e('Example: Nifty blogging software'); ?>
 </div>
 </div>
 
 <div id="addressdiv" class="stuffbox">
-<h3><?php _e('Address') ?></h3>
+<h3><?php _e('Web Address') ?></h3>
 <div class="inside">
-	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
+	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" /><br />
+    <?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?>
 </div>
 </div>
 
 <div id="descriptiondiv" class="stuffbox">
 <h3><?php _e('Description') ?></h3>
 <div class="inside">
-	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" />
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" /><br />
+    <?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?>
 </div>
 </div>
 
@@ -132,10 +135,10 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <div class="inside">
 <label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
-<code>_blank</code></label>
+<code>_blank</code></label><br />
 <label for="link_target_top" class="selectit">
 <input id="link_target_top" type="radio" name="link_target" value="_top" <?php echo(($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
-<code>_top</code></label>
+<code>_top</code></label><br />
 <label for="link_target_none" class="selectit">
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
 <?php _e('none') ?></label>
@@ -258,22 +261,22 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <div id="linkadvanceddiv" class="postbox <?php echo postbox_classes('linkadvanceddiv', 'link'); ?>">
 <h3><?php _e('Advanced') ?></h3>
 <div class="inside">
-<table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
-	<tr>
-		<th style="width: 20%;" scope="row"><?php _e('Image Address:') ?></th>
-		<td style="width: 80%;"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
+<table class="form-table" style="width: 100%;" cellspacing="2" cellpadding="5">
+	<tr class="form-field">
+		<th valign="top"  scope="row"><label for="link_image"><?php _e('Image Address') ?></label></th>
+		<td><input type="text" name="link_image" id="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
 	</tr>
-	<tr>
-		<th scope="row"><?php _e('RSS Address:') ?> </th>
+	<tr class="form-field">
+		<th valign="top"  scope="row"><label for="rss_uri"><?php _e('RSS Address') ?></label></th>
 		<td><input name="link_rss" type="text" id="rss_uri" value="<?php echo $link->link_rss; ?>" size="50" style="width: 95%" /></td>
 	</tr>
-	<tr>
-		<th scope="row"><?php _e('Notes:') ?></th>
-		<td><textarea name="link_notes" cols="50" rows="10" style="width: 95%"><?php echo $link->link_notes; ?></textarea></td>
+	<tr class="form-field">
+		<th valign="top"  scope="row"><label for="link_notes"><?php _e('Notes') ?></label></th>
+		<td><textarea name="link_notes" id="link_notes" cols="50" rows="10" style="width: 95%"><?php echo $link->link_notes; ?></textarea></td>
 	</tr>
-	<tr>
-		<th scope="row"><?php _e('Rating:') ?></th>
-		<td><select name="link_rating" size="1">
+	<tr class="form-field">
+		<th valign="top"  scope="row"><label for="link_rating"><?php _e('Rating') ?></label></th>
+		<td><select name="link_rating" id="link_rating" size="1">
 		<?php
 			for ($r = 0; $r < 10; $r++) {
 				echo('            <option value="'.$r.'" ');

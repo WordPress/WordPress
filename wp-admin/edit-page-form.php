@@ -128,7 +128,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 ?>
 <br class="clear" />
 <?php if ($post_ID): ?>
-<?php printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
+<?php printf(__('Last edit: %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
 <br class="clear" />
 <?php endif; ?>
 <span id="autosave"></span>

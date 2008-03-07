@@ -189,26 +189,6 @@ select {
 	display: none;
 }
 
-.updated, .error {
-	margin: auto 25px 20px 15px;
-	padding: 0 15px;
-	border-width: 1px;
-	border-style: solid;
-}
-
-.wrap .updated, .wrap .error {
-	margin: auto 0 0;
-}
-
-.updated a, .error a {
-	text-decoration: underline;
-}
-
-.updated a {
-	text-decoration: none;
-	padding-bottom: 2px;
-}
-
 .narrow {
 	width: 70%;
 	margin-bottom: 40px;
@@ -361,7 +341,7 @@ textarea.all-options, input.all-options {
 }
 
 #poststuff #post-body {
-	margin-right: 16em;
+	margin-right: 230px;
 }
 
 #save {
@@ -885,7 +865,7 @@ html, body {
 #poststuff h3 {
 	font-size: 14px;
 	font-weight: bold;
-	padding: 8px 5px;
+	padding: 11px 5px;
 	margin: 0 0 10px;
 }
 
@@ -1002,8 +982,16 @@ html, body {
 }
 
 .submitbox {
-	width: 200px;
+	width: 220px;
 	float: right;
+}
+
+.submitbox .submitdelete {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	text-decoration: none;
+	margin-left: 8px;
+	padding-bottom: 1px;
 }
 
 
@@ -1021,6 +1009,7 @@ html, body {
 
 .submitbox #previewview a {
 	padding: 6px;
+	text-decoration: none;
 	font-weight: normal;
 	border-bottom: none;
 	font-size: 14px;

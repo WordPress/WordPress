@@ -99,7 +99,7 @@ $status_links = array();
 $num_comments = wp_count_comments();
 $stati = array('moderated' => sprintf(__('Awaiting Moderation (%s)'), "<span class='comment-count'>$num_comments->moderated</span>"), 'approved' => __('Approved'));
 $class = ( '' === $comment_status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('All Comments')."</a>";
+$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('Show All Comments')."</a>";
 foreach ( $stati as $status => $label ) {
 	$class = '';
 

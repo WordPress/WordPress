@@ -56,29 +56,30 @@ $nag_posts = array(
 		count($others_drafts))
 	);
 
+$draft_div = '';
 if ( !empty($my_drafts) || !empty($pending) || !empty($others_drafts) ) {
-	echo '<div class="wrap" id="draft-nag">';
+	$draft_div = '<div class="wrap" id="draft-nag">';
 
 	foreach ( $nag_posts as $nag ) {
 		if ( ${$nag[0]} ) {
-			echo '<p><strong>' . wp_specialchars($nag[1]) . '</strong> ';
+			$draft_div .= '<p><strong>' . wp_specialchars($nag[1]) . '</strong> ';
 			$i = 0;
 			foreach ( ${$nag[0]} as $post ) {
 				$i++;
 				if ( $i > $nag_posts_limit )
 					break;
-				echo '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
-				( '' == the_title('', '', FALSE) ) ? printf( __('Post #%s'), $post->ID ) : the_title();
-				echo '</a>';
+				$draft_div .= '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
+				$draft_div .= ( '' == the_title('', '', FALSE) ) ? sprintf( __('Post #%s'), $post->ID ) : get_the_title();
+				$draft_div .= '</a>';
 				if ( $i < min($nag[3], $nag_posts_limit) )
-					echo ', ';
+					$draft_div .= ', ';
 			}
 			if ( $nag[3] > $nag_posts_limit )
-				printf(__(', and <a href="%s">%d more</a>'), $nag[2], $nag[3] - $nag_posts_limit);
-			echo '.</p>';
+				$draft_div .= sprintf(__(', and <a href="%s">%d more</a>'), $nag[2], $nag[3] - $nag_posts_limit);
+			$draft_div .= '.</p>';
 		}
 	}
-	echo "</div>\n";
+	$draft_div .= "</div>\n";
 }
 
 // Show post form.

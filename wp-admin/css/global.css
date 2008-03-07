@@ -82,12 +82,33 @@ textarea, input, select {
 	width: 3%;
 }
 
-.wrap {
+.wrap, .updated, .error {
 	margin: 0;
 	margin-left: 15px;
 	margin-right: 15px;
 	padding: 0;
-	max-width: 960px;
+	max-width: 980px;
+}
+
+.updated, .error {
+	border-width: 1px;
+	border-style: solid;
+	padding: 0 15px;
+	max-width: 950px;
+	margin-bottom: 1em;
+}
+
+.wrap .updated, .wrap .error {
+	margin: auto 0 0;
+}
+
+.updated a, .error a {
+	text-decoration: underline;
+}
+
+.updated a {
+	text-decoration: none;
+	padding-bottom: 2px;
 }
 
 .wrap h2 {

@@ -213,6 +213,16 @@ ul.widget-control-list .sorthelper {
 	color: #ccc;
 }
 
+.submitbox .submitdelete {
+	border-bottom-color: #999;
+}
+
+.submitbox .submitdelete:hover {
+	color: #fff;
+	background-color: #f00;
+	border-bottom-color: #f00;
+}
+
 .tablenav .dots {
 	background-color: #e4f2fd;
 	border-color: #e4f2fd;
@@ -240,7 +250,7 @@ ul.widget-control-list .sorthelper {
 	border-bottom-color: #2583ad;
 }
 
-.widefat td, .widefat th, div#available-widgets-filter, ul#widget-list li.widget-list-item, .commentlist li, .submitbox .submit a:hover {
+.widefat td, .widefat th, div#available-widgets-filter, ul#widget-list li.widget-list-item, .commentlist li {
 	border-bottom-color: #ccc;
 }
 

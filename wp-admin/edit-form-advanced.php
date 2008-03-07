@@ -19,6 +19,9 @@ $messages[3] = __('Custom field deleted.');
 <h2><?php _e('Write Post') ?></h2>
 <?php
 
+if ( !empty( $draft_div ) )
+	echo $draft_div;
+
 if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'post';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
@@ -146,11 +149,11 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_I
 }
 
 if ( ( 'edit' == $action) && current_user_can('delete_post', $post_ID) )
-	echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;post') . "</a>";
+	echo "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post_ID", 'delete-post_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;post') . "</a>";
 ?>
 <br class="clear" />
 <?php if ($post_ID): ?>
-<?php printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
+<?php printf(__('Last edit: %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
 <br class="clear" />
 <?php endif; ?>
 <span id="autosave"></span>
