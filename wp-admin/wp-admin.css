@@ -423,6 +423,10 @@ set display:none; */
 	font-size: 22px;
 }
 
+#your-profile #rich_editing {
+	border: none;
+}
+
 #howto {
 	font-size: 11px;
 	margin: 0 5px;
