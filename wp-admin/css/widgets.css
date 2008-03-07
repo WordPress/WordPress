@@ -23,7 +23,8 @@ form#widgets-filter {
 }
 
 div#available-widgets-filter {
-	border-bottom: 1px solid #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 }
 
 p#widget-search {
@@ -42,7 +43,8 @@ ul#widget-list {
 ul#widget-list li.widget-list-item {
 	padding: .7em 1em;
 	margin: 0;
-	border-bottom: 1px solid #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	background-color: transparent;
 	line-height: 1;
 }
@@ -53,17 +55,13 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	padding: .5em 1em;
 	width: 200px;
 	float: left;
-	background-color: #f0f0f0;
-	color: #000;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	border-radius: 3px;;
 }
 
 #dragHelper h4.widget-title {
-	color: #fff;
-	background-color: #2683ae;
 	padding: .5em 1em;
 	margin: 0;
 }
@@ -91,7 +89,6 @@ ul.widget-control-list {
 }
 
 li.widget-list-control-item {
-	background-color: #eaf3fa;
 	margin: 0 0 1em;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
@@ -101,9 +98,7 @@ li.widget-list-control-item {
 
 li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4 {
 	margin: 0;
-	background-color: #2683ae;
 	padding: .5em 1em;
-	color: #fff;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -112,14 +107,13 @@ li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4 {
 
 .widget-control-save, .widget-control-remove {
 	padding: 4px 6px;
-	color: #246;
-	background: #cee1ef;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	margin-right: 8px;
 	float: left;
+	text-decoration: none;
 }
 
 h4.widget-title a {
@@ -132,12 +126,11 @@ h4.widget-title a {
 li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited {
-	color: #fff;
 	right: 2em;
 }
 
 li.widget-list-control-item h4.widget-title a:hover {
-	color: #fff;
+
 	text-decoration: none;
 	border-bottom: none;
 }
@@ -156,21 +149,21 @@ li.widget-list-control-item div.widget-control p {
 ul.widget-control-list div.widget-control-actions {
 	margin-right: -10px; /* Correction for padding, margin, border of inputs */
 	padding: 0 0 1em;
-	border-top: 1px solid #ccc;
+	border-top-width: 1px;
+	border-top-style: solid;
 	padding: 0.5em 0 1em 0;
 }
 
-ul.widget-control-list .sorthelper {
-	background-color: #ccf3fa;
-
+ul.widget-control-list .widget-title {
+	cursor: move;
 }
+
 
 div#current-widgets {
 	padding-top: 1em;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+	border-width: 1px;
+	border-style: solid;
+	borde-right-style: none;
+	border-left-style: none;
 }
 
-#current-widgets .drop-widget-here {
-	background-color: #ffc
-}

@@ -373,7 +373,7 @@ function wp_dashboard_secondary_output() {
 	if ( !isset($rss->items) || 0 == count($rss->items) )
 		return false;
 
-	echo "<ul>\n";
+	echo "<ul id='planetnews'>\n";
 
 	$rss->items = array_slice($rss->items, 0, $items);
 	foreach ($rss->items as $item ) {

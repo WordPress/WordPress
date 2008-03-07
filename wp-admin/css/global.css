@@ -1,12 +1,7 @@
 /* styles for use by people extending the WordPress interface */
 
-a { color: #2583ad; }
-
-a:hover, .subsubsub a:hover, .subsubsub a.current:hover { color: #d54e21; }
 
 body	{
-	background: #ffffff;
-	color: #333333;
 	margin: 0;
 	padding: 0;
 }
@@ -35,14 +30,12 @@ textarea, input, select {
 
 .alignright { float: right; }
 
-.alternate { background: #f9f9f9; }
 
 .clear { clear: both; height: 2px; }
 
 .hidden { display: none; }
 
 .subsubsub {
-	color: #999;
 	list-style: none;
 	margin: 15px 0 10px 0;
 	padding: 0;
@@ -52,12 +45,13 @@ textarea, input, select {
 
 .subsubsub a { line-height: 200%; padding: 3px; text-decoration: none; }
 
-.subsubsub a.current { color: #000; font-weight: bold; background: none; border: none;}
+.subsubsub a.current { font-weight: bold; background: none; border: none;}
 
 .subsubsub li { display: inline; margin: 0; padding: 0; }
 
 .widefat {
-	border: 1px solid #ccc;
+	border-width: 1px;
+	border-style: solid;
 	border-collapse: collapse;
 	width: 100%;
 	clear: both;
@@ -68,7 +62,9 @@ textarea, input, select {
 }
 
 .widefat td, .widefat th {
-	border-bottom: 1px solid #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ccc;
 	font-size: 12px;
 	padding: 10px 10px 20px;
 	vertical-align: text-top;
@@ -86,8 +82,6 @@ textarea, input, select {
 	width: 3%;
 }
 
-.widefat thead, .thead { background: #464646; color: #d7d7d7; }
-
 .wrap {
 	margin: 0;
 	margin-left: 15px;
@@ -97,9 +91,9 @@ textarea, input, select {
 }
 
 .wrap h2 {
-	border-bottom: 1px solid #dadada;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	clear: both;
-	color: #666666;
 	font: 24px Georgia, "Times New Roman", Times, serif;
 	margin: 5px 0 0 -4px;
 	padding: 0;

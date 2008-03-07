@@ -1,29 +1,27 @@
 #rightnow {
-	border: 1px solid #ccc;
+	border-width: 1px;
+	border-style: solid;
 	padding: 2px;
 	margin-top: 10px;
 	margin-right: 7px;
 }
 
 #rightnow .reallynow {
-	background: #d54e21;
 	padding: 6px;
-	color: #fff;
 	font-size: 15px;
 	line-height: 2;
 	margin: 0;
 }
 
 #rightnow .rbutton {
-	background: #ebebeb;
 	font-weight: normal;
-	color: #264761;
 	padding: 6px;
 	border-bottom: none;
 	-moz-border-radius: 2px;
 	-khtml-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
+	text-decoration: none;
 }
 
 #rightnow .reallynow span {
@@ -43,7 +41,6 @@
 }
 
 #rightnow .youhave {
-	background: #f0f6fb;
 	font-size:  14px;
 	padding: 10px;
 }
@@ -53,13 +50,9 @@
 }
 
 #rightnow a {
-	color: #448abd;
 	font-weight: bold;
-	border-bottom: 1px solid #448abd;
-}
-
-#rightnow a:hover {
-	color: #d54e21;
+	border-bottom-width: 1px;
+	border-botom-style: solid
 }
 
 div#dashboard-widgets {
@@ -94,7 +87,8 @@ div.dashboard-widget-holder.double div.dashboard-widget {
 div.dashboard-widget {
 	position: relative;
 	margin-right: 20px;
-	border: 1px solid #ccc;
+	border-width: 1px;
+	border-style: solid;
 	padding: 2px;
 	height: 27em;
 	overflow: auto;
@@ -102,7 +96,6 @@ div.dashboard-widget {
 }
 
 h3.dashboard-widget-title  {
-	background-color: #eaf3fa;
 	margin: 0;
 	padding: 0 7px;
 	font-size: 14px;
@@ -110,19 +103,17 @@ h3.dashboard-widget-title  {
 }
 
 h3.dashboard-widget-title span {
-	background-color: #eaf3fa;
 	display: block;
 	text-align: left;
 	float: left;
 }
 
 h3.dashboard-widget-title small {
-	background-color: #eaf3fa;
 	display: block;
 	text-align: right;
 	float: right;
 	font-size: 75%;
-	line-height: 2.67; /* math: it works */
+	line-height: 2.67; /* math: it works, bitches */
 }
 
 h3.dashboard-widget-title img.rss-icon {
@@ -130,14 +121,12 @@ h3.dashboard-widget-title img.rss-icon {
 }
 
 div.dashboard-widget-notice {
-	background-color: #cfe1ef;
 	padding: 0 14px;
 	font-size: 1.2em;
 	line-height: 2;
 }
 
 div.dashboard-widget-error {
-	background-color: #c43;
 	padding: 0 20px;
 	font-size: 1.2em;
 	line-height: 2;
@@ -148,7 +137,8 @@ div.dashboard-widget-content {
 }
 
 div.dashboard-widget-submit {
-	border-top: 1px solid #ccc;
+	border-top-width: 1px;
+	border-top-style: solid;
 	margin: 10px 15px;
 	padding-top: 10px;
 }
@@ -202,11 +192,12 @@ div.dashboard-widget-content p.comment-meta {
 }
 
 #dashboard_secondary div.dashboard-widget-content ul li a {
-	background:#DDDDDD none repeat scroll 0%;
-	display:block;
+	background: #ddd none repeat scroll 0%;
+	display: block;
 	height:100%;
 	overflow:hidden;
 	margin: 5px 10px;
+	text-decoration: none;
 	padding: .5em;
 }
 
@@ -245,7 +236,6 @@ div.dashboard-widget-content p.comment-meta {
 
 #dashboard_primary span.rss-date {
 	font-size: 14px;
-	color: #999;
 }
 
 #dashboard_plugins h4 {

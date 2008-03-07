@@ -1,10 +1,10 @@
 div#media-upload-header {
-	background-color: #e4f2fd;
 	margin: 0;
 	padding: 0 5px;
 	font-weight: bold;
 	position: relative;
-	border-bottom: 1px solid #c6d9e9;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	height: 2.5em;
 }
 
@@ -19,7 +19,6 @@ ul#sidemenu {
 div#media-upload-error {
 	margin: 1em;
 	font-weight: bold;
-	color: #f00;
 }
 
 form {
@@ -38,7 +37,6 @@ form {
 }
 
 .media-upload-form label.form-help, td.help {
-	color: #9a9a9a;
 	font-style: italic;
 	font-weight: normal;
 }
@@ -98,12 +96,14 @@ tr.image-size td.field {
 }
 
 #media-items {
-	border: 1px solid #c0c0c0;
+	border-width: 1px;
+	border-style: solid;
 	border-bottom: none;
 	width: 623px;
 }
 .media-item {
-	border-bottom: 1px solid #d0d0d0;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 	width: 623px;
 	position: relative;
 	min-height: 36px;
@@ -122,7 +122,6 @@ button.dismiss {
 .file-error {
 	margin: 0 0 5px 50px;
 	font-weight: bold;
-	color: #f00;
 }
 
 .progress {
@@ -135,8 +134,8 @@ button.dismiss {
 .bar {
 	width: 0px;
 	height: 100%;
-	background-color: #e8e8e8;
-	border-right: 3px solid #99d;
+	border-right-width: 3px;
+	border-right-style: solid;
 }
 .media-item .thumbnail {
 	max-width: 128px;
@@ -150,7 +149,8 @@ button.dismiss {
 	max-width: 40px;
 }
 .describe {
-	border-top: 1px solid #d0d0d0;
+	border-top-width: 1px;
+	border-top-style: solid;
 	padding: 5px;
 	width: 100%;
 	clear: both;
@@ -159,7 +159,6 @@ button.dismiss {
 	display: none;
 }
 .required abbr {
-	color: red;
 	text-decoration: none;
 	border: none;
 }
@@ -200,9 +199,7 @@ button.dismiss {
 tr.align td.field {
 	text-align: center;
 }
-a.delete {
-	color: #666;
-}
+
 .hidden {
 	height: 0px;
 	width: 0px;

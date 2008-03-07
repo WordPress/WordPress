@@ -30,6 +30,7 @@ get_admin_page_title();
 <?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
+wp_admin_css( 'css/colors-fresh' );
 ?>
 <!--[if gte IE 6]>
 <?php wp_admin_css( 'css/ie' );

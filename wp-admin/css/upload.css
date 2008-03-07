@@ -3,7 +3,8 @@ body { background: #f9fcfe; }
 .upload-file-data { display: none; }
 
 #upload-menu {
-	border-top: 2em solid #247fab;
+	border-top-width: 2em;
+	border-top-style: solid;
 	margin: 0;
 	padding: 0;
 	height: 0;
@@ -11,7 +12,8 @@ body { background: #f9fcfe; }
 	width: 100%;
 }
 
-body > #upload-menu { border-bottom: 7px solid #fff; }
+body > #upload-menu { border-bottom-width: 7px;
+border-bottom-style: solid;}
 
 #upload-menu li {
 	margin: 0;
@@ -19,7 +21,8 @@ body > #upload-menu { border-bottom: 7px solid #fff; }
 	top: -2em;
 	padding-bottom: 5px;
 	border: none;
-	border-top: 3px solid #247fab;
+	border-top-width: 3px;
+	border-top-style:solid;
 }
 
 #upload-menu li a.upload-tab-link {
@@ -30,21 +33,14 @@ body > #upload-menu { border-bottom: 7px solid #fff; }
 	height: 100%;
 	text-decoration: none;
 	border-bottom: none;
-	color: #fff;
 }
 
 #upload-menu li.current {
-	border-right: 2px solid #448abd;
-	color: #000;
-}
-
-#upload-menu li.current a.upload-tab-link, #upload-menu li a:hover {
-	background: #f9fcfe;
-	color: #000;
+	border-right-width: 2px;
+	border-right-style: solid;
 }
 
 #upload-menu li #current-tab-nav {
-	background: #f9fcfe;
 	float: left;
 	padding: 5px 5px 0 0;
 	margin-left: -5px;
@@ -55,7 +51,6 @@ body > #upload-menu { border-bottom: 7px solid #fff; }
 	border: none;
 }
 
-#upload-menu li span a.page-numbers { color: #00019b; }
 #upload-menu li span a.page-numbers:hover { text-decoration: underline; }
 
 #upload-content {
@@ -75,7 +70,6 @@ body > #upload-menu { border-bottom: 7px solid #fff; }
 	left: 0;
 	width: 95%;
 	height: 100%;
-	background: #f9fcfe;
 }
 
 #upload-file th {
@@ -101,7 +95,6 @@ h2 {
 	padding: 0;
 	display: inline;
 	border: none;
-	color: #000;
 	font-size: 1.4em;
 	line-height: 1.4em;
 }
@@ -109,8 +102,8 @@ h2 {
 .wrap h2 {
 	margin: .4em 0 .5em;
 	display: block;
-	border-bottom: .5em solid #e5f3ff;
-	color: #333;
+	border-bottom-width: .5em;
+	border-bottom-style: solid;
 	font: normal 32px/5px serif;
 	clear: both;
 }
@@ -139,13 +132,16 @@ h2 {
 	text-decoration: none;
 }
 
-#upload-file-view a img { padding-bottom: .2em; border-bottom: 1px solid #6699CC; }
+#upload-file-view a img { 
+padding-bottom: .2em; 
+border-bottom-width: 1px;
+border-bottom-style: solid;
+}
 
 #upload-files a.file-link {
 	display: block;
 	width: 130px;
 	height: 128px;
-	background-color: rgb(209, 226, 239);
 	text-align: center;
 	overflow: hidden;
 }
@@ -200,5 +196,3 @@ tr, td, th {
 #uploadoptions table {
 	width: 300px;
 }
-
-input.readonly { background-color: #ddd; }
