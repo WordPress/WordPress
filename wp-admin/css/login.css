@@ -1,14 +1,12 @@
 * { margin: 0; padding: 0; }
 
 body {
-	background-color: #fff;
-	color: #333;
-	border-top: 30px solid #464646;
+	border-top-width: 30px;
+	border-top-style: solid;
 	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 form {
-	background-color: #eaf3fa;
 	margin-left: 8px;
 	padding: 16px 16px 40px 16px;
 	font-weight: bold;
@@ -20,32 +18,28 @@ form {
 
 form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
 
-form .submit input {
+#login form .submit input {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	font-size: 14px;
-	color: #246;
-	padding: 4px 6px;
-	background: #cee1ef;
+	padding: 3px 5px;
 	border: none;
+	font-size: 13px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: default;
+	text-decoration: none;	
 	margin-top: -6px;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-}
-
-form .submit input:hover {
-	color: #d54e21;
 }
 
 form .submit { float: right; }
 
-form input { color: #555; }
-
 form p { margin-bottom: 24px; }
 
 h1 a {
-	background: #fff url(../images/logo-login.gif) no-repeat;
+	background: url(../images/logo-login.gif) no-repeat;
 	width: 292px;
 	height: 66px;
 	text-indent: -9999px;
@@ -56,31 +50,21 @@ h1 a {
 
 #backtoblog a {
 	position: absolute;
-	color: #ccc;
 	top: 7px;
 	left: 15px;
 	text-decoration: none;
 }
 
-#backtoblog a:hover { color: #fff; }
-
 #login { width: 292px; margin: 7em auto; }
 
 #login_error, .message {
 	margin: 0 0 16px 8px;
-	background-color: #fffbcc;
-	border: 1px solid #e6db55;
+	border-width: 1px;
+	border-style: solid;
 	padding: 12px;
 }
 
-#login_error {
-	background-color: #ffebe8;
-	border-color: #c00;
-}
-
 #nav { margin: 0 0 0 8px; padding: 16px; }
-
-#nav a { color: #777; }
 
 #user_pass, #user_login, #user_email {
 	font-size: 20px;

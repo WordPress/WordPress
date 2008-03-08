@@ -37,11 +37,11 @@ input.disabled, textarea.disabled {
 
 li.widget-list-control-item h4.widget-title a:hover, .submit a, #user_info a, #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
-#draghelper li.widget-list-control-item h4.widget-title a:visited {
+#draghelper li.widget-list-control-item h4.widget-title a:visited, .login #backtoblog a:hover {
 	color: #fff;
 }
 
-li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3 {
+li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3, .login form {
 	background-color: #eaf3fa;
 }
 
@@ -54,8 +54,8 @@ strong .post-com-count span {
 	background-color: #2583ad;
 }
 
-ul#category-tabs li.ui-tabs-selected, .button-secondary, #quicktags {
-	background-color: #cee1ef;
+ul#category-tabs li.ui-tabs-selected, .button-secondary, #quicktags, #login form .submit input {
+	background-color: #cee1ef !important;
 }
 
 ul#widget-list li.widget-list-item h4.widget-title {
@@ -102,7 +102,7 @@ ul.widget-control-list .sorthelper {
 	border-top-color: #d0d0d0;
 }
 
-.error {
+.error, #login #login_error {
 	background-color: #ffebe8;
 	border-color: #c00;
 }
@@ -182,13 +182,22 @@ ul.widget-control-list .sorthelper {
 	color: #666;
 }
 
-.submit input, .button, .button-secondary {
+.submit input, .button, .button-secondary, #login form .submit input {
 	background-color: #e5e5e5;
 	color: #246;
+	border-color: #a3a3a3;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover {
+.submit input:hover, .button:hover {
+	border-color: #535353;
+}
+
+.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover {
 	color: #d54e21;
+}
+
+.button-secondary:hover, #login form .submit input:hover {
+	border-color: #328ab2;
 }
 
 .submitbox #autosave .error, ul.view-switch li.current a {
@@ -237,7 +246,7 @@ ul.widget-control-list .sorthelper {
 	color: #d54e21;
 }
 
-.updated {
+.updated, .login #login_error, .login .message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
 }
@@ -272,8 +281,8 @@ ul.widget-control-list .sorthelper {
 /* Because we don't want visited on these links */
 #adminmenu a.current, #sidemenu a.current {
 	background-color: #fff;
-	border-bottom-color: #fff;
 	border-color: #c6d9e9;
+	border-bottom-color: #fff;
 	color: #d54e21;
 }
 
@@ -325,7 +334,7 @@ ul.widget-control-list .sorthelper {
 	background-color: #fffbcc;
 }
 
-#edit-slug-box strong {
+#edit-slug-box strong, .login #nav a {
 	color: #777;
 }
 
@@ -389,9 +398,9 @@ ul.widget-control-list .sorthelper {
 }
 
 #poststuff .postbox, #titlediv, #poststuff .postarea, #poststuff .stuffbox {
-	border-bottom-color: #ccc;
 	border-color: #ebebeb;
 	border-right-color: #ccc;
+	border-bottom-color: #ccc;
 }
 
 #poststuff .togbox {
@@ -408,7 +417,6 @@ ul.widget-control-list .sorthelper {
 }
 
 #rightnow a {
-	border-bottom-color: #448abd;
 	color: #448abd;
 }
 
@@ -472,21 +480,29 @@ ul.widget-control-list .sorthelper {
 	border-top-color: #247fab;
 }
 
-#user_info {
+#user_info, .login #backtoblog a {
 	color: #ccc;
 }
 
 #wphead {
 	background-color: #e4f2fd;
+}
+
+#wphead, body.login {
 	border-top-color: #464646;
 }
 
 #wphead #viewsite a {
 	background-color: #c6d9e9;
 	color: #246;
+	border-color: #94acc1;
 }
 
-#wphead h1, #dashmenu a.current:hover {
+#wphead #viewsite a:hover {
+	border-color: #246;
+}
+
+#wphead h1, #dashmenu a.current:hover, #login form input {
 	color: #555;
 }
 
