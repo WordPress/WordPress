@@ -60,7 +60,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <ul>
 <li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
-<li><a href="edit-link-categories.php"><?php _e('Manage All Categories') ?></a></li>
+<li><a href="edit-link-categories.php"><?php _e('Manage All Link Categories') ?></a></li>
 <li><a href="link-import.php"><?php _e('Import Links') ?></a></li>
 </ul>
 </div>
