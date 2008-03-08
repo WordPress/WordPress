@@ -132,7 +132,7 @@ if ($allowed_files) :
 		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
 <?php endforeach; ?>
 	</ul>
-	<h4 style="margin-bottom: 0px;"><?php _e('Styles'); ?></h4>
+	<h4 style="margin-bottom: 0px;"><?php echo _c('Styles|Theme stylesheets in theme editor'); ?></h4>
 	<ul>
 <?php foreach($themes[$theme]['Stylesheet Files'] as $style_file) :
 		$description = get_file_description($style_file);
