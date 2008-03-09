@@ -1373,22 +1373,18 @@ function wp_sprintf_l($pattern, $args) {
 /**
  * Safely extracts not more than the first $count characters from html string
  *
- * UTF-8, tags and entities safe prefix extraction. Entities inside will be
- * counted as one character. As a side effect, all entities will be converted to
- * their decimal form.
+ * UTF-8, tags and entities safe prefix extraction. Entities inside will *NOT* be
+ * counted as one character. For example &amp; will be counted as 4, &lt; as 3, etc.
  *
  * @param integer $str String to get the excerpt from
- * @param integer $count Maximum number of visible characters to take
+ * @param integer $count Maximum number of characters to take
  * @eaturn string the excerpt
  */
 function wp_html_excerpt( $str, $count ) {
 	$str = strip_tags( $str );
-	$str = html_entity_decode( $str, ENT_QUOTES);
 	$str = mb_strcut( $str, 0, $count );
 	// remove part of an entity at the end
 	$str = preg_replace( '/&[^;\s]{0,6}$/', '', $str );
-	// we decoded some entities we should put back
-	$str = wp_specialchars( $str );
 	return $str;
 }
 
