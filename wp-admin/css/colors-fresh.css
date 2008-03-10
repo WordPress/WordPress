@@ -132,7 +132,7 @@ ul.widget-control-list .sorthelper {
 	color: #d54e21;
 }
 
-.howto, .nonessential, #dashmenu a, #sidemenu, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub {
+.howto, .nonessential, #dashmenu a, #sidemenu, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
 	color: #999;
 }
 
@@ -182,7 +182,7 @@ ul.widget-control-list .sorthelper {
 	color: #666;
 }
 
-.submit input, .button, .button-secondary, #login form .submit input {
+.submit input, .button, .button-secondary, #login form .submit input, div.dashboard-widget-submit input {
 	background-color: #e5e5e5;
 	color: #246;
 	border-color: #a3a3a3;
@@ -192,7 +192,7 @@ ul.widget-control-list .sorthelper {
 	border-color: #535353;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover {
+.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover {
 	color: #d54e21;
 }
 
@@ -312,7 +312,11 @@ ul.widget-control-list .sorthelper {
 	background-color: #ffc;
 }
 
-#dashboard_secondary div.dashboard-widget-content ul li a, input.readonly {
+#dashboard_secondary div.dashboard-widget-content ul li a {
+	background-color: #f9f9f9;
+}
+
+input.readonly {
 	background-color: #ddd;
 }
 
