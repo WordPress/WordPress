@@ -87,7 +87,12 @@ $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), 
 
 <br class="clear" />
 
+<div id="dashboard-widgets-wrap">
+
 <?php wp_dashboard(); ?>
+
+
+</div><!-- dashboard-widgets-wrap -->
 
 </div><!-- wrap -->
 

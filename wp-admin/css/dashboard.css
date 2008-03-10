@@ -1,3 +1,5 @@
+/* Right Now */
+
 #rightnow {
 	border-width: 1px;
 	border-style: solid;
@@ -53,13 +55,19 @@
 	font-weight: bold;
 }
 
-div#dashboard-widgets {
-	position: relative;
-	left: 20px;
-	margin: -20px 6px 0 -20px;
+/* Widgets */
+
+div#dashboard-widgets-wrap {
+	margin-top: -20px;
+	margin-right: -13px; /* 20 (div.dashboard-widget margin-right) - 7 (#rightnow margin-right) */
 }
 
-div.dashboard-widget-holder {
+div#dashboard-widgets {
+	width: 100%;
+	padding-right: 7px; /* (#rightnow margin-right) */
+}
+
+div.dashboard-widget-holder {	
 	margin-top: 20px;
 	width: 50%;
 	float: left;
@@ -116,6 +124,7 @@ h3.dashboard-widget-title small {
 
 h3.dashboard-widget-title img.rss-icon {
 	vertical-align: middle;
+	margin: .5em 0;
 }
 
 div.dashboard-widget-notice {

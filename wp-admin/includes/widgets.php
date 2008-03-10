@@ -105,7 +105,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 			<?php endif; ?>
 
 			<div class="widget-description">
-				<?php echo wp_widget_description( $widget['id'] ); ?>
+				<?php echo ( $widget_description = wp_widget_description( $widget['id'] ) ) ? $widget_description : '&nbsp;'; ?>
 			</div>
 
 			<br class="clear" />
