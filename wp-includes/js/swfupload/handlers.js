@@ -28,6 +28,9 @@ function uploadStart(fileObj) { return true; }
 function uploadProgress(fileObj, bytesDone, bytesTotal) {
 	// Lengthen the progress bar
 	jQuery('#media-item-' + fileObj.id + ' .bar').width(620*bytesDone/bytesTotal);
+
+	if ( bytesDone== bytesTotal )
+		jQuery('#media-item-' + fileObj.id + ' .bar').html('<strong style="display: block; padding-top: 9px; padding-left: 1em;">Crunching&hellip;</strong>');
 }
 
 function prepareMediaItem(fileObj, serverData) {
@@ -96,6 +99,7 @@ function uploadSuccess(fileObj, serverData) {
 		jQuery('#media-item-' + fileObj.id).html(serverData);
 		return;
 	}
+
 	prepareMediaItem(fileObj, serverData);
 	updateMediaForm();
 
