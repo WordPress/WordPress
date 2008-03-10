@@ -795,6 +795,7 @@ html, body {
 }
 
 .form-table th {
+	vertical-align: top;
 	text-align: left;
 	padding: 10px;
 	width: 150px;
@@ -805,6 +806,27 @@ html, body {
 .form-table input, .form-table textarea {
 	border-width: 1px;
 	border-style: solid;
+}
+
+#profile-page .form-table input {
+	width: 200px;
+}
+
+#profile-page .form-table textarea {
+	width: 500px;
+	height: 150px;
+	margin-bottom: 6px;
+}
+
+#pass-strength-result {
+	width: 197px;
+	float: left;
+	margin-right: 5px;
+	border: 1px solid #ccc !important;
+}
+
+#profile-page .form-table #rich_editing {
+	width: 20px;
 }
 
 /* Post Screen */

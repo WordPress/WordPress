@@ -131,7 +131,7 @@ include ('admin-header.php');
 </div>
 <?php endif; ?>
 
-<div class="wrap">
+<div class="wrap" id="profile-page">
 <h2><?php $is_profile_page? _e('Your Profile and Personal Options') : _e('Edit User'); ?></h2>
 
 <form name="profile" id="your-profile" action="" method="post">
@@ -147,7 +147,11 @@ include ('admin-header.php');
 <h3><?php _e('Personal Options'); ?></h3>
 
 <?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
-<p><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></p>
+<table class="form-table">
+	<tr>
+		<td colspan="2"><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></td>
+	</tr>
+</table>
 <?php endif; ?>
 
 <?php
@@ -156,19 +160,19 @@ include ('admin-header.php');
 	}
 ?>
 
-<p class="submit"><input type="submit" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User'); ?>" name="submit" /></p>
+<h3>Name</h3>
 
-<fieldset>
-<legend><?php _e('Name'); ?></legend>
-<p><label><?php _e('Username: (no editing)'); ?><br />
-<input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" />
-</label></p>
+<table class="form-table">
+	<tr>
+		<th><label><?php _e('Username'); ?></label></th>
+		<td><input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" /> Your username can not be changed</td>
+	</tr>
 
 <?php if ( !$is_profile_page ): ?>
-<p><label><?php _e('Role:') ?><br />
+<tr><th><label><?php _e('Role:') ?></label></th>
 <?php
 // print_r($profileuser);
-echo '<select name="role">';
+echo '<td><select name="role">';
 $role_list = '';
 $user_has_role = false;
 foreach($wp_roles->role_names as $role => $name) {
@@ -185,87 +189,101 @@ if ( $user_has_role )
 	$role_list .= '<option value="">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 else
 	$role_list .= '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
-echo $role_list . '</select>';
-?></label></p>
+echo $role_list . '</select></td></tr>';
+?>
 <?php endif; ?>
 
-<p><label><?php _e('First name:') ?><br />
-<input type="text" name="first_name" value="<?php echo $profileuser->first_name ?>" /></label></p>
+<tr>
+	<th><label><?php _e('First name') ?></label></th>
+	<td><input type="text" name="first_name" value="<?php echo $profileuser->first_name ?>" /></td>
+</tr>
 
-<p><label><?php _e('Last name:') ?><br />
-<input type="text" name="last_name"  value="<?php echo $profileuser->last_name ?>" /></label></p>
+<tr>
+	<th><label><?php _e('Last name') ?></label></th>
+	<td><input type="text" name="last_name"  value="<?php echo $profileuser->last_name ?>" /></td>
+</tr>
 
-<p><label><?php _e('Nickname:') ?><br />
-<input type="text" name="nickname" value="<?php echo $profileuser->nickname ?>" /></label></p>
+<tr>
+	<th><label><?php _e('Nickname') ?></label></th>
+	<td><input type="text" name="nickname" value="<?php echo $profileuser->nickname ?>" /></td>
+</tr>
 
-<p><label><?php _e('Display name publicly as:') ?> <br />
-<select name="display_name">
-<?php
-	$public_display = array();
-	$public_display[] = $profileuser->display_name;
-	$public_display[] = $profileuser->nickname;
-	$public_display[] = $profileuser->user_login;
-	$public_display[] = $profileuser->first_name;
-	$public_display[] = $profileuser->first_name.' '.$profileuser->last_name;
-	$public_display[] = $profileuser->last_name.' '.$profileuser->first_name;
-	$public_display = array_unique(array_filter(array_map('trim', $public_display)));
-	foreach($public_display as $item) {
-?>
-	<option value="<?php echo $item; ?>"><?php echo $item; ?></option>
-<?php
-	}
-?>
-</select></label></p>
-</fieldset>
+<tr>
+	<th><label><?php _e('Display name publicly&nbsp;as') ?> </label></th>
+	<td>
+		<select name="display_name">
+		<?php
+			$public_display = array();
+			$public_display[] = $profileuser->display_name;
+			$public_display[] = $profileuser->nickname;
+			$public_display[] = $profileuser->user_login;
+			$public_display[] = $profileuser->first_name;
+			$public_display[] = $profileuser->first_name.' '.$profileuser->last_name;
+			$public_display[] = $profileuser->last_name.' '.$profileuser->first_name;
+			$public_display = array_unique(array_filter(array_map('trim', $public_display)));
+			foreach($public_display as $item) {
+		?>
+			<option value="<?php echo $item; ?>"><?php echo $item; ?></option>
+		<?php
+			}
+		?>
+		</select>
+	</td>
+</tr>
+</table>
 
-<fieldset>
-<legend><?php _e('Contact Info'); ?></legend>
+<h3>Contact Info</h3>
 
-<p><label><?php _e('E-mail: (required)') ?><br />
-<input type="text" name="email" value="<?php echo $profileuser->user_email ?>" /></label></p>
+<table class="form-table">
+<tr>
+	<th><label><?php _e('E-mail') ?></label></th>
+	<td><input type="text" name="email" value="<?php echo $profileuser->user_email ?>" /> Required</td>
+</tr>
 
-<p><label><?php _e('Website:') ?><br />
-<input type="text" name="url" value="<?php echo $profileuser->user_url ?>" />
-</label></p>
+<tr>
+	<th><label><?php _e('Website') ?></label></th>
+	<td><input type="text" name="url" value="<?php echo $profileuser->user_url ?>" /></td>
+</th>
 
-<p><label><?php _e('AIM:') ?><br />
-<input type="text" name="aim" value="<?php echo $profileuser->aim ?>" />
-</label></p>
+<tr>
+	<th><label><?php _e('AIM') ?></label></th>
+	<td><input type="text" name="aim" value="<?php echo $profileuser->aim ?>" /></td>
+</tr>
 
-<p><label><?php _e('Yahoo IM:') ?><br />
-<input type="text" name="yim" value="<?php echo $profileuser->yim ?>" />
-</label></p>
+<tr>
+	<th><label><?php _e('Yahoo IM') ?></label></th>
+	<td><input type="text" name="yim" value="<?php echo $profileuser->yim ?>" /></td>
+</tr>
 
-<p><label><?php _e('Jabber / Google Talk:') ?><br />
-<input type="text" name="jabber" value="<?php echo $profileuser->jabber ?>" /></label>
-</p>
-</fieldset>
-<br style="clear: both;" />
-<fieldset>
-<legend><?php $is_profile_page? _e('About Yourself') : _e('About the user'); ?></legend>
-<p class="desc"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p>
-<p><textarea name="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea></p>
-</fieldset>
+<tr>
+	<th><label><?php _e('Jabber / Google Talk') ?></label></th>
+	<td><input type="text" name="jabber" value="<?php echo $profileuser->jabber ?>" /></td>
+</tr>
+</table>
+
+<h3><?php $is_profile_page? _e('About Yourself') : _e('About the user'); ?></h3>
+
+<table class="form-table">
+<tr>
+	<th><label>Biographical Info</th>
+	<td><textarea name="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea><br /><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></label></td>
+</tr>
 
 <?php
 $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
-<fieldset>
-<legend><?php $is_profile_page? _e('Update Your Password') : _e("Update User's Password"); ?></legend>
-<p class="desc"><?php _e("If you would like to change the password type a new one twice below. Otherwise leave this blank."); ?></p>
-<p><label><?php _e('New Password:'); ?><br />
-<input type="password" name="pass1" id="pass1" size="16" value="" />
-</label></p>
-<p><label><?php _e('Type it one more time:'); ?><br />
-<input type="password" name="pass2" id="pass2" size="16" value="" />
-</label></p>
-<?php if ( $is_profile_page ): ?>
-<p><strong><?php _e('Password Strength:'); ?></strong></p>
-<div id="pass-strength-result"><?php _e('Too short'); ?></div>
-<p><?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&( in your password.'); ?></p>
-<?php endif; ?>
-</fieldset>
+<tr>
+	<th><label><?php _e('New Password:'); ?></label></th>
+	<td><input type="password" name="pass1" id="pass1" size="16" value="" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
+		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
+		<?php if ( $is_profile_page ): ?>
+		<p><strong><?php _e('Password Strength:'); ?></strong></p>
+		<div id="pass-strength-result"><?php _e('Too short'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&( in your password.'); ?>
+		<?php endif; ?>
+	</td>
+</tr>
+</table>
 <?php endif; ?>
 
 <?php
@@ -298,6 +316,7 @@ if ( $show_password_fields ) :
 		endif;
 		?>
 	</table>
+</table>
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
