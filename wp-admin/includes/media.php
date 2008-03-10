@@ -836,7 +836,9 @@ jQuery(function($){
 -->
 </script>
 <div id="media-items">
+<input type="submit" class="button savebutton" name="save" value="<?php _e('Save'); ?>" />
 <?php echo get_media_items( $id, $errors ); ?>
+<input type="submit" class="button savebutton" name="save" value="<?php _e('Save'); ?>" />
 </div>
 
 <?php elseif ( is_callable($callback) ) : ?>
