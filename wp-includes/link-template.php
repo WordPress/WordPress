@@ -82,6 +82,13 @@ function get_permalink($id = 0, $leavename=false) {
 				$category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
 		}
 
+		// show default category in permalinks, without
+		// having to assign it explicitly
+		if ( empty($category) ) {
+			$default_category = get_category( get_option( 'default_category' ) );
+			$category = is_wp_error( $default_category)? '' : $default_category->slug; 
+		}
+
 		$author = '';
 		if ( strpos($permalink, '%author%') !== false ) {
 			$authordata = get_userdata($post->post_author);
