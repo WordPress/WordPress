@@ -47,7 +47,8 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 				continue;
 
 			ob_start();
-				wp_widget_control( 'no-key', $widget['id'], 'template' );
+				$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' ) ) );
+				call_user_func_array( 'wp_widget_control', $args );
 			$widget_control_template = ob_get_contents();
 			ob_end_clean();
 
@@ -122,89 +123,132 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 <?php
 }
 
-function wp_list_widget_controls( $widgets, $edit_widget = -1 ) {
+
+
+function wp_list_widget_controls( $sidebar ) {
+	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
 ?>
 
-		<ul class="widget-control-list">
-			<li />
-<?php
-	foreach ( $widgets as $key => $widget )
-		wp_widget_control( $key, $widget, $key == $edit_widget ? 'edit' : 'display' );
-?>
+	<ul class="widget-control-list">
 
-		</ul>
+		<?php if ( !dynamic_sidebar( $sidebar ) ) echo "<li />"; ?>
+
+	</ul>
 
 <?php
 }
 
 
-/*
- * Displays the control form for widget of type $widget at position $key.
- * $display
- *  == 'display': Normal, "closed" form.
- *  == 'edit': "open" form
- *  == 'template': generates a form template to be used by JS
- */
-function wp_widget_control( $key, $widget, $display = 'display' ) {
+function wp_list_widget_controls_dynamic_sidebar( $params ) {
+	global $wp_registered_widgets;
 	static $i = 0;
-	global $wp_registered_widgets, $wp_registered_widget_controls;
-	$control = $wp_registered_widget_controls[$widget];
-	$widget  = $wp_registered_widgets[$widget];
+	$i++;
+
+	$widget_id = $params[0]['widget_id'];
+
+	$params[0]['before_widget'] = "<li id='widget-list-control-item-$i-$widget_id' class='widget-list-control-item widget-sortable'>\n";
+	$params[0]['after_widget'] = "</li>";
+	$params[0]['before_title'] = "%BEG_OF_TITLE%";
+	$params[0]['after_title'] = "%END_OF_TITLE%";
+	$wp_registered_widgets[$widget_id]['_callback'] = $wp_registered_widgets[$widget_id]['callback'];
+	$wp_registered_widgets[$widget_id]['callback'] = 'wp_widget_control';
+	return $params;
+}
+
+/*
+ * Meta widget used to display the control form for a widget.  Called from dynamic_sidebar()
+ */
+function wp_widget_control( $sidebar_args ) {
+	global $wp_registered_widgets, $wp_registered_widget_controls, $sidebars_widgets, $edit_widget;
+	$widget_id = $sidebar_args['widget_id'];
+	$sidebar_id = isset($sidebar_args['id']) ? $sidebar_args['id'] : false;
+
+	$control = $wp_registered_widget_controls[$widget_id];
+	$widget  = $wp_registered_widgets[$widget_id];
+
+	$key = $sidebar_id ? array_search( $widget_id, $sidebars_widgets[$sidebar_id] ) : 'no-key'; // position of widget in sidebar
+
+	$edit = $edit_widget > 0 && $key && $edit_widget == $key; // (bool) are we currently editing this widget
 
 	$id_format = $widget['id'];
-	if ( 'template' == $display && isset($control['params'][0]['number']) ) {
+	// We aren't showing a widget control, we're outputing a template for a mult-widget control
+	if ( 'template' == $sidebar_args['_display'] && isset($control['params'][0]['number']) ) {
 		// number == -1 implies a template where id numbers are replaced by a generic '%i%'
 		$control['params'][0]['number'] = -1;
 		// if given, id_base means widget id's should be constructed like {$id_base}-{$id_number}
 		if ( isset($control['id_base']) )
 			$id_format = $control['id_base'] . '-%i%';
 	}
+
+	$widget_title = '';
+	// We grab the normal widget output to find the widget's title
+	if ( is_callable( $widget['_callback'] ) ) {
+		ob_start();
+		$args = func_get_args();
+		call_user_func_array( $widget['_callback'], $args );
+		$widget_title = ob_get_clean();
+		$widget_title = wp_widget_control_ob_filter( $widget_title );
+	}
+	$wp_registered_widgets[$widget_id]['callback'] = $wp_registered_widgets[$widget_id]['_callback'];
+	unset($wp_registered_widgets[$widget_id]['_callback']);
+
+	if ( $widget_title )
+		$widget_title = sprintf( _c('%1$s: %2$s|widget_admin_title' ), $sidebar_args['widget_name'], $widget_title );
+	else
+		$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
+
+
+	echo $sidebar_args['before_widget'];
 ?>
+		<h4 class="widget-title"><?php echo $widget_title ?>
 
-		<li id="widget-list-control-item-<?php echo ++$i; ?>-<?php echo $widget['id']; ?>" class="widget-list-control-item widget-sortable">
-			<h4 class="widget-title">
+			<?php if ( $edit ) : ?>
 
-				<?php echo $widget['name']; // TODO: Up/Down links for noJS reordering? ?>
+			<a class="widget-action widget-control-edit" href="<?php echo remove_query_arg( array( 'edit', 'key' ) ); ?>"><?php _e('Cancel'); ?></a>
 
-				<?php if ( 'edit' == $display ) : ?>
+			<?php else : ?>
 
-				<a class="widget-action widget-control-edit" href="<?php echo remove_query_arg( array( 'edit', 'key' ) ); ?>"><?php _e('Cancel'); ?></a>
+			<a class="widget-action widget-control-edit" href="<?php echo clean_url( add_query_arg( array( 'edit' => $id_format, 'key' => $key ) ) ); ?>"><?php _e('Edit'); ?></a>
 
-				<?php else : ?>
+			<?php endif; ?>
 
-				<a class="widget-action widget-control-edit" href="<?php echo clean_url( add_query_arg( array( 'edit' => $id_format, 'key' => $key ) ) ); ?>"><?php _e('Edit'); ?></a>
+		</h4>
+
+		<div class="widget-control"<?php if ( $edit ) echo ' style="display: block;"'; ?>>
+
+			<?php
+			if ( $control )
+				call_user_func_array( $control['callback'], $control['params'] );
+			else
+				echo '<p>' . __('There are no options for this widget.') . '</p>';
+			?>
+
+			<input type="hidden" name="widget-id[]" value="<?php echo $id_format; ?>" />
+			<input type="hidden" class="widget-width" value="<?php echo $control['width']; ?>" />
+
+			<div class="widget-control-actions">
+
+				<?php if ( $control ) : ?>
+
+				<a class="widget-action widget-control-save wp-no-js-hidden edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Change'); ?></a>
 
 				<?php endif; ?>
 
-			</h4>
-
-			<div class="widget-control"<?php if ( 'edit' == $display ) echo ' style="display: block;"'; ?>>
-
-				<?php
-				if ( $control )
-					call_user_func_array( $control['callback'], $control['params'] );
-				else
-					echo '<p>' . __('There are no options for this widget.') . '</p>';
-				?>
-
-				<input type="hidden" name="widget-id[]" value="<?php echo $id_format; ?>" />
-				<input type="hidden" class="widget-width" value="<?php echo $control['width']; ?>" />
-
-				<div class="widget-control-actions">
-
-					<?php if ( $control && 'edit' != $display ) : ?>
-
-					<a class="widget-action widget-control-save edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Change'); ?></a>
-
-					<?php endif; ?>
-
-					<a class="widget-action widget-control-remove delete alignright" href="<?php echo clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key ), wp_nonce_url( null, "remove-widget_$widget[id]" ) ) ); ?>"><?php _e('Remove'); ?></a>
-					<br class="clear" />
-				</div>
+				<a class="widget-action widget-control-remove delete alignright" href="<?php echo clean_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key ), wp_nonce_url( null, "remove-widget_$widget[id]" ) ) ); ?>"><?php _e('Remove'); ?></a>
+				<br class="clear" />
 			</div>
-		</li>
-
+		</div>
 <?php
+	echo $sidebar_args['after_widget'];
+}
+
+function wp_widget_control_ob_filter( $string ) {
+	if ( false === $beg = strpos( $string, '%BEG_OF_TITLE%' ) )
+		return '';
+	if ( false === $end = strpos( $string, '%END_OF_TITLE%' ) )
+		return '';
+	$string = substr( $string, $beg + 14 , $end - $beg - 14);
+	return wp_specialchars( strip_tags( $string ) );
 }
 
 function widget_css() {

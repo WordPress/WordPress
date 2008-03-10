@@ -245,7 +245,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 	<div id="current-widgets" class="widget-liquid-right">
 		<div id="current-sidebar">
 
-			<?php wp_list_widget_controls( $sidebars_widgets[$sidebar], $edit_widget ); // Show the control forms for each of the widgets in this sidebar ?>
+			<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 
 		</div>
 
