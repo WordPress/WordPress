@@ -142,6 +142,9 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	//Get the Base folder
 	$base = $wp_filesystem->get_base_dir();
+	
+	if ( empty($base) )
+		return new WP_Error('fs_nowordpress', __('Unable to locate WordPress directory.'));
 
 	// Get the URL to the zip file
 	$r = $current->response[ $plugin ];
