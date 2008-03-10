@@ -103,7 +103,7 @@ switch($step) {
 	</tr>
 </table>
 
-<p><a href="../wp-login.php" class="button">Log In</a>
+<p><a href="../wp-login.php" class="button"><?php _e('Log In'); ?></a>
 
 <?php
 		break;
