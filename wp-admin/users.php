@@ -291,8 +291,6 @@ unset($role_links);
 	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
 	</p>
 
-<br style="clear:both;" />
-
 <div class="tablenav">
 
 <?php if ( $wp_user_search->results_are_paged() ) : ?>
@@ -354,8 +352,6 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 ?>
 </tbody>
 </table>
-
-<br style="clear:both;" />
 
 <div class="tablenav">
 

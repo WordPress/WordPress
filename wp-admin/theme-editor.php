@@ -107,7 +107,6 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" />
 	</form>
 </div>
-<br style="clear: both;" />
 <div class="tablenav" style="margin-right: 210px;">
 <div style="float: left;">
 <big><strong><?php echo sprintf($desc_header, $file_show); ?></big>

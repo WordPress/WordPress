@@ -101,7 +101,6 @@ default:
 <div class="bordertitle">
 	<h2 style="border: none; padding-bottom: 0px;"><?php _e('Plugin Editor'); ?></h2>
 </div>
-<br style="clear: both;" />
 <div class="tablenav" style="margin-right: 210px;">
 <div style="float: left;">
 <big><strong><?php
