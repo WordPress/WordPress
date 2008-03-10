@@ -13,8 +13,8 @@ function login_header($title = 'Login', $message = '', $wp_error = '') {
 <head>
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<link rel='stylesheet' href='wp-admin/css/login.css' type='text/css' />
 	<?php
+	wp_admin_css( 'css/login' );
 	wp_admin_css( 'css/colors-fresh' );
 	?>
 	<script type="text/javascript">
