@@ -184,7 +184,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$plugin_dir = dirname($base . PLUGINDIR . "/$plugin");
 	$plugin_dir = trailingslashit($plugin_dir);
 	// If plugin is in its own directory, recursively delete the directory.
-	if ( '.' != $plugin_dir && $base . PLUGINDIR != $plugin_dir )
+	if( ! in_array( $plugin_dir, array('.', trailingslashit($base . PLUGINDIR) ) ) )
 		$deleted = $wp_filesystem->delete($plugin_dir, true);
 	else
 		$deleted = $wp_filesystem->delete($base . PLUGINDIR . "/$plugin");
