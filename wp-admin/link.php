@@ -84,6 +84,7 @@ switch ($action) {
 
 	case 'edit' :
 		wp_enqueue_script('link');
+		wp_enqueue_script('xfn');
 		wp_enqueue_script('thickbox');
 
 		$parent_file = 'edit.php';

@@ -12,6 +12,7 @@ wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
 	'notes', 'linkcheck[]'));
 
 wp_enqueue_script('link');
+wp_enqueue_script('xfn');
 wp_enqueue_script('thickbox');
 
 require('admin-header.php');
