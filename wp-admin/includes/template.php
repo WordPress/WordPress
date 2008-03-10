@@ -288,7 +288,7 @@ function wp_manage_posts_columns() {
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
 	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
-		$posts_columns['comments'] = '<img class="comment-column" alt="Comments" src="images/comment-grey-bubble.png" /></div>';
+		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
@@ -322,7 +322,7 @@ function wp_manage_pages_columns() {
 	$posts_columns['title'] = __('Title');
 	$posts_columns['author'] = __('Author');
 	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
-		$posts_columns['comments'] = '<div style="text-align: center"><img alt="" src="images/comment-grey-bubble.png" /></div>';
+		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_pages_columns', $posts_columns);
 

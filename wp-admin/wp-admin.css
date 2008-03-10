@@ -454,7 +454,7 @@ p.pagenav {
 }
 
 .comment-column {
-	margin-left: -5px;
+	margin-left: 5px;
 }
 
 .tablenav a.button-secondary {
@@ -686,24 +686,22 @@ a.view-comment-post-link {
 }
 
 .post-com-count {
-	background-repeat: no-repeat;
-	background-position: -240px bottom;
-	height: 0.9em;
-	margin-top: 7px;
-	width: 1em;
+	height: 1.3em;
 	display: block;
-	position: absolute;
 	text-decoration: none;
+	overflow: hidden;
+	padding: 0 0 5px;
+	cursor: pointer;
+	background-position: center -80px;
+	background-repeat: no-repeat;
 }
 
 .post-com-count span {
-	top: -0.7em;
-	right: 0;
-	position: absolute;
-	display: block;
 	height: 1.3em;
 	line-height: 1.3em;
 	padding: 0 0.6em;
+	background-color: #bbb;
+	cursor: pointer;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -711,11 +709,11 @@ a.view-comment-post-link {
 }
 
 strong .post-com-count {
-	background-position: -160px bottom;
+	background-position: center -55px;
 }
 
 .post-com-count:hover {
-	background-position: 0 bottom;
+	background-position: center -3px;
 }
 
 #adminmenu li a:hover #awaiting-mod {
