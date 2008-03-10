@@ -75,8 +75,8 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
  * @param string $output Either OBJECT, ARRAY_N, or ARRAY_A
  * @return object|array
  */
-function get_link($bookmark_id, $output = OBJECT) {
-	return get_bookmark($bookmark_id, $output);
+function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
+	return get_bookmark($bookmark_id, $output, $filter);
 }
 
 /**

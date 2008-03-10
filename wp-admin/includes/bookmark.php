@@ -62,7 +62,7 @@ function wp_get_link_cats($link_id = 0) {
 }
 
 function get_link_to_edit( $link_id ) {
-	return get_link( $link_id, OBJECT, 'edit' );
+	return get_bookmark( $link_id, OBJECT, 'edit' );
 }
 
 function wp_insert_link($linkdata) {
