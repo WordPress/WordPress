@@ -39,14 +39,14 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'icon':
 		?>
-		<td class="media-icon"><?php echo the_attachment_link($post->ID, false, array(48,48)); ?></td>
+		<td class="media-icon"><?php echo get_the_attachment_link($post->ID, 'thumbnail', array(48,48)); ?></td>
 		<?php
 		// TODO
 		break;
 
 	case 'media':
 		?>
-		<td><strong><a href="# TODO: upload.php?action=edit&amp;post=<?php the_ID(); ?>"><?php the_title(); ?></a></strong><br />
+		<td><strong><!-- TODO <a href="upload.php?action=edit&amp;post=<?php the_ID(); ?>"> --><?php the_title(); ?><!-- </a> --></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<?php do_action('manage_media_media_column', $post->ID); ?>
 		</td>

@@ -50,6 +50,9 @@ function image_hwstring($width, $height) {
 // returns an array($url, $width, $height)
 function image_downsize($id, $size = 'medium') {
 
+	if ( !wp_attachment_is_image($id) )
+		return false;
+
 	$img_url = wp_get_attachment_url($id);
 	$meta = wp_get_attachment_metadata($id);
 	$width = $height = 0;
@@ -71,8 +74,6 @@ function image_downsize($id, $size = 'medium') {
 			$width = $info[0];
 			$height = $info[1];
 		}
-		else
-			return false;
 	}
 	elseif ( isset($meta['width'], $meta['height']) ) {
 		// any other type: use the real image and constrain it
@@ -261,16 +262,14 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 function wp_get_attachment_image_src($attachment_id, $size='thumbnail') {
 	
 	// get a thumbnail or intermediate image if there is one
-	$image = image_downsize($attachment_id, $size);
-	if ( $image ) {
-		list ( $src, $width, $height ) = $image;
-	}
-	elseif ( $src = wp_mime_type_icon($attachment_id) ) {
-		$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
+	if ( $image = image_downsize($attachment_id, $size) )
+		return $image;
+
+	if ( $src = wp_mime_type_icon($attachment_id) ) {
+		$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/crystal' );
 		$src_file = $icon_dir . '/' . basename($src);
 		@list($width, $height) = getimagesize($src_file);
 	}
-	
 	if ( $src && $width && $height )
 		return array( $src, $width, $height );
 	return false;
