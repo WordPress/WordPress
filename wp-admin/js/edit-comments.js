@@ -33,6 +33,7 @@ var delAfter = function( r, settings ) {
 		if ( a.parent('.current').size() || $('#' + settings.element).is('.unapproved') ) {
 			var n = parseInt(a.html(),10) - 1;
 			a.html( n.toString() );
+			( 0 < n ) ? $('#awaiting-mod').each(function() { $(this).show(); $(this).removeClass('count-0') }) : $('#awaiting-mod').hide();
 		}
 	});
 	$('.post-com-count span.comment-count').each( function() {

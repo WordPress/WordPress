@@ -681,6 +681,10 @@ a.view-comment-post-link {
 	width: 1em;
 }
 
+#adminmenu li a .count-0 {
+	display: none;
+}
+
 .post-com-count {
 	background-repeat: no-repeat;
 	background-position: -240px bottom;
