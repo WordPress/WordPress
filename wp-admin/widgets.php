@@ -243,21 +243,18 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 	</div>
 
 	<div id="current-widgets" class="widget-liquid-right">
-		<input type="hidden" id='sidebar' name='sidebar' value="<?php echo $sidebar; ?>" />
-
 		<div id="current-sidebar">
 
 			<?php wp_list_widget_controls( $sidebars_widgets[$sidebar], $edit_widget ); // Show the control forms for each of the widgets in this sidebar ?>
 
 		</div>
+
+		<p class="submit">
+			<input type="hidden" id='sidebar' name='sidebar' value="<?php echo $sidebar; ?>" />
+			<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time(); ?>" />
+			<input type="submit" name="save-widgets" value="<?php _e( 'Save Changes' ); ?>" />
+		</p>
 	</div>
-
-	<br class="clear" />
-
-	<p class="submit">
-		<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time(); ?>" />
-		<input type="submit" name="save-widgets" value="<?php _e( 'Save Changes' ); ?>" />
-	</p>
 
 	</form>
 

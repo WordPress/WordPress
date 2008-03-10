@@ -88,6 +88,10 @@ ul.widget-control-list {
 	padding: 0 1em;
 }
 
+div#current-widgets p.submit {
+	padding: 1em;
+}
+
 li.widget-list-control-item {
 	margin: 0 0 1em;
 	-moz-border-radius: 3px;
