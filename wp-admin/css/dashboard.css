@@ -135,11 +135,23 @@ div.dashboard-widget-content {
 }
 
 div.dashboard-widget-submit {
-	border-top-width: 1px;
-	border-top-style: solid;
-	margin: 10px 15px;
-	padding-top: 10px;
+	border-top: 1px solid #ccc;
+	padding: 1em 0 0 0;
+	margin: 10px 0 0 0;
 }
+div.dashboard-widget-submit input {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 4px 6px;
+	border: none;
+	font-size: 13px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: pointer;
+	text-decoration: none;	
+}
+
 div.dashboard-widget-content ul, div.dashboard-widget-content ol, div.dashboard-widget-content dl {
 	margin: 0;
 	text-indent: 0;
@@ -161,6 +173,10 @@ div.dashboard-widget-content p.comment-meta {
 	font-size: 11px !important;
 }
 
+#dashboard_secondary div.dashboard-widget {
+	height: auto;
+}
+
 #dashboard_secondary div.dashboard-widget-content ul {
 	list-style: none;
 	padding: 0;
@@ -169,8 +185,7 @@ div.dashboard-widget-content p.comment-meta {
 #dashboard_secondary div.dashboard-widget-content ul li {
 	display: block;
 	width: 19.95%;
-	height: 6em;
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 	margin: 0;
 	float: left;
 	font-size: 95%;
@@ -185,22 +200,25 @@ div.dashboard-widget-content p.comment-meta {
 	display:block;
 	font-family:Georgia,"Times New Roman",Times,serif;
 	font-size:18px;
-	height:60px;
+	line-height: 1.2em;
+	height:90px;
 	overflow:hidden;
 }
 
 #dashboard_secondary div.dashboard-widget-content ul li a {
-	background: #ddd none repeat scroll 0%;
 	display: block;
 	height:100%;
 	overflow:hidden;
 	margin: 5px 10px;
 	text-decoration: none;
 	padding: .5em;
+	border-right: 1px solid #dadada;
+	border-bottom: 1px solid #dadada;
 }
 
 #dashboard_secondary div.dashboard-widget-content ul li a cite {
 	display: block;
+	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 #dashboard-widgets .widget_rss ul {

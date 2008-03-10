@@ -1194,6 +1194,7 @@ ul.view-switch {
 	float: right;
 	list-style: none;
 	margin: -28px 5px -2px 0;
+	position: relative;
 }
 
 ul.view-switch li {
