@@ -30,6 +30,8 @@ if ( isset($_GET['tab']) )
 else
 	$tab = apply_filters('media_upload_default_tab', 'type');
 
+$body_id = 'media-upload';
+
 // let the action code decide how to handle the request
 if ( $tab == 'type' )
 	do_action("media_upload_$type");

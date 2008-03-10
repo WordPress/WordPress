@@ -128,7 +128,7 @@ function wp_iframe($content_func /* ... */) {
 <?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
-wp_admin_css( 'css/colors-fresh' );
+wp_admin_css( 'css/colors-classic' );
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -142,7 +142,7 @@ if ( is_string($content_func) )
 	do_action( "admin_head_{$content_func}" );
 ?>
 </head>
-<body>
+<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>>
 <?php
 	$args = func_get_args();
 	$args = array_slice($args, 1);

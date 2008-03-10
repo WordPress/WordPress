@@ -28,7 +28,7 @@ div.dashboard-widget-submit, ul.widget-control-list div.widget-control-actions {
 }
 
 div.ui-tabs-panel {
-	border-color: #cee1ef;
+	border-color: #83b4d5;
 }
 
 input.disabled, textarea.disabled {
@@ -42,7 +42,7 @@ li.widget-list-control-item h4.widget-title a:hover, .submit a, #user_info a, #d
 }
 
 li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3, .login form {
-	background-color: #eaf3fa;
+	background-color: #cfebf7;
 }
 
 select {
@@ -55,7 +55,7 @@ strong .post-com-count span {
 }
 
 ul#category-tabs li.ui-tabs-selected, .button-secondary, #quicktags, #login form .submit input {
-	background-color: #cee1ef !important;
+	background-color: #83b4d5 !important;
 }
 
 ul#widget-list li.widget-list-item h4.widget-title {
@@ -128,7 +128,7 @@ ul.widget-control-list .sorthelper {
 }
 
 .highlight {
-	background-color: #e4f2fd;
+	background-color: #14568a;
 	color: #d54e21;
 }
 
@@ -205,7 +205,7 @@ ul.widget-control-list .sorthelper {
 }
 
 .submitbox #previewview {
-	background-color: #2683ae;
+	background-color: #5488af;
 }
 
 .submitbox #previewview a, #rightnow .rbutton {
@@ -229,20 +229,20 @@ ul.widget-control-list .sorthelper {
 }
 
 .tablenav .dots {
-	background-color: #e4f2fd;
-	border-color: #e4f2fd;
+	background-color: #14568a;
+	border-color: #14568a;
 }
 
 .tablenav .next, .tablenav .prev{
-	background-color: #e4f2fd;
+	background-color: #14568a;
 	border-bottom-color: #2583ad;
-	border-color: #e4f2fd;
+	border-color: #14568a;
 	color: #2583ad;
 }
 
 .tablenav .next:hover, .tablenav .prev:hover {
 	border-bottom-color: #d54e21;
-	border-color: #e4f2fd;
+	border-color: #14568a;
 	color: #d54e21;
 }
 
@@ -260,12 +260,12 @@ ul.widget-control-list .sorthelper {
 }
 
 .widefat thead, .thead {
-	background-color: #464646;
+	background-color: #07273e;
 	color: #d7d7d7;
 }
 
 .widget-control-save, .widget-control-remove {
-	background-color: #cee1ef;
+	background-color: #83b4d5;
 	color: #246;
 }
 
@@ -274,8 +274,12 @@ ul.widget-control-list .sorthelper {
 	color: #666;
 }
 
-#adminmenu a, #submenu a, #poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, a {
-	color: #2583ad;
+#poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, a {
+	color: #2e7ca0;
+}
+
+#adminmenu a, #submenu a {
+	color: #cfebf6;
 }
 
 /* Because we don't want visited on these links */
@@ -300,7 +304,7 @@ ul.widget-control-list .sorthelper {
 }
 
 #adminmenu, div#media-upload-header {
-	background-color: #e4f2fd;
+	background-color: #14568a;
 	border-bottom-color: #c6d9e9;
 }
 
@@ -321,8 +325,8 @@ input.readonly {
 }
 
 #dashmenu a.current {
-	background-color: #e4f2fd;
-	color: #555;
+	background-color: #14568a;
+	color: #cfebf6;
 }
 
 #dragHelper h4.widget-title, li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4 {
@@ -392,7 +396,7 @@ input.readonly {
 }
 
 #poststuff #editor-toolbar .active {
-	background-color: #cee1ef;
+	background-color: #83b4d5;
 	color: #333;
 }
 
@@ -425,9 +429,9 @@ input.readonly {
 }
 
 #sidemenu a {
-	background-color: #e4f2fd;
+	background-color: #14568a;
 	border-bottom-color: #c6d9e9;
-	border-top-color: #e4f2fd;
+	border-top-color: #14568a;
 }
 
 #tagchecklist span a {
@@ -451,7 +455,7 @@ input.readonly {
 	background-color: #fffeeb;
 	border-bottom-color: #ccc;
 	border-top-color: #ccc;
-	color: #555;
+	color: #cfebf6;
 }
 
 #upload-files a.file-link {
@@ -489,11 +493,11 @@ input.readonly {
 }
 
 #wphead {
-	background-color: #e4f2fd;
+	background-color: #14568a;
 }
 
 #wphead, body.login {
-	border-top-color: #464646;
+	border-top-color: #07273e;
 }
 
 #wphead #viewsite a {
@@ -507,9 +511,13 @@ input.readonly {
 }
 
 #wphead h1, #dashmenu a.current:hover, #login form input {
-	color: #555;
+	color: #cfebf6;
 }
 
 div#media-upload-error, .file-error, .required abbr, .widget-control-remove:hover, .delete:hover {
 	color: #f00;
+}
+
+#media-upload a.delete { 
+	color: #888; 
 }
