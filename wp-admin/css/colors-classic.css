@@ -27,10 +27,6 @@ div.dashboard-widget-submit, ul.widget-control-list div.widget-control-actions {
 	border-top-color: #ccc;
 }
 
-div.ui-tabs-panel {
-	border-color: #83b4d5;
-}
-
 input.disabled, textarea.disabled {
 	background-color: #ccc;
 }
@@ -41,8 +37,12 @@ li.widget-list-control-item h4.widget-title a:hover, .submit a, #user_info a, #d
 	color: #fff;
 }
 
-li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3, .login form {
+ul#category-tabs li.ui-tabs-selected, li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3, .login form {
 	background-color: #cfebf7;
+}
+
+div.ui-tabs-panel {
+	border-color: #cfebf7;
 }
 
 select {
@@ -54,7 +54,7 @@ strong .post-com-count span {
 	background-color: #2583ad;
 }
 
-ul#category-tabs li.ui-tabs-selected, .button-secondary, #quicktags, #login form .submit input {
+.button-secondary, #quicktags, #login form .submit input {
 	background-color: #83b4d5 !important;
 }
 
@@ -132,8 +132,12 @@ ul.widget-control-list .sorthelper {
 	color: #d54e21;
 }
 
-.howto, .nonessential, #dashmenu a, #sidemenu, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
+.howto, .nonessential, #sidemenu, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
 	color: #999;
+}
+
+#dashmenu a {
+	color: #88b4d7;
 }
 
 .media-item {
@@ -229,20 +233,20 @@ ul.widget-control-list .sorthelper {
 }
 
 .tablenav .dots {
-	background-color: #14568a;
-	border-color: #14568a;
+	background-color: #cfebf7;
+	border-color: #cfebf7;
 }
 
 .tablenav .next, .tablenav .prev{
-	background-color: #14568a;
-	border-bottom-color: #2583ad;
-	border-color: #14568a;
+	background-color: #cfebf7;
+	border-bottom-color: #cfebf7;
+	border-color: #cfebf7;
 	color: #2583ad;
 }
 
 .tablenav .next:hover, .tablenav .prev:hover {
 	border-bottom-color: #d54e21;
-	border-color: #14568a;
+	border-color: #cfebf7;
 	color: #d54e21;
 }
 
@@ -271,23 +275,27 @@ ul.widget-control-list .sorthelper {
 
 .wrap h2 {
 	border-bottom-color: #dadada;
-	color: #666;
+	color: #5a5a5a;
 }
 
 #poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, a {
 	color: #2e7ca0;
 }
 
-#adminmenu a, #submenu a {
+#adminmenu a {
 	color: #cfebf6;
 }
 
+#submenu a {
+	color: #2782af
+}
 /* Because we don't want visited on these links */
 #adminmenu a.current, #sidemenu a.current {
 	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;
 	color: #d54e21;
+	font-weight: bold;
 }
 
 #adminmenu li a #awaiting-mod {
@@ -432,6 +440,7 @@ input.readonly {
 	background-color: #14568a;
 	border-bottom-color: #c6d9e9;
 	border-top-color: #14568a;
+	color: #cfebf6;
 }
 
 #tagchecklist span a {
@@ -501,13 +510,13 @@ input.readonly {
 }
 
 #wphead #viewsite a {
-	background-color: #c6d9e9;
-	color: #246;
+	background-color: #94acc1;
+	color: white;
 	border-color: #94acc1;
 }
 
 #wphead #viewsite a:hover {
-	border-color: #246;
+	color: #246;
 }
 
 #wphead h1, #dashmenu a.current:hover, #login form input {
