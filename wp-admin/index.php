@@ -80,7 +80,7 @@ $sidebars_widgets = wp_get_sidebars_widgets();
 $num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ) );
 $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), $num_widgets );
 ?>
-<p><?php printf( __( 'You use the %1$s theme with %2$s.' ), $ct->title, "<a href='widgets.php'>$widgets_text</a>" ); ?> <a href="themes.php" class="button"><?php _e('Change Theme'); ?></a> You're using BetaPress TODO.</p>
+<p><?php printf( __( 'You use the %1$s theme with %2$s.' ), $ct->title, "<a href='widgets.php'>$widgets_text</a>" ); ?> <a href="themes.php" class="button"><?php _e('Change Theme'); ?></a> <?php printf( __( "This is WordPress version %s." ), $GLOBALS['wp_version'] ); ?></p>
 <?php do_action( 'rightnow_end' ); ?>
 <?php do_action( 'activity_box_end' ); ?>
 </div><!-- rightnow -->
