@@ -22,7 +22,7 @@ function wp_dashboard_setup() {
 	/* Register Widgets and Controls */
 
 	// Recent Comments Widget
-	if ( $mod_comments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'") ) {
+	if ( current_user_can( 'moderate_comments' ) && $mod_comments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'") ) {
 		$notice = sprintf( __ngettext( '%d comment awaiting moderation', '%d comments awaiting moderation', $mod_comments ), $mod_comments );
 		$notice = "<a href='moderation.php'>$notice</a>";
 	} else {
@@ -127,7 +127,13 @@ function wp_dashboard_setup() {
 	do_action( 'wp_dashboard_setup' );
 
 	// Hard code the sidebar's widgets and order
-	$dashboard_widgets = array( 'dashboard_recent_comments', 'dashboard_incoming_links', 'dashboard_primary', 'dashboard_plugins', 'dashboard_secondary' );
+	$dashboard_widgets = array();
+	$dashboard_widgets[] = 'dashboard_recent_comments';
+	$dashboard_widgets[] = 'dashboard_incoming_links';
+	$dashboard_widgets[] = 'dashboard_primary';
+	if ( current_user_can( 'activate_plugins' ) )
+		$dashboard_widgets[] = 'dashboard_plugins';
+	$dashboard_widgets[] = 'dashboard_secondary';
 
 	// Filter widget order
 	$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', $dashboard_widgets );

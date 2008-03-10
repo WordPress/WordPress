@@ -39,7 +39,16 @@ $today = current_time('mysql', 1);
 <h2><?php _e('Dashboard'); ?></h2>
 
 <div id="rightnow">
-<h3 class="reallynow"><span><?php _e('Right Now'); ?></span> <a href="post-new.php" class="rbutton"><strong><?php _e('Write a New Post'); ?></strong></a> <a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a><br class="clear" /></h3>
+<h3 class="reallynow">
+	<span><?php _e('Right Now'); ?></span>
+
+<?php if ( $can_edit_posts = current_user_can( 'edit_posts' ) ) : ?>
+	<a href="post-new.php" class="rbutton"><strong><?php _e('Write a New Post'); ?></strong></a>
+<?php endif; if ( $can_edit_pages = current_user_can( 'edit_pages' ) ) : ?>
+	<a href="page-new.php" class="rbutton"><?php _e('Write a New Page'); ?></a>
+<?php endif; ?>
+	<br class="clear" />
+</h3>
 
 <?php
 $num_posts = wp_count_posts( 'post' );
@@ -51,21 +60,26 @@ $num_tags = wp_count_terms('post_tag');
 
 $post_type_texts = array();
 
-if ( !empty($num_posts->publish) ) {
-	$post_type_texts[] = '<a href="edit.php">'.sprintf( __ngettext( '%s post', '%s posts', $num_posts->publish ), number_format_i18n( $num_posts->publish ) ).'</a>';
+if ( !empty($num_posts->publish) ) { // with feeds, anyone can tell how many posts there are.  Just unlink if !current_user_can
+	$post_text = sprintf( __ngettext( '%s post', '%s posts', $num_posts->publish ), number_format_i18n( $num_posts->publish ) );
+	$post_type_texts[] = $can_edit_posts ? "<a href='edit.php'>$post_text</a>" : $post_text;
 }
-if ( !empty($num_pages->publish) ) {
+if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
 	$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
 }
-if ( !empty($num_posts->draft) ) {
+if ( $can_edit_posts && !empty($num_posts->draft) ) {
 	$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%s draft', '%s drafts', $num_posts->draft ), number_format_i18n( $num_posts->draft ) ).'</a>';
 }
-if ( !empty($num_posts->future) ) {
+if ( $can_edit_posts && !empty($num_posts->future) ) {
 	$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%s scheduled post', '%s scheduled posts', $num_posts->future ), number_format_i18n( $num_posts->future ) ).'</a>';
 }
 
-$cats_text = '<a href="categories.php">'.sprintf( __ngettext( '%s category', '%s categories', $num_cats ), number_format_i18n( $num_cats ) ).'</a>';
-$tags_text = '<a href="edit-tags.php">'.sprintf( __ngettext( '%s tag', '%s tags', $num_tags ), number_format_i18n( $num_tags ) ).'</a>';
+$cats_text = sprintf( __ngettext( '%s category', '%s categories', $num_cats ), number_format_i18n( $num_cats ) );
+$tags_text = sprintf( __ngettext( '%s tag', '%s tags', $num_tags ), number_format_i18n( $num_tags ) );
+if ( current_user_can( 'manage_categories' ) ) {
+	$cats_text = "<a href='categories.php'>$cats_text</a>";
+	$tags_text = "<a href='edit-tags.php'>$tags_text</a>";
+}
 
 $post_type_text = implode(', ', $post_type_texts);
 
@@ -79,8 +93,17 @@ $ct = current_theme_info();
 $sidebars_widgets = wp_get_sidebars_widgets();
 $num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ) );
 $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), $num_widgets );
+if ( $can_switch_themes = current_user_can( 'switch_themes' ) )
+	$widgets_text = "<a href='widgets.php'>$widgets_text</a>";
 ?>
-<p><?php printf( __( 'You use the %1$s theme with %2$s.' ), $ct->title, "<a href='widgets.php'>$widgets_text</a>" ); ?> <a href="themes.php" class="button"><?php _e('Change Theme'); ?></a> <?php printf( __( "This is WordPress version %s." ), $GLOBALS['wp_version'] ); ?></p>
+<p>
+	<?php printf( __( 'You are using %1$s theme with %2$s.' ), $ct->title, $widgets_text ); ?>
+	<?php if ( $can_switch_themes ) : ?>
+		<a href="themes.php" class="rbutton"><?php _e('Change Theme'); ?></a>
+	<?php endif; ?>
+	<?php printf( __( "This is WordPress version %s." ), $GLOBALS['wp_version'] ); ?>
+</p>
+
 <?php do_action( 'rightnow_end' ); ?>
 <?php do_action( 'activity_box_end' ); ?>
 </div><!-- rightnow -->
