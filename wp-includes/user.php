@@ -89,11 +89,13 @@ function get_user_option( $option, $user = 0 ) {
 		$user = get_userdata($user);
 
 	if ( isset( $user->{$wpdb->prefix . $option} ) ) // Blog specific
-		return $user->{$wpdb->prefix . $option};
+		$result = $user->{$wpdb->prefix . $option};
 	elseif ( isset( $user->{$option} ) ) // User specific and cross-blog
-		return $user->{$option};
+		$result = $user->{$option};
 	else // Blog global
-		return get_option( $option );
+		$result = get_option( $option );
+	
+	return apply_filters("get_user_option_{$option}", $result, $option, $user);
 }
 
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
