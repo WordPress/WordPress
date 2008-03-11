@@ -109,7 +109,7 @@ form#upload #post_content {
 	padding: 0;
 }
 
-.post-categories li, #ed_toolbar {
+.post-categories li {
 	display: inline;
 }
 
@@ -209,7 +209,6 @@ textarea.all-options, input.all-options {
 	width: 250px;
 }
 
-
 #postdiv, #titlediv, #guiddiv, #poststuff .stuffbox {
 	margin: 0 8px 0 0;
 	padding: 0;
@@ -233,6 +232,7 @@ textarea.all-options, input.all-options {
 	padding: 0;
 	line-height: 150%;
 	border: 0 none;
+	outline: none;
 }
 
 #editorcontainer {
@@ -257,11 +257,12 @@ textarea.all-options, input.all-options {
 }
 
 #quicktags #ed_toolbar {
-	padding: 0 2px;
+	padding: 1px 3px;
 }
 
 #ed_toolbar input {
 	margin: 3px 2px 2px;
+	padding: 2px 4px;
 }
 
 #quicktags #ed_strong {
@@ -282,7 +283,7 @@ textarea.all-options, input.all-options {
 
 #quicktags #ed_code {
 	font-family: "Courier New", Courier, mono;
-	margin-bottom: 3px;
+	vertical-align: top;
 }
 
 
@@ -928,10 +929,11 @@ html, body {
 	padding: 0;
 	font-size: 1.7em;
 	width: 100%;
+	outline: none;
 }
 
 #poststuff #titlewrap {
-	padding: 3px;
+	padding: 2px 3px;
 	border-width: 1px;
 	border-style: solid;
 }
@@ -972,8 +974,8 @@ html, body {
 #poststuff #edButtonPreview, #poststuff #edButtonHTML {
 	display: block;
 	height: 20px;
-	padding: 5px;
-	margin-right: 8px;
+	padding: 5px 5px 3px;
+	margin: 2px 8px 0 0;
 	float: right;
 	cursor: pointer;
 }
@@ -993,12 +995,19 @@ html, body {
 #poststuff #media-buttons {
 	float: right;
 	margin-right: 20px;
-	margin-top: 5px;
-	cursor: pointer;
+	margin-top: 6px;
+	cursor: default;
+	line-height: 1.1em;
+	height: 1.1em;
 }
 
 #poststuff #media-buttons a {
-	margin-right: 8px;
+	cursor: pointer;
+	padding: 0 5px 2px 2px;
+}
+
+#poststuff #media-buttons img {
+	vertical-align: middle;
 }
 
 #poststuff .togbox {

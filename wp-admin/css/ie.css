@@ -19,7 +19,7 @@
 
 * html #poststuff .postarea, * html #poststuff #titlediv {
 	width: 95%;
-	margin-left: 2%;
+	margin-left: 3%;
 }
 
 .submitbox {
@@ -48,7 +48,11 @@
 	width: 98%;
 }
 
-
 form#template div {
 	width: 100%;
+}
+
+#ed_toolbar input {
+	overflow: visible;
+	padding: 1px 5px;
 }
