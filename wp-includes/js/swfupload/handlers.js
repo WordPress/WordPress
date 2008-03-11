@@ -86,6 +86,12 @@ function updateMediaForm() {
 		jQuery('.type-form .slidetoggle').siblings().addClass('hidden');
 	}
 
+	// Only show Save buttons when there is at least one file.
+	if ( jQuery('#media-items>*').not('.media-blank').length > 0 )
+		jQuery('.savebutton').show();
+	else
+		jQuery('.savebutton').hide();
+
 	// Only show Gallery button when there are at least two files.
 	if ( jQuery('#media-items>*').length > 1 )
 		jQuery('.insert-gallery').show();

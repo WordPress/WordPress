@@ -823,23 +823,22 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 <h3><?php _e('From Computer'); ?></h3>
 <?php media_upload_form( $errors ); ?>
 
-<?php if ( $id && !is_wp_error($id) ) : ?>
 <script type="text/javascript">
 <!--
 jQuery(function($){
 	var preloaded = $(".media-item.preloaded");
 	if ( preloaded.length > 0 ) {
 		preloaded.each(function(){prepareMediaItem({id:this.id.replace(/[^0-9]/g, '')},'');});
-		updateMediaForm();
 	}
+	updateMediaForm();
 });
 -->
 </script>
+<?php if ( $id && !is_wp_error($id) ) : ?>
 <div id="media-items">
-<input type="submit" class="button savebutton" name="save" value="<?php _e('Save'); ?>" />
 <?php echo get_media_items( $id, $errors ); ?>
-<input type="submit" class="button savebutton" name="save" value="<?php _e('Save'); ?>" />
 </div>
+<input type="submit" class="button savebutton" name="save" value="<?php _e('Save all changes'); ?>" />
 
 <?php elseif ( is_callable($callback) ) : ?>
 
@@ -853,6 +852,7 @@ jQuery(function($){
 <?php echo call_user_func($callback); ?>
 </div>
 </div>
+<input type="submit" class="button savebutton" name="save" value="<?php _e('Save all changes'); ?>" />
 <?php
 	endif;
 }
@@ -862,7 +862,7 @@ function media_upload_gallery_form($errors) {
 
 	$post_id = intval($_REQUEST['post_id']);
 
-	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type=media&tab=gallery&post_id=$post_id";
+	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type={$GLOBALS['type']}&tab=gallery&post_id=$post_id";
 
 ?>
 
@@ -885,10 +885,11 @@ jQuery(function($){
 <div id="media-items">
 <?php echo get_media_items($post_id, $errors); ?>
 </div>
-<p class="submit">
-	<input type="submit" class="submit insert-gallery" name="insert-gallery" value="<?php _e('Insert gallery into post'); ?>" />
-</p>
+<input type="submit" class="button savebutton" name="save" value="<?php _e('Save all changes'); ?>" />
+<input type="submit" class="button insert-gallery" name="insert-gallery" value="<?php _e('Insert gallery into post'); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
+<input type="hidden" name="type" value="<?php echo $GLOBALS['type']; ?>" />
+<input type="hidden" name="tab" value="<?php echo $GLOBALS['tab']; ?>" />
 </form>
 <?php
 }
@@ -900,7 +901,7 @@ function media_upload_library_form($errors) {
 
 	$post_id = intval($_REQUEST['post_id']);
 
-	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php";
+	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type={$GLOBALS['type']}&tab=library&post_id=$post_id";
 
 	$_GET['paged'] = intval($_GET['paged']);
 	if ( $_GET['paged'] < 1 )
@@ -931,9 +932,9 @@ function media_upload_library_form($errors) {
 $type_links = array();
 $_num_posts = (array) wp_count_attachments();
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
-foreach ( $matches as $type => $reals )
+foreach ( $matches as $_type => $reals )
 	foreach ( $reals as $real )
-		$num_posts[$type] += $_num_posts[$real];
+		$num_posts[$_type] += $_num_posts[$real];
 $class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
 $type_links[] = "<li><a href='" . remove_query_arg(array('post_mime_type', 'paged', 'm')) . "'$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
@@ -1026,6 +1027,7 @@ jQuery(function($){
 <div id="media-items">
 <?php echo get_media_items(null, $errors); ?>
 </div>
+<input type="submit" class="button savebutton" name="save" value="<?php _e('Save all changes'); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
 </form>
 <?php
