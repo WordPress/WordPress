@@ -99,7 +99,7 @@ if ( version_compare( '4.3', phpversion(), '>' ) ) {
 }
 
 if ( !extension_loaded('mysql') && !file_exists(ABSPATH . 'wp-content/db.php') )
-	die( 'Your PHP installation appears to be missing the MySQL which is required for WordPress.' );
+	die( 'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.' );
 
 /**
  * timer_start() - PHP 4 standard microtime start capture
