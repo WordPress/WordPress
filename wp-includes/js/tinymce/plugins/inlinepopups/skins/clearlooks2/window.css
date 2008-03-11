@@ -18,9 +18,9 @@
 }
 .clearlooks2 .mceTop .mceLeft {
 	width:55%; 
-	background: #cee1ef;
-	border-left: 1px solid #c6d9e9;
-	border-top: 1px solid #c6d9e9;
+	background-image: none;
+	border-style: solid none none solid;
+	border-width: 1px;
 }
 .clearlooks2 .mceTop .mceCenter {
 }
@@ -28,9 +28,9 @@
 	right:0; 
 	width:55%; 
 	height:23px; 
-	background: #cee1ef;
-	border-right: 1px solid #c6d9e9;
-	border-top: 1px solid #c6d9e9;
+	background-image: none;
+	border-style: solid solid none none;
+	border-width: 1px;
 }
 .clearlooks2 .mceTop span {
 	width:100%;
@@ -41,16 +41,16 @@
 	font-weight:bold;
 }
 .clearlooks2 .mceFocus .mceTop .mceLeft {
-	background: #2683ae;
-	border-left: 1px solid #464646;
-	border-top: 1px solid #464646;
+	background-image: none;
+	border-style: solid none none solid;
+	border-width: 1px;
 }
 .clearlooks2 .mceFocus .mceTop .mceCenter {
 }
 .clearlooks2 .mceFocus .mceTop .mceRight {
-	background: #2683ae;
-	border-right: 1px solid #464646;
-	border-top: 1px solid #464646;
+	background-image: none;
+	border-style: solid solid none none;
+	border-width: 1px;
 }
 .clearlooks2 .mceFocus .mceTop span {
 color:#FFF

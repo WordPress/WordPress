@@ -237,6 +237,9 @@ textarea.all-options, input.all-options {
 
 #editorcontainer {
 	padding: 6px;
+	border-style: none solid solid;
+	border-width: 1px;
+	border-collapse: separate;
 }
 
 #currenttheme img {
@@ -893,15 +896,42 @@ html, body {
 #poststuff h3 {
 	font-size: 14px;
 	font-weight: bold;
-	padding: 8px 5px;
+	padding: 9px 5px;
 	margin: 0 0 10px;
 }
 
-#poststuff .postbox, #titlediv, #poststuff .postarea, #poststuff .stuffbox {
+#poststuff .postbox, #poststuff .stuffbox {
 	margin-left: 20px;
 	padding: 2px;
 	margin-bottom: 10px;
 	margin-right: 8px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+#titlediv, #poststuff .postarea {
+	margin-left: 20px;
+	margin-bottom: 10px;
+	margin-right: 8px;
+}
+
+#titlediv {
+	margin-bottom: 20px;
+}
+
+#titlediv div.inside {
+	margin: 0;
+}
+
+#titlediv #title {
+	border: 0;
+	padding: 0;
+	font-size: 1.7em;
+	width: 100%;
+}
+
+#poststuff #titlewrap {
+	padding: 3px;
 	border-width: 1px;
 	border-style: solid;
 }
@@ -913,12 +943,6 @@ html, body {
 
 #poststuff .inside strong {
 	font-size: 14px;
-}
-
-#poststuff #title {
-	font-size: 1.7em;
-	padding: 4px 3px;
-	width: 98%;
 }
 
 #link_name, #link_url, #link_description {
@@ -970,6 +994,7 @@ html, body {
 	float: right;
 	margin-right: 20px;
 	margin-top: 5px;
+	cursor: pointer;
 }
 
 #poststuff #media-buttons a {

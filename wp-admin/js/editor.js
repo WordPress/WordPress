@@ -13,8 +13,14 @@ wpEditorInit = function() {
 switchEditors = {
 
     saveCallback : function(el, content, body) {
+    
         document.getElementById(el).style.color = '#fff';
-        return this.pre_wpautop(content);
+        if ( tinyMCE.activeEditor.isHidden() ) 
+            content = document.getElementById(el).value;
+        else
+            content = this.pre_wpautop(content);
+
+        return content;
     },
 
     pre_wpautop : function(content) {

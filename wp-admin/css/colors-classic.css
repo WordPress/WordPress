@@ -674,3 +674,22 @@ div#media-upload-error, .file-error, .required abbr, .widget-control-remove:hove
 .wp_themeSkin .mceMenuItemDisabled .mceText {
 	color: #888;
 }
+
+/* pop-up */
+.clearlooks2 .mceTop .mceLeft, .clearlooks2 .mceTop .mceRight {
+	background-color: #cee1ef;
+	border-color: #c6d9e9;
+}
+
+.clearlooks2 .mceFocus .mceTop .mceLeft, .clearlooks2 .mceFocus .mceTop .mceRight {
+	background-color: #5488AF;
+	border-color: #464646;
+}
+
+#editorcontainer {
+	border-color: #ccc;
+}
+
+#poststuff #titlewrap {
+	border-color: #ccc;
+}
