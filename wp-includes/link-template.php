@@ -441,9 +441,7 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 function get_edit_post_link( $id = 0 ) {
 	$post = &get_post( $id );
 
-	if ( $post->post_type == 'attachment' ) {
-		return;
-	} elseif ( $post->post_type == 'page' ) {
+	if ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
 
@@ -461,9 +459,7 @@ function get_edit_post_link( $id = 0 ) {
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $post;
 
-	if ( $post->post_type == 'attachment' ) {
-		return;
-	} elseif ( $post->post_type == 'page' ) {
+	if ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
 
@@ -483,9 +479,7 @@ function get_edit_comment_link( $comment_id = 0 ) {
 	$comment = &get_comment( $comment_id );
 	$post = &get_post( $comment->comment_post_ID );
 
-	if ( $post->post_type == 'attachment' ) {
-		return;
-	} elseif ( $post->post_type == 'page' ) {
+	if ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
 	} else {
@@ -501,7 +495,6 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $comment, $post;
 
 	if ( $post->post_type == 'attachment' ) {
-		return;
 	} elseif ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
