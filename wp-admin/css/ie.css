@@ -14,7 +14,7 @@
 }
 
 * html #wpbody {
-	_width: expression(document.documentElement.clientWidth > 962 ? "980px" : "99.9%");
+	_width: expression(document.documentElement.clientWidth > 982 ? "980px" : "99.9%");
 }
 
 * html #poststuff .postarea, * html #poststuff #titlediv {

@@ -534,3 +534,143 @@ div#media-upload-error, .file-error, .required abbr, .widget-control-remove:hove
 #media-upload a.delete { 
 	color: #888; 
 }
+
+
+/* TinyMCE */
+.wp_themeSkin *,
+.wp_themeSkin a:hover, 
+.wp_themeSkin a:link, 
+.wp_themeSkin a:visited, 
+.wp_themeSkin a:active {
+	 color: #000;
+}
+
+/* Containers */
+.wp_themeSkin table {
+	background: #83B4D5;
+}
+
+.wp_themeSkin iframe {
+	background: #fff;
+}
+
+/* Layout */
+.wp_themeSkin .mceStatusbar {
+	 color:#000;
+	 background-color: #eaf3fa;
+}
+
+/* Button */
+.wp_themeSkin .mceButton { 
+	background-color: #e9e8e8;
+	border-color: #83B4D5;
+}
+
+.wp_themeSkin a.mceButtonEnabled:hover,
+.wp_themeSkin a.mceButtonActive, 
+.wp_themeSkin a.mceButtonSelected {
+	background-color: #d6d8da;
+	border-color: #7789ba !important;
+}
+
+.wp_themeSkin .mceButtonDisabled {
+	border-color: #83B4D5 !important;
+}
+
+/* ListBox */
+.wp_themeSkin .mceListBox .mceText,
+.wp_themeSkin .mceListBox .mceOpen  {
+	border-color: #83B4D5;
+	background-color: #e9e8e8;
+}
+
+.wp_themeSkin table.mceListBoxEnabled:hover .mceOpen, 
+.wp_themeSkin .mceListBoxHover .mceOpen,
+.wp_themeSkin .mceListBoxSelected .mceOpen,
+.wp_themeSkin .mceListBoxSelected .mceText {
+	border-color: #7789ba !important;
+	background-color: #d6d8da;
+}
+
+.wp_themeSkin table.mceListBoxEnabled:hover .mceText, 
+.wp_themeSkin .mceListBoxHover .mceText {
+	border-color: #7789ba !important;
+}
+
+.wp_themeSkin select.mceListBox {
+	border-color: #b3c7e1; 
+	background-color: #fff;
+}
+
+/* SplitButton */
+.wp_themeSkin .mceSplitButton a.mceAction, 
+.wp_themeSkin .mceSplitButton a.mceOpen {
+	background-color: #e9e8e8;
+	border-color: #83B4D5;
+}
+
+.wp_themeSkin .mceSplitButton a.mceOpen:hover,
+.wp_themeSkin .mceSplitButtonSelected a.mceOpen,
+.wp_themeSkin table.mceSplitButtonEnabled:hover a.mceAction,
+.wp_themeSkin .mceSplitButton a.mceAction:hover {
+	background-color: #d6d8da;
+	border-color: #7789ba !important;
+} 
+
+.wp_themeSkin .mceSplitButtonActive {
+	background-color: #d6d8da;
+}
+
+/* ColorSplitButton */
+.wp_themeSkin div.mceColorSplitMenu table {
+	background-color: #ebeaeb;
+	border-color: #808080;
+}
+
+.wp_themeSkin .mceColorSplitMenu a {
+	border-color: #808080;
+}
+
+.wp_themeSkin .mceColorSplitMenu a.mceMoreColors {
+	border-color: #fff;
+}
+
+.wp_themeSkin .mceColorSplitMenu a.mceMoreColors:hover {
+	border-color: #0A246A;
+	background-color: #B6BDD2;
+}
+
+.wp_themeSkin a.mceMoreColors:hover {
+	border-color: #0A246A;
+}
+
+/* Menu */
+.wp_themeSkin .mceMenu {
+	border-color: #ddd;
+}
+
+.wp_themeSkin .mceMenu table {
+	background-color: #ebeaeb;
+}
+
+.wp_themeSkin .mceMenu .mceText {
+	color: #000; 
+}
+
+.wp_themeSkin .mceMenu .mceMenuItemEnabled a:hover,
+.wp_themeSkin .mceMenu .mceMenuItemActive {
+	background-color: #83B4D5;
+}
+.wp_themeSkin td.mceMenuItemSeparator {
+	background-color: #aaa;
+}
+.wp_themeSkin .mceMenuItemTitle a {
+	background-color: #ccc; 
+	border-bottom-color: #aaa;
+}
+.wp_themeSkin .mceMenuItemTitle span.mceText {
+	color: #000;
+}
+.wp_themeSkin .mceMenuItemDisabled .mceText {
+	color: #888;
+}
