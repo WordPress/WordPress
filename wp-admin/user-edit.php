@@ -160,7 +160,7 @@ include ('admin-header.php');
 	}
 ?>
 
-<h3>Name</h3>
+<h3><?php _e('Name') ?></h3>
 
 <table class="form-table">
 	<tr>
@@ -232,7 +232,7 @@ echo $role_list . '</select></td></tr>';
 </tr>
 </table>
 
-<h3>Contact Info</h3>
+<h3><?php _e('Contact Info') ?></h3>
 
 <table class="form-table">
 <tr>
