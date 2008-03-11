@@ -73,6 +73,13 @@ function edit_user( $user_id = 0 ) {
 	else
 		$user->rich_editing = 'false';
 
+	if ( !$update )
+		$user->admin_color = 'classic';  // Default to classic for new users.
+	else if ( isset( $_POST['admin_color'] ) )
+		$user->admin_color = $_POST['admin_color'];
+	else
+		$user->admin_color = 'classic';
+
 	$errors = new WP_Error();
 
 	/* checking that username has been typed */

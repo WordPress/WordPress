@@ -1100,17 +1100,37 @@ function paginate_links( $args = '' ) {
 	return $r;
 }
 
+function wp_admin_css_color($key, $name, $url, $colors = array()) {
+	global $_wp_admin_css_colors;
+
+	if ( !isset($_wp_admin_css_colors) )
+		$_wp_admin_css_colors = array();
+
+	$_wp_admin_css_colors[$key] = (object) array('name' => $name, 'url' => $url, 'colors' => $colors);
+}
+
 function wp_admin_css_uri( $file = 'wp-admin' ) {
-	if ( defined('WP_INSTALLING') )
-	{
-		$_file = add_query_arg( 'version', get_bloginfo( 'version' ), "./$file.css" );
+	if ( defined('WP_INSTALLING') ) {
+		$_file = "./$file.css";
 	} else {
-		$_file = add_query_arg( 'version', get_bloginfo( 'version' ), get_option( 'siteurl' ) . "/wp-admin/$file.css" );
+		if ( 'css/colors' == $file || 'css/colors-rtl' == $file ) {
+			global $_wp_admin_css_colors;
+			$color = get_user_option('admin_color');
+			if ( empty($color) || !isset($_wp_admin_css_colors[$color]) )
+				$color = 'classic';
+			$color = $_wp_admin_css_colors[$color];
+			$_file = $color->url;
+		} else {
+			$_file = get_option( 'siteurl' ) . "/wp-admin/$file.css";
+		}
 	}
+	$_file = add_query_arg( 'version', get_bloginfo( 'version' ),  $_file );
+
 	return apply_filters( 'wp_admin_css_uri', $_file, $file );
 }
 
 function wp_admin_css( $file = 'wp-admin' ) {
+
 	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $file ) . "' type='text/css' />\n", $file );
 	if ( 'rtl' == get_bloginfo( 'text_direction' ) ) {
 		$rtl = ( 'wp-admin' == $file ) ? 'rtl' : "$file-rtl";

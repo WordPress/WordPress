@@ -146,13 +146,35 @@ include ('admin-header.php');
 
 <h3><?php _e('Personal Options'); ?></h3>
 
-<?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
 <table class="form-table">
+<?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
 	<tr>
-		<td colspan="2"><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></td>
+		<th scope="row"><?php _e('Visual Editor')?></th>
+		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></td>
 	</tr>
-</table>
 <?php endif; ?>
+<tr>
+<th scope="row"><?php _e('Admin Color Scheme')?></th>
+<td>
+<?php
+foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
+<p><label>
+<input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, get_user_option('admin_color')); ?> />
+<?php echo $color_info->name ?>
+</label>
+<table>
+<tr>
+<?php
+foreach ( $color_info->colors as $color ): ?>
+<td style="background-color: <?php echo $color ?>" title="<?php echo $color ?>"></td>
+<?php endforeach; ?>
+</tr>
+</table>
+</p>
+<?php endforeach; ?>
+</td>
+</table>
+
 
 <?php
 	if ( $is_profile_page ) {

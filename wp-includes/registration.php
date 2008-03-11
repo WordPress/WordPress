@@ -154,6 +154,10 @@ function wp_insert_user($userdata) {
 	if ( empty($rich_editing) )
 		$rich_editing = 'true';
 
+	if ( empty($admin_color) )
+		$admin_color = 'classic';
+	$admin_color = preg_replace('|[^a-z0-9 _.\-@]|i', '', $admin_color);
+
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
 
@@ -176,6 +180,7 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'aim', $aim );
 	update_usermeta( $user_id, 'yim', $yim );
 	update_usermeta( $user_id, 'rich_editing', $rich_editing);
+	update_usermeta( $user_id, 'admin_color', $admin_color);
 
 	if ( $update && isset($role) ) {
 		$user = new WP_User($user_id);
