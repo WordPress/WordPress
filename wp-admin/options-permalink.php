@@ -139,7 +139,7 @@ $structures = array(
 	</tr>
 	<tr>
 		<th><label><input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> <?php _e('Month and name'); ?></label></th>
-		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . '/sample-post/'; ?></code></td>
+		<td><code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/sample-post/'; ?></code></td>
 	</tr>
 	<tr>
 		<th><label><input name="selection" type="radio" value="<?php echo $structures[3]; ?>" class="tog" <?php checked($structures[3], $permalink_structure); ?> /> <?php _e('Numeric'); ?></label></th>
