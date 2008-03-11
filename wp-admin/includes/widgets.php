@@ -150,8 +150,10 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	$params[0]['after_widget'] = "</li>";
 	$params[0]['before_title'] = "%BEG_OF_TITLE%";
 	$params[0]['after_title'] = "%END_OF_TITLE%";
-	$wp_registered_widgets[$widget_id]['_callback'] = $wp_registered_widgets[$widget_id]['callback'];
-	$wp_registered_widgets[$widget_id]['callback'] = 'wp_widget_control';
+	if ( is_callable( $wp_registered_widgets[$widget_id]['callback'] ) ) {
+		$wp_registered_widgets[$widget_id]['_callback'] = $wp_registered_widgets[$widget_id]['callback'];
+		$wp_registered_widgets[$widget_id]['callback'] = 'wp_widget_control';
+	}
 	return $params;
 }
 
