@@ -342,6 +342,7 @@ function get_theme_root_uri() {
 
 function get_query_template($type) {
 	$template = '';
+	$type = preg_replace( '|[a-z0-9-]+|', '', $type );
 	if ( file_exists(TEMPLATEPATH . "/{$type}.php") )
 		$template = TEMPLATEPATH . "/{$type}.php";
 
