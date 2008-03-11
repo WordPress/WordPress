@@ -606,11 +606,11 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$author_url_display = $author_url;
 	if ( strlen($author_url_display) > 50 )
 		$author_url_display = substr($author_url_display, 0, 49) . '...';
-	$ptime = get_post_time('G', true);
+	$ptime = date('G', strtotime( $comment->comment_date ) );
 	if ( ( abs(time() - $ptime) ) < 86400 )
 		$ptime = sprintf( __('%s ago'), human_time_diff( $ptime ) );
 	else
-		$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $post->post_date);
+		$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $comment->comment_date );
 
 	$delete_url    = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 	$approve_url   = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
