@@ -34,11 +34,12 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 $title = __('Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
-if ( 1 == $_GET['c'] )
-	wp_enqueue_script( 'admin-comments' );
-require_once('admin-header.php');
 
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
+
+if ( 1 == count($posts) && is_singular() )
+	wp_enqueue_script( 'admin-comments' );
+require_once('admin-header.php');
 
 if ( !isset( $_GET['paged'] ) )
 	$_GET['paged'] = 1;
@@ -139,7 +140,7 @@ if ( $page_links )
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-posts'); ?>
 <?php
-if ( !isset( $_GET['p'] ) ) {
+if ( !is_singular() ) {
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
 
 $arc_result = $wpdb->get_results( $arc_query );
@@ -195,7 +196,7 @@ if ( $page_links )
 
 <?php
 
-if ( 1 == count($posts) && isset( $_GET['p'] ) ) :
+if ( 1 == count($posts) && is_singular() ) :
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ( $comments ) :
