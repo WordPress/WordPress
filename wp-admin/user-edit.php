@@ -149,7 +149,7 @@ include ('admin-header.php');
 <?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
 <table class="form-table">
 	<tr>
-		<td colspan="2"><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></td>
+		<td colspan="2"><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></td>
 	</tr>
 </table>
 <?php endif; ?>
@@ -164,15 +164,15 @@ include ('admin-header.php');
 
 <table class="form-table">
 	<tr>
-		<th><label><?php _e('Username'); ?></label></th>
-		<td><input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" /> Your username can not be changed</td>
+		<th><label for="user_login"><?php _e('Username'); ?></label></th>
+		<td><input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" /> <?php _e('Your username cannot be changed'); ?></td>
 	</tr>
 
 <?php if ( !$is_profile_page ): ?>
-<tr><th><label><?php _e('Role:') ?></label></th>
+<tr><th><label for="role"><?php _e('Role:') ?></label></th>
 <?php
 // print_r($profileuser);
-echo '<td><select name="role">';
+echo '<td><select name="role" id="role">';
 $role_list = '';
 $user_has_role = false;
 foreach($wp_roles->role_names as $role => $name) {
@@ -194,24 +194,24 @@ echo $role_list . '</select></td></tr>';
 <?php endif; ?>
 
 <tr>
-	<th><label><?php _e('First name') ?></label></th>
-	<td><input type="text" name="first_name" value="<?php echo $profileuser->first_name ?>" /></td>
+	<th><label for="first_name"><?php _e('First name') ?></label></th>
+	<td><input type="text" name="first_name" id="first_name" value="<?php echo $profileuser->first_name ?>" /></td>
 </tr>
 
 <tr>
-	<th><label><?php _e('Last name') ?></label></th>
-	<td><input type="text" name="last_name"  value="<?php echo $profileuser->last_name ?>" /></td>
+	<th><label for="last_name"><?php _e('Last name') ?></label></th>
+	<td><input type="text" name="last_name" id="last_name" value="<?php echo $profileuser->last_name ?>" /></td>
 </tr>
 
 <tr>
-	<th><label><?php _e('Nickname') ?></label></th>
-	<td><input type="text" name="nickname" value="<?php echo $profileuser->nickname ?>" /></td>
+	<th><label for="nickname"><?php _e('Nickname') ?></label></th>
+	<td><input type="text" name="nickname" id="nickname" value="<?php echo $profileuser->nickname ?>" /></td>
 </tr>
 
 <tr>
-	<th><label><?php _e('Display name publicly&nbsp;as') ?> </label></th>
+	<th><label for="display_name"><?php _e('Display name publicly&nbsp;as') ?></label></th>
 	<td>
-		<select name="display_name">
+		<select name="display_name" id="display_name">
 		<?php
 			$public_display = array();
 			$public_display[] = $profileuser->display_name;
@@ -236,28 +236,28 @@ echo $role_list . '</select></td></tr>';
 
 <table class="form-table">
 <tr>
-	<th><label><?php _e('E-mail') ?></label></th>
-	<td><input type="text" name="email" value="<?php echo $profileuser->user_email ?>" /> Required</td>
+	<th><label for="email"><?php _e('E-mail') ?></label></th>
+	<td><input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" /> <?php _e('Required'); ?></td>
 </tr>
 
 <tr>
-	<th><label><?php _e('Website') ?></label></th>
-	<td><input type="text" name="url" value="<?php echo $profileuser->user_url ?>" /></td>
+	<th><label for="url"><?php _e('Website') ?></label></th>
+	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" /></td>
 </th>
 
 <tr>
-	<th><label><?php _e('AIM') ?></label></th>
-	<td><input type="text" name="aim" value="<?php echo $profileuser->aim ?>" /></td>
+	<th><label for="aim"><?php _e('AIM') ?></label></th>
+	<td><input type="text" name="aim" id="aim" value="<?php echo $profileuser->aim ?>" /></td>
 </tr>
 
 <tr>
-	<th><label><?php _e('Yahoo IM') ?></label></th>
-	<td><input type="text" name="yim" value="<?php echo $profileuser->yim ?>" /></td>
+	<th><label for="yim"><?php _e('Yahoo IM') ?></label></th>
+	<td><input type="text" name="yim" id="yim" value="<?php echo $profileuser->yim ?>" /></td>
 </tr>
 
 <tr>
-	<th><label><?php _e('Jabber / Google Talk') ?></label></th>
-	<td><input type="text" name="jabber" value="<?php echo $profileuser->jabber ?>" /></td>
+	<th><label for="jabber"><?php _e('Jabber / Google Talk') ?></label></th>
+	<td><input type="text" name="jabber" id="jabber" value="<?php echo $profileuser->jabber ?>" /></td>
 </tr>
 </table>
 
@@ -265,8 +265,8 @@ echo $role_list . '</select></td></tr>';
 
 <table class="form-table">
 <tr>
-	<th><label>Biographical Info</th>
-	<td><textarea name="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea><br /><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></label></td>
+	<th><label for="description"><?php _e('Biographical Info'); ?></label></th>
+	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea><br /><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></td>
 </tr>
 
 <?php
@@ -274,7 +274,7 @@ $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
 <tr>
-	<th><label><?php _e('New Password:'); ?></label></th>
+	<th><label for="pass1"><?php _e('New Password:'); ?></label></th>
 	<td><input type="password" name="pass1" id="pass1" size="16" value="" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
 		<?php if ( $is_profile_page ): ?>
