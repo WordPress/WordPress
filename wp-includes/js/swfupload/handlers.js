@@ -55,20 +55,11 @@ function prepareMediaItem(fileObj, serverData) {
 	// Bind AJAX to the new Delete button
 	jQuery('#media-item-' + fileObj.id + ' a.delete').bind('click',function(){
 		// Tell the server to delete it. TODO: handle exceptions
-		jQuery.ajax({url:'admin-ajax.php',type:'post',data:{
+		jQuery.ajax({url:'admin-ajax.php',type:'post',success:deleteSuccess,error:deleteError,id:fileObj.id,data:{
 			id : this.id.replace(/[^0-9]/g,''),
 			action : 'delete-post',
 			_ajax_nonce : this.href.replace(/^.*wpnonce=/,'')}
 			});
-
-		// Decrement the counters.
-		if ( type = jQuery('#type-of-' + this.id.replace(/[^0-9]/g,'')).val() )
-			jQuery('#' + type + '-counter').text(jQuery('#' + type + '-counter').text()-1);
-		if ( jQuery(this).parents('.media-item').eq(0).hasClass('child-of-'+post_id) )
-			jQuery('#attachments-count').text(jQuery('#attachments-count').text()-1);
-
-		// Vanish it.
-		jQuery(this).parents(".media-item").eq(0).slideToggle(300,function(){jQuery(this).remove();if(jQuery('.media-item').length==0)jQuery('.insert-gallery').hide();updateMediaForm();});
 		return false;
 	});
 
@@ -77,6 +68,45 @@ function prepareMediaItem(fileObj, serverData) {
 		.removeClass('startopen')
 		.slideToggle(500)
 		.parent().eq(0).children('.toggle').toggle();
+}
+
+function itemAjaxError(id, html) {
+	var error = jQuery('#media-item-error' + id);
+
+	error.html('<div class="file-error"><button type="button" id="dismiss-'+id+'" class="button dismiss">'+swfuploadL10n.dismiss+'</button>'+html+'</div>');
+	jQuery('#dismiss-'+id).click(function(){jQuery(this).parents('.file-error').slideUp(200, function(){jQuery(this).empty();})});
+}
+
+function deleteSuccess(data, textStatus) {
+	if ( data == '-1' )
+		return itemAjaxError(this.id, 'You do not have permission. Has your session expired?');
+	if ( data == '0' )
+		return itemAjaxError(this.id, 'Could not be deleted. Has it been deleted already?');
+
+	var item = jQuery('#media-item-' + this.id);
+
+	// Decrement the counters.
+	if ( type = jQuery('#type-of-' + this.id).val() )
+		jQuery('#' + type + '-counter').text(jQuery('#' + type + '-counter').text()-1);
+	if ( item.hasClass('child-of-'+post_id) )
+		jQuery('#attachments-count').text(jQuery('#attachments-count').text()-1);
+
+	if ( jQuery('.type-form #media-items>*').length == 1 && jQuery('#media-items .hidden').length > 0 ) {
+		jQuery('.toggle').toggle();
+		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
+	}
+
+	jQuery('#media-item-' + this.id + ' .filename:empty').remove();
+	jQuery('#media-item-' + this.id + ' .filename').append(' <span class="file-error">'+swfuploadL10n.deleted+'</span>').siblings('a.toggle').remove();
+	jQuery('#media-item-' + this.id + ' .describe').slideUp(500, function(){jQuery(this).parents('.media-item').slideUp(1500,function(){jQuery(this).remove();updateMediaForm();})}).end.remove();
+
+	return;
+	// Vanish it.
+	item.slideToggle(300,function(){jQuery(this).remove();if(jQuery('.media-item').length==0)jQuery('.insert-gallery').hide();updateMediaForm();});
+}
+
+function deleteError(X, textStatus, errorThrown) {
+	// TODO
 }
 
 function updateMediaForm() {
@@ -130,8 +160,8 @@ function wpQueueError(message) {
 
 // file-specific message
 function wpFileError(fileObj, message) {
-	jQuery('#media-item-' + fileObj.id + ' .filename').after('<div class="file-error"><button type="button" class="button dismiss">'+swfuploadL10n.dismiss+'</button>'+message+'</div>').siblings('.progress').remove();
-	jQuery('.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
+	jQuery('#media-item-' + fileObj.id + ' .filename').after('<div class="file-error"><button type="button" id="dismiss-' + fileObj.id + '" class="button dismiss">'+swfuploadL10n.dismiss+'</button>'+message+'</div>').siblings('.toggle').remove();
+	jQuery('#dismiss-' + fileObj.id).click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
 }
 
 function fileQueueError(fileObj, error_code, message)  {
