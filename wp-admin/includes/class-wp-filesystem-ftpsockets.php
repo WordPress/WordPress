@@ -139,7 +139,7 @@ class WP_Filesystem_ftpsockets{
 			return false;
 
 		if( empty($type) ){
-			$extension = substr(strrchr($filename, "."), 1);
+			$extension = substr(strrchr($file, "."), 1);
 			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_AUTOASCII;
 		}
 		$this->ftp->SetType($type);
@@ -376,7 +376,7 @@ class WP_Filesystem_ftpsockets{
 
 	function rmdir($path,$recursive=false){
 		if( ! $recursive )
-			return $this->ftp->rmdir($file);
+			return $this->ftp->rmdir($path);
 
 		return $this->ftp->mdel($path);
 	}

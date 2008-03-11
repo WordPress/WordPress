@@ -5,14 +5,14 @@ require_once('admin.php');
 if ( !current_user_can('edit_plugins') )
                 wp_die('<p>'.__('You do not have sufficient permissions to update plugins for this blog.').'</p>');
 
-function request_filesystem_credentials($form_post, $type = '') {
+function request_filesystem_credentials($form_post, $type = '', $error = false) {
 	if ( empty($type) )
 		$type = get_filesystem_method();
 
 	if ( 'direct' == $type )
 		return array();
 
-	if ( !empty($_POST['password']) && !empty($_POST['username']) && !empty($_POST['hostname']) ) {
+	if ( ! $error && !empty($_POST['password']) && !empty($_POST['username']) && !empty($_POST['hostname']) ) {
 		$credentials = array('hostname' => $_POST['hostname'], 'username' => $_POST['username'],
 			'password' => $_POST['password'], 'ssl' => $_POST['ssl']);
 		$stored_credentials = $credentials;
@@ -26,6 +26,9 @@ function request_filesystem_credentials($form_post, $type = '') {
 	$ssl = '';
 	if ( $credentials = get_option('ftp_credentials') )
 		extract($credentials, EXTR_OVERWRITE);
+	if( $error ){
+		echo '<div id="message" class="error"><p>' . __('<strong>Error:</strong> There was an error connecting to the server, Please verify the settings are correct.') . '</p></div>';
+	}
 ?>
 <form action="<?php echo $form_post ?>" method="post">
 <div class="wrap">
@@ -42,7 +45,7 @@ function request_filesystem_credentials($form_post, $type = '') {
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Password:') ?></th>
-<td><input name="password" type="text" id="password" value="<?php echo attribute_escape($password) ?>" size="40" /></td>
+<td><input name="password" type="password" id="password" value="<?php echo attribute_escape($password) ?>" size="40" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Use SSL:') ?></th>
@@ -80,13 +83,17 @@ function show_message($message) {
 function do_plugin_upgrade($plugin) {
 	global $wp_filesystem;
 
-	$credentials = request_filesystem_credentials("update.php?action=upgrade-plugin&plugin=$plugin");
-	if ( false === $credentials )
+	$url = wp_nonce_url("update.php?action=upgrade-plugin&plugin=$plugin", "upgrade-plugin_$plugin");
+	if ( false === ($credentials = request_filesystem_credentials($url)) )
 		return;
+		
+	if( ! WP_Filesystem($credentials) ){
+		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
+		return;
+	}
+		
 	echo '<div class="wrap">';
 	echo '<h2>' . __('Upgrade Plugin') . '</h2>';
-	WP_Filesystem($credentials);
-	// TODO: look for auth and connect error codes and direct back to credentials form.
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
 			show_message($message);
@@ -108,14 +115,13 @@ if ( isset($_GET['action']) ) {
 		$plugin = trim($_GET['plugin']);
 
 	if ( 'upgrade-plugin' == $_GET['action'] ) {
-		//check-admin_referer('upgrade-plugin_' . $plugin);
+		check_admin_referer('upgrade-plugin_' . $plugin);
 		$title = __('Upgrade Plugin');
 		$parent_file = 'plugins.php';
 		require_once('admin-header.php');
 		do_plugin_upgrade($plugin);
 		include('admin-footer.php');
 	}
-
 }
 
 ?>

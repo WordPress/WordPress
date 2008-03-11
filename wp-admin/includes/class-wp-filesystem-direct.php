@@ -271,7 +271,7 @@ class WP_Filesystem_Direct{
 		foreach($filelist as $filename=>$det){
 			if ( '/' == substr($filename,-1,1) )
 				$this->rmdir($path.'/'.$filename,$recursive);
-			@rmdir($entry);
+			@rmdir($filename);
 		}
 		return @rmdir($path);
 	}

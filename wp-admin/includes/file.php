@@ -231,7 +231,7 @@ function unzip_file($file, $to) {
 
 	// Is the archive valid?
 	if ( false == ($archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING)) )
-		return new WP_Error('incompatible_archive', __('Incompatible archive'), $archive->error_string);
+		return new WP_Error('incompatible_archive', __('Incompatible archive'), $archive->errorInfo(true));
 
 	if ( 0 == count($archive_files) )
 		return new WP_Error('empty_archive', __('Empty archive'));
@@ -240,12 +240,9 @@ function unzip_file($file, $to) {
 	$path = explode('/', $to);
 	$tmppath = '';
 	for ( $j = 0; $j < count($path) - 1; $j++ ) {
-		$prevpath = $tmppath;
 		$tmppath .= $path[$j] . '/';
-		if ( ! $fs->is_dir($tmppath) ) {
-			//$fs->setDefaultPermissions( $fs->getchmod($tmppath) );
+		if ( ! $fs->is_dir($tmppath) )
 			$fs->mkdir($tmppath, 0755);
-		}
 	}
 
 	foreach ($archive_files as $file) {

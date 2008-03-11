@@ -132,7 +132,7 @@ class WP_Filesystem_FTPext{
 	}
 	function get_contents($file,$type='',$resumepos=0){
 		if( empty($type) ){
-			$extension = substr(strrchr($filename, "."), 1);
+			$extension = substr(strrchr($file, "."), 1);
 			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
 		}
 		$temp = tmpfile();
@@ -348,7 +348,7 @@ class WP_Filesystem_FTPext{
 	}
 	function rmdir($path,$recursive=false){
 		if( ! $recursive )
-			return @ftp_rmdir($this->link, $file);
+			return @ftp_rmdir($this->link, $path);
 
 		//TODO: Recursive Directory delete, Have to delete files from the folder first.
 		//$dir = $this->dirlist($path);
