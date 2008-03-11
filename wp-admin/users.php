@@ -265,6 +265,8 @@ foreach ( (array) $users_of_blog as $b_user ) {
 unset($users_of_blog);
 
 $current_role = false;
+$class = empty($_GET['role']) ? ' class="current"' : '';
+$role_links[] = "<li><a href=\"users.php\"$class>" . __('All Users') . "</a>";
 foreach ( $wp_roles->get_names() as $role => $name ) {
 	if ( !isset($avail_roles[$role]) )
 		continue;
@@ -280,8 +282,6 @@ foreach ( $wp_roles->get_names() as $role => $name ) {
 	$name = sprintf(_c('%1$s (%2$s)|user role with count'), $name, $avail_roles[$role]);
 	$role_links[] = "<li><a href=\"users.php?role=$role\"$class>" . $name . '</a>';
 }
-$class = empty($_GET['role']) ? ' class="current"' : '';
-$role_links[] = "<li><a href=\"users.php\"$class>" . __('All Users') . "</a>";
 echo implode(' |</li>', $role_links) . '</li>';
 unset($role_links);
 ?>
