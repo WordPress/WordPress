@@ -1,6 +1,6 @@
 <?php
 
-// The admin side of our 1.0 update system
+// The admin side of our 1.1 update system
 
 function core_update_footer( $msg = '' ) {
 	if ( !current_user_can('manage_options') )
@@ -10,16 +10,18 @@ function core_update_footer( $msg = '' ) {
 
 	switch ( $cur->response ) {
 	case 'development' :
-		return sprintf( '| '.__( 'You are using a development version (%s). Cool! Please <a href="%s">stay updated</a>.' ), $GLOBALS['wp_version'], 'http://wordpress.org/download/svn/' );
+		return sprintf( '| '.__( 'You are using a development version (%s). Cool! Please <a href="%s">stay updated</a>.' ), $GLOBALS['wp_version'], $cur->url, $cur->current );
 	break;
 
 	case 'upgrade' :
-		return sprintf( '| <strong>'.__( 'Your WordPress %s is out of date. <a href="%s">Please update</a>.' ).'</strong>', $GLOBALS['wp_version'], $cur->url );
-	break;
+		if ( current_user_can('manage_options') ) {
+			return sprintf( '| <strong>'.__( '<a href="%2$s">Get Version %3$s</a>' ).'</strong>', $GLOBALS['wp_version'], $cur->url, $cur->current );
+			break;
+		}
 
 	case 'latest' :
 	default :
-		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
+		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'], $cur->url, $cur->current );
 	break;
 	}
 }
@@ -32,13 +34,24 @@ function update_nag() {
 		return false;
 
 	if ( current_user_can('manage_options') )
-		$msg = sprintf( __('A new version of WordPress is available! <a href="%s">Please update now</a>.'), $cur->url );
+		$msg = sprintf( __('WordPress %2$s is available! <a href="%1$s">Please update now</a>.'), $cur->url, $cur->current );
 	else
-		$msg = __('A new version of WordPress is available! Please notify the site administrator.');
+		$msg = sprintf( __('WordPress %2$s is available! Please notify the site administrator.'), $cur->url, $cur->current );
 
 	echo "<div id='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'update_nag', 3 );
+
+// Called directly from dashboard
+function update_right_now_message() {
+	$cur = get_option( 'update_core' );
+
+	$msg = sprintf( __('This is WordPress version %s.'), $GLOBALS['wp_version'] );
+	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('manage_options') )
+		$msg .= " <a href='$cur->url' class='rbutton'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
+
+	echo "<span id='wp-version-message'>$msg</span>";
+}
 
 function wp_update_plugins() {
 	global $wp_version;

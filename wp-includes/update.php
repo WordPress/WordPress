@@ -39,7 +39,7 @@ function wp_version_check() {
 	$new_option->last_checked = time(); // this gets set whether we get a response or not, so if something is down or misconfigured it won't delay the page load for more than 3 seconds, twice a day
 	$new_option->version_checked = $wp_version;
 
-	$http_request  = "GET /core/version-check/1.0/?version=$wp_version&php=$php_version&locale=$locale HTTP/1.0\r\n";
+	$http_request  = "GET /core/version-check/1.1/?version=$wp_version&php=$php_version&locale=$locale HTTP/1.0\r\n";
 	$http_request .= "Host: api.wordpress.org\r\n";
 	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset=' . get_option('blog_charset') . "\r\n";
 	$http_request .= 'User-Agent: WordPress/' . $wp_version . '; ' . get_bloginfo('url') . "\r\n";
@@ -53,14 +53,19 @@ function wp_version_check() {
 		fclose( $fs );
 
 		$response = explode("\r\n\r\n", $response, 2);
+		if ( !preg_match( '|HTTP/.*? 200|', $response[0] ) )
+			return false;
+
 		$body = trim( $response[1] );
 		$body = str_replace(array("\r\n", "\r"), "\n", $body);
 
 		$returns = explode("\n", $body);
 
-		$new_option->response = $returns[0];
+		$new_option->response = attribute_escape( $returns[0] );
 		if ( isset( $returns[1] ) )
-			$new_option->url = $returns[1];
+			$new_option->url = clean_url( $returns[1] );
+		if ( isset( $returns[2] ) )
+			$new_option->current = attribute_escape( $returns[2] );
 	}
 	update_option( 'update_core', $new_option );
 }
