@@ -322,7 +322,7 @@ function gallery_shortcode($attr) {
 		<div class='gallery'>");
 
 	foreach ( $attachments as $id => $attachment ) {
-		$link = get_the_attachment_link($id, true, array(128, 96), true);
+		$link = get_the_attachment_link($id, false, array(128, 96), true);
 		$output .= "
 			<div>
 				$link
