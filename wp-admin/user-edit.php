@@ -161,7 +161,7 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 <p><label>
 <input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, get_user_option('admin_color')); ?> />
 <?php echo $color_info->name ?>
-</label>
+</label></p>
 <table>
 <tr>
 <?php
@@ -170,9 +170,9 @@ foreach ( $color_info->colors as $color ): ?>
 <?php endforeach; ?>
 </tr>
 </table>
-</p>
 <?php endforeach; ?>
 </td>
+</tr>
 </table>
 
 
@@ -265,7 +265,7 @@ echo $role_list . '</select></td></tr>';
 <tr>
 	<th><label for="url"><?php _e('Website') ?></label></th>
 	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" /></td>
-</th>
+</tr>
 
 <tr>
 	<th><label for="aim"><?php _e('AIM') ?></label></th>
@@ -305,8 +305,8 @@ if ( $show_password_fields ) :
 		<?php endif; ?>
 	</td>
 </tr>
-</table>
 <?php endif; ?>
+</table>
 
 <?php
 	if ( $is_profile_page ) {
@@ -316,11 +316,9 @@ if ( $show_password_fields ) :
 	}
 ?>
 
+<?php if (count($profileuser->caps) > count($profileuser->roles)): ?>
 <br style="clear: both;" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
-		<?php
-		if(count($profileuser->caps) > count($profileuser->roles)):
-		?>
 		<tr>
 			<th scope="row"><?php _e('Additional Capabilities:') ?></th>
 			<td><?php
@@ -334,11 +332,9 @@ if ( $show_password_fields ) :
 			echo $output;
 			?></td>
 		</tr>
-		<?php
-		endif;
-		?>
 	</table>
-</table>
+<?php endif; ?>
+
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
