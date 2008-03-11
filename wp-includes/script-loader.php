@@ -101,6 +101,7 @@ class WP_Scripts {
 				'file_cancelled' => __('File cancelled.'),
 				'upload_stopped' => __('Upload stopped.'),
 				'dismiss' => __('Dismiss'),
+				'crunching' => __('Crunching&hellip;'),
 		) );
 
 		$this->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery'), '3' );

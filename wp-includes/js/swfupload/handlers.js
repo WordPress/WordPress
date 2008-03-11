@@ -30,7 +30,7 @@ function uploadProgress(fileObj, bytesDone, bytesTotal) {
 	jQuery('#media-item-' + fileObj.id + ' .bar').width(620*bytesDone/bytesTotal);
 
 	if ( bytesDone== bytesTotal )
-		jQuery('#media-item-' + fileObj.id + ' .bar').html('<strong style="display: block; padding-top: 9px; padding-left: 1em;">Crunching&hellip;</strong>');
+		jQuery('#media-item-' + fileObj.id + ' .bar').html('<strong style="display: block; padding-top: 9px; padding-left: 1em;">' + swfuploadL10n.crunching + '</strong>');
 }
 
 function prepareMediaItem(fileObj, serverData) {
