@@ -1,4 +1,16 @@
 <?php
+/**
+ * PemFTP - A Ftp implementation in pure PHP
+ *
+ * @package PemFTP
+ * @since 2.5
+ *
+ * @version 1.0
+ * @copyright Alexey Dotsenko
+ * @author Alexey Dotsenko
+ * @link http://www.phpclasses.org/browse/package/1743.html Site
+ * @license LPGPL License http://www.opensource.org/licenses/lgpl-license.html
+ */
 if(!defined('CRLF')) define('CRLF',"\r\n");
 if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
 if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
