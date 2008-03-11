@@ -4,8 +4,11 @@ jQuery(function($) {
 var dimAfter = function( r, settings ) {
 	$('li span.comment-count').each( function() {
 		var a = $(this);
-		var n = parseInt(a.html(),10) + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
+		var n = parseInt(a.html(),10);
+		n = n + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
+		if ( n < 0 ) { n = 0; }
 		a.html( n.toString() );
+		$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 	});
 	$('.post-com-count span.comment-count').each( function() {
 		var a = $(this);
@@ -18,6 +21,8 @@ var dimAfter = function( r, settings ) {
 			n = n + 1;
 			t = t - 1;
 		}
+		if ( n < 0 ) { n = 0; }
+		if ( t < 0 ) { t = 0; }
 		if ( t >= 0 ) { a.parent().attr('title', adminCommentsL10n.pending.replace( /%i%/, t.toString() ) ); }
 		if ( 0 === t ) { a.parents('strong:first').replaceWith( a.parents('strong:first').html() ); }
 		a.html( n.toString() );
@@ -27,14 +32,11 @@ var dimAfter = function( r, settings ) {
 var delAfter = function( r, settings ) {
 	$('li span.comment-count').each( function() {
 		var a = $(this);
-		if ( parseInt(a.html(),10) < 1 ) { return; }
-		// on ?edit-comments.php?comment_status=moderated tab
-		// or the comment is unapproved
-		if ( a.parent('.current').size() || $('#' + settings.element).is('.unapproved') ) {
-			var n = parseInt(a.html(),10) - 1;
-			a.html( n.toString() );
-			( 0 < n ) ? $('#awaiting-mod').each(function() { $(this).show(); $(this).removeClass('count-0') }) : $('#awaiting-mod').hide();
-		}
+		var n = parseInt(a.html(),10);
+		n = n + ( $('#' + settings.element).is('.unapproved') ? -1 : 1 );
+		if ( n < 0 ) { n = 0; }
+		a.html( n.toString() );
+		$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 	});
 	$('.post-com-count span.comment-count').each( function() {
 		var a = $(this);

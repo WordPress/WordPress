@@ -122,7 +122,7 @@ class WP_Scripts {
 				'good' => __('Good'),
 				'strong' => __('Strong')
 			) );
-			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20080304' );
+			$this->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20080311' );
 			$this->localize( 'admin-comments', 'adminCommentsL10n', array(
 				'pending' => __('%i% pending') // must look like: "# blah blah"
 			) );
