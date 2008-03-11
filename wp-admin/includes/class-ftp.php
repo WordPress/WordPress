@@ -9,7 +9,7 @@
  * @copyright Alexey Dotsenko
  * @author Alexey Dotsenko
  * @link http://www.phpclasses.org/browse/package/1743.html Site
- * @license LPGPL License http://www.opensource.org/licenses/lgpl-license.html
+ * @license LGPL License http://www.opensource.org/licenses/lgpl-license.html
  */
 if(!defined('CRLF')) define('CRLF',"\r\n");
 if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
