@@ -200,17 +200,19 @@ list_meta($metadata);
 <h3><?php _e('Comments &amp; Pings') ?></h3>
 <div class="inside">
 <input name="advanced_view" type="hidden" value="1" />
-<label for="comment_status" class="selectit">
+<p><label for="comment_status" class="selectit">
 <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
-<?php _e('Allow Comments') ?></label>
-<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
+<?php _e('Allow Comments') ?></label></p>
+<p><label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label></p>
+<p><?php _e('These settings apply to this post only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
 </div>
 </div>
 
 <div id="pagepassworddiv" class="postbox <?php echo postbox_classes('pagepassworddiv', 'page'); ?>">
 <h3><?php _e('Password Protect This Page') ?></h3>
 <div class="inside">
-<input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" />
+<p><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
+<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
 </div>
 </div>
 
@@ -228,6 +230,7 @@ list_meta($metadata);
 <option value='0'><?php _e('Main Page (no parent)'); ?></option>
 <?php parent_dropdown($post->post_parent); ?>
 </select>
+<p><?php _e('You can arrange your pages in hierarchies, for example you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 </div>
 </div>
 
@@ -239,6 +242,7 @@ list_meta($metadata);
 <option value='default'><?php _e('Default Template'); ?></option>
 <?php page_template_dropdown($post->page_template); ?>
 </select>
+<p><?php _e('Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them above.'); ?></p>
 </div>
 </div>
 <?php } ?>
@@ -246,7 +250,8 @@ list_meta($metadata);
 <div id="pageorderdiv" class="postbox <?php echo postbox_classes('pageorderdiv', 'page'); ?>">
 <h3><?php _e('Page Order') ?></h3>
 <div class="inside">
-<input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" />
+<p><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
+<p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
 </div>
 </div>
 

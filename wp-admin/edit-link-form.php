@@ -146,6 +146,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 <label for="link_target_none" class="selectit">
 <input id="link_target_none" type="radio" name="link_target" value="" <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
 <?php _e('none') ?></label>
+<p><?php _e('Choose the frame your link targets. Essentially this means if you choose <code>_blank</code> your link will open in a new window.'); ?></p>
 </div>
 </div>
 
@@ -158,9 +159,8 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
-		<td>
-			<table cellpadding="3" cellspacing="5">
+		<td colspan="2">
+			<table cellpadding="3" cellspacing="5" class="form-table">
 				<tr>
 					<th scope="row"> <?php _e('identity') ?> </th>
 					<td>
@@ -259,6 +259,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 		</td>
 	</tr>
 </table>
+<p><?php _e('If the link is to a person, you can specify your relationship with them using the above form. If you would like to learn more about the idea check out <a href="http://gmpg.org/xfn/">XFN</a>.'); ?></p>
 </div>
 </div>
 

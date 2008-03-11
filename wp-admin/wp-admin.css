@@ -323,22 +323,22 @@ textarea.all-options, input.all-options {
 	top: .35em;
 }
 
-#postcustom .updatemeta, #postcustom .deletemeta {
+#postcustomstuff .updatemeta, #postcustomstuff .deletemeta {
 	margin: auto;
 }
 
-#postcustom table {
+#postcustomstuff table {
 	margin: 0;
 	width: 100%;
 	border-width: 1px;
 	border-style: solid;
 }
 
-#postcustom table input, #postcustom table textarea {
+#postcustomstuff table input, #postcustomstuff table textarea {
 	width: 95%;
 }
 
-#postcustom table #addmetasub {
+#postcustomstuff table #addmetasub {
 	width: auto;
 }
 

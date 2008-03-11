@@ -108,6 +108,9 @@ foreach ( $stati as $status => $label ) {
 
 	$status_links[] = "<li><a href=\"edit-comments.php?comment_status=$status\"$class>" . $label . '</a>';
 }
+
+$status_links = apply_filters( 'comment_status_links', $status_links );
+
 echo implode(' | </li>', $status_links) . '</li>';
 unset($status_links);
 ?>
@@ -214,10 +217,16 @@ if ($comments) {
 
 <div id="ajax-response"></div>
 <?php
-} else {
+} elseif ( 'moderated' == $_GET['comment_status'] ) {
 ?>
 <p>
-<strong><?php _e('No results found.') ?></strong>
+<?php _e('No comments awaiting moderation&hellip; yet.') ?>
+</p>
+<?php
+} else  {
+?>
+<p>
+<?php _e('No results found.') ?>
 </p>
 <?php
 }

@@ -11,7 +11,7 @@ body > #upload-menu {
 	border-bottom-style: #fff;
 }
 
-div#current-widgets, #postcustom table, #your-profile fieldset, a.page-numbers, #rightnow, div.dashboard-widget, .widefat {
+div#current-widgets, #postcustomstuff table, #your-profile fieldset, a.page-numbers, #rightnow, div.dashboard-widget, .widefat {
 	border-color: #ccc;
 }
 
@@ -192,6 +192,10 @@ ul.widget-control-list .sorthelper {
 	border-color: #a3a3a3;
 }
 
+.tablenav .button-secondary {
+	border-color: #5396c5;
+}
+
 .submit input:hover, .button:hover {
 	border-color: #535353;
 }
@@ -264,7 +268,7 @@ ul.widget-control-list .sorthelper {
 }
 
 .widefat thead, .thead {
-	background-color: #07273e;
+	background-color: #464646;
 	color: #d7d7d7;
 }
 

@@ -263,13 +263,16 @@ if (current_user_can('upload_files') && false) {
 
 <div id="postexcerpt" class="postbox <?php echo postbox_classes('postexcerpt', 'post'); ?>">
 <h3><?php _e('Excerpt') ?></h3>
-<div class="inside"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
+<div class="inside"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
+<p><?php _e('Excerpts are optional hand-crafted summaries of your content. You can <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" target="_blank">use them in your template</a>'); ?></p>
+</div>
 </div>
 
 <div id="trackbacksdiv" class="postbox <?php echo postbox_classes('trackbacksdiv', 'post'); ?>">
 <h3><?php _e('Trackbacks') ?></h3>
 <div class="inside">
-<?php _e('Send trackbacks to:'); ?> <?php echo $form_trackback; ?> (<?php _e('Separate multiple URLs with spaces'); ?>)
+<p><?php _e('Send trackbacks to:'); ?> <?php echo $form_trackback; ?><br /> (<?php _e('Separate multiple URLs with spaces'); ?>)</p>
+<p><?php _e('Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress blogs they&#8217;ll be notified automatically using <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">pingbacks</a>, no other action necessary.'); ?></p>
 <?php
 if ( ! empty($pings) )
 	echo $pings;
@@ -293,6 +296,7 @@ list_meta($metadata);
 ?>
 <div id="ajax-response"></div>
 </div>
+<p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 </div>
 </div>
 
@@ -302,17 +306,19 @@ list_meta($metadata);
 <h3><?php _e('Comments &amp; Pings') ?></h3>
 <div class="inside">
 <input name="advanced_view" type="hidden" value="1" />
-<label for="comment_status" class="selectit">
+<p><label for="comment_status" class="selectit">
 <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
-<?php _e('Allow Comments') ?></label>
-<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
+<?php _e('Allow Comments') ?></label></p>
+<p><label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label></p>
+<p><?php _e('These settings apply to this post only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
 </div>
 </div>
 
 <div id="passworddiv" class="postbox <?php echo postbox_classes('passworddiv', 'post'); ?>">
 <h3><?php _e('Password Protect This Post') ?></h3>
 <div class="inside">
-<input name="post_password" type="text" size="13" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" />
+<p><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
+<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
 </div>
 </div>
 
