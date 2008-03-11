@@ -52,7 +52,8 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 			$widget_control_template = ob_get_contents();
 			ob_end_clean();
 
-			if ( !$sidebar || $is_multi = false !== strpos( $widget_control_template, '%i%' ) ) {
+			$is_multi = false !== strpos( $widget_control_template, '%i%' );
+			if ( !$sidebar || $is_multi ) {
 				if ( $is_multi )
 					$already_shown[] = $widget['callback']; // it's a multi-widget.  We only need to show it in the list once.
 				$action = 'add';
