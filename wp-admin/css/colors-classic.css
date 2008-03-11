@@ -128,7 +128,7 @@ ul.widget-control-list .sorthelper {
 }
 
 .highlight {
-	background-color: #14568a;
+	background-color: #cfebf7;
 	color: #d54e21;
 }
 
@@ -523,7 +523,7 @@ input.readonly {
 	color: #246;
 }
 
-#wphead h1, #dashmenu a.current:hover, #login form input {
+#wphead h1, #dashmenu a.current:hover {
 	color: #cfebf6;
 }
 
