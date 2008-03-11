@@ -25,7 +25,7 @@ $more = 1;
 
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('home') ?>" />
 	<id><?php bloginfo('atom_url'); ?></id>
-	<link rel="self" type="application/atom+xml" href="<?php bloginfo('atom_url'); ?>" />
+	<link rel="self" type="application/atom+xml" href="<?php self_link(); ?>" />
 
 	<?php do_action('atom_head'); ?>
 	<?php while (have_posts()) : the_post(); ?>
