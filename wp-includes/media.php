@@ -338,4 +338,27 @@ function gallery_shortcode($attr) {
 	return $output;
 }
 
+function previous_image_link() {
+	adjacent_image_link(true);
+}
+
+function next_image_link() {
+	adjacent_image_link(false);
+}
+
+function adjacent_image_link($prev = true) {
+	global $post;
+	$post = get_post($post);
+	$attachments = array_values(get_children("post_parent=$post->post_parent&post_type=attachment&post_mime_type=image&orderby=\"menu_order ASC, ID ASC\""));
+
+	foreach ( $attachments as $k => $attachment )
+		if ( $attachment->ID == $post->ID )
+			break;
+
+	$k = $prev ? $k - 1 : $k + 1;
+
+	if ( isset($attachments[$k]) )
+		echo get_the_attachment_link($attachments[$k]->ID, true, array(128, 96), true);
+}
+
 ?>
