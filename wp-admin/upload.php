@@ -32,15 +32,16 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 $title = __('Media Library');
 $parent_file = 'edit.php';
 wp_enqueue_script( 'admin-forms' );
-if ( 1 == $_GET['c'] )
-	wp_enqueue_script( 'admin-comments' );
-
-require_once('admin-header.php');
 
 if ( isset($_GET['paged']) && $start = ( intval($_GET['paged']) - 1 ) * 15 )
 	add_filter( 'post_limits', $limit_filter = create_function( '$a', "return 'LIMIT $start, 15';" ) );
 list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 $wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
+
+if ( is_singular() )
+	wp_enqueue_script( 'admin-comments' );
+
+require_once('admin-header.php');
 
 if ( !isset( $_GET['paged'] ) )
 	$_GET['paged'] = 1;
@@ -51,7 +52,7 @@ if ( !isset( $_GET['paged'] ) )
 
 <form id="posts-filter" action="" method="get">
 <h2><?php
-if ( is_single() ) {
+if ( is_singular() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
 } else {
 	$post_mime_type_label = _c('Manage Media|manage media header');
@@ -140,13 +141,14 @@ if ( $page_links )
 <?php wp_nonce_field('bulk-media'); ?>
 <?php
 
-$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
+if ( !is_singular() ) :
+	$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
 
-$arc_result = $wpdb->get_results( $arc_query );
+	$arc_result = $wpdb->get_results( $arc_query );
 
-$month_count = count($arc_result);
+	$month_count = count($arc_result);
 
-if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
+	if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) : ?>
 <select name='m'>
 <option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
 <?php
@@ -166,9 +168,11 @@ foreach ($arc_result as $arc_row) {
 }
 ?>
 </select>
-<?php } ?>
+<?php endif; // month_count ?>
 
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+
+<?php endif; // is_singular ?>
 
 </div>
 
@@ -193,27 +197,42 @@ if ( $page_links )
 </div>
 
 <?php
-
-if ( 1 == count($posts) && isset( $_GET['p'] ) ) {
-
+ 
+if ( 1 == count($posts) && is_singular() ) :
+	
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
-	if ($comments) {
+	if ( $comments ) :
 		// Make sure comments, post, and post_author are cached
 		update_comment_cache($comments);
 		$post = get_post($id);
 		$authordata = get_userdata($post->post_author);
 	?>
-<h3 id="comments"><?php _e('Comments') ?></h3>
-<ol id="the-comment-list" class="list:comment commentlist">
+
+<br class="clear" />
+
+<table class="widefat" style="margin-top: .5em">
+<thead>
+  <tr>
+    <th scope="col"><?php _e('Comment') ?></th>
+    <th scope="col"><?php _e('Date') ?></th>
+    <th scope="col"><?php _e('Actions') ?></th>
+  </tr>
+</thead>
+<tbody id="the-comment-list" class="list:comment">
 <?php
-		$i = 0;
-		foreach ( $comments as $comment ) {
-			_wp_comment_list_item( $comment->comment_ID, ++$i );
-		}
-	echo '</ol>';
-	} // end if comments
+        foreach ($comments as $comment)
+                _wp_comment_row( $comment->comment_ID, 'detail', false, false );
 ?>
-<?php } ?>
+</tbody>
+</table>
+
+<?php
+
+endif; // comments
+endif; // posts;
+
+?>
+
 </div>
 
 <?php include('admin-footer.php'); ?>

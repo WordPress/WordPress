@@ -93,6 +93,22 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		<?php
 		break;
 
+	case 'comments':
+		?>
+		<td style="text-align: center">
+		<?php
+		$left = get_pending_comments_num( $post->ID );
+		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
+		if ( $left )
+			echo '<strong>';
+		comments_number("<a href='upload.php?attachment_id=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('0') . '</span></a>', "<a href='upload.php?attachment_id=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('1') . '</span></a>', "<a href='upload.php?attachment_id=$id' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('%') . '</span></a>');
+		if ( $left )
+			echo '</strong>';
+		?>
+		</td>
+		<?php
+		break;
+
 	case 'location':
 		?>
 		<td><a href="<?php the_permalink(); ?>"><?php _e('Permalink'); ?></a></td>

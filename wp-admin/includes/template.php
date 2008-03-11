@@ -304,6 +304,7 @@ function wp_manage_media_columns() {
 	$posts_columns['desc'] = _c('Description|media column header');
 	$posts_columns['date'] = _c('Date Added|media column header');
 	$posts_columns['parent'] = _c('Appears with|media column header');
+	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['location'] = _c('Location|media column header');
 	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
 
@@ -599,7 +600,13 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$authordata = get_userdata($post->post_author);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 	$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
-	$post_link = '<a href="edit.php?p=' . $comment->comment_post_ID . '">' . get_the_title($comment->comment_post_ID) . '</a>';
+	if ( 'attachment' == $post->post_type )
+		$post_link = "<a href='upload.php?attachment_id=$post->ID'>";
+	elseif ( 'page' == $post->post_type )
+		$post_link = "<a href='edit-pages.php?page_id=$post->ID'>";
+	else
+		$post_link = "<a href='edit.php?p=$post->ID'>";
+	$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
