@@ -158,23 +158,22 @@ include ('admin-header.php');
 <td>
 <?php
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
-<p><label>
-<input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, get_user_option('admin_color')); ?> />
-<?php echo $color_info->name ?>
-</label></p>
-<table>
-<tr>
-<?php
-foreach ( $color_info->colors as $color ): ?>
-<td style="background-color: <?php echo $color ?>" title="<?php echo $color ?>"></td>
-<?php endforeach; ?>
-</tr>
-</table>
+<label class="color-option"><input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, get_user_option('admin_color')); ?> />
+	<table class="color-palette">
+	<tr>
+	<?php
+	foreach ( $color_info->colors as $color ): ?>
+	<td style="background-color: <?php echo $color ?>" title="<?php echo $color ?>"></td>
+	<?php endforeach; ?>
+	</tr>
+	</table>
+	
+	<?php echo $color_info->name ?>
+</label>
 <?php endforeach; ?>
 </td>
 </tr>
 </table>
-
 
 <?php
 	if ( $is_profile_page ) {

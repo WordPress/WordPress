@@ -812,13 +812,30 @@ html, body {
 	border-style: solid;
 }
 
-#profile-page .form-table input {
-	width: 200px;
+.form-table label.color-option {
+	display: block;
+	clear: both;
+}
+
+.form-table input.tog {
+	margin-top: 2px;
+	margin-right: 2px;
+	float: left;
+}
+
+.form-table table.color-palette {
+	vertical-align: bottom;
+	float: left;
+	margin: -3px 3px 8px;
+}
+
+.form-table .color-palette td {
+	border-bottom: none;
+	border: 1px solid #fff;
 }
 
 #profile-page .form-table textarea {
 	width: 500px;
-	height: 150px;
 	margin-bottom: 6px;
 }
 
