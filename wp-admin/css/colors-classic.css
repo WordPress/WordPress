@@ -306,10 +306,16 @@ ul.widget-control-list .sorthelper {
 	background-image: url(../images/comment-stalk.gif);
 }
 
-#adminmenu li a #awaiting-mod span, #rightnow .reallynow {
+#adminmenu li a #awaiting-mod span {
 	background-color: #d54e21;
 	color: #fff;
 }
+
+#rightnow .reallynow {
+	background-color: #114973;
+	color: #fff;
+}
+
 
 #adminmenu li a:hover #awaiting-mod span {
 	background-color: #264761;
