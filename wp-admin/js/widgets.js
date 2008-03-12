@@ -104,8 +104,8 @@ jQuery(function($) {
 		$('a.widget-control-remove', context).click( function() {
 			var w = $(this).parents('li:first').find('input[@name^="widget-id"]').val();
 			$(this).parents('li:first').remove();
-			var t = $('#widget-list ul#widget-control-info-' + w + ' textarea');
-			t.parent().html( t.text() ).parents('li.widget-list-item:first').children( 'h4' ).children('a.widget-action')
+			var t = $('#widget-list ul#widget-control-info-' + w + ' textarea'); // will be empty for multi-widgets
+			t.parents('.widget-control-info:first').html( t.text() ).parents('li.widget-list-item:first').children( 'h4' ).children('a.widget-action')
 				.show().text( widgetsL10n.add ).unbind().click( addClick );
 			var n = parseInt( $('#widget-count').text(), 10 ) - 1;
 			$('#widget-count').text( n.toString() )
