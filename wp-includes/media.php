@@ -5,7 +5,11 @@
 // scale down the default size of an image so it's a better fit for the editor and theme
 function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 
-	if ( $size == 'thumb' ) {
+	if ( is_array($size) ) {
+		$max_width = $size[0];
+		$max_height = $size[1];
+	}
+	elseif ( $size == 'thumb' || $size == 'thumbnail' ) {
 		$max_width = intval(get_option('thumbnail_size_w'));
 		$max_height = intval(get_option('thumbnail_size_h'));
 		// last chance thumbnail size defaults
@@ -75,7 +79,7 @@ function image_downsize($id, $size = 'medium') {
 			$height = $info[1];
 		}
 	}
-	elseif ( isset($meta['width'], $meta['height']) ) {
+	if ( !$width && !$height && isset($meta['width'], $meta['height']) ) {
 		// any other type: use the real image and constrain it
 		list( $width, $height ) = image_constrain_size_for_editor( $meta['width'], $meta['height'], $size );
 	}
@@ -250,8 +254,34 @@ function image_make_intermediate_size($file, $width, $height, $crop=false) {
 function image_get_intermediate_size($post_id, $size='thumbnail') {
 	if ( !$imagedata = wp_get_attachment_metadata( $post_id ) )
 		return false;
-		
-	if ( empty($imagedata['sizes'][$size]) )
+
+	// get the best one for a specified set of dimensions
+	if ( is_array($size) && !empty($imagedata['sizes']) ) {
+		foreach ( $imagedata['sizes'] as $_size => $data ) {
+			// already cropped to width or height; so use this size
+			if ( ( $data['width'] == $size[0] && $data['height'] <= $size[1] ) || ( $data['height'] == $size[1] && $data['width'] <= $size[0] ) ) {
+				$file = $data['file'];
+				list($width, $height) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
+				return compact( 'file', 'width', 'height' );
+			}
+			// add to lookup table: area => size
+			$areas[$data['width'] * $data['height']] = $_size;
+		}
+		if ( !$size || !empty($areas) ) {
+			// find for the smallest image not smaller than the desired size
+			ksort($areas);
+			foreach ( $areas as $_size ) {
+				$data = $imagedata['sizes'][$_size];
+				if ( $data['width'] >= $size[0] || $data['height'] >= $size[1] ) {
+					$file = $data['file'];
+					list($width, $height) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
+					return compact( 'file', 'width', 'height' );
+				}
+			}
+		}
+	}
+
+	if ( is_array($size) || empty($size) || empty($imagedata['sizes'][$size]) )
 		return false;
 		
 	return $imagedata['sizes'][$size];
@@ -259,13 +289,13 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 
 // get an image to represent an attachment - a mime icon for files, thumbnail or intermediate size for images
 // returns an array (url, width, height), or false if no image is available
-function wp_get_attachment_image_src($attachment_id, $size='thumbnail') {
+function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = false) {
 	
 	// get a thumbnail or intermediate image if there is one
 	if ( $image = image_downsize($attachment_id, $size) )
 		return $image;
 
-	if ( $src = wp_mime_type_icon($attachment_id) ) {
+	if ( $icon && $src = wp_mime_type_icon($attachment_id) ) {
 		$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/crystal' );
 		$src_file = $icon_dir . '/' . basename($src);
 		@list($width, $height) = getimagesize($src_file);
@@ -276,13 +306,15 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail') {
 }
 
 // as per wp_get_attachment_image_src, but returns an <img> tag
-function wp_get_attachment_image($attachment_id, $size='thumbnail') {
+function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = false) {
 
 	$html = '';
-	$image = wp_get_attachment_image_src($attachment_id, $size);
+	$image = wp_get_attachment_image_src($attachment_id, $size, $icon);
 	if ( $image ) {
 		list($src, $width, $height) = $image;
 		$hwstring = image_hwstring($width, $height);
+		if ( is_array($size) )
+			$size = join('x', $size);
 		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" />';
 	}
 	
@@ -322,7 +354,7 @@ function gallery_shortcode($attr) {
 		<div class='gallery'>");
 
 	foreach ( $attachments as $id => $attachment ) {
-		$link = get_the_attachment_link($id, false, array(128, 96), true);
+		$link = wp_get_attachment_link($id, 'thumbnail', true);
 		$output .= "
 			<div>
 				$link
@@ -358,7 +390,7 @@ function adjacent_image_link($prev = true) {
 	$k = $prev ? $k - 1 : $k + 1;
 
 	if ( isset($attachments[$k]) )
-		echo get_the_attachment_link($attachments[$k]->ID, true, array(128, 96), true);
+		echo wp_get_attachment_link($attachments[$k]->ID, 'thumbnail', true);
 }
 
 ?>

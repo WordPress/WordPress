@@ -157,8 +157,11 @@ include ('admin-header.php');
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
 <td>
 <?php
+$current_color = get_user_option('admin_color');
+if ( empty($current_color) )
+	$current_color = 'classic';
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
-<label class="color-option"><input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, get_user_option('admin_color')); ?> />
+<label class="color-option"><input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, $current_color); ?> />
 	<table class="color-palette">
 	<tr>
 	<?php
