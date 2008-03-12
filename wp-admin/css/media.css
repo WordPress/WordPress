@@ -36,13 +36,16 @@ form {
 	margin: 0 0 0.5em 0;
 }
 
+th { position: relative; }
+
 .media-upload-form label.form-help, td.help {
 	font-style: italic;
 	font-weight: normal;
 }
 
-.media-upload-form p {
-	margin: 0 1em 1em 0;
+.media-upload-form p.help {
+	margin: 0;
+	padding: 0;
 }
 
 .media-upload-form fieldset {
@@ -57,12 +60,8 @@ form {
 .align .field label {
 	display: inline;
 	padding: 0 0 0 28px;
-	margin: 0 0;
+	margin: 0 1em 0 0;
 }
-.align .field input {
-	margin-left: 15px;
-}
-
 .image-align-none-label {
 	background: url(../images/align-none.png) no-repeat center left;
 }
@@ -87,31 +86,13 @@ tr.image-size label {
 	display: inline;
 	margin: 0 1em 0 0;
 }
-tr.image-size td.field {
-	text-align: center;
-}
 .pinkynail {
 	max-width: 40px;
 	max-height: 40px;
 }
 
-#media-items {
-	border-width: 1px;
-	border-style: solid;
-	border-bottom: none;
-	width: 623px;
-}
-.media-item {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	width: 623px;
-	position: relative;
-	min-height: 36px;
-}
 .filename {
-	line-height: 36px;
-	margin-left: 50px;
-	z-index: 2;
+	display: none;
 }
 button.dismiss {
 	position: absolute;
@@ -148,21 +129,26 @@ button.dismiss {
 	height: 32px;
 	max-width: 40px;
 }
-.describe {
-	border-top-width: 1px;
-	border-top-style: solid;
-	padding: 5px;
-	width: 100%;
-	clear: both;
+
+tbody.media-item-info tr {
+	background-color: transparent;
 }
+tbody.media-item-info th, tbody.media-item-info td {
+	border: none;
+	margin: 0;
+}
+
+.form-table tbody.media-item-info {
+	border: 8px solid #fff;
+}
+
 .describe.startopen, .describe.startclosed {
 	display: none;
 }
-.required abbr {
+abbr.required {
 	text-decoration: none;
 	border: none;
 }
-
 .describe label {
 	display: inline;
 }
@@ -196,13 +182,57 @@ button.dismiss {
 	z-index: 3;
 	height: 36px;
 }
-tr.align td.field {
-	text-align: center;
-}
 
 .hidden {
 	height: 0px;
 	width: 0px;
 	overflow: hidden;
 	border: none;
+}
+
+/* Specific to Uploader */
+
+#media-upload .media-upload-form p {
+	margin: 0 1em 1em 0;
+}
+#media-upload p.help {
+	font-style: italic;
+	font-weight: normal;
+}
+#media-upload tr.image-size td.field {
+	text-align: center;
+}
+#media-upload #media-items {
+	border-width: 1px;
+	border-style: solid;
+	border-bottom: none;
+	width: 623px;
+}
+
+#media-upload .media-item {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	width: 623px;
+	position: relative;
+	min-height: 36px;
+}
+#media-upload .filename {
+	display: block;
+	line-height: 36px;
+	margin-left: 50px;
+	z-index: 2;
+}
+#media-upload .describe {
+	border-top-width: 1px;
+	border-top-style: solid;
+	padding: 5px;
+	width: 100%;
+	clear: both;
+}
+#media-upload .describe th.label {
+	padding-top: .5em;
+	text-align: left;
+}
+#media-upload tr.align td.field {
+	text-align: center;
 }

@@ -484,6 +484,11 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 
 add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2);
 
+function media_single_attachment_fields_to_edit( $form_fields, $post ) {
+	unset($form_fields['url'], $form_fields['align'], $form_fields['image-size']);
+	return $form_fields;
+}
+
 function image_attachment_fields_to_save($post, $attachment) {
 	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
 		if ( strlen(trim($post['post_title'])) == 0 ) {
@@ -548,7 +553,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'label'      => __('Link URL'),
 			'input'      => 'html',
 			'html'       => "
-				<input type='text' name='attachments[$post->ID][url]' value='" . attribute_escape($file) . "' />
+				<input type='text' name='attachments[$post->ID][url]' value='" . attribute_escape($file) . "' /><br />
 				<button type='button' class='button url-$post->ID' value=''>" . __('None') . "</button>
 				<button type='button' class='button url-$post->ID' value='" . attribute_escape($file) . "'>" . __('File URL') . "</button>
 				<button type='button' class='button url-$post->ID' value='" . attribute_escape($link) . "'>" . __('Post URL') . "</button>
@@ -604,13 +609,17 @@ function get_media_items( $post_id, $errors ) {
 		return '';
 
 	foreach ( $attachments as $id => $attachment )
-		if ( $item = get_media_item($id, isset($errors[$id]) ? $errors[$id] : null) )
+		if ( $item = get_media_item( $id, array( 'errors' => isset($errors[$id]) ? $errors[$id] : null) ) )
 			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div id='media-upload-error-$id'></div><div class='filename'></div><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
 
 	return $output;
 }
 
-function get_media_item( $attachment_id, $errors = null, $send = true, $delete = true ) {
+function get_media_item( $attachment_id, $args = null ) {
+	$default_args = array( 'errors' => null, 'send' => true, 'delete' => true, 'toggle' => true );
+	$args = wp_parse_args( $args, $default_args );
+	extract( $args, EXTR_SKIP );
+
 	global $post_mime_types;
 	if ( ( $attachment_id = intval($attachment_id) ) && $thumb_url = get_attachment_icon_src( $attachment_id ) )
 		$thumb_url = $thumb_url[0];
@@ -643,20 +652,31 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 
 	$form_fields = get_attachment_fields_to_edit($post, $errors);
 
-	$class = empty($errors) ? 'startclosed' : 'startopen';
+	if ( $toggle ) {
+		$class = empty($errors) ? 'startclosed' : 'startopen';
+		$toggle_links = "
+	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
+	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
+	} else {
+		$class = 'form-table';
+		$toggle_links = '';
+	}
+
 	$item = "
 	$type
-	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
-	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>
+	$toggle_links
 	<div class='filename new'>$filename</div>
-	<table class='slidetoggle describe $class'><tbody>
+	<table class='slidetoggle describe $class'>
+		<tbody class='media-item-info'>
 		<tr>
-			<td class='A1B1' rowspan='4' colspan='2'><img class='thumbnail' src='$thumb_url' alt='' /></td>
+			<td class='A1B1' rowspan='4'><img class='thumbnail' src='$thumb_url' alt='' /></td>
 			<td>$filename</td>
 		</tr>
-		<tr><td>$post->post_mime_type</td></tr>
+		<td>$post->post_mime_type</td></tr>
 		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
-		<tr><td>" . apply_filters('media_meta', '', $post) . "</tr></td>\n";
+		<tr><td>" . apply_filters('media_meta', '', $post) . "</tr></td>
+		</tbody>
+		<tbody>\n";
 
 	$defaults = array(
 		'input'      => 'text',
@@ -671,7 +691,7 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 	if ( $delete )
 		$delete = "<a href='$delete_href' id='del[$attachment_id]' disabled='disabled' class='delete'>" . __('Delete') . "</button>";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
-		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td colspan='2'></td><td class='savesend'>$send $delete</td></tr>\n");
+		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete</td></tr>\n");
 
 	$hidden_fields = array();
 
@@ -692,8 +712,11 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 			continue;
 		}
 
-		$required = $field['required'] ? '<abbr title="required">*</abbr>' : '';
-		$item .= "\t\t<tr class='$id'>\n\t\t\t<td class='label'><label for='$name'>{$field['label']}</label></td>\n\t\t\t<td class='required'>$required</td>\n\t\t\t<td class='field'>";
+		$required = $field['required'] ? '<abbr title="required" class="required">*</abbr>' : '';
+		$class  = $id;
+		$class .= $field['required'] ? ' form-required' : '';
+
+		$item .= "\t\t<tr class='$class'>\n\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span><span class='alignright'>$required</span><br class='clear' /></label></th>\n\t\t\t<td class='field'>";
 		if ( !empty($field[$field['input']]) )
 			$item .= $field[$field['input']];
 		elseif ( $field['input'] == 'textarea' ) {
@@ -701,6 +724,8 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 		} else {
 			$item .= "<input type='text' id='$name' name='$name' value='" . wp_specialchars($field['value'], 1) . "' />";
 		}
+		if ( !empty($field['helps']) )
+			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique((array) $field['helps']) ) . '</p>';
 		$item .= "</td>\n\t\t</tr>\n";
 
 		$extra_rows = array();
@@ -709,10 +734,6 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 			foreach ( array_unique((array) $field['errors']) as $error )
 				$extra_rows['error'][] = $error;
 
-		if ( !empty($field['helps']) )
-			foreach ( array_unique((array) $field['helps']) as $help )
-				$extra_rows['help'][] = $help;
-
 		if ( !empty($field['extra_rows']) )
 			foreach ( $field['extra_rows'] as $class => $rows )
 				foreach ( (array) $rows as $html )
@@ -720,11 +741,11 @@ function get_media_item( $attachment_id, $errors = null, $send = true, $delete =
 
 		foreach ( $extra_rows as $class => $rows )
 			foreach ( $rows as $html )
-				$item .= "\t\t<tr><td colspan='2'></td><td class='$class'>$html</td></tr>\n";
+				$item .= "\t\t<tr><td></td><td class='$class'>$html</td></tr>\n";
 	}
 
 	if ( !empty($form_fields['_final']) )
-		$item .= "\t\t<tr class='final'><td colspan='3'>{$form_fields['_final']}</td></tr>\n";
+		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
 	$item .= "\t</table>\n";
 
 	foreach ( $hidden_fields as $name => $value )
@@ -1037,19 +1058,22 @@ function type_form_image() {
 	return '
 	<table class="describe"><tbody>
 		<tr>
-			<td class="label"><label for="insertonly[src]">' . __('Image URL') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[src]">' . __('Image URL') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[src]" name="insertonly[src]" value="" type="text"></td>
 		</tr>
 		<tr>
-			<td class="label"><label for="insertonly[alt]">' . __('Description') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[alt]">' . __('Description') . '</label></span>
+				<span class="alignright"><abbr title="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[alt]" name="insertonly[alt]" value="" type="text"></td>
 		</tr>
-		<tr><td colspan="2"></td><td class="help">' . __('Alternate text, e.g. "The Mona Lisa"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Alternate text, e.g. "The Mona Lisa"') . '</td></tr>
 		<tr class="align">
-			<td class="label"><label for="insertonly[align]">' . __('Alignment') . '</label></td>
-			<td class="required"></td>
+			<th valign="top" scope="row" class="label"><label for="insertonly[align]">' . __('Alignment') . '</label></th>
 			<td class="field">
 				<input name="insertonly[align]" id="image-align-none-0" value="none" type="radio">
 				<label for="image-align-none-0" class="align image-align-none-label">' . __('None') . '</label>
@@ -1062,7 +1086,7 @@ function type_form_image() {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"></td>
+			<td></td>
 			<td>
 				<input type="submit" class="button" name="insertonlybutton" value="' . attribute_escape(__('Insert into Post')) . '" />
 			</td>
@@ -1075,18 +1099,22 @@ function type_form_audio() {
 	return '
 	<table class="describe"><tbody>
 		<tr>
-			<td class="label"><label for="insertonly[href]">' . __('Audio File URL') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[href]">' . __('Audio File URL') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text"></td>
 		</tr>
 		<tr>
-			<td class="label"><label for="insertonly[title]">' . __('Title') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text"></td>
 		</tr>
-		<tr><td colspan="2"></td><td class="help">' . __('Link text, e.g. "Still Alive by Jonathan Coulton"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. "Still Alive by Jonathan Coulton"') . '</td></tr>
 		<tr>
-			<td colspan="2"></td>
+			<td></td>
 			<td>
 				<input type="submit" class="button" name="insertonlybutton" value="' . attribute_escape(__('Insert into Post')) . '" />
 			</td>
@@ -1099,18 +1127,22 @@ function type_form_video() {
 	return '
 	<table class="describe"><tbody>
 		<tr>
-			<td class="label"><label for="insertonly[href]">' . __('Video URL') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[href]">' . __('Video URL') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text"></td>
 		</tr>
 		<tr>
-			<td class="label"><label for="insertonly[title]">' . __('Title') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text"></td>
 		</tr>
-		<tr><td colspan="2"></td><td class="help">' . __('Link text, e.g. "Lucy on YouTube"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. "Lucy on YouTube"') . '</td></tr>
 		<tr>
-			<td colspan="2"></td>
+			<td></td>
 			<td>
 				<input type="submit" class="button" name="insertonlybutton" value="' . attribute_escape(__('Insert into Post')) . '" />
 			</td>
@@ -1123,18 +1155,22 @@ function type_form_file() {
 	return '
 	<table class="describe"><tbody>
 		<tr>
-			<td class="label"><label for="insertonly[href]">' . __('URL') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[href]">' . __('URL') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text"></td>
 		</tr>
 		<tr>
-			<td class="label"><label for="insertonly[title]">' . __('Title') . '</label></td>
-			<td class="required"><abbr title="required">*</abbr></td>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+			</th>
 			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text"></td>
 		</tr>
-		<tr><td colspan="2"></td><td class="help">' . __('Link text, e.g. "Ransom Demands (PDF)"') . '</td></tr>
+		<tr><td></td><td class="help">' . __('Link text, e.g. "Ransom Demands (PDF)"') . '</td></tr>
 		<tr>
-			<td colspan="2"></td>
+			<td></td>
 			<td>
 				<input type="submit" class="button" name="insertonlybutton" value="' . attribute_escape(__('Insert into Post')) . '" />
 			</td>

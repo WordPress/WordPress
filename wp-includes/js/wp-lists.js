@@ -70,11 +70,8 @@ var wpList = {
 		s.nonce = wpList.nonce(e,s);
 
 		var es = $('#' + s.element + ' :input').not('[name=_ajax_nonce], [name=_wpnonce], [name=action]');
-		var required = $('#' + s.element + ' .form-required:has(:input[value=""]), #' + s.element + ' .form-required:input[value=""]');
-		if ( required.size() ) {
-			wpAjax.invalidateForm( required );
-			return false;
-		}
+		var valid = wpAjax.validateForm( '#' + s.element );
+		if ( !valid ) { return false; }
 
 		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( cls[4] || '' ) ) );
 		var formData = $.isFunction(es.fieldSerialize) ? es.fieldSerialize() : es.serialize();

@@ -41,13 +41,13 @@ class WP_Scripts {
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
-		$this->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080229' . mt_rand() );
+		$this->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080312' );
 		$this->localize( 'wp-ajax-response', 'wpAjax', array(
 			'noPerm' => 'You do not have permission to do that.',
 			'broken' => 'AJAX is teh b0rked.'
 		) );
 
-		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080221' . mt_rand());
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080312' );
 
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
 		$this->localize( 'wp-ajax', 'WPAjaxL10n', array(
@@ -57,7 +57,7 @@ class WP_Scripts {
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080228' . mt_rand());
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080312' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );

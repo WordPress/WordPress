@@ -439,21 +439,31 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 }
 
 function get_edit_post_link( $id = 0 ) {
-	$post = &get_post( $id );
+	if ( !$post = &get_post( $id ) )
+		return;
 
-	if ( $post->post_type == 'page' ) {
+	switch ( $post->post_type ) :
+	case 'page' :
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
-
 		$file = 'page';
-	} else {
+		$var  = 'post';
+		break;
+	case 'attachment' :
 		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
-
+		$file = 'media';
+		$var  = 'attachment_id';
+		break;
+	default :
+		if ( !current_user_can( 'edit_post', $post->ID ) )
+			return;
 		$file = 'post';
-	}
-
-	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . '/wp-admin/' . $file . '.php?action=edit&amp;post=' . $post->ID, $post->ID );
+		$var  = 'post';
+		break;
+	endswitch;
+	
+	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . "/wp-admin/$file.php?action=edit&amp;$var=$post->ID", $post->ID );
 }
 
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
@@ -462,13 +472,9 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	if ( $post->post_type == 'page' ) {
 		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
-
-		$file = 'page';
 	} else {
 		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
-
-		$file = 'post';
 	}
 
 	$link = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . __( 'Edit post' ) . '">' . $link . '</a>';

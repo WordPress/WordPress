@@ -4,4 +4,9 @@ addLoadEvent( function() {
 
 	// Reveal
 	jQuery('.wp-no-js-hidden').removeClass( 'wp-no-js-hidden' );
+
+	// Basic form validation
+	if ( ( 'undefined' != typeof wpAjax ) && jQuery.isFunction( wpAjax.validateForm ) ) {
+		jQuery('form').submit( function() { return wpAjax.validateForm( jQuery(this) ); } );
+	}
 });

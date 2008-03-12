@@ -510,7 +510,7 @@ input.readonly {
 	color: #555;
 }
 
-div#media-upload-error, .file-error, .required abbr, .widget-control-remove:hover, .delete:hover {
+div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover, .delete:hover {
 	color: #f00;
 }
 
