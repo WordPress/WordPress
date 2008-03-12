@@ -303,7 +303,7 @@ ul.widget-control-list .sorthelper {
 }
 
 #adminmenu li a #awaiting-mod {
-	background-image: url(../images/comment-stalk.gif);
+	background-image: url(../images/comment-stalk-classic.gif);
 }
 
 #adminmenu li a #awaiting-mod span {
@@ -318,7 +318,7 @@ ul.widget-control-list .sorthelper {
 
 
 #adminmenu li a:hover #awaiting-mod span {
-	background-color: #264761;
+	background-color: #07273E;
 }
 
 #adminmenu, div#media-upload-header {
