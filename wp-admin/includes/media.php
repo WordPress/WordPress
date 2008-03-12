@@ -128,7 +128,7 @@ function wp_iframe($content_func /* ... */) {
 <?php
 wp_admin_css( 'css/global' );
 wp_admin_css();
-wp_admin_css( 'css/colors-classic' );
+wp_admin_css( 'css/colors' );
 ?>
 <script type="text/javascript">
 //<![CDATA[

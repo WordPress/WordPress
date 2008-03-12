@@ -28,8 +28,6 @@ get_admin_page_title();
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo wp_specialchars( strip_tags( $title ) ); ?> &#8212; WordPress</title>
 <?php
-wp_admin_css_color('classic', __('Classic'), get_option( 'siteurl' ) . "/wp-admin/css/colors-classic.css", array('#07273E', '#14568A', '#D54E21', '#2683AE'));
-wp_admin_css_color('fresh', __('Fresh'), get_option( 'siteurl' ) . "/wp-admin/css/colors-fresh.css", array('#464646', '#CEE1EF', '#D54E21', '#2683AE'));
 wp_admin_css( 'css/global' );
 wp_admin_css();
 wp_admin_css( 'css/colors' );
