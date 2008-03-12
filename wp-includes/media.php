@@ -84,7 +84,9 @@ function image_downsize($id, $size = 'medium') {
 		list( $width, $height ) = image_constrain_size_for_editor( $meta['width'], $meta['height'], $size );
 	}
 
-	return array( $img_url, $width, $height );
+	if ( $img_url)
+		return array( $img_url, $width, $height );
+	return false;
 
 }
 
@@ -284,7 +286,14 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 	if ( is_array($size) || empty($size) || empty($imagedata['sizes'][$size]) )
 		return false;
 		
-	return $imagedata['sizes'][$size];
+	$data = $imagedata['sizes'][$size];
+	// include the full filesystem path of the intermediate file
+	if ( empty($data['path']) && !empty($data['file']) ) {
+		$file_url = wp_get_attachment_url($post_id);
+		$data['path'] = path_join( dirname($imagedata['file']), $data['file'] );
+		$data['url'] = path_join( dirname($file_url), $data['file'] );
+	}
+	return $data;
 }
 
 // get an image to represent an attachment - a mime icon for files, thumbnail or intermediate size for images
@@ -320,7 +329,6 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = fals
 	
 	return $html;
 }
-
 
 add_shortcode('gallery', 'gallery_shortcode');
 
