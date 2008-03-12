@@ -33,6 +33,8 @@ var LinkDialog = {
 	update : function() {
 		var f = document.forms[0], ed = tinyMCEPopup.editor, e, b;
 
+		tinyMCEPopup.restoreSelection();
+
 		// Remove element if there is no href
 		if (!f.href.value) {
 			e = ed.dom.getParent(ed.selection.getNode(), 'A');

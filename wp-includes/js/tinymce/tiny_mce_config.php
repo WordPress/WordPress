@@ -166,8 +166,11 @@ $old_cache_max = ( isset($initArray['old_cache_max']) ) ? (int) $initArray['old_
 $initArray['disk_cache'] = $initArray['compress'] = $initArray['old_cache_max'] = null;
 unset( $initArray['disk_cache'], $initArray['compress'], $initArray['old_cache_max'] );
 
-$isIE5 = ( ( $msie = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ) && ( (int) substr( $_SERVER['HTTP_USER_AGENT'], $msie + 5, 3 ) < 6 ) ) ? true : false;
-if ( $isIE5 ) $compress = false;
+// Anybody still using IE5/5.5? It can't handle gzip compressed js well.
+if ( $msie = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ) {
+	$ie_ver = (int) substr( $_SERVER['HTTP_USER_AGENT'] , $msie + 5, 3 );
+	if ( $ie_ver && $ie_ver < 6 ) $compress = false;
+}
 
 // Cache path, this is where the .gz files will be stored
 $cache_path = ABSPATH . 'wp-content/uploads/js_cache'; 
@@ -181,11 +184,11 @@ $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
 $language = isset($initArray['language']) ? substr( $initArray['language'], 0, 2 ) : 'en';
 $enc = $cacheKey = $suffix = $mce_options = '';	
 
-// Check if supports gzip
+// Check if browser supports gzip
 if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 	$encodings = explode( ',', strtolower( preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING']) ) );
 
-	if ( (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------']) ) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') ) {
+	if ( (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------']) ) && function_exists('ob_gzhandler') && (ini_get('zlib.output_compression') == false) ) {
 		$enc = in_array('x-gzip', $encodings) ? 'x-gzip' : 'gzip';
 		$cache_ext = '.gz';
 	}
@@ -257,7 +260,7 @@ echo $content;
 
 // Write file
 if ( '' != $cacheKey ) {
-	if ( (int) $old_cache_max && is_dir($cache_path) ) {		
+	if ( is_dir($cache_path) ) {		
 
 		$old_cache = array();
 		$handle = opendir($cache_path);
@@ -269,7 +272,7 @@ if ( '' != $cacheKey ) {
 		closedir($handle);
 			
 		krsort($old_cache);
-		if ( 1 >= $old_cache_max ) $del_cache = $old_cache;
+		if ( 1 >= (int) $old_cache_max ) $del_cache = $old_cache;
 		else $del_cache = array_slice( $old_cache, ($old_cache_max - 1) );
 			
 		foreach ( $del_cache as $key )

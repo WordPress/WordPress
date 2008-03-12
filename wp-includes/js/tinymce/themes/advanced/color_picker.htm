@@ -8,6 +8,7 @@
 	<base target="_self" />
 </head>
 <body id="colorpicker" style="display: none">
+<form onsubmit="insertAction();return false" action="#">
 	<div class="tabs">
 		<ul>
 			<li id="picker_tab" class="current"><span><a href="javascript:mcTabs.displayTab('picker_tab','picker_panel');" onmousedown="return false;">{#advanced_dlg.colorpicker_picker_tab}</a></span></li>
@@ -61,14 +62,15 @@
 
 	<div class="mceActionPanel">
 		<div style="float: left">
-			<input type="button" id="insert" name="insert" value="{#apply}" onclick="insertAction();" />
+			<input type="submit" id="insert" name="insert" value="{#apply}" />
 		</div>
 
 		<div id="preview"></div>
 
 		<div id="previewblock">
-			<label for="color">{#advanced_dlg.colorpicker_color}</label> <input id="color" type="text" size="8" maxlength="8" class="text" />
+			<label for="color">{#advanced_dlg.colorpicker_color}</label> <input id="color" type="text" size="8" maxlength="8" class="text mceFocus" />
 		</div>
 	</div>
+</form>
 </body>
 </html>

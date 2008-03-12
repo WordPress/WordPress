@@ -19,8 +19,8 @@
 .o2k7Skin table.mceLayout tr.mceLast td {border-bottom:1px solid #ABC6DD}
 .o2k7Skin table.mceToolbar, .o2k7Skin tr.mceFirst .mceToolbar tr td, .o2k7Skin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0}
 .o2k7Skin .mceIframeContainer {border-top:1px solid #ABC6DD; border-bottom:1px solid #ABC6DD}
-.o2k7Skin .mceStatusbar {display:block; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; height:20px;}
-.o2k7Skin .mceStatusbar div {float:left; padding:2px;}
+.o2k7Skin .mceStatusbar {display:block; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; height:20px}
+.o2k7Skin .mceStatusbar div {float:left; padding:2px}
 .o2k7Skin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize}
 .o2k7Skin .mceStatusbar a:hover {text-decoration:underline}
 .o2k7Skin table.mceToolbar {margin-left:3px}
@@ -106,6 +106,18 @@
 .o2k7Skin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; filter:alpha(opacity=50); background:#FFF}
 .o2k7Skin .mceProgress {position:absolute; left:0; top:0; z-index:1001; background:url(../default/img/progress.gif) no-repeat; width:32px; height:32px; margin:-16px 0 0 -16px}
 .o2k7Skin .mcePlaceHolder {border:1px dotted gray}
+
+/* Formats */
+.o2k7Skin .mce_formatPreview a {font-size:10px}
+.o2k7Skin .mce_p span.mceText {}
+.o2k7Skin .mce_address span.mceText {font-style:italic}
+.o2k7Skin .mce_pre span.mceText {font-family:monospace}
+.o2k7Skin .mce_h1 span.mceText {font-weight:bolder; font-size: 2em}
+.o2k7Skin .mce_h2 span.mceText {font-weight:bolder; font-size: 1.5em}
+.o2k7Skin .mce_h3 span.mceText {font-weight:bolder; font-size: 1.17em}
+.o2k7Skin .mce_h4 span.mceText {font-weight:bolder; font-size: 1em}
+.o2k7Skin .mce_h5 span.mceText {font-weight:bolder; font-size: .83em}
+.o2k7Skin .mce_h6 span.mceText {font-weight:bolder; font-size: .75em}
 
 /* Theme */
 .o2k7Skin span.mce_bold {background-position:0 0}

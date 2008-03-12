@@ -178,18 +178,13 @@ tinyMCEPopup = {
 			document.attachEvent('onmouseup', tinyMCEPopup._restoreSelection);
 
 		t.restoreSelection();
-
-		// Call onInit
-		tinymce.each(t.listeners, function(o) {
-			o.func.call(o.scope, t.editor);
-		});
-
 		t.resizeToInnerSize();
 
-		if (t.isWindow)
-			window.focus();
-		else
+		// Set inline title
+		if (!t.isWindow)
 			t.editor.windowManager.setTitle(ti, t.id);
+		else
+			window.focus();
 
 		if (!tinymce.isIE && !t.isWindow) {
 			tinymce.dom.Event._add(document, 'focus', function() {
@@ -202,12 +197,32 @@ tinyMCEPopup = {
 			e.onkeydown = tinyMCEPopup._accessHandler;
 		});
 
+		// Call onInit
+		// Init must be called before focus so the selection won't get lost by the focus call
+		tinymce.each(t.listeners, function(o) {
+			o.func.call(o.scope, t.editor);
+		});
+
 		// Move focus to window
-		window.focus();
+		if (t.getWindowArg('mce_auto_focus', true)) {
+			window.focus();
+
+			// Focus element with mceFocus class
+			tinymce.each(document.forms, function(f) {
+				tinymce.each(f.elements, function(e) {
+					if (t.dom.hasClass(e, 'mceFocus')) {
+						e.focus();
+						return false; // Break loop
+					}
+				});
+			});
+		}
+
+		document.onkeydown = tinyMCEPopup._closeWinKeyHandler;
 	},
 
 	_accessHandler : function(e) {
-		var e = e || window.event;
+		e = e || window.event;
 
 		if (e.keyCode == 13 || e.keyCode == 32) {
 			e = e.target || e.srcElement;
@@ -217,6 +232,13 @@ tinyMCEPopup = {
 
 			return tinymce.dom.Event.cancel(e);
 		}
+	},
+
+	_closeWinKeyHandler : function(e) {
+		e = e || window.event;
+
+		if (e.keyCode == 27)
+			tinyMCEPopup.close();
 	},
 
 	_wait : function() {

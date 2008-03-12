@@ -6,7 +6,6 @@
 	<script type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script type="text/javascript" src="../../utils/form_utils.js"></script>
 	<script type="text/javascript" src="js/image.js"></script>
-	<script type="text/javascript">tinyMCEPopup.onInit.add(function(){window.setTimeout(function(){document.getElementById('src').focus();},500);});</script>
 	<base target="_self" />
 </head>
 <body id="image" style="display: none">
@@ -19,12 +18,12 @@
 
 	<div class="panel_wrapper">
 		<div id="general_panel" class="panel current">
-		<table border="0" cellpadding="4" cellspacing="0">
+     <table border="0" cellpadding="4" cellspacing="0">
           <tr>
             <td nowrap="nowrap"><label for="src">{#advanced_dlg.image_src}</label></td>
             <td><table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input id="src" name="src" type="text" value="" style="width: 200px" onchange="ImageDialog.getImageData();" /></td>
+                  <td><input id="src" name="src" type="text" class="mceFocus" value="" style="width: 200px" onchange="ImageDialog.getImageData();" /></td>
                   <td id="srcbrowsercontainer">&nbsp;</td>
                 </tr>
               </table></td>
@@ -69,7 +68,7 @@
             <td nowrap="nowrap"><label for="hspace">{#advanced_dlg.image_hspace}</label></td>
             <td><input id="hspace" name="hspace" type="text" value="" size="3" maxlength="3" onchange="ImageDialog.updateStyle();" /></td>
           </tr>
-          <tr>
+		  <tr>
             <td nowrap="nowrap"><label for="class_name">{#class_name}</label></td>
             <td><input type="text" id="class_name" name="class_name" style="width: 140px" value="" /></td>
           </tr>
@@ -81,9 +80,9 @@
 		<div style="float: left">
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 		</div>
-            
+
 		<div style="float: right">
-			<input type="submit" id="insert" name="insert" value="{#insert}" onclick="ImageDialog.update();" />
+			<input type="submit" id="insert" name="insert" value="{#insert}" />
 		</div>
 	</div>
 </form>

@@ -2,10 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advanced_dlg.anchor_title}</title>
-    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script type="text/javascript" src="js/anchor.js"></script>
-	<script type="text/javascript">tinyMCEPopup.onInit.add(function(){window.setTimeout(function(){document.getElementById('anchorName').focus();},500);});</script>
-    <base target="_self" />
+	<base target="_self" />
 </head>
 <body style="display: none">
 <form onsubmit="AnchorDialog.update();return false;" action="#">
@@ -15,7 +14,7 @@
 		</tr>
 		<tr>
 			<td nowrap="nowrap">{#advanced_dlg.anchor_name}:</td>
-			<td><input name="anchorName" type="text" id="anchorName" value="" style="width: 200px" /></td>
+			<td><input name="anchorName" type="text" class="mceFocus" id="anchorName" value="" style="width: 200px" /></td>
 		</tr>
 	</table>
 
@@ -25,7 +24,7 @@
 		</div>
 
 		<div style="float: right">
-			<input type="submit" id="insert" name="insert" value="{#update}" onclick="AnchorDialog.update();" />
+			<input type="submit" id="insert" name="insert" value="{#update}" />
 		</div>
 	</div>
 </form>

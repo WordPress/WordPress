@@ -1,5 +1,5 @@
 /**
- * $Id: validate.js 520 2008-01-07 16:30:32Z spocke $
+ * $Id: validate.js 673 2008-03-06 13:26:20Z spocke $
  *
  * Various form validation methods.
  *
@@ -31,7 +31,7 @@ var Validator = {
 	},
 
 	isSize : function(s) {
-		return this.test(s, '^[0-9]+(px|%)?$');
+		return this.test(s, '^[0-9]+(%|in|cm|mm|em|ex|pt|pc|px)?$');
 	},
 
 	isId : function(s) {

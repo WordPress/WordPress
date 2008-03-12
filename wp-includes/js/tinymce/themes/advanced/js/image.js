@@ -55,6 +55,8 @@ var ImageDialog = {
 	update : function() {
 		var f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, args = {}, el;
 
+		tinyMCEPopup.restoreSelection();
+
 		if (f.src.value === '') {
 			if (ed.selection.getNode().nodeName == 'IMG') {
 				ed.dom.remove(ed.selection.getNode());
