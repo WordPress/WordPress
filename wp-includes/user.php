@@ -26,7 +26,7 @@ function wp_signon( $credentials = '' ) {
 				return new WP_User($user);
 
 			if ( !empty($_COOKIE[AUTH_COOKIE]) )
-				return new WP_Error('expired_session', __('Your session has expired.'));
+				return new WP_Error('expired_session', __('Please log in again.'));
 
 			// If the cookie is not set, be silent.
 			return new WP_Error();
