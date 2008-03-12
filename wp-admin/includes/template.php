@@ -648,10 +648,10 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 
 	$actions = array();
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
-		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
 		$actions['spam']      = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
-		$actions['delete']    = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
+		$actions['delete']    = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a> | ';
+		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
+		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
 
 		// we're looking at list of only approved or only unapproved comments
 		if ( 'moderated' == $comment_status ) {
