@@ -17,6 +17,7 @@ if (!defined('SAVEQUERIES'))
 class wpdb {
 
 	var $show_errors = false;
+	var $suppress_errors = false;
 	var $num_queries = 0;
 	var $last_query;
 	var $col_info;
@@ -177,13 +178,18 @@ class wpdb {
 
 	function print_error($str = '') {
 		global $EZSQL_ERROR;
+
 		if (!$str) $str = mysql_error($this->dbh);
 		$EZSQL_ERROR[] =
 		array ('query' => $this->last_query, 'error_str' => $str);
 
+		if ( $this->suppress_errors )
+			return false;
+
 		$error_str = "WordPress database error $str for query $this->last_query";
 		if ( $caller = $this->get_caller() )
 			$error_str .= " made by $caller";
+		
 		@error_log($error_str, 0);
 
 		// Is error output turned on or not..
@@ -213,6 +219,12 @@ class wpdb {
 		$show = $this->show_errors;
 		$this->show_errors = false;
 		return $show;
+	}
+
+	function suppress_errors( $suppress = true ) {
+		$errors = $this->suppress_errors;
+		$this->suppress_errors = $suppress;
+		return $errors;
 	}
 
 	// ==================================================================

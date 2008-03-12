@@ -957,9 +957,9 @@ function is_blog_installed() {
 	if ( wp_cache_get('is_blog_installed') )
 		return true;
 
-	$show = $wpdb->hide_errors();
+	$suppress = $wpdb->suppress_errors();
 	$installed = $wpdb->get_var( "SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'" );
-	$wpdb->show_errors($show);
+	$wpdb->suppress_errors($suppress);
 
 	$installed = !empty( $installed ) ? true : false;
 	wp_cache_set('is_blog_installed', $installed);
