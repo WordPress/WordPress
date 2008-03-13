@@ -8,10 +8,15 @@ $menu[0] = array(__('Dashboard'), 'read', 'index.php');
 
 if (strpos($_SERVER['REQUEST_URI'], 'edit-pages.php') !== false)
 	$menu[5] = array(__('Write'), 'edit_pages', 'page-new.php');
+elseif (strpos($_SERVER['REQUEST_URI'], 'link-manager.php') !== false)
+	$menu[5] = array(__('Write'), 'manage_links', 'link-add.php');
 else
 	$menu[5] = array(__('Write'), 'edit_posts', 'post-new.php');
+
 if (strpos($_SERVER['REQUEST_URI'], 'page-new.php') !== false)
 	$menu[10] = array(__('Manage'), 'edit_pages', 'edit-pages.php');
+elseif (strpos($_SERVER['REQUEST_URI'], 'link-add.php') !== false)
+	$menu[10] = array(__('Manage'), 'manage_links', 'link-manager.php');
 else
 	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
 
