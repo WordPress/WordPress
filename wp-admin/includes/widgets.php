@@ -48,7 +48,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 
 			ob_start();
 				$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' ) ) );
-				call_user_func_array( 'wp_widget_control', $args );
+				$sidebar_args = call_user_func_array( 'wp_widget_control', $args );
 			$widget_control_template = ob_get_contents();
 			ob_end_clean();
 
@@ -70,8 +70,11 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 					'edit' => $widget['id'],
 					'key' => array_search( $widget['id'], $sidebars_widgets[$sidebar] ),
 				) ) );
-				$widget_control_template = '<li><textarea rows="1" cols="1">' . htmlspecialchars( $widget_control_template ) . '</textarea></li>';
+				
+				$widget_control_template = '<textarea rows="1" cols="1">' . htmlspecialchars( $widget_control_template ) . '</textarea>';
 			}
+
+			$widget_control_template = $sidebar_args['before_widget'] . $widget_control_template . $sidebar_args['after_widget'];
 
 			$no_widgets_shown = false;
 
@@ -201,7 +204,8 @@ function wp_widget_control( $sidebar_args ) {
 		$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
 
 
-	echo $sidebar_args['before_widget'];
+	if ( empty($sidebar_args['_display']) || 'template' != $sidebar_args['_display'] )
+		echo $sidebar_args['before_widget'];
 ?>
 		<h4 class="widget-title"><?php echo $widget_title ?>
 
@@ -242,7 +246,9 @@ function wp_widget_control( $sidebar_args ) {
 			</div>
 		</div>
 <?php
-	echo $sidebar_args['after_widget'];
+	if ( empty($sidebar_args['_display']) || 'template' != $sidebar_args['_display'] )
+		echo $sidebar_args['after_widget'];
+	return $sidebar_args;
 }
 
 function wp_widget_control_ob_filter( $string ) {
