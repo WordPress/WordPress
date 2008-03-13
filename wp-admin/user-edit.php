@@ -166,7 +166,7 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 	<tr>
 	<?php
 	foreach ( $color_info->colors as $color ): ?>
-	<td style="background-color: <?php echo $color ?>" title="<?php echo $color ?>"></td>
+	<td style="background-color: <?php echo $color ?>" title="<?php echo $color ?>">&nbsp;</td>
 	<?php endforeach; ?>
 	</tr>
 	</table>

@@ -834,6 +834,8 @@ html, body {
 .form-table .color-palette td {
 	border-bottom: none;
 	border: 1px solid #fff;
+	font-size: 1px;
+	line-height: 1px;
 }
 
 #profile-page .form-table textarea {
