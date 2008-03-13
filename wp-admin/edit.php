@@ -120,8 +120,6 @@ endif;
 	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
 </p>
 
-<?php do_action('restrict_manage_posts'); ?>
-
 <div class="tablenav">
 
 <?php
@@ -170,7 +168,9 @@ foreach ($arc_result as $arc_row) {
 <?php } ?>
 
 <?php wp_dropdown_categories('show_option_all='.__('View all categories').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
+<?php do_action('restrict_manage_posts'); ?>
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+
 <?php } ?>
 </div>
 
