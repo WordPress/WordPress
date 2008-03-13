@@ -263,6 +263,7 @@ textarea.all-options, input.all-options {
 #ed_toolbar input {
 	margin: 3px 2px 2px;
 	padding: 2px 4px;
+	line-height: 18px;
 }
 
 #quicktags #ed_strong {
@@ -283,6 +284,7 @@ textarea.all-options, input.all-options {
 
 #quicktags #ed_code {
 	font-family: "Courier New", Courier, mono;
+	font-size: 1.1em;
 	vertical-align: top;
 }
 
