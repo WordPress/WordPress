@@ -42,7 +42,10 @@ function profile_js ( ) {
 
 	}
 
-	jQuery(document).ready( function() { jQuery('#pass1').keyup( check_pass_strength ) } );
+	jQuery(function($) { 
+		$('#pass1').keyup( check_pass_strength ) 
+		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
+	} );
 </script>
 <?php
 }
@@ -161,18 +164,18 @@ $current_color = get_user_option('admin_color');
 if ( empty($current_color) )
 	$current_color = 'classic';
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
-<label class="color-option"><input name="admin_color" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, $current_color); ?> />
+<div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, $current_color); ?> />
 	<table class="color-palette">
 	<tr>
 	<?php
-	foreach ( $color_info->colors as $color ): ?>
-	<td style="background-color: <?php echo $color ?>" title="<?php echo $color ?>">&nbsp;</td>
+	foreach ( $color_info->colors as $html_color ): ?>
+	<td style="background-color: <?php echo $html_color ?>" title="<?php echo $color ?>">&nbsp;</td>
 	<?php endforeach; ?>
 	</tr>
 	</table>
 	
-	<?php echo $color_info->name ?>
-</label>
+	<label for="admin_color_<?php echo $color; ?>"><?php echo $color_info->name ?></label>
+</div>
 <?php endforeach; ?>
 </td>
 </tr>
@@ -303,7 +306,7 @@ if ( $show_password_fields ) :
 		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
 		<?php if ( $is_profile_page ): ?>
 		<p><strong><?php _e('Password Strength:'); ?></strong></p>
-		<div id="pass-strength-result"><?php _e('Too short'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&( in your password.'); ?>
+		<div id="pass-strength-result"><?php _e('Too short'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&amp;( in your password.'); ?>
 		<?php endif; ?>
 	</td>
 </tr>

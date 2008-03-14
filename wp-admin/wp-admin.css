@@ -814,7 +814,7 @@ html, body {
 	border-style: solid;
 }
 
-.form-table label.color-option {
+.form-table div.color-option {
 	display: block;
 	clear: both;
 }
