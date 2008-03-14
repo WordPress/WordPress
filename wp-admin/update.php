@@ -50,7 +50,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Password:') ?></th>
-<td><input name="password" type="password" id="password" value=""<?php if( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /><?php if( defined('FTP_PASS') && !empty($password) ) _e('<em>(Password not shown)</em>'); ?></td>
+<td><input name="password" type="password" id="password" value=""<?php if( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /><?php if( defined('FTP_PASS') && !empty($password) ) echo '<em>'.__('(Password not shown)').'</em>'; ?></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Use SSL:') ?></th>
