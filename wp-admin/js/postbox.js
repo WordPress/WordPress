@@ -1,6 +1,6 @@
 function add_postbox_toggles(page) {
 	jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
-	jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); save_postboxes_state(page); } );
+	jQuery('.postbox h3').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); save_postboxes_state(page); } );
 }
 
 function save_postboxes_state(page) {
