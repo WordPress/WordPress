@@ -1307,7 +1307,7 @@ function wp_widget_rss_register() {
 	foreach ( array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['url']) || !isset($options[$o]['title']) || !isset($options[$o]['items']) )
-			contine;
+			continue;
 		$id = "rss-$o"; // Never never never translate an id
 		wp_register_sidebar_widget($id, $name, 'wp_widget_rss', $widget_ops, array( 'number' => $o ));
 		wp_register_widget_control($id, $name, 'wp_widget_rss_control', $control_ops, array( 'number' => $o ));
