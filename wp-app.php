@@ -174,17 +174,18 @@ class AtomServer {
                   $accepted_media_types = $accepted_media_types . "<accept>" . $med . "</accept>";
                 }
 		$atom_prefix="atom";
+		$atom_blogname=get_bloginfo('name');
 		$service_doc = <<<EOD
 <service xmlns="$this->ATOMPUB_NS" xmlns:$atom_prefix="$this->ATOM_NS">
   <workspace>
-    <$atom_prefix:title>WordPress Workspace</$atom_prefix:title>
+    <$atom_prefix:title>$atom_blogname Workspace</$atom_prefix:title>
     <collection href="$entries_url">
-      <$atom_prefix:title>WordPress Posts</$atom_prefix:title>
+      <$atom_prefix:title>$atom_blogname Posts</$atom_prefix:title>
       <accept>$this->ATOM_CONTENT_TYPE;type=entry</accept>
       <categories href="$categories_url" />
     </collection>
     <collection href="$media_url">
-      <$atom_prefix:title>WordPress Media</$atom_prefix:title>
+      <$atom_prefix:title>$atom_blogname Media</$atom_prefix:title>
       $accepted_media_types
     </collection>
   </workspace>
