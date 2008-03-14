@@ -390,7 +390,7 @@ flv_jscallback:"' . mce_escape( __('JS Callback') ) . '"
 });
 
 tinyMCE.addI18n("' . $language . '.wordpress",{
-wp_adv_desc:"' . mce_escape( __('Show/Hide Advanced Toolbar') )  . ' (Alt+Shift+Z)",
+wp_adv_desc:"' . mce_escape( __('Show/Hide Kitchen Sink') )  . ' (Alt+Shift+Z)",
 wp_more_desc:"' . mce_escape( __('Insert More tag') ) . ' (Alt+Shift+T)",
 wp_page_desc:"' . mce_escape( __('Insert Page break') ) . ' (Alt+Shift+P)",
 wp_help_desc:"' . mce_escape( __('Help') ) . ' (Alt+Shift+H)",
