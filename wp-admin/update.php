@@ -11,10 +11,16 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 
 	if ( 'direct' == $type )
 		return array();
+		
+	if( ! $credentials = get_option('ftp_credentials') )
+		$credentials = array();
+	// If defined, set it to that, Else, If POST'd, set it to that, If not, Set it to whatever it previously was(saved details in option)
+	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? $_POST['hostname'] : $credentials['hostname']);
+	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? $_POST['username'] : $credentials['username']);
+	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? $_POST['password'] : $credentials['password']);
+	$credentials['ssl']      = defined('FTP_SSL')  ? FTP_SSL  : (!empty($_POST['ssl'])      ? $_POST['ssl']      : $credentials['ssl']);
 
-	if ( ! $error && !empty($_POST['password']) && !empty($_POST['username']) && !empty($_POST['hostname']) ) {
-		$credentials = array('hostname' => $_POST['hostname'], 'username' => $_POST['username'],
-			'password' => $_POST['password'], 'ssl' => $_POST['ssl']);
+	if ( ! $error && !empty($credentials['password']) && !empty($credentials['username']) && !empty($credentials['hostname']) ) {
 		$stored_credentials = $credentials;
 		unset($stored_credentials['password']);
 		update_option('ftp_credentials', $stored_credentials);
@@ -24,11 +30,10 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$username = '';
 	$password = '';
 	$ssl = '';
-	if ( $credentials = get_option('ftp_credentials') )
+	if ( !empty($credentials) )
 		extract($credentials, EXTR_OVERWRITE);
-	if( $error ){
+	if( $error )
 		echo '<div id="message" class="error"><p>' . __('<strong>Error:</strong> There was an error connecting to the server, Please verify the settings are correct.') . '</p></div>';
-	}
 ?>
 <form action="<?php echo $form_post ?>" method="post">
 <div class="wrap">
@@ -37,20 +42,20 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e('Hostname:') ?></th>
-<td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname) ?>" size="40" /></td>
+<td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname) ?>"<?php if( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Username:') ?></th>
-<td><input name="username" type="text" id="username" value="<?php echo attribute_escape($username) ?>" size="40" /></td>
+<td><input name="username" type="text" id="username" value="<?php echo attribute_escape($username) ?>"<?php if( defined('FTP_USER') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Password:') ?></th>
-<td><input name="password" type="password" id="password" value="<?php echo attribute_escape($password) ?>" size="40" /></td>
+<td><input name="password" type="password" id="password" value=""<?php if( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /><?php if( defined('FTP_PASS') && !empty($password) ) _e('<em>(Password not shown)</em>'); ?></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Use SSL:') ?></th>
 <td>
-<select name="ssl" id="ssl">
+<select name="ssl" id="ssl"<?php if( defined('FTP_SSL') ) echo ' disabled="disabled"' ?>>
 <?php
 foreach ( array(0 => __('No'), 1 => __('Yes')) as $key => $value ) :
 	$selected = ($ssl == $value) ? 'selected="selected"' : '';
