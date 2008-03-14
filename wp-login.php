@@ -388,7 +388,7 @@ default:
 <?php do_action('login_form'); ?>
 	<p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me'); ?></label></p>
 	<p class="submit">
-		<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log in'); ?>" tabindex="100" />
+		<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log In'); ?>" tabindex="100" />
 		<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
 		<input type="hidden" name="testcookie" value="1" />
 	</p>
