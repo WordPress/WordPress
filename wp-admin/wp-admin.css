@@ -782,6 +782,14 @@ html, body {
 	padding: 5px 0;
 }
 
+#footer p a {
+	text-decoration: none;
+}
+
+#footer p a:hover {
+	text-decoration: underline;
+}
+
 /* Tables used on comment.php and option/setting pages */
 
 .form-table {
