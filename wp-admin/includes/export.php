@@ -195,12 +195,12 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
 <link><?php the_permalink_rss() ?></link>
 <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
-<dc:creator><?php the_author() ?></dc:creator>
+<dc:creator><?php echo wxr_cdata(get_the_author()); ?></dc:creator>
 <?php wxr_post_taxonomy() ?>
 
 <guid isPermaLink="false"><?php the_guid(); ?></guid>
 <description></description>
-<content:encoded><![CDATA[<?php echo apply_filters('the_content_export', $post->post_content); ?>]]></content:encoded>
+<content:encoded><?php echo wxr_cdata( apply_filters('the_content_export', $post->post_content) ); ?></content:encoded>
 <wp:post_id><?php echo $post->ID; ?></wp:post_id>
 <wp:post_date><?php echo $post->post_date; ?></wp:post_date>
 <wp:post_date_gmt><?php echo $post->post_date_gmt; ?></wp:post_date_gmt>
@@ -238,7 +238,7 @@ if ( $comments ) { foreach ( $comments as $c ) { ?>
 <wp:comment_author_IP><?php echo $c->comment_author_IP; ?></wp:comment_author_IP>
 <wp:comment_date><?php echo $c->comment_date; ?></wp:comment_date>
 <wp:comment_date_gmt><?php echo $c->comment_date_gmt; ?></wp:comment_date_gmt>
-<wp:comment_content><?php echo $c->comment_content; ?></wp:comment_content>
+<wp:comment_content><?php echo wxr_cdata($c->comment_content) ?></wp:comment_content>
 <wp:comment_approved><?php echo $c->comment_approved; ?></wp:comment_approved>
 <wp:comment_type><?php echo $c->comment_type; ?></wp:comment_type>
 <wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
