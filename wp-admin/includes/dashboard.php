@@ -62,8 +62,8 @@ function wp_dashboard_setup() {
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
 		$update = true;
 		$widget_options['dashboard_primary'] = array(
-			'link' => apply_filters( 'dashboard_primary_link', 'http://wordpress.org/development/' ),
-			'url' => apply_filters( 'dashboard_primary_feed', 'http://wordpress.org/development/feed/' ),
+			'link' => apply_filters( 'dashboard_primary_link',  __( 'http://wordpress.org/development/' ) ),
+			'url' => apply_filters( 'dashboard_primary_feed',  __( 'http://wordpress.org/development/feed/' ) ),
 			'title' => apply_filters( 'dashboard_primary_title', __( 'WordPress Development Blog' ) ),
 			'items' => 2,
 			'show_summary' => 1,
@@ -84,8 +84,8 @@ function wp_dashboard_setup() {
 	if ( !isset( $widget_options['dashboard_secondary'] ) ) {
 		$update = true;
 		$widget_options['dashboard_secondary'] = array(
-			'link' => apply_filters( 'dashboard_secondary_link', 'http://planet.wordpress.org/' ),
-			'url' => apply_filters( 'dashboard_secondary_feed', 'http://planet.wordpress.org/feed/' ),
+			'link' => apply_filters( 'dashboard_secondary_link',  __( 'http://planet.wordpress.org/' ) ),
+			'url' => apply_filters( 'dashboard_secondary_feed',  __( 'http://planet.wordpress.org/feed/' ) ),
 			'title' => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
 			'items' => 15
 		);
