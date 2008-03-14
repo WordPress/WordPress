@@ -22,15 +22,15 @@ function profile_js ( ) {
 
 		jQuery(res).removeClass('short bad good strong');
 
-		if ( strength == 'Bad' ) {
+		if ( strength == pwsL10n.bad ) {
 			jQuery(res).addClass('bad');
 			jQuery(res).html( pwsL10n.bad );
 		}
-		else if ( strength == 'Good' ) {
+		else if ( strength == pwsL10n.good ) {
 			jQuery(res).addClass('good');
 			jQuery(res).html( pwsL10n.good );
 		}
-		else if ( strength == 'Strong' ) {
+		else if ( strength == pwsL10n.strong ) {
 			jQuery(res).addClass('strong');
 			jQuery(res).html( pwsL10n.strong );
 		}
