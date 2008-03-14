@@ -2253,6 +2253,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$linea )
 	  		return new IXR_Error(16, __('The source URL does not exist.'));
 
+		$linea = apply_filters('pre_remote_source', $linea, $pagelinkedto);
+
 		// Work around bug in strip_tags():
 		$linea = str_replace('<!DOC', '<DOC', $linea);
 		$linea = preg_replace( '/[\s\r\n\t]+/', ' ', $linea ); // normalize spaces
