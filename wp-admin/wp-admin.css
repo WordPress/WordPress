@@ -153,7 +153,7 @@ form#upload #post_content {
 
 .submit input, .button, .button-secondary {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 3px 5px;
+	padding: 2px 3px;
 	border: none;
 	font-size: 13px;
 	border-width: 1px;
@@ -1347,4 +1347,8 @@ ul.view-switch li.current {
 	background-repeat: no-repeat;
 	background-position: left 2px;
 	padding-left: 18px;
+}
+
+.tablenav .delete {
+	margin-right: 20px;
 }
