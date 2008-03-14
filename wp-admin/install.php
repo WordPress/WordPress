@@ -47,11 +47,11 @@ switch($step) {
 <form id="setup" method="post" action="install.php?step=2">
 	<table class="form-table">
 		<tr>
-			<th scope="row"><?php _e('Blog Title'); ?></th>
+			<th scope="row"><label for="weblog_title"><?php _e('Blog Title'); ?></label></th>
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
 		</tr>
 		<tr>
-			<th><?php _e('Your E-mail'); ?></th>
+			<th scope="row"><label for="admin_email"><?php _e('Your E-mail'); ?></label></th>
 			<td><input name="admin_email" type="text" id="admin_email" size="25" /><br />
 			<?php _e('Double-check your email address before continuing.'); ?>
 		</tr>
@@ -76,10 +76,10 @@ switch($step) {
 		// check e-mail address
 		if (empty($admin_email)) {
 			// TODO: poka-yoke
-			die(__("<p><strong>ERROR</strong>: you must provide an e-mail address.</p>"));
+			die('<p>'.__("<strong>ERROR</strong>: you must provide an e-mail address.").'</p>');
 		} else if (!is_email($admin_email)) {
 			// TODO: poka-yoke
-			die(__('<strong>ERROR</strong>: that isn\'t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>'));
+			die('<p>'.__('<strong>ERROR</strong>: that isn&#8217;t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>').'</p>');
 		}
 
 		$wpdb->show_errors();
@@ -99,7 +99,7 @@ switch($step) {
 	<tr>
 		<th><?php _e('Password'); ?></th>
 		<td><code><?php echo $password; ?></code><br />
-			<?php _e('<p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.</p>'); ?></td>
+			<?php echo '<p>'.__('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.').'</p>'; ?></td>
 	</tr>
 </table>
 
@@ -109,5 +109,6 @@ switch($step) {
 		break;
 }
 ?>
+<script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
 </body>
 </html>
