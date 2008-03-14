@@ -32,55 +32,6 @@ endif;
 
 
 <?php
-$my_drafts = get_users_drafts($user_ID);
-$pending = get_others_pending($user_ID);
-$others_drafts = get_others_drafts($user_ID);
-
-$nag_posts_limit = (int) apply_filters('nag_posts_limit', 3);
-
-$nag_posts = array(
-	array(
-		'my_drafts',
-		__('Your Drafts:'),
-		'edit.php?post_status=draft&amp;author=' . $user_ID,
-		count($my_drafts)),
-	array(
-		'pending',
-		__('Pending Review:'),
-		'edit.php?post_status=pending',
-		count($pending)),
-	array(
-		'others_drafts',
-		__('Others&#8217; Drafts:'),
-		'edit.php?post_status=draft&author=-' . $user_ID,
-		count($others_drafts))
-	);
-
-$draft_div = '';
-if ( !empty($my_drafts) || !empty($pending) || !empty($others_drafts) ) {
-	$draft_div = '<div class="wrap" id="draft-nag">';
-
-	foreach ( $nag_posts as $nag ) {
-		if ( ${$nag[0]} ) {
-			$draft_div .= '<p><strong>' . wp_specialchars($nag[1]) . '</strong> ';
-			$i = 0;
-			foreach ( ${$nag[0]} as $post ) {
-				$i++;
-				if ( $i > $nag_posts_limit )
-					break;
-				$draft_div .= '<a href="post.php?action=edit&amp;post=' . $post->ID . '">';
-				$draft_div .= ( '' == the_title('', '', FALSE) ) ? sprintf( __('Post #%s'), $post->ID ) : get_the_title();
-				$draft_div .= '</a>';
-				if ( $i < min($nag[3], $nag_posts_limit) )
-					$draft_div .= ', ';
-			}
-			if ( $nag[3] > $nag_posts_limit )
-				$draft_div .= sprintf(__(', and <a href="%s">%d more</a>'), $nag[2], $nag[3] - $nag_posts_limit);
-			$draft_div .= '.</p>';
-		}
-	}
-	$draft_div .= "</div>\n";
-}
 
 // Show post form.
 $post = get_default_post_to_edit();

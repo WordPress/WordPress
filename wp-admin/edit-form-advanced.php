@@ -19,9 +19,6 @@ $messages[3] = __('Custom field deleted.');
 <h2><?php _e('Write Post') ?></h2>
 <?php
 
-if ( !empty( $draft_div ) )
-	echo $draft_div;
-
 if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'post';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
