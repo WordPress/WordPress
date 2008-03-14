@@ -167,10 +167,10 @@ function media_buttons() {
 	$audio_title = __('Add Audio');
 	$out = <<<EOF
 
-	<a href="{$image_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox" title='$image_title'><img src='images/media-button-image.gif' alt='$image_title' /></a>
-	<a href="{$video_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox" title='$video_title'><img src='images/media-button-video.gif' alt='$video_title' /></a>
-	<a href="{$audio_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox" title='$audio_title'><img src='images/media-button-music.gif' alt='$audio_title' /></a>
-	<a href="{$media_upload_iframe_src}&TB_iframe=true&height=500&width=640" class="thickbox" title='$media_title'><img src='images/media-button-other.gif' alt='$media_title' /></a>
+	<a href="{$image_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$image_title'><img src='images/media-button-image.gif' alt='$image_title' /></a>
+	<a href="{$video_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$video_title'><img src='images/media-button-video.gif' alt='$video_title' /></a>
+	<a href="{$audio_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$audio_title'><img src='images/media-button-music.gif' alt='$audio_title' /></a>
+	<a href="{$media_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$media_title'><img src='images/media-button-other.gif' alt='$media_title' /></a>
 
 EOF;
 	printf($context, $out);
