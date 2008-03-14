@@ -199,10 +199,9 @@ function wp_widget_control( $sidebar_args ) {
 	unset($wp_registered_widgets[$widget_id]['_callback']);
 
 	if ( $widget_title )
-		$widget_title = sprintf( _c('%1$s: %2$s|widget_admin_title' ), $sidebar_args['widget_name'], $widget_title );
+		$widget_title = sprintf( _c('%1$s: %2$s|1: widget name, 2: widget title' ), $sidebar_args['widget_name'], $widget_title );
 	else
 		$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
-
 
 	if ( empty($sidebar_args['_display']) || 'template' != $sidebar_args['_display'] )
 		echo $sidebar_args['before_widget'];

@@ -97,12 +97,12 @@ class WP_Filesystem_ftpsockets{
 		if( empty( $base ) ) $base = '/';
 		if( '/' != substr($base, -1) ) $base .= '/';
 
-		if($echo) echo __('Changing to ') . $base  .'<br>';
+		if($echo) printf( __('Changing to %s') . '<br/>', $base );
 		if( false === $this->chdir($base) )
 			return false;
 
 		if( $this->exists($base . 'wp-settings.php') ){
-			if($echo) echo __('Found ') . $base . 'wp-settings.php<br>';
+			if($echo) printf( __('Found %s'), $base . 'wp-settings.php<br/>' );
 			$this->wp_base = $base;
 			return $this->wp_base;
 		}
@@ -117,7 +117,7 @@ class WP_Filesystem_ftpsockets{
 
 		foreach($arrPath as $key=>$folder){
 			if( $this->is_dir($base . $folder) ){
-				if($echo) echo __('Found ') . $folder . ' ' . __('Changing to') . ' ' . $base . $folder . '/<br>';
+				if($echo) echo sprintf( __('Found %s'),  $folder ) . ' ' . sprintf( __('Changing to %s') . '<br/>', $base . $folder . '/' );
 				return $this->find_base_dir($base .  $folder . '/',$echo);
 			}
 		}
