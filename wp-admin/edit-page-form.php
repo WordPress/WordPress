@@ -90,7 +90,7 @@ if ($post_ID) {
 	if ( 'future' == $post->post_status ) {
 		$stamp = __('Scheduled for:<br />%1$s at %2$s');
 	} else if ( 'publish' == $post->post_status ) {
-		$stamp = __('Published on:<br />%1$s at %2$s');
+		$stamp = __('%1$s at %2$s');
 	} else {
 		$stamp = __('Saved on:<br />%1$s at %2$s');
 	}
@@ -98,12 +98,12 @@ if ($post_ID) {
 	$date = mysql2date(get_option('date_format'), $post->post_date);
 	$time = mysql2date(get_option('time_format'), $post->post_date);
 } else {
-	$stamp = __('Timestamp:<br />%1$s at %2$s');
+	$stamp = __('%1$s at %2$s');
 	$date = mysql2date(get_option('date_format'), current_time('mysql'));
 	$time = mysql2date(get_option('time_format'), current_time('mysql'));
 }
 ?>
-<p><?php printf($stamp, $date, $time); ?>
+<p class="curtime"><?php printf($stamp, $date, $time); ?>
 &nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
 
 <div id='timestampdiv'><?php touch_time(($action == 'edit')); ?></div>
@@ -152,7 +152,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <div id="titlediv">
 <h3><?php _e('Title') ?></h3>
 <div id="titlewrap">
-  <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" />
+  <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" autocomplete="off" />
 </div>
 <div class="inside">
 <?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>

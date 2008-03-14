@@ -5,7 +5,6 @@ addLoadEvent( function() {
 	// hide advanced slug field
 	jQuery('#pageslugdiv').hide();
 
-	jQuery('#timestampdiv').css('display', 'none');
 	jQuery('.edit-timestamp').click(function () {
 		if (jQuery('#timestampdiv').is(":hidden")) {
 			jQuery('#timestampdiv').slideDown("normal");

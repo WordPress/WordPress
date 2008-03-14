@@ -39,11 +39,11 @@ addLoadEvent(focusit);
 </p>
 
 <?php
-$stamp = __('Timestamp:<br />%1$s at %2$s');
+$stamp = __('%1$s at %2$s');
 $date = mysql2date(get_option('date_format'), $comment->comment_date);
 $time = mysql2date(get_option('time_format'), $comment->comment_date);
 ?>
-<p><?php printf($stamp, $date, $time); ?>
+<p class="curtime"><?php printf($stamp, $date, $time); ?>
 &nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
 
 <div id='timestampdiv'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>

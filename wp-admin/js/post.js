@@ -146,7 +146,6 @@ addLoadEvent( function() {
 	} );
 	jQuery('.categorychecklist :checkbox').change( syncChecks ).filter( ':checked' ).change();
 
-	jQuery('#timestampdiv').css('display', 'none');
 	jQuery('.edit-timestamp').click(function () {
 		if (jQuery('#timestampdiv').is(":hidden")) {
 			jQuery('#timestampdiv').slideDown("normal");

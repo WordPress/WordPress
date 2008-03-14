@@ -484,7 +484,7 @@ input.readonly {
 	border-top-color: #247fab;
 }
 
-#user_info, .login #backtoblog a {
+#user_info, .login #backtoblog a, .curtime {
 	color: #ccc;
 }
 
@@ -674,4 +674,8 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 
 #poststuff #titlewrap {
 	border-color: #ccc;
+}
+
+.curtime {
+	color: #666;
 }

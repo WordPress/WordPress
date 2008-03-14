@@ -805,7 +805,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	if ( (int) $tab_index > 0 )
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
-	echo '<input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> <label for="timestamp">'.__( 'Edit timestamp' ).'</label>';
+	echo '<label for="timestamp" style="display: block;"><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> '.__( 'Edit timestamp' ).'</label><br />';
 
 	$time_adj = time() + (get_option( 'gmt_offset' ) * 3600 );
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
@@ -825,10 +825,10 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	}
 	$month .= '</select>';
 
-	$day = '<input type="text" id="jj" name="jj" value="' . $jj . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
-	$year = '<input type="text" id="aa" name="aa" value="' . $aa . '" size="4" maxlength="5" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
-	$hour = '<input type="text" id="hh" name="hh" value="' . $hh . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
-	$minute = '<input type="text" id="mn" name="mn" value="' . $mn . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' />';
+	$day = '<input type="text" id="jj" name="jj" value="' . $jj . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$year = '<input type="text" id="aa" name="aa" value="' . $aa . '" size="4" maxlength="5" onchange="edit_date.checked=true"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$hour = '<input type="text" id="hh" name="hh" value="' . $hh . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$minute = '<input type="text" id="mn" name="mn" value="' . $mn . '" size="2" maxlength="2" onchange="edit_date.checked=true"' . $tab_index_attribute . ' autocomplete="off"  />';
 	printf(__('%1$s%2$s%3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
 ?>
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
