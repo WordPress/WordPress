@@ -251,7 +251,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 
 		<p class="submit">
 			<input type="hidden" id='sidebar' name='sidebar' value="<?php echo $sidebar; ?>" />
-			<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time(); ?>" />
+			<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time() - 1199145600; // Jan 1, 2008 ?>" />
 			<input type="submit" name="save-widgets" value="<?php _e( 'Save Changes' ); ?>" />
 		</p>
 	</div>
