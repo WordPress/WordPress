@@ -345,6 +345,13 @@ function gallery_shortcode($attr) {
 	if ( empty($attachments) )
 		return '';
 
+	if ( is_feed() ) {
+		$output = "\n";
+		foreach ( $attachments as $id => $attachment )
+			$output .= wp_get_attachment_link($id, 'thumbnail', true) . "\n";
+		return $output;
+	}
+
 	$output = apply_filters('gallery_style', "
 		<style type='text/css'>
 			.gallery {
