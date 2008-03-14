@@ -162,7 +162,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div style="float: left">
+<div class="alignleft">
 <?php if ( 'approved' != $comment_status ): ?>
 <input type="submit" value="<?php _e('Approve'); ?>" name="approveit" class="button-secondary" />
 <?php endif; ?>
@@ -175,17 +175,18 @@ if ( $page_links )
 <?php wp_nonce_field('bulk-comments'); ?>
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
+
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 <?php
 if ($comments) {
 ?>
 <table class="widefat">
 <thead>
   <tr>
-    <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('comments-form'));" /></th>
+    <th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('comments-form'));" /></th>
     <th scope="col"><?php _e('Comment') ?></th>
     <th scope="col"><?php _e('Date') ?></th>
     <th scope="col"><?php _e('Actions') ?></th>
@@ -236,7 +237,7 @@ if ($comments) {
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 </div>

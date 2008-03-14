@@ -99,10 +99,10 @@ default:
 <?php endif; ?>
  <div class="wrap">
 <div class="bordertitle">
-	<h2 style="border: none; padding-bottom: 0px;"><?php _e('Plugin Editor'); ?></h2>
+	<h2><?php _e('Plugin Editor'); ?></h2>
 </div>
-<div class="tablenav" style="margin-right: 210px;">
-<div style="float: left;">
+<div class="tablenav">
+<div class="alignleft">
 <big><strong><?php
 	if ( in_array($file, (array) get_option('active_plugins')) ) {
 		if (is_writeable($real_file)) {
@@ -119,13 +119,13 @@ default:
 	}
 	?></strong></big>
 </div>
-<br style="clear: both;" />
+<br class="clear" />
 </div>
-<br style="clear: both;" />
+<br class="clear" />
 	<div id="templateside">
-	<h3 id="bordertitle" style="margin-bottom: 10px;"><?php _e("Plugin Files"); ?></h3>
+	<h3 id="bordertitle"><?php _e("Plugin Files"); ?></h3>
 
-	<h4 style="margin-bottom: 0px;"><?php _e('Plugins'); ?></h4>
+	<h4><?php _e('Plugins'); ?></h4>
 	<ul>
 <?php foreach($plugin_files as $plugin_file) : ?>
 		<li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>

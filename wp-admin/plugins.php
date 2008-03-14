@@ -83,7 +83,7 @@ if (empty($plugins)) {
 ?>
 
 <div class="tablenav">
-	<div style="float: left">
+	<div class="alignleft">
 	<?php
 	$active = get_option('active_plugins');
 	$inactive = get_option('deactivated_plugins');
@@ -98,16 +98,16 @@ if (empty($plugins)) {
 	} // endif active/inactive plugin check
 	?>
 	</div>
-	<br style="clear:both;">
+	<br class="clear" />
 </div>
 
-<br style="clear:both;">
+<br class="clear" />
 
 <table class="widefat">
 	<thead>
 	<tr>
 		<th><?php _e('Plugin'); ?></th>
-		<th style="text-align: center"><?php _e('Version'); ?></th>
+		<th class="num"><?php _e('Version'); ?></th>
 		<th><?php _e('Description'); ?></th>
 		<th <?php if ( current_user_can('edit_plugins') ) echo ' colspan="2"'; ?>><?php _e('Action'); ?></th>
 	</tr>

@@ -297,17 +297,17 @@ unset($role_links);
 	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
 
-<div style="float: left">
+<div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <select name="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option>"<?php wp_dropdown_roles(); ?></select>
 <input type="submit" value="<?php _e('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 	<?php if ( is_wp_error( $wp_user_search->search_errors ) ) : ?>
 		<div class="error">
@@ -359,7 +359,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 </form>
@@ -377,7 +377,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	}
 ?>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <div class="wrap">
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>

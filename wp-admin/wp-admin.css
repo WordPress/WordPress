@@ -151,7 +151,7 @@ form#upload #post_content {
 	list-style: square;
 }
 
-.submit input, .button, .button-secondary {
+.submit input, .button, .button-secondary, .button-highlighted {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	padding: 2px 3px;
 	border: none;
@@ -164,6 +164,10 @@ form#upload #post_content {
 	border-radius: 3px;
 	cursor: pointer;
 	text-decoration: none;	
+}
+
+.button-highlighted {
+	font-weight: bold;
 }
 
 select {

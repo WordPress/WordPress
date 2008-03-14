@@ -27,9 +27,10 @@ textarea, input, select {
 }
 
 .alignleft { float: left; }
-
 .alignright { float: right; }
 
+.textleft { text-align: left; }
+.textright { text-align: right; }
 
 .clear { clear: both; height: 2px; }
 
@@ -80,6 +81,10 @@ textarea, input, select {
 	text-align: center;
 	vertical-align: text-top;
 	width: 3%;
+}
+
+.widefat .num {
+	text-align: center;
 }
 
 .wrap, .updated, .error {

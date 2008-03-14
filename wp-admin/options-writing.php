@@ -15,7 +15,7 @@ include('admin-header.php');
 <table class="form-table">
 <tr valign="top">
 <th scope="row"> <?php _e('Size of the post box') ?></th>
-<td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " />
+<td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em;" />
 <?php _e('lines') ?></td>
 </tr>
 <tr valign="top">

@@ -56,7 +56,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 		<th scope='row' class='check-column'><input type='checkbox' name='delete[]' value='$category->term_id' /></th>
 		<td>$edit</td>
 		<td>$category->description</td>
-		<td style='text-align: center;'>$posts_count</td>\n\t</tr>\n";
+		<td class='num'>$posts_count</td>\n\t</tr>\n";
 
 	return apply_filters('cat_row', $output);
 }
@@ -84,7 +84,7 @@ function link_cat_row( $category ) {
 		'<th scope="row" class="check-column"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></th>' .
 		"<td>$edit</td>
 		<td>$category->description</td>
-		<td style='text-align: center;'>$count</td></tr>";
+		<td class='num'>$count</td></tr>";
 
 	return apply_filters( 'link_cat_row', $output );
 }
@@ -276,7 +276,7 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_posts_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';
+	$posts_columns['cb'] = '<input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" />';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )
@@ -298,7 +298,7 @@ function wp_manage_posts_columns() {
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_media_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';
+	$posts_columns['cb'] = '<input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" />';
 	$posts_columns['icon'] = '';
 	$posts_columns['media'] = _c('Media|media column header');
 	$posts_columns['desc'] = _c('Description|media column header');
@@ -313,7 +313,7 @@ function wp_manage_media_columns() {
 
 function wp_manage_pages_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" /></div>';
+	$posts_columns['cb'] = '<input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" />';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )
@@ -400,7 +400,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td style="text-align: center">
+		<td class="num">
 		<?php
 		$left = get_pending_comments_num( $page->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
@@ -627,7 +627,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
 <?php if ( $checkbox ) : ?>
-    <td style="text-align: center;"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
+    <td class="check-column"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
 <?php endif; ?>
     <td class="comment">
     <p class="comment-author"><strong><a class="row-title" href="comment.php?action=editcomment&amp;c=<?php echo $comment->comment_ID?>"><?php comment_author(); ?></a></strong><br />
@@ -769,7 +769,7 @@ function meta_form() {
 <th><?php _e( 'Value' ) ?></th>
 </tr>
 	<tr valign="top">
-		<td style="text-align: right; width: 18%;">
+		<td style="width: 18%;" class="textright">
 <?php if ( $keys ) : ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#"><?php _e( '- Select -' ); ?></option>
@@ -877,7 +877,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 function browse_happy() {
 	$getit = __( 'WordPress recommends a better browser' );
 	echo '
-		<p id="bh" style="float: right"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></p>
+		<p id="bh" class="alignright"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></p>
 		';
 }
 

@@ -58,7 +58,7 @@ edCanvas = document.getElementById('content');
 	<input name="saveasprivate" type="submit" id="saveasprivate" tabindex="10" value="<?php _e('Save as Private') ?>" />
 
 	 <?php if ( current_user_can('edit_posts') ) : ?>
-	<input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="<?php _e('Publish') ?>" />
+	<input name="publish" type="submit" id="publish" tabindex="6" value="<?php _e('Publish') ?>" class="button button-highlighted" />
 <?php endif; ?>
 
 <?php if ('bookmarklet' != $mode) {

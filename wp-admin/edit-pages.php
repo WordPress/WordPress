@@ -117,15 +117,15 @@ endif;
 
 <div class="tablenav">
 
-<div style="float: left">
+<div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-pages'); ?>
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <?php
 
@@ -161,7 +161,7 @@ if ($posts) {
 ?>
 
 <div class="tablenav">
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 <?php

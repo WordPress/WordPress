@@ -105,7 +105,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td style="text-align: center">
+		<td class="num">
 		<?php
 		$left = get_pending_comments_num( $post->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );

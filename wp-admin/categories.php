@@ -130,27 +130,27 @@ endif; ?>
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <div class="tablenav">
 
-<div style="float: left">
+<div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-categories'); ?>
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col" class="check-column"><div style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></div></th>
+		<th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
-        <th scope="col" style="text-align: center"><?php _e('Posts') ?></th>
+        <th scope="col" class="num"><?php _e('Posts') ?></th>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:cat">
@@ -161,10 +161,10 @@ cat_rows();
 </table>
 </form>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <div class="tablenav">
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 </div>

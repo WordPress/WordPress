@@ -18,6 +18,14 @@
 	margin: 0;
 }
 
+h3#bordertitle {
+	margin-bottom: 10px;
+}
+
+#templateside h4 {
+	margin-bottom: 0px;
+}
+
 #templateside ol, #templateside ul {
 	list-style: none;
 	margin: .5em;
@@ -35,10 +43,24 @@
 	bottom: 25px;
 }
 
+#themeselector select {
+	margin: 0;
+	padding: 0;
+}
+
 .nonessential {
 	font-size: small;
 }
 
 .highlight {
 	padding: 1px;
+}
+
+div.bordertitle h2 {
+	border: none;
+	padding-bottom: 0px;
+}
+
+div.tablenav {
+	margin-right: 210px;
 }

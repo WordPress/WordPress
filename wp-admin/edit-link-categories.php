@@ -59,7 +59,7 @@ endif; ?>
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <div class="tablenav">
 
@@ -81,15 +81,15 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div style="float: left">
+<div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-link-categories'); ?>
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <table class="widefat">
 	<thead>
@@ -124,7 +124,7 @@ if ( $categories ) {
 </table>
 </form>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <div class="tablenav">
 
@@ -132,7 +132,7 @@ if ( $categories ) {
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 </div>

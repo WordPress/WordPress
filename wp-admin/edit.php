@@ -134,7 +134,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div style="float: left">
+<div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-posts'); ?>
 <?php
@@ -174,10 +174,10 @@ foreach ($arc_result as $arc_row) {
 <?php } ?>
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <?php include( 'edit-post-rows.php' ); ?>
 

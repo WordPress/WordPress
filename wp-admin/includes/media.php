@@ -823,7 +823,7 @@ jQuery(function($){
 	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" value="<?php echo attribute_escape(__('Upload')); ?>" /> <a href="#" onClick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
 	</p>
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
-	<br style="clear:both" />
+	<br class="clear" />
 </div>
 <?php
 }
@@ -989,7 +989,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div style="float: left">
+<div class="alignleft">
 <?php
 
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'attachment' ORDER BY post_date DESC";
@@ -1024,7 +1024,7 @@ foreach ($arc_result as $arc_row) {
 
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 </form>
 

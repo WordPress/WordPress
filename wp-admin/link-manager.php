@@ -84,11 +84,11 @@ if ( isset($_GET['deleted']) ) {
 	<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button" />
 </p>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <div class="tablenav">
 
-<div style="float: left">
+<div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
@@ -113,10 +113,10 @@ echo $select_order;
 
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
-<br style="clear:both;" />
+<br class="clear" />
 
 <?php
 $link_columns = array(
@@ -220,7 +220,7 @@ if ( $links ) {
 <div id="ajax-response"></div>
 
 <div class="tablenav">
-<br style="clear:both;" />
+<br class="clear" />
 </div>
 
 

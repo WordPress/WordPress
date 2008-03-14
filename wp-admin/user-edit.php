@@ -322,7 +322,7 @@ if ( $show_password_fields ) :
 ?>
 
 <?php if (count($profileuser->caps) > count($profileuser->roles)): ?>
-<br style="clear: both;" />
+<br class="clear" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<tr>
 			<th scope="row"><?php _e('Additional Capabilities:') ?></th>

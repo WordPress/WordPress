@@ -33,7 +33,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'cb':
 		?>
-		<th scope="row" style="text-align: center"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
 		<?php
 		break;
 
@@ -95,7 +95,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td style="text-align: center">
+		<td class="num">
 		<?php
 		$left = get_pending_comments_num( $post->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );

@@ -90,10 +90,10 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 ?>
 <div class="wrap">
 <div class="bordertitle">
-	<h2 style="border: none; padding-bottom: 0px;"><?php _e('Theme Editor'); ?></h2>
+	<h2><?php _e('Theme Editor'); ?></h2>
 	<form id="themeselector" name="theme" action="theme-editor.php" method="post">
 		<strong><?php _e('Select theme to edit:'); ?> </strong>
-		<select name="theme" id="theme" style="margin: 0; padding: 0;">
+		<select name="theme" id="theme">
 <?php
 	foreach ($themes as $a_theme) {
 	$theme_name = $a_theme['Name'];
@@ -107,20 +107,20 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 		<input type="submit" name="Submit" value="<?php _e('Select') ?>" class="button" />
 	</form>
 </div>
-<div class="tablenav" style="margin-right: 210px;">
-<div style="float: left;">
+<div class="tablenav">
+<div class="alignleft">
 <big><strong><?php echo sprintf($desc_header, $file_show); ?></big>
 </div>
-<br style="clear: both;" />
+<br class="clear" />
 </div>
-<br style="clear: both;" />
+<br class="clear" />
 	<div id="templateside">
-	<h3 id="bordertitle" style="margin-bottom: 10px;"><?php _e("Theme Files"); ?></h3>
+	<h3 id="bordertitle"><?php _e("Theme Files"); ?></h3>
 
 <?php
 if ($allowed_files) :
 ?>
-	<h4 style="margin-bottom: 0px;"><?php _e('Templates'); ?></h4>
+	<h4><?php _e('Templates'); ?></h4>
 	<ul>
 <?php foreach($themes[$theme]['Template Files'] as $template_file) :
 		$description = get_file_description($template_file);
@@ -131,7 +131,7 @@ if ($allowed_files) :
 		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
 <?php endforeach; ?>
 	</ul>
-	<h4 style="margin-bottom: 0px;"><?php echo _c('Styles|Theme stylesheets in theme editor'); ?></h4>
+	<h4><?php echo _c('Styles|Theme stylesheets in theme editor'); ?></h4>
 	<ul>
 <?php foreach($themes[$theme]['Stylesheet Files'] as $style_file) :
 		$description = get_file_description($style_file);

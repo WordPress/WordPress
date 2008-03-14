@@ -29,12 +29,12 @@ switch ($step) {
 <div style="width: 70%; margin: auto; height: 8em;">
 <input type="hidden" name="step" value="1" />
 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-<div style="width: 48%; float: left;">
+<div style="width: 48%;" class="alignleft">
 <h3><?php _e('Specify an OPML URL:'); ?></h3>
 <input type="text" name="opml_url" size="50" style="width: 90%;" value="http://" />
 </div>
 
-<div style="width: 48%; float: left;">
+<div style="width: 48%;" class="alignleft">
 <h3><?php _e('Or choose from your local disk:'); ?></h3>
 <input id="userfile" name="userfile" type="file" size="30" />
 </div>
