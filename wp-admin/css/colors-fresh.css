@@ -8,7 +8,7 @@ body	{
 }
 
 body > #upload-menu {
-	border-bottom-style: #fff;
+	border-bottom-color: #fff;
 }
 
 div#current-widgets, #postcustomstuff table, #your-profile fieldset, a.page-numbers, #rightnow, div.dashboard-widget, .widefat {
