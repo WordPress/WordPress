@@ -768,7 +768,7 @@ function meta_form() {
 <th><?php _e( 'Value' ) ?></th>
 </tr>
 	<tr valign="top">
-		<td style="text-align: right;" style="width: 18%;">
+		<td style="text-align: right; width: 18%;">
 <?php if ( $keys ) : ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#"><?php _e( '- Select -' ); ?></option>
