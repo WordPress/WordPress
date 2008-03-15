@@ -1209,17 +1209,17 @@ function get_avatar( $id_or_email, $size = '64', $default = '' ) {
 	}
 
 	if ( empty($default) )
-		$default = "http://www.gravatar.com/avatar.php?gravatar_id=ad516503a11cd5ca435acc9bb6523536&size=$size"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
+		$default = "http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=$size"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
 
 	if ( !empty($email) ) {
-		$out = 'http://www.gravatar.com/avatar.php?gravatar_id=';
+		$out = 'http://www.gravatar.com/avatar/';
 		$out .= md5( strtolower( $email ) );
-		$out .= "&amp;size={$size}";
-		$out .= '&amp;default=' . urlencode( $default );
+		$out .= '?s='.$size;
+		$out .= '&amp;d=' . urlencode( $default );
 
 		$rating = get_option('avatar_rating');
 		if ( !empty( $rating ) )
-			$out .= "&amp;rating={$rating}";
+			$out .= "&amp;r={$rating}";
 
 		$avatar = "<img alt='' src='{$out}' class='avatar avatar-{$size}' height='{$size}' width='{$size}' />";
 	} else {
