@@ -96,7 +96,7 @@ $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), 
 if ( $can_switch_themes = current_user_can( 'switch_themes' ) )
 	$widgets_text = "<a href='widgets.php'>$widgets_text</a>";
 ?>
-<p>
+<p class="youare">
 	<?php printf( __( 'You are using %1$s theme with %2$s.' ), $ct->title, $widgets_text ); ?>
 	<?php if ( $can_switch_themes ) : ?>
 		<a href="themes.php" class="rbutton"><?php _e('Change Theme'); ?></a>
