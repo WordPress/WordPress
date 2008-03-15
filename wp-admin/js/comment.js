@@ -1,4 +1,4 @@
-addLoadEvent( function() {
+jQuery(document).ready( function() {
 	add_postbox_toggles('comment');
 
 	jQuery('.edit-timestamp').click(function () {

@@ -47,7 +47,7 @@ function profile_js ( ) {
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
 	} );
 	
-	addLoadEvent( function() {
+	jQuery(document).ready( function() {
 		jQuery('#pass1,#pass2').attr('autocomplete','off');
     });
 </script>

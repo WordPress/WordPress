@@ -11,7 +11,7 @@ var tb_closeImage = "../wp-includes/js/thickbox/tb-close.png";
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
 
 //on page load call tb_init
-addLoadEvent(function(){   
+jQuery(document).ready(function(){   
 	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
 	imgLoader = new Image();// preload image
 	imgLoader.src = tb_pathToImage;

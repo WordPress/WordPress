@@ -12,13 +12,6 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
-<script type="text/javascript">
-function focusit() { // focus on first input field
-	document.post.name.focus();
-}
-addLoadEvent(focusit);
-</script>
-
 <div id="poststuff">
 
 <div class="submitbox" id="submitcomment">
@@ -108,3 +101,7 @@ echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment
 </div>
 
 </form>
+
+<script type="text/javascript">
+try{document.post.name.focus();}catch(e){}
+</script>

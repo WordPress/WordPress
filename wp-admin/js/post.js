@@ -58,7 +58,7 @@ function tag_press_key( e ) {
 	}
 }
 
-addLoadEvent( function() {
+jQuery(document).ready( function() {
 	// postboxes
 	add_postbox_toggles('post');
 

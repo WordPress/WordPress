@@ -44,14 +44,6 @@ else
 	echo clean_url(stripslashes(wp_get_referer()));
 ?>" />
 
-<script type="text/javascript">
-// <![CDATA[
-function focusit() { // focus on first input field
-	document.post.title.focus();
-}
-addLoadEvent(focusit);
-// ]]>
-</script>
 <div id="poststuff">
 
 <div class="submitbox" id="submitpage">
@@ -281,3 +273,7 @@ if ( $authors && count( $authors ) > 1 ) :
 </div>
 
 </form>
+
+<script type="text/javascript">
+try{document.post.title.focus();}catch(e){}
+</script>

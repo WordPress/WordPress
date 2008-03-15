@@ -66,15 +66,7 @@ else
 ?>" />
 
 <?php echo $form_extra ?>
-<?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
-<script type="text/javascript">
-function focusit() {
-	// focus on first input field
-	document.post.title.focus();
-}
-addLoadEvent(focusit);
-</script>
-<?php endif; ?>
+
 <div id="poststuff">
 
 <div class="submitbox" id="submitpost">
@@ -352,3 +344,9 @@ if ( $authors && count( $authors ) > 1 ) :
 </div>
 
 </form>
+
+<?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
+<script type="text/javascript">
+try{document.post.title.focus();}catch(e){}
+</script>
+<?php endif; ?>

@@ -9,15 +9,6 @@
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='post' />
 
-<script type="text/javascript">
-<!--
-function focusit() { // focus on first input field
-	document.getElementById('title').focus();
-}
-addLoadEvent(focusit);
-//-->
-</script>
-
 <div id="poststuff">
     <fieldset id="titlediv">
       <legend><a href="http://wordpress.org/docs/reference/post/#title" title="<?php _e('Help on titles') ?>"><?php _e('Title') ?></a></legend>
@@ -72,4 +63,7 @@ edCanvas = document.getElementById('content');
 </div>
 </form>
 
+<script type="text/javascript">
+try{document.getElementById('title').focus();}catch(e){}
+</script>
 </div>

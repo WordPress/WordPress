@@ -1,4 +1,4 @@
-addLoadEvent( function() {
+jQuery(document).ready( function() {
 	theFileList = {
 		currentImage: {ID: 0},
 		nonce: '',
