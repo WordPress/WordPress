@@ -23,8 +23,10 @@ class MT_Import {
 ?>
 <div class="narrow">
 <p><?php _e('Howdy! We&#8217;re about to begin importing all of your Movable Type or Typepad entries into WordPress. To begin, either choose a file to upload and click "Upload file and import," or use FTP to upload your MT export file as <code>mt-export.txt</code> in your <code>/wp-content/</code> directory and then click "Import mt-export.txt"'); ?></p>
+
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
 <form method="post" action="<?php echo add_query_arg('step', 1); ?>" class="import-upload-form">
+
 <?php wp_nonce_field('import-upload'); ?>
 <p>
 	<input type="hidden" name="upload_type" value="ftp" />
@@ -222,6 +224,13 @@ class MT_Import {
 			if ( 0 != count($post->categories) ) {
 				wp_create_categories($post->categories, $post_id);
 			}
+			
+			 // Add tags or keywords
+			if ( 1 < strlen($post->post_keywords) ) {
+			 	// Keywords exist. 
+				printf(__('<br />Adding tags <i>%s</i>...'), stripslashes($post->post_keywords));
+				wp_add_post_tags($post_id, $post->post_keywords);
+			}
 		}
 
 		$num_comments = 0;
@@ -396,6 +405,8 @@ class MT_Import {
 					$post->extended .= $line;
 				} else if ( 'excerpt' == $context ) {
 					$post->post_excerpt .= $line;
+				} else if ( 'keywords' == $context ) {
+					$post->post_keywords .= $line;
 				} else if ( 'comment' == $context ) {
 					$comment->comment_content .= $line;
 				} else if ( 'ping' == $context ) {
