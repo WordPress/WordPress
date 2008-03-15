@@ -55,7 +55,7 @@ strong .post-com-count span {
 }
 
 .button-secondary, #quicktags, #login form .submit input {
-	background-color: #83b4d5 !important;
+	background-color: #8ebddc !important;
 }
 
 ul#widget-list li.widget-list-item h4.widget-title {
@@ -188,7 +188,7 @@ ul.widget-control-list .sorthelper {
 
 .submit input, .button, .button-secondary, #login form .submit input, div.dashboard-widget-submit input {
 	background-color: #e5e5e5;
-	color: #246;
+	color: #07273e;
 	border-color: #a3a3a3;
 }
 
@@ -200,12 +200,17 @@ ul.widget-control-list .sorthelper {
 	border-color: #535353;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover {
+.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover {
 	color: #d54e21;
+}
+
+#adminmenu a:hover, #sidemenu a:hover {
+	color: #97c4d8;
 }
 
 .button-secondary:hover, #login form .submit input:hover {
 	border-color: #328ab2;
+	background-color: #a6d2e5 !important;
 }
 
 .submitbox #autosave .error, ul.view-switch li.current a {
@@ -296,7 +301,7 @@ ul.widget-control-list .sorthelper {
 /* Because we don't want visited on these links */
 #adminmenu a.current, #sidemenu a.current {
 	background-color: #fff;
-	border-color: #c6d9e9;
+	border-color: #07273e;
 	border-bottom-color: #fff;
 	color: #d54e21;
 	font-weight: bold;
@@ -323,7 +328,7 @@ ul.widget-control-list .sorthelper {
 
 #adminmenu, div#media-upload-header {
 	background-color: #14568a;
-	border-bottom-color: #c6d9e9;
+	border-bottom-color: #07273e;
 }
 
 #currenttheme img {
@@ -448,7 +453,7 @@ input.readonly {
 
 #sidemenu a {
 	background-color: #14568a;
-	border-bottom-color: #c6d9e9;
+	border-bottom-color: #07273e;
 	border-top-color: #14568a;
 	color: #cfebf6;
 }
@@ -520,13 +525,13 @@ input.readonly {
 }
 
 #wphead #viewsite a {
-	background-color: #94acc1;
-	color: white;
-	border-color: #94acc1;
+	background-color: #5488af;
+	color: #cfebf7;
+	border-color: #0b3d64;
 }
 
 #wphead #viewsite a:hover {
-	color: #246;
+	color: #07273e;
 }
 
 #wphead h1, #dashmenu a.current:hover {

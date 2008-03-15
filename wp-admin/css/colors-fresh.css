@@ -185,7 +185,7 @@ ul.widget-control-list .sorthelper {
 .submit input, .button, .button-secondary, #login form .submit input, div.dashboard-widget-submit input {
 	background-color: #e5e5e5;
 	color: #246;
-	border-color: #a3a3a3;
+	border-color: #80b5d0;
 }
 
 .submit input:hover, .button:hover {
@@ -499,11 +499,11 @@ input.readonly {
 #wphead #viewsite a {
 	background-color: #c6d9e9;
 	color: #246;
-	border-color: #94acc1;
+	border-color: #80b5d0;
 }
 
 #wphead #viewsite a:hover {
-	border-color: #246;
+	border-color: #328ab2;
 }
 
 #wphead h1, #dashmenu a.current:hover, #login form input {
