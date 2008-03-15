@@ -482,8 +482,8 @@ function wp_just_in_time_script_localization() {
 	wp_localize_script( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
 	wp_localize_script( 'autosave', 'autosaveL10n', array(
 		'autosaveInterval' => AUTOSAVE_INTERVAL,
-		'previewPageText' => __('View this Page'),
-		'previewPostText' => __('View this Post'),
+		'previewPageText' => __('Preview this Page'),
+		'previewPostText' => __('Preview this Post'),
 		'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
 		'savingText' => __('Saving Draft&#8230;')
 	) );
