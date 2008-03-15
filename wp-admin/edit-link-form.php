@@ -66,6 +66,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 <li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
 <li><a href="edit-link-categories.php"><?php _e('Manage All Link Categories') ?></a></li>
 <li><a href="link-import.php"><?php _e('Import Links') ?></a></li>
+<?php do_action('link_relatedlinks_list'); ?>
 </ul>
 </div>
 <?php do_action('submitlink_box'); ?>

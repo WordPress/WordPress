@@ -143,6 +143,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <?php endif; ?>
 <li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
 <li><a href="edit-pages.php"><?php _e('Manage All Pages') ?></a></li>
+<?php do_action('page_relatedlinks_list'); ?>
 </ul>
 </div>
 <?php do_action('submitpage_box'); ?>
