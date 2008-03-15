@@ -974,26 +974,41 @@ function wp_nonce_url( $actionurl, $action = -1 ) {
 }
 
 
-function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true ) {
+function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $echo = true ) {
 	$name = attribute_escape( $name );
-	echo '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . wp_create_nonce( $action ) . '" />';
+	$nonce_field = '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . wp_create_nonce( $action ) . '" />';
+	if ( $echo )
+		echo $nonce_field;
+	
 	if ( $referer )
-		wp_referer_field();
+		wp_referer_field( $echo );
+	
+	return $nonce_field;
 }
 
 
-function wp_referer_field() {
+function wp_referer_field( $echo = true ) {
 	$ref = attribute_escape( $_SERVER['REQUEST_URI'] );
-	echo '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
+	$referer_field = '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
+	
 	if ( wp_get_original_referer() ) {
 		$original_ref = attribute_escape( stripslashes( wp_get_original_referer() ) );
-		echo '<input type="hidden" name="_wp_original_http_referer" value="'. $original_ref . '" />';
+		$referer_field .= "\n".'<input type="hidden" name="_wp_original_http_referer" value="'. $original_ref . '" />';
 	}
+
+	if ( $echo )
+		echo $referer_field;
+	
+	return $referer_field;
 }
 
 
-function wp_original_referer_field() {
-	echo '<input type="hidden" name="_wp_original_http_referer" value="' . attribute_escape( stripslashes( $_SERVER['REQUEST_URI'] ) ) . '" />';
+function wp_original_referer_field( $echo = true ) {
+	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . attribute_escape( stripslashes( $_SERVER['REQUEST_URI'] ) ) . '" />';
+	if ( $echo )
+		echo $orig_referer_field;
+	
+	return $orig_referer_field;
 }
 
 
