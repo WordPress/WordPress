@@ -54,7 +54,7 @@ strong .post-com-count span {
 	background-color: #2583ad;
 }
 
-.button-secondary, #quicktags, #login form .submit input {
+.button-secondary, #login form .submit input {
 	background-color: #8ebddc !important;
 }
 
@@ -669,7 +669,7 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 }
 
 .wp_themeSkin .mceMenu .mceMenuItemEnabled a:hover,
-.wp_themeSkin .mceMenu .mceMenuItemActive {
+.wp_themeSkin .mceMenu .mceMenuItemActive, #quicktags {
 	background-color: #83B4D5;
 }
 .wp_themeSkin td.mceMenuItemSeparator {
