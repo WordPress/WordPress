@@ -155,7 +155,7 @@ function wp_insert_user($userdata) {
 		$rich_editing = 'true';
 
 	if ( empty($admin_color) )
-		$admin_color = 'classic';
+		$admin_color = 'fresh';
 	$admin_color = preg_replace('|[^a-z0-9 _.\-@]|i', '', $admin_color);
 
 	if ( empty($user_registered) )

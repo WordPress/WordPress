@@ -1117,7 +1117,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 			global $_wp_admin_css_colors;
 			$color = get_user_option('admin_color');
 			if ( empty($color) || !isset($_wp_admin_css_colors[$color]) )
-				$color = 'classic';
+				$color = 'fresh';
 			$color = $_wp_admin_css_colors[$color];
 			$_file = $color->url;
 		} else {

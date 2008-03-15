@@ -74,11 +74,11 @@ function edit_user( $user_id = 0 ) {
 		$user->rich_editing = 'false';
 
 	if ( !$update )
-		$user->admin_color = 'classic';  // Default to classic for new users.
+		$user->admin_color = 'fresh';  // Default to fresh for new users.
 	else if ( isset( $_POST['admin_color'] ) )
 		$user->admin_color = $_POST['admin_color'];
 	else
-		$user->admin_color = 'classic';
+		$user->admin_color = 'fresh';
 
 	$errors = new WP_Error();
 

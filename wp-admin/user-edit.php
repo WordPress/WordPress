@@ -162,7 +162,7 @@ include ('admin-header.php');
 <?php
 $current_color = get_user_option('admin_color');
 if ( empty($current_color) )
-	$current_color = 'classic';
+	$current_color = 'fresh';
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 <div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, $current_color); ?> />
 	<table class="color-palette">

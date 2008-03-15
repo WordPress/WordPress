@@ -15,7 +15,7 @@ function login_header($title = 'Login', $message = '', $wp_error = '') {
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<?php
 	wp_admin_css( 'css/login' );
-	wp_admin_css( 'css/colors-classic' );
+	wp_admin_css( 'css/colors-fresh' );
 	?>
 	<script type="text/javascript">
 		function focusit() {
