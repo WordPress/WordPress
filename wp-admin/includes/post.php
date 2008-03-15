@@ -609,7 +609,8 @@ function get_sample_permalink($id, $title=null, $name = null) {
 	// Handle page hierarchy
 	if ( 'page' == $post->post_type ) {
 		$uri = get_page_uri($post->ID);
-		$uri = str_replace($post->post_name, '', $uri);
+		$uri = untrailingslashit($uri);
+		$uri = strrev( stristr( strrev( $uri ), '/' ) );
 		$uri = untrailingslashit($uri);
 		if ( !empty($uri) )
 			$uri .='/';
