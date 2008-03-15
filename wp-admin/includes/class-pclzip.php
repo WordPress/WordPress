@@ -4470,7 +4470,9 @@
         $v_byte = @fread($this->zip_fd, 1);
 
         // -----  Add the byte
-        $v_bytes = ($v_bytes << 8) | Ord($v_byte);
+        // Note we mask the old value down such that once shifted we can never end up with more than a 32bit number
+        // Otherwise on systems where we have 64bit integers the check below for the magic number will fail.
+        $v_bytes = ( ($v_bytes & 0xFFFFFF) << 8) | Ord($v_byte);
 
         // ----- Compare the bytes
         if ($v_bytes == 0x504b0506)
