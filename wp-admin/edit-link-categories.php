@@ -97,7 +97,7 @@ if ( $page_links )
         <th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
-        <th scope="col" style="width: 90px; text-align: center"><?php _e('Links') ?></th>
+        <th scope="col" class="num" style="width: 90px;"><?php _e('Links') ?></th>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:link-cat">

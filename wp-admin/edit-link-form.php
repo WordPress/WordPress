@@ -52,7 +52,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 </div>
 
 <p class="submit">
-<input type="submit" class="button" name="save" value="<?php _e('Save'); ?>" tabindex="4" class="button button-highlighted" />
+<input type="submit" class="button button-highlighted" name="save" value="<?php _e('Save'); ?>" tabindex="4" />
 <?php
 if ( ( 'edit' == $action) && current_user_can('manage_links') )
 	echo "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link_id", 'delete-bookmark_' . $link_id) . "' onclick=\"if ( confirm('" . js_escape( sprintf( __("You are about to delete this link '%s'\n'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;link') . "</a>";

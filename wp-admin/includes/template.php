@@ -238,7 +238,7 @@ function _tag_row( $tag, $class = '' ) {
 		$out .= '<td><strong><a class="row-title" href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
 			apply_filters( 'term_name', $tag->name ) . '</a></td>';
 
-		$out .= "<td>$count</td>";
+		$out .= "<td class='num'>$count</td>";
 		$out .= '</tr>';
 
 		return $out;
@@ -545,7 +545,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		<td>$user_object->first_name $user_object->last_name</td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>
 		<td>$role_name</td>";
-	$r .= "\n\t\t<td>";
+	$r .= "\n\t\t<td class='num'>";
 	if ( $numposts > 0 ) {
 		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
 		$r .= $numposts;

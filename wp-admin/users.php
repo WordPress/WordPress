@@ -335,7 +335,7 @@ unset($role_links);
 	<th><?php _e('Name') ?></th>
 	<th><?php _e('E-mail') ?></th>
 	<th><?php _e('Role') ?></th>
-	<th><?php _e('Posts') ?></th>
+	<th class="num"><?php _e('Posts') ?></th>
 </tr>
 </thead>
 <tbody id="users" class="list:user user-list">

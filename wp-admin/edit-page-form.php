@@ -111,7 +111,7 @@ if ($post_ID) {
 </div>
 
 <p class="submit">
-<input type="submit" name="save" class="button" value="<?php _e('Save'); ?>" tabindex="4" class="button button-highlighted" />
+<input type="submit" name="save" class="button button-highlighted" value="<?php _e('Save'); ?>" tabindex="4" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
 ?>
