@@ -606,13 +606,16 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$authordata = get_userdata($post->post_author);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 	$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
-	if ( 'attachment' == $post->post_type )
-		$post_link = "<a href='upload.php?attachment_id=$post->ID'>";
-	elseif ( 'page' == $post->post_type )
-		$post_link = "<a href='edit-pages.php?page_id=$post->ID'>";
-	else
-		$post_link = "<a href='edit.php?p=$post->ID'>";
+	if ( current_user_can( 'edit_post', $post->ID ) ) {
+		if ( 'attachment' == $post->post_type )
+			$post_link = "<a href='upload.php?attachment_id=$post->ID'>";
+		elseif ( 'page' == $post->post_type )
+			$post_link = "<a href='edit-pages.php?page_id=$post->ID'>";
+		else
+			$post_link = "<a href='edit.php?p=$post->ID'>";
+	}
 	$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
+
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
