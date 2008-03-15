@@ -679,3 +679,8 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 .curtime {
 	color: #666;
 }
+
+#tTips p#tTips_inside {
+	background-color: #ddd;
+	color: #333;
+}

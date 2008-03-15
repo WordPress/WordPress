@@ -1364,3 +1364,24 @@ ul.view-switch li.current {
 .tablenav .delete {
 	margin-right: 20px;
 }
+
+#tTips {
+	display: none;
+	position: absolute;
+	margin: 0;
+	padding: 0 0 8px 0;
+	background-image: url(images/tail.gif);
+	background-repeat: no-repeat;
+	background-position: 15px bottom;
+	background-color: thansparent;
+}
+
+#tTips p#tTips_inside {
+	margin: 0;
+	padding: 8px 12px;
+	text-align: center;
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}

@@ -11,7 +11,7 @@ class WP_Scripts {
 	}
 
 	function default_scripts() {
-		$this->add( 'common', '/wp-admin/js/common.js', false, '1.0' );
+		$this->add( 'common', '/wp-admin/js/common.js', array('jquery'), '1.0' );
 		$this->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
 
 		$this->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3958' );

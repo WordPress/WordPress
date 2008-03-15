@@ -704,3 +704,8 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 #poststuff #titlewrap {
 	border-color: #ccc;
 }
+
+#tTips p#tTips_inside {
+	background-color: #ddd;
+	color: #333;
+}
