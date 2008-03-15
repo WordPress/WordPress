@@ -606,6 +606,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$authordata = get_userdata($post->post_author);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 	$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
+
 	if ( current_user_can( 'edit_post', $post->ID ) ) {
 		if ( 'attachment' == $post->post_type )
 			$post_link = "<a href='upload.php?attachment_id=$post->ID'>";
@@ -613,15 +614,23 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 			$post_link = "<a href='edit-pages.php?page_id=$post->ID'>";
 		else
 			$post_link = "<a href='edit.php?p=$post->ID'>";
-	}
-	$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
 
+		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
+			
+		$edit_link_start = "<a class='row-title' href='comment.php?action=editcomment&amp;c={$comment->comment_ID}'>";
+		$edit_link_end = '</a>';
+	} else {
+		$post_link = get_the_title($comment->comment_post_ID);
+		$edit_link_start = $edit_link_end ='';
+	}
+	
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
 	$author_url_display = $author_url;
 	if ( strlen($author_url_display) > 50 )
 		$author_url_display = substr($author_url_display, 0, 49) . '...';
+
 	$ptime = date('G', strtotime( $comment->comment_date ) );
 	if ( ( abs(time() - $ptime) ) < 86400 )
 		$ptime = sprintf( __('%s ago'), human_time_diff( $ptime ) );
@@ -639,14 +648,16 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
     <td class="check-column"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
 <?php endif; ?>
     <td class="comment">
-    <p class="comment-author"><strong><a class="row-title" href="comment.php?action=editcomment&amp;c=<?php echo $comment->comment_ID?>"><?php comment_author(); ?></a></strong><br />
+    <p class="comment-author"><strong><?php echo $edit_link_start; comment_author(); echo $edit_link_end; ?></strong><br />
     <?php if ( !empty($author_url) ) : ?>
     <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a> |
     <?php endif; ?>
+    <?php if ( current_user_can( 'edit_post', $post->ID ) ) : ?>
     <?php if ( !empty($comment->comment_author_email) ): ?>
     <?php comment_author_email_link() ?> |
     <?php endif; ?>
     <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
+	<?php endif; //current_user_can?>    
     </p>
    	<?php if ( 'detail' == $mode ) comment_text(); ?>
    	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
