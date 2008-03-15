@@ -46,6 +46,10 @@ function profile_js ( ) {
 		$('#pass1').keyup( check_pass_strength ) 
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
 	} );
+	
+	addLoadEvent( function() {
+		jQuery('#pass1,#pass2').attr('autocomplete','off');
+    });
 </script>
 <?php
 }
