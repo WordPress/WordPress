@@ -183,7 +183,9 @@
 				$results.hide();
 				return;
 			}
-			
+
+			resetPosition(); // when the form moves after the page has loaded
+
 			var html = '';
 			for (var i = 0; i < items.length; i++)
 				html += '<li>' + items[i] + '</li>';
