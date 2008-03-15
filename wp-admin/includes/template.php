@@ -521,6 +521,8 @@ function page_rows( $pages ) {
 function user_row( $user_object, $style = '', $role = '' ) {
 	global $wp_roles;
 
+	$current_user = wp_get_current_user();
+	
 	if ( !( is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
 		$user_object = new WP_User( (int) $user_object );
 	$email = $user_object->user_email;
@@ -533,7 +535,11 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$short_url =  substr( $short_url, 0, 32 ).'...';
 	$numposts = get_usernumposts( $user_object->ID );
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
-		$edit = clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
+		if ($current_user->ID == $user_object->ID) {
+			$edit = 'profile.php';
+		} else {
+			$edit = clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
+		}
 		$edit = "<a href=\"$edit\">$user_object->user_login</a>";
 	} else {
 		$edit = $user_object->user_login;
