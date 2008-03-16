@@ -270,9 +270,14 @@ if (!CUSTOM_TAGS) {
 		'tt' => array(),
 		'u' => array(),
 		'ul' => array (
-			'class' => array ()),
+			'class' => array (),
+			'style' => array (), 
+			'type' => array ()),
 		'ol' => array (
-			'class' => array ()),
+			'class' => array (),
+			'start' => array (),
+			'style' => array (), 
+			'type' => array ()),
 		'var' => array ());
 	/**
 	 * Kses allowed HTML elements
