@@ -43,7 +43,6 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
 		$edit = "<a class='row-title' href='categories.php?action=edit&amp;cat_ID=$category->term_id'>". ( $name_override ? $name_override : $pad . ' ' . $category->name ) ."</a>";
-		$default_cat_id = (int) get_option( 'default_category' );
 	} else {
 		$edit = ( $name_override ? $name_override : $pad . ' ' . $category->name );
 	}
@@ -53,10 +52,15 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='cat-$category->term_id'$class>
-		<th scope='row' class='check-column'><input type='checkbox' name='delete[]' value='$category->term_id' /></th>
-		<td>$edit</td>
-		<td>$category->description</td>
-		<td class='num'>$posts_count</td>\n\t</tr>\n";
+			   <th scope='row' class='check-column'>";
+	if ( absint(get_option( 'default_category' ) ) != $category->term_id ) {
+		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' /></th>";
+	} else {
+		$output .= "&nbsp;";
+	}
+	$output .= "<td>$edit</td>
+				<td>$category->description</td>
+				<td class='num'>$posts_count</td>\n\t</tr>\n";
 
 	return apply_filters('cat_row', $output);
 }
