@@ -325,7 +325,7 @@ function get_filesystem_method() {
 	}
 
 	if ( extension_loaded('ftp') ) return 'ftpext';
-	if ( extension_loaded('sockets') ) return 'ftpsockets';
+	if ( extension_loaded('sockets') || function_exists('fsockopen') ) return 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
 	return false;
 }
 

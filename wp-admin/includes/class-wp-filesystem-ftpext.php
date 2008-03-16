@@ -162,7 +162,10 @@ class WP_Filesystem_FTPext{
 		return $ret;
 	}
 	function cwd(){
-		return ftp_pwd($this->link);
+		$cwd = ftp_pwd($this->link);
+		if( $cwd )
+			$cwd = trailingslashit($cwd);
+		return $cwd;
 	}
 	function chdir($dir){
 		return @ftp_chdir($dir);
@@ -308,8 +311,9 @@ class WP_Filesystem_FTPext{
 	}
 	function is_dir($path){
 		$cwd = $this->cwd();
-		@ftp_chdir($this->link, $path);
-		if ( $this->cwd() != $cwd ) {
+		$result = @ftp_chdir($this->link, $path);
+		if( $result && $path == $this->cwd() ||
+			$this->cwd() != $cwd ) {
 			@ftp_chdir($this->link, $cwd);
 			return true;
 		}
@@ -425,9 +429,9 @@ class WP_Filesystem_FTPext{
 		} else {
 			$limitFile = false;
 		}
-		//if( ! $this->is_dir($path) )
-		//	return false;
-		$list = ftp_rawlist($this->link , '-a ' . $path, false);
+
+		$list = @ftp_rawlist($this->link , '-a ' . $path, false);
+
 		if ( $list === false )
 			return false;
 

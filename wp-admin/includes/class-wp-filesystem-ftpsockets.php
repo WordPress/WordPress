@@ -176,7 +176,10 @@ class WP_Filesystem_ftpsockets{
 	}
 
 	function cwd(){
-		return $this->ftp->pwd();
+		$cwd = $this->ftp->pwd();
+		if( $cwd )
+			$cwd = trailingslashit($cwd);
+		return $cwd;
 	}
 
 	function chdir($file){
@@ -388,8 +391,7 @@ class WP_Filesystem_ftpsockets{
 		} else {
 			$limitFile = false;
 		}
-		//if( ! $this->is_dir($path) )
-		//	return false;
+
 		$list = $this->ftp->dirlist($path);
 		if( ! $list )
 			return false;

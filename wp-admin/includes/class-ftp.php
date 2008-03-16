@@ -317,7 +317,7 @@ class ftp_base {
 	function pwd() {
 		if(!$this->_exec("PWD", "pwd")) return FALSE;
 		if(!$this->_checkCode()) return FALSE;
-		return ereg_replace("^[0-9]{3} \"(.+)\" .+".CRLF, "\\1", $this->_message);
+		return ereg_replace("^[0-9]{3} \"(.+)\".+", "\\1", $this->_message);
 	}
 
 	function cdup() {
