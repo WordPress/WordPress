@@ -147,6 +147,8 @@ class WP_Scripts {
 				'add' => attribute_escape(__('Add')),
 				'addTag' => attribute_escape(__('Add new tag')),
 				'separate' => __('Separate tags with commas'),
+				'cancel' => __('Cancel'),
+				'edit' => __('Edit'),
 			) );
 			$this->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox'), '20080208' );
 			$this->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080131' );

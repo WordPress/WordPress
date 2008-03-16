@@ -74,6 +74,13 @@ function edit_post() {
 	if (!isset( $_POST['ping_status'] ))
 		$_POST['ping_status'] = 'closed';
 
+	foreach ( array ('aa', 'mm', 'jj', 'hh', 'mm') as $timeunit ) {
+		if ( !empty( $_POST['hidden_' . $timeunit] ) && $_POST['hidden_' . $timeunit] != $_POST[$timeunit] ) {
+			$_POST['edit_date'] = '1';
+			break;
+		}
+	}
+
 	if (!empty ( $_POST['edit_date'] ) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
@@ -280,6 +287,13 @@ function wp_write_post() {
 
 	if (!isset( $_POST['ping_status'] ))
 		$_POST['ping_status'] = 'closed';
+
+	foreach ( array ('aa', 'mm', 'jj', 'hh', 'mm') as $timeunit ) {
+		if ( !empty( $_POST['hidden_' . $timeunit] ) && $_POST['hidden_' . $timeunit] != $_POST[$timeunit] ) {
+			$_POST['edit_date'] = '1';
+			break;
+		}
+	}
 
 	if (!empty ( $_POST['edit_date'] ) ) {
 		$aa = $_POST['aa'];
