@@ -246,6 +246,14 @@ case 'add-cat' : // From Manage->Categories
 		$x->send();
 	}
 
+	if ( category_exists( trim( $_POST['cat_name'] ) ) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'cat',
+			'id' => new WP_Error( 'cat_exists', __('The category you are trying to create already exists.'), array( 'form-field' => 'cat_name' ) ),
+		) );
+		$x->send();
+	}
+	
 	$cat = wp_insert_category( $_POST, true );
 
 	if ( is_wp_error($cat) ) {

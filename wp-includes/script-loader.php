@@ -41,7 +41,7 @@ class WP_Scripts {
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
-		$this->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080312' );
+		$this->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080316' );
 		$this->localize( 'wp-ajax-response', 'wpAjax', array(
 			'noPerm' => 'You do not have permission to do that.',
 			'broken' => 'AJAX is teh b0rked.'

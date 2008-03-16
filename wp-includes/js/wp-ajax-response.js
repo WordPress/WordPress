@@ -50,8 +50,11 @@ wpAjax = jQuery.extend( {
 		else if ( 0 === x ) { return !re.html('<div class="error"><p>' + this.broken  + '</p></div>'); }
 		return true;
 	},
+	invalidateForm: function ( selector ) {
+		return jQuery( selector ).addClass( 'form-invalid' ).change( function() { jQuery(this).removeClass( 'form-invalid' ); } );
+	},
 	validateForm: function( selector ) {
 		selector = jQuery( selector );
-		return !selector.find('.form-required').andSelf().filter('.form-required:has(:input[value=""]), .form-required:input[value=""]').addClass( 'form-invalid' ).change( function() { jQuery(this).removeClass( 'form-invalid' ); } ).size();
+		return !wpAjax.invalidateForm( selector.find('.form-required').andSelf().filter('.form-required:has(:input[value=""]), .form-required:input[value=""]') ).size();
 	}
 }, wpAjax || { noPerm: 'You do not have permission to do that.', broken: 'AJAX is teh b0rked.' } );
