@@ -84,48 +84,61 @@ class WP_Filesystem_FTPext{
 		$this->permission = $perm;
 	}
 
-	function find_base_dir($base = '.',$echo = false){
+	function find_base_dir($base = '.',$echo = false) {
+		//Sanitize the Windows path formats, This allows easier conparison and aligns it to FTP output.
 		$abspath = str_replace('\\','/',ABSPATH); //windows: Straighten up the paths..
 		if( strpos($abspath, ':') ){ //Windows, Strip out the driveletter
 			if( preg_match("|.{1}\:(.+)|i", $abspath, $mat) )
 				$abspath = $mat[1];
 		}
 	
+		//Set up the base directory (Which unless specified, is the current one)
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
-		if( empty( $base ) ) $base = '/';
-		if( '/' != substr($base, -1) ) $base .= '/';
-
-		if($echo) printf( __('Changing to %s') . '<br/>', $base );
-		if( false === $this->chdir($base) )
-			return false;
-
-		if( $this->exists($base . 'wp-settings.php') ){
-			if($echo) printf( __('Found %s'), $base . 'wp-settings.php<br/>' );
-			$this->wp_base = $base;
-			return $this->wp_base;
-		}
-
-		if( strpos($abspath, $base) > 0)
-			$arrPath = split('/',substr($abspath,strpos($abspath, $base)));
-		else
-			$arrPath = split('/',$abspath);
-
-		for($i = 0; $i <= count($arrPath); $i++)
-			if( $arrPath[ $i ] == '' ) unset( $arrPath[ $i ] );
-
-		foreach($arrPath as $key=>$folder){
-			if( $this->is_dir($base . $folder) ){
-				if($echo) echo sprintf( __('Found %s'),  $folder ) . ' ' . sprintf( __('Changing to %s') . '<br/>', $base . $folder . '/' );
-				return $this->find_base_dir($base .  $folder . '/',$echo);
+		$base = trailingslashit($base);
+		
+		//Can we see the Current directory as part of the ABSPATH?
+		$location = strpos($abspath, $base);
+		if( false !== $location ){
+			$newbase = path_join($base, substr($abspath, $location + strlen($base)));
+			
+			if($echo) printf( __('Changing to %s') . '<br/>', $newbase );
+			if( false !== $this->chdir($newbase) ){ //chdir sometimes returns null under certain circumstances, even when its changed correctly, FALSE will be returned if it doesnt change correctly.
+				$base = $newbase;
+				//Check to see if it exists in that folder.
+				if( $wp_filesystem->exists($base . 'wp-settings.php') ){
+					if($echo) printf( __('Found %s'),  $base . 'wp-settings.php<br/>' );
+					$this->wp_base = $base;
+					return $this->wp_base;
+				}	
 			}
 		}
-
-		if( $base == '/' )
-			return false;
-		//If we get this far, somethings gone wrong, change to / and restart the process.
-		return $this->find_base_dir('/',$echo);
+	
+		//Ok, Couldnt do a magic location from that particular folder level
+		
+		//Get a list of the files in the current directory, See if we can locate where we are in the folder stucture.
+		$files = $this->dirlist($base);
+		
+		$arrPath = explode('/', $abspath);
+		foreach($arrPath as $key){
+			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder, 
+			// If its found, change into it and follow through looking for it. 
+			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
+			// If it reaches the end, and still cant find it, it'll return false for the entire function.
+			if( isset($files[ $key ]) ){
+				//Lets try that folder:
+				$folder = path_join($base, $key);
+				if($echo) printf( __('Changing to %s') . '<br/>', $folder );
+				$ret = $this->find_base_dir( $folder, $echo);
+				if( $ret )
+					return $ret;
+			}
+		}
+		return false;
 	}
-	function get_base_dir($base = '.', $echo=false){
+
+	function get_base_dir($base = '.', $echo = false){
+		if( defined('FTP_BASE') )
+			$this->wp_base = FTP_BASE;
 		if( empty($this->wp_base) )
 			$this->wp_base = $this->find_base_dir($base,$echo);
 		return $this->wp_base;
