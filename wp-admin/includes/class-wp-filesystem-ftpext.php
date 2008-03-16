@@ -105,7 +105,7 @@ class WP_Filesystem_FTPext{
 			if( false !== $this->chdir($newbase) ){ //chdir sometimes returns null under certain circumstances, even when its changed correctly, FALSE will be returned if it doesnt change correctly.
 				$base = $newbase;
 				//Check to see if it exists in that folder.
-				if( $wp_filesystem->exists($base . 'wp-settings.php') ){
+				if( $this->exists($base . 'wp-settings.php') ){
 					if($echo) printf( __('Found %s'),  $base . 'wp-settings.php<br/>' );
 					$this->wp_base = $base;
 					return $this->wp_base;
