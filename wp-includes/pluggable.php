@@ -1224,7 +1224,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 
 		$avatar = "<img alt='' src='{$out}' class='avatar avatar-{$size}' height='{$size}' width='{$size}' />";
 	} else {
-		$avatar = "<img alt='' src='{$default}' />";
+		$avatar = "<img alt='' src='{$default}' class='avatar avatar-{$size} avatar-default' height='{$size}' width='{$size}'>";
 	}
 
 	return apply_filters('get_avatar', $avatar, $id_or_email, $size, $default);
