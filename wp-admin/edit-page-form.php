@@ -205,7 +205,7 @@ list_meta($metadata);
 <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
 <?php _e('Allow Comments') ?></label></p>
 <p><label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label></p>
-<p><?php _e('These settings apply to this post only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
+<p><?php _e('These settings apply to this page only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
 </div>
 </div>
 
@@ -213,7 +213,7 @@ list_meta($metadata);
 <h3><?php _e('Password Protect This Page') ?></h3>
 <div class="inside">
 <p><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
-<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
+<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
 </div>
 </div>
 
