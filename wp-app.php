@@ -387,7 +387,7 @@ EOD;
 
 	function get_attachment($postID = NULL) {
 		if( !current_user_can( 'upload_files' ) )
-			$this->auth_required( __( 'Sorry, you do not have the right to file uploads on this blog.' ) );
+			$this->auth_required( __( 'Sorry, you do not have permission to upload files.' ) );
 
 		if (!isset($postID)) {
 			$this->get_attachments();
