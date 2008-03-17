@@ -966,8 +966,14 @@ $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_po
 foreach ( $matches as $_type => $reals )
 	foreach ( $reals as $real )
 		$num_posts[$_type] += $_num_posts[$real];
-$class = empty($_GET['post_mime_type']) ? ' class="current"' : '';
-$type_links[] = "<li><a href='" . remove_query_arg(array('post_mime_type', 'paged', 'm')) . "'$class>".__('All Types')."</a>";
+// If available type specified by media button clicked, filter by that type
+if ( empty($_GET['post_mime_type']) && !empty($num_posts[$type]) ) {
+	$_GET['post_mime_type'] = $type;
+	list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
+}
+if ( empty($_GET['post_mime_type']) || $_GET['post_mime_type'] == 'all' )
+	$class = ' class="current"';
+$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>'all', 'paged'=>false, 'm'=>false)) . "'$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
