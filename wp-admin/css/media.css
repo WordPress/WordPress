@@ -8,7 +8,7 @@ div#media-upload-header {
 	height: 2.5em;
 }
 
-ul#sidemenu {
+body#media-upload ul#sidemenu {
 	font-weight: normal;
 	margin: 0 5px;
 	position: absolute;

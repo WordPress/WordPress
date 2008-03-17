@@ -8,8 +8,6 @@ $submenu_file = 'upload.php';
 wp_reset_vars(array('action'));
 
 switch( $action ) :
-case 'upload' :
-case 'delete' : break; // stubs
 case 'editattachment' :
 	$errors = media_upload_form_handler();
 	if ( empty($errors) ) {
@@ -78,10 +76,13 @@ case 'edit' :
 
 	require( 'admin-footer.php' );
 
-	break;
+	exit;
+
+default:
+	wp_redirect( 'upload.php' );
+	exit;
+
 endswitch;
 
-wp_redirect( 'upload.php' );
-exit;
 
 ?>
