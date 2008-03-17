@@ -119,7 +119,13 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 ?>
 <br class="clear" />
 <?php if ($post_ID): ?>
-<?php printf(__('Last edit: %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified)); ?>
+<?php if ( $last_id = get_post_meta($post_ID, '_edit_last', true) ) {
+	$last_user = get_userdata($last_id);
+	printf(__('Last edited by %1$s on %2$s at %3$s'), wp_specialchars( $last_user->display_name ), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
+} else {
+	printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
+}
+?>
 <br class="clear" />
 <?php endif; ?>
 <span id="autosave"></span>
