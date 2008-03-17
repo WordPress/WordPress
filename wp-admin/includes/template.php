@@ -841,7 +841,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
 	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
 
-	$month = "<select id=\"mm\" name=\"mm\" onchange=\"edit_date.checked=true\"$tab_index_attribute>\n";
+	$month = "<select id=\"mm\" name=\"mm\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
 		$month .= "\t\t\t" . '<option value="' . zeroise($i, 2) . '"';
 		if ( $i == $mm )
