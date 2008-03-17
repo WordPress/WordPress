@@ -151,6 +151,10 @@ class WP_Scripts {
 				'edit' => __('Edit'),
 			) );
 			$this->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox'), '20080208' );
+			$this->localize( 'page', 'postL10n', array(
+				'cancel' => __('Cancel'),
+				'edit' => __('Edit'),
+			) );
 			$this->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080131' );
 			$this->add( 'comment', '/wp-admin/js/comment.js', array('postbox'), '20080219' );
 			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );

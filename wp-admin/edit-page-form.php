@@ -76,21 +76,20 @@ else
 
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Keep this page private') ?></label></p>
 <?php
-
 if ($post_ID) {
-
-	if ( 'future' == $post->post_status ) {
+	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
 		$stamp = __('Scheduled for:<br />%1$s at %2$s');
-	} else if ( 'publish' == $post->post_status ) {
-		$stamp = __('%1$s at %2$s');
-	} else {
-		$stamp = __('Saved on:<br />%1$s at %2$s');
+	} else if ( 'publish' == $post->post_status ) { // already published
+		$stamp = __('Published on:<br />%1$s at %2$s');
+	} else if ( '0000-00-00 00:00:00' == $post->post_date ) { // draft, 1 or more saves, no date specified
+		$stamp = __('Publish immediately');
+	} else { // draft, 1 or more saves, date specified
+		$stamp = __('Publish on:<br />%1$s at %2$s');
 	}
-
 	$date = mysql2date(get_option('date_format'), $post->post_date);
 	$time = mysql2date(get_option('time_format'), $post->post_date);
-} else {
-	$stamp = __('%1$s at %2$s');
+} else { // draft (no saves, and thus no date specified)
+	$stamp = __('Publish immediately');
 	$date = mysql2date(get_option('date_format'), current_time('mysql'));
 	$time = mysql2date(get_option('time_format'), current_time('mysql'));
 }
