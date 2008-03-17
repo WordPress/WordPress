@@ -1189,7 +1189,7 @@ function wp_widget_rss_control($widget_args) {
 		$show_author = 0;
 		$show_date = 0;
 	} else {
-		extract( $options[$number] );
+		extract( (array) $options[$number] );
 	}
 
 	wp_widget_rss_form( compact( 'number', 'title', 'url', 'items', 'error', 'show_summary', 'show_author', 'show_date' ) );

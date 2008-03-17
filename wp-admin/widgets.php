@@ -46,10 +46,11 @@ if ( empty( $sidebars_widgets ) )
 if ( empty( $sidebars_widgets[$sidebar] ) )
 	$sidebars_widgets[$sidebar] = array();
 
-$http_post = ( 'POST' == $_SERVER['REQUEST_METHOD'] );
+$http_post = 'post' == strtolower($_SERVER['REQUEST_METHOD']);
 
 // We're updating a sidebar
 if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
+	check_admin_referer( 'edit-sidebar_' . $_POST['sidebar'] );
 
 	/* Hack #1
 	 * The widget_control is overloaded.  It updates the widget's options AND echoes out the widget's HTML form.
@@ -81,7 +82,7 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 		if ( !$val )
 			unset($_POST['widget-id'][$key]);
 
-	// Reset the key numbering and stare
+	// Reset the key numbering and store
 	$new_sidebar = isset( $_POST['widget-id'] ) && is_array( $_POST['widget-id'] ) ? array_values( $_POST['widget-id'] ) : array();
 	$sidebars_widgets[$_POST['sidebar']] = $new_sidebar;
 	wp_set_sidebars_widgets( $sidebars_widgets );
@@ -96,14 +97,65 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 // What widget (if any) are we editing
 $edit_widget = -1;
 
-$query_args = array('add', 'remove', 'key', 'edit', '_wpnonce', 'message' );
+$query_args = array('add', 'remove', 'key', 'edit', '_wpnonce', 'message', 'base' );
 
 if ( isset($_GET['add']) && $_GET['add'] ) {
 	// Add to the end of the sidebar
+	$control_callback;
 	if ( isset($wp_registered_widgets[$_GET['add']]) ) {
 		check_admin_referer( "add-widget_$_GET[add]" );
 		$sidebars_widgets[$sidebar][] = $_GET['add'];
 		wp_set_sidebars_widgets( $sidebars_widgets );
+	} elseif ( isset($_GET['base']) && isset($_GET['key']) ) { // It's a multi-widget
+		check_admin_referer( "add-widget_$_GET[add]" );
+		// Copy minimal info from an existing instance of this widget to a new instance
+		foreach ( $wp_registered_widget_controls as $control ) {
+			if ( $_GET['base'] === $control['id_base'] ) {
+				$control_callback = $control['callback'];
+				$num = (int) $_GET['key'];
+				$control['params'][0]['number'] = $num;
+				$control['id'] = $control['id_base'] . '-' . $num;
+				$wp_registered_widget_controls[$control['id']] = $control;
+				$sidebars_widgets[$sidebar][] = $control['id'];
+				break;
+			}
+		}
+	}
+
+	// it's a multi-widget.  The only way to add multi-widgets without JS is to actually submit POST content...
+	// so here we go
+	if ( is_callable( $control_callback ) ) {
+		require_once( 'admin-header.php' );
+	?>
+		<div class="wrap">
+		<h2><?php _e( 'Add Widget' ); ?></h2>
+		<br />
+		<form action="<?php echo clean_url( remove_query_arg( $query_args ) ); ?>" method="post">
+		
+			<ul class="widget-control-list">
+				<li class="widget-list-control-item">
+					<h4 class="widget-title"><?php echo $control['name']; ?></h4>
+					<div class="widget-control" style="display: block;">
+	<?php
+						call_user_func_array( $control_callback, $control['params'] );
+	?>
+						<div class="widget-control-actions">
+							<input type="submit" class="button" value="<?php _e( 'Add Widget' ); ?>" />
+							<input type="hidden" id='sidebar' name='sidebar' value="<?php echo $sidebar; ?>" />
+	<?php	wp_nonce_field ( 'edit-sidebar_' . $sidebar );
+		foreach ( $sidebars_widgets[$sidebar] as $sidebar_widget_id ) : ?>
+							<input type="hidden" name='widget-id[]' value="<?php echo $sidebar_widget_id; ?>" />
+	<?php 	endforeach; ?>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</form>
+		</div>
+	<?php
+
+		require_once( 'admin-footer.php' );
+		exit;
 	}
 	wp_redirect( remove_query_arg( $query_args ) );
 	exit;
@@ -253,6 +305,9 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 			<input type="hidden" id='sidebar' name='sidebar' value="<?php echo $sidebar; ?>" />
 			<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time() - 1199145600; // Jan 1, 2008 ?>" />
 			<input type="submit" name="save-widgets" value="<?php _e( 'Save Changes' ); ?>" />
+<?php
+			wp_nonce_field( 'edit-sidebar_' . $sidebar );
+?>
 		</p>
 	</div>
 
