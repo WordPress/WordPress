@@ -667,7 +667,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
    	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
     </td>
     <td><?php comment_date(__('Y/m/d')); ?></td>
-    <td>
+    <td class="action-links">
 <?php
 
 	$actions = array();

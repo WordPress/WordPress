@@ -1385,3 +1385,7 @@ ul.view-switch li.current {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 }
+
+.action-links {
+	text-align: right;
+}
