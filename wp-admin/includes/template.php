@@ -238,11 +238,12 @@ function _tag_row( $tag, $class = '' ) {
 		$count = number_format_i18n( $tag->count );
 		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
 
+		$name = apply_filters( 'term_name', $tag->name );
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
 		$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
-		$out .= '<td><strong><a class="row-title" href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '">' .
-			apply_filters( 'term_name', $tag->name ) . '</a></td>';
+		$out .= '<td><strong><a class="row-title" href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '" title="' . attribute_escape(sprintf(__('Edit "%s"'), $name)) . '">' .
+			$name . '</a></td>';
 
 		$out .= "<td class='num'>$count</td>";
 		$out .= '</tr>';
