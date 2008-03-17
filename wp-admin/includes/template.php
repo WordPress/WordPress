@@ -74,11 +74,12 @@ function link_cat_row( $category ) {
 	if ( is_wp_error( $category ) )
 		return $category;
 
+	$name = ( $name_override ? $name_override : $category->name );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='link-category.php?action=edit&amp;cat_ID=$category->term_id' class='edit'>". ( $name_override ? $name_override : $category->name ) ."</a>";
+		$edit = "<a class='row-title' href='link-category.php?action=edit&amp;cat_ID=$category->term_id' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "' class='edit'>$name</a>";
 		$default_cat_id = (int) get_option( 'default_link_category' );
 	} else {
-		$edit = ( $name_override ? $name_override : $category->name );
+		$edit = $name;
 	}
 
 	$class = " class='alternate'" == $class ? '' : " class='alternate'";
