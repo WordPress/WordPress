@@ -397,7 +397,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		if ( empty($title) )
 			$title = __('(no title)');
 		?>
-		<td><strong><a class="row-title" href="page.php?action=edit&amp;post=<?php the_ID(); ?>"><?php echo $pad; echo $title ?></a></strong>
+		<td><strong><a class="row-title" href="page.php?action=edit&amp;post=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a></strong>
 		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
 		<?php
 		break;
