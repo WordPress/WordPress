@@ -33,10 +33,7 @@ $title = __('Media Library');
 $parent_file = 'edit.php';
 wp_enqueue_script( 'admin-forms' );
 
-if ( isset($_GET['paged']) && $start = ( intval($_GET['paged']) - 1 ) * 15 )
-	add_filter( 'post_limits', $limit_filter = create_function( '$a', "return 'LIMIT $start, 15';" ) );
 list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
-$wp_query->max_num_pages = ceil( $wp_query->found_posts / 15 ); // We grab 20 but only show 15 ( 5 more for ajax extra )
 
 if ( is_singular() )
 	wp_enqueue_script( 'admin-comments' );
@@ -128,7 +125,7 @@ endif;
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'paged', '%#%' ),
 	'format' => '',
-	'total' => ceil($wp_query->found_posts / 15),
+	'total' => $wp_query->max_num_pages,
 	'current' => $_GET['paged']
 ));
 

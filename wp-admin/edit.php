@@ -126,7 +126,7 @@ endif;
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'paged', '%#%' ),
 	'format' => '',
-	'total' => ceil($wp_query->found_posts / 15),
+	'total' => $wp_query->max_num_pages,
 	'current' => $_GET['paged']
 ));
 

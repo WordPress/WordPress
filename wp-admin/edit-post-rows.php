@@ -19,12 +19,11 @@
 	</thead>
 	<tbody>
 <?php
-$i_post = 0;
 if ( have_posts() ) {
 $bgcolor = '';
 add_filter('the_title','wp_specialchars');
-while (have_posts()) : the_post(); $i_post++;
-$class = ( $i_post > 15 || 'alternate' == $class) ? '' : 'alternate';
+while (have_posts()) : the_post();
+$class = 'alternate' == $class ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
 ?>

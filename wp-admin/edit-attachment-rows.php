@@ -19,14 +19,11 @@
 	</thead>
 	<tbody id="the-list" class="list:post">
 <?php
-$i_post = 0;
 if ( have_posts() ) {
 $bgcolor = '';
 add_filter('the_title','wp_specialchars');
-while (have_posts()) : the_post(); $i_post++;
-if ( 16 == $i_post )
-	echo "\t</tbody>\n\t<tbody id='the-extra-list' class='list:post' style='display: none'>\n"; // Hack!
-$class = ( $i_post > 15 || 'alternate' == $class) ? '' : 'alternate';
+while (have_posts()) : the_post();
+$class = 'alternate' == $class ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
 ?>
