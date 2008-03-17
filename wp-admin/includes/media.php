@@ -268,14 +268,15 @@ function media_upload_image() {
 
 	if ( !empty($_POST['insertonlybutton']) ) {
 		$src = $_POST['insertonly']['src'];
-		if ( !strpos($src, '://') )
+		if ( !empty($src) && !strpos($src, '://') )
 			$src = "http://$src";
 		$alt = attribute_escape($_POST['insertonly']['alt']);
 		if ( isset($_POST['insertonly']['align']) ) {
 			$align = attribute_escape($_POST['insertonly']['align']);
 			$class = " class='align$align'";
 		}
-		$html = "<img src='$src' alt='$alt'$class />";
+		if ( !empty($src) )
+			$html = "<img src='$src' alt='$alt'$class />";
 		return media_send_to_editor($html);
 	}
 
@@ -304,10 +305,13 @@ function media_upload_audio() {
 
 	if ( !empty($_POST['insertonlybutton']) ) {
 		$href = $_POST['insertonly']['href'];
-		if ( !strpos($href, '://') )
+		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 		$title = attribute_escape($_POST['insertonly']['title']);
-		$html = "<a href='$href' >$title</a>";
+		if ( empty($title) )
+			$title = basename($href);
+		if ( !empty($title) && !empty($href) )
+			$html = "<a href='$href' >$title</a>";
 		return media_send_to_editor($html);
 	}
 
@@ -336,10 +340,13 @@ function media_upload_video() {
 
 	if ( !empty($_POST['insertonlybutton']) ) {
 		$href = $_POST['insertonly']['href'];
-		if ( !strpos($href, '://') )
+		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 		$title = attribute_escape($_POST['insertonly']['title']);
-		$html = "<a href='$href' >$title</a>";
+		if ( empty($title) )
+			$title = basename($href);
+		if ( !empty($title) && !empty($href) )
+			$html = "<a href='$href' >$title</a>";
 		return media_send_to_editor($html);
 	}
 
@@ -368,10 +375,13 @@ function media_upload_file() {
 
 	if ( !empty($_POST['insertonlybutton']) ) {
 		$href = $_POST['insertonly']['href'];
-		if ( !strpos($href, '://') )
+		if ( !empty($href) && !strpos($href, '://') )
 			$href = "http://$href";
 		$title = attribute_escape($_POST['insertonly']['title']);
-		$html = "<a href='$href' >$title</a>";
+		if ( empty($title) )
+			$title = basename($href);
+		if ( !empty($title) && !empty($href) )
+			$html = "<a href='$href' >$title</a>";
 		return media_send_to_editor($html);
 	}
 
@@ -1067,7 +1077,7 @@ function type_form_image() {
 		<tr>
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="insertonly[alt]">' . __('Description') . '</label></span>
-				<span class="alignright"><abbr title="required">*</abbr></span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
 			<td class="field"><input id="insertonly[alt]" name="insertonly[alt]" value="" type="text"></td>
 		</tr>
