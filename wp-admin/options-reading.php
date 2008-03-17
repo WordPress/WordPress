@@ -58,7 +58,7 @@ include('admin-header.php');
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Show Avatars?') ?></th>
+<th scope="row"><?php _e('Avatar display') ?></th>
 <td>
 <select name="show_avatars" id="show_avatars">
 <?php
