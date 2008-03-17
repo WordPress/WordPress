@@ -160,6 +160,13 @@ ul.post-meta span.post-meta-key {
 	list-style-type: none;
 }
 
+#commentlist li .avatar {
+	float: right;
+	margin-right: 25px;
+	border: 1px dotted #ccc;
+	padding: 2px;
+}
+
 #content {
 	margin: 30px 13em 0 3em;
 	padding-right: 60px;
