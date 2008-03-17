@@ -621,7 +621,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 
 		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
 			
-		$edit_link_start = "<a class='row-title' href='comment.php?action=editcomment&amp;c={$comment->comment_ID}'>";
+		$edit_link_start = "<a class='row-title' href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>";
 		$edit_link_end = '</a>';
 	} else {
 		$post_link = get_the_title($comment->comment_post_ID);
