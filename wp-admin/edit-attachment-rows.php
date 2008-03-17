@@ -50,7 +50,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'media':
 		?>
-		<td><strong><a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>"><?php the_title(); ?></a></strong><br />
+		<td><strong><a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), get_the_title())); ?>"><?php the_title(); ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<?php do_action('manage_media_media_column', $post->ID); ?>
 		</td>
