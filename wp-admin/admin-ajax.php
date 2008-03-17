@@ -22,23 +22,6 @@ if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 
 $id = isset($_POST['id'])? (int) $_POST['id'] : 0;
 switch ( $action = $_POST['action'] ) :
-case 'add-post' :
-	check_ajax_referer( 'add-post' );
-	add_filter( 'post_limits', $limit_filter = create_function( '$a', '$b = split(" ",$a); if ( !isset($b[2]) ) return $a; $start = intval(trim($b[1])) / 20 * 15; if ( !is_int($start) ) return $a; $start += intval(trim($b[2])) - 1; return "LIMIT $start, 1";' ) );
-	wp_edit_posts_query( $_POST );
-	if ( !have_posts() )
-		die('1');
-	$posts_columns = wp_manage_posts_columns();
-	ob_start();
-		include( 'edit-post-rows.php' );
-		$data = ob_get_contents();
-	ob_end_clean();
-	if ( !preg_match('|<tbody.+?>(.+)</tbody>|s', $data, $matches) )
-		my_dump($data);
-	$data = trim($matches[1]);
-	$x = new WP_Ajax_Response( array( 'what' => 'post', 'id' => $id, 'data' => $data ) );
-	$x->send();
-	break;
 case 'delete-comment' :
 	check_ajax_referer( "delete-comment_$id" );
 	if ( !$comment = get_comment( $id ) )
