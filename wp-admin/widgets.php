@@ -186,7 +186,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 
 	<div class="widget-liquid-left-holder">
 	<div id="available-widgets-filter" class="widget-liquid-left">
-		<h3><?php printf( __('Available Widgets %s'), '<a href="#help:available-widgets" class="wp-context-help">?</a>' ); ?></h3>
+		<h3><?php _e('Available Widgets'); ?></h3>
 		<div class="nav">
 			<select name="show">
 <?php foreach ( $show_values as $show_value => $show_text ) : $show_value = attribute_escape( $show_value ); ?>
@@ -202,7 +202,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 	</div>
 
 	<div id="available-sidebars" class="widget-liquid-right">
-		<h3><?php printf( __('Current Widgets %s'), '<a href="#help:current-widgets" class="wp-context-help">?</a>' ); ?></h3>
+		<h3><?php _e('Current Widgets'); ?></h3>
 
 		<div class="nav">
 			<select id="sidebar-selector" name="sidebar">
