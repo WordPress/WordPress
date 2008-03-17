@@ -41,10 +41,11 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$category = get_category( $category );
 
 	$pad = str_repeat( '&#8212; ', $level );
+	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='categories.php?action=edit&amp;cat_ID=$category->term_id'>". ( $name_override ? $name_override : $pad . ' ' . $category->name ) ."</a>";
+		$edit = "<a class='row-title' href='categories.php?action=edit&amp;cat_ID=$category->term_id' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a>";
 	} else {
-		$edit = ( $name_override ? $name_override : $pad . ' ' . $category->name );
+		$edit = $name;
 	}
 
 	$class = " class='alternate'" == $class ? '' : " class='alternate'";
