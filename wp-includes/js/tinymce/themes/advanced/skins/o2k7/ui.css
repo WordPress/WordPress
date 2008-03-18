@@ -77,8 +77,8 @@
 .o2k7Skin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
 .o2k7Skin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
 .o2k7Skin a.mceMoreColors:hover {border:1px solid #0A246A}
-.o2k7Skin .mceColorPreview {position:absolute; top:15px; left:2px; width:16px; height:4px; overflow:hidden}
-.o2k7Skin .mce_forecolor, .o2k7Skin .mce_backcolor {position:relative}
+.o2k7Skin .mceColorPreview {margin-left:2px; width:16px; height:4px; overflow:hidden; background:#9a9b9a}
+.o2k7Skin .mce_forecolor span.mceAction, .o2k7Skin .mce_backcolor span.mceAction {height:15px}
 
 /* Menu */
 .o2k7Skin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #ABC6DD}

@@ -2,7 +2,7 @@ tinyMCEPopup.requireLangPack();
 
 var detail = 50, strhex = "0123456789abcdef", i, isMouseDown = false, isMouseOver = false;
 
-var colors = new Array(
+var colors = [
 	"#000000","#000033","#000066","#000099","#0000cc","#0000ff","#330000","#330033",
 	"#330066","#330099","#3300cc","#3300ff","#660000","#660033","#660066","#660099",
 	"#6600cc","#6600ff","#990000","#990033","#990066","#990099","#9900cc","#9900ff",
@@ -30,7 +30,7 @@ var colors = new Array(
 	"#66ff00","#66ff33","#66ff66","#66ff99","#66ffcc","#66ffff","#99ff00","#99ff33",
 	"#99ff66","#99ff99","#99ffcc","#99ffff","#ccff00","#ccff33","#ccff66","#ccff99",
 	"#ccffcc","#ccffff","#ffff00","#ffff33","#ffff66","#ffff99","#ffffcc","#ffffff"
-);
+];
 
 var named = {
 	'#F0F8FF':'AliceBlue','#FAEBD7':'AntiqueWhite','#00FFFF':'Aqua','#7FFFD4':'Aquamarine','#F0FFFF':'Azure','#F5F5DC':'Beige',

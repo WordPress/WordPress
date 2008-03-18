@@ -10,23 +10,21 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <?php 
 wp_admin_css( 'css/global' );
 wp_admin_css();
+wp_admin_css( 'css/colors' );
 ?>
 <style type="text/css">
 	body {
-        background-color: #eaf3fa;
     }
     #wphead {
 		padding-top: 2px;
 		padding-left: 15px;
 		font-size: 80%;
 		border-top: 0;
-		background-color: #eaf3fa;
 	}
 	#adminmenu {
 		padding-top: 2px;
 		padding-left: 15px;
 		font-size: 80%;
-		background-color: #eaf3fa;
 	}
 	#user_info {
 		right: 5%;

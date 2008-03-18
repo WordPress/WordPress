@@ -37,10 +37,10 @@ date_fmt:"' . mce_escape( __('%Y-%m-%d') ) . '",
 time_fmt:"' . mce_escape( __('%H:%M:%S') ) . '",
 insertdate_desc:"' . mce_escape( __('Insert date') ) . '",
 inserttime_desc:"' . mce_escape( __('Insert time') ) . '",
-months_long:"' . mce_escape( __('January').','.__('February').','.__('March').','.__('April').','.__('May').','.__('June').','.__('July').','.__('August').','.__('September').','.__('October').','.__('November').','.__('December') ) . '",
-months_short:"' . mce_escape( __('Jan_January_abbreviation').','.__('Feb_February_abbreviation').','.__('Mar_March_abbreviation').','.__('Apr_April_abbreviation').','.__('May_May_abbreviation').','.__('Jun_June_abbreviation').','.__('Jul_July_abbreviation').','.__('Aug_August_abbreviation').','.__('Sep_September_abbreviation').','.__('Oct_October_abbreviation').','.__('Nov_November_abbreviation').','.__('Dec_December_abbreviation') ) . '",
-day_long:"' . mce_escape( __('Sunday').','.__('Monday').','.__('Tuesday').','.__('Wednesday').','.__('Thursday').','.__('Friday').','.__('Saturday') ) . '",
-day_short:"' . mce_escape( __('Sun').','.__('Mon').','.__('Tue').','.__('Wed').','.__('Thu').','.__('Fri').','.__('Sat') ) . '"
+months_long:"' . mce_escape( _c('January,February,March,April,May,June,July,August,September,October,November,December|Comma separated list of the months. No spaces between them.') ) . '",
+months_short:"' . mce_escape( _c('Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec|Comma separated list of the abbreviated names of the months. No spaces between them.') ) . '",
+day_long:"' . mce_escape( _c('Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday|Comma separated list of the days of the week. No spaces between them.') ) . '",
+day_short:"' . mce_escape( _c('Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun|Comma separated list of the abbreviated names for the days of the week. No spaces between them.') ) . '"
 },
 print:{
 print_desc:"' . mce_escape( __('Print') ) . '"
@@ -390,7 +390,7 @@ flv_jscallback:"' . mce_escape( __('JS Callback') ) . '"
 });
 
 tinyMCE.addI18n("' . $language . '.wordpress",{
-wp_adv_desc:"' . mce_escape( __('Show/Hide Kitchen Sink') )  . ' (Alt+Shift+Z)",
+wp_adv_desc:"' . mce_escape( __('Show/Hide Advanced Toolbar') )  . ' (Alt+Shift+Z)",
 wp_more_desc:"' . mce_escape( __('Insert More tag') ) . ' (Alt+Shift+T)",
 wp_page_desc:"' . mce_escape( __('Insert Page break') ) . ' (Alt+Shift+P)",
 wp_help_desc:"' . mce_escape( __('Help') ) . ' (Alt+Shift+H)",

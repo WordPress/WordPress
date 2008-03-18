@@ -247,6 +247,18 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin .mceProgress {position:absolute; left:0; top:0; z-index:1001; background:url(../default/img/progress.gif) no-repeat; width:32px; height:32px; margin:-16px 0 0 -16px}
 .wp_themeSkin .mcePlaceHolder {border:1px dotted gray}
 
+/* Formats */
+.wp_themeSkin .mce_formatPreview a {font-size:10px}
+.wp_themeSkin .mce_p span.mceText {}
+.wp_themeSkin .mce_address span.mceText {font-style:italic}
+.wp_themeSkin .mce_pre span.mceText {font-family:monospace}
+.wp_themeSkin .mce_h1 span.mceText {font-weight:bolder; font-size: 2em}
+.wp_themeSkin .mce_h2 span.mceText {font-weight:bolder; font-size: 1.5em}
+.wp_themeSkin .mce_h3 span.mceText {font-weight:bolder; font-size: 1.17em}
+.wp_themeSkin .mce_h4 span.mceText {font-weight:bolder; font-size: 1em}
+.wp_themeSkin .mce_h5 span.mceText {font-weight:bolder; font-size: .83em}
+.wp_themeSkin .mce_h6 span.mceText {font-weight:bolder; font-size: .75em}
+
 /* Theme */
 .wp_themeSkin span.mce_bold {background-position:0 0}
 .wp_themeSkin span.mce_italic {background-position:-60px 0}

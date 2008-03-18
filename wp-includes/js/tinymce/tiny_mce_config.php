@@ -53,6 +53,8 @@ $mce_css = $baseurl . '/wordpress.css';
 $mce_css = apply_filters('mce_css', $mce_css);
 if ( $https ) str_replace('http://', 'https://', $mce_css);
 
+$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
+
 /*
 Setting mce_valid_elements to *[*] skips all of the internal cleanup and can cause problems.
 The minimal setting would be -strong/-b[*],-em/-i[*],*[*].
@@ -69,8 +71,7 @@ $extended_valid_elements = apply_filters('mce_extended_valid_elements', $extende
 /*
 The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
 By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
-The + sign marks the default language.
-More information:
+The + sign marks the default language. More information:
 http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker
 */
 $mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
@@ -78,19 +79,49 @@ $mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+Engl
 $plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen' );
 
 /* 
-The following filter takes an associative array of external plugins for TinyMCE in the form "name" => "url".
+The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
 It adds the plugin's name to TinyMCE's plugins init and the call to PluginManager to load the plugin. 
-The url should be absolute and should include the js file name to be loaded. 
-Example: array( 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js' ). 
+The url should be absolute and should include the js file name to be loaded. Example: 
+array( 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js' )
 If the plugin uses a button, it should be added with one of the "$mce_buttons" filters.
 */
-$mce_external_plugins = apply_filters('mce_external_plugins', array()); 
+$mce_external_plugins = apply_filters('mce_external_plugins', array());
 
 $ext_plugins = "\n";
 if ( ! empty($mce_external_plugins) ) {
+	
+	/*
+	The following filter loads external language files for TinyMCE plugins.
+	It takes an associative array 'plugin_name' => 'path', where path is the 
+	include path to the file. The language file should follow the same format as 
+	/tinymce/langs/wp-langs.php and should define a variable $strings that 
+	holds all translated strings. Example: 
+	$strings = 'tinyMCE.addI18n("' . $mce_locale . '.mypluginname_dlg",{tab_general:"General", ... })';
+	*/
+	$mce_external_languages = apply_filters('mce_external_languages', array()); 
+	
+	$loaded_langs = array();
+	$strings = '';
+	
+	if ( ! empty($mce_external_languages) ) {
+		foreach ( $mce_external_languages as $name => $path ) {
+			$loaded_langs[] = $name;
+		
+			if ( is_file($path) ) include_once($path);
+			$ext_plugins .= $strings;
+		}
+	}
+
 	foreach ( $mce_external_plugins as $name => $url ) {
+		
 		if ( $https ) str_replace('http://', 'https://', $url);
+		
 		$plugins[] = '-' . $name;
+
+		if ( in_array($name, $loaded_langs) ) {
+			$plugurl = dirname($url);
+			$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
+		}
 		$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
 	}
 }
@@ -107,8 +138,6 @@ $mce_buttons_3 = implode($mce_buttons_3, ',');
 	
 $mce_buttons_4 = apply_filters('mce_buttons_4', array());
 $mce_buttons_4 = implode($mce_buttons_4, ',');
-
-$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 
 // TinyMCE init settings
 $initArray = array (
@@ -145,7 +174,7 @@ $initArray = array (
 );
 
 if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
-if ( $extended_valid_elements ) $initArray['extended_valid_elements'] = $extended_valid_elements;
+//if ( $extended_valid_elements ) $initArray['extended_valid_elements'] = $extended_valid_elements;
 if ( $invalid_elements ) $initArray['invalid_elements'] = $invalid_elements;
 
 // For people who really REALLY know what they're doing with TinyMCE
@@ -178,18 +207,14 @@ if ( $disk_cache && ! is_dir($cache_path) )
 	$disk_cache = wp_mkdir_p($cache_path);
 
 $cache_ext = '.js';
-
 $plugins = explode( ',', $initArray['plugins'] );
 $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
 $language = isset($initArray['language']) ? substr( $initArray['language'], 0, 2 ) : 'en';
-$enc = $cacheKey = $suffix = $mce_options = '';	
+$cacheKey = $mce_options = '';	
 
 // Check if browser supports gzip
 if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
-	$encodings = explode( ',', strtolower( preg_replace('/\s+/', '', $_SERVER['HTTP_ACCEPT_ENCODING']) ) );
-
-	if ( (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------']) ) && function_exists('ob_gzhandler') && (ini_get('zlib.output_compression') == false) ) {
-		$enc = in_array('x-gzip', $encodings) ? 'x-gzip' : 'gzip';
+	if ( ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') || isset($_SERVER['---------------']) ) && function_exists('gzencode') && ! ini_get('zlib.output_compression') ) {
 		$cache_ext = '.gz';
 	}
 }
@@ -197,24 +222,45 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$ver = isset($_GET['ver']) ? (int) $_GET['ver'] : '';
-	$cacheKey = $suffix . $ver;
+	$cacheKey = apply_filters('tiny_mce_version', '20080317');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
 
+	if ( ! empty($mce_external_plugins) ) {
+		foreach ( $mce_external_plugins as $n => $v )
+			$cacheKey .= $n;
+	}
+	
 	$cacheKey = md5( $cacheKey );
 	$cache_file = $cache_path . '/tinymce_' . $cacheKey . $cache_ext;
 }
 
-cache_javascript_headers();
+$expiresOffset = 864000; // 10 days
+header( 'Content-Type: application/x-javascript; charset=UTF-8' );
+header( 'Vary: Accept-Encoding' ); // Handle proxies
+header( 'Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expiresOffset ) . ' GMT' );
 
 // Use cached file if exists
-if ( $disk_cache && file_exists($cache_file) ) {
-	if ( '.gz' == $cache_ext )
-		header( 'Content-Encoding: ' . $enc );
+if ( $disk_cache && is_file($cache_file) ) {
 
-	echo getFileContents( $cache_file );
+	$mtime = gmdate("D, d M Y H:i:s", filemtime($cache_file)) . " GMT";
+	
+	if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $mtime ) {
+		header('HTTP/1.1 304 Not Modified');
+		exit;
+	}
+	header("Last-Modified: " . $mtime);
+	header("Cache-Control: must-revalidate", false);
+
+	$content = getFileContents( $cache_file );
+	
+	if ( '.gz' == $cache_ext )
+		header( 'Content-Encoding: gzip' );
+
+	header( 'Content-Length: ' . strlen($content) );
+
+	echo $content;
 	exit;
 }
 
@@ -224,13 +270,13 @@ foreach ( $initArray as $k => $v )
 $mce_options .= $mce_deprecated1;
 $mce_options = rtrim( trim($mce_options), '\n\r,' );
 
-$content .= 'var tinyMCEPreInit = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false }, base : "' . $baseurl . '", suffix : "' . $suffix . '" };';
+$content = 'var tinyMCEPreInit = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false }, base : "' . $baseurl . '", suffix : "" };';
 
 // Load patch
 $content .= getFileContents( 'tiny_mce_ext.js' );
 
 // Add core
-$content .= getFileContents( 'tiny_mce' . $suffix . '.js' );
+$content .= getFileContents( 'tiny_mce.js' );
 
 // Patch loading functions
 $content .= 'tinyMCEPreInit.start();';
@@ -240,23 +286,20 @@ include_once( dirname(__FILE__).'/langs/wp-langs.php' );
 $content .= $strings;
 
 // Add themes
-$content .= getFileContents( 'themes/' . $theme . '/editor_template' . $suffix . '.js' );
+$content .= getFileContents( 'themes/' . $theme . '/editor_template.js' );
 
 // Add plugins
 foreach ( $plugins as $plugin ) 
-	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin' . $suffix . '.js' );
+	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin.js' );
 
 // Add external plugins and init 
 $content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});';
 
 // Generate GZIP'd content
 if ( '.gz' == $cache_ext ) {
-	header('Content-Encoding: ' . $enc);
+	header('Content-Encoding: gzip');
 	$content = gzencode( $content, 9, FORCE_GZIP );
 }
-
-// Stream to client
-echo $content;
 
 // Write file
 if ( '' != $cacheKey ) {
@@ -272,7 +315,7 @@ if ( '' != $cacheKey ) {
 		closedir($handle);
 			
 		krsort($old_cache);
-		if ( 1 >= (int) $old_cache_max ) $del_cache = $old_cache;
+		if ( 1 >= $old_cache_max ) $del_cache = $old_cache;
 		else $del_cache = array_slice( $old_cache, ($old_cache_max - 1) );
 			
 		foreach ( $del_cache as $key )
@@ -280,5 +323,13 @@ if ( '' != $cacheKey ) {
 	}
 
 	putFileContents( $cache_file, $content );
+
+	$mtime = gmdate( "D, d M Y H:i:s", filemtime($cache_file) ) . " GMT";
+	header( 'Last-Modified: ' . $mtime );
 }
+
+// Stream to client
+header( 'Cache-Control: must-revalidate', false );
+header( 'Content-Length: ' . strlen($content) );
+echo $content;
 ?>

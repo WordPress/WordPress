@@ -26,14 +26,16 @@ switchEditors = {
     pre_wpautop : function(content) {
 	   // We have a TON of cleanup to do.
 
-        // Remove anonymous, empty paragraphs.
-        content = content.replace(new RegExp('<p>(\\s|&nbsp;|<br />)*</p>', 'mg'), '');
-
         // Mark </p> if it has any attributes.
         content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
 
+//content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '</p>\n\n');
+//content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '<br />\n');
+//content = content.replace(new RegExp('( )+', 'g'), ' ');
+
         // Get it ready for wpautop.
-        content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
+        content = content.replace(new RegExp('<div([^>]*)>\\s*<p>', 'g'), '<div$1>\n\n');
+		content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
         content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '\n\n');
         content = content.replace(new RegExp('\\n\\s*\\n', 'mgi'), '\n\n');
         content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '\n');
