@@ -1132,6 +1132,10 @@ html, body {
 	border: none;
 }
 
+.submitbox #autosave .error {
+	margin-top: 10px;
+}
+
 /* Categories */
 
 #categorydiv #category-adder {
