@@ -1301,6 +1301,7 @@ function wp_explain_nonce( $action ) {
 		$trans['edit']['plugin']       = array( __( 'Your attempt to edit this plugin file: &quot;%s&quot; has failed.' ), 'use_id' );
 		$trans['activate']['plugin']   = array( __( 'Your attempt to activate this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
 		$trans['deactivate']['plugin'] = array( __( 'Your attempt to deactivate this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
+		$trans['upgrade']['plugin']    = array( __( 'Your attempt to upgrade this plugin: &quot;%s&quot; has failed.' ), 'use_id' );		
 
 		$trans['add']['post']          = array( __( 'Your attempt to add this post has failed.' ), false );
 		$trans['delete']['post']       = array( __( 'Your attempt to delete this post: &quot;%s&quot; has failed.' ), 'get_the_title' );
