@@ -353,6 +353,9 @@ function display_page_row( $page, &$children_pages, $level = 0 ) {
 	$id = (int) $page->ID;
 	$class = ('alternate' == $class ) ? '' : 'alternate';
 	$posts_columns = wp_manage_pages_columns();
+	$title = get_the_title();
+	if ( empty($title) )
+		$title = __('(no title)');
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'>
 
@@ -392,13 +395,10 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		?>
-		<td><a href="<?php the_permalink(); ?>" rel="permalink" title="<?php echo $t_time ?>"><?php echo $h_time ?></a></td>
+		<td><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
 		<?php
 		break;
 	case 'title':
-		$title = get_the_title();
-		if ( empty($title) )
-			$title = __('(no title)');
 		?>
 		<td><strong><a class="row-title" href="page.php?action=edit&amp;post=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a></strong>
 		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
@@ -430,6 +430,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 	case 'status':
 		?>
 		<td>
+		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
 		<?php
 		switch ( $page->post_status ) {
 			case 'publish' :
@@ -447,6 +448,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 				break;
 		}
 		?>
+		</a>
 		</td>
 		<?php
 		break;
