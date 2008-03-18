@@ -26,6 +26,9 @@ while (have_posts()) : the_post();
 $class = 'alternate' == $class ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
+$title = get_the_title();
+if ( empty($title) )
+	$title = __('(no title)');
 ?>
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $class . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 
@@ -68,9 +71,6 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		<?php
 		break;
 	case 'title':
-		$title = get_the_title();
-		if ( empty($title) )
-			$title = __('(no title)');
 		?>
 		<td><strong><a class="row-title" href="post.php?action=edit&amp;post=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a></strong>
 		<?php if ('private' == $post->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
@@ -134,7 +134,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 	case 'status':
 		?>
 		<td>
-		<a href="<?php the_permalink(); ?>" rel="permalink">
+		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
 		<?php
 		switch ( $post->post_status ) {
 			case 'publish' :
