@@ -2,12 +2,12 @@
 if ( ! empty($link_id) ) {
 	$heading = __('Edit Link');
 	$submit_text = __('Save Changes');
-	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';
+	$form = '<form name="editlink" id="editlink" method="post" action="link.php" class="validate">';
 	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
 	$heading = __('Add Link');
 	$submit_text = __('Add Link');
-	$form = '<form name="addlink" id="addlink" method="post" action="link.php">';
+	$form = '<form name="addlink" id="addlink" method="post" action="link.php" class="validate">';
 	$nonce_action = 'add-bookmark';
 }
 

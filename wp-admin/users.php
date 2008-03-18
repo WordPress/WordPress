@@ -398,7 +398,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	else
 	        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
 ?>
-<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users:">
+<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users: validate">
 <?php wp_nonce_field('add-user') ?>
 <table class="form-table">
 	<tr class="form-field form-required">

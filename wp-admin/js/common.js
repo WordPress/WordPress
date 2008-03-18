@@ -7,7 +7,7 @@ jQuery(document).ready( function() {
 
 	// Basic form validation
 	if ( ( 'undefined' != typeof wpAjax ) && jQuery.isFunction( wpAjax.validateForm ) ) {
-		jQuery('form').submit( function() { return wpAjax.validateForm( jQuery(this) ); } );
+		jQuery('form.validate').submit( function() { return wpAjax.validateForm( jQuery(this) ); } );
 	}
 });
 
