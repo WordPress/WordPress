@@ -128,7 +128,7 @@ class WP_Scripts {
 				'pending' => __('%i% pending') // must look like: "# blah blah"
 			) );
 			$this->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
-			$this->add( 'admin-forms', '/wp-admin/js/forms.js', false, '20080108' );
+			$this->add( 'admin-forms', '/wp-admin/js/forms.js', false, '20080317' );
 			$this->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 			$this->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery'), '20080128' );
