@@ -414,7 +414,11 @@ input.readonly {
 	border-right-color: #ccc;
 }
 
-#plugins tr, #the-comment-list .unapproved {
+#the-comment-list .unapproved {
+	background-color: #ffffe0;
+}
+
+#plugins tr {
 	background-color: #f0f0f0;
 }
 
