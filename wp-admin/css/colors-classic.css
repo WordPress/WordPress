@@ -471,15 +471,11 @@ input.readonly {
 	color: #666;
 }
 
-#update-nag a:link, .plugin-update a:link {
-	color: #036;
-}
-
 #update-nag, .plugin-update {
 	background-color: #fffeeb;
 	border-bottom-color: #ccc;
 	border-top-color: #ccc;
-	color: #cfebf6;
+	color: #555;
 }
 
 #upload-files a.file-link {

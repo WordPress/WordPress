@@ -443,10 +443,6 @@ input.readonly {
 	color: #666;
 }
 
-#update-nag a:link, .plugin-update a:link {
-	color: #036;
-}
-
 #update-nag, .plugin-update {
 	background-color: #fffeeb;
 	border-bottom-color: #ccc;
