@@ -75,7 +75,7 @@ if ( $can_edit_posts && !empty($num_posts->future) ) {
 }
 
 if ( current_user_can('publish_posts') && !empty($num_posts->pending) ) {
-	$pending_text = sprintf( __ngettext( 'There is <a href="%1$s">%2$s post</a> pending your review.', 'There is <a href="%1$s">%2$s posts</a> pending your review.', $num_posts->pending ), 'edit.php?post_status=pending', number_format_i18n( $num_posts->pending ) );
+	$pending_text = sprintf( __ngettext( 'There is <a href="%1$s">%2$s post</a> pending your review.', 'There are <a href="%1$s">%2$s posts</a> pending your review.', $num_posts->pending ), 'edit.php?post_status=pending', number_format_i18n( $num_posts->pending ) );
 } else {
 	$pending_text = '';
 }
