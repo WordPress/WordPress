@@ -97,20 +97,18 @@ class WP_Filesystem_ftpsockets{
 		//Set up the base directory (Which unless specified, is the current one)
 		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
 		$base = trailingslashit($base);
-		
+
 		//Can we see the Current directory as part of the ABSPATH?
 		$location = strpos($abspath, $base);
 		if( false !== $location ){
 			$newbase = path_join($base, substr($abspath, $location + strlen($base)));
-			
-			if($echo) printf( __('Changing to %s') . '<br/>', $newbase );
+
 			if( false !== $this->chdir($newbase) ){ //chdir sometimes returns null under certain circumstances, even when its changed correctly, FALSE will be returned if it doesnt change correctly.
-				$base = $newbase;
+				if($echo) printf( __('Changing to %s') . '<br/>', $newbase );
 				//Check to see if it exists in that folder.
-				if( $this->exists($base . 'wp-settings.php') ){
-					if($echo) printf( __('Found %s'),  $base . 'wp-settings.php<br/>' );
-					$this->wp_base = $base;
-					return $this->wp_base;
+				if( $this->exists($newbase . 'wp-settings.php') ){
+					if($echo) printf( __('Found %s'),  $newbase . 'wp-settings.php<br/>' );
+					return $newbase;
 				}	
 			}
 		}
@@ -134,6 +132,11 @@ class WP_Filesystem_ftpsockets{
 				if( $ret )
 					return $ret;
 			}
+		}
+		//Only check this as a last resort, to prevent locating the incorrect install. All above proceeedures will fail quickly if this is the right branch to take.
+		if(isset( $files[ 'wp-settings.php' ]) ){
+			if($echo) printf( __('Found %s'),  $base . 'wp-settings.php<br/>' );
+			return $base;
 		}
 		return false;
 	}
