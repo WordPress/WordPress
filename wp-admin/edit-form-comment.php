@@ -55,7 +55,7 @@ echo "<a href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment
 
 <ul>
 <li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
-<li><a href="moderation.php"><?php _e('Moderate Comments') ?></a></li>
+<li><a href="edit-comments.php?comment_status=moderated"><?php _e('Moderate Comments') ?></a></li>
 <?php do_action('comment_relatedlinks_list'); ?>
 </ul>
 </div>

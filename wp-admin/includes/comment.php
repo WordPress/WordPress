@@ -88,7 +88,7 @@ function floated_admin_avatar( $name ) {
 	return "$avatar $name";
 }
 
-if ( is_admin() && ('edit-comments.php' == $pagenow || 'moderation.php' == $pagenow || 'edit.php' == $pagenow) ) {
+if ( is_admin() && ('edit-comments.php' == $pagenow || 'edit.php' == $pagenow) ) {
 	if ( get_option('show_avatars') )
 		add_filter( 'comment_author', 'floated_admin_avatar' );
 }
