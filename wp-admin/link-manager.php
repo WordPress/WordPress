@@ -62,9 +62,7 @@ switch ($order_by) {
 		$sqlorderby = 'name';
 		break;
 }
-?>
-<script type="text/javascript" src="js/edit-comments.js"></script>
-<?php
+
 if ( isset($_GET['deleted']) ) {
 	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];
