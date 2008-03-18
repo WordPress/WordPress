@@ -29,7 +29,7 @@ include('admin-header.php');
 </tr>
 
 <tr>
-<th colspan="2">
+<th scope="row" colspan="2" class="th-full">
 <label for="uploads_use_yearmonth_folders">
 <input name="uploads_use_yearmonth_folders" type="checkbox" id="uploads_use_yearmonth_folders" value="1" <?php checked('1', get_option('uploads_use_yearmonth_folders')); ?> />
 <?php _e('Organize my uploads into month- and year-based folders'); ?>
@@ -37,14 +37,24 @@ include('admin-header.php');
 </th>
 </tr>
 </table>
+
+
 <table class="form-table">
 <tr>
-	<th colspan="2"><input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1" <?php checked('1', get_option('use_linksupdate')); ?> />
-<label for="use_linksupdate"><?php _e('Track Links&#8217; Update Times') ?></label>
+<th scope="row" class="th-full">
+<label for="use_linksupdate">
+<input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1" <?php checked('1', get_option('use_linksupdate')); ?> />
+<?php _e('Track Links&#8217; Update Times') ?>
+</label>
 </th>
 </tr>
 <tr>
-	<th colspan="2"><label><input type="checkbox" name="hack_file" value="1" <?php checked('1', get_option('hack_file')); ?> /> <?php _e('Use legacy <code>my-hacks.php</code> file support') ?></label>
+
+<th scope="row" class="th-full">
+<label for="hack_file">
+<input type="checkbox" id="hack_file" name="hack_file" value="1" <?php checked('1', get_option('hack_file')); ?> />
+<?php _e('Use legacy <code>my-hacks.php</code> file support') ?>
+</label>
 </th>
 </tr>
 </table>

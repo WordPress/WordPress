@@ -821,6 +821,10 @@ html, body {
 	border-bottom-style: solid;
 }
 
+.form-table th.th-full {
+	width: auto;
+}
+
 .form-table input, .form-table textarea {
 	border-width: 1px;
 	border-style: solid;
