@@ -361,7 +361,7 @@ function wp_dashboard_incoming_links_output() {
 		echo "</ul>\n";
 
 	} else {
-		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. They have found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
+		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. It has found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
 	}
 }
 
