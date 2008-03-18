@@ -42,7 +42,7 @@ break;
 
 case 'edit':
 	$title = __('Categories');
-	$parent_file = 'link-manager.php';
+	$parent_file = 'edit.php';
 	$submenu_file = 'edit-link-categories.php';
 	require_once ('admin-header.php');
 	$cat_ID = (int) $_GET['cat_ID'];
