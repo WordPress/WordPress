@@ -460,7 +460,7 @@ case 'add-user' :
 	$x->send();
 	break;
 case 'autosave' : // The name of this action is hardcoded in edit_post()
-	check_ajax_referer( 'autosave', 'autosavenonce' );
+	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce');
 	global $current_user;
 
 	$_POST['post_status'] = 'draft';
@@ -519,6 +519,9 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 
 	if ( $do_lock && $id && is_numeric($id) )
 		wp_set_post_lock( $id );
+
+	if ( $nonce_age == 2 )
+		$supplemental['replace-autosavenonce'] = wp_create_nonce('autosave');
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',

@@ -24,9 +24,16 @@ function autosave_saved(response) {
 	if ( res && res.responses && res.responses.length ) {
 		message = res.responses[0].data; // The saved message or error.
 		// someone else is editing: disable autosave, set errors
-		if ( res.responses[0].supplemental && 'disable' == res.responses[0].supplemental['disable_autosave'] ) {
-			autosave = function() {};
-			res = { errors: true };
+		if ( res.responses[0].supplemental ) {
+			if ( 'disable' == res.responses[0].supplemental['disable_autosave'] ) {
+				autosave = function() {};
+				res = { errors: true };
+			}
+			jQuery.each(res.responses[0].supplemental, function(selector, value) {
+				if ( selector.match(/^replace-/) ) {
+					jQuery('#'+selector.replace('replace-', '')).val(value);
+				}
+			});
 		}
 
 		// if no errors: add preview link and slug UI

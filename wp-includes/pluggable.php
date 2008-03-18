@@ -624,15 +624,16 @@ if ( !function_exists('check_admin_referer') ) :
  * @param string $action Action nonce
  * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
-function check_admin_referer($action = -1, $query_arg = '_wpnonce' ) {
+function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
 	$adminurl = strtolower(get_option('siteurl')).'/wp-admin';
 	$referer = strtolower(wp_get_referer());
-	if ( !wp_verify_nonce($_REQUEST[$query_arg], $action) &&
-		!(-1 == $action && strpos($referer, $adminurl) !== false)) {
+	$result = wp_verify_nonce($_REQUEST[$query_arg], $action);
+	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) !== false) ) {
 		wp_nonce_ays($action);
 		die();
 	}
-	do_action('check_admin_referer', $action);
+	do_action('check_admin_referer', $action, $result);
+	return $result;
 }endif;
 
 if ( !function_exists('check_ajax_referer') ) :
@@ -644,16 +645,20 @@ if ( !function_exists('check_ajax_referer') ) :
  * @param string $action Action nonce
  * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
-function check_ajax_referer( $action = -1, $query_arg = false ) {
+function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	if ( $query_arg )
 		$nonce = $_REQUEST[$query_arg];
 	else
 		$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
 
-	if ( !wp_verify_nonce( $nonce, $action ) )
+	$result = wp_verify_nonce( $nonce, $action );
+
+	if ( $die && false == $result )
 		die('-1');
 
-	do_action('check_ajax_referer');
+	do_action('check_ajax_referer', $action, $result);
+
+	return $result;
 }
 endif;
 
@@ -937,6 +942,23 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 }
 endif;
 
+if ( !function_exists('wp_nonce_tick') ) :
+/**
+ * wp_nonce_tick() - Get the time-dependent variable for nonce creation
+ *
+ * A nonce has a lifespan of two ticks. Nonces in their second tick may be updated, e.g. by autosave.
+ *
+ * @since 2.5
+ *
+ * @return int
+ */
+function wp_nonce_tick() {
+	$nonce_life = apply_filters('nonce_life', 86400) / 2;
+
+	return ceil(time() / ( $nonce_life / 2 ));
+}
+endif;
+
 if ( !function_exists('wp_verify_nonce') ) :
 /**
  * wp_verify_nonce() - Verify that correct nonce was used with time limit
@@ -954,11 +976,15 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$user = wp_get_current_user();
 	$uid = (int) $user->id;
 
-	$i = ceil(time() / 43200);
+	$i = wp_nonce_tick();
 
-	//Allow for expanding range, but only do one check if we can
-	if( substr(wp_hash($i . $action . $uid), -12, 10) == $nonce || substr(wp_hash(($i - 1) . $action . $uid), -12, 10) == $nonce )
-		return true;
+	// Nonce generated 0-12 hours ago
+	if ( substr(wp_hash($i . $action . $uid), -12, 10) == $nonce )
+		return 1;
+	// Nonce generated 12-24 hours ago
+	if ( substr(wp_hash(($i - 1) . $action . $uid), -12, 10) == $nonce )
+		return 2;
+	// Invalid nonce
 	return false;
 }
 endif;
@@ -976,7 +1002,7 @@ function wp_create_nonce($action = -1) {
 	$user = wp_get_current_user();
 	$uid = (int) $user->id;
 
-	$i = ceil(time() / 43200);
+	$i = wp_nonce_tick();
 
 	return substr(wp_hash($i . $action . $uid), -12, 10);
 }
