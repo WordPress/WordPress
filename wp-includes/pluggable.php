@@ -953,7 +953,7 @@ if ( !function_exists('wp_nonce_tick') ) :
  * @return int
  */
 function wp_nonce_tick() {
-	$nonce_life = apply_filters('nonce_life', 86400) / 2;
+	$nonce_life = apply_filters('nonce_life', 86400);
 
 	return ceil(time() / ( $nonce_life / 2 ));
 }

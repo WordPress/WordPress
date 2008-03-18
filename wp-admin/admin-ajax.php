@@ -520,8 +520,18 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	if ( $do_lock && $id && is_numeric($id) )
 		wp_set_post_lock( $id );
 
-	if ( $nonce_age == 2 )
+	if ( $nonce_age == 2 ) {
 		$supplemental['replace-autosavenonce'] = wp_create_nonce('autosave');
+		$supplemental['replace-getpermalinknonce'] = wp_create_nonce('getpermalink');
+		$supplemental['replace-samplepermalinknonce'] = wp_create_nonce('samplepermalink');
+		$supplemental['replace-closedpostboxesnonce'] = wp_create_nonce('closedpostboxes');
+		if ( $id ) {
+			if ( $_POST['post_type'] == 'post' )
+				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-post_' . $id);
+			elseif ( $_POST['post_type'] == 'page' )
+				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-page_' . $id);
+		}
+	}
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',
