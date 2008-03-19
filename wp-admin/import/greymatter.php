@@ -269,12 +269,12 @@ class GM_Import {
 				}
 				if ($numAddedComments > 0) {
 					echo ': ';
-				printf(__('imported %s'), sprintf( __ngettext('%s comment', '%s comments', $numAddedComments) , $numAddedComments) );
+				printf( __ngettext('imported %s comment', 'imported %s comments', $numAddedComments) , $numAddedComments);
 				}
 				$preExisting = $numComments - numAddedComments;
 				if ($preExisting > 0) {
 					echo ' ';
-					printf(__('ignored %s'), sprintf( __ngettext( '%s pre-existing comment', '%s pre-existing comments', $preExisting ) , $preExisting) );
+					printf( __ngettext( 'ignored %s pre-existing comment', 'ignored %s pre-existing comments', $preExisting ) , $preExisting);
 				}
 			}
 			echo '... <strong>'.__('Done').'</strong></li>';

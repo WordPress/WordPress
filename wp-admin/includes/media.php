@@ -992,7 +992,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
-	$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false)) . "'$class>" . sprintf($label[2], "<span id='$mime_type-counter'>{$num_posts[$mime_type]}</span>") . '</a>';
+	$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false)) . "'$class>" . sprintf(__ngettext($label[2][0], $label[2][1], $num_posts[$mime_type]), "<span id='$mime_type-counter'>{$num_posts[$mime_type]}</span>") . '</a>';
 }
 echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);

@@ -36,11 +36,11 @@ $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
 
 $post_stati  = array(	//	array( adj, noun )
-		'publish' => array(__('Published'), __('Published pages'), __('Published (%s)')),
-		'future' => array(__('Scheduled'), __('Scheduled pages'), __('Scheduled (%s)')),
-		'pending' => array(__('Pending Review'), __('Pending pages'), __('Pending Review (%s)')),
-		'draft' => array(__('Draft'), _c('Drafts|manage posts header'), _c('Draft (%s)|manage posts header')),
-		'private' => array(__('Private'), __('Private pages'), __('Private (%s)'))
+		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published (%s)', 'Published (%s)')),
+		'future' => array(__('Scheduled'), __('Scheduled pages'), __ngettext_noop('Scheduled (%s)', 'Scheduled (%s)')),
+		'pending' => array(__('Pending Review'), __('Pending pages'), __ngettext_noop('Pending Review (%s)', 'Pending Review (%s)')),
+		'draft' => array(__('Draft'), _c('Drafts|manage posts header'), __ngettext_noop('Draft (%s)', 'Drafts (%s)')),
+		'private' => array(__('Private'), __('Private pages'), __ngettext_noop('Private (%s)', 'Private (%s)'))
 	);
 
 $post_status_label = __('Manage Pages');
@@ -93,7 +93,7 @@ foreach ( $post_stati as $status => $label ) {
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
-	sprintf($label[2], $num_posts->$status) . '</a>';
+	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts->$status), $num_posts->$status) . '</a>';
 }
 echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);

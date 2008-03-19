@@ -177,7 +177,7 @@ class Textpattern_Import {
 
 			// Store category translation for future use
 			add_option('txpcat2wpcat',$txpcat2wpcat);
-			echo '<p>'.sprintf(__('Done! <strong>%1$s</strong> categories imported.'), $count).'<br /><br /></p>';
+			echo '<p>'.sprintf(__ngettext('Done! <strong>%1$s</strong> category imported.', 'Done! <strong>%1$s</strong> categories imported.', $count), $count).'<br /><br /></p>';
 			return true;
 		}
 		echo __('No Categories to Import!');

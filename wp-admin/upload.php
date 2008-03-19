@@ -98,7 +98,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 		$class = ' class="current"';
 
 	$type_links[] = "<li><a href=\"upload.php?post_mime_type=$mime_type\"$class>" .
-	sprintf($label[2], $num_posts[$mime_type]) . '</a>';
+	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts[$mime_type]), $num_posts[$mime_type]) . '</a>';
 }
 echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);

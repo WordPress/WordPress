@@ -196,6 +196,32 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
 }
 
 /**
+ * __ngettext_noop() - register plural strings in POT file, but don't translate them
+ *
+ * Used when you want do keep structures with translatable plural strings and
+ * use them later.
+ *
+ * Example:
+ *  $messages = array(
+ *  	'post' => ngettext_noop('%s post', '%s posts'),
+ *  	'page' => ngettext_noop('%s pages', '%s pages')
+ *  );
+ *  ...
+ *  $message = $messages[$type];
+ *  $usable_text = sprintf(__ngettext($message[0], $message[1], $count), $count);
+ *
+ * @since 2.5
+ * @param $single Single form to be i18ned
+ * @param $plural Plural form to be i18ned
+ * @param $number Not used, here for compatibility with __ngettext, optional
+ * @param $domain Not used, here for compatibility with __ngettext, optional
+ * @return array array($single, $plural)
+ */
+function __ngettext_noop($single, $plural, $number=1, $domain = 'default') {
+	return array($single, $plural);
+}
+
+/**
  * load_textdomain() - Loads MO file into the list of domains
  *
  * If the domain already exists, the inclusion will fail. If the

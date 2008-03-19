@@ -519,11 +519,11 @@ function wp_edit_posts_query( $q = false ) {
 	$q['m']   = (int) $q['m'];
 	$q['cat'] = (int) $q['cat'];
 	$post_stati  = array(	//	array( adj, noun )
-				'publish' => array(__('Published'), __('Published posts'), __('Published (%s)')),
-				'future' => array(__('Scheduled'), __('Scheduled posts'), __('Scheduled (%s)')),
-				'pending' => array(__('Pending Review'), __('Pending posts'), __('Pending Review (%s)')),
-				'draft' => array(__('Draft'), _c('Drafts|manage posts header'), _c('Draft (%s)|manage posts header')),
-				'private' => array(__('Private'), __('Private posts'), __('Private (%s)'))
+				'publish' => array(__('Published'), __('Published posts'), __ngettext_noop('Published (%s)', 'Published (%s)')),
+				'future' => array(__('Scheduled'), __('Scheduled posts'), __ngettext_noop('Scheduled (%s)', 'Scheduled (%s)')),
+				'pending' => array(__('Pending Review'), __('Pending posts'), __ngettext_noop('Pending Review (%s)', 'Pending Review (%s)')),
+				'draft' => array(__('Draft'), _c('Drafts|manage posts header'), __ngettext_noop('Draft (%s)', 'Drafts (%s)')),
+				'private' => array(__('Private'), __('Private posts'), __ngettext_noop('Private (%s)', 'Private (%s)')),
 			);
 
 	$post_stati = apply_filters('post_stati', $post_stati);
@@ -568,9 +568,9 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['post_type'] = 'attachment';
 	$q['post_status'] = 'any';
 	$post_mime_types = array(	//	array( adj, noun )
-				'image' => array(__('Images'), __('Manage Images'), __('Images (%s)')),
-				'audio' => array(__('Audio'), __('Manage Audio'), __('Audio (%s)')),
-				'video' => array(__('Video'), __('Manage Video'), __('Video (%s)')),
+				'image' => array(__('Images'), __('Manage Images'), __ngettext_noop('Image (%s)', 'Images (%s)')),
+				'audio' => array(__('Audio'), __('Manage Audio'), __ngettext_noop('Audio (%s)', 'Audio (%s)')),
+				'video' => array(__('Video'), __('Manage Video'), __ngettext_noop('Video (%s)', 'Video (%s)')),
 			);
 	$post_mime_types = apply_filters('post_mime_types', $post_mime_types);
 
