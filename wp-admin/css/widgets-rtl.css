@@ -1,51 +1,7 @@
-div.widget-liquid-left-holder {
-	float: right;
-	clear: right;
-	margin-left: -310px;
-	margin-right: 0;
+h4.widget-title {
+	text-align:left
 }
-
-div.widget-liquid-left {
-	margin-right: 0;
-	margin-left: 310px;
-}
-
-div.widget-liquid-right {
-	float: left;
-	clear: left;
-}
-
 p#widget-search {
-	left: 0;
-	right: auto;
-}
-
-ul#widget-list li.widget-list-item h4.widget-title {
-	float: right;
-}
-
-ul#widget-list li.widget-list-item div.widget-description {
-	margin: 0 200px 0 0;
-	padding: 0 4em 0 0;
-}
-
-h4.widget-title a {
-	left: 1em;
-	right: auto;
-}
-
-li.widget-list-control-item h4.widget-title a,
-#dragHelper li.widget-list-control-item h4.widget-title a,
-#draghelper li.widget-list-control-item h4.widget-title a:visited {
-	right: auto;
-	left: 2em;
-}
-
-li.widget-list-control-item div.widget-control {
-	padding: 0 0 0 10px;
-}
-
-ul.widget-control-list div.widget-control-actions {
-	margin-left: -10px;
-	margin-right: 0;
+	left:0;
+	right:auto
 }

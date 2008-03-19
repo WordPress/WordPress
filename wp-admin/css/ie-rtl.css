@@ -1,0 +1,27 @@
+/* dashboard */
+div#dashboard-widgets {
+	margin-left:0;
+}
+div.dashboard-widget-holder {
+	width:49%;
+}
+/* footer */
+#footer {
+	padding-left:50px;
+}
+#footer p {
+	background:none;
+	height:auto;
+	padding: 5px 5px 0;
+}
+/* write post */
+#poststuff .togbox {
+	margin-right:-16px;
+}
+#poststuff h3 {
+	padding-right:20px;
+}
+/* template editor */
+#template textarea {
+	float:left;
+}

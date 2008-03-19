@@ -1,0 +1,24 @@
+#rightnow .reallynow span {
+	text-align: right;
+	float: right;
+}
+
+#rightnow .reallynow a {
+	text-align: left;
+	float: left;
+	margin: 1px 0 0 6px;
+}
+h3.dashboard-widget-title span {
+	text-align: right;
+	float: right;
+}
+h3.dashboard-widget-title small {
+	text-align: left;
+	float: left;
+}
+div.dashboard-widget-content ul,
+div.dashboard-widget-content ol,
+div.dashboard-widget-content dl {
+	padding-left:0;
+	padding-right:15px;
+}

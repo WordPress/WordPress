@@ -1,0 +1,32 @@
+body {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	direction: rtl;
+}
+form {
+	margin-left:0;
+	margin-right:8px;
+}
+form .forgetmenot {
+	float:right;
+}
+form .submit {
+	float:left;
+}
+#login_error, .message {
+	margin:0 8px 16px 0;
+}
+#nav {
+	margin: 0 8px 0 0;
+}
+#user_pass, #user_login, #user_email {
+	margin-right:0;
+	margin-left: 6px;
+	direction:ltr;
+}
+h1 a {
+	text-decoration:none;
+}
+#backtoblog a {
+	left: auto;
+	right: 15px;
+}

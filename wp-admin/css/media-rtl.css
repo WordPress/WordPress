@@ -1,0 +1,21 @@
+ul#sidemenu {
+	left: auto;
+	right: 0;
+}
+.align .field label {
+	display: block;
+	float: right;
+	padding: 0 25px 0 0;
+	margin: 5px 3px 5px 5px; 
+}
+.align .field input {
+	display: block;
+	float: right;
+	margin: 5px 15px 5px 0;
+}
+.image-align-none-label,
+.image-align-left-label,
+.image-align-center-label,
+.image-align-right-label {
+	background-position: center right;
+}

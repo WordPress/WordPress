@@ -1,15 +1,19 @@
-body { font: 13px Tahoma, Georgia, "Times New Roman", Times, serif; }
-
-ul, ol { padding: 5px 20px 5px 5px; }
-
-h1, h2, h3 { font-family: "Times New Roman", Times, serif; font-weight: 700 }
-
-.step, th { text-align: left }
-
-input { font-family: "Times New Roman", Times, serif; padding: 1px }
-
-#logo {	background: url(../wp-content/plugins/WP-Jalali/wp-fa-logo.png) center right no-repeat;	text-align: left; }
-
-#admin_email {direction: ltr; text-align: left; }
-
-#footer { font-style: normal; }
+body {
+	font-size: 11px;;
+}
+ul, ol {
+	padding: 5px 22px 5px 5px;
+}
+.form-table th {
+	text-align: right;
+}
+input {
+	padding: 1px
+}
+#logo {
+	text-align: left;
+}
+#admin_email {
+	direction: ltr;
+	text-align: left;
+}
