@@ -778,6 +778,12 @@ function media_upload_form( $errors = null ) {
 
 	$flash_action_url = get_option('siteurl') . "/wp-admin/async-upload.php";
 
+	// If Mac and mod_security, no Flash. :(
+	if ( false !== strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mac') && 'on' == strtolower(apache_getenv('MODSEC_ENABLE')) )
+		$flash = false;
+	else
+		$flash = true;
+
 	$post_id = intval($_REQUEST['post_id']);
 
 ?>
@@ -787,6 +793,7 @@ function media_upload_form( $errors = null ) {
 	<?php echo $errors['upload_error']->get_error_message(); ?>
 <?php } ?>
 </div>
+<?php if ( $flash ) : ?>
 <script type="text/javascript">
 <!--
 jQuery(function($){
@@ -827,6 +834,8 @@ jQuery(function($){
 	<p><input id="flash-browse-button" type="button" value="<?php _e('Choose files to upload'); ?>" class="button" /></p>
 	<p><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 </div>
+
+<?php endif; // $flash ?>
 
 <div id="html-upload-ui">
 	<p>
