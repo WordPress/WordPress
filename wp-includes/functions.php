@@ -1337,14 +1337,11 @@ function wp_explain_nonce( $action ) {
 
 
 function wp_nonce_ays( $action ) {
-	global $pagenow;
 	$title = __( 'WordPress Failure Notice' );
-	$html .= "\t<div id='message' class='updated fade'>\n\t<p>" . wp_specialchars( wp_explain_nonce( $action ) ) . "</p>\n\t<p>";
+	$html = wp_specialchars( wp_explain_nonce( $action ) ) . '</p>';
 	if ( wp_get_referer() )
-		$html .= "<a href='" . remove_query_arg( 'updated', clean_url( wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
-	$html .= "</p>\n\t</div>\n";
-	$html .= "</body>\n</html>";
-	wp_die( $html, $title );
+		$html .= "<p><a href='" . remove_query_arg( 'updated', clean_url( wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+	wp_die( $html, $title);
 }
 
 
