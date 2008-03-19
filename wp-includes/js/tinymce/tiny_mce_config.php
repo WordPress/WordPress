@@ -36,11 +36,13 @@ function putFileContents( $path, $content ) {
 	if ( function_exists('file_put_contents') )
 		return @file_put_contents( $path, $content );
 
+	$newfile = false;
 	$fp = @fopen( $path, 'wb' );
 	if ($fp) {
-		fwrite( $fp, $content );
+		$newfile = fwrite( $fp, $content );
 		fclose($fp);
 	}
+	return $newfile;
 }
 
 // Set up init variables
@@ -58,15 +60,12 @@ $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0
 /*
 Setting mce_valid_elements to *[*] skips all of the internal cleanup and can cause problems.
 The minimal setting would be -strong/-b[*],-em/-i[*],*[*].
-Best is to use the default cleanup by not specifying mce_valid_elements,
-and then use extended_valid_elements to add to it.
+Best is to use the default cleanup by not specifying mce_valid_elements. It contains full set of XHTML 1.0.
+If others are needed, mce_extended_valid_elements can be used to add to it, or mce_invalid_elements to remove.
 */
 $valid_elements = apply_filters('mce_valid_elements', '');
 $invalid_elements = apply_filters('mce_invalid_elements', '');
-
-$extended_valid_elements = '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],bdo,code,col[*],colgroup[*],dfn,fieldset,form[*],input[*],kbd,label[*],legend[*],noscript,optgroup[*],option[*],q[cite|class],samp,textarea[*],title,var';
-
-$extended_valid_elements = apply_filters('mce_extended_valid_elements', $extended_valid_elements);
+$extended_valid_elements = apply_filters('mce_extended_valid_elements', '');
 
 /*
 The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
@@ -105,10 +104,11 @@ if ( ! empty($mce_external_plugins) ) {
 	
 	if ( ! empty($mce_external_languages) ) {
 		foreach ( $mce_external_languages as $name => $path ) {
-			$loaded_langs[] = $name;
-		
-			if ( is_file($path) ) include_once($path);
-			$ext_plugins .= $strings;
+			if ( is_readable($path) ) { 
+				include_once($path);
+				$ext_plugins .= $strings;
+				$loaded_langs[] = $name;
+			}
 		}
 	}
 
@@ -174,7 +174,7 @@ $initArray = array (
 );
 
 if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
-//if ( $extended_valid_elements ) $initArray['extended_valid_elements'] = $extended_valid_elements;
+if ( $extended_valid_elements ) $initArray['extended_valid_elements'] = $extended_valid_elements;
 if ( $invalid_elements ) $initArray['invalid_elements'] = $invalid_elements;
 
 // For people who really REALLY know what they're doing with TinyMCE
@@ -242,7 +242,7 @@ header( 'Vary: Accept-Encoding' ); // Handle proxies
 header( 'Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expiresOffset ) . ' GMT' );
 
 // Use cached file if exists
-if ( $disk_cache && is_file($cache_file) ) {
+if ( $disk_cache && is_file($cache_file) && is_readable($cache_file) ) {
 
 	$mtime = gmdate("D, d M Y H:i:s", filemtime($cache_file)) . " GMT";
 	
@@ -302,34 +302,32 @@ if ( '.gz' == $cache_ext ) {
 }
 
 // Write file
-if ( '' != $cacheKey ) {
-	if ( is_dir($cache_path) ) {		
+if ( '' != $cacheKey && is_dir($cache_path) && is_readable($cache_path) ) {	
 
-		$old_cache = array();
-		$handle = opendir($cache_path);
-		while ( false !== ( $file = readdir($handle) ) ) {
-			if ( $file == '.' || $file == '..' ) continue;
-            $saved = filectime("$cache_path/$file");
-			if ( strpos($file, 'tinymce_') !== false && substr($file, -3) == $cache_ext ) $old_cache["$saved"] = $file;
-		}
-		closedir($handle);
-			
-		krsort($old_cache);
-		if ( 1 >= $old_cache_max ) $del_cache = $old_cache;
-		else $del_cache = array_slice( $old_cache, ($old_cache_max - 1) );
-			
-		foreach ( $del_cache as $key )
-			@unlink("$cache_path/$key");
+	$old_cache = array();
+	$handle = opendir($cache_path);
+	while ( false !== ( $file = readdir($handle) ) ) {
+		if ( $file == '.' || $file == '..' ) continue;
+        $saved = filectime("$cache_path/$file");
+		if ( strpos($file, 'tinymce_') !== false && substr($file, -3) == $cache_ext ) $old_cache["$saved"] = $file;
 	}
+	closedir($handle);
+			
+	krsort($old_cache);
+	if ( 1 >= $old_cache_max ) $del_cache = $old_cache;
+	else $del_cache = array_slice( $old_cache, ($old_cache_max - 1) );
 
-	putFileContents( $cache_file, $content );
+	foreach ( $del_cache as $key )
+		@unlink("$cache_path/$key");
 
-	$mtime = gmdate( "D, d M Y H:i:s", filemtime($cache_file) ) . " GMT";
-	header( 'Last-Modified: ' . $mtime );
+	if ( putFileContents( $cache_file, $content ) && is_readable($cache_file) ) {
+		$mtime = gmdate( "D, d M Y H:i:s", filemtime($cache_file) ) . " GMT";
+		header( 'Last-Modified: ' . $mtime );
+		header( 'Cache-Control: must-revalidate', false );
+	}
 }
 
 // Stream to client
-header( 'Cache-Control: must-revalidate', false );
 header( 'Content-Length: ' . strlen($content) );
 echo $content;
 ?>
