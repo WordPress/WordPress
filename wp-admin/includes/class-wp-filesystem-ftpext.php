@@ -167,7 +167,7 @@ class WP_Filesystem_FTPext{
 	}
 	function put_contents($file,$contents,$type=''){
 		if( empty($type) ){
-			$extension = substr(strrchr($filename, "."), 1);
+			$extension = substr(strrchr($file, "."), 1);
 			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
 		}
 		$temp = tmpfile();

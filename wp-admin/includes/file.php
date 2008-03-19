@@ -203,7 +203,7 @@ function download_url( $url ) {
 	if( ! $tmpfname )
 		return false;
 
-	$handle = fopen($tmpfname, 'w');
+	$handle = @fopen($tmpfname, 'w');
 	if( ! $handle )
 		return false;
 
