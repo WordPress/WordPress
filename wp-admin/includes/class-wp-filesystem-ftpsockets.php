@@ -159,6 +159,8 @@ class WP_Filesystem_ftpsockets{
 		}
 		$this->ftp->SetType($type);
 		$temp = tmpfile();
+		if ( ! $temp )
+			return false;
 		if ( ! $this->ftp->fget($temp, $file) ) {
 			fclose($temp);
 			return ''; //Blank document, File does exist, Its just blank.
@@ -183,6 +185,8 @@ class WP_Filesystem_ftpsockets{
 		$this->ftp->SetType($type);
 
 		$temp = tmpfile();
+		if ( ! $temp )
+			return false;
 		fwrite($temp,$contents);
 		fseek($temp, 0); //Skip back to the start of the file being written to
 		$ret = $this->ftp->fput($file, $temp);
