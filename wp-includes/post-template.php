@@ -54,11 +54,13 @@ function get_the_title( $id = 0 ) {
 	$post = &get_post($id);
 
 	$title = $post->post_title;
-	if ( !empty($post->post_password) )
-		$title = sprintf(__('Protected: %s'), $title);
-	else if ( isset($post->post_status) && 'private' == $post->post_status )
-		$title = sprintf(__('Private: %s'), $title);
 
+	if ( !is_admin() ) {
+		if ( !empty($post->post_password) )
+			$title = sprintf(__('Protected: %s'), $title);
+		else if ( isset($post->post_status) && 'private' == $post->post_status )
+			$title = sprintf(__('Private: %s'), $title);
+	}
 	return apply_filters( 'the_title', $title );
 }
 
