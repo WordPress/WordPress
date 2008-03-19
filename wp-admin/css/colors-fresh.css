@@ -178,21 +178,21 @@ ul.widget-control-list .sorthelper {
 	border-bottom-color: #dadada;
 }
 
-.side-info ul {
+.side-info ul, .widget-description {
 	color: #666;
 }
 
-.submit input, .button, .button-secondary, #login form .submit input, div.dashboard-widget-submit input {
+.submit input, .button, .button-secondary, #login form .submit input, div.dashboard-widget-submit input, #edit-slug-buttons a.save {
 	background-color: #e5e5e5;
 	color: #246;
 	border-color: #80b5d0;
 }
 
-.submit input:hover, .button:hover {
+.submit input:hover, .button:hover, #edit-slug-buttons a.save:hover {
 	border-color: #535353;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover {
+.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover, #edit-slug-buttons a.save:hover {
 	color: #d54e21;
 }
 
@@ -340,10 +340,6 @@ input.readonly {
 
 #edit-slug-box strong, .login #nav a {
 	color: #777;
-}
-
-#edit-slug-buttons a.save {
-	background-color: #ebebeb;
 }
 
 #footer {

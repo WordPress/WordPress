@@ -38,7 +38,7 @@ textarea, input, select {
 
 .subsubsub {
 	list-style: none;
-	margin: 15px 0 10px 0;
+	margin: 14px 0 8px 0;
 	padding: 0;
 	white-space: nowrap;
 	font-size: 12px;
@@ -66,14 +66,14 @@ textarea, input, select {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;
-	font-size: 12px;
-	padding: 10px 10px 20px;
+	font-size: 11px;
+	padding: 10px 10px 14px;
 	vertical-align: text-top;
 }
 
 .widefat th {
-	padding-bottom: 8px;
-	padding-top: 10px;
+	padding-bottom: 7px;
+	padding-top: 8px;
 	text-align: left;
 }
 

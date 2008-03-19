@@ -153,9 +153,8 @@ form#upload #post_content {
 
 .submit input, .button, .button-secondary, .button-highlighted {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 2px 3px;
-	border: none;
-	font-size: 13px;
+	padding: 4px 6px;
+	font-size: 12px;
 	border-width: 1px;
 	border-style: solid;
 	-moz-border-radius: 3px;
@@ -472,10 +471,12 @@ p.pagenav {
 	margin-right: 8px;
 }
 
-.tablenav .next, .tablenav .prev{
-	padding: 0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
+.tablenav .button-secondary {
+	padding: 2px 4px;
+}
+
+.tablenav .tablenav-pages a.next, .tablenav .tablenav-pages a.prev {
+	text-decoration: underline;
 }
 
 .tablenav {
@@ -487,8 +488,9 @@ p.pagenav {
 
 .tablenav .tablenav-pages {
 	float: right;
-	height: 24px;
-	padding-top: 6px;
+	height: 20px;
+	padding-top: 4px;
+	font-size: 11px;
 }
 
 .tablenav .tablenav-pages a {
@@ -560,12 +562,12 @@ a.view-comment-post-link {
 
 #wphead #viewsite {
 	position: absolute;
-	margin-top: 8px;
+	margin-top: 12px;
 	margin-left: 10px;
 }
 #wphead #viewsite a {
-	font: 14px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 4px;
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 3px 4px;
 	display: block;
 	letter-spacing: normal;
 	border-width: 1px;
@@ -623,8 +625,8 @@ a.view-comment-post-link {
 
 #adminmenu a {
 	font-size: 16px;
-	padding: 6px 7px;
-	line-height: 200%;
+	padding: 5px 7px;
+	line-height: 30px;
 }
 
 #adminmenu a.current, #sidemenu a.current {
@@ -683,7 +685,8 @@ a.view-comment-post-link {
 
 #adminmenu li a #awaiting-mod {
 	position: absolute;
-	margin-left: -0.2em;
+	margin-left: -0.4em;
+	margin-top: 0.2em;
 	font-size: 0.7em;
 	background-repeat: no-repeat;
 	background-position: 0 bottom;
@@ -709,7 +712,7 @@ a.view-comment-post-link {
 .post-com-count span {
 	height: 1.3em;
 	line-height: 1.3em;
-	padding: 0 0.6em;
+	padding: 0 0.5em;
 	background-color: #bbb;
 	cursor: pointer;
 	-moz-border-radius: 3px;
@@ -737,7 +740,7 @@ strong .post-com-count {
 	display: block;
 	height: 1.3em;
 	line-height: 1.3em;
-	padding: 0 0.8em;
+	padding: 0 0.6em;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -747,7 +750,7 @@ strong .post-com-count {
 #submenu {
 	margin: 0;
 	list-style: none;
-	padding: 7px 0 15px 0;
+	padding: 6px 0 3px 0;
 }
 
 #submenu li {
@@ -775,15 +778,16 @@ html, body {
 #footer {
 	clear: both;
 	height: 65px;
-	padding: 10px 0 0 65px;
+	padding: 10px 0 0 60px;
 	margin: 0;
 	position: relative;
  	margin-top: -75px;
+	font-size: 12px;
 }
 
 #footer p {
 	margin: 0;
-	padding: 5px 0;
+	padding: 7px 0;
 }
 
 #footer p a {
@@ -809,7 +813,7 @@ html, body {
 	line-height: 20px;
 	border-bottom-width: 8px;
 	border-bottom-style: solid;
-
+	font-size: 11px;
 }
 
 .form-table th {
@@ -980,10 +984,6 @@ html, body {
 	font-size: 11px;
 }
 
-#poststuff .inside strong {
-	font-size: 14px;
-}
-
 #link_name, #link_url, #link_description {
 	font-size: 1.7em;
 	padding: 4px 3px;
@@ -995,12 +995,21 @@ html, body {
 }
 
 #editable-post-name-full {display: none;}
+
 #editable-post-name input {width: 16em;}
+
 #edit-slug-buttons a.save {
-	-moz-border-raduis: 5px;
-	padding: 6px;
+	padding: 6px 4px;
+	margin-right: 4px;
+	text-decoration: none;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-weight: bold;
 }
-#edit-slug-buttons a.cancel {font-size: 80%;}
 
 #poststuff #editor-toolbar {
 	position: relative;
@@ -1083,6 +1092,10 @@ html, body {
 .submitbox {
 	width: 220px;
 	float: right;
+}
+
+.submitbox .inside strong {
+	font-size: 14px;
 }
 
 .submitbox .submitdelete {
@@ -1207,6 +1220,7 @@ div.ui-tabs-panel {
 ul.categorychecklist li {
 	margin: 0;
 	padding: 0;
+	line-height: 19px;
 }
 
 #linkcategorydiv #category-adder {
@@ -1260,6 +1274,11 @@ p#post-search {
         margin: 0;
 }
 
+#post-search .button, #widget-search .button {
+	padding: 4px;
+	font-size: 13px;
+}
+
 #posts-filter fieldset {
 	float: left;
 	margin: 0 1.5ex 1em 0;
@@ -1292,15 +1311,16 @@ body.minwidth {
 ul.view-switch {
 	float: right;
 	list-style: none;
-	margin: -28px 5px -2px 0;
+	margin: -23px 5px -2px 0;
 	position: relative;
 }
 
 ul.view-switch li {
 	float: left;
 	margin: 0;
-	font-size: 12px;
-	padding: 6px;
+	font-size: 11px;
+	padding: 4px 6px;
+	font-weight: bold;
 }
 
 ul.view-switch a {
@@ -1309,7 +1329,6 @@ ul.view-switch a {
 
 ul.view-switch li.current {
 	border: none;
-	font-weight: bold;
 	-moz-border-radius-topleft: 3px;
 	-khtml-border-top-left-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
@@ -1345,7 +1364,6 @@ ul.view-switch li.current {
 
 #the-comment-list td {
 	vertical-align: top;
-	font-size: 12px;
 }
 
 #the-comment-list td.comment {
@@ -1392,8 +1410,4 @@ ul.view-switch li.current {
 	-khtml-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-}
-
-.action-links {
-	text-align: right;
 }

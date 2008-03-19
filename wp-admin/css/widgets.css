@@ -70,6 +70,7 @@ ul#widget-list li.widget-list-item div.widget-description {
 	display: block;
 	margin: 0 0 0 200px;
 	padding: 0 0 0 4em;
+	font-size: 11px;
 }
 
 
@@ -80,6 +81,7 @@ ul#widget-list li.widget-list-item ul.widget-control-info {
 div#sidebar-info {
 	padding: 0 1em;
 	margin-bottom: 1em;
+	font-size: 11px;
 }
 
 ul.widget-control-list {
@@ -143,6 +145,7 @@ li.widget-list-control-item div.widget-control {
 	display: none;
 	margin: 1em;
 	padding: 0 10px 0 0; /* Correction for padding, margin, border of inputs */
+	font-size: 11px;
 }
 
 li.widget-list-control-item div.widget-control p {
@@ -160,6 +163,12 @@ ul.widget-control-list div.widget-control-actions {
 
 ul.widget-control-list .widget-title {
 	cursor: move;
+	font-size: 12px;
+}
+
+.widget-control-edit {
+	font-size: 10px;
+	font-weight: normal;
 }
 
 
