@@ -247,16 +247,6 @@ endif; ?>
 
 <?php do_action('edit_form_advanced'); ?>
 
-<?php
-if (current_user_can('upload_files') && false) {
-	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$uploading_iframe_src = wp_nonce_url("upload.php?style=inline&amp;tab=upload&amp;post_id=$uploading_iframe_ID", 'inlineuploading');
-	$uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
-	if ( false != $uploading_iframe_src )
-		echo '<iframe id="uploading" name="uploading" frameborder="0" src="' . $uploading_iframe_src . '">' . __('This feature requires iframe support.') . '</iframe>';
-}
-?>
-
 <h2><?php _e('Advanced Options'); ?></h2>
 
 <div id="postexcerpt" class="postbox <?php echo postbox_classes('postexcerpt', 'post'); ?>">
