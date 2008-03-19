@@ -216,11 +216,11 @@ function get_option( $setting ) {
 
 		if ( false === $value ) {
 			if ( defined( 'WP_INSTALLING' ) )
-				$show = $wpdb->hide_errors();
+				$supress = $wpdb->suppress_errors();
 			// expected_slashed ($setting)
 			$row = $wpdb->get_row( "SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1" );
 			if ( defined( 'WP_INSTALLING' ) )
-				$wpdb->show_errors($show);
+				$wpdb->suppress_errors($suppress);
 
 			if ( is_object( $row) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
 				$value = $row->option_value;
@@ -279,10 +279,10 @@ function wp_load_alloptions() {
 	$alloptions = wp_cache_get( 'alloptions', 'options' );
 
 	if ( !$alloptions ) {
-		$show = $wpdb->hide_errors();
+		$suppress = $wpdb->suppress_errors();
 		if ( !$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'" ) )
 			$alloptions_db = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
-		$wpdb->show_errors($show);
+		$wpdb->suppress_errors($suppress);
 		$alloptions = array();
 		foreach ( (array) $alloptions_db as $o )
 			$alloptions[$o->option_name] = $o->option_value;
