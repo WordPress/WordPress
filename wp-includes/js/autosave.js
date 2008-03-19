@@ -8,12 +8,6 @@ jQuery(function($) {
 
 	//Disable autosave after the form has been submitted
 	$("#post").submit(function() { $.cancel(autosavePeriodical); });
-
-	// Autosave early on for a new post.  Why?  Should this only be run once?
-	$("#content").keypress(function() {
-		if ( 1 === ( $(this).val().length % 15 ) && 1 > parseInt($("#post_ID").val(),10) )
-			setTimeout(autosave, 5000);
-	});
 });
 
 // called when autosaving pre-existing post
@@ -148,7 +142,7 @@ var autosave = function() {
 		post_data["post_name"] = jQuery('#post_name').val();
 
 	// Nothing to save or no change.
-	if(post_data["post_title"].length==0 || post_data["content"].length==0 || post_data["post_title"] + post_data["content"] == autosaveLast) {
+	if( (post_data["post_title"].length==0 && post_data["content"].length==0) || post_data["post_title"] + post_data["content"] == autosaveLast) {
 		doAutoSave = false
 	}
 

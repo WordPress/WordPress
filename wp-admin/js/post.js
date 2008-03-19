@@ -62,11 +62,6 @@ jQuery(document).ready( function() {
 	// postboxes
 	add_postbox_toggles('post');
 
-	// If no tags on the page, skip the tag and category stuff.
-	if ( !jQuery('#tags-input').size() ) {
-		return;
-	}
-
 	// Editable slugs
 	make_slugedit_clickable();
 
@@ -90,6 +85,8 @@ jQuery(document).ready( function() {
 	// auto-save tags on post save/publish
 	jQuery('#publish').click( tag_save_on_publish );
 	jQuery('#save-post').click( tag_save_on_publish );
+
+	jQuery('#title').blur( function() { if ( (jQuery("#post_ID").val() > 0) || (jQuery("#title").val().length == 0) ) return; autosave(); } );
 
 	// auto-suggest stuff
 	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2 } );
