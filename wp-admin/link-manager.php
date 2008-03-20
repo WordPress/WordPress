@@ -75,7 +75,7 @@ if ( isset($_GET['deleted']) ) {
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
-<h2><?php _e('Manage Links'); ?></h2>
+<h2><?php printf( __( 'Manage Links (<a href="%s">add new</a>)' ), 'link-add.php' ); ?></h2>
 
 <p id="post-search">
 	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
