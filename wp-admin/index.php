@@ -91,7 +91,7 @@ $post_type_text = implode(', ', $post_type_texts);
 
 // There is always a category
 $sentence = sprintf( __( 'You have %1$s, contained within %2$s and %3$s. %4$s' ), $post_type_text, $cats_text, $tags_text, $pending_text );
-$sentence = apply_filters( 'dashboard_count_sentence', $sentence, $post_type_text, $cats_text, $tags_text );
+$sentence = apply_filters( 'dashboard_count_sentence', $sentence, $post_type_text, $cats_text, $tags_text, $pending_text );
 
 ?>
 <p class="youhave"><?php echo $sentence; ?></p>
