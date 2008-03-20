@@ -31,7 +31,7 @@ input.disabled, textarea.disabled {
 	background-color: #ccc;
 }
 
-li.widget-list-control-item h4.widget-title a:hover, .submit a, #user_info a, #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, li.widget-list-control-item h4.widget-title a,
+#user_info a:hover, li.widget-list-control-item h4.widget-title a:hover, .submit a, #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited, .login #backtoblog a:hover {
 	color: #fff;
@@ -136,7 +136,7 @@ ul.widget-control-list .sorthelper {
 	color: #999;
 }
 
-#dashmenu a {
+#dashmenu a, #user_info a {
 	color: #88b4d7;
 }
 

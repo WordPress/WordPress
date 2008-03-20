@@ -547,16 +547,12 @@ a.view-comment-post-link {
 	padding: 0;
 }
 
-#user_info a:hover {
-	text-decoration: underline;
-}
-
 #wphead {
 	border-top-width: 30px;
 	border-top-style: solid;
 }
 
-#wphead a, #user_info a, #dashmenu a, #adminmenu a, #submenu a, #sidemenu a {
+#wphead a, #dashmenu a, #adminmenu a, #submenu a, #sidemenu a {
 	text-decoration: none;
 }
 

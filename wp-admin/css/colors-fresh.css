@@ -35,7 +35,7 @@ input.disabled, textarea.disabled {
 	background-color: #ccc;
 }
 
-li.widget-list-control-item h4.widget-title a:hover, .submit a, #user_info a, #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, li.widget-list-control-item h4.widget-title a,
+#user_info a:hover, li.widget-list-control-item h4.widget-title a:hover, .submit a, #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited, .login #backtoblog a:hover {
 	color: #fff;
@@ -132,7 +132,7 @@ ul.widget-control-list .sorthelper {
 	color: #d54e21;
 }
 
-.howto, .nonessential, #dashmenu a, #sidemenu, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
+#user_info, .howto, .nonessential, #dashmenu a, #sidemenu, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
 	color: #999;
 }
 
@@ -480,7 +480,7 @@ input.readonly {
 	border-top-color: #247fab;
 }
 
-#user_info, .login #backtoblog a, .curtime {
+.login #backtoblog a, .curtime, #user_info a {
 	color: #ccc;
 }
 
