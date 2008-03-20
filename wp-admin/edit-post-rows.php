@@ -40,7 +40,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'cb':
 		?>
-		<th scope="row" class="check-column"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /><?php } ?></th>
 		<?php
 		break;
 	case 'modified':
@@ -72,7 +72,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		break;
 	case 'title':
 		?>
-		<td><strong><a class="row-title" href="post.php?action=edit&amp;post=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a></strong>
+		<td><strong><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><a class="row-title" href="post.php?action=edit&amp;post=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; } ?></strong>
 		<?php if ( !empty($post->post_password) ) { _e(' &#8212; <strong>Protected</strong>'); } elseif ('private' == $post->post_status) { _e(' &#8212; <strong>Private</strong>'); } ?></td>
 		<?php
 		break;
