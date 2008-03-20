@@ -284,21 +284,23 @@ function wp_dashboard_recent_comments( $sidebar_args ) {
 ?>
 				<blockquote><p>&#8220;<?php comment_excerpt(); ?>&#8221;</p></blockquote>
 				<p class='comment-meta'><?php echo $comment_meta; ?></p>
-
+<?php
+				if ( $comments_query->comment_count > 1 ) : ?>
 				<ul id="dashboard-comments-list">
 <?php
-			else :
+				endif; // comment_count
+			else : // is_first
 ?>
 
 					<li class='comment-meta'><?php echo $comment_meta; ?></li>
 <?php
-			endif;
+			endif; // is_first
 		}
-?>
 
+		if ( $comments_query->comment_count > 1 ) : ?>
 				</ul>
-
 <?php
+		endif; // comment_count;
 
 	}
 
