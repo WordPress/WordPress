@@ -1412,6 +1412,6 @@ ul.view-switch li.current {
 	border-radius: 8px;
 }
 
-.action-links {
+td.action-links, th.action-links {
 	text-align: right;
 }
