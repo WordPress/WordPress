@@ -313,8 +313,6 @@ function WP_Filesystem( $args = false, $preference = false ) {
 }
 
 function get_filesystem_method() {
-	return 'ftpsockets';
-
 	$tempFile = tempnam(get_temp_dir(), 'WPU');
 
 	if ( getmyuid() == fileowner($tempFile) ) {
