@@ -698,6 +698,10 @@ a.view-comment-post-link {
 	display: none;
 }
 
+.post-com-count-wrapper {
+	min-width: 22px;
+}
+
 .post-com-count {
 	height: 1.3em;
 	display: block;
@@ -705,7 +709,7 @@ a.view-comment-post-link {
 	overflow: hidden;
 	padding: 0 0 5px;
 	cursor: pointer;
-	background-position: center -80px;
+	background-position: center -81px;
 	background-repeat: no-repeat;
 }
 
@@ -722,7 +726,7 @@ a.view-comment-post-link {
 }
 
 strong .post-com-count {
-	background-position: center -55px;
+	background-position: center -56px;
 }
 
 .post-com-count:hover {

@@ -407,7 +407,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td class="num">
+		<td class="num"><div class="post-com-count-wrapper">
 		<?php
 		$left = get_pending_comments_num( $page->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
@@ -417,7 +417,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		if ( $left )
 			echo '</strong>';
 		?>
-		</td>
+		</div></td>
 		<?php
 		break;
 
