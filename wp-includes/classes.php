@@ -764,7 +764,7 @@ class WP_Ajax_Response {
 				$response .= "<wp_error_data code='$code'$class>";
 
 				if ( is_scalar($error_data) ) {
-					$response .= "<![CDATA[$v]]>";
+					$response .= "<![CDATA[$error_data]]>";
 				} elseif ( is_array($error_data) ) {
 					foreach ( $error_data as $k => $v )
 						$response .= "<$k><![CDATA[$v]]></$k>";

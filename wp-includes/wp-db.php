@@ -18,6 +18,7 @@ class wpdb {
 
 	var $show_errors = false;
 	var $suppress_errors = false;
+	var $last_error = '';
 	var $num_queries = 0;
 	var $last_query;
 	var $col_info;
@@ -278,7 +279,7 @@ class wpdb {
 			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
 
 		// If there is an error then take note of it..
-		if ( mysql_error($this->dbh) ) {
+		if ( $this->last_error = mysql_error($this->dbh) ) {
 			$this->print_error();
 			return false;
 		}
