@@ -638,7 +638,7 @@ function wp_widget_text_control($widget_args) {
 		<p>
 			<input class="widefat" id="text-title-<?php echo $number; ?>" name="widget-text[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" />
 			<textarea class="widefat" rows="16" cols="20" id="text-text-<?php echo $number; ?>" name="widget-text[<?php echo $number; ?>][text]"><?php echo $text; ?></textarea>
-			<input type="hidden" id="text-submit-<?php echo $number; ?>" name="text-submit-<?php echo $number; ?>" value="1" />
+			<input type="hidden" name="widget-text[<?php echo $number; ?>][submit]" value="1" />
 		</p>
 <?php
 }
@@ -798,7 +798,7 @@ function wp_widget_categories_control( $widget_args ) {
 				</label>
 			</p>
 
-			<input type="hidden" id="categories-submit-<?php echo $number; ?>" name="categories-submit-<?php echo $number; ?>" value="1" />
+			<input type="hidden" name="widget-categories[<?php echo $number; ?>][submit]" value="1" />
 <?php
 }
 
@@ -1254,7 +1254,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 			<?php _e('Display item date?'); ?>
 		</label>
 	</p>
-	<input type="hidden" id="rss-submit-<?php echo $number; ?>" name="rss-submit-<?php echo $number; ?>" value="1" />
+	<input type="hidden" name="widget-rss[<?php echo $number; ?>][submit]" value="1" />
 <?php
 	endif;
 	foreach ( array_keys($default_inputs) as $input ) :
@@ -1483,7 +1483,7 @@ function widget_many_control( $widget_args = 1 ) {
 ?>
 		<p>
 			<input class="widefat" id="widget-many-something-<?php echo $number; ?>" name="widget-many[<?php echo $number; ?>][something]" type="text" value="<?php echo $data; ?>" />
-			<input type="hidden" id="widget-many-submit-<?php echo $number; ?>" name="widget-many-<?php echo $number; ?>" value="1" />
+			<input type="hidden" id="widget-many-submit-<?php echo $number; ?>" name="widget-many[<?php echo $number; ?>][submit]" value="1" />
 		</p>
 <?php
 }
