@@ -59,7 +59,7 @@ if ( isset($_GET['s']) )
 	$search_dirty = $_GET['s'];
 else
 	$search_dirty = '';
-$search = attribute_escape( $search );
+$search = attribute_escape( $search_dirty );
 ?>
 <?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
