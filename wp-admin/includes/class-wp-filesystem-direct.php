@@ -8,7 +8,7 @@ class WP_Filesystem_Direct{
 		$this->permission = umask();
 	}
 	function connect(){
-		return;
+		return true;
 	}
 	function setDefaultPermissions($perm){
 		$this->permission = $perm;
@@ -17,7 +17,7 @@ class WP_Filesystem_Direct{
 		return str_replace('\\','/',ABSPATH);
 	}
 	function get_base_dir($base = '.', $echo = false){
-		return find_base_dir($base, $echo);
+		return $this->find_base_dir($base, $echo);
 	}
 	function get_contents($file){
 		return @file_get_contents($file);

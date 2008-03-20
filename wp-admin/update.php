@@ -10,7 +10,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 		$type = get_filesystem_method();
 
 	if ( 'direct' == $type )
-		return array();
+		return true;
 		
 	if( ! $credentials = get_option('ftp_credentials') )
 		$credentials = array();
