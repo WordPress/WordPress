@@ -377,6 +377,8 @@ function wp_allow_comment($commentdata) {
  */
 function check_comment_flood_db( $ip, $email, $date ) {
 	global $wpdb;
+	if ( current_user_can( 'manage_options' ) )
+		return; // don't throttle admins
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$ip' OR comment_author_email = '$email' ORDER BY comment_date DESC LIMIT 1") ) {
 		$time_lastcomment = mysql2date('U', $lasttime);
 		$time_newcomment  = mysql2date('U', $date);
