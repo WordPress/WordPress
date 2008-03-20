@@ -811,7 +811,6 @@ jQuery(function($){
 			file_size_limit : "<?php echo wp_max_upload_size(); ?>b",
 			swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
 			degraded_element_id : "html-upload-ui",   // when swfupload is unavailable
-			swfupload_loaded_handler : uploadLoaded,
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			upload_start_handler : uploadStart,
@@ -843,6 +842,9 @@ jQuery(function($){
 	</p>
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
 	<br class="clear" />
+	<?php if ( is_lighttpd_before_150() ): ?>
+	<p><?php _e('If you want to use all capabilties of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
+	<?php endif;?>
 </div>
 <?php
 }

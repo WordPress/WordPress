@@ -83,6 +83,9 @@ class WP_Scripts {
 		$this->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1');
 		$this->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.0.2');
 		$this->add( 'swfupload-degrade', '/wp-includes/js/swfupload/plugins/swfupload.graceful_degradation.js', array('swfupload'), '2.0.2');
+		$this->localize( 'swfupload-degrade', 'uploadDegradeOptions', array(
+			'is_lighttpd_before_150' => is_lighttpd_before_150(),
+		) );
 		$this->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2.0.2');
 		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2-20080301');
 		// these error messages came from the sample swfupload js, they might need changing.

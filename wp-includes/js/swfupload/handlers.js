@@ -1,8 +1,3 @@
-function uploadLoaded() {
-	jQuery("#html-upload-ui").remove();
-	jQuery("#flash-upload-ui").show();
-}
-
 function fileDialogStart() {
 	jQuery("#media-upload-error").empty();
 }

@@ -36,6 +36,7 @@ if (typeof(SWFUpload) === "function") {
 	SWFUpload.gracefulDegradation.swfUploadLoaded = function () {
 		var swfupload_container_id, swfupload_container, degraded_container_id, degraded_container, user_swfUploadLoaded_handler;
 		try {
+			if (uploadDegradeOptions.is_lighttpd_before_150) throw "Lighttpd versions earlier than 1.5.0 aren't supported!";
 			swfupload_element_id = this.getSetting("swfupload_element_id");
 			degraded_element_id = this.getSetting("degraded_element_id");
 			

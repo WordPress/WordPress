@@ -1705,4 +1705,15 @@ function _deprecated_file($file, $version, $replacement=null) {
 			trigger_error( printf( __("%1$s is <strong>deprecated</strong> since version %2$s with no alternative available."), $file, $version ) );
 	}
 }
+
+/**
+ * is_lighttpd_before_150() - Is the server running earlier than 1.5.0 version of lighttpd
+ *
+ * @return bool Whether the server is running lighttpd < 1.5.0
+ */
+function is_lighttpd_before_150() {
+	$server_parts = explode( '/', isset( $_SERVER['SERVER_SOFTWARE'] )? $_SERVER['SERVER_SOFTWARE'] : '' );
+	$server_parts[1] = isset( $server_parts[1] )? $server_parts[1] : '';
+	return  'lighttpd' == $server_parts[0] && -1 == version_compare( $server_parts[1], '1.5.0' );
+}
 ?>
