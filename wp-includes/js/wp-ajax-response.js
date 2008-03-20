@@ -57,4 +57,4 @@ wpAjax = jQuery.extend( {
 		selector = jQuery( selector );
 		return !wpAjax.invalidateForm( selector.find('.form-required').andSelf().filter('.form-required:has(:input[value=""]), .form-required:input[value=""]') ).size();
 	}
-}, wpAjax || { noPerm: 'You do not have permission to do that.', broken: 'AJAX is teh b0rked.' } );
+}, wpAjax || { noPerm: 'You do not have permission to do that.', broken: 'An unidentified error has occurred.' } );

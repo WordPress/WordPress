@@ -43,8 +43,8 @@ class WP_Scripts {
 
 		$this->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080316' );
 		$this->localize( 'wp-ajax-response', 'wpAjax', array(
-			'noPerm' => 'You do not have permission to do that.',
-			'broken' => 'AJAX is teh b0rked.'
+			'noPerm' => __('You do not have permission to do that.'),
+			'broken' => __('An unidentified error has occurred.')
 		) );
 
 		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080317' );
