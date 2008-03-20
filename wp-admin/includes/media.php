@@ -843,7 +843,7 @@ jQuery(function($){
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
 	<br class="clear" />
 	<?php if ( is_lighttpd_before_150() ): ?>
-	<p><?php _e('If you want to use all capabilties of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
+	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
 	<?php endif;?>
 </div>
 <?php
