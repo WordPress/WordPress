@@ -84,20 +84,20 @@ else
 <p><strong><?php _e('Publish Status') ?></strong></p>
 <p>
 <select name='post_status'>
-<?php if ( current_user_can('publish_posts') ) : ?>
+<?php if ( current_user_can('publish_posts') ) : // Contributors only get "Unpublished" and "Pending Review" ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
-<?php else: ?>
-<option<?php selected( $post->post_status, 'private' ); ?> value='private'><?php _e('Published') ?></option>
-<?php endif; ?>
 <?php if ( 'future' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Pending') ?></option>
+<option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
+<?php endif; ?>
 <?php endif; ?>
 <option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
 </select>
 </p>
 
+<?php if ( current_user_can( 'publish_posts' ) ) : ?>
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Keep this post private') ?></label></p>
+<?php endif; ?>
 <?php
 if ($post_ID) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
@@ -117,10 +117,12 @@ if ($post_ID) {
 	$time = mysql2date(get_option('time_format'), current_time('mysql'));
 }
 ?>
+<?php if ( current_user_can( 'publish_posts' ) ) : // Contributors don't get to choose the date of publish ?>
 <p class="curtime"><?php printf($stamp, $date, $time); ?>
 &nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
 
 <div id='timestampdiv'><?php touch_time(($action == 'edit')); ?></div>
+<?php endif; ?>
 
 </div>
 
