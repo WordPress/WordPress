@@ -116,7 +116,10 @@ function deactivate_plugins($plugins) {
 		$plugins = array($plugins);
 
 	foreach ( $plugins as $plugin ) {
-		array_splice($current, array_search( $plugin, $current), 1 ); // Array-fu!
+		$item = array_search( $plugin, $current);
+		if( false === $item)
+			continue;
+		array_splice($current, $item, 1 ); // Array-fu!
 		do_action('deactivate_' . trim( $plugin ));
 	}
 
