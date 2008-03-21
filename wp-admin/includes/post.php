@@ -567,6 +567,7 @@ function wp_edit_attachments_query( $q = false ) {
 	$q['cat'] = (int) $q['cat'];
 	$q['post_type'] = 'attachment';
 	$q['post_status'] = 'any';
+	$q['posts_per_page'] = 15;
 	$post_mime_types = array(	//	array( adj, noun )
 				'image' => array(__('Images'), __('Manage Images'), __ngettext_noop('Image (%s)', 'Images (%s)')),
 				'audio' => array(__('Audio'), __('Manage Audio'), __ngettext_noop('Audio (%s)', 'Audio (%s)')),
