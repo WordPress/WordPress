@@ -62,7 +62,7 @@ validate_active_plugins();
 <?php elseif (isset($_GET['deactivate-all'])) : ?>
 	<div id="message" class="updated fade"><p><?php _e('All plugins <strong>deactivated</strong>.'); ?></p></div>
 <?php elseif (isset($_GET['reactivate-all'])) : ?>
-	<div id="message" class="updated fade"><p><?php _e('All plugins <strong>reactivated</strong>.'); ?></p></div>
+	<div id="message" class="updated fade"><p><?php _e('Plugins <strong>reactivated</strong>.'); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">
@@ -93,7 +93,7 @@ if (empty($plugins)) {
 	<?php
 	} elseif ( empty($active) && !empty($inactive) ) {
 	?>
-	<a class="button-secondary" href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate All Plugins'); ?></a>
+	<a class="button-secondary" href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate Plugins'); ?></a>
 	<?php
 	} // endif active/inactive plugin check
 	?>
