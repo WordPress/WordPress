@@ -109,7 +109,7 @@ if (empty($plugins)) {
 		<th><?php _e('Plugin'); ?></th>
 		<th class="num"><?php _e('Version'); ?></th>
 		<th><?php _e('Description'); ?></th>
-		<th <?php if ( current_user_can('edit_plugins') ) echo ' colspan="2"'; ?>><?php _e('Action'); ?></th>
+		<th class="action-links" <?php if ( current_user_can('edit_plugins') ) echo ' colspan="2"'; ?>><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
 	<tbody id="plugins">
@@ -149,7 +149,7 @@ if (empty($plugins)) {
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
-		<td class='togl'>$toggle"; if ( current_user_can('edit_plugins') ) echo "$edit</td>";
+		<td class='togl action-links'>$toggle"; if ( current_user_can('edit_plugins') ) echo "$edit</td>";
 		echo"
 	</tr>";
 	do_action( 'after_plugin_row', $plugin_file );
