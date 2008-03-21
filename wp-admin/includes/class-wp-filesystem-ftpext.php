@@ -84,7 +84,7 @@ class WP_Filesystem_FTPext{
 		$this->permission = $perm;
 	}
 
-	function find_base_dir($base = '.',$echo = false) {
+	function find_base_dir($base = '.',$echo = false, $loop = false) {
 		//Sanitize the Windows path formats, This allows easier conparison and aligns it to FTP output.
 		$abspath = str_replace('\\','/',ABSPATH); //windows: Straighten up the paths..
 		if( strpos($abspath, ':') ){ //Windows, Strip out the driveletter
@@ -98,7 +98,7 @@ class WP_Filesystem_FTPext{
 
 		//Can we see the Current directory as part of the ABSPATH?
 		$location = strpos($abspath, $base);
-		if( false !== $location ){
+		if( false !== $location ) {
 			$newbase = path_join($base, substr($abspath, $location + strlen($base)));
 
 			if( false !== $this->chdir($newbase) ){ //chdir sometimes returns null under certain circumstances, even when its changed correctly, FALSE will be returned if it doesnt change correctly.
@@ -126,7 +126,7 @@ class WP_Filesystem_FTPext{
 				//Lets try that folder:
 				$folder = path_join($base, $key);
 				if($echo) printf( __('Changing to %s') . '<br/>', $folder );
-				$ret = $this->find_base_dir( $folder, $echo);
+				$ret = $this->find_base_dir( $folder, $echo, $loop);
 				if( $ret )
 					return $ret;
 			}
@@ -136,7 +136,10 @@ class WP_Filesystem_FTPext{
 			if($echo) printf( __('Found %s'),  $base . 'wp-settings.php<br/>' );
 			return $base;
 		}
-		return false;
+		if( $loop )
+			return false;//Prevent tihs function looping again.
+		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
+		return $this->find_base_dir('/', $echo, true); 
 	}
 
 	function get_base_dir($base = '.', $echo = false){
