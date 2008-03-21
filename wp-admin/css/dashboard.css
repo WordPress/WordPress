@@ -64,7 +64,6 @@ div#dashboard-widgets-wrap {
 
 div#dashboard-widgets {
 	width: 100%;
-	padding-right: 7px; /* (#rightnow margin-right) */
 }
 
 div.dashboard-widget-holder {	
