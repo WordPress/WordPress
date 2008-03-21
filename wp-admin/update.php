@@ -6,6 +6,10 @@ if ( !current_user_can('edit_plugins') )
                 wp_die('<p>'.__('You do not have sufficient permissions to update plugins for this blog.').'</p>');
 
 function request_filesystem_credentials($form_post, $type = '', $error = false) {
+	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error);
+	if ( '' !== $req_cred )
+		return $req_cred;
+
 	if ( empty($type) )
 		$type = get_filesystem_method();
 

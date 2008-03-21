@@ -56,3 +56,8 @@ form#template div {
 	overflow: visible;
 	padding: 1px 5px;
 }
+
+/* without this dashboard widgets appear in one column for some screen widths */
+div#dashboard-widgets {
+	padding-right: 1px;
+}
