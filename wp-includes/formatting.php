@@ -631,21 +631,32 @@ function antispambot($emailaddy, $mailto=0) {
 }
 
 function _make_url_clickable_cb($matches) {
+	$ret = '';
 	$url = $matches[2];
 	$url = clean_url($url);
 	if ( empty($url) )
 		return $matches[0];
-	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>";
+	// removed trailing [.,;:] from URL
+	if ( in_array(substr($url, -1), array('.', ',', ';', ':')) === true ) {
+		$ret = substr($url, -1);
+		$url = substr($url, 0, strlen($url)-1);
+	}
+	return $matches[1] . "<a href=\"$url\" rel=\"nofollow\">$url</a>" . $ret;
 }
 
 function _make_web_ftp_clickable_cb($matches) {
+	$ret = '';
 	$dest = $matches[2];
 	$dest = 'http://' . $dest;
 	$dest = clean_url($dest);
 	if ( empty($dest) )
 		return $matches[0];
-
-	return $matches[1] . "<a href=\"$dest\" rel=\"nofollow\">$dest</a>";
+	// removed trailing [,;:] from URL
+	if ( in_array(substr($dest, -1), array('.', ',', ';', ':')) === true ) {
+		$ret = substr($dest, -1);
+		$dest = substr($dest, 0, strlen($dest)-1);
+	}
+	return $matches[1] . "<a href=\"$dest\" rel=\"nofollow\">$dest</a>" . $ret;
 }
 
 function _make_email_clickable_cb($matches) {
