@@ -33,14 +33,16 @@ var delAfter = function( r, settings ) {
 	$('li span.comment-count').each( function() {
 		var a = $(this);
 		var n = parseInt(a.html(),10);
-		n = n + ( $('#' + settings.element).is('.unapproved') ? -1 : 1 );
+		if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
+			n = n - 1;
+		}
 		if ( n < 0 ) { n = 0; }
 		a.html( n.toString() );
 		$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
 	});
 	$('.post-com-count span.comment-count').each( function() {
 		var a = $(this);
-		if ( $('#' + settings.element).is('.unapproved') ) { // we deleted an unapproved comment, decrement pending title
+		if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
 			var t = parseInt(a.parent().attr('title'), 10);
 			if ( t < 1 ) { return; }
 			t = t - 1;
