@@ -119,7 +119,8 @@ function deactivate_plugins($plugins) {
 		$item = array_search( $plugin, $current);
 		if( false === $item)
 			continue;
-		array_splice($current, $item, 1 ); // Array-fu!
+		if ( ( $key = array_search( $plugin, $current) ) !== false )
+			array_splice($current, $key, 1 ); // Fixed Array-fu!
 		do_action('deactivate_' . trim( $plugin ));
 	}
 

@@ -40,7 +40,8 @@ case 'update':
 		$current = get_option('active_plugins');
 		if ( in_array($file, $current) || isset($_POST['phperror']) ) {
 			if ( in_array($file, $current) ) {
-				array_splice($current, array_search( $file, $current), 1 ); // Array-fu!
+				if ( ( $key = array_search( $plugin, $current) ) !== false )
+					array_splice($current, $key, 1 ); // Fixed Array-fu!
 				update_option('active_plugins', $current);
 			}
 			wp_redirect(add_query_arg('_wpnonce', wp_create_nonce('edit-plugin-test_' . $file), "plugin-editor.php?file=$file&liveupdate=1"));
