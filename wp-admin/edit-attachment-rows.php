@@ -43,7 +43,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'icon':
 		?>
-		<td class="media-icon"><?php echo wp_get_attachment_link($post->ID, array(60, 40), false, true); ?></td>
+		<td class="media-icon"><?php echo wp_get_attachment_link($post->ID, array(80, 60), false, true); ?></td>
 		<?php
 		// TODO
 		break;

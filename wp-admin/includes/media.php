@@ -50,7 +50,7 @@ function the_media_upload_tabs() {
 
 function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false, $size='medium') {
 
-	$html = get_image_tag($id, $alt, $title, $align, $rel, $size);
+	$html = get_image_tag($id, $alt, $title, $align, $size);
 
 	$rel = $rel ? ' rel="attachment wp-att-'.attribute_escape($id).'"' : '';
 
@@ -246,8 +246,11 @@ function media_upload_form_handler() {
 		$send_id = (int) array_shift($keys);
 		$attachment = $_POST['attachments'][$send_id];
 		$html = $attachment['post_title'];
-		if ( !empty($attachment['url']) )
-			$html = "<a href='{$attachment['url']}'>$html</a>";
+		if ( !empty($attachment['url']) ) {
+			if ( strpos($attachment['url'], 'attachment_id') || false !== strpos($attachment['url'], get_permalink($_POST['post_id'])) )
+				$rel = " rel='attachment wp-att-".attribute_escape($send_id)."'";
+			$html = "<a href='{$attachment['url']}'$rel>$html</a>";
+		}
 		$html = apply_filters('media_send_to_editor', $html, $send_id, $attachment);
 		return media_send_to_editor($html);
 	}
@@ -527,7 +530,7 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 		else
 			$size = 'medium';
 
-		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel, $size);
+		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, true, $size);
 	}
 
 	return $html;

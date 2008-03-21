@@ -91,13 +91,16 @@ function deleteSuccess(data, textStatus) {
 		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
 	}
 
+	// Vanish it.
 	jQuery('#media-item-' + this.id + ' .filename:empty').remove();
 	jQuery('#media-item-' + this.id + ' .filename').append(' <span class="file-error">'+swfuploadL10n.deleted+'</span>').siblings('a.toggle').remove();
-	jQuery('#media-item-' + this.id + ' .describe').slideUp(500, function(){jQuery(this).parents('.media-item').slideUp(1500,function(){jQuery(this).remove();updateMediaForm();})}).end.remove();
+	jQuery('#media-item-' + this.id).children('.describe').css({backgroundColor:'#fff'}).end()
+			.animate({backgroundColor:'#ffc0c0'}, {queue:false,duration:50})
+			.animate({minHeight:0,height:36,}, 400, null, function(){jQuery(this).children('.describe').remove()})
+			.animate({backgroundColor:'#fff'}, 400)
+			.animate({height:0}, 800, null, function(){jQuery(this).remove();updateMediaForm();});
 
 	return;
-	// Vanish it.
-	item.slideToggle(300,function(){jQuery(this).remove();if(jQuery('.media-item').length==0)jQuery('.insert-gallery').hide();updateMediaForm();});
 }
 
 function deleteError(X, textStatus, errorThrown) {

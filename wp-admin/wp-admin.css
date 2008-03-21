@@ -502,8 +502,8 @@ td.media-icon {
 }
 
 td.media-icon img {
-	max-width: 60px;
-	max-height: 40px;
+	max-width: 80px;
+	max-height: 60px;
 }
 
 #update-nag, .plugin-update {
