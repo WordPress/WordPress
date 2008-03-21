@@ -64,7 +64,7 @@ else if ( url_to_postid(wp_get_referer()) == $post_ID && strpos( wp_get_referer(
 else
 	echo clean_url(stripslashes(wp_get_referer()));
 ?>" />
-<?php wp_original_referer_field(true, 'previous'); ?>
+<?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 
 <?php echo $form_extra ?>
 
