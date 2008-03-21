@@ -1029,6 +1029,7 @@ function wp_get_original_referer() {
 
 function wp_mkdir_p( $target ) {
 	// from php.net/mkdir user contributed notes
+	$target = str_replace( '//', '/', $target );
 	if ( file_exists( $target ) )
 		return @is_dir( $target );
 
