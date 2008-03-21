@@ -1,5 +1,5 @@
 /**
- * Wordpress plugin.
+ * WordPress plugin.
  */
 
 (function() {
