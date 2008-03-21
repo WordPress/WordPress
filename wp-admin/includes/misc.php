@@ -1,18 +1,7 @@
 <?php
 
 function got_mod_rewrite() {
-	global $is_apache;
-
-	// take 3 educated guesses as to whether or not mod_rewrite is available
-	if ( !$is_apache )
-		return false;
-
-	if ( function_exists( 'apache_get_modules' ) ) {
-		if ( !in_array( 'mod_rewrite', apache_get_modules() ) )
-			return false;
-	}
-
-	return true;
+	return apache_mod_loaded('mod_rewrite');
 }
 
 // Returns an array of strings from a file (.htaccess ) from between BEGIN

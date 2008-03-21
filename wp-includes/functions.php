@@ -1717,4 +1717,31 @@ function is_lighttpd_before_150() {
 	$server_parts[1] = isset( $server_parts[1] )? $server_parts[1] : '';
 	return  'lighttpd' == $server_parts[0] && -1 == version_compare( $server_parts[1], '1.5.0' );
 }
+
+/**
+ * apache_mod_loaded() - Does the specified module exist in the apache config?
+ *
+ * @param string $mod e.g. mod_rewrite
+ * @return bool
+ */
+function apache_mod_loaded($mod) {
+	global $is_apache;
+
+	if ( !$is_apache )
+		return false;
+
+	if ( function_exists('apache_get_modules') ) {
+		$mods = apache_get_modules();
+		if ( in_array($mod, $mods) )
+			return true;
+	} else {
+			ob_start();
+			phpinfo(8);
+			$phpinfo = ob_get_clean();
+			if ( false !== strpos($phpinfo, $mod) )
+				return true;
+	}
+	return false;
+}
+
 ?>
