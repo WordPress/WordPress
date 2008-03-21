@@ -102,10 +102,6 @@
 			// Add listeners to handle more break
 			t._handleMoreBreak(ed, url);
 			
-			ed.onPostProcess.add(function(se, o) {
-   				o.content = o.content.replace(/\r?\n/g, ' ');
-			});
-			
 			// Add custom shortcuts
 			ed.addShortcut('alt+shift+c', ed.getLang('justifycenter_desc'), 'JustifyCenter');
 			ed.addShortcut('alt+shift+r', ed.getLang('justifyright_desc'), 'JustifyRight');

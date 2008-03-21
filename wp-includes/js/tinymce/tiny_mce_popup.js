@@ -210,7 +210,7 @@ tinyMCEPopup = {
 			// Focus element with mceFocus class
 			tinymce.each(document.forms, function(f) {
 				tinymce.each(f.elements, function(e) {
-					if (t.dom.hasClass(e, 'mceFocus')) {
+					if (t.dom.hasClass(e, 'mceFocus') && !e.disabled) {
 						e.focus();
 						return false; // Break loop
 					}

@@ -24,38 +24,44 @@ switchEditors = {
     },
 
     pre_wpautop : function(content) {
-	   // We have a TON of cleanup to do.
+        // We have a TON of cleanup to do. Line breaks are already stripped.
 
+        // Pretty it up for the source editor
+        var blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tr|th|td|div|h[1-6]|pre|p';
+        content = content.replace(new RegExp('\\s*</('+blocklist1+')>\\s*', 'mg'), '</$1>\n');
+        content = content.replace(new RegExp('\\s*<(('+blocklist1+')[^>]*)>', 'mg'), '\n<$1>');
+		
         // Mark </p> if it has any attributes.
         content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
 
-//content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '</p>\n\n');
-//content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '<br />\n');
-//content = content.replace(new RegExp('( )+', 'g'), ' ');
+        content = content.replace(new RegExp('<div([^>]*)>\\s*<p>', 'mgi'), '<div$1>\n\n');
+        content = content.replace(new RegExp('</p>\\s*</div>', 'mgi'), '\n</div>');
 
-        // Get it ready for wpautop.
-        content = content.replace(new RegExp('<div([^>]*)>\\s*<p>', 'g'), '<div$1>\n\n');
-		content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
+        content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
         content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '\n\n');
         content = content.replace(new RegExp('\\n\\s*\\n', 'mgi'), '\n\n');
         content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '\n');
 
         // Fix some block element newline issues
-        var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\\d|pre';
-        content = content.replace(new RegExp('\\s*<(('+blocklist+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
-        content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
+        content = content.replace(new RegExp('\\s*<div', 'mg'), '\n<div');
+        content = content.replace(new RegExp('</div>\\s*', 'mg'), '</div>\n');
+        
+        var blocklist2 = 'blockquote|ul|ol|li|table|thead|tr|th|td|h[1-6]|pre';
+        content = content.replace(new RegExp('\\s*<(('+blocklist2+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
+        content = content.replace(new RegExp('\\s*</('+blocklist2+')>\\s*', 'mg'), '</$1>\n');
         content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
 
         if ( content.indexOf('<object') != -1 ) {
-            content = content.replace(new RegExp('\\s*<param([^>]*)>\\s*', 'g'), "<param$1>"); // no pee inside object/embed
-            content = content.replace(new RegExp('\\s*</embed>\\s*', 'g'), '</embed>');
+            content = content.replace(new RegExp('\\s*<param([^>]*)>\\s*', 'mg'), "<param$1>");
+            content = content.replace(new RegExp('\\s*</embed>\\s*', 'mg'), '</embed>');
         }
 
         // Unmark special paragraph closing tags
         content = content.replace(new RegExp('</p#>', 'g'), '</p>\n');
         content = content.replace(new RegExp('\\s*(<p[^>]+>.*</p>)', 'mg'), '\n$1');
 
-        // Trim trailing whitespace
+        // Trim whitespace
+        content = content.replace(new RegExp('^\\s*', ''), '');
         content = content.replace(new RegExp('\\s*$', ''), '');
 
         // Hope.
