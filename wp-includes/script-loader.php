@@ -52,7 +52,7 @@ class WP_Scripts {
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
 		$this->localize( 'wp-ajax', 'WPAjaxL10n', array(
 			'defaultUrl' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
-			'permText' => __("You don't have permission to do that."),
+			'permText' => __("You do not have permission to do that."),
 			'strangeText' => __("Something strange happened.  Try refreshing the page."),
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
