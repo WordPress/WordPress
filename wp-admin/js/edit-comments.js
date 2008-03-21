@@ -35,6 +35,8 @@ var delAfter = function( r, settings ) {
 		var n = parseInt(a.html(),10);
 		if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
 			n = n - 1;
+		} else if ( $(settings.target).parents( 'span.unapprove' ).size() ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
+			n = n + 1;
 		}
 		if ( n < 0 ) { n = 0; }
 		a.html( n.toString() );

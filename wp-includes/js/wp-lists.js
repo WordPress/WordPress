@@ -36,7 +36,8 @@ var wpList = {
 		var bg; var r;
 		s = $.extend( {}, this.wpList.settings, {
 			element: null,
-			nonce: 0
+			nonce: 0,
+			target: e.get(0)
 		}, s || {} );
 		if ( $.isFunction( s.confirm ) ) {
 			if ( 'add' != a ) {
