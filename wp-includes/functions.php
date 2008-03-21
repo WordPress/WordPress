@@ -344,6 +344,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	wp_protect_special_option( $name );
 	$safe_name = $wpdb->escape( $name );
+	$value = sanitize_option( $name, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
@@ -371,6 +372,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	$wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES (%s, %s, %s)", $name, $value, $autoload ) );
 
+	do_action( "add_option_{$name}", $name, $value ); 
 	return;
 }
 
