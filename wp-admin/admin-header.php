@@ -35,7 +35,7 @@ wp_admin_css( 'css/colors' );
 <!--[if gte IE 6]>
 <?php wp_admin_css( 'css/ie' );
 ?>
-<!endif-->
+<![endif]-->
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document).ready(func); else if (typeof wpOnload!='function'){wpOnload=func;} else {var oldonload=wpOnload; wpOnload=function(){oldonload();func();}}};
