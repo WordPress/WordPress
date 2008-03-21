@@ -1122,27 +1122,31 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL )
 	$info = pathinfo($filename);
 	$ext = $info['extension'];
 	$name = basename($filename, ".{$ext}");
+	
+	// edge case: if file is named '.ext', treat as an empty name
+	if( $name === ".$ext" )
+		$name = '';
 
 	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
 	if ( $unique_filename_callback && function_exists( $unique_filename_callback ) ) {
 		$filename = $unique_filename_callback( $dir, $name );
 	} else {
 		$number = '';
-		$filename = str_replace( '#', '_', $name );
-		$filename = str_replace( array( '\\', "'" ), '', $filename );
-		if ( empty( $ext) )
+
+		if ( empty( $ext ) )
 			$ext = '';
 		else
 			$ext = strtolower( ".$ext" );
-		$filename = $filename . $ext;
+
+		$filename = str_replace( $ext, '', $filename );
+		$filename = sanitize_title_with_dashes( $filename ) . $ext;
+
 		while ( file_exists( $dir . "/$filename" ) ) {
 			if ( '' == "$number$ext" )
 				$filename = $filename . ++$number . $ext;
 			else
 				$filename = str_replace( "$number$ext", ++$number . $ext, $filename );
 		}
-		$filename = str_replace( $ext, '', $filename );
-		$filename = sanitize_title_with_dashes( $filename ) . $ext;
 	}
 
 	return $filename;
