@@ -1,13 +1,13 @@
 <?php
 $action = isset($action)? $action : '';
 if ( isset($_GET['message']) )
-	$_GET['message'] = (int) $_GET['message'];
-$messages[1] = __('Post updated');
-$messages[2] = __('Custom field updated');
+	$_GET['message'] = absint( $_GET['message'] );
+$messages[1] = sprintf( __( 'Post updated. Continue editing below or <a href="%s">go back</a>.' ), attribute_escape( stripslashes( $_GET['_wp_original_http_referer'] ) ) );
+$messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 ?>
 <?php if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo wp_specialchars($messages[$_GET['message']]); ?></p></div>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 
 <form name="post" action="post.php" method="post" id="post">
@@ -59,11 +59,12 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <input name="referredby" type="hidden" id="referredby" value="<?php
 if ( !empty($_REQUEST['popupurl']) )
 	echo clean_url(stripslashes($_REQUEST['popupurl']));
-else if ( url_to_postid(wp_get_referer()) == $post_ID )
+else if ( url_to_postid(wp_get_referer()) == $post_ID && strpos( wp_get_referer(), '/wp-admin/' ) === false )
 	echo 'redo';
 else
 	echo clean_url(stripslashes(wp_get_referer()));
 ?>" />
+<?php wp_original_referer_field(true, 'previous'); ?>
 
 <?php echo $form_extra ?>
 

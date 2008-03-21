@@ -1,4 +1,11 @@
 <?php
+if ( isset($_GET['message']) )
+	$_GET['message'] = absint( $_GET['message'] );
+$messages[1] = sprintf( __( 'Page updated. Continue editing below or <a href="%s">go back</a>.' ), attribute_escape( stripslashes( $_GET['_wp_original_http_referer'] ) ) );
+?>
+<?php if (isset($_GET['message'])) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php endif;
 
 if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'post';
@@ -38,11 +45,12 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php
-if ( url_to_postid(wp_get_referer()) == $post_ID )
+if ( url_to_postid(wp_get_referer()) == $post_ID && strpos( wp_get_referer(), '/wp-admin/' ) === false )
 	echo 'redo';
 else
 	echo clean_url(stripslashes(wp_get_referer()));
 ?>" />
+<?php wp_original_referer_field(true, 'previous'); ?>
 
 <div id="poststuff">
 
