@@ -1,4 +1,4 @@
-html,#edit-slug-box,#trackback,#category_nicename,#slug,#dbuser,#dbpass,#dbname,#dbhost,#dbprefix,#dccharset,input[name=gmpath],input[name=archivespath],input[name=lastentry],input[name=email],input[name=url],input[name=aim],input[name=yim],input[name=jabber],#newcontent,#email,#newcomment_author_url,#pass1,#pass2,#siteurl,#home,#admin_email,#date_format,#time_format,#mailserver_url,#mailserver_login,#mailserver_pass,#ping_sites,#blog_charset,#moderation_keys,#blacklist_keys,#permalink_structure,#category_base,#tag_base,#upload_path,#upload_url_path,#insertonly[src],#insertonly[href]
+html,#edit-slug-box,#trackback,#category_nicename,#slug,#dbuser,#dbpass,#dbname,#dbhost,#dbprefix,#dccharset,input[name=gmpath],input[name=archivespath],input[name=lastentry],input[name=email],input[name=url],input[name=aim],input[name=yim],input[name=jabber],#newcontent,#email,#newcomment_author_url,#pass1,#pass2,#siteurl,#home,#admin_email,#date_format,#time_format,#mailserver_url,#mailserver_login,#mailserver_pass,#ping_sites,#blog_charset,#moderation_keys,#blacklist_keys,#permalink_structure,#category_base,#tag_base,#upload_path,#upload_url_path,#insertonly[src],#insertonly[href],#mailserver_port,#thumbnail_size_w,#thumbnail_size_h,#medium_size_w,#medium_size_h,#posts_per_page,#posts_per_rss,#comment_max_links,#insertonly[src],#link_url,#link_image,#rss_uri,#user_login
 {
 	direction:ltr;
 	text-align:left
@@ -128,6 +128,20 @@ form#themeselector
 	float:left
 }
 
+.form-table input.tog
+{
+	float:right;
+	margin-right:0;
+	margin-left:2px;
+}
+
+.curtime
+{
+	background-position:right 2px;
+	padding-left:0;
+	padding-right:18px;
+}
+
 #poststuff #edButtonPreview,#poststuff #edButtonHTML
 {
 	float:left;
@@ -195,7 +209,7 @@ div.ui-tabs-panel
 
 .tablenav .tablenav-pages
 {
-	float:left!important;
+	float:left !important;
 	width:200px
 }
 
@@ -209,6 +223,24 @@ div.ui-tabs-panel
 {
 	padding-left:0;
 	padding-right:18px
+}
+
+.form-table table.color-palette {
+	float:right;
+}
+
+#pass-strength-result
+{
+	float:right;
+	margin-right:0;
+	margin-left:5px;
+}
+
+td.comment p.comment-author img.avatar
+{
+	float:right !important;
+	margin-right:0 !important;
+	margin-left:8px !important;
 }
 
 #footer
