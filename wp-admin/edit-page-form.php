@@ -68,7 +68,7 @@ else
 
 <p><strong><?php _e('Publish Status') ?></strong></p>
 <p>
-<select name='post_status'>
+<select name='post_status' tabindex='4'>
 <?php if ( current_user_can('publish_posts') ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php else: ?>
@@ -82,7 +82,7 @@ else
 </select>
 </p>
 
-<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Keep this page private') ?></label></p>
+<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
 <?php
 if ($post_ID) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
@@ -103,9 +103,9 @@ if ($post_ID) {
 }
 ?>
 <p class="curtime"><?php printf($stamp, $date, $time); ?>
-&nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
+&nbsp;<a href="#edit_timestamp" class="edit-timestamp" tabindex='4'><?php _e('Edit') ?></a></p>
 
-<div id='timestampdiv'><?php touch_time(($action == 'edit')); ?></div>
+<div id='timestampdiv'><?php touch_time(($action == 'edit'),1,4); ?></div>
 
 </div>
 
