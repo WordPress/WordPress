@@ -175,7 +175,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false
 }
 
 // Scale down an image to fit a particular size and save a new copy of the image
-function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_path=null, $jpeg_quality=75) {
+function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_path=null, $jpeg_quality=90) {
 
 	$image = wp_load_image( $file );
 	if ( !is_resource( $image ) )
