@@ -192,9 +192,9 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
 		$id = "popular-category-$category->term_id";
 		?>
 
-		<li id="<?php echo $id; ?>">
+		<li id="<?php echo $id; ?>" >
 			<label class="selectit" for="in-<?php echo $id; ?>">
-				<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
+			<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
 				<?php echo wp_specialchars( apply_filters( 'the_category', $category->name ) ); ?>
 			</label>
 		</li>

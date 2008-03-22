@@ -216,7 +216,7 @@ function wp_dropdown_categories($args = '') {
 		'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0,
 		'name' => 'cat', 'class' => 'postform',
-		'depth' => 0
+		'depth' => 0, 'tab_index' => 0
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var('cat') : 0;
@@ -225,11 +225,15 @@ function wp_dropdown_categories($args = '') {
 	$r['include_last_update_time'] = $r['show_last_update'];
 	extract( $r );
 
+	$tab_index_attribute = '';
+	if ( (int) $tab_index > 0 )
+		$tab_index_attribute = " tabindex=\"$tab_index\"";
+
 	$categories = get_categories($r);
 
 	$output = '';
 	if ( ! empty($categories) ) {
-		$output = "<select name='$name' id='$name' class='$class'>\n";
+		$output = "<select name='$name' id='$name' class='$class' $tab_index_attribute>\n";
 
 		if ( $show_option_all ) {
 			$show_option_all = apply_filters('list_cats', $show_option_all);
