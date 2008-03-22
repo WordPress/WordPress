@@ -1121,6 +1121,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 				$color = 'fresh';
 			$color = $_wp_admin_css_colors[$color];
 			$_file = $color->url;
+			$_file = ('css/colors-rtl' == $file) ? str_replace('.css','-rtl.css',$_file) : $_file;
 		} else {
 			$_file = get_option( 'siteurl' ) . "/wp-admin/$file.css";
 		}
