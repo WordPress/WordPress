@@ -1226,6 +1226,16 @@ add_filter('media_upload_library', 'media_upload_library');
 add_action('admin_head_media_upload_library_form', 'media_admin_css');
 
 
+register_taxonomy(
+	'image_tags',
+	'attachment:image',
+	array(
+		'label' => __('Tags'),
+		'template' => __('Tags: %l'),
+		'sort' => false,
+	)
+);
+
 // Any 'attachment' taxonomy will be included in the description input form for the multi uploader
 // Example:
 /*
