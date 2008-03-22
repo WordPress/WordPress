@@ -1120,7 +1120,7 @@ function wp_upload_dir( $time = NULL ) {
 
 // return a filename that is sanitized and unique for the given directory
 function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL ) {
-
+	$filename = strtolower( $filename );
 	// separate the filename into a name and extension
 	$info = pathinfo($filename);
 	$ext = $info['extension'];

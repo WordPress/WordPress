@@ -366,6 +366,7 @@ function gallery_shortcode($attr) {
 				border: 2px solid #cfcfcf;
 			}
 		</style>
+		<!-- see gallery_shortcode() in wp-includes/media.php -->
 		<div class='gallery'>");
 
 	foreach ( $attachments as $id => $attachment ) {
