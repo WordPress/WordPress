@@ -212,7 +212,7 @@ function wp_widget_control( $sidebar_args ) {
 	$wp_registered_widgets[$widget_id]['callback'] = $wp_registered_widgets[$widget_id]['_callback'];
 	unset($wp_registered_widgets[$widget_id]['_callback']);
 
-	if ( $widget_title )
+	if ( $widget_title && $widget_title != $control['name'] )
 		$widget_title = sprintf( _c('%1$s: %2$s|1: widget name, 2: widget title' ), $sidebar_args['widget_name'], $widget_title );
 	else
 		$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
