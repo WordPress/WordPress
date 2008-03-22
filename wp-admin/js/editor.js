@@ -30,13 +30,14 @@ switchEditors = {
         var blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tr|th|td|div|h[1-6]|pre|p';
         content = content.replace(new RegExp('\\s*</('+blocklist1+')>\\s*', 'mg'), '</$1>\n');
         content = content.replace(new RegExp('\\s*<(('+blocklist1+')[^>]*)>', 'mg'), '\n<$1>');
-		
+
         // Mark </p> if it has any attributes.
         content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
 
+        // Sepatate <div> containing <p>
         content = content.replace(new RegExp('<div([^>]*)>\\s*<p>', 'mgi'), '<div$1>\n\n');
-        content = content.replace(new RegExp('</p>\\s*</div>', 'mgi'), '\n</div>');
 
+        // Remove <p> and <br />
         content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
         content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '\n\n');
         content = content.replace(new RegExp('\\n\\s*\\n', 'mgi'), '\n\n');
@@ -49,7 +50,7 @@ switchEditors = {
         var blocklist2 = 'blockquote|ul|ol|li|table|thead|tr|th|td|h[1-6]|pre';
         content = content.replace(new RegExp('\\s*<(('+blocklist2+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
         content = content.replace(new RegExp('\\s*</('+blocklist2+')>\\s*', 'mg'), '</$1>\n');
-        content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
+        content = content.replace(new RegExp('<li([^>]*)>', 'g'), '\t<li$1>');
 
         if ( content.indexOf('<object') != -1 ) {
             content = content.replace(new RegExp('\\s*<param([^>]*)>\\s*', 'mg'), "<param$1>");
