@@ -46,27 +46,30 @@ function autosave_saved(response) {
 }
 
 // called when autosaving new post
-function autosave_update_post_ID(response) {
+function autosave_saved_new(response) {
 	var res = autosave_saved(response); // parse the ajax response do the above
-
 	// if no errors: update post_ID from the temporary value, grab new save-nonce for that new ID
 	if ( res && res.responses.length && !res.errors ) {
 		var postID = parseInt( res.responses[0].id );
-		if ( !isNaN(postID) && postID > 0 ) {
-			if ( postID == parseInt(jQuery('#post_ID').val()) ) { return; } // no need to do this more than once
-			jQuery('#post_ID').attr({name: "post_ID"});
-			jQuery('#post_ID').val(postID);
-			// We need new nonces
-			jQuery.post(autosaveL10n.requestFile, {
-				action: "autosave-generate-nonces",
-				post_ID: postID,
-				autosavenonce: jQuery('#autosavenonce').val(),
-				post_type: jQuery('#post_type').val()
-			}, function(html) {
-				jQuery('#_wpnonce').val(html);
-			});
-			jQuery('#hiddenaction').val('editpost');
-		}
+		autosave_update_post_ID( postID );
+	}
+}
+
+function autosave_update_post_ID( postID ) {
+	if ( !isNaN(postID) && postID > 0 ) {
+		if ( postID == parseInt(jQuery('#post_ID').val()) ) { return; } // no need to do this more than once
+		jQuery('#post_ID').attr({name: "post_ID"});
+		jQuery('#post_ID').val(postID);
+		// We need new nonces
+		jQuery.post(autosaveL10n.requestFile, {
+			action: "autosave-generate-nonces",
+			post_ID: postID,
+			autosavenonce: jQuery('#autosavenonce').val(),
+			post_type: jQuery('#post_type').val()
+		}, function(html) {
+			jQuery('#_wpnonce').val(html);
+		});
+		jQuery('#hiddenaction').val('editpost');
 	}
 }
 
@@ -173,7 +176,7 @@ var autosave = function() {
 
 	if(parseInt(post_data["post_ID"]) < 1) {
 		post_data["temp_ID"] = post_data["post_ID"];
-		var successCallback = autosave_update_post_ID; // new post
+		var successCallback = autosave_saved_new;; // new post
 	} else {
 		var successCallback = autosave_saved; // pre-existing post
 	}

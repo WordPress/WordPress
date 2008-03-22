@@ -157,5 +157,13 @@ jQuery(document).ready( function() {
 			jQuery('.edit-timestamp').text(postL10n.edit);
 		}
 		return false;
-    });
+
+	});
+
+	// Custom Fields
+	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
+		if ( jQuery.isFunction( autosave_update_post_ID ) ) {
+			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
+		}
+	} });
 });

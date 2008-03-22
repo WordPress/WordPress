@@ -94,7 +94,7 @@ case 'delete-link' :
 	else	die('0');
 	break;
 case 'delete-meta' :
-	check_ajax_referer( 'change_meta' );
+	check_ajax_referer( "delete-meta_$id" );
 	if ( !$meta = get_post_meta_by_id( $id ) )
 		die('0');
 	if ( !current_user_can( 'edit_post', $meta->post_id ) )
@@ -368,10 +368,10 @@ case 'add-comment' :
 	$x->send();
 	break;
 case 'add-meta' :
-	check_ajax_referer( 'change_meta' );
+	check_ajax_referer( 'add-meta' );
 	$c = 0;
 	$pid = (int) $_POST['post_id'];
-	if ( isset($_POST['addmeta']) ) {
+	if ( isset($_POST['metakeyselect']) ) {
 		if ( !current_user_can( 'edit_post', $pid ) )
 			die('-1');
 		if ( '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )

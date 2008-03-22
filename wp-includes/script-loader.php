@@ -47,7 +47,7 @@ class WP_Scripts {
 			'broken' => __('An unidentified error has occurred.')
 		) );
 
-		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080317' );
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080322' );
 
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
 		$this->localize( 'wp-ajax', 'WPAjaxL10n', array(
@@ -57,7 +57,7 @@ class WP_Scripts {
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
 
-		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080312' );
+		$this->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080322' );
 		$this->localize( 'wp-lists', 'wpListL10n', array(
 			'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
 		) );
@@ -144,7 +144,7 @@ class WP_Scripts {
 				'save' => __('Save'),
 				'cancel' => __('Cancel'),
 			) );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080318' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080322' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),

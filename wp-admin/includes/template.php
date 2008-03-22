@@ -745,6 +745,10 @@ function list_meta( $meta ) {
 }
 
 function _list_meta_row( $entry, &$count ) {
+	static $update_nonce = false;
+	if ( !$update_nonce )
+		$update_nonce = wp_create_nonce( 'add-meta' );
+
 	$r = '';
 	++ $count;
 	if ( $count % 2 )
@@ -768,12 +772,16 @@ function _list_meta_row( $entry, &$count ) {
 	$entry['meta_key']   = attribute_escape($entry['meta_key']);
 	$entry['meta_value'] = attribute_escape($entry['meta_value']);
 	$entry['meta_id'] = (int) $entry['meta_id'];
+
+	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
+
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 	$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
 	$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
-	$r .= "\n\t\t<td style='text-align: center;'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']} updatemeta' /><br />";
+	$r .= "\n\t\t<td style='text-align: center;'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /><br />";
 	$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
-	$r .= "class='delete:the-list:meta-{$entry['meta_id']} deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' />";
+	$r .= "class='delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' />";
+	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>\n\t</tr>";
 	return $r;
 }
@@ -815,10 +823,9 @@ function meta_form() {
 <td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
 		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="8"></textarea></td>
 	</tr>
-
 <tr class="submit"><td colspan="3">
-	<?php wp_nonce_field( 'change_meta', '_ajax_nonce', false ); ?>
-	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
+	<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>
+	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta::post_id=<?php echo $GLOBALS['post_ID'] ? $GLOBALS['post_ID'] : $GLOBALS['temp_ID']; ?>" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
 </td></tr>
 </table>
 <?php
