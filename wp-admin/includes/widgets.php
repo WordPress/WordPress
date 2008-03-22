@@ -64,7 +64,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 				if ( $is_multi ) {
 					// it's a multi-widget.  We only need to show it in the list once.
 					$already_shown[] = $widget['callback'];
-					$num = array_pop( explode( '-', $widget['id'] ) );
+					$num = (int) array_pop( explode( '-', $widget['id'] ) );
 					$id_base = $wp_registered_widget_controls[$widget['id']]['id_base'];
 					// so that we always add a new one when clicking "add"
 					while ( isset($wp_registered_widgets["$id_base-$num"]) )
