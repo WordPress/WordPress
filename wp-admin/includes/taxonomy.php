@@ -76,6 +76,9 @@ function wp_insert_category($catarr, $wp_error = false) {
 	$parent = $category_parent;
 
 	$parent = (int) $parent;
+	if ( $parent < 0 )
+		$parent = 0;
+
 	if ( empty($parent) || !category_exists( $parent ) || ($cat_ID && cat_is_ancestor_of($cat_ID, $parent) ) )
 		$parent = 0;
 
