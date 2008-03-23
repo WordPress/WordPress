@@ -504,7 +504,7 @@ function prepend_attachment($content) {
 	global $post;
 
 	if ( empty($post->post_type) || $post->post_type != 'attachment' )
-		return;
+		return $content;
 
 	$p = '<p class="attachment">';
 	// show the medium sized image representation of the attachment if available, and link to the raw file
