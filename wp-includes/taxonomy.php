@@ -796,8 +796,11 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  * @return mixed sanitized field
  */
 function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
-	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field || 'term_group' == $field )
+	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field || 'term_group' == $field ) {
 		$value = (int) $value;
+		if ( $value < 0 )
+			$value = 0;
+	}
 
 	if ( 'raw' == $context )
 		return $value;
