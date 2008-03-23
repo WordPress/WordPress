@@ -82,25 +82,25 @@ if ( is_single() ) {
 <ul class="subsubsub">
 <?php
 $status_links = array();
-$num_posts = wp_count_posts('post', 'readable');
-$class = empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit.php\"$class>".__('All Posts')."</a>";
+$num_posts = wp_count_posts( 'post', 'readable' );
+$class = empty( $_GET['post_status'] ) ? ' class="current"' : '';
+$status_links[] = "<li><a href='edit.php' $class>" . __('All Posts') . '</a>';
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
-	if ( !in_array($status, $avail_post_stati) )
+	if ( !in_array( $status, $avail_post_stati ) )
 		continue;
 
-	if ( empty($num_posts->$status) )
+	if ( empty( $num_posts->$status ) )
 		continue;
 	if ( $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href=\"edit.php?post_status=$status\"$class>" .
-	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts->$status), $num_posts->$status) . '</a>';
+	$status_links[] = "<li><a href='edit.php?post_status=$status' $class>" .
+	sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
-echo implode(' |</li>', $status_links) . '</li>';
-unset($status_links);
+echo implode( ' |</li>', $status_links ) . '</li>';
+unset( $status_links );
 ?>
 </ul>
 

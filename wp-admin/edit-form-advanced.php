@@ -168,6 +168,7 @@ if ( ( 'edit' == $action) && current_user_can('delete_post', $post_ID) )
 <li><a href="edit.php"><?php _e('Manage All Posts') ?></a></li>
 <li><a href="categories.php"><?php _e('Manage All Categories') ?></a></li>
 <li><a href="edit-tags.php"><?php _e('Manage All Tags') ?></a></li>
+<li><a href="edit.php?post_status=draft"><?php _e('View Drafts'); ?></a></li>
 <?php do_action('post_relatedlinks_list'); ?>
 </ul>
 </div>

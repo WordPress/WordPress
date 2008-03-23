@@ -93,7 +93,7 @@ foreach ( $post_stati as $status => $label ) {
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
-	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts->$status), $num_posts->$status) . '</a>';
+	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts->$status), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
 echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
