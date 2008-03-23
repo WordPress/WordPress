@@ -830,11 +830,16 @@ class WP_Rewrite {
 		$page_rewrite = $this->page_rewrite_rules();
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
+		// Extra permastructs
+		$extra_rewrite = array();
+		foreach ( $this->extra_permastructs as $permastruct )
+			$extra_rewrite = array_merge($extra_rewrite, $this->generate_rewrite_rules($permastruct, EP_NONE));
+
 		// Put them together.
 		if ( $this->use_verbose_page_rules )
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $extra_rewrite, $this->extra_rules);
 		else
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
+			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $default_feeds, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $extra_rewrite, $page_rewrite, $this->extra_rules);
 
 		do_action_ref_array('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
@@ -946,6 +951,12 @@ class WP_Rewrite {
 		global $wp;
 		$this->endpoints[] = array ( $places, $name );
 		$wp->add_query_var($name);
+	}
+
+	function add_permastruct($struct, $with_front = true) {
+		if ( $with_front )
+			$struct = $this->front . $struct;
+		$this->extra_permastructs[] = $struct;
 	}
 
 	function flush_rules() {

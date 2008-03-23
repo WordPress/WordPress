@@ -119,6 +119,25 @@ function is_tag( $slug = '' ) {
 	return false;
 }
 
+function is_tax( $slug = '' ) {
+	global $wp_query;
+	
+	if ( !$wp_query->is_tax )
+		return false;
+
+	if ( empty($slug) )
+		return true;
+
+	$term = $wp_query->get_queried_object();
+
+	$slug = (array) $slug;
+
+	if ( in_array( $term->slug, $slug ) )
+		return true;
+
+	return false;
+}
+
 function is_comments_popup () {
 	global $wp_query;
 
@@ -370,6 +389,7 @@ class WP_Query {
 	var $is_author = false;
 	var $is_category = false;
 	var $is_tag = false;
+	var $is_tax = false;
 	var $is_search = false;
 	var $is_feed = false;
 	var $is_comment_feed = false;
@@ -395,6 +415,7 @@ class WP_Query {
 		$this->is_author = false;
 		$this->is_category = false;
 		$this->is_tag = false;
+		$this->is_tax = false;
 		$this->is_search = false;
 		$this->is_feed = false;
 		$this->is_comment_feed = false;
@@ -657,6 +678,12 @@ class WP_Query {
 				$this->is_tag = true;
 			}
 
+			if ( empty($qv['taxonomy']) || empty($qv['term']) ) {
+				$this->is_tax = false;
+			} else {
+				$this->is_tax = true;
+			}
+
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
 			} else {
@@ -840,40 +867,40 @@ class WP_Query {
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
 			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
-			$where .= ' AND YEAR(post_date)=' . substr($q['m'], 0, 4);
+			$where .= " AND YEAR($wpdb->posts.post_date)=" . substr($q['m'], 0, 4);
 			if (strlen($q['m'])>5)
-				$where .= ' AND MONTH(post_date)=' . substr($q['m'], 4, 2);
+				$where .= " AND MONTH($wpdb->posts.post_date)=" . substr($q['m'], 4, 2);
 			if (strlen($q['m'])>7)
-				$where .= ' AND DAYOFMONTH(post_date)=' . substr($q['m'], 6, 2);
+				$where .= " AND DAYOFMONTH($wpdb->posts.post_date)=" . substr($q['m'], 6, 2);
 			if (strlen($q['m'])>9)
-				$where .= ' AND HOUR(post_date)=' . substr($q['m'], 8, 2);
+				$where .= " AND HOUR($wpdb->posts.post_date)=" . substr($q['m'], 8, 2);
 			if (strlen($q['m'])>11)
-				$where .= ' AND MINUTE(post_date)=' . substr($q['m'], 10, 2);
+				$where .= " AND MINUTE($wpdb->posts.post_date)=" . substr($q['m'], 10, 2);
 			if (strlen($q['m'])>13)
-				$where .= ' AND SECOND(post_date)=' . substr($q['m'], 12, 2);
+				$where .= " AND SECOND($wpdb->posts.post_date)=" . substr($q['m'], 12, 2);
 		}
 
 		if ( '' !== $q['hour'] )
-			$where .= " AND HOUR(post_date)='" . $q['hour'] . "'";
+			$where .= " AND HOUR($wpdb->posts.post_date)='" . $q['hour'] . "'";
 
 		if ( '' !== $q['minute'] )
-			$where .= " AND MINUTE(post_date)='" . $q['minute'] . "'";
+			$where .= " AND MINUTE($wpdb->posts.post_date)='" . $q['minute'] . "'";
 
 		if ( '' !== $q['second'] )
-			$where .= " AND SECOND(post_date)='" . $q['second'] . "'";
+			$where .= " AND SECOND($wpdb->posts.post_date)='" . $q['second'] . "'";
 
 		if ( $q['year'] )
-			$where .= " AND YEAR(post_date)='" . $q['year'] . "'";
+			$where .= " AND YEAR($wpdb->posts.post_date)='" . $q['year'] . "'";
 
 		if ( $q['monthnum'] )
-			$where .= " AND MONTH(post_date)='" . $q['monthnum'] . "'";
+			$where .= " AND MONTH($wpdb->posts.post_date)='" . $q['monthnum'] . "'";
 
 		if ( $q['day'] )
-			$where .= " AND DAYOFMONTH(post_date)='" . $q['day'] . "'";
+			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
 
 		if ('' != $q['name']) {
 			$q['name'] = sanitize_title($q['name']);
-			$where .= " AND post_name = '" . $q['name'] . "'";
+			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
 			if ( isset($this->queried_object_id) )
 				$reqpage = $this->queried_object_id;
@@ -903,11 +930,11 @@ class WP_Query {
 			$attach_paths = '/' . trim($q['attachment'], '/');
 			$q['attachment'] = sanitize_title(basename($attach_paths));
 			$q['name'] = $q['attachment'];
-			$where .= " AND post_name = '" . $q['attachment'] . "'";
+			$where .= " AND $wpdb->posts.post_name = '" . $q['attachment'] . "'";
 		}
 
 		if ( $q['w'] )
-			$where .= " AND WEEK(post_date, 1)='" . $q['w'] . "'";
+			$where .= " AND WEEK($wpdb->posts.post_date, 1)='" . $q['w'] . "'";
 
 		if ( intval($q['comments_popup']) )
 			$q['p'] = intval($q['comments_popup']);
@@ -941,12 +968,12 @@ class WP_Query {
 			$searchand = '';
 			foreach((array)$q['search_terms'] as $term) {
 				$term = addslashes_gpc($term);
-				$search .= "{$searchand}((post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}'))";
+				$search .= "{$searchand}(($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}'))";
 				$searchand = ' AND ';
 			}
 			$term = $wpdb->escape($q['s']);
 			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
-				$search .= " OR (post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}')";
+				$search .= " OR ($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
 
 			if ( !empty($search) )
 				$search = " AND ({$search}) ";
@@ -1112,6 +1139,23 @@ class WP_Query {
 			}
 		}
 
+		// Taxonomies
+		if ( $this->is_tax ) {
+			$terms = get_terms($q['taxonomy'], array('slug'=>$q['term']));
+			foreach ( $terms as $term )
+				$term_ids[] = $term->term_id;
+			$post_ids = get_objects_in_term($term_ids, $q['taxonomy']);
+
+			if ( count($post_ids) ) {
+				$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
+				$post_type = 'any';
+				$q['post_status'] = 'publish';
+				$post_status_join = true;
+			} else {
+				$whichcat = " AND 0 = 1";
+			}
+		}
+
 		// Author/user stuff
 
 		if ( empty($q['author']) || ($q['author'] == '0') ) {
@@ -1129,9 +1173,9 @@ class WP_Query {
 				$andor = 'OR';
 			}
 			$author_array = preg_split('/[,\s]+/', $q['author']);
-			$whichauthor .= ' AND (post_author '.$eq.' '.intval($author_array[0]);
+			$whichauthor .= " AND ($wpdb->posts.post_author ".$eq.' '.intval($author_array[0]);
 			for ($i = 1; $i < (count($author_array)); $i = $i + 1) {
-				$whichauthor .= ' '.$andor.' post_author '.$eq.' '.intval($author_array[$i]);
+				$whichauthor .= ' '.$andor." $wpdb->posts.post_author ".$eq.' '.intval($author_array[$i]);
 			}
 			$whichauthor .= ')';
 		}
@@ -1149,7 +1193,7 @@ class WP_Query {
 			}
 			$q['author_name'] = sanitize_title($q['author_name']);
 			$q['author'] = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_nicename='".$q['author_name']."'");
-			$whichauthor .= ' AND (post_author = '.intval($q['author']).')';
+			$whichauthor .= " AND ($wpdb->posts.post_author = ".intval($q['author']).')';
 		}
 
 		// MIME-Type stuff for attachment browsing
@@ -1164,7 +1208,7 @@ class WP_Query {
 
 		// Order by
 		if ( empty($q['orderby']) ) {
-			$q['orderby'] = 'post_date '.$q['order'];
+			$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		} else {
 			// Used to filter values
 			$allowed_keys = array('author', 'date', 'category', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand');
@@ -1180,12 +1224,13 @@ class WP_Query {
 				switch ($orderby) {
 					case 'menu_order':
 					case 'ID':
+						$orderby = "$wpdb->posts.ID";
 						break;
 					case 'rand':
 						$orderby = 'RAND()';
 						break;
 					default:
-						$orderby = 'post_' . $orderby;
+						$orderby = "$wpdb->posts.post_" . $orderby;
 				}
 				if ( in_array($orderby_array[$i], $allowed_keys) )
 					$q['orderby'] .= (($i == 0) ? '' : ',') . $orderby;
@@ -1195,37 +1240,38 @@ class WP_Query {
 				$q['orderby'] .= " {$q['order']}";
 
 			if ( empty($q['orderby']) )
-				$q['orderby'] = 'post_date '.$q['order'];
+				$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		}
 
 		if ( $this->is_attachment ) {
-			$where .= " AND post_type = 'attachment'";
+			$where .= " AND $wpdb->posts.post_type = 'attachment'";
 		} elseif ($this->is_page) {
-			$where .= " AND post_type = 'page'";
+			$where .= " AND $wpdb->posts.post_type = 'page'";
 		} elseif ($this->is_single) {
-			$where .= " AND post_type = 'post'";
+			$where .= " AND $wpdb->posts.post_type = 'post'";
 		} elseif ( 'any' == $post_type ) {
 			$where .= '';
 		} else {
-			$where .= " AND post_type = '$post_type'";
+			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		}
 
 		if ( isset($q['post_status']) && '' != $q['post_status'] ) {
+			$statuswheres = array();
 			$q_status = explode(',', $q['post_status']);
 			$r_status = array();
 			$p_status = array();
 			if ( in_array( 'draft'  , $q_status ) )
-				$r_status[] = "post_status = 'draft'";
+				$r_status[] = "$wpdb->posts.post_status = 'draft'";
 			if ( in_array( 'pending', $q_status ) )
-				$r_status[] = "post_status = 'pending'";
+				$r_status[] = "$wpdb->posts.post_status = 'pending'";
 			if ( in_array( 'future' , $q_status ) )
-				$r_status[] = "post_status = 'future'";
+				$r_status[] = "$wpdb->posts.post_status = 'future'";
 			if ( in_array( 'inherit' , $q_status ) )
-				$r_status[] = "post_status = 'inherit'";
+				$r_status[] = "$wpdb->posts.post_status = 'inherit'";
 			if ( in_array( 'private', $q_status ) )
-				$p_status[] = "post_status = 'private'";
+				$p_status[] = "$wpdb->posts.post_status = 'private'";
 			if ( in_array( 'publish', $q_status ) )
-				$r_status[] = "post_status = 'publish'";
+				$r_status[] = "$wpdb->posts.post_status = 'publish'";
 
 			if ( empty($q['perm'] ) || 'readable' != $q['perm'] ) {
 				$r_status = array_merge($r_status, $p_status);
@@ -1234,24 +1280,31 @@ class WP_Query {
 
 			if ( !empty($r_status) ) {
 				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can("edit_others_{$post_type}s") )
-					$where .= " AND (post_author = $user_ID " .  "AND (" . join( ' OR ', $r_status ) . "))";
+					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $r_status ) . "))";
 				else
-					$where .= " AND (" . join( ' OR ', $r_status ) . ")";
+					$statuswheres[] = "(" . join( ' OR ', $r_status ) . ")";
 			}
 			if ( !empty($p_status) ) {
 				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can("read_private_{$post_type}s") )
-					$where .= " AND (post_author = $user_ID " .  "AND (" . join( ' OR ', $p_status ) . "))";
+					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " .  "AND (" . join( ' OR ', $p_status ) . "))";
 				else
-					$where .= " AND (" . join( ' OR ', $p_status ) . ")";
+					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
 			}
+			if ( $post_status_join ) {
+				$join .= " INNER JOIN $wpdb->posts AS p2 ON ($wpdb->posts.post_parent = p2.ID) ";
+				foreach ( $statuswheres as $index => $statuswhere )
+					$statuswheres[$index] = "($statuswhere OR ($wpdb->posts.post_status = 'inherit' AND " . str_replace($wpdb->posts, 'p2', $statuswhere) . "))";
+			}
+			foreach ( $statuswheres as $statuswhere )
+				$where .= " AND $statuswhere";
 		} elseif ( !$this->is_singular ) {
-			$where .= " AND (post_status = 'publish'";
+			$where .= " AND ($wpdb->posts.post_status = 'publish'";
 
 			if ( is_admin() )
-				$where .= " OR post_status = 'future' OR post_status = 'draft' OR post_status = 'pending'";
+				$where .= " OR $wpdb->posts.post_status = 'future' OR $wpdb->posts.post_status = 'draft' OR $wpdb->posts.post_status = 'pending'";
 
 			if ( is_user_logged_in() ) {
-				$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR post_status = 'private'" : " OR post_author = $user_ID AND post_status = 'private'";
+				$where .= current_user_can( "read_private_{$post_type}s" ) ? " OR $wpdb->posts.post_status = 'private'" : " OR $wpdb->posts.post_author = $user_ID AND $wpdb->posts.post_status = 'private'";
 			}
 
 			$where .= ')';
@@ -1504,6 +1557,14 @@ class WP_Query {
 				return $tag;
 			$this->queried_object = &$tag;
 			$this->queried_object_id = (int) $tag_id;
+		} else if ($this->is_tax) {
+			$tax = $this->get('taxonomy');
+			$slug = $this->get('term');
+			$term = &get_terms($tax, array('slug'=>$slug));
+			if ( is_wp_error($term) )
+				return $term;
+			$this->queried_object = $term;
+			$this->queried_object_id = $term->term_id;
 		} else if ($this->is_posts_page) {
 			$this->queried_object = & get_page(get_option('page_for_posts'));
 			$this->queried_object_id = (int) $this->queried_object->ID;

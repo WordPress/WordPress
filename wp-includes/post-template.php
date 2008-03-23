@@ -501,6 +501,11 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 }
 
 function prepend_attachment($content) {
+	global $post;
+
+	if ( empty($post->post_type) || $post->post_type != 'attachment' )
+		return;
+
 	$p = '<p class="attachment">';
 	// show the medium sized image representation of the attachment if available, and link to the raw file
 	$p .= wp_get_attachment_link(0, 'medium', false);

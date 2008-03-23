@@ -381,6 +381,19 @@ function get_tag_template() {
 	return apply_filters('tag_template', $template);
 }
 
+function get_taxonomy_template() {
+	$template = '';
+	$taxonomy = get_query_var('taxonomy');
+	$term = get_query_var('term');
+	if ( $taxonomy && $term && file_exists(TEMPLATEPATH . "/taxonomy-$taxonomy-$term.php") )
+		$template = TEMPLATEPATH . "/taxonomy-$taxonomy-$term.php";
+	elseif ( $taxonomy && file_exists(TEMPLATEPATH . "/taxonomy-$taxonomy.php") )
+		$template = TEMPLATEPATH . "/taxonomy-$taxonomy.php";
+	elseif ( file_exists(TEMPLATEPATH . "/taxonomy.php") )
+		$template = TEMPLATEPATH . "/taxonomy.php";
+
+	return apply_filters('taxonomy_template', $template);
+}
 
 function get_date_template() {
 	return get_query_template('date');

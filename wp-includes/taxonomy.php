@@ -145,10 +145,19 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @param array|string $args See above description for the two keys values.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
-	global $wp_taxonomies;
+	global $wp_taxonomies, $wp_rewrite;
 
 	$defaults = array('hierarchical' => false, 'update_count_callback' => '');
 	$args = wp_parse_args($args, $defaults);
+
+	if ( !empty( $args['rewrite'] ) ) {
+		if ( !is_array($args['rewrite']) )
+			$args['rewrite'] = array();
+		if ( !isset($args['rewrite']['slug']) )
+			$args['rewrite']['slug'] = sanitize_title_with_dashes($taxonomy);
+		$wp_rewrite->add_rewrite_tag("%$taxonomy%", '([^/]+)', "taxonomy=$taxonomy&term=");
+		$wp_rewrite->add_permastruct("{$args['rewrite']['slug']}/%$taxonomy%");
+	}
 
 	$args['name'] = $taxonomy;
 	$args['object_type'] = $object_type;

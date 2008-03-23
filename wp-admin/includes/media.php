@@ -1225,40 +1225,4 @@ add_action('admin_head_media_upload_gallery_form', 'media_admin_css');
 add_filter('media_upload_library', 'media_upload_library');
 add_action('admin_head_media_upload_library_form', 'media_admin_css');
 
-
-register_taxonomy(
-	'image_tags',
-	'attachment:image',
-	array(
-		'label' => __('Tags'),
-		'template' => __('Tags: %l'),
-		'sort' => false,
-	)
-);
-
-// Any 'attachment' taxonomy will be included in the description input form for the multi uploader
-// Example:
-/*
-register_taxonomy(
-	'image_people',
-	'attachment:image',
-	array(
-		'label' => __('People'),
-		'template' => __('People: %l'),
-		'helps' => __('Left to right, top to bottom.'),
-		'sort' => true,
-		'args' => array(
-			'orderby' => 'term_order'
-		)
-	)
-);
-*/
-/*
-register_taxonomy('movie_director', 'attachment:video', array('label'=>__('Directors'), 'template'=>__('Directed by %l.')));
-register_taxonomy('movie_producer', 'attachment:video', array('label'=>__('Producers'), 'template'=>__('Produced by %l.')));
-register_taxonomy('movie_screenwriter', 'attachment:video', array('label'=>__('Screenwriter'), 'template'=>__('Screenplay by %l.')));
-register_taxonomy('movie_actor', 'attachment:video', array('label'=>__('Cast'), 'template'=>array(__('Cast: %l.')));
-register_taxonomy('movie_crew', 'attachment:video', array('label'=>__('Crew'), 'template'=>array(__('Crew: %l.')));
-*/
-
 ?>
