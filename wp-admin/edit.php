@@ -191,8 +191,11 @@ foreach ($arc_result as $arc_row) {
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
+
 <br class="clear" />
 </div>
+
+<br class="clear" />
 
 <?php
 

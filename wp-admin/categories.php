@@ -161,11 +161,10 @@ cat_rows();
 </table>
 </form>
 
-<br class="clear" />
-
 <div class="tablenav">
 <br class="clear" />
 </div>
+<br class="clear" />
 
 </div>
 

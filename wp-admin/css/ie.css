@@ -54,10 +54,90 @@ form#template div {
 
 #ed_toolbar input {
 	overflow: visible;
-	padding: 1px 5px;
+	padding: 0 4px;
+}
+
+#poststuff h2 {
+	font-size: 1.6em;
+}
+
+* html #poststuff h2 {
+	margin-left: 0;
+}
+
+#bh {
+	padding-right: 15px;
 }
 
 /* without this dashboard widgets appear in one column for some screen widths */
 div#dashboard-widgets {
 	padding-right: 1px;
+}
+
+#tagchecklist {
+	display: block;
+	zoom: 100%;
+}
+
+#tagchecklist span, #tagchecklist span a {
+	display: inline-block;
+	display: block;
+}
+
+#tagchecklist span a {
+	margin: 4px 0 0 -9px;
+}
+
+#poststuff .togbox {
+	margin-left: -19px;
+}
+
+* html .tablenav {
+
+}
+
+.tablenav .button-secondary {
+	padding: 0 1px;
+	vertical-align: middle;
+}
+
+.tablenav select {
+	font-size: 13px;
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 2px;
+}
+
+.tablenav-pages .page-numbers {
+	display: inline-block;
+}
+
+.tablenav-pages {
+	display: block;
+	margin-top: -3px;
+
+}
+
+#post-search .button, #widget-search .button {
+	padding: 1px;
+}
+
+.widefat tr, .widefat th {
+	padding: 13px 25px 0 2px;
+	margin-bottom: 0;
+	border-spacing: 0;
+}
+
+.widefat thead th.check-column {
+	padding: 9px 2px 4px 3px;
+}
+
+.widefat tbody th.check-column {
+	padding: 4px 3px 22px 3px;
+	text-align:center;
+	width:1.8em;
+}
+
+.widefat th.num {
+	padding: 14px 16px 0;
 }

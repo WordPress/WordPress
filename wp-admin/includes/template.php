@@ -917,7 +917,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 function browse_happy() {
 	$getit = __( 'WordPress recommends a better browser' );
 	echo '
-		<p id="bh" class="alignright"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></p>
+		<span id="bh" class="alignright"><a href="http://browsehappy.com/" title="'.$getit.'"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></span>
 		';
 }
 

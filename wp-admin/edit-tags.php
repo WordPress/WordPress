@@ -173,8 +173,6 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 </table>
 </form>
 
-<br class="clear" />
-
 <div class="tablenav">
 
 <?php
@@ -183,6 +181,7 @@ if ( $page_links )
 ?>
 <br class="clear" />
 </div>
+<br class="clear" />
 
 </div>
 

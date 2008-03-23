@@ -138,9 +138,9 @@ form#upload #post_content {
 }
 
 .side-info h5 {
-	padding-bottom: 8px;
+	padding-bottom: 7px;
 	font-size: 14px;
-	margin-bottom: 6px;
+	margin: 12px 2px 5px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 }
@@ -153,8 +153,9 @@ form#upload #post_content {
 
 .submit input, .button, .button-secondary, .button-highlighted {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 4px 6px;
+	padding: 3px 5px;
 	font-size: 12px;
+	line-height: 1.5em;
 	border-width: 1px;
 	border-style: solid;
 	-moz-border-radius: 3px;
@@ -260,13 +261,14 @@ textarea.all-options, input.all-options {
 }
 
 #quicktags #ed_toolbar {
-	padding: 1px 3px;
+	padding: 2px 4px;
 }
 
 #ed_toolbar input {
 	margin: 3px 2px 2px;
 	padding: 2px 4px;
 	line-height: 18px;
+	display: inline-block;
 }
 
 #quicktags #ed_strong {
@@ -466,6 +468,19 @@ p.pagenav {
 	margin-left: 5px;
 }
 
+.tablenav select {
+	padding: 2px;
+	display: inline-block;
+	line-height: 2;
+	height: 2em;
+
+}
+
+.tablenav option {
+	margin: 3px;
+	display: inline-block;
+}
+
 .tablenav a.button-secondary {
 	display: inline-block;
 	margin-right: 8px;
@@ -473,6 +488,7 @@ p.pagenav {
 
 .tablenav .button-secondary {
 	padding: 2px 4px;
+
 }
 
 .tablenav .tablenav-pages a.next, .tablenav .tablenav-pages a.prev {
@@ -480,7 +496,8 @@ p.pagenav {
 }
 
 .tablenav {
-	padding: 10px 10px 8px;
+	height: 2em;
+	padding: 7px 10px;
 	clear: both;
 	margin-bottom: -10px;
 	margin-top: 8px;
@@ -488,8 +505,8 @@ p.pagenav {
 
 .tablenav .tablenav-pages {
 	float: right;
-	height: 20px;
-	padding-top: 4px;
+	height: 18px;
+	padding-top: 6px;
 	font-size: 11px;
 }
 
@@ -499,6 +516,7 @@ p.pagenav {
 
 td.media-icon {
 	vertical-align: middle;
+	text-align: center;
 }
 
 td.media-icon img {
@@ -700,20 +718,21 @@ a.view-comment-post-link {
 
 .post-com-count {
 	height: 1.3em;
+	line-height: 1.1em;
 	display: block;
 	text-decoration: none;
-	overflow: hidden;
-	padding: 0 0 5px;
+	padding: 0 0 6px;
 	cursor: pointer;
-	background-position: center -81px;
+	background-position: center -80px;
 	background-repeat: no-repeat;
 }
 
 .post-com-count span {
 	height: 1.3em;
-	line-height: 1.3em;
+	line-height: 1.2em;
 	padding: 0 0.5em;
 	background-color: #bbb;
+	display: inline-block;
 	cursor: pointer;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
@@ -876,21 +895,35 @@ html, body {
 
 /* Post Screen */
 
+#tagsdiv #newtag {
+	margin-right: 5px;
+	width: 16em;
+}
+
 #tagchecklist {
-	margin-left: 5px;
-	padding-bottom: 20px;
+	margin-left: 10px;
+
 	font-size: 12px;
+	overflow: auto;
+}
+
+#tagchecklist strong {
+	margin-left: -8px;
+	position: absolute;
 }
 
 #tagchecklist span {
-	margin-right: 15px;
+	margin-right: 25px;
 	display: block;
 	float: left;
 	font-size: 11px;
+	line-height: 1.8em;
+	white-space: nowrap;
+	cursor: default;
 }
 
 #tagchecklist span a {
-	margin-top: 5px;
+	margin: 6px 0pt 0pt -9px;
 	cursor: pointer;
 	width: 10px;
 	height: 10px;
@@ -898,6 +931,7 @@ html, body {
 	float: left;
 	text-indent: -9999px;
 	overflow: hidden;
+	position: absolute;
 }
 
 .howto {
@@ -932,20 +966,22 @@ html, body {
 
 #poststuff h2 {
 	margin-top: 20px;
-	margin-bottom: 20px;
+	font-size: 1.5em;
+	margin-bottom: 15px;
+	padding: 0 0 3px;
 }
 
 #poststuff h3 {
 	font-size: 14px;
 	font-weight: bold;
-	padding: 9px 5px;
+	padding: 7px;
 	margin: 0 0 10px;
 }
 
 #poststuff .postbox, #poststuff .stuffbox {
 	margin-left: 20px;
 	padding: 2px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	margin-right: 8px;
 	border-width: 1px;
 	border-style: solid;
@@ -953,7 +989,7 @@ html, body {
 
 #titlediv, #poststuff .postarea {
 	margin-left: 20px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	margin-right: 8px;
 }
 
@@ -980,7 +1016,7 @@ html, body {
 }
 
 #poststuff .inside {
-	margin: 0 12px 15px;
+	margin: 0 12px 12px;
 	font-size: 11px;
 }
 
@@ -1014,14 +1050,14 @@ html, body {
 #poststuff #editor-toolbar {
 	position: relative;
 	height: 30px;
-	margin-top: -40px;
+	margin-top: -41px;
 }
 
 #poststuff #edButtonPreview, #poststuff #edButtonHTML {
 	display: block;
 	height: 20px;
-	padding: 5px 5px 3px;
-	margin: 2px 8px 0 0;
+	padding: 5px 5px 1px;
+	margin: 5px 8px 0 0;
 	float: right;
 	cursor: pointer;
 }
@@ -1041,9 +1077,9 @@ html, body {
 #poststuff #media-buttons {
 	float: right;
 	margin-right: 20px;
-	margin-top: 6px;
+	margin-top: 8px;
 	cursor: default;
-	line-height: 1.1em;
+	line-height: 1;
 	height: 1.1em;
 }
 
@@ -1057,16 +1093,16 @@ html, body {
 }
 
 #poststuff .togbox {
-	background-position:-10px 16px;
-	background-repeat:no-repeat;
-	display:block;
-	height:39px;
-	margin-left:-19px;
-	margin-top:-11px;
-	overflow:hidden;
-	position:absolute;
-	text-indent:-9999px;
-	width:12px;
+	background-position: -10px 16px;
+	background-repeat: no-repeat;
+	display: block;
+	height: 37px;
+	margin-left: -21px;
+	margin-top: -10px;
+	overflow: hidden;
+	position: absolute;
+	text-indent: -9999px;
+	width: 12px;
 	-moz-border-radius-topleft: 3px;
 	-khtml-border-top-left-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
@@ -1086,7 +1122,7 @@ html, body {
 }
 
 #poststuff .closed .togbox {
-	background-position: 4px 16px;
+	background-position: 4px 15px;
 }
 
 .submitbox {
@@ -1199,9 +1235,9 @@ ul#category-tabs li.ui-tabs-selected a {
 }
 
 div.ui-tabs-panel {
-	margin: 0 0 0 120px;
+	margin: 0 5px 0 120px;
 	padding: .5em .9em;
-	height: 12em;
+	height: 10em;
 	overflow: auto;
 	border-width: 4px;
 	border-style: solid;
@@ -1275,7 +1311,7 @@ p#post-search {
 }
 
 #post-search .button, #widget-search .button {
-	padding: 4px;
+	padding: 3px;
 	font-size: 13px;
 }
 

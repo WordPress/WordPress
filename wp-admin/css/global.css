@@ -56,10 +56,15 @@ textarea, input, select {
 	border-collapse: collapse;
 	width: 100%;
 	clear: both;
+	margin: 0;
 }
 
 .widefat a {
 	text-decoration: none;
+}
+
+.widefat abbr {
+	white-space: nowrap;
 }
 
 .widefat td, .widefat th {
@@ -67,24 +72,34 @@ textarea, input, select {
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;
 	font-size: 11px;
-	padding: 10px 10px 14px;
+	padding: 7px 25px 6px 2px;
 	vertical-align: text-top;
 }
 
 .widefat th {
-	padding-bottom: 7px;
-	padding-top: 8px;
+	padding: 9px 25px 4px 2px;
 	text-align: left;
+	line-height: 1.3em;
+}
+
+.widefat th input {
+	margin: 0 3px;
+	padding: 0;
 }
 
 .widefat .check-column {
 	text-align: center;
-	vertical-align: text-top;
-	width: 3%;
+	width: 1.8em;
+	padding: 9px 2px 6px 6px;
+}
+
+.widefat tbody th.check-column {
+	padding-bottom: 20px;
 }
 
 .widefat .num {
 	text-align: center;
+	padding: 10px 16px 0;
 }
 
 .wrap, .updated, .error {
@@ -98,9 +113,13 @@ textarea, input, select {
 .updated, .error {
 	border-width: 1px;
 	border-style: solid;
-	padding: 0 15px;
+	padding: 0 0.6em;
 	max-width: 950px;
 	margin-bottom: 1em;
+}
+
+.updated p, .error p {
+	margin: 0.6em 0;
 }
 
 .wrap .updated, .wrap .error {
