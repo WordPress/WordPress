@@ -271,7 +271,7 @@ if ( $post->post_author && !in_array($post->post_author, $authors) )
 if ( $authors && count( $authors ) > 1 ) :
 ?>
 <div id="pageauthordiv" class="postbox <?php echo postbox_classes('pageauthordiv', 'page'); ?>">
-<h3><?php _e('Post Author'); ?></h3>
+<h3><?php _e('Page Author'); ?></h3>
 <div class="inside">
 <?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
 </div>
