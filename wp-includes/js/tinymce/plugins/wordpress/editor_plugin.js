@@ -14,6 +14,9 @@
             var moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
             var nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
+			if ( tinymce.util.Cookie.get('kitchenSink') == '1' )
+				ed.settings.wordpress_adv_hidden = 0;
+
 			// Hides the specified toolbar and resizes the iframe
 			ed.onPostRender.add(function() {
 				if ( ed.getParam('wordpress_adv_hidden', 1) ) {
@@ -41,21 +44,26 @@
 				});
 			
 			ed.addCommand('WP_Adv', function() {
-					var id = ed.controlManager.get(tbId).id, cm = ed.controlManager;
+				var id = ed.controlManager.get(tbId).id, cm = ed.controlManager, cook = tinymce.util.Cookie, date;
 
-					if (DOM.isHidden(id)) {
-						cm.setActive('wp_adv', 1);
-						DOM.show(id);
-						t._resizeIframe(ed, tbId, -28);
-						ed.settings.wordpress_adv_hidden = 0;
-					} else {
-						cm.setActive('wp_adv', 0);
-						DOM.hide(id);
-						t._resizeIframe(ed, tbId, 28);
-						ed.settings.wordpress_adv_hidden = 1;
-					}
-				});
-			
+				date = new Date();
+        		date.setTime(date.getTime()+(10*365*24*60*60*1000));
+				
+				if (DOM.isHidden(id)) {
+					cm.setActive('wp_adv', 1);
+					DOM.show(id);
+					t._resizeIframe(ed, tbId, -28);
+					ed.settings.wordpress_adv_hidden = 0;
+					cook.set('kitchenSink', '1', date);
+				} else {
+					cm.setActive('wp_adv', 0);
+					DOM.hide(id);
+					t._resizeIframe(ed, tbId, 28);
+					ed.settings.wordpress_adv_hidden = 1;
+					cook.set('kitchenSink', '0', date);
+				}
+			});
+
 			// Register buttons
 			ed.addButton('wp_more', {
 				title : 'wordpress.wp_more_desc',
