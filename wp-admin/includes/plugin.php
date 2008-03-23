@@ -122,12 +122,10 @@ function deactivate_plugins($plugins, $silent= false) {
 		$plugins = array($plugins);
 
 	foreach ( $plugins as $plugin ) {
-		$item = array_search( $plugin, $current);
-		if( false === $item)
+		if( ! is_plugin_active($plugin) )
 			continue;
-		if ( ( $key = array_search( $plugin, $current) ) !== false )
-			array_splice($current, $key, 1 ); // Fixed Array-fu!
-		if ( ! $silent )
+		array_splice($current, array_search( $plugin, $current), 1 ); // Fixed Array-fu!
+		if ( ! $silent ) //Used by Plugin updater to internally deactivate plugin, however, not to notify plugins of the fact to prevent plugin output.
 			do_action('deactivate_' . trim( $plugin ));
 	}
 
