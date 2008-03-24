@@ -2,7 +2,7 @@
 
 require_once('admin.php');
 
-require( './includes/dashboard.php' );
+require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
 
