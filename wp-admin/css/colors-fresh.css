@@ -192,7 +192,7 @@ ul.widget-control-list .sorthelper {
 	border-color: #535353;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover, #edit-slug-buttons a.save:hover {
+.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover, #edit-slug-buttons a.save:hover, #media-upload a.delete:hover {
 	color: #d54e21;
 }
 

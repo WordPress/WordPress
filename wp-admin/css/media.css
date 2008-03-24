@@ -236,3 +236,7 @@ abbr.required {
 #media-upload tr.align td.field {
 	text-align: center;
 }
+#media-upload tr.image-size {
+	margin-bottom: 1em;
+	height: 3em;
+}
