@@ -198,7 +198,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 6124 )
 		upgrade_230_old_tables();
 
-	if ( $wp_current_db_version < 7098 )
+	if ( $wp_current_db_version < 7499 )
 		upgrade_250();
 
 	maybe_disable_automattic_widgets();
@@ -725,6 +725,7 @@ function upgrade_250() {
 	if ( $wp_current_db_version < 6689 ) {
 		populate_roles_250();
 	}
+	
 }
 
 // The functions we use to actually do stuff
