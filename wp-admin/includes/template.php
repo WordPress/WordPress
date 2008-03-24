@@ -770,7 +770,7 @@ function _list_meta_row( $entry, &$count ) {
 	}
 
 	$entry['meta_key']   = attribute_escape($entry['meta_key']);
-	$entry['meta_value'] = attribute_escape($entry['meta_value']);
+	$entry['meta_value'] = htmlspecialchars($entry['meta_value']); // using a <textarea />
 	$entry['meta_id'] = (int) $entry['meta_id'];
 
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
