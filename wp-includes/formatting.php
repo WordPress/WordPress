@@ -1182,6 +1182,13 @@ function attribute_escape($text) {
 	$safe_text = wp_specialchars($text, true);
 	return apply_filters('attribute_escape', $safe_text, $text);
 }
+
+// Escape a HTML tag name
+function tag_escape($tag_name) {
+	$safe_tag = strtolower( preg_replace('[^a-zA-Z_:]', '', $tag_name) );
+	return apply_filters('tag_escape', $safe_tag, $tag_name);
+}
+
 /**
  * Escapes text for SQL LIKE special characters % and _
  *
