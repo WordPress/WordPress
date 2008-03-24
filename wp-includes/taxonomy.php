@@ -34,7 +34,7 @@ $wp_taxonomies['link_category'] = (object) array('name' => 'link_category', 'obj
  *
  * @uses $wp_taxonomies
  *
- * @param string $object_type Name of the type of taxonomy object
+ * @param array|string $object_type Name of the type of taxonomy object
  * @return array The names of all taxonomy of $object_type.
  */
 function get_object_taxonomies($object_type) {
@@ -42,7 +42,7 @@ function get_object_taxonomies($object_type) {
 
 	$taxonomies = array();
 	foreach ( $wp_taxonomies as $taxonomy ) {
-		if ( $object_type === $taxonomy->object_type )
+		if ( in_array($object_type, (array) $taxonomy->object_type) )
 			$taxonomies[] = $taxonomy->name;
 	}
 
@@ -141,7 +141,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @uses $wp_taxonomies Inserts new taxonomy object into the list
  *
  * @param string $taxonomy Name of taxonomy object
- * @param string $object_type Name of the object type for the taxonomy object.
+ * @param array|string $object_type Name of the object type for the taxonomy object.
  * @param array|string $args See above description for the two keys values.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
@@ -1556,7 +1556,7 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
  *	Passes, function params in same order.
  *
  * @param int|array $object_ids Single or list of term object ID(s)
- * @param string $object_type The taxonomy object type
+ * @param array|string $object_type The taxonomy object type
  */
 function clean_object_term_cache($object_ids, $object_type) {
 	if ( !is_array($object_ids) )
@@ -1652,7 +1652,7 @@ function &get_object_term_cache($id, $taxonomy) {
  * @uses wp_get_object_terms() Used to get terms from the database to update
  *
  * @param string|array $object_ids Single or list of term object ID(s)
- * @param string $object_type The taxonomy object type
+ * @param array|string $object_type The taxonomy object type
  * @return null|bool Null value is given with empty $object_ids. False if
  */
 function update_object_term_cache($object_ids, $object_type) {
