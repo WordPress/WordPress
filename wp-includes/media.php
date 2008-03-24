@@ -339,8 +339,20 @@ function gallery_shortcode($attr) {
 	$output = apply_filters('post_gallery', '', $attr);
 	if ( $output != '' )
 		return $output;
+		
+	extract(shortcode_atts(array(
+		'orderby'    => 'menu_order ASC, ID ASC',
+		'id'         => $post->ID,
+		'itemtag'    => 'dl',
+		'icontag'    => 'dt',
+		'captiontag' => 'dd',
+		'columns'    => 3,
+		'size'       => 'thumbnail',
+	), $attr));
 
-	$attachments = get_children("post_parent=$post->ID&post_type=attachment&post_mime_type=image&orderby=\"menu_order ASC, ID ASC\"");
+	$id = intval($id);
+	$orderby = addslashes($orderby);
+	$attachments = get_children("post_parent=$id&post_type=attachment&post_mime_type=image&orderby=\"{$orderby}\"");
 
 	if ( empty($attachments) )
 		return '';
@@ -348,16 +360,21 @@ function gallery_shortcode($attr) {
 	if ( is_feed() ) {
 		$output = "\n";
 		foreach ( $attachments as $id => $attachment )
-			$output .= wp_get_attachment_link($id, 'thumbnail', true) . "\n";
+			$output .= wp_get_attachment_link($id, $size, true) . "\n";
 		return $output;
 	}
 
+	$listtag = tag_escape($listtag);
+	$itemtag = tag_escape($itemtag);
+	$captiontag = tag_escape($captiontag);
+	$columns = intval($columns);
+	
 	$output = apply_filters('gallery_style', "
 		<style type='text/css'>
 			.gallery {
 				margin: auto;
 			}
-			.gallery div {
+			.gallery-item {
 				float: left;
 				margin-top: 10px;
 				text-align: center;
@@ -365,17 +382,28 @@ function gallery_shortcode($attr) {
 			.gallery img {
 				border: 2px solid #cfcfcf;
 			}
+			.gallery-caption {
+				margin-left: 0;
+			}
 		</style>
 		<!-- see gallery_shortcode() in wp-includes/media.php -->
 		<div class='gallery'>");
 
 	foreach ( $attachments as $id => $attachment ) {
-		$link = wp_get_attachment_link($id, 'thumbnail', true);
+		$link = wp_get_attachment_link($id, $size, true);
+		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
-			<div>
+			<{$icontag} class='gallery-icon'>
 				$link
-			</div>";
-		if ( ++$i % 3 == 0 )
+			</{$icontag}>";
+		if ( $captiontag && trim($attachment->post_excerpt) ) {
+			$output .= "
+				<{$captiontag} class='gallery-caption'>
+				{$attachment->post_excerpt}
+				</{$captiontag}>";
+		}
+		$output .= "</{$itemtag}>";
+		if ( $columns > 0 && ++$i % $columns == 0 )
 			$output .= '<br style="clear: both" />';
 	}
 

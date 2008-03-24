@@ -460,10 +460,10 @@ function get_attachment_taxonomies($attachment) {
 function image_attachment_fields_to_edit($form_fields, $post) {
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$form_fields['post_title']['required'] = true;
-		$form_fields['post_excerpt']['label'] = __('Description');
+		$form_fields['post_excerpt']['label'] = __('Caption');
 		$form_fields['post_excerpt']['helps'][] = __('Alternate text, e.g. "The Mona Lisa"');
 
-		$form_fields['post_content']['label'] = __('Long Description');
+		$form_fields['post_content']['label'] = __('Description');
 
 		$thumb = wp_get_attachment_thumb_url($post->ID);
 
@@ -554,11 +554,11 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'value'      => $edit_post->post_title,
 		),
 		'post_excerpt' => array(
-			'label'      => __('Description'),
+			'label'      => __('Caption'),
 			'value'      => $edit_post->post_excerpt,
 		),
 		'post_content' => array(
-			'label'      => __('Long description'),
+			'label'      => __('Description'),
 			'value'      => $edit_post->post_content,
 			'input'      => 'textarea',
 		),

@@ -118,6 +118,7 @@ function shortcode_parse_atts($text) {
 }
 
 function shortcode_atts($pairs, $atts) {
+	$atts = (array)$atts;
 	$out = array();
 	foreach($pairs as $name => $default) {
 		if ( array_key_exists($name, $atts) )
