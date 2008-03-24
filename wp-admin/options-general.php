@@ -34,7 +34,7 @@ include('./admin-header.php');
 <th scope="row"><?php _e('E-mail address') ?> </th>
 <td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" size="40" class="code" />
 <br />
-<?php _e('This address is used only for admin purposes.') ?></td>
+<?php _e('This address is used for admin purposes, like new user notification.') ?></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Membership') ?></th>
@@ -82,7 +82,8 @@ foreach ( $offset_range as $offset ) {
 </select>
 <?php _e('hours') ?><br />
 <?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), gmdate(__('Y-m-d G:i:s'))); ?><br />
-<?php if ($current_offset) printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, gmdate(__('Y-m-d G:i:s'), current_time('timestamp'))); ?>
+<?php if ($current_offset) printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, gmdate(__('Y-m-d G:i:s'), current_time('timestamp'))); ?><br />
+<?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?>
 </td>
 </tr>
 <tr>

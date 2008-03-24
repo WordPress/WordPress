@@ -76,9 +76,46 @@ include('admin-header.php');
 </tr>
 </table>
 
+<h3><?php _e('Avatars') ?></h3>
+
+<p><?php _e('By default WordPress uses <a href="http://gravatar.com/">Gravatars</a> &#8212; short for Globally Recognized Avatars &#8212; for the pictures that show up next to comments. Plugins may override this.'); ?></p>
+
+<?php // the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that? ?>
+
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php _e('Avatar display') ?></th>
+<td>
+<?php
+	$yesorno = array(0 => __("Don&#8217;t show Avatars"), 1 => __('Show Avatars'));
+	foreach ( $yesorno as $key => $value) {
+		$selected = (get_option('show_avatars') == $key) ? 'checked="checked"' : '';
+		echo "\n\t<label><input type='radio' name='show_avatars' value='$key' $selected> $value</label><br />";
+	}
+?>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Maximum Rating') ?></th>
+<td>
+
+<?php
+$ratings = array( 'G' => __('G &#8212; Suitable for all audiences'), 'PG' => __('PG &#8212; Possibly offensive, usually for audiences 13 and above'), 'R' => __('R &#8212; Intended for adult audiences above 17'), 'X' => __('X &#8212; Even more mature than above'));
+foreach ($ratings as $key => $rating) :
+	$selected = (get_option('avatar_rating') == $key) ? 'checked="checked"' : '';
+	echo "\n\t<label><input type='radio' name='avatar_rating' value='$key' $selected> $rating</label><br />";
+endforeach;
+?>
+
+</td>
+</tr>
+
+</table>
+
+
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys" />
+<input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys,show_avatars,avatar_rating" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>

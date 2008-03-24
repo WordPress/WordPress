@@ -57,32 +57,6 @@ endforeach;
 </tr>
 </table>
 
-<h3><?php _e('Image sizes') ?></h3>
-<p><?php _e('The sizes listed below determine the maximum dimensions to use when inserting an image into the body of a post.'); ?></p>
-
-<table class="form-table">
-<tr valign="top">
-<th scope="row"><?php _e('Thumbnail size') ?></th>
-<td>
-<label for="thumbnail_size_w"><?php _e('Width'); ?></label>
-<input name="thumbnail_size_w" type="text" id="thumbnail_size_w" value="<?php form_option('thumbnail_size_w'); ?>" size="6" />
-<label for="thumbnail_size_h"><?php _e('Height'); ?></label>
-<input name="thumbnail_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('thumbnail_size_h'); ?>" size="6" />
-<input name="thumbnail_crop" type="checkbox" id="thumbnail_crop" value="1" <?php checked('1', get_option('thumbnail_crop')); ?>/>
-<label for="thumbnail_crop"><?php _e('Crop to size'); ?></label>
-</td>
-</tr>
-<tr valign="top">
-<th scope="row"><?php _e('Medium size') ?></th>
-<td>
-<label for="medium_size_w"><?php _e('Width'); ?></label>
-<input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" size="6" />
-<label for="medium_size_h"><?php _e('Height'); ?></label>
-<input name="medium_size_h" type="text" id="medium_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
-</td>
-</tr>
-</table>
-
 <h3><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), wp_generate_password(), wp_generate_password(), wp_generate_password()) ?></p>
 
@@ -136,7 +110,7 @@ endforeach;
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category,thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h" />
+<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>

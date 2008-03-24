@@ -38,8 +38,36 @@ include('admin-header.php');
 </tr>
 </table>
 
+<h3><?php _e('Image sizes') ?></h3>
+<p><?php _e('The sizes listed below determine the maximum dimensions to use when inserting an image into the body of a post.'); ?></p>
 
 <table class="form-table">
+<tr valign="top">
+<th scope="row"><?php _e('Thumbnail size') ?></th>
+<td>
+<label for="thumbnail_size_w"><?php _e('Width'); ?></label>
+<input name="thumbnail_size_w" type="text" id="thumbnail_size_w" value="<?php form_option('thumbnail_size_w'); ?>" size="6" />
+<label for="thumbnail_size_h"><?php _e('Height'); ?></label>
+<input name="thumbnail_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('thumbnail_size_h'); ?>" size="6" /><br />
+<input name="thumbnail_crop" type="checkbox" id="thumbnail_crop" value="1" <?php checked('1', get_option('thumbnail_crop')); ?>/>
+<label for="thumbnail_crop"><?php _e('Crop thumbnail to exact dimensions (normally thumbnails are proportional)'); ?></label>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Medium size') ?></th>
+<td>
+<label for="medium_size_w"><?php _e('Max Width'); ?></label>
+<input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" size="6" />
+<label for="medium_size_h"><?php _e('Max Height'); ?></label>
+<input name="medium_size_h" type="text" id="medium_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
+</td>
+</tr>
+</table>
+
+
+
+<table class="form-table">
+
 <tr>
 <th scope="row" class="th-full">
 <label for="use_linksupdate">
@@ -57,11 +85,12 @@ include('admin-header.php');
 </label>
 </th>
 </tr>
+
 </table>
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path,upload_url_path" />
+<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path,upload_url_path,thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
 </p>
 </form>
