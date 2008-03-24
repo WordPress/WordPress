@@ -1,7 +1,11 @@
-html,#edit-slug-box,#trackback,#category_nicename,#slug,#dbuser,#dbpass,#dbname,#dbhost,#dbprefix,#dccharset,input[name=gmpath],input[name=archivespath],input[name=lastentry],input[name=email],input[name=url],input[name=aim],input[name=yim],input[name=jabber],#newcontent,#email,#newcomment_author_url,#pass1,#pass2,#siteurl,#home,#admin_email,#date_format,#time_format,#mailserver_url,#mailserver_login,#mailserver_pass,#ping_sites,#blog_charset,#moderation_keys,#blacklist_keys,#permalink_structure,#category_base,#tag_base,#upload_path,#upload_url_path,#insertonly[src],#insertonly[href],#mailserver_port,#thumbnail_size_w,#thumbnail_size_h,#medium_size_w,#medium_size_h,#posts_per_page,#posts_per_rss,#comment_max_links,#insertonly[src],#link_url,#link_image,#rss_uri,#user_login
+html,#edit-slug-box,#trackback,#category_nicename,#slug,#dbuser,#dbpass,#dbname,#dbhost,#dbprefix,#dccharset,input[name=gmpath],input[name=archivespath],input[name=lastentry],input[name=email],input[name=url],input[name=aim],input[name=yim],input[name=jabber],#newcontent,#email,#newcomment_author_url,#pass1,#pass2,#siteurl,#home,#admin_email,#date_format,#time_format,#mailserver_url,#mailserver_login,#mailserver_pass,#ping_sites,#blog_charset,#moderation_keys,#blacklist_keys,#permalink_structure,#category_base,#tag_base,#upload_path,#upload_url_path,#insertonly[src],#insertonly[href],#mailserver_port,#thumbnail_size_w,#thumbnail_size_h,#medium_size_w,#medium_size_h,#posts_per_page,#posts_per_rss,#comment_max_links,#insertonly[src],#link_url,#link_image,#rss_uri,#user_login,#key
 {
 	direction:ltr;
 	text-align:left
+}
+
+body, td {
+	font-family: Tahoma,Verdana,sans-serif;
 }
 
 #wpwrap,#footer,#TB_title,.media-upload-form,#media-upload-header
@@ -48,7 +52,7 @@ html,#edit-slug-box,#trackback,#category_nicename,#slug,#dbuser,#dbpass,#dbname,
 #dashmenu a
 {
 	margin-left:8px;
-	margin-right:auto
+	margin-right:8px;
 }
 
 #adminmenu
@@ -151,6 +155,7 @@ form#themeselector
 
 #poststuff #media-buttons
 {
+	direction: ltr;
 	float:left;
 	margin-left:20px;
 	margin-right:0
@@ -159,7 +164,8 @@ form#themeselector
 #poststuff #media-buttons a
 {
 	margin-left:8px;
-	margin-right:0
+	margin-right:0;
+	padding: 0 5px 2px 2px;
 }
 
 #poststuff .togbox
@@ -250,7 +256,6 @@ td.comment p.comment-author img.avatar
 
 #footer p
 {
-	background:url(images/logo-ghost.png) no-repeat right center;
 	height:35px;
 	margin-right:20px;
 	padding:12px 40px 0 0
@@ -274,4 +279,15 @@ table.widefat th,.form-table th
 .available-theme,#tagchecklist span a
 {
 	float:right
+}
+#template div {
+	margin-right:0;
+	margin-left:190px;
+}
+.submitbox .submit {
+	text-align:right;
+}
+
+#editorcontainer {
+	border:1px solid;
 }

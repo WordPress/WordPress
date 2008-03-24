@@ -1,3 +1,7 @@
+#rightnow {
+	margin-left: 15px;
+}
+
 #rightnow .reallynow span {
 	text-align: right;
 	float: right;
@@ -8,10 +12,22 @@
 	float: left;
 	margin: 1px 0 0 6px;
 }
+
 h3.dashboard-widget-title span {
 	text-align: right;
 	float: right;
 }
+
+#dashboard-widgets .widget_rss ul li a {
+	float:right;
+	font-weight:bold;
+	margin:0pt 0pt 0.2em 0.5em;
+}
+
+#dashboard-widgets .widget_rss ul li span.rss-date {
+	float: right;
+}
+
 h3.dashboard-widget-title small {
 	text-align: left;
 	float: left;
@@ -21,4 +37,26 @@ div.dashboard-widget-content ol,
 div.dashboard-widget-content dl {
 	padding-left:0;
 	padding-right:15px;
+}
+div#dashboard-widgets-wrap
+{
+	margin-right:0;
+	margin-left:-10px;
+}
+
+div.dashboard-widget {
+	margin-right:0;
+	margin-left:20px;
+}
+
+#dashboard-widgets .widget_rss ul li span.rss-date {
+	float:right;
+}
+#dashboard-widgets .widget_rss ul li a {
+	float:right;
+	margin:0 0 0.2em 0.5em;
+}
+#dashboard_secondary div.dashboard-widget-content ul li a {
+	border-right:0 none;
+	border-left:1px solid #DADADA;
 }
