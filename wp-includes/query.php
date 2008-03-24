@@ -819,6 +819,7 @@ class WP_Query {
 		$join = '';
 		$search = '';
 		$groupby = '';
+		$post_status_join = false;
 
 		if ( !isset($q['post_type']) ) {
 			if ( $this->is_search )
