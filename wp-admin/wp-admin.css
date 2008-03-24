@@ -170,11 +170,14 @@ form#upload #post_content {
 	font-weight: bold;
 }
 
-select {
-	font: 12px/14px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 0;
+#wpcontent select {
+	font: 12px/20px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 2px;
+
 	border-width: 1px;
 	border-style: solid;
+	height: 2em;
+	vertical-align:top;
 }
 
 .approve {
@@ -432,8 +435,14 @@ set display:none; */
 
 
 div.nav {
-	padding: 0.7em 1em;
-	margin: .7em 0;
+	height: 2em;
+	padding: 7px 10px;
+	vertical-align: text-top;
+	margin: 5px 0;
+}
+
+.nav .button-secondary {
+	padding: 2px 4px;
 }
 
 .page-numbers {
@@ -468,27 +477,14 @@ p.pagenav {
 	margin-left: 5px;
 }
 
-.tablenav select {
-	padding: 2px;
-	display: inline-block;
-	line-height: 2;
-	height: 2em;
-
-}
-
-.tablenav option {
-	margin: 3px;
-	display: inline-block;
-}
-
 .tablenav a.button-secondary {
-	display: inline-block;
-	margin-right: 8px;
+	display: block;
+	margin: 1px 8px 0 0;
 }
 
 .tablenav .button-secondary {
 	padding: 2px 4px;
-
+	vertical-align: top;
 }
 
 .tablenav .tablenav-pages a.next, .tablenav .tablenav-pages a.prev {
@@ -501,6 +497,7 @@ p.pagenav {
 	clear: both;
 	margin-bottom: -10px;
 	margin-top: 8px;
+	vertical-align: text-top;
 }
 
 .tablenav .tablenav-pages {
@@ -741,7 +738,7 @@ a.view-comment-post-link {
 }
 
 strong .post-com-count {
-	background-position: center -56px;
+	background-position: center -55px;
 }
 
 .post-com-count:hover {
@@ -1410,6 +1407,10 @@ ul.view-switch li.current {
 
 #the-comment-list td.comment p {
 	margin-left: 8px;
+}
+
+#the-comment-list .check-column {
+	padding-top: 8px;
 }
 
 #templateside ul li a {

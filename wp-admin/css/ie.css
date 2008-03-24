@@ -31,7 +31,7 @@
 	position: relative;
 }
 
-#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list {
+#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list, li.widget-list-control-item, #dragHelper, li.widget-list-control-item h4, .widget-sortable, .widget-control-actions {
 	display: block;
 	zoom: 100%;
 }
@@ -92,11 +92,7 @@ div#dashboard-widgets {
 	margin-left: -19px;
 }
 
-* html .tablenav {
-
-}
-
-.tablenav .button-secondary {
+.tablenav .button-secondary, .nav .button-secondary {
 	padding: 0 1px;
 	vertical-align: middle;
 }
@@ -123,21 +119,23 @@ div#dashboard-widgets {
 }
 
 .widefat tr, .widefat th {
-	padding: 13px 25px 0 2px;
 	margin-bottom: 0;
 	border-spacing: 0;
 }
 
-.widefat thead th.check-column {
-	padding: 9px 2px 4px 3px;
+.widefat th input {
+	margin: 0 0 0 5px;
+}
+
+.widefat .check-column {
+	padding: 6px 0 2px;
 }
 
 .widefat tbody th.check-column {
-	padding: 4px 3px 22px 3px;
-	text-align:center;
-	width:1.8em;
+	padding: 4px 0 22px;
 }
 
-.widefat th.num {
-	padding: 14px 16px 0;
+.tablenav a.button-secondary {
+	display: inline-block;
+	padding: 2px 5px;
 }

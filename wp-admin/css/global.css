@@ -36,6 +36,47 @@ textarea, input, select {
 
 .hidden { display: none; }
 
+h1 {
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+  margin: .67em 0;
+}
+
+h2 {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: .83em 0;
+}
+
+h3 {
+  display: block;
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+h4 {
+  display: block;
+  font-weight: bold;
+  margin: 1.33em 0;
+}
+
+h5 {
+  display: block;
+  font-size: 0.83em;
+  font-weight: bold;
+  margin: 1.67em 0;
+}
+
+h6 {
+  display: block;
+  font-size: 0.67em;
+  font-weight: bold;
+  margin: 2.33em 0;
+}
+
 .subsubsub {
 	list-style: none;
 	margin: 14px 0 8px 0;
@@ -72,34 +113,42 @@ textarea, input, select {
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;
 	font-size: 11px;
-	padding: 7px 25px 6px 2px;
 	vertical-align: text-top;
 }
 
+.widefat td {
+	padding: 7px 15px 6px 10px;
+	vertical-align: top;
+}
+
 .widefat th {
-	padding: 9px 25px 4px 2px;
+	padding: 9px 15px 6px 10px;
 	text-align: left;
 	line-height: 1.3em;
 }
 
 .widefat th input {
-	margin: 0 3px;
+	margin: 0 0 0 8px;
 	padding: 0;
 }
 
 .widefat .check-column {
-	text-align: center;
-	width: 1.8em;
-	padding: 9px 2px 6px 6px;
+	text-align: right;
+	width: 1.5em;
+	padding: 0;
+
 }
 
 .widefat tbody th.check-column {
-	padding-bottom: 20px;
+	padding: 8px 0 22px;
 }
-
+/*
+th.check-column + th, th.check-column + td {
+	padding-left: 5px;
+}
+*/
 .widefat .num {
 	text-align: center;
-	padding: 10px 16px 0;
 }
 
 .wrap, .updated, .error {
