@@ -471,7 +471,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 			'label' => __('Alignment'),
 			'input' => 'html',
 			'html'  => "
-				<input type='radio' name='attachments[$post->ID][align]' id='image-align-none-$post->ID' value='none' />
+				<input type='radio' name='attachments[$post->ID][align]' id='image-align-none-$post->ID' value='none' checked='checked' />
 				<label for='image-align-none-$post->ID' class='align image-align-none-label'>" . __('None') . "</label>
 				<input type='radio' name='attachments[$post->ID][align]' id='image-align-left-$post->ID' value='left' />
 				<label for='image-align-left-$post->ID' class='align image-align-left-label'>" . __('Left') . "</label>
@@ -1104,13 +1104,13 @@ function type_form_image() {
 		<tr class="align">
 			<th valign="top" scope="row" class="label"><label for="insertonly[align]">' . __('Alignment') . '</label></th>
 			<td class="field">
-				<input name="insertonly[align]" id="image-align-none-0" value="none" type="radio">
+				<input name="insertonly[align]" id="image-align-none-0" value="none" type="radio" checked="checked" />
 				<label for="image-align-none-0" class="align image-align-none-label">' . __('None') . '</label>
-				<input name="insertonly[align]" id="image-align-left-0" value="left" type="radio">
+				<input name="insertonly[align]" id="image-align-left-0" value="left" type="radio" />
 				<label for="image-align-left-0" class="align image-align-left-label">' . __('Left') . '</label>
-				<input name="insertonly[align]" id="image-align-center-0" value="center" type="radio">
+				<input name="insertonly[align]" id="image-align-center-0" value="center" type="radio" />
 				<label for="image-align-center-0" class="align image-align-center-label">' . __('Center') . '</label>
-				<input name="insertonly[align]" id="image-align-right-0" value="right" type="radio">
+				<input name="insertonly[align]" id="image-align-right-0" value="right" type="radio" />
 				<label for="image-align-right-0" class="align image-align-right-label">' . __('Right') . '</label>
 			</td>
 		</tr>
