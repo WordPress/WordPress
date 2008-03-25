@@ -192,6 +192,7 @@ th.check-column + th, th.check-column + td {
 	margin: 5px 0 0 -4px;
 	padding: 0;
 	padding-bottom: 7px;
+	padding-right: 280px;
 }
 
 #timestampdiv {
