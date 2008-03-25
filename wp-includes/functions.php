@@ -1725,9 +1725,10 @@ function is_lighttpd_before_150() {
  * apache_mod_loaded() - Does the specified module exist in the apache config?
  *
  * @param string $mod e.g. mod_rewrite
+ * @param bool $default The default return value if the module is not found
  * @return bool
  */
-function apache_mod_loaded($mod) {
+function apache_mod_loaded($mod, $default = false) {
 	global $is_apache;
 
 	if ( !$is_apache )
@@ -1737,14 +1738,14 @@ function apache_mod_loaded($mod) {
 		$mods = apache_get_modules();
 		if ( in_array($mod, $mods) )
 			return true;
-	} else {
+	} elseif ( function_exists('phpinfo') ) {
 			ob_start();
 			phpinfo(8);
 			$phpinfo = ob_get_clean();
 			if ( false !== strpos($phpinfo, $mod) )
 				return true;
 	}
-	return false;
+	return $default;
 }
 
 ?>
