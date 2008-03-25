@@ -990,8 +990,11 @@ class WP_Query {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
+			$q['cat'] = '';
+			$req_cats = array();
 			foreach ( $cat_array as $cat ) {
 				$cat = intval($cat);
+				$req_cats[] = $cat;
 				$in = ($cat > 0);
 				$cat = abs($cat);
 				if ( $in ) {
@@ -1002,6 +1005,7 @@ class WP_Query {
 					$q['category__not_in'] = array_merge($q['category__not_in'], get_term_children($cat, 'category'));
 				}
 			}
+			$q['cat'] = implode(',', $req_cats);
 		}
 
 		if ( !empty($q['category__in']) || !empty($q['category__not_in']) || !empty($q['category__and']) ) {
