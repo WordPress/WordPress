@@ -106,6 +106,7 @@ if (empty($plugins)) {
 		<th><?php _e('Plugin'); ?></th>
 		<th class="num"><?php _e('Version'); ?></th>
 		<th><?php _e('Description'); ?></th>
+		<th><?php _e('Status') ?></th>
 		<th class="action-links"><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
@@ -116,7 +117,7 @@ if (empty($plugins)) {
 		
 		$style = '';
 
-		if( is_plugin_active($plugin_file) ) {
+		if ( is_plugin_active($plugin_file) ) {
 			$action_links[] = "<a href='" . wp_nonce_url("plugins.php?action=deactivate&amp;plugin=$plugin_file", 'deactivate-plugin_' . $plugin_file) . "' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
 			$style = 'active';
 		} else {
@@ -144,6 +145,12 @@ if (empty($plugins)) {
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
+		<td class='status'>";
+		if ( is_plugin_active($plugin_file) )
+			echo "<img alt='" . __('Active Plugin') . "' src='images/active.png' />" . __('Active');
+		else
+			_e('Inactive');
+		echo "</td>
 		<td class='togl action-links'>$toggle";  
 		if ( !empty($action_links) )
 			echo implode(' | ', $action_links);

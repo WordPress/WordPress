@@ -406,8 +406,12 @@ input.readonly {
 	border-color: #319f52;
 }
 
-#plugins .active, .checkbox, .side-info, #your-profile #rich_editing {
+.checkbox, .side-info, #your-profile #rich_editing {
 	background-color: #fff;
+}
+
+#plugins .active {
+	background-color: #BBEEBB;
 }
 
 #plugins .togl {
@@ -419,7 +423,7 @@ input.readonly {
 }
 
 #plugins tr {
-	background-color: #f0f0f0;
+	background-color: #fff;
 }
 
 #poststuff #editor-toolbar .active {
