@@ -14,7 +14,8 @@ class WP {
 	var $did_permalink = false;
 
 	function add_query_var($qv) {
-		$this->public_query_vars[] = $qv;
+		if ( !in_array($qv, $this->public_query_vars) )
+			$this->public_query_vars[] = $qv;
 	}
 
 	function set_query_var($key, $value) {

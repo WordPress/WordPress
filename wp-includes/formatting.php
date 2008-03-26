@@ -1376,7 +1376,7 @@ function wp_sprintf_l($pattern, $args) {
 	$args = (array) $args;
 	$result = array_shift($args);
 	if ( count($args) == 1 )
-		$result .= $l['between_two'] . array_shift($args);
+		$result .= $l['between_only_two'] . array_shift($args);
 	// Loop when more than two args
 	while ( count($args) ) {
 		$arg = array_shift($args);

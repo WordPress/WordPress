@@ -438,4 +438,35 @@ function adjacent_image_link($prev = true) {
 		echo wp_get_attachment_link($attachments[$k]->ID, 'thumbnail', true);
 }
 
+function get_attachment_taxonomies($attachment) {
+	if ( is_int( $attachment ) )
+		$attachment = get_post($attachment);
+	else if ( is_array($attachment) )
+		$attachment = (object) $attachment;
+
+	if ( ! is_object($attachment) )
+		return array();
+
+	$filename = basename($attachment->guid);
+
+	$objects = array('attachment');
+
+	if ( false !== strpos($filename, '.') )
+		$objects[] = 'attachment:' . substr($filename, strrpos($filename, '.') + 1);
+	if ( !empty($attachment->post_mime_type) ) {
+		$objects[] = 'attachment:' . $attachment->post_mime_type;
+		if ( false !== strpos($attachment->post_mime_type, '/') )
+			foreach ( explode('/', $attachment->post_mime_type) as $token )
+				if ( !empty($token) )
+					$objects[] = "attachment:$token";
+	}
+
+	$taxonomies = array();
+	foreach ( $objects as $object )
+		if ( $taxes = get_object_taxonomies($object) )
+			$taxonomies = array_merge($taxonomies, $taxes);
+
+	return array_unique($taxonomies);
+}
+
 ?>

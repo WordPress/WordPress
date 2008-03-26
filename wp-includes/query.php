@@ -680,6 +680,12 @@ class WP_Query {
 
 			if ( empty($qv['taxonomy']) || empty($qv['term']) ) {
 				$this->is_tax = false;
+				foreach ( $GLOBALS['wp_taxonomies'] as $t ) {
+					if ( isset($t->query_var) && '' != $qv[$t->query_var] ) {
+						$this->is_tax = true;
+						break;
+					}
+				}
 			} else {
 				$this->is_tax = true;
 			}
@@ -1146,18 +1152,33 @@ class WP_Query {
 
 		// Taxonomies
 		if ( $this->is_tax ) {
-			$terms = get_terms($q['taxonomy'], array('slug'=>$q['term']));
-			foreach ( $terms as $term )
-				$term_ids[] = $term->term_id;
-			$post_ids = get_objects_in_term($term_ids, $q['taxonomy']);
-
-			if ( count($post_ids) ) {
-				$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
-				$post_type = 'any';
-				$q['post_status'] = 'publish';
-				$post_status_join = true;
+			if ( '' != $q['taxonomy'] ) {
+				$taxonomy = $q['taxonomy'];
+				$tt[$taxonomy] = $q['term'];
+				$terms = get_terms($q['taxonomy'], array('slug'=>$q['term']));
 			} else {
-				$whichcat = " AND 0 = 1";
+				foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
+					if ( isset($t->query_var) && '' != $q[$t->query_var] ) {
+						$terms = get_terms($taxonomy, array('slug'=>$q[$t->query_var]));
+						if ( !is_wp_error($terms) )
+							break;
+					}
+				}
+			}
+			if ( is_wp_error($terms) || empty($terms) ) {
+				$whichcat = " AND 0 ";
+			} else {
+				foreach ( $terms as $term )
+					$term_ids[] = $term->term_id;
+				$post_ids = get_objects_in_term($term_ids, $taxonomy);
+				if ( !is_wp_error($post_ids) && count($post_ids) ) {
+					$whichcat .= " AND $wpdb->posts.ID IN (" . implode(', ', $post_ids) . ") ";
+					$post_type = 'any';
+					$q['post_status'] = 'publish';
+					$post_status_join = true;
+				} else {
+					$whichcat = " AND 0 ";
+				}
 			}
 		}
 
@@ -1296,7 +1317,7 @@ class WP_Query {
 					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
 			}
 			if ( $post_status_join ) {
-				$join .= " INNER JOIN $wpdb->posts AS p2 ON ($wpdb->posts.post_parent = p2.ID) ";
+				$join .= " LEFT JOIN $wpdb->posts AS p2 ON ($wpdb->posts.post_parent = p2.ID) ";
 				foreach ( $statuswheres as $index => $statuswhere )
 					$statuswheres[$index] = "($statuswhere OR ($wpdb->posts.post_status = 'inherit' AND " . str_replace($wpdb->posts, 'p2', $statuswhere) . "))";
 			}

@@ -475,6 +475,18 @@ function get_tag_link( $tag_id ) {
 }
 
 function get_the_tags( $id = 0 ) {
+	return apply_filters( 'get_the_tags', get_the_terms($id, 'post_tag') );
+}
+
+function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
+	return apply_filters( 'the_tags', get_the_term_list(0, 'post_tag', $before, $sep, $after) );
+}
+
+function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
+	return the_terms( 0, 'post_tag', $before, $sep, $after );
+}
+
+function get_the_terms( $id = 0, $taxonomy ) {
 	global $post;
 
  	$id = (int) $id;
@@ -485,41 +497,39 @@ function get_the_tags( $id = 0 ) {
 	if ( !$id )
 		$id = (int) $post->ID;
 
-	$tags = get_object_term_cache($id, 'post_tag');
-	if ( false === $tags )
-		$tags = wp_get_object_terms($id, 'post_tag');
+	$terms = get_object_term_cache($id, $taxonomy);
+	if ( false === $terms )
+		$terms = wp_get_object_terms($id, $taxonomy);
 
-	$tags = apply_filters( 'get_the_tags', $tags );
-	if ( empty( $tags ) )
+	if ( empty( $terms ) )
 		return false;
-	return $tags;
+
+	return $terms;
 }
 
-function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
-	$tags = get_the_tags();
+function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after = '' ) {
+	$terms = get_the_terms($id, $taxonomy);
 
-	if ( empty( $tags ) )
+	if ( is_wp_error($terms) )
+		return $terms;
+
+	if ( empty( $terms ) )
 		return false;
 
-	$tag_list = $before;
-	foreach ( $tags as $tag ) {
-		$link = get_tag_link($tag->term_id);
+	foreach ( $terms as $term ) {
+		$link = get_term_link($term, $taxonomy);
 		if ( is_wp_error( $link ) )
 			return $link;
-		$tag_links[] = '<a href="' . $link . '" rel="tag">' . $tag->name . '</a>';
+		$term_links[] = '<a href="' . $link . '" rel="tag">' . $term->name . '</a>';
 	}
 
-	$tag_links = join( $sep, $tag_links );
-	$tag_links = apply_filters( 'the_tags', $tag_links );
-	$tag_list .= $tag_links;
+	$term_links = apply_filters( "term_links-$taxonomy", $term_links );
 
-	$tag_list .= $after;
-
-	return $tag_list;
+	return $before . join($sep, $term_links) . $after;
 }
 
-function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
-	$return = get_the_tag_list($before, $sep, $after);
+function the_terms( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
+	$return = get_the_term_list($id, $taxonomy, $before, $sep, $after);
 	if ( is_wp_error( $return ) )
 		return false;
 	else
