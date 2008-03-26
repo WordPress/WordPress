@@ -1940,6 +1940,12 @@ function _update_post_term_count( $terms ) {
 function get_term_link( $term, $taxonomy ) {
 	global $wp_rewrite;
 
+	// use legacy functions for core taxonomies until they are fully plugged in
+	if ( $taxonomy == 'category' )
+		return get_category_link($term);
+	if ( $taxonomy == 'post_tag' )
+		return get_tag_link($term);
+
 	$termlink = $wp_rewrite->get_extra_permastruct($taxonomy);
 
 	if ( !is_object($term) ) {
@@ -1993,7 +1999,7 @@ function get_the_taxonomies($post = 0) {
 	if ( !$post )
 		return $taxonomies;
 
-	$_template = '%s: %l.';
+	$template = apply_filters('taxonomy_template', '%s: %l.');
 
 	foreach ( get_object_taxonomies($post) as $taxonomy ) {
 		$t = (array) get_taxonomy($taxonomy);
@@ -2002,7 +2008,7 @@ function get_the_taxonomies($post = 0) {
 		if ( empty($t['args']) )
 			$t['args'] = array();
 		if ( empty($t['template']) )
-			$t['template'] = $_template;
+			$t['template'] = $template;
 
 		$terms = get_object_term_cache($post->ID, $taxonomy);
 		if ( empty($terms) )
