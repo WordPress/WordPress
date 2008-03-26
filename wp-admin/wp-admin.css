@@ -1460,3 +1460,17 @@ td.action-links, th.action-links {
 .hide-if-no-js {
 	display: none;
 }
+
+.status * {
+	line-height: 16px;
+	display: block;
+	padding-left: 18px;
+}
+
+th.status {
+	padding-left: 28px;
+}
+
+.status .active {
+	background: url(images/active.png) center left no-repeat;
+}

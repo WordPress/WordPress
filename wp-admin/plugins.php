@@ -106,7 +106,7 @@ if (empty($plugins)) {
 		<th><?php _e('Plugin'); ?></th>
 		<th class="num"><?php _e('Version'); ?></th>
 		<th><?php _e('Description'); ?></th>
-		<th><?php _e('Status') ?></th>
+		<th class="status"><?php _e('Status') ?></th>
 		<th class="action-links"><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
@@ -147,9 +147,9 @@ if (empty($plugins)) {
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
 		<td class='status'>";
 		if ( is_plugin_active($plugin_file) )
-			echo  __('Active');
+			echo  __('<span class="active">Active</span>');
 		else
-			_e('Inactive');
+			_e('<span class="inactive">Inactive</span>');
 		echo "</td>
 		<td class='togl action-links'>$toggle";  
 		if ( !empty($action_links) )
