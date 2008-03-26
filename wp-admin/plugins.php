@@ -70,9 +70,6 @@ validate_active_plugins();
 <p><?php _e('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
 <?php
 
-if ( get_option('active_plugins') )
-	$current_plugins = get_option('active_plugins');
-
 $plugins = get_plugins();
 
 if (empty($plugins)) {
@@ -114,18 +111,19 @@ if (empty($plugins)) {
 	</thead>
 	<tbody id="plugins">
 <?php
-	$style = '';
-
 	foreach($plugins as $plugin_file => $plugin_data) {
-		$style = ('class="alternate"' == $style|| 'class="alternate active"' == $style) ? '' : 'alternate';
+		$action_links = array();
+		
+		$style = '';
 
-		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
-			$toggle = "<a href='" . wp_nonce_url("plugins.php?action=deactivate&amp;plugin=$plugin_file", 'deactivate-plugin_' . $plugin_file) . "' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
-			$plugin_data['Title'] = "<strong>{$plugin_data['Title']}</strong>";
-			$style .= $style == 'alternate' ? ' active' : 'active';
+		if( is_plugin_active($plugin_file) ) {
+			$action_links[] = "<a href='" . wp_nonce_url("plugins.php?action=deactivate&amp;plugin=$plugin_file", 'deactivate-plugin_' . $plugin_file) . "' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
+			$style = 'active';
 		} else {
-			$toggle = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin_' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
+			$action_links[] = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin_' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
+		if ( current_user_can('edit_plugins') && is_writable(ABSPATH . PLUGINDIR . '/' . $plugin_file) )
+			$action_links[] = "<a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>";
 
 		$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
 
@@ -134,23 +132,21 @@ if (empty($plugins)) {
 		$plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags);
 		$plugin_data['Description'] = wp_kses($plugin_data['Description'], $plugins_allowedtags);
 		$plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags);
-
-		if ( $style != '' )
-			$style = 'class="' . $style . '"';
-		if ( is_writable(ABSPATH . PLUGINDIR . '/' . $plugin_file) )
-			$edit = " | <a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>";
-		else
-			$edit = '';
-
 		$author = ( empty($plugin_data['Author']) ) ? '' :  ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
 
+		if ( $style != '' )
+			$style = ' class="' . $style . '"';
+
+		$action_links = apply_filters('plugin_action_links', $action_links, $plugin_file, $plugin_info);
+
 		echo "
-	<tr $style>
+	<tr$style>
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
 		<td class='togl action-links'>$toggle";  
-		if ( current_user_can('edit_plugins') ) echo $edit; 
+		if ( !empty($action_links) )
+			echo implode(' | ', $action_links);
 		echo "</td> 
 	</tr>";
 	do_action( 'after_plugin_row', $plugin_file );
