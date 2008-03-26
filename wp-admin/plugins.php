@@ -147,7 +147,7 @@ if (empty($plugins)) {
 		<td class='desc'><p>{$plugin_data['Description']}$author</p></td>
 		<td class='status'>";
 		if ( is_plugin_active($plugin_file) )
-			echo "<img alt='" . __('Active Plugin') . "' src='images/active.png' />" . __('Active');
+			echo  __('Active');
 		else
 			_e('Inactive');
 		echo "</td>
