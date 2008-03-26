@@ -58,16 +58,6 @@ if ( $https ) str_replace('http://', 'https://', $mce_css);
 $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 
 /*
-Setting mce_valid_elements to *[*] skips all of the internal cleanup and can cause problems.
-The minimal setting would be -strong/-b[*],-em/-i[*],*[*].
-Best is to use the default cleanup by not specifying mce_valid_elements. It contains full set of XHTML 1.0.
-If others are needed, mce_extended_valid_elements can be used to add to it, or mce_invalid_elements to remove.
-*/
-$valid_elements = apply_filters('mce_valid_elements', '');
-$invalid_elements = apply_filters('mce_invalid_elements', '');
-$extended_valid_elements = apply_filters('mce_extended_valid_elements', '');
-
-/*
 The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
 By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
 The + sign marks the default language. More information:
@@ -104,7 +94,7 @@ if ( ! empty($mce_external_plugins) ) {
 	
 	if ( ! empty($mce_external_languages) ) {
 		foreach ( $mce_external_languages as $name => $path ) {
-			if ( is_readable($path) ) { 
+			if ( is_file($path) && is_readable($path) ) { 
 				include_once($path);
 				$ext_plugins .= $strings;
 				$loaded_langs[] = $name;
@@ -162,6 +152,11 @@ $initArray = array (
 	'remove_script_host' => false,
 	'apply_source_formatting' => false,
 	'remove_linebreaks' => true,
+	'paste_auto_cleanup_on_paste' => true,
+	'paste_convert_middot_lists' => true,
+	'paste_remove_spans' => true,
+	'paste_remove_styles' => true,
+	'paste_strip_class_attributes' => 'all',
 	'gecko_spellcheck' => true,
 	'entities' => '38,amp,60,lt,62,gt',
 	'accessibility_focus' => false,
@@ -175,13 +170,12 @@ $initArray = array (
 	'old_cache_max' => '1' // number of cache files to keep
 );
 
-if ( $valid_elements ) $initArray['valid_elements'] = $valid_elements;
-if ( $extended_valid_elements ) $initArray['extended_valid_elements'] = $extended_valid_elements;
-if ( $invalid_elements ) $initArray['invalid_elements'] = $invalid_elements;
-
 // For people who really REALLY know what they're doing with TinyMCE
-// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
-$initArray = apply_filters('tiny_mce_before_init', $initArray); // changed from action to filter
+// You can modify initArray to add, remove, change elements of the config before tinyMCE.init (changed from action to filter)
+$initArray = apply_filters('tiny_mce_before_init', $initArray);
+
+// Setting "valid_elements", "invalid_elements" and "extended_valid_elements" can be done through "tiny_mce_before_init".
+// Best is to use the default cleanup by not specifying valid_elements, as TinyMCE contains full set of XHTML 1.0.
 
 // support for deprecated actions
 ob_start();
@@ -228,7 +222,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080323');
+	$cacheKey = apply_filters('tiny_mce_version', '20080325');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
@@ -308,6 +302,10 @@ if ( '.gz' == $cache_ext ) {
 	$content = gzencode( $content, 9, FORCE_GZIP );
 }
 
+// Stream to client
+header( 'Content-Length: ' . strlen($content) );
+echo $content;
+
 // Write file
 if ( '' != $cacheKey && is_dir($cache_path) && is_readable($cache_path) ) {	
 
@@ -327,14 +325,7 @@ if ( '' != $cacheKey && is_dir($cache_path) && is_readable($cache_path) ) {
 	foreach ( $del_cache as $key )
 		@unlink("$cache_path/$key");
 
-	if ( putFileContents( $cache_file, $content ) && is_readable($cache_file) ) {
-		$mtime = gmdate( "D, d M Y H:i:s", filemtime($cache_file) ) . " GMT";
-		header( 'Last-Modified: ' . $mtime );
-		header( 'Cache-Control: must-revalidate', false );
-	}
+	putFileContents( $cache_file, $content );
 }
 
-// Stream to client
-header( 'Content-Length: ' . strlen($content) );
-echo $content;
 ?>

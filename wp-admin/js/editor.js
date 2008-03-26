@@ -32,7 +32,7 @@ switchEditors = {
         content = content.replace(new RegExp('\\s*<(('+blocklist1+')[^>]*)>', 'mg'), '\n<$1>');
 
         // Mark </p> if it has any attributes.
-        content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
+        content = content.replace(new RegExp('(<p [^>]+>.*?)</p>', 'mg'), '$1</p#>');
 
         // Sepatate <div> containing <p>
         content = content.replace(new RegExp('<div([^>]*)>\\s*<p>', 'mgi'), '<div$1>\n\n');
@@ -59,7 +59,7 @@ switchEditors = {
 
         // Unmark special paragraph closing tags
         content = content.replace(new RegExp('</p#>', 'g'), '</p>\n');
-        content = content.replace(new RegExp('\\s*(<p[^>]+>.*</p>)', 'mg'), '\n$1');
+        content = content.replace(new RegExp('\\s*(<p [^>]+>.*</p>)', 'mg'), '\n$1');
 
         // Trim whitespace
         content = content.replace(new RegExp('^\\s*', ''), '');
