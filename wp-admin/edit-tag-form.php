@@ -22,7 +22,7 @@ if ( ! empty($tag_ID) ) {
 <?php echo $form ?>
 <input type="hidden" name="action" value="<?php echo $action ?>" />
 <input type="hidden" name="tag_ID" value="<?php echo $tag->term_id ?>" />
-<?php wp_nonce_field($nonce_action); ?>
+<?php wp_original_referer_field(true, 'previous'); wp_nonce_field($nonce_action); ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Tag name') ?></label></th>

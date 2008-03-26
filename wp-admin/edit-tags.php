@@ -52,7 +52,14 @@ case 'bulk-delete':
 		wp_delete_term( $tag_ID, 'post_tag');
 	}
 
-	wp_redirect('edit-tags.php?message=6');
+	$location = 'edit-tags.php';
+	if ( $referer = wp_get_referer() ) {
+		if ( false !== strpos($referer, 'edit-tags.php') )
+			$location = $referer;
+	}
+
+	$location = add_query_arg('message', 6, $location);
+	wp_redirect($location);
 	exit;
 
 break;
@@ -75,11 +82,19 @@ case 'editedtag':
 		wp_die(__('Cheatin&#8217; uh?'));
 
 	$ret = wp_update_term($tag_ID, 'post_tag', $_POST);
-	if( $ret && !is_wp_error( $ret ) ) {
-		wp_redirect('edit-tags.php?message=3');
-	} else {
-		wp_redirect('edit-tags.php?message=5');
+
+	$location = 'edit-tags.php';
+	if ( $referer = wp_get_original_referer() ) {
+		if ( false !== strpos($referer, 'edit-tags.php') )
+			$location = $referer;
 	}
+
+	if ( $ret && !is_wp_error( $ret ) )
+		$location = add_query_arg('message', 3, $location);
+	else
+		$location = add_query_arg('message', 5, $location);
+
+	wp_redirect($location);
 	exit;
 break;
 
