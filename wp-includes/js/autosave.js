@@ -50,8 +50,13 @@ function autosave_saved_new(response) {
 	var res = autosave_saved(response); // parse the ajax response do the above
 	// if no errors: update post_ID from the temporary value, grab new save-nonce for that new ID
 	if ( res && res.responses.length && !res.errors ) {
+		var tempID = jQuery('#post_ID').val();
 		var postID = parseInt( res.responses[0].id );
 		autosave_update_post_ID( postID );
+		if ( tempID < 0 ) // update media buttons
+			jQuery('#media-buttons a').each(function(){
+				this.href = this.href.replace(tempID, postID);
+			});
 	}
 }
 
@@ -136,6 +141,10 @@ var autosave = function() {
 	// We always send the ajax request in order to keep the post lock fresh.
 	// This (bool) tells whether or not to write the post to the DB during the ajax request.
 	var doAutoSave = true;
+
+	// No autosave while thickbox is open (media buttons)
+	if ( jQuery("#TB_window").css('display') == 'block' )
+		doAutoSave = false;
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
 	if ( rich ) { tinyMCE.triggerSave(); }
