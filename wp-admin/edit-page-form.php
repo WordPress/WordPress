@@ -2,6 +2,9 @@
 if ( isset($_GET['message']) )
 	$_GET['message'] = absint( $_GET['message'] );
 $messages[1] = sprintf( __( 'Page updated. Continue editing below or <a href="%s">go back</a>.' ), attribute_escape( stripslashes( $_GET['_wp_original_http_referer'] ) ) );
+$messages[2] = __('Custom field updated.');
+$messages[3] = __('Custom field deleted.');
+$messages[4] = __('Page updated.');
 ?>
 <?php if (isset($_GET['message'])) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
