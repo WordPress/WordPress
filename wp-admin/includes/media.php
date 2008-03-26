@@ -765,7 +765,7 @@ function media_upload_form( $errors = null ) {
 	$flash_action_url = get_option('siteurl') . "/wp-admin/async-upload.php";
 
 	// If Mac and mod_security, no Flash. :(
-	$flash = false;
+	$flash = true;
 	if ( false !== strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mac') && apache_mod_loaded('mod_security') )
 		$flash = false;
 
