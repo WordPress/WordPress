@@ -53,7 +53,7 @@ function autosave_saved_new(response) {
 		var tempID = jQuery('#post_ID').val();
 		var postID = parseInt( res.responses[0].id );
 		autosave_update_post_ID( postID );
-		if ( tempID < 0 ) // update media buttons
+		if ( tempID < 0 && postID > 0) // update media buttons
 			jQuery('#media-buttons a').each(function(){
 				this.href = this.href.replace(tempID, postID);
 			});

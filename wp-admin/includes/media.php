@@ -644,10 +644,12 @@ function get_media_item( $attachment_id, $args = null ) {
 		$toggle_links = '';
 	}
 
+	$display_title = ( !empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
+
 	$item = "
 	$type
 	$toggle_links
-	<div class='filename new'>$filename</div>
+	<div class='filename new'>$display_title</div>
 	<table class='slidetoggle describe $class'>
 		<tbody class='media-item-info'>
 		<tr>
