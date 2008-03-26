@@ -341,10 +341,10 @@ break;
 
 case 'login' :
 default:
-	if ( !isset( $_REQUEST['redirect_to'] ) || is_user_logged_in() )
-		$redirect_to = 'wp-admin/';
-	else
+	if ( isset( $_REQUEST['redirect_to'] ) )
 		$redirect_to = $_REQUEST['redirect_to'];
+	else
+		$redirect_to = 'wp-admin/';
 
 	$user = wp_signon();
 
