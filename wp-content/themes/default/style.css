@@ -293,6 +293,10 @@ body {
 	clear: left;
 }
 
+.clear {
+	clear: both;
+}
+
 #footer {
 	padding: 0;
 	margin: 0 auto;
