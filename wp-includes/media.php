@@ -368,6 +368,7 @@ function gallery_shortcode($attr) {
 	$itemtag = tag_escape($itemtag);
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
+	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
 	
 	$output = apply_filters('gallery_style', "
 		<style type='text/css'>
@@ -378,7 +379,7 @@ function gallery_shortcode($attr) {
 				float: left;
 				margin-top: 10px;
 				text-align: center;
-				width: 33%;			}
+				width: {$itemwidth}%;			}
 			.gallery img {
 				border: 2px solid #cfcfcf;
 			}
