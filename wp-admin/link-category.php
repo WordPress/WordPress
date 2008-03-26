@@ -35,7 +35,15 @@ case 'delete':
 
 	wp_delete_term($cat_ID, 'link_category');
 
-	wp_redirect('edit-link-categories.php?message=2');
+	$location = 'edit-link-categories.php';
+	if ( $referer = wp_get_original_referer() ) {
+		if ( false !== strpos($referer, 'edit-link-categories.php') )
+			$location = $referer;
+	}
+
+	$location = add_query_arg('message', 2, $location);
+
+	wp_redirect($location);
 	exit;
 
 break;
@@ -59,11 +67,18 @@ case 'editedcat':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	if ( wp_update_term($cat_ID, 'link_category', $_POST) )
-		wp_redirect('edit-link-categories.php?message=3');
-	else
-		wp_redirect('edit-link-categories.php?message=5');
+	$location = 'edit-link-categories.php';
+	if ( $referer = wp_get_original_referer() ) {
+		if ( false !== strpos($referer, 'edit-link-categories.php') )
+			$location = $referer;
+	}
 
+	if ( wp_update_term($cat_ID, 'link_category', $_POST) )
+		$location = add_query_arg('message', 3, $location);
+	else
+		$location = add_query_arg('message', 5, $location);
+
+	wp_redirect($location);
 	exit;
 break;
 }

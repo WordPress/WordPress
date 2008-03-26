@@ -18,7 +18,14 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 		wp_delete_term($cat_ID, 'link_category');
 	}
 
-	wp_redirect('edit-link-categories.php?message=6');
+	$location = 'edit-link-categories.php';
+	if ( $referer = wp_get_referer() ) {
+		if ( false !== strpos($referer, 'edit-link-categories.php') )
+			$location = $referer;
+	}
+
+	$location = add_query_arg('message', 6, $location);
+	wp_redirect($location);
 	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
