@@ -765,7 +765,7 @@ class WP_Rewrite {
 					//add regexes/queries for attachments, attachment trackbacks and so on
 					if ( ! $page ) //require <permalink>/attachment/stuff form for pages because of confusion with subpages
 						$rewrite = array_merge($rewrite, array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery));
-					$rewrite = array_merge($rewrite, array($sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery));
+					$rewrite = array_merge(array($sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery), $rewrite);
 				}
 			} //if($num_toks)
 			//add the rules for this dir to the accumulating $post_rewrite
