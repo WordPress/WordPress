@@ -14,9 +14,9 @@ function redirect_post($post_ID = '') {
 		$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
 	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
-	if ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
+	if ( !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
 		$location = $_POST['referredby'];
-	} elseif ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
+	} elseif ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
 	} elseif ( isset($_POST['save']) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
 		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false )
