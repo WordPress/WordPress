@@ -1067,7 +1067,7 @@ function do_meta_boxes($page, $context, $object) {
 		echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
 		echo "<h3>{$box['title']}</h3>\n";
 		echo '<div class="inside">' . "\n";
-		call_user_func($box['callback'], $object);
+		call_user_func($box['callback'], $object, $box);
 		echo "</div>\n";
 		echo "</div>\n";
 	}
