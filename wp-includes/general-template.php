@@ -940,7 +940,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 	}
 
 	if ( $media_buttons ) { ?>
-		<div id="media-buttons">
+		<div id="media-buttons" class="hide-if-no-js">
 		<?php do_action( 'media_buttons' ); ?>
 		</div>
 	<?php } ?>

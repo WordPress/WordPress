@@ -589,10 +589,10 @@ function postbox_classes( $id, $page ) {
 	$current_user = wp_get_current_user();
 	if ( $closed = get_usermeta( $current_user->ID, 'closedpostboxes_'.$page ) ) {
 		if ( !is_array( $closed ) ) return '';
-		return in_array( $id, $closed )? 'closed' : '';
+		return in_array( $id, $closed )? 'if-js-closed' : '';
 	} else {
 		if ( 'tagsdiv' == $id || 'categorydiv' == $id ) return '';
-		else return 'closed';
+		else return 'if-js-closed';
 	}
 }
 

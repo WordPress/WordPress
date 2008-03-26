@@ -37,9 +37,9 @@ $date = mysql2date(get_option('date_format'), $comment->comment_date);
 $time = mysql2date(get_option('time_format'), $comment->comment_date);
 ?>
 <p class="curtime"><?php printf($stamp, $date, $time); ?>
-&nbsp;<a href="#edit_timestamp" class="edit-timestamp"><?php _e('Edit') ?></a></p>
+&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a></p>
 
-<div id='timestampdiv'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
+<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
 
 </div>
 

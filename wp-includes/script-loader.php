@@ -160,6 +160,10 @@ class WP_Scripts {
 			) );
 			$this->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080131' );
 			$this->add( 'comment', '/wp-admin/js/comment.js', array('postbox'), '20080219' );
+			$this->localize( 'comment', 'commentL10n', array(
+					'cancel' => __('Cancel'),
+					'edit' => __('Edit'),
+				) );
 			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),

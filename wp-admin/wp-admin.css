@@ -1456,3 +1456,7 @@ td.action-links, th.action-links {
 #poststuff h3, #poststuff .closed h3 {
 	cursor: pointer;
 } 
+
+.hide-if-no-js {
+	display: none;
+}
