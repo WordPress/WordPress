@@ -19,7 +19,7 @@ require_once('admin-header.php');
 <?php if ( ! validate_current_theme() ) : ?>
 <div id="message1" class="updated fade"><p><?php _e('The active theme is broken.  Reverting to the default theme.'); ?></p></div>
 <?php elseif ( isset($_GET['activated']) ) : ?>
-<div id="message2" class="updated fade"><p><?php printf(__('New theme activated. <a href="%s" target="_blank">Visit site</a>'), get_bloginfo('url') . '/'); ?></p></div>
+<div id="message2" class="updated fade"><p><?php printf(__('New theme activated. <a href="%s">Visit site</a>'), get_bloginfo('url') . '/'); ?></p></div>
 <?php endif; ?>
 
 <?php
