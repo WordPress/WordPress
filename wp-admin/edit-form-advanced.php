@@ -205,7 +205,7 @@ endif; ?>
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<div id="tagsdiv" class="postbox <?php echo postbox_classes('tagsdiv', 'post'); ?> hide-if-no-js">
+<div id="tagsdiv" class="postbox <?php echo postbox_classes('tagsdiv', 'post'); ?>">
 <h3><?php _e('Tags'); ?></h3>
 <div class="inside">
 <p id="jaxtag"><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></p>
