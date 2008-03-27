@@ -6,6 +6,11 @@ body, td {
 .wrap {
 	text-align: right;
 }
+
+.wrap h2 {
+	margin: 5px 0 0 4px;
+}
+
 #footer {
 	padding-left:50px;
 }
@@ -34,6 +39,7 @@ p#widget-search, p#post-search {
 .widefat th {
 	padding-bottom: 8px;
 }
+
 /* template editor */
 #template textarea {
 	float:left;

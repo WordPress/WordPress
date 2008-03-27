@@ -209,9 +209,15 @@ div.ui-tabs-panel
 #tagchecklist span
 {
 	float:right;
-	margin-left:15px;
+	margin-left:25px;
 	margin-right:0
 }
+
+#tagchecklist span a {
+	margin: 6px -9px 0 0;
+	float: right;
+}
+
 
 .tablenav .tablenav-pages
 {
@@ -258,22 +264,27 @@ td.comment p.comment-author img.avatar
 {
 	height:35px;
 	margin-right:20px;
-	padding:12px 40px 0 0
+	padding:12px 40px 0 0;
 }
 
 #submenu,#wpbody
 {
-	clear:both
+	clear:both;
 }
 
 #submenu li,ul.subsubsub li a
 {
-	padding:0
+	padding:0;
 }
 
 table.widefat th,.form-table th
 {
 	text-align:right
+}
+
+.widefat th input {
+	margin: 0 8px 0 0;
+	padding: 0;
 }
 
 .available-theme,#tagchecklist span a
@@ -290,4 +301,14 @@ table.widefat th,.form-table th
 
 #editorcontainer {
 	border:1px solid;
+}
+
+.wrap h2 {
+	margin: 5px -4px 0 0;
+	padding-right: 0px;
+	padding-left: 280px;
+}
+
+div#message {
+	clear: both;
 }
