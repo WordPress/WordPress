@@ -18,12 +18,16 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 				wp_die( __('Error in deleting...') );
 	}
 
-	$sendback = wp_get_referer();
-	if (strpos($sendback, 'media.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/media.php';
-	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+	$location = 'upload.php';
+	if ( $referer = wp_get_referer() ) {
+		if ( false !== strpos($referer, 'upload.php') )
+			$location = $referer;
+	}
 
-	wp_redirect($sendback);
-	exit();
+	$location = add_query_arg('message', 2, $location);
+	$location = remove_query_arg('posted', $location);
+	wp_redirect($location);
+	exit;
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 	exit;
@@ -107,8 +111,16 @@ unset($type_links);
 
 <?php
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $_GET['posted']; ?>"><?php _e('Edit post'); ?></a></p></div>
+<div id="message" class="updated fade"><p><strong><?php _e('Your media has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View media'); ?></a> | <a href="media.php?action=edit&amp;attachment_id=<?php echo $_GET['posted']; ?>"><?php _e('Edit media'); ?></a></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
+endif;
+
+$messages[1] = __('Media updated.');
+$messages[2] = __('Media deleted.');
+
+if (isset($_GET['message'])) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif;
 ?>
 

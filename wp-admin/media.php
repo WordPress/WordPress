@@ -10,11 +10,23 @@ wp_reset_vars(array('action'));
 switch( $action ) :
 case 'editattachment' :
 	$errors = media_upload_form_handler();
+	$attachment_id = (int) $_POST['attachment_id'];
 	if ( empty($errors) ) {
-		wp_redirect( add_query_arg( 'message', 'updated' ) );
+		$location = 'media.php';
+		if ( $referer = wp_get_original_referer() ) {
+			if ( false !== strpos($referer, 'upload.php') )
+				$location = $referer;
+		}
+		if ( false !== strpos($referer, 'upload.php') ) {
+			$location = remove_query_arg('message', $location);
+			$location = add_query_arg('posted',	$attachment_id, $location);
+		} else {
+			$location = add_query_arg('message', 'updated', $location);
+		}
+		wp_redirect($location);
 		exit;
-		break;
 	}
+
 	// no break
 case 'edit' :
 	$title = __('Edit Media');
@@ -65,7 +77,9 @@ case 'edit' :
 <p class="submit">
 <input type="submit" class="button" name="save" value="<?php _e('Save Changes'); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
+<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo $att_id; ?>" />
 <input type="hidden" name="action" value="editattachment" />
+<?php wp_original_referer_field(true, 'previous'); ?>
 <?php wp_nonce_field('media-form'); ?>
 </p>
 
