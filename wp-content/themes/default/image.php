@@ -7,11 +7,10 @@
 		<div class="post" id="post-<?php the_ID(); ?>">
 			<h2><a href="<?php echo get_permalink($post->post_parent); ?>" rev="attachment"><?php echo get_the_title($post->post_parent); ?></a> &raquo; <?php the_title(); ?></h2>
 			<div class="entry">
-				<p class="attachment"><?php echo wp_get_attachment_link(0, 'medium', false); ?></p>
+				<p class="attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>"><?php echo wp_get_attachment_image( $post->ID, 'medium' ); ?></a></p>
+                <div class="caption"><?php if ( !empty($post->post_excerpt) ) the_excerpt(); // this is the "caption" ?></div>
 
 				<?php the_content('<p class="serif">Read the rest of this entry &raquo;</p>'); ?>
-
-				<?php wp_link_pages(array('before' => '<p><strong>Pages:</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
 
 				<div class="navigation">
 					<div class="alignleft"><?php previous_image_link() ?></div>
