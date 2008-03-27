@@ -14,13 +14,13 @@ case 'editattachment' :
 	if ( empty($errors) ) {
 		$location = 'media.php';
 		if ( $referer = wp_get_original_referer() ) {
-			if ( false !== strpos($referer, 'upload.php') )
+			if ( false !== strpos($referer, 'upload.php') || ( url_to_postid($referer) == $attachment_id )  )
 				$location = $referer;
 		}
-		if ( false !== strpos($referer, 'upload.php') ) {
+		if ( false !== strpos($location, 'upload.php') ) {
 			$location = remove_query_arg('message', $location);
 			$location = add_query_arg('posted',	$attachment_id, $location);
-		} else {
+		} elseif ( false !== strpos($location, 'media.php') ) {
 			$location = add_query_arg('message', 'updated', $location);
 		}
 		wp_redirect($location);
