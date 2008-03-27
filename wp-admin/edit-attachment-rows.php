@@ -85,16 +85,22 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 		break;
 
 	case 'parent':
-		if ( $post_parent = get_post($post->post_parent) ) {
-			$title = get_the_title($post->post_parent);
-			if ( empty($title) )
-				$title = __('(no title)');
+		$title = __('(no title)'); // override below
+		if ( $post->post_parent > 0 ) {
+			if ( get_post($post->post_parent) ) {
+				$parent_title = get_the_title($post->post_parent);
+				if ( !empty($parent_title) )
+					$title = $parent_title;
+			}
+			?>
+			<td><strong><a href="post.php?action=edit&amp;post=<?php echo $post->post_parent; ?>"><?php echo $title ?></a></strong></td>
+			<?php
 		} else {
-			$title = '';
+			?>
+			<td>&nbsp;</td>
+			<?php
 		}
-		?>
-		<td><strong><a href="post.php?action=edit&amp;post=<?php echo $post->post_parent; ?>"><?php echo $title ?></a></strong></td>
-		<?php
+
 		break;
 
 	case 'comments':
