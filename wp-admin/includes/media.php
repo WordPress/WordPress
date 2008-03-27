@@ -769,6 +769,7 @@ function media_upload_form( $errors = null ) {
 	if ( false !== strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'mac') && apache_mod_loaded('mod_security') )
 		$flash = false;
 
+	$flash = apply_filters('flash_uploader', $flash);
 	$post_id = intval($_REQUEST['post_id']);
 
 ?>
