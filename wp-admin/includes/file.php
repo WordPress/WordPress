@@ -192,25 +192,30 @@ function wp_handle_upload( &$file, $overrides = false ) {
 * Downloads a url to a local file using the Snoopy HTTP Class
 *
 * @param string $url the URL of the file to download
-* @return mixed false on failure, string Filename on success.
+* @return mixed WP_Error on failure, string Filename on success.
 */
 function download_url( $url ) {
 	//WARNING: The file is not automatically deleted, The script must unlink() the file.
 	if( ! $url )
-		return false;
+		return new WP_Error('http_no_url', __('Invalid URL Provided'));
 
 	$tmpfname = tempnam(get_temp_dir(), 'wpupdate');
 	if( ! $tmpfname )
-		return false;
+		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
 	$handle = @fopen($tmpfname, 'w');
 	if( ! $handle )
-		return false;
+		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
 	require_once( ABSPATH . 'wp-includes/class-snoopy.php' );
 	$snoopy = new Snoopy();
 	$snoopy->fetch($url);
 
+	if( $snoopy->status != '200' ){
+		fclose($handle);
+		unlink($tmpfname);
+		return new WP_Error('http_404', trim($snoopy->response_code));
+	}
 	fwrite($handle, $snoopy->results);
 	fclose($handle);
 

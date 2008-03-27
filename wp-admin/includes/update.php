@@ -176,8 +176,8 @@ function wp_update_plugin($plugin, $feedback = '') {
 	apply_filters('update_feedback', sprintf(__('Downloading update from %s'), $package));
 	$file = download_url($package);
 
-	if ( !$file )
-		return new WP_Error('download_failed', __('Download failed.'));
+	if ( is_wp_error($file) )
+		return new WP_Error('download_failed', __('Download failed.'), $file->get_error_message());
 
 	$working_dir = $base . 'wp-content/upgrade/' . basename($plugin, '.php');
 
@@ -194,11 +194,11 @@ function wp_update_plugin($plugin, $feedback = '') {
 		return $result;
 	}
 
-	// Once installed, delete the package
+	// Once extracted, delete the package
 	unlink($file);
 
 	if ( is_plugin_active($plugin) ) {
-		//Deactivate the plugin
+		//Deactivate the plugin silently, Prevent deactivation hooks from running.
 		apply_filters('update_feedback', __('Deactivating the plugin'));
 		deactivate_plugins($plugin, true);
 	}
@@ -209,7 +209,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$plugin_dir = trailingslashit($plugin_dir);
 	
 	// If plugin is in its own directory, recursively delete the directory.
-	if ( strpos($plugin, '/') && $plugin_dir != $base . PLUGINDIR . '/' )
+	if ( strpos($plugin, '/') && $plugin_dir != $base . PLUGINDIR . '/' ) //base check on if plugin includes directory seperator AND that its not the root plugin folder
 		$deleted = $wp_filesystem->delete($plugin_dir, true);
 	else
 		$deleted = $wp_filesystem->delete($base . PLUGINDIR . "/$plugin");
@@ -226,18 +226,23 @@ function wp_update_plugin($plugin, $feedback = '') {
 		return new WP_Error('install_failed', __('Installation failed'));
 	}
 
+	//Get a list of the directories in the working directory before we delete it, We need to know the new folder for the plugin
+	$filelist = array_keys( $wp_filesystem->dirlist($working_dir) );
+
 	// Remove working directory
 	$wp_filesystem->delete($working_dir, true);
 
 	// Force refresh of plugin update information
 	delete_option('update_plugins');
 	
-	//Return the new plugin file.
-	if ( ! preg_match('!/([a-z0-9\-]+)/?$!i', $working_dir, $mat) )
-		return false;
-	$plugin = get_plugins('/' . $mat[1]); //Pass it with a leading slash
-	$list = array_keys($plugin);
-	return $mat[1] . '/' . $list[0]; //Pass it without a leading slash.
+	if( empty($filelist) )
+		return false; //We couldnt find any files in the working dir
+	
+	$folder = $filelist[0];
+	$plugin = get_plugins('/' . $folder); //Pass it with a leading slash, search out the plugins in the folder, 
+	$pluginfiles = array_keys($plugin); //Assume the requested plugin is the first in the list
+
+	return  $folder . '/' . $pluginfiles[0]; //Pass it without a leading slash as WP requires
 }
 
 ?>
