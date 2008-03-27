@@ -158,14 +158,14 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$defaults = array('hierarchical' => false, 'update_count_callback' => '', 'rewrite' => true, 'query_var' => true);
 	$args = wp_parse_args($args, $defaults);
 
-	if ( false !== $args['query_var'] ) {
+	if ( false !== $args['query_var'] && !empty($wp) ) {
 		if ( empty($args['query_var']) )
 			$args['query_var'] = $taxonomy;
 		$args['query_var'] = sanitize_title_with_dashes($args['query_var']);
 		$wp->add_query_var($args['query_var']);
 	}
 
-	if ( false !== $args['rewrite'] ) {
+	if ( false !== $args['rewrite'] && !empty($wp_rewrite) ) {
 		if ( !is_array($args['rewrite']) )
 			$args['rewrite'] = array();
 		if ( !isset($args['rewrite']['slug']) )
