@@ -1,78 +1,106 @@
-/* Based on Arabic (RTL) version of Kubrick theme, converted by Serdal (Serdal.com) */
-
-.narrowcolumn, .alignleft, .widecolumn .smallattachment { float: right; }
-.alignright, #commentform #submit { float: left; }
-
-#page, .post, #wp-calendar #prev a { text-align: right; }
-
-body, #commentform p { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
-
-small { font-family: 'Geeza Pro', Tahoma, Arial, Helvetica, Sans-Serif; }
-
-h1, h2, h3 { font-family: 'Al Bayan', 'Traditional Arabic', 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif; }
-
-#sidebar h2 { font-family: 'Al Bayan', 'Traditional Arabic', 'Lucida Grande', Verdana, Sans-Serif; }
-
-.commentlist li, #commentform input, #commentform textarea { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
-
-#sidebar { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
-
-#wp-calendar caption { font-family: 'Geeza Pro', Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
-
-acronym, abbr, span.caps { letter-spacing: normal; }
-
-#header { margin: 0 1px 0 0; }
-
-.narrowcolumn { padding: 0 45px 20px 0; }
-
-.widecolumn { margin: 5px 150px 0 0; }
-
-.widecolumn .smallattachment { margin: 5px 0px 5px 5px; }
-
-.postmetadata { clear: right; }
-
-img.alignright { margin: 0 7px 2px 0; }
-
-img.alignleft { margin: 0 0 2px 7px; }
-
-.entry ol { padding: 0 35px 0 0; }
-
-#sidebar ul ul, #sidebar ul ol { margin: 5px 10px 0 0; }
-
-#sidebar ul ul ul, #sidebar ul ol { margin: 0 10px 0 0; }
-
-#commentform input { margin: 5px 0 1px 5px; }
-
-.commentlist p { margin: 10px 0 10px 5px; }
-
-html>body .entry li { margin: 7px 10px 8px 0; }
-
-html>body .entry ul {
-	margin-left: auto;
-	margin-right: 0px;
-	padding: 0 30px 0 0;
+/*
+Theme name: WordPress Default - kubrick -
+Editors: Navid Kashani
+Persian Wordpress Project : wp-persian.com
+*/
+body, .commentlist li, #commentform input, #commentform textarea, #commentform p, #sidebar, #wp-calendar caption  {
+	font-family:tahoma, arial;
 }
-
+#page {
+	text-align:right;
+	direction:rtl;
+}
+h1, h2, h3, #sidebar h2 {
+	font-family:arial, tahoma;
+}
+.commentlist li .avatar {
+	float:left;
+}
+#header {
+	margin:0 1px 0 0;
+}
+.narrowcolumn {
+	float:right;
+	padding: 0 45px 20px 0;
+}
+.widecolumn {
+	margin: 5px 150px 0 0;
+}
+.widecolumn .smallattachment {
+	margin: 5px 0 5px 5px;
+}
+.postmetadata {
+	clear:right;
+}
 #sidebar {
-	margin-left: auto;
+	margin-left: 0;
 	margin-right: 545px;
 }
-
-#wp-calendar #prev a, html>body .entry ul {
-	padding-left: 0;
-	padding-right: 10px;
+img.alignright {
+	margin: 0 7px 2px 0;
 }
 
+img.alignleft {
+	margin: 0 0 2px 7px;
+}
+
+.alignright {
+	float: left;
+}
+
+.alignleft {
+	float: right;
+}
+code {
+	display:block;
+	direction:ltr;
+	text-align:left;
+}
+acronym, abbr, span.caps {
+	letter-spacing:0; /* fix opera bug */
+}
+html>body .entry ul {
+	padding:0 10px 0 0;
+	text-indent:10px;
+}
+html>body .entry li {
+	margin: 7px 10px 8px 0;
+}
+.entry ol {
+	padding: 0 35px 0 0;
+}
+#sidebar ul ul, #sidebar ul ol {
+	margin: 5px 10px 0 0;
+}
+#sidebar ul ul ul, #sidebar ul ol {
+	margin: 0 10px 0 0;
+}
+#commentform input {
+	margin: 5px 0 1px 5px;
+}
+#commentform #submit {
+	float:left;
+}
+.commentlist p {
+	margin: 10px 0 10px 5px;
+}
+#wp-calendar #next a {
+	padding-right:0;
+	padding-left:10px;
+	text-align:left;
+}
+#wp-calendar #prev a {
+	padding-left:0;
+	padding-right:10px;
+	text-align:right;
+}
 blockquote {
-	border-left: 0;
-	border-right: 5px solid #ddd;
+	margin: 15px 10px 0 30px;
 	padding-left: 0;
 	padding-right: 20px;
-	margin: 15px 10px 0 30px;
+	border-left: 0 none;
+	border-right: 5px solid #ddd;
 }
-
-#wp-calendar #next a {
-	padding-right: 0;
-	padding-left: 10px;
-	text-align: left;
+#email, #url {
+	direction:ltr;
 }
