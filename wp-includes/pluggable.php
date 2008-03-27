@@ -431,14 +431,10 @@ function wp_authenticate($username, $password) {
 		return $user;
 	}
 
-	if ( !wp_check_password($password, $user->user_pass) ) {
+	if ( !wp_check_password($password, $user->user_pass, $user->ID) ) {
 		do_action( 'wp_login_failed', $username );
 		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
 	}
-
-	// If using old md5 password, rehash.
-	if ( strlen($user->user_pass) <= 32 )
-		wp_set_password($password, $user->ID);
 
 	return new WP_User($user->ID);
 }
@@ -1134,11 +1130,20 @@ if ( !function_exists('wp_check_password') ) :
  * @param string $hash Hash of the user's password to check against.
  * @return bool False, if the $password does not match the hashed password
  */
-function wp_check_password($password, $hash) {
+function wp_check_password($password, $hash, $user_id = '') {
 	global $wp_hasher;
 
-	if ( strlen($hash) <= 32 )
-		return ( $hash == md5($password) );
+	// If the hash is still md5...
+	if ( strlen($hash) <= 32 ) {
+		$check = ( $hash == md5($password) );
+		if ( $check && $user_id ) {
+			// Rehash using new hash.
+			wp_set_password($password, $user_id);
+			$hash = wp_hash_password($password);
+		}
+
+		return apply_filters('check_password', $check, $password, $hash, $user_id);
+	}
 
 	// If the stored hash is longer than an MD5, presume the
 	// new style phpass portable hash.
@@ -1150,7 +1155,7 @@ function wp_check_password($password, $hash) {
 
 	$check = $wp_hasher->CheckPassword($password, $hash);
 
-	return apply_filters('check_password', $check, $password, $hash);
+	return apply_filters('check_password', $check, $password, $hash, $user_id);
 }
 endif;
 
