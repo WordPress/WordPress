@@ -40,7 +40,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
  *
  */
 function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
-	if ( ctype_digit( $src_file ) ) // Handle int as attachment ID
+	if ( is_numeric( $src_file ) ) // Handle int as attachment ID
 		$src_file = get_attached_file( $src_file );
 
 	$src = wp_load_image( $src_file );
@@ -124,7 +124,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
  *
  */
 function wp_load_image( $file ) {
-	if ( ctype_digit( $file ) )
+	if ( is_numeric( $file ) )
 		$file = get_attached_file( $file );
 
 	if ( ! file_exists( $file ) )
