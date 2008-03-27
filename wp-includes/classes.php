@@ -72,7 +72,6 @@ class WP {
 			$pathinfo = trim($pathinfo, '/');
 			$self = trim($self, '/');
 			$self = preg_replace("|^$home_path|", '', $self);
-			$self = str_replace($home_path, '', $self);
 			$self = trim($self, '/');
 
 			// The requested permalink is in $pathinfo for path info requests and
