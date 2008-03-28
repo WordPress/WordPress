@@ -152,11 +152,9 @@ $initArray = array (
 	'remove_script_host' => false,
 	'apply_source_formatting' => false,
 	'remove_linebreaks' => true,
-	'paste_auto_cleanup_on_paste' => true,
 	'paste_convert_middot_lists' => true,
 	'paste_remove_spans' => true,
 	'paste_remove_styles' => true,
-	'paste_strip_class_attributes' => 'all',
 	'gecko_spellcheck' => true,
 	'entities' => '38,amp,60,lt,62,gt',
 	'accessibility_focus' => false,
@@ -222,7 +220,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080325');
+	$cacheKey = apply_filters('tiny_mce_version', '20080327');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;

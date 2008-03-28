@@ -169,6 +169,7 @@ tinyMCEPopup = {
 		if (tinymce.isIE)
 			h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
 
+		document.dir = t.editor.getParam('directionality','');
 		document.body.innerHTML = t.editor.translate(h);
 		document.title = ti = t.editor.translate(ti);
 		document.body.style.display = '';
