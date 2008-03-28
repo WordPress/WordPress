@@ -43,6 +43,10 @@ if ($charset)
 else
 	$charset = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
 
+// No valid uses for UTF-7
+if ( false !== strpos($charset, 'UTF-7') )
+	die;
+
 if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
 	$title     = mb_convert_encoding($title, get_option('blog_charset'), $charset);
 	$excerpt   = mb_convert_encoding($excerpt, get_option('blog_charset'), $charset);
