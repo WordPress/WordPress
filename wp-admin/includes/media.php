@@ -511,7 +511,9 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 		else
 			$size = 'medium';
 
-		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, true, $size);
+		$rel = ( $url == get_attachment_link($attachment_id) );
+
+		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel, $size);
 	}
 
 	return $html;
