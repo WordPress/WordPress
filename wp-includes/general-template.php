@@ -1163,10 +1163,10 @@ function the_generator ( $type ) {
 function get_the_generator ( $type ) {
 	switch ($type) {
 		case 'html':
-			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '">' . "\n";
+			$gen = '<meta name="generator" content="WordPress ' . get_bloginfo( 'version' ) . '">' . "\n";
 			break;
 		case 'xhtml':
-			$gen = '<meta name="generator" content="WordPress/' . get_bloginfo( 'version' ) . '" />' . "\n";
+			$gen = '<meta name="generator" content="WordPress ' . get_bloginfo( 'version' ) . '" />' . "\n";
 			break;
 		case 'atom':
 			$gen = '<generator uri="http://wordpress.org/" version="' . get_bloginfo_rss( 'version' ) . '">WordPress</generator>';
@@ -1181,7 +1181,7 @@ function get_the_generator ( $type ) {
 			$gen = '<!-- generator="WordPress/' . get_bloginfo( 'version' ) . '" -->';
 			break;
 		case 'export':
-			$gen = '<!-- generator="wordpress/' . get_bloginfo_rss('version') . '" created="'. date('Y-m-d H:i') . '"-->';
+			$gen = '<!-- generator="WordPress/' . get_bloginfo_rss('version') . '" created="'. date('Y-m-d H:i') . '"-->';
 			break;
 	}
 	return apply_filters( "get_the_generator_{$type}", $gen, $type );
