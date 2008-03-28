@@ -925,6 +925,14 @@ class WP_Rewrite {
 
 		$rules .= "</IfModule>\n";
 
+		// If ModSecurity is loaded, disable it for uploads.
+		$rules .= "\n<IfModule mod_security.c>\n" .
+			"<Files async-upload.php>\n" .
+			"SecFilterEngine Off\n" .
+			"SecFilterScanPOST Off\n" .
+			"</Files>\n" .
+			"</IfModule>\n";
+
 		$rules = apply_filters('mod_rewrite_rules', $rules);
 		$rules = apply_filters('rewrite_rules', $rules);  // Deprecated
 

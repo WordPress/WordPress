@@ -16,6 +16,6 @@ $wp_version = '2.5-RC2';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 7499;
+$wp_db_version = 7558;
 
 ?>
