@@ -19,7 +19,7 @@ function redirect_post($post_ID = '') {
 	} elseif ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
 	} elseif ( isset($_POST['save']) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
-		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false )
+		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post-new.php') === false )
 			$location = add_query_arg( '_wp_original_http_referer', urlencode( stripslashes( $_POST['_wp_original_http_referer'] ) ), "post.php?action=edit&post=$post_ID&message=1" );
 		else
 			$location = "post.php?action=edit&post=$post_ID&message=4";
