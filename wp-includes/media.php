@@ -324,7 +324,7 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = fals
 		$hwstring = image_hwstring($width, $height);
 		if ( is_array($size) )
 			$size = join('x', $size);
-		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" />';
+		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" alt="" />';
 	}
 	
 	return $html;
@@ -409,7 +409,7 @@ function gallery_shortcode($attr) {
 	}
 
 	$output .= "
-			<br style='clear: both;' >
+			<br style='clear: both;' />
 		</div>\n";
 
 	return $output;
