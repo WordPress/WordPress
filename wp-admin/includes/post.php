@@ -74,7 +74,7 @@ function edit_post() {
 	if (!isset( $_POST['ping_status'] ))
 		$_POST['ping_status'] = 'closed';
 
-	foreach ( array ('aa', 'mm', 'jj', 'hh', 'mm') as $timeunit ) {
+	foreach ( array ('aa', 'mm', 'jj', 'hh', 'mn') as $timeunit ) {
 		if ( !empty( $_POST['hidden_' . $timeunit] ) && $_POST['hidden_' . $timeunit] != $_POST[$timeunit] ) {
 			$_POST['edit_date'] = '1';
 			break;
