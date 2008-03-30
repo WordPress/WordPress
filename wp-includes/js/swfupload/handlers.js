@@ -96,7 +96,7 @@ function deleteSuccess(data, textStatus) {
 	jQuery('#media-item-' + this.id + ' .filename').append(' <span class="file-error">'+swfuploadL10n.deleted+'</span>').siblings('a.toggle').remove();
 	jQuery('#media-item-' + this.id).children('.describe').css({backgroundColor:'#fff'}).end()
 			.animate({backgroundColor:'#ffc0c0'}, {queue:false,duration:50})
-			.animate({minHeight:0,height:36,}, 400, null, function(){jQuery(this).children('.describe').remove()})
+			.animate({minHeight:0,height:36}, 400, null, function(){jQuery(this).children('.describe').remove()})
 			.animate({backgroundColor:'#fff'}, 400)
 			.animate({height:0}, 800, null, function(){jQuery(this).remove();updateMediaForm();});
 

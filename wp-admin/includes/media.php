@@ -814,7 +814,7 @@ jQuery(function($){
 			file_queue_error_handler : fileQueueError,
 			file_dialog_complete_handler : fileDialogComplete,
 
-			debug: false,
+			debug: false
 		});
 	$("#flash-browse-button").bind( "click", function(){swfu.selectFiles();});
 });
