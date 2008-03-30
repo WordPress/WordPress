@@ -362,9 +362,9 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <br class="clear" />
 </div>
 
-</form>
 <?php endif; ?>
 
+</form>
 </div>
 
 <?php
