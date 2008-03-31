@@ -129,6 +129,6 @@ function shortcode_atts($pairs, $atts) {
 	return $out;
 }
 
-add_filter( 'the_content', 'do_shortcode', 9 );
+add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop() 
 
 ?>

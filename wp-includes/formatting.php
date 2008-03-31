@@ -5,7 +5,7 @@ function wptexturize($text) {
 	$next = true;
 	$output = '';
 	$curl = '';
-	$textarr = preg_split('/(<.*>)/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$stop = count($textarr);
 
 	// if a plugin has provided an autocorrect array, use it
@@ -26,7 +26,7 @@ function wptexturize($text) {
 	for ( $i = 0; $i < $stop; $i++ ) {
  		$curl = $textarr[$i];
 
-		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
+		if (isset($curl{0}) && '<' != $curl{0} && '[' != $curl{0} && $next) { // If it's not a tag
 			// static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions
