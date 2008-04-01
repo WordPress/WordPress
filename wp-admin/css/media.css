@@ -91,8 +91,15 @@ tr.image-size label {
 	max-height: 40px;
 }
 
-.filename {
-	display: none;
+.filename.original {
+	z-index: 10;
+	position: absolute;
+}
+.crunching {
+	display: block;
+	line-height: 32px;
+	text-align: right;
+	margin-right: 5px;
 }
 button.dismiss {
 	position: absolute;
@@ -216,7 +223,7 @@ abbr.required {
 	position: relative;
 	min-height: 36px;
 }
-#media-upload .filename {
+.filename {
 	display: block;
 	line-height: 36px;
 	margin-left: 50px;
