@@ -9,12 +9,18 @@ wp_dashboard_setup();
 function index_js() {
 ?>
 <script type="text/javascript">
-	jQuery(function() {
-		jQuery('#dashboard_incoming_links div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=incominglinks');
-		jQuery('#dashboard_primary div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=devnews');
-		jQuery('#dashboard_secondary div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=planetnews');
-		jQuery('#dashboard_plugins div.dashboard-widget-content').not( '.dashboard-widget-control' ).find( '.widget-loading' ).parent().load('index-extra.php?jax=plugins');
-	});
+jQuery(function($) {
+	var ajaxWidgets = {
+		dashboard_incoming_links: 'incominglinks',
+		dashboard_primary: 'devnews',
+		dashboard_secondary: 'planetnews',
+		dashboard_plugins: 'plugins'
+	};
+	$.each( ajaxWidgets, function(i,a) {
+		var e = jQuery('#' + i + ' div.dashboard-widget-content').not('.dashboard-widget-control').find('.widget-loading');
+		if ( e.size() ) { e.parent().load('index-extra.php?jax=' + a); }
+	} );
+});
 </script>
 <?php
 }
