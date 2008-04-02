@@ -519,6 +519,7 @@ class WP_Query {
 		$qv['day'] = (int) $qv['day'];
 		$qv['w'] = (int) $qv['w'];
 		$qv['m'] =  (int) $qv['m'];
+		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
 		if ( '' !== $qv['hour'] ) $qv['hour'] = (int) $qv['hour'];
 		if ( '' !== $qv['minute'] ) $qv['minute'] = (int) $qv['minute'];
 		if ( '' !== $qv['second'] ) $qv['second'] = (int) $qv['second'];
