@@ -363,8 +363,8 @@ function get_author_template() {
 
 function get_category_template() {
 	$template = '';
-	if ( file_exists(TEMPLATEPATH . "/category-" . get_query_var('cat') . '.php') )
-		$template = TEMPLATEPATH . "/category-" . get_query_var('cat') . '.php';
+	if ( file_exists(TEMPLATEPATH . "/category-" . absint( get_query_var('cat') ) . '.php') )
+		$template = TEMPLATEPATH . "/category-" . absint( get_query_var('cat') ) . '.php';
 	elseif ( file_exists(TEMPLATEPATH . "/category.php") )
 		$template = TEMPLATEPATH . "/category.php";
 
