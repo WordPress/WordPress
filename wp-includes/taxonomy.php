@@ -495,11 +495,7 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	$key = md5( serialize( $args ) . serialize( $taxonomies ) );
-	if ( $_GET['taxonomy_test'] )
-		$timer_start = time();
 	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {
-		if ( $_GET['taxonomy_test'] )
-			mail('markjaquith@gmail.com', 'MM Debug ' . $timer_start - time() , print_r($cache, true));
 		if ( isset( $cache[ $key ] ) )
 			return apply_filters('get_terms', $cache[$key], $taxonomies, $args);
 	}
