@@ -55,11 +55,12 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$output = "<tr id='cat-$category->term_id'$class>
 			   <th scope='row' class='check-column'>";
 	if ( absint(get_option( 'default_category' ) ) != $category->term_id ) {
-		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' /></th>";
+		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
 	} else {
 		$output .= "&nbsp;";
 	}
-	$output .= "<td>$edit</td>
+	$output .= "</th>
+				<td>$edit</td>
 				<td>$category->description</td>
 				<td class='num'>$posts_count</td>\n\t</tr>\n";
 
@@ -86,11 +87,17 @@ function link_cat_row( $category ) {
 
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='link-cat-$category->term_id'$class>" .
-		'<th scope="row" class="check-column"> <input type="checkbox" name="delete[]" value="' . $category->term_id . '" /></th>' .
-		"<td>$edit</td>
-		<td>$category->description</td>
-		<td class='num'>$count</td></tr>";
+	$output = "<tr id='link-cat-$category->term_id'$class>
+			   <th scope='row' class='check-column'>";
+	if ( absint( get_option( 'default_link_category' ) ) != $category->term_id ) {
+		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
+	} else {
+		$output .= "&nbsp;";
+	}
+	$output .= "</th>
+				<td>$edit</td>
+				<td>$category->description</td>
+				<td class='num'>$count</td></tr>";
 
 	return apply_filters( 'link_cat_row', $output );
 }
