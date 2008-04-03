@@ -460,6 +460,10 @@ function get_posts($args) {
 	if (!empty($exclusions))
 		$exclusions .= ')';
 
+	// orderby
+	if ( preg_match( '/.+ +(ASC|DESC)/i', $orderby ) )
+		$order = ''; // orderby has its own order, so we'll use that
+
 	$query  = "SELECT DISTINCT * FROM $wpdb->posts ";
 	$query .= empty( $category ) ? '' : ", $wpdb->term_relationships, $wpdb->term_taxonomy  ";
 	$query .= empty( $meta_key ) ? '' : ", $wpdb->postmeta ";

@@ -339,7 +339,14 @@ function gallery_shortcode($attr) {
 	$output = apply_filters('post_gallery', '', $attr);
 	if ( $output != '' )
 		return $output;
-		
+
+	// We're trusting author input, so let's at least make sure it looks like a valid orderby statement
+	if ( isset( $attr['orderby'] ) ) {
+		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
+		if ( !$attr['orderby'] )
+			unset( $attr['orderby'] );
+	}
+
 	extract(shortcode_atts(array(
 		'orderby'    => 'menu_order ASC, ID ASC',
 		'id'         => $post->ID,
@@ -351,8 +358,7 @@ function gallery_shortcode($attr) {
 	), $attr));
 
 	$id = intval($id);
-	$orderby = addslashes($orderby);
-	$attachments = get_children("post_parent=$id&post_type=attachment&post_mime_type=image&orderby=\"{$orderby}\"");
+	$attachments = get_children("post_parent=$id&post_type=attachment&post_mime_type=image&orderby={$orderby}");
 
 	if ( empty($attachments) )
 		return '';
@@ -426,7 +432,7 @@ function next_image_link() {
 function adjacent_image_link($prev = true) {
 	global $post;
 	$post = get_post($post);
-	$attachments = array_values(get_children("post_parent=$post->post_parent&post_type=attachment&post_mime_type=image&orderby=\"menu_order ASC, ID ASC\""));
+	$attachments = array_values(get_children("post_parent=$post->post_parent&post_type=attachment&post_mime_type=image&orderby=menu_order ASC, ID ASC"));
 
 	foreach ( $attachments as $k => $attachment )
 		if ( $attachment->ID == $post->ID )
