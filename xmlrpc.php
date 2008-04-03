@@ -1296,7 +1296,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ($post_more) {
-			$post_content = $post_content . "\n<!--more-->\n" . $post_more;
+			$post_content = $post_content . "<!--more-->" . $post_more;
 		}
 
 		$to_ping = $content_struct['mt_tb_ping_urls'];
@@ -1565,7 +1565,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ($post_more) {
-			$post_content = $post_content . "\n<!--more-->\n" . $post_more;
+			$post_content = $post_content . "<!--more-->" . $post_more;
 		}
 
 		$to_ping = $content_struct['mt_tb_ping_urls'];
