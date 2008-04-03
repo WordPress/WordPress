@@ -366,6 +366,15 @@ function sanitize_title_with_dashes($title) {
 	return $title;
 }
 
+// ensures a string is a valid SQL order by clause like: post_name ASC, ID DESC
+// accepts one or more columns, with or without ASC/DESC, and also accepts RAND()
+function sanitize_sql_orderby( $orderby ){
+	preg_match('/^\s*([a-z0-9_]+(\s+(ASC|DESC))?(\s*,\s*|\s*$))+|^\s*RAND\(\s*\)\s*$/i', $orderby, $obmatches);
+	if ( !$obmatches )
+		return false;
+	return $orderby;
+}
+
 function convert_chars($content, $deprecated = '') {
 	// Translation of invalid Unicode references range to valid range
 	$wp_htmltranswinuni = array(
