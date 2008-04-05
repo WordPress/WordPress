@@ -2712,12 +2712,19 @@ function update_page_cache(&$pages) {
  * @param int $id Page ID to clean
  */
 function clean_page_cache($id) {
+	global $wpdb;
+	$id = (int) $id;
+
 	clean_post_cache($id);
 
 	wp_cache_delete( 'all_page_ids', 'posts' );
 	wp_cache_delete( 'get_pages', 'posts' );
 
 	do_action('clean_page_cache', $id);
+
+	if ( $children = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_parent = '$id'" ) )
+		foreach( $children as $cid )
+			clean_post_cache( $cid );
 }
 
 /**
@@ -2943,7 +2950,7 @@ function _save_post_hook($post_id, $post) {
 function _get_post_ancestors(&$_post) {
     global $wpdb;
 
-    if ( !empty($_post->ancestors) )
+    if ( !isset($_post->ancestors) )
     	return;
 
     $_post->ancestors = array();
