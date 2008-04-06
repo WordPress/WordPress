@@ -114,6 +114,12 @@ p#post-search
 	float:right!important
 }
 
+.tablenav .delete 
+{
+	margin-left: 40px;
+	margin-right: 0;
+}
+
 ul.view-switch
 {
 	float:left;
