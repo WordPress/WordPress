@@ -920,7 +920,7 @@ class WP_Query {
 					$reqpage = 0;
 			}
 
-			if  ( ('page' != get_option('show_on_front') ) || ( $reqpage != get_option('page_for_posts') ) ) {
+			if  ( ('page' != get_option('show_on_front') ) || ( $reqpage !== get_option('page_for_posts') ) ) {
 				$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
 				$page_paths = '/' . trim($q['pagename'], '/');
 				$q['pagename'] = sanitize_title(basename($page_paths));
