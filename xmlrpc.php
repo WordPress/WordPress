@@ -59,11 +59,6 @@ function logIO($io,$msg) {
 		fclose($fp);
 	}
 	return true;
-	}
-
-function starify($string) {
-	$i = strlen($string);
-	return str_repeat('*', $i);
 }
 
 if ( isset($HTTP_RAW_POST_DATA) )
