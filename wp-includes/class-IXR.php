@@ -571,7 +571,7 @@ class IXR_Error {
     var $message;
     function IXR_Error($code, $message) {
         $this->code = $code;
-        $this->message = $message;
+        $this->message = htmlspecialchars($message);
     }
     function getXml() {
         $xml = <<<EOD
