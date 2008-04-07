@@ -794,7 +794,7 @@ jQuery(function($){
 			upload_url : "<?php echo attribute_escape( $flash_action_url ); ?>",
 			flash_url : "<?php echo get_option('siteurl').'/wp-includes/js/swfupload/swfupload_f9.swf'; ?>",
 			file_post_name: "async-upload",
-			file_types: "*.*",
+			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 			post_params : {
 				"post_id" : "<?php echo $post_id; ?>",
 				"auth_cookie" : "<?php echo $_COOKIE[AUTH_COOKIE]; ?>",
