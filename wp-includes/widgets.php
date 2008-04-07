@@ -614,6 +614,8 @@ function wp_widget_text_control($widget_args) {
 		}
 
 		foreach ( (array) $_POST['widget-text'] as $widget_number => $widget_text ) {
+			if ( !isset($widget_text['text']) && isset($options[$widget_number]) ) // user clicked cancel
+				continue;
 			$title = strip_tags(stripslashes($widget_text['title']));
 			if ( current_user_can('unfiltered_html') )
 				$text = stripslashes( $widget_text['text'] );
@@ -750,6 +752,8 @@ function wp_widget_categories_control( $widget_args ) {
 		}
 
 		foreach ( (array) $_POST['widget-categories'] as $widget_number => $widget_cat ) {
+			if ( !isset($widget_cat['title']) && isset($options[$widget_number]) ) // user clicked cancel
+				continue;
 			$title = trim(strip_tags(stripslashes($widget_cat['title'])));
 			$count = isset($widget_cat['count']);
 			$hierarchical = isset($widget_cat['hierarchical']);
@@ -1170,6 +1174,8 @@ function wp_widget_rss_control($widget_args) {
 		}
 
 		foreach( (array) $_POST['widget-rss'] as $widget_number => $widget_rss ) {
+			if ( !isset($widget_rss['url']) && isset($options[$widget_number]) ) // user clicked cancel
+				continue;
 			$widget_rss = stripslashes_deep( $widget_rss );
 			$url = sanitize_url(strip_tags($widget_rss['url']));
 			$options[$widget_number] = wp_widget_rss_process( $widget_rss, !isset($urls[$url]) );
@@ -1460,6 +1466,8 @@ function widget_many_control( $widget_args = 1 ) {
 
 		foreach ( (array) $_POST['widget-many'] as $widget_number => $widget_many_instance ) {
 			// compile data from $widget_many_instance
+			if ( !isset($widget_many_instance['something']) && isset($options[$widget_number]) ) // user clicked cancel
+				continue;
 			$something = wp_specialchars( $widget_many_instance['something'] );
 			$options[$widget_number] = array( 'something' => $something );  // Even simple widgets should store stuff in array, rather than in scalar
 		}

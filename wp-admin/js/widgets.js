@@ -11,7 +11,7 @@ jQuery(function($) {
 		var widgetAnim = $.browser.msie ? function() {
 			var t = $(this);
 			if ( t.is(':visible') ) {
-				if ( disableFields ) { t.find( ':enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
+				if ( disableFields ) { t.find( ':input:enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
 				li.css( 'marginLeft', 0 );
 				t.siblings('h4').children('a').text( widgetsL10n.edit );
 			} else {
@@ -25,7 +25,7 @@ jQuery(function($) {
 			var t = $(this);
 
 			if ( t.is(':visible') ) {
-				if ( disableFields ) { t.find( ':enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
+				if ( disableFields ) { t.find( ':input:enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
 				if ( width > 250 )
 					li.animate( { marginLeft: 0 } );
 				t.siblings('h4').children('a').text( widgetsL10n.edit );
