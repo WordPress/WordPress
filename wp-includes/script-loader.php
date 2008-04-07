@@ -187,7 +187,7 @@ class WP_Scripts {
 				'saveText' => attribute_escape(__('Save &raquo;')),
 				'confirmText' => __("Are you sure you want to delete the file '%title%'?\nClick ok to delete or cancel to go back.")
 			) );
-			$this->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20080319' );
+			$this->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20080407c' );
 			$this->localize( 'admin-widgets', 'widgetsL10n', array(
 				'add' => __('Add'),
 				'edit' => __('Edit'),
