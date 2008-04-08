@@ -167,8 +167,12 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php } ?>
 
-<?php wp_dropdown_categories('show_option_all='.__('View all categories').'&hide_empty=1&hierarchical=1&show_count=1&orderby=name&selected='.$cat);?>
-<?php do_action('restrict_manage_posts'); ?>
+<?php
+$dropdown_options = array('show_option_all' => __('View all categories'), 'hide_empty' => 0, 'hierarchical' => 1,
+	'show_count' => 0, 'orderby' => 'name', 'selected' => $cat);
+wp_dropdown_categories($dropdown_options);
+do_action('restrict_manage_posts');
+?>
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
 
 <?php } ?>
