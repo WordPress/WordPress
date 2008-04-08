@@ -810,7 +810,7 @@ function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
 		$time = $post->post_date;
 
 	$time = mysql2date($d, $time);
-	return apply_filters('get_the_time', $time, $d, $gmt);
+	return apply_filters('get_post_time', $time, $d, $gmt);
 }
 
 
