@@ -1142,7 +1142,8 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = NULL )
 			$ext = strtolower( ".$ext" );
 
 		$filename = str_replace( $ext, '', $filename );
-		$filename = sanitize_title_with_dashes( $filename ) . $ext;
+		// Strip % so the server doesn't try to decode entities.
+		$filename = str_replace('%', '', sanitize_title_with_dashes( $filename ) ) . $ext;
 
 		while ( file_exists( $dir . "/$filename" ) ) {
 			if ( '' == "$number$ext" )
