@@ -90,13 +90,13 @@ function retrieve_password() {
 	do_action('retreive_password', $user_login);  // Misspelled and deprecated
 	do_action('retrieve_password', $user_login);
 
-	$key = $wpdb->get_var("SELECT user_activation_key FROM $wpdb->users WHERE user_login = '$user_login'");
+	$key = $wpdb->get_var($wpdb->prepare("SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s", $user_login));
 	if ( empty($key) ) {
 		// Generate something random for a key...
 		$key = wp_generate_password();
 		do_action('retrieve_password_key', $user_login, $key);
 		// Now insert the new md5 key into the db
-		$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
+		$wpdb->query($wpdb->prepare("UPDATE $wpdb->users SET user_activation_key = %s WHERE user_login = %s", $key, $user_login));
 	}
 	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
 	$message .= get_option('siteurl') . "\r\n\r\n";
@@ -118,7 +118,7 @@ function reset_password($key) {
 	if ( empty( $key ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
 
-	$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_activation_key = '$key'");
+	$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->users WHERE user_activation_key = %s", $key));
 	if ( empty( $user ) )
 		return new WP_Error('invalid_key', __('Invalid key'));
 
