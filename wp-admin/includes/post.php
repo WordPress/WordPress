@@ -506,10 +506,9 @@ function _relocate_children( $old_ID, $new_ID ) {
 }
 
 function get_available_post_statuses($type = 'post') {
-	global $wpdb;
+	$stati = wp_count_posts($type);
 
-	$stati = $wpdb->get_col($wpdb->prepare("SELECT DISTINCT post_status FROM $wpdb->posts WHERE post_type = %s", $type));
-	return $stati;
+	return array_keys(get_object_vars($stati));
 }
 
 function wp_edit_posts_query( $q = false ) {
