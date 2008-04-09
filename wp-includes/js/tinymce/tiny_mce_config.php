@@ -256,8 +256,6 @@ if ( $disk_cache && is_file($cache_file) && is_readable($cache_file) ) {
 	if ( '.gz' == $cache_ext )
 		header( 'Content-Encoding: gzip' );
 
-	header( 'Content-Length: ' . strlen($content) );
-
 	echo $content;
 	exit;
 }
@@ -301,7 +299,6 @@ if ( '.gz' == $cache_ext ) {
 }
 
 // Stream to client
-header( 'Content-Length: ' . strlen($content) );
 echo $content;
 
 // Write file
