@@ -67,7 +67,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		?>
-		<td><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
+		<td><abbr title="<?php echo $t_time ?>"><?php echo apply_filters('post_date_column_time', $h_time, $post, $column_name) ?></abbr></td>
 		<?php
 		break;
 	case 'title':
