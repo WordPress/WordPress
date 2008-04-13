@@ -26,8 +26,7 @@ class WP_Filesystem_Direct{
 		return @file($file);
 	}
 	function put_contents($file,$contents,$mode=false,$type=''){
-		$fp=@fopen($file,'w'.$type);
-		if (!$fp)
+		if ( ! ($fp = @fopen($file,'w'.$type)) )
 			return false;
 		@fwrite($fp,$contents);
 		@fclose($fp);
@@ -37,6 +36,9 @@ class WP_Filesystem_Direct{
 	function cwd(){
 		return @getcwd();
 	}
+	function chdir($dir){
+		return @chdir($dir);
+	}
 	function chgrp($file,$group,$recursive=false){
 		if( ! $this->exists($file) )
 			return false;
@@ -45,10 +47,11 @@ class WP_Filesystem_Direct{
 		if( ! $this->is_dir($file) )
 			return @chgrp($file,$group);
 		//Is a directory, and we want recursive
+		$file = trailingshashit($file);
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename){
-			$this->chgrp($file.'/'.$filename,$group,$recursive);
-		}
+		foreach($filelist as $filename)
+			$this->chgrp($file . $filename, $group, $recursive);
+
 		return true;
 	}
 	function chmod($file,$mode=false,$recursive=false){
@@ -61,10 +64,11 @@ class WP_Filesystem_Direct{
 		if( ! $this->is_dir($file) )
 			return @chmod($file,$mode);
 		//Is a directory, and we want recursive
+		$file = trailingshashit($file);
 		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename){
-			$this->chmod($file.'/'.$filename,$mode,$recursive);
-		}
+		foreach($filelist as $filename)
+			$this->chmod($file . $filename, $mode, $recursive);
+
 		return true;
 	}
 	function chown($file,$owner,$recursive=false){
@@ -82,12 +86,12 @@ class WP_Filesystem_Direct{
 		return true;
 	}
 	function owner($file){
-		$owneruid=@fileowner($file);
+		$owneruid = @fileowner($file);
 		if( ! $owneruid )
 			return false;
 		if( !function_exists('posix_getpwuid') )
 			return $owneruid;
-		$ownerarray=posix_getpwuid($owneruid);
+		$ownerarray = posix_getpwuid($owneruid);
 		return $ownerarray['name'];
 	}
 	function getchmod($file){
@@ -163,12 +167,12 @@ class WP_Filesystem_Direct{
 		return $newmode;
 	}
 	function group($file){
-		$gid=@filegroup($file);
+		$gid = @filegroup($file);
 		if( ! $gid )
 			return false;
 		if( !function_exists('posix_getgrgid') )
 			return $gid;
-		$grouparray=posix_getgrgid($gid);
+		$grouparray = posix_getgrgid($gid);
 		return $grouparray['name'];
 	}
 
@@ -179,7 +183,7 @@ class WP_Filesystem_Direct{
 	}
 
 	function move($source,$destination,$overwrite=false){
-		//Possible to use rename()
+		//Possible to use rename()?
 		if( $this->copy($source,$destination,$overwrite) && $this->exists($destination) ){
 			$this->delete($source);
 			return true;
@@ -188,24 +192,24 @@ class WP_Filesystem_Direct{
 		}
 	}
 
-	function delete($file,$recursive=false){
+	function delete($file, $recursive=false){
 		$file = str_replace('\\','/',$file); //for win32, occasional problems deleteing files otherwise
 
 		if( $this->is_file($file) )
 			return @unlink($file);
-
 		if( !$recursive && $this->is_dir($file) )
 			return @rmdir($file);
 
-		$filelist = $this->dirlist($file);
-		if( ! $filelist )
-			return true; //No files exist, Say we've deleted them
+		//At this point its a folder, and we're in recursive mode
+		$file = trailingslashit($file);
+		$filelist = $this->dirlist($file, true);
 
 		$retval = true;
-		foreach($filelist as $filename=>$fileinfo){
-			if( ! $this->delete($file.'/'.$filename,$recursive) )
-				$retval = false;
-		}
+		if( is_array($filelist) ) //false if no files, So check first.
+			foreach($filelist as $filename=>$fileinfo)
+				if( ! $this->delete($file . $filename, $recursive) )
+					$retval = false;
+
 		if( ! @rmdir($file) )
 			return false;
 		return $retval;
@@ -224,7 +228,7 @@ class WP_Filesystem_Direct{
 	}
 
 	function is_readable($file){
-			return @is_readable($file);
+		return @is_readable($file);
 	}
 
 	function is_writable($file){
@@ -242,15 +246,15 @@ class WP_Filesystem_Direct{
 		return @filesize($file);
 	}
 
-	function touch($file,$time=0,$atime=0){
-		if($time==0)
+	function touch($file, $time = 0, $atime = 0){
+		if($time == 0)
 			$time = time();
-		if($atime==0)
+		if($atime == 0)
 			$atime = time();
 		return @touch($file,$time,$atime);
 	}
 
-	function mkdir($path,$chmod=false,$chown=false,$chgrp=false){
+	function mkdir($path, $chmod = false, $chown = false, $chgrp = false){
 		if( ! $chmod)
 			$chmod = $this->permission;
 
@@ -264,6 +268,7 @@ class WP_Filesystem_Direct{
 	}
 
 	function rmdir($path,$recursive=false){
+		//Currently unused and untested, Use delete() instead.
 		if( ! $recursive )
 			return @rmdir($path);
 		//recursive:
@@ -292,6 +297,8 @@ class WP_Filesystem_Direct{
 			$struc = array();
 			$struc['name'] 		= $entry;
 
+			if( '.' == $struc['name'] || '..' == $struc['name'] )
+				continue; //Do not care about these folders.
 			if( '.' == $struc['name'][0] && !$incdot)
 				continue;
 			if( $limitFile && $struc['name'] != $limitFile)
@@ -307,22 +314,15 @@ class WP_Filesystem_Direct{
 			$struc['lastmod']   = date('M j',$struc['lastmodunix']);
 			$struc['time']    	= date('h:i:s',$struc['lastmodunix']);
 			$struc['type']		= $this->is_dir($path.'/'.$entry) ? 'd' : 'f';
-			if ('d' == $struc['type'] ){
-				$struc['files'] = array();
 
-				if( $incdot ){
-					//We're including the doted starts
-					if( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder
-						if ($recursive)
-							$struc['files'] = $this->dirlist($path.'/'.$struc['name'],$incdot,$recursive);
-					}
-				} else { //No dots
-					if ($recursive)
-						$struc['files'] = $this->dirlist($path.'/'.$struc['name'],$incdot,$recursive);
-				}
+			if ('d' == $struc['type'] ){
+				if( $recursive )
+					$struc['files'] = $this->dirlist($path.'/'.$struc['name'], $incdot, $recursive);
+				else
+					$struc['files'] = array();
 			}
-			//File
-			$ret[$struc['name']] = $struc;
+
+			$ret[ $struc['name'] ] = $struc;
 		}
 		$dir->close();
 		unset($dir);
