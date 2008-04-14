@@ -686,7 +686,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$delete_href = wp_nonce_url("post.php?action=delete-post&amp;post=$attachment_id", 'delete-post_' . $attachment_id);
 	if ( $send )
-		$send = "<button type='submit' class='button' value='1' name='send[$attachment_id]'>" . __('Insert into Post') . '</button>';
+		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . __('Insert into Post') . "' />";
 	if ( $delete )
 		$delete = "<a href='$delete_href' id='del[$attachment_id]' disabled='disabled' class='delete'>" . __('Delete') . "</button>";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
