@@ -250,7 +250,7 @@ function upgrade_100() {
 	if ($allposts) :
 		foreach ($allposts as $post) {
 			// Check to see if it's already been imported
-			$cat = $wpdb->get_row( $wpdb->("SELECT * FROM $wpdb->post2cat WHERE post_id = %d AND category_id = %d", $post->ID, $post->post_category) );
+			$cat = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->post2cat WHERE post_id = %d AND category_id = %d", $post->ID, $post->post_category) );
 			if (!$cat && 0 != $post->post_category) { // If there's no result
 				$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->post2cat
 					(post_id, category_id)
@@ -671,7 +671,7 @@ function upgrade_230() {
 			if ( empty($tt_id) )
 				continue;
 
-			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ( %d, %d)", $link_id, $tt_id) );
+			$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ( %d, %d)", $link_id, $tt_id) );
 		}
 	}
 
