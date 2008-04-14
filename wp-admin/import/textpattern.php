@@ -8,7 +8,7 @@ if(!function_exists('get_comment_count'))
 	function get_comment_count($post_ID)
 	{
 		global $wpdb;
-		return $wpdb->get_var('SELECT count(*) FROM '.$wpdb->comments.' WHERE comment_post_ID = '.$post_ID);
+		return $wpdb->get_var( $wpdb->prepare("SELECT count(*) FROM $wpdb->comments WHERE comment_post_ID = %d", $post_ID) );
 	}
 }
 
@@ -17,7 +17,7 @@ if(!function_exists('link_exists'))
 	function link_exists($linkname)
 	{
 		global $wpdb;
-		return $wpdb->get_var('SELECT link_id FROM '.$wpdb->links.' WHERE link_name = "'.$wpdb->escape($linkname).'"');
+		return $wpdb->get_var( $wpdb->prepare("SELECT link_id FROM $wpdb->links WHERE link_name = %s", $linkname) );
 	}
 }
 

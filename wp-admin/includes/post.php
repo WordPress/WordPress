@@ -194,13 +194,13 @@ function post_exists($title, $content = '', $post_date = '') {
 	global $wpdb;
 
 	if (!empty ($post_date))
-		$post_date = "AND post_date = '$post_date'";
+		$post_date = $wpdb->prepare("AND post_date = %s", $post_date);
 
 	if (!empty ($title))
-		return $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$title' $post_date");
+		return $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s $post_date", $title) );
 	else
 		if (!empty ($content))
-			return $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_content = '$content' $post_date");
+			return $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_content = %s $post_date", $content) );
 
 	return 0;
 }
@@ -380,11 +380,9 @@ function add_meta( $post_ID ) {
 
 		wp_cache_delete($post_ID, 'post_meta');
 
-		$wpdb->query( "
-				INSERT INTO $wpdb->postmeta
-				(post_id,meta_key,meta_value )
-				VALUES ('$post_ID','$metakey','$metavalue' )
-			" );
+		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->postmeta 
+			(post_id,meta_key,meta_value ) VALUES (%s, %s, %s)",
+			$post_ID, $metakey, $metavalue) );
 		return $wpdb->insert_id;
 	}
 	return false;
@@ -394,10 +392,10 @@ function delete_meta( $mid ) {
 	global $wpdb;
 	$mid = (int) $mid;
 
-	$post_id = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 	wp_cache_delete($post_id, 'post_meta');
 
-	return $wpdb->query( "DELETE FROM $wpdb->postmeta WHERE meta_id = '$mid'" );
+	return $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 }
 
 // Get a list of previously defined keys
@@ -417,7 +415,7 @@ function get_post_meta_by_id( $mid ) {
 	global $wpdb;
 	$mid = (int) $mid;
 
-	$meta = $wpdb->get_row( "SELECT * FROM $wpdb->postmeta WHERE meta_id = '$mid'" );
+	$meta = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 	if ( is_serialized_string( $meta->meta_value ) )
 		$meta->meta_value = maybe_unserialize( $meta->meta_value );
 	return $meta;
@@ -427,11 +425,9 @@ function get_post_meta_by_id( $mid ) {
 function has_meta( $postid ) {
 	global $wpdb;
 
-	return $wpdb->get_results( "
-			SELECT meta_key, meta_value, meta_id, post_id
-			FROM $wpdb->postmeta
-			WHERE post_id = '$postid'
-			ORDER BY meta_key,meta_id", ARRAY_A );
+	return $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, post_id
+			FROM $wpdb->postmeta WHERE post_id = %d
+			ORDER BY meta_key,meta_id", $postid), ARRAY_A );
 
 }
 
@@ -443,13 +439,13 @@ function update_meta( $mid, $mkey, $mvalue ) {
 	if ( in_array($mkey, $protected) )
 		return false;
 
-	$post_id = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 	wp_cache_delete($post_id, 'post_meta');
 
 	$mvalue = maybe_serialize( stripslashes( $mvalue ));
 	$mvalue = $wpdb->escape( $mvalue );
 	$mid = (int) $mid;
-	return $wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'" );
+	return $wpdb->query( $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_key = %s, meta_value = %s WHERE meta_id = %d", $mkey, $mvalue, $mid) );
 }
 
 //
@@ -502,7 +498,7 @@ function _relocate_children( $old_ID, $new_ID ) {
 	global $wpdb;
 	$old_ID = (int) $old_ID;
 	$new_ID = (int) $new_ID;
-	return $wpdb->query( "UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID" );
+	return $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = %d WHERE post_parent = %d", $new_ID, $old_ID) );
 }
 
 function get_available_post_statuses($type = 'post') {

@@ -141,10 +141,7 @@ function edit_user( $user_id = 0 ) {
 function get_author_user_ids() {
 	global $wpdb;
 	$level_key = $wpdb->prefix . 'user_level';
-
-	$query = "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$level_key' AND meta_value != '0'";
-
-	return $wpdb->get_col( $query );
+	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value != '0'", $level_key) );
 }
 
 function get_editable_authors( $user_id ) {
@@ -176,7 +173,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true ) {
 
 	$level_key = $wpdb->prefix . 'user_level';
 
-	$query = "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$level_key'";
+	$query = $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s", $level_key);
 	if ( $exclude_zeros )
 		$query .= " AND meta_value != '0'";
 
@@ -187,9 +184,7 @@ function get_nonauthor_user_ids() {
 	global $wpdb;
 	$level_key = $wpdb->prefix . 'user_level';
 
-	$query = "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$level_key' AND meta_value = '0'";
-
-	return $wpdb->get_col( $query );
+	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
 }
 
 function get_others_unpublished_posts($user_id, $type='any') {
@@ -208,7 +203,7 @@ function get_others_unpublished_posts($user_id, $type='any') {
 		$other_unpubs = '';
 	} else {
 		$editable = join(',', $editable);
-		$other_unpubs = $wpdb->get_results("SELECT ID, post_title, post_author FROM $wpdb->posts WHERE post_type = 'post' AND $type_sql AND post_author IN ($editable) AND post_author != '$user_id' ORDER BY post_modified $dir");
+		$other_unpubs = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_title, post_author FROM $wpdb->posts WHERE post_type = 'post' AND $type_sql AND post_author IN ($editable) AND post_author != %d ORDER BY post_modified $dir", $user_id) );
 	}
 
 	return apply_filters('get_others_drafts', $other_unpubs);
@@ -241,8 +236,7 @@ function get_user_to_edit( $user_id ) {
 
 function get_users_drafts( $user_id ) {
 	global $wpdb;
-	$user_id = (int) $user_id;
-	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = $user_id ORDER BY post_modified DESC";
+	$query = $wpdb->prepare("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = %d ORDER BY post_modified DESC", $user_id);
 	$query = apply_filters('get_users_drafts', $query);
 	return $wpdb->get_results( $query );
 }
@@ -253,7 +247,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	$id = (int) $id;
 
 	if ($reassign == 'novalue') {
-		$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
+		$post_ids = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id) );
 
 		if ($post_ids) {
 			foreach ($post_ids as $post_id)
@@ -261,18 +255,18 @@ function wp_delete_user($id, $reassign = 'novalue') {
 		}
 
 		// Clean links
-		$wpdb->query("DELETE FROM $wpdb->links WHERE link_owner = $id");
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->links WHERE link_owner = %d", $id) );
 	} else {
 		$reassign = (int) $reassign;
-		$wpdb->query("UPDATE $wpdb->posts SET post_author = {$reassign} WHERE post_author = {$id}");
-		$wpdb->query("UPDATE $wpdb->links SET link_owner = {$reassign} WHERE link_owner = {$id}");
+		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_author = %d WHERE post_author = %d", $reassign, $id) );
+		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->links SET link_owner = %d WHERE link_owner = %d}", $reassign, $id) );
 	}
 
 	// FINALLY, delete user
 	do_action('delete_user', $id);
 
-	$wpdb->query("DELETE FROM $wpdb->users WHERE ID = $id");
-	$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$id'");
+	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->users WHERE ID = %d", $id) );
+	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d", $id) );
 
 	wp_cache_delete($id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
@@ -323,7 +317,7 @@ class WP_User_Search {
 	function prepare_query() {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
-		$this->query_limit = ' LIMIT ' . $this->first_user . ',' . $this->users_per_page;
+		$this->query_limit = $wpdb->prepare(" LIMIT %d, %d", $this->first_user, $this->users_per_page);
 		$this->query_sort = ' ORDER BY user_login';
 		$search_sql = '';
 		if ( $this->search_term ) {
@@ -337,7 +331,7 @@ class WP_User_Search {
 
 		$this->query_from_where = "FROM $wpdb->users";
 		if ( $this->role )
-			$this->query_from_where .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE '%$this->role%'";
+			$this->query_from_where .= $wpdb->prepare(" INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id WHERE $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
 		else
 			$this->query_from_where .= " WHERE 1=1";
 		$this->query_from_where .= " $search_sql";

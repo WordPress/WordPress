@@ -11,7 +11,7 @@ nocache_headers();
 
 $comment_post_ID = (int) $_POST['comment_post_ID'];
 
-$status = $wpdb->get_row("SELECT post_status, comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'");
+$status = $wpdb->get_row( $wpdb->prepare("SELECT post_status, comment_status FROM $wpdb->posts WHERE ID = %d", $comment_post_ID) );
 
 if ( empty($status->comment_status) ) {
 	do_action('comment_id_not_found', $comment_post_ID);

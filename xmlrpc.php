@@ -1352,7 +1352,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if( is_array( $attachments ) ) {
 			foreach( $attachments as $file ) {
 				if( strpos( $post_content, $file->guid ) !== false ) {
-					$wpdb->query( "UPDATE {$wpdb->posts} SET post_parent = '$post_ID' WHERE ID = '{$file->ID}'" );
+					$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_parent = %d WHERE ID = %d", $post_ID, $file->ID) );
 				}
 			}
 		}
@@ -2093,7 +2093,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(404, __('Sorry, no such post.'));
 		}
 
-		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
+		$comments = $wpdb->get_results( $wpdb->prepare("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = %d", $post_ID) );
 
 		if (!$comments) {
 			return array();
@@ -2206,7 +2206,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			} elseif (is_string($urltest['fragment'])) {
 				// ...or a string #title, a little more complicated
 				$title = preg_replace('/[^a-z0-9]/i', '.', $urltest['fragment']);
-				$sql = "SELECT ID FROM $wpdb->posts WHERE post_title RLIKE '$title'";
+				$sql = $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title RLIKE %s", $title);
 				if (! ($post_ID = $wpdb->get_var($sql)) ) {
 					// returning unknown error '0' is better than die()ing
 			  		return new IXR_Error(0, '');
@@ -2235,7 +2235,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.'));
 
 		// Let's check that the remote site didn't already pingback this entry
-		$wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_ID' AND comment_author_url = '$pagelinkedfrom'");
+		$wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $post_ID, $pagelinkedfrom) );
 
 		if ( $wpdb->num_rows ) // We already have a Pingback from this URL
 	  		return new IXR_Error(48, __('The pingback has already been registered.'));
@@ -2344,7 +2344,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(32, __('The specified target URL does not exist.'));
 		}
 
-		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
+		$comments = $wpdb->get_results( $wpdb->prepare("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = %d", $post_ID) );
 
 		if (!$comments) {
 			return array();

@@ -15,7 +15,7 @@ if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 
 	if ( strstr( $s, ',' ) )
 		die; // it's a multiple tag insert, we won't find anything
-	$results = $wpdb->get_col( "SELECT name FROM $wpdb->terms WHERE name LIKE ('%$s%')" );
+	$results = $wpdb->get_col( $wpdb->prepare("SELECT name FROM $wpdb->terms WHERE name LIKE (%s)", '%' . $s . '%') );
 	echo join( $results, "\n" );
 	die;
 }

@@ -892,7 +892,7 @@ function page_template_dropdown( $default = '' ) {
 
 function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 	global $wpdb, $post_ID;
-	$items = $wpdb->get_results( "SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_type = 'page' ORDER BY menu_order" );
+	$items = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' ORDER BY menu_order", $parent) );
 
 	if ( $items ) {
 		foreach ( $items as $item ) {

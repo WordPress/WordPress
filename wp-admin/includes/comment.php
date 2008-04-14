@@ -3,8 +3,8 @@
 function comment_exists($comment_author, $comment_date) {
 	global $wpdb;
 
-	return $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments
-			WHERE comment_author = '$comment_author' AND comment_date = '$comment_date'");
+	return $wpdb->get_var( $wpdb->prepare("SELECT comment_post_ID FROM $wpdb->comments
+			WHERE comment_author = %s AND comment_date = %s", $comment_author, $comment_date) );
 }
 
 function edit_comment() {
@@ -67,7 +67,7 @@ function get_comment_to_edit( $id ) {
 function get_pending_comments_num( $post_id ) {
 	global $wpdb;
 	$post_id = (int) $post_id;
-	$pending = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = $post_id AND comment_approved = '0'" );
+	$pending = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '0'", $post_id) );
 	return $pending;
 }
 

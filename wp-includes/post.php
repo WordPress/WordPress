@@ -474,7 +474,7 @@ function get_posts($args) {
 	$query .= empty( $category ) ? '' : $wpdb->prepare("AND ($wpdb->posts.ID = $wpdb->term_relationships.object_id AND $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND $wpdb->term_taxonomy.term_id = %d AND $wpdb->term_taxonomy.taxonomy = 'category')", $category);
 	$query .= empty( $post_parent ) ? '' : $wpdb->prepare("AND $wpdb->posts.post_parent = %d ", $post_parent);
 	// expected_slashed ($meta_key, $meta_value) -- Also, this looks really funky, doesn't seem like it works
-	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )";
+	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : $wpdb->prepare(" AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = %s AND $wpdb->postmeta.meta_value = %s )", $meta_key, $meta_value);
 	$query .= empty( $post_mime_type ) ? '' : wp_post_mime_type_where($post_mime_type);
 	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . ' ' . $order;
 	if ( 0 < $numberposts )
@@ -1960,7 +1960,7 @@ function &get_pages($args = '') {
 	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ;
 	$query .= " WHERE (post_type = 'page' AND post_status = 'publish') $exclusions $inclusions " ;
 	// expected_slashed ($meta_key, $meta_value) -- also, it looks funky
-	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
+	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : $wpdb->prepare(" AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = %s AND $wpdb->postmeta.meta_value = %s )", $meta_key, $meta_value) ) ;
 	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
 
@@ -2737,7 +2737,7 @@ function clean_page_cache($id) {
 
 	do_action('clean_page_cache', $id);
 
-	if ( $children = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_parent = '$id'" ) )
+	if ( $children = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d", $id) ) )
 		foreach( $children as $cid )
 			clean_post_cache( $cid );
 }
@@ -2974,7 +2974,7 @@ function _get_post_ancestors(&$_post) {
     	return;
 
     $id = $_post->ancestors[] = $_post->post_parent;
-    while ( $ancestor = $wpdb->get_var("SELECT `post_parent` FROM $wpdb->posts WHERE ID= '{$id}' LIMIT 1") ) {
+    while ( $ancestor = $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE ID = %d LIMIT 1", $id) ) ) {
     	if ( $id == $ancestor )
     		break;
     	$id = $_post->ancestors[] = $ancestor;

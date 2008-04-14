@@ -47,7 +47,7 @@ function wp_delete_link($link_id) {
 
 	wp_delete_object_term_relationships($link_id, 'link_category');
 
-	$wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");
+	$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->links WHERE link_id = %d", $link_id) );
 
 	do_action('deleted_link', $link_id);
 
@@ -119,15 +119,14 @@ function wp_insert_link($linkdata) {
 	}
 
 	if ( $update ) {
-		$wpdb->query("UPDATE $wpdb->links SET link_url='$link_url',
-			link_name='$link_name', link_image='$link_image',
-			link_target='$link_target',
-			link_visible='$link_visible', link_description='$link_description',
-			link_rating='$link_rating', link_rel='$link_rel',
-			link_notes='$link_notes', link_rss = '$link_rss'
-			WHERE link_id='$link_id'");
+		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->links SET link_url = %s,
+			link_name = %s, link_image = %s, link_target = %s, 
+			link_visible = %s, link_description = %s, link_rating = %s, 
+			link_rel = %s, link_notes = %s, link_rss = %s
+			WHERE link_id = %s", $link_url, $link_name, $link_image, $link_target, $link_visible, $link_description, $link_rating, $link_rel, $link_notes, $link_rss, $link_id) );
 	} else {
-		$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) VALUES('$link_url','$link_name', '$link_image', '$link_target', '$link_description', '$link_visible', '$link_owner', '$link_rating', '$link_rel', '$link_notes', '$link_rss')");
+		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+		$link_url,$link_name, $link_image, $link_target, $link_description, $link_visible, $link_owner, $link_rating, $link_rel, $link_notes, $link_rss) );
 		$link_id = (int) $wpdb->insert_id;
 	}
 

@@ -641,7 +641,7 @@ class Blogger_Import {
 		$host = $this->blogs[$importing_blog]['host'];
 
 		// Get an array of posts => authors
-		$post_ids = (array) $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'blogger_blog' AND meta_value = '$host'");
+		$post_ids = (array) $wpdb->get_col( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'blogger_blog' AND meta_value = %s", $host) );
 		$post_ids = join( ',', $post_ids );
 		$results = (array) $wpdb->get_results("SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'blogger_author' AND post_id IN ($post_ids)");
 		foreach ( $results as $row )
@@ -658,7 +658,7 @@ class Blogger_Import {
 			$post_ids = (array) array_keys( $authors_posts, $this->blogs[$importing_blog]['authors'][$author][0] );
 			$post_ids = join( ',', $post_ids);
 
-			$wpdb->query("UPDATE $wpdb->posts SET post_author = $user_id WHERE id IN ($post_ids)");
+			$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_author = %d WHERE id IN ($post_ids)", $user_id) );
 			$this->blogs[$importing_blog]['authors'][$author][1] = $user_id;
 		}
 		$this->save_vars();
