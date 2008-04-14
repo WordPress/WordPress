@@ -434,7 +434,7 @@ case 'add-meta' :
 	break;
 case 'add-user' :
 	check_ajax_referer( $action );
-	if ( !current_user_can('edit_users') )
+	if ( !current_user_can('create_users') )
 		die('-1');
 	require_once(ABSPATH . WPINC . '/registration.php');
 	if ( !$user_id = add_user() )
