@@ -787,6 +787,9 @@ function media_upload_form( $errors = null ) {
 	<?php echo $errors['upload_error']->get_error_message(); ?>
 <?php } ?>
 </div>
+
+<?php do_action('pre-upload-ui'); ?>
+
 <?php if ( $flash ) : ?>
 <script type="text/javascript">
 <!--
@@ -822,15 +825,17 @@ jQuery(function($){
 //-->
 </script>
 
-
 <div id="flash-upload-ui">
+<?php do_action('pre-flash-upload-ui'); ?>
 	<p><input id="flash-browse-button" type="button" value="<?php _e('Choose files to upload'); ?>" class="button" /></p>
-	<p><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
+<?php do_action('post-flash-upload-ui'); ?>
+	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 </div>
 
 <?php endif; // $flash ?>
 
 <div id="html-upload-ui">
+<?php do_action('pre-html-upload-ui'); ?>
 	<p>
 	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php echo attribute_escape(__('Upload')); ?>" /> <a href="#" onClick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
 	</p>
@@ -839,7 +844,9 @@ jQuery(function($){
 	<?php if ( is_lighttpd_before_150() ): ?>
 	<p><?php _e('If you want to use all capabilities of the uploader, like uploading multiple files at once, please upgrade to lighttpd 1.5.'); ?></p>
 	<?php endif;?>
+<?php do_action('post-html-upload-ui'); ?>
 </div>
+<?php do_action('post-upload-ui'); ?>
 <?php
 }
 
@@ -849,6 +856,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 	$post_id = intval($_REQUEST['post_id']);
 
 	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type=$type&tab=type&post_id=$post_id";
+	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 
 	$callback = "type_form_$type";
 ?>
