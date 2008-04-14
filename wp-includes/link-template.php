@@ -554,7 +554,7 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 			}
 
 			if ( !empty($excluded_categories) ) {
-				$posts_in_ex_cats_sql = " AND tt.term_id NOT IN (" . implode($excluded_categories, ',') . ')';
+				$posts_in_ex_cats_sql = " AND tt.taxonomy = 'category' AND tt.term_id NOT IN (" . implode($excluded_categories, ',') . ')';
 			}
 		}
 	}
