@@ -235,7 +235,7 @@ function wp_read_image_metadata( $file ) {
 
 	// fetch additional info from exif if available
 	if ( is_callable('exif_read_data') && in_array($sourceImageType, apply_filters('wp_read_image_metadata_types', array(IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM)) ) ) {
-		$exif = exif_read_data( $file );
+		$exif = @exif_read_data( $file );
 		if (!empty($exif['FNumber']))
 			$meta['aperture'] = round( wp_exif_frac2dec( $exif['FNumber'] ), 2 );
 		if (!empty($exif['Model']))
