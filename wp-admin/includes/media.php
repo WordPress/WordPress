@@ -57,7 +57,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	if ( $url )
 		$html = "<a href='".attribute_escape($url)."'$rel>$html</a>";
 
-	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
+	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url, $size );
 
 	return $html;
 }

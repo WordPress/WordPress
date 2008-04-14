@@ -98,7 +98,8 @@ function get_image_tag($id, $alt, $title, $align, $size='medium') {
 
 	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'" '.$hwstring.'class="align'.attribute_escape($align).' size-'.attribute_escape($size).' wp-image-'.$id.'" />';
 
-	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url );
+	$url = '';
+	$html = apply_filters( 'image_send_to_editor', $html, $id, $alt, $title, $align, $url, $size );
 
 	return $html;
 }
