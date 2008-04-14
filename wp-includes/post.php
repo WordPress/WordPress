@@ -403,7 +403,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  * @param array $args {@internal Missing Description}}
  * @return array {@internal Missing Description}}
  */
-function get_posts($args) {
+function get_posts($args = null) {
 	global $wpdb;
 
 	$defaults = array(
