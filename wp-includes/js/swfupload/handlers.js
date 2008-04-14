@@ -12,7 +12,9 @@ function fileQueued(fileObj) {
 		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
 	}
 	// Create a progress bar containing the filename
-	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="filename original">' + fileObj.name + '</div><div class="progress"><div class="bar"></div></div></div>');
+	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="bar"></div></div><div class="filename original">' + fileObj.name + '</div></div>');
+	// Display the progress div
+	jQuery('#media-item-' + fileObj.id + ' .progress').show();
 
 	// Disable the submit button
 	jQuery('#insert-gallery').attr('disabled', 'disabled');
@@ -31,6 +33,7 @@ function uploadProgress(fileObj, bytesDone, bytesTotal) {
 function prepareMediaItem(fileObj, serverData) {
 	// Move the progress bar to 100%
 	jQuery('#media-item-' + fileObj.id + ' .bar').remove();
+	jQuery('#media-item-' + fileObj.id + ' .progress').hide();
 
 	// Append the HTML returned by the server -- thumbnail and form inputs
 	jQuery('#media-item-' + fileObj.id).append(serverData);
@@ -40,9 +43,6 @@ function prepareMediaItem(fileObj, serverData) {
 
 	// Replace the original filename with the new (unique) one assigned during upload
 	jQuery('#media-item-' + fileObj.id + ' .filename.original').replaceWith(jQuery('#media-item-' + fileObj.id + ' .filename.new'));
-
-	// Bind toggle function to a new mask over the progress bar area
-	jQuery('#media-item-' + fileObj.id + ' .progress').clone().empty().addClass('clickmask').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).siblings('.toggle').toggle();}).appendTo('#media-item-' + fileObj.id);
 
 	// Also bind toggle to the links
 	jQuery('#media-item-' + fileObj.id + ' a.toggle').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150);jQuery(this).parent().eq(0).children('.toggle').toggle();jQuery(this).siblings('a.toggle').focus();return false;});
