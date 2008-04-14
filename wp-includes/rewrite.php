@@ -993,6 +993,8 @@ class WP_Rewrite {
 
 		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
 		$structure = ltrim($this->permalink_structure, '/');
+		if ( $this->using_index_permalinks() )
+			$structure = ltrim($this->permalink_structure, $this->index . '/');
 		if ( 0 === strpos($structure, '%postname%') ||
 			 0 === strpos($structure, '%category%') ||
 			 0 === strpos($structure, '%tag%') ||
