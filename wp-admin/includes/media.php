@@ -801,7 +801,8 @@ jQuery(function($){
 				"post_id" : "<?php echo $post_id; ?>",
 				"auth_cookie" : "<?php echo $_COOKIE[AUTH_COOKIE]; ?>",
 				"type" : "<?php echo $type; ?>",
-				"tab" : "<?php echo $tab; ?>"
+				"tab" : "<?php echo $tab; ?>",
+				"short" : "1"
 			},
 			file_size_limit : "<?php echo wp_max_upload_size(); ?>b",
 			swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available

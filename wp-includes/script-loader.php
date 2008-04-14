@@ -87,7 +87,7 @@ class WP_Scripts {
 			'is_lighttpd_before_150' => is_lighttpd_before_150(),
 		) );
 		$this->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2.0.2');
-		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2-20080331');
+		$this->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.0.2-20080407');
 		// these error messages came from the sample swfupload js, they might need changing.
 		$this->localize( 'swfupload-handlers', 'swfuploadL10n', array(
 				'queue_limit_exceeded' => __('You have attempted to queue too many files.'),

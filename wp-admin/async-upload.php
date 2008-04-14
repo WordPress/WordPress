@@ -20,13 +20,26 @@ header('Content-Type: text/plain');
 if ( !current_user_can('upload_files') )
 	wp_die(__('You do not have permission to upload files.'));
 
+// just fetch the detail form for that attachment	
+if ( ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
+	echo get_media_item($id);
+	exit;
+}
+
 $id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 if (is_wp_error($id)) {
 	echo '<div id="media-upload-error">'.wp_specialchars($id->get_error_message()).'</div>';
 	exit;
 }
 
-$type = $_REQUEST['type'];
-echo apply_filters("async_upload_{$type}", $id);
+if ( $_REQUEST['short'] ) {
+	// short form response - attachment ID only
+	echo $id;
+}
+else {
+	// long form response - big chunk o html
+	$type = $_REQUEST['type'];
+	echo apply_filters("async_upload_{$type}", $id);
+}
 
 ?>

@@ -35,8 +35,18 @@ function prepareMediaItem(fileObj, serverData) {
 	jQuery('#media-item-' + fileObj.id + ' .bar').remove();
 	jQuery('#media-item-' + fileObj.id + ' .progress').hide();
 
-	// Append the HTML returned by the server -- thumbnail and form inputs
-	jQuery('#media-item-' + fileObj.id).append(serverData);
+	// Old style: Append the HTML returned by the server -- thumbnail and form inputs
+	if ( isNaN(serverData) || !serverData ) {
+		jQuery('#media-item-' + fileObj.id).append(serverData);
+		prepareMediaItemInit(fileObj);
+	}
+	// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
+	else {
+		jQuery('#media-item-' + fileObj.id).load('async-upload.php', {attachment_id:serverData, fetch:1}, function(){prepareMediaItemInit(fileObj);updateMediaForm()});
+	}
+}
+		
+function prepareMediaItemInit(fileObj) {
 
 	// Clone the thumbnail as a "pinkynail" -- a tiny image to the left of the filename
 	jQuery('#media-item-' + fileObj.id + ' .thumbnail').clone().attr('className', 'pinkynail toggle').prependTo('#media-item-' + fileObj.id);
