@@ -34,8 +34,8 @@ form#upload #post_content, form#upload #post_title {
 }
 
 .form-invalid input {
-	border-width: 1px; !important
-	border-style: solid; !important
+	border-width: 1px !important;
+	border-style: solid !important;
 }
 
 
@@ -1436,7 +1436,7 @@ ul.view-switch li.current {
 	background-image: url(images/tail.gif);
 	background-repeat: no-repeat;
 	background-position: 15px bottom;
-	background-color: thansparent;
+	background-color: transparent;
 }
 
 #tTips p#tTips_inside {
