@@ -335,7 +335,7 @@ class MT_Import {
 				else if ( 'ping' == $context )
 					$ping->title = $title;
 			} else if ( 0 === strpos($line, "STATUS:") ) {
-				$status = trim( substr($line, strlen("STATUS:")) );
+				$status = trim( strtolower( substr($line, strlen("STATUS:")) ) );
 				if ( empty($status) )
 					$status = 'publish';
 				$post->post_status = $status;
