@@ -313,11 +313,11 @@ var wpList = {
 				var addEl = this;
 				var c = wpList.parseClass(this,'add')[2] || addEl.id;
 				if ( !c ) { return; }
-				var forms = []; var ins = [];
+				var forms = []; var ins = []; // this is all really inefficient
 				$('#' + c + ' :input').focus( function() { currentFormEl = this; } ).blur( function() { currentFormEl = false; } ).each( function() {
 					ins.push(this);
-					$.merge(forms,$(this).parents('form'));
-					forms = $.unique(forms);
+					var f = $(this).parents('form:first').get(0);
+					if ( $.inArray(f,forms) < 0 ) { forms.push(f); }
 				} );
 				$(forms).submit( function() {
 					if ( 0 <= $.inArray(currentFormEl,ins) ) {
