@@ -137,15 +137,15 @@ button.dismiss {
 	max-width: 40px;
 }
 
-tbody.media-item-info tr {
+thead.media-item-info tr {
 	background-color: transparent;
 }
-tbody.media-item-info th, tbody.media-item-info td {
+thead.media-item-info th, thead.media-item-info td {
 	border: none;
 	margin: 0;
 }
 
-.form-table tbody.media-item-info {
+.form-table thead.media-item-info {
 	border: 8px solid #fff;
 }
 

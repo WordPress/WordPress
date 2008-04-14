@@ -666,15 +666,15 @@ function get_media_item( $attachment_id, $args = null ) {
 	$toggle_links
 	<div class='filename new'>$display_title</div>
 	<table class='slidetoggle describe $class'>
-		<tbody class='media-item-info'>
+		<thead class='media-item-info'>
 		<tr>
 			<td class='A1B1' rowspan='4'><img class='thumbnail' src='$thumb_url' alt='' /></td>
 			<td>$filename</td>
 		</tr>
-		<td>$post->post_mime_type</td></tr>
+		<tr><td>$post->post_mime_type</td></tr>
 		<tr><td>" . mysql2date($post->post_date, get_option('time_format')) . "</td></tr>
-		<tr><td>" . apply_filters('media_meta', '', $post) . "</tr></td>
-		</tbody>
+		<tr><td>" . apply_filters('media_meta', '', $post) . "</td></tr>
+		</thead>
 		<tbody>\n";
 
 	$defaults = array(
@@ -745,6 +745,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	if ( !empty($form_fields['_final']) )
 		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
+	$item .= "\t</tbody>\n";
 	$item .= "\t</table>\n";
 
 	foreach ( $hidden_fields as $name => $value )
