@@ -11,6 +11,8 @@ h6 {font-size: .75em}
 a.mceItemAnchor {width:12px; line-height:6px; overflow:hidden; padding-left:12px; background:url(img/items.gif) no-repeat bottom left;}
 img.mceItemAnchor {width:12px; height:12px; background:url(img/items.gif) no-repeat;}
 img {border:0;}
+table {cursor:default}
+table td, table th {cursor:text}
 
 /* IE */
 * html body {
