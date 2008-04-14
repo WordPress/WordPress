@@ -590,8 +590,9 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 }
 
 function get_media_items( $post_id, $errors ) {
-	if ( $post_id && $post = get_post($post_id) ) {
-		if ( $post->post_type == 'attachment' )
+	if ( $post_id ) {
+		$post = get_post($post_id);
+		if ( $post && $post->post_type == 'attachment' )
 			$attachments = array($post->ID => $post);
 		else
 			$attachments = get_children("post_parent=$post_id&post_type=attachment&orderby=menu_order ASC, ID&order=DESC");
