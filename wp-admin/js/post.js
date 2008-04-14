@@ -118,6 +118,10 @@ jQuery(document).ready( function() {
 		jQuery('#in-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
 		noSyncChecks = false;
 	};
+	var catAddBefore = function( s ) {
+		s.data += '&' + jQuery( '#categorychecklist :checked' ).serialize();
+		return s;
+	};
 	var catAddAfter = function( r, s ) {
 		if ( !newCatParent ) newCatParent = jQuery('#newcat_parent');
 		if ( !newCatParentOption ) newCatParentOption = newCatParent.find( 'option[value=-1]' );
@@ -140,6 +144,7 @@ jQuery(document).ready( function() {
 	jQuery('#categorychecklist').wpList( {
 		alt: '',
 		response: 'category-ajax-response',
+		addBefore: catAddBefore,
 		addAfter: catAddAfter
 	} );
 	jQuery('#category-add-toggle').click( function() {
@@ -148,7 +153,7 @@ jQuery(document).ready( function() {
 		jQuery('#newcat').focus();
 		return false;
 	} );
-	jQuery('.categorychecklist :checkbox').change( syncChecks ).filter( ':checked' ).change();
+	jQuery('.categorychecklist .popular-category :checkbox').change( syncChecks ).filter( ':checked' ).change();
 
 	jQuery('.edit-timestamp').click(function () {
 		if (jQuery('#timestampdiv').is(":hidden")) {

@@ -175,9 +175,10 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 	return $result;
 }
 
-function write_nested_categories( $categories ) {
+function write_nested_categories( $categories, $popular_ids = array() ) {
 	foreach ( $categories as $category ) {
-		echo "\n", '<li id="category-', $category['cat_ID'], '"><label for="in-category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'], '" type="checkbox" name="post_category[]" id="in-category-', $category['cat_ID'], '"', ($category['checked'] ? ' checked="checked"' : "" ), '/> ', wp_specialchars( apply_filters('the_category', $category['cat_name'] )), '</label>';
+		$class = in_array( $category['cat_ID'], $popular_ids ) ? ' class="popular-category"' : '';
+		echo "\n", "<li id='category-$category[cat_ID]'$class>", '<label for="in-category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'], '" type="checkbox" name="post_category[]" id="in-category-', $category['cat_ID'], '"', ($category['checked'] ? ' checked="checked"' : "" ), '/> ', wp_specialchars( apply_filters('the_category', $category['cat_name'] )), '</label>';
 
 		if ( $category['children'] ) {
 			echo "\n<ul>";
@@ -188,18 +189,20 @@ function write_nested_categories( $categories ) {
 	}
 }
 
-function dropdown_categories( $default = 0, $parent = 0 ) {
-	write_nested_categories( get_nested_categories( $default, $parent ) );
+function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
+	write_nested_categories( get_nested_categories( $default, $parent ), $popular_ids );
 }
 
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
 	$categories = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number ) );
 
+	$popular_ids = array();
 	foreach ( (array) $categories as $category ) {
+		$popular_ids[] = $category->term_id;
 		$id = "popular-category-$category->term_id";
 		?>
 
-		<li id="<?php echo $id; ?>" >
+		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit" for="in-<?php echo $id; ?>">
 			<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
 				<?php echo wp_specialchars( apply_filters( 'the_category', $category->name ) ); ?>
@@ -208,6 +211,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
 
 		<?php
 	}
+	return $popular_ids;
 }
 
 function dropdown_link_categories( $default = 0 ) {
