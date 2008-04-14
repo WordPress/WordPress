@@ -788,7 +788,7 @@ function wp_update_comment($commentarr) {
 			$comment_approved,
 			$comment_author_url,
 			$comment_date,
-			$comment_date_gmt
+			$comment_date_gmt,
 			$comment_ID) );
 
 	$rval = $wpdb->rows_affected;
