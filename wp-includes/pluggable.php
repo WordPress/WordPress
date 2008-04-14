@@ -1329,7 +1329,7 @@ if ( !function_exists('wp_login') ) :
  * global for why there was a failure can utilize it later.
  *
  * @since 1.2.2
- * @deprecated Use wp_signin()
+ * @deprecated Use wp_signon()
  * @global string $error Error when false is returned
  *
  * @param string $username User's username
