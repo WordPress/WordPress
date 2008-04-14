@@ -607,7 +607,7 @@ function get_media_items( $post_id, $errors ) {
 
 	foreach ( $attachments as $id => $attachment )
 		if ( $item = get_media_item( $id, array( 'errors' => isset($errors[$id]) ? $errors[$id] : null) ) )
-			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div id='media-upload-error-$id'></div><div class='filename'></div><div class='progress'><div class='bar'></div></div>$item<div class='progress clickmask'></div>\n</div>";
+			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div class='progress'><div class='bar'></div></div><div id='media-upload-error-$id'></div><div class='filename'></div>$item\n</div>";
 
 	return $output;
 }

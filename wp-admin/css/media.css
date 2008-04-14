@@ -92,8 +92,7 @@ tr.image-size label {
 }
 
 .filename.original {
-	z-index: 10;
-	position: absolute;
+	float: left;
 }
 .crunching {
 	display: block;
@@ -125,14 +124,18 @@ button.dismiss {
 	border-right-width: 3px;
 	border-right-style: solid;
 }
+
+#library-form .progress, #gallery-form .progress {
+	display: none;
+}
+
 .media-item .thumbnail {
 	max-width: 128px;
 	max-height: 128px;
 }
 .media-item .pinkynail {
-	position: absolute;
-	top: 2px;
-	left: 2px;
+	float: left;
+	margin: 2px;
 	height: 32px;
 	max-width: 40px;
 }
@@ -171,23 +174,14 @@ abbr.required {
 .describe-toggle-on, .describe-toggle-off {
 	display: block;
 	line-height: 36px;
-	z-index: 2;
-	position: absolute;
-	top: 0px;
-	right: 20px;
+	float: right;
+	margin-right: 20px;
 }
 .describe-toggle-off {
 	display: none;
 }
+
 .clickmask {
-	background: transparent;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	cursor: pointer;
-	border: none;
-	z-index: 3;
-	height: 36px;
 }
 
 .hidden {
@@ -217,17 +211,16 @@ abbr.required {
 }
 
 #media-upload .media-item {
+	position: relative;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	width: 623px;
-	position: relative;
 	min-height: 36px;
+	width: 100%;
 }
 .filename {
-	display: block;
 	line-height: 36px;
-	margin-left: 50px;
-	z-index: 2;
+	margin-left: 10px;
+	float: left;
 }
 #media-upload .describe {
 	border-top-width: 1px;
