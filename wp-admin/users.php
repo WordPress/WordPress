@@ -378,6 +378,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 ?>
 
 <br class="clear" />
+<?php if ( current_user_can('create_users') ) { ?>
 
 <div class="wrap">
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>
@@ -452,6 +453,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 </div>
 
 <?php
+}
 break;
 
 } // end of the $action switch
