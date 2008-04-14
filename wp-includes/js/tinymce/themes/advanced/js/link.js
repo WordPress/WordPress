@@ -34,10 +34,10 @@ var LinkDialog = {
 		var f = document.forms[0], ed = tinyMCEPopup.editor, e, b;
 
 		tinyMCEPopup.restoreSelection();
+		e = ed.dom.getParent(ed.selection.getNode(), 'A');
 
 		// Remove element if there is no href
 		if (!f.href.value) {
-			e = ed.dom.getParent(ed.selection.getNode(), 'A');
 			if (e) {
 				tinyMCEPopup.execCommand("mceBeginUndoLevel");
 				b = ed.selection.getBookmark();
@@ -49,13 +49,42 @@ var LinkDialog = {
 			}
 		}
 
-		ed.execCommand('mceInsertLink', false, {
-			href : f.href.value,
-			title : f.linktitle.value,
-			target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : null,
-			'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
-		});
+		tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
+		// Create new anchor elements
+		if (e == null) {
+			tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
+
+			tinymce.each(ed.dom.select("a"), function(n) {
+				if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
+					e = n;
+
+					ed.dom.setAttribs(e, {
+						href : f.href.value,
+						title : f.linktitle.value,
+						target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : null,
+						'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
+					});
+				}
+			});
+		} else {
+			ed.dom.setAttribs(e, {
+				href : f.href.value,
+				title : f.linktitle.value,
+				target : f.target_list ? f.target_list.options[f.target_list.selectedIndex].value : null,
+				'class' : f.class_list ? f.class_list.options[f.class_list.selectedIndex].value : null
+			});
+		}
+
+		// Don't move caret if selection was image
+		if (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') {
+			ed.focus();
+			ed.selection.select(e);
+			ed.selection.collapse(0);
+			tinyMCEPopup.storeSelection();
+		}
+
+		tinyMCEPopup.execCommand("mceEndUndoLevel");
 		tinyMCEPopup.close();
 	},
 

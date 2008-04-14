@@ -12,7 +12,9 @@
 @ require('../../../wp-config.php');
 
 function getFileContents($path) {
-	$path = realpath($path);
+
+	if ( function_exists('realpath') )
+		$path = realpath($path);
 
 	if ( ! $path || ! @is_file($path) )
 		return '';
@@ -150,6 +152,7 @@ $initArray = array (
 	'dialog_type' => 'modal',
 	'relative_urls' => false,
 	'remove_script_host' => false,
+	'convert_urls' => false,
 	'apply_source_formatting' => false,
 	'remove_linebreaks' => true,
 	'paste_convert_middot_lists' => true,
@@ -220,7 +223,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080327');
+	$cacheKey = apply_filters('tiny_mce_version', '20080414');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;

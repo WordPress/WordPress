@@ -41,6 +41,10 @@
 .o2k7Skin a.mceButtonEnabled:hover {background-color:#B2BBD0; background-position:0 -22px}
 .o2k7Skin a.mceButtonActive, .o2k7Skin a.mceButtonSelected {background-position:0 -44px}
 .o2k7Skin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30)}
+.o2k7Skin .mceButtonLabeled {width:auto}
+.o2k7Skin .mceButtonLabeled span.mceIcon {float:left}
+.o2k7Skin span.mceButtonLabel {display:block; font-size:10px; padding:4px 6px 0 22px; font-family:Tahoma,Verdana,Arial,Helvetica}
+.o2k7Skin .mceButtonDisabled .mceButtonLabel {color:#888}
 
 /* Separator */
 .o2k7Skin .mceSeparator {display:block; background:url(img/button_bg.png) -22px 0; width:5px; height:22px}
@@ -77,8 +81,8 @@
 .o2k7Skin .mceColorSplitMenu a.mceMoreColors {width:100%; height:auto; text-align:center; font-family:Tahoma,Verdana,Arial,Helvetica; font-size:11px; line-height:20px; border:1px solid #FFF}
 .o2k7Skin .mceColorSplitMenu a.mceMoreColors:hover {border:1px solid #0A246A; background-color:#B6BDD2}
 .o2k7Skin a.mceMoreColors:hover {border:1px solid #0A246A}
-.o2k7Skin .mceColorPreview {margin-left:2px; width:16px; height:4px; overflow:hidden; background:#9a9b9a}
-.o2k7Skin .mce_forecolor span.mceAction, .o2k7Skin .mce_backcolor span.mceAction {height:15px}
+.o2k7Skin .mceColorPreview {margin-left:2px; width:16px; height:4px; overflow:hidden; background:#9a9b9a;overflow:hidden}
+.o2k7Skin .mce_forecolor span.mceAction, .o2k7Skin .mce_backcolor span.mceAction {height:15px;overflow:hidden}
 
 /* Menu */
 .o2k7Skin .mceMenu {position:absolute; left:0; top:0; z-index:1000; border:1px solid #ABC6DD}
@@ -154,8 +158,8 @@
 .o2k7Skin span.mce_blockquote {background-position:-220px 0}
 .o2k7Skin .mce_forecolor span.mceAction {background-position:-720px 0}
 .o2k7Skin .mce_backcolor span.mceAction {background-position:-760px 0}
-.o2k7Skin .mce_forecolorpicker {background-position:-720px 0}
-.o2k7Skin .mce_backcolorpicker {background-position:-760px 0}
+.o2k7Skin span.mce_forecolorpicker {background-position:-720px 0}
+.o2k7Skin span.mce_backcolorpicker {background-position:-760px 0}
 
 /* Plugins */
 .o2k7Skin span.mce_advhr {background-position:-0px -20px}
