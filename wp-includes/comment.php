@@ -570,7 +570,7 @@ function wp_get_current_commenter() {
  */
 function wp_insert_comment($commentdata) {
 	global $wpdb;
-	extract($commentdata, EXTR_SKIP);
+	extract(stripslashes_deep($commentdata), EXTR_SKIP);
 
 	if ( ! isset($comment_author_IP) )
 		$comment_author_IP = '';
@@ -767,7 +767,7 @@ function wp_update_comment($commentarr) {
 	$commentarr = wp_filter_comment( $commentarr );
 
 	// Now extract the merged array.
-	extract($commentarr, EXTR_SKIP);
+	extract(stripslashes_deep($commentarr), EXTR_SKIP);
 
 	$comment_content = apply_filters('comment_save_pre', $comment_content);
 
