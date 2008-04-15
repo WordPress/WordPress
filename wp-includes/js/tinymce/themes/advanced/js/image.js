@@ -108,7 +108,7 @@ var ImageDialog = {
 			// Handle align
 			v = getSelectValue(f, 'align');
 			cls = f.class_name.value || '';
-			cls = cls ? cls.replace(/alignright\s*|alignleft\s*/g, '') : '';
+			cls = cls ? cls.replace(/alignright\s*|alignleft\s*|aligncenter\s*/g, '') : '';
 			cls = cls ? cls.replace(/^\s*(.+?)\s*$/, '$1') : '';
 			if (v) {
 				if (v == 'left' || v == 'right') {
