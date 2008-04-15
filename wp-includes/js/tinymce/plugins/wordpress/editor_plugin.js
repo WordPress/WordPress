@@ -11,8 +11,8 @@
 	tinymce.create('tinymce.plugins.WordPress', {
 		init : function(ed, url) {
 			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2');
-            var moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
-            var nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
+			var moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
+			var nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
 			if ( tinymce.util.Cookie.get('kitchenSink') == '1' )
 				ed.settings.wordpress_adv_hidden = 0;
@@ -42,13 +42,13 @@
 						inline : 1
 					});
 				});
-			
+
 			ed.addCommand('WP_Adv', function() {
 				var id = ed.controlManager.get(tbId).id, cm = ed.controlManager, cook = tinymce.util.Cookie, date;
 
 				date = new Date();
-        		date.setTime(date.getTime()+(10*365*24*60*60*1000));
-				
+				date.setTime(date.getTime()+(10*365*24*60*60*1000));
+
 				if (DOM.isHidden(id)) {
 					cm.setActive('wp_adv', 1);
 					DOM.show(id);
@@ -89,27 +89,52 @@
 				cmd : 'WP_Adv'
 			});
 
-			// Add class "alignleft" or "alignright" when selecting align for images.
+			// Add class "alignleft", "alignright" and "aligncenter" when selecting align for images.
+			ed.onExecCommand.add(function( editor, cmd ) {
+				var node, bl, dom = editor.dom;
+
+				if ( 'JustifyCenter' == cmd ) {
+					if ( ( node = editor.selection.getNode() ) && node.nodeName == 'IMG' ) {
+						if ( ! dom.hasClass( node, "aligncenter" ) && ( bl = editor.forceBlocks.getParentBlock(node) ) && bl.childNodes.length == 1 )
+							dom.setStyle(bl, 'text-align', '');
+					}
+					editor.execCommand('mceRepaint');
+				}
+			});
+
 			ed.onBeforeExecCommand.add(function( editor, cmd ) {
-				var node, dir, xdir;
-	
+				var node, dir, xdir, bl, dom = editor.dom;
+
 				if ( ( cmd.indexOf('Justify') != -1 ) && ( node = editor.selection.getNode() ) ) {
-					if ( node.nodeName !== 'IMG' ) return;
+					if ( 'JustifyFull' == cmd || node.nodeName !== 'IMG' ) return;
 					dir = cmd.substring(7).toLowerCase();
-					if ( 'JustifyCenter' == cmd || editor.queryCommandState( cmd ) ) {
-						editor.dom.removeClass( node, "alignleft" );
-						editor.dom.removeClass( node, "alignright" );
+
+					if (  editor.queryCommandState( cmd ) ) {
+						dom.removeClass( node, "alignleft" );
+						dom.removeClass( node, "alignright" );
+						dom.removeClass( node, "aligncenter" );
+					} else if ( 'JustifyCenter' == cmd ) {
+						dom.removeClass( node, "alignleft" );
+						dom.removeClass( node, "alignright" );
+
+						if ( dom.hasClass( node, "aligncenter" ) ) {
+							dom.removeClass( node, "aligncenter" );
+							if ( ( bl = editor.forceBlocks.getParentBlock(node) ) && bl.childNodes.length == 1 && tinymce.isGecko )
+								editor.selection.select(bl.firstChild);
+						} else dom.addClass( node, "aligncenter" );
+
 					} else {
 						xdir = ( dir == 'left' ) ? 'right' : 'left';
-						editor.dom.removeClass( node, "align"+xdir );
-						editor.dom.addClass( node, "align"+dir );
+						dom.removeClass( node, "aligncenter" );
+						dom.removeClass( node, "align"+xdir );
+						dom.addClass( node, "align"+dir );
 					}
 				}
 			});
-			
+
 			// Add listeners to handle more break
 			t._handleMoreBreak(ed, url);
-			
+
 			// Add custom shortcuts
 			ed.addShortcut('alt+shift+c', ed.getLang('justifycenter_desc'), 'JustifyCenter');
 			ed.addShortcut('alt+shift+r', ed.getLang('justifyright_desc'), 'JustifyRight');
@@ -157,7 +182,7 @@
 
 		_handleMoreBreak : function(ed, url) {
 			var moreHTML = '<img src="' + url + '/img/trans.gif" alt="$1" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
-            var nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
+			var nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
 			// Load plugin specific CSS into editor
 			ed.onInit.add(function() {
@@ -169,12 +194,12 @@
 				if (ed.theme.onResolveName) {
 					ed.theme.onResolveName.add(function(th, o) {
 						if (o.node.nodeName == 'IMG') {
-                            if ( ed.dom.hasClass(o.node, 'mceWPmore') )
-                                o.name = 'wpmore';
-                            if ( ed.dom.hasClass(o.node, 'mceWPnextpage') )
-                                o.name = 'wppage';
-                        }
-							
+							if ( ed.dom.hasClass(o.node, 'mceWPmore') )
+								o.name = 'wpmore';
+							if ( ed.dom.hasClass(o.node, 'mceWPnextpage') )
+								o.name = 'wppage';
+						}
+
 					});
 				}
 			});
@@ -190,15 +215,13 @@
 				if (o.get)
 					o.content = o.content.replace(/<img[^>]+>/g, function(im) {
 						if (im.indexOf('class="mceWPmore') !== -1) {
-                            var m;
-                            var moretext = (m = im.match(/alt="(.*?)"/)) ? m[1] : '';
-
-                            im = '<!--more'+moretext+'-->';
-                        }
-                        if (im.indexOf('class="mceWPnextpage') !== -1)
+							var m, moretext = (m = im.match(/alt="(.*?)"/)) ? m[1] : '';
+							im = '<!--more'+moretext+'-->';
+						}
+						if (im.indexOf('class="mceWPnextpage') !== -1)
 							im = '<!--nextpage-->';
-						
-                        return im;
+
+						return im;
 					});
 			});
 
