@@ -219,29 +219,17 @@ endif; ?>
 
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
-	<p id="category-add" class="wp-hidden-child">
-		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" tabindex="3" />
-		<?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
-		<input type="button" id="category-add-sumbit" class="add:categorychecklist:category-add button" value="<?php _e( 'Add' ); ?>" tabindex="3" />
-		<?php wp_nonce_field( 'add-category', '_ajax_nonce', false ); ?>
-		<span id="category-ajax-response"></span>
-	</p>
+	<p id="category-add" class="wp-hidden-child"></p>
 </div>
 
 <ul id="category-tabs">
-	<li class="ui-tabs-selected"><a href="#categories-all" tabindex="3"><?php _e( 'All Categories' ); ?></a></li>
-	<li class="wp-no-js-hidden"><a href="#categories-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
+	<li class="ui-tabs-selected"><a href="#categories-pop" tabindex="3"><?php _e( 'Most Used' ); ?></a></li>
+	<li class="wp-no-js-hidden"><a id="category-tabs-all" href="edit-form-advanced-tabs.php?post=<?php echo $post_ID; ?>" tabindex="3"><?php _e( 'All Categories' ); ?></a></li>
 </ul>
 
 <div id="categories-pop" class="ui-tabs-panel" style="display: none;">
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear" >
-		<?php $popular_ids = wp_popular_terms_checklist('category'); ?>
-	</ul>
-</div>
-
-<div id="categories-all" class="ui-tabs-panel">
-	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php dropdown_categories( 0, 0, $popular_ids ); ?>
+		<?php $popular_ids = wp_popular_terms_checklist('category'); // If we up the # here we have to do so in edit-form-advanced-tabs.php too ?>
 	</ul>
 </div>
 

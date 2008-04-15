@@ -1265,6 +1265,16 @@ ul.categorychecklist li {
 	margin: 0;
 }
 
+ul#category-tabs a {
+	width: 100%;
+	display: block;
+}
+
+.ui-tabs-loading {
+	outline: none;
+	background: url(../images/loading.gif) no-repeat 0 50%;
+}
+
 #linkcategorydiv ul#category-tabs {
 	float: left;
 	width: 120px;
