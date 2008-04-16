@@ -54,7 +54,7 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo $form_action ?>" />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
-<input type="hidden" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
+<input type="hidden" id="post_author" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php
