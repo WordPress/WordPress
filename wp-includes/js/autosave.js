@@ -175,8 +175,10 @@ var autosave = function() {
 		post_data["comment_status"] = 'open';
 	if ( jQuery("#ping_status").attr("checked") )
 		post_data["ping_status"] = 'open';
-	if( jQuery("#excerpt"))
+	if ( jQuery("#excerpt") )
 		post_data["excerpt"] = jQuery("#excerpt").val();
+	if ( jQuery("#post_author") )
+		post_data["post_author"] = jQuery("#post_author").val();
 
 	// Don't run while the TinyMCE spellcheck is on.  Why?  Who knows.
 	if ( rich && tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) {
