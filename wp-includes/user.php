@@ -19,6 +19,8 @@ function wp_signon( $credentials = '' ) {
 	else
 		$credentials['remember'] = false;
 
+	do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
+
 	// If no credential info provided, check cookie.
 	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
 			$user = wp_validate_auth_cookie();
@@ -41,8 +43,6 @@ function wp_signon( $credentials = '' ) {
 			$error->add('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
 		return $error;
 	}
-
-	do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
 
 	$user = wp_authenticate($credentials['user_login'], $credentials['user_password']);
 	if ( is_wp_error($user) )
