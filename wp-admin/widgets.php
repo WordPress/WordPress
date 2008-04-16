@@ -18,7 +18,7 @@ if ( isset($_GET['sidebar']) && isset($wp_registered_sidebars[$_GET['sidebar']])
 	$sidebar = attribute_escape( $_GET['sidebar'] );
 } elseif ( is_array($wp_registered_sidebars) && !empty($wp_registered_sidebars) ) {
 	// By default we look at the first defined sidebar
-	$sidebar = array_shift( array_keys($wp_registered_sidebars) );
+	$sidebar = array_shift( $keys = array_keys($wp_registered_sidebars) );
 } else {
 	// If no sidebars, die.
 	require_once( 'admin-header.php' );
