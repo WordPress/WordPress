@@ -770,7 +770,7 @@ class Blogger_Import {
 				$this->$key = $value;
 
 		if ( isset( $_REQUEST['blog'] ) ) {
-			$blog = is_array($_REQUEST['blog']) ? array_shift( array_keys( $_REQUEST['blog'] ) ) : $_REQUEST['blog'];
+			$blog = is_array($_REQUEST['blog']) ? array_shift( $keys = array_keys( $_REQUEST['blog'] ) ) : $_REQUEST['blog'];
 			$blog = (int) $blog;
 			$result = $this->import_blog( $blog );
 			if ( is_wp_error( $result ) )
