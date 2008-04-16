@@ -73,7 +73,7 @@ function wp_insert_link($linkdata) {
 	$linkdata = wp_parse_args($linkdata, $defaults);
 	$linkdata = sanitize_bookmark($linkdata, 'db');
 
-	extract($linkdata, EXTR_SKIP);
+	extract(stripslashes_deep($linkdata), EXTR_SKIP);
 
 	$update = false;
 
