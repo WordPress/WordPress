@@ -165,19 +165,17 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 		else
 			return $null;
 	} elseif ( is_object($post) ) {
+		_get_post_ancestors($post);
 		wp_cache_add($post->ID, $post, 'posts');
 		$_post = &$post;
 	} else {
 		$post = (int) $post;
 		if ( ! $_post = wp_cache_get($post, 'posts') ) {
 			$_post = & $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post));
+			_get_post_ancestors($_post);
 			wp_cache_add($_post->ID, $_post, 'posts');
 		}
 	}
-
-	// Populate the ancestors field.
-	// Not cached since we don't clear cache for ancestors when a post changes.
-	_get_post_ancestors($_post);
 
 	$_post = sanitize_post($_post, $filter);
 
@@ -2727,12 +2725,19 @@ function update_page_cache(&$pages) {
  * @param int $id Page ID to clean
  */
 function clean_page_cache($id) {
+	global $wpdb;
+	$id = (int) $id;
+
 	clean_post_cache($id);
 
 	wp_cache_delete( 'all_page_ids', 'posts' );
 	wp_cache_delete( 'get_pages', 'posts' );
 
 	do_action('clean_page_cache', $id);
+
+	if ( $children = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d", $id) ) )
+		foreach( $children as $cid )
+			clean_page_cache( $cid );
 }
 
 /**
@@ -2956,22 +2961,22 @@ function _save_post_hook($post_id, $post) {
 //
 
 function _get_post_ancestors(&$_post) {
-    global $wpdb;
+	global $wpdb;
 
-    if ( !empty($_post->ancestors) )
-    	return;
+	if ( isset($_post->ancestors) )
+		return;
 
-    $_post->ancestors = array();
+	$_post->ancestors = array();
 
-    if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )
-    	return;
+	if ( empty($_post->post_parent) || $_post->ID == $_post->post_parent )
+		return;
 
-    $id = $_post->ancestors[] = $_post->post_parent;
-    while ( $ancestor = $wpdb->get_var("SELECT `post_parent` FROM $wpdb->posts WHERE ID= '{$id}' LIMIT 1") ) {
-    	if ( $id == $ancestor )
-    		break;
-    	$id = $_post->ancestors[] = $ancestor;
-    }
+	$id = $_post->ancestors[] = $_post->post_parent;
+	while ( $ancestor = $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE ID = %d LIMIT 1", $id) ) ) {
+		if ( $id == $ancestor )
+			break;
+		$id = $_post->ancestors[] = $ancestor;
+	}
 }
 
 ?>
