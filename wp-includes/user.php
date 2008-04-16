@@ -179,17 +179,16 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	if ( is_string($meta_value) )
 		$meta_value = stripslashes($meta_value);
 	$meta_value = maybe_serialize($meta_value);
-	$meta_value = $wpdb->escape($meta_value);
 
 	if (empty($meta_value)) {
 		return delete_usermeta($user_id, $meta_key);
 	}
 
-	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %d", $user_id, $meta_key) );
+	$cur = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
 	if ( !$cur ) {
-		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
+		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
 		VALUES
-		( '$user_id', '$meta_key', '$meta_value' )");
+		( %d, %s, %s )", $user_id, $meta_key, $meta_value) );
 	} else if ( $cur->meta_value != $meta_value ) {
 		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->usermeta SET meta_value = %s WHERE user_id = %d AND meta_key = %s", $meta_value, $user_id, $meta_key) );
 	} else {
