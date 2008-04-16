@@ -27,7 +27,7 @@ class WP_Scripts {
 			'enterImageDescription' => __('Enter a description of the image')
 		) );
 
-		$this->add( 'colorpicker', '/wp-includes/js/colorpicker.js', false, '3517' );
+		$this->add( 'colorpicker', '/wp-includes/js/colorpicker.js', array('prototype'), '3517' );
 
 		// Let a plugin replace the visual editor
 		$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
