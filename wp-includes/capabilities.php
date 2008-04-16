@@ -34,7 +34,7 @@ class WP_Roles {
 		}
 	}
 
-	function add_role($role, $display_name, $capabilities = '') {
+	function add_role($role, $display_name, $capabilities = array()) {
 		if ( isset($this->roles[$role]) )
 			return;
 
@@ -465,7 +465,7 @@ function get_role($role) {
 	return $wp_roles->get_role($role);
 }
 
-function add_role($role, $display_name, $capabilities = '') {
+function add_role($role, $display_name, $capabilities = array()) {
 	global $wp_roles;
 
 	if ( ! isset($wp_roles) )
