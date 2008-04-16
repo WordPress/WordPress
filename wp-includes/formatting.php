@@ -26,7 +26,7 @@ function wptexturize($text) {
 	for ( $i = 0; $i < $stop; $i++ ) {
  		$curl = $textarr[$i];
 
-		if (isset($curl{0}) && '<' != $curl{0} && '[' != $curl{0} && $next) { // If it's not a tag
+		if (isset($curl{0}) && '<' != $curl{0} && '[' != $curl{0} && $next) { // If it's not a tag or shortcode
 			// static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions
@@ -74,6 +74,7 @@ function wpautop($pee, $br = 1) {
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
 	$pee = preg_replace('/\n?(.+?)(?:\n\s*\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end
 	$pee = preg_replace('|<p>\s*?</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace
+	$pee = preg_replace('/<p>(\s*?' . get_shortcode_regex(true) . '\s*)<\/p>/s', '$1', $pee); // don't auto-p wrap post-formatting shortcodes
 	$pee = preg_replace('!<p>([^<]+)\s*?(</(?:div|address|form)[^>]*>)!', "<p>$1</p>$2", $pee);
 	$pee = preg_replace( '|<p>|', "$1<p>", $pee );
 	$pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee); // don't pee all over a tag
@@ -840,6 +841,7 @@ function wp_trim_excerpt($text) { // Fakes an excerpt if needed
 		$text = get_the_content('');
 		$text = apply_filters('the_content', $text);
 		$text = str_replace(']]>', ']]&gt;', $text);
+		$text = preg_replace('|//\s*<!\[CDATA\[|', '<![CDATA[', $text);
 		$text = strip_tags($text);
 		$excerpt_length = 55;
 		$words = explode(' ', $text, $excerpt_length + 1);
