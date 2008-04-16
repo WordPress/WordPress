@@ -879,6 +879,10 @@ html, body {
 	margin-bottom: 6px;
 }
 
+#profile-page .form-table input[type=text] { 
+	width: 300px;
+}
+
 #pass-strength-result {
 	width: 197px;
 	float: left;
