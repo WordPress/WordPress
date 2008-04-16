@@ -20,7 +20,8 @@ elseif (strpos($_SERVER['REQUEST_URI'], 'link-add.php') !== false)
 else
 	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
 
-$awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
+$awaiting_mod = wp_count_comments();
+$awaiting_mod = $awaiting_mod->moderated;
 $menu[15] = array(__('Design'), 'switch_themes', 'themes.php');
 $menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='comment-count'>$awaiting_mod</span></span>" ), 'edit_posts', 'edit-comments.php');
 $menu[30] = array(__('Settings'), 'manage_options', 'options-general.php');
