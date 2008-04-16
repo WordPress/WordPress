@@ -11,17 +11,27 @@ class Custom_Image_Header {
 		$page = add_theme_page(__('Custom Image Header'), __('Custom Image Header'), 'edit_themes', 'custom-header', array(&$this, 'admin_page'));
 
 		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
+		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
 		add_action("admin_head-$page", $this->admin_header_callback, 51);
 	}
 
-	function js_includes() {
-		wp_enqueue_script('cropper');
-		wp_enqueue_script('colorpicker');
+	function step() {
+		$step = (int) @$_GET['step'];
+		if ( $step < 1 || 3 < $step )
+			$step = 1;
+		return $step;
 	}
 
-	function js() {
+	function js_includes() {
+		$step = $this->step();
+		if ( 1 == $step )
+			wp_enqueue_script('colorpicker');
+		elseif ( 2 == $step )	
+			wp_enqueue_script('cropper');
+	}
 
+	function take_action() {
 		if ( isset( $_POST['textcolor'] ) ) {
 			check_admin_referer('custom-header');
 			if ( 'blank' == $_POST['textcolor'] ) {
@@ -36,48 +46,18 @@ class Custom_Image_Header {
 			check_admin_referer('custom-header');
 			remove_theme_mods();
 		}
-	?>
-<script type="text/javascript">
-
-	function onEndCrop( coords, dimensions ) {
-		$( 'x1' ).value = coords.x1;
-		$( 'y1' ).value = coords.y1;
-		$( 'x2' ).value = coords.x2;
-		$( 'y2' ).value = coords.y2;
-		$( 'width' ).value = dimensions.width;
-		$( 'height' ).value = dimensions.height;
 	}
 
-	// with a supplied ratio
-	Event.observe(
-		window,
-		'load',
-		function() {
-			var xinit = <?php echo HEADER_IMAGE_WIDTH; ?>;
-			var yinit = <?php echo HEADER_IMAGE_HEIGHT; ?>;
-			var ratio = xinit / yinit;
-			var ximg = $('upload').width;
-			var yimg = $('upload').height;
-			if ( yimg < yinit || ximg < xinit ) {
-				if ( ximg / yimg > ratio ) {
-					yinit = yimg;
-					xinit = yinit * ratio;
-				} else {
-					xinit = ximg;
-					yinit = xinit / ratio;
-				}
-			}
-			new Cropper.Img(
-				'upload',
-				{
-					ratioDim: { x: xinit, y: yinit },
-					displayOnInit: true,
-					onEndCrop: onEndCrop
-				}
-			)
-		}
-	);
+	function js() {
+		$step = $this->step();
+		if ( 1 == $step )
+			$this->js_1();
+		elseif ( 2 == $step )
+			$this->js_2();
+	}
 
+	function js_1() { ?>
+<script type="text/javascript">
 	var cp = new ColorPicker();
 
 	function pickColor(color) {
@@ -116,7 +96,7 @@ class Custom_Image_Header {
 		}
 	}
 	function colorDefault() {
-		pickColor('<?php echo HEADER_TEXTCOLOR; ?>');
+		pickColor('#<?php echo HEADER_TEXTCOLOR; ?>');
 	}
 
 	function hide_text() {
@@ -145,6 +125,50 @@ class Custom_Image_Header {
 Event.observe( window, 'load', hide_text );
 	<?php } ?>
 
+</script>
+<?php
+	}
+
+	function js_2() { ?>
+<script type="text/javascript">
+	function onEndCrop( coords, dimensions ) {
+		$( 'x1' ).value = coords.x1;
+		$( 'y1' ).value = coords.y1;
+		$( 'x2' ).value = coords.x2;
+		$( 'y2' ).value = coords.y2;
+		$( 'width' ).value = dimensions.width;
+		$( 'height' ).value = dimensions.height;
+	}
+
+	// with a supplied ratio
+	Event.observe(
+		window,
+		'load',
+		function() {
+			var xinit = <?php echo HEADER_IMAGE_WIDTH; ?>;
+			var yinit = <?php echo HEADER_IMAGE_HEIGHT; ?>;
+			var ratio = xinit / yinit;
+			var ximg = $('upload').width;
+			var yimg = $('upload').height;
+			if ( yimg < yinit || ximg < xinit ) {
+				if ( ximg / yimg > ratio ) {
+					yinit = yimg;
+					xinit = yinit * ratio;
+				} else {
+					xinit = ximg;
+					yinit = xinit / ratio;
+				}
+			}
+			new Cropper.Img(
+				'upload',
+				{
+					ratioDim: { x: xinit, y: yinit },
+					displayOnInit: true,
+					onEndCrop: onEndCrop
+				}
+			)
+		}
+	);
 </script>
 <?php
 	}
@@ -252,7 +276,7 @@ Event.observe( window, 'load', hide_text );
 <form method="POST" action="<?php echo attribute_escape(add_query_arg('step', 3)) ?>">
 
 <p><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
-<div id="testWrap">
+<div id="testWrap" style="position: relative">
 <img src="<?php echo $url; ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" />
 </div>
 
@@ -327,19 +351,13 @@ Event.observe( window, 'load', hide_text );
 	}
 
 	function admin_page() {
-		if ( !isset( $_GET['step'] ) )
-			$step = 1;
-		else
-			$step = (int) $_GET['step'];
-
-		if ( 1 == $step ) {
+		$step = $this->step();
+		if ( 1 == $step )
 			$this->step_1();
-		} elseif ( 2 == $step ) {
+		elseif ( 2 == $step )
 			$this->step_2();
-		} elseif ( 3 == $step ) {
+		elseif ( 3 == $step )
 			$this->step_3();
-		}
-
 	}
 
 }
