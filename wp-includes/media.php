@@ -286,7 +286,7 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 
 	if ( is_array($size) || empty($size) || empty($imagedata['sizes'][$size]) )
 		return false;
-		
+
 	$data = $imagedata['sizes'][$size];
 	// include the full filesystem path of the intermediate file
 	if ( empty($data['path']) && !empty($data['file']) ) {
@@ -300,7 +300,7 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 // get an image to represent an attachment - a mime icon for files, thumbnail or intermediate size for images
 // returns an array (url, width, height), or false if no image is available
 function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = false) {
-	
+
 	// get a thumbnail or intermediate image if there is one
 	if ( $image = image_downsize($attachment_id, $size) )
 		return $image;
@@ -327,11 +327,11 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = fals
 			$size = join('x', $size);
 		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" alt="" />';
 	}
-	
+
 	return $html;
 }
 
-add_shortcode('gallery', 'gallery_shortcode');
+add_shortcode('gallery', 'gallery_shortcode', true);
 
 function gallery_shortcode($attr) {
 	global $post;
@@ -376,7 +376,7 @@ function gallery_shortcode($attr) {
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
-	
+
 	$output = apply_filters('gallery_style', "
 		<style type='text/css'>
 			.gallery {
