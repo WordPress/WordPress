@@ -244,6 +244,7 @@ function image_make_intermediate_size($file, $width, $height, $crop=false) {
 	if ( $width || $height ) {
 		$resized_file = image_resize($file, $width, $height, $crop);
 		if ( !is_wp_error($resized_file) && $resized_file && $info = getimagesize($resized_file) ) {
+			$resized_file = apply_filters('image_make_intermediate_size', $resized_file);
 			return array(
 				'file' => basename( $resized_file ),
 				'width' => $info[0],
