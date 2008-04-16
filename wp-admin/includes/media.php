@@ -202,18 +202,6 @@ add_action('media_upload_media', 'media_upload_handler');
 function media_upload_form_handler() {
 	check_admin_referer('media-form');
 
-	// Insert media button was clicked
-	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
-		// Upload File button was clicked
-
-		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
-
-		if ( is_wp_error($id) ) {
-			$errors['upload_error'] = $id;
-			$id = false;
-		}
-	}
-
 	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
 		$post = $_post = get_post($attachment_id, ARRAY_A);
 		if ( isset($attachment['post_content']) )
