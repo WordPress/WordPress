@@ -194,8 +194,6 @@ function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() 
 }
 
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
-	global $checked_categories;
-	wp_set_checked_post_categories( $default );
 	$categories = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number ) );
 
 	$popular_ids = array();
@@ -206,7 +204,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
 
 		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit" for="in-<?php echo $id; ?>">
-			<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" name="post_category[]" <?php checked( in_array( $category->term_id, $checked_categories ), true ); ?> />
+			<input id="in-<?php echo $id; ?>" type="checkbox" value="<?php echo (int) $category->term_id; ?>" />
 				<?php echo wp_specialchars( apply_filters( 'the_category', $category->name ) ); ?>
 			</label>
 		</li>

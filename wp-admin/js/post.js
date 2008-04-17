@@ -100,79 +100,60 @@ jQuery(document).ready( function() {
 	jQuery('#newtag').keypress( tag_press_key );
 
 	// category tabs
-	var newCatFocus = false;
-	var categoryTabs =jQuery('#category-tabs').tabs( {
-		cache: true,
-		show: function(ui) {
-			if ( 'category-tabs-all' != ui.id ) { return; } // only do this for the all tab
-			var adder = jQuery('#category-add-hidden');
+	var categoryTabs =jQuery('#category-tabs').tabs();
 
-			if ( !adder.size() ) { return; } // we're already done
-
-			// Put HTML in proper place and set up the wp-lists etc
-			jQuery('#category-add').html( adder.remove().html() );
-
-			// Ajax Cat
-			var newCat = jQuery('#newcat').one( 'focus', function() { jQuery(this).val( '' ).removeClass( 'form-input-tip' ) } );
-			jQuery('#category-add-sumbit').click( function() { newCat.focus(); } );
-			var newCatParent = false;
-			var newCatParentOption = false;
-			var noSyncChecks = false; // prophylactic. necessary?
-			var syncChecks = function() {
-				if ( noSyncChecks )
-					return;
-				noSyncChecks = true;
+	// Ajax Cat
+	var newCat = jQuery('#newcat').one( 'focus', function() { jQuery(this).val( '' ).removeClass( 'form-input-tip' ) } );
+	jQuery('#category-add-sumbit').click( function() { newCat.focus(); } );
+	var newCatParent = false;
+	var newCatParentOption = false;
+	var noSyncChecks = false; // prophylactic. necessary?
+	var syncChecks = function() {
+		if ( noSyncChecks )
+			return;
+		noSyncChecks = true;
+		var th = jQuery(this);
+		var c = th.is(':checked');
+		var id = th.val().toString();
+		jQuery('#in-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
+		noSyncChecks = false;
+	};
+	var catAddBefore = function( s ) {
+		s.data += '&' + jQuery( '#categorychecklist :checked' ).serialize();
+		return s;
+	};
+	var catAddAfter = function( r, s ) {
+		if ( !newCatParent ) newCatParent = jQuery('#newcat_parent');
+		if ( !newCatParentOption ) newCatParentOption = newCatParent.find( 'option[value=-1]' );
+		jQuery(s.what + ' response_data', r).each( function() {
+			var t = jQuery(jQuery(this).text());
+			t.find( 'label' ).each( function() {
 				var th = jQuery(this);
-				var c = th.is(':checked');
-				var id = th.val().toString();
-				jQuery('#in-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
-				noSyncChecks = false;
-			};
-			var catAddBefore = function( s ) {
-				s.data += '&' + jQuery( '#categorychecklist :checked' ).serialize();
-				return s;
-			};
-			var catAddAfter = function( r, s ) {
-				if ( !newCatParent ) newCatParent = jQuery('#newcat_parent');
-				if ( !newCatParentOption ) newCatParentOption = newCatParent.find( 'option[value=-1]' );
-				jQuery(s.what + ' response_data', r).each( function() {
-					var t = jQuery(jQuery(this).text());
-					t.find( 'label' ).each( function() {
-						var th = jQuery(this);
-						var val = th.find('input').val();
-						var id = th.find('input')[0].id
-						jQuery('#' + id).change( syncChecks );
-						if ( newCatParent.find( 'option[value=' + val + ']' ).size() )
-							return;
-						var name = jQuery.trim( th.text() );
-						var o = jQuery( '<option value="' +  parseInt( val, 10 ) + '"></option>' ).text( name );
-						newCatParent.prepend( o );
-					} );
-					newCatParentOption.attr( 'selected', true );
-				} );
-			};
-			jQuery('#categorychecklist').wpList( {
-				alt: '',
-				response: 'category-ajax-response',
-				addBefore: catAddBefore,
-				addAfter: catAddAfter
+				var val = th.find('input').val();
+				var id = th.find('input')[0].id
+				jQuery('#' + id).change( syncChecks );
+				if ( newCatParent.find( 'option[value=' + val + ']' ).size() )
+					return;
+				var name = jQuery.trim( th.text() );
+				var o = jQuery( '<option value="' +  parseInt( val, 10 ) + '"></option>' ).text( name );
+				newCatParent.prepend( o );
 			} );
-			jQuery('.categorychecklist .popular-category :checkbox').change( syncChecks ).filter( ':checked' ).change();
-		
-			if ( newCatFocus ) {
-				jQuery('#newcat').focus();
-				newCatFocus = false;
-			}
-		}
+			newCatParentOption.attr( 'selected', true );
+		} );
+	};
+	jQuery('#categorychecklist').wpList( {
+		alt: '',
+		response: 'category-ajax-response',
+		addBefore: catAddBefore,
+		addAfter: catAddAfter
 	} );
-
 	jQuery('#category-add-toggle').click( function() {
 		jQuery(this).parents('div:first').toggleClass( 'wp-hidden-children' );
-		categoryTabs.tabsClick( 2 );
+		categoryTabs.tabsClick( 1 );
 		jQuery('#newcat').focus();
-		newCatFocus = true;
 		return false;
 	} );
+	jQuery('.categorychecklist .popular-category :checkbox').change( syncChecks ).filter( ':checked' ).change();
 
 	jQuery('.edit-timestamp').click(function () {
 		if (jQuery('#timestampdiv').is(":hidden")) {
