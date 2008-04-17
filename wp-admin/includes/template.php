@@ -1060,7 +1060,7 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced') {
 	if ( !isset($wp_meta_boxes[$page][$context]) )
 		$wp_meta_boxes[$page][$context] = array();
 
-	$wp_meta_boxes[$page][$context][] = array('id' => $id, 'title' => $title, 'callback' => $callback);
+	$wp_meta_boxes[$page][$context][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
 }
 
 function do_meta_boxes($page, $context, $object) {
