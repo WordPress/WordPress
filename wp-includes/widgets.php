@@ -864,10 +864,12 @@ function wp_widget_categories_upgrade() {
 }
 
 function wp_widget_recent_entries($args) {
-	if ( $output = wp_cache_get('widget_recent_entries', 'widget') )
-		return print($output);
+	if ( '%BEG_OF_TITLE%' != $args['before_title'] ) {
+		if ( $output = wp_cache_get('widget_recent_entries', 'widget') )
+			return print($output);
+		ob_start();
+	}
 
-	ob_start();
 	extract($args);
 	$options = get_option('widget_recent_entries');
 	$title = empty($options['title']) ? __('Recent Posts') : $options['title'];
@@ -892,7 +894,9 @@ function wp_widget_recent_entries($args) {
 <?php
 		wp_reset_query();  // Restore global post data stomped by the_post().
 	endif;
-	wp_cache_add('widget_recent_entries', ob_get_flush(), 'widget');
+
+	if ( '%BEG_OF_TITLE%' != $args['before_title'] )
+		wp_cache_add('widget_recent_entries', ob_get_flush(), 'widget');
 }
 
 function wp_flush_widget_recent_entries() {
