@@ -13,7 +13,7 @@ wpEditorInit = function() {
 switchEditors = {
 
     saveCallback : function(el, content, body) {
-    
+
         document.getElementById(el).style.color = '#fff';
         if ( tinyMCE.activeEditor.isHidden() ) 
             content = document.getElementById(el).value;
@@ -26,8 +26,14 @@ switchEditors = {
     pre_wpautop : function(content) {
         // We have a TON of cleanup to do. Line breaks are already stripped.
 
+        // Protect pre|script tags
+        content = content.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
+            a = a.replace(/<br ?\/?>[\r\n]*/g, '<wp_temp>');
+            return a.replace(/<\/?p( [^>]*)?>[\r\n]*/g, '<wp_temp>');
+        });
+
         // Pretty it up for the source editor
-        var blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tr|th|td|div|h[1-6]|pre|p';
+        var blocklist1 = 'blockquote|ul|ol|li|table|thead|tbody|tr|th|td|div|h[1-6]|p';
         content = content.replace(new RegExp('\\s*</('+blocklist1+')>\\s*', 'mg'), '</$1>\n');
         content = content.replace(new RegExp('\\s*<(('+blocklist1+')[^>]*)>', 'mg'), '\n<$1>');
 
@@ -46,7 +52,7 @@ switchEditors = {
         // Fix some block element newline issues
         content = content.replace(new RegExp('\\s*<div', 'mg'), '\n<div');
         content = content.replace(new RegExp('</div>\\s*', 'mg'), '</div>\n');
-        
+
         var blocklist2 = 'blockquote|ul|ol|li|table|thead|tr|th|td|h[1-6]|pre';
         content = content.replace(new RegExp('\\s*<(('+blocklist2+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
         content = content.replace(new RegExp('\\s*</('+blocklist2+')>\\s*', 'mg'), '</$1>\n');
@@ -64,6 +70,9 @@ switchEditors = {
         // Trim whitespace
         content = content.replace(new RegExp('^\\s*', ''), '');
         content = content.replace(new RegExp('\\s*$', ''), '');
+
+        // put back the line breaks in pre|script
+        content = content.replace(/<wp_temp>/g, '\n');
 
         // Hope.
         return content;
@@ -109,7 +118,7 @@ switchEditors = {
 				ec.style.padding = '6px';
             }
 
-			ta.style.color = '';
+            ta.style.color = '';
             this.wpSetDefaultEditor('html');
         }
     },
@@ -148,15 +157,21 @@ switchEditors = {
         pee = pee.replace(new RegExp('<p>\\s*?</p>', 'gi'), '');
         pee = pee.replace(new RegExp('<p>\\s*(</?(?:'+blocklist+')[^>]*>)\\s*</p>', 'gi'), "$1");
         pee = pee.replace(new RegExp("<p>(<li.+?)</p>", 'gi'), "$1");
-        pee = pee.replace(new RegExp('<p><blockquote([^>]*)>', 'gi'), "<blockquote$1><p>");
-        pee = pee.replace(new RegExp('</blockquote></p>', 'gi'), '</p></blockquote>');
+        pee = pee.replace(new RegExp('<p>\\s*<blockquote([^>]*)>', 'gi'), "<blockquote$1><p>");
+        pee = pee.replace(new RegExp('</blockquote>\\s*</p>', 'gi'), '</p></blockquote>');
         pee = pee.replace(new RegExp('<p>\\s*(</?(?:'+blocklist+')[^>]*>)', 'gi'), "$1");
         pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*</p>', 'gi'), "$1");
         pee = pee.replace(new RegExp('\\s*\\n', 'gi'), "<br />\n");
         pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*<br />', 'gi'), "$1");
         pee = pee.replace(new RegExp('<br />(\\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)', 'gi'), '$1');
-        pee = pee.replace(new RegExp('^((?:&nbsp;)*)\\s', 'mg'), '$1&nbsp;');
-        //pee = pee.replace(new RegExp('(<pre.*?>)(.*?)</pre>!ise', " stripslashes('$1') .  stripslashes(clean_pre('$2'))  . '</pre>' "); // Hmm...
-        return pee;
+        // pee = pee.replace(new RegExp('^((?:&nbsp;)*)\\s', 'mg'), '$1&nbsp;');
+
+        // Fix the pre|script tags	   
+        pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
+			a = a.replace(/<br ?\/?>[\r\n]*/g, '\n');
+			return a.replace(/<\/?p( [^>]*)?>[\r\n]*/g, '\n');
+        });
+
+	    return pee;
     }
 }
