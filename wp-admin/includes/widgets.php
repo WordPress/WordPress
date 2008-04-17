@@ -21,7 +21,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 		$no_widgets_shown = true;
 		$already_shown = array();
 		foreach ( $wp_registered_widgets as $name => $widget ) :
-			if ( in_array( $widget['callback'], $already_shown ) ) // We already showed this multi-widget
+			if ( 'all' == $show && in_array( $widget['callback'], $already_shown ) ) // We already showed this multi-widget
 				continue;
 
 			if ( $search_terms ) {
@@ -47,7 +47,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 				continue;
 
 			ob_start();
-				$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' ) ) );
+				$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template', '_show' => $show ), 1 => $widget['params'][0] ) );
 				$sidebar_args = call_user_func_array( 'wp_widget_control', $args );
 			$widget_control_template = ob_get_contents();
 			ob_end_clean();
@@ -61,7 +61,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 					'key' => false,
 					'edit' => false
 				);
-				if ( $is_multi ) {
+				if ( 'all' == $show && $is_multi ) {
 					// it's a multi-widget.  We only need to show it in the list once.
 					$already_shown[] = $widget['callback'];
 					$num = (int) array_pop( explode( '-', $widget['id'] ) );
@@ -92,12 +92,17 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 
 			$no_widgets_shown = false;
 
+
+			if ( 'all' != $show && $sidebar_args['_widget_title'] )
+				$widget_title = $sidebar_args['_widget_title'];
+			else
+				$widget_title = $widget['name'];
 		?>
 
 		<li id="widget-list-item-<?php echo attribute_escape( $widget['id'] ); ?>" class="widget-list-item">
 			<h4 class="widget-title widget-draggable">
 
-				<?php echo wp_specialchars( $widget['name'] ); ?>
+				<?php echo $widget_title; ?>
 
 				<?php if ( 'add' == $action ) : ?>
 
@@ -192,7 +197,7 @@ function wp_widget_control( $sidebar_args ) {
 
 	$id_format = $widget['id'];
 	// We aren't showing a widget control, we're outputing a template for a mult-widget control
-	if ( 'template' == $sidebar_args['_display'] && isset($control['params'][0]['number']) ) {
+	if ( 'all' == $sidebar_args['_show'] && 'template' == $sidebar_args['_display'] && isset($control['params'][0]['number']) ) {
 		// number == -1 implies a template where id numbers are replaced by a generic '%i%'
 		$control['params'][0]['number'] = -1;
 		// if given, id_base means widget id's should be constructed like {$id_base}-{$id_number}
@@ -202,7 +207,7 @@ function wp_widget_control( $sidebar_args ) {
 
 	$widget_title = '';
 	// We grab the normal widget output to find the widget's title
-	if ( is_callable( $widget['_callback'] ) ) {
+	if ( ( 'all' != $sidebar_args['_show'] || 'template' != $sidebar_args['_display'] ) && is_callable( $widget['_callback'] ) ) {
 		ob_start();
 		$args = func_get_args();
 		call_user_func_array( $widget['_callback'], $args );
@@ -212,10 +217,12 @@ function wp_widget_control( $sidebar_args ) {
 	$wp_registered_widgets[$widget_id]['callback'] = $wp_registered_widgets[$widget_id]['_callback'];
 	unset($wp_registered_widgets[$widget_id]['_callback']);
 
-	if ( $widget_title && $widget_title != $control['name'] )
+	if ( $widget_title && $widget_title != $sidebar_args['widget_name'] )
 		$widget_title = sprintf( _c('%1$s: %2$s|1: widget name, 2: widget title' ), $sidebar_args['widget_name'], $widget_title );
 	else
 		$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
+
+	$sidebar_args['_widget_title'] = $widget_title;
 
 	if ( empty($sidebar_args['_display']) || 'template' != $sidebar_args['_display'] )
 		echo $sidebar_args['before_widget'];
@@ -270,7 +277,8 @@ function wp_widget_control_ob_filter( $string ) {
 	if ( false === $end = strpos( $string, '%END_OF_TITLE%' ) )
 		return '';
 	$string = substr( $string, $beg + 14 , $end - $beg - 14);
-	return wp_specialchars( strip_tags( $string ) );
+	$string = str_replace( '&nbsp;', ' ', $string );
+	return trim( wp_specialchars( strip_tags( $string ) ) );
 }
 
 function widget_css() {
