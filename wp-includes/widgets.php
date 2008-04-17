@@ -428,6 +428,8 @@ function wp_widget_pages_control() {
 
 function wp_widget_links($args) {
 	extract($args, EXTR_SKIP);
+
+	$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
 	wp_list_bookmarks(array(
 		'title_before' => $before_title, 'title_after' => $after_title,
 		'category_before' => $before_widget, 'category_after' => $after_widget,
