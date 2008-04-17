@@ -451,6 +451,11 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 function wp_count_comments() {
 	global $wpdb;
 
+	$count = wp_cache_get('comments', 'counts');
+
+	if ( false !== $count )
+		return $count;
+
 	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} GROUP BY comment_approved", ARRAY_A );
 
 	$stats = array( );
@@ -464,7 +469,10 @@ function wp_count_comments() {
 			$stats[$key] = 0;
 	}
 
-	return (object) $stats;
+	$stats = (object) $stats;
+	wp_cache_set('comments', $stats, 'counts');
+
+	return $stats;
 }
 
 /**
