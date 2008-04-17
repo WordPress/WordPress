@@ -4,7 +4,8 @@
 function wp_dashboard_setup() {
 	global $wpdb, $wp_dashboard_sidebars;
 	$update = false;
-	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
+	$widget_options = get_option( 'dashboard_widget_options' )
+	if ( !$widget_options || !is_array($widget_options) )
 		$widget_options = array();
 
 
