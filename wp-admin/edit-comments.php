@@ -185,7 +185,7 @@ if ($comments) {
 <table class="widefat">
 <thead>
   <tr>
-    <th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('comments-form'));" /></th>
+    <th scope="col" class="check-column"><input type="checkbox" /></th>
     <th scope="col"><?php _e('Comment') ?></th>
     <th scope="col"><?php _e('Date') ?></th>
     <th scope="col" class="action-links"><?php _e('Actions') ?></th>

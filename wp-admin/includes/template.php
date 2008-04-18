@@ -279,7 +279,7 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_posts_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" />';
+	$posts_columns['cb'] = '<input type="checkbox" />';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )
@@ -301,7 +301,7 @@ function wp_manage_posts_columns() {
 // define the columns to display, the syntax is 'internal name' => 'display name'
 function wp_manage_media_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" />';
+	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['icon'] = '';
 	$posts_columns['media'] = _c('Media|media column header');
 	$posts_columns['desc'] = _c('Description|media column header');
@@ -316,7 +316,7 @@ function wp_manage_media_columns() {
 
 function wp_manage_pages_columns() {
 	$posts_columns = array();
-	$posts_columns['cb'] = '<input type="checkbox" onclick="checkAll(document.getElementById(\'posts-filter\'));" />';
+	$posts_columns['cb'] = '<input type="checkbox" />';
 	if ( 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( 'pending' === $_GET['post_status'] )

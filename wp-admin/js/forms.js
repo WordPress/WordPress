@@ -1,31 +1,26 @@
-function checkAll(form) {
-	for (i = 0, n = form.elements.length; i < n; i++) {
-		if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-			if(form.elements[i].checked == true)
-				form.elements[i].checked = false;
-			else
-				form.elements[i].checked = true;
-		}
-	}
+function checkAll(jQ) { // use attr( checked, fn )
+	jQuery(jQ).find( 'tbody :checkbox' ).attr( 'checked', function() {
+		return jQuery(this).attr( 'checked' ) ? '' : 'checked';
+	} );
 }
 
-function getNumChecked(form) {
-	var num = 0;
-	for (i = 0, n = form.elements.length; i < n; i++) {
-		if (form.elements[i].type == "checkbox") {
-			if (form.elements[i].checked == true)
-				num++;
+jQuery( function($) {
+	var lastClicked = false;
+	$( 'tbody :checkbox' ).click( function(e) {
+		if ( 'undefined' == e.shiftKey ) { return true; }
+		if ( e.shiftKey ) {
+			if ( !lastClicked ) { return true; }
+			var checks = $( lastClicked ).parents( 'form:first' ).find( ':checkbox' );
+			var first = checks.index( lastClicked );
+			var last = checks.index( this );
+			if ( 0 < first && 0 < last && first != last ) {
+				checks.slice( first, last ).attr( 'checked', $( this ).is( ':checked' ) ? 'checked' : '' );
+			}
 		}
-	}
-	return num;
-}
-
-function checkAllUsers(role) {
- var checkboxs = document.getElementsByTagName('input');
- for(var i = 0, inp; inp = checkboxs[i]; i++)
- 	if(inp.type.toLowerCase() == 'checkbox' && inp.className == role)
-		if(inp.checked == false)
-			inp.checked = true;
-		else
-			inp.checked = false;
-}
+		lastClicked = this;
+		return true;
+	} );
+	$( 'thead :checkbox' ).click( function() {
+		checkAll( $(this).parents( 'form:first' ) );
+	} );
+} );

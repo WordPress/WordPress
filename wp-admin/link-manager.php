@@ -141,7 +141,7 @@ if ( $links ) {
 <table class="widefat">
 	<thead>
 	<tr>
-	<th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
+	<th scope="col" class="check-column"><input type="checkbox" /></th>
 <?php foreach($link_columns as $column_display_name) {
 	echo $column_display_name;
 } ?>

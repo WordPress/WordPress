@@ -147,7 +147,7 @@ endif; ?>
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /></th>
+		<th scope="col" class="check-column"><input type="checkbox" /></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col" class="num"><?php _e('Posts') ?></th>

@@ -330,7 +330,7 @@ unset($role_links);
 <table class="widefat">
 <thead>
 <tr class="thead">
-	<th scope="col" class="check-column"><input type="checkbox" onclick="checkAll(document.getElementById('posts-filter'));" /> </th>
+	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th><?php _e('Username') ?></th>
 	<th><?php _e('Name') ?></th>
 	<th><?php _e('E-mail') ?></th>
