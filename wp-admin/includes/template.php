@@ -156,11 +156,15 @@ class Walker_Category_Checklist extends Walker {
 	}
 }
 
-function wp_category_checklist( $post_id ) {
+function wp_category_checklist( $post_id = 0 ) {
 	$walker = new Walker_Category_Checklist;
 
 	$args = array();
-	$args['selected_cats'] = wp_get_post_categories($post_id);
+	
+	if ( $post_id )
+		$args['selected_cats'] = wp_get_post_categories($post_id);
+	else
+		$args['selected_cats'] = array();
 	$args['popular_cats'] = get_terms( 'category', array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10 ) );
 	$categories = get_categories('get=all');
 	$args = array($categories, 0, $args);
