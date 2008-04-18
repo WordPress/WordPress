@@ -1954,11 +1954,21 @@ function &get_pages($args = '') {
 		}
 	}
 
-	$query = "SELECT * FROM $wpdb->posts " ;
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ;
-	$query .= " WHERE (post_type = 'page' AND post_status = 'publish') $exclusions $inclusions " ;
-	// expected_slashed ($meta_key, $meta_value) -- also, it looks funky
-	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : $wpdb->prepare(" AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = %s AND $wpdb->postmeta.meta_value = %s )", $meta_key, $meta_value) ) ;
+	$join = '';
+	$where = "$exclusions $inclusions ";
+	if ( ! empty( $meta_key ) || ! empty( $meta_value ) ) {
+		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
+		
+		// meta_key and met_value might be slashed 
+		$meta_key = stripslashes($meta_key);
+		$meta_value = stripslashes($meta_value);
+		if ( ! empty( $meta_key ) )
+			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s", $meta_key);
+		if ( ! empty( $meta_value ) )
+			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_value = %s", $meta_value);
+
+	}
+	$query = "SELECT * FROM $wpdb->posts $join WHERE (post_type = 'page' AND post_status = 'publish') $where ";
 	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
 
