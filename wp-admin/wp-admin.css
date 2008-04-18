@@ -894,6 +894,21 @@ html, body {
 	margin-right: 5px
 }
 
+.form-table pre {
+	padding: 8px;
+	margin: 0;
+	/* http://www.longren.org/2006/09/27/wrapping-text-inside-pre-tags/ */
+	white-space: pre-wrap; /* css-3 */
+	white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+	white-space: -pre-wrap; /* Opera 4-6 */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+table.form-table td .updated {
+	font-size: 13px;
+}
+
 /* Post Screen */
 
 #tagsdiv #newtag {
@@ -1463,4 +1478,28 @@ td.action-links, th.action-links {
 
 .hide-if-no-js {
 	display: none;
+}
+
+/* Diff */
+
+table.diff {
+	width: 100%;
+}
+
+table.diff col.content {
+	width: 50%;
+}
+
+table.diff tr {
+	background-color: transparent;
+}
+
+table.diff td, table.diff th {
+	padding: .5em;
+	font-family: monospace;
+	border: none;
+}
+
+table.diff .diff-deletedline del, table.diff .diff-addedline ins {
+	text-decoration: none;
 }

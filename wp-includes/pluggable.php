@@ -1350,4 +1350,68 @@ function wp_login($username, $password, $deprecated = '') {
 }
 endif;
 
+if ( !function_exists( 'wp_text_diff' ) ) :
+/**
+ * wp_text_diff() - compares two strings and outputs a human readable HTML representation of their difference
+ *
+ * Basically a wrapper for man diff(1)
+ *
+ * Must accept an optional third parameter, $args @see wp_parse_args()
+ *    (string) title: optional.  If present, titles the diff in a manner compatible with the output
+ *
+ * Must return the empty string if the two compared strings are found to be equivalent according to whatever metric
+ *
+ * @since 2.6
+ * @uses Text_Diff
+ * @uses WP_Text_Diff_Renderer_Table
+ *
+ * @param string $left_string "old" (left) version of string
+ * @param string $right_string "new" (right) version of string
+ * @param string|array $args @see wp_parse_args()
+ * @return string human readable HTML of string differences.  Empty string if strings are equivalent
+ */
+function wp_text_diff( $left_string, $right_string, $args = null ) {
+	$defaults = array( 'title' => '' );
+	$args = wp_parse_args( $args, $defaults );
+
+	// PEAR Text_Diff is lame; it includes things from include_path rather than it's own path.
+	// Not sure of the ramifications of disttributing modified code.
+	ini_set('include_path', '.' . PATH_SEPARATOR . ABSPATH . WPINC );
+
+	if ( !class_exists( 'WP_Text_Diff_Renderer_Table' ) )
+		require( ABSPATH . WPINC . '/wp-diff.php' );
+
+	// Normalize whitespace
+	$left_string  = trim($left_string);
+	$right_string = trim($right_string);
+	$left_string  = str_replace("\r", "\n", $left_string);
+	$right_string = str_replace("\r", "\n", $right_string);
+	$left_string  = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $left_string );
+	$right_string = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $right_string );
+	
+	$left_lines  = split("\n", $left_string);
+	$right_lines = split("\n", $right_string);
+
+	$text_diff = new Text_Diff($left_lines, $right_lines);
+	$renderer  = new WP_Text_Diff_Renderer_Table();
+	$diff = $renderer->render($text_diff);
+
+	ini_restore('include_path');
+
+	if ( !$diff )
+		return '';
+
+	$r  = "<table class='diff'>\n";
+	$r .= "<col class='ltype' /><col class='content' /><col class='ltype' /><col class='content' />";
+
+	if ( $args['title'] )
+		$r .= "<thead><tr><th colspan='4'>$args[title]</th></tr></thead>\n";
+
+	$r .= "<tbody>\n$diff\n</tbody>\n";
+	$r .= "</table>";
+
+	return $r;
+}
+endif;
+
 ?>

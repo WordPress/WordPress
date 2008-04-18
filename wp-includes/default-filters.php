@@ -178,6 +178,7 @@ add_action('admin_print_scripts', 'wp_print_scripts', 20);
 add_action('init', 'smilies_init', 5);
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1);
+add_action( 'pre_post_update', 'wp_save_revision' );
 add_action('publish_post', '_publish_post_hook', 5, 1);
 add_action('future_post', '_future_post_hook', 5, 2);
 add_action('future_page', '_future_post_hook', 5, 2);

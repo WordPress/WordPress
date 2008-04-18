@@ -2990,4 +2990,232 @@ function _get_post_ancestors(&$_post) {
 	}
 }
 
+/* Post Revisions */
+
+/**
+ * _wp_revision_fields() - determines which fields of posts are to be saved in revisions
+ *
+ * Does two things. If passed a postn *array*, it will return a post array ready to be
+ * insterted into the posts table as a post revision.
+ * Otherwise, returns an array whose keys are the post fields to be saved post revisions.
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @param array $post optional a post array to be processed for insertion as a post revision
+ * @return array post array ready to be inserted as a post revision or array of fields that can be versioned
+ */
+function _wp_revision_fields( $post = null ) {
+	static $fields = false;
+
+	if ( !$fields ) {
+		// Allow these to be versioned
+		$fields = array(
+			'post_title' => __( 'Title' ),
+			'post_author' => __( 'Author' ),
+			'post_content' => __( 'Content' ),
+			'post_excerpt' => __( 'Excerpt' ),
+		);
+
+		// WP uses these internally either in versioning or elsewhere - they cannot be versioned
+		foreach ( array( 'ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count' ) as $protect )
+			unset( $fields[$protect] );
+	}
+
+	if ( !is_array($post) )
+		return $fields;
+
+	$return = array();
+	foreach ( array_intersect( array_keys( $post ), array_keys( $fields ) ) as $field )
+		$return[$field] = $post[$field];
+
+	$return['post_parent']   = $post['ID'];
+	$return['post_status']   = 'inherit';
+	$return['post_type']     = 'revision';
+	$return['post_name']     = "$post[ID]-revision";
+	$return['post_date']     = $post['post_modified'];
+	$return['post_date_gmt'] = $post['post_modified_gmt'];
+
+	return $return;
+}
+
+/**
+ * wp_save_revision() - Saves an already existing post as a post revision.  Typically used immediately prior to post updates.
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @uses _wp_put_revision()
+ *
+ * @param int $post_id The ID of the post to save as a revision
+ * @return mixed null or 0 if error, new revision ID if success
+ */
+function wp_save_revision( $post_id ) {
+	// TODO: rework autosave to use special type of post revision
+	if ( @constant( 'DOING_AUTOSAVE' ) )
+		return;
+
+	if ( !$post = get_post( $post_id, ARRAY_A ) )
+		return;
+
+	// TODO: open this up for pages also
+	if ( 'post' != $post->post_type )
+		retun;
+
+	return _wp_put_revision( $post );
+}
+
+/**
+ * _wp_put_revision() - Inserts post data into the posts table as a post revision
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @uses wp_insert_post()
+ *
+ * @param int|object|array $post post ID, post object OR post array
+ * @return mixed null or 0 if error, new revision ID if success
+ */
+function _wp_put_revision( $post = null ) {
+	if ( is_object($post) )
+		$post = get_object_vars( $post );
+	elseif ( !is_array($post) )
+		$post = get_post($post, ARRAY_A);
+
+	if ( !$post || empty($post['ID']) )
+		return;
+
+	if ( isset($post['post_type']) && 'revision' == $post_post['type'] )
+		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
+
+	$post = _wp_revision_fields( $post );
+
+	if ( $revision_id = wp_insert_post( $post ) )
+		do_action( '_wp_put_revision', $revision_id );
+
+	return $revision_id;
+}
+
+/**
+ * wp_get_revision() - Gets a post revision
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @uses get_post()
+ *
+ * @param int|object $post post ID or post object
+ * @param $output optional OBJECT, ARRAY_A, or ARRAY_N
+ * @param string $filter optional sanitation filter.  @see sanitize_post()
+ * @return mixed null if error or post object if success
+ */
+function &wp_get_revision(&$post, $output = OBJECT, $filter = 'raw') {
+	$null = null;
+	if ( !$revision = get_post( $post, OBJECT, $filter ) )
+		return $revision;
+	if ( 'revision' !== $revision->post_type )
+		return $null;
+
+	if ( $output == OBJECT ) {
+		return $revision;
+	} elseif ( $output == ARRAY_A ) {
+		$_revision = get_object_vars($revision);
+		return $_revision;
+	} elseif ( $output == ARRAY_N ) {
+		$_revision = array_values(get_object_vars($revision));
+		return $_revision;
+	}
+
+	return $revision;
+}
+
+/**
+ * wp_restore_revision() - Restores a post to the specified revision
+ *
+ * Can restore a past using all fields of the post revision, or only selected fields.
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @uses wp_get_revision()
+ * @uses wp_update_post()
+ *
+ * @param int|object $revision_id revision ID or revision object
+ * @param array $fields optional What fields to restore from.  Defaults to all.
+ * @return mixed null if error, false if no fields to restore, (int) post ID if success
+ */
+function wp_restore_revision( $revision_id, $fields = null ) {
+	if ( !$revision = wp_get_revision( $revision_id, ARRAY_A ) )
+		return $revision;
+
+	if ( !is_array( $fields ) )
+		$fields = array_keys( _wp_revision_fields() );
+
+	$update = array();
+	foreach( array_intersect( array_keys( $revision ), $fields ) as $field )
+		$update[$field] = $revision[$field];
+
+	if ( !$update )
+		return false;
+
+	$update['ID'] = $revision['post_parent'];
+
+	if ( $post_id = wp_update_post( $update ) )
+		do_action( 'wp_restore_revision', $post_id, $revision['ID'] );
+
+	return $post_id;
+}
+
+/**
+ * wp_delete_revision() - Deletes a revision.
+ *
+ * Deletes the row from the posts table corresponding to the specified revision
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @uses wp_get_revision()
+ * @uses wp_delete_post()
+ *
+ * @param int|object $revision_id revision ID or revision object
+ * @param array $fields optional What fields to restore from.  Defaults to all.
+ * @return mixed null if error, false if no fields to restore, (int) post ID if success
+ */
+function wp_delete_revision( $revision_id ) {
+	if ( !$revision = wp_get_revision( $revision_id ) )
+		return $revision;
+
+	if ( $delete = wp_delete_post( $revision->ID ) )
+		do_action( 'wp_delete_revision', $revision->ID, $revision );
+
+	return $delete;
+}
+
+/**
+ * wp_get_post_revisions() - Returns all revisions of specified post
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @uses get_children()
+ *
+ * @param int|object $post_id post ID or post object
+ * @return array empty if no revisions
+ */
+function wp_get_post_revisions( $post_id = 0 ) {
+	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
+		return array();
+
+	if ( !$revisions = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'revision' ) ) )
+		return array();
+	return $revisions;
+}
+
 ?>

@@ -442,9 +442,14 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 	return $link;
 }
 
-function get_edit_post_link( $id = 0 ) {
+function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !$post = &get_post( $id ) )
 		return;
+
+	if ( 'display' == $context )
+		$action = 'action=edit&amp;';
+	else
+		$action = 'action=edit&';
 
 	switch ( $post->post_type ) :
 	case 'page' :
@@ -459,6 +464,13 @@ function get_edit_post_link( $id = 0 ) {
 		$file = 'media';
 		$var  = 'attachment_id';
 		break;
+	case 'revision' :
+		if ( !current_user_can( 'edit_post', $post->ID ) )
+			return;
+		$file = 'revision';
+		$var  = 'revision';
+		$action = '';
+		break;
 	default :
 		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
@@ -467,7 +479,7 @@ function get_edit_post_link( $id = 0 ) {
 		break;
 	endswitch;
 	
-	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . "/wp-admin/$file.php?action=edit&amp;$var=$post->ID", $post->ID );
+	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . "/wp-admin/$file.php?{$action}$var=$post->ID", $post->ID );
 }
 
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {

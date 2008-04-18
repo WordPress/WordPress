@@ -6,6 +6,7 @@ $messages[1] = sprintf( __( 'Post updated. Continue editing below or <a href="%s
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Post updated.');
+$messages[5] = sprintf( __('Post restored to revision from %s'), wp_post_revision_time( $_GET['revision'] ) );
 ?>
 <?php if (isset($_GET['message'])) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
@@ -332,6 +333,15 @@ if ( $authors && count( $authors ) > 1 ) :
 <h3><?php _e('Post Author'); ?></h3>
 <div class="inside">
 <?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
+</div>
+</div>
+<?php endif; ?>
+
+<?php if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) : ?>
+<div id="revisionsdiv" class="postbox <?php echo postbox_classes('revisionsdiv', 'post'); ?>">
+<h3><?php _e('Post Revisions'); ?></h3>
+<div class="inside">
+<?php wp_list_post_revisions(); ?>
 </div>
 </div>
 <?php endif; ?>

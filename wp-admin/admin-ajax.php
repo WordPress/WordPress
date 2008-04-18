@@ -460,6 +460,8 @@ case 'add-user' :
 	$x->send();
 	break;
 case 'autosave' : // The name of this action is hardcoded in edit_post()
+	define( 'DOING_AUTOSAVE', true );
+
 	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce');
 	global $current_user;
 

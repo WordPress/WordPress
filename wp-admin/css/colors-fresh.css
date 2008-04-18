@@ -2,7 +2,7 @@ a.page-numbers:hover {
 	border-color: #999;
 }
 
-body	{
+body, .form-table pre {
 	background-color: #fff;
 	color: #333;
 }
@@ -683,4 +683,19 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 #tTips p#tTips_inside {
 	background-color: #ddd;
 	color: #333;
+}
+
+/* Diff */
+
+table.diff .diff-deletedline {
+	background-color: #ffdddd;
+}
+table.diff .diff-deletedline del {
+	background-color: #ff9999;
+}
+table.diff .diff-addedline {
+	background-color: #ddffdd;
+}
+table.diff .diff-addedline ins {
+	background-color: #99ff99;
 }
