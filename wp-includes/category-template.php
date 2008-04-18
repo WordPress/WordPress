@@ -232,7 +232,9 @@ function wp_dropdown_categories($args = '') {
 	if ( (int) $tab_index > 0 )
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 
+	$r['hierarchical'] = 0;
 	$categories = get_categories($r);
+	$r['hierarchical'] = $hierarchical;
 
 	$output = '';
 	if ( ! empty($categories) ) {
@@ -289,7 +291,9 @@ function wp_list_categories($args = '') {
 
 	extract( $r );
 
+	$r['hierarchical'] = 0;
 	$categories = get_categories($r);
+	$r['hierarchical'] = $hierarchical;
 
 	$output = '';
 	if ( $title_li && 'list' == $style )
