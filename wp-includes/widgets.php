@@ -306,6 +306,24 @@ function wp_get_sidebars_widgets($update = true) {
 					$_sidebars_widgets[$index][$i] = $id;
 					continue;
 				}
+				
+				$found = false;
+				
+				foreach ( $wp_registered_widgets as $widget_id => $widget ) {
+					if ( strtolower($widget['name']) == strtolower($name) ) {
+						$_sidebars_widgets[$index][$i] = $widget['id'];
+						$found = true;
+						break;
+					} elseif ( sanitize_title($widget['name']) == sanitize_title($name) ) {
+						$_sidebars_widgets[$index][$i] = $widget['id'];
+						$found = true;
+						break;
+					}
+				}
+				
+				if ( $found )
+					continue;
+				
 				unset($_sidebars_widgets[$index][$i]);
 			}
 			$_sidebars_widgets['array_version'] = 2;
