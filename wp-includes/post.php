@@ -2685,6 +2685,9 @@ function update_post_cache(&$posts) {
  * @param int $id The Post ID in the cache to clean
  */
 function clean_post_cache($id) {
+	global $wpdb;
+	$id = (int) $id;
+
 	wp_cache_delete($id, 'posts');
 	wp_cache_delete($id, 'post_meta');
 
@@ -2693,6 +2696,11 @@ function clean_post_cache($id) {
 	wp_cache_delete( 'wp_get_archives', 'general' );
 
 	do_action('clean_post_cache', $id);
+
+	if ( $children = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d", $id) ) ) {
+		foreach( $children as $cid )
+			clean_post_cache( $cid );
+	}
 }
 
 /**
@@ -2725,19 +2733,12 @@ function update_page_cache(&$pages) {
  * @param int $id Page ID to clean
  */
 function clean_page_cache($id) {
-	global $wpdb;
-	$id = (int) $id;
-
 	clean_post_cache($id);
 
 	wp_cache_delete( 'all_page_ids', 'posts' );
 	wp_cache_delete( 'get_pages', 'posts' );
 
 	do_action('clean_page_cache', $id);
-
-	if ( $children = $wpdb->get_col( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_parent = %d", $id) ) )
-		foreach( $children as $cid )
-			clean_page_cache( $cid );
 }
 
 /**
