@@ -827,13 +827,11 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	$user = wp_get_current_user();
 
 	$cache_key = $type;
-	if ( !empty($perm) )
-		$cache_key .= '_' . $perm;
 
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
 		if ( !current_user_can("read_private_{$type}s") ) {
-			$cache_key .= '_' . $user->ID;
+			$cache_key .= '_' . $perm . '_' . $user->ID;
 			$query .= " AND (post_status != 'private' OR ( post_author = '$user->ID' AND post_status = 'private' ))";
 		}
 	}
