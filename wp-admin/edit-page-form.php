@@ -72,7 +72,7 @@ else
 <p><strong><?php _e('Publish Status') ?></strong></p>
 <p>
 <select name='post_status' tabindex='4'>
-<?php if ( current_user_can('publish_posts') ) : ?>
+<?php if ( current_user_can('publish_pages') ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php else: ?>
 <option<?php selected( $post->post_status, 'private' ); ?> value='private'><?php _e('Published') ?></option>
