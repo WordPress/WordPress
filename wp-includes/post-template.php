@@ -373,7 +373,8 @@ function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $p
 
 // get an attachment page link using an image or icon if possible
 function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false) {
-	$_post = & get_post( intval($id) );
+	$id = intval($id);
+	$_post = & get_post( $id );
 
 	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url($_post->ID) )
 		return __('Missing Attachment');
