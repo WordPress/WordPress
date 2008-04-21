@@ -20,6 +20,9 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	} else if ( is_search() && $template = get_search_template() ) {
 		include($template);
 		return;
+	} else if ( is_tax() && $template = get_taxonomy_template()) {
+		include($template);
+		return;
 	} else if ( is_home() && $template = get_home_template() ) {
 		include($template);
 		return;
@@ -37,9 +40,6 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include($template);
 		return;
 	} else if ( is_tag() && $template = get_tag_template()) {
-		include($template);
-		return;
-	} else if ( is_tax() && $template = get_taxonomy_template()) {
 		include($template);
 		return;
 	} else if ( is_author() && $template = get_author_template() ) {
