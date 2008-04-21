@@ -8,8 +8,10 @@ wp_reset_vars(array('action'));
 
 function redirect_page($page_ID) {
 	$referredby = '';
-	if ( !empty($_POST['referredby']) )
+	if ( !empty($_POST['referredby']) ) {
 		$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
+		$referredby = remove_query_arg('_wp_original_http_referer', $referredby);
+	}
 	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
 	if ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
@@ -31,6 +33,7 @@ function redirect_page($page_ID) {
 		$location = $location[0] . '#postcustom';
 	} elseif (!empty($referredby) && $referredby != $referer) {
 		$location = $_POST['referredby'];
+		$location = remove_query_arg('_wp_original_http_referer', $location);
 		if ( $_POST['referredby'] == 'redo' )
 			$location = get_permalink( $page_ID );
 		elseif ( false !== strpos($location, 'edit-pages.php') )

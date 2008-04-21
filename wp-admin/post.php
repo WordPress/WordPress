@@ -10,8 +10,10 @@ function redirect_post($post_ID = '') {
 	global $action;
 
 	$referredby = '';
-	if ( !empty($_POST['referredby']) )
+	if ( !empty($_POST['referredby']) ) {
 		$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
+		$referredby = remove_query_arg('_wp_original_http_referer', $referredby);
+	}
 	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 
 	if ( !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
