@@ -580,7 +580,9 @@ function &get_terms($taxonomies, $args = '') {
 			return $empty_array;
 	}
 
-	$key = md5( serialize( $args ) . serialize( $taxonomies ) );
+	// $args can be whatever, only use the args defined in defaults to compute the key
+	$key = md5( serialize( compact(array_keys($defaults)) ) . serialize( $taxonomies ) );
+
 	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {
 		if ( isset( $cache[ $key ] ) )
 			return apply_filters('get_terms', $cache[$key], $taxonomies, $args);
