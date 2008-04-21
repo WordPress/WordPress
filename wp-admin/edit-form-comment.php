@@ -46,7 +46,7 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 <p class="submit">
 <input type="submit" name="save" value="<?php _e('Save'); ?>" tabindex="4" class="button button-highlighted" />
 <?php
-echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID", 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>";
+echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>";
 ?>
 </p>
 
@@ -95,6 +95,7 @@ echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletec
 <input type="hidden" name="c" value="<?php echo $comment->comment_ID ?>" />
 <input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
 <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
+<?php wp_original_referer_field(true, 'previous'); ?>
 <input type="hidden" name="noredir" value="1" />
 </div>
 </div>

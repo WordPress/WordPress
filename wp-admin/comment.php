@@ -141,8 +141,10 @@ case 'deletecomment' :
 	else
 		wp_delete_comment( $comment->comment_ID );
 
-	if ( '' != wp_get_referer() && false == $noredir )
+	if ( '' != wp_get_referer() && false == $noredir && false === strpos(wp_get_referer(), 'comment.php' ) )
 		wp_redirect( wp_get_referer() );
+	else if ( '' != wp_get_original_referer() && false == $noredir )
+		wp_redirect( wp_get_original_referer() );
 	else
 		wp_redirect( get_option('siteurl') . '/wp-admin/edit-comments.php' );
 
