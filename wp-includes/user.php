@@ -157,7 +157,7 @@ function get_usermeta( $user_id, $meta_key = '') {
 	} else {
 		$metas = $wpdb->get_col( $wpdb->prepare("SELECT meta_value FROM $wpdb->usermeta WHERE user_id = %d", $user_id) );
 	}
-	error_log("$meta_key: " . var_export($metas, true), 0);
+
 	if ( empty($metas) ) {
 		if ( empty($meta_key) )
 			return array();
