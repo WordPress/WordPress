@@ -35,6 +35,7 @@ function redirect_post($post_ID = '') {
 		$location = $location[0] . '#postcustom';
 	} elseif (!empty($referredby) && $referredby != $referer) {
 		$location = $_POST['referredby'];
+		$location = remove_query_arg('_wp_original_http_referer', $location);
 		if ( $_POST['referredby'] == 'redo' )
 			$location = get_permalink( $post_ID );
 		elseif ( false !== strpos($location, 'edit.php') )
