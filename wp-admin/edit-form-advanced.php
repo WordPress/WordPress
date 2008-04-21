@@ -60,7 +60,7 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <input name="referredby" type="hidden" id="referredby" value="<?php
 if ( !empty($_REQUEST['popupurl']) )
 	echo clean_url(stripslashes($_REQUEST['popupurl']));
-else if ( url_to_postid(wp_get_referer()) == $post_ID && strpos( wp_get_referer(), '/wp-admin/' ) === false )
+else if ( strpos( wp_get_referer(), '/wp-admin/' ) === false && url_to_postid(wp_get_referer()) == $post_ID  )
 	echo 'redo';
 else
 	echo clean_url(stripslashes(wp_get_referer()));
