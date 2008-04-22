@@ -144,7 +144,7 @@ class WP_Scripts {
 				'save' => __('Save'),
 				'cancel' => __('Cancel'),
 			) );
-			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080411' );
+			$this->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080422' );
 			$this->localize( 'post', 'postL10n', array(
 				'tagsUsed' =>  __('Tags used on this post:'),
 				'add' => attribute_escape(__('Add')),
