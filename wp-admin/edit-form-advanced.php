@@ -241,7 +241,7 @@ endif; ?>
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php dropdown_categories( 0, 0, $popular_ids ); ?>
+		<?php wp_category_checklist($post_ID) ?>
 	</ul>
 </div>
 
