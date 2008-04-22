@@ -131,7 +131,7 @@ jQuery(document).ready( function() {
 				var th = jQuery(this);
 				var val = th.find('input').val();
 				var id = th.find('input')[0].id
-				jQuery('#' + id).change( syncChecks );
+				jQuery('#' + id).change( syncChecks ).change();
 				if ( newCatParent.find( 'option[value=' + val + ']' ).size() )
 					return;
 				var name = jQuery.trim( th.text() );
