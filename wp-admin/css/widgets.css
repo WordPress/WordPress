@@ -91,6 +91,10 @@ ul.widget-control-list {
 	padding: 0 1em;
 }
 
+ul.widget-control-list li {
+	position: relative;
+}
+
 div#current-widgets p.submit {
 	padding: 1em;
 }
@@ -135,7 +139,7 @@ h4.widget-title a {
 li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited {
-	right: 2em;
+	right: 1em;
 }
 
 li.widget-list-control-item h4.widget-title a:hover {
