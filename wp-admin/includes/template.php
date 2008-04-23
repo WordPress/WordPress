@@ -583,7 +583,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 	elseif ( 'spam' == $status )
 		$approved = "comment_approved = 'spam'";
 	else
-		$approved = "( comment_approved != '0' OR comment_approved = '1' )";
+		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
 
 	if ( $s ) {
 		$s = $wpdb->escape($s);
