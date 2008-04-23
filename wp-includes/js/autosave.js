@@ -10,8 +10,7 @@ jQuery(function($) {
 	$("#post").submit(function() { $.cancel(autosavePeriodical); });
 });
 
-// called when autosaving pre-existing post
-function autosave_saved(response, keepDisabled) {
+function autosave_parse_response(response) {
 	var res = wpAjax.parseAjaxResponse(response, 'autosave'); // parse the ajax response
 	var message = '';
 
@@ -41,15 +40,18 @@ function autosave_saved(response, keepDisabled) {
 	}
 	if ( message ) { jQuery('#autosave').html(message); } // update autosave message
 	else if ( autosaveOldMessage && res ) { jQuery('#autosave').html( autosaveOldMessage ); }
-	if ( !keepDisabled ) {
-		autosave_enable_buttons(); // re-enable disabled form buttons
-	}
 	return res;
+}
+
+// called when autosaving pre-existing post
+function autosave_saved(response) {
+	autosave_parse_response(response); // parse the ajax response
+	autosave_enable_buttons(); // re-enable disabled form buttons
 }
 
 // called when autosaving new post
 function autosave_saved_new(response) {
-	var res = autosave_saved(response, true); // parse the ajax response do the above
+	var res = autosave_parse_response(response); // parse the ajax response
 	// if no errors: update post_ID from the temporary value, grab new save-nonce for that new ID
 	if ( res && res.responses.length && !res.errors ) {
 		var tempID = jQuery('#post_ID').val();
