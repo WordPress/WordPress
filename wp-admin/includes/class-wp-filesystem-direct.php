@@ -47,7 +47,7 @@ class WP_Filesystem_Direct{
 		if( ! $this->is_dir($file) )
 			return @chgrp($file,$group);
 		//Is a directory, and we want recursive
-		$file = trailingshashit($file);
+		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
 		foreach($filelist as $filename)
 			$this->chgrp($file . $filename, $group, $recursive);
@@ -64,7 +64,7 @@ class WP_Filesystem_Direct{
 		if( ! $this->is_dir($file) )
 			return @chmod($file,$mode);
 		//Is a directory, and we want recursive
-		$file = trailingshashit($file);
+		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
 		foreach($filelist as $filename)
 			$this->chmod($file . $filename, $mode, $recursive);
@@ -177,7 +177,7 @@ class WP_Filesystem_Direct{
 	}
 
 	function copy($source,$destination,$overwrite=false){
-		if( $overwrite && $this->exists($destination) )
+		if( ! $overwrite && $this->exists($destination) )
 			return false;
 		return copy($source,$destination);
 	}
