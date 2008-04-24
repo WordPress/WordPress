@@ -230,7 +230,7 @@ function populate_options() {
 	}
 
 	// 2.0.3
-	add_option('secret', wp_generate_password());
+	add_option('secret', wp_generate_password(64));
 
 	// 2.1
 	add_option('blog_public', '1');
