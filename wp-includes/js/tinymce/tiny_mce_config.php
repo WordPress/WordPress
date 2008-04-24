@@ -8,7 +8,10 @@
  *
  * This file compresses the TinyMCE JavaScript using GZip.
  **/
-  
+
+// Discard any buffers
+while ( @ob_end_clean() );
+
 @ require('../../../wp-config.php');
 
 function getFileContents($path) {
