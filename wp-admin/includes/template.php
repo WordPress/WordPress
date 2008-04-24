@@ -176,6 +176,11 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 }
 
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
+	global $post_ID;
+	if ( $post_ID )
+		$checked_categories = wp_get_post_categories($post_ID);
+	else
+		$checked_categories = array();
 	$categories = get_terms( $taxonomy, array( 'orderby' => 'count', 'order' => 'DESC', 'number' => $number, 'hierarchical' => false ) );
 
 	$popular_ids = array();
