@@ -8,8 +8,8 @@ define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
 // Change SECRET_KEY to a unique phrase.  You won't have to remember it later,
-// so make it long and complicated.  You can visit https://www.grc.com/passwords.htm
-// to get a phrase generated for you, or just make something up.
+// so make it long and complicated.  You can visit http://api.wordpress.org/secret-key/1.0/
+// to get a ecret key generated for you, or just make something up.
 define('SECRET_KEY', 'put your unique phrase here'); // Change this to a unique phrase.
 
 // You can have multiple installations in one database if you give each a unique prefix
