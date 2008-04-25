@@ -93,7 +93,7 @@ function retrieve_password() {
 	$key = $wpdb->get_var($wpdb->prepare("SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s", $user_login));
 	if ( empty($key) ) {
 		// Generate something random for a key...
-		$key = wp_generate_password();
+		$key = wp_generate_password(20, false);
 		do_action('retrieve_password_key', $user_login, $key);
 		// Now insert the new md5 key into the db
 		$wpdb->query($wpdb->prepare("UPDATE $wpdb->users SET user_activation_key = %s WHERE user_login = %s", $key, $user_login));
