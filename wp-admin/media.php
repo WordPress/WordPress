@@ -11,6 +11,12 @@ switch( $action ) :
 case 'editattachment' :
 	$errors = media_upload_form_handler();
 	$attachment_id = (int) $_POST['attachment_id'];
+
+	check_admin_referer('media-form');
+
+	if ( !current_user_can('edit_post', $attachment_id) )
+		wp_die ( __('You are not allowed to edit this attachment.') );
+
 	if ( empty($errors) ) {
 		$location = 'media.php';
 		if ( $referer = wp_get_original_referer() ) {
@@ -39,6 +45,10 @@ case 'edit' :
 		exit();
 	}
 	$att_id = (int) $_GET['attachment_id'];
+
+	if ( !current_user_can('edit_post', $att_id) )
+		wp_die ( __('You are not allowed to edit this attachment.') );
+
 	$att = get_post($att_id);
 
 	add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
