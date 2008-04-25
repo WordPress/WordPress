@@ -188,6 +188,10 @@ ul.widget-control-list .sorthelper {
 	border-color: #80b5d0;
 }
 
+.button[disabled], .button:disabled {
+	background-color: #999;
+}
+
 .submit input:hover, .button:hover, #edit-slug-buttons a.save:hover {
 	border-color: #535353;
 }

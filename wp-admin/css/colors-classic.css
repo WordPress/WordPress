@@ -192,6 +192,10 @@ ul.widget-control-list .sorthelper {
 	border-color: #a3a3a3;
 }
 
+.button[disabled], .button:disabled {
+	background-color: #999;
+}
+
 .tablenav .button-secondary {
 	border-color: #5396c5;
 }

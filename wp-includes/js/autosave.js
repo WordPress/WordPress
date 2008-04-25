@@ -56,13 +56,14 @@ function autosave_saved_new(response) {
 	if ( res && res.responses.length && !res.errors ) {
 		var tempID = jQuery('#post_ID').val();
 		var postID = parseInt( res.responses[0].id );
-		autosave_update_post_ID( postID );
+		autosave_update_post_ID( postID ); // disabled form buttons are re-enabled here
 		if ( tempID < 0 && postID > 0) // update media buttons
 			jQuery('#media-buttons a').each(function(){
 				this.href = this.href.replace(tempID, postID);
 			});
+	} else {
+		autosave_enable_buttons(); // re-enable disabled form buttons
 	}
-	autosave_enable_buttons(); // re-enable disabled form buttons
 }
 
 function autosave_update_post_ID( postID ) {
@@ -78,6 +79,7 @@ function autosave_update_post_ID( postID ) {
 			post_type: jQuery('#post_type').val()
 		}, function(html) {
 			jQuery('#_wpnonce').val(html);
+			autosave_enable_buttons(); // re-enable disabled form buttons
 		});
 		jQuery('#hiddenaction').val('editpost');
 	}
@@ -127,7 +129,7 @@ function autosave_enable_buttons() {
 
 function autosave_disable_buttons() {
 	jQuery("#submitpost :button:enabled, #submitpost :submit:enabled").attr('disabled', 'disabled');
-	setTimeout(autosave_enable_buttons, 1000); // Re-enable 1 sec later.  Just gives autosave a head start to avoid collisions.
+	setTimeout(autosave_enable_buttons, 5000); // Re-enable 5 sec later.  Just gives autosave a head start to avoid collisions.
 }
 
 var autosave = function() {
