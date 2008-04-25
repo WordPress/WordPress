@@ -474,7 +474,11 @@ function wp_validate_auth_cookie($cookie = '') {
 		$cookie = $_COOKIE[AUTH_COOKIE];
 	}
 
-	list($username, $expiration, $hmac) = explode('|', $cookie);
+	$cookie_elements = explode('|', $cookie);
+	if ( count($cookie_elements) != 3 )
+		return false;
+
+	list($username, $expiration, $hmac) = $cookie_elements;
 
 	$expired = $expiration;
 
@@ -482,11 +486,12 @@ function wp_validate_auth_cookie($cookie = '') {
 	if ( defined('DOING_AJAX') || 'POST' == $_SERVER['REQUEST_METHOD'] )
 		$expired += 3600;
 
+	// Quick check to see if an honest cookie has expired
 	if ( $expired < time() )
 		return false;
 
-	$key = wp_hash($username . $expiration);
-	$hash = hash_hmac('md5', $username . $expiration, $key);
+	$key = wp_hash($username . '|' . $expiration);
+	$hash = hash_hmac('md5', $username . '|' . $expiration, $key);
 
 	if ( $hmac != $hash )
 		return false;
@@ -514,8 +519,8 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
 function wp_generate_auth_cookie($user_id, $expiration) {
 	$user = get_userdata($user_id);
 
-	$key = wp_hash($user->user_login . $expiration);
-	$hash = hash_hmac('md5', $user->user_login . $expiration, $key);
+	$key = wp_hash($user->user_login . '|' . $expiration);
+	$hash = hash_hmac('md5', $user->user_login . '|' . $expiration, $key);
 
 	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
 
