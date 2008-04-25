@@ -47,7 +47,7 @@ class WP_Scripts {
 			'broken' => __('An unidentified error has occurred.')
 		) );
 
-		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080422' );
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080424' );
 
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
 		$this->localize( 'wp-ajax', 'WPAjaxL10n', array(
