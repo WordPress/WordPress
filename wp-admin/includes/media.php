@@ -950,7 +950,7 @@ function media_upload_library_form($errors) {
 ?>
 
 <form id="filter" action="" method="get">
-<input type="hidden" name="type" value="<?php echo $type; ?>" />
+<input type="hidden" name="type" value="<?php echo attribute_escape( $type ); ?>" />
 <input type="hidden" name="tab" value="<?php echo $tab; ?>" />
 <input type="hidden" name="post_id" value="<?php echo $post_id; ?>" />
 <input type="hidden" name="post_mime_type" value="<?php echo wp_specialchars($_GET['post_mime_type'], true); ?>" />
