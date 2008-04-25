@@ -92,6 +92,7 @@ function wpautop($pee, $br = 1) {
 	if (strpos($pee, '<pre') !== false)
 		$pee = preg_replace_callback('!(<pre.*?>)(.*?)</pre>!is', 'clean_pre', $pee );
 	$pee = preg_replace( "|\n</p>$|", '</p>', $pee );
+	$pee = preg_replace('/<p>\s*?(' . get_shortcode_regex() . ')\s*<\/p>/s', '$1', $pee); // don't auto-p wrap shortcodes that stand alone
 
 	return $pee;
 }

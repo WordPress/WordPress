@@ -72,12 +72,16 @@ function do_shortcode($content) {
 	if (empty($shortcode_tags) || !is_array($shortcode_tags))
 		return $content;
 
+	$pattern = get_shortcode_regex();
+	return preg_replace_callback('/'.$pattern.'/s', 'do_shortcode_tag', $content);
+}
+
+function get_shortcode_regex() {
+	global $shortcode_tags;
 	$tagnames = array_keys($shortcode_tags);
 	$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
 
-	$pattern = '/\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\1\])?/s';
-
-	return preg_replace_callback($pattern, 'do_shortcode_tag', $content);
+	return '\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\1\])?';
 }
 
 function do_shortcode_tag($m) {
