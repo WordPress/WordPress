@@ -56,6 +56,18 @@ function get_temp_dir() {
 	return '/tmp/';
 }
 
+function wp_tempnam($filename = '', $dir = ''){
+	if ( empty($dir) )
+		$dir = get_temp_dir();
+	$filename = basename($filename);
+	if ( empty($filename) )
+		$filename = time();
+
+	$filename = $dir . wp_unique_filename($dir, $filename);
+	touch($filename);
+	return $filename;
+}
+
 function validate_file( $file, $allowed_files = '' ) {
 	if ( false !== strpos( $file, '..' ))
 		return 1;
@@ -200,7 +212,7 @@ function download_url( $url ) {
 	if( ! $url )
 		return new WP_Error('http_no_url', __('Invalid URL Provided'));
 
-	$tmpfname = tempnam(get_temp_dir(), 'wpupdate');
+	$tmpfname = wp_tempnam($url);
 	if( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
@@ -297,10 +309,10 @@ function copy_dir($from, $to) {
 	return true;
 }
 
-function WP_Filesystem( $args = false, $preference = false ) {
+function WP_Filesystem( $args = false ) {
 	global $wp_filesystem;
 
-	$method = get_filesystem_method($preference);
+	$method = get_filesystem_method();
 	if ( ! $method )
 		return false;
 
@@ -319,18 +331,17 @@ function WP_Filesystem( $args = false, $preference = false ) {
 }
 
 function get_filesystem_method() {
-	$tempFile = tempnam(get_temp_dir(), 'WPU');
-
-	if ( getmyuid() == fileowner($tempFile) ) {
-		unlink($tempFile);
-		return 'direct';
-	} else {
-		unlink($tempFile);
+	$method = false;
+	if( function_exists('getmyuid') && function_exists('fileowner') ){
+		$temp_file = wp_tempnam();
+		if ( getmyuid() == fileowner($temp_file) )
+			$method = 'direct';
+		unlink($temp_file);
 	}
 
-	if ( extension_loaded('ftp') ) return 'ftpext';
-	if ( extension_loaded('sockets') || function_exists('fsockopen') ) return 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
-	return false;
+	if ( ! $method && extension_loaded('ftp') ) $method = 'ftpext';
+	if ( ! $method && ( extension_loaded('sockets') || function_exists('fsockopen') ) ) $method = 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
+	return apply_filters('filesystem_method', $method);
 }
 
 ?>
