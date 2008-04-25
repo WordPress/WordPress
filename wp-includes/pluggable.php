@@ -1168,8 +1168,11 @@ if ( !function_exists('wp_generate_password') ) :
  *
  * @return string The random password
  **/
-function wp_generate_password($length = 12) {
-	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+function wp_generate_password($length = 12, $special_chars = true) {
+	$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	if ( $special_chars )
+		$chars .= '!@#$%^&*()';
+
 	$password = '';
 	for ( $i = 0; $i < $length; $i++ )
 		$password .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
