@@ -47,18 +47,17 @@ add_shortcode('baztag', 'baztag_func');
 
 $shortcode_tags = array();
 
-function add_shortcode($tag, $func, $after_formatting = false) {
+function add_shortcode($tag, $func) {
 	global $shortcode_tags;
 
-	if ( is_callable($func) ) {
-		$shortcode_tags[($after_formatting)? 11:9][$tag] = $func;
-	}
+	if ( is_callable($func) )
+		$shortcode_tags[$tag] = $func;
 }
 
 function remove_shortcode($tag) {
 	global $shortcode_tags;
 
-	unset($shortcode_tags[9][$tag], $shortcode_tags[11][$tag]);
+	unset($shortcode_tags[$tag]);
 }
 
 function remove_all_shortcodes() {
@@ -67,37 +66,21 @@ function remove_all_shortcodes() {
 	$shortcode_tags = array();
 }
 
-function do_shortcode_after_formatting($content) {
-    return do_shortcode($content, true);
-}
-function do_shortcode($content, $after_formatting = false) {
-    $pattern = get_shortcode_regex($after_formatting);
-    if (!$pattern) {
-    	return $content;
-    } else {
-    	$callback_func = 'do_shortcode_tag';
-    	if ($after_formatting)
-    	   $callback_func .= '_after_formatting';
-
-    	return preg_replace_callback('/' . $pattern . '/s', $callback_func, $content);
-    }
-}
-function get_shortcode_regex($after_formatting) {
+function do_shortcode($content) {
 	global $shortcode_tags;
 
-	if (empty($shortcode_tags[($after_formatting)? 11:9]) || !is_array($shortcode_tags[($after_formatting)? 11:9]))
-		return false;
+	if (empty($shortcode_tags) || !is_array($shortcode_tags))
+		return $content;
 
-	$tagnames = array_keys($shortcode_tags[($after_formatting)? 11:9]);
+	$tagnames = array_keys($shortcode_tags);
 	$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
 
-	return '\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\1\])?';
+	$pattern = '/\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\1\])?/s';
+
+	return preg_replace_callback($pattern, 'do_shortcode_tag', $content);
 }
 
-function do_shortcode_tag_after_formatting($m) {
-    return do_shortcode_tag($m, true);
-}
-function do_shortcode_tag($m, $after_formatting = false) {
+function do_shortcode_tag($m) {
 	global $shortcode_tags;
 
 	$tag = $m[1];
@@ -105,10 +88,10 @@ function do_shortcode_tag($m, $after_formatting = false) {
 
 	if ( isset($m[4]) ) {
 		// enclosing tag - extra parameter
-		return call_user_func($shortcode_tags[($after_formatting)? 11:9][$tag], $attr, $m[4]);
+		return call_user_func($shortcode_tags[$tag], $attr, $m[4]);
 	} else {
 		// self-closing tag
-		return call_user_func($shortcode_tags[($after_formatting)? 11:9][$tag], $attr);
+		return call_user_func($shortcode_tags[$tag], $attr);
 	}
 }
 
@@ -147,7 +130,6 @@ function shortcode_atts($pairs, $atts) {
 	return $out;
 }
 
-add_filter( 'the_content', 'do_shortcode', 9 );
-add_filter( 'the_content', 'do_shortcode_after_formatting', 11 );
+add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop() 
 
 ?>
