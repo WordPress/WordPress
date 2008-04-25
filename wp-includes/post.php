@@ -3060,7 +3060,7 @@ function wp_save_revision( $post_id ) {
 
 	// TODO: open this up for pages also
 	if ( 'post' != $post->post_type )
-		retun;
+		return;
 
 	return _wp_put_revision( $post );
 }
