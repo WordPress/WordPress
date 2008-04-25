@@ -1031,7 +1031,7 @@ foreach ($arc_result as $arc_row) {
 	else
 		$default = '';
 
-	echo "<option$default value='" . attribute_escape( $arc_row->yyear$arc_row->mmonth ) . "'>";
+	echo "<option$default value='" . attribute_escape( $arc_row->yyear . $arc_row->mmonth ) . "'>";
 	echo wp_specialchars( $wp_locale->get_month($arc_row->mmonth) . " $arc_row->yyear" );
 	echo "</option>\n";
 }
