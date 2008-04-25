@@ -26,6 +26,10 @@ while (have_posts()) : the_post();
 $class = 'alternate' == $class ? '' : 'alternate';
 global $current_user;
 $post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
+$att_title = get_the_title();
+if ( empty($att_title) )
+	$att_title = __('(no title)');
+
 ?>
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $class . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 
@@ -50,7 +54,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'media':
 		?>
-		<td><strong><a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), get_the_title())); ?>"><?php the_title(); ?></a></strong><br />
+		<td><strong><a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<?php do_action('manage_media_media_column', $post->ID); ?>
 		</td>
