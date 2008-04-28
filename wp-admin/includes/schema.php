@@ -156,6 +156,9 @@ function populate_options() {
 
 	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
 	$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	
+	do_action('populate_options');
+	
 	add_option('siteurl', $guessurl);
 	add_option('blogname', __('My Blog'));
 	add_option('blogdescription', __('Just another WordPress weblog'));
