@@ -306,9 +306,9 @@ function wp_get_sidebars_widgets($update = true) {
 					$_sidebars_widgets[$index][$i] = $id;
 					continue;
 				}
-				
+
 				$found = false;
-				
+
 				foreach ( $wp_registered_widgets as $widget_id => $widget ) {
 					if ( strtolower($widget['name']) == strtolower($name) ) {
 						$_sidebars_widgets[$index][$i] = $widget['id'];
@@ -320,10 +320,10 @@ function wp_get_sidebars_widgets($update = true) {
 						break;
 					}
 				}
-				
+
 				if ( $found )
 					continue;
-				
+
 				unset($_sidebars_widgets[$index][$i]);
 			}
 			$_sidebars_widgets['array_version'] = 2;
@@ -1496,7 +1496,7 @@ function widget_many_control( $widget_args = 1 ) {
 			$options[$widget_number] = array( 'something' => $something );  // Even simple widgets should store stuff in array, rather than in scalar
 		}
 
-		update_option('widget_text', $options);
+		update_option('widget_many', $options);
 
 		$updated = true; // So that we don't go through this more than once
 	}
@@ -1538,8 +1538,8 @@ function widget_many_register() {
 		// $id should look like {$id_base}-{$o}
 		$id = "many-$o"; // Never never never translate an id
 		$registered = true;
-		wp_register_sidebar_widget( $id, $name, 'wp_widget_text', $widget_ops, array( 'number' => $o ) );
-		wp_register_widget_control( $id, $name, 'wp_widget_text_control', $control_ops, array( 'number' => $o ) );
+		wp_register_sidebar_widget( $id, $name, 'widget_many', $widget_ops, array( 'number' => $o ) );
+		wp_register_widget_control( $id, $name, 'widget_many_control', $control_ops, array( 'number' => $o ) );
 	}
 
 	// If there are none, we register the widget's existance with a generic template
