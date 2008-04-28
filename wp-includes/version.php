@@ -16,6 +16,6 @@ $wp_version = '2.5.1';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 7796;
+$wp_db_version = 7843;
 
 ?>
