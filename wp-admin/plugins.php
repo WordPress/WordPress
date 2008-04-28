@@ -86,11 +86,11 @@ if (empty($plugins)) {
 	$inactive = get_option('deactivated_plugins');
 	if ( !empty($active) ) {
 	?>
-	<a class="button-secondary" href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>" class="delete"><?php _e('Deactivate All Plugins'); ?></a>
+	<a class="button-secondary delete" href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>"><?php _e('Deactivate All Plugins'); ?></a>
 	<?php
 	} elseif ( empty($active) && !empty($inactive) ) {
 	?>
-	<a class="button-secondary" href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>" class="delete"><?php _e('Reactivate Plugins'); ?></a>
+	<a class="button-secondary delete" href="<?php echo wp_nonce_url('plugins.php?action=reactivate-all', 'reactivate-all'); ?>"><?php _e('Reactivate Plugins'); ?></a>
 	<?php
 	} // endif active/inactive plugin check
 	?>
