@@ -1337,6 +1337,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 		}
 
+		// Handle enclosures 
+		$enclosure = $content_struct['enclosure']; 
+		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) { 
+			add_post_meta( $post_ID, 'enclosure', $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] );
+		} 
+
 		$this->attach_uploads( $post_ID, $post_content );
 
 		logIO('O', "Posted ! ID: $post_ID");
@@ -1592,6 +1598,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($content_struct['custom_fields']) ) {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 		}
+
+		// Handle enclosures 
+		$enclosure = $content_struct['enclosure']; 
+		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) { 
+			add_post_meta( $post_ID, 'enclosure', $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] );
+		} 
 
 		$this->attach_uploads( $ID, $post_content );
 
