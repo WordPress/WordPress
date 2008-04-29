@@ -24,7 +24,7 @@ function wp_dashboard_setup() {
 
 	// Recent Comments Widget
 	$mod_comments = wp_count_comments();
-	$mod_commens = $mod_comments->moderated;
+	$mod_comments = $mod_comments->moderated;
 	if ( current_user_can( 'moderate_comments' ) && $mod_comments ) {
 		$notice = sprintf( __ngettext( '%d comment awaiting moderation', '%d comments awaiting moderation', $mod_comments ), $mod_comments );
 		$notice = "<a href='edit-comments.php?comment_status=moderated'>$notice</a>";
