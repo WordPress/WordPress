@@ -23,7 +23,7 @@ else
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 $menu[15] = array(__('Design'), 'switch_themes', 'themes.php');
-$menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='comment-count'>$awaiting_mod</span></span>" ), 'edit_posts', 'edit-comments.php');
+$menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='comment-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php');
 $menu[30] = array(__('Settings'), 'manage_options', 'options-general.php');
 $menu[35] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
