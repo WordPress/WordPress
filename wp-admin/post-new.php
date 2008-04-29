@@ -9,6 +9,7 @@ if ( user_can_richedit() )
 	wp_enqueue_script('editor');
 wp_enqueue_script('thickbox');
 wp_enqueue_script('media-upload');
+wp_enqueue_script('word-count');
 
 require_once ('./admin-header.php');
 

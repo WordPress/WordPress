@@ -140,6 +140,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <br class="clear" />
 <?php endif; ?>
 <span id="autosave"></span>
+<span id="wp-word-count"></span>
 </p>
 
 <div class="side-info">

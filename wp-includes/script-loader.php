@@ -36,7 +36,7 @@ class WP_Scripts {
 		$this->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080325' );
 
 		// Modify this version when tinyMCE plugins are changed.
-		$mce_version = apply_filters('tiny_mce_version', '20080414');
+		$mce_version = apply_filters('tiny_mce_version', '20080423');
 		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
 
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
@@ -193,7 +193,11 @@ class WP_Scripts {
 				'edit' => __('Edit'),
 				'cancel' => __('Cancel'),
 			));
-			$this->add( 'editor', '/wp-admin/js/editor.js', array('tiny_mce'), '20080221' );
+
+			$this->add( 'word-count', '/wp-admin/js/word-count.js', array( 'jquery' ), '20080423' );
+			$this->localize( 'word-count', 'wordCountL10n', array(
+				'count' => __('Word count: %d')
+			));
 		}
 	}
 

@@ -83,6 +83,7 @@ case 'edit':
 		wp_enqueue_script('editor');
 	wp_enqueue_script('thickbox');
 	wp_enqueue_script('media-upload');
+	wp_enqueue_script('word-count');
 
 	if ( current_user_can('edit_page', $page_ID) ) {
 		if ( $last = wp_check_post_lock( $post->ID ) ) {

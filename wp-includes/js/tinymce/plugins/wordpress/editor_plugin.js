@@ -132,7 +132,17 @@
 				}
 			});
 
-			// Add listeners to handle more break
+            // Word count if script is loaded
+            if ( 'undefined' != wpWordCount ) {
+                var last = 0;
+                ed.onKeyUp.add(function(ed, e) {
+                    if ( e.keyCode == last ) return;
+                    if ( 13 == e.keyCode || 8 == last || 46 == last ) wpWordCount.wc( ed.getContent({format : 'raw'}) );
+                    last = e.keyCode;
+                });
+            };
+
+            // Add listeners to handle more break
 			t._handleMoreBreak(ed, url);
 
 			// Add custom shortcuts
