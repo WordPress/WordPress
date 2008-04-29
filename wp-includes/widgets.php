@@ -381,7 +381,7 @@ function wp_widget_pages( $args ) {
 	extract( $args );
 	$options = get_option( 'widget_pages' );
 
-	$title = empty( $options['title'] ) ? __( 'Pages' ) : $options['title'];
+	$title = empty( $options['title'] ) ? __( 'Pages' ) : apply_filters('widget_title', $options['title']);
 	$sortby = empty( $options['sortby'] ) ? 'menu_order' : $options['sortby'];
 	$exclude = empty( $options['exclude'] ) ? '' : $options['exclude'];
 
@@ -474,7 +474,7 @@ function wp_widget_archives($args) {
 	$options = get_option('widget_archives');
 	$c = $options['count'] ? '1' : '0';
 	$d = $options['dropdown'] ? '1' : '0';
-	$title = empty($options['title']) ? __('Archives') : $options['title'];
+	$title = empty($options['title']) ? __('Archives') : apply_filters('widget_title', $options['title']);
 
 	echo $before_widget;
 	echo $before_title . $title . $after_title;
@@ -522,7 +522,7 @@ function wp_widget_archives_control() {
 function wp_widget_meta($args) {
 	extract($args);
 	$options = get_option('widget_meta');
-	$title = empty($options['title']) ? __('Meta') : $options['title'];
+	$title = empty($options['title']) ? __('Meta') : apply_filters('widget_title', $options['title']);
 ?>
 		<?php echo $before_widget; ?>
 			<?php echo $before_title . $title . $after_title; ?>
@@ -556,7 +556,7 @@ function wp_widget_meta_control() {
 function wp_widget_calendar($args) {
 	extract($args);
 	$options = get_option('widget_calendar');
-	$title = $options['title'];
+	$title = apply_filters('widget_title', $options['title']);
 	if ( empty($title) )
 		$title = '&nbsp;';
 	echo $before_widget . $before_title . $title . $after_title;
@@ -593,7 +593,7 @@ function wp_widget_text($args, $widget_args = 1) {
 	if ( !isset($options[$number]) )
 		return;
 
-	$title = $options[$number]['title'];
+	$title = apply_filters('widget_title', $options[$number]['title']);
 	$text = apply_filters( 'widget_text', $options[$number]['text'] );
 ?>
 		<?php echo $before_widget; ?>
@@ -705,7 +705,7 @@ function wp_widget_categories($args, $widget_args = 1) {
 	$h = $options[$number]['hierarchical'] ? '1' : '0';
 	$d = $options[$number]['dropdown'] ? '1' : '0';
 
-	$title = empty($options[$number]['title']) ? __('Categories') : $options[$number]['title'];
+	$title = empty($options[$number]['title']) ? __('Categories') : apply_filters('widget_title', $options[$number]['title']);
 
 	echo $before_widget;
 	echo $before_title . $title . $after_title;
@@ -890,7 +890,7 @@ function wp_widget_recent_entries($args) {
 
 	extract($args);
 	$options = get_option('widget_recent_entries');
-	$title = empty($options['title']) ? __('Recent Posts') : $options['title'];
+	$title = empty($options['title']) ? __('Recent Posts') : apply_filters('widget_title', $options['title']);
 	if ( !$number = (int) $options['number'] )
 		$number = 10;
 	else if ( $number < 1 )
@@ -955,7 +955,7 @@ function wp_widget_recent_comments($args) {
 	global $wpdb, $comments, $comment;
 	extract($args, EXTR_SKIP);
 	$options = get_option('widget_recent_comments');
-	$title = empty($options['title']) ? __('Recent Comments') : $options['title'];
+	$title = empty($options['title']) ? __('Recent Comments') : apply_filters('widget_title', $options['title']);
 	if ( !$number = (int) $options['number'] )
 		$number = 5;
 	else if ( $number < 1 )
@@ -1061,6 +1061,7 @@ function wp_widget_rss($args, $widget_args = 1) {
 		$title = $desc;
 	if ( empty($title) )
 		$title = __('Unknown Feed');
+	$title = apply_filters('widget_title', $title );
 	$url = clean_url(strip_tags($url));
 	if ( file_exists(dirname(__FILE__) . '/rss.png') )
 		$icon = str_replace(ABSPATH, get_option('siteurl').'/', dirname(__FILE__)) . '/rss.png';
@@ -1353,7 +1354,7 @@ function wp_widget_rss_register() {
 function wp_widget_tag_cloud($args) {
 	extract($args);
 	$options = get_option('widget_tag_cloud');
-	$title = empty($options['title']) ? __('Tags') : $options['title'];
+	$title = empty($options['title']) ? __('Tags') : apply_filters('widget_title', $options['title']);
 
 	echo $before_widget;
 	echo $before_title . $title . $after_title;
