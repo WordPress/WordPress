@@ -23,7 +23,9 @@ function wp_dashboard_setup() {
 	/* Register Widgets and Controls */
 
 	// Recent Comments Widget
-	if ( current_user_can( 'moderate_comments' ) && $mod_comments = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'") ) {
+	$mod_comments = wp_count_comments();
+	$mod_comments = $mod_comments->moderated;
+	if ( current_user_can( 'moderate_comments' ) && $mod_comments ) {
 		$notice = sprintf( __ngettext( '%d comment awaiting moderation', '%d comments awaiting moderation', $mod_comments ), $mod_comments );
 		$notice = "<a href='edit-comments.php?comment_status=moderated'>$notice</a>";
 	} else {
