@@ -196,6 +196,11 @@ abbr.required {
 #media-upload .media-upload-form p {
 	margin: 0 1em 1em 0;
 }
+
+#media-upload .media-upload-form p.ml-submit {
+	padding: 1em 0;
+}
+
 #media-upload p.help {
 	font-style: italic;
 	font-weight: normal;
@@ -239,4 +244,19 @@ abbr.required {
 #media-upload tr.image-size {
 	margin-bottom: 1em;
 	height: 3em;
+}
+
+#media-upload #filter {
+	width: 623px;
+}
+
+#media-upload #filter .subsubsub {
+	margin: 8px 0;
+}
+
+#filter .tablenav select {
+	border-style:solid;
+	border-width:1px;
+	padding:2px;
+	vertical-align:top;
 }

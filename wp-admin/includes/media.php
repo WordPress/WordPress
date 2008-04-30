@@ -952,7 +952,6 @@ function media_upload_library_form($errors) {
 	<input type="submit" value="<?php echo attribute_escape( __( 'Search Media' ) ); ?>" class="button" />
 </div>
 
-<p>
 <ul class="subsubsub">
 <?php
 $type_links = array();
@@ -984,7 +983,6 @@ echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);
 ?>
 </ul>
-</p>
 
 <div class="tablenav">
 
@@ -1059,8 +1057,10 @@ jQuery(function($){
 <div id="media-items">
 <?php echo get_media_items(null, $errors); ?>
 </div>
+<p class="ml-submit">
 <input type="submit" class="button savebutton" name="save" value="<?php echo attribute_escape( __( 'Save all changes' ) ); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
+</p>
 </form>
 <?php
 }

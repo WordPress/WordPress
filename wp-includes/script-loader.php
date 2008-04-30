@@ -164,7 +164,7 @@ class WP_Scripts {
 					'cancel' => __('Cancel'),
 					'edit' => __('Edit'),
 				) );
-			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080109' );
+			$this->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080430' );
 			$this->localize( 'upload', 'uploadL10n', array(
 				'browseTitle' => attribute_escape(__('Browse your files')),
 				'back' => __('&laquo; Back'),
