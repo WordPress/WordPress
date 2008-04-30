@@ -131,22 +131,24 @@ unset($status_links);
 
 <?php
 
+$comments_per_page = apply_filters('comments_per_page', 20, $comment_status);
+
 if ( isset( $_GET['apage'] ) )
 	$page = abs( (int) $_GET['apage'] );
 else
 	$page = 1;
 
-$start = $offset = ( $page - 1 ) * 20;
+$start = $offset = ( $page - 1 ) * $comments_per_page;
 
-list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, 25 ); // Grab a few extra
+list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5 ); // Grab a few extra
 
-$comments = array_slice($_comments, 0, 20);
-$extra_comments = array_slice($_comments, 20);
+$comments = array_slice($_comments, 0, $comments_per_page);
+$extra_comments = array_slice($_comments, $comments_per_page);
 
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'apage', '%#%' ),
 	'format' => '',
-	'total' => ceil($total / 20),
+	'total' => ceil($total / $comments_per_page),
 	'current' => $page
 ));
 
