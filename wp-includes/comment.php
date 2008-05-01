@@ -448,29 +448,38 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 	return false;
 }
 
-function wp_count_comments() {
+function wp_count_comments( $post_id = 0 ) {
 	global $wpdb;
 
-	$count = wp_cache_get('comments', 'counts');
+	$post_id = (int) $post_id;
+
+	$count = wp_cache_get('comments', "counts-{$post_id}");
 
 	if ( false !== $count )
 		return $count;
 
-	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} GROUP BY comment_approved", ARRAY_A );
+	$where = '';
+	if( $post_id > 0 )
+		$where = $wpdb->prepare( "WHERE comment_post_ID = %d", $post_id );
 
+	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
+
+	$total = 0;
 	$stats = array( );
 	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam');
 	foreach( (array) $count as $row_num => $row ) {
+		$total += $row['num_comments'];
 		$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
 	}
 
+	$stats['total_comments'] = $total;
 	foreach ( $approved as $key ) {
 		if ( empty($stats[$key]) )
 			$stats[$key] = 0;
 	}
 
 	$stats = (object) $stats;
-	wp_cache_set('comments', $stats, 'counts');
+	wp_cache_set('comments', $stats, "counts-{$post_id}");
 
 	return $stats;
 }
