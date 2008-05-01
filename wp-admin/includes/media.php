@@ -180,13 +180,16 @@ add_action( 'media_buttons', 'media_buttons' );
 function media_buttons_head() {
 $siteurl = get_option('siteurl');
 echo "<style type='text/css' media='all'>
-	@import '{$siteurl}/wp-includes/js/thickbox/thickbox.css?1';
+	@import '{$siteurl}/wp-includes/js/thickbox/thickbox.css?ver=20080430';
 	div#TB_title {
 		background-color: #222222;
 		color: #cfcfcf;
 	}
 	div#TB_title a, div#TB_title a:visited {
 		color: #cfcfcf;
+	}
+	#TB_window {
+		top: 20px;
 	}
 </style>\n";
 }
