@@ -35,7 +35,7 @@
 function redirect_canonical($requested_url=null, $do_redirect=true) {
 	global $wp_rewrite, $is_IIS;
 
-	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() )
+	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() || is_robots() )
 		return;
 
 	if ( !$requested_url ) {
