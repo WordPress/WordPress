@@ -453,7 +453,7 @@ function wp_count_comments( $post_id = 0 ) {
 
 	$post_id = (int) $post_id;
 
-	$count = wp_cache_get('comments', "counts-{$post_id}");
+	$count = wp_cache_get("comments-{$post_id}", 'counts');
 
 	if ( false !== $count )
 		return $count;
@@ -479,7 +479,7 @@ function wp_count_comments( $post_id = 0 ) {
 	}
 
 	$stats = (object) $stats;
-	wp_cache_set('comments', $stats, "counts-{$post_id}");
+	wp_cache_set("comments-{$post_id}", $stats, 'counts');
 
 	return $stats;
 }
