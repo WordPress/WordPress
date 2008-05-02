@@ -1285,8 +1285,7 @@ function wp_insert_post($postarr = array()) {
 			$suffix = 2;
 			do {
 				$alt_post_name = substr($post_name, 0, 200-(strlen($suffix)+1)). "-$suffix";
-				// expected_slashed ($alt_post_name, $post_name, $post_type)
-				$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_type = '$post_type' AND ID != %d AND post_parent = %d LIMIT 1", $post_ID, $post_parent));
+				$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $alt_post_name, $post_type, $post_ID, $post_parent));
 				$suffix++;
 			} while ($post_name_check);
 			$post_name = $alt_post_name;
