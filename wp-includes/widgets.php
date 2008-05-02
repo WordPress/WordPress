@@ -710,10 +710,11 @@ function wp_widget_categories($args, $widget_args = 1) {
 	echo $before_widget;
 	echo $before_title . $title . $after_title;
 
-	$cat_args = "orderby=name&show_count={$c}&hierarchical={$h}";
+	$cat_args = array('orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h);
 
 	if ( $d ) {
-		wp_dropdown_categories($cat_args . '&show_option_none= ' . __('Select Category'));
+		$cat_args['show_option_none'] = __('Select Category');
+		wp_dropdown_categories($cat_args);
 ?>
 
 <script type='text/javascript'>
