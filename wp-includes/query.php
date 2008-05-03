@@ -453,6 +453,7 @@ class WP_Query {
 			'error'
 			, 'm'
 			, 'p'
+			, 'post_parent'
 			, 'subpost'
 			, 'subpost_id'
 			, 'attachment'
@@ -477,6 +478,8 @@ class WP_Query {
 			, 'tb'
 			, 'paged'
 			, 'comments_popup'
+			, 'meta_key'
+			, 'meta_value'
 			, 'preview'
 		);
 
@@ -485,7 +488,7 @@ class WP_Query {
 				$array[$key] = '';
 		}
 
-		$array_keys = array('category__in', 'category__not_in', 'category__and',
+		$array_keys = array('category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in',
 			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and');
 
 		foreach ( $array_keys as $key ) {
@@ -954,6 +957,15 @@ class WP_Query {
 		// If a post number is specified, load that post
 		if ( $q['p'] )
 			$where = " AND {$wpdb->posts}.ID = " . $q['p'];
+		elseif ( $q['post_parent'] ) 
+			$where = $wpdb->prepare("AND $wpdb->posts.post_parent = %d ", $q['post_parent']);
+		elseif ( $q['post__in'] ) {
+			$post__in = "'" . implode("', '", $q['post__in']) . "'";
+			$where = " AND {$wpdb->posts}.ID IN ($post__in)";
+		} elseif ( $q['post__not_in'] ) {
+			$post__not_in = "'" . implode("', '", $q['post__not_in']) . "'";
+			$where = " AND {$wpdb->posts}.ID NOT IN ($post__not_in)";
+		}
 
 		if ( $q['page_id'] ) {
 			if  ( ('page' != get_option('show_on_front') ) || ( $q['page_id'] != get_option('page_for_posts') ) ) {
@@ -1337,6 +1349,14 @@ class WP_Query {
 
 			$where .= ')';
 		}
+
+		// postmeta queries
+		if ( ! empty($q['meta_key']) || ! empty($q['meta_value']) )
+			$join .= " LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
+		if ( ! empty($q['meta_key']) ) 
+			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_key = %s ", $q['meta_key']);
+		if ( ! empty($q['meta_value']) )
+			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_value = %s ", $q['meta_value']);
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.

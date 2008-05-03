@@ -402,8 +402,6 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  * @return array {@internal Missing Description}}
  */
 function get_posts($args = null) {
-	global $wpdb;
-
 	$defaults = array(
 		'numberposts' => 5, 'offset' => 0,
 		'category' => 0, 'orderby' => 'post_date',
@@ -414,75 +412,20 @@ function get_posts($args = null) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	if ( ! empty($r['numberposts']) )
+		$r['posts_per_page'] = $r['numberposts'];
+	if ( ! empty($r['category']) )
+		$r['cat'] = $r['category'];
+	if ( ! empty($r['include']) ) {
+		$incposts = preg_split('/[\s,]+/',$r['include']);
+		$r['posts_per_page'] = count($incposts);  // only the number of posts included
+		$r['post__in'] = $incposts;
+	} elseif ( ! empty($r['exclude']) )
+		$r['post__not_in'] = preg_split('/[\s,]+/',$r['exclude']);
 
-	$numberposts = (int) $numberposts;
-	$offset = (int) $offset;
-	$category = (int) $category;
-	$post_parent = (int) $post_parent;
+	$get_posts = new WP_Query;
+	return $get_posts->query($r);
 
-	$inclusions = '';
-	if ( !empty($include) ) {
-		$offset = 0;    //ignore offset, category, exclude, meta_key, and meta_value, post_parent if using include
-		$category = 0;
-		$exclude = '';
-		$meta_key = '';
-		$meta_value = '';
-		$post_parent = 0;
-		$incposts = preg_split('/[\s,]+/',$include);
-		$numberposts = count($incposts);  // only the number of posts included
-		if ( count($incposts) ) {
-			foreach ( $incposts as $incpost ) {
-				if (empty($inclusions))
-					$inclusions = $wpdb->prepare(' AND ( ID = %d ', $incpost);
-				else
-					$inclusions .= $wpdb->prepare(' OR ID = %d ', $incpost);
-			}
-		}
-	}
-	if (!empty($inclusions))
-		$inclusions .= ')';
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$exposts = preg_split('/[\s,]+/',$exclude);
-		if ( count($exposts) ) {
-			foreach ( $exposts as $expost ) {
-				if (empty($exclusions))
-					$exclusions = $wpdb->prepare(' AND ( ID <> %d ', $expost);
-				else
-					$exclusions .= $wpdb->prepare(' AND ID <> %d ', $expost);
-			}
-		}
-	}
-	if (!empty($exclusions))
-		$exclusions .= ')';
-
-	// orderby
-	if ( preg_match( '/.+ +(ASC|DESC)/i', $orderby ) )
-		$order = ''; // orderby has its own order, so we'll use that
-
-	$query  = "SELECT DISTINCT * FROM $wpdb->posts ";
-	$query .= empty( $category ) ? '' : ", $wpdb->term_relationships, $wpdb->term_taxonomy  ";
-	$query .= empty( $meta_key ) ? '' : ", $wpdb->postmeta ";
-	$query .= " WHERE 1=1 ";
-	$query .= empty( $post_type ) ? '' : $wpdb->prepare("AND post_type = %s ", $post_type);
-	$query .= empty( $post_status ) ? '' : $wpdb->prepare("AND post_status = %s ", $post_status);
-	$query .= "$exclusions $inclusions " ;
-	$query .= empty( $category ) ? '' : $wpdb->prepare("AND ($wpdb->posts.ID = $wpdb->term_relationships.object_id AND $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id AND $wpdb->term_taxonomy.term_id = %d AND $wpdb->term_taxonomy.taxonomy = 'category')", $category);
-	$query .= empty( $post_parent ) ? '' : $wpdb->prepare("AND $wpdb->posts.post_parent = %d ", $post_parent);
-	// expected_slashed ($meta_key, $meta_value) -- Also, this looks really funky, doesn't seem like it works
-	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : $wpdb->prepare(" AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = %s AND $wpdb->postmeta.meta_value = %s )", $meta_key, $meta_value);
-	$query .= empty( $post_mime_type ) ? '' : wp_post_mime_type_where($post_mime_type);
-	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . ' ' . $order;
-	if ( 0 < $numberposts )
-		$query .= $wpdb->prepare(" LIMIT %d,%d", $offset, $numberposts);
-
-	$posts = $wpdb->get_results($query);
-
-	update_post_caches($posts);
-
-	return $posts;
 }
 
 //
