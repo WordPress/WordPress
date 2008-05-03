@@ -1356,6 +1356,11 @@ p#post-search {
 	vertical-align:text-top;
 }
 
+.defaultavatarpicker .avatar {
+	margin: 2px 0;
+	vertical-align: middle;
+}
+
 body.minwidth {
 	min-width: 808px;
 }

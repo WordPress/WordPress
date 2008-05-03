@@ -1243,8 +1243,24 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 		$email = $id_or_email;
 	}
 
-	if ( empty($default) )
-		$default = "http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=$size"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
+	if ( empty($default) ) {
+		$avatar_default = get_option('avatar_default');
+		if ( empty($avatar_default) )
+			$default = 'default';
+		else
+			$default = $avatar_default;
+	}
+
+	if ( 'custom' == $default )
+		$default = add_query_arg( 's', $size, $defaults[$avatar_default][1] );
+	elseif ( 'default' == $default )
+		$default = "http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
+	elseif ( !empty($email) && 'gravatar_default' == $default )
+		$default = '';
+	elseif ( 'gravatar_default' == $default )
+		$default = "http://www.gravatar.com/avatar/s={$size}";
+	elseif ( empty($email) )
+		$default = "http://www.gravatar.com/avatar/?d=$default&amp;s={$size}";
 
 	if ( !empty($email) ) {
 		$out = 'http://www.gravatar.com/avatar/';

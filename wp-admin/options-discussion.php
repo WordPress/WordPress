@@ -84,13 +84,13 @@ include('admin-header.php');
 
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php _e('Avatar display') ?></th>
+<th scope="row"><?php _e('Avatar Display') ?></th>
 <td>
 <?php
 	$yesorno = array(0 => __("Don&#8217;t show Avatars"), 1 => __('Show Avatars'));
 	foreach ( $yesorno as $key => $value) {
 		$selected = (get_option('show_avatars') == $key) ? 'checked="checked"' : '';
-		echo "\n\t<label><input type='radio' name='show_avatars' value='$key' $selected> $value</label><br />";
+		echo "\n\t<label><input type='radio' name='show_avatars' value='$key' $selected/> $value</label><br />";
 	}
 ?>
 </td>
@@ -103,8 +103,43 @@ include('admin-header.php');
 $ratings = array( 'G' => __('G &#8212; Suitable for all audiences'), 'PG' => __('PG &#8212; Possibly offensive, usually for audiences 13 and above'), 'R' => __('R &#8212; Intended for adult audiences above 17'), 'X' => __('X &#8212; Even more mature than above'));
 foreach ($ratings as $key => $rating) :
 	$selected = (get_option('avatar_rating') == $key) ? 'checked="checked"' : '';
-	echo "\n\t<label><input type='radio' name='avatar_rating' value='$key' $selected> $rating</label><br />";
+	echo "\n\t<label><input type='radio' name='avatar_rating' value='$key' $selected/> $rating</label><br />";
 endforeach;
+?>
+
+</td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Default Avatar') ?></th>
+<td class="defaultavatarpicker">
+
+<?php _e('For users without a custom avatar of their own, you can either display a generic logo or a generated one based on their e-mail address.'); ?><br />
+
+<?php
+$avatar_defaults = array(
+	'default' => __('Default'),
+	'gravatar_default' => __('Gravatar Logo'),
+	'identicon' => __('Identicon (Generated)'),
+	'wavatar' => __('Wavatar (Generated)'),
+	'monsterid' => __('MonsterID (Generated)')
+);
+$avatar_defaults = apply_filters('avatar_defaults', $avatar_defaults);
+$default = get_option('avatar_default');
+if ( empty($default) )
+	$default = 'default';
+$size = 32;
+$avatar_list = '';
+foreach ( $avatar_defaults as $default_key => $default_name ) {
+	$selected = ($default == $default_key) ? 'checked="checked" ' : '';
+	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='{$default_key}' {$selected}/> ";
+
+	$avatar = get_avatar( $user_email, $size, $default_key );
+	$avatar_list .= preg_replace("/src='(.+?)'/", "src='\$1&amp;forcedefault=1'", $avatar);
+
+	$avatar_list .= ' ' . $default_name . '</label>';
+	$avatar_list .= '<br />';
+}
+echo apply_filters('default_avatar_select', $avatar_list);
 ?>
 
 </td>
@@ -115,7 +150,7 @@ endforeach;
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys,show_avatars,avatar_rating" />
+<input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys,show_avatars,avatar_rating,avatar_default" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>
