@@ -134,7 +134,9 @@ if ( isset($_GET['add']) && $_GET['add'] ) {
 		
 			<ul class="widget-control-list">
 				<li class="widget-list-control-item">
+					<div class="widget-top">
 					<h4 class="widget-title"><?php echo $control['name']; ?></h4>
+					</div>
 					<div class="widget-control" style="display: block;">
 	<?php
 						call_user_func_array( $control_callback, $control['params'] );

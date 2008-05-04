@@ -13,12 +13,12 @@ jQuery(function($) {
 			if ( t.is(':visible') ) {
 				if ( disableFields ) { t.find( ':input:enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
 				li.css( 'marginLeft', 0 );
-				t.siblings('h4').children('a').text( widgetsL10n.edit );
+				t.siblings('div').children('h4').children('a').text( widgetsL10n.edit );
 			} else {
 				t.find( ':disabled' ).attr( 'disabled', '' ); // always enable on open
 				if ( width > 250 )
 					li.css( 'marginLeft', ( width - 250 ) * -1 );
-				t.siblings('h4').children('a').text( widgetsL10n.cancel );
+				t.siblings('div').children('h4').children('a').text( widgetsL10n.cancel );
 			}
 			t.toggle();
 		} : function() {
@@ -28,12 +28,12 @@ jQuery(function($) {
 				if ( disableFields ) { t.find( ':input:enabled' ).not( '[name="widget-id[]"], [name*="[submit]"]' ).attr( 'disabled', 'disabled' ); }
 				if ( width > 250 )
 					li.animate( { marginLeft: 0 } );
-				t.siblings('h4').children('a').text( widgetsL10n.edit );
+				t.siblings('div').children('h4').children('a').text( widgetsL10n.edit );
 			} else {
 				t.find( ':disabled' ).attr( 'disabled', '' ); // always enable on open
 				if ( width > 250 )
 					li.animate( { marginLeft: ( width - 250 ) * -1 } );
-				t.siblings('h4').children('a').text( widgetsL10n.cancel );
+				t.siblings('div').children('h4').children('a').text( widgetsL10n.cancel );
 			}
 			t.animate( { height: 'toggle' } );
 		};

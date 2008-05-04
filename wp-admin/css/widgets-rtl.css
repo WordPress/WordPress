@@ -38,13 +38,12 @@ li.widget-list-control-item h4.widget-title a, #dragHelper li.widget-list-contro
 	left:1em;
 }
 
-li.widget-list-control-item div.widget-control {
-	padding:0 0 0 10px;
-}
 ul.widget-control-list div.widget-control-actions {
 	margin-right:0;
 	margin-left:-10px;
 }
-ul.widget-control-list .widget-title {
-	text-align:right;
+ul.widget-control-list h4.widget-title,
+#dragHelper h4.widget-title {
+	text-align: right;
+	padding: 0.4em 0.8em 0.4em 2.5em;
 }
