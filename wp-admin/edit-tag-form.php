@@ -31,7 +31,7 @@ if ( ! empty($tag_ID) ) {
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug') ?></label></th>
-			<td><input name="slug" id="slug" type="text" value="<?php echo attribute_escape($tag->slug); ?>" size="40" />
+			<td><input name="slug" id="slug" type="text" value="<?php echo attribute_escape(rawurldecode($tag->slug)); ?>" size="40" />
             <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
 		</tr>
 	</table>
