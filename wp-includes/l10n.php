@@ -38,7 +38,7 @@ function get_locale() {
 		$locale = WPLANG;
 
 	if (empty($locale))
-		$locale = '';
+		$locale = 'en_US';
 
 	$locale = apply_filters('locale', $locale);
 
@@ -263,8 +263,6 @@ function load_textdomain($domain, $mofile) {
  */
 function load_default_textdomain() {
 	$locale = get_locale();
-	if ( empty($locale) )
-		$locale = 'en_US';
 
 	$mofile = ABSPATH . LANGDIR . "/$locale.mo";
 
@@ -291,8 +289,6 @@ function load_default_textdomain() {
  */
 function load_plugin_textdomain($domain, $path = false) {
 	$locale = get_locale();
-	if ( empty($locale) )
-		$locale = 'en_US';
 
 	if ( false === $path )
 		$path = PLUGINDIR;
@@ -315,8 +311,6 @@ function load_plugin_textdomain($domain, $path = false) {
  */
 function load_theme_textdomain($domain) {
 	$locale = get_locale();
-	if ( empty($locale) )
-		$locale = 'en_US';
 
 	$mofile = get_template_directory() . "/$locale.mo";
 	load_textdomain($domain, $mofile);
