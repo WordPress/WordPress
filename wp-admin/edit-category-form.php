@@ -26,7 +26,7 @@ if ( ! empty($cat_ID) ) {
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
-			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo attribute_escape($category->name); ?>" size="40" /><br />
+			<td><input name="cat_name" id="cat_name" type="text" value="<?php echo attribute_escape($category->name); ?>" size="40" aria-required="true" /><br />
             <?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></td>
 		</tr>
 		<tr class="form-field">

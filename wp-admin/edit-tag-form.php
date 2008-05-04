@@ -26,7 +26,7 @@ if ( ! empty($tag_ID) ) {
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Tag name') ?></label></th>
-			<td><input name="name" id="name" type="text" value="<?php echo attribute_escape($tag->name); ?>" size="40" />
+			<td><input name="name" id="name" type="text" value="<?php echo attribute_escape($tag->name); ?>" size="40" aria-required="true" />
             <p><?php _e('The name is how the tag appears on your site.'); ?></p></td>
 		</tr>
 		<tr class="form-field">

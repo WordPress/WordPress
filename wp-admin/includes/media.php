@@ -703,6 +703,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		}
 
 		$required = $field['required'] ? '<abbr title="required" class="required">*</abbr>' : '';
+		$aria_required = $field['required'] ? " aria-required='true' " : '';
 		$class  = $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
@@ -710,9 +711,9 @@ function get_media_item( $attachment_id, $args = null ) {
 		if ( !empty($field[$field['input']]) )
 			$item .= $field[$field['input']];
 		elseif ( $field['input'] == 'textarea' ) {
-			$item .= "<textarea type='text' id='$name' name='$name'>" . attribute_escape( $field['value'] ) . "</textarea>";
+			$item .= "<textarea type='text' id='$name' name='$name'>" . attribute_escape( $field['value'] ) . $aria_required . "</textarea>";
 		} else {
-			$item .= "<input type='text' id='$name' name='$name' value='" . attribute_escape( $field['value'] ) . "' />";
+			$item .= "<input type='text' id='$name' name='$name' value='" . attribute_escape( $field['value'] ) . "'" . $aria_required . "/>";
 		}
 		if ( !empty($field['helps']) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique((array) $field['helps']) ) . '</p>';
@@ -1085,14 +1086,14 @@ function type_form_image() {
 				<span class="alignleft"><label for="insertonly[src]">' . __('Image URL') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[src]" name="insertonly[src]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[src]" name="insertonly[src]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr>
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="insertonly[alt]">' . __('Description') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[alt]" name="insertonly[alt]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[alt]" name="insertonly[alt]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Alternate text, e.g. "The Mona Lisa"') . '</td></tr>
 		<tr class="align">
@@ -1126,14 +1127,14 @@ function type_form_audio() {
 				<span class="alignleft"><label for="insertonly[href]">' . __('Audio File URL') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr>
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Link text, e.g. "Still Alive by Jonathan Coulton"') . '</td></tr>
 		<tr>
@@ -1154,14 +1155,14 @@ function type_form_video() {
 				<span class="alignleft"><label for="insertonly[href]">' . __('Video URL') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr>
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Link text, e.g. "Lucy on YouTube"') . '</td></tr>
 		<tr>
@@ -1182,14 +1183,14 @@ function type_form_file() {
 				<span class="alignleft"><label for="insertonly[href]">' . __('URL') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[href]" name="insertonly[href]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr>
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="insertonly[title]">' . __('Title') . '</label></span>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
-			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text"></td>
+			<td class="field"><input id="insertonly[title]" name="insertonly[title]" value="" type="text" aria-required="true"></td>
 		</tr>
 		<tr><td></td><td class="help">' . __('Link text, e.g. "Ransom Demands (PDF)"') . '</td></tr>
 		<tr>

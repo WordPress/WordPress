@@ -105,7 +105,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="link-category-add" class="wp-hidden-child">
 		<label class="hidden" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
-		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" />
+		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" aria-required="true" />
 		<input type="button" id="category-add-sumbit" class="add:categorychecklist:linkcategorydiv button" value="<?php _e( 'Add' ); ?>" />
 		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
 		<span id="category-ajax-response"></span>

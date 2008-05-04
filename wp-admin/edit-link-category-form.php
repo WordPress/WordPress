@@ -26,7 +26,7 @@ if ( ! empty($cat_ID) ) {
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Category name') ?></label></th>
-			<td><input name="name" id="name" type="text" value="<?php echo $category->name; ?>" size="40" /></td>
+			<td><input name="name" id="name" type="text" value="<?php echo $category->name; ?>" size="40" aria-required="true" /></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Category slug') ?></label></th>
