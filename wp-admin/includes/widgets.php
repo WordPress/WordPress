@@ -227,6 +227,7 @@ function wp_widget_control( $sidebar_args ) {
 	if ( empty($sidebar_args['_display']) || 'template' != $sidebar_args['_display'] )
 		echo $sidebar_args['before_widget'];
 ?>
+		<div class="widget-top">
 		<h4 class="widget-title"><?php echo $widget_title ?>
 
 			<?php if ( $edit ) : ?>
@@ -239,7 +240,7 @@ function wp_widget_control( $sidebar_args ) {
 
 			<?php endif; ?>
 
-		</h4>
+		</h4></div>
 
 		<div class="widget-control"<?php if ( $edit ) echo ' style="display: block;"'; ?>>
 

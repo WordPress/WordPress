@@ -74,7 +74,6 @@ ul#widget-list li.widget-list-item div.widget-description {
 	font-size: 11px;
 }
 
-
 ul#widget-list li.widget-list-item ul.widget-control-info {
 	display: none;
 }
@@ -91,27 +90,26 @@ ul.widget-control-list {
 	padding: 0 1em;
 }
 
-ul.widget-control-list li {
-	position: relative;
-}
-
 div#current-widgets p.submit {
 	padding: 1em;
 }
 
 li.widget-list-control-item {
-	margin: 0 0 1em;
+	margin: 1em 0;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
-li.widget-list-control-item h4, #dragHelper li.widget-list-control-item h4, li.widget-sortable h4 {
+li.widget-list-control-item h4, 
+#dragHelper li.widget-list-control-item h4, 
+li.widget-sortable h4 {
 	margin: 0;
-	padding: 0.4em 2.5em 0.4em 0.8em;
 	cursor: move;
 	font-size: 13px;
+	padding: 0.4em 2.5em 0.4em 0.8em;
+	position: relative;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -143,16 +141,16 @@ li.widget-list-control-item h4.widget-title a,
 }
 
 li.widget-list-control-item h4.widget-title a:hover {
-
 	text-decoration: none;
 	border-bottom: none;
 }
 
 li.widget-list-control-item div.widget-control {
 	display: none;
-	margin: 1em;
-	padding: 0 10px 0 7px; /* Correction for padding, margin, border of inputs */
+	padding: 15px;
 	font-size: 11px;
+	position: relative;
+	background-color: #CFEBF7;
 }
 
 li.widget-list-control-item div.widget-control p {
@@ -161,15 +159,9 @@ li.widget-list-control-item div.widget-control p {
 }
 
 ul.widget-control-list div.widget-control-actions {
-	margin-right: -10px; /* Correction for padding, margin, border of inputs */
-	margin-left: -6px;
 	border-top-width: 1px;
 	border-top-style: solid;
-	padding: 0.5em 0 0.8em;
-}
-
-ul.widget-control-list .widget-title {
-	
+	padding: 0.5em 0 0;
 }
 
 .widget-control-edit {
