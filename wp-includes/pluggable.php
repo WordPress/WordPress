@@ -1246,15 +1246,17 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 	if ( empty($default) ) {
 		$avatar_default = get_option('avatar_default');
 		if ( empty($avatar_default) )
-			$default = 'default';
+			$default = 'mystery';
 		else
 			$default = $avatar_default;
 	}
 
 	if ( 'custom' == $default )
 		$default = add_query_arg( 's', $size, $defaults[$avatar_default][1] );
-	elseif ( 'default' == $default )
+	elseif ( 'mystery' == $default )
 		$default = "http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
+	elseif ( 'blank' == $default )
+		$default = get_option('siteurl') . '/wp-includes/images/blank.gif';
 	elseif ( !empty($email) && 'gravatar_default' == $default )
 		$default = '';
 	elseif ( 'gravatar_default' == $default )

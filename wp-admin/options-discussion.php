@@ -78,7 +78,7 @@ include('admin-header.php');
 
 <h3><?php _e('Avatars') ?></h3>
 
-<p><?php _e('By default WordPress uses <a href="http://gravatar.com/">Gravatars</a> &#8212; short for Globally Recognized Avatars &#8212; for the pictures that show up next to comments. Plugins may override this.'); ?></p>
+<p><?php _e('An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites.  Here you can enable the display of avatars for people who comment on your blog.'); ?></p>
 
 <?php // the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that? ?>
 
@@ -117,7 +117,8 @@ endforeach;
 
 <?php
 $avatar_defaults = array(
-	'default' => __('Default'),
+	'mystery' => __('Mystery Man'),
+	'blank' => __('Blank'),
 	'gravatar_default' => __('Gravatar Logo'),
 	'identicon' => __('Identicon (Generated)'),
 	'wavatar' => __('Wavatar (Generated)'),
@@ -126,7 +127,7 @@ $avatar_defaults = array(
 $avatar_defaults = apply_filters('avatar_defaults', $avatar_defaults);
 $default = get_option('avatar_default');
 if ( empty($default) )
-	$default = 'default';
+	$default = 'mystery';
 $size = 32;
 $avatar_list = '';
 foreach ( $avatar_defaults as $default_key => $default_name ) {
