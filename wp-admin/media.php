@@ -92,7 +92,7 @@ case 'edit' :
 <?php wp_original_referer_field(true, 'previous'); ?>
 <?php wp_nonce_field('media-form'); ?>
 </p>
-
+</form>
 
 </div>
 
