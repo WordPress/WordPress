@@ -68,28 +68,28 @@ switch($step) {
 	<p>Below you should enter your database connection details. If you're not sure about these, contact your host. </p>
 	<table class="form-table">
 		<tr>
-			<th scope="row">Database Name</th>
-			<td><input name="dbname" type="text" size="25" value="wordpress" /></td>
+			<th scope="row"><label for="dbname">Database Name</label></th>
+			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress" /></td>
 			<td>The name of the database you want to run WP in. </td>
 		</tr>
 		<tr>
-			<th scope="row">User Name</th>
-			<td><input name="uname" type="text" size="25" value="username" /></td>
+			<th scope="row"><label for="uname">User Name</label></th>
+			<td><input name="uname" id="uname" type="text" size="25" value="username" /></td>
 			<td>Your MySQL username</td>
 		</tr>
 		<tr>
-			<th scope="row">Password</th>
-			<td><input name="pwd" type="text" size="25" value="password" /></td>
+			<th scope="row"><label for="pwd">Password</label></th>
+			<td><input name="pwd" id="pwd" type="text" size="25" value="password" /></td>
 			<td>...and MySQL password.</td>
 		</tr>
 		<tr>
-			<th scope="row">Database Host</th>
-			<td><input name="dbhost" type="text" size="25" value="localhost" /></td>
+			<th scope="row"><label for="dbhost">Database Host</label></th>
+			<td><input name="dbhost" id="dbhost" type="text" size="25" value="localhost" /></td>
 			<td>99% chance you won't need to change this value.</td>
 		</tr>
 		<tr>
-			<th scope="row">Table Prefix</th>
-			<td><input name="prefix" type="text" id="prefix" value="wp_" size="25" /></td>
+			<th scope="row"><label for="prefix">Table Prefix</label></th>
+			<td><input name="prefix" id="prefix" type="text" id="prefix" value="wp_" size="25" /></td>
 			<td>If you want to run multiple WordPress installations in a single database, change this.</td>
 		</tr>
 	</table>

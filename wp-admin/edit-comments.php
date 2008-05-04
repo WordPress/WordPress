@@ -116,6 +116,7 @@ unset($status_links);
 </ul>
 
 <p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php echo $search; ?>" />
 	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
 </p>

@@ -234,15 +234,16 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 
 	<h2><?php _e( 'Widgets' ); ?></h2>
 	<p id="widget-search">
+		<label class="hidden" for="widget-search-input"><?php _e( 'Search Widgets' ); ?>:</label>
 		<input type="text" id="widget-search-input" name="s" value="<?php echo attribute_escape( $widget_search ); ?>" />
 		<input type="submit" class="button" value="<?php _e( 'Search Widgets' ); ?>" />
 	</p>
 
 	<div class="widget-liquid-left-holder">
 	<div id="available-widgets-filter" class="widget-liquid-left">
-		<h3><?php _e('Available Widgets'); ?></h3>
+		<h3><label for="show"><?php _e('Available Widgets'); ?></label></h3>
 		<div class="nav">
-			<select name="show">
+			<select name="show" id="show">
 <?php foreach ( $show_values as $show_value => $show_text ) : $show_value = attribute_escape( $show_value ); ?>
 				<option value='<?php echo $show_value; ?>'<?php selected( $show_value, $show ); ?>><?php echo wp_specialchars( $show_text ); ?></option>
 <?php endforeach; ?>
@@ -256,7 +257,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 	</div>
 
 	<div id="available-sidebars" class="widget-liquid-right">
-		<h3><?php _e('Current Widgets'); ?></h3>
+		<h3><label for="sidebar-selector"><?php _e('Current Widgets'); ?></label></h3>
 
 		<div class="nav">
 			<select id="sidebar-selector" name="sidebar">

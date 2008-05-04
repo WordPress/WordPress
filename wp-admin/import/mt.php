@@ -166,9 +166,9 @@ class MT_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
+			echo '<li><label>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
 			$this->users_form($j);
-			echo '</li>';
+			echo '</label></li>';
 		}
 
 		echo '<input type="submit" value="'.__('Submit').'">'.'<br />';

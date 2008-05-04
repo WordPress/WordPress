@@ -774,8 +774,8 @@ function _list_meta_row( $entry, &$count ) {
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
 
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
-	$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
-	$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
+	$r .= "\n\t\t<td valign='top'><label class='hidden' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
+	$r .= "\n\t\t<td><label class='hidden' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
 	$r .= "\n\t\t<td style='text-align: center;'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /><br />";
 	$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
 	$r .= "class='delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' />";
@@ -800,8 +800,8 @@ function meta_form() {
 <p><strong><?php _e( 'Add a new custom field:' ) ?></strong></p>
 <table id="newmeta" cellspacing="3" cellpadding="3">
 	<tr>
-<th colspan="2"><?php _e( 'Key' ) ?></th>
-<th><?php _e( 'Value' ) ?></th>
+<th colspan="2"><label <?php if ( $keys ) : ?> for="metakeyselect" <?php else : ?> for="metakeyinput" <?php endif; ?>><?php _e( 'Key' ) ?></label></th>
+<th><label for="metavalue"><?php _e( 'Value' ) ?></label></th>
 </tr>
 	<tr valign="top">
 		<td style="width: 18%;" class="textright">
@@ -815,7 +815,7 @@ function meta_form() {
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>
-</select> <?php _e( 'or' ); ?>
+</select> <label for="metakeyinput"><?php _e( 'or' ); ?></label>
 <?php endif; ?>
 </td>
 <td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>

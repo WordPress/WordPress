@@ -73,7 +73,7 @@ foreach ( (array) $options as $option) :
 	}
 	echo "
 <tr>
-	<th scope='row'>$option->option_name</th>
+	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
 <td>";
 
 	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>" . wp_specialchars($value) . "</textarea>";

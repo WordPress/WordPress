@@ -60,8 +60,8 @@ form {
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="mode" value="sidebar" />
 <?php wp_nonce_field('add-post'); ?>
-<p><?php _e('Title:'); ?>
-<input type="text" name="post_title" size="20" tabindex="1" style="width: 100%;" />
+<p><label for="post_title"><?php _e('Title:'); ?></label>
+<input type="text" name="post_title" id="post_title" size="20" tabindex="1" style="width: 100%;" />
 </p>
 <p><?php _e('Categories:'); ?>
 <span class="sidebar-categories">
@@ -69,8 +69,8 @@ form {
 </span>
 </p>
 <p>
-Post:
-<textarea rows="8" cols="12" style="width: 100%" name="content" tabindex="2"></textarea>
+<label for="content">Post:</label>
+<textarea rows="8" cols="12" style="width: 100%" name="content" id="content" tabindex="2"></textarea>
 </p>
 <p>
 	<input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="<?php _e('Save as Draft'); ?>" />

@@ -145,13 +145,13 @@ case 'delete':
 	?>
 	</ul>
 <?php if ( $go_delete ) : ?>
-	<p><?php _e('What should be done with posts and links owned by this user?'); ?></p>
+	<fieldset><p><legend><?php _e('What should be done with posts and links owned by this user?'); ?></legend></p>
 	<ul style="list-style:none;">
 		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" checked="checked" />
 		<?php _e('Delete all posts and links.'); ?></label></li>
 		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
 		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:')."</label> $user_dropdown"; ?></li>
-	</ul>
+	</ul></fieldset>
 	<input type="hidden" name="action" value="dodelete" />
 	<p class="submit"><input type="submit" name="submit" value="<?php _e('Confirm Deletion'); ?>" class="button-secondary" /></p>
 <?php else : ?>
@@ -287,6 +287,7 @@ unset($role_links);
 ?>
 </ul>
 	<p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Users' ); ?>:</label>
 	<input type="text" id="post-search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
 	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
 	</p>
@@ -299,7 +300,7 @@ unset($role_links);
 
 <div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
-<select name="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option>"<?php wp_dropdown_roles(); ?></select>
+<label class="hidden" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option>"<?php wp_dropdown_roles(); ?></select>
 <input type="submit" value="<?php _e('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>
 </div>
@@ -403,29 +404,29 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <?php wp_nonce_field('add-user') ?>
 <table class="form-table">
 	<tr class="form-field form-required">
-		<th scope="row"><?php _e('Username (required)') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
+		<th scope="row"><label for="user_login"><?php _e('Username (required)') ?></label><input name="action" type="hidden" id="action" value="adduser" /></th>
 		<td ><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" /></td>
 	</tr>
 	<tr class="form-field">
-		<th scope="row"><?php _e('First Name') ?> </th>
+		<th scope="row"><label for="first_name"><?php _e('First Name') ?> </label></th>
 		<td><input name="first_name" type="text" id="first_name" value="<?php echo $new_user_firstname; ?>" /></td>
 	</tr>
 	<tr class="form-field">
-		<th scope="row"><?php _e('Last Name') ?> </th>
+		<th scope="row"><label for="last_name"><?php _e('Last Name') ?> </label></th>
 		<td><input name="last_name" type="text" id="last_name" value="<?php echo $new_user_lastname; ?>" /></td>
 	</tr>
 	<tr class="form-field form-required">
-		<th scope="row"><?php _e('E-mail (required)') ?></th>
+		<th scope="row"><label for="email"><?php _e('E-mail (required)') ?></label></th>
 		<td><input name="email" type="text" id="email" value="<?php echo $new_user_email; ?>" /></td>
 	</tr>
 	<tr class="form-field">
-		<th scope="row"><?php _e('Website') ?></th>
+		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
 		<td><input name="url" type="text" id="url" value="<?php echo $new_user_uri; ?>" /></td>
 	</tr>
 
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
 	<tr class="form-field form-required">
-		<th scope="row"><?php _e('Password (twice)') ?> </th>
+		<th scope="row"><label for="pass1"><?php _e('Password (twice)') ?> </label></th>
 		<td><input name="pass1" type="password" id="pass1" />
 		<br />
 		<input name="pass2" type="password" id="pass2" /></td>
@@ -433,7 +434,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <?php endif; ?>
 
 	<tr class="form-field">
-		<th scope="row"><?php _e('Role'); ?></th>
+		<th scope="row"><label for="role"><?php _e('Role'); ?></label></th>
 		<td><select name="role" id="role">
 			<?php
 			if ( !$new_user_role )

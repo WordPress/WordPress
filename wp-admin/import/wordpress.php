@@ -218,7 +218,7 @@ class WP_Import {
 	function users_form($n, $author) {
 
 		if ( $this->allow_create_users() ) {
-			printf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user_create['.intval($n).']'.'" maxlength="30"> <br />');
+			printf('<label>'.__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user_create['.intval($n).']'.'" maxlength="30"></label> <br />');
 		}
 		else {
 			echo __('Map to existing').'<br />';

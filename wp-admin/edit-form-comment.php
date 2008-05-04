@@ -22,9 +22,9 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 
 <div class="inside">
 
-<p><strong><?php _e('Approval Status') ?></strong></p>
+<p><strong><label for='comment_status'><?php _e('Approval Status') ?></label></strong></p>
 <p>
-<select name='comment_status'>
+<select name='comment_status' id='comment_status'>
 <option<?php selected( $comment->comment_approved, '1' ); ?> value='1'><?php _e('Approved') ?></option>
 <option<?php selected( $comment->comment_approved, '0' ); ?> value='0'><?php _e('Moderated') ?></option>
 <option<?php selected( $comment->comment_approved, 'spam' ); ?> value='spam'><?php _e('Spam') ?></option>
@@ -64,28 +64,28 @@ echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletec
 
 <div id="post-body">
 <div id="namediv" class="stuffbox">
-<h3><?php _e('Name') ?></h3>
+<h3><label for="name"><?php _e('Name') ?></label></h3>
 <div class="inside">
 <input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
 </div>
 </div>
 
 <div id="emaildiv" class="stuffbox">
-<h3><?php _e('E-mail') ?></h3>
+<h3><label for="email"><?php _e('E-mail') ?></label></h3>
 <div class="inside">
 <input type="text" name="newcomment_author_email" size="30" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
 </div>
 </div>
 
 <div id="uridiv" class="stuffbox">
-<h3><?php _e('URL') ?></h3>
+<h3><label for="newcomment_author_url"><?php _e('URL') ?></label></h3>
 <div class="inside">
 <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="3" />
 </div>
 </div>
 
 <div id="postdiv" class="postarea">
-<h3><?php _e('Comment') ?></h3>
+<h3><label for="content"><?php _e('Comment') ?></label></h3>
 <?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>

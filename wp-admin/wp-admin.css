@@ -1512,3 +1512,9 @@ table.diff .diff-deletedline del, table.diff .diff-addedline ins {
 #wp-word-count {
 	display: block;
 }
+
+fieldset {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}

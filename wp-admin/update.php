@@ -45,19 +45,19 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 <p><?php _e('To perform the requested update, FTP connection information is required.') ?></p>
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><?php _e('Hostname:') ?></th>
+<th scope="row"><label for="hostname"><?php _e('Hostname:') ?></label></th>
 <td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname) ?>"<?php if( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Username:') ?></th>
+<th scope="row"><label for="username"><?php _e('Username:') ?></label></th>
 <td><input name="username" type="text" id="username" value="<?php echo attribute_escape($username) ?>"<?php if( defined('FTP_USER') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Password:') ?></th>
+<th scope="row"><label for="password"><?php _e('Password:') ?></label></th>
 <td><input name="password" type="password" id="password" value=""<?php if( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /><?php if( defined('FTP_PASS') && !empty($password) ) echo '<em>'.__('(Password not shown)').'</em>'; ?></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Use SSL:') ?></th>
+<th scope="row"><label for="ssl"><?php _e('Use SSL:') ?></label></th>
 <td>
 <select name="ssl" id="ssl"<?php if( defined('FTP_SSL') ) echo ' disabled="disabled"' ?>>
 <?php

@@ -461,6 +461,7 @@ function wp_widget_search($args) {
 		<?php echo $before_widget; ?>
 			<form id="searchform" method="get" action="<?php bloginfo('home'); ?>">
 			<div>
+			<label class="hidden" for="s"><?php _e('Search for:'); ?></label>
 			<input type="text" name="s" id="s" size="15" /><br />
 			<input type="submit" value="<?php echo attribute_escape(__('Search')); ?>" />
 			</div>

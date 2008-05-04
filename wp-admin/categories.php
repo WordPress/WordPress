@@ -126,6 +126,7 @@ endif; ?>
 <?php endif; ?>
 
 <p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e('Search Categories'); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>

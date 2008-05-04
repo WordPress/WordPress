@@ -69,9 +69,9 @@ else
 
 <div class="inside">
 
-<p><strong><?php _e('Publish Status') ?></strong></p>
+<p><strong><label for='post_status'><?php _e('Publish Status') ?></label></strong></p>
 <p>
-<select name='post_status' tabindex='4'>
+<select name='post_status' tabindex='4' id='post_status'>
 <?php if ( current_user_can('publish_pages') ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php else: ?>
@@ -160,7 +160,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 
 <div id="post-body">
 <div id="titlediv">
-<h3><?php _e('Title') ?></h3>
+<h3><label for="title"><?php _e('Title') ?></label></h3>
 <div id="titlewrap">
   <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo attribute_escape( $post->post_title ); ?>" id="title" autocomplete="off" />
 </div>
@@ -175,7 +175,7 @@ endif; ?>
 </div>
 
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
-<h3><?php _e('Page') ?></h3>
+<h3><label for="content"><?php _e('Page') ?></label></h3>
 <?php the_editor($post->post_content); ?>
 <?php wp_nonce_field( 'autosave', 'autosavenonce', false ); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
@@ -224,7 +224,7 @@ list_meta($metadata);
 <div id="pagepassworddiv" class="postbox <?php echo postbox_classes('pagepassworddiv', 'page'); ?>">
 <h3><?php _e('Password Protect This Page') ?></h3>
 <div class="inside">
-<p><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
+<p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
 </div>
 </div>
@@ -232,14 +232,14 @@ list_meta($metadata);
 <div id="pageslugdiv" class="postbox <?php echo postbox_classes('pageslugdiv', 'page'); ?>">
 <h3><?php _e('Page Slug') ?></h3>
 <div class="inside">
-<input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
+<label class="hidden" for="post_name"><?php _e('Page Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
 </div>
 </div>
 
 <div id="pageparentdiv" class="postbox <?php echo postbox_classes('pageparentdiv', 'page'); ?>">
 <h3><?php _e('Page Parent') ?></h3>
 <div class="inside">
-<select name="parent_id">
+<label class="hidden" for="parent_id"><?php _e('Page Parent') ?></label><select name="parent_id" id="parent_id">
 <option value='0'><?php _e('Main Page (no parent)'); ?></option>
 <?php parent_dropdown($post->post_parent); ?>
 </select>
@@ -251,7 +251,7 @@ list_meta($metadata);
 <div id="pagetemplatediv" class="postbox <?php echo postbox_classes('pagetemplatediv', 'page'); ?>">
 <h3><?php _e('Page Template') ?></h3>
 <div class="inside">
-<select name="page_template">
+<label class="hidden" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <option value='default'><?php _e('Default Template'); ?></option>
 <?php page_template_dropdown($post->page_template); ?>
 </select>
@@ -263,7 +263,7 @@ list_meta($metadata);
 <div id="pageorderdiv" class="postbox <?php echo postbox_classes('pageorderdiv', 'page'); ?>">
 <h3><?php _e('Page Order') ?></h3>
 <div class="inside">
-<p><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
+<p><label class="hidden" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
 <p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
 </div>
 </div>
@@ -277,7 +277,7 @@ if ( $authors && count( $authors ) > 1 ) :
 <div id="pageauthordiv" class="postbox <?php echo postbox_classes('pageauthordiv', 'page'); ?>">
 <h3><?php _e('Page Author'); ?></h3>
 <div class="inside">
-<?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
+<label class="hidden" for="post_author_override"><?php _e('Page Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
 </div>
 </div>
 <?php endif; ?>

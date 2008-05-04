@@ -170,11 +170,11 @@ $structures = array(
 
 <table class="form-table">
 	<tr>
-		<th><?php _e('Category base'); ?></th>
+		<th><label for="category_base"><?php _e('Category base'); ?></label></th>
 		<td><input name="category_base" id="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" /></td>
 	</tr>
 	<tr>
-		<th><?php _e('Tag base'); ?></th>
+		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
 		<td><input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" /></td>
 	</tr>
 </table>

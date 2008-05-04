@@ -22,9 +22,9 @@ require_once ('admin-header.php');
 
 <table class="form-table">
 <tr>
-<th><?php _e('Restrict Author'); ?></th>
+<th><label for="author"><?php _e('Restrict Author'); ?></label></th>
 <td>
-<select name="author">
+<select name="author" id="author">
 <option value="all" selected="selected"><?php _e('All Authors'); ?></option>
 <?php
 $authors = $wpdb->get_col( "SELECT post_author FROM $wpdb->posts GROUP BY post_author" );

@@ -283,7 +283,7 @@ function wp_dropdown_pages($args = '') {
 	$output = '';
 
 	if ( ! empty($pages) ) {
-		$output = "<select name='$name'>\n";
+		$output = "<select name='$name' id='$name'>\n";
 		if ( $show_option_none )
 			$output .= "\t<option value=''>$show_option_none</option>\n";
 		$output .= walk_page_dropdown_tree($pages, $depth, $r);

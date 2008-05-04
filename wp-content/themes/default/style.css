@@ -616,6 +616,10 @@ blockquote cite {
 	text-align: center;
 	}
 
+.hidden {
+	display: none;
+	}
+
 hr {
 	display: none;
 	}

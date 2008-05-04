@@ -959,6 +959,7 @@ function media_upload_library_form($errors) {
 <input type="hidden" name="post_mime_type" value="<?php echo attribute_escape( $_GET['post_mime_type'] ); ?>" />
 
 <div id="search-filter">
+	<label class="hidden" for="post-search-input"><?php _e('Search Media');?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php echo attribute_escape( __( 'Search Media' ) ); ?>" class="button" />
 </div>

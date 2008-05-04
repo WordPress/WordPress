@@ -125,6 +125,7 @@ endif;
 ?>
 
 <p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
 </p>
