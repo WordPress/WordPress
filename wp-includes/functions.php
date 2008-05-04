@@ -1670,9 +1670,9 @@ function _deprecated_function($function, $version, $replacement=null) {
 	// Allow plugin to filter the output error trigger
 	if( defined('WP_DEBUG') && ( true === WP_DEBUG ) && apply_filters( 'deprecated_function_trigger_error', true )) {
 		if( !is_null($replacement) )
-			trigger_error( printf( __("%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."), $function, $version, $replacement ) );
+			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $function, $version, $replacement ) );
 		else
-			trigger_error( printf( __("%1$s is <strong>deprecated</strong> since version %2$s with no alternative available."), $function, $version ) );
+			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $function, $version ) );
 	}
 }
 
@@ -1705,9 +1705,9 @@ function _deprecated_file($file, $version, $replacement=null) {
 	// Allow plugin to filter the output error trigger
 	if( defined('WP_DEBUG') && ( true === WP_DEBUG ) && apply_filters( 'deprecated_file_trigger_error', true )) {
 		if( !is_null($replacement) )
-			trigger_error( printf( __("%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."), $file, $version, $replacement ) );
+			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $file, $version, $replacement ) );
 		else
-			trigger_error( printf( __("%1$s is <strong>deprecated</strong> since version %2$s with no alternative available."), $file, $version ) );
+			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $file, $version ) );
 	}
 }
 
