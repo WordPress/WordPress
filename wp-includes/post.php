@@ -408,10 +408,12 @@ function get_posts($args = null) {
 		'order' => 'DESC', 'include' => '',
 		'exclude' => '', 'meta_key' => '',
 		'meta_value' =>'', 'post_type' => 'post',
-		'post_status' => 'publish', 'post_parent' => 0
+		'post_parent' => 0
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+	if ( empty( $r['post_status'] ) )
+		$r['post_status'] = ( 'attachment' == $r['post_type'] ) ? 'inherit' : 'publish';
 	if ( ! empty($r['numberposts']) )
 		$r['posts_per_page'] = $r['numberposts'];
 	if ( ! empty($r['category']) )
