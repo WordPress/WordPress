@@ -586,7 +586,7 @@ function get_media_items( $post_id, $errors ) {
 		if ( $post && $post->post_type == 'attachment' )
 			$attachments = array($post->ID => $post);
 		else
-			$attachments = get_children("post_parent=$post_id&post_type=attachment&orderby=menu_order ASC, ID&order=DESC");
+			$attachments = get_children( array( 'post_parent' => $post_id, 'post_type' => 'attachment', 'orderby' => 'menu_order ASC, ID', 'order' => 'DESC') );
 	} else {
 		if ( is_array($GLOBALS['wp_the_query']->posts) )
 			foreach ( $GLOBALS['wp_the_query']->posts as $attachment )

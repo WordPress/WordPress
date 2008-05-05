@@ -70,14 +70,14 @@ function update_attached_file( $attachment_id, $file ) {
 function &get_children($args = '', $output = OBJECT) {
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
-			$args = 'post_parent=' . (int) $GLOBALS['post']->post_parent;
+			$args = array('post_parent' => (int) $GLOBALS['post']->post_parent );
 		} else {
 			return false;
 		}
 	} elseif ( is_object( $args ) ) {
-		$args = 'post_parent=' . (int) $args->post_parent;
+		$args = array('post_parent' => (int) $args->post_parent );
 	} elseif ( is_numeric( $args ) ) {
-		$args = 'post_parent=' . (int) $args;
+		$args = array('post_parent' => (int) $args);
 	}
 
 	$defaults = array(
