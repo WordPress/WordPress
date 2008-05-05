@@ -313,10 +313,15 @@ function WP_Filesystem( $args = false ) {
 	global $wp_filesystem;
 
 	$method = get_filesystem_method();
+
 	if ( ! $method )
 		return false;
 
-	require_once('class-wp-filesystem-'.$method.'.php');
+	$abstraction_file = apply_filters('filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-'.$method.'.php', $method);
+	if( ! file_exists($abstraction_file) )
+		return;
+
+	require_once($abstraction_file);
 	$method = "WP_Filesystem_$method";
 
 	$wp_filesystem = new $method($args);
