@@ -164,7 +164,7 @@ include ('admin-header.php');
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
 <td>
 <?php
-$current_color = get_user_option('admin_color');
+$current_color = get_user_option('admin_color', $user_id);
 if ( empty($current_color) )
 	$current_color = 'fresh';
 foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
