@@ -627,7 +627,7 @@ function get_sample_permalink($id, $title=null, $name = null) {
 		$permalink = str_replace('%pagename%', "${uri}%pagename%", $permalink);
 	}
 
-	$permalink = array($permalink, $post->post_name);
+	$permalink = array($permalink, apply_filters('editable_slug', $post->post_name));
 	$post->post_status = $original_status;
 	$post->post_date = $original_date;
 	$post->post_name = $original_name;

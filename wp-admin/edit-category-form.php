@@ -31,7 +31,7 @@ if ( ! empty($cat_ID) ) {
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category Slug') ?></label></th>
-			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo attribute_escape($category->slug); ?>" size="40" /><br />
+			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo attribute_escape(apply_filters('editable_slug', $category->slug)); ?>" size="40" /><br />
             <?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></td>
 		</tr>
 		<tr class="form-field">
