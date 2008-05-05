@@ -642,10 +642,6 @@ function get_sample_permalink_html($id, $new_title=null, $new_slug=null) {
 		return '';
 	}
 	$title = __('Click to edit this part of the permalink');
-
-	// make %-encoded international names readable and therefore editable
-	$post_name = rawurldecode($post_name);
-        
 	if (strlen($post_name) > 30) {
 		$post_name_abridged = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
 	} else {
