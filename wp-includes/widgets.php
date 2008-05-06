@@ -734,7 +734,10 @@ function wp_widget_categories($args, $widget_args = 1) {
 	} else {
 ?>
 		<ul>
-		<?php wp_list_categories($cat_args . '&title_li='); ?>
+		<?php 
+			$cat_args['title_li'] = '';
+			wp_list_categories($cat_args); 
+		?>
 		</ul>
 <?php
 	}
