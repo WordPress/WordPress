@@ -84,6 +84,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getCommentCount'	=> 'this:wp_getCommentCount',
 			'wp.getPostStatusList'	=> 'this:wp_getPostStatusList',
 			'wp.getPageStatusList'	=> 'this:wp_getPageStatusList',
+			'wp.getPageTemplates'	=> 'this:wp_getPageTemplates',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -267,6 +268,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			// Get the author info.
 			$author = get_userdata($page->post_author);
 
+			$page_template = get_post_meta( $page->ID, '_wp_page_template', true );
+			if( empty( $page_template ) )
+				$page_template = 'default';
+
 			$page_struct = array(
 				"dateCreated"			=> new IXR_Date($page_date),
 				"userid"				=> $page->post_author,
@@ -290,7 +295,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				"wp_author_id"			=> $author->ID,
 				"wp_author_display_name"	=> $author->display_name,
 				"date_created_gmt"		=> new IXR_Date($page_date_gmt),
-				"custom_fields"			=> $this->get_custom_fields($page_id)
+				"custom_fields"			=> $this->get_custom_fields($page_id),
+				"wp_page_template"		=> $page_template
 			);
 
 			return($page_struct);
@@ -739,6 +745,28 @@ class wp_xmlrpc_server extends IXR_Server {
 		return get_page_statuses( );
 	}
 
+	function wp_getPageTemplates( $args ) {
+		$this->escape( $args );
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+
+		if( !$this->login_pass_ok( $username, $password ) ) {
+			return new IXR_Error( 403, __( 'Bad login/pass combination.' ) );
+		}
+
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_pages' ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+		}
+
+		$templates = get_page_templates( );
+		$templates['Default'] = 'default';
+
+		return $templates;
+	}
+
 
 	/* Blogger API functions
 	 * specs on http://plant.blogger.com/api and http://groups.yahoo.com/group/bloggerDev/
@@ -1130,11 +1158,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
 		$error_message = __( 'Sorry, you are not allowed to publish posts on this blog.' );
 		$post_type = 'post';
+		$page_template = '';
 		if( !empty( $content_struct['post_type'] ) ) {
 			if( $content_struct['post_type'] == 'page' ) {
 				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
 				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
 				$post_type = 'page';
+				if( !empty( $content_struct['wp_page_template'] ) )
+					$page_template = $content_struct['wp_page_template'];
 			}
 			elseif( $content_struct['post_type'] == 'post' ) {
 				// This is the default, no changes needed
@@ -1323,9 +1354,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// We've got all the data -- post it:
-		$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input');
+		$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input', 'page_template');
 
-		$post_ID = wp_insert_post($postdata);
+		$post_ID = wp_insert_post($postdata, true);
 		if ( is_wp_error( $post_ID ) )
 			return new IXR_Error(500, $post_ID->get_error_message());
 
@@ -1385,11 +1416,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$cap = ( $publish ) ? 'publish_posts' : 'edit_posts';
 		$error_message = __( 'Sorry, you are not allowed to publish posts on this blog.' );
 		$post_type = 'post';
+		$page_template = '';
 		if( !empty( $content_struct['post_type'] ) ) {
 			if( $content_struct['post_type'] == 'page' ) {
 				$cap = ( $publish ) ? 'publish_pages' : 'edit_pages';
 				$error_message = __( 'Sorry, you are not allowed to publish pages on this blog.' );
 				$post_type = 'page';
+				if( !empty( $content_struct['wp_page_template'] ) )
+					$page_template = $content_struct['wp_page_template'];
 			}
 			elseif( $content_struct['post_type'] == 'post' ) {
 				// This is the default, no changes needed
@@ -1588,9 +1622,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// We've got all the data -- post it:
-		$newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input');
+		$newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input', 'page_template');
 
-		$result = wp_update_post($newpost);
+		$result = wp_update_post($newpost, true);
+		if ( is_wp_error( $result ) )
+			return new IXR_Error(500, $result->get_error_message());
+
 		if (!$result) {
 			return new IXR_Error(500, __('Sorry, your entry could not be edited. Something wrong happened.'));
 		}
