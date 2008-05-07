@@ -272,7 +272,7 @@ function wp_list_categories($args = '') {
 		'style' => 'list', 'show_count' => 0,
 		'hide_empty' => 1, 'use_desc_for_title' => 1,
 		'child_of' => 0, 'feed' => '', 'feed_type' => '',
-		'feed_image' => '', 'exclude' => '',
+		'feed_image' => '', 'exclude' => '', 'current_category' => 0,
 		'hierarchical' => true, 'title_li' => __('Categories'),
 		'echo' => 1, 'depth' => 0
 	);
@@ -309,7 +309,7 @@ function wp_list_categories($args = '') {
 			else
 				$output .= '<a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a>';
 
-		if ( is_category() )
+		if ( empty( $r['current_category'] ) && is_category() )
 			$r['current_category'] = $wp_query->get_queried_object_id();
 
 		if ( $hierarchical )
