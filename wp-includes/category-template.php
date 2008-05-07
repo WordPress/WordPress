@@ -185,9 +185,12 @@ function in_category( $category ) { // Check if the current post is in the given
 	if ( empty($category) )
 		return false;
 
-	$cat_ID = get_cat_ID($category);
-	if ( $cat_ID )
-		$category = $cat_ID;
+	// If category is not an int, check to see if it's a name
+	if ( ! is_int($category) ) {
+		$cat_ID = get_cat_ID($category);
+		if ( $cat_ID )
+			$category = $cat_ID;
+	}
 
 	$categories = get_object_term_cache($post->ID, 'category');
 	if ( false === $categories )
