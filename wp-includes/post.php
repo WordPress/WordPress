@@ -88,7 +88,6 @@ function &get_children($args = '', $output = OBJECT) {
 	$r = wp_parse_args( $args, $defaults );
 
 	$children = get_posts( $r );
-
 	if ( !$children )
 		return false;
 
@@ -2957,18 +2956,19 @@ function _get_post_ancestors(&$_post) {
 /**
  * _wp_revision_fields() - determines which fields of posts are to be saved in revisions
  *
- * Does two things. If passed a postn *array*, it will return a post array ready to be
+ * Does two things. If passed a post *array*, it will return a post array ready to be
  * insterted into the posts table as a post revision.
- * Otherwise, returns an array whose keys are the post fields to be saved post revisions.
+ * Otherwise, returns an array whose keys are the post fields to be saved for post revisions.
  *
  * @package WordPress
  * @subpackage Post Revisions
  * @since 2.6
  *
  * @param array $post optional a post array to be processed for insertion as a post revision
+ * @param bool $autosave optional Is the revision an autosave?
  * @return array post array ready to be inserted as a post revision or array of fields that can be versioned
  */
-function _wp_revision_fields( $post = null ) {
+function _wp_revision_fields( $post = null, $autosave = false ) {
 	static $fields = false;
 
 	if ( !$fields ) {
@@ -2979,6 +2979,9 @@ function _wp_revision_fields( $post = null ) {
 			'post_content' => __( 'Content' ),
 			'post_excerpt' => __( 'Excerpt' ),
 		);
+
+		// Runs only once
+		$fields = apply_filters( '_wp_revision_fields', $fields );
 
 		// WP uses these internally either in versioning or elsewhere - they cannot be versioned
 		foreach ( array( 'ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count' ) as $protect )
@@ -2995,7 +2998,7 @@ function _wp_revision_fields( $post = null ) {
 	$return['post_parent']   = $post['ID'];
 	$return['post_status']   = 'inherit';
 	$return['post_type']     = 'revision';
-	$return['post_name']     = "$post[ID]-revision";
+	$return['post_name']     = $autosave ? "$post[ID]-autosave" : "$post[ID]-revision";
 	$return['post_date']     = $post['post_modified'];
 	$return['post_date_gmt'] = $post['post_modified_gmt'];
 
@@ -3015,18 +3018,59 @@ function _wp_revision_fields( $post = null ) {
  * @return mixed null or 0 if error, new revision ID if success
  */
 function wp_save_revision( $post_id ) {
-	// TODO: rework autosave to use special type of post revision
+	// We do autosaves manually with wp_create_autosave()
 	if ( @constant( 'DOING_AUTOSAVE' ) )
 		return;
 
 	if ( !$post = get_post( $post_id, ARRAY_A ) )
 		return;
 
-	// TODO: open this up for pages also
-	if ( 'post' != $post->post_type )
+	if ( !in_array( $post['post_type'], array( 'post', 'page' ) ) )
 		return;
 
 	return _wp_put_revision( $post );
+}
+
+/**
+ * wp_get_autosave() - returns the autosaved data of the specified post.
+ *
+ * Returns a post object containing the information that was autosaved for the specified post.
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @param int $post_id The post ID
+ * @return object|bool the autosaved data or false on failure or when no autosave exists
+ */
+function wp_get_autosave( $post_id ) {
+	global $wpdb;
+	if ( !$post = get_post( $post_id ) )
+		return false;
+
+	$q = array(
+		'name' => "{$post->ID}-autosave",
+		'post_parent' => $post->ID,
+		'post_type' => 'revision',
+		'post_status' => 'inherit'
+	);
+
+	// Use WP_Query so that the result gets cached
+	$autosave_query = new WP_Query;
+
+	add_action( 'parse_query', '_wp_get_autosave_hack' );
+	$autosave = $autosave_query->query( $q );
+	remove_action( 'parse_query', '_wp_get_autosave_hack' );
+
+	if ( $autosave && is_array($autosave) && is_object($autosave[0]) )
+		return $autosave[0];
+
+	return false;
+}
+
+// Internally used to hack WP_Query into submission
+function _wp_get_autosave_hack( $query ) {
+	$query->is_single = false;
 }
 
 /**
@@ -3039,25 +3083,28 @@ function wp_save_revision( $post_id ) {
  * @uses wp_insert_post()
  *
  * @param int|object|array $post post ID, post object OR post array
+ * @param bool $autosave optional Is the revision an autosave?
  * @return mixed null or 0 if error, new revision ID if success
  */
-function _wp_put_revision( $post = null ) {
+function _wp_put_revision( $post = null, $autosave = false ) {
 	if ( is_object($post) )
 		$post = get_object_vars( $post );
 	elseif ( !is_array($post) )
 		$post = get_post($post, ARRAY_A);
-
 	if ( !$post || empty($post['ID']) )
 		return;
 
 	if ( isset($post['post_type']) && 'revision' == $post_post['type'] )
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
 
-	$post = _wp_revision_fields( $post );
+	$post = _wp_revision_fields( $post, $autosave );
 
-	if ( $revision_id = wp_insert_post( $post ) )
+	$revision_id = wp_insert_post( $post );
+	if ( is_wp_error($revision_id) )
+		return $revision_id;
+
+	if ( $revision_id )
 		do_action( '_wp_put_revision', $revision_id );
-
 	return $revision_id;
 }
 
@@ -3127,7 +3174,11 @@ function wp_restore_revision( $revision_id, $fields = null ) {
 
 	$update['ID'] = $revision['post_parent'];
 
-	if ( $post_id = wp_update_post( $update ) )
+	$post_id = wp_update_post( $update );
+	if ( is_wp_error( $post_id ) )
+		return $post_id;
+
+	if ( $post_id )
 		do_action( 'wp_restore_revision', $post_id, $revision['ID'] );
 
 	return $post_id;
@@ -3153,7 +3204,11 @@ function wp_delete_revision( $revision_id ) {
 	if ( !$revision = wp_get_revision( $revision_id ) )
 		return $revision;
 
-	if ( $delete = wp_delete_post( $revision->ID ) )
+	$delete = wp_delete_post( $revision->ID );
+	if ( is_wp_error( $delete ) )
+		return $delete;
+
+	if ( $delete )
 		do_action( 'wp_delete_revision', $revision->ID, $revision );
 
 	return $delete;
@@ -3174,10 +3229,7 @@ function wp_delete_revision( $revision_id ) {
 function wp_get_post_revisions( $post_id = 0 ) {
 	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
 		return array();
-
-	if ( !$revisions = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'revision' ) ) )
+	if ( !$revisions = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'revision', 'post_status' => 'inherit' ) ) )
 		return array();
 	return $revisions;
 }
-
-?>

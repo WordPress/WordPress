@@ -194,3 +194,7 @@ th.check-column + th, th.check-column + td {
 	padding-bottom: 7px;
 	padding-right: 280px;
 }
+
+.wrap h2.long-header {
+	padding-right: 0;
+}

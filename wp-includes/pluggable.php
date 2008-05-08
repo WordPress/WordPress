@@ -1392,7 +1392,7 @@ if ( !function_exists( 'wp_text_diff' ) ) :
  * @return string human readable HTML of string differences.  Empty string if strings are equivalent
  */
 function wp_text_diff( $left_string, $right_string, $args = null ) {
-	$defaults = array( 'title' => '' );
+	$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
 	$args = wp_parse_args( $args, $defaults );
 
 	// PEAR Text_Diff is lame; it includes things from include_path rather than it's own path.
@@ -1425,8 +1425,18 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 	$r  = "<table class='diff'>\n";
 	$r .= "<col class='ltype' /><col class='content' /><col class='ltype' /><col class='content' />";
 
+	if ( $args['title'] || $args['title_left'] || $args['title_right'] )
+		$r .= "<thead>";
 	if ( $args['title'] )
-		$r .= "<thead><tr><th colspan='4'>$args[title]</th></tr></thead>\n";
+		$r .= "<tr class='diff-title'><th colspan='4'>$args[title]</th></tr>\n";
+	if ( $args['title_left'] || $args['title_right'] ) {
+		$r .= "<tr class='diff-sub-title'>\n";
+		$r .= "\t<td></td><th>$args[title_left]</th>\n";
+		$r .= "\t<td></td><th>$args[title_right]</th>\n";
+		$r .= "</tr>\n";
+	}
+	if ( $args['title'] || $args['title_left'] || $args['title_right'] )
+		$r .= "</thead>\n";
 
 	$r .= "<tbody>\n$diff\n</tbody>\n";
 	$r .= "</table>";

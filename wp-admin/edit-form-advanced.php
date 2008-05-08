@@ -1,13 +1,35 @@
- <?php
-$action = isset($action)? $action : '';
+<?php
+
+$action = isset($action) ? $action : '';
 if ( isset($_GET['message']) )
 	$_GET['message'] = absint( $_GET['message'] );
 $messages[1] = sprintf( __( 'Post updated. Continue editing below or <a href="%s">go back</a>.' ), attribute_escape( stripslashes( $_GET['_wp_original_http_referer'] ) ) );
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Post updated.');
-$messages[5] = sprintf( __('Post restored to revision from %s'), wp_post_revision_time( $_GET['revision'] ) );
+$messages[5] = sprintf( __('Post restored to revision from %s'), wp_post_revision_title( $_GET['revision'], false ) );
+
+$notice = false;
+$notices[1] = __( 'There is an autosave of this post that is more recent than the version below.  <a href="%s">View the autosave</a>.' );
+
+if ( !isset($post_ID) || 0 == $post_ID ) {
+	$form_action = 'post';
+	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
+	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
+	$autosave = false;
+} else {
+	$post_ID = (int) $post_ID;
+	$form_action = 'editpost';
+	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
+	$autosave = wp_get_autosave( $post_id );
+	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) )
+		$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
+}
+
 ?>
+<?php if ( $notice ) : ?>
+<div id="notice" class="error"><p><?php echo $notice ?></p></div>
+<?php endif; ?>
 <?php if (isset($_GET['message'])) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
@@ -21,17 +43,10 @@ $messages[5] = sprintf( __('Post restored to revision from %s'), wp_post_revisio
 <h2><?php _e('Write Post') ?></h2>
 <?php
 
-if (!isset($post_ID) || 0 == $post_ID) {
-	$form_action = 'post';
-	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
-	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
+if ( !isset($post_ID) || 0 == $post_ID)
 	wp_nonce_field('add-post');
-} else {
-	$post_ID = (int) $post_ID;
-	$form_action = 'editpost';
-	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
+else
 	wp_nonce_field('update-post_' .  $post_ID);
-}
 
 $form_pingback = '<input type="hidden" name="post_pingback" value="' . (int) get_option('default_pingback_flag') . '" id="post_pingback" />';
 

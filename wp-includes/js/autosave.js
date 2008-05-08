@@ -168,8 +168,6 @@ var autosave = function() {
 	autosave_disable_buttons();
 
 	var origStatus = jQuery('#original_post_status').val();
-	if ( 'draft' != origStatus ) // autosave currently only turned on for drafts
-		doAutoSave = false;
 
 	autosaveLast = jQuery("#title").val()+jQuery("#content").val();
 	goodcats = ([]);

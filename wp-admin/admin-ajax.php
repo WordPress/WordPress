@@ -461,10 +461,9 @@ case 'add-user' :
 case 'autosave' : // The name of this action is hardcoded in edit_post()
 	define( 'DOING_AUTOSAVE', true );
 
-	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce');
+	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce' );
 	global $current_user;
 
-	$_POST['post_status'] = 'draft';
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
 	$_POST['tags_input'] = explode(",", $_POST['tags_input']);
 	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
@@ -478,8 +477,9 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 
 	$supplemental = array();
 
-	$id = 0;
+	$id = $revision_id = 0;
 	if($_POST['post_ID'] < 0) {
+		$_POST['post_status'] = 'draft';
 		$_POST['temp_ID'] = $_POST['post_ID'];
 		if ( $do_autosave ) {
 			$id = wp_write_post();
@@ -510,8 +510,18 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 			if ( !current_user_can('edit_post', $post_ID) )
 				die(__('You are not allowed to edit this post.'));
 		}
+
 		if ( $do_autosave ) {
-			$id = edit_post();
+			// Drafts are just overwritten by autosave
+			if ( 'draft' == $post->post_status ) {
+				$id = edit_post();
+			} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
+				$revision_id = wp_create_autosave( $post->ID );
+				if ( is_wp_error($revision_id) )
+					$id = $revision_id;
+				else
+					$id = $post->ID;
+			}
 			$data = $message;
 		} else {
 			$id = $post->ID;
