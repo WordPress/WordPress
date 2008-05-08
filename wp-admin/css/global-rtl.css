@@ -1,0 +1,28 @@
+/* styles for use by people extending the WordPress interface */
+.alignleft { float: right; }
+.alignright { float: left; }
+
+.textleft { text-align: right; }
+.textright { text-align: left; }
+
+.widefat td {
+	padding: 7px 10px 9px 15px;
+}
+
+.widefat th {
+	padding: 9px 10px 6px 15px;
+	text-align: right;
+}
+
+.widefat th input {
+	margin: 0 8px 0 0;
+}
+
+.widefat .check-column {
+	text-align: left;
+}
+
+.wrap h2 {
+	margin: 5px -4px 0 0;
+	padding: 0 0 7px 280px;
+}
