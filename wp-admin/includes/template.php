@@ -489,7 +489,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
  */
 function page_rows( $pages ) {
 	if ( ! $pages )
-		$pages = get_pages( 'sort_column=menu_order' );
+		$pages = get_pages( array('sort_column' => 'menu_order') );
 
 	if ( ! $pages )
 		return false;
@@ -701,7 +701,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
 	if (!$categories )
-		$categories = get_categories( 'hide_empty=0' );
+		$categories = get_categories( array('hide_empty' => 0) );
 
 	if ( $categories ) {
 		foreach ( $categories as $category ) {

@@ -269,7 +269,7 @@ function wp_dashboard_recent_comments( $sidebar_args ) {
 
 	$lambda = create_function( '', 'return 5;' );
 	add_filter( 'option_posts_per_rss', $lambda ); // hack - comments query doesn't accept per_page parameter
-	$comments_query = new WP_Query('feed=rss2&withcomments=1');
+	$comments_query = new WP_Query(array('feed' => 'rss2', 'withcomments' => 1));
 	remove_filter( 'option_posts_per_rss', $lambda );
 
 	$is_first = true;

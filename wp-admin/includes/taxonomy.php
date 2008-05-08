@@ -47,7 +47,7 @@ function wp_delete_category($cat_ID) {
 	if ( $cat_ID == $default )
 		return 0;
 
-	return wp_delete_term($cat_ID, 'category', "default=$default");
+	return wp_delete_term($cat_ID, 'category', array('default' => $default));
 }
 
 function wp_insert_category($catarr, $wp_error = false) {
