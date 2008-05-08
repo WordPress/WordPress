@@ -389,7 +389,7 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
 	$number = get_comments_number($id);
 
 	if ( $number > 1 )
-		$output = str_replace('%', $number, ( false === $more ) ? __('% Comments') : $more);
+		$output = str_replace('%', number_format_i18n($number), ( false === $more ) ? __('% Comments') : $more);
 	elseif ( $number == 0 )
 		$output = ( false === $zero ) ? __('No Comments') : $zero;
 	else // must be one
