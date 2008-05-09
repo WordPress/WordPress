@@ -698,7 +698,13 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getCommentCount');
 
-		return get_comment_count( $post_id );
+		$count = wp_count_comments( $post_id );
+		return array(
+			"approved" => $count->approved,
+			"awaiting_moderation" => $count->moderated,
+			"spam" => $count->spam,
+			"total_comments" => $count->total_comments
+		);
 	}
 
 
