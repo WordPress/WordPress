@@ -788,7 +788,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'blogger.getUsersBlogs');
 
 		set_current_user(0, $user_login);
-		$is_admin = current_user_can('level_8');
+		$is_admin = current_user_can('manage_options');
 
 		$struct = array(
 			'isAdmin'  => $is_admin,
