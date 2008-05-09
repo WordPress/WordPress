@@ -137,7 +137,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	// www.example.com vs example.com
 	$user_home = @parse_url(get_option('home'));
-	$redirect['host'] = $user_home['host'];
+	if ( isset($user_home['host']) )
+		$redirect['host'] = $user_home['host'];
 
 	// Handle ports
 	if ( isset($user_home['port']) )
