@@ -5,10 +5,9 @@ $messages[1] = sprintf( __( 'Page updated. Continue editing below or <a href="%s
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Page updated.');
-?>
-<?php if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
-<?php endif;
+
+$notice = false;
+$notices[1] = __( 'There is an autosave of this page that is more recent than the version below.  <a href="%s">View the autosave</a>.' );
 
 if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'post';
@@ -20,6 +19,9 @@ if (!isset($post_ID) || 0 == $post_ID) {
 	$form_action = 'editpost';
 	$nonce_action = 'update-page_' . $post_ID;
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
+	$autosave = wp_get_autosave( $post_id );
+	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) )
+		$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
 }
 
 $temp_ID = (int) $temp_ID;
@@ -30,6 +32,13 @@ $sendto = clean_url(stripslashes(wp_get_referer()));
 if ( 0 != $post_ID && $sendto == get_permalink($post_ID) )
 	$sendto = 'redo';
 ?>
+
+<?php if ( $notice ) : ?>
+<div id="notice" class="error"><p><?php echo $notice ?></p></div>
+<?php endif; ?>
+<?php if (isset($_GET['message'])) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php endif; ?>
 
 <form name="post" action="page.php" method="post" id="post">
 <div class="wrap">
@@ -44,6 +53,7 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value='<?php echo $form_action ?>' />
 <input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
+<input type="hidden" id="post_author" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
 <?php echo $form_extra ?>
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
@@ -281,6 +291,16 @@ if ( $authors && count( $authors ) > 1 ) :
 </div>
 </div>
 <?php endif; ?>
+
+<?php if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) : ?>
+<div id="revisionsdiv" class="postbox <?php echo postbox_classes('revisionsdiv', 'page'); ?>">
+<h3><?php _e('Page Revisions'); ?></h3>
+<div class="inside">
+<?php wp_list_post_revisions(); ?>
+</div>
+</div>
+<?php endif; ?>
+
 
 <?php do_meta_boxes('page', 'advanced', $post); ?>
 

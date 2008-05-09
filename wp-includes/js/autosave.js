@@ -180,9 +180,9 @@ var autosave = function() {
 		post_data["comment_status"] = 'open';
 	if ( jQuery("#ping_status").attr("checked") )
 		post_data["ping_status"] = 'open';
-	if ( jQuery("#excerpt") )
+	if ( jQuery("#excerpt").size() )
 		post_data["excerpt"] = jQuery("#excerpt").val();
-	if ( jQuery("#post_author") )
+	if ( jQuery("#post_author").size() )
 		post_data["post_author"] = jQuery("#post_author").val();
 
 	// Don't run while the TinyMCE spellcheck is on.  Why?  Who knows.

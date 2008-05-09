@@ -957,6 +957,12 @@ function wp_delete_post($postid = 0) {
 		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
 	}
 
+	// Do raw query.  wp_get_post_revisions() is filtered
+	$revision_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'revision'", $postid ) );
+	// Use wp_delete_post (via wp_delete_revision) again.  Ensures any meta/misplaced data gets cleaned up.
+	foreach ( $revision_ids as $revision_id )
+		wp_delete_revision( $revision_id );
+
 	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
@@ -3022,6 +3028,9 @@ function wp_save_revision( $post_id ) {
 	if ( @constant( 'DOING_AUTOSAVE' ) )
 		return;
 
+	if ( !constant('WP_POST_REVISIONS') )
+		return;
+
 	if ( !$post = get_post( $post_id, ARRAY_A ) )
 		return;
 
@@ -3227,6 +3236,8 @@ function wp_delete_revision( $revision_id ) {
  * @return array empty if no revisions
  */
 function wp_get_post_revisions( $post_id = 0 ) {
+	if ( !constant('WP_POST_REVISIONS') )
+		return array();
 	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
 		return array();
 	if ( !$revisions = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'revision', 'post_status' => 'inherit' ) ) )

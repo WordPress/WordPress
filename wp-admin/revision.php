@@ -2,17 +2,18 @@
 
 require_once('admin.php');
 
+if ( !constant('WP_POST_REVISIONS') ) {
+	wp_redirect( 'edit.php' );
+	exit;
+}
+
 wp_reset_vars(array('revision', 'left', 'right', 'action'));
 $revision_id = absint($revision);
 $diff        = absint($diff);
 $left        = absint($left);
 $right       = absint($right);
 
-
 $parent_file = $redirect = 'edit.php';
-$submenu_file = 'edit.php';
-$title = __( 'Post Revision' );
-
 
 switch ( $action ) :
 case 'delete' : // stubs
@@ -38,7 +39,7 @@ case 'diff' :
 	if ( !$right_revision = get_post( $right ) )
 		break;
 
-	if ( !current_user_can( 'edit_post', $left_revision->ID ) || !current_user_can( 'edit_post', $right_revision->ID ) )
+	if ( !current_user_can( 'read_post', $left_revision->ID ) || !current_user_can( 'read_post', $right_revision->ID ) )
 		break;
 
 	// Don't allow reverse diffs?
@@ -80,7 +81,7 @@ default :
 	if ( !$post = get_post( $revision->post_parent ) )
 		break;
 
-	if ( !current_user_can( 'edit_post', $revision->ID ) || !current_user_can( 'edit_post', $post->ID ) )
+	if ( !current_user_can( 'read_post', $revision->ID ) || !current_user_can( 'read_post', $post->ID ) )
 		break;
 
 	$post_title = '<a href="' . get_edit_post_link() . '">' . get_the_title() . '</a>';
@@ -95,9 +96,20 @@ default :
 	break;
 endswitch;
 
+if ( !$redirect && !in_array( $post->post_type, array( 'post', 'page' ) ) )
+	$redirect = 'edit.php';
+
 if ( $redirect ) {
 	wp_redirect( $redirect );
 	exit;
+}
+
+if ( 'page' == $post->post_type ) {
+	$submenu_file = 'edit-pages.php';
+	$title = __( 'Page Revisions' );
+} else {
+	$submenu_file = 'edit.php';
+	$title = __( 'Post Revisions' );
 }
 
 // Converts post_author ID# into name
@@ -163,7 +175,7 @@ endif;
 
 <br class="clear" />
 
-<h2><?php _e( 'Post Revisions' ); ?></h2>
+<h2><?php echo $title; ?></h2>
 
 <?php
 

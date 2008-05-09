@@ -376,6 +376,11 @@ if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
 
 do_action('plugins_loaded');
 
+$default_constants = array( 'WP_POST_REVISIONS' => true );
+foreach ( $default_constants as $c => $v )
+	@define( $c, $v ); // will fail if the constant is already defined
+unset($default_constants, $c, $v);
+
 // If already slashed, strip.
 if ( get_magic_quotes_gpc() ) {
 	$_GET    = stripslashes_deep($_GET   );

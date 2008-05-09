@@ -641,7 +641,11 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 
 	$rows = '';
 	$class = false;
+	$can_edit_post = current_user_can( 'edit_post', $post->ID );
 	foreach ( $revisions as $revision ) {
+		if ( !current_user_can( 'read_post', $revision->ID ) )
+			continue;
+
 		$date = wp_post_revision_title( $revision );
 		$name = get_author_name( $revision->post_author );
 
@@ -654,7 +658,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 
 			$class = $class ? '' : " class='alternate'";
 
-			if ( $post->ID != $revision->ID && current_user_can( 'edit_post', $post->ID ) )
+			if ( $post->ID != $revision->ID && $can_edit_post )
 				$actions = '<a href="' . wp_nonce_url( add_query_arg( array( 'revision' => $revision->ID, 'diff' => false, 'action' => 'restore' ) ), "restore-post_$post->ID|$revision->ID" ) . '">' . __( 'Restore' ) . '</a>';
 			else
 				$actions = '';
