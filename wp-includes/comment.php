@@ -734,6 +734,8 @@ function wp_set_comment_status($comment_id, $comment_status) {
 			break;
 		case 'approve':
 			$query = $wpdb->prepare("UPDATE $wpdb->comments SET comment_approved='1' WHERE comment_ID = %d LIMIT 1", $comment_id);
+			if ( get_option( 'comments_notify' ) == true )
+				wp_notify_postauthor( $comment_id );
 			break;
 		case 'spam':
 			$query = $wpdb->prepare("UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID = %d LIMIT 1", $comment_id);
