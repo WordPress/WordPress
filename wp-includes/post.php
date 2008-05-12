@@ -1164,7 +1164,7 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
  * @param array $postarr post contents
  * @return int post ID or 0 on error
  */
-function wp_insert_post($postarr = array()) {
+function wp_insert_post($postarr = array(), $wp_error = false) {
 	global $wpdb, $wp_rewrite, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
@@ -1187,8 +1187,12 @@ function wp_insert_post($postarr = array()) {
 		$previous_status = 'new';
 	}
 
-	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) )
-		return 0;
+	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) ) {
+		if ( $wp_error )
+			return new WP_Error('empty_content', __('Content, title, and excerpt are empty.'));
+		else
+			return 0;
+	}
 
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
@@ -1299,10 +1303,20 @@ function wp_insert_post($postarr = array()) {
 
 	if ($update) {
 		do_action( 'pre_post_update', $post_ID );
-		$wpdb->update( $wpdb->posts, $data, $where );
+		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
+			if ( $wp_error )
+				return new WP_Error('db_update_error', __('Could not update post in the database'), $wpdb->last_error);
+			else
+				return 0;
+		}
 	} else {
 		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
-		$wpdb->insert( $wpdb->posts, $data );
+		if ( false === $wpdb->insert( $wpdb->posts, $data ) ) {
+			if ( $wp_error )
+				return new WP_Error('db_insert_error', __('Could not insert post into the database'), $wpdb->last_error);
+			else
+				return 0;	
+		}
 		$post_ID = (int) $wpdb->insert_id;
 
 		// use the newly generated $post_ID
@@ -1319,19 +1333,29 @@ function wp_insert_post($postarr = array()) {
 
 	$current_guid = get_post_field( 'guid', $post_ID );
 
-	if ( 'page' == $post_type ) {
+	if ( 'page' == $post_type )
 		clean_page_cache($post_ID);
-	} else {
+	else
 		clean_post_cache($post_ID);
-	}
 
 	// Set GUID
 	if ( !$update && '' == $current_guid )
 		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
 
 	$post = get_post($post_ID);
-	if ( !empty($page_template) )
+
+	if ( !empty($page_template) && 'page' == $post_type ) {
 		$post->page_template = $page_template;
+		$page_templates = get_page_templates();
+		if ( ! in_array($page_template, $page_templates) ) {
+			if ( $wp_error )
+				return new WP_Error('invalid_page_template', __('The page template is invalid.'));
+			else
+				return 0;
+		}
+		if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template) )
+			add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
+	}
 
 	wp_transition_post_status($post_status, $previous_status, $post);
 
@@ -2942,10 +2966,6 @@ function _publish_post_hook($post_id) {
  */
 function _save_post_hook($post_id, $post) {
 	if ( $post->post_type == 'page' ) {
-		if ( !empty($post->page_template) )
-			if ( ! update_post_meta($post_id, '_wp_page_template',  $post->page_template))
-				add_post_meta($post_id, '_wp_page_template',  $post->page_template, true);
-
 		clean_page_cache($post_id);
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
