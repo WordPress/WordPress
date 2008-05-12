@@ -189,6 +189,9 @@ if ( ( 'edit' == $action) && current_user_can('delete_post', $post_ID) )
 <li><a href="edit.php?post_status=draft"><?php _e('View Drafts'); ?></a></li>
 <?php do_action('post_relatedlinks_list'); ?>
 </ul>
+
+<h5><?php _e('Shortcuts') ?></h5>
+<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?>  <a href="<?php echo get_shortcut_link(); ?>" title="<?php echo attribute_escape(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
 </div>
 
 <?php do_action('submitpost_box'); ?>

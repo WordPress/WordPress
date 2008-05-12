@@ -742,4 +742,42 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
 	}
 }
 
+function get_shortcut_link() {
+	$link = "javascript:
+						var imgstr='';
+						var reg=new RegExp('&');
+            for(i=0;i<document.images.length;i++){
+              if(! reg.test(document.images[i].src)){
+              imgstr = imgstr + document.images[i].src + ',';
+              }
+            }
+            var d=document;
+            var w=window;
+            var e=w.getSelection;
+            var k=d.getSelection;
+            var x=d.selection;
+            var s=(e?e():(k)?k():(x?x.createRange().text:0));
+            var f='" . get_settings('siteurl') . '/wp-admin/quick-post.php' . "';
+            var l=d.location;
+            var e=encodeURIComponent;
+            var p='?imagez='+imgstr;
+            var u= '&u=' + e(l.href);
+            var t= '&t=' + e(d.title);
+            var s= '&s=' + e(s);
+            var g= f+p+u+t+s;
+
+            function a(){
+              if(!w.open(g,'t','toolbar=0,resizable=0,scrollbars=1,status=1,width=700,height=500')){
+                l.href=g;
+              }
+            }
+            if(/Firefox/.test(navigator.userAgent)){
+              setTimeout(a,0);
+            }else{
+              a();
+            }
+            void(0);";
+
+	return apply_filters('shortcut_link', $link);
+}
 ?>
