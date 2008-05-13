@@ -1297,7 +1297,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( !empty($page_template) && 'page' == $post_type ) {
 		$post->page_template = $page_template;
 		$page_templates = get_page_templates();
-		if ( ! in_array($page_template, $page_templates) ) {
+		if ( 'default' != $page_template && !in_array($page_template, $page_templates) ) {
 			if ( $wp_error )
 				return new WP_Error('invalid_page_template', __('The page template is invalid.'));
 			else
