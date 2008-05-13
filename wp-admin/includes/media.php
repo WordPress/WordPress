@@ -41,8 +41,8 @@ function the_media_upload_tabs() {
 			if ( $current == $callback )
 				$class = " class='current'";
 			$href = add_query_arg(array('tab'=>$callback, 's'=>false, 'paged'=>false, 'post_mime_type'=>false, 'm'=>false));
-			$link = "<a href='$href'$class>$text</a>";
-			echo "\t<li id='tab-$callback'>$link</li>\n";
+			$link = "<a href='" . clean_url($href) . "'$class>$text</a>";
+			echo "\t<li id='" . attribute_escape("tab-$callback") . "'>$link</li>\n";
 		}
 		echo "</ul>\n";
 	}
