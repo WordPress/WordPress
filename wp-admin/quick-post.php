@@ -30,20 +30,20 @@ function quick_post() {
 			if ($_REQUEST['photo_link'])
 				$content = '<a href="' . $_REQUEST['photo_link'] . '" target="_new">';
 
-			$content .= '<img src="' . $_REQUEST['photo_src'] . '\ style="float:left;padding:5px;">';
+			$content .= '<img src="' . $_REQUEST['photo_src'] . '" style="float:left;padding:5px;">';
 
 			if ($_REQUEST['photo_link'])
 				$content .= '</a>';
 
 			if ($_REQUEST['content'])
-				$content = $content . "<br clear=\"all\">" . $_REQUEST['content']; 
+				$content = $content . '<br clear="all">' . $_REQUEST['content']; 
 
 			break;
 		case "video":
 			list($garbage,$video_id) = split("v=", $_REQUEST['content']);
-			$content = "<object width=\"425\" height=\"350\"><param name=\"movie\" value=\"http://www.youtube.com/v/" .$video_id ."\"></param><param name=\"wmode\" value=\"transparent\"></param><embed src=\"http://www.youtube.com/v/" .$video_id ."\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" width=\"425\" height=\"350\"></embed></object>";
+			$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
 			if ($_REQUEST['content2'])
-				$content = $content ."</br><p>" .$_REQUEST['content2'] ."</p>";
+				$content = $content . '</br><p>' . $_REQUEST['content2'] . '</p>';
 			break;				
 	}
 
@@ -208,7 +208,7 @@ $title = stripslashes($_GET['t']);
 					<h2><?php _e('Caption') ?></h2>
 					<div class="editor-container">
 						<textarea name="content" id="photo_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo "" .stripslashes($_GET['s']);?>
-						<br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
 					<h2><?php _e('Photo URL') ?></h2>
@@ -285,7 +285,7 @@ $title = stripslashes($_GET['t']);
 					<div>         
 						<input type="submit" value="<?php _e('Create Photo') ?>" style="margin-top:15px;"	onclick="document.getElementById('photo_saving').style.display = '';"/>&nbsp;&nbsp;
 
-						<a href="#" onclick="if (confirm('Are you sure?')) { self.close(); } else { return false; }" style="color:#007BFF;">Cancel</a>&nbsp;&nbsp;
+						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel') ?></a>&nbsp;&nbsp;
 						<img src="/images/bookmarklet_loader.gif" alt="" id="photo_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
@@ -321,8 +321,8 @@ $title = stripslashes($_GET['t']);
 					<?php tag_input(); ?>
 
 					<div>         
-						<input type="submit" value="Create Quote" style="margin-top:15px;" onclick="document.getElementById('quote_saving').style.display = '';"/>&nbsp;&nbsp;
-						<a href="#" onclick="if (confirm('Are you sure?')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel') ?></a>&nbsp;&nbsp;
+						<input type="submit" value="<?php echo attribute_escape(__('Create Quote')) ?>" style="margin-top:15px;" onclick="document.getElementById('quote_saving').style.display = '';"/>&nbsp;&nbsp;
+						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel') ?></a>&nbsp;&nbsp;
 						<img src="/images/bookmarklet_loader.gif" alt="" id="quote_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
@@ -349,7 +349,7 @@ $title = stripslashes($_GET['t']);
 					if ( preg_match("/youtube\.com\/watch/i", $_GET['u']) ) { 
 						list($domain, $video_id) = split("v=", $_GET['u']);
 					?>
-					<input type="hidden" name="content" value="<?php echo $_GET['u']; ?>" />
+					<input type="hidden" name="content" value="<?php echo attribute_escape($_GET['u']); ?>" />
 					<img src="http://img.youtube.com/vi/<?php echo $video_id; ?>/default.jpg" align="right" style="border:solid 1px #aaa;" width="130" height="97"/><br clear="all" />
 					<?php } else { ?>
 					<h2><?php _e('Embed Code') ?></h2>
@@ -359,14 +359,14 @@ $title = stripslashes($_GET['t']);
 					<h2><?php _e('Caption <span class="optional">(optional)</span>') ?></h2>
 
 					<div class="editor-container">
-						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
 					<?php tag_input(); ?>
 
 					<div>               
 						<input type="submit" value="<?php _e('Create Video') ?>" style="margin-top:15px;" onclick="document.getElementById('video_saving').style.display = '';"/>&nbsp;&nbsp;
-						<a href="#" onclick="if (confirm('Are you sure?')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel'); ?></a>&nbsp;&nbsp;
+						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel'); ?></a>&nbsp;&nbsp;
 						<img src="/images/bookmarklet_loader.gif" alt="" id="video_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
