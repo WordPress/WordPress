@@ -102,7 +102,7 @@
 }
 .ui-tabs-loading em {
     padding: 0 0 0 20px;
-    background: url(loading.gif) no-repeat 0 50%;
+    background: url(../images/loading.gif) no-repeat 0 50%;
 }
 
 /* Additional IE specific bug fixes... */
