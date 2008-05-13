@@ -73,30 +73,57 @@ function tag_input() {
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<title><?php _e('Quick Post') ?></title>
-
+	
 	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
 		
 	<?php wp_enqueue_script('jquery-ui-tabs'); ?>
 	<?php wp_enqueue_script('thickbox'); ?>
 	<?php do_action('admin_print_scripts'); do_action('admin_head'); ?>
 	<?php wp_admin_css('css/quick-post'); ?>
+	<?php wp_admin_css( 'css/colors' ); ?>
 
 	<script type="text/javascript">
-    <? if ( user_can_richedit() ) { ?>
+    <?php if ( user_can_richedit() ) { 
+		$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
+		// Add TinyMCE languages
+		@include_once( dirname(__FILE__).'/../wp-includes/js/tinymce/langs/wp-langs.php' );
+		if ( isset($strings) ) echo $strings;
+	?>
+
+			(function() {
+				var base = tinymce.baseURL, sl = tinymce.ScriptLoader, ln = "<?php echo $language; ?>";
+
+				sl.markDone(base + '/langs/' + ln + '.js');
+				sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
+				sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
+			})();
+			
 			tinyMCE.init({
 				mode: "textareas",
 				editor_selector: "mceEditor",
+				language : "<?php echo $language; ?>",
 				width: "100%",
 				theme : "advanced",
-				theme_advanced_buttons1 : "bold,italic,underline,indent,separator,strikethrough,bullist,numlist,undo,redo,link,unlink",
+				theme_advanced_buttons1 : "bold,italic,underline,blockquote,separator,strikethrough,bullist,numlist,undo,redo,link,unlink",
 				theme_advanced_buttons2 : "",
 				theme_advanced_buttons3 : "",
 				theme_advanced_toolbar_location : "top",
 				theme_advanced_toolbar_align : "left",
-				theme_advanced_path_location : "bottom",
-				extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]"
+				theme_advanced_statusbar_location : "bottom",
+				theme_advanced_resizing : true,
+				theme_advanced_resize_horizontal : false,
+				skin : "wp_theme",
+				dialog_type : "modal",
+				relative_urls : false,
+				remove_script_host : false,
+				convert_urls : false,
+				apply_source_formatting : false,
+				remove_linebreaks : true,
+				accessibility_focus : false,
+				tab_focus : ":next",
+				plugins : "safari,inlinepopups"
 			});
-    <? } ?>
+    <?php } ?>
 
 	jQuery(document).ready(function() {
     <?php if ( preg_match("/youtube\.com\/watch/i", $_GET['u']) ) { ?>
@@ -147,7 +174,7 @@ $title = stripslashes($_GET['t']);
 					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
 
 				  	<h2><?php _e('Post') ?></h2>
-					<div>
+					<div class="editor-container">
 						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>        
 
@@ -179,7 +206,7 @@ $title = stripslashes($_GET['t']);
 					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
 
 					<h2><?php _e('Caption') ?></h2>
-					<div>
+					<div class="editor-container">
 						<textarea name="content" id="photo_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo "" .stripslashes($_GET['s']);?>
 						<br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
@@ -282,12 +309,12 @@ $title = stripslashes($_GET['t']);
 					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape(sprintf(__('Quote by %s'), $title)); ?>"/>
 
 					<h2><?php _e('Quote') ?></h2>
-					<div>
+					<div class="editor-container">
 						<textarea name="content" id="quote_post_one" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?></textarea>
 					</div>
 
 					<h2><?php _e('Source <span class="optional">(optional)</span>') ?></h2>
-					<div>
+					<div class="editor-container">
 						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor"><br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
@@ -331,7 +358,7 @@ $title = stripslashes($_GET['t']);
 
 					<h2><?php _e('Caption <span class="optional">(optional)</span>') ?></h2>
 
-					<div>
+					<div class="editor-container">
 						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 

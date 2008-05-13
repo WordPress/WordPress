@@ -319,7 +319,8 @@ textarea, input.text {
 }
 
 input.text {
-	width: 100%;
+	width: 99%;
+	padding: 3px;
 }
 
 body {
@@ -337,6 +338,12 @@ a {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+.editor-container {
+	border-width: 1px;
+	border-color: #ccc;
+	border-style: solid;
 }
 
 /* end quickpost css */
