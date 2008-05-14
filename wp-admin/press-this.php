@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( ! current_user_can('publish_posts') )
  	wp_die( __( 'Cheatin&#8217; uh?' ));
 
-function quick_post() {
+function press_it() {
 	$quick['post_status'] = 'publish';
 	$quick['post_category'] = $_REQUEST['post_category'];
 	$quick['tags_input'] = $_REQUEST['tags_input'];
@@ -57,14 +57,29 @@ function quick_post() {
 	return $post_ID;
 }
 
-function tag_input() {
-	$s = '<div id="tagdiv">
-		<h2>' . __('Tags') . '</h2>
-		<input type="text" name="tags_input" class="text" id="tags-input" size="30" tabindex="3" value="" /><br/>' .
-		__('Comma separated (e.g. Wordpress, Plugins)') .
-		'</div>';
-	
-	return $s;
+function tag_div() {
+?>
+	<h2><?php _e('Tags') ?></h2>
+	<div id="tagsdiv">
+		<div class="inside">
+			<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
+<div id="tagchecklist"></div>
+		</div>
+	</div>
+<?php
+}
+
+function category_div() {
+?>
+				<div id="categories">
+					<h2><?php _e('Categories') ?></h2>
+					<div id="categories-all">
+						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+						<?php wp_category_checklist() ?>
+						</ul>
+					</div>
+				</div>
+<?php
 }
 
 function get_images_from_uri($uri) {
@@ -98,16 +113,10 @@ function get_images_from_uri($uri) {
 	return "'" . implode("','", $sources) . "'";
 }
 
-// Clean up the data being passed in
-$title = stripslashes($_GET['t']);
-
-if ( !empty($_GET['load']) && 'photo' == $_GET['load'] ) {
-?>
-	<script type="text/javascript">
-    <?php if ( user_can_richedit() ) {
+function press_this_js_init() {
+    if ( user_can_richedit() ) {
     	$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
     ?>
-
 			tinyMCE.init({
 				mode: "textareas",
 				editor_selector: "mceEditor",
@@ -134,6 +143,132 @@ if ( !empty($_GET['load']) && 'photo' == $_GET['load'] ) {
 				plugins : "safari,inlinepopups"
 			});
     <?php } ?>
+    	jQuery('#tags-input').hide();
+		tag_update_quickclicks();
+		// add the quickadd form
+		jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '" tabindex="3" /><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
+		jQuery('#tagadd').click( tag_flush_to_text );
+		jQuery('#newtag').focus(function() {
+			if ( this.value == postL10n.addTag )
+				jQuery(this).val( '' ).removeClass( 'form-input-tip' );
+		});
+		jQuery('#newtag').blur(function() {
+			if ( this.value == '' )
+				jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
+		});
+
+		// auto-save tags on post save/publish
+		jQuery('#publish').click( tag_save_on_publish );
+		jQuery('#save-post').click( tag_save_on_publish );
+<?php
+}
+
+// Clean up the data being passed in
+$title = stripslashes($_GET['t']);
+
+if ( empty($_GET['tab']) ) {
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<head>
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+	<title><?php _e('Quick Post') ?></title>
+	
+	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
+		
+<?php
+	wp_enqueue_script('jquery-ui-tabs');
+	wp_enqueue_script('thickbox');
+	wp_enqueue_script('post');
+	do_action('admin_print_scripts'); do_action('admin_head');
+	wp_admin_css('css/press-this');
+	wp_admin_css( 'css/colors' );
+?>
+	<script type="text/javascript">
+    <?php if ( user_can_richedit() ) { 
+		$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
+		// Add TinyMCE languages
+		@include_once( dirname(__FILE__).'/../wp-includes/js/tinymce/langs/wp-langs.php' );
+		if ( isset($strings) ) echo $strings;
+	?>
+
+			(function() {
+				var base = tinymce.baseURL, sl = tinymce.ScriptLoader, ln = "<?php echo $language; ?>";
+
+				sl.markDone(base + '/langs/' + ln + '.js');
+				sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
+				sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
+			})();
+			
+			tinyMCE.init({
+				mode: "textareas",
+				editor_selector: "mceEditor",
+				language : "<?php echo $language; ?>",
+				width: "100%",
+				theme : "advanced",
+				theme_advanced_buttons1 : "bold,italic,underline,blockquote,separator,strikethrough,bullist,numlist,undo,redo,link,unlink",
+				theme_advanced_buttons2 : "",
+				theme_advanced_buttons3 : "",
+				theme_advanced_toolbar_location : "top",
+				theme_advanced_toolbar_align : "left",
+				theme_advanced_statusbar_location : "bottom",
+				theme_advanced_resizing : true,
+				theme_advanced_resize_horizontal : false,
+				skin : "wp_theme",
+				dialog_type : "modal",
+				relative_urls : false,
+				remove_script_host : false,
+				convert_urls : false,
+				apply_source_formatting : false,
+				remove_linebreaks : true,
+				accessibility_focus : false,
+				tab_focus : ":next",
+				plugins : "safari,inlinepopups"
+			});
+    <?php } ?>
+
+	jQuery(document).ready(function() {
+    <?php if ( preg_match("/youtube\.com\/watch/i", $_GET['u']) ) { ?>
+		jQuery('#container > ul').tabs({ selected: 3, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
+	<?php } elseif ( preg_match("/flickr\.com/i", $_GET['u']) ) { ?>
+		jQuery('#container > ul').tabs({ selected: 1, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
+	<?php } else { ?>
+		jQuery('#container > ul').tabs({ selected: 1, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
+	<?php } ?>
+	});
+
+	</script>
+</head>
+<body>
+
+<?php
+	if ( 'post' == $_REQUEST['action'] ) {
+		check_admin_referer('press-this');
+		$post_ID = press_it();
+?>
+		<script>if(confirm("<?php _e('Your post is saved. Do you want to view the post?') ?>")) {window.opener.location.replace("<?php echo get_permalink($post_ID);?>");}window.close();</script>
+		</body></html>
+<?php
+		die;
+	}
+?>
+	<div id="container">
+		<ul>
+			<li><a href="<?php echo clean_url(add_query_arg('tab', 'text')) ?>"><span><?php _e('Text/Link') ?></span></a></li>
+		 	<li><a href="<?php echo clean_url(add_query_arg('tab', 'photo')) ?>"><span><?php _e('Photo') ?></span></a></li>
+			<li><a href="<?php echo clean_url(add_query_arg('tab', 'quote')) ?>"><span><?php _e('Quote') ?></span></a></li>
+			<li><a href="<?php echo clean_url(add_query_arg('tab', 'video')) ?>"><span><?php _e('Video') ?></span></a></li>
+		</ul>
+	</div>
+
+</body>
+</html>
+<?php
+exit;
+} elseif ( 'photo' == $_GET['tab'] ) {
+?>
+	<script type="text/javascript">
+		<?php press_this_js_init(); ?>
 			var last = null;
 			function pick(img) {
 				if (last) last.style.backgroundColor = '#f4f4f4';
@@ -144,7 +279,6 @@ if ( !empty($_GET['load']) && 'photo' == $_GET['load'] ) {
 				last = img;
 				return false;
 			}
-
 			jQuery(document).ready(function() {
 				var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
 				var my_src = [<?php echo get_images_from_uri(clean_url($_GET['u'])); ?>];
@@ -217,7 +351,7 @@ if ( !empty($_GET['load']) && 'photo' == $_GET['load'] ) {
 					<h2><?php _e('Link Photo to following URL') ?></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
 					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($_GET['u']);?>"/>
 
-					<?php tag_input(); ?>
+					<?php tag_div(); ?>
       
 					<div>         
 						<input type="submit" value="<?php _e('Create Photo') ?>" style="margin-top:15px;"	onclick="document.getElementById('photo_saving').style.display = '';"/>&nbsp;&nbsp;
@@ -226,111 +360,16 @@ if ( !empty($_GET['load']) && 'photo' == $_GET['load'] ) {
 						<img src="/images/bookmarklet_loader.gif" alt="" id="photo_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
-				<div id="categories">
-					<h2><?php _e('Categories') ?></h2>
-					<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-					<?php wp_category_checklist($post_ID) ?>
-					</ul>
-				</div>
+				<?php category_div() ?>
 			</form>
 <?php
 exit;
-}
+} elseif ( 'text' == $_GET['tab'] ) {
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
-<head>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-	<title><?php _e('Quick Post') ?></title>
-	
-	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
-		
-	<?php wp_enqueue_script('jquery-ui-tabs'); ?>
-	<?php wp_enqueue_script('thickbox'); ?>
-	<?php do_action('admin_print_scripts'); do_action('admin_head'); ?>
-	<?php wp_admin_css('css/press-this'); ?>
-	<?php wp_admin_css( 'css/colors' ); ?>
+		<script type="text/javascript">
+		<?php press_this_js_init(); ?>
+		</script>
 
-	<script type="text/javascript">
-    <?php if ( user_can_richedit() ) { 
-		$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
-		// Add TinyMCE languages
-		@include_once( dirname(__FILE__).'/../wp-includes/js/tinymce/langs/wp-langs.php' );
-		if ( isset($strings) ) echo $strings;
-	?>
-
-			(function() {
-				var base = tinymce.baseURL, sl = tinymce.ScriptLoader, ln = "<?php echo $language; ?>";
-
-				sl.markDone(base + '/langs/' + ln + '.js');
-				sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
-				sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
-			})();
-			
-			tinyMCE.init({
-				mode: "textareas",
-				editor_selector: "mceEditor",
-				language : "<?php echo $language; ?>",
-				width: "100%",
-				theme : "advanced",
-				theme_advanced_buttons1 : "bold,italic,underline,blockquote,separator,strikethrough,bullist,numlist,undo,redo,link,unlink",
-				theme_advanced_buttons2 : "",
-				theme_advanced_buttons3 : "",
-				theme_advanced_toolbar_location : "top",
-				theme_advanced_toolbar_align : "left",
-				theme_advanced_statusbar_location : "bottom",
-				theme_advanced_resizing : true,
-				theme_advanced_resize_horizontal : false,
-				skin : "wp_theme",
-				dialog_type : "modal",
-				relative_urls : false,
-				remove_script_host : false,
-				convert_urls : false,
-				apply_source_formatting : false,
-				remove_linebreaks : true,
-				accessibility_focus : false,
-				tab_focus : ":next",
-				plugins : "safari,inlinepopups"
-			});
-    <?php } ?>
-
-	jQuery(document).ready(function() {
-    <?php if ( preg_match("/youtube\.com\/watch/i", $_GET['u']) ) { ?>
-		jQuery('#container > ul').tabs({ selected: 3, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
-	<?php } elseif ( preg_match("/flickr\.com/i", $_GET['u']) ) { ?>
-		jQuery('#container > ul').tabs({ selected: 1, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
-	<?php } else { ?>
-		jQuery('#container > ul').tabs({ selected: 1, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
-	<?php } ?>
-	});
-
-	</script>
-</head>
-<body>
-
-<?php
-if ( 'post' == $_REQUEST['action'] ) {
-	check_admin_referer('press-this');
-	$post_ID = quick_post();
-?>
-	<script>if(confirm("<?php _e('Your post is saved. Do you want to view the post?') ?>")) {window.opener.location.replace("<?php echo get_permalink($post_ID);?>");}window.close();</script>
-	</body></html>
-<?php
-	die;
-}
-
-?>
-	<div id="container">
-	
-		<ul>
-			<li><a href="#section-1"><span><?php _e('Text/Link') ?></span></a></li>
-		 	<li><a href="<?php echo add_query_arg('load', 'photo') ?>"><span><?php _e('Photo') ?></span></a></li>
-			<li><a href="#section-3"><span><?php _e('Quote') ?></span></a></li>
-			<li><a href="#section-4"><span><?php _e('Video') ?></span></a></li>
-		</ul>
-
-		<!-- Regular -->
-		<div id="section-1">
 		  <form action="press-this.php?action=post" method="post" id="regular_form">
 		  		<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
@@ -344,7 +383,7 @@ if ( 'post' == $_REQUEST['action'] ) {
 						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>        
 
-					<?php tag_input(); ?>
+					<?php tag_div(); ?>
        
 					<div>         
 						<input type="submit" value="<?php _e('Create Post') ?>" style="margin-top:15px;" onclick="document.getElementById('regular_saving').style.display = '';"/>&nbsp;&nbsp;
@@ -352,17 +391,16 @@ if ( 'post' == $_REQUEST['action'] ) {
 						<img src="/images/bookmarklet_loader.gif" alt="" id="regular_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
-				<div id="categories">
-					<h2><?php _e('Categories') ?></h2>
-					<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-					<?php wp_category_checklist($post_ID) ?>
-					</ul>
-				</div>
+				<?php category_div() ?>
 			 </form>
-		</div>
+<?php
+exit;
+} elseif ( 'quote' == $_GET['tab'] ) {
+?>
+		<script type="text/javascript">
+		<?php press_this_js_init(); ?>
+		</script>
 
-		<!-- Quote -->
-		<div id="section-3">
 			<form action="press-this.php?action=post" method="post" id="quote_form">
 				<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
@@ -381,7 +419,7 @@ if ( 'post' == $_REQUEST['action'] ) {
 						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor"><br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
-					<?php tag_input(); ?>
+					<?php tag_div(); ?>
 
 					<div>         
 						<input type="submit" value="<?php echo attribute_escape(__('Create Quote')) ?>" style="margin-top:15px;" onclick="document.getElementById('quote_saving').style.display = '';"/>&nbsp;&nbsp;
@@ -389,17 +427,16 @@ if ( 'post' == $_REQUEST['action'] ) {
 						<img src="/images/bookmarklet_loader.gif" alt="" id="quote_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
-				<div id="categories">
-					<h2><?php _e('Categories') ?></h2>
-					<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-					<?php wp_category_checklist($post_ID) ?>
-					</ul>
-				</div>
+				<?php category_div() ?>
 			</form>
-		</div>
+<?php
+exit;
+} elseif ( 'video' == $_GET['tab'] ) {
+?>
+		<script type="text/javascript">
+		<?php press_this_js_init(); ?>
+		</script>
 
-		<!-- Video -->
-		<div id="section-4">
 			<form action="press-this.php?action=post" method="post" id="video_form">
 				<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
@@ -425,7 +462,7 @@ if ( 'post' == $_REQUEST['action'] ) {
 						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
-					<?php tag_input(); ?>
+					<?php tag_div(); ?>
 
 					<div>               
 						<input type="submit" value="<?php _e('Create Video') ?>" style="margin-top:15px;" onclick="document.getElementById('video_saving').style.display = '';"/>&nbsp;&nbsp;
@@ -433,16 +470,9 @@ if ( 'post' == $_REQUEST['action'] ) {
 						<img src="/images/bookmarklet_loader.gif" alt="" id="video_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 					</div>
 				</div>
-				<div id="categories">
-					<h2><?php _e('Categories') ?></h2>
-					<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-					<?php wp_category_checklist($post_ID) ?>
-					</ul>
-				</div>
+				<?php category_div() ?>
 			</form>
-		</div>
-
-	</div>
-
-</body>
-</html>
+<?php
+exit;
+}
+?>			

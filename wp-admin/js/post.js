@@ -18,6 +18,8 @@ function new_tag_remove_tag() {
 }
 
 function tag_update_quickclicks() {
+	if ( jQuery( '#tags-input' ).length == 0 )
+		return;
 	var current_tags = jQuery( '#tags-input' ).val().split(',');
 	jQuery( '#tagchecklist' ).empty();
 	shown = false;

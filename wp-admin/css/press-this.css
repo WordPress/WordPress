@@ -334,6 +334,11 @@ a {
 	color: #007BFF;
 }
 
+#categories-all {
+	overflow: auto;
+	height: 30em;	
+}
+
 #categories ul {
 	list-style: none;
 	padding: 0;
@@ -344,6 +349,50 @@ a {
 	border-width: 1px;
 	border-color: #ccc;
 	border-style: solid;
+}
+
+#tagsdiv #newtag {
+	margin-right: 5px;
+	width: 16em;
+}
+
+#tagchecklist {
+	margin-left: 10px;
+
+	font-size: 12px;
+	overflow: auto;
+}
+
+#tagchecklist strong {
+	margin-left: -8px;
+	position: absolute;
+}
+
+#tagchecklist span {
+	margin-right: 25px;
+	display: block;
+	float: left;
+	font-size: 11px;
+	line-height: 1.8em;
+	white-space: nowrap;
+	cursor: default;
+}
+
+#tagchecklist span a {
+	margin: 6px 0pt 0pt -9px;
+	cursor: pointer;
+	width: 10px;
+	height: 10px;
+	display: block;
+	float: left;
+	text-indent: -9999px;
+	overflow: hidden;
+	position: absolute;
+}
+
+.howto {
+	font-style: italic;
+	display: block;
 }
 
 /* end quickpost css */
