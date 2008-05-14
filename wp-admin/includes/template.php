@@ -1041,8 +1041,83 @@ function wp_remember_old_slug() {
  * @param string $callback Function that fills the box with the desired content.  The function should echo its output.
  * @param string $page The type of edit page on which to show the box (post, page, link)
  * @param string $context The context within the page where the boxes should show ('normal', 'advanced')
+ * @param string $priority The priority within the context where the boxes should show ('high', 'low')
  */
-function add_meta_box($id, $title, $callback, $page, $context = 'advanced') {
+function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default') {
+	global $wp_meta_boxes;
+
+	
+	if  ( !isset($wp_meta_boxes) )
+		$wp_meta_boxes = array();
+	if ( !isset($wp_meta_boxes[$page]) )
+		$wp_meta_boxes[$page] = array();
+	if ( !isset($wp_meta_boxes[$page][$context]) )
+		$wp_meta_boxes[$page][$context] = array();
+
+	foreach ( array('high', 'core', 'default', 'low') as $a_priority ) {
+		if ( !isset($wp_meta_boxes[$page][$context][$a_priority][$id]) )
+			continue;
+		// If a core box was previously added or removed by a plugin, don't add.
+		if ( 'core' == $priority ) {
+			// If core box previously deleted, don't add
+			if ( false === $wp_meta_boxes[$page][$context][$a_priority][$id] )
+				return;
+			// If box was added with default priority, give it core priority to maintain sort order
+			if ( 'default' == $a_priority ) {
+				$wp_meta_boxes[$page][$context]['core'][$id] = $wp_meta_boxes[$page][$context]['default'][$id];
+				unset($wp_meta_boxes[$page][$context]['default'][$id]);
+			}
+			return;
+		}
+		// If no priority given and id already present, use existing priority
+		if ( empty($priority) )
+			$priority = $a_priority;
+		// An id can be in only one priority
+		if ( $priority != $a_priority )
+			unset($wp_meta_boxes[$page][$context][$a_priority][$id]);
+	}
+
+	if ( empty($priority) )
+		$priority = low;
+
+	if ( !isset($wp_meta_boxes[$page][$context][$priority]) )
+		$wp_meta_boxes[$page][$context][$priority] = array();
+
+	$wp_meta_boxes[$page][$context][$priority][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
+}
+
+function do_meta_boxes($page, $context, $object) {
+	global $wp_meta_boxes;
+
+	do_action('do_meta_boxes', $page, $context, $object);
+
+	if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
+		return;
+
+	foreach ( array('high', 'core', 'default', 'low') as $priority ) {
+		foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
+			if ( false === $box )
+				continue;
+			echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
+			echo "<h3>{$box['title']}</h3>\n";
+			echo '<div class="inside">' . "\n";
+			call_user_func($box['callback'], $object, $box);
+			echo "</div>\n";
+			echo "</div>\n";
+		}
+	}
+}
+
+/**
+ * remove_meta_box() - Remove a meta box from an edit form
+ *
+ * @since 2.6
+ *
+ * @param string $id String for use in the 'id' attribute of tags.
+ * @param string $page The type of edit page on which to show the box (post, page, link)
+ * @param string $context The context within the page where the boxes should show ('normal', 'advanced')
+ */
+function remove_meta_box($id, $page, $context) {
 	global $wp_meta_boxes;
 
 	if  ( !isset($wp_meta_boxes) )
@@ -1052,23 +1127,8 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced') {
 	if ( !isset($wp_meta_boxes[$page][$context]) )
 		$wp_meta_boxes[$page][$context] = array();
 
-	$wp_meta_boxes[$page][$context][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
-}
-
-function do_meta_boxes($page, $context, $object) {
-	global $wp_meta_boxes;
-
-	if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
-		return;
-
-	foreach ( (array) $wp_meta_boxes[$page][$context] as $box ) {
-		echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
-		echo "<h3>{$box['title']}</h3>\n";
-		echo '<div class="inside">' . "\n";
-		call_user_func($box['callback'], $object, $box);
-		echo "</div>\n";
-		echo "</div>\n";
-	}
+	foreach ( array('high', 'core', 'default', 'low') as $priority )
+		$wp_meta_boxes[$page][$context][$priority][$id] = false;
 }
 
 ?>

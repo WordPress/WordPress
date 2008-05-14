@@ -225,18 +225,17 @@ endif; ?>
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<div id="tagsdiv" class="postbox <?php echo postbox_classes('tagsdiv', 'post'); ?>">
-<h3><?php _e('Tags'); ?></h3>
-<div class="inside">
-<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></p>
+<?php
+function post_tags_meta_box($post) {
+?>
+<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
 <div id="tagchecklist"></div>
-</div>
-</div>
+<?php
+}
+add_meta_box('tagsdiv', __('Tags'), 'post_tags_meta_box', 'post', 'normal', 'core');
 
-<div id="categorydiv" class="postbox <?php echo postbox_classes('categorydiv', 'post'); ?>">
-<h3><?php _e('Categories') ?></h3>
-<div class="inside">
-
+function post_categories_meta_box($post) {
+?>
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="category-add" class="wp-hidden-child">
@@ -261,12 +260,13 @@ endif; ?>
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php wp_category_checklist($post_ID) ?>
+		<?php wp_category_checklist($post->ID) ?>
 	</ul>
 </div>
-
-</div>
-</div>
+<?php
+}
+add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'normal', 'core');
+?>
 
 <?php do_meta_boxes('post', 'normal', $post); ?>
 
@@ -274,32 +274,31 @@ endif; ?>
 
 <h2><?php _e('Advanced Options'); ?></h2>
 
-<div id="postexcerpt" class="postbox <?php echo postbox_classes('postexcerpt', 'post'); ?>">
-<h3><?php _e('Excerpt') ?></h3>
-<div class="inside"><label class="hidden" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
+<?php
+function post_excerpt_meta_box($post) {
+?>
+<label class="hidden" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
 <p><?php _e('Excerpts are optional hand-crafted summaries of your content. You can <a href="http://codex.wordpress.org/Template_Tags/the_excerpt" target="_blank">use them in your template</a>'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'post', 'advanced', 'core');
 
-<div id="trackbacksdiv" class="postbox <?php echo postbox_classes('trackbacksdiv', 'post'); ?>">
-<h3><?php _e('Trackbacks') ?></h3>
-<div class="inside">
+function post_trackback_meta_box($post) {
+?>
 <p><label for="trackback"><?php _e('Send trackbacks to:'); ?></label> <?php echo $form_trackback; ?><br /> (<?php _e('Separate multiple URLs with spaces'); ?>)</p>
 <p><?php _e('Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress blogs they&#8217;ll be notified automatically using <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">pingbacks</a>, no other action necessary.'); ?></p>
 <?php
 if ( ! empty($pings) )
 	echo $pings;
-?>
-</div>
-</div>
+}
+add_meta_box('trackbacksdiv', __('Trackbacks'), 'post_trackback_meta_box', 'post', 'advanced', 'core');
 
-<div id="postcustom" class="postbox <?php echo postbox_classes('postcustom', 'post'); ?>">
-<h3><?php _e('Custom Fields') ?></h3>
-<div class="inside">
+function post_custom_meta_box($post) {
+?>
 <div id="postcustomstuff">
 <table cellpadding="3">
 <?php
-$metadata = has_meta($post_ID);
+$metadata = has_meta($post->ID);
 list_meta($metadata);
 ?>
 
@@ -310,64 +309,62 @@ list_meta($metadata);
 <div id="ajax-response"></div>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', 'post', 'advanced', 'core');
 
-<?php do_action('dbx_post_advanced'); ?>
+do_action('dbx_post_advanced');
 
-<div id="commentstatusdiv" class="postbox <?php echo postbox_classes('commentstatusdiv', 'post'); ?>">
-<h3><?php _e('Comments &amp; Pings') ?></h3>
-<div class="inside">
+function post_comment_status_meta_box($post) {
+?>
 <input name="advanced_view" type="hidden" value="1" />
 <p><label for="comment_status" class="selectit">
 <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
 <?php _e('Allow Comments') ?></label></p>
 <p><label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label></p>
 <p><?php _e('These settings apply to this post only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('commentstatusdiv', __('Comments &amp; Pings'), 'post_comment_status_meta_box', 'post', 'advanced', 'core');
 
-<div id="passworddiv" class="postbox <?php echo postbox_classes('passworddiv', 'post'); ?>">
-<h3><?php _e('Password Protect This Post') ?></h3>
-<div class="inside">
+function post_password_meta_box($post) {
+?>
 <p><label class="hidden" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
-</div>
-</div>
-
-<div id="slugdiv" class="postbox <?php echo postbox_classes('slugdiv', 'post'); ?>">
-<h3><?php _e('Post Slug') ?></h3>
-<div class="inside">
-<label class="hidden" for="post_name"><?php _e('Post Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
-</div>
-</div>
-
 <?php
+}
+add_meta_box('passworddiv', __('Password Protect This Post'), 'post_password_meta_box', 'post', 'advanced', 'core');
+
+function post_slug_meta_box($post) {
+?>
+<label class="hidden" for="post_name"><?php _e('Post Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
+<?php
+}
+add_meta_box('slugdiv', __('Post Slug'), 'post_slug_meta_box', 'post', 'advanced', 'core');
+
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) :
+function post_author_meta_box($post) {
 ?>
-<div id="authordiv" class="postbox <?php echo postbox_classes('authordiv', 'post'); ?>">
-<h3><?php _e('Post Author'); ?></h3>
-<div class="inside">
 <label class="hidden" for="post_author_override"><?php _e('Post Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
-</div>
-</div>
-<?php endif; ?>
+<?php
+}
+add_meta_box('authordiv', __('Post Author'), 'post_author_meta_box', 'post', 'advanced', 'core');
+endif;
 
-<?php if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) : ?>
-<div id="revisionsdiv" class="postbox <?php echo postbox_classes('revisionsdiv', 'post'); ?>">
-<h3><?php _e('Post Revisions'); ?></h3>
-<div class="inside">
-<?php wp_list_post_revisions(); ?>
-</div>
-</div>
-<?php endif; ?>
+if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
+function post_revisions_meta_box($post) {
+	wp_list_post_revisions();
+}
+add_meta_box('revisionsdiv', __('Post Revisions'), 'post_revisions_meta_box', 'post', 'advanced', 'core');
+endif;
 
-<?php do_meta_boxes('post', 'advanced', $post); ?>
+do_meta_boxes('post', 'advanced', $post);
 
-<?php do_action('dbx_post_sidebar'); ?>
+do_action('dbx_post_sidebar');
+?>
 </div>
 </div>
 
