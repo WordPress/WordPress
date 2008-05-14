@@ -87,7 +87,7 @@ function get_images_from_uri($uri) {
 	if ( false === $content )
 		return '';
 
-	$pattern = '/src=[\'"]?([^\'" >]+)[\'" >]/'; 
+	$pattern = '/img.+?src=[\'"]?([^\'" >]+)[\'" >]/'; 
 	preg_match_all($pattern, $content, $matches);
 	if ( empty($matches[1]) )
 		return '';
