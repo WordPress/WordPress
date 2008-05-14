@@ -133,7 +133,7 @@
 			});
 
             // Word count if script is loaded
-            if ( 'undefined' != wpWordCount ) {
+            if ( 'undefined' != typeof wpWordCount ) {
                 var last = 0;
                 ed.onKeyUp.add(function(ed, e) {
                     if ( e.keyCode == last ) return;
