@@ -183,8 +183,8 @@ if ( !empty($_GET['load']) && 'photo' == $_GET['load'] ) {
 			});
 	</script>
 
-			<form action="quick-post.php?action=post" method="post" id="photo_form">
-				<?php wp_nonce_field('quick-post') ?>
+			<form action="press-this.php?action=post" method="post" id="photo_form">
+				<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
 				<input type="hidden" name="post_type" value="photo"/>
 				<div id="posting">
@@ -248,7 +248,7 @@ exit;
 	<?php wp_enqueue_script('jquery-ui-tabs'); ?>
 	<?php wp_enqueue_script('thickbox'); ?>
 	<?php do_action('admin_print_scripts'); do_action('admin_head'); ?>
-	<?php wp_admin_css('css/quick-post'); ?>
+	<?php wp_admin_css('css/press-this'); ?>
 	<?php wp_admin_css( 'css/colors' ); ?>
 
 	<script type="text/javascript">
@@ -310,7 +310,7 @@ exit;
 
 <?php
 if ( 'post' == $_REQUEST['action'] ) {
-	check_admin_referer('quick-post');
+	check_admin_referer('press-this');
 	$post_ID = quick_post();
 ?>
 	<script>if(confirm("<?php _e('Your post is saved. Do you want to view the post?') ?>")) {window.opener.location.replace("<?php echo get_permalink($post_ID);?>");}window.close();</script>
@@ -331,8 +331,8 @@ if ( 'post' == $_REQUEST['action'] ) {
 
 		<!-- Regular -->
 		<div id="section-1">
-		  <form action="quick-post.php?action=post" method="post" id="regular_form">
-		  		<?php wp_nonce_field('quick-post') ?>
+		  <form action="press-this.php?action=post" method="post" id="regular_form">
+		  		<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
 				<input type="hidden" name="post_type" value="regular"/>
 				<div id="posting">
@@ -363,8 +363,8 @@ if ( 'post' == $_REQUEST['action'] ) {
 
 		<!-- Quote -->
 		<div id="section-3">
-			<form action="quick-post.php?action=post" method="post" id="quote_form">
-				<?php wp_nonce_field('quick-post') ?>
+			<form action="press-this.php?action=post" method="post" id="quote_form">
+				<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
 				<input type="hidden" name="post_type" value="quote"/>
 				<div id="posting">
@@ -400,8 +400,8 @@ if ( 'post' == $_REQUEST['action'] ) {
 
 		<!-- Video -->
 		<div id="section-4">
-			<form action="quick-post.php?action=post" method="post" id="video_form">
-				<?php wp_nonce_field('quick-post') ?>
+			<form action="press-this.php?action=post" method="post" id="video_form">
+				<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
 				<input type="hidden" name="post_type" value="video"/>
 				<div id="posting">

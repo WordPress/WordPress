@@ -750,7 +750,7 @@ function get_shortcut_link() {
 			var k=d.getSelection;
 			var x=d.selection;
 			var s=(e?e():(k)?k():(x?x.createRange().text:0));
-			var f='" . get_settings('siteurl') . '/wp-admin/quick-post.php' . "';
+			var f='" . get_settings('siteurl') . '/wp-admin/press-this.php' . "';
 			var l=d.location;
 			var e=encodeURIComponent;
 			var u= '?u=' + e(l.href);
