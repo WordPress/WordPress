@@ -1518,3 +1518,23 @@ fieldset {
 	padding: 0;
 	margin: 0;
 }
+
+.info-box {
+	top: 120px;
+	left: 50%;
+	margin-left: -200px;
+	height: 300px;
+	width: 400px;
+	border: 5px solid #ddd;
+	background: #f8f8f8;
+	position: absolute;
+	padding: 15px 15px 10px;
+	z-index: 1000;
+}
+
+.info-box .submit {
+	position: absolute;
+	bottom: 15px;
+	width: 400px;
+	padding: 20px 0 5px;
+}

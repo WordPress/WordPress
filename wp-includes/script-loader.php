@@ -199,6 +199,12 @@ class WP_Scripts {
 			$this->localize( 'word-count', 'wordCountL10n', array(
 				'count' => __('Word count: %d')
 			));
+			
+			$this->add( 'wp-gears', '/wp-admin/js/wp-gears.js', false, '20080511' );
+			$this->localize( 'wp-gears', 'wpGearsL10n', array(
+				'updateCompleted' => __('Update completed.'),
+				'error' => __('Error:')
+			));
 		}
 	}
 
