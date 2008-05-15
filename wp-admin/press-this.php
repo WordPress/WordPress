@@ -87,26 +87,30 @@ function get_images_from_uri($uri) {
 	if ( false === $content )
 		return '';
 
-	$pattern = '/img.+?src=[\'"]?([^\'" >]+)[\'" >]/'; 
+	$pattern = '/<img[^>]+src=[\'"]([^\'" >]+?)[\'" >]/is';
 	preg_match_all($pattern, $content, $matches);
 	if ( empty($matches[1]) )
 		return '';
 
+	/*
 	$from_host = parse_url($uri);
 	$from_host = $from_host['host'];
 	$from_host = explode('.', $from_host);
 	$count = count($from_host);
 	$from_host = $from_host[$count - 2] . '.' . $from_host[$count - 1];
+	*/
 
 	$sources = array();
 	foreach ($matches[1] as $src) {
 		if ( false !== strpos($src, '&') )
 			continue;
 
+		/*
 		$img_host = parse_url($src);
 		$img_host = $img_host['host'];
 		if ( false === strpos($img_host, $from_host) )
 			continue;
+		*/
 
 		$sources[] = $src;
 	}
@@ -229,11 +233,11 @@ if ( empty($_GET['tab']) ) {
 
 	jQuery(document).ready(function() {
     <?php if ( preg_match("/youtube\.com\/watch/i", $_GET['u']) ) { ?>
-		jQuery('#container > ul').tabs({ selected: 3, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
+		jQuery('#container > ul').tabs({ selected: 3 });
 	<?php } elseif ( preg_match("/flickr\.com/i", $_GET['u']) ) { ?>
-		jQuery('#container > ul').tabs({ selected: 1, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
+		jQuery('#container > ul').tabs({ selected: 1 });
 	<?php } else { ?>
-		jQuery('#container > ul').tabs({ selected: 1, fx: { height: 'toggle', opacity: 'toggle', fxSpeed: 'fast' } });
+		jQuery('#container > ul').tabs();
 	<?php } ?>
 	});
 
@@ -254,10 +258,10 @@ if ( empty($_GET['tab']) ) {
 ?>
 	<div id="container">
 		<ul>
-			<li><a href="<?php echo clean_url(add_query_arg('tab', 'text')) ?>"><span><?php _e('Text/Link') ?></span></a></li>
-		 	<li><a href="<?php echo clean_url(add_query_arg('tab', 'photo')) ?>"><span><?php _e('Photo') ?></span></a></li>
-			<li><a href="<?php echo clean_url(add_query_arg('tab', 'quote')) ?>"><span><?php _e('Quote') ?></span></a></li>
-			<li><a href="<?php echo clean_url(add_query_arg('tab', 'video')) ?>"><span><?php _e('Video') ?></span></a></li>
+			<li><a href="<?php echo clean_url(add_query_arg('tab', 'text', stripslashes($_SERVER['REQUEST_URI']))) ?>"><span><?php _e('Text/Link') ?></span></a></li>
+		 	<li><a href="<?php echo clean_url(add_query_arg('tab', 'photo', stripslashes($_SERVER['REQUEST_URI']))) ?>"><span><?php _e('Photo') ?></span></a></li>
+			<li><a href="<?php echo clean_url(add_query_arg('tab', 'quote', stripslashes($_SERVER['REQUEST_URI']))) ?>"><span><?php _e('Quote') ?></span></a></li>
+			<li><a href="<?php echo clean_url(add_query_arg('tab', 'video', stripslashes($_SERVER['REQUEST_URI']))) ?>"><span><?php _e('Video') ?></span></a></li>
 		</ul>
 	</div>
 
