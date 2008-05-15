@@ -205,6 +205,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 7796 )
 		upgrade_251();
 
+	if ( $wp_current_db_version < 7935 )
+		upgrade_252();
+
 	maybe_disable_automattic_widgets();
 
 	$wp_rewrite->flush_rules();
@@ -737,6 +740,12 @@ function upgrade_251() {
 
 	// Make the secret longer
 	update_option('secret', wp_generate_password(64));
+}
+
+function upgrade_252() {
+	global $wpdb;
+
+	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = ''");
 }
 
 // The functions we use to actually do stuff
