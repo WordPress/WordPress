@@ -108,7 +108,8 @@ class WP_Scripts {
 				'deleted' => __('Deleted'),
 		) );
 
-		$this->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery'), '3' );
+		$this->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.5b4' );
+		$this->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery-ui-core'), '1.5b4' );
 
 		if ( is_admin() ) {
 			$this->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
