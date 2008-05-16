@@ -159,7 +159,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$args = wp_parse_args($args, $defaults);
 
 	if ( false !== $args['query_var'] && !empty($wp) ) {
-		if ( empty($args['query_var']) )
+		if ( true === $args['query_var'] )
 			$args['query_var'] = $taxonomy;
 		$args['query_var'] = sanitize_title_with_dashes($args['query_var']);
 		$wp->add_query_var($args['query_var']);

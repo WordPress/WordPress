@@ -140,6 +140,10 @@ class WP {
 
 		$this->public_query_vars = apply_filters('query_vars', $this->public_query_vars);
 
+		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t )
+			if ( isset($t->query_var) )
+				$taxonomy_query_vars[$t->query_var] = $taxonomy;
+
 		for ($i=0; $i<count($this->public_query_vars); $i += 1) {
 			$wpvar = $this->public_query_vars[$i];
 			if (isset($this->extra_query_vars[$wpvar]))
@@ -153,8 +157,13 @@ class WP {
 			elseif (!empty($perma_query_vars[$wpvar]))
 				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
 
-			if ( !empty( $this->query_vars[$wpvar] ) )
+			if ( !empty( $this->query_vars[$wpvar] ) ) {
 				$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
+				if ( in_array( $wpvar, $taxonomy_query_vars ) ) {
+					$this->query_vars['taxonomy'] = $taxonomy_query_vars[$wpvar];
+					$this->query_vars['term'] = $this->query_vars[$wpvar];
+				}
+			}
 		}
 
 		foreach ($this->private_query_vars as $var) {
