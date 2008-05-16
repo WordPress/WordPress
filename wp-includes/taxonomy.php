@@ -1303,10 +1303,10 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	if ( ! $append && isset($t->sort) && $t->sort ) {
 		$values = array();
 		$term_order = 0;
-		$final_term_ids = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
-		foreach ( $term_ids as $term_id )
-			if ( in_array($term_id, $final_term_ids) )
-				$values[] = $wpdb->prepare( "(%d, %d, %d)", $object_id, $term_id, ++$term_order);
+		$final_tt_ids = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
+		foreach ( $tt_ids as $tt_id )
+			if ( in_array($tt_id, $final_tt_ids) )
+				$values[] = $wpdb->prepare( "(%d, %d, %d)", $object_id, $tt_id, ++$term_order);
 		if ( $values )
 			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id, term_order) VALUES " . join(',', $values) . " ON DUPLICATE KEY UPDATE term_order = VALUES(term_order)");
 	}
