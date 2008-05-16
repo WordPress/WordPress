@@ -1,11 +1,18 @@
 <?php
-@ require('../wp-config.php');
 
-if ( ! defined('WP_ADMIN') )
-	define('WP_ADMIN', true);
+define( 'ABSPATH', dirname(dirname(__FILE__)) );
 
-if ( ! is_a($wp_scripts, 'WP_Scripts') ) 
-	$wp_scripts = new WP_Scripts();
+function __() {}
+function add_filter() {}
+function attribute_escape() {}
+function apply_filters() {}
+function get_option() {}
+function is_lighttpd_before_150() {}
+function is_admin() {return true;}
+
+require(ABSPATH . '/wp-includes/script-loader.php');
+
+$wp_scripts = new WP_Scripts();
 
 $default_js = $version = '';
 foreach ( $wp_scripts->scripts as $script ) {
@@ -18,7 +25,10 @@ foreach ( $wp_scripts->scripts as $script ) {
 
 $version = md5($version);
 
-nocache_headers();
+header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
+header( 'Pragma: no-cache' );
 header( 'Content-Type: application/x-javascript; charset=UTF-8' ); // application/json text/plain ?
 ?>
 {
