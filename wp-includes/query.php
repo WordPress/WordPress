@@ -1610,8 +1610,9 @@ class WP_Query {
 			$tax = $this->get('taxonomy');
 			$slug = $this->get('term');
 			$term = &get_terms($tax, array('slug'=>$slug));
-			if ( is_wp_error($term) )
+			if ( is_wp_error($term) || empty($term) )
 				return $term;
+			$term = $term[0];
 			$this->queried_object = $term;
 			$this->queried_object_id = $term->term_id;
 		} else if ($this->is_posts_page) {

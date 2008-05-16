@@ -233,6 +233,19 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$title = strip_tags( apply_filters( 'single_post_title', $post->post_title ) );
 	}
 
+	// If there's a taxonomy
+	if ( is_tax() ) {
+		$taxonomy = get_query_var( 'taxonomy' );
+		$tax = get_taxonomy( $taxonomy );
+		$tax = $tax->label;
+		$term = $wp_query->get_queried_object();
+		$term = $term->name;
+		if ( 'right' == $seplocation )
+			$title = "$term $sep $tax";
+		else
+			$title = "$tax $sep $term";
+	}
+
 	$prefix = '';
 	if ( !empty($title) )
 		$prefix = " $sep ";
