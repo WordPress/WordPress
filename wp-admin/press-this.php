@@ -168,7 +168,9 @@ function press_this_js_init() {
 }
 
 // Clean up the data being passed in
-$title = stripslashes($_GET['t']);
+$title = wp_specialchars(stripslashes($_GET['t']));
+$selection = wp_specialchars(stripslashes($_GET['s']));
+$url = clean_url($_GET['u']);
 
 if ( empty($_GET['tab']) ) {
 ?>
@@ -285,7 +287,7 @@ exit;
 			}
 			jQuery(document).ready(function() {
 				var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
-				var my_src = [<?php echo get_images_from_uri(clean_url($_GET['u'])); ?>];
+				var my_src = [<?php echo get_images_from_uri($url); ?>];
 
 				for (i = 0; i < my_src.length; i++) {
  					img = new Image();
@@ -331,8 +333,8 @@ exit;
 
 					<h2><?php _e('Caption') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="photo_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?>
-						<br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content" id="photo_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo $selection;?>
+						<br>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
 					<h2><?php _e('Photo URL') ?></h2>
@@ -353,7 +355,7 @@ exit;
 					</div>
 
 					<h2><?php _e('Link Photo to following URL') ?></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
-					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($_GET['u']);?>"/>
+					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
 
 					<?php tag_div(); ?>
       
@@ -384,7 +386,7 @@ exit;
 
 				  	<h2><?php _e('Post') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo $_GET['u'];?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo $selection;?><br>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>        
 
 					<?php tag_div(); ?>
@@ -415,12 +417,12 @@ exit;
 
 					<h2><?php _e('Quote') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="quote_post_one" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?></textarea>
+						<textarea name="content" id="quote_post_one" style="height:130px;width:100%;" class="mceEditor"><?php echo $selection;?></textarea>
 					</div>
 
 					<h2><?php _e('Source <span class="optional">(optional)</span>') ?></h2>
 					<div class="editor-container">
-						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor"><br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor"><br>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
 					<?php tag_div(); ?>
@@ -450,10 +452,10 @@ exit;
 					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
 
 					<?php 
-					if ( preg_match("/youtube\.com\/watch/i", $_GET['u']) ) { 
-						list($domain, $video_id) = split("v=", $_GET['u']);
+					if ( preg_match("/youtube\.com\/watch/i", $url) ) { 
+						list($domain, $video_id) = split("v=", $url);
 					?>
-					<input type="hidden" name="content" value="<?php echo attribute_escape($_GET['u']); ?>" />
+					<input type="hidden" name="content" value="<?php echo attribute_escape($url); ?>" />
 					<img src="http://img.youtube.com/vi/<?php echo $video_id; ?>/default.jpg" align="right" style="border:solid 1px #aaa;" width="130" height="97"/><br clear="all" />
 					<?php } else { ?>
 					<h2><?php _e('Embed Code') ?></h2>
@@ -463,7 +465,7 @@ exit;
 					<h2><?php _e('Caption <span class="optional">(optional)</span>') ?></h2>
 
 					<div class="editor-container">
-						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo stripslashes($_GET['s']);?><br>&lt;a href="<?php echo clean_url($_GET['u']);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo $selection;?><br>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
 					</div>
 
 					<?php tag_div(); ?>
