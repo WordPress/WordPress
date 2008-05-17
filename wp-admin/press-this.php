@@ -15,14 +15,14 @@ function press_it() {
 		case 'regular':
 			$content = $_REQUEST['content'];
 			if ($_REQUEST['content2'])
-				$content .= '<p>' . $_REQUEST['content2']; 
+				$content .= '<p>' . $_REQUEST['content2'];
 			break;
 
 		case 'quote':
 			$content = '<blockquote>' . $_REQUEST['content'];
 			if ($_REQUEST['content2']) {
 				$content .= '</blockquote>';
-				$content = $content . '<p>' . $_REQUEST['content2']; 
+				$content = $content . '<p>' . $_REQUEST['content2'];
 			}
 			break;
 
@@ -36,7 +36,7 @@ function press_it() {
 				$content .= '</a>';
 
 			if ($_REQUEST['content'])
-				$content = $content . '<br clear="all">' . $_REQUEST['content']; 
+				$content = $content . '<br clear="all">' . $_REQUEST['content'];
 
 			break;
 		case "video":
@@ -44,7 +44,7 @@ function press_it() {
 			$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
 			if ($_REQUEST['content2'])
 				$content .= '</br><p>' . $_REQUEST['content2'] . '</p>';
-			break;				
+			break;
 	}
 
 	$quick['post_content'] = $content;
@@ -179,9 +179,9 @@ if ( empty($_GET['tab']) ) {
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<title><?php _e('Quick Post') ?></title>
-	
+
 	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
-		
+
 <?php
 	wp_enqueue_script('jquery-ui-tabs');
 	wp_enqueue_script('thickbox');
@@ -191,7 +191,7 @@ if ( empty($_GET['tab']) ) {
 	wp_admin_css( 'css/colors' );
 ?>
 	<script type="text/javascript">
-    <?php if ( user_can_richedit() ) { 
+    <?php if ( user_can_richedit() ) {
 		$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
 		// Add TinyMCE languages
 		@include_once( dirname(__FILE__).'/../wp-includes/js/tinymce/langs/wp-langs.php' );
@@ -205,7 +205,7 @@ if ( empty($_GET['tab']) ) {
 				sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
 				sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
 			})();
-			
+
 			tinyMCE.init({
 				mode: "textareas",
 				editor_selector: "mceEditor",
@@ -346,8 +346,8 @@ exit;
 					        height:         75px;
 					        padding:        2px;
 					        background-color: #f4f4f4;
-					        margin-right:   7px; 
-					        margin-bottom:  7px; 
+					        margin-right:   7px;
+					        margin-bottom:  7px;
 					        cursor:         pointer;
 					    }
 					</style>
@@ -358,8 +358,8 @@ exit;
 					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
 
 					<?php tag_div(); ?>
-      
-					<div>         
+
+					<div>
 						<input type="submit" value="<?php _e('Create Photo') ?>" style="margin-top:15px;"	onclick="document.getElementById('photo_saving').style.display = '';"/>&nbsp;&nbsp;
 
 						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel') ?></a>&nbsp;&nbsp;
@@ -387,11 +387,11 @@ exit;
 				  	<h2><?php _e('Post') ?></h2>
 					<div class="editor-container">
 						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo $selection;?><br>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
-					</div>        
+					</div>
 
 					<?php tag_div(); ?>
-       
-					<div>         
+
+					<div>
 						<input type="submit" value="<?php _e('Create Post') ?>" style="margin-top:15px;" onclick="document.getElementById('regular_saving').style.display = '';"/>&nbsp;&nbsp;
 						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel') ?></a>&nbsp;&nbsp;
 						<img src="/images/bookmarklet_loader.gif" alt="" id="regular_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
@@ -427,7 +427,7 @@ exit;
 
 					<?php tag_div(); ?>
 
-					<div>         
+					<div>
 						<input type="submit" value="<?php echo attribute_escape(__('Create Quote')) ?>" style="margin-top:15px;" onclick="document.getElementById('quote_saving').style.display = '';"/>&nbsp;&nbsp;
 						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel') ?></a>&nbsp;&nbsp;
 						<img src="/images/bookmarklet_loader.gif" alt="" id="quote_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
@@ -451,8 +451,8 @@ exit;
 					<h2><?php _e('Post Title') ?></h2>
 					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
 
-					<?php 
-					if ( preg_match("/youtube\.com\/watch/i", $url) ) { 
+					<?php
+					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
 						list($domain, $video_id) = split("v=", $url);
 					?>
 					<input type="hidden" name="content" value="<?php echo attribute_escape($url); ?>" />
@@ -470,7 +470,7 @@ exit;
 
 					<?php tag_div(); ?>
 
-					<div>               
+					<div>
 						<input type="submit" value="<?php _e('Create Video') ?>" style="margin-top:15px;" onclick="document.getElementById('video_saving').style.display = '';"/>&nbsp;&nbsp;
 						<a href="#" onclick="if (confirm('<?php _e('Are you sure?') ?>')) { self.close(); } else { return false; }" style="color:#007BFF;"><?php _e('Cancel'); ?></a>&nbsp;&nbsp;
 						<img src="/images/bookmarklet_loader.gif" alt="" id="video_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
@@ -481,4 +481,4 @@ exit;
 <?php
 exit;
 }
-?>			
+?>
