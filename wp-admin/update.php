@@ -22,7 +22,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? $_POST['hostname'] : $credentials['hostname']);
 	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? $_POST['username'] : $credentials['username']);
 	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? $_POST['password'] : $credentials['password']);
-	$credentials['ssl']      = defined('FTP_SSL')  ? FTP_SSL  : (!empty($_POST['ssl'])      ? $_POST['ssl']      : $credentials['ssl']);
+	$credentials['ssl']      = defined('FTP_SSL')  ? FTP_SSL  : ( isset($_POST['ssl'])      ? $_POST['ssl']      : $credentials['ssl']);
 
 	if ( ! $error && !empty($credentials['password']) && !empty($credentials['username']) && !empty($credentials['hostname']) ) {
 		$stored_credentials = $credentials;
