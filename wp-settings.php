@@ -268,7 +268,7 @@ require (ABSPATH . WPINC . '/canonical.php');
 require (ABSPATH . WPINC . '/shortcodes.php');
 require (ABSPATH . WPINC . '/media.php');
 
-if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
+if ( ! defined('WP_INSTALLING') ) {
 	// Used to guarantee unique hash cookies
 	$cookiehash = md5(get_option('siteurl'));
 	/**
