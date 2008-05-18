@@ -199,13 +199,14 @@ endif; ?>
 
 <h2><?php _e('Advanced Options'); ?></h2>
 
-<div id="pagepostcustom" class="postbox <?php echo postbox_classes('pagepostcustom', 'page'); ?>">
-<h3><?php _e('Custom Fields') ?></h3>
-<div class="inside">
+
+<?php 
+function page_custom_meta_box($post){
+?>
 <div id="postcustomstuff">
 <table cellpadding="3">
 <?php
-$metadata = has_meta($post_ID);
+$metadata = has_meta($post->ID);
 list_meta($metadata);
 ?>
 
@@ -216,93 +217,97 @@ list_meta($metadata);
 <div id="ajax-response"></div>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('pagecustomdiv', __('Custom Fields'), 'page_custom_meta_box', 'page', 'advanced', 'core');
 
-<div id="pagecommentstatusdiv" class="postbox <?php echo postbox_classes('pagecommentstatusdiv', 'page'); ?>">
-<h3><?php _e('Comments &amp; Pings') ?></h3>
-<div class="inside">
+function page_comments_status_meta_box($post){
+?>
 <input name="advanced_view" type="hidden" value="1" />
 <p><label for="comment_status" class="selectit">
 <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
 <?php _e('Allow Comments') ?></label></p>
 <p><label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label></p>
 <p><?php _e('These settings apply to this page only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
-</div>
-</div>
+<?php 
+}
+add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_status_meta_box', 'page', 'advanced', 'core');
 
-<div id="pagepassworddiv" class="postbox <?php echo postbox_classes('pagepassworddiv', 'page'); ?>">
-<h3><?php _e('Password Protect This Page') ?></h3>
-<div class="inside">
+function page_password_meta_box($post){
+?>
 <p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('pagepassworddiv', __('Password Protect This Page'), 'page_password_meta_box', 'page', 'advanced', 'core');
 
-<div id="pageslugdiv" class="postbox <?php echo postbox_classes('pageslugdiv', 'page'); ?>">
-<h3><?php _e('Page Slug') ?></h3>
-<div class="inside">
+function page_slug_meta_box($post){
+?>
 <label class="hidden" for="post_name"><?php _e('Page Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
-</div>
-</div>
+<?php
+}
+add_meta_box('pageslugdiv', __('Page Slug'), 'page_slug_meta_box', 'page', 'advanced', 'core');
 
-<div id="pageparentdiv" class="postbox <?php echo postbox_classes('pageparentdiv', 'page'); ?>">
-<h3><?php _e('Page Parent') ?></h3>
-<div class="inside">
-<label class="hidden" for="parent_id"><?php _e('Page Parent') ?></label><select name="parent_id" id="parent_id">
+function page_parent_meta_box($post){
+?>
+<label class="hidden" for="parent_id"><?php _e('Page Parent') ?></label>
+<select name="parent_id" id="parent_id">
 <option value='0'><?php _e('Main Page (no parent)'); ?></option>
 <?php parent_dropdown($post->post_parent); ?>
 </select>
 <p><?php _e('You can arrange your pages in hierarchies, for example you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('pageparentdiv', __('Page Parent'), 'page_parent_meta_box', 'page', 'advanced', 'core');
 
-<?php if ( 0 != count( get_page_templates() ) ) { ?>
-<div id="pagetemplatediv" class="postbox <?php echo postbox_classes('pagetemplatediv', 'page'); ?>">
-<h3><?php _e('Page Template') ?></h3>
-<div class="inside">
+if ( 0 != count( get_page_templates() ) ) {
+	function page_template_meta_box($post){
+?>
 <label class="hidden" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <option value='default'><?php _e('Default Template'); ?></option>
 <?php page_template_dropdown($post->page_template); ?>
 </select>
 <p><?php _e('Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them above.'); ?></p>
-</div>
-</div>
-<?php } ?>
+<?php
+	}
+	add_meta_box('pagetemplatediv', __('Page Template'), 'page_template_meta_box', 'page', 'advanced', 'core');
+}
 
-<div id="pageorderdiv" class="postbox <?php echo postbox_classes('pageorderdiv', 'page'); ?>">
-<h3><?php _e('Page Order') ?></h3>
-<div class="inside">
+function page_order_meta_box($post){
+?>
 <p><label class="hidden" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
 <p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
-</div>
-</div>
-
 <?php
+}
+add_meta_box('pageorderdiv', __('Page Order'), 'page_order_meta_box', 'page', 'advanced', 'core');
+
+
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
-if ( $authors && count( $authors ) > 1 ) :
+if ( $authors && count( $authors ) > 1 ) {
+	function page_author_meta_box($post){
+		global $current_user, $user_ID;
+		$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+		if ( $post->post_author && !in_array($post->post_author, $authors) )
+			$authors[] = $post->post_author;
 ?>
-<div id="pageauthordiv" class="postbox <?php echo postbox_classes('pageauthordiv', 'page'); ?>">
-<h3><?php _e('Page Author'); ?></h3>
-<div class="inside">
-<label class="hidden" for="post_author_override"><?php _e('Page Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
-</div>
-</div>
-<?php endif; ?>
-
-<?php if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) : ?>
-<div id="revisionsdiv" class="postbox <?php echo postbox_classes('revisionsdiv', 'page'); ?>">
-<h3><?php _e('Page Revisions'); ?></h3>
-<div class="inside">
-<?php wp_list_post_revisions(); ?>
-</div>
-</div>
-<?php endif; ?>
+<label class="hidden" for="post_author_override"><?php _e('Page Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
+<?php
+	}
+	add_meta_box('pageauthordiv', __('Page Author'), 'page_author_meta_box', 'page', 'advanced', 'core');
+}
 
 
-<?php do_meta_boxes('page', 'advanced', $post); ?>
+if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
+function page_revisions_meta_box($post) {
+	wp_list_post_revisions();
+}
+add_meta_box('revisionsdiv', __('Page Revisions'), 'page_revisions_meta_box', 'page', 'advanced', 'core');
+endif;
+
+do_meta_boxes('page', 'advanced', $post);
+?>
 
 </div>
 </div>

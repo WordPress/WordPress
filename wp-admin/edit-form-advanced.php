@@ -347,8 +347,12 @@ if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) :
 function post_author_meta_box($post) {
+	global $current_user, $user_ID;
+	$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+	if ( $post->post_author && !in_array($post->post_author, $authors) )
+		$authors[] = $post->post_author;
 ?>
-<label class="hidden" for="post_author_override"><?php _e('Post Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post_ID) ? $user_ID : $post->post_author) ); ?>
+<label class="hidden" for="post_author_override"><?php _e('Post Author'); ?></label><?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author_override', 'selected' => empty($post->ID) ? $user_ID : $post->post_author) ); ?>
 <?php
 }
 add_meta_box('authordiv', __('Post Author'), 'post_author_meta_box', 'post', 'advanced', 'core');
