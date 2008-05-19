@@ -184,7 +184,7 @@ function get_attachment_link($id = false) {
 		else
 			$name = $object->post_name;
 		if (strpos($parentlink, '?') === false)
-			$link = trailingslashit($parentlink) . $name . '/';
+			$link = user_trailingslashit( trailingslashit($parentlink) . $name );
 	}
 
 	if (! $link ) {
