@@ -37,7 +37,7 @@ input.disabled, textarea.disabled {
 	color: #fff;
 }
 
-ul#category-tabs li.ui-tabs-selected, li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3, .login form {
+ul#category-tabs li.ui-tabs-selected, li.widget-list-control-item, div.nav, .tablenav, .submitbox, h3.dashboard-widget-title, h3.dashboard-widget-title span, h3.dashboard-widget-title small, ul.view-switch li.current, .form-table tr, #poststuff h3, .login form, h3.info-box-title {
 	background-color: #cfebf7;
 }
 

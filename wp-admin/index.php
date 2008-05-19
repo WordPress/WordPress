@@ -32,7 +32,6 @@ function index_css() {
 add_action( 'admin_head', 'index_css' );
 
 wp_enqueue_script( 'jquery' );
-wp_enqueue_script( 'wp-gears' );
 
 $title = __('Dashboard');
 $parent_file = 'index.php';
@@ -117,34 +116,6 @@ if ( $can_switch_themes = current_user_can( 'switch_themes' ) )
 	<?php endif; ?>
 	<?php update_right_now_message(); ?>
 </p>
-
-<?php
-if ( ($is_gecko || $is_winIE) && strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') === false ) { 
-	if ( ! isset($current_user) )
-		$current_user = wp_get_current_user();
-
-	if ( ! isset($current_user->gearsinfobox) ) {
-		update_usermeta($current_user->ID, 'gearsinfobox', '1'); ?>
-
-	<div id="gears-info-box" class="info-box">
-	<h3 class="dashboard-widget-title"><?php _e('Install offline storage for WordPress'); ?></h3>
-	<p><?php _e('WordPress has support for Google Gears that adds new features to your web browser.'); ?> <a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a></p>
-	<p><?php _e('After installing and enabling it, most of the WordPress images, scripts and CSS files will be stored on this computer. This will speed up page loading considerably.'); ?></p>
-	<p><strong><?php _e('Please make sure you are not using a public or shared computer.'); ?></strong></p>
-	<div class="submit"><a href="http://gears.google.com/?action=install&return=<?php echo get_option('siteurl') . '/wp-admin/'; ?>" class="button"><?php _e('Install Now'); ?></a><a href="#" class="button" style="margin-left:10px;" onclick="document.getElementById('gears-info-box').style.display='none';return false;">Cancel</a></div>
-	</div>
-<?php } ?>
-
-	<div id="gears-msg1"><p><?php _e('WordPress has support for Google Gears that adds new features to your web browser.'); ?> <a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a><br />
-	<?php _e('After installing and enabling it, most of the WordPress images, scripts and CSS files will be stored on this computer. This will speed up page loading considerably.'); ?></p>
-	<p><a href="http://gears.google.com/?action=install&return=<?php echo get_option('siteurl') . '/wp-admin/'; ?>" class="rbutton"><?php _e('Install Google Gears'); ?></a> <strong><?php _e('Please make sure you are not using a public or shared computer.'); ?></strong></p></div>
-	
-	<p id="gears-msg2" style="display:none;"><?php _e('Google Gears is installed on this computer but is not enabled for use with WordPress. To enable it, make sure this web site is not on the denied list under Tools - Google Gears Settings menu of your browser, then reload this page and allow the site to use Google Gears on this computer.'); ?><br />
-	<strong><?php _e('However if this is a public or shared computer, Google Gears should not be enabled.'); ?></strong></p>
-	
-	<p id="gears-msg3" style="display:none;"><?php _e('Google Gears is installed and enabled on this computer. You can disable it from your browser Tools menu.'); ?><br />
-	<?php _e('Status:'); ?> <span id="gears-wait"><span style="color:#fff;background-color:#f00;"><?php _e('Please wait! Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
-<?php } ?>
 <?php do_action( 'rightnow_end' ); ?>
 <?php do_action( 'activity_box_end' ); ?>
 </div><!-- rightnow -->

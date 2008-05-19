@@ -1,19 +1,11 @@
 
 wpGears = {
 
-	init : function() {
-		if ( 'undefined' != typeof google && google.gears ) {
-			try { 
-				localServer = google.gears.factory.create("beta.localserver");
-				this.createStore();
-			} catch(e) { // silence if canceled
-				this.message();
-			}
-	  	}
-	},
-
 	createStore : function() {
 		if ( 'undefined' == typeof google || ! google.gears ) return;
+
+		if ( 'undefined' == typeof localServer ) 
+			localServer = google.gears.factory.create("beta.localserver");
 
 		store = localServer.createManagedStore(this.storeName());
 		store.manifestUrl = "gears-manifest.php";
@@ -21,11 +13,15 @@ wpGears = {
 		this.message();
 	},
 
-	removeStore : function() {
-		if ( 'undefined' == typeof google || ! google.gears ) return;
+	getPermission : function() {
+		if ( 'undefined' != typeof google && google.gears ) {
+			if ( ! google.gears.factory.hasPermission )
+				google.gears.factory.getPermission( 'WordPress', 'images/logo.gif' );
 
-		localServer.removeManagedStore(this.storeName());
-		this.message();
+			try {
+				this.createStore();
+			} catch(e) {} // silence if canceled
+		}
 	},
 
 	storeName : function() {
@@ -37,30 +33,35 @@ wpGears = {
       return name;
     },
 
-    message : function() {
+    message : function(show) {
 		var t = this, msg1 = t.I('gears-msg1'), msg2 = t.I('gears-msg2'), msg3 = t.I('gears-msg3'), num = t.I('gears-upd-number'), wait = t.I('gears-wait');
 
 		if ( ! msg1 ) return;
 
-        if ( 'undefined' != typeof store ) {
-			msg1.style.display = msg2.style.display = 'none';
-			msg3.style.display = 'block';
+		if ( 'undefined' != typeof google && google.gears ) {
+			if ( google.gears.factory.hasPermission ) {
+				msg1.style.display = msg2.style.display = 'none';
+				msg3.style.display = 'block';
 
-			store.oncomplete = function(){wait.innerHTML = (' ' + wpGearsL10n.updateCompleted);};
-			store.onerror = function(){wait.innerHTML = (' ' + wpGearsL10n.error + ' ' + store.lastErrorMessage);};
-			store.onprogress = function(e){if(num) num.innerHTML = (' ' + e.filesComplete + ' / ' + e.filesTotal);};
-        } else if ( 'undefined' != typeof google && google.gears ) {
-			msg1.style.display = 'none';
-			msg2.style.display = 'block';
+				if ( 'undefined' == typeof store )
+					t.createStore();
+
+				store.oncomplete = function(){wait.innerHTML = (' ' + wpGearsL10n.updateCompleted);};
+				store.onerror = function(){wait.innerHTML = (' ' + wpGearsL10n.error + ' ' + store.lastErrorMessage);};
+				store.onprogress = function(e){if(num) num.innerHTML = (' ' + e.filesComplete + ' / ' + e.filesTotal);};
+			} else {
+				msg1.style.display = msg3.style.display = 'none';
+				msg2.style.display = 'block';
+			}
 		}
+
+		if ( show ) t.I('gears-info-box').style.display = 'block';
 	},
-	
+
 	I : function(id) {
 		return document.getElementById(id);
 	}
 }
-
-addLoadEvent( function(){wpGears.init()} );
 
 function gearsInit() {
 	if ( 'undefined' != typeof google && google.gears ) return;

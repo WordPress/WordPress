@@ -1500,21 +1500,33 @@ fieldset {
 }
 
 .info-box {
-	top: 120px;
+	top: 100px;
 	left: 50%;
-	margin-left: -200px;
+	margin-left: -225px;
 	height: 300px;
-	width: 400px;
+	width: 450px;
 	border: 5px solid #ddd;
 	background: #f8f8f8;
 	position: absolute;
 	padding: 15px 15px 10px;
 	z-index: 1000;
+	display: none;
 }
 
 .info-box .submit {
 	position: absolute;
 	bottom: 15px;
-	width: 400px;
-	padding: 20px 0 5px;
+	width: 450px;
+	padding: 15px 0 0;
+}
+
+.info-box .gears-img {
+	float: right;
+	margin: 10px;
+}
+
+.info-box-title {
+	line-height: 2;
+	margin: 0;
+	padding: 0 7px;
 }
