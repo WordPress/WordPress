@@ -148,19 +148,24 @@ class Walker_Category_Checklist extends Walker {
 	}
 }
 
-function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false ) {
+function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false ) {
 	$walker = new Walker_Category_Checklist;
 	$descendants_and_self = (int) $descendants_and_self;
 
 	$args = array();
 	
-	if ( $post_id )
+	if ( is_array( $selected_cats ) )
+		$args['selected_cats'] = $selected_cats;
+	elseif ( $post_id )
 		$args['selected_cats'] = wp_get_post_categories($post_id);
 	else
 		$args['selected_cats'] = array();
-	if ( is_array( $selected_cats ) )
-		$args['selected_cats'] = $selected_cats;
-	$args['popular_cats'] = get_terms( 'category', array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
+
+	if ( is_array( $popular_cats ) )
+		$args['popular_cats'] = $popular_cats;
+	else
+		$args['popular_cats'] = get_terms( 'category', array( 'fields' => 'ids', 'orderby' => 'count', 'order' => 'DESC', 'number' => 10, 'hierarchical' => false ) );
+
 	if ( $descendants_and_self ) {
 		$categories = get_categories( "child_of=$descendants_and_self&hierarchical=0&hide_empty=0" );
 		$self = get_category( $descendants_and_self );
@@ -169,13 +174,22 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 		$categories = get_categories('get=all');
 	}
 
-	$args = array($categories, 0, $args);
-	$output = call_user_func_array(array(&$walker, 'walk'), $args);
+	// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
+	$checked_categories = array();
+	for ( $i = 0; isset($categories[$i]); $i++ ) {
+		if ( in_array($categories[$i]->term_id, $args['selected_cats']) ) {
+			$checked_categories[] = $categories[$i];
+			unset($categories[$i]);
+		}
+	}
 
-	echo $output;
+	// Put checked cats on top
+	echo call_user_func_array(array(&$walker, 'walk'), array($checked_categories, 0, $args));
+	// Then the rest of them
+	echo call_user_func_array(array(&$walker, 'walk'), array($categories, 0, $args));
 }
 
-function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
+function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
 	global $post_ID;
 	if ( $post_ID )
 		$checked_categories = wp_get_post_categories($post_ID);
@@ -186,6 +200,8 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10 ) {
 	$popular_ids = array();
 	foreach ( (array) $categories as $category ) {
 		$popular_ids[] = $category->term_id;
+		if ( !$echo ) // hack for AJAX use
+			continue;
 		$id = "popular-category-$category->term_id";
 		?>
 

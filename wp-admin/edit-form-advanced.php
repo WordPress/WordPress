@@ -260,7 +260,7 @@ function post_categories_meta_box($post) {
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php wp_category_checklist($post->ID) ?>
+		<?php wp_category_checklist($post->ID, false, false, $popular_ids) ?>
 	</ul>
 </div>
 <?php

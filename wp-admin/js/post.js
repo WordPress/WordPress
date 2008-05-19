@@ -120,8 +120,9 @@ jQuery(document).ready( function() {
 		jQuery('#in-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
 		noSyncChecks = false;
 	};
+	var popularCats = jQuery('#categorychecklist-pop :checkbox').map( function() { return parseInt(jQuery(this).val(), 10); } ).get().join(',');
 	var catAddBefore = function( s ) {
-		s.data += '&' + jQuery( '#categorychecklist :checked' ).serialize();
+		s.data += '&popular_ids=' + popularCats + '&' + jQuery( '#categorychecklist :checked' ).serialize();
 		return s;
 	};
 	var catAddAfter = function( r, s ) {
@@ -151,7 +152,8 @@ jQuery(document).ready( function() {
 	} );
 	jQuery('#category-add-toggle').click( function() {
 		jQuery(this).parents('div:first').toggleClass( 'wp-hidden-children' );
-		categoryTabs.tabsClick( 1 );
+		// categoryTabs.tabs( 'select', '#categories-all' ); // this is broken (in the UI beta?)
+		categoryTabs.find( 'a[href="#categories-all"]' ).click();
 		jQuery('#newcat').focus();
 		return false;
 	} );

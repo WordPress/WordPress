@@ -150,6 +150,9 @@ case 'add-category' : // On the Fly
 		$parent = 0;
 	$post_category = isset($_POST['post_category'])? (array) $_POST['post_category'] : array();
 	$checked_categories = array_map( 'absint', (array) $post_category );
+	$popular_ids = isset( $_POST['popular_ids'] ) ?
+			array_map( 'absint', explode( ',', $_POST['popular_ids'] ) ) :
+			false;
 
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
@@ -163,7 +166,7 @@ case 'add-category' : // On the Fly
 			continue;
 		$category = get_category( $cat_id );
 		ob_start();
-			wp_category_checklist( 0, $cat_id, $checked_categories );
+			wp_category_checklist( 0, $cat_id, $checked_categories, $popular_ids );
 		$data = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(
