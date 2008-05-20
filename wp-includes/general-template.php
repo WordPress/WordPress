@@ -343,13 +343,17 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	$url = clean_url($url);
 
 	if ('link' == $format)
-		return "\t<link rel='archives' title='$title_text' href='$url' />\n";
+		$link_html = "\t<link rel='archives' title='$title_text' href='$url' />\n";
 	elseif ('option' == $format)
-		return "\t<option value='$url'>$before $text $after</option>\n";
+		$link_html = "\t<option value='$url'>$before $text $after</option>\n";
 	elseif ('html' == $format)
-		return "\t<li>$before<a href='$url' title='$title_text'>$text</a>$after</li>\n";
+		$link_html = "\t<li>$before<a href='$url' title='$title_text'>$text</a>$after</li>\n";
 	else // custom
-		return "\t$before<a href='$url' title='$title_text'>$text</a>$after\n";
+		$link_html = "\t$before<a href='$url' title='$title_text'>$text</a>$after\n";
+
+	$link_html = apply_filters( "get_archives_link", $link_html );
+		
+	return $link_html;
 }
 
 
