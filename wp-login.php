@@ -341,12 +341,12 @@ break;
 
 case 'login' :
 default:
+	$user = wp_signon();
+
 	if ( isset( $_REQUEST['redirect_to'] ) )
 		$redirect_to = $_REQUEST['redirect_to'];
 	else
 		$redirect_to = 'wp-admin/';
-
-	$user = wp_signon();
 
 	if ( !is_wp_error($user) ) {
 		// If the user can't edit posts, send them to their profile.
