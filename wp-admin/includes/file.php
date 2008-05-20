@@ -56,22 +56,6 @@ function get_temp_dir() {
 	return '/tmp/';
 }
 
-function validate_file( $file, $allowed_files = '' ) {
-	if ( false !== strpos( $file, '..' ))
-		return 1;
-
-	if ( false !== strpos( $file, './' ))
-		return 1;
-
-	if (':' == substr( $file, 1, 1 ))
-		return 2;
-
-	if (!empty ( $allowed_files ) && (!in_array( $file, $allowed_files ) ) )
-		return 3;
-
-	return 0;
-}
-
 function validate_file_to_edit( $file, $allowed_files = '' ) {
 	$file = stripslashes( $file );
 

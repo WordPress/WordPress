@@ -419,7 +419,7 @@ function get_page_template() {
 	if ( 'default' == $template )
 		$template = '';
 
-	if ( !empty($template) && file_exists(TEMPLATEPATH . "/$template") )
+	if ( !empty($template) && !validate_file($template) && file_exists(TEMPLATEPATH . "/$template") )
 		$template = TEMPLATEPATH . "/$template";
 	elseif ( file_exists(TEMPLATEPATH . "/page.php") )
 		$template = TEMPLATEPATH . "/page.php";
