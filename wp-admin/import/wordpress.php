@@ -357,6 +357,11 @@ class WP_Import {
 		$guid           = $this->get_tag( $post, 'guid' );
 		$post_author    = $this->get_tag( $post, 'dc:creator' );
 
+		$post_excerpt = $this->get_tag( $post, 'excerpt:encoded' );
+		$post_excerpt = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $post_excerpt);
+		$post_excerpt = str_replace('<br>', '<br />', $post_excerpt);
+		$post_excerpt = str_replace('<hr>', '<hr />', $post_excerpt);
+
 		$post_content = $this->get_tag( $post, 'content:encoded' );
 		$post_content = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $post_content);
 		$post_content = str_replace('<br>', '<br />', $post_content);
@@ -404,7 +409,7 @@ class WP_Import {
 
 			$post_author = $this->checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
-			$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_status', 'post_name', 'comment_status', 'ping_status', 'guid', 'post_parent', 'menu_order', 'post_type', 'post_password');
+			$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_excerpt', 'post_title', 'post_status', 'post_name', 'comment_status', 'ping_status', 'guid', 'post_parent', 'menu_order', 'post_type', 'post_password');
 			if ($post_type == 'attachment') {
 				$remote_url = $this->get_tag( $post, 'wp:attachment_url' );
 				if ( !$remote_url )

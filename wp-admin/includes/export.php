@@ -201,6 +201,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 <guid isPermaLink="false"><?php the_guid(); ?></guid>
 <description></description>
 <content:encoded><?php echo wxr_cdata( apply_filters('the_content_export', $post->post_content) ); ?></content:encoded>
+<excerpt:encoded><?php echo wxr_cdata( apply_filters('the_excerpt_export', $post->post_excerpt) ); ?></excerpt:encoded>
 <wp:post_id><?php echo $post->ID; ?></wp:post_id>
 <wp:post_date><?php echo $post->post_date; ?></wp:post_date>
 <wp:post_date_gmt><?php echo $post->post_date_gmt; ?></wp:post_date_gmt>
