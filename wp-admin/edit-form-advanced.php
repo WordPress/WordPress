@@ -52,17 +52,6 @@ $form_pingback = '<input type="hidden" name="post_pingback" value="' . (int) get
 
 $form_prevstatus = '<input type="hidden" name="prev_status" value="' . attribute_escape( $post->post_status ) . '" />';
 
-$form_trackback = '<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. attribute_escape( str_replace("\n", ' ', $post->to_ping) ) .'" />';
-
-if ('' != $post->pinged) {
-	$pings = '<p>'. __('Already pinged:') . '</p><ul>';
-	$already_pinged = explode("\n", trim($post->pinged));
-	foreach ($already_pinged as $pinged_url) {
-		$pings .= "\n\t<li>" . wp_specialchars($pinged_url) . "</li>";
-	}
-	$pings .= '</ul>';
-}
-
 $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabindex="3" value="' . attribute_escape( __('Save and Continue Editing') ) . '" />';
 
 ?>
@@ -284,6 +273,16 @@ function post_excerpt_meta_box($post) {
 add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'post', 'advanced', 'core');
 
 function post_trackback_meta_box($post) {
+	$form_trackback = '<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. attribute_escape( str_replace("\n", ' ', $post->to_ping) ) .'" />';
+	if ('' != $post->pinged) {
+		$pings = '<p>'. __('Already pinged:') . '</p><ul>';
+		$already_pinged = explode("\n", trim($post->pinged));
+		foreach ($already_pinged as $pinged_url) {
+			$pings .= "\n\t<li>" . wp_specialchars($pinged_url) . "</li>";
+		}
+		$pings .= '</ul>';
+	}
+
 ?>
 <p><label for="trackback"><?php _e('Send trackbacks to:'); ?></label> <?php echo $form_trackback; ?><br /> (<?php _e('Separate multiple URLs with spaces'); ?>)</p>
 <p><?php _e('Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress blogs they&#8217;ll be notified automatically using <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">pingbacks</a>, no other action necessary.'); ?></p>
