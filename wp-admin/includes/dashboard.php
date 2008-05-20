@@ -216,11 +216,11 @@ function wp_dashboard_dynamic_sidebar_params( $params ) {
 			$wp_registered_widgets[$widget_id]['callback'] = 'wp_dashboard_empty';
 			$sidebar_widget_name = $wp_registered_widget_controls[$widget_id]['name'];
 			$params[1] = 'wp_dashboard_trigger_widget_control';
-			$sidebar_before_widget .= '<form action="' . remove_query_arg( 'edit' )  . '" method="post">';
+			$sidebar_before_widget .= '<form action="' . clean_url(remove_query_arg( 'edit' ))  . '" method="post">';
 			$sidebar_after_widget   = "<div class='dashboard-widget-submit'><input type='hidden' name='sidebar' value='wp_dashboard' /><input type='hidden' name='widget_id' value='$widget_id' /><input type='submit' value='" . __( 'Save' ) . "' /></div></form>$sidebar_after_widget";
-			$links[] = '<a href="' . remove_query_arg( 'edit' ) . '">' . __( 'Cancel' ) . '</a>';
+			$links[] = '<a href="' . clean_url(remove_query_arg( 'edit' )) . '">' . __( 'Cancel' ) . '</a>';
 		} else {
-			$links[] = '<a href="' . add_query_arg( 'edit', $widget_id ) . "#$widget_id" . '">' . __( 'Edit' ) . '</a>';
+			$links[] = '<a href="' . clean_url(add_query_arg( 'edit', $widget_id )) . "#$widget_id" . '">' . __( 'Edit' ) . '</a>';
 		}
 	}
 

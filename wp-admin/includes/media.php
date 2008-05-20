@@ -966,7 +966,7 @@ if ( empty($_GET['post_mime_type']) && !empty($num_posts[$type]) ) {
 }
 if ( empty($_GET['post_mime_type']) || $_GET['post_mime_type'] == 'all' )
 	$class = ' class="current"';
-$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>'all', 'paged'=>false, 'm'=>false)) . "'$class>".__('All Types')."</a>";
+$type_links[] = "<li><a href='" . clean_url(add_query_arg(array('post_mime_type'=>'all', 'paged'=>false, 'm'=>false))) . "'$class>".__('All Types')."</a>";
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
@@ -976,7 +976,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
-	$type_links[] = "<li><a href='" . add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false)) . "'$class>" . sprintf(__ngettext($label[2][0], $label[2][1], $num_posts[$mime_type]), "<span id='$mime_type-counter'>" . number_format_i18n( $num_posts[$mime_type] ) . '</span>') . '</a>';
+	$type_links[] = "<li><a href='" . clean_url(add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false))) . "'$class>" . sprintf(__ngettext($label[2][0], $label[2][1], $num_posts[$mime_type]), "<span id='$mime_type-counter'>" . number_format_i18n( $num_posts[$mime_type] ) . '</span>') . '</a>';
 }
 echo implode(' | </li>', $type_links) . '</li>';
 unset($type_links);
