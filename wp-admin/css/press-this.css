@@ -1,147 +1,14 @@
-/* jquery tabs css */
 
-/* Caution! Ensure accessibility in print and other media types... */
-@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
-    .ui-tabs-hide {
-        display: none;
-    }
-}
-
-/* Hide useless elements in print layouts... */
-@media print {
-    .ui-tabs-nav {
-        display: none;
-    }
-}
-
-/* Skin */
-.ui-tabs-nav, .ui-tabs-panel {
-    font-family: "Trebuchet MS", Trebuchet, Verdana, Helvetica, Arial, sans-serif;
-    font-size: 12px;
-}
-.ui-tabs-nav {
-    list-style: none;
-    margin: 0;
-    padding: 0 0 0 4px;
-}
-.ui-tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
-    display: block;
-    clear: both;
-    content: " ";
-}
-.ui-tabs-nav li {
-    float: left;
-    margin: 0 0 0 1px;
-    min-width: 84px; /* be nice to Opera */
-}
-.ui-tabs-nav a, .ui-tabs-nav a span {
-    display: block;
-    padding: 0 10px;
-    background: url(../images/tab.png) no-repeat;
-}
-.ui-tabs-nav a {
-    margin: 1px 0 0; /* position: relative makes opacity fail for disabled tab in IE */
-    padding-left: 0;
-    color: #27537a;
-    font-weight: bold;
-    line-height: 1.2;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap; /* required in IE 6 */    
-    outline: 0; /* prevent dotted border in Firefox */
-}
-.ui-tabs-nav .ui-tabs-selected a {
-    position: relative;
-    top: 1px;
-    z-index: 2;
-    margin-top: 0;
-    color: #000;
-}
-.ui-tabs-nav a span {
-    width: 64px; /* IE 6 treats width as min-width */
-    min-width: 64px;
-    height: 18px; /* IE 6 treats height as min-height */
-    min-height: 18px;
-    padding-top: 6px;
-    padding-right: 0;
-}
-*>.ui-tabs-nav a span { /* hide from IE 6 */
-    width: auto;
-    height: auto;
-}
-.ui-tabs-nav .ui-tabs-selected a span {
-    padding-bottom: 1px;
-}
-.ui-tabs-nav .ui-tabs-selected a, .ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active {
-    background-position: 100% -150px;
-}
-.ui-tabs-nav a, .ui-tabs-nav .ui-tabs-disabled a:hover, .ui-tabs-nav .ui-tabs-disabled a:focus, .ui-tabs-nav .ui-tabs-disabled a:active {
-    background-position: 100% -100px;
-}
-.ui-tabs-nav .ui-tabs-selected a span, .ui-tabs-nav a:hover span, .ui-tabs-nav a:focus span, .ui-tabs-nav a:active span {
-    background-position: 0 -50px;
-}
-.ui-tabs-nav a span, .ui-tabs-nav .ui-tabs-disabled a:hover span, .ui-tabs-nav .ui-tabs-disabled a:focus span, .ui-tabs-nav .ui-tabs-disabled a:active span {
-    background-position: 0 0;
-}
-.ui-tabs-nav .ui-tabs-selected a:link, .ui-tabs-nav .ui-tabs-selected a:visited, .ui-tabs-nav .ui-tabs-disabled a:link, .ui-tabs-nav .ui-tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
-    cursor: text;
-}
-.ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active,
-.ui-tabs-nav .ui-tabs-unselect a:hover, .ui-tabs-nav .ui-tabs-unselect a:focus, .ui-tabs-nav .ui-tabs-unselect a:active { /* @ Opera, we need to be explicit again here now... */
-    cursor: pointer;
-}
-.ui-tabs-disabled {
-    opacity: .4;
-    filter: alpha(opacity=40);
-}
-.ui-tabs-panel {
-    border-top: 1px solid #97a5b0;
-    padding: 1em 8px;
-    background: #fff; /* declare background color for container to avoid distorted fonts in IE while fading */
-}
-.ui-tabs-loading em {
-    padding: 0 0 0 20px;
-    background: url(../images/loading.gif) no-repeat 0 50%;
-}
-
-/* Additional IE specific bug fixes... */
-* html .ui-tabs-nav { /* auto clear, @ IE 6 & IE 7 Quirks Mode */
-    display: inline-block;
-}
-*:first-child+html .ui-tabs-nav  { /* @ IE 7 Standards Mode - do not group selectors, otherwise IE 6 will ignore complete rule (because of the unknown + combinator)... */
-    display: inline-block;
-}
-
-/* end jquery tabs css */
-/* jquery thickbox css */
-/* ----------------------------------------------------------------------------------------------------------------*/
 /* ---------->>> global settings needed for thickbox <<<-----------------------------------------------------------*/
-/* ----------------------------------------------------------------------------------------------------------------*/
 *{padding: 0; margin: 0;}
 
-/* ----------------------------------------------------------------------------------------------------------------*/
 /* ---------->>> thickbox specific link and font settings <<<------------------------------------------------------*/
-/* ----------------------------------------------------------------------------------------------------------------*/
 #TB_window {
-	font: 12px Arial, Helvetica, sans-serif;
-	color: #333333;
 }
 
 #TB_secondLine {
-	font: 10px Arial, Helvetica, sans-serif;
-	color:#666666;
 }
 
-#TB_window a:link {color: #666666;}
-#TB_window a:visited {color: #666666;}
-#TB_window a:hover {color: #000;}
-#TB_window a:active {color: #666666;}
-#TB_window a:focus{color: #666666;}
-
-/* ----------------------------------------------------------------------------------------------------------------*/
-/* ---------->>> thickbox settings <<<-----------------------------------------------------------------------------*/
-/* ----------------------------------------------------------------------------------------------------------------*/
 #TB_overlay {
 	position: fixed;
 	z-index:100;
@@ -277,22 +144,205 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 /* end jquery thickbox css */
 
 /* quickpost css */
-div#container {
-	background-color: #fff;
-	padding: 0px 15px 0px 15px;
+
+
+
+
+body {
+font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+}
+/* jquery tabs css */
+
+/* Caution! Ensure accessibility in print and other media types... */
+@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+    .ui-tabs-hide {
+        display: none;
+    }
+}
+
+/* Hide useless elements in print layouts... */
+@media print {
+    .ui-tabs-nav {
+        display: none;
+    }
+}
+
+/* Skin */
+div.ui-tabs-panel {
+border: none;
+width: 100%;
+height: auto;
+margin: 0;
+padding: 0;
+position: relative;
+}
+.ui-tabs-nav {
+    list-style: none;
+	border-bottom: 1px solid #C6D9E9;
+	padding-left: 8px;
+	margin-bottom: .5em;
+	margin-top: -2em;
+
+}
+.ui-tabs-nav:after { /* clearing without presentational markup, IE gets extra treatment */
+    display: block;
+    clear: both;
+    content: " ";
+}
+.ui-tabs-nav li {
+    float: left;
+    margin: 0;
+	height: 2em;
+	line-height: 2em;
+}
+.ui-tabs-nav a, .ui-tabs-nav a span {
+    display: block;
+}
+.ui-tabs-nav a {
+    margin: 1px 0 0; /* position: relative makes opacity fail for disabled tab in IE */
+    padding-left: 0;
+    color: #27537a;
+    font-weight: bold;
+	line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap; /* required in IE 6 */    
+    outline: 0; /* prevent dotted border in Firefox */
+	padding: 0 1em;
+}
+.ui-tabs-nav .ui-tabs-selected a {
+    position: relative;
+    top: 1px;
+    z-index: 2;
+    margin-top: 0;
+	-moz-border-radius-topleft:4px;
+	-moz-border-radius-topright:4px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#C6D9E9 rgb(198, 217, 233) rgb(255, 255, 255);
+	color:#D54E21;
 	
 }
 
-div#container h2 {
-	margin: 15px 0px 0px 0px;
-	font-size: 15px;
+.ui-tabs-nav .ui-tabs-selected a {
+background: white;
+border-bottom-width:2px;
+margin-top: -2px;
 }
 
-div#container h2 span.optional {
-	font-size: 10px;
-	color: #bbb;
-	font-style: italic;
-	font-weight: normal;
+.ui-tabs-nav .ui-tabs-selected a:link, .ui-tabs-nav .ui-tabs-selected a:visited, .ui-tabs-nav .ui-tabs-disabled a:link, .ui-tabs-nav .ui-tabs-disabled a:visited { 
+/* @ Opera, use pseudo classes otherwise it confuses cursor... */
+    cursor: pointer;
+
+}
+.ui-tabs-nav a:hover, .ui-tabs-nav a:focus, .ui-tabs-nav a:active,
+.ui-tabs-nav .ui-tabs-unselect a:hover, .ui-tabs-nav .ui-tabs-unselect a:focus, .ui-tabs-nav .ui-tabs-unselect a:active {
+/* @ Opera, we need to be explicit again here now... */
+    cursor: pointer;
+}
+.ui-tabs-loading em {
+    padding: 0 0 0 20px;
+    background: url(../images/loading.gif) no-repeat 0 50%;
+}
+
+/* Additional IE specific bug fixes... */
+* html .ui-tabs-nav { /* auto clear, @ IE 6 & IE 7 Quirks Mode */
+    display: inline-block;
+}
+*:first-child+html .ui-tabs-nav  { /* @ IE 7 Standards Mode - do not group selectors, otherwise IE 6 will ignore complete rule (because of the unknown + combinator)... */
+    display: inline-block;
+}
+
+#wphead {
+border-top: none;
+}
+.submit input {
+}
+
+#wphead {
+	height: 2em;
+	padding-top: 8px;
+}
+
+#wphead #viewsite {
+	position: absolute;
+	margin-top: 12px;
+	margin-left: 10px;
+}
+
+#viewsite {
+	position: relative;
+	right: 8px;
+	top: 6px;
+	margin: 0 !important;
+}
+#wphead #viewsite a {
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 3px 4px;
+	display: block;
+	letter-spacing: normal;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+#previewview {
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
+}
+h1 {
+	font-size: .75em;
+	line-height: 2.666em;
+	top: .5em;
+	right: 0;
+	margin: 0 !important;
+	padding: 0 !important;
+	width:236px;
+	background: none;
+}
+
+
+input.text {
+	border:0pt none;
+	outline-color:-moz-use-text-color;
+	outline-style:none;
+	outline-width:medium;
+	padding:0pt;
+	width:100%;
+	border-style:solid;
+	color:#333333;
+}
+.titlewrap {
+	border-style:solid;
+	border-width:1px;
+	padding:2px 3px;
+	border-color:#CCCCCC;
+}
+div#container {
+
+	margin: 0;
+	min-width: 500px;
+	
+}
+
+div#posting {
+	padding-left: 16px;
+	position:absolute;
+	z-index:1;
+	width: 66%;
+}
+
+div#posting h2 {
+	margin: .5em 0 .25em 0 ;
+	font-size: 12px;
+	padding: 3px;
+	background: ;
 }
 
 div#container form {
@@ -301,42 +351,23 @@ div#container form {
 }
 
 div#categories {
-  float:right;
-	width:30%;
-	padding: 0px 5px 0px 5px;
+	font-size: 85%;
+	position: absolute;
+	top: 1.9em;
+	right: 16px;
+	width: 27%;
+	z-index: 2;
 }
-
-div#posting {
-  float:left;
-  width:65%;
-	padding: 0px 5px 0px 5px;
-}
-
-textarea, input.text {
-	font: Normal 12px 'Lucida Grande', Verdana, Helvetica, sans-serif;
-	border: solid 1px #ccc;
-	background-color: #f4f4f4;
-}
-
-input.text {
-	width: 99%;
-	padding: 3px;
-}
-
-body {
-	background-color: #fff;
-	margin: 0px;
-	padding: 5px;
-	font: Normal 13px 'Lucida Grande', Verdana, Helvetica, sans-serif;
-}
-
-a {
-	color: #007BFF;
+div#categories h2 {
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
 }
 
 #categories-all {
 	overflow: auto;
-	height: 30em;	
+	padding: 1em;
+	height: 20em;
 }
 
 #categories ul {
@@ -349,6 +380,7 @@ a {
 	border-width: 1px;
 	border-color: #ccc;
 	border-style: solid;
+	margin-bottom: 1em;
 }
 
 #tagsdiv #newtag {
@@ -395,4 +427,72 @@ a {
 	display: block;
 }
 
+#post_title {
+	width: 99%;
+}
+
 /* end quickpost css */
+#img_container {
+	background-color: #fff; 
+	margin-top:10px; overflow:auto; height:100px;
+}
+#img_container img {
+	width:          75px;
+    height:         75px;
+    padding:        2px;
+    background-color: #f4f4f4;
+    margin-right:   7px; 
+    margin-bottom:  7px; 
+    cursor:         pointer;
+}
+
+.submitbox {
+	width: 180px;
+	float: right;
+}
+
+
+.submitbox .submit {
+	text-align: left;
+	padding: 12px 10px 10px 10px;
+	font-size: 11px;
+}
+
+.submit {
+	border-top: 1px solid #ccc;
+	padding: 1.5em 0 0 0;
+	margin: 10px 0 0 0;
+	-moz-border-radius-bottomleft: 3px;
+	-khtml-border-bottom-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-khtml-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+.submitbox .submit a:hover {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+.submitbox .submit input {
+	margin-bottom: 8px;
+	margin-right: 3px;
+	padding: 6px 4px;
+	border: none;
+	cursor: pointer;
+}
+
+.submitbox #previewview {
+	padding: 15px 10px;
+	-moz-border-radius-topleft: 3px;
+	-khtml-border-top-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
