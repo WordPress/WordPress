@@ -52,28 +52,90 @@ form#upload #post_content {
 	margin: 10px 20px 10px 20px;
 }
 
-.available-theme {
-	width: 30%;
-	margin: 0 1em;
-	float: left;
-	text-align: center;
-	height: 28em;
-	overflow: hidden;
+table#availablethemes {
+	border-spacing: 0px;
+	border: none;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	margin: 10px auto;
+}
+td.available-theme {
+	vertical-align: top;
+	width: 240px;
+	margin: 0;
+	padding: 20px;
+	text-align: left;
+}
+table#availablethemes td {
+	border: 1px solid #eee;
+	border-top: none;
+}
+table#availablethemes td.top {
+	border-top: none;
+}
+table#availablethemes td.right {
+	border-right: none;
+	border-left: none;
+}
+table#availablethemes td.bottom {
+	border-bottom: none;
+}
+table#availablethemes td.left {
+	border-right: none;
+	border-left: none;
 }
 
 .available-theme a.screenshot {
-	width: 250px;
-	height: 200px;
+	width: 240px;
+	height: 180px;
 	display: block;
-	margin: auto;
+	border: 1px solid #efefef;
 	margin-bottom: 10px;
 	overflow: hidden;
-	border-width: 1px;
-	border-style: solid;
+}
+.available-theme img {
+	width: 240px;
+}
+.available-theme h3 {
+	margin: 15px 0 5px;
 }
 
-.available-theme img {
-	width: 100%;
+#current-theme {
+	margin-top: 1em;
+}
+
+#current-theme a {
+	border-bottom: none;
+}
+
+#current-theme h3 {
+	font-size: 17px;
+	font-weight: normal;
+	margin: 0;
+}
+
+#current-theme .description {
+	margin-top: 5px;
+}
+
+#current-theme img {
+	float: left;
+	border: 1px solid #666;
+	margin-right: 1em;
+	margin-bottom: 1.5em;
+	width: 150px;
+}
+
+#TB_window #TB_title a.tb-theme-preview-link,
+#TB_window #TB_title a.tb-theme-preview-link:visited {
+	font-weight: bold;
+	color: #999;
+	text-decoration: none;
+}
+
+#TB_window #TB_title a.tb-theme-preview-link:hover,
+#TB_window #TB_title a.tb-theme-preview-link:focus {
+	color: #ccc;
 }
 
 .checkbox {
@@ -247,15 +309,6 @@ textarea.all-options, input.all-options {
 	border-style: none solid solid;
 	border-width: 1px;
 	border-collapse: separate;
-}
-
-#currenttheme img {
-	float: left;
-	margin-right: 1em;
-	margin-bottom: 1.5em;
-	width: 300px;
-	border-width: 1px;
-	border-style: solid;
 }
 
 #quicktags {

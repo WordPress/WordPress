@@ -49,12 +49,16 @@ if ( isset($page_hook) )
 	do_action('admin_print_scripts-' . $page_hook);
 else if ( isset($plugin_page) )
 	do_action('admin_print_scripts-' . $plugin_page);
+else if ( isset($pagenow) )
+	do_action('admin_print_scripts-' . $pagenow);
 do_action('admin_print_scripts');
 
 if ( isset($page_hook) )
 	do_action('admin_head-' . $page_hook);
 else if ( isset($plugin_page) )
 	do_action('admin_head-' . $plugin_page);
+else if ( isset($pagenow) )
+	do_action('admin_head-' . $pagenow);
 do_action('admin_head');
 ?>
 </head>

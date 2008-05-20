@@ -45,17 +45,19 @@
 
 #TB_window {
 	position: fixed;
+	background: #ffffff;
 	z-index: 102;
 	color:#000000;
 	display:none;
+	border: 4px solid #525252;
 	text-align:left;
-	top:20px;
+	top:50%;
 	left:50%;
 }
 
 * html #TB_window { /* ie6 hack */
 position: absolute;
-margin-top: expression(20) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
+margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
 }
 
 #TB_window img#TB_Image {
@@ -80,24 +82,19 @@ margin-top: expression(20) + (TBWindowMargin = document.documentElement && docum
 }
 
 #TB_closeAjaxWindow{
-	padding:7px 10px 5px 0;
-	margin-bottom:1px;
+	padding:6px 10px 0;
 	text-align:right;
 	float:right;
 }
 
 #TB_ajaxWindowTitle{
 	float:left;
-	padding:7px 0 5px 10px;
-	margin-bottom:1px;
+	padding:6px 10px 0;
 }
 
 #TB_title{
 	background-color:#e8e8e8;
 	height:27px;
-	border-width: 4px;
-	border-color: #525252;
-	border-style: solid solid none;
 }
 
 #TB_ajaxContent{
@@ -155,6 +152,5 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 	clear:both;
 	border:none;
 	margin-bottom:-1px;
-	margin-top:1px;
 	_margin-bottom:1px;
 }

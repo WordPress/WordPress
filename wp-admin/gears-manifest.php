@@ -33,13 +33,13 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' ); // applicatio
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $version; ?>_20080511",
+"version" : "<?php echo $version; ?>_20080520",
 "entries" : [
 <?php echo $default_js; ?>
 
 { "url" : "wp-admin.css?version=2.6-bleeding" },
 { "url" : "rtl.css?version=2.6-bleeding" },
-{ "url" : "../wp-includes/js/thickbox/thickbox.css?ver=20080430" },
+{ "url" : "../wp-includes/js/thickbox/thickbox.css?version=2.6-bleeding" },
 { "url" : "css/colors-classic-rtl.css?version=2.6-bleeding" },
 { "url" : "css/colors-classic.css?version=2.6-bleeding" },
 { "url" : "css/colors-fresh-rtl.css?version=2.6-bleeding" },
@@ -56,6 +56,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' ); // applicatio
 { "url" : "css/login.css?version=2.6-bleeding" },
 { "url" : "css/media-rtl.css?version=2.6-bleeding" },
 { "url" : "css/media.css?version=2.6-bleeding" },
+{ "url" : "css/press-this.css?version=2.6-bleeding" },
 { "url" : "css/theme-editor-rtl.css?version=2.6-bleeding" },
 { "url" : "css/theme-editor.css?version=2.6-bleeding" },
 { "url" : "css/upload-rtl.css?version=2.6-bleeding" },

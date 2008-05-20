@@ -13,6 +13,10 @@ if ( isset($_GET['action']) ) {
 
 $title = __('Manage Themes');
 $parent_file = 'themes.php';
+
+add_thickbox();
+wp_enqueue_script( 'theme-preview' );
+
 require_once('admin-header.php');
 ?>
 
@@ -29,12 +33,12 @@ $ct = current_theme_info();
 
 <div class="wrap">
 <h2><?php _e('Current Theme'); ?></h2>
-<div id="currenttheme">
+<div id="current-theme">
 <?php if ( $ct->screenshot ) : ?>
 <img src="<?php echo get_option('siteurl') . '/' . $ct->stylesheet_dir . '/' . $ct->screenshot; ?>" alt="<?php _e('Current theme preview'); ?>" />
 <?php endif; ?>
 <h3><?php printf(_c('%1$s %2$s by %3$s|1: theme title, 2: theme version, 3: theme author'), $ct->title, $ct->version, $ct->author) ; ?></h3>
-<p><?php echo $ct->description; ?></p>
+<p class="description"><?php echo $ct->description; ?></p>
 <?php if ($ct->parent_theme) { ?>
 	<p><?php printf(__('The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $ct->title, $ct->template_dir, $ct->stylesheet_dir, $ct->title, $ct->parent_theme); ?></p>
 <?php } else { ?>
@@ -47,16 +51,31 @@ $ct = current_theme_info();
 
 <h2><?php _e('Available Themes'); ?></h2>
 <?php if ( 1 < count($themes) ) { ?>
-
+<table id="availablethemes" cellspacing="0" cellpadding="0">
 <?php
 $style = '';
 
 $theme_names = array_keys($themes);
 natcasesort($theme_names);
 
-foreach ($theme_names as $theme_name) {
-	if ( $theme_name == $ct->name )
-		continue;
+$rows = ceil(count($theme_names) / 3);
+for ( $row = 1; $row <= $rows; $row++ )
+	for ( $col = 1; $col <= 3; $col++ )
+		$table[$row][$col] = array_shift($theme_names);
+
+foreach ( $table as $row => $cols ) {
+?>
+<tr>
+<?php
+foreach ( $cols as $col => $theme_name ) {
+	$class = array('available-theme');
+	if ( $row == 1 ) $class[] = 'top';
+	if ( $col == 1 ) $class[] = 'left';
+	if ( $row == $rows ) $class[] = 'bottom';
+	if ( $col == 3 ) $class[] = 'right';
+?>
+	<td class="<?php echo join(' ', $class); ?>">
+<?php if ( !empty($theme_name) ) :
 	$template = $themes[$theme_name]['Template'];
 	$stylesheet = $themes[$theme_name]['Stylesheet'];
 	$title = $themes[$theme_name]['Title'];
@@ -65,25 +84,32 @@ foreach ($theme_names as $theme_name) {
 	$author = $themes[$theme_name]['Author'];
 	$screenshot = $themes[$theme_name]['Screenshot'];
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
+	$preview_link = clean_url( get_option('home') . '/');
+	$preview_link = add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true', 'width' => 600, 'height' => 400 ), $preview_link );
+	$preview_text = attribute_escape( sprintf( __('Preview of "%s"'), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
+	$thickbox_class = 'thickbox';
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
+	$activate_text = attribute_escape( sprintf( __('Activate "%s"'), $title ) );
 ?>
-<div class="available-theme">
-<h3><a href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
-
-<a href="<?php echo $activate_link; ?>" class="screenshot">
+		<a href="<?php echo $activate_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
-<img src="<?php echo get_option('siteurl') . '/' . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
+			<img src="<?php echo ( $tpage == 'stage' ) ? $screenshot : get_option('siteurl') . '/' . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
-</a>
-
-<p><?php echo $description; ?></p>
+		</a>
+		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
+		<p><?php echo $description; ?></p>
 <?php if ( $tags ) : ?>
-<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
+		<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
+		<noscript><p class="themeactions"><a href="<?php echo $preview_link; ?>" title="<?php echo $preview_text; ?>"><?php _e('Preview'); ?></a> <a href="<?php echo $activate_link; ?>" title="<?php echo $activate_text; ?>"><?php _e('Activate'); ?></a></p></noscript>
 <?php endif; ?>
-</div>
-<?php } // end foreach theme_names ?>
-
+		<div style="display:none;"><a class="previewlink" href="<?php echo $preview_link; ?>"><?php echo $preview_text; ?></a> <a class="activatelink" href="<?php echo $activate_link; ?>"><?php echo $activate_text; ?></a></div>
+<?php endif; // end if not empty theme_name ?>
+	</td>
+<?php } // end foreach $cols ?>
+</tr>
+<?php } // end foreach $table ?>
+</table>
 <?php } ?>
 
 <?php

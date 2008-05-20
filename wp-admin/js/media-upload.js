@@ -21,7 +21,10 @@ jQuery(function($) {
 		if ( tbWindow.size() ) {
 			tbWindow.width( W - 50 ).height( H - 45 );
 			$('#TB_iframeContent').width( W - 50 ).height( H - 75 );
-			tbWindow.css({marginLeft: '-' + parseInt((( W - 50 ) / 2),10) + 'px'});
+			tbWindow.css({'margin-left': '-' + parseInt((( W - 50 ) / 2),10) + 'px','top':'20px','margin-top':'0'});
+			$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
+			if ( $.browser.msie && $.browser.version.substr(0,1) < 7 ) 
+				tbWindow.css({'margin-top':document.documentElement.scrollTop+'px'});
 		};
 
 		return $('a.thickbox').each( function() {

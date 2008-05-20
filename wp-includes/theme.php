@@ -479,6 +479,48 @@ function locale_stylesheet() {
 	echo '<link rel="stylesheet" href="' . $stylesheet . '" type="text/css" media="screen" />';
 }
 
+function preview_theme() {
+	if ( ! (isset($_GET['template']) && isset($_GET['preview'])) )
+		return;
+
+	if ( !current_user_can( 'switch_themes' ) )
+		return;
+
+	$_GET[template] = preg_replace('|[^a-z0-9]|i', '', $_GET[template]);
+
+	add_filter('template', create_function('', "return '$_GET[template]';") );
+
+	if ( isset($_GET['stylesheet']) ) {
+		$_GET[stylesheet] = preg_replace('|[^a-z0-9]|i', '', $_GET[stylesheet]);
+		add_filter('stylesheet', create_function('', "return '$_GET[stylesheet]';") );
+	}
+
+	ob_start( 'preview_theme_ob_filter' );
+}
+add_action('setup_theme', 'preview_theme');
+
+function preview_theme_ob_filter( $content ) {
+	return preg_replace_callback( "|(<a.*?href=([\"']))(.*?)([\"'].*?>)|", 'preview_theme_ob_filter_callback', $content );
+}
+
+function preview_theme_ob_filter_callback( $matches ) {
+	if (
+		( false !== strpos($matches[3], '/wp-admin/') )
+	||
+		( false !== strpos($matches[3], '://') && 0 !== strpos($matches[3], get_option('home')) )
+	||
+		( false !== strpos($matches[3], '/feed/') )
+	||
+		( false !== strpos($matches[3], '/trackback/') )
+	)
+		return $matches[1] . "#$matches[2] onclick=$matches[2]return false;" . $matches[4];
+
+	$link = add_query_arg( array('preview' => 1, 'template' => $_GET['template'], 'stylesheet' => @$_GET['stylesheet'] ), $matches[3] );
+	if ( 0 === strpos($link, 'preview=1') )
+		$link = "?$link";
+	return $matches[1] . attribute_escape( $link ) . $matches[4];
+}
+
 function switch_theme($template, $stylesheet) {
 	update_option('template', $template);
 	update_option('stylesheet', $stylesheet);

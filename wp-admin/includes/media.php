@@ -167,34 +167,20 @@ function media_buttons() {
 	$audio_title = __('Add Audio');
 	$out = <<<EOF
 
-	<a href="{$image_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$image_title'><img src='images/media-button-image.gif' alt='$image_title' /></a>
-	<a href="{$video_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$video_title'><img src='images/media-button-video.gif' alt='$video_title' /></a>
-	<a href="{$audio_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$audio_title'><img src='images/media-button-music.gif' alt='$audio_title' /></a>
-	<a href="{$media_upload_iframe_src}&amp;TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title='$media_title'><img src='images/media-button-other.gif' alt='$media_title' /></a>
+	<a href="{$image_upload_iframe_src}&amp;TB_iframe=true" class="thickbox" title='$image_title'><img src='images/media-button-image.gif' alt='$image_title' /></a>
+	<a href="{$video_upload_iframe_src}&amp;TB_iframe=true" class="thickbox" title='$video_title'><img src='images/media-button-video.gif' alt='$video_title' /></a>
+	<a href="{$audio_upload_iframe_src}&amp;TB_iframe=true" class="thickbox" title='$audio_title'><img src='images/media-button-music.gif' alt='$audio_title' /></a>
+	<a href="{$media_upload_iframe_src}&amp;TB_iframe=true" class="thickbox" title='$media_title'><img src='images/media-button-other.gif' alt='$media_title' /></a>
 
 EOF;
 	printf($context, $out);
 }
 add_action( 'media_buttons', 'media_buttons' );
 
-function media_buttons_head() {
-$siteurl = get_option('siteurl');
-echo "<style type='text/css' media='all'>
-	@import '{$siteurl}/wp-includes/js/thickbox/thickbox.css?ver=20080430';
-	div#TB_title {
-		background-color: #222222;
-		color: #cfcfcf;
-	}
-	div#TB_title a, div#TB_title a:visited {
-		color: #cfcfcf;
-	}
-	#TB_window {
-		top: 20px;
-	}
-</style>\n";
-}
-
-add_action( 'admin_print_scripts', 'media_buttons_head' );
+add_action( 'admin_print_scripts-post-new.php', 'add_thickbox' );
+add_action( 'admin_print_scripts-post.php', 'add_thickbox' );
+add_action( 'admin_print_scripts-page-new.php', 'add_thickbox' );
+add_action( 'admin_print_scripts-page.php', 'add_thickbox' );
 
 function media_admin_css() {
 	wp_admin_css('css/media');

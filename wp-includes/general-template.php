@@ -1139,6 +1139,8 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 			$color = $_wp_admin_css_colors[$color];
 			$_file = $color->url;
 			$_file = ('css/colors-rtl' == $file) ? str_replace('.css','-rtl.css',$_file) : $_file;
+		} elseif ( 'css/thickbox' == $file ) {
+			$_file = get_option( 'siteurl' ) . "/wp-includes/js/thickbox/thickbox.css";
 		} else {
 			$_file = get_option( 'siteurl' ) . "/wp-admin/$file.css";
 		}
@@ -1155,6 +1157,15 @@ function wp_admin_css( $file = 'wp-admin' ) {
 		$rtl = ( 'wp-admin' == $file ) ? 'rtl' : "$file-rtl";
 		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $rtl ) . "' type='text/css' />\n", $rtl );
 	}
+}
+
+function add_thickbox() {
+	wp_enqueue_script( 'thickbox' );
+	add_action( 'admin_print_scripts', 'add_thickbox_css' );
+}
+
+function add_thickbox_css() {
+	wp_admin_css( 'css/thickbox' );
 }
 
 /**

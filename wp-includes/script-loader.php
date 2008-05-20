@@ -205,6 +205,8 @@ class WP_Scripts {
 				'updateCompleted' => __('Update completed.'),
 				'error' => __('Error:')
 			));
+			
+			$this->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'dimensions' ), '20080515' );
 		}
 	}
 

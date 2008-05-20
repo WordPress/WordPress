@@ -194,7 +194,7 @@ if ( empty($_GET['tab']) ) {
 	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
 <?php
 	wp_enqueue_script('jquery-ui-tabs');
-	wp_enqueue_script('thickbox');
+	add_thickbox();
 	wp_enqueue_script('post');
 	do_action('admin_print_scripts'); 
 	do_action('admin_head');

@@ -425,6 +425,7 @@ $wp_rewrite   =& new WP_Rewrite();
  */
 $wp           =& new WP();
 
+do_action('setup_theme');
 
 /**
  * Web Path to the current active template directory
