@@ -104,10 +104,10 @@ function get_images_from_uri($uri) {
 		if ( false !== strpos($src, '&') )
 			continue;
 		
-		$host = parse_url($_GET['u'], PHP_URL_HOST);
+		$host = parse_url($_GET['u']);
 		
 		if (strpos($src, 'http://') === false) {
-			$src = 'http://'.str_replace('//','/', $host.'/'.$src);
+			$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 		}
 		
 		$sources[] = $src;
