@@ -49,6 +49,17 @@ ul#widget-list li.widget-list-item {
 	line-height: 1;
 }
 
+h4.widget-title span {
+	float: left;
+}
+
+h4.widget-title a {
+	float: right;
+	text-decoration: underline;
+	border-bottom: none;
+	margin-left: 1em;
+}
+
 ul#widget-list li.widget-list-item h4.widget-title {
 	position: relative;
 	margin: 0;
@@ -59,7 +70,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	border-radius: 3px;;
+	border-radius: 3px;
 }
 
 #dragHelper h4.widget-title {
@@ -108,7 +119,7 @@ li.widget-sortable h4 {
 	margin: 0;
 	cursor: move;
 	font-size: 13px;
-	padding: 0.4em 2.5em 0.4em 0.8em;
+	padding: 0.4em 0.8em;
 	position: relative;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
@@ -125,13 +136,6 @@ li.widget-sortable h4 {
 	margin-right: 8px;
 	float: left;
 	text-decoration: none;
-}
-
-h4.widget-title a {
-	position: absolute;
-	right: 1em;
-	text-decoration: underline;
-	border-bottom: none;
 }
 
 li.widget-list-control-item h4.widget-title a,

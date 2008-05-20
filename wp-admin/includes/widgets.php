@@ -102,7 +102,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 		<li id="widget-list-item-<?php echo attribute_escape( $widget['id'] ); ?>" class="widget-list-item">
 			<h4 class="widget-title widget-draggable">
 
-				<?php echo $widget_title; ?>
+				<span><?php echo $widget_title; ?></span>
 
 				<?php if ( 'add' == $action ) : ?>
 
@@ -115,6 +115,8 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 				<a class="widget-action widget-control-edit" href="<?php echo $edit_url; ?>" style="display: none;"><?php _e( 'Edit' ); ?></a>
 
 				<?php endif; ?>
+
+				<br class="clear" />
 
 			</h4>
 
@@ -228,7 +230,7 @@ function wp_widget_control( $sidebar_args ) {
 		echo $sidebar_args['before_widget'];
 ?>
 		<div class="widget-top">
-		<h4 class="widget-title"><?php echo $widget_title ?>
+		<h4 class="widget-title"><span><?php echo $widget_title ?></span>
 
 			<?php if ( $edit ) : ?>
 
@@ -239,6 +241,8 @@ function wp_widget_control( $sidebar_args ) {
 			<a class="widget-action widget-control-edit" href="<?php echo clean_url( add_query_arg( array( 'edit' => $id_format, 'key' => $key ) ) ); ?>"><?php _e('Edit'); ?></a>
 
 			<?php endif; ?>
+
+			<br class="clear" />
 
 		</h4></div>
 
