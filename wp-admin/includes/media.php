@@ -199,6 +199,8 @@ function media_upload_form_handler() {
 			$post['post_title'] = $attachment['post_title'];
 		if ( isset($attachment['post_excerpt']) )
 			$post['post_excerpt'] = $attachment['post_excerpt'];
+		if ( isset($attachment['menu_order']) )
+			$post['menu_order'] = $attachment['menu_order'];
 
 		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
 
@@ -399,6 +401,7 @@ function media_upload_gallery() {
 			$errors = $return;
 	}
 
+	wp_enqueue_script('admin-gallery');
 	return wp_iframe( 'media_upload_gallery_form', $errors );
 }
 
@@ -534,6 +537,10 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 				jQuery('button.url-$post->ID').bind('click', function(){jQuery(this).siblings('input').val(this.value);});
 				</script>\n",
 			'helps'      => __('Enter a link URL or click above for presets.'),
+		),
+    	'menu_order'   => array(
+			'label'      => __('Order'),
+			'value'      => $edit_post->menu_order
 		),
 	);
 
