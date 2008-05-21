@@ -10,7 +10,7 @@
  * Depends:
  *	ui.core.js
  *
- * Revision: $Id: ui.tabs.js 5547 2008-05-10 08:33:38Z klaus.hartl $
+ * Revision: $Id: ui.tabs.js 5641 2008-05-20 02:53:23Z scott.gonzalez $
  */
 ;(function($) {
 	
@@ -78,10 +78,10 @@
 			if (init) {
 
 				// attach necessary classes for styling if not present
-				this.element.hasClass(o.navClass) || this.element.addClass(o.navClass);
+				this.element.addClass(o.navClass);
 				this.$panels.each(function() {
 					var $this = $(this);
-					$this.hasClass(o.panelClass) || $this.addClass(o.panelClass);
+					$this.addClass(o.panelClass);
 				});
 
 				// Selected tab
@@ -330,9 +330,10 @@
 			var $panel = $('#' + id);
 			if (!$panel.length) {
 				$panel = $(o.panelTemplate).attr('id', id)
-					.addClass(o.panelClass).addClass(o.hideClass);
-				$panel.data('destroy.tabs', true);
+					.addClass(o.hideClass)
+					.data('destroy.tabs', true);
 			}
+			$panel.addClass(o.panelClass);
 			if (index >= this.$lis.length) {
 				$li.appendTo(this.element);
 				$panel.appendTo(this.element[0].parentNode);
@@ -435,7 +436,7 @@
 			
 			var inner = function(parent) {
 				var $parent = $(parent), $inner = $parent.find('*:last');
-				return $inner.length && $inner || $parent;
+				return $inner.length && $inner || $parent;
 			};
 			var cleanup = function() {
 				self.$tabs.filter('.' + o.loadingClass).removeClass(o.loadingClass)

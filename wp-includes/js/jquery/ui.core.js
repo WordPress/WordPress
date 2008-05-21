@@ -7,7 +7,7 @@
  *
  * http://docs.jquery.com/UI
  *
- * $Id: ui.core.js 5587 2008-05-13 19:56:42Z scott.gonzalez $
+ * $Id: ui.core.js 5634 2008-05-19 20:53:51Z joern.zaefferer $
  */
 ;(function($) {
 	
@@ -82,7 +82,7 @@
 		var methods = $[namespace][plugin].getter || [];
 		methods = (typeof methods == "string" ? methods.split(/,?\s+/) : methods);
 		return ($.inArray(method, methods) != -1);
-	};
+	}
 	
 	var widgetPrototype = {
 		init: function() {},
@@ -109,13 +109,13 @@
 		var namespace = name.split(".")[0];
 		name = name.split(".")[1];
 		// create plugin method
-		$.fn[name] = function(options, data) {
-			var isMethodCall = (typeof options == 'string');
-			[].shift.call(arguments);
+		$.fn[name] = function(options) {
+			var isMethodCall = (typeof options == 'string'),
+				args = Array.prototype.slice.call(arguments, 1);
 			
 			if (isMethodCall && getter(namespace, name, options)) {
 				var instance = $.data(this[0], name);
-				return (instance ? instance[options].apply(instance, arguments)
+				return (instance ? instance[options].apply(instance, args)
 					: undefined);
 			}
 			
@@ -124,7 +124,7 @@
 				if (!instance) {
 					$.data(this, name, new $[namespace][name](this, options));
 				} else if (isMethodCall) {
-					instance[options].apply(instance, arguments);
+					instance[options].apply(instance, args);
 				}
 			});
 		};

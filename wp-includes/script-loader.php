@@ -72,7 +72,7 @@ function wp_default_scripts( $scripts ) {
 
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
-	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.3');
+	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.5');
 	$scripts->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '2.02');
 	$scripts->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '2.0-4561');
 	$scripts->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
@@ -109,6 +109,7 @@ function wp_default_scripts( $scripts ) {
 
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.5b4' );
 	$scripts->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery-ui-core'), '1.5b4' );
+	$scripts->add( 'jquery-ui-sortable', '/wp-includes/js/jquery/ui.sortable.js', array('jquery-ui-core'), '1.5b4' );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
@@ -164,6 +165,7 @@ function wp_default_scripts( $scripts ) {
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
 		) );
+		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080520' );
 		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080430' );
 		$scripts->localize( 'upload', 'uploadL10n', array(
 			'browseTitle' => attribute_escape(__('Browse your files')),
