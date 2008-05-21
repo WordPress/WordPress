@@ -29,6 +29,28 @@ require_once('admin-header.php');
 <?php
 $themes = get_themes();
 $ct = current_theme_info();
+
+ksort( $themes );
+$theme_total = count( $themes );
+$per_page = 15;
+
+if ( isset( $_GET['pagenum'] ) )
+	$page = absint( $_GET['pagenum'] );
+
+if ( empty($page) )
+	$page = 1;
+
+$start = $offset = ( $page - 1 ) * $per_page;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'pagenum', '%#%' ) . '#themenav',
+	'format' => '',
+	'total' => ceil($theme_total / $per_page),
+	'current' => $page
+));
+
+$themes = array_slice( $themes, $start, $per_page );
+
 ?>
 
 <div class="wrap">
@@ -50,7 +72,17 @@ $ct = current_theme_info();
 </div>
 
 <h2><?php _e('Available Themes'); ?></h2>
-<?php if ( 1 < count($themes) ) { ?>
+<br class="clear" />
+
+<?php if ( $page_links ) : ?>
+<div class="tablenav">
+<?php echo "<div class='tablenav-pages'>$page_links</div>"; ?>
+<br class="clear" />
+</div>
+<br class="clear" />
+<?php endif; ?>
+
+<?php if ( 1 < $theme_total ) { ?>
 <table id="availablethemes" cellspacing="0" cellpadding="0">
 <?php
 $style = '';
@@ -111,6 +143,17 @@ foreach ( $cols as $col => $theme_name ) {
 <?php } // end foreach $table ?>
 </table>
 <?php } ?>
+
+<br class="clear" />
+
+<?php if ( $page_links ) : ?>
+<div class="tablenav">
+<?php echo "<div class='tablenav-pages'>$page_links</div>"; ?>
+<br class="clear" />
+</div>
+<?php endif; ?>
+
+<br class="clear" />
 
 <?php
 // List broken themes, if any.
