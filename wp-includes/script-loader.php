@@ -48,14 +48,6 @@ function wp_default_scripts( $scripts ) {
 
 	$scripts->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20080508' );
 
-	$scripts->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
-	$scripts->localize( 'wp-ajax', 'WPAjaxL10n', array(
-		'defaultUrl' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
-		'permText' => __("You do not have permission to do that."),
-		'strangeText' => __("Something strange happened.  Try refreshing the page."),
-		'whoaText' => __("Slow down, I'm still sending your data!")
-	) );
-
 	$scripts->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080411' );
 	$scripts->localize( 'wp-lists', 'wpListL10n', array(
 		'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
