@@ -9,7 +9,7 @@
 
 define('APP_REQUEST', true);
 
-require_once('./wp-config.php');
+require_once('./wp-load.php');
 require_once(ABSPATH . WPINC . '/post-template.php');
 require_once(ABSPATH . WPINC . '/atomlib.php');
 require_once(ABSPATH . WPINC . '/feed.php');

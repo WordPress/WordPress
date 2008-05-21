@@ -1,5 +1,5 @@
 <?php
-require( dirname(__FILE__) . '/wp-config.php' );
+require( dirname(__FILE__) . '/wp-load.php' );
 
 // Rather than duplicating this HTML all over the place, we'll stick it in function
 function login_header($title = 'Login', $message = '', $wp_error = '') {

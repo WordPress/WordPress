@@ -1,7 +1,7 @@
 <?php
 
 if (empty($wp)) {
-	require_once('./wp-config.php');
+	require_once('./wp-load.php');
 	wp();
 }
 

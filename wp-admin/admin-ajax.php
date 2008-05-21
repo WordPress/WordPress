@@ -1,7 +1,7 @@
 <?php
 define('DOING_AJAX', true);
 
-require_once('../wp-config.php');
+require_once('../wp-load.php');
 require_once('includes/admin.php');
 
 if ( !is_user_logged_in() )

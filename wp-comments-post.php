@@ -5,7 +5,7 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 	header('Content-Type: text/plain');
 	exit;
 }
-require( dirname(__FILE__) . '/wp-config.php' );
+require( dirname(__FILE__) . '/wp-load.php' );
 
 nocache_headers();
 

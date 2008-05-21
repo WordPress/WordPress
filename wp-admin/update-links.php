@@ -1,5 +1,5 @@
 <?php
-require_once('../wp-config.php');
+require_once('../wp-load.php');
 require_once( ABSPATH . 'wp-includes/class-snoopy.php');
 
 if ( !get_option('use_linksupdate') )

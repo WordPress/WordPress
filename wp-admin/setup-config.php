@@ -20,6 +20,10 @@ if ( !is_writable('../'))
 if (file_exists('../wp-config.php'))
 	wp_die("<p>The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p>");
 
+// Check if wp-config.php exists above the root directory
+if (file_exists('../../wp-config.php'))
+	wp_die("<p>The file 'wp-config.php' already exists one level above your WordPress installation. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p>");
+
 if (isset($_GET['step']))
 	$step = $_GET['step'];
 else

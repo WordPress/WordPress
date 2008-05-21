@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/wp-config.php');
+require(dirname(__FILE__) . '/wp-load.php');
 
 require_once(ABSPATH.WPINC.'/class-pop3.php');
 

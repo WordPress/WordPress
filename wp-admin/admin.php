@@ -2,9 +2,9 @@
 define('WP_ADMIN', TRUE);
 
 if ( defined('ABSPATH') )
-	require_once( ABSPATH . 'wp-config.php');
+	require_once(ABSPATH . 'wp-load.php');
 else
-    require_once('../wp-config.php');
+	require_once('../wp-load.php');
 
 if ( get_option('db_version') != $wp_db_version ) {
 	wp_redirect(get_option('siteurl') . '/wp-admin/upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI'])));

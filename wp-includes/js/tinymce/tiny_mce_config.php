@@ -4,7 +4,7 @@
  * $Id: tiny_mce_gzip.php 315 2007-10-25 14:03:43Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2005-2006, Moxiecode Systems AB, All rights reserved.
  *
  * This file compresses the TinyMCE JavaScript using GZip.
  **/
@@ -12,7 +12,7 @@
 // Discard any buffers
 while ( @ob_end_clean() );
 
-@ require('../../../wp-config.php');
+@ require('../../../wp-load.php');
 
 function getFileContents($path) {
 

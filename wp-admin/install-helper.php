@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(dirname(__FILE__)).'/wp-config.php');
+$wp_only_load_config = true;
+require_once(dirname(dirname(__FILE__)).'/wp-load.php');
 $debug = 0;
 
 /**
