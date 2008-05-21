@@ -45,7 +45,6 @@ ul#widget-list li.widget-list-item {
 	margin: 0;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	background-color: transparent;
 	line-height: 1;
 }
 
@@ -154,7 +153,6 @@ li.widget-list-control-item div.widget-control {
 	padding: 15px;
 	font-size: 11px;
 	position: relative;
-	background-color: #CFEBF7;
 }
 
 li.widget-list-control-item div.widget-control p {
