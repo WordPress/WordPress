@@ -175,6 +175,7 @@ add_action('do_pings', 'do_all_pings', 10, 1);
 add_action('do_robots', 'do_robots');
 add_action('sanitize_comment_cookies', 'sanitize_comment_cookies');
 add_action('admin_print_scripts', 'wp_print_scripts', 20);
+add_action('admin_print_styles', 'wp_print_styles', 20);
 add_action('init', 'smilies_init', 5);
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1);

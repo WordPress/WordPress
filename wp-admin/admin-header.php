@@ -45,21 +45,24 @@ addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document
 <?php if ( ($parent_file != 'link-manager.php') && ($parent_file != 'options-general.php') && $ie6_no_scrollbar ) : ?>
 <style type="text/css">* html { overflow-x: hidden; }</style>
 <?php endif;
-if ( isset($page_hook) )
-	do_action('admin_print_scripts-' . $page_hook);
-else if ( isset($plugin_page) )
-	do_action('admin_print_scripts-' . $plugin_page);
-else if ( isset($pagenow) )
-	do_action('admin_print_scripts-' . $pagenow);
-do_action('admin_print_scripts');
 
-if ( isset($page_hook) )
+if ( isset($page_hook) ) {
+	do_action('admin_print_scripts-' . $page_hook);
+	do_action('admin_print_styles-' . $page_hook);
 	do_action('admin_head-' . $page_hook);
-else if ( isset($plugin_page) )
+} else if ( isset($plugin_page) ) {
+	do_action('admin_print_scripts-' . $plugin_page);
+	do_action('admin_print_styles-' . $plugin_page);
 	do_action('admin_head-' . $plugin_page);
-else if ( isset($pagenow) )
+} else if ( isset($pagenow) ) {
+	do_action('admin_print_scripts-' . $pagenow);
+	do_action('admin_print_styles-' . $pagenow);
 	do_action('admin_head-' . $pagenow);
+}
+do_action('admin_print_scripts');
+do_action('admin_print_styles');
 do_action('admin_head');
+
 ?>
 </head>
 <body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ); ?>">
