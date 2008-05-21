@@ -3,6 +3,7 @@
 class WP_Styles extends WP_Dependencies {
 	var $base_url;
 	var $default_version;
+	var $text_direction = 'ltr';
 
 	function __construct() {
 		do_action_ref_array( 'wp_default_styles', array(&$this) );
@@ -21,15 +22,25 @@ class WP_Styles extends WP_Dependencies {
 		else
 			$media = 'all';
 
-		$src = $this->registered[$handle]->src;
-		if ( !preg_match('|^https?://|', $src) ) {
-			$src = $this->base_url . $src;
+		$href = $this->_css_href( $this->registered[$handle]->src, $ver, $handle );
+
+		$end_cond = '';
+		if ( isset($this->registered[$handle]->extra['conditional']) && $this->registered[$handle]->extra['conditional'] ) {
+			echo "<!--[if {$this->registered[$handle]->extra['conditional']}]>\n";
+			$end_cond = "<![endif]-->\n";
 		}
 
-		$src = add_query_arg('ver', $ver, $src);
-		$src = clean_url(apply_filters( 'style_loader_src', $src ));
+		echo apply_filters( 'style_loader_tag', "<link rel='stylesheet' href='$href' type='text/css' media='$media' />\n", $handle );
+		if ( 'rtl' === $this->text_direction && isset($this->registered[$handle]->extra['rtl']) && $this->registered[$handle]->extra['rtl'] ) {
+			if ( is_bool( $this->registered[$handle]->extra['rtl'] ) )
+				$rtl_href = str_replace( '.css', '-rtl.css', $href );
+			else
+				$rtl_href = $this->_css_href( $this->registered[$handle]->extra['rtl'], $ver, "$handle-rtl" );
 
-		echo "<link rel='stylesheet' href='$src' type='text/css' media='$media' />\n";
+			echo apply_filters( 'style_loader_tag', "<link rel='stylesheet' href='$rtl_href' type='text/css' media='$media' />\n", $handle );
+		}
+
+		echo $end_cond;
 
 		// Could do something with $this->registered[$handle]->extra here to print out extra CSS rules
 //		echo "<style type='text/css'>\n";
@@ -46,4 +57,15 @@ class WP_Styles extends WP_Dependencies {
 			$this->to_do = apply_filters( 'print_styles_array', $this->to_do );
 		return $r;
 	}
+
+	function _css_href( $src, $ver, $handle ) {
+		if ( !preg_match('|^https?://|', $src) ) {
+			$src = $this->base_url . $src;
+		}
+
+		$src = add_query_arg('ver', $ver, $src);
+		$src = apply_filters( 'style_loader_src', $src, $handle );
+		return clean_url( $src );
+	}
+
 }

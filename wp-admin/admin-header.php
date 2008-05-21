@@ -29,14 +29,13 @@ get_admin_page_title();
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo wp_specialchars( strip_tags( $title ) ); ?> &#8212; WordPress</title>
 <?php
+
 wp_admin_css( 'css/global' );
 wp_admin_css();
 wp_admin_css( 'css/colors' );
+wp_admin_css( 'css/ie' );
+
 ?>
-<!--[if gte IE 6]>
-<?php wp_admin_css( 'css/ie' );
-?>
-<![endif]-->
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document).ready(func); else if (typeof wpOnload!='function'){wpOnload=func;} else {var oldonload=wpOnload; wpOnload=function(){oldonload();func();}}};

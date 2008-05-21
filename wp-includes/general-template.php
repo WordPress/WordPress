@@ -1131,19 +1131,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 	if ( defined('WP_INSTALLING') ) {
 		$_file = "./$file.css";
 	} else {
-		if ( 'css/colors' == $file || 'css/colors-rtl' == $file ) {
-			global $_wp_admin_css_colors;
-			$color = get_user_option('admin_color');
-			if ( empty($color) || !isset($_wp_admin_css_colors[$color]) )
-				$color = 'fresh';
-			$color = $_wp_admin_css_colors[$color];
-			$_file = $color->url;
-			$_file = ('css/colors-rtl' == $file) ? str_replace('.css','-rtl.css',$_file) : $_file;
-		} elseif ( 'css/thickbox' == $file ) {
-			$_file = get_option( 'siteurl' ) . "/wp-includes/js/thickbox/thickbox.css";
-		} else {
-			$_file = get_option( 'siteurl' ) . "/wp-admin/$file.css";
-		}
+		$_file = get_option( 'siteurl' ) . "/wp-admin/$file.css";
 	}
 	$_file = add_query_arg( 'version', get_bloginfo( 'version' ),  $_file );
 
@@ -1151,12 +1139,23 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 }
 
 function wp_admin_css( $file = 'wp-admin' ) {
+	global $wp_styles;
+	if ( !is_a($wp_styles, 'WP_Styles') )
+		$wp_styles = new WP_Styles();
 
-	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $file ) . "' type='text/css' />\n", $file );
-	if ( 'rtl' == get_bloginfo( 'text_direction' ) ) {
-		$rtl = ( 'wp-admin' == $file ) ? 'rtl' : "$file-rtl";
-		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . wp_admin_css_uri( $rtl ) . "' type='text/css' />\n", $rtl );
+	$handle = 0 === strpos( $file, 'css/' ) ? substr( $file, 4 ) : $file;
+
+	if ( $wp_styles->query( $handle ) ) {
+		if ( did_action( 'wp_print_styles' ) ) // we already printed the style queue.  Print this one immediately
+			wp_print_styles( $handle );
+		else // Add to style queue
+			wp_enqueue_style( $handle );
+		return;
 	}
+
+	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . clean_url( wp_admin_css_uri( $file ) ) . "' type='text/css' />\n", $file );
+	if ( 'rtl' == get_bloginfo( 'text_direction' ) )
+		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . clean_url( wp_admin_css_uri( "$file-rtl" ) ) . "' type='text/css' />\n", "$file-rtl" );
 }
 
 function add_thickbox() {

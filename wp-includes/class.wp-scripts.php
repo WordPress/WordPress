@@ -55,7 +55,7 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		$src = add_query_arg('ver', $ver, $src);
-		$src = clean_url(apply_filters( 'script_loader_src', $src ));
+		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle ));
 
 		$this->print_scripts_l10n( $handle );
 

@@ -6,7 +6,7 @@ require( ABSPATH . WPINC . '/functions.wp-scripts.php' );
 require( ABSPATH . WPINC . '/class.wp-styles.php' );
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
-function wp_default_scripts( $scripts ) {
+function wp_default_scripts( &$scripts ) {
 	$scripts->base_url = get_option( 'siteurl' );
 	$scripts->default_version = get_bloginfo( 'version' );
 
@@ -203,6 +203,35 @@ function wp_default_scripts( $scripts ) {
 	}
 }
 
+function wp_default_styles( &$styles ) {
+	$styles->base_url = get_option( 'siteurl' );
+	$styles->default_version = get_bloginfo( 'version' );
+	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
+
+	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets' );
+
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css' );
+	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
+
+	$styles->add( 'ie', '/wp-admin/css/ie.css' );
+	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
+
+	$styles->add( 'colors', true ); // Register "meta" stylesheet for admin colors
+
+	$styles->add( 'global', '/wp-admin/css/global.css' );
+	$styles->add( 'media', '/wp-admin/css/media.css' );
+	$styles->add( 'widgets', '/wp-admin/css/widgets.css' );
+	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css' );
+	$styles->add( 'install', '/wp-admin/css/install.css' );
+	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css' );
+	$styles->add( 'press-this', '/wp-admin/css/press-this.css' );
+	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css' );
+	$styles->add( 'login', '/wp-admin/css/login.css' );
+
+	foreach ( $rtl_styles as $rtl_style )
+		$styles->add_data( $rtl_style, 'rtl', true );
+}
+
 function wp_prototype_before_jquery( $js_array ) {
 	if ( false === $jquery = array_search( 'jquery', $js_array ) )
 		return $js_array;
@@ -232,6 +261,31 @@ function wp_just_in_time_script_localization() {
 	) );
 }
 
+function wp_style_loader_src( $src, $handle ) {
+	if ( defined('WP_INSTALLING') )
+		return preg_replace( '#^wp-admin/#', './', $src );
+
+	if ( 'colors' == $handle || 'colors-rtl' == $handle ) {
+		global $_wp_admin_css_colors;
+		$color = get_user_option('admin_color');
+		if ( empty($color) || !isset($_wp_admin_css_colors[$color]) )
+			$color = 'fresh';
+		$color = $_wp_admin_css_colors[$color];
+		$parsed = parse_url( $src );
+		$url = $color->url;
+		if ( isset($parsed['query']) && $parsed['query'] ) {
+			wp_parse_str( $parsed['query'], $qv );
+			$url = add_query_arg( $qv, $url );
+		}
+		return $url;
+	}
+
+	return $src;
+}
+
 add_action( 'wp_default_scripts', 'wp_default_scripts' );
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
+
+add_action( 'wp_default_styles', 'wp_default_styles' );
+add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
