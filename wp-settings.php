@@ -219,6 +219,10 @@ else
 	require_once (ABSPATH . WPINC . '/cache.php');
 
 wp_cache_init();
+if ( function_exists('wp_cache_add_global_groups') ) {
+	wp_cache_add_global_groups(array ('users', 'userlogins', 'usermeta'));
+	wp_cache_add_non_persistent_groups(array( 'comment', 'counts' ));
+}
 
 require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');

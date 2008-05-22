@@ -138,6 +138,30 @@ function wp_cache_set($key, $data, $flag = '', $expire = 0) {
 }
 
 /**
+ * wp_cache_add_global_groups() - Adds a group or set of groups to the list of global groups
+ *
+ * @since 2.6
+ *
+ * @param string|array $groups A group or an array of groups to add
+ */
+function wp_cache_add_global_groups( $groups ) {
+	// Default cache doesn't persist so nothing to do here.
+	return;
+}
+
+/**
+ * wp_cache_add_non_persistent_groups() - Adds a group or set of groups to the list of non-persistent groups
+ *
+ * @since 2.6
+ *
+ * @param string|array $groups A group or an array of groups to add
+ */
+function wp_cache_add_non_persistent_groups( $groups ) {
+	// Default cache doesn't persist so nothing to do here.
+	return;
+}
+
+/**
  * WordPress Object Cache
  *
  * The WordPress Object Cache is used to save on trips to the database.
@@ -172,15 +196,6 @@ class WP_Object_Cache {
 	 * @since 2.0
 	 */
 	var $non_existant_objects = array ();
-
-	/**
-	 * Object caches that are global
-	 *
-	 * @var array
-	 * @access private
-	 * @since 2.0
-	 */
-	var $global_groups = array ('users', 'userlogins', 'usermeta');
 
 	/**
 	 * The amount of times the cache data was already stored in the cache.
