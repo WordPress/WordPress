@@ -577,8 +577,9 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
-	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) )
-		return false;
+	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) ) {
+		return add_post_meta($post_id, $meta_key, $meta_value);
+	}
 
 	$data  = compact( 'meta_value' );
 	$where = compact( 'meta_key', 'post_id' );

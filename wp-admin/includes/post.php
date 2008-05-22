@@ -389,21 +389,25 @@ function has_meta( $postid ) {
 
 }
 
-function update_meta( $mid, $mkey, $mvalue ) {
+function update_meta( $meta_id, $meta_key, $meta_value ) {
 	global $wpdb;
 
 	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
 
-	if ( in_array($mkey, $protected) )
+	if ( in_array($meta_key, $protected) )
 		return false;
 
-	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
+	$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_id = %d", $meta_id) );
 	wp_cache_delete($post_id, 'post_meta');
 
-	$mvalue = maybe_serialize( stripslashes( $mvalue ));
-	$mvalue = $wpdb->escape( $mvalue );
-	$mid = (int) $mid;
-	return $wpdb->query( $wpdb->prepare("UPDATE $wpdb->postmeta SET meta_key = %s, meta_value = %s WHERE meta_id = %d", $mkey, $mvalue, $mid) );
+	$meta_value = maybe_serialize( stripslashes( $meta_value ));
+	$meta_value = $wpdb->escape( $meta_value );
+	$meta_id = (int) $meta_id;
+	
+	$data  = compact( 'meta_key', 'meta_value' );
+	$where = compact( 'meta_id' );
+
+	return $wpdb->update( $wpdb->postmeta, $data, $where );
 }
 
 //
