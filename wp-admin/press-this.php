@@ -225,7 +225,7 @@ if ( empty($_GET['tab']) ) {
 </head>
 <body>
 <div id="wphead">
-<h1><span id="viewsite"><a href="<?php echo get_option('home'); ?>/">Visit: <?php bloginfo('name'); ?></a></span></h1>
+<h1><span id="viewsite"><a href="<?php echo get_option('home'); ?>/"><?php _e('Visit:') ?> <?php bloginfo('name'); ?></a></span></h1>
 </div>
 	<div id="container">
 		<ul>
@@ -322,7 +322,7 @@ if ( empty($_GET['tab']) ) {
 					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
 					</div>
 					
-					<small>Click images to select:</small>
+					<small><?php _e('Click images to select:') ?></small>
 					<div class="titlewrap">
 					<div id="img_container">
 					</div>
