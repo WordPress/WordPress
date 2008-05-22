@@ -22,35 +22,37 @@ function press_it() {
 		case 'regular':
 			$content = $_REQUEST['content'];
 			if ($_REQUEST['content2'])
-				$content .= '<p>' . $_REQUEST['content2']; 
+				$content .= $_REQUEST['content2']; 
 			break;
 
 		case 'quote':
 			$content = '<blockquote>' . $_REQUEST['content'];
 			if ($_REQUEST['content2']) {
-				$content .= '</blockquote>';
-				$content = $content . '<p>' . $_REQUEST['content2'].'</p>'; 
+				$content .= '</blockquote>
+				';
+				$content = $content . $_REQUEST['content2']; 
 			}
 			break;
 
 		case 'photo':
 			if ($_REQUEST['photo_link'])
-				$content = '<p><a href="' . $_REQUEST['photo_link'] . '" target="_new">';
+				$content = '<a href="' . $_REQUEST['photo_link'] . '" target="_new">';
 
 			$content .= '<img src="' . $_REQUEST['photo_src'] . '" alt=""/>';
 
 			if ($_REQUEST['photo_link'])
-				$content .= '</a></p>';
+				$content .= '</a>
+				';
 
 			if ($_REQUEST['content'])
-				$content = $content . $_REQUEST['content']; 
+				$content = $content . "\n".$_REQUEST['content']; 
 
 			break;
 		case "video":
 			list($garbage,$video_id) = split("v=", $_REQUEST['content']);
 			$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
 			if ($_REQUEST['content2'])
-				$content .= '<p>' . $_REQUEST['content2'] . '</p>';
+				$content .= "\n" . $_REQUEST['content2'];
 			break;				
 	}
 
@@ -152,7 +154,8 @@ function press_this_js_init() { ?>
 				remove_linebreaks : true,
 				accessibility_focus : false,
 				tab_focus : ":next",
-				plugins : "safari,inlinepopups"
+				plugins : "safari,inlinepopups",
+				entity_encoding : "raw"
 			});
     <?php } ?>
 
@@ -161,7 +164,7 @@ function press_this_js_init() { ?>
 		tag_update_quickclicks();
 
 		// add the quickadd form
-		jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '" tabindex="3" /><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
+		jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="submit" class="button" id="tagadd" value="' + postL10n.add + '" tabindex="3" onclick="return false;" /><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
 		
 		jQuery('#tagadd').click( tag_flush_to_text );
 		jQuery('#newtag').focus(function() {
@@ -191,6 +194,7 @@ if ( empty($_GET['tab']) ) {
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<title><?php _e('Press This') ?></title>
+
 	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
 <?php
 	wp_enqueue_script('jquery-ui-tabs');
@@ -216,6 +220,8 @@ if ( empty($_GET['tab']) ) {
 	});
 
 	</script>
+	
+
 </head>
 <body>
 <div id="wphead">
@@ -243,9 +249,18 @@ if ( empty($_GET['tab']) ) {
 					img.style.backgroundColor = '#44f';
 				}
 				last = img;
+				
+				/*jQuery('.photolist').append('<h2><?php _e("Photo URL") ?></h2>' +
+				'<div class="titlewrap">' + 
+				'<a href="#" class="remove">remove <input name="photo_src" id="photo_src[]" value ="'+ img.src +'" class="text" onkeydown="pick(0);"/></a>' +
+				'</div>');*/
 				return false;
 			}
-			
+
+			jQuery('.remove').click(function() {
+				jQuery(this).remove;
+				
+			});
 			jQuery(document).ready(function() {
 				var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
 				var my_src = [<?php echo get_images_from_uri($url); ?>];
@@ -300,6 +315,8 @@ if ( empty($_GET['tab']) ) {
 					<input name="photo_src" id="photo_src" class="text" onkeydown="pick(0);"/>
 					</div>
 					
+					<div class="photolist"></div>
+					
 					<h2><?php _e('Link Photo to following URL') ?></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
 					<div class="titlewrap">
 					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
@@ -315,7 +332,7 @@ if ( empty($_GET['tab']) ) {
 					<h2><?php _e('Caption') ?></h2>
 					<div class="editor-container">
 						<textarea name="content" id="photo_post_two" style="" class="mceEditor"><?php echo $selection;?>
-						&lt;a href="<?php echo attribute_escape($url);?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						&lt;a href="<?php echo attribute_escape($url);?>"&gt;<?php echo $title;?>&lt;/a&gt; </textarea>
 					</div>
 
 					<?php tag_div(); ?>
@@ -343,7 +360,7 @@ exit;
 					
 				  	<h2><?php _e('Post') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo $selection;?>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo $selection;?><a href="<?php echo $url;?>"><?php echo $title;?></a></textarea>
 					</div>        
 
 					<?php tag_div(); ?>
