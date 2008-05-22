@@ -1158,13 +1158,15 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 		echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . clean_url( wp_admin_css_uri( "$file-rtl" ) ) . "' type='text/css' />\n", "$file-rtl" );
 }
 
+/**
+ * Enqueues the default ThickBox js and css. 
+ * If any of the settings need to be changed, this can be done with another js file
+ * similar to media-upload.js and theme-preview.js. That file should require array('thickbox')
+ * to ensure it is loaded after. 
+ */
 function add_thickbox() {
 	wp_enqueue_script( 'thickbox' );
-	add_action( 'admin_print_scripts', 'add_thickbox_css' );
-}
-
-function add_thickbox_css() {
-	wp_admin_css( 'css/thickbox' );
+	wp_enqueue_style( 'thickbox' );
 }
 
 /**

@@ -158,7 +158,7 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => __('Edit'),
 		) );
 		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080520' );
-		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', false, '20080430' );
+		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20080430' );
 		$scripts->localize( 'upload', 'uploadL10n', array(
 			'browseTitle' => attribute_escape(__('Browse your files')),
 			'back' => __('&laquo; Back'),
