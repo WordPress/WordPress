@@ -44,14 +44,9 @@ function update_attached_file( $attachment_id, $file ) {
 	if ( !get_post( $attachment_id ) )
 		return false;
 
-	$old_file = get_attached_file( $attachment_id, true );
-
 	$file = apply_filters( 'update_attached_file', $file, $attachment_id );
 
-	if ( $old_file )
-		return update_post_meta( $attachment_id, '_wp_attached_file', $file, $old_file );
-	else
-		return add_post_meta( $attachment_id, '_wp_attached_file', $file );
+	return update_post_meta( $attachment_id, '_wp_attached_file', $file );
 }
 
 /**
@@ -1304,8 +1299,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 			else
 				return 0;
 		}
-		if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template) )
-			add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
+		update_post_meta($post_ID, '_wp_page_template',  $page_template);
 	}
 
 	wp_transition_post_status($post_status, $previous_status, $post);
@@ -2242,14 +2236,9 @@ function wp_update_attachment_metadata( $post_id, $data ) {
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
-	$old_data = wp_get_attachment_metadata( $post->ID, true );
-
 	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post->ID );
 
-	if ( $old_data )
-		return update_post_meta( $post->ID, '_wp_attachment_metadata', $data, $old_data );
-	else
-		return add_post_meta( $post->ID, '_wp_attachment_metadata', $data );
+	return update_post_meta( $post->ID, '_wp_attachment_metadata', $data);
 }
 
 /**
