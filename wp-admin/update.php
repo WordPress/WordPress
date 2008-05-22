@@ -3,7 +3,7 @@
 require_once('admin.php');
 
 if ( !current_user_can('edit_plugins') )
-                wp_die('<p>'.__('You do not have sufficient permissions to update plugins for this blog.').'</p>');
+	wp_die('<p>'.__('You do not have sufficient permissions to update plugins for this blog.').'</p>');
 
 function request_filesystem_credentials($form_post, $type = '', $error = false) {
 	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error);
@@ -151,8 +151,8 @@ if ( isset($_GET['action']) ) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Plugin Reactivation'); ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
-wp_admin_css( 'css/global' );
-wp_admin_css( 'css/colors' );
+wp_admin_css( 'global', true );
+wp_admin_css( 'colors', true );
 ?>
 </head>
 <body>

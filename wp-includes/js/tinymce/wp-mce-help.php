@@ -8,8 +8,8 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <title><?php _e('Rich Editor Help') ?></title>
 <script type="text/javascript" src="tiny_mce_popup.js"></script>
 <?php 
-wp_admin_css( 'css/global' );
-wp_admin_css();
+wp_admin_css( 'global', true );
+wp_admin_css( 'wp-admin', true );
 ?>
 <style type="text/css">
 	#wphead {

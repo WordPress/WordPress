@@ -16,7 +16,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e('WordPress &rsaquo; Installation'); ?></title>
-	<?php wp_admin_css( 'css/install' ); ?>
+	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>

@@ -217,6 +217,8 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
 
 	$styles->add( 'colors', true ); // Register "meta" stylesheet for admin colors
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css' ); // for login.php.  Is there a better way?
+	$styles->add_data( 'colors-fresh', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css' );
 	$styles->add( 'media', '/wp-admin/css/media.css' );

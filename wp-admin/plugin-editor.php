@@ -6,10 +6,7 @@ $parent_file = 'plugins.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file'));
 
-add_action( 'admin_head', 'theme_editor_css' );
-function theme_editor_css(){
-	wp_admin_css( 'css/theme-editor' );
-}
+wp_admin_css( 'theme-editor' );
 
 $plugins = get_plugins();
 $plugin_files = array_keys($plugins);

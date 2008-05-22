@@ -126,9 +126,12 @@ function wp_iframe($content_func /* ... */) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
-wp_admin_css( 'css/global' );
+wp_admin_css( 'global' );
 wp_admin_css();
-wp_admin_css( 'css/colors' );
+wp_admin_css( 'colors' );
+if ( 0 === strpos( $content_func, 'media' ) )
+	wp_admin_css( 'media' );
+
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -137,6 +140,7 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 </script>
 <?php
 do_action('admin_print_scripts');
+do_action('admin_print_styles');
 do_action('admin_head');
 if ( is_string($content_func) )
 	do_action( "admin_head_{$content_func}" );
@@ -181,10 +185,6 @@ add_action( 'admin_print_scripts-post-new.php', 'add_thickbox' );
 add_action( 'admin_print_scripts-post.php', 'add_thickbox' );
 add_action( 'admin_print_scripts-page-new.php', 'add_thickbox' );
 add_action( 'admin_print_scripts-page.php', 'add_thickbox' );
-
-function media_admin_css() {
-	wp_admin_css('css/media');
-}
 
 add_action('media_upload_media', 'media_upload_handler');
 
@@ -1205,12 +1205,9 @@ add_action('media_upload_image', 'media_upload_image');
 add_action('media_upload_audio', 'media_upload_audio');
 add_action('media_upload_video', 'media_upload_video');
 add_action('media_upload_file', 'media_upload_file');
-add_action('admin_head_media_upload_type_form', 'media_admin_css');
 
 add_filter('media_upload_gallery', 'media_upload_gallery');
-add_action('admin_head_media_upload_gallery_form', 'media_admin_css');
 
 add_filter('media_upload_library', 'media_upload_library');
-add_action('admin_head_media_upload_library_form', 'media_admin_css');
 
 ?>

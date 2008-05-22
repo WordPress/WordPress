@@ -60,7 +60,8 @@ case 'edit' :
 	add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
 
 	wp_enqueue_script( 'wp-ajax-response' );
-	add_action('admin_head', 'media_admin_css');
+	wp_admin_css( 'media' );
+
 
 	require( 'admin-header.php' );
 

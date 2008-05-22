@@ -195,11 +195,13 @@ if ( empty($_GET['tab']) ) {
 <?php
 	wp_enqueue_script('jquery-ui-tabs');
 	add_thickbox();
+	wp_admin_css('press-this');
+	wp_admin_css( 'colors' );
 	wp_enqueue_script('post');
+
 	do_action('admin_print_scripts'); 
+	do_action('admin_print_styles'); 
 	do_action('admin_head');
-	wp_admin_css('css/press-this');
-	wp_admin_css( 'css/colors' );
 ?>
 	<script type="text/javascript">
 

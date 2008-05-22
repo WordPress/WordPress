@@ -26,12 +26,8 @@ jQuery(function($) {
 }
 add_action( 'admin_head', 'index_js' );
 
-function index_css() {
-	wp_admin_css( 'css/dashboard' );
-}
-add_action( 'admin_head', 'index_css' );
-
 wp_enqueue_script( 'jquery' );
+wp_admin_css( 'dashboard' );
 
 $title = __('Dashboard');
 $parent_file = 'index.php';

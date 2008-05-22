@@ -1138,7 +1138,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 	return apply_filters( 'wp_admin_css_uri', $_file, $file );
 }
 
-function wp_admin_css( $file = 'wp-admin' ) {
+function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
@@ -1146,7 +1146,7 @@ function wp_admin_css( $file = 'wp-admin' ) {
 	$handle = 0 === strpos( $file, 'css/' ) ? substr( $file, 4 ) : $file;
 
 	if ( $wp_styles->query( $handle ) ) {
-		if ( did_action( 'wp_print_styles' ) ) // we already printed the style queue.  Print this one immediately
+		if ( $force_echo || did_action( 'wp_print_styles' ) ) // we already printed the style queue.  Print this one immediately
 			wp_print_styles( $handle );
 		else // Add to style queue
 			wp_enqueue_style( $handle );

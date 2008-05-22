@@ -14,8 +14,9 @@ if ('b' == $_GET['a']) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=UTF-8" />
 <title><?php _e('WordPress &#8250; Posted'); ?></title>
 <?php
-wp_admin_css( 'css/global' );
-wp_admin_css();
+wp_admin_css( 'global', true );
+wp_admin_css( 'wp-admin', true );
+wp_admin_css( 'colors', true );
 ?>
 </head>
 <body>
@@ -32,8 +33,9 @@ wp_admin_css();
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('blog_charset'); ?>" />
 <title><?php _e('WordPress &#8250; Sidebar'); ?></title>
 <?php
-wp_admin_css( 'css/global' );
-wp_admin_css();
+wp_admin_css( 'global', true );
+wp_admin_css( 'wp-admin', true );
+wp_admin_css( 'colors', true );
 ?>
 <style type="text/css" media="screen">
 form {

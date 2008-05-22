@@ -7,6 +7,7 @@ if ( ! current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
 
 wp_enqueue_script( array( 'wp-lists', 'admin-widgets' ) );
+wp_admin_css( 'widgets' );
 
 do_action( 'sidebar_admin_setup' );
 

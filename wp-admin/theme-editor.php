@@ -6,10 +6,7 @@ $parent_file = 'themes.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme'));
 
-add_action( 'admin_head', 'theme_editor_css' );
-function theme_editor_css(){
-	wp_admin_css( 'css/theme-editor' );
-}
+wp_admin_css( 'theme-editor' );
 
 $themes = get_themes();
 
