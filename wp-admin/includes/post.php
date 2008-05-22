@@ -401,7 +401,6 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 	wp_cache_delete($post_id, 'post_meta');
 
 	$meta_value = maybe_serialize( stripslashes( $meta_value ));
-	$meta_value = $wpdb->escape( $meta_value );
 	$meta_id = (int) $meta_id;
 	
 	$data  = compact( 'meta_key', 'meta_value' );
