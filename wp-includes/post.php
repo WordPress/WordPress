@@ -3018,6 +3018,7 @@ function wp_save_revision( $post_id ) {
 	if ( @constant( 'DOING_AUTOSAVE' ) )
 		return;
 
+	// WP_POST_REVISIONS = 0, false
 	if ( !constant('WP_POST_REVISIONS') )
 		return;
 
@@ -3027,7 +3028,30 @@ function wp_save_revision( $post_id ) {
 	if ( !in_array( $post['post_type'], array( 'post', 'page' ) ) )
 		return;
 
-	return _wp_put_revision( $post );
+	$return = _wp_put_revision( $post );
+
+	// WP_POST_REVISIONS = true (default), -1
+	if ( !is_numeric( WP_POST_REVISIONS ) || WP_POST_REVISIONS < 0 )
+		return $return;
+
+	// all revisions and (possibly) one autosave
+	$revisions = wp_get_post_revisions( $post_id, array( 'order' => 'ASC' ) );
+
+	// WP_POST_REVISIONS = (int) (# of autasaves to save)
+	$delete = count($revisions) - WP_POST_REVISIONS;
+
+	if ( $delete < 1 )
+		return $return;
+
+	$revisions = array_slice( $revisions, 0, $delete );
+
+	for ( $i = 0; isset($revisions[$i]); $i++ ) {
+		if ( false !== strpos( $revisions[$i]->post_name, 'autosave' ) )
+			continue;
+		wp_delete_revision( $revisions[$i]->ID );
+	}
+
+	return $return;
 }
 
 /**
@@ -3225,12 +3249,17 @@ function wp_delete_revision( $revision_id ) {
  * @param int|object $post_id post ID or post object
  * @return array empty if no revisions
  */
-function wp_get_post_revisions( $post_id = 0 ) {
+function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	if ( !constant('WP_POST_REVISIONS') )
 		return array();
 	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
 		return array();
-	if ( !$revisions = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'revision', 'post_status' => 'inherit' ) ) )
+
+	$defaults = array( 'order' => 'DESC', 'orderby' => 'date' );
+	$args = wp_parse_args( $args, $defaults );
+	$args = array_merge( $args, array( 'post_parent' => $post->ID, 'post_type' => 'revision', 'post_status' => 'inherit' ) );
+
+	if ( !$revisions = get_children( $args ) )
 		return array();
 	return $revisions;
 }
