@@ -46,20 +46,20 @@ addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document
 <?php endif;
 
 if ( isset($page_hook) ) {
-	do_action('admin_print_scripts-' . $page_hook);
 	do_action('admin_print_styles-' . $page_hook);
+	do_action('admin_print_scripts-' . $page_hook);
 	do_action('admin_head-' . $page_hook);
 } else if ( isset($plugin_page) ) {
-	do_action('admin_print_scripts-' . $plugin_page);
 	do_action('admin_print_styles-' . $plugin_page);
+	do_action('admin_print_scripts-' . $plugin_page);
 	do_action('admin_head-' . $plugin_page);
 } else if ( isset($pagenow) ) {
-	do_action('admin_print_scripts-' . $pagenow);
 	do_action('admin_print_styles-' . $pagenow);
+	do_action('admin_print_scripts-' . $pagenow);
 	do_action('admin_head-' . $pagenow);
 }
-do_action('admin_print_scripts');
 do_action('admin_print_styles');
+do_action('admin_print_scripts');
 do_action('admin_head');
 
 ?>
