@@ -126,11 +126,11 @@ function wp_iframe($content_func /* ... */) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; <?php _e('WordPress'); ?></title>
 <?php
-wp_admin_css( 'global' );
-wp_admin_css();
-wp_admin_css( 'colors' );
+wp_enqueue_style( 'global' );
+wp_enqueue_style( 'wp-admin' );
+wp_enqueue_style( 'colors' );
 if ( 0 === strpos( $content_func, 'media' ) )
-	wp_admin_css( 'media' );
+	wp_enqueue_style( 'media' );
 
 ?>
 <script type="text/javascript">
@@ -139,8 +139,8 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 //]]>
 </script>
 <?php
-do_action('admin_print_scripts');
 do_action('admin_print_styles');
+do_action('admin_print_scripts');
 do_action('admin_head');
 if ( is_string($content_func) )
 	do_action( "admin_head_{$content_func}" );
@@ -672,9 +672,11 @@ function get_media_item( $attachment_id, $args = null ) {
 	if ( $send )
 		$send = "<input type='submit' class='button' name='send[$attachment_id]' value='" . attribute_escape( __( 'Insert into Post' ) ) . "' />";
 	if ( $delete )
-		$delete = "<a href='$delete_href' id='del[$attachment_id]' disabled='disabled' class='delete'>" . __('Delete') . "</button>";
+		$delete = "<a href=\"#\" class=\"del-link\" onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __('Delete') . "</a>";
 	if ( ( $send || $delete ) && !isset($form_fields['buttons']) )
-		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete</td></tr>\n");
+		$form_fields['buttons'] = array('tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $delete
+		<div id=\"del_attachment_$attachment_id\" class=\"del-attachment\" style=\"display:none;\">" . sprintf(__("You are about to delete <strong>%s</strong>."), $filename) . " <a href=\"$delete_href\" id=\"del[$attachment_id]\" class=\"delete\">" . __('Continue') . "</a>
+		<a href=\"#\" class=\"del-link\" onclick=\"this.parentNode.style.display='none';return false;\">" . __('Cancel') . "</a></div></td></tr>\n");
 
 	$hidden_fields = array();
 

@@ -216,13 +216,17 @@ abbr.required {
 }
 
 #media-upload .media-item {
-	cursor:move;
 	position: relative;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	min-height: 36px;
 	width: 100%;
 }
+
+#media-upload .ui-sortable .media-item {
+	cursor: move;
+}
+
 .filename {
 	line-height: 36px;
 	margin-left: 10px;
@@ -234,6 +238,7 @@ abbr.required {
 	padding: 5px;
 	width: 100%;
 	clear: both;
+	cursor: default;
 }
 #media-upload .describe th.label {
 	padding-top: .5em;
@@ -260,4 +265,14 @@ abbr.required {
 	border-width:1px;
 	padding:2px;
 	vertical-align:top;
+}
+
+#media-upload a.delete,
+#media-upload a.del-link {
+	padding: 0 3px 1px;
+}
+
+#media-upload .del-attachment {
+	display: none;
+	margin: 5px 0;
 }

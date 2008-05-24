@@ -221,7 +221,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css' );
-	$styles->add( 'media', '/wp-admin/css/media.css' );
+	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20080523' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css' );
 	$styles->add( 'install', '/wp-admin/css/install.css' );
