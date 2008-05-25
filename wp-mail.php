@@ -1,8 +1,18 @@
 <?php
+/**
+ * Gets the email message from the user's mailbox to add as
+ * a WordPress post. Will only run if this is setup and enabled.
+ *
+ * @package WordPress
+ */
+
+/** Make sure that the WordPress bootstrap has ran before continuing. */
 require(dirname(__FILE__) . '/wp-load.php');
 
+/** Get the POP3 class for which to access the mailbox. */
 require_once(ABSPATH.WPINC.'/class-pop3.php');
 
+// WTF is this? Use constants instead.
 error_reporting(2037);
 
 $time_difference = get_option('gmt_offset') * 3600;

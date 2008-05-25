@@ -1,7 +1,29 @@
 <?php
+/**
+ *
+ * @package WordPress
+ */
+
+/** Make sure that the WordPress bootstrap has ran before continuing. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
-// Rather than duplicating this HTML all over the place, we'll stick it in function
+/**
+ * login_header() - Outputs the header for the login page
+ *
+ * @package WordPress
+ * @uses do_action() Calls the 'login_head' for outputting HTML in the Login
+ *		header.
+ * @uses apply_filters() Calls 'login_headerurl' for the top login link.
+ * @uses apply_filters() Calls 'login_headertitle' for the top login title.
+ * @uses apply_filters() Calls 'login_message' on the message to display in the
+ *		header.
+ * @uses $error The error global, which is checked for displaying errors.
+ *
+ * @param string $title Optional. WordPress Login Page title to display in
+ *		<title/> element.
+ * @param string $message Optional. Message to display in header.
+ * @param WP_Error $wp_error Optional. WordPress Error Object
+ */
 function login_header($title = 'Login', $message = '', $wp_error = '') {
 	global $error;
 
@@ -56,6 +78,15 @@ function login_header($title = 'Login', $message = '', $wp_error = '') {
 	}
 } // End of login_header()
 
+/**
+ * retrieve_password() - Handles sending password retrieval email to user
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @uses $wpdb WordPress Database object
+ *
+ * @return bool|WP_Error True: when finish. WP_Error on error
+ */
 function retrieve_password() {
 	global $wpdb;
 
@@ -110,6 +141,16 @@ function retrieve_password() {
 	return true;
 }
 
+/**
+ * reset_password() - Handles resetting the user's password
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @uses $wpdb WordPress Database object
+ *
+ * @param string $key Hash to validate sending user's password
+ * @return bool|WP_Error
+ */
 function reset_password($key) {
 	global $wpdb;
 
@@ -144,6 +185,15 @@ function reset_password($key) {
 	return true;
 }
 
+/**
+ * register_new_user() - Handles registering a new user
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @param string $user_login User's username for logging in
+ * @param string $user_email User's email address to send password and add
+ * @return int|WP_Error Either user's ID or error on failure.
+ */
 function register_new_user($user_login, $user_email) {
 	$errors = new WP_Error();
 

@@ -1,10 +1,18 @@
 <?php
+/**
+ * Handles Comment Post to WordPress and prevents duplicate comment posting.
+ *
+ * @package @WordPress
+ */
+
 if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 	header('Allow: POST');
 	header('HTTP/1.1 405 Method Not Allowed');
 	header('Content-Type: text/plain');
 	exit;
 }
+
+/** Sets up the WordPress Environment. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
 nocache_headers();

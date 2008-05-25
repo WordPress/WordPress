@@ -1,26 +1,60 @@
 <?php
-/*
- * wp-app.php - Atom Publishing Protocol support for WordPress
- * Original code by: Elias Torres, http://torrez.us/archives/2006/08/31/491/
- * Modified by: Dougal Campbell, http://dougal.gunters.org/
+/**
+ * Atom Publishing Protocol support for WordPress
  *
- * Version: 1.0.5-dc
+ * @author Original by Elias Torres <http://torrez.us/archives/2006/08/31/491/>
+ * @author Modified by Dougal Campbell <http://dougal.gunters.org/>
+ * @version 1.0.5-dc
  */
 
+/**
+ * WordPress is handling an Atom Publishing Protocol request.
+ *
+ * @var bool
+ */
 define('APP_REQUEST', true);
 
+/** Set up WordPress environment */
 require_once('./wp-load.php');
+
+/** Post Template API */
 require_once(ABSPATH . WPINC . '/post-template.php');
+
+/** Atom Publishing Protocol Class */
 require_once(ABSPATH . WPINC . '/atomlib.php');
+
+/** Feed Handling API */
 require_once(ABSPATH . WPINC . '/feed.php');
 
 $_SERVER['PATH_INFO'] = preg_replace( '/.*\/wp-app\.php/', '', $_SERVER['REQUEST_URI'] );
 
+/**
+ * Whether to enable Atom Publishing Protocol Logging.
+ *
+ * @name app_logging
+ * @var int|bool
+ */
 $app_logging = 0;
 
-// TODO: Should be an option somewhere
+/**
+ * Whether to always authenticate user. Permanently set to true.
+ *
+ * @name always_authenticate
+ * @var int|bool
+ * @todo Should be an option somewhere
+ */
 $always_authenticate = 1;
 
+/**
+ * log_app() - Writes logging info to a file.
+ *
+ * @uses $app_logging
+ * @package WordPress
+ * @subpackage Logging
+ *
+ * @param string $label Type of logging
+ * @param string $msg Information describing logging reason.
+ */
 function log_app($label,$msg) {
 	global $app_logging;
 	if ($app_logging) {
@@ -32,6 +66,18 @@ function log_app($label,$msg) {
 }
 
 if ( !function_exists('wp_set_current_user') ) :
+/**
+ * wp_set_current_user() - Sets the current WordPress User
+ *
+ * Pluggable function which is also found in pluggable.php.
+ *
+ * @see wp-includes/pluggable.php Documentation for this function.
+ * @uses $current_user Global of current user to test whether $id is the same.
+ *
+ * @param int $id The user's ID
+ * @param string $name Optional. The username of the user.
+ * @return WP_User Current user's User object
+ */
 function wp_set_current_user($id, $name = '') {
 	global $current_user;
 
@@ -44,13 +90,26 @@ function wp_set_current_user($id, $name = '') {
 }
 endif;
 
+/**
+ * wa_posts_where_include_drafts_filter() - Filter to add more post statuses
+ *
+ * @param string $where SQL statement to filter
+ * @return string Filtered SQL statement with added post_status for where clause
+ */
 function wa_posts_where_include_drafts_filter($where) {
-        $where = str_replace("post_status = 'publish'","post_status = 'publish' OR post_status = 'future' OR post_status = 'draft' OR post_status = 'inherit'", $where);
-        return $where;
+	$where = str_replace("post_status = 'publish'","post_status = 'publish' OR post_status = 'future' OR post_status = 'draft' OR post_status = 'inherit'", $where);
+	return $where;
 
 }
 add_filter('posts_where', 'wa_posts_where_include_drafts_filter');
 
+/**
+ * @internal
+ * Left undocumented to work on later. If you want to finish, then please do so.
+ *
+ * @package WordPress
+ * @subpackage Publishing
+ */
 class AtomServer {
 
 	var $ATOM_CONTENT_TYPE = 'application/atom+xml';
@@ -170,9 +229,9 @@ class AtomServer {
 		$entries_url = attribute_escape($this->get_entries_url());
 		$categories_url = attribute_escape($this->get_categories_url());
 		$media_url = attribute_escape($this->get_attachments_url());
-                foreach ($this->media_content_types as $med) {
-                  $accepted_media_types = $accepted_media_types . "<accept>" . $med . "</accept>";
-                }
+		foreach ($this->media_content_types as $med) {
+			$accepted_media_types = $accepted_media_types . "<accept>" . $med . "</accept>";
+		}
 		$atom_prefix="atom";
 		$atom_blogname=get_bloginfo('name');
 		$service_doc = <<<EOD

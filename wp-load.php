@@ -1,16 +1,32 @@
 <?php
+/**
+ * Bootstrap file for setting the ABSPATH constant
+ * and loading the wp-config.php file. The wp-config.php
+ * file will then load the wp-settings.php file, which
+ * will then set up the WordPress environment.
+ *
+ * If the wp-config.php file is not found then an error
+ * will be displayed asking the visitor to set up the
+ * wp-config.php file.
+ *
+ * Also made to work in the wp-admin/ folder, because it
+ * will look in the parent directory if the file is not
+ * found in the current directory.
+ *
+ * @package WordPress
+ */
 
-// Define ABSPATH as this files directory
+/** Define ABSPATH as this files directory */
 define( 'ABSPATH', dirname(__FILE__) . '/' );
 
 if ( file_exists( ABSPATH . 'wp-config.php') ) {
 
-	// The config file resides in ABSPATH
+	/** The config file resides in ABSPATH */
 	require_once( ABSPATH . 'wp-config.php' );
 
 } elseif ( file_exists( dirname(ABSPATH) . '/wp-config.php' ) ) {
 
-	// The config file resides one level below ABSPATH
+	/** The config file resides one level below ABSPATH */
 	require_once( dirname(ABSPATH) . '/wp-config.php' );
 
 } else {

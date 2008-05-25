@@ -1,4 +1,12 @@
 <?php
+/**
+ * Creates the password cookie and redirects back to where the
+ * visitor was before.
+ *
+ * @package WordPress
+ */
+
+/** Make sure that the WordPress bootstrap has ran before continuing. */
 require( dirname(__FILE__) . '/wp-load.php');
 
 if ( get_magic_quotes_gpc() )

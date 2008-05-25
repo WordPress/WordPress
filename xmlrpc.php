@@ -1,5 +1,16 @@
 <?php
+/**
+ * XML-RPC protocol support for WordPress
+ *
+ * @license GPL v2 <./license.txt>
+ * @package WordPress
+ */
 
+/**
+ * Whether this is a XMLRPC Request
+ *
+ * @var bool
+ */
 define('XMLRPC_REQUEST', true);
 
 // Some browser-embedded clients send cookies. We don't want them.
@@ -11,10 +22,11 @@ if ( !isset( $HTTP_RAW_POST_DATA ) ) {
 	$HTTP_RAW_POST_DATA = file_get_contents( 'php://input' );
 }
 
-# fix for mozBlog and other cases where '<?xml' isn't on the very first line
+// fix for mozBlog and other cases where '<?xml' isn't on the very first line
 if ( isset($HTTP_RAW_POST_DATA) )
 	$HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
+/** Include the bootstrap for setting up WordPress environment */
 include('./wp-load.php');
 
 if ( isset( $_GET['rsd'] ) ) { // http://archipelago.phrasewise.com/rsd
@@ -45,10 +57,32 @@ include_once(ABSPATH . WPINC . '/class-IXR.php');
 // Turn off all warnings and errors.
 // error_reporting(0);
 
-$post_default_title = ""; // posts submitted via the xmlrpc interface get that title
+/**
+ * Posts submitted via the xmlrpc interface get that title
+ * @name post_default_title
+ * @var string
+ */
+$post_default_title = "";
 
+/**
+ * Whether to enable XMLRPC Logging.
+ *
+ * @name xmlrpc_logging
+ * @var int|bool
+ */
 $xmlrpc_logging = 0;
 
+/**
+ * logIO() - Writes logging info to a file.
+ *
+ * @uses $xmlrpc_logging
+ * @package WordPress
+ * @subpackage Logging
+ *
+ * @param string $io Whether input or output
+ * @param string $msg Information describing logging reason.
+ * @return bool Always return true
+ */
 function logIO($io,$msg) {
 	global $xmlrpc_logging;
 	if ($xmlrpc_logging) {
@@ -62,8 +96,15 @@ function logIO($io,$msg) {
 }
 
 if ( isset($HTTP_RAW_POST_DATA) )
-  logIO("I", $HTTP_RAW_POST_DATA);
+	logIO("I", $HTTP_RAW_POST_DATA);
 
+/**
+ * @internal
+ * Left undocumented to work on later. If you want to finish, then please do so.
+ *
+ * @package WordPress
+ * @subpackage Publishing
+ */
 class wp_xmlrpc_server extends IXR_Server {
 
 	function wp_xmlrpc_server() {
