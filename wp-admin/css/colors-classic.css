@@ -208,7 +208,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #d54e21;
 }
 
-#adminmenu a:hover, #sidemenu a:hover {
+#adminmenu a:hover, #sidemenu a:hover, .ui-tabs-nav a:hover {
 	color: #97c4d8;
 }
 
@@ -296,7 +296,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #2e7ca0;
 }
 
-#adminmenu a {
+#adminmenu a, .ui-tabs-nav a {
 	color: #cfebf6;
 }
 
@@ -304,7 +304,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #2782af
 }
 /* Because we don't want visited on these links */
-#adminmenu a.current, #sidemenu a.current {
+#adminmenu a.current, #sidemenu a.current, .ui-tabs-selected a, .ui-tabs-selected a:hover {
 	background-color: #fff;
 	border-color: #07273e;
 	border-bottom-color: #fff;

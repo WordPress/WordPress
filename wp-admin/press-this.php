@@ -86,7 +86,7 @@ function category_div() {
 		</div>
 		<p class="submit">         
 		<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
-		<img src="/images/bookmarklet_loader.gif" alt="" id="photo_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
+		<img src="images/loading.gif" alt="" id="photo_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
 		</p>
 	</div>	
 <?php
@@ -155,7 +155,7 @@ function press_this_js_init() { ?>
 				accessibility_focus : false,
 				tab_focus : ":next",
 				plugins : "safari,inlinepopups",
-				entity_encoding : "raw"
+				entities : "38,amp,60,lt,62,gt"
 			});
     <?php } ?>
 
@@ -199,12 +199,12 @@ if ( empty($_GET['tab']) ) {
 <?php
 	wp_enqueue_script('jquery-ui-tabs');
 	add_thickbox();
-	wp_admin_css('press-this');
-	wp_admin_css( 'colors' );
+	wp_enqueue_style('press-this');
+	wp_enqueue_style( 'colors' );
 	wp_enqueue_script('post');
 
-	do_action('admin_print_scripts'); 
-	do_action('admin_print_styles'); 
+	do_action('admin_print_styles');
+	do_action('admin_print_scripts');
 	do_action('admin_head');
 ?>
 	<script type="text/javascript">
@@ -331,8 +331,10 @@ if ( empty($_GET['tab']) ) {
 					
 					<h2><?php _e('Caption') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="photo_post_two" style="" class="mceEditor"><?php echo $selection;?>
-						&lt;a href="<?php echo attribute_escape($url);?>"&gt;<?php echo $title;?>&lt;/a&gt; </textarea>
+						<textarea name="content" id="photo_post_two" style="" class="mceEditor">
+						<?php echo $selection; ?>
+						&lt;p&gt;&lt;a href="<?php echo attribute_escape($url);?>"&gt;<?php echo $title;?>&lt;/a&gt; &lt;/p&gt;
+						</textarea>
 					</div>
 
 					<?php tag_div(); ?>
@@ -360,9 +362,11 @@ exit;
 					
 				  	<h2><?php _e('Post') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor"><?php echo $selection;?><a href="<?php echo $url;?>"><?php echo $title;?></a></textarea>
+						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor">
+						<?php echo $selection; ?>
+						&lt;p&gt;&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt; &lt;/p&gt;
+						</textarea>
 					</div>        
-
 					<?php tag_div(); ?>
        
 				</div>
@@ -388,12 +392,16 @@ exit;
 					
 					<h2><?php _e('Quote') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="quote_post_one" style="height:130px;width:100%;" class="mceEditor"><?php echo $selection;?></textarea>
+						<textarea name="content" id="quote_post_one" style="height:130px;width:100%;" class="mceEditor">
+						<?php echo $selection; ?>
+						</textarea>
 					</div>
 
-					<h2><?php _e('Source <span class="optional">(optional)</span>') ?></h2>
+					<h2><?php _e('Source'); ?> <span class="optional"><?php _e('(optional)'); ?></span></h2>
 					<div class="editor-container">
-						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor"><cite>&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;</cite></textarea>
+						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor">
+						&lt;p&gt;&lt;cite&gt;&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;&lt;/cite&gt; &lt;/p&gt;
+						</textarea>
 					</div>
 
 					<?php tag_div(); ?>
@@ -433,7 +441,10 @@ exit;
 					<h2><?php _e('Caption <span class="optional">(optional)</span>') ?></h2>
 
 					<div class="editor-container">
-						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor"><?php echo $selection; ?> &lt;a href="<?php echo $url; ?>"&gt;<?php echo $title;?>&lt;/a&gt;</textarea>
+						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor">
+						<?php echo $selection; ?>
+						&lt;p&gt;&lt;a href="<?php echo $url; ?>"&gt;<?php echo $title; ?>&lt;/a&gt; &lt;/p&gt;
+						</textarea>
 					</div>
 
 					<?php tag_div(); ?>

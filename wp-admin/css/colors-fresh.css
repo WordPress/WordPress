@@ -196,7 +196,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-color: #535353;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover, #edit-slug-buttons a.save:hover, #media-upload a.delete:hover, #media-upload a.del-link:hover {
+.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover, #adminmenu a:hover, #sidemenu a:hover, #submenu a.current, #submenu a:hover, .submitbox #previewview a:hover, #the-comment-list .comment a:hover, #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover, #login form .submit input:hover, div.dashboard-widget-submit input:hover, #edit-slug-buttons a.save:hover, #media-upload a.delete:hover, #media-upload a.del-link:hover, .ui-tabs-nav a:hover {
 	color: #d54e21;
 }
 
@@ -279,12 +279,12 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #666;
 }
 
-#adminmenu a, #submenu a, #poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-upload a.delete, a {
+#adminmenu a, #submenu a, #poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-upload a.delete, .ui-tabs-nav a, a {
 	color: #2583ad;
 }
 
 /* Because we don't want visited on these links */
-#adminmenu a.current, #sidemenu a.current {
+#adminmenu a.current, #sidemenu a.current, .ui-tabs-selected a, .ui-tabs-selected a:hover {
 	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;
