@@ -1127,6 +1127,14 @@ function wp_admin_css_color($key, $name, $url, $colors = array()) {
 	$_wp_admin_css_colors[$key] = (object) array('name' => $name, 'url' => $url, 'colors' => $colors);
 }
 
+/**
+ * wp_admin_css_uri() - Outputs the URL of a WordPress admin CSS file
+ *
+ * @see WP_Styles::_css_href and its style_loader_src filter.
+ *
+ * @param string $file file relative to wp-admin/ without its ".css" extension.
+ */
+
 function wp_admin_css_uri( $file = 'wp-admin' ) {
 	if ( defined('WP_INSTALLING') ) {
 		$_file = "./$file.css";
@@ -1138,11 +1146,33 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 	return apply_filters( 'wp_admin_css_uri', $_file, $file );
 }
 
+/**
+ * wp_admin_css() - Enqueues or directly prints a stylesheet link to the specified CSS file.
+ *
+ * "Intelligently" decides to enqueue or to print the CSS file.
+ * If the wp_print_styles action has *not* yet been called, the CSS file will be enqueued.
+ * If the wp_print_styles action *has* been called, the CSS link will be printed.
+ * Printing may be forced by passing TRUE as the $force_echo (second) parameter.
+ *
+ * For backward compatibility with WordPress 2.3 calling method:
+ * If the $file (first) parameter does not correspond to a registered CSS file, we assume $file is a
+ * file relative to wp-admin/ without its ".css" extension.  A stylesheet link to that generated URL is printed.
+ *
+ * @package WordPress
+ * @since 2.3
+ *
+ * @uses $wp_styles WordPress Styles Object
+ *
+ * @param string $file Style handle name or file name (without ".css" extension) relative to wp-admin/
+ * @param bool $force_echo Optional.  Force the stylesheet link to be printed rather than enqueued.
+ */
+
 function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
 
+	// For backward compatibility
 	$handle = 0 === strpos( $file, 'css/' ) ? substr( $file, 4 ) : $file;
 
 	if ( $wp_styles->query( $handle ) ) {
