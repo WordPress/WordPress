@@ -2,12 +2,16 @@
 /**
  * Author Template functions for use in themes.
  *
+ * These functions must be used within the WordPress Loop.
+ *
+ * @link http://codex.wordpress.org/Author_Templates
+ *
  * @package WordPress
  * @subpackage Template
  */
 
 /**
- * get_the_author() - Get the author of the current post in the Loop.
+ * Retrieve the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -22,21 +26,22 @@ function get_the_author($deprecated = '') {
 }
 
 /**
- * the_author() - Echo the name of the author of the current post in the Loop.
+ * Display the name of the author of the current post.
  *
- * The behavior of this function is based off of old functionality predating get_the_author().
- * This function is not deprecated, but is designed to echo the value from get_the_author()
- * and as an result of any old theme that might still use the old behavior will also
- * pass the value from get_the_author().
+ * The behavior of this function is based off of old functionality predating
+ * get_the_author(). This function is not deprecated, but is designed to echo
+ * the value from get_the_author() and as an result of any old theme that might
+ * still use the old behavior will also pass the value from get_the_author().
  *
- * The normal, expected behavior of this function is to echo the author and not return it.
- * However, backwards compatiability has to be maintained.
+ * The normal, expected behavior of this function is to echo the author and not
+ * return it. However, backwards compatiability has to be maintained.
  *
  * @since 0.71
  * @see get_the_author()
+ * @link http://codex.wordpress.org/Template_Tags/the_author
  *
  * @param string $deprecated Deprecated.
- * @param string $deprecated_echo Echo the string or return it. Deprecated, use get_the_author().
+ * @param string $deprecated_echo Echo the string or return it.
  * @return string The author's display name, from get_the_author().
  */
 function the_author($deprecated = '', $deprecated_echo = true) {
@@ -46,7 +51,7 @@ function the_author($deprecated = '', $deprecated_echo = true) {
 }
 
 /**
- * get_the_author_description() - Get the description of the author of the current post in the Loop.
+ * Retrieve the description of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -58,8 +63,9 @@ function get_the_author_description() {
 }
 
 /**
- * the_author_description() - Echo the description of the author of the current post in the Loop.
+ * Display the description of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_description
  * @since 1.0.0
  * @see get_the_author_description()
  */
@@ -68,7 +74,7 @@ function the_author_description() {
 }
 
 /**
- * get_the_author_login() - Get the login name of the author of the current post in the Loop.
+ * Retrieve the login name of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -80,8 +86,9 @@ function get_the_author_login() {
 }
 
 /**
- * the_author_login() - Echo the login name of the author of the current post in the Loop.
+ * Display the login name of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_login
  * @since 0.71
  * @see get_the_author_login()
  */
@@ -90,7 +97,7 @@ function the_author_login() {
 }
 
 /**
- * get_the_author_firstname() - Get the first name of the author of the current post in the Loop.
+ * Retrieve the first name of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -102,8 +109,9 @@ function get_the_author_firstname() {
 }
 
 /**
- * the_author_firstname() - Echo the first name of the author of the current post in the Loop.
+ * Display the first name of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_firstname
  * @since 0.71
  * @uses get_the_author_firstname()
  */
@@ -112,7 +120,7 @@ function the_author_firstname() {
 }
 
 /**
- * get_the_author_lastname() - Get the last name of the author of the current post in the Loop.
+ * Retrieve the last name of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -124,8 +132,9 @@ function get_the_author_lastname() {
 }
 
 /**
- * the_author_lastname() - Echo the last name of the author of the current post in the Loop.
+ * Display the last name of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_lastname
  * @since 0.71
  * @uses get_the_author_lastname()
  */
@@ -134,7 +143,7 @@ function the_author_lastname() {
 }
 
 /**
- * get_the_author_nickname() - Get the nickname of the author of the current post in the Loop.
+ * Retrieve the nickname of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -146,8 +155,9 @@ function get_the_author_nickname() {
 }
 
 /**
- * the_author_nickname() - Echo the nickname of the author of the current post in the Loop.
+ * Display the nickname of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_nickname
  * @since 0.71
  * @uses get_the_author_nickname()
  */
@@ -156,7 +166,7 @@ function the_author_nickname() {
 }
 
 /**
- * get_the_author_ID() - Get the ID of the author of the current post in the Loop.
+ * Retrieve the ID of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -168,8 +178,9 @@ function get_the_author_ID() {
 }
 
 /**
- * the_author_ID() - Echo the ID of the author of the current post in the Loop.
+ * Display the ID of the author of the current post.
  *
+ * @http://codex.wordpress.org/Template_Tags/the_author_ID
  * @since 0.71
  * @uses get_the_author_ID()
  */
@@ -178,7 +189,7 @@ function the_author_ID() {
 }
 
 /**
- * get_the_author_email() - Get the email of the author of the current post in the Loop.
+ * Retrieve the email of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -190,8 +201,9 @@ function get_the_author_email() {
 }
 
 /**
- * the_author_email() - Echo the email of the author of the current post in the Loop.
+ * Display the email of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_email
  * @since 0.71
  * @uses get_the_author_email()
  */
@@ -200,7 +212,7 @@ function the_author_email() {
 }
 
 /**
- * get_the_author_url() - Get the URL to the home page of the author of the current post in the Loop.
+ * Retrieve the URL to the home page of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -216,8 +228,9 @@ function get_the_author_url() {
 }
 
 /**
- * the_author_url() - Echo the URL to the home page of the author of the current post in the Loop.
+ * Display the URL to the home page of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_url
  * @since 0.71
  * @uses get_the_author_url()
  */
@@ -226,8 +239,12 @@ function the_author_url() {
 }
 
 /**
- * the_author_link() - If the author has a home page set, echo an HTML link, otherwise just echo the author's name.
+ * Display either author's link or author's name.
  *
+ * If the author has a home page set, echo an HTML link, otherwise just echo the
+ * author's name.
+ *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_link
  * @since 2.1
  * @uses get_the_author_url()
  * @uses the_author()
@@ -241,7 +258,7 @@ function the_author_link() {
 }
 
 /**
- * get_the_author_icq() - Get the ICQ number of the author of the current post in the Loop.
+ * Retrieve the ICQ number of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -253,8 +270,9 @@ function get_the_author_icq() {
 }
 
 /**
- * the_author_icq() - Echo the ICQ number of the author of the current post in the Loop.
+ * Display the ICQ number of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_icq
  * @since 0.71
  * @see get_the_author_icq()
  */
@@ -263,7 +281,7 @@ function the_author_icq() {
 }
 
 /**
- * get_the_author_aim() - Get the AIM name of the author of the current post in the Loop.
+ * Retrieve the AIM name of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -275,8 +293,9 @@ function get_the_author_aim() {
 }
 
 /**
- * the_author_aim() - Echo the AIM name of the author of the current post in the Loop.
+ * Display the AIM name of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_aim
  * @since 0.71
  * @see get_the_author_aim()
  */
@@ -285,7 +304,7 @@ function the_author_aim() {
 }
 
 /**
- * get_the_author_yim() - Get the Yahoo! IM name of the author of the current post in the Loop.
+ * Retrieve the Yahoo! IM name of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -297,8 +316,9 @@ function get_the_author_yim() {
 }
 
 /**
- * the_author_yim() - Echo the Yahoo! IM name of the author of the current post in the Loop.
+ * Display the Yahoo! IM name of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_yim
  * @since 0.71
  * @see get_the_author_yim()
  */
@@ -307,7 +327,7 @@ function the_author_yim() {
 }
 
 /**
- * get_the_author_msn() - Get the MSN address of the author of the current post in the Loop.
+ * Retrieve the MSN address of the author of the current post.
  *
  * @since 1.5
  * @uses $authordata The current author's DB object.
@@ -319,8 +339,9 @@ function get_the_author_msn() {
 }
 
 /**
- * the_author_msn() - Echo the MSN address of the author of the current post in the Loop.
+ * Display the MSN address of the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_msn
  * @since 0.71
  * @see get_the_author_msn()
  */
@@ -329,7 +350,7 @@ function the_author_msn() {
 }
 
 /**
- * get_the_author_posts() - Get the number of posts by the author of the current post in the Loop.
+ * Retrieve the number of posts by the author of the current post.
  *
  * @since 1.5
  * @uses $post The current post in the Loop's DB object.
@@ -342,8 +363,9 @@ function get_the_author_posts() {
 }
 
 /**
- * the_author_posts() - Echo the number of posts by the author of the current post in the Loop.
+ * Display the number of posts by the author of the current post.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_posts
  * @since 0.71
  * @uses get_the_author_posts() Echos returned value from function.
  */
@@ -352,11 +374,13 @@ function the_author_posts() {
 }
 
 /**
- * the_author_posts_link() - Echo an HTML link to the author page of the author of the current post in the Loop.
+ * Display an HTML link to the author page of the author of the current post.
  *
- * Does just echo get_author_posts_url() function, like the others do. The reason for this,
- * is that another function is used to help in printing the link to the author's posts.
+ * Does just echo get_author_posts_url() function, like the others do. The
+ * reason for this, is that another function is used to help in printing the
+ * link to the author's posts.
  *
+ * @link http://codex.wordpress.org/Template_Tags/the_author_posts_link
  * @since 1.2
  * @uses $authordata The current author's DB object.
  * @uses get_author_posts_url()
@@ -374,7 +398,7 @@ function the_author_posts_link($deprecated = '') {
 }
 
 /**
- * get_author_posts_url() - Get the URL to the author page of the author of the current post in the Loop.
+ * Retrieve the URL to the author page of the author of the current post.
  *
  * @since 2.1
  * @uses $wp_rewrite WP_Rewrite
@@ -404,7 +428,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 }
 
 /**
- * get_author_name() - Get the specified author's preferred display name.
+ * Retrieve the specified author's preferred display name.
  *
  * @since 1.0.0
  * @param int $auth_id The ID of the author.
@@ -416,16 +440,19 @@ function get_author_name( $auth_id ) {
 }
 
 /**
- * wp_list_authors() - List all the authors of the blog, with several options available.
+ * List all the authors of the blog, with several options available.
  *
- * optioncount (boolean) (false): Show the count in parenthesis next to the author's name.
- * exclude_admin (boolean) (true): Exclude the 'admin' user that is installed by default.
+ * optioncount (boolean) (false): Show the count in parenthesis next to the
+ *		author's name.
+ * exclude_admin (boolean) (true): Exclude the 'admin' user that is installed by
+ *		default.
  * show_fullname (boolean) (false): Show their full names.
  * hide_empty (boolean) (true): Don't show authors without any posts.
  * feed (string) (''): If isn't empty, show links to author's feeds.
  * feed_image (string) (''): If isn't empty, use this image to link to feeds.
  * echo (boolean) (true): Set to false to return the output, instead of echoing.
  *
+ * @link http://codex.wordpress.org/Template_Tags/wp_list_authors
  * @since 1.2
  * @param array $args The argument array.
  * @return null|string The output, if echo is set to false.
