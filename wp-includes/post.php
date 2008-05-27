@@ -566,9 +566,6 @@ function get_post_meta($post_id, $key, $single = false) {
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	global $wpdb;
 
-	$meta_value = maybe_serialize($meta_value);
-	$prev_value = maybe_serialize($prev_value);
-
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
@@ -576,11 +573,15 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 		return add_post_meta($post_id, $meta_key, $meta_value);
 	}
 
+	$meta_value = maybe_serialize($meta_value);
+
 	$data  = compact( 'meta_value' );
 	$where = compact( 'meta_key', 'post_id' );
 
-	if ( !empty( $prev_value ) )
+	if ( !empty( $prev_value ) ) {
+		$prev_value = maybe_serialize($prev_value);
 		$where['meta_value'] = $prev_value;
+	}
 
 	$wpdb->update( $wpdb->postmeta, $data, $where );
 	wp_cache_delete($post_id, 'post_meta');
