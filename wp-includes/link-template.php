@@ -402,7 +402,7 @@ function get_tag_feed_link($tag_id, $feed = '') {
 			$feed_link = 'feed';
 		else
 			$feed_link = "feed/$feed";
-		$link = $link . user_trailingslashit($feed_link, 'feed');
+		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
 	}
 
 	$link = apply_filters('tag_feed_link', $link, $feed);
