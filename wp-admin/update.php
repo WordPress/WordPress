@@ -117,7 +117,7 @@ function do_plugin_upgrade($plugin) {
 	if ( is_wp_error($result) ) {
 		show_message($result);
 	} else {
-		//Result is the new plugin file relative to PLUGINDIR
+		//Result is the new plugin file relative to WP_PLUGIN_DIR
 		show_message(__('Plugin upgraded successfully'));	
 		if( $result && $was_activated ){
 			show_message(__('Attempting reactivation of the plugin'));
@@ -164,7 +164,7 @@ wp_admin_css( 'colors', true );
 			echo '<p>' . __('Plugin failed to reactivate due to a fatal error.') . '</p>';
 			error_reporting( E_ALL ^ E_NOTICE );
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
-			include(ABSPATH . PLUGINDIR . '/' . $plugin);
+			include(WP_PLUGIN_DIR . '/' . $plugin);
 		}
 		echo "</body></html>";
 	}

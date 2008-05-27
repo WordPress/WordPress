@@ -18,7 +18,7 @@ if ( isset($_GET['action']) ) {
 			wp_die($valid);
 		error_reporting( E_ALL ^ E_NOTICE );
 		@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
-		include(ABSPATH . PLUGINDIR . '/' . $plugin);
+		include(WP_PLUGIN_DIR . '/' . $plugin);
 	} elseif ( 'deactivate' == $_GET['action'] ) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
 		deactivate_plugins($_GET['plugin']);
@@ -123,7 +123,7 @@ if (empty($plugins)) {
 		} else {
 			$action_links[] = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin_' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
-		if ( current_user_can('edit_plugins') && is_writable(ABSPATH . PLUGINDIR . '/' . $plugin_file) )
+		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 			$action_links[] = "<a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>";
 
 		$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
@@ -166,11 +166,11 @@ if (empty($plugins)) {
 }
 ?>
 
-<p><?php printf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), PLUGINDIR); ?></p>
+<p><?php printf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR); ?></p>
 
 <h2><?php _e('Get More Plugins'); ?></h2>
 <p><?php _e('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>.'); ?></p>
-<p><?php printf(__('To install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory. Once a plugin is uploaded, you may activate it here.'), PLUGINDIR); ?></p>
+<p><?php printf(__('To install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory. Once a plugin is uploaded, you may activate it here.'), WP_PLUGIN_DIR); ?></p>
 
 </div>
 

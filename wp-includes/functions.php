@@ -1080,7 +1080,7 @@ function wp_upload_dir( $time = NULL ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = get_option( 'upload_path' );
 	if ( trim($upload_path) === '' )
-		$upload_path = 'wp-content/uploads';
+		$upload_path = WP_CONTENT_DIR . '/uploads';
 	$dir = $upload_path;
 
 	// $dir is absolute, $path is (maybe) relative to ABSPATH
@@ -1558,8 +1558,8 @@ function wp_ob_end_flush_all() {
  */
 function require_wp_db() {
 	global $wpdb;
-	if ( file_exists( ABSPATH . 'wp-content/db.php' ) )
-		require_once( ABSPATH . 'wp-content/db.php' );
+	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) )
+		require_once( WP_CONTENT_DIR . '/db.php' );
 	else
 		require_once( ABSPATH . WPINC . '/wp-db.php' );
 }
@@ -1568,8 +1568,8 @@ function dead_db() {
 	global $wpdb;
 
 	// Load custom DB error template, if present.
-	if ( file_exists( ABSPATH . 'wp-content/db-error.php' ) ) {
-		require_once( ABSPATH . 'wp-content/db-error.php' );
+	if ( file_exists( WP_CONTENT_DIR . '/db-error.php' ) ) {
+		require_once( WP_CONTENT_DIR . '/db-error.php' );
 		die();
 	}
 

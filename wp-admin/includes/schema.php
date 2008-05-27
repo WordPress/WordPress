@@ -226,10 +226,10 @@ function populate_options() {
 	if ( ini_get('safe_mode') ) {
 		// Safe mode screws up mkdir(), so we must use a flat structure.
 		add_option('uploads_use_yearmonth_folders', 0);
-		add_option('upload_path', 'wp-content');
+		add_option('upload_path', WP_CONTENT_DIR);
 	} else {
 		add_option('uploads_use_yearmonth_folders', 1);
-		add_option('upload_path', 'wp-content/uploads');
+		add_option('upload_path', WP_CONTENT_DIR . '/uploads');
 	}
 
 	// 2.0.3

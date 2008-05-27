@@ -651,11 +651,12 @@ function is_server_error ($sc) {
 }
 
 class RSSCache {
-	var $BASE_CACHE = 'wp-content/cache';	// where the cache files are stored
+	var $BASE_CACHE;	// where the cache files are stored
 	var $MAX_AGE	= 43200;  		// when are files stale, default twelve hours
 	var $ERROR 		= '';			// accumulate error messages
 
 	function RSSCache ($base='', $age='') {
+		$this->BASE_CACHE = WP_CONTENT_DIR . '/cache';
 		if ( $base ) {
 			$this->BASE_CACHE = $base;
 		}

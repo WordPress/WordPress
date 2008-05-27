@@ -278,7 +278,7 @@ function load_default_textdomain() {
  *
  * The plugin may place all of the .mo files in another folder and set
  * the $path based on the relative location from ABSPATH constant. The
- * plugin may use the constant PLUGINDIR and/or plugin_basename() to
+ * plugin may use the constant WP_PLUGIN_DIR and/or plugin_basename() to
  * get path of the plugin and then add the folder which holds the .mo
  * files.
  *
@@ -291,9 +291,9 @@ function load_plugin_textdomain($domain, $path = false) {
 	$locale = get_locale();
 
 	if ( false === $path )
-		$path = PLUGINDIR;
+		$path = WP_PLUGIN_DIR;
 
-	$mofile = ABSPATH . "$path/$domain-$locale.mo";
+	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
 	load_textdomain($domain, $mofile);
 }
 

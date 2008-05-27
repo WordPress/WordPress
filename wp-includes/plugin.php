@@ -434,7 +434,7 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
 /**
  * plugin_basename() - Gets the basename of a plugin.
  *
- * This method extract the name of a plugin from its filename.
+ * This method extracts the name of a plugin from its filename.
  *
  * @package WordPress
  * @subpackage Plugin
@@ -444,11 +444,14 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
  *
  * @param string $file The filename of plugin.
  * @return string The name of a plugin.
+ * @uses WP_PLUGIN_DIR
  */
 function plugin_basename($file) {
 	$file = str_replace('\\','/',$file); // sanitize for Win32 installs
 	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
-	$file = preg_replace('|^.*/' . PLUGINDIR . '/|','',$file); // get relative path from plugins dir
+	$plugin_dir = str_replace('\\','/',WP_PLUGIN_DIR); // sanitize for Win32 installs
+	$plugin_dir = preg_replace('|/+|','/', $plugin_dir); // remove any duplicate slash
+	$file = preg_replace('|^' . preg_quote($plugin_dir, '|') . '/|','',$file); // get relative path from plugins dir
 	return $file;
 }
 

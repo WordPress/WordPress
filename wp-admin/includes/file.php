@@ -46,7 +46,7 @@ function get_temp_dir() {
 	if ( defined('WP_TEMP_DIR') )
 		return trailingslashit(WP_TEMP_DIR);
 
-	$temp = ABSPATH . 'wp-content/';
+	$temp = WP_CONTENT_DIR . '/';
 	if ( is_dir($temp) && is_writable($temp) )
 		return $temp;
 

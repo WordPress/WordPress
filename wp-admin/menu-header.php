@@ -19,13 +19,13 @@ foreach ( $menu as $key => $item ) {
 	if ( !empty($submenu[$item[2]]) ) {
 		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+		if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
 			echo "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 	} else if ( current_user_can($item[1]) ) {
 		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
+		if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) )
 			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
@@ -49,13 +49,13 @@ foreach ( $menu as $key => $item ) {
 	if ( !empty($submenu[$item[2]]) ) {
 		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+		if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
 			echo "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 	} else if ( current_user_can($item[1]) ) {
 		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
+		if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) )
 			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
@@ -74,13 +74,13 @@ foreach ( $menu as $key => $item ) {
 	if ( !empty($submenu[$item[2]]) ) {
 		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+		if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
 			echo "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a></li>";
 	} else if ( current_user_can($item[1]) ) {
 		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
+		if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) )
 			echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
@@ -106,13 +106,13 @@ foreach ( $menu as $key => $item ) {
 	if ( !empty($submenu[$item[2]]) ) {
 		$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 		$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+		if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
 			$side_items[] = "\n\t<li><a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 		else
 			$side_items[] = "\n\t<li><a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 	} else if ( current_user_can($item[1]) ) {
 		$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
-		if ( file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || !empty($menu_hook) )
+		if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) )
 			$side_items[] = "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
 		else
 			$side_items[] = "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a>";
@@ -143,7 +143,7 @@ else $class = '';
 
 $menu_hook = get_plugin_page_hook($item[2], $parent_file);
 
-if (file_exists(ABSPATH . PLUGINDIR . "/{$item[2]}") || ! empty($menu_hook)) {
+if (file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || ! empty($menu_hook)) {
  	if ( 'admin.php' == $pagenow )
 		echo "\n\t<li><a href='admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 	else

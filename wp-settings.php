@@ -100,7 +100,10 @@ if ( version_compare( '4.3', phpversion(), '>' ) ) {
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.3.' );
 }
 
-if ( !extension_loaded('mysql') && !file_exists(ABSPATH . 'wp-content/db.php') )
+if ( !defined('WP_CONTENT_DIR') )
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
+
+if ( !extension_loaded('mysql') && !file_exists(WP_CONTENT_DIR . '/db.php') )
 	die( 'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.' );
 
 /**
@@ -166,7 +169,7 @@ if (defined('WP_DEBUG') and WP_DEBUG == true) {
 
 // For an advanced caching plugin to use, static because you would only want one
 if ( defined('WP_CACHE') )
-	@include ABSPATH . 'wp-content/advanced-cache.php';
+	@include WP_CONTENT_DIR . '/advanced-cache.php';
 
 /**
  * Stores the location of the WordPress directory of functions, classes, and core content.
@@ -175,29 +178,27 @@ if ( defined('WP_CACHE') )
  */
 define('WPINC', 'wp-includes');
 
-if ( !defined('LANGDIR') ) {
+if ( !defined('WP_LANG_DIR') ) {
 	/**
-	 * Stores the location of the language directory. First looks for language folder in wp-content
+	 * Stores the location of the language directory. First looks for language folder in WP_CONTENT_DIR
 	 * and uses that folder if it exists. Or it uses the "languages" folder in WPINC.
 	 *
 	 * @since 2.1.0
 	 */
-	if ( file_exists(ABSPATH . 'wp-content/languages') && @is_dir(ABSPATH . 'wp-content/languages') )
-		define('LANGDIR', 'wp-content/languages'); // no leading slash, no trailing slash
-	else
-		define('LANGDIR', WPINC . '/languages'); // no leading slash, no trailing slash
+	if ( file_exists(WP_CONTENT_DIR . '/languages') && @is_dir(WP_CONTENT_DIR . '/languages') ) {
+		define('WP_LANG_DIR', WP_CONTENT_DIR . '/languages'); // no leading slash, no trailing slash, full path, not relative to ABSPATH
+		if (!defined('LANGDIR')) {
+			// Old static relative path maintained for limited backwards compatibility - won't work in some cases
+			define('LANGDIR', 'wp-content/languages');
+		}
+	} else {
+		define('WP_LANG_DIR', ABSPATH . WPINC . '/languages'); // no leading slash, no trailing slash, full path, not relative to ABSPATH
+		if (!defined('LANGDIR')) {
+			// Old relative path maintained for backwards compatibility
+			define('LANGDIR', WPINC . '/languages');
+		}
+	}
 }
-
-/**
- * Allows for the plugins directory to be moved from the default location.
- *
- * This isn't used everywhere. Constant is not used in plugin_basename()
- * which might cause conflicts with changing this.
- *
- * @since 2.1
- */
-if ( !defined('PLUGINDIR') )
-	define('PLUGINDIR', 'wp-content/plugins'); // no leading slash, no trailing slash
 
 require (ABSPATH . WPINC . '/compat.php');
 require (ABSPATH . WPINC . '/functions.php');
@@ -213,8 +214,8 @@ $prefix = $wpdb->set_prefix($table_prefix);
 if ( is_wp_error($prefix) )
 	wp_die('<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.');
 
-if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
-	require_once (ABSPATH . 'wp-content/object-cache.php');
+if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') )
+	require_once (WP_CONTENT_DIR . '/object-cache.php');
 else
 	require_once (ABSPATH . WPINC . '/cache.php');
 
@@ -271,6 +272,21 @@ require (ABSPATH . WPINC . '/update.php');
 require (ABSPATH . WPINC . '/canonical.php');
 require (ABSPATH . WPINC . '/shortcodes.php');
 require (ABSPATH . WPINC . '/media.php');
+
+if ( !defined('WP_CONTENT_URL') )
+	define( 'WP_CONTENT_URL', get_option('home') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
+
+/**
+ * Allows for the plugins directory to be moved from the default location.
+ *
+ * @since 2.6
+ */
+if ( !defined('WP_PLUGIN_DIR') )
+	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
+if ( !defined('WP_PLUGIN_URL') )
+	define( 'WP_PLUGIN_URL', WP_CONTENT_URL . '/plugins' ); // full url, no trailing slash
+if ( !defined('PLUGINDIR') )
+	define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
 
 if ( ! defined('WP_INSTALLING') ) {
 	// Used to guarantee unique hash cookies
@@ -364,8 +380,8 @@ if ( get_option('active_plugins') ) {
 	$current_plugins = get_option('active_plugins');
 	if ( is_array($current_plugins) ) {
 		foreach ($current_plugins as $plugin) {
-			if ('' != $plugin && file_exists(ABSPATH . PLUGINDIR . '/' . $plugin))
-				include_once(ABSPATH . PLUGINDIR . '/' . $plugin);
+			if ('' != $plugin && file_exists(WP_PLUGIN_DIR . '/' . $plugin))
+				include_once(WP_PLUGIN_DIR . '/' . $plugin);
 		}
 	}
 }
@@ -458,7 +474,7 @@ load_default_textdomain();
  * @since 1.5.0
  */
 $locale = get_locale();
-$locale_file = ABSPATH . LANGDIR . "/$locale.php";
+$locale_file = WP_LANG_DIR . "/$locale.php";
 if ( is_readable($locale_file) )
 	require_once($locale_file);
 

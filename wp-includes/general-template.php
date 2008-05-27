@@ -7,7 +7,7 @@ function get_header() {
 	if ( file_exists( TEMPLATEPATH . '/header.php') )
 		load_template( TEMPLATEPATH . '/header.php');
 	else
-		load_template( ABSPATH . 'wp-content/themes/default/header.php');
+		load_template( WP_CONTENT_DIR . '/themes/default/header.php');
 }
 
 
@@ -16,7 +16,7 @@ function get_footer() {
 	if ( file_exists( TEMPLATEPATH . '/footer.php') )
 		load_template( TEMPLATEPATH . '/footer.php');
 	else
-		load_template( ABSPATH . 'wp-content/themes/default/footer.php');
+		load_template( WP_CONTENT_DIR . '/themes/default/footer.php');
 }
 
 
@@ -27,7 +27,7 @@ function get_sidebar( $name = null ) {
 	elseif ( file_exists( TEMPLATEPATH . '/sidebar.php') )
 		load_template( TEMPLATEPATH . '/sidebar.php');
 	else
-		load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
+		load_template( WP_CONTENT_DIR . '/themes/default/sidebar.php');
 }
 
 

@@ -665,7 +665,7 @@ function comments_template( $file = '/comments.php' ) {
 	if ( file_exists( $include ) )
 		require( $include );
 	else
-		require( ABSPATH . 'wp-content/themes/default/comments.php');
+		require( WP_CONTENT_DIR . '/themes/default/comments.php');
 }
 
 /**

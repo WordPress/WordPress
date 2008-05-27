@@ -159,8 +159,8 @@ function wp_update_plugin($plugin, $feedback = '') {
 	if ( $wp_filesystem->errors->get_error_code() )
 		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
 
-	//Get the Base folder
-	$base = $wp_filesystem->get_base_dir();
+	//Get the base plugin folder
+	$base = $wp_filesystem->get_base_dir(WP_PLUGIN_DIR);
 	
 	if ( empty($base) )
 		return new WP_Error('fs_nowordpress', __('Unable to locate WordPress directory.'));
@@ -179,7 +179,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	if ( is_wp_error($file) )
 		return new WP_Error('download_failed', __('Download failed.'), $file->get_error_message());
 
-	$working_dir = $base . 'wp-content/upgrade/' . basename($plugin, '.php');
+	$working_dir = $wp_filesystem->get_base_dir(WP_CONTENT_DIR) . '/upgrade/' . basename($plugin, '.php');
 
 	// Clean up working directory
 	if ( $wp_filesystem->is_dir($working_dir) )
@@ -205,14 +205,14 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	// Remove the existing plugin.
 	apply_filters('update_feedback', __('Removing the old version of the plugin'));
-	$plugin_dir = dirname($base . PLUGINDIR . "/$plugin");
+	$plugin_dir = dirname($base . "/$plugin");
 	$plugin_dir = trailingslashit($plugin_dir);
 	
 	// If plugin is in its own directory, recursively delete the directory.
-	if ( strpos($plugin, '/') && $plugin_dir != $base . PLUGINDIR . '/' ) //base check on if plugin includes directory seperator AND that its not the root plugin folder
+	if ( strpos($plugin, '/') && $plugin_dir != $base . '/' ) //base check on if plugin includes directory seperator AND that its not the root plugin folder
 		$deleted = $wp_filesystem->delete($plugin_dir, true);
 	else
-		$deleted = $wp_filesystem->delete($base . PLUGINDIR . "/$plugin");
+		$deleted = $wp_filesystem->delete($base . '/' . $plugin);
 
 	if ( !$deleted ) {
 		$wp_filesystem->delete($working_dir, true);
@@ -221,7 +221,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	apply_filters('update_feedback', __('Installing the latest version'));
 	// Copy new version of plugin into place.
-	if ( !copy_dir($working_dir, $base . PLUGINDIR) ) {
+	if ( !copy_dir($working_dir, $base) ) {
 		//$wp_filesystem->delete($working_dir, true); //TODO: Uncomment? This DOES mean that the new files are available in the upgrade folder if it fails.
 		return new WP_Error('install_failed', __('Installation failed'));
 	}

@@ -84,12 +84,15 @@ class WP_Filesystem_FTPext{
 		$this->permission = $perm;
 	}
 
-	function find_base_dir($base = '.',$echo = false, $loop = false) {
+	function find_base_dir($path = false, $base = '.',$echo = false, $loop = false) {
+		if (!$path)
+			$path = ABSPATH;
+		
 		//Sanitize the Windows path formats, This allows easier conparison and aligns it to FTP output.
-		$abspath = str_replace('\\','/',ABSPATH); //windows: Straighten up the paths..
-		if( strpos($abspath, ':') ){ //Windows, Strip out the driveletter
-			if( preg_match("|.{1}\:(.+)|i", $abspath, $mat) )
-				$abspath = $mat[1];
+		$path = str_replace('\\','/',$path); //windows: Straighten up the paths..
+		if( strpos($path, ':') ){ //Windows, Strip out the driveletter
+			if( preg_match("|.{1}\:(.+)|i", $path, $mat) )
+				$path = $mat[1];
 		}
 	
 		//Set up the base directory (Which unless specified, is the current one)
@@ -97,9 +100,9 @@ class WP_Filesystem_FTPext{
 		$base = trailingslashit($base);
 
 		//Can we see the Current directory as part of the ABSPATH?
-		$location = strpos($abspath, $base);
+		$location = strpos($path, $base);
 		if( false !== $location ) {
-			$newbase = path_join($base, substr($abspath, $location + strlen($base)));
+			$newbase = path_join($base, substr($path, $location + strlen($base)));
 
 			if( false !== $this->chdir($newbase) ){ //chdir sometimes returns null under certain circumstances, even when its changed correctly, FALSE will be returned if it doesnt change correctly.
 				if($echo) printf( __('Changing to %s') . '<br/>', $newbase );
@@ -116,7 +119,7 @@ class WP_Filesystem_FTPext{
 		//Get a list of the files in the current directory, See if we can locate where we are in the folder stucture.
 		$files = $this->dirlist($base);
 		
-		$arrPath = explode('/', $abspath);
+		$arrPath = explode('/', $path);
 		foreach($arrPath as $key){
 			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder, 
 			// If its found, change into it and follow through looking for it. 
@@ -126,7 +129,7 @@ class WP_Filesystem_FTPext{
 				//Lets try that folder:
 				$folder = path_join($base, $key);
 				if($echo) printf( __('Changing to %s') . '<br/>', $folder );
-				$ret = $this->find_base_dir( $folder, $echo, $loop);
+				$ret = $this->find_base_dir( $path, $folder, $echo, $loop);
 				if( $ret )
 					return $ret;
 			}
@@ -139,14 +142,14 @@ class WP_Filesystem_FTPext{
 		if( $loop )
 			return false;//Prevent tihs function looping again.
 		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
-		return $this->find_base_dir('/', $echo, true); 
+		return $this->find_base_dir($path, '/', $echo, true); 
 	}
 
-	function get_base_dir($base = '.', $echo = false){
+	function get_base_dir($path = false, $base = '.', $echo = false){
 		if( defined('FTP_BASE') )
 			$this->wp_base = FTP_BASE;
 		if( empty($this->wp_base) )
-			$this->wp_base = $this->find_base_dir($base,$echo);
+			$this->wp_base = $this->find_base_dir($path, $base, $echo);
 		return $this->wp_base;
 	}
 	function get_contents($file,$type='',$resumepos=0){

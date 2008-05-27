@@ -206,7 +206,7 @@ if ( $msie = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ) {
 }
 
 // Cache path, this is where the .gz files will be stored
-$cache_path = ABSPATH . 'wp-content/uploads/js_cache'; 
+$cache_path = WP_CONTENT_DIR . '/uploads/js_cache'; 
 if ( $disk_cache && ! is_dir($cache_path) )
 	$disk_cache = wp_mkdir_p($cache_path);
 

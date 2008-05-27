@@ -1,7 +1,7 @@
 <?php
 
-if ( file_exists(ABSPATH . 'wp-content/install.php') )
-	require (ABSPATH . 'wp-content/install.php');
+if ( file_exists(WP_CONTENT_DIR . '/install.php') )
+	require (WP_CONTENT_DIR . '/install.php');
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
 require_once(ABSPATH . 'wp-admin/includes/schema.php');
 
@@ -1086,7 +1086,7 @@ function make_db_current_silent() {
 
 function make_site_theme_from_oldschool($theme_name, $template) {
 	$home_path = get_home_path();
-	$site_dir = ABSPATH . "wp-content/themes/$template";
+	$site_dir = WP_CONTENT_DIR . "/themes/$template";
 
 	if (! file_exists("$home_path/index.php"))
 		return false;
@@ -1105,7 +1105,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		if ($oldfile == 'index.php') { // Check to make sure it's not a new index
 			$index = implode('', file("$oldpath/$oldfile"));
 			if (strpos($index, 'WP_USE_THEMES') !== false) {
-				if (! @copy(ABSPATH . 'wp-content/themes/default/index.php', "$site_dir/$newfile"))
+				if (! @copy(WP_CONTENT_DIR . '/themes/default/index.php', "$site_dir/$newfile"))
 					return false;
 				continue; // Don't copy anything
 				}
@@ -1153,8 +1153,8 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 }
 
 function make_site_theme_from_default($theme_name, $template) {
-	$site_dir = ABSPATH . "wp-content/themes/$template";
-	$default_dir = ABSPATH . 'wp-content/themes/default';
+	$site_dir = WP_CONTENT_DIR . "/themes/$template";
+	$default_dir = WP_CONTENT_DIR . '/themes/default';
 
 	// Copy files from the default theme to the site theme.
 	//$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
@@ -1211,7 +1211,7 @@ function make_site_theme() {
 	// Name the theme after the blog.
 	$theme_name = __get_option('blogname');
 	$template = sanitize_title($theme_name);
-	$site_dir = ABSPATH . "wp-content/themes/$template";
+	$site_dir = WP_CONTENT_DIR . "/themes/$template";
 
 	// If the theme already exists, nothing to do.
 	if ( is_dir($site_dir)) {
@@ -1219,7 +1219,7 @@ function make_site_theme() {
 	}
 
 	// We must be able to write to the themes dir.
-	if (! is_writable(ABSPATH . "wp-content/themes")) {
+	if (! is_writable(WP_CONTENT_DIR . "/themes")) {
 		return false;
 	}
 

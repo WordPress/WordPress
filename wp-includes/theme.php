@@ -333,11 +333,11 @@ function get_current_theme() {
 }
 
 function get_theme_root() {
-	return apply_filters('theme_root', ABSPATH . "wp-content/themes");
+	return apply_filters('theme_root', WP_CONTENT_DIR . "/themes");
 }
 
 function get_theme_root_uri() {
-	return apply_filters('theme_root_uri', get_option('siteurl') . "/wp-content/themes", get_option('siteurl'));
+	return apply_filters('theme_root_uri', WP_CONTENT_URL . "/themes", get_option('siteurl'));
 }
 
 function get_query_template($type) {
