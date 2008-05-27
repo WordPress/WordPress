@@ -13,6 +13,8 @@ function add_action() {}
 function do_action_ref_array() {}
 function get_bloginfo() {}
 function is_admin() {return true;}
+function site_url() {}
+function admin_url() {}
 
 require(ABSPATH . '/wp-includes/script-loader.php');
 require(ABSPATH . '/wp-includes/version.php');
