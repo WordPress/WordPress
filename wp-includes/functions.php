@@ -1765,4 +1765,7 @@ function validate_file( $file, $allowed_files = '' ) {
 	return 0;
 }
 
+function is_ssl() {
+	return ( 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false; 
+}
 ?>

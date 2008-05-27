@@ -225,7 +225,7 @@ function wp_dashboard_dynamic_sidebar_params( $params ) {
 	}
 
 	if ( $widget_feed_link )
-		$links[] = '<img class="rss-icon" src="' . get_option( 'siteurl' ) . '/' . WPINC . '/images/rss.png" alt="' . __( 'rss icon' ) . '" /> <a href="' . clean_url( $widget_feed_link ) . '">' . __( 'RSS' ) . '</a>';
+		$links[] = '<img class="rss-icon" src="' . includes_url('images/rss.png') . '" alt="' . __( 'rss icon' ) . '" /> <a href="' . clean_url( $widget_feed_link ) . '">' . __( 'RSS' ) . '</a>';
 
 	$links = apply_filters( "wp_dashboard_widget_links_$widget_id", $links );
 

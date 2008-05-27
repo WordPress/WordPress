@@ -753,7 +753,7 @@ function media_upload_header() {
 function media_upload_form( $errors = null ) {
 	global $type, $tab;
 
-	$flash_action_url = get_option('siteurl') . "/wp-admin/async-upload.php";
+	$flash_action_url = admin_url('async-upload.php');
 
 	// If Mac and mod_security, no Flash. :(
 	$flash = true;
@@ -784,7 +784,7 @@ function media_upload_form( $errors = null ) {
 jQuery(function($){
 	swfu = new SWFUpload({
 			upload_url : "<?php echo attribute_escape( $flash_action_url ); ?>",
-			flash_url : "<?php echo get_option('siteurl').'/wp-includes/js/swfupload/swfupload_f9.swf'; ?>",
+			flash_url : "<?php echo includes_url('js/swfupload/swfupload_f9.swf'); ?>",
 			file_post_name: "async-upload",
 			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 			post_params : {
@@ -844,7 +844,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 
 	$post_id = intval($_REQUEST['post_id']);
 
-	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type=$type&tab=type&post_id=$post_id";
+	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 	$form_action_url = apply_filters('media_upload_form_url', $form_action_url, $type);
 
 	$callback = "type_form_$type";
@@ -895,7 +895,7 @@ function media_upload_gallery_form($errors) {
 
 	$post_id = intval($_REQUEST['post_id']);
 
-	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type={$GLOBALS['type']}&tab=gallery&post_id=$post_id";
+	$form_action_url = admin_url("media-upload.php?type={$GLOBALS['type']}&tab=gallery&post_id=$post_id");
 
 ?>
 
@@ -934,7 +934,7 @@ function media_upload_library_form($errors) {
 
 	$post_id = intval($_REQUEST['post_id']);
 
-	$form_action_url = get_option('siteurl') . "/wp-admin/media-upload.php?type={$GLOBALS['type']}&tab=library&post_id=$post_id";
+	$form_action_url = admin_url("media-upload.php?type={$GLOBALS['type']}&tab=library&post_id=$post_id");
 
 	$_GET['paged'] = intval($_GET['paged']);
 	if ( $_GET['paged'] < 1 )

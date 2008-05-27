@@ -396,9 +396,9 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 
 <?php
 	if ( get_option('users_can_register') )
-		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php') . '</p>';
+		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), site_url('wp-register.php')) . '</p>';
 	else
-	        echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), get_option('siteurl').'/wp-admin/options-general.php#users_can_register') . '</p>';
+		echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), admin_url('options-general.php#users_can_register')) . '</p>';
 ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users: validate">
 <?php wp_nonce_field('add-user') ?>

@@ -26,8 +26,8 @@ $time_format = get_option('time_format');
 
 wp_reset_vars(array('profile', 'redirect', 'redirect_url', 'a', 'popuptitle', 'popupurl', 'text', 'trackback', 'pingback'));
 
-wp_admin_css_color('classic', __('Classic'), get_option( 'siteurl' ) . "/wp-admin/css/colors-classic.css", array('#07273E', '#14568A', '#D54E21', '#2683AE'));
-wp_admin_css_color('fresh', __('Fresh'), get_option( 'siteurl' ) . "/wp-admin/css/colors-fresh.css", array('#464646', '#CEE1EF', '#D54E21', '#2683AE'));
+wp_admin_css_color('classic', __('Classic'), admin_url("css/colors-classic.css"), array('#07273E', '#14568A', '#D54E21', '#2683AE'));
+wp_admin_css_color('fresh', __('Fresh'), admin_url("css/colors-fresh.css"), array('#464646', '#CEE1EF', '#D54E21', '#2683AE'));
 
 wp_enqueue_script( 'common' );
 wp_enqueue_script( 'jquery-color' );

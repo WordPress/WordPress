@@ -774,4 +774,42 @@ function get_shortcut_link() {
 
 	return apply_filters('shortcut_link', $link);
 }
+
+// return the site_url option, using https if is_ssl() is true
+// if $scheme is 'http' or 'https' it will override is_ssl()
+function site_url($path = '', $scheme = null) {
+	// should the list of allowed schemes be maintained elsewhere?
+	if ( !in_array($scheme, array('http', 'https')) )
+		$scheme = ( is_ssl() ? 'https' : 'http' );
+
+	$url = str_replace( 'http://', "{$scheme}://", get_option('siteurl') );
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= '/' . ltrim($path, '/');
+
+	return $url;
+}
+
+function admin_url($path = '') {
+	global $_wp_admin_url;
+
+	$url = site_url() . '/wp-admin/';
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= ltrim($path, '/');
+
+	return $url;
+}
+
+function includes_url($path = '') {
+	global $_wp_includes_url;
+
+	$url = site_url() . '/' . WPINC . '/';
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= ltrim($path, '/');
+
+	return $url;
+}
+
 ?>

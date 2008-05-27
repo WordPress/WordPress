@@ -20,8 +20,8 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 	}
 
 	$sendback = wp_get_referer();
-	if (strpos($sendback, 'post.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/post-new.php';
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = get_option('siteurl') .'/wp-admin/attachments.php';
+	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('post-new.php');
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 
 	wp_redirect($sendback);

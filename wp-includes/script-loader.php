@@ -7,7 +7,7 @@ require( ABSPATH . WPINC . '/class.wp-styles.php' );
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
 function wp_default_scripts( &$scripts ) {
-	$scripts->base_url = get_option( 'siteurl' );
+	$scripts->base_url = site_url();
 	$scripts->default_version = get_bloginfo( 'version' );
 
 	$scripts->add( 'common', '/wp-admin/js/common.js', array('jquery'), '20080318' );
@@ -50,7 +50,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-lists', '/wp-includes/js/wp-lists.js', array('wp-ajax-response'), '20080411' );
 	$scripts->localize( 'wp-lists', 'wpListL10n', array(
-		'url' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php'
+		'url' => admin_url('admin-ajax.php')
 	) );
 
 	$scripts->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/scriptaculous.js', array('prototype'), '1.8.0');
@@ -129,11 +129,11 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 		$scripts->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery'), '20080128' );
 		$scripts->localize( 'postbox', 'postboxL10n', array(
-			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+			'requestFile' => admin_url('admin-ajax.php'),
 		) );
 		$scripts->add( 'slug', '/wp-admin/js/slug.js', array('jquery'), '20080208' );
 		$scripts->localize( 'slug', 'slugL10n', array(
-			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+			'requestFile' => admin_url('admin-ajax.php'),
 			'save' => __('Save'),
 			'cancel' => __('Cancel'),
 		) );
@@ -204,7 +204,7 @@ function wp_default_scripts( &$scripts ) {
 }
 
 function wp_default_styles( &$styles ) {
-	$styles->base_url = get_option( 'siteurl' );
+	$styles->base_url = site_url();
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 
@@ -258,7 +258,7 @@ function wp_just_in_time_script_localization() {
 		'autosaveInterval' => AUTOSAVE_INTERVAL,
 		'previewPageText' => __('Preview this Page'),
 		'previewPostText' => __('Preview this Post'),
-		'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+		'requestFile' => admin_url('admin-ajax.php'),
 		'savingText' => __('Saving Draft&#8230;')
 	) );
 }

@@ -469,9 +469,14 @@ if ( !function_exists('wp_validate_auth_cookie') ) :
  */
 function wp_validate_auth_cookie($cookie = '') {
 	if ( empty($cookie) ) {
-		if ( empty($_COOKIE[AUTH_COOKIE]) )
+		if ( is_ssl() )
+			$cookie_name = SECURE_AUTH_COOKIE;
+		else
+			$cookie_name = AUTH_COOKIE;
+
+		if ( empty($_COOKIE[$cookie_name]) )
 			return false;
-		$cookie = $_COOKIE[AUTH_COOKIE];
+		$cookie = $_COOKIE[$cookie_name];
 	}
 
 	$cookie_elements = explode('|', $cookie);
@@ -514,9 +519,10 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
  *
  * @param int $user_id User ID
  * @param int $expiration Cookie expiration in seconds
+ * @param bool $secure Whether the cookie is for https delivery only or not.  Not used by default.  For plugin use.
  * @return string Authentication cookie contents
  */
-function wp_generate_auth_cookie($user_id, $expiration) {
+function wp_generate_auth_cookie($user_id, $expiration, $secure = false) {
 	$user = get_userdata($user_id);
 
 	$key = wp_hash($user->user_login . '|' . $expiration);
@@ -524,7 +530,7 @@ function wp_generate_auth_cookie($user_id, $expiration) {
 
 	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
 
-	return apply_filters('auth_cookie', $cookie, $user_id, $expiration);
+	return apply_filters('auth_cookie', $cookie, $user_id, $expiration, $secure);
 }
 endif;
 
@@ -550,13 +556,21 @@ function wp_set_auth_cookie($user_id, $remember = false) {
 		$expire = 0;
 	}
 
-	$cookie = wp_generate_auth_cookie($user_id, $expiration);
+	if ( is_ssl() ) {
+		$secure = true;
+		$cookie_name = SECURE_AUTH_COOKIE;
+	} else {
+		$secure = false;
+		$cookie_name = AUTH_COOKIE;
+	}
 
-	do_action('set_auth_cookie', $cookie, $expire);
+	$cookie = wp_generate_auth_cookie($user_id, $expiration, $secure);
 
-	setcookie(AUTH_COOKIE, $cookie, $expire, COOKIEPATH, COOKIE_DOMAIN);
+	do_action('set_auth_cookie', $cookie, $expire, $secure);
+
+	setcookie($cookie_name, $cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure);
 	if ( COOKIEPATH != SITECOOKIEPATH )
-		setcookie(AUTH_COOKIE, $cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN);
+		setcookie($cookie_name, $cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, $secure);
 }
 endif;
 
@@ -569,6 +583,8 @@ if ( !function_exists('wp_clear_auth_cookie') ) :
 function wp_clear_auth_cookie() {
 	setcookie(AUTH_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
 	setcookie(AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
+	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
+	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
 
 	// Old cookies
 	setcookie(USER_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
@@ -604,14 +620,36 @@ if ( !function_exists('auth_redirect') ) :
  */
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
-	if ( (!empty($_COOKIE[AUTH_COOKIE]) &&
-				!wp_validate_auth_cookie($_COOKIE[AUTH_COOKIE])) ||
-			(empty($_COOKIE[AUTH_COOKIE])) ) {
-		nocache_headers();
 
-		wp_redirect(get_option('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
-		exit();
+	if ( is_ssl() || (defined('FORCE_SSL_LOGIN') && FORCE_SSL_LOGIN) )
+		$secure = true;
+	else
+		$secure = false;
+
+	// If https is required and request is http, redirect
+	if ( $secure && !is_ssl() ) {
+		if ( false !== strpos($_SERVER['REQUEST_URI'], 'http') ) {
+			wp_redirect(str_replace('http://', 'https://', $_SERVER['REQUEST_URI']));
+			exit();
+		} else {
+			wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+			exit();			
+		}
 	}
+
+	if ( wp_validate_auth_cookie() )
+		return;  // The cookie is good so we're done
+
+	// The cookie is no good so force login
+	nocache_headers();
+
+	$login_url = get_option('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']);
+
+	//  Redirect to https if connection is secure
+	if ( $secure )
+		$login_url = str_replace('http://', 'https://', $login_url);
+	wp_redirect($login_url);
+	exit();
 }
 endif;
 

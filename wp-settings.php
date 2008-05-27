@@ -311,6 +311,13 @@ if ( !defined('AUTH_COOKIE') )
 
 /**
  * It is possible to define this in wp-config.php
+ * @since 2.6
+ */
+if ( !defined('SECURE_AUTH_COOKIE') )
+	define('SECURE_AUTH_COOKIE', 'wordpress_sec_' . COOKIEHASH);
+
+/**
+ * It is possible to define this in wp-config.php
  * @since 2.3.0
  */
 if ( !defined('TEST_COOKIE') )

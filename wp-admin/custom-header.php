@@ -189,7 +189,7 @@ Event.observe( window, 'load', hide_text );
 <div id="desc"><?php bloginfo('description');?></div>
 </div>
 <?php if ( !defined( 'NO_HEADER_TEXT' ) ) { ?>
-<form method="post" action="<?php echo get_option('siteurl') ?>/wp-admin/themes.php?page=custom-header&amp;updated=true">
+<form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
 <input type="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
 <input type="button" value="<?php _e('Select a Text Color'); ?>" onclick="colorSelect($('textcolor'), 'pickcolor')" id="pickcolor" /><input type="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
 <?php wp_nonce_field('custom-header') ?>

@@ -85,7 +85,7 @@ if ( ($is_gecko || $is_winIE) && strpos(strtolower($_SERVER['HTTP_USER_AGENT']),
 	<a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a></p>
 	<p><?php _e('After installing and enabling it, most of the WordPress images, scripts and CSS files will be stored on this computer. This will speed up page loading.'); ?></p>
 	<p><strong><?php _e('Please make sure you are not using a public or shared computer.'); ?></strong></p>
-	<div class="submit"><button onclick="window.location = 'http://gears.google.com/?action=install&return=<?php echo get_option('siteurl') . '/wp-admin/'; ?>';" class="button"><?php _e('Install Now'); ?></button>
+	<div class="submit"><button onclick="window.location = 'http://gears.google.com/?action=install&return=<?php echo admin_url() ?>';" class="button"><?php _e('Install Now'); ?></button>
 	<button class="button" style="margin-left:10px;" onclick="document.getElementById('gears-info-box').style.display='none';">Cancel</button></div>
 	</div>
 
@@ -109,7 +109,7 @@ if ( ($is_gecko || $is_winIE) && strpos(strtolower($_SERVER['HTTP_USER_AGENT']),
 
 <?php } ?>
 
-<div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s">%2$s</a>!'), 'profile.php', $user_identity) ?> | <a href="<?php echo get_option('siteurl'); ?>/wp-login.php?action=logout" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a> | <?php _e('<a href="http://codex.wordpress.org/">Help</a>') ?> | <?php _e('<a href="http://wordpress.org/support/">Forums</a>') ?> | <?php if ( $gears_compat ) { ?><span id="gears-menu"><a href="#" onclick="wpGears.message(1);return false;"><?php _e('Speed up!') ?></a></span><?php } ?></p></div>
+<div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s">%2$s</a>!'), 'profile.php', $user_identity) ?> | <a href="<?php echo site_url('wp-login.php?action=logout') ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a> | <?php _e('<a href="http://codex.wordpress.org/">Help</a>') ?> | <?php _e('<a href="http://wordpress.org/support/">Forums</a>') ?> | <?php if ( $gears_compat ) { ?><span id="gears-menu"><a href="#" onclick="wpGears.message(1);return false;"><?php _e('Speed up!') ?></a></span><?php } ?></p></div>
 
 <?php
 require(ABSPATH . 'wp-admin/menu-header.php');
