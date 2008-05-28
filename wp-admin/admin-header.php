@@ -45,22 +45,24 @@ addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document
 <style type="text/css">* html { overflow-x: hidden; }</style>
 <?php endif;
 
-if ( isset($page_hook) ) {
-	do_action('admin_print_styles-' . $page_hook);
-	do_action('admin_print_scripts-' . $page_hook);
-	do_action('admin_head-' . $page_hook);
-} else if ( isset($plugin_page) ) {
-	do_action('admin_print_styles-' . $plugin_page);
-	do_action('admin_print_scripts-' . $plugin_page);
-	do_action('admin_head-' . $plugin_page);
-} else if ( isset($pagenow) ) {
-	do_action('admin_print_styles-' . $pagenow);
-	do_action('admin_print_scripts-' . $pagenow);
-	do_action('admin_head-' . $pagenow);
-}
-do_action('admin_print_styles');
-do_action('admin_print_scripts');
-do_action('admin_head');
+$hook_suffixes = array();
+
+if ( isset($page_hook) )
+	$hook_suffixes[] = "-$page_hook";
+else if ( isset($plugin_page) )
+	$hook_suffixes[] = "-$plugin_page";
+else if ( isset($pagenow) )
+	$hook_suffixes[] = "-$pagenow";
+
+$hook_suffixes[] = '';
+
+foreach ( $hook_suffixes as $hook_suffix )
+	do_action("admin_print_styles$hook_suffix"); // do_action( 'admin_print_styles-XXX' ); do_action( 'admin_print_styles' );
+foreach ( $hook_suffixes as $hook_suffix )
+	do_action("admin_print_scripts$hook_suffix"); // do_action( 'admin_print_scripts-XXX' ); do_action( 'admin_print_scripts' );
+foreach ( $hook_suffixes as $hook_suffix )
+	do_action("admin_head$hook_suffix"); // do_action( 'admin_head-XXX' ); do_action( 'admin_head' );
+unset($hook_suffixes, $hook_suffix);
 
 ?>
 </head>
