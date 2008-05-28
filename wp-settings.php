@@ -274,7 +274,7 @@ require (ABSPATH . WPINC . '/shortcodes.php');
 require (ABSPATH . WPINC . '/media.php');
 
 if ( !defined('WP_CONTENT_URL') )
-	define( 'WP_CONTENT_URL', get_option('home') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
+	define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
 
 /**
  * Allows for the plugins directory to be moved from the default location.
