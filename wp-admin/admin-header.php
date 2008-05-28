@@ -77,7 +77,7 @@ $gears_compat = false;
 if ( ($is_gecko || $is_winIE) && strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') === false ) { 
 	$gears_compat = true;
 ?>
-	<div id="gears-info-box" class="info-box">
+	<div id="gears-info-box" class="info-box" style="display:none;">
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
 	<div id="gears-msg1">
 	<h3 class="info-box-title"><?php _e('Speed up WordPress'); ?></h3>
