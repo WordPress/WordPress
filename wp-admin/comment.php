@@ -193,10 +193,6 @@ case 'approvecomment' :
 
 	wp_set_comment_status( $comment->comment_ID, 'approve' );
 
-	if ( true == get_option('comments_notify') )
-		wp_notify_postauthor( $comment->comment_ID );
-
-
 	if ( '' != wp_get_referer() && false == $noredir )
 		wp_redirect( wp_get_referer() );
 	else
