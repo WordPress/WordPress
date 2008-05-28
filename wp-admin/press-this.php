@@ -19,24 +19,19 @@ function press_it() {
 
 	$content = '';
 	switch ( $_REQUEST['post_type'] ) {
-		case 'regular':
+		case 'text':
 			$content = $_REQUEST['content'];
-			if ($_REQUEST['content2'])
-				$content .= $_REQUEST['content2']; 
-			break;
 
 		case 'quote':
-			$content = '<blockquote>' . $_REQUEST['content'];
-			if ($_REQUEST['content2']) {
-				$content .= '</blockquote>
-				';
-				$content = $content . $_REQUEST['content2']; 
-			}
+			$content = $_REQUEST['content'];
 			break;
 
 		case 'photo':
+		
+//		http_post_data();
+			
 			if ($_REQUEST['photo_link'])
-				$content = '<a href="' . $_REQUEST['photo_link'] . '" target="_new">';
+				$content = '<a href="' . $_REQUEST['photo_link'] . '">';
 
 			$content .= '<img src="' . $_REQUEST['photo_src'] . '" alt=""/>';
 
@@ -49,11 +44,9 @@ function press_it() {
 
 			break;
 		case "video":
-			list($garbage,$video_id) = split("v=", $_REQUEST['content']);
-			$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
-			if ($_REQUEST['content2'])
-				$content .= "\n" . $_REQUEST['content2'];
-			break;				
+			$content = $_REQUEST['content'];
+			
+			break;	
 	}
 
 	$quick['post_content'] = $content;
@@ -95,6 +88,9 @@ function category_div() {
 function get_images_from_uri($uri) {
 
 	$content = wp_remote_fopen($uri);
+	$uri = str_replace(basename($uri), '', $uri);			
+	$host = parse_url($uri);
+	
 	if ( false === $content ) return '';
 
 	$pattern = '/<img[^>]+src=[\'"]([^\'" >]+?)[\'" >]/is';
@@ -102,23 +98,42 @@ function get_images_from_uri($uri) {
 	if ( empty($matches[1]) ) return '';
 	
 	$sources = array();
+
 	foreach ($matches[1] as $src) {
 		if ( false !== strpos($src, '&') )
 			continue;
-		
-		$host = parse_url($_GET['u']);
-		
-		if (strpos($src, 'http://') === false) {
-			$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
-		}
+		$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
 		
 		$sources[] = $src;
 	}
 	return "'" . implode("','", $sources) . "'";
 }
 
-function press_this_js_init() { ?>
-    <?php if ( user_can_richedit() ) { 
+// Clean up the data being passed in
+$title = wp_specialchars(stripslashes($_GET['t']));
+$selection = trim(wp_specialchars(str_replace("\n", ' ',stripslashes($_GET['s']))));
+$url = clean_url($_GET['u']);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<head>
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+	<title><?php _e('Press This') ?></title>
+
+	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
+<?php
+	wp_enqueue_script('jquery-ui-tabs');
+	add_thickbox();
+	wp_enqueue_style('press-this');
+	wp_enqueue_style( 'colors' );
+	wp_enqueue_script('post');
+
+	do_action('admin_print_styles');
+	do_action('admin_print_scripts');
+	do_action('admin_head');
+?>
+	<script type="text/javascript">
+	<?php if ( user_can_richedit() ) { 
 		$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
 		// Add TinyMCE languages
 		@include_once( dirname(__FILE__).'/../wp-includes/js/tinymce/langs/wp-langs.php' );
@@ -179,46 +194,134 @@ function press_this_js_init() { ?>
 		// auto-save tags on post save/publish
 		jQuery('#publish').click( tag_save_on_publish );
 		jQuery('#save-post').click( tag_save_on_publish );
-<?php
-}
-
-// Clean up the data being passed in
-$title = wp_specialchars(stripslashes($_GET['t']));
-$selection = wp_specialchars(stripslashes($_GET['s']));
-$url = clean_url($_GET['u']);                          
-
-if ( empty($_GET['tab']) ) {
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
-<head>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-	<title><?php _e('Press This') ?></title>
-
-	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
-<?php
-	wp_enqueue_script('jquery-ui-tabs');
-	add_thickbox();
-	wp_enqueue_style('press-this');
-	wp_enqueue_style( 'colors' );
-	wp_enqueue_script('post');
-
-	do_action('admin_print_styles');
-	do_action('admin_print_scripts');
-	do_action('admin_head');
-?>
-	<script type="text/javascript">
+		
+	function set_menu(type) {
+		jQuery('#text_button').removeClass('ui-tabs-selected');
+		jQuery('#menu li').removeClass('ui-tabs-selected');
+		jQuery('#' + type + '_button').addClass('ui-tabs-selected');
+		jQuery("#post_type").val(type);
+	}
+	function set_editor(text) {
+		tinyMCE.activeEditor.setContent('');
+		tinyMCE.execCommand('mceInsertContent' ,false, text);
+	}
+	function set_title(title) { jQuery("#content_type").text(title); }
+	
+		var last = null;
+	function pick(img) {
+		if (last) last.style.backgroundColor = '#f4f4f4';
+		if (img) {
+			document.getElementById('photo_src').value = img.src;
+			img.style.backgroundColor = '#44f';
+		}
+		last = img;
+		
+		/*noel's code to select more than one image....
+		jQuery('.photolist').append('<h2><?php _e("Photo URL") ?></h2>' +
+		'<div class="titlewrap">' + 
+		'<a href="#" class="remove">remove <input name="photo_src" id="photo_src[]" value ="'+ img.src +'" class="text" onkeydown="pick(0);"/></a>' +
+		'</div>');*/
+		
+		return false;
+	}
 
 	jQuery(document).ready(function() {
-    <?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
-		jQuery('#container > ul').tabs({ selected: 3 });
-	<?php } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
-		jQuery('#container > ul').tabs({ selected: 1 });
-	<?php } else { ?>
-		jQuery('#container > ul').tabs();
-	<?php } ?>
-	});
+		
+    	
+		<?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
+	
+		<?php } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
+			
+		<?php } else { ?>
 
+		<?php } ?>
+	
+	
+		jQuery("#text_button").click(function () {
+			jQuery('.editor-container').show();
+			jQuery('#content_type').show();
+			jQuery('#photo_fields').hide();
+			set_menu('text');
+			set_title('<?php _e('Text') ?>');
+			set_editor('<?php echo $selection; ?>');
+			return false;
+		});
+	
+		jQuery("#quote_button").click(function () {
+			jQuery('.editor-container').show();
+			jQuery('#content_type').show();
+			jQuery('#photo_fields').hide();
+			set_menu('quote');
+			set_title('<?php _e('Quote') ?>');
+			set_editor('<blockquote><p><?php echo $selection; ?> </p><p><cite><a href="<?php echo $url; ?>"><?php echo $title; ?></a></cite> </p></blockquote>');
+			
+			return false;
+		});
+		
+
+		jQuery("#video_button").click(function () {
+			jQuery('.editor-container').show();
+			jQuery('#content_type').show();
+			jQuery('#photo_fields').hide();
+			set_menu('video');
+			set_title('<?php _e('Video') ?>');
+			set_editor('<a href="<?php echo $url; ?>"><?php echo $title; ?></a>');
+			<?php /*
+			<!--list($garbage,$video_id) = split("v=", $_REQUEST['content']);
+			$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';-->
+			*/?>
+			return false;
+		});	
+	
+
+	jQuery("#photo_button").click(function () {
+		set_menu('photo');
+		set_title('Caption');
+		set_editor('<a href="<?php echo $url; ?>"><?php echo $title; ?></a>');
+		jQuery('#photo_fields').show();
+		jQuery('.remove').click(function() {
+			jQuery(this).remove;
+
+		});
+		
+		
+		var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
+		var my_src = [<?php echo get_images_from_uri($url); ?>];
+
+		for (i = 0; i < my_src.length; i++) {
+			img = new Image();
+			img.src = my_src[i];
+			img_attr = 'id="img' + i + '" onclick="pick(this);"';
+			skip = false;
+			
+			if (img.width && img.height) {
+				if (img.width * img.height < 2500) skip = true;
+				aspect = img.width / img.height;
+				if (aspect > 1) { // Image is wide
+					scale = 75 / img.width;
+				} else { // Image is tall or square
+					scale = 75 / img.height;
+				}
+				if (scale < 1) {
+					w = parseInt(img.width * scale);
+					h = parseInt(img.height * scale);
+				} else {
+					w = img.width;
+					h = img.height;
+				}
+				img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
+			}
+			
+			if (!skip) strtoappend += '<a href="' + img.src + '" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
+            	
+		}
+			
+			jQuery('#img_container').html(strtoappend);
+
+			tb_init('a.thickbox, area.thickbox, input.thickbox'); //pass where to apply thickbox
+		
+		});
+	});
 	</script>
 	
 
@@ -227,206 +330,57 @@ if ( empty($_GET['tab']) ) {
 <div id="wphead">
 <h1><span id="viewsite"><a href="<?php echo get_option('home'); ?>/"><?php _e('Visit:') ?> <?php bloginfo('name'); ?></a></span></h1>
 </div>
-	<div id="container">
-		<ul>
-			<li><a href="<?php echo clean_url(add_query_arg('tab', 'text', stripslashes($_SERVER['REQUEST_URI']))) ?>"><?php _e('Text') ?></a></li>
-		 	<li><a href="<?php echo clean_url(add_query_arg('tab', 'photo', stripslashes($_SERVER['REQUEST_URI']))) ?>"><?php _e('Photo') ?></a></li>
-			<li><a href="<?php echo clean_url(add_query_arg('tab', 'quote', stripslashes($_SERVER['REQUEST_URI']))) ?>"><?php _e('Quote') ?></a></li>
-			<li><a href="<?php echo clean_url(add_query_arg('tab', 'video', stripslashes($_SERVER['REQUEST_URI']))) ?>"><?php _e('Video') ?></a></li>
+
+		<ul id="menu" class="ui-tabs-nav">
+			<li id="text_button" class="ui-tabs-selected"><a href="#"><?php _e('Text') ?></a></li>
+		 	<li id="photo_button"><a href="#"><?php _e('Photo') ?></a></li>
+			<li id="quote_button"><a href="#"><?php _e('Quote') ?></a></li>
+			<li id="video_button"><a href="#"><?php _e('Video') ?></a></li>
 		</ul>
-		
-	</div>
-</body>
-</html>
-<?php exit; } elseif ( 'photo' == $_GET['tab'] ) { ?>
-	<script type="text/javascript">
-		<?php press_this_js_init(); ?>
-			var last = null;
-			function pick(img) {
-				if (last) last.style.backgroundColor = '#f4f4f4';
-				if (img) {
-					document.getElementById('photo_src').value = img.src;
-					img.style.backgroundColor = '#44f';
-				}
-				last = img;
-				
-				/*jQuery('.photolist').append('<h2><?php _e("Photo URL") ?></h2>' +
-				'<div class="titlewrap">' + 
-				'<a href="#" class="remove">remove <input name="photo_src" id="photo_src[]" value ="'+ img.src +'" class="text" onkeydown="pick(0);"/></a>' +
-				'</div>');*/
-				return false;
-			}
 
-			jQuery('.remove').click(function() {
-				jQuery(this).remove;
-				
-			});
-			jQuery(document).ready(function() {
-				var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
-				var my_src = [<?php echo get_images_from_uri($url); ?>];
-
-				for (i = 0; i < my_src.length; i++) {
- 					img = new Image();
- 					img.src = my_src[i];
- 					img_attr = 'id="img' + i + '" onclick="pick(this);"';
- 					skip = false;
-					if (img.width && img.height) {
-						if (img.width * img.height < 2500) skip = true;
-						aspect = img.width / img.height;
-						if (aspect > 1) {
-							// Image is wide
-							scale = 75 / img.width;
-						} else {
-							// Image is tall or square
-							scale = 75 / img.height;
-						}
-						if (scale < 1) {
-							w = parseInt(img.width * scale);
-							h = parseInt(img.height * scale);
-						} else {
-							w = img.width;
-							h = img.height;
-						}
-						img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
-					}
-					if (!skip) {
-						strtoappend += '<a href="' + img.src + '" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>'
-                	}
-				}
-				
-				jQuery('#img_container').html(strtoappend);
-
-				tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
-			});
-	</script>
-			<form action="press-this.php?action=post" method="post" id="photo_form">
+			<form action="press-this.php?action=post" method="post">
 				<?php wp_nonce_field('press-this') ?>
 				<input type="hidden" name="source" value="bookmarklet"/>
-				<input type="hidden" name="post_type" value="photo"/>
+				<input type="hidden" name="post_type" id="post_type" value="text"/>
 				<div id="posting">
 					
-					<h2><?php _e('Title') ?></h2>
+					<h2 id="title"><?php _e('Title') ?></h2>
 					<div class="titlewrap">
-					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
+						<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
+					</div>
+					<div id="photo_fields" style="display: none;">
+						<h2><?php _e('Photo URL') ?></h2>
+						<div class="titlewrap">
+							<input name="photo_src" id="photo_src" class="text" onkeydown="pick(0);"/>
+						</div>
+					
+						<div class="photolist"></div>
+					
+						<h2><?php _e('Link Photo to following URL') ?></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
+						<div class="titlewrap">
+							<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
+						</div>
+					
+						<small><?php _e('Click images to select:') ?></small>
+						<div class="titlewrap">
+							<div id="img_container"></div>
+						</div>
+					
 					</div>
 					
-					<h2><?php _e('Photo URL') ?></h2>
-					<div class="titlewrap">
-					<input name="photo_src" id="photo_src" class="text" onkeydown="pick(0);"/>
-					</div>
-					
-					<div class="photolist"></div>
-					
-					<h2><?php _e('Link Photo to following URL') ?></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
-					<div class="titlewrap">
-					<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
-					</div>
-					
-					<small><?php _e('Click images to select:') ?></small>
-					<div class="titlewrap">
-					<div id="img_container">
-					</div>
-					</div>
-					
-					
-					<h2><?php _e('Caption') ?></h2>
+					<h2 id="content_type"><?php _e('Post') ?></h2>
 					<div class="editor-container">
-						<textarea name="content" id="photo_post_two" style="" class="mceEditor">
-						<?php echo $selection; ?>
-						&lt;p&gt;&lt;a href="<?php echo attribute_escape($url);?>"&gt;<?php echo $title;?>&lt;/a&gt; &lt;/p&gt;
-						</textarea>
-					</div>
-
-					<?php tag_div(); ?>
-					
-				</div>
-					<?php category_div() ?>
-			</form>
-<?php
-exit;
-} elseif ( 'text' == $_GET['tab'] ) {
-?>
-		<script type="text/javascript">
-		<?php press_this_js_init(); ?>
-		</script>
-
-		  <form action="press-this.php?action=post" method="post" id="regular_form">
-		  		<?php wp_nonce_field('press-this') ?>
-				<input type="hidden" name="source" value="bookmarklet"/>
-				<input type="hidden" name="post_type" value="regular"/>
-				<div id="posting">
-					<h2><?php _e('Title') ?></h2>
-					<div class="titlewrap">
-					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
-					</div>
-					
-				  	<h2><?php _e('Post') ?></h2>
-					<div class="editor-container">
-						<textarea name="content" id="regular_post_two" style="height:170px;width:100%;" class="mceEditor">
-						<?php echo $selection; ?>
-						&lt;p&gt;&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt; &lt;/p&gt;
-						</textarea>
-					</div>        
-					<?php tag_div(); ?>
-       
-				</div>
-				<?php category_div() ?>
-			 </form>
-<?php
-exit;
-} elseif ( 'quote' == $_GET['tab'] ) {
-?>
-		<script type="text/javascript">
-		<?php press_this_js_init(); ?>
-		</script>
-
-			<form action="press-this.php?action=post" method="post" id="quote_form">
-				<?php wp_nonce_field('press-this') ?>
-				<input type="hidden" name="source" value="bookmarklet"/>
-				<input type="hidden" name="post_type" value="quote"/>
-				<div id="posting">
-					<h2><?php _e('Title') ?></h2>
-					<div class="titlewrap">
-					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape(sprintf(__('Quote by %s'), $title)); ?>"/>
-					</div>
-					
-					<h2><?php _e('Quote') ?></h2>
-					<div class="editor-container">
-						<textarea name="content" id="quote_post_one" style="height:130px;width:100%;" class="mceEditor">
+						<textarea name="content" id="content" style="height:170px;width:100%;" class="mceEditor">
 						<?php echo $selection; ?>
 						</textarea>
 					</div>
-
-					<h2><?php _e('Source'); ?> <span class="optional"><?php _e('(optional)'); ?></span></h2>
-					<div class="editor-container">
-						<textarea name="content2" id="quote_post_two" style="height:130px;width:100%;" class="mceEditor">
-						&lt;p&gt;&lt;cite&gt;&lt;a href="<?php echo $url;?>"&gt;<?php echo $title;?>&lt;/a&gt;&lt;/cite&gt; &lt;/p&gt;
-						</textarea>
-					</div>
-
+					
 					<?php tag_div(); ?>
+					
 				</div>
-				<?php category_div() ?>
-			</form>
-<?php
-exit;
-} elseif ( 'video' == $_GET['tab'] ) {
-?>
-		<script type="text/javascript">
-		<?php press_this_js_init(); ?>
-		</script>
-
-			<form action="press-this.php?action=post" method="post" id="video_form">
-				<?php wp_nonce_field('press-this') ?>
-				<input type="hidden" name="source" value="bookmarklet"/>
-				<input type="hidden" name="post_type" value="video"/>
-				<div id="posting">
-				
-					<h2><?php _e('Video Title') ?></h2>
-				<div class="titlewrap">	
-					<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
-				</div>
-					<?php 
+				<?php category_div(); ?>
+			</form>		
+					<?php /*
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
 						list($domain, $video_id) = split("v=", $url);
 					?>
@@ -436,22 +390,7 @@ exit;
 					
 					<h2><?php _e('Embed Code') ?></h2>
 					<textarea name="content" id="video_post_one" style="height:80px;width:100%;"></textarea>
-					<?php } ?>
-
-					<h2><?php _e('Caption <span class="optional">(optional)</span>') ?></h2>
-
-					<div class="editor-container">
-						<textarea name="content2" id="video_post_two" style="height:130px;width:100%;" class="mceEditor">
-						<?php echo $selection; ?>
-						&lt;p&gt;&lt;a href="<?php echo $url; ?>"&gt;<?php echo $title; ?>&lt;/a&gt; &lt;/p&gt;
-						</textarea>
-					</div>
-
-					<?php tag_div(); ?>
-				</div>
-				<?php category_div() ?>
-			</form>
-<?php
-exit;
-}
-?>			
+					<?php } */?>
+					
+</body>
+</html>

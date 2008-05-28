@@ -3,7 +3,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
-
+/* Tabs */
 @media projection , screen {
 	.ui-tabs-hide {
 		display: none;
@@ -16,22 +16,22 @@ body {
 	}
 }
 
-/* Skin */
-div.ui-tabs-panel {
-	border: none;
-	width: 100%;
-	height: auto;
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-
 .ui-tabs-nav {
 	list-style: none;
 	border-bottom: 1px solid #C6D9E9;
 	padding-left: 8px;
 	margin-bottom: .5em;
 	margin-top: -2em;
+}
+
+/* Additional IE specific bug fixes... */
+* html .ui-tabs-nav { /* auto clear, @ IE 6 & IE 7 Quirks Mode */
+	display: inline-block;
+}
+
+* :first-child+html .ui-tabs-nav {
+	/* @ IE 7 Standards Mode - do not group selectors, otherwise IE 6 will ignore complete rule (because of the unknown + combinator)... */
+	display: inline-block;
 }
 
 .ui-tabs-nav:after {
@@ -77,37 +77,14 @@ div.ui-tabs-panel {
 	-webkit-border-top-right-radius: 4px;
 	border-style: solid;
 	border-width: 1px;
-}
-
-.ui-tabs-nav .ui-tabs-selected a {
 	background: white;
 	border-bottom-width: 2px;
 	margin-top: -2px;
 }
 
-.ui-tabs-nav .ui-tabs-selected a:link,.ui-tabs-nav .ui-tabs-selected a:visited,.ui-tabs-nav .ui-tabs-disabled a:link,.ui-tabs-nav .ui-tabs-disabled a:visited
-	{ /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+.ui-tabs-nav a:hover,.ui-tabs-nav a:focus,.ui-tabs-nav a:active,
+.ui-tabs-nav .ui-tabs-selected a:link,.ui-tabs-nav .ui-tabs-selected a:visited { 
 	cursor: pointer;
-}
-
-.ui-tabs-nav a:hover,.ui-tabs-nav a:focus,.ui-tabs-nav a:active,.ui-tabs-nav .ui-tabs-unselect a:hover,.ui-tabs-nav .ui-tabs-unselect a:focus,.ui-tabs-nav .ui-tabs-unselect a:active
-	{ /* @ Opera, we need to be explicit again here now... */
-	cursor: pointer;
-}
-
-.ui-tabs-loading em {
-	padding: 0 0 0 20px;
-	background: url(../images/loading.gif) no-repeat 0 50%;
-}
-
-/* Additional IE specific bug fixes... */
-* html .ui-tabs-nav { /* auto clear, @ IE 6 & IE 7 Quirks Mode */
-	display: inline-block;
-}
-
-* :first-child+html .ui-tabs-nav {
-	/* @ IE 7 Standards Mode - do not group selectors, otherwise IE 6 will ignore complete rule (because of the unknown + combinator)... */
-	display: inline-block;
 }
 
 #wphead {
@@ -212,7 +189,7 @@ div#container form {
 div#categories {
 	font-size: 85%;
 	position: absolute;
-	top: 1.9em;
+
 	right: 16px;
 	width: 27%;
 	z-index: 2;
@@ -308,7 +285,7 @@ div#categories h2 {
 }
 
 .submitbox {
-	width: 180px;
+	width: 100%;
 	float: right;
 }
 
