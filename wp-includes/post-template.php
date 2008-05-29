@@ -677,7 +677,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 				$actions = '';
 
 			$rows .= "<tr$class>\n";
-			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked /><input type='radio' name='right' value='$revision->ID'$right_checked />\n";
+			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked /><input type='radio' name='right' value='$revision->ID'$right_checked /></th>\n";
 			$rows .= "\t<td>$date</td>\n";
 			$rows .= "\t<td>$name</td>\n";
 			$rows .= "\t<td class='action-links'>$actions</td>\n";
@@ -707,10 +707,12 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 	<col style="width: 33%" />
 	<col style="width: 33%" />
 <thead>
+<tr>
 	<th scope="col"></th>
 	<th scope="col"><?php _e( 'Date Created' ); ?></th>
 	<th scope="col"><?php _e( 'Author' ); ?></th>
 	<th scope="col" class="action-links"><?php _e( 'Actions' ); ?></th>
+</tr>
 </thead>
 <tbody>
 
@@ -718,6 +720,8 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 
 </tbody>
 </table>
+
+</form>
 
 <?php
 	else :

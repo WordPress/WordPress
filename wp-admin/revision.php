@@ -146,7 +146,7 @@ require_once( 'admin-header.php' );
 	<th scope="col" class="th-full">
 		<span class="alignleft"><?php printf( __('Older: %s'), wp_post_revision_title( $left_revision ) ); ?></span>
 		<span class="alignright"><?php printf( __('Newer: %s'), wp_post_revision_title( $right_revision ) ); ?></span>
-	</td>
+	</th>
 </tr>
 <?php endif;
 
@@ -167,7 +167,7 @@ foreach ( _wp_post_revision_fields() as $field => $field_title ) :
 
 	<tr id="revision-field-<?php echo $field; ?>">
 		<th scope="row"><?php echo wp_specialchars( $field_title ); ?></th>
-		<td><pre><?php echo $content; ?></pre></td>
+		<td><div class="pre"><?php echo $content; ?></div></td>
 	</tr>
 
 	<?php
@@ -199,5 +199,11 @@ if ( !constant( 'WP_POST_REVISIONS' ) )
 	$args['type'] = 'autosave';
 
 wp_list_post_revisions( $post, $args );
+
+?>
+
+</div>
+
+<?php
 
 require_once( 'admin-footer.php' );
