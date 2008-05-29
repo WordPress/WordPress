@@ -162,12 +162,12 @@ function wp_update_plugin($plugin, $feedback = '') {
 	//Get the base plugin folder
 	$plugins_dir = $wp_filesystem->wp_plugins_dir();
 	if ( empty($plugins_dir) )
-		return new WP_Error('fs_no)plugins_dir', __('Unable to locate WordPress Plugin directory.'));
+		return new WP_Error('fs_no_plugins_dir', __('Unable to locate WordPress Plugin directory.'));
 
 	//And the same for the Content directory.
 	$content_dir = $wp_filesystem->wp_content_dir();
 	if( empty($content_dir) )
-		return new WP_Error('fs_no_content_dor', __('Unable to locate WordPress Content directory (wp-content).'));
+		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
 	
 	$plugins_dir = trailingslashit( $plugins_dir );
 	$content_dir = trailingslashit( $content_dir );
