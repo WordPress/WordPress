@@ -304,7 +304,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #2782af
 }
 /* Because we don't want visited on these links */
-#adminmenu a.current, #sidemenu a.current, .ui-tabs-selected a, .ui-tabs-selected a:hover {
+#adminmenu a.current, #sidemenu a.current, body.press-this .ui-tabs-selected a, body.press-this .ui-tabs-selected a:hover {
 	background-color: #fff;
 	border-color: #07273e;
 	border-bottom-color: #fff;

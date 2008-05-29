@@ -284,7 +284,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 }
 
 /* Because we don't want visited on these links */
-#adminmenu a.current, #sidemenu a.current, .ui-tabs-selected a, .ui-tabs-selected a:hover {
+#adminmenu a.current, #sidemenu a.current, body.press-this .ui-tabs-selected a, body.press-this .ui-tabs-selected a:hover {
 	background-color: #fff;
 	border-color: #c6d9e9;
 	border-bottom-color: #fff;

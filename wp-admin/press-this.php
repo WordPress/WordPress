@@ -326,7 +326,7 @@ $url = clean_url($_GET['u']);
 	
 
 </head>
-<body>
+<body class="press-this">
 <div id="wphead">
 <h1><span id="viewsite"><a href="<?php echo get_option('home'); ?>/"><?php _e('Visit:') ?> <?php bloginfo('name'); ?></a></span></h1>
 </div>
