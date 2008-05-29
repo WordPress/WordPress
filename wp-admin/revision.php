@@ -2,11 +2,6 @@
 
 require_once('admin.php');
 
-if ( !constant('WP_POST_REVISIONS') ) {
-	wp_redirect( 'edit.php' );
-	exit;
-}
-
 wp_reset_vars(array('revision', 'left', 'right', 'action'));
 $revision_id = absint($revision);
 $diff        = absint($diff);
@@ -18,19 +13,25 @@ $parent_file = $redirect = 'edit.php';
 switch ( $action ) :
 case 'delete' : // stubs
 case 'edit' :
-	$redirect = remove_query_arg( 'action' );
+	if ( constant('WP_POST_REVISIONS') ) // stub
+		$redirect = remove_query_arg( 'action' );
+	else // Revisions disabled
+		$redirect = 'edit.php';
 	break;
 case 'restore' :
-	if ( !current_user_can( 'edit_post', $revision->post_parent ) )
+	if ( !$revision = wp_get_post_revision( $revision_id ) )
 		break;
-	if ( !$revision = wp_get_revision( $revision_id ) )
+	if ( !current_user_can( 'edit_post', $revision->post_parent ) )
 		break;
 	if ( !$post = get_post( $revision->post_parent ) )
 		break;
 
+	if ( !constant('WP_POST_REVISIONS') && !wp_is_post_autosave( $revision ) ) // Revisions disabled and we're not looking at an autosave
+		break;
+
 	check_admin_referer( "restore-post_$post->ID|$revision->ID" );
 
-	wp_restore_revision( $revision->ID );
+	wp_restore_post_revision( $revision->ID );
 	$redirect = add_query_arg( array( 'message' => 5, 'revision' => $revision->ID ), get_edit_post_link( $post->ID, 'url' ) );
 	break;
 case 'diff' :
@@ -57,12 +58,23 @@ case 'diff' :
 	else
 		break; // Don't diff two unrelated revisions
 
+	if ( !constant('WP_POST_REVISIONS') ) { // Revisions disabled
+		if (
+			// we're not looking at an autosave
+			( !wp_is_post_autosave( $left_revision ) && !wp_is_post_autosave( $right_revision ) )
+		||
+			// we're not comparing an autosave to the current post
+			( $post->ID !== $left_revision->ID && $post->ID !== $right_revision->ID )
+		)
+			break;
+	}
+
 	if (
 		// They're the same
 		$left_revision->ID == $right_revision->ID
 	||
 		// Neither is a revision
-		( !wp_get_revision( $left_revision->ID ) && !wp_get_revision( $right_revision->ID ) )
+		( !wp_get_post_revision( $left_revision->ID ) && !wp_get_post_revision( $right_revision->ID ) )
 	)
 		break;
 	
@@ -76,12 +88,15 @@ case 'diff' :
 	break;
 case 'view' :
 default :
-	if ( !$revision = wp_get_revision( $revision_id ) )
+	if ( !$revision = wp_get_post_revision( $revision_id ) )
 		break;
 	if ( !$post = get_post( $revision->post_parent ) )
 		break;
 
 	if ( !current_user_can( 'read_post', $revision->ID ) || !current_user_can( 'read_post', $post->ID ) )
+		break;
+
+	if ( !constant('WP_POST_REVISIONS') && !wp_is_post_autosave( $revision ) ) // Revisions disabled and we're not looking at an autosave
 		break;
 
 	$post_title = '<a href="' . get_edit_post_link() . '">' . get_the_title() . '</a>';
@@ -113,7 +128,7 @@ if ( 'page' == $post->post_type ) {
 }
 
 // Converts post_author ID# into name
-add_filter( '_wp_revision_field_post_author', 'get_author_name' );
+add_filter( '_wp_post_revision_field_post_author', 'get_author_name' );
 
 require_once( 'admin-header.php' );
 
@@ -137,16 +152,16 @@ require_once( 'admin-header.php' );
 
 // use get_post_to_edit filters? 
 $identical = true;
-foreach ( _wp_revision_fields() as $field => $field_title ) :
+foreach ( _wp_post_revision_fields() as $field => $field_title ) :
 	if ( 'diff' == $action ) {
-		$left_content = apply_filters( "_wp_revision_field_$field", $left_revision->$field, $field );
-		$right_content = apply_filters( "_wp_revision_field_$field", $right_revision->$field, $field );
+		$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field );
+		$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field );
 		if ( !$content = wp_text_diff( $left_content, $right_content ) )
 			continue; // There is no difference between left and right
 		$identical = false;
 	} else {
-		add_filter( "_wp_revision_field_$field", 'htmlspecialchars' );
-		$content = apply_filters( "_wp_revision_field_$field", $revision->$field, $field );
+		add_filter( "_wp_post_revision_field_$field", 'htmlspecialchars' );
+		$content = apply_filters( "_wp_post_revision_field_$field", $revision->$field, $field );
 	}
 	?>
 
@@ -179,6 +194,10 @@ endif;
 
 <?php
 
-wp_list_post_revisions( $post, array( 'format' => 'form-table', 'parent' => true, 'right' => $right, 'left' => $left ) );
+$args = array( 'format' => 'form-table', 'parent' => true, 'right' => $right, 'left' => $left );
+if ( !constant( 'WP_POST_REVISIONS' ) )
+	$args['type'] = 'autosave';
+
+wp_list_post_revisions( $post, $args );
 
 require_once( 'admin-footer.php' );

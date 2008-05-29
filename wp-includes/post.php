@@ -956,9 +956,9 @@ function wp_delete_post($postid = 0) {
 
 	// Do raw query.  wp_get_post_revisions() is filtered
 	$revision_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'revision'", $postid ) );
-	// Use wp_delete_post (via wp_delete_revision) again.  Ensures any meta/misplaced data gets cleaned up.
+	// Use wp_delete_post (via wp_delete_post_revision) again.  Ensures any meta/misplaced data gets cleaned up.
 	foreach ( $revision_ids as $revision_id )
-		wp_delete_revision( $revision_id );
+		wp_delete_post_revision( $revision_id );
 
 	// Point all attachments to this post up one level
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
@@ -2951,7 +2951,7 @@ function _get_post_ancestors(&$_post) {
 /* Post Revisions */
 
 /**
- * _wp_revision_fields() - determines which fields of posts are to be saved in revisions
+ * _wp_post_revision_fields() - determines which fields of posts are to be saved in revisions
  *
  * Does two things. If passed a post *array*, it will return a post array ready to be
  * insterted into the posts table as a post revision.
@@ -2965,7 +2965,7 @@ function _get_post_ancestors(&$_post) {
  * @param bool $autosave optional Is the revision an autosave?
  * @return array post array ready to be inserted as a post revision or array of fields that can be versioned
  */
-function _wp_revision_fields( $post = null, $autosave = false ) {
+function _wp_post_revision_fields( $post = null, $autosave = false ) {
 	static $fields = false;
 
 	if ( !$fields ) {
@@ -2978,7 +2978,7 @@ function _wp_revision_fields( $post = null, $autosave = false ) {
 		);
 
 		// Runs only once
-		$fields = apply_filters( '_wp_revision_fields', $fields );
+		$fields = apply_filters( '_wp_post_revision_fields', $fields );
 
 		// WP uses these internally either in versioning or elsewhere - they cannot be versioned
 		foreach ( array( 'ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count' ) as $protect )
@@ -3003,19 +3003,19 @@ function _wp_revision_fields( $post = null, $autosave = false ) {
 }
 
 /**
- * wp_save_revision() - Saves an already existing post as a post revision.  Typically used immediately prior to post updates.
+ * wp_save_post_revision() - Saves an already existing post as a post revision.  Typically used immediately prior to post updates.
  *
  * @package WordPress
  * @subpackage Post Revisions
  * @since 2.6
  *
- * @uses _wp_put_revision()
+ * @uses _wp_put_post_revision()
  *
  * @param int $post_id The ID of the post to save as a revision
  * @return mixed null or 0 if error, new revision ID if success
  */
-function wp_save_revision( $post_id ) {
-	// We do autosaves manually with wp_create_autosave()
+function wp_save_post_revision( $post_id ) {
+	// We do autosaves manually with wp_create_post_autosave()
 	if ( @constant( 'DOING_AUTOSAVE' ) )
 		return;
 
@@ -3029,7 +3029,7 @@ function wp_save_revision( $post_id ) {
 	if ( !in_array( $post['post_type'], array( 'post', 'page' ) ) )
 		return;
 
-	$return = _wp_put_revision( $post );
+	$return = _wp_put_post_revision( $post );
 
 	// WP_POST_REVISIONS = true (default), -1
 	if ( !is_numeric( WP_POST_REVISIONS ) || WP_POST_REVISIONS < 0 )
@@ -3049,14 +3049,14 @@ function wp_save_revision( $post_id ) {
 	for ( $i = 0; isset($revisions[$i]); $i++ ) {
 		if ( false !== strpos( $revisions[$i]->post_name, 'autosave' ) )
 			continue;
-		wp_delete_revision( $revisions[$i]->ID );
+		wp_delete_post_revision( $revisions[$i]->ID );
 	}
 
 	return $return;
 }
 
 /**
- * wp_get_autosave() - returns the autosaved data of the specified post.
+ * wp_get_post_autosave() - returns the autosaved data of the specified post.
  *
  * Returns a post object containing the information that was autosaved for the specified post.
  *
@@ -3067,7 +3067,7 @@ function wp_save_revision( $post_id ) {
  * @param int $post_id The post ID
  * @return object|bool the autosaved data or false on failure or when no autosave exists
  */
-function wp_get_autosave( $post_id ) {
+function wp_get_post_autosave( $post_id ) {
 	global $wpdb;
 	if ( !$post = get_post( $post_id ) )
 		return false;
@@ -3082,9 +3082,9 @@ function wp_get_autosave( $post_id ) {
 	// Use WP_Query so that the result gets cached
 	$autosave_query = new WP_Query;
 
-	add_action( 'parse_query', '_wp_get_autosave_hack' );
+	add_action( 'parse_query', '_wp_get_post_autosave_hack' );
 	$autosave = $autosave_query->query( $q );
-	remove_action( 'parse_query', '_wp_get_autosave_hack' );
+	remove_action( 'parse_query', '_wp_get_post_autosave_hack' );
 
 	if ( $autosave && is_array($autosave) && is_object($autosave[0]) )
 		return $autosave[0];
@@ -3093,12 +3093,47 @@ function wp_get_autosave( $post_id ) {
 }
 
 // Internally used to hack WP_Query into submission
-function _wp_get_autosave_hack( $query ) {
+function _wp_get_post_autosave_hack( $query ) {
 	$query->is_single = false;
 }
 
+
 /**
- * _wp_put_revision() - Inserts post data into the posts table as a post revision
+ * wp_is_post_revision() - Determines if the specified post is a revision.
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @param int|object $post post ID or post object
+ * @return bool|int false if not a revision, ID of revision's parent otherwise
+ */
+function wp_is_post_revision( $post ) {
+	if ( !$post = wp_get_post_revision( $post ) )
+		return false;
+	return (int) $post->post_parent;
+}
+
+/**
+ * wp_is_post_autosave() - Determines if the specified post is an autosave.
+ *
+ * @package WordPress
+ * @subpackage Post Revisions
+ * @since 2.6
+ *
+ * @param int|object $post post ID or post object
+ * @return bool|int false if not a revision, ID of autosave's parent otherwise
+ */
+function wp_is_post_autosave( $post ) {
+	if ( !$post = wp_get_post_revision( $post ) )
+		return false;
+	if ( "{$post->post_parent}-autosave" !== $post->post_name )
+		return false;
+	return (int) $post->post_parent;
+}
+
+/**
+ * _wp_put_post_revision() - Inserts post data into the posts table as a post revision
  *
  * @package WordPress
  * @subpackage Post Revisions
@@ -3110,7 +3145,7 @@ function _wp_get_autosave_hack( $query ) {
  * @param bool $autosave optional Is the revision an autosave?
  * @return mixed null or 0 if error, new revision ID if success
  */
-function _wp_put_revision( $post = null, $autosave = false ) {
+function _wp_put_post_revision( $post = null, $autosave = false ) {
 	if ( is_object($post) )
 		$post = get_object_vars( $post );
 	elseif ( !is_array($post) )
@@ -3121,19 +3156,19 @@ function _wp_put_revision( $post = null, $autosave = false ) {
 	if ( isset($post['post_type']) && 'revision' == $post_post['type'] )
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
 
-	$post = _wp_revision_fields( $post, $autosave );
+	$post = _wp_post_revision_fields( $post, $autosave );
 
 	$revision_id = wp_insert_post( $post );
 	if ( is_wp_error($revision_id) )
 		return $revision_id;
 
 	if ( $revision_id )
-		do_action( '_wp_put_revision', $revision_id );
+		do_action( '_wp_put_post_revision', $revision_id );
 	return $revision_id;
 }
 
 /**
- * wp_get_revision() - Gets a post revision
+ * wp_get_post_revision() - Gets a post revision
  *
  * @package WordPress
  * @subpackage Post Revisions
@@ -3146,7 +3181,7 @@ function _wp_put_revision( $post = null, $autosave = false ) {
  * @param string $filter optional sanitation filter.  @see sanitize_post()
  * @return mixed null if error or post object if success
  */
-function &wp_get_revision(&$post, $output = OBJECT, $filter = 'raw') {
+function &wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
 	$null = null;
 	if ( !$revision = get_post( $post, OBJECT, $filter ) )
 		return $revision;
@@ -3167,7 +3202,7 @@ function &wp_get_revision(&$post, $output = OBJECT, $filter = 'raw') {
 }
 
 /**
- * wp_restore_revision() - Restores a post to the specified revision
+ * wp_restore_post_revision() - Restores a post to the specified revision
  *
  * Can restore a past using all fields of the post revision, or only selected fields.
  *
@@ -3175,19 +3210,19 @@ function &wp_get_revision(&$post, $output = OBJECT, $filter = 'raw') {
  * @subpackage Post Revisions
  * @since 2.6
  *
- * @uses wp_get_revision()
+ * @uses wp_get_post_revision()
  * @uses wp_update_post()
  *
  * @param int|object $revision_id revision ID or revision object
  * @param array $fields optional What fields to restore from.  Defaults to all.
  * @return mixed null if error, false if no fields to restore, (int) post ID if success
  */
-function wp_restore_revision( $revision_id, $fields = null ) {
-	if ( !$revision = wp_get_revision( $revision_id, ARRAY_A ) )
+function wp_restore_post_revision( $revision_id, $fields = null ) {
+	if ( !$revision = wp_get_post_revision( $revision_id, ARRAY_A ) )
 		return $revision;
 
 	if ( !is_array( $fields ) )
-		$fields = array_keys( _wp_revision_fields() );
+		$fields = array_keys( _wp_post_revision_fields() );
 
 	$update = array();
 	foreach( array_intersect( array_keys( $revision ), $fields ) as $field )
@@ -3203,13 +3238,13 @@ function wp_restore_revision( $revision_id, $fields = null ) {
 		return $post_id;
 
 	if ( $post_id )
-		do_action( 'wp_restore_revision', $post_id, $revision['ID'] );
+		do_action( 'wp_restore_post_revision', $post_id, $revision['ID'] );
 
 	return $post_id;
 }
 
 /**
- * wp_delete_revision() - Deletes a revision.
+ * wp_delete_post_revision() - Deletes a revision.
  *
  * Deletes the row from the posts table corresponding to the specified revision
  *
@@ -3217,15 +3252,15 @@ function wp_restore_revision( $revision_id, $fields = null ) {
  * @subpackage Post Revisions
  * @since 2.6
  *
- * @uses wp_get_revision()
+ * @uses wp_get_post_revision()
  * @uses wp_delete_post()
  *
  * @param int|object $revision_id revision ID or revision object
  * @param array $fields optional What fields to restore from.  Defaults to all.
  * @return mixed null if error, false if no fields to restore, (int) post ID if success
  */
-function wp_delete_revision( $revision_id ) {
-	if ( !$revision = wp_get_revision( $revision_id ) )
+function wp_delete_post_revision( $revision_id ) {
+	if ( !$revision = wp_get_post_revision( $revision_id ) )
 		return $revision;
 
 	$delete = wp_delete_post( $revision->ID );
@@ -3233,7 +3268,7 @@ function wp_delete_revision( $revision_id ) {
 		return $delete;
 
 	if ( $delete )
-		do_action( 'wp_delete_revision', $revision->ID, $revision );
+		do_action( 'wp_delete_post_revision', $revision->ID, $revision );
 
 	return $delete;
 }

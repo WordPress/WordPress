@@ -593,9 +593,9 @@ function wp_post_revision_title( $revision, $link = true ) {
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
 		$date = "<a href='$link'>$date</a>";
 
-	if ( 'revision' != $revision->post_type )
+	if ( !wp_is_post_revision( $revision ) )
 		$date = sprintf( $currentf, $date );
-	elseif ( "{$revision->post_parent}-autosave" == $revision->post_name )
+	elseif ( wp_is_post_autosave( $revision ) )
 		$date = sprintf( $autosavef, $date );
 
 	return $date;
@@ -628,11 +628,22 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 	if ( !$post = get_post( $post_id ) )
 		return;
 
-	if ( !$revisions = wp_get_post_revisions( $post->ID ) )
-		return;
-
-	$defaults = array( 'parent' => false, 'right' => false, 'left' => false, 'format' => 'list' );
+	$defaults = array( 'parent' => false, 'right' => false, 'left' => false, 'format' => 'list', 'type' => 'all' );
 	extract( wp_parse_args( $args, $defaults ), EXTR_SKIP );
+
+	switch ( $type ) {
+	case 'autosave' :
+		if ( !$autosave = wp_get_post_autosave( $post->ID ) )
+			return;
+		$revisions = array( $autosave );
+		break;
+	case 'revision' : // just revisions - remove autosave later
+	case 'all' :
+	default :
+		if ( !$revisions = wp_get_post_revisions( $post->ID ) )
+			return;
+		break;
+	}
 
 	$titlef = _c( '%1$s by %2$s|post revision 1:datetime, 2:name' );
 
@@ -644,6 +655,8 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split i
 	$can_edit_post = current_user_can( 'edit_post', $post->ID );
 	foreach ( $revisions as $revision ) {
 		if ( !current_user_can( 'read_post', $revision->ID ) )
+			continue;
+		if ( 'revision' === $type && wp_is_post_autosave( $revision ) )
 			continue;
 
 		$date = wp_post_revision_title( $revision );

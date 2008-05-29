@@ -649,27 +649,27 @@ function wp_set_post_lock( $post_id ) {
 }
 
 /**
- * wp_create_autosave() - creates autosave data for the specified post from $_POST data
+ * wp_create_post_autosave() - creates autosave data for the specified post from $_POST data
  *
  * @package WordPress
  * @subpackage Post Revisions
  * @since 2.6
  *
  * @uses _wp_translate_postdata()
- * @uses _wp_revision_fields()
+ * @uses _wp_post_revision_fields()
  */
-function wp_create_autosave( $post_id ) {
+function wp_create_post_autosave( $post_id ) {
 	$translated = _wp_translate_postdata( true );
 	if ( is_wp_error( $translated ) )
 		return $translated;
 
 	// Only store one autosave.  If there is already an autosave, overwrite it.
-	if ( $old_autosave = wp_get_autosave( $post_id ) ) {
-		$new_autosave = _wp_revision_fields( $_POST, true );
+	if ( $old_autosave = wp_get_post_autosave( $post_id ) ) {
+		$new_autosave = _wp_post_revision_fields( $_POST, true );
 		$new_autosave['ID'] = $old_autosave->ID;
 		return wp_update_post( $new_autosave );
 	}
 
 	// Otherwise create the new autosave as a special post revision
-	return _wp_put_revision( $_POST, true );
+	return _wp_put_post_revision( $_POST, true );
 }
