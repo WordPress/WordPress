@@ -34,9 +34,9 @@ function get_home_path() {
 
 function get_real_file_to_edit( $file ) {
 	if ('index.php' == $file || '.htaccess' == $file ) {
-		$real_file = get_home_path().$file;
+		$real_file = get_home_path() . $file;
 	} else {
-		$real_file = ABSPATH.$file;
+		$real_file = ABSPATH . $file;
 	}
 
 	return $real_file;
@@ -256,13 +256,13 @@ function unzip_file($file, $to) {
 			$tmppath .= $path[$j] . '/';
 			if ( ! $fs->is_dir($to . $tmppath) )
 				if ( !$fs->mkdir($to . $tmppath, 0755) )
-					return new WP_Error('mkdir_failed', __('Could not create directory'));
+					return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $tmppath);
 		}
 
 		// We've made sure the folders are there, so let's extract the file now:
 		if ( ! $file['folder'] )
 			if ( !$fs->put_contents( $to . $file['filename'], $file['content']) )
-				return new WP_Error('copy_failed', __('Could not copy file'));
+				return new WP_Error('copy_failed', __('Could not copy file'), $to . $file['filename']);
 			$fs->chmod($to . $file['filename'], 0644);
 	}
 
@@ -280,21 +280,22 @@ function copy_dir($from, $to) {
 	foreach ( (array) $dirlist as $filename => $fileinfo ) {
 		if ( 'f' == $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
-				return false;
+				return new WP_Error('copy_failed', __('Could not copy file'), $to . $filename);
 			$wp_filesystem->chmod($to . $filename, 0644);
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->mkdir($to . $filename, 0755) )
-				return false;
-			if ( !copy_dir($from . $filename, $to . $filename) )
-				return false;
+				return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $filename);
+			$result = copy_dir($from . $filename, $to . $filename);
+			if ( is_wp_error($result) )
+				return $result;
 		}
 	}
-
-	return true;
 }
 
 function WP_Filesystem( $args = false ) {
 	global $wp_filesystem;
+
+	require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
 
 	$method = get_filesystem_method();
 

@@ -5,25 +5,25 @@ class WP_Filesystem_ftpsockets{
 	var $errors;
 	var $options = array();
 
-	var $wp_base = '';
 	var $permission = null;
 
 	var $filetypes = array(
-							'php'=>FTP_ASCII,
-							'css'=>FTP_ASCII,
-							'txt'=>FTP_ASCII,
-							'js'=>FTP_ASCII,
-							'html'=>FTP_ASCII,
-							'htm'=>FTP_ASCII,
-							'xml'=>FTP_ASCII,
+							'php' => FTP_ASCII,
+							'css' => FTP_ASCII,
+							'txt' => FTP_ASCII,
+							'js'  => FTP_ASCII,
+							'html'=> FTP_ASCII,
+							'htm' => FTP_ASCII,
+							'xml' => FTP_ASCII,
 
-							'jpg'=>FTP_BINARY,
-							'png'=>FTP_BINARY,
-							'gif'=>FTP_BINARY,
-							'bmp'=>FTP_BINARY
+							'jpg' => FTP_BINARY,
+							'png' => FTP_BINARY,
+							'gif' => FTP_BINARY,
+							'bmp' => FTP_BINARY
 							);
 
 	function WP_Filesystem_ftpsockets($opt='') {
+		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
 
 		//Check if possible to use ftp functions.
@@ -84,75 +84,6 @@ class WP_Filesystem_ftpsockets{
 
 	function setDefaultPermissions($perm) {
 		$this->permission = $perm;
-	}
-
-	function find_base_dir($path = false, $base = '.',$echo = false, $loop = false) {
-		if (!$path)
-			$path = ABSPATH;
-		
-		//Sanitize the Windows path formats, This allows easier conparison and aligns it to FTP output.
-		$path = str_replace('\\','/',$path); //windows: Straighten up the paths..
-		if( strpos($path, ':') ){ //Windows, Strip out the driveletter
-			if( preg_match("|.{1}\:(.+)|i", $path, $mat) )
-				$path = $mat[1];
-		}
-	
-		//Set up the base directory (Which unless specified, is the current one)
-		if( empty( $base ) || '.' == $base ) $base = $this->cwd();
-		$base = trailingslashit($base);
-
-		//Can we see the Current directory as part of the ABSPATH?
-		$location = strpos($path, $base);
-		if( false !== $location ) {
-			$newbase = path_join($base, substr($path, $location + strlen($base)));
-
-			if( false !== $this->chdir($newbase) ){ //chdir sometimes returns null under certain circumstances, even when its changed correctly, FALSE will be returned if it doesnt change correctly.
-				if($echo) printf( __('Changing to %s') . '<br/>', $newbase );
-				//Check to see if it exists in that folder.
-				if( $this->exists($newbase . 'wp-settings.php') ){
-					if($echo) printf( __('Found %s'),  $newbase . 'wp-settings.php<br/>' );
-					return $newbase;
-				}	
-			}
-		}
-	
-		//Ok, Couldnt do a magic location from that particular folder level
-		
-		//Get a list of the files in the current directory, See if we can locate where we are in the folder stucture.
-		$files = $this->dirlist($base);
-		
-		$arrPath = explode('/', $path);
-		foreach($arrPath as $key){
-			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder, 
-			// If its found, change into it and follow through looking for it. 
-			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
-			// If it reaches the end, and still cant find it, it'll return false for the entire function.
-			if( isset($files[ $key ]) ){
-				//Lets try that folder:
-				$folder = path_join($base, $key);
-				if($echo) printf( __('Changing to %s') . '<br/>', $folder );
-				$ret = $this->find_base_dir($path, $folder, $echo, $loop);
-				if( $ret )
-					return $ret;
-			}
-		}
-		//Only check this as a last resort, to prevent locating the incorrect install. All above proceeedures will fail quickly if this is the right branch to take.
-		if(isset( $files[ 'wp-settings.php' ]) ){
-			if($echo) printf( __('Found %s'),  $base . 'wp-settings.php<br/>' );
-			return $base;
-		}
-		if( $loop )
-			return false;//Prevent tihs function looping again.
-		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
-		return $this->find_base_dir($path, '/', $echo, true); 
-	}
-
-	function get_base_dir($path = false, $base = '.', $echo = false){
-		if( defined('FTP_BASE') )
-			$this->wp_base = FTP_BASE;
-		if( empty($this->wp_base) )
-			$this->wp_base = $this->find_base_dir($path, $base, $echo);
-		return $this->wp_base;
 	}
 
 	function get_contents($file,$type='',$resumepos=0){
@@ -331,14 +262,14 @@ class WP_Filesystem_ftpsockets{
 		if ( false === $content )
 			return false;
 
-		return $this->put_contents($destination,$content);
+		return $this->put_contents($destination, $content);
 	}
 
-	function move($source,$destination,$overwrite=false){
-		return $this->ftp->rename($source,$destination);
+	function move($source, $destination, $overwrite = false ) {
+		return $this->ftp->rename($source, $destination);
 	}
 
-	function delete($file,$recursive=false) {
+	function delete($file, $recursive = false ) {
 		if ( $this->is_file($file) )
 			return $this->ftp->delete($file);
 		if ( !$recursive )
@@ -347,15 +278,15 @@ class WP_Filesystem_ftpsockets{
 		return $this->ftp->mdel($file);
 	}
 
-	function exists($file){
+	function exists($file) {
 		return $this->ftp->is_exists($file);
 	}
 
-	function is_file($file){
+	function is_file($file) {
 		return $this->is_dir($file) ? false : true;
 	}
 
-	function is_dir($path){
+	function is_dir($path) {
 		$cwd = $this->cwd();
 		if ( $this->chdir($path) ) {
 			$this->chdir($cwd);
@@ -364,33 +295,33 @@ class WP_Filesystem_ftpsockets{
 		return false;
 	}
 
-	function is_readable($file){
+	function is_readable($file) {
 		//Get dir list, Check if the file is writable by the current user??
 		return true;
 	}
 
-	function is_writable($file){
+	function is_writable($file) {
 		//Get dir list, Check if the file is writable by the current user??
 		return true;
 	}
 
-	function atime($file){
+	function atime($file) {
 		return false;
 	}
 
-	function mtime($file){
+	function mtime($file) {
 		return $this->ftp->mdtm($file);
 	}
 
-	function size($file){
+	function size($file) {
 		return $this->ftp->filesize($file);
 	}
 
-	function touch($file,$time=0,$atime=0){
+	function touch($file, $time = 0, $atime = 0 ){
 		return false;
 	}
 
-	function mkdir($path,$chmod=false,$chown=false,$chgrp=false){
+	function mkdir($path, $chmod = false, $chown = false, $chgrp = false ) {
 		if( ! $this->ftp->mkdir($path) )
 			return false;
 		if( $chmod )
@@ -402,15 +333,15 @@ class WP_Filesystem_ftpsockets{
 		return true;
 	}
 
-	function rmdir($path,$recursive=false){
+	function rmdir($path, $recursive = false ) {
 		if( ! $recursive )
 			return $this->ftp->rmdir($path);
 
 		return $this->ftp->mdel($path);
 	}
 
-	function dirlist($path='.',$incdot=false,$recursive=false){
-		if( $this->is_file($path) ){
+	function dirlist($path = '.', $incdot = false, $recursive = false ) {
+		if( $this->is_file($path) ) {
 			$limitFile = basename($path);
 			$path = dirname($path) . '/';
 		} else {
@@ -433,11 +364,11 @@ class WP_Filesystem_ftpsockets{
 					//We're including the doted starts
 					if( '.' != $struc['name'] && '..' != $struc['name'] ){ //Ok, It isnt a special folder
 						if ($recursive)
-							$struc['files'] = $this->dirlist($path.'/'.$struc['name'],$incdot,$recursive);
+							$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
 					}
 				} else { //No dots
 					if ($recursive)
-						$struc['files'] = $this->dirlist($path.'/'.$struc['name'],$incdot,$recursive);
+						$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
 				}
 			}
 			//File

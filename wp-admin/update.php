@@ -110,15 +110,16 @@ function do_plugin_upgrade($plugin) {
 		return;
 	}
 
-	$was_activated = is_plugin_active($plugin); //Check now, It'll be deactivated by the next line if it is,
+	$was_activated = is_plugin_active($plugin); //Check now, It'll be deactivated by the next line if it is
 
 	$result = wp_update_plugin($plugin, 'show_message');
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
+		show_message( __('Installation Failed') );
 	} else {
 		//Result is the new plugin file relative to WP_PLUGIN_DIR
-		show_message(__('Plugin upgraded successfully'));	
+		show_message( __('Plugin upgraded successfully') );	
 		if( $result && $was_activated ){
 			show_message(__('Attempting reactivation of the plugin'));
 			echo '<iframe style="border:0" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $result, 'activate-plugin_' . $result) .'"></iframe>';
