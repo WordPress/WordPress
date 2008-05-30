@@ -344,19 +344,19 @@ $url = clean_url($_GET['u']);
 				<input type="hidden" name="post_type" id="post_type" value="text"/>
 				<div id="posting">
 					
-					<h2 id="title"><?php _e('Title') ?></h2>
+					<h2 id="title"><label for="post_title"><?php _e('Title') ?></label></h2>
 					<div class="titlewrap">
 						<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
 					</div>
 					<div id="photo_fields" style="display: none;">
-						<h2><?php _e('Photo URL') ?></h2>
+						<h2><label for="photo_src"><?php _e('Photo URL') ?></label></h2>
 						<div class="titlewrap">
 							<input name="photo_src" id="photo_src" class="text" onkeydown="pick(0);"/>
 						</div>
 					
 						<div class="photolist"></div>
 					
-						<h2><?php _e('Link Photo to following URL') ?></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
+						<h2><label for="photo_link"><?php _e('Link Photo to following URL') ?></label></h2><?php _e('(leave blank to leave the photo unlinked)') ?>
 						<div class="titlewrap">
 							<input name="photo_link" id="photo_link" class="text" value="<?php echo attribute_escape($url);?>"/>
 						</div>
@@ -368,7 +368,7 @@ $url = clean_url($_GET['u']);
 					
 					</div>
 					
-					<h2 id="content_type"><?php _e('Post') ?></h2>
+					<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 					<div class="editor-container">
 						<textarea name="content" id="content" style="height:170px;width:100%;" class="mceEditor">
 						<?php echo $selection; ?>
@@ -388,7 +388,7 @@ $url = clean_url($_GET['u']);
 					<img src="http://img.youtube.com/vi/<?php echo $video_id; ?>/default.jpg" align="right" style="border:solid 1px #aaa;" width="130" height="97"/>
 					<?php } else { ?>
 					
-					<h2><?php _e('Embed Code') ?></h2>
+					<h2><label for="video_post_one"><?php _e('Embed Code') ?></label></h2>
 					<textarea name="content" id="video_post_one" style="height:80px;width:100%;"></textarea>
 					<?php } */?>
 					
