@@ -199,12 +199,11 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
  * @subpackage Post
  * @since 2.5
  *
- * @param string $field {@internal Missing Description}}
- * @param int|object &$post post ID or post object
+ * @param int|object $post post ID or post object
  * @return array of ancestor IDs
  */
 function get_post_ancestors($post) {
-	$post = get_post();
+	$post = get_post($post);
 
 	if ( !empty($post->ancestors) )
 		return $post->ancestors;
