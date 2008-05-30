@@ -389,8 +389,7 @@ function wp_dashboard_secondary_output() {
 	$rss->items = array_slice($rss->items, 0, $items);
 	foreach ($rss->items as $item ) {
 		$title = wp_specialchars($item['title']);
-		$author = preg_replace( '|(.+?):.+|s', '$1', $item['title'] );
-		$post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
+		list($author,$post) = explode( ':', $title, 2 );
 		$link = clean_url($item['link']);
 
 		echo "\t<li><a href='$link'><span class='post'>$post</span><span class='hidden'> - </span><cite>$author</cite></a></li>\n";
