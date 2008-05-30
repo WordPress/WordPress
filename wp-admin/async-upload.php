@@ -15,7 +15,7 @@ if ( empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
 unset($current_user);
 require_once('admin.php');
 
-header('Content-Type: text/plain');
+header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
 
 if ( !current_user_can('upload_files') )
 	wp_die(__('You do not have permission to upload files.'));
