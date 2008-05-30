@@ -97,10 +97,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 </div>
 </div>
 
-<div id="linkcategorydiv" class="postbox <?php echo postbox_classes('linkcategorydiv', 'link'); ?>">
-<h3><?php _e('Categories') ?></h3>
-<div class="inside">
-
+<?php function link_categories_meta_box($link) { ?>
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="link-category-add" class="wp-hidden-child">
@@ -119,7 +116,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php wp_link_category_checklist($link_id); ?>
+		<?php wp_link_category_checklist($link->link_id); ?>
 	</ul>
 </div>
 
@@ -128,17 +125,16 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 		<?php wp_popular_terms_checklist('link_category'); ?>
 	</ul>
 </div>
-
-</div>
-</div>
+<?php
+}
+add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'link', 'normal', 'core');
+?>
 
 <?php do_meta_boxes('link', 'normal', $link); ?>
 
 <h2><?php _e('Advanced Options'); ?></h2>
 
-<div id="linktargetdiv" class="postbox <?php echo postbox_classes('linktargetdiv', 'link'); ?>">
-<h3><?php _e('Target') ?></h3>
-<div class="inside">
+<?php function link_target_meta_box($link) { ?>
 <fieldset><legend class="hidden"><?php _e('Target') ?></legend>
 <label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
@@ -151,12 +147,12 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 <?php _e('none') ?></label>
 </fieldset>
 <p><?php _e('Choose the frame your link targets. Essentially this means if you choose <code>_blank</code> your link will open in a new window.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'advanced', 'core');
 
-<div id="linkxfndiv" class="postbox <?php echo postbox_classes('linkxfndiv', 'link'); ?>">
-<h3><?php _e('Link Relationship (XFN)') ?></h3>
-<div class="inside">
+function link_xfn_meta_box($link) {
+?>
 <table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr>
 		<th style="width: 20%;" scope="row"><label for="link_rel"><?php _e('rel:') ?></label></th>
@@ -264,12 +260,12 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 	</tr>
 </table>
 <p><?php _e('If the link is to a person, you can specify your relationship with them using the above form. If you would like to learn more about the idea check out <a href="http://gmpg.org/xfn/">XFN</a>.'); ?></p>
-</div>
-</div>
+<?php
+}
+add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', 'link', 'advanced', 'core');
 
-<div id="linkadvanceddiv" class="postbox <?php echo postbox_classes('linkadvanceddiv', 'link'); ?>">
-<h3><?php _e('Advanced') ?></h3>
-<div class="inside">
+function link_advanced_meta_box($link) {
+?>
 <table class="form-table" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_image"><?php _e('Image Address') ?></label></th>
@@ -297,12 +293,13 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 		</td>
 	</tr>
 </table>
-</div>
-</div>
+<?php
+}
+add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'advanced', 'core');
 
-<?php do_meta_boxes('link', 'advanced', $link); ?>
+do_meta_boxes('link', 'advanced', $link);
 
-<?php if ( $link_id ) : ?>
+if ( $link_id ) : ?>
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="link_id" value="<?php echo (int) $link_id; ?>" />
 <input type="hidden" name="order_by" value="<?php echo attribute_escape($order_by); ?>" />
