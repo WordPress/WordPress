@@ -790,6 +790,7 @@ jQuery(function($){
 			post_params : {
 				"post_id" : "<?php echo $post_id; ?>",
 				"auth_cookie" : "<?php echo $_COOKIE[AUTH_COOKIE]; ?>",
+				"_wpnonce" : "<?php echo wp_create_nonce('media-form'); ?>",
 				"type" : "<?php echo $type; ?>",
 				"tab" : "<?php echo $tab; ?>",
 				"short" : "1"
