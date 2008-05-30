@@ -1,4 +1,7 @@
 jQuery(document).ready( function() {
+	// close postboxes that should be closed
+	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+
 	jQuery('#link_name').focus();
 	// postboxes
 	add_postbox_toggles('link');
