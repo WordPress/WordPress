@@ -1,5 +1,5 @@
 <?php
-class WP_Filesystem_ftpsockets{
+class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	var $ftp = false;
 	var $timeout = 5;
 	var $errors;
@@ -86,175 +86,109 @@ class WP_Filesystem_ftpsockets{
 		$this->permission = $perm;
 	}
 
-	function get_contents($file,$type='',$resumepos=0){
+	function get_contents($file, $type = '', $resumepos = 0){
 		if( ! $this->exists($file) )
 			return false;
 
 		if( empty($type) ){
-			$extension = substr(strrchr($file, "."), 1);
+			$extension = substr(strrchr($file, '.'), 1);
 			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_AUTOASCII;
 		}
 		$this->ftp->SetType($type);
-		$temp = tmpfile();
-		if ( ! $temp )
+		$temp = wp_tempnam( $file );
+		if ( ! $temphandle = fopen($temp, 'w+') )
 			return false;
-		if ( ! $this->ftp->fget($temp, $file) ) {
-			fclose($temp);
+		if ( ! $this->ftp->fget($temphandle, $file) ) {
+			fclose($temphandle);
+			unlink($temp);
 			return ''; //Blank document, File does exist, Its just blank.
 		}
-		fseek($temp, 0); //Skip back to the start of the file being written to
+		fseek($temphandle, 0); //Skip back to the start of the file being written to
 		$contents = '';
-		while ( !feof($temp) )
-			$contents .= fread($temp, 8192);
-		fclose($temp);
+		while ( ! feof($temphandle) )
+			$contents .= fread($temphandle, 8192);
+		fclose($temphandle);
+		unlink($temp);
 		return $contents;
 	}
 
 	function get_contents_array($file){
-		return explode("\n",$this->get_contents($file));
+		return explode("\n", $this->get_contents($file) );
 	}
 
-	function put_contents($file,$contents,$type=''){
+	function put_contents($file, $contents, $type = '' ) {
 		if( empty($type) ){
-			$extension = substr(strrchr($file, "."), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
+			$extension = substr(strrchr($file, '.'), 1);
+			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_AUTOASCII;
 		}
 		$this->ftp->SetType($type);
 
-		$temp = tmpfile();
-		if ( ! $temp )
+		$temp = wp_tempnam( $file );
+		if ( ! $temphandle = fopen($temp, 'w+') ){
+			unlink($temp);		
 			return false;
-		fwrite($temp,$contents);
-		fseek($temp, 0); //Skip back to the start of the file being written to
-		$ret = $this->ftp->fput($file, $temp);
-		fclose($temp);
+		}
+		fwrite($temphandle, $contents);
+		fseek($temphandle, 0); //Skip back to the start of the file being written to
+		$ret = $this->ftp->fput($file, $temphandle);
+		fclose($temphandle);
+		unlink($temp);
 		return $ret;
 	}
 
-	function cwd(){
+	function cwd() {
 		$cwd = $this->ftp->pwd();
 		if( $cwd )
 			$cwd = trailingslashit($cwd);
 		return $cwd;
 	}
 
-	function chdir($file){
+	function chdir($file) {
 		return $this->ftp->chdir($file);
 	}
 	
-	function chgrp($file,$group,$recursive=false){
+	function chgrp($file, $group, $recursive = false ) {
 		return false;
 	}
 
-	function chmod($file,$mode=false,$recursive=false){
+	function chmod($file, $mode = false, $recursive = false ){
 		if( ! $mode )
 			$mode = $this->permission;
 		if( ! $mode )
 			return false;
 		//if( ! $this->exists($file) )
 		//	return false;
-		if( ! $recursive || ! $this->is_dir($file) ){
+		if( ! $recursive || ! $this->is_dir($file) ) {
 			return $this->ftp->chmod($file,$mode);
 		}
 		//Is a directory, and we want recursive
 		$filelist = $this->dirlist($file);
 		foreach($filelist as $filename){
-			$this->chmod($file.'/'.$filename,$mode,$recursive);
+			$this->chmod($file . '/' . $filename, $mode, $recursive);
 		}
 		return true;
 	}
 
-	function chown($file,$owner,$recursive=false){
+	function chown($file, $owner, $recursive = false ) {
 		return false;
 	}
 
-	function owner($file){
+	function owner($file) {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['owner'];
 	}
 
-	function getchmod($file){
+	function getchmod($file) {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['permsn'];
 	}
 
-	function gethchmod($file){
-		//From the PHP.net page for ...?
-		$perms = $this->getchmod($file);
-		if (($perms & 0xC000) == 0xC000) {
-			// Socket
-			$info = 's';
-		} elseif (($perms & 0xA000) == 0xA000) {
-			// Symbolic Link
-			$info = 'l';
-		} elseif (($perms & 0x8000) == 0x8000) {
-			// Regular
-			$info = '-';
-		} elseif (($perms & 0x6000) == 0x6000) {
-			// Block special
-			$info = 'b';
-		} elseif (($perms & 0x4000) == 0x4000) {
-			// Directory
-			$info = 'd';
-		} elseif (($perms & 0x2000) == 0x2000) {
-			// Character special
-			$info = 'c';
-		} elseif (($perms & 0x1000) == 0x1000) {
-			// FIFO pipe
-			$info = 'p';
-		} else {
-			// Unknown
-			$info = 'u';
-		}
-
-		// Owner
-		$info .= (($perms & 0x0100) ? 'r' : '-');
-		$info .= (($perms & 0x0080) ? 'w' : '-');
-		$info .= (($perms & 0x0040) ?
-					(($perms & 0x0800) ? 's' : 'x' ) :
-					(($perms & 0x0800) ? 'S' : '-'));
-
-		// Group
-		$info .= (($perms & 0x0020) ? 'r' : '-');
-		$info .= (($perms & 0x0010) ? 'w' : '-');
-		$info .= (($perms & 0x0008) ?
-					(($perms & 0x0400) ? 's' : 'x' ) :
-					(($perms & 0x0400) ? 'S' : '-'));
-
-		// World
-		$info .= (($perms & 0x0004) ? 'r' : '-');
-		$info .= (($perms & 0x0002) ? 'w' : '-');
-		$info .= (($perms & 0x0001) ?
-					(($perms & 0x0200) ? 't' : 'x' ) :
-					(($perms & 0x0200) ? 'T' : '-'));
-		return $info;
-	}
-
-	function getnumchmodfromh($mode) {
-		$realmode = "";
-		$legal =  array("","w","r","x","-");
-		$attarray = preg_split("//",$mode);
-		for($i=0;$i<count($attarray);$i++){
-		   if($key = array_search($attarray[$i],$legal)){
-			   $realmode .= $legal[$key];
-		   }
-		}
-		$mode = str_pad($realmode,9,'-');
-		$trans = array('-'=>'0','r'=>'4','w'=>'2','x'=>'1');
-		$mode = strtr($mode,$trans);
-		$newmode = '';
-		$newmode .= $mode[0]+$mode[1]+$mode[2];
-		$newmode .= $mode[3]+$mode[4]+$mode[5];
-		$newmode .= $mode[6]+$mode[7]+$mode[8];
-		return $newmode;
-	}
-
-	function group($file){
+	function group($file) {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['group'];
 	}
 
-	function copy($source,$destination,$overwrite=false){
+	function copy($source, $destination, $overwrite = false ) {
 		if( ! $overwrite && $this->exists($destination) )
 			return false;
 

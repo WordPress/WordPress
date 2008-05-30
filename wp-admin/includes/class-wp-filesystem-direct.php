@@ -4,6 +4,7 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 	var $permission = null;
 	var $errors = array();
 	function WP_Filesystem_Direct($arg) {
+		$this->method = 'direct';
 		$this->errors = new WP_Error();
 		$this->permission = umask();
 	}
@@ -19,10 +20,10 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 	function get_contents_array($file) {
 		return @file($file);
 	}
-	function put_contents($file,$contents,$mode=false,$type='') {
-		if ( ! ($fp = @fopen($file,'w' . $type)) )
+	function put_contents($file, $contents, $mode = false, $type = '') {
+		if ( ! ($fp = @fopen($file, 'w' . $type)) )
 			return false;
-		@fwrite($fp,$contents);
+		@fwrite($fp, $contents);
 		@fclose($fp);
 		$this->chmod($file,$mode);
 		return true;
@@ -33,7 +34,7 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 	function chdir($dir) {
 		return @chdir($dir);
 	}
-	function chgrp($file,$group,$recursive=false) {
+	function chgrp($file, $group, $recursive = false) {
 		if( ! $this->exists($file) )
 			return false;
 		if( ! $recursive )
@@ -48,7 +49,7 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 
 		return true;
 	}
-	function chmod($file,$mode=false,$recursive=false) {
+	function chmod($file, $mode = false, $recursive = false) {
 		if( ! $mode )
 			$mode = $this->permission;
 		if( ! $this->exists($file) )
