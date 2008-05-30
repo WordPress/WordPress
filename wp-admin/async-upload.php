@@ -26,6 +26,8 @@ if ( ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
 	exit;
 }
 
+check_admin_referer('media-form');
+
 $id = media_handle_upload('async-upload', $_REQUEST['post_id']);
 if (is_wp_error($id)) {
 	echo '<div id="media-upload-error">'.wp_specialchars($id->get_error_message()).'</div>';
