@@ -98,11 +98,11 @@ function get_images_from_uri($uri) {
 	if ( empty($matches[1]) ) return '';
 	
 	$sources = array();
-
 	foreach ($matches[1] as $src) {
 		if ( false !== strpos($src, '&') )
 			continue;
-		$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
+		if ( !strstr( $src, 'http://' ) )
+			$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
 		
 		$sources[] = $src;
 	}
