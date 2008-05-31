@@ -90,13 +90,32 @@ function image_downsize($id, $size = 'medium') {
 
 }
 
-// return an <img src /> tag for the given image attachment, scaling it down if requested
+/**
+ * An <img src /> tag for an image attachment, scaling it down if requested.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @uses apply_filters() The 'get_image_tag_class' filter is the IMG element
+ *		class attribute.
+ * @uses apply_filters() The 'get_image_tag' filter is the full IMG element with
+ *		all attributes.
+ *
+ * @param int $id Attachment ID.
+ * @param string $alt Image Description for the alt attribute.
+ * @param string $title Image Description for the title attribute.
+ * @param string $align Part of the class name for aligning the image.
+ * @param string $size Optional. Default is 'medium'.
+ * @return string HTML IMG element for given image attachment
+ */
 function get_image_tag($id, $alt, $title, $align, $size='medium') {
 
 	list( $img_src, $width, $height ) = image_downsize($id, $size);
 	$hwstring = image_hwstring($width, $height);
 
-	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'" '.$hwstring.'class="align'.attribute_escape($align).' size-'.attribute_escape($size).' wp-image-'.$id.'" />';
+	$class = 'align'.attribute_escape($align).' size-'.attribute_escape($size).' wp-image-'.$id;
+	$class = apply_filters('get_image_tag_class', $class, $id, $align, $size);
+
+	$html = '<img src="'.attribute_escape($img_src).'" alt="'.attribute_escape($alt).'" title="'.attribute_escape($title).'" '.$hwstring.'class="'.$class.'" />';
 
 	$html = apply_filters( 'get_image_tag', $html, $id, $alt, $title, $align, $size );
 
