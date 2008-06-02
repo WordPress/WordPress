@@ -172,7 +172,11 @@ class AtomServer {
 	function handle_request() {
 		global $always_authenticate;
 
-		$path = $_SERVER['PATH_INFO'];
+		if( !empty( $_SERVER['ORIG_PATH_INFO'] ) )
+			$path = $_SERVER['ORIG_PATH_INFO'];
+		else
+			$path = $_SERVER['PATH_INFO']; 
+
 		$method = $_SERVER['REQUEST_METHOD'];
 
 		log_app('REQUEST',"$method $path\n================");
