@@ -91,7 +91,10 @@ else
 <p><strong><label for='post_status'><?php _e('Publish Status') ?></label></strong></p>
 <p>
 <select name='post_status' id='post_status' tabindex='4'>
-<?php if ( current_user_can('publish_posts') ) : // Contributors only get "Unpublished" and "Pending Review" ?>
+<?php 
+// only show the publish menu item if they are allowed to publish posts or they are allowed to edit this post (accounts for 'edit_published_posts' capability) 
+if ( current_user_can('publish_posts') OR ( $post->post_status == 'publish' AND current_user_can('edit_post', $post->ID) ) ) :
+?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php if ( 'future' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
