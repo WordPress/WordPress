@@ -21,7 +21,7 @@
 
 			if ( t.block ) return;
 			t.block = 1;
-			tx = tx.replace( /^\s*|\s*$/g, '' );
+
 			setTimeout( function() {
 				if ( tx ) {
 					tx = tx.replace( /<.[^<>]*?>/g, ' ' ).replace( /&nbsp;/gi, ' ' );
