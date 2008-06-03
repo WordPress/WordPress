@@ -128,8 +128,8 @@ function get_themes() {
 	$themes = array();
 	$wp_broken_themes = array();
 	$theme_loc = $theme_root = get_theme_root();
-	if ( '/' != ABSPATH ) // don't want to replace all forward slashes, see Trac #4541
-		$theme_loc = str_replace(ABSPATH, '', $theme_root);
+	if ( '/' != WP_CONTENT_DIR ) // don't want to replace all forward slashes, see Trac #4541
+		$theme_loc = str_replace(WP_CONTENT_DIR, '', $theme_root);
 
 	// Files in wp-content/themes directory and one subdir down
 	$themes_dir = @ opendir($theme_root);

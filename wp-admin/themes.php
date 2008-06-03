@@ -57,7 +57,7 @@ $themes = array_slice( $themes, $start, $per_page );
 <h2><?php _e('Current Theme'); ?></h2>
 <div id="current-theme">
 <?php if ( $ct->screenshot ) : ?>
-<img src="<?php echo site_url($ct->stylesheet_dir . '/' . $ct->screenshot); ?>" alt="<?php _e('Current theme preview'); ?>" />
+<img src="<?php echo WP_CONTENT_URL . $ct->stylesheet_dir . '/' . $ct->screenshot; ?>" alt="<?php _e('Current theme preview'); ?>" />
 <?php endif; ?>
 <h3><?php printf(_c('%1$s %2$s by %3$s|1: theme title, 2: theme version, 3: theme author'), $ct->title, $ct->version, $ct->author) ; ?></h3>
 <p class="description"><?php echo $ct->description; ?></p>
@@ -126,7 +126,7 @@ foreach ( $cols as $col => $theme_name ) {
 ?>
 		<a href="<?php echo $activate_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
-			<img src="<?php echo ( $tpage == 'stage' ) ? $screenshot : site_url($stylesheet_dir . '/' . $screenshot); ?>" alt="" />
+			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
 		</a>
 		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
