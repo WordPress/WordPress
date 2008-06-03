@@ -63,7 +63,8 @@ function _wp_translate_postdata( $update = false ) {
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( 'publish' == $_POST['post_status'] && !current_user_can( 'publish_pages' ) )
-			$_POST['post_status'] = 'pending';
+			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_pages') )
+				$_POST['post_status'] = 'pending';
 	} else {
 		if ( 'publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' ) ) :
 			// Stop attempts to publish new posts, but allow already published posts to be saved if appropriate.

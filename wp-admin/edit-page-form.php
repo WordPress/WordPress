@@ -78,14 +78,14 @@ else
 </div>
 
 <div class="inside">
-
 <p><strong><label for='post_status'><?php _e('Publish Status') ?></label></strong></p>
 <p>
 <select name='post_status' tabindex='4' id='post_status'>
-<?php if ( current_user_can('publish_pages') ) : ?>
+<?php // Show publish in dropdown if user can publish or if they can re-publish this page ('edit_published_pages')
+// 'publish' option will be selected for published AND private posts (checkbox overrides dropdown)
+if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND current_user_can('edit_page', $post->ID) ) ) : 
+?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
-<?php else: ?>
-<option<?php selected( $post->post_status, 'private' ); ?> value='private'><?php _e('Published') ?></option>
 <?php endif; ?>
 <?php if ( 'future' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Pending') ?></option>
@@ -94,8 +94,10 @@ else
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
 </select>
 </p>
-
+<?php if ( current_user_can( 'publish_posts' ) ) : ?> 
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
+<?php endif; ?>
+
 <?php
 if ($post_ID) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
