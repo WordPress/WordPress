@@ -154,8 +154,13 @@ var autosave = function() {
 		doAutoSave = false;
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
-	if ( rich ) { tinyMCE.triggerSave(); }
-
+	if ( rich ) {		
+		var ed = tinyMCE.activeEditor;
+		if ( 'mce_fullscreen' == ed.id )
+			tinyMCE.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
+		tinyMCE.get('content').save();
+	}
+	
 	post_data["content"] = jQuery("#content").val();
 	if ( jQuery('#post_name').val() )
 		post_data["post_name"] = jQuery('#post_name').val();
