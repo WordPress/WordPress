@@ -291,9 +291,11 @@ function load_plugin_textdomain($domain, $path = false) {
 	$locale = get_locale();
 
 	if ( false === $path )
-		$path = WP_PLUGIN_DIR;
+		$path = '';
+	else
+		$path = '/' . trim(trim($path), '/');
 
-	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
+	$mofile = WP_PLUGIN_DIR . $path . '/'. $domain . '-' . $locale . '.mo';
 	load_textdomain($domain, $mofile);
 }
 
