@@ -180,12 +180,6 @@ EOF;
 	printf($context, $out);
 }
 add_action( 'media_buttons', 'media_buttons' );
-
-add_action( 'admin_print_scripts-post-new.php', 'add_thickbox' );
-add_action( 'admin_print_scripts-post.php', 'add_thickbox' );
-add_action( 'admin_print_scripts-page-new.php', 'add_thickbox' );
-add_action( 'admin_print_scripts-page.php', 'add_thickbox' );
-
 add_action('media_upload_media', 'media_upload_handler');
 
 function media_upload_form_handler() {
