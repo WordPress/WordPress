@@ -83,7 +83,7 @@ if ( ($is_gecko || $is_winIE) && strpos(strtolower($_SERVER['HTTP_USER_AGENT']),
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
 	<div id="gears-msg1">
 	<h3 class="info-box-title"><?php _e('Speed up WordPress'); ?></h3>
-	<p><?php _e('WordPress has support for Google Gears that adds new features to your web browser.'); ?><br />
+	<p><?php _e('WordPress has support for Gears that adds new features to your web browser.'); ?><br />
 	<a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a></p>
 	<p><?php _e('After installing and enabling it, most of the WordPress images, scripts and CSS files will be stored on this computer. This will speed up page loading.'); ?></p>
 	<p><strong><?php _e('Please make sure you are not using a public or shared computer.'); ?></strong></p>
@@ -92,17 +92,17 @@ if ( ($is_gecko || $is_winIE) && strpos(strtolower($_SERVER['HTTP_USER_AGENT']),
 	</div>
 
 	<div id="gears-msg2" style="display:none;">
-	<h3 class="info-box-title"><?php _e('Google Gears Status'); ?></h3>
-	<p><?php _e('Google Gears is installed on this computer but is not enabled for use with WordPress.'); ?></p> 
-	<p><?php _e('To enable it, make sure this web site is not on the denied list in Google Gears Settings under your browser\'s Tools menu, then click the button below.'); ?></p>
-	<p><strong><?php _e('However if this is a public or shared computer, Google Gears should not be enabled.'); ?></strong></p>
-	<div class="submit"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Google Gears'); ?></button>
+	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
+	<p><?php _e('Gears is installed on this computer but is not enabled for use with WordPress.'); ?></p> 
+	<p><?php _e('To enable it, make sure this web site is not on the denied list in Gears Settings under your browser\'s Tools menu, then click the button below.'); ?></p>
+	<p><strong><?php _e('However if this is a public or shared computer, Gears should not be enabled.'); ?></strong></p>
+	<div class="submit"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button>
 	<button class="button" style="margin-left:10px;" onclick="document.getElementById('gears-info-box').style.display='none';">Cancel</button></div>
 	</div>
 
 	<div id="gears-msg3" style="display:none;">
-	<h3 class="info-box-title"><?php _e('Google Gears Status'); ?></h3>
-	<p><?php _e('Google Gears is installed and enabled on this computer. You can disable it from your browser Tools menu.'); ?></p>
+	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
+	<p><?php _e('Gears is installed and enabled on this computer. You can disable it from your browser Tools menu.'); ?></p>
 	<p><?php _e('If there are any errors, try disabling Gears, then reload the page and enable it again.'); ?></p>
 	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Please wait! Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
 	<div class="submit"><button class="button" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Close'); ?></button></div>
