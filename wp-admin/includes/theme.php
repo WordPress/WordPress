@@ -33,7 +33,7 @@ function get_page_templates() {
 
 	if ( is_array( $templates ) ) {
 		foreach ( $templates as $template ) {
-			$template_data = implode( '', file( ABSPATH.$template ));
+			$template_data = implode( '', file( WP_CONTENT_DIR.$template ));
 
 			preg_match( '|Template Name:(.*)$|mi', $template_data, $name );
 			preg_match( '|Description:(.*)$|mi', $template_data, $description );
