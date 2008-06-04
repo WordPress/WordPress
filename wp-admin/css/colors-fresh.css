@@ -384,11 +384,11 @@ input.readonly {
 	background-color: #fff;
 }
 
-#plugins .active {
+.plugins .active {
 	background-color: #e7f7d3;
 }
 
-#plugins .togl {
+.plugins .togl {
 	border-right-color: #ccc;
 }
 
@@ -396,7 +396,7 @@ input.readonly {
 	background-color: #ffffe0;
 }
 
-#plugins tr {
+.plugins tr {
 	background-color: #fff;
 }
 

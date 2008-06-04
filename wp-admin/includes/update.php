@@ -118,25 +118,24 @@ function wp_update_plugins() {
 }
 add_action( 'load-plugins.php', 'wp_update_plugins' );
 
-function wp_plugin_update_row( $file ) {
-	global $plugin_data;
+function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_option( 'update_plugins' );
 	if ( !isset( $current->response[ $file ] ) )
 		return false;
 
 	$r = $current->response[ $file ];
 
-	echo "<tr><td colspan='5' class='plugin-update'>";
+	echo '<tr><td colspan="5" class="plugin-update">';
 	if ( !current_user_can('edit_plugins') )
 		printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a>.'), $plugin_data['Name'], $r->url, $r->new_version);
 	else if ( empty($r->package) )
 		printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_data['Name'], $r->url, $r->new_version);
 	else
-		printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a> or <a href="%4$s">upgrade automatically</a>.'), $plugin_data['Name'], $r->url, $r->new_version, wp_nonce_url("update.php?action=upgrade-plugin&amp;plugin=$file", 'upgrade-plugin_' . $file) );
+		printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a> or <a href="%4$s">upgrade automatically</a>.'), $plugin_data['Name'], $r->url, $r->new_version, wp_nonce_url('update.php?action=upgrade-plugin&amp;plugin=' . $file, 'upgrade-plugin_' . $file) );
 	
-	echo "</td></tr>";
+	echo '</td></tr>';
 }
-add_action( 'after_plugin_row', 'wp_plugin_update_row' );
+add_action( 'after_plugin_row', 'wp_plugin_update_row', 10, 2 );
 
 function wp_update_plugin($plugin, $feedback = '') {
 	global $wp_filesystem;

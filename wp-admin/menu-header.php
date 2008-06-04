@@ -2,6 +2,8 @@
 $self = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 $self = preg_replace('|^.*/plugins/|i', '', $self);
 
+global $menu, $submenu, $parent_file; //For when admin-header is included from within a function.
+
 get_admin_page_parent();
 
 // We're going to do this loop three times

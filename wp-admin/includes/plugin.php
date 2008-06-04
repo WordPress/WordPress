@@ -132,37 +132,97 @@ function deactivate_plugins($plugins, $silent= false) {
 	update_option('active_plugins', $current);
 }
 
-function deactivate_all_plugins() {
-	$current = get_option('active_plugins');
-	if ( empty($current) )
-		return;
-
-	deactivate_plugins($current);
-
-	update_option('deactivated_plugins', $current);
-}
-
-function reactivate_all_plugins($redirect = '') {
-	$plugins = get_option('deactivated_plugins');
-
-	if ( empty($plugins) )
-		return;
-
-	if ( !empty($redirect) )
-		wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
+//Replaces reactivate_all_plugins() / deactivate_all_plugins()  = 'deactivated_plugins' is now useless
+function activate_plugins($plugins, $redirect = '') {
+	if ( !is_array($plugins) )
+		$plugins = array($plugins);
 
 	$errors = array();
 	foreach ( (array) $plugins as $plugin ) {
-		$result = activate_plugin($plugin);
+		if ( !empty($redirect) )
+			$redirect = add_query_arg('plugin', $plugin, $redirect);
+		$result = activate_plugin($plugin, $redirect);
 		if ( is_wp_error($result) )
 			$errors[$plugin] = $result;
 	}
 
-	delete_option('deactivated_plugins');
-
 	if ( !empty($errors) )
 		return new WP_Error('plugins_invalid', __('One of the plugins is invalid.'), $errors);
 
+	return true;
+}
+
+function delete_plugins($plugins, $redirect = '' ) {
+	global $wp_filesystem;
+
+	if( empty($plugins) )
+		return false;
+
+	$checked = array();
+	foreach( $plugins as $plugin )
+		$checked[] = 'checked[]=' . $plugin;
+
+	ob_start();
+	$url = wp_nonce_url('plugins.php?action=delete-selected&' . implode('&', $checked), 'mass-manage-plugins');
+	if ( false === ($credentials = request_filesystem_credentials($url)) ) {
+		$data = ob_get_contents();
+		ob_end_clean();
+		if( ! empty($data) ){
+			include_once( ABSPATH . 'wp-admin/admin-header.php');
+			echo $data;
+			include( ABSPATH . 'wp-admin/admin-footer.php');
+			exit;
+		}
+		return;
+	}
+
+	if ( ! WP_Filesystem($credentials) ) {
+		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
+		$data = ob_get_contents();
+		ob_end_clean();
+		if( ! empty($data) ){
+			include_once( ABSPATH . 'wp-admin/admin-header.php');
+			echo $data;
+			include( ABSPATH . 'wp-admin/admin-footer.php');
+			exit;
+		}
+		return;
+	}
+
+	if ( $wp_filesystem->errors->get_error_code() ) {
+		return $wp_filesystem->errors;
+	}
+
+	if ( ! is_object($wp_filesystem) )
+		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
+
+	if ( $wp_filesystem->errors->get_error_code() )
+		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
+
+	//Get the base plugin folder
+	$plugins_dir = $wp_filesystem->wp_plugins_dir();
+	if ( empty($plugins_dir) )
+		return new WP_Error('fs_no_plugins_dir', __('Unable to locate WordPress Plugin directory.'));
+	
+	$plugins_dir = trailingslashit( $plugins_dir );
+
+	$errors = array();
+
+	foreach( $plugins as $plugin_file ) {
+		$this_plugin_dir = trailingslashit( dirname($plugins_dir . $plugin_file) );
+		// If plugin is in its own directory, recursively delete the directory.
+		if ( strpos($plugin_file, '/') && $this_plugin_dir != $plugins_dir ) //base check on if plugin includes directory seperator AND that its not the root plugin folder
+			$deleted = $wp_filesystem->delete($this_plugin_dir, true);
+		else
+			$deleted = $wp_filesystem->delete($plugins_dir . $plugin_file);
+	
+		if ( ! $deleted )
+			$errors[] = $plugin_file;
+	}
+	
+	if( ! empty($errors) )
+		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s'), implode(', ', $errors)) );
+	
 	return true;
 }
 

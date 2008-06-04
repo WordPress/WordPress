@@ -1,13 +1,13 @@
-#plugins .name {
+.plugins .name {
 	font-weight: bold;
 }
 
-#plugins p {
+.plugins p {
 	margin: 0 4px;
 	padding: 0;
 }
 
-#plugins .togl {
+.plugins .togl {
 	width: 150px;
 	border-right-width: 1px;
 	border-right-style: solid;
