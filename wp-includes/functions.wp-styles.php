@@ -10,7 +10,7 @@ function wp_print_styles( $handles = false ) {
 		if ( !$handles )
 			return array(); // No need to instantiate if nothing's there.
 		else
-			$wp_stlyes = new WP_Styles();
+			$wp_styles = new WP_Styles();
 	}
 
 	return $wp_styles->do_items( $handles );
