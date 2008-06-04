@@ -1,5 +1,5 @@
 /**
- * $Id: validate.js 673 2008-03-06 13:26:20Z spocke $
+ * $Id: validate.js 758 2008-03-30 13:53:29Z spocke $
  *
  * Various form validation methods.
  *
@@ -110,7 +110,7 @@ var AutoValidator = {
 	},
 
 	reset : function(e) {
-		var t = new Array('label', 'input', 'select', 'textarea');
+		var t = ['label', 'input', 'select', 'textarea'];
 		var i, j, nl, s = this.settings;
 
 		if (e == null)

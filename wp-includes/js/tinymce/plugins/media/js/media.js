@@ -598,14 +598,17 @@ function generatePreview(c) {
 	pl.name = !pl.name ? 'eobj' : pl.name;
 	pl.align = !pl.align ? '' : pl.align;
 
-	h += '<object classid="clsid:' + cls + '" codebase="' + codebase + '" width="' + pl.width + '" height="' + pl.height + '" id="' + pl.id + '" name="' + pl.name + '" align="' + pl.align + '">';
+	// Avoid annoying warning about insecure items
+	if (!tinymce.isIE || document.location.protocol != 'https:') {
+		h += '<object classid="clsid:' + cls + '" codebase="' + codebase + '" width="' + pl.width + '" height="' + pl.height + '" id="' + pl.id + '" name="' + pl.name + '" align="' + pl.align + '">';
 
-	for (n in pl) {
-		h += '<param name="' + n + '" value="' + pl[n] + '">';
+		for (n in pl) {
+			h += '<param name="' + n + '" value="' + pl[n] + '">';
 
-		// Add extra url parameter if it's an absolute URL
-		if (n == 'src' && pl[n].indexOf('://') != -1)
-			h += '<param name="url" value="' + pl[n] + '" />';
+			// Add extra url parameter if it's an absolute URL
+			if (n == 'src' && pl[n].indexOf('://') != -1)
+				h += '<param name="url" value="' + pl[n] + '" />';
+		}
 	}
 
 	h += '<embed type="' + type + '" ';
@@ -613,7 +616,11 @@ function generatePreview(c) {
 	for (n in pl)
 		h += n + '="' + pl[n] + '" ';
 
-	h += '></embed></object>';
+	h += '></embed>';
+
+	// Avoid annoying warning about insecure items
+	if (!tinymce.isIE || document.location.protocol != 'https:')
+		h += '</object>';
 
 	p.innerHTML = "<!-- x --->" + h;
 }

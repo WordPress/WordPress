@@ -213,7 +213,7 @@ if ( $disk_cache && ! is_dir($cache_path) )
 $cache_ext = '.js';
 $plugins = explode( ',', $initArray['plugins'] );
 $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
-$language = isset($initArray['language']) ? substr( $initArray['language'], 0, 2 ) : 'en';
+$language = ( isset($initArray['language']) && ! empty($initArray['language']) ) ? substr( $initArray['language'], 0, 2 ) : 'en';
 $cacheKey = $mce_options = '';	
 
 // Check if browser supports gzip
@@ -226,7 +226,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080423');
+	$cacheKey = apply_filters('tiny_mce_version', '20080602');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
@@ -273,7 +273,7 @@ if ( $mce_deprecated ) $mce_options .= $mce_deprecated;
 
 $mce_options = rtrim( trim($mce_options), '\n\r,' );
 
-$content = 'var tinyMCEPreInit = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false }, base : "' . $baseurl . '", suffix : "" };';
+$content = 'var tinyMCEPreInit = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false }, base : "' . $baseurl . '", suffix : "", query : "ver=3091" };';
 
 // Load patch
 $content .= getFileContents( 'tiny_mce_ext.js' );

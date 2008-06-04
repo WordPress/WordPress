@@ -29,8 +29,7 @@ tinyMCEPreInit.start = function() {
 };
 tinyMCEPreInit.load_ext = function(url,lang) {
 	var sl = tinymce.ScriptLoader;
-	
-//	sl.add(url + '/langs/lang.php');
+
 	sl.markDone(url + '/langs/' + lang + '.js');
 	sl.markDone(url + '/langs/' + lang + '_dlg.js');
 };

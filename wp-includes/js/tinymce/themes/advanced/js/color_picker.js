@@ -230,7 +230,7 @@ function updateLight(r, g, b) {
 
 		color = finalR + finalG + finalB;
 
-		document.getElementById('gs' + i).style.backgroundColor = '#'+color;
+		setCol('gs' + i, '#'+color);
 	}
 }
 
@@ -238,8 +238,16 @@ function changeFinalColor(color) {
 	if (color.indexOf('#') == -1)
 		color = convertRGBToHex(color);
 
-	document.getElementById('preview').style.backgroundColor = color;
+	setCol('preview', color);
 	document.getElementById('color').value = color;
+}
+
+function setCol(e, c) {
+	try {
+		document.getElementById(e).style.backgroundColor = c;
+	} catch (ex) {
+		// Ignore IE warning
+	}
 }
 
 tinyMCEPopup.onInit.add(init);
