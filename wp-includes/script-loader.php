@@ -198,7 +198,7 @@ function wp_default_scripts( &$scripts ) {
 			'error' => __('Error:')
 		));
 		
-		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'dimensions' ), '20080523' );
+		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080523' );
 	}
 }
 
