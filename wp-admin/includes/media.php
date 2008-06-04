@@ -116,6 +116,83 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 }
 
 
+function media_sideload_image($file, $post_id) {
+
+	if (!empty($file) ) {
+		// Upload File button was clicked
+		
+		$file_array['name'] = basename($file);
+		$file_array['tmp_name'] = download_url($file);
+		
+		$sideload = media_handle_sideload($file_array, $post_id);
+
+		$id = $sideload['id'];
+		$src = $sideload['src'];
+		
+		unset($file_array['tmp_name']);
+		unset($file_array);
+		
+		if ( is_wp_error($id) ) {
+			$errors['upload_error'] = $id;
+			$id = false;
+		}
+	}
+	
+	if ( !empty($src) && !strpos($src, '://') )
+		
+		$src = "http://$src";
+		/*$alt = attribute_escape($_POST['insertonly']['alt']);
+		if ( isset($_POST['insertonly']['align']) ) {
+			$align = attribute_escape($_POST['insertonly']['align']);
+			$class = " class='align$align'";
+		} */
+		if ( !empty($src) )
+			$html = "<img src='$src' alt='$alt'$class />";
+			return $html;
+	
+}
+
+function media_handle_sideload($file_array, $post_id, $post_data = array()) {
+	$overrides = array('test_form'=>false);
+	$file = wp_handle_sideload($file_array, $overrides);
+
+	if ( isset($file['error']) )
+		return new wp_error( 'upload_error', $file['error'] );
+
+	$url = $file['url'];
+	$type = $file['type'];
+	$file = $file['file'];
+	$title = preg_replace('/\.[^.]+$/', '', basename($file));
+	$content = '';
+
+	// use image exif/iptc data for title and caption defaults if possible
+	if ( $image_meta = @wp_read_image_metadata($file) ) {
+		if ( trim($image_meta['title']) )
+			$title = $image_meta['title'];
+		if ( trim($image_meta['caption']) )
+			$content = $image_meta['caption'];
+	}
+
+	// Construct the attachment array
+	$attachment = array_merge( array(
+		'post_mime_type' => $type,
+		'guid' => $url,
+		'post_parent' => $post_id,
+		'post_title' => $title,
+		'post_content' => $content,
+	), $post_data );
+
+	// Save the data
+	$id = wp_insert_attachment($attachment, $file, $post_parent);
+	if ( !is_wp_error($id) ) {
+		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+	}
+
+	return array('id' => $id, 'src' => $url);
+
+}
+
+
 // wrap iframe content (produced by $content_func) in a doctype, html head/body etc
 // any additional function args will be passed to content_func
 function wp_iframe($content_func /* ... */) {

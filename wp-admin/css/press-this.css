@@ -91,9 +91,26 @@ body {
 	border-top: none;
 }
 
-.submit input {
-	
+.button {
+font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+padding: 3px 5px;
+font-size: 12px;
+line-height: 1.5em;
+border-width: 1px;
+border-style: solid;
+-moz-border-radius: 3px;
+-khtml-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+cursor: pointer;
+margin-left: 5px;
+text-decoration: none;
 }
+
+.howto {
+font-size: 11px;
+}
+#newtag { padding: 3px; }
 
 #wphead {
 	height: 2em;
@@ -189,7 +206,7 @@ div#container form {
 div#categories {
 	font-size: 85%;
 	position: absolute;
-
+	top: 50px;
 	right: 16px;
 	width: 27%;
 	z-index: 2;
@@ -269,7 +286,6 @@ div#categories h2 {
 
 #img_container {
 	background-color: #fff;
-	margin-top: 10px;
 	overflow: auto;
 	height: 100px;
 }
@@ -283,30 +299,21 @@ div#categories h2 {
 	margin-bottom: 7px;
 	cursor: pointer;
 }
-
+.submit {
+-moz-border-radius-bottomleft: 3px;
+-khtml-border-bottom-left-radius: 3px;
+-webkit-border-bottom-left-radius: 3px;
+border-bottom-left-radius: 3px;
+-moz-border-radius-bottomright: 3px;
+-khtml-border-bottom-right-radius: 3px;
+-webkit-border-bottom-right-radius: 3px;
+border-bottom-right-radius: 3px;
+margin: 0;
+padding: 0;
+}
 .submitbox {
 	width: 100%;
 	float: right;
-}
-
-.submitbox .submit {
-	text-align: left;
-	padding: 12px 10px 10px 10px;
-	font-size: 11px;
-}
-
-.submit {
-	border-top: 1px solid #ccc;
-	padding: 1.5em 0 0 0;
-	margin: 10px 0 0 0;
-	-moz-border-radius-bottomleft: 3px;
-	-khtml-border-bottom-left-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	-moz-border-radius-bottomright: 3px;
-	-khtml-border-bottom-right-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-	border-bottom-right-radius: 3px;
 }
 
 .submitbox .submit a:hover {
@@ -315,10 +322,16 @@ div#categories h2 {
 }
 
 .submitbox .submit input {
-	margin-bottom: 8px;
-	margin-right: 3px;
-	padding: 6px 4px;
 	border: none;
+	text-align: left;
+	padding: 12px 10px 10px 10px;
+	font-size: 12px;
+	margin: 10px;
+
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	cursor: pointer;
 }
 
@@ -336,4 +349,23 @@ div#categories h2 {
 
 .hidden {
 	display: none;
+}
+
+.video_split #extra_fields {
+width: 27%;
+height: 300px;
+float: left;
+}
+#embed_code {
+border: 0;
+width: 99%;
+height: 200px;
+}
+.video_split .editor_area {
+width: 70%;
+float: right;
+}
+
+#jaxtag {
+clear: both;
 }
