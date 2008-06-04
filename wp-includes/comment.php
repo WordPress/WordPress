@@ -1001,18 +1001,22 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 			$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
 			$pingback_server_url = substr($contents, $pingback_href_start, $pingback_server_url_len);
 			// We may find rel="pingback" but an incomplete pingback URL
-			if ( $pingback_server_url_len > 0 ) // We got it!
+			if ( $pingback_server_url_len > 0 ) { // We got it!
+				fclose($fp);
 				return $pingback_server_url;
+			}
 		}
 		$byte_count += strlen($line);
 		if ( $byte_count > $timeout_bytes ) {
 			// It's no use going further, there probably isn't any pingback
 			// server to find in this file. (Prevents loading large files.)
+			fclose($fp);
 			return false;
 		}
 	}
 
 	// We didn't find anything.
+	fclose($fp);
 	return false;
 }
 
