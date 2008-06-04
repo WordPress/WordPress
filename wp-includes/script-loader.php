@@ -68,8 +68,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-form', '/wp-includes/js/jquery/jquery.form.js', array('jquery'), '2.02');
 	$scripts->add( 'jquery-color', '/wp-includes/js/jquery/jquery.color.js', array('jquery'), '2.0-4561');
 	$scripts->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
-	$scripts->add( 'dimensions', '/wp-includes/js/jquery/jquery.dimensions.min.js', array('jquery'), '1.1.2');
-	$scripts->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('dimensions'), '1.1');
+	$scripts->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('jquery'), '1.1');
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
 	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1-20080430');
 	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.0.2-20080430');
