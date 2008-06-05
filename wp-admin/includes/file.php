@@ -36,7 +36,7 @@ function get_real_file_to_edit( $file ) {
 	if ('index.php' == $file || '.htaccess' == $file ) {
 		$real_file = get_home_path() . $file;
 	} else {
-		$real_file = ABSPATH . $file;
+		$real_file = WP_CONTENT_DIR . $file;
 	}
 
 	return $real_file;
