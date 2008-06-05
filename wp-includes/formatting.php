@@ -839,6 +839,9 @@ function human_time_diff( $from, $to = '' ) {
 function wp_trim_excerpt($text) { // Fakes an excerpt if needed
 	if ( '' == $text ) {
 		$text = get_the_content('');
+		
+		$text = strip_shortcodes( $text ); 
+		
 		$text = apply_filters('the_content', $text);
 		$text = str_replace(']]>', ']]&gt;', $text);
 		$text = strip_tags($text);

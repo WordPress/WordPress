@@ -134,6 +134,23 @@ function shortcode_atts($pairs, $atts) {
 	return $out;
 }
 
+/* 
+ * stip all the shortcodes from a post's content 
+ * returns the content without shortcodes
+ */
+function strip_shortcodes( $content ) { 
+	
+	global $shortcode_tags;
+
+	if (empty($shortcode_tags) || !is_array($shortcode_tags))
+		return $content;
+
+	$pattern = get_shortcode_regex();
+
+	return preg_replace('/'.$pattern.'/s', '', $content);
+	
+}
+
 add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop() 
 
 ?>
