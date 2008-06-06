@@ -183,7 +183,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$download_file = download_url($package);
 
 	if ( is_wp_error($download_file) )
-		return new WP_Error('download_failed', __('Download failed.'), $file->get_error_message());
+		return new WP_Error('download_failed', __('Download failed.'), $download_file->get_error_message());
 
 	$working_dir = $content_dir . 'upgrade/' . basename($plugin, '.php');
 
