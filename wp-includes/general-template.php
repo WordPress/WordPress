@@ -33,9 +33,9 @@ function get_sidebar( $name = null ) {
 
 function wp_loginout() {
 	if ( ! is_user_logged_in() )
-		$link = '<a href="' . get_option('siteurl') . '/wp-login.php">' . __('Log in') . '</a>';
+		$link = '<a href="' . site_url('wp-login.php', 'forceable') . '">' . __('Log in') . '</a>';
 	else
-		$link = '<a href="' . get_option('siteurl') . '/wp-login.php?action=logout">' . __('Log out') . '</a>';
+		$link = '<a href="' . site_url('wp-login.php?action=logout', 'forceable') . '">' . __('Log out') . '</a>';
 
 	echo apply_filters('loginout', $link);
 }
@@ -45,11 +45,11 @@ function wp_register( $before = '<li>', $after = '</li>' ) {
 
 	if ( ! is_user_logged_in() ) {
 		if ( get_option('users_can_register') )
-			$link = $before . '<a href="' . get_option('siteurl') . '/wp-login.php?action=register">' . __('Register') . '</a>' . $after;
+			$link = $before . '<a href="' . site_url('wp-login.php?action=register', 'forceable') . '">' . __('Register') . '</a>' . $after;
 		else
 			$link = '';
 	} else {
-		$link = $before . '<a href="' . get_option('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>' . $after;
+		$link = $before . '<a href="' . admin_url() . '">' . __('Site Admin') . '</a>' . $after;
 	}
 
 	echo apply_filters('register', $link);

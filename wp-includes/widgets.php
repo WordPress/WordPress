@@ -1073,9 +1073,9 @@ function wp_widget_rss($args, $widget_args = 1) {
 	$title = apply_filters('widget_title', $title );
 	$url = clean_url(strip_tags($url));
 	if ( file_exists(dirname(__FILE__) . '/rss.png') )
-		$icon = str_replace(ABSPATH, get_option('siteurl').'/', dirname(__FILE__)) . '/rss.png';
+		$icon = str_replace(ABSPATH, site_url() . '/', dirname(__FILE__)) . '/rss.png';
 	else
-		$icon = get_option('siteurl').'/wp-includes/images/rss.png';
+		$icon = includes_url('images/rss.png');
 	$title = "<a class='rsswidget' href='$url' title='" . attribute_escape(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 
 	echo $before_widget;

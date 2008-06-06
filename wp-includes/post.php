@@ -2392,7 +2392,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 
 		if ( !is_array($icon_files) ) {
 			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/crystal' );
-			$icon_dir_uri = apply_filters( 'icon_dir_uri', trailingslashit(get_option('siteurl')) . WPINC . '/images/crystal' );
+			$icon_dir_uri = apply_filters( 'icon_dir_uri', includes_url('images/crystal') );
 			$dirs = apply_filters( 'icon_dirs', array($icon_dir => $icon_dir_uri) );
 			$icon_files = array();
 			while ( $dirs ) {

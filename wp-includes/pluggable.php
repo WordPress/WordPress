@@ -643,11 +643,8 @@ function auth_redirect() {
 	// The cookie is no good so force login
 	nocache_headers();
 
-	$login_url = get_option('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']);
+	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']), 'forceable' );
 
-	//  Redirect to https if connection is secure
-	if ( $secure )
-		$login_url = str_replace('http://', 'https://', $login_url);
 	wp_redirect($login_url);
 	exit();
 }
@@ -664,7 +661,7 @@ if ( !function_exists('check_admin_referer') ) :
  * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
  */
 function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
-	$adminurl = strtolower(get_option('siteurl')).'/wp-admin';
+	$adminurl = strtolower(admin_url());
 	$referer = strtolower(wp_get_referer());
 	$result = wp_verify_nonce($_REQUEST[$query_arg], $action);
 	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) !== false) ) {
@@ -794,7 +791,7 @@ function wp_safe_redirect($location, $status = 302) {
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
 
 	if ( isset($lp['host']) && ( !in_array($lp['host'], $allowed_hosts) && $lp['host'] != strtolower($wpp['host'])) )
-		$location = get_option('siteurl') . '/wp-admin/';
+		$location = admin_url();
 
 	wp_redirect($location, $status);
 }
@@ -848,8 +845,8 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$subject = sprintf( __('[%1$s] Pingback: "%2$s"'), $blogname, $post->post_title );
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
-	$notify_message .= sprintf( __('Delete it: %s'), get_option('siteurl')."/wp-admin/comment.php?action=cdc&c=$comment_id" ) . "\r\n";
-	$notify_message .= sprintf( __('Spam it: %s'), get_option('siteurl')."/wp-admin/comment.php?action=cdc&dt=spam&c=$comment_id" ) . "\r\n";
+	$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=cdc&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=cdc&dt=spam&c=$comment_id") ) . "\r\n";
 
 	$wp_email = 'wordpress@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
 
@@ -928,13 +925,13 @@ function wp_notify_moderator($comment_id) {
 			break;
 	}
 
-	$notify_message .= sprintf( __('Approve it: %s'),  get_option('siteurl')."/wp-admin/comment.php?action=mac&c=$comment_id" ) . "\r\n";
-	$notify_message .= sprintf( __('Delete it: %s'), get_option('siteurl')."/wp-admin/comment.php?action=cdc&c=$comment_id" ) . "\r\n";
-	$notify_message .= sprintf( __('Spam it: %s'), get_option('siteurl')."/wp-admin/comment.php?action=cdc&dt=spam&c=$comment_id" ) . "\r\n";
+	$notify_message .= sprintf( __('Approve it: %s'),  admin_url("comment.php?action=mac&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=cdc&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=cdc&dt=spam&c=$comment_id") ) . "\r\n";
 
 	$notify_message .= sprintf( __ngettext('Currently %s comment is waiting for approval. Please visit the moderation panel:', 
  		'Currently %s comments are waiting for approval. Please visit the moderation panel:', $comments_waiting), number_format_i18n($comments_waiting) ) . "\r\n";
-	$notify_message .= get_option('siteurl') . "/wp-admin/edit-comments.php?comment_status=moderated\r\n";
+	$notify_message .= admin_url("edit-comments.php?comment_status=moderated") . "\r\n";
 
 	$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), get_option('blogname'), $post->post_title );
 	$admin_email = get_option('admin_email');
@@ -974,7 +971,7 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 
 	$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
-	$message .= get_option('siteurl') . "/wp-login.php\r\n";
+	$message .= site_url("wp-login.php", 'forceable') . "\r\n";
 
 	wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_option('blogname')), $message);
 
@@ -1294,7 +1291,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 	elseif ( 'mystery' == $default )
 		$default = "http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
 	elseif ( 'blank' == $default )
-		$default = get_option('siteurl') . '/wp-includes/images/blank.gif';
+		$default = includes_url('images/blank.gif');
 	elseif ( !empty($email) && 'gravatar_default' == $default )
 		$default = '';
 	elseif ( 'gravatar_default' == $default )

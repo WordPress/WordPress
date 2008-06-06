@@ -7,7 +7,7 @@ else
 	require_once('../wp-load.php');
 
 if ( get_option('db_version') != $wp_db_version ) {
-	wp_redirect(get_option('siteurl') . '/wp-admin/upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI'])));
+	wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI']))));
 	exit;
 }
 

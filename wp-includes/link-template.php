@@ -750,7 +750,7 @@ function get_shortcut_link() {
 			var k=d.getSelection;
 			var x=d.selection;
 			var s=(e?e():(k)?k():(x?x.createRange().text:0));
-			var f='" . get_settings('siteurl') . '/wp-admin/press-this.php' . "';
+			var f='" . admin_url('press-this.php') . "';
 			var l=d.location;
 			var e=encodeURIComponent;
 			var u= '?u=' + e(l.href);
@@ -779,8 +779,12 @@ function get_shortcut_link() {
 // if $scheme is 'http' or 'https' it will override is_ssl()
 function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
-	if ( !in_array($scheme, array('http', 'https')) )
-		$scheme = ( is_ssl() ? 'https' : 'http' );
+	if ( !in_array($scheme, array('http', 'https')) ) {
+		if ( ('forceable' == $scheme) && (defined('FORCE_SSL_LOGIN') && FORCE_SSL_LOGIN) )
+			$scheme = 'https';
+		else
+			$scheme = ( is_ssl() ? 'https' : 'http' );
+	}
 
 	$url = str_replace( 'http://', "{$scheme}://", get_option('siteurl') );
 
@@ -793,7 +797,7 @@ function site_url($path = '', $scheme = null) {
 function admin_url($path = '') {
 	global $_wp_admin_url;
 
-	$url = site_url() . '/wp-admin/';
+	$url = site_url('wp-admin/', 'forceable');
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');

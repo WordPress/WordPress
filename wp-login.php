@@ -380,8 +380,8 @@ case 'register' :
 </form>
 
 <p id="nav">
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Log in') ?></a> |
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<a href="<?php site_url('wp-login.php', 'forceable') ?>"><?php _e('Log in') ?></a> |
+<a href="<?php site_url('wp-login.php?action=lostpassword') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 </p>
 
 </div>
@@ -454,10 +454,10 @@ default:
 <p id="nav">
 <?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 <?php elseif (get_option('users_can_register')) : ?>
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a> |
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<a href="<?php site_url('wp-login.php?action=register') ?>"><?php _e('Register') ?></a> |
+<a href="<?php site_url('wp-login.php?action=lostpassword') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 <?php else : ?>
-<a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<a href="<?php site_url('wp-login.php?action=lostpassword') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 <?php endif; ?>
 </p>
 
