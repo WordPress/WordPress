@@ -8,42 +8,45 @@
 
 var SWFUpload;
 if (typeof(SWFUpload) === "function") {
-	SWFUpload.prototype.initSettings = function (old_initSettings) {
-		return function (init_settings) {
-			if (typeof(old_initSettings) === "function") {
-				old_initSettings.call(this, init_settings);
+	SWFUpload.prototype.initSettings = function (oldInitSettings) {
+		return function () {
+			if (typeof(oldInitSettings) === "function") {
+				oldInitSettings.call(this);
 			}
 			
 			this.refreshCookies(false);	// The false parameter must be sent since SWFUpload has not initialzed at this point
 		};
 	}(SWFUpload.prototype.initSettings);
 	
-	// refreshes the post_params and updates SWFUpload.  The send_to_flash parameters is optional and defaults to True
-	SWFUpload.prototype.refreshCookies = function (send_to_flash) {
-		if (send_to_flash !== false) send_to_flash = true;
+	// refreshes the post_params and updates SWFUpload.  The sendToFlash parameters is optional and defaults to True
+	SWFUpload.prototype.refreshCookies = function (sendToFlash) {
+		if (sendToFlash === undefined) {
+			sendToFlash = true;
+		}
+		sendToFlash = !!sendToFlash;
 		
 		// Get the post_params object
-		var post_params = this.getSetting("post_params");
+		var postParams = this.settings.post_params;
 		
 		// Get the cookies
-		var i, cookie_array = document.cookie.split(';'), ca_length = cookie_array.length, c, eq_index, name, value;
-		for(i = 0; i < ca_length; i++) {
-			c = cookie_array[i];
+		var i, cookieArray = document.cookie.split(';'), caLength = cookieArray.length, c, eqIndex, name, value;
+		for (i = 0; i < caLength; i++) {
+			c = cookieArray[i];
 			
 			// Left Trim spaces
-			while (c.charAt(0) == " ") {
+			while (c.charAt(0) === " ") {
 				c = c.substring(1, c.length);
 			}
-			eq_index = c.indexOf("=");
-			if (eq_index > 0) {
-				name = c.substring(0, eq_index);
-				value = c.substring(eq_index+1);
-				post_params[name] = value;
+			eqIndex = c.indexOf("=");
+			if (eqIndex > 0) {
+				name = c.substring(0, eqIndex);
+				value = c.substring(eqIndex + 1);
+				postParams[name] = value;
 			}
 		}
 		
-		if (send_to_flash) {
-			this.setPostParams(post_params);
+		if (sendToFlash) {
+			this.setPostParams(postParams);
 		}
 	};
 
