@@ -89,8 +89,9 @@ if ( 'post' == $_REQUEST['action'] ) {
 }
 
 // Ajax Requests
-$url = $_REQUEST['url'];
-$selection = $_REQUEST['selection'];
+$title = wp_specialchars(stripslashes($_GET['t']));
+$selection = trim(wp_specialchars(str_replace("\n", ' ',stripslashes($_GET['s']))));
+$url = $_GET['u'];
 
 if($_REQUEST['ajax'] == 'video') { ?>
 	<h2 id="embededcode"><label for="embed_code"><?php _e('Embed Code') ?></label></h2>
@@ -101,6 +102,9 @@ if($_REQUEST['ajax'] == 'video') { ?>
 }
 
 if($_REQUEST['ajax'] == 'photo_images') {
+$url = urldecode($url);
+$url = str_replace(' ', '%20', $url);
+
 	function get_images_from_uri($uri) {
 		$content = wp_remote_fopen($uri);
 		$host = parse_url($uri);
@@ -164,7 +168,7 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 			   	url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
 				cache : false,
 				async : false,
-			   	data: "ajax=photo_images&url=<?php echo $url?>",
+			   	data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
 			dataType : "script"
 			}).responseText);
 
@@ -221,10 +225,6 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		</div>
 <?php die; }
 
-// Clean up the data being passed in
-$title = wp_specialchars(stripslashes($_GET['t']));
-$selection = trim(wp_specialchars(str_replace("\n", ' ',stripslashes($_GET['s']))));
-$url = clean_url($_GET['u']);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
@@ -355,7 +355,7 @@ $url = clean_url($_GET['u']);
 				jQuery('body').addClass('video_split');
 			
 				
-				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', selection: '<?php echo attribute_escape($selection); ?>'}, function() {
+				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attribute_escape($selection); ?>'}, function() {
 					
 					<?php 
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
@@ -387,13 +387,13 @@ $url = clean_url($_GET['u']);
 				set_editor('<a href="<?php echo $url; ?>"><?php echo $title; ?></a>');
 				
 				jQuery('#extra_fields').show();
-				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&url='.attribute_escape($url); ?>');
+				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
 				jQuery('#extra_fields').prepend('<h2><img src="images/loading.gif" alt="" /> Loading...</h2>');
 				jQuery.ajax({
 					type: "GET",
 					cache : false,
 					url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
-					data: "ajax=photo_js&url=<?php echo $url?>",
+					data: "ajax=photo_js&u=<?php echo urlencode($url)?>",
 					dataType : "script",
 					success : function() {
 					}
