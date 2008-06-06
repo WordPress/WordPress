@@ -2,8 +2,8 @@
 
 require_once('admin.php');
 
-if ( !current_user_can('edit_plugins') )
-	wp_die('<p>'.__('You do not have sufficient permissions to update plugins for this blog.').'</p>');
+if ( ! current_user_can('update_plugins') )
+	wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));
 
 function request_filesystem_credentials($form_post, $type = '', $error = false) {
 	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error);

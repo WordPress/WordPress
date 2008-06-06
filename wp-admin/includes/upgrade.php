@@ -208,6 +208,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 7935 )
 		upgrade_252();
 
+	if ( $wp_current_db_version < 8000 )
+		upgrade_260();
+
 	maybe_disable_automattic_widgets();
 
 	$wp_rewrite->flush_rules();
@@ -740,6 +743,10 @@ function upgrade_252() {
 	global $wpdb;
 
 	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = ''");
+}
+
+function upgrade_260() {
+	populate_roles_260();
 }
 
 // The functions we use to actually do stuff

@@ -72,6 +72,8 @@ if( !empty($action) ) {
 			exit;
 			break;
 		case 'delete-selected':
+			if( ! current_user_can('delete_plugins') )
+				wp_die(__('You do not have sufficient permissions to delete plugins for this blog.'));
 			check_admin_referer('mass-manage-plugins');
 			$plugins = $_REQUEST['checked'];
 			include(ABSPATH . 'wp-admin/update.php');
@@ -250,7 +252,7 @@ function print_plugins_table($plugins, $context = '') {
 <div class="tablenav">
 	<div class="alignleft">
 		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
-<?php if( current_user_can('edit_plugins') ) : ?>
+<?php if( current_user_can('delete_plugins') ) : ?>
 		<input type="submit" name="delete-selected" value="<?php _e('Delete') ?>" class="button-secondary" />
 <?php endif; ?>
 	</div>
@@ -267,7 +269,7 @@ function print_plugins_table($plugins, $context = '') {
 <div class="tablenav">
 	<div class="alignleft">
 		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
-<?php if( current_user_can('edit_plugins') ) : ?>
+<?php if( current_user_can('delete_plugins') ) : ?>
 		<input type="submit" name="delete-selected" value="<?php _e('Delete') ?>" class="button-secondary" />
 <?php endif; ?>
 	</div>

@@ -16,6 +16,6 @@ $wp_version = '2.6-bleeding2';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 7935;
+$wp_db_version = 8000;
 
 ?>

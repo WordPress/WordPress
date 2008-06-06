@@ -126,7 +126,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	$r = $current->response[ $file ];
 
 	echo '<tr><td colspan="5" class="plugin-update">';
-	if ( !current_user_can('edit_plugins') )
+	if ( ! current_user_can('update_plugins') )
 		printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a>.'), $plugin_data['Name'], $r->url, $r->new_version);
 	else if ( empty($r->package) )
 		printf( __('There is a new version of %1$s available. <a href="%2$s">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_data['Name'], $r->url, $r->new_version);
