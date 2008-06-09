@@ -352,20 +352,45 @@ padding: 0;
 }
 
 .video_split #extra_fields {
-width: 27%;
-height: 300px;
-float: left;
+	width: 27%;
+	height: 300px;
+	float: left;
 }
 #embed_code {
-border: 0;
-width: 99%;
-height: 200px;
+	border: 0;
+	width: 99%;
+	height: 200px;
 }
 .video_split .editor_area {
-width: 70%;
-float: right;
+	width: 70%;
+	float: right;
 }
 
 #jaxtag {
-clear: both;
+	clear: both;
+}
+
+.ac_results {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	z-index: 10000;
+	display: none;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.ac_results li {
+	padding: 2px 5px;
+	white-space: nowrap;
+	text-align: left;
+}
+
+.ac_over {
+	cursor: pointer;
+}
+
+.ac_match {
+	text-decoration: underline;
 }
