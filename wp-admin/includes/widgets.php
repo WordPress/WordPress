@@ -285,3 +285,5 @@ function wp_widget_control_ob_filter( $string ) {
 	$string = str_replace( '&nbsp;', ' ', $string );
 	return trim( wp_specialchars( strip_tags( $string ) ) );
 }
+
+?>
