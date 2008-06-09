@@ -276,26 +276,24 @@ function load_default_textdomain() {
  * directory. The .mo file should be named based on the domain with a
  * dash followed by a dash, and then the locale exactly.
  *
- * The plugin may place all of the .mo files in another folder and set
- * the $path based on the relative location from ABSPATH constant. The
- * plugin may use the constant WP_PLUGIN_DIR and/or plugin_basename() to
- * get path of the plugin and then add the folder which holds the .mo
- * files.
- *
  * @since 1.5.0
  *
  * @param string $domain Unique identifier for retrieving translated strings
- * @param string $path Optional. Path of the folder where the .mo files reside.
+ * @param string $abs_rel_path Optional. Relative path to ABSPATH of a folder,
+ * 	where the .mo file resides. Deprecated, but still functional until 2.7
+ * @param string $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR. This is the preferred argument to use. It takes precendence over $abs_rel_path
  */
-function load_plugin_textdomain($domain, $path = false) {
+function load_plugin_textdomain($domain, $abs_rel_path = false, $plugin_rel_path = false) {
 	$locale = get_locale();
-
-	if ( false === $path )
-		$path = '';
+	
+	if ( false !== $plugin_rel_path	)
+		$path = WP_PLUGIN_DIR . '/' . trim( $plugin_rel_path, '/');
+	else if ( false !== $abs_rel_path)
+		$path = ABSPATH . trim( $abs_rel_path, '/');
 	else
-		$path = '/' . trim(trim($path), '/');
+		$path = WP_PLUGIN_DIR;
 
-	$mofile = WP_PLUGIN_DIR . $path . '/'. $domain . '-' . $locale . '.mo';
+	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
 	load_textdomain($domain, $mofile);
 }
 
