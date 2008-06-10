@@ -32,12 +32,13 @@ function get_plugin_data( $plugin_file ) {
 }
 
 function get_plugins($plugin_folder = '') {
-	global $wp_plugins;
-
-	if ( isset( $wp_plugins ) ) {
-		return $wp_plugins;
-	}
-
+	
+	if ( ! $cache_plugins = wp_cache_get('plugins', 'plugins') )
+		$cached_plugins = array();
+	
+	if ( isset($cache_plugins[ $plugin_folder ]) )
+		return $cache_plugins[ $plugin_folder ];
+	
 	$wp_plugins = array ();
 	$plugin_root = WP_PLUGIN_DIR;
 	if( !empty($plugin_folder) )
@@ -84,6 +85,9 @@ function get_plugins($plugin_folder = '') {
 	}
 
 	uasort( $wp_plugins, create_function( '$a, $b', 'return strnatcasecmp( $a["Name"], $b["Name"] );' ));
+
+	$cache_plugins[ $plugin_folder ] = $wp_plugins; 
+	wp_cache_set('plugins', $cache_plugins, 'plugins'); 
 
 	return $wp_plugins;
 }

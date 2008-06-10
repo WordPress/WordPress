@@ -82,16 +82,9 @@ if( !empty($action) ) {
 			$parent_file = 'plugins.php';
 
 			$delete_result = delete_plugins($plugins);
-			
-			//HACK TIME!
-			// Proper way needed, perhaps get_plugins() to convert to wp_cache_get() any reason why it hasnt allready?
-			// This clears the cached plugin list
-			global $wp_plugins;
-			$wp_plugins = null;
-			
-			
-				
-			//TODO: Implement!.. STAT!
+
+			wp_cache_delete('plugins', 'plugins');
+
 			break;
 		default:
 			var_dump("Unknown Action $action");
