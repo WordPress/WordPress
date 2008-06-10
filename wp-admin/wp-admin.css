@@ -1587,3 +1587,26 @@ fieldset {
 	margin: 0;
 	padding: 0 7px;
 }
+
+#wp_editbtns {
+	padding: 2px;
+	position: absolute;
+	display: none;
+	z-index: 999998;
+}
+
+#wp_editimgbtn, #wp_delimgbtn {
+	margin: 2px;
+	padding: 2px;
+	border: 1px solid #999;
+	background-color: #eee;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#wp_editimgbtn:hover, #wp_delimgbtn:hover {
+	border-color: #555;
+	background-color: #ccc;
+}

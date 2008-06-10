@@ -87,7 +87,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080602",
+"version" : "<?php echo $man_version; ?>_20080606",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -149,6 +149,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/link.js?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/source_editor.js?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/anchor.js?ver=3091" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js?ver=3091" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/source_editor.htm?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/anchor.htm?ver=3091" },
@@ -162,6 +163,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/paste/pastetext.htm?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/plugins/inlinepopups/template.htm?ver=3091" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/wp-mce-help.php?ver=3091" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css?ver=3091" },
@@ -174,6 +176,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/media/css/media.css?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/pasteword.css?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/blank.css?ver=3091" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/wordpress.css?ver=3091" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/img/icons.gif" },
@@ -208,5 +211,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/page.gif" },
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/page_bug.gif" },
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/toolbars.gif" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/img/image.png" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/img/delete.png" },
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/help.gif" }
 ]}

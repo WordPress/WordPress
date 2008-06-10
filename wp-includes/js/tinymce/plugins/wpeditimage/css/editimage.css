@@ -1,0 +1,167 @@
+
+html, body {
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+.submit input,
+.button {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 3px 5px;
+	font-size: 12px;
+	line-height: 1.5em;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: pointer;
+	text-decoration: none;	
+}
+
+textarea,
+input,
+select {
+	font: 13px Verdana, Arial, Helvetica, sans-serif;
+	margin: 1px;
+	padding: 3px;
+}
+
+body, td {
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+}
+
+abbr.required {
+	color: #FF0000;
+	text-align: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.alignleft {
+	float: left;
+}
+
+.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+label {
+	cursor: pointer;
+}
+
+th.label {
+	width: 128px;
+}
+
+.show-align {
+	padding: 8px;
+	height: 200px;
+	background-color: #f1f1f1;
+	cursor: default;
+	-moz-user-select: none;
+	user-select: none;
+	overflow: hidden;
+}
+
+#media-upload #img-edit {
+	border: 1px solid #c0c0c0;
+	width: 623px;
+	margin: 20px auto auto;
+}
+
+#media-upload .media-upload-form table.describe {
+	border-top-style: none;
+	border-top-width: 0;
+}
+
+#img_demo_txt {
+	font-size: 6px;
+	line-height: 10px;
+	font-family: "Courier New",Courier,monotype;
+	color: #ccc;
+	background-color: #ccc;
+}
+
+#img_demo {
+	padding: 0 5px 4px;
+}
+
+#saveeditimg {
+	padding: 10px 0 0 5px;
+	border-top: 1px solid #ccc;
+}
+
+#sidemenu,
+#sidemenu li {
+	list-style: none;
+	
+}
+
+#sidemenu li {
+	
+	display: inline;
+}
+
+#sidemenu a {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	display: block;
+	float: left;
+	line-height: 28px;
+	text-decoration: none;
+	text-align: center;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0pt 7px;
+}
+
+#sidemenu a.current {
+	-moz-border-radius-topleft:4px;
+	-moz-border-radius-topright:4px;
+	border-style:solid;
+	border-width:1px;
+	font-weight:normal;
+}
+
+#adv_settings .field label {
+	padding: 0 5px 5px;
+}
+
+#media-upload h3 {
+	clear:both;
+	padding:0pt 0pt 3px;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	font-family:Georgia,"Times New Roman",Times,serif;
+	font-size:20px;
+	font-weight:normal;
+	line-height:normal;
+	margin:20px 0 15px -4px;
+	padding:0 0 3px 0;
+	border-bottom-color:#DADADA;
+	color:#5A5A5A;
+}
+
+#img_dim #width,
+#img_dim #height {
+	width:40px;
+}
+
+#img_dim abbr {
+	padding: 0 4px;
+}
+
+#basic .align .field label {
+	margin: 0 10px 0 0;
+	padding: 0 0 0 25px;
+}
+

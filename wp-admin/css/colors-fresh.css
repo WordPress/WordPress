@@ -533,7 +533,7 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 }
 
 /* Containers */
-.wp_themeSkin table {
+.wp_themeSkin table, #wp_editbtns {
 	background: #cee1ef;
 }
 

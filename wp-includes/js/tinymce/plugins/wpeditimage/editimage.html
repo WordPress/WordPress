@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+
+<script type="text/javascript" src="js/editimage.js?ver=3091"></script>
+<script type="text/javascript" src="../../utils/form_utils.js?ver=3091"></script>
+
+<link rel="stylesheet" href="css/editimage.css?ver=3091" type="text/css" media="all" />
+<link rel="stylesheet" href="../../../../../wp-admin/css/media.css?ver=2.6-bleeding2" type="text/css" media="all" />
+<base target="_self" />
+</head>
+
+<body id="media-upload" style="display:none;">
+<div id="media-upload-header">
+	<ul id="sidemenu">
+	<li><a href="javascript:;" id="tab_basic" class="current" onclick="wpImage.setTabs(this);">Edit image</a></li>
+	<li><a href="javascript:;" id="tab_advanced" onclick="wpImage.setTabs(this);">Advanced settings</a></li>
+	<li><a href="javascript:;" id="tab_attachment" style="display:none" target="_blanc" onclick="tinyMCEPopup.close();">Edit Attachment</a></li>
+	</ul>
+</div>
+
+<div id="img-edit">
+	<form class="media-upload-form" action="" onsubmit="wpImage.update();">
+	<div id="div_basic">
+
+	<div class="show-align">
+		<img id="img_demo" src="img/image.png" alt="" />
+		<span id="img_demo_txt">
+		Lorem ipsum dolor sit amet consectetuer velit pretium euismod ipsum enim. Mi cursus at a mollis senectus id arcu gravida quis urna. Sed et felis id tempus Morbi mauris tincidunt enim In mauris. Pede eu risus velit libero natoque enim lorem adipiscing ipsum consequat. In malesuada et sociis tincidunt tempus pellentesque cursus convallis ipsum Suspendisse. Risus In ac quis ut Nunc convallis laoreet ante Suspendisse Nam. Amet amet urna condimentum Vestibulum sem at Curabitur lorem et cursus. Sodales tortor fermentum leo dui habitant Nunc Sed Vestibulum.
+		Ut lorem In penatibus libero id ipsum sagittis nec elit Sed. Condimentum eget Vivamus vel consectetuer lorem molestie turpis amet tellus id. Condimentum vel ridiculus Fusce sed pede Nam nunc sodales eros tempor. Sit lacus magna dictumst Curabitur fringilla auctor id vitae wisi facilisi. Fermentum eget turpis felis velit leo Nunc Proin orci molestie Praesent. Curabitur tellus scelerisque suscipit ut sem amet cursus mi Morbi eu. Donec libero Vestibulum augue et mollis accumsan ornare condimentum In enim. Leo eget ac consectetuer quis condimentum malesuada.
+		Condimentum commodo et Lorem fringilla malesuada libero volutpat sem tellus enim. Tincidunt sed at Aenean nec nonummy porttitor Nam Sed Nulla ut. Auctor leo In aliquet Curabitur eros et velit Quisque justo morbi. Et vel mauris sit nulla semper vitae et quis at dui. Id at elit laoreet justo eu mauris Quisque et interdum pharetra. Nullam accumsan interdum Maecenas condimentum quis quis Fusce a sollicitudin Sed. Non Quisque Vivamus congue porttitor non semper ipsum porttitor quis vel. Donec eros lacus volutpat et tincidunt sem convallis id venenatis sit. Consectetuer odio.
+		Semper faucibus Morbi nulla convallis orci Aliquam Sed porttitor et Pellentesque. Venenatis laoreet lorem id a a Morbi augue turpis id semper. Arcu volutpat ac mauris Vestibulum fringilla Aenean condimentum nibh sed id. Sagittis eu lacus orci urna tellus tellus pretium Curabitur dui nunc. Et nibh eu eu nibh adipiscing at lorem Vestibulum adipiscing augue. Magna convallis Phasellus dolor malesuada Curabitur ornare adipiscing tellus Aliquam tempus. Id Aliquam Integer augue Nulla consectetuer ac Donec Curabitur tincidunt et. Id vel Nunc amet lacus dui magna ridiculus penatibus laoreet Duis. Enim sagittis nibh quis Nulla nec laoreet vel Maecenas mattis vel. Nullam velit est Curabitur gravida Vestibulum justo.
+		</span>
+	</div>
+
+	<table id="basic" class="describe">	
+		<tbody>
+		<tr class="">
+			<th valign="top" scope="row" class="label">
+				<label for="img_title">
+				<span class="alignleft">Title</span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_title" name="img_title" value="" aria-required="true" size="60" />
+			</td>
+		</tr>
+
+		<tr class="post_excerpt">
+			<th valign="top" scope="row" class="label">
+				<label for="img_alt">
+				<span class="alignleft">Caption</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_alt" name="img_alt" value="" size="60" />
+				<p class="help">Alternate text, e.g. "The Mona Lisa"</p>
+			</td>
+		</tr>
+
+		<tr class="url">
+			<th valign="top" scope="row" class="label">
+				<label for="link_href">
+				<span class="alignleft" id="lb_link_href">Link URL</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_href" name="link_href" value="" /><br />
+				<input type="button" class="button" onclick="wpImage.I('link_href').value='';" value="None" />
+				<input type="button" class="button" id="img_url_current" onclick="wpImage.img_seturl('current')" value="Current Link" />
+				<input type="button" class="button" id="img_url_img" onclick="wpImage.img_seturl('link')" value="Link to Image" />
+				<p class="help">Enter a link URL or click above for presets.</p>
+			</td>
+		</tr>
+
+		<tr class="align">
+			<th valign="top" scope="row" class="label">
+				<label for="img_align_td">
+				<span class="alignleft">{#advanced_dlg.image_align}</span>
+				</label>
+			</th>
+			<td class="field" id="img_align_td">
+				<input type="radio" onclick="wpImage.imgAlignCls('alignnone')" name="img_align" id="alignnone" value="alignnone" />
+				<label for="alignnone" class="align image-align-none-label">None</label>
+
+				<input type="radio" onclick="wpImage.imgAlignCls('alignleft')" name="img_align" id="alignleft" value="alignleft" />
+				<label for="alignleft" class="align image-align-left-label">{#advanced_dlg.image_align_left}</label>
+
+				<input type="radio" onclick="wpImage.imgAlignCls('aligncenter')" name="img_align" id="aligncenter" value="aligncenter" />
+				<label for="aligncenter" class="align image-align-center-label">Center</label>
+
+				<input type="radio" onclick="wpImage.imgAlignCls('alignright')" name="img_align" id="alignright" value="alignright" />
+				<label for="alignright" class="align image-align-right-label">{#advanced_dlg.image_align_right}</label>
+			</td>
+		</tr>
+
+		<tr class="image-size">
+			<th valign="top" scope="row" class="label">
+				<label for="img_size">
+				<span class="alignleft">Size</span>
+				</label>
+			</th>
+			<td class="field" id="img_size">
+				<input onclick="wpImage.imgEditSize('thumbnail')" type="radio" name="img_size" id="thumbnail" value="thumbnail" />
+				<label for="thumbnail" id="lb_sizethumb">Thumbnail</label>
+
+				<input onclick="wpImage.imgEditSize('medium')" type="radio" name="img_size" id="medium" value="medium" />
+				<label for="medium" id="lb_sizemedium">Medium</label>
+
+				<input onclick="wpImage.imgEditSize('full')" type="radio" name="img_size" id="full" value="full" />
+				<label for="full" id="lb_sizefull">Full_size</label>
+			</td>
+		</tr>
+	</tbody>
+	</table></div>
+
+	<div id="div_advanced" style="display:none;">
+	<h3>Advanced Image Settings</h3>
+	<table id="adv_settings_img" class="describe">	
+		<tbody>
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_src">
+				<span class="alignleft">Source</span>
+				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_src" name="img_src" value="" onblur="wpImage.checkVal(this)" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_dim">
+				<span class="alignleft">Size</span>
+				<span class="alignright"></span>
+				</label>
+			</th>
+			<td class="field" id="img_dim">
+				<label for="width">Width</label>
+				<input type="text" id="width" name="width" value="" />
+				
+				<label for="height">Height</label>
+				<input type="text" id="height" name="height" value="" />
+				<input type="button" class="button" id="orig_size" name="orig_size" value="Original Size" onclick="wpImage.origSize();" />
+				
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_classes">
+				<span class="alignleft">CSS Class</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_classes" name="img_classes" value="" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_style">
+				<span class="alignleft">Style</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_style" name="img_style" value="" size="60" />
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<h3>Advanced Link Settings</h3>
+	<table id="adv_settings_img" class="describe">	
+		<tbody>
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="link_title">
+				<span class="alignleft">Link Title</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_title" name="link_title" value="" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="link_rel">
+				<span class="alignleft">Link Rel</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_rel" name="link_rel" value="" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="link_rev">
+				<span class="alignleft">Link Rev</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_rev" name="link_rev" value="" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="link_classes">
+				<span class="alignleft">CSS Class</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_classes" name="link_classes" value="" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="link_style">
+				<span class="alignleft">Style</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_style" name="link_style" value="" size="60" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="link_target">
+				<span class="alignleft">Target</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="link_target" name="link_target" value="" size="60" />
+			</td>
+		</tr>
+		</tbody>
+	</table></div>
+
+	<div id="saveeditimg">
+		<input type="hidden" id="border" name="border" value="" />
+		<input type="hidden" id="hspace" name="hspace" value="" />
+		<input type="hidden" id="vspace" name="vspace" value="" />
+		<input type="hidden" id="align" name="align" value="" />
+
+		<input type="submit" id="saveimg" class="button" value="{#update}" />
+		<input type="button" class="button" id="cancelimg" name="cancelimg" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+	</div>
+</form>
+</div>
+
+</body>
+</html>
