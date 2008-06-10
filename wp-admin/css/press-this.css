@@ -356,6 +356,7 @@ padding: 0;
 	height: 300px;
 	float: left;
 }
+
 #embed_code {
 	border: 0;
 	width: 99%;
@@ -393,4 +394,53 @@ padding: 0;
 
 .ac_match {
 	text-decoration: underline;
+}
+
+
+.photolist {
+display: none;
+}
+
+#extra_fields small {
+display: block;
+margin-top: .5em;
+padding-bottom: .25em;
+}
+
+#TB_ajaxContent #options {
+position: absolute;
+top: 20px;
+right: 25px;
+background: white;
+padding: 5px;
+}
+#TB_ajaxContent h3 {
+margin-bottom: .25em;
+}
+
+.updated {
+	margin: 0;
+	margin-left: 15px;
+	margin-right: 15px;
+	padding: 0;
+	max-width: 980px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 0 0.6em;
+	max-width: 950px;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.updated p, .error p {
+	margin: 0.6em 0;
+}
+
+.updated a, .error a {
+	text-decoration: underline;
+}
+
+.updated a {
+	text-decoration: none;
+	padding-bottom: 2px;
 }

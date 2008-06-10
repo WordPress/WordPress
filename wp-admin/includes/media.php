@@ -116,15 +116,16 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 }
 
 
-function media_sideload_image($file, $post_id) {
+function media_sideload_image($file, $post_id, $desc = null) {
 
 	if (!empty($file) ) {
 		// Upload File button was clicked
 		
 		$file_array['name'] = basename($file);
 		$file_array['tmp_name'] = download_url($file);
+		$desc = @$desc;
 		
-		$sideload = media_handle_sideload($file_array, $post_id);
+		$sideload = media_handle_sideload($file_array, $post_id, $desc);
 
 		$id = $sideload['id'];
 		$src = $sideload['src'];
@@ -141,18 +142,15 @@ function media_sideload_image($file, $post_id) {
 	if ( !empty($src) && !strpos($src, '://') )
 		
 		$src = "http://$src";
-		/*$alt = attribute_escape($_POST['insertonly']['alt']);
-		if ( isset($_POST['insertonly']['align']) ) {
-			$align = attribute_escape($_POST['insertonly']['align']);
-			$class = " class='align$align'";
-		} */
+		$alt = @$desc;
+		
 		if ( !empty($src) )
-			$html = "<img src='$src' alt='$alt'$class />";
+			$html = "<img src='$src' alt='$alt' />";
 			return $html;
 	
 }
 
-function media_handle_sideload($file_array, $post_id, $post_data = array()) {
+function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
 	$overrides = array('test_form'=>false);
 	$file = wp_handle_sideload($file_array, $overrides);
 
@@ -172,6 +170,8 @@ function media_handle_sideload($file_array, $post_id, $post_data = array()) {
 		if ( trim($image_meta['caption']) )
 			$content = $image_meta['caption'];
 	}
+	
+	$title = @$desc;
 
 	// Construct the attachment array
 	$attachment = array_merge( array(
