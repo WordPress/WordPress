@@ -1768,4 +1768,29 @@ function validate_file( $file, $allowed_files = '' ) {
 function is_ssl() {
 	return ( 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false; 
 }
+
+function force_ssl_login($force = '') {
+	static $forced;
+
+	if ( '' != $force ) {
+		$old_forcded = $forced;
+		$forced = $force;
+		return $old_forced;
+	}
+
+	return $forced;
+}
+
+function force_ssl_admin($force = '') {
+	static $forced;
+
+	if ( '' != $force ) {
+		$old_forcded = $forced;
+		$forced = $force;
+		return $old_forced;
+	}
+
+	return $forced;
+}
+
 ?>

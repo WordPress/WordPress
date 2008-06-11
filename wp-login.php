@@ -11,6 +11,17 @@
 /** Make sure that the WordPress bootstrap has ran before continuing. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
+// Redirect to https login if forced to use SSL
+if ( (force_ssl_admin() || force_ssl_login()) && !is_ssl() ) {
+	if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
+		wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
+		exit();
+	} else {
+		wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+		exit();			
+	}
+}
+
 /**
  * login_header() - Outputs the header for the login page
  *
@@ -137,7 +148,7 @@ function retrieve_password() {
 	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= site_url("wp-login.php?action=rp&key=$key") . "\r\n";
+	$message .= site_url("wp-login.php?action=rp&key=$key", 'login') . "\r\n";
 
 	if ( !wp_mail($user_email, sprintf(__('[%s] Password Reset'), get_option('blogname')), $message) )
 		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
@@ -174,7 +185,7 @@ function reset_password($key) {
 	wp_set_password($new_pass, $user->ID);
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
-	$message .= site_url('wp-login.php') . "\r\n";
+	$message .= site_url('wp-login.php', 'login') . "\r\n";
 
 	if (  !wp_mail($user->user_email, sprintf(__('[%s] Your new password'), get_option('blogname')), $message) )
 		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
@@ -312,10 +323,10 @@ case 'retrievepassword' :
 
 <p id="nav">
 <?php if (get_option('users_can_register')) : ?>
-<a href="<?php echo site_url('wp-login.php', 'forceable') ?>"><?php _e('Log in') ?></a> |
-<a href="<?php echo site_url('wp-login.php?action=register') ?>"><?php _e('Register') ?></a>
+<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a> |
+<a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a>
 <?php else : ?>
-<a href="<?php echo site_url('wp-login.php', 'forceable') ?>"><?php _e('Log in') ?></a>
+<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a>
 <?php endif; ?>
 </p>
 
@@ -380,8 +391,8 @@ case 'register' :
 </form>
 
 <p id="nav">
-<a href="<?php echo site_url('wp-login.php', 'forceable') ?>"><?php _e('Log in') ?></a> |
-<a href="<?php echo site_url('wp-login.php?action=lostpassword') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<a href="<?php echo site_url('wp-login.php', 'login') ?>"><?php _e('Log in') ?></a> |
+<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 </p>
 
 </div>
@@ -395,12 +406,17 @@ break;
 
 case 'login' :
 default:
-	$user = wp_signon();
-
 	if ( isset( $_REQUEST['redirect_to'] ) )
 		$redirect_to = $_REQUEST['redirect_to'];
 	else
 		$redirect_to = 'wp-admin/';
+
+	if ( is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) )
+		$secure_cookie = false;
+	else
+		$secure_cookie = '';
+
+	$user = wp_signon('', $secure_cookie);
 
 	if ( !is_wp_error($user) ) {
 		// If the user can't edit posts, send them to their profile.
@@ -454,10 +470,10 @@ default:
 <p id="nav">
 <?php if ( isset($_GET['checkemail']) && in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 <?php elseif (get_option('users_can_register')) : ?>
-<a href="<?php echo site_url('wp-login.php?action=register') ?>"><?php _e('Register') ?></a> |
-<a href="<?php echo site_url('wp-login.php?action=lostpassword') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<a href="<?php echo site_url('wp-login.php?action=register', 'login') ?>"><?php _e('Register') ?></a> |
+<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 <?php else : ?>
-<a href="<?php echo site_url('wp-login.php?action=lostpassword') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
+<a href="<?php echo site_url('wp-login.php?action=lostpassword', 'login') ?>" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
 <?php endif; ?>
 </p>
 

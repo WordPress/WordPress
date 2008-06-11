@@ -334,6 +334,13 @@ if ( !defined('SECURE_AUTH_COOKIE') )
 
 /**
  * It is possible to define this in wp-config.php
+ * @since 2.6
+ */
+if ( !defined('LOGGED_IN_COOKIE') )
+	define('LOGGED_IN_COOKIE', 'wordpress_logged_in_' . COOKIEHASH);
+
+/**
+ * It is possible to define this in wp-config.php
  * @since 2.3.0
  */
 if ( !defined('TEST_COOKIE') )
@@ -359,7 +366,23 @@ if ( !defined('SITECOOKIEPATH') )
  */
 if ( !defined('COOKIE_DOMAIN') )
 	define('COOKIE_DOMAIN', false);
-	
+
+/**
+ * It is possible to define this in wp-config.php
+ * @since 2.6
+ */
+if ( !defined('FORCE_SSL_ADMIN') )
+	define('FORCE_SSL_ADMIN', false);
+force_ssl_admin(FORCE_SSL_ADMIN);
+
+/**
+ * It is possible to define this in wp-config.php
+ * @since 2.6
+ */
+if ( !defined('FORCE_SSL_LOGIN') )
+	define('FORCE_SSL_LOGIN', false);
+force_ssl_login(FORCE_SSL_LOGIN);
+
 /**
  * It is possible to define this in wp-config.php
  * @since 2.5.0

@@ -1,6 +1,6 @@
 <?php
 
-function wp_signon( $credentials = '' ) {
+function wp_signon( $credentials = '', $secure_cookie = '' ) {
 	if ( empty($credentials) ) {
 		if ( ! empty($_POST['log']) )
 			$credentials['user_login'] = $_POST['log'];
@@ -21,13 +21,21 @@ function wp_signon( $credentials = '' ) {
 
 	do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
 
+	if ( '' === $secure_cookie )
+		$secure_cookie = is_ssl() ? true : false;
+	
 	// If no credential info provided, check cookie.
 	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
 			$user = wp_validate_auth_cookie();
 			if ( $user )
 				return new WP_User($user);
 
-			if ( !empty($_COOKIE[AUTH_COOKIE]) )
+			if ( $secure_cookie )
+				$auth_cookie = SECURE_AUTH_COOKIE;
+			else
+				$auth_cookie = AUTH_COOKIE;
+
+			if ( !empty($_COOKIE[$auth_cookie]) )
 				return new WP_Error('expired_session', __('Please log in again.'));
 
 			// If the cookie is not set, be silent.
@@ -48,7 +56,7 @@ function wp_signon( $credentials = '' ) {
 	if ( is_wp_error($user) )
 		return $user;
 
-	wp_set_auth_cookie($user->ID, $credentials['remember']);
+	wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
 	do_action('wp_login', $credentials['user_login']);
 	return $user;
 }

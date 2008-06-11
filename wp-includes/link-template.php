@@ -780,7 +780,9 @@ function get_shortcut_link() {
 function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
 	if ( !in_array($scheme, array('http', 'https')) ) {
-		if ( ('forceable' == $scheme) && (defined('FORCE_SSL_LOGIN') && FORCE_SSL_LOGIN) )
+		if ( ('login' == $scheme) && ( force_ssl_login() || force_ssl_admin() ) )
+			$scheme = 'https';
+		elseif ( ('admin' == $scheme) && force_ssl_admin() )
 			$scheme = 'https';
 		else
 			$scheme = ( is_ssl() ? 'https' : 'http' );
@@ -797,7 +799,7 @@ function site_url($path = '', $scheme = null) {
 function admin_url($path = '') {
 	global $_wp_admin_url;
 
-	$url = site_url('wp-admin/', 'forceable');
+	$url = site_url('wp-admin/', 'admin');
 
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= ltrim($path, '/');
