@@ -57,21 +57,22 @@ function press_it() {
 	return $post_ID;
 }
 
-function tag_div() { ?>
-		<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
-		<div id="tagchecklist"></div>
-<?php }
 
 function category_div() { ?>
 	<div id="categories">
 		<div class="submitbox" id="submitpost">
-			<div id="previewview">	<h2><?php _e('Categories') ?></h2></div>
+			<div id="previewview"></div>
 			<div class="inside">
+				<h2><?php _e('Categories') ?></h2>
 				<div id="categories-all">
 					<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 						<?php wp_category_checklist() ?>
 					</ul>
 				</div>
+				<h2><?php _e('Tags') ?></h2>
+				<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
+				<div id="tagchecklist"></div>
+				
 			</div>
 			<p class="submit">         
 			<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
@@ -157,6 +158,7 @@ $url = urldecode($url);
 $url = str_replace(' ', '%20', $url);
 
 	function get_images_from_uri($uri) {
+		if(preg_match('/\.(jpg|png|gif)/', $uri)) return "'".$uri."'";
 		$content = wp_remote_fopen($uri);
 		$host = parse_url($uri);
 		if ( false === $content ) return '';
@@ -179,7 +181,8 @@ $url = str_replace(' ', '%20', $url);
 				$sources[] = $src;
 		}
 		return "'" . implode("','", $sources) . "'";
-	}  
+	} 
+	
 		
 	echo 'new Array('.get_images_from_uri($url).')'; 
 die;		
@@ -251,7 +254,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	
 		<small><?php _e('Click images to select:') ?></small>
 		<div class="titlewrap">
-			<div id="img_container">Loading Images...</div>
+			<div id="img_container"></div>
 		</div>
 <?php die; }
 
@@ -422,8 +425,8 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					set_editor('')
 				<?php } ?>
 				jQuery('#extra_fields').show();
+				jQuery('#extra_fields').prepend('<h2 id="waiting"><img src="images/loading.gif" alt="" /> Loading...</h2>');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
-				jQuery('#extra_fields').prepend('<h2><img src="images/loading.gif" alt="" /> Loading...</h2>');
 				jQuery.ajax({
 					type: "GET",
 					cache : false,
@@ -431,6 +434,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					data: "ajax=photo_js&u=<?php echo urlencode($url)?>",
 					dataType : "script",
 					success : function() {
+						jQuery('#waiting').innerHTML('');
 					}
 				});
 				
@@ -490,7 +494,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 						</textarea>
 					</div>
 					</div>
-					<?php tag_div(); ?>
+					
 				</div>
 				<?php category_div(); ?>
 			</form>		

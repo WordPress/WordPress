@@ -1,5 +1,6 @@
 body {
 	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	color: #333;
 	margin: 0px;
 	padding: 0px;
 }
@@ -213,15 +214,16 @@ div#categories {
 }
 
 div#categories h2 {
+	color: #333;
 	font-size: 12px;
-	margin: 0;
+	margin: .5em 0 0 1em;
 	padding: 0;
 }
 
 #categories-all {
 	overflow: auto;
 	padding: 1em;
-	height: 20em;
+	height: 15em;
 }
 
 #categories ul {
@@ -243,18 +245,20 @@ div#categories h2 {
 }
 
 #tagchecklist {
-	margin-left: 10px;
+	padding-left: 1em;
+	margin-bottom: 1em;
 	font-size: 12px;
 	overflow: auto;
 }
 
 #tagchecklist strong {
-	margin-left: -8px;
 	position: absolute;
+	font-size: .75em;
 }
 
 #tagchecklist span {
-	margin-right: 25px;
+	margin-right: .5em;
+	margin-left: 10px;
 	display: block;
 	float: left;
 	font-size: 11px;
@@ -369,6 +373,7 @@ padding: 0;
 
 #jaxtag {
 	clear: both;
+	padding-left: 1em;
 }
 
 .ac_results {
