@@ -110,6 +110,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	function wp_xmlrpc_server() {
 		$this->methods = array(
 			// WordPress API
+			'wp.getUsersBlogs'		=> 'this:wp_getUsersBlogs',
 			'wp.getPage'			=> 'this:wp_getPage',
 			'wp.getPages'			=> 'this:wp_getPages',
 			'wp.newPage'			=> 'this:wp_newPage',
@@ -252,6 +253,53 @@ class wp_xmlrpc_server extends IXR_Server {
 				add_meta($post_id);
 			}
 		}
+	}
+
+	/**
+	 * WordPress XML-RPC API
+	 * wp_getUsersBlogs
+	 */
+	function wp_getUsersBlogs( $args ) {
+		// If this isn't on WPMU then just use blogger_getUsersBlogs
+		if( !function_exists( 'is_site_admin' ) ) {
+			array_unshift( $args, 1 );
+			return $this->blogger_getUsersBlogs( $args );
+		}
+
+		$this->escape( $args );
+
+		$username = $args[0];
+		$password = $args[1];
+
+		if( !$this->login_pass_ok( $username, $password ) )
+			return $this->error;
+
+		do_action( 'xmlrpc_call', 'wp.getUsersBlogs' );
+
+		$user = set_current_user( 0, $username );
+
+		$blogs = (array) get_blogs_of_user( $user->ID );
+		$struct = array( );
+
+		foreach( $blogs as $blog ) {
+			// Don't include blogs that aren't hosted at this site
+			if( $blog->site_id != 1 )
+				continue;
+
+			$blog_id = $blog->userblog_id;
+			switch_to_blog($blog_id);
+			$is_admin = current_user_can('level_8');
+
+			$struct[] = array(
+				'isAdmin'		=> $is_admin,
+				'url'			=> get_option( 'home' ) . '/',
+				'blogid'		=> $blog_id,
+				'blogName'		=> get_option( 'blogname' ),
+				'xmlrpc'		=> get_option( 'home' ) . '/xmlrpc.php'
+			);
+		}
+
+		return $struct;
 	}
 
 	/**
@@ -841,7 +889,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			'isAdmin'  => $is_admin,
 			'url'      => get_option('home') . '/',
 			'blogid'   => '1',
-			'blogName' => get_option('blogname')
+			'blogName' => get_option('blogname'),
+			'xmlrpc'   => get_option('home') . '/xmlrpc.php',
 		);
 
 		return array($struct);
