@@ -1132,6 +1132,10 @@ function wp_richedit_pre($text) {
 	$output = str_replace('&lt;', '&amp;lt;', $output);
 	$output = str_replace('&gt;', '&amp;gt;', $output);
 
+	// These should be entities too
+	$output = str_replace('<', '&lt;', $output);
+	$output = str_replace('>', '&gt;', $output);
+	
 	return apply_filters('richedit_pre', $output);
 }
 
