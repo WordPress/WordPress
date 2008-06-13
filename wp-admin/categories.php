@@ -135,6 +135,24 @@ endif; ?>
 
 <div class="tablenav">
 
+<?php
+$pagenum = absint( $_GET['pagenum'] );
+if ( empty($pagenum) )
+	$pagenum = 1;
+if( !$catsperpage || $catsperpage < 0 )
+	$catsperpage = 20;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'pagenum', '%#%' ),
+	'format' => '',
+	'total' => ceil(wp_count_terms('category') / $catsperpage),
+	'current' => $pagenum
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
 <div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-categories'); ?>
@@ -156,13 +174,19 @@ endif; ?>
 	</thead>
 	<tbody id="the-list" class="list:cat">
 <?php
-cat_rows();
+$categories = array();
+cat_rows(0, 0, $categories, $pagenum, $catsperpage);
 ?>
 	</tbody>
 </table>
 </form>
 
 <div class="tablenav">
+
+<?php
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
 <br class="clear" />
 </div>
 <br class="clear" />

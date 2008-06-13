@@ -4,35 +4,68 @@
 // Big Mess
 //
 
-// Dandy new recursive multiple category stuff.
-function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
-	if ( !$categories ) {
+// Ugly recursive category stuff.
+function cat_rows( $parent = 0, $level = 0, &$categories = 0, $page = 1, $per_page = 20, &$count = 0 ) {
+	if ( empty($categories) ) {
 		$args = array('hide_empty' => 0);
 		if ( !empty($_GET['s']) )
 			$args['search'] = $_GET['s'];
 		$categories = get_categories( $args );
 	}
 
+	if ( !$categories )
+		return false;
+
 	$children = _get_term_hierarchy('category');
 
-	if ( $categories ) {
-		ob_start();
-		foreach ( $categories as $category ) {
-			if ( $category->parent == $parent) {
-				echo "\t" . _cat_row( $category, $level );
-				if ( isset($children[$category->term_id]) )
-					cat_rows( $category->term_id, $level +1, $categories );
+	$start = ($page - 1) * $per_page;
+	$end = $start + $per_page;
+	$i = -1;
+	ob_start();
+	foreach ( $categories as $category ) {
+		if ( $count >= $end )
+			break;
+
+		$i++;
+
+		if ( $category->parent != $parent )
+			continue;
+
+		// If the page starts in a subtree, print the parents.
+		if ( $count == $start && $category->parent > 0 ) {
+			$my_parents = array();
+			$my_parent = $category->parent;
+			while ( $my_parent) {
+				$my_parent = get_category($my_parent);
+				$my_parents[] = $my_parent;
+				if ( !$my_parent->parent )
+					break;
+				$my_parent = $my_parent->parent;
+			}
+			$num_parents = count($my_parents);
+			while( $my_parent = array_pop($my_parents) ) {
+				echo "\t" . _cat_row( $my_parent, $level - $num_parents );
+				$num_parents--;
 			}
 		}
-		$output = ob_get_contents();
-		ob_end_clean();
 
-		$output = apply_filters('cat_rows', $output);
+		if ( $count >= $start )
+			echo "\t" . _cat_row( $category, $level );
 
-		echo $output;
-	} else {
-		return false;
+		unset($categories[$i]); // Prune the working set		
+		$count++;
+
+		if ( isset($children[$category->term_id]) )
+			cat_rows( $category->term_id, $level + 1, $categories, $page, $per_page, $count );
+
 	}
+
+	$output = ob_get_contents();
+	ob_end_clean();
+
+	$output = apply_filters('cat_rows', $output);
+
+	echo $output;
 }
 
 function _cat_row( $category, $level, $name_override = false ) {
