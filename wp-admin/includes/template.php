@@ -5,7 +5,12 @@
 //
 
 // Ugly recursive category stuff.
-function cat_rows( $parent = 0, $level = 0, &$categories = 0, $page = 1, $per_page = 20, &$count = 0 ) {
+function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20 ) {
+	$count = 0;
+	_cat_rows($categories, $count, $parent, $level, $page, $per_page);
+}
+
+function _cat_rows( &$categories, &$count, $parent = 0, $level = 0, $page = 1, $per_page = 20 ) {
 	if ( empty($categories) ) {
 		$args = array('hide_empty' => 0);
 		if ( !empty($_GET['s']) )
@@ -56,7 +61,7 @@ function cat_rows( $parent = 0, $level = 0, &$categories = 0, $page = 1, $per_pa
 		$count++;
 
 		if ( isset($children[$category->term_id]) )
-			cat_rows( $category->term_id, $level + 1, $categories, $page, $per_page, $count );
+			_cat_rows( $categories, $count, $category->term_id, $level + 1, $page, $per_page );
 
 	}
 

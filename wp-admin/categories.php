@@ -174,8 +174,7 @@ if ( $page_links )
 	</thead>
 	<tbody id="the-list" class="list:cat">
 <?php
-$categories = array();
-cat_rows(0, 0, $categories, $pagenum, $catsperpage);
+cat_rows(0, 0, 0, $pagenum, $catsperpage);
 ?>
 	</tbody>
 </table>
