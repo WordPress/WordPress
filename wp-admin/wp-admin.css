@@ -600,7 +600,7 @@ a.view-comment-post-link {
 	border-top-style: solid;
 }
 
-#wphead a, #dashmenu a, #adminmenu a, #submenu a, #sidemenu a {
+#wphead a, #dashmenu a, #adminmenu a, #submenu a, #sidemenu a, #taglist a, #catlist a {
 	text-decoration: none;
 }
 
