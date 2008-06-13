@@ -9,9 +9,9 @@
  * will be displayed asking the visitor to set up the
  * wp-config.php file.
  *
- * Also made to work in the wp-admin/ folder, because it
- * will look in the parent directory if the file is not
- * found in the current directory.
+ * Will also search for wp-config.php in WordPress' parent
+ * directory to allow the WordPress directory to remain
+ * untouched.
  *
  * @package WordPress
  */
