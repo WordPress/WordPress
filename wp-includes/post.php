@@ -1,6 +1,10 @@
 <?php
 /**
- * Post functions and post utility function
+ * Post functions and post utility function.
+ *
+ * Warning: The inline documentation for the functions contained
+ * in this file might be inaccurate, so the documentation is not
+ * authoritative at the moment.
  *
  * @package WordPress
  * @subpackage Post
@@ -750,16 +754,26 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 }
 
 /**
- * wp_count_posts() - Count number of posts with a given type
+ * Count number of posts of a post type and is permissible.
  *
- * {@internal Missing Long Description}}
+ * This function provides an efficient method of finding the amount
+ * of post's type a blog has. Another method is to count the amount
+ * of items in get_posts(), but that method has a lot of overhead
+ * with doing so. Therefore, when developing for 2.5+, use this
+ * function instead.
+ *
+ * The $perm parameter checks for 'readable' value and if the user
+ * can read private posts, it will display that for the user that
+ * is signed in.
  *
  * @package WordPress
  * @subpackage Post
  * @since 2.5
+ * @link http://codex.wordpress.org/Template_Tags/wp_count_posts
  *
- * @param string $type Post type
- * @return array Number of posts for each status
+ * @param string $type Optional. Post type to retrieve count
+ * @param string $perm Optional. 'readable' or empty.
+ * @return object Number of posts for each status
  */
 function wp_count_posts( $type = 'post', $perm = '' ) {
 	global $wpdb;
