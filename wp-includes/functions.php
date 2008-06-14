@@ -1773,7 +1773,7 @@ function force_ssl_login($force = '') {
 	static $forced;
 
 	if ( '' != $force ) {
-		$old_forcded = $forced;
+		$old_forced = $forced;
 		$forced = $force;
 		return $old_forced;
 	}
@@ -1785,7 +1785,7 @@ function force_ssl_admin($force = '') {
 	static $forced;
 
 	if ( '' != $force ) {
-		$old_forcded = $forced;
+		$old_forced = $forced;
 		$forced = $force;
 		return $old_forced;
 	}
