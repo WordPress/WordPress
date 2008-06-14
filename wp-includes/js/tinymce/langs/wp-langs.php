@@ -397,5 +397,31 @@ wp_help_desc:"' . mce_escape( __('Help') ) . ' (Alt+Shift+H)",
 wp_more_alt:"' . mce_escape( __('More...') ) . '",
 wp_page_alt:"' . mce_escape( __('Next page...') ) . '"
 });
+
+tinyMCE.addI18n("' . $language . '.wpeditimage",{
+edit_img:"' . mce_escape( __('Edit Image') )  . '",
+adv_settings:"' . mce_escape( __('Advanced Settings') )  . '",
+none:"' . mce_escape( __('None') )  . '",
+size:"' . mce_escape( __('Size') ) . '",
+thumbnail:"' . mce_escape( __('Thumbnail') ) . '",
+medium:"' . mce_escape( __('Medium') ) . '",
+full_size:"' . mce_escape( __('Full Size') ) . '",
+alt_help:"' . js_escape( __('Alternate text, e.g. "The Mona Lisa"') )  . '",
+current_link:"' . mce_escape( __('Current Link') ) . '",
+link_to_img:"' . mce_escape( __('Link to Image') ) . '",
+link_help:"' . mce_escape( __('Enter a link URL or click above for presets.') ) . '",
+adv_img_settings:"' . mce_escape( __('Advanced Image Settings') ) . '",
+source:"' . mce_escape( __('Source') )  . '",
+width:"' . mce_escape( __('Width') ) . '",
+height:"' . mce_escape( __('Height') ) . '",
+orig_size:"' . mce_escape( __('Original Size') ) . '",
+css:"' . mce_escape( __('CSS Class') ) . '",
+adv_link_settings:"' . mce_escape( __('Advanced Link Settings') )  . '",
+link_rel:"' . mce_escape( __('Link Rel') ) . '",
+height:"' . mce_escape( __('Height') ) . '",
+orig_size:"' . mce_escape( __('Original Size') ) . '",
+css:"' . mce_escape( __('CSS Class') ) . '",
+caption:"' . mce_escape( __('Caption') ) . '"
+});
 '; 
 ?>

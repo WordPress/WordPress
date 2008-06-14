@@ -38,15 +38,17 @@ abbr.required {
 	text-align: left;
 }
 
+img.alignright,
 .alignright {
 	float: right;
 }
 
+img.alignleft,
 .alignleft {
 	float: left;
 }
 
-.aligncenter {
+img.aligncenter {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -61,8 +63,9 @@ th.label {
 }
 
 .show-align {
-	padding: 8px;
 	height: 200px;
+	width: 480px;
+	float: right;
 	background-color: #f1f1f1;
 	cursor: default;
 	-moz-user-select: none;
@@ -73,7 +76,7 @@ th.label {
 #media-upload #img-edit {
 	border: 1px solid #c0c0c0;
 	width: 623px;
-	margin: 20px auto auto;
+	margin: 15px auto;
 }
 
 #media-upload .media-upload-form table.describe {
@@ -90,7 +93,7 @@ th.label {
 }
 
 #img_demo {
-	padding: 0 5px 4px;
+	padding: 0;
 }
 
 #saveeditimg {
@@ -137,31 +140,38 @@ th.label {
 }
 
 #media-upload h3 {
-	clear:both;
-	padding:0pt 0pt 3px;
-	border-bottom-style:solid;
-	border-bottom-width:1px;
-	font-family:Georgia,"Times New Roman",Times,serif;
-	font-size:20px;
-	font-weight:normal;
-	line-height:normal;
-	margin:20px 0 15px -4px;
-	padding:0 0 3px 0;
-	border-bottom-color:#DADADA;
-	color:#5A5A5A;
+	clear: both;
+	padding: 0pt 0pt 3px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	font-family: Georgia,"Times New Roman",Times,serif;
+	font-size: 20px;
+	font-weight: normal;
+	line-height: normal;
+	margin: 0 0 10px -4px;
+	padding: 15px 0 3px;
+	border-bottom-color: #DADADA;
+	color: #5A5A5A;
 }
 
 #img_dim #width,
-#img_dim #height {
-	width:40px;
+#img_dim #height,
+#img_prop #border,
+#img_prop #vspace,
+#img_prop #hspace {
+	width: 36px;
 }
 
 #img_dim abbr {
 	padding: 0 4px;
 }
 
-#basic .align .field label {
-	margin: 0 10px 0 0;
-	padding: 0 0 0 25px;
+#show_align_sp {
+	width: 115px;
+}
+
+#img_dim input,
+#img_prop input {
+	margin-right: 10px;
 }
 

@@ -87,7 +87,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080606",
+"version" : "<?php echo $man_version; ?>_20080613",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -177,6 +177,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/pasteword.css?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/blank.css?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css?ver=3091" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage-rtl.css?ver=3091" },
 { "url" : "../wp-includes/js/tinymce/wordpress.css?ver=3091" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/img/icons.gif" },

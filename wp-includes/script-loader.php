@@ -35,7 +35,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080325' );
 
 	// Modify this version when tinyMCE plugins are changed.
-	$mce_version = apply_filters('tiny_mce_version', '20080606');
+	$mce_version = apply_filters('tiny_mce_version', '20080613');
 	$scripts->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
@@ -226,7 +226,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'install', '/wp-admin/css/install.css' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css' );
 	$styles->add( 'press-this', '/wp-admin/css/press-this.css' );
-	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css' );
+	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20080613' );
 	$styles->add( 'login', '/wp-admin/css/login.css' );
 
 	foreach ( $rtl_styles as $rtl_style )

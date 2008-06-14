@@ -116,12 +116,13 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 #TB_load{
 	position: fixed;
 	display:none;
-	height:13px;
-	width:208px;
 	z-index:103;
 	top: 50%;
 	left: 50%;
-	margin: -6px 0 0 -104px; /* -height/2 0 0 -width/2 */
+	background-color: #E8E8E8;
+	border: 4px solid #525252;
+	margin: -45px 0pt 0pt -125px;
+	padding: 40px 15px 15px;
 }
 
 * html #TB_load { /* ie6 hack */

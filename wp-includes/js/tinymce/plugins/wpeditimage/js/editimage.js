@@ -94,6 +94,7 @@ var wpImage = {
 	current : '',
 	link : '',
 	link_rel : '',
+	target_value : '',
 
 	setTabs : function(tab) {
 		var t = this;
@@ -179,11 +180,11 @@ var wpImage = {
 			if ( W > H ) {
 				m = Math.min(W, m);
 				f.width.value = m;
-				f.height.value = Math.floor((m / W) * H);
+				f.height.value = Math.round((m / W) * H);
 			} else {
 				m = Math.min(H, m);
 				f.height.value = m;
-				f.width.value = Math.floor((m / H) * W);
+				f.width.value = Math.round((m / H) * W);
 			}
 
 			t.width = f.width.value;
@@ -195,8 +196,15 @@ var wpImage = {
 	demoSetSize : function(img) {
 		var demo = this.I('img_demo'), f = document.forms[0];
 
-		demo.style.width = f.width.value ? Math.floor(f.width.value * 0.6) + 'px' : '';
-		demo.style.height = f.height.value ? Math.floor(f.height.value * 0.6) + 'px' : '60%';
+		demo.width = f.width.value ? Math.floor(f.width.value * 0.5) : '';
+		demo.height = f.height.value ? Math.floor(f.height.value * 0.5) : '';
+	},
+	
+	demoSetStyle : function() {
+		var f = document.forms[0], demo = this.I('img_demo');
+
+		if (demo)
+			tinyMCEPopup.editor.dom.setAttrib(demo, 'style', f.img_style.value);
 	},
 	
 	origSize : function() {
@@ -217,14 +225,13 @@ var wpImage = {
 		if (tinymce.isIE)
 			h = h.replace(/ (value|title|alt)=([^"][^\s>]+)/gi, ' $1="$2"')
 
-		document.dir = ed.getParam('directionality','');
 		document.body.innerHTML = ed.translate(h);
 		window.setTimeout( function(){wpImage.setup();}, 100 );
 	},
 
 	setup : function() {
-		var t = this, h, c, el, id, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor, d = t.I('img_demo'), tr = ed.translate;
-
+		var t = this, h, c, el, id, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor, d = t.I('img_demo'), dom = tinyMCEPopup.dom;
+	document.dir = tinyMCEPopup.editor.getParam('directionality','');
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
 		if (el.nodeName != 'IMG') return;
@@ -241,18 +248,31 @@ var wpImage = {
 		f.height.value = t.height = ed.dom.getAttrib(el, 'height');
 		f.img_classes.value = c = ed.dom.getAttrib(el, 'class');
 		f.img_style.value = ed.dom.getAttrib(el, 'style');
-		this.updateStyle();
+		
+		// Move attribs to styles
+		if (dom.getAttrib(el, 'align'))
+			t.updateStyle('align');
+
+		if (dom.getAttrib(el, 'hspace'))
+			t.updateStyle('hspace');
+
+		if (dom.getAttrib(el, 'border'))
+			t.updateStyle('border');
+
+		if (dom.getAttrib(el, 'vspace'))
+			t.updateStyle('vspace');
 
 		if (pa = ed.dom.getParent(el, 'A')) {
 			f.link_href.value = t.current = ed.dom.getAttrib(pa, 'href');
 			f.link_title.value = ed.dom.getAttrib(pa, 'title');
 			f.link_rel.value = t.link_rel = ed.dom.getAttrib(pa, 'rel');
-			f.link_rev.value = ed.dom.getAttrib(pa, 'rev');
 			f.link_style.value = ed.dom.getAttrib(pa, 'style');
-			f.link_target.value = ed.dom.getAttrib(pa, 'target');
+			t.target_value = ed.dom.getAttrib(pa, 'target');
 			f.link_classes.value = ed.dom.getAttrib(pa, 'class');
 		}
 
+		f.link_target.checked = ( t.target_value && t.target_value == '_blank' ) ? 'checked' : '';
+		
 		fname = link.substring( link.lastIndexOf('/') );
 		fname = fname.replace(/-[0-9]{2,4}x[0-9]{2,4}/, '' );
 		t.link = link.substring( 0, link.lastIndexOf('/') ) + fname;
@@ -280,11 +300,13 @@ var wpImage = {
 
 		document.body.style.display = '';
 		t.getImageData();
+		t.demoSetStyle();
 
-		if ( (id = c.match( /wp-image-([0-9]{1,6})/ )) && id[1] ) {
-			t.I('tab_attachment').href = tinymce.documentBaseURL + 'media.php?action=edit&attachment_id=' + id[1];
-			t.I('tab_attachment').style.display = 'inline';
-		}
+		// Test if is attachment
+//		if ( (id = c.match( /wp-image-([0-9]{1,6})/ )) && id[1] ) {
+//			t.I('tab_attachment').href = tinymce.documentBaseURL + 'media.php?action=edit&attachment_id=' + id[1];
+//			t.I('tab_attachment').style.display = 'inline';
+//		}
 	},
 
 	remove : function() {
@@ -350,8 +372,7 @@ var wpImage = {
 						href : f.link_href.value,
 						title : f.link_title.value,
 						rel : f.link_rel.value,
-						rev : f.link_rev.value,
-						target : f.link_target.value,
+						target : (f.link_target.checked == true) ? '_blank' : '',
 						'class' : f.link_classes.value,
 						style : f.link_style.value
 					});
@@ -362,8 +383,7 @@ var wpImage = {
 				href : f.link_href.value,
 				title : f.link_title.value,
 				rel : f.link_rel.value,
-				rev : f.link_rev.value,
-				target : f.link_target.value,
+				target : (f.link_target.checked == true) ? '_blank' : '',
 				'class' : f.link_classes.value,
 				style : f.link_style.value
 			});
@@ -372,63 +392,65 @@ var wpImage = {
 		tinyMCEPopup.execCommand("mceEndUndoLevel");
 		tinyMCEPopup.close();
 	},
-
-	updateStyle : function() {
-		var dom = tinyMCEPopup.dom, st, v, f = document.forms[0];
+	
+	updateStyle : function(ty) {
+		var dom = tinyMCEPopup.dom, st, v, f = document.forms[0], img = dom.create('img', {style : f.img_style.value});
 
 		if (tinyMCEPopup.editor.settings.inline_styles) {
-			st = tinyMCEPopup.dom.parseStyle(f.img_style.value);
-
 			// Handle align
-			v = f.align.value;
-			if (v) {
-				if (v == 'left' || v == 'right') {
-					st['float'] = v;
-					delete st['vertical-align'];
-				} else {
-					st['vertical-align'] = v;
-					delete st['float'];
+			if (ty == 'align') {
+				dom.setStyle(img, 'float', '');
+				dom.setStyle(img, 'vertical-align', '');
+
+				v = f.align.value;
+				if (v) {
+					if (v == 'left' || v == 'right')
+						dom.setStyle(img, 'float', v);
+					else
+						img.style.verticalAlign = v;
 				}
-			} else {
-				delete st['float'];
-				delete st['vertical-align'];
 			}
 
 			// Handle border
-			v = f.border.value;
-			if (v || v == '0') {
-				if (v == '0')
-					st['border'] = '0';
-				else
-					st['border'] = v + 'px solid black';
-			} else
-				delete st['border'];
+			if (ty == 'border') {
+				dom.setStyle(img, 'border', '');
+
+				v = f.border.value;
+				if (v || v == '0') {
+					if (v == '0')
+						img.style.border = '0';
+					else
+						img.style.border = v + 'px solid black';
+				}
+			}
 
 			// Handle hspace
-			v = f.hspace.value;
-			if (v) {
-				delete st['margin'];
-				st['margin-left'] = v + 'px';
-				st['margin-right'] = v + 'px';
-			} else {
-				delete st['margin-left'];
-				delete st['margin-right'];
+			if (ty == 'hspace') {
+				dom.setStyle(img, 'marginLeft', '');
+				dom.setStyle(img, 'marginRight', '');
+
+				v = f.hspace.value;
+				if (v) {
+					img.style.marginLeft = v + 'px';
+					img.style.marginRight = v + 'px';
+				}
 			}
 
 			// Handle vspace
-			v = f.vspace.value;
-			if (v) {
-				delete st['margin'];
-				st['margin-top'] = v + 'px';
-				st['margin-bottom'] = v + 'px';
-			} else {
-				delete st['margin-top'];
-				delete st['margin-bottom'];
+			if (ty == 'vspace') {
+				dom.setStyle(img, 'marginTop', '');
+				dom.setStyle(img, 'marginBottom', '');
+
+				v = f.vspace.value;
+				if (v) {
+					img.style.marginTop = v + 'px';
+					img.style.marginBottom = v + 'px';
+				}
 			}
 
 			// Merge
-			st = tinyMCEPopup.dom.parseStyle(dom.serializeStyle(st));
-			f.img_style.value = dom.serializeStyle(st);
+			f.img_style.value = dom.serializeStyle(dom.parseStyle(img.style.cssText));
+			this.demoSetStyle();
 		}
 	},
 
@@ -444,7 +466,7 @@ var wpImage = {
 	resetImageData : function() {
 		var f = document.forms[0];
 
-		f.width.value = f.height.value = "";	
+		f.width.value = f.height.value = '';	
 	},
 
 	updateImageData : function() {
