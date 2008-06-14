@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Atom Syndication Format PHP Library
  *
  * @package AtomLib
