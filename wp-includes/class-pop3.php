@@ -17,6 +17,11 @@
  * $Id$
  */
 
+/**
+ * POP3
+ *
+ * @package SquirrelMail
+ */
 class POP3 {
     var $ERROR      = '';       //  Error string.
 

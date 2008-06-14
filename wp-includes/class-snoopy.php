@@ -8,13 +8,15 @@
  * @link http://snoopy.sourceforge.net/
  * @package Snoopy
  */
-/*************************************************
 
-Snoopy - the PHP net client
-Author: Monte Ohrt <monte@ispi.net>
-Copyright (c): 1999-2000 ispi, all rights reserved
-Version: 1.01
-
+if ( !in_array('Snoopy', get_declared_classes() ) ) :
+/**
+ * Snoopy - the PHP net client
+ *
+ * @author Monte Ohrt <monte@ispi.net>
+ * @copyright (c): 1999-2000 ispi, all rights reserved
+ * @version 1.01
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,22 +30,19 @@ Version: 1.01
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-You may contact the author of Snoopy by e-mail at:
-monte@ispi.net
-
-Or, write to:
-Monte Ohrt
-CTO, ispi
-237 S. 70th suite 220
-Lincoln, NE 68510
-
-The latest version of Snoopy can be obtained from:
-http://snoopy.sourceforge.net/
-
-*************************************************/
-
-if ( !in_array('Snoopy', get_declared_classes() ) ) :
+ *
+ * You may contact the author of Snoopy by e-mail at:
+ * monte@ispi.net
+ *
+ * Or, write to:
+ * Monte Ohrt
+ * CTO, ispi
+ * 237 S. 70th suite 220
+ * Lincoln, NE 68510
+ *
+ * @link http://snoopy.sourceforge.net/ The latest version of Snoopy can be
+ *		obtained
+ */
 class Snoopy
 {
 	/**** Public variables ****/
