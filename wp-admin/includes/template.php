@@ -10,7 +10,7 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_pag
 	_cat_rows($categories, $count, $parent, $level, $page, $per_page);
 }
 
-function _cat_rows( &$categories, &$count, $parent = 0, $level = 0, $page = 1, $per_page = 20 ) {
+function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $per_page = 20 ) {
 	if ( empty($categories) ) {
 		$args = array('hide_empty' => 0);
 		if ( !empty($_GET['s']) )
