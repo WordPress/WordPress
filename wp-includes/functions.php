@@ -1785,7 +1785,7 @@ function wp_widgets_add_menu() {
  * Make sure all output buffers are flushed before our singletons our destroyed.
  *
  * @since 2.2.0
- /
+ */
 function wp_ob_end_flush_all() {
 	while ( @ob_end_flush() );
 }
