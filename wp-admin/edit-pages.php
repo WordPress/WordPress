@@ -118,6 +118,25 @@ endif;
 
 <div class="tablenav">
 
+<?php
+$pagenum = absint( $_GET['pagenum'] );
+if ( empty($pagenum) )
+	$pagenum = 1;
+if( !$per_page || $pre_page < 0 )
+	$per_page = 20;
+
+$num_pages = ceil(count($posts) / $per_page);
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'pagenum', '%#%' ),
+	'format' => '',
+	'total' => $num_pages,
+	'current' => $pagenum
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
 <div class="alignleft">
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php wp_nonce_field('bulk-pages'); ?>
@@ -151,7 +170,7 @@ if ($posts) {
   </tr>
   </thead>
   <tbody>
-  <?php page_rows($posts); ?>
+  <?php page_rows($posts, $pagenum, $per_page); ?>
   </tbody>
 </table>
 
@@ -169,6 +188,10 @@ if ($posts) {
 ?>
 
 <div class="tablenav">
+<?php
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
 <br class="clear" />
 </div>
 
