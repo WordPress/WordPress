@@ -76,7 +76,7 @@ function category_div() { ?>
 			</div>
 			<p class="submit">         
 			<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
-			<img src="images/loading.gif" alt="" id="photo_saving" style="width:16px; height:16px; vertical-align:-4px; display:none;"/>
+			<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
 			</p>
 		</div>	
 <?php }
@@ -154,23 +154,24 @@ if($_REQUEST['ajax'] == 'video') { ?>
 }
 
 if($_REQUEST['ajax'] == 'photo_images') {
-$url = urldecode($url);
-$url = str_replace(' ', '%20', $url);
-
+	error_log('photo images');
 	function get_images_from_uri($uri) {
-		if(preg_match('/\.(jpg|png|gif)/', $uri)) return "'".$uri."'";
+		if(preg_match('/\.(jpg|png|gif)/', $uri)) 
+			return "'".$uri."'";
+		
 		$content = wp_remote_fopen($uri);
 		$host = parse_url($uri);
+		
 		if ( false === $content ) return '';
-
-		$pattern = '/<img[^>]+src=[\'"]([^\'" >]+?)[\'" >]/is';
+		
+		$pattern = '/<img ([^>]*)src=(\"|\')(.+?)(\2)([^>\/]*)\/*>/is';
 		preg_match_all($pattern, $content, $matches);
-		if ( empty($matches[1]) ) return '';
-    
+		if ( empty($matches[1]) ) { error_log('empty'); return ''; };
 		$sources = array();
 
-		foreach ($matches[1] as $src) {
-			if ( false !== strpos($src, '&') ) continue;
+		foreach ($matches[3] as $src) {
+			error_log($src);
+			#if ( false !== strpos($src, '&') ) continue;
 				if(strpos($src, 'http') === false) {
 					if(strpos($src, '../') === false && strpos($src, './') === false) {
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
@@ -178,12 +179,14 @@ $url = str_replace(' ', '%20', $url);
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
 					}
 				}
+				
 				$sources[] = $src;
 		}
 		return "'" . implode("','", $sources) . "'";
 	} 
 	
-		
+	$url = urldecode($url);
+	$url = str_replace(' ', '%20', $url);
 	echo 'new Array('.get_images_from_uri($url).')'; 
 die;		
 }
@@ -366,7 +369,11 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				jQuery('#content_type').show();
 				set_menu('text');
 				set_title('<?php _e('Text') ?>');
-				set_editor("<?php echo $selection; ?>");
+				<?php if($selection) { ?>
+				set_editor('<?php echo '<p><a href="'.$url.'">'.$selection.'</a> </p> '; ?>');
+				<?php } else { ?>
+				set_editor('<?php echo '<p><a href="'.$url.'">'.$title.'</a> </p> '; ?>');
+				<?php } ?>
 				return false;
 			break;
 			case 'quote' :
@@ -375,7 +382,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				jQuery('#content_type').show();
 				set_menu('quote');
 				set_title('<?php _e('Quote') ?>');
-				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo ''; ?>'><?php echo ''; ?></a></cite> </p></blockquote>");
+				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?></a></cite> </p></blockquote>");
 
 				return false;
 			break;
@@ -421,11 +428,9 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				set_title('Post');
 				<?php if($selection) { ?>
 					set_editor("<?php echo $selection; ?>");
-				<?php } else { ?>
-					set_editor('')
 				<?php } ?>
 				jQuery('#extra_fields').show();
-				jQuery('#extra_fields').prepend('<h2 id="waiting"><img src="images/loading.gif" alt="" /> Loading...</h2>');
+				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /> Loading...</h2>');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
 				jQuery.ajax({
 					type: "GET",
@@ -434,7 +439,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					data: "ajax=photo_js&u=<?php echo urlencode($url)?>",
 					dataType : "script",
 					success : function() {
-						jQuery('#waiting').innerHTML('');
+						jQuery('#waiting').remove();
 					}
 				});
 				
@@ -489,9 +494,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					<div class="editor_area">
 					<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 					<div class="editor-container">
-						<textarea name="content" id="content" style="width:100%;" class="mceEditor">
-						<?php echo $selection; ?>
-						</textarea>
+						<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if($selection) { ?><a href='<?php echo $url ?>'><?php echo $selection ?></a><?php } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
 					</div>
 					</div>
 					
