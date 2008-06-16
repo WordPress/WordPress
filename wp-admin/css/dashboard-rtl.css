@@ -13,6 +13,10 @@
 	margin: 1px 0 0 6px;
 }
 
+div.dashboard-widget-holder {
+	float: right;
+}
+
 h3.dashboard-widget-title span {
 	text-align: right;
 	float: right;
@@ -55,6 +59,9 @@ div.dashboard-widget {
 #dashboard-widgets .widget_rss ul li a {
 	float:right;
 	margin:0 0 0.2em 0.5em;
+}
+#dashboard_secondary div.dashboard-widget-content ul li {
+	float: right;
 }
 #dashboard_secondary div.dashboard-widget-content ul li a {
 	border-right:0 none;

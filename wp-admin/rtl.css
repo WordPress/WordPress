@@ -161,7 +161,7 @@ form#themeselector
 
 #poststuff #media-buttons
 {
-	direction: ltr;
+	direction: rtl;
 	float:left;
 	margin-left:20px;
 	margin-right:0
