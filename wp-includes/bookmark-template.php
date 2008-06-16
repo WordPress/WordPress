@@ -172,7 +172,7 @@ function wp_list_bookmarks($args = '') {
 
 	if ( $categorize ) {
 		//Split the bookmarks into ul's for each category
-		$cats = get_terms('link_category', "category_name=$category_name&include=$category&orderby=$category_orderby&order=$category_order&hierarchical=0");
+		$cats = get_terms('link_category', array('name__like' => $category_name, 'include' => $category, 'orderby' => $category_orderby, 'order' => $category_order, 'hierarchical' => 0));
 
 		foreach ( (array) $cats as $cat ) {
 			$params = array_merge($r, array('category'=>$cat->term_id));
