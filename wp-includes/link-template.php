@@ -611,7 +611,8 @@ function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_cate
 
 	$format = str_replace('%link', $link, $format);
 
-	echo $format;
+	$adjacent = $previous ? 'previous' : 'next';
+	echo apply_filters( "{$adjacent}_post_link", $format, $link );
 }
 
 function get_pagenum_link($pagenum = 1) {
