@@ -30,7 +30,7 @@ if( !empty($action) ) {
 			exit;
 			break;
 		case 'activate-selected':
-			check_admin_referer('mass-manage-plugins');
+			check_admin_referer('bulk-manage-plugins');
 			activate_plugins($_POST['checked'], 'plugins.php?error=true');
 
 			$recent = (array)get_option('recently_activated');
@@ -62,7 +62,7 @@ if( !empty($action) ) {
 			exit;
 			break;
 		case 'deactivate-selected':
-			check_admin_referer('mass-manage-plugins');
+			check_admin_referer('bulk-manage-plugins');
 			deactivate_plugins($_POST['checked']);
 			$deactivated = array();
 			foreach( (array)$_POST['checked'] as $plugin )
@@ -74,20 +74,87 @@ if( !empty($action) ) {
 		case 'delete-selected':
 			if( ! current_user_can('delete_plugins') )
 				wp_die(__('You do not have sufficient permissions to delete plugins for this blog.'));
-			check_admin_referer('mass-manage-plugins');
-			$plugins = $_REQUEST['checked'];
+			
+			check_admin_referer('bulk-manage-plugins');
+			
+			$plugins = $_REQUEST['checked']; //$_POST = from the plugin form; $_GET = from the FTP details screen.
 			include(ABSPATH . 'wp-admin/update.php');
 
 			$title = __('Delete Plugin');
 			$parent_file = 'plugins.php';
+			
+			if( ! isset($_REQUEST['verify-delete']) ) {
+				wp_enqueue_script('jquery');
+				require_once('admin-header.php');
+				?>
+			<div class="wrap">
+				<h2><?php _e('Delete Plugin(s)'); ?></h2>		
+				<?php
+					$files_to_delete = $plugin_info = array();
+					foreach( (array) $plugins as $plugin ) {
+						if( '.' == dirname($plugin) ) {
+							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
+							if( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) )
+								$plugin_info[ $plugin ] = $data;
+						} else {
+							//Locate all the files in that folder:
+							$files = list_files( WP_PLUGIN_DIR . '/' . dirname($plugin) );
+							if( $files ) {
+								$files_to_delete = array_merge($files_to_delete, $files);
+							}
+							//Get plugins list from that folder
+							if ( $folder_plugins = get_plugins( '/' . dirname($plugin)) )
+								$plugin_info = array_merge($plugin_info, $folder_plugins);
+						}
+					}
+				?>
+				<p><?php _e('Deleting the selected plugins will remove the following plugin(s) and their files:'); ?></p>
+				<p>
+					<ul>
+						<?php 
+						foreach( $plugin_info as $plugin )
+							echo '<li>', $plugin['Title'], ' ', __('By'), ' ', $plugin['Author'], '</li>';
+						?>
+					</ul>
+				</p>
+				<p><?php _e('Are you sure you wish to delete these files?') ?></p>
+				<form method="post" action="<?php echo clean_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
+					<input type="hidden" name="verify-delete" value="1" />
+					<input type="hidden" name="delete-selected" value="1" />
+					<?php
+						foreach( (array)$plugins as $plugin ) {
+							$plugin = attribute_escape($plugin);
+							echo "<input type='hidden' name='checked[]' value='$plugin' />";
+						}
+					?>
+					<?php wp_nonce_field('bulk-manage-plugins') ?>
+					<input type="submit" name="submit" value="<?php _e('Yes, Delete these files') ?>" class="button" />
+				</form>
+				<form method="post" action="<?php echo clean_url(wp_get_referer()); ?>" style="display:inline;">
+					<input type="submit" name="submit" value="<?php _e('No, Return me to the plugin list') ?>" class="button" />
+				</form>
 
+				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
+				<div id="files-list" style="display:none;">
+					<ul>
+					<?php
+						foreach( (array)$files_to_delete as $file ) {
+							$file = str_replace(ABSPATH, '', $file);
+							echo "<li>$file</li>";
+						}
+					?>
+					</ul>
+				</div>				
+			</div>
+				<?php
+				require_once('admin-footer.php');
+				exit;
+			}
 			$delete_result = delete_plugins($plugins);
 
 			wp_cache_delete('plugins', 'plugins');
 
 			break;
-		default:
-			var_dump("Unknown Action $action");
 	}
 }
 
@@ -224,7 +291,7 @@ function print_plugins_table($plugins, $context = '') {
 
 <h3 id="currently-active"><?php _e('Currently Active Plugins') ?></h3>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
-<?php wp_nonce_field('mass-manage-plugins') ?>
+<?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
 	<div class="alignleft">
@@ -240,7 +307,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php if ( ! empty($recent_plugins) ) : ?>
 <h3 id="recent-plugins"><?php _e('Recently Active Plugins') ?></h3>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
-<?php wp_nonce_field('mass-manage-plugins') ?>
+<?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
 	<div class="alignleft">
@@ -257,8 +324,9 @@ function print_plugins_table($plugins, $context = '') {
 
 <h3 id="available-plugins"><?php _e('Available Plugins') ?></h3>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
-<?php wp_nonce_field('mass-manage-plugins') ?>
+<?php wp_nonce_field('bulk-manage-plugins') ?>
 
+<?php if ( ! empty($available_plugins) ) : ?>
 <div class="tablenav">
 	<div class="alignleft">
 		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
@@ -270,6 +338,7 @@ function print_plugins_table($plugins, $context = '') {
 <br class="clear" />
 <?php print_plugins_table($available_plugins, 'available') ?>
 </form>
+<?php endif; ?>
 
 <h2><?php _e('Get More Plugins'); ?></h2>
 <p><?php _e('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>.'); ?></p>

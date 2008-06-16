@@ -41,6 +41,34 @@ function get_real_file_to_edit( $file ) {
 
 	return $real_file;
 }
+//$folder = Full path to folder
+//$levels = Levels of folders to follow, Default: 100 (PHP Loop limit)
+function list_files( $folder = '', $levels = 100 ) {
+	if( empty($folder) )
+		return false;
+
+	if( ! $levels )
+		return false;
+
+	$files = array();
+	if ( $dir = @opendir( $folder ) ) {
+		while (($file = readdir( $dir ) ) !== false ) {
+			if ( in_array($file, array('.', '..') ) )
+				continue;
+			if ( is_dir( $folder . '/' . $file ) ) {
+				$files2 = list_files( $folder . '/' . $file, $levels - 1);
+				if( $files2 )
+					$files = array_merge($files, $files2 );
+				else
+					$files[] = $folder . '/' . $file . '/';
+			} else {
+				$files[] = $folder . '/' . $file;
+			}
+		}
+	}
+	@closedir( $dir );
+	return $files;
+}
 
 function get_temp_dir() {
 	if ( defined('WP_TEMP_DIR') )

@@ -136,7 +136,6 @@ function deactivate_plugins($plugins, $silent= false) {
 	update_option('active_plugins', $current);
 }
 
-//Replaces reactivate_all_plugins() / deactivate_all_plugins()  = 'deactivated_plugins' is now useless
 function activate_plugins($plugins, $redirect = '') {
 	if ( !is_array($plugins) )
 		$plugins = array($plugins);
@@ -167,7 +166,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 		$checked[] = 'checked[]=' . $plugin;
 
 	ob_start();
-	$url = wp_nonce_url('plugins.php?action=delete-selected&' . implode('&', $checked), 'mass-manage-plugins');
+	$url = wp_nonce_url('plugins.php?action=delete-selected&verify-delete=1&' . implode('&', $checked), 'bulk-manage-plugins');
 	if ( false === ($credentials = request_filesystem_credentials($url)) ) {
 		$data = ob_get_contents();
 		ob_end_clean();
@@ -243,13 +242,9 @@ function validate_active_plugins() {
 	// If a plugin file does not exist, remove it from the list of active
 	// plugins.
 	foreach ( $check_plugins as $check_plugin ) {
-		if ( !file_exists(WP_PLUGIN_DIR . '/' . $check_plugin) ) {
-			$current = get_option('active_plugins');
-			$key = array_search($check_plugin, $current);
-			if ( false !== $key && NULL !== $key ) {
-				unset($current[$key]);
-				update_option('active_plugins', $current);
-			}
+		$result = validate_plugin($check_plugin);
+		if ( is_wp_error( $result ) ) {
+			deactivate_plugins( $check_plugin, true);
 		}
 	}
 }
