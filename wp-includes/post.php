@@ -1827,7 +1827,7 @@ function get_page_hierarchy($posts, $parent = 0) {
  */
 function get_page_uri($page_id) {
 	$page = get_page($page_id);
-	$uri = urldecode($page->post_name);
+	$uri = $page->post_name;
 
 	// A page cannot be it's own parent.
 	if ( $page->post_parent == $page->ID )
@@ -1835,7 +1835,7 @@ function get_page_uri($page_id) {
 
 	while ($page->post_parent != 0) {
 		$page = get_page($page->post_parent);
-		$uri = urldecode($page->post_name) . "/" . $uri;
+		$uri = $page->post_name . "/" . $uri;
 	}
 
 	return $uri;
