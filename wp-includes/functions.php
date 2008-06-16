@@ -520,7 +520,7 @@ function delete_option( $name ) {
 
 function maybe_serialize( $data ) {
 	if ( is_string( $data ) )
-		$data = trim( $data );
+		return $data;
 	elseif ( is_array( $data ) || is_object( $data ) )
 		return serialize( $data );
 	if ( is_serialized( $data ) )
