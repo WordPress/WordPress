@@ -315,7 +315,7 @@ function wp_dashboard_incoming_links_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
 	@extract( @$widgets['dashboard_incoming_links'], EXTR_SKIP );
 	$rss = @fetch_rss( $url );
-	if ( isset($rss->items) && 1 < count($rss->items) )  {// Technorati returns a 1-item feed when it has no results
+	if ( isset($rss->items) && 0 < count($rss->items) )  {
 
 		echo "<ul>\n";
 
