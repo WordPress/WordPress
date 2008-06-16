@@ -315,6 +315,10 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 					} else {
 						$content_type = trim( $content );
 					}
+				} elseif ( 'cc' == strtolower($name) ) {
+					$cc = explode(",", $content);
+				} elseif ( 'bcc' == strtolower($name) ) {
+					$bcc = explode(",", $content);
 				} else {
 					// Add it to our grand headers array
 					$headers[trim( $name )] = trim( $content );
@@ -359,6 +363,18 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	// Set mail's subject and body
 	$phpmailer->Subject = $subject;
 	$phpmailer->Body = $message;
+
+	// Add any CC and BCC recipients
+	if ( !empty($cc) ) {
+		foreach ($cc as $recipient) {
+			$phpmailer->AddCc( trim($recipient) );
+		}
+	}
+	if ( !empty($bcc) ) {
+		foreach ($bcc as $recipient) {
+			$phpmailer->AddBcc( trim($recipient) );
+		}
+	}
 
 	// Set to use PHP's mail()
 	$phpmailer->IsMail();
