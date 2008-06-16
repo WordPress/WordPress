@@ -62,7 +62,8 @@ function edit_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ('publish' == $_POST['post_status'] && !current_user_can( 'publish_pages' ))
-			$_POST['post_status'] = 'pending';
+			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_pages') )
+				$_POST['post_status'] = 'pending';
 	} else {
 		if ('publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' ))
 			$_POST['post_status'] = 'pending';
