@@ -6,7 +6,7 @@ if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' )); 
 <?php 
 function press_it() {
 	#define some basic variables
-	$quick['post_status'] = 'publish';
+	$quick['post_status'] = $_REQUEST['post_status'];
 	$quick['post_category'] = $_REQUEST['post_category'];
 	$quick['tags_input'] = $_REQUEST['tags_input'];
 	$quick['post_title'] = $_REQUEST['post_title'];
@@ -42,7 +42,7 @@ function press_it() {
 			break;	
 		}
 	# set the post_content
-	$quick['post_content'] = $content;
+	$quick['post_content'] = str_replace('<br />', "\n", preg_replace('/<\/?p>/','',$content));
 
 	#error handling for $post
 	if ( is_wp_error($post_ID) ) {
@@ -56,30 +56,6 @@ function press_it() {
 	}
 	return $post_ID;
 }
-
-
-function category_div() { ?>
-	<div id="categories">
-		<div class="submitbox" id="submitpost">
-			<div id="previewview"></div>
-			<div class="inside">
-				<h2><?php _e('Categories') ?></h2>
-				<div id="categories-all">
-					<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-						<?php wp_category_checklist() ?>
-					</ul>
-				</div>
-				<h2><?php _e('Tags') ?></h2>
-				<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
-				<div id="tagchecklist"></div>
-				
-			</div>
-			<p class="submit">         
-			<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
-			<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
-			</p>
-		</div>	
-<?php }
 
 # For submitted posts.
 if ( 'post' == $_REQUEST['action'] ) { 
@@ -110,8 +86,8 @@ if ( 'post' == $_REQUEST['action'] ) {
 
 // Ajax Requests
 $title = wp_specialchars(stripslashes($_GET['t']));
-$selection = trim(wp_specialchars(str_replace("\n", ' ',stripslashes($_GET['s']))));
-$url = $_GET['u'];
+$selection = trim(str_replace('\\n', "<br />", wp_specialchars(js_escape($_GET['s']))));
+$url = clean_url($_GET['u']);
 $image = $_GET['i'];
 if($_REQUEST['ajax'] == 'thickbox') { ?>
 	<script type="text/javascript" charset="utf-8">	
@@ -130,7 +106,6 @@ if($_REQUEST['ajax'] == 'thickbox') { ?>
 		jQuery('.select').click(function() {
 			image_selector();
 		});
-
 	</script>
 	<h3 id="title"><label for="post_title"><?php _e('Description') ?></label></h3>
 	<div class="titlewrap">
@@ -154,33 +129,29 @@ if($_REQUEST['ajax'] == 'video') { ?>
 }
 
 if($_REQUEST['ajax'] == 'photo_images') {
-	error_log('photo images');
 	function get_images_from_uri($uri) {
 		if(preg_match('/\.(jpg|png|gif)/', $uri)) 
 			return "'".$uri."'";
-		
+			
 		$content = wp_remote_fopen($uri);
-		$host = parse_url($uri);
-		
 		if ( false === $content ) return '';
+		
+		$host = parse_url($uri);
 		
 		$pattern = '/<img ([^>]*)src=(\"|\')(.+?)(\2)([^>\/]*)\/*>/is';
 		preg_match_all($pattern, $content, $matches);
-		if ( empty($matches[1]) ) { error_log('empty'); return ''; };
+		
+		if ( empty($matches[1]) ) return '';
+		
 		$sources = array();
-
 		foreach ($matches[3] as $src) {
-			error_log($src);
-			#if ( false !== strpos($src, '&') ) continue;
-				if(strpos($src, 'http') === false) {
-					if(strpos($src, '../') === false && strpos($src, './') === false) {
-						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
-					} else {
-						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
-					}
-				}
-				
-				$sources[] = $src;
+			if(strpos($src, 'http') === false)
+				if(strpos($src, '../') === false && strpos($src, './') === false)
+					$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
+				else
+					$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
+										
+			$sources[] = $src;
 		}
 		return "'" . implode("','", $sources) . "'";
 	} 
@@ -226,11 +197,8 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 				if (img.width && img.height) {
 					if (img.width * img.height < 2500) skip = true;
 					aspect = img.width / img.height;
-					if (aspect > 1) { // Image is wide
-						scale = 75 / img.width;
-					} else { // Image is tall or square
-						scale = 75 / img.height;
-					}
+					scale = (aspect > 1) ? (75 / img.width) : (75 / img.height);
+					
 					if (scale < 1) {
 						w = parseInt(img.width * scale);
 						h = parseInt(img.height * scale);
@@ -252,15 +220,12 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 <?php die; }
 
 if($_REQUEST['ajax'] == 'photo') { ?>
-	
 		<div class="photolist"></div>
-	
 		<small><?php _e('Click images to select:') ?></small>
 		<div class="titlewrap">
 			<div id="img_container"></div>
 		</div>
 <?php die; }
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
@@ -317,7 +282,8 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				accessibility_focus : false,
 				tab_focus : ":next",
 				plugins : "safari,inlinepopups",
-				entities : "38,amp,60,lt,62,gt"
+				entities : "38,amp,60,lt,62,gt",
+				force_p_newlines : true
 			});
     <?php } ?>
 
@@ -349,6 +315,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		jQuery("#post_type").val(type);
 	}
 	function set_editor(text) {
+
 		if(tinyMCE.activeEditor) tinyMCE.activeEditor.setContent('');
 		if(tinyMCE.activeEditor) tinyMCE.execCommand('mceInsertContent' ,false, text);
 	}
@@ -369,11 +336,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				jQuery('#content_type').show();
 				set_menu('text');
 				set_title('<?php _e('Text') ?>');
-				<?php if($selection) { ?>
-				set_editor('<?php echo '<p><a href="'.$url.'">'.$selection.'</a> </p> '; ?>');
-				<?php } else { ?>
-				set_editor('<?php echo '<p><a href="'.$url.'">'.$title.'</a> </p> '; ?>');
-				<?php } ?>
+
 				return false;
 			break;
 			case 'quote' :
@@ -499,7 +462,29 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					</div>
 					
 				</div>
-				<?php category_div(); ?>
+				<div id="categories">
+					<div class="submitbox" id="submitpost">
+					<div id="previewview"></div>
+					<div class="inside">
+						<h2><?php _e('Categories') ?></h2>
+						<div id="categories-all">
+							<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+								<?php wp_category_checklist() ?>
+							</ul>
+						</div>
+						<h2><?php _e('Tags') ?></h2>
+						<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
+						<div id="tagchecklist"></div>
+					</div>
+					<label for="post_status" id="post_status"><input type="radio" name="post_status" value="publish" checked="checked" id="published" />Published <input type="radio" name="post_status" value="draft" id="unpubplished" /> Unpublished</label>
+					
+					<p class="submit">         
+						<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
+						<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
+					</p>
+				</div>
+				
+				
 			</form>		
 					
 </body>

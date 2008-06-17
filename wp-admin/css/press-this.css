@@ -111,7 +111,7 @@ text-decoration: none;
 .howto {
 font-size: 11px;
 }
-#newtag { padding: 3px; }
+#newtag { width: 60%; padding: 3px; }
 
 #wphead {
 	height: 2em;
@@ -451,4 +451,10 @@ margin-bottom: .25em;
 }
 #photo_saving {
 margin-bottom: 8px;
+}
+
+#post_status {
+margin-left: 10px;
+margin-bottom: 1em;
+display: block;
 }
