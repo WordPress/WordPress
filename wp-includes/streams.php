@@ -159,7 +159,8 @@ class CachedFileReader extends StringReader {
 	return false;
       }
       $this->_str = fread($fd, $length);
-      fclose($fd);
+	  $this->_pos = 0;
+	  fclose($fd);
 
     } else {
       $this->error = 2; // File doesn't exist
