@@ -510,12 +510,14 @@ class Walker {
 		if ( !$top_level_elements ) {
 
 			$root = $children_elements[0];
-			for ( $i = 0; $i < sizeof( $children_elements ); $i++ ) {
+			$num_elements = sizeof($children_elements);
+			for ( $i = 0; $i < $num_elements; $i++ ) {
 
 				$child = $children_elements[$i];
 				if ($root->$parent_field == $child->$parent_field ) {
 					$top_level_elements[] = $child;
 					array_splice( $children_elements, $i, 1 );
+					$num_elements--;
 					$i--;
 				}
 			}
