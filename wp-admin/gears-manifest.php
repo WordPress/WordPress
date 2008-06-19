@@ -25,30 +25,6 @@ wp_default_scripts($wp_scripts);
 $wp_styles = new WP_Styles();
 wp_default_styles($wp_styles);
 
-$get_lang = file_exists( ABSPATH . '/wp-config.php') ? file( ABSPATH . '/wp-config.php' ) : file( dirname(ABSPATH) . '/wp-config.php' );
-
-if ( is_array($get_lang) ) {
-	foreach ( $get_lang as $val ) {
-		if ( strpos( $val, "'WPLANG'" ) !== false ) {
-			eval( $val );
-			break;
-		}
-	}
-}
-
-if ( defined('WPLANG') && '' != WPLANG ) {
-	if ( file_exists(ABSPATH . '/wp-content/languages') && @is_dir(ABSPATH . '/wp-content/languages') )
-		$langdir = '/wp-content/languages/';
-	else
-		$langdir = '/wp-includes/languages/';
-	
-	$locale_file = ABSPATH . $langdir . WPLANG . '.php';
-	if ( is_readable($locale_file) )
-		include_once($locale_file);
-}
-
-$rtl = ( isset($text_direction) && 'rtl' == $text_direction ) ? true : false;
-
 $defaults = $man_version = '';
 foreach ( $wp_scripts->registered as $script ) {
 	if ( empty($script->src) || strpos($script->src, 'tiny_mce_config.php') ) continue;
@@ -66,7 +42,7 @@ foreach ( $wp_styles->registered as $style ) {
 	if ( 'colors' == $style->handle ) $src = 'css/colors-classic.css';
 	$defaults .= '{ "url" : "' . $src . '?ver=' . $ver . '" },' . "\n";
 
-	if ( $rtl && isset($style->extra['rtl']) && $style->extra['rtl'] ) {
+	if ( isset($style->extra['rtl']) && $style->extra['rtl'] ) {
 		if ( is_bool( $style->extra['rtl'] ) )
 			$rtl_href = str_replace( '.css', '-rtl.css', $src );
 		else 
