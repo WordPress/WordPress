@@ -79,46 +79,64 @@ if ( 'post' == $_REQUEST['action'] ) {
 	</head>
 	<body class="press-this">
 		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $post_ID; ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();">Close Window</a></p></div>
+		
+		<div id="footer">
+		<p><?php
+		do_action('in_admin_footer', '');
+		$upgrade = apply_filters( 'update_footer', '' );
+		echo __('Thank you for creating with <a href="http://wordpress.org/">WordPress</a>');
+		?></p>
+		</div>
+		<?php do_action('admin_footer', ''); ?>
+		
 	</body>
 	</html>
 	<?php die;
 }
 
+
+function aposfix($text) {
+	$translation_table[chr(34)] = '&quot;';
+	$translation_table[chr(38)] = '&';
+	$translation_table[chr(39)] = '&apos;';
+	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($text, $translation_table));	
+}
+
 // Ajax Requests
 $title = wp_specialchars(stripslashes($_GET['t']));
-$selection = trim(str_replace('\\n', "<br />", wp_specialchars(js_escape($_GET['s']))));
+
+$selection = str_replace("\n", "<br />", aposfix( stripslashes($_GET['s']) ) );
 $url = clean_url($_GET['u']);
 $image = $_GET['i'];
+
 if($_REQUEST['ajax'] == 'thickbox') { ?>
-	<script type="text/javascript" charset="utf-8">	
-		jQuery('.cancel').click(function() {
-			tb_remove();
-		});
-		
-		function image_selector() {
-			desc = jQuery('#this_photo_description').val();
-			src = jQuery('#this_photo').val();
-			pick(src, desc);
-			tb_remove();
-			return false;
-		}
-		
-		jQuery('.select').click(function() {
-			image_selector();
-		});
-	</script>
 	<h3 id="title"><label for="post_title"><?php _e('Description') ?></label></h3>
 	<div class="titlewrap">
 		<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
 	</div>
 		
 	<p><input type="hidden" name="this_photo" value="<?php echo $image; ?>" id="this_photo" />
-		<a href="#" class="select" rel="<?php echo $image; ?>"><img src="<?php echo $image; ?>" width="475" alt="Click to insert." title="Click to insert." /></a></p>
+		<a href="#" class="select"><img src="<?php echo $image; ?>" width="475" alt="Click to insert." title="Click to insert." /></a></p>
 	
-	<p id="options"><a href="#" class="select" rel="<?php echo $image; ?>">Insert Image</a> | <a href="#" class="cancel">Cancel</a></p>
+	<p id="options"><a href="#" class="select">Insert Image</a> | <a href="#" class="cancel">Cancel</a></p>
 <?php die; 
 }
 
+if($_REQUEST['ajax'] == 'thickbox_url') { ?>
+	<h3 id="title"><label for="post_title"><?php _e('URL') ?></label></h3>
+	<div class="titlewrap">
+		<input id="this_photo" name="this_photo" class="text" onkeypress="if(event.keyCode==13) image_selector();" />
+	</div>
+	
+	
+	<h3 id="title"><label for="post_title"><?php _e('Description') ?></label></h3>
+	<div class="titlewrap">
+		<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+	</div>
+	
+	<p id="options"><a href="#" class="select">Insert Image</a> | <a href="#" class="cancel">Cancel</a></p>
+<?php die; 
+}
 
 if($_REQUEST['ajax'] == 'video') { ?>
 	<h2 id="embededcode"><label for="embed_code"><?php _e('Embed Code') ?></label></h2>
@@ -130,9 +148,9 @@ if($_REQUEST['ajax'] == 'video') { ?>
 
 if($_REQUEST['ajax'] == 'photo_images') {
 	function get_images_from_uri($uri) {
-		if(preg_match('/\.(jpg|png|gif)/', $uri)) 
+		if(preg_match('/\.(jpg|png|gif)/', $uri) && !strpos($uri,'blogger.com')) 
 			return "'".$uri."'";
-			
+
 		$content = wp_remote_fopen($uri);
 		if ( false === $content ) return '';
 		
@@ -163,8 +181,32 @@ die;
 }
 
 if($_REQUEST['ajax'] == 'photo_js') { ?>
-	
-			var last = null
+
+			tb_init('a.thickbox, area.thickbox, input.thickbox'); //pass where to apply thickbox
+			
+			function image_selector() {
+				desc = jQuery('#this_photo_description').val();
+				src = jQuery('#this_photo').val();
+				pick(src, desc);
+				tb_remove();
+				return false;
+			}
+			
+			jQuery(document).ready(function() {
+				jQuery('#this_photo').focus();
+
+				jQuery('.cancel').click(function() {
+					tb_remove();
+				});
+				
+				jQuery('.select').click(function() {
+					image_selector();
+				});
+				
+				jQuery('#photo_add_url').attr('href', '?ajax=thickbox_url&height=200&width=500');
+				
+			});
+			
 			
 			function pick(img, desc) {
 				if (img) { 
@@ -173,11 +215,12 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 					jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
 					jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
 					append_editor('<img src="' + img +'" alt="' + desc + '" />'); }
+					tinyMCE.activeEditor.resizeToContent();
 				return false;
 			}
 
+			var last = null
 			var my_src, img, img_tag, aspect, w, h, skip, i, strtoappend = "";
-			
 			var my_src = eval(
 			jQuery.ajax({
 			   	type: "GET",
@@ -189,13 +232,11 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 				}).responseText);
 
 			for (i = 0; i < my_src.length; i++) {
-				img = new Image();
-				img.src = my_src[i];
-				img_attr = 'id="img' + i;
-				skip = false;
+				img = new Image(); img.src = my_src[i]; img_attr = 'id="img' + i; skip = false;
 
 				if (img.width && img.height) {
-					if (img.width * img.height < 2500) skip = true;
+					if (img.width * img.height < 2500) 
+						skip = true;
 					aspect = img.width / img.height;
 					scale = (aspect > 1) ? (75 / img.width) : (75 / img.height);
 					
@@ -212,16 +253,15 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 				if (!skip) strtoappend += '<a href="?ajax=thickbox&amp;i=' + img.src + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
 
 			}
-
 			jQuery('#img_container').html(strtoappend);
-
-			tb_init('a.thickbox, area.thickbox, input.thickbox'); //pass where to apply thickbox
 
 <?php die; }
 
 if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="photolist"></div>
-		<small><?php _e('Click images to select:') ?></small>
+
+		<small id="photo_directions"><?php _e('Click images to select:') ?> <span><a href="#" id="photo_add_url" class="thickbox"><?php _e('Add from URL') ?> +</a></span></small>
+
 		<div class="titlewrap">
 			<div id="img_container"></div>
 		</div>
@@ -323,43 +363,30 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		if(tinyMCE.activeEditor) tinyMCE.execCommand('mceInsertContent' ,false, text);
 	}
 	function set_title(title) { jQuery("#content_type").text(title); }
-	function reset_height() {
-		tinyMCE.height = '170px';
-	}
+
 	function show(tab_name) {
 		jQuery('body').removeClass('video_split');
 		jQuery('#extra_fields').hide();
 		switch(tab_name) {
 			case 'text' :
-				reset_height();
-				jQuery('.editor-container').show();
-				jQuery('#content_type').show();
 				set_menu('text');
-				set_title('<?php _e('Text') ?>');
+				set_title('<?php _e('Post') ?>');
 
 				return false;
 			break;
 			case 'quote' :
-				reset_height();
-				jQuery('.editor-container').show();
-				jQuery('#content_type').show();
 				set_menu('quote');
 				set_title('<?php _e('Quote') ?>');
-				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?></a></cite> </p></blockquote>");
-
+				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?> </a> </cite> </p></blockquote>");
 				return false;
 			break;
 			case 'video' :
-				reset_height();
-				jQuery('.editor-container').show();
-				jQuery('#content_type').show();
+
 				set_menu('video');
 				set_title('<?php _e('Caption') ?>');
 				
 				jQuery('#extra_fields').show();
 				jQuery('body').addClass('video_split');
-			
-				
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attribute_escape($selection); ?>'}, function() {
 					
 					<?php 
@@ -377,16 +404,14 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 						$content = $selection;
 					} ?>
 					jQuery('#embed_code').prepend('<?php echo htmlentities($content); ?>');
-					set_editor("<?php echo $title; ?>");
 					
+					set_editor("<?php echo $title; ?>");
 				});
-
 				
 				return false;
 			break;
 			
 			case 'photo' :
-				reset_height();
 				set_menu('photo');
 				set_title('Post');
 				<?php if($selection) { ?>

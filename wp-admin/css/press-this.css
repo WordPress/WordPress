@@ -449,6 +449,18 @@ margin-bottom: .25em;
 	text-decoration: none;
 	padding-bottom: 2px;
 }
+
+#photo_directions {
+margin-top: .25em;
+display: block;
+position: relative;
+}
+#photo_directions span {
+display: block;
+position: absolute;
+top: 0;
+right: 3px;
+}
 #photo_saving {
 margin-bottom: 8px;
 }
@@ -458,3 +470,26 @@ margin-left: 10px;
 margin-bottom: 1em;
 display: block;
 }
+
+#footer {
+	height: 65px;
+	display: block;
+	width: 640px;
+	padding: 10px 0 0 60px;
+	margin: 0;
+	position: absolute;
+	bottom: 0;
+	font-size: 12px;
+}
+
+#footer p {
+	margin: 0;
+	padding: 7px 0;
+}
+
+#footer p a {
+	text-decoration: none;
+}
+
+#footer p a:hover {
+	text-decoration: underline;
