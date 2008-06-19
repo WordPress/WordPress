@@ -3,14 +3,14 @@
 <head>
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<script type="text/javascript" src="../../tiny_mce.js?ver=3091"></script>
+	<script type="text/javascript" src="../../tiny_mce.js?ver=3101"></script>
 	<script type="text/javascript">
 		function patchCallback(settings, key) {
 			if (settings[key])
 				settings[key] = "window.opener." + settings[key];
 		}
 
-		var settings = {}, paSe = window.opener.tinyMCE.activeEditor.settings;
+		var settings = {}, paSe = window.opener.tinyMCE.activeEditor.settings, oeID = window.opener.tinyMCE.activeEditor.id;
 
 		// Clone array
 		for (var n in paSe)
@@ -41,13 +41,13 @@
 		settings['ask'] = false;
 		settings['document_base_url'] = window.opener.tinyMCE.activeEditor.documentBaseURI.getURI();
 		settings['fullscreen_is_enabled'] = true;
-		settings['fullscreen_editor_id'] = window.opener.tinyMCE.activeEditor.id;
+		settings['fullscreen_editor_id'] = oeID;
 		settings['theme_advanced_resizing'] = false;
 		settings['strict_loading_mode'] = true;
 
 		settings.save_onsavecallback = function() {
-			window.opener.tinyMCE.activeEditor.setContent(tinyMCE.get('fullscreenarea').getContent({format : 'raw'}), {format : 'raw'});
-			window.opener.tinyMCE.activeEditor.execCommand('mceSave');
+			window.opener.tinyMCE.get(oeID).setContent(tinyMCE.get('fullscreenarea').getContent({format : 'raw'}), {format : 'raw'});
+			window.opener.tinyMCE.get(oeID).execCommand('mceSave');
 			window.close();
 		};
 
@@ -56,7 +56,7 @@
 		}
 
 		function moveContent() {
-			window.opener.tinyMCE.activeEditor.setContent(tinyMCE.activeEditor.getContent());
+			window.opener.tinyMCE.get(oeID).setContent(tinyMCE.activeEditor.getContent());
 		}
 
 		function closeFullscreen() {
@@ -78,7 +78,7 @@
 		function render() {
 			var e = document.getElementById('fullscreenarea'), vp, ed, ow, oh, dom = tinymce.DOM;
 
-			e.value = window.opener.tinyMCE.activeEditor.getContent();
+			e.value = window.opener.tinyMCE.get(oeID).getContent();
 
 			vp = dom.getViewPort();
 			settings.width = vp.w;
