@@ -539,4 +539,41 @@ function the_terms( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 		echo $return;
 }
 
+/**
+ * Check if the current post has the given tag
+ *
+ * @package WordPress
+ * @since 2.6
+ *
+ * @uses wp_get_object_terms() Gets the tags.
+ *
+ * @param string|int|array $tag Optional. The tag name/id/slug or array of them to check for
+ * @return bool True if the current post has the given tag, or any tag, if no tag specified
+ */
+function has_tag($tag = '') {
+	global $post;
+	$taxonomy = 'post_tag';
+
+	if ( !in_the_loop() ) return false; // in-the-loop function
+
+	$post_id = (int) $post->ID;
+
+	$terms = get_object_term_cache($post_id, $taxonomy);
+	if (empty($terms))
+		 $terms = wp_get_object_terms($post_id, $taxonomy);
+	if (empty($terms)) return false;
+
+	if (empty($tag)) return (!empty($terms));
+
+	$tag = (array) $tag;
+
+	foreach($terms as $term) {
+		if ( in_array( $term->term_id, $tag ) ) return true;
+		if ( in_array( $term->name, $tag ) ) return true;
+		if ( in_array( $term->slug, $tag ) ) return true;
+	}
+
+	return false;
+}
+
 ?>
