@@ -39,11 +39,14 @@ header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
     <engineLink>http://wordpress.org/</engineLink>
     <homePageLink><?php bloginfo_rss('url') ?></homePageLink>
     <apis>
+    <?php if ( get_option('enable_xmlrpc') ) :?>
       <api name="WordPress" blogID="1" preferred="true" apiLink="<?php bloginfo_rss('wpurl') ?>/xmlrpc.php" />
       <api name="Movable Type" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('wpurl') ?>/xmlrpc.php" />
       <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('wpurl') ?>/xmlrpc.php" />
       <api name="Blogger" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('wpurl') ?>/xmlrpc.php" />
+    <?php endif; if ( get_option('enable_app') ) :?>
       <api name="Atom" blogID="" preferred="false" apiLink="<?php echo apply_filters('atom_service_url', (get_bloginfo('url')."/wp-app.php/service"))?>" />
+    <?php endif; ?>
     </apis>
   </service>
 </rsd>
@@ -108,7 +111,7 @@ if ( isset($HTTP_RAW_POST_DATA) )
 class wp_xmlrpc_server extends IXR_Server {
 
 	function wp_xmlrpc_server() {
-		$this->methods = array(
+		$xmlrpc_methods = array(
 			// WordPress API
 			'wp.getUsersBlogs'		=> 'this:wp_getUsersBlogs',
 			'wp.getPage'			=> 'this:wp_getPage',
@@ -164,8 +167,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			'mt.supportedMethods' => 'this:mt_supportedMethods',
 			'mt.supportedTextFilters' => 'this:mt_supportedTextFilters',
 			'mt.getTrackbackPings' => 'this:mt_getTrackbackPings',
-			'mt.publishPost' => 'this:mt_publishPost',
-
+			'mt.publishPost' => 'this:mt_publishPost'
+		);
+		
+		$xmlrpc_functions = array (
 			// PingBack
 			'pingback.ping' => 'this:pingback_ping',
 			'pingback.extensions.getPingbacks' => 'this:pingback_extensions_getPingbacks',
@@ -174,6 +179,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		);
 
+		if ( get_option('enable_xmlrpc') )
+		{
+			$this->methods = array_merge($xmlrpc_methods,$xmlrpc_functions);
+		} else {
+			$this->methods = $xmlrpc_functions;
+		}
+		
 		$this->initialise_blog_option_info( );
 		$this->methods = apply_filters('xmlrpc_methods', $this->methods);
 		$this->IXR_Server($this->methods);
