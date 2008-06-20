@@ -6,7 +6,7 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 require_once(ABSPATH . 'wp-admin/includes/schema.php');
 
 if ( !function_exists('wp_install') ) :
-function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='') {
+function wp_install($blog_title, $user_name, $user_email, $public, $remote) {
 	global $wp_rewrite;
 
 	wp_check_mysql_version();
@@ -18,6 +18,9 @@ function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='
 	update_option('blogname', $blog_title);
 	update_option('admin_email', $user_email);
 	update_option('blog_public', $public);
+	update_option('enable_app',$remote);
+	update_option('enable_xmlrpc',$remote);
+
 	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
 
 	if ( defined('WP_SITEURL') && '' != WP_SITEURL )

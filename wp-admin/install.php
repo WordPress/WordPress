@@ -53,6 +53,10 @@ switch($step) {
 		<tr>
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
 		</tr>
+		<tr>
+			<td colspan="2"><label><input type="checkbox" name="enable_remotepublishing" value="0" /> <?php _e('Enable remote publishing using the WordPress, Movable Type, MetaWeblog, Blogger and Atom publishing protocols for my blog.'); ?></label></td>
+		</tr>
+	</table>
 	</table>
 	<input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" class="button" />
 </form>
@@ -68,6 +72,7 @@ switch($step) {
 		$weblog_title = stripslashes($_POST['weblog_title']);
 		$admin_email = stripslashes($_POST['admin_email']);
 		$public = (int) $_POST['blog_public'];
+		$remote = (int) $_POST['enable_remotepublishing'];
 		// check e-mail address
 		if (empty($admin_email)) {
 			// TODO: poka-yoke
@@ -78,7 +83,7 @@ switch($step) {
 		}
 
 		$wpdb->show_errors();
-		$result = wp_install($weblog_title, 'admin', $admin_email, $public);
+		$result = wp_install($weblog_title, 'admin', $admin_email, $public, $remote);
 		extract($result, EXTR_SKIP);
 ?>
 
