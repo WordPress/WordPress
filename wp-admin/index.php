@@ -115,7 +115,7 @@ $sentence = apply_filters( 'dashboard_count_sentence', $sentence, $post_type_tex
 <?php
 $ct = current_theme_info();
 $sidebars_widgets = wp_get_sidebars_widgets();
-$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ) );
+$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ), 0 );
 $widgets_text = sprintf( __ngettext( '%d widget', '%d widgets', $num_widgets ), $num_widgets );
 if ( $can_switch_themes = current_user_can( 'switch_themes' ) )
 	$widgets_text = "<a href='widgets.php'>$widgets_text</a>";
