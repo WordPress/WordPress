@@ -41,6 +41,18 @@ function profile_js ( ) {
 		}
 
 	}
+	
+	function update_nickname ( ) {
+		
+		var nickname = jQuery('#nickname').val();
+		var display_nickname = jQuery('#display_nickname').val();
+		
+		if ( nickname == '' ) {
+			jQuery('#display_nickname').remove();
+		}
+		jQuery('#display_nickname').val(nickname).html(nickname);
+		
+	}
 
 	jQuery(function($) { 
 		$('#pass1').keyup( check_pass_strength ) 
@@ -49,6 +61,7 @@ function profile_js ( ) {
 	
 	jQuery(document).ready( function() {
 		jQuery('#pass1,#pass2').attr('autocomplete','off');
+		jQuery('#nickname').blur(update_nickname);
     });
 </script>
 <?php
@@ -245,16 +258,16 @@ echo $role_list . '</select></td></tr>';
 		<select name="display_name" id="display_name">
 		<?php
 			$public_display = array();
-			$public_display[] = $profileuser->display_name;
-			$public_display[] = $profileuser->nickname;
-			$public_display[] = $profileuser->user_login;
-			$public_display[] = $profileuser->first_name;
-			$public_display[] = $profileuser->first_name.' '.$profileuser->last_name;
-			$public_display[] = $profileuser->last_name.' '.$profileuser->first_name;
+			$public_display['display_displayname'] = $profileuser->display_name;
+			$public_display['display_nickname'] = $profileuser->nickname;
+			$public_display['display_username'] = $profileuser->user_login;
+			$public_display['display_firstname'] = $profileuser->first_name;
+			$public_display['display_firstlast'] = $profileuser->first_name.' '.$profileuser->last_name;
+			$public_display['display_lastfirst'] = $profileuser->last_name.' '.$profileuser->first_name;
 			$public_display = array_unique(array_filter(array_map('trim', $public_display)));
-			foreach($public_display as $item) {
+			foreach($public_display as $id => $item) {
 		?>
-			<option value="<?php echo $item; ?>"><?php echo $item; ?></option>
+			<option id="<?php echo $id; ?>" value="<?php echo $item; ?>"><?php echo $item; ?></option>
 		<?php
 			}
 		?>
