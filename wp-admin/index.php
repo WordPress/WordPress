@@ -60,6 +60,8 @@ $num_cats  = wp_count_terms('category');
 
 $num_tags = wp_count_terms('post_tag');
 
+$num_comm = get_comment_count( );
+
 $post_type_texts = array();
 
 if ( !empty($num_posts->publish) ) { // with feeds, anyone can tell how many posts there are.  Just unlink if !current_user_can
@@ -89,11 +91,24 @@ if ( current_user_can( 'manage_categories' ) ) {
 	$tags_text = "<a href='edit-tags.php'>$tags_text</a>";
 }
 
+$total_comments = sprintf( __( '%1$s total' ), $num_comm['total_comments'] );
+$approved_comments = sprintf( __( '%1$s approved' ), $num_comm['approved'] );
+$spam_comments = sprintf( __( '%1$s spam' ), $num_comm['spam'] );
+$moderated_comments = sprintf( __( '%1$s awaiting moderation' ), $num_comm['awaiting_moderation'] );
+
+if( current_user_can( 'moderate_comments' ) ) {
+	$total_comments = "<a href='edit-comments.php'>{$total_comments}</a>";
+	$approved_comments = "<a href='edit-comments.php?comment_status=approved'>{$approved_comments}</a>";
+	$moderated_comments = "<a href='edit-comments.php?comment_status=moderated'>{$moderated_comments}</a>";
+}
+
+$comm_text = sprintf( __( 'Current comment break down: %1$s, %2$s, %3$s and %4$s.' ), $total_comments, $approved_comments, $spam_comments, $moderated_comments );
+
 $post_type_text = implode(', ', $post_type_texts);
 
 // There is always a category
-$sentence = sprintf( __( 'You have %1$s, contained within %2$s and %3$s. %4$s' ), $post_type_text, $cats_text, $tags_text, $pending_text );
-$sentence = apply_filters( 'dashboard_count_sentence', $sentence, $post_type_text, $cats_text, $tags_text, $pending_text );
+$sentence = sprintf( __( 'You have %1$s, contained within %2$s and %3$s. %4$s %5$s' ), $post_type_text, $cats_text, $tags_text, $pending_text, $comm_text );
+$sentence = apply_filters( 'dashboard_count_sentence', $sentence, $post_type_text, $cats_text, $tags_text, $pending_text, $comm_text );
 
 ?>
 <p class="youhave"><?php echo $sentence; ?></p>
