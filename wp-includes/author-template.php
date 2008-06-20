@@ -180,7 +180,7 @@ function get_the_author_ID() {
 /**
  * Display the ID of the author of the current post.
  *
- * @http://codex.wordpress.org/Template_Tags/the_author_ID
+ * @link http://codex.wordpress.org/Template_Tags/the_author_ID
  * @since 0.71
  * @uses get_the_author_ID()
  */

@@ -5,8 +5,8 @@
  * @package AtomLib
  * @link http://code.google.com/p/phpatomlib/
  *
- * @author: Elias Torres <elias@torrez.us>
- * @version: 0.4
+ * @author Elias Torres <elias@torrez.us>
+ * @version 0.4
  * @since 2.3
  */
 
