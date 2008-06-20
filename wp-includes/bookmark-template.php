@@ -212,7 +212,7 @@ function wp_list_bookmarks($args = '') {
 				continue;
 			$output .= str_replace(array('%id', '%class'), array("linkcat-$cat->term_id", $class), $category_before);
 			$catname = apply_filters( "link_category", $cat->name );
-			$output .= "$title_before$catname$title_after\n\t<ul>\n";
+			$output .= "$title_before$catname$title_after\n\t<ul class='xoxo blogroll'>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
 			$output .= "\n\t</ul>\n$category_after\n";
 		}
@@ -223,7 +223,7 @@ function wp_list_bookmarks($args = '') {
 		if ( !empty($bookmarks) ) {
 			if ( !empty( $title_li ) ){
 				$output .= str_replace(array('%id', '%class'), array("linkcat-$category", $class), $category_before);
-				$output .= "$title_before$title_li$title_after\n\t<ul>\n";
+				$output .= "$title_before$title_li$title_after\n\t<ul class='xoxo blogroll'>\n";
 				$output .= _walk_bookmarks($bookmarks, $r);
 				$output .= "\n\t</ul>\n$category_after\n";
 			} else {
