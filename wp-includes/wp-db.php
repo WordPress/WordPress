@@ -11,9 +11,6 @@ define('OBJECT_K', 'OBJECT_K', false);
 define('ARRAY_A', 'ARRAY_A', false);
 define('ARRAY_N', 'ARRAY_N', false);
 
-if (!defined('SAVEQUERIES'))
-	define('SAVEQUERIES', false);
-
 class wpdb {
 
 	var $show_errors = false;
@@ -279,13 +276,13 @@ class wpdb {
 		$this->last_query = $query;
 
 		// Perform the query via std mysql_query function..
-		if (SAVEQUERIES)
+		if ( defined('SAVEQUERIES') && SAVEQUERIES )
 			$this->timer_start();
 
 		$this->result = @mysql_query($query, $this->dbh);
 		++$this->num_queries;
 
-		if (SAVEQUERIES)
+		if ( defined('SAVEQUERIES') && SAVEQUERIES )
 			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
 
 		// If there is an error then take note of it..
