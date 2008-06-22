@@ -1,16 +1,16 @@
 <?php
 /**
- * These functions can be replaced via plugins. They are loaded after
- * plugins are loaded.
+ * These functions can be replaced via plugins. If plugins do not redefine these
+ * functions, then these will be used instead.
  *
  * @package WordPress
  */
 
 if ( !function_exists('set_current_user') ) :
 /**
- * set_current_user() - Populates global user information for any user
+ * Changes the current user by ID or name.
  *
- * Set $id to null and specify a name if you do not know a user's ID
+ * Set $id to null and specify a name if you do not know a user's ID.
  *
  * @since 2.0.1
  * @see wp_set_current_user() An alias of wp_set_current_user()
@@ -26,13 +26,13 @@ endif;
 
 if ( !function_exists('wp_set_current_user') ) :
 /**
- * wp_set_current_user() - Changes the current user by ID or name
+ * Changes the current user by ID or name.
  *
- * Set $id to null and specify a name if you do not know a user's ID
+ * Set $id to null and specify a name if you do not know a user's ID.
  *
- * Some WordPress functionality is based on the current user and
- * not based on the signed in user. Therefore, it opens the ability
- * to edit and perform actions on users who aren't signed in.
+ * Some WordPress functionality is based on the current user and not based on
+ * the signed in user. Therefore, it opens the ability to edit and perform
+ * actions on users who aren't signed in.
  *
  * @since 2.0.4
  * @global object $current_user The current user object which holds the user data.
@@ -60,7 +60,7 @@ endif;
 
 if ( !function_exists('wp_get_current_user') ) :
 /**
- * wp_get_current_user() - Retrieve the current user object
+ * Retrieve the current user object.
  *
  * @since 2.0.4
  *
@@ -77,12 +77,11 @@ endif;
 
 if ( !function_exists('get_currentuserinfo') ) :
 /**
- * get_currentuserinfo() - Populate global variables with information about the currently logged in user
+ * Populate global variables with information about the currently logged in user.
  *
- * Will set the current user, if the current user is not set. The current
- * user will be set to the logged in person. If no user is logged in, then
- * it will set the current user to 0, which is invalid and won't have any
- * permissions.
+ * Will set the current user, if the current user is not set. The current user
+ * will be set to the logged in person. If no user is logged in, then it will
+ * set the current user to 0, which is invalid and won't have any permissions.
  *
  * @since 0.71
  * @uses $current_user Checks if the current user is set
@@ -112,7 +111,7 @@ endif;
 
 if ( !function_exists('get_userdata') ) :
 /**
- * get_userdata() - Retrieve user info by user ID
+ * Retrieve user info by user ID.
  *
  * @since 0.71
  *
@@ -142,7 +141,7 @@ endif;
 
 if ( !function_exists('update_user_cache') ) :
 /**
- * update_user_cache() - Updates a users cache when overridden by a plugin
+ * Updates a users cache when overridden by a plugin.
  *
  * Core function does nothing.
  *
@@ -157,7 +156,7 @@ endif;
 
 if ( !function_exists('get_userdatabylogin') ) :
 /**
- * get_userdatabylogin() - Retrieve user info by login name
+ * Retrieve user info by login name.
  *
  * @since 0.71
  *
@@ -191,7 +190,7 @@ endif;
 
 if ( !function_exists('get_user_by_email') ) :
 /**
- * get_user_by_email() - Retrieve user info by email
+ * Retrieve user info by email.
  *
  * @since 2.5
  *
@@ -221,25 +220,23 @@ endif;
 
 if ( !function_exists( 'wp_mail' ) ) :
 /**
- * wp_mail() - Function to send mail, similar to PHP's mail
+ * Send mail, similar to PHP's mail
  *
- * A true return value does not automatically mean that the
- * user received the email successfully. It just only means
- * that the method used was able to process the request
- * without any errors.
+ * A true return value does not automatically mean that the user received the
+ * email successfully. It just only means that the method used was able to
+ * process the request without any errors.
  *
- * Using the two 'wp_mail_from' and 'wp_mail_from_name' hooks
- * allow from creating a from address like 'Name <email@address.com>'
- * when both are set. If just 'wp_mail_from' is set, then just
- * the email address will be used with no name.
+ * Using the two 'wp_mail_from' and 'wp_mail_from_name' hooks allow from
+ * creating a from address like 'Name <email@address.com>' when both are set. If
+ * just 'wp_mail_from' is set, then just the email address will be used with no
+ * name.
  *
- * The default content type is 'text/plain' which does not
- * allow using HTML. However, you can set the content type
- * of the email by using the 'wp_mail_content_type' filter.
+ * The default content type is 'text/plain' which does not allow using HTML.
+ * However, you can set the content type of the email by using the
+ * 'wp_mail_content_type' filter.
  *
- * The default charset is based on the charset used on the
- * blog. The charset can be set using the 'wp_mail_charset'
- * filter.
+ * The default charset is based on the charset used on the blog. The charset can
+ * be set using the 'wp_mail_charset' filter.
  *
  * @since 1.2.1
  * @uses apply_filters() Calls 'wp_mail' hook on an array of all of the parameters.
@@ -419,7 +416,8 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 endif;
 
 /**
- * wp_authenticate() - Checks a user's login information and logs them in if it checks out
+ * Checks a user's login information and logs them in if it checks out.
+ *
  * @since 2.5
  *
  * @param string $username User's username
@@ -459,9 +457,9 @@ function wp_authenticate($username, $password) {
 endif;
 
 /**
- * wp_logout() - Log the current user out
- * @since 2.5
+ * Log the current user out.
  *
+ * @since 2.5
  */
 if ( !function_exists('wp_logout') ) :
 function wp_logout() {
@@ -472,13 +470,13 @@ endif;
 
 if ( !function_exists('wp_validate_auth_cookie') ) :
 /**
- * wp_validate_auth_cookie() - Validates authentication cookie
+ * Validates authentication cookie.
  *
- * The checks include making sure that the authentication cookie
- * is set and pulling in the contents (if $cookie is not used).
+ * The checks include making sure that the authentication cookie is set and
+ * pulling in the contents (if $cookie is not used).
  *
- * Makes sure the cookie is not expired. Verifies the hash in
- * cookie is what is should be and compares the two.
+ * Makes sure the cookie is not expired. Verifies the hash in cookie is what is
+ * should be and compares the two.
  *
  * @since 2.5
  *
@@ -533,7 +531,7 @@ endif;
 
 if ( !function_exists('wp_generate_auth_cookie') ) :
 /**
- * wp_generate_auth_cookie() - Generate authentication cookie contents
+ * Generate authentication cookie contents.
  *
  * @since 2.5
  * @uses apply_filters() Calls 'auth_cookie' hook on $cookie contents, User ID
@@ -558,12 +556,11 @@ endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
 /**
- * wp_set_auth_cookie() - Sets the authentication cookies based User ID
+ * Sets the authentication cookies based User ID.
  *
- * The $remember parameter increases the time that the cookie will
- * be kept. The default the cookie is kept without remembering is
- * two days. When $remember is set, the cookies will be kept for
- * 14 days or two weeks.
+ * The $remember parameter increases the time that the cookie will be kept. The
+ * default the cookie is kept without remembering is two days. When $remember is
+ * set, the cookies will be kept for 14 days or two weeks.
  *
  * @since 2.5
  *
@@ -604,7 +601,7 @@ endif;
 
 if ( !function_exists('wp_clear_auth_cookie') ) :
 /**
- * wp_clear_auth_cookie() - Deletes all of the cookies associated with authentication
+ * Removes all of the cookies associated with authentication.
  *
  * @since 2.5
  */
@@ -626,7 +623,7 @@ endif;
 
 if ( !function_exists('is_user_logged_in') ) :
 /**
- * is_user_logged_in() - Checks if the current visitor is a logged in user
+ * Checks if the current visitor is a logged in user.
  *
  * @since 2.0.0
  *
@@ -644,7 +641,7 @@ endif;
 
 if ( !function_exists('auth_redirect') ) :
 /**
- * auth_redirect() - Checks if a user is logged in, if not it redirects them to the login page
+ * Checks if a user is logged in, if not it redirects them to the login page.
  *
  * @since 1.5
  */
@@ -687,7 +684,9 @@ endif;
 
 if ( !function_exists('check_admin_referer') ) :
 /**
- * check_admin_referer() - Makes sure that a user was referred from another admin page, to avoid security exploits
+ * Makes sure that a user was referred from another admin page.
+ *
+ * To avoid security exploits.
  *
  * @since 1.2.0
  * @uses do_action() Calls 'check_admin_referer' on $action.
@@ -709,7 +708,7 @@ function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
 
 if ( !function_exists('check_ajax_referer') ) :
 /**
- * check_ajax_referer() - Verifies the AJAX request to prevent processing requests external of the blog.
+ * Verifies the AJAX request to prevent processing requests external of the blog.
  *
  * @since 2.0.4
  *
@@ -735,7 +734,7 @@ endif;
 
 if ( !function_exists('wp_redirect') ) :
 /**
- * wp_redirect() - Redirects to another page, with a workaround for the IIS Set-Cookie bug
+ * Redirects to another page, with a workaround for the IIS Set-Cookie bug.
  *
  * @link http://support.microsoft.com/kb/q176113/
  * @since 1.5.1
@@ -768,7 +767,7 @@ endif;
 
 if ( !function_exists('wp_sanitize_redirect') ) :
 /**
- * wp_sanitize_redirect() - Sanitizes a URL for use in a redirect
+ * Sanitizes a URL for use in a redirect.
  *
  * @since 2.3
  *
@@ -796,14 +795,15 @@ endif;
 
 if ( !function_exists('wp_safe_redirect') ) :
 /**
- * wp_safe_redirect() - Performs a safe (local) redirect, using wp_redirect()
+ * Performs a safe (local) redirect, using wp_redirect().
  *
  * Checks whether the $location is using an allowed host, if it has an absolute
- * path. A plugin can therefore set or remove allowed host(s) to or from the list.
+ * path. A plugin can therefore set or remove allowed host(s) to or from the
+ * list.
  *
  * If the host is not allowed, then the redirect is to wp-admin on the siteurl
- * instead. This prevents malicious redirects which redirect to another host, but
- * only used in a few places.
+ * instead. This prevents malicious redirects which redirect to another host,
+ * but only used in a few places.
  *
  * @since 2.3
  * @uses apply_filters() Calls 'allowed_redirect_hosts' on an array containing
@@ -834,7 +834,7 @@ endif;
 
 if ( ! function_exists('wp_notify_postauthor') ) :
 /**
- * wp_notify_postauthor() - Notify an author of a comment/trackback/pingback to one of their posts
+ * Notify an author of a comment/trackback/pingback to one of their posts.
  *
  * @since 1.0.0
  *
@@ -913,7 +913,7 @@ endif;
 
 if ( !function_exists('wp_notify_moderator') ) :
 /**
- * wp_notify_moderator() - Notifies the moderator of the blog about a new comment that is awaiting approval
+ * Notifies the moderator of the blog about a new comment that is awaiting approval.
  *
  * @since 1.0
  * @uses $wpdb
@@ -982,7 +982,7 @@ endif;
 
 if ( !function_exists('wp_new_user_notification') ) :
 /**
- * wp_new_user_notification() - Notify the blog admin of a new user, normally via email
+ * Notify the blog admin of a new user, normally via email.
  *
  * @since 2.0
  *
@@ -1015,9 +1015,10 @@ endif;
 
 if ( !function_exists('wp_nonce_tick') ) :
 /**
- * wp_nonce_tick() - Get the time-dependent variable for nonce creation
+ * Get the time-dependent variable for nonce creation.
  *
- * A nonce has a lifespan of two ticks. Nonces in their second tick may be updated, e.g. by autosave.
+ * A nonce has a lifespan of two ticks. Nonces in their second tick may be
+ * updated, e.g. by autosave.
  *
  * @since 2.5
  *
@@ -1032,10 +1033,10 @@ endif;
 
 if ( !function_exists('wp_verify_nonce') ) :
 /**
- * wp_verify_nonce() - Verify that correct nonce was used with time limit
+ * Verify that correct nonce was used with time limit.
  *
- * The user is given an amount of time to use the token, so therefore, since
- * the UID and $action remain the same, the independent variable is the time.
+ * The user is given an amount of time to use the token, so therefore, since the
+ * UID and $action remain the same, the independent variable is the time.
  *
  * @since 2.0.4
  *
@@ -1062,7 +1063,7 @@ endif;
 
 if ( !function_exists('wp_create_nonce') ) :
 /**
- * wp_create_nonce() - Creates a random, one time use token
+ * Creates a random, one time use token.
  *
  * @since 2.0.4
  *
@@ -1081,35 +1082,38 @@ endif;
 
 if ( !function_exists('wp_salt') ) :
 /**
- * wp_salt() - Get salt to add to hashes to help prevent attacks
+ * Get salt to add to hashes to help prevent attacks.
  *
- * You can set the salt by defining two areas. One is in the database and
- * the other is in your wp-config.php file. The database location is defined
- * in the option named 'secret', but most likely will not need to be changed.
+ * The secret key is located in two places: the database in case the secret key
+ * isn't defined in the second place, which is in the wp-config.php file. If you
+ * are going to set the secret key, then you must do so in the wp-config.php
+ * file.
  *
- * The second, located in wp-config.php, is a constant named 'SECRET_KEY', but
- * is not required. If the constant is not defined then the database constants
- * will be used, since they are most likely given to be unique. However, given
- * that the salt will be added to the password and can be seen, the constant
- * is recommended to be set manually.
+ * The secret key in the database is randomly generated and will be appended to
+ * the secret key that is in wp-config.php file in some instances. It is
+ * important to have the secret key defined or changed in wp-config.php.
+ *
+ * If you have installed WordPress 2.5 or later, then you will have the
+ * SECRET_KEY defined in the wp-config.php already. You will want to change the
+ * value in it because hackers will know what it is. If you have upgraded to
+ * WordPress 2.5 or later version from a version before WordPress 2.5, then you
+ * should add the constant to your wp-config.php file.
+ *
+ * Below is an example of how the SECRET_KEY constant is defined with a value.
+ * You must not copy the below example and paste into your wp-config.php. If you
+ * need an example, then you can have a
+ * {@link http://api.wordpress.org/secret-key/1.0/ secret key created} for you.
  *
  * <code>
  * define('SECRET_KEY', 'mAry1HadA15|\/|b17w55w1t3asSn09w');
  * </code>
  *
- * Attention: Do not use above example!
- *
- * Salting passwords helps against tools which has stored hashed values
- * of common dictionary strings. The added values makes it harder to crack
- * if given salt string is not weak.
- *
- * Salting only helps if the string is not predictable and should be
- * made up of various characters. Think of the salt as a password for
- * securing your passwords, but common among all of your passwords.
- * Therefore the salt should be as long as possible as as difficult as
- * possible, because you will not have to remember it.
+ * Salting passwords helps against tools which has stored hashed values of
+ * common dictionary strings. The added values makes it harder to crack if given
+ * salt string is not weak.
  *
  * @since 2.5
+ * @link http://api.wordpress.org/secret-key/1.0/ Create a Secret Key for wp-config.php
  *
  * @return string Salt value from either 'SECRET_KEY' or 'secret' option
  */
@@ -1168,7 +1172,7 @@ endif;
 
 if ( !function_exists('wp_hash') ) :
 /**
- * wp_hash() - Get hash of given string
+ * Get hash of given string.
  *
  * @since 2.0.4
  * @uses wp_salt() Get WordPress salt
@@ -1185,11 +1189,10 @@ endif;
 
 if ( !function_exists('wp_hash_password') ) :
 /**
- * wp_hash_password() - Create a hash (encrypt) of a plain text password
+ * Create a hash (encrypt) of a plain text password.
  *
- * For integration with other applications, this function can be
- * overwritten to instead use the other package password checking
- * algorithm.
+ * For integration with other applications, this function can be overwritten to
+ * instead use the other package password checking algorithm.
  *
  * @since 2.5
  * @global object $wp_hasher PHPass object
@@ -1213,17 +1216,15 @@ endif;
 
 if ( !function_exists('wp_check_password') ) :
 /**
- * wp_check_password() - Checks the plaintext password against the encrypted Password
+ * Checks the plaintext password against the encrypted Password.
  *
- * Maintains compatibility between old version and the new cookie
- * authentication protocol using PHPass library. The $hash parameter
- * is the encrypted password and the function compares the plain text
- * password when encypted similarly against the already encrypted
- * password to see if they match.
+ * Maintains compatibility between old version and the new cookie authentication
+ * protocol using PHPass library. The $hash parameter is the encrypted password
+ * and the function compares the plain text password when encypted similarly
+ * against the already encrypted password to see if they match.
  *
- * For integration with other applications, this function can be
- * overwritten to instead use the other package password checking
- * algorithm.
+ * For integration with other applications, this function can be overwritten to
+ * instead use the other package password checking algorithm.
  *
  * @since 2.5
  * @global object $wp_hasher PHPass object used for checking the password
@@ -1265,7 +1266,7 @@ endif;
 
 if ( !function_exists('wp_generate_password') ) :
 /**
- * wp_generate_password() - Generates a random password drawn from the defined set of characters
+ * Generates a random password drawn from the defined set of characters.
  *
  * @since 2.5
  *
@@ -1285,11 +1286,10 @@ endif;
 
 if ( !function_exists('wp_set_password') ) :
 /**
- * wp_set_password() - Updates the user's password with a new encrypted one
+ * Updates the user's password with a new encrypted one.
  *
- * For integration with other applications, this function can be
- * overwritten to instead use the other package password checking
- * algorithm.
+ * For integration with other applications, this function can be overwritten to
+ * instead use the other package password checking algorithm.
  *
  * @since 2.5
  * @uses $wpdb WordPress database object for queries
@@ -1310,9 +1310,7 @@ endif;
 
 if ( !function_exists( 'get_avatar' ) ) :
 /**
- * get_avatar() - Get avatar for a user
- *
- * Retrieve the avatar for a user provided a user ID or email address
+ * Retrieve the avatar for a user who provided a user ID or email address.
  *
  * @since 2.5
  * @param int|string|object $id_or_email A user ID,  email address, or comment object
@@ -1388,7 +1386,7 @@ endif;
 
 if ( !function_exists('wp_setcookie') ) :
 /**
- * wp_setcookie() - Sets a cookie for a user who just logged in
+ * Sets a cookie for a user who just logged in.
  *
  * @since 1.5
  * @deprecated Use wp_set_auth_cookie()
@@ -1410,7 +1408,7 @@ endif;
 
 if ( !function_exists('wp_clearcookie') ) :
 /**
- * wp_clearcookie() - Clears the authentication cookie, logging the user out
+ * Clears the authentication cookie, logging the user out.
  *
  * @since 1.5
  * @deprecated Use wp_clear_auth_cookie()
@@ -1424,10 +1422,10 @@ endif;
 
 if ( !function_exists('wp_get_cookie_login') ):
 /**
- * wp_get_cookie_login() - Gets the user cookie login
+ * Gets the user cookie login.
  *
- * This function is deprecated and should no longer be extended as it won't
- * be used anywhere in WordPress. Also, plugins shouldn't use it either.
+ * This function is deprecated and should no longer be extended as it won't be
+ * used anywhere in WordPress. Also, plugins shouldn't use it either.
  *
  * @since 2.0.4
  * @deprecated No alternative
@@ -1442,15 +1440,14 @@ endif;
 
 if ( !function_exists('wp_login') ) :
 /**
- * wp_login() - Checks a users login information and logs them in if it checks out
+ * Checks a users login information and logs them in if it checks out.
  *
- * Use the global $error to get the reason why the login failed.
- * If the username is blank, no error will be set, so assume
- * blank username on that case.
+ * Use the global $error to get the reason why the login failed. If the username
+ * is blank, no error will be set, so assume blank username on that case.
  *
- * Plugins extending this function should also provide the global
- * $error and set what the error is, so that those checking the
- * global for why there was a failure can utilize it later.
+ * Plugins extending this function should also provide the global $error and set
+ * what the error is, so that those checking the global for why there was a
+ * failure can utilize it later.
  *
  * @since 1.2.2
  * @deprecated Use wp_signon()
@@ -1476,23 +1473,30 @@ endif;
 
 if ( !function_exists( 'wp_text_diff' ) ) :
 /**
- * wp_text_diff() - compares two strings and outputs a human readable HTML representation of their difference
+ * Displays a human readable HTML representation of the difference between two strings.
  *
- * Basically a wrapper for man diff(1)
+ * The Diff is available for getting the changes between versions. The output is
+ * HTML, so the primary use is for displaying the changes. If the two strings
+ * are equivalent, then an empty string will be returned.
  *
- * Must accept an optional third parameter, $args @see wp_parse_args()
- *    (string) title: optional.  If present, titles the diff in a manner compatible with the output
+ * The arguments supported and can be changed are listed below.
  *
- * Must return the empty string if the two compared strings are found to be equivalent according to whatever metric
+ * 'title' : Default is an empty string. Titles the diff in a manner compatible
+ *		with the output.
+ * 'title_left' : Default is an empty string. Change the HTML to the left of the
+ *		title.
+ * 'title_right' : Default is an empty string. Change the HTML to the right of
+ *		the title.
  *
  * @since 2.6
+ * @see wp_parse_args() Used to change defaults to user defined settings.
  * @uses Text_Diff
  * @uses WP_Text_Diff_Renderer_Table
  *
  * @param string $left_string "old" (left) version of string
  * @param string $right_string "new" (right) version of string
- * @param string|array $args @see wp_parse_args()
- * @return string human readable HTML of string differences.  Empty string if strings are equivalent
+ * @param string|array $args Optional. Change 'title', 'title_left', and 'title_right' defaults.
+ * @return string Empty string if strings are equivalent or HTML with differences.
  */
 function wp_text_diff( $left_string, $right_string, $args = null ) {
 	$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
