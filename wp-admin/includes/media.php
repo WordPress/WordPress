@@ -151,11 +151,9 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	$id = wp_insert_attachment($attachment, $file, $post_parent);
 	if ( !is_wp_error($id) ) {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
-		return $src;
+		return $url;
 	}
-	
 	return $id;
-
 }
 
 
@@ -321,21 +319,20 @@ function media_sideload_image($file, $post_id, $desc = null) {
 		$desc = @$desc;
 		
 		$id = media_handle_sideload($file_array, $post_id, $desc);
+		$src = $id;
+
 		unset($file_array);
-		
+
 		if ( is_wp_error($id) ) {
 			$errors['upload_error'] = $id;
 			return $id;
-		} else {
-			$src = $id;
 		}
 	}
-	
-	if (!empty($src) && !strpos($src, '://') ) {
-		$src = "http://$src";
-		$alt = @$desc;
-	}
+
 	if ( !empty($src) ) {
+		if ( !strpos($src, '://') )
+			$src = "http://$src";
+		$alt = @$desc;
 		$html = "<img src='$src' alt='$alt' />";
 		return $html;
 	}

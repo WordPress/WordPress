@@ -4,15 +4,19 @@ require_once('admin.php');
 if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' )); ?>
 
 <?php 
+
+function preg_quote2($string) {
+	return str_replace('/', '\/', preg_quote($string));
+}
 function press_it() {
-	#define some basic variables
+	// define some basic variables
 	$quick['post_status'] = $_REQUEST['post_status'];
 	$quick['post_category'] = $_REQUEST['post_category'];
 	$quick['tags_input'] = $_REQUEST['tags_input'];
 	$quick['post_title'] = $_REQUEST['post_title'];
 	$quick['post_content'] = '';
 		
-	# insert the post with nothing in it, to get an ID
+	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
 		
 	$content = '';
@@ -23,16 +27,21 @@ function press_it() {
 			break;
 		
 		case 'photo':
-			foreach($_REQUEST['photo_src'] as $key => $data) {
-				#quote for matching
-				$quoted = str_replace('/', '\/', preg_quote($data));
-				
-				# see if files exist in content - we don't want to upload non-used selected files.
-				preg_match('/'.$quoted.'/', $_REQUEST['content'], $matches[0]);
-				if($matches[0])
-					$upload = media_sideload_image($data, $post_ID, $_REQUEST['photo_description'][$key]);	
-			}
 			$content = $_REQUEST['content'];
+			
+			foreach($_REQUEST['photo_src'] as $key => $image) {
+				#quote for matching
+				$quoted = preg_quote2($image);
+				
+				// see if files exist in content - we don't want to upload non-used selected files.
+				preg_match('/'.$quoted.'/', $_REQUEST['content'], $matches[0]);
+				if($matches[0]) {
+					$upload = media_sideload_image($image, $post_ID, $_REQUEST['photo_description'][$key]);
+					// Replace the POSTED content <img> with correct uploaded ones.
+					if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=(\"|\')'.$quoted.'(\2)([^>\/]*)\/*>/is', $upload, $content);
+				}
+			}
+			
 			break;
 			
 		case "video":
