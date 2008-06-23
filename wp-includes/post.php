@@ -170,6 +170,8 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 		$post = (int) $post;
 		if ( ! $_post = wp_cache_get($post, 'posts') ) {
 			$_post = & $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post));
+			if ( ! $_post )
+				return $null;
 			_get_post_ancestors($_post);
 			wp_cache_add($_post->ID, $_post, 'posts');
 		}
