@@ -318,11 +318,11 @@ $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
 <tr>
-	<th><label for="pass1"><?php _e('New Password:'); ?></label></th>
+	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
 	<td><input type="password" name="pass1" id="pass1" size="16" value="" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
 		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
 		<?php if ( $is_profile_page ): ?>
-		<p><strong><?php _e('Password Strength:'); ?></strong></p>
+		<p><strong><?php _e('Password Strength'); ?></strong></p>
 		<div id="pass-strength-result"><?php _e('Too short'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&amp;( in your password.'); ?>
 		<?php endif; ?>
 	</td>
@@ -342,7 +342,7 @@ if ( $show_password_fields ) :
 <br class="clear" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<tr>
-			<th scope="row"><?php _e('Additional Capabilities:') ?></th>
+			<th scope="row"><?php _e('Additional Capabilities') ?></th>
 			<td><?php
 			$output = '';
 			foreach($profileuser->caps as $cap => $value) {
