@@ -181,5 +181,9 @@ jQuery(document).ready( function() {
 		if ( jQuery.isFunction( autosave_update_post_ID ) ) {
 			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
 		}
-	} });
+	}, addBefore: function( s ) {
+		s.data += '&post_id=' + jQuery('#post_ID').val();
+		return s;
+	}
+	});
 });

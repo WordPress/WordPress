@@ -915,7 +915,7 @@ function meta_form() {
 	</tr>
 <tr class="submit"><td colspan="3">
 	<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>
-	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta::post_id=<?php echo $GLOBALS['post_ID'] ? $GLOBALS['post_ID'] : $GLOBALS['temp_ID']; ?>" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
+	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
 </td></tr>
 </table>
 <?php

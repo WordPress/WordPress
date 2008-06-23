@@ -136,7 +136,7 @@ function wp_default_scripts( &$scripts ) {
 			'save' => __('Save'),
 			'cancel' => __('Cancel'),
 		) );
-		$scripts->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080519' );
+		$scripts->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20080623' );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
 			'add' => attribute_escape(__('Add')),
