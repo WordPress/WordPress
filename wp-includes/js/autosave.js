@@ -1,6 +1,8 @@
 var autosaveLast = '';
 var autosavePeriodical;
 var autosaveOldMessage = '';
+var autosaveDelayURL = null;
+var previewwin;
 
 jQuery(function($) {
 	autosaveLast = $('#post #title').val()+$('#post #content').val();
@@ -8,6 +10,16 @@ jQuery(function($) {
 
 	//Disable autosave after the form has been submitted
 	$("#post").submit(function() { $.cancel(autosavePeriodical); });
+	
+	// Autosave when the preview button is clicked. 
+	$('#previewview a').click(function(e) {
+		autosave();
+		autosaveDelayURL = this.href;
+		previewwin = window.open('','_blank');
+
+		e.preventDefault();
+		return false;
+	});
 });
 
 function autosave_parse_response(response) {
@@ -96,6 +108,16 @@ function autosave_update_preview_link(post_id) {
 			getpermalinknonce: jQuery('#getpermalinknonce').val()
 		}, function(permalink) {
 			jQuery('#previewview').html('<a target="_blank" href="'+permalink+'" tabindex="4">'+previewText+'</a>');
+
+			// Autosave when the preview button is clicked.  
+			jQuery('#previewview a').click(function(e) {
+				autosave();
+				autosaveDelayURL = this.href;
+				previewwin = window.open('','_blank');
+
+				e.preventDefault();
+				return false;
+			});
 		});
 	}
 }
@@ -125,6 +147,10 @@ function autosave_loading() {
 
 function autosave_enable_buttons() {
 	jQuery("#submitpost :button:disabled, #submitpost :submit:disabled").attr('disabled', '');
+	if ( autosaveDelayURL ) {
+		previewwin.location = autosaveDelayURL;
+		autosaveDelayURL = null;
+	}
 }
 
 function autosave_disable_buttons() {
