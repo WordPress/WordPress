@@ -43,6 +43,12 @@ case 'diff' :
 	if ( !current_user_can( 'read_post', $left_revision->ID ) || !current_user_can( 'read_post', $right_revision->ID ) )
 		break;
 
+	// If we're comparing a revision to itself, redirect to the 'view' page for that revision or the edit page for that post
+	if ( $left_revision->ID == $right_revision->ID ) {
+		$redirect = get_edit_post_link( $left_revision->ID );
+		break;
+	}
+
 	// Don't allow reverse diffs?
 	if ( strtotime($right_revision->post_modified_gmt) < strtotime($left_revision->post_modified_gmt) ) {
 		$redirect = add_query_arg( array( 'left' => $right, 'right' => $left ) );
