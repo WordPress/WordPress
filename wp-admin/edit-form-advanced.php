@@ -22,8 +22,17 @@ if ( !isset($post_ID) || 0 == $post_ID ) {
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 	$autosave = wp_get_post_autosave( $post_id );
-	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) )
-		$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
+
+	// Detect if there exists an autosave newer than the post and if that autosave is different than the post
+	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) ) {
+		foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
+			if ( wp_text_diff( $autosave->$autosave_field, $post->$autosave_field ) ) {
+				$notice = sprintf( $notices[1], get_edit_post_link( $autosave->ID ) );
+				break;
+			}
+		}
+		unset($autosave_field, $_autosave_field);
+	}
 }
 
 ?>
