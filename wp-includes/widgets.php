@@ -452,11 +452,11 @@ function wp_widget_links($args) {
 	extract($args, EXTR_SKIP);
 
 	$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
-	wp_list_bookmarks(array(
+	wp_list_bookmarks(apply_filters('widget_links_args', array(
 		'title_before' => $before_title, 'title_after' => $after_title,
 		'category_before' => $before_widget, 'category_after' => $after_widget,
 		'show_images' => true, 'class' => 'linkcat widget'
-	));
+	)));
 }
 
 function wp_widget_search($args) {
