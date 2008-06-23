@@ -30,7 +30,7 @@ function press_it() {
 				# see if files exist in content - we don't want to upload non-used selected files.
 				preg_match('/'.$quoted.'/', $_REQUEST['content'], $matches[0]);
 				if($matches[0])
-					media_sideload_image($data, $post_ID, $_REQUEST['photo_description'][$key]);	
+					$upload = media_sideload_image($data, $post_ID, $_REQUEST['photo_description'][$key]);	
 			}
 			$content = $_REQUEST['content'];
 			break;
@@ -45,11 +45,13 @@ function press_it() {
 	$quick['post_content'] = str_replace('<br />', "\n", preg_replace('/<\/?p>/','',$content));
 
 	#error handling for $post
-	if ( is_wp_error($post_ID) ) {
+	if ( is_wp_error($post_ID)) {
 		wp_die($id);
 		wp_delete_post($post_ID);
-
 	#error handling for media_sideload
+	} elseif ( is_wp_error($upload)) {
+		wp_die($upload);
+		wp_delete_post($post_ID);
 	} else {	
 		$quick['ID'] = $post_ID;
 		wp_update_post($quick);
@@ -78,6 +80,7 @@ if ( 'post' == $_REQUEST['action'] ) {
 	?>
 	</head>
 	<body class="press-this">
+		
 		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $post_ID; ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();">Close Window</a></p></div>
 		
 		<div id="footer">
@@ -110,6 +113,15 @@ $url = clean_url($_GET['u']);
 $image = $_GET['i'];
 
 if($_REQUEST['ajax'] == 'thickbox') { ?>
+	<script type="text/javascript" charset="utf-8">
+		jQuery('.cancel').click(function() {
+			tb_remove();
+		});
+		
+		jQuery('.select').click(function() {
+			image_selector();
+		});
+	</script>
 	<h3 id="title"><label for="post_title"><?php _e('Description') ?></label></h3>
 	<div class="titlewrap">
 		<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
@@ -123,6 +135,15 @@ if($_REQUEST['ajax'] == 'thickbox') { ?>
 }
 
 if($_REQUEST['ajax'] == 'thickbox_url') { ?>
+	<script type="text/javascript" charset="utf-8">
+		jQuery('.cancel').click(function() {
+			tb_remove();
+		});
+		
+		jQuery('.select').click(function() {
+			image_selector();
+		});
+	</script>
 	<h3 id="title"><label for="post_title"><?php _e('URL') ?></label></h3>
 	<div class="titlewrap">
 		<input id="this_photo" name="this_photo" class="text" onkeypress="if(event.keyCode==13) image_selector();" />
@@ -181,80 +202,72 @@ die;
 }
 
 if($_REQUEST['ajax'] == 'photo_js') { ?>
-
-			tb_init('a.thickbox, area.thickbox, input.thickbox'); //pass where to apply thickbox
+	
+	
+ 	// gather images and load some default JS
+	
+	var last = null
+	var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
+	var my_src = eval(
+		jQuery.ajax({
+	   		type: "GET",
+	   		url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
+			cache : false,
+			async : false,
+	   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
+			dataType : "script"
+		}).responseText
+	);
+	
+	for (i = 0; i < my_src.length; i++) {
+		img = new Image(); 
+		img.src = my_src[i]; 
+		img_attr = 'id="img' + i + '"'; 
+		skip = false;
+		if (img.width && img.height) {
+			if (img.width * img.height < 2500) 
+				skip = true;
+			aspect = img.width / img.height;
+			scale = (aspect > 1) ? (75 / img.width) : (75 / img.height);
 			
-			function image_selector() {
-				desc = jQuery('#this_photo_description').val();
-				src = jQuery('#this_photo').val();
-				pick(src, desc);
-				tb_remove();
-				return false;
+			w = img.width;
+			h = img.height;
+			
+			if (scale < 1) {
+				w = parseInt(img.width * scale);
+				h = parseInt(img.height * scale);
 			}
-			
-			jQuery(document).ready(function() {
-				jQuery('#this_photo').focus();
-
-				jQuery('.cancel').click(function() {
-					tb_remove();
-				});
-				
-				jQuery('.select').click(function() {
-					image_selector();
-				});
-				
-				jQuery('#photo_add_url').attr('href', '?ajax=thickbox_url&height=200&width=500');
-				
-			});
-			
-			
-			function pick(img, desc) {
-				if (img) { 
-					length = jQuery('.photolist input').length;
-					if(length == 0) length = 1;
-					jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
-					jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
-					append_editor('<img src="' + img +'" alt="' + desc + '" />'); }
-					tinyMCE.activeEditor.resizeToContent();
-				return false;
-			}
-
-			var last = null
-			var my_src, img, img_tag, aspect, w, h, skip, i, strtoappend = "";
-			var my_src = eval(
-			jQuery.ajax({
-			   	type: "GET",
-			   	url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
-				cache : false,
-				async : false,
-			   	data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
-				dataType : "script"
-				}).responseText);
-
-			for (i = 0; i < my_src.length; i++) {
-				img = new Image(); img.src = my_src[i]; img_attr = 'id="img' + i; skip = false;
-
-				if (img.width && img.height) {
-					if (img.width * img.height < 2500) 
-						skip = true;
-					aspect = img.width / img.height;
-					scale = (aspect > 1) ? (75 / img.width) : (75 / img.height);
-					
-					if (scale < 1) {
-						w = parseInt(img.width * scale);
-						h = parseInt(img.height * scale);
-					} else {
-						w = img.width;
-						h = img.height;
-					}
-					img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
-				}
-
-				if (!skip) strtoappend += '<a href="?ajax=thickbox&amp;i=' + img.src + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
-
-			}
-			jQuery('#img_container').html(strtoappend);
-
+			img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
+		}
+		if (!skip) strtoappend += '<a href="?ajax=thickbox&amp;i=' + img.src + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
+	}
+	
+	function pick(img, desc) {
+		if (img) { 
+			length = jQuery('.photolist input').length;
+			if(length == 0) length = 1;
+			jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
+			jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
+			append_editor('<img src="' + img +'" alt="' + desc + '" />');
+		}
+		tinyMCE.activeEditor.resizeToContent();
+		return false;
+	}
+	
+	function image_selector() {
+		tb_remove();
+		desc = jQuery('#this_photo_description').val();
+		src = jQuery('#this_photo').val();
+		pick(src, desc);
+		return false;
+	}
+	
+	jQuery(document).ready(function() {
+		jQuery('#img_container').html(strtoappend);
+		jQuery('#photo_add_url').attr('href', '?ajax=thickbox_url&height=200&width=500');
+		tb_init('a.thickbox, area.thickbox, input.thickbox');
+	});
+	
 <?php die; }
 
 if($_REQUEST['ajax'] == 'photo') { ?>
@@ -292,7 +305,6 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		if ( isset($strings) ) echo $strings; ?>
 			(function() {
 				var base = tinymce.baseURL, sl = tinymce.ScriptLoader, ln = "<?php echo $language; ?>";
-
 				sl.markDone(base + '/langs/' + ln + '.js');
 				sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
 				sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
@@ -354,14 +366,17 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		jQuery('#' + type + '_button').addClass('ui-tabs-selected');
 		jQuery("#post_type").val(type);
 	}
+	
 	function set_editor(text) {
 
 		if(tinyMCE.activeEditor) tinyMCE.activeEditor.setContent('');
 		if(tinyMCE.activeEditor) tinyMCE.execCommand('mceInsertContent' ,false, text);
 	}
+	
 	function append_editor(text) {
 		if(tinyMCE.activeEditor) tinyMCE.execCommand('mceInsertContent' ,false, text);
 	}
+	
 	function set_title(title) { jQuery("#content_type").text(title); }
 
 	function show(tab_name) {
@@ -371,24 +386,21 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			case 'text' :
 				set_menu('text');
 				set_title('<?php _e('Post') ?>');
-
 				return false;
-			break;
+				break;
 			case 'quote' :
 				set_menu('quote');
 				set_title('<?php _e('Quote') ?>');
 				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?> </a> </cite> </p></blockquote>");
 				return false;
-			break;
+				break;
 			case 'video' :
-
 				set_menu('video');
 				set_title('<?php _e('Caption') ?>');
 				
 				jQuery('#extra_fields').show();
 				jQuery('body').addClass('video_split');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attribute_escape($selection); ?>'}, function() {
-					
 					<?php 
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
 					list($domain, $video_id) = split("v=", $url);
@@ -407,10 +419,8 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					
 					set_editor("<?php echo $title; ?>");
 				});
-				
 				return false;
-			break;
-			
+				break;
 			case 'photo' :
 				set_menu('photo');
 				set_title('Post');
@@ -430,12 +440,9 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 						jQuery('#waiting').remove();
 					}
 				});
-				
 				return false;
-			break;
-
+				break;
 		}
-	
 	}
 	
 	jQuery(document).ready(function() {
@@ -445,6 +452,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			show(tab_name);
 		});
 		
+		// Set default tabs
 		<?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
 			show('video');
 		<?php } elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) { ?>
@@ -453,64 +461,60 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			show('photo');
 		<?php } ?>
 	});
+	
 </script>
 </head>
 <body class="press-this">
 <div id="wphead">
-<h1><span id="viewsite"><a href="<?php echo get_option('home'); ?>/"><?php _e('Visit:') ?> <?php bloginfo('name'); ?></a></span></h1>
+	<h1><span id="viewsite"><a href="<?php echo get_option('home'); ?>/"><?php _e('Visit:') ?> <?php bloginfo('name'); ?></a></span></h1>
 </div>
 
-		<ul id="menu" class="ui-tabs-nav">
-			<li id="text_button" class="ui-tabs-selected"><a href="#"><?php _e('Text') ?></a></li>
-		 	<li id="photo_button"><a href="#"><?php _e('Photo') ?></a></li>
-			<li id="quote_button"><a href="#"><?php _e('Quote') ?></a></li>
-			<li id="video_button"><a href="#"><?php _e('Video') ?></a></li>
-		</ul>
+<ul id="menu" class="ui-tabs-nav">
+	<li id="text_button" class="ui-tabs-selected"><a href="#"><?php _e('Text') ?></a></li>
+ 	<li id="photo_button"><a href="#"><?php _e('Photo') ?></a></li>
+	<li id="quote_button"><a href="#"><?php _e('Quote') ?></a></li>
+	<li id="video_button"><a href="#"><?php _e('Video') ?></a></li>
+</ul>
 
-			<form action="press-this.php?action=post" method="post">
-
-				<?php wp_nonce_field('press-this') ?>
-				<input type="hidden" name="post_type" id="post_type" value="text"/>
-				<div id="posting">
-					
-					<h2 id="title"><label for="post_title"><?php _e('Title') ?></label></h2>
-					<div class="titlewrap">
-						<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
-					</div>
-					
-					<div id="extra_fields" style="display: none"></div>
-					<div class="editor_area">
-					<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
-					<div class="editor-container">
-						<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if($selection) { ?><a href='<?php echo $url ?>'><?php echo $selection ?></a><?php } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
-					</div>
-					</div>
-					
-				</div>
-				<div id="categories">
-					<div class="submitbox" id="submitpost">
-					<div id="previewview"></div>
-					<div class="inside">
-						<h2><?php _e('Categories') ?></h2>
-						<div id="categories-all">
-							<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-								<?php wp_category_checklist() ?>
-							</ul>
-						</div>
-						<h2><?php _e('Tags') ?></h2>
-						<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
-						<div id="tagchecklist"></div>
-					</div>
-					<label for="post_status" id="post_status"><input type="radio" name="post_status" value="publish" checked="checked" id="published" />Published <input type="radio" name="post_status" value="draft" id="unpubplished" /> Unpublished</label>
-					
-					<p class="submit">         
-						<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
-						<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
-					</p>
-				</div>
-				
-				
-			</form>		
-					
+<form action="press-this.php?action=post" method="post">
+	<?php wp_nonce_field('press-this') ?>
+	<input type="hidden" name="post_type" id="post_type" value="text"/>
+	<div id="posting">
+		<h2 id="title"><label for="post_title"><?php _e('Title') ?></label></h2>
+		<div class="titlewrap">
+			<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
+		</div>
+		
+		<div id="extra_fields" style="display: none"></div>
+		
+		<div class="editor_area">
+			<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
+			<div class="editor-container">
+				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if($selection) { ?><a href='<?php echo $url ?>'><?php echo $selection ?></a><?php } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
+			</div>
+		</div>
+	</div>
+	
+	<div id="categories">
+		<div class="submitbox" id="submitpost">
+		<div id="previewview"></div>
+		<div class="inside">
+			<h2><?php _e('Categories') ?></h2>
+			<div id="categories-all">
+				<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
+					<?php wp_category_checklist() ?>
+				</ul>
+			</div>
+			<h2><?php _e('Tags') ?></h2>
+			<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
+			<div id="tagchecklist"></div>
+		</div>
+		<label for="post_status" id="post_status"><input type="radio" name="post_status" value="publish" checked="checked" id="published" />Published <input type="radio" name="post_status" value="draft" id="unpubplished" /> Unpublished</label>
+		<p class="submit">         
+			<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
+			<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
+		</p>
+	</div>
+</form>
 </body>
 </html>

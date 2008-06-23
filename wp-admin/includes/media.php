@@ -115,41 +115,6 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 
 }
 
-
-function media_sideload_image($file, $post_id, $desc = null) {
-
-	if (!empty($file) ) {
-		// Upload File button was clicked
-		
-		$file_array['name'] = basename($file);
-		$file_array['tmp_name'] = download_url($file);
-		$desc = @$desc;
-		
-		$sideload = media_handle_sideload($file_array, $post_id, $desc);
-
-		$id = $sideload['id'];
-		$src = $sideload['src'];
-		
-		unset($file_array['tmp_name']);
-		unset($file_array);
-		
-		if ( is_wp_error($id) ) {
-			$errors['upload_error'] = $id;
-			$id = false;
-		}
-	}
-	
-	if ( !empty($src) && !strpos($src, '://') )
-		
-		$src = "http://$src";
-		$alt = @$desc;
-		
-		if ( !empty($src) )
-			$html = "<img src='$src' alt='$alt' />";
-			return $html;
-	
-}
-
 function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
 	$overrides = array('test_form'=>false);
 	$file = wp_handle_sideload($file_array, $overrides);
@@ -186,9 +151,10 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	$id = wp_insert_attachment($attachment, $file, $post_parent);
 	if ( !is_wp_error($id) ) {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
+		return $src;
 	}
-
-	return array('id' => $id, 'src' => $url);
+	
+	return $id;
 
 }
 
@@ -346,6 +312,33 @@ function media_upload_image() {
 		$errors['upload_notice'] = __('Saved.');
 
 	return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
+}
+
+function media_sideload_image($file, $post_id, $desc = null) {
+	if (!empty($file) ) {
+		$file_array['name'] = basename($file);
+		$file_array['tmp_name'] = download_url($file);
+		$desc = @$desc;
+		
+		$id = media_handle_sideload($file_array, $post_id, $desc);
+		unset($file_array);
+		
+		if ( is_wp_error($id) ) {
+			$errors['upload_error'] = $id;
+			return $id;
+		} else {
+			$src = $id;
+		}
+	}
+	
+	if (!empty($src) && !strpos($src, '://') ) {
+		$src = "http://$src";
+		$alt = @$desc;
+	}
+	if ( !empty($src) ) {
+		$html = "<img src='$src' alt='$alt' />";
+		return $html;
+	}
 }
 
 function media_upload_audio() {
