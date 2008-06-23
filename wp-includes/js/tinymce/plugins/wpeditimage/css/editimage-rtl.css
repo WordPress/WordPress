@@ -4,10 +4,10 @@ body#media-upload ul#sidemenu {
 	right: 0;
 }
 
-.align .field label {
+#basic .align .field label {
 	display: block;
 	float: right;
-	padding: 0 25px 0 0;
+	padding: 0 24px 0 0;
 	margin: 5px 3px 5px 5px; 
 }
 
@@ -36,12 +36,9 @@ tr.image-size input {
 	text-align: right;
 }
 
-.alignleft {
-	float: right;
-}
-
 .show-align,
-.alignright {
+.alignright,
+#img_size {
 	float: left;
 }
 
@@ -50,7 +47,9 @@ tr.image-size input,
 #img_dim label,
 #img_dim input,
 #img_prop label,
-#img_prop input {
+#img_prop input,
+#img_size_div,
+.alignleft {
 	float: right;
 }
 
@@ -62,4 +61,8 @@ tr.image-size input,
 #img_dim input,
 #img_prop input {
 	margin: 0 5px 0 10px;
+}
+
+#img_size_title {
+	text-align: left;
 }

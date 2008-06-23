@@ -8,7 +8,7 @@
 <script type="text/javascript" src="../../utils/form_utils.js?ver=3101"></script>
 
 <link rel="stylesheet" href="css/editimage.css?ver=3101" type="text/css" media="all" />
-<link rel="stylesheet" href="../../../../../wp-admin/css/media.css?ver=2.6-bleeding2" type="text/css" media="all" />
+<link rel="stylesheet" href="../../../../../wp-admin/css/media.css?ver=2.6-beta1" type="text/css" media="all" />
 <script type="text/javascript">
 if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 	document.write('<link rel="stylesheet" href="css/editimage-rtl.css?ver=3101" type="text/css" media="all" />');
@@ -26,10 +26,19 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 
 <div id="img-edit">
 <form class="media-upload-form" action="" onsubmit="wpImage.update();">
-
-	<label for="show_align">
-		<span id="show_align_sp" class="alignleft">{#preview.preview_desc}</span>
-	</label>
+	<div id="img_size_div">
+		<div id="img_size_title">{#wpeditimage.size}</div>
+		<div id="img_size" onmouseout="wpImage.showSizeRem()">
+			<div id="s130" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s130}</div>
+			<div id="s120" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s120}</div>
+			<div id="s110" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s110}</div>
+			<div id="s100" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s100}</div>
+			<div id="s90" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s90}</div>
+			<div id="s80" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s80}</div>
+			<div id="s70" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s70}</div>
+			<div id="s60" onmouseover="wpImage.showSize(this)" onclick="wpImage.imgEditSize(this)">{#wpeditimage.s60}</div>
+		</div>
+	</div>
 	<div class="show-align" id="show_align">
 		<img id="img_demo" src="img/image.png" alt="" />
 		<span id="img_demo_txt">
@@ -65,24 +74,6 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</td>
 		</tr>
 
-		<tr class="image-size">
-			<th valign="top" scope="row" class="label">
-				<label for="img_size">
-				<span class="alignleft">{#wpeditimage.size}</span>
-				</label>
-			</th>
-			<td class="field" id="img_size">
-				<input onclick="wpImage.imgEditSize('thumbnail')" type="radio" name="img_size" id="thumbnail" value="thumbnail" />
-				<label for="thumbnail" id="lb_sizethumb">{#wpeditimage.thumbnail}</label>
-
-				<input onclick="wpImage.imgEditSize('medium')" type="radio" name="img_size" id="medium" value="medium" />
-				<label for="medium" id="lb_sizemedium">{#wpeditimage.medium}</label>
-
-				<input onclick="wpImage.imgEditSize('full')" type="radio" name="img_size" id="full" value="full" />
-				<label for="full" id="lb_sizefull">{#wpeditimage.full_size}</label>
-			</td>
-		</tr>
-
 		<tr class="">
 			<th valign="top" scope="row" class="label">
 				<label for="img_title">
@@ -114,7 +105,7 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 				</label>
 			</th>
 			<td class="field">
-				<input type="text" id="link_href" name="link_href" value="" /><br />
+				<input type="text" id="link_href" name="link_href" value="" size="60" /><br />
 				<input type="button" class="button" onclick="wpImage.I('link_href').value='';" value="{#wpeditimage.none}" />
 				<input type="button" class="button" id="img_url_current" onclick="wpImage.img_seturl('current')" value="{#wpeditimage.current_link}" />
 				<input type="button" class="button" id="img_url_img" onclick="wpImage.img_seturl('link')" value="{#wpeditimage.link_to_img}" />

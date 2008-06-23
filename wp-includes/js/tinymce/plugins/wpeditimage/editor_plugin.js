@@ -25,9 +25,8 @@
 				});
 			});
 
-			ed.onExecCommand.add(function(ed, cmd, ui, val) {
-          		if ( 'mceFullScreen' == cmd )
-					ed.plugins.wpeditimage.hideButtons();
+			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+				ed.plugins.wpeditimage.hideButtons();
       		});
 
 			ed.onSaveContent.add(function(ed, o) {
@@ -42,6 +41,33 @@
 			ed.onMouseDown.add(function(ed, e) {
 				if ( tinymce.isOpera ) return;
 				ed.plugins.wpeditimage.showButtons(e);
+			});
+/*
+			ed.onSetContent.add(function() {
+				t._fixCenter(ed.getBody());
+			});
+
+			ed.onPreProcess.add(function(ed, o) {
+				if (o.set)
+					t._fixCenter(o.node);
+
+				if (o.get)
+					ed.dom.removeClass(ed.dom.select('p', o.node), 'mce_iecenter');
+			});
+*/
+		},
+
+		_fixCenter : function(c) {
+			var ed = tinyMCE.activeEditor;
+
+			tinymce.each(ed.dom.select('img', c), function(n) {
+				if ( ed.dom.hasClass(n, 'aligncenter') ) {
+					var P = ed.dom.getParent(n, 'p');
+					if ( tinymce.isIE )
+						ed.dom.addClass(P, 'mce_iecenter');
+					if ( P.style && P.style.textAlign == 'center' )
+						ed.dom.setStyle(P, 'textAlign', '');
+				}
 			});
 		},
 
@@ -69,7 +95,7 @@
 				t.btnsTout = window.setTimeout( function(){ed.plugins.wpeditimage.hideButtons();}, 5000 );
 			}
 		},
-		
+
 		hideButtons : function() {
 			tinymce.DOM.hide('wp_editbtns');
 			window.clearTimeout(this.btnsTout);

@@ -3,7 +3,7 @@
 // escape text only if it needs translating
 function mce_escape($text) {
 	global $language;
-	
+
 	if ( 'en' == $language ) return $text;
 	else return js_escape($text);
 }
@@ -421,7 +421,15 @@ link_rel:"' . mce_escape( __('Link Rel') ) . '",
 height:"' . mce_escape( __('Height') ) . '",
 orig_size:"' . mce_escape( __('Original Size') ) . '",
 css:"' . mce_escape( __('CSS Class') ) . '",
+s60:"' . mce_escape( __('60%') ) . '",
+s70:"' . mce_escape( __('70%') ) . '",
+s80:"' . mce_escape( __('80%') ) . '",
+s90:"' . mce_escape( __('90%') ) . '",
+s100:"' . mce_escape( __('100%') ) . '",
+s110:"' . mce_escape( __('110%') ) . '",
+s120:"' . mce_escape( __('120%') ) . '",
+s130:"' . mce_escape( __('130%') ) . '",
 caption:"' . mce_escape( __('Caption') ) . '"
 });
-'; 
+';
 ?>

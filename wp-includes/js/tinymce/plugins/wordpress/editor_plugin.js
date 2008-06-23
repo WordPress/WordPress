@@ -24,16 +24,16 @@
 					t._resizeIframe(ed, tbId, 28);
 				}
 			});
-			
+
 			// Register commands
 			ed.addCommand('WP_More', function() {
 				ed.execCommand('mceInsertContent', 0, moreHTML);
 			});
-			
+
 			ed.addCommand('WP_Page', function() {
 				ed.execCommand('mceInsertContent', 0, nextpageHTML);
 			});
-			
+
 			ed.addCommand('WP_Help', function() {
 					ed.windowManager.open({
 						url : tinymce.baseURL + '/wp-mce-help.php',
@@ -80,7 +80,7 @@
 			ed.addButton('wp_help', {
 				title : 'wordpress.wp_help_desc',
 				image : url + '/img/help.gif',
-				cmd : 'WP_Help' 
+				cmd : 'WP_Help'
 			});
 
 			ed.addButton('wp_adv', {
@@ -90,44 +90,46 @@
 			});
 
 			// Add class "alignleft", "alignright" and "aligncenter" when selecting align for images.
-			ed.onExecCommand.add(function( editor, cmd ) {
-				var node, bl, dom = editor.dom;
+			ed.onExecCommand.add(function( ed, cmd ) {
+				var n, bl, dom = ed.dom;
 
 				if ( 'JustifyCenter' == cmd ) {
-					if ( ( node = editor.selection.getNode() ) && node.nodeName == 'IMG' ) {
-						if ( ! dom.hasClass( node, "aligncenter" ) && ( bl = editor.forceBlocks.getParentBlock(node) ) && bl.childNodes.length == 1 )
-							dom.setStyle(bl, 'text-align', '');
-					}
-					editor.execCommand('mceRepaint');
+					tinymce.each(dom.select('img'), function(n) {
+						var v = n.className;
+
+						if (v.indexOf('aligncenter') == -1) {
+							dom.getParent(n, function(P) {
+								if (P && P.style && P.style.textAlign == 'center')
+									dom.setStyle(P, 'textAlign', '');
+							});
+						}
+					});
+
+					ed.execCommand('mceRepaint');
 				}
 			});
 
-			ed.onBeforeExecCommand.add(function( editor, cmd ) {
-				var node, dir, xdir, bl, dom = editor.dom;
+			ed.onBeforeExecCommand.add(function( ed, cmd ) {
+				var n, dir, xdir, bl, dom = ed.dom;
 
-				if ( ( cmd.indexOf('Justify') != -1 ) && ( node = editor.selection.getNode() ) ) {
-					if ( 'JustifyFull' == cmd || node.nodeName !== 'IMG' ) return;
+				if ( ( cmd.indexOf('Justify') != -1 ) && ( n = ed.selection.getNode() ) ) {
+					if ( 'JustifyFull' == cmd || n.nodeName !== 'IMG' ) return;
 					dir = cmd.substring(7).toLowerCase();
 
-					if (  editor.queryCommandState( cmd ) ) {
-						dom.removeClass( node, "alignleft" );
-						dom.removeClass( node, "alignright" );
-						dom.removeClass( node, "aligncenter" );
+					if (  ed.queryCommandState( cmd ) ) {
+						n.className = n.className.replace(/align[^ '"]+\s?/g, '');
+						dom.addClass( n, "alignnone" );
 					} else if ( 'JustifyCenter' == cmd ) {
-						dom.removeClass( node, "alignleft" );
-						dom.removeClass( node, "alignright" );
-
-						if ( dom.hasClass( node, "aligncenter" ) ) {
-							dom.removeClass( node, "aligncenter" );
-							if ( ( bl = editor.forceBlocks.getParentBlock(node) ) && bl.childNodes.length == 1 && tinymce.isGecko )
-								editor.selection.select(bl.firstChild);
-						} else dom.addClass( node, "aligncenter" );
+						n.className = n.className.replace(/alignleft\s?|alignright\s?|alignnone\s?/g, '');
+						if ( dom.hasClass( n, "aligncenter" ) ) {
+							dom.removeClass( n, "aligncenter" );
+							dom.addClass( n, "alignnone" );
+						} else
+							dom.addClass( n, "aligncenter" );
 
 					} else {
-						xdir = ( dir == 'left' ) ? 'right' : 'left';
-						dom.removeClass( node, "aligncenter" );
-						dom.removeClass( node, "align"+xdir );
-						dom.addClass( node, "align"+dir );
+						n.className = n.className.replace(/align[^ '"]+\s?/g, '');
+						dom.addClass( n, "align"+dir );
 					}
 				}
 			});

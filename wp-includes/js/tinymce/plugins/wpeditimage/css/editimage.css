@@ -18,7 +18,7 @@ html, body {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: pointer;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 textarea,
@@ -59,7 +59,7 @@ label {
 }
 
 th.label {
-	width: 128px;
+	width: 107px;
 }
 
 .show-align {
@@ -104,11 +104,9 @@ th.label {
 #sidemenu,
 #sidemenu li {
 	list-style: none;
-	
 }
 
 #sidemenu li {
-	
 	display: inline;
 }
 
@@ -128,8 +126,14 @@ th.label {
 }
 
 #sidemenu a.current {
-	-moz-border-radius-topleft:4px;
-	-moz-border-radius-topright:4px;
+	-moz-border-radius-topleft: 4px;
+	-khtml-border-top-left-radius: 4px;
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-khtml-border-top-right-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
 	border-style:solid;
 	border-width:1px;
 	font-weight:normal;
@@ -175,3 +179,57 @@ th.label {
 	margin-right: 10px;
 }
 
+#basic .align .field label {
+	padding: 0 0 0 24px;
+}
+
+#basic {
+	padding-top: 2px;
+}
+
+td {
+	padding: 2px 0;
+}
+
+#img_size {
+	float: right;
+	text-align: center;
+	cursor: pointer;
+	background-color: #f1f1f1;
+	padding: 5px 0;
+	width: 45px;
+}
+
+#img_size div {
+	font-size: 10px;
+	padding: 2px;
+	border: 1px solid #f1f1f1;
+	line-height: 15px;
+	height: 15px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #07273E;
+}
+
+#img_size div#s100 {
+	border-color: #A3A3A3;
+	background-color: #E5E5E5;
+}
+
+#img_size_div {
+	width: 100px;
+	float: left;
+	cursor: default;
+}
+
+#img_size_title {
+	margin: 0 7px 5px;
+	text-align: right;
+	font-weight: bold;
+}
+
+#img_align_td {
+	padding: 2px 0 8px;
+}
