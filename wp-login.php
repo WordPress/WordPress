@@ -411,7 +411,7 @@ default:
 	else
 		$redirect_to = 'wp-admin/';
 
-	if ( is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) )
+	if ( is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
 		$secure_cookie = false;
 	else
 		$secure_cookie = '';

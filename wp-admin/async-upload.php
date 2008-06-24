@@ -10,7 +10,9 @@ else
 	require_once('../wp-load.php');
 
 // Flash often fails to send cookies with the POST or upload, so we need to pass it in GET or POST instead
-if ( empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
+if ( is_ssl() && empty($_COOKIE[SECURE_AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
+	$_COOKIE[SECURE_AUTH_COOKIE] = $_REQUEST['auth_cookie'];
+elseif ( empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
 	$_COOKIE[AUTH_COOKIE] = $_REQUEST['auth_cookie'];
 unset($current_user);
 require_once('admin.php');

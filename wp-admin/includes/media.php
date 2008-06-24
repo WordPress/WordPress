@@ -850,7 +850,7 @@ jQuery(function($){
 			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 			post_params : {
 				"post_id" : "<?php echo $post_id; ?>",
-				"auth_cookie" : "<?php echo $_COOKIE[AUTH_COOKIE]; ?>",
+				"auth_cookie" : "<?php if ( is_ssl() ) echo $_COOKIE[SECURE_AUTH_COOKIE]; else echo $_COOKIE[AUTH_COOKIE]; ?>",
 				"_wpnonce" : "<?php echo wp_create_nonce('media-form'); ?>",
 				"type" : "<?php echo $type; ?>",
 				"tab" : "<?php echo $tab; ?>",

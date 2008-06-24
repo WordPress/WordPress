@@ -589,8 +589,8 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	$auth_cookie = wp_generate_auth_cookie($user_id, $expiration, $scheme);
 	$logged_in_cookie = wp_generate_auth_cookie($user_id, $expiration, 'logged_in');
 
-	do_action('set_auth_cookie', $auth_cookie, $expire, $scheme);
-	do_action('set_auth_cookie', $logged_in_cookie, $expire, 'logged_in');
+	do_action('set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme);
+	do_action('set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in');
 
 	setcookie($auth_cookie_name, $auth_cookie, $expire, SITECOOKIEPATH . 'wp-admin', COOKIE_DOMAIN, $secure);
 	setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN);
