@@ -31,7 +31,8 @@ function add_feed($feedname, $function) {
 		$wp_rewrite->feeds[] = $feedname;
 	}
 	$hook = 'do_feed_' . $feedname;
-	remove_action($hook, $function, 10, 1);
+	// Remove default function hook
+	remove_action($hook, $hook, 10, 1);
 	add_action($hook, $function, 10, 1);
 	return $hook;
 }
