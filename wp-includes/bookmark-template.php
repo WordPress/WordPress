@@ -186,7 +186,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 function wp_list_bookmarks($args = '') {
 	$defaults = array(
 		'orderby' => 'name', 'order' => 'ASC',
-		'limit' => -1, 'category' => '',
+		'limit' => -1, 'category' => '', 'exclude_category' => '',
 		'category_name' => '', 'hide_invisible' => 1,
 		'show_updated' => 0, 'echo' => 1,
 		'categorize' => 1, 'title_li' => __('Bookmarks'),
@@ -203,7 +203,7 @@ function wp_list_bookmarks($args = '') {
 
 	if ( $categorize ) {
 		//Split the bookmarks into ul's for each category
-		$cats = get_terms('link_category', array('name__like' => $category_name, 'include' => $category, 'orderby' => $category_orderby, 'order' => $category_order, 'hierarchical' => 0));
+		$cats = get_terms('link_category', array('name__like' => $category_name, 'include' => $category, 'exclude' => $exclude_category, 'orderby' => $category_orderby, 'order' => $category_order, 'hierarchical' => 0));
 
 		foreach ( (array) $cats as $cat ) {
 			$params = array_merge($r, array('category'=>$cat->term_id));
