@@ -21,12 +21,7 @@ function wp_install($blog_title, $user_name, $user_email, $public, $remote) {
 	update_option('enable_app',$remote);
 	update_option('enable_xmlrpc',$remote);
 
-	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
-
-	if ( defined('WP_SITEURL') && '' != WP_SITEURL )
-		$guessurl = WP_SITEURL;
-	else
-		$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	$guessurl = wp_guess_url();
 
 	update_option('siteurl', $guessurl);
 

@@ -7,7 +7,9 @@ require( ABSPATH . WPINC . '/class.wp-styles.php' );
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
 function wp_default_scripts( &$scripts ) {
-	$scripts->base_url = site_url();
+	if (!$guessurl = site_url())
+		$guessurl = wp_guess_url();
+	$scripts->base_url = $guessurl;
 	$scripts->default_version = get_bloginfo( 'version' );
 
 	$scripts->add( 'common', '/wp-admin/js/common.js', array('jquery'), '20080318' );
@@ -203,7 +205,9 @@ function wp_default_scripts( &$scripts ) {
 }
 
 function wp_default_styles( &$styles ) {
-	$styles->base_url = site_url();
+	if (!$guessurl = site_url())
+		$guessurl = wp_guess_url();
+	$styles->base_url = $guessurl;
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 

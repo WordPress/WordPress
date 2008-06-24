@@ -153,9 +153,8 @@ CREATE TABLE $wpdb->usermeta (
 
 function populate_options() {
 	global $wpdb, $wp_db_version;
-
-	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
-	$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	
+	$guessurl = wp_guess_url();
 	
 	do_action('populate_options');
 	
