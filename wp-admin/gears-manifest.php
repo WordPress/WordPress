@@ -15,6 +15,7 @@ function get_bloginfo() {}
 function is_admin() {return true;}
 function site_url() {}
 function admin_url() {}
+function wp_guess_url() {}
 
 require(ABSPATH . '/wp-includes/script-loader.php');
 require(ABSPATH . '/wp-includes/version.php');
