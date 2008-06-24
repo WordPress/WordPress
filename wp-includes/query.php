@@ -928,7 +928,7 @@ class WP_Query {
 				$page_paths = '/' . trim($q['pagename'], '/');
 				$q['pagename'] = sanitize_title(basename($page_paths));
 				$q['name'] = $q['pagename'];
-				$where .= " AND (ID = '$reqpage')";
+				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
 				$reqpage_obj = get_page($reqpage);
 				if ( 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
