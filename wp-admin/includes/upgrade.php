@@ -876,7 +876,7 @@ function deslash($content) {
 function dbDelta($queries, $execute = true) {
 	global $wpdb;
 
-	// Seperate individual queries into an array
+	// Separate individual queries into an array
 	if( !is_array($queries) ) {
 		$queries = explode( ';', $queries );
 		if('' == $queries[count($queries) - 1]) array_pop($queries);
