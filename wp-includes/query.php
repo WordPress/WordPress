@@ -1530,7 +1530,7 @@ class WP_Query {
 	function have_posts() {
 		if ($this->current_post + 1 < $this->post_count) {
 			return true;
-		} elseif ($this->current_post + 1 == $this->post_count) {
+		} elseif ($this->current_post + 1 == $this->post_count && $this->post_count > 0) {
 			do_action('loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_posts();
