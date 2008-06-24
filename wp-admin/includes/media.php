@@ -65,10 +65,10 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 function media_send_to_editor($html) {
 	?>
 <script type="text/javascript">
-<!--
-top.send_to_editor('<?php echo addslashes($html); ?>');
-top.tb_remove();
--->
+/* <![CDATA[ */
+var win = window.dialogArguments || opener || parent || top;
+win.send_to_editor('<?php echo addslashes($html); ?>');
+/* ]]> */
 </script>
 	<?php
 	exit;

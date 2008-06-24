@@ -1,13 +1,15 @@
 // send html to the post editor
 function send_to_editor(h) {
-	var win = window.dialogArguments || opener || parent || top;
+	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
+		ed.focus();
+		if (tinymce.isIE)
+			ed.selection.moveToBookmark(tinymce.EditorManager.activeEditor.windowManager.bookmark);
 
-	tinyMCE = win.tinyMCE;
-	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.getInstanceById('content') ) && !ed.isHidden() ) {
-		tinyMCE.selectedInstance.getWin().focus();
-		tinyMCE.execCommand('mceInsertContent', false, h);
+		ed.execCommand('mceInsertContent', false, h);
 	} else
-		win.edInsertContent(win.edCanvas, h);
+		edInsertContent(edCanvas, h);
+
+	tb_remove();
 }
 
 // thickbox settings
@@ -35,6 +37,13 @@ jQuery(function($) {
 			$(this).attr( 'href', href + '&width=' + ( W - 80 ) + '&height=' + ( H - 85 ) );
 		});
 	};
+	
+	jQuery('a.thickbox').click(function(){
+		if ( typeof tinyMCE != 'undefined' &&  tinyMCE.activeEditor ) {
+			tinyMCE.get('content').focus();
+			tinyMCE.activeEditor.windowManager.bookmark = tinyMCE.activeEditor.selection.getBookmark('simple');
+		}
+	});
 
 	$(window).resize( function() { tb_position() } );
 });
