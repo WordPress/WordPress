@@ -38,12 +38,10 @@ tinyMCEPopup = {
 	close : function() {
 		var t = this, win = t.getWin();
 
-		
 		// To avoid domain relaxing issue in Opera
 		function close() {
 			win.tb_remove();
-			t.editor.execCommand('mceRepaint');
-			tinymce = tinyMCE = t.editor = t.params = t.dom = t.dom.doc = null; // Cleanup
+			tinymce = tinyMCE = t.editor = t.dom = t.dom.doc = null; // Cleanup
 		};
 
 		if (tinymce.isOpera)
@@ -153,6 +151,18 @@ var wpImage = {
 		el.style.backgroundColor = '#E5E5E5';
 	},
 
+	showSizeSet : function() {
+		var t = this;
+		
+		if ( (t.width * 1.3) > parseInt(t.preloadImg.width) ) {
+			var s130 = t.I('s130'), s120 = t.I('s120'), s110 = t.I('s110');
+
+			s130.onclick = s120.onclick = s110.onclick = null;
+			s130.onmouseover = s120.onmouseover = s110.onmouseover = null;
+			s130.style.color = s120.style.color = s110.style.color = '#aaa';
+		}
+	},
+
 	showSizeRem : function() {
 		var t = this, demo = t.I('img_demo'), f = document.forms[0];
 
@@ -175,12 +185,10 @@ var wpImage = {
 	},
 
 	imgEditSize : function(el) {
-		var t = this, f = document.forms[0], sz, m = null;
+		var t = this, f = document.forms[0];
 
+		if ( ! t.preloadImg || ! t.preloadImg.width || ! t.preloadImg.height )	return;
 		var W = parseInt(t.preloadImg.width), H = parseInt(t.preloadImg.height), w = t.width || W, h = t.height || H, id = el.id || 's100';
-
-		if ( ! t.preloadImg || W == "" || H == "" )
-			return;
 
 		size = parseInt(id.substring(1)) / 100;
 
@@ -197,8 +205,8 @@ var wpImage = {
 	demoSetSize : function(img) {
 		var demo = this.I('img_demo'), f = document.forms[0];
 
-		demo.width = f.width.value ? Math.floor(f.width.value * 0.5) : '';
-		demo.height = f.height.value ? Math.floor(f.height.value * 0.5) : '';
+		demo.width = f.width.value ? Math.round(f.width.value * 0.5) : '';
+		demo.height = f.height.value ? Math.round(f.height.value * 0.5) : '';
 	},
 
 	demoSetStyle : function() {
@@ -216,6 +224,7 @@ var wpImage = {
 
 		f.width.value = t.width = t.preloadImg.width;
 		f.height.value = t.height = t.preloadImg.height;
+		t.showSizeSet();
 		t.demoSetSize();
 		t.showSize(el);
 	},
@@ -242,6 +251,7 @@ var wpImage = {
 
 		f.img_src.value = d.src = link = ed.dom.getAttrib(el, 'src');
 		ed.dom.setStyle(el, 'float', '');
+		t.getImageData();
 
 		f.img_title.value = ed.dom.getAttrib(el, 'title');
 		f.img_alt.value = ed.dom.getAttrib(el, 'alt');
@@ -293,16 +303,7 @@ var wpImage = {
 			d.className = "alignnone";
 		}
 
-		t.getImageData();
-
-		if ( (t.width * 1.3) > parseInt(t.preloadImg.width) ) {
-			var s130 = t.I('s130'), s120 = t.I('s120'), s110 = t.I('s110');
-
-			s130.onclick = s120.onclick = s110.onclick = null;
-			s130.onmouseover = s120.onmouseover = s110.onmouseover = null;
-			s130.style.color = s120.style.color = s110.style.color = '#aaa';
-		}
-
+		if ( t.width && t.preloadImg.width ) t.showSizeSet();
 		document.body.style.display = '';
 /*
 		// Test if is attachment
@@ -331,29 +332,23 @@ var wpImage = {
 	},
 
 	update : function() {
-		var t = this, f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, el, P, v = f.img_classes.value;
+		var t = this, f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, el, P, A, v = f.img_classes.value;
 
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
 
 		if (el.nodeName != 'IMG') return;
 		if (f.img_src.value === '') t.remove();
+
+		A = ed.dom.getParent(el, 'A');
 		P = ed.dom.getParent(el, 'p');
-		if ( P && P.style && P.style.textAlign == 'center' )
-			ed.dom.setStyle(P, 'textAlign', '');
-/*
-		if ( tinymce.isIE ) {
+
+/*		if ( tinymce.isIE ) {
 			if ( f.img_classes.value.indexOf('aligncenter') != -1 )
 				ed.dom.addClass(P, 'mce_iecenter');
 			else ed.dom.removeClass(P, 'mce_iecenter');
 		}
 */
-		if ( v.indexOf('alignleft') != -1 )
-			tinyMCEPopup.execCommand('JustifyLeft');
-		else if ( v.indexOf('alignright') != -1 )
-			tinyMCEPopup.execCommand('JustifyRight');
-		else if ( v.indexOf('aligncenter') != -1 )
-			tinyMCEPopup.execCommand('JustifyCenter');
 
 		ed.dom.setAttribs(el, {
 			src : f.img_src.value,
@@ -362,54 +357,65 @@ var wpImage = {
 			width : f.width.value,
 			height : f.height.value,
 			style : f.img_style.value,
-			'class' : f.img_classes.value
+			'class' : '' //f.img_classes.value
 		});
 
-		pa = ed.dom.getParent(el, 'A');
-
 		if ( ! f.link_href.value ) {
-			if ( pa ) {
+			if ( A ) {
 				tinyMCEPopup.execCommand("mceBeginUndoLevel");
 				b = ed.selection.getBookmark();
 				ed.dom.remove(pa, 1);
 				ed.selection.moveToBookmark(b);
 				tinyMCEPopup.execCommand("mceEndUndoLevel");
-				tinyMCEPopup.close();
-				return;
 			}
-		}
-
-		tinyMCEPopup.execCommand("mceBeginUndoLevel");
-
-		// Create new anchor elements
-		if (pa == null) {
-			tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
-
-			tinymce.each(ed.dom.select("a"), function(n) {
-				if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
-
-					ed.dom.setAttribs(n, {
-						href : f.link_href.value,
-						title : f.link_title.value,
-						rel : f.link_rel.value,
-						target : (f.link_target.checked == true) ? '_blank' : '',
-						'class' : f.link_classes.value,
-						style : f.link_style.value
-					});
-				}
-			});
 		} else {
-			ed.dom.setAttribs(pa, {
-				href : f.link_href.value,
-				title : f.link_title.value,
-				rel : f.link_rel.value,
-				target : (f.link_target.checked == true) ? '_blank' : '',
-				'class' : f.link_classes.value,
-				style : f.link_style.value
-			});
+			tinyMCEPopup.execCommand("mceBeginUndoLevel");
+	
+			// Create new anchor elements
+			if ( A == null ) {
+				
+				if ( ! f.link_href.value.match(/https?:\/\//) )
+					f.link_href.value = tinyMCEPopup.editor.documentBaseURI.toAbsolute(f.link_href.value);
+				
+				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
+	
+				tinymce.each(ed.dom.select("a"), function(n) {
+					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
+	
+						ed.dom.setAttribs(n, {
+							href : f.link_href.value,
+							title : f.link_title.value,
+							rel : f.link_rel.value,
+							target : (f.link_target.checked == true) ? '_blank' : '',
+							'class' : f.link_classes.value,
+							style : f.link_style.value
+						});
+					}
+				});
+			} else {
+				ed.dom.setAttribs(A, {
+					href : f.link_href.value,
+					title : f.link_title.value,
+					rel : f.link_rel.value,
+					target : (f.link_target.checked == true) ? '_blank' : '',
+					'class' : f.link_classes.value,
+					style : f.link_style.value
+				});
+			}
+			tinyMCEPopup.execCommand("mceEndUndoLevel");
+		}
+		
+		ed.dom.setAttrib(el, 'class', f.img_classes.value);
+		
+		if ( v.indexOf('aligncenter') != -1 ) {
+			if ( P && ( ! P.style || P.style.textAlign != 'center' ) )
+				ed.dom.setStyle(P, 'textAlign', 'center');
+		} else {
+			if ( P && P.style && P.style.textAlign == 'center' )
+				ed.dom.setStyle(P, 'textAlign', '');
 		}
 
-		tinyMCEPopup.execCommand("mceEndUndoLevel");
+		ed.execCommand('mceRepaint');
 		tinyMCEPopup.close();
 	},
 
@@ -493,10 +499,14 @@ var wpImage = {
 		var f = document.forms[0], t = wpImage;
 
 		if ( f.width.value == '' || f.height.value == '' ) {
-			f.width.value = t.preloadImg.width;
-			f.height.value = t.preloadImg.height;
+			f.width.value = t.width = t.preloadImg.width;
+			f.height.value = t.height = t.preloadImg.height;
 		}
+		
+		t.showSizeSet();
 		t.demoSetSize();
+		if ( f.img_style.value )
+			t.demoSetStyle();
 	},
 
 	getImageData : function() {

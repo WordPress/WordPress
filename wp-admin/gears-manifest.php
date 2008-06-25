@@ -64,7 +64,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080622",
+"version" : "<?php echo $man_version; ?>_20080625",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -126,7 +126,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/link.js?ver=3101" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/source_editor.js?ver=3101" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/anchor.js?ver=3101" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js?ver=3101" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js?ver=3102" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/source_editor.htm?ver=3101" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/anchor.htm?ver=3101" },
