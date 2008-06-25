@@ -354,12 +354,18 @@ class WP_User_Search {
 
 	function do_paging() {
 		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
+			$args = array();
+			if( ! empty($this->search_term) )
+				$args['usersearch'] = urlencode($this->search_term);
+			if( ! empty($this->role) )
+				$args['role'] = urlencode($this->role);
+
 			$this->paging_text = paginate_links( array(
 				'total' => ceil($this->total_users_for_query / $this->users_per_page),
 				'current' => $this->page,
 				'base' => 'users.php?%_%',
 				'format' => 'userspage=%#%',
-				'add_args' => array( 'usersearch' => urlencode($this->search_term) )
+				'add_args' => $args
 			) );
 		}
 	}
