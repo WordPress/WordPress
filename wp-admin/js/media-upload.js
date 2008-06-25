@@ -24,7 +24,7 @@ jQuery(function($) {
 			tbWindow.width( W - 50 ).height( H - 45 );
 			$('#TB_iframeContent').width( W - 50 ).height( H - 75 );
 			tbWindow.css({'margin-left': '-' + parseInt((( W - 50 ) / 2),10) + 'px'});
-			if ( ! ( $.browser.msie && $.browser.version.substr(0,1) < 7 ) )
+			if ( typeof document.body.style.maxWidth != 'undefined' )
 				tbWindow.css({'top':'20px','margin-top':'0'});
 			$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
 		};

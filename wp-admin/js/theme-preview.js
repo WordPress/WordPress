@@ -12,7 +12,7 @@ jQuery(function($) {
 			tbWindow.width( W - 90 ).height( H - 60 );
 			$('#TB_iframeContent').width( W - 90 ).height( H - 90 );
 			tbWindow.css({'margin-left': '-' + parseInt((( W - 90 ) / 2),10) + 'px'});
-			if ( ! ( $.browser.msie && $.browser.version.substr(0,1) < 7 ) )
+			if ( typeof document.body.style.maxWidth != 'undefined' )
 				tbWindow.css({'top':'30px','margin-top':'0'});
 		};
 
