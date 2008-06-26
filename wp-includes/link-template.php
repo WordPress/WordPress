@@ -781,7 +781,9 @@ function get_shortcut_link() {
 function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
 	if ( !in_array($scheme, array('http', 'https')) ) {
-		if ( ('login' == $scheme) && ( force_ssl_login() || force_ssl_admin() ) )
+		if ( ('login_post' == $scheme) && ( force_ssl_login() || force_ssl_admin() ) )
+			$scheme = 'https';
+		elseif ( ('login' == $scheme) && ( force_ssl_admin() ) )
 			$scheme = 'https';
 		elseif ( ('admin' == $scheme) && force_ssl_admin() )
 			$scheme = 'https';

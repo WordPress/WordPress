@@ -610,6 +610,10 @@ function wp_clear_auth_cookie() {
 	setcookie(AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH . 'wp-admin', COOKIE_DOMAIN);
 	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, COOKIEPATH . 'wp-admin', COOKIE_DOMAIN);
 	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH . 'wp-admin', COOKIE_DOMAIN);
+	setcookie(AUTH_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
+	setcookie(AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
+	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
+	setcookie(SECURE_AUTH_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
 	setcookie(LOGGED_IN_COOKIE, ' ', time() - 31536000, COOKIEPATH, COOKIE_DOMAIN);
 	setcookie(LOGGED_IN_COOKIE, ' ', time() - 31536000, SITECOOKIEPATH, COOKIE_DOMAIN);
 

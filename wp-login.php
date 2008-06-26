@@ -12,7 +12,7 @@
 require( dirname(__FILE__) . '/wp-load.php' );
 
 // Redirect to https login if forced to use SSL
-if ( (force_ssl_admin() || force_ssl_login()) && !is_ssl() ) {
+if ( force_ssl_admin() && !is_ssl() ) {
 	if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
 		wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
 		exit();
@@ -312,7 +312,7 @@ case 'retrievepassword' :
 	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username or e-mail address. You will receive a new password via e-mail.') . '</p>', $errors);
 ?>
 
-<form name="lostpasswordform" id="lostpasswordform" action="wp-login.php?action=lostpassword" method="post">
+<form name="lostpasswordform" id="lostpasswordform" action="<?php echo site_url('wp-login.php?action=lostpassword', 'login_post') ?>" method="post">
 	<p>
 		<label><?php _e('Username or E-mail:') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($_POST['user_login'])); ?>" size="20" tabindex="10" /></label>
@@ -376,7 +376,7 @@ case 'register' :
 	login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site') . '</p>', $errors);
 ?>
 
-<form name="registerform" id="registerform" action="wp-login.php?action=register" method="post">
+<form name="registerform" id="registerform" action="<?php echo siteu_url('wp-login.php?action=register', 'login_post') ?>" method="post">
 	<p>
 		<label><?php _e('Username') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
@@ -409,7 +409,7 @@ default:
 	if ( isset( $_REQUEST['redirect_to'] ) )
 		$redirect_to = $_REQUEST['redirect_to'];
 	else
-		$redirect_to = 'wp-admin/';
+		$redirect_to = admin_url();
 
 	if ( is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
 		$secure_cookie = false;
@@ -445,7 +445,7 @@ default:
 	login_header(__('Login'), '', $errors);
 ?>
 
-<form name="loginform" id="loginform" action="wp-login.php" method="post">
+<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post">
 <?php if ( !isset($_GET['checkemail']) || !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 	<p>
 		<label><?php _e('Username') ?><br />
