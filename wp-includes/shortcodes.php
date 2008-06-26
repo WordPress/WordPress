@@ -1,52 +1,95 @@
 <?php
+/**
+ * WordPress API for creating bbcode like tags or what WordPress calls
+ * "shortcodes." The tag and attribute parsing or regular expression code is
+ * based on the Textpattern tag parser.
+ *
+ * A few examples are below:
+ *
+ * [shortcode /]
+ * [shortcode foo="bar" baz="bing" /]
+ * [shortcode foo="bar"]content[/shortcode]
+ *
+ * Shortcode tags support attributes and enclosed content, but does not entirely
+ * support inline shortcodes in other shortcodes. You will have to call the
+ * shortcode parser in your function to account for that.
+ *
+ * {@internal
+ * Please be aware that the above note was made during the beta of WordPress 2.6
+ * and in the future may not be accurate. Please update the note when it is no
+ * longer the case.}}
+ *
+ * To apply shortcode tags to content:
+ *
+ * <code>
+ * $out = do_shortcode($content);
+ * </code>
+ *
+ * @link http://codex.wordpress.org/Shortcode_API
+ *
+ * @package WordPress
+ * @subpackage Shortcodes
+ * @since 2.5
+ */
 
-/*
-
-An API for creating shortcode tags that support attributes and enclosed content, such as:
-
-[shortcode /]
-[shortcode foo="bar" baz="bing" /]
-[shortcode foo="bar"]content[/shortcode]
-
-tag and attrbute parsing regexp code based on the Textpattern tag parser.
-
-To apply shortcode tags to content:
-
-$out = do_shortcode($content);
-
-Simplest example of a shortcode tag using the API:
-
-// [footag foo="bar"]
-function footag_func($atts) {
-	return "foo = {$atts[foo]}";
-}
-add_shortcode('footag', 'footag_func');
-
-Example with nice attribute defaults:
-
-// [bartag foo="bar"]
-function bartag_func($atts) {
-	extract(shortcode_atts(array(
-		'foo' => 'no foo',
-		'baz' => 'default baz',
-	), $atts));
-
-	return "foo = {$foo}";
-}
-add_shortcode('bartag', 'bartag_func');
-
-Example with enclosed content:
-
-// [baztag]content[/baztag]
-function baztag_func($atts, $content='') {
-	return "content = $content";
-}
-add_shortcode('baztag', 'baztag_func');
-
-*/
-
+/**
+ * Container for storing shortcode tags and their hook to call for the shortcode
+ *
+ * @since 2.5
+ * @name $shortcode_tags
+ * @var array
+ * @global array $shortcode_tags
+ */
 $shortcode_tags = array();
 
+/**
+ * Add hook for shortcode tag.
+ *
+ * There can only be one hook for each shortcode. Which means that if another
+ * plugin has a similar shortcode, it will override yours or yours will override
+ * theirs depending on which order the plugins are included and/or ran.
+ * 
+ * Simplest example of a shortcode tag using the API:
+ *
+ * <code>
+ * // [footag foo="bar"]
+ * function footag_func($atts) {
+ * 	return "foo = {$atts[foo]}";
+ * }
+ * add_shortcode('footag', 'footag_func');
+ * </code>
+ *
+ * Example with nice attribute defaults:
+ *
+ * <code>
+ * // [bartag foo="bar"]
+ * function bartag_func($atts) {
+ * 	extract(shortcode_atts(array(
+ * 		'foo' => 'no foo',
+ * 		'baz' => 'default baz',
+ * 	), $atts));
+ *
+ * 	return "foo = {$foo}";
+ * }
+ * add_shortcode('bartag', 'bartag_func');
+ * </code>
+ *
+ * Example with enclosed content:
+ *
+ * <code>
+ * // [baztag]content[/baztag]
+ * function baztag_func($atts, $content='') {
+ * 	return "content = $content";
+ * }
+ * add_shortcode('baztag', 'baztag_func');
+ * </code>
+ *
+ * @since 2.5
+ * @uses $shortcode_tags
+ *
+ * @param string $tag Shortcode tag to be searched in post content.
+ * @param callable $func Hook to run when shortcode is found.
+ */
 function add_shortcode($tag, $func) {
 	global $shortcode_tags;
 
@@ -54,18 +97,50 @@ function add_shortcode($tag, $func) {
 		$shortcode_tags[$tag] = $func;
 }
 
+/**
+ * Removes hook for shortcode.
+ *
+ * @since 2.5
+ * @uses $shortcode_tags
+ *
+ * @param string $tag shortcode tag to remove hook for.
+ */
 function remove_shortcode($tag) {
 	global $shortcode_tags;
 
 	unset($shortcode_tags[$tag]);
 }
 
+/**
+ * Clear all shortcodes.
+ *
+ * This function is simple, it clears all of the shortcode tags by replacing the
+ * shortcodes global by a empty array. This is actually a very efficient method
+ * for removing all shortcodes.
+ *
+ * @since 2.5
+ * @uses $shortcode_tags
+ */
 function remove_all_shortcodes() {
 	global $shortcode_tags;
 
 	$shortcode_tags = array();
 }
 
+/**
+ * Search content for shortcodes and filter shortcodes through their hooks.
+ *
+ * If there are no shortcode tags defined, then the content will be returned
+ * without any filtering. This might cause issues when plugins are disabled but
+ * the shortcode will still show up in the post or content.
+ *
+ * @since 2.5
+ * @uses $shortcode_tags
+ * @uses get_shortcode_regex() Gets the search pattern for searching shortcodes.
+ *
+ * @param string $content Content to search for shortcodes
+ * @return string Content with shortcodes filtered out.
+ */
 function do_shortcode($content) {
 	global $shortcode_tags;
 
@@ -76,6 +151,17 @@ function do_shortcode($content) {
 	return preg_replace_callback('/'.$pattern.'/s', 'do_shortcode_tag', $content);
 }
 
+/**
+ * Retrieve the shortcode regular expression for searching.
+ *
+ * The regular expression combines the shortcode tags in the regular expression
+ * in a regex class.
+ *
+ * @since 2.5
+ * @uses $shortcode_tags
+ *
+ * @return string The shortcode search regular expression
+ */
 function get_shortcode_regex() {
 	global $shortcode_tags;
 	$tagnames = array_keys($shortcode_tags);
@@ -84,6 +170,16 @@ function get_shortcode_regex() {
 	return '\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\1\])?';
 }
 
+/**
+ * Regular Expression callable for do_shortcode() for calling shortcode hook.
+ *
+ * @since 2.5
+ * @access private
+ * @uses $shortcode_tags
+ *
+ * @param array $m Regular expression match array
+ * @return mixed False on failure.
+ */
 function do_shortcode_tag($m) {
 	global $shortcode_tags;
 
@@ -99,6 +195,18 @@ function do_shortcode_tag($m) {
 	}
 }
 
+/**
+ * Retrieve all attributes from the shortcodes tag.
+ *
+ * The attributes list has the attribute name as the key and the value of the
+ * attribute as the value in the key/value pair. This allows for easier
+ * retrieval of the attributes, since all attributes have to be known.
+ *
+ * @since 2.5
+ *
+ * @param string $text 
+ * @return array List of attributes and their value.
+ */
 function shortcode_parse_atts($text) {
 	$atts = array();
 	$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
@@ -122,6 +230,22 @@ function shortcode_parse_atts($text) {
 	return $atts;
 }
 
+/**
+ * Combine user attributes with known attributes and fill in defaults when needed.
+ *
+ * The pairs should be considered to be all of the attributes which are
+ * supported by the caller and given as a list. The returned attributes will
+ * only contain the attributes in the $pairs list.
+ *
+ * If the $atts list has unsupported attributes, then they will be ignored and
+ * removed from the final returned list.
+ *
+ * @since 2.5
+ *
+ * @param array $pairs Entire list of supported attributes and their defaults.
+ * @param array $atts User defined attributes in shortcode tag.
+ * @return array Combined and filtered attribute list.
+ */
 function shortcode_atts($pairs, $atts) {
 	$atts = (array)$atts;
 	$out = array();
@@ -134,12 +258,16 @@ function shortcode_atts($pairs, $atts) {
 	return $out;
 }
 
-/* 
- * stip all the shortcodes from a post's content 
- * returns the content without shortcodes
+/**
+ * Remove all shortcode tags from the given content.
+ *
+ * @since 2.5
+ * @uses $shortcode_tags
+ *
+ * @param string $content Content to remove shortcode tags.
+ * @return string Content without shortcode tags.
  */
-function strip_shortcodes( $content ) { 
-	
+function strip_shortcodes( $content ) {
 	global $shortcode_tags;
 
 	if (empty($shortcode_tags) || !is_array($shortcode_tags))
@@ -148,7 +276,6 @@ function strip_shortcodes( $content ) {
 	$pattern = get_shortcode_regex();
 
 	return preg_replace('/'.$pattern.'/s', '', $content);
-	
 }
 
 add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop() 
