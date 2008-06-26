@@ -330,8 +330,6 @@ function media_sideload_image($file, $post_id, $desc = null) {
 	}
 
 	if ( !empty($src) ) {
-		if ( !strpos($src, '://') )
-			$src = "http://$src";
 		$alt = @$desc;
 		$html = "<img src='$src' alt='$alt' />";
 		return $html;
