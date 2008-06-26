@@ -432,7 +432,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				break;
 			case 'photo' :
 				set_menu('photo');
-				set_title('Post');
+				set_title('<?php _e('Post') ?>');
 				<?php if($selection) { ?>
 					set_editor("<?php echo $selection; ?>");
 				<?php } ?>
@@ -518,7 +518,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
 			<div id="tagchecklist"></div>
 		</div>
-		<label for="post_status" id="post_status"><input type="radio" name="post_status" value="publish" checked="checked" id="published" />Published <input type="radio" name="post_status" value="draft" id="unpubplished" /> Unpublished</label>
+		<label for="post_status" id="post_status"><input type="radio" name="post_status" value="publish" checked="checked" id="published" /><?php _e('Published'); ?> <input type="radio" name="post_status" value="draft" id="unpublished" /> <?php _e('Unpublished'); ?></label>
 		<p class="submit">         
 			<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
 			<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
