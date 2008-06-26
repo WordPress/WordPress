@@ -103,6 +103,10 @@ function current_time( $type, $gmt = 0 ) {
 function date_i18n( $dateformatstring, $unixtimestamp ) {
 	global $wp_locale;
 	$i = $unixtimestamp;
+	// Sanity check for PHP 5.1.0-
+	if ( -1 == $i )
+		$i = false;
+	
 	if ( ( !empty( $wp_locale->month ) ) && ( !empty( $wp_locale->weekday ) ) ) {
 		$datemonth = $wp_locale->get_month( date( 'm', $i ) );
 		$datemonth_abbrev = $wp_locale->get_month_abbrev( $datemonth );
