@@ -195,6 +195,10 @@ class AtomServer {
 			$this->redirect($this->get_service_url());
 		}
 
+		// check to see if AtomPub is enabled
+		if( !get_option( 'enable_app' ) )
+			$this->not_allowed( 'AtomPub services are disabled on this blog.  An admin user can enable them at ' . admin_url('options-writing.php') );
+
 		// dispatch
 		foreach($this->selectors as $regex => $funcs) {
 			if(preg_match($regex, $path, $matches)) {
