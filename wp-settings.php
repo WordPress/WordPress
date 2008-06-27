@@ -362,6 +362,20 @@ if ( !defined('SITECOOKIEPATH') )
 
 /**
  * It is possible to define this in wp-config.php
+ * @since 2.6
+ */
+if ( !defined('ADMIN_COOKIE_PATH') )
+	define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin' );
+
+/**
+ * It is possible to define this in wp-config.php
+ * @since 2.6
+ */
+if ( !defined('PLUGINS_COOKIE_PATH') )
+	define( 'PLUGINS_COOKIE_PATH', preg_replace('|https?://[^/]+|i', '', WP_PLUGIN_URL)  );
+
+/**
+ * It is possible to define this in wp-config.php
  * @since 2.0.0
  */
 if ( !defined('COOKIE_DOMAIN') )
