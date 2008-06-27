@@ -43,10 +43,15 @@ case 'update':
 	$newcontent = stripslashes($_POST['newcontent']);
 	$theme = urlencode($theme);
 	if (is_writeable($real_file)) {
+		//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
 		$f = fopen($real_file, 'w+');
-		fwrite($f, $newcontent);
-		fclose($f);
-		$location = "theme-editor.php?file=$file&theme=$theme&a=te";
+		if ($f !== FALSE) {
+			fwrite($f, $newcontent);
+			fclose($f);
+			$location = "theme-editor.php?file=$file&theme=$theme&a=te";
+		} else {
+			$location = "theme-editor.php?file=$file&theme=$theme";
+		}
 	} else {
 		$location = "theme-editor.php?file=$file&theme=$theme";
 	}
