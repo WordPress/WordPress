@@ -342,14 +342,13 @@ var wpImage = {
 
 		A = ed.dom.getParent(el, 'A');
 		P = ed.dom.getParent(el, 'p');
-
+		tinyMCEPopup.execCommand("mceBeginUndoLevel");
 /*		if ( tinymce.isIE ) {
 			if ( f.img_classes.value.indexOf('aligncenter') != -1 )
 				ed.dom.addClass(P, 'mce_iecenter');
 			else ed.dom.removeClass(P, 'mce_iecenter');
 		}
 */
-
 		ed.dom.setAttribs(el, {
 			src : f.img_src.value,
 			title : f.img_title.value,
@@ -362,15 +361,11 @@ var wpImage = {
 
 		if ( ! f.link_href.value ) {
 			if ( A ) {
-				tinyMCEPopup.execCommand("mceBeginUndoLevel");
 				b = ed.selection.getBookmark();
-				ed.dom.remove(pa, 1);
+				ed.dom.remove(A, 1);
 				ed.selection.moveToBookmark(b);
-				tinyMCEPopup.execCommand("mceEndUndoLevel");
 			}
 		} else {
-			tinyMCEPopup.execCommand("mceBeginUndoLevel");
-	
 			// Create new anchor elements
 			if ( A == null ) {
 				
@@ -402,9 +397,8 @@ var wpImage = {
 					style : f.link_style.value
 				});
 			}
-			tinyMCEPopup.execCommand("mceEndUndoLevel");
 		}
-		
+
 		ed.dom.setAttrib(el, 'class', f.img_classes.value);
 		
 		if ( v.indexOf('aligncenter') != -1 ) {
@@ -414,7 +408,7 @@ var wpImage = {
 			if ( P && P.style && P.style.textAlign == 'center' )
 				ed.dom.setStyle(P, 'textAlign', '');
 		}
-
+		tinyMCEPopup.execCommand("mceEndUndoLevel");
 		ed.execCommand('mceRepaint');
 		tinyMCEPopup.close();
 	},
