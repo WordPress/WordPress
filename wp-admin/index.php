@@ -91,10 +91,10 @@ if ( current_user_can( 'manage_categories' ) ) {
 	$tags_text = "<a href='edit-tags.php'>$tags_text</a>";
 }
 
-$total_comments = sprintf( __( '%1$s total' ), number_format_i18n($num_comm['total_comments']) );
-$approved_comments = sprintf( __( '%1$s approved' ), number_format_i18n($num_comm['approved']) );
-$spam_comments = sprintf( __( '%1$s spam' ), number_format_i18n($num_comm['spam']) );
-$moderated_comments = sprintf( __( '%1$s awaiting moderation' ), number_format_i18n($num_comm['awaiting_moderation']) );
+$total_comments = sprintf( __ngettext( '%1$s total', '%1$s total', $num_comm['total_comments'] ), number_format_i18n($num_comm['total_comments']) );
+$approved_comments = sprintf( __ngettext( '%1$s approved', '%1$s approved', $num_comm['approved'] ), number_format_i18n($num_comm['approved']) );
+$spam_comments = sprintf( __ngettext( '%1$s spam', '%1$s spam', $num_comm['spam'] ), number_format_i18n($num_comm['spam']) );
+$moderated_comments = sprintf( __ngettext( '%1$s awaiting moderation', '%1$s awaiting moderation', $num_comm['awaiting_moderation'] ), number_format_i18n($num_comm['awaiting_moderation']) );
 
 if( current_user_can( 'moderate_comments' ) ) {
 	$total_comments = "<a href='edit-comments.php'>{$total_comments}</a>";
@@ -102,7 +102,7 @@ if( current_user_can( 'moderate_comments' ) ) {
 	$moderated_comments = "<a href='edit-comments.php?comment_status=moderated'>{$moderated_comments}</a>";
 }
 
-$comm_text = sprintf( __( 'You have %1$s comments, %2$s, %3$s and %4$s.' ), $total_comments, $approved_comments, $spam_comments, $moderated_comments );
+$comm_text = sprintf( __ngettext( 'You have %1$s comment, %2$s, %3$s and %4$s.', 'You have %1$s comments, %2$s, %3$s and %4$s.', $num_comm['total_comments'] ), $total_comments, $approved_comments, $spam_comments, $moderated_comments );
 
 $post_type_text = implode(', ', $post_type_texts);
 

@@ -90,7 +90,7 @@ if ( 'post' == $_REQUEST['action'] ) {
 	</head>
 	<body class="press-this">
 		
-		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $post_ID; ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();">Close Window</a></p></div>
+		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $post_ID; ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
 		
 		<div id="footer">
 		<p><?php
@@ -137,9 +137,9 @@ if($_REQUEST['ajax'] == 'thickbox') { ?>
 	</div>
 		
 	<p><input type="hidden" name="this_photo" value="<?php echo $image; ?>" id="this_photo" />
-		<a href="#" class="select"><img src="<?php echo $image; ?>" width="475" alt="Click to insert." title="Click to insert." /></a></p>
+		<a href="#" class="select"><img src="<?php echo $image; ?>" width="475" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
 	
-	<p id="options"><a href="#" class="select">Insert Image</a> | <a href="#" class="cancel">Cancel</a></p>
+	<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
 <?php die; 
 }
 
@@ -164,7 +164,7 @@ if($_REQUEST['ajax'] == 'thickbox_url') { ?>
 		<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
 	</div>
 	
-	<p id="options"><a href="#" class="select">Insert Image</a> | <a href="#" class="cancel">Cancel</a></p>
+	<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
 <?php die; 
 }
 
@@ -437,7 +437,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					set_editor("<?php echo $selection; ?>");
 				<?php } ?>
 				jQuery('#extra_fields').show();
-				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /> Loading...</h2>');
+				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></h2>');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
 				jQuery.ajax({
 					type: "GET",
@@ -518,7 +518,10 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			<p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
 			<div id="tagchecklist"></div>
 		</div>
-		<label for="post_status" id="post_status"><input type="radio" name="post_status" value="publish" checked="checked" id="published" /><?php _e('Published'); ?> <input type="radio" name="post_status" value="draft" id="unpublished" /> <?php _e('Unpublished'); ?></label>
+		<div id="post_status">
+			<input type="radio" name="post_status" value="publish" checked="checked" id="published" /> <label for="published"><?php _e('Published'); ?></label>
+			<input type="radio" name="post_status" value="draft" id="unpublished" /> <label for="unpublished"><?php _e('Unpublished'); ?></label>
+		</div>
 		<p class="submit">         
 			<input type="submit" value="<?php _e('Publish') ?>" onclick="document.getElementById('photo_saving').style.display = '';"/>
 			<img src="images/loading-publish.gif" alt="" id="photo_saving" style="display:none;"/>
