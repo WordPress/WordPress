@@ -153,6 +153,8 @@ add_action('check_comment_flood', 'check_comment_flood_db', 10, 3);
 add_filter('comment_flood_filter', 'wp_throttle_comment_flood', 10, 3);
 add_filter('pre_comment_content', 'wp_rel_nofollow', 15);
 add_filter('comment_email', 'antispambot');
+add_filter('option_tag_base', '_wp_filter_taxonomy_base');
+add_filter('option_category_base', '_wp_filter_taxonomy_base');
 
 //Atom SSL support
 add_filter('atom_service_url','atom_service_url_filter');

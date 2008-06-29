@@ -60,6 +60,18 @@ function add_rewrite_endpoint($name, $places) {
 	$wp_rewrite->add_endpoint($name, $places);
 }
 
+/**
+  * _wp_filter_taxonomy_base() - filter the URL base for taxonomies, to remove any manually prepended /index.php/
+  * @param string $base the taxonomy base that we're going to filter
+  * @return string
+  * @author Mark Jaquith 
+  */
+function _wp_filter_taxonomy_base( $base ) {
+	if ( !empty( $base ) )
+		$base = preg_replace( '|^/index\.php/|', '/', $base );
+	return $base;
+}
+
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url) {
@@ -981,8 +993,8 @@ class WP_Rewrite {
 		if ($this->using_index_permalinks()) {
 			$this->root = $this->index . '/';
 		}
-		$this->category_base = get_option( 'category_base' );
-		$this->tag_base = get_option( 'tag_base' );
+		$this->category_base = ( ( $this->using_index_permalinks() ) ? '/' . $this->index : '' ) . get_option( 'category_base' );
+		$this->tag_base = ( ( $this->using_index_permalinks() ) ? '/' . $this->index : '' ) . get_option( 'tag_base' );
 		unset($this->category_structure);
 		unset($this->author_structure);
 		unset($this->date_structure);
