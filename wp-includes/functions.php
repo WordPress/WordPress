@@ -384,7 +384,7 @@ function get_alloptions() {
 	foreach ( $options as $option ) {
 		// "When trying to design a foolproof system,
 		//  never underestimate the ingenuity of the fools :)" -- Dougal
-		if ( in_array( $option->option_name, array( 'siteurl', 'home', 'category_base' ) ) )
+		if ( in_array( $option->option_name, array( 'siteurl', 'home', 'category_base', 'tag_base' ) ) )
 			$option->option_value = untrailingslashit( $option->option_value );
 		$value = maybe_unserialize( $option->option_value );
 		$all_options->{$option->option_name} = apply_filters( 'pre_option_' . $option->option_name, $value );
