@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 $action = '';
-foreach( array('activate-selected', 'deactivate-selected', 'delete-selected') as $action_key ) {
+foreach( array('activate-selected', 'deactivate-selected', 'delete-selected', 'clear-recent-list') as $action_key ) {
 	if( isset($_POST[$action_key]) ) {
 		$action = $action_key;
 		break;
@@ -149,11 +149,13 @@ if( !empty($action) ) {
 				<?php
 				require_once('admin-footer.php');
 				exit;
-			}
+			} //Endif verify-delete
 			$delete_result = delete_plugins($plugins);
 
 			wp_cache_delete('plugins', 'plugins');
-
+			break;
+		case 'clear-recent-list':
+			update_option('recently_activated', array());
 			break;
 	}
 }
@@ -197,8 +199,9 @@ validate_active_plugins();
 <p><?php _e('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
 <?php
 
+$all_plugins = get_plugins();
 $active_plugins = array();
-$available_plugins = array();
+$inactive_plugins = array();
 $recent_plugins = array();
 $recently_activated = (array)get_option('recently_activated');
 
@@ -208,8 +211,6 @@ foreach( $recently_activated as $key => $time )
 		unset($recently_activated[ $key ]);
 if( $recently_activated != get_option('recently_activated') ) //If array changed, update it.
 	update_option('recently_activated', $recently_activated);
-
-$all_plugins = get_plugins();
 
 $plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
 
@@ -223,13 +224,14 @@ foreach( (array)$all_plugins as $plugin_file => $plugin_data) {
 	if( ! empty($plugin_data['Author']) )
 		$plugin_data['Description'] .= ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
 
+	//Filter into individual sections
 	if ( is_plugin_active($plugin_file) ) {
 		$active_plugins[ $plugin_file ] = $plugin_data;
 	} else {
 		if ( isset( $recently_activated[ $plugin_file ] ) ) //Was the plugin recently activated?
 			$recent_plugins[ $plugin_file ] = $plugin_data;
 		else
-			$available_plugins[ $plugin_file ] = $plugin_data;
+			$inactive_plugins[ $plugin_file ] = $plugin_data;
 	}
 }
 
@@ -289,6 +291,7 @@ function print_plugins_table($plugins, $context = '') {
 } //End print_plugins_table()
 ?>
 
+<?php if ( ! empty($active_plugins) ) : ?>
 <h3 id="currently-active"><?php _e('Currently Active Plugins') ?></h3>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
@@ -303,9 +306,11 @@ function print_plugins_table($plugins, $context = '') {
 </form>
 
 <p><?php printf(__('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR); ?></p>
+<?php endif; ?>
 
 <?php if ( ! empty($recent_plugins) ) : ?>
 <h3 id="recent-plugins"><?php _e('Recently Active Plugins') ?></h3>
+<p><?php _e('The following plugins were recently active. When a plugin has been inactive for more than 7 days it will be moved to the Inactive plugin list.') ?></p>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
@@ -315,6 +320,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php if( current_user_can('delete_plugins') ) : ?>
 		<input type="submit" name="delete-selected" value="<?php _e('Delete') ?>" class="button-secondary" />
 <?php endif; ?>
+		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
 	</div>
 </div>
 <br class="clear" />
@@ -322,11 +328,11 @@ function print_plugins_table($plugins, $context = '') {
 </form>
 <?php endif; ?>
 
-<h3 id="available-plugins"><?php _e('Available Plugins') ?></h3>
+<?php if ( ! empty($inactive_plugins) ) : ?>
+<h3 id="inactive-plugins"><?php _e('Inactive Plugins') ?></h3>
 <form method="post" action="<?php echo admin_url('plugins.php') ?>">
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
-<?php if ( ! empty($available_plugins) ) : ?>
 <div class="tablenav">
 	<div class="alignleft">
 		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
@@ -336,8 +342,12 @@ function print_plugins_table($plugins, $context = '') {
 	</div>
 </div>
 <br class="clear" />
-<?php print_plugins_table($available_plugins, 'available') ?>
+<?php print_plugins_table($inactive_plugins, 'inactive') ?>
 </form>
+<?php endif; ?>
+
+<?php if ( empty($all_plugins) ) : ?>
+<p><?php _e('You do not appear to have any plugins available at this time.') ?></p>
 <?php endif; ?>
 
 <h2><?php _e('Get More Plugins'); ?></h2>
