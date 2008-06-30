@@ -99,7 +99,19 @@ function current_time( $type, $gmt = 0 ) {
 	}
 }
 
-
+/**
+ * Retrieve the date in localized format, based on timestamp.
+ *
+ * If the locale specifies the locale month and weekday, then the locale will
+ * take over the format for the date. If it isn't, then the date format string
+ * will be used instead.
+ *
+ * @since 0.71
+ *
+ * @param string $dateformatstring Format to display the date
+ * @param int $unixtimestamp Unix timestamp
+ * @return string The date, translated if locale specifies it.
+ */
 function date_i18n( $dateformatstring, $unixtimestamp ) {
 	global $wp_locale;
 	$i = $unixtimestamp;
@@ -280,16 +292,29 @@ function is_serialized_string( $data ) {
 	return false;
 }
 
-/* Options functions */
-
 /**
  * Retrieve option value based on setting name.
  *
- * {@internal Missing Long Description}}
+ * If the option does not exist or does not have a value, then the return value
+ * will be false. This is useful to check whether you need to install an option
+ * and is commonly used during installation of plugin options and to test
+ * whether upgrading is required.
+ *
+ * You can "short-circuit" the retrieval of the option from the database for
+ * your plugin or core options that aren't protected. You can do so by hooking
+ * into the 'pre_option_$option' with the $option being replaced by the option
+ * name. You should not try to override special options, but you will not be
+ * prevented from doing so.
+ *
+ * There is a second filter called 'option_$option' with the $option being
+ * replaced with the option name. This gives the value as the only parameter.
  *
  * @since 1.5.0
  * @package WordPress
  * @subpackage Option
+ * @uses apply_filters() Calls 'pre_option_$optionname' false to allow
+ *		overwriting the option value in a plugin.
+ * @uses apply_filters() Calls 'option_$optionname' with the option name value.
  *
  * @param string $setting Name of option to retrieve. Should already be SQL-escaped
  * @return mixed Value set for the option.
@@ -374,6 +399,21 @@ function form_option( $option ) {
 	echo attribute_escape (get_option( $option ) );
 }
 
+/**
+ * Retrieve all autoload options or all options, if no autoloaded ones exist.
+ *
+ * This is different from wp_load_alloptions(), in this that function does not
+ * cache all options and will retrieve all options from the database every time
+ * it is called.
+ *
+ * @since 1.0.0
+ * @package WordPress
+ * @subpackage Option
+ * @uses apply_filters() Calls 'pre_option_$optionname' hook with option value as parameter.
+ * @uses apply_filters() Calls 'all_options' on options list.
+ *
+ * @return array List of all options.
+ */
 function get_alloptions() {
 	global $wpdb, $wp_queries;
 	$show = $wpdb->hide_errors();
@@ -392,7 +432,18 @@ function get_alloptions() {
 	return apply_filters( 'all_options', $all_options );
 }
 
-
+/**
+ * Loads and caches all autoloaded options, if available or all options.
+ *
+ * This is different from get_alloptions(), in that this function will cache the
+ * options and will return the cached options when called again.
+ *
+ * @since 2.2.0
+ * @package WordPress
+ * @subpackage Option
+ *
+ * @return array List all options.
+ */
 function wp_load_alloptions() {
 	global $wpdb;
 
@@ -411,8 +462,26 @@ function wp_load_alloptions() {
 	return $alloptions;
 }
 
-
-// expects $option_name to NOT be SQL-escaped
+/**
+ * Update the value of an option that was already added.
+ *
+ * If the option does not exist, then the option will be added with the option
+ * value, but you will not be able to set whether it is autoloaded. If you want
+ * to set whether an option autoloaded, then you need to use the add_option().
+ *
+ * When the option is updated, then the filter named
+ * 'update_option_$option_name', with the $option_name as the $option_name
+ * parameter value, will be called. The hook should accept two parameters, the
+ * first is the old parameter and the second is the new parameter.
+ *
+ * @since 1.0.0
+ * @package WordPress
+ * @subpackage Option
+ *
+ * @param string $option_name Option name. Expected to not be SQL-escaped
+ * @param mixed $newvalue Option value.
+ * @return bool False if value was not updated and true if value was updated.
+ */
 function update_option( $option_name, $newvalue ) {
 	global $wpdb;
 
@@ -456,9 +525,30 @@ function update_option( $option_name, $newvalue ) {
 	return false;
 }
 
-
-// thx Alex Stapleton, http://alex.vort-x.net/blog/
-// expects $name to NOT be SQL-escaped
+/**
+ * Add a new option.
+ *
+ * You can create options without values and then add values later. Does not
+ * check whether the option has already been added, but does check that you
+ * aren't adding a protected WordPress option. Care should be taken to not name
+ * options, the same as the ones which are protected and to not add options
+ * that were already added.
+ *
+ * The filter named 'add_option_$optionname', with the $optionname being
+ * replaced with the option's name, will be called. The hook should accept two
+ * parameters, the first is the option name, and the second is the value.
+ *
+ * @package WordPress
+ * @subpackage Option
+ * @since 1.0.0
+ * @link http://alex.vort-x.net/blog/ Thanks Alex Stapleton
+ *
+ * @param string $name Option name to add. Expects to NOT be SQL escaped.
+ * @param mixed $value Optional. Option value, can be anything.
+ * @param mixed $deprecated Optional. Description. Not used anymore.
+ * @param bool $autoload Optional. Default is enabled. Whether to load the option when WordPress starts up.
+ * @return null returns when finished.
+ */
 function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 	global $wpdb;
 
@@ -492,11 +582,20 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	$wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES (%s, %s, %s)", $name, $value, $autoload ) );
 
-	do_action( "add_option_{$name}", $name, $value ); 
+	do_action( "add_option_{$name}", $name, $value );
 	return;
 }
 
-
+/**
+ * Removes option by name and prevents removal of protected WordPress options.
+ *
+ * @package WordPress
+ * @subpackage Option
+ * @since unknown
+ *
+ * @param string $name Option name to remove.
+ * @return bool True, if succeed. False, if failure.
+ */
 function delete_option( $name ) {
 	global $wpdb;
 
@@ -521,7 +620,12 @@ function delete_option( $name ) {
 	return true;
 }
 
-
+/**
+ * Serialize data, if needed.
+ *
+ * @param mixed $data Data that might be serialized.
+ * @return mixed A scalar data
+ */
 function maybe_serialize( $data ) {
 	if ( is_string( $data ) )
 		return $data;
@@ -585,7 +689,22 @@ function xmlrpc_removepostdata( $content ) {
 	return $content;
 }
 
-
+/**
+ * Open the file handle for debugging.
+ *
+ * This function is used for XMLRPC feature, but it is general purpose enough
+ * to be used in anywhere.
+ *
+ * @see fopen() for mode options.
+ * @package WordPress
+ * @subpackage Debug
+ * @since unknown
+ * @uses $debug Used for whether debugging is enabled.
+ *
+ * @param string $filename File path to debug file.
+ * @param string $mode Same as fopen() mode parameter.
+ * @return bool|resource File handle. False on failure.
+ */
 function debug_fopen( $filename, $mode ) {
 	global $debug;
 	if ( 1 == $debug ) {
@@ -596,14 +715,39 @@ function debug_fopen( $filename, $mode ) {
 	}
 }
 
-
+/**
+ * Write contents to the file used for debugging.
+ *
+ * Technically, this can be used to write to any file handle when the global
+ * $debug is set to 1 or true.
+ *
+ * @package WordPress
+ * @subpackage Debug
+ * @since unknown
+ * @uses $debug Used for whether debugging is enabled.
+ *
+ * @param resource $fp File handle for debugging file.
+ * @param string $string Content to write to debug file.
+ */
 function debug_fwrite( $fp, $string ) {
 	global $debug;
 	if ( 1 == $debug )
 		fwrite( $fp, $string );
 }
 
-
+/**
+ * Close the debugging file handle.
+ *
+ * Technically, this can be used to close any file handle when the global $debug
+ * is set to 1 or true.
+ *
+ * @package WordPress
+ * @subpackage Debug
+ * @since unknown
+ * @uses $debug Used for whether debugging is enabled.
+ *
+ * @param resource $fp Debug File handle.
+ */
 function debug_fclose( $fp ) {
 	global $debug;
 	if ( 1 == $debug )
@@ -772,19 +916,34 @@ function is_new_day() {
 		return 0;
 }
 
-
+/**
+ * Build URL query based on an associative and, or indexed array.
+ *
+ * This is a convenient function for easily building url queries. It sets the
+ * separator to '&' and uses _http_build_query() function.
+ *
+ * @see _http_build_query() Used to build the query
+ * @link http://us2.php.net/manual/en/function.http-build-query.php more on what
+ *		http_build_query() does.
+ *
+ * @since unknown
+ *
+ * @param array $data URL-encode key/value pairs.
+ * @return string URL encoded string
+ */
 function build_query( $data ) {
 	return _http_build_query( $data, NULL, '&', '', false );
 }
 
 /**
- * Retrieve a modified query string.
+ * Retrieve a modified URL query string.
  *
- * {@internal Missing Long Description}}
+ * You can rebuild the URL and append a new query variable to the URL query by
+ * using this function. You can also retrieve the full URL with query data.
  *
- * Adding a single key & value or an associative array.
- * Setting a key value to emptystring removes the key.
- * Omitting oldquery_or_uri uses the $_SERVER value.
+ * Adding a single key & value or an associative array. Setting a key value to
+ * emptystring removes the key. Omitting oldquery_or_uri uses the $_SERVER
+ * value.
  *
  * @since 1.5.0
  *
@@ -897,6 +1056,17 @@ function add_magic_quotes( $array ) {
 	return $array;
 }
 
+/**
+ * HTTP request for URI to retrieve content.
+ *
+ * Tries to retrieve the HTTP content with fopen first and then using cURL, if
+ * fopen can't be used.
+ *
+ * @since unknown
+ *
+ * @param string $uri URI/URL of web page to retrieve.
+ * @return string HTTP content.
+ */
 function wp_remote_fopen( $uri ) {
 	$timeout = 10;
 	$parsed_url = @parse_url( $uri );
@@ -1008,7 +1178,17 @@ function get_status_header_desc( $code ) {
 		return '';
 }
 
-
+/**
+ * Set HTTP status header.
+ *
+ * @since unknown
+ * @uses apply_filters() Calls 'status_header' on status header string, HTTP
+ *		HTTP code, HTTP code description, and protocol string as separate
+ *		parameters.
+ *
+ * @param int $header HTTP status code
+ * @return null Does not return anything.
+ */
 function status_header( $header ) {
 	$text = get_status_header_desc( $header );
 
@@ -1794,7 +1974,6 @@ function wp_ob_end_flush_all() {
 	while ( @ob_end_flush() );
 }
 
-
 /**
  * Load the correct database class file.
  *
@@ -1812,7 +1991,6 @@ function require_wp_db() {
 	else
 		require_once( ABSPATH . WPINC . '/wp-db.php' );
 }
-
 
 /**
  * Load custom DB error or display WordPress DB error.
@@ -1861,7 +2039,6 @@ function dead_db() {
 	die();
 }
 
-
 /**
  * Converts value to positive integer.
  *
@@ -1873,7 +2050,6 @@ function dead_db() {
 function absint( $maybeint ) {
 	return abs( intval( $maybeint ) );
 }
-
 
 /**
  * Determines if the blog can be accessed over SSL.
@@ -1908,7 +2084,6 @@ function url_is_accessable_via_ssl($url)
 	return false;
 }
 
-
 /**
  * Secure URL, if available or the given URL.
  *
@@ -1924,7 +2099,6 @@ function atom_service_url_filter($url)
 	else
 		return $url;
 }
-
 
 /**
  * Marks a function as deprecated and informs when it has been used.
@@ -1963,7 +2137,6 @@ function _deprecated_function($function, $version, $replacement=null) {
 	}
 }
 
-
 /**
  * Marks a file as deprecated and informs when it has been used.
  *
@@ -2001,7 +2174,6 @@ function _deprecated_file($file, $version, $replacement=null) {
 	}
 }
 
-
 /**
  * Is the server running earlier than 1.5.0 version of lighttpd
  *
@@ -2014,7 +2186,6 @@ function is_lighttpd_before_150() {
 	$server_parts[1] = isset( $server_parts[1] )? $server_parts[1] : '';
 	return  'lighttpd' == $server_parts[0] && -1 == version_compare( $server_parts[1], '1.5.0' );
 }
-
 
 /**
  * Does the specified module exist in the apache config?
@@ -2044,7 +2215,6 @@ function apache_mod_loaded($mod, $default = false) {
 	}
 	return $default;
 }
-
 
 /**
  * File validates against allowed set of defined rules.
@@ -2076,7 +2246,6 @@ function validate_file( $file, $allowed_files = '' ) {
 	return 0;
 }
 
-
 /**
  * Determine if SSL is used.
  *
@@ -2087,7 +2256,6 @@ function validate_file( $file, $allowed_files = '' ) {
 function is_ssl() {
 	return ( 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false; 
 }
-
 
 /**
  * Whether SSL login should be forced.
@@ -2109,7 +2277,6 @@ function force_ssl_login($force = '') {
 	return $forced;
 }
 
-
 /**
  * Whether to force SSL used for the Administration Panels.
  *
@@ -2130,6 +2297,16 @@ function force_ssl_admin($force = '') {
 	return $forced;
 }
 
+/**
+ * Guess the URL for the site.
+ *
+ * Will remove wp-admin links to retrieve only return URLs not in the wp-admin
+ * directory.
+ *
+ * @since 2.6
+ *
+ * @return string
+ */
 function wp_guess_url() {
 	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
 		$url = WP_SITEURL;
