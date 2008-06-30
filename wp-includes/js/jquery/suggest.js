@@ -1,5 +1,7 @@
 /*
- *	jquery.suggest 1.1 - 2007-08-06
+ *	jquery.suggest 1.1b - 2007-08-06
+ * Patched by Mark Jaquith with Alexander Dick's "multiple items" patch to allow for auto-suggesting of more than one tag before submitting
+ * See: http://www.vulgarisoip.com/2007/06/29/jquerysuggest-an-alternative-jquery-based-autocomplete-library/#comment-7228
  *	
  *	Uses code and techniques from following libraries:
  *	1. http://www.dyve.net/jquery/?autocomplete
@@ -113,6 +115,12 @@
 		
 			var q = $.trim($input.val());
 
+			if ( options.multiple ) {
+				var multipleSepPos = q.lastIndexOf(options.multipleSep);
+				if ( multipleSepPos != -1 ) {
+					q = q.substr(multipleSepPos + options.multipleSep.length);
+				}
+			}
 			if (q.length >= options.minchars) {
 				
 				cached = checkCache(q);
@@ -245,7 +253,17 @@
 			$currentResult = getCurrentResult();
 		
 			if ($currentResult) {
-				$input.val($currentResult.text());
+				if ( options.multiple ) {
+					if ( $input.val().indexOf(options.multipleSep) != -1 ) {
+						$currentVal = $input.val().substr( 0, ( $input.val().lastIndexOf(options.multipleSep) + options.multipleSep.length ) );
+					} else {
+						$currentVal = "";
+					}
+					$input.val( $currentVal + $currentResult.text() + options.multipleSep);
+					$input.focus();
+				} else {
+					$input.val($currentResult.text());
+				}
 				$results.hide();
 				
 				if (options.onSelect)
@@ -291,6 +309,8 @@
 			return;
 	
 		options = options || {};
+		options.multiple = options.multiple || false;
+		options.multipleSep = options.multipleSep || ", ";
 		options.source = source;
 		options.delay = options.delay || 100;
 		options.resultsClass = options.resultsClass || 'ac_results';

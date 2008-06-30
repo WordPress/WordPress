@@ -13,9 +13,14 @@ if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 
 	$s = $_GET['q']; // is this slashed already?
 
-	if ( strstr( $s, ',' ) )
-		die; // it's a multiple tag insert, we won't find anything
-	$results = $wpdb->get_col( $wpdb->prepare("SELECT name FROM $wpdb->terms WHERE name LIKE (%s)", '%' . $s . '%') );
+	if ( strstr( $s, ',' ) ) { 
+		$s = explode( ',', $s ); 
+		$s = $s[count( $s ) - 1]; 
+	}
+	$s = trim( $s );
+	if ( strlen( $s ) < 2 )
+	 die; // require 2 chars for matching
+	$results = $wpdb->get_col( "SELECT name FROM $wpdb->terms WHERE name LIKE ('%". $s . "%')" );
 	echo join( $results, "\n" );
 	die;
 }
