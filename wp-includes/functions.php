@@ -1484,16 +1484,15 @@ function wp_upload_dir( $time = NULL ) {
 
 	// $dir is absolute, $path is (maybe) relative to ABSPATH
 	$dir = path_join( ABSPATH, $upload_path );
-	$path = str_replace( ABSPATH, '', trim( $upload_path ) );
 
 	if ( !$url = get_option( 'upload_url_path' ) )
-		$url = trailingslashit( $siteurl ) . $path;
+		$url = WP_CONTENT_URL . '/uploads';
 
 	if ( defined('UPLOADS') ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
-
+	
 	$subdir = '';
 	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
 		// Generate the yearly and monthly dirs
