@@ -601,7 +601,8 @@ function &get_terms($taxonomies, $args = '') {
 	}
 
 	// $args can be whatever, only use the args defined in defaults to compute the key
-	$key = md5( serialize( compact(array_keys($defaults)) ) . serialize( $taxonomies ) );
+	$filter_key = ( has_filter('list_terms_exclusions') ) ? serialize($GLOBALS['wp_filter']['list_terms_exclusions']) : '';
+	$key = md5( serialize( compact(array_keys($defaults)) ) . serialize( $taxonomies ) . $filter_key );
 
 	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {
 		if ( isset( $cache[ $key ] ) )
