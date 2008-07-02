@@ -115,7 +115,7 @@ function aposfix($text) {
 }
 
 // Ajax Requests
-$title = wp_specialchars(stripslashes($_GET['t']));
+$title = wp_specialchars(aposfix(stripslashes($_GET['t'])));
 
 $selection = str_replace("\n", "<br />", aposfix( stripslashes($_GET['s']) ) );
 $url = clean_url($_GET['u']);
@@ -178,7 +178,7 @@ if($_REQUEST['ajax'] == 'video') { ?>
 
 if($_REQUEST['ajax'] == 'photo_images') {
 	function get_images_from_uri($uri) {
-		if(preg_match('/\.(jpg|png|gif)/', $uri) && !strpos($uri,'blogger.com')) 
+		if(preg_match('/\.(jpg|jpe|jpeg|png|gif)/', $uri) && !strpos($uri,'blogger.com')) 
 			return "'".$uri."'";
 
 		$content = wp_remote_fopen($uri);
@@ -186,7 +186,7 @@ if($_REQUEST['ajax'] == 'photo_images') {
 		
 		$host = parse_url($uri);
 		
-		$pattern = '/<img ([^>]*)src=(\"|\')(.+?)(\2)([^>\/]*)\/*>/is';
+		$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif))(\2)([^>\/]*)\/*>/is';
 		preg_match_all($pattern, $content, $matches);
 		
 		if ( empty($matches[1]) ) return '';
