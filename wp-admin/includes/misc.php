@@ -67,7 +67,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 			}
 		}
 		if (!$foundit) {
-			fwrite( $f, "# BEGIN {$marker}\n" );
+			fwrite( $f, "\n# BEGIN {$marker}\n" );
 			foreach ( $insertion as $insertline )
 				fwrite( $f, "{$insertline}\n" );
 			fwrite( $f, "# END {$marker}\n" );
