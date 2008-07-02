@@ -350,6 +350,31 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = fals
 	return $html;
 }
 
+add_shortcode('wp_caption', 'wp_caption_shortcode');
+
+function wp_caption_shortcode($attr, $content = null) {
+	
+	// Allow plugins/themes to override the default caption template.
+	$output = apply_filters('wp_caption_shortcode', '', $attr, $content);
+	if ( $output != '' )
+		return $output;
+
+	extract(shortcode_atts(array(
+		'id'	=> '',
+		'align'	=> 'alignnone',
+		'width'	=> '',
+		'caption' => ''
+	), $attr));
+	
+	if ( 1 > (int) $width || empty($caption) )
+		return $content;
+	
+	if ( $id ) $id = 'id="' . $id . '" ';
+	
+	return '<dl ' . $id . 'class="wp_caption ' . $align . '" style="width: ' . (10 + (int) $width) . 'px">'
+	. '<dt class="wp_caption_dt">' . $content . '</dt><dd class="wp_caption_dd">' . $caption . '</dd></dl>';
+}
+
 add_shortcode('gallery', 'gallery_shortcode');
 
 function gallery_shortcode($attr) {

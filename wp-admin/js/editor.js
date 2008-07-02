@@ -52,6 +52,7 @@ switchEditors = {
         // Fix some block element newline issues
         content = content.replace(new RegExp('\\s*<div', 'mg'), '\n<div');
         content = content.replace(new RegExp('</div>\\s*', 'mg'), '</div>\n');
+		content = content.replace(new RegExp('\\s*\\[wp_caption([^\\[]+)\\[/wp_caption\\]\\s*', 'gi'), '\n\n[wp_caption$1[/wp_caption]\n\n');
 
         var blocklist2 = 'blockquote|ul|ol|li|table|thead|tr|th|td|h[1-6]|pre';
         content = content.replace(new RegExp('\\s*<(('+blocklist2+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
@@ -69,7 +70,7 @@ switchEditors = {
 
         // Trim whitespace
         content = content.replace(new RegExp('^\\s*', ''), '');
-        content = content.replace(new RegExp('\\s*$', ''), '');
+        content = content.replace(new RegExp('[\\s\\u00a0]*$', ''), '');
 
         // put back the line breaks in pre|script
         content = content.replace(/<wp_temp>/g, '\n');
@@ -164,6 +165,7 @@ switchEditors = {
         pee = pee.replace(new RegExp('\\s*\\n', 'gi'), "<br />\n");
         pee = pee.replace(new RegExp('(</?(?:'+blocklist+')[^>]*>)\\s*<br />', 'gi'), "$1");
         pee = pee.replace(new RegExp('<br />(\\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)', 'gi'), '$1');
+        pee = pee.replace(new RegExp('(?:<p>|<br ?/?>)*\\s*\\[wp_caption([^\\[]+)\\[/wp_caption\\]\\s*(?:</p>|<br ?/?>)*', 'gi'), '[wp_caption$1[/wp_caption]');
         // pee = pee.replace(new RegExp('^((?:&nbsp;)*)\\s', 'mg'), '$1&nbsp;');
 
         // Fix the pre|script tags	   

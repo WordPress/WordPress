@@ -400,6 +400,7 @@ wp_page_alt:"' . mce_escape( __('Next page...') ) . '"
 
 tinyMCE.addI18n("' . $language . '.wpeditimage",{
 edit_img:"' . mce_escape( __('Edit Image') )  . '",
+del_img:"' . mce_escape( __('Delete Image') )  . '",
 adv_settings:"' . mce_escape( __('Advanced Settings') )  . '",
 none:"' . mce_escape( __('None') )  . '",
 size:"' . mce_escape( __('Size') ) . '",

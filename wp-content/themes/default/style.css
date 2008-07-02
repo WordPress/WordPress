@@ -638,6 +638,41 @@ a img {
 
 
 
+/* Captions */
+.aligncenter,
+dl.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wp_caption {
+	border: 1px solid #ddd;
+	text-align: center;
+	background-color: #f3f3f3;
+	padding-top: 4px;
+	margin: 10px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.wp_caption img {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+.wp_caption_dd {
+	font-size: 11px;
+	line-height: 17px;
+	padding: 0 4px 5px;
+	margin: 0;
+}
+/* End captions */
+
+
 /* "Daisy, Daisy, give me your answer do. I'm half crazy all for the love of you.
 	It won't be a stylish marriage, I can't afford a carriage.
 	But you'll look sweet upon the seat of a bicycle built for two." */

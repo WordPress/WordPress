@@ -6,6 +6,7 @@ function send_to_editor(h) {
 			ed.selection.moveToBookmark(tinymce.EditorManager.activeEditor.windowManager.bookmark);
 
 		ed.execCommand('mceInsertContent', false, h);
+		ed.execCommand('mceCleanup');
 	} else
 		edInsertContent(edCanvas, h);
 

@@ -95,6 +95,8 @@ var wpImage = {
 	current_size_sel : 's100',
 	width : '',
 	height : '',
+	align : '',
+	img_alt : '',
 
 	setTabs : function(tab) {
 		var t = this;
@@ -125,7 +127,7 @@ var wpImage = {
 	imgAlignCls : function(v) {
 		var t = this, cls = t.I('img_classes').value;
 
-		t.I('img_demo').className = v;
+		t.I('img_demo').className = t.align = v;
 
 		cls = cls.replace( /align[^ "']+/gi, '' );
 		cls += (' ' + v);
@@ -135,7 +137,7 @@ var wpImage = {
 			t.I('hspace').value = '';
 			t.updateStyle('hspace');
 		}
-		
+
 		t.I('img_classes').value = cls;
 	},
 
@@ -153,7 +155,7 @@ var wpImage = {
 
 	showSizeSet : function() {
 		var t = this;
-		
+
 		if ( (t.width * 1.3) > parseInt(t.preloadImg.width) ) {
 			var s130 = t.I('s130'), s120 = t.I('s120'), s110 = t.I('s110');
 
@@ -243,7 +245,7 @@ var wpImage = {
 	},
 
 	setup : function() {
-		var t = this, h, c, el, id, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor, d = t.I('img_demo'), dom = tinyMCEPopup.dom;
+		var t = this, h, c, el, id, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor, d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, caption;
 		document.dir = tinyMCEPopup.editor.getParam('directionality','');
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
@@ -252,16 +254,32 @@ var wpImage = {
 		f.img_src.value = d.src = link = ed.dom.getAttrib(el, 'src');
 		ed.dom.setStyle(el, 'float', '');
 		t.getImageData();
+		c = ed.dom.getAttrib(el, 'class');
+		caption = t.img_alt = ed.dom.getAttrib(el, 'alt');
+
+		if ( DL = dom.getParent(el, 'dl') ) {
+			var dlc = ed.dom.getAttrib(DL, 'class');
+			dlc = dlc.match(/align[^ "']+/i);
+			if ( ! dom.hasClass(el, dlc) )
+				c += ' '+dlc;
+				
+			tinymce.each(DL.childNodes, function(e) {
+				if ( e.nodeName == 'DD' ) {
+					caption = e.innerHTML;
+					return;
+				}
+			});
+		}
 
 		f.img_title.value = ed.dom.getAttrib(el, 'title');
-		f.img_alt.value = ed.dom.getAttrib(el, 'alt');
+		f.img_alt.value = caption;
 		f.border.value = ed.dom.getAttrib(el, 'border');
 		f.vspace.value = ed.dom.getAttrib(el, 'vspace');
 		f.hspace.value = ed.dom.getAttrib(el, 'hspace');
 		f.align.value = ed.dom.getAttrib(el, 'align');
 		f.width.value = t.width = ed.dom.getAttrib(el, 'width');
 		f.height.value = t.height = ed.dom.getAttrib(el, 'height');
-		f.img_classes.value = c = ed.dom.getAttrib(el, 'class');
+		f.img_classes.value = c;
 		f.img_style.value = ed.dom.getAttrib(el, 'style');
 
 		// Move attribs to styles
@@ -291,27 +309,20 @@ var wpImage = {
 
 		if ( c.indexOf('alignleft') != -1 ) {
 			t.I('alignleft').checked = "checked";
-			d.className = "alignleft";
+			d.className = t.align = "alignleft";
 		} else if ( c.indexOf('aligncenter') != -1 ) {
 			t.I('aligncenter').checked = "checked";
-			d.className = "aligncenter";
+			d.className = t.align = "aligncenter";
 		} else if ( c.indexOf('alignright') != -1 ) {
 			t.I('alignright').checked = "checked";
-			d.className = "alignright";
+			d.className = t.align = "alignright";
 		} else if ( c.indexOf('alignnone') != -1 ) {
 			t.I('alignnone').checked = "checked";
-			d.className = "alignnone";
+			d.className = t.align = "alignnone";
 		}
 
 		if ( t.width && t.preloadImg.width ) t.showSizeSet();
 		document.body.style.display = '';
-/*
-		// Test if is attachment
-		if ( (id = c.match( /wp-image-([0-9]{1,6})/ )) && id[1] ) {
-			t.I('tab_attachment').href = tinymce.documentBaseURL + 'media.php?action=edit&attachment_id=' + id[1];
-			t.I('tab_attachment').style.display = 'inline';
-		}
-*/
 	},
 
 	remove : function() {
@@ -321,10 +332,11 @@ var wpImage = {
 		el = ed.selection.getNode();
 		if (el.nodeName != 'IMG') return;
 
-		if ( (p = ed.dom.getParent(el, 'A')) && p.childNodes.length == 1)
+		if ( (p = ed.dom.getParent(el, 'div')) && ed.dom.hasClass(p, 'mceTemp') )
 			ed.dom.remove(p);
-		else
-			ed.dom.remove(el);
+		else if ( (p = ed.dom.getParent(el, 'A')) && p.childNodes.length == 1 )
+			ed.dom.remove(p);
+		else ed.dom.remove(el);
 
 		ed.execCommand('mceRepaint');
 		tinyMCEPopup.close();
@@ -332,31 +344,37 @@ var wpImage = {
 	},
 
 	update : function() {
-		var t = this, f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, el, P, A, v = f.img_classes.value;
+		var t = this, f = document.forms[0], ed = tinyMCEPopup.editor, el, b, fixSafari = null, DL, P, A, DIV, do_caption = null, img_class = f.img_classes.value, html;
 
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
 
 		if (el.nodeName != 'IMG') return;
-		if (f.img_src.value === '') t.remove();
-
-		A = ed.dom.getParent(el, 'A');
-		P = ed.dom.getParent(el, 'p');
-		tinyMCEPopup.execCommand("mceBeginUndoLevel");
-/*		if ( tinymce.isIE ) {
-			if ( f.img_classes.value.indexOf('aligncenter') != -1 )
-				ed.dom.addClass(P, 'mce_iecenter');
-			else ed.dom.removeClass(P, 'mce_iecenter');
+		if (f.img_src.value === '') {
+			t.remove();
+			return;
 		}
-*/
+
+		if ( f.img_alt.value != '' && f.width.value != '' ) {
+			do_caption = 1;
+			img_class = img_class.replace( /align[^ "']+\s?/gi, '' );
+		}
+
+		A = ed.dom.getParent(el, 'a');
+		P = ed.dom.getParent(el, 'p');
+		DL = ed.dom.getParent(el, 'dl');
+		DIV = ed.dom.getParent(el, 'div');
+
+		tinyMCEPopup.execCommand("mceBeginUndoLevel");
+
 		ed.dom.setAttribs(el, {
 			src : f.img_src.value,
 			title : f.img_title.value,
-			alt : f.img_alt.value,
+			alt : t.img_alt,
 			width : f.width.value,
 			height : f.height.value,
 			style : f.img_style.value,
-			'class' : '' //f.img_classes.value
+			'class' : img_class
 		});
 
 		if ( ! f.link_href.value ) {
@@ -368,15 +386,20 @@ var wpImage = {
 		} else {
 			// Create new anchor elements
 			if ( A == null ) {
-				
 				if ( ! f.link_href.value.match(/https?:\/\//) )
 					f.link_href.value = tinyMCEPopup.editor.documentBaseURI.toAbsolute(f.link_href.value);
-				
+
+				if ( tinymce.isWebKit && ed.dom.hasClass(el, 'aligncenter') ) {
+					ed.dom.removeClass(el, 'aligncenter');
+					fixSafari = 1;
+				}
+
 				tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
-	
+				if ( fixSafari ) ed.dom.addClass(el, 'aligncenter');
+
 				tinymce.each(ed.dom.select("a"), function(n) {
 					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
-	
+
 						ed.dom.setAttribs(n, {
 							href : f.link_href.value,
 							title : f.link_title.value,
@@ -399,15 +422,63 @@ var wpImage = {
 			}
 		}
 
-		ed.dom.setAttrib(el, 'class', f.img_classes.value);
-		
-		if ( v.indexOf('aligncenter') != -1 ) {
+		if ( do_caption ) {
+			var id, cap_id = '', cap, DT, DD, cap_width = 10 + parseInt(f.width.value), align = t.align.substring(5), div_cls = (t.align == 'aligncenter') ? 'mceTemp mceIEcenter' : 'mceTemp';
+
+			if ( DL ) {
+				ed.dom.setAttribs(DL, {
+					'class' : 'wp_caption '+t.align,
+					style : 'width: '+cap_width+'px;'
+				});
+
+				if ( DIV ) 
+					ed.dom.setAttrib(DIV, 'class', div_cls);
+
+				if ( (DT = ed.dom.getParent(el, 'dt')) && (DD = DT.nextSibling) && ed.dom.hasClass(DD, 'wp_caption_dd') )
+					ed.dom.setHTML(DD, f.img_alt.value);
+
+			} else {
+				if ( (id = f.img_classes.value.match( /wp-image-([0-9]{1,6})/ )) && id[1] )
+					cap_id = 'attachment_'+id[1];
+
+				if ( f.link_href.value ) html = ed.dom.getOuterHTML(ed.dom.getParent(el, 'a'));
+				else html = ed.dom.getOuterHTML(el);
+
+				html = '<dl id="'+cap_id+'" class="wp_caption '+t.align+'" style="width: '+cap_width+
+				'px"><dt class="wp_caption_dt">'+html+'</dt><dd class="wp_caption_dd">'+f.img_alt.value+'</dd></dl>';
+
+				cap = ed.dom.create('div', {'class': div_cls}, html);
+
+				if ( P ) {
+					P.parentNode.insertBefore(cap, P);
+					ed.dom.remove(P);
+				}
+			}
+
+			tinyMCEPopup.execCommand("mceEndUndoLevel");
+			ed.execCommand('mceRepaint');
+			tinyMCEPopup.close();
+			return;
+		} else {
+			if ( DL ) {
+				if ( f.link_href.value ) html = ed.dom.getOuterHTML(ed.dom.getParent(el, 'a'));
+				else html = ed.dom.getOuterHTML(el);
+				
+				P = ed.dom.create('p', {}, html);
+				DL.parentNode.insertBefore(P,DL);
+				ed.dom.remove(DL.childNodes);
+				ed.dom.remove(DL);
+			}
+		}
+
+		if ( f.img_classes.value.indexOf('aligncenter') != -1 ) {
 			if ( P && ( ! P.style || P.style.textAlign != 'center' ) )
 				ed.dom.setStyle(P, 'textAlign', 'center');
 		} else {
 			if ( P && P.style && P.style.textAlign == 'center' )
 				ed.dom.setStyle(P, 'textAlign', '');
 		}
+
 		tinyMCEPopup.execCommand("mceEndUndoLevel");
 		ed.execCommand('mceRepaint');
 		tinyMCEPopup.close();
@@ -496,7 +567,7 @@ var wpImage = {
 			f.width.value = t.width = t.preloadImg.width;
 			f.height.value = t.height = t.preloadImg.height;
 		}
-		
+
 		t.showSizeSet();
 		t.demoSetSize();
 		if ( f.img_style.value )

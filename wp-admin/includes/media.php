@@ -62,6 +62,25 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	return $html;
 }
 
+function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
+
+	if ( empty($alt) ) return $html;
+	$id = ( 0 < (int) $id ) ? 'attachment_' . $id : '';
+
+	preg_match( '/width="([0-9]+)/', $html, $matches );
+	if ( ! isset($matches[1]) ) return $html;
+	$width = $matches[1];
+
+	$html = preg_replace( '/align[^\s\'"]+\s?/', '', $html );
+	if ( empty($align) ) $align = 'none';
+
+	$shcode = '[wp_caption id="' . $id . '" align="align' . $align
+	. '" width="' . $width . '" caption="' . $alt . '"]' . $html . '[/wp_caption]';
+
+	return apply_filters( 'image_add_caption_shortcode', $shcode, $html );
+}
+add_filter( 'image_send_to_editor', 'image_add_caption', 20, 7 );
+
 function media_send_to_editor($html) {
 	?>
 <script type="text/javascript">

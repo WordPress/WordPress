@@ -64,7 +64,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080626",
+"version" : "<?php echo $man_version; ?>_20080701",
 "entries" : [
 <?php echo $defaults; ?>
 
