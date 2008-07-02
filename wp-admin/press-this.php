@@ -199,7 +199,7 @@ if($_REQUEST['ajax'] == 'photo_images') {
 				else
 					$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
 										
-			$sources[] = $src;
+			$sources[] = clean_url($src);
 		}
 		return "'" . implode("','", $sources) . "'";
 	} 
