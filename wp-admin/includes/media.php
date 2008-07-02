@@ -340,10 +340,8 @@ function media_sideload_image($file, $post_id, $desc = null) {
 		$id = media_handle_sideload($file_array, $post_id, $desc);
 		$src = $id;
 
-		unset($file_array);
-
 		if ( is_wp_error($id) ) {
-			$errors['upload_error'] = $id;
+			@unlink($file_array['tmp_name']);
 			return $id;
 		}
 	}
