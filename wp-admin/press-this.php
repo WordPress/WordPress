@@ -136,8 +136,8 @@ if($_REQUEST['ajax'] == 'thickbox') { ?>
 		<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
 	</div>
 		
-	<p><input type="hidden" name="this_photo" value="<?php echo $image; ?>" id="this_photo" />
-		<a href="#" class="select"><img src="<?php echo $image; ?>" width="475" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
+	<p><input type="hidden" name="this_photo" value="<?php echo attribute_escape($image); ?>" id="this_photo" />
+		<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" width="475" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
 	
 	<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
 <?php die; 
@@ -171,7 +171,7 @@ if($_REQUEST['ajax'] == 'thickbox_url') { ?>
 if($_REQUEST['ajax'] == 'video') { ?>
 	<h2 id="embededcode"><label for="embed_code"><?php _e('Embed Code') ?></label></h2>
 	<div class="titlewrap" >
-		<textarea name="embed_code" id="embed_code" rows="8" cols="40"><?php echo $selection; ?></textarea>
+		<textarea name="embed_code" id="embed_code" rows="8" cols="40"><?php echo format_to_edit($selection); ?></textarea>
 	</div>
 <?php die;
 }
@@ -400,7 +400,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			case 'quote' :
 				set_menu('quote');
 				set_title('<?php _e('Quote') ?>');
-				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?> </a> </cite> </p></blockquote>");
+				set_editor("<blockquote><p><?php echo format_to_edit($selection); ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?> </a> </cite> </p></blockquote>");
 				return false;
 				break;
 			case 'video' :
@@ -420,8 +420,9 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					list($domain, $video_id) = split(".com/", $url);
 					$content = '<object width="400" height="225"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />	<embed src="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225"></embed></object>';
 					
-					if(trim($selection) == '') $selection = '<a href="http://www.vimeo.com/' . $video_id . '?pg=embed&sec=' . $video_id . '">' . $title . '</a> on <a href="http://vimeo.com?pg=embed&sec=' . $video_id . '">Vimeo</a>';
-					}else {
+					if ( trim($selection) == '' )
+						$selection = '<a href="http://www.vimeo.com/' . $video_id . '?pg=embed&sec=' . $video_id . '">' . $title . '</a> on <a href="http://vimeo.com?pg=embed&sec=' . $video_id . '">Vimeo</a>';
+					} else {
 						$content = $selection;
 					} ?>
 					jQuery('#embed_code').prepend('<?php echo htmlentities($content); ?>');
@@ -433,8 +434,8 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			case 'photo' :
 				set_menu('photo');
 				set_title('<?php _e('Post') ?>');
-				<?php if($selection) { ?>
-					set_editor("<?php echo $selection; ?>");
+				<?php if ($selection) { ?>
+					set_editor("<?php echo format_to_edit($selection); ?>");
 				<?php } ?>
 				jQuery('#extra_fields').show();
 				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></h2>');
@@ -499,7 +500,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="editor_area">
 			<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			<div class="editor-container">
-				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if($selection) { ?><a href='<?php echo $url ?>'><?php echo $selection ?></a><?php } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
+				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if ($selection) { ?><a href='<?php echo $url ?>'><?php echo format_to_edit($selection) ?></a><?php } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
 			</div>
 		</div>
 	</div>
