@@ -34,7 +34,7 @@ function wp_default_scripts( &$scripts ) {
 	$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
 	$scripts->add( 'editor', false, $visual_editor, '20080321' );
 
-	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080701' );
+	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080702' );
 
 	// Modify this version when tinyMCE plugins are changed.
 	$mce_version = apply_filters('tiny_mce_version', '20080701');
@@ -159,7 +159,7 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => __('Edit'),
 		) );
 		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080520' );
-		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20080701' );
+		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20080702' );
 		$scripts->localize( 'upload', 'uploadL10n', array(
 			'browseTitle' => attribute_escape(__('Browse your files')),
 			'back' => __('&laquo; Back'),

@@ -460,14 +460,13 @@ var wpImage = {
 			tinyMCEPopup.close();
 			return;
 		} else {
-			if ( DL ) {
+			if ( DL && DIV ) {
 				if ( f.link_href.value ) html = ed.dom.getOuterHTML(ed.dom.getParent(el, 'a'));
 				else html = ed.dom.getOuterHTML(el);
 				
 				P = ed.dom.create('p', {}, html);
-				DL.parentNode.insertBefore(P,DL);
-				ed.dom.remove(DL.childNodes);
-				ed.dom.remove(DL);
+				DIV.parentNode.insertBefore(P, DIV);
+				ed.dom.remove(DIV);
 			}
 		}
 

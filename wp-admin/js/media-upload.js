@@ -5,8 +5,10 @@ function send_to_editor(h) {
 		if (tinymce.isIE)
 			ed.selection.moveToBookmark(tinymce.EditorManager.activeEditor.windowManager.bookmark);
 
+		if ( h.indexOf('[wp_caption') != -1 )
+			h = ed.plugins.wpeditimage._do_shcode(h);
+		
 		ed.execCommand('mceInsertContent', false, h);
-		ed.execCommand('mceCleanup');
 	} else
 		edInsertContent(edCanvas, h);
 
