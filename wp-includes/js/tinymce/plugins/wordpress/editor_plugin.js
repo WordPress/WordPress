@@ -89,6 +89,50 @@
 				cmd : 'WP_Adv'
 			});
 
+			// Add Media buttons
+			ed.addButton('add_media', {
+				title : 'wordpress.add_media',
+				image : url + '/img/media.gif',
+				onclick : function() {
+					tb_show('', tinymce.DOM.get('add_media').href);
+					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+				}
+			});
+
+			ed.addButton('add_image', {
+				title : 'wordpress.add_image',
+				image : url + '/img/image.gif',
+				onclick : function() {
+					tb_show('', tinymce.DOM.get('add_image').href);
+					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+				}
+			});
+
+			ed.addButton('add_video', {
+				title : 'wordpress.add_video',
+				image : url + '/img/video.gif',
+				onclick : function() {
+					tb_show('', tinymce.DOM.get('add_video').href);
+					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+				}
+			});
+
+			ed.addButton('add_audio', {
+				title : 'wordpress.add_audio',
+				image : url + '/img/audio.gif',
+				onclick : function() {
+					tb_show('', tinymce.DOM.get('add_audio').href);
+					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+				}
+			});
+
+			// Add Media buttons to fullscreen
+            ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+          		if ( 'mceFullScreen' != cmd ) return;
+				if ( 'mce_fullscreen' != ed.id )
+					ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
+      		});
+
 			// Add class "alignleft", "alignright" and "aligncenter" when selecting align for images.
 			ed.onExecCommand.add(function( ed, cmd ) {
 				var n, bl, dom = ed.dom;

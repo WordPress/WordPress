@@ -64,7 +64,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080701",
+"version" : "<?php echo $man_version; ?>_20080703",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -191,5 +191,9 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/toolbars.gif" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/img/image.png" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/img/delete.png" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/help.gif" }
+{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/help.gif" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/image.gif" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/media.gif" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/video.gif" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/audio.gif" }
 ]}
