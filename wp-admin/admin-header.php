@@ -70,7 +70,7 @@ unset($hook_suffixes, $hook_suffix);
 <div id="wpwrap">
 <div id="wpcontent">
 <div id="wphead">
-<h1><?php if ( '' == get_bloginfo('name') ) echo '&nbsp;'; else echo get_bloginfo('name'); ?><span id="viewsite"><a href="<?php echo trailingslashit( get_option('home') ); ?>"><?php _e('Visit Site') ?></a></span></h1>
+<h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="viewsite"><a href="<?php echo trailingslashit( get_option('home') ); ?>"><?php _e('Visit Site') ?></a></span></h1>
 </div>
 
 <?php
