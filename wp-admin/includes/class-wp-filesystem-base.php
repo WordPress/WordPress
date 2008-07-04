@@ -1,6 +1,6 @@
 <?php
 class WP_Filesystem_Base{
-	var $verbose = true;
+	var $verbose = false;
 	var $cache = array();
 	
 	var $method = '';
