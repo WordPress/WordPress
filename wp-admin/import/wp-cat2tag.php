@@ -52,7 +52,7 @@ class WP_Categories_to_Tags {
 		if ( $cat_num > 0 ) {
 			echo '<h2>' . sprintf( __ngettext( 'Convert Category to Tag.', 'Convert Categories (%d) to Tags.', $cat_num ), $cat_num ) . '</h2>';
 			echo '<div class="narrow">';
-			echo '<p>' . __('Hey there. Here you can selectively converts existing categories to tags. To get started, check the categories you wish to be converted, then click the Convert button.') . '</p>';
+			echo '<p>' . __('Hey there. Here you can selectively convert existing categories to tags. To get started, check the categories you wish to be converted, then click the Convert button.') . '</p>';
 			echo '<p>' . __('Keep in mind that if you convert a category with child categories, the children become top-level orphans.') . '</p></div>';
 
 			$this->categories_form();
