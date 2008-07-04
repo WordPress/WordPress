@@ -428,7 +428,6 @@ padding-bottom: .25em;
 position: absolute;
 top: 20px;
 right: 25px;
-background: white;
 padding: 5px;
 }
 #TB_ajaxContent h3 {
@@ -505,3 +504,8 @@ margin-bottom: 8px;
 
 #footer p a:hover {
 	text-decoration: underline;
+}
+
+.centered {
+	text-align: center;
+}

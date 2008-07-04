@@ -136,10 +136,10 @@ if($_REQUEST['ajax'] == 'thickbox') { ?>
 		<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
 	</div>
 		
-	<p><input type="hidden" name="this_photo" value="<?php echo attribute_escape($image); ?>" id="this_photo" />
-		<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" width="475" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
+	<p class="centered"><input type="hidden" name="this_photo" value="<?php echo attribute_escape($image); ?>" id="this_photo" />
+		<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
 	
-	<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
+	<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
 <?php die; 
 }
 
@@ -295,7 +295,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<title><?php _e('Press This') ?></title>
 
-	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js"></script>
+	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js?ver=311"></script>
 <?php
 	add_thickbox();
 	wp_enqueue_style('press-this');

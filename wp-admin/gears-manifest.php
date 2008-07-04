@@ -64,7 +64,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080703",
+"version" : "<?php echo $man_version; ?>_20080704",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -97,6 +97,8 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/toggle-arrow.gif" },
 { "url" : "images/wordpress-logo.png" },
 { "url" : "images/xit.gif" },
+{ "url" : "images/loading-publish.gif" },
+{ "url" : "images/loading.gif" },
 
 { "url" : "../wp-includes/images/crystal/archive.png" },
 { "url" : "../wp-includes/images/crystal/audio.png" },
@@ -127,6 +129,9 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/source_editor.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/anchor.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js?ver=311" },
+{ "url" : "../wp-includes/js/tinymce/tiny_mce.js?ver=311" },
+{ "url" : "../wp-includes/js/tinymce/themes/advanced/editor_template.js?ver=311" },
+{ "url" : "../wp-includes/js/tinymce/plugins/inlinepopups/editor_plugin.js?ver=311" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/source_editor.htm?ver=311" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/anchor.htm?ver=311" },
