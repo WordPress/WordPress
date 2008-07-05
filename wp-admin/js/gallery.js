@@ -10,7 +10,7 @@ jQuery(function($) {
 
 	// When an update has occurred, adjust the order for each item
 	var galleryReorder = function(e, sort) {
-		jQuery.each(sort['instance'].toArray(), function(i, id) {
+		jQuery.each(sort['element'].sortable('toArray'), function(i, id) {
 			jQuery('#' + id + ' .menu_order input')[0].value = i;
 		});
 	}
