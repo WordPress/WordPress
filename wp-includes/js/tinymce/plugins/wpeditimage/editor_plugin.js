@@ -21,16 +21,16 @@
 
 			ed.onInit.add(function(ed) {
 				tinymce.dom.Event.add(ed.getWin(), 'scroll', function(e) {
-	  				ed.plugins.wpeditimage.hideButtons();
+					ed.plugins.wpeditimage.hideButtons();
 				});
 			});
 
 			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
 				ed.plugins.wpeditimage.hideButtons();
-      		});
+			});
 
 			ed.onSaveContent.add(function(ed, o) {
-   				ed.plugins.wpeditimage.hideButtons();
+				ed.plugins.wpeditimage.hideButtons();
 			});
 
 			ed.onMouseUp.add(function(ed, e) {
@@ -63,8 +63,8 @@
 			});
 
 			ed.onBeforeSetContent.add(function(ed, o) {
-           		o.content = t._do_shcode(o.content);
-      		});
+				o.content = t._do_shcode(o.content);
+			});
 
 			ed.onPostProcess.add(function(ed, o) {
 				if (o.get)
@@ -74,8 +74,8 @@
 
 		_do_shcode : function(co) {
 			return co.replace(/\[wp_caption([^\]]+)\]([\s\S]+?)\[\/wp_caption\][\s\u00a0]*/g, function(a,b,c){
-				var id = b.match(/id=['"]([^'"]+)/), cls = b.match(/align=['"]([^'"]+)/);
-				var w = b.match(/width=['"]([0-9]+)/), cap = b.match(/caption=['"]([^'"]+)/);
+				var id = b.match(/id=['"]([^'"]+)/i), cls = b.match(/align=['"]([^'"]+)/i);
+				var w = b.match(/width=['"]([0-9]+)/), cap = b.match(/caption=['"]([^'"]+)/i);
 
 				id = ( id && id[1] ) ? id[1] : '';
 				cls = ( cls && cls[1] ) ? cls[1] : 'alignnone';
@@ -91,8 +91,8 @@
 		},
 
 		_get_shcode : function(co) {
-			return co.replace(/<div class="mceTemp[^"]*">\s*<dl([^>]+)>\s*<dt[^>]+>([\s\S]+?)<\/dt>\s*<dd[^>]+>([^<]+)<\/dd>\s*<\/dl>\s*<\/div>\s*/g, function(a,b,c,cap){
-				var id = b.match(/id=['"]([^'"]+)/), cls = b.match(/class=['"]([^'"]+)/);
+			return co.replace(/<div class="mceTemp[^"]*">\s*<dl([^>]+)>\s*<dt[^>]+>([\s\S]+?)<\/dt>\s*<dd[^>]+>([^<]+)<\/dd>\s*<\/dl>\s*<\/div>\s*/gi, function(a,b,c,cap){
+				var id = b.match(/id=['"]([^'"]+)/i), cls = b.match(/class=['"]([^'"]+)/i);
 				var w = c.match(/width=['"]([0-9]+)/);
 
 				id = ( id && id[1] ) ? id[1] : '';
@@ -100,23 +100,9 @@
 				w = ( w && w[1] ) ? w[1] : '';
 
 				if ( ! w || ! cap ) return c;
-				cls = cls ? cls.match(/align[^ '"]+/) : '';
+				cls = cls.match(/align[^ '"]+/) || 'alignnone';
 
 				return '[wp_caption id="'+id+'" align="'+cls+'" width="'+w+'" caption="'+cap+'"]'+c+'[/wp_caption]';
-			});
-		},
-
-		_fixCenter : function(c) {
-			var ed = tinyMCE.activeEditor;
-
-			tinymce.each(ed.dom.select('img', c), function(n) {
-				if ( ed.dom.hasClass(n, 'aligncenter') ) {
-					var P = ed.dom.getParent(n, 'p');
-					if ( tinymce.isIE )
-						ed.dom.addClass(P, 'mce_iecenter');
-					if ( P.style && P.style.textAlign == 'center' )
-						ed.dom.setStyle(P, 'textAlign', '');
-				}
 			});
 		},
 
@@ -172,7 +158,7 @@
 				ed.windowManager.bookmark = ed.selection.getBookmark('simple');
 				ed.execCommand("WP_EditImage");
 				this.parentNode.style.display = 'none';
-			}
+			};
 
 			var wp_delimgbtn = DOM.add('wp_editbtns', 'img', {
 				src : t.url+'/img/delete.png',
@@ -196,7 +182,7 @@
 					ed.execCommand('mceRepaint');
 					return false;
 				}
-			}
+			};
 		},
 
 		getInfo : function() {

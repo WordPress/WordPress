@@ -34,10 +34,10 @@ function wp_default_scripts( &$scripts ) {
 	$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
 	$scripts->add( 'editor', false, $visual_editor, '20080321' );
 
-	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080702' );
+	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080706' );
 
 	// Modify this version when tinyMCE plugins are changed.
-	$mce_version = apply_filters('tiny_mce_version', '20080703');
+	$mce_version = apply_filters('tiny_mce_version', '20080706');
 	$scripts->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');

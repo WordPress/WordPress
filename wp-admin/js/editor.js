@@ -53,6 +53,7 @@ switchEditors = {
         content = content.replace(new RegExp('\\s*<div', 'mg'), '\n<div');
         content = content.replace(new RegExp('</div>\\s*', 'mg'), '</div>\n');
 		content = content.replace(new RegExp('\\s*\\[wp_caption([^\\[]+)\\[/wp_caption\\]\\s*', 'gi'), '\n\n[wp_caption$1[/wp_caption]\n\n');
+		content = content.replace(new RegExp('wp_caption\\]\\n\\n+\\[wp_caption', 'g'), 'wp_caption]\n\n[wp_caption');
 
         var blocklist2 = 'blockquote|ul|ol|li|table|thead|tr|th|td|h[1-6]|pre';
         content = content.replace(new RegExp('\\s*<(('+blocklist2+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');

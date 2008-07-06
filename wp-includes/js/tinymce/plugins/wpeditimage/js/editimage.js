@@ -260,11 +260,11 @@ var wpImage = {
 		if ( DL = dom.getParent(el, 'dl') ) {
 			var dlc = ed.dom.getAttrib(DL, 'class');
 			dlc = dlc.match(/align[^ "']+/i);
-			if ( ! dom.hasClass(el, dlc) )
+			if ( dlc && ! dom.hasClass(el, dlc) )
 				c += ' '+dlc;
-				
+
 			tinymce.each(DL.childNodes, function(e) {
-				if ( e.nodeName == 'DD' ) {
+				if ( e.nodeName == 'DD' && dom.hasClass(e, 'wp_caption_dd') ) {
 					caption = e.innerHTML;
 					return;
 				}
@@ -377,16 +377,10 @@ var wpImage = {
 			'class' : img_class
 		});
 
-		if ( ! f.link_href.value ) {
-			if ( A ) {
-				b = ed.selection.getBookmark();
-				ed.dom.remove(A, 1);
-				ed.selection.moveToBookmark(b);
-			}
-		} else {
+		if ( f.link_href.value ) {
 			// Create new anchor elements
 			if ( A == null ) {
-				if ( ! f.link_href.value.match(/https?:\/\//) )
+				if ( ! f.link_href.value.match(/https?:\/\//i) )
 					f.link_href.value = tinyMCEPopup.editor.documentBaseURI.toAbsolute(f.link_href.value);
 
 				if ( tinymce.isWebKit && ed.dom.hasClass(el, 'aligncenter') ) {
@@ -431,18 +425,26 @@ var wpImage = {
 					style : 'width: '+cap_width+'px;'
 				});
 
-				if ( DIV ) 
+				if ( DIV )
 					ed.dom.setAttrib(DIV, 'class', div_cls);
 
 				if ( (DT = ed.dom.getParent(el, 'dt')) && (DD = DT.nextSibling) && ed.dom.hasClass(DD, 'wp_caption_dd') )
 					ed.dom.setHTML(DD, f.img_alt.value);
 
 			} else {
+				var lnk = '', pa;
 				if ( (id = f.img_classes.value.match( /wp-image-([0-9]{1,6})/ )) && id[1] )
 					cap_id = 'attachment_'+id[1];
 
-				if ( f.link_href.value ) html = ed.dom.getOuterHTML(ed.dom.getParent(el, 'a'));
-				else html = ed.dom.getOuterHTML(el);
+				if ( f.link_href.value && (lnk = ed.dom.getParent(el, 'a')) ) {
+					if ( lnk.childNodes.length == 1 )
+						html = ed.dom.getOuterHTML(lnk);
+					else {
+						html = ed.dom.getOuterHTML(lnk);
+						html = html.match(/<a[^>]+>/i);
+						html = html+ed.dom.getOuterHTML(el)+'</a>';
+					}
+				} else html = ed.dom.getOuterHTML(el);
 
 				html = '<dl id="'+cap_id+'" class="wp_caption '+t.align+'" style="width: '+cap_width+
 				'px"><dt class="wp_caption_dt">'+html+'</dt><dd class="wp_caption_dd">'+f.img_alt.value+'</dd></dl>';
@@ -451,19 +453,25 @@ var wpImage = {
 
 				if ( P ) {
 					P.parentNode.insertBefore(cap, P);
-					ed.dom.remove(P);
+					if ( P.childNodes.length == 1 )
+						ed.dom.remove(P);
+					else if ( lnk && lnk.childNodes.length == 1 )
+						ed.dom.remove(lnk);
+					else ed.dom.remove(el);
+				} else if ( pa = ed.dom.getParent(el, 'TD,TH,LI') ) {
+					pa.appendChild(cap);
+					if ( lnk && lnk.childNodes.length == 1 )
+						ed.dom.remove(lnk);
+					else ed.dom.remove(el);
 				}
 			}
 
-			tinyMCEPopup.execCommand("mceEndUndoLevel");
-			ed.execCommand('mceRepaint');
-			tinyMCEPopup.close();
-			return;
 		} else {
 			if ( DL && DIV ) {
-				if ( f.link_href.value ) html = ed.dom.getOuterHTML(ed.dom.getParent(el, 'a'));
+				var aa;
+				if ( f.link_href.value && (aa = ed.dom.getParent(el, 'a')) ) html = ed.dom.getOuterHTML(aa);
 				else html = ed.dom.getOuterHTML(el);
-				
+
 				P = ed.dom.create('p', {}, html);
 				DIV.parentNode.insertBefore(P, DIV);
 				ed.dom.remove(DIV);
@@ -476,6 +484,12 @@ var wpImage = {
 		} else {
 			if ( P && P.style && P.style.textAlign == 'center' )
 				ed.dom.setStyle(P, 'textAlign', '');
+		}
+
+		if ( ! f.link_href.value && A ) {
+			b = ed.selection.getBookmark();
+			ed.dom.remove(A, 1);
+			ed.selection.moveToBookmark(b);
 		}
 
 		tinyMCEPopup.execCommand("mceEndUndoLevel");
