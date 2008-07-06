@@ -2424,7 +2424,7 @@ function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 	if ( !$post =& get_post( $post_id ) )
 		return false;
-	if ( !$imagedata = wp_get_attachment_metadata( $post->ID ) )
+	if ( !is_array( $imagedata = wp_get_attachment_metadata( $post->ID ) ) )
 		return false;
 
 	$file = get_attached_file( $post->ID );

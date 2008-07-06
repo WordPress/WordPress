@@ -274,7 +274,7 @@ function image_make_intermediate_size($file, $width, $height, $crop=false) {
 }
 
 function image_get_intermediate_size($post_id, $size='thumbnail') {
-	if ( !$imagedata = wp_get_attachment_metadata( $post_id ) )
+	if ( !is_array( $imagedata = wp_get_attachment_metadata( $post_id ) ) )
 		return false;
 
 	// get the best one for a specified set of dimensions
