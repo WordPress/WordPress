@@ -720,6 +720,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$display_title = ( !empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
+	$display_title = wp_html_excerpt($display_title, 100);
 
 	$item = "
 	$type
