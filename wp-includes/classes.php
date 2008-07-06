@@ -91,6 +91,10 @@ class WP {
 			// Look for matches.
 			$request_match = $request;
 			foreach ($rewrite as $match => $query) {
+				// Don't try to match against AtomPub calls
+				if ( $req_uri == 'wp-app.php' )
+					break;
+
 				// If the requesting file is the anchor of the match, prepend it
 				// to the path info.
 				if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0) && ($req_uri != $request)) {
