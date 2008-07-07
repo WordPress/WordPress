@@ -197,7 +197,7 @@ class AtomServer {
 
 		// check to see if AtomPub is enabled
 		if( !get_option( 'enable_app' ) )
-			$this->not_allowed( sprintf( __( 'AtomPub services are disabled on this blog.  An admin user can enable them at %s' ), admin_url('options-writing.php') ) );
+			$this->forbidden( sprintf( __( 'AtomPub services are disabled on this blog.  An admin user can enable them at %s' ), admin_url('options-writing.php') ) );
 
 		// dispatch
 		foreach($this->selectors as $regex => $funcs) {
@@ -936,6 +936,14 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 		log_app('Status','415: Unsupported Media Type');
 		header("HTTP/1.1 415 Unsupported Media Type");
 		header('Content-Type: text/plain');
+		exit;
+	}
+
+	function forbidden($reason='') {
+		log_app('Status','403: Forbidden');
+		header('Content-Type: text/plain');
+		status_header('403');
+		echo $reason;
 		exit;
 	}
 
