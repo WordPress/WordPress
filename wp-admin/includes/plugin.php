@@ -470,18 +470,16 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 
 	$parent = get_admin_page_parent();
 
+	$page_type = 'admin';
 	if ( empty ( $parent_page ) || 'admin.php' == $parent_page ) {
 		if ( isset( $admin_page_hooks[$plugin_page] ))
 			$page_type = 'toplevel';
 		else
 			if ( isset( $admin_page_hooks[$parent] ))
 				$page_type = $admin_page_hooks[$parent];
-	} else
-		if ( isset( $admin_page_hooks[$parent_page] ) ) {
-			$page_type = $admin_page_hooks[$parent_page];
-		} else {
-			$page_type = 'admin';
-		}
+	} else if ( isset( $admin_page_hooks[$parent_page] ) ) {
+		$page_type = $admin_page_hooks[$parent_page];
+	}
 
 	$plugin_name = preg_replace( '!\.php!', '', $plugin_page );
 

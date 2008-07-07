@@ -2256,7 +2256,7 @@ function validate_file( $file, $allowed_files = '' ) {
  * @return bool True if SSL, false if not used.
  */
 function is_ssl() {
-	return ( 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false; 
+	return ( isset($_SERVER['HTTPS']) && 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false; 
 }
 
 /**
