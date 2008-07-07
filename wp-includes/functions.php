@@ -1495,7 +1495,10 @@ function wp_upload_dir( $time = NULL ) {
 		$dir = ABSPATH . UPLOADS;
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
-	
+
+	$bdir = $dir; 
+	$burl = $url;
+
 	$subdir = '';
 	if ( get_option( 'uploads_use_yearmonth_folders' ) ) {
 		// Generate the yearly and monthly dirs
@@ -1515,7 +1518,7 @@ function wp_upload_dir( $time = NULL ) {
 		return array( 'error' => $message );
 	}
 
-	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'error' => false );
+	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'basedir' => $bdir, 'baseurl' => $burl, 'error' => false );
 	return apply_filters( 'upload_dir', $uploads );
 }
 
