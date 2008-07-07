@@ -14,8 +14,8 @@ class WP_Categories_to_Tags {
 			echo '<p>' . __('Cheatin&#8217; uh?') . '</p>';
 			echo '</div>';
 		} else { ?>
-			<div class="tablenav"><p style="margin:4px"><a style="display:inline;" class="button-secondary" href="admin.php?import=wp-cat2tag">Categories to Tags</a>
-			<a style="display:inline;" class="button-secondary" href="admin.php?import=wp-cat2tag&amp;step=3">Tags to Categories</a></p></div>
+			<div class="tablenav"><p style="margin:4px"><a style="display:inline;" class="button-secondary" href="admin.php?import=wp-cat2tag"><?php _e( "Categories to Tags" ); ?></a>
+			<a style="display:inline;" class="button-secondary" href="admin.php?import=wp-cat2tag&amp;step=3"><?php _e( "Tags to Categories" ); ?></a></p></div>
 <?php	}
 	}
 
