@@ -350,12 +350,12 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = fals
 	return $html;
 }
 
-add_shortcode('wp_caption', 'wp_caption_shortcode');
+add_shortcode('wp_caption', 'img_caption_shortcode');
 
-function wp_caption_shortcode($attr, $content = null) {
+function img_caption_shortcode($attr, $content = null) {
 	
 	// Allow plugins/themes to override the default caption template.
-	$output = apply_filters('wp_caption_shortcode', '', $attr, $content);
+	$output = apply_filters('img_caption_shortcode', '', $attr, $content);
 	if ( $output != '' )
 		return $output;
 
@@ -371,8 +371,8 @@ function wp_caption_shortcode($attr, $content = null) {
 	
 	if ( $id ) $id = 'id="' . $id . '" ';
 	
-	return '<dl ' . $id . 'class="wp_caption ' . $align . '" style="width: ' . (10 + (int) $width) . 'px">'
-	. '<dt class="wp_caption_dt">' . $content . '</dt><dd class="wp_caption_dd">' . $caption . '</dd></dl>';
+	return '<div ' . $id . 'class="wp-caption ' . $align . '" style="width: ' . (10 + (int) $width) . 'px">'
+	. $content . '<p class="wp-caption-text">' . $caption . '</p></div>';
 }
 
 add_shortcode('gallery', 'gallery_shortcode');

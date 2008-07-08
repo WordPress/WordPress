@@ -322,7 +322,7 @@ ul.post-meta span.post-meta-key {
 
 /* Captions & aligment */
 .aligncenter,
-dl.aligncenter {
+div.aligncenter {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -336,7 +336,7 @@ dl.aligncenter {
 	float: right;
 }
 
-.wp_caption {
+.wp-caption {
 	border: 1px solid #ddd;
 	text-align: center;
 	background-color: #f3f3f3;
@@ -348,13 +348,13 @@ dl.aligncenter {
 	border-radius: 3px;
 }
 
-.wp_caption img {
+.wp-caption img {
 	margin: 0;
 	padding: 0;
 	border: 0 none;
 }
 
-.wp_caption_dd {
+.wp-caption p.wp-caption-text {
 	font-size: 11px;
 	line-height: 17px;
 	padding: 0 4px 5px;
