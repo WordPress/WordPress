@@ -1064,14 +1064,14 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
  *
  * @author Dougal
  * @since 1.0.1
- * @deprecated Use get_categories()
- * @see get_categories()
+ * @deprecated Use wp_list_bookmarks()
+ * @see wp_list_bookmarks()
  *
  * @param string $order Sort link categories by 'name' or 'id'
  * @param string $$deprecated Not Used
  */
 function get_links_list($order = 'name', $deprecated = '') {
-	_deprecated_function(__FUNCTION__, '0.0', 'get_categories()');
+	_deprecated_function(__FUNCTION__, '0.0', 'wp_list_bookmarks()');
 
 	$order = strtolower($order);
 
