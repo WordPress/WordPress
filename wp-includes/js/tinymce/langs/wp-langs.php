@@ -434,7 +434,8 @@ s100:"' . mce_escape( __('100%') ) . '",
 s110:"' . mce_escape( __('110%') ) . '",
 s120:"' . mce_escape( __('120%') ) . '",
 s130:"' . mce_escape( __('130%') ) . '",
-caption:"' . mce_escape( __('Caption') ) . '"
+img_title:"' . mce_escape( __('Edit Image Title') ) . '",
+caption:"' . mce_escape( __('Edit Image Caption') ) . '"
 });
 ';
 ?>

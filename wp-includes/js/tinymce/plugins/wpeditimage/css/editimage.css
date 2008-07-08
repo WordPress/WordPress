@@ -62,6 +62,10 @@ th.label {
 	width: 107px;
 }
 
+#media-upload #basic th.label {
+	padding: 5px 5px 5px 0;
+}
+
 .show-align {
 	height: 200px;
 	width: 480px;

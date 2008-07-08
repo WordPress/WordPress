@@ -145,7 +145,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/paste/pastetext.htm?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/inlinepopups/template.htm?ver=311" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html?ver=311" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html?ver=311b" },
 { "url" : "../wp-includes/js/tinymce/wp-mce-help.php?ver=311" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css?ver=311" },
@@ -158,7 +158,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/media/css/media.css?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/pasteword.css?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/blank.css?ver=311" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css?ver=311" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css?ver=311b" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage-rtl.css?ver=311" },
 { "url" : "../wp-includes/js/tinymce/wordpress.css?ver=311" },
 

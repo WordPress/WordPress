@@ -15,7 +15,7 @@
 				if ( ed.dom.getAttrib(el, 'class').indexOf('mceItem') != -1 || el.nodeName != 'IMG' )
 					return;
 
-				tb_show('', url + '/editimage.html?TB_iframe=true');
+				tb_show('', url + '/editimage.html?ver=311b&TB_iframe=true');
 				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
 
@@ -74,6 +74,8 @@
 
 		_do_shcode : function(co) {
 			return co.replace(/\[wp_caption([^\]]+)\]([\s\S]+?)\[\/wp_caption\][\s\u00a0]*/g, function(a,b,c){
+				b = b.replace(/\\'|\\&#39;|\\&#039;/g, '&#39;').replace(/\\"|\\&quot;/g, '&quot;');
+				c = c.replace(/\\&#39;|\\&#039;/g, '&#39;').replace(/\\&quot;/g, '&quot;');
 				var id = b.match(/id=['"]([^'"]+)/i), cls = b.match(/align=['"]([^'"]+)/i);
 				var w = b.match(/width=['"]([0-9]+)/), cap = b.match(/caption=['"]([^'"]+)/i);
 
@@ -91,7 +93,7 @@
 		},
 
 		_get_shcode : function(co) {
-			return co.replace(/<div class="mceTemp[^"]*">\s*<dl([^>]+)>\s*<dt[^>]+>([\s\S]+?)<\/dt>\s*<dd[^>]+>([^<]+)<\/dd>\s*<\/dl>\s*<\/div>\s*/gi, function(a,b,c,cap){
+			return co.replace(/<div class="mceTemp[^"]*">\s*<dl([^>]+)>\s*<dt[^>]+>([\s\S]+?)<\/dt>\s*<dd[^>]+>(.+?)<\/dd>\s*<\/dl>\s*<\/div>\s*/gi, function(a,b,c,cap){
 				var id = b.match(/id=['"]([^'"]+)/i), cls = b.match(/class=['"]([^'"]+)/i);
 				var w = c.match(/width=['"]([0-9]+)/);
 
@@ -101,6 +103,7 @@
 
 				if ( ! w || ! cap ) return c;
 				cls = cls.match(/align[^ '"]+/) || 'alignnone';
+				cap = cap.replace(/<\S[^<>]*>/gi, '').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
 
 				return '[wp_caption id="'+id+'" align="'+cls+'" width="'+w+'" caption="'+cap+'"]'+c+'[/wp_caption]';
 			});
