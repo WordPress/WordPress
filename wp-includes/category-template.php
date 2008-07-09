@@ -1,6 +1,6 @@
 <?php
 
-function get_category_children($id, $before = '/', $after = '') {
+function get_category_children($id, $before = '/', $after = '', $visited=array()) {
 	if ( 0 == $id )
 		return '';
 
@@ -14,7 +14,8 @@ function get_category_children($id, $before = '/', $after = '') {
 		$category = get_category($cat_id);
 		if ( is_wp_error( $category ) )
 			return $category;
-		if ( $category->parent == $id ) {
+		if ( $category->parent == $id && !in_array($category->term_id, $visited) ) {
+			$visited[] = $category->term_id;
 			$chain .= $before.$category->term_id.$after;
 			$chain .= get_category_children($category->term_id, $before, $after);
 		}
@@ -44,7 +45,7 @@ function get_category_link($category_id) {
 	return apply_filters('category_link', $catlink, $category_id);
 }
 
-function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
+function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE, $visited = array()){
 	$chain = '';
 	$parent = &get_category($id);
 	if ( is_wp_error( $parent ) )
@@ -55,8 +56,10 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 	else
 		$name = $parent->cat_name;
 
-	if ( $parent->parent && ($parent->parent != $parent->term_id) )
-		$chain .= get_category_parents($parent->parent, $link, $separator, $nicename);
+	if ( $parent->parent && ($parent->parent != $parent->term_id) && !in_array($parent->parent, $visited) ) {
+		$visited[] = $parent->parent;
+		$chain .= get_category_parents($parent->parent, $link, $separator, $nicename, $visited);
+	}
 
 	if ( $link )
 		$chain .= '<a href="' . get_category_link($parent->term_id) . '" title="' . sprintf(__("View all posts in %s"), $parent->cat_name) . '">'.$name.'</a>' . $separator;
