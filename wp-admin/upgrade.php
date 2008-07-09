@@ -25,7 +25,7 @@ else
 
 <h2><?php _e('No Upgrade Required'); ?></h2>
 <p><?php _e('Your WordPress database is already up-to-date!'); ?></p>
-<h2 class="step"><a href="<?php echo get_option('home'); ?>/"><?php _e('Continue'); ?></a></h2>
+<p class="step"><a class="button" href="<?php echo get_option('home'); ?>/"><?php _e('Continue'); ?></a></p>
 
 <?php else :
 switch($step) :
@@ -37,7 +37,7 @@ switch($step) :
 <h2><?php _e('Database Upgrade Required'); ?></h2>
 <p><?php _e('Your WordPress database is out-of-date, and must be upgraded before you can continue.'); ?></p>
 <p><?php _e('The upgrade process may take a while, so please be patient.'); ?></p>
-<h2 class="step"><a href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress'); ?></a></h2>
+<p class="step"><a class="button" href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress'); ?></a></p>
 <?php
 		break;
 	case 1:
@@ -52,7 +52,7 @@ switch($step) :
 ?>
 <h2><?php _e('Upgrade Complete'); ?></h2>
 	<p><?php _e('Your WordPress database has been successfully upgraded!'); ?></p>
-	<h2 class="step"><a href="<?php echo $backto; ?>"><?php _e('Continue'); ?></a></h2>
+	<p class="step"><a class="button" href="<?php echo $backto; ?>"><?php _e('Continue'); ?></a></p>
 
 <!--
 <pre>

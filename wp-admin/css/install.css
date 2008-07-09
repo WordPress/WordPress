@@ -37,7 +37,11 @@ ul, ol { padding: 5px 5px 5px 22px; }
 
 #logo { margin: 6px 0 14px 0px; border-bottom: none;}
 
-.step a, .step input { font-size: 2em; }
+.step {
+	font-size: 2.2em;
+}
+
+.step input { font-size: 2em; }
 
 td input { font-size: 1.5em; }
 
@@ -45,14 +49,13 @@ td input { font-size: 1.5em; }
 
 .submit input, .button, .button-secondary {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 6px;
-	border: none;
+	padding: 5px 7px 7px;
+	border: 1px solid #a3a3a3;
 	margin-left: 0;
-	font-size: 13px !important;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	color: #246;
 	background: #e5e5e5;
 }
@@ -63,6 +66,7 @@ td input { font-size: 1.5em; }
 
 .submit input:hover, .button:hover, .button-secondary:hover {
 	color: #d54e21;
+	border-color: #535353;
 }
 
 .form-table {
