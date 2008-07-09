@@ -30,14 +30,17 @@ switch ( $action = $_POST['action'] ) :
 case 'delete-comment' :
 	check_ajax_referer( "delete-comment_$id" );
 	if ( !$comment = get_comment( $id ) )
-		die('0');
+		die('1');
 	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 
-	if ( isset($_POST['spam']) && 1 == $_POST['spam'] )
+	if ( isset($_POST['spam']) && 1 == $_POST['spam'] ) {
+		if ( 'spam' == wp_get_comment_status( $comment->comment_ID ) )
+			die('1');
 		$r = wp_set_comment_status( $comment->comment_ID, 'spam' );
-	else
+	} else {
 		$r = wp_delete_comment( $comment->comment_ID );
+	}
 
 	die( $r ? '1' : '0' );
 	break;
@@ -46,23 +49,37 @@ case 'delete-cat' :
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
+	$cat = get_category( $id );
+	if ( !$cat || is_wp_error( $cat ) )
+		die('1');
+
 	if ( wp_delete_category( $id ) )
 		die('1');
-	else	die('0');
+	else
+		die('0');
 	break;
 case 'delete-tag' :
 	check_ajax_referer( "delete-tag_$id" );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
+	$tag = get_term( $id, 'post_tag' );
+	if ( !$tag || is_wp_error( $tag ) )
+		die('1');
+
 	if ( wp_delete_term($id, 'post_tag'))
 		die('1');
-	else	die('0');
+	else
+		die('0');
 	break;
 case 'delete-link-cat' :
 	check_ajax_referer( "delete-link-category_$id" );
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
+
+	$cat = get_term( $id, 'link_category' );
+	if ( !$cat || is_wp_error( $cat ) )
+		die('1');
 
 	$cat_name = get_term_field('name', $id, 'link_category');
 
@@ -94,14 +111,20 @@ case 'delete-link' :
 	if ( !current_user_can( 'manage_links' ) )
 		die('-1');
 
+	$link = get_bookmark( $id );
+	if ( !$link || is_wp_error( $link ) )
+		die('1');
+
 	if ( wp_delete_link( $id ) )
 		die('1');
-	else	die('0');
+	else
+		die('0');
 	break;
 case 'delete-meta' :
 	check_ajax_referer( "delete-meta_$id" );
 	if ( !$meta = get_post_meta_by_id( $id ) )
-		die('0');
+		die('1');
+
 	if ( !current_user_can( 'edit_post', $meta->post_id ) )
 		die('-1');
 	if ( delete_meta( $meta->meta_id ) )
@@ -113,6 +136,9 @@ case 'delete-post' :
 	if ( !current_user_can( 'delete_post', $id ) )
 		die('-1');
 
+	if ( !get_post( $id ) )
+		die('1');
+
 	if ( wp_delete_post( $id ) )
 		die('1');
 	else
@@ -123,19 +149,28 @@ case 'delete-page' :
 	if ( !current_user_can( 'delete_page', $id ) )
 		die('-1');
 
+	if ( !get_page( $id ) )
+		die('1');
+
 	if ( wp_delete_post( $id ) )
 		die('1');
-	else	die('0');
+	else
+		die('0');
 	break;
 case 'dim-comment' :
 	if ( !$comment = get_comment( $id ) )
 		die('0');
+
 	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 	if ( !current_user_can( 'moderate_comments' ) )
 		die('-1');
 
-	if ( 'unapproved' == wp_get_comment_status($comment->comment_ID) ) {
+	$current = wp_get_comment_status( $comment->comment_ID );
+	if ( $_POST['new'] == $current )
+		die('1');
+
+	if ( 'unapproved' == $current ) {
 		check_ajax_referer( "approve-comment_$id" );
 		if ( wp_set_comment_status( $comment->comment_ID, 'approve' ) )
 			die('1');
