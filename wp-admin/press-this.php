@@ -395,12 +395,17 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			case 'text' :
 				set_menu('text');
 				set_title('<?php _e('Post') ?>');
+				<?php if ($selection) { ?>
+					set_editor("<?php echo $selection; ?>");
+				<?php } else { ?>
+					set_editor("<a href='<?php echo $url ?>'><?php echo $title; ?></a>");
+				<? } ?>
 				return false;
 				break;
 			case 'quote' :
 				set_menu('quote');
 				set_title('<?php _e('Quote') ?>');
-				set_editor("<blockquote><p><?php echo format_to_edit($selection); ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?> </a> </cite> </p></blockquote>");
+				set_editor("<blockquote><p><?php echo $selection; ?> </p><p><cite><a href='<?php echo $url; ?>'><?php echo $title; ?> </a> </cite> </p></blockquote>");
 				return false;
 				break;
 			case 'video' :
@@ -435,8 +440,10 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				set_menu('photo');
 				set_title('<?php _e('Post') ?>');
 				<?php if ($selection) { ?>
-					set_editor("<?php echo format_to_edit($selection); ?>");
-				<?php } ?>
+					set_editor("<?php echo $selection; ?>");
+				<?php } else { ?>
+					set_editor("<a href='<?php echo $url ?>'><?php echo $title; ?></a>");
+				<? } ?>
 				jQuery('#extra_fields').show();
 				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></h2>');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
@@ -500,11 +507,11 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="editor_area">
 			<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			<div class="editor-container">
-				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if ($selection) { ?><a href='<?php echo $url ?>'><?php echo format_to_edit($selection) ?></a><?php } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
+				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if ($selection) { echo wp_richedit_pre($selection); } else { ?><a href='<?php echo $url ?>'><?php echo $title; ?></a><?php } ?></textarea>
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="categories">
 		<div class="submitbox" id="submitpost">
 		<div id="previewview"></div>
