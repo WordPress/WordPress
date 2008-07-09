@@ -337,7 +337,7 @@ function get_theme_root() {
 }
 
 function get_theme_root_uri() {
-	return apply_filters('theme_root_uri', WP_CONTENT_URL . "/themes", get_option('siteurl'));
+	return apply_filters('theme_root_uri', content_url('themes'), get_option('siteurl'));
 }
 
 function get_query_template($type) {

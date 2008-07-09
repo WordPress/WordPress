@@ -50,7 +50,7 @@ class WP_Scripts extends WP_Dependencies {
 			$ver .= '&amp;' . $this->args[$handle];
 
 		$src = $this->registered[$handle]->src;
-		if ( !preg_match('|^https?://|', $src) ) {
+		if ( !preg_match('|^https?://|', $src) && !preg_match('|^' . preg_quote(WP_CONTENT_URL) . '|', $src) ) {
 			$src = $this->base_url . $src;
 		}
 

@@ -59,7 +59,7 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	function _css_href( $src, $ver, $handle ) {
-		if ( !preg_match('|^https?://|', $src) ) {
+		if ( !preg_match('|^https?://|', $src) && !preg_match('|^' . preg_quote(WP_CONTENT_URL) . '|', $src) ) {
 			$src = $this->base_url . $src;
 		}
 
