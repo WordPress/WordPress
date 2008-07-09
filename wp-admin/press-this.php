@@ -1,12 +1,16 @@
 <?php
 require_once('admin.php');
 
-if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' )); ?>
-
-<?php 
+if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 function preg_quote2($string) {
 	return str_replace('/', '\/', preg_quote($string));
+}
+function aposfix($text) {
+	$translation_table[chr(34)] = '&quot;';
+	$translation_table[chr(38)] = '&';
+	$translation_table[chr(39)] = '&apos;';
+	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($text, $translation_table));	
 }
 function press_it() {
 	// define some basic variables
@@ -30,7 +34,7 @@ function press_it() {
 			$content = $_REQUEST['content'];
 			
 			foreach($_REQUEST['photo_src'] as $key => $image) {
-				#quote for matching
+				// escape quote for matching
 				$quoted = preg_quote2($image);
 				
 				// see if files exist in content - we don't want to upload non-used selected files.
@@ -50,14 +54,14 @@ function press_it() {
 			$content .= $_REQUEST['content'];
 			break;	
 		}
-	# set the post_content
+	// set the post_content
 	$quick['post_content'] = str_replace('<br />', "\n", preg_replace('/<\/?p>/','',$content));
 
-	#error handling for $post
+	// error handling for $post
 	if ( is_wp_error($post_ID)) {
 		wp_die($id);
 		wp_delete_post($post_ID);
-	#error handling for media_sideload
+	// error handling for media_sideload
 	} elseif ( is_wp_error($upload)) {
 		wp_die($upload);
 		wp_delete_post($post_ID);
@@ -68,10 +72,9 @@ function press_it() {
 	return $post_ID;
 }
 
-# For submitted posts.
+// For submitted posts.
 if ( 'post' == $_REQUEST['action'] ) { 
 	check_admin_referer('press-this'); $post_ID = press_it(); ?>
-	
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 	<head>
@@ -88,10 +91,8 @@ if ( 'post' == $_REQUEST['action'] ) {
 		do_action('admin_head');
 	?>
 	</head>
-	<body class="press-this">
-		
-		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $post_ID; ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
-		
+	<body class="press-this">	
+		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="post.php?action=edit&amp;post=<?php echo $post_ID; ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>	
 		<div id="footer">
 		<p><?php
 		do_action('in_admin_footer', '');
@@ -99,19 +100,10 @@ if ( 'post' == $_REQUEST['action'] ) {
 		echo __('Thank you for creating with <a href="http://wordpress.org/">WordPress</a>');
 		?></p>
 		</div>
-		<?php do_action('admin_footer', ''); ?>
-		
+		<?php do_action('admin_footer', ''); ?>		
 	</body>
 	</html>
 	<?php die;
-}
-
-
-function aposfix($text) {
-	$translation_table[chr(34)] = '&quot;';
-	$translation_table[chr(38)] = '&';
-	$translation_table[chr(39)] = '&apos;';
-	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($text, $translation_table));	
 }
 
 // Ajax Requests
@@ -178,7 +170,7 @@ if($_REQUEST['ajax'] == 'video') { ?>
 
 if($_REQUEST['ajax'] == 'photo_images') {
 	function get_images_from_uri($uri) {
-		if(preg_match('/\.(jpg|jpe|jpeg|png|gif)/', $uri) && !strpos($uri,'blogger.com')) 
+		if( preg_match('/\.(jpg|jpe|jpeg|png|gif)/', $uri) && !strpos($uri,'blogger.com') ) 
 			return "'".$uri."'";
 
 		$content = wp_remote_fopen($uri);
@@ -211,10 +203,7 @@ die;
 }
 
 if($_REQUEST['ajax'] == 'photo_js') { ?>
-	
-	
  	// gather images and load some default JS
-	
 	var last = null
 	var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
 	var my_src = eval(
@@ -257,7 +246,7 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 			if(length == 0) length = 1;
 			jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
 			jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
-			append_editor('<img src="' + img +'" alt="' + desc + '" />');
+			append_editor("\n\n" + '<p><img src="' + img +'" alt="' + desc + '" /></p>');
 		}
 		tinyMCE.activeEditor.resizeToContent();
 		return false;
@@ -277,7 +266,8 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 		tb_init('a.thickbox, area.thickbox, input.thickbox');
 	});
 	
-<?php die; }
+<?php die;
+}
 
 if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="photolist"></div>
@@ -287,7 +277,8 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="titlewrap">
 			<div id="img_container"></div>
 		</div>
-<?php die; }
+<?php die;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
@@ -377,7 +368,6 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	}
 	
 	function set_editor(text) {
-
 		if(tinyMCE.activeEditor) tinyMCE.activeEditor.setContent('');
 		if(tinyMCE.activeEditor) tinyMCE.execCommand('mceInsertContent' ,false, text);
 	}
@@ -399,7 +389,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					set_editor("<?php echo $selection; ?>");
 				<?php } else { ?>
 					set_editor("<a href='<?php echo $url ?>'><?php echo $title; ?></a>");
-				<? } ?>
+				<?php } ?>
 				return false;
 				break;
 			case 'quote' :
@@ -411,25 +401,26 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			case 'video' :
 				set_menu('video');
 				set_title('<?php _e('Caption') ?>');
-				
 				jQuery('#extra_fields').show();
 				jQuery('body').addClass('video_split');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attribute_escape($selection); ?>'}, function() {
 					<?php 
 					if ( preg_match("/youtube\.com\/watch/i", $url) ) {
-					list($domain, $video_id) = split("v=", $url);
-					$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>'; ?>
+						list($domain, $video_id) = split("v=", $url);
+						$content = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/' . $video_id . '"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/' . $video_id . '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
+						
+					} elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) {
+						list($domain, $video_id) = split(".com/", $url);
+						$content = '<object width="400" height="225"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />	<embed src="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225"></embed></object>';
 					
-					<?php } elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) {
-					
-					list($domain, $video_id) = split(".com/", $url);
-					$content = '<object width="400" height="225"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />	<embed src="http://www.vimeo.com/moogaloop.swf?clip_id=' . $video_id . '&amp;server=www.vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="225"></embed></object>';
-					
-					if ( trim($selection) == '' )
-						$selection = '<a href="http://www.vimeo.com/' . $video_id . '?pg=embed&sec=' . $video_id . '">' . $title . '</a> on <a href="http://vimeo.com?pg=embed&sec=' . $video_id . '">Vimeo</a>';
+						if ( trim($selection) == '' )
+							$selection = '<a href="http://www.vimeo.com/' . $video_id . '?pg=embed&sec=' . $video_id . '">' . $title . '</a> on <a href="http://vimeo.com?pg=embed&sec=' . $video_id . '">Vimeo</a>';
+										
 					} else {
 						$content = $selection;
-					} ?>
+					}
+					
+					?>
 					jQuery('#embed_code').prepend('<?php echo htmlentities($content); ?>');
 					
 					set_editor("<?php echo $title; ?>");
@@ -443,7 +434,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					set_editor("<?php echo $selection; ?>");
 				<?php } else { ?>
 					set_editor("<a href='<?php echo $url ?>'><?php echo $title; ?></a>");
-				<? } ?>
+				<?php } ?>
 				jQuery('#extra_fields').show();
 				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></h2>');
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
@@ -468,7 +459,6 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			tab_name = tab_name[0];
 			show(tab_name);
 		});
-		
 		// Set default tabs
 		<?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
 			show('video');
@@ -478,7 +468,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			show('photo');
 		<?php } ?>
 	});
-	
+
 </script>
 </head>
 <body class="press-this">

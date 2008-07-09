@@ -88,34 +88,33 @@ body {
 	cursor: pointer;
 }
 
+/* Header */
 #wphead {
 	border-top: none;
+	height: 2em;
+	padding-top: 8px;
 }
 
 .button {
-font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-padding: 3px 5px;
-font-size: 12px;
-line-height: 1.5em;
-border-width: 1px;
-border-style: solid;
--moz-border-radius: 3px;
--khtml-border-radius: 3px;
--webkit-border-radius: 3px;
-border-radius: 3px;
-cursor: pointer;
-margin-left: 5px;
-text-decoration: none;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 3px 5px;
+	font-size: 12px;
+	line-height: 1.5em;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: pointer;
+	margin-left: 5px;
+	text-decoration: none;
 }
 
 .howto {
-font-size: 11px;
-}
-#newtag { width: 60%; padding: 3px; }
-
-#wphead {
-	height: 2em;
-	padding-top: 8px;
+	font-size: 11px;
+	font-style: italic;
+	display: block;
 }
 
 #wphead #viewsite {
@@ -132,8 +131,7 @@ font-size: 11px;
 }
 
 #wphead #viewsite a {
-	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
-		sans-serif;
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	padding: 3px 4px;
 	display: block;
 	letter-spacing: normal;
@@ -173,16 +171,16 @@ input.text {
 	color: #333333;
 }
 
-.titlewrap {
-	border-style: solid;
-	border-width: 1px;
-	padding: 2px 3px;
-	border-color: #CCCCCC;
-}
+/* Editor/Main Column */
 
 div#container {
 	margin: 0;
 	min-width: 500px;
+}
+
+div#container form {
+	margin: 0px;
+	padding: 0px;
 }
 
 div#posting {
@@ -192,6 +190,17 @@ div#posting {
 	width: 66%;
 }
 
+#post_title {
+	width: 99%;
+}
+
+.titlewrap {
+	border-style: solid;
+	border-width: 1px;
+	padding: 2px 3px;
+	border-color: #CCCCCC;
+}
+
 div#posting h2 {
 	margin: .5em 0 .25em 0;
 	font-size: 12px;
@@ -199,10 +208,62 @@ div#posting h2 {
 	background: ;
 }
 
-div#container form {
-	margin: 0px;
-	padding: 0px;
+.editor-container {
+	border-width: 1px;
+	border-color: #ccc;
+	border-style: solid;
+	margin-bottom: 1em;
 }
+
+/* Photo Styles */
+
+#photo_directions {
+	margin-top: .25em;
+	display: block;
+	position: relative;
+}
+
+#photo_directions span {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 3px;
+}
+
+#photo_saving {
+	margin-bottom: 8px;
+}
+
+#img_container {
+	background-color: #fff;
+	overflow: auto;
+	height: 100px;
+}
+
+#img_container a {
+	display: block;
+	width: 79px;
+	height: 79px;
+	float: left;
+}
+
+#img_container img {
+	width: 75px;
+	height: 75px;
+	border: 0px;
+	padding: 2px;
+	background-color: #f4f4f4;
+	cursor: pointer;
+}
+#img_container a, #img_container a:link, #img_container a:visited {
+	border: 2px solid #ccc;
+	margin: 0 4px 4px 0;
+} 
+#img_container a:hover, #img_container a:active {
+	border: 2px solid #000;
+}
+
+/* Submit Column */
 
 div#categories {
 	font-size: 85%;
@@ -216,13 +277,13 @@ div#categories {
 div#categories h2 {
 	color: #333;
 	font-size: 12px;
-	margin: .5em 0 0 1em;
+	margin: .5em 0 .5em 1em;
 	padding: 0;
 }
 
 #categories-all {
 	overflow: auto;
-	padding: 1em;
+	padding: 0 1em 1em 1em;
 	height: 15em;
 }
 
@@ -232,16 +293,15 @@ div#categories h2 {
 	margin: 0;
 }
 
-.editor-container {
-	border-width: 1px;
-	border-color: #ccc;
-	border-style: solid;
-	margin-bottom: 1em;
+#tagsdiv #newtag {
+	padding: 3px;
+	margin-right: 5px;
+	width: 16em;	
 }
 
-#tagsdiv #newtag {
-	margin-right: 5px;
-	width: 16em;
+#jaxtag {
+	clear: both;
+	padding-left: 1em;
 }
 
 #tagchecklist {
@@ -277,43 +337,6 @@ div#categories h2 {
 	text-indent: -9999px;
 	overflow: hidden;
 	position: absolute;
-}
-
-.howto {
-	font-style: italic;
-	display: block;
-}
-
-#post_title {
-	width: 99%;
-}
-
-#img_container {
-	background-color: #fff;
-	overflow: auto;
-	height: 100px;
-}
-
-#img_container a {
-	display: block;
-	width: 79px;
-	height: 79px;
-	float: left;
-}
-#img_container img {
-	width: 75px;
-	height: 75px;
-	border: 0px;
-	padding: 2px;
-	background-color: #f4f4f4;
-	cursor: pointer;
-}
-#img_container a, #img_container a:link, #img_container a:visited {
-	border: 2px solid #ccc;
-	margin: 0 4px 4px 0;
-} 
-#img_container a:hover, #img_container a:active {
-	border: 2px solid #000;
 }
 .submit {
 	-moz-border-radius-bottomleft: 3px;
@@ -363,10 +386,7 @@ div#categories h2 {
 	border-top-right-radius: 3px;
 }
 
-.hidden {
-	display: none;
-}
-
+/* Video Styles */
 .video_split #extra_fields {
 	width: 27%;
 	height: 300px;
@@ -381,11 +401,6 @@ div#categories h2 {
 .video_split .editor_area {
 	width: 70%;
 	float: right;
-}
-
-#jaxtag {
-	clear: both;
-	padding-left: 1em;
 }
 
 .ac_results {
@@ -413,25 +428,24 @@ div#categories h2 {
 	text-decoration: underline;
 }
 
-
 .photolist {
-display: none;
+	display: none;
 }
 
 #extra_fields small {
-display: block;
-margin-top: .5em;
-padding-bottom: .25em;
+	display: block;
+	margin-top: .5em;
+	padding-bottom: .25em;
 }
 
 #TB_ajaxContent #options {
-position: absolute;
-top: 20px;
-right: 25px;
-padding: 5px;
+	position: absolute;
+	top: 20px;
+	right: 25px;
+	padding: 5px;
 }
 #TB_ajaxContent h3 {
-margin-bottom: .25em;
+	margin-bottom: .25em;
 }
 
 .updated {
@@ -461,26 +475,13 @@ margin-bottom: .25em;
 	padding-bottom: 2px;
 }
 
-#photo_directions {
-margin-top: .25em;
-display: block;
-position: relative;
-}
-#photo_directions span {
-display: block;
-position: absolute;
-top: 0;
-right: 3px;
-}
-#photo_saving {
-margin-bottom: 8px;
-}
-
 #post_status {
 	margin-left: 10px;
 	margin-bottom: 1em;
 	display: block;
 }
+
+/* Footer */
 
 #footer {
 	height: 65px;
@@ -506,6 +507,12 @@ margin-bottom: 8px;
 	text-decoration: underline;
 }
 
+
+/* Utility Classes */
 .centered {
 	text-align: center;
+}
+
+.hidden {
+	display: none;
 }
