@@ -46,6 +46,7 @@ case 'diff' :
 	// If we're comparing a revision to itself, redirect to the 'view' page for that revision or the edit page for that post
 	if ( $left_revision->ID == $right_revision->ID ) {
 		$redirect = get_edit_post_link( $left_revision->ID );
+		include( 'js/revisions-js.php' );
 		break;
 	}
 
