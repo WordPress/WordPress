@@ -158,7 +158,7 @@ function wp_default_scripts( &$scripts ) {
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
 		) );
-		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080705' );
+		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080709' );
 		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20080702' );
 		$scripts->localize( 'upload', 'uploadL10n', array(
 			'browseTitle' => attribute_escape(__('Browse your files')),
@@ -224,7 +224,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css' );
-	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20080523' );
+	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20080709' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20080708' );

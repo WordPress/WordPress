@@ -64,7 +64,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080704",
+"version" : "<?php echo $man_version; ?>_20080709",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -99,6 +99,9 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/xit.gif" },
 { "url" : "images/loading-publish.gif" },
 { "url" : "images/loading.gif" },
+{ "url" : "images/required.gif" },
+{ "url" : "images/no.png" },
+{ "url" : "images/yes.png" },
 
 { "url" : "../wp-includes/images/crystal/archive.png" },
 { "url" : "../wp-includes/images/crystal/audio.png" },

@@ -32,6 +32,7 @@ form {
 .media-upload-form label, .media-upload-form legend {
 	display:block;
 	font-weight: bold;
+	font-size: 13px;
 	margin-bottom: 0.5em;
 	margin: 0 0 0.5em 0;
 }
@@ -228,9 +229,11 @@ abbr.required {
 }
 
 .filename {
+	float: left;
 	line-height: 36px;
 	margin-left: 10px;
-	float: left;
+	overflow: hidden;
+	max-width: 430px;
 }
 #media-upload .describe {
 	border-top-width: 1px;
@@ -275,4 +278,38 @@ abbr.required {
 #media-upload .del-attachment {
 	display: none;
 	margin: 5px 0;
+}
+
+.menu_order {
+	float: right;
+	font-size: 11px;
+	margin: 10px 10px 0;
+}
+
+.menu_order_input {
+	border: 1px solid #DDDDDD;
+	font-size: 10px;
+	padding: 1px;
+	width: 23px;
+}
+
+.ui-sortable-helper {
+	background-color: #fff;
+	border: 1px solid #aaa;
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+}
+
+#media-upload th.order-head {
+	 width: 25%;
+	 text-align: center;
+}
+
+#media-upload .widefat {
+	width: 626px;
+	border-style: solid solid none;
+}
+
+.sorthelper {
+	z-index: -1;
 }
