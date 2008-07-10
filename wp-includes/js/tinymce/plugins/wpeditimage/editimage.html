@@ -4,11 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
 
-<script type="text/javascript" src="js/editimage.js?ver=311"></script>
+<script type="text/javascript" src="js/editimage.js?ver=311c"></script>
 <script type="text/javascript" src="../../utils/form_utils.js?ver=311"></script>
 
-<link rel="stylesheet" href="css/editimage.css?ver=311b" type="text/css" media="all" />
-<link rel="stylesheet" href="../../../../../wp-admin/css/media.css?ver=2.6-beta1" type="text/css" media="all" />
+<link rel="stylesheet" href="css/editimage.css?ver=311c" type="text/css" media="all" />
+<link rel="stylesheet" href="../../../../../wp-admin/css/media.css?ver=2.6-beta3" type="text/css" media="all" />
 <script type="text/javascript">
 if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 	document.write('<link rel="stylesheet" href="css/editimage-rtl.css?ver=311" type="text/css" media="all" />');
@@ -74,7 +74,7 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</td>
 		</tr>
 
-		<tr class="">
+		<tr>
 			<th valign="top" scope="row" class="label">
 				<label for="img_title">
 				<span class="alignleft">{#wpeditimage.img_title}</span>
@@ -85,19 +85,18 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</td>
 		</tr>
 
-		<tr class="post_excerpt">
+		<tr>
 			<th valign="top" scope="row" class="label">
-				<label for="img_alt">
+				<label for="img_cap">
 				<span class="alignleft">{#wpeditimage.caption}</span>
 				</label>
 			</th>
 			<td class="field">
-				<input type="text" id="img_alt" name="img_alt" value="" size="60" />
-				<p class="help">{#wpeditimage.alt_help}</p>
+				<input type="text" id="img_cap" name="img_cap" value="" size="60" />
 			</td>
 		</tr>
 
-		<tr class="url">
+		<tr>
 			<th valign="top" scope="row" class="label">
 				<label for="link_href">
 				<span class="alignleft" id="lb_link_href">{#advanced_dlg.link_url}</span>
@@ -127,6 +126,17 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</th>
 			<td class="field">
 				<input type="text" id="img_src" name="img_src" value="" onblur="wpImage.checkVal(this)" aria-required="true" size="60" />
+			</td>
+		</tr>
+		
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_alt">
+				<span class="alignleft">{#wpeditimage.alt}</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_alt" name="img_alt" value="" size="60" />
 			</td>
 		</tr>
 

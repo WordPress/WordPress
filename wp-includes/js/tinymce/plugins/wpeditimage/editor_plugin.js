@@ -15,7 +15,7 @@
 				if ( ed.dom.getAttrib(el, 'class').indexOf('mceItem') != -1 || el.nodeName != 'IMG' )
 					return;
 
-				tb_show('', url + '/editimage.html?ver=311b&TB_iframe=true');
+				tb_show('', url + '/editimage.html?ver=311c&TB_iframe=true');
 				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
 
@@ -34,9 +34,23 @@
 			});
 
 			ed.onMouseUp.add(function(ed, e) {
-				if ( ! tinymce.isOpera ) return;
-				if ( e.target.nodeName == 'IMG' )
-					ed.plugins.wpeditimage.showButtons(e.target);
+				if ( tinymce.isOpera ) {
+					if ( e.target.nodeName == 'IMG' )
+						ed.plugins.wpeditimage.showButtons(e.target);
+				} else if ( ! tinymce.isWebKit ) {
+					var n = ed.selection.getNode(), DL;
+					
+					if ( n.nodeName == 'IMG' && (DL = ed.dom.getParent(n, 'DL')) ) {					
+						window.setTimeout(function(){
+							var ed = tinyMCE.activeEditor, n = ed.selection.getNode(), DL = ed.dom.getParent(n, 'DL');
+						
+							if ( n.width != (parseInt(ed.dom.getStyle(DL, 'width')) - 10) ) {
+								ed.dom.setStyle(DL, 'width', parseInt(n.width)+10);
+								ed.execCommand('mceRepaint');
+							}
+						}, 100);
+					}
+				}
 			});
 
 			ed.onMouseDown.add(function(ed, e) {

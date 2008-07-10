@@ -37,7 +37,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080706' );
 
 	// Modify this version when tinyMCE plugins are changed.
-	$mce_version = apply_filters('tiny_mce_version', '20080708');
+	$mce_version = apply_filters('tiny_mce_version', '20080709');
 	$scripts->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');

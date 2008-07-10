@@ -222,7 +222,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080708');
+	$cacheKey = apply_filters('tiny_mce_version', '20080709');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
