@@ -754,22 +754,18 @@ function get_shortcut_link() {
 			var f='" . admin_url('press-this.php') . "';
 			var l=d.location;
 			var e=encodeURIComponent;
-			var u= '?u=' + e(l.href);
-			var t= '&t=' + e(d.title);
-			var s= '&s=' + e(s);
-			var v='&v=1';
-			var g= f+u+t+s+v;
+			var g=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=2';
 			function a(){
 				if(!w.open(g,'t','toolbar=0,resizable=0,scrollbars=1,status=1,width=700,height=500')){
 					l.href=g;
 				}
-			}
-			if(/Firefox/.test(navigator.userAgent)){
-				setTimeout(a,0);
-			}else{
-				a();
-			}
-			void(0);";
+			}";
+			if (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') !== false)
+				$link .= 'setTimeout(a,0);';
+			else
+				$link .= 'a();';
+
+			$link .= "void(0);";
 
 	$link = str_replace(array("\r", "\n", "\t"),  '', $link);
 
