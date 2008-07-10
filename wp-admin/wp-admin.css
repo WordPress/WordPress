@@ -727,7 +727,7 @@ a.view-comment-post-link {
 	padding: 0 0 8px 17px;
 }
 
-#adminmenu li a #awaiting-mod {
+#adminmenu li a #awaiting-mod, #sidemenu li a #update-plugins {
 	position: absolute;
 	margin-left: -0.4em;
 	margin-top: 0.2em;
@@ -738,7 +738,7 @@ a.view-comment-post-link {
 	width: 1em;
 }
 
-#adminmenu li a .count-0 {
+#adminmenu li a .count-0, #sidemenu li a .count-0 {
 	display: none;
 }
 
@@ -778,11 +778,11 @@ strong .post-com-count {
 	background-position: center -3px;
 }
 
-#adminmenu li a:hover #awaiting-mod {
+#adminmenu li a:hover #awaiting-mod, #sidemenu li a:hover #update-plugins {
 	background-position: -80px bottom;
 }
 
-#adminmenu li a #awaiting-mod span {
+#adminmenu li a #awaiting-mod span, #sidemenu li a #update-plugins span {
 	top: -0.8em;
 	right: 0;
 	position: absolute;

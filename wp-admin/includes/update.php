@@ -116,7 +116,7 @@ function wp_update_plugins() {
 
 	update_option( 'update_plugins', $new_option );
 }
-add_action( 'load-plugins.php', 'wp_update_plugins' );
+add_action( 'init', 'wp_update_plugins' );
 
 function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_option( 'update_plugins' );
