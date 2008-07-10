@@ -54,7 +54,7 @@ switch($step) {
 			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
 		</tr>
 	</table>
-	<input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" class="button" />
+	<p class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" class="button" /></p>
 </form>
 
 <?php
@@ -98,7 +98,7 @@ switch($step) {
 	</tr>
 </table>
 
-<p><a href="../wp-login.php" class="button"><?php _e('Log In'); ?></a>
+<p class="step"><a href="../wp-login.php" class="button"><?php _e('Log In'); ?></a></p>
 
 <?php
 		break;

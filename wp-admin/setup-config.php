@@ -62,7 +62,7 @@ switch($step) {
 <p><strong>If for any reason this automatic file creation doesn't work, don't worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>. </strong></p>
 <p>In all likelihood, these items were supplied to you by your ISP. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;</p>
 
-<p><a href="setup-config.php?step=1" class="button">Let&#8217;s go!</a></p>
+<p class="step"><a href="setup-config.php?step=1" class="button">Let&#8217;s go!</a></p>
 <?php
 	break;
 
@@ -98,9 +98,7 @@ switch($step) {
 			<td>If you want to run multiple WordPress installations in a single database, change this.</td>
 		</tr>
 	</table>
-	<h2 class="step">
-	<input name="submit" type="submit" value="Submit" class="button" />
-	</h2>
+	<p class="step"><input name="submit" type="submit" value="Submit" class="button" /></p>
 </form>
 <?php
 	break;
@@ -154,7 +152,7 @@ switch($step) {
 ?>
 <p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;</p>
 
-<p><a href="install.php" class="button">Run the install</a></p>
+<p class="step"><a href="install.php" class="button">Run the install</a></p>
 <?php
 	break;
 }

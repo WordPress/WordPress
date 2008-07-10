@@ -7,8 +7,10 @@ body {
 	margin: 2em auto 0 auto;
 	width: 700px;
 	padding: 1em 2em;
+	-moz-border-radius: 12px;
+	-khtml-border-radius: 12px;
 	-webkit-border-radius: 12px;
-	font-size: 62.5%;
+	border-radius: 12px;
 }
 
 a { color: #2583ad; text-decoration: none; }
@@ -25,12 +27,12 @@ h2 { font-size: 16px; }
 
 p, li {
 	padding-bottom: 2px;
-	font-size: 1.3em;
-	line-height: 1.8em;
+	font-size: 13px;
+	line-height: 18px;
 }
 
 code {
-	font-size: 1.3em;
+	font-size: 13px;
 }
 
 ul, ol { padding: 5px 5px 5px 22px; }
@@ -38,12 +40,16 @@ ul, ol { padding: 5px 5px 5px 22px; }
 #logo { margin: 6px 0 14px 0px; border-bottom: none;}
 
 .step {
-	font-size: 2.2em;
+	margin: 20px 0 15px;
 }
 
-.step input { font-size: 2em; }
+.step input {
+	font-size: 18px;
+}
 
-td input { font-size: 1.5em; }
+a.button {
+	font-size: 18px;
+}
 
 .step, th { text-align: left; padding: 0; }
 
@@ -79,12 +85,13 @@ td input { font-size: 1.5em; }
 	margin-bottom: 9px;
 	padding: 10px;
 	border-bottom: 8px solid #fff;
+	font-size: 12px;
 }
 
 .form-table th {
-	font-size: 12px;
+	font-size: 13px;
 	text-align: left;
-	padding: 12px 10px 10px 10px;
+	padding: 16px 10px 10px 10px;
 	border-bottom: 8px solid #fff;
 	width: 110px;
 	vertical-align: top;
@@ -104,6 +111,12 @@ td input { font-size: 1.5em; }
 	font-size: 11px;
 }
 
+.form-table input {
+	line-height: 20px;
+	font-size: 15px;
+	padding: 2px;
+}
+
 h1 {
 	border-bottom: 1px solid #dadada;
 	clear: both;
@@ -120,9 +133,10 @@ h1 {
 
 #error-page p {
 	font-size: 14px;
-	line-height: 1.6em;
+	line-height: 16px;
+	margin: 25px 0 20px;
 }
 
 #error-page code {
-	font-size: 1em;
+	font-size: 15px;
 }
