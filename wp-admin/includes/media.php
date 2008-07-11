@@ -1418,7 +1418,7 @@ add_filter('flash_uploader', 'media_upload_use_flash');
 
 function media_upload_flash_bypass() {
         echo '<p class="upload-flash-bypass">';
-        printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), add_query_arg('flash', 0) );
+        printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), clean_url(add_query_arg('flash', 0)) );
         echo '</p>';
 }
 
@@ -1428,7 +1428,7 @@ function media_upload_html_bypass() {
         echo '<p class="upload-html-bypass">';
         if ( array_key_exists('flash', $_REQUEST) )
                 // the user manually selected the browser uploader, so let them switch back to Flash
-                printf( __('You are using the Browser uploader.  Try the <a href="%s">Flash uploader</a> instead.'), add_query_arg('flash', 1) );
+                printf( __('You are using the Browser uploader.  Try the <a href="%s">Flash uploader</a> instead.'), clean_url(add_query_arg('flash', 1)) );
         else
                 // the user probably doesn't have Flash
                 printf( __('You are using the Browser uploader.') );
