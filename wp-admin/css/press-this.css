@@ -231,7 +231,8 @@ div#posting h2 {
 }
 
 #photo_saving {
-	margin-bottom: 8px;
+	margin: 0 8px 8px;
+	vertical-align: middle;
 }
 
 #img_container {
@@ -302,6 +303,7 @@ div#categories h2 {
 #jaxtag {
 	clear: both;
 	padding-left: 1em;
+	margin: 0;
 }
 
 #tagchecklist {
@@ -348,7 +350,7 @@ div#categories h2 {
 	-webkit-border-bottom-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 	margin: 0;
-	padding: 0;
+	padding: 10px;
 }
 .submitbox {
 	width: 100%;
@@ -363,10 +365,9 @@ div#categories h2 {
 .submitbox .submit input {
 	border: none;
 	text-align: left;
-	padding: 12px 10px 10px 10px;
+	padding: 6px 4px;
 	font-size: 12px;
-	margin: 10px;
-
+	margin: 2px;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
