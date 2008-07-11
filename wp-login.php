@@ -53,14 +53,7 @@ function login_header($title = 'Login', $message = '', $wp_error = '') {
 	<?php
 	wp_admin_css( 'login', true );
 	wp_admin_css( 'colors-fresh', true );
-	?>
-	<script type="text/javascript">
-		function focusit() {
-			document.getElementById('user_login').focus();
-		}
-		window.onload = focusit;
-	</script>
-<?php do_action('login_head'); ?>
+	do_action('login_head'); ?>
 </head>
 <body class="login">
 
@@ -334,6 +327,9 @@ case 'retrievepassword' :
 
 <p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
+<script type="text/javascript">
+try{document.getElementById('user_login').focus();}catch(e){}
+</script>
 </body>
 </html>
 <?php
@@ -399,6 +395,9 @@ case 'register' :
 
 <p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
+<script type="text/javascript">
+try{document.getElementById('user_login').focus();}catch(e){}
+</script>
 </body>
 </html>
 <?php
@@ -481,6 +480,9 @@ default:
 
 <p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
+<script type="text/javascript">
+try{document.getElementById('user_login').focus();}catch(e){}
+</script>
 </body>
 </html>
 <?php
