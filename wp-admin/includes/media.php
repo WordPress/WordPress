@@ -1407,6 +1407,49 @@ function type_form_file() {
 ';
 }
 
+// support a GET parameter for disabling the flash uploader
+function media_upload_use_flash($flash) {
+        if ( array_key_exists('flash', $_REQUEST) )
+                $flash = !empty($_REQUEST['flash']);
+        return $flash;
+}
+
+add_filter('flash_uploader', 'media_upload_use_flash');
+
+function media_upload_flash_bypass() {
+        echo '<p class="upload-flash-bypass">';
+        printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), add_query_arg('flash', 0) );
+        echo '</p>';
+}
+
+add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
+
+function media_upload_html_bypass() {
+        echo '<p class="upload-html-bypass">';
+        if ( array_key_exists('flash', $_REQUEST) )
+                // the user manually selected the browser uploader, so let them switch back to Flash
+                printf( __('You are using the Browser uploader.  Try the <a href="%s">Flash uploader</a> instead.'), add_query_arg('flash', 1) );
+        else
+                // the user probably doesn't have Flash
+                printf( __('You are using the Browser uploader.') );
+
+        echo '</p>';
+}
+
+add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
+add_action('post-html-upload-ui', 'media_upload_html_bypass');
+
+// make sure the GET parameter sticks when we submit a form
+function media_upload_bypass_url($url) {
+        if ( array_key_exists('flash', $_REQUEST) )
+                $url = add_query_arg('flash', intval($_REQUEST['flash']));
+        return $url;
+}
+
+add_filter('media_upload_form_url', 'media_upload_bypass_url');
+
+
+
 add_filter('async_upload_image', 'get_media_item', 10, 2);
 add_filter('async_upload_audio', 'get_media_item', 10, 2);
 add_filter('async_upload_video', 'get_media_item', 10, 2);
