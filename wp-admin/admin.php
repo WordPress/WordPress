@@ -113,4 +113,7 @@ if (isset($plugin_page)) {
 	do_action("load-$pagenow");
 }
 
+if ( !empty($_REQUEST['action']) )
+	do_action('admin_action_' . $_REQUEST['action']);
+
 ?>
