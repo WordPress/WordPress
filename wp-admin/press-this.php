@@ -20,9 +20,6 @@ function press_it() {
 	$quick['post_title'] = $_REQUEST['post_title'];
 	$quick['post_content'] = '';
 
-	$posted = str_replace('<br />', "\n", str_replace('<p>', '', $_REQUEST['content']));
-	$posted = str_replace('</p>', "\n\n", $posted);
-
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
 
@@ -30,18 +27,18 @@ function press_it() {
 	switch ( $_REQUEST['post_type'] ) {
 		case 'text':
 		case 'quote':
-			$content .= $posted;
+			$content .= $_REQUEST['content'];
 			break;
 
 		case 'photo':
-			$content = $posted;
+			$content = $_REQUEST['content'];
 
 			foreach( (array) $_REQUEST['photo_src'] as $key => $image) {
 				// escape quote for matching
 				$quoted = preg_quote2($image);
 
 				// see if files exist in content - we don't want to upload non-used selected files.
-				if( strpos($posted, $quoted) !== false ) {
+				if( strpos($_REQUEST['content'], $quoted) !== false ) {
 					$upload = media_sideload_image($image, $post_ID, $_REQUEST['photo_description'][$key]);
 					// Replace the POSTED content <img> with correct uploaded ones.
 					if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=(\"|\')'.$quoted.'(\2)([^>\/]*)\/*>/is', $upload, $content);
@@ -53,11 +50,11 @@ function press_it() {
 		case "video":
 			if($_REQUEST['embed_code']) 
 				$content .= $_REQUEST['embed_code']."\n\n";
-			$content .= $posted;
+			$content .= $_REQUEST['content'];
 			break;
 		}
 	// set the post_content
-	$quick['post_content'] = preg_replace("/\n\n+/", "\n\n", $content);
+	$quick['post_content'] = $content;
 
 	// error handling for $post
 	if ( is_wp_error($post_ID)) {
@@ -305,6 +302,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	wp_enqueue_style('press-this');
 	wp_enqueue_style( 'colors' );
 	wp_enqueue_script('post');
+	wp_enqueue_script('editor_functions');
 
 	do_action('admin_print_styles');
 	do_action('admin_print_scripts');
@@ -348,7 +346,8 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				tab_focus : ":next",
 				plugins : "safari,inlinepopups",
 				entities : "38,amp,60,lt,62,gt",
-				force_p_newlines : true
+				force_p_newlines : true,
+				save_callback : 'switchEditors.saveCallback'
 			});
     <?php } ?>
 
