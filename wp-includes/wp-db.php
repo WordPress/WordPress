@@ -685,7 +685,8 @@ class wpdb {
 				$wheres[] = "$c = '" . $this->escape( $v ) . "'";
 		else
 			return false;
-		return $this->query( "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres ) . ' LIMIT 1' );
+			
+		return $this->query( "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres ) );
 	}
 
 	/**
