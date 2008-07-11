@@ -64,7 +64,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080710",
+"version" : "<?php echo $man_version; ?>_20080710a",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -131,7 +131,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/link.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/source_editor.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/js/anchor.js?ver=311" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js?ver=311c" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.js?ver=311d" },
 { "url" : "../wp-includes/js/tinymce/tiny_mce.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/editor_template.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/inlinepopups/editor_plugin.js?ver=311" },
@@ -148,7 +148,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/paste/pastetext.htm?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/inlinepopups/template.htm?ver=311" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html?ver=311c" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html?ver=311d" },
 { "url" : "../wp-includes/js/tinymce/wp-mce-help.php?ver=311" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css?ver=311" },
@@ -161,7 +161,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/media/css/media.css?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/pasteword.css?ver=311" },
 { "url" : "../wp-includes/js/tinymce/plugins/paste/css/blank.css?ver=311" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css?ver=311c" },
+{ "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css?ver=311d" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/css/editimage-rtl.css?ver=311" },
 { "url" : "../wp-includes/js/tinymce/wordpress.css?ver=311" },
 

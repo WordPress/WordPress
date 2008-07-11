@@ -351,9 +351,13 @@ function wp_get_attachment_image($attachment_id, $size='thumbnail', $icon = fals
 }
 
 add_shortcode('wp_caption', 'img_caption_shortcode');
+add_shortcode('caption', 'img_caption_shortcode');
 
 function img_caption_shortcode($attr, $content = null) {
-	
+
+	if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF )
+		return $content;
+
 	// Allow plugins/themes to override the default caption template.
 	$output = apply_filters('img_caption_shortcode', '', $attr, $content);
 	if ( $output != '' )

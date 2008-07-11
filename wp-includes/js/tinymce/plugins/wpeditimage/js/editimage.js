@@ -247,6 +247,10 @@ var wpImage = {
 	setup : function() {
 		var t = this, h, c, el, id, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor, d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, caption = null;
 		document.dir = tinyMCEPopup.editor.getParam('directionality','');
+
+		if ( ! tinyMCEPopup.editor.getParam('wpeditimage_do_captions', true) )
+			t.I('cap_field').style.display = 'none';
+
 		tinyMCEPopup.restoreSelection();
 		el = ed.selection.getNode();
 		if (el.nodeName != 'IMG') return;
@@ -265,7 +269,7 @@ var wpImage = {
 			}
 
 			tinymce.each(DL.childNodes, function(e) {
-				if ( e.nodeName == 'DD' && dom.hasClass(e, 'wp_caption_dd') ) {
+				if ( e.nodeName == 'DD' && dom.hasClass(e, 'wp-caption-dd') ) {
 					caption = e.innerHTML;
 					return;
 				}
@@ -423,14 +427,14 @@ var wpImage = {
 
 			if ( DL ) {
 				ed.dom.setAttribs(DL, {
-					'class' : 'wp_caption '+t.align,
+					'class' : 'wp-caption '+t.align,
 					style : 'width: '+cap_width+'px;'
 				});
 
 				if ( DIV )
 					ed.dom.setAttrib(DIV, 'class', div_cls);
 
-				if ( (DT = ed.dom.getParent(el, 'dt')) && (DD = DT.nextSibling) && ed.dom.hasClass(DD, 'wp_caption_dd') )
+				if ( (DT = ed.dom.getParent(el, 'dt')) && (DD = DT.nextSibling) && ed.dom.hasClass(DD, 'wp-caption-dd') )
 					ed.dom.setHTML(DD, f.img_cap.value);
 
 			} else {
@@ -448,8 +452,8 @@ var wpImage = {
 					}
 				} else html = ed.dom.getOuterHTML(el);
 
-				html = '<dl id="'+cap_id+'" class="wp_caption '+t.align+'" style="width: '+cap_width+
-				'px"><dt class="wp_caption_dt">'+html+'</dt><dd class="wp_caption_dd">'+f.img_cap.value+'</dd></dl>';
+				html = '<dl id="'+cap_id+'" class="wp-caption '+t.align+'" style="width: '+cap_width+
+				'px"><dt class="wp-caption-dt">'+html+'</dt><dd class="wp-caption-dd">'+f.img_cap.value+'</dd></dl>';
 
 				cap = ed.dom.create('div', {'class': div_cls}, html);
 

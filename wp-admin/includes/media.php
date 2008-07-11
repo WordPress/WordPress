@@ -67,7 +67,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 
 function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 
-	if ( empty($alt) ) return $html;
+	if ( empty($alt) || ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF ) ) return $html;
 	$id = ( 0 < (int) $id ) ? 'attachment_' . $id : '';
 
 	preg_match( '/width="([0-9]+)/', $html, $matches );
@@ -77,8 +77,8 @@ function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 	$html = preg_replace( '/align[^\s\'"]+\s?/', '', $html );
 	if ( empty($align) ) $align = 'none';
 
-	$shcode = '[wp_caption id="' . $id . '" align="align' . $align
-	. '" width="' . $width . '" caption="' . $alt . '"]' . $html . '[/wp_caption]';
+	$shcode = '[caption id="' . $id . '" align="align' . $align
+	. '" width="' . $width . '" caption="' . $alt . '"]' . $html . '[/caption]';
 
 	return apply_filters( 'image_add_caption_shortcode', $shcode, $html );
 }
@@ -508,8 +508,14 @@ function media_upload_library() {
 function image_attachment_fields_to_edit($form_fields, $post) {
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$form_fields['post_title']['required'] = true;
-		$form_fields['post_excerpt']['label'] = __('Caption');
-		$form_fields['post_excerpt']['helps'][] = __('Alternate text, e.g. "The Mona Lisa"');
+
+		if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF ) {
+			$form_fields['post_excerpt']['label'] = __('Alternate Text');
+			$form_fields['post_excerpt']['helps'][] = __('Alt text for the image, e.g. "The Mona Lisa"');
+		} else {
+			$form_fields['post_excerpt']['label'] = __('Caption');
+			$form_fields['post_excerpt']['helps'][] = __('Also used as alternate text for the image');
+		}
 
 		$form_fields['post_content']['label'] = __('Description');
 
@@ -598,13 +604,18 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	$file = wp_get_attachment_url($post->ID);
 	$link = get_attachment_link($post->ID);
 
+	if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF )
+		$alt = __('Alternate Text');
+	else
+		$alt = __('Caption');
+
 	$form_fields = array(
 		'post_title'   => array(
 			'label'      => __('Title'),
 			'value'      => $edit_post->post_title,
 		),
 		'post_excerpt' => array(
-			'label'      => __('Caption'),
+			'label'      => $alt,
 			'value'      => $edit_post->post_excerpt,
 		),
 		'post_content' => array(
@@ -1007,7 +1018,9 @@ var addExtImage = {
 
 		if ( f.alt.value ) {
 			alt = f.alt.value.replace(/['"<>]+/g, '');
+<?php if ( ! defined('CAPTIONS_OFF') || true != CAPTIONS_OFF ) { ?>
 			caption = f.alt.value.replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+<?php } ?>
 		}
 
 		cls = caption ? '' : ' class="'+t.align+'"';
@@ -1018,7 +1031,7 @@ var addExtImage = {
 			html = '<a href="'+f.url.value+'">'+html+'</a>';
 
 		if ( caption )
-			html = '[wp_caption id="" align="'+t.align+'" width="'+t.width+'" caption="'+caption+'"]'+html+'[/wp_caption]';
+			html = '[caption id="" align="'+t.align+'" width="'+t.width+'" caption="'+caption+'"]'+html+'[/caption]';
 
 		var win = window.dialogArguments || opener || parent || top;
 		win.send_to_editor(html);
@@ -1262,7 +1275,7 @@ jQuery(function($){
 }
 
 function type_form_image() {
-	return '
+	$form = '
 	<table class="describe"><tbody>
 		<tr>
 			<th valign="top" scope="row" class="label" style="width:120px;">
@@ -1279,7 +1292,20 @@ function type_form_image() {
 			</th>
 			<td class="field"><p><input id="title" name="title" value="" type="text" aria-required="true" /></p></td>
 		</tr>
+';
+	if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF ) {
+		$form .= '
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<span class="alignleft"><label for="alt">' . __('Alternate Text') . '</label></span>
+			</th>
+			<td class="field"><input id="alt" name="alt" value="" type="text" aria-required="true" />
+			<p class="help">' . __('Alt text for the image, e.g. "The Mona Lisa"') . '</p></td>
+		</tr>
+';
 
+	} else {
+		$form .= '
 		<tr>
 			<th valign="top" scope="row" class="label">
 				<span class="alignleft"><label for="alt">' . __('Image Caption') . '</label></span>
@@ -1287,7 +1313,9 @@ function type_form_image() {
 			<td class="field"><input id="alt" name="alt" value="" type="text" aria-required="true" />
 			<p class="help">' . __('Also used as alternate text for the image') . '</p></td>
 		</tr>
-
+';
+	}
+		$form .= '
 		<tr class="align">
 			<th valign="top" scope="row" class="label"><p><label for="align">' . __('Alignment') . '</label></p></th>
 			<td class="field">
@@ -1321,6 +1349,8 @@ function type_form_image() {
 		</tr>
 	</tbody></table>
 ';
+
+	return $form;
 }
 
 function type_form_audio() {
