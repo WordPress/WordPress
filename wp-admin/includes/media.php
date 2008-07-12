@@ -67,6 +67,7 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 
 function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 
+	// CAPTIONS_OFF is temporary. Do not use it.
 	if ( empty($alt) || ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF ) ) return $html;
 	$id = ( 0 < (int) $id ) ? 'attachment_' . $id : '';
 
@@ -509,6 +510,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$form_fields['post_title']['required'] = true;
 
+		// CAPTIONS_OFF is temporary. Do not use it.
 		if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF ) {
 			$form_fields['post_excerpt']['label'] = __('Alternate Text');
 			$form_fields['post_excerpt']['helps'][] = __('Alt text for the image, e.g. "The Mona Lisa"');
@@ -604,6 +606,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	$file = wp_get_attachment_url($post->ID);
 	$link = get_attachment_link($post->ID);
 
+	// CAPTIONS_OFF is temporary. Do not use it.
 	if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF )
 		$alt = __('Alternate Text');
 	else
@@ -1018,7 +1021,7 @@ var addExtImage = {
 
 		if ( f.alt.value ) {
 			alt = f.alt.value.replace(/['"<>]+/g, '');
-<?php if ( ! defined('CAPTIONS_OFF') || true != CAPTIONS_OFF ) { ?>
+<?php if ( ! defined('CAPTIONS_OFF') || true != CAPTIONS_OFF ) { // CAPTIONS_OFF is temporary. Do not use it. ?>
 			caption = f.alt.value.replace(/'/g, '&#39;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 <?php } ?>
 		}
@@ -1293,6 +1296,7 @@ function type_form_image() {
 			<td class="field"><p><input id="title" name="title" value="" type="text" aria-required="true" /></p></td>
 		</tr>
 ';
+	// CAPTIONS_OFF is temporary. Do not use it.
 	if ( defined('CAPTIONS_OFF') && true == CAPTIONS_OFF ) {
 		$form .= '
 		<tr>
