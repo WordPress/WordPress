@@ -290,7 +290,7 @@ body {
 }
 
 .postmetadata {
-	clear: left;
+	clear: both;
 }
 
 .clear {
