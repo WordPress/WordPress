@@ -525,9 +525,8 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 }
 
 /*
- * displays pages in hierarchical order
+ * displays pages in hierarchical order with paging support
  */
-
 function page_rows($pages, $pagenum = 1, $per_page = 20) {
 	$level = 0;
 
@@ -538,14 +537,20 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 			return false;
 	}
 
-	// splice pages into two parts: those without parent and those with parent
-	$top_level_pages = array();
-	$children_pages  = array();
-
-	// If searching, ignore hierarchy and treat everything as top level, otherwise split
-	// into top level and children
+	/* 
+	 * arrange pages into two parts: top level pages and children_pages
+	 * children_pages is two dimensional array, eg. 
+	 * children_pages[10][] contains all sub-pages whose parent is 10. 
+	 * It only takes O(N) to arrange this and it takes O(1) for subsequent lookup operations
+	 * If searching, ignore hierarchy and treat everything as top level
+	 */
 	if ( empty($_GET['s']) )  {
+		
+		$top_level_pages = array();
+		$children_pages  = array();
+		
 		foreach ( $pages as $page ) {
+			
 			// catch and repair bad pages
 			if ( $page->post_parent == $page->ID ) {
 				$page->post_parent = 0;
@@ -556,7 +561,7 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 			if ( 0 == $page->post_parent )
 				$top_level_pages[] = $page;
 			else
-				$children_pages[] = $page;
+				$children_pages[ $page->post_parent ][] = $page;
 		}
 
 		$pages = &$top_level_pages;
@@ -565,11 +570,10 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 	$count = 0;
 	$start = ($pagenum - 1) * $per_page;
 	$end = $start + $per_page;
+	
 	foreach ( $pages as $page ) {
 		if ( $count >= $end )
 			break;
-
-		$i++;
 
 		if ( $count >= $start )
 			echo "\t" . display_page_row( $page, $level );
@@ -579,21 +583,38 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 		if ( isset($children_pages) )
 			_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
 	}
+	
+	// if it is the last pagenum and there are orphaned pages, display them with paging as well
+	if ( isset($children_pages) && $count < $end ){
+		foreach( $children_pages as $orphans ){
+			foreach ( $orphans as $op ) {
+				if ( $count >= $end )
+					break;
+				if ( $count >= $start )
+					echo "\t" . display_page_row( $op, 0 );
+				$count++;
+			}
+		}
+	}
 }
 
-function _page_rows( $pages, &$count, $parent, $level, $pagenum, $per_page ) {
+/*
+ * Given a top level page ID, display the nested hierarchy of sub-pages
+ * together with paging support
+ */
+function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page ) {
+	
+	if ( ! isset( $children_pages[$parent] ) )
+		return; 
+		
 	$start = ($pagenum - 1) * $per_page;
 	$end = $start + $per_page;
-	$i = -1;
-	foreach ( $pages as $page ) {
+	
+	foreach ( $children_pages[$parent] as $page ) {
+		
 		if ( $count >= $end )
 			break;
-
-		$i++;
-
-		if ( $page->post_parent != $parent )
-			continue;
-
+			
 		// If the page starts in a subtree, print the parents.
 		if ( $count == $start && $page->post_parent > 0 ) {
 			$my_parents = array();
@@ -614,12 +635,13 @@ function _page_rows( $pages, &$count, $parent, $level, $pagenum, $per_page ) {
 
 		if ( $count >= $start )
 			echo "\t" . display_page_row( $page, $level );
-
-		unset($pages[$i]); // Prune the working set		
+			
 		$count++;
 
-		_page_rows( $pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
+		_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
 	}
+	
+	unset( $children_pages[$parent] ); //required in order to keep track of orphans
 }
 
 function user_row( $user_object, $style = '', $role = '' ) {
