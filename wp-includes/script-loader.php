@@ -211,7 +211,7 @@ function wp_default_styles( &$styles ) {
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 
-	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets' );
+	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this' );
 
 	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
