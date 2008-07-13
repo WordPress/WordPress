@@ -1,0 +1,7 @@
+#menu { margin-right: 8px !important; }
+
+p.submit input { text-align: right !important; }
+
+li.ui-tabs-selected a { height: 25px; }
+
+#photo_directions span { right: 200px; left: auto; height: 8px; }

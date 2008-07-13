@@ -1,3 +1,59 @@
 body {
 	font-family: sans-serif;
 }
+
+#viewsite { 
+	right:auto; left: 8px; 
+}
+
+ul#menu { 
+	padding-right: 8px; 
+}
+
+.ui-tabs-nav li { 
+	float: right; 
+}
+
+div#posting { 
+	padding-right:16px; padding-left: 0; 
+}
+
+div#categories { 
+	right: auto; left: 16px; 
+}
+
+div#categories h2 { 
+	margin:0.5em 1em 0.5em 0; 
+}
+
+#jaxtag { 
+	padding-right :1em; padding-left: 0; 
+}
+
+input#newtag { 
+	margin-left: 4px; width: 100px; 
+}
+
+#photo_directions span { 
+	right: auto; left: 3px 
+}
+
+#TB_ajaxContent #options { 
+	right: auto; left: 25px; 
+}
+
+#TB_ajaxContent {
+	text-align: right;
+}
+
+#TB_ajaxContent #this_photo {
+	direction: ltr;
+}
+
+.video_split #extra_fields { 
+	float: right; 
+}
+
+.video_split .editor_area { 
+	float: left; 
+}
