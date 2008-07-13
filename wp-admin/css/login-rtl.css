@@ -1,6 +1,9 @@
 body {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: sans-serif;
 	direction: rtl;
+}
+#login form .submit input {
+	font-family: sans-serif !important;
 }
 form {
 	margin-left:0;

@@ -1,3 +1,6 @@
+#template textarea {
+	font-family: monospace !important;
+}
 #templateside {
 	float:left;
 }

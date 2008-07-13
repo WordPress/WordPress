@@ -1,9 +1,15 @@
-/* styles for use by people extending the WordPress interface */
+//* styles for use by people extending the WordPress interface */
+body, td { font-family: sans-serif; }
+
+textarea, input, select { font-family: sans-serif; }
+
 .alignleft { float: right; }
 .alignright { float: left; }
 
 .textleft { text-align: right; }
 .textright { text-align: left; }
+	
+.wrap h2 { font-family: sans-serif; }
 
 .widefat td {
 	padding: 7px 10px 9px 15px;

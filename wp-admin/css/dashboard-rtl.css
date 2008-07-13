@@ -22,6 +22,10 @@ h3.dashboard-widget-title span {
 	float: right;
 }
 
+div.dashboard-widget-submit input {
+	font-family: sans-serif !important;
+}
+	
 #dashboard-widgets .widget_rss ul li a {
 	float:right;
 	font-weight:bold;
@@ -63,7 +67,13 @@ div.dashboard-widget {
 #dashboard_secondary div.dashboard-widget-content ul li {
 	float: right;
 }
+#dashboard_secondary div.dashboard-widget-content ul li .post {
+	font-family: sans-serif !important;
+}
 #dashboard_secondary div.dashboard-widget-content ul li a {
 	border-right:0 none;
 	border-left:1px solid #DADADA;
+}
+#dashboard_secondary div.dashboard-widget-content ul li a cite {
+	font-family: sans-serif;
 }

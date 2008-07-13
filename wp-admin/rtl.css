@@ -4,8 +4,12 @@ html,#edit-slug-box,#trackback,#category_nicename,#slug,#dbuser,#dbpass,#dbname,
 	text-align:left
 }
 
-body, td {
-	font-family: Tahoma,Verdana,sans-serif;
+body, td, .submit input, .button, .button-secondary, .button-highlighted, #your-profile legend, .quicktags, .search, #wpcontent select, #wphead #viewsite a, #wphead h1 {
+	font-family: sans-serif !important;
+}
+
+.code, #quicktags #ed_code {
+	font-family: monospace !important;
 }
 
 #wpwrap,#footer,#TB_title,.media-upload-form,#media-upload-header
@@ -65,7 +69,7 @@ body, td {
 {
 	display:block;
 	float:right;
-	font:700 16px/100% "Times New Roman", Times, serif;
+	font:700 16px/100% sans-serif;
 	margin:0 0 0 10px;
 	padding:5px 7px 9px
 }
@@ -78,7 +82,7 @@ body, td {
 #adminmenu li a #awaiting-mod
 {
 	background:url(images/comment-stalk-rtl.gif) -309px bottom !important;
-	font-family: Tahoma, Verdana, sans-serif;
+	font-family: sans-serif !important;
 	margin-left:-45px;
 	margin-right:.2em;
 	margin-top:-5px
