@@ -230,6 +230,8 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20080708' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css' );
 	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20080710' );
+	$styles->add( 'press-this-ie', '/wp-admin/css/press-this-ie.css', array(), '20080710' );
+	$styles->add_data( 'press-this-ie', 'conditional', 'gte IE 6' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20080613' );
 	$styles->add( 'login', '/wp-admin/css/login.css' );
 

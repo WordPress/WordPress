@@ -79,12 +79,10 @@ if ( 'post' == $_REQUEST['action'] ) {
 	<head>
 		<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 		<title><?php _e('Press This') ?></title>
-		<!--[if gte IE 6]>
-		<link rel="stylesheet" href="./css/press-this-ie.css" type="text/css" media="screen" charset="utf-8" />
-		<![endif]-->
 	<?php
 		add_thickbox();
 		wp_enqueue_style('press-this');
+		wp_enqueue_style('press-this-ie');
 		wp_enqueue_style( 'colors' );
 		wp_enqueue_script('post');
 
@@ -294,12 +292,10 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	<title><?php _e('Press This') ?></title>
 
 	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js?ver=311"></script>
-	<!--[if gte IE 6]>
-	<?php wp_enqueue_style('press-this-ie'); ?>
-	<![endif]-->
 <?php
 	add_thickbox();
 	wp_enqueue_style('press-this');
+	wp_enqueue_style('press-this-ie');
 	wp_enqueue_style( 'colors' );
 	wp_enqueue_script('post');
 	wp_enqueue_script('editor_functions');

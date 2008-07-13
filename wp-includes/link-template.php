@@ -745,16 +745,16 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
 
 function get_shortcut_link() {
 	$link = "javascript:
-			var d=document;
-			var w=window;
-			var e=w.getSelection;
-			var k=d.getSelection;
-			var x=d.selection;
-			var s=(e?e():(k)?k():(x?x.createRange().text:0));
-			var f='" . admin_url('press-this.php') . "';
-			var l=d.location;
-			var e=encodeURIComponent;
-			var g=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=2';
+			var d=document,
+			w=window,
+			e=w.getSelection,
+			k=d.getSelection,
+			x=d.selection,
+			s=(e?e():(k)?k():(x?x.createRange().text:0)),
+			f='" . admin_url('press-this.php') . "',
+			l=d.location,
+			e=encodeURIComponent,
+			g=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=2';
 			function a(){
 				if(!w.open(g,'t','toolbar=0,resizable=0,scrollbars=1,status=1,width=700,height=500')){
 					l.href=g;
