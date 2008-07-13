@@ -827,7 +827,10 @@ function wp_safe_redirect($location, $status = 302) {
 	if ( substr($location, 0, 2) == '//' )
 		$location = 'http:' . $location;
 
-	$lp  = parse_url($location);
+	// In php 5 parse_url may fail if the URL query part contains http://, bug #38143
+	$test = ( $cut = strpos($location, '?') ) ? substr( $location, 0, $cut ) : $location;
+	
+	$lp  = parse_url($test);
 	$wpp = parse_url(get_option('home'));
 
 	$allowed_hosts = (array) apply_filters('allowed_redirect_hosts', array($wpp['host']), isset($lp['host']) ? $lp['host'] : '');
