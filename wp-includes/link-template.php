@@ -772,8 +772,19 @@ function get_shortcut_link() {
 	return apply_filters('shortcut_link', $link);
 }
 
-// return the site_url option, using https if is_ssl() is true
-// if $scheme is 'http' or 'https' it will override is_ssl()
+/** Return the site url
+ *
+ *
+ * @package WordPress
+ * @since 2.6
+ *
+ * Returns the 'site_url' option with the appropriate protocol,  'https' if is_ssl() and 'http' otherwise. 
+ * If $scheme is 'http' or 'https', is_ssl() is overridden.
+ *
+ * @param string $path Optional path relative to the site url
+ * @param string $scheme Optional scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'
+ * @return string Site url link with optional path appended
+*/
 function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
 	if ( !in_array($scheme, array('http', 'https')) ) {
@@ -795,6 +806,17 @@ function site_url($path = '', $scheme = null) {
 	return $url;
 }
 
+/** Return the admin url
+ *
+ *
+ * @package WordPress
+ * @since 2.6
+ *
+ * Returns the url to the admin area
+ *
+ * @param string $path Optional path relative to the admin url
+ * @return string Admin url link with optional path appended
+*/
 function admin_url($path = '') {
 	$url = site_url('wp-admin/', 'admin');
 
@@ -804,6 +826,17 @@ function admin_url($path = '') {
 	return $url;
 }
 
+/** Return the includes url
+ *
+ *
+ * @package WordPress
+ * @since 2.6
+ *
+ * Returns the url to the includes directory
+ *
+ * @param string $path Optional path relative to the includes url
+ * @return string Includes url link with optional path appended
+*/
 function includes_url($path = '') {
 	$url = site_url() . '/' . WPINC . '/';
 
@@ -813,6 +846,17 @@ function includes_url($path = '') {
 	return $url;
 }
 
+/** Return the content url
+ *
+ *
+ * @package WordPress
+ * @since 2.6
+ *
+ * Returns the url to the content directory
+ *
+ * @param string $path Optional path relative to the content url
+ * @return string Content url link with optional path appended
+*/
 function content_url($path = '') {
 	$scheme = ( is_ssl() ? 'https' : 'http' );
 	$url = WP_CONTENT_URL;
