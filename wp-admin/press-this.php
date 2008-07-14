@@ -394,7 +394,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				set_menu('text');
 				set_title('<?php _e('Post') ?>');
 				<?php if ($selection) { ?>
-					set_editor('<?php echo $selection; ?><p><a href="<?php echo $url ?>"><?php echo $title; ?></a> &rlm;</p>');
+					set_editor('<?php echo $selection; ?><p><a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p>');
 				<?php } else { ?>
 					set_editor('<p><a href="<?php echo $url ?>"><?php echo $title; ?></a></p>');
 				<?php } ?>
@@ -431,7 +431,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 					?>
 					jQuery('#embed_code').prepend('<?php echo htmlentities($content); ?>');
 
-					set_editor('<a href="<?php echo $url ?>"><?php echo $title; ?></a> &rlm;');
+					set_editor('<a href="<?php echo $url ?>"><?php echo $title; ?></a>.');
 				});
 				return false;
 				break;
@@ -505,7 +505,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="editor_area">
 			<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			<div class="editor-container">
-				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><a href="<?php echo $url ?>"><?php echo $title; ?></a> &rlm;</textarea>
+				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><a href="<?php echo $url ?>"><?php echo $title; ?></a>.</textarea>
 			</div>
 		</div>
 	</div>
