@@ -183,7 +183,7 @@ if($_REQUEST['ajax'] == 'photo_images') {
 
 		$host = parse_url($uri);
 
-		$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif))(\2)([^>\/]*)\/*>/is';
+		$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif)[^<>\'\"]*)(\2)([^>\/]*)\/*>/is';
 		preg_match_all($pattern, $content, $matches);
 
 		if ( empty($matches[1]) ) return '';
