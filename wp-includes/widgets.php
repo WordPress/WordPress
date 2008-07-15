@@ -1043,7 +1043,7 @@ function wp_widget_recent_comments_register() {
 function wp_widget_rss($args, $widget_args = 1) {
 	extract($args, EXTR_SKIP);
 	if ( is_numeric($widget_args) )
-		$widget_args = array( 'number' => $widegt_args );
+		$widget_args = array( 'number' => $widget_args );
 	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 	extract($widget_args, EXTR_SKIP);
 
