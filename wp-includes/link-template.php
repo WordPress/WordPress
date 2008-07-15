@@ -871,4 +871,29 @@ function content_url($path = '') {
 	return $url;
 }
 
+/** Return the plugins url
+ *
+ *
+ * @package WordPress
+ * @since 2.6
+ *
+ * Returns the url to the plugins directory
+ *
+ * @param string $path Optional path relative to the plugins url
+ * @return string Plugins url link with optional path appended
+*/
+function plugins_url($path = '') {
+	$scheme = ( is_ssl() ? 'https' : 'http' );
+	$url = WP_PLUGIN_URL;
+	if ( 0 === strpos($url, 'http') ) {
+		if ( is_ssl() )
+			$url = str_replace( 'http://', "{$scheme}://", $url );
+	}
+
+	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+		$url .= '/' . ltrim($path, '/');
+
+	return $url;
+}
+
 ?>
