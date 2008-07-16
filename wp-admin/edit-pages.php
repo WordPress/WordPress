@@ -122,7 +122,7 @@ endif;
 $pagenum = absint( $_GET['pagenum'] );
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( !$per_page || $pre_page < 0 )
+if( !$per_page || $per_page < 0 )
 	$per_page = 20;
 
 $num_pages = ceil(count($posts) / $per_page);
