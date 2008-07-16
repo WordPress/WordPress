@@ -79,7 +79,7 @@ var wpImage = {
 
 		for ( i = 0; i < styles.length; i++ ) {
 			var url = styles.item(i).href;
-			if ( url && url.indexOf('colors-') != -1 )
+			if ( url && url.indexOf('colors') != -1 )
 				document.write( '<link rel="stylesheet" href="'+url+'" type="text/css" media="all" />' );
 		}
 	},
