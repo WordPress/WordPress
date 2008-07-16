@@ -120,6 +120,12 @@ function wp_update_plugins() {
 			$plugin_changed = true;
 	}
 
+	foreach ( (array) $current->response as $plugin_file => $update_details ) {
+		if ( ! isset($plugins[ $plugin_file ]) ) {
+			$plugin_changed = true;
+		}
+	}
+
 	// Bail if we've checked in the last 12 hours and if nothing has changed
 	if ( $time_not_changed && !$plugin_changed )
 		return false;
