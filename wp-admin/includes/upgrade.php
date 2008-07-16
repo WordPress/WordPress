@@ -543,6 +543,10 @@ function upgrade_230() {
 	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_ID");
 	foreach ($categories as $category) {
 		$term_id = (int) $category->cat_ID;
+		$name = $category->cat_name;
+		$description = $category->category_description;
+		$slug = $category->category_nicename;
+		$parent = $category->category_parent;
 		$term_group = 0;
 
 		// Associate terms with the same slug in a term group and make slugs unique.
