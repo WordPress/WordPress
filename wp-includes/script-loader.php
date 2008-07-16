@@ -125,7 +125,7 @@ function wp_default_scripts( &$scripts ) {
 			'pending' => __('%i% pending') // must look like: "# blah blah"
 		) );
 		$scripts->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
-		$scripts->add( 'admin-forms', '/wp-admin/js/forms.js', false, '20080401');
+		$scripts->add( 'admin-forms', '/wp-admin/js/forms.js', array('jquery'), '20080401');
 		$scripts->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 		$scripts->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
 		$scripts->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery'), '20080128' );
