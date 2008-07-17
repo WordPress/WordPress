@@ -67,8 +67,10 @@ function add_rewrite_endpoint($name, $places) {
   * @author Mark Jaquith 
   */
 function _wp_filter_taxonomy_base( $base ) {
-	if ( !empty( $base ) )
-		$base = preg_replace( '|^/index\.php/|', '/', $base );
+	if ( !empty( $base ) ) {
+		$base = preg_replace( '|^/index\.php/|', '', $base );
+		$base = trim( $base, '/' );
+	}
 	return $base;
 }
 
@@ -445,9 +447,8 @@ class WP_Rewrite {
 		}
 
 		if (empty($this->category_base))
-			$this->category_structure = $this->front . 'category/';
-		else
-			$this->category_structure = $this->category_base . '/';
+			$this->category_base = 'category';
+		$this->category_structure = trailingslashit( $this->front . $this->category_base );
 
 		$this->category_structure .= '%category%';
 
@@ -465,9 +466,8 @@ class WP_Rewrite {
 		}
 
 		if (empty($this->tag_base))
-			$this->tag_structure = $this->front . 'tag/';
-		else
-			$this->tag_structure = $this->tag_base . '/';
+			$this->tag_base = 'tag';
+		$this->tag_structure = trailingslashit( $this->front . $this->tag_base );
 
 		$this->tag_structure .= '%tag%';
 
@@ -993,8 +993,8 @@ class WP_Rewrite {
 		if ($this->using_index_permalinks()) {
 			$this->root = $this->index . '/';
 		}
-		$this->category_base = ( ( $this->using_index_permalinks() ) ? '/' . $this->index : '' ) . get_option( 'category_base' );
-		$this->tag_base = ( ( $this->using_index_permalinks() ) ? '/' . $this->index : '' ) . get_option( 'tag_base' );
+		$this->category_base = get_option( 'category_base' );
+		$this->tag_base = get_option( 'tag_base' );
 		unset($this->category_structure);
 		unset($this->author_structure);
 		unset($this->date_structure);
