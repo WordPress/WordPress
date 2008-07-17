@@ -764,17 +764,17 @@ function is_term($term, $taxonomy = '') {
 	if ( is_int($term) ) {
 		if ( 0 == $term )
 			return 0;
-		$where = $wpdb->prepare( "t.term_id = %d", $term );
+		$where = 't.term_id = %d';
 	} else {
 		if ( '' === $term = sanitize_title($term) )
 			return 0;
-		$where = $wpdb->prepare( "t.slug = %s", $term );
+		$where = 't.slug = %s';
 	}
 
 	if ( !empty($taxonomy) )
-		return $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s", $taxonomy), ARRAY_A);
+		return $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s", $term, $taxonomy), ARRAY_A);
 
-	return $wpdb->get_var("SELECT term_id FROM $wpdb->terms as t WHERE $where");
+	return $wpdb->get_var( $wpdb->prepare("SELECT term_id FROM $wpdb->terms as t WHERE $where", $term) );
 }
 
 /**
