@@ -112,53 +112,27 @@ function plugin_has_required_fields($plugin_contents) {
  */
 function get_plugin_data( $plugin_file ) {
 	$plugin_data = plugin_get_contents( $plugin_file );
-	preg_match( '|Plugin Name:(.*)$|mi', $plugin_data, $plugin_name );
-	preg_match( '|Plugin URI:(.*)$|mi', $plugin_data, $plugin_uri );
+	preg_match( '|Plugin Name:(.*)$|mi', $plugin_data, $name );
+	preg_match( '|Plugin URI:(.*)$|mi', $plugin_data, $uri );
+	preg_match( '|Version:(.*)|i', $plugin_data, $version );
 	preg_match( '|Description:(.*)$|mi', $plugin_data, $description );
 	preg_match( '|Author:(.*)$|mi', $plugin_data, $author_name );
 	preg_match( '|Author URI:(.*)$|mi', $plugin_data, $author_uri );
+	preg_match( '|Text Domain:(.*)$|mi', $plugin_data, $text_domain );
+	preg_match( '|Domain Path:(.*)$|mi', $plugin_data, $domain_path );
 
-	if ( preg_match( "|Version:(.*)|i", $plugin_data, $version ))
-		$version = trim( $version[1] );
-	else
-		$version = '';
-
-	if( preg_match( '|Text Domain:(.*)$|mi', $plugin_data, $text_domain ) ) {
-		if( preg_match( '|Domain Path:(.*)$|mi', $plugin_data, $domain_path ) )
-			$domain_path = trim( $domain_path[1] );
-
-		$text_domain = trim( $text_domain[1] );
-
-		if( !empty( $text_domain ) ) {
-			if( !empty( $domain_path ) )
-				load_plugin_textdomain($text_domain, dirname($plugin_file). $domain_path);
-			else
-				load_plugin_textdomain($text_domain, dirname($plugin_file));
-		}
-
-		$description[1] = translate(trim($description[1]), $text_domain);
-		$plugin_name[1] = translate(trim($plugin_name[1]), $text_domain);
-		$plugin_uri[1] = translate(trim($plugin_uri[1]), $text_domain);
-		$author_name[1] = translate(trim($author_name[1]), $text_domain);
-		$author_uri[1] = translate(trim($author_uri[1]), $text_domain);
+	foreach ( array( 'name', 'uri', 'version', 'description', 'author_name', 'author_uri', 'text_domain', 'domain_path' ) as $field ) {
+		if ( !empty( ${$field} ) )
+			${$field} = trim(${$field}[1]);
+		else
+			${$field} = '';
 	}
 
-	$description = wptexturize( trim( $description[1] ));
-
-	$name = $plugin_name[1];
-	$name = trim( $name );
-	$plugin = $name;
-	if ('' != trim($plugin_uri[1]) && '' != $name ) {
-		$plugin = '<a href="' . trim( $plugin_uri[1] ) . '" title="'.__( 'Visit plugin homepage' ).'">'.$plugin.'</a>';
-	}
-
-	if ('' == $author_uri[1] ) {
-		$author = trim( $author_name[1] );
-	} else {
-		$author = '<a href="' . trim( $author_uri[1] ) . '" title="'.__( 'Visit author homepage' ).'">' . trim( $author_name[1] ) . '</a>';
-	}
-
-	return array('Name' => $name, 'Title' => $plugin, 'Description' => $description, 'Author' => $author, 'Version' => $version);
+	return array(
+				'Name' => $name, 'PluginURI' => $uri, 'Description' => $description, 
+				'Author' => $author_name, 'AuthorURI' => $author_uri, 'Version' => $version, 
+				'TextDomain' => $text_domain, 'DomainPath' => $domain_path
+				);
 }
 
 function get_plugins($plugin_folder = '') {

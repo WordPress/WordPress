@@ -216,6 +216,27 @@ $plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),
 
 foreach( (array)$all_plugins as $plugin_file => $plugin_data) {
 
+	//Translate fields
+	if( !empty($plugin_data['TextDomain']) ) {
+		if( !empty( $plugin_data['DomainPath'] ) )
+			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file). $plugin_data['DomainPath']);
+		else
+			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file));
+
+		foreach ( array('Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version') as $field )
+			$plugin_data[ $field ] = translate($plugin_data[ $field ], $plugin_data['TextDomain']);
+	}
+
+	//Apply Markup
+	$plugin_data['Title'] = $plugin_data['Name'];
+	if ( !empty($plugin_data['PluginURI']) && !empty($plugin_data['Name']) )
+		$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="'.__( 'Visit plugin homepage' ).'">' . $plugin_data['Name'] . '</a>';
+	
+	if ( ! empty($plugin_data['AuthorURI']) )
+		$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="'.__( 'Visit author homepage' ).'">' . $plugin_data['Author'] . '</a>';
+	
+	$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
+
 	// Sanitize all displayed data
 	$plugin_data['Title']       = wp_kses($plugin_data['Title'], $plugins_allowedtags);
 	$plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags);
@@ -263,7 +284,7 @@ function print_plugins_table($plugins, $context = '') {
 
 		if( 'active' == $context )
 			$action_links[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '" class="delete">' . __('Deactivate') . '</a>';
-		else //Available or Recently deactivated
+		else //Inactive or Recently deactivated
 			$action_links[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
 
 		if ( current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
