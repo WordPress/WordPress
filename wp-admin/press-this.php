@@ -34,13 +34,14 @@ function press_it() {
 			$content = $_REQUEST['content'];
 
 			foreach( (array) $_REQUEST['photo_src'] as $key => $image) {
-				// escape quote for matching
-				$quoted = preg_quote2($image);
-
+				
 				// see if files exist in content - we don't want to upload non-used selected files.
-				if( strpos($_REQUEST['content'], $quoted) !== false ) {
+				if( strpos($_REQUEST['content'], $image) !== false ) {
 					$upload = media_sideload_image($image, $post_ID, $_REQUEST['photo_description'][$key]);
+					 
 					// Replace the POSTED content <img> with correct uploaded ones.
+					// escape quote for matching
+					$quoted = preg_quote2($image);
 					if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=(\"|\')'.$quoted.'(\2)([^>\/]*)\/*>/is', $upload, $content);
 				}
 			}
