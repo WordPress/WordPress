@@ -22,6 +22,7 @@
 class IXR_Value {
     var $data;
     var $type;
+
     function IXR_Value ($data, $type = false) {
         $this->data = $data;
         if (!$type) {
@@ -40,6 +41,7 @@ class IXR_Value {
             }
         }
     }
+
     function calculateType() {
         if ($this->data === true || $this->data === false) {
             return 'boolean';
@@ -73,6 +75,7 @@ class IXR_Value {
             return 'array';
         }
     }
+
     function getXml() {
         /* Return XML for this value */
         switch ($this->type) {
@@ -113,6 +116,7 @@ class IXR_Value {
         }
         return false;
     }
+
     function isStruct($array) {
         /* Nasty function to check if an array is a struct or not */
         $expected = 0;
@@ -180,7 +184,7 @@ class IXR_Message {
         return true;
     }
     function tag_open($parser, $tag, $attr) {
-		$this->_currentTagContents = '';
+        $this->_currentTagContents = '';
         $this->currentTag = $tag;
         switch($tag) {
             case 'methodCall':
@@ -270,7 +274,7 @@ class IXR_Message {
                 $this->params[] = $value;
             }
         }
-		$this->_currentTagContents = '';
+        $this->_currentTagContents = '';
     }
 }
 
@@ -334,7 +338,8 @@ EOD;
     }
     function call($methodname, $args) {
         if (!$this->hasMethod($methodname)) {
-            return new IXR_Error(-32601, 'server error. requested method '.$methodname.' does not exist.');
+            return new IXR_Error(-32601, 'server error. requested method '.
+                $methodname.' does not exist.');
         }
         $method = $this->callbacks[$methodname];
         // Perform the callback and send the response
@@ -347,18 +352,21 @@ EOD;
             // It's a class method - check it exists
             $method = substr($method, 5);
             if (!method_exists($this, $method)) {
-                return new IXR_Error(-32601, 'server error. requested class method "'.$method.'" does not exist.');
+                return new IXR_Error(-32601, 'server error. requested class method "'.
+                    $method.'" does not exist.');
             }
             // Call the method
             $result = $this->$method($args);
         } else {
             // It's a function - does it exist?
             if (is_array($method)) {
-            	if (!method_exists($method[0], $method[1])) {
-                return new IXR_Error(-32601, 'server error. requested object method "'.$method[1].'" does not exist.');
-            	}
+                if (!method_exists($method[0], $method[1])) {
+                    return new IXR_Error(-32601, 'server error. requested object method "'.
+                        $method[1].'" does not exist.');
+                }
             } else if (!function_exists($method)) {
-                return new IXR_Error(-32601, 'server error. requested function "'.$method.'" does not exist.');
+                return new IXR_Error(-32601, 'server error. requested function "'.
+                    $method.'" does not exist.');
             }
             // Call the function
             $result = call_user_func($method, $args);
@@ -490,7 +498,7 @@ class IXR_Client {
     var $response;
     var $message = false;
     var $debug = false;
-	var $timeout;
+    var $timeout;
     // Storage place for an error message
     var $error = false;
     function IXR_Client($server, $path = false, $port = 80, $timeout = false) {
@@ -509,8 +517,8 @@ class IXR_Client {
             $this->path = $path;
             $this->port = $port;
         }
-        $this->useragent = 'Incutio XML-RPC';
-		$this->timeout = $timeout;
+        $this->useragent = 'The Incutio XML-RPC PHP Library';
+        $this->timeout = $timeout;
     }
     function query() {
         $args = func_get_args();
@@ -556,7 +564,7 @@ class IXR_Client {
                 $gettingHeaders = false;
             }
             if (!$gettingHeaders) {
-                $contents .= trim($line)."\n";
+                $contents .= trim($line);
             }
         }
         if ($this->debug) {
@@ -603,7 +611,7 @@ class IXR_Error {
     var $message;
     function IXR_Error($code, $message) {
         $this->code = $code;
-        $this->message = htmlspecialchars($message);
+        $this->message = $message;
     }
     function getXml() {
         $xml = <<<EOD
@@ -665,10 +673,9 @@ class IXR_Date {
         $this->hour = substr($iso, 9, 2);
         $this->minute = substr($iso, 12, 2);
         $this->second = substr($iso, 15, 2);
-        $this->timezone = substr($iso, 17);
     }
     function getIso() {
-        return $this->year.$this->month.$this->day.'T'.$this->hour.':'.$this->minute.':'.$this->second.$this->timezone;
+        return $this->year.$this->month.$this->day.'T'.$this->hour.':'.$this->minute.':'.$this->second;
     }
     function getXml() {
         return '<dateTime.iso8601>'.$this->getIso().'</dateTime.iso8601>';

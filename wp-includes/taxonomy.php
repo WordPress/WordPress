@@ -761,20 +761,36 @@ function &get_terms($taxonomies, $args = '') {
 function is_term($term, $taxonomy = '') {
 	global $wpdb;
 
+	$select = "SELECT term_id FROM $wpdb->terms as t WHERE ";
+	$tax_select = "SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE ";
+
 	if ( is_int($term) ) {
 		if ( 0 == $term )
 			return 0;
 		$where = 't.term_id = %d';
-	} else {
-		if ( '' === $term = sanitize_title($term) )
-			return 0;
-		$where = 't.slug = %s';
+		if ( !empty($taxonomy) )
+			return $wpdb->get_row( $wpdb->prepare( $tax_select . $where . " AND tt.taxonomy = %s", $term, $taxonomy ), ARRAY_A );
+		else
+			return $wpdb->get_var( $wpdb->prepare( $select . $where, $term ) );
 	}
 
-	if ( !empty($taxonomy) )
-		return $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s", $term, $taxonomy), ARRAY_A);
+	if ( '' === $slug = sanitize_title($term) )
+		return 0;
 
-	return $wpdb->get_var( $wpdb->prepare("SELECT term_id FROM $wpdb->terms as t WHERE $where", $term) );
+	$where = 't.slug = %s';
+	$else_where = 't.name = %s';
+
+	if ( !empty($taxonomy) ) {
+		if ( $result = $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s", $slug, $taxonomy), ARRAY_A) )
+			return $result;
+			
+		return $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s", $term, $taxonomy), ARRAY_A);
+	}
+
+	if ( $result = $wpdb->get_var( $wpdb->prepare("SELECT term_id FROM $wpdb->terms as t WHERE $where", $slug) ) )
+		return $result;
+
+	return $wpdb->get_var( $wpdb->prepare("SELECT term_id FROM $wpdb->terms as t WHERE $else_where", $term) );
 }
 
 /**
