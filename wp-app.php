@@ -394,6 +394,7 @@ EOD;
 			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 
 		$publish = (isset($parsed->draft) && trim($parsed->draft) == 'yes') ? false : true;
+		$post_status = ($publish) ? 'publish' : 'draft';
 
 		extract($entry);
 
@@ -406,13 +407,6 @@ EOD;
 		$pubtimes = $this->get_publish_time($parsed->updated);
 		$post_modified = $pubtimes[0];
 		$post_modified_gmt = $pubtimes[1];
-
-		// let's not go backwards and make something draft again.
-		if(!$publish && $post_status == 'draft') {
-			$post_status = ($publish) ? 'publish' : 'draft';
-		} elseif($publish) {
-			$post_status = 'publish';
-		}
 
 		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt');
 		$this->escape($postdata);
