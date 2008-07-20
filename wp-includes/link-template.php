@@ -479,7 +479,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 		break;
 	endswitch;
 	
-	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . "/wp-admin/$file.php?{$action}$var=$post->ID", $post->ID );
+	return apply_filters( 'get_edit_post_link', admin_url("$file.php?{$action}$var=$post->ID"), $post->ID );
 }
 
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
@@ -509,7 +509,7 @@ function get_edit_comment_link( $comment_id = 0 ) {
 			return;
 	}
 
-	$location = get_bloginfo( 'wpurl' ) . '/wp-admin/comment.php?action=editcomment&amp;c=' . $comment->comment_ID;
+	$location = admin_url('comment.php?action=editcomment&amp;c=') . $comment->comment_ID;
 	return apply_filters( 'get_edit_comment_link', $location );
 }
 
