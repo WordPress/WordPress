@@ -1199,6 +1199,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	if ( is_int($term) && 0 == $term )
 		return new WP_Error('invalid_term_id', __('Invalid term ID'));
 
+	if ( '' == trim($term) )
+		return new WP_Error('empty_term_name', __('A name is required for this term'));
+
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
 	$args['name'] = $term;
@@ -1468,6 +1471,9 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	// expected_slashed ($name)
 	$name = stripslashes($name);
 	$description = stripslashes($description);
+
+	if ( '' == trim($name) )
+		return new WP_Error('empty_term_name', __('A name is required for this term'));
 
 	$empty_slug = false;
 	if ( empty($slug) ) {
