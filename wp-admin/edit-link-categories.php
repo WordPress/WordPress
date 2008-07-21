@@ -10,12 +10,13 @@ if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
 
 	foreach( (array) $_GET['delete'] as $cat_ID ) {
 		$cat_name = get_term_field('name', $cat_ID, 'link_category');
-
+		$default_cat_id = get_option('default_link_category');
+		
 		// Don't delete the default cats.
-		if ( $cat_ID == get_option('default_link_category') )
+		if ( $cat_ID == $default_cat_id )
 			wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
-		wp_delete_term($cat_ID, 'link_category');
+		wp_delete_term($cat_ID, 'link_category', array('default' => $default_cat_id));
 	}
 
 	$location = 'edit-link-categories.php';
