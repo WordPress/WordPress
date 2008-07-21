@@ -273,12 +273,12 @@ if (!CUSTOM_TAGS) {
 		'u' => array(),
 		'ul' => array (
 			'class' => array (),
-			'style' => array (), 
+			'style' => array (),
 			'type' => array ()),
 		'ol' => array (
 			'class' => array (),
 			'start' => array (),
-			'style' => array (), 
+			'style' => array (),
 			'type' => array ()),
 		'var' => array ());
 	/**
@@ -911,7 +911,7 @@ function wp_kses_normalize_entities($string) {
 
 	$string = preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/', '&\\1;', $string);
 	$string = preg_replace_callback('/&amp;#0*([0-9]{1,5});/', create_function('$matches', 'return wp_kses_normalize_entities2($matches[1]);'), $string);
-	$string = preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', '&#\\1\\2;', $string);
+	$string = preg_replace_callback('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/', create_function('$matches', 'return wp_kses_normalize_entities3($matches[2]);'), $string);
 
 	return $string;
 }
@@ -928,7 +928,33 @@ function wp_kses_normalize_entities($string) {
  * @return string Correctly encoded entity
  */
 function wp_kses_normalize_entities2($i) {
-	return (($i > 65535) ? "&amp;#$i;" : "&#$i;");
+	return ( (!valid_unicode($i)) || ($i > 65535) ? "&amp;#$i;" : "&#$i;");
+}
+
+/**
+ * wp_kses_normalize_entities3() - Callback for wp_kses_normalize_entities() for regular expression
+ *
+ * This function helps wp_kses_normalize_entities() to only accept valid Unicode numeric entities
+ * in hex form.
+ *
+ * @param string $h Hex string of encoded entity
+ * @return string Correctly encoded entity
+ */
+function wp_kses_normalize_entities3($hexchars) {
+	return ( (!valid_unicode(hexdec($hexchars))) ? "&amp;#x$hexchars;" : "&#x$hexchars;");
+}
+
+/**
+ * valid_unicode() - Helper function to determine if a Unicode value is valid.
+ *
+ * @param int $i Unicode value
+ * @return bool true if the value was a valid Unicode number
+ */
+function valid_unicode($i) {
+	return ( $i == 0x9 || $i == 0xa || $i == 0xd ||
+			($i >= 0x20 && $i <= 0xd7ff) ||
+			($i >= 0xe000 && $i <= 0xfffd) ||
+			($i >= 0x10000 && $i <= 0x10ffff) );
 }
 
 /**
