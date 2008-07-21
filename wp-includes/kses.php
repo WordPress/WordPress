@@ -431,6 +431,10 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols) {
 			$string = $newstring;
 		if ( $string == '' )
 			return '';
+		// prevent multiple dashes in comments
+		$string = preg_replace('/--+/', '-', $string);
+		// prevent three dashes closing a comment
+		$string = preg_replace('/-$/', '', $string);
 		return "<!--{$string}-->";
 	}
 	# Allow HTML comments
