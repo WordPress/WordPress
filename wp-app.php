@@ -206,9 +206,7 @@ class AtomServer {
 
 				// authenticate regardless of the operation and set the current
 				// user. each handler will decide if auth is required or not.
-				$this->authenticate();
-				$u = wp_get_current_user();
-				if(!isset($u) || $u->ID == 0) {
+				if(!$this->authenticate()) {
 					if ($always_authenticate) {
 						$this->auth_required('Credentials required.');
 					}
@@ -1064,9 +1062,6 @@ EOD;
 	 * Access credential through various methods and perform login
 	 */
 	function authenticate() {
-		$login_data = array();
-		$already_md5 = false;
-
 		log_app("authenticate()",print_r($_ENV, true));
 
 		// if using mod_rewrite/ENV hack
@@ -1078,22 +1073,16 @@ EOD;
 
 		// If Basic Auth is working...
 		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-			$login_data = array('login' => $_SERVER['PHP_AUTH_USER'],	'password' => $_SERVER['PHP_AUTH_PW']);
-			log_app("Basic Auth",$login_data['login']);
-		} else {
-			// else, do cookie-based authentication
-			if (function_exists('wp_get_cookie_login')) {
-				$login_data = wp_get_cookie_login();
-				$already_md5 = true;
+			log_app("Basic Auth",$_SERVER['PHP_AUTH_USER']);
+			$user = wp_authenticate($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			if ( $user && !is_wp_error($user) ) {
+				wp_set_current_user($user->ID);
+				log_app("authenticate()", $_SERVER['PHP_AUTH_USER']);
+				return true;
 			}
 		}
 
-		// call wp_login and set current user
-		if (!empty($login_data) && wp_login($login_data['login'], $login_data['password'], $already_md5)) {
-			 $current_user = new WP_User(0, $login_data['login']);
-			 wp_set_current_user($current_user->ID);
-			log_app("authenticate()",$login_data['login']);
-		}
+		return false;
 	}
 
 	function get_accepted_content_type($types = NULL) {
