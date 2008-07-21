@@ -74,7 +74,9 @@ case 'editedcat':
 			$location = $referer;
 	}
 
-	if ( wp_update_term($cat_ID, 'link_category', $_POST) )
+	$update =  wp_update_term($cat_ID, 'link_category', $_POST);
+
+	if ( $update && !is_wp_error($update) )
 		$location = add_query_arg('message', 3, $location);
 	else
 		$location = add_query_arg('message', 5, $location);
