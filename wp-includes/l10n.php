@@ -256,7 +256,7 @@ function load_textdomain($domain, $mofile) {
 /**
  * load_default_textdomain() - Loads default translated strings based on locale
  *
- * Loads the .mo file in LANGDIR constant path from WordPress root.
+ * Loads the .mo file in WP_LANG_DIR constant path from WordPress root.
  * The translated (.mo) file is named based off of the locale.
  *
  * @since 1.5.0
@@ -264,7 +264,7 @@ function load_textdomain($domain, $mofile) {
 function load_default_textdomain() {
 	$locale = get_locale();
 
-	$mofile = ABSPATH . LANGDIR . "/$locale.mo";
+	$mofile = WP_LANG_DIR . "/$locale.mo";
 
 	load_textdomain('default', $mofile);
 }
