@@ -129,6 +129,13 @@ function retrieve_password() {
 	do_action('retreive_password', $user_login);  // Misspelled and deprecated
 	do_action('retrieve_password', $user_login);
 
+	$allow = apply_filters('allow_password_reset', true, $user_data->id);
+
+	if ( ! $allow )
+		return new WP_Error('no_password_reset', __('Password reset is not allowed for this user'));
+	else if ( is_wp_error($allow) )
+		return $allow;
+		
 	$key = $wpdb->get_var($wpdb->prepare("SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s", $user_login));
 	if ( empty($key) ) {
 		// Generate something random for a key...
