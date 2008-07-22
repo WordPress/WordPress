@@ -25,15 +25,15 @@ wpGears = {
 	},
 
 	storeName : function() {
-      var name = window.location.protocol + window.location.host;
+		var name = window.location.protocol + window.location.host;
 
-      name = name.replace(/[\/\\:*"?<>|;,]+/g, '_'); // gears beta doesn't allow certain chars in the store name
-	  name = 'wp_' + name.substring(0, 60); // max length of name is 64 chars
+		name = name.replace(/[\/\\:*"?<>|;,]+/g, '_'); // gears beta doesn't allow certain chars in the store name
+		name = 'wp_' + name.substring(0, 60); // max length of name is 64 chars
 
-      return name;
-    },
+		return name;
+	},
 
-    message : function(show) {
+	message : function(show) {
 		var t = this, msg1 = t.I('gears-msg1'), msg2 = t.I('gears-msg2'), msg3 = t.I('gears-msg3'), num = t.I('gears-upd-number'), wait = t.I('gears-wait');
 
 		if ( ! msg1 ) return;
@@ -61,23 +61,32 @@ wpGears = {
 	I : function(id) {
 		return document.getElementById(id);
 	}
-}
+};
 
-function gearsInit() {
+(function() {
 	if ( 'undefined' != typeof google && google.gears ) return;
 
 	var gf = false;
-	if ( 'undefined' != typeof GearsFactory ) { // Firefox
+	if ( 'undefined' != typeof GearsFactory ) {
 		gf = new GearsFactory();
-	} else { // IE
+	} else {
 		try {
 			gf = new ActiveXObject('Gears.Factory');
-		} catch (e) {}
+			if ( factory.getBuildInfo().indexOf('ie_mobile') != -1 )
+				gf.privateSetGlobalObject(this);
+		} catch (e) {
+			if ( ( 'undefined' != typeof navigator.mimeTypes ) && navigator.mimeTypes['application/x-googlegears'] ) {
+				gf = document.createElement("object");
+				gf.style.display = "none";
+				gf.width = 0;
+				gf.height = 0;
+				gf.type = "application/x-googlegears";
+				document.documentElement.appendChild(gf);
+			}
+		}
 	}
 
 	if ( ! gf ) return;
 	if ( 'undefined' == typeof google ) google = {};
 	if ( ! google.gears ) google.gears = { factory : gf };
-}
-
-gearsInit();
+})();

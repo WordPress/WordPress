@@ -194,7 +194,7 @@ function wp_default_scripts( &$scripts ) {
 			'count' => __('Word count: %d')
 		));
 		
-		$scripts->add( 'wp-gears', '/wp-admin/js/wp-gears.js', false, '20080511' );
+		$scripts->add( 'wp-gears', '/wp-admin/js/wp-gears.js', false, '20080721' );
 		$scripts->localize( 'wp-gears', 'wpGearsL10n', array(
 			'updateCompleted' => __('Update completed.'),
 			'error' => __('Error:')
