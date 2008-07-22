@@ -611,6 +611,7 @@ class IXR_Error {
     var $message;
     function IXR_Error($code, $message) {
         $this->code = $code;
+        // WP adds htmlspecialchars(). See #5666
         $this->message = htmlspecialchars($message);
     }
     function getXml() {
@@ -650,6 +651,7 @@ class IXR_Date {
     var $hour;
     var $minute;
     var $second;
+    var $timezone;
     function IXR_Date($time) {
         // $time can be a PHP timestamp or an ISO one
         if (is_numeric($time)) {
@@ -665,6 +667,8 @@ class IXR_Date {
         $this->hour = date('H', $timestamp);
         $this->minute = date('i', $timestamp);
         $this->second = date('s', $timestamp);
+        // WP adds timezone. See #2036
+        $this->timezone = '';
     }
     function parseIso($iso) {
         $this->year = substr($iso, 0, 4);
@@ -673,9 +677,12 @@ class IXR_Date {
         $this->hour = substr($iso, 9, 2);
         $this->minute = substr($iso, 12, 2);
         $this->second = substr($iso, 15, 2);
+        // WP adds timezone. See #2036
+        $this->timezone = substr($iso, 17);
     }
     function getIso() {
-        return $this->year.$this->month.$this->day.'T'.$this->hour.':'.$this->minute.':'.$this->second;
+    	// WP adds timezone. See #2036
+        return $this->year.$this->month.$this->day.'T'.$this->hour.':'.$this->minute.':'.$this->second.$this->timezone;
     }
     function getXml() {
         return '<dateTime.iso8601>'.$this->getIso().'</dateTime.iso8601>';
