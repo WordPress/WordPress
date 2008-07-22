@@ -603,7 +603,6 @@ function get_sample_permalink($id, $title=null, $name = null) {
 	$post->post_status = $original_status;
 	$post->post_date = $original_date;
 	$post->post_name = $original_name;
-	$post->post_title = $original_title;
 	return $permalink;
 }
 
