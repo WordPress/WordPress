@@ -256,7 +256,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	else
 		$title = $prefix . $title;
 
-	$title = apply_filters('wp_title', $title, $sep);
+	$title = apply_filters('wp_title', $title, $sep, $seplocation);
 
 	// Send it out
 	if ( $display )
