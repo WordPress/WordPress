@@ -75,6 +75,7 @@ unset($hook_suffixes, $hook_suffix);
 
 <?php
 if ( ! $is_opera ) { 
+	$gears_menu = $is_safari ? __('the Safari menu') : __('your browser Tools menu');
 ?>
 	<div id="gears-info-box" class="info-box" style="display:none;">
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
@@ -90,7 +91,7 @@ if ( ! $is_opera ) {
 	<div id="gears-msg2" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
 	<p><?php _e('Gears is installed on this computer but is not enabled for use with WordPress.'); ?></p> 
-	<p><?php _e('To enable it, make sure this web site is not on the denied list in Gears Settings under your browser\'s Tools menu, then click the button below.'); ?></p>
+	<p><?php echo __('To enable it, make sure this web site is not on the denied list in Gears Settings under').' '.$gears_menu.__(', then click the button below.'); ?></p>
 	<p><strong><?php _e('However if this is a public or shared computer, Gears should not be enabled.'); ?></strong></p>
 	<div class="submit"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button>
 	<button class="button" style="margin-left:10px;" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Cancel'); ?></button></div>
@@ -98,13 +99,12 @@ if ( ! $is_opera ) {
 
 	<div id="gears-msg3" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
-	<p><?php _e('Gears is installed and enabled on this computer. You can disable it from your browser Tools menu.'); ?></p>
+	<p><?php echo __('Gears is installed and enabled on this computer. You can disable it from').' '.$gears_menu; ?>.</p>
 	<p><?php _e('If there are any errors, try disabling Gears, then reload the page and enable it again.'); ?></p>
 	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Please wait! Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
 	<div class="submit"><button class="button" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Close'); ?></button></div>
 	</div>
 	</div>
-
 <?php } ?>
 
 <div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s">%2$s</a>!'), 'profile.php', $user_identity) ?> | <a href="<?php echo site_url('wp-login.php?action=logout', 'login') ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a> | <?php _e('<a href="http://codex.wordpress.org/">Help</a>') ?> | <?php _e('<a href="http://wordpress.org/support/">Forums</a>'); if ( ! $is_opera ) { ?> | <span id="gears-menu"><a href="#" onclick="wpGears.message(1);return false;"><?php _e('Turbo') ?></a></span><?php } ?></p></div>
