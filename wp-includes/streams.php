@@ -58,21 +58,39 @@ class StringReader {
   function StringReader($str='') {
     $this->_str = $str;
     $this->_pos = 0;
+    // If string functions are overloaded, we need to use the mb versions
+    $this->is_overloaded = ((ini_get("mbstring.func_overload") & 2) != 0) && function_exists('mb_substr');
+  }
+
+  function _substr($string, $start, $length) {
+	if ($this->is_overloaded) {
+		return mb_substr($string,$start,$length,'ascii');
+	} else {
+		return substr($string,$start,$length);
+	}
+  }
+
+  function _strlen($string) {
+	if ($this->is_overloaded) {
+		return mb_strlen($string,'ascii');
+	} else {
+		return strlen($string);
+	}
   }
 
   function read($bytes) {
-    $data = substr($this->_str, $this->_pos, $bytes);
+	  $data = $this->_substr($this->_str, $this->_pos, $bytes);
     $this->_pos += $bytes;
-    if (strlen($this->_str)<$this->_pos)
-      $this->_pos = strlen($this->_str);
+    if ($this->_strlen($this->_str)<$this->_pos)
+      $this->_pos = $this->_strlen($this->_str);
 
     return $data;
   }
 
   function seekto($pos) {
     $this->_pos = $pos;
-    if (strlen($this->_str)<$this->_pos)
-      $this->_pos = strlen($this->_str);
+    if ($this->_strlen($this->_str)<$this->_pos)
+      $this->_pos = $this->_strlen($this->_str);
     return $this->_pos;
   }
 
@@ -81,9 +99,8 @@ class StringReader {
   }
 
   function length() {
-    return strlen($this->_str);
+    return $this->_strlen($this->_str);
   }
-
 }
 
 
@@ -149,17 +166,18 @@ class FileReader {
 // over it (it assumes knowledge of StringReader internals)
 class CachedFileReader extends StringReader {
   function CachedFileReader($filename) {
+    parent::StringReader();
+
     if (file_exists($filename)) {
 
       $length=filesize($filename);
       $fd = fopen($filename,'rb');
 
       if (!$fd) {
-	$this->error = 3; // Cannot read file, probably permissions
-	return false;
+        $this->error = 3; // Cannot read file, probably permissions
+        return false;
       }
       $this->_str = fread($fd, $length);
-	  $this->_pos = 0;
 	  fclose($fd);
 
     } else {
