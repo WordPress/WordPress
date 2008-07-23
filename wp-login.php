@@ -129,7 +129,7 @@ function retrieve_password() {
 	do_action('retreive_password', $user_login);  // Misspelled and deprecated
 	do_action('retrieve_password', $user_login);
 
-	$allow = apply_filters('allow_password_reset', true, $user_data->id);
+	$allow = apply_filters('allow_password_reset', true, $user_data->ID);
 
 	if ( ! $allow )
 		return new WP_Error('no_password_reset', __('Password reset is not allowed for this user'));
