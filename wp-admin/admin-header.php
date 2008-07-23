@@ -91,7 +91,7 @@ if ( ! $is_opera ) {
 	<div id="gears-msg2" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
 	<p><?php _e('Gears is installed on this computer but is not enabled for use with WordPress.'); ?></p> 
-	<p><?php echo __('To enable it, make sure this web site is not on the denied list in Gears Settings under').' '.$gears_menu.__(', then click the button below.'); ?></p>
+	<p><?php printf( __('To enable it, make sure this web site is not on the denied list in Gears Settings under %s, then click the button below.'), $gears_menu ); ?></p>
 	<p><strong><?php _e('However if this is a public or shared computer, Gears should not be enabled.'); ?></strong></p>
 	<div class="submit"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button>
 	<button class="button" style="margin-left:10px;" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Cancel'); ?></button></div>
@@ -99,7 +99,7 @@ if ( ! $is_opera ) {
 
 	<div id="gears-msg3" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
-	<p><?php echo __('Gears is installed and enabled on this computer. You can disable it from').' '.$gears_menu; ?>.</p>
+	<p><?php printf( __('Gears is installed and enabled on this computer. You can disable it from %s.'), $gears_menu ); ?></p></p>
 	<p><?php _e('If there are any errors, try disabling Gears, then reload the page and enable it again.'); ?></p>
 	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Please wait! Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
 	<div class="submit"><button class="button" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Close'); ?></button></div>
