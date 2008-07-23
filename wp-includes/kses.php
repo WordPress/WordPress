@@ -410,6 +410,7 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols) {
  * through another filter which will remove illegal attributes and once
  * that is completed, will be returned.
  *
+ * @access private
  * @since 1.0.0
  * @uses wp_kses_attr()
  *
@@ -863,6 +864,7 @@ function wp_kses_bad_protocol_once($string, $allowed_protocols) {
  * This function processes URL protocols, checks to see if they're in the
  * white-list or not, and returns different data depending on the answer.
  *
+ * @access private
  * @since 1.0.0
  *
  * @param mixed $matches string or preg_replace_callback() matches array to check for bad protocols
@@ -932,6 +934,7 @@ function wp_kses_normalize_entities($string) {
  * This function helps wp_kses_normalize_entities() to only accept 16 bit
  * values and nothing more for &#number; entities.
  *
+ * @access private
  * @since 1.0.0
  *
  * @param array $matches preg_replace_callback() matches array
@@ -950,6 +953,8 @@ function wp_kses_normalize_entities2($matches) {
  *
  * This function helps wp_kses_normalize_entities() to only accept valid Unicode numeric entities
  * in hex form.
+ *
+ * @access private
  *
  * @param array $matches preg_replace_callback() matches array
  * @return string Correctly encoded entity
