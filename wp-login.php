@@ -449,13 +449,16 @@ default:
 	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 
 	login_header(__('Login'), '', $errors);
+
+	if ( isset($_POST['log']) )
+		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? attribute_escape(stripslashes($_POST['log'])) : '';
 ?>
 
 <form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post">
 <?php if ( !isset($_GET['checkemail']) || !in_array( $_GET['checkemail'], array('confirm', 'newpass') ) ) : ?>
 	<p>
 		<label><?php _e('Username') ?><br />
-		<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
+		<input type="text" name="log" id="user_login" class="input" value="<?php echo $user_login; ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
 		<label><?php _e('Password') ?><br />
@@ -488,7 +491,16 @@ default:
 <p id="backtoblog"><a href="<?php bloginfo('url'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('&laquo; Back to %s'), get_bloginfo('title', 'display' )); ?></a></p>
 
 <script type="text/javascript">
+<?php if ( $user_login ) { ?>
+setTimeout( function(){ try{
+d = document.getElementById('user_pass');
+d.value = '';
+d.focus();
+} catch(e){}
+}, 200);
+<?php } else { ?>
 try{document.getElementById('user_login').focus();}catch(e){}
+<?php } ?>
 </script>
 </body>
 </html>
