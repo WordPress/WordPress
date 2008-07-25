@@ -670,7 +670,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	} else {
 		$edit = $user_object->user_login;
 	}
-	$role_name = translate_with_context($wp_roles->role_names[$role]);
+	$role_name = $wp_roles->role_names[$role] ? translate_with_context($wp_roles->role_names[$role]) : __('None');
 	$r = "<tr id='user-$user_object->ID'$style>
 		<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>
 		<td><strong>$edit</strong></td>
