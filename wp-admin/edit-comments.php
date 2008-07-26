@@ -30,6 +30,8 @@ if ( !empty( $_REQUEST['delete_comments'] ) ) {
 		}
 	endforeach;
 	$redirect_to = basename( __FILE__ ) . '?deleted=' . $comments_deleted . '&approved=' . $comments_approved . '&spam=' . $comments_spammed . '&unapproved=' . $comments_unapproved;
+	if ( isset($_REQUEST['apage']) )
+		$redirect_to = add_query_arg( 'apage', absint($_REQUEST['apage']), $redirect_to );
 	if ( !empty($_REQUEST['mode']) )
 		$redirect_to = add_query_arg('mode', $_REQUEST['mode'], $redirect_to);
 	if ( !empty($_REQUEST['comment_status']) )
@@ -175,6 +177,9 @@ if ( $page_links )
 <input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
 <?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
+<?php if ( isset($_GET['apage']) ) { ?>
+	<input type="hidden" name="apage" value="<?php echo absint( $_GET['apage'] ); ?>" />
+<?php } ?>
 </div>
 
 <br class="clear" />
