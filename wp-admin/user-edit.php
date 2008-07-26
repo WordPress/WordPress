@@ -173,6 +173,7 @@ include ('admin-header.php');
 		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></td>
 	</tr>
 <?php endif; ?>
+<?php if (count($_wp_admin_css_colors) > 1 ) : ?>
 <tr>
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
 <td><fieldset><legend class="hidden"><?php _e('Admin Color Scheme')?></legend>
@@ -184,8 +185,7 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 <div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo $color ?>" class="tog" <?php checked($color, $current_color); ?> />
 	<table class="color-palette">
 	<tr>
-	<?php
-	foreach ( $color_info->colors as $html_color ): ?>
+	<?php foreach ( $color_info->colors as $html_color ): ?>
 	<td style="background-color: <?php echo $html_color ?>" title="<?php echo $color ?>">&nbsp;</td>
 	<?php endforeach; ?>
 	</tr>
@@ -193,12 +193,12 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 	
 	<label for="admin_color_<?php echo $color; ?>"><?php echo $color_info->name ?></label>
 </div>
-<?php endforeach; ?>
+	<?php endforeach; ?>
 </fieldset></td>
 </tr>
 </table>
-
-<?php
+<?php endif;
+	
 	if ( $is_profile_page ) {
 		do_action('profile_personal_options');
 	}
