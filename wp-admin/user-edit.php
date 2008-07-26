@@ -196,9 +196,9 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 	<?php endforeach; ?>
 </fieldset></td>
 </tr>
+<?php endif; ?>
 </table>
-<?php endif;
-	
+<?php
 	if ( $is_profile_page ) {
 		do_action('profile_personal_options');
 	}
