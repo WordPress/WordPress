@@ -2924,7 +2924,7 @@ function update_postmeta_cache($post_ids) {
 	// Get post-meta info
 	$id_list = join(',', $ids);
 	$cache = array();
-	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN ($id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
+	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN ($id_list)", ARRAY_A) ) {
 		foreach ( (array) $meta_list as $metarow) {
 			$mpid = (int) $metarow['post_id'];
 			$mkey = $metarow['meta_key'];
