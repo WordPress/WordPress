@@ -479,7 +479,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 		break;
 	endswitch;
 	
-	return apply_filters( 'get_edit_post_link', admin_url("$file.php?{$action}$var=$post->ID"), $post->ID );
+	return apply_filters( 'get_edit_post_link', admin_url("$file.php?{$action}$var=$post->ID"), $post->ID, $context );
 }
 
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
