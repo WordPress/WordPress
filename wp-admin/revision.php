@@ -134,9 +134,6 @@ if ( 'page' == $post->post_type ) {
 	$title = __( 'Post Revisions' );
 }
 
-// Converts post_author ID# into name
-add_filter( '_wp_post_revision_field_post_author', 'get_author_name' );
-
 require_once( 'admin-header.php' );
 
 ?>
