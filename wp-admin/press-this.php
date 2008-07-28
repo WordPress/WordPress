@@ -446,7 +446,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				<?php } ?>
 				jQuery('#extra_fields').show();
 				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></h2>');
-				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'/?ajax=photo&u='.attribute_escape($url); ?>');
+				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'?ajax=photo&u='.attribute_escape($url); ?>');
 				jQuery.ajax({
 					type: "GET",
 					cache : false,
