@@ -3113,7 +3113,6 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 		// Allow these to be versioned
 		$fields = array(
 			'post_title' => __( 'Title' ),
-			'post_author' => __( 'Author' ),
 			'post_content' => __( 'Content' ),
 			'post_excerpt' => __( 'Excerpt' ),
 		);
@@ -3122,7 +3121,7 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 		$fields = apply_filters( '_wp_post_revision_fields', $fields );
 
 		// WP uses these internally either in versioning or elsewhere - they cannot be versioned
-		foreach ( array( 'ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count' ) as $protect )
+		foreach ( array( 'ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count', 'post_author' ) as $protect )
 			unset( $fields[$protect] );
 	}
 
