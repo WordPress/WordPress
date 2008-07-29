@@ -424,34 +424,27 @@ class Walker {
 			return;
 
 		$id_field = $this->db_fields['id'];
-		$parent_field = $this->db_fields['parent'];
 
 		//display this element
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array(&$this, 'start_el'), $cb_args);
 
-		if ( $max_depth == 0 ||
-		     ($max_depth != 0 &&  $max_depth > $depth+1 )) { //whether to descend
+		$id = $element->$id_field; 
+		
+		// descend only the depth is right and there are chilrens for this element
+		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) { 
 
-			$num_elements = sizeof( $children_elements );
-			for ( $i = 0; $i < $num_elements; $i++ ) {
-
-				$child = $children_elements[$i];
-				if ( $child->$parent_field == $element->$id_field ) {
-
-					if ( !isset($newlevel) ) {
-						$newlevel = true;
-						//start the child delimiter
-						$cb_args = array_merge( array(&$output, $depth), $args);
-						call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-					}
-
-					array_splice( $children_elements, $i, 1 );
-					$num_elements--;
-					$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
-					$i = -1;
+			foreach( $children_elements[ $id ] as $child ){
+				
+				if ( !isset($newlevel) ) {
+					$newlevel = true;
+					//start the child delimiter
+					$cb_args = array_merge( array(&$output, $depth), $args);
+					call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
 				}
+				$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
 			}
+			unset( $children_elements[ $id ] ); 
 		}
 
 		if ( isset($newlevel) && $newlevel ){
@@ -496,7 +489,9 @@ class Walker {
 
 		/*
 		 * need to display in hierarchical order
-		 * splice elements into two buckets: those without parent and those with parent
+		 * seperate elements into two buckets: top level and children elements
+		 * children_elements is two dimensional array, eg. 
+		 * children_elements[10][] contains all sub-elements whose parent is 10. 
 		 */
 		$top_level_elements = array();
 		$children_elements  = array();
@@ -504,26 +499,24 @@ class Walker {
 			if ( 0 == $e->$parent_field )
 				$top_level_elements[] = $e;
 			else
-				$children_elements[] = $e;
+				$children_elements[ $e->$parent_field ][] = $e;
 		}
 
 		/*
-		 * none of the elements is top level
-		 * the first one must be root of the sub elements
+		 * when none of the elements is top level
+		 * assume the first one must be root of the sub elements
 		 */
-		if ( !$top_level_elements ) {
+		if ( empty($top_level_elements) ) {
 
-			$root = $children_elements[0];
-			$num_elements = sizeof($children_elements);
-			for ( $i = 0; $i < $num_elements; $i++ ) {
-
-				$child = $children_elements[$i];
-				if ($root->$parent_field == $child->$parent_field ) {
-					$top_level_elements[] = $child;
-					array_splice( $children_elements, $i, 1 );
-					$num_elements--;
-					$i--;
-				}
+			$root = $elements[0];
+			
+			$top_level_elements = array();
+			$children_elements  = array();
+			foreach ( $elements as $e) {
+				if ( $root->$parent_field == $e->$parent_field )
+					$top_level_elements[] = $e;
+				else
+					$children_elements[ $e->$parent_field ][] = $e;
 			}
 		}
 
@@ -536,9 +529,11 @@ class Walker {
 	 	*/
 		if ( ( $max_depth == 0 ) && sizeof( $children_elements ) > 0 ) {
 			$empty_array = array();
-			foreach ( $children_elements as $orphan_e )
-				$this->display_element( $orphan_e, $empty_array, 1, 0, $args, $output );
+			foreach ( $children_elements as $orphans )
+				foreach( $orphans as $op )
+					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
 		 }
+		 
 		 return $output;
 	}
 }
