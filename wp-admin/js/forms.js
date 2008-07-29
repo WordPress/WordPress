@@ -1,5 +1,5 @@
 function checkAll(jQ) { // use attr( checked, fn )
-	jQuery(jQ).find( 'tbody :checkbox' ).attr( 'checked', function() {
+	jQuery(jQ).find( 'tbody:visible :checkbox' ).attr( 'checked', function() {
 		return jQuery(this).attr( 'checked' ) ? '' : 'checked';
 	} );
 }
