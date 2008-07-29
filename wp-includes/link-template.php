@@ -112,10 +112,10 @@ function get_permalink($id = 0, $leavename=false) {
 		);
 		$permalink = get_option('home') . str_replace($rewritecode, $rewritereplace, $permalink);
 		$permalink = user_trailingslashit($permalink, 'single');
-		return apply_filters('post_link', $permalink, $post);
+		return apply_filters('post_link', $permalink, $post, $leavename);
 	} else { // if they're not using the fancy permalink option
 		$permalink = get_option('home') . '/?p=' . $post->ID;
-		return apply_filters('post_link', $permalink, $post);
+		return apply_filters('post_link', $permalink, $post, $leavename);
 	}
 }
 
