@@ -54,7 +54,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'media':
 		?>
-		<td><strong><a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
+		<td><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<?php do_action('manage_media_media_column', $post->ID); ?>
 		</td>
@@ -97,7 +97,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 					$title = $parent_title;
 			}
 			?>
-			<td><strong><a href="post.php?action=edit&amp;post=<?php echo $post->post_parent; ?>"><?php echo $title ?></a></strong></td>
+			<td><strong><a href="<?php echo get_edit_post_link( $post->post_parent ); ?>"><?php echo $title ?></a></strong></td>
 			<?php
 		} else {
 			?>
