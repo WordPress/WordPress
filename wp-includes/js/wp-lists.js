@@ -88,6 +88,8 @@ var wpList = {
 			var res = wpAjax.parseAjaxResponse(r, s.response, s.element);
 			if ( !res || res.errors ) { return false; }
 
+			if ( true === res ) { return true; }
+
 			jQuery.each( res.responses, function() {
 				wpList.add.call( list, this.data, $.extend( {}, s, { // this.firstChild.nodevalue
 					pos: this.position || 0,
