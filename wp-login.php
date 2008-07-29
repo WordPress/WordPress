@@ -190,12 +190,7 @@ function reset_password($key) {
 	if (  !wp_mail($user->user_email, sprintf(__('[%s] Your new password'), get_option('blogname')), $message) )
 		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
 
-	// send a copy of password change notification to the admin
-	// but check to see if it's the admin whose password we're changing, and skip this
-	if ( $user->user_email != get_option('admin_email') ) {
-		$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
-		wp_mail(get_option('admin_email'), sprintf(__('[%s] Password Lost/Changed'), get_option('blogname')), $message);
-	}
+	wp_password_change_notification($user);
 
 	return true;
 }
