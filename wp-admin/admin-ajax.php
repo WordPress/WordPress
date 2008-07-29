@@ -392,13 +392,16 @@ case 'add-comment' :
 
 	list($comments, $total) = _wp_get_comment_list( $status, $search, $start, 1 );
 
+	if ( get_option('show_avatars') )
+		add_filter( 'comment_author', 'floated_admin_avatar' );
+
 	if ( !$comments )
 		die('1');
 	$x = new WP_Ajax_Response();
 	foreach ( (array) $comments as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			_wp_comment_row( $comment->comment_ID, $mode, false );
+			_wp_comment_row( $comment->comment_ID, $mode, $status );
 			$comment_list_item = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(
