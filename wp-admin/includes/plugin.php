@@ -304,14 +304,19 @@ function validate_active_plugins() {
 		return;
 	}
 
+	//Invalid is any plugin that is deactivated due to error.
+	$invalid = array(); 
+
 	// If a plugin file does not exist, remove it from the list of active
 	// plugins.
 	foreach ( $check_plugins as $check_plugin ) {
 		$result = validate_plugin($check_plugin);
 		if ( is_wp_error( $result ) ) {
+			$invalid[$check_plugin] = $result;
 			deactivate_plugins( $check_plugin, true);
 		}
 	}
+	return $invalid;
 }
 
 function validate_plugin($plugin) {
