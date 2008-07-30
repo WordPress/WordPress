@@ -773,7 +773,7 @@ class WP_Query {
 			$qv['post_type'] = sanitize_user($qv['post_type'], true);
 
 		if ( !empty($qv['post_status']) )
-			$qv['post_status'] = sanitize_user($qv['post_status'], true);
+			$qv['post_status'] = preg_replace('|[^a-z0-9_,-]|', '', $qv['post_status']);
 
 		if ( $this->is_posts_page && !$qv['withcomments'] )
 			$this->is_comment_feed = false;
