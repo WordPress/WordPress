@@ -518,7 +518,7 @@ endif;
 function _fetch_remote_file ($url, $headers = "" ) {
 	// Snoopy is an HTTP client in PHP
 	$client = new Snoopy();
-	$client->agent = MAGPIE_USER_AGENT;
+	$client->agent = apply_filters( 'magpie_user_agent', MAGPIE_USER_AGENT );
 	$client->read_timeout = MAGPIE_FETCH_TIME_OUT;
 	$client->use_gzip = MAGPIE_USE_GZIP;
 	if (is_array($headers) ) {
