@@ -9,7 +9,7 @@ function get_header() {
 	elseif ( file_exists( TEMPLATEPATH . '/header.php') )
 		load_template( TEMPLATEPATH . '/header.php');
 	else
-		load_template( WP_CONTENT_DIR . '/themes/default/header.php');
+		load_template( get_theme_root() . '/default/header.php');
 }
 
 
@@ -20,7 +20,7 @@ function get_footer() {
 	elseif ( file_exists( TEMPLATEPATH . '/footer.php') )
 		load_template( TEMPLATEPATH . '/footer.php');
 	else
-		load_template( WP_CONTENT_DIR . '/themes/default/footer.php');
+		load_template( get_theme_root() . '/default/footer.php');
 }
 
 
@@ -35,7 +35,7 @@ function get_sidebar( $name = null ) {
 	elseif ( file_exists( TEMPLATEPATH . '/sidebar.php') )
 		load_template( TEMPLATEPATH . '/sidebar.php');
 	else
-		load_template( WP_CONTENT_DIR . '/themes/default/sidebar.php');
+		load_template( get_theme_root() . '/default/sidebar.php');
 }
 
 
