@@ -696,7 +696,8 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 	if ( (! is_single()) && (empty($paged) || $nextpage <= $max_page) ) {
 		echo '<a href="';
 		next_posts($max_page);
-		echo '">'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+		$attr = apply_filters( 'next_posts_link_attributes', '' );
+		echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 	}
 }
 
@@ -720,7 +721,8 @@ function previous_posts_link($label='&laquo; Previous Page') {
 	if ( (!is_single())	&& ($paged > 1) ) {
 		echo '<a href="';
 		previous_posts();
-		echo '">'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+		$attr = apply_filters( 'previous_posts_link_attributes', '' );
+		echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 	}
 }
 
