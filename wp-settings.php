@@ -421,7 +421,7 @@ if ( get_option('active_plugins') ) {
 	$current_plugins = get_option('active_plugins');
 	if ( is_array($current_plugins) ) {
 		foreach ($current_plugins as $plugin) {
-			if ('' != $plugin && file_exists(WP_PLUGIN_DIR . '/' . $plugin))
+			if ( '' != $plugin && 0 == validate_file($plugin) && file_exists(WP_PLUGIN_DIR . '/' . $plugin) )
 				include_once(WP_PLUGIN_DIR . '/' . $plugin);
 		}
 	}
