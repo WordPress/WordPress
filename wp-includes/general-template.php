@@ -4,7 +4,9 @@
 
 function get_header() {
 	do_action( 'get_header' );
-	if ( file_exists( TEMPLATEPATH . '/header.php') )
+	if ( file_exists( STYLESHEETPATH . '/header.php') )
+		load_template( STYLESHEETPATH . '/header.php');
+	elseif ( file_exists( TEMPLATEPATH . '/header.php') )
 		load_template( TEMPLATEPATH . '/header.php');
 	else
 		load_template( WP_CONTENT_DIR . '/themes/default/header.php');
@@ -13,7 +15,9 @@ function get_header() {
 
 function get_footer() {
 	do_action( 'get_footer' );
-	if ( file_exists( TEMPLATEPATH . '/footer.php') )
+	if ( file_exists( STYLESHEETPATH . '/footer.php') )
+		load_template( STYLESHEETPATH . '/footer.php');
+	elseif ( file_exists( TEMPLATEPATH . '/footer.php') )
 		load_template( TEMPLATEPATH . '/footer.php');
 	else
 		load_template( WP_CONTENT_DIR . '/themes/default/footer.php');
@@ -22,8 +26,12 @@ function get_footer() {
 
 function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar' );
-	if ( isset($name) && file_exists( TEMPLATEPATH . "/sidebar-{$name}.php") )
+	if ( isset($name) && file_exists( STYLESHEETPATH . "/sidebar-{$name}.php") )
+		load_template( STYLESHEETPATH . "/sidebar-{$name}.php");
+	elseif ( isset($name) && file_exists( TEMPLATEPATH . "/sidebar-{$name}.php") )
 		load_template( TEMPLATEPATH . "/sidebar-{$name}.php");
+	elseif ( file_exists( STYLESHEETPATH . '/sidebar.php') )
+		load_template( STYLESHEETPATH . '/sidebar.php');
 	elseif ( file_exists( TEMPLATEPATH . '/sidebar.php') )
 		load_template( TEMPLATEPATH . '/sidebar.php');
 	else

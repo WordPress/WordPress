@@ -232,15 +232,20 @@ function get_themes() {
 		}
 
 		$stylesheet_files = array();
+		$template_files = array();
+		
 		$stylesheet_dir = @ dir("$theme_root/$stylesheet");
 		if ( $stylesheet_dir ) {
 			while ( ($file = $stylesheet_dir->read()) !== false ) {
-				if ( !preg_match('|^\.+$|', $file) && preg_match('|\.css$|', $file) )
-					$stylesheet_files[] = "$theme_loc/$stylesheet/$file";
+				if ( !preg_match('|^\.+$|', $file) ) {
+					if ( preg_match('|\.css$|', $file) )
+						$stylesheet_files[] = "$theme_loc/$stylesheet/$file";
+					elseif ( preg_match('|\.php$|', $file) )
+						$template_files[] = "$theme_loc/$stylesheet/$file";
+				}
 			}
 		}
 
-		$template_files = array();
 		$template_dir = @ dir("$theme_root/$template");
 		if ( $template_dir ) {
 			while(($file = $template_dir->read()) !== false) {
@@ -343,7 +348,9 @@ function get_theme_root_uri() {
 function get_query_template($type) {
 	$template = '';
 	$type = preg_replace( '|[^a-z0-9-]+|', '', $type );
-	if ( file_exists(TEMPLATEPATH . "/{$type}.php") )
+	if ( file_exists(STYLESHEETPATH . "/{$type}.php") )
+		$template = STYLESHEETPATH . "/{$type}.php";
+	elseif ( file_exists(TEMPLATEPATH . "/{$type}.php") )
 		$template = TEMPLATEPATH . "/{$type}.php";
 
 	return apply_filters("{$type}_template", $template);
@@ -363,8 +370,12 @@ function get_author_template() {
 
 function get_category_template() {
 	$template = '';
-	if ( file_exists(TEMPLATEPATH . "/category-" . absint( get_query_var('cat') ) . '.php') )
+	if ( file_exists(STYLESHEETPATH . "/category-" . absint( get_query_var('cat') ) . '.php') )
+		$template = STYLESHEETPATH . "/category-" . absint( get_query_var('cat') ) . '.php';
+	elseif ( file_exists(TEMPLATEPATH . "/category-" . absint( get_query_var('cat') ) . '.php') )
 		$template = TEMPLATEPATH . "/category-" . absint( get_query_var('cat') ) . '.php';
+	elseif ( file_exists(STYLESHEETPATH . "/category.php") )
+		$template = STYLESHEETPATH . "/category.php";
 	elseif ( file_exists(TEMPLATEPATH . "/category.php") )
 		$template = TEMPLATEPATH . "/category.php";
 
@@ -373,8 +384,12 @@ function get_category_template() {
 
 function get_tag_template() {
 	$template = '';
-	if ( file_exists(TEMPLATEPATH . "/tag-" . get_query_var('tag') . '.php') )
+	if ( file_exists(STYLESHEETPATH . "/tag-" . get_query_var('tag') . '.php') )
+		$template = STYLESHEETPATH . "/tag-" . get_query_var('tag') . '.php';
+	elseif ( file_exists(TEMPLATEPATH . "/tag-" . get_query_var('tag') . '.php') )
 		$template = TEMPLATEPATH . "/tag-" . get_query_var('tag') . '.php';
+	elseif ( file_exists(STYLESHEETPATH . "/tag.php") )
+		$template = STYLESHEETPATH . "/tag.php";
 	elseif ( file_exists(TEMPLATEPATH . "/tag.php") )
 		$template = TEMPLATEPATH . "/tag.php";
 
@@ -385,10 +400,16 @@ function get_taxonomy_template() {
 	$template = '';
 	$taxonomy = get_query_var('taxonomy');
 	$term = get_query_var('term');
-	if ( $taxonomy && $term && file_exists(TEMPLATEPATH . "/taxonomy-$taxonomy-$term.php") )
+	if ( $taxonomy && $term && file_exists(STYLESHEETPATH . "/taxonomy-$taxonomy-$term.php") )
+		$template = STYLESHEETPATH . "/taxonomy-$taxonomy-$term.php";
+	elseif ( $taxonomy && $term && file_exists(TEMPLATEPATH . "/taxonomy-$taxonomy-$term.php") )
 		$template = TEMPLATEPATH . "/taxonomy-$taxonomy-$term.php";
+	elseif ( $taxonomy && file_exists(STYLESHEETPATH . "/taxonomy-$taxonomy.php") )
+		$template = STYLESHEETPATH . "/taxonomy-$taxonomy.php";
 	elseif ( $taxonomy && file_exists(TEMPLATEPATH . "/taxonomy-$taxonomy.php") )
 		$template = TEMPLATEPATH . "/taxonomy-$taxonomy.php";
+	elseif ( file_exists(STYLESHEETPATH . "/taxonomy.php") )
+		$template = STYLESHEETPATH . "/taxonomy.php";
 	elseif ( file_exists(TEMPLATEPATH . "/taxonomy.php") )
 		$template = TEMPLATEPATH . "/taxonomy.php";
 
@@ -402,8 +423,12 @@ function get_date_template() {
 function get_home_template() {
 	$template = '';
 
-	if ( file_exists(TEMPLATEPATH . "/home.php") )
+	if ( file_exists(STYLESHEETPATH . "/home.php") )
+		$template = STYLESHEETPATH . "/home.php";
+	elseif ( file_exists(TEMPLATEPATH . "/home.php") )
 		$template = TEMPLATEPATH . "/home.php";
+	elseif ( file_exists(STYLESHEETPATH . "/index.php") )
+		$template = STYLESHEETPATH . "/index.php";
 	elseif ( file_exists(TEMPLATEPATH . "/index.php") )
 		$template = TEMPLATEPATH . "/index.php";
 
@@ -419,8 +444,12 @@ function get_page_template() {
 	if ( 'default' == $template )
 		$template = '';
 
-	if ( !empty($template) && !validate_file($template) && file_exists(TEMPLATEPATH . "/$template") )
+	if ( !empty($template) && !validate_file($template) && file_exists(STYLESHEETPATH . "/$template") )
+		$template = STYLESHEETPATH . "/$template";
+	elseif ( !empty($template) && !validate_file($template) && file_exists(TEMPLATEPATH . "/$template") )
 		$template = TEMPLATEPATH . "/$template";
+	elseif ( file_exists(STYLESHEETPATH . "/page.php") )
+		$template = STYLESHEETPATH . "/page.php";
 	elseif ( file_exists(TEMPLATEPATH . "/page.php") )
 		$template = TEMPLATEPATH . "/page.php";
 	else
@@ -455,7 +484,9 @@ function get_attachment_template() {
 }
 
 function get_comments_popup_template() {
-	if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
+	if ( file_exists( STYLESHEETPATH . '/comments-popup.php') )
+		$template = STYLESHEETPATH . '/comments-popup.php';
+	elseif ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
 		$template = TEMPLATEPATH . '/comments-popup.php';
 	else
 		$template = get_theme_root() . '/default/comments-popup.php';

@@ -664,11 +664,14 @@ function comments_template( $file = '/comments.php' ) {
 	update_comment_cache($comments);
 
 	define('COMMENTS_TEMPLATE', true);
-	$include = apply_filters('comments_template', TEMPLATEPATH . $file );
+		
+	$include = apply_filters('comments_template', STYLESHEETPATH . $file );
 	if ( file_exists( $include ) )
 		require( $include );
+	elseif ( file_exists( TEMPLATEPATH . $file ) )
+		require( TEMPLATEPATH .  $file );
 	else
-		require( WP_CONTENT_DIR . '/themes/default/comments.php');
+		require( get_theme_root() . '/default/comments.php');
 }
 
 /**
