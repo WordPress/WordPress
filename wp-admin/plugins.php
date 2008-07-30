@@ -168,7 +168,7 @@ require_once('admin-header.php');
 $invalid = validate_active_plugins();
 if( !empty($invalid) )
 	foreach($invalid as $plugin_file => $error)
-		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to <em>"%s"</em>.'), $plugin_file, $error->get_error_message()) . '</p></div>';
+		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), $plugin_file, $error->get_error_message()) . '</p></div>';
 ?>
 
 <?php if ( isset($_GET['error']) ) : ?>

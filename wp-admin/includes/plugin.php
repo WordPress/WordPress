@@ -321,7 +321,7 @@ function validate_active_plugins() {
 
 function validate_plugin($plugin) {
 	if ( validate_file($plugin) )
-		return new WP_Error('plugin_invalid', __('Invalid plugin.'));
+		return new WP_Error('plugin_invalid', __('Invalid plugin path.'));
 	if ( ! file_exists(WP_PLUGIN_DIR . '/' . $plugin) )
 		return new WP_Error('plugin_not_found', __('Plugin file does not exist.'));
 
