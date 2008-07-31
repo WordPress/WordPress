@@ -180,16 +180,6 @@ $initArray = apply_filters('tiny_mce_before_init', $initArray);
 // Setting "valid_elements", "invalid_elements" and "extended_valid_elements" can be done through "tiny_mce_before_init".
 // Best is to use the default cleanup by not specifying valid_elements, as TinyMCE contains full set of XHTML 1.0.
 
-// support for deprecated actions
-ob_start();
-do_action('mce_options');
-$mce_deprecated = ob_get_contents();
-ob_end_clean();
-
-$mce_deprecated = (string) $mce_deprecated;
-if ( strlen( $mce_deprecated ) < 10 || ! strpos( $mce_deprecated, ':' ) || ! strpos( $mce_deprecated, ',' ) )	
-	$mce_deprecated = '';
-
 // Settings for the gzip compression and cache
 $disk_cache = ( ! isset($initArray['disk_cache']) || false == $initArray['disk_cache'] ) ? false : true;
 $compress = ( ! isset($initArray['compress']) || false == $initArray['compress'] ) ? false : true;
@@ -225,7 +215,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080712');
+	$cacheKey = apply_filters('tiny_mce_version', '20080730');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
@@ -268,20 +258,16 @@ if ( $disk_cache && is_file($cache_file) && is_readable($cache_file) ) {
 foreach ( $initArray as $k => $v ) 
     $mce_options .= $k . ':"' . $v . '",';
 
-if ( $mce_deprecated ) $mce_options .= $mce_deprecated;
-
 $mce_options = rtrim( trim($mce_options), '\n\r,' );
 
-$content = 'var tinyMCEPreInit = { settings : { themes : "' . $theme . '", plugins : "' . $initArray['plugins'] . '", languages : "' . $language . '", debug : false }, base : "' . $baseurl . '", suffix : "", query : "ver=311" };';
+// Pre-init settings
+$content = 'var tinyMCEPreInit = { base : "'. $baseurl .'", suffix : "", query : "ver=311b", mceInit : {' . $mce_options . '}};' . "\n";
 
 // Load patch
 $content .= getFileContents( 'tiny_mce_ext.js' );
 
 // Add core
 $content .= getFileContents( 'tiny_mce.js' );
-
-// Patch loading functions
-$content .= 'tinyMCEPreInit.start();';
 
 // Add all languages (WP)
 include_once( dirname(__FILE__).'/langs/wp-langs.php' );
@@ -294,8 +280,14 @@ $content .= getFileContents( 'themes/' . $theme . '/editor_template.js' );
 foreach ( $plugins as $plugin ) 
 	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin.js' );
 
-// Add external plugins and init 
-$content .= $ext_plugins . 'tinyMCE.init({' . $mce_options . '});';
+// Add external plugins 
+$content .= $ext_plugins;
+
+// Mark translations as done
+$content .= 'tinyMCEPreInit.start();' . "\n";
+
+// Init
+$content .= 'tinyMCE.init(tinyMCEPreInit.mceInit);';
 
 // Generate GZIP'd content
 if ( '.gz' == $cache_ext ) {
@@ -307,24 +299,23 @@ if ( '.gz' == $cache_ext ) {
 echo $content;
 
 // Write file
-if ( '' != $cacheKey && is_dir($cache_path) && is_readable($cache_path) ) {	
-
+if ( '' != $cacheKey && is_dir($cache_path) && is_readable($cache_path) ) {
 	$old_cache = array();
 	$handle = opendir($cache_path);
 	while ( false !== ( $file = readdir($handle) ) ) {
 		if ( $file == '.' || $file == '..' ) continue;
-        $saved = filectime("$cache_path/$file");
-		if ( strpos($file, 'tinymce_') !== false && substr($file, -3) == $cache_ext ) $old_cache["$saved"] = $file;
+		$old_cache[] = filemtime("$cache_path/$file") . strval($file);
 	}
 	closedir($handle);
-			
-	krsort($old_cache);
+
+	rsort($old_cache);
 	if ( 1 >= $old_cache_max ) $del_cache = $old_cache;
 	else $del_cache = array_slice( $old_cache, ($old_cache_max - 1) );
 
-	foreach ( $del_cache as $key )
+	foreach ( $del_cache as $key ) {
+		$key = substr($key, 10);
 		@unlink("$cache_path/$key");
-
+	}
 	putFileContents( $cache_file, $content );
 }
 

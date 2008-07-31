@@ -34,7 +34,7 @@ input.checkbox {border:1px none #000000; background:transparent; vertical-align:
 .input_noborder {border:0;}
 
 /* Buttons */
-#insert, #cancel, input.mceButton, .updateButton {
+#insert, #cancel, #apply, .mceActionPanel .button, input.mceButton, .updateButton {
 border: 1px solid #bbb; 
 margin:0; 
 padding:0 0 1px;

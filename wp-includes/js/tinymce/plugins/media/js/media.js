@@ -183,7 +183,7 @@ function insertMedia() {
 	tinyMCEPopup.restoreSelection();
 
 	if (!AutoValidator.validate(f)) {
-		alert(ed.getLang('invalid_data'));
+		tinyMCEPopup.alert(ed.getLang('invalid_data'));
 		return false;
 	}
 

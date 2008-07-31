@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: rpc.php 354 2007-11-05 20:48:49Z spocke $
+ * $Id: rpc.php 822 2008-04-28 13:45:03Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
@@ -50,6 +50,42 @@ if (!$raw) {
 // No input data
 if (!$raw)
 	die('{"result":null,"id":null,"error":{"errstr":"Could not get raw post data.","errfile":"","errline":null,"errcontext":"","level":"FATAL"}}');
+
+// Passthrough request to remote server
+if (isset($config['general.remote_rpc_url'])) {
+	$url = parse_url($config['general.remote_rpc_url']);
+
+	// Setup request
+	$req = "POST " . $url["path"] . " HTTP/1.0\r\n";
+	$req .= "Connection: close\r\n";
+	$req .= "Host: " . $url['host'] . "\r\n";
+	$req .= "Content-Length: " . strlen($raw) . "\r\n";
+	$req .= "\r\n" . $raw;
+
+	if (!isset($url['port']) || !$url['port'])
+		$url['port'] = 80;
+
+	$errno = $errstr = "";
+
+	$socket = fsockopen($url['host'], intval($url['port']), $errno, $errstr, 30);
+	if ($socket) {
+		// Send request headers
+		fputs($socket, $req);
+
+		// Read response headers and data
+		$resp = "";
+		while (!feof($socket))
+				$resp .= fgets($socket, 4096);
+
+		fclose($socket);
+
+		// Split response header/data
+		$resp = explode("\r\n\r\n", $resp);
+		echo $resp[1]; // Output body
+	}
+
+	die();
+}
 
 // Get JSON data
 $json = new Moxiecode_JSON();

@@ -103,9 +103,9 @@ class PSpellShell extends SpellChecker {
 		$this->_tmpfile = tempnam($this->_config['PSpellShell.tmp'], "tinyspell");
 
 		if(preg_match("#win#i", php_uname()))
-			return $this->_config['PSpellShell.aspell'] . " -a --lang=". $lang . " --encoding=utf-8 -H < " . $this->_tmpfile . " 2>&1";
+			return $this->_config['PSpellShell.aspell'] . " -a --lang=". escapeshellarg($lang) . " --encoding=utf-8 -H < " . $this->_tmpfile . " 2>&1";
 
-		return "cat ". $this->_tmpfile ." | " . $this->_config['PSpellShell.aspell'] . " -a --encoding=utf-8 -H --lang=". $lang;
+		return "cat ". $this->_tmpfile ." | " . $this->_config['PSpellShell.aspell'] . " -a --encoding=utf-8 -H --lang=". escapeshellarg($lang);
 	}
 }
 
