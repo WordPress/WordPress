@@ -88,10 +88,12 @@ class WP_Http {
 		static $working_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_Streams::test() )
-				$working_transport = new WP_Http_Streams();
-			else if ( true === WP_Http_ExtHttp::test() )
+			if ( true === WP_Http_ExtHttp::test() )
 				$working_transport = new WP_Http_ExtHttp();
+			else if ( true === WP_Http_Curl::test() )
+				$working_transport = new WP_Http_Curl();
+			else if ( true === WP_Http_Streams::test() )
+				$working_transport = new WP_Http_Streams();
 			else if ( true === WP_Http_Fopen::test() )
 				$working_transport = new WP_Http_Fopen();
 			else if ( true === WP_Http_Fsockopen::test() )
@@ -119,10 +121,10 @@ class WP_Http {
 		static $working_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_Streams::test() )
-				$working_transport = new WP_Http_Streams();
-			else if ( true === WP_Http_ExtHttp::test() )
+			if ( true === WP_Http_ExtHttp::test() )
 				$working_transport = new WP_Http_ExtHttp();
+			else if ( true === WP_Http_Streams::test() )
+				$working_transport = new WP_Http_Streams();
 			else if ( true === WP_Http_Fsockopen::test() )
 				$working_transport = new WP_Http_Fsockopen();
 		}
@@ -193,12 +195,12 @@ class WP_Http {
 		if ( ! isset($headers['user-agent']) || ! isset($headers['User-Agent']) )
 			$headers['user-agent'] = $r['user-agent'];
 
-		if ( is_null($body) || count($headers) > 1 )
+		if ( is_null($body) )
 			$transport = WP_Http::_getTransport();
 		else
 			$transport = WP_Http::_postTransport();
 
-		return $transport->request($url, $headers, $body, $r);
+		return $transport->request($url, $r, $headers, $body);
 	}
 
 	/**
@@ -218,7 +220,7 @@ class WP_Http {
 	function post($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array('method' => 'POST');
 		$r = wp_parse_args( $args, $defaults );
-		return $this->request($url, $headers, $body, $r);
+		return $this->request($url, $r, $headers, $body);
 	}
 
 	/**
@@ -238,7 +240,7 @@ class WP_Http {
 	function get($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array('method' => 'GET');
 		$r = wp_parse_args( $args, $defaults );
-		return $this->request($url, $headers, $body, $r);
+		return $this->request($url, $r, $headers, $body);
 	}
 
 	/**
@@ -694,7 +696,7 @@ class WP_Http_ExtHTTP {
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
-	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
+	 * @param array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return array 'headers', 'body', and 'response' keys.
 	 */
@@ -936,7 +938,7 @@ function &_wp_http_get_object() {
 function wp_remote_request($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
-	return $objFetchSite->request($url, $headers, $body, $args);
+	return $objFetchSite->request($url, $args, $headers, $body);
 }
 
 /**
@@ -955,7 +957,7 @@ function wp_remote_request($url, $args = array(), $headers = null, $body = null)
 function wp_remote_get($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
-	return $objFetchSite->get($url, $headers, $body, $args);
+	return $objFetchSite->get($url, $args, $headers, $body);
 }
 
 /**
@@ -974,7 +976,7 @@ function wp_remote_get($url, $args = array(), $headers = null, $body = null) {
 function wp_remote_post($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
-	return $objFetchSite->post($url, $headers, $body, $args);
+	return $objFetchSite->post($url, $args, $headers, $body);
 }
 
 /**
@@ -993,7 +995,7 @@ function wp_remote_post($url, $args = array(), $headers = null, $body = null) {
 function wp_remote_head($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
-	return $objFetchSite->head($url, $headers, $body, $args);
+	return $objFetchSite->head($url, $args, $headers, $body);
 }
 
 /**
