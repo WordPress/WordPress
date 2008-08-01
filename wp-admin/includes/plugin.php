@@ -99,7 +99,7 @@ function get_plugin_data( $plugin_file ) {
 function get_plugins($plugin_folder = '') {
 	
 	if ( ! $cache_plugins = wp_cache_get('plugins', 'plugins') )
-		$cached_plugins = array();
+		$cache_plugins = array();
 	
 	if ( isset($cache_plugins[ $plugin_folder ]) )
 		return $cache_plugins[ $plugin_folder ];
