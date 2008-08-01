@@ -536,7 +536,7 @@ class WP_Http_Fopen {
 		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
-		$handle = fopen($url, 'rb');
+		$handle = fopen($url, 'r');
 
 		if (! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
@@ -553,8 +553,6 @@ class WP_Http_Fopen {
 		while ( ! feof($handle) )
 			$strResponse .= fread($handle, 4096);
 
-		fclose($handle);
-
 		$theHeaders = '';
 		if ( function_exists('stream_get_meta_data') ) {
 			$meta = stream_get_meta_data($handle);
@@ -564,6 +562,7 @@ class WP_Http_Fopen {
 		}
 		$processedHeaders = WP_Http::processHeaders($theHeaders);
 
+		fclose($handle);
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
 
@@ -635,9 +634,9 @@ class WP_Http_Streams {
 
 		$context = stream_context_create($arrContext);
 
-		$handle = fopen($url, 'rb', false, $context);
+		$handle = fopen($url, 'r', false, $context);
 
-		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $this->timeout) );
+		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $r['timeout']) );
 
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
@@ -747,7 +746,7 @@ class WP_Http_ExtHTTP {
 			'timeout' => $r['timeout'],
 			'connecttimeout' => $r['timeout'],
 			'redirect' => $r['redirection'],
-			'useragent' => $r['user_agent'],
+			'useragent' => $r['user-agent'],
 			'headers' => $headers,
 		);
 
@@ -849,9 +848,9 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 
 		if ( $r['httpversion'] == '1.0' )
-			curl_setopt( $headle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
+			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
 		else
-			curl_setopt( $headle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
+			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
 		if ( ! $r['blocking'] ) {
 			curl_close( $handle );
