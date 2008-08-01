@@ -511,6 +511,10 @@ function get_posts($args = null) {
 function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	global $wpdb;
 
+	// make sure meta is added to the post, not a revision
+	if ( $the_post = wp_is_post_revision($post_id) )
+		$post_id = $the_post;
+
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
