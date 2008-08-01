@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage HTTP
- * @since {@internal Version Unknown}}
+ * @since 2.7
  * @author Jacob Santos <wordpress@santosj.name>
  */
 
@@ -16,30 +16,27 @@
  *
  * @package WordPress
  * @subpackage HTTP
- * @since {@internal Version Unknown}}
+ * @since 2.7
  */
-class WP_Http
-{
+class WP_Http {
 
 	/**
 	 * PHP4 style Constructor - Calls PHP5 Style Constructor
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 * @return WP_Http
 	 */
-	function WP_Http()
-	{
+	function WP_Http() {
 		$this->__construct();
 	}
 
 	/**
 	 * PHP5 style Constructor - Setup available transport if not available.
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 * @return WP_Http
 	 */
-	function __construct()
-	{
+	function __construct() {
 		WP_Http::_getTransport();
 	}
 
@@ -49,23 +46,22 @@ class WP_Http
 	 * Tests all of the objects and returns the object that passes. Also caches
 	 * that object to be used later.
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 * @access private
 	 *
 	 * @return object|null Null if no transports are available, HTTP transport object.
 	 */
-	function &_getTransport()
-	{
+	function &_getTransport() {
 		static $working_transport;
 
-		if( is_null($working_transport) ) {
-			if( true === WP_Http_Streams::test() )
+		if ( is_null($working_transport) ) {
+			if ( true === WP_Http_Streams::test() )
 				$working_transport = new WP_Http_Streams();
-			else if( true ===  WP_Http_ExtHttp::test() )
+			else if ( true === WP_Http_ExtHttp::test() )
 				$working_transport = new WP_Http_ExtHttp();
-			else if( true === WP_Http_Fopen::test() )
+			else if ( true === WP_Http_Fopen::test() )
 				$working_transport = new WP_Http_Fopen();
-			else if( true === WP_Http_Fsockopen::test() )
+			else if ( true === WP_Http_Fsockopen::test() )
 				$working_transport = new WP_Http_Fsockopen();
 		}
 
@@ -81,21 +77,20 @@ class WP_Http
 	 * to send content, but the streams transport can. This is a limitation that
 	 * is addressed here.
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 * @access private
 	 *
 	 * @return object|null Null if no transports are available, HTTP transport object.
 	 */
-	function &_postTransport()
-	{
+	function &_postTransport() {
 		static $working_transport;
 
-		if( is_null($working_transport) ) {
-			if( true === WP_Http_Streams::test() )
+		if ( is_null($working_transport) ) {
+			if ( true === WP_Http_Streams::test() )
 				$working_transport = new WP_Http_Streams();
-			else if( true ===  WP_Http_ExtHttp::test() )
+			else if ( true === WP_Http_ExtHttp::test() )
 				$working_transport = new WP_Http_ExtHttp();
-			else if( true === WP_Http_Fsockopen::test() )
+			else if ( true === WP_Http_Fsockopen::test() )
 				$working_transport = new WP_Http_Fsockopen();
 		}
 
@@ -106,7 +101,7 @@ class WP_Http
 	 * Retrieve the location and set the class properties after the site has been retrieved.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string $url
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
@@ -114,8 +109,7 @@ class WP_Http
 	 * @param str|array $type Optional. Should be an already processed array with HTTP arguments.
 	 * @return boolean
 	 */
-	function request($url, $args=array(), $headers=null, $body=null)
-	{
+	function request($url, $args = array(), $headers = null, $body = null) {
 		global $wp_version;
 
 		$defaults = array(
@@ -126,17 +120,17 @@ class WP_Http
 
 		$r = wp_parse_args( $args, $defaults );
 
-		if( !is_null($headers) && !is_array($headers) ) {
+		if ( ! is_null($headers) && ! is_array($headers) ) {
 			$processedHeaders = WP_Http::processHeaders($headers);
 			$headers = $processedHeaders['headers'];
 		} else {
 			$headers = array();
 		}
 
-		if( !isset($headers['user-agent']) || !isset($headers['User-Agent']) )
-			$headers['user-agent'] = apply_filters('http_headers_useragent', 'WordPress/'.$wp_version );
+		if ( ! isset($headers['user-agent']) || ! isset($headers['User-Agent']) )
+			$headers['user-agent'] = apply_filters('http_headers_useragent', 'WordPress/' . $wp_version );
 
-		if( is_null($body) )
+		if ( is_null($body) )
 			$transport = WP_Http::_getTransport();
 		else
 			$transport = WP_Http::_postTransport();
@@ -150,15 +144,14 @@ class WP_Http
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string $url The location of the site and page to retrieve.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
 	 */
-	function post($url, $args=array(), $headers=null, $body=null)
-	{
+	function post($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array('method' => 'POST');
 		$r = wp_parse_args( $args, $defaults );
 		return $this->request($url, $headers, $body, $r);
@@ -170,14 +163,13 @@ class WP_Http
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
 	 */
-	function get($url, $args=array(), $headers=null, $body=null)
-	{
+	function get($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array('method' => 'GET');
 		$r = wp_parse_args( $args, $defaults );
 		return $this->request($url, $headers, $body, $r);
@@ -189,14 +181,13 @@ class WP_Http
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
 	 */
-	function head($url, $args=array(), $headers=null, $body=null)
-	{
+	function head($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array('method' => 'HEAD');
 		$r = wp_parse_args( $args, $defaults );
 		return $this->request($url, $r, $headers, $body);
@@ -207,13 +198,12 @@ class WP_Http
 	 *
 	 * @access public
 	 * @static
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string $strResponse The full response string
 	 * @return array Array with 'headers' and 'body' keys.
 	 */
-	function processResponse($strResponse)
-	{
+	function processResponse($strResponse) {
 		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
 		return array('headers' => $theHeaders, 'body' => $theBody);
 	}
@@ -223,14 +213,13 @@ class WP_Http
 	 *
 	 * @access public
 	 * @static
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param array $response Array with code and message keys
 	 * @return bool True if 40x Response, false if something else.
 	 */
-	function is400Response($response)
-	{
-		if( (int) substr($response, 0, 1) == 4 )
+	function is400Response($response) {
+		if ( (int) substr($response, 0, 1) == 4 )
 			return true;
 		return false;
 	}
@@ -240,14 +229,13 @@ class WP_Http
 	 *
 	 * @access public
 	 * @static
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param array $headers Array with headers
 	 * @return bool True if Location header is found.
 	 */
-	function isRedirect($headers)
-	{
-		if( isset($headers['location']) )
+	function isRedirect($headers) {
+		if ( isset($headers['location']) )
 			return true;
 		return false;
 	}
@@ -259,14 +247,13 @@ class WP_Http
 	 *
 	 * @access public
 	 * @static
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string|array $headers
 	 * @return array
 	 */
-	function processHeaders($headers)
-	{
-		if( is_array($headers) )
+	function processHeaders($headers) {
+		if ( is_array($headers) )
 			return $headers;
 
 		$headers = explode("\n", str_replace(array("\r"), '', $headers) );
@@ -275,19 +262,19 @@ class WP_Http
 
 		$newheaders = array();
 		foreach($headers as $tempheader) {
-			if( empty($tempheader) )
+			if ( empty($tempheader) )
 				continue;
 
-			if( false === strpos($tempheader, ':') ) {
-				list( , $iResponseCode, $strResponseMsg) = explode(" ", $tempheader, 3);
+			if ( false === strpos($tempheader, ':') ) {
+				list( , $iResponseCode, $strResponseMsg) = explode(' ', $tempheader, 3);
 				$response['code'] = $iResponseCode;
 				$response['message'] = $strResponseMsg;
 				continue;
 			}
 
-			list($key, $value) = explode(":", $tempheader, 2);
+			list($key, $value) = explode(':', $tempheader, 2);
 
-			if( !empty($value) )
+			if ( ! empty($value) )
 				$newheaders[strtolower($key)] = trim($value);
 		}
 
@@ -302,14 +289,13 @@ class WP_Http
  *
  * @package WordPress
  * @subpackage HTTP
- * @since {@internal Version Unknown}}
+ * @since 2.7
  */
-class WP_Http_Fsockopen
-{
+class WP_Http_Fsockopen {
 	/**
 	 * Retrieve the location and set the class properties after the site has been retrieved.
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 * @access public
 	 * @param string $url
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
@@ -317,8 +303,7 @@ class WP_Http_Fsockopen
 	 * @param str|array $type Optional. Should be an already processed array with HTTP arguments.
 	 * @return boolean
 	 */
-	function request($url, $args=array(), $headers=null, $body=null)
-	{
+	function request($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
 			'redirection' => 5, 'httpversion' => '1.0'
@@ -333,9 +318,9 @@ class WP_Http_Fsockopen
 
 		$secure_transport = false;
 
-		if( !isset($arrURL['port']) ) {
-			if( (($arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https')) && extension_loaded('openssl') ) {
-				$arrURL['host'] = 'ssl://'.$arrURL['host'];
+		if ( ! isset($arrURL['port']) ) {
+			if ( ($arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https') && extension_loaded('openssl') ) {
+				$arrURL['host'] = 'ssl://' . $arrURL['host'];
 				$arrURL['port'] = apply_filters('http_request_default_port', 443);
 				$secure_transport = true;
 			}
@@ -345,54 +330,54 @@ class WP_Http_Fsockopen
 		else
 			$arrURL['port'] = apply_filters('http_request_port', $arrURL['port']);
 
-		if( true === $secure_transport )
+		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
 		$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, apply_filters('http_request_timeout', absint($r['timeout']) ) );
 
-		if( false === $handle ) {
-			return new WP_Error('http_request_failed', $iError.': '.$strError);
+		if ( false === $handle ) {
+			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
 		}
 
 		$requestPath = $arrURL['path'] . ( isset($arrURL['query']) ? '?' . $arrURL['query'] : '' );
 		$requestPath = (empty($requestPath)) ? '/' : $requestPath;
 
 		$strHeaders = '';
-		$strHeaders .= strtoupper($r['method']).' '.$requestPath.' HTTP/'.$r['httpversion']."\r\n";
-		$strHeaders .= 'Host: '.$arrURL['host']."\r\n";
+		$strHeaders .= strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
+		$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
 
-		if( is_array($header) ) {
+		if ( is_array($header) ) {
 			foreach( (array) $this->getHeaders() as $header => $headerValue)
-				$strHeaders .= $header.': '.$headerValue."\r\n";
+				$strHeaders .= $header . ': ' . $headerValue . "\r\n";
 		} else
 			$strHeaders .= $header;
 
 		$strHeaders .= "\r\n";
 
-		if( !is_null($body) )
+		if ( ! is_null($body) )
 			$strHeaders .= $body;
 
 		fwrite($handle, $strHeaders);
 
 		$strResponse = '';
-		while( !feof($handle) ) {
+		while ( ! feof($handle) )
 			$strResponse .= fread($handle, 4096);
-		}
+
 		fclose($handle);
 
-		if( true === $secure_transport )
+		if ( true === $secure_transport )
 			error_reporting($error_reporting);
 
 		$process = WP_Http::processResponse($strResponse);
 		$arrHeaders = WP_Http::processHeaders($process['headers']);
 
-		if( WP_Http::is400Response($arrHeaders['response']) )
-			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] .': '. $arrHeaders['response']['message']);
+		if ( WP_Http::is400Response($arrHeaders['response']) )
+			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] . ': ' . $arrHeaders['response']['message']);
 
-		if( isset($arrHeaders['headers']['location']) ) {
-			if( $r['redirection']-- > 0 ) {
+		if ( isset($arrHeaders['headers']['location']) ) {
+			if ( $r['redirection']-- > 0 )
 				return $this->request($arrHeaders['headers']['location'], $r, $headers, $body);
-			} else
+			else
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
 		}
 
@@ -402,13 +387,12 @@ class WP_Http_Fsockopen
 	/**
 	 * Whether this class can be used for retrieving an URL.
 	 *
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 * @static
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test()
-	{
-		if( function_exists( 'fsockopen' ) )
+	function test() {
+		if ( function_exists( 'fsockopen' ) )
 			return true;
 
 		return false;
@@ -426,15 +410,14 @@ class WP_Http_Fsockopen
  *
  * @package WordPress
  * @subpackage HTTP
- * @since {@internal Version Unknown}}
+ * @since 2.7
  */
-class WP_Http_Fopen
-{
+class WP_Http_Fopen {
 	/**
 	 * Retrieve the location and set the class properties after the site has been retrieved.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string $url
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
@@ -442,8 +425,7 @@ class WP_Http_Fopen
 	 * @param str|array $type Optional. Should be an already processed array with HTTP arguments.
 	 * @return boolean
 	 */
-	function request($url, $args=array(), $headers=null, $body=null)
-	{
+	function request($url, $args = array(), $headers = null, $body = null) {
 		global $http_response_header;
 
 		$defaults = array(
@@ -455,24 +437,23 @@ class WP_Http_Fopen
 
 		$arrURL = parse_url($url);
 
-		if( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
+		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
 		$handle = fopen($url, 'rb');
 
-		if(!$handle)
-			return new WP_Error('http_request_failed', sprintf(__("Could not open handle for fopen() to %s"), $url));
+		if (! $handle)
+			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		if( function_exists('stream_set_timeout') )
+		if ( function_exists('stream_set_timeout') )
 			stream_set_timeout($handle, apply_filters('http_request_timeout', $r['timeout']) );
 
 		$strResponse = '';
-		while(!feof($handle)) {
+		while ( ! feof($handle) )
 			$strResponse .= fread($handle, 4096);
-		}
 
 		$theHeaders = '';
-		if( function_exists('stream_get_meta_data') ) {
+		if ( function_exists('stream_get_meta_data') ) {
 			$meta = stream_get_meta_data($handle);
 			$theHeaders = $meta['wrapper_data'];
 		} else {
@@ -490,9 +471,8 @@ class WP_Http_Fopen
 	 * @static
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test()
-	{
-		if( !function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
+	function test() {
+		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
 		return true;
@@ -509,15 +489,14 @@ class WP_Http_Fopen
  *
  * @package WordPress
  * @subpackage HTTP
- * @since {@internal Version Unknown}}
+ * @since 2.7
  */
-class WP_Http_Streams
-{
+class WP_Http_Streams {
 	/**
 	 * Retrieve the location and set the class properties after the site has been retrieved.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
@@ -525,8 +504,7 @@ class WP_Http_Streams
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
 	 */
-	function request($url, $args=array(), $headers=null, $body=null)
-	{
+	function request($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
 			'redirection' => 5, 'httpversion' => '1.0'
@@ -536,7 +514,7 @@ class WP_Http_Streams
 
 		$arrURL = parse_url($url);
 
-		if( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
+		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
 		$arrContext = array('http' => 
@@ -549,7 +527,7 @@ class WP_Http_Streams
 			)
 		);
 
-		if( !is_null($body) )
+		if ( ! is_null($body) )
 			$arrContext['http']['content'] = $body;
 
 		$context = stream_context_create($arrContext);
@@ -558,8 +536,8 @@ class WP_Http_Streams
 
 		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $this->timeout) );
 
-		if(!$handle)
-			return new WP_Error('http_request_failed', sprintf(__("Could not open handle for fopen() to %s"), $url));
+		if (! $handle)
+			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
 		$strResponse = stream_get_contents($handle);
 		$meta = stream_get_meta_data($handle);
@@ -575,16 +553,15 @@ class WP_Http_Streams
 	 *
 	 * @static
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test()
-	{
-		if( !function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
+	function test() {
+		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
-		if( version_compare(PHP_VERSION, '5.0', '<') )
+		if ( version_compare(PHP_VERSION, '5.0', '<') )
 			return false;
 
 		return true;
@@ -600,15 +577,14 @@ class WP_Http_Streams
  *
  * @package WordPress
  * @subpackage HTTP
- * @since {@internal Version Unknown}}
+ * @since 2.7
  */
-class WP_Http_ExtHTTP
-{
+class WP_Http_ExtHTTP {
 	/**
 	 * Retrieve the location and set the class properties after the site has been retrieved.
 	 *
 	 * @access public
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
@@ -616,23 +592,21 @@ class WP_Http_ExtHTTP
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
 	 */
-	function request($url, $args=array(), $headers=null, $body=null)
-	{
+	function request($url, $args = array(), $headers = null, $body = null) {
 		global $wp_version;
 
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
 			'redirection' => 5, 'httpversion' => '1.0',
-			'user_agent' => apply_filters('http_headers_useragent', 'WordPress/'.$wp_version)
+			'user_agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version)
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 
-		if( isset($headers['User-Agent']) )
+		if ( isset($headers['User-Agent']) )
 			unset($headers['User-Agent']);
 
-		switch($r['method'])
-		{
+		switch ( $r['method'] ) {
 			case 'GET':
 				$r['method'] = HTTP_METH_GET;
 				break;
@@ -648,7 +622,7 @@ class WP_Http_ExtHTTP
 
 		$arrURL = parse_url($url);
 
-		if( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
+		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
 		$options = array(
@@ -661,8 +635,8 @@ class WP_Http_ExtHTTP
 
 		$strResponse = http_request($r['method'], $url, $body, $options, $info);
 
-		if( false === $strResponse )
-			return new WP_Error('http_request_failed', $info['response_code'] .': '. $info['error']);
+		if ( false === $strResponse )
+			return new WP_Error('http_request_failed', $info['response_code'] . ': ' . $info['error']);
 
 		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
 		$theHeaders = WP_Http::processHeaders($theHeaders);
@@ -678,13 +652,12 @@ class WP_Http_ExtHTTP
 	 * Whether this class can be used for retrieving an URL.
 	 *
 	 * @static
-	 * @since {@internal Version Unknown}}
+	 * @since 2.7
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test()
-	{
-		if( function_exists('http_request') )
+	function test() {
+		if ( function_exists('http_request') )
 			return true;
 
 		return false;
@@ -694,7 +667,7 @@ class WP_Http_ExtHTTP
 /**
  * Returns the initialized WP_Http Object
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  * @access private
  *
  * @return WP_Http HTTP Transport object.
@@ -702,7 +675,7 @@ class WP_Http_ExtHTTP
 function &_wp_http_get_object() {
 	static $http;
 
-	if( is_null($http) )
+	if ( is_null($http) )
 		$http = new WP_Http();
 
 	return $http;
@@ -733,7 +706,7 @@ function &_wp_http_get_object() {
  * This function is called first to make the request and there are other API
  * functions to abstract out the above convoluted setup.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -741,7 +714,7 @@ function &_wp_http_get_object() {
  * @param string $body Optional. The body that should be sent. Expected to be already processed.
  * @return string The body of the response
  */
-function wp_remote_request($url, $args=array(), $headers=null, $body=null) {
+function wp_remote_request($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
 	return $objFetchSite->request($url, $headers, $body, $args);
@@ -752,7 +725,7 @@ function wp_remote_request($url, $args=array(), $headers=null, $body=null) {
  *
  * @see wp_remote_request() For more information on the response array format.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -760,7 +733,7 @@ function wp_remote_request($url, $args=array(), $headers=null, $body=null) {
  * @param string $body Optional. The body that should be sent. Expected to be already processed.
  * @return string The body of the response
  */
-function wp_remote_get($url, $args=array(), $headers=null, $body=null) {
+function wp_remote_get($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
 	return $objFetchSite->get($url, $headers, $body, $args);
@@ -771,7 +744,7 @@ function wp_remote_get($url, $args=array(), $headers=null, $body=null) {
  *
  * @see wp_remote_request() For more information on the response array format.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -779,7 +752,7 @@ function wp_remote_get($url, $args=array(), $headers=null, $body=null) {
  * @param string $body Optional. The body that should be sent. Expected to be already processed.
  * @return string The body of the response
  */
-function wp_remote_post($url, $args=array(), $headers=null, $body=null) {
+function wp_remote_post($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
 	return $objFetchSite->post($url, $headers, $body, $args);
@@ -790,7 +763,7 @@ function wp_remote_post($url, $args=array(), $headers=null, $body=null) {
  *
  * @see wp_remote_request() For more information on the response array format.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -798,7 +771,7 @@ function wp_remote_post($url, $args=array(), $headers=null, $body=null) {
  * @param string $body Optional. The body that should be sent. Expected to be already processed.
  * @return string The body of the response
  */
-function wp_remote_head($url, $args=array(), $headers=null, $body=null) {
+function wp_remote_head($url, $args = array(), $headers = null, $body = null) {
 	$objFetchSite = _wp_http_get_object();
 
 	return $objFetchSite->head($url, $headers, $body, $args);
@@ -807,13 +780,13 @@ function wp_remote_head($url, $args=array(), $headers=null, $body=null) {
 /**
  * Retrieve only the headers from the raw response.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param array $response HTTP response.
  * @return array The headers of the response. Empty array if incorrect parameter given.
  */
 function wp_remote_retrieve_headers(&$response) {
-	if( !isset($response['headers']) || !is_array($response['headers']))
+	if ( ! isset($response['headers']) || ! is_array($response['headers']))
 		return array();
 
 	return $response['headers'];
@@ -822,17 +795,17 @@ function wp_remote_retrieve_headers(&$response) {
 /**
  * Retrieve a single header by name from the raw response.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param array $response
  * @param string $header Header name to retrieve value from.
  * @return array The header value. Empty string on if incorrect parameter given.
  */
 function wp_remote_retrieve_header(&$response, $header) {
-	if( !isset($response['headers']) || !is_array($response['headers']))
+	if ( ! isset($response['headers']) || ! is_array($response['headers']))
 		return '';
 
-	if( array_key_exists($header, $response['headers']) )
+	if ( array_key_exists($header, $response['headers']) )
 		return $response['headers'][$header];
 
 	return '';
@@ -843,13 +816,13 @@ function wp_remote_retrieve_header(&$response, $header) {
  *
  * Will return an empty array if incorrect parameter value is given.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param array $response HTTP response.
  * @return array The keys 'code' and 'message' give information on the response.
  */
 function wp_remote_retrieve_response_code(&$response) {
-	if( !isset($response['response']) || !is_array($response['response']))
+	if ( ! isset($response['response']) || ! is_array($response['response']))
 		return '';
 
 	return $response['response']['code'];
@@ -860,13 +833,13 @@ function wp_remote_retrieve_response_code(&$response) {
  *
  * Will return an empty array if incorrect parameter value is given.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param array $response HTTP response.
  * @return array The keys 'code' and 'message' give information on the response.
  */
 function wp_remote_retrieve_response_message(&$response) {
-	if( !isset($response['response']) || !is_array($response['response']))
+	if ( ! isset($response['response']) || ! is_array($response['response']))
 		return '';
 
 	return $response['response']['message'];
@@ -875,13 +848,13 @@ function wp_remote_retrieve_response_message(&$response) {
 /**
  * Retrieve only the body from the raw response.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param array $response HTTP response.
  * @return string The body of the response. Empty string if no body or incorrect parameter given.
  */
 function wp_remote_retrieve_body(&$response) {
-	if( !isset($response['body']) )
+	if ( ! isset($response['body']) )
 		return '';
 
 	return $response['body'];
