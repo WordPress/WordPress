@@ -115,7 +115,7 @@ class WP_Http {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
 			'redirection' => 5, 'redirected' => false,
-			'httpversion' => '1.0'
+			'httpversion' => '1.0', 'blocking' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -261,7 +261,7 @@ class WP_Http {
 		$response = array('code' => 0, 'message' => '');
 
 		$newheaders = array();
-		foreach($headers as $tempheader) {
+		foreach ( $headers as $tempheader ) {
 			if ( empty($tempheader) )
 				continue;
 
@@ -306,7 +306,8 @@ class WP_Http_Fsockopen {
 	function request($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
-			'redirection' => 5, 'httpversion' => '1.0'
+			'redirection' => 5, 'httpversion' => '1.0',
+			'blocking' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -323,34 +324,34 @@ class WP_Http_Fsockopen {
 				$arrURL['host'] = 'ssl://' . $arrURL['host'];
 				$arrURL['port'] = apply_filters('http_request_default_port', 443);
 				$secure_transport = true;
-			}
-			else
+			} else {
 				$arrURL['port'] = apply_filters('http_request_default_port', 80);
-		}
-		else
+			}
+		} else {
 			$arrURL['port'] = apply_filters('http_request_port', $arrURL['port']);
+		}
 
 		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
 		$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, apply_filters('http_request_timeout', absint($r['timeout']) ) );
 
-		if ( false === $handle ) {
+		if ( false === $handle )
 			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
-		}
 
 		$requestPath = $arrURL['path'] . ( isset($arrURL['query']) ? '?' . $arrURL['query'] : '' );
-		$requestPath = (empty($requestPath)) ? '/' : $requestPath;
+		$requestPath = empty($requestPath) ? '/' : $requestPath;
 
 		$strHeaders = '';
 		$strHeaders .= strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
 		$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
 
 		if ( is_array($header) ) {
-			foreach( (array) $this->getHeaders() as $header => $headerValue)
+			foreach ( (array) $this->getHeaders() as $header => $headerValue )
 				$strHeaders .= $header . ': ' . $headerValue . "\r\n";
-		} else
+		} else {
 			$strHeaders .= $header;
+		}
 
 		$strHeaders .= "\r\n";
 
@@ -358,6 +359,9 @@ class WP_Http_Fsockopen {
 			$strHeaders .= $body;
 
 		fwrite($handle, $strHeaders);
+
+		if ( ! $r['blocking'] )
+			return array( 'headers' => array(), 'body' => '', 'response' => array() );
 
 		$strResponse = '';
 		while ( ! feof($handle) )
@@ -430,7 +434,8 @@ class WP_Http_Fopen {
 
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
-			'redirection' => 5, 'httpversion' => '1.0'
+			'redirection' => 5, 'httpversion' => '1.0',
+			'blocking' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -447,6 +452,9 @@ class WP_Http_Fopen {
 
 		if ( function_exists('stream_set_timeout') )
 			stream_set_timeout($handle, apply_filters('http_request_timeout', $r['timeout']) );
+
+		if ( ! $r['blocking'] )
+			return array( 'headers' => array(), 'body' => '', 'response' => array() );
 
 		$strResponse = '';
 		while ( ! feof($handle) )
@@ -507,7 +515,8 @@ class WP_Http_Streams {
 	function request($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
-			'redirection' => 5, 'httpversion' => '1.0'
+			'redirection' => 5, 'httpversion' => '1.0',
+			'blocking' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -536,8 +545,11 @@ class WP_Http_Streams {
 
 		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $this->timeout) );
 
-		if (! $handle)
+		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
+
+		if ( ! $r['blocking'] )
+			return array( 'headers' => array(), 'body' => '', 'response' => array() );
 
 		$strResponse = stream_get_contents($handle);
 		$meta = stream_get_meta_data($handle);
@@ -574,6 +586,7 @@ class WP_Http_Streams {
  * Requires the HTTP extension to be installed.
  *
  * Last ditch effort to retrieve the URL before complete failure.
+ * Does not support non-blocking requests.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -598,7 +611,7 @@ class WP_Http_ExtHTTP {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
 			'redirection' => 5, 'httpversion' => '1.0',
-			'user_agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version)
+			'blocking' => true, 'user_agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version)
 		);
 
 		$r = wp_parse_args( $args, $defaults );

@@ -90,7 +90,7 @@ function spawn_cron() {
 
 	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?check=' . wp_hash('187425');
 
-	wp_remote_post($cron_url, array('timeout' => 0.01));
+	wp_remote_post($cron_url, array('timeout' => 0.01, 'blocking' => false));
 }
 
 function wp_cron() {
