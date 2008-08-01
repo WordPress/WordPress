@@ -133,6 +133,7 @@ function wp_cron() {
 function wp_get_schedules() {
 	$schedules = array(
 		'hourly' => array( 'interval' => 3600, 'display' => __('Once Hourly') ),
+		'twicedaily' => array( 'interval' => 43200, 'display' => __('Twice Daily') ),
 		'daily' => array( 'interval' => 86400, 'display' => __('Once Daily') ),
 	);
 	return array_merge( apply_filters( 'cron_schedules', array() ), $schedules );

@@ -90,22 +90,17 @@ function wp_update_plugins() {
 	if ( !function_exists('fsockopen') || defined('WP_INSTALLING') )
 		return false;
 
-	$current = get_option( 'update_plugins' );
-
-	$time_not_changed = isset( $current->last_checked ) && 43200 > ( time() - $current->last_checked );
-
 	// If running blog-side, bail unless we've not checked in the last 12 hours
-	if ( !function_exists( 'get_plugins' ) ) {
-		if ( $time_not_changed )
-			return false;
+	if ( !function_exists( 'get_plugins' ) )
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	}
 
 	$plugins = get_plugins();
 	$active  = get_option( 'active_plugins' );
+	$current = get_option( 'update_plugins' );
 
 	$new_option = '';
 	$new_option->last_checked = time();
+	$time_not_changed = isset( $current->last_checked ) && 43200 > ( time() - $current->last_checked );
 
 	$plugin_changed = false;
 	foreach ( $plugins as $file => $p ) {
@@ -160,9 +155,19 @@ function wp_update_plugins() {
 
 	update_option( 'update_plugins', $new_option );
 }
-if ( defined( 'WP_ADMIN' ) && WP_ADMIN )
-	add_action( 'admin_init', 'wp_update_plugins' );
-else
-	add_action( 'init', 'wp_update_plugins' );
+
+function _maybe_update_plugins() {
+	$current = get_option( 'update_plugins' );
+	if ( isset( $current->last_checked ) && 43200 > ( time() - $current->last_checked ) )
+		return;
+	wp_update_plugins();
+}
+
+add_action( 'load-plugins.php', 'wp_update_plugins' );
+add_action( 'admin_init', '_maybe_update_plugins' );
+add_action( 'wp_update_plugins', 'wp_update_plugins' );
+
+if ( !wp_next_scheduled('wp_update_plugins') )
+	wp_schedule_event(time(), 'twicedaily', 'wp_update_plugins');
 
 ?>
