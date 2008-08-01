@@ -1,6 +1,8 @@
 <?php
 /**
- * Simple HTTP request fallback system
+ * Simple and uniform HTTP request API.
+ *
+ * Will eventually replace and standardize the WordPress HTTP requests made.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -9,10 +11,22 @@
  */
 
 /**
- * Abstract class for all of the fallback implementation
- * classes. The implementation classes will extend this class
- * to keep common API methods universal between different
- * functionality.
+ * WordPress HTTP Class for managing HTTP Transports and making HTTP requests.
+ *
+ * This class is called for the functionality of making HTTP requests and should
+ * replace Snoopy functionality, eventually. There is no available functionality
+ * to add HTTP transport implementations, since most of the HTTP transports are
+ * added and available for use.
+ *
+ * The exception is that cURL is not available as a transport and lacking an
+ * implementation. It will be added later and should be a patch on the WordPress
+ * Trac.
+ *
+ * There are no properties, because none are needed and for performance reasons.
+ * Some of the functions are static and while they do have some overhead over
+ * functions in PHP4, the purpose is maintainability. When PHP5 is finally the
+ * requirement, it will be easy to add the static keyword to the code. It is not
+ * as easy to convert a function to a method after enough code uses the old way.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -33,11 +47,18 @@ class WP_Http {
 	/**
 	 * PHP5 style Constructor - Setup available transport if not available.
 	 *
+	 * PHP4 does not have the 'self' keyword and since WordPress supports PHP4,
+	 * the class needs to be used for the static call.
+	 *
+	 * The transport are setup to save time. This should only be called once, so
+	 * the overhead should be fine.
+	 *
 	 * @since 2.7
 	 * @return WP_Http
 	 */
 	function __construct() {
 		WP_Http::_getTransport();
+		WP_Http::_postTransport();
 	}
 
 	/**
@@ -45,6 +66,18 @@ class WP_Http {
 	 *
 	 * Tests all of the objects and returns the object that passes. Also caches
 	 * that object to be used later.
+	 *
+	 * The order for the GET/HEAD requests are Streams, HTTP Extension, Fopen,
+	 * and finally Fsockopen. fsockopen() is used last, because it has the most
+	 * overhead in its implementation. There isn't any real way around it, since
+	 * redirects have to be supported, much the same way the other transports
+	 * also handle redirects.
+	 *
+	 * There are currently issues with "localhost" not resolving correctly with
+	 * DNS. This may cause an error "failed to open stream: A connection attempt
+	 * failed because the connected party did not properly respond after a
+	 * period of time, or established connection failed because connected host
+	 * has failed to respond."
 	 *
 	 * @since 2.7
 	 * @access private
@@ -75,7 +108,7 @@ class WP_Http {
 	 * that object to be used later. This is for posting content to a URL and
 	 * is used when there is a body. The plain Fopen Transport can not be used
 	 * to send content, but the streams transport can. This is a limitation that
-	 * is addressed here.
+	 * is addressed here, by just not including that transport.
 	 *
 	 * @since 2.7
 	 * @access private
@@ -98,15 +131,44 @@ class WP_Http {
 	}
 
 	/**
-	 * Retrieve the location and set the class properties after the site has been retrieved.
+	 * Send a HTTP request to a URI.
+	 *
+	 * The only URI that are supported in the HTTP Transport implementation are
+	 * the HTTP and HTTPS protocols. HTTP and HTTPS are assumed so the server
+	 * might not know how to handle the send headers. Other protocols are
+	 * unsupported and most likely will fail.
+	 *
+	 * The defaults are 'method', 'timeout', 'redirection', 'httpversion',
+	 * 'blocking' and 'user-agent'.
+	 *
+	 * Accepted 'method' values are 'GET', 'POST', and 'HEAD', some transports
+	 * technically allow others, but should not be assumed. The 'timeout' is
+	 * used to sent how long the connection should stay open before failing when
+	 * no response. 'redirection' is used to track how many redirects were taken
+	 * and used to sent the amount for other transports, but not all transports
+	 * accept setting that value.
+	 *
+	 * The 'httpversion' option is used to sent the HTTP version and accepted
+	 * values are '1.0', and '1.1' and should be a string. Version 1.1 is not
+	 * supported, because of chunk response. The 'user-agent' option is the
+	 * user-agent and is used to replace the default user-agent, which is
+	 * 'WordPress/WP_Version', where WP_Version is the value from $wp_version.
+	 *
+	 * 'blocking' is the default, which is used to tell the transport, whether
+	 * it should halt PHP while it performs the request or continue regardless.
+	 * Actually, that isn't entirely correct. Blocking mode really just means
+	 * whether the fread should just pull what it can whenever it gets bytes or
+	 * if it should wait until it has enough in the buffer to read or finishes
+	 * reading the entire content. It doesn't actually always mean that PHP will
+	 * continue going after making the request.
 	 *
 	 * @access public
 	 * @since 2.7
 	 *
-	 * @param string $url
+	 * @param string $url URI resource.
+	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
-	 * @param str|array $type Optional. Should be an already processed array with HTTP arguments.
 	 * @return boolean
 	 */
 	function request($url, $args = array(), $headers = null, $body = null) {
@@ -114,8 +176,9 @@ class WP_Http {
 
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
-			'redirection' => 5, 'redirected' => false,
-			'httpversion' => '1.0', 'blocking' => true
+			'redirection' => 5, 'httpversion' => '1.0',
+			'user-agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version ),
+			'blocking' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -128,9 +191,9 @@ class WP_Http {
 		}
 
 		if ( ! isset($headers['user-agent']) || ! isset($headers['User-Agent']) )
-			$headers['user-agent'] = apply_filters('http_headers_useragent', 'WordPress/' . $wp_version );
+			$headers['user-agent'] = $r['user-agent'];
 
-		if ( is_null($body) )
+		if ( is_null($body) || count($headers) > 1 )
 			$transport = WP_Http::_getTransport();
 		else
 			$transport = WP_Http::_postTransport();
@@ -146,7 +209,8 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7
 	 *
-	 * @param string $url The location of the site and page to retrieve.
+	 * @param string $url URI resource.
+	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
@@ -165,6 +229,8 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7
 	 *
+	 * @param string $url URI resource.
+	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
@@ -183,6 +249,8 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7
 	 *
+	 * @param string $url URI resource.
+	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
 	 * @return boolean
@@ -227,6 +295,8 @@ class WP_Http {
 	/**
 	 * Whether the headers returned a redirect location.
 	 *
+	 * Actually just checks whether the location header exists.
+	 *
 	 * @access public
 	 * @static
 	 * @since 2.7
@@ -243,20 +313,27 @@ class WP_Http {
 	/**
 	 * Transform header string into an array.
 	 *
-	 * Will overwrite the last header value, if it is not empty.
+	 * If an array is given, then it will be immediately passed through with no
+	 * changes. This is to prevent overhead in processing headers that don't
+	 * need to be processed. That and it is unknown what kind of effect
+	 * processing the array will have since there is no checking done on whether
+	 * ':' does not exist within the array string.
+	 *
+	 * Checking could be added, but it is easier and faster to just passed the
+	 * array through and assume that it has already been processed.
 	 *
 	 * @access public
 	 * @static
 	 * @since 2.7
 	 *
 	 * @param string|array $headers
-	 * @return array
+	 * @return array Processed string headers 
 	 */
 	function processHeaders($headers) {
 		if ( is_array($headers) )
 			return $headers;
 
-		$headers = explode("\n", str_replace(array("\r"), '', $headers) );
+		$headers = explode("\n", str_replace(array("\r\n", "\r"), "\n", $headers) );
 
 		$response = array('code' => 0, 'message' => '');
 
@@ -285,7 +362,8 @@ class WP_Http {
 /**
  * HTTP request method uses fsockopen function to retrieve the url.
  *
- * Preferred method since it works with all WordPress supported PHP versions.
+ * This would be the preferred method, but the fsockopen implementation has the
+ * most overhead of all the HTTP transport implementations.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -293,15 +371,19 @@ class WP_Http {
  */
 class WP_Http_Fsockopen {
 	/**
-	 * Retrieve the location and set the class properties after the site has been retrieved.
+	 * Send a HTTP request to a URI using fsockopen().
+	 *
+	 * Does not support non-blocking mode.
+	 *
+	 * @see WP_Http::retrieve For default options descriptions.
 	 *
 	 * @since 2.7
 	 * @access public
-	 * @param string $url
+	 * @param string $url URI resource.
+	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
-	 * @param str|array $type Optional. Should be an already processed array with HTTP arguments.
-	 * @return boolean
+	 * @return array 'headers', 'body', and 'response' keys.
 	 */
 	function request($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array(
@@ -322,7 +404,7 @@ class WP_Http_Fsockopen {
 		if ( ! isset($arrURL['port']) ) {
 			if ( ($arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https') && extension_loaded('openssl') ) {
 				$arrURL['host'] = 'ssl://' . $arrURL['host'];
-				$arrURL['port'] = apply_filters('http_request_default_port', 443);
+				$arrURL['port'] = apply_filters('http_request_port', 443);
 				$secure_transport = true;
 			} else {
 				$arrURL['port'] = apply_filters('http_request_default_port', 80);
@@ -331,6 +413,8 @@ class WP_Http_Fsockopen {
 			$arrURL['port'] = apply_filters('http_request_port', $arrURL['port']);
 		}
 
+		// There are issues with the HTTPS and SSL protocols that cause errors
+		// that can be safely ignored and should be ignored.
 		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
@@ -360,8 +444,10 @@ class WP_Http_Fsockopen {
 
 		fwrite($handle, $strHeaders);
 
-		if ( ! $r['blocking'] )
-			return array( 'headers' => array(), 'body' => '', 'response' => array() );
+		if ( ! $r['blocking'] ) {
+			fclose($handle);
+			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
+		}
 
 		$strResponse = '';
 		while ( ! feof($handle) )
@@ -410,24 +496,29 @@ class WP_Http_Fsockopen {
  * for $context support, but should still be okay, to write the headers, before
  * getting the response. Also requires that 'allow_url_fopen' to be enabled.
  *
- * Second preferred method for handling the retrieving the url for PHP 4.3+.
- *
  * @package WordPress
  * @subpackage HTTP
  * @since 2.7
  */
 class WP_Http_Fopen {
 	/**
-	 * Retrieve the location and set the class properties after the site has been retrieved.
+	 * Send a HTTP request to a URI using fopen().
+	 *
+	 * This transport does not support sending of headers and body, therefore
+	 * should not be used in the instances, where there is a body and headers.
+	 *
+	 * Notes: Does not support non-blocking mode. Ignores 'redirection' option.
+	 *
+	 * @see WP_Http::retrieve For default options descriptions.
 	 *
 	 * @access public
 	 * @since 2.7
 	 *
-	 * @param string $url
+	 * @param string $url URI resource.
+	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
-	 * @param str|array $type Optional. Should be an already processed array with HTTP arguments.
-	 * @return boolean
+	 * @return array 'headers', 'body', and 'response' keys.
 	 */
 	function request($url, $args = array(), $headers = null, $body = null) {
 		global $http_response_header;
@@ -453,12 +544,16 @@ class WP_Http_Fopen {
 		if ( function_exists('stream_set_timeout') )
 			stream_set_timeout($handle, apply_filters('http_request_timeout', $r['timeout']) );
 
-		if ( ! $r['blocking'] )
-			return array( 'headers' => array(), 'body' => '', 'response' => array() );
+		if ( ! $r['blocking'] ) {
+			fclose($handle);
+			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
+		}
 
 		$strResponse = '';
 		while ( ! feof($handle) )
 			$strResponse .= fread($handle, 4096);
+
+		fclose($handle);
 
 		$theHeaders = '';
 		if ( function_exists('stream_get_meta_data') ) {
@@ -467,9 +562,8 @@ class WP_Http_Fopen {
 		} else {
 			$theHeaders = $http_response_header;
 		}
-		fclose($handle);
-
 		$processedHeaders = WP_Http::processHeaders($theHeaders);
+
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
 
@@ -501,7 +595,7 @@ class WP_Http_Fopen {
  */
 class WP_Http_Streams {
 	/**
-	 * Retrieve the location and set the class properties after the site has been retrieved.
+	 * Send a HTTP request to a URI using streams with fopen().
 	 *
 	 * @access public
 	 * @since 2.7
@@ -510,7 +604,7 @@ class WP_Http_Streams {
 	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
-	 * @return boolean
+	 * @return array 'headers', 'body', and 'response' keys.
 	 */
 	function request($url, $args = array(), $headers = null, $body = null) {
 		$defaults = array(
@@ -548,15 +642,17 @@ class WP_Http_Streams {
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		if ( ! $r['blocking'] )
-			return array( 'headers' => array(), 'body' => '', 'response' => array() );
+		if ( ! $r['blocking'] ) {
+			fclose($handle);
+			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
+		}
 
 		$strResponse = stream_get_contents($handle);
 		$meta = stream_get_meta_data($handle);
+		$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 
 		fclose($handle);
 
-		$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
 
@@ -583,10 +679,10 @@ class WP_Http_Streams {
 /**
  * HTTP request method uses HTTP extension to retrieve the url.
  *
- * Requires the HTTP extension to be installed.
- *
- * Last ditch effort to retrieve the URL before complete failure.
- * Does not support non-blocking requests.
+ * Requires the HTTP extension to be installed. This would be the preferred
+ * transport since it can handle a lot of the problems that forces the others to
+ * use the HTTP version 1.0. Even if PHP 5.2+ is being used, it doesn't mean
+ * that the HTTP extension will be enabled.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -594,7 +690,9 @@ class WP_Http_Streams {
  */
 class WP_Http_ExtHTTP {
 	/**
-	 * Retrieve the location and set the class properties after the site has been retrieved.
+	 * Send a HTTP request to a URI using HTTP extension.
+	 *
+	 * Does not support non-blocking.
 	 *
 	 * @access public
 	 * @since 2.7
@@ -603,7 +701,7 @@ class WP_Http_ExtHTTP {
 	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
 	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
-	 * @return boolean
+	 * @return array 'headers', 'body', and 'response' keys.
 	 */
 	function request($url, $args = array(), $headers = null, $body = null) {
 		global $wp_version;
@@ -611,13 +709,20 @@ class WP_Http_ExtHTTP {
 		$defaults = array(
 			'method' => 'GET', 'timeout' => 3,
 			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true, 'user_agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version)
+			'blocking' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 
-		if ( isset($headers['User-Agent']) )
+		if ( isset($headers['User-Agent']) ) {
+			$r['user-agent'] = $headers['User-Agent'];
 			unset($headers['User-Agent']);
+		} else if( isset($headers['user-agent']) ) {
+			$r['user-agent'] = $headers['user-agent'];
+			unset($headers['user-agent']);
+		} else {
+			$r['user-agent'] = apply_filters('http_headers_useragent', 'WordPress/' . $wp_version );
+		}
 
 		switch ( $r['method'] ) {
 			case 'GET':
@@ -639,9 +744,9 @@ class WP_Http_ExtHTTP {
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
 		$options = array(
-			'timeout' => $this->timeout,
-			'connecttimeout' => apply_filters('http_request_stream_timeout', $this->timeout),
-			'redirect' => apply_filters('http_request_redirect', 3),
+			'timeout' => $r['timeout'],
+			'connecttimeout' => $r['timeout'],
+			'redirect' => $r['redirection'],
 			'useragent' => $r['user_agent'],
 			'headers' => $headers,
 		);
@@ -650,6 +755,9 @@ class WP_Http_ExtHTTP {
 
 		if ( false === $strResponse )
 			return new WP_Error('http_request_failed', $info['response_code'] . ': ' . $info['error']);
+
+		if ( ! $r['blocking'] )
+			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
 
 		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
 		$theHeaders = WP_Http::processHeaders($theHeaders);
@@ -671,6 +779,109 @@ class WP_Http_ExtHTTP {
 	 */
 	function test() {
 		if ( function_exists('http_request') )
+			return true;
+
+		return false;
+	}
+}
+
+/**
+ * HTTP request method uses Curl extension to retrieve the url.
+ *
+ * Requires the Curl extension to be installed.
+ *
+ * @package WordPress
+ * @subpackage HTTP
+ * @since 2.7
+ */
+class WP_Http_Curl {
+	/**
+	 * Send a HTTP request to a URI using cURL extension.
+	 *
+	 * @access public
+	 * @since 2.7
+	 *
+	 * @param string $url
+	 * @param str|array $args Optional. Override the defaults.
+	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
+	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
+	 * @return array 'headers', 'body', and 'response' keys.
+	 */
+	function request($url, $args = array(), $headers = null, $body = null) {
+		global $wp_version;
+
+		$defaults = array(
+			'method' => 'GET', 'timeout' => 3,
+			'redirection' => 5, 'httpversion' => '1.0',
+			'blocking' => true
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+
+		if ( isset($headers['User-Agent']) ) {
+			$r['user-agent'] = $headers['User-Agent'];
+			unset($headers['User-Agent']);
+		} else if( isset($headers['user-agent']) ) {
+			$r['user-agent'] = $headers['user-agent'];
+			unset($headers['user-agent']);
+		} else {
+			$r['user-agent'] = apply_filters('http_headers_useragent', 'WordPress/' . $wp_version );
+		}
+
+		$handle = curl_init();
+		curl_setopt( $handle, CURLOPT_URL, $url);
+
+		if ( true === $r['blocking'] ) {
+			curl_setopt( $handle, CURLOPT_HEADER, true );
+		} else {
+			curl_setopt( $handle, CURLOPT_HEADER, false );
+			curl_setopt( $handle, CURLOPT_NOBODY, true );
+		}
+
+		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
+		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, 1 );
+		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
+		curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
+		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
+
+		if( ! is_null($headers) )
+			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
+
+		if ( $r['httpversion'] == '1.0' )
+			curl_setopt( $headle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
+		else
+			curl_setopt( $headle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
+
+		if ( ! $r['blocking'] ) {
+			curl_close( $handle );
+			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
+		}
+
+		$theResponse = curl_exec( $handle );
+
+		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
+		$theHeaders = WP_Http::processHeaders($theHeaders);
+
+		$response = array();
+		$response['code'] = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
+		$response['message'] = get_status_header_desc($response['code']);
+
+		curl_close( $handle );
+
+		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $response);
+	}
+
+	/**
+	 * Whether this class can be used for retrieving an URL.
+	 *
+	 * @static
+	 * @since 2.7
+	 *
+	 * @return boolean False means this class can not be used, true means it can.
+	 */
+	function test() {
+		if ( function_exists('curl_init') )
 			return true;
 
 		return false;
