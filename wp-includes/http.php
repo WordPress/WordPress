@@ -313,14 +313,9 @@ class WP_Http {
 	/**
 	 * Transform header string into an array.
 	 *
-	 * If an array is given, then it will be immediately passed through with no
-	 * changes. This is to prevent overhead in processing headers that don't
-	 * need to be processed. That and it is unknown what kind of effect
-	 * processing the array will have since there is no checking done on whether
-	 * ':' does not exist within the array string.
-	 *
-	 * Checking could be added, but it is easier and faster to just passed the
-	 * array through and assume that it has already been processed.
+	 * If an array is given then it is assumed to be raw header data with
+	 * numeric keys with the headers as the values. No headers must be passed
+	 * that were already processed.
 	 *
 	 * @access public
 	 * @static
@@ -330,10 +325,8 @@ class WP_Http {
 	 * @return array Processed string headers 
 	 */
 	function processHeaders($headers) {
-		if ( is_array($headers) )
-			return $headers;
-
-		$headers = explode("\n", str_replace(array("\r\n", "\r"), "\n", $headers) );
+		if ( is_string($headers) )
+			$headers = explode("\n", str_replace(array("\r\n", "\r"), "\n", $headers) );
 
 		$response = array('code' => 0, 'message' => '');
 
@@ -342,6 +335,7 @@ class WP_Http {
 			if ( empty($tempheader) )
 				continue;
 
+			
 			if ( false === strpos($tempheader, ':') ) {
 				list( , $iResponseCode, $strResponseMsg) = explode(' ', $tempheader, 3);
 				$response['code'] = $iResponseCode;
@@ -560,9 +554,11 @@ class WP_Http_Fopen {
 		} else {
 			$theHeaders = $http_response_header;
 		}
-		$processedHeaders = WP_Http::processHeaders($theHeaders);
 
 		fclose($handle);
+
+		$processedHeaders = WP_Http::processHeaders($theHeaders);
+
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
 
@@ -762,8 +758,8 @@ class WP_Http_ExtHTTP {
 		$theHeaders = WP_Http::processHeaders($theHeaders);
 
 		$theResponse = array();
-		$theResponse['response']['code'] = $info['response_code'];
-		$theResponse['response']['message'] = get_status_header_desc($info['response_code']);
+		$theResponse['code'] = $info['response_code'];
+		$theResponse['message'] = get_status_header_desc($info['response_code']);
 
 		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $theResponse);
 	}
