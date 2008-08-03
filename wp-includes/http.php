@@ -623,7 +623,8 @@ class WP_Http_Streams {
 				'user-agent' => $headers['User-Agent'],
 				'max_redirects' => $r['redirection'],
 				'protocol_version' => (float) $r['httpversion'],
-				'header' => $headers
+				'header' => $headers,
+				'timeout' => $r['timeout']
 			)
 		);
 
@@ -634,10 +635,10 @@ class WP_Http_Streams {
 
 		$handle = fopen($url, 'r', false, $context);
 
-		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $r['timeout']) );
-
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
+
+		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $r['timeout']) );
 
 		if ( ! $r['blocking'] ) {
 			fclose($handle);
