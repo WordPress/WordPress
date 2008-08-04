@@ -201,6 +201,12 @@ function wp_default_scripts( &$scripts ) {
 		));
 		
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
+
+		$scripts->add( 'plugin-install', '/wp-admin/js/plugin-install.js', array( 'thickbox', 'jquery' ), '20080803' );
+		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(
+			'plugin_information' => __('Plugin Information:')
+		) );
+		 
 	}
 }
 
@@ -234,6 +240,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'press-this-ie', 'conditional', 'gte IE 6' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20080613' );
 	$styles->add( 'login', '/wp-admin/css/login.css' );
+	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css' );
 
 	foreach ( $rtl_styles as $rtl_style )
 		$styles->add_data( $rtl_style, 'rtl', true );

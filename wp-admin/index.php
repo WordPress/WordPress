@@ -27,7 +27,10 @@ jQuery(function($) {
 add_action( 'admin_head', 'index_js' );
 
 wp_enqueue_script( 'jquery' );
+wp_enqueue_script( 'plugin-installer' );
 wp_admin_css( 'dashboard' );
+wp_admin_css( 'plugin-installer' );
+add_thickbox();
 
 $title = __('Dashboard');
 $parent_file = 'index.php';

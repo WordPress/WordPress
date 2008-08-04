@@ -277,6 +277,7 @@ function populate_roles() {
 	populate_roles_230();
 	populate_roles_250();
 	populate_roles_260();
+	populate_roles_270();
 }
 
 function populate_roles_160() {
@@ -438,6 +439,14 @@ function populate_roles_260() {
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'update_plugins' );
 		$role->add_cap( 'delete_plugins' );
+	}
+}
+
+function populate_roles_270() {
+	$role = get_role( 'administrator' );
+
+	if ( !empty( $role ) ) {
+		$role->add_cap( 'install_plugins' );
 	}
 }
 

@@ -119,7 +119,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base{
 		return $ret;
 	}
 	function cwd() {
-		$cwd = ftp_pwd($this->link);
+		$cwd = @ftp_pwd($this->link);
 		if( $cwd )
 			$cwd = trailingslashit($cwd);
 		return $cwd;

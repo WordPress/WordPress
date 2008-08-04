@@ -122,10 +122,8 @@ if( !empty($action) ) {
 					<input type="hidden" name="verify-delete" value="1" />
 					<input type="hidden" name="delete-selected" value="1" />
 					<?php
-						foreach( (array)$plugins as $plugin ) {
-							$plugin = attribute_escape($plugin);
-							echo "<input type='hidden' name='checked[]' value='$plugin' />";
-						}
+						foreach( (array)$plugins as $plugin )
+							echo '<input type="hidden" name="checked[]" value="' . attribute_escape($plugin) . '" />';
 					?>
 					<?php wp_nonce_field('bulk-manage-plugins') ?>
 					<input type="submit" name="submit" value="<?php _e('Yes, Delete these files') ?>" class="button" />
@@ -138,10 +136,8 @@ if( !empty($action) ) {
 				<div id="files-list" style="display:none;">
 					<ul>
 					<?php
-						foreach( (array)$files_to_delete as $file ) {
-							$file = str_replace(ABSPATH, '', $file);
-							echo "<li>$file</li>";
-						}
+						foreach( (array)$files_to_delete as $file )
+							echo '<li>' . str_replace(WP_PLUGIN_DIR, '', $file) . '</li>';
 					?>
 					</ul>
 				</div>				
@@ -161,6 +157,8 @@ if( !empty($action) ) {
 }
 
 wp_enqueue_script('admin-forms');
+wp_enqueue_script('plugin-install');
+add_thickbox();
 
 $title = __('Manage Plugins');
 require_once('admin-header.php');
@@ -205,7 +203,7 @@ $all_plugins = get_plugins();
 $active_plugins = array();
 $inactive_plugins = array();
 $recent_plugins = array();
-$recently_activated = (array)get_option('recently_activated');
+$recently_activated = (array) get_option('recently_activated');
 
 //Clean out any plugins which were deactivated over a week ago.
 foreach( $recently_activated as $key => $time )
@@ -374,8 +372,9 @@ function print_plugins_table($plugins, $context = '') {
 <?php endif; ?>
 
 <h2><?php _e('Get More Plugins'); ?></h2>
-<p><?php _e('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>.'); ?></p>
-<p><?php printf(__('To install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory. Once a plugin is uploaded, you may activate it here.'), WP_PLUGIN_DIR); ?></p>
+<p><?php _e('You can find additional plugins for your site by using the new <a href="plugin-install.php">Plugin Browser/Installer</a> functionality, Or by browsing the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> directly and installing manually.'); ?></p>
+<p><?php printf(__('To <em>manually</em> install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory.'), WP_PLUGIN_DIR); ?></p>
+<p><?php _e('Once a plugin has been installed, you may activate it here.'); ?></p>
 
 </div>
 

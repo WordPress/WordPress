@@ -350,10 +350,16 @@ function wp_tag_cloud( $args = '' ) {
 	if ( empty($tags) )
 		return;
 
-	$return = wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
+	foreach ( $tags as $key => $tag ) {
+		$link = get_tag_link( $tag->term_id );
+		if ( is_wp_error( $link ) )
+			return false;
 
-	if ( is_wp_error( $return ) )
-		return false;
+		$tags[ $key ]->link = $link;
+		$tags[ $key ]->id = $tag->term_id;
+	}
+
+	$return = wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
 
 	$return = apply_filters( 'wp_tag_cloud', $return, $args );
 
@@ -363,28 +369,33 @@ function wp_tag_cloud( $args = '' ) {
 	echo $return;
 }
 
-// $tags = prefetched tag array ( get_tags() )
-// $args['format'] = 'flat' => whitespace separated, 'list' => UL, 'array' => array()
-// $args['orderby'] = 'name', 'count'
+/**
+ * Generates a tag cloud (heatmap) from provided data
+ *
+ * TODO: Complete
+ * 
+ * @since 2.6 
+ *
+ * $tags = array of objects with the properties 'name', 'link', 'id', and 'count'
+ * $args['format'] = 'flat' => whitespace separated, 'list' => UL, 'array' => array()
+ * $args['orderby'] = 'name', 'count'
+*/
 function wp_generate_tag_cloud( $tags, $args = '' ) {
 	global $wp_rewrite;
 	$defaults = array(
-		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
-		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC'
+		'smallest' => 8, 'largest' => 22, 'unit' => 'pt',
+		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
+		'single_text' => '%d topic', 'multiple_text' => '%d topics'
 	);
 	$args = wp_parse_args( $args, $defaults );
 	extract($args);
 
-	if ( !$tags )
+	if ( empty($tags) )
 		return;
-	$counts = $tag_links = array();
-	foreach ( (array) $tags as $tag ) {
-		$counts[$tag->name] = $tag->count;
-		$tag_links[$tag->name] = get_tag_link( $tag->term_id );
-		if ( is_wp_error( $tag_links[$tag->name] ) )
-			return $tag_links[$tag->name];
-		$tag_ids[$tag->name] = $tag->term_id;
-	}
+
+	$counts = array();
+	foreach ( (array) $tags as $tag )
+		$counts[ $tag->name ] = $tag->count;
 
 	$min_count = min($counts);
 	$spread = max($counts) - $min_count;
@@ -416,9 +427,10 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	$rel = ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) ? ' rel="tag"' : '';
 
 	foreach ( $counts as $tag => $count ) {
-		$tag_id = $tag_ids[$tag];
-		$tag_link = clean_url($tag_links[$tag]);
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( sprintf( __ngettext('%d topic','%d topics',$count), $count ) ) . "'$rel style='font-size: " .
+		$tag_link = clean_url( $tags[ $tag ]->link );
+		$tag_id = $tags[ $tag ]->id;
+		
+		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( sprintf( __ngettext($single_text, $multiple_text, $count), $count ) ) . "'$rel style='font-size: " .
 			( $smallest + ( ( $count - $min_count ) * $font_step ) )
 			. "$unit;'>$tag</a>";
 	}

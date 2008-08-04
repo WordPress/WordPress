@@ -33,7 +33,8 @@ input.disabled, textarea.disabled {
 
 #user_info a:hover, li.widget-list-control-item h4.widget-title a:hover, .submit a, #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
-#draghelper li.widget-list-control-item h4.widget-title a:visited, .login #backtoblog a:hover {
+#draghelper li.widget-list-control-item h4.widget-title a:visited, .login #backtoblog a:hover,
+#plugin-information .action-button a, #plugin-information .action-button a:hover, #plugin-information .action-button a:visited {
 	color: #fff;
 }
 
@@ -321,7 +322,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #fff;
 }
 
-#rightnow .reallynow {
+#rightnow .reallynow, #plugin-information .action-button {
 	background-color: #114973;
 	color: #fff;
 }
@@ -331,7 +332,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	background-color: #07273E;
 }
 
-#adminmenu, div#media-upload-header {
+#adminmenu, div#media-upload-header, div#plugin-information-header {
 	background-color: #14568a;
 	border-bottom-color: #07273e;
 }
