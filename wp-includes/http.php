@@ -208,7 +208,7 @@ class WP_Http {
 			$response = $transport->request($url, $r, $headers, $body);
 
 			if( !is_wp_error($response) )
-				break;
+				return $response;
 		}
 
 		return $response;
@@ -649,7 +649,6 @@ class WP_Http_Streams {
 			)
 		);
 
-		var_dump($arrContext);
 		if ( ! is_null($body) )
 			$arrContext['http']['content'] = $body;
 
