@@ -57,7 +57,7 @@ function register_sidebar($args = array()) {
 		'after_title' => "</h2>\n",
 	);
 
-	$sidebar = array_merge($defaults, $args);
+	$sidebar = array_merge($defaults, (array) $args);
 
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
