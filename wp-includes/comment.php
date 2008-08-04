@@ -3,6 +3,7 @@
  * Manages WordPress comments
  *
  * @package WordPress
+ * @subpackage Comment
  */
 
 /**
@@ -162,48 +163,85 @@ function &get_comment(&$comment, $output = OBJECT) {
 }
 
 /**
- * Retrieve an array of comment data about comment $comment_ID.
+ * Retrieve a list of comments
  *
- * get_comment() technically does the same thing as this function. This function
- * also appears to reference variables and then not use them or not update them
- * when needed. It is advised to switch to get_comment(), since this function
- * might be deprecated in favor of using get_comment().
+ * {@internal Missing Long Description}}
  *
- * @deprecated Use get_comment()
- * @see get_comment()
- * @since 0.71
+ * @package WordPress
+ * @subpackage Comment
+ * @since 2.7
+ * @uses $wpdb
  *
- * @uses $postc Comment cache, might not be used any more
- * @uses $id
- * @uses $wpdb Database Object
- *
- * @param int $comment_ID The ID of the comment
- * @param int $no_cache Whether to use the cache or not (casted to bool)
- * @param bool $include_unapproved Whether to include unapproved comments or not
- * @return array The comment data
+ * @param mixed $args Optional. Array or string of options
+ * @return array List of comments matching defaults or $args
  */
-function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) {
-	global $postc, $wpdb;
-	if ( $no_cache ) {
-		$query = $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d", $comment_ID);
-		if ( false == $include_unapproved )
-			$query .= " AND comment_approved = '1'";
-		$myrow = $wpdb->get_row($query, ARRAY_A);
+function get_comments( $args = '' ) {
+	global $wpdb;
+
+	$defaults = array('status' => '', 'orderby' => 'comment_date_gmt', 'order' => 'DESC', 'number' => '', 'offset' => '', 'post_id' => 0);
+
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	$post_id = absint($post_id);
+
+	if ( 'hold' == $status )
+		$approved = "comment_approved = '0'";
+	elseif ( 'approve' == $status )
+		$approved = "comment_approved = '1'";
+	elseif ( 'spam' == $status )
+		$approved = "comment_approved = 'spam'";
+	else
+		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+
+	if ( 'ASC' != $order )
+		$order = 'DESC';
+
+	$orderby = 'comment_date_gmt';  // Hard code for now
+
+	$number = absint($number);
+	$offset = absint($offset);
+
+	if ( !empty($number) ) {
+		if ( $offset )
+			$number = 'LIMIT ' . $offset . ',' . $number;
+		else
+			$number = 'LIMIT ' . $number;
+
 	} else {
-		$myrow['comment_ID']           = $postc->comment_ID;
-		$myrow['comment_post_ID']      = $postc->comment_post_ID;
-		$myrow['comment_author']       = $postc->comment_author;
-		$myrow['comment_author_email'] = $postc->comment_author_email;
-		$myrow['comment_author_url']   = $postc->comment_author_url;
-		$myrow['comment_author_IP']    = $postc->comment_author_IP;
-		$myrow['comment_date']         = $postc->comment_date;
-		$myrow['comment_content']      = $postc->comment_content;
-		$myrow['comment_karma']        = $postc->comment_karma;
-		$myrow['comment_approved']     = $postc->comment_approved;
-		$myrow['comment_type']         = $postc->comment_type;
+		$number = '';
 	}
-	return $myrow;
+
+	if ( ! empty($post_id) )
+		$post_where = "comment_post_ID = $post_id AND";
+	else
+		$post_where = '';
+
+	return $wpdb->get_results( "SELECT * FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $post_where $approved ORDER BY $orderby $order $number" );
 }
+
+/**
+ * Retrieve all of the WordPress supported comment statuses.
+ *
+ * Comments have a limited set of valid status values, this provides the
+ * comment status values and descriptions.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @return array List of comment statuses.
+ */
+function get_comment_statuses( ) {
+	$status = array(
+		'hold'		=> __('Unapproved'),
+		'approve'	=> __('Approved'),
+		'spam'		=> __('Spam'),
+	);
+
+	return $status;
+}
+
 
 /**
  * The date the last comment was modified.
@@ -821,6 +859,13 @@ function wp_update_comment($commentarr) {
 	$comment_content = apply_filters('comment_save_pre', $comment_content);
 
 	$comment_date_gmt = get_gmt_from_date($comment_date);
+
+	if ( empty($comment_approved) )
+		$comment_approved = 1;
+	else if ( 'hold' == $comment_approved )
+		$comment_approved = 0;
+	else if ( 'approve' == $comment_approved )
+		$comment_approved = 1;
 
 	$wpdb->query( $wpdb->prepare("UPDATE $wpdb->comments SET
 			comment_content      = %s,

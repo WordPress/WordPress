@@ -129,6 +129,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getPageTemplates'	=> 'this:wp_getPageTemplates',
 			'wp.getOptions'			=> 'this:wp_getOptions',
 			'wp.setOptions'			=> 'this:wp_setOptions',
+			'wp.getComment'			=> 'this:wp_getComment',
+			'wp.getComments'		=> 'this:wp_getComments',
+			'wp.deleteComment'		=> 'this:wp_deleteComment',
+			'wp.editComment'		=> 'this:wp_editComment',
+			'wp.newComment'			=> 'this:wp_newComment',
+			'wp.getCommentStatusList' => 'this:wp_getCommentStatusList',
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -829,6 +835,286 @@ class wp_xmlrpc_server extends IXR_Server {
 		return($category_suggestions);
 	}
 
+	function wp_getComment($args) {
+		$this->escape($args);
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+		$comment_id	= (int) $args[3];
+
+		if ( !$this->login_pass_ok( $username, $password ) )
+			return $this->error;
+
+		set_current_user( 0, $username );
+		if ( !current_user_can( 'moderate_comments' ) )
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+
+		do_action('xmlrpc_call', 'wp.getComment');
+
+		if ( ! $comment = get_comment($comment_id) )
+			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+
+		// Format page date.
+		$comment_date = mysql2date("Ymd\TH:i:s", $comment->comment_date);
+		$comment_date_gmt = mysql2date("Ymd\TH:i:s", $comment->comment_date_gmt);
+
+		if ( 0 == $comment->comment_approved )
+			$comment_status = 'hold';
+		else if ( 'spam' == $comment->comment_approved )
+			$comment_status = 'spam';
+		else
+			$comment_status = 'approve';
+
+		$link = get_comment_link($comment);
+
+		$comment_struct = array(
+			"date_created_gmt"		=> new IXR_Date($comment_date_gmt),
+			"user_id"				=> $comment->user_id,
+			"comment_id"			=> $comment->comment_ID,
+			"parent"				=> $comment->comment_parent,
+			"status"				=> $comment_status,
+			"content"				=> $comment->comment_content,
+			"link"					=> $link,
+			"post_id"				=> $comment->comment_post_ID,
+			"post_title"			=> get_the_title($comment->comment_post_ID),
+			"author"				=> $author->comment_author,
+			"author_url"			=> $comment->comment_author_url,
+			"author_email"			=> $comment->comment_author_email,
+			"author_ip"				=> $comment->comment_author_IP,
+		);
+
+		return $comment_struct;
+	}
+
+	function wp_getComments($args) {
+		$this->escape($args);
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+		$struct		= $args[3];
+
+		if ( !$this->login_pass_ok($username, $password) )
+			return($this->error);
+
+		set_current_user( 0, $username );
+		if ( !current_user_can( 'moderate_comments' ) )
+			return new IXR_Error( 401, __( 'Sorry, you can not edit comments.' ) );
+
+		do_action('xmlrpc_call', 'wp.getComments');
+
+		if ( isset($struct['status']) )
+			$status = $struct['status'];
+		else
+			$status = '';
+
+		$post_id = '';
+		if ( isset($struct['post_id']) )
+			$post_id = absint($struct['post_id']);
+
+		$offset = 0;
+		if ( isset($struct['offset']) )
+			$offset = absint($struct['offset']);
+
+		$number = 10;
+		if ( isset($struct['number']) )
+			$number = absint($struct['number']);
+
+		$comments = get_comments( array('status' => $status, 'post_id' => $post_id, 'offset' => $offset, 'number' => $number ) );
+		$num_comments = count($comments);
+
+		if ( ! $num_comments )
+			return array();
+
+		$comments_struct = array();
+
+		for ( $i = 0; $i < $num_comments; $i++ ) {
+			$comment = wp_xmlrpc_server::wp_getComment(array(
+				$blog_id, $username, $password, $comments[$i]->comment_ID,
+			));
+			$comments_struct[] = $comment;
+		}
+
+		return $comments_struct;
+	}
+
+	function wp_deleteComment($args) {
+		$this->escape($args);
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+		$comment_ID	= (int) $args[3];
+
+		if ( !$this->login_pass_ok( $username, $password ) )
+			return $this->error;
+
+		set_current_user( 0, $username );
+		if ( !current_user_can( 'moderate_comments' ) )
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+
+		do_action('xmlrpc_call', 'wp.deleteComment');
+
+		if ( ! get_comment($comment_ID) )
+			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+
+		return wp_delete_comment($comment_ID);
+	}
+
+	function wp_editComment($args) {
+		$this->escape($args);
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+		$comment_ID	= (int) $args[3];
+		$content_struct = $args[4];
+
+		if ( !$this->login_pass_ok( $username, $password ) )
+			return $this->error;
+
+		set_current_user( 0, $username );
+		if ( !current_user_can( 'moderate_comments' ) )
+			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+
+		do_action('xmlrpc_call', 'wp.editComment');
+
+		if ( ! get_comment($comment_ID) )
+			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+
+		if ( isset($content_struct['status']) ) {
+			$statuses = get_comment_statuses();
+			$statuses = array_keys($statuses);
+
+			if ( ! in_array($content_struct['status'], $statuses) )
+				return new IXR_Error( 401, __( 'Invalid comment status.' ) );
+			$comment_approved = $content_struct['status'];
+		}
+
+		// Do some timestamp voodoo
+		if ( !empty( $content_struct['date_created_gmt'] ) ) {
+			$dateCreated = str_replace( 'Z', '', $content_struct['date_created_gmt']->getIso() ) . 'Z'; // We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			$comment_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$comment_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+		}
+
+		if ( isset($content_struct['content']) )
+			$comment_content = $content_struct['content'];
+
+		if ( isset($content_struct['author']) )
+			$comment_author = $content_struct['author'];
+
+		if ( isset($content_struct['author_url']) )
+			$comment_author_url = $content_struct['author_url'];
+
+		if ( isset($content_struct['author_email']) )
+			$comment_author_email = $content_struct['author_email'];
+
+		// We've got all the data -- post it:
+		$comment = compact('comment_ID', 'comment_content', 'comment_approved', 'comment_date', 'comment_date_gmt', 'comment_author', 'comment_author_email', 'comment_author_url');
+		
+		$result = wp_update_comment($comment);
+		if ( is_wp_error( $result ) )
+			return new IXR_Error(500, $result->get_error_message());
+
+		if ( !$result )
+			return new IXR_Error(500, __('Sorry, the comment could not be edited. Something wrong happened.'));
+
+		return true;
+	}
+
+	function wp_newComment($args) {
+		global $wpdb;
+
+		$this->escape($args);
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+		$post		= $args[3];
+		$content_struct = $args[4];
+
+		$allow_anon = apply_filters('xmlrpc_allow_anonymous_comments', false);
+
+		if ( !$this->login_pass_ok( $username, $password ) ) {
+			$logged_in = false;
+			if ( $allow_anon && get_option('comment_registration') )
+				return new IXR_Error( 403, __( 'You must be registered to comment' ) );
+			else if ( !$allow_anon )
+				return $this->error;
+		} else {
+			$logged_in = true;
+			set_current_user( 0, $username );
+			if ( !current_user_can( 'moderate_comments' ) )
+				return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
+		}
+
+		if ( is_numeric($post) )
+			$post_id = absint($post);
+		else
+			$post_id = url_to_postid($post);
+
+		if ( ! $post_id )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
+		if ( ! get_post($post_id) )
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+
+		$comment['comment_post_ID'] = $post_id;
+
+		if ( $logged_in ) {
+			$user = wp_get_current_user();
+			$comment['comment_author'] = $wpdb->escape( $user->display_name );
+			$comment['comment_author_email'] = $wpdb->escape( $user->user_email );
+			$comment['comment_author_url'] = $wpdb->escape( $user->user_url );
+			$comment['user_ID'] = $user->ID;
+		} else {
+			$comment['comment_author'] = '';
+			if ( isset($content_struct['author']) )
+				$comment['comment_author'] = $content_struct['author'];
+			$comment['comment_author_email'] = '';
+			if ( isset($content_struct['author']) )
+				$comment['comment_author_email'] = $content_struct['author_email'];
+			$comment['comment_author_url'] = '';
+			if ( isset($content_struct['author']) )
+				$comment['comment_author_url'] = $content_struct['author_url'];
+			$comment['user_ID'] = 0;
+
+			if ( get_option('require_name_email') ) {
+				if ( 6 > strlen($comment['comment_author_email']) || '' == $comment['comment_author'] )
+					return new IXR_Error( 403, __( 'Comment author name and email are required' ) );
+				elseif ( !is_email($comment['comment_author_email']) )
+					return new IXR_Error( 403, __( 'A valid email address is required' ) );
+			}
+		}
+
+		$comment['comment_content'] = $content_struct['content'];
+
+		do_action('xmlrpc_call', 'wp.newComment');
+		
+		return wp_new_comment($comment);
+	}
+
+	function wp_getCommentStatusList($args) {
+		$this->escape( $args );
+
+		$blog_id	= (int) $args[0];
+		$username	= $args[1];
+		$password	= $args[2];
+
+		if ( !$this->login_pass_ok( $username, $password ) )
+			return $this->error;
+
+		set_current_user( 0, $username );
+		if ( !current_user_can( 'moderate_comments' ) )
+			return new IXR_Error( 403, __( 'You are not allowed access to details about this blog.' ) );
+
+		do_action('xmlrpc_call', 'wp.getCommentStatusList');
+
+		return get_comment_statuses( );
+	}
+
 	function wp_getCommentCount( $args ) {
 		$this->escape($args);
 
@@ -856,7 +1142,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			"total_comments" => $count->total_comments
 		);
 	}
-
 
 	function wp_getPostStatusList( $args ) {
 		$this->escape( $args );

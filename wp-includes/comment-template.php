@@ -320,10 +320,11 @@ function comment_ID() {
  * @since 1.5
  * @uses $comment
  *
+ * @param object|string|int $comment Comment to retrieve.
  * @return string The permalink to the current comment
  */
-function get_comment_link() {
-	global $comment;
+function get_comment_link($comment = null) {
+	$comment = get_comment($comment);
 	return get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment->comment_ID;
 }
 
