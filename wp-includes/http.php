@@ -196,7 +196,7 @@ class WP_Http {
 			$headers['user-agent'] = $r['user-agent'];
 
 		if ( is_null($body) ) {
-			if ( ! is_string($body) )
+			if ( is_array($body) || is_object($body) )
 				$body = http_build_query($body);
 
 			$transports = WP_Http::_getTransport();
