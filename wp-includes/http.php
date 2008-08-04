@@ -88,16 +88,16 @@ class WP_Http {
 		static $working_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() )
-				$working_transport = new WP_Http_ExtHttp();
-			else if ( true === WP_Http_Curl::test() )
-				$working_transport = new WP_Http_Curl();
-			else if ( true === WP_Http_Streams::test() )
-				$working_transport = new WP_Http_Streams();
-			else if ( true === WP_Http_Fopen::test() )
-				$working_transport = new WP_Http_Fopen();
-			else if ( true === WP_Http_Fsockopen::test() )
-				$working_transport = new WP_Http_Fsockopen();
+			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) )
+				$working_transport[] = new WP_Http_ExtHttp();
+			else if ( true === WP_Http_Curl::test() && apply_filters('use_curl_transport', true) )
+				$working_transport[] = new WP_Http_Curl();
+			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
+				$working_transport[] = new WP_Http_Streams();
+			else if ( true === WP_Http_Fopen::test() && apply_filters('use_fopen_transport', true) )
+				$working_transport[] = new WP_Http_Fopen();
+			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
+				$working_transport[] = new WP_Http_Fsockopen();
 		}
 
 		return $working_transport;
@@ -121,12 +121,12 @@ class WP_Http {
 		static $working_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() )
-				$working_transport = new WP_Http_ExtHttp();
-			else if ( true === WP_Http_Streams::test() )
-				$working_transport = new WP_Http_Streams();
-			else if ( true === WP_Http_Fsockopen::test() )
-				$working_transport = new WP_Http_Fsockopen();
+			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) )
+				$working_transport[] = new WP_Http_ExtHttp();
+			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
+				$working_transport[] = new WP_Http_Streams();
+			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
+				$working_transport[] = new WP_Http_Fsockopen();
 		}
 
 		return $working_transport;
@@ -170,14 +170,14 @@ class WP_Http {
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
 	 * @param string|array $headers Optional. Either the header string or array of Header name and value pairs. Expects sanitized.
-	 * @param string $body Optional. The body that should be sent. Expected to be already processed.
+	 * @param string $body Optional. The body that should be sent. Will be automatically escaped and processed.
 	 * @return boolean
 	 */
 	function request($url, $args = array(), $headers = null, $body = null) {
 		global $wp_version;
 
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 3,
+			'method' => 'GET', 'timeout' => apply_filters('http_request_timeout', 3),
 			'redirection' => 5, 'httpversion' => '1.0',
 			'user-agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version ),
 			'blocking' => true
@@ -195,12 +195,23 @@ class WP_Http {
 		if ( ! isset($headers['user-agent']) || ! isset($headers['User-Agent']) )
 			$headers['user-agent'] = $r['user-agent'];
 
-		if ( is_null($body) )
-			$transport = WP_Http::_getTransport();
-		else
-			$transport = WP_Http::_postTransport();
+		if ( is_null($body) ) {
+			if ( ! is_string($body) )
+				$body = http_build_query($body);
 
-		return $transport->request($url, $r, $headers, $body);
+			$transports = WP_Http::_getTransport();
+		} else
+			$transports = WP_Http::_postTransport();
+
+		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
+		foreach( (array) $transports as $transport ) {
+			$response = $transport->request($url, $r, $headers, $body);
+
+			if( !is_wp_error($response) )
+				break;
+		}
+
+		return $response;
 	}
 
 	/**
@@ -414,7 +425,7 @@ class WP_Http_Fsockopen {
 		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
-		$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, apply_filters('http_request_timeout', absint($r['timeout']) ) );
+		$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
 
 		if ( false === $handle )
 			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
@@ -538,7 +549,7 @@ class WP_Http_Fopen {
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
 		if ( function_exists('stream_set_timeout') )
-			stream_set_timeout($handle, apply_filters('http_request_timeout', $r['timeout']) );
+			stream_set_timeout($handle, $r['timeout'] );
 
 		if ( ! $r['blocking'] ) {
 			fclose($handle);
@@ -612,6 +623,16 @@ class WP_Http_Streams {
 
 		$r = wp_parse_args( $args, $defaults );
 
+		if ( isset($headers['User-Agent']) ) {
+			$r['user-agent'] = $headers['User-Agent'];
+			unset($headers['User-Agent']);
+		} else if( isset($headers['user-agent']) ) {
+			$r['user-agent'] = $headers['user-agent'];
+			unset($headers['user-agent']);
+		} else {
+			$r['user-agent'] = apply_filters('http_headers_useragent', 'WordPress/' . $wp_version );
+		}
+
 		$arrURL = parse_url($url);
 
 		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
@@ -620,7 +641,7 @@ class WP_Http_Streams {
 		$arrContext = array('http' => 
 			array(
 				'method' => strtoupper($r['method']),
-				'user-agent' => $headers['User-Agent'],
+				'user-agent' => $r['user-agent'],
 				'max_redirects' => $r['redirection'],
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $headers,
@@ -628,6 +649,7 @@ class WP_Http_Streams {
 			)
 		);
 
+		var_dump($arrContext);
 		if ( ! is_null($body) )
 			$arrContext['http']['content'] = $body;
 
@@ -638,7 +660,7 @@ class WP_Http_Streams {
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		stream_set_timeout($handle, apply_filters('http_request_stream_timeout', $r['timeout']) );
+		stream_set_timeout($handle, $r['timeout'] );
 
 		if ( ! $r['blocking'] ) {
 			fclose($handle);
