@@ -862,9 +862,11 @@ class WP_Http_Curl {
 		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
 		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, 1 );
 		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
-		curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
 		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
 
+		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
+			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
+		
 		if( ! is_null($headers) )
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 
