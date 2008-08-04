@@ -88,7 +88,7 @@ function spawn_cron() {
 	if ( array_shift( $keys ) > time() )
 		return;
 
-	$cron_url = wp_guess_url() . 'wp-cron.php?check=' . wp_hash('187425');
+	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?check=' . wp_hash('187425');
 
 	wp_remote_post($cron_url, array('timeout' => 0.01, 'blocking' => false));
 }
