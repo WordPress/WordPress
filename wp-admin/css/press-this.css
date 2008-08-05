@@ -4,6 +4,8 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
+
+img { border: 0; }
 /* Tabs */
 @media projection , screen {
 	.ui-tabs-hide {

@@ -184,19 +184,21 @@ if($_REQUEST['ajax'] == 'photo_images') {
 
 		$host = parse_url($uri);
 
-		$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif)[^<>\'\"]*)(\2)([^>\/]*)\/*>/is';
+		$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif))[^<>\'\"]*(\2)([^>\/]*)\/*>/is';
 		preg_match_all($pattern, $content, $matches);
-
+		
 		if ( empty($matches[1]) ) return '';
 
 		$sources = array();
 		foreach ($matches[3] as $src) {
+			// if no http in url
 			if(strpos($src, 'http') === false)
-				if(strpos($src, '../') === false && strpos($src, './') === false)
+				// if it doesn't have a relative uri
+				if( strpos($src, '../') === false && strpos($src, './') === false && strpos($src, '/') === true)
 					$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 				else
-					$src = 'http://'.str_replace('//','/', $host['host'].'/'.$host['path'].'/'.$src);
-
+					$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
+			
 			$sources[] = clean_url($src);
 		}
 		return "'" . implode("','", $sources) . "'";
@@ -247,12 +249,12 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 	}
 
 	function pick(img, desc) {
-		if (img) { 
-			length = jQuery('.photolist input').length;
+		if (img) {
+			if('object' == typeof jQuery('.photolist input') && jQuery('.photolist input').length != 0) length = jQuery('.photolist input').length;
 			if(length == 0) length = 1;
 			jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
 			jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
-			append_editor("\n\n" + '<p><img src="' + img +'" alt="' + desc + '" /></p>');
+			append_editor("\n\n" + '<p><img src="' + img +'" alt="' + desc + '" class="aligncenter"/></p>');
 		}
 		tinyMCE.activeEditor.resizeToContent();
 		return false;
@@ -267,6 +269,7 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 	}
 
 	jQuery(document).ready(function() {
+		jQuery('#extra_fields').html('<div class="photolist"></div><small id="photo_directions"><?php _e("Click images to select:") ?> <span><a href="#" id="photo_add_url" class="thickbox"><?php _e("Add from URL") ?> +</a></span></small><div class="titlewrap"><div id="img_container"></div></div>');
 		jQuery('#img_container').html(strtoappend);
 		jQuery('#photo_add_url').attr('href', '?ajax=thickbox_url&height=200&width=500');
 		tb_init('a.thickbox, area.thickbox, input.thickbox');
@@ -276,13 +279,7 @@ if($_REQUEST['ajax'] == 'photo_js') { ?>
 }
 
 if($_REQUEST['ajax'] == 'photo') { ?>
-		<div class="photolist"></div>
 
-		<small id="photo_directions"><?php _e('Click images to select:') ?> <span><a href="#" id="photo_add_url" class="thickbox"><?php _e('Add from URL') ?> +</a></span></small>
-
-		<div class="titlewrap">
-			<div id="img_container"></div>
-		</div>
 <?php die;
 }
 ?>
@@ -323,6 +320,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				editor_selector: "mceEditor",
 				language : "<?php echo $language; ?>",
 				width: "100%",
+				height: "300",
 				theme : "advanced",
 				theme_advanced_buttons1 : "bold,italic,underline,blockquote,separator,strikethrough,bullist,numlist,undo,redo,link,unlink",
 				theme_advanced_buttons2 : "",
@@ -446,7 +444,6 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 				<?php } ?>
 				jQuery('#extra_fields').show();
 				jQuery('#extra_fields').before('<h2 id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></h2>');
-				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']).'?ajax=photo&u='.attribute_escape($url); ?>');
 				jQuery.ajax({
 					type: "GET",
 					cache : false,
@@ -473,7 +470,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 			show('video');
 		<?php } elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) { ?>
 			show('video');
-			<?php  } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
+		<?php  } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
 			show('photo');
 		<?php } ?>
 	});
@@ -506,7 +503,7 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 		<div class="editor_area">
 			<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			<div class="editor-container">
-				<textarea name="content" id="content" style="width:100%;" class="mceEditor"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><a href="<?php echo $url ?>"><?php echo $title; ?></a>.</textarea>
+				<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><a href="<?php echo $url ?>"><?php echo $title; ?></a>.</textarea>
 			</div>
 		</div>
 	</div>
