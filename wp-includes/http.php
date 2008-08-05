@@ -666,9 +666,9 @@ class WP_Http_Streams {
 		$context = stream_context_create($arrContext);
 
 		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
-			$handle = @fopen($url, 'r');
+			$handle = @fopen($url, 'r', false, $context);
 		else
-			$handle = fopen($url, 'r');
+			$handle = fopen($url, 'r', false, $context);
 
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
