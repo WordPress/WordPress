@@ -3,6 +3,10 @@ body, td {
 	font-family: Tahoma,Verdana,sans-serif;
 }
 
+#wpcontent #sidemenu li a { 
+	float: left; 
+}
+
 .wrap {
 	text-align: right;
 }
@@ -43,11 +47,4 @@ p#widget-search, p#post-search {
 /* template editor */
 #template textarea {
 	float:left;
-}
-
-/* Editor */
-
-.mceToolbar {
-	direction: ltr;
-	text-align: left;
 }

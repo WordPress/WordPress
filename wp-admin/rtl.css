@@ -12,6 +12,11 @@ body, td, .submit input, .button, .button-secondary, .button-highlighted, #your-
 	font-family: monospace !important;
 }
 
+#update-nag {
+	clear: both; 
+	margin-bottom: 1em; 
+}
+
 #wpwrap,#footer,#TB_title,.media-upload-form,#media-upload-header
 {
 	direction:rtl!important;
@@ -115,7 +120,8 @@ p#post-search
 
 .tablenav div
 {
-	float:right!important
+	float:right !important;
+	direction: rtl;
 }
 
 .tablenav .delete 
@@ -321,4 +327,76 @@ table.widefat th,.form-table th
 
 div#message {
 	clear: both;
+}
+
+#media-items th.label { 
+	width: 120px; 
+}
+
+#media-items th.label .alignleft { 
+	width: 100px; 
+}
+
+#media-items th.label .alignright { 
+	width: 16px; height: 16px; 
+} 
+
+input#href, input#src, input#class_name { 
+	direction: ltr; text-align: left; 
+}
+
+#sidemenu a { 
+	float: right; 
+}
+
+thead.media-item-info {
+	float: left;
+	margin-bottom: 18px;
+	width: 100%;
+}
+
+thead.media-item-info td {
+	width: 100%;
+	text-align: left;
+}
+
+thead.media-item-info td.A1B1 {
+	width: 150px;
+}
+
+#gallery-form table.widefat th {
+	float: left; 
+	width: 74%;
+	text-align: center;
+}
+
+#gallery-form table.widefat th.order-head {
+	width: 18%;
+}
+
+#media-upload tr.align td.field, #media-upload tr.image-size td.field {
+	text-align: right !important;
+}
+
+#media-upload tr.align td.field {
+	float:right;
+	margin-right:-15px;
+}
+
+tr.image-size label {
+	display:inline;
+	margin:0 0 0 1em !important;
+}
+
+#library-form { 
+	float: right; 
+}
+
+#filter .subsubsub {
+	direction: rtl;
+	text-align: right;
+}
+
+#media-upload form#filter {
+	margin-right: -20px;
 }
