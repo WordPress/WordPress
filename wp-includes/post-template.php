@@ -74,7 +74,7 @@ function get_the_guid( $id = 0 ) {
 	return apply_filters('get_the_guid', $post->guid);
 }
 
-function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
+function the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
@@ -82,8 +82,11 @@ function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file
 }
 
 
-function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
+function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') {
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
+
+	if ( NULL == $more_link_text )
+		$more_link_text = __( '(more...)' ); 
 
 	$output = '';
 
