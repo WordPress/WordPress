@@ -27,9 +27,9 @@ jQuery(function($) {
 add_action( 'admin_head', 'index_js' );
 
 wp_enqueue_script( 'jquery' );
-wp_enqueue_script( 'plugin-installer' );
+wp_enqueue_script( 'plugin-install' );
 wp_admin_css( 'dashboard' );
-wp_admin_css( 'plugin-installer' );
+wp_admin_css( 'plugin-install' );
 add_thickbox();
 
 $title = __('Dashboard');

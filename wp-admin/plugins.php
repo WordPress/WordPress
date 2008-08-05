@@ -113,7 +113,7 @@ if( !empty($action) ) {
 					<ul>
 						<?php 
 						foreach( $plugin_info as $plugin )
-							echo '<li>', $plugin['Title'], ' ', __('By'), ' ', $plugin['Author'], '</li>';
+							echo '<li>', sprintf(__('%s by %s'), $plugin['Name'], $plugin['Author']), '</li>';
 						?>
 					</ul>
 				</p>

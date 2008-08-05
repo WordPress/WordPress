@@ -1,13 +1,13 @@
 <?php
 require_once('admin.php');
 
+if ( ! current_user_can('install_plugins') )
+	wp_die(__('You do not have sufficient permissions to install plugins on this blog.'));
+
 include(ABSPATH . 'wp-admin/includes/plugin-install.php');
 
 $title = __('Install Plugins');
 $parent_file = 'plugins.php';
-
-if ( ! current_user_can('install_plugins') )
-	wp_die(__('You do not have sufficient permissions to install plugins on this blog.'));
 
 wp_reset_vars( array('tab', 'paged') );
 wp_enqueue_style( 'plugin-install' );

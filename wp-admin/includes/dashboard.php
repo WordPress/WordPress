@@ -438,7 +438,7 @@ function wp_dashboard_plugins_output() {
 		else 
 			$slug = '';
 
-		$ilink = wp_nonce_url('plugin-install.php?tab=install-confirmation&plugin=' . $slug, 'install-plugin_' . $slug) .
+		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
 							'&TB_iframe=true&width=600&height=800';
 
 		echo "<h4>$label</h4>\n";
