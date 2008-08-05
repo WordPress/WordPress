@@ -185,23 +185,25 @@ class WP_Http {
 
 		$r = wp_parse_args( $args, $defaults );
 
-		if ( ! is_null($headers) && ! is_array($headers) ) {
+		if ( is_null($headers) )
+			$headers = array();
+
+		if ( ! is_array($headers) ) {
 			$processedHeaders = WP_Http::processHeaders($headers);
 			$headers = $processedHeaders['headers'];
-		} else {
-			$headers = array();
 		}
 
 		if ( ! isset($headers['user-agent']) || ! isset($headers['User-Agent']) )
 			$headers['user-agent'] = $r['user-agent'];
 
 		if ( is_null($body) ) {
+			$transports = WP_Http::_getTransport();
+		} else {
 			if ( is_array($body) || is_object($body) )
 				$body = http_build_query($body);
 
-			$transports = WP_Http::_getTransport();
-		} else
 			$transports = WP_Http::_postTransport();
+		}
 
 		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
 		foreach( (array) $transports as $transport ) {
