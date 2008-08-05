@@ -4,6 +4,8 @@
  *
  * Will eventually replace and standardize the WordPress HTTP requests made.
  *
+ * @link http://trac.wordpress.org/ticket/4779 HTTP API Proposal
+ *
  * @package WordPress
  * @subpackage HTTP
  * @since 2.7
@@ -794,6 +796,7 @@ class WP_Http_ExtHTTP {
 
 		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
 		$theHeaders = WP_Http::processHeaders($theHeaders);
+		$theBody = http_chunked_decode($theBody);
 
 		$theResponse = array();
 		$theResponse['code'] = $info['response_code'];
