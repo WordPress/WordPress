@@ -482,6 +482,8 @@ function get_posts($args = null) {
 	} elseif ( ! empty($r['exclude']) )
 		$r['post__not_in'] = preg_split('/[\s,]+/',$r['exclude']);
 
+	$r['caller_get_posts'] = true;
+
 	$get_posts = new WP_Query;
 	return $get_posts->query($r);
 
@@ -750,6 +752,30 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
 }
 
 /**
+ * is_sticky() - Check if post is sticky
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @param int $post_id A post ID
+ * @return bool
+ */
+function is_sticky($post_id) {
+	$stickies = get_option('sticky_posts');
+
+	if ( !is_array($stickies) )
+		return false;
+
+	if ( in_array($post_id, $stickies) )
+		return true;
+
+	return false;
+}
+
+/**
  * sanitize_post() - Sanitize every post field
  *
  * {@internal Missing Long Description}}
@@ -845,6 +871,58 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		$value = js_escape($value);
 
 	return $value;
+}
+
+/**
+ * Make a post sticky
+ *
+ * Makes a post stick to the top of the front page
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @param int $post_id A post ID
+ */
+function stick_post($post_id) {
+	$stickies = get_option('sticky_posts');
+
+	if ( !is_array($stickies) )
+		$stickies = array($post_id);
+
+	if ( ! in_array($post_id, $stickies) )
+		$stickies[] = $post_id;
+
+	update_option('sticky_posts', $stickies);
+}
+
+/**
+ * Unstick a post
+ *
+ * Unstick a post from the front page
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @param int $post_id A post ID
+ */
+function unstick_post($post_id) {
+	$stickies = get_option('sticky_posts');
+
+	if ( !is_array($stickies) )
+		return;
+
+	if ( ! in_array($post_id, $stickies) )
+		return;
+
+	$offset = array_search($post_id, $stickies);
+	if ( false === $offset )
+		return;
+
+	array_splice($stickies, $offset, 1);
+	
+	update_option('sticky_posts', $stickies);
 }
 
 /**

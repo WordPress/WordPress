@@ -831,6 +831,9 @@ class WP_Query {
 		$groupby = '';
 		$post_status_join = false;
 
+		if ( !isset($q['caller_get_posts']) )
+			$q['caller_get_posts'] = false;
+
 		if ( !isset($q['post_type']) ) {
 			if ( $this->is_search )
 				$q['post_type'] = 'any';
@@ -1494,6 +1497,39 @@ class WP_Query {
 							$this->posts = array();
 					}
 				}
+			}
+		}
+
+		// Put sticky posts at the top of the posts array
+		$sticky_posts = get_option('sticky_posts');
+		if ( $this->is_home && $page <= 1 && !empty($sticky_posts) && !$q['caller_get_posts'] ) {
+			$num_posts = count($this->posts);
+			$sticky_offset = 0;
+			// Loop over posts and relocate stickies to the front.
+			for ( $i = 0; $i < $num_posts; $i++ ) {
+				if ( in_array($this->posts[$i]->ID, $sticky_posts) ) {
+					$sticky_post = $this->posts[$i];
+					// Remove sticky from current position
+					array_splice($this->posts, $i, 1);
+					// Move to front, after other stickies
+					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
+					// Increment the sticky offset.  The next sticky will be placed at this offset.
+					$sticky_offset++;
+					// Remove post from sticky posts array
+					$offset = array_search($sticky_post->ID, $sticky_posts);
+					array_splice($sticky_posts, $offset, 1);
+				}
+			}
+
+			// Fetch sticky posts that weren't in the query results
+			$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
+			$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in)" );
+			// TODO Make sure post is published or viewable by the current user
+			foreach ( $stickies as $sticky_post ) {
+				if ( 'publish' != $sticky_post->post_status )
+					continue;
+				array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
+				$sticky_offset++;
 			}
 		}
 
