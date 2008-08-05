@@ -542,10 +542,16 @@ class WP_Http_Fopen {
 
 		$arrURL = parse_url($url);
 
+		if ( false === $arrURL )
+			return new WP_Error('http_request_failed', sprintf(__('Malformed URL: %s'), $url));
+
 		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
-		$handle = fopen($url, 'r');
+		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+			$handle = @fopen($url, 'r');
+		else
+			$handle = fopen($url, 'r');
 
 		if (! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
@@ -637,6 +643,9 @@ class WP_Http_Streams {
 
 		$arrURL = parse_url($url);
 
+		if ( false === $arrURL )
+			return new WP_Error('http_request_failed', sprintf(__('Malformed URL: %s'), $url));
+
 		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
@@ -656,7 +665,10 @@ class WP_Http_Streams {
 
 		$context = stream_context_create($arrContext);
 
-		$handle = fopen($url, 'r', false, $context);
+		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+			$handle = @fopen($url, 'r');
+		else
+			$handle = fopen($url, 'r');
 
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
