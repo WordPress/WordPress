@@ -1123,9 +1123,9 @@ class WP_Query {
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'post_tag' ";
 			$include_tags = "'" . implode("', '", $q['tag_slug__in']) . "'";
 			$whichcat .= " AND $wpdb->terms.slug IN ($include_tags) ";
-			$reqtag = is_term( $q['tag_slug__in'][0], 'post_tag' );
+			$reqtag = get_term_by( 'slug', $q['tag_slug__in'][0], 'post_tag' );
 			if ( !empty($reqtag) )
-				$q['tag_id'] = $reqtag['term_id'];
+				$q['tag_id'] = $reqtag->term_id;
 		}
 
 		if ( !empty($q['tag__not_in']) ) {
