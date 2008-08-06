@@ -394,8 +394,8 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		return;
 
 	$counts = array();
-	foreach ( (array) $tags as $tag )
-		$counts[ $tag->name ] = $tag->count;
+	foreach ( (array) $tags as $key => $tag )
+		$counts[ $key ] = $tag->count;
 
 	$min_count = min($counts);
 	$spread = max($counts) - $min_count;
@@ -426,13 +426,14 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	$rel = ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) ? ' rel="tag"' : '';
 
-	foreach ( $counts as $tag => $count ) {
-		$tag_link = clean_url( $tags[ $tag ]->link );
-		$tag_id = $tags[ $tag ]->id;
+	foreach ( $counts as $key => $count ) {
+		$tag_link = clean_url( $tags[ $key ]->link );
+		$tag_id = $tags[ $key ]->id;
+		$tag_name = $tags[ $key ]->name;
 		
 		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( sprintf( __ngettext($single_text, $multiple_text, $count), $count ) ) . "'$rel style='font-size: " .
 			( $smallest + ( ( $count - $min_count ) * $font_step ) )
-			. "$unit;'>$tag</a>";
+			. "$unit;'>$tag_name</a>";
 	}
 
 	switch ( $format ) :
