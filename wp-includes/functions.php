@@ -341,7 +341,7 @@ function get_option( $setting ) {
 
 		if ( false === $value ) {
 			if ( defined( 'WP_INSTALLING' ) )
-				$supress = $wpdb->suppress_errors();
+				$suppress = $wpdb->suppress_errors();
 			// expected_slashed ($setting)
 			$row = $wpdb->get_row( "SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1" );
 			if ( defined( 'WP_INSTALLING' ) )
