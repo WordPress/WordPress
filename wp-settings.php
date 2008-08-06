@@ -182,18 +182,26 @@ if ( defined('WP_CACHE') )
  */
 define('WPINC', 'wp-includes');
 
-if ( constant('WP_POST_REVISIONS') ) {
-	/*
-	 * PEAR Text_Diff depends on the include path matching its directory
-	 * structure. This prevents modifying source code and maintaining the
-	 * modifications when the package is updated.
+if ( !defined('WP_LANG_DIR') ) {
+	/**
+	 * Stores the location of the language directory. First looks for language folder in WP_CONTENT_DIR
+	 * and uses that folder if it exists. Or it uses the "languages" folder in WPINC.
+	 *
+	 * @since 2.1.0
 	 */
-	if ( function_exists( 'set_include_path' ) )
-		set_include_path( get_include_path() . PATH_SEPARATOR . ABSPATH . WPINC );
-	else if ( function_exists( 'ini_set' ) )
-		ini_set( 'include_path',  ini_get('include_path') . PATH_SEPARATOR . ABSPATH . WPINC );
-	else
-		define('WP_INCLUDE_PATH_DISABLED', true);
+	if ( file_exists(WP_CONTENT_DIR . '/languages') && @is_dir(WP_CONTENT_DIR . '/languages') ) {
+		define('WP_LANG_DIR', WP_CONTENT_DIR . '/languages'); // no leading slash, no trailing slash, full path, not relative to ABSPATH
+		if (!defined('LANGDIR')) {
+			// Old static relative path maintained for limited backwards compatibility - won't work in some cases
+			define('LANGDIR', 'wp-content/languages');
+		}
+	} else {
+		define('WP_LANG_DIR', ABSPATH . WPINC . '/languages'); // no leading slash, no trailing slash, full path, not relative to ABSPATH
+		if (!defined('LANGDIR')) {
+			// Old relative path maintained for backwards compatibility
+			define('LANGDIR', WPINC . '/languages');
+		}
+	}
 }
 
 require (ABSPATH . WPINC . '/compat.php');
