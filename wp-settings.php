@@ -182,20 +182,6 @@ if ( defined('WP_CACHE') )
  */
 define('WPINC', 'wp-includes');
 
-if ( constant('WP_POST_REVISIONS') ) {
-	/*
-	 * PEAR Text_Diff depends on the include path matching its directory
-	 * structure. This prevents modifying source code and maintaining the
-	 * modifications when the package is updated.
-	 */
-	if ( function_exists( 'set_include_path' ) )
-		set_include_path( get_include_path() . PATH_SEPARATOR . ABSPATH . WPINC );
-	else if ( function_exists( 'ini_set' ) )
-		ini_set( 'include_path',  ini_get('include_path') . PATH_SEPARATOR . ABSPATH . WPINC );
-	else
-		define('WP_INCLUDE_PATH_DISABLED', true);
-}
-
 if ( !defined('WP_LANG_DIR') ) {
 	/**
 	 * Stores the location of the language directory. First looks for language folder in WP_CONTENT_DIR
