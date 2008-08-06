@@ -98,7 +98,7 @@ if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND 
 </select>
 </p>
 <?php if ( current_user_can( 'publish_posts' ) ) : ?> 
-<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
+<p id="private-checkbox"><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
 <?php endif; ?>
 
 <?php
