@@ -1125,18 +1125,11 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			if ( empty($title) )
 				$title = __('Untitled');
 			$desc = '';
-				if ( isset( $item['description'] ) && is_string( $item['description'] ) )
-					$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['description'], ENT_QUOTES))));
-				elseif ( isset( $item['summary'] ) && is_string( $item['summary'] ) )
-					$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['summary'], ENT_QUOTES))));
-
 			$summary = '';
 			if ( isset( $item['description'] ) && is_string( $item['description'] ) )
-				$summary = $item['description'];
+				$desc = $summary = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['description'], ENT_QUOTES))));
 			elseif ( isset( $item['summary'] ) && is_string( $item['summary'] ) )
-				$summary = $item['summary'];
-
-			$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($summary, ENT_QUOTES))));
+				$desc = $summary = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['summary'], ENT_QUOTES))));
 
 			if ( $show_summary ) {
 				$desc = '';
