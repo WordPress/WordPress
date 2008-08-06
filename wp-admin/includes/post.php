@@ -161,10 +161,12 @@ function edit_post() {
 
 	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
 
-	if ( !empty($_POST['sticky']) )
-		stick_post($post_ID);
-	else
-		unstick_post($post_ID);
+	if ( current_user_can( 'edit_others_posts' ) ) {
+		if ( !empty($_POST['sticky']) )
+			stick_post($post_ID);
+		else
+			unstick_post($post_ID);
+	}
 
 	return $post_ID;
 }
