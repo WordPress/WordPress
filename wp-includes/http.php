@@ -797,7 +797,7 @@ class WP_Http_ExtHTTP {
 		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
 		$theHeaders = WP_Http::processHeaders($theHeaders);
 
-		if ( !empty($theBody) )
+		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] )
 			$theBody = http_chunked_decode($theBody);
 
 		$theResponse = array();
