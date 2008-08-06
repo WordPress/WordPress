@@ -49,7 +49,7 @@ function get_object_taxonomies($object) {
 	$object = (array) $object;
 
 	$taxonomies = array();
-	foreach ( $wp_taxonomies as $taxonomy ) {
+	foreach ( (array) $wp_taxonomies as $taxonomy ) {
 		if ( array_intersect($object, (array) $taxonomy->object_type) )
 			$taxonomies[] = $taxonomy->name;
 	}
@@ -230,7 +230,7 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
-	foreach ( $taxonomies as $taxonomy ) {
+	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( ! is_taxonomy($taxonomy) )
 			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 	}
@@ -425,7 +425,7 @@ function get_term_children( $term, $taxonomy ) {
 
 	$children = $terms[$term];
 
-	foreach ( $terms[$term] as $child ) {
+	foreach ( (array) $terms[$term] as $child ) {
 		if ( isset($terms[$child]) )
 			$children = array_merge($children, get_term_children($child, $taxonomy));
 	}
@@ -558,7 +558,7 @@ function &get_terms($taxonomies, $args = '') {
 		$taxonomies = array($taxonomies);
 	}
 
-	foreach ( $taxonomies as $taxonomy ) {
+	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( ! is_taxonomy($taxonomy) )
 			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 	}
@@ -626,7 +626,7 @@ function &get_terms($taxonomies, $args = '') {
 		$exclude = '';
 		$interms = preg_split('/[\s,]+/',$include);
 		if ( count($interms) ) {
-			foreach ( $interms as $interm ) {
+			foreach ( (array) $interms as $interm ) {
 				if (empty($inclusions))
 					$inclusions = ' AND ( t.term_id = ' . intval($interm) . ' ';
 				else
@@ -643,7 +643,7 @@ function &get_terms($taxonomies, $args = '') {
 	if ( !empty($exclude) ) {
 		$exterms = preg_split('/[\s,]+/',$exclude);
 		if ( count($exterms) ) {
-			foreach ( $exterms as $exterm ) {
+			foreach ( (array) $exterms as $exterm ) {
 				if (empty($exclusions))
 					$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
 				else
@@ -721,13 +721,14 @@ function &get_terms($taxonomies, $args = '') {
 		_pad_term_counts($terms, $taxonomies[0]);
 
 	// Make sure we show empty categories that have children.
-	if ( $hierarchical && $hide_empty ) {
+	if ( $hierarchical && $hide_empty && is_array($terms) ) {
 		foreach ( $terms as $k => $term ) {
 			if ( ! $term->count ) {
 				$children = _get_term_children($term->term_id, $terms, $taxonomies[0]);
-				foreach ( $children as $child )
-					if ( $child->count )
-						continue 2;
+				if( is_array($children) )
+					foreach ( $children as $child )
+						if ( $child->count )
+							continue 2;
 
 				// It really is empty
 				unset($terms[$k]);
@@ -824,7 +825,7 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
 	if ( is_object($term) )
 		$do_object = true;
 
-	foreach ( $fields as $field ) {
+	foreach ( (array) $fields as $field ) {
 		if ( $do_object )
 			$term->$field = sanitize_term_field($field, $term->$field, $term->term_id, $taxonomy, $context);
 		else
@@ -955,7 +956,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
-	foreach ( $taxonomies as $taxonomy ) {
+	foreach ( (array) $taxonomies as $taxonomy ) {
 		$terms = wp_get_object_terms($object_id, $taxonomy, 'fields=tt_ids');
 		$in_terms = "'" . implode("', '", $terms) . "'";
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_terms)", $object_id) );
@@ -1082,7 +1083,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
-	foreach ( $taxonomies as $taxonomy ) {
+	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( ! is_taxonomy($taxonomy) )
 			return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
 	}
@@ -1323,7 +1324,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	$tt_ids = array();
 	$term_ids = array();
 
-	foreach ($terms as $term) {
+	foreach ( (array) $terms as $term) {
 		if ( !strlen(trim($term)) )
 			continue;
 
@@ -1587,7 +1588,7 @@ function wp_update_term_count( $terms, $taxonomy, $do_deferred=false ) {
 	static $_deferred = array();
 
 	if ( $do_deferred ) {
-		foreach ( array_keys($_deferred) as $tax ) {
+		foreach ( (array) array_keys($_deferred) as $tax ) {
 			wp_update_term_count_now( $_deferred[$tax], $tax );
 			unset( $_deferred[$tax] );
 		}
@@ -1628,7 +1629,7 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 		call_user_func($taxonomy->update_count_callback, $terms);
 	} else {
 		// Default count updater
-		foreach ($terms as $term) {
+		foreach ( (array) $terms as $term) {
 			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term) );
 			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		}
@@ -1821,7 +1822,7 @@ function update_object_term_cache($object_ids, $object_type) {
  * @param string $taxonomy Optional. Update Term to this taxonomy in cache
  */
 function update_term_cache($terms, $taxonomy = '') {
-	foreach ( $terms as $term ) {
+	foreach ( (array) $terms as $term ) {
 		$term_taxonomy = $taxonomy;
 		if ( empty($term_taxonomy) )
 			$term_taxonomy = $term->taxonomy;
@@ -1896,7 +1897,7 @@ function &_get_term_children($term_id, $terms, $taxonomy) {
 	if  ( ( 0 != $term_id ) && ! isset($has_children[$term_id]) )
 		return $empty_array;
 
-	foreach ( $terms as $term ) {
+	foreach ( (array) $terms as $term ) {
 		$use_id = false;
 		if ( !is_object($term) ) {
 			$term = get_term($term, $taxonomy);
@@ -1956,7 +1957,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
 
 	$term_items = array();
 
-	foreach ( $terms as $key => $term ) {
+	foreach ( (array) $terms as $key => $term ) {
 		$terms_by_id[$term->term_id] = & $terms[$key];
 		$term_ids[$term->term_taxonomy_id] = $term->term_id;
 	}
@@ -2006,7 +2007,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
 function _update_post_term_count( $terms ) {
 	global $wpdb;
 
-	foreach ( $terms as $term ) {
+	foreach ( (array) $terms as $term ) {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type = 'post' AND term_taxonomy_id = %d", $term ) );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 	}

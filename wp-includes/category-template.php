@@ -7,7 +7,7 @@ function get_category_children($id, $before = '/', $after = '', $visited=array()
 	$chain = '';
 	// TODO: consult hierarchy
 	$cat_ids = get_all_category_ids();
-	foreach ( $cat_ids as $cat_id ) {
+	foreach ( (array) $cat_ids as $cat_id ) {
 		if ( $cat_id == $id )
 			continue;
 
@@ -84,7 +84,7 @@ function get_the_category($id = false) {
 	else
 		$categories = array();
 
-	foreach(array_keys($categories) as $key) {
+	foreach( (array) array_keys($categories) as $key) {
 		_make_cat_compat($categories[$key]);
 	}
 

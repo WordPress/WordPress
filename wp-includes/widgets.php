@@ -208,7 +208,7 @@ function dynamic_sidebar($index = 1) {
 		$index = "sidebar-$index";
 	} else {
 		$index = sanitize_title($index);
-		foreach ( $wp_registered_sidebars as $key => $value ) {
+		foreach ( (array) $wp_registered_sidebars as $key => $value ) {
 			if ( sanitize_title($value['name']) == $index ) {
 				$index = $key;
 				break;
@@ -224,7 +224,7 @@ function dynamic_sidebar($index = 1) {
 	$sidebar = $wp_registered_sidebars[$index];
 
 	$did_one = false;
-	foreach ( $sidebars_widgets[$index] as $id ) {
+	foreach ( (array) $sidebars_widgets[$index] as $id ) {
 		$params = array_merge(
 			array( array_merge( $sidebar, array('widget_id' => $id, 'widget_name' => $wp_registered_widgets[$id]['name']) ) ),
 			(array) $wp_registered_widgets[$id]['params']
@@ -274,9 +274,9 @@ function is_active_widget($callback, $widget_id = false) {
 function is_dynamic_sidebar() {
 	global $wp_registered_widgets, $wp_registered_sidebars;
 	$sidebars_widgets = get_option('sidebars_widgets');
-	foreach ( $wp_registered_sidebars as $index => $sidebar ) {
+	foreach ( (array) $wp_registered_sidebars as $index => $sidebar ) {
 		if ( count($sidebars_widgets[$index]) ) {
-			foreach ( $sidebars_widgets[$index] as $widget )
+			foreach ( (array) $sidebars_widgets[$index] as $widget )
 				if ( array_key_exists($widget, $wp_registered_widgets) )
 					return true;
 		}
@@ -297,9 +297,9 @@ function wp_get_sidebars_widgets($update = true) {
 
 	switch ( $sidebars_widgets['array_version'] ) {
 		case 1 :
-			foreach ( $sidebars_widgets as $index => $sidebar )
+			foreach ( (array) $sidebars_widgets as $index => $sidebar )
 			if ( is_array($sidebar) )
-			foreach ( $sidebar as $i => $name ) {
+			foreach ( (array) $sidebar as $i => $name ) {
 				$id = strtolower($name);
 				if ( isset($wp_registered_widgets[$id]) ) {
 					$_sidebars_widgets[$index][$i] = $id;
@@ -338,7 +338,7 @@ function wp_get_sidebars_widgets($update = true) {
 			$sidebars = array_keys( $wp_registered_sidebars );
 			if ( !empty( $sidebars ) ) {
 				// Move the known-good ones first
-				foreach ( $sidebars as $id ) {
+				foreach ( (array) $sidebars as $id ) {
 					if ( array_key_exists( $id, $sidebars_widgets ) ) {
 						$_sidebars_widgets[$id] = $sidebars_widgets[$id];
 						unset($sidebars_widgets[$id], $sidebars[$id]);
@@ -373,7 +373,7 @@ function wp_get_widget_defaults() {
 
 	$defaults = array();
 
-	foreach ( $wp_registered_sidebars as $index => $sidebar )
+	foreach ( (array) $wp_registered_sidebars as $index => $sidebar )
 		$defaults[$index] = array();
 
 	return $defaults;
@@ -635,7 +635,7 @@ function wp_widget_text_control($widget_args) {
 		else
 			$this_sidebar = array();
 
-		foreach ( $this_sidebar as $_widget_id ) {
+		foreach ( (array) $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_text' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
 				if ( !in_array( "text-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
@@ -683,7 +683,7 @@ function wp_widget_text_register() {
 	$name = __('Text');
 
 	$id = false;
-	foreach ( array_keys($options) as $o ) {
+	foreach ( (array) array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['title']) || !isset($options[$o]['text']) )
 			continue;
@@ -729,13 +729,13 @@ function wp_widget_categories($args, $widget_args = 1) {
 
 <script type='text/javascript'>
 /* <![CDATA[ */
-    var dropdown = document.getElementById("cat");
-    function onCatChange() {
+	var dropdown = document.getElementById("cat");
+	function onCatChange() {
 		if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
 			location.href = "<?php echo get_option('home'); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
 		}
-    }
-    dropdown.onchange = onCatChange;
+	}
+	dropdown.onchange = onCatChange;
 /* ]]> */
 </script>
 
@@ -777,7 +777,7 @@ function wp_widget_categories_control( $widget_args ) {
 		else
 			$this_sidebar = array();
 
-		foreach ( $this_sidebar as $_widget_id ) {
+		foreach ( (array) $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_categories' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
 				if ( !in_array( "categories-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
@@ -852,7 +852,7 @@ function wp_widget_categories_register() {
 	$name = __( 'Categories' );
 
 	$id = false;
-	foreach ( array_keys($options) as $o ) {
+	foreach ( (array) array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['title']) )
 			continue;
@@ -986,7 +986,7 @@ function wp_widget_recent_comments($args) {
 		<?php echo $before_widget; ?>
 			<?php echo $before_title . $title . $after_title; ?>
 			<ul id="recentcomments"><?php
-			if ( $comments ) : foreach ($comments as $comment) :
+			if ( $comments ) : foreach ( (array) $comments as $comment) :
 			echo  '<li class="recentcomments">' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 			endforeach; endif;?></ul>
 		<?php echo $after_widget; ?>
@@ -1117,7 +1117,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_array( $rss->items ) && !empty( $rss->items ) ) {
 		$rss->items = array_slice($rss->items, 0, $items);
 		echo '<ul>';
-		foreach ($rss->items as $item ) {
+		foreach ( (array) $rss->items as $item ) {
 			while ( strstr($item['link'], 'http') != $item['link'] )
 				$item['link'] = substr($item['link'], 1);
 			$link = clean_url(strip_tags($item['link']));
@@ -1184,7 +1184,7 @@ function wp_widget_rss_control($widget_args) {
 		$options = array();
 
 	$urls = array();
-	foreach ( $options as $option )
+	foreach ( (array) $options as $option )
 		if ( isset($option['url']) )
 			$urls[$option['url']] = true;
 
@@ -1197,7 +1197,7 @@ function wp_widget_rss_control($widget_args) {
 		else
 			$this_sidebar = array();
 
-		foreach ( $this_sidebar as $_widget_id ) {
+		foreach ( (array) $this_sidebar as $_widget_id ) {
 			if ( 'wp_widget_rss' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
 				if ( !in_array( "rss-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
@@ -1342,7 +1342,7 @@ function wp_widget_rss_register() {
 	$name = __('RSS');
 
 	$id = false;
-	foreach ( array_keys($options) as $o ) {
+	foreach ( (array) array_keys($options) as $o ) {
 		// Old widgets can have null values for some reason
 		if ( !isset($options[$o]['url']) || !isset($options[$o]['title']) || !isset($options[$o]['items']) )
 			continue;

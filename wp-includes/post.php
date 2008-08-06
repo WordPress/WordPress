@@ -143,11 +143,11 @@ function &get_children($args = '', $output = OBJECT) {
 	if ( $output == OBJECT ) {
 		return $kids;
 	} elseif ( $output == ARRAY_A ) {
-		foreach ( $kids as $kid )
+		foreach ( (array) $kids as $kid )
 			$weeuns[$kid->ID] = get_object_vars($kids[$kid->ID]);
 		return $weeuns;
 	} elseif ( $output == ARRAY_N ) {
-		foreach ( $kids as $kid )
+		foreach ( (array) $kids as $kid )
 			$babes[$kid->ID] = array_values(get_object_vars($kids[$kid->ID]));
 		return $babes;
 	} else {
@@ -1579,7 +1579,7 @@ function wp_publish_post($post_id) {
 	wp_transition_post_status('publish', $old_status, $post);
 
 	// Update counts for the post's terms.
-	foreach ( get_object_taxonomies('post') as $taxonomy ) {
+	foreach ( (array) get_object_taxonomies('post') as $taxonomy ) {
 		$terms = wp_get_object_terms($post_id, $taxonomy, 'fields=tt_ids');
 		wp_update_term_count($terms, $taxonomy);
 	}
@@ -1845,7 +1845,7 @@ function trackback_url_list($tb_list, $post_id) {
 		}
 
 		$trackback_urls = explode(',', $tb_list);
-		foreach($trackback_urls as $tb_url) {
+		foreach( (array) $trackback_urls as $tb_url) {
 				$tb_url = trim($tb_url);
 				trackback($tb_url, stripslashes($post_title), $excerpt, $post_id);
 		}
@@ -1926,7 +1926,7 @@ function get_page_by_path($page_path, $output = OBJECT) {
 	$page_paths = '/' . trim($page_path, '/');
 	$leaf_path  = sanitize_title(basename($page_paths));
 	$page_paths = explode('/', $page_paths);
-	foreach($page_paths as $pathdir)
+	foreach( (array) $page_paths as $pathdir)
 		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 
 	$pages = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = %s AND (post_type = 'page' OR post_type = 'attachment')", $leaf_path ));
@@ -1987,7 +1987,7 @@ function get_page_by_title($page_title, $output = OBJECT) {
  */
 function &get_page_children($page_id, $pages) {
 	$page_list = array();
-	foreach ( $pages as $page ) {
+	foreach ( (array) $pages as $page ) {
 		if ( $page->post_parent == $page_id ) {
 			$page_list[] = $page;
 			if ( $children = get_page_children($page->ID, $pages) )
@@ -2013,7 +2013,7 @@ function &get_page_children($page_id, $pages) {
  */
 function get_page_hierarchy($posts, $parent = 0) {
 	$result = array ( );
-	if ($posts) { foreach ($posts as $post) {
+	if ($posts) { foreach ( (array) $posts as $post) {
 		if ($post->post_parent == $parent) {
 			$result[$post->ID] = $post->post_name;
 			$children = get_page_hierarchy($posts, $post->ID);
@@ -3028,7 +3028,7 @@ function update_postmeta_cache($post_ids) {
 			$cache[$id] = array();
 	}
 
-	foreach ( array_keys($cache) as $post)
+	foreach ( (array) array_keys($cache) as $post)
 		wp_cache_set($post, $cache[$post], 'post_meta');
 
 	return $cache;

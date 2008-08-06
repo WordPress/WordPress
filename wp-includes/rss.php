@@ -534,10 +534,10 @@ function _response_to_rss ($resp) {
 	$rss = new MagpieRSS( $resp->results );
 
 	// if RSS parsed successfully
-	if ( $rss and !$rss->ERROR) {
+	if ( $rss && !$rss->ERROR) {
 
 		// find Etag, and Last-Modified
-		foreach($resp->headers as $h) {
+		foreach( (array) $resp->headers as $h) {
 			// 2003-03-02 - Nicola Asuni (www.tecnick.com) - fixed bug "Undefined offset: 1"
 			if (strpos($h, ": ")) {
 				list($field, $val) = explode(": ", $h, 2);
@@ -843,7 +843,7 @@ function wp_rss( $url, $num_items = -1 ) {
 			$rss->items = array_slice( $rss->items, 0, $num_items );
 		}
 
-		foreach ( $rss->items as $item ) {
+		foreach ( (array) $rss->items as $item ) {
 			printf(
 				'<li><a href="%1$s" title="%2$s">%3$s</a></li>',
 				clean_url( $item['link'] ),
@@ -864,7 +864,7 @@ function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 	$rss = fetch_rss($url);
 	if ( $rss ) {
 		$rss->items = array_slice($rss->items, 0, $num_items);
-		foreach ($rss->items as $item ) {
+		foreach ( (array) $rss->items as $item ) {
 			echo "<li>\n";
 			echo "<a href='$item[link]' title='$item[description]'>";
 			echo htmlentities($item['title']);

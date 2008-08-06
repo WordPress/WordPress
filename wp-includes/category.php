@@ -43,7 +43,7 @@ function &get_categories($args = '') {
 	$taxonomy = 'category';
 	if ( 'link' == $args['type'] )
 		$taxonomy = 'link_category';
-	$categories = get_terms($taxonomy, $args);
+	$categories = (array) get_terms($taxonomy, $args);
 
 	foreach ( array_keys($categories) as $k )
 		_make_cat_compat($categories[$k]);

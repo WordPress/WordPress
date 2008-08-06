@@ -52,7 +52,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 	if ( !empty($mod_keys) ) {
 		$words = explode("\n", $mod_keys );
 
-		foreach ($words as $word) {
+		foreach ( (array) $words as $word) {
 			$word = trim($word);
 
 			// Skip empty lines
@@ -1235,7 +1235,7 @@ function pingback($content, $post_ID) {
 	// http://dummy-weblog.org/post.php
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
-	foreach ( $post_links_temp[0] as $link_test ) :
+	foreach ( (array) $post_links_temp[0] as $link_test ) :
 		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
 				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
 			$test = parse_url($link_test);

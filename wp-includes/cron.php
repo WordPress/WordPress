@@ -110,7 +110,7 @@ function wp_cron() {
 	$schedules = wp_get_schedules();
 	foreach ( $crons as $timestamp => $cronhooks ) {
 		if ( $timestamp > time() ) break;
-		foreach ( $cronhooks as $hook => $args ) {
+		foreach ( (array) $cronhooks as $hook => $args ) {
 			if ( isset($schedules[$hook]['callback']) && !call_user_func( $schedules[$hook]['callback'] ) )
 				continue;
 			spawn_cron();
@@ -168,8 +168,8 @@ function _upgrade_cron_array($cron) {
 
 	$new_cron = array();
 
-	foreach ($cron as $timestamp => $hooks) {
-		foreach ( $hooks as $hook => $args ) {
+	foreach ( (array) $cron as $timestamp => $hooks) {
+		foreach ( (array) $hooks as $hook => $args ) {
 			$key = md5(serialize($args['args']));
 			$new_cron[$timestamp][$hook][$key] = $args;
 		}

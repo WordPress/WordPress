@@ -214,7 +214,7 @@ function is_page ($page = '') {
 
 	$page = (array) $page;
 
-    if ( in_array( $page_obj->ID, $page ) )
+	if ( in_array( $page_obj->ID, $page ) )
 		return true;
 	elseif ( in_array( $page_obj->post_title, $page ) )
 		return true;
@@ -990,7 +990,7 @@ class WP_Query {
 			}
 			$n = ($q['exact']) ? '' : '%';
 			$searchand = '';
-			foreach((array)$q['search_terms'] as $term) {
+			foreach( (array) $q['search_terms'] as $term) {
 				$term = addslashes_gpc($term);
 				$search .= "{$searchand}(($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}'))";
 				$searchand = ' AND ';
@@ -1015,7 +1015,7 @@ class WP_Query {
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
 			$q['cat'] = '';
 			$req_cats = array();
-			foreach ( $cat_array as $cat ) {
+			foreach ( (array) $cat_array as $cat ) {
 				$cat = intval($cat);
 				$req_cats[] = $cat;
 				$in = ($cat > 0);

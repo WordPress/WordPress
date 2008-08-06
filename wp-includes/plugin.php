@@ -90,7 +90,7 @@ function has_filter($tag, $function_to_check = false) {
 	if ( !$idx = _wp_filter_build_unique_id($tag, $function_to_check, false) )
 		return false;
 
-	foreach ( array_keys($wp_filter[$tag]) as $priority ) {
+	foreach ( (array) array_keys($wp_filter[$tag]) as $priority ) {
 		if ( isset($wp_filter[$tag][$priority][$idx]) )
 			return $priority;
 	}

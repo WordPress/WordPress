@@ -286,7 +286,7 @@ function wp_dropdown_users( $args = '' ) {
 		if ( $show_option_none )
 			$output .= "\t<option value='-1'>$show_option_none</option>\n";
 
-		foreach ( $users as $user ) {
+		foreach ( (array) $users as $user ) {
 			$user->ID = (int) $user->ID;
 			$_selected = $user->ID == $selected ? " selected='selected'" : '';
 			$output .= "\t<option value='$user->ID'$_selected>" . wp_specialchars($user->$show) . "</option>\n";
@@ -311,7 +311,7 @@ function _fill_user( &$user ) {
 	$wpdb->show_errors($show);
 
 	if ( $metavalues ) {
-		foreach ( $metavalues as $meta ) {
+		foreach ( (array) $metavalues as $meta ) {
 			$value = maybe_unserialize($meta->meta_value);
 			$user->{$meta->meta_key} = $value;
 		}

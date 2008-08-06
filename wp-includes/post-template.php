@@ -255,7 +255,7 @@ function post_custom( $key = '' ) {
 function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
-		foreach ( $keys as $key ) {
+		foreach ( (array) $keys as $key ) {
 			$keyt = trim($key);
 			if ( '_' == $keyt{0} )
 				continue;

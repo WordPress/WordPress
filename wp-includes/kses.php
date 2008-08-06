@@ -793,11 +793,11 @@ function wp_kses_stripslashes($string) {
 function wp_kses_array_lc($inarray) {
 	$outarray = array ();
 
-	foreach ($inarray as $inkey => $inval) {
+	foreach ( (array) $inarray as $inkey => $inval) {
 		$outkey = strtolower($inkey);
 		$outarray[$outkey] = array ();
 
-		foreach ($inval as $inkey2 => $inval2) {
+		foreach ( (array) $inval as $inkey2 => $inval2) {
 			$outkey2 = strtolower($inkey2);
 			$outarray[$outkey][$outkey2] = $inval2;
 		} # foreach $inval

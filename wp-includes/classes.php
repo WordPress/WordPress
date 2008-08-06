@@ -90,7 +90,7 @@ class WP {
 
 			// Look for matches.
 			$request_match = $request;
-			foreach ($rewrite as $match => $query) {
+			foreach ( (array) $rewrite as $match => $query) {
 				// Don't try to match against AtomPub calls
 				if ( $req_uri == 'wp-app.php' )
 					break;
@@ -171,7 +171,7 @@ class WP {
 			}
 		}
 
-		foreach ($this->private_query_vars as $var) {
+		foreach ( (array) $this->private_query_vars as $var) {
 			if (isset($this->extra_query_vars[$var]))
 				$this->query_vars[$var] = $this->extra_query_vars[$var];
 			elseif (isset($GLOBALS[$var]) && '' != $GLOBALS[$var])
@@ -242,7 +242,7 @@ class WP {
 
 	function build_query_string() {
 		$this->query_string = '';
-		foreach (array_keys($this->query_vars) as $wpvar) {
+		foreach ( (array) array_keys($this->query_vars) as $wpvar) {
 			if ( '' != $this->query_vars[$wpvar] ) {
 				$this->query_string .= (strlen($this->query_string) < 1) ? '' : '&';
 				if ( !is_scalar($this->query_vars[$wpvar]) ) // Discard non-scalars.
@@ -261,7 +261,7 @@ class WP {
 	function register_globals() {
 		global $wp_query;
 		// Extract updated query vars back into global namespace.
-		foreach ($wp_query->query_vars as $key => $value) {
+		foreach ( (array) $wp_query->query_vars as $key => $value) {
 			$GLOBALS[$key] = $value;
 		}
 
@@ -350,7 +350,7 @@ class WP_Error {
 		// Return all messages if no code specified.
 		if ( empty($code) ) {
 			$all_messages = array();
-			foreach ( $this->errors as $code => $messages )
+			foreach ( (array) $this->errors as $code => $messages )
 				$all_messages = array_merge($all_messages, $messages);
 
 			return $all_messages;
@@ -527,7 +527,7 @@ class Walker {
 		* if we are displaying all levels, and remaining children_elements is not empty,
 		* then we got orphans, which should be displayed regardless
 	 	*/
-		if ( ( $max_depth == 0 ) && sizeof( $children_elements ) > 0 ) {
+		if ( ( $max_depth == 0 ) && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans )
 				foreach( $orphans as $op )
@@ -750,7 +750,7 @@ class WP_Ajax_Response {
 
 		$response = '';
 		if ( is_wp_error($data) ) {
-			foreach ( $data->get_error_codes() as $code ) {
+			foreach ( (array) $data->get_error_codes() as $code ) {
 				$response .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message($code) . "]]></wp_error>";
 				if ( !$error_data = $data->get_error_data($code) )
 					continue;
@@ -776,7 +776,7 @@ class WP_Ajax_Response {
 		}
 
 		$s = '';
-		if ( (array) $supplemental ) {
+		if ( is_array($supplemental) ) {
 			foreach ( $supplemental as $k => $v )
 				$s .= "<$k><![CDATA[$v]]></$k>";
 			$s = "<supplemental>$s</supplemental>";
@@ -800,7 +800,7 @@ class WP_Ajax_Response {
 	function send() {
 		header('Content-Type: text/xml');
 		echo "<?xml version='1.0' standalone='yes'?><wp_ajax>";
-		foreach ( $this->responses as $response )
+		foreach ( (array) $this->responses as $response )
 			echo $response;
 		echo '</wp_ajax>';
 		die();

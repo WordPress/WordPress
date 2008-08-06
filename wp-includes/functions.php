@@ -421,7 +421,7 @@ function get_alloptions() {
 		$options = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
 	$wpdb->show_errors($show);
 
-	foreach ( $options as $option ) {
+	foreach ( (array) $options as $option ) {
 		// "When trying to design a foolproof system,
 		//  never underestimate the ingenuity of the fools :)" -- Dougal
 		if ( in_array( $option->option_name, array( 'siteurl', 'home', 'category_base', 'tag_base' ) ) )
@@ -777,7 +777,7 @@ function do_enclose( $content, $post_ID ) {
 	debug_fwrite( $log, 'Post contents:' );
 	debug_fwrite( $log, $content . "\n" );
 
-	foreach ( $post_links_temp[0] as $link_test ) {
+	foreach ( (array) $post_links_temp[0] as $link_test ) {
 		if ( !in_array( $link_test, $pung ) ) { // If we haven't pung it already
 			$test = parse_url( $link_test );
 			if ( isset( $test['query'] ) )
@@ -787,7 +787,7 @@ function do_enclose( $content, $post_ID ) {
 		}
 	}
 
-	foreach ( $post_links as $url ) {
+	foreach ( (array) $post_links as $url ) {
 		if ( $url != '' && !$wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, $url . '%' ) ) ) {
 			if ( $headers = wp_get_http_headers( $url) ) {
 				$len = (int) $headers['content-length'];
@@ -1007,7 +1007,7 @@ function add_query_arg() {
 		$qs[func_get_arg( 0 )] = func_get_arg( 1 );
 	}
 
-	foreach ( $qs as $k => $v ) {
+	foreach ( (array) $qs as $k => $v ) {
 		if ( $v === false )
 			unset( $qs[$k] );
 	}
@@ -1031,7 +1031,7 @@ function add_query_arg() {
  */
 function remove_query_arg( $key, $query=false ) {
 	if ( is_array( $key ) ) { // removing multiple keys
-		foreach ( (array) $key as $k )
+		foreach ( $key as $k )
 			$query = add_query_arg( $k, false, $query );
 		return $query;
 	}
@@ -1049,7 +1049,7 @@ function remove_query_arg( $key, $query=false ) {
 function add_magic_quotes( $array ) {
 	global $wpdb;
 
-	foreach ( $array as $k => $v ) {
+	foreach ( (array) $array as $k => $v ) {
 		if ( is_array( $v ) ) {
 			$array[$k] = add_magic_quotes( $v );
 		} else {

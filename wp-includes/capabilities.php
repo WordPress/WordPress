@@ -28,7 +28,7 @@ class WP_Roles {
 
 		$this->role_objects = array();
 		$this->role_names =  array();
-		foreach ($this->roles as $role => $data) {
+		foreach ( (array) $this->roles as $role => $data) {
 			$this->role_objects[$role] = new WP_Role($role, $this->roles[$role]['capabilities']);
 			$this->role_names[$role] = $this->roles[$role]['name'];
 		}
@@ -207,7 +207,7 @@ class WP_User {
 	}
 
 	function set_role($role) {
-		foreach($this->roles as $oldrole)
+		foreach( (array) $this->roles as $oldrole)
 			unset($this->caps[$oldrole]);
 		if ( !empty($role) ) {
 			$this->caps[$role] = true;
@@ -265,7 +265,7 @@ class WP_User {
 		$caps = call_user_func_array('map_meta_cap', $args);
 		// Must have ALL requested caps
 		$capabilities = apply_filters('user_has_cap', $this->allcaps, $caps, $args);
-		foreach ($caps as $cap) {
+		foreach ( (array) $caps as $cap) {
 			//echo "Checking cap $cap<br />";
 			if(empty($capabilities[$cap]) || !$capabilities[$cap])
 				return false;
