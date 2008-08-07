@@ -14,7 +14,9 @@
  */
 
 /** Text_Diff_Renderer */
-require_once 'Text/Diff/Renderer.php';
+
+// WP #7391
+require_once dirname(dirname(__FILE__)) . '/Renderer.php';
 
 /**
  * "Inline" diff renderer.

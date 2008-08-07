@@ -1,9 +1,9 @@
 <?php
 
 if ( !class_exists( 'Text_Diff' ) ) {
-	require( 'Text/Diff.php' );
-	require( 'Text/Diff/Renderer.php' );
-	require( 'Text/Diff/Renderer/inline.php' );
+	require( dirname(__FILE__).'/Text/Diff.php' );
+	require( dirname(__FILE__).'/Text/Diff/Renderer.php' );
+	require( dirname(__FILE__).'/Text/Diff/Renderer/inline.php' );
 }
 
 

@@ -1512,10 +1512,6 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 	$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
 	$args = wp_parse_args( $args, $defaults );
 
-	// PEAR Text_Diff is lame; it includes things from include_path rather than it's own path.
-	// Not sure of the ramifications of disttributing modified code.
-	ini_set('include_path', '.' . PATH_SEPARATOR . ABSPATH . WPINC );
-
 	if ( !class_exists( 'WP_Text_Diff_Renderer_Table' ) )
 		require( ABSPATH . WPINC . '/wp-diff.php' );
 
@@ -1533,8 +1529,6 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 	$text_diff = new Text_Diff($left_lines, $right_lines);
 	$renderer  = new WP_Text_Diff_Renderer_Table();
 	$diff = $renderer->render($text_diff);
-
-	ini_restore('include_path');
 
 	if ( !$diff )
 		return '';
