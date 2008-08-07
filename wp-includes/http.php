@@ -900,7 +900,7 @@ class WP_Http_Curl {
 
 		$theResponse = curl_exec( $handle );
 
-		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
+		list($theHeaders, $theBody) = explode("\r\n\r\n", $theResponse, 2);
 		$theHeaders = WP_Http::processHeaders($theHeaders);
 
 		$response = array();
