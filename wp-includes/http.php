@@ -871,9 +871,11 @@ class WP_Http_Curl {
 
 		if ( true === $r['blocking'] ) {
 			curl_setopt( $handle, CURLOPT_HEADER, true );
+			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
 		} else {
 			curl_setopt( $handle, CURLOPT_HEADER, false );
 			curl_setopt( $handle, CURLOPT_NOBODY, true );
+			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 0 );
 		}
 
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
@@ -894,6 +896,7 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
 		if ( ! $r['blocking'] ) {
+			curl_exec( $handle );
 			curl_close( $handle );
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
 		}
