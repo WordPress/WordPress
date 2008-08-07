@@ -384,10 +384,11 @@ function unzip_file($file, $to) {
 		}
 
 		// We've made sure the folders are there, so let's extract the file now:
-		if ( ! $file['folder'] )
+		if ( ! $file['folder'] ) {
 			if ( !$fs->put_contents( $to . $file['filename'], $file['content']) )
 				return new WP_Error('copy_failed', __('Could not copy file'), $to . $file['filename']);
 			$fs->chmod($to . $file['filename'], 0644);
+		}
 	}
 
 	return true;
