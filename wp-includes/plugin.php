@@ -528,6 +528,8 @@ function register_deactivation_hook($file, $function) {
  * should always check for the 'WP_UNINSTALLING_PLUGIN' constant, before
  * executing.
  *
+ * @since 2.7
+ *
  * @param string $file
  * @param callback $callback The callback to run when the hook is called.
  */

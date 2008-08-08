@@ -343,7 +343,7 @@ function validate_plugin($plugin) {
 /**
  * Whether the plugin can be uninstalled.
  *
- * @since {@internal Version Unknown}}
+ * @since 2.7
  *
  * @param string $plugin Plugin path to check.
  * @return bool Whether plugin can be uninstalled.
@@ -362,6 +362,8 @@ function is_uninstallable_plugin($plugin) {
  * Uninstall a single plugin.
  *
  * Calls the uninstall hook, if it is available.
+ *
+ * @since 2.7
  *
  * @param string $plugin Relative plugin path from Plugin Directory.
  */
