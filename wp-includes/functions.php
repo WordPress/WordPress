@@ -1411,6 +1411,7 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 
 
 function wp_get_referer() {
+	$ref = '';
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
 		$ref = $_REQUEST['_wp_http_referer'];
 	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )

@@ -7,6 +7,11 @@ function core_update_footer( $msg = '' ) {
 		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
 
 	$cur = get_option( 'update_core' );
+	if ( ! isset( $cur->current ) )
+		$cur->current = '';
+
+	if ( ! isset( $cur->url ) )
+		$cur->url = '';
 
 	switch ( $cur->response ) {
 	case 'development' :

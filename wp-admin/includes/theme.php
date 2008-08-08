@@ -35,11 +35,13 @@ function get_page_templates() {
 		foreach ( $templates as $template ) {
 			$template_data = implode( '', file( WP_CONTENT_DIR.$template ));
 
-			preg_match( '|Template Name:(.*)$|mi', $template_data, $name );
-			preg_match( '|Description:(.*)$|mi', $template_data, $description );
+			$name = '';
+			if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) )
+				$name = $name[1];
 
-			$name = $name[1];
-			$description = $description[1];
+			$description = '';
+			if( preg_match( '|Description:(.*)$|mi', $template_data, $description ) )
+				$description = $description[1];
 
 			if ( !empty( $name ) ) {
 				$page_templates[trim( $name )] = basename( $template );

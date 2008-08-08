@@ -27,7 +27,10 @@ $menu[20] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='c
 $menu[30] = array(__('Settings'), 'manage_options', 'options-general.php');
 
 $update_plugins = get_option( 'update_plugins' );
-$update_count = count( $update_plugins->response );
+$update_count = 0;
+if ( isset( $update_plugins->response ) )
+	$update_count = count( $update_plugins->response );
+
 $menu[35] = array( sprintf( __('Plugins %s'), "<span id='update-plugins' class='count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
 	$menu[40] = array(__('Users'), 'edit_users', 'users.php');

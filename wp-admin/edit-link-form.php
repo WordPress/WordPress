@@ -14,7 +14,7 @@ if ( ! empty($link_id) ) {
 function xfn_check($class, $value = '', $deprecated = '') {
 	global $link;
 
-	$link_rel = $link->link_rel;
+	$link_rel = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
 	$rels = preg_split('/\s+/', $link_rel);
 
 	if ('' != $value && in_array($value, $rels) ) {
@@ -92,7 +92,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 <div id="descriptiondiv" class="stuffbox">
 <h3><label for="link_description"><?php _e('Description') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" /><br />
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo ( isset( $link->link_description ) ? $link->link_description : ''); ?>" id="link_description" /><br />
     <?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?>
 </div>
 </div>
@@ -116,7 +116,12 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php wp_link_category_checklist($link->link_id); ?>
+		<?php 
+		if ( isset($link->link_id) )
+			wp_link_category_checklist($link->link_id);
+		else
+			wp_link_category_checklist();
+		?>
 	</ul>
 </div>
 
@@ -137,13 +142,13 @@ add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'l
 <?php function link_target_meta_box($link) { ?>
 <fieldset><legend class="hidden"><?php _e('Target') ?></legend>
 <label for="link_target_blank" class="selectit">
-<input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
+<input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
 <code>_blank</code></label><br />
 <label for="link_target_top" class="selectit">
-<input id="link_target_top" type="radio" name="link_target" value="_top" <?php echo(($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
+<input id="link_target_top" type="radio" name="link_target" value="_top" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
 <code>_top</code></label><br />
 <label for="link_target_none" class="selectit">
-<input id="link_target_none" type="radio" name="link_target" value="" <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
+<input id="link_target_none" type="radio" name="link_target" value="" <?php echo ( isset( $link->link_target ) && ($link->link_target == '') ? 'checked="checked"' : ''); ?> />
 <?php _e('none') ?></label>
 </fieldset>
 <p><?php _e('Choose the frame your link targets. Essentially this means if you choose <code>_blank</code> your link will open in a new window.'); ?></p>
@@ -156,7 +161,7 @@ function link_xfn_meta_box($link) {
 <table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr>
 		<th style="width: 20%;" scope="row"><label for="link_rel"><?php _e('rel:') ?></label></th>
-		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
+		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo ( isset( $link->link_rel ) ? $link->link_rel : ''); ?>" /></td>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -269,15 +274,15 @@ function link_advanced_meta_box($link) {
 <table class="form-table" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_image"><?php _e('Image Address') ?></label></th>
-		<td><input type="text" name="link_image" id="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
+		<td><input type="text" name="link_image" id="link_image" size="50" value="<?php echo ( isset( $link->link_image ) ? $link->link_image : ''); ?>" style="width: 95%" /></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="rss_uri"><?php _e('RSS Address') ?></label></th>
-		<td><input name="link_rss" type="text" id="rss_uri" value="<?php echo $link->link_rss; ?>" size="50" style="width: 95%" /></td>
+		<td><input name="link_rss" type="text" id="rss_uri" value="<?php echo  ( isset( $link->link_rss ) ? $link->link_rss : ''); ?>" size="50" style="width: 95%" /></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_notes"><?php _e('Notes') ?></label></th>
-		<td><textarea name="link_notes" id="link_notes" cols="50" rows="10" style="width: 95%"><?php echo $link->link_notes; ?></textarea></td>
+		<td><textarea name="link_notes" id="link_notes" cols="50" rows="10" style="width: 95%"><?php echo  ( isset( $link->link_notes ) ? $link->link_notes : ''); ?></textarea></td>
 	</tr>
 	<tr class="form-field">
 		<th valign="top"  scope="row"><label for="link_rating"><?php _e('Rating') ?></label></th>
@@ -285,7 +290,7 @@ function link_advanced_meta_box($link) {
 		<?php
 			for ($r = 0; $r < 10; $r++) {
 				echo('            <option value="'.$r.'" ');
-				if ($link->link_rating == $r)
+				if ( isset($link->link_rating) && $link->link_rating == $r)
 					echo 'selected="selected"';
 				echo('>'.$r.'</option>');
 			}

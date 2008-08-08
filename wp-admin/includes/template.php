@@ -263,6 +263,8 @@ function dropdown_link_categories( $default = 0 ) {
 }
 
 function wp_link_category_checklist( $link_id = 0 ) {
+	$default = 1;
+
 	if ( $link_id ) {
 		$checked_categories = wp_get_link_cats($link_id);
 
@@ -378,15 +380,23 @@ function wp_manage_media_columns() {
 function wp_manage_pages_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
-	if ( 'draft' === $_GET['post_status'] )
-		$posts_columns['modified'] = __('Modified');
-	elseif ( 'pending' === $_GET['post_status'] )
-		$posts_columns['modified'] = __('Submitted');
-	else
-		$posts_columns['date'] = __('Date');
+
+	$post_status = isset( $_GET['post_status'] ) ? $_GET['post_status'] : '';
+
+	switch( $post_status ) {
+		case 'draft':
+			$posts_columns['modified'] = __('Modified');
+			break;
+		case 'pending':
+			$posts_columns['modified'] = __('Submitted');
+			break;
+		default:
+			$posts_columns['date'] = __('Date');
+	}
+
 	$posts_columns['title'] = __('Title');
 	$posts_columns['author'] = __('Author');
-	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
+	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_pages_columns', $posts_columns);
@@ -1210,6 +1220,9 @@ function do_meta_boxes($page, $context, $object) {
 		return;
 
 	foreach ( array('high', 'core', 'default', 'low') as $priority ) {
+		if ( ! isset( $wp_meta_boxes[$page][$context][$priority] ) )
+			continue;
+
 		foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
 			if ( false === $box )
 				continue;

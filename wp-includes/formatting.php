@@ -27,7 +27,7 @@ function wptexturize($text) {
 	for ( $i = 0; $i < $stop; $i++ ) {
  		$curl = $textarr[$i];
 
-		if (isset($curl{0}) && '<' != $curl{0} && '[' != $curl{0} && $next && !$has_pre_parent) { // If it's not a tag
+		if ( !empty($curl) && '<' != $curl{0} && '[' != $curl{0} && $next && !$has_pre_parent) { // If it's not a tag
 			// static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
 			// regular expressions

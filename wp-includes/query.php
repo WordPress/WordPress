@@ -472,6 +472,7 @@ class WP_Query {
 			, 'w'
 			, 'category_name'
 			, 'tag'
+			, 'cat'
 			, 'tag_id'
 			, 'author_name'
 			, 'feed'

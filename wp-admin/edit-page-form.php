@@ -1,7 +1,11 @@
 <?php
+
+if ( ! isset( $post_ID ) )
+	$post_ID = 0;
+
 if ( isset($_GET['message']) )
 	$_GET['message'] = absint( $_GET['message'] );
-$messages[1] = sprintf( __( 'Page updated. Continue editing below or <a href="%s">go back</a>.' ), attribute_escape( stripslashes( $_GET['_wp_original_http_referer'] ) ) );
+$messages[1] = sprintf( __( 'Page updated. Continue editing below or <a href="%s">go back</a>.' ), attribute_escape( stripslashes( ( isset( $_GET['_wp_original_http_referer'] ) ? $_GET['_wp_original_http_referer'] : '') ) ) );
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Page updated.');
@@ -12,7 +16,7 @@ if ( isset($_GET['revision']) )
 $notice = false;
 $notices[1] = __( 'There is an autosave of this page that is more recent than the version below.  <a href="%s">View the autosave</a>.' );
 
-if (!isset($post_ID) || 0 == $post_ID) {
+if ( 0 == $post_ID) {
 	$form_action = 'post';
 	$nonce_action = 'add-page';
 	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
@@ -102,7 +106,7 @@ if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND 
 <?php endif; ?>
 
 <?php
-if ($post_ID) {
+if ( 0 != $post_ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
 		$stamp = __('Scheduled for:<br />%1$s at %2$s');
 	} else if ( 'publish' == $post->post_status ) { // already published
@@ -144,7 +148,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 	echo "<a class='submitdelete' href='" . wp_nonce_url("page.php?action=delete&amp;post=$post_ID", 'delete-page_' . $post_ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;page') . "</a>";
 ?>
 <br class="clear" />
-<?php if ($post_ID): ?>
+<?php if ( 0 != $post_ID ) : ?>
 <?php if ( $last_id = get_post_meta($post_ID, '_edit_last', true) ) {
 	$last_user = get_userdata($last_id);
 	printf(__('Last edited by %1$s on %2$s at %3$s'), wp_specialchars( $last_user->display_name ), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
@@ -162,7 +166,7 @@ if ( ('edit' == $action) && current_user_can('delete_page', $post_ID) )
 <h5><?php _e('Related') ?></h5>
 
 <ul>
-<?php if ($post_ID): ?>
+<?php if ( 0 != $post_ID ) : ?>
 <li><a href="edit-pages.php?page_id=<?php echo $post_ID ?>"><?php _e('See Comments on this Page') ?></a></li>
 <?php endif; ?>
 <li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
@@ -240,7 +244,7 @@ add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_
 
 function page_password_meta_box($post){
 ?>
-<p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>
+<p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo ( isset( $post->post_password ) ? attribute_escape( $post->post_password ) : '' ); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
 <?php
 }
@@ -304,7 +308,7 @@ if ( $authors && count( $authors ) > 1 ) {
 }
 
 
-if ( isset($post_ID) && 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
+if ( 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
 function page_revisions_meta_box($post) {
 	wp_list_post_revisions();
 }

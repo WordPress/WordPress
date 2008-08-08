@@ -295,6 +295,9 @@ function media_upload_form_handler() {
 }
 
 function media_upload_image() {
+	$errors = array();
+	$id = 0;
+
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
@@ -359,6 +362,9 @@ function media_sideload_image($file, $post_id, $desc = null) {
 }
 
 function media_upload_audio() {
+	$errors = array();
+	$id = 0;
+
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
@@ -399,6 +405,9 @@ function media_upload_audio() {
 }
 
 function media_upload_video() {
+	$errors = array();
+	$id = 0;
+
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
@@ -439,6 +448,9 @@ function media_upload_video() {
 }
 
 function media_upload_file() {
+	$errors = array();
+	$id = 0;
+
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
@@ -479,6 +491,8 @@ function media_upload_file() {
 }
 
 function media_upload_gallery() {
+	$errors = array();
+
 	if ( !empty($_POST) ) {
 		$return = media_upload_form_handler();
 
@@ -493,6 +507,7 @@ function media_upload_gallery() {
 }
 
 function media_upload_library() {
+	$errors = array();
 	if ( !empty($_POST) ) {
 		$return = media_upload_form_handler();
 
@@ -1127,7 +1142,7 @@ function media_upload_library_form($errors) {
 
 	$form_action_url = admin_url("media-upload.php?type={$GLOBALS['type']}&tab=library&post_id=$post_id");
 
-	$_GET['paged'] = intval($_GET['paged']);
+	$_GET['paged'] = isset( $_GET['paged'] ) ? intval($_GET['paged']) : 0;
 	if ( $_GET['paged'] < 1 )
 		$_GET['paged'] = 1;
 	$start = ( $_GET['paged'] - 1 ) * 10;

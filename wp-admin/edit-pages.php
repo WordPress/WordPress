@@ -89,7 +89,7 @@ foreach ( $post_stati as $status => $label ) {
 	if ( !in_array($status, $avail_post_stati) )
 		continue;
 
-	if ( $status == $_GET['post_status'] )
+	if ( isset( $_GET['post_status'] ) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
@@ -119,10 +119,10 @@ endif;
 <div class="tablenav">
 
 <?php
-$pagenum = absint( $_GET['pagenum'] );
+$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( !$per_page || $per_page < 0 )
+if( ! isset( $per_page ) || $per_page < 0 )
 	$per_page = 20;
 
 $num_pages = ceil(count($posts) / $per_page);

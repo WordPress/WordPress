@@ -79,7 +79,7 @@ if ( isset($_GET['deleted']) ) {
 
 <p id="post-search">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Links' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="text" id="post-search-input" name="s" value="<?php echo ( isset( $_GET['s'] ) ? attribute_escape(stripslashes($_GET['s'])) : ''); ?>" />
 	<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button" />
 </p>
 
@@ -150,6 +150,8 @@ if ( $links ) {
 	</thead>
 	<tbody>
 <?php
+	$i = 0; // It is slower incrementing an undefined and valueless variable.
+
 	foreach ($links as $link) {
 		$link = sanitize_bookmark($link);
 		$link->link_name = attribute_escape($link->link_name);

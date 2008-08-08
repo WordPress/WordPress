@@ -537,8 +537,9 @@ function wp_edit_attachments_query( $q = false ) {
 	global $wpdb;
 	if ( false === $q )
 		$q = $_GET;
-	$q['m']   = (int) $q['m'];
-	$q['cat'] = (int) $q['cat'];
+
+	$q['m']   = isset( $q['m'] ) ? (int) $q['m'] : 0;
+	$q['cat'] = isset( $q['cat'] ) ? (int) $q['cat'] : 0;
 	$q['post_type'] = 'attachment';
 	$q['post_status'] = 'any';
 	$q['posts_per_page'] = 15;
