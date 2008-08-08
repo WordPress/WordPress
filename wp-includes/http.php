@@ -125,10 +125,10 @@ class WP_Http {
 		if ( is_null($working_transport) ) {
 			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) )
 				$working_transport[] = new WP_Http_ExtHttp();
-			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
-				$working_transport[] = new WP_Http_Streams();
 			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
 				$working_transport[] = new WP_Http_Fsockopen();
+			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
+				$working_transport[] = new WP_Http_Streams();
 		}
 
 		return $working_transport;
@@ -195,7 +195,12 @@ class WP_Http {
 			$headers = $processedHeaders['headers'];
 		}
 
-		if ( ! isset($headers['user-agent']) || ! isset($headers['User-Agent']) )
+		if ( isset($headers['User-Agent']) ) {
+			$headers['user-agent'] = $headers['User-Agent'];
+			unset($headers['User-Agent']);
+		}
+
+		if ( ! isset($headers['user-agent']) )
 			$headers['user-agent'] = $r['user-agent'];
 
 		if ( is_null($body) ) {
@@ -441,11 +446,11 @@ class WP_Http_Fsockopen {
 		$strHeaders .= strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
 		$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
 
-		if ( is_array($header) ) {
-			foreach ( (array) $this->getHeaders() as $header => $headerValue )
+		if ( is_array($headers) ) {
+			foreach ( (array) $headers as $header => $headerValue )
 				$strHeaders .= $header . ': ' . $headerValue . "\r\n";
 		} else {
-			$strHeaders .= $header;
+			$strHeaders .= $headers;
 		}
 
 		$strHeaders .= "\r\n";
