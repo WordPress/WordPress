@@ -335,20 +335,24 @@ div#message {
 	clear: both;
 }
 
+/* WPH - TinyMCE */
+
 #media-items th.label { 
 	width: 120px; 
 }
-
 #media-items th.label .alignleft { 
 	width: 100px; 
 }
 
 #media-items th.label .alignright { 
-	width: 16px; height: 16px; 
+	width: 16px; 
+	height: 16px; 
 } 
 
+/* LTRs some url- and code-only form fields */
 input#href, input#src, input#class_name { 
-	direction: ltr; text-align: left; 
+	direction: ltr; 
+	text-align: left; 
 }
 
 #sidemenu a { 
