@@ -165,11 +165,12 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} else {
 			foreach ( array('single', 'category', 'page', 'day', 'month', 'year') as $type ) {
 				$func = 'is_' . $type;
-				if ( call_user_func($func) )
+				if ( call_user_func($func) ) {
 					$user_ts_type = $type;
 					break;
 				}
 			}
+		}
 		$redirect['path'] = user_trailingslashit($redirect['path'], $user_ts_type);
 	} elseif ( is_home() ) {
 		$redirect['path'] = trailingslashit($redirect['path']);
