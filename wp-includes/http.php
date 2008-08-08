@@ -445,6 +445,10 @@ class WP_Http_Fsockopen {
 		$strHeaders = '';
 		$strHeaders .= strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
 		$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
+		if ( ! is_null($body) ) {
+			$strHeaders .= 'Content-Type: application/x-www-form-urlencoded; charset=' . get_option('blog_charset') . "\r\n";
+			$strHeaders .= 'Content-Length: ' . strlen($body) . "\r\n";
+		}
 
 		if ( is_array($headers) ) {
 			foreach ( (array) $headers as $header => $headerValue )
