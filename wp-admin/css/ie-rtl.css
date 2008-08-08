@@ -51,3 +51,53 @@ p#widget-search, p#post-search {
 	direction: ltr;
 	text-align: left;
 }
+
+/* IE6 */
+
+/* Search box gets stuck to the right, hidden outside view */
+* html #post-search, * html #widget-search { 
+	height: 1% !important;
+	right: 600px !important;
+}
+
+/* Sidemenu tends to disapear, widget filter area tends to jump around when adding filters - Peek-A-Boo! */
+* html #sidemenu, * html #widgets-filter {
+	height: 1% !important;
+}
+
+/* Media upload window gets stuck to the right, hidden outside view */
+* html #TB_window {
+	left: 100px !important;
+}
+
+/* Bad floating in the sub-sub-sub menu makes links un-clickable */
+* html .subsubsub li { 
+	display: block; float: right; margin: 0 2px;
+}
+
+/* Fixing floats on sub-sub-sub menu skewes the view-switch menu on comments management page */
+* html .wrap .view-switch {
+	margin-top: 1px;
+}
+
+/* Theme selector on theme edit page gets stuck to the left, hidden outside view */
+* html #themeselector { 
+	position: static;
+}
+
+/* Template edit area floats beneath template list, gets RTLed */
+* html #template {
+	float: right; 
+	overflow: hidden;
+	width: 755px !important; 
+}
+* html #template #newcontent {
+	direction: ltr;
+}
+
+/* Editor */
+
+.mceToolbar {
+	direction: ltr;
+	text-align: left;
+}
