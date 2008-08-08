@@ -17,6 +17,12 @@ body, td, .submit input, .button, .button-secondary, .button-highlighted, #your-
 	margin-bottom: 1em; 
 }
 
+/* Clears update nag, so it doesn't hide the submenu */
+#update-nag { 
+	clear: both; 
+	margin-bottom: 1em; 
+}
+
 #wpwrap,#footer,#TB_title,.media-upload-form,#media-upload-header
 {
 	direction:rtl!important;
