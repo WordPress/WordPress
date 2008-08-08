@@ -408,8 +408,10 @@ function copy_dir($from, $to) {
 				return new WP_Error('copy_failed', __('Could not copy file'), $to . $filename);
 			$wp_filesystem->chmod($to . $filename, 0644);
 		} elseif ( 'd' == $fileinfo['type'] ) {
-			if ( !$wp_filesystem->mkdir($to . $filename, 0755) )
-				return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $filename);
+			if ( !$wp_filesystem->is_dir($to . $filename) ) {
+				if ( !$wp_filesystem->mkdir($to . $filename, 0755) )
+					return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $filename);
+			}
 			$result = copy_dir($from . $filename, $to . $filename);
 			if ( is_wp_error($result) )
 				return $result;

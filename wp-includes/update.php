@@ -40,7 +40,7 @@ function wp_version_check() {
 	$new_option->last_checked = time(); // this gets set whether we get a response or not, so if something is down or misconfigured it won't delay the page load for more than 3 seconds, twice a day
 	$new_option->version_checked = $wp_version;
 
-	$url = "http://api.wordpress.org/core/version-check/1.1/?version=$wp_version&php=$php_version&locale=$locale";
+	$url = "http://api.wordpress.org/core/version-check/1.2/?version=$wp_version&php=$php_version&locale=$locale";
 	$options = array('timeout' => 3);
 
 	$headers = array(
@@ -50,21 +50,23 @@ function wp_version_check() {
 
 	$response = wp_remote_request($url, $options, $headers);
 
-	if( 200 != $response['response']['code'] )
+	if ( 200 != $response['response']['code'] )
 		return false;
 
 	$body = $response['body'];
-
-	$body = trim( $response[1] );
+	$body = trim( $body );
 	$body = str_replace(array("\r\n", "\r"), "\n", $body);
-
 	$returns = explode("\n", $body);
 
 	$new_option->response = attribute_escape( $returns[0] );
 	if ( isset( $returns[1] ) )
 		$new_option->url = clean_url( $returns[1] );
 	if ( isset( $returns[2] ) )
-		$new_option->current = attribute_escape( $returns[2] );
+		$new_option->package = clean_url( $returns[2] );
+	if ( isset( $returns[3] ) )
+		$new_option->current = attribute_escape( $returns[3] );
+	if ( isset( $returns[4] ) )
+		$new_option->locale = attribute_escape( $returns[4] );
 
 	update_option( 'update_core', $new_option );
 }

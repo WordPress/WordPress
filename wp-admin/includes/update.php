@@ -15,18 +15,18 @@ function core_update_footer( $msg = '' ) {
 
 	switch ( $cur->response ) {
 	case 'development' :
-		return sprintf( '| '.__( 'You are using a development version (%s). Cool! Please <a href="%s">stay updated</a>.' ), $GLOBALS['wp_version'], $cur->url, $cur->current );
+		return sprintf( '| '.__( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), $GLOBALS['wp_version'], wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core'));
 	break;
 
 	case 'upgrade' :
 		if ( current_user_can('manage_options') ) {
-			return sprintf( '| <strong>'.__( '<a href="%2$s">Get Version %3$s</a>' ).'</strong>', $GLOBALS['wp_version'], $cur->url, $cur->current );
+			return sprintf( '| <strong>'.__( '<a href="%1$s">Get Version %2$s</a>' ).'</strong>', wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core'), $cur->current);
 			break;
 		}
 
 	case 'latest' :
 	default :
-		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'], $cur->url, $cur->current );
+		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
 	break;
 	}
 }
@@ -39,9 +39,9 @@ function update_nag() {
 		return false;
 
 	if ( current_user_can('manage_options') )
-		$msg = sprintf( __('WordPress %2$s is available! <a href="%1$s">Please update now</a>.'), $cur->url, $cur->current );
+		$msg = sprintf( __('WordPress %1$s is available! <a href="%2$s">Please update now</a>.'), $cur->current, wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core') );
 	else
-		$msg = sprintf( __('WordPress %2$s is available! Please notify the site administrator.'), $cur->url, $cur->current );
+		$msg = sprintf( __('WordPress %1$s is available! Please notify the site administrator.'), $cur->current );
 
 	echo "<div id='update-nag'>$msg</div>";
 }
@@ -53,7 +53,7 @@ function update_right_now_message() {
 
 	$msg = sprintf( __('This is WordPress version %s.'), $GLOBALS['wp_version'] );
 	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('manage_options') )
-		$msg .= " <a href='$cur->url' class='rbutton'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
+		$msg .= " <a href='" . wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core') . "' class='rbutton'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 
 	echo "<span id='wp-version-message'>$msg</span>";
 }
@@ -191,6 +191,79 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$pluginfiles = array_keys($plugin); //Assume the requested plugin is the first in the list
 
 	return  $folder . '/' . $pluginfiles[0];
+}
+
+function wp_update_core($feedback = '') {
+	global $wp_filesystem;
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	// Is an update available?
+	$current = get_option( 'update_core' );
+	if ( !isset( $current->response ) || $current->response == 'latest' )
+		return new WP_Error('up_to_date', __('WordPress is at the latest version.'));
+
+	// Is a filesystem accessor setup?
+	if ( ! $wp_filesystem || ! is_object($wp_filesystem) )
+		WP_Filesystem();
+
+	if ( ! is_object($wp_filesystem) )
+		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
+
+	if ( $wp_filesystem->errors->get_error_code() )
+		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
+
+	// Get the base WP folder
+	$wp_dir = $wp_filesystem->abspath();
+	if ( empty($wp_dir) )
+		return new WP_Error('fs_no_wp_dir', __('Unable to locate WordPress directory.'));
+
+	// And the same for the Content directory.
+	$content_dir = $wp_filesystem->wp_content_dir();
+	if( empty($content_dir) )
+		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
+	
+	$wp_dir = trailingslashit( $wp_dir );
+	$content_dir = trailingslashit( $content_dir );
+
+	// Get the URL to the zip file
+	$package = $current->package;
+
+	// Download the package
+	apply_filters('update_feedback', sprintf(__('Downloading update from %s'), $package));
+	$download_file = download_url($package);
+
+	if ( is_wp_error($download_file) )
+		return new WP_Error('download_failed', __('Download failed.'), $download_file->get_error_message());
+
+	$working_dir = $content_dir . 'upgrade/core';
+
+	// Clean up working directory
+	if ( $wp_filesystem->is_dir($working_dir) )
+		$wp_filesystem->delete($working_dir, true);
+
+	apply_filters('update_feedback', __('Unpacking the update'));
+	// Unzip package to working directory
+	$result = unzip_file($download_file, $working_dir);
+
+	// Once extracted, delete the package
+	unlink($download_file);
+
+	if ( is_wp_error($result) ) {
+		$wp_filesystem->delete($working_dir, true);
+		return $result;
+	}
+
+	// Copy update-core.php from the new version into place.
+	if ( !$wp_filesystem->copy($working_dir . '/wordpress/wp-admin/includes/update-core.php', $wp_dir . 'wp-admin/includes/update-core.php', true) ) {
+		$wp_filesystem->delete($working_dir, true);
+		return new WP_Error('copy_failed', __('Could not copy files'));
+	}
+
+	require(ABSPATH . 'wp-admin/includes/update-core.php');
+
+	return update_core($working_dir, $wp_dir);
 }
 
 ?>

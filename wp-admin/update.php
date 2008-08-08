@@ -44,6 +44,39 @@ function do_plugin_upgrade($plugin) {
 	echo '</div>';
 }
 
+function do_core_upgrade() {
+	global $wp_filesystem;
+
+	$url = wp_nonce_url("update.php?action=upgrade-core", "upgrade-core");
+	if ( false === ($credentials = request_filesystem_credentials($url)) )
+		return;
+
+	if ( ! WP_Filesystem($credentials) ) {
+		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
+		return;
+	}
+
+	echo '<div class="wrap">';
+	echo '<h2>' . __('Upgrade WordPress') . '</h2>';
+	if ( $wp_filesystem->errors->get_error_code() ) {
+		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
+			show_message($message);
+		echo '</div>';
+		return;
+	}
+
+	$result = wp_update_core('show_message');
+
+	if ( is_wp_error($result) ) {
+		show_message($result);
+		if ('up_to_date' != $result->get_error_code() )
+			show_message( __('Installation Failed') );
+	} else {
+		show_message( __('WordPress upgraded successfully') );	
+	}
+	echo '</div>';
+}
+
 if ( isset($_GET['action']) ) {
 	$plugin = isset($_GET['plugin']) ? trim($_GET['plugin']) : '';
 
@@ -84,6 +117,13 @@ wp_admin_css( 'colors', true );
 			include(WP_PLUGIN_DIR . '/' . $plugin);
 		}
 		echo "</body></html>";
+	} elseif ( 'upgrade-core' == $_GET['action'] ) {
+		//check_admin_referer('upgrade-core');
+		$title = __('Upgrade WordPress');
+		$parent_file = 'index.php';
+		require_once('admin-header.php');
+		do_core_upgrade();
+		include('admin-footer.php');
 	}
 }
 
