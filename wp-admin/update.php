@@ -44,6 +44,40 @@ function do_plugin_upgrade($plugin) {
 	echo '</div>';
 }
 
+function core_upgrade_preamble() {
+	$update = get_option('update_core');
+
+	echo '<div class="wrap">';
+	echo '<h2>' . __('Upgrade WordPress') . '</h2>';
+
+	if ( !isset($update->response) || 'latest' == $update->response ) {
+		_e('You have the latest version of WordPress. You do not need to upgrade.');
+		echo '</div>';
+		return;
+	}
+
+	if ( 'development' == $update->response ) {
+		$message = __('You are using a developmemt version of WordPress.  You can upgrade to the latest nightly build automatically or download the nightly build and install it manually. Which would you like to do?');
+		$submit = __('Download nightly build');
+	} else {
+		$message = 	sprintf(__('You can upgrade to version %s automatically or download the nightly build and install it manually. Which would you like to do?'), $update->current);
+		$submit = sprintf(__('Download %s'), $update->current);
+	}
+
+	echo '<p>';
+	echo $message;
+	echo '</p>';
+	echo '<form id="post" method="post" action="update.php?action=do-core-upgrade" name="upgrade">';
+	wp_nonce_field('upgrade-core');
+	echo '<p>';
+	echo '<input id="upgrade" class="button" type="submit" value="' . __('Upgrade Automatically') . '" name="upgrade" />';
+	echo '<a href="' . $update->package . '" class="button">' . $submit . '</a>';
+	echo '</p>';
+	echo '</form>';
+
+	echo '</div>';
+}
+
 function do_core_upgrade() {
 	global $wp_filesystem;
 
@@ -118,7 +152,13 @@ wp_admin_css( 'colors', true );
 		}
 		echo "</body></html>";
 	} elseif ( 'upgrade-core' == $_GET['action'] ) {
-		//check_admin_referer('upgrade-core');
+		$title = __('Upgrade WordPress');
+		$parent_file = 'index.php';
+		require_once('admin-header.php');
+		core_upgrade_preamble();
+		include('admin-footer.php');
+	} elseif ( 'do-core-upgrade' ) {
+		check_admin_referer('upgrade-core');
 		$title = __('Upgrade WordPress');
 		$parent_file = 'index.php';
 		require_once('admin-header.php');

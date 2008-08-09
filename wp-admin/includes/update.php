@@ -15,7 +15,7 @@ function core_update_footer( $msg = '' ) {
 
 	switch ( $cur->response ) {
 	case 'development' :
-		return sprintf( '| '.__( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), $GLOBALS['wp_version'], wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core'));
+		return sprintf( '| '.__( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), $GLOBALS['wp_version'], 'update.php?action=upgrade-core');
 	break;
 
 	case 'upgrade' :
@@ -39,7 +39,7 @@ function update_nag() {
 		return false;
 
 	if ( current_user_can('manage_options') )
-		$msg = sprintf( __('WordPress %1$s is available! <a href="%2$s">Please update now</a>.'), $cur->current, wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core') );
+		$msg = sprintf( __('WordPress %1$s is available! <a href="%2$s">Please update now</a>.'), $cur->current, 'update.php?action=upgrade-core' );
 	else
 		$msg = sprintf( __('WordPress %1$s is available! Please notify the site administrator.'), $cur->current );
 
@@ -53,7 +53,7 @@ function update_right_now_message() {
 
 	$msg = sprintf( __('This is WordPress version %s.'), $GLOBALS['wp_version'] );
 	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('manage_options') )
-		$msg .= " <a href='" . wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core') . "' class='rbutton'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
+		$msg .= " <a href='update.php?action=upgrade-core' class='rbutton'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 
 	echo "<span id='wp-version-message'>$msg</span>";
 }
