@@ -133,7 +133,7 @@ function get_tags_to_edit( $post_id ) {
 
 	foreach ( $tags as $tag )
 		$tag_names[] = $tag->name;
-	$tags_to_edit = join( ', ', $tag_names );
+	$tags_to_edit = join( ',', $tag_names );
 	$tags_to_edit = attribute_escape( $tags_to_edit );
 	$tags_to_edit = apply_filters( 'tags_to_edit', $tags_to_edit );
 	return $tags_to_edit;
