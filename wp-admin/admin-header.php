@@ -74,7 +74,7 @@ unset($hook_suffixes, $hook_suffix);
 </div>
 
 <?php
-if ( ! $is_opera ) { 
+if ( ! $is_opera ) {
 ?>
 	<div id="gears-info-box" class="info-box" style="display:none;">
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
@@ -89,14 +89,14 @@ if ( ! $is_opera ) {
 
 	<div id="gears-msg2" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
-	<p><?php _e('Gears is installed on this computer but is not enabled for use with WordPress.'); ?></p> 
-	<p><?php 
-	
+	<p><?php _e('Gears is installed on this computer but is not enabled for use with WordPress.'); ?></p>
+	<p><?php
+
 	if ( $is_safari )
 		_e('To enable it, make sure this web site is not on the denied list in Gears Settings under the Safari menu, then click the button below.');
 	else
-		_e('To enable it, make sure this web site is not on the denied list in Gears Settings under your browser Tools menu, then click the button below.'); 
-	
+		_e('To enable it, make sure this web site is not on the denied list in Gears Settings under your browser Tools menu, then click the button below.');
+
 	?></p>
 	<p><strong><?php _e('However if this is a public or shared computer, Gears should not be enabled.'); ?></strong></p>
 	<div class="submit"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button>
@@ -106,12 +106,12 @@ if ( ! $is_opera ) {
 	<div id="gears-msg3" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
 	<p><?php
-	
+
 	if ( $is_safari )
 		_e('Gears is installed and enabled on this computer. You can disable it from the Safari menu.');
 	else
-		_e('Gears is installed and enabled on this computer. You can disable it from your browser Tools menu.'); 
-	
+		_e('Gears is installed and enabled on this computer. You can disable it from your browser Tools menu.');
+
 	?></p>
 	<p><?php _e('If there are any errors, try disabling Gears, then reload the page and enable it again.'); ?></p>
 	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Please wait! Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>

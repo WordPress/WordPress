@@ -64,7 +64,7 @@ function add_rewrite_endpoint($name, $places) {
   * _wp_filter_taxonomy_base() - filter the URL base for taxonomies, to remove any manually prepended /index.php/
   * @param string $base the taxonomy base that we're going to filter
   * @return string
-  * @author Mark Jaquith 
+  * @author Mark Jaquith
   */
 function _wp_filter_taxonomy_base( $base ) {
 	if ( !empty( $base ) ) {

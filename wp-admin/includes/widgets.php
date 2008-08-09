@@ -84,7 +84,7 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 					'edit' => $widget['id'],
 					'key' => array_search( $widget['id'], $sidebars_widgets[$sidebar] ),
 				) ) );
-				
+
 				$widget_control_template = '<textarea rows="1" cols="1">' . htmlspecialchars( $widget_control_template ) . '</textarea>';
 			}
 

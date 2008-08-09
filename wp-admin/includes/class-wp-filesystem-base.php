@@ -2,21 +2,21 @@
 class WP_Filesystem_Base{
 	var $verbose = false;
 	var $cache = array();
-	
+
 	var $method = '';
-	
+
 	function abspath() {
-		if ( defined('FTP_BASE') && strpos($this->method, 'ftp') !== false ) 
+		if ( defined('FTP_BASE') && strpos($this->method, 'ftp') !== false )
 			return FTP_BASE;
 		return $this->find_folder(ABSPATH);
 	}
 	function wp_content_dir() {
-		if ( defined('FTP_CONTENT_DIR') && strpos($this->method, 'ftp') !== false ) 
+		if ( defined('FTP_CONTENT_DIR') && strpos($this->method, 'ftp') !== false )
 			return FTP_CONTENT_DIR;
 		return $this->find_folder(WP_CONTENT_DIR);
 	}
 	function wp_plugins_dir() {
-		if ( defined('FTP_PLUGIN_DIR') && strpos($this->method, 'ftp') !== false ) 
+		if ( defined('FTP_PLUGIN_DIR') && strpos($this->method, 'ftp') !== false )
 			return FTP_PLUGIN_DIR;
 		return $this->find_folder(WP_PLUGIN_DIR);
 	}
@@ -33,7 +33,7 @@ class WP_Filesystem_Base{
 		$this->verbose = $echo;
 		return $this->abspath();
 	}
-	
+
 	function find_folder($folder) {
 		$folder = str_replace('\\', '/', $folder); //Windows Sanitiation
 		if ( isset($this->cache[ $folder ] ) )
@@ -47,26 +47,26 @@ class WP_Filesystem_Base{
 			$this->cache[ $folder ] = $return;
 		return $return;
 	}
-	
+
 	// Assumes $folder is windows sanitized;
 	// Assumes that the drive letter is safe to be stripped off, Should not be a problem for windows servers.
 	function search_for_folder($folder, $base = '.', $loop = false ) {
 		if ( empty( $base ) || '.' == $base )
 			$base = trailingslashit($this->cwd());
-		
+
 		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows driveletter if its there.
-		
+
 		$folder_parts = explode('/', $folder);
 		$last_path = $folder_parts[ count($folder_parts) - 1 ];
-		
+
 		$files = $this->dirlist( $base );
-		
+
 		foreach ( $folder_parts as $key ) {
 			if ( $key == $last_path )
 				continue; //We want this to be caught by the next code block.
 
-			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder, 
-			// If its found, change into it and follow through looking for it. 
+			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
+			// If its found, change into it and follow through looking for it.
 			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
 			// If it reaches the end, and still cant find it, it'll return false for the entire function.
 			if( isset($files[ $key ]) ){
@@ -78,7 +78,7 @@ class WP_Filesystem_Base{
 					return $ret;
 			}
 		}
-		
+
 		//Only check this as a last resort, to prevent locating the incorrect install. All above proceeedures will fail quickly if this is the right branch to take.
 		if(isset( $files[ $last_path ] ) ) {
 			if( $this->verbose )
@@ -88,10 +88,10 @@ class WP_Filesystem_Base{
 		if( $loop )
 			return false;//Prevent tihs function looping again.
 		//As an extra last resort, Change back to / if the folder wasnt found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
-		return $this->search_for_folder($folder, '/', true); 
-		
+		return $this->search_for_folder($folder, '/', true);
+
 	}
-	
+
 	//Common Helper functions.
 	function gethchmod($file){
 		//From the PHP.net page for ...?
@@ -143,11 +143,11 @@ class WP_Filesystem_Base{
 		for($i=0; $i < count($attarray); $i++)
 		   if($key = array_search($attarray[$i], $legal))
 			   $realmode .= $legal[$key];
-			   
+
 		$mode = str_pad($realmode, 9, '-');
 		$trans = array('-'=>'0', 'r'=>'4', 'w'=>'2', 'x'=>'1');
 		$mode = strtr($mode,$trans);
-		
+
 		$newmode = '';
 		$newmode .= $mode[0] + $mode[1] + $mode[2];
 		$newmode .= $mode[3] + $mode[4] + $mode[5];

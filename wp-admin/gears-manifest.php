@@ -46,7 +46,7 @@ foreach ( $wp_styles->registered as $style ) {
 	if ( isset($style->extra['rtl']) && $style->extra['rtl'] ) {
 		if ( is_bool( $style->extra['rtl'] ) )
 			$rtl_href = str_replace( '.css', '-rtl.css', $src );
-		else 
+		else
 			$rtl_href = str_replace( array( '/wp-admin/', '/wp-includes/' ), array( '', '../wp-includes/' ), $style->extra['rtl'] );
 
 		$defaults .= '{ "url" : "' . $rtl_href . '?ver=' . $ver . '" },' . "\n";

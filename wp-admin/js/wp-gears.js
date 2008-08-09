@@ -4,7 +4,7 @@ wpGears = {
 	createStore : function() {
 		if ( 'undefined' == typeof google || ! google.gears ) return;
 
-		if ( 'undefined' == typeof localServer ) 
+		if ( 'undefined' == typeof localServer )
 			localServer = google.gears.factory.create("beta.localserver");
 
 		store = localServer.createManagedStore(this.storeName());

@@ -17,7 +17,7 @@
  * If PHP does not have the functionality to save in a file of the same format, the thumbnail will be created as a jpeg.
  */
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-	
+
 	$thumbpath = image_resize( $file, $max_side, $max_side );
 	return apply_filters( 'wp_create_thumbnail', $thumbpath );
 }
@@ -98,13 +98,13 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		// make thumbnails and other intermediate sizes
 		$sizes = array('thumbnail', 'medium');
 		$sizes = apply_filters('intermediate_image_sizes', $sizes);
-		
+
 		foreach ($sizes as $size) {
 			$resized = image_make_intermediate_size( $file, get_option("{$size}_size_w"), get_option("{$size}_size_h"), get_option("{$size}_crop") );
 			if ( $resized )
 				$metadata['sizes'][$size] = $resized;
 		}
-			
+
 		// fetch additional metadata from exif/iptc
 		$image_meta = wp_read_image_metadata( $file );
 		if ($image_meta)
@@ -275,7 +275,7 @@ function file_is_displayable_image($path) {
 	}
 	else
 		$result = true;
-		
+
 	return apply_filters('file_is_displayable_image', $result, $path);
 }
 

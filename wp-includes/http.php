@@ -225,7 +225,7 @@ class WP_Http {
 
 	/**
 	 * Uses the POST HTTP method.
-	 * 
+	 *
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
@@ -244,7 +244,7 @@ class WP_Http {
 	}
 
 	/**
-	 * Uses the GET HTTP method. 
+	 * Uses the GET HTTP method.
 	 *
 	 * Used for sending data that is expected to be in the body.
 	 *
@@ -264,7 +264,7 @@ class WP_Http {
 	}
 
 	/**
-	 * Uses the HEAD HTTP method. 
+	 * Uses the HEAD HTTP method.
 	 *
 	 * Used for sending data that is expected to be in the body.
 	 *
@@ -344,7 +344,7 @@ class WP_Http {
 	 * @since 2.7
 	 *
 	 * @param string|array $headers
-	 * @return array Processed string headers 
+	 * @return array Processed string headers
 	 */
 	function processHeaders($headers) {
 		if ( is_string($headers) )
@@ -357,7 +357,7 @@ class WP_Http {
 			if ( empty($tempheader) )
 				continue;
 
-			
+
 			if ( false === strpos($tempheader, ':') ) {
 				list( , $iResponseCode, $strResponseMsg) = explode(' ', $tempheader, 3);
 				$response['code'] = $iResponseCode;
@@ -660,7 +660,7 @@ class WP_Http_Streams {
 		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
-		$arrContext = array('http' => 
+		$arrContext = array('http' =>
 			array(
 				'method' => strtoupper($r['method']),
 				'user-agent' => $r['user-agent'],
@@ -895,7 +895,7 @@ class WP_Http_Curl {
 
 		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
-		
+
 		if( ! is_null($headers) )
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 

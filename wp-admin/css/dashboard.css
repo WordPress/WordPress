@@ -66,7 +66,7 @@ div#dashboard-widgets {
 	width: 100%;
 }
 
-div.dashboard-widget-holder {	
+div.dashboard-widget-holder {
 	margin-top: 20px;
 	width: 50%;
 	float: left;
@@ -157,7 +157,7 @@ div.dashboard-widget-submit input {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: pointer;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 div.dashboard-widget-content ul, div.dashboard-widget-content ol, div.dashboard-widget-content dl {

@@ -435,7 +435,7 @@ force_ssl_login(FORCE_SSL_LOGIN);
  */
 if ( !defined( 'AUTOSAVE_INTERVAL' ) )
 	define( 'AUTOSAVE_INTERVAL', 60 );
-	
+
 
 require (ABSPATH . WPINC . '/vars.php');
 

@@ -90,20 +90,20 @@ function get_plugin_data( $plugin_file ) {
 	}
 
 	return array(
-				'Name' => $name, 'PluginURI' => $uri, 'Description' => $description, 
-				'Author' => $author_name, 'AuthorURI' => $author_uri, 'Version' => $version, 
+				'Name' => $name, 'PluginURI' => $uri, 'Description' => $description,
+				'Author' => $author_name, 'AuthorURI' => $author_uri, 'Version' => $version,
 				'TextDomain' => $text_domain, 'DomainPath' => $domain_path
 				);
 }
 
 function get_plugins($plugin_folder = '') {
-	
+
 	if ( ! $cache_plugins = wp_cache_get('plugins', 'plugins') )
 		$cache_plugins = array();
-	
+
 	if ( isset($cache_plugins[ $plugin_folder ]) )
 		return $cache_plugins[ $plugin_folder ];
-	
+
 	$wp_plugins = array ();
 	$plugin_root = WP_PLUGIN_DIR;
 	if( !empty($plugin_folder) )
@@ -151,8 +151,8 @@ function get_plugins($plugin_folder = '') {
 
 	uasort( $wp_plugins, create_function( '$a, $b', 'return strnatcasecmp( $a["Name"], $b["Name"] );' ));
 
-	$cache_plugins[ $plugin_folder ] = $wp_plugins; 
-	wp_cache_set('plugins', $cache_plugins, 'plugins'); 
+	$cache_plugins[ $plugin_folder ] = $wp_plugins;
+	wp_cache_set('plugins', $cache_plugins, 'plugins');
 
 	return $wp_plugins;
 }
@@ -279,7 +279,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 	$plugins_dir = $wp_filesystem->wp_plugins_dir();
 	if ( empty($plugins_dir) )
 		return new WP_Error('fs_no_plugins_dir', __('Unable to locate WordPress Plugin directory.'));
-	
+
 	$plugins_dir = trailingslashit( $plugins_dir );
 
 	$errors = array();
@@ -295,14 +295,14 @@ function delete_plugins($plugins, $redirect = '' ) {
 			$deleted = $wp_filesystem->delete($this_plugin_dir, true);
 		else
 			$deleted = $wp_filesystem->delete($plugins_dir . $plugin_file);
-	
+
 		if ( ! $deleted )
 			$errors[] = $plugin_file;
 	}
-	
+
 	if( ! empty($errors) )
 		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s'), implode(', ', $errors)) );
-	
+
 	return true;
 }
 
@@ -317,7 +317,7 @@ function validate_active_plugins() {
 	}
 
 	//Invalid is any plugin that is deactivated due to error.
-	$invalid = array(); 
+	$invalid = array();
 
 	// If a plugin file does not exist, remove it from the list of active
 	// plugins.

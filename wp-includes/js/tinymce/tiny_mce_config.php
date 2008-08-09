@@ -1,4 +1,4 @@
-<?php 
+<?php
 // some code below is from:
 /**
  * $Id: tiny_mce_gzip.php 315 2007-10-25 14:03:43Z spocke $
@@ -68,10 +68,10 @@ $mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+Engl
 
 $plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage' );
 
-/* 
+/*
 The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
-It adds the plugin's name to TinyMCE's plugins init and the call to PluginManager to load the plugin. 
-The url should be absolute and should include the js file name to be loaded. Example: 
+It adds the plugin's name to TinyMCE's plugins init and the call to PluginManager to load the plugin.
+The url should be absolute and should include the js file name to be loaded. Example:
 array( 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js' )
 If the plugin uses a button, it should be added with one of the "$mce_buttons" filters.
 */
@@ -79,23 +79,23 @@ $mce_external_plugins = apply_filters('mce_external_plugins', array());
 
 $ext_plugins = "\n";
 if ( ! empty($mce_external_plugins) ) {
-	
+
 	/*
 	The following filter loads external language files for TinyMCE plugins.
-	It takes an associative array 'plugin_name' => 'path', where path is the 
-	include path to the file. The language file should follow the same format as 
-	/tinymce/langs/wp-langs.php and should define a variable $strings that 
-	holds all translated strings. Example: 
+	It takes an associative array 'plugin_name' => 'path', where path is the
+	include path to the file. The language file should follow the same format as
+	/tinymce/langs/wp-langs.php and should define a variable $strings that
+	holds all translated strings. Example:
 	$strings = 'tinyMCE.addI18n("' . $mce_locale . '.mypluginname_dlg",{tab_general:"General", ... })';
 	*/
-	$mce_external_languages = apply_filters('mce_external_languages', array()); 
-	
+	$mce_external_languages = apply_filters('mce_external_languages', array());
+
 	$loaded_langs = array();
 	$strings = '';
-	
+
 	if ( ! empty($mce_external_languages) ) {
 		foreach ( $mce_external_languages as $name => $path ) {
-			if ( is_file($path) && is_readable($path) ) { 
+			if ( is_file($path) && is_readable($path) ) {
 				include_once($path);
 				$ext_plugins .= $strings;
 				$loaded_langs[] = $name;
@@ -104,9 +104,9 @@ if ( ! empty($mce_external_plugins) ) {
 	}
 
 	foreach ( $mce_external_plugins as $name => $url ) {
-		
+
 		if ( is_ssl() ) $url = str_replace('http://', 'https://', $url);
-		
+
 		$plugins[] = '-' . $name;
 
 		if ( in_array($name, $loaded_langs) ) {
@@ -126,7 +126,7 @@ $mce_buttons_2 = implode($mce_buttons_2, ',');
 
 $mce_buttons_3 = apply_filters('mce_buttons_3', array());
 $mce_buttons_3 = implode($mce_buttons_3, ',');
-	
+
 $mce_buttons_4 = apply_filters('mce_buttons_4', array());
 $mce_buttons_4 = implode($mce_buttons_4, ',');
 
@@ -195,7 +195,7 @@ if ( $msie = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ) {
 }
 
 // Cache path, this is where the .gz files will be stored
-$cache_path = WP_CONTENT_DIR . '/uploads/js_cache'; 
+$cache_path = WP_CONTENT_DIR . '/uploads/js_cache';
 if ( $disk_cache && ! is_dir($cache_path) )
 	$disk_cache = wp_mkdir_p($cache_path);
 
@@ -203,7 +203,7 @@ $cache_ext = '.js';
 $plugins = explode( ',', $initArray['plugins'] );
 $theme = ( 'simple' == $initArray['theme'] ) ? 'simple' : 'advanced';
 $language = ( isset($initArray['language']) && ! empty($initArray['language']) ) ? substr( $initArray['language'], 0, 2 ) : 'en';
-$cacheKey = $mce_options = '';	
+$cacheKey = $mce_options = '';
 
 // Check if browser supports gzip
 if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
@@ -224,7 +224,7 @@ if ( $disk_cache ) {
 		foreach ( $mce_external_plugins as $n => $v )
 			$cacheKey .= $n;
 	}
-	
+
 	$cacheKey = md5( $cacheKey );
 	$cache_file = $cache_path . '/tinymce_' . $cacheKey . $cache_ext;
 }
@@ -238,7 +238,7 @@ header( 'Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expiresOffset ) . ' GM
 if ( $disk_cache && is_file($cache_file) && is_readable($cache_file) ) {
 
 	$mtime = gmdate("D, d M Y H:i:s", filemtime($cache_file)) . " GMT";
-	
+
 	if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $mtime ) {
 		header('HTTP/1.1 304 Not Modified');
 		exit;
@@ -247,7 +247,7 @@ if ( $disk_cache && is_file($cache_file) && is_readable($cache_file) ) {
 	header("Cache-Control: must-revalidate", false);
 
 	$content = getFileContents( $cache_file );
-	
+
 	if ( '.gz' == $cache_ext )
 		header( 'Content-Encoding: gzip' );
 
@@ -255,7 +255,7 @@ if ( $disk_cache && is_file($cache_file) && is_readable($cache_file) ) {
 	exit;
 }
 
-foreach ( $initArray as $k => $v ) 
+foreach ( $initArray as $k => $v )
     $mce_options .= $k . ':"' . $v . '",';
 
 $mce_options = rtrim( trim($mce_options), '\n\r,' );
@@ -277,10 +277,10 @@ $content .= $strings;
 $content .= getFileContents( 'themes/' . $theme . '/editor_template.js' );
 
 // Add plugins
-foreach ( $plugins as $plugin ) 
+foreach ( $plugins as $plugin )
 	$content .= getFileContents( 'plugins/' . $plugin . '/editor_plugin.js' );
 
-// Add external plugins 
+// Add external plugins
 $content .= $ext_plugins;
 
 // Mark translations as done

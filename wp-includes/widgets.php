@@ -166,7 +166,7 @@ function register_widget_control($name, $control_callback, $width = '', $height 
  */
 function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
 	global $wp_registered_widget_controls;
-	
+
 	$id = strtolower($id);
 
 	if ( empty($control_callback) ) {
@@ -462,9 +462,9 @@ function wp_widget_links($args) {
 function wp_widget_search($args) {
 	extract($args);
 	$searchform_template = get_template_directory() . '/searchform.php';
-	
+
 	echo $before_widget;
-	
+
 	// Use current theme search form if it exists
 	if ( file_exists($searchform_template) ) {
 		include_once($searchform_template);
@@ -475,7 +475,7 @@ function wp_widget_search($args) {
 			<input type="submit" value="<?php echo attribute_escape(__('Search')); ?>" />
 		</div></form>
 	<?php }
-	
+
 	echo $after_widget;
 }
 
@@ -743,9 +743,9 @@ function wp_widget_categories($args, $widget_args = 1) {
 	} else {
 ?>
 		<ul>
-		<?php 
+		<?php
 			$cat_args['title_li'] = '';
-			wp_list_categories($cat_args); 
+			wp_list_categories($cat_args);
 		?>
 		</ul>
 <?php

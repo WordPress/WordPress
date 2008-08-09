@@ -844,9 +844,9 @@ function human_time_diff( $from, $to = '' ) {
 function wp_trim_excerpt($text) { // Fakes an excerpt if needed
 	if ( '' == $text ) {
 		$text = get_the_content('');
-		
-		$text = strip_shortcodes( $text ); 
-		
+
+		$text = strip_shortcodes( $text );
+
 		$text = apply_filters('the_content', $text);
 		$text = str_replace(']]>', ']]&gt;', $text);
 		$text = strip_tags($text);
@@ -1436,7 +1436,7 @@ function wp_html_excerpt( $str, $count ) {
  */
 function links_add_base_url( $content, $base, $attrs = array('src', 'href') ) {
 	$attrs = implode('|', (array)$attrs);
-	return preg_replace_callback("!($attrs)=(['\"])(.+?)\\2!i", 
+	return preg_replace_callback("!($attrs)=(['\"])(.+?)\\2!i",
 			create_function('$m', 'return _links_add_base($m, "' . $base . '");'),
 			$content);
 }
@@ -1455,7 +1455,7 @@ function links_add_base_url( $content, $base, $attrs = array('src', 'href') ) {
  */
 function _links_add_base($m, $base) {
 	//1 = attribute name  2 = quotation mark  3 = URL
-	return $m[1] . '=' . $m[2] . 
+	return $m[1] . '=' . $m[2] .
 		(strpos($m[3], 'http://') === false ?
 			path_join($base, $m[3]) :
 			$m[3])
@@ -1465,7 +1465,7 @@ function _links_add_base($m, $base) {
 /**
  * Adds a Target attribute to all links in passed content.
  *
- * This function by default only applies to <a> tags, 
+ * This function by default only applies to <a> tags,
  * however this can be modified by the 3rd param.
  * NOTE: Any current target attributed will be striped and replaced.
  *
@@ -1479,7 +1479,7 @@ function _links_add_base($m, $base) {
  */
 function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 	$tags = implode('|', (array)$tags);
-	return preg_replace_callback("!<($tags)(.+?)>!i", 
+	return preg_replace_callback("!<($tags)(.+?)>!i",
 			create_function('$m', 'return _links_add_target($m, "' . $target . '");'),
 			$content);
 }

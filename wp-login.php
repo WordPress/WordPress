@@ -18,7 +18,7 @@ if ( force_ssl_admin() && !is_ssl() ) {
 		exit();
 	} else {
 		wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-		exit();			
+		exit();
 	}
 }
 
@@ -135,7 +135,7 @@ function retrieve_password() {
 		return new WP_Error('no_password_reset', __('Password reset is not allowed for this user'));
 	else if ( is_wp_error($allow) )
 		return $allow;
-		
+
 	$key = $wpdb->get_var($wpdb->prepare("SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s", $user_login));
 	if ( empty($key) ) {
 		// Generate something random for a key...

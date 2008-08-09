@@ -86,7 +86,7 @@ function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = 
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
 
 	if ( NULL == $more_link_text )
-		$more_link_text = __( '(more...)' ); 
+		$more_link_text = __( '(more...)' );
 
 	$output = '';
 
@@ -450,7 +450,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
 		return false;
-		
+
 	if ( !$src = get_attachment_icon_src( $post->ID, $fullsize ) )
 		return false;
 

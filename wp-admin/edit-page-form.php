@@ -90,7 +90,7 @@ else
 <select name='post_status' tabindex='4' id='post_status'>
 <?php // Show publish in dropdown if user can publish or if they can re-publish this page ('edit_published_pages')
 // 'publish' option will be selected for published AND private posts (checkbox overrides dropdown)
-if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND current_user_can('edit_page', $post->ID) ) ) : 
+if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND current_user_can('edit_page', $post->ID) ) ) :
 ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php endif; ?>
@@ -101,7 +101,7 @@ if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND 
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
 </select>
 </p>
-<?php if ( current_user_can( 'publish_posts' ) ) : ?> 
+<?php if ( current_user_can( 'publish_posts' ) ) : ?>
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
 <?php endif; ?>
 
@@ -209,7 +209,7 @@ endif; ?>
 <h2><?php _e('Advanced Options'); ?></h2>
 
 
-<?php 
+<?php
 function page_custom_meta_box($post){
 ?>
 <div id="postcustomstuff">
@@ -238,7 +238,7 @@ function page_comments_status_meta_box($post){
 <?php _e('Allow Comments') ?></label></p>
 <p><label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label></p>
 <p><?php _e('These settings apply to this page only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
-<?php 
+<?php
 }
 add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_status_meta_box', 'page', 'advanced', 'core');
 

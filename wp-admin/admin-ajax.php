@@ -13,9 +13,9 @@ if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 
 	$s = $_GET['q']; // is this slashed already?
 
-	if ( strstr( $s, ',' ) ) { 
-		$s = explode( ',', $s ); 
-		$s = $s[count( $s ) - 1]; 
+	if ( strstr( $s, ',' ) ) {
+		$s = explode( ',', $s );
+		$s = $s[count( $s ) - 1];
 	}
 	$s = trim( $s );
 	if ( strlen( $s ) < 2 )
@@ -278,7 +278,7 @@ case 'add-cat' : // From Manage->Categories
 		) );
 		$x->send();
 	}
-	
+
 	$cat = wp_insert_category( $_POST, true );
 
 	if ( is_wp_error($cat) ) {

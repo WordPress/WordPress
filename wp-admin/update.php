@@ -35,7 +35,7 @@ function do_plugin_upgrade($plugin) {
 		show_message( __('Installation Failed') );
 	} else {
 		//Result is the new plugin file relative to WP_PLUGIN_DIR
-		show_message( __('Plugin upgraded successfully') );	
+		show_message( __('Plugin upgraded successfully') );
 		if( $result && $was_activated ){
 			show_message(__('Attempting reactivation of the plugin'));
 			echo '<iframe style="border:0" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $result, 'activate-plugin_' . $result) .'"></iframe>';
@@ -106,7 +106,7 @@ function do_core_upgrade() {
 		if ('up_to_date' != $result->get_error_code() )
 			show_message( __('Installation Failed') );
 	} else {
-		show_message( __('WordPress upgraded successfully') );	
+		show_message( __('WordPress upgraded successfully') );
 	}
 	echo '</div>';
 }
@@ -124,9 +124,9 @@ if ( isset($_GET['action']) ) {
 	} elseif ('activate-plugin' == $_GET['action'] ) {
 		check_admin_referer('activate-plugin_' . $plugin);
 		if( ! isset($_GET['failure']) && ! isset($_GET['success']) ) {
-			wp_redirect( 'update.php?action=activate-plugin&failure=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] ); 
+			wp_redirect( 'update.php?action=activate-plugin&failure=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] );
 			activate_plugin($plugin);
-			wp_redirect( 'update.php?action=activate-plugin&success=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] ); 
+			wp_redirect( 'update.php?action=activate-plugin&success=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] );
 			die();
 		}
 			?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

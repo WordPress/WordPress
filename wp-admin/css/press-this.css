@@ -86,7 +86,7 @@ img { border: 0; }
 }
 
 .ui-tabs-nav a:hover,.ui-tabs-nav a:focus,.ui-tabs-nav a:active,
-.ui-tabs-nav .ui-tabs-selected a:link,.ui-tabs-nav .ui-tabs-selected a:visited { 
+.ui-tabs-nav .ui-tabs-selected a:link,.ui-tabs-nav .ui-tabs-selected a:visited {
 	cursor: pointer;
 }
 
@@ -261,7 +261,7 @@ div#posting h2 {
 #img_container a, #img_container a:link, #img_container a:visited {
 	border: 2px solid #ccc;
 	margin: 0 4px 4px 0;
-} 
+}
 #img_container a:hover, #img_container a:active {
 	border: 2px solid #000;
 }
@@ -299,7 +299,7 @@ div#categories h2 {
 #tagsdiv #newtag {
 	padding: 3px;
 	margin-right: 5px;
-	width: 16em;	
+	width: 16em;
 }
 
 #jaxtag {

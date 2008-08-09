@@ -233,7 +233,7 @@ function get_themes() {
 
 		$stylesheet_files = array();
 		$template_files = array();
-		
+
 		$stylesheet_dir = @ dir("$theme_root/$stylesheet");
 		if ( $stylesheet_dir ) {
 			while ( ($file = $stylesheet_dir->read()) !== false ) {

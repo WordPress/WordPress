@@ -225,7 +225,7 @@ table#availablethemes td.left {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: pointer;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 .button-highlighted {
@@ -912,7 +912,7 @@ html, body {
 	margin-bottom: 6px;
 }
 
-#profile-page .form-table input[type=text] { 
+#profile-page .form-table input[type=text] {
 	width: 300px;
 }
 
@@ -1516,7 +1516,7 @@ td.action-links, th.action-links {
 
 #poststuff h3, #poststuff .closed h3 {
 	cursor: pointer;
-} 
+}
 
 .hide-if-no-js {
 	display: none;

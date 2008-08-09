@@ -132,7 +132,7 @@ if ( isset($_GET['add']) && $_GET['add'] ) {
 		<h2><?php _e( 'Add Widget' ); ?></h2>
 		<br />
 		<form action="<?php echo clean_url( remove_query_arg( $query_args ) ); ?>" method="post">
-		
+
 			<ul class="widget-control-list">
 				<li class="widget-list-control-item">
 					<div class="widget-top">

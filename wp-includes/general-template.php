@@ -373,7 +373,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 		$link_html = "\t$before<a href='$url' title='$title_text'>$text</a>$after\n";
 
 	$link_html = apply_filters( "get_archives_link", $link_html );
-		
+
 	return $link_html;
 }
 
@@ -1197,10 +1197,10 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 }
 
 /**
- * Enqueues the default ThickBox js and css. 
+ * Enqueues the default ThickBox js and css.
  * If any of the settings need to be changed, this can be done with another js file
  * similar to media-upload.js and theme-preview.js. That file should require array('thickbox')
- * to ensure it is loaded after. 
+ * to ensure it is loaded after.
  */
 function add_thickbox() {
 	wp_enqueue_script( 'thickbox' );

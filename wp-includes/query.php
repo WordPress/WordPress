@@ -121,7 +121,7 @@ function is_tag( $slug = '' ) {
 
 function is_tax( $slug = '' ) {
 	global $wp_query;
-	
+
 	if ( !$wp_query->is_tax )
 		return false;
 
@@ -1358,7 +1358,7 @@ class WP_Query {
 		// postmeta queries
 		if ( ! empty($q['meta_key']) || ! empty($q['meta_value']) )
 			$join .= " LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
-		if ( ! empty($q['meta_key']) ) 
+		if ( ! empty($q['meta_key']) )
 			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_key = %s ", $q['meta_key']);
 		if ( ! empty($q['meta_value']) )
 			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_value = %s ", $q['meta_value']);

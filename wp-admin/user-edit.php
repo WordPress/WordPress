@@ -41,24 +41,24 @@ function profile_js ( ) {
 		}
 
 	}
-	
+
 	function update_nickname ( ) {
-		
+
 		var nickname = jQuery('#nickname').val();
 		var display_nickname = jQuery('#display_nickname').val();
-		
+
 		if ( nickname == '' ) {
 			jQuery('#display_nickname').remove();
 		}
 		jQuery('#display_nickname').val(nickname).html(nickname);
-		
+
 	}
 
-	jQuery(function($) { 
-		$('#pass1').keyup( check_pass_strength ) 
+	jQuery(function($) {
+		$('#pass1').keyup( check_pass_strength )
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
 	} );
-	
+
 	jQuery(document).ready( function() {
 		jQuery('#pass1,#pass2').attr('autocomplete','off');
 		jQuery('#nickname').blur(update_nickname);
@@ -190,7 +190,7 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 	<?php endforeach; ?>
 	</tr>
 	</table>
-	
+
 	<label for="admin_color_<?php echo $color; ?>"><?php echo $color_info->name ?></label>
 </div>
 	<?php endforeach; ?>

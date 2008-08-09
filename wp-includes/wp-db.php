@@ -339,12 +339,12 @@ class wpdb {
 				if (!empty($this->collate) )
 					$collation_query .= " COLLATE '{$this->collate}'";
 			}
-			
+
 			if ( !empty($collation_query) )
 				$this->query($collation_query);
-			
+
 		}
-		
+
 		$this->select($dbname);
 	}
 
@@ -685,7 +685,7 @@ class wpdb {
 				$wheres[] = "$c = '" . $this->escape( $v ) . "'";
 		else
 			return false;
-			
+
 		return $this->query( "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres ) );
 	}
 

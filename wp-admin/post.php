@@ -42,7 +42,7 @@ function redirect_post($post_ID = '') {
 		if ( $_POST['referredby'] == 'redo' )
 			$location = get_permalink( $post_ID );
 		elseif ( false !== strpos($location, 'edit.php') )
-			$location = add_query_arg('posted', $post_ID, $location);		
+			$location = add_query_arg('posted', $post_ID, $location);
 		elseif ( false !== strpos($location, 'wp-admin') )
 			$location = "post-new.php?posted=$post_ID";
 	} elseif ( isset($_POST['publish']) ) {

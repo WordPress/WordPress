@@ -224,10 +224,10 @@ class MT_Import {
 			if ( 0 != count($post->categories) ) {
 				wp_create_categories($post->categories, $post_id);
 			}
-			
+
 			 // Add tags or keywords
 			if ( 1 < strlen($post->post_keywords) ) {
-			 	// Keywords exist. 
+			 	// Keywords exist.
 				printf(__('<br />Adding tags <i>%s</i>...'), stripslashes($post->post_keywords));
 				wp_add_post_tags($post_id, $post->post_keywords);
 			}

@@ -429,13 +429,13 @@ class Walker {
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array(&$this, 'start_el'), $cb_args);
 
-		$id = $element->$id_field; 
-		
+		$id = $element->$id_field;
+
 		// descend only the depth is right and there are chilrens for this element
-		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) { 
+		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) {
 
 			foreach( $children_elements[ $id ] as $child ){
-				
+
 				if ( !isset($newlevel) ) {
 					$newlevel = true;
 					//start the child delimiter
@@ -444,7 +444,7 @@ class Walker {
 				}
 				$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
 			}
-			unset( $children_elements[ $id ] ); 
+			unset( $children_elements[ $id ] );
 		}
 
 		if ( isset($newlevel) && $newlevel ){
@@ -490,8 +490,8 @@ class Walker {
 		/*
 		 * need to display in hierarchical order
 		 * seperate elements into two buckets: top level and children elements
-		 * children_elements is two dimensional array, eg. 
-		 * children_elements[10][] contains all sub-elements whose parent is 10. 
+		 * children_elements is two dimensional array, eg.
+		 * children_elements[10][] contains all sub-elements whose parent is 10.
 		 */
 		$top_level_elements = array();
 		$children_elements  = array();
@@ -509,7 +509,7 @@ class Walker {
 		if ( empty($top_level_elements) ) {
 
 			$root = $elements[0];
-			
+
 			$top_level_elements = array();
 			$children_elements  = array();
 			foreach ( $elements as $e) {
@@ -533,7 +533,7 @@ class Walker {
 				foreach( $orphans as $op )
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
 		 }
-		 
+
 		 return $output;
 	}
 }

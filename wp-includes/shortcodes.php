@@ -48,7 +48,7 @@ $shortcode_tags = array();
  * There can only be one hook for each shortcode. Which means that if another
  * plugin has a similar shortcode, it will override yours or yours will override
  * theirs depending on which order the plugins are included and/or ran.
- * 
+ *
  * Simplest example of a shortcode tag using the API:
  *
  * <code>
@@ -204,7 +204,7 @@ function do_shortcode_tag($m) {
  *
  * @since 2.5
  *
- * @param string $text 
+ * @param string $text
  * @return array List of attributes and their value.
  */
 function shortcode_parse_atts($text) {
@@ -278,6 +278,6 @@ function strip_shortcodes( $content ) {
 	return preg_replace('/'.$pattern.'/s', '', $content);
 }
 
-add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop() 
+add_filter('the_content', 'do_shortcode', 11); // AFTER wpautop()
 
 ?>

@@ -79,7 +79,7 @@ class WP_Dependencies {
 					return false; // Abort this branch.
 				else
 					continue; // We're at the top level.  Move on to the next one.
-			}					
+			}
 
 			$this->to_do[$handle] = true;
 		}

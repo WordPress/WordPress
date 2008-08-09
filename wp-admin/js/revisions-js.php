@@ -8,7 +8,7 @@ function dvortr( $str ) {
 		'\',.pyfgcrl/=\\aoeuidhtns-;qjkxbmwvz"<>PYFGCRL?+|AOEUIDHTNS_:QJKXBMWVZ[]',
 		'qwertyuiop[]\\asdfghjkl;\'zxcvbnm,./QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?-='
 	);
-}	
+}
 
 $j = clean_url( site_url( '/wp-includes/js/jquery/jquery.js' ) );
 $n = wp_specialchars( $GLOBALS['current_user']->data->display_name );

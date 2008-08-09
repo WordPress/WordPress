@@ -13,14 +13,14 @@ body, td, .submit input, .button, .button-secondary, .button-highlighted, #your-
 }
 
 #update-nag {
-	clear: both; 
-	margin-bottom: 1em; 
+	clear: both;
+	margin-bottom: 1em;
 }
 
 /* Clears update nag, so it doesn't hide the submenu */
-#update-nag { 
-	clear: both; 
-	margin-bottom: 1em; 
+#update-nag {
+	clear: both;
+	margin-bottom: 1em;
 }
 
 #wpwrap,#footer,#TB_title,.media-upload-form,#media-upload-header
@@ -130,7 +130,7 @@ p#post-search
 	direction: rtl;
 }
 
-.tablenav .delete 
+.tablenav .delete
 {
 	margin-left: 40px;
 	margin-right: 0;
@@ -337,26 +337,26 @@ div#message {
 
 /* WPH - TinyMCE */
 
-#media-items th.label { 
-	width: 120px; 
+#media-items th.label {
+	width: 120px;
 }
-#media-items th.label .alignleft { 
-	width: 100px; 
+#media-items th.label .alignleft {
+	width: 100px;
 }
 
-#media-items th.label .alignright { 
-	width: 16px; 
-	height: 16px; 
-} 
+#media-items th.label .alignright {
+	width: 16px;
+	height: 16px;
+}
 
 /* LTRs some url- and code-only form fields */
-input#href, input#src, input#class_name { 
-	direction: ltr; 
-	text-align: left; 
+input#href, input#src, input#class_name {
+	direction: ltr;
+	text-align: left;
 }
 
-#sidemenu a { 
-	float: right; 
+#sidemenu a {
+	float: right;
 }
 
 thead.media-item-info {
@@ -375,7 +375,7 @@ thead.media-item-info td.A1B1 {
 }
 
 #gallery-form table.widefat th {
-	float: left; 
+	float: left;
 	width: 74%;
 	text-align: center;
 }
@@ -398,8 +398,8 @@ tr.image-size label {
 	margin:0 0 0 1em !important;
 }
 
-#library-form { 
-	float: right; 
+#library-form {
+	float: right;
 }
 
 #filter .subsubsub {

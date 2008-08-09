@@ -8,7 +8,7 @@
 			JQ('#wp-word-count').html( wordCountL10n.count.replace( /%d/, '<span id="word-count">0</span>' ) );
 			t.block = 0;
 			t.wc(co.val());
-			co.keyup( function(e) {	
+			co.keyup( function(e) {
 				if ( e.keyCode == last ) return true;
 				if ( 13 == e.keyCode || 8 == last || 46 == last ) t.wc(co.val());
 				last = e.keyCode;
@@ -33,7 +33,7 @@
 				setTimeout( function() { t.block = 0; }, 2000 );
 			}, 1 );
 		}
-	} 
+	}
 }(jQuery));
 
 jQuery(document).ready( function(){ wpWordCount.init(); } );

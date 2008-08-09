@@ -125,7 +125,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		$temp = wp_tempnam( $file );
 		if ( ! $temphandle = fopen($temp, 'w+') ){
-			unlink($temp);		
+			unlink($temp);
 			return false;
 		}
 		fwrite($temphandle, $contents);
@@ -146,7 +146,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	function chdir($file) {
 		return $this->ftp->chdir($file);
 	}
-	
+
 	function chgrp($file, $group, $recursive = false ) {
 		return false;
 	}

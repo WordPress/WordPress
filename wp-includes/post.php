@@ -921,7 +921,7 @@ function unstick_post($post_id) {
 		return;
 
 	array_splice($stickies, $offset, 1);
-	
+
 	update_option('sticky_posts', $stickies);
 }
 
@@ -1445,7 +1445,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 			if ( $wp_error )
 				return new WP_Error('db_insert_error', __('Could not insert post into the database'), $wpdb->last_error);
 			else
-				return 0;	
+				return 0;
 		}
 		$post_ID = (int) $wpdb->insert_id;
 
@@ -2148,8 +2148,8 @@ function &get_pages($args = '') {
 	$where = "$exclusions $inclusions ";
 	if ( ! empty( $meta_key ) || ! empty( $meta_value ) ) {
 		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
-		
-		// meta_key and met_value might be slashed 
+
+		// meta_key and met_value might be slashed
 		$meta_key = stripslashes($meta_key);
 		$meta_value = stripslashes($meta_value);
 		if ( ! empty( $meta_key ) )
@@ -2342,7 +2342,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	if ( $file )
 		update_attached_file( $post_ID, $file );
-		
+
 	clean_post_cache($post_ID);
 
 	if ( $update) {
@@ -2534,7 +2534,7 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 		return false;
 	if ( !$url = wp_get_attachment_url( $post->ID ) )
 		return false;
-		
+
 	$sized = image_downsize( $post_id, 'thumbnail' );
 	if ( $sized )
 		return $sized[0];

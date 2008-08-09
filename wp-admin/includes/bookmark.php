@@ -120,12 +120,12 @@ function wp_insert_link($linkdata) {
 
 	if ( $update ) {
 		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->links SET link_url = %s,
-			link_name = %s, link_image = %s, link_target = %s, 
-			link_visible = %s, link_description = %s, link_rating = %s, 
+			link_name = %s, link_image = %s, link_target = %s,
+			link_visible = %s, link_description = %s, link_rating = %s,
 			link_rel = %s, link_notes = %s, link_rss = %s
 			WHERE link_id = %s", $link_url, $link_name, $link_image, $link_target, $link_visible, $link_description, $link_rating, $link_rel, $link_notes, $link_rss, $link_id) );
 	} else {
-		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 		$link_url,$link_name, $link_image, $link_target, $link_description, $link_visible, $link_owner, $link_rating, $link_rel, $link_notes, $link_rss) );
 		$link_id = (int) $wpdb->insert_id;
 	}

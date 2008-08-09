@@ -116,7 +116,7 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 
 <div id="categories-all" class="ui-tabs-panel">
 	<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
-		<?php 
+		<?php
 		if ( isset($link->link_id) )
 			wp_link_category_checklist($link->link_id);
 		else

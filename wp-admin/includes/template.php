@@ -57,7 +57,7 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
 		if ( $count >= $start )
 			echo "\t" . _cat_row( $category, $level );
 
-		unset($categories[$i]); // Prune the working set		
+		unset($categories[$i]); // Prune the working set
 		$count++;
 
 		if ( isset($children[$category->term_id]) )
@@ -191,7 +191,7 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 	$descendants_and_self = (int) $descendants_and_self;
 
 	$args = array();
-	
+
 	if ( is_array( $selected_cats ) )
 		$args['selected_cats'] = $selected_cats;
 	elseif ( $post_id )
@@ -547,27 +547,27 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 			return false;
 	}
 
-	/* 
+	/*
 	 * arrange pages into two parts: top level pages and children_pages
-	 * children_pages is two dimensional array, eg. 
-	 * children_pages[10][] contains all sub-pages whose parent is 10. 
+	 * children_pages is two dimensional array, eg.
+	 * children_pages[10][] contains all sub-pages whose parent is 10.
 	 * It only takes O(N) to arrange this and it takes O(1) for subsequent lookup operations
 	 * If searching, ignore hierarchy and treat everything as top level
 	 */
 	if ( empty($_GET['s']) )  {
-		
+
 		$top_level_pages = array();
 		$children_pages  = array();
-		
+
 		foreach ( $pages as $page ) {
-			
+
 			// catch and repair bad pages
 			if ( $page->post_parent == $page->ID ) {
 				$page->post_parent = 0;
 				$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = '0' WHERE ID = %d", $page->ID) );
 				clean_page_cache( $page->ID );
 			}
-	
+
 			if ( 0 == $page->post_parent )
 				$top_level_pages[] = $page;
 			else
@@ -580,7 +580,7 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 	$count = 0;
 	$start = ($pagenum - 1) * $per_page;
 	$end = $start + $per_page;
-	
+
 	foreach ( $pages as $page ) {
 		if ( $count >= $end )
 			break;
@@ -593,7 +593,7 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
 		if ( isset($children_pages) )
 			_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
 	}
-	
+
 	// if it is the last pagenum and there are orphaned pages, display them with paging as well
 	if ( isset($children_pages) && $count < $end ){
 		foreach( $children_pages as $orphans ){
@@ -613,18 +613,18 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
  * together with paging support
  */
 function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page ) {
-	
+
 	if ( ! isset( $children_pages[$parent] ) )
-		return; 
-		
+		return;
+
 	$start = ($pagenum - 1) * $per_page;
 	$end = $start + $per_page;
-	
+
 	foreach ( $children_pages[$parent] as $page ) {
-		
+
 		if ( $count >= $end )
 			break;
-			
+
 		// If the page starts in a subtree, print the parents.
 		if ( $count == $start && $page->post_parent > 0 ) {
 			$my_parents = array();
@@ -645,12 +645,12 @@ function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_
 
 		if ( $count >= $start )
 			echo "\t" . display_page_row( $page, $level );
-			
+
 		$count++;
 
 		_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
 	}
-	
+
 	unset( $children_pages[$parent] ); //required in order to keep track of orphans
 }
 
@@ -658,7 +658,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	global $wp_roles;
 
 	$current_user = wp_get_current_user();
-	
+
 	if ( !( is_object( $user_object) && is_a( $user_object, 'WP_User' ) ) )
 		$user_object = new WP_User( (int) $user_object );
 	$email = $user_object->user_email;
@@ -747,14 +747,14 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 		$post_link = "<a href='" . get_comment_link() . "'>";
 
 		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
-			
+
 		$edit_link_start = "<a class='row-title' href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>";
 		$edit_link_end = '</a>';
 	} else {
 		$post_link = get_the_title($comment->comment_post_ID);
 		$edit_link_start = $edit_link_end ='';
 	}
-	
+
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
 		$author_url = '';
@@ -788,7 +788,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
     <?php comment_author_email_link() ?> |
     <?php endif; ?>
     <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
-	<?php endif; //current_user_can?>    
+	<?php endif; //current_user_can?>
     </p>
    	<?php if ( 'detail' == $mode ) comment_text(); ?>
    	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
@@ -1171,7 +1171,7 @@ function wp_remember_old_slug() {
 function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default') {
 	global $wp_meta_boxes;
 
-	
+
 	if  ( !isset($wp_meta_boxes) )
 		$wp_meta_boxes = array();
 	if ( !isset($wp_meta_boxes[$page]) )

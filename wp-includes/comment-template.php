@@ -665,7 +665,7 @@ function comments_template( $file = '/comments.php' ) {
 	update_comment_cache($comments);
 
 	define('COMMENTS_TEMPLATE', true);
-		
+
 	$include = apply_filters('comments_template', STYLESHEETPATH . $file );
 	if ( file_exists( $include ) )
 		require( $include );

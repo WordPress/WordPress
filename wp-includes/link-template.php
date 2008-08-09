@@ -85,7 +85,7 @@ function get_permalink($id = 0, $leavename=false) {
 			// having to assign it explicitly
 			if ( empty($category) ) {
 				$default_category = get_category( get_option( 'default_category' ) );
-				$category = is_wp_error( $default_category ) ? '' : $default_category->slug; 
+				$category = is_wp_error( $default_category ) ? '' : $default_category->slug;
 			}
 		}
 
@@ -478,7 +478,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 		$var  = 'post';
 		break;
 	endswitch;
-	
+
 	return apply_filters( 'get_edit_post_link', admin_url("$file.php?{$action}$var=$post->ID"), $post->ID, $context );
 }
 
@@ -780,7 +780,7 @@ function get_shortcut_link() {
  * @package WordPress
  * @since 2.6
  *
- * Returns the 'site_url' option with the appropriate protocol,  'https' if is_ssl() and 'http' otherwise. 
+ * Returns the 'site_url' option with the appropriate protocol,  'https' if is_ssl() and 'http' otherwise.
  * If $scheme is 'http' or 'https', is_ssl() is overridden.
  *
  * @param string $path Optional path relative to the site url

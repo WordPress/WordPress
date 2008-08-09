@@ -175,7 +175,7 @@ class AtomServer {
 		if( !empty( $_SERVER['ORIG_PATH_INFO'] ) )
 			$path = $_SERVER['ORIG_PATH_INFO'];
 		else
-			$path = $_SERVER['PATH_INFO']; 
+			$path = $_SERVER['PATH_INFO'];
 
 		$method = $_SERVER['REQUEST_METHOD'];
 

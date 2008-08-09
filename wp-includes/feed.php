@@ -306,7 +306,7 @@ function comment_text_rss() {
  * @package WordPress
  * @subpackage Feed
  * @since 2.1.0
- * @uses apply_filters() 
+ * @uses apply_filters()
  *
  * @param string $type Optional, default is 'rss'. Either 'rss', 'atom', or 'rdf'.
  * @return string All of the post categories for displaying in the feed.

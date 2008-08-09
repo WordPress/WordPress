@@ -251,7 +251,7 @@ class WP_Object_Cache {
 	 * to false, then nothing will happen. The $force parameter is set to false
 	 * by default.
 	 *
-	 * On success the group and the id will be added to the 
+	 * On success the group and the id will be added to the
 	 * $non_existant_objects property in the class.
 	 *
 	 * @since 2.0

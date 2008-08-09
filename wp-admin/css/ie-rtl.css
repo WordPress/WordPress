@@ -3,8 +3,8 @@ body, td {
 	font-family: Tahoma,Verdana,sans-serif;
 }
 
-#wpcontent #sidemenu li a { 
-	float: left; 
+#wpcontent #sidemenu li a {
+	float: left;
 }
 
 .wrap {
@@ -59,7 +59,7 @@ p#widget-search, p#post-search {
 /* IE6 */
 
 /* Search box gets stuck to the right, hidden outside view */
-* html #post-search, * html #widget-search { 
+* html #post-search, * html #widget-search {
 	height: 1% !important;
 	right: 600px !important;
 }
@@ -75,7 +75,7 @@ p#widget-search, p#post-search {
 }
 
 /* Bad floating in the sub-sub-sub menu makes links un-clickable */
-* html .subsubsub li { 
+* html .subsubsub li {
 	display: block; float: right; margin: 0 2px;
 }
 
@@ -85,15 +85,15 @@ p#widget-search, p#post-search {
 }
 
 /* Theme selector on theme edit page gets stuck to the left, hidden outside view */
-* html #themeselector { 
+* html #themeselector {
 	position: static;
 }
 
 /* Template edit area floats beneath template list, gets RTLed */
 * html #template {
-	float: right; 
+	float: right;
 	overflow: hidden;
-	width: 755px !important; 
+	width: 755px !important;
 }
 * html #template #newcontent {
 	direction: ltr;

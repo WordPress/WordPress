@@ -127,7 +127,7 @@ function update_core($from, $to) {
 		$wp_filesystem->delete($from, true);
 		return new WP_Error('insane_distro', __('The update could not be unpacked') );
 	}
-	
+
 	apply_filters('update_feedback', __('Installing the latest version'));
 
 	// Create maintenance file to signal that we are upgrading

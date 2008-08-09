@@ -27,7 +27,7 @@ class Custom_Image_Header {
 		$step = $this->step();
 		if ( 1 == $step )
 			wp_enqueue_script('colorpicker');
-		elseif ( 2 == $step )	
+		elseif ( 2 == $step )
 			wp_enqueue_script('cropper');
 	}
 

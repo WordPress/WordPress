@@ -1288,7 +1288,7 @@ function type_form_image() {
 		$alt = __('Image Caption');
 		$alt_help = __('Also used as alternate text for the image');
 	}
-	
+
 	return '
 	<table class="describe"><tbody>
 		<tr>

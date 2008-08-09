@@ -1474,10 +1474,10 @@ function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $ec
 	$nonce_field = '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . wp_create_nonce( $action ) . '" />';
 	if ( $echo )
 		echo $nonce_field;
-	
+
 	if ( $referer )
 		wp_referer_field( $echo, 'previous' );
-	
+
 	return $nonce_field;
 }
 
@@ -1599,12 +1599,12 @@ function wp_upload_dir( $time = null ) {
 	$upload_path = trim($upload_path);
 	if ( empty($upload_path) )
 		$dir = WP_CONTENT_DIR . '/uploads';
-	else 
+	else
 		$dir = $upload_path;
 
 	// $dir is absolute, $path is (maybe) relative to ABSPATH
 	$dir = path_join( ABSPATH, $dir );
-	
+
 	if ( !$url = get_option( 'upload_url_path' ) ) {
 		if ( empty($upload_path) or ( $upload_path == $dir ) )
 			$url = WP_CONTENT_URL . '/uploads';
@@ -1617,7 +1617,7 @@ function wp_upload_dir( $time = null ) {
 		$url = trailingslashit( $siteurl ) . UPLOADS;
 	}
 
-	$bdir = $dir; 
+	$bdir = $dir;
 	$burl = $url;
 
 	$subdir = '';
@@ -1638,7 +1638,7 @@ function wp_upload_dir( $time = null ) {
 		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $dir );
 		return array( 'error' => $message );
 	}
-	
+
 	$uploads = array( 'path' => $dir, 'url' => $url, 'subdir' => $subdir, 'basedir' => $bdir, 'baseurl' => $burl, 'error' => false );
 
 	return apply_filters( 'upload_dir', $uploads );
@@ -1885,7 +1885,7 @@ function wp_explain_nonce( $action ) {
 		$trans['edit']['plugin']       = array( __( 'Your attempt to edit this plugin file: &quot;%s&quot; has failed.' ), 'use_id' );
 		$trans['activate']['plugin']   = array( __( 'Your attempt to activate this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
 		$trans['deactivate']['plugin'] = array( __( 'Your attempt to deactivate this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
-		$trans['upgrade']['plugin']    = array( __( 'Your attempt to upgrade this plugin: &quot;%s&quot; has failed.' ), 'use_id' );		
+		$trans['upgrade']['plugin']    = array( __( 'Your attempt to upgrade this plugin: &quot;%s&quot; has failed.' ), 'use_id' );
 
 		$trans['add']['post']          = array( __( 'Your attempt to add this post has failed.' ), false );
 		$trans['delete']['post']       = array( __( 'Your attempt to delete this post: &quot;%s&quot; has failed.' ), 'get_the_title' );
@@ -2524,7 +2524,7 @@ function validate_file( $file, $allowed_files = '' ) {
  * @return bool True if SSL, false if not used.
  */
 function is_ssl() {
-	return ( isset($_SERVER['HTTPS']) && 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false; 
+	return ( isset($_SERVER['HTTPS']) && 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false;
 }
 
 /**

@@ -435,7 +435,7 @@ function wp_dashboard_plugins_output() {
 		$link = clean_url($link);
 		if( preg_match('|/([^/]+?)/?$|', $link, $matches) )
 			$slug = $matches[1];
-		else 
+		else
 			$slug = '';
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .

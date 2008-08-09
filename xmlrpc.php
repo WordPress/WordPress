@@ -1013,7 +1013,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// We've got all the data -- post it:
 		$comment = compact('comment_ID', 'comment_content', 'comment_approved', 'comment_date', 'comment_date_gmt', 'comment_author', 'comment_author_email', 'comment_author_url');
-		
+
 		$result = wp_update_comment($comment);
 		if ( is_wp_error( $result ) )
 			return new IXR_Error(500, $result->get_error_message());
@@ -1092,7 +1092,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment['comment_content'] = $content_struct['content'];
 
 		do_action('xmlrpc_call', 'wp.newComment');
-		
+
 		return wp_new_comment($comment);
 	}
 
@@ -1881,11 +1881,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 		}
 
-		// Handle enclosures 
-		$enclosure = $content_struct['enclosure']; 
-		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) { 
+		// Handle enclosures
+		$enclosure = $content_struct['enclosure'];
+		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
 			add_post_meta( $post_ID, 'enclosure', $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] );
-		} 
+		}
 
 		$this->attach_uploads( $post_ID, $post_content );
 
@@ -2149,11 +2149,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 		}
 
-		// Handle enclosures 
-		$enclosure = $content_struct['enclosure']; 
-		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) { 
+		// Handle enclosures
+		$enclosure = $content_struct['enclosure'];
+		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
 			add_post_meta( $post_ID, 'enclosure', $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] );
-		} 
+		}
 
 		$this->attach_uploads( $ID, $post_content );
 

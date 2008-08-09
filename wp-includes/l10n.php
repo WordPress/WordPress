@@ -291,7 +291,7 @@ function load_default_textdomain() {
  */
 function load_plugin_textdomain($domain, $abs_rel_path = false, $plugin_rel_path = false) {
 	$locale = get_locale();
-	
+
 	if ( false !== $plugin_rel_path	)
 		$path = WP_PLUGIN_DIR . '/' . trim( $plugin_rel_path, '/');
 	else if ( false !== $abs_rel_path)

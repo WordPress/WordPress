@@ -19,7 +19,7 @@ jQuery(document).ready( function() {
 
 		this.each(function() {
 			var el = JQ(this), txt;
-			
+
 			if ( txt = el.attr('title') ) el.attr('tip', txt).removeAttr('title');
 			else return;
 			el.find('img').removeAttr('alt');

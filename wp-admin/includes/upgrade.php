@@ -571,7 +571,7 @@ function upgrade_230() {
 			}
 		}
 
-		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES 
+		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->terms (term_id, name, slug, term_group) VALUES
 		(%d, %s, %s, %d)", $term_id, $name, $slug, $term_group) );
 
 		$count = 0;
@@ -732,7 +732,7 @@ function upgrade_250() {
 	if ( $wp_current_db_version < 6689 ) {
 		populate_roles_250();
 	}
-	
+
 }
 
 function upgrade_251() {

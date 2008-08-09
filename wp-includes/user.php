@@ -23,7 +23,7 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 
 	if ( '' === $secure_cookie )
 		$secure_cookie = is_ssl() ? true : false;
-	
+
 	// If no credential info provided, check cookie.
 	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
 			$user = wp_validate_auth_cookie();
@@ -102,7 +102,7 @@ function get_user_option( $option, $user = 0 ) {
 		$result = $user->{$option};
 	else // Blog global
 		$result = get_option( $option );
-	
+
 	return apply_filters("get_user_option_{$option}", $result, $option, $user);
 }
 

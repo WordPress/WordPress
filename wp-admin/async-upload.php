@@ -22,7 +22,7 @@ header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
 if ( !current_user_can('upload_files') )
 	wp_die(__('You do not have permission to upload files.'));
 
-// just fetch the detail form for that attachment	
+// just fetch the detail form for that attachment
 if ( ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
 	echo get_media_item($id);
 	exit;

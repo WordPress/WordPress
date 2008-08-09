@@ -15,7 +15,7 @@ switchEditors = {
     saveCallback : function(el, content, body) {
 
         document.getElementById(el).style.color = '#fff';
-        if ( tinyMCE.activeEditor.isHidden() ) 
+        if ( tinyMCE.activeEditor.isHidden() )
             content = document.getElementById(el).value;
         else
             content = this.pre_wpautop(content);
@@ -169,7 +169,7 @@ switchEditors = {
         pee = pee.replace(new RegExp('(?:<p>|<br ?/?>)*\\s*\\[caption([^\\[]+)\\[/caption\\]\\s*(?:</p>|<br ?/?>)*', 'gi'), '[caption$1[/caption]');
         // pee = pee.replace(new RegExp('^((?:&nbsp;)*)\\s', 'mg'), '$1&nbsp;');
 
-        // Fix the pre|script tags	   
+        // Fix the pre|script tags
         pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
 			a = a.replace(/<br ?\/?>[\r\n]*/g, '\n');
 			return a.replace(/<\/?p( [^>]*)?>[\r\n]*/g, '\n');

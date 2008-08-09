@@ -164,7 +164,7 @@ function show_message($message) {
 	if( is_wp_error($message) ){
 		if( $message->get_error_data() )
 			$message = $message->get_error_message() . ': ' . $message->get_error_data();
-		else 
+		else
 			$message = $message->get_error_message();
 	}
 	echo "<p>$message</p>\n";

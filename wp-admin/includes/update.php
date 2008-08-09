@@ -74,7 +74,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> <em>automatic upgrade unavailable for this plugin</em>.'), $plugin_data['Name'], $details_url, $r->new_version);
 	else
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s Details</a> or <a href="%4$s">upgrade automatically</a>.'), $plugin_data['Name'], $details_url, $r->new_version, wp_nonce_url('update.php?action=upgrade-plugin&amp;plugin=' . $file, 'upgrade-plugin_' . $file) );
-	
+
 	echo '</td></tr>';
 }
 add_action( 'after_plugin_row', 'wp_plugin_update_row', 10, 2 );
@@ -109,7 +109,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	$content_dir = $wp_filesystem->wp_content_dir();
 	if( empty($content_dir) )
 		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
-	
+
 	$plugins_dir = trailingslashit( $plugins_dir );
 	$content_dir = trailingslashit( $content_dir );
 
@@ -136,10 +136,10 @@ function wp_update_plugin($plugin, $feedback = '') {
 	apply_filters('update_feedback', __('Unpacking the update'));
 	// Unzip package to working directory
 	$result = unzip_file($download_file, $working_dir);
-	
+
 	// Once extracted, delete the package
 	unlink($download_file);
-	
+
 	if ( is_wp_error($result) ) {
 		$wp_filesystem->delete($working_dir, true);
 		return $result;
@@ -154,7 +154,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	// Remove the existing plugin.
 	apply_filters('update_feedback', __('Removing the old version of the plugin'));
 	$this_plugin_dir = trailingslashit( dirname($plugins_dir . $plugin) );
-	
+
 	// If plugin is in its own directory, recursively delete the directory.
 	if ( strpos($plugin, '/') && $this_plugin_dir != $plugins_dir ) //base check on if plugin includes directory seperator AND that its not the root plugin folder
 		$deleted = $wp_filesystem->delete($this_plugin_dir, true);
@@ -182,10 +182,10 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	// Force refresh of plugin update information
 	delete_option('update_plugins');
-	
+
 	if( empty($filelist) )
 		return false; //We couldnt find any files in the working dir, therefor no plugin installed? Failsafe backup.
-	
+
 	$folder = $filelist[0];
 	$plugin = get_plugins('/' . $folder); //Ensure to pass with leading slash
 	$pluginfiles = array_keys($plugin); //Assume the requested plugin is the first in the list
@@ -223,7 +223,7 @@ function wp_update_core($feedback = '') {
 	$content_dir = $wp_filesystem->wp_content_dir();
 	if( empty($content_dir) )
 		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
-	
+
 	$wp_dir = trailingslashit( $wp_dir );
 	$content_dir = trailingslashit( $content_dir );
 

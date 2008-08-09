@@ -285,11 +285,11 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 		return $upload_error_handler( $file, $uploads['error'] );
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
-	
+
 	// Strip the query strings.
 	$filename = str_replace('?','-', $filename);
 	$filename = str_replace('&','-', $filename);
-	
+
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
 	if ( false === @ rename( $file['tmp_name'], $new_file ) ) {
@@ -471,7 +471,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 
 	if ( 'direct' == $type )
 		return true;
-		
+
 	if( ! $credentials = get_option('ftp_credentials') )
 		$credentials = array();
 	// If defined, set it to that, Else, If POST'd, set it to that, If not, Set it to whatever it previously was(saved details in option)

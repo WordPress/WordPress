@@ -112,8 +112,8 @@ li.widget-list-control-item {
 	border-radius: 3px;
 }
 
-li.widget-list-control-item h4, 
-#dragHelper li.widget-list-control-item h4, 
+li.widget-list-control-item h4,
+#dragHelper li.widget-list-control-item h4,
 li.widget-sortable h4 {
 	margin: 0;
 	cursor: move;

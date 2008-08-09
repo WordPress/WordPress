@@ -7,7 +7,7 @@ function send_to_editor(h) {
 
 		if ( h.indexOf('[caption') != -1 )
 			h = ed.plugins.wpeditimage._do_shcode(h);
-		
+
 		ed.execCommand('mceInsertContent', false, h);
 	} else
 		edInsertContent(edCanvas, h);
@@ -40,7 +40,7 @@ jQuery(function($) {
 			$(this).attr( 'href', href + '&width=' + ( W - 80 ) + '&height=' + ( H - 85 ) );
 		});
 	};
-	
+
 	jQuery('a.thickbox').click(function(){
 		if ( typeof tinyMCE != 'undefined' &&  tinyMCE.activeEditor ) {
 			tinyMCE.get('content').focus();
