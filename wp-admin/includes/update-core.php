@@ -109,7 +109,6 @@ $_old_files = array(
 'wp-admin/import-rss.php',
 'wp-admin/import-textpattern.php',
 'wp-admin/quicktags.js',
-'wp-admin/upload.php',
 'wp-images',
 'wp.php',
 'wp-content/themes/default/attachment.php',
