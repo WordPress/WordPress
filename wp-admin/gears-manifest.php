@@ -103,20 +103,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/no.png" },
 { "url" : "images/yes.png" },
 
-{ "url" : "../wp-includes/images/crystal/archive.png" },
-{ "url" : "../wp-includes/images/crystal/audio.png" },
-{ "url" : "../wp-includes/images/crystal/code.png" },
-{ "url" : "../wp-includes/images/crystal/default.png" },
-{ "url" : "../wp-includes/images/crystal/document.png" },
-{ "url" : "../wp-includes/images/crystal/interactive.png" },
-{ "url" : "../wp-includes/images/crystal/text.png" },
-{ "url" : "../wp-includes/images/crystal/video.png" },
-{ "url" : "../wp-includes/images/crystal/spreadsheet.png" },
-{ "url" : "../wp-includes/images/rss.png" },
-{ "url" : "../wp-includes/js/thickbox/loadingAnimation.gif" },
-{ "url" : "../wp-includes/js/thickbox/tb-close.png" },
-{ "url" : "../wp-includes/js/swfupload/swfupload_f9.swf" },
-
+<?php if ( is_file(ABSPATH.'/wp-includes/js/tinymce/tiny_mce.js') ) { ?>
 { "url" : "../wp-includes/js/tinymce/tiny_mce_popup.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/utils/mctabs.js?ver=311" },
 { "url" : "../wp-includes/js/tinymce/utils/validate.js?ver=311" },
@@ -203,5 +190,20 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/image.gif" },
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/media.gif" },
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/video.gif" },
-{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/audio.gif" }
+{ "url" : "../wp-includes/js/tinymce/plugins/wordpress/img/audio.gif" },
+<?php } ?>
+
+{ "url" : "../wp-includes/images/crystal/archive.png" },
+{ "url" : "../wp-includes/images/crystal/audio.png" },
+{ "url" : "../wp-includes/images/crystal/code.png" },
+{ "url" : "../wp-includes/images/crystal/default.png" },
+{ "url" : "../wp-includes/images/crystal/document.png" },
+{ "url" : "../wp-includes/images/crystal/interactive.png" },
+{ "url" : "../wp-includes/images/crystal/text.png" },
+{ "url" : "../wp-includes/images/crystal/video.png" },
+{ "url" : "../wp-includes/images/crystal/spreadsheet.png" },
+{ "url" : "../wp-includes/images/rss.png" },
+{ "url" : "../wp-includes/js/thickbox/loadingAnimation.gif" },
+{ "url" : "../wp-includes/js/thickbox/tb-close.png" },
+{ "url" : "../wp-includes/js/swfupload/swfupload_f9.swf" }
 ]}
