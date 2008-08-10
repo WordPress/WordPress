@@ -248,7 +248,7 @@ var wpImage = {
 		var t = this, h, c, el, id, link, fname, f = document.forms[0], ed = tinyMCEPopup.editor, d = t.I('img_demo'), dom = tinyMCEPopup.dom, DL, caption = '';
 		document.dir = tinyMCEPopup.editor.getParam('directionality','');
 
-		if ( ! tinyMCEPopup.editor.getParam('wpeditimage_do_captions', true) )
+		if ( tinyMCEPopup.editor.getParam('wpeditimage_disable_captions', false) )
 			t.I('cap_field').style.display = 'none';
 
 		tinyMCEPopup.restoreSelection();

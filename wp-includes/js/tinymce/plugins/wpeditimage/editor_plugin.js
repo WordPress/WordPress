@@ -15,7 +15,7 @@
 				if ( ed.dom.getAttrib(el, 'class').indexOf('mceItem') != -1 || el.nodeName != 'IMG' )
 					return;
 
-				tb_show('', url + '/editimage.html?ver=311f&TB_iframe=true');
+				tb_show('', url + '/editimage.html?ver=311g&TB_iframe=true');
 				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
 
