@@ -828,16 +828,17 @@ function debug_fclose( $fp ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Check content for video and audio links to add as enclosures.
  *
- * {@internal Missing Long Description}}
+ * Will not add enclosures that have already been added. This is called as
+ * pingbacks and trackbacks.
  *
  * @package WordPress
  * @since 1.5.0
  *
  * @uses $wpdb
  *
- * @param string $content 
+ * @param string $content Post Content
  * @param int $post_ID Post ID
  */
 function do_enclose( $content, $post_ID ) {
