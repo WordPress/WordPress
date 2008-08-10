@@ -281,7 +281,7 @@ function media_upload_form_handler() {
 	if ( isset($_POST['send']) ) {
 		$keys = array_keys($_POST['send']);
 		$send_id = (int) array_shift($keys);
-		$attachment = $_POST['attachments'][$send_id];
+		$attachment = stripslashes_deep( $_POST['attachments'][$send_id] );
 		$html = $attachment['post_title'];
 		if ( !empty($attachment['url']) ) {
 			if ( strpos($attachment['url'], 'attachment_id') || false !== strpos($attachment['url'], get_permalink($_POST['post_id'])) )
