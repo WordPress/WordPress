@@ -9,6 +9,7 @@ $debug = 0;
  ** Returns:  true if already exists or on successful completion
  **           false on error
  */
+if ( ! function_exists('maybe_create_table') ) :
 function maybe_create_table($table_name, $create_ddl) {
 	global $wpdb;
 	foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
@@ -26,6 +27,7 @@ function maybe_create_table($table_name, $create_ddl) {
 	}
 	return false;
 }
+endif;
 
 /**
  ** maybe_add_column()
@@ -33,6 +35,7 @@ function maybe_create_table($table_name, $create_ddl) {
  ** Returns:  true if already exists or on successful completion
  **           false on error
  */
+if ( ! function_exists('maybe_add_column') ) :
 function maybe_add_column($table_name, $column_name, $create_ddl) {
 	global $wpdb, $debug;
 	foreach ($wpdb->get_col("DESC $table_name",0) as $column ) {
@@ -51,7 +54,7 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
 	}
 	return false;
 }
-
+endif;
 
 /**
  ** maybe_drop_column()
