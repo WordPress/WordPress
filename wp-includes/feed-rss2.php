@@ -16,6 +16,7 @@ $more = 1;
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 	<?php do_action('rss2_ns'); ?>
 >
 
@@ -27,6 +28,8 @@ $more = 1;
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></pubDate>
 	<?php the_generator( 'rss2' ); ?>
 	<language><?php echo get_option('rss_language'); ?></language>
+	<sy:updatePeriod><?php echo apply_filters( 'rss_update_period', 'hourly' ); ?></sy:updatePeriod>
+	<sy:updateFrequency><?php echo apply_filters( 'rss_update_frequency', '1' ); ?></sy:updateFrequency>
 	<?php do_action('rss2_head'); ?>
 	<?php while( have_posts()) : the_post(); ?>
 	<item>
