@@ -447,8 +447,9 @@ class WP_Rewrite {
 		}
 
 		if (empty($this->category_base))
-			$this->category_base = 'category';
-		$this->category_structure = trailingslashit( $this->front . $this->category_base );
+			$this->category_structure = trailingslashit( $this->front . 'category' );
+		else
+			$this->category_structure = trailingslashit( '/' . $this->root . $this->category_base );
 
 		$this->category_structure .= '%category%';
 
@@ -466,8 +467,9 @@ class WP_Rewrite {
 		}
 
 		if (empty($this->tag_base))
-			$this->tag_base = 'tag';
-		$this->tag_structure = trailingslashit( $this->front . $this->tag_base );
+			$this->tag_structure = trailingslashit( $this->front . 'tag' );
+		else
+			$this->tag_structure = trailingslashit( '/' . $this->root . $this->tag_base );
 
 		$this->tag_structure .= '%tag%';
 
