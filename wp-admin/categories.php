@@ -1,4 +1,12 @@
 <?php
+/**
+ * Categories Management Panel
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Bootstrap */
 require_once('admin.php');
 
 $title = __('Categories');

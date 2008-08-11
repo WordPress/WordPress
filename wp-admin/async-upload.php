@@ -1,8 +1,10 @@
 <?php
-
-/* This accepts file uploads from swfupload or other asynchronous upload methods.
-
-*/
+/**
+ * Accepts file uploads from swfupload or other asynchronous upload methods.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
 if ( defined('ABSPATH') )
 	require_once(ABSPATH . 'wp-load.php');

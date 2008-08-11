@@ -1,11 +1,24 @@
 <?php
+/**
+ * Dashboard Administration Panel
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** Load WordPress Bootstrap */
 require_once('admin.php');
 
+/** Load WordPress dashboard API */
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
 
+/**
+ * Display dashboard widget custom JavaScript.
+ *
+ * @since unknown
+ */
 function index_js() {
 ?>
 <script type="text/javascript">

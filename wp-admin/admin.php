@@ -1,4 +1,16 @@
 <?php
+/**
+ * WordPress Administration Bootstrap
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * In WordPress Administration Panels
+ *
+ * @since unknown
+ */
 define('WP_ADMIN', TRUE);
 
 if ( defined('ABSPATH') )

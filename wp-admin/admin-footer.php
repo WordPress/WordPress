@@ -1,3 +1,11 @@
+<?php
+/**
+ * WordPress Administration Template Footer
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+?>
 </div><!-- wpbody -->
 </div><!-- wpcontent -->
 </div><!-- wpwrap -->

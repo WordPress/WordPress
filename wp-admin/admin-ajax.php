@@ -1,4 +1,16 @@
 <?php
+/**
+ * WordPress AJAX Process Execution.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * Executing AJAX process.
+ *
+ * @since unknown
+ */
 define('DOING_AJAX', true);
 
 require_once('../wp-load.php');
