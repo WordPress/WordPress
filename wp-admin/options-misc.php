@@ -62,6 +62,15 @@ include('admin-header.php');
 <input name="medium_size_h" type="text" id="medium_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
 </fieldset></td>
 </tr>
+<tr valign="top">
+<th scope="row"><?php _e('Large size') ?></th>
+<td><fieldset><legend class="hidden"><?php _e('Large size') ?></legend>
+<label for="large_size_w"><?php _e('Max Width'); ?></label>
+<input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" size="6" />
+<label for="large_size_h"><?php _e('Max Height'); ?></label>
+<input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" size="6" />
+</fieldset></td>
+</tr>
 </table>
 
 

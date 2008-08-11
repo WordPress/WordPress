@@ -83,9 +83,17 @@ th { position: relative; }
 	display: none;
 }
 
+tr.image-size td {
+	width: 460px;
+}
+tr.image-size div.image-size-item {
+	float: left;
+	width: 25%;
+	margin: 0;
+}
 tr.image-size label {
 	display: inline;
-	margin: 0 1em 0 0;
+	margin: 0 0 0 1em;
 }
 .pinkynail {
 	max-width: 40px;
@@ -202,7 +210,7 @@ abbr.required {
 	padding: 1em 0;
 }
 
-#media-upload p.help {
+#media-upload p.help, #media-upload label.help {
 	font-style: italic;
 	font-weight: normal;
 }
