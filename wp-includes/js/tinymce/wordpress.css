@@ -76,20 +76,6 @@ pre {
 	font: 12px/18px "Courier New", monospace;
 }
 
-img.mceItemAnchor {
-	width: 12px;
-	height: 12px;
-	background: url(img/items.gif) no-repeat;
-}
-
-a.mceItemAnchor {
-	width: 12px;
-	line-height: 6px;
-	overflow: hidden;
-	padding-left: 12px;
-	background: url(img/items.gif) no-repeat bottom left;
-}
-
 .mceIEcenter {
 	text-align: center;
 }

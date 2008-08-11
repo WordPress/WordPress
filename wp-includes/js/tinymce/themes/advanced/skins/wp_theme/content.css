@@ -8,8 +8,8 @@ h4 {font-size: 1em}
 h5 {font-size: .83em}
 h6 {font-size: .75em}
 .mceItemTable, .mceItemTable td, .mceItemTable th, .mceItemTable caption, .mceItemVisualAid {border: 1px dashed #BBB;}
-a.mceItemAnchor {width:12px; line-height:6px; overflow:hidden; padding-left:12px; background:url(img/items.gif) no-repeat bottom left;}
-img.mceItemAnchor {width:12px; height:12px; background:url(img/items.gif) no-repeat;}
+a.mceItemAnchor {width:12px; line-height:6px; overflow:hidden; padding-left:12px; background:url(../default/img/items.gif) no-repeat bottom left;}
+img.mceItemAnchor {width:12px; height:12px; background:url(../default/img/items.gif) no-repeat;}
 img {border:0;}
 table {cursor:default}
 table td, table th {cursor:text}
