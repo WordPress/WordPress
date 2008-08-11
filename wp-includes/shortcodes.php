@@ -188,10 +188,10 @@ function do_shortcode_tag($m) {
 
 	if ( isset($m[4]) ) {
 		// enclosing tag - extra parameter
-		return call_user_func($shortcode_tags[$tag], $attr, $m[4]);
+		return call_user_func($shortcode_tags[$tag], $attr, $m[4], $tag);
 	} else {
 		// self-closing tag
-		return call_user_func($shortcode_tags[$tag], $attr);
+		return call_user_func($shortcode_tags[$tag], $attr, NULL, $tag);
 	}
 }
 
