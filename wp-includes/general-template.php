@@ -4,37 +4,28 @@
 
 function get_header() {
 	do_action( 'get_header' );
-	if ( file_exists( STYLESHEETPATH . '/header.php') )
-		load_template( STYLESHEETPATH . '/header.php');
-	elseif ( file_exists( TEMPLATEPATH . '/header.php') )
-		load_template( TEMPLATEPATH . '/header.php');
-	else
+	if ('' == locate_template(array('header.php'), true))
 		load_template( get_theme_root() . '/default/header.php');
 }
 
 
 function get_footer() {
 	do_action( 'get_footer' );
-	if ( file_exists( STYLESHEETPATH . '/footer.php') )
-		load_template( STYLESHEETPATH . '/footer.php');
-	elseif ( file_exists( TEMPLATEPATH . '/footer.php') )
-		load_template( TEMPLATEPATH . '/footer.php');
-	else
+	if ('' == locate_template(array('footer.php'), true))
 		load_template( get_theme_root() . '/default/footer.php');
 }
 
 
 function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar' );
-	if ( isset($name) && file_exists( STYLESHEETPATH . "/sidebar-{$name}.php") )
-		load_template( STYLESHEETPATH . "/sidebar-{$name}.php");
-	elseif ( isset($name) && file_exists( TEMPLATEPATH . "/sidebar-{$name}.php") )
-		load_template( TEMPLATEPATH . "/sidebar-{$name}.php");
-	elseif ( file_exists( STYLESHEETPATH . '/sidebar.php') )
-		load_template( STYLESHEETPATH . '/sidebar.php');
-	elseif ( file_exists( TEMPLATEPATH . '/sidebar.php') )
-		load_template( TEMPLATEPATH . '/sidebar.php');
-	else
+	
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "sidebar-{$name}.php";
+	
+	$templates[] = "sidebar.php";
+	
+	if ('' == locate_template($templates, true))
 		load_template( get_theme_root() . '/default/sidebar.php');
 }
 
