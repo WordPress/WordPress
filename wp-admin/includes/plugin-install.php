@@ -10,7 +10,7 @@ function plugins_api($action, $args = NULL) {
 	$res = apply_filters('plugins_api', false, $action, $args); //NOTE: Allows a plugin to completely override the builtin WordPress.org API.
 
 	if ( ! $res ) {
-		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array(), array(), array('action' => $action, 'request' => serialize($args)) );
+		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array( 'body' => array('action' => $action, 'request' => serialize($args))) );
 		$res = unserialize($request['body']);
 		if ( ! $res )
 			wp_die($request['body']);
