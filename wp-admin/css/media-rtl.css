@@ -1,21 +1,66 @@
-ul#sidemenu {
-	left: auto;
-	right: 0;
+body#media-upload ul#sidemenu {
+	left:auto;
+	right:0;
+	width: 620px;
+}
+#search-filter {
+	text-align:left;
 }
 .align .field label {
-	display: block;
-	float: right;
-	padding: 0 25px 0 0;
-	margin: 5px 3px 5px 5px; 
+	padding: 0 28px 0 0;
+	margin: 0 0 0 1em;
 }
-.align .field input {
-	display: block;
-	float: right;
-	margin: 5px 15px 5px 0;
+.image-align-none-label, .image-align-left-label, .image-align-center-label, .image-align-right-label {
+	background-position:center right;
 }
-.image-align-none-label,
-.image-align-left-label,
-.image-align-center-label,
-.image-align-right-label {
-	background-position: center right;
+tr.image-size label {
+	margin: 0 0 0 1em;
+}
+.filename.original {
+	float: right;
+}
+.crunching {
+	text-align: left;
+	margin-right:0;
+	margin-left: 5px;
+}
+button.dismiss {
+	right:auto;
+	left:5px;
+}
+.file-error {
+	margin: 0 50px 5px 0;
+}
+.progress {
+	left:auto;
+	right:0;
+}
+.bar {
+	border-right-width:0;
+	border-left-width: 3px;
+	border-left-style: solid;
+}
+.media-item .pinkynail {
+	float:right;
+}
+.describe-toggle-on, .describe-toggle-off {
+	float: left;
+	margin-right:0;
+	margin-left: 20px;
+}
+/* Specific to Uploader */
+
+#media-upload .media-upload-form p {
+	margin: 0 0 1em 1em;
+}
+.filename {
+	float: right;
+	margin-left:0;
+	margin-right: 10px;
+}
+#media-upload .describe th.label {
+	text-align:right;
+}
+.menu_order {
+	float:left;
 }

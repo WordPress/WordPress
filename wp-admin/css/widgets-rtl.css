@@ -1,51 +1,45 @@
+/* 2 column liquid layout */
 div.widget-liquid-left-holder {
-	clear:right;
-	float:right;
+	float: right;
+	clear: right;
 	margin-right:0;
-	margin-left:-310px;
+	margin-left: -310px;
 }
 div.widget-liquid-left {
 	margin-right:0;
-	margin-left:310px;
+	margin-left: 320px;
 }
 div.widget-liquid-right {
-	clear:left;
-	float:left;
+	float: left;
+	clear: left;
 }
 p#widget-search {
+	right:auto;
 	left:0;
-	right:auto
-}
-ul#widget-list li.widget-list-item h4.widget-title {
-	float:right;
-	text-align:right;
-}
-ul#widget-list li.widget-list-item div.widget-description {
-	margin:0 200px 0 0;
-	padding:0 4em 0 0;
-}
-.widget-control-save, .widget-control-remove {
-	float:right;
-	margin-right:0;
-	margin-left:8px;
 }
 h4.widget-title span {
 	float: right;
 }
 h4.widget-title a {
 	float: left;
-	margin: 0 1em 0 0;
+	margin-left:0;
+	margin-right: 1em;
 }
-li.widget-list-control-item h4.widget-title a, #dragHelper li.widget-list-control-item h4.widget-title a, #draghelper li.widget-list-control-item h4.widget-title a:visited {
-	right:auto;
-	left:1em;
+ul#widget-list li.widget-list-item h4.widget-title {
+	float:right;
 }
-
-ul.widget-control-list div.widget-control-actions {
+ul#widget-list li.widget-list-item div.widget-description {
+	margin: 0 200px 0 0;
+	padding: 0 4em 0 0;
+}
+.widget-control-save, .widget-control-remove {
 	margin-right:0;
-	margin-left:-10px;
+	margin-left: 8px;
+	float: right;
 }
-ul.widget-control-list h4.widget-title,
-#dragHelper h4.widget-title {
-	text-align: right;
+li.widget-list-control-item h4.widget-title a,
+#dragHelper li.widget-list-control-item h4.widget-title a,
+#draghelper li.widget-list-control-item h4.widget-title a:visited {
+	right:auto;
+	left: 1em;
 }

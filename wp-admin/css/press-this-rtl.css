@@ -1,59 +1,98 @@
 body {
-	font-family: sans-serif;
+	font-family: Tahoma;
 }
-
-#viewsite { 
-	right:auto; left: 8px; 
+.ui-tabs-nav {
+	padding-left:0;
+	padding-right:8px;
 }
-
-ul#menu { 
-	padding-right: 8px; 
+.ui-tabs-nav li {
+	float: right;
 }
-
-.ui-tabs-nav li { 
-	float: right; 
+.button {
+	font-family: Tahoma;
+	margin-left:0;
+	margin-right: 5px;
 }
-
-div#posting { 
-	padding-right:16px; padding-left: 0; 
+#wphead #viewsite {
+	margin-left:0;
+	margin-right: 10px;
 }
-
-div#categories { 
-	right: auto; left: 16px; 
+#viewsite {
+	right:auto;
+	left: 8px;
 }
-
-div#categories h2 { 
-	margin:0.5em 1em 0.5em 0; 
+#wphead #viewsite a {
+	font-family: Tahoma;
 }
-
-#jaxtag { 
-	padding-right :1em; padding-left: 0; 
+h1 {
+	right:auto;
+	left:0;
 }
-
-input#newtag { 
-	margin-left: 4px; width: 100px; 
+div#posting {
+	padding-left:0;
+	padding-right: 16px;
 }
-
-#photo_directions span { 
-	right: auto; left: 3px 
+#photo_directions span {
+	right:auto;
+	left:3px;
 }
-
-#TB_ajaxContent #options { 
-	right: auto; left: 25px; 
+#img_container a {
+	float:right;
 }
-
-#TB_ajaxContent {
-	text-align: right;
+#img_container a, #img_container a:link, #img_container a:visited {
+	margin:0 0 4px 4px;
 }
-
-#TB_ajaxContent #this_photo {
-	direction: ltr;
+div#categories {
+	right:auto;
+	left:16px;
 }
-
-.video_split #extra_fields { 
-	float: right; 
+div#categories h2 {
+	margin: .5em 1em .5em 0;
 }
-
-.video_split .editor_area { 
-	float: left; 
+#tagsdiv #newtag {
+	margin-right:0;	
+	margin-left: 5px;	
+}
+#jaxtag {
+	padding-left:0;
+	padding-right: 1em;
+}
+#tagchecklist {
+	padding-left:0;
+	padding-right: 1em;
+}
+#tagchecklist span {
+	margin-right: 10px;
+	margin-left: .5em;
+	float: right;
+}
+#tagchecklist span a {
+	margin: 6px -9px 0pt 0;
+	float: right;
+}
+.submitbox {
+	float: left;
+}
+.submitbox .submit input {
+	text-align:right;
+}
+.video_split #extra_fields {
+	float:right;
+}
+.video_split .editor_area {
+	float: left;
+}
+.ac_results li {
+	text-align:right;
+}
+#TB_ajaxContent #options {
+	right:auto;
+	left:25px;
+}
+#post_status {
+	margin-left:0;
+	margin-right: 10px;
+}
+#footer {
+	padding: 10px 60px 0 0;
 }

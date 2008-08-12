@@ -1,103 +1,73 @@
-/* footer */
-body, td {
-	font-family: Tahoma,Verdana,sans-serif;
+#poststuff .postbox h3 {
+	padding-left:0;
+	padding-right: 23px;
 }
-
-.wrap {
-	text-align: right;
+* html #poststuff .postarea, * html #poststuff #titlediv {
+	margin-left:0;
+	margin-right: 3%;
 }
-
-.wrap h2 {
-	margin: 5px 0 0 4px;
+* html #poststuff h2 {
+	margin-right: 0;
 }
-
-#footer {
-	padding-left:50px;
-}
-#footer p {
-	background:none;
-	height:auto;
-	padding: 5px 5px 0;
-}
-
 #bh {
+	padding-right:0;
 	padding-left: 15px;
-	padding-right: 0px;
 }
-/* write post */
+div#dashboard-widgets {
+	padding-right:0;
+	padding-left: 1px;
+}
+#tagchecklist span a {
+	margin: 4px -9px 0 0;
+}
 #poststuff .togbox {
-	margin-right:-16px;
+	margin-left:0;
+	margin-right: -19px;
 }
-#poststuff h3 {
-	padding-right:20px;
+.widefat th input {
+	margin: 0 5px 0 0;
 }
-
-p#widget-search, p#post-search {
-	padding-left: 15px;
+/* ---------- add by navid */
+#dashmenu { /* fix top right bottom in admin */
+	direction:ltr;
 }
-
-.widefat th {
-	padding-bottom: 8px;
-}
-
-/* template editor */
-#template textarea {
+#sidemenu a { /* fix left admin buttom ex. plugins, options */
 	float:left;
 }
-
-/* Editor */
-
-.mceToolbar {
-	direction: ltr;
-	text-align: left;
+.wrap h2 {
+	margin:5px 4px 0 0;
 }
-
-/* IE6 */
-
-/* Search box gets stuck to the right, hidden outside view */
-* html #post-search, * html #widget-search { 
-	height: 1% !important;
-	right: 600px !important;
+#editor-toolbar {/* fix hover in media uploader icon */
+	direction:ltr;
 }
-
-/* Sidemenu tends to disapear, widget filter area tends to jump around when adding filters - Peek-A-Boo! */
-* html #sidemenu, * html #widgets-filter {
-	height: 1% !important;
+#TB_window { /* fix theme preview */
+	left:2%;
 }
-
-/* Media upload window gets stuck to the right, hidden outside view */
-* html #TB_window {
-	left: 100px !important;
+/* fix widget page */
+form#widgets-filter {
+	position:static;
 }
-
-/* Bad floating in the sub-sub-sub menu makes links un-clickable */
-* html .subsubsub li { 
-	display: block; float: right; margin: 0 2px;
+#widget-search {
+	display:none;
 }
-
-/* Fixing floats on sub-sub-sub menu skewes the view-switch menu on comments management page */
-* html .wrap .view-switch {
-	margin-top: 1px;
+/* fix manage comment page */
+ul.view-switch li {
+	float:left;
 }
-
-/* Theme selector on theme edit page gets stuck to the left, hidden outside view */
-* html #themeselector { 
-	position: static;
+form#posts-filter {
+	position:static;
 }
-
-/* Template edit area floats beneath template list, gets RTLed */
-* html #template {
-	float: right; 
-	overflow: hidden;
-	width: 755px !important; 
+#post-search {
+	display:none;
 }
-* html #template #newcontent {
-	direction: ltr;
+#submenu {
+	margin-right: 20px;
 }
-
-/* Editor */
-
-.mceToolbar {
-	direction: ltr;
-	text-align: left;
-}
+/* Fixes for media-upload window */
+/* Center media-upload panel on screen */
+#TB_window { 
+	width: 670px; 
+	position: absolute; 
+	top: 50%; 
+	left: 50%; 
+	margin-right: 335px !important; }

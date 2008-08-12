@@ -1,79 +1,62 @@
+/* Right Now */
 #rightnow {
-	margin-left: 15px;
+	margin-right:0;
+	margin-left: 7px;
 }
-
 #rightnow .reallynow span {
 	text-align: right;
 	float: right;
 }
-
 #rightnow .reallynow a {
 	text-align: left;
 	float: left;
 	margin: 1px 0 0 6px;
 }
-
-div.dashboard-widget-holder {
-	float: right;
+/* Widgets */
+div#dashboard-widgets-wrap {
+	margin-right:0;
+	margin-left:-13px;
 }
-
+div.dashboard-widget-holder {
+	float:right;
+}
+div.dashboard-widget {
+	margin-right:0;
+	margin-left: 20px;
+}
 h3.dashboard-widget-title span {
 	text-align: right;
 	float: right;
 }
-
-div.dashboard-widget-submit input {
-	font-family: sans-serif !important;
-}
-	
-#dashboard-widgets .widget_rss ul li a {
-	float:right;
-	font-weight:bold;
-	margin:0pt 0pt 0.2em 0.5em;
-}
-
-#dashboard-widgets .widget_rss ul li span.rss-date {
-	float: right;
-}
-
 h3.dashboard-widget-title small {
 	text-align: left;
-	float: left;
+	float:left;
 }
-div.dashboard-widget-content ul,
-div.dashboard-widget-content ol,
-div.dashboard-widget-content dl {
+div.dashboard-widget-submit input  {
+	font-family: Tahoma;
+}
+div.dashboard-widget-content ul, div.dashboard-widget-content ol, div.dashboard-widget-content dl {
 	padding-left:0;
 	padding-right:15px;
 }
-div#dashboard-widgets-wrap
-{
-	margin-right:0;
-	margin-left:-10px;
+#dashboard_secondary div.dashboard-widget-content ul li {
+	float:right;
 }
-
-div.dashboard-widget {
-	margin-right:0;
-	margin-left:20px;
+#dashboard_secondary div.dashboard-widget-content ul li .post {
+	font-family:arial;
 }
-
+#dashboard_secondary div.dashboard-widget-content ul li a {
+	border-right:0 none;
+	border-left: 1px solid #dadada;
+	height:110px;
+}
+#dashboard_secondary div.dashboard-widget-content ul li a cite {
+	font-family: Tahoma;
+}
 #dashboard-widgets .widget_rss ul li span.rss-date {
 	float:right;
 }
 #dashboard-widgets .widget_rss ul li a {
-	float:right;
-	margin:0 0 0.2em 0.5em;
-}
-#dashboard_secondary div.dashboard-widget-content ul li {
 	float: right;
-}
-#dashboard_secondary div.dashboard-widget-content ul li .post {
-	font-family: sans-serif !important;
-}
-#dashboard_secondary div.dashboard-widget-content ul li a {
-	border-right:0 none;
-	border-left:1px solid #DADADA;
-}
-#dashboard_secondary div.dashboard-widget-content ul li a cite {
-	font-family: sans-serif;
+	margin: 0 0 .2em .5em;
 }

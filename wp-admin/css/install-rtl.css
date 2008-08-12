@@ -1,26 +1,27 @@
 body {
-	font-size: 11px;
-	font-family: sans-serif !important;
+	font-family: Tahoma;
+}
+/* Half the page disapears on IE6 */
+* html body {
+	width: 700px; 
+	position: absolute; 
+	left: 50%; 
+	margin-right: 350px;
 }
 ul, ol {
 	padding: 5px 22px 5px 5px;
 }
+.step, th {
+	text-align:right;
+}
+.submit input, .button, .button-secondary  {
+	font-family: Tahoma;
+	margin-right:0;
+}
 .form-table th {
-	text-align: right;
-}
-input {
-	padding: 1px
-}
-#logo {
-	text-align: left;
-}
-#admin_email {
-	direction: ltr;
-	text-align: left;
-}
-.submit input, .button, .button-secondary {
-	font-family: sans-serif !important;
+	text-align:right;
 }
 h1 {
-	font-family: sans-serif;
+	font-family:arial;
+	margin: 5px -4px 0 0;
 }

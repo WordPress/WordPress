@@ -1,3 +1,24 @@
+.bar {
+	border-right-color: transparent;
+	border-left-color: #99d;
+}
+.post-com-count {
+}
+#adminmenu li a #awaiting-mod, #sidemenu li a #update-plugins {
+	background-image: url(../images/comment-stalk-rtl.gif);
+	background-position:right bottom;
+}
+#footer {
+	background-position:99% 10px;
+}
+.plugins .togl {
+	border-right-color: transparent;
+	border-left-color: #ccc;
+}
 #poststuff .closed .togbox, #poststuff .togbox {
-background-image: url(../images/toggle-arrow-rtl.gif) !important;
+	background-image: url(../images/toggle-arrow-rtl.gif);
+}
+#upload-menu li.current {
+	border-right-color:transparent;
+	border-left-color: #448abd;
 }
