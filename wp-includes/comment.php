@@ -860,7 +860,7 @@ function wp_update_comment($commentarr) {
 
 	$comment_date_gmt = get_gmt_from_date($comment_date);
 
-	if ( empty($comment_approved) )
+	if ( !isset($comment_approved) )
 		$comment_approved = 1;
 	else if ( 'hold' == $comment_approved )
 		$comment_approved = 0;
