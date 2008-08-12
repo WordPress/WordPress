@@ -73,14 +73,7 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <input type="hidden" id="post_author" name="post_author" value="<?php echo attribute_escape( $post->post_author ); ?>" />
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
-<input name="referredby" type="hidden" id="referredby" value="<?php
-if ( !empty($_REQUEST['popupurl']) )
-	echo clean_url(stripslashes($_REQUEST['popupurl']));
-else if ( strpos( wp_get_referer(), '/wp-admin/' ) === false && $post_ID && url_to_postid(wp_get_referer()) == $post_ID  )
-	echo 'redo';
-else
-	echo clean_url(stripslashes(wp_get_referer()));
-?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
 <?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 
 <?php echo $form_extra ?>

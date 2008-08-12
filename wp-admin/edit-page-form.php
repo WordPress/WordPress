@@ -30,10 +30,6 @@ if (!isset($post_ID) || 0 == $post_ID) {
 $temp_ID = (int) $temp_ID;
 $user_ID = (int) $user_ID;
 
-$sendto = clean_url(stripslashes(wp_get_referer()));
-
-if ( 0 != $post_ID && $sendto == get_permalink($post_ID) )
-	$sendto = 'redo';
 ?>
 
 <?php if ( $notice ) : ?>
@@ -60,12 +56,7 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <?php echo $form_extra ?>
 <input type="hidden" id="post_type" name="post_type" value="<?php echo $post->post_type ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo $post->post_status ?>" />
-<input name="referredby" type="hidden" id="referredby" value="<?php
-if ( strpos( wp_get_referer(), '/wp-admin/' ) === false && $post_ID && url_to_postid(wp_get_referer()) == $post_ID )
-	echo 'redo';
-else
-	echo clean_url(stripslashes(wp_get_referer()));
-?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
 <?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 
 <div id="poststuff">
