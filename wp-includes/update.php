@@ -145,6 +145,9 @@ function wp_update_plugins() {
 
 	$raw_response = wp_remote_request('http://api.wordpress.org/plugins/update-check/1.0/', $options);
 
+	if ( is_wp_error( $raw_response ) )
+		return false;
+
 	if( 200 != $raw_response['response']['code'] ) {
 		return false;
 	}

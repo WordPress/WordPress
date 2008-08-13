@@ -463,10 +463,17 @@ class WP_Http_Fsockopen {
 		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
-		$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+			$handle = @fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+		else
+			$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
 
 		if ( false === $handle )
 			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
+
+		// WordPress supports PHP 4.3, which has this function. Removed sanity
+		// checking for performance reasons.
+		stream_set_timeout($handle, $r['timeout'] );
 
 		$requestPath = $arrURL['path'] . ( isset($arrURL['query']) ? '?' . $arrURL['query'] : '' );
 		$requestPath = empty($requestPath) ? '/' : $requestPath;
@@ -601,8 +608,9 @@ class WP_Http_Fopen {
 		if (! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		if ( function_exists('stream_set_timeout') )
-			stream_set_timeout($handle, $r['timeout'] );
+		// WordPress supports PHP 4.3, which has this function. Removed sanity
+		// checking for performance reasons.
+		stream_set_timeout($handle, $r['timeout'] );
 
 		if ( ! $r['blocking'] ) {
 			fclose($handle);
@@ -726,6 +734,8 @@ class WP_Http_Streams {
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
+		// WordPress supports PHP 4.3, which has this function. Removed sanity
+		// checking for performance reasons.
 		stream_set_timeout($handle, $r['timeout'] );
 
 		if ( ! $r['blocking'] ) {
