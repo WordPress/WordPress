@@ -161,6 +161,33 @@ function has_excerpt( $id = 0 ) {
 }
 
 /**
+ * Echo the classes for the post div
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ @ param string $class One or more classes to add to the class list
+ * @param int $post_id An optional post ID
+ */
+function post_class( $class = '', $post_id = null ) {
+
+	$classes = 'post';
+
+	if ( is_sticky($post_id) )
+		$classes .= ' sticky';
+
+	if ( !empty($class) )
+		$classes .= ' ' . $class;
+
+	$classes = apply_filters('post_class', $classes, $class, $post_id);
+
+	echo 'class="' . $classes . '"';
+}
+
+/**
  * Echo "sticky" CSS class if a post is sticky
  *
  * {@internal Missing Long Description}}
