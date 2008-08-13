@@ -351,8 +351,10 @@ class WP_Http {
 	 * difficult to support it though.
 	 *
 	 * @todo Add support for footer chunked headers.
-	 *
+	 * @access public
+	 * @since 2.7
 	 * @static
+	 *
 	 * @param string $body Body content
 	 * @return bool|string|WP_Error False if not chunked encoded. WP_Error on failure. Chunked decoded body on success.
 	 */
@@ -362,10 +364,8 @@ class WP_Http {
 		if ( ! preg_match( '/^[0-9a-f]+(\s|\n)+/mi', trim($body) ) )
 			return false;
 
-		$hex = '';
-		$dec = 0;
 		$parsedBody = '';
-		$parsedHeaders = array();
+		//$parsedHeaders = array(); Unsupported
 
 		$done = false;
 
@@ -380,14 +380,12 @@ class WP_Http {
 				$length = hexdec( $match[1] );
 				$chunkLength = strlen( $match[0] );
 
-				if( $body{$length+$chunkLength} == "\n" )
-					$length++;
-
 				$strBody = substr($body, strlen( $match[0] ), $length);
 				$parsedBody .= $strBody;
-				$body = str_replace(array($match[0], $strBody), '', $body);
 
-				if( "0" == $body ) {
+				$body = ltrim(str_replace(array($match[0], $strBody), '', $body), "\n");
+
+				if( "0" == trim($body) ) {
 					$done = true;
 					return $parsedBody; // Ignore footer headers.
 					break;
@@ -511,8 +509,13 @@ class WP_Http_Fsockopen {
 		$process = WP_Http::processResponse($strResponse);
 		$arrHeaders = WP_Http::processHeaders($process['headers']);
 
-		if ( WP_Http_Fsockopen::is400Response($arrHeaders['response']['code']) )
+		// Is the response code within the 400 range?
+		if ( (int) $arrHeaders['response']['code'] >= 400 && (int) $arrHeaders['response']['code'] < 500 )
 			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] . ': ' . $arrHeaders['response']['message']);
+
+		// If the body was chunk encoded, then decode it.
+		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] ) && 'chunked' == $arrHeaders['headers']['transfer-encoding'] )
+			$process['body'] = WP_Http::chunkTransferDecode($process['body']);
 
 		// If location is found, then assume redirect and redirect to location.
 		if ( isset($arrHeaders['headers']['location']) ) {
@@ -537,22 +540,6 @@ class WP_Http_Fsockopen {
 		if ( function_exists( 'fsockopen' ) )
 			return true;
 
-		return false;
-	}
-
-	/**
-	 * Whether response code is in the 400 range.
-	 *
-	 * @access public
-	 * @static
-	 * @since 2.7
-	 *
-	 * @param string $response Response code.
-	 * @return bool True if 40x Response, false if something else.
-	 */
-	function is400Response($response) {
-		if ( is_numeric($response) && (int) substr($response, 0, 1) == 4 )
-			return true;
 		return false;
 	}
 }
@@ -639,7 +626,7 @@ class WP_Http_Fopen {
 		$processedHeaders = WP_Http::processHeaders($theHeaders);
 
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
-			$theBody = WP_Http::chunkTransferDecode($strResponse);
+			$strResponse = WP_Http::chunkTransferDecode($strResponse);
 
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
@@ -751,7 +738,7 @@ class WP_Http_Streams {
 		$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
-			$theBody = WP_Http::chunkTransferDecode($strResponse);
+			$strResponse = WP_Http::chunkTransferDecode($strResponse);
 
 		fclose($handle);
 
