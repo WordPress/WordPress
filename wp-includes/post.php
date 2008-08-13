@@ -763,7 +763,14 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
  * @param int $post_id A post ID
  * @return bool
  */
-function is_sticky($post_id) {
+function is_sticky($post_id = null) {
+	global $id;
+
+	$post_id = absint($post_id);
+
+	if ( !$post_id )
+		$post_id = absint($id);
+
 	$stickies = get_option('sticky_posts');
 
 	if ( !is_array($stickies) )
@@ -774,6 +781,7 @@ function is_sticky($post_id) {
 
 	return false;
 }
+
 
 /**
  * sanitize_post() - Sanitize every post field

@@ -160,6 +160,24 @@ function has_excerpt( $id = 0 ) {
 	return ( !empty( $post->post_excerpt ) );
 }
 
+/**
+ * Echo "sticky" CSS class if a post is sticky
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @param int $post_id An optional post ID
+ */
+function sticky_class( $post_id = null ) {
+	if ( !is_sticky($post_id) )
+		return;
+
+	echo " sticky";
+}
+
 function wp_link_pages($args = '') {
 	$defaults = array(
 		'before' => '<p>' . __('Pages:'), 'after' => '</p>',

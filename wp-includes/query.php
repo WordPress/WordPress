@@ -1523,14 +1523,16 @@ class WP_Query {
 			}
 
 			// Fetch sticky posts that weren't in the query results
-			$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
-			$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in)" );
-			// TODO Make sure post is published or viewable by the current user
-			foreach ( $stickies as $sticky_post ) {
-				if ( 'publish' != $sticky_post->post_status )
-					continue;
-				array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
-				$sticky_offset++;
+			if ( !empty($sticky_posts) ) {
+				$stickies__in = implode(',', array_map( 'absint', $sticky_posts ));
+				$stickies = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE $wpdb->posts.ID IN ($stickies__in)" );
+				// TODO Make sure post is published or viewable by the current user
+				foreach ( $stickies as $sticky_post ) {
+					if ( 'publish' != $sticky_post->post_status )
+						continue;
+						array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
+						$sticky_offset++;
+				}
 			}
 		}
 
