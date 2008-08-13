@@ -173,16 +173,37 @@ function has_excerpt( $id = 0 ) {
  * @param int $post_id An optional post ID
  */
 function post_class( $class = '', $post_id = null ) {
+	$post = get_post($post_id);
 
-	$classes = 'post';
+	$classes[] = $post->post_type;
 
-	if ( is_sticky($post_id) )
-		$classes .= ' sticky';
+	if ( is_sticky($post->ID) )
+		$classes[] = 'sticky';
 
-	if ( !empty($class) )
-		$classes .= ' ' . $class;
+	// hentry for hAtom compliace
+	$classes[] = 'hentry';
 
-	$classes = apply_filters('post_class', $classes, $class, $post_id);
+	// Categories
+	foreach ( (array) get_the_category($post->ID) as $cat ) {
+		if ( empty($cat->slug ) )
+			continue;
+		$classes[] = 'category-' . $cat->slug;
+	}
+
+	// Tags
+	foreach ( (array) get_the_tags($post->ID) as $tag ) {
+		if ( empty($tag->slug ) )
+			continue;
+		$classes[] = 'tag-' . $tag->slug;
+	}
+
+	if ( !empty($class) ) {
+		$class = preg_split('#\s+#', $class);
+		$classes = array_merge($classes, $class);
+	}
+
+	// Separates classes with a single space, collates classes for post DIV
+	$classes = join(' ', apply_filters('post_class', $classes, $class, $post_id));
 
 	echo 'class="' . $classes . '"';
 }

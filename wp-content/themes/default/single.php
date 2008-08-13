@@ -9,7 +9,7 @@
 			<div class="alignright"><?php next_post_link('%link &raquo;') ?></div>
 		</div>
 
-		<div class="post" id="post-<?php the_ID(); ?>">
+		<div <?php post_class() ?> id="post-<?php the_ID(); ?>">
 			<h2><?php the_title(); ?></h2>
 
 			<div class="entry">
