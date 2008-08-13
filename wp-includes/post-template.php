@@ -169,7 +169,7 @@ function has_excerpt( $id = 0 ) {
  * @subpackage Post
  * @since 2.7
  *
- @ param string $class One or more classes to add to the class list
+ * @ param string $class One or more classes to add to the class list
  * @param int $post_id An optional post ID
  */
 function post_class( $class = '', $post_id = null ) {
