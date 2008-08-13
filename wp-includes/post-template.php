@@ -175,8 +175,11 @@ function has_excerpt( $id = 0 ) {
 function post_class( $class = '', $post_id = null ) {
 	$post = get_post($post_id);
 
+	$classes = array();
+
 	$classes[] = $post->post_type;
 
+	// sticky for Sticky Posts
 	if ( is_sticky($post->ID) )
 		$classes[] = 'sticky';
 
