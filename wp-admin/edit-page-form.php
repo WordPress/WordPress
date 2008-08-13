@@ -123,6 +123,7 @@ if ( 0 != $post_ID ) {
 </div>
 
 <p class="submit">
+<?php do_action('page_submitbox_start'); ?>
 <input type="submit" name="save" class="button button-highlighted" value="<?php _e('Save'); ?>" tabindex="4" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post_ID ) {
