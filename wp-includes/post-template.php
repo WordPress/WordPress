@@ -169,10 +169,28 @@ function has_excerpt( $id = 0 ) {
  * @subpackage Post
  * @since 2.7
  *
- * @ param string $class One or more classes to add to the class list
+ * @param string|array $class One or more classes to add to the class list
  * @param int $post_id An optional post ID
  */
 function post_class( $class = '', $post_id = null ) {
+	// Separates classes with a single space, collates classes for post DIV
+	echo 'class="' . join( ' ', get_post_class( $class, $post_id ) ) . '"';
+}
+
+/**
+ * Returns the classes for the post div as an array
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @param string|array $class One or more classes to add to the class list
+ * @param int $post_id An optional post ID
+ * @return array Array of classes
+ */
+function get_post_class( $class = '', $post_id = null ) {
 	$post = get_post($post_id);
 
 	$classes = array();
@@ -201,14 +219,12 @@ function post_class( $class = '', $post_id = null ) {
 	}
 
 	if ( !empty($class) ) {
-		$class = preg_split('#\s+#', $class);
+		if ( !is_array( $class ) )
+			$class = preg_split('#\s+#', $class);
 		$classes = array_merge($classes, $class);
 	}
 
-	// Separates classes with a single space, collates classes for post DIV
-	$classes = join(' ', apply_filters('post_class', $classes, $class, $post_id));
-
-	echo 'class="' . $classes . '"';
+	return apply_filters('post_class', $classes, $class, $post_id);
 }
 
 /**
