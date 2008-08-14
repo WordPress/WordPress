@@ -490,8 +490,8 @@ function wp_edit_posts_query( $q = false ) {
 	global $wpdb;
 	if ( false === $q )
 		$q = $_GET;
-	$q['m']   = (int) $q['m'];
-	$q['cat'] = (int) $q['cat'];
+	$q['m']   = isset($q['m']) ? (int) $q['m'] : 0;
+	$q['cat'] = isset($q['cat']) ? (int) $q['cat'] : 0;
 	$post_stati  = array(	//	array( adj, noun )
 				'publish' => array(__('Published'), __('Published posts'), __ngettext_noop('Published (%s)', 'Published (%s)')),
 				'future' => array(__('Scheduled'), __('Scheduled posts'), __ngettext_noop('Scheduled (%s)', 'Scheduled (%s)')),
@@ -510,10 +510,10 @@ function wp_edit_posts_query( $q = false ) {
 		$post_status_q .= '&perm=readable';
 	}
 
-	if ( 'pending' === $q['post_status'] ) {
+	if ( isset($q['post_status']) && 'pending' === $q['post_status'] ) {
 		$order = 'ASC';
 		$orderby = 'modified';
-	} elseif ( 'draft' === $q['post_status'] ) {
+	} elseif ( isset($q['post_status']) && 'draft' === $q['post_status'] ) {
 		$order = 'DESC';
 		$orderby = 'modified';
 	} else {

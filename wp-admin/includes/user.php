@@ -301,6 +301,7 @@ class WP_User_Search {
 	var $total_users_for_query = 0;
 	var $too_many_total_users = false;
 	var $search_errors;
+	var $paging_text;
 
 	function WP_User_Search ($search_term = '', $page = '', $role = '') { // constructor
 		$this->search_term = $search_term;

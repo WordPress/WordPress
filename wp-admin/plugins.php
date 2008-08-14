@@ -12,7 +12,7 @@ foreach( array('activate-selected', 'deactivate-selected', 'delete-selected', 'c
 if( isset($_GET['action']) )
 	$action = $_GET['action'];
 
-$plugin = $_REQUEST['plugin'];
+$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 
 if( !empty($action) ) {
 	switch( $action ) {

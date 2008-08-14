@@ -56,13 +56,13 @@ if ( is_single() ) {
 	$post_status_label = _c('Manage Posts|manage posts header');
 	if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) )
         $post_status_label = $post_stati[$_GET['post_status']][1];
-	if ( $post_listing_pageable && !is_archive() && !is_search() )
-		$h2_noun = is_paged() ? sprintf(__( 'Previous %s' ), $post_status_label) : sprintf(__('Latest %s'), $post_status_label);
-	else
+	//if ( $post_listing_pageable && !is_archive() && !is_search() ) //Unreachable code: $post_listing_pageable is undefined, Similar code in upload.php
+	//	$h2_noun = is_paged() ? sprintf(__( 'Previous %s' ), $post_status_label) : sprintf(__('Latest %s'), $post_status_label);
+	//else
 		$h2_noun = $post_status_label;
 	// Use $_GET instead of is_ since they can override each other
 	$h2_author = '';
-	$_GET['author'] = (int) $_GET['author'];
+	$_GET['author'] = isset($_GET['author']) ? (int) $_GET['author'] : 0;
 	if ( $_GET['author'] != 0 ) {
 		if ( $_GET['author'] == '-' . $user_ID ) { // author exclusion
 			$h2_author = ' ' . __('by other authors');
@@ -93,7 +93,7 @@ foreach ( $post_stati as $status => $label ) {
 
 	if ( empty( $num_posts->$status ) )
 		continue;
-	if ( $status == $_GET['post_status'] )
+	if ( isset($_GET['post_status']) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
 	$status_links[] = "<li><a href='edit.php?post_status=$status' $class>" .
@@ -146,16 +146,18 @@ $arc_result = $wpdb->get_results( $arc_query );
 
 $month_count = count($arc_result);
 
-if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
+if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) {
+$m = isset($_GET['m']) ? (int)$_GET['m'] : 0;
+?>
 <select name='m'>
-<option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
+<option<?php selected( $m, 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
 <?php
 foreach ($arc_result as $arc_row) {
 	if ( $arc_row->yyear == 0 )
 		continue;
 	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
 
-	if ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] )
+	if ( $arc_row->yyear . $arc_row->mmonth == $m )
 		$default = ' selected="selected"';
 	else
 		$default = '';

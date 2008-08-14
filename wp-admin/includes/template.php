@@ -343,9 +343,9 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
-	if ( 'draft' === $_GET['post_status'] )
+	if ( isset($_GET['post_status']) && 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
-	elseif ( 'pending' === $_GET['post_status'] )
+	elseif ( isset($_GET['post_status']) && 'pending' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Submitted');
 	else
 		$posts_columns['date'] = __('Date');
@@ -353,7 +353,7 @@ function wp_manage_posts_columns() {
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
-	if ( !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
+	if ( !isset($_GET['post_status']) || !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['status'] = __('Status');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
@@ -1092,6 +1092,7 @@ function the_attachment_links( $id = false ) {
 
 function wp_dropdown_roles( $default = false ) {
 	global $wp_roles;
+	$p = '';
 	$r = '';
 	foreach( $wp_roles->role_names as $role => $name ) {
 		$name = translate_with_context($name);

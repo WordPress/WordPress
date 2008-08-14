@@ -44,7 +44,7 @@ function get_page_templates() {
 				$description = $description[1];
 
 			if ( !empty( $name ) ) {
-				$page_templates[trim( $name )] = basename( $template );
+				$page_templates[trim( $name )] = theme_basename( $template );
 			}
 		}
 	}

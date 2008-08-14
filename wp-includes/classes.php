@@ -110,7 +110,8 @@ class WP {
 					$query = preg_replace("!^.+\?!", '', $query);
 
 					// Substitute the substring matches into the query.
-					eval("\$query = \"" . addslashes($query) . "\";");
+					eval("@\$query = \"" . addslashes($query) . "\";");
+					
 					$this->matched_query = $query;
 
 					// Parse the query.

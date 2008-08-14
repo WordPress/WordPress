@@ -297,11 +297,15 @@ function get_objects_in_term( $terms, $taxonomies, $args = array() ) {
 function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
-	if ( empty($term) )
-		return null;
+	if ( empty($term) ) {
+		$error = new WP_Error('invalid_term', __('Empty Term'));
+		return $error;
+	}
 
-	if ( ! is_taxonomy($taxonomy) )
-		return new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+	if ( ! is_taxonomy($taxonomy) ) {
+		$error = new WP_Error('invalid_taxonomy', __('Invalid Taxonomy'));
+		return $error;
+	}
 
 	if ( is_object($term) ) {
 		wp_cache_add($term->term_id, $term, $taxonomy);

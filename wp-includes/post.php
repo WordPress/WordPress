@@ -1935,6 +1935,7 @@ function get_page_by_path($page_path, $output = OBJECT) {
 	$page_paths = '/' . trim($page_path, '/');
 	$leaf_path  = sanitize_title(basename($page_paths));
 	$page_paths = explode('/', $page_paths);
+	$full_path = '';
 	foreach( (array) $page_paths as $pathdir)
 		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 

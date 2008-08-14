@@ -137,6 +137,9 @@ class WP_User {
 	var $cap_key;
 	var $roles = array();
 	var $allcaps = array();
+	
+	var $first_name = '';
+	var $last_name = '';
 
 	function WP_User( $id, $name = '' ) {
 
