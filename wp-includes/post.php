@@ -1904,10 +1904,12 @@ function get_all_page_ids() {
  */
 function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
 	if ( empty($page) ) {
-		if ( isset( $GLOBALS['page'] ) && isset( $GLOBALS['page']->ID ) )
+		if ( isset( $GLOBALS['page'] ) && isset( $GLOBALS['page']->ID ) ) {
 			return get_post($GLOBALS['page'], $output, $filter);
-		else
-			return null;
+		} else {
+			$page = null;
+			return $page;
+		}
 	}
 
 	return get_post($page, $output, $filter);
