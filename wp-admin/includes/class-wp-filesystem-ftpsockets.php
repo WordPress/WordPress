@@ -1,4 +1,19 @@
 <?php
+/**
+ * WordPress FTP Sockets Filesystem.
+ *
+ * @package WordPress
+ * @subpackage Filesystem
+ */
+
+/**
+ * WordPress Filesystem Class for implementing FTP Sockets.
+ *
+ * @since 2.5
+ * @package WordPress
+ * @subpackage Filesystem
+ * @uses WP_Filesystem_Base Extends class
+ */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	var $ftp = false;
 	var $timeout = 5;
@@ -22,7 +37,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 							'bmp' => FTP_BINARY
 							);
 
-	function WP_Filesystem_ftpsockets($opt='') {
+	function WP_Filesystem_ftpsockets($opt = '') {
 		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
 
@@ -86,7 +101,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		$this->permission = $perm;
 	}
 
-	function get_contents($file, $type = '', $resumepos = 0){
+	function get_contents($file, $type = '', $resumepos = 0) {
 		if( ! $this->exists($file) )
 			return false;
 
@@ -112,7 +127,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $contents;
 	}
 
-	function get_contents_array($file){
+	function get_contents_array($file) {
 		return explode("\n", $this->get_contents($file) );
 	}
 
@@ -151,7 +166,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return false;
 	}
 
-	function chmod($file, $mode = false, $recursive = false ){
+	function chmod($file, $mode = false, $recursive = false ) {
 		if( ! $mode )
 			$mode = $this->permission;
 		if( ! $mode )
@@ -251,7 +266,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $this->ftp->filesize($file);
 	}
 
-	function touch($file, $time = 0, $atime = 0 ){
+	function touch($file, $time = 0, $atime = 0 ) {
 		return false;
 	}
 
@@ -311,8 +326,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $ret;
 	}
 
-	function __destruct(){
+	function __destruct() {
 		$this->ftp->quit();
 	}
 }
+
 ?>

@@ -1,9 +1,46 @@
 <?php
+/**
+ * Blogger Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
-define( 'MAX_RESULTS',        50 ); // How many records per GData query
-define( 'MAX_EXECUTION_TIME', 20 ); // How many seconds to let the script run
-define( 'STATUS_INTERVAL',     3 ); // How many seconds between status bar updates
+/**
+ * How many records per GData query
+ *
+ * @package WordPress
+ * @subpackage Blogger_Import
+ * @var int
+ * @since unknown
+ */
+define( 'MAX_RESULTS',        50 );
 
+/**
+ * How many seconds to let the script run
+ *
+ * @package WordPress
+ * @subpackage Blogger_Import
+ * @var int
+ * @since unknown
+ */
+define( 'MAX_EXECUTION_TIME', 20 );
+
+/**
+ * How many seconds between status bar updates
+ *
+ * @package WordPress
+ * @subpackage Blogger_Import
+ * @var int
+ * @since unknown
+ */
+define( 'STATUS_INTERVAL',     3 );
+
+/**
+ * Blogger Importer class
+ *
+ * @since unknown
+ */
 class Blogger_Import {
 
 	// Shows the welcome screen and the magic auth link.

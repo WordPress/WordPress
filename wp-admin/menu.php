@@ -1,9 +1,23 @@
 <?php
-// This array constructs the admin menu bar.
-//
-// Menu item name
-// The minimum level the user needs to access the item: between 0 and 10
-// The URL of the item's file
+/**
+ * Build Administration Menu.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * Constructs the admin menu bar.
+ *
+ * The elements in the array are :
+ *     0: Menu item name
+ *     1: Minimum level or capability required.
+ *     2: The URL of the item's file
+ *
+ * @global array $menu
+ * @name $menu
+ * @var array
+ */
 $menu[0] = array(__('Dashboard'), 'read', 'index.php');
 
 if (strpos($_SERVER['REQUEST_URI'], 'edit-pages.php') !== false)

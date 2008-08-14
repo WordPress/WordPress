@@ -1,4 +1,12 @@
 <?php
+/**
+ * Add Link Administration Panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 
 $title = __('Add Link');

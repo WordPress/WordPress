@@ -1,4 +1,15 @@
 <?php
+/**
+ * Manage link category administration actions.
+ *
+ * This page is accessed by the link management pages and handles the forms and
+ * AJAX processes for category actions.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 
 wp_reset_vars(array('action', 'cat'));
@@ -31,7 +42,7 @@ case 'delete':
 	$default_cat_id = get_option('default_link_category');
 
 	// Don't delete the default cats.
-    if ( $cat_ID == $default_cat_id )
+	if ( $cat_ID == $default_cat_id )
 		wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
 	wp_delete_term($cat_ID, 'link_category', array('default' => $default_cat_id));

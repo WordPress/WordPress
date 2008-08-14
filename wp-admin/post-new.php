@@ -1,4 +1,12 @@
 <?php
+/**
+ * New Post Administration Panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 $title = __('Create New Post');
 $parent_file = 'post-new.php';

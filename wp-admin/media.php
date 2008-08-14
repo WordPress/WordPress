@@ -1,5 +1,12 @@
 <?php
+/**
+ * Media management action handler.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 
 $parent_file = 'edit.php';

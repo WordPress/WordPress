@@ -1,4 +1,15 @@
 <?php
+/**
+ * Manage media uploaded file.
+ *
+ * There are many filters in here for media. Plugins can extend functionality
+ * by hooking into the filters.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 wp_enqueue_script('swfupload');
 wp_enqueue_script('swfupload-degrade');
@@ -11,7 +22,7 @@ if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
 
 // IDs should be integers
-$ID = isset($ID)? (int) $ID : 0;
+$ID = isset($ID) ? (int) $ID : 0;
 $post_id = isset($post_id)? (int) $post_id : 0;
 
 // Require an ID for the edit screen

@@ -1,5 +1,18 @@
 <?php
+/**
+ * The Ultimate Tag Warrior Importer.
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
+/**
+ * Ultimate Tag Warrior Converter to 2.3 taxonomy.
+ *
+ * This converts the Ultimate Tag Warrior tags to the 2.3 WordPress taxonomy.
+ *
+ * @since 2.3.0
+ */
 class UTW_Import {
 
 	function header()  {

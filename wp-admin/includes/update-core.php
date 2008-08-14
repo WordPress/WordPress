@@ -1,5 +1,20 @@
 <?php
+/**
+ * WordPress core upgrade functionality.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ * @since 2.7
+ */
 
+/**
+ * Stores files to be deleted.
+ *
+ * @since 2.7
+ * @global array $_old_files
+ * @var array
+ * @name $_old_files
+ */
 global $_old_files;
 
 $_old_files = array(
@@ -117,6 +132,44 @@ $_old_files = array(
 'wp-content/plugins/textile1.php',
 );
 
+/**
+ * Upgrade the core of WordPress.
+ *
+ * This will create a .maintenance file at the base of the WordPress directory
+ * to ensure that people can not access the web site, when the files are being
+ * copied to their locations.
+ *
+ * The files in the {@link $_old_files} list will be removed and the new files
+ * copied from the zip file after the database is upgraded.
+ *
+ * The steps for the upgrader for after the new release is downloaded and
+ * unzipped is:
+ *   1. Test unzipped location for select files to ensure that unzipped worked.
+ *   2. Create the .maintenance file in current WordPress base.
+ *   3. Copy new WordPress directory over old WordPress files.
+ *   4. Upgrade WordPress to new version.
+ *   5. Delete new WordPress directory path.
+ *   6. Delete .maintenance file.
+ *   7. Remove old files.
+ *   8. Delete 'update_core' option.
+ *
+ * There are several areas of failure. For instance if PHP times out before step
+ * 6, then you will not be able to access any portion of your site. Also, since
+ * the upgrade will not continue where it left off, you will not be able to
+ * automatically remove old files and remove the 'update_core' option. This
+ * isn't that bad.
+ *
+ * If the copy of the new WordPress over the old fails, then the worse is that
+ * the new WordPress directory will remain.
+ *
+ * If it is assumed that every file will be copied over, including plugins and
+ * themes, then if you edit the default theme, you should rename it, so that
+ * your changes remain.
+ *
+ * @param string $from New release unzipped path.
+ * @param string $to Path to old WordPress installation.
+ * @return WP_Error|null WP_Error on failure, null on success.
+ */
 function update_core($from, $to) {
 	global $wp_filesystem, $_old_files;
 

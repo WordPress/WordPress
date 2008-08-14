@@ -1,5 +1,12 @@
 <?php
+/**
+ * Link Management Administration Panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** Load WordPress Administration Bootstrap */
 require_once ('admin.php');
 
 // Handle bulk deletes

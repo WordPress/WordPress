@@ -1,4 +1,18 @@
 <?php
+/**
+ * Simple Tags Plugin Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
+
+/**
+ * Simple Tags Plugin Tags converter class.
+ *
+ * Will convert Simple Tags Plugin tags over to the WordPress 2.3 taxonomy.
+ *
+ * @since unknown
+ */
 class STP_Import {
 	function header()  {
 		echo '<div class="wrap">';

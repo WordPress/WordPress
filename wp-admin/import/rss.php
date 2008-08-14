@@ -1,5 +1,20 @@
 <?php
+/**
+ * RSS Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
+/**
+ * RSS Importer
+ *
+ * Will process a RSS feed for importing posts into WordPress. This is a very
+ * limited importer and should only be used as the last resort, when no other
+ * importer is available.
+ *
+ * @since unknown
+ */
 class RSS_Import {
 
 	var $posts = array ();

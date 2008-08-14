@@ -1,5 +1,19 @@
 <?php
+/**
+ * WordPress Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
+/**
+ * WordPress Importer
+ *
+ * Will process the WordPress eXtended RSS files that you upload from the export
+ * file.
+ *
+ * @since unknown
+ */
 class WP_Import {
 
 	var $post_ids_processed = array ();
@@ -746,6 +760,13 @@ class WP_Import {
 	}
 }
 
+/**
+ * Register WordPress Importer
+ *
+ * @since unknown
+ * @var WP_Import
+ * @name $wp_import
+ */
 $wp_import = new WP_Import();
 
 register_importer('wordpress', 'WordPress', __('Import <strong>posts, comments, custom fields, pages, and categories</strong> from a WordPress export file.'), array ($wp_import, 'dispatch'));

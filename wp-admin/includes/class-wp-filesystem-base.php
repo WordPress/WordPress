@@ -1,5 +1,17 @@
 <?php
-class WP_Filesystem_Base{
+/**
+ * Base WordPress Filesystem.
+ *
+ * @package WordPress
+ * @subpackage Filesystem
+ */
+
+/**
+ * Base WordPress Filesystem class for which Filesystem implementations extend
+ *
+ * @since 2.5
+ */
+class WP_Filesystem_Base {
 	var $verbose = false;
 	var $cache = array();
 
@@ -155,4 +167,5 @@ class WP_Filesystem_Base{
 		return $newmode;
 	}
 }
+
 ?>

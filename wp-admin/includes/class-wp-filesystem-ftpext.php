@@ -1,5 +1,20 @@
 <?php
-class WP_Filesystem_FTPext extends WP_Filesystem_Base{
+/**
+ * WordPress FTP Filesystem.
+ *
+ * @package WordPress
+ * @subpackage Filesystem
+ */
+
+/**
+ * WordPress Filesystem Class for implementing FTP.
+ *
+ * @since 2.5
+ * @package WordPress
+ * @subpackage Filesystem
+ * @uses WP_Filesystem_Base Extends class
+ */
+class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	var $link;
 	var $timeout = 5;
 	var $errors = array();

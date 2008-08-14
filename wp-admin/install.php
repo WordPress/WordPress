@@ -1,14 +1,38 @@
 <?php
+/**
+ * WordPress Installer
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * We are installing WordPress.
+ *
+ * @since unknown
+ * @var bool
+ */
 define('WP_INSTALLING', true);
 
+/** Load WordPress Bootstrap */
 require_once('../wp-load.php');
+
+/** Load WordPress Administration Upgrade API */
 require_once('./includes/upgrade.php');
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];
 else
 	$step = 0;
-function display_header(){
+
+/**
+ * Display install header.
+ *
+ * @since unknown
+ * @package WordPress
+ * @subpackage Installer
+ */
+function display_header() {
 header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

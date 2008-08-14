@@ -1,5 +1,19 @@
 <?php
+/**
+ * BunnyTags Plugin Tag Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
+/**
+ * BunnyTags Plugin tag converter
+ *
+ * This will process the BunnyTags plugin tags and convert them to the WordPress
+ * 2.3 taxonomy.
+ *
+ * @since unknown
+ */
 class BunnyTags_Import {
 
 	function header() {

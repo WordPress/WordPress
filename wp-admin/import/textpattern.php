@@ -1,10 +1,22 @@
 <?php
 /**
-	Add These Functions to make our lives easier
-**/
+ * TextPattern Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
 if(!function_exists('get_comment_count'))
 {
+	/**
+	 * Get the comment count for posts.
+	 *
+	 * @package WordPress
+	 * @subpackage Textpattern_Import
+	 *
+	 * @param int $post_ID Post ID
+	 * @return int
+	 */
 	function get_comment_count($post_ID)
 	{
 		global $wpdb;
@@ -14,6 +26,15 @@ if(!function_exists('get_comment_count'))
 
 if(!function_exists('link_exists'))
 {
+	/**
+	 * Check whether link already exists.
+	 *
+	 * @package WordPress
+	 * @subpackage Textpattern_Import
+	 *
+	 * @param string $linkname
+	 * @return int
+	 */
 	function link_exists($linkname)
 	{
 		global $wpdb;
@@ -22,8 +43,10 @@ if(!function_exists('link_exists'))
 }
 
 /**
-	The Main Importer Class
-**/
+ * TextPattern Importer Class
+ *
+ * @since unknown
+ */
 class Textpattern_Import {
 
 	function header()
@@ -670,5 +693,7 @@ class Textpattern_Import {
 }
 
 $txp_import = new Textpattern_Import();
+
 register_importer('textpattern', __('Textpattern'), __('Import categories, users, posts, comments, and links from a Textpattern blog.'), array ($txp_import, 'dispatch'));
+
 ?>

@@ -1,5 +1,18 @@
 <?php
+/**
+ * Movable Type and Typepad Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
+/**
+ * Moveable Type and Typepad Importer class
+ *
+ * Upload your exported Movable Type or Typepad entries into WordPress.
+ *
+ * @since unknown
+ */
 class MT_Import {
 
 	var $posts = array ();

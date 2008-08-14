@@ -11,15 +11,75 @@
  * @link http://www.phpclasses.org/browse/package/1743.html Site
  * @license LGPL License http://www.opensource.org/licenses/lgpl-license.html
  */
+
+/**
+ * Defines the newline characters, if not defined already.
+ *
+ * This can be redefined.
+ *
+ * @since 2.5
+ * @var string
+ */
 if(!defined('CRLF')) define('CRLF',"\r\n");
+
+/**
+ * Sets whatever to autodetect ASCII mode.
+ *
+ * This can be redefined.
+ *
+ * @since 2.5
+ * @var int
+ */
 if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
+
+/**
+ *
+ * This can be redefined.
+ * @since 2.5
+ * @var int
+ */
 if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
+
+/**
+ *
+ * This can be redefined.
+ * @since 2.5
+ * @var int
+ */
 if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
-if(!defined('FTP_FORCE')) define('FTP_FORCE', TRUE);
+
+/**
+ * Whether to force FTP.
+ *
+ * This can be redefined.
+ *
+ * @since 2.5
+ * @var bool
+ */
+if(!defined('FTP_FORCE')) define('FTP_FORCE', true);
+
+/**
+ * @since 2.5
+ * @var string
+ */
 define('FTP_OS_Unix','u');
+
+/**
+ * @since 2.5
+ * @var string
+ */
 define('FTP_OS_Windows','w');
+
+/**
+ * @since 2.5
+ * @var string
+ */
 define('FTP_OS_Mac','m');
 
+/**
+ * PemFTP base class
+ *
+ */
 class ftp_base {
 	/* Public variables */
 	var $LocalEcho;
@@ -838,5 +898,6 @@ if (!extension_loaded('sockets')) {
 	$prefix = (PHP_SHLIB_SUFFIX == 'dll') ? 'php_' : '';
 	if(!@dl($prefix . 'sockets.' . PHP_SHLIB_SUFFIX)) $mod_sockets=FALSE;
 }
+
 require_once "class-ftp-".($mod_sockets?"sockets":"pure").".php";
 ?>

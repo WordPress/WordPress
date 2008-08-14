@@ -1,7 +1,11 @@
 <?php
-/*
- * DotClear import plugin
- * by Thomas Quinot - http://thomas.quinot.org/
+/**
+ * DotClear Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ * @author Thomas Quinot
+ * @link http://thomas.quinot.org/
  */
 
 /**
@@ -10,6 +14,15 @@
 
 if(!function_exists('get_comment_count'))
 {
+	/**
+	 * Get the comment count for posts.
+	 *
+	 * @package WordPress
+	 * @subpackage Dotclear_Import
+	 *
+	 * @param int $post_ID Post ID
+	 * @return int
+	 */
 	function get_comment_count($post_ID)
 	{
 		global $wpdb;
@@ -19,6 +32,15 @@ if(!function_exists('get_comment_count'))
 
 if(!function_exists('link_exists'))
 {
+	/**
+	 * Check whether link already exists.
+	 *
+	 * @package WordPress
+	 * @subpackage Dotclear_Import
+	 *
+	 * @param string $linkname
+	 * @return int
+	 */
 	function link_exists($linkname)
 	{
 		global $wpdb;
@@ -40,31 +62,73 @@ if(!function_exists('link_exists'))
 //    This cries out for a C-implementation to be included in PHP core
 //
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $char
+ * @return string
+ */
 function valid_1byte($char) {
 	if(!is_int($char)) return false;
 		return ($char & 0x80) == 0x00;
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $char
+ * @return string
+ */
 function valid_2byte($char) {
 	if(!is_int($char)) return false;
 		return ($char & 0xE0) == 0xC0;
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $char
+ * @return string
+ */
 function valid_3byte($char) {
 	if(!is_int($char)) return false;
 		return ($char & 0xF0) == 0xE0;
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $char
+ * @return string
+ */
 function valid_4byte($char) {
 	if(!is_int($char)) return false;
 		return ($char & 0xF8) == 0xF0;
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $char
+ * @return string
+ */
 function valid_nextbyte($char) {
 	if(!is_int($char)) return false;
 		return ($char & 0xC0) == 0x80;
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $string
+ * @return string
+ */
 function valid_utf8($string) {
 	$len = strlen($string);
 	$i = 0;
@@ -92,6 +156,13 @@ function valid_utf8($string) {
 	return true; // done
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $s
+ * @return string
+ */
 function csc ($s) {
 	if (valid_utf8 ($s)) {
 		return $s;
@@ -100,13 +171,28 @@ function csc ($s) {
 	}
 }
 
+/**
+ * @package WordPress
+ * @subpackage Dotclear_Import
+ *
+ * @param string $s
+ * @return string
+ */
 function textconv ($s) {
 	return csc (preg_replace ('|(?<!<br />)\s*\n|', ' ', $s));
 }
 
 /**
-	The Main Importer Class
-**/
+ * Dotclear Importer class
+ *
+ * Will process the WordPress eXtended RSS files that you upload from the export
+ * file.
+ *
+ * @package WordPress
+ * @subpackage Importer
+ *
+ * @since unknown
+ */
 class Dotclear_Import {
 
 	function header()
@@ -742,5 +828,7 @@ class Dotclear_Import {
 }
 
 $dc_import = new Dotclear_Import();
+
 register_importer('dotclear', __('DotClear'), __('Import categories, users, posts, comments, and links from a DotClear blog.'), array ($dc_import, 'dispatch'));
+
 ?>

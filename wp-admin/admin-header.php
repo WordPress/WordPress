@@ -18,6 +18,12 @@ $min_width_pages = array( 'post.php', 'post-new.php', 'page.php', 'page-new.php'
 $the_current_page = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 $ie6_no_scrollbar = true;
 
+/**
+ * Append 'minwidth' to value.
+ *
+ * @param mixed $c
+ * @return string
+ */
 function add_minwidth($c) {
 	return $c . 'minwidth ';
 }

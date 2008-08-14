@@ -1,4 +1,12 @@
 <?php
+/**
+ * Privacy Options Settings Administration Panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Administration Bootstrap */
 require_once('./admin.php');
 
 $title = __('Privacy Settings');

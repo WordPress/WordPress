@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ * @uses $wpdb
+ *
+ * @param string $comment_author
+ * @param string $comment_date
+ * @return mixed Comment ID on success.
+ */
 function comment_exists($comment_author, $comment_date) {
 	global $wpdb;
 
@@ -7,6 +17,10 @@ function comment_exists($comment_author, $comment_date) {
 			WHERE comment_author = %s AND comment_date = %s", $comment_author, $comment_date) );
 }
 
+/**
+ * 
+ *
+ */
 function edit_comment() {
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];

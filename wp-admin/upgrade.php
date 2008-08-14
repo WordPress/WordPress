@@ -1,7 +1,22 @@
 <?php
+/**
+ * Upgrade WordPress Page.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * We are upgrading WordPress.
+ *
+ * @since unknown
+ * @var bool
+ */
 define('WP_INSTALLING', true);
 
+/** Load WordPress Bootstrap */
 require('../wp-load.php');
+
 timer_start();
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 

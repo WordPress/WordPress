@@ -1,5 +1,19 @@
 <?php
+/**
+ * GreyMatter Importer
+ *
+ * @package WordPress
+ * @subpackage Importer
+ */
 
+/**
+ * GreyMatter Importer class
+ *
+ * Basic GreyMatter to WordPress importer, will import posts, comments, and
+ * posts karma.
+ *
+ * @since unknown
+ */
 class GM_Import {
 
 	var $gmnames = array ();

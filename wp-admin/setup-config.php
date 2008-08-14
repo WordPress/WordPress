@@ -1,4 +1,20 @@
 <?php
+/**
+ * Retrieves and creates the wp-config.php file.
+ *
+ * The permissions for the base directory must allow for writing files in order
+ * for the wp-config.php to be created using this page.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * We are installing.
+ *
+ * @since unknown
+ * @package WordPress
+ */
 define('WP_INSTALLING', true);
 //These three defines are required to allow us to use require_wp_db() to load the database class while being wp-content/wp-db.php aware
 define('ABSPATH', dirname(dirname(__FILE__)).'/');
@@ -30,7 +46,14 @@ if (isset($_GET['step']))
 else
 	$step = 0;
 
-function display_header(){
+/**
+ * Display setup wp-config.php file header.
+ *
+ * @since unknown
+ * @package WordPress
+ * @subpackage Installer_WP_Config
+ */
+function display_header() {
 	header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

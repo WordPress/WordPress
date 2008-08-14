@@ -1,5 +1,21 @@
 <?php
+/**
+ * Send blog links to pingomatic.com to update.
+ *
+ * You can disable this feature by deleting the option 'use_linksupdate' or
+ * setting the option to false. If no links exist, then no links are sent.
+ *
+ * Snoopy is included, but is not used. Fsockopen() is used instead to send link
+ * URLs.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Load WordPress Bootstrap */
 require_once('../wp-load.php');
+
+/** Load Snoopy HTTP Client class */
 require_once( ABSPATH . 'wp-includes/class-snoopy.php');
 
 if ( !get_option('use_linksupdate') )
