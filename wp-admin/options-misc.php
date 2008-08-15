@@ -71,6 +71,52 @@ include('admin-header.php');
 <input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" size="6" />
 </fieldset></td>
 </tr>
+
+<tr valign="top">
+<th scope="row"><?php _e('Default image size') ?></th>
+<td><fieldset><legend class="hidden"><?php _e('Default image size') ?></legend>
+<?php
+	$size_names = array('' => 'Auto', 'thumbnail' => 'Thumbnail', 'medium' => 'Medium', 'large' => 'Large', 'full' => 'Full size');
+	foreach ($size_names as $size => $name) { ?>
+		<input type="radio" name="image_default_size" id="image_default_size_<?php echo $size; ?>" value="<?php echo $size; ?>"<?php echo (get_option('image_default_size') == $size ? ' checked="checked"' : ''); ?> />			
+		<label for="image_default_size_<?php echo $size; ?>"><?php _e($name); ?></label>
+	<?php
+	}
+
+?>
+</fieldset></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><?php _e('Default image alignment') ?></th>
+<td><fieldset><legend class="hidden"><?php _e('Default image alignment') ?></legend>
+<?php
+	$alignments = array('none' => 'None', 'left' => 'Left', 'center' => 'Center', 'right' => 'Right');
+	foreach ($alignments as $align => $name) { ?>
+		<input type="radio" name="image_default_align" id="image_default_align_<?php echo $align; ?>" value="<?php echo $align; ?>"<?php echo (get_option('image_default_align') == $align ? ' checked="checked"' : ''); ?> />			
+		<label for="image_default_align_<?php echo $align; ?>"><?php _e($name); ?></label>
+	<?php
+	}
+
+?>
+</fieldset></td>
+</tr>
+
+<tr valign="top">
+<th scope="row"><?php _e('Default image links') ?></th>
+<td><fieldset><legend class="hidden"><?php _e('Default image links') ?></legend>
+<?php
+	$link_types = array('' => 'None', 'post' => 'Post URL', 'file' => 'File');
+	foreach ($link_types as $type => $name) { ?>
+		<input type="radio" name="image_default_link_type" id="image_default_link_type_<?php echo $type; ?>" value="<?php echo $type; ?>"<?php echo (get_option('image_default_link_type') == $type ? ' checked="checked"' : ''); ?> />			
+		<label for="image_default_link_type_<?php echo $type; ?>"><?php _e($name); ?></label>
+	<?php
+	}
+
+?>
+</fieldset></td>
+</tr>
+
 </table>
 
 
@@ -99,7 +145,7 @@ include('admin-header.php');
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path,upload_url_path,thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h" />
+<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path,upload_url_path,thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h,image_default_size,image_default_align,image_default_link_type" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
 </p>
 </form>
