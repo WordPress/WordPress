@@ -1,5 +1,15 @@
 <?php
+/**
+ * Edit tag form for inclusion in administration panels.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
 if ( ! empty($tag_ID) ) {
+	/**
+	 * @var string
+	 */
 	$heading = __('Edit Tag');
 	$submit_text = __('Edit Tag');
 	$form = '<form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate">';

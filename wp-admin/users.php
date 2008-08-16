@@ -1,5 +1,15 @@
 <?php
+/**
+ * Users administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
+
+/** WordPress Registration API */
 require_once( ABSPATH . WPINC . '/registration.php');
 
 if ( !current_user_can('edit_users') )

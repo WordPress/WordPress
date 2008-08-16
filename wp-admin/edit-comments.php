@@ -1,4 +1,12 @@
 <?php
+/**
+ * Edit Comments Administration Panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 $title = __('Edit Comments');

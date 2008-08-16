@@ -1,4 +1,12 @@
 <?php
+/**
+ * Reading settings administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 $title = __('Reading Settings');

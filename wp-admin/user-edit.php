@@ -1,5 +1,12 @@
 <?php
+/**
+ * Edit user administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE )
@@ -7,6 +14,12 @@ if ( defined('IS_PROFILE_PAGE') && IS_PROFILE_PAGE )
 else
 	$is_profile_page = false;
 
+/**
+ * Display JavaScript for profile page.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 function profile_js ( ) {
 ?>
 <script type="text/javascript">

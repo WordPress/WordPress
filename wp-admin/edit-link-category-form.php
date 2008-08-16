@@ -1,5 +1,15 @@
 <?php
+/**
+ * Edit link category form for inclusion in administration panels.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
 if ( ! empty($cat_ID) ) {
+	/**
+	 * @var string
+	 */
 	$heading = __('Edit Category');
 	$submit_text = __('Edit Category');
 	$form = '<form name="editcat" id="editcat" method="post" action="link-category.php" class="validate">';

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Media Library administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 if (!current_user_can('upload_files'))

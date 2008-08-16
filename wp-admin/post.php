@@ -1,4 +1,14 @@
 <?php
+/**
+ * Edit post administration panel.
+ *
+ * Manage Post actions: post, edit, delete, etc.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 $parent_file = 'edit.php';
@@ -6,6 +16,11 @@ $submenu_file = 'edit.php';
 
 wp_reset_vars(array('action', 'safe_mode', 'withcomments', 'posts', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder'));
 
+/**
+ * Redirect to previous page.
+ *
+ * @param int $post_ID Optional. Post ID.
+ */
 function redirect_post($post_ID = '') {
 	global $action;
 

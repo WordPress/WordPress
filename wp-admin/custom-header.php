@@ -1,12 +1,45 @@
 <?php
+/**
+ * The custom header image script.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/**
+ * The custom header image class.
+ *
+ * @since unknown
+ * @package WordPress
+ * @subpackage Administration
+ */
 class Custom_Image_Header {
+
+	/**
+	 * Callback for administration header.
+	 *
+	 * @var callback
+	 * @since unknown
+	 * @access private
+	 */
 	var $admin_header_callback;
 
+	/**
+	 * PHP4 Constructor - Register administration header callback.
+	 *
+	 * @since unknown
+	 * @param callback $admin_header_callback
+	 * @return Custom_Image_Header
+	 */
 	function Custom_Image_Header($admin_header_callback) {
 		$this->admin_header_callback = $admin_header_callback;
 	}
 
+	/**
+	 * Setup the hooks for the Custom Header admin page.
+	 *
+	 * @since unknown
+	 */
 	function init() {
 		$page = add_theme_page(__('Custom Image Header'), __('Custom Image Header'), 'edit_themes', 'custom-header', array(&$this, 'admin_page'));
 
@@ -16,21 +49,43 @@ class Custom_Image_Header {
 		add_action("admin_head-$page", $this->admin_header_callback, 51);
 	}
 
+	/**
+	 * Get the current step.
+	 *
+	 * @since unknown
+	 *
+	 * @return int Current step
+	 */
 	function step() {
-		$step = (int) @$_GET['step'];
+		if ( ! isset( $_GET['step'] ) )
+			return 1;
+
+		$step = (int) $_GET['step'];
 		if ( $step < 1 || 3 < $step )
 			$step = 1;
+
 		return $step;
 	}
 
+	/**
+	 * Setup the enqueue for the JavaScript files.
+	 *
+	 * @since unknown
+	 */
 	function js_includes() {
 		$step = $this->step();
+
 		if ( 1 == $step )
 			wp_enqueue_script('colorpicker');
 		elseif ( 2 == $step )
 			wp_enqueue_script('cropper');
 	}
 
+	/**
+	 * Execute custom header modification.
+	 *
+	 * @since unknown
+	 */
 	function take_action() {
 		if ( isset( $_POST['textcolor'] ) ) {
 			check_admin_referer('custom-header');
@@ -48,6 +103,11 @@ class Custom_Image_Header {
 		}
 	}
 
+	/**
+	 * Execute Javascript depending on step.
+	 *
+	 * @since unknown
+	 */
 	function js() {
 		$step = $this->step();
 		if ( 1 == $step )
@@ -56,6 +116,11 @@ class Custom_Image_Header {
 			$this->js_2();
 	}
 
+	/**
+	 * Display Javascript based on Step 1.
+	 *
+	 * @since unknown
+	 */
 	function js_1() { ?>
 <script type="text/javascript">
 	var cp = new ColorPicker();
@@ -129,6 +194,11 @@ Event.observe( window, 'load', hide_text );
 <?php
 	}
 
+	/**
+	 * Display Javascript based on Step 2.
+	 *
+	 * @since unknown
+	 */
 	function js_2() { ?>
 <script type="text/javascript">
 	function onEndCrop( coords, dimensions ) {
@@ -173,6 +243,11 @@ Event.observe( window, 'load', hide_text );
 <?php
 	}
 
+	/**
+	 * Display first step of custom header image page.
+	 *
+	 * @since unknown
+	 */
 	function step_1() {
 		if ( $_GET['updated'] ) { ?>
 <div id="message" class="updated fade">
@@ -226,6 +301,11 @@ Event.observe( window, 'load', hide_text );
 
 	}
 
+	/**
+	 * Display second step of custom header image page.
+	 *
+	 * @since unknown
+	 */
 	function step_2() {
 		check_admin_referer('custom-header');
 		$overrides = array('test_form' => false);
@@ -298,6 +378,11 @@ Event.observe( window, 'load', hide_text );
 		<?php
 	}
 
+	/**
+	 * Display third step of custom header image page.
+	 *
+	 * @since unknown
+	 */
 	function step_3() {
 		check_admin_referer('custom-header');
 		if ( $_POST['oitar'] > 1 ) {
@@ -339,6 +424,11 @@ Event.observe( window, 'load', hide_text );
 		return $this->finished();
 	}
 
+	/**
+	 * Display last step of custom header image page.
+	 *
+	 * @since unknown
+	 */
 	function finished() {
 		?>
 <div class="wrap">
@@ -350,6 +440,11 @@ Event.observe( window, 'load', hide_text );
 		<?php
 	}
 
+	/**
+	 * Display the page based on the current step.
+	 *
+	 * @since unknown
+	 */
 	function admin_page() {
 		$step = $this->step();
 		if ( 1 == $step )

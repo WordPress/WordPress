@@ -1,5 +1,12 @@
 <?php
+/**
+ * Revisions administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 wp_reset_vars(array('revision', 'left', 'right', 'action'));

@@ -1,10 +1,24 @@
 <?php
+/**
+ * Update Plugin / Core administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 if ( ! current_user_can('update_plugins') )
 	wp_die(__('You do not have sufficient permissions to update plugins for this blog.'));
 
+/**
+ * Plugin upgrade display.
+ *
+ * @since 2.5
+ *
+ * @param string $plugin Plugin
+ */
 function do_plugin_upgrade($plugin) {
 	global $wp_filesystem;
 
@@ -44,6 +58,13 @@ function do_plugin_upgrade($plugin) {
 	echo '</div>';
 }
 
+/**
+ * Display upgrade WordPress for downloading latest or upgrading automatically form.
+ *
+ * @since 2.7
+ *
+ * @return null
+ */
 function core_upgrade_preamble() {
 	$update = get_option('update_core');
 
@@ -57,7 +78,7 @@ function core_upgrade_preamble() {
 	}
 
 	if ( 'development' == $update->response ) {
-		$message = __('You are using a developmemt version of WordPress.  You can upgrade to the latest nightly build automatically or download the nightly build and install it manually. Which would you like to do?');
+		$message = __('You are using a development version of WordPress.  You can upgrade to the latest nightly build automatically or download the nightly build and install it manually. Which would you like to do?');
 		$submit = __('Download nightly build');
 	} else {
 		$message = 	sprintf(__('You can upgrade to version %s automatically or download the nightly build and install it manually. Which would you like to do?'), $update->current);
@@ -78,6 +99,13 @@ function core_upgrade_preamble() {
 	echo '</div>';
 }
 
+/**
+ * Upgrade WordPress core display.
+ *
+ * @since 2.7
+ *
+ * @return null
+ */
 function do_core_upgrade() {
 	global $wp_filesystem;
 

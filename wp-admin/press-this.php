@@ -1,17 +1,56 @@
 <?php
+/**
+ * Press This Display and Handler.
+ *
+ * @package WordPress
+ * @subpackage Press_This
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' ) );
 
+/**
+ * Replace forward slash with backslash and slash.
+ *
+ * @package WordPress
+ * @subpackage Press_This
+ * @since unknown
+ *
+ * @param string $string
+ * @return string
+ */
 function preg_quote2($string) {
 	return str_replace('/', '\/', preg_quote($string));
 }
+
+/**
+ * Convert characters.
+ *
+ * @package WordPress
+ * @subpackage Press_This
+ * @since unknown
+ *
+ * @param string $text
+ * @return string
+ */
 function aposfix($text) {
 	$translation_table[chr(34)] = '&quot;';
 	$translation_table[chr(38)] = '&';
 	$translation_table[chr(39)] = '&apos;';
 	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($text, $translation_table));
 }
+
+/**
+ * Press It form handler.
+ *
+ * @package WordPress
+ * @subpackage Press_This
+ * @since unknown
+ *
+ * @return int Post ID
+ */
 function press_it() {
 	// define some basic variables
 	$quick['post_status'] = isset($_REQUEST['publish']) ? 'publish' : 'draft';

@@ -1,5 +1,15 @@
 <?php
+/**
+ * Edit links form for inclusion in administration panels.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
 if ( ! empty($link_id) ) {
+	/**
+	 * @var string
+	 */
 	$heading = __('Edit Link');
 	$submit_text = __('Save Changes');
 	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';

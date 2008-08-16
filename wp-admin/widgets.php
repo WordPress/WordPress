@@ -1,6 +1,15 @@
 <?php
+/**
+ * Widgets administration panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** WordPress Administration Bootstrap */
 require_once( 'admin.php' );
+
+/** WordPress Administration Widgets API */
 require_once(ABSPATH . 'wp-admin/includes/widgets.php');
 
 if ( ! current_user_can('switch_themes') )

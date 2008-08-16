@@ -1,4 +1,14 @@
 <?php
+/**
+ * Edit comment form for inclusion in another file.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * @var string
+ */
 $submitbutton_text = __('Edit Comment');
 $toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
 $form_action = 'editedcomment';

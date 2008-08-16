@@ -1,5 +1,16 @@
 <?php
+/**
+ * Post advanced form for inclusion in the administration panels.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/**
+ * Post ID global
+ * @name $post_ID
+ * @var int
+ */
 if ( ! isset( $post_ID ) )
 	$post_ID = 0;
 

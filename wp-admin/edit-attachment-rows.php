@@ -1,4 +1,13 @@
-<?php if ( ! defined('ABSPATH') ) die(); ?>
+<?php
+/**
+ * Edit attachments table for inclusion in administration panels.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+if ( ! defined('ABSPATH') ) die();
+?>
 <table class="widefat">
 	<thead>
 	<tr>

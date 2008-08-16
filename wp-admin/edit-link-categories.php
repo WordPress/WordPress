@@ -1,4 +1,12 @@
 <?php
+/**
+ * Edit Link Categories Administration Panel.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 // Handle bulk deletes

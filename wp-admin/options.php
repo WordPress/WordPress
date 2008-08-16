@@ -1,4 +1,18 @@
 <?php
+/**
+ * Options Management Administration Panel.
+ *
+ * Just allows for displaying of options.
+ *
+ * This isn't referenced or linked to, but will show all of the options and
+ * allow editing. The issue is that serialized data is not supported to be
+ * modified. Options can not be removed.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 $title = __('Settings');
