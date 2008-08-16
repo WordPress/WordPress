@@ -125,10 +125,10 @@ class WP_Http {
 		if ( is_null($working_transport) ) {
 			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) )
 				$working_transport[] = new WP_Http_ExtHttp();
-			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
-				$working_transport[] = new WP_Http_Fsockopen();
 			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
 				$working_transport[] = new WP_Http_Streams();
+			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
+				$working_transport[] = new WP_Http_Fsockopen();
 		}
 
 		return $working_transport;
@@ -201,7 +201,7 @@ class WP_Http {
 		}
 
 		if ( isset($r['headers']['User-Agent']) ) {
-			$r['user-agent'] = $headers['User-Agent'];
+			$r['user-agent'] = $r['headers']['User-Agent'];
 			unset($r['headers']['User-Agent']);
 		}
 
@@ -463,10 +463,20 @@ class WP_Http_Fsockopen {
 		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
+		$startDelay = time();
+
 		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
 			$handle = @fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
 		else
 			$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+
+		$endDelay = time();
+
+		// If the delay is greater than the timeout then fsockopen should't be
+		// used, because it will cause a long delay.
+		$elapseDelay = ($endDelay-$startDelay) > $r['timeout'];
+		if ( true === $elapseDelay )
+			add_option( 'disable_fsockopen', $endDelay, null, true );
 
 		if ( false === $handle )
 			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
@@ -544,6 +554,9 @@ class WP_Http_Fsockopen {
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
 	function test() {
+		if ( false !== ($option = get_option( 'disable_fsockopen' )) && time()-$option < 43200 ) // 12 hours
+			return false;
+
 		if ( function_exists( 'fsockopen' ) )
 			return true;
 
