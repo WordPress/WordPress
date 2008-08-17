@@ -206,6 +206,30 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
 	return $r;
 }
 
+/**
+ * Remove all of the hooks from a filter.
+ *
+ * @since 2.7
+ *
+ * @param string $tag The filter to remove hooks from.
+ * @param int $priority The priority number to remove.
+ * @return bool True when finished.
+ */
+function remove_all_filters($tag, $priority = false) {
+	global $wp_filter, $merge_filters;
+
+	if( isset($wp_filter[$tag]) ) {
+		if( false !== $priority && isset($$wp_filter[$tag][$priority]) )
+			unset($wp_filter[$tag][$priority]);
+		else
+			unset($wp_filter[$tag]);
+	}
+
+	if( isset($merged_filters[$tag]) )
+		unset($merged_filters[$tag]);
+
+	return true;
+}
 
 /**
  * Return the name of the current filter or action.
@@ -425,6 +449,19 @@ function has_action($tag, $function_to_check = false) {
  */
 function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
 	return remove_filter($tag, $function_to_remove, $priority, $accepted_args);
+}
+
+/**
+ * Remove all of the hooks from an action.
+ *
+ * @since 2.7
+ *
+ * @param string $tag The action to remove hooks from.
+ * @param int $priority The priority number to remove them from.
+ * @return bool True when finished.
+ */
+function remove_all_actions($tag, $priority = false) {
+	return remove_all_filters($tag, $priority);
 }
 
 //
