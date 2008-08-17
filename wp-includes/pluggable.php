@@ -1344,9 +1344,10 @@ if ( !function_exists( 'get_avatar' ) ) :
  * @param int|string|object $id_or_email A user ID,  email address, or comment object
  * @param int $size Size of the avatar image
  * @param string $default URL to a default image to use if no avatar is available
+ * @param string $alt Alternate text to use in image tag
  * @return string <img> tag for the user's avatar
 */
-function get_avatar( $id_or_email, $size = '96', $default = '' ) {
+function get_avatar( $id_or_email, $size = '96', $default = '', $alt = 'Avatar' ) {
 	if ( ! get_option('show_avatars') )
 		return false;
 
@@ -1403,12 +1404,12 @@ function get_avatar( $id_or_email, $size = '96', $default = '' ) {
 		if ( !empty( $rating ) )
 			$out .= "&amp;r={$rating}";
 
-		$avatar = "<img alt='' src='{$out}' class='avatar avatar-{$size}' height='{$size}' width='{$size}' />";
+		$avatar = "<img alt='{$alt}' src='{$out}' class='avatar avatar-{$size}' height='{$size}' width='{$size}' />";
 	} else {
-		$avatar = "<img alt='' src='{$default}' class='avatar avatar-{$size} avatar-default' height='{$size}' width='{$size}' />";
+		$avatar = "<img alt='{$alt}' src='{$default}' class='avatar avatar-{$size} avatar-default' height='{$size}' width='{$size}' />";
 	}
 
-	return apply_filters('get_avatar', $avatar, $id_or_email, $size, $default);
+	return apply_filters('get_avatar', $avatar, $id_or_email, $size, $default, $alt);
 }
 endif;
 
