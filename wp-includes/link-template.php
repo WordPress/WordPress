@@ -789,6 +789,7 @@ function get_shortcut_link() {
 */
 function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
+	$orig_scheme = $scheme;
 	if ( !in_array($scheme, array('http', 'https')) ) {
 		if ( ('login_post' == $scheme) && ( force_ssl_login() || force_ssl_admin() ) )
 			$scheme = 'https';
@@ -805,7 +806,7 @@ function site_url($path = '', $scheme = null) {
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
-	return $url;
+	return apply_filters('site_url', $url, $path, $orig_scheme);
 }
 
 /** Return the admin url
