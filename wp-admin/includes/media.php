@@ -549,6 +549,9 @@ function image_size_input_fields($post, $checked='') {
 			// is this size selectable?
 			$enabled = ( $downsize[3] || 'full' == $size );
 			$css_id = "image-size-{$size}-{$post->ID}";
+			// if this size is the default but that's not available, don't select it
+			if ( $checked && !$enabled )
+				$checked = '';
 			// if $checked was not specified, default to the first available size that's bigger than a thumbnail
 			if ( !$checked && $enabled && 'thumbnail' != $size )
 				$checked = $size;
