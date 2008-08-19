@@ -551,6 +551,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 	$attrarr = array ();
 	$mode = 0;
 	$attrname = '';
+	$uris = array('xmlns', 'profile', 'href', 'src', 'cite', 'classid', 'codebase', 'data', 'usemap', 'longdesc', 'action');
 
 	# Loop through the whole attribute list
 
@@ -595,7 +596,9 @@ function wp_kses_hair($attr, $allowed_protocols) {
 				if (preg_match('/^"([^"]*)"(\s+|$)/', $attr, $match))
 					# "value"
 					{
-					$thisval = wp_kses_bad_protocol($match[1], $allowed_protocols);
+					$thisval = $match[1];
+					if ( in_array($attrname, $uris) )		
+						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => $thisval, 'whole' => "$attrname=\"$thisval\"", 'vless' => 'n');
@@ -609,7 +612,9 @@ function wp_kses_hair($attr, $allowed_protocols) {
 				if (preg_match("/^'([^']*)'(\s+|$)/", $attr, $match))
 					# 'value'
 					{
-					$thisval = wp_kses_bad_protocol($match[1], $allowed_protocols);
+					$thisval = $match[1];
+					if ( in_array($attrname, $uris) )		
+						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => $thisval, 'whole' => "$attrname='$thisval'", 'vless' => 'n');
@@ -623,7 +628,9 @@ function wp_kses_hair($attr, $allowed_protocols) {
 				if (preg_match("%^([^\s\"']+)(\s+|$)%", $attr, $match))
 					# value
 					{
-					$thisval = wp_kses_bad_protocol($match[1], $allowed_protocols);
+					$thisval = $match[1];
+					if ( in_array($attrname, $uris) )		
+						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
 						$attrarr[$attrname] = array ('name' => $attrname, 'value' => $thisval, 'whole' => "$attrname=\"$thisval\"", 'vless' => 'n');
