@@ -2,29 +2,43 @@
 
 /* Note: these tags go anywhere in the template */
 
-function get_header() {
+function get_header( $name = null ) {
 	do_action( 'get_header' );
-	if ('' == locate_template(array('header.php'), true))
+
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "header-{$name}.php";
+
+	$templates[] = "header.php";
+
+	if ('' == locate_template($templates, true))
 		load_template( get_theme_root() . '/default/header.php');
 }
 
 
-function get_footer() {
+function get_footer( $name = null ) {
 	do_action( 'get_footer' );
-	if ('' == locate_template(array('footer.php'), true))
+
+	$templates = array();
+	if ( isset($name) )
+		$templates[] = "footer-{$name}.php";
+
+	$templates[] = "footer.php";
+
+	if ('' == locate_template($templates, true))
 		load_template( get_theme_root() . '/default/footer.php');
 }
 
 
 function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar' );
-	
+
 	$templates = array();
 	if ( isset($name) )
 		$templates[] = "sidebar-{$name}.php";
-	
+
 	$templates[] = "sidebar.php";
-	
+
 	if ('' == locate_template($templates, true))
 		load_template( get_theme_root() . '/default/sidebar.php');
 }
