@@ -524,6 +524,8 @@ class WP_Query {
 		$qv['w'] = absint($qv['w']);
 		$qv['m'] = absint($qv['m']);
 		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
+		$qv['pagename'] = trim( $qv['pagename'] );
+		$qv['name'] = trim( $qv['name'] );
 		if ( '' !== $qv['hour'] ) $qv['hour'] = absint($qv['hour']);
 		if ( '' !== $qv['minute'] ) $qv['minute'] = absint($qv['minute']);
 		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
