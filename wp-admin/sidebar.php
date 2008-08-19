@@ -1,6 +1,18 @@
 <?php
+/**
+ * Quick way to create a WordPress Post.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/**
+ * @var string
+ * @name $mode
+ */
 $mode = 'sidebar';
 
+/** WordPress Administration Bootstrap */
 require_once('admin.php');
 
 if ( ! current_user_can('edit_posts') )
