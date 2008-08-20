@@ -35,7 +35,7 @@
  * </code>
  *
  * @package WordPress
- * @subpackage Plugins
+ * @subpackage Plugin
  */
 
 /**
@@ -64,7 +64,7 @@ if ( ! function_exists('maybe_create_table') ) :
  *
  * @since unknown
  * @package WordPress
- * @subpackage Plugins
+ * @subpackage Plugin
  * @uses $wpdb
  *
  * @param string $table_name Database table name.
@@ -96,7 +96,7 @@ if ( ! function_exists('maybe_add_column') ) :
  *
  * @since unknown
  * @package WordPress
- * @subpackage Plugins
+ * @subpackage Plugin
  * @uses $wpdb
  * @uses $debug
  *
@@ -131,7 +131,7 @@ endif;
  *
  * @since unknown
  * @package WordPress
- * @subpackage Plugins
+ * @subpackage Plugin
  * @uses $wpdb
  *
  * @param string $table_name Table name
@@ -172,6 +172,10 @@ function maybe_drop_column($table_name, $column_name, $drop_ddl) {
  *      Key
  *      Default
  *      Extra
+ *
+ * @since unknown
+ * @package WordPress
+ * @subpackage Plugin
  *
  * @param string $table_name Table name
  * @param string $col_name Column name
