@@ -4,6 +4,7 @@
  *
  * This class was contributed by Michel Weimerskirch.
  *
+ * @package MCManager.includes
  * @author Moxiecode
  * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */

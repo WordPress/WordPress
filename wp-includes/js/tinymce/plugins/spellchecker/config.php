@@ -1,4 +1,10 @@
 <?php
+/**
+ * config.php
+ * @package MCManager.includes
+ * @author Moxiecode
+ * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
+ */
 	// General settings
 	$config['general.engine'] = 'GoogleSpell';
 	//$config['general.engine'] = 'PSpell';

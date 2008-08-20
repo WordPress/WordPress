@@ -1,5 +1,4 @@
 <?php
-// some code below is from:
 /**
  * $Id: tiny_mce_gzip.php 315 2007-10-25 14:03:43Z spocke $
  *

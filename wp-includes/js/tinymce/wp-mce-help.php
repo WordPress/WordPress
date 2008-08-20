@@ -1,4 +1,12 @@
-<?php require_once('../../../wp-load.php');
+<?php
+/**
+ * @package TinyMCE
+ * @author Moxiecode
+ * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
+ */
+
+/** @ignore */
+require_once('../../../wp-load.php');
 header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
