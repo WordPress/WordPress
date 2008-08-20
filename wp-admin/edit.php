@@ -11,7 +11,6 @@ require_once('admin.php');
 
 // Handle bulk actions
 if ( !empty($_GET['action']) && $_GET['action'] != 'Actions' ) {
-	echo "Ation is " . $_GET['action'];
 	switch ( $_GET['action'] ) {
 		case 'delete':
 			if ( isset($_GET['post']) ) {
@@ -255,6 +254,7 @@ if ( 1 == count($posts) && is_singular() ) :
 <thead>
   <tr>
     <th scope="col"><?php _e('Comment') ?></th>
+    <th scope="col"><?php _e('Author') ?></th>
     <th scope="col"><?php _e('Submitted') ?></th>
   </tr>
 </thead>
