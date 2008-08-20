@@ -343,14 +343,14 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
+	$posts_columns['title'] = __('Title');
 	if ( isset($_GET['post_status']) && 'draft' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Modified');
 	elseif ( isset($_GET['post_status']) && 'pending' === $_GET['post_status'] )
 		$posts_columns['modified'] = __('Submitted');
 	else
 		$posts_columns['date'] = __('Date');
-	$posts_columns['title'] = __('Title');
-	$posts_columns['author'] = __('Author');
+	//$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
 	if ( !isset($_GET['post_status']) || !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
@@ -367,11 +367,12 @@ function wp_manage_media_columns() {
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['icon'] = '';
 	$posts_columns['media'] = _c('Media|media column header');
-	$posts_columns['desc'] = _c('Description|media column header');
+	$posts_columns['tags'] = _c('Tags|media column header');
+//	$posts_columns['desc'] = _c('Description|media column header');
 	$posts_columns['date'] = _c('Date Added|media column header');
 	$posts_columns['parent'] = _c('Appears with|media column header');
 	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
-	$posts_columns['location'] = _c('Location|media column header');
+//	$posts_columns['actions'] = _c('Actions|media column header');
 	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
 
 	return $posts_columns;
@@ -741,18 +742,12 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$post = get_post($comment->comment_post_ID);
 	$authordata = get_userdata($post->post_author);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
-	$class = ('unapproved' == $the_comment_status) ? 'unapproved' : '';
 
 	if ( current_user_can( 'edit_post', $post->ID ) ) {
 		$post_link = "<a href='" . get_comment_link() . "'>";
-
 		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
-
-		$edit_link_start = "<a class='row-title' href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>";
-		$edit_link_end = '</a>';
 	} else {
 		$post_link = get_the_title($comment->comment_post_ID);
-		$edit_link_start = $edit_link_end ='';
 	}
 
 	$author_url = get_comment_author_url();
@@ -774,52 +769,63 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$spam_url      = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 
 ?>
-  <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
+  <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $the_comment_status; ?>'>
 <?php if ( $checkbox ) : ?>
     <td class="check-column"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
 <?php endif; ?>
-    <td class="comment">
-    <p class="comment-author"><strong><?php echo $edit_link_start; comment_author(); echo $edit_link_end; ?></strong><br />
-    <?php if ( !empty($author_url) ) : ?>
-    <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a> |
-    <?php endif; ?>
-    <?php if ( current_user_can( 'edit_post', $post->ID ) ) : ?>
-    <?php if ( !empty($comment->comment_author_email) ): ?>
-    <?php comment_author_email_link() ?> |
-    <?php endif; ?>
-    <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
-	<?php endif; //current_user_can?>
-    </p>
-   	<?php if ( 'detail' == $mode ) comment_text(); ?>
-   	<p><?php printf(__('From %1$s, %2$s'), $post_link, $ptime) ?></p>
-    </td>
-    <td><?php comment_date(__('Y/m/d')); ?></td>
-    <td class="action-links">
+    <td class="comment-column">
+    <?php if ( 'detail' == $mode || 'single' == $mode ) comment_text(); ?>
+    
 <?php
-
 	$actions = array();
 
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
 		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
-
-		// we're looking at list of only approved or only unapproved comments
-		if ( 'moderated' == $comment_status ) {
-			$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&new=approved' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
-			unset($actions['unapprove']);
-		} elseif ( 'approved' == $comment_status ) {
-			$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&new=unapproved' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
-			unset($actions['approve']);
-		}
-
+		$actions['edit']      = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a> | ';
+		$actions['flag']      = "<a href='#' class='no-crazy'>Flag for Follow-up</a> | ";
 		$actions['spam']      = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
 		$actions['delete']    = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
+
+		if ( $comment_status ) { // not looking at all comments
+			if ( 'approved' == $the_comment_status ) {
+				$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
+				unset($actions['approve']);
+			} else {
+				$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+				unset($actions['unapprove']);
+			}
+		}
+
+		if ( 'spam' == $the_comment_status )
+			unset($actions['spam']);
+
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
+
 		foreach ( $actions as $action => $link )
 			echo "<span class='$action'>$link</span>";
 	}
 	?>
+    </td>
+	<td class="author-column">
+		<strong><?php comment_author(); ?></strong><br />
+	    <?php if ( !empty($author_url) ) : ?>
+	    <a href="<?php echo $author_url ?>"><?php echo $author_url_display; ?></a><br />
+	    <?php endif; ?>
+	    <?php if ( current_user_can( 'edit_post', $post->ID ) ) : ?>
+	    <?php if ( !empty($comment->comment_author_email) ): ?>
+	    <?php comment_author_email_link() ?><br />
+	    <?php endif; ?>
+	    <a href="edit-comments.php?s=<?php comment_author_IP() ?>&amp;mode=detail"><?php comment_author_IP() ?></a>
+		<?php endif; //current_user_can?>    
 	</td>
+    <td class="date-column"><?php comment_date(__('Y/m/d \a\t g:ia')); ?></td>
+<?php if ( 'single' !== $mode ) : ?>
+    <td class="response-column">
+    "<?php echo $post_link ?>" <?php echo sprintf('(%s comments)', $post->comment_count); ?><br/>
+    <?php echo get_the_time(__('Y/m/d \a\t g:ia')); ?>
+    </td>
+<?php endif; ?>
   </tr>
 	<?php
 }
@@ -989,13 +995,16 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	$year = '<input type="text" id="aa" name="aa" value="' . $aa . '" size="4" maxlength="5"' . $tab_index_attribute . ' autocomplete="off"  />';
 	$hour = '<input type="text" id="hh" name="hh" value="' . $hh . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
 	$minute = '<input type="text" id="mn" name="mn" value="' . $mn . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
-	printf(_c('%1$s%2$s, %3$s <br />@ %4$s : %5$s|1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input'), $month, $day, $year, $hour, $minute);
+	printf(_c('%1$s%2$s, %3$s @ %4$s : %5$s|1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input'), $month, $day, $year, $hour, $minute);
 	echo "\n\n";
 	foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit )
 		echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
 ?>
 
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" />
+
+<a href="#edit_timestamp" class="save-timestamp hide-if-no-js button"><?php _e('OK'); ?></a>
+<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Cancel'); ?></a>
 <?php
 }
 
@@ -1172,7 +1181,6 @@ function wp_remember_old_slug() {
 function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default') {
 	global $wp_meta_boxes;
 
-
 	if  ( !isset($wp_meta_boxes) )
 		$wp_meta_boxes = array();
 	if ( !isset($wp_meta_boxes[$page]) )
@@ -1180,31 +1188,39 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 	if ( !isset($wp_meta_boxes[$page][$context]) )
 		$wp_meta_boxes[$page][$context] = array();
 
+	foreach ( array_keys($wp_meta_boxes[$page]) as $a_context ) {
 	foreach ( array('high', 'core', 'default', 'low') as $a_priority ) {
-		if ( !isset($wp_meta_boxes[$page][$context][$a_priority][$id]) )
+		if ( !isset($wp_meta_boxes[$page][$a_context][$a_priority][$id]) )
 			continue;
+
 		// If a core box was previously added or removed by a plugin, don't add.
 		if ( 'core' == $priority ) {
 			// If core box previously deleted, don't add
-			if ( false === $wp_meta_boxes[$page][$context][$a_priority][$id] )
+			if ( false === $wp_meta_boxes[$page][$a_context][$a_priority][$id] )
 				return;
 			// If box was added with default priority, give it core priority to maintain sort order
 			if ( 'default' == $a_priority ) {
-				$wp_meta_boxes[$page][$context]['core'][$id] = $wp_meta_boxes[$page][$context]['default'][$id];
-				unset($wp_meta_boxes[$page][$context]['default'][$id]);
+				$wp_meta_boxes[$page][$a_context]['core'][$id] = $wp_meta_boxes[$page][$a_context]['default'][$id];
+				unset($wp_meta_boxes[$page][$a_context]['default'][$id]);
 			}
 			return;
 		}
 		// If no priority given and id already present, use existing priority
-		if ( empty($priority) )
+		if ( empty($priority) ) {
 			$priority = $a_priority;
-		// An id can be in only one priority
-		if ( $priority != $a_priority )
-			unset($wp_meta_boxes[$page][$context][$a_priority][$id]);
+		// else if we're adding to the sorted priortiy, we don't know the title or callback.  Glab them from the previously added context/priority.
+		} elseif ( 'sorted' == $priority ) {
+			$title = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['title'];
+			$callback = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['callback'];
+		}
+		// An id can be in only one priority and one context
+		if ( $priority != $a_priority || $context != $a_context )
+			unset($wp_meta_boxes[$page][$a_context][$a_priority][$id]);
+	}
 	}
 
 	if ( empty($priority) )
-		$priority = low;
+		$priority = 'low';
 
 	if ( !isset($wp_meta_boxes[$page][$context][$priority]) )
 		$wp_meta_boxes[$page][$context][$priority] = array();
@@ -1212,29 +1228,49 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 	$wp_meta_boxes[$page][$context][$priority][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
 }
 
+// crazyhorse - this can be made simpler
 function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;
+	static $already_sorted = false;
 
 	do_action('do_meta_boxes', $page, $context, $object);
 
-	if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
-		return;
+	echo "<div id='$context-sortables' class='meta-box-sortables'>\n";
 
-	foreach ( array('high', 'core', 'default', 'low') as $priority ) {
-		if ( ! isset( $wp_meta_boxes[$page][$context][$priority] ) )
-			continue;
-
-		foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
-			if ( false === $box )
-				continue;
-			echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
-			echo "<h3>{$box['title']}</h3>\n";
-			echo '<div class="inside">' . "\n";
-			call_user_func($box['callback'], $object, $box);
-			echo "</div>\n";
-			echo "</div>\n";
+	$i = 0;
+	do { 
+		// Grab the ones the user has manually sorted.  Pull them out of their previous context/priority and into the one the user chose
+		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
+			foreach ( $sorted as $box_context => $ids )
+				foreach ( explode(',', $ids) as $id )
+					if ( $id )
+						add_meta_box( $id, null, null, $page, $box_context, 'sorted' );
 		}
-	}
+		$already_sorted = true;
+
+		if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
+			break;
+
+
+		foreach ( array('high', 'sorted', 'core', 'default', 'low') as $priority ) {
+			foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
+				if ( false == $box || ! $box['title'] )
+					continue;
+				$i++;
+				echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
+				echo "<h3><span class='hndle'>{$box['title']}</span></h3>\n";
+				echo '<div class="inside">' . "\n";
+				call_user_func($box['callback'], $object, $box);
+				echo "</div>\n";
+				echo "</div>\n";
+			}
+		}
+	} while(0);
+
+	echo "</div>";
+
+	return $i;
+
 }
 
 /**

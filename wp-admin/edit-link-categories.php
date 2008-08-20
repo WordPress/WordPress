@@ -9,40 +9,41 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-// Handle bulk deletes
-if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
+// Handle bulk actions
+if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 	check_admin_referer('bulk-link-categories');
 
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
+	
+	if ( $_GET['action'] == 'delete' ) {
+		foreach( (array) $_GET['delete'] as $cat_ID ) {
+			$cat_name = get_term_field('name', $cat_ID, 'link_category');
+			$default_cat_id = get_option('default_link_category');
 
-	foreach( (array) $_GET['delete'] as $cat_ID ) {
-		$cat_name = get_term_field('name', $cat_ID, 'link_category');
-		$default_cat_id = get_option('default_link_category');
+			// Don't delete the default cats.
+			if ( $cat_ID == $default_cat_id )
+				wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
-		// Don't delete the default cats.
-		if ( $cat_ID == $default_cat_id )
-			wp_die(sprintf(__("Can&#8217;t delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+			wp_delete_term($cat_ID, 'link_category', array('default' => $default_cat_id));
+		}
 
-		wp_delete_term($cat_ID, 'link_category', array('default' => $default_cat_id));
+		$location = 'edit-link-categories.php';
+		if ( $referer = wp_get_referer() ) {
+			if ( false !== strpos($referer, 'edit-link-categories.php') )
+				$location = $referer;
+		}
+
+		$location = add_query_arg('message', 6, $location);
+		wp_redirect($location);
+		exit();
 	}
-
-	$location = 'edit-link-categories.php';
-	if ( $referer = wp_get_referer() ) {
-		if ( false !== strpos($referer, 'edit-link-categories.php') )
-			$location = $referer;
-	}
-
-	$location = add_query_arg('message', 6, $location);
-	wp_redirect($location);
-	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 	 exit;
 }
 
 $title = __('Link Categories');
-$parent_file = 'edit.php';
 
 wp_enqueue_script( 'admin-categories' );
 wp_enqueue_script('admin-forms');
@@ -64,11 +65,7 @@ endif; ?>
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
-<?php if ( current_user_can('manage_categories') ) : ?>
-	<h2><?php printf(__('Manage Link Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
-<?php else : ?>
-	<h2><?php _e('Manage Link Categories') ?> </h2>
-<?php endif; ?>
+	<h2><?php printf( current_user_can('manage_categories') ? __('Link Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
 
 <p id="post-search">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Categories' ); ?>:</label>
@@ -99,7 +96,11 @@ if ( $page_links )
 ?>
 
 <div class="alignleft">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-link-categories'); ?>
 </div>
 

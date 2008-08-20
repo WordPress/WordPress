@@ -10,22 +10,24 @@
 require_once ('admin.php');
 
 // Handle bulk deletes
-if ( isset($_GET['deleteit']) && isset($_GET['linkcheck']) ) {
+if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 	check_admin_referer('bulk-bookmarks');
 
 	if ( ! current_user_can('manage_links') )
 		wp_die( __('You do not have sufficient permissions to edit the links for this blog.') );
+	
+	if ( $_GET['action'] == 'delete' ) {
+		foreach ( (array) $_GET['linkcheck'] as $link_id) {
+			$link_id = (int) $link_id;
 
-	foreach ( (array) $_GET['linkcheck'] as $link_id) {
-		$link_id = (int) $link_id;
+			wp_delete_link($link_id);
+		}
 
-		wp_delete_link($link_id);
+		$sendback = wp_get_referer();
+		$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+		wp_redirect($sendback);
+		exit;
 	}
-
-	$sendback = wp_get_referer();
-	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
-	wp_redirect($sendback);
-	exit;
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 	 exit;
@@ -82,7 +84,7 @@ if ( isset($_GET['deleted']) ) {
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
-<h2><?php printf( __( 'Manage Links (<a href="%s">add new</a>)' ), 'link-add.php' ); ?></h2>
+<h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
 
 <p id="post-search">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Links' ); ?>:</label>
@@ -95,7 +97,11 @@ if ( isset($_GET['deleted']) ) {
 <div class="tablenav">
 
 <div class="alignleft">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
 $select_cat = "<select name=\"cat_id\">\n";

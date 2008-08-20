@@ -10,30 +10,32 @@
 require_once('admin.php');
 
 // Handle bulk deletes
-if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
+if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 	check_admin_referer('bulk-pages');
-	foreach( (array) $_GET['delete'] as $post_id_del ) {
-		$post_del = & get_post($post_id_del);
+	if ( $_GET['action'] == 'delete' ) {
+		foreach( (array) $_GET['delete'] as $post_id_del ) {
+			$post_del = & get_post($post_id_del);
 
-		if ( !current_user_can('delete_page', $post_id_del) )
-			wp_die( __('You are not allowed to delete this page.') );
+			if ( !current_user_can('delete_page', $post_id_del) )
+				wp_die( __('You are not allowed to delete this page.') );
 
-		if ( $post_del->post_type == 'attachment' ) {
-			if ( ! wp_delete_attachment($post_id_del) )
-				wp_die( __('Error in deleting...') );
-		} else {
-			if ( !wp_delete_post($post_id_del) )
-				wp_die( __('Error in deleting...') );
+			if ( $post_del->post_type == 'attachment' ) {
+				if ( ! wp_delete_attachment($post_id_del) )
+					wp_die( __('Error in deleting...') );
+			} else {
+				if ( !wp_delete_post($post_id_del) )
+					wp_die( __('Error in deleting...') );
+			}
 		}
+
+		$sendback = wp_get_referer();
+		if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('page-new.php');
+		elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+		$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+
+		wp_redirect($sendback);
+		exit();
 	}
-
-	$sendback = wp_get_referer();
-	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('page-new.php');
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
-	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
-
-	wp_redirect($sendback);
-	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 	 exit;
@@ -51,7 +53,7 @@ $post_stati  = array(	//	array( adj, noun )
 		'private' => array(__('Private'), __('Private pages'), __ngettext_noop('Private (%s)', 'Private (%s)'))
 	);
 
-$post_status_label = __('Manage Pages');
+$post_status_label = __('Pages');
 $post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
@@ -79,7 +81,7 @@ if ( isset($_GET['author']) && $_GET['author'] ) {
 	$author_user = get_userdata( (int) $_GET['author'] );
 	$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
 }
-printf( _c( '%1$s%2$s%3$s|You can reorder these: 1: Pages, 2: by {s}, 3: matching {s}' ), $post_status_label, $h2_author, $h2_search );
+printf( _c( '%1$s%2$s%3$s (<a href="%4$s">Add New</a>)|You can reorder these: 1: Pages, 2: by {s}, 3: matching {s}' ), $post_status_label, $h2_author, $h2_search, 'page-new.php' );
 ?></h2>
 
 <ul class="subsubsub">
@@ -146,7 +148,11 @@ if ( $page_links )
 ?>
 
 <div class="alignleft">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-pages'); ?>
 </div>
 

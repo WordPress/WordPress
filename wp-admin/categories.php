@@ -10,11 +10,10 @@
 require_once('admin.php');
 
 $title = __('Categories');
-$parent_file = 'edit.php';
 
 wp_reset_vars(array('action', 'cat'));
 
-if ( isset($_GET['deleteit']) && isset($_GET['delete']) )
+if ( $_GET['action'] == 'delete' && isset($_GET['delete']) )
 	$action = 'bulk-delete';
 
 switch($action) {
@@ -127,11 +126,7 @@ endif; ?>
 
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
-<?php if ( current_user_can('manage_categories') ) : ?>
-	<h2><?php printf(__('Manage Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
-<?php else : ?>
-	<h2><?php _e('Manage Categories') ?> </h2>
-<?php endif; ?>
+	<h2><?php printf( current_user_can('manage_categories') ? __('Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
 
 <p id="post-search">
 	<label class="hidden" for="post-search-input"><?php _e('Search Categories'); ?>:</label>
@@ -162,7 +157,11 @@ if ( $page_links )
 ?>
 
 <div class="alignleft">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-categories'); ?>
 </div>
 

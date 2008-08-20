@@ -8,34 +8,38 @@
 
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
+add_thickbox();
+wp_enqueue_script('media-upload');
 
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
 
 // Handle bulk deletes
-if ( isset($_GET['deleteit']) && isset($_GET['delete']) ) {
+if ( isset($_GET['action']) && isset($_GET['media']) ) {
 	check_admin_referer('bulk-media');
-	foreach( (array) $_GET['delete'] as $post_id_del ) {
-		$post_del = & get_post($post_id_del);
+	if ( $_GET['action'] == 'delete' ) {
+		foreach( (array) $_GET['media'] as $post_id_del ) {
+			$post_del = & get_post($post_id_del);
 
-		if ( !current_user_can('delete_post', $post_id_del) )
-			wp_die( __('You are not allowed to delete this post.') );
+			if ( !current_user_can('delete_post', $post_id_del) )
+				wp_die( __('You are not allowed to delete this post.') );
 
-		if ( $post_del->post_type == 'attachment' )
-			if ( ! wp_delete_attachment($post_id_del) )
-				wp_die( __('Error in deleting...') );
+			if ( $post_del->post_type == 'attachment' )
+				if ( ! wp_delete_attachment($post_id_del) )
+					wp_die( __('Error in deleting...') );
+		}
+
+		$location = 'upload.php';
+		if ( $referer = wp_get_referer() ) {
+			if ( false !== strpos($referer, 'upload.php') )
+				$location = $referer;
+		}
+
+		$location = add_query_arg('message', 2, $location);
+		$location = remove_query_arg('posted', $location);
+		wp_redirect($location);
+		exit;
 	}
-
-	$location = 'upload.php';
-	if ( $referer = wp_get_referer() ) {
-		if ( false !== strpos($referer, 'upload.php') )
-			$location = $referer;
-	}
-
-	$location = add_query_arg('message', 2, $location);
-	$location = remove_query_arg('posted', $location);
-	wp_redirect($location);
-	exit;
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 	exit;
@@ -64,7 +68,7 @@ if ( !isset( $_GET['paged'] ) )
 if ( is_singular() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
 } else {
-	$post_mime_type_label = _c('Manage Media|manage media header');
+	$post_mime_type_label = _c('Media|manage media header');
 	if ( isset($_GET['post_mime_type']) && in_array( $_GET['post_mime_type'], array_keys($post_mime_types) ) )
         $post_mime_type_label = $post_mime_types[$_GET['post_mime_type']][1];
 	if ( $post_listing_pageable && !is_archive() && !is_search() )
@@ -86,7 +90,7 @@ if ( is_singular() ) {
 	$h2_cat    = isset($_GET['cat']) && $_GET['cat'] ? ' ' . sprintf( __('in &#8220;%s&#8221;'), single_cat_title('', false) ) : '';
 	$h2_tag    = isset($_GET['tag']) && $_GET['tag'] ? ' ' . sprintf( __('tagged with &#8220;%s&#8221;'), single_tag_title('', false) ) : '';
 	$h2_month  = isset($_GET['m'])   && $_GET['m']   ? ' ' . sprintf( __('during %s'), single_month_title(' ', false) ) : '';
-	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month );
+	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s (<a href="%7$s" class="thickbox">Add New</a>)|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month, 'media-upload.php?library=false&TB_iframe=true' );
 }
 ?></h2>
 
@@ -155,7 +159,11 @@ if ( $page_links )
 ?>
 
 <div class="alignleft">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-media'); ?>
 <?php
 
