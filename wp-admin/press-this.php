@@ -334,8 +334,10 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	wp_enqueue_style('press-this');
 	wp_enqueue_style('press-this-ie');
 	wp_enqueue_style( 'colors' );
-	wp_enqueue_script('post');
+	wp_enqueue_script( 'post' );
 	wp_enqueue_script('editor_functions');
+
+//	wp_teeny_mce();
 
 	do_action('admin_print_styles');
 	do_action('admin_print_scripts');

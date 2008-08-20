@@ -105,7 +105,7 @@ if (isset($plugin_page)) {
 		include(ABSPATH . "wp-admin/import/$importer.php");
 	}
 
-	$parent_file = 'edit.php';
+	$parent_file = 'users.php';
 	$submenu_file = 'import.php';
 	$title = __('Import');
 

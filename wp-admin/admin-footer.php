@@ -5,7 +5,11 @@
  * @package WordPress
  * @subpackage Administration
  */
-?>
+
+if ( ! $fixed_bar ) { ?>
+<br class="clear" /></div><!-- wpbody-content -->
+<?php } ?>
+
 </div><!-- wpbody -->
 </div><!-- wpcontent -->
 </div><!-- wpwrap -->

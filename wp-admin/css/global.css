@@ -1,5 +1,48 @@
-/* styles for use by people extending the WordPress interface */
+/* 2 column liquid layout */
+div#wpbody {
+	float: right;
+	clear: right;
+	width: 100%;
+	margin-left: -185px;
+}
 
+div#wpbody-content {
+	margin-left: 175px;
+	border-width: 1px 0 0 1px;
+	border-style: solid;
+	border-color: #c6d9e9;
+	padding-top: 10px;
+}
+
+ul#adminmenu {
+	float: left;
+	clear: left;
+	width: 165px; /* + 10 padding */
+	position: relative;
+}
+
+/* inner 2 column liquid layout */
+
+.inner-sidebar {
+	float: right;
+	clear: right;
+	width: 220px;
+	position: relative;
+}
+
+.has-sidebar {
+	float: left;
+	clear: left;
+	width: 100%;
+	margin-right: -240px;
+}
+
+.has-sidebar .has-sidebar-content {
+	margin-right: 245px;
+}
+
+
+/* styles for use by people extending the WordPress interface */
 
 body	{
 	margin: 0;
@@ -91,6 +134,11 @@ h6 {
 
 .subsubsub li { display: inline; margin: 0; padding: 0; }
 
+/* make it small? */
+.subsubsub li.spam {
+	font-size: .9em;
+}
+
 .widefat {
 	border-width: 1px;
 	border-style: solid;
@@ -151,19 +199,19 @@ th.check-column + th, th.check-column + td {
 	text-align: center;
 }
 
+#wpbody .wrap {
+	position: relative;
+}
+
 .wrap, .updated, .error {
-	margin: 0;
-	margin-left: 15px;
-	margin-right: 15px;
+	margin: 0 15px;
 	padding: 0;
-	max-width: 980px;
 }
 
 .updated, .error {
 	border-width: 1px;
 	border-style: solid;
 	padding: 0 0.6em;
-	max-width: 950px;
 	margin-bottom: 1em;
 }
 
@@ -189,7 +237,7 @@ th.check-column + th, th.check-column + td {
 	border-bottom-style: solid;
 	clear: both;
 	font: 24px Georgia, "Times New Roman", Times, serif;
-	margin: 5px 0 0 -4px;
+	margin: 5px 0 10px -4px;
 	padding: 0;
 	padding-bottom: 7px;
 	padding-right: 280px;

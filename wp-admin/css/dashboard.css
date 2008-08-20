@@ -1,64 +1,38 @@
-/* Right Now */
-
-#rightnow {
-	border-width: 1px;
+form .input-text-wrap {
 	border-style: solid;
+	border-width: 1px;
+	padding: 2px 3px;
+	border-color: #CCCCCC;
+}
+
+form .input-text-wrap input {
+	border: 0pt none;
+	outline-color: -moz-use-text-color;
+	outline-style: none;
+	outline-width: medium;
+	padding: 0pt;
+	width: 99%;
+	border-style: solid;
+	color: #333333;
+}
+
+form .textarea-wrap {
+	border-style: solid;
+	border-width: 1px;
 	padding: 2px;
-	margin-top: 10px;
-	margin-right: 7px;
+	border-color: #CCCCCC;
 }
 
-#rightnow .reallynow {
-	padding: 6px;
-	font-size: 15px;
-	line-height: 2;
-	margin: 0;
+form .textarea-wrap textarea {
+	border: 0pt none;
+	padding: 0;
+	width: 99%;
 }
 
-#rightnow .rbutton {
-	font-weight: normal;
-	padding: 6px;
-	border-bottom: none;
-	-moz-border-radius: 2px;
-	-khtml-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	text-decoration: none;
-}
-
-#rightnow .reallynow span {
-	display: block;
-	text-align: left;
-	float: left;
-	padding: 0 6px;
-}
-
-#rightnow .reallynow a {
-	display: block;
-	text-align: right;
-	float: right;
-	padding: 0 6px;
-	font-size: 14px;
-	margin: 1px 6px 0 0;
-}
-
-#rightnow .youhave {
-	font-size:  14px;
-	padding: 10px;
-}
-
-#rightnow h3, #rightnow p {
-	padding: 0 10px;
-}
-
-#rightnow a {
-	font-weight: bold;
-}
 
 /* Widgets */
 
 div#dashboard-widgets-wrap {
-	margin-top: -20px;
 	margin-right: -13px; /* 20 (div.dashboard-widget margin-right) - 7 (#rightnow margin-right) */
 }
 
@@ -86,7 +60,7 @@ div.dashboard-widget-holder.full {
 
 div.dashboard-widget-holder.double div.dashboard-widget {
 	height: 54em;
-	padding-bottom: 28px /* lame */
+        padding-bottom: 28px /* lame */
 }
 
 div.dashboard-widget {
@@ -94,14 +68,24 @@ div.dashboard-widget {
 	margin-right: 20px;
 	border-width: 1px;
 	border-style: solid;
-	padding: 2px;
 	height: 27em;
 	overflow: auto;
 	font-size: 11px;
 }
 
+#dashboard-widgets p.dashboard-widget-links {
+	padding: 2px;
+	font-size: 11px;
+	line-height: 2;
+	border-width: 1px;
+	margin: 0 20px 0 0;
+	padding: 0 7px;
+	border: 1px solid;
+	border-top: none;
+}
+
 h3.dashboard-widget-title  {
-	margin: 0;
+	margin: 2px;
 	padding: 0 7px;
 	font-size: 14px;
 	line-height: 2;
@@ -121,9 +105,8 @@ h3.dashboard-widget-title small {
 	line-height: 2.67; /* math: it works, bitches */
 }
 
-h3.dashboard-widget-title img.rss-icon {
+p.dashboard-widget-links img.rss-icon {
 	vertical-align: middle;
-	margin: .5em 0;
 }
 
 div.dashboard-widget-notice {
@@ -278,5 +261,40 @@ div.dashboard-widget-content p.comment-meta {
 	line-height: 1.5em;
 }
 
-.widget-loading {
+#dashboard_inbox div.dashboard-widget, #dashboard_quick_press div.dashboard-widget {
+	height: 35em;
+	padding-bottom: 0;
+}
+
+#dashboard_quick_press div.dashboard-widget-content {
+	padding-bottom: 0;
+}
+
+#dashboard_inbox p.actions {
+	margin-bottom:0pt;
+	margin-top: 0;
+	float:left;
+}
+
+#dashboard_quick_press h3 {
+	margin-bottom: 3px;
+}
+
+#dashboard_quick_press h3#quick-post-title {
+	margin-top: 0;
+}
+
+#dashboard_quick_press p.field-tip {
+	margin-top: 0;
+	font-style: italic;
+}
+
+#dashboard_quick_press .submit {
+	padding: 0 0 1em 0;
+	border-top: none;
+	border-bottom: 1px solid #ccc;
+}
+
+#dashboard_quick_press p#recent-drafts {
+	margin: 0;
 }

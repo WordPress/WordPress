@@ -7,15 +7,12 @@
  */
 
 if ( ! empty($link_id) ) {
-	/**
-	 * @var string
-	 */
-	$heading = __('Edit Link');
+	$heading = sprintf( __( '<a href="%s">Links</a> / Edit Link' ), 'link-manager.php' );
 	$submit_text = __('Save Changes');
 	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';
 	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
-	$heading = __('Add Link');
+	$heading = sprintf( __( '<a href="%s">Links</a> / Add New Link' ), 'link-manager.php' );
 	$submit_text = __('Add Link');
 	$form = '<form name="addlink" id="addlink" method="post" action="link.php">';
 	$nonce_action = 'add-bookmark';
@@ -40,24 +37,10 @@ function xfn_check($class, $value = '', $deprecated = '') {
 }
 ?>
 
-<?php echo $form ?>
-<?php wp_nonce_field($nonce_action); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-
-<div class="wrap">
-<h2><?php echo $heading; ?></h2>
-
-<div id="poststuff">
-
+<?php function link_submit_meta_box($link) { ?>
 <div class="submitbox" id="submitlink">
 
-<div id="previewview">
-<?php if ( !empty($link_id) ) { ?>
-<a href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
-<?php } ?>
-</div>
-
-<div class="inside">
+<div class="inside-submitbox">
 <p><label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label></p>
 </div>
 
@@ -65,49 +48,16 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <input type="submit" class="button button-highlighted" name="save" value="<?php _e('Save'); ?>" tabindex="4" />
 <?php
 if ( ( 'edit' == $action) && current_user_can('manage_links') )
-	echo "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link_id", 'delete-bookmark_' . $link_id) . "' onclick=\"if ( confirm('" . js_escape( sprintf( __("You are about to delete this link '%s'\n'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;link') . "</a>";
+	echo "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape( sprintf( __("You are about to delete this link '%s'\n'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;link') . "</a>";
 ?>
 </p>
-
-<div class="side-info">
-<h5><?php _e('Related') ?></h5>
-
-<ul>
-<li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
-<li><a href="edit-link-categories.php"><?php _e('Manage All Link Categories') ?></a></li>
-<li><a href="link-import.php"><?php _e('Import Links') ?></a></li>
-<?php do_action('link_relatedlinks_list'); ?>
-</ul>
-</div>
 <?php do_action('submitlink_box'); ?>
 </div>
+<?php
+}
+add_meta_box('linksubmitdiv', __('Save'), 'link_submit_meta_box', 'link', 'side', 'core');
 
-<div id="post-body">
-<div id="namediv" class="stuffbox">
-<h3><label for="link_name"><?php _e('Name') ?></label></h3>
-<div class="inside">
-	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" /><br />
-    <?php _e('Example: Nifty blogging software'); ?>
-</div>
-</div>
-
-<div id="addressdiv" class="stuffbox">
-<h3><label for="link_url"><?php _e('Web Address') ?></label></h3>
-<div class="inside">
-	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" /><br />
-    <?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?>
-</div>
-</div>
-
-<div id="descriptiondiv" class="stuffbox">
-<h3><label for="link_description"><?php _e('Description') ?></label></h3>
-<div class="inside">
-	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo ( isset( $link->link_description ) ? $link->link_description : ''); ?>" id="link_description" /><br />
-    <?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?>
-</div>
-</div>
-
-<?php function link_categories_meta_box($link) { ?>
+function link_categories_meta_box($link) { ?>
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="link-category-add" class="wp-hidden-child">
@@ -143,13 +93,8 @@ if ( ( 'edit' == $action) && current_user_can('manage_links') )
 <?php
 }
 add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'link', 'normal', 'core');
-?>
 
-<?php do_meta_boxes('link', 'normal', $link); ?>
-
-<h2><?php _e('Advanced Options'); ?></h2>
-
-<?php function link_target_meta_box($link) { ?>
+function link_target_meta_box($link) { ?>
 <fieldset><legend class="hidden"><?php _e('Target') ?></legend>
 <label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo ( isset( $link->link_target ) && ($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
@@ -164,7 +109,7 @@ add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'l
 <p><?php _e('Choose the frame your link targets. Essentially this means if you choose <code>_blank</code> your link will open in a new window.'); ?></p>
 <?php
 }
-add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'advanced', 'core');
+add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'normal', 'core');
 
 function link_xfn_meta_box($link) {
 ?>
@@ -277,7 +222,7 @@ function link_xfn_meta_box($link) {
 <p><?php _e('If the link is to a person, you can specify your relationship with them using the above form. If you would like to learn more about the idea check out <a href="http://gmpg.org/xfn/">XFN</a>.'); ?></p>
 <?php
 }
-add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', 'link', 'advanced', 'core');
+add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', 'link', 'normal', 'core');
 
 function link_advanced_meta_box($link) {
 ?>
@@ -310,7 +255,95 @@ function link_advanced_meta_box($link) {
 </table>
 <?php
 }
-add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'advanced', 'core');
+add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core');
+
+?>
+
+<?php echo $form ?>
+<div id="wpbody-content">
+
+<?php echo $link_added; ?>
+
+<?php wp_nonce_field($nonce_action); ?>
+<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+
+<div class="wrap">
+<h2><?php echo $heading; ?></h2>
+
+<?php if ( !empty($link->link_id) ) { ?>
+<div id="previewview">
+<a class="button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
+</div>
+<?php } ?>
+
+<!--
+<p id="big-add-button">
+<span id="previewview">
+<?php if ( !empty($link_id) ) { ?>
+<a class="button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
+<?php } ?>
+</span>
+</p>
+-->
+
+<!-- TODO
+<div class="inside">
+<p><label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label></p>
+</div>
+
+<div class="side-info">
+<h5><?php _e('Related') ?></h5>
+
+<ul>
+<li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
+<li><a href="edit-link-categories.php"><?php _e('Manage All Link Categories') ?></a></li>
+<li><a href="link-import.php"><?php _e('Import Links') ?></a></li>
+<?php do_action('link_relatedlinks_list'); ?>
+</ul>
+</div>
+-->
+
+<div id="poststuff">
+
+<div id="side-info-column" class="inner-sidebar">
+<?php 
+
+do_action('submitlink_box');
+$side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
+
+?>
+</div>
+
+<div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">
+<div id="post-body-content" class="has-sidebar-content">
+<div id="namediv" class="stuffbox">
+<h3><label for="link_name"><?php _e('Name') ?></label></h3>
+<div class="inside">
+	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" /><br />
+    <?php _e('Example: Nifty blogging software'); ?>
+</div>
+</div>
+
+<div id="addressdiv" class="stuffbox">
+<h3><label for="link_url"><?php _e('Web Address') ?></label></h3>
+<div class="inside">
+	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" /><br />
+    <?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?>
+</div>
+</div>
+
+<div id="descriptiondiv" class="stuffbox">
+<h3><label for="link_description"><?php _e('Description') ?></label></h3>
+<div class="inside">
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" /><br />
+    <?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?>
+</div>
+</div>
+
+<?php 
+
+do_meta_boxes('link', 'normal', $link);
 
 do_meta_boxes('link', 'advanced', $link);
 
@@ -325,7 +358,11 @@ if ( $link_id ) : ?>
 
 </div>
 </div>
+</div>
 
+</div>
+
+<br class="clear" />
 </div>
 
 </form>

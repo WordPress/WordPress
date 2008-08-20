@@ -10,12 +10,23 @@
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
 			ed.addCommand('WP_EditImage', function() {
-				var el = ed.selection.getNode();
+				var el = ed.selection.getNode(), vp = tinymce.DOM.getViewPort(), H = vp.h, W = ( 720 < vp.w ) ? 720 : vp.w;
 
 				if ( ed.dom.getAttrib(el, 'class').indexOf('mceItem') != -1 || el.nodeName != 'IMG' )
 					return;
 
 				tb_show('', url + '/editimage.html?ver=311f&TB_iframe=true');
+				tinymce.DOM.setStyles('TB_window', {
+					'top':'20px',
+					'marginTop':'0',
+					'width':( W - 50 )+'px',
+					'height':( H - 45 )+'px',
+					'margin-left':'-'+parseInt((( W - 50 ) / 2),10) + 'px'
+				});
+				tinymce.DOM.setStyles('TB_iframeContent', {
+					'width':( W - 50 )+'px',
+					'height':( H - 75 )+'px'
+				});
 				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
 

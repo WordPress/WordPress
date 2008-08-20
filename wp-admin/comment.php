@@ -34,6 +34,7 @@ case 'editcomment' :
 	$title = __('Edit Comment');
 
 	wp_enqueue_script('comment');
+	$fixed_bar = true;
 
 	require_once('admin-header.php');
 

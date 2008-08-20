@@ -126,4 +126,49 @@ if ( is_admin() && ('edit-comments.php' == $pagenow || 'edit.php' == $pagenow) )
 		add_filter( 'comment_author', 'floated_admin_avatar' );
 }
 
+function wp_get_inbox_items() {
+	$r = array();
+	$r[] = (object) array(
+		'text' => 'Your take on the evolution of Dr. Who is ridiculous. The fact that the actors are getting younger has nothing to do with Gallifrey lore, and everything to do with celebrity culture.',
+		'date' => '2008/09/07',
+		'time' => '4:19pm',
+		'from' => 'I. monroe',
+		'type' => 'comment',
+		'parent' => '1',
+		'href' => '#'
+	);
+
+	$r[] = (object) array(
+		'text' => 'Announcement: WordPress introduces new features for mobile blogging.',
+		'date' => '2008/09/06',
+		'time' => '3:24pm',
+		'from' => 'WordPress.org',
+		'type' => 'announcement',
+		'parent' => '0',
+		'href' => '#'
+	);
+
+	$r[] = (object) array(
+		'text' => 'Great review. You left out a few things, but maybe you were trying to avoid spoilers? Will check back later in a week.',
+		'date' => '2008/09/06',
+		'time' => '2:46pm',
+		'from' => 'matt',
+		'type' => 'comment',
+		'parent' => '2',
+		'href' => '#'
+	);
+	
+	$r[] = (object) array(
+		'text' => 'nice picture!',
+		'date' => '2008/08/05',
+		'time' => '9:17am',
+		'from' => 'caped crusader',
+		'type' => 'comment',
+		'parent' => '3',
+		'href' => '#'
+	);
+
+	return $r;
+}
+
 ?>

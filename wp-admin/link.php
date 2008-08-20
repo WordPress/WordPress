@@ -106,6 +106,7 @@ switch ($action) {
 		if (!$link = get_link_to_edit($link_id))
 			wp_die(__('Link not found.'));
 
+		$fixed_bar = true;
 		include_once ('admin-header.php');
 		include ('edit-link-form.php');
 		include ('admin-footer.php');

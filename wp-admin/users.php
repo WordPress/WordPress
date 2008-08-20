@@ -22,9 +22,7 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 $update = '';
 
 if ( empty($action) ) {
-	if ( isset($_GET['deleteit']) )
-		$action = 'delete';
-	elseif ( isset($_GET['changeit']) && !empty($_GET['new_role']) )
+	if ( isset($_GET['changeit']) && !empty($_GET['new_role']) )
 		$action = 'promote';
 }
 
@@ -258,9 +256,9 @@ default:
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
 	<?php if ( $wp_user_search->is_search() ) : ?>
-		<h2><?php printf(__('Users Matching "%s"'), wp_specialchars($wp_user_search->search_term)); ?></h2>
+		<h2><?php printf( current_user_can('create_users') ? __('Users Matching "%2$s" (<a href="%1$s">Add New</a>)') : __('Add New'), '#add-new-user', wp_specialchars($wp_user_search->search_term) ); ?></h2>
 	<?php else : ?>
-		<h2><?php _e('Manage Users'); ?></h2>
+		<h2><?php printf( current_user_can('create_users') ? __('Users (<a href="%s">Add New</a>)') : __('Add New'), '#add-new-user' ); ?></h2>
 	<?php endif; ?>
 
 <ul class="subsubsub">
@@ -301,6 +299,7 @@ echo implode(' |</li>', $role_links) . '</li>';
 unset($role_links);
 ?>
 </ul>
+
 	<p id="post-search">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Users' ); ?>:</label>
 	<input type="text" id="post-search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
@@ -314,7 +313,11 @@ unset($role_links);
 <?php endif; ?>
 
 <div class="alignleft">
-<input type="submit" value="<?php _e('Delete'); ?>" name="deleteit" class="button-secondary delete" />
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <label class="hidden" for="new_role"><?php _e('Change role to&hellip;') ?></label><select name="new_role" id="new_role"><option value=''><?php _e('Change role to&hellip;') ?></option>"<?php wp_dropdown_roles(); ?></select>
 <input type="submit" value="<?php _e('Change'); ?>" name="changeit" class="button-secondary" />
 <?php wp_nonce_field('bulk-users'); ?>

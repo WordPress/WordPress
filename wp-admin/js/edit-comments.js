@@ -55,6 +55,17 @@ var delAfter = function( r, settings ) {
 		var n = parseInt(a.html(),10) - 1;
 		a.html( n.toString() );
 	});
+	$('li span.spam-comment-count' ).each( function() {
+		var a = $(this);
+		var n = parseInt(a.html(),10);
+		if ( $(settings.target).parents( 'span.spam' ).size() ) { // we marked a comment as spam
+			n = n + 1;
+		} else if ( $('#' + settings.element).is('.spam') ) { // we approved or deleted a comment marked as spam
+			n = n - 1;
+		}
+		if ( n < 0 ) { n = 0; }
+		a.html( n.toString() );
+	});
 
 	if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {
 		return;

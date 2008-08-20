@@ -182,7 +182,7 @@ case 'dim-comment' :
 	if ( $_POST['new'] == $current )
 		die('1');
 
-	if ( 'unapproved' == $current ) {
+	if ( in_array( $current, array( 'unapproved', 'spam' ) ) ) {
 		check_ajax_referer( "approve-comment_$id" );
 		if ( wp_set_comment_status( $comment->comment_ID, 'approve' ) )
 			die('1');
@@ -648,6 +648,11 @@ case 'sample-permalink':
 	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : '';
 	die(get_sample_permalink_html($post_id, $title, $slug));
 break;
+case 'meta-box-order':
+	check_ajax_referer( 'meta-box-order' );
+	update_user_option( $GLOBALS['current_user']->ID, "meta-box-order_$_POST[page]", $_POST['order'] );
+	die('1');
+	break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

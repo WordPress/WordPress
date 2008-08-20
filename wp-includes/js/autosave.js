@@ -107,7 +107,7 @@ function autosave_update_preview_link(post_id) {
 			post_id: post_id,
 			getpermalinknonce: jQuery('#getpermalinknonce').val()
 		}, function(permalink) {
-			jQuery('#previewview').html('<a target="_blank" href="'+permalink+'" tabindex="4">'+previewText+'</a>');
+			jQuery('#previewview').html('<a class="button" target="_blank" href="'+permalink+'" tabindex="4">'+previewText+'</a>');
 
 			// Autosave when the preview button is clicked.
 			jQuery('#previewview a').click(function(e) {

@@ -35,14 +35,14 @@ function redirect_post($post_ID = '') {
 		$location = $_POST['referredby'];
 	} elseif ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
-	} elseif ( isset($_POST['save']) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
+	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
 		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post-new.php') === false )
 			$location = add_query_arg( array(
 				'_wp_original_http_referer' => urlencode( stripslashes( $_POST['_wp_original_http_referer'] ) ),
 				'message' => 1
 			), get_edit_post_link( $post_ID, 'url' ) );
 		else
-			$location = add_query_arg( 'message', 4, get_edit_post_link( $post_ID, 'url' ) );
+			$location = add_query_arg( 'message', 6, get_edit_post_link( $post_ID, 'url' ) );
 	} elseif (isset($_POST['addmeta']) && $_POST['addmeta']) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
 		$location = explode('#', $location);
@@ -62,6 +62,8 @@ function redirect_post($post_ID = '') {
 		$location = "post-new.php?posted=$post_ID";
 	} elseif ($action == 'editattachment') {
 		$location = 'attachments.php';
+	} elseif ( 'post-quickpress-save-cont' == $_POST['action'] ) {
+		$location = "post.php?action=edit&post=$post_ID&message=7";
 	} else {
 		$location = add_query_arg( 'message', 4, get_edit_post_link( $post_ID, 'url' ) );
 	}
@@ -75,9 +77,30 @@ if ( isset( $_POST['deletepost'] ) )
 switch($action) {
 case 'postajaxpost':
 case 'post':
+case 'post-quickpress-publish':
+case 'post-quickpress-save':
+case 'post-quickpress-save-cont':
 	check_admin_referer('add-post');
 
-	$post_ID = 'post' == $action ? write_post() : edit_post();
+	if ( 'post-quickpress-publish' == $action )
+		$_POST['publish'] = 'publish'; // tell write_post() to publish
+
+	if ( !empty( $_POST['quickpress_post_ID'] ) ) {
+		$_POST['post_ID'] = (int) $_POST['quickpress_post_ID'];
+		$post_ID = edit_post();
+	} else {
+		$post_ID = 'postajaxpost' == $action ? edit_post() : write_post();
+	}
+
+	if ( 'post-quickpress-save-cont' != $action && 0 === strpos( $action, 'post-quickpress' ) ) {
+		$_POST['post_ID'] = $post_ID;
+		// output the quickpress dashboard widget
+		require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
+		add_filter( 'wp_dashboard_widgets', create_function( '$a', 'return array( "dashboard_quick_press" );' ) );
+		wp_dashboard_setup();
+		wp_dashboard();
+		exit;
+	}
 
 	redirect_post($post_ID);
 	exit();

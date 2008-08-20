@@ -17,8 +17,8 @@ foreach( array('activate-selected', 'deactivate-selected', 'delete-selected', 'c
 	}
 }
 
-if( isset($_GET['action']) )
-	$action = $_GET['action'];
+if( isset($_REQUEST['action']) )
+	$action = $_REQUEST['action'];
 
 $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
 
@@ -327,7 +327,11 @@ function print_plugins_table($plugins, $context = '') {
 
 <div class="tablenav">
 	<div class="alignleft">
-		<input type="submit" name="deactivate-selected" value="<?php _e('Deactivate') ?>" class="button-secondary" />
+		<select name="action">
+			<option value="" selected><?php _e('Actions'); ?></option>
+			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
+		</select>
+		<input type="submit" name="doaction" value="<?php _e('Apply'); ?>" class="button-secondary action" />
 	</div>
 </div>
 <br class="clear" />
@@ -345,10 +349,14 @@ function print_plugins_table($plugins, $context = '') {
 
 <div class="tablenav">
 	<div class="alignleft">
-		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
+		<select name="action">
+			<option value="" selected><?php _e('Actions'); ?></option>
+			<option value="activate-selected"><?php _e('Activate'); ?></option>
 <?php if( current_user_can('delete_plugins') ) : ?>
-		<input type="submit" name="delete-selected" value="<?php _e('Delete') ?>" class="button-secondary" />
+			<option value="delete-selected"><?php _e('Delete'); ?></option>
 <?php endif; ?>
+		</select>
+		<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
 	</div>
 </div>

@@ -16,21 +16,25 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 ?>
 
 <form name="post" action="comment.php" method="post" id="post">
+<div id="wpbody-content">
+
 <?php wp_nonce_field('update-comment_' . $comment->comment_ID) ?>
 <div class="wrap">
 <h2><?php echo $toprow_title; ?></h2>
-<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
-<input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
-
-<div id="poststuff">
-
-<div class="submitbox" id="submitcomment">
 
 <div id="previewview">
-<a href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View this Comment'); ?></a>
+<a class="button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View this Comment'); ?></a>
 </div>
 
-<div class="inside">
+<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
+<input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
+<?php
+// All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
+
+function comment_submit_meta_box($comment) {
+?>
+<div class="submitbox" id="submitcomment">
+<div class="inside-submitbox">
 
 <p><strong><label for='comment_status'><?php _e('Approval Status') ?></label></strong></p>
 <p>
@@ -59,25 +63,32 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>";
 ?>
 </p>
-
-<div class="side-info">
-<h5><?php _e('Related') ?></h5>
-
-<ul>
-<li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
-<li><a href="edit-comments.php?comment_status=moderated"><?php _e('Moderate Comments') ?></a></li>
-<?php do_action('comment_relatedlinks_list'); ?>
-</ul>
 </div>
-<?php do_action('submitcomment_box'); ?>
+<?php
+}
+add_meta_box('submitdiv', __('Save'), 'comment_submit_meta_box', 'comment', 'side', 'core');
+?>
+
+<div id="side-info-column" class="inner-sidebar">
+
+<?php $side_meta_boxes = do_meta_boxes('comment', 'side', $comment); ?>
+
 </div>
 
-<div id="post-body">
+<div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">
+<div id="post-body-content" class="has-sidebar-content">
+
 <div id="namediv" class="stuffbox">
 <h3><label for="name"><?php _e('Name') ?></label></h3>
 <div class="inside">
 <input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
 </div>
+</div>
+
+<div id="postdiv" class="postarea">
+<h3><?php _e('Comment') ?></h3>
+<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4); ?>
+<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 </div>
 
 <div id="emaildiv" class="stuffbox">
@@ -94,12 +105,6 @@ echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletec
 </div>
 </div>
 
-<div id="postdiv" class="postarea">
-<h3><label for="content"><?php _e('Comment') ?></label></h3>
-<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-</div>
-
 <?php do_meta_boxes('comment', 'normal', $comment); ?>
 
 <input type="hidden" name="c" value="<?php echo $comment->comment_ID ?>" />
@@ -107,6 +112,9 @@ echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletec
 <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
 <?php wp_original_referer_field(true, 'previous'); ?>
 <input type="hidden" name="noredir" value="1" />
+
+</div>
+</div>
 </div>
 </div>
 </div>

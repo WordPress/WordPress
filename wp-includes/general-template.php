@@ -969,11 +969,11 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 		<?php }
 	}
 
-	if ( $media_buttons ) { ?>
+/*	if ( $media_buttons ) { ?>
 		<div id="media-buttons" class="hide-if-no-js">
 		<?php do_action( 'media_buttons' ); ?>
 		</div>
-	<?php } ?>
+	<?php } */ ?>
 	</div>
 
 	<div id="quicktags">
