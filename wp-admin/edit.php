@@ -10,7 +10,8 @@
 require_once('admin.php');
 
 // Handle bulk actions
-if ( isset($_GET['action']) && $_GET['action'] != 'Actions' ) {
+if ( !empty($_GET['action']) && $_GET['action'] != 'Actions' ) {
+	echo "Ation is " . $_GET['action'];
 	switch ( $_GET['action'] ) {
 		case 'delete':
 			if ( isset($_GET['post']) ) {
