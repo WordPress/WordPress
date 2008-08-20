@@ -382,6 +382,8 @@ function wp_manage_pages_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 
+	$posts_columns['title'] = __('Title');
+
 	$post_status = isset( $_GET['post_status'] ) ? $_GET['post_status'] : '';
 
 	switch( $post_status ) {
@@ -395,7 +397,6 @@ function wp_manage_pages_columns() {
 			$posts_columns['date'] = __('Date');
 	}
 
-	$posts_columns['title'] = __('Title');
 	$posts_columns['author'] = __('Author');
 	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
@@ -468,8 +469,25 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		break;
 	case 'title':
 		?>
-		<td><strong><a class="row-title" href="<?php echo get_edit_post_link( $page->ID ); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a></strong>
-		<?php if ('private' == $page->post_status) _e(' &#8212; <strong>Private</strong>'); ?></td>
+		<td class="post-title"><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; } ?></strong>
+		<?php
+		if ( !empty($post->post_password) ) { _e(' &#8212; <strong>Protected</strong>'); } elseif ('private' == $post->post_status) { _e(' &#8212; <strong>Private</strong>'); }
+
+		if ( 'excerpt' == $mode )
+			the_excerpt();
+
+		$actions = array();
+		$actions['edit'] = '<a href="' . get_edit_post_link( $page->ID ) . '">' . __('Edit') . '</a>';
+		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-post_' . $page->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $page->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $page->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+		$action_count = count($actions);
+		$i = 0;
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			echo "<span class='$action'>$link$sep</span>";
+		}
+		?>
+		</td>
 		<?php
 		break;
 
