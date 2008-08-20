@@ -14,7 +14,7 @@
 	}
 
 	/* This variable is for alternating comment background */
-	$oddcomment = 'class="alt" ';
+	$oddcomment = 'alt';
 ?>
 
 <!-- You can start editing here. -->
@@ -26,7 +26,7 @@
 
 	<?php foreach ($comments as $comment) : ?>
 
-		<li <?php echo $oddcomment; ?>id="comment-<?php comment_ID() ?>">
+		<li <?php comment_class($oddcomment) ?>id="comment-<?php comment_ID() ?>">
 			<?php echo get_avatar( $comment, 32 ); ?>
 			<cite><?php comment_author_link() ?></cite> Says:
 			<?php if ($comment->comment_approved == '0') : ?>
@@ -42,7 +42,7 @@
 
 	<?php
 		/* Changes every other comment to a different class */
-		$oddcomment = ( empty( $oddcomment ) ) ? 'class="alt" ' : '';
+		$oddcomment = ( empty( $oddcomment ) ) ? 'alt' : '';
 	?>
 
 	<?php endforeach; /* end for each comment */ ?>

@@ -219,6 +219,70 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
 }
 
 /**
+ * Generates semantic classes for each comment element
+ *
+ * @since 2.7
+ *
+ * @param string|array $class One or more classes to add to the class list
+ * @param int $comment_id An optional comment ID
+ * @param int $post_id An optional post ID
+ */
+function comment_class( $class = '', $comment_id = null, $post_id = null ) {
+	// Separates classes with a single space, collates classes for post DIV
+	echo 'class="' . join( ' ', get_comment_class( $class, $comment_id, $post_id ) ) . '"';
+}
+
+/**
+ * Returns the classes for the comment div as an array
+ *
+ * @since 2.7
+ *
+ * @param string|array $class One or more classes to add to the class list
+ * @param int $comment_id An optional comment ID
+ * @param int $post_id An optional post ID
+ * @return array Array of classes
+ */
+function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
+	static $comment_alt;
+
+	$comment = get_comment($comment_id);
+
+	$classes = array();
+
+	// Get the comment type (comment, trackback),
+	$classes[] = $comment->comment_type;
+
+	// If the comment author has an id (registered), then print the log in name
+	if ( $comment->user_id > 0 && $user = get_userdata($comment->user_id) ) {
+		// For all registered users, 'byuser'
+		$classes[] = 'byuser comment-author-' . $user->user_nicename;
+		// For comment authors who are the author of the post
+		if ( $post = get_post($post_id) ) {
+			if ( $comment->user_id === $post->post_author )
+				$classes[] = 'bypostauthor';
+		}
+	}
+
+	if ( empty($comment_alt) )
+		$comment_alt = 0;
+
+	if ( $comment_alt % 2 )
+		$classes[] = 'odd';
+	else
+		$classes[] = 'even';
+
+	$comment_alt++;
+
+	if ( !empty($class) ) {
+		if ( !is_array( $class ) )
+			$class = preg_split('#\s+#', $class);
+		$classes = array_merge($classes, $class);
+	}
+
+	return apply_filters('comment_class', $classes, $class, $comment_id, $post_id);
+}
+
+/**
  * Retrieve the comment date of the current comment.
  *
  * @since 1.5
