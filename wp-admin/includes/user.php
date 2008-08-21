@@ -73,6 +73,10 @@ function edit_user( $user_id = 0 ) {
 	else
 		$user->rich_editing = 'false';
 
+	$user->use_ssl = 0;
+	if ( !empty($_POST['use_ssl']) )
+		$user->use_ssl = 1;
+
 	if ( !$update )
 		$user->admin_color = 'fresh';  // Default to fresh for new users.
 	else if ( isset( $_POST['admin_color'] ) )

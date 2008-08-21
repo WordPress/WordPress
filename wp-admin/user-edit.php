@@ -99,13 +99,24 @@ $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashe
 
 $user_id = (int) $user_id;
 
-if ( !$user_id )
+if ( !$user_id ) {
 	if ( $is_profile_page ) {
 		$current_user = wp_get_current_user();
 		$user_id = $current_user->ID;
 	} else {
 		wp_die(__('Invalid user ID.'));
 	}
+}
+
+// Optional SSL preference that can be turned on by hooking to the 'personal_options' action 
+function use_ssl_preference($user) {
+?>
+	<tr>
+		<th scope="row"><?php _e('Use https')?></th>
+		<td><label for="use_ssl"><input name="use_ssl" type="checkbox" id="use_ssl" value="1" <?php checked('1', $user->use_ssl); ?> /> <?php _e('Always use https when visiting the admin'); ?></label></td>
+	</tr>
+<?php
+}
 
 switch ($action) {
 case 'switchposts':
@@ -129,7 +140,7 @@ if ( $is_profile_page ) {
 
 $errors = edit_user($user_id);
 
-if( !is_wp_error( $errors ) ) {
+if ( !is_wp_error( $errors ) ) {
 	$redirect = ($is_profile_page? "profile.php?" : "user-edit.php?user_id=$user_id&"). "updated=true";
 	$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
 	wp_redirect($redirect);
@@ -140,7 +151,7 @@ default:
 $profileuser = get_user_to_edit($user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-		wp_die(__('You do not have permission to edit this user.'));
+	wp_die(__('You do not have permission to edit this user.'));
 
 include ('admin-header.php');
 ?>
@@ -209,12 +220,14 @@ foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
 	<?php endforeach; ?>
 </fieldset></td>
 </tr>
-<?php endif; ?>
+<?php
+endif;
+do_action('personal_options', $profileuser);
+?>
 </table>
 <?php
-	if ( $is_profile_page ) {
-		do_action('profile_personal_options');
-	}
+	if ( $is_profile_page )
+		do_action('profile_personal_options', $profileuser);
 ?>
 
 <h3><?php _e('Name') ?></h3>

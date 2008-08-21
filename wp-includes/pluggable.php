@@ -703,8 +703,20 @@ function auth_redirect() {
 		}
 	}
 
-	if ( wp_validate_auth_cookie() )
+	if ( $user_id = wp_validate_auth_cookie() ) {
+		// If the user wants ssl but the session is not ssl, redirect.
+		if ( !$secure && get_user_option('use_ssl', $user_id) ) {
+			if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
+				wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
+				exit();
+			} else {
+				wp_redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				exit();
+			}
+		}
+
 		return;  // The cookie is good so we're done
+	}
 
 	// The cookie is no good so force login
 	nocache_headers();
