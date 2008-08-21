@@ -468,6 +468,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		<?php
 		break;
 	case 'title':
+		$edit_link = get_edit_post_link( $page->ID );
 		?>
 		<td class="post-title"><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; } ?></strong>
 		<?php
@@ -477,7 +478,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			the_excerpt();
 
 		$actions = array();
-		$actions['edit'] = '<a href="' . get_edit_post_link( $page->ID ) . '">' . __('Edit') . '</a>';
+		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-post_' . $page->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $page->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $page->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
