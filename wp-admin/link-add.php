@@ -26,7 +26,6 @@ wp_enqueue_script('xfn');
 $link_added = ( isset($_GET['added']) && '' != $_POST['link_name'] ) ?
 	'<div id="message" class="updated fade"><p>' . __('Link added.') . '</p></div>' : '';
 
-$fixed_bar = true;
 require('admin-header.php');
 ?>
 

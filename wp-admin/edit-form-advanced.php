@@ -56,9 +56,6 @@ if ( 0 == $post_ID ) {
 ?>
 
 <form name="post" action="post.php" method="post" id="post">
-<div id="wpbody-content">
-
-
 <?php
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
@@ -298,10 +295,9 @@ function post_comment_status_meta_box($post) {
 ?>
 <input name="advanced_view" type="hidden" value="1" />
 <p class="meta-options">
-	<label for="comment_status" class="selectit"> <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> /><?php _e('Allow comments on this post') ?></label>
+	<label for="comment_status" class="selectit"> <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> /> <?php _e('Allow comments on this post') ?></label>
 </p>
 <?php
-
 
 	if ( !$post_ID || $post_ID < 0 )
 		return;
@@ -317,6 +313,7 @@ function post_comment_status_meta_box($post) {
 <thead>
 	<tr>
 		<th scope="col"><?php _e('Comments') ?></th>
+		<th scope="col"><?php _e('Author') ?></th>
 		<th scope="col"><?php _e('Submitted') ?></th>
 	</tr>
 </thead>
@@ -535,9 +532,6 @@ do_action('dbx_post_sidebar');
 </div><!-- /poststuff -->
 
 </div>
-<br class="clear" />
-</div>
-
 </form>
 
 <?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>

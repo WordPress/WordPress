@@ -257,16 +257,12 @@ function link_advanced_meta_box($link) {
 }
 add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core');
 
-?>
+echo $form;
+echo $link_added;
 
-<?php echo $form ?>
-<div id="wpbody-content">
-
-<?php echo $link_added; ?>
-
-<?php wp_nonce_field($nonce_action); ?>
-<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
+wp_nonce_field($nonce_action);
+wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
 <div class="wrap">
 <h2><?php echo $heading; ?></h2>
@@ -361,8 +357,4 @@ if ( $link_id ) : ?>
 </div>
 
 </div>
-
-<br class="clear" />
-</div>
-
 </form>

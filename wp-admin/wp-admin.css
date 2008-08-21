@@ -1091,7 +1091,10 @@ table.form-table td .updated {
 	border: none;
 }
 
-#submitdiv div.inside {
+#submitdiv div.inside,
+#pagesubmitdiv div.inside,
+#linksubmitdiv div.inside,
+ div.inside {
 	padding: 0;
 	margin: 0;
 }
@@ -1249,7 +1252,8 @@ table.form-table td .updated {
 	border-style: solid;
 }
 
-#poststuff .inside-submitbox {
+#poststuff .inside-submitbox,
+#side-info-column .inside-submitbox {
 	margin: 0 12px 12px;
 	font-size: 11px;
 }
@@ -1792,12 +1796,12 @@ fieldset {
 .settings-toggle h3 {
 	margin: 0;
 }
-
+/*
 p.meta-options {
 	border: 1px solid;
 	padding: 1em .5em;
 }
-
+*/
 .ui-sortable .postbox h3 {
 	cursor:move;
 }

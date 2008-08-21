@@ -47,8 +47,6 @@ $user_ID = (int) $user_ID;
 ?>
 
 <form name="post" action="page.php" method="post" id="post">
-<div id="wpbody-content">
-
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>
 <?php endif; ?>
@@ -394,9 +392,6 @@ do_meta_boxes('page', 'advanced', $post);
 </div>
 </div>
 
-</div>
-
-<br class="clear" />
 </div>
 </form>
 
