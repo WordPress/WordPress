@@ -26,7 +26,7 @@
 
 	<?php foreach ($comments as $comment) : ?>
 
-		<li <?php comment_class($oddcomment) ?>id="comment-<?php comment_ID() ?>">
+		<li <?php comment_class($oddcomment) ?> id="comment-<?php comment_ID() ?>">
 			<?php echo get_avatar( $comment, 32 ); ?>
 			<cite><?php comment_author_link() ?></cite> Says:
 			<?php if ($comment->comment_approved == '0') : ?>
