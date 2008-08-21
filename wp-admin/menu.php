@@ -61,17 +61,17 @@ $menu[15] = array( __('Utilities'), 'read', 'users.php' ); // placeholder - shou
 	$submenu['users.php'][25] = array( __('Users'), 'edit_users', 'users.php' );
 	$submenu['users.php'][30] = array( __('Import'), 'import', 'import.php' );
 	$submenu['users.php'][35] = array( __('Export'), 'import', 'export.php' );
-	$submenu['users.php'][40] = array( __('Settings'), 'manage_options', 'options-general.php' );
-		$_wp_real_parent_file['options-general.php'] = 'users.php';
-		$submenu['options-general.php'][10] = array( __('General'), 'manage_options', 'options-general.php' );
-		$submenu['options-general.php'][15] = array( __('Writing'), 'manage_options', 'options-writing.php' );
-		$submenu['options-general.php'][20] = array( __('Reading'), 'manage_options', 'options-reading.php' );
-		$submenu['options-general.php'][25] = array( __('Discussion'), 'manage_options', 'options-discussion.php' );
-		$submenu['options-general.php'][30] = array( __('Privacy'), 'manage_options', 'options-privacy.php' );
-		$submenu['options-general.php'][35] = array( __('Permalinks'), 'manage_options', 'options-permalink.php' );
-		$submenu['options-general.php'][40] = array( __('Miscellaneous'), 'manage_options', 'options-misc.php' );
 
-$menu[20] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
+$menu[20] = array(__('Settings'), 'manage_options', 'options-general.php');
+	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
+	$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
+	$submenu['options-general.php'][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
+	$submenu['options-general.php'][25] = array(__('Discussion'), 'manage_options', 'options-discussion.php');
+	$submenu['options-general.php'][30] = array(__('Privacy'), 'manage_options', 'options-privacy.php');
+	$submenu['options-general.php'][35] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
+	$submenu['options-general.php'][40] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
+
+$menu[25] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][5]  = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array( __('Plugin Editor'), 'edit_plugins', 'plugin-editor.php' );
 

@@ -16,9 +16,6 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
-<ul class="wp-menu">
-<?php $array = array(); _wp_menu_output( $submenu['options-general.php'], $array ); unset($array); ?>
-</ul>
 <h2><?php _e('Reading Settings') ?></h2>
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
