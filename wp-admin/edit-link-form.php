@@ -71,7 +71,7 @@ function link_categories_meta_box($link) { ?>
 
 <ul id="category-tabs">
 	<li class="ui-tabs-selected"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
-	<li class="wp-no-js-hidden"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
+	<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
 </ul>
 
 <div id="categories-all" class="ui-tabs-panel">

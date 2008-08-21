@@ -2,11 +2,8 @@ jQuery(document).ready( function() {
 	// pulse
 	jQuery('.fade').animate( { backgroundColor: '#ffffe0' }, 300).animate( { backgroundColor: '#fffbcc' }, 300).animate( { backgroundColor: '#ffffe0' }, 300).animate( { backgroundColor: '#fffbcc' }, 300);
 
-	// Reveal
-	jQuery('.wp-no-js-hidden').removeClass( 'wp-no-js-hidden' );
-	
 	// show things that should be visible, hide what should be hidden
-	jQuery('.hide-if-no-js').show();
+	jQuery('.hide-if-no-js').removeClass('hide-if-no-js');
 	jQuery('.hide-if-js').hide();
 
 	// Basic form validation

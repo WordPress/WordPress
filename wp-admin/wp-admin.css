@@ -1569,7 +1569,6 @@ td.post-title p {
 
 /* Global classes */
 .wp-hidden-children .wp-hidden-child { display: none; }
-.wp-no-js-hidden { display: none; }
 .ui-tabs-hide { display: none; }
 
 .commentlist .avatar {
