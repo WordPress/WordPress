@@ -1419,7 +1419,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
-	$data = apply_filters('wp_insert_post', $data, $postarr);
+	$data = apply_filters('wp_insert_post_data', $data, $postarr);
 	$data = stripslashes_deep( $data );
 	$where = array( 'ID' => $post_ID );
 
