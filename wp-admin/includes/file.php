@@ -9,8 +9,8 @@ function get_file_description( $file ) {
 	if ( isset( $wp_file_descriptions[basename( $file )] ) ) {
 		return $wp_file_descriptions[basename( $file )];
 	}
-	elseif ( file_exists( ABSPATH . $file ) && is_file( ABSPATH . $file ) ) {
-		$template_data = implode( '', file( ABSPATH . $file ) );
+	elseif ( file_exists( WP_CONTENT_PATH . $file ) && is_file( WP_CONTENT_PATH . $file ) ) {
+		$template_data = implode( '', file( WP_CONTENT_PATH . $file ) );
 		if ( preg_match( "|Template Name:(.*)|i", $template_data, $name ))
 			return $name[1];
 	}
