@@ -182,7 +182,7 @@ if ( $page_links )
 
 <div class="alignleft">
 <select name="action">
-<option value="" selected>Actions</option>
+<option value="" selected><?php _e('Actions') ?></option>
 <?php if ( 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php else : ?>
@@ -193,9 +193,9 @@ if ( $page_links )
 <?php endif; ?>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
+<input type="submit" name="doaction" value="Apply" class="button-secondary apply" />
 <?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
-<input type="submit" name="doaction" value="Apply" class="button-secondary apply" />
 <?php if ( isset($_GET['apage']) ) { ?>
 	<input type="hidden" name="apage" value="<?php echo absint( $_GET['apage'] ); ?>" />
 <?php } ?>
