@@ -100,8 +100,13 @@ include('admin-header.php');
 <td><fieldset><legend class="hidden"><?php _e('Default image alignment') ?></legend>
 <?php
 	$alignments = array('none' => 'None', 'left' => 'Left', 'center' => 'Center', 'right' => 'Right');
+
+	$default_align = get_option('image_default_align');
+	if ( empty($default_align) )
+		$default_align = 'none';
+
 	foreach ($alignments as $align => $name) { ?>
-		<input type="radio" name="image_default_align" id="image_default_align_<?php echo $align; ?>" value="<?php echo $align; ?>"<?php echo (get_option('image_default_align') == $align ? ' checked="checked"' : ''); ?> />			
+		<input type="radio" name="image_default_align" id="image_default_align_<?php echo $align; ?>" value="<?php echo $align; ?>"<?php echo ($default_align == $align ? ' checked="checked"' : ''); ?> />
 		<label for="image_default_align_<?php echo $align; ?>"><?php _e($name); ?></label>
 	<?php
 	}
