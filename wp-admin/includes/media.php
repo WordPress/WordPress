@@ -530,7 +530,7 @@ function image_align_input_fields($post, $checked='') {
 	$out = array();
 	foreach ($alignments as $name => $label) {
 	
-		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='none'".
+		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
 		 	( $checked == $name ? " checked='checked'" : "" ) . 
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . __($label) . "</label>";
 	}
