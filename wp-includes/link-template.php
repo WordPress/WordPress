@@ -319,6 +319,19 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	echo "<a href='$url'>$link_text</a>";
 }
 
+/** Get the feed link for a given author
+ *
+ * Returns a link to the feed for all posts by a given author.  A specific feed can be requested
+ * or left blank to get the default feed.
+ *
+ * @package WordPress
+ * @subpackage Feed
+ * @since 2.5
+ *
+ * @param int $author_id ID of an author
+ * @param string $feed Feed type
+ * @return string Link to the feed for the author specified by $author_id
+*/
 function get_author_feed_link( $author_id, $feed = '' ) {
 	$author_id = (int) $author_id;
 	$permalink_structure = get_option('permalink_structure');
@@ -327,20 +340,25 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 		$feed = get_default_feed();
 
 	if ( '' == $permalink_structure ) {
-		$link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
+		$link = get_option('home') . "?feed=$feed&amp;author=" . $author_id;
 	} else {
 		$link = get_author_posts_url($author_id);
-		$link = trailingslashit($link) . user_trailingslashit('feed', 'feed');
+		if ( $feed == get_default_feed() )
+			$feed_link = 'feed';
+		else
+			$feed_link = "feed/$feed";
+
+		$link = trailingslashit($link) . user_trailingslashit($feed_link, 'feed');
 	}
 
-	$link = apply_filters('author_feed_link', $link);
+	$link = apply_filters('author_feed_link', $link, $feed);
 
 	return $link;
 }
 
-/** get_category_feed_link() - Get the feed link for a given category
+/** Get the feed link for a given category
  *
- * Returns a link to the feed for all post in a given category.  A specific feed can be requested
+ * Returns a link to the feed for all posts in a given category.  A specific feed can be requested
  * or left blank to get the default feed.
  *
  * @package WordPress
