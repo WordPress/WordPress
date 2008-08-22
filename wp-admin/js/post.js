@@ -185,6 +185,16 @@ jQuery(document).ready( function() {
 		return false;
 	});
 
+	// Edit Settings
+	jQuery('.edit-settings-link').click(function () {
+		if (jQuery('#edit-settings').is(":hidden")) {
+			jQuery('#edit-settings').slideDown("normal");
+		} else {
+			jQuery('#edit-settings').slideUp("normal");
+		}
+		return false;
+	});
+
 	// Custom Fields
 	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
 		if ( jQuery.isFunction( autosave_update_post_ID ) ) {

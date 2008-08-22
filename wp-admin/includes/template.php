@@ -1254,6 +1254,8 @@ function do_meta_boxes($page, $context, $object) {
 
 	do_action('do_meta_boxes', $page, $context, $object);
 
+	$hidden = get_user_option( "meta-box-hidden_$page" );
+
 	echo "<div id='$context-sortables' class='meta-box-sortables'>\n";
 
 	$i = 0;
@@ -1270,13 +1272,15 @@ function do_meta_boxes($page, $context, $object) {
 		if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
 			break;
 
-
 		foreach ( array('high', 'sorted', 'core', 'default', 'low') as $priority ) {
 			foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
 				if ( false == $box || ! $box['title'] )
 					continue;
 				$i++;
-				echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '">' . "\n";
+				$style = '';
+				if ( in_array($box['id'], $hidden) )
+					$style = 'style="display:none;"';
+				echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '" ' . $style . '>' . "\n";
 				echo "<h3><span class='hndle'>{$box['title']}</span></h3>\n";
 				echo '<div class="inside">' . "\n";
 				call_user_func($box['callback'], $object, $box);
@@ -1315,4 +1319,27 @@ function remove_meta_box($id, $page, $context) {
 		$wp_meta_boxes[$page][$context][$priority][$id] = false;
 }
 
+function meta_box_prefs($page) {
+	global $wp_meta_boxes;
+
+	if ( empty($wp_meta_boxes[$page]) )
+		return;
+
+	$hidden = get_user_option( "meta-box-hidden_$page" );
+
+	echo '<ul class="metabox-prefs">';
+	foreach ( array_keys($wp_meta_boxes[$page]) as $context ) {
+		foreach ( array_keys($wp_meta_boxes[$page][$context]) as $priority ) {
+			foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
+				if ( false == $box || ! $box['title'] )
+					continue;
+				$box_id = $box['id'];
+				echo '<label for="' . $box_id . '-hide">';
+				echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
+				echo "{$box['title']}</label>";
+			}
+		}
+	}
+	echo '</ul>';
+}
 ?>

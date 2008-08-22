@@ -628,13 +628,17 @@ case 'closed-postboxes' :
 	check_ajax_referer( 'closedpostboxes', 'closedpostboxesnonce' );
 	$closed = isset( $_POST['closed'] )? $_POST['closed'] : '';
 	$closed = explode( ',', $_POST['closed'] );
+	$hidden = isset( $_POST['hidden'] )? $_POST['hidden'] : '';
+	$hidden = explode( ',', $_POST['hidden'] );
 	$page = isset( $_POST['page'] )? $_POST['page'] : '';
 	if ( !preg_match( '/^[a-z-]+$/', $page ) ) {
 		die(-1);
 	}
-	if (!is_array($closed)) break;
 	$current_user = wp_get_current_user();
-	update_usermeta($current_user->ID, 'closedpostboxes_'.$page, $closed);
+	if ( is_array($closed) )
+		update_usermeta($current_user->ID, 'closedpostboxes_'.$page, $closed);
+	if ( is_array($hidden) )
+		update_usermeta($current_user->ID, 'meta-box-hidden_'.$page, $hidden);
 break;
 case 'get-permalink':
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );

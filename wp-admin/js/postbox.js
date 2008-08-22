@@ -5,6 +5,17 @@
 			$('.postbox h3').before('<a class="togbox">+</a> ');
 			$('.postbox a.togbox').click( function() { $($(this).parent().get(0)).toggleClass('closed'); save_postboxes_state(page); } );
 
+			$('.hide-postbox-tog').click( function() {
+				var box = jQuery(this).val();
+				var show = jQuery(this).attr('checked');
+				if ( show ) {
+					jQuery('#' + box).show();
+				} else {
+					jQuery('#' + box).hide();
+				}
+				save_postboxes_state(page);
+			} );
+
 			if ( $.browser.msie ) {
 				$('#side-sortables').append( '<div id="make-it-tall"></div>' );
 			} else {
@@ -64,9 +75,11 @@ jQuery(document).ready(function(){postboxes.expandSidebar();});
 
 function save_postboxes_state(page) {
 	var closed = jQuery('.postbox').filter('.closed').map(function() { return this.id; }).get().join(',');
+	var hidden = jQuery('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
 	jQuery.post(postboxL10n.requestFile, {
 		action: 'closed-postboxes',
 		closed: closed,
+		hidden: hidden,
 		closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
 		page: page
 	});

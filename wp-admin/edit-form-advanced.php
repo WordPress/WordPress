@@ -404,6 +404,13 @@ endif;
 <?php } ?>
 </div>
 
+<a href="#edit_settings" class="edit-settings-link hide-if-no-js"><?php _e('Edit Settings') ?></a>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<h5><?php _e('Show on screen') ?></h5>
+<?php meta_box_prefs('post') ?>
+</div>
+
 <?php
 
 if ( 0 == $post_ID)
