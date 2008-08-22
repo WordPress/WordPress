@@ -36,8 +36,6 @@ $top_menu[20] = array( sprintf( __('Comments (%s)'), "<span id='awaiting-mod' cl
 $top_menu[25] = array( __('Help'), 'read', 'index.php?help' ); // place holder
 
 $top_submenu['profile.php'][5]  = array( __('Profile'), 'read', 'profile.php' );
-$top_submenu['profile.php'][10] = array( __('Stats'), 'read', 'inbox.php?page=stats' ); // place holder
-
 
 $menu[0] = array( __('Dashboard'), 'read', 'index.php' );
 
