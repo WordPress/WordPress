@@ -1254,7 +1254,7 @@ function do_meta_boxes($page, $context, $object) {
 
 	do_action('do_meta_boxes', $page, $context, $object);
 
-	$hidden = get_user_option( "meta-box-hidden_$page" );
+	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
 
 	echo "<div id='$context-sortables' class='meta-box-sortables'>\n";
 
@@ -1325,7 +1325,7 @@ function meta_box_prefs($page) {
 	if ( empty($wp_meta_boxes[$page]) )
 		return;
 
-	$hidden = get_user_option( "meta-box-hidden_$page" );
+	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
 
 	echo '<ul class="metabox-prefs">';
 	foreach ( array_keys($wp_meta_boxes[$page]) as $context ) {
