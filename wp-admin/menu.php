@@ -75,6 +75,11 @@ $menu[25] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array( __('Plugin Editor'), 'edit_plugins', 'plugin-editor.php' );
 	$submenu['plugins.php'][15] = array(__('Install Plugins'), 'install_plugins', 'plugin-install.php');
 
+// Back-compat for old top-levels
+$_wp_real_parent_file['post.php'] = 'edit.php'; 
+$_wp_real_parent_file['post-new.php'] = 'edit.php';
+$_wp_real_parent_file['edit-comments.php'] = 'edit.php';
+
 do_action('_admin_menu');
 
 // Create list of page plugin hook names.

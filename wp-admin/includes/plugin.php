@@ -616,8 +616,8 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 		else
 			if ( isset( $admin_page_hooks[$parent] ))
 				$page_type = $admin_page_hooks[$parent];
-	} else if ( isset( $admin_page_hooks[$parent_page] ) ) {
-		$page_type = $admin_page_hooks[$parent_page];
+	} else if ( isset( $admin_page_hooks[$parent] ) ) {
+		$page_type = $admin_page_hooks[$parent];
 	}
 
 	$plugin_name = preg_replace( '!\.php!', '', $plugin_page );
