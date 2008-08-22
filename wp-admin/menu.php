@@ -51,7 +51,6 @@ $menu[5] = array( __('Content'), 'edit_posts', 'edit.php', 'wp-menu-open' );
 $menu[10] = array( __('Templates'), 'switch_themes', 'themes.php' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
-$submenu['plugins.php'][15] = array(__('Install Plugins'), 'install_plugins', 'plugin-install.php');
 
 $menu[15] = array( __('Utilities'), 'read', 'users.php' ); // placeholder - should be inbox
 	$submenu['users.php'][5]  = array( __('Inbox'), 'read', 'inbox.php' );
@@ -74,6 +73,7 @@ $menu[20] = array(__('Settings'), 'manage_options', 'options-general.php');
 $menu[25] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][5]  = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array( __('Plugin Editor'), 'edit_plugins', 'plugin-editor.php' );
+	$submenu['plugins.php'][15] = array(__('Install Plugins'), 'install_plugins', 'plugin-install.php');
 
 do_action('_admin_menu');
 
