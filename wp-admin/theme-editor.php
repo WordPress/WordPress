@@ -132,25 +132,37 @@ if ($allowed_files) :
 ?>
 	<h4><?php _e('Templates'); ?></h4>
 	<ul>
-<?php foreach($themes[$theme]['Template Files'] as $template_file) :
-		$description = get_file_description($template_file);
+<?php
+	$template_mapping = array();
+	foreach($themes[$theme]['Template Files'] as $template_file) {
+		$description = trim( get_file_description($template_file) );
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : "$description";
 		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($template_show)</span></span>" : $filedesc;
-		?>
+		$template_mapping[ $description ] = array( $template_file, $filedesc );
+	}
+	ksort( $template_mapping );
+	while ( list( $template_sorted_key, list( $template_file, $filedesc ) ) = each( $template_mapping ) ) :
+	?>
 		<li><a href="theme-editor.php?file=<?php echo "$template_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
-<?php endforeach; ?>
+<?php endwhile; ?>
 	</ul>
 	<h4><?php echo _c('Styles|Theme stylesheets in theme editor'); ?></h4>
 	<ul>
-<?php foreach($themes[$theme]['Stylesheet Files'] as $style_file) :
-		$description = get_file_description($style_file);
+<?php
+	$template_mapping = array();
+	foreach($themes[$theme]['Stylesheet Files'] as $style_file) {
+		$description = trim( get_file_description($style_file) );
 		$style_show = basename($style_file);
 		$filedesc = ( $description != $style_file ) ? "$description <span class='nonessential'>($style_show)</span>" : "$description";
 		$filedesc = ( $style_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($style_show)</span></span>" : $filedesc;
+		$template_mapping[ $description ] = array( $style_file, $filedesc );
+	}
+	ksort( $template_mapping );
+	while ( list( $template_sorted_key, list( $style_file, $filedesc ) ) = each( $template_mapping ) ) :
 		?>
 		<li><a href="theme-editor.php?file=<?php echo "$style_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo $filedesc ?></a></li>
-<?php endforeach; ?>
+<?php endwhile; ?>
 	</ul>
 <?php endif; ?>
 </div>
