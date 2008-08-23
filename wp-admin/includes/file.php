@@ -1,6 +1,30 @@
 <?php
 
-$wp_file_descriptions = array ('index.php' => __( 'Main Index Template' ), 'style.css' => __( 'Stylesheet' ), 'rtl.css' => __( 'RTL Stylesheet' ), 'comments.php' => __( 'Comments' ), 'comments-popup.php' => __( 'Popup Comments' ), 'footer.php' => __( 'Footer' ), 'header.php' => __( 'Header' ), 'sidebar.php' => __( 'Sidebar' ), 'archive.php' => __( 'Archives' ), 'category.php' => __( 'Category Template' ), 'page.php' => __( 'Page Template' ), 'search.php' => __( 'Search Results' ), 'searchform.php' => __( 'Search Form' ), 'single.php' => __( 'Single Post' ), '404.php' => __( '404 Template' ), 'link.php' => __( 'Links Template' ), 'functions.php' => __( 'Theme Functions' ), 'attachment.php' => __( 'Attachment Template' ), 'my-hacks.php' => __( 'my-hacks.php (legacy hacks support)' ), '.htaccess' => __( '.htaccess (for rewrite rules )' ),
+$wp_file_descriptions = array (
+	'index.php' => __( 'Main Index Template' ),
+	'style.css' => __( 'Stylesheet' ),
+	'rtl.css' => __( 'RTL Stylesheet' ), 
+	'comments.php' => __( 'Comments' ), 
+	'comments-popup.php' => __( 'Popup Comments' ), 
+	'footer.php' => __( 'Footer' ), 
+	'header.php' => __( 'Header' ), 
+	'sidebar.php' => __( 'Sidebar' ),
+	'archive.php' => __( 'Archives' ),
+	'category.php' => __( 'Category Template' ),
+	'page.php' => __( 'Page Template' ),
+	'search.php' => __( 'Search Results' ),
+	'searchform.php' => __( 'Search Form' ),
+	'single.php' => __( 'Single Post' ),
+	'404.php' => __( '404 Template' ),
+	'link.php' => __( 'Links Template' ),
+	'functions.php' => __( 'Theme Functions' ),
+	'attachment.php' => __( 'Attachment Template' ),
+	'image.php' => __('Image Attachment Template'),
+	'video.php' => __('Video Attachment Template'),
+	'audio.php' => __('Audio Attachment Template'),
+	'application.php' => __('Application Attachment Template'),
+	'my-hacks.php' => __( 'my-hacks.php (legacy hacks support)' ),
+	'.htaccess' => __( '.htaccess (for rewrite rules )' ),
 	// Deprecated files
 	'wp-layout.css' => __( 'Stylesheet' ), 'wp-comments.php' => __( 'Comments Template' ), 'wp-comments-popup.php' => __( 'Popup Comments Template' ));
 function get_file_description( $file ) {
@@ -9,10 +33,10 @@ function get_file_description( $file ) {
 	if ( isset( $wp_file_descriptions[basename( $file )] ) ) {
 		return $wp_file_descriptions[basename( $file )];
 	}
-	elseif ( file_exists( WP_CONTENT_PATH . $file ) && is_file( WP_CONTENT_PATH . $file ) ) {
-		$template_data = implode( '', file( WP_CONTENT_PATH . $file ) );
-		if ( preg_match( "|Template Name:(.*)|i", $template_data, $name ))
-			return $name[1];
+	elseif ( file_exists( WP_CONTENT_DIR . $file ) && is_file( WP_CONTENT_DIR . $file ) ) {
+		$template_data = implode( '', file( WP_CONTENT_DIR . $file ) );
+		if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ))
+			return $name[1] . ' Page Template';
 	}
 
 	return basename( $file );
