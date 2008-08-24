@@ -10,7 +10,7 @@
 <br class="clear" /></div><!-- wpbody-content -->
 </div><!-- wpbody -->
 </div><!-- wpcontent -->
-</div><!-- wpwrap -->
+<br class="clear" /></div><!-- wpwrap -->
 <div id="footer">
 <p><?php
 do_action('in_admin_footer', '');

@@ -11,7 +11,8 @@ require_once('admin.php');
 
 $title = __('Edit Comments');
 wp_enqueue_script( 'admin-comments' );
-wp_enqueue_script('admin-forms');
+wp_enqueue_script( 'admin-forms' );
+wp_enqueue_script( 'quicktags' );
 
 if ( !empty( $_REQUEST['delete_comments'] ) && isset($_REQUEST['action']) ) {
 	check_admin_referer('bulk-comments');
@@ -53,20 +54,11 @@ if ( !empty( $_REQUEST['delete_comments'] ) && isset($_REQUEST['action']) ) {
 
 require_once('admin-header.php');
 
-if ( empty($_GET['mode']) )
-	$mode = 'detail';
-else
-	$mode = attribute_escape($_GET['mode']);
+$mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attribute_escape($_GET['mode']);
 
-if ( isset($_GET['comment_status']) )
-	$comment_status = attribute_escape($_GET['comment_status']);
-else
-	$comment_status = '';
+$comment_status = isset($_GET['comment_status']) ? attribute_escape($_GET['comment_status']) : '';
 
-if ( isset($_GET['s']) )
-	$search_dirty = $_GET['s'];
-else
-	$search_dirty = '';
+$search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty );
 ?>
 <?php
@@ -215,7 +207,7 @@ if ($comments) {
     <th scope="col" class="check-column"><input type="checkbox" /></th>
     <th scope="col" class="comment-column"><?php _e('Comment') ?></th>
 	<th scope="col" class="author-column"><?php _e('Author') ?></th>
-    <th scope="col" class="date-column"><?php _e('Comment Submitted') ?></th>
+    <th scope="col" class="date-column"><?php _e('Submitted') ?></th>
     <th scope="col" class="response-column"><?php _e('In Response To This Post') ?></th>
   </tr>
 </thead>
@@ -269,4 +261,6 @@ if ( $page_links )
 
 </div>
 
-<?php include('admin-footer.php'); ?>
+<?php
+wp_comment_reply('-1', true, 'detail');
+include('admin-footer.php'); ?>

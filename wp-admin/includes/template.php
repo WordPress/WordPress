@@ -799,11 +799,11 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$actions = array();
 
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
-		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
+		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . "</a> | ";
+		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . "</a> | ";
 		$actions['edit']      = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a> | ';
-		$actions['flag']      = "<a href='#' class='no-crazy'>Flag for Follow-up</a> | ";
-		$actions['spam']      = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
+		if ( 'spam' != $the_comment_status )
+			$actions['spam']      = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
 		$actions['delete']    = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
 
 		if ( $comment_status ) { // not looking at all comments
@@ -816,13 +816,13 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 			}
 		}
 
-		if ( 'spam' == $the_comment_status )
-			unset($actions['spam']);
+		if ( 'spam' != $the_comment_status )
+			$actions['reply'] = ' | <a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',this);return false;" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
 
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
 		foreach ( $actions as $action => $link )
-			echo "<span class='$action'>$link</span>";
+			echo "<span class='$action'>$link</span>\n";
 	}
 	?>
     </td>
@@ -841,12 +841,52 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
     <td class="date-column"><?php comment_date(__('Y/m/d \a\t g:ia')); ?></td>
 <?php if ( 'single' !== $mode ) : ?>
     <td class="response-column">
-    "<?php echo $post_link ?>" <?php echo sprintf('(%s comments)', $post->comment_count); ?><br/>
+    "<?php echo $post_link ?>" <?php echo sprintf('(%s comments)', $post->comment_count); ?><br />
     <?php echo get_the_time(__('Y/m/d \a\t g:ia')); ?>
     </td>
 <?php endif; ?>
   </tr>
 	<?php
+}
+
+function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') {
+	global $current_user;
+
+	// allow plugin to replace the popup content
+	$content = apply_filters( 'wp_comment_reply', '' );
+	
+	if ( ! empty($content) ) {
+		echo $content;
+		return;
+	}
+?>
+	<div id="replyerror" style="display:none;">
+	<img src="images/logo.gif" />
+	<h3 class="info-box-title"><?php _e('Comment Reply Error'); ?></h3>
+	<p id="replyerrtext"></p>
+	<p class="submit"><button id="close-button" onclick="commentReply.close();" class="button"><?php _e('Close'); ?></button></p>
+	</div>
+	
+	<div id="replydiv" style="display:none;">
+	<p id="replyhandle"><?php _e('Reply'); ?></p>
+	<form action="" method="post" id="replyform">
+	<input type="hidden" name="user_ID" id="user_ID" value="<?php echo $current_user->ID; ?>" />
+	<input type="hidden" name="action" value="replyto-comment" />
+	<input type="hidden" name="comment_ID" id="comment_ID" value="" />
+	<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="" />
+	<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />
+	<input type="hidden" name="checkbox" id="checkbox" value="<?php echo $checkbox ? 1 : 0; ?>" />
+	<input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>" />
+	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
+	<?php wp_comment_form_unfiltered_html_nonce(); ?>
+
+	<div id="replycontainer"><textarea rows="5" cols="50" name="replycontent" tabindex="10" id="replycontent"></textarea></div>
+
+	<p id="replysubmit"><input type="button" onclick="commentReply.close();" class="button" value="<?php _e('Cancel'); ?>" />
+	<input type="button" onclick="commentReply.send();" class="button" value="<?php _e('Submit Reply'); ?>" /></p>
+	</form>
+	</div>
+<?php
 }
 
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {

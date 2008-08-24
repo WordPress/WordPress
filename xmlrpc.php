@@ -1089,6 +1089,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
+		$comment['comment_parent'] = isset($content_struct['comment_parent']) ? absint($content_struct['comment_parent']) : 0;
+
 		$comment['comment_content'] = $content_struct['content'];
 
 		do_action('xmlrpc_call', 'wp.newComment');

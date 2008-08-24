@@ -66,7 +66,9 @@ if ( get_option('require_name_email') && !$user->ID ) {
 if ( '' == $comment_content )
 	wp_die( __('Error: please type a comment.') );
 
-$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'user_ID');
+$comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_parent']) : 0;
+
+$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
 $comment_id = wp_new_comment( $commentdata );
 

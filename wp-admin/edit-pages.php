@@ -68,6 +68,7 @@ wp($query_str);
 
 if ( is_singular() )
 	wp_enqueue_script( 'admin-comments' );
+
 require_once('admin-header.php');
 
 ?>
@@ -240,7 +241,7 @@ if ( 1 == count($posts) && is_singular() ) :
 </table>
 
 <?php
-
+wp_comment_reply();
 endif; // comments
 endif; // posts;
 

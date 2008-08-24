@@ -391,8 +391,12 @@ function wp_allow_comment($commentdata) {
 	if ( $comment_author_email )
 		$dupe .= "OR comment_author_email = '$comment_author_email' ";
 	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
-	if ( $wpdb->get_var($dupe) )
+	if ( $wpdb->get_var($dupe) ) {
+		if ( defined('DOING_AJAX') )
+			die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+
 		wp_die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+	}
 
 	do_action( 'check_comment_flood', $comment_author_IP, $comment_author_email, $comment_date_gmt );
 
@@ -443,6 +447,10 @@ function check_comment_flood_db( $ip, $email, $date ) {
 		$flood_die = apply_filters('comment_flood_filter', false, $time_lastcomment, $time_newcomment);
 		if ( $flood_die ) {
 			do_action('comment_flood_trigger', $time_lastcomment, $time_newcomment);
+
+			if ( defined('DOING_AJAX') )
+				die( __('You are posting comments too quickly.  Slow down.') );
+
 			wp_die( __('You are posting comments too quickly.  Slow down.') );
 		}
 	}
@@ -752,6 +760,10 @@ function wp_new_comment( $commentdata ) {
 
 	$commentdata['comment_post_ID'] = (int) $commentdata['comment_post_ID'];
 	$commentdata['user_ID']         = (int) $commentdata['user_ID'];
+
+	$commentdata['comment_parent'] = absint($commentdata['comment_parent']);
+	$parent_status = ( 0 < $commentdata['comment_parent'] ) ? wp_get_comment_status($commentdata['comment_parent']) : '';
+	$commentdata['comment_parent'] = ( 'approved' == $parent_status || 'unapproved' == $parent_status ) ? $commentdata['comment_parent'] : 0;
 
 	$commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	$commentdata['comment_agent']     = $_SERVER['HTTP_USER_AGENT'];

@@ -9,7 +9,8 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 add_thickbox();
-wp_enqueue_script('media-upload');
+wp_enqueue_script( 'media-upload' );
+wp_enqueue_script( 'quicktags' );
 
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
@@ -263,4 +264,7 @@ endif; // posts;
 
 </div>
 
-<?php include('admin-footer.php'); ?>
+<?php 
+wp_comment_reply();
+include('admin-footer.php');
+?>

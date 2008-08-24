@@ -320,30 +320,36 @@ textarea.all-options, input.all-options {
 	padding: 2px 4px;
 }
 
-#ed_toolbar input {
+#ed_toolbar input,
+#ed_reply_toolbar input {
 	margin: 3px 2px 2px;
 	padding: 2px 4px;
 	line-height: 18px;
 	display: inline-block;
 }
 
-#quicktags #ed_strong {
+#quicktags #ed_strong,
+#ed_reply_toolbar #ed_reply_strong {
 	font-weight: bold;
 }
 
-#quicktags #ed_link {
+#quicktags #ed_link,
+#ed_reply_toolbar #ed_reply_link {
 	text-decoration: underline;
 }
 
-#quicktags #ed_del {
+#quicktags #ed_del,
+#ed_reply_toolbar #ed_reply_del {
 	text-decoration: line-through;
 }
 
-#quicktags #ed_em {
+#quicktags #ed_em,
+#ed_reply_toolbar #ed_reply_em {
 	font-style: italic;
 }
 
-#quicktags #ed_code {
+#quicktags #ed_code,
+#ed_reply_toolbar #ed_reply_code {
 	font-family: "Courier New", Courier, mono;
 	font-size: 1.1em;
 	vertical-align: top;
@@ -502,12 +508,12 @@ p.pagenav {
 	font-weight: bold;
 }
 
-.comment-column {
-	width: 50%;
-}
-
 .comment-column p {
 	margin-top: 0;
+}
+
+.comment-column {
+	width: 50%;
 }
 
 .author-column {
@@ -1760,7 +1766,8 @@ fieldset {
 .info-box-title {
 	line-height: 2;
 	margin: 0;
-	padding: 0 7px;
+	padding: 4px 8px;
+	font: 18px Georgia, "Times New Roman", Times, serif;
 }
 
 #wp_editbtns {
@@ -1809,90 +1816,11 @@ a.togbox {
 	cursor: pointer;
 }
 
-
-/* fixed bottom bar */
-.postarea h3 label {
-
-}
-
-#footer {
-	z-index: -1;
-}
-
-#fixedbar {
-	bottom:0pt;
-	height:80px;
-	position:fixed;
-	width:100%;
-	z-index: 100;
-}
-
-#fixedbar #submitpost {
-	
-}
-
-#fixedbar .submit {
-	padding-top: 10px;
-}
-
-#fixedbar .button {
-	border: none;
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-}
-
-#fixedbar .button:hover {
-	background: #fff;
-}
-
-#fixedbar #publish {
-	font-weight:bold;
-	width:160px;
-}
-
-#fixedbar #save-post {
-	width:80px;
-	font-weight:normal;
-}
-
-#fixedbar .submitbox {
-	padding: 14px 18px;
-	border-left: 1px solid #aaa;
-	width: 690px;
-}
-
-#fixedbar #post-time-info,
-#fixedbar #comment-time-info {
-	margin-top: 16px;
-}
-
-#fixedbar #timestampdiv input,
-#fixedbar #timestampdiv select {
-	background-color:#464646;
-	border:1px solid #777777;
-	color:#CCCCCC;
-	padding:2px;
-}
-
-#fixedbar-wrap {
-	width: 100%;
-}
-
-#preview-link {
-	text-align: right;
-}
-
-#preview-link a {
-	padding-right:10px;
-}
-
 p#post-search-prep {
-	margin:0pt;
-	position:absolute;
-	right:20px;
-	top:50px;
+	margin: 0;
+	position: absolute;
+	right: 20px;
+	top: 50px;
 }
 
 #jj, #hh, #mn {
@@ -1915,7 +1843,6 @@ p#post-search-prep {
 }
 
 /* media popup 0819 */
-
 #sidemenu {
 	margin: -30px 15px 0 315px;
 	list-style: none;
@@ -1999,4 +1926,85 @@ p#post-search-prep {
 	text-align:center;
 	text-decoration:none;
 	width:200px;
+}
+
+/* reply to comments */
+#replydiv {
+	width: 700px;
+	border-color: #EBEBEB #CCCCCC #CCCCCC #EBEBEB;
+	border-width: 1px;
+	border-style: solid;
+	padding: 2px;
+	background-color: #fff;
+	left: 20px;
+	top: 300px;
+}
+
+#replydiv #editorcontainer {
+	border: 0 none;
+}
+
+#replysubmit {
+	margin: 0;
+	padding: 3px 5px;
+	background-color: #EAF3FA;
+	border-top: 1px solid #ddd;
+}
+
+#replydiv #editor-toolbar {
+	display: none;
+}
+
+#replydiv #replyhandle {
+	cursor: move;
+	margin: 0;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 7px;
+}
+
+#replycontainer {
+	padding: 6px;
+	border: 0 none;
+	height: 100%;
+	overflow: hidden;
+}
+
+#replycontent {
+	resize: none;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	line-height: 150%;
+	border: 0 none;
+	outline: none;
+}
+
+#ed_reply_toolbar {
+	margin: 0;
+	padding: 2px 4px;
+}
+
+#replyerror {
+	border: 5px solid #ddd;
+	background-color: #f8f8f8;
+	position: absolute;
+	padding: 15px 15px 10px;
+	width: 500px;
+	z-index: 1000;
+	display: none;
+}
+
+#replyerror img {
+	float: right;
+	margin: 15px;
+}
+
+#replyerror p.submit {
+	padding: 10px 0 0;
+}
+
+#replyerror .error {
+	margin: 15px 0 0;
 }

@@ -78,4 +78,151 @@ var delAfter = function( r, settings ) {
 theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
 theList = $('#the-comment-list').wpList( { alt: '', dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
 
-} );
+});
+
+(function($){
+
+commentReply = {
+
+	open : function(c, p) {
+		var d = $('#comment-'+c).offset(), H = $('#replydiv').height(), top = 200, left = 100, h = 120;
+
+		if ( d && H ) {
+			top = (d.top - H) < 10 ? 10 : d.top - H - 5;
+			left = d.left;
+		}
+
+		$('#replydiv').show();
+		$('#replydiv #comment_post_ID').val(p);
+		$('#replydiv #comment_ID').val(c);
+
+		$('#replydiv').draggable({
+			handle : '#replyhandle',
+			containment : '#wpwrap'
+		});
+
+		$('#replydiv').resizable({
+			handles : 'se',
+			minHeight : 200,
+			minWidth : 400,
+			containment : '#wpwrap',
+			resize : function(e,o) {
+				h = o.size.height - 80 - $('#ed_reply_qtags').height();
+				$('#replycontainer').height(h);
+			},
+			stop : function(e,o) {
+				if ( $.browser.msie )
+					$('#replycontent').height(h);
+			}
+		});
+
+		$('.ui-resizable-se').css({
+			border: '0 none',
+			width: '11px',
+			height: '12px',
+			background: 'transparent url(images/se.png) no-repeat scroll 0 0'
+		});
+
+		$('#replydiv').css({
+			'position' : 'absolute',
+			'top' : top,
+			'left' : left
+		});
+
+		$('#replycontent').focus().keyup(function(e){
+			if (e.which == 27) commentReply.close(); // close on Escape
+		});
+		
+		// emulate the Safari/Opera scrollIntoView
+		var to = $('#replydiv').offset();
+		var scr = document.documentElement.scrollTop ? document.documentElement.scrollTop : 0;
+
+		if ( scr - 20 > to.top )
+			window.scroll(0, to.top - 100);
+	},
+
+	close : function() {
+		$('#replycontent').val('');
+		$('#replyerror').hide();
+
+		$('#replydiv').draggable('destroy').resizable('destroy').css('position','relative');
+		$('#replydiv').hide();
+		return false;
+	},
+
+	send : function() {
+		var post = {};
+
+		$('#replyform input').each(function() {
+			post[ $(this).attr('name') ] = $(this).val();
+		});
+
+		post.comment = $('#replycontent').val();
+		post.id = post.comment_post_ID;
+
+		$.ajax({
+			type : 'POST',
+			url : wpListL10n.url,
+			data : post,
+			success : function(x) { commentReply.show(x); },
+			error : function(r) { commentReply.error(r); }
+		});
+	},
+
+	show : function(xml) {
+
+		if ( typeof(xml) == 'string' ) {
+			this.error({'responseText': xml});
+			return;
+		}
+
+		var r = wpAjax.parseAjaxResponse(xml);
+		if ( r.errors )
+			this.error({'responseText': wpAjax.broken});
+
+		r = r.responses[0];
+		this.close();
+//		var scr1 = $('#the-comment-list').offset(), scr2 = $('#the-comment-list').height();
+
+		if ( r.position == -1 ) {
+//			window.scroll(0, scr1.top - 100); // Scroll to the new comment? Seems annoing..
+			$('#the-comment-list').prepend(r.data);
+		} else {
+//			window.scroll(0, scr1.top + scr2 + 200);
+			$('#the-comment-list').append(r.data);
+		}
+
+		$('#comment-'+r.id)
+			.animate( { backgroundColor:"#CFEBF7" }, 600 )
+			.animate( { backgroundColor:"transparent" }, 600 );
+	},
+
+	error : function(r) {
+		var er = r.statusText;
+
+		if ( r.responseText )
+			er = r.responseText.replace( /<.[^<>]*?>/g, '' );
+
+		if ( er ) {
+			var o = $('#replydiv').offset();
+			$('#replydiv').hide();
+
+			$('#replyerror').css({
+				'top' : o.top + 60 + 'px',
+				'left' : o.left + 'px'
+			}).show().draggable();
+
+			$('#replyerrtext').html(er)
+			$('#close-button').css('outline','none').focus().keyup(function(e) {
+				if (e.which == 27) commentReply.close(); // close on Escape
+			});
+		}
+	}
+}
+
+$(document).ready(function(){
+	if ( typeof QTags != 'undefined' )
+		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
+});
+
+})(jQuery);

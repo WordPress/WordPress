@@ -955,7 +955,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 
 	$rows = "rows='$rows'";	?>
 	<div id="editor-toolbar">
-	<?php if ( user_can_richedit() ) {
+	<?php if ( user_can_richedit() && $media_buttons ) {
 		$wp_default_editor = wp_default_editor(); ?>
 		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
 		<?php if ( 'tinymce' == $wp_default_editor ) {
@@ -967,7 +967,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 			<a id="edButtonHTML" class="active"><?php _e('HTML'); ?></a>
 			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>');"><?php _e('Visual'); ?></a>
 		<?php }
-	}
+	} else
+		add_filter('the_editor_content', 'wp_htmledit_pre');
 
 /*	if ( $media_buttons ) { ?>
 		<div id="media-buttons" class="hide-if-no-js">
@@ -981,46 +982,37 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 	<script type="text/javascript">edToolbar()</script>
 	</div>
 
-    <?php if ( 'html' != $wp_default_editor ) : ?>
-    <script type="text/javascript">
-    // <![CDATA[
-        if ( typeof tinyMCE != "undefined" )
-            document.getElementById("quicktags").style.display="none";
-    // ]]>
-    </script>
-    <?php endif; // 'html' != $wp_default_editor
-
-	$the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea class='' $rows cols='40' name='$id' tabindex='$tab_index' id='$id'>%s</textarea></div>\n");
+	<?php $the_editor = apply_filters('the_editor', "<div id='editorcontainer'><textarea $rows cols='40' name='$id' tabindex='$tab_index' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
 
 	printf($the_editor, $the_editor_content);
 
 	?>
-    <script type="text/javascript">
-    // <![CDATA[
-    edCanvas = document.getElementById('<?php echo $id; ?>');
-    <?php if ( $prev_id && user_can_richedit() ) : ?>
-    // If tinyMCE is defined.
-    if ( typeof tinyMCE != 'undefined' ) {
-    // This code is meant to allow tabbing from Title to Post (TinyMCE).
-        document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
-            e = e || window.event;
-            if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-                if ( tinyMCE.activeEditor ) {
-                    if ( (jQuery("#post_ID").val() < 1) && (jQuery("#title").val().length > 0) ) { autosave(); }
-                    e = null;
-                    if ( tinyMCE.activeEditor.isHidden() ) return true;
-                    tinyMCE.activeEditor.focus();
-                    return false;
-                }
-                return true;
-            }
-        }
-    }
-    <?php endif; ?>
-    // ]]>
-    </script>
-    <?php
+	<script type="text/javascript">
+	// <![CDATA[
+	edCanvas = document.getElementById('<?php echo $id; ?>');
+	<?php if ( user_can_richedit() && $prev_id ) { ?>
+	// If tinyMCE is defined.
+	if ( typeof tinyMCE != 'undefined' ) {
+		// This code is meant to allow tabbing from Title to Post (TinyMCE).
+		document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
+			e = e || window.event;
+			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				if ( tinyMCE.activeEditor ) {
+					if ( (jQuery("#post_ID").val() < 1) && (jQuery("#title").val().length > 0) ) { autosave(); }
+					e = null;
+					if ( tinyMCE.activeEditor.isHidden() ) return true;
+					tinyMCE.activeEditor.focus();
+					return false;
+				}
+				return true;
+			}
+		}
+	}
+	<?php } ?>
+	// ]]>
+	</script>
+	<?php
 }
 
 function get_search_query() {

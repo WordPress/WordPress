@@ -387,3 +387,194 @@ function edInsertImage(myField) {
 		edInsertContent(myField, myValue);
 	}
 }
+
+
+// Allow multiple instances. 
+// Name = unique value, id = textarea id, container = container div.
+// Can disable some buttons by passing comma delimited string as 4th param.
+var QTags = function(name, id, container, disabled) {
+	var t = this;
+
+	t.Buttons = [];
+	t.Links = [];
+	t.OpenTags = [];
+	t.Canvas = document.getElementById(id);
+
+	disabled = ( typeof disabled != 'undefined' ) ? ','+disabled+',' : '';
+
+	t.edShowButton = function(button, i) {
+		if ( disabled && (disabled.indexOf(','+button.display+',') != -1) )
+			return '';
+		else if ( button.id == name+'_img' )
+			return '<input type="button" id="' + button.id + '" accesskey="' + button.access + '" class="ed_button" onclick="edInsertImage('+name+'.Canvas);" value="' + button.display + '" />';
+		else if (button.id == name+'_link')
+			return '<input type="button" id="' + button.id + '" accesskey="' + button.access + '" class="ed_button" onclick="'+name+'.edInsertLink('+i+');" value="'+button.display+'" />';
+		else
+			return '<input type="button" id="' + button.id + '" accesskey="'+button.access+'" class="ed_button" onclick="'+name+'.edInsertTag('+i+');" value="'+button.display+'" />';
+	};
+
+	t.edAddTag = function(button) {
+		if ( t.Buttons[button].tagEnd != '' ) {
+			t.OpenTags[t.OpenTags.length] = button;
+			document.getElementById(t.Buttons[button].id).value = '/' + document.getElementById(t.Buttons[button].id).value;
+		}
+	};
+
+	t.edRemoveTag = function(button) {
+		for ( var i = 0; i < t.OpenTags.length; i++ ) {
+			if ( t.OpenTags[i] == button ) {
+				t.OpenTags.splice(i, 1);
+				document.getElementById(t.Buttons[button].id).value = document.getElementById(t.Buttons[button].id).value.replace('/', '');
+			}
+		}
+	};
+
+	t.edCheckOpenTags = function(button) {
+		var tag = 0;
+		for ( var i = 0; i < t.OpenTags.length; i++ ) {
+			if ( t.OpenTags[i] == button )
+				tag++;
+		}
+		if ( tag > 0 ) return true; // tag found
+		else return false; // tag not found
+	};
+
+	this.edCloseAllTags = function() {
+		var count = t.OpenTags.length;
+		for ( var o = 0; o < count; o++ )
+			t.edInsertTag(t.OpenTags[t.OpenTags.length - 1]);
+	};
+
+	this.edQuickLink = function(i, thisSelect) {
+		if ( i > -1 ) {
+			var newWin = '';
+			if ( Links[i].newWin == 1 ) {
+				newWin = ' target="_blank"';
+			}
+			var tempStr = '<a href="' + Links[i].URL + '"' + newWin + '>'
+			            + Links[i].display
+			            + '</a>';
+			thisSelect.selectedIndex = 0;
+			edInsertContent(t.Canvas, tempStr);
+		} else {
+			thisSelect.selectedIndex = 0;
+		}
+	};
+
+	// insertion code
+	t.edInsertTag = function(i) {
+		//IE support
+		if ( document.selection ) {
+			t.Canvas.focus();
+		    sel = document.selection.createRange();
+			if ( sel.text.length > 0 ) {
+				sel.text = t.Buttons[i].tagStart + sel.text + t.Buttons[i].tagEnd;
+			} else {
+				if ( ! t.edCheckOpenTags(i) || t.Buttons[i].tagEnd == '' ) {
+					sel.text = t.Buttons[i].tagStart;
+					t.edAddTag(i);
+				} else {
+					sel.text = t.Buttons[i].tagEnd;
+					t.edRemoveTag(i);
+				}
+			}
+			t.Canvas.focus();
+		} else if ( t.Canvas.selectionStart || t.Canvas.selectionStart == '0' ) { //MOZILLA/NETSCAPE support
+			var startPos = t.Canvas.selectionStart;
+			var endPos = t.Canvas.selectionEnd;
+			var cursorPos = endPos;
+			var scrollTop = t.Canvas.scrollTop;
+
+			if ( startPos != endPos ) {
+				t.Canvas.value = t.Canvas.value.substring(0, startPos)
+				              + t.Buttons[i].tagStart
+				              + t.Canvas.value.substring(startPos, endPos)
+				              + t.Buttons[i].tagEnd
+				              + t.Canvas.value.substring(endPos, t.Canvas.value.length);
+				cursorPos += t.Buttons[i].tagStart.length + t.Buttons[i].tagEnd.length;
+			} else {
+				if ( !t.edCheckOpenTags(i) || t.Buttons[i].tagEnd == '' ) {
+					t.Canvas.value = t.Canvas.value.substring(0, startPos)
+					              + t.Buttons[i].tagStart
+					              + t.Canvas.value.substring(endPos, t.Canvas.value.length);
+					t.edAddTag(i);
+					cursorPos = startPos + t.Buttons[i].tagStart.length;
+				} else {
+					t.Canvas.value = t.Canvas.value.substring(0, startPos)
+					              + t.Buttons[i].tagEnd
+					              + t.Canvas.value.substring(endPos, t.Canvas.value.length);
+					t.edRemoveTag(i);
+					cursorPos = startPos + t.Buttons[i].tagEnd.length;
+				}
+			}
+			t.Canvas.focus();
+			t.Canvas.selectionStart = cursorPos;
+			t.Canvas.selectionEnd = cursorPos;
+			t.Canvas.scrollTop = scrollTop;
+		} else {
+			if ( ! t.edCheckOpenTags(i) || t.Buttons[i].tagEnd == '' ) {
+				t.Canvas.value += Buttons[i].tagStart;
+				t.edAddTag(i);
+			} else {
+				t.Canvas.value += Buttons[i].tagEnd;
+				t.edRemoveTag(i);
+			}
+			t.Canvas.focus();
+		}
+	};
+
+	this.edInsertLink = function(i, defaultValue) {
+		if ( ! defaultValue )
+			defaultValue = 'http://';
+
+		if ( ! t.edCheckOpenTags(i) ) {
+			var URL = prompt(quicktagsL10n.enterURL, defaultValue);
+			if ( URL ) {
+				t.Buttons[i].tagStart = '<a href="' + URL + '">';
+				t.edInsertTag(i);
+			}
+		} else {
+			t.edInsertTag(i);
+		}
+	};
+
+	this.edInsertImage = function() {
+		var myValue = prompt(quicktagsL10n.enterImageURL, 'http://');
+		if ( myValue ) {
+			myValue = '<img src="'
+					+ myValue
+					+ '" alt="' + prompt(quicktagsL10n.enterImageDescription, '')
+					+ '" />';
+			edInsertContent(t.Canvas, myValue);
+		}
+	};
+
+	t.Buttons[t.Buttons.length] = new edButton(name+'_strong','b','<strong>','</strong>','b');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_em','i','<em>','</em>','i');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_link','link','','</a>','a'); // special case
+	t.Buttons[t.Buttons.length] = new edButton(name+'_block','b-quote','\n\n<blockquote>','</blockquote>\n\n','q');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_del','del','<del datetime="' + datetime + '">','</del>','d');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_ins','ins','<ins datetime="' + datetime + '">','</ins>','s');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_img','img','','','m',-1); // special case
+	t.Buttons[t.Buttons.length] = new edButton(name+'_ul','ul','<ul>\n','</ul>\n\n','u');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_ol','ol','<ol>\n','</ol>\n\n','o');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_li','li','\t<li>','</li>\n','l');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_code','code','<code>','</code>','c');
+	t.Buttons[t.Buttons.length] = new edButton(name+'_more','more','<!--more-->','','t',-1);
+//	t.Buttons[t.Buttons.length] = new edButton(name+'_next','page','<!--nextpage-->','','p',-1);
+
+	var tb = document.createElement('div');
+	tb.id = name+'_qtags';
+
+	var html = '<div id="'+name+'_toolbar">';
+	for (var i = 0; i < t.Buttons.length; i++)
+		html += t.edShowButton(t.Buttons[i], i);
+
+	html += '<input type="button" id="'+name+'_ed_spell" class="ed_button" onclick="edSpell('+name+'.Canvas);" title="' + quicktagsL10n.dictionaryLookup + '" value="' + quicktagsL10n.lookup + '" />';
+	html += '<input type="button" id="'+name+'_ed_close" class="ed_button" onclick="'+name+'.edCloseAllTags();" title="' + quicktagsL10n.closeAllOpenTags + '" value="' + quicktagsL10n.closeTags + '" /></div>';
+
+	tb.innerHTML = html;
+	var cont = document.getElementById(container);
+	cont.parentNode.insertBefore(tb, cont);
+
+};

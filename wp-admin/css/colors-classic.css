@@ -54,7 +54,7 @@ li.widget-list-control-item h4.widget-title a,
 }
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
-ul.view-switch li.current, .form-table tr, #poststuff h3,
+ul.view-switch li.current, .form-table tr, #poststuff h3, #replyhandle,
 .login form, h3.info-box-title, #post-status-info {
 	background-color: #cfebf7;
 }
@@ -70,7 +70,7 @@ strong .post-com-count span {
 
 #post-body ul#category-tabs li.ui-tabs-selected, .button-secondary,
 #quicktags, #login form .submit input, #post-search .button,
-#post-search-prep .button {
+#post-search-prep .button, #ed_reply_toolbar {
 	background-color: #8ebddc !important;
 }
 
@@ -376,7 +376,7 @@ input.readonly {
 	color: #fff;
 }
 
-#ed_toolbar input {
+#ed_toolbar input, #ed_reply_toolbar input {
 	background: url( ../images/fade-butt.png ) #fff repeat-x 0 -2px;
 }
 

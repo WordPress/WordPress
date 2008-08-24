@@ -325,11 +325,7 @@ function post_comment_status_meta_box($post) {
 </tbody>
 </table>
 
-
 <?php
-
-
-
 }
 add_meta_box('commentstatusdiv', __('Comments on this Post'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
 
@@ -540,6 +536,8 @@ do_action('dbx_post_sidebar');
 
 </div>
 </form>
+
+<?php wp_comment_reply(); ?>
 
 <?php if ((isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message'])) : ?>
 <script type="text/javascript">

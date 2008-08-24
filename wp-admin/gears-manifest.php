@@ -135,7 +135,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20080731",
+"version" : "<?php echo $man_version; ?>_20080823",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -173,6 +173,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/required.gif" },
 { "url" : "images/no.png" },
 { "url" : "images/yes.png" },
+{ "url" : "images/se.png" },
 
 <?php if ( is_file('../wp-includes/js/tinymce/tiny_mce.js') ) { ?>
 { "url" : "../wp-includes/js/tinymce/tiny_mce_popup.js?ver=311b" },

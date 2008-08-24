@@ -15,7 +15,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'common', '/wp-admin/js/common.js', array('jquery'), '20080318' );
 	$scripts->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
 
-	$scripts->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3958' );
+	$scripts->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '20080823' );
 	$scripts->localize( 'quicktags', 'quicktagsL10n', array(
 		'quickLinks' => __('(Quick Links)'),
 		'wordLookup' => __('Enter a word to look up:'),
@@ -34,7 +34,7 @@ function wp_default_scripts( &$scripts ) {
 	$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
 	$scripts->add( 'editor', false, $visual_editor, '20080321' );
 
-	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080710' );
+	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080823' );
 
 	// Modify this version when tinyMCE plugins are changed.
 	$mce_version = apply_filters('tiny_mce_version', '20080730');
@@ -103,6 +103,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.5.2' );
 	$scripts->add( 'jquery-ui-tabs', '/wp-includes/js/jquery/ui.tabs.js', array('jquery-ui-core'), '1.5.2' );
 	$scripts->add( 'jquery-ui-sortable', '/wp-includes/js/jquery/ui.sortable.js', array('jquery-ui-core'), '1.5.2' );
+	$scripts->add( 'jquery-ui-draggable', '/wp-includes/js/jquery/ui.draggable.js', array('jquery-ui-core'), '1.5.2' );
+	$scripts->add( 'jquery-ui-resizable', '/wp-includes/js/jquery/ui.resizable.js', array('jquery-ui-core'), '1.5.2' );
+	$scripts->add( 'jquery-ui-dialog', '/wp-includes/js/jquery/ui.dialog.js', array('jquery-ui-resizable', 'jquery-ui-draggable'), '1.5.2' );
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
@@ -120,7 +123,7 @@ function wp_default_scripts( &$scripts ) {
 			'good' => __('Good'),
 			'strong' => __('Strong')
 		) );
-		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists'), '20080311' );
+		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-draggable', 'jquery-ui-resizable'), '20080821' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'pending' => __('%i% pending') // must look like: "# blah blah"
 		) );
