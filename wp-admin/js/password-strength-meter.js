@@ -3,56 +3,55 @@
 // Firas Kassem  phiras.wordpress.com || phiras at gmail {dot} com
 // for more information : http://phiras.wordpress.com/2007/04/08/password-strength-meter-a-jquery-plugin/
 
-var shortPass = pwsL10n.short
-var badPass = pwsL10n.bad
-var goodPass = pwsL10n.good
-var strongPass = pwsL10n.strong
-
-
 function passwordStrength(password,username) {
-    score = 0
+    var shortPass = 1, badPass = 2, goodPass = 3, strongPass = 4, score = 0, d, s, u, l;
 
     //password < 4
-    if (password.length < 4 ) { return shortPass }
+    if (password.length < 4 ) { return shortPass };
 
     //password == username
-    if (password.toLowerCase()==username.toLowerCase()) return badPass
+    if (password.toLowerCase()==username.toLowerCase()) return badPass;
 
     //password length
-    score += password.length * 4
-    score += ( checkRepetition(1,password).length - password.length ) * 1
-    score += ( checkRepetition(2,password).length - password.length ) * 1
-    score += ( checkRepetition(3,password).length - password.length ) * 1
-    score += ( checkRepetition(4,password).length - password.length ) * 1
+    score += password.length * 4;
+    score += ( checkRepetition(1,password).length - password.length ) * 1;
+    score += ( checkRepetition(2,password).length - password.length ) * 1;
+    score += ( checkRepetition(3,password).length - password.length ) * 1;
+    score += ( checkRepetition(4,password).length - password.length ) * 1;
 
-    //password has 3 numbers
-    if (password.match(/(.*[0-9].*[0-9].*[0-9])/))  score += 5
+    d = password.match(/\d/g);
+    s = password.match(/[^\d\w]/g);
+    u = password.match(/[A-Z]/g);
+    l = password.match(/[a-z]/g);
+
+	//password has 3 numbers
+    if ( d && d.length > 2 ) score += 5;
 
     //password has 2 sybols
-    if (password.match(/(.*[!,@,#,$,%,^,&,*,?,_,~].*[!,@,#,$,%,^,&,*,?,_,~])/)) score += 5
+    if ( s && s.length > 1 ) score += 10;
 
     //password has Upper and Lower chars
-    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  score += 10
+    if ( u && l ) score += 10;
 
     //password has number and chars
-    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  score += 15
+    if ( u && l && d ) score += 15;
     //
     //password has number and symbol
-    if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([0-9])/))  score += 15
+    if ( s && d ) score += 15;
 
-    //password has char and symbol
-    if (password.match(/([!,@,#,$,%,^,&,*,?,_,~])/) && password.match(/([a-zA-Z])/))  score += 15
+    //password has Upper char and symbol
+    if ( u && s ) score += 15;
 
     //password is just a nubers or chars
-    if (password.match(/^\w+$/) || password.match(/^\d+$/) )  score -= 10
+    if ( ! s )  score -= 10;
 
     //verifing 0 < score < 100
-    if ( score < 0 )  score = 0
-    if ( score > 100 )  score = 100
+    if ( score < 0 )  score = 0;
+    if ( score > 100 )  score = 100;
 
-    if (score < 34 )  return badPass
-    if (score < 68 )  return goodPass
-    return strongPass
+    if ( score < 34 ) return badPass;
+    if ( score < 68 || password.length < 7 ) return goodPass;
+    return strongPass;
 }
 
 

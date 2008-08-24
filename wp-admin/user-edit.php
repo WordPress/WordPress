@@ -23,59 +23,52 @@ else
 function profile_js ( ) {
 ?>
 <script type="text/javascript">
-	function check_pass_strength ( ) {
+(function($){
+	
+	function check_pass_strength () {
 
-		var pass = jQuery('#pass1').val();
-		var user = jQuery('#user_login').val();
+		var pass = $('#pass1').val();
+		var user = $('#user_login').val();
 
-		// get the result as an object, i'm tired of typing it
-		var res = jQuery('#pass-strength-result');
+		$('#pass-strength-result').removeClass('short bad good strong');
+		if ( ! pass ) {
+			$('#pass-strength-result').html( pwsL10n.empty );
+			return;
+		}
 
 		var strength = passwordStrength(pass, user);
 
-		jQuery(res).removeClass('short bad good strong');
-
-		if ( strength == pwsL10n.bad ) {
-			jQuery(res).addClass('bad');
-			jQuery(res).html( pwsL10n.bad );
-		}
-		else if ( strength == pwsL10n.good ) {
-			jQuery(res).addClass('good');
-			jQuery(res).html( pwsL10n.good );
-		}
-		else if ( strength == pwsL10n.strong ) {
-			jQuery(res).addClass('strong');
-			jQuery(res).html( pwsL10n.strong );
-		}
-		else {
+		if ( 2 == strength )
+			$('#pass-strength-result').addClass('bad').html( pwsL10n.bad );
+		else if ( 3 == strength )
+			$('#pass-strength-result').addClass('good').html( pwsL10n.good );
+		else if ( 4 == strength )
+			$('#pass-strength-result').addClass('strong').html( pwsL10n.strong );
+		else
 			// this catches 'Too short' and the off chance anything else comes along
-			jQuery(res).addClass('short');
-			jQuery(res).html( pwsL10n.short );
-		}
+			$('#pass-strength-result').addClass('short').html( pwsL10n.short );
 
 	}
 
-	function update_nickname ( ) {
+	function update_nickname () {
 
-		var nickname = jQuery('#nickname').val();
-		var display_nickname = jQuery('#display_nickname').val();
+		var nickname = $('#nickname').val();
+		var display_nickname = $('#display_nickname').val();
 
 		if ( nickname == '' ) {
-			jQuery('#display_nickname').remove();
+			$('#display_nickname').remove();
 		}
-		jQuery('#display_nickname').val(nickname).html(nickname);
+		$('#display_nickname').val(nickname).html(nickname);
 
 	}
 
-	jQuery(function($) {
-		$('#pass1').keyup( check_pass_strength )
+	$(document).ready( function() {
+		$('#pass1,#pass2').attr('autocomplete','off');
+		$('#nickname').blur(update_nickname);
+		$('#pass1').keyup( check_pass_strength );
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
-	} );
-
-	jQuery(document).ready( function() {
-		jQuery('#pass1,#pass2').attr('autocomplete','off');
-		jQuery('#nickname').blur(update_nickname);
     });
+})(jQuery);
 </script>
 <?php
 }
@@ -349,7 +342,8 @@ if ( $show_password_fields ) :
 		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
 		<?php if ( $is_profile_page ): ?>
 		<p><strong><?php _e('Password Strength'); ?></strong></p>
-		<div id="pass-strength-result"><?php _e('Too short'); ?></div> <?php _e('Hint: Use upper and lower case characters, numbers and symbols like !"?$%^&amp;( in your password.'); ?>
+		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div> 
+		<p><?php _e('Hint: Your password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 		<?php endif; ?>
 	</td>
 </tr>
