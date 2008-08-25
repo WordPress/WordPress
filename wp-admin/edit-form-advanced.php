@@ -13,6 +13,8 @@
  */
 if ( ! isset( $post_ID ) )
 	$post_ID = 0;
+else
+	$post_ID = (int) $post_ID;
 
 $action = isset($action) ? $action : '';
 if ( isset($_GET['message']) )
@@ -36,10 +38,9 @@ if ( 0 == $post_ID ) {
 	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
 	$autosave = false;
 } else {
-	$post_ID = (int) $post_ID;
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
-	$autosave = wp_get_post_autosave( $post_id );
+	$autosave = wp_get_post_autosave( $post_ID );
 
 	// Detect if there exists an autosave newer than the post and if that autosave is different than the post
 	if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt ) > mysql2date( 'U', $post->post_modified_gmt ) ) {

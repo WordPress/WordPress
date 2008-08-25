@@ -917,7 +917,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	} else {
 		$edit = $user_object->user_login;
 	}
-	$role_name = $wp_roles->role_names[$role] ? translate_with_context($wp_roles->role_names[$role]) : __('None');
+	$role_name = isset($wp_roles->role_names[$role]) ? translate_with_context($wp_roles->role_names[$role]) : __('None');
 	$r = "<tr id='user-$user_object->ID'$style>
 		<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>
 		<td><strong>$edit</strong></td>
@@ -1530,19 +1530,21 @@ function do_meta_boxes($page, $context, $object) {
 			break;
 
 		foreach ( array('high', 'sorted', 'core', 'default', 'low') as $priority ) {
-			foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
-				if ( false == $box || ! $box['title'] )
-					continue;
-				$i++;
-				$style = '';
-				if ( in_array($box['id'], $hidden) )
-					$style = 'style="display:none;"';
-				echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '" ' . $style . '>' . "\n";
-				echo "<h3><span class='hndle'>{$box['title']}</span></h3>\n";
-				echo '<div class="inside">' . "\n";
-				call_user_func($box['callback'], $object, $box);
-				echo "</div>\n";
-				echo "</div>\n";
+			if ( isset($wp_meta_boxes[$page][$context][$priority]) ) {
+				foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
+					if ( false == $box || ! $box['title'] )
+						continue;
+					$i++;
+					$style = '';
+					if ( in_array($box['id'], $hidden) )
+						$style = 'style="display:none;"';
+					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '" ' . $style . '>' . "\n";
+					echo "<h3><span class='hndle'>{$box['title']}</span></h3>\n";
+					echo '<div class="inside">' . "\n";
+					call_user_func($box['callback'], $object, $box);
+					echo "</div>\n";
+					echo "</div>\n";
+				}
 			}
 		}
 	} while(0);

@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-wp_reset_vars(array('revision', 'left', 'right', 'action'));
+wp_reset_vars(array('revision', 'left', 'right', 'diff', 'action'));
 $revision_id = absint($revision);
 $diff        = absint($diff);
 $left        = absint($left);

@@ -156,11 +156,13 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	// Remove trailing spaces from the path
 	$redirect['path'] = preg_replace( '#(%20| )+$#', '', $redirect['path'] );
 
-	// Remove trailing slashes from certain terminating query string args
-	$redirect['query'] = preg_replace( '#((p|page_id|cat|tag)=[^&]*?)(%20| )+$#', '$1', $redirect['query'] );
+	if ( isset( $redirect['query'] ) ) {
+		// Remove trailing slashes from certain terminating query string args
+		$redirect['query'] = preg_replace( '#((p|page_id|cat|tag)=[^&]*?)(%20| )+$#', '$1', $redirect['query'] );
 
-	// Clean up empty query strings
-	$redirect['query'] = preg_replace( '#&?(p|page_id|cat|tag)=?$#', '', $redirect['query'] );
+		// Clean up empty query strings
+		$redirect['query'] = preg_replace( '#&?(p|page_id|cat|tag)=?$#', '', $redirect['query'] );
+	}
 
 	// strip /index.php/ when we're not using PATHINFO permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )

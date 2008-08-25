@@ -609,8 +609,10 @@ function &get_terms($taxonomies, $args = '') {
 	$key = md5( serialize( compact(array_keys($defaults)) ) . serialize( $taxonomies ) . $filter_key );
 
 	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {
-		if ( isset( $cache[ $key ] ) )
-			return apply_filters('get_terms', $cache[$key], $taxonomies, $args);
+		if ( isset( $cache[ $key ] ) ) {
+			$terms = apply_filters('get_terms', $cache[$key], $taxonomies, $args);
+			return $terms;
+		}
 	}
 
 	if ( 'count' == $orderby )

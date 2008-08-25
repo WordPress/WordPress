@@ -17,7 +17,8 @@ function _wp_translate_postdata( $update = false ) {
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_parent'] = isset($_POST['parent_id'])? $_POST['parent_id'] : '';
-	$_POST['to_ping'] = $_POST['trackback_url'];
+	if ( isset($_POST['trackback_url']) )
+		$_POST['to_ping'] = $_POST['trackback_url'];
 
 	if (!empty ( $_POST['post_author_override'] ) ) {
 		$_POST['post_author'] = (int) $_POST['post_author_override'];
@@ -29,7 +30,7 @@ function _wp_translate_postdata( $update = false ) {
 		}
 	}
 
-	if ( $_POST['post_author'] != $_POST['user_ID'] ) {
+	if ( isset($_POST['user_ID']) && ($_POST['post_author'] != $_POST['user_ID']) ) {
 		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can( 'edit_others_pages' ) ) {
 				return new WP_Error( 'edit_others_pages', $update ?
@@ -66,7 +67,7 @@ function _wp_translate_postdata( $update = false ) {
 			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_pages') )
 				$_POST['post_status'] = 'pending';
 	} else {
-		if ( 'publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' ) ) :
+		if ( isset($_POST['post_status']) && ('publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' )) ) :
 			// Stop attempts to publish new posts, but allow already published posts to be saved if appropriate.
 			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_posts') )
 				$_POST['post_status'] = 'pending';

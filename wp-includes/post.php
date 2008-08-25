@@ -123,8 +123,10 @@ function &get_children($args = '', $output = OBJECT) {
 	$r = wp_parse_args( $args, $defaults );
 
 	$children = get_posts( $r );
-	if ( !$children )
-		return false;
+	if ( !$children ) {
+		$kids = false;
+		return $kids;
+	}
 
 	update_post_cache($children);
 
@@ -776,9 +778,13 @@ function sanitize_post($post, $context = 'display') {
 	if ( 'raw' == $context )
 		return $post;
 	if ( is_object($post) ) {
+		if ( !isset($post->ID) )
+			$post->ID = 0;
 		foreach ( array_keys(get_object_vars($post)) as $field )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
 	} else {
+		if ( !isset($post['ID']) )
+			$post['ID'] = 0;
 		foreach ( array_keys($post) as $field )
 			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
 	}
@@ -1316,7 +1322,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	}
 
 	// Make sure we set a valid category
-	if (0 == count($post_category) || !is_array($post_category)) {
+	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
 		$post_category = array(get_option('default_category'));
 	}
 
@@ -1328,6 +1334,8 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 
 	if ( empty($post_type) )
 		$post_type = 'post';
+
+	$post_ID = 0;
 
 	// Get the post ID and GUID
 	if ( $update ) {
@@ -1432,7 +1440,8 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 				return 0;
 		}
 	} else {
-		$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
+		if ( isset($post_mime_type) )
+			$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
 		if ( false === $wpdb->insert( $wpdb->posts, $data ) ) {
 			if ( $wp_error )
 				return new WP_Error('db_insert_error', __('Could not insert post into the database'), $wpdb->last_error);
