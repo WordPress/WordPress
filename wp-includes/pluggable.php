@@ -693,7 +693,7 @@ function auth_redirect() {
 		$secure = false;
 
 	// If https is required and request is http, redirect
-	if ( $secure && !is_ssl() ) {
+	if ( $secure && !is_ssl() && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
 		if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
 			wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
 			exit();
@@ -705,7 +705,7 @@ function auth_redirect() {
 
 	if ( $user_id = wp_validate_auth_cookie() ) {
 		// If the user wants ssl but the session is not ssl, redirect.
-		if ( !$secure && get_user_option('use_ssl', $user_id) ) {
+		if ( !$secure && get_user_option('use_ssl', $user_id) && false !== strpos($_SERVER['REQUEST_URI'], 'wp-admin') ) {
 			if ( 0 === strpos($_SERVER['REQUEST_URI'], 'http') ) {
 				wp_redirect(preg_replace('|^http://|', 'https://', $_SERVER['REQUEST_URI']));
 				exit();
