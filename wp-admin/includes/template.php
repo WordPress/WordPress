@@ -1367,7 +1367,6 @@ function meta_box_prefs($page) {
 
 	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
 
-	echo '<ul class="metabox-prefs">';
 	foreach ( array_keys($wp_meta_boxes[$page]) as $context ) {
 		foreach ( array_keys($wp_meta_boxes[$page][$context]) as $priority ) {
 			foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
@@ -1376,10 +1375,9 @@ function meta_box_prefs($page) {
 				$box_id = $box['id'];
 				echo '<label for="' . $box_id . '-hide">';
 				echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
-				echo "{$box['title']}</label>";
+				echo "{$box['title']}</label>\n";
 			}
 		}
 	}
-	echo '</ul>';
 }
 ?>

@@ -55,7 +55,7 @@ li.widget-list-control-item h4.widget-title a,
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
 ul.view-switch li.current, .form-table tr, #poststuff h3, #replyhandle,
-.login form, h3.info-box-title, #post-status-info {
+.login form, h3.info-box-title, #post-status-info, #edit-settings-wrap {
 	background-color: #cfebf7;
 }
 
@@ -762,4 +762,20 @@ table.diff .diff-addedline ins {
 
 .submitbox .submitdelete {
 	color: #fff;
+}
+
+#edit-settings-wrap,
+#show-settings {
+	background-color: #14568A;
+	border-color: #14568A;
+	color: #CFEBF6;
+}
+
+#show-settings a,
+#show-settings a:visited {
+	color: #CFEBF6;
+}
+
+#show-settings.show-settings-opened {
+	border-bottom-color: #14568A;
 }

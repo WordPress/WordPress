@@ -60,7 +60,7 @@ function tag_press_key( e ) {
 	}
 }
 
-jQuery(document).ready( function() {
+jQuery(document).ready( function($) {
 	// close postboxes that should be closed
 	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
@@ -186,12 +186,23 @@ jQuery(document).ready( function() {
 	});
 
 	// Edit Settings
-	jQuery('.edit-settings-link').click(function () {
-		if (jQuery('#edit-settings').is(":hidden")) {
-			jQuery('#edit-settings').slideDown("normal");
-		} else {
-			jQuery('#edit-settings').slideUp("normal");
-		}
+	$('#show-settings-link').click(function () {
+		$('#edit-settings').slideDown('normal', function(){
+			$('#show-settings-link').hide();
+			$('#hide-settings-link').show();
+			
+		});
+		$('#show-settings').addClass('show-settings-opened');
+		return false;
+	});
+	
+	$('#hide-settings-link').click(function () {
+		$('#edit-settings').slideUp('normal', function(){
+			$('#hide-settings-link').hide();
+			$('#show-settings-link').show();
+			$('#show-settings').removeClass('show-settings-opened');
+		});
+		
 		return false;
 	});
 

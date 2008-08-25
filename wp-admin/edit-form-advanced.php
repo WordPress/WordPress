@@ -400,13 +400,6 @@ endif;
 <?php } ?>
 </div>
 
-<a href="#edit_settings" class="edit-settings-link hide-if-no-js"><?php _e('Edit Settings') ?></a>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<h5><?php _e('Show on screen') ?></h5>
-<?php meta_box_prefs('post') ?>
-</div>
-
 <?php
 
 if ( 0 == $post_ID)
@@ -435,6 +428,18 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 
 <div id="poststuff">
 
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php meta_box_prefs('post') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <div id="side-info" style="display: none;"><?php // TODO ?>
 
 <h5><?php _e('Related') ?></h5>
@@ -459,7 +464,6 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <?php do_action('submitpost_box'); ?>
 
 <?php $side_meta_boxes = do_meta_boxes('post', 'side', $post); ?>
-
 </div>
 
 <div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">

@@ -55,7 +55,7 @@ li.widget-list-control-item h4.widget-title a,
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
 ul.view-switch li.current, .form-table tr, #poststuff h3, #replyhandle,
-.login form, h3.info-box-title, #post-status-info {
+.login form, h3.info-box-title, #post-status-info, #edit-settings-wrap {
 	background-color: #eaf3fa;
 }
 
@@ -742,42 +742,6 @@ table.diff .diff-addedline ins {
 	background-color: #E4F2FD;
 }
 
-
-/* fixed tool bar */
-#fixedbar {
-	background-color:#464646;
-	color: #ccc;
-}
-
-#html-upload-help {
-	color: #328AB2;
-}
-
-#fixedbar #last-edit {
-	
-}
-
-#fixedbar a,
-#fixedbar #curtime {
-	color: #ccc;
-}
-
-#fixedbar a:hover {
-	color: #fff;
-}
-
-#fixedbar a.button {
-	color: #246;
-}
-
-#fixedbar a.button:hover {
-	color: #d54e21;
-}
-
-#timestampdiv {
-	color: #ccc;
-}
-
 /* media popup 0819 */
 #sidemenu a {
 	background-color: #e4f2fd;
@@ -787,4 +751,14 @@ table.diff .diff-addedline ins {
 
 .submitbox .submitdelete {
 	color: #fff;
+}
+
+#edit-settings-wrap,
+#show-settings {
+	background-color: #E4F2FD;
+	border-color: #c6d9e9;
+}
+
+#show-settings.show-settings-opened {
+	border-bottom-color: #E4F2FD;
 }

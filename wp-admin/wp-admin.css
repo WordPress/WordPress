@@ -619,7 +619,7 @@ a.view-comment-post-link {
 	border-style: solid;
 }
 
-#wphead a, #dashmenu a, #adminmenu a, #sidemenu a, #taglist a, #catlist a {
+#wphead a, #dashmenu a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
 	text-decoration: none;
 }
 
@@ -1381,6 +1381,7 @@ table.form-table td .updated {
 
 #side-info-column #side-sortables {
 	height: 100%;
+	padding-top: 39px;
 }
 
 .submitbox .submitdelete {
@@ -2001,4 +2002,79 @@ p#post-search-prep {
 
 #replyerror .error {
 	margin: 15px 0 0;
+}
+
+/* show/hide settings */
+#show-settings {
+	float: right;
+	margin: 0 0 -30px;
+	position: relative;
+	z-index: 1;
+	width: 218px;
+	height: 28px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#show-settings-link,
+#hide-settings-link {
+	background-position: 8px center;
+	background-repeat: no-repeat;
+	line-height: 28px;
+	padding: 0 0 0 26px;
+}
+
+#show-settings-link {
+	background-image: url(images/menu-closed.png);
+}
+
+#hide-settings-link {
+	background-image: url(images/menu-open.png); 
+}
+
+#edit-settings {
+	padding: 28px 0 0;
+	margin: 0 0 20px;
+}
+
+#edit-settings-wrap h5 {
+	padding: 10px 0 5px 20px;
+	margin: 0;
+	font-size: 13px;
+}
+
+#edit-settings-wrap {
+	-moz-border-radius: 4px 0 4px 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px 0 4px 4px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.show-settings-opened {
+	-moz-border-radius: 4px 4px 0 0;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px 4px 0 0;
+}
+
+.metabox-prefs {
+	padding: 8px 15px 15px;
+}
+
+.metabox-prefs label {
+	display: block;
+	float: left;
+	padding: 5px 3px;
+	white-space: nowrap;
+	width: 15em;
+}
+
+.metabox-prefs label input {
+	margin: 0 5px 0 2px;
 }
