@@ -21,7 +21,7 @@ global $menu, $submenu, $parent_file; //For when admin-header is included from w
 get_admin_page_parent();
 
 function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
-	global $self, $parent_file, $submenu_file, $plugin_page;
+	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow;
 
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class
