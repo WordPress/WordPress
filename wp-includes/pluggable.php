@@ -484,7 +484,7 @@ if ( !function_exists('wp_validate_auth_cookie') ) :
  * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
  * @return bool|int False if invalid cookie, User ID if valid.
  */
-function wp_validate_auth_cookie($cookie = '', $scheme = 'auth') {
+function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	if ( ! $cookie_elements = wp_parse_auth_cookie($cookie, $scheme) ) {
 		do_action('auth_cookie_malformed', $cookie, $scheme);
 		return false;
@@ -559,15 +559,27 @@ if ( !function_exists('wp_parse_auth_cookie') ) :
  * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
  * @return array Authentication cookie components
  */
-function wp_parse_auth_cookie($cookie = '', $scheme = 'auth') {
+function wp_parse_auth_cookie($cookie = '', $scheme = '') {
 	if ( empty($cookie) ) {
-		if ( is_ssl() ) {
-			$cookie_name = SECURE_AUTH_COOKIE;
-			$scheme = 'secure_auth';
-		} else {
-			$cookie_name = AUTH_COOKIE;
-			$scheme = 'auth';
-		}
+		switch ($scheme){
+			case 'auth':
+				$cookie_name = AUTH_COOKIE;
+				break;
+			case 'secure_auth':
+				$cookie_name = SECURE_AUTH_COOKIE;
+				break;
+			case "logged_in":
+				$cookie_name = LOGGED_IN_COOKIE;
+				break;
+			default:
+				if ( is_ssl() ) {
+					$cookie_name = SECURE_AUTH_COOKIE;
+					$scheme = 'secure_auth';
+				} else {
+					$cookie_name = AUTH_COOKIE;
+					$scheme = 'auth';
+				}
+	    }
 
 		if ( empty($_COOKIE[$cookie_name]) )
 			return false;
