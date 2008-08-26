@@ -87,7 +87,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 				$menu_hook = get_plugin_page_hook($sub_item[2], $item[2]);
 
 				if ( file_exists(WP_PLUGIN_DIR . "/{$sub_item[2]}") || ! empty($menu_hook) ) {
-					if ( 'admin.php' == $pagenow )
+					if ( 'admin.php' == $pagenow || !file_exists(WP_PLUGIN_DIR . "/$parent_file") )
 						echo "\n\t\t<li$class><a href='admin.php?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
 					else
 						echo "\n\t\t<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";

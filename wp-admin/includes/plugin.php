@@ -488,7 +488,7 @@ function get_admin_page_parent( $parent = '' ) {
 	global $_wp_menu_nopriv;
 	global $_wp_submenu_nopriv;
 
-	if ( !empty ( $parent ) ) {
+	if ( !empty ( $parent ) && 'admin.php' != $parent ) {
 		if ( isset( $_wp_real_parent_file[$parent] ) )
 			$parent = $_wp_real_parent_file[$parent];
 		return $parent;
