@@ -1,4 +1,9 @@
-.plugins .name {
+.plugins .name,
+#pass-strength-result.strong,
+#pass-strength-result.short,
+.button-highlighted,
+#quicktags #ed_strong,
+#ed_reply_toolbar #ed_reply_strong {
 	font-weight: bold;
 }
 
@@ -231,10 +236,6 @@ table#availablethemes td.bottom {
 	text-decoration: none;
 }
 
-.button-highlighted {
-	font-weight: bold;
-}
-
 #wpcontent select {
 	font: 12px/20px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	padding: 2px;
@@ -327,11 +328,6 @@ textarea.all-options, input.all-options {
 	padding: 2px 4px;
 	line-height: 18px;
 	display: inline-block;
-}
-
-#quicktags #ed_strong,
-#ed_reply_toolbar #ed_reply_strong {
-	font-weight: bold;
 }
 
 #quicktags #ed_link,
@@ -585,11 +581,13 @@ td.media-icon img {
 }
 
 #pass-strength-result {
-	padding: 3px 5px 3px 5px;
-	margin-top: 3px;
-	text-align: center;
-	border-width: 1px;
 	border-style: solid;
+	border-width: 1px;
+	float: left;
+	margin: 12px 5px 5px 1px;
+	padding: 3px 5px;
+	text-align: center;
+	width: 200px;
 }
 
 a.view-comment-post-link {
@@ -1018,13 +1016,6 @@ html, body {
 
 #profile-page .form-table input[type=text] {
 	width: 300px;
-}
-
-#pass-strength-result {
-	width: 197px;
-	float: left;
-	margin-right: 5px;
-	border: 1px solid #ccc !important;
 }
 
 #profile-page .form-table #rich_editing {

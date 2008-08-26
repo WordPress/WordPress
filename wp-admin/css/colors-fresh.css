@@ -387,27 +387,28 @@ input.readonly {
 }
 
 #pass-strength-result {
-	background-color: #e3e3e3;
-	border-color: #000;
+	background-color: #eee;
+	border-color: #ddd !important;
 }
 
 #pass-strength-result.bad {
-	background-color: #ffeff7;
-	border-color: #c69;
+	background-color: #ffb78c;
+	border-color: #ff853c !important;
 }
 
 #pass-strength-result.good {
-	background-color: #effff4;
-	border-color: #66cc87;
+	background-color: #ffec8b;
+	border-color: #fc0 !important;
 }
 
 #pass-strength-result.short {
-	background-color: #e3e3e3;
+	background-color: #ffa0a0;
+	border-color: #f04040 !important;
 }
 
 #pass-strength-result.strong {
-	background-color: #59ef86;
-	border-color: #319f52;
+	background-color: #c3ff88;
+	border-color: #8dff1c !important;
 }
 
 .checkbox, .side-info, #your-profile #rich_editing {
