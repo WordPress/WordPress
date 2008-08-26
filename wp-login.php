@@ -424,6 +424,8 @@ default:
 
 	$user = wp_signon('', $secure_cookie);
 
+	$redirect_to = apply_filters('login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user);
+
 	if ( !is_wp_error($user) ) {
 		// If the user can't edit posts, send them to their profile.
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
