@@ -478,7 +478,7 @@ function add_users_page( $page_title, $menu_title, $access_level, $file, $functi
 // Pluggable Menu Support -- Private
 //
 
-function get_admin_page_parent() {
+function get_admin_page_parent( $parent = '' ) {
 	global $parent_file;
 	global $menu;
 	global $submenu;
@@ -487,6 +487,12 @@ function get_admin_page_parent() {
 	global $_wp_real_parent_file;
 	global $_wp_menu_nopriv;
 	global $_wp_submenu_nopriv;
+
+	if ( !empty ( $parent ) ) {
+		if ( isset( $_wp_real_parent_file[$parent] ) )
+			$parent = $_wp_real_parent_file[$parent];
+		return $parent;
+	}
 
 	if ( !empty ( $parent_file ) ) {
 		if ( isset( $_wp_real_parent_file[$parent_file] ) )
@@ -607,7 +613,7 @@ function get_plugin_page_hook( $plugin_page, $parent_page ) {
 function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 	global $admin_page_hooks;
 
-	$parent = get_admin_page_parent();
+	$parent = get_admin_page_parent( $parent_page );
 
 	$page_type = 'admin';
 	if ( empty ( $parent_page ) || 'admin.php' == $parent_page ) {
