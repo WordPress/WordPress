@@ -332,7 +332,7 @@ class wpdb {
 
 		$this->ready = true;
 
-		if ( $this->supports_collation() ) {
+		if ( $this->has_cap( 'collation' ) ) {
 			$collation_query = '';
 			if ( !empty($this->charset) ) {
 				$collation_query = "SET NAMES '{$this->charset}'";
@@ -919,18 +919,27 @@ class wpdb {
 	 */
 	function supports_collation()
 	{
-		return ( version_compare($this->db_version(), '4.1.0', '>=') );
+		return $this->has_cap( 'collation' );
 	}
 
 	/**
-	 * Whether of not the database version supports sub-queries.
-	 *
-	 * @since 2.7
-	 *
-	 * @return bool True if sub-queries are supported, false if version does not
+	 * Generic function to determine if a database supports a particular feature
+	 * @param string $db_cap the feature
+	 * @param false|string|resource $dbh_or_table the databaese (the current database, the database housing the specified table, or the database of the mysql resource)
+	 * @return bool
 	 */
-	function supports_subqueries() {
-		return ( version_compare(mysql_get_server_info($this->dbh), '4.1.0', '>=') );
+	function has_cap( $db_cap ) {
+		$version = $this->db_version();
+
+		switch ( strtolower( $db_cap ) ) :
+		case 'collation' :    // @since 2.5.0
+		case 'group_concat' : // @since 2.7
+		case 'subqueries' :   // @since 2.7
+			return version_compare($version, '4.1', '>=');
+			break;
+		endswitch;
+
+		return false;
 	}
 
 	/**

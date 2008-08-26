@@ -1046,7 +1046,7 @@ class WP_Query {
 		}
 
 		if ( !empty($q['category__not_in']) ) {
-			if ( $wpdb->supports_subqueries() ) {
+			if ( $wpdb->has_cap( 'subqueries' ) ) {
 				$cat_string = "'" . implode("', '", $q['category__not_in']) . "'";
 				$whichcat .= " AND $wpdb->posts.ID NOT IN (SELECT $wpdb->term_relationships.object_id FROM $wpdb->term_relationships WHERE $wpdb->term_relationships.term_taxonomy_id IN ($cat_string) )";
 			} else {
