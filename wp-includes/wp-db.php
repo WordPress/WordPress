@@ -904,8 +904,7 @@ class wpdb {
 	{
 		global $wp_version;
 		// Make sure the server has MySQL 4.0
-		$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info($this->dbh));
-		if ( version_compare($mysql_version, '4.0.0', '<') )
+		if ( version_compare($this->db_version(), '4.0.0', '<') )
 			return new WP_Error('database_version',sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $wp_version));
 	}
 
@@ -920,7 +919,7 @@ class wpdb {
 	 */
 	function supports_collation()
 	{
-		return ( version_compare(mysql_get_server_info($this->dbh), '4.1.0', '>=') );
+		return ( version_compare($this->db_version(), '4.1.0', '>=') );
 	}
 
 	/**
@@ -968,6 +967,13 @@ class wpdb {
 		return $caller;
 	}
 
+	/**
+	 * The database version number
+	 * @return false|string false on failure, version number on success
+	 */
+	function db_version() {
+		return preg_replace('/[^0-9.].*/', '', mysql_get_server_info( $this->dbh ));
+	}
 }
 
 if ( ! isset($wpdb) ) {
