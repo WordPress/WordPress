@@ -924,6 +924,17 @@ class wpdb {
 	}
 
 	/**
+	 * Whether of not the database version supports sub-queries.
+	 *
+	 * @since 2.7
+	 *
+	 * @return bool True if sub-queries are supported, false if version does not
+	 */
+	function supports_subqueries() {
+		return ( version_compare(mysql_get_server_info($this->dbh), '4.1.0', '>=') );
+	}
+
+	/**
 	 * Retrieve the name of the function that called wpdb.
 	 *
 	 * Requires PHP 4.3 and searches up the list of functions until it reaches
