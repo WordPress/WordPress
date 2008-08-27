@@ -547,6 +547,29 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
 }
 
+function get_edit_bookmark_link( $link = 0 ) {
+	$link = &get_bookmark( $link );
+
+	if ( !current_user_can('manage_links') )
+		return;
+
+	$location = admin_url('link.php?action=edit&amp;link_id=') . $link->link_id;
+	return apply_filters( 'get_edit_bookmark_link', $location, $link->link_id );
+}
+
+function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = null ) {
+	$bookmark = get_bookmark($bookmark);
+
+	if ( !current_user_can('manage_links') )
+		return;
+
+	if ( empty($link) )
+		$link = __('Edit This');
+
+	$link = '<a href="' . get_edit_bookmark_link( $link ) . '" title="' . __( 'Edit link' ) . '">' . $link . '</a>';
+	echo $before . apply_filters( 'edit_bookmark_link', $link, $bookmark->link_id ) . $after;
+}
+
 // Navigation links
 
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {

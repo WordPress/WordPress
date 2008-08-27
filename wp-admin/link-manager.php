@@ -163,7 +163,7 @@ if ( $links ) {
 	</thead>
 	<tbody>
 <?php
-	$i = 0; // It is slower incrementing an undefined and valueless variable.
+	$alt = 0;
 
 	foreach ($links as $link) {
 		$link = sanitize_bookmark($link);
@@ -175,18 +175,28 @@ if ( $links ) {
 			$short_url = substr($short_url, 0, -1);
 		if (strlen($short_url) > 35)
 			$short_url = substr($short_url, 0, 32).'...';
-
 		$visible = ($link->link_visible == 'Y') ? __('Yes') : __('No');
-		++ $i;
-		$style = ($i % 2) ? '' : ' class="alternate"';
+		$style = ($alt % 2) ? '' : ' class="alternate"';
+		++ $alt;
+		$edit_link = get_edit_bookmark_link();
 		?><tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>><?php
 		echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></th>';
 		foreach($link_columns as $column_name=>$column_display_name) {
 			switch($column_name) {
 				case 'name':
 
-					echo "<td><strong><a class='row-title' href='link.php?link_id=$link->link_id&amp;action=edit' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "' class='edit'>$link->link_name</a></strong><br />";
-					echo $link->link_description . "</td>";
+					echo "<td><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "' class='edit'>$link->link_name</a></strong><br />";
+					$actions = array();
+					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+					$action_count = count($actions);
+					$i = 0;
+					foreach ( $actions as $action => $link ) {
+						++$i;
+						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+						echo "<span class='$action'>$link$sep</span>";
+					}
+					echo '</td>';
 					break;
 				case 'url':
 					echo "<td><a href='$link->link_url' title='".sprintf(__('Visit %s'), $link->link_name)."'>$short_url</a></td>";

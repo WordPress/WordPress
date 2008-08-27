@@ -17,22 +17,37 @@
  * @param string $filter Optional, default is 'raw'.
  * @return array|object Type returned depends on $output value.
  */
-function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
+function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
 
-	$link = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1", $bookmark_id));
-	$link->link_category = array_unique( wp_get_object_terms($link->link_id, 'link_category', 'fields=ids') );
+	if ( empty($bookmark) ) {
+		if ( isset($GLOBALS['link']) )
+			$_bookmark = & $GLOBALS['link'];
+		else
+			$_bookmark = null;
+	} elseif ( is_object($bookmark) ) {
+		wp_cache_add($bookmark->link_id, $bookmark, 'bookmark');
+		$_bookmark = $bookmark;
+	} else {
+		if ( isset($GLOBALS['link']) && ($GLOBALS['link']->link_id == $link) ) {
+			$_bookmark = & $GLOBALS['link'];
+		} elseif ( ! $_bookmark = wp_cache_get($bookmark, 'bookmark') ) {
+			$_bookmark = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1", $bookmark));
+			$_bookmark->link_category = array_unique( wp_get_object_terms($_bookmark->link_id, 'link_category', 'fields=ids') );			
+			wp_cache_add($_bookmark->link_id, $_bookmark, 'bookmark');
+		}
+	}
 
-	$link = sanitize_bookmark($link, $filter);
+	$_bookmark = sanitize_bookmark($_bookmark, $filter);
 
 	if ( $output == OBJECT ) {
-		return $link;
+		return $_bookmark;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($link);
+		return get_object_vars($_bookmark);
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($link));
+		return array_values(get_object_vars($_bookmark));
 	} else {
-		return $link;
+		return $_bookmark;
 	}
 }
 
@@ -331,16 +346,14 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 }
 
 /**
- * Deletes entire bookmark cache
+ * Deletes bookmark cache
  *
- * @since 2.1.0
+ * @since 2.7.0
  * @uses wp_cache_delete() Deletes the contents of 'get_bookmarks'
  */
-function delete_get_bookmark_cache() {
+function clean_bookmark_cache($bookmark_id) {
+	wp_cache_delete( $bookmark_id, 'bookmark' );
 	wp_cache_delete( 'get_bookmarks', 'bookmark' );
 }
-add_action( 'add_link', 'delete_get_bookmark_cache' );
-add_action( 'edit_link', 'delete_get_bookmark_cache' );
-add_action( 'delete_link', 'delete_get_bookmark_cache' );
 
 ?>
