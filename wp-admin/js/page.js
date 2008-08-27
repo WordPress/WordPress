@@ -1,4 +1,4 @@
-jQuery(document).ready( function() {
+jQuery(document).ready( function($) {
 	postboxes.add_postbox_toggles('page');
 	make_slugedit_clickable();
 
@@ -37,6 +37,27 @@ jQuery(document).ready( function() {
 			jQuery('#mn').val() + ' '
 		).append( link );
 		jQuery('#curtime').slideDown("normal");
+		return false;
+	});
+
+	// Edit Settings
+	$('#show-settings-link').click(function () {
+		$('#edit-settings').slideDown('normal', function(){
+			$('#show-settings-link').hide();
+			$('#hide-settings-link').show();
+			
+		});
+		$('#show-settings').addClass('show-settings-opened');
+		return false;
+	});
+	
+	$('#hide-settings-link').click(function () {
+		$('#edit-settings').slideUp('normal', function(){
+			$('#hide-settings-link').hide();
+			$('#show-settings-link').show();
+			$('#show-settings').removeClass('show-settings-opened');
+		});
+		
 		return false;
 	});
 });
