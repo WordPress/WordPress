@@ -17,7 +17,7 @@ foreach( array('activate-selected', 'deactivate-selected', 'delete-selected', 'c
 	}
 }
 
-if( isset($_REQUEST['action']) )
+if( isset($_REQUEST['action']) && !empty($_REQUEST['action']) )
 	$action = $_REQUEST['action'];
 
 $plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
