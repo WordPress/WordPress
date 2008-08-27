@@ -25,7 +25,7 @@ if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 
 	$s = $_GET['q']; // is this slashed already?
 
-	if ( strstr( $s, ',' ) ) {
+	if ( false !== strpos( $s, ',' ) ) {
 		$s = explode( ',', $s );
 		$s = $s[count( $s ) - 1];
 	}

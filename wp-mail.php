@@ -60,7 +60,7 @@ for ($i=1; $i <= $count; $i++) :
 				$content_transfer_encoding = explode(';', $content_transfer_encoding);
 				$content_transfer_encoding = $content_transfer_encoding[0];
 			}
-			if (($content_type == 'multipart/alternative') && (preg_match('/boundary="/', $line)) && ($boundary == '')) {
+			if (($content_type == 'multipart/alternative') && (false !== strpos($line, 'boundary="')) && ($boundary == '')) {
 				$boundary = trim($line);
 				$boundary = explode('"', $boundary);
 				$boundary = $boundary[1];

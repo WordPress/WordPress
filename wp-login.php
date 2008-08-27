@@ -103,7 +103,7 @@ function retrieve_password() {
 	if ( empty( $_POST['user_login'] ) && empty( $_POST['user_email'] ) )
 		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or e-mail address.'));
 
-	if ( strstr($_POST['user_login'], '@') ) {
+	if ( strpos($_POST['user_login'], '@') ) {
 		$user_data = get_user_by_email(trim($_POST['user_login']));
 		if ( empty($user_data) )
 			$errors->add('invalid_email', __('<strong>ERROR</strong>: There is no user registered with that email address.'));

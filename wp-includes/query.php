@@ -1752,7 +1752,7 @@ function setup_postdata($post) {
 	if ( is_single() || is_page() || is_feed() )
 		$more = 1;
 	$content = $post->post_content;
-	if ( preg_match('/<!--nextpage-->/', $content) ) {
+	if ( strpos( $content, '<!--nextpage-->' ) ) {
 		if ( $page > 1 )
 			$more = 1;
 		$multipage = 1;
