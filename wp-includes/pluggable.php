@@ -1289,8 +1289,50 @@ function wp_generate_password($length = 12, $special_chars = true) {
 
 	$password = '';
 	for ( $i = 0; $i < $length; $i++ )
-		$password .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+		$password .= substr($chars, wp_rand(0, strlen($chars) - 1), 1);
 	return $password;
+}
+endif;
+
+if ( !function_exists('wp_rand') ) :
+ /**
+ * Generates a random number
+ *
+ * @since 2.6.2
+ *
+ * @param int $min Lower limit for the generated number (optional, default is 0)
+ * @param int $max Upper limit for the generated number (optional, default is 4294967295)
+ * @return int A random number between min and max
+ */
+function wp_rand( $min = 0, $max = 0 ) {
+	global $rnd_value;
+
+	$seed = get_option('random_seed');
+
+	// Reset $rnd_value after 14 uses
+	// 32(md5) + 40(sha1) + 40(sha1) / 8 = 14 random numbers from $rnd_value
+	if ( strlen($rnd_value) < 8 ) {
+		$rnd_value = md5( uniqid(microtime() . mt_rand(), true ) . $seed );
+		$rnd_value .= sha1($rnd_value);
+		$rnd_value .= sha1($rnd_value . $seed);
+		$seed = md5($seed . $rnd_value);
+		update_option('random_seed', $seed);
+	}
+
+	// Take the first 8 digits for our value
+	$value = substr($rnd_value, 0, 8);
+
+	// Strip the first eight, leaving the remainder for the next call to wp_rand().
+	$rnd_value = substr($rnd_value, 8);
+
+	$value = abs(hexdec($value));
+
+	// Reduce the value to be within the min - max range
+	// 4294967295 = 0xffffffff = max random number
+	if ( $max != 0 )
+		$value = $min + (($max - $min + 1) * ($value / (4294967295 + 1)));
+
+	return abs(intval($value)); 
 }
 endif;
 
