@@ -219,17 +219,17 @@ function wp_read_image_metadata( $file ) {
 		if ( !empty($info['APP13']) ) {
 			$iptc = iptcparse($info['APP13']);
 			if ( !empty($iptc['2#110'][0]) ) // credit
-				$meta['credit'] = trim( $iptc['2#110'][0] );
+				$meta['credit'] = utf8_encode(trim($iptc['2#110'][0]));
 			elseif ( !empty($iptc['2#080'][0]) ) // byline
-				$meta['credit'] = trim( $iptc['2#080'][0] );
+				$meta['credit'] = utf8_encode(trim($iptc['2#080'][0]));
 			if ( !empty($iptc['2#055'][0]) and !empty($iptc['2#060'][0]) ) // created datee and time
 				$meta['created_timestamp'] = strtotime($iptc['2#055'][0] . ' ' . $iptc['2#060'][0]);
 			if ( !empty($iptc['2#120'][0]) ) // caption
-				$meta['caption'] = trim( $iptc['2#120'][0] );
+				$meta['caption'] = utf8_encode(trim($iptc['2#120'][0]));
 			if ( !empty($iptc['2#116'][0]) ) // copyright
-				$meta['copyright'] = trim( $iptc['2#116'][0] );
+				$meta['copyright'] = utf8_encode(trim($iptc['2#116'][0]));
 			if ( !empty($iptc['2#005'][0]) ) // title
-				$meta['title'] = trim( $iptc['2#005'][0] );
+				$meta['title'] = utf8_encode(trim($iptc['2#005'][0]));
 		 }
 	}
 
