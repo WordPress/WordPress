@@ -302,6 +302,18 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
 <div id="poststuff">
 
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php meta_box_prefs('link') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <div id="side-info-column" class="inner-sidebar">
 <?php 
 
