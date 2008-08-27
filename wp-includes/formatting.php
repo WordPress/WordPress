@@ -332,6 +332,9 @@ function sanitize_user( $username, $strict = false ) {
 	if ( $strict )
 		$username = preg_replace('|[^a-z0-9 _.\-@]|i', '', $username);
 
+	// Consolidate contiguous whitespace
+	$username = preg_replace('|\s+|', ' ', $username);
+
 	return apply_filters('sanitize_user', $username, $raw_username, $strict);
 }
 
