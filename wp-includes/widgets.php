@@ -1162,8 +1162,12 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 					$author = ' <cite>' . wp_specialchars( strip_tags( $item['author_name'] ) ) . '</cite>';
 			}
 
-			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>";
-		}
+			if ( $link == '' ) {
+				echo "<li>$title{$date}{$summary}{$author}</li>"; 
+			} else {
+				echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>"; 
+			}
+}
 		echo '</ul>';
 	} else {
 		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
