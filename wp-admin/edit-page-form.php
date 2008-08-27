@@ -195,10 +195,7 @@ add_meta_box('pageslugdiv', __('Page Slug'), 'page_slug_meta_box', 'page', 'norm
 function page_parent_meta_box($post){
 ?>
 <label class="hidden" for="parent_id"><?php _e('Page Parent') ?></label>
-<select name="parent_id" id="parent_id">
-<option value='0'><?php _e('Main Page (no parent)'); ?></option>
-<?php parent_dropdown($post->post_parent); ?>
-</select>
+<?php wp_dropdown_pages(array('selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('Main Page (no parent)'))); ?>
 <p><?php _e('You can arrange your pages in hierarchies, for example you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 <?php
 }
