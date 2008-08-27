@@ -381,7 +381,7 @@ function the_author_posts() {
  * link to the author's posts.
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_posts_link
- * @since 1.2
+ * @since 1.2.0
  * @uses $authordata The current author's DB object.
  * @uses get_author_posts_url()
  * @uses get_the_author()
@@ -400,7 +400,7 @@ function the_author_posts_link($deprecated = '') {
 /**
  * Retrieve the URL to the author page of the author of the current post.
  *
- * @since 2.1
+ * @since 2.1.0
  * @uses $wp_rewrite WP_Rewrite
  * @return string The URL to the author's page.
  */
@@ -453,7 +453,7 @@ function get_author_name( $auth_id ) {
  * echo (boolean) (true): Set to false to return the output, instead of echoing.
  *
  * @link http://codex.wordpress.org/Template_Tags/wp_list_authors
- * @since 1.2
+ * @since 1.2.0
  * @param array $args The argument array.
  * @return null|string The output, if echo is set to false.
  */

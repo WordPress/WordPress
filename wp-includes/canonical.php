@@ -8,11 +8,11 @@
  * @author Scott Yang
  * @author Mark Jaquith
  * @package WordPress
- * @since 2.3
+ * @since 2.3.0
  */
 
 /**
- * Redirects incoming links to the proper URL based on the site url
+ * Redirects incoming links to the proper URL based on the site url.
  *
  * Search engines consider www.somedomain.com and somedomain.com to be two
  * different URLs when they both go to the same location. This SEO enhancement
@@ -26,7 +26,7 @@
  * not exist based on exact WordPress query. Will instead try to parse the URL
  * or query in an attempt to figure the correct page to go to.
  *
- * @since 2.3
+ * @since 2.3.0
  * @uses $wp_rewrite
  * @uses $is_IIS
  *
@@ -243,9 +243,9 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 }
 
 /**
- * Attempts to guess correct post based on query vars
+ * Attempts to guess correct post based on query vars.
  *
- * @since 2.3
+ * @since 2.3.0
  * @uses $wpdb
  *
  * @return bool|string Returns False, if it can't find post, returns correct

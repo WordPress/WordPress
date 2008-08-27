@@ -7,7 +7,7 @@
  */
 
 /**
- * The formatted output of a list of bookmarks
+ * The formatted output of a list of bookmarks.
  *
  * The $bookmarks array must contain bookmark objects and will be iterated over
  * to retrieve the bookmark to be used in the output.
@@ -34,7 +34,7 @@
  *		description, and image.
  * 'show_rating' - Default is 0 (integer). Whether to show the link rating.
  *
- * @since 2.1
+ * @since 2.1.0
  * @access private
  * @usedby wp_list_bookmarks()
  *
@@ -120,7 +120,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 }
 
 /**
- * Retrieve or echo all of the bookmarks
+ * Retrieve or echo all of the bookmarks.
  *
  * List of default arguments are as follows:
  * 'orderby' - Default is 'name' (string). How to order the links by. String is
@@ -174,7 +174,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
  *		passed to get_bookmarks().
  * @link http://codex.wordpress.org/Template_Tags/wp_list_bookmarks
  *
- * @since 2.1
+ * @since 2.1.0
  * @uses _list_bookmarks() Used to iterate over all of the bookmarks and return
  *		the html
  * @uses get_terms() Gets all of the categories that are for links.

@@ -65,7 +65,7 @@ function &get_categories( $args = '' ) {
  *
  * The category will converted to maintain backwards compatibility.
  *
- * @since 2.1.0
+ * @since 1.5.1
  * @uses get_term() Used to get the category data from the taxonomy.
  *
  * @param int|object $category Category ID or Category row object

@@ -9,7 +9,7 @@
 /**
  * Retrieve Bookmark data based on ID
  *
- * @since 2.1
+ * @since 2.1.0
  * @uses $wpdb Database Object
  *
  * @param int $bookmark_id
@@ -39,7 +39,7 @@ function get_bookmark($bookmark_id, $output = OBJECT, $filter = 'raw') {
 /**
  * Retrieve single bookmark data item or field.
  *
- * @since 2.3
+ * @since 2.3.0
  * @uses get_bookmark() Gets bookmark object using $bookmark as ID
  * @uses sanitize_bookmark_field() Sanitizes Bookmark field based on $context.
  *
@@ -67,7 +67,7 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
 /**
  * Retrieve bookmark data based on ID.
  *
- * @since 2.0
+ * @since 2.0.0
  * @deprecated Use get_bookmark()
  * @see get_bookmark()
  *
@@ -106,7 +106,7 @@ function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
  * 'exclude' - Default is empty string (string). Exclude other categories
  *		separated by commas.
  *
- * @since 2.1
+ * @since 2.1.0
  * @uses $wpdb Database Object
  * @link http://codex.wordpress.org/Template_Tags/get_bookmarks
  *
@@ -238,7 +238,7 @@ function get_bookmarks($args = '') {
 /**
  * Sanitizes all bookmark fields
  *
- * @since 2.3
+ * @since 2.3.0
  *
  * @param object|array $bookmark Bookmark row
  * @param string $context Optional, default is 'display'. How to filter the
@@ -279,7 +279,7 @@ function sanitize_bookmark($bookmark, $context = 'display') {
  * $field has the filter name and is passed the $value, $bookmark_id, and
  * $context respectively.
  *
- * @since 2.3
+ * @since 2.3.0
  *
  * @param string $field The bookmark field
  * @param mixed $value The bookmark field value
@@ -333,7 +333,7 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 /**
  * Deletes entire bookmark cache
  *
- * @since 2.1
+ * @since 2.1.0
  * @uses wp_cache_delete() Deletes the contents of 'get_bookmarks'
  */
 function delete_get_bookmark_cache() {

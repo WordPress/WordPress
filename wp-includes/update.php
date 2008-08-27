@@ -14,7 +14,7 @@
  * isn't installing.
  *
  * @package WordPress
- * @since 2.3
+ * @since 2.3.0
  * @uses $wp_version Used to check against the newest WordPress version.
  *
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
@@ -88,7 +88,7 @@ add_action( 'init', 'wp_version_check' );
  * isn't installing.
  *
  * @package WordPress
- * @since 2.3
+ * @since 2.3.0
  * @uses $wp_version Used to notidy the WordPress version.
  *
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
