@@ -211,6 +211,7 @@ function wp_default_scripts( &$scripts ) {
 			'plugin_information' => __('Plugin Information:')
 		) );
 
+		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
 	}
 }
 
@@ -245,6 +246,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20080613' );
 	$styles->add( 'login', '/wp-admin/css/login.css' );
 	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css' );
+	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 
 	foreach ( $rtl_styles as $rtl_style )
 		$styles->add_data( $rtl_style, 'rtl', true );

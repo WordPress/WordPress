@@ -44,6 +44,7 @@ class Custom_Image_Header {
 		$page = add_theme_page(__('Custom Image Header'), __('Custom Image Header'), 'edit_themes', 'custom-header', array(&$this, 'admin_page'));
 
 		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
+		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));
 		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
 		add_action("admin_head-$page", array(&$this, 'js'), 50);
 		add_action("admin_head-$page", $this->admin_header_callback, 51);
@@ -76,9 +77,22 @@ class Custom_Image_Header {
 		$step = $this->step();
 
 		if ( 1 == $step )
-			wp_enqueue_script('colorpicker');
+			wp_enqueue_script('farbtastic');
 		elseif ( 2 == $step )
 			wp_enqueue_script('cropper');
+	}
+
+	/**
+	 * Setup the enqueue for the CSS files
+	 *
+	 * @since 2.7
+	 */
+	function css_includes() {
+		$step = $this->step();
+
+		if ( 1 == $step ) {
+			wp_enqueue_style('farbtastic');
+		}
 	}
 
 	/**
@@ -123,72 +137,72 @@ class Custom_Image_Header {
 	 */
 	function js_1() { ?>
 <script type="text/javascript">
-	var cp = new ColorPicker();
+	var buttons = ['#name', '#desc', '#pickcolor', '#defaultcolor'];
+	var farbtastic;
 
 	function pickColor(color) {
-		$('name').style.color = color;
-		$('desc').style.color = color;
-		$('textcolor').value = color;
+		jQuery('#name').css('color', color);
+		jQuery('#desc').css('color', color);
+		jQuery('#textcolor').val(color);
+		farbtastic.setColor(color);
 	}
-	function PopupWindow_hidePopup(magicword) {
-		if ( magicword != 'prettyplease' )
-			return false;
-		if (this.divName != null) {
-			if (this.use_gebi) {
-				document.getElementById(this.divName).style.visibility = "hidden";
-			}
-			else if (this.use_css) {
-				document.all[this.divName].style.visibility = "hidden";
-			}
-			else if (this.use_layers) {
-				document.layers[this.divName].visibility = "hidden";
-			}
-		}
-		else {
-			if (this.popupWindow && !this.popupWindow.closed) {
-				this.popupWindow.close();
-				this.popupWindow = null;
-			}
-		}
-		return false;
-	}
-	function colorSelect(t,p) {
-		if ( cp.p == p && document.getElementById(cp.divName).style.visibility != "hidden" ) {
-			cp.hidePopup('prettyplease');
-		} else {
-			cp.p = p;
-			cp.select(t,p);
-		}
-	}
+	
+	jQuery(document).ready(function() {
+		jQuery('#pickcolor').click(function() {
+			jQuery('#colorPickerDiv').show();
+		});
+		
+		jQuery('#hidetext').click(function() {
+			toggle_text();
+		});
+		
+		farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) { pickColor(color); });
+		pickColor('#<?php echo get_theme_mod('header_textcolor', HEADER_TEXTCOLOR); ?>');
+		
+		<?php if ( 'blank' == get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) ) { ?>
+		toggle_text();
+		<?php } ?>
+	});
+	
+	jQuery(document).mousedown(function(){
+		// Make the picker disappear, since we're using it in an independant div
+		hide_picker();
+	});
+
 	function colorDefault() {
 		pickColor('#<?php echo HEADER_TEXTCOLOR; ?>');
 	}
 
-	function hide_text() {
-		$('name').style.display = 'none';
-		$('desc').style.display = 'none';
-		$('pickcolor').style.display = 'none';
-		$('defaultcolor').style.display = 'none';
-		$('textcolor').value = 'blank';
-		$('hidetext').value = '<?php _e('Show Text'); ?>';
-//		$('hidetext').onclick = 'show_text()';
-		Event.observe( $('hidetext'), 'click', show_text );
+	function hide_picker(what) {
+		var update = false;
+		jQuery('#colorPickerDiv').each(function(){
+			var id = jQuery(this).attr('id');
+			if (id == what) {
+				return;
+			}
+			var display = jQuery(this).css('display');
+			if (display == 'block') {
+				jQuery(this).fadeOut(2);
+			}
+		});
 	}
 
-	function show_text() {
-		$('name').style.display = 'block';
-		$('desc').style.display = 'block';
-		$('pickcolor').style.display = 'inline';
-		$('defaultcolor').style.display = 'inline';
-		$('textcolor').value = '<?php echo HEADER_TEXTCOLOR; ?>';
-		$('hidetext').value = '<?php _e('Hide Text'); ?>';
-		Event.stopObserving( $('hidetext'), 'click', show_text );
-		Event.observe( $('hidetext'), 'click', hide_text );
+	function toggle_text(force) {
+		if(jQuery('#textcolor').val() == 'blank') {
+			//Show text
+			jQuery( buttons.toString() ).show();
+			jQuery('#textcolor').val('<?php echo HEADER_TEXTCOLOR; ?>');
+			jQuery('#hidetext').val('<?php _e('Hide Text'); ?>');
+		}
+		else {
+			//Hide text
+			jQuery( buttons.toString() ).hide();
+			jQuery('#textcolor').val('blank');
+			jQuery('#hidetext').val('<?php _e('Show Text'); ?>');
+		}
 	}
 
-	<?php if ( 'blank' == get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) ) { ?>
-Event.observe( window, 'load', hide_text );
-	<?php } ?>
+
 
 </script>
 <?php
@@ -202,43 +216,39 @@ Event.observe( window, 'load', hide_text );
 	function js_2() { ?>
 <script type="text/javascript">
 	function onEndCrop( coords, dimensions ) {
-		$( 'x1' ).value = coords.x1;
-		$( 'y1' ).value = coords.y1;
-		$( 'x2' ).value = coords.x2;
-		$( 'y2' ).value = coords.y2;
-		$( 'width' ).value = dimensions.width;
-		$( 'height' ).value = dimensions.height;
+		jQuery( '#x1' ).val(coords.x1);
+		jQuery( '#y1' ).val(coords.y1);
+		jQuery( '#x2' ).val(coords.x2);
+		jQuery( '#y2' ).val(coords.y2);
+		jQuery( '#width' ).val(dimensions.width);
+		jQuery( '#height' ).val(dimensions.height);
 	}
 
 	// with a supplied ratio
-	Event.observe(
-		window,
-		'load',
-		function() {
-			var xinit = <?php echo HEADER_IMAGE_WIDTH; ?>;
-			var yinit = <?php echo HEADER_IMAGE_HEIGHT; ?>;
-			var ratio = xinit / yinit;
-			var ximg = $('upload').width;
-			var yimg = $('upload').height;
-			if ( yimg < yinit || ximg < xinit ) {
-				if ( ximg / yimg > ratio ) {
-					yinit = yimg;
-					xinit = yinit * ratio;
-				} else {
-					xinit = ximg;
-					yinit = xinit / ratio;
-				}
+	jQuery(document).ready(function() {
+		var xinit = <?php echo HEADER_IMAGE_WIDTH; ?>;
+		var yinit = <?php echo HEADER_IMAGE_HEIGHT; ?>;
+		var ratio = xinit / yinit;
+		var ximg = jQuery('#upload').width();
+		var yimg = jQuery('#upload').height();
+		if ( yimg < yinit || ximg < xinit ) {
+			if ( ximg / yimg > ratio ) {
+				yinit = yimg;
+				xinit = yinit * ratio;
+			} else {
+				xinit = ximg;
+				yinit = xinit / ratio;
 			}
-			new Cropper.Img(
-				'upload',
-				{
-					ratioDim: { x: xinit, y: yinit },
-					displayOnInit: true,
-					onEndCrop: onEndCrop
-				}
-			)
 		}
-	);
+		new Cropper.Img(
+			'upload',
+			{
+				ratioDim: { x: xinit, y: yinit },
+				displayOnInit: true,
+				onEndCrop: onEndCrop
+			}
+		)
+	});
 </script>
 <?php
 	}
@@ -266,12 +276,12 @@ Event.observe( window, 'load', hide_text );
 <?php if ( !defined( 'NO_HEADER_TEXT' ) ) { ?>
 <form method="post" action="<?php echo admin_url('themes.php?page=custom-header&amp;updated=true') ?>">
 <input type="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
-<input type="button" value="<?php _e('Select a Text Color'); ?>" onclick="colorSelect($('textcolor'), 'pickcolor')" id="pickcolor" /><input type="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
+<input type="button" value="<?php _e('Select a Text Color'); ?>" id="pickcolor" /><input type="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
 <?php wp_nonce_field('custom-header') ?>
 <input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" value="<?php _e('Save Changes'); ?>" /></form>
 <?php } ?>
 
-<div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;visibility:hidden;"> </div>
+<div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;display:none;"> </div>
 </div>
 <div class="wrap">
 <h2><?php _e('Upload New Header Image'); ?></h2><p><?php _e('Here you can upload a custom header image to be shown at the top of your blog instead of the default one. On the next screen you will be able to crop the image.'); ?></p>
