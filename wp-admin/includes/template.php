@@ -1070,7 +1070,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 	global $current_user;
 
 	// allow plugin to replace the popup content
-	$content = apply_filters( 'wp_comment_reply', '' );
+	$content = apply_filters( 'wp_comment_reply', '', array('position'=>$position, 'checkbox'=>$checkbox, 'mode'=>$mode) );
 	
 	if ( ! empty($content) ) {
 		echo $content;
