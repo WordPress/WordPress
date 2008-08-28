@@ -199,13 +199,8 @@ function update_core($from, $to) {
 
 	// Might have to do upgrade in a separate step.
 	apply_filters('update_feedback', __('Upgrading database'));
-	// Get new db version
-	global $wp_db_version;
-	require (ABSPATH . WPINC . '/version.php');
-	// Upgrade db
-	define('WP_INSTALLING', true);
-	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-	wp_upgrade();
+	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
+	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
 	// Remove working directory
 	$wp_filesystem->delete($from, true);

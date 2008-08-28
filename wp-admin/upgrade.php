@@ -20,10 +20,19 @@ require('../wp-load.php');
 timer_start();
 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-if (isset($_GET['step']))
-	$step = (int) $_GET['step'];
+if ( isset($_GET['step']) )
+	$step = $_GET['step'];
 else
 	$step = 0;
+
+// Do it.  No output.
+if ( 'upgrade_db' === $step ) {
+	wp_upgrade();
+	die('0');
+}
+
+$step = (int) $step;
+
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
