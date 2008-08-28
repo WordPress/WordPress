@@ -1,656 +1,436 @@
 <?php
-/**
- * mail_fetch/setup.php
- *
- * @package SquirrelMail
- *
- * @copyright (c) 1999-2006 The SquirrelMail Project Team
- *
- * @copyright (c) 1999 CDI (cdi@thewebmasters.net) All Rights Reserved
- * Modified by Philippe Mingo 2001 mingo@rotedic.com
- * An RFC 1939 compliant wrapper class for the POP3 protocol.
- *
- * Licensed under the GNU GPL. For full terms see the file COPYING.
- *
- * pop3 class
- *
- * $Id$
- */
+/*~ class.pop3.php
+.---------------------------------------------------------------------------.
+|  Software: PHPMailer - PHP email class                                    |
+|   Version: 2.0.2                                                          |
+|   Contact: via sourceforge.net support pages (also www.codeworxtech.com)  |
+|      Info: http://phpmailer.sourceforge.net                               |
+|   Support: http://sourceforge.net/projects/phpmailer/                     |
+| ------------------------------------------------------------------------- |
+|    Author: Andy Prevost (project admininistrator)                         |
+|    Author: Brent R. Matzelle (original founder)                           |
+| Copyright (c) 2004-2007, Andy Prevost. All Rights Reserved.               |
+| Copyright (c) 2001-2003, Brent R. Matzelle                                |
+| ------------------------------------------------------------------------- |
+|   License: Distributed under the Lesser General Public License (LGPL)     |
+|            http://www.gnu.org/copyleft/lesser.html                        |
+| This program is distributed in the hope that it will be useful - WITHOUT  |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or     |
+| FITNESS FOR A PARTICULAR PURPOSE.                                         |
+| ------------------------------------------------------------------------- |
+| We offer a number of paid services (www.codeworxtech.com):                |
+| - Web Hosting on highly optimized fast and secure servers                 |
+| - Technology Consulting                                                   |
+| - Oursourcing (highly qualified programmers and graphic designers)        |
+'---------------------------------------------------------------------------'
 
 /**
- * POP3
+ * POP Before SMTP Authentication Class
  *
- * @package SquirrelMail
+ * Author: Richard Davey (rich@corephp.co.uk)
+ * License: LGPL, see PHPMailer License
+ *
+ * Specifically for PHPMailer to allow POP before SMTP authentication.
+ * Does not yet work with APOP - if you have an APOP account, contact me
+ * and we can test changes to this script.
+ *
+ * This class is based on the structure of the SMTP class by Chris Ryan
+ *
+ * This class is rfc 1939 compliant and implements all the commands
+ * required for POP3 connection, authentication and disconnection.
+ *
+ * @package PHPMailer
+ * @author Richard Davey
  */
-class POP3 {
-    var $ERROR      = '';       //  Error string.
 
-    var $TIMEOUT    = 60;       //  Default timeout before giving up on a
-                                //  network operation.
+class POP3
+{
+  /**
+   * Default POP3 port
+   * @var int
+   */
+  var $POP3_PORT = 110;
 
-    var $COUNT      = -1;       //  Mailbox msg count
+  /**
+   * Default Timeout
+   * @var int
+   */
+  var $POP3_TIMEOUT = 30;
 
-    var $BUFFER     = 512;      //  Socket buffer for socket fgets() calls.
-                                //  Per RFC 1939 the returned line a POP3
-                                //  server can send is 512 bytes.
+  /**
+   * POP3 Carriage Return + Line Feed
+   * @var string
+   */
+  var $CRLF = "\r\n";
 
-    var $FP         = '';       //  The connection to the server's
-                                //  file descriptor
+  /**
+   * Displaying Debug warnings? (0 = now, 1+ = yes)
+   * @var int
+   */
+  var $do_debug = 2;
 
-    var $MAILSERVER = '';       // Set this to hard code the server name
+  /**
+   * POP3 Mail Server
+   * @var string
+   */
+  var $host;
 
-    var $DEBUG      = FALSE;    // set to true to echo pop3
-                                // commands and responses to error_log
-                                // this WILL log passwords!
+  /**
+   * POP3 Port
+   * @var int
+   */
+  var $port;
 
-    var $BANNER     = '';       //  Holds the banner returned by the
-                                //  pop server - used for apop()
+  /**
+   * POP3 Timeout Value
+   * @var int
+   */
+  var $tval;
 
-    var $ALLOWAPOP  = FALSE;    //  Allow or disallow apop()
-                                //  This must be set to true
-                                //  manually
+  /**
+   * POP3 Username
+   * @var string
+   */
+  var $username;
 
-    function POP3 ( $server = '', $timeout = '' ) {
-        settype($this->BUFFER,"integer");
-        if( !empty($server) ) {
-            // Do not allow programs to alter MAILSERVER
-            // if it is already specified. They can get around
-            // this if they -really- want to, so don't count on it.
-            if(empty($this->MAILSERVER))
-                $this->MAILSERVER = $server;
-        }
-        if(!empty($timeout)) {
-            settype($timeout,"integer");
-            $this->TIMEOUT = $timeout;
-            if (!ini_get('safe_mode'))
-                set_time_limit($timeout);
-        }
-        return true;
-    }
+  /**
+   * POP3 Password
+   * @var string
+   */
+  var $password;
 
-    function update_timer () {
-        if (!ini_get('safe_mode'))
-            set_time_limit($this->TIMEOUT);
-        return true;
-    }
+  /**#@+
+   * @access private
+   */
+  var $pop_conn;
+  var $connected;
+  var $error;     //  Error log array
+  /**#@-*/
 
-    function connect ($server, $port = 110)  {
-        //  Opens a socket to the specified server. Unless overridden,
-        //  port defaults to 110. Returns true on success, false on fail
-
-        // If MAILSERVER is set, override $server with it's value
-
-	if (!isset($port) || !$port) {$port = 110;}
-        if(!empty($this->MAILSERVER))
-            $server = $this->MAILSERVER;
-
-        if(empty($server)){
-            $this->ERROR = "POP3 connect: " . _("No server specified");
-            unset($this->FP);
-            return false;
-        }
-
-        $fp = @fsockopen("$server", $port, $errno, $errstr);
-
-        if(!$fp) {
-            $this->ERROR = "POP3 connect: " . _("Error ") . "[$errno] [$errstr]";
-            unset($this->FP);
-            return false;
-        }
-
-        socket_set_blocking($fp,-1);
-        $this->update_timer();
-        $reply = fgets($fp,$this->BUFFER);
-        $reply = $this->strip_clf($reply);
-        if($this->DEBUG)
-            error_log("POP3 SEND [connect: $server] GOT [$reply]",0);
-        if(!$this->is_ok($reply)) {
-            $this->ERROR = "POP3 connect: " . _("Error ") . "[$reply]";
-            unset($this->FP);
-            return false;
-        }
-        $this->FP = $fp;
-        $this->BANNER = $this->parse_banner($reply);
-        return true;
-    }
-
-    function user ($user = "") {
-        // Sends the USER command, returns true or false
-
-        if( empty($user) ) {
-            $this->ERROR = "POP3 user: " . _("no login ID submitted");
-            return false;
-        } elseif(!isset($this->FP)) {
-            $this->ERROR = "POP3 user: " . _("connection not established");
-            return false;
-        } else {
-            $reply = $this->send_cmd("USER $user");
-            if(!$this->is_ok($reply)) {
-                $this->ERROR = "POP3 user: " . _("Error ") . "[$reply]";
-                return false;
-            } else
-                return true;
-        }
-    }
-
-    function pass ($pass = "")     {
-        // Sends the PASS command, returns # of msgs in mailbox,
-        // returns false (undef) on Auth failure
-
-        if(empty($pass)) {
-            $this->ERROR = "POP3 pass: " . _("No password submitted");
-            return false;
-        } elseif(!isset($this->FP)) {
-            $this->ERROR = "POP3 pass: " . _("connection not established");
-            return false;
-        } else {
-            $reply = $this->send_cmd("PASS $pass");
-            if(!$this->is_ok($reply)) {
-                $this->ERROR = "POP3 pass: " . _("Authentication failed") . " [$reply]";
-                $this->quit();
-                return false;
-            } else {
-                //  Auth successful.
-                $count = $this->last("count");
-                $this->COUNT = $count;
-                return $count;
-            }
-        }
-    }
-
-    function apop ($login,$pass) {
-        //  Attempts an APOP login. If this fails, it'll
-        //  try a standard login. YOUR SERVER MUST SUPPORT
-        //  THE USE OF THE APOP COMMAND!
-        //  (apop is optional per rfc1939)
-
-        if(!isset($this->FP)) {
-            $this->ERROR = "POP3 apop: " . _("No connection to server");
-            return false;
-        } elseif(!$this->ALLOWAPOP) {
-            $retVal = $this->login($login,$pass);
-            return $retVal;
-        } elseif(empty($login)) {
-            $this->ERROR = "POP3 apop: " . _("No login ID submitted");
-            return false;
-        } elseif(empty($pass)) {
-            $this->ERROR = "POP3 apop: " . _("No password submitted");
-            return false;
-        } else {
-            $banner = $this->BANNER;
-            if( (!$banner) or (empty($banner)) ) {
-                $this->ERROR = "POP3 apop: " . _("No server banner") . ' - ' . _("abort");
-                $retVal = $this->login($login,$pass);
-                return $retVal;
-            } else {
-                $AuthString = $banner;
-                $AuthString .= $pass;
-                $APOPString = md5($AuthString);
-                $cmd = "APOP $login $APOPString";
-                $reply = $this->send_cmd($cmd);
-                if(!$this->is_ok($reply)) {
-                    $this->ERROR = "POP3 apop: " . _("apop authentication failed") . ' - ' . _("abort");
-                    $retVal = $this->login($login,$pass);
-                    return $retVal;
-                } else {
-                    //  Auth successful.
-                    $count = $this->last("count");
-                    $this->COUNT = $count;
-                    return $count;
-                }
-            }
-        }
-    }
-
-    function login ($login = "", $pass = "") {
-        // Sends both user and pass. Returns # of msgs in mailbox or
-        // false on failure (or -1, if the error occurs while getting
-        // the number of messages.)
-
-        if( !isset($this->FP) ) {
-            $this->ERROR = "POP3 login: " . _("No connection to server");
-            return false;
-        } else {
-            $fp = $this->FP;
-            if( !$this->user( $login ) ) {
-                //  Preserve the error generated by user()
-                return false;
-            } else {
-                $count = $this->pass($pass);
-                if( (!$count) || ($count == -1) ) {
-                    //  Preserve the error generated by last() and pass()
-                    return false;
-                } else
-                    return $count;
-            }
-        }
-    }
-
-    function top ($msgNum, $numLines = "0") {
-        //  Gets the header and first $numLines of the msg body
-        //  returns data in an array with each returned line being
-        //  an array element. If $numLines is empty, returns
-        //  only the header information, and none of the body.
-
-        if(!isset($this->FP)) {
-            $this->ERROR = "POP3 top: " . _("No connection to server");
-            return false;
-        }
-        $this->update_timer();
-
-        $fp = $this->FP;
-        $buffer = $this->BUFFER;
-        $cmd = "TOP $msgNum $numLines";
-        fwrite($fp, "TOP $msgNum $numLines\r\n");
-        $reply = fgets($fp, $buffer);
-        $reply = $this->strip_clf($reply);
-        if($this->DEBUG) {
-            @error_log("POP3 SEND [$cmd] GOT [$reply]",0);
-        }
-        if(!$this->is_ok($reply))
-        {
-            $this->ERROR = "POP3 top: " . _("Error ") . "[$reply]";
-            return false;
-        }
-
-        $count = 0;
-        $MsgArray = array();
-
-        $line = fgets($fp,$buffer);
-        while ( !ereg("^\.\r\n",$line))
-        {
-            $MsgArray[$count] = $line;
-            $count++;
-            $line = fgets($fp,$buffer);
-            if(empty($line))    { break; }
-        }
-
-        return $MsgArray;
-    }
-
-    function pop_list ($msgNum = "") {
-        //  If called with an argument, returns that msgs' size in octets
-        //  No argument returns an associative array of undeleted
-        //  msg numbers and their sizes in octets
-
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 pop_list: " . _("No connection to server");
-            return false;
-        }
-        $fp = $this->FP;
-        $Total = $this->COUNT;
-        if( (!$Total) or ($Total == -1) )
-        {
-            return false;
-        }
-        if($Total == 0)
-        {
-            return array("0","0");
-            // return -1;   // mailbox empty
-        }
-
-        $this->update_timer();
-
-        if(!empty($msgNum))
-        {
-            $cmd = "LIST $msgNum";
-            fwrite($fp,"$cmd\r\n");
-            $reply = fgets($fp,$this->BUFFER);
-            $reply = $this->strip_clf($reply);
-            if($this->DEBUG) {
-                @error_log("POP3 SEND [$cmd] GOT [$reply]",0);
-            }
-            if(!$this->is_ok($reply))
-            {
-                $this->ERROR = "POP3 pop_list: " . _("Error ") . "[$reply]";
-                return false;
-            }
-            list($junk,$num,$size) = preg_split('/\s+/',$reply);
-            return $size;
-        }
-        $cmd = "LIST";
-        $reply = $this->send_cmd($cmd);
-        if(!$this->is_ok($reply))
-        {
-            $reply = $this->strip_clf($reply);
-            $this->ERROR = "POP3 pop_list: " . _("Error ") .  "[$reply]";
-            return false;
-        }
-        $MsgArray = array();
-        $MsgArray[0] = $Total;
-        for($msgC=1;$msgC <= $Total; $msgC++)
-        {
-            if($msgC > $Total) { break; }
-            $line = fgets($fp,$this->BUFFER);
-            $line = $this->strip_clf($line);
-            if(ereg("^\.",$line))
-            {
-                $this->ERROR = "POP3 pop_list: " . _("Premature end of list");
-                return false;
-            }
-            list($thisMsg,$msgSize) = preg_split('/\s+/',$line);
-            settype($thisMsg,"integer");
-            if($thisMsg != $msgC)
-            {
-                $MsgArray[$msgC] = "deleted";
-            }
-            else
-            {
-                $MsgArray[$msgC] = $msgSize;
-            }
-        }
-        return $MsgArray;
-    }
-
-    function get ($msgNum) {
-        //  Retrieve the specified msg number. Returns an array
-        //  where each line of the msg is an array element.
-
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 get: " . _("No connection to server");
-            return false;
-        }
-
-        $this->update_timer();
-
-        $fp = $this->FP;
-        $buffer = $this->BUFFER;
-        $cmd = "RETR $msgNum";
-        $reply = $this->send_cmd($cmd);
-
-        if(!$this->is_ok($reply))
-        {
-            $this->ERROR = "POP3 get: " . _("Error ") . "[$reply]";
-            return false;
-        }
-
-        $count = 0;
-        $MsgArray = array();
-
-        $line = fgets($fp,$buffer);
-        while ( !ereg("^\.\r\n",$line))
-        {
-            if ( $line{0} == '.' ) { $line = substr($line,1); }
-            $MsgArray[$count] = $line;
-            $count++;
-            $line = fgets($fp,$buffer);
-            if(empty($line))    { break; }
-        }
-        return $MsgArray;
-    }
-
-    function last ( $type = "count" ) {
-        //  Returns the highest msg number in the mailbox.
-        //  returns -1 on error, 0+ on success, if type != count
-        //  results in a popstat() call (2 element array returned)
-
-        $last = -1;
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 last: " . _("No connection to server");
-            return $last;
-        }
-
-        $reply = $this->send_cmd("STAT");
-        if(!$this->is_ok($reply))
-        {
-            $this->ERROR = "POP3 last: " . _("Error ") . "[$reply]";
-            return $last;
-        }
-
-        $Vars = preg_split('/\s+/',$reply);
-        $count = $Vars[1];
-        $size = $Vars[2];
-        settype($count,"integer");
-        settype($size,"integer");
-        if($type != "count")
-        {
-            return array($count,$size);
-        }
-        return $count;
-    }
-
-    function reset () {
-        //  Resets the status of the remote server. This includes
-        //  resetting the status of ALL msgs to not be deleted.
-        //  This method automatically closes the connection to the server.
-
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 reset: " . _("No connection to server");
-            return false;
-        }
-        $reply = $this->send_cmd("RSET");
-        if(!$this->is_ok($reply))
-        {
-            //  The POP3 RSET command -never- gives a -ERR
-            //  response - if it ever does, something truely
-            //  wild is going on.
-
-            $this->ERROR = "POP3 reset: " . _("Error ") . "[$reply]";
-            @error_log("POP3 reset: ERROR [$reply]",0);
-        }
-        $this->quit();
-        return true;
-    }
-
-    function send_cmd ( $cmd = "" )
+  /**
+   * Constructor, sets the initial values
+   *
+   * @return POP3
+   */
+  function POP3 ()
     {
-        //  Sends a user defined command string to the
-        //  POP server and returns the results. Useful for
-        //  non-compliant or custom POP servers.
-        //  Do NOT includ the \r\n as part of your command
-        //  string - it will be appended automatically.
-
-        //  The return value is a standard fgets() call, which
-        //  will read up to $this->BUFFER bytes of data, until it
-        //  encounters a new line, or EOF, whichever happens first.
-
-        //  This method works best if $cmd responds with only
-        //  one line of data.
-
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 send_cmd: " . _("No connection to server");
-            return false;
-        }
-
-        if(empty($cmd))
-        {
-            $this->ERROR = "POP3 send_cmd: " . _("Empty command string");
-            return "";
-        }
-
-        $fp = $this->FP;
-        $buffer = $this->BUFFER;
-        $this->update_timer();
-        fwrite($fp,"$cmd\r\n");
-        $reply = fgets($fp,$buffer);
-        $reply = $this->strip_clf($reply);
-        if($this->DEBUG) { @error_log("POP3 SEND [$cmd] GOT [$reply]",0); }
-        return $reply;
+      $this->pop_conn = 0;
+      $this->connected = false;
+      $this->error = null;
     }
 
-    function quit() {
-        //  Closes the connection to the POP3 server, deleting
-        //  any msgs marked as deleted.
+  /**
+   * Combination of public events - connect, login, disconnect
+   *
+   * @param string $host
+   * @param integer $port
+   * @param integer $tval
+   * @param string $username
+   * @param string $password
+   */
+  function Authorise ($host, $port = false, $tval = false, $username, $password, $debug_level = 0)
+  {
+    $this->host = $host;
 
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 quit: " . _("connection does not exist");
-            return false;
-        }
-        $fp = $this->FP;
-        $cmd = "QUIT";
-        fwrite($fp,"$cmd\r\n");
-        $reply = fgets($fp,$this->BUFFER);
-        $reply = $this->strip_clf($reply);
-        if($this->DEBUG) { @error_log("POP3 SEND [$cmd] GOT [$reply]",0); }
-        fclose($fp);
-        unset($this->FP);
-        return true;
-    }
-
-    function popstat () {
-        //  Returns an array of 2 elements. The number of undeleted
-        //  msgs in the mailbox, and the size of the mbox in octets.
-
-        $PopArray = $this->last("array");
-
-        if($PopArray == -1) { return false; }
-
-        if( (!$PopArray) or (empty($PopArray)) )
-        {
-            return false;
-        }
-        return $PopArray;
-    }
-
-    function uidl ($msgNum = "")
+    //  If no port value is passed, retrieve it
+    if ($port == false)
     {
-        //  Returns the UIDL of the msg specified. If called with
-        //  no arguments, returns an associative array where each
-        //  undeleted msg num is a key, and the msg's uidl is the element
-        //  Array element 0 will contain the total number of msgs
-
-        if(!isset($this->FP)) {
-            $this->ERROR = "POP3 uidl: " . _("No connection to server");
-            return false;
-        }
-
-        $fp = $this->FP;
-        $buffer = $this->BUFFER;
-
-        if(!empty($msgNum)) {
-            $cmd = "UIDL $msgNum";
-            $reply = $this->send_cmd($cmd);
-            if(!$this->is_ok($reply))
-            {
-                $this->ERROR = "POP3 uidl: " . _("Error ") . "[$reply]";
-                return false;
-            }
-            list ($ok,$num,$myUidl) = preg_split('/\s+/',$reply);
-            return $myUidl;
-        } else {
-            $this->update_timer();
-
-            $UIDLArray = array();
-            $Total = $this->COUNT;
-            $UIDLArray[0] = $Total;
-
-            if ($Total < 1)
-            {
-                return $UIDLArray;
-            }
-            $cmd = "UIDL";
-            fwrite($fp, "UIDL\r\n");
-            $reply = fgets($fp, $buffer);
-            $reply = $this->strip_clf($reply);
-            if($this->DEBUG) { @error_log("POP3 SEND [$cmd] GOT [$reply]",0); }
-            if(!$this->is_ok($reply))
-            {
-                $this->ERROR = "POP3 uidl: " . _("Error ") . "[$reply]";
-                return false;
-            }
-
-            $line = "";
-            $count = 1;
-            $line = fgets($fp,$buffer);
-            while ( !ereg("^\.\r\n",$line)) {
-                if(ereg("^\.\r\n",$line)) {
-                    break;
-                }
-                list ($msg,$msgUidl) = preg_split('/\s+/',$line);
-                $msgUidl = $this->strip_clf($msgUidl);
-                if($count == $msg) {
-                    $UIDLArray[$msg] = $msgUidl;
-                }
-                else
-                {
-                    $UIDLArray[$count] = 'deleted';
-                }
-                $count++;
-                $line = fgets($fp,$buffer);
-            }
-        }
-        return $UIDLArray;
+      $this->port = $this->POP3_PORT;
+    }
+    else
+    {
+      $this->port = $port;
     }
 
-    function delete ($msgNum = "") {
-        //  Flags a specified msg as deleted. The msg will not
-        //  be deleted until a quit() method is called.
+    //  If no port value is passed, retrieve it
+    if ($tval == false)
+    {
+      $this->tval = $this->POP3_TIMEOUT;
+    }
+    else
+    {
+      $this->tval = $tval;
+    }
 
-        if(!isset($this->FP))
-        {
-            $this->ERROR = "POP3 delete: " . _("No connection to server");
-            return false;
-        }
-        if(empty($msgNum))
-        {
-            $this->ERROR = "POP3 delete: " . _("No msg number submitted");
-            return false;
-        }
-        $reply = $this->send_cmd("DELE $msgNum");
-        if(!$this->is_ok($reply))
-        {
-            $this->ERROR = "POP3 delete: " . _("Command failed ") . "[$reply]";
-            return false;
-        }
+    $this->do_debug = $debug_level;
+    $this->username = $username;
+    $this->password = $password;
+
+    //  Refresh the error log
+      $this->error = null;
+
+      //  Connect
+    $result = $this->Connect($this->host, $this->port, $this->tval);
+
+    if ($result)
+    {
+      $login_result = $this->Login($this->username, $this->password);
+
+      if ($login_result)
+      {
+        $this->Disconnect();
+
         return true;
+      }
+
     }
 
-    //  *********************************************************
+    //  We need to disconnect regardless if the login succeeded
+    $this->Disconnect();
 
-    //  The following methods are internal to the class.
+    return false;
+  }
 
-    function is_ok ($cmd = "") {
-        //  Return true or false on +OK or -ERR
+  /**
+   * Connect to the POP3 server
+   *
+   * @param string $host
+   * @param integer $port
+   * @param integer $tval
+   * @return boolean
+   */
+  function Connect ($host, $port = false, $tval = 30)
+    {
+    //  Are we already connected?
+    if ($this->connected)
+    {
+      return true;
+    }
 
-        if( empty($cmd) )
-            return false;
+    /*
+      On Windows this will raise a PHP Warning error if the hostname doesn't exist.
+      Rather than supress it with @fsockopen, let's capture it cleanly instead
+    */
+
+    set_error_handler(array(&$this, 'catchWarning'));
+
+    //  Connect to the POP3 server
+    $this->pop_conn = fsockopen($host,    //  POP3 Host
+                  $port,    //  Port #
+                  $errno,   //  Error Number
+                  $errstr,  //  Error Message
+                  $tval);   //  Timeout (seconds)
+
+    //  Restore the error handler
+    restore_error_handler();
+
+    //  Does the Error Log now contain anything?
+    if ($this->error && $this->do_debug >= 1)
+    {
+        $this->displayErrors();
+    }
+
+    //  Did we connect?
+      if ($this->pop_conn == false)
+      {
+        //  It would appear not...
+        $this->error = array(
+          'error' => "Failed to connect to server $host on port $port",
+          'errno' => $errno,
+          'errstr' => $errstr
+        );
+
+        if ($this->do_debug >= 1)
+        {
+          $this->displayErrors();
+        }
+
+        return false;
+      }
+
+      //  Increase the stream time-out
+
+      //  Check for PHP 4.3.0 or later
+      if (version_compare(phpversion(), '4.3.0', 'ge'))
+      {
+        stream_set_timeout($this->pop_conn, $tval, 0);
+      }
+      else
+      {
+        //  Does not work on Windows
+        if (substr(PHP_OS, 0, 3) !== 'WIN')
+        {
+          socket_set_timeout($this->pop_conn, $tval, 0);
+        }
+      }
+
+    //  Get the POP3 server response
+      $pop3_response = $this->getResponse();
+
+      //  Check for the +OK
+      if ($this->checkResponse($pop3_response))
+      {
+      //  The connection is established and the POP3 server is talking
+      $this->connected = true;
+        return true;
+      }
+
+    }
+
+    /**
+     * Login to the POP3 server (does not support APOP yet)
+     *
+     * @param string $username
+     * @param string $password
+     * @return boolean
+     */
+    function Login ($username = '', $password = '')
+    {
+      if ($this->connected == false)
+      {
+        $this->error = 'Not connected to POP3 server';
+
+        if ($this->do_debug >= 1)
+        {
+          $this->displayErrors();
+        }
+      }
+
+      if (empty($username))
+      {
+        $username = $this->username;
+      }
+
+      if (empty($password))
+      {
+        $password = $this->password;
+      }
+
+    $pop_username = "USER $username" . $this->CRLF;
+    $pop_password = "PASS $password" . $this->CRLF;
+
+      //  Send the Username
+      $this->sendString($pop_username);
+      $pop3_response = $this->getResponse();
+
+      if ($this->checkResponse($pop3_response))
+      {
+        //  Send the Password
+        $this->sendString($pop_password);
+        $pop3_response = $this->getResponse();
+
+        if ($this->checkResponse($pop3_response))
+        {
+          return true;
+        }
         else
-            return( ereg ("^\+OK", $cmd ) );
-    }
-
-    function strip_clf ($text = "") {
-        // Strips \r\n from server responses
-
-        if(empty($text))
-            return $text;
-        else {
-            $stripped = str_replace("\r",'',$text);
-            $stripped = str_replace("\n",'',$stripped);
-            return $stripped;
-        }
-    }
-
-    function parse_banner ( $server_text ) {
-        $outside = true;
-        $banner = "";
-        $length = strlen($server_text);
-        for($count =0; $count < $length; $count++)
         {
-            $digit = substr($server_text,$count,1);
-            if(!empty($digit))             {
-                if( (!$outside) && ($digit != '<') && ($digit != '>') )
-                {
-                    $banner .= $digit;
-                }
-                if ($digit == '<')
-                {
-                    $outside = false;
-                }
-                if($digit == '>')
-                {
-                    $outside = true;
-                }
-            }
+          return false;
         }
-        $banner = $this->strip_clf($banner);    // Just in case
-        return "<$banner>";
+      }
+      else
+      {
+        return false;
+      }
     }
 
-}   // End class
+    /**
+     * Disconnect from the POP3 server
+     */
+    function Disconnect ()
+    {
+      $this->sendString('QUIT');
+
+      fclose($this->pop_conn);
+    }
+
+    /*
+      ---------------
+      Private Methods
+      ---------------
+    */
+
+    /**
+     * Get the socket response back.
+     * $size is the maximum number of bytes to retrieve
+     *
+     * @param integer $size
+     * @return string
+     */
+    function getResponse ($size = 128)
+    {
+      $pop3_response = fgets($this->pop_conn, $size);
+
+      return $pop3_response;
+    }
+
+    /**
+     * Send a string down the open socket connection to the POP3 server
+     *
+     * @param string $string
+     * @return integer
+     */
+    function sendString ($string)
+    {
+      $bytes_sent = fwrite($this->pop_conn, $string, strlen($string));
+
+      return $bytes_sent;
+
+    }
+
+    /**
+     * Checks the POP3 server response for +OK or -ERR
+     *
+     * @param string $string
+     * @return boolean
+     */
+    function checkResponse ($string)
+    {
+      if (substr($string, 0, 3) !== '+OK')
+      {
+        $this->error = array(
+          'error' => "Server reported an error: $string",
+          'errno' => 0,
+          'errstr' => ''
+        );
+
+        if ($this->do_debug >= 1)
+        {
+          $this->displayErrors();
+        }
+
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+
+    }
+
+    /**
+     * If debug is enabled, display the error message array
+     *
+     */
+    function displayErrors ()
+    {
+      echo '<pre>';
+
+      foreach ($this->error as $single_error)
+    {
+        print_r($single_error);
+    }
+
+      echo '</pre>';
+    }
+
+  /**
+   * Takes over from PHP for the socket warning handler
+   *
+   * @param integer $errno
+   * @param string $errstr
+   * @param string $errfile
+   * @param integer $errline
+   */
+  function catchWarning ($errno, $errstr, $errfile, $errline)
+  {
+    $this->error[] = array(
+      'error' => "Connecting to the POP3 server raised a PHP warning: ",
+      'errno' => $errno,
+      'errstr' => $errstr
+    );
+  }
+
+  //  End of class
+}
 ?>
