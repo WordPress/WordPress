@@ -837,6 +837,9 @@ class WP_Query {
 		if ( !isset($q['caller_get_posts']) )
 			$q['caller_get_posts'] = false;
 
+		if ( !isset($q['suppress_filters']) )
+			$q['suppress_filters'] = false;
+
 		if ( !isset($q['post_type']) ) {
 			if ( $this->is_search )
 				$q['post_type'] = 'any';
@@ -1372,8 +1375,10 @@ class WP_Query {
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
-		$where = apply_filters('posts_where', $where);
-		$join = apply_filters('posts_join', $join);
+		if ( !$q['suppress_filters'] ) {
+			$where = apply_filters('posts_where', $where);
+			$join = apply_filters('posts_join', $join);
+		}
 
 		// Paging
 		if ( empty($q['nopaging']) && !$this->is_singular ) {
@@ -1405,9 +1410,11 @@ class WP_Query {
 				$cgroupby = '';
 			}
 
-			$cjoin = apply_filters('comment_feed_join', $cjoin);
-			$cwhere = apply_filters('comment_feed_where', $cwhere);
-			$cgroupby = apply_filters('comment_feed_groupby', $cgroupby);
+			if ( !$q['suppress_filters'] ) {
+				$cjoin = apply_filters('comment_feed_join', $cjoin);
+				$cwhere = apply_filters('comment_feed_where', $cwhere);
+				$cgroupby = apply_filters('comment_feed_groupby', $cgroupby);
+			}
 
 			$this->comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss'));
 			$this->comment_count = count($this->comments);
@@ -1427,26 +1434,29 @@ class WP_Query {
 
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
-
-		$where = apply_filters('posts_where_paged', $where);
-		$groupby = apply_filters('posts_groupby', $groupby);
-		$join = apply_filters('posts_join_paged', $join);
-		$orderby = apply_filters('posts_orderby', $q['orderby']);
-		$distinct = apply_filters('posts_distinct', $distinct);
-		$fields = apply_filters('posts_fields', "$wpdb->posts.*");
-		$limits = apply_filters( 'post_limits', $limits );
+		if ( !$q['suppress_filters'] ) {
+			$where = apply_filters('posts_where_paged', $where);
+			$groupby = apply_filters('posts_groupby', $groupby);
+			$join = apply_filters('posts_join_paged', $join);
+			$orderby = apply_filters('posts_orderby', $q['orderby']);
+			$distinct = apply_filters('posts_distinct', $distinct);
+			$fields = apply_filters('posts_fields', "$wpdb->posts.*");
+			$limits = apply_filters( 'post_limits', $limits );
+		}
 
 		// Announce current selection parameters.  For use by caching plugins.
 		do_action( 'posts_selection', $where . $groupby . $orderby . $limits . $join );
 
 		// Filter again for the benefit of caching plugins.  Regular plugins should use the hooks above.
-		$where = apply_filters('posts_where_request', $where);
-		$groupby = apply_filters('posts_groupby_request', $groupby);
-		$join = apply_filters('posts_join_request', $join);
-		$orderby = apply_filters('posts_orderby_request', $orderby);
-		$distinct = apply_filters('posts_distinct_request', $distinct);
-		$fields = apply_filters('posts_fields_request', $fields);
-		$limits = apply_filters( 'post_limits_request', $limits );
+		if ( !$q['suppress_filters'] ) {
+			$where = apply_filters('posts_where_request', $where);
+			$groupby = apply_filters('posts_groupby_request', $groupby);
+			$join = apply_filters('posts_join_request', $join);
+			$orderby = apply_filters('posts_orderby_request', $orderby);
+			$distinct = apply_filters('posts_distinct_request', $distinct);
+			$fields = apply_filters('posts_fields_request', $fields);
+			$limits = apply_filters( 'post_limits_request', $limits );
+		}
 
 		if ( ! empty($groupby) )
 			$groupby = 'GROUP BY ' . $groupby;
@@ -1457,11 +1467,13 @@ class WP_Query {
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 
 		$request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
-		$this->request = apply_filters('posts_request', $request);
+		if ( !$q['suppress_filters'] )
+			$this->request = apply_filters('posts_request', $request);
 
 		$this->posts = $wpdb->get_results($this->request);
 		// Raw results filter.  Prior to status checks.
-		$this->posts = apply_filters('posts_results', $this->posts);
+		if ( !$q['suppress_filters'] )
+			$this->posts = apply_filters('posts_results', $this->posts);
 
 		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
 			$cjoin = apply_filters('comment_feed_join', '');
@@ -1543,7 +1555,8 @@ class WP_Query {
 			}
 		}
 
-		$this->posts = apply_filters('the_posts', $this->posts);
+		if ( !$q['suppress_filters'] )
+			$this->posts = apply_filters('the_posts', $this->posts);
 
 		update_post_caches($this->posts);
 
