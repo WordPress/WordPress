@@ -141,6 +141,9 @@ function wp_upgrade() {
 	if ( $wp_db_version == $wp_current_db_version )
 		return;
 
+	if(!is_blog_installed())
+		return;
+
 	wp_check_mysql_version();
 	wp_cache_flush();
 	make_db_current_silent();

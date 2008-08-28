@@ -45,7 +45,7 @@ $step = (int) $step;
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 
-<?php if ( get_option('db_version') == $wp_db_version ) : ?>
+<?php if ( get_option('db_version') == $wp_db_version || !is_blog_installed()) : ?>
 
 <h2><?php _e('No Upgrade Required'); ?></h2>
 <p><?php _e('Your WordPress database is already up-to-date!'); ?></p>
