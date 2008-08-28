@@ -1034,7 +1034,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 		}
 
 		if ( 'spam' != $the_comment_status )
-			$actions['reply'] = ' | <a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',this);return false;" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
+			$actions['reply'] = '<span class="hide-if-no-js"> | <a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',this);return false;" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a></span>';
 
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 

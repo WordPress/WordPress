@@ -174,11 +174,11 @@ if ( $page_links )
 
 <div class="alignleft">
 <select name="action">
-<option value="" selected><?php _e('Actions') ?></option>
+<option value="" selected="selected"><?php _e('Actions') ?></option>
 <?php if ( 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php else : ?>
-<option value="approve"><?php _e('Approve'); ?>
+<option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
 <?php if ( 'spam' != $comment_status ): ?>
 <option value="markspam"><?php _e('Mark as Spam'); ?></option>
