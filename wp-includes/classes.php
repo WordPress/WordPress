@@ -294,10 +294,16 @@ class WP {
 		// or if the request was a regular query string request rather than a
 		// permalink request.
 		if ( (0 == count($wp_query->posts)) && !is_404() && !is_search() && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) && (false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
+			// Don't 404 for these queries if they matched an object.
+			if ( ( is_tag() || is_category() || is_author() ) && $wp_query->get_queried_object() ) {
+				if ( !is_404() )
+					status_header( 200 );
+				return;
+			}
 			$wp_query->set_404();
 			status_header( 404 );
 			nocache_headers();
-		}	elseif( is_404() != true ) {
+		} elseif ( !is_404() ) {
 			status_header( 200 );
 		}
 	}
