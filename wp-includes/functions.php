@@ -330,7 +330,7 @@ function is_serialized_string( $data ) {
  * @param string $setting Name of option to retrieve. Should already be SQL-escaped
  * @return mixed Value set for the option.
  */
-function get_option( $setting ) {
+function get_option( $setting, $default = false ) {
 	global $wpdb;
 
 	// Allow plugins to short-circuit options.
@@ -341,7 +341,7 @@ function get_option( $setting ) {
 	// prevent non-existent options from triggering multiple queries
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( isset( $notoptions[$setting] ) )
-		return false;
+		return $default;
 
 	$alloptions = wp_load_alloptions();
 
@@ -364,7 +364,7 @@ function get_option( $setting ) {
 			} else { // option does not exist, so we must cache its non-existence
 				$notoptions[$setting] = true;
 				wp_cache_set( 'notoptions', $notoptions, 'options' );
-				return false;
+				return $default;
 			}
 		}
 	}
