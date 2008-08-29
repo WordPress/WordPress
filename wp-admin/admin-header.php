@@ -133,10 +133,13 @@ if ( ! $is_opera ) {
 
 <?php
 require(ABSPATH . 'wp-admin/menu-header.php');
+?>
+<div id="wpbody">
+<div id="wpbody-content">
+<?php
+do_action('admin_notices');
 
 if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');
 }
 ?>
-<div id="wpbody">
-<div id="wpbody-content">

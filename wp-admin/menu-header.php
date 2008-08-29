@@ -104,34 +104,21 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 ?>
 
 <ul id="dashmenu" class="wp-menu">
-
 <?php
 
 _wp_menu_output( $top_menu, $top_submenu, false );
 do_action( 'dashmenu' );
 
 ?>
-
-
 </ul>
-
 
 <ul id="adminmenu" class="wp-menu">
 
 <li class="write-new-button"><a class="button-secondary" href="post-new.php"><?php _e( 'Write New Post' ); ?></a></li>
-
 <?php
 
 _wp_menu_output( $menu, $submenu );
 do_action( 'adminmenu' );
 
 ?>
-
-
 </ul>
-
-<?php
-
-do_action('admin_notices');
-
-?>
