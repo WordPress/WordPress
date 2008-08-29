@@ -1099,11 +1099,11 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
 
 	<?php echo apply_filters( 'wp_comment_reply_content', '
-	<div id="replycontainer"><textarea rows="5" cols="40" name="replycontent" tabindex="10" id="replycontent"></textarea></div>
+	<div id="replycontainer"><textarea rows="5" cols="40" name="replycontent" tabindex="1000" id="replycontent"></textarea></div>
 	'); ?>
 
-	<p id="replysubmit"><input type="button" onclick="commentReply.close();" class="button" value="<?php _e('Cancel'); ?>" />
-	<input type="button" onclick="commentReply.send();" class="button" value="<?php _e('Submit Reply'); ?>" /></p>
+	<p id="replysubmit"><input type="button" onclick="commentReply.close();" class="button" tabindex="1002" value="<?php _e('Cancel'); ?>" />
+	<input type="button" onclick="commentReply.send();" class="button" tabindex="1001" value="<?php _e('Submit Reply'); ?>" /></p>
 	</form>
 	</div>
 <?php
