@@ -72,6 +72,8 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
 	$scripts->add( 'suggest', '/wp-includes/js/jquery/suggest.js', array('jquery'), '1.1b');
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
+	$scripts->add( 'jquery-hotkeys', '/wp-includes/js/jquery/jquery.hotkeys.js', array('jquery'), '0.0.2' );
+	$scripts->add( 'jquery-table-hotkeys', '/wp-includes/js/jquery/jquery.table-hotkeys.js', array('jquery', 'jquery-hotkeys'), '20080829' );
 	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1-20080430');
 	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.0.2-20080430');
 	$scripts->add( 'swfupload-degrade', '/wp-includes/js/swfupload/plugins/swfupload.graceful_degradation.js', array('swfupload'), '2.0.2');
@@ -224,7 +226,7 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20080829' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );

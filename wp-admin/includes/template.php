@@ -1016,25 +1016,25 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$actions = array();
 
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . "</a> | ";
-		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . "</a> | ";
+		$actions['approve']   = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . "</a> | ";
+		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . "</a> | ";
 		$actions['edit']      = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a> | ';
 		if ( 'spam' != $the_comment_status )
-			$actions['spam']      = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
-		$actions['delete']    = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete'>" . __('Delete') . '</a>';
+			$actions['spam']      = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a> | ';
+		$actions['delete']    = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
 
 		if ( $comment_status ) { // not looking at all comments
 			if ( 'approved' == $the_comment_status ) {
-				$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
+				$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment vim-u vim-destructive' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a> | ';
 				unset($actions['approve']);
 			} else {
-				$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
+				$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment vim-a vim-destructive' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a> | ';
 				unset($actions['unapprove']);
 			}
 		}
 
 		if ( 'spam' != $the_comment_status )
-			$actions['reply'] = '<span class="hide-if-no-js"> | <a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',this);return false;" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a></span>';
+			$actions['reply'] = '<span class="hide-if-no-js"> | <a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',this);return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a></span>';
 
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 

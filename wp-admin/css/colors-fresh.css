@@ -782,3 +782,8 @@ table.diff .diff-addedline ins {
 	border-color: #ddd;
 	background-color: #f8f8f8;
 }
+
+/* table vim shorcuts */
+.vim-current {
+	background-color: #E4F2FD !important;
+}

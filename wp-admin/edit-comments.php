@@ -12,6 +12,7 @@ require_once('admin.php');
 $title = __('Edit Comments');
 wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script( 'admin-forms' );
+wp_enqueue_script( 'jquery-table-hotkeys' );
 
 if ( !empty( $_REQUEST['delete_comments'] ) && isset($_REQUEST['action']) ) {
 	check_admin_referer('bulk-comments');
