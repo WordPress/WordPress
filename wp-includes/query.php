@@ -778,7 +778,7 @@ class WP_Query {
 		if ( !empty($qv['post_status']) )
 			$qv['post_status'] = preg_replace('|[^a-z0-9_,-]|', '', $qv['post_status']);
 
-		if ( $this->is_posts_page && !$qv['withcomments'] )
+		if ( $this->is_posts_page && ( ! isset($qv['withcomments']) || ! $qv['withcomments'] ) )
 			$this->is_comment_feed = false;
 
 		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
@@ -832,7 +832,9 @@ class WP_Query {
 		$join = '';
 		$search = '';
 		$groupby = '';
+		$fields = "$wpdb->posts.*";
 		$post_status_join = false;
+		$page = 1;
 
 		if ( !isset($q['caller_get_posts']) )
 			$q['caller_get_posts'] = false;
@@ -1432,15 +1434,17 @@ class WP_Query {
 				$where = "AND 0";
 		}
 
+		$orderby = $q['orderby'];
+
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		if ( !$q['suppress_filters'] ) {
 			$where = apply_filters('posts_where_paged', $where);
 			$groupby = apply_filters('posts_groupby', $groupby);
 			$join = apply_filters('posts_join_paged', $join);
-			$orderby = apply_filters('posts_orderby', $q['orderby']);
+			$orderby = apply_filters('posts_orderby', $orderby);
 			$distinct = apply_filters('posts_distinct', $distinct);
-			$fields = apply_filters('posts_fields', "$wpdb->posts.*");
+			$fields = apply_filters('posts_fields', $fields);
 			$limits = apply_filters( 'post_limits', $limits );
 		}
 
@@ -1466,9 +1470,9 @@ class WP_Query {
 		if ( !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 
-		$request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
+		$this->request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 		if ( !$q['suppress_filters'] )
-			$this->request = apply_filters('posts_request', $request);
+			$this->request = apply_filters('posts_request', $this->request);
 
 		$this->posts = $wpdb->get_results($this->request);
 		// Raw results filter.  Prior to status checks.
