@@ -1917,13 +1917,12 @@ p#post-search-prep {
 /* reply to comments */
 #replydiv {
 	width: 700px;
-	border-color: #EBEBEB #CCC #CCC #EBEBEB;
 	border-width: 1px;
 	border-style: solid;
 	padding: 2px;
-	background-color: #fff;
 	left: 20px;
-	top: 300px;
+	top: 200px;
+	z-index: 100;
 }
 
 #replydiv #editorcontainer {
@@ -1933,8 +1932,13 @@ p#post-search-prep {
 #replysubmit {
 	margin: 0;
 	padding: 3px 5px;
-	background-color: #EAF3FA;
-	border-top: 1px solid #ddd;
+	border-top-width: 1px;
+	border-top-style: solid;
+}
+
+#replysubmit .button,
+#replyerror .button {
+	margin-right: 5px;
 }
 
 #replydiv #editor-toolbar {
@@ -1973,8 +1977,8 @@ p#post-search-prep {
 }
 
 #replyerror {
-	border: 5px solid #ddd;
-	background-color: #f8f8f8;
+	border-width: 5px;
+	border-style: solid;
 	position: absolute;
 	padding: 15px 15px 10px;
 	width: 500px;
@@ -2028,7 +2032,7 @@ p#post-search-prep {
 }
 
 #edit-settings {
-	padding: 28px 0 0;
+	padding: 29px 0 0;
 	margin: 0 0 20px;
 }
 
@@ -2041,17 +2045,23 @@ p#post-search-prep {
 #edit-settings-wrap {
 	-moz-border-radius: 4px 0 4px 4px;
 	-khtml-border-radius: 4px;
+	-khtml-border-top-right-radius: 0;
 	-webkit-border-radius: 4px;
-	border-radius: 4px 0 4px 4px;
+	-webkit-border-top-right-radius: 0;
+	border-radius: 4px;
+	border-top-right-radius: 0;
 	border-width: 1px;
 	border-style: solid;
 }
 
-.show-settings-opened {
+#show-settings.show-settings-opened {
 	-moz-border-radius: 4px 4px 0 0;
-	-khtml-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px 4px 0 0;
+	-webkit-border-bottom-left-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+	-khtml-border-bottom-left-radius: 0;
+	-khtml-border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 .metabox-prefs {

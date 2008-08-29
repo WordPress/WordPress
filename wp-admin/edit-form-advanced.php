@@ -333,7 +333,7 @@ add_meta_box('commentstatusdiv', __('Comments on this Post'), 'post_comment_stat
 function post_password_meta_box($post) {
 ?>
 <p>
-	<input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label>
+	<label for="post_status_private2" class="selectit"><input id="post_status_private2" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label>
 </p>
 <h4><?php _e( 'Post Password' ); ?></h4>
 <p><label class="hidden" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo attribute_escape( $post->post_password ); ?>" /></p>

@@ -1081,7 +1081,8 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 	<img src="images/logo.gif" />
 	<h3 class="info-box-title"><?php _e('Comment Reply Error'); ?></h3>
 	<p id="replyerrtext"></p>
-	<p class="submit"><button id="close-button" onclick="commentReply.close();" class="button"><?php _e('Close'); ?></button></p>
+	<p class="submit"><button id="close-button" onclick="commentReply.close();" class="button"><?php _e('Close'); ?></button>
+	<button id="back-button" onclick="commentReply.back();" class="button"><?php _e('Go back'); ?></button></p>
 	</div>
 	
 	<div id="replydiv" style="display:none;">
@@ -1097,7 +1098,9 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
 
-	<div id="replycontainer"><textarea rows="5" cols="50" name="replycontent" tabindex="10" id="replycontent"></textarea></div>
+	<?php echo apply_filters( 'wp_comment_reply_content', '
+	<div id="replycontainer"><textarea rows="5" cols="40" name="replycontent" tabindex="10" id="replycontent"></textarea></div>
+	'); ?>
 
 	<p id="replysubmit"><input type="button" onclick="commentReply.close();" class="button" value="<?php _e('Cancel'); ?>" />
 	<input type="button" onclick="commentReply.send();" class="button" value="<?php _e('Submit Reply'); ?>" /></p>

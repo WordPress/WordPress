@@ -1,84 +1,90 @@
 var theList; var theExtraList;
-jQuery(function($) {
+(function($) {
 
-var dimAfter = function( r, settings ) {
-	$('li span.comment-count').each( function() {
-		var a = $(this);
-		var n = parseInt(a.html(),10);
-		n = n + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
-		if ( n < 0 ) { n = 0; }
-		a.html( n.toString() );
-		$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
-	});
-	$('.post-com-count span.comment-count').each( function() {
-		var a = $(this);
-		var n = parseInt(a.html(),10);
-		var t = parseInt(a.parent().attr('title'), 10);
-		if ( $('#' + settings.element).is('.unapproved') ) { // we unapproved a formerly approved comment
-			n = n - 1;
-			t = t + 1;
-		} else { // we approved a formerly unapproved comment
-			n = n + 1;
-			t = t - 1;
-		}
-		if ( n < 0 ) { n = 0; }
-		if ( t < 0 ) { t = 0; }
-		if ( t >= 0 ) { a.parent().attr('title', adminCommentsL10n.pending.replace( /%i%/, t.toString() ) ); }
-		if ( 0 === t ) { a.parents('strong:first').replaceWith( a.parents('strong:first').html() ); }
-		a.html( n.toString() );
-	});
-}
-
-var delAfter = function( r, settings ) {
-	$('li span.comment-count').each( function() {
-		var a = $(this);
-		var n = parseInt(a.html(),10);
-		if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
-			n = n - 1;
-		} else if ( $(settings.target).parents( 'span.unapprove' ).size() ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
-			n = n + 1;
-		}
-		if ( n < 0 ) { n = 0; }
-		a.html( n.toString() );
-		$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
-	});
-	$('.post-com-count span.comment-count').each( function() {
-		var a = $(this);
-		if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
+setCommentsList = function() {
+	var dimAfter = function( r, settings ) {
+		$('li span.comment-count').each( function() {
+			var a = $(this);
+			var n = parseInt(a.html(),10);
+			n = n + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
+			if ( n < 0 ) { n = 0; }
+			a.html( n.toString() );
+			$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+		});
+		$('.post-com-count span.comment-count').each( function() {
+			var a = $(this);
+			var n = parseInt(a.html(),10);
 			var t = parseInt(a.parent().attr('title'), 10);
-			if ( t < 1 ) { return; }
-			t = t - 1;
-			a.parent().attr('title', adminCommentsL10n.pending.replace( /%i%/, t.toString() ) );
+			if ( $('#' + settings.element).is('.unapproved') ) { // we unapproved a formerly approved comment
+				n = n - 1;
+				t = t + 1;
+			} else { // we approved a formerly unapproved comment
+				n = n + 1;
+				t = t - 1;
+			}
+			if ( n < 0 ) { n = 0; }
+			if ( t < 0 ) { t = 0; }
+			if ( t >= 0 ) { a.parent().attr('title', adminCommentsL10n.pending.replace( /%i%/, t.toString() ) ); }
 			if ( 0 === t ) { a.parents('strong:first').replaceWith( a.parents('strong:first').html() ); }
+			a.html( n.toString() );
+		});
+	};
+	
+	var delAfter = function( r, settings ) {
+		$('li span.comment-count').each( function() {
+			var a = $(this);
+			var n = parseInt(a.html(),10);
+			if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
+				n = n - 1;
+			} else if ( $(settings.target).parents( 'span.unapprove' ).size() ) { // we "deleted" an approved comment from the approved list by clicking "Unapprove"
+				n = n + 1;
+			}
+			if ( n < 0 ) { n = 0; }
+			a.html( n.toString() );
+			$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+		});
+		$('.post-com-count span.comment-count').each( function() {
+			var a = $(this);
+			if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
+				var t = parseInt(a.parent().attr('title'), 10);
+				if ( t < 1 ) { return; }
+				t = t - 1;
+				a.parent().attr('title', adminCommentsL10n.pending.replace( /%i%/, t.toString() ) );
+				if ( 0 === t ) { a.parents('strong:first').replaceWith( a.parents('strong:first').html() ); }
+				return;
+			}
+			var n = parseInt(a.html(),10) - 1;
+			a.html( n.toString() );
+		});
+		$('li span.spam-comment-count' ).each( function() {
+			var a = $(this);
+			var n = parseInt(a.html(),10);
+			if ( $(settings.target).parents( 'span.spam' ).size() ) { // we marked a comment as spam
+				n = n + 1;
+			} else if ( $('#' + settings.element).is('.spam') ) { // we approved or deleted a comment marked as spam
+				n = n - 1;
+			}
+			if ( n < 0 ) { n = 0; }
+			a.html( n.toString() );
+		});
+	
+		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {
 			return;
 		}
-		var n = parseInt(a.html(),10) - 1;
-		a.html( n.toString() );
-	});
-	$('li span.spam-comment-count' ).each( function() {
-		var a = $(this);
-		var n = parseInt(a.html(),10);
-		if ( $(settings.target).parents( 'span.spam' ).size() ) { // we marked a comment as spam
-			n = n + 1;
-		} else if ( $('#' + settings.element).is('.spam') ) { // we approved or deleted a comment marked as spam
-			n = n - 1;
-		}
-		if ( n < 0 ) { n = 0; }
-		a.html( n.toString() );
-	});
+	
+		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
+		$('#get-extra-comments').submit();
+	};
 
-	if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {
-		return;
-	}
+	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
+	theList = $('#the-comment-list').wpList( { alt: '', dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
+};
 
-	theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
-	$('#get-extra-comments').submit();
-}
-
-theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
-theList = $('#the-comment-list').wpList( { alt: '', dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
-
+$(document).ready(function(){
+	setCommentsList();
 });
+
+})(jQuery);
 
 (function($){
 
@@ -92,16 +98,13 @@ commentReply = {
 			left = d.left;
 		}
 
-		$('#replydiv').show();
 		$('#replydiv #comment_post_ID').val(p);
 		$('#replydiv #comment_ID').val(c);
 
 		$('#replydiv').draggable({
 			handle : '#replyhandle',
 			containment : '#wpwrap'
-		});
-
-		$('#replydiv').resizable({
+		}).resizable({
 			handles : 'se',
 			minHeight : 200,
 			minWidth : 400,
@@ -127,7 +130,7 @@ commentReply = {
 			'position' : 'absolute',
 			'top' : top,
 			'left' : left
-		});
+		}).show();
 
 		$('#replycontent').focus().keyup(function(e){
 			if (e.which == 27) commentReply.close(); // close on Escape
@@ -195,6 +198,8 @@ commentReply = {
 		$('#comment-'+r.id)
 			.animate( { backgroundColor:"#CFEBF7" }, 600 )
 			.animate( { backgroundColor:"transparent" }, 600 );
+		
+		setCommentsList();
 	},
 
 	error : function(r) {
@@ -217,8 +222,15 @@ commentReply = {
 				if (e.which == 27) commentReply.close(); // close on Escape
 			});
 		}
+	},
+	
+	back : function() {
+		if ( $('#replydiv').is(':hidden') && $('#replyerror').is(':visible') ) {
+			$('#replyerror').hide();
+			$('#replydiv').show();
+		}
 	}
-}
+};
 
 $(document).ready(function(){
 	if ( typeof QTags != 'undefined' )

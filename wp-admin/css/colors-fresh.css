@@ -763,3 +763,18 @@ table.diff .diff-addedline ins {
 #show-settings.show-settings-opened {
 	border-bottom-color: #E4F2FD;
 }
+
+#replydiv {
+	border-color: #EBEBEB #CCC #CCC #EBEBEB;
+	background-color: #fff;
+}
+
+#replysubmit {
+	background-color: #EAF3FA;
+	border-top-color: #ddd;
+}
+
+#replyerror {
+	border-color: #ddd;
+	background-color: #f8f8f8;
+}
