@@ -456,6 +456,10 @@ input.readonly {
 	background-image: url(../images/toggle-arrow.gif);
 }
 
+#poststuff .postbox {
+	background-color: #FFF;
+}
+
 #quicktags #ed_link {
 	color: #00f;
 }
