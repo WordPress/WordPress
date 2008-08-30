@@ -51,8 +51,10 @@ wp_enqueue_script( 'admin-forms' );
 
 list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 
-if ( is_singular() )
+if ( is_singular() ) {
 	wp_enqueue_script( 'admin-comments' );
+	wp_enqueue_script( 'jquery-table-hotkeys' );
+}
 
 require_once('admin-header.php');
 

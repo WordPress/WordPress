@@ -131,6 +131,7 @@ case 'edit':
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('word-count');
 	wp_enqueue_script( 'admin-comments' );
+	wp_enqueue_script( 'jquery-table-hotkeys' );
 
 	if ( current_user_can('edit_post', $post_ID) ) {
 		if ( $last = wp_check_post_lock( $post->ID ) ) {

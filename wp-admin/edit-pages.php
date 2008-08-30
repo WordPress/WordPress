@@ -66,8 +66,10 @@ $query_str = "post_type=page&orderby=menu_order title&what_to_show=posts$post_st
 $query_str = apply_filters('manage_pages_query', $query_str);
 wp($query_str);
 
-if ( is_singular() )
+if ( is_singular() ) {
 	wp_enqueue_script( 'admin-comments' );
+	wp_enqueue_script( 'jquery-table-hotkeys' );
+}
 
 require_once('admin-header.php');
 

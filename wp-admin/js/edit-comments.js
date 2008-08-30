@@ -235,7 +235,8 @@ commentReply = {
 $(document).ready(function(){
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
-	jQuery.table_hotkeys(jQuery('table.widefat'), ['a', 'u', 's', 'd', 'r']);
+	if ( typeof $.table_hotkeys != 'undefined' )
+		$.table_hotkeys($('table.widefat'), ['a', 'u', 's', 'd', 'r']);
 });
 
 })(jQuery);
