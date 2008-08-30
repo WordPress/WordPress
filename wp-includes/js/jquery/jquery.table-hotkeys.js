@@ -37,6 +37,7 @@
 		}
 		var make_key_callback = function(expr) {
 			return function() {
+				if ( null == $.table_hotkeys.current_row ) return false;
 				var clickable = $(expr, $.table_hotkeys.current_row).filter(':visible');
 				if (!$($(clickable[0]).parent()[0]).is(':visible')) return false;
 				if (clickable.is('.'+destructive_class)) next_row() || prev_row();
