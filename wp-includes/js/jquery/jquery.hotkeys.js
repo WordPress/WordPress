@@ -69,6 +69,7 @@ USAGE:
                 shift = event.shiftKey,
                 ctrl = event.ctrlKey,
                 alt= event.altKey,
+                meta = event.metaKey,
                 propagate = true, // default behaivour
                 mapPoint = null;
             
@@ -81,7 +82,7 @@ USAGE:
                 }
             }
             var cbMap = that.all[element].events[type].callbackMap;
-            if(!shift && !ctrl && !alt) { // No Modifiers
+            if(!shift && !ctrl && !alt && !meta) { // No Modifiers
                 mapPoint = cbMap[special] ||  cbMap[character]
 			}
             // deals with combinaitons (alt|ctrl|shift+anything)
@@ -90,6 +91,7 @@ USAGE:
                 if(alt) modif +='alt+';
                 if(ctrl) modif+= 'ctrl+';
                 if(shift) modif += 'shift+';
+                if(meta) modif += 'meta+';
                 // modifiers + special keys or modifiers + characters or modifiers + shift characters
                 mapPoint = cbMap[modif+special] || cbMap[modif+character] || cbMap[modif+that.shift_nums[character]]
             }
