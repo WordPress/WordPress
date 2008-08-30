@@ -1,11 +1,39 @@
 <?php
+/**
+ * WordPress scripts and styles default loader.
+ *
+ * Most of the functionality that existed here was moved to
+ * {@link http://backpress.automattic.com/ BackPress}. WordPress themes and
+ * plugins will only be concerned about the filters and actions set in this
+ * file.
+ *
+ * @package WordPress
+ */
 
+/** BackPress: WordPress Dependencies Class */
 require( ABSPATH . WPINC . '/class.wp-dependencies.php' );
+
+/** BackPress: WordPress Scripts Class */
 require( ABSPATH . WPINC . '/class.wp-scripts.php' );
+
+/** BackPress: WordPress Scripts Functions */
 require( ABSPATH . WPINC . '/functions.wp-scripts.php' );
+
+/** BackPress: WordPress Styles Class */
 require( ABSPATH . WPINC . '/class.wp-styles.php' );
+
+/** BackPress: WordPress Styles Functions */
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
+/**
+ * Setup WordPress scripts to load by default for Administration Panels.
+ *
+ * Localizes a few of the scripts.
+ *
+ * @since unknown
+ *
+ * @param object $scripts WP_Scripts object.
+ */
 function wp_default_scripts( &$scripts ) {
 	if (!$guessurl = site_url())
 		$guessurl = wp_guess_url();
@@ -217,8 +245,26 @@ function wp_default_scripts( &$scripts ) {
 	}
 }
 
+/**
+ * Assign default styles to $styles object.
+ *
+ * Nothing is returned, because the $styles parameter is passed by reference.
+ * Meaning that whatever object is passed will be updated without having to
+ * reassign the variable that was passed back to the same value. This saves
+ * memory.
+ *
+ * Adding default styles is not the only task, it also assigns the base_url
+ * property, the default version, and text direction for the object.
+ *
+ * @since 2.6.0
+ *
+ * @param object $styles
+ */
+
 function wp_default_styles( &$styles ) {
-	if (!$guessurl = site_url())
+	// This checks to see if site_url() returns something and if it does not
+	// then it assigns $guess_url to wp_guess_url(). Strange format, but it works.
+	if ( ! $guessurl = site_url() )
 		$guessurl = wp_guess_url();
 	$styles->base_url = $guessurl;
 	$styles->default_version = get_bloginfo( 'version' );
@@ -254,6 +300,15 @@ function wp_default_styles( &$styles ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
 }
 
+/**
+ * Reorder JavaScript scripts array to place prototype before jQuery.
+ *
+ * @since 2.3.1
+ *
+ * @param array $js_array JavaScript scripst array
+ * @return array Reordered array, if needed.
+ */
+
 function wp_prototype_before_jquery( $js_array ) {
 	if ( false === $jquery = array_search( 'jquery', $js_array ) )
 		return $js_array;
@@ -271,7 +326,13 @@ function wp_prototype_before_jquery( $js_array ) {
 	return $js_array;
 }
 
-// These localizations require information that may not be loaded even by init
+/**
+ * Load localized script just in time for MCE.
+ *
+ * These localizations require information that may not be loaded even by init.
+ *
+ * @since 2.5.0
+ */
 function wp_just_in_time_script_localization() {
 	wp_localize_script( 'tiny_mce', 'wpTinyMCEConfig', array( 'defaultEditor' => wp_default_editor() ) );
 	wp_localize_script( 'autosave', 'autosaveL10n', array(
@@ -283,6 +344,26 @@ function wp_just_in_time_script_localization() {
 	) );
 }
 
+/**
+ * Administration Panel CSS for changing the styles.
+ *
+ * If installing the 'wp-admin/' directory will be replaced with './'.
+ *
+ * The $_wp_admin_css_colors global manages the Administration Panels CSS
+ * stylesheet that is loaded. The option that is set is 'admin_color' and is the
+ * color and key for the array. The value for the color key is an object with
+ * a 'url' parameter that has the URL path to the CSS file.
+ *
+ * The query from $src parameter will be appended to the URL that is given from
+ * the $_wp_admin_css_colors array value URL.
+ *
+ * @since 2.6.0
+ * @uses $_wp_admin_css_colors
+ *
+ * @param string $src Source URL.
+ * @param string $handle Either 'colors' or 'colors-rtl'.
+ * @return string URL path to CSS stylesheet for Administration Panels.
+ */
 function wp_style_loader_src( $src, $handle ) {
 	if ( defined('WP_INSTALLING') )
 		return preg_replace( '#^wp-admin/#', './', $src );
