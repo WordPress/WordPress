@@ -387,6 +387,16 @@ class MagpieRSS {
 require_once( dirname(__FILE__) . '/class-snoopy.php');
 
 if ( !function_exists('fetch_rss') ) :
+/**
+ * Build Magpie object based on RSS from URL.
+ *
+ * @since unknown
+ * @package External
+ * @subpackage MagpieRSS
+ *
+ * @param string $url URL to retrieve feed
+ * @return bool|MagpieRSS false on failure or MagpieRSS object on success.
+ */
 function fetch_rss ($url) {
 	// initialize constants
 	init();
@@ -515,6 +525,17 @@ function fetch_rss ($url) {
 } // end fetch_rss()
 endif;
 
+/**
+ * Retrieve URL headers and content using Snoopy.
+ *
+ * @since unknown
+ * @package External
+ * @subpackage MagpieRSS
+ *
+ * @param string $url URL to retrieve
+ * @param array $headers Optional. Headers to send to the URL.
+ * @return Snoopy
+ */
 function _fetch_remote_file ($url, $headers = "" ) {
 	// Snoopy is an HTTP client in PHP
 	$client = new Snoopy();
@@ -530,6 +551,16 @@ function _fetch_remote_file ($url, $headers = "" ) {
 
 }
 
+/**
+ * Retrieve 
+ *
+ * @since unknown
+ * @package External
+ * @subpackage MagpieRSS
+ *
+ * @param unknown_type $resp
+ * @return unknown
+ */
 function _response_to_rss ($resp) {
 	$rss = new MagpieRSS( $resp->results );
 
@@ -570,11 +601,13 @@ function _response_to_rss ($resp) {
 	} // end if ($rss and !$rss->error)
 }
 
-/*=======================================================================*\
-	Function:	init
-	Purpose:	setup constants with default values
-				check for user overrides
-\*=======================================================================*/
+/**
+ * Setup constants with default values, unless user overrides.
+ *
+ * @since unknown
+ * @package External
+ * @subpackage MagpieRSS
+ */
 function init () {
 	if ( defined('MAGPIE_INITALIZED') ) {
 		return;
@@ -835,6 +868,16 @@ function parse_w3cdtf ( $date_str ) {
 endif;
 
 if ( !function_exists('wp_rss') ) :
+/**
+ * Display all RSS items in a HTML ordered list.
+ *
+ * @since unknown
+ * @package External
+ * @subpackage MagpieRSS
+ *
+ * @param string $url URL of feed to display. Will not auto sense feed URL.
+ * @param int $num_items Optional. Number of items to display, default is all.
+ */
 function wp_rss( $url, $num_items = -1 ) {
 	if ( $rss = fetch_rss( $url ) ) {
 		echo '<ul>';
@@ -860,6 +903,22 @@ function wp_rss( $url, $num_items = -1 ) {
 endif;
 
 if ( !function_exists('get_rss') ) :
+/**
+ * Display RSS items in HTML list items.
+ *
+ * You have to specify which HTML list you want, either ordered or unordered
+ * before using the function. You also have to specify how many items you wish
+ * to display. You can't display all of them like you can with wp_rss()
+ * function.
+ *
+ * @since unknown
+ * @package External
+ * @subpackage MagpieRSS
+ *
+ * @param string $url URL of feed to display. Will not auto sense feed URL.
+ * @param int $num_items Optional. Number of items to display, default is all.
+ * @return bool False on failure.
+ */
 function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 	$rss = fetch_rss($url);
 	if ( $rss ) {

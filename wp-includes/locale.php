@@ -7,9 +7,7 @@
  */
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Class that loads the calendar locale.
  *
  * @since 2.1.0
  */

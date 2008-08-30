@@ -30,7 +30,7 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  *
  * Localizes a few of the scripts.
  *
- * @since unknown
+ * @since 2.6.0
  *
  * @param object $scripts WP_Scripts object.
  */
