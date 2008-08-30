@@ -10,7 +10,7 @@
 /**
  * Replaces common plain text characters into formatted entities
  *
- * As an example, 
+ * As an example,
  * <code>
  * 'cause today's effort makes it worth tomorrow's "holiday"...
  * </code>
@@ -51,7 +51,7 @@ function wptexturize($text) {
 	$dynamic_replacements = array('&#8217;$1','$1&#8216;', '$1&#8243;', '$1&#8242;', '$1&#8217;$2', '$1&#8220;$2', '&#8221;$1', '&#8217;$1', '$1&#215;$2');
 
 	for ( $i = 0; $i < $stop; $i++ ) {
- 		$curl = $textarr[$i];
+		$curl = $textarr[$i];
 
 		if ( !empty($curl) && '<' != $curl{0} && '[' != $curl{0} && $next && !$has_pre_parent) { // If it's not a tag
 			// static strings
@@ -72,7 +72,7 @@ function wptexturize($text) {
 		$output .= $curl;
 	}
 
-  	return $output;
+	return $output;
 }
 
 /**
@@ -105,7 +105,7 @@ function clean_pre($matches) {
  * A group of regex replaces used to identify text formatted with newlines and
  * replace double line-breaks with HTML paragraph tags. The remaining
  * line-breaks after conversion become <<br />> tags, unless $br is set to '0'
- *  or 'false'.
+ * or 'false'.
  *
  * @since 0.71
  *
@@ -154,8 +154,6 @@ function wpautop($pee, $br = 1) {
 /**
  * Checks to see if a string is utf8 encoded.
  *
- * {@internal Missing Long Description}}
- *
  * @since 1.2.1
  *
  * @param string $Str The string to be checked
@@ -183,7 +181,7 @@ function seems_utf8($Str) { # by bmorel at ssi dot fr
  * Converts a number of special characters into their HTML entities.
  *
  * Differs from htmlspecialchars as existing HTML entities will not be encoded.
- * Specificically changes: & to &#038;, < to &lt; and > to &gt;.
+ * Specifically changes: & to &#038;, < to &lt; and > to &gt;.
  *
  * $quotes can be set to 'single' to encode ' to &#039;, 'double' to encode " to
  * &quot;, or '1' to do both. Default is 0 where no quotes are encoded.
@@ -266,8 +264,6 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
 
 /**
  * Replaces accents in a string.
- *
- * {@internal Missing Long Description}}
  *
  * @since 1.2.1
  *
@@ -423,11 +419,10 @@ function sanitize_file_name( $name ) { // Like sanitize_title, but with periods
 	$name = preg_replace('|-+|', '-', $name);
 	$name = trim($name, '-');
 	return $name;
-	
 }
 
 /**
- * Removes characters from the username.
+ * Sanitize username stripping out unsafe characters.
  *
  * If $strict is true, only alphanumeric characters (as well as _, space, ., -,
  * @) are returned.
@@ -456,7 +451,7 @@ function sanitize_user( $username, $strict = false ) {
 }
 
 /**
- * Returns a string which has been sanitized.
+ * Sanitizes title or use fallback title.
  *
  * Specifically, HTML and PHP tags are stripped. Further actions can be added
  * via the plugin API. If $title is empty and $fallback_title is set, the latter
@@ -479,9 +474,10 @@ function sanitize_title($title, $fallback_title = '') {
 }
 
 /**
- * Replaces the string with safe characters. Whitespace becomes a dash.
+ * Sanitizes title, replacing whitespace with dashes.
  *
  * Limits the output to alphanumeric characters, underscore (_) and dash (-).
+ * Whitespace becomes a dash.
  *
  * @since 1.2.0
  *
@@ -603,7 +599,7 @@ function convert_chars($content, $deprecated = '') {
 /**
  * Fixes javascript bugs in browsers.
  *
- * {@internal Missing Long Description}}
+ * Converts unicode characters to HTML numbered entities.
  *
  * @since 1.5.0
  * @uses $is_macIE
@@ -616,6 +612,7 @@ function funky_javascript_fix($text) {
 	// Fixes for browsers' javascript bugs
 	global $is_macIE, $is_winIE;
 
+	/** @todo use preg_replace_callback() instead */
 	if ( $is_winIE || $is_macIE )
 		$text =  preg_replace("/\%u([0-9A-F]{4,4})/e",  "'&#'.base_convert('\\1',16,10).';'", $text);
 
@@ -623,9 +620,11 @@ function funky_javascript_fix($text) {
 }
 
 /**
- * balanceTags() - {@internal Missing Short Description}}
+ * Will only balance the tags if forced to and the option is set to balance tags.
  *
- * {@internal Missing Long Description}}
+ * The option 'use_balanceTags' is used for whether the tags will be balanced.
+ * Both the $force parameter and 'use_balanceTags' option will have to be true
+ * before the tags will be balanced.
  *
  * @since 0.71
  *
@@ -642,13 +641,11 @@ function balanceTags( $text, $force = false ) {
 /**
  * Balances tags of string using a modified stack.
  *
- * {@internal Missing Long Description}}
- *
  * @since 2.0.4
  *
  * @author Leonard Lin <leonard@acm.org>
  * @license GPL v2.0
- * @date November 4, 2001
+ * @copyright November 4, 2001
  * @version 1.1
  * @todo Make better - change loop condition to $text in 1.2
  * @internal Modified by Scott Reilly (coffee2code) 02 Aug 2004
@@ -781,8 +778,6 @@ function format_to_edit($content, $richedit = false) {
 /**
  * Holder for the 'format_to_post' filter.
  *
- * {@internal Deprecated? Unused in 2.6}}
- *
  * @since 0.71
  *
  * @param string $content The text to pass through the filter.
@@ -796,7 +791,9 @@ function format_to_post($content) {
 /**
  * Add leading zeros when necessary.
  *
- * {@internal Missing Long Description}}
+ * If you set the threshold to '4' and the number is '10', then you will get
+ * back '0010'. If you set the number to '4' and the number is '5000', then you
+ * will get back '5000'.
  *
  * @since 0.71
  *
@@ -804,14 +801,12 @@ function format_to_post($content) {
  * @param int $threshold Amount of digits
  * @return string Adds leading zeros to number if needed
  */
-function zeroise($number,$threshold) {
+function zeroise($number, $threshold) {
 	return sprintf('%0'.$threshold.'s', $number);
 }
 
 /**
  * Adds backslashes before letters and before a number at the start of a string.
- *
- * {@internal Missing Long Description}}
  *
  * @since 0.71
  *
@@ -861,8 +856,8 @@ function untrailingslashit($string) {
 /**
  * Adds slashes to escape strings.
  *
- * Slashes will first be removed if magic_quotes_gpc is set, 
- * see {@link http://www.php.net/magic_quotes} for more details. 
+ * Slashes will first be removed if magic_quotes_gpc is set, see {@link
+ * http://www.php.net/magic_quotes} for more details.
  *
  * @since 0.71
  *
@@ -882,9 +877,8 @@ function addslashes_gpc($gpc) {
 /**
  * Navigates through an array and removes slashes from the values.
  *
- * If an array is passed, the array_map() function causes a callback to
- * pass the value back to the function. The slashes from this value will
- * removed. 
+ * If an array is passed, the array_map() function causes a callback to pass the
+ * value back to the function. The slashes from this value will removed.
  *
  * @since 2.0.0
  *
@@ -892,11 +886,8 @@ function addslashes_gpc($gpc) {
  * @return array|string Stripped array (or string in the callback).
  */
 function stripslashes_deep($value) {
-	 $value = is_array($value) ?
-		 array_map('stripslashes_deep', $value) :
-		 stripslashes($value);
-
-	 return $value;
+	$value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+	return $value;
 }
 
 /**
@@ -911,11 +902,8 @@ function stripslashes_deep($value) {
  * @return array|string $value The encoded array (or string from the callback).
  */
 function urlencode_deep($value) {
-	 $value = is_array($value) ?
-		 array_map('urlencode_deep', $value) :
-		 urlencode($value);
-
-	 return $value;
+	$value = is_array($value) ? array_map('urlencode_deep', $value) : urlencode($value);
+	return $value;
 }
 
 /**
@@ -947,15 +935,16 @@ function antispambot($emailaddy, $mailto=0) {
 }
 
 /**
- * _make_url_clickable_cb() - {@internal Missing Short Description}}
+ * Callback to convert URI match to HTML A element.
  *
- * {@internal Missing Long Description}}
+ * This function was backported from 2.5.0 to 2.3.2. Regex callback for {@link
+ * make_clickable()}.
  *
- * @since 2.5.0
+ * @since 2.3.2
  * @access private
  *
- * @param unknown_type $matches
- * @return unknown
+ * @param array $matches Single Regex Match.
+ * @return string HTML A element with URI address.
  */
 function _make_url_clickable_cb($matches) {
 	$ret = '';
@@ -972,15 +961,16 @@ function _make_url_clickable_cb($matches) {
 }
 
 /**
- * _make_web_ftp_clickable_cb() - {@internal Missing Short Description}}
+ * Callback to convert URL match to HTML A element.
  *
- * {@internal Missing Long Description}}
+ * This function was backported from 2.5.0 to 2.3.2. Regex callback for {@link
+ * make_clickable()}.
  *
- * @since 2.5.0
+ * @since 2.3.2
  * @access private
  *
- * @param unknown_type $matches
- * @return unknown
+ * @param array $matches Single Regex Match.
+ * @return string HTML A element with URL address.
  */
 function _make_web_ftp_clickable_cb($matches) {
 	$ret = '';
@@ -998,15 +988,16 @@ function _make_web_ftp_clickable_cb($matches) {
 }
 
 /**
- * _make_email_clickable_cb() - {@internal Missing Short Description}}
+ * Callback to convert email address match to HTML A element.
  *
- * {@internal Missing Long Description}}
+ * This function was backported from 2.5.0 to 2.3.2. Regex callback for {@link
+ * make_clickable()}.
  *
- * @since 2.5.0
+ * @since 2.3.2
  * @access private
  *
- * @param unknown_type $matches
- * @return unknown
+ * @param array $matches Single Regex Match.
+ * @return string HTML A element with email address.
  */
 function _make_email_clickable_cb($matches) {
 	$email = $matches[2] . '@' . $matches[3];
@@ -1014,14 +1005,15 @@ function _make_email_clickable_cb($matches) {
 }
 
 /**
- * make_clickable() - {@internal Missing Short Description}}
+ * Convert plaintext URI to HTML links.
  *
- * {@internal Missing Long Description}}
+ * Converts URI, www and ftp, and email addresses. Finishes by fixing links
+ * within links.
  *
  * @since 0.71
  *
- * @param unknown_type $ret
- * @return unknown
+ * @param string $ret Content to convert URIs.
+ * @return string Content with converted URIs.
  */
 function make_clickable($ret) {
 	$ret = ' ' . $ret;
@@ -1077,8 +1069,8 @@ function wp_rel_nofollow_callback( $matches ) {
  *
  * @since 0.71
  *
- * @param unknown_type $text
- * @return unknown
+ * @param string $text
+ * @return string
  */
 function convert_smilies($text) {
 	global $wp_smiliessearch, $wp_smiliesreplace;
@@ -1104,8 +1096,6 @@ function convert_smilies($text) {
 /**
  * Checks to see if the text is a valid email address.
  *
- * {@internal Missing Long Description}}
- *
  * @since 0.71
  *
  * @param string $user_email The email address to be checked.
@@ -1125,15 +1115,15 @@ function is_email($user_email) {
 }
 
 /**
- * wp_iso_descrambler() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
  * @since 1.2.0
  * @usedby wp_mail() handles charsets in email subjects
  *
- * @param unknown_type $string
- * @return unknown
+ * @param string $string
+ * @return string
  */
 function wp_iso_descrambler($string) {
 	/* this may only work with iso-8859-1, I'm afraid */
@@ -1141,6 +1131,7 @@ function wp_iso_descrambler($string) {
 		return $string;
 	} else {
 		$subject = str_replace('_', ' ', $matches[2]);
+		/** @todo use preg_replace_callback() */
 		$subject = preg_replace('#\=([0-9a-f]{2})#ei', "chr(hexdec(strtolower('$1')))", $subject);
 		return $subject;
 	}
@@ -1149,8 +1140,8 @@ function wp_iso_descrambler($string) {
 /**
  * Returns a date in the GMT equivalent.
  *
- * Requires and returns a date in the Y-m-d H:i:s format.
- * Simply subtracts the value of gmt_offset.
+ * Requires and returns a date in the Y-m-d H:i:s format. Simply subtracts the
+ * value of gmt_offset.
  *
  * @since 1.2.0
  *
@@ -1167,8 +1158,8 @@ function get_gmt_from_date($string) {
 /**
  * Converts a GMT date into the correct format for the blog.
  *
- * Requires and returns in the Y-m-d H:i:s format. Simply
- * adds the value of gmt_offset.
+ * Requires and returns in the Y-m-d H:i:s format. Simply adds the value of
+ * gmt_offset.
  *
  * @since 1.2.0
  *
@@ -1184,8 +1175,6 @@ function get_date_from_gmt($string) {
 
 /**
  * Computes an offset in seconds from an iso8601 timezone.
- *
- * {@internal Missing Long Description}}
  *
  * @since 1.5.0
  *
@@ -1208,12 +1197,10 @@ function iso8601_timezone_to_offset($timezone) {
 /**
  * Converts an iso8601 date to MySQL DateTime format used by post_date[_gmt].
  *
- * {@internal Missing Long Description}}
- *
  * @since 1.5.0
  *
  * @param string $date_string Date and time in ISO 8601 format {@link http://en.wikipedia.org/wiki/ISO_8601}.
- * @param unknown_type $timezone Optional. If set to GMT returns the time minus gmt_offset. Default USER.
+ * @param string $timezone Optional. If set to GMT returns the time minus gmt_offset. Default is 'user'.
  * @return string The date and time in MySQL DateTime format - Y-m-d H:i:s.
  */
 function iso8601_to_datetime($date_string, $timezone = USER) {
@@ -1269,8 +1256,8 @@ function sanitize_email($email) {
 /**
  * Determines the difference between two timestamps.
  *
- * The difference is returned in a human readable format such as
- * "1 hour", "5 mins", "2 days". 
+ * The difference is returned in a human readable format such as "1 hour",
+ * "5 mins", "2 days".
  *
  * @since 1.5.0
  *
@@ -1305,16 +1292,18 @@ function human_time_diff( $from, $to = '' ) {
 }
 
 /**
- * Generates an excerpt from the content if needed.
+ * Generates an excerpt from the content, if needed.
  *
- * {@internal Missing Long Description}}
+ * The excerpt word amount will be 55 words and if the amount is greater than
+ * that, then the string '[...]' will be appended to the excerpt. If the string
+ * is less than 55 words, then the content will be returned as is.
  *
  * @since 1.5.0
  *
  * @param string $text The exerpt. If set to empty an excerpt is generated.
  * @return string The excerpt.
  */
-function wp_trim_excerpt($text) { // Fakes an excerpt if needed
+function wp_trim_excerpt($text) {
 	if ( '' == $text ) {
 		$text = get_the_content('');
 
@@ -1337,12 +1326,10 @@ function wp_trim_excerpt($text) { // Fakes an excerpt if needed
 /**
  * Converts named entities into numbered entities.
  *
- * {@internal Missing Long Description}}
- *
  * @since 1.5.1
  *
  * @param string $text The text within which entities will be converted.
- * @return string Text with converted entities. 
+ * @return string Text with converted entities.
  */
 function ent2ncr($text) {
 	$to_ncr = array(
@@ -1609,10 +1596,10 @@ function ent2ncr($text) {
 }
 
 /**
- * Formats text for the rich text editor and applies filter.
+ * Formats text for the rich text editor.
  *
- * The filter 'richedit_pre' is applied here. If $text is empty
- * the filter will be applied to an empty string.
+ * The filter 'richedit_pre' is applied here. If $text is empty the filter will
+ * be applied to an empty string.
  *
  * @since 2.0.0
  *
@@ -1631,12 +1618,12 @@ function wp_richedit_pre($text) {
 }
 
 /**
- * Formats text for the HTML editor and applies a filter.
+ * Formats text for the HTML editor.
  *
- * Unless $output is empty it will pass through htmlspecialchars
- * before the 'htmledit_pre' filter is applied.
+ * Unless $output is empty it will pass through htmlspecialchars before the
+ * 'htmledit_pre' filter is applied.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $output The text to be formatted.
  * @return string Formatted text after filter applied.
@@ -1649,20 +1636,20 @@ function wp_htmledit_pre($output) {
 }
 
 /**
- * Checks and cleans a URL. 
+ * Checks and cleans a URL.
  *
- * A number of characters are removed from the URL. If the URL is
- * for displaying (the default behaviour) amperstands are also replaced.
- * The 'clean_url' filter is applied to the returned cleaned URL.
+ * A number of characters are removed from the URL. If the URL is for displaying
+ * (the default behaviour) amperstands are also replaced. The 'clean_url' filter
+ * is applied to the returned cleaned URL.
  *
  * @since 1.2.0
  * @uses wp_kses_bad_protocol() To only permit protocols in the URL set
- *	via $protocols or the common ones set in the function.
+ *		via $protocols or the common ones set in the function.
  *
  * @param string $url The URL to be cleaned.
- * @param array $protocols Optional. An array of acceptable protocols. 
- * 		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set. 
- * @param string $context Optional. How the URL will be used. Default is 'display'. 
+ * @param array $protocols Optional. An array of acceptable protocols.
+ *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet' if not set.
+ * @param string $context Optional. How the URL will be used. Default is 'display'.
  * @return string The cleaned $url after the 'cleaned_url' filter is applied.
  */
 function clean_url( $url, $protocols = null, $context = 'display' ) {
@@ -1711,8 +1698,6 @@ function sanitize_url( $url, $protocols = null ) {
 /**
  * Convert entities, while preserving already-encoded entities.
  *
- * {@internal Missing Long Description}}
- *
  * @link http://www.php.net/htmlentities Borrowed from the PHP Manual user notes.
  *
  * @since 1.2.2
@@ -1746,7 +1731,7 @@ function js_escape($text) {
 /**
  * Escaping for HTML attributes.
  *
- * @since unknown
+ * @since 2.0.6
  *
  * @param string $text
  * @return string
@@ -1759,7 +1744,7 @@ function attribute_escape($text) {
 /**
  * Escape a HTML tag name.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $tag_name
  * @return string
@@ -1772,7 +1757,7 @@ function tag_escape($tag_name) {
 /**
  * Escapes text for SQL LIKE special characters % and _.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $text The text to be escaped.
  * @return string text, safe for inclusion in LIKE query.
@@ -1782,22 +1767,25 @@ function like_escape($text) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Convert full URL paths to absolute paths.
  *
- * @since unknown
+ * Removes the http or https protocols and the domain. Keeps the path '/' at the
+ * beginning, so it isn't a true relative link, but from the web root base.
  *
- * @param string $link
- * @return string
+ * @since 2.1.0
+ *
+ * @param string $link Full URL path.
+ * @return string Absolute path.
  */
 function wp_make_link_relative( $link ) {
-	return preg_replace('|https?://[^/]+(/.*)|i', '$1', $link );
+	return preg_replace( '|https?://[^/]+(/.*)|i', '$1', $link );
 }
 
 /**
  * Sanitises various option values based on the nature of the option.
  *
- * This is basically a switch statement which will pass $value through
- * a number of functions depending on the $option. 
+ * This is basically a switch statement which will pass $value through a number
+ * of functions depending on the $option. 
  *
  * @since 2.0.5
  *
@@ -1805,7 +1793,7 @@ function wp_make_link_relative( $link ) {
  * @param string $value The unsanitised value.
  * @return string Sanitized value.
  */
-function sanitize_option($option, $value) { // Remember to call stripslashes!
+function sanitize_option($option, $value) {
 
 	switch ($option) {
 		case 'admin_email':
@@ -1882,8 +1870,8 @@ function sanitize_option($option, $value) { // Remember to call stripslashes!
 /**
  * Parses a string into variables to be stored in an array.
  *
- * Uses {@link http://www.php.net/parse_str parse_str()} and stripslashes
- * if {@link http://www.php.net/magic_quotes magic_quotes_gpc} is on.
+ * Uses {@link http://www.php.net/parse_str parse_str()} and stripslashes if
+ * {@link http://www.php.net/magic_quotes magic_quotes_gpc} is on.
  *
  * @since 2.2.1
  * @uses apply_filters() for the 'wp_parse_str' filter.
@@ -1901,10 +1889,10 @@ function wp_parse_str( $string, &$array ) {
 /**
  * Convert lone less than signs.
  *
- * KSES already converts lone greater than signs. 
+ * KSES already converts lone greater than signs.
  *
  * @uses wp_pre_kses_less_than_callback in the callback function.
- * @since unknown
+ * @since 2.3.0
  *
  * @param string $text Text to be converted.
  * @return string Converted text.
@@ -1916,8 +1904,8 @@ function wp_pre_kses_less_than( $text ) {
 /**
  * Callback function used by preg_replace.
  *
- * @since unknown
  * @uses wp_specialchars to format the $matches text.
+ * @since 2.3.0
  *
  * @param array $matches Populated by matches to preg_replace.
  * @return string The text returned after wp_specialchars if needed.
@@ -1931,7 +1919,7 @@ function wp_pre_kses_less_than_callback( $matches ) {
 /**
  * WordPress implementation of PHP sprintf() with filters.
  *
- * @since unknown
+ * @since 2.5.0
  * @link http://www.php.net/sprintf
  *
  * @param string $pattern The string which formatted args are inserted.
@@ -1991,13 +1979,17 @@ function wp_sprintf( $pattern ) {
 }
 
 /**
- * List specifier %l for wp_sprintf.
+ * Localize list items before the rest of the content.
  *
- * @since unknown
+ * The '%l' must be at the first characters can then contain the rest of the
+ * content. The list items will have ', ', ', and', and ' and ' added depending
+ * on the amount of list items in the $args parameter.
  *
- * @param unknown_type $pattern
- * @param unknown_type $args
- * @return unknown
+ * @since 2.5.0
+ *
+ * @param string $pattern Content containing '%l' at the beginning.
+ * @param array $args List items to prepend to the content and replace '%l'.
+ * @return string Localized list items and rest of the content.
  */
 function wp_sprintf_l($pattern, $args) {
 	// Not a match
@@ -2037,6 +2029,8 @@ function wp_sprintf_l($pattern, $args) {
  * be counted as one character. For example &amp; will be counted as 4, &lt; as
  * 3, etc.
  *
+ * @since 2.5.0
+ *
  * @param integer $str String to get the excerpt from.
  * @param integer $count Maximum number of characters to take.
  * @return string The excerpt.
@@ -2052,11 +2046,10 @@ function wp_html_excerpt( $str, $count ) {
 /**
  * Add a Base url to relative links in passed content.
  *
- * By default it supports the 'src' and 'href' attributes,
- * However this may be changed via the 3rd param.
+ * By default it supports the 'src' and 'href' attributes. However this can be
+ * changed via the 3rd param.
  *
- * @package WordPress
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $content String to search for links in.
  * @param string $base The base URL to prefix to links.
@@ -2073,9 +2066,8 @@ function links_add_base_url( $content, $base, $attrs = array('src', 'href') ) {
 /**
  * Callback to add a base url to relative links in passed content.
  *
- *
- * @package WordPress
- * @since 2.7
+ * @since 2.7.0
+ * @access private
  *
  * @param string $m The matched link.
  * @param string $base The base URL to prefix to links.
@@ -2093,12 +2085,12 @@ function _links_add_base($m, $base) {
 /**
  * Adds a Target attribute to all links in passed content.
  *
- * This function by default only applies to <a> tags,
- * however this can be modified by the 3rd param.
- * NOTE: Any current target attributed will be striped and replaced.
+ * This function by default only applies to <a> tags, however this can be
+ * modified by the 3rd param.
  *
- * @package WordPress
- * @since 2.7
+ * <b>NOTE:</b> Any current target attributed will be striped and replaced.
+ *
+ * @since 2.7.0
  *
  * @param string $content String to search for links in.
  * @param string $target The Target to add to the links.
@@ -2114,9 +2106,8 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 /**
  * Callback to add a target attribute to all links in passed content.
  *
- *
- * @package WordPress
- * @since 2.7
+ * @since 2.7.0
+ * @access private
  *
  * @param string $m The matched link.
  * @param string $target The Target to add to the links.
