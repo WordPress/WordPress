@@ -926,19 +926,23 @@ html, body {
 	position: relative;
 	min-height: 100%;
 }
+
+#wpcontent {
+	padding-bottom: 80px;
+}
+
 #footer {
 	clear: both;
-	height: 65px;
-	padding: 10px 0 0 60px;
-	margin: 0;
-	position: relative;
- 	margin-top: -75px;
 	font-size: 12px;
+	height: 75px;
+	margin-top: -75px;
+	position: absolute;
+	width: 100%;
 }
 
 #footer p {
 	margin: 0;
-	padding: 7px 0;
+	padding: 17px 0 7px 60px;
 }
 
 #footer p a {

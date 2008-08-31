@@ -1,9 +1,13 @@
-#wpcontent, #wpbody {
+
+#sidemenu-bg {
 	background-color: #e4f2fd;
+	border-color: #c6d9e9;
 }
+
 #wpbody-content {
-	background-color: #fff;
+	border-color: #c6d9e9;
 }
+
 a.page-numbers:hover {
 	border-color: #999;
 }

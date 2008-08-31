@@ -16,15 +16,15 @@ jQuery(document).ready( function() {
 		return false;
 	} );
 });
+/*
+(function($) {
+	$.fn.tTips = function() {
 
-(function(JQ) {
-	JQ.fn.tTips = function() {
-
-		JQ('body').append('<div id="tTips"><p id="tTips_inside"></p></div>');
-		var TT = JQ('#tTips');
+		$('body').append('<div id="tTips"><p id="tTips_inside"></p></div>');
+		var TT = $('#tTips');
 
 		this.each(function() {
-			var el = JQ(this), txt;
+			var el = $(this), txt;
 
 			if ( txt = el.attr('title') ) el.attr('tip', txt).removeAttr('title');
 			else return;
@@ -47,7 +47,7 @@ jQuery(document).ready( function() {
 		});
 	}
 }(jQuery));
-
+*/
 jQuery( function($) {
 	var menuToggle = function(ul, effect) {
 		if ( !effect ) {
@@ -65,11 +65,7 @@ jQuery( function($) {
 	if ( !$('#post-search, #widget-search').size() ) {
 		$('#wphead').append( '<p id="post-search-prep"><input id="post-search-input" type="text" /><input class="button" type="button" value="Search" /></p>' );
 	}
-	
-	// Temp 2
-	var minH = $(window).height()-185+"px"
-	$('#wpbody-content').css("min-height", minH);
 
 } );
 
-jQuery(function(){jQuery('#media-buttons a').tTips();});
+//jQuery(function(){jQuery('#media-buttons a').tTips();});

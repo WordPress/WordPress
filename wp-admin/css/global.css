@@ -7,11 +7,21 @@ div#wpbody {
 }
 
 div#wpbody-content {
-	margin-left: 175px;
-	border-width: 1px 0 0 1px;
-	border-style: solid;
-	border-color: #c6d9e9;
+	margin-left: 177px;
+	border-top-width: 1px;
+	border-top-style: solid;
 	padding-top: 10px;
+}
+
+div#sidemenu-bg {
+	border-right-style: solid;
+	border-right-width: 1px;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 175px;
+	z-index: -1;
 }
 
 ul#adminmenu {
