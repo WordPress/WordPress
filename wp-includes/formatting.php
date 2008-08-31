@@ -154,6 +154,8 @@ function wpautop($pee, $br = 1) {
 /**
  * Checks to see if a string is utf8 encoded.
  *
+ * @author bmorel at ssi dot fr
+ *
  * @since 1.2.1
  *
  * @param string $Str The string to be checked
@@ -211,15 +213,13 @@ function wp_specialchars( $text, $quotes = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Encode the Unicode values to be used in the URI.
  *
  * @since 1.5.0
  *
- * @param unknown_type $utf8_string
- * @param unknown_type $length
- * @return unknown
+ * @param string $utf8_string
+ * @param int $length Max length of the string
+ * @return string String with Unicode encoded for URI.
  */
 function utf8_uri_encode( $utf8_string, $length = 0 ) {
 	$unicode = '';
@@ -263,11 +263,13 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
 }
 
 /**
- * Replaces accents in a string.
+ * Converts all accent characters to ASCII characters.
+ *
+ * If there are no accent characters, then the string given is just returned.
  *
  * @since 1.2.1
  *
- * @param string $string The text to be filtered.
+ * @param string $string Text that might have accent characters
  * @return string Filtered string with replaced "nice" characters.
  */
 function remove_accents($string) {
@@ -403,12 +405,15 @@ function remove_accents($string) {
 /**
  * Filters certain characters from the file name.
  *
- * {@internal Missing Long Description}}
+ * Turns all strings to lowercase removing most characters except alphanumeric
+ * with spaces, dashes and periods. All spaces and underscores are converted to
+ * dashes. Multiple dashes are converted to a single dash. Finally, if the file
+ * name ends with a dash, it is removed.
  *
  * @since 2.1.0
  *
- * @param string $name The string to be sanitized.
- * @return string Sanitized string.
+ * @param string $name The file name
+ * @return string Sanitized file name
  */
 function sanitize_file_name( $name ) { // Like sanitize_title, but with periods
 	$name = strtolower( $name );
@@ -426,8 +431,14 @@ function sanitize_file_name( $name ) { // Like sanitize_title, but with periods
  *
  * If $strict is true, only alphanumeric characters (as well as _, space, ., -,
  * @) are returned.
+ * Removes tags, octets, entities, and if strict is enabled, will remove all
+ * non-ASCII characters. After sanitizing, it passes the username, raw username
+ * (the username in the parameter), and the strict parameter as parameters for
+ * the filter.
  *
  * @since 2.0.0
+ * @uses apply_filters() Calls 'sanitize_user' hook on username, raw username,
+ *		and $strict parameter.
  *
  * @param string $username The username to be sanitized.
  * @param bool $strict If set limits $username to specific characters. Default false.
@@ -795,11 +806,15 @@ function format_to_post($content) {
  * back '0010'. If you set the number to '4' and the number is '5000', then you
  * will get back '5000'.
  *
+ * Uses sprintf to append the amount of zeros based on the $threshold parameter
+ * and the size of the number. If the number is large enough, then no zeros will
+ * be appended.
+ *
  * @since 0.71
  *
- * @param mixed $number Will convert to string and add zeros
- * @param int $threshold Amount of digits
- * @return string Adds leading zeros to number if needed
+ * @param mixed $number Number to append zeros to if not greater than threshold.
+ * @param int $threshold Digit places number needs to be to not have zeros added.
+ * @return string Adds leading zeros to number if needed.
  */
 function zeroise($number, $threshold) {
 	return sprintf('%0'.$threshold.'s', $number);
@@ -907,15 +922,13 @@ function urlencode_deep($value) {
 }
 
 /**
- * antispambot() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Converts email addresses characters to HTML entities to block spam bots.
  *
  * @since 0.71
  *
- * @param unknown_type $emailaddy
- * @param unknown_type $mailto
- * @return unknown
+ * @param string $emailaddy Email address.
+ * @param int $mailto Optional. Range from 0 to 1. Used for encoding.
+ * @return string Converted email address.
  */
 function antispambot($emailaddy, $mailto=0) {
 	$emailNOSPAMaddy = '';
@@ -1028,14 +1041,12 @@ function make_clickable($ret) {
 }
 
 /**
- * wp_rel_nofollow() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Adds rel nofollow string to all HTML A elements in content.
  *
  * @since 1.5.0
  *
- * @param unknown_type $text
- * @return unknown
+ * @param string $text Content that may contain HTML A elements.
+ * @return string Converted content.
  */
 function wp_rel_nofollow( $text ) {
 	global $wpdb;
@@ -1047,14 +1058,15 @@ function wp_rel_nofollow( $text ) {
 }
 
 /**
- * wp_rel_nofollow_callback() - {@internal Missing Short Description}}
+ * Callback to used to add rel=nofollow string to HTML A element.
  *
- * {@internal Missing Long Description}}
+ * Will remove already existing rel="nofollow" and rel='nofollow' from the
+ * string to prevent from invalidating (X)HTML.
  *
  * @since 2.3.0
  *
- * @param unknown_type $matches
- * @return unknown
+ * @param array $matches Single Match
+ * @return string HTML A Element with rel nofollow.
  */
 function wp_rel_nofollow_callback( $matches ) {
 	$text = $matches[1];
@@ -1063,14 +1075,16 @@ function wp_rel_nofollow_callback( $matches ) {
 }
 
 /**
- * convert_smilies() - {@internal Missing Short Description}}
+ * Convert text equivalent of smilies to images.
  *
- * {@internal Missing Long Description}}
+ * Will only convert smilies if the option 'use_smilies' is true and the globals
+ * used in the function aren't empty.
  *
  * @since 0.71
+ * @uses $wp_smiliessearch, $wp_smiliesreplace Smiley replacement arrays.
  *
- * @param string $text
- * @return string
+ * @param string $text Content to convert smilies from text.
+ * @return string Converted content with text smilies replaced with images.
  */
 function convert_smilies($text) {
 	global $wp_smiliessearch, $wp_smiliesreplace;
@@ -1115,15 +1129,13 @@ function is_email($user_email) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Convert to ASCII from email subjects.
  *
  * @since 1.2.0
  * @usedby wp_mail() handles charsets in email subjects
  *
- * @param string $string
- * @return string
+ * @param string $string Subject line
+ * @return string Converted string to ASCII
  */
 function wp_iso_descrambler($string) {
 	/* this may only work with iso-8859-1, I'm afraid */
