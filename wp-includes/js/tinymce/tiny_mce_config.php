@@ -134,7 +134,7 @@ $no_captions = ( apply_filters( 'disable_captions', '' ) ) ? true : false;
 // TinyMCE init settings
 $initArray = array (
 	'mode' => 'none',
-	'onpageload' => 'wpEditorInit',
+	'onpageload' => 'switchEditors.edInit',
 	'width' => '100%',
 	'theme' => 'advanced',
 	'skin' => 'wp_theme',
@@ -214,7 +214,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080731');
+	$cacheKey = apply_filters('tiny_mce_version', '20080830');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;

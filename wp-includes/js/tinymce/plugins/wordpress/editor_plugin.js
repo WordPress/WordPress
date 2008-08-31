@@ -14,7 +14,7 @@
 			var moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
 			var nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
-			if ( tinymce.util.Cookie.get('kitchenSink') == '1' )
+			if ( getUserSetting('hidetb', '0') == '1' )
 				ed.settings.wordpress_adv_hidden = 0;
 
 			// Hides the specified toolbar and resizes the iframe
@@ -44,23 +44,20 @@
 				});
 
 			ed.addCommand('WP_Adv', function() {
-				var id = ed.controlManager.get(tbId).id, cm = ed.controlManager, cook = tinymce.util.Cookie, date;
-
-				date = new Date();
-				date.setTime(date.getTime()+(10*365*24*60*60*1000));
+				var id = ed.controlManager.get(tbId).id, cm = ed.controlManager;
 
 				if (DOM.isHidden(id)) {
 					cm.setActive('wp_adv', 1);
 					DOM.show(id);
 					t._resizeIframe(ed, tbId, -28);
 					ed.settings.wordpress_adv_hidden = 0;
-					cook.set('kitchenSink', '1', date);
+					setUserSetting('hidetb', '1');
 				} else {
 					cm.setActive('wp_adv', 0);
 					DOM.hide(id);
 					t._resizeIframe(ed, tbId, 28);
 					ed.settings.wordpress_adv_hidden = 1;
-					cook.set('kitchenSink', '0', date);
+					setUserSetting('hidetb', '0');
 				}
 			});
 
@@ -94,11 +91,14 @@
 				title : 'wordpress.add_media',
 				image : url + '/img/media.gif',
 				onclick : function() {
-					tb_show('', tinymce.DOM.get('add_media').href);
-					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+					var a = tinymce.DOM.get('add-media-link');
+					if ( a ) {
+						tb_show('', a.href);
+						tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
+					}
 				}
 			});
-
+/*
 			ed.addButton('add_image', {
 				title : 'wordpress.add_image',
 				image : url + '/img/image.gif',
@@ -125,12 +125,12 @@
 					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 				}
 			});
-
+*/
 			// Add Media buttons to fullscreen
 			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
 				if ( 'mceFullScreen' != cmd ) return;
 				if ( 'mce_fullscreen' != ed.id )
-					ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
+					ed.settings.theme_advanced_buttons1 += ',|,add_media';
 			});
 
 			// Add class "alignleft", "alignright" and "aligncenter" when selecting align for images.

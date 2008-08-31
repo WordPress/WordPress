@@ -942,8 +942,8 @@ function user_can_richedit() {
 function wp_default_editor() {
 	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
 	if ( $user = wp_get_current_user() ) { // look for cookie
-		if ( isset($_COOKIE['wordpress_editor_' . $user->ID]) && in_array($_COOKIE['wordpress_editor_' . $user->ID], array('tinymce', 'html', 'test') ) )
-			$r = $_COOKIE['wordpress_editor_' . $user->ID];
+		$ed = get_user_setting('editor', 'tinymce');
+		$r = ( in_array($ed, array('tinymce', 'html', 'test') ) ) ? $ed : $r;
 	}
 	return apply_filters( 'wp_default_editor', $r ); // filter
 }

@@ -192,5 +192,6 @@ add_action('comment_form', 'wp_comment_form_unfiltered_html_nonce');
 add_action('template_redirect', 'wp_old_slug_redirect');
 add_action('edit_post', 'wp_check_for_changed_slugs');
 add_action('edit_form_advanced', 'wp_remember_old_slug');
+add_action('init', 'wp_user_settings', 9);
 
 ?>

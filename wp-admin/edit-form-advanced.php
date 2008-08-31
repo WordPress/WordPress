@@ -486,7 +486,7 @@ endif; ?>
 
 <div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
 
-<div id="add-media-button"><a href="<?php echo clean_url( admin_url( 'media-upload.php?post_id=' . ( $post_ID ? $post_ID : $temp_ID ) . '&amp;type=image&amp;TB_iframe=true' ) ); ?>" class="thickbox button"><?php _e( 'Add Media' ); ?></a></div>
+<div id="add-media-button"><a id="add-media-link" href="<?php echo clean_url( admin_url( 'media-upload.php?post_id=' . ( $post_ID ? $post_ID : $temp_ID ) . '&amp;type=image&amp;TB_iframe=true' ) ); ?>" class="thickbox button"><?php _e( 'Add Media' ); ?></a></div>
 
 <h3><?php _e('Post') ?></h3>
 
