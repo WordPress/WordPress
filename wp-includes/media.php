@@ -1,8 +1,36 @@
 <?php
+/**
+ * WordPress API for media display.
+ *
+ * @package WordPress
+ */
 
-// functions for media display
-
-// scale down the default size of an image so it's a better fit for the editor and theme
+/**
+ * Scale down the default size of an image.
+ *
+ * This is so that the image is a better fit for the editor and theme.
+ *
+ * The $size parameter accepts either an array or a string. The supported string
+ * values are 'thumb' or 'thumbnail' for the given thumbnail size or defaults at
+ * 128 width and 96 height in pixels. Also supported for the string value is
+ * 'medium' and 'full'. The 'full' isn't actually supported, but any value other
+ * than the supported will result in the content_width size or 500 if that is
+ * not set.
+ *
+ * Finally, there is a filter named, 'editor_max_image_size' that will be called
+ * on the calculated array for width and height, respectively. The second
+ * parameter will be the value that was in the $size parameter. The returned
+ * type for the hook is an array with the width as the first element and the
+ * height as the second element.
+ *
+ * @since 2.5.0
+ * @uses wp_constrain_dimensions() This function passes the widths and the heights.
+ *
+ * @param int $width Width of the image
+ * @param int $height Height of the image
+ * @param string|array $size Size of what the result image should be.
+ * @return array Width and height of what the result image should resize to.
+ */
 function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 	global $content_width;
 
@@ -44,7 +72,23 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 	return wp_constrain_dimensions( $width, $height, $max_width, $max_height );
 }
 
-// return a width/height string for use in an <img /> tag.  Empty values will be omitted.
+/**
+ * Retrieve width and height attributes using given width and height values.
+ *
+ * Both attributes are required in the sense that both parameters must have a
+ * value, but are optional in that if you set them to false or null, then they
+ * will not be added to the returned string.
+ *
+ * You can set the value using a string, but it will only take numeric values.
+ * If you wish to put 'px' after the numbers, then it will be stripped out of
+ * the return.
+ *
+ * @since 2.5.0
+ *
+ * @param int|string $width Optional. Width attribute value.
+ * @param int|string $height Optional. Height attribute value.
+ * @return string HTML attributes for width and, or height.
+ */
 function image_hwstring($width, $height) {
 	$out = '';
 	if ($width)
@@ -54,10 +98,25 @@ function image_hwstring($width, $height) {
 	return $out;
 }
 
-// Scale an image to fit a particular size (such as 'thumb' or 'medium'), and return an image URL, height and width.
-// The URL might be the original image, or it might be a resized version.  This function won't create a new resized copy, it will just return an already resized one if it exists.
-// returns an array($url, $width, $height, $is_intermediate)
-// $is_intermediate is true if $url is a resized image, false if it is the original
+/**
+ * Scale an image to fit a particular size (such as 'thumb' or 'medium').
+ *
+ * Array with image url, width, height, and whether is intermediate size, in
+ * that order is returned on success is returned. $is_intermediate is true if
+ * $url is a resized image, false if it is the original.
+ *
+ * The URL might be the original image, or it might be a resized version. This
+ * function won't create a new resized copy, it will just return an already
+ * resized one if it exists.
+ *
+ * @since 2.5.0
+ * @uses apply_filters() Calls 'image_downsize' on $id and $size to provide
+ *		resize services. Should return true if resizes.
+ *
+ * @param int $id Attachment ID for image.
+ * @param string $size Optional, default is 'medium'. Size of image, can be 'thumbnail'.
+ * @return bool|array False on failure, array on success.
+ */
 function image_downsize($id, $size = 'medium') {
 
 	if ( !wp_attachment_is_image($id) )
@@ -108,6 +167,8 @@ function image_downsize($id, $size = 'medium') {
  * An <img src /> tag for an image attachment, scaling it down if requested.
  *
  * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
  *
  * @uses apply_filters() The 'get_image_tag_class' filter is the IMG element
  *		class attribute.
@@ -207,7 +268,18 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop=false
 
 }
 
-// Scale down an image to fit a particular size and save a new copy of the image
+/**
+ * Scale down an image to fit a particular size and save a new copy of the image.
+ *
+ * @param unknown_type $file
+ * @param unknown_type $max_w
+ * @param unknown_type $max_h
+ * @param unknown_type $crop
+ * @param unknown_type $suffix
+ * @param unknown_type $dest_path
+ * @param unknown_type $jpeg_quality
+ * @return unknown
+ */
 function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_path=null, $jpeg_quality=90) {
 
 	$image = wp_load_image( $file );
@@ -482,14 +554,33 @@ function gallery_shortcode($attr) {
 	return $output;
 }
 
+/**
+ * Display previous image link that has the same post parent.
+ *
+ * @since 2.5.0
+ */
 function previous_image_link() {
 	adjacent_image_link(true);
 }
 
+/**
+ * Display next image link that has the same post parent.
+ *
+ * @since 2.5.0
+ */
 function next_image_link() {
 	adjacent_image_link(false);
 }
 
+/**
+ * Display next or previous image link that has the same post parent.
+ *
+ * Retrieves the current attachment object from the $post global.
+ *
+ * @since 2.5.0
+ *
+ * @param bool $prev Optional. Default is true to display previous link, true for next.
+ */
 function adjacent_image_link($prev = true) {
 	global $post;
 	$post = get_post($post);
