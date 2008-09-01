@@ -53,7 +53,6 @@
 		};
 		var get_last_row = function() {
 			var rows = $(opts.cycle_expr, table).filter_visible();
-			console.log(rows[rows.length-1]);
 			return rows.eq(rows.length-1);
 		};
 		var make_key_callback = function(expr) {
