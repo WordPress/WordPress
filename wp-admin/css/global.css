@@ -21,7 +21,6 @@ div#sidemenu-bg {
 	position: absolute;
 	top: 0;
 	width: 175px;
-	z-index: -1;
 }
 
 ul#adminmenu {

@@ -922,13 +922,16 @@ strong .post-com-count {
 html, body {
 	height:100%;
 }
+
 #wpwrap {
 	position: relative;
 	min-height: 100%;
+	overflow: hidden;
 }
 
 #wpcontent {
 	padding-bottom: 80px;
+	position: relative;
 }
 
 #footer {
@@ -936,8 +939,7 @@ html, body {
 	font-size: 12px;
 	height: 75px;
 	margin-top: -75px;
-	position: absolute;
-	width: 100%;
+	position: relative;
 }
 
 #footer p {
