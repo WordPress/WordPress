@@ -465,7 +465,7 @@ function get_posts($args = null) {
 		'order' => 'DESC', 'include' => '',
 		'exclude' => '', 'meta_key' => '',
 		'meta_value' =>'', 'post_type' => 'post',
-		'post_parent' => 0
+		'post_parent' => 0, 'suppress_filters' => true
 	);
 
 	$r = wp_parse_args( $args, $defaults );
