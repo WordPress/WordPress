@@ -160,7 +160,9 @@ function wp_default_scripts( &$scripts ) {
 		) );
 		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-draggable', 'jquery-ui-resizable', 'quicktags'), '20080828' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
-			'pending' => __('%i% pending') // must look like: "# blah blah"
+			'pending' => __('%i% pending'), // must look like: "# blah blah"
+			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
+			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last']),
 		) );
 		$scripts->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
 		$scripts->add( 'admin-forms', '/wp-admin/js/forms.js', array('jquery'), '20080729');

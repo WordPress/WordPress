@@ -235,8 +235,23 @@ commentReply = {
 $(document).ready(function(){
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
-	if ( typeof $.table_hotkeys != 'undefined' )
-		$.table_hotkeys($('table.widefat'), ['a', 'u', 's', 'd', 'r']);
+	if ( typeof $.table_hotkeys != 'undefined' ) {
+		var make_hotkeys_redirect = function(which) {
+			return function() {
+				var first_last = 'next' == which? 'first' : 'last'; 
+				var l=$('.'+which+'.page-numbers');
+				if (l.length)
+					window.location = l[0].href.replace(/\&hotkeys_highlight_(first|last)=1/g, '')+'&hotkeys_highlight_'+first_last+'=1';
+			}
+		}
+		$.table_hotkeys($('table.widefat'), ['a', 'u', 's', 'd', 'r'],
+			{	highlight_first: adminCommentsL10n.hotkeys_highlight_first,
+				highlight_last: adminCommentsL10n.hotkeys_highlight_last,
+				prev_page_link_cb: make_hotkeys_redirect('prev'),
+				next_page_link_cb: make_hotkeys_redirect('next'),				
+			}
+		);
+	}
 });
 
 })(jQuery);
