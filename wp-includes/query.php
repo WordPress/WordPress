@@ -707,7 +707,7 @@ class WP_Query {
 				$this->is_author = true;
 			}
 
-			if ( ($this->is_date || $this->is_author || $this->is_category || $this->is_tag ) )
+			if ( ($this->is_date || $this->is_author || $this->is_category || $this->is_tag || $this->is_tax ) )
 				$this->is_archive = true;
 		}
 
