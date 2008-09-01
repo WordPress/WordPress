@@ -1,16 +1,38 @@
 <?php
+/**
+ * WordPress Rewrite API
+ *
+ * @package WordPress
+ * @subpackage Rewrite
+ */
 
-/* WP_Rewrite API
-*******************************************************************************/
-
-//Add a straight rewrite rule
+/**
+ * add_rewrite_rule() - Add a straight rewrite rule
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $regex
+ * @param unknown_type $redirect
+ * @param unknown_type $after
+ */
 function add_rewrite_rule($regex, $redirect, $after = 'bottom') {
 	global $wp_rewrite;
 	$wp_rewrite->add_rule($regex, $redirect, $after);
 }
 
-//Add a new tag (like %postname%)
-//warning: you must call this on init or earlier, otherwise the query var addition stuff won't work
+/**
+ * add_rewrite_tag() - Add a new tag (like %postname%)
+ *
+ * Warning: you must call this on init or earlier, otherwise
+ * the query var addition stuff won't work
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $tagname
+ * @param unknown_type $regex
+ */
 function add_rewrite_tag($tagname, $regex) {
 	//validation
 	if (strlen($tagname) < 3 || $tagname{0} != '%' || $tagname{strlen($tagname)-1} != '%') {
@@ -24,7 +46,17 @@ function add_rewrite_tag($tagname, $regex) {
 	$wp_rewrite->add_rewrite_tag($tagname, $regex, $qv . '=');
 }
 
-//Add a new feed type like /atom1/
+/**
+ * add_feed() - Add a new feed type like /atom1/
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $feedname
+ * @param unknown_type $function
+ * @return unknown
+ */
 function add_feed($feedname, $function) {
 	global $wp_rewrite;
 	if (!in_array($feedname, $wp_rewrite->feeds)) { //override the file if it is
@@ -37,24 +69,122 @@ function add_feed($feedname, $function) {
 	return $hook;
 }
 
-define('EP_PERMALINK',  1   );
-define('EP_ATTACHMENT', 2   );
-define('EP_DATE',       4   );
-define('EP_YEAR',       8   );
-define('EP_MONTH',      16  );
-define('EP_DAY',        32  );
-define('EP_ROOT',       64  );
-define('EP_COMMENTS',   128 );
-define('EP_SEARCH',     256 );
-define('EP_CATEGORIES', 512 );
-define('EP_TAGS', 1024 );
-define('EP_AUTHORS',    2048);
-define('EP_PAGES',      4096);
-//pseudo-places
-define('EP_NONE',       0  );
-define('EP_ALL',        8191);
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_PERMALINK', 1);
 
-//and an endpoint, like /trackback/
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_ATTACHMENT', 2);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_DATE', 4);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_YEAR', 8);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_MONTH', 16);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_DAY', 32);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_ROOT', 64);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_COMMENTS', 128);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_SEARCH', 256);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_CATEGORIES', 512);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.3.0
+ */
+define('EP_TAGS', 1024);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_AUTHORS', 2048);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_PAGES', 4096);
+
+//pseudo-places
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_NONE', 0);
+
+/**
+ * {@internal Missing Description}}
+ *
+ * @since 2.1.0
+ */
+define('EP_ALL', 8191);
+
+/**
+ * add_rewrite_endpoint() - Add an endpoint, like /trackback/
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $name
+ * @param unknown_type $places
+ */
 function add_rewrite_endpoint($name, $places) {
 	global $wp_rewrite;
 	$wp_rewrite->add_endpoint($name, $places);
@@ -76,6 +206,18 @@ function _wp_filter_taxonomy_base( $base ) {
 
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
+/**
+ * url_to_postid() - Examine a url and try to determine the post ID it represents
+ *
+ * {@internal Missing Long Description}}
+ *
+ * Checks are supposedly from the hosted site blog.
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $url
+ * @return unknown
+ */
 function url_to_postid($url) {
 	global $wp_rewrite;
 
@@ -172,38 +314,269 @@ function url_to_postid($url) {
 	return 0;
 }
 
-/* WP_Rewrite class
-*******************************************************************************/
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ */
 class WP_Rewrite {
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $permalink_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 2.2.0
+	 * @access private
+	 * @var bool
+	 */
 	var $use_trailing_slashes;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $category_base;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 2.3.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $tag_base;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $category_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 2.3.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $tag_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var string
+	 */
 	var $author_base = 'author';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $author_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $date_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $page_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var string
+	 */
 	var $search_base = 'search';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $search_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var string
+	 */
 	var $comments_base = 'comments';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var string
+	 */
 	var $feed_base = 'feed';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var string
+	 */
 	var $comments_feed_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var string
+	 */
 	var $feed_structure;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $front;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access 
+	 * @var unknown_type
+	 */
 	var $root = '';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 * @var string
+	 */
 	var $index = 'index.php';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $matches = '';
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var array
+	 */
 	var $rules;
-	var $extra_rules = array(); //those not generated by the class, see add_rewrite_rule()
-	var $extra_rules_top = array(); //those not generated by the class, see add_rewrite_rule()
-	var $non_wp_rules = array(); //rules that don't redirect to WP's index.php
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * Those not generated by the class, see add_rewrite_rule()
+	 *
+	 * @since 2.1.0
+	 * @access private
+	 * @var array
+	 */
+	var $extra_rules = array(); //
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * Those not generated by the class, see add_rewrite_rule()
+	 *
+	 * @since 2.3.0
+	 * @access private
+	 * @var array
+	 */
+	var $extra_rules_top = array(); //
+
+	/**
+	 * Rules that don't redirect to WP's index.php
+	 *
+	 * @since 2.1.0
+	 * @access private
+	 * @var array
+	 */
+	var $non_wp_rules = array(); //
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 2.1.0
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $extra_permastructs = array();
 	var $endpoints;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 2.0.0
+	 * @access public
+	 * @var bool
+	 */
 	var $use_verbose_rules = false;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 2.5.0
+	 * @access public
+	 * @var bool
+	 */
 	var $use_verbose_page_rules = true;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var array
+	 */
 	var $rewritecode =
 		array(
 					'%year%',
@@ -221,6 +594,13 @@ class WP_Rewrite {
 					'%search%'
 					);
 
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var array
+	 */
 	var $rewritereplace =
 		array(
 					'([0-9]{4})',
@@ -238,6 +618,13 @@ class WP_Rewrite {
 					'(.+)'
 					);
 
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var array
+	 */
 	var $queryreplace =
 		array (
 					'year=',
@@ -255,8 +642,25 @@ class WP_Rewrite {
 					's='
 					);
 
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since 1.5.0
+	 * @access private
+	 * @var array
+	 */
 	var $feeds = array ( 'feed', 'rdf', 'rss', 'rss2', 'atom' );
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function using_permalinks() {
 		if (empty($this->permalink_structure))
 			return false;
@@ -264,6 +668,16 @@ class WP_Rewrite {
 			return true;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function using_index_permalinks() {
 		if (empty($this->permalink_structure)) {
 			return false;
@@ -277,6 +691,16 @@ class WP_Rewrite {
 		return false;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function using_mod_rewrite_permalinks() {
 		if ( $this->using_permalinks() && ! $this->using_index_permalinks())
 			return true;
@@ -284,6 +708,17 @@ class WP_Rewrite {
 			return false;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param unknown_type $number
+	 * @return unknown
+	 */
 	function preg_index($number) {
 		$match_prefix = '$';
 		$match_suffix = '';
@@ -296,6 +731,16 @@ class WP_Rewrite {
 		return "$match_prefix$number$match_suffix";
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 2.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function page_uri_index() {
 		global $wpdb;
 
@@ -328,6 +773,16 @@ class WP_Rewrite {
 		return array( $page_uris, $page_attachment_uris );
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function page_rewrite_rules() {
 		$rewrite_rules = array();
 		$page_structure = $this->get_page_permastruct();
@@ -359,6 +814,16 @@ class WP_Rewrite {
 		return $rewrite_rules;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_date_permastruct() {
 		if (isset($this->date_structure)) {
 			return $this->date_structure;
@@ -403,6 +868,16 @@ class WP_Rewrite {
 		return $this->date_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_year_permastruct() {
 		$structure = $this->get_date_permastruct($this->permalink_structure);
 
@@ -418,6 +893,16 @@ class WP_Rewrite {
 		return $structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_month_permastruct() {
 		$structure = $this->get_date_permastruct($this->permalink_structure);
 
@@ -432,10 +917,30 @@ class WP_Rewrite {
 		return $structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_day_permastruct() {
 		return $this->get_date_permastruct($this->permalink_structure);
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_category_permastruct() {
 		if (isset($this->category_structure)) {
 			return $this->category_structure;
@@ -456,6 +961,16 @@ class WP_Rewrite {
 		return $this->category_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 2.3.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_tag_permastruct() {
 		if (isset($this->tag_structure)) {
 			return $this->tag_structure;
@@ -482,6 +997,16 @@ class WP_Rewrite {
 		return false;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_author_permastruct() {
 		if (isset($this->author_structure)) {
 			return $this->author_structure;
@@ -497,6 +1022,16 @@ class WP_Rewrite {
 		return $this->author_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_search_permastruct() {
 		if (isset($this->search_structure)) {
 			return $this->search_structure;
@@ -512,6 +1047,16 @@ class WP_Rewrite {
 		return $this->search_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_page_permastruct() {
 		if (isset($this->page_structure)) {
 			return $this->page_structure;
@@ -527,6 +1072,16 @@ class WP_Rewrite {
 		return $this->page_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_feed_permastruct() {
 		if (isset($this->feed_structure)) {
 			return $this->feed_structure;
@@ -542,6 +1097,16 @@ class WP_Rewrite {
 		return $this->feed_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_comment_feed_permastruct() {
 		if (isset($this->comment_feed_structure)) {
 			return $this->comment_feed_structure;
@@ -557,6 +1122,18 @@ class WP_Rewrite {
 		return $this->comment_feed_structure;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param unknown_type $tag
+	 * @param unknown_type $pattern
+	 * @param unknown_type $query
+	 */
 	function add_rewrite_tag($tag, $pattern, $query) {
 		// If the tag already exists, replace the existing pattern and query for
 		// that tag, otherwise add the new tag, pattern, and query to the end of
@@ -572,7 +1149,25 @@ class WP_Rewrite {
 		}
 	}
 
-	//the main WP_Rewrite function. generate the rules from permalink structure
+	/**
+	 * Generate the rules from permalink structure
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * The main WP_Rewrite function.
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param unknown_type $permalink_structure
+	 * @param unknown_type $ep_mask
+	 * @param unknown_type $paged
+	 * @param unknown_type $feed
+	 * @param unknown_type $forcomments
+	 * @param unknown_type $walk_dirs
+	 * @param unknown_type $endpoints
+	 * @return unknown
+	 */
 	function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
 		//build a regex to match the feed section of URLs, something like (feed|atom|rss|rss2)/?
 		$feedregex2 = '';
@@ -789,13 +1384,31 @@ class WP_Rewrite {
 		return $post_rewrite; //the finished rules. phew!
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param unknown_type $permalink_structure
+	 * @param unknown_type $walk_dirs
+	 * @return unknown
+	 */
 	function generate_rewrite_rule($permalink_structure, $walk_dirs = false) {
 		return $this->generate_rewrite_rules($permalink_structure, EP_NONE, false, false, false, $walk_dirs);
 	}
 
-	/* rewrite_rules
-	 * Construct rewrite matches and queries from permalink structure.
-	 * Returns an associate array of matches and queries.
+	/**
+	 * Construct rewrite matches and queries from permalink structure
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return array an associate array of matches and queries
 	 */
 	function rewrite_rules() {
 		$rewrite = array();
@@ -868,6 +1481,16 @@ class WP_Rewrite {
 		return $this->rules;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function wp_rewrite_rules() {
 		$this->rules = get_option('rewrite_rules');
 		if ( empty($this->rules) ) {
@@ -879,6 +1502,16 @@ class WP_Rewrite {
 		return $this->rules;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function mod_rewrite_rules() {
 		if ( ! $this->using_permalinks()) {
 			return '';
@@ -946,7 +1579,18 @@ class WP_Rewrite {
 		return $rules;
 	}
 
-	//Add a straight rewrite rule
+	/**
+	 * Add a straight rewrite rule
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param unknown_type $regex
+	 * @param unknown_type $redirect
+	 * @param unknown_type $after
+	 */
 	function add_rule($regex, $redirect, $after = 'bottom') {
 		//get everything up to the first ?
 		$index = (strpos($redirect, '?') == false ? strlen($redirect) : strpos($redirect, '?'));
@@ -962,12 +1606,34 @@ class WP_Rewrite {
 		}
 	}
 
-	//add a rule that doesn't redirect to index.php
+	/**
+	 * Add a rule that doesn't redirect to index.php
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param unknown_type $regex
+	 * @param unknown_type $redirect
+	 */
 	function add_external_rule($regex, $redirect) {
 		$this->non_wp_rules[$regex] = $redirect;
 	}
 
-	//add an endpoint, like /trackback/, to be inserted after certain URL types (specified in $places)
+	/**
+	 * Add an endpoint, like /trackback/
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * To be inserted after certain URL types (specified in $places)
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @param unknown_type $name
+	 * @param unknown_type $places
+	 */
 	function add_endpoint($name, $places) {
 		global $wp;
 		$this->endpoints[] = array ( $places, $name );
@@ -980,6 +1646,14 @@ class WP_Rewrite {
 		$this->extra_permastructs[$name] = $struct;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 2.0.1
+	 * @access public
+	 */
 	function flush_rules() {
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
@@ -987,6 +1661,14 @@ class WP_Rewrite {
 			save_mod_rewrite_rules();
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 */
 	function init() {
 		$this->extra_rules = $this->non_wp_rules = $this->endpoints = array();
 		$this->permalink_structure = get_option('permalink_structure');
@@ -1019,6 +1701,16 @@ class WP_Rewrite {
 			$this->use_verbose_page_rules = false;
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param unknown_type $permalink_structure
+	 */
 	function set_permalink_structure($permalink_structure) {
 		if ($permalink_structure != $this->permalink_structure) {
 			update_option('permalink_structure', $permalink_structure);
@@ -1026,6 +1718,16 @@ class WP_Rewrite {
 		}
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @param unknown_type $category_base
+	 */
 	function set_category_base($category_base) {
 		if ($category_base != $this->category_base) {
 			update_option('category_base', $category_base);
@@ -1033,6 +1735,16 @@ class WP_Rewrite {
 		}
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 2.3.0
+	 * @access public
+	 *
+	 * @param unknown_type $tag_base
+	 */
 	function set_tag_base( $tag_base ) {
 		if ( $tag_base != $this->tag_base ) {
 			update_option( 'tag_base', $tag_base );
@@ -1040,6 +1752,16 @@ class WP_Rewrite {
 		}
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
+	 * @return WP_Rewrite
+	 */
 	function WP_Rewrite() {
 		$this->init();
 	}
