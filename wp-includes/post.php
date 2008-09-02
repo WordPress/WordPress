@@ -27,6 +27,12 @@
  */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+	// If the file is relative, prepend upload dir
+	if ( 0 !== strpos($file, '/') ) {
+		$uploads = wp_upload_dir();
+		$file = $uploads['basedir'] . "/$file";
+	}
+	 	
 	if ( $unfiltered )
 		return $file;
 	return apply_filters( 'get_attached_file', $file, $attachment_id );
@@ -50,6 +56,14 @@ function update_attached_file( $attachment_id, $file ) {
 		return false;
 
 	$file = apply_filters( 'update_attached_file', $file, $attachment_id );
+
+	// Make the file path relative to the upload dir
+	if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { // Get upload directory
+		if ( 0 === strpos($file, $uploads['basedir']) ) {// Check that the upload base exists in the file path
+				$file = str_replace($uploads['basedir'], '', $file); // Remove upload dir from the file path
+				$file = ltrim($file, '/');
+		}
+	}
 
 	return update_post_meta( $attachment_id, '_wp_attached_file', $file );
 }
@@ -2450,9 +2464,18 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
-	$url = get_the_guid( $post->ID );
+	$url = '';
+	if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true) ) { //Get attached file
+		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { //Get upload directory
+			if ( 0 === strpos($file, $uploads['basedir']) ) //Check that the upload base exists in the file location
+				$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file); //replace file location with url location
+		}
+	}
 
-	if ( 'attachment' != $post->post_type || !$url )
+	if ( empty($url) ) //If any of the above options failed, Fallback on the GUID as used pre-2.7, not recomended to rely upon this.
+		$url = get_the_guid( $post->ID );
+
+	if ( 'attachment' != $post->post_type || empty($url) )
 		return false;
 
 	return apply_filters( 'wp_get_attachment_url', $url, $post->ID );
