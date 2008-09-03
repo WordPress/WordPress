@@ -23,7 +23,7 @@
 | - Technology Consulting                                                   |
 | - Oursourcing (highly qualified programmers and graphic designers)        |
 '---------------------------------------------------------------------------'
-
+ */
 /**
  * PHPMailer - PHP email transport class
  * @package PHPMailer
