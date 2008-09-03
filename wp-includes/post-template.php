@@ -90,11 +90,9 @@ function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = 
 
 	$output = '';
 
-	if ( !empty($post->post_password) ) { // if there's a password
-		if ( !isset($_COOKIE['wp-postpass_'.COOKIEHASH]) || stripslashes($_COOKIE['wp-postpass_'.COOKIEHASH]) != $post->post_password ) {	// and it doesn't match the cookie
-			$output = get_the_password_form();
-			return $output;
-		}
+	if ( post_password_required($post) ) {	// If post password required and it doesn't match the cookie
+		$output = get_the_password_form();
+		return $output;
 	}
 
 	if ( $more_file != '' )
@@ -145,11 +143,9 @@ function get_the_excerpt($deprecated = '') {
 	global $post;
 	$output = '';
 	$output = $post->post_excerpt;
-	if ( !empty($post->post_password) ) { // if there's a password
-		if ( !isset($_COOKIE['wp-postpass_'.COOKIEHASH]) || $_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password ) {  // and it doesn't match the cookie
-			$output = __('There is no excerpt because this is a protected post.');
-			return $output;
-		}
+	if ( post_password_required($post) ) {
+		$output = __('There is no excerpt because this is a protected post.');
+		return $output;
 	}
 
 	return apply_filters('get_the_excerpt', $output);
@@ -225,6 +221,33 @@ function get_post_class( $class = '', $post_id = null ) {
 	}
 
 	return apply_filters('post_class', $classes, $class, $post_id);
+}
+
+/**
+ * Determines if post requires a password and if the correct password has been provided
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.7
+ *
+ * @param int|object $post An optional post.  Global $post used if not provided.
+ * @return bool false if a password is not required or the correct password cookie is present, true otherwise
+ */
+function post_password_required( $post = null ) {
+	$post = get_post($post);
+
+	if ( empty($post->post_password) )
+		return false;
+
+	if ( !isset($_COOKIE['wp-postpass_' . COOKIEHASH]) )
+		return true;
+
+	if ( $_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password )
+		return true;
+
+	return false;
 }
 
 /**

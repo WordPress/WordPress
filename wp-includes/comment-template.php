@@ -802,11 +802,9 @@ function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more =
 		return;
 	}
 
-	if ( !empty($post->post_password) ) { // if there's a password
-		if ( !isset($_COOKIE['wp-postpass_' . COOKIEHASH]) || $_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password ) {  // and it doesn't match the cookie
-			echo __('Enter your password to view comments');
-			return;
-		}
+	if ( post_password_required() ) {
+		echo __('Enter your password to view comments');
+		return;
 	}
 
 	echo '<a href="';

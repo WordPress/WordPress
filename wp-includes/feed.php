@@ -394,8 +394,7 @@ function html_type_rss() {
  * @uses get_post_custom() To get the current post enclosure metadata.
  */
 function rss_enclosure() {
-	global $post;
-	if ( !empty($post->post_password) && (!isset($_COOKIE['wp-postpass_'.COOKIEHASH]) || $_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
+	if ( post_password_required() )
 		return;
 
 	foreach ( (array) get_post_custom() as $key => $val) {
@@ -426,8 +425,7 @@ function rss_enclosure() {
  * @uses get_post_custom() To get the current post enclosure metadata.
  */
 function atom_enclosure() {
-	global $post;
-	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
+	if ( post_password_required() )
 		return;
 
 	foreach ( (array) get_post_custom() as $key => $val ) {

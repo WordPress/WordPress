@@ -33,7 +33,7 @@ $commenter = wp_get_current_commenter();
 extract($commenter);
 $comments = get_approved_comments($id);
 $commentstatus = get_post($id);
-if (!empty($commentstatus->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH] != $commentstatus->post_password) {  // and it doesn't match the cookie
+if ( post_password_required($commentstatus) ) {  // and it doesn't match the cookie
 	echo(get_the_password_form());
 } else { ?>
 
