@@ -1056,7 +1056,30 @@ table.form-table td .updated {
 	position: relative;
 	min-width: 195px;
 }
-
+#normal-sortables .postbox .submitbox {
+	clear: both;
+	position: relative;
+}
+#normal-sortables .postbox p {
+	display: inline;
+}
+#normal-sortables .postbox .curtime {
+	display: block;
+}
+#normal-sortables .postbox p strong {
+	display: inline;
+}
+#normal-sortables .postbox #private-checkbox, #normal-sortables .postbox #sticky-checkbox {
+	padding-left: 30px;
+}
+#normal-sortables .postbox .submit {
+	position: absolute;
+	top: -1em;
+	right: 0;
+	background: none;
+	border: 0;
+	padding: 0;
+}
 
 #mediadiv img {
 	float: left;
@@ -1233,6 +1256,7 @@ table.form-table td .updated {
 #titlediv {
 	margin-bottom: 20px;
 }
+#titlediv label { cursor: text; }
 
 #titlediv div.inside {
 	margin: 0;

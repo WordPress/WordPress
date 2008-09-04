@@ -247,9 +247,20 @@ ul.view-switch li.current a {
 	border-bottom-color: #999;
 }
 
+#normal-sortables .submitbox .submitdelete {
+	color: #000;
+	border-bottom-color: #999;
+}
+
 .submitbox .submitdelete:hover,
 #media-upload a.delete:hover {
 	color: #fff;
+	background-color: #f00;
+	border-bottom-color: #f00;
+}
+
+#normal-sortables .submitbox .submitdelete:hover {
+	color: #000;
 	background-color: #f00;
 	border-bottom-color: #f00;
 }
