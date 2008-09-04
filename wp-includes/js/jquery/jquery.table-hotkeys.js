@@ -64,34 +64,24 @@
 				clickable.click();
 			}
 		};
-		var make_key_expr = function(elem) {
-			if (typeof elem.key == 'string') {
-				key = elem.key;
-				if (typeof elem.expr == 'string')
-					expr = elem.expr;
-				else if (typeof elem.suffix == 'string')
-					expr = '.'+opts.class_prefix+elem.suffix;
-				else
-					expr = '.'+opts.class_prefix+elem.key;
-			} else {
-				key = elem;
-				expr = '.'+opts.class_prefix+elem;
-			}
-			return {key: key, expr: expr};
-		};
 		var first_row = get_first_row();
-		if (!first_row.length) return;
-		if (opts.highlight_first) {
+		if (!first_row.length) return;		
+		if (opts.highlight_first)
 			set_current_row(first_row);
-		} else if (opts.highlight_last) {
+		else if (opts.highlight_last)
 			set_current_row(get_last_row());
-		};
 		jQuery.hotkeys.add(opts.prev_key, opts.hotkeys_opts, function() {return adjacent_row_callback('prev')});
 		jQuery.hotkeys.add(opts.next_key, opts.hotkeys_opts, function() {return adjacent_row_callback('next')});
 		jQuery.hotkeys.add(opts.mark_key, opts.hotkeys_opts, check);
 		jQuery.each(keys, function() {
-			var key_expr = make_key_expr(this);
-			jQuery.hotkeys.add(key_expr.key, opts.hotkeys_opts, make_key_callback(key_expr.expr));
+			if ($.isFunction(this[1])) {
+				var callback = this[1];
+				var key = this[0];
+				jQuery.hotkeys.add(key, opts.hotkeys_opts, function(event) { return callback(event, $.table_hotkeys.current_row); });
+			} else {
+				var key = this;
+				jQuery.hotkeys.add(key, opts.hotkeys_opts, make_key_callback('.'+opts.class_prefix+key));
+			}
 		});
 		
 	};
@@ -99,5 +89,5 @@
 	$.table_hotkeys.defaults = {cycle_expr: 'tr', class_prefix: 'vim-', selected_suffix: 'current',
 		destructive_suffix: 'destructive', hotkeys_opts: {disableInInput: true, type: 'keypress'},
 		checkbox_expr: ':checkbox', next_key: 'j', prev_key: 'k', mark_key: 'x',
-		start_row_index: 1, highlight_first: false, highlight_last: false, next_page_link_cb: function() {}, prev_page_link_cb: function() {}};
+		start_row_index: 1, highlight_first: false, highlight_last: false, next_page_link_cb: false, prev_page_link_cb: false};
 })(jQuery);
