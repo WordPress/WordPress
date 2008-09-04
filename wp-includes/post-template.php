@@ -1,21 +1,53 @@
 <?php
+/**
+ * WordPress Post Template Functions
+ *
+ * Gets content for the current post in the loop.
+ *
+ * @package WordPress
+ * @subpackage Template
+ */
 
-//
-// "The Loop" post functions
-//
-
+/**
+ * the_ID() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ * @uses $id
+ */
 function the_ID() {
 	global $id;
 	echo $id;
 }
 
-
+/**
+ * get_the_ID() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ * @uses $id
+ *
+ * @return unknown
+ */
 function get_the_ID() {
 	global $id;
 	return $id;
 }
 
-
+/**
+ * the_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $before
+ * @param unknown_type $after
+ * @param unknown_type $echo
+ * @return unknown
+ */
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
 
@@ -30,6 +62,16 @@ function the_title($before = '', $after = '', $echo = true) {
 		return $title;
 }
 
+/**
+ * the_title_attribute() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function the_title_attribute( $args = '' ) {
 	$title = get_the_title();
 
@@ -50,6 +92,16 @@ function the_title_attribute( $args = '' ) {
 		return $title;
 }
 
+/**
+ * get_the_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_the_title( $id = 0 ) {
 	$post = &get_post($id);
 
@@ -64,16 +116,46 @@ function get_the_title( $id = 0 ) {
 	return apply_filters( 'the_title', $title );
 }
 
+/**
+ * the_guid() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $id
+ */
 function the_guid( $id = 0 ) {
 	echo get_the_guid($id);
 }
 
+/**
+ * get_the_guid() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_the_guid( $id = 0 ) {
 	$post = &get_post($id);
 
 	return apply_filters('get_the_guid', $post->guid);
 }
 
+/**
+ * the_content() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $more_link_text
+ * @param unknown_type $stripteaser
+ * @param unknown_type $more_file
+ */
 function the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = apply_filters('the_content', $content);
@@ -81,7 +163,18 @@ function the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') 
 	echo $content;
 }
 
-
+/**
+ * get_the_content() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $more_link_text
+ * @param unknown_type $stripteaser
+ * @param unknown_type $more_file
+ * @return unknown
+ */
 function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') {
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
 
@@ -133,12 +226,28 @@ function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = 
 	return $output;
 }
 
-
+/**
+ * the_excerpt() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ * @uses apply_filters() - 
+ */
 function the_excerpt() {
 	echo apply_filters('the_excerpt', get_the_excerpt());
 }
 
-
+/**
+ * get_the_excerpt() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $deprecated
+ * @return unknown
+ */
 function get_the_excerpt($deprecated = '') {
 	global $post;
 	$output = '';
@@ -151,6 +260,16 @@ function get_the_excerpt($deprecated = '') {
 	return apply_filters('get_the_excerpt', $output);
 }
 
+/**
+ * has_excerpt() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function has_excerpt( $id = 0 ) {
 	$post = &get_post( $id );
 	return ( !empty( $post->post_excerpt ) );
@@ -268,6 +387,16 @@ function sticky_class( $post_id = null ) {
 	echo " sticky";
 }
 
+/**
+ * wp_link_pages() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.0
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function wp_link_pages($args = '') {
 	$defaults = array(
 		'before' => '<p>' . __('Pages:'), 'after' => '</p>',
@@ -348,7 +477,16 @@ function wp_link_pages($args = '') {
 // Post-meta: Custom per-post fields.
 //
 
-
+/**
+ * post_custom() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $key
+ * @return unknown
+ */
 function post_custom( $key = '' ) {
 	$custom = get_post_custom();
 
@@ -360,6 +498,14 @@ function post_custom( $key = '' ) {
 
 
 // this will probably change at some point...
+/**
+ * the_meta() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.0
+ * @uses apply_filters() 
+ */
 function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
@@ -380,6 +526,16 @@ function the_meta() {
 // Pages
 //
 
+/**
+ * wp_dropdown_pages() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function wp_dropdown_pages($args = '') {
 	$defaults = array(
 		'depth' => 0, 'child_of' => 0,
@@ -409,6 +565,16 @@ function wp_dropdown_pages($args = '') {
 	return $output;
 }
 
+/**
+ * wp_list_pages() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function wp_list_pages($args = '') {
 	$defaults = array(
 		'depth' => 0, 'show_date' => '',
@@ -459,12 +625,30 @@ function wp_list_pages($args = '') {
 // Page helpers
 //
 
+/**
+ * walk_page_tree() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @return unknown
+ */
 function walk_page_tree() {
 	$walker = new Walker_Page;
 	$args = func_get_args();
 	return call_user_func_array(array(&$walker, 'walk'), $args);
 }
 
+/**
+ * walk_page_dropdown_tree() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @return unknown
+ */
 function walk_page_dropdown_tree() {
 	$walker = new Walker_PageDropdown;
 	$args = func_get_args();
@@ -475,6 +659,17 @@ function walk_page_dropdown_tree() {
 // Attachments
 //
 
+/**
+ * the_attachment_link() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $id
+ * @param unknown_type $fullsize
+ * @param unknown_type $max_dims
+ */
 function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $permalink = false) {
 	if ( $fullsize )
 		echo wp_get_attachment_link($id, 'full', $permalink);
@@ -522,6 +717,17 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 
 
 // deprecated: use wp_get_attachment_image_src()
+/**
+ * get_attachment_icon_src() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $id
+ * @param unknown_type $fullsize
+ * @return unknown
+ */
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
@@ -554,6 +760,18 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 }
 
 // deprecated: use wp_get_attachment_image()
+/**
+ * get_attachment_icon() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $id
+ * @param unknown_type $fullsize
+ * @param unknown_type $max_dims
+ * @return unknown
+ */
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
@@ -598,6 +816,18 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 }
 
 // deprecated: use wp_get_attachment_image()
+/**
+ * get_attachment_innerHTML() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $id
+ * @param unknown_type $fullsize
+ * @param unknown_type $max_dims
+ * @return unknown
+ */
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	$id = (int) $id;
 	if ( !$post = & get_post($id) )
@@ -612,6 +842,16 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
 }
 
+/**
+ * prepend_attachment() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $content
+ * @return unknown
+ */
 function prepend_attachment($content) {
 	global $post;
 
@@ -631,6 +871,15 @@ function prepend_attachment($content) {
 // Misc
 //
 
+/**
+ * get_the_password_form() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @return unknown
+ */
 function get_the_password_form() {
 	global $post;
 	$label = 'pwbox-'.(empty($post->ID) ? rand() : $post->ID);
@@ -649,9 +898,11 @@ function get_the_password_form() {
  * You can optional provide a template name and then the check will be specific to
  * that template.
  *
- * @package Template Tags
- * @global object $wp_query
+ * @since 2.5.0
+ * @uses $wp_query
+ *
  * @param string $template The specific template name if specific matching is required
+ * @return bool False on failure, true if success
  */
 function is_page_template($template = '') {
 	if (!is_page()) {
