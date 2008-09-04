@@ -170,4 +170,71 @@ function show_message($message) {
 	echo "<p>$message</p>\n";
 }
 
+/* Whitelist functions */
+function register_setting($option_group, $option_name, $sanitize_callback = '') {
+	return add_option_update_handler($option_group, $option_name, $sanitize_callback);
+}
+
+function unregister_setting($option_group, $option_name, $sanitize_callback = '') {
+	return remove_option_update_handler($option_group, $option_name, $sanitize_callback);
+}
+
+function add_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
+	global $new_whitelist_options;
+	$new_whitelist_options[ $option_group ][] = $option_name;
+	if ( $sanitize_callback != '' )
+		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+}
+
+function remove_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
+	global $new_whitelist_options;
+	$pos = array_search( $option_name, $new_whitelist_options );
+	if ( $pos !== false )
+		unset( $new_whitelist_options[ $option_group ][ $pos ] );
+	if ( $sanitize_callback != '' )
+		remove_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+}
+
+function option_update_filter( $options ) {
+	global $new_whitelist_options;
+
+	if ( is_array( $new_whitelist_options ) )
+		$options = add_option_whitelist( $new_whitelist_options, $options );
+
+	return $options;
+}
+add_filter( 'whitelist_options', 'option_update_filter' );
+
+function add_option_whitelist( $new_options, $options = '' ) {
+	if( $options == '' ) {
+		global $whitelist_options;
+	} else {
+		$whitelist_options = $options;
+	}
+	foreach( $new_options as $page => $keys ) {
+		foreach( $keys as $key ) {
+			$pos = array_search( $key, $whitelist_options[ $page ] );
+			if( $pos === false )
+				$whitelist_options[ $page ][] = $key;
+		}
+	}
+	return $whitelist_options;
+}
+
+function remove_option_whitelist( $del_options, $options = '' ) {
+	if( $options == '' ) {
+		global $whitelist_options;
+	} else {
+		$whitelist_options = $options;
+	}
+	foreach( $del_options as $page => $keys ) {
+		foreach( $keys as $key ) {
+			$pos = array_search( $key, $whitelist_options[ $page ] );
+			if( $pos !== false )
+				unset( $whitelist_options[ $page ][ $pos ] );
+		}
+	}
+	return $whitelist_options;
+}
+
 ?>

@@ -18,8 +18,8 @@ include('admin-header.php');
 <div class="wrap">
 <h2><?php _e('Writing Settings') ?></h2>
 <form method="post" action="options.php">
-<?php wp_nonce_field('update-options') ?>
-
+<?php wp_nonce_field('writing-options') ?>
+<input type='hidden' name='option_page' value='writing' />
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="default_post_edit_rows"> <?php _e('Size of the post box') ?></label></th>
@@ -138,7 +138,6 @@ endforeach;
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category,enable_app,enable_xmlrpc" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>

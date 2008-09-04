@@ -18,7 +18,8 @@ include('admin-header.php');
 <div class="wrap">
 <h2><?php _e('Reading Settings') ?></h2>
 <form name="form1" method="post" action="options.php">
-<?php wp_nonce_field('update-options') ?>
+<?php wp_nonce_field('reading-options') ?>
+<input type='hidden' name='option_page' value='reading' />
 <table class="form-table">
 <?php if ( get_pages() ): ?>
 <tr valign="top">
@@ -74,7 +75,6 @@ include('admin-header.php');
 </table>
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="posts_per_page,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>

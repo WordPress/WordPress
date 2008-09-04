@@ -19,7 +19,8 @@ include('admin-header.php');
 <div class="wrap">
 <h2><?php _e('Miscellaneous Settings') ?></h2>
 <form method="post" action="options.php">
-<?php wp_nonce_field('update-options') ?>
+<input type='hidden' name='option_page' value='misc' />
+<?php wp_nonce_field('misc-options') ?>
 <h3><?php _e('Uploading'); ?></h3>
 <table class="form-table">
 <tr valign="top">
@@ -158,7 +159,6 @@ include('admin-header.php');
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path,upload_url_path,thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h,image_default_size,image_default_align,image_default_link_type,large_size_w,large_size_h" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
 </p>
 </form>
