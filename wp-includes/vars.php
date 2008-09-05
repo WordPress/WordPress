@@ -34,7 +34,7 @@ if ( is_admin() ) {
 }
 
 // Simple browser detection
-$is_lynx = $is_gecko = $is_winIE = $is_macIE = $is_opera = $is_NS4 = $is_safari = false;
+$is_lynx = $is_gecko = $is_winIE = $is_macIE = $is_opera = $is_NS4 = $is_safari = $is_chrome = false;
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lynx') !== false) {
 	$is_lynx = true;
