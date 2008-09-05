@@ -592,27 +592,20 @@ function get_post_meta($post_id, $key, $single = false) {
 
 	$meta_cache = wp_cache_get($post_id, 'post_meta');
 
-	if ( isset($meta_cache[$key]) ) {
-		if ( $single ) {
-			return maybe_unserialize( $meta_cache[$key][0] );
-		} else {
-			return maybe_unserialize( $meta_cache[$key] );
-		}
-	}
-
 	if ( !$meta_cache ) {
 		update_postmeta_cache($post_id);
 		$meta_cache = wp_cache_get($post_id, 'post_meta');
 	}
 
-	if ( $single ) {
-		if ( isset($meta_cache[$key][0]) )
-			return maybe_unserialize($meta_cache[$key][0]);
-		else
-			return '';
-	} else {
-		return maybe_unserialize($meta_cache[$key]);
+	if ( isset($meta_cache[$key]) ) {
+		if ( $single ) {
+			return maybe_unserialize( $meta_cache[$key][0] );
+		} else {
+			return array_map('maybe_unserialize', $meta_cache[$key]);
+		}
 	}
+
+	return '';
 }
 
 /**
