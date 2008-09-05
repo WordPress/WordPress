@@ -158,7 +158,7 @@ function wp_default_scripts( &$scripts ) {
 			'good' => __('Medium'),
 			'strong' => __('Strong')
 		) );
-		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-draggable', 'jquery-ui-resizable', 'quicktags'), '20080828' );
+		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-draggable', 'jquery-ui-resizable', 'quicktags'), '20080905' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'pending' => __('%i% pending'), // must look like: "# blah blah"
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),

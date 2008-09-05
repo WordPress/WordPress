@@ -84,10 +84,6 @@ $(document).ready(function(){
 	setCommentsList();
 });
 
-})(jQuery);
-
-(function($){
-
 commentReply = {
 
 	open : function(c, p) {
@@ -195,8 +191,10 @@ commentReply = {
 			$('#the-comment-list').append(r.data);
 		}
 
+		$('#comment-'+r.id+' .hide-if-no-js').removeClass('hide-if-no-js');
+
 		$('#comment-'+r.id)
-			.animate( { backgroundColor:"#CFEBF7" }, 600 )
+			.animate( { backgroundColor:"#CCEEBB" }, 600 )
 			.animate( { backgroundColor:"transparent" }, 600 );
 		
 		setCommentsList();
@@ -235,6 +233,7 @@ commentReply = {
 $(document).ready(function(){
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
+
 	if ( typeof $.table_hotkeys != 'undefined' ) {
 		var make_hotkeys_redirect = function(which) {
 			return function() {
