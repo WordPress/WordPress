@@ -79,7 +79,8 @@ if ( is_single() ) {
 	$post_status_label = _c('Posts|manage posts header');
 	if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) )
         $post_status_label = $post_stati[$_GET['post_status']][1];
-	//if ( $post_listing_pageable && !is_archive() && !is_search() ) //Unreachable code: $post_listing_pageable is undefined, Similar code in upload.php
+   	//TODO: Unreachable code: $post_listing_pageable is undefined, Similar code in upload.php
+	//if ( $post_listing_pageable && !is_archive() && !is_search() ) 
 	//	$h2_noun = is_paged() ? sprintf(__( 'Previous %s' ), $post_status_label) : sprintf(__('Latest %s'), $post_status_label);
 	//else
 		$h2_noun = $post_status_label;
