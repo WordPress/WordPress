@@ -448,7 +448,7 @@ function WP_Filesystem( $args = false ) {
 
 	require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
 
-	$method = get_filesystem_method();
+	$method = get_filesystem_method($args);
 
 	if ( ! $method )
 		return false;
@@ -471,13 +471,18 @@ function WP_Filesystem( $args = false ) {
 	return true;
 }
 
-function get_filesystem_method() {
+function get_filesystem_method($args = array()) {
 	$method = false;
 	if( function_exists('getmyuid') && function_exists('fileowner') ){
 		$temp_file = wp_tempnam();
 		if ( getmyuid() == fileowner($temp_file) )
 			$method = 'direct';
 		unlink($temp_file);
+	}
+
+	if ( isset($args['connection_type']) && 'ssh' == $args['connection_type'] ) {
+		$method = 'SSH2';
+		return apply_filters('filesystem_method', $method);
 	}
 
 	if ( ! $method && extension_loaded('ftp') ) $method = 'ftpext';
@@ -502,7 +507,12 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? $_POST['hostname'] : $credentials['hostname']);
 	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? $_POST['username'] : $credentials['username']);
 	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? $_POST['password'] : $credentials['password']);
-	$credentials['ssl']      = defined('FTP_SSL')  ? FTP_SSL  : ( isset($_POST['ssl'])      ? $_POST['ssl']      : $credentials['ssl']);
+	if ( defined('FTP_SSH') || 'ssh' == $_POST['connection_type'] )
+		$credentials['connection_type'] = 'ssh';
+	else if ( defined('FTP_SSL') || 'ftps' == $_POST['connection_type'] )
+		$credentials['connection_type'] = 'ftps';
+	else
+		$credentials['connection_type'] = 'ftp';
 
 	if ( ! $error && !empty($credentials['password']) && !empty($credentials['username']) && !empty($credentials['hostname']) ) {
 		$stored_credentials = $credentials;
@@ -516,8 +526,12 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$ssl = '';
 	if ( !empty($credentials) )
 		extract($credentials, EXTR_OVERWRITE);
-	if( $error )
-		echo '<div id="message" class="error"><p>' . __('<strong>Error:</strong> There was an error connecting to the server, Please verify the settings are correct.') . '</p></div>';
+	if ( $error ) {
+		$error_string = __('<strong>Error:</strong> There was an error connecting to the server, Please verify the settings are correct.');
+		if ( is_wp_error($error) )
+			$error_string = $error->get_error_message();
+		echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
+	}
 ?>
 <form action="<?php echo $form_post ?>" method="post">
 <div class="wrap">
@@ -525,28 +539,25 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 <p><?php _e('To perform the requested action, FTP connection information is required.') ?></p>
 <table class="form-table">
 <tr valign="top">
-<th scope="row"><label for="hostname"><?php _e('Hostname:') ?></label></th>
+<th scope="row"><label for="hostname"><?php _e('Hostname') ?></label></th>
 <td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname) ?>"<?php if( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="username"><?php _e('Username:') ?></label></th>
+<th scope="row"><label for="username"><?php _e('Username') ?></label></th>
 <td><input name="username" type="text" id="username" value="<?php echo attribute_escape($username) ?>"<?php if( defined('FTP_USER') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="password"><?php _e('Password:') ?></label></th>
+<th scope="row"><label for="password"><?php _e('Password') ?></label></th>
 <td><input name="password" type="password" id="password" value=""<?php if( defined('FTP_PASS') ) echo ' disabled="disabled"' ?> size="40" /><?php if( defined('FTP_PASS') && !empty($password) ) echo '<em>'.__('(Password not shown)').'</em>'; ?></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="ssl"><?php _e('Use SSL:') ?></label></th>
+<th scope="row"><?php _e('Connection Type') ?></th>
 <td>
-<select name="ssl" id="ssl"<?php if( defined('FTP_SSL') ) echo ' disabled="disabled"' ?>>
-<?php
-foreach ( array(0 => __('No'), 1 => __('Yes')) as $key => $value ) :
-	$selected = ($ssl == $value) ? 'selected="selected"' : '';
-	echo "\n\t<option value='$key' $selected>" . $value . '</option>';
-endforeach;
-?>
-</select>
+<fieldset><legend class="hidden"><?php _e('Connection Type') ?> </legend>
+<p><label><input name="connection_type"  type="radio" value="ftp" <?php checked('ftp', $connection_type); ?>	/> <?php _e('FTP') ?></label><br />
+<label><input name="connection_type" type="radio" value="ftps" <?php checked('ftps', $connection_type); ?> /> <?php _e('FTPS (SSL)') ?></label><br />
+<label><input name="connection_type" type="radio" value="ssh" <?php checked('ssh', $connection_type); ?> /> <?php _e('SSH') ?></label></p>
+</fieldset>
 </td>
 </tr>
 </table>

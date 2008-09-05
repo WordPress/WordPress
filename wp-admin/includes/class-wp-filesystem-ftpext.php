@@ -72,7 +72,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		else
 			$this->options['password'] = $opt['password'];
 
-		$this->options['ssl'] = ( !empty($opt['ssl']) );
+		$this->options['ssl'] = false;
+		if ( isset($opt['ssl']) )
+			$this->options['ssl'] = ( !empty($opt['ssl']) );
+		elseif ( isset( $opt['connection_type']) )
+			$this->options['ssl'] = ( 'ftps' == $opt['connection_type'] );
 	}
 
 	function connect() {

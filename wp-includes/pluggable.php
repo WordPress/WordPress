@@ -634,17 +634,6 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	do_action('set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme);
 	do_action('set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in');
 
-	global $is_safari;
-	// No HTTPOnly for Safari
-	if ( $is_safari ) {
-		setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure);
-		setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure);
-		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN);
-		if ( COOKIEPATH != SITECOOKIEPATH )
-			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN);
-		return;
-	}
-
 	// Set httponly if the php version is >= 5.2.0
 	if ( version_compare(phpversion(), '5.2.0', 'ge') ) {
 		setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
@@ -653,11 +642,14 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 		if ( COOKIEPATH != SITECOOKIEPATH )
 			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, false, true);
 	} else {
-		setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN . '; HttpOnly', $secure);
-		setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN . '; HttpOnly', $secure);
-		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN . '; HttpOnly');
+		$cookie_domain = COOKIE_DOMAIN;
+		if ( !empty($cookie_domain) )
+			$cookie_domain .= '; HttpOnly';
+		setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, $cookie_domain, $secure);
+		setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, $cookie_domain, $secure);
+		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, $cookie_domain);
 		if ( COOKIEPATH != SITECOOKIEPATH )
-			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN . '; HttpOnly');	
+			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, $cookie_domain);	
 	}
 }
 endif;

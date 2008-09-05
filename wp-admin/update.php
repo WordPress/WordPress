@@ -27,7 +27,10 @@ function do_plugin_upgrade($plugin) {
 		return;
 
 	if ( ! WP_Filesystem($credentials) ) {
-		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
+		$error = true;
+		if ( is_object($wp_filesystem) && $wp_filesystem->errors->get_error_code() )
+			$error = $wp_filesystem->errors;
+		request_filesystem_credentials($url, '', $error); //Failed to connect, Error and request again
 		return;
 	}
 
