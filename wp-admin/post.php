@@ -41,8 +41,12 @@ function redirect_post($post_ID = '') {
 				'_wp_original_http_referer' => urlencode( stripslashes( $_POST['_wp_original_http_referer'] ) ),
 				'message' => 1
 			), get_edit_post_link( $post_ID, 'url' ) );
-		else
-			$location = add_query_arg( 'message', 6, get_edit_post_link( $post_ID, 'url' ) );
+		else {
+			if ( isset( $_POST['publish'] ) )
+				$location = add_query_arg( 'message', 6, get_edit_post_link( $post_ID, 'url' ) );
+			else
+				$location = add_query_arg( 'message', 7, get_edit_post_link( $post_ID, 'url' ) );
+		}
 	} elseif (isset($_POST['addmeta']) && $_POST['addmeta']) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
 		$location = explode('#', $location);
