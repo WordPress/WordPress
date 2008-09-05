@@ -1,7 +1,20 @@
 <?php
+/**
+ * General template tags that can go anywhere in a template.
+ *
+ * @package WordPress
+ * @subpackage Template
+ */
 
-/* Note: these tags go anywhere in the template */
-
+/**
+ * Load template header or named header file.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @uses locate_template()
+ * @since 1.5.0
+ * @uses do_action() Calls 'get_header' action.
+ */
 function get_header( $name = null ) {
 	do_action( 'get_header' );
 
@@ -15,7 +28,14 @@ function get_header( $name = null ) {
 		load_template( get_theme_root() . '/default/header.php');
 }
 
-
+/**
+ * get_footer() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ * @uses do_action()
+ */
 function get_footer( $name = null ) {
 	do_action( 'get_footer' );
 
@@ -29,7 +49,14 @@ function get_footer( $name = null ) {
 		load_template( get_theme_root() . '/default/footer.php');
 }
 
-
+/**
+ * get_sidebar() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ * @uses do_action() 
+ */
 function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar' );
 
@@ -43,7 +70,14 @@ function get_sidebar( $name = null ) {
 		load_template( get_theme_root() . '/default/sidebar.php');
 }
 
-
+/**
+ * wp_loginout() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ * @uses apply_filters() 
+ */
 function wp_loginout() {
 	if ( ! is_user_logged_in() )
 		$link = '<a href="' . site_url('wp-login.php', 'login') . '">' . __('Log in') . '</a>';
@@ -53,7 +87,17 @@ function wp_loginout() {
 	echo apply_filters('loginout', $link);
 }
 
-
+/**
+ * wp_register() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ * @uses apply_filters() 
+ *
+ * @param unknown_type $before
+ * @param unknown_type $after
+ */
 function wp_register( $before = '<li>', $after = '</li>' ) {
 
 	if ( ! is_user_logged_in() ) {
@@ -68,21 +112,48 @@ function wp_register( $before = '<li>', $after = '</li>' ) {
 	echo apply_filters('register', $link);
 }
 
-
+/**
+ * Theme container function for the 'wp_meta' action.
+ *
+ * The 'wp_meta' action can have several purposes, depending on how you use it,
+ * but one purpose might have been to allow for theme switching.
+ *
+ * @since 1.5.0
+ * @link http://trac.wordpress.org/ticket/1458 Explaination of 'wp_meta' action.
+ * @uses do_action() Calls 'wp_meta' hook.
+ */
 function wp_meta() {
 	do_action('wp_meta');
 }
 
-
+/**
+ * bloginfo() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $show
+ */
 function bloginfo($show='') {
 	echo get_bloginfo($show, 'display');
 }
 
 /**
+ * get_bloginfo() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
  * Note: some of these values are DEPRECATED. Meaning they could be
  * taken out at any time and shouldn't be relied upon. Options
  * without "// DEPRECATED" are the preferred and recommended ways
  * to get the information.
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $show
+ * @param unknown_type $filter
+ * @return unknown
  */
 function get_bloginfo($show = '', $filter = 'raw') {
 
@@ -173,7 +244,17 @@ function get_bloginfo($show = '', $filter = 'raw') {
 	return $output;
 }
 
-
+/**
+ * wp_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $sep
+ * @param unknown_type $display
+ * @return unknown
+ */
 function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	global $wpdb, $wp_locale, $wp_query;
 
@@ -279,7 +360,18 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 
 }
 
-
+/**
+ * single_post_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ * @uses $wpdb
+ *
+ * @param unknown_type $prefix
+ * @param unknown_type $display
+ * @return unknown
+ */
 function single_post_title($prefix = '', $display = true) {
 	global $wpdb;
 	$p = get_query_var('p');
@@ -298,7 +390,17 @@ function single_post_title($prefix = '', $display = true) {
 	}
 }
 
-
+/**
+ * single_cat_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $prefix
+ * @param unknown_type $display
+ * @return unknown
+ */
 function single_cat_title($prefix = '', $display = true ) {
 	$cat = intval( get_query_var('cat') );
 	if ( !empty($cat) && !(strtoupper($cat) == 'ALL') ) {
@@ -314,7 +416,17 @@ function single_cat_title($prefix = '', $display = true ) {
 	}
 }
 
-
+/**
+ * single_tag_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @param unknown_type $prefix
+ * @param unknown_type $display
+ * @return unknown
+ */
 function single_tag_title($prefix = '', $display = true ) {
 	if ( !is_tag() )
 		return;
@@ -335,7 +447,17 @@ function single_tag_title($prefix = '', $display = true ) {
 	}
 }
 
-
+/**
+ * single_month_title() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $prefix
+ * @param unknown_type $display
+ * @return unknown
+ */
 function single_month_title($prefix = '', $display = true ) {
 	global $wp_locale;
 
@@ -361,8 +483,22 @@ function single_month_title($prefix = '', $display = true ) {
 	echo $result;
 }
 
-
-/* link navigation hack by Orien http://icecode.com/ */
+/**
+ * get_archives_link() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ * @author Orien
+ * @link http://icecode.com/ link navigation hack by Orien
+ *
+ * @param unknown_type $url
+ * @param unknown_type $text
+ * @param unknown_type $format
+ * @param unknown_type $before
+ * @param unknown_type $after
+ * @return unknown
+ */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
 	$text = wptexturize($text);
 	$title_text = attribute_escape($text);
@@ -382,7 +518,15 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	return $link_html;
 }
 
-
+/**
+ * wp_get_archives() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.0
+ *
+ * @param unknown_type $args
+ */
 function wp_get_archives($args = '') {
 	global $wpdb, $wp_locale;
 
@@ -548,14 +692,31 @@ function wp_get_archives($args = '') {
 	}
 }
 
-
-// Used in get_calendar
+/**
+ * calendar_week_mod() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ * @usedby get_calendar()
+ *
+ * @param unknown_type $num
+ * @return unknown
+ */
 function calendar_week_mod($num) {
 	$base = 7;
 	return ($num - $base*floor($num/$base));
 }
 
-
+/**
+ * get_calendar() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $initial
+ */
 function get_calendar($initial = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
@@ -748,6 +909,11 @@ function get_calendar($initial = true) {
 	wp_cache_set( 'get_calendar', $cache, 'calendar' );
 }
 
+/**
+ * delete_get_calendar_cache() - {@internal Missing Short Description}}
+ *
+ * @since 2.1.0
+ */
 function delete_get_calendar_cache() {
 	wp_cache_delete( 'get_calendar', 'calendar' );
 }
@@ -757,7 +923,16 @@ add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
 add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache' );
 add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
 
-
+/**
+ * allowed_tags() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.1
+ * @uses $allowedtags
+ *
+ * @return unknown
+ */
 function allowed_tags() {
 	global $allowedtags;
 	$allowed = '';
@@ -773,17 +948,35 @@ function allowed_tags() {
 	return htmlentities($allowed);
 }
 
-
 /***** Date/Time tags *****/
 
-
+/**
+ * the_date_xml() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ */
 function the_date_xml() {
 	global $post;
 	echo mysql2date('Y-m-d', $post->post_date);
 	//echo ""+$post->post_date;
 }
 
-
+/**
+ * the_date() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $d
+ * @param unknown_type $before
+ * @param unknown_type $after
+ * @param unknown_type $echo
+ * @return unknown
+ */
 function the_date($d='', $before='', $after='', $echo = true) {
 	global $post, $day, $previousday;
 	$the_date = '';
@@ -803,12 +996,29 @@ function the_date($d='', $before='', $after='', $echo = true) {
 		return $the_date;
 }
 
-
+/**
+ * the_modified_date() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $d
+ */
 function the_modified_date($d = '') {
 	echo apply_filters('the_modified_date', get_the_modified_date($d), $d);
 }
 
-
+/**
+ * get_the_modified_date() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $d
+ * @return unknown
+ */
 function get_the_modified_date($d = '') {
 	if ( '' == $d )
 		$the_time = get_post_modified_time(get_option('date_format'));
@@ -817,12 +1027,29 @@ function get_the_modified_date($d = '') {
 	return apply_filters('get_the_modified_date', $the_time, $d);
 }
 
-
+/**
+ * the_time() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $d
+ */
 function the_time( $d = '' ) {
 	echo apply_filters('the_time', get_the_time( $d ), $d);
 }
 
-
+/**
+ * get_the_time() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $d
+ * @return unknown
+ */
 function get_the_time( $d = '' ) {
 	if ( '' == $d )
 		$the_time = get_post_time(get_option('time_format'));
@@ -831,7 +1058,17 @@ function get_the_time( $d = '' ) {
 	return apply_filters('get_the_time', $the_time, $d);
 }
 
-
+/**
+ * get_post_time() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $d
+ * @param unknown_type $gmt
+ * @return unknown
+ */
 function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
 	global $post;
 	if ( $gmt )
@@ -843,12 +1080,29 @@ function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
 	return apply_filters('get_post_time', $time, $d, $gmt);
 }
 
-
+/**
+ * the_modified_time() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $d
+ */
 function the_modified_time($d = '') {
 	echo apply_filters('the_modified_time', get_the_modified_time($d), $d);
 }
 
-
+/**
+ * get_the_modified_time() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $d
+ * @return unknown
+ */
 function get_the_modified_time($d = '') {
 	if ( '' == $d )
 		$the_time = get_post_modified_time(get_option('time_format'));
@@ -857,7 +1111,17 @@ function get_the_modified_time($d = '') {
 	return apply_filters('get_the_modified_time', $the_time, $d);
 }
 
-
+/**
+ * get_post_modified_time() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $d
+ * @param unknown_type $gmt
+ * @return unknown
+ */
 function get_post_modified_time( $d = 'U', $gmt = false ) { // returns timestamp
 	global $post;
 
@@ -870,7 +1134,15 @@ function get_post_modified_time( $d = 'U', $gmt = false ) { // returns timestamp
 	return apply_filters('get_the_modified_time', $time, $d, $gmt);
 }
 
-
+/**
+ * the_weekday() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ * @uses $wp_locale
+ * @uses $post
+ */
 function the_weekday() {
 	global $wp_locale, $post;
 	$the_weekday = $wp_locale->get_weekday(mysql2date('w', $post->post_date));
@@ -878,7 +1150,16 @@ function the_weekday() {
 	echo $the_weekday;
 }
 
-
+/**
+ * the_weekday_date() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $before
+ * @param unknown_type $after
+ */
 function the_weekday_date($before='',$after='') {
 	global $wp_locale, $post, $day, $previousweekday;
 	$the_weekday_date = '';
@@ -892,29 +1173,77 @@ function the_weekday_date($before='',$after='') {
 	echo $the_weekday_date;
 }
 
+/**
+ * wp_head() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.0
+ * @uses do_action() 
+ */
 function wp_head() {
 	do_action('wp_head');
 }
 
+/**
+ * wp_footer() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.1
+ * @uses do_action() 
+ */
 function wp_footer() {
 	do_action('wp_footer');
 }
 
+/**
+ * rsd_link() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ */
 function rsd_link() {
 	echo '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="' . get_bloginfo('wpurl') . "/xmlrpc.php?rsd\" />\n";
 }
 
+/**
+ * wlwmanifest_link() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.1
+ *
+ */
 function wlwmanifest_link() {
 	echo '<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="'
 		. get_bloginfo('wpurl') . '/wp-includes/wlwmanifest.xml" /> ' . "\n";
 }
 
+/**
+ * noindex() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ */
 function noindex() {
 	// If the blog is not public, tell robots to go away.
 	if ( '0' == get_option('blog_public') )
 		echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
+/**
+ * rich_edit_exists() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @return unknown
+ */
 function rich_edit_exists() {
 	global $wp_rich_edit_exists;
 	if ( !isset($wp_rich_edit_exists) )
@@ -922,6 +1251,15 @@ function rich_edit_exists() {
 	return $wp_rich_edit_exists;
 }
 
+/**
+ * user_can_richedit() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @return unknown
+ */
 function user_can_richedit() {
 	global $wp_rich_edit, $pagenow;
 
@@ -939,6 +1277,15 @@ function user_can_richedit() {
 	return apply_filters('user_can_richedit', $wp_rich_edit);
 }
 
+/**
+ * wp_default_editor() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
+ *
+ * @return string Either 'tinymce', or 'html', or 'test'
+ */
 function wp_default_editor() {
 	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
 	if ( $user = wp_get_current_user() ) { // look for cookie
@@ -948,6 +1295,17 @@ function wp_default_editor() {
 	return apply_filters( 'wp_default_editor', $r ); // filter
 }
 
+/**
+ * the_editor() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $content
+ * @param unknown_type $id
+ * @param unknown_type $prev_id
+ */
 function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2) {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
@@ -1014,14 +1372,40 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 	<?php
 }
 
+/**
+ * get_search_query() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @return unknown
+ */
 function get_search_query() {
 	return apply_filters( 'get_search_query', stripslashes( get_query_var( 's' ) ) );
 }
 
+/**
+ * the_search_query() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ */
 function the_search_query() {
 	echo attribute_escape( apply_filters( 'the_search_query', get_search_query() ) );
 }
 
+/**
+ * language_attributes() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $doctype
+ */
 function language_attributes($doctype = 'html') {
 	$attributes = array();
 	$output = '';
@@ -1042,6 +1426,16 @@ function language_attributes($doctype = 'html') {
 	echo $output;
 }
 
+/**
+ * paginate_links() - {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.1.0
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function paginate_links( $args = '' ) {
 	$defaults = array(
 		'base' => '%_%', // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
@@ -1136,6 +1530,9 @@ function wp_admin_css_color($key, $name, $url, $colors = array()) {
  *
  * @see WP_Styles::_css_href and its style_loader_src filter.
  *
+ * @since 2.3.0
+ *
+ *
  * @param string $file file relative to wp-admin/ without its ".css" extension.
  */
 
@@ -1193,7 +1590,13 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 }
 
 /**
- * Enqueues the default ThickBox js and css.
+ * wp_generator() - Outputs the XHTML generator that is generated on the wp_head hook.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
+ * @uses apply_filters() 
+ * Enqueues the default ThickBox js and css. 
  * If any of the settings need to be changed, this can be done with another js file
  * similar to media-upload.js and theme-preview.js. That file should require array('thickbox')
  * to ensure it is loaded after.
@@ -1206,24 +1609,35 @@ function add_thickbox() {
 /**
  * Outputs the XHTML generator that is generated on the wp_head hook.
  */
-function wp_generator()
-{
+function wp_generator() {
 	the_generator( apply_filters( 'wp_generator_type', 'xhtml' ) );
 }
 
 /**
- * Outputs the generator XML or Comment for RSS, ATOM, etc.
- * @param {String} $type The type of generator to return.
+ * the_generator() - Outputs the generator XML or Comment for RSS, ATOM, etc.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5
+ * @uses apply_filters() 
+ *
+ * @param string $type The type of generator to return.
  */
-function the_generator ( $type ) {
-	echo apply_filters('the_generator',get_the_generator($type),$type) . "\n";
+function the_generator( $type ) {
+	echo apply_filters('the_generator', get_the_generator($type), $type) . "\n";
 }
 
 /**
- * Creates the generator XML or Comment for RSS, ATOM, etc.
- * @param {String} $type The type of generator to return.
+ * get_the_generator() - Creates the generator XML or Comment for RSS, ATOM, etc.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5
+ * @uses apply_filters() 
+ *
+ * @param string $type The type of generator to return.
  */
-function get_the_generator ( $type ) {
+function get_the_generator( $type ) {
 	switch ($type) {
 		case 'html':
 			$gen = '<meta name="generator" content="WordPress ' . get_bloginfo( 'version' ) . '">' . "\n";
@@ -1249,4 +1663,5 @@ function get_the_generator ( $type ) {
 	}
 	return apply_filters( "get_the_generator_{$type}", $gen, $type );
 }
+
 ?>
