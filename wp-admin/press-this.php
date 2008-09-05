@@ -113,37 +113,10 @@ function press_it() {
 
 // For submitted posts.
 if ( 'post' == $_REQUEST['action'] ) {
-	check_admin_referer('press-this'); $post_ID = press_it(); ?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
-	<head>
-		<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-		<title><?php _e('Press This') ?></title>
-	<?php
-		add_thickbox();
-		wp_enqueue_style('press-this');
-		wp_enqueue_style('press-this-ie');
-		wp_enqueue_style( 'colors' );
-		wp_enqueue_script('post');
-
-		do_action('admin_print_styles');
-		do_action('admin_print_scripts');
-		do_action('admin_head');
-	?>
-	</head>
-	<body class="press-this">
-		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
-		<div id="footer">
-		<p><?php
-		do_action('in_admin_footer', '');
-		$upgrade = apply_filters( 'update_footer', '' );
-		echo __('Thank you for creating with <a href="http://wordpress.org/">WordPress</a>');
-		?></p>
-		</div>
-		<?php do_action('admin_footer', ''); ?>
-	</body>
-	</html>
-	<?php die;
+	check_admin_referer('press-this');
+	$post_ID = press_it(); 
+	wp_redirect('press-this.php?posted=' . $post_ID);
+	die;
 }
 
 // Ajax Requests
@@ -530,6 +503,14 @@ if($_REQUEST['ajax'] == 'photo') { ?>
 	<li id="video_button"><a href="#"><?php _e('Video') ?></a></li>
 </ul>
 
+<?php
+if ( isset($_GET['posted']) && intval($_GET['posted']) ) {
+	$post_ID = intval($_GET['posted']);
+?>
+<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
+<?php
+}
+?>
 <form action="press-this.php?action=post" method="post">
 	<?php wp_nonce_field('press-this') ?>
 	<input type="hidden" name="post_type" id="post_type" value="text"/>
