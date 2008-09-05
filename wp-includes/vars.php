@@ -38,6 +38,8 @@ $is_lynx = $is_gecko = $is_winIE = $is_macIE = $is_opera = $is_NS4 = $is_safari 
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lynx') !== false) {
 	$is_lynx = true;
+} elseif ( strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'chrome') !== false ) {
+	$is_chrome = true;
 } elseif ( strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false ) {
 	$is_safari = true;
 } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false) {

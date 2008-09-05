@@ -100,14 +100,7 @@ if ( ! $is_opera ) {
 	<div id="gears-msg2" style="display:none;">
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
 	<p><?php _e('Gears is installed on this computer, but is not enabled for use with WordPress.'); ?></p>
-	<p><?php
-
-	if ( $is_safari )
-		_e('To enable it, ensure this web site is not on the denied list in Gears Settings under the Safari menu, then click the button below.');
-	else
-		_e('To enable it, ensure this web site is not on the denied list in Gears Settings under your browser&#8217;s Tools menu, then click the button below.');
-
-	?></p>
+	<p><?php _e('To enable it click the button below.'); ?></p>
 	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
 	<div class="submit"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button>
 	<button class="button" style="margin-left:10px;" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Cancel'); ?></button></div>
@@ -117,16 +110,36 @@ if ( ! $is_opera ) {
 	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
 	<p><?php
 
-	if ( $is_safari )
+	if ( $is_chrome )
+		_e('Gears is installed and enabled on this computer. You can disable it from your browser&#8217;s Options, Under the Hood menu.');
+	elseif ( $is_safari )
 		_e('Gears is installed and enabled on this computer. You can disable it from the Safari menu.');
 	else
 		_e('Gears is installed and enabled on this computer. You can disable it from your browser&#8217;s Tools menu.');
 
 	?></p>
 	<p><?php _e('If there are any errors try disabling Gears, reloading the page, and re-enabling Gears.'); ?></p>
-	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Please wait! Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
+	<p><?php _e('Local storage status:'); ?> <span id="gears-wait"><span style="color:#f00;"><?php _e('Updating files:'); ?></span> <span id="gears-upd-number"></span></span></p>
 	<div class="submit"><button class="button" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Close'); ?></button></div>
 	</div>
+
+	<div id="gears-msg4" style="display:none;">
+	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
+	<p><?php _e('This web site is denied to use Gears.'); ?></p>
+	<p><?php
+
+	if ( $is_chrome )
+	 	_e('To allow it, change the Gears settings from your browser&#8217;s Options, Under the Hood menu and reload this page.');
+	elseif ( $is_safari )
+	 	_e('To allow it, change the Gears settings from the Safari menu and reload this page.');
+	else
+		_e('To allow it, change the Gears settings from your browser&#8217;s Tools menu and reload this page.');
+
+	?></p>
+	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
+	<div class="submit"><button class="button" onclick="document.getElementById('gears-info-box').style.display='none';"><?php _e('Cancel'); ?></button></div>
+	</div>
+	
 	</div>
 <?php } ?>
 

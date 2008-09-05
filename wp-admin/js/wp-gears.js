@@ -10,17 +10,20 @@ wpGears = {
 		store = localServer.createManagedStore(this.storeName());
 		store.manifestUrl = "gears-manifest.php";
 		store.checkForUpdate();
-		this.message();
+		this.message(3);
 	},
 
 	getPermission : function() {
+		var perm = true;
+		
 		if ( 'undefined' != typeof google && google.gears ) {
 			if ( ! google.gears.factory.hasPermission )
-				google.gears.factory.getPermission( 'WordPress', 'images/logo.gif' );
+				perm = google.gears.factory.getPermission( 'WordPress', 'images/logo.gif' );
 
-			try {
-				this.createStore();
-			} catch(e) {} // silence if canceled
+			if ( perm )
+				try { this.createStore(); } catch(e) { this.message(); } // silence if canceled
+			else
+				this.message(4);
 		}
 	},
 
@@ -34,13 +37,16 @@ wpGears = {
 	},
 
 	message : function(show) {
-		var t = this, msg1 = t.I('gears-msg1'), msg2 = t.I('gears-msg2'), msg3 = t.I('gears-msg3'), num = t.I('gears-upd-number'), wait = t.I('gears-wait');
+		var t = this, msg1 = t.I('gears-msg1'), msg2 = t.I('gears-msg2'), msg3 = t.I('gears-msg3'), msg4 = t.I('gears-msg4'), num = t.I('gears-upd-number'), wait = t.I('gears-wait');
 
 		if ( ! msg1 ) return;
 
 		if ( 'undefined' != typeof google && google.gears ) {
-			if ( google.gears.factory.hasPermission ) {
-				msg1.style.display = msg2.style.display = 'none';
+			if ( show && show == 4 ) {
+				msg1.style.display = msg2.style.display = msg3.style.display = 'none';
+				msg4.style.display = 'block';
+			} else if ( google.gears.factory.hasPermission ) {
+				msg1.style.display = msg2.style.display = msg4.style.display = 'none';
 				msg3.style.display = 'block';
 
 				if ( 'undefined' == typeof store )
@@ -50,12 +56,13 @@ wpGears = {
 				store.onerror = function(){wait.innerHTML = (' ' + wpGearsL10n.error + ' ' + store.lastErrorMessage);};
 				store.onprogress = function(e){if(num) num.innerHTML = (' ' + e.filesComplete + ' / ' + e.filesTotal);};
 			} else {
-				msg1.style.display = msg3.style.display = 'none';
+				msg1.style.display = msg3.style.display = msg4.style.display = 'none';
 				msg2.style.display = 'block';
 			}
 		}
 
 		if ( show ) t.I('gears-info-box').style.display = 'block';
+		else t.I('gears-info-box').style.display = 'none';
 	},
 
 	I : function(id) {

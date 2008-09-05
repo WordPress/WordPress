@@ -208,7 +208,6 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/fullscreen/fullscreen.htm?ver=311b" },
 { "url" : "../wp-includes/js/tinymce/plugins/inlinepopups/template.htm?ver=311b" },
 { "url" : "../wp-includes/js/tinymce/plugins/wpeditimage/editimage.html?ver=311f" },
-{ "url" : "../wp-includes/js/tinymce/wp-mce-help.php?ver=311b" },
 
 { "url" : "../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css?ver=311b" },
 { "url" : "../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/content.css?ver=311b" },
@@ -276,6 +275,5 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/images/crystal/spreadsheet.png" },
 { "url" : "../wp-includes/images/rss.png" },
 { "url" : "../wp-includes/js/thickbox/loadingAnimation.gif" },
-{ "url" : "../wp-includes/js/thickbox/tb-close.png" },
-{ "url" : "../wp-includes/js/swfupload/swfupload_f9.swf" }
+{ "url" : "../wp-includes/js/thickbox/tb-close.png" }
 ]}
