@@ -715,7 +715,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 			$approved
 			ORDER BY comment_date_gmt DESC LIMIT $start, $num");
 	} else {
-		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $approved ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
+		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE $approved ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
 	}
 
 	update_comment_cache($comments);
