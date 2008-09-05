@@ -67,9 +67,9 @@ endif; ?>
 <form id="posts-filter" action="" method="get">
 	<h2><?php printf( current_user_can('manage_categories') ? __('Link Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
 
-<p id="post-search">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Categories' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+<p id="link-category-search" class="search-box">
+	<label class="hidden" for="link-category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
+	<input type="text" id="link-category-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 

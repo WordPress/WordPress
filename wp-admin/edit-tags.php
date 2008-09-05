@@ -135,9 +135,9 @@ endif; ?>
 <form id="posts-filter" action="" method="get">
 	<h2><?php printf( current_user_can('manage_categories') ? __('Tags (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addtag' ); ?></h2>
 
-<p id="post-search">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Tags' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+<p id="tag-search" class="search-box">
+	<label class="hidden" for="tag-search-input"><?php _e( 'Search Tags' ); ?>:</label>
+	<input type="text" id="tag-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" class="button" />
 </p>
 

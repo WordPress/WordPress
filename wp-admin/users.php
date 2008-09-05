@@ -300,9 +300,9 @@ unset($role_links);
 ?>
 </ul>
 
-	<p id="post-search">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Users' ); ?>:</label>
-	<input type="text" id="post-search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
+	<p id="user-search" class="search-box">
+	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
+	<input type="text" id="user-search-input" class="search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
 	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
 	</p>
 

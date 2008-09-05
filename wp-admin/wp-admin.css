@@ -1545,19 +1545,19 @@ p#big-add-button .button {
 	padding: 3px 30px;
 }
 
-p#post-search {
+p.search-box {
 	position: absolute;
 	right: 0;
 	top: -64px;
 	margin: 0;
 }
 
-#post-search .button, #widget-search .button {
+p.search-box .button, #widget-search .button {
 	padding: 3px;
 	font-size: 13px;
 }
 
-#post-search-input {
+.search-input {
 	margin-right: 2px;
 	border-width: 1px;
 	border-style: solid;

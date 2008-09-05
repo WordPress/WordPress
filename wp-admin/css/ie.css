@@ -117,7 +117,7 @@ table.ie-fixed {
 	table-layout: fixed;
 }
 
-#post-search .button, #widget-search .button {
+.search-box .button, #widget-search .button {
 	padding: 1px;
 }
 

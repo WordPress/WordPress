@@ -61,11 +61,6 @@ jQuery( function($) {
 
 	jQuery('#dashmenu li.wp-has-submenu').bind( 'mouseenter mouseleave', function() { return menuToggle( jQuery(this).children('ul'), 'toggle' ); } );
 
-	// Temp
-	if ( !$('#post-search, #widget-search').size() ) {
-		$('#wphead').append( '<p id="post-search-prep"><input id="post-search-input" type="text" /><input class="button" type="button" value="Search" /></p>' );
-	}
-
 } );
 
 //jQuery(function(){jQuery('#media-buttons a').tTips();});

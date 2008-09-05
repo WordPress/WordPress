@@ -306,7 +306,7 @@ div.ui-tabs-panel {
 	margin-left:0;
 	margin-right: 18px;
 }
-p#tag-search, p#post-search {
+p#tag-search, p.search-box {
 	right:auto;
 	left:0;
 }

@@ -123,10 +123,9 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET
 endif;
 ?>
 
-<p id="post-search">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Pages' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
-	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
+<p id="page-search" class="search-box">
+	<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?>:</label>
+	<input type="text" id="page-search-input" name="s" value="<?php the_search_query(); ?>" />
 </p>
 
 <div class="tablenav">

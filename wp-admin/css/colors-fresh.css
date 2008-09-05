@@ -73,8 +73,8 @@ strong .post-com-count span {
 }
 
 #post-body ul#category-tabs li.ui-tabs-selected, .button-secondary,
-#quicktags, #login form .submit input, #post-search .button,
-#post-search-prep .button, #ed_reply_toolbar {
+#quicktags, #login form .submit input, .search-box .button,
+#ed_reply_toolbar {
 	background-color: #cee1ef !important;
 }
 
@@ -139,7 +139,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-color: #c00 !important;
 }
 
-.form-table input, .form-table textarea, #post-search-input {
+.form-table input, .form-table textarea, .search-input {
 	border-color: #c6d9e9;
 }
 

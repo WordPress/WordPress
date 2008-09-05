@@ -73,8 +73,8 @@ strong .post-com-count span {
 }
 
 #post-body ul#category-tabs li.ui-tabs-selected, .button-secondary,
-#quicktags, #login form .submit input, #post-search .button,
-#post-search-prep .button, #ed_reply_toolbar {
+#quicktags, #login form .submit input, .search-box .button,
+#ed_reply_toolbar {
 	background-color: #8ebddc !important;
 }
 
