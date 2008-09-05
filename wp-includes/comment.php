@@ -217,7 +217,7 @@ function get_comments( $args = '' ) {
 	else
 		$post_where = '';
 
-	return $wpdb->get_results( "SELECT * FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $post_where $approved ORDER BY $orderby $order $number" );
+	return $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE $post_where $approved ORDER BY $orderby $order $number" );
 }
 
 /**
