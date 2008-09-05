@@ -30,7 +30,7 @@ $whitelist_options = array(
 	'writing' => array( 'default_post_edit_rows', 'use_smilies', 'ping_sites', 'mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass', 'default_category', 'default_email_category', 'use_balanceTags', 'default_link_category', 'enable_app', 'enable_xmlrpc' ),
 	'options' => array( '' ) );
 if ( !defined( 'WP_SITEURL' ) ) $whitelist_options['general'][] = 'siteurl';
-if ( defined( 'WP_HOME' ) ) $whitelist_options['general'][] = 'home'; 
+if ( !defined( 'WP_HOME' ) ) $whitelist_options['general'][] = 'home'; 
 
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
