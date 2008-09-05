@@ -258,7 +258,7 @@ if ( 1 == count($posts) && is_singular() ) :
 </table>
 
 <?php
-
+wp_comment_reply();
 endif; // comments
 endif; // posts;
 
@@ -267,6 +267,6 @@ endif; // posts;
 </div>
 
 <?php 
-wp_comment_reply();
+
 include('admin-footer.php');
 ?>
