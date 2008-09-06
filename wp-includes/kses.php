@@ -24,9 +24,8 @@
  */
 
 /**
- * You can override this in your my-hacks.php file
- * You can also override this in a plugin file. The
- * my-hacks.php is deprecated in its usage.
+ * You can override this in your my-hacks.php file You can also override this
+ * in a plugin file. The my-hacks.php is deprecated in its usage.
  *
  * @since 1.2.0
  */
@@ -35,9 +34,10 @@ if (!defined('CUSTOM_TAGS'))
 
 if (!CUSTOM_TAGS) {
 	/**
-	 * Kses global for default allowable HTML tags
+	 * Kses global for default allowable HTML tags.
 	 *
-	 * Can be override by using CUSTOM_TAGS constant
+	 * Can be override by using CUSTOM_TAGS constant.
+	 *
 	 * @global array $allowedposttags
 	 * @since 2.0.0
 	 */
@@ -281,8 +281,9 @@ if (!CUSTOM_TAGS) {
 			'style' => array (),
 			'type' => array ()),
 		'var' => array ());
+
 	/**
-	 * Kses allowed HTML elements
+	 * Kses allowed HTML elements.
 	 *
 	 * @global array $allowedtags
 	 * @since 1.0.0
@@ -323,17 +324,17 @@ if (!CUSTOM_TAGS) {
 }
 
 /**
- * wp_kses() - Filters content and keeps only allowable HTML elements.
+ * Filters content and keeps only allowable HTML elements.
  *
- * This function makes sure that only the allowed HTML element names,
- * attribute names and attribute values plus only sane HTML entities
- * will occur in $string. You have to remove any slashes from PHP's
- * magic quotes before you call this function.
+ * This function makes sure that only the allowed HTML element names, attribute
+ * names and attribute values plus only sane HTML entities will occur in
+ * $string. You have to remove any slashes from PHP's magic quotes before you
+ * call this function.
  *
- * The default allowed protocols are 'http', 'https', 'ftp', 'mailto',
- * 'news', 'irc', 'gopher', 'nntp', 'feed', and finally 'telnet. This
- * covers all common link protocols, except for 'javascript' which
- * should not be allowed for untrusted users.
+ * The default allowed protocols are 'http', 'https', 'ftp', 'mailto', 'news',
+ * 'irc', 'gopher', 'nntp', 'feed', and finally 'telnet. This covers all common
+ * link protocols, except for 'javascript' which should not be allowed for
+ * untrusted users.
  *
  * @since 1.0.0
  *
@@ -352,11 +353,10 @@ function wp_kses($string, $allowed_html, $allowed_protocols = array ('http', 'ht
 }
 
 /**
- * wp_kses_hook() - You add any kses hooks here.
+ * You add any kses hooks here.
  *
- * There is currently only one kses WordPress hook and it is
- * called here. All parameters are passed to the hooks and
- * expected to recieve a string.
+ * There is currently only one kses WordPress hook and it is called here. All
+ * parameters are passed to the hooks and expected to recieve a string.
  *
  * @since 1.0.0
  *
@@ -371,18 +371,18 @@ function wp_kses_hook($string, $allowed_html, $allowed_protocols) {
 }
 
 /**
- * wp_kses_version() - This function returns kses' version number.
+ * This function returns kses' version number.
  *
  * @since 1.0.0
  *
- * @return string Version Number
+ * @return string KSES Version Number
  */
 function wp_kses_version() {
 	return '0.2.2';
 }
 
 /**
- * wp_kses_split() - Searches for HTML tags, no matter how malformed
+ * Searches for HTML tags, no matter how malformed.
  *
  * It also matches stray ">" characters.
  *
@@ -399,16 +399,16 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols) {
 }
 
 /**
- * wp_kses_split2() - Callback for wp_kses_split for fixing malformed HTML tags
+ * Callback for wp_kses_split for fixing malformed HTML tags.
  *
- * This function does a lot of work. It rejects some very malformed things
- * like <:::>. It returns an empty string, if the element isn't allowed (look
- * ma, no strip_tags()!). Otherwise it splits the tag into an element and an
- * attribute list.
+ * This function does a lot of work. It rejects some very malformed things like
+ * <:::>. It returns an empty string, if the element isn't allowed (look ma, no
+ * strip_tags()!). Otherwise it splits the tag into an element and an attribute
+ * list.
  *
  * After the tag is split into an element and an attribute list, it is run
- * through another filter which will remove illegal attributes and once
- * that is completed, will be returned.
+ * through another filter which will remove illegal attributes and once that is
+ * completed, will be returned.
  *
  * @access private
  * @since 1.0.0
@@ -460,13 +460,13 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols) {
 }
 
 /**
- * wp_kses_attr() - Removes all attributes, if none are allowed for this element
+ * Removes all attributes, if none are allowed for this element.
  *
  * If some are allowed it calls wp_kses_hair() to split them further, and then
  * it builds up new HTML code from the data that kses_hair() returns. It also
- * removes "<" and ">" characters, if there are any left. One more thing it
- * does is to check if the tag has a closing XHTML slash, and if it does, it
- * puts one in the returned code as well.
+ * removes "<" and ">" characters, if there are any left. One more thing it does
+ * is to check if the tag has a closing XHTML slash, and if it does, it puts one
+ * in the returned code as well.
  *
  * @since 1.0.0
  *
@@ -531,7 +531,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 }
 
 /**
- * wp_kses_hair() - Builds an attribute list from string containing attributes.
+ * Builds an attribute list from string containing attributes.
  *
  * This function does a lot of work. It parses an attribute list into an array
  * with attribute data, and tries to do the right thing even if it gets weird
@@ -660,7 +660,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 }
 
 /**
- * wp_kses_check_attr_val() - Performs different checks for attribute values.
+ * Performs different checks for attribute values.
  *
  * The currently implemented checks are "maxlen", "minlen", "maxval", "minval"
  * and "valueless" with even more checks to come soon.
@@ -732,12 +732,12 @@ function wp_kses_check_attr_val($value, $vless, $checkname, $checkvalue) {
 }
 
 /**
- * wp_kses_bad_protocol() - Sanitize string from bad protocols
+ * Sanitize string from bad protocols.
  *
- * This function removes all non-allowed protocols from the beginning
- * of $string. It ignores whitespace and the case of the letters, and
- * it does understand HTML entities. It does its work in a while loop,
- * so it won't be fooled by a string like "javascript:javascript:alert(57)".
+ * This function removes all non-allowed protocols from the beginning of
+ * $string. It ignores whitespace and the case of the letters, and it does
+ * understand HTML entities. It does its work in a while loop, so it won't be
+ * fooled by a string like "javascript:javascript:alert(57)".
  *
  * @since 1.0.0
  *
@@ -759,7 +759,7 @@ function wp_kses_bad_protocol($string, $allowed_protocols) {
 }
 
 /**
- * wp_kses_no_null() - Removes any NULL characters in $string.
+ * Removes any NULL characters in $string.
  *
  * @since 1.0.0
  *
@@ -774,11 +774,11 @@ function wp_kses_no_null($string) {
 }
 
 /**
- * wp_kses_stripslashes() - Strips slashes from in front of quotes
+ * Strips slashes from in front of quotes.
  *
- * This function changes the character sequence  \"  to just  "
- * It leaves all other slashes alone. It's really weird, but the
- * quoting from preg_replace(//e) seems to require this.
+ * This function changes the character sequence  \"  to just  ". It leaves all
+ * other slashes alone. It's really weird, but the quoting from
+ * preg_replace(//e) seems to require this.
  *
  * @since 1.0.0
  *
@@ -790,7 +790,7 @@ function wp_kses_stripslashes($string) {
 }
 
 /**
- * wp_kses_array_lc() - Goes through an array and changes the keys to all lower case.
+ * Goes through an array and changes the keys to all lower case.
  *
  * @since 1.0.0
  *
@@ -814,7 +814,7 @@ function wp_kses_array_lc($inarray) {
 }
 
 /**
- * wp_kses_js_entities() - Removes the HTML JavaScript entities found in early versions of Netscape 4.
+ * Removes the HTML JavaScript entities found in early versions of Netscape 4.
  *
  * @since 1.0.0
  *
@@ -826,10 +826,10 @@ function wp_kses_js_entities($string) {
 }
 
 /**
- * wp_kses_html_error() - Handles parsing errors in wp_kses_hair()
+ * Handles parsing errors in wp_kses_hair().
  *
- * The general plan is to remove everything to and including some
- * whitespace, but it deals with quotes and apostrophes as well.
+ * The general plan is to remove everything to and including some whitespace,
+ * but it deals with quotes and apostrophes as well.
  *
  * @since 1.0.0
  *
@@ -841,10 +841,10 @@ function wp_kses_html_error($string) {
 }
 
 /**
- * wp_kses_bad_protocol_once() - Sanitizes content from bad protocols and other characters
+ * Sanitizes content from bad protocols and other characters.
  *
- * This function searches for URL protocols at the beginning of $string,
- * while handling whitespace and HTML entities.
+ * This function searches for URL protocols at the beginning of $string, while
+ * handling whitespace and HTML entities.
  *
  * @since 1.0.0
  *
@@ -866,7 +866,7 @@ function wp_kses_bad_protocol_once($string, $allowed_protocols) {
 }
 
 /**
- * wp_kses_bad_protocol_once2() - Callback for wp_kses_bad_protocol_once() regular expression.
+ * Callback for wp_kses_bad_protocol_once() regular expression.
  *
  * This function processes URL protocols, checks to see if they're in the
  * white-list or not, and returns different data depending on the answer.
@@ -910,11 +910,10 @@ function wp_kses_bad_protocol_once2($matches) {
 }
 
 /**
- * wp_kses_normalize_entities() - Converts and fixes HTML entities
+ * Converts and fixes HTML entities.
  *
- * This function normalizes HTML entities. It will convert "AT&T" to the
- * correct "AT&amp;T", "&#00058;" to "&#58;", "&#XYZZY;" to "&amp;#XYZZY;"
- * and so on.
+ * This function normalizes HTML entities. It will convert "AT&T" to the correct
+ * "AT&amp;T", "&#00058;" to "&#58;", "&#XYZZY;" to "&amp;#XYZZY;" and so on.
  *
  * @since 1.0.0
  *
@@ -936,10 +935,10 @@ function wp_kses_normalize_entities($string) {
 }
 
 /**
- * wp_kses_normalize_entities2() - Callback for wp_kses_normalize_entities() regular expression
+ * Callback for wp_kses_normalize_entities() regular expression.
  *
- * This function helps wp_kses_normalize_entities() to only accept 16 bit
- * values and nothing more for &#number; entities.
+ * This function helps wp_kses_normalize_entities() to only accept 16 bit values
+ * and nothing more for &#number; entities.
  *
  * @access private
  * @since 1.0.0
@@ -956,10 +955,10 @@ function wp_kses_normalize_entities2($matches) {
 }
 
 /**
- * wp_kses_normalize_entities3() - Callback for wp_kses_normalize_entities() for regular expression
+ * Callback for wp_kses_normalize_entities() for regular expression.
  *
- * This function helps wp_kses_normalize_entities() to only accept valid Unicode numeric entities
- * in hex form.
+ * This function helps wp_kses_normalize_entities() to only accept valid Unicode
+ * numeric entities in hex form.
  *
  * @access private
  *
@@ -975,7 +974,7 @@ function wp_kses_normalize_entities3($matches) {
 }
 
 /**
- * valid_unicode() - Helper function to determine if a Unicode value is valid.
+ * Helper function to determine if a Unicode value is valid.
  *
  * @param int $i Unicode value
  * @return bool true if the value was a valid Unicode number
@@ -988,11 +987,11 @@ function valid_unicode($i) {
 }
 
 /**
- * wp_kses_decode_entities() - Convert all entities to their character counterparts.
+ * Convert all entities to their character counterparts.
  *
- * This function decodes numeric HTML entities (&#65; and &#x41;). It
- * doesn't do anything with other entities like &auml;, but we don't need
- * them in the URL protocol whitelisting system anyway.
+ * This function decodes numeric HTML entities (&#65; and &#x41;). It doesn't do
+ * anything with other entities like &auml;, but we don't need them in the URL
+ * protocol whitelisting system anyway.
  *
  * @since 1.0.0
  *
@@ -1007,7 +1006,7 @@ function wp_kses_decode_entities($string) {
 }
 
 /**
- * wp_filter_kses() - Sanitize content with allowed HTML Kses rules
+ * Sanitize content with allowed HTML Kses rules.
  *
  * @since 1.0.0
  * @uses $allowedtags
@@ -1021,10 +1020,10 @@ function wp_filter_kses($data) {
 }
 
 /**
- * wp_filter_post_kses() - Sanitize content for allowed HTML tags for post content
+ * Sanitize content for allowed HTML tags for post content.
  *
- * Post content refers to the page contents of the 'post' type and not
- * $_POST data from forms.
+ * Post content refers to the page contents of the 'post' type and not $_POST
+ * data from forms.
  *
  * @since 2.0.0
  * @uses $allowedposttags
@@ -1038,7 +1037,7 @@ function wp_filter_post_kses($data) {
 }
 
 /**
- * wp_filter_nohtml_kses() - Strips all of the HTML in the content
+ * Strips all of the HTML in the content.
  *
  * @since 2.1.0
  *
@@ -1050,13 +1049,13 @@ function wp_filter_nohtml_kses($data) {
 }
 
 /**
- * kses_init_filters() - Adds all Kses input form content filters
+ * Adds all Kses input form content filters.
  *
- * All hooks have default priority. The wp_filter_kses() fucntion
- * is added to the 'pre_comment_content' and 'title_save_pre'
- * hooks. The wp_filter_post_kses() function is added to the
- * 'content_save_pre', 'excerpt_save_pre', and 'content_filtered_save_pre'
- * hooks.
+ * All hooks have default priority. The wp_filter_kses() function is added to
+ * the 'pre_comment_content' and 'title_save_pre' hooks.
+ *
+ * The wp_filter_post_kses() function is added to the 'content_save_pre',
+ * 'excerpt_save_pre', and 'content_filtered_save_pre' hooks.
  *
  * @since 2.0.0
  * @uses add_filter() See description for what functions are added to what hooks.
@@ -1073,15 +1072,14 @@ function kses_init_filters() {
 }
 
 /**
- * kses_remove_filters() - Removes all Kses input form content filters
+ * Removes all Kses input form content filters.
  *
- * A quick procedural method to removing all of the filters
- * that kses uses for content in WordPress Loop.
+ * A quick procedural method to removing all of the filters that kses uses for
+ * content in WordPress Loop.
  *
- * Does not remove the kses_init() function from 'init' hook
- * (priority is default). Also does not remove kses_init()
- * function from 'set_current_user' hook (priority is also
- * default).
+ * Does not remove the kses_init() function from 'init' hook (priority is
+ * default). Also does not remove kses_init() function from 'set_current_user'
+ * hook (priority is also default).
  *
  * @since 2.0.6
  */
@@ -1097,15 +1095,15 @@ function kses_remove_filters() {
 }
 
 /**
- * kses_init() - Sets up most of the Kses filters for input form content
+ * Sets up most of the Kses filters for input form content.
  *
  * If you remove the kses_init() function from 'init' hook and
- * 'set_current_user' (priority is default), then none of the
- * Kses filter hooks will be added.
+ * 'set_current_user' (priority is default), then none of the Kses filter hooks
+ * will be added.
  *
- * First removes all of the Kses filters in case the current user
- * does not need to have Kses filter the content. If the user does
- * not have unfiltered html capability, then Kses filters are added.
+ * First removes all of the Kses filters in case the current user does not need
+ * to have Kses filter the content. If the user does not have unfiltered html
+ * capability, then Kses filters are added.
  *
  * @uses kses_remove_filters() Removes the Kses filters
  * @uses kses_init_filters() Adds the Kses filters back if the user
