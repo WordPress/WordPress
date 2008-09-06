@@ -34,7 +34,10 @@ function redirect_post($post_ID = '') {
 	if ( !empty($_POST['mode']) && 'bookmarklet' == $_POST['mode'] ) {
 		$location = $_POST['referredby'];
 	} elseif ( !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
-		$location = 'sidebar.php?a=b';
+		if ( isset($_POST['saveasdraft']) )
+			$location = 'sidebar.php?a=c';
+		elseif ( isset($_POST['publish']) )
+			$location = 'sidebar.php?a=b';
 	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
 		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post-new.php') === false )
 			$location = add_query_arg( array(
