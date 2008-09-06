@@ -40,7 +40,7 @@ include('admin-header.php');
 <tr>
 <th scope="row" colspan="2" class="th-full">
 <label for="uploads_use_yearmonth_folders">
-<input name="uploads_use_yearmonth_folders" type="checkbox" id="uploads_use_yearmonth_folders" value="1" <?php checked('1', get_option('uploads_use_yearmonth_folders')); ?> />
+<input name="uploads_use_yearmonth_folders" type="checkbox" id="uploads_use_yearmonth_folders" value="1"<?php checked('1', get_option('uploads_use_yearmonth_folders')); ?> />
 <?php _e('Organize my uploads into month- and year-based folders'); ?>
 </label>
 </th>
@@ -87,7 +87,7 @@ include('admin-header.php');
 <?php
 	$size_names = array('' => 'Auto', 'thumbnail' => 'Thumbnail', 'medium' => 'Medium', 'large' => 'Large', 'full' => 'Full size');
 	foreach ($size_names as $size => $name) { ?>
-		<input type="radio" name="image_default_size" id="image_default_size_<?php echo $size; ?>" value="<?php echo $size; ?>"<?php echo (get_option('image_default_size') == $size ? ' checked="checked"' : ''); ?> />			
+		<input type="radio" name="image_default_size" id="image_default_size_<?php echo $size; ?>" value="<?php echo $size; ?>"<?php checked(get_option('image_default_size'), $size); ?> />			
 		<label for="image_default_size_<?php echo $size; ?>"><?php _e($name); ?></label>
 	<?php
 	}
@@ -107,7 +107,7 @@ include('admin-header.php');
 		$default_align = 'none';
 
 	foreach ($alignments as $align => $name) { ?>
-		<input type="radio" name="image_default_align" id="image_default_align_<?php echo $align; ?>" value="<?php echo $align; ?>"<?php echo ($default_align == $align ? ' checked="checked"' : ''); ?> />
+		<input type="radio" name="image_default_align" id="image_default_align_<?php echo $align; ?>" value="<?php echo $align; ?>"<?php checked($default_align, $align); ?> />
 		<label for="image_default_align_<?php echo $align; ?>"><?php _e($name); ?></label>
 	<?php
 	}
@@ -122,7 +122,7 @@ include('admin-header.php');
 <?php
 	$link_types = array('' => 'None', 'post' => 'Post URL', 'file' => 'File');
 	foreach ($link_types as $type => $name) { ?>
-		<input type="radio" name="image_default_link_type" id="image_default_link_type_<?php echo $type; ?>" value="<?php echo $type; ?>"<?php echo (get_option('image_default_link_type') == $type ? ' checked="checked"' : ''); ?> />			
+		<input type="radio" name="image_default_link_type" id="image_default_link_type_<?php echo $type; ?>" value="<?php echo $type; ?>"<?php checked(get_option('image_default_link_type'), $type); ?> />			
 		<label for="image_default_link_type_<?php echo $type; ?>"><?php _e($name); ?></label>
 	<?php
 	}
@@ -140,7 +140,7 @@ include('admin-header.php');
 <tr>
 <th scope="row" class="th-full">
 <label for="use_linksupdate">
-<input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1" <?php checked('1', get_option('use_linksupdate')); ?> />
+<input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1"<?php checked('1', get_option('use_linksupdate')); ?> />
 <?php _e('Track Links&#8217; Update Times') ?>
 </label>
 </th>
@@ -149,7 +149,7 @@ include('admin-header.php');
 
 <th scope="row" class="th-full">
 <label for="hack_file">
-<input type="checkbox" id="hack_file" name="hack_file" value="1" <?php checked('1', get_option('hack_file')); ?> />
+<input type="checkbox" id="hack_file" name="hack_file" value="1"<?php checked('1', get_option('hack_file')); ?> />
 <?php _e('Use legacy <code>my-hacks.php</code> file support') ?>
 </label>
 </th>
