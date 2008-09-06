@@ -87,7 +87,7 @@ if ( isset($_GET['deleted']) ) {
 <h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
 
 <p id="link-search" class="search-box">
-	<label class="hidden" for="link-search-input"><?php _e( 'Search Links' ); ?>:</label>
+	<label class="hidden" for="link-search-input"><?php _e( 'Search Links' ); ?></label>
 	<input type="text" id="link-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button" />
 </p>

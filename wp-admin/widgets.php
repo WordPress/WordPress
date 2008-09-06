@@ -244,7 +244,7 @@ if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 
 	<h2><?php _e( 'Widgets' ); ?></h2>
 	<p id="widget-search">
-		<label class="hidden" for="widget-search-input"><?php _e( 'Search Widgets' ); ?>:</label>
+		<label class="hidden" for="widget-search-input"><?php _e( 'Search Widgets' ); ?></label>
 		<input type="text" id="widget-search-input" name="s" value="<?php echo attribute_escape( $widget_search ); ?>" />
 		<input type="submit" class="button" value="<?php _e( 'Search Widgets' ); ?>" />
 	</p>

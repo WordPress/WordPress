@@ -140,7 +140,7 @@ endif;
 ?>
 
 <p id="media-search" class="search-box" >
-	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
+	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?></label>
 	<input type="text" id="media-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
 </p>

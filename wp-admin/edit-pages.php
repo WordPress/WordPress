@@ -124,7 +124,7 @@ endif;
 ?>
 
 <p id="page-search" class="search-box">
-	<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?>:</label>
+	<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?></label>
 	<input type="text" id="page-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
 </p>
