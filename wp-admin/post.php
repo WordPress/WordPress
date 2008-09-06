@@ -87,11 +87,12 @@ case 'post-quickpress-save-cont':
 	check_admin_referer('add-post');
 
 	if ( 'post-quickpress-publish' == $action )
-	
+		$_POST['publish'] = 'publish'; // tell write_post() to publish
+
+	if ( 'post-quickpress-publish' == $action || 'post-quickpress-save' == $action ) {
 		$_POST['comment_status'] = get_option('default_comment_status');
 		$_POST['ping_status'] = get_option('default_ping_status');
-		
-		$_POST['publish'] = 'publish'; // tell write_post() to publish
+	}
 
 	if ( !empty( $_POST['quickpress_post_ID'] ) ) {
 		$_POST['post_ID'] = (int) $_POST['quickpress_post_ID'];
