@@ -333,7 +333,7 @@ if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND 
 <?php
 
 do_action('submitpage_box');
-$side_meta_boxes = do_meta_boxes('page', 'side', $page);
+$side_meta_boxes = do_meta_boxes('page', 'side', $post);
 
 ?>
 </div>
