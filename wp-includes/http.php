@@ -1024,18 +1024,14 @@ function &_wp_http_get_object() {
  * The array structure is a little complex.
  *
  * <code>
- * $res = array( 'headers' =>
- *		'response' => array('code', 'message'),
- *		'headers' => array()
- * );
+ * $res = array( 'headers' => array(), 'response' => array('code', 'message') );
  * </code>
  *
- * All of the headers in $res['headers']['headers'] are with the name as the key
- * and the value as the value. So to get the User-Agent, you would do the
- * following.
+ * All of the headers in $res['headers'] are with the name as the key and the
+ * value as the value. So to get the User-Agent, you would do the following.
  *
  * <code>
- * $user_agent = $res['headers']['headers']['user-agent'];
+ * $user_agent = $res['headers']['user-agent'];
  * </code>
  *
  * The body is the raw response content and can be retrieved from $res['body'].
@@ -1043,7 +1039,7 @@ function &_wp_http_get_object() {
  * This function is called first to make the request and there are other API
  * functions to abstract out the above convoluted setup.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
