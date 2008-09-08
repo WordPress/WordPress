@@ -621,6 +621,41 @@ function wp_list_pages($args = '') {
 		return $output;
 }
 
+/**
+ * Create menu of pages
+ *
+ * @since 2.7.0
+ *
+ * @param array|string $args
+ */
+function wp_page_menu( $args = array() ) {
+	$defaults = array('title_li' => '', 'sort_column' => 'menu_order', 'menu_class' => 'menu', 'echo' => false);
+	$args = wp_parse_args( $args, $defaults );
+	$args = apply_filters( 'wp_page_menu_args', $args );
+
+	$menu = '';
+
+	// Show Home in the menu
+	if ( !empty($args['show_home']) ) {
+		if ( true === $args['show_home'] || '1' === $args['show_home'] || 1 === $args['show_home'] )
+			$text = __('Home');
+		else
+			$text = $args['show_home'];
+		$class = '';
+		if ( is_home() && !is_paged() )
+			$class = 'class="current_page_item"';
+		$menu = '<li ' . $class . '><a href="' . get_option('home') . '">' . $text . '</a></li>';
+	}
+
+	$menu .= str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($args) );
+
+	if ( $menu )
+		$menu = '<ul>' . $menu . '</ul>';
+
+	$menu = '<div id="' . $args['menu_class'] . '">' . $menu . "</div>\n";
+	echo apply_filters( 'wp_page_menu', $menu );
+}
+
 //
 // Page helpers
 //
