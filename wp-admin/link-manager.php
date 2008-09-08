@@ -73,7 +73,7 @@ switch ($order_by) {
 }
 
 if ( isset($_GET['deleted']) ) {
-	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
+	echo '<div id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];
 	printf(__ngettext('%s link deleted.', '%s links deleted', $deleted), $deleted);
 	echo '</p></div>';
@@ -185,7 +185,7 @@ if ( $links ) {
 			switch($column_name) {
 				case 'name':
 
-					echo "<td><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "' class='edit'>$link->link_name</a></strong><br />";
+					echo "<td><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
@@ -214,7 +214,7 @@ if ( $links ) {
 						$cat_names[] = $cat_name;
 					}
 					echo implode(', ', $cat_names);
-					?> </td><?php
+					?></td><?php
 					break;
 				case 'rel':
 					?><td><?php echo $link->link_rel; ?></td><?php
