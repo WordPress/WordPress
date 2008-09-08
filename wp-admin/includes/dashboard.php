@@ -382,6 +382,7 @@ function wp_dashboard_quick_press( $sidebar_args ) {
 
 function wp_dashboard_quick_press_js() {
 ?>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 var quickPressLoad = function($) {
@@ -429,33 +430,6 @@ function wp_dashboard_inbox( $sidebar_args ) {
 
 ?>
 
-	<style type="text/css">
-		#inbox-filter ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			position: relative;
-		}
-		#inbox-filter ul li {
-			position: relative;
-			padding-right: 20px;
-		}
-		#inbox-filter ul input.checkbox {
-			float: left;
-		}
-		#inbox-filter ul p {
-			float: left;
-			margin: 0;
-			margin-left: -40px;
-			width: 100%;
-			position: relative;
-			left: 50px;
-		}
-		#inbox-message {
-			margin:0 0 0 7.5em;
-			padding:5px;
-		}
-	</style>
 	<script type="text/javascript">
 		jQuery( function($) {
 			$('#inbox-filter').submit( function() { return false; } )

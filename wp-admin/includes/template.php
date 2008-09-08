@@ -115,7 +115,7 @@ function link_cat_row( $category ) {
 
 	$name = ( $name_override ? $name_override : $category->name );
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='link-category.php?action=edit&amp;cat_ID=$category->term_id' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "' class='edit'>$name</a>";
+		$edit = "<a class='row-title' href='link-category.php?action=edit&amp;cat_ID=$category->term_id' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a>";
 		$default_cat_id = (int) get_option( 'default_link_category' );
 	} else {
 		$edit = $name;
@@ -302,7 +302,7 @@ function _tag_row( $tag, $class = '' ) {
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
 		$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 		$out .= '<td><strong><a class="row-title" href="edit-tags.php?action=edit&amp;tag_ID=' . $tag->term_id . '" title="' . attribute_escape(sprintf(__('Edit "%s"'), $name)) . '">' .
-			$name . '</a></td>';
+			$name . '</a></strong></td>';
 
 		$out .= "<td class='num'>$count</td>";
 		$out .= '</tr>';

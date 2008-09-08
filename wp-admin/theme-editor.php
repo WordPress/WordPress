@@ -101,7 +101,7 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 <div class="wrap">
 <div class="bordertitle">
 	<h2><?php _e('Theme Editor'); ?></h2>
-	<form id="themeselector" name="theme" action="theme-editor.php" method="post">
+	<form id="themeselector" action="theme-editor.php" method="post">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
 		<select name="theme" id="theme">
 <?php

@@ -171,7 +171,7 @@ include ('admin-header.php');
 <div class="wrap" id="profile-page">
 <h2><?php $is_profile_page? _e('Your Profile and Personal Options') : _e('Edit User'); ?></h2>
 
-<form name="profile" id="your-profile" action="" method="post">
+<form id="your-profile" action="" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo clean_url($wp_http_referer); ?>" />

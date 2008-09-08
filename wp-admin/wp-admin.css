@@ -1859,6 +1859,36 @@ p#post-search-prep {
 	padding: 2px;
 }
 
+#inbox-filter ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+#inbox-filter ul li {
+	position: relative;
+}
+
+#inbox-filter ul input.checkbox {
+	float: left;
+}
+
+#inbox-filter ul p {
+	float: left;
+	margin: 0;
+	margin-left: -40px;
+	width: 100%;
+	position: relative;
+	left: 50px;
+}
+
+#inbox-message {
+	margin: 0 0 0 7.5em;
+	padding: 5px;
+}
+
+
 /* media popup 0819 */
 #sidemenu {
 	margin: -30px 15px 0 315px;

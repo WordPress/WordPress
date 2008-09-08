@@ -23,7 +23,7 @@ endif;
 <form id="inbox-filter" action="" method="get">
 <h2><?php _e('Inbox'); ?></h2>
 <ul class="subsubsub">
-<li><a href="#" class="current"><?php _e('Messages') ?></a></li> | <li><a href="#"><?php echo sprintf(__('Archived') . ' (%s)', '42'); ?></a></li>
+<li><a href="#" class="current"><?php _e('Messages') ?></a> | </li><li><a href="#"><?php echo sprintf(__('Archived') . ' (%s)', '42'); ?></a></li>
 </ul>
 <div class="tablenav">
 <div class="alignleft">
@@ -39,7 +39,7 @@ endif;
 <table class="widefat">
 	<thead>
 	<tr>
-	<th scope="col" class="check-column"><input type="checkbox"/></th>
+	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"><?php _e('Message'); ?></th>
 	<th scope="col"><?php _e('Date'); ?></th>
 	<th scope="col"><?php _e('From'); ?></th>
@@ -50,7 +50,7 @@ endif;
 <?php $crazy_posts = array( '', 'some post', 'a post', 'my cool post' ); foreach ( wp_get_inbox_items() as $k => $item ) : // crazyhorse ?>
 	
 	<tr id="message-<?php echo $k; ?>">
-		<th scope="col" class="check-column"><input type="checkbox" name="messages[]" value="<?php echo $k; ?>" /></td>
+		<th scope="col" class="check-column"><input type="checkbox" name="messages[]" value="<?php echo $k; ?>" /></th>
 		<td><?php
 			if ( $item->href )
 				echo "<a href='$item->href' class='no-crazy'>";
