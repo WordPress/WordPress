@@ -313,7 +313,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes[] = $post->post_type;
 
 	// sticky for Sticky Posts
-	if ( is_sticky($post->ID) )
+	if ( is_sticky($post->ID) && is_home())
 		$classes[] = 'sticky';
 
 	// hentry for hAtom compliace
