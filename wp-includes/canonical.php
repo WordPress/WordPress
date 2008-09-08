@@ -37,7 +37,7 @@
  *		not needed or the string of the URL
  */
 function redirect_canonical($requested_url=null, $do_redirect=true) {
-	global $wp_rewrite, $is_IIS;
+	global $wp_rewrite, $is_IIS, $wp_query, $wpdb;
 
 	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() || is_robots() )
 		return;
@@ -59,15 +59,28 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	$redirect = $original;
 	$redirect_url = false;
 
+	if ( is_singular() && 1 > $wp_query->post_count && ($id = get_query_var('p')) ) {
+
+		$vars = $wpdb->get_results( $wpdb->prepare("SELECT post_type, post_parent FROM $wpdb->posts WHERE ID = %d", $id) );
+
+		if ( isset($vars[0]) && $vars = $vars[0] ) {
+			if ( 'revision' == $vars->post_type && $vars->post_parent > 0 )
+				$id = $vars->post_parent;
+
+			if ( $redirect_url = get_permalink($id) )
+				$redirect['query'] = remove_query_arg(array('p', 'page_id', 'attachment_id'), $redirect['query']);
+		}
+	}
+
 	// These tests give us a WP-generated permalink
 	if ( is_404() ) {
 		$redirect_url = redirect_guess_404_permalink();
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
-		if ( is_single() && isset($_GET['p']) ) {
+		if ( is_single() && isset($_GET['p']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('p')) )
 				$redirect['query'] = remove_query_arg('p', $redirect['query']);
-		} elseif ( is_page() && isset($_GET['page_id']) ) {
+		} elseif ( is_page() && isset($_GET['page_id']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('page_id')) )
 				$redirect['query'] = remove_query_arg('page_id', $redirect['query']);
 		} elseif ( isset($_GET['m']) && ( is_year() || is_month() || is_day() ) ) {
@@ -253,6 +266,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
  */
 function redirect_guess_404_permalink() {
 	global $wpdb;
+
 	if ( !get_query_var('name') )
 		return false;
 
