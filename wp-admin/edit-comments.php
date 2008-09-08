@@ -14,6 +14,13 @@ wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script( 'admin-forms' );
 wp_enqueue_script( 'jquery-table-hotkeys' );
 
+if ( isset( $_POST['delete_all_spam'] ) ) {
+	check_admin_referer('bulk-spam-delete');
+	
+	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam'" );
+	wp_redirect('edit-comments.php?deleted=' . (int) $deleted_spam);
+}
+
 if ( !empty( $_REQUEST['delete_comments'] ) && isset($_REQUEST['action']) ) {
 	check_admin_referer('bulk-comments');
 
@@ -61,6 +68,7 @@ $comment_status = isset($_GET['comment_status']) ? attribute_escape($_GET['comme
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty );
 ?>
+
 <?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
@@ -109,7 +117,6 @@ foreach ( $stati as $status => $label ) {
 
 	if ( $status == $comment_status )
 		$class = ' class="current"';
-
 
 	$status_links[] = "<li class='$status'><a href=\"edit-comments.php?comment_status=$status\"$class>$label</a>";
 }
@@ -186,11 +193,16 @@ if ( $page_links )
 <?php endif; ?>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" name="doaction" value="Apply" class="button-secondary apply" />
+<input type="submit" name="doaction" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
 <?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
 <?php if ( isset($_GET['apage']) ) { ?>
 	<input type="hidden" name="apage" value="<?php echo absint( $_GET['apage'] ); ?>" />
+<?php }
+
+if ( 'spam' == $comment_status ) { 
+	wp_nonce_field('bulk-spam-delete'); ?>
+<input type="submit" name="delete_all_spam" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php } ?>
 </div>
 
