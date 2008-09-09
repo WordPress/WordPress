@@ -194,7 +194,6 @@ if ( $page_links )
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
 <input type="submit" name="doaction" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
-<?php do_action('manage_comments_nav', $comment_status); ?>
 <?php wp_nonce_field('bulk-comments'); ?>
 <?php if ( isset($_GET['apage']) ) { ?>
 	<input type="hidden" name="apage" value="<?php echo absint( $_GET['apage'] ); ?>" />
@@ -204,6 +203,7 @@ if ( 'spam' == $comment_status ) {
 	wp_nonce_field('bulk-spam-delete'); ?>
 <input type="submit" name="delete_all_spam" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php } ?>
+<?php do_action('manage_comments_nav', $comment_status); ?>
 </div>
 
 <br class="clear" />
