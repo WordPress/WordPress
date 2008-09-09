@@ -165,6 +165,7 @@ add_action('wp_head', 'wlwmanifest_link');
 add_action('wp_head', 'locale_stylesheet');
 add_action('publish_future_post', 'check_and_publish_future_post', 10, 1);
 add_action('wp_head', 'noindex', 1);
+add_action('wp_head', 'wp_print_styles', 9);
 add_action('wp_head', 'wp_print_scripts');
 add_action('wp_head', 'wp_generator');
 if(!defined('DOING_CRON'))
