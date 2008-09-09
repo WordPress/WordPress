@@ -191,7 +191,11 @@ $structures = array(
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
 		<td><input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" /></td>
 	</tr>
+	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>
+
+<?php do_settings_sections('permalink'); ?>
+
 <p class="submit"><input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" /></p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>

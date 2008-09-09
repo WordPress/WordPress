@@ -1507,7 +1507,6 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 	$wp_meta_boxes[$page][$context][$priority][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
 }
 
-// crazyhorse - this can be made simpler
 function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
@@ -1602,4 +1601,89 @@ function meta_box_prefs($page) {
 		}
 	}
 }
+
+/**
+ * Add a new section to a settings page
+ *
+ * @since 2.7
+ *
+ * @param string $id String for use in the 'id' attribute of tags.
+ * @param string $title Title of the section
+ * @param string $callback Function that fills the section with the desired content.  The function should echo its output.
+ * @param string $page The type of settings page on which to show the section (general, reading, writing, ...)
+ */
+function add_settings_section($id, $title, $callback, $page) {
+	global $wp_settings_sections;
+
+	if  ( !isset($wp_settings_sections) )
+		$wp_settings_sections = array();
+	if ( !isset($wp_settings_sections[$page]) )
+		$wp_settings_sections[$page] = array();
+	if ( !isset($wp_settings_sections[$page][$id]) )
+		$wp_settings_sections[$page][$id] = array();
+
+	$wp_settings_sections[$page][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
+}
+
+/**
+ * Add a new field to a settings page
+ *
+ * @since 2.7
+ *
+ * @param string $id String for use in the 'id' attribute of tags.
+ * @param string $title Title of the field
+ * @param string $callback Function that fills the field with the desired content.  The function should echo its output.
+ * @param string $page The type of settings page on which to show the field (general, reading, writing, ...)
+ * @param string $section The section of the settingss page in which to show the box (default, ...)
+ * @param array $args Additional arguments
+ */
+function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
+	global $wp_settings_fields;
+
+	if  ( !isset($wp_settings_fields) )
+		$wp_settings_fields = array();
+	if ( !isset($wp_settings_fields[$page]) )
+		$wp_settings_fields[$page] = array();
+	if ( !isset($wp_settings_fields[$page][$section]) )
+		$wp_settings_fields[$page][$section] = array();
+
+	$wp_settings_fields[$page][$section][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback, 'args' => $args);
+}
+
+function do_settings_sections($page) {
+	global $wp_settings_sections, $wp_settings_fields;
+
+	if ( !isset($wp_settings_sections) || !isset($wp_settings_sections[$page]) )
+		return;
+
+	foreach ( (array) $wp_settings_sections[$page] as $section ) {
+		echo "<h3>{$section['title']}</h3>\n";
+		call_user_func($section['callback'], $section);
+		if ( !isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section['id']]) )
+			continue;
+		echo '<table class="form-table">';
+		do_settings_fields($page, $section['id']);
+		echo '</table>';
+	}
+}
+
+function do_settings_fields($page, $section) {
+	global $wp_settings_fields;
+
+	if ( !isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section]) )
+		return;
+
+	foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
+		echo '<tr valign="top">';
+		if ( !empty($field['args']['label_for']) )
+			echo '<th scope="row"><label for="' . $field['args']['label_for'] . '">' . $field['title'] . '</label></th>';
+		else
+			echo '<th scope="row">' . $field['title'] . '</th>';
+		echo '<td>';
+		call_user_func($field['callback']);
+		echo '</td>';
+		echo '</tr>';
+	}	
+}
+
 ?>

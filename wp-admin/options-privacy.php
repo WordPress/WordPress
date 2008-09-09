@@ -31,7 +31,10 @@ include('./admin-header.php');
 <?php do_action('blog_privacy_selector'); ?>
 </fieldset></td>
 </tr>
+<?php do_settings_fields('privacy', 'default'); ?>
 </table>
+
+<?php do_settings_sections('privacy'); ?>
 
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 <input type="hidden" name="action" value="update" />

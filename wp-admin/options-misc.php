@@ -45,6 +45,7 @@ include('admin-header.php');
 </label>
 </th>
 </tr>
+<?php do_settings_fields('misc', 'default'); ?>
 </table>
 
 <h3><?php _e('Image sizes') ?></h3>
@@ -130,7 +131,7 @@ include('admin-header.php');
 ?>
 </fieldset></td>
 </tr>
-
+<?php do_settings_fields('misc', 'images'); ?>
 </table>
 
 
@@ -156,6 +157,8 @@ include('admin-header.php');
 </tr>
 
 </table>
+
+<?php do_settings_sections('misc'); ?>
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />

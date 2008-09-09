@@ -83,6 +83,7 @@ include('admin-header.php');
 </p>
 </fieldset></td>
 </tr>
+<?php do_settings_fields('discussion', 'default'); ?>
 </table>
 
 <h3><?php _e('Avatars') ?></h3>
@@ -154,9 +155,10 @@ echo apply_filters('default_avatar_select', $avatar_list);
 
 </fieldset></td>
 </tr>
-
+<?php do_settings_fields('discussion', 'avatars'); ?>
 </table>
 
+<?php do_settings_sections('discussion'); ?>
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />

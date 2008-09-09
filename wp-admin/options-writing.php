@@ -63,6 +63,7 @@ endforeach;
 ?>
 </select></td>
 </tr>
+<?php do_settings_fields('writing', 'default'); ?>
 </table>
 
 <h3><?php _e('Remote Publishing') ?></h3>
@@ -83,7 +84,9 @@ endforeach;
 <input name="enable_xmlrpc" type="checkbox" id="enable_xmlrpc" value="1" <?php checked('1', get_option('enable_xmlrpc')); ?> />
 <?php _e('Enable the WordPress, Movable Type, MetaWeblog and Blogger XML-RPC publishing protocols.') ?></label><br />
 </fieldset></td>
-</tr></table>
+</tr>
+<?php do_settings_fields('writing', 'remote_publishing'); ?>
+</table>
 
 <h3><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
@@ -120,6 +123,7 @@ endforeach;
 ?>
 </select></td>
 </tr>
+<?php do_settings_fields('writing', 'post_via_email'); ?>
 </table>
 
 <h3><?php _e('Update Services') ?></h3>
@@ -135,6 +139,8 @@ endforeach;
 	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog\'s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?></p>
 
 <?php endif; ?>
+
+<?php do_settings_sections('writing'); ?>
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
