@@ -386,25 +386,32 @@ function unzip_file($file, $to) {
 	if ( 0 == count($archive_files) )
 		return new WP_Error('empty_archive', __('Empty archive'));
 
-	$to = trailingslashit($to);
 	$path = explode('/', $to);
-	$tmppath = '';
-	for ( $j = 0; $j < count($path) - 1; $j++ ) {
-		$tmppath .= $path[$j] . '/';
-		if ( ! $fs->is_dir($tmppath) )
-			$fs->mkdir($tmppath, 0755);
+	for ( $i = count($path); $i > 0; $i-- ) { //>0 = first element is empty allways for paths starting with '/'
+		$tmppath = implode('/', array_slice($path, 0, $i) );
+		if ( $fs->is_dir($tmppath) ) { //Found the highest folder that exists, Create from here(ie +1)
+			for ( $i = $i + 1; $i <= count($path); $i++ ) {
+				$tmppath = implode('/', array_slice($path, 0, $i) );
+				if ( ! $fs->mkdir($tmppath, 0755) )
+					return new WP_Error('mkdir_failed', __('Could not create directory'), $tmppath);
+			}
+			break; //Exit main for loop
+		}
 	}
 
+	$to = trailingslashit($to);
 	foreach ($archive_files as $file) {
 		$path = explode('/', $file['filename']);
-		$tmppath = '';
-
-		// Loop through each of the items and check that the folder exists.
-		for ( $j = 0; $j < count($path) - 1; $j++ ) {
-			$tmppath .= $path[$j] . '/';
-			if ( ! $fs->is_dir($to . $tmppath) )
-				if ( !$fs->mkdir($to . $tmppath, 0755) )
-					return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $tmppath);
+		for ( $i = count($path) - 1; $i >= 0; $i-- ) { //>=0 as the first element contains data, count()-1, as we do not want the file component
+			$tmppath = $to . implode('/', array_slice($path, 0, $i) );
+			if ( $fs->is_dir($tmppath) ) {//Found the highest folder that exists, Create from here
+				for ( $i = $i + 1; $i < count($path); $i++ ) { //< count() no file component please.
+					$tmppath = $to . implode('/', array_slice($path, 0, $i) );
+					if ( ! $fs->mkdir($tmppath, 0755) )
+						return new WP_Error('mkdir_failed', __('Could not create directory'), $tmppath);
+				}
+				break; //Exit main for loop
+			}
 		}
 
 		// We've made sure the folders are there, so let's extract the file now:
@@ -414,7 +421,6 @@ function unzip_file($file, $to) {
 			$fs->chmod($to . $file['filename'], 0644);
 		}
 	}
-
 	return true;
 }
 
@@ -453,7 +459,7 @@ function WP_Filesystem( $args = false ) {
 	if ( ! $method )
 		return false;
 
-	$abstraction_file = apply_filters('filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-'.$method.'.php', $method);
+	$abstraction_file = apply_filters('filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method);
 	if( ! file_exists($abstraction_file) )
 		return;
 
@@ -480,11 +486,7 @@ function get_filesystem_method($args = array()) {
 		unlink($temp_file);
 	}
 
-	if ( isset($args['connection_type']) && 'ssh' == $args['connection_type'] ) {
-		$method = 'SSH2';
-		return apply_filters('filesystem_method', $method);
-	}
-
+	if ( ! $method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') ) $method = 'ssh2';
 	if ( ! $method && extension_loaded('ftp') ) $method = 'ftpext';
 	if ( ! $method && ( extension_loaded('sockets') || function_exists('fsockopen') ) ) $method = 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
 	return apply_filters('filesystem_method', $method);
@@ -507,9 +509,13 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? $_POST['hostname'] : $credentials['hostname']);
 	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? $_POST['username'] : $credentials['username']);
 	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? $_POST['password'] : $credentials['password']);
-	if ( defined('FTP_SSH') || 'ssh' == $_POST['connection_type'] )
+	
+	if ( strpos($credentials['hostname'], ':') )
+		list( $credentials['hostname'], $credentials['port'] ) = explode(':', $credentials['hostname'], 2);
+
+	if ( defined('FTP_SSH') || (isset($_POST['connection_type']) && 'ssh' == $_POST['connection_type']) )
 		$credentials['connection_type'] = 'ssh';
-	else if ( defined('FTP_SSL') || 'ftps' == $_POST['connection_type'] )
+	else if ( defined('FTP_SSL') || (isset($_POST['connection_type']) && 'ftps' == $_POST['connection_type']) )
 		$credentials['connection_type'] = 'ftps';
 	else
 		$credentials['connection_type'] = 'ftp';
@@ -523,7 +529,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$hostname = '';
 	$username = '';
 	$password = '';
-	$ssl = '';
+	$connection_type = '';
 	if ( !empty($credentials) )
 		extract($credentials, EXTR_OVERWRITE);
 	if ( $error ) {
@@ -540,7 +546,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="hostname"><?php _e('Hostname') ?></label></th>
-<td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname) ?>"<?php if( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
+<td><input name="hostname" type="text" id="hostname" value="<?php echo attribute_escape($hostname); if ( !empty($port) ) echo ":$port"; ?>"<?php if( defined('FTP_HOST') ) echo ' disabled="disabled"' ?> size="40" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="username"><?php _e('Username') ?></label></th>
@@ -556,7 +562,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 <fieldset><legend class="hidden"><?php _e('Connection Type') ?> </legend>
 <p><label><input name="connection_type"  type="radio" value="ftp" <?php checked('ftp', $connection_type); ?>	/> <?php _e('FTP') ?></label><br />
 <label><input name="connection_type" type="radio" value="ftps" <?php checked('ftps', $connection_type); ?> /> <?php _e('FTPS (SSL)') ?></label><br />
-<label><input name="connection_type" type="radio" value="ssh" <?php checked('ssh', $connection_type); ?> /> <?php _e('SSH') ?></label></p>
+<?php if ( extension_loaded('ssh2') ) { ?><label><input name="connection_type" type="radio" value="ssh" <?php checked('ssh', $connection_type); ?> /> <?php _e('SSH') ?></label><?php } ?></p>
 </fieldset>
 </td>
 </tr>

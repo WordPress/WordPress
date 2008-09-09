@@ -9,36 +9,54 @@
 /**
  * WordPress Filesystem Class for implementing SSH2.
  *
+ * To use this class you must follow these steps for PHP 5.2.6+
+ *
+ * @contrib http://kevin.vanzonneveld.net/techblog/article/make_ssh_connections_with_php/ - Installation Notes
+ *
+ * Complie libssh2 (Note: Only 0.14 is officaly working with PHP 5.2.6+ right now.)
+ *
+ * cd /usr/src
+ * wget http://surfnet.dl.sourceforge.net/sourceforge/libssh2/libssh2-0.14.tar.gz
+ * tar -zxvf libssh2-0.14.tar.gz
+ * cd libssh2-0.14/
+ * ./configure
+ * make all install
+ *
+ * Note: No not leave the directory yet!
+ *
+ * Enter: pecl install -f ssh2
+ *
+ * Copy the ssh.so file it creates to your PHP Module Directory.
+ * Open up your PHP.INI file and look for where extensions are placed.
+ * Add in your PHP.ini file: extension=ssh2.so
+ *
+ * Restart Apache!
+ * Check phpinfo() streams to confirm that: ssh2.shell, ssh2.exec, ssh2.tunnel, ssh2.scp, ssh2.sftp  exist.
+ *
+ *
  * @since 2.7
  * @package WordPress
  * @subpackage Filesystem
  * @uses WP_Filesystem_Base Extends class
  */
 class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
-	
-	var $debugtest = true;	//	this is my var that will output the text when debuggin this class
-	
-	var $link;
-	var $timeout = 5;
+
+	var $debugtest = false;	//	this is my var that will output the text when debuggin this class
+
+	var $link = null;
+	var $sftp_link = null;
+	/*
+	 * This is the timeout value for ssh results to comeback.
+	 * Slower servers might need this incressed, but this number otherwise should not change.
+	 *
+	 * @parm $timeout int
+	 *
+	 */
+	var $timeout = 15;
 	var $errors = array();
 	var $options = array();
 
-	var $permission = null;
-
-	var $filetypes = array(
-							'php'=>FTP_ASCII,
-							'css'=>FTP_ASCII,
-							'txt'=>FTP_ASCII,
-							'js'=>FTP_ASCII,
-							'html'=>FTP_ASCII,
-							'htm'=>FTP_ASCII,
-							'xml'=>FTP_ASCII,
-
-							'jpg'=>FTP_BINARY,
-							'png'=>FTP_BINARY,
-							'gif'=>FTP_BINARY,
-							'bmp'=>FTP_BINARY
-							);
+	var $permission = 0644;
 
 	function WP_Filesystem_SSH2($opt='') {
 		$this->method = 'ssh2';
@@ -71,10 +89,9 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->options['username'] = $opt['username'];
 
 		if ( empty ($opt['password']) )
-			$this->errors->add('empty_password', __('SSH password is required'));
+			$this->errors->add('empty_password', __('SSH2 password is required'));
 		else
 			$this->options['password'] = $opt['password'];
-
 	}
 
 	function connect() {
@@ -91,146 +108,153 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 		}
 
+		$this->sftp_link = ssh2_sftp($this->link);
+
 		return true;
 	}
-	
+
 	function run_command($link, $command, $returnbool = false) {
-		$this->debug("run_command(".$command.");");
-		if(!($stream = @ssh2_exec( $link, $command ))) {
-            $this->errors->add('command', sprintf(__('Unable to preform command: %s'), $command));
-        } else {
-            stream_set_blocking( $stream, true );
+		//$this->debug("run_command(".$command.",".$returnbool.");");
+		if(!($stream = @ssh2_exec( $link, $command . "; echo \"__COMMAND_FINISHED__\";"))) {
+			$this->errors->add('command', sprintf(__('Unable to perform command: %s'), $command));
+		} else {
+			stream_set_blocking( $stream, true );
 			$time_start = time();
-            $data = "";
+			$data = null;
 			while( true ) {
-			    if( (time()-$time_start) > $this->timeout ){
-			    	$this->errors->add('command', sprintf(__('Connection to the server has timeout after %s seconds.'), $this->timeout));
-			        break;
-			    }
-	            while( $buf = fread( $stream, strlen($stream) ) ){
-	                $data .= $buf;
-	            }
+				if (strpos($data,"__COMMAND_FINISHED__") !== false){
+					break;	//	the command has finshed!
+				}
+				if( (time()-$time_start) > $this->timeout ){
+					$this->errors->add('command', sprintf(__('Connection to the server has timeout after %s seconds.'), $this->timeout));
+					unset($this->link);
+					unset($this->sftp_link); //	close connections
+					return false;
+				}
+				while( $buf = fread( $stream, strlen($stream) ) )
+					$data .= $buf;
 			}
-            fclose($stream);
-            if (($returnbool) && ($data)) {
-            	$this->debug("Data: " . print_r($data, true) . " Returning: True");
-            	return true;
-            } elseif (($returnbool) && (!$data)) {
-            	$this->debug("Data: " . print_r($data, true) . " Returning: False");
-            	return false;
-            } else {
-            	$this->debug("Data: " . print_r($data, true));
-            	return $data;
-            }
-        }
+			fclose($stream);
+			$data = str_replace("__COMMAND_FINISHED__", "", $data);
+			//$this->debug("run_command(".$command."); --> \$data = " . $data);
+			if (($returnbool) && ( (int) $data )) {
+				$this->debug("Data. Returning: True");
+				return true;
+			} elseif (($returnbool) && (! (int) $data )) {
+				$this->debug("Data. Returning: False");
+				return false;
+			} else {
+				$this->debug("Data Only.");
+				return $data;
+			}
+		}
+		return false;
 	}
 
 	function debug($text)
 	{
 		if ($this->debugtest)
 		{
-			echo $text . "<br/>";
+			echo "<br/>" . $text . "<br/>";
 		}
 	}
 
 	function setDefaultPermissions($perm) {
-		$this->permission = $perm;
+		$this->debug("setDefaultPermissions();");
+		if ( $perm )
+			$this->permission = $perm;
 	}
 
-	function get_contents($file, $type = '', $resumepos = 0 ){
-		if( empty($type) ){
-			$extension = substr(strrchr($file, "."), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
-		}
-		$temp = tmpfile();
-		if ( ! $temp )
+	function get_contents($file, $type = '', $resumepos = 0 ) {
+		$tempfile = wp_tempnam( $file );
+		if ( ! $tempfile )
 			return false;
-		if( ! @ssh2_scp_recv($this->link, $temp, $file) )
+		if( ! ssh2_scp_recv($this->link, $file, $tempfile) )
 			return false;
-		fseek($temp, 0); //Skip back to the start of the file being written to
-		$contents = '';
-		while (!feof($temp)) {
-			$contents .= fread($temp, 8192);
-		}
-		fclose($temp);
+		$contents = file_get_contents($tempfile);
+		unlink($tempfile);
 		return $contents;
 	}
-	
+
 	function get_contents_array($file) {
+		$this->debug("get_contents_array();");
 		return explode("\n", $this->get_contents($file));
 	}
-	
+
 	function put_contents($file, $contents, $type = '' ) {
-		if( empty($type) ) {
-			$extension = substr(strrchr($file, "."), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
-		}
-		$temp = tmpfile();
+		$tempfile = wp_tempnam( $file );
+		$temp = fopen($tempfile, 'w');
 		if ( ! $temp )
 			return false;
 		fwrite($temp, $contents);
-		fseek($temp, 0); //Skip back to the start of the file being written to
-		$ret = @ssh2_scp_send($this->link, $file, $temp, $type);
 		fclose($temp);
+		$ret = ssh2_scp_send($this->link, $tempfile, $file, $this->permission);
+		unlink($tempfile);
 		return $ret;
 	}
-	
+
 	function cwd() {
-		$cwd = $this->run_command($this->link, "pwd");
+		$cwd = $this->run_command($this->link, 'pwd');
 		if( $cwd )
 			$cwd = trailingslashit($cwd);
 		return $cwd;
 	}
-	
+
 	function chdir($dir) {
-		if ($this->run_command($this->link, "cd " . $dir, true)) {
-			return true;
-		}
-		return false;
+		return $this->run_command($this->link, 'cd ' . $dir, true);
 	}
-	
+
 	function chgrp($file, $group, $recursive = false ) {
-		return false;
+		$this->debug("chgrp();");
+		if ( ! $this->exists($file) )
+			return false;
+		if ( ! $recursive || ! $this->is_dir($file) )
+			return $this->run_command($this->link, sprintf('chgrp %o %s', $mode, $file), true);
+		return $this->run_command($this->link, sprintf('chgrp -R %o %s', $mode, $file), true);
 	}
-	
+
 	function chmod($file, $mode = false, $recursive = false) {
+		$this->debug("chmod();");
 		if( ! $mode )
 			$mode = $this->permission;
 		if( ! $mode )
 			return false;
 		if ( ! $this->exists($file) )
 			return false;
-		if ( ! $recursive || ! $this->is_dir($file) ) {
-			return $this->run_command($this->link, sprintf('CHMOD %o %s', $mode, $file), true);
-		}
-		//Is a directory, and we want recursive
-		$filelist = $this->dirlist($file);
-		foreach($filelist as $filename){
-			$this->chmod($file . '/' . $filename, $mode, $recursive);
-		}
-		return true;
+		if ( ! $recursive || ! $this->is_dir($file) )
+			return $this->run_command($this->link, sprintf('chmod %o %s', $mode, $file), true);
+		return $this->run_command($this->link, sprintf('chmod -R %o %s', $mode, $file), true);
 	}
-	
+
 	function chown($file, $owner, $recursive = false ) {
-		return false;
+		$this->debug("chown();");
+		if ( ! $this->exists($file) )
+			return false;
+		if ( ! $recursive || ! $this->is_dir($file) )
+			return $this->run_command($this->link, sprintf('chown %o %s', $mode, $file), true);
+		return $this->run_command($this->link, sprintf('chown -R %o %s', $mode, $file), true);
 	}
-	
+
 	function owner($file) {
+		$this->debug("owner();");
 		$dir = $this->dirlist($file);
 		return $dir[$file]['owner'];
 	}
-	
+
 	function getchmod($file) {
+		$this->debug("getchmod();");
 		$dir = $this->dirlist($file);
 		return $dir[$file]['permsn'];
 	}
-	
+
 	function group($file) {
+		$this->debug("group();");
 		$dir = $this->dirlist($file);
 		return $dir[$file]['group'];
 	}
-	
+
 	function copy($source, $destination, $overwrite = false ) {
+		$this->debug("copy();");
 		if( ! $overwrite && $this->exists($destination) )
 			return false;
 		$content = $this->get_contents($source);
@@ -238,96 +262,90 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 		return $this->put_contents($destination, $content);
 	}
-	
+
 	function move($source, $destination, $overwrite = false) {
+		$this->debug("move();");
 		return @ssh2_sftp_rename($this->link, $source, $destination);
 	}
 
-	function delete($file, $recursive=false) {
+	function delete($file, $recursive = false) {
 		if ( $this->is_file($file) )
-			return @ssh2_sftp_unlink($this->link, $file);
-		if ( !$recursive )
-			return @ssh2_sftp_rmdir($this->link, $file);
+			return ssh2_sftp_unlink($this->sftp_link, $file);
+		if ( ! $recursive )
+			 return ssh2_sftp_rmdir($this->sftp_link, $file);
 		$filelist = $this->dirlist($file);
-		foreach ((array) $filelist as $filename => $fileinfo) {
-			$this->delete($file . '/' . $filename, $recursive);
+		if ( is_array($filelist) ) {
+			foreach ( $filelist as $filename => $fileinfo) {
+				$this->delete($file . '/' . $filename, $recursive);
+			}
 		}
-		return @ssh2_sftp_rmdir($this->link, $file);
+		return ssh2_sftp_rmdir($this->sftp_link, $file);
 	}
 
 	function exists($file) {
-		$list = $this->run_command($this->link, sprintf('ls -la %s', $file));
-		if( ! $list )
-			return false;
-		return count($list) == 1 ? true : false;
+		$list = $this->run_command($this->link, sprintf('ls -lad %s', $file));
+		return (bool) $list;
 	}
-	
+
 	function is_file($file) {
-		return $this->is_dir($file) ? false : true;
-	}
-	
-	function is_dir($path) {
-		$cwd = $this->cwd();
-		$result = $this->run_command($this->link, sprintf('cd %s', $path), true);
-		if( $result && $path == $this->cwd() || $this->cwd() != $cwd ) {
-			// @todo: use ssh2_exec
-			@ftp_chdir($this->link, $cwd);
-			return true;
-		}
-		return false;
-	}
-	
-	function is_readable($file) {
-		//Get dir list, Check if the file is writable by the current user??
-		return true;
-	}
-	
-	function is_writable($file) {
-		//Get dir list, Check if the file is writable by the current user??
-		return true;
-	}
-	
-	function atime($file) {
-		return false;
-	}
-	
-	function mtime($file) {
-		return;	//	i have to look up to see if there is a way in SSH2 to look the modifed date
-		//	return ftp_mdtm($this->link, $file);
-	}
-	
-	function size($file) {
-		return;	//	i have to look up to see if there is a way in SSH2 to get the file size
-		//	return ftp_size($this->link, $file);
-	}
-	
-	function touch($file, $time = 0, $atime = 0) {
-		return false;
-	}
-	
-	function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
-		if( !@ssh2_sftp_mkdir($this->link, $path) )
+		//DO NOT RELY ON dirlist()!
+		$list = $this->run_command($this->link, sprintf('ls -lad %s', $file));
+		$list = $this->parselisting($list);
+		if ( ! $list )
 			return false;
-		if( $chmod )
-			$this->chmod($path, $chmod);
+		else
+			return ( !$list['isdir'] && !$list['islink'] ); //ie. not a file or link, yet exists, must be file.
+	}
+
+	function is_dir($path) {
+		//DO NOT RELY ON dirlist()!
+		$list = $this->parselisting($this->run_command($this->link, sprintf('ls -lad %s', rtrim($path, '/'))));
+		if ( ! $list )
+			return false;
+		else
+			return $list['isdir'];
+	}
+
+	function is_readable($file) {
+		//Not implmented.
+	}
+
+	function is_writable($file) {
+		//Not implmented.
+	}
+
+	function atime($file) {
+		//Not implmented.
+	}
+
+	function mtime($file) {
+		//Not implmented.
+	}
+
+	function size($file) {
+		//Not implmented.
+	}
+
+	function touch($file, $time = 0, $atime = 0) {
+		//Not implmented.
+	}
+
+	function mkdir($path, $chmod = null, $chown = false, $chgrp = false) {
+		if( ! ssh2_sftp_mkdir($this->sftp_link, $path, $chmod, true) )
+			return false;
 		if( $chown )
 			$this->chown($path, $chown);
 		if( $chgrp )
 			$this->chgrp($path, $chgrp);
 		return true;
 	}
-	
+
 	function rmdir($path, $recursive = false) {
-		if( ! $recursive )
-			return @ssh2_sftp_rmdir($this->link, $path);
-
-		//TODO: Recursive Directory delete, Have to delete files from the folder first.
-		//$dir = $this->dirlist($path);
-		//foreach($dir as $file)
-
+		return $this->delete($path, $recursive);
 	}
 
 	function parselisting($line) {
+	$this->debug("parselisting();");
 		$is_windows = ($this->OS_remote == FTP_OS_Windows);
 		if ($is_windows && preg_match("/([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)/", $line, $lucifer)) {
 			$b = array();
@@ -390,25 +408,28 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	function dirlist($path = '.', $incdot = false, $recursive = false) {
+		$this->debug("dirlist();");
 		if( $this->is_file($path) ) {
 			$limitFile = basename($path);
-			$path = dirname($path) . '/';
+			$path = trailingslashit(dirname($path));
 		} else {
 			$limitFile = false;
 		}
-		
-		$list = $this->run_command($this->link, sprintf('ls -a %s', $path));
+
+		$list = $this->run_command($this->link, sprintf('ls -la %s', $path));
 
 		if ( $list === false )
 			return false;
 
+		$list = explode("\n", $list);
+
 		$dirlist = array();
-		foreach ( $list as $k => $v ) {
+		foreach ( (array)$list as $k => $v ) {
 			$entry = $this->parselisting($v);
 			if ( empty($entry) )
 				continue;
 
-			if ( '.' == $entry["name"] || '..' == $entry["name"] )
+			if ( '.' == $entry['name'] || '..' == $entry['name'] )
 				continue;
 
 			$dirlist[ $entry['name'] ] = $entry;
@@ -416,6 +437,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 		if ( ! $dirlist )
 			return false;
+
 		if ( empty($dirlist) )
 			return array();
 
@@ -432,7 +454,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 							$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
 					}
 				} else { //No dots
-					if ($recursive)
+					if ( $recursive )
 						$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $incdot, $recursive);
 				}
 			}
@@ -443,8 +465,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	function __destruct(){
-		if( $this->link )
+		if ( $this->link )
 			unset($this->link);
+		if ( $this->sftp_link )
+			unset($this->sftp_link);
 	}
 }
 

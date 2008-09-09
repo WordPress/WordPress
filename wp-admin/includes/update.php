@@ -238,23 +238,22 @@ function wp_update_core($feedback = '') {
 		return new WP_Error('download_failed', __('Download failed.'), $download_file->get_error_message());
 
 	$working_dir = $content_dir . 'upgrade/core';
-
 	// Clean up working directory
-	if ( $wp_filesystem->is_dir($working_dir) )
+	if ( $wp_filesystem->is_dir($working_dir) ) {
 		$wp_filesystem->delete($working_dir, true);
+	}
 
-	apply_filters('update_feedback', __('Unpacking the update'));
+	apply_filters('update_feedback', __('Unpacking the core update'));
 	// Unzip package to working directory
 	$result = unzip_file($download_file, $working_dir);
-
 	// Once extracted, delete the package
 	unlink($download_file);
-
+	
 	if ( is_wp_error($result) ) {
 		$wp_filesystem->delete($working_dir, true);
 		return $result;
 	}
-
+	
 	// Copy update-core.php from the new version into place.
 	if ( !$wp_filesystem->copy($working_dir . '/wordpress/wp-admin/includes/update-core.php', $wp_dir . 'wp-admin/includes/update-core.php', true) ) {
 		$wp_filesystem->delete($working_dir, true);
