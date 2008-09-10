@@ -2139,3 +2139,122 @@ p#post-search-prep {
 .metabox-prefs label input {
 	margin: 0 5px 0 2px;
 }
+
+
+/* Inline Editor */
+
+.inline {
+	font-size: 10px;
+}
+
+.inline td {
+	padding-right: 4px;
+	padding-left: 7px;
+}
+
+.inline input, .inline select, .inline textarea {
+	font-size: 10px !important;
+	padding: 2px;
+	border: 1px solid #ddd;
+}
+
+.inline td.date {
+	width: 87px;
+}
+
+.inline td.page-title {
+	width: 495px;
+}
+
+.inline td.post-title input.title {
+	width: 250px;
+}
+
+.inline td.post-title input.slug {
+	width: 222px;
+	float: right;
+}
+
+.inline div.title {
+	float: left;
+}
+
+.inline div.title input.title {
+	font-size: 12px !important;
+}
+
+.inline div.title label {
+	float: left;
+	margin-top: 4px;
+}
+
+.inline td.page-title input.slug {
+	width: 123px;
+	float: right;
+}
+
+.inline div.other, .inline div.more {
+	width: 190px;
+	float: left;
+	padding-left: 5px;
+}
+
+.inline div.other label, .inline div.more label {
+	display: block; float: left;
+	width: 54px;
+	margin-top: 4px;
+}
+
+.inline div.other select {
+	width: 133px;
+}
+
+.inline div.more {
+	width: 125px;
+}
+
+.inline div.more input {
+	width: 60px;
+}
+
+.inline td.author select {
+	width: 110px;
+}
+
+.inline ul.categories {
+	list-style: none;
+	padding: 0; margin: 0; 
+	height: 65px;
+	overflow: auto;
+	font-size: 10px;
+}
+
+.inline ul.categories ul.children {
+	list-style: none;
+	padding-left: 15px;
+}
+
+.inline ul.categories li {
+	margin-bottom: 2px;
+}
+
+.inline ul.categories input {
+	vertical-align: middle;
+	padding: 0; border: 0;
+}
+
+.inline td.tags textarea {
+	height: 58px; width: 100%;
+}
+
+.inline td.comments {
+	padding-left: 0;
+}
+
+.inline td.status select {
+	width: 98px;
+}
+
+.inline td.status input {
+	vertical-align: middle;
+}

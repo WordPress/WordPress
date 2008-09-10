@@ -241,6 +241,8 @@ function wp_default_scripts( &$scripts ) {
 		));
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
+		
+		$scripts->add( 'inline-edit', '/wp-admin/js/inline-edit.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080812' );
 
 		$scripts->add( 'plugin-install', '/wp-admin/js/plugin-install.js', array( 'thickbox', 'jquery' ), '20080803' );
 		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(

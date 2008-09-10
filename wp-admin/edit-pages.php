@@ -44,6 +44,7 @@ if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 $title = __('Pages');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
+wp_enqueue_script('inline-edit');
 
 $post_stati  = array(	//	array( adj, noun )
 		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published (%s)', 'Published (%s)')),
@@ -153,6 +154,7 @@ if ( $page_links )
 <div class="alignleft">
 <select name="action">
 <option value="" selected><?php _e('Actions'); ?></option>
+<option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
 <input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
@@ -187,6 +189,7 @@ if ($posts) {
   </tr>
   </thead>
   <tbody>
+  <?php inline_edit_row( 'page' ) ?>
   <?php page_rows($posts, $pagenum, $per_page); ?>
   </tbody>
 </table>

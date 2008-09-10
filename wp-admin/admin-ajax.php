@@ -12,6 +12,7 @@
  * @since unknown
  */
 define('DOING_AJAX', true);
+define('WP_ADMIN', true);
 
 require_once('../wp-load.php');
 require_once('includes/admin.php');
@@ -714,6 +715,24 @@ case 'sample-permalink':
 	$title = isset($_POST['new_title'])? $_POST['new_title'] : '';
 	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : '';
 	die(get_sample_permalink_html($post_id, $title, $slug));
+break;
+case 'inline-data':
+	get_inline_data( explode(',', $_POST['posts']) );
+	die();
+break;
+case 'inline-save':
+	inline_save_row( $_POST );
+	if ( 'page' == $_POST['post_type'] ) {
+		$post = array();
+		$post[] = get_post($_POST['post_ID']);
+		page_rows( $post );
+	} elseif ( 'post' == $_POST['post_type'] ) {
+		$mode = $_POST['post_view'];
+		$post = array();
+		$post[] = get_post($_POST['post_ID']);
+		post_rows($post);
+	}
+	die();
 break;
 case 'meta-box-order':
 	check_ajax_referer( 'meta-box-order' );

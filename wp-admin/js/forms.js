@@ -1,12 +1,12 @@
 function checkAll(jQ) { // use attr( checked, fn )
-	jQuery(jQ).find( 'tbody:visible :checkbox' ).attr( 'checked', function() {
+	jQuery(jQ).find( 'tbody:visible .check-column :checkbox' ).attr( 'checked', function() {
 		return jQuery(this).attr( 'checked' ) ? '' : 'checked';
 	} );
 }
 
 jQuery( function($) {
 	var lastClicked = false;
-	$( 'tbody :checkbox' ).click( function(e) {
+	$( 'tbody .check-column :checkbox' ).click( function(e) {
 		if ( 'undefined' == e.shiftKey ) { return true; }
 		if ( e.shiftKey ) {
 			if ( !lastClicked ) { return true; }

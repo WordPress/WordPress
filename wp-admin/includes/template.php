@@ -350,7 +350,7 @@ function wp_manage_posts_columns() {
 		$posts_columns['modified'] = __('Submitted');
 	else
 		$posts_columns['date'] = __('Date');
-	//$posts_columns['author'] = __('Author');
+	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
 	if ( !isset($_GET['post_status']) || !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
@@ -406,23 +406,248 @@ function wp_manage_pages_columns() {
 	return $posts_columns;
 }
 
-function post_rows() {
+function inline_edit_row( $type ) {
+	global $current_user;
+
+	if ( 'post' == $type ) 
+		$post = get_default_post_to_edit(); 
+	else 
+		$post = get_default_page_to_edit();  
+
+	echo '<tr id="inline-edit" style="display: none">';
+	$columns = $type == 'post' ? wp_manage_posts_columns() : wp_manage_pages_columns();
+	foreach($columns as $column_name=>$column_display_name) {
+
+		switch($column_name) {
+
+			case 'cb': ?>
+			  <th class="check-column"></th>
+			  <?php
+			  break;
+
+			case 'modified':
+			case 'date': ?>
+				<td class="date">
+					<?php touch_time(1, 1, 4, 1); ?>
+				</td>
+				<?php
+				break;
+
+			case 'title': ?>
+				<td class="<?php echo $type ?>-title">
+					<div class="title">
+						<input type="text" name="post_title" class="title" value="" /><br />
+						<label><?php _e('Slug'); ?></label><input type="text" name="post_name" value="" class="slug" />
+					</div>
+					<?php if($type == 'page'): ?>
+					<div class="other">
+						<label><?php _e('Parent'); ?></label>
+						<select name="post_parent">
+							<option value="0"><?php _e('Main Page (no parent)'); ?></option>
+							<?php parent_dropdown(); ?>
+						</select><br />
+						<label><?php _e('Template'); ?></label>
+						<select name="page_template">
+							<option value='default'><?php _e('Default Template'); ?></option>
+							<?php page_template_dropdown() ?>
+						</select>
+					</div>
+					<div class="more">
+						<label><?php _e('Order'); ?></label><input type="text" name="menu_order" value="<?php echo $post->menu_order ?>" />
+						<label><?php _e('Password'); ?></label><input type="text" name="post_password" value="<?php echo $post->post_password ?>" />      
+					</div>
+					<?php endif; ?>
+					<div class="clear"></div>
+					<?php
+					$actions = array();
+					$actions['save'] = '<a href="#">' . __('Save') . '</a>';
+					$actions['cancel'] = '<a href="#">' . __('Cancel') . '</a>';
+					$action_count = count($actions);
+					$i = 0;
+					foreach ( $actions as $action => $link ) {
+						++$i;
+						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+						echo "<span class='$action'>$link$sep</span>";
+					}
+					?>
+				</td>
+				<?php
+				break;
+
+			case 'categories': ?>
+				<td class="categories">
+					<ul class="categories">
+						<?php wp_category_checklist() ?>
+					</ul>
+				</td>
+				<?php
+				break;
+
+			case 'tags': ?>
+				<td class="tags">
+					<textarea name="tags_input"></textarea>
+				</td>
+				<?php
+				break;
+
+			case 'comments': ?>
+				<td class="comments num">
+					<input title="Allow Comments" type="checkbox" name="comment_status" value="open" /><br />
+					<input title="Allow Pings" type="checkbox" name="ping_status" value="open" />
+				</td>
+				<?php
+				break;
+
+			case 'author': ?>
+				<td class="author">
+					<?php
+					$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+					if ( $authors && count( $authors ) > 1 ) {
+						wp_dropdown_users( array('include' => $authors, 'name' => 'post_author', 'class'=> 'author', 'selected' => $post->post_author) ); 
+					} else {
+						echo $current_user->user_nicename.'<input type="hidden" value="'.$post->post_author.'" class="author" />';
+					}
+					?>
+				</td>
+				<?php
+				break;
+
+			case 'status': ?>
+				<td class="status">
+					<select name="post_status">
+						<?php if ( current_user_can('publish_posts') ) : // Contributors only get "Unpublished" and "Pending Review" ?>
+						<option value='publish'><?php _e('Published') ?></option>
+						<option value='future'><?php _e('Scheduled') ?></option>
+						<?php endif; ?>
+						<option value='pending'><?php _e('Pending Review') ?></option>
+						<option value='draft'><?php _e('Unpublished') ?></option>
+					</select>
+					<?php if($type == 'page'): ?>
+					<br /><label><input type="checkbox" name="page_private" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label></p>
+					<?php else: ?>
+					<?php if ( current_user_can( 'edit_others_posts' ) ) : ?>
+					<br /><label><input type="checkbox" name="sticky" value="sticky" /> <?php _e('Sticky') ?></label></p>
+					<?php endif; ?>
+					<?php endif; ?>
+				</td>
+				<?php
+				break;
+
+			case 'control_view': ?>
+				<td><a href="<?php the_permalink(); ?>" rel="permalink" class="view"><?php _e('View'); ?></a></td>
+				<?php
+				break;
+
+			case 'control_edit': ?>
+				<td><?php if ( current_user_can('edit_post',$post->ID) ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td>
+				<?php
+				break;
+
+			case 'control_delete': ?>
+				<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete'>" . __('Delete') . "</a>"; } ?></td>
+				<?php
+				break;
+
+			default: ?>
+				<td><?php do_action('manage_posts_custom_column', $column_name, $post->ID); ?></td>
+				<?php
+				break;
+		}
+	}
+
+	echo '</tr>';
+}
+
+function inline_save_row( $data ) {  
+	// get the original post content
+	$post = get_post( $data['post_ID'], ARRAY_A );
+	$data['content'] = $post['post_content'];
+
+	// statuses
+	if ( 'page' == $data['post_type'] && 'private' == $data['page_private'] )
+		$data['post_status'] = 'private';
+	if ( empty($data['comment_status']) ) 
+		$data['comment_status'] = 'closed';
+	if ( empty($data['ping_status']) )
+		$data['ping_status'] = 'closed';
+
+	// rename
+	$data['user_ID'] = $GLOBALS['user_ID'];
+	$data['excerpt'] = $data['post_excerpt'];
+	$data['trackback_url'] = $data['to_ping'];
+	$data['parent_id'] = $data['post_parent'];
+
+	// update the post
+	$_POST = $data;
+	edit_post();
+}
+
+// outputs XML of the post/page data ready for use in the inline editor
+// accepts array of post IDs
+function get_inline_data($posts) {
+	global $post;
+
+	header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
+	echo "<?xml version='1.0' ?>\n";
+	echo "<posts>\n";
+
+	foreach ($posts as $ID) {
+		$GLOBALS['post'] = get_post($ID);
+		$GLOBALS['post_ID'] = $ID;
+
+		if ( ($post->post_type == 'post' && !current_user_can('edit_post', $ID)) || 
+				($post->post_type == 'page' && !current_user_can('edit_page', $ID)) || 
+				($post->post_type != 'post' && $post->post_type != 'page'))
+			continue;
+
+		echo "  <post id='$ID'>\n";
+		echo "    <post_title>" . wp_specialchars($post->post_title, 1) . "</post_title>\n";
+		echo "    <post_name>$post->post_name</post_name>\n";
+		echo "    <post_author>$post->post_author</post_author>\n";
+		echo "    <comment_status>$post->comment_status</comment_status>\n";
+		echo "    <ping_status>$post->ping_status</ping_status>\n";
+		echo "    <post_status>$post->post_status</post_status>\n";
+		echo "    <jj>" . mysql2date( 'd', $post->post_date ) . "</jj>\n";
+		echo "    <mm>" . mysql2date( 'm', $post->post_date ) . "</mm>\n";
+		echo "    <aa>" . mysql2date( 'Y', $post->post_date ) . "</aa>\n";
+		echo "    <hh>" . mysql2date( 'H', $post->post_date ) . "</hh>\n";
+		echo "    <mn>" . mysql2date( 'i', $post->post_date ) . "</mn>\n";
+		if( $post->post_type == 'post' ) {
+			echo '    <tags_input>' . wp_specialchars(get_tags_to_edit( $post->ID ), 1) . "</tags_input>\n";
+			echo '    <post_category>' . implode( ',', wp_get_post_categories( $post->ID ) ) . "</post_category>\n";
+			echo '    <sticky>' . (is_sticky($post->ID) ? 'sticky' : '') . "</sticky>\n";
+		}
+		if( $post->post_type == 'page' ) {
+			echo "    <post_parent>$post->post_parent</post_parent>\n";
+			echo '    <page_template>' . wp_specialchars(get_post_meta( $post->ID, '_wp_page_template', true ), 1) . "</page_template>\n";
+			echo "    <post_password>" . wp_specialchars($post->post_password, 1) . "</post_password>\n";
+			echo "    <menu_order>$post->menu_order</menu_order>\n";
+		}
+		echo "  </post>\n";
+ 	}
+
+	echo '</posts>';
+}
+
+function post_rows( $posts = array() ) {
 	global $wp_query, $post, $mode;
 
 	add_filter('the_title','wp_specialchars');
 
 	// Create array of post IDs.
 	$post_ids = array();
-	foreach ( $wp_query->posts as $a_post )
+
+	if ( empty($posts) )
+		$posts = &$wp_query->posts;
+
+	foreach ( $posts as $a_post )
 		$post_ids[] = $a_post->ID;
 
 	$comment_pending_count = get_pending_comments_num($post_ids);
-	if ( empty($comment_pending_count[$post->ID]) )
+	if ( empty($comment_pending_count) )
 		$comment_pending_count = array();
 
-	while ( have_posts() ) {
-		the_post();
-
+	foreach ( $posts as $post ) {
 		if ( empty($comment_pending_count[$post->ID]) )
 			$comment_pending_count[$post->ID] = 0;
 
@@ -436,6 +661,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 	$global_post = $post;
 	$post = $a_post;
+	setup_postdata($post);
 
 	$class = 'alternate' == $class ? '' : 'alternate';
 	global $current_user;
@@ -483,9 +709,9 @@ function _post_row($a_post, $pending_comments, $mode) {
 			}
 
 			if ( 'excerpt' == $mode ) { ?>
-		<td><?php echo apply_filters('post_date_column_time', $t_time, $post, $column_name, $mode) ?></td>
+		<td class="date"><?php echo apply_filters('post_date_column_time', $t_time, $post, $column_name, $mode) ?></td>
 		<?php } else { ?>
-		<td><abbr title="<?php echo $t_time ?>"><?php echo apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) ?></abbr></td>
+		<td class="date"><abbr title="<?php echo $t_time ?>"><?php echo apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) ?></abbr></td>
 		<?php }
 		break;
 
@@ -500,6 +726,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 			$actions = array();
 			$actions['edit'] = '<a href="post.php?action=edit&amp;post=' . $post->ID . '">' . __('Edit') . '</a>';
+			$actions['inline'] = '<a href="#" class="editinline">' . __('Quick Edit') . '</a>';
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 			$action_count = count($actions);
 			$i = 0;
@@ -515,7 +742,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'categories':
 		?>
-		<td><?php
+		<td class="categories"><?php
 			$categories = get_the_category();
 			if ( !empty( $categories ) ) {
 				$out = array();
@@ -531,7 +758,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'tags':
 		?>
-		<td><?php
+		<td class="tags"><?php
 			$tags = get_the_tags();
 			if ( !empty( $tags ) ) {
 				$out = array();
@@ -547,7 +774,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'comments':
 		?>
-		<td class="num"><div class="post-com-count-wrapper">
+		<td class="comments num"><div class="post-com-count-wrapper">
 		<?php
 			$pending_phrase = sprintf( __('%s pending'), number_format( $pending_comments ) );
 			if ( $pending_comments )
@@ -562,13 +789,13 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'author':
 		?>
-		<td><a href="edit.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<td class="author"><a href="edit.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
 		<?php
 		break;
 
 		case 'status':
 		?>
-		<td>
+		<td class="status">
 		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
 		<?php
 			switch ( $post->post_status ) {
@@ -654,7 +881,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'cb':
 		?>
-		<th scope="row" class="check-column"><input type="checkbox" name="delete[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /></th>
 		<?php
 		break;
 	case 'modified':
@@ -681,7 +908,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		?>
-		<td><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
+		<td class="date"><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
 		<?php
 		break;
 	case 'title':
@@ -696,6 +923,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		$actions['inline'] = '<a href="#" class="editinline">' . __('Quick Edit') . '</a>';
 		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("page.php?action=delete&amp;post=$page->ID", 'delete-page_' . $page->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $page->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $page->post_title )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
@@ -711,7 +939,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td class="num"><div class="post-com-count-wrapper">
+		<td class="comments num"><div class="post-com-count-wrapper">
 		<?php
 		$left = get_pending_comments_num( $page->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
@@ -727,13 +955,13 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'author':
 		?>
-		<td><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<td class="author"><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
 		<?php
 		break;
 
 	case 'status':
 		?>
-		<td>
+		<td class="status">
 		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
 		<?php
 		switch ( $page->post_status ) {
@@ -1240,7 +1468,7 @@ function meta_form() {
 
 }
 
-function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
+function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	global $wp_locale, $post, $comment;
 
 	if ( $for_post )
@@ -1261,7 +1489,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
 	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
 
-	$month = "<select id=\"mm\" name=\"mm\"$tab_index_attribute>\n";
+	$month = "<select " . ( $multi ? '' : 'id="mm" ' ) . "name=\"mm\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
 		$month .= "\t\t\t" . '<option value="' . zeroise($i, 2) . '"';
 		if ( $i == $mm )
@@ -1270,11 +1498,14 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0 ) {
 	}
 	$month .= '</select>';
 
-	$day = '<input type="text" id="jj" name="jj" value="' . $jj . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
-	$year = '<input type="text" id="aa" name="aa" value="' . $aa . '" size="4" maxlength="5"' . $tab_index_attribute . ' autocomplete="off"  />';
-	$hour = '<input type="text" id="hh" name="hh" value="' . $hh . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
-	$minute = '<input type="text" id="mn" name="mn" value="' . $mn . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$day = '<input type="text" ' . ( $multi ? '' : 'id="jj" ' ) . 'name="jj" value="' . $jj . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$year = '<input type="text" ' . ( $multi ? '' : 'id="aa" ' ) . 'name="aa" value="' . $aa . '" size="4" maxlength="5"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$hour = '<input type="text" ' . ( $multi ? '' : 'id="hh" ' ) . 'name="hh" value="' . $hh . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
+	$minute = '<input type="text" ' . ( $multi ? '' : 'id="mn" ' ) . 'name="mn" value="' . $mn . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off"  />';
 	printf(_c('%1$s%2$s, %3$s @ %4$s : %5$s|1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input'), $month, $day, $year, $hour, $minute);
+
+	if ( $multi ) return;
+	
 	echo "\n\n";
 	foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit )
 		echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
@@ -1317,7 +1548,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 			else
 				$current = '';
 
-			echo "\n\t<option value='$item->ID'$current>$pad " . wp_specialchars($item->post_title) . "</option>";
+			echo "\n\t<option class='level-$level' value='$item->ID'$current>$pad " . wp_specialchars($item->post_title) . "</option>";
 			parent_dropdown( $default, $item->ID, $level +1 );
 		}
 	} else {

@@ -27,6 +27,9 @@ if ( ! defined('ABSPATH') ) die();
 	</tr>
 	</thead>
 	<tbody>
+	  
+<?php inline_edit_row( 'post' ) ?>	  
+
 <?php
 if ( have_posts() ) {
 	post_rows();

@@ -50,6 +50,8 @@ if ( !empty($_GET['action']) && $_GET['action'] != 'Actions' ) {
 $title = __('Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
+wp_enqueue_script('inline-edit');
+
 
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 
@@ -169,8 +171,8 @@ if ( $page_links )
 <div class="alignleft">
 <select name="action">
 <option value="" selected><?php _e('Actions'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
 </select>
 <input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-posts'); ?>

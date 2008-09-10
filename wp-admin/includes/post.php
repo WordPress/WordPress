@@ -9,29 +9,34 @@
  * @since 2.6
  *
  * @param bool $update Are we updating a pre-existing post?
+ * @param post_data array Array of post data. Defaults to the contents of $_POST
  * @return object|bool WP_Error on failure, true on success.
  */
-function _wp_translate_postdata( $update = false ) {
-	if ( $update )
-		$_POST['ID'] = (int) $_POST['post_ID'];
-	$_POST['post_content'] = $_POST['content'];
-	$_POST['post_excerpt'] = $_POST['excerpt'];
-	$_POST['post_parent'] = isset($_POST['parent_id'])? $_POST['parent_id'] : '';
-	if ( isset($_POST['trackback_url']) )
-		$_POST['to_ping'] = $_POST['trackback_url'];
+function _wp_translate_postdata( $update = false, &$post_data = null ) {
 
-	if (!empty ( $_POST['post_author_override'] ) ) {
-		$_POST['post_author'] = (int) $_POST['post_author_override'];
+	if ( empty($post_data) )
+		$post_data = &$_POST;
+
+	if ( $update )
+		$post_data['ID'] = (int) $post_data['post_ID'];
+	$post_data['post_content'] = $post_data['content'];
+	$post_data['post_excerpt'] = $post_data['excerpt'];
+	$post_data['post_parent'] = isset($post_data['parent_id'])? $post_data['parent_id'] : '';
+	if ( isset($post_data['trackback_url']) )
+		$post_data['to_ping'] = $post_data['trackback_url'];
+
+	if (!empty ( $post_data['post_author_override'] ) ) {
+		$post_data['post_author'] = (int) $post_data['post_author_override'];
 	} else {
-		if (!empty ( $_POST['post_author'] ) ) {
-			$_POST['post_author'] = (int) $_POST['post_author'];
+		if (!empty ( $post_data['post_author'] ) ) {
+			$post_data['post_author'] = (int) $post_data['post_author'];
 		} else {
-			$_POST['post_author'] = (int) $_POST['user_ID'];
+			$post_data['post_author'] = (int) $post_data['user_ID'];
 		}
 	}
 
-	if ( isset($_POST['user_ID']) && ($_POST['post_author'] != $_POST['user_ID']) ) {
-		if ( 'page' == $_POST['post_type'] ) {
+	if ( isset($post_data['user_ID']) && ($post_data['post_author'] != $post_data['user_ID']) ) {
+		if ( 'page' == $post_data['post_type'] ) {
 			if ( !current_user_can( 'edit_others_pages' ) ) {
 				return new WP_Error( 'edit_others_pages', $update ?
 					__( 'You are not allowed to edit pages as this user.' ) :
@@ -49,51 +54,51 @@ function _wp_translate_postdata( $update = false ) {
 	}
 
 	// What to do based on which button they pressed
-	if ( isset($_POST['saveasdraft']) && '' != $_POST['saveasdraft'] )
-		$_POST['post_status'] = 'draft';
-	if ( isset($_POST['saveasprivate']) && '' != $_POST['saveasprivate'] )
-		$_POST['post_status'] = 'private';
-	if ( isset($_POST['publish']) && ( '' != $_POST['publish'] ) && ( $_POST['post_status'] != 'private' ) )
-		$_POST['post_status'] = 'publish';
-	if ( isset($_POST['advanced']) && '' != $_POST['advanced'] )
-		$_POST['post_status'] = 'draft';
+	if ( isset($post_data['saveasdraft']) && '' != $post_data['saveasdraft'] )
+		$post_data['post_status'] = 'draft';
+	if ( isset($post_data['saveasprivate']) && '' != $post_data['saveasprivate'] )
+		$post_data['post_status'] = 'private';
+	if ( isset($post_data['publish']) && ( '' != $post_data['publish'] ) && ( $post_data['post_status'] != 'private' ) )
+		$post_data['post_status'] = 'publish';
+	if ( isset($post_data['advanced']) && '' != $post_data['advanced'] )
+		$post_data['post_status'] = 'draft';
 
-	$previous_status = get_post_field('post_status',  $_POST['ID']);
+	$previous_status = get_post_field('post_status',  $post_data['ID']);
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( 'page' == $_POST['post_type'] ) {
-		if ( 'publish' == $_POST['post_status'] && !current_user_can( 'publish_pages' ) )
+	if ( 'page' == $post_data['post_type'] ) {
+		if ( 'publish' == $post_data['post_status'] && !current_user_can( 'publish_pages' ) )
 			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_pages') )
-				$_POST['post_status'] = 'pending';
+				$post_data['post_status'] = 'pending';
 	} else {
-		if ( isset($_POST['post_status']) && ('publish' == $_POST['post_status'] && !current_user_can( 'publish_posts' )) ) :
+		if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( 'publish_posts' )) ) :
 			// Stop attempts to publish new posts, but allow already published posts to be saved if appropriate.
 			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_posts') )
-				$_POST['post_status'] = 'pending';
+				$post_data['post_status'] = 'pending';
 		endif;
 	}
 
-	if (!isset( $_POST['comment_status'] ))
-		$_POST['comment_status'] = 'closed';
+	if (!isset( $post_data['comment_status'] ))
+		$post_data['comment_status'] = 'closed';
 
-	if (!isset( $_POST['ping_status'] ))
-		$_POST['ping_status'] = 'closed';
+	if (!isset( $post_data['ping_status'] ))
+		$post_data['ping_status'] = 'closed';
 
 	foreach ( array('aa', 'mm', 'jj', 'hh', 'mn') as $timeunit ) {
-		if ( !empty( $_POST['hidden_' . $timeunit] ) && $_POST['hidden_' . $timeunit] != $_POST[$timeunit] ) {
-			$_POST['edit_date'] = '1';
+		if ( !empty( $post_data['hidden_' . $timeunit] ) && $post_data['hidden_' . $timeunit] != $post_data[$timeunit] ) {
+			$post_data['edit_date'] = '1';
 			break;
 		}
 	}
 
-	if ( !empty( $_POST['edit_date'] ) ) {
-		$aa = $_POST['aa'];
-		$mm = $_POST['mm'];
-		$jj = $_POST['jj'];
-		$hh = $_POST['hh'];
-		$mn = $_POST['mn'];
-		$ss = $_POST['ss'];
+	if ( !empty( $post_data['edit_date'] ) ) {
+		$aa = $post_data['aa'];
+		$mm = $post_data['mm'];
+		$jj = $post_data['jj'];
+		$hh = $post_data['hh'];
+		$mn = $post_data['mn'];
+		$ss = $post_data['ss'];
 		$aa = ($aa <= 0 ) ? date('Y') : $aa;
 		$mm = ($mm <= 0 ) ? date('n') : $mm;
 		$jj = ($jj > 31 ) ? 31 : $jj;
@@ -101,8 +106,8 @@ function _wp_translate_postdata( $update = false ) {
 		$hh = ($hh > 23 ) ? $hh -24 : $hh;
 		$mn = ($mn > 59 ) ? $mn -60 : $mn;
 		$ss = ($ss > 59 ) ? $ss -60 : $ss;
-		$_POST['post_date'] = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
-		$_POST['post_date_gmt'] = get_gmt_from_date( $_POST['post_date'] );
+		$post_data['post_date'] = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss );
+		$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
 	}
 
 	return true;
@@ -110,11 +115,14 @@ function _wp_translate_postdata( $update = false ) {
 
 
 // Update an existing post with values provided in $_POST.
-function edit_post() {
+function edit_post( $post_data = null ) {
 
-	$post_ID = (int) $_POST['post_ID'];
+	if ( empty($post_data) )
+		$post_data = &$_POST;
 
-	if ( 'page' == $_POST['post_type'] ) {
+	$post_ID = (int) $post_data['post_ID'];
+
+	if ( 'page' == $post_data['post_type'] ) {
 		if ( !current_user_can( 'edit_page', $post_ID ) )
 			wp_die( __('You are not allowed to edit this page.' ));
 	} else {
@@ -123,7 +131,7 @@ function edit_post() {
 	}
 
 	// Autosave shouldn't save too soon after a real save
-	if ( 'autosave' == $_POST['action'] ) {
+	if ( 'autosave' == $post_data['action'] ) {
 		$post =& get_post( $post_ID );
 		$now = time();
 		$then = strtotime($post->post_date_gmt . ' +0000');
@@ -132,24 +140,24 @@ function edit_post() {
 			return $post_ID;
 	}
 
-	$translated = _wp_translate_postdata( true );
+	$translated = _wp_translate_postdata( true, $post_data );
 	if ( is_wp_error($translated) )
 		wp_die( $translated->get_error_message() );
 
 	// Meta Stuff
-	if ( isset($_POST['meta']) && $_POST['meta'] ) {
-		foreach ( $_POST['meta'] as $key => $value )
+	if ( isset($post_data['meta']) && $post_data['meta'] ) {
+		foreach ( $post_data['meta'] as $key => $value )
 			update_meta( $key, $value['key'], $value['value'] );
 	}
 
-	if ( isset($_POST['deletemeta']) && $_POST['deletemeta'] ) {
-		foreach ( $_POST['deletemeta'] as $key => $value )
+	if ( isset($post_data['deletemeta']) && $post_data['deletemeta'] ) {
+		foreach ( $post_data['deletemeta'] as $key => $value )
 			delete_meta( $key );
 	}
 
 	add_meta( $post_ID );
 
-	wp_update_post( $_POST );
+	wp_update_post( $post_data );
 
 	// Reunite any orphaned attachments with their parent
 	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
@@ -163,7 +171,7 @@ function edit_post() {
 	wp_set_post_lock( $post_ID, $GLOBALS['current_user']->ID );
 
 	if ( current_user_can( 'edit_others_posts' ) ) {
-		if ( !empty($_POST['sticky']) )
+		if ( !empty($post_data['sticky']) )
 			stick_post($post_ID);
 		else
 			unstick_post($post_ID);
