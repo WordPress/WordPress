@@ -12,7 +12,7 @@
  * @param post_data array Array of post data. Defaults to the contents of $_POST
  * @return object|bool WP_Error on failure, true on success.
  */
-function _wp_translate_postdata( $update = false, &$post_data = null ) {
+function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	if ( empty($post_data) )
 		$post_data = &$_POST;
@@ -110,7 +110,7 @@ function _wp_translate_postdata( $update = false, &$post_data = null ) {
 		$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
 	}
 
-	return true;
+	return $post_data;
 }
 
 
@@ -140,9 +140,9 @@ function edit_post( $post_data = null ) {
 			return $post_ID;
 	}
 
-	$translated = _wp_translate_postdata( true, $post_data );
-	if ( is_wp_error($translated) )
-		wp_die( $translated->get_error_message() );
+	$post_data = _wp_translate_postdata( true, $post_data );
+	if ( is_wp_error($post_data) )
+		wp_die( $post_data->get_error_message() );
 
 	// Meta Stuff
 	if ( isset($post_data['meta']) && $post_data['meta'] ) {
