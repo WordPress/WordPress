@@ -88,7 +88,6 @@ if ( current_user_can('publish_posts') OR ( $post->post_status == 'publish' AND 
 </p>
 
 <?php if ( current_user_can( 'publish_posts' ) ) : ?>
-<p id="private-checkbox"><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label></p>
 	<?php if ( current_user_can( 'edit_others_posts' ) ) : ?>
 		<p id="sticky-checkbox"><label for="sticky" class="selectit"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <?php _e('Stick this post to the front page') ?></label></p>
 	<?php endif; ?>
