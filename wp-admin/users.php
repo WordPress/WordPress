@@ -207,51 +207,55 @@ default:
 	
 	// Query the users
 	$wp_user_search = new WP_User_Search($usersearch, $userspage, $role);
-
+	
+	$messages = array();
 	if ( isset($_GET['update']) ) :
 		switch($_GET['update']) {
 		case 'del':
 		case 'del_many':
-		?>
-			<?php $delete_count = isset($_GET['delete_count']) ? (int) $_GET['delete_count'] : 0; ?>
-			<div id="message" class="updated fade"><p><?php printf(__ngettext('%s user deleted', '%s users deleted', $delete_count), $delete_count); ?></p></div>
-		<?php
+			$delete_count = isset($_GET['delete_count']) ? (int) $_GET['delete_count'] : 0;
+			$messages[] = '<div id="message" class="updated fade"><p>' . sprintf(__ngettext('%s user deleted', '%s users deleted', $delete_count), $delete_count) . '</p></div>';
 			break;
 		case 'add':
-		?>
-			<div id="message" class="updated fade"><p><?php _e('New user created.'); ?></p></div>
-		<?php
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('New user created.') . '</p></div>';
 			break;
 		case 'promote':
-		?>
-			<div id="message" class="updated fade"><p><?php _e('Changed roles.'); ?></p></div>
-		<?php
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('Changed roles.') . '</p></div>';
 			break;
 		case 'err_admin_role':
-		?>
-			<div id="message" class="error"><p><?php _e("The current user's role must have user editing capabilities."); ?></p></div>
-			<div id="message" class="updated fade"><p><?php _e('Other user roles have been changed.'); ?></p></div>
-		<?php
+			$messages[] = '<div id="message" class="error"><p>' . __("The current user's role must have user editing capabilities.") . '</p></div>';
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other user roles have been changed.') . '</p></div>';
 			break;
 		case 'err_admin_del':
-		?>
-			<div id="message" class="error"><p><?php _e("You can't delete the current user."); ?></p></div>
-			<div id="message" class="updated fade"><p><?php _e('Other users have been deleted.'); ?></p></div>
-		<?php
+			$messages[] = '<div id="message" class="error"><p>' . __("You can't delete the current user.") . '</p></div>';
+			$messages[] = '<div id="message" class="updated fade"><p>' . __('Other users have been deleted.') . '</p></div>';
 			break;
 		}
 	endif; ?>
+
+<form class="search-form" action="" method="get">
+	<p id="user-search" class="search-box">
+	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?></label>
+	<input type="text" id="user-search-input" class="search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
+	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
+	</p>
+</form>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">
 		<ul>
 		<?php
-			foreach ( $errors->get_error_messages() as $message )
-				echo "<li>$message</li>";
+			foreach ( $errors->get_error_messages() as $err )
+				echo "<li>$err</li>\n";
 		?>
 		</ul>
 	</div>
-<?php endif; ?>
+<?php endif; 
+
+if ( ! empty($messages) ) {
+	foreach ( $messages as $msg )
+		echo $msg;
+} ?>
 
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
@@ -299,12 +303,6 @@ echo implode(' |</li>', $role_links) . '</li>';
 unset($role_links);
 ?>
 </ul>
-
-	<p id="user-search" class="search-box">
-	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?></label>
-	<input type="text" id="user-search-input" class="search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
-	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
-	</p>
 
 <div class="tablenav">
 

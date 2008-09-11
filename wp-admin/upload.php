@@ -63,6 +63,14 @@ if ( !isset( $_GET['paged'] ) )
 
 ?>
 
+<form class="search-form" action="" method="get">
+	<p id="media-search" class="search-box" >
+		<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?></label>
+		<input type="text" id="media-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
+		<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
+	</p>
+</form>
+
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
@@ -138,12 +146,6 @@ if (isset($_GET['message'])) : ?>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif;
 ?>
-
-<p id="media-search" class="search-box" >
-	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?></label>
-	<input type="text" id="media-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
-</p>
 
 <?php do_action('restrict_manage_posts'); ?>
 

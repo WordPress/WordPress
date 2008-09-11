@@ -27,13 +27,6 @@ div#available-widgets-filter {
 	border-bottom-style: solid;
 }
 
-p#widget-search {
-	position: absolute;
-	right: 0;
-	top: 0;
-	margin: 0;
-}
-
 ul#widget-list {
 	list-style: none;
 	margin: 0;

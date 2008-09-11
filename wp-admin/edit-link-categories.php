@@ -56,9 +56,19 @@ $messages[3] = __('Category updated.');
 $messages[4] = __('Category not added.');
 $messages[5] = __('Category not updated.');
 $messages[6] = __('Categories deleted.');
+?>
 
-if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<form class="search-form" action="" method="get">
+	<p id="link-category-search" class="search-box">
+		<label class="hidden" for="link-category-search-input"><?php _e( 'Search Categories' ); ?></label>
+		<input type="text" id="link-category-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
+		<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
+	</p>
+</form>
+
+<?php
+if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$msg]; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
@@ -66,12 +76,6 @@ endif; ?>
 
 <form id="posts-filter" action="" method="get">
 	<h2><?php printf( current_user_can('manage_categories') ? __('Link Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
-
-<p id="link-category-search" class="search-box">
-	<label class="hidden" for="link-category-search-input"><?php _e( 'Search Categories' ); ?></label>
-	<input type="text" id="link-category-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
-</p>
 
 <br class="clear" />
 

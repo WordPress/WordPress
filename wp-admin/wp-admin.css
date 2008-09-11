@@ -1547,8 +1547,8 @@ p#big-add-button .button {
 
 p.search-box {
 	position: absolute;
-	right: 0;
-	top: -64px;
+	right: 15px;
+	top: 52px;
 	margin: 0;
 }
 

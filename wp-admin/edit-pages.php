@@ -76,6 +76,15 @@ if ( is_singular() ) {
 require_once('admin-header.php');
 
 ?>
+
+<form class="search-form" action="" method="get">
+	<p id="page-search" class="search-box">
+		<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?></label>
+		<input type="text" id="page-search-input" name="s" value="<?php the_search_query(); ?>" />
+		<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
+	</p>
+</form>
+
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
 
@@ -137,12 +146,6 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif;
 ?>
-
-<p id="page-search" class="search-box">
-	<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?></label>
-	<input type="text" id="page-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
-</p>
 
 <div class="tablenav">
 

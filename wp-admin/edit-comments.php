@@ -69,6 +69,14 @@ $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty );
 ?>
 
+<form class="search-form" action="" method="get">
+	<p id="comment-search" class="search-box">
+		<label class="hidden" for="comment-search-input"><?php _e( 'Search Comments' ); ?></label>
+		<input type="text" id="comment-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
+		<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
+	</p>
+</form>
+
 <?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
@@ -127,12 +135,6 @@ echo implode(' | </li>', $status_links) . '</li>';
 unset($status_links);
 ?>
 </ul>
-
-<p id="comment-search" class="search-box">
-	<label class="hidden" for="comment-search-input"><?php _e( 'Search Comments' ); ?></label>
-	<input type="text" id="comment-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
-</p>
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 <input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />

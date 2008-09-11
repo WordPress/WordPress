@@ -71,6 +71,14 @@ else
 	$mode = attribute_escape($_GET['mode']);
 ?>
 
+<form class="search-form" action="" method="get">
+	<p id="post-search" class="search-box">
+		<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?></label>
+		<input type="text" id="post-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
+		<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
+	</p>
+</form>
+
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
@@ -153,12 +161,6 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif;
 ?>
-
-<p id="post-search" class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?></label>
-	<input type="text" id="post-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
-</p>
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 
