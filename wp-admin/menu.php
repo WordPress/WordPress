@@ -46,8 +46,8 @@ $menu[5] = array( __('Content'), 'edit_posts', 'edit.php', 'wp-menu-open' );
 	$submenu['edit.php'][20] = array( __('Links'), 'manage_links', 'link-manager.php' );
 	$submenu['edit.php'][25] = array( __('Pages'), 'edit_pages', 'edit-pages.php' );
 
-$menu[10] = array( __('Templates'), 'switch_themes', 'themes.php' );
-	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
+$menu[10] = array( __('Themes'), 'switch_themes', 'themes.php' );
+	$submenu['themes.php'][5]  = array(__('Directory'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
 
 $menu[15] = array( __('Utilities'), 'read', 'users.php' ); // placeholder - should be inbox
