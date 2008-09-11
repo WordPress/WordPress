@@ -7,41 +7,15 @@
 	<?php
 		return;
 	}
-
-	/* This variable is for alternating comment background */
-	$oddcomment = 'alt';
 ?>
 
 <!-- You can start editing here. -->
 
-<?php if ($comments) : ?>
+<?php if ( have_comments() ) : ?>
 	<h3 id="comments"><?php comments_number('No Responses', 'One Response', '% Responses' );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
 
 	<ol class="commentlist">
-
-	<?php foreach ($comments as $comment) : ?>
-
-		<li <?php comment_class($oddcomment) ?> id="comment-<?php comment_ID() ?>">
-			<?php echo get_avatar( $comment, 32 ); ?>
-			<cite><?php comment_author_link() ?></cite> Says:
-			<?php if ($comment->comment_approved == '0') : ?>
-			<em>Your comment is awaiting moderation.</em>
-			<?php endif; ?>
-			<br />
-
-			<small class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date('F jS, Y') ?> at <?php comment_time() ?></a> <?php edit_comment_link('edit','&nbsp;&nbsp;',''); ?></small>
-
-			<?php comment_text() ?>
-
-		</li>
-
-	<?php
-		/* Changes every other comment to a different class */
-		$oddcomment = ( empty( $oddcomment ) ) ? 'alt' : '';
-	?>
-
-	<?php endforeach; /* end for each comment */ ?>
-
+	<?php wp_list_comments($comments); ?>
 	</ol>
 
  <?php else : // this is displayed if there are no comments so far ?>
@@ -59,7 +33,13 @@
 
 <?php if ('open' == $post->comment_status) : ?>
 
-<h3 id="respond">Leave a Reply</h3>
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div id="cancel-comment-reply" style="display: none;">
+	<small><?php echo cancel_comment_reply_link() ?></small>
+</div>
 
 <?php if ( get_option('comment_registration') && !$user_ID ) : ?>
 <p>You must be <a href="<?php echo get_option('siteurl'); ?>/wp-login.php?redirect_to=<?php echo urlencode(get_permalink()); ?>">logged in</a> to post a comment.</p>
@@ -90,10 +70,12 @@
 
 <p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
 <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
+<input type="hidden" name="comment_parent" id="comment-parent" value="0" />
 </p>
 <?php do_action('comment_form', $post->ID); ?>
 
 </form>
+</div>
 
 <?php endif; // If registration required and not logged in ?>
 

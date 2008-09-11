@@ -531,7 +531,7 @@ function get_edit_comment_link( $comment_id = 0 ) {
 	return apply_filters( 'get_edit_comment_link', $location );
 }
 
-function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
+function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $echo = true ) {
 	global $comment, $post;
 
 	if ( $post->post_type == 'attachment' ) {
@@ -544,7 +544,11 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 	}
 
 	$link = '<a href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
-	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
+	$link = $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
+	if ( $echo )
+		echo $link;
+	else
+		return $link;
 }
 
 function get_edit_bookmark_link( $link = 0 ) {

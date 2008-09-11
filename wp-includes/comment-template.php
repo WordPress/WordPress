@@ -227,9 +227,13 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
  * @param int $comment_id An optional comment ID
  * @param int $post_id An optional post ID
  */
-function comment_class( $class = '', $comment_id = null, $post_id = null ) {
-	// Separates classes with a single space, collates classes for post DIV
-	echo 'class="' . join( ' ', get_comment_class( $class, $comment_id, $post_id ) ) . '"';
+function comment_class( $class = '', $comment_id = null, $post_id = null, $echo = true ) {
+	// Separates classes with a single space, collates classes for comment DIV
+	$class = 'class="' . join( ' ', get_comment_class( $class, $comment_id, $post_id ) ) . '"';
+	if ( $echo)
+		echo $class;
+	else
+		return $class;
 }
 
 /**
@@ -266,10 +270,12 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	if ( empty($comment_alt) )
 		$comment_alt = 0;
 
-	if ( $comment_alt % 2 )
+	if ( $comment_alt % 2 ) {
 		$classes[] = 'odd';
-	else
+		$classes[] = 'alt';
+	} else {
 		$classes[] = 'even';
+	}
 
 	$comment_alt++;
 
@@ -833,6 +839,131 @@ function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more =
 	echo ' title="' . sprintf( __('Comment on %s'), $title ) . '">';
 	comments_number( $zero, $one, $more, $number );
 	echo '</a>';
+}
+
+function comment_reply_link($args = array(), $comment = null, $post = null) {
+	global $user_ID;
+
+	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Reply'),
+		'login_text' => __('Log in to Reply'));
+
+	$args = wp_parse_args($args, $defaults);
+
+	extract($args, EXTR_SKIP);
+
+	$comment = get_comment($comment);
+	$post = get_post($post);
+
+	if ( 'open' != $post->comment_status )
+		return false;
+
+	$link = '';
+
+	if ( get_option('comment_registration') && !$user_ID )
+		$link = '<a href="' . site_url('wp-login.php?redirect_to=' . get_permalink()) . '">' . $login_text . '</a>';
+	else 
+		$link = "<a href='#' onclick='moveAddCommentForm(\"$add_below-$comment->comment_ID\", $comment->comment_ID, \"$respond_id\"); return false;'>$reply_text</a>";
+
+	return $link;
+}
+
+function cancel_comment_reply_link($text = '', $respond_id = 'respond') {
+	if ( empty($text) )
+		$text = __('Click here to cancel reply.');
+	echo '<a href="#" onclick="cancelCommentReply(\'' . $respond_id . '\'); return false;">' . $text . '</a>';
+}
+
+class Walker_Comment extends Walker {
+	var $tree_type = 'comment';
+	var $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
+
+	function start_lvl(&$output, $depth, $args) {
+		if ( 'div' == $args['style'] )
+			return;
+
+		echo "<ul class='children'>\n";
+	}
+
+	function end_lvl(&$output, $depth, $args) {
+		if ( 'div' == $args['style'] )
+			return;
+
+		echo "</ul>\n";
+	}
+
+	function start_el(&$output, $comment, $depth, $args) {
+		$depth++;
+
+		if ( !empty($args['callback']) ) {
+			call_user_func($args['callback'], $comment, $args, $depth);
+			return;
+		}
+
+		$GLOBALS['comment'] = $comment;
+		extract($args, EXTR_SKIP);
+
+		if ( 'div' == $args['style'] )
+			$tag = 'div';
+		else
+			$tag = 'li';
+?>
+		<<?php echo $tag ?> "<?php comment_class() ?>" id="comment-<?php comment_ID() ?>">
+		<?php if ( 'list' == $args['style'] ) : ?>
+		<div id="div-comment-<?php comment_ID() ?>">
+		<?php endif; ?>
+		<div class="comment-author vcard">
+		<?php echo get_avatar( $comment, 32 ) ?>
+		<?php printf(__('<cite>%s</cite> Says:'), get_comment_author_link()) ?>
+		</div>
+<?php if ($comment->comment_approved == '0') : ?>
+		<em><?php _e('Your comment is awaiting moderation.') ?></em>
+		<br />
+<?php endif; ?>
+
+		<div class="comment-meta commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
+
+		<?php echo apply_filters('comment_text', get_comment_text()) ?>
+
+		<div class='reply'>
+		<?php if ( $depth < $args['depth'] ) echo comment_reply_link(array('add_below' => 'div-comment')) ?>
+		<?php if ( 'list' == $args['style'] ) : ?>
+		</div>
+		<?php endif; ?>
+		</div>
+<?php
+	}
+
+	function end_el(&$output, $comment, $depth, $args) {
+		if ( 'div' == $args['style'] )
+			echo "</div>\n";
+		else
+			echo "</li>\n";
+	}
+
+}
+
+/**
+ * List comments
+ *
+ * Used in the comments.php template to list comments for a particular post
+ *
+ * @since 2.7
+ * @uses Walker_Comment
+ *
+ * @param $comments array Array of comment object to list
+ * @param $args string|array Additional arguments
+ */
+function wp_list_comments(&$comments, $args = array() ) {
+	$defaults = array('walker' => null, 'depth' => 3, 'style' => 'list', 'callback' => null);
+
+	$r = wp_parse_args( $args, $defaults );
+
+	extract( $r, EXTR_SKIP );
+
+	if ( empty($walker) )
+		$walker = new Walker_Comment;
+
+	$walker->walk($comments, $depth, $r);
 }
 
 ?>
