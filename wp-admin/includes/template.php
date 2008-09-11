@@ -1869,6 +1869,9 @@ function meta_box_prefs($page) {
 			foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
 				if ( false == $box || ! $box['title'] )
 					continue;
+				// Submit box cannot be hidden
+				if ( 'submitdiv' == $box['id'] )
+					continue;
 				$box_id = $box['id'];
 				echo '<label for="' . $box_id . '-hide">';
 				echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
