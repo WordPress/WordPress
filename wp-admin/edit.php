@@ -51,7 +51,7 @@ $title = __('Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit');
-
+wp_enqueue_script('posts');
 
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 
@@ -74,6 +74,19 @@ else
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('post') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <h2><?php
 if ( is_single() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
@@ -225,6 +238,8 @@ do_action('restrict_manage_posts');
 <br class="clear" />
 
 <?php include( 'edit-post-rows.php' ); ?>
+
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 
 </form>
 

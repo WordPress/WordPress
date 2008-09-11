@@ -416,7 +416,15 @@ function inline_edit_row( $type ) {
 
 	echo '<tr id="inline-edit" style="display: none">';
 	$columns = $type == 'post' ? wp_manage_posts_columns() : wp_manage_pages_columns();
+	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
 	foreach($columns as $column_name=>$column_display_name) {
+		$class = "class=\"$column_name column-$column_name\"";
+
+		$style = '';
+		if ( in_array($column_name, $hidden) )
+			$style = ' style="display:none;"';
+
+		$attributes = "$class$style";
 
 		switch($column_name) {
 
@@ -426,20 +434,24 @@ function inline_edit_row( $type ) {
 			  break;
 
 			case 'modified':
-			case 'date': ?>
-				<td class="date">
+			case 'date':
+				$attributes = 'class="date column-date"' . $style;
+			?>
+				<td class="date"<?php echo $style ?>>
 					<?php touch_time(1, 1, 4, 1); ?>
 				</td>
 				<?php
 				break;
 
-			case 'title': ?>
-				<td class="<?php echo $type ?>-title">
+			case 'title':
+				$attributes = "class=\"$type-title column-title\"" . $style;
+			?>
+				<td <?php echo $attributes ?>>
 					<div class="title">
 						<input type="text" name="post_title" class="title" value="" /><br />
 						<label><?php _e('Slug'); ?></label><input type="text" name="post_name" value="" class="slug" />
 					</div>
-					<?php if($type == 'page'): ?>
+					<?php if ($type == 'page'): ?>
 					<div class="other">
 						<label><?php _e('Parent'); ?></label>
 						<select name="post_parent">
@@ -475,7 +487,7 @@ function inline_edit_row( $type ) {
 				break;
 
 			case 'categories': ?>
-				<td class="categories">
+				<td <?php echo $attributes ?>>
 					<ul class="categories">
 						<?php wp_category_checklist() ?>
 					</ul>
@@ -484,14 +496,16 @@ function inline_edit_row( $type ) {
 				break;
 
 			case 'tags': ?>
-				<td class="tags">
+				<td <?php echo $attributes ?>>
 					<textarea name="tags_input"></textarea>
 				</td>
 				<?php
 				break;
 
-			case 'comments': ?>
-				<td class="comments num">
+			case 'comments':
+				$attributes = 'class="comments column-comments num"' . $style;
+			 ?>
+				<td <?php echo $attributes ?>>
 					<input title="Allow Comments" type="checkbox" name="comment_status" value="open" /><br />
 					<input title="Allow Pings" type="checkbox" name="ping_status" value="open" />
 				</td>
@@ -499,7 +513,7 @@ function inline_edit_row( $type ) {
 				break;
 
 			case 'author': ?>
-				<td class="author">
+				<td <?php echo $attributes ?>>
 					<?php
 					$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 					if ( $authors && count( $authors ) > 1 ) {
@@ -513,7 +527,7 @@ function inline_edit_row( $type ) {
 				break;
 
 			case 'status': ?>
-				<td class="status">
+				<td <?php echo $attributes ?>>
 					<select name="post_status">
 						<?php if ( current_user_can('publish_posts') ) : // Contributors only get "Unpublished" and "Pending Review" ?>
 						<option value='publish'><?php _e('Published') ?></option>
@@ -674,9 +688,17 @@ function _post_row($a_post, $pending_comments, $mode) {
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $class . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 <?php
 	$posts_columns = wp_manage_posts_columns();
-	foreach($posts_columns as $column_name=>$column_display_name) {
+	$hidden = (array) get_user_option( 'manage-post-columns-hidden' );
+	foreach ( $posts_columns as $column_name=>$column_display_name ) {
+		$class = "class=\"$column_name column-$column_name\"";
 
-		switch($column_name) {
+		$style = '';
+		if ( in_array($column_name, $hidden) )
+			$style = ' style="display:none;"';
+
+		$attributes = "$class$style";
+
+		switch ($column_name) {
 
 		case 'cb':
 		?>
@@ -686,6 +708,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'modified':
 		case 'date':
+			$attributes = 'class="date column-date"' . $style;
 			if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
 				$t_time = $h_time = __('Unpublished');
 			} else {
@@ -709,15 +732,16 @@ function _post_row($a_post, $pending_comments, $mode) {
 			}
 
 			if ( 'excerpt' == $mode ) { ?>
-		<td class="date"><?php echo apply_filters('post_date_column_time', $t_time, $post, $column_name, $mode) ?></td>
+		<td <?php echo $attributes ?>><?php echo apply_filters('post_date_column_time', $t_time, $post, $column_name, $mode) ?></td>
 		<?php } else { ?>
-		<td class="date"><abbr title="<?php echo $t_time ?>"><?php echo apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) ?></abbr></td>
+		<td <?php echo $attributes ?>><abbr title="<?php echo $t_time ?>"><?php echo apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) ?></abbr></td>
 		<?php }
 		break;
 
 		case 'title':
+			$attributes = 'class="post-title column-title"' . $style;
 		?>
-		<td class="post-title"><strong><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; } ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; } ?></strong>
 		<?php
 			if ( !empty($post->post_password) ) { _e(' &#8212; <strong>Protected</strong>'); } elseif ('private' == $post->post_status) { _e(' &#8212; <strong>Private</strong>'); }
 
@@ -742,7 +766,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'categories':
 		?>
-		<td class="categories"><?php
+		<td <?php echo $attributes ?>><?php
 			$categories = get_the_category();
 			if ( !empty( $categories ) ) {
 				$out = array();
@@ -758,7 +782,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'tags':
 		?>
-		<td class="tags"><?php
+		<td <?php echo $attributes ?>><?php
 			$tags = get_the_tags();
 			if ( !empty( $tags ) ) {
 				$out = array();
@@ -773,8 +797,9 @@ function _post_row($a_post, $pending_comments, $mode) {
 		break;
 
 		case 'comments':
+			$attributes = 'class="comments column-comments num"' . $style;
 		?>
-		<td class="comments num"><div class="post-com-count-wrapper">
+		<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 		<?php
 			$pending_phrase = sprintf( __('%s pending'), number_format( $pending_comments ) );
 			if ( $pending_comments )
@@ -789,13 +814,13 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'author':
 		?>
-		<td class="author"><a href="edit.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<td <?php echo $attributes ?>><a href="edit.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
 		<?php
 		break;
 
 		case 'status':
 		?>
-		<td class="status">
+		<td <?php echo $attributes ?>>
 		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
 		<?php
 			switch ( $post->post_status ) {
@@ -1915,6 +1940,30 @@ function do_settings_fields($page, $section) {
 		echo '</td>';
 		echo '</tr>';
 	}	
+}
+
+function manage_columns_prefs($page) {
+	if ( 'post' == $page )
+		$columns = wp_manage_posts_columns();
+	elseif ( 'page' == $page )
+		$columns = wp_manage_pages_columns();
+	elseif ( 'media' == $page )
+		$columns = wp_manage_media_columns();
+	else return;
+
+	$hidden = (array) get_user_option( "manage-$page-columns-hidden" );
+
+	foreach ( $columns as $column => $title ) {
+		// Can't hide these
+		if ( 'cb' == $column || 'title' == $column )
+			continue;
+		if ( 'comments' == $column )
+			$title = __('Comments');
+		$id = "$column-hide";
+		echo '<label for="' . $id . '">';
+		echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . (! in_array($column, $hidden) ? ' checked="checked"' : '') . ' />';
+		echo "$title</label>\n";
+	}
 }
 
 ?>
