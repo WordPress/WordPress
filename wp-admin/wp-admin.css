@@ -657,7 +657,6 @@ ul#adminmenu li.write-new-button a {
 	text-align: center;
 	color: #246;
 }
-	
 
 #wphead h1 {
 	font: normal 36px Georgia, "Times New Roman", Times, serif;
@@ -1819,25 +1818,18 @@ fieldset {
 .settings-toggle h3 {
 	margin: 0;
 }
-/*
-p.meta-options {
-	border: 1px solid;
-	padding: 1em .5em;
-}
-*/
+
 .ui-sortable .postbox h3 {
-	cursor:move;
+	cursor: pointer;
 }
 
 a.togbox {
 	cursor: pointer;
 }
 
-p#post-search-prep {
-	margin: 0;
-	position: absolute;
-	right: 20px;
-	top: 50px;
+.ui-sortable .postbox .hndle {
+	padding: 6px 0;
+	cursor: move;
 }
 
 #jj, #hh, #mn {
@@ -2088,7 +2080,7 @@ p#post-search-prep {
 }
 
 #hide-settings-link {
-	background-image: url(images/menu-open.png); 
+	background-image: url(images/menu-open.png);
 }
 
 #edit-settings {
@@ -2223,7 +2215,7 @@ p#post-search-prep {
 
 .inline ul.categories {
 	list-style: none;
-	padding: 0; margin: 0; 
+	padding: 0; margin: 0;
 	height: 65px;
 	overflow: auto;
 	font-size: 10px;

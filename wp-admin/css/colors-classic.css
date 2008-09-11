@@ -324,7 +324,7 @@ h3.dashboard-widget-title small a:hover {
 	color: #5a5a5a;
 }
 
-#poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-upload a.delete, a {
+#poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-upload a.delete, .ui-sortable .postbox h3:hover span, a {
 	color: #2e7ca0;
 }
 

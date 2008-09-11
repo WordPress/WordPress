@@ -3,7 +3,7 @@
 	postboxes = {
 		add_postbox_toggles : function(page) {
 			$('.postbox h3').before('<a class="togbox">+</a> ');
-			$('.postbox a.togbox').click( function() { $($(this).parent().get(0)).toggleClass('closed'); save_postboxes_state(page); } );
+			$('.postbox h3, .postbox a.togbox').click( function() { $($(this).parent().get(0)).toggleClass('closed'); save_postboxes_state(page); } );
 
 			$('.hide-postbox-tog').click( function() {
 				var box = jQuery(this).val();
@@ -40,7 +40,9 @@
 			jQuery('.meta-box-sortables').sortable( {
 				connectWith: [ '.meta-box-sortables' ],
 				items: '> .postbox',
-				handle: 'h3',
+				handle: '.hndle',
+				distance: 2,
+				containment: '#wpbody-content',
 				stop: function() {
 					if ( 'side-sortables' == this.id ) { // doing this with jQuery doesn't work for some reason: make-it-tall gets duplicated
 						var makeItTall = document.getElementById( 'make-it-tall' );
