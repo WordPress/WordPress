@@ -1,55 +1,144 @@
 <?php
+/**
+ * WordPress Diff bastard child of old MediaWiki Diff Formatter.
+ *
+ * Basically all that remains is the table structure and some method names.
+ *
+ * @package WordPress
+ * @subpackage Diff
+ */
 
 if ( !class_exists( 'Text_Diff' ) ) {
+	/** Text_Diff class */
 	require( dirname(__FILE__).'/Text/Diff.php' );
+	/** Text_Diff_Renderer class */
 	require( dirname(__FILE__).'/Text/Diff/Renderer.php' );
+	/** Text_Diff_Renderer_inline class */
 	require( dirname(__FILE__).'/Text/Diff/Renderer/inline.php' );
 }
 
-
-/* Descendent of a bastard child of piece of an old MediaWiki Diff Formatter
+/**
+ * Table renderer to display the diff lines.
  *
- * Basically all that remains is the table structure and some method names.
+ * @since 2.6.0
+ * @uses Text_Diff_Renderer Extends
  */
-
 class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
+
+	/**
+	 * @see Text_Diff_Renderer::_leading_context_lines
+	 * @var int
+	 * @access protected
+	 * @since 2.6.0
+	 */
 	var $_leading_context_lines  = 10000;
+
+	/**
+	 * @see Text_Diff_Renderer::_trailing_context_lines
+	 * @var int
+	 * @access protected
+	 * @since 2.6.0
+	 */
 	var $_trailing_context_lines = 10000;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @var float
+	 * @access protected
+	 * @since 2.6.0
+	 */
 	var $_diff_threshold = 0.6;
 
+	/**
+	 * Inline display helper object name.
+	 *
+	 * @var string
+	 * @access protected
+	 * @since 2.6.0
+	 */
 	var $inline_diff_renderer = 'WP_Text_Diff_Renderer_inline';
 
+	/**
+	 * PHP4 Constructor - Call parent constructor with params array.
+	 *
+	 * This will set class properties based on the key value pairs in the array.
+	 *
+	 * @since unknown
+	 *
+	 * @param array $params
+	 */
 	function Text_Diff_Renderer_Table( $params = array() ) {
 		$parent = get_parent_class($this);
 		$this->$parent( $params );
 	}
 
+	/**
+	 * @ignore
+	 *
+	 * @param string $header
+	 * @return string
+	 */
 	function _startBlock( $header ) {
 		return '';
 	}
 
+	/**
+	 * @ignore
+	 *
+	 * @param array $lines
+	 * @param string $prefix
+	 */
 	function _lines( $lines, $prefix=' ' ) {
 	}
 
-	// HTML-escape parameter before calling this
+	/**
+	 * @ignore
+	 *
+	 * @param string $line HTML-escape the value.
+	 * @return string
+	 */
 	function addedLine( $line ) {
 		return "<td>+</td><td class='diff-addedline'>{$line}</td>";
 	}
 
-	// HTML-escape parameter before calling this
+	/**
+	 * @ignore
+	 *
+	 * @param string $line HTML-escape the value.
+	 * @return string
+	 */
 	function deletedLine( $line ) {
 		return "<td>-</td><td class='diff-deletedline'>{$line}</td>";
 	}
 
-	// HTML-escape parameter before calling this
+	/**
+	 * @ignore
+	 *
+	 * @param string $line HTML-escape the value.
+	 * @return string
+	 */
 	function contextLine( $line ) {
 		return "<td> </td><td class='diff-context'>{$line}</td>";
 	}
 
+	/**
+	 * @ignore
+	 *
+	 * @return string
+	 */
 	function emptyLine() {
 		return '<td colspan="2">&nbsp;</td>';
 	}
 
+	/**
+	 * @ignore
+	 * @access private
+	 *
+	 * @param array $lines
+	 * @param bool $encode
+	 * @return string
+	 */
 	function _added( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
@@ -60,6 +149,14 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		return $r;
 	}
 
+	/**
+	 * @ignore
+	 * @access private
+	 *
+	 * @param array $lines
+	 * @param bool $encode
+	 * @return string
+	 */
 	function _deleted( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
@@ -70,6 +167,14 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		return $r;
 	}
 
+	/**
+	 * @ignore
+	 * @access private
+	 *
+	 * @param array $lines
+	 * @param bool $encode
+	 * @return string
+	 */
 	function _context( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
@@ -81,9 +186,19 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		return $r;
 	}
 
-	// Process changed lines to do word-by-word diffs for extra highlighting (TRAC style)
-	// sometimes these lines can actually be deleted or added rows - we do additional processing
-	// to figure that out
+	/**
+	 * Process changed lines to do word-by-word diffs for extra highlighting.
+	 *
+	 * (TRAC style) sometimes these lines can actually be deleted or added rows.
+	 * We do additional processing to figure that out
+	 *
+	 * @access private
+	 * @since 2.6.0
+	 *
+	 * @param array $orig
+	 * @param array $final
+	 * @return string
+	 */
 	function _changed( $orig, $final ) {
 		$r = '';
 
@@ -151,10 +266,20 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		return $r;
 	}
 
-	// Takes changed blocks and matches which rows in orig turned into which rows in final.
-	// Returns
-	//	*_matches ( which rows match with which )
-	//	*_rows ( order of rows in each column interleaved with blank rows as necessary )
+	/**
+	 * Takes changed blocks and matches which rows in orig turned into which rows in final.
+	 *
+	 * Returns
+	 *	*_matches ( which rows match with which )
+	 *	*_rows ( order of rows in each column interleaved with blank rows as
+	 *		necessary )
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param unknown_type $orig
+	 * @param unknown_type $final
+	 * @return unknown
+	 */
 	function interleave_changed_lines( $orig, $final ) {
 
 		// Contains all pairwise string comparisons.  Keys are such that this need only be a one dimensional array.
@@ -279,8 +404,15 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 */
 	}
 
-
-	// Computes a number that is intended to reflect the "distance" between two strings.
+	/**
+	 * Computes a number that is intended to reflect the "distance" between two strings.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param string $string1
+	 * @param string $string2
+	 * @return int
+	 */
 	function compute_string_distance( $string1, $string2 ) {
 		// Vectors containing character frequency for all chars in each string
 		$chars1 = count_chars($string1);
@@ -297,15 +429,36 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		return $difference / strlen($string1);
 	}
 
+	/**
+	 * @ignore
+	 * @since 2.6.0
+	 *
+	 * @param int $a
+	 * @param int $b
+	 * @return int
+	 */
 	function difference( $a, $b ) {
 		return abs( $a - $b );
 	}
 
 }
 
-// Better word splitting than the PEAR package provides
+/**
+ * Better word splitting than the PEAR package provides.
+ *
+ * @since 2.6.0
+ * @uses Text_Diff_Renderer_inline Extends
+ */
 class WP_Text_Diff_Renderer_inline extends Text_Diff_Renderer_inline {
 
+	/**
+	 * @ignore
+	 * @since 2.6.0
+	 *
+	 * @param string $string
+	 * @param string $newlineEscape
+	 * @return string
+	 */
 	function _splitOnWords($string, $newlineEscape = "\n") {
 		$string = str_replace("\0", '', $string);
 		$words  = preg_split( '/([^\w])/u', $string, -1, PREG_SPLIT_DELIM_CAPTURE );
