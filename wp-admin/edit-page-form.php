@@ -77,9 +77,6 @@ if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND 
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
 </select>
 </p>
-<?php if ( current_user_can( 'publish_posts' ) ) : ?>
-<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
-<?php endif; ?>
 
 <?php
 if ( 0 != $post->ID ) {
@@ -179,11 +176,13 @@ add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_
 
 function page_password_meta_box($post){
 ?>
+<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
+<h4><?php _e( 'Page Password' ); ?></h4>
 <p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php echo ( isset( $post->post_password ) ? attribute_escape( $post->post_password ) : '' ); ?>" /></p>
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
 <?php
 }
-add_meta_box('pagepassworddiv', __('Password Protect This Page'), 'page_password_meta_box', 'page', 'normal', 'core');
+add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'normal', 'core');
 
 function page_slug_meta_box($post){
 ?>
