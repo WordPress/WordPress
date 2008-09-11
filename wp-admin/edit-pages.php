@@ -45,6 +45,7 @@ $title = __('Pages');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit');
+wp_enqueue_script('pages');
 
 $post_stati  = array(	//	array( adj, noun )
 		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published (%s)', 'Published (%s)')),
@@ -77,6 +78,19 @@ require_once('admin-header.php');
 ?>
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('page') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <h2><?php
 // Use $_GET instead of is_ since they can override each other
 $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes( $_GET['s'] ) ) ) : '';
@@ -175,16 +189,24 @@ if ($posts) {
 <table class="widefat">
   <thead>
   <tr>
-<?php $posts_columns = wp_manage_pages_columns(); ?>
-<?php foreach($posts_columns as $post_column_key => $column_display_name) {
+<?php
+$posts_columns = wp_manage_pages_columns();
+$hidden = (array) get_user_option( 'manage-page-columns-hidden' );
+foreach($posts_columns as $post_column_key => $column_display_name) {
 	if ( 'cb' === $post_column_key )
 		$class = ' class="check-column"';
 	elseif ( 'comments' === $post_column_key )
-		$class = ' class="num"';
+		$class = ' class="manage-column column-comments num"';
+	elseif ( 'modified' === $post_column_key )
+		$class = ' class="manage-column column-date"';
 	else
-		$class = '';
+		$class = " class=\"manage-column column-$post_column_key\"";
+
+	$style = '';
+	if ( in_array($post_column_key, $hidden) )
+		$style = ' style="display:none;"';
 ?>
-	<th scope="col"<?php echo $class; ?>><?php echo $column_display_name; ?></th>
+	<th scope="col"<?php echo "id=\"$post_column_key\""; echo $class; echo $style?>><?php echo $column_display_name; ?></th>
 <?php } ?>
   </tr>
   </thead>
@@ -193,6 +215,8 @@ if ($posts) {
   <?php page_rows($posts, $pagenum, $per_page); ?>
   </tbody>
 </table>
+
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 
 </form>
 

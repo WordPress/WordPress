@@ -259,6 +259,7 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'posts', '/wp-admin/js/posts.js', array('columns'), '20080910' );
+		$scripts->add( 'pages', '/wp-admin/js/pages.js', array('columns'), '20080910' );
 
 		$scripts->add( 'columns', '/wp-admin/js/columns.js', false, '20080910' );
 		$scripts->localize( 'columns', 'columnsL10n', array(

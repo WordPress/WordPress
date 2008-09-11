@@ -891,6 +891,7 @@ function display_page_row( $page, $level = 0 ) {
 	$id = (int) $page->ID;
 	$class = ('alternate' == $class ) ? '' : 'alternate';
 	$posts_columns = wp_manage_pages_columns();
+	$hidden = (array) get_user_option( 'manage-page-columns-hidden' );
 	$title = get_the_title();
 	if ( empty($title) )
 		$title = __('(no title)');
@@ -901,6 +902,13 @@ function display_page_row( $page, $level = 0 ) {
  <?php
 
 foreach ($posts_columns as $column_name=>$column_display_name) {
+	$class = "class=\"$column_name column-$column_name\"";
+
+	$style = '';
+	if ( in_array($column_name, $hidden) )
+		$style = ' style="display:none;"';
+
+	$attributes = "$class$style";
 
 	switch ($column_name) {
 
@@ -911,6 +919,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		break;
 	case 'modified':
 	case 'date':
+		$attributes = 'class="date column-date"' . $style;
 		if ( '0000-00-00 00:00:00' == $page->post_date && 'date' == $column_name ) {
 			$t_time = $h_time = __('Unpublished');
 		} else {
@@ -933,18 +942,16 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		?>
-		<td class="date"><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
+		<td <?php echo $attributes ?>><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
 		<?php
 		break;
 	case 'title':
+		$attributes = 'class="post-title page-title column-title"' . $style;
 		$edit_link = get_edit_post_link( $page->ID );
 		?>
-		<td class="post-title"><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; } ?></strong>
+		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; } ?></strong>
 		<?php
 		if ( !empty($post->post_password) ) { _e(' &#8212; <strong>Protected</strong>'); } elseif ('private' == $post->post_status) { _e(' &#8212; <strong>Private</strong>'); }
-
-		if ( 'excerpt' == $mode )
-			the_excerpt();
 
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
@@ -963,8 +970,9 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		break;
 
 	case 'comments':
+		$attributes = 'class="comments column-comments num"' . $style;
 		?>
-		<td class="comments num"><div class="post-com-count-wrapper">
+		<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 		<?php
 		$left = get_pending_comments_num( $page->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
@@ -980,13 +988,13 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	case 'author':
 		?>
-		<td class="author"><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
+		<td <?php echo $attributes ?>><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
 		<?php
 		break;
 
 	case 'status':
 		?>
-		<td class="status">
+		<td <?php echo $attributes ?>>
 		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
 		<?php
 		switch ( $page->post_status ) {
