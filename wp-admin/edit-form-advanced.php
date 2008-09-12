@@ -66,18 +66,39 @@ function post_submit_meta_box($post) {
 ?>
 <div class="submitbox" id="submitpost">
 
-
-
 <div class="inside-submitbox">
 
-<p><strong><label for='post_status'><?php _e('Publish Status') ?></label></strong></p>
-<p>
+<p><label for='post_status'><?php _e('This post is') ?></label>
+<strong><span id="post-status-display">
+<?php
+switch ( $post->post_status ) {
+	case 'publish':
+	case 'private':
+		_e('Published');
+		break;
+	case 'future':
+		_e('Scheduled');
+		break;
+	case 'pending':
+		_e('Pending Review');
+		break;
+	case 'draft':
+		_e('Unpublished');
+		break;
+}
+?>
+</span></strong>
+<a href="#edit_post_status" class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+</p>
+
+<p id='post-status-select' class="hide-if-js">
 <select name='post_status' id='post_status' tabindex='4'>
 <?php
 // only show the publish menu item if they are allowed to publish posts or they are allowed to edit this post (accounts for 'edit_published_posts' capability)
-if ( current_user_can('publish_posts') OR ( $post->post_status == 'publish' AND current_user_can('edit_post', $post->ID) ) ) :
-?>
+if ( current_user_can('publish_posts') OR ( $post->post_status == 'publish' AND current_user_can('edit_post', $post->ID) ) ) : ?>
+<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
+<?php } ?>
 <?php if ( 'future' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
 <?php endif; ?>
@@ -122,7 +143,19 @@ if ( 0 != $post->ID ) {
 
 <p class="submit">
 <?php do_action('post_submitbox_start'); ?>
-<input type="submit" name="save" id="save-post" value="<?php _e('Save'); ?>" tabindex="4" class="button button-highlighted" />
+<input type="submit" name="save" id="save-post" value="<?php _e('Save Draft'); ?>" tabindex="4" class="button button-highlighted" />
+
+<?php if ( 'publish' == $post->post_status ) { ?>
+<a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View this Post'); ?></a>
+<?php } else { ?>
+<a class="preview button" href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" target="_blank"  tabindex="4"><?php _e('Preview'); ?></a>
+<?php } ?>
+
+<?php
+if ( ( 'edit' == $action) && current_user_can('delete_post', $post->ID) )
+	echo "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;post') . "</a>";
+?>
+<br class="clear" />
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->ID ) {
 ?>
@@ -131,13 +164,7 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->
 <?php else : ?>
 	<input name="publish" type="submit" class="button" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
-<?php
-}
-
-if ( ( 'edit' == $action) && current_user_can('delete_post', $post->ID) )
-	echo "<a class='submitdelete' href='" . wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID) . "' onclick=\"if ( confirm('" . js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;post') . "</a>";
-?>
-<br class="clear" />
+<?php } ?>
 
 <!-- moved under the editor
 <?php if ( 0 != $post->ID ): ?>
@@ -391,14 +418,6 @@ endif;
 	else
 		printf( __( '<a href="%s">Posts</a> / Edit Post' ), 'edit.php' );
 ?></h2>
-
-<div id="previewview">
-<?php if ( 'publish' == $post->post_status ) { ?>
-<a class="button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View this Post'); ?></a>
-<?php } elseif ( 'edit' == $action ) { ?>
-<a class="button" href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" target="_blank"  tabindex="4"><?php _e('Preview this Post'); ?></a>
-<?php } ?>
-</div>
 
 <?php
 

@@ -236,6 +236,21 @@ table#availablethemes td.bottom {
 	text-decoration: none;
 }
 
+.preview {
+	border: 0 none;
+	padding: 7px;
+}
+
+.submitbox .submit a.preview:hover {
+	border: 0 none;
+}
+
+#publish {
+	display: block;
+	margin: 8px auto auto;
+	min-width: 150px;
+}
+
 #wpcontent select {
 	font: 12px/20px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	padding: 2px;
