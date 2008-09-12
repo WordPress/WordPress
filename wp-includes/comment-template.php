@@ -878,17 +878,31 @@ class Walker_Comment extends Walker {
 	var $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
 
 	function start_lvl(&$output, $depth, $args) {
-		if ( 'div' == $args['style'] )
-			return;
-
-		echo "<ul class='children'>\n";
+		switch ( $args['style'] ) {
+			case 'div':
+				break;
+			case 'ol':
+				echo "<ol class='children'>\n";
+				break;
+			default:
+			case 'ul':
+				echo "<ul class='children'>\n";
+				break;
+		}
 	}
 
 	function end_lvl(&$output, $depth, $args) {
-		if ( 'div' == $args['style'] )
-			return;
-
-		echo "</ul>\n";
+		switch ( $args['style'] ) {
+			case 'div':
+				break;
+			case 'ol':
+				echo "</ol>\n";
+				break;
+			default:
+			case 'ul':
+				echo "</ul>\n";
+				break;
+		}
 	}
 
 	function start_el(&$output, $comment, $depth, $args) {
@@ -907,7 +921,7 @@ class Walker_Comment extends Walker {
 		else
 			$tag = 'li';
 ?>
-		<<?php echo $tag ?> "<?php comment_class() ?>" id="comment-<?php comment_ID() ?>">
+		<<?php echo $tag ?> <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
 		<?php if ( 'list' == $args['style'] ) : ?>
 		<div id="div-comment-<?php comment_ID() ?>">
 		<?php endif; ?>
@@ -925,7 +939,7 @@ class Walker_Comment extends Walker {
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 
 		<div class='reply'>
-		<?php if ( $depth < $args['depth'] ) echo comment_reply_link(array('add_below' => 'div-comment')) ?>
+		<?php if ( 0 == $args['depth'] || $depth < $args['depth'] ) echo comment_reply_link(array('add_below' => 'div-comment')) ?>
 		<?php if ( 'list' == $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
@@ -934,6 +948,10 @@ class Walker_Comment extends Walker {
 	}
 
 	function end_el(&$output, $comment, $depth, $args) {
+		if ( !empty($args['end-callback']) ) {
+			call_user_func($args['end-callback'], $comment, $args, $depth);
+			return;
+		}
 		if ( 'div' == $args['style'] )
 			echo "</div>\n";
 		else
@@ -954,7 +972,7 @@ class Walker_Comment extends Walker {
  * @param $args string|array Additional arguments
  */
 function wp_list_comments(&$comments, $args = array() ) {
-	$defaults = array('walker' => null, 'depth' => 3, 'style' => 'list', 'callback' => null);
+	$defaults = array('walker' => null, 'depth' => 3, 'style' => 'ul', 'callback' => null, 'end-callback' => null);
 
 	$r = wp_parse_args( $args, $defaults );
 
