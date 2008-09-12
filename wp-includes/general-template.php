@@ -282,15 +282,26 @@ function get_bloginfo($show = '', $filter = 'raw') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display or retrieve page title for all areas of blog.
  *
- * {@internal Missing Long Description}}
+ * By default, the page title will display the separator before the page title,
+ * so that the blog title will be before the page title. This is not good for
+ * title display, since the blog title shows up on most tabs and not what is
+ * important, which is the page that the user is looking at.
+ *
+ * There are also SEO benefits to having the blog title after or to the 'right'
+ * or the page title. However, it is mostly common sense to have the blog title
+ * to the right with most browsers supporting tabs. You can achieve this by
+ * using the seplocation parameter and setting the value to 'right'. This change
+ * was introduced around 2.5.0, in case backwards compatibility of themes is
+ * important.
  *
  * @since 1.0.0
  *
- * @param unknown_type $sep
- * @param unknown_type $display
- * @return unknown
+ * @param string $sep Optional, default is '&raquo;'. How to separate the various items within the page title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @param string $seplocation Optional. Direction to display title, 'right'.
+ * @return string|null String on retrieve, null when displaying.
  */
 function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	global $wpdb, $wp_locale, $wp_query;
@@ -398,16 +409,22 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display or retrieve page title for post.
  *
- * {@internal Missing Long Description}}
+ * This is optimized for single.php template file for displaying the post title.
+ * Only useful for posts, does not support pages for example.
+ *
+ * It does not support placing the separator after the title, but by leaving the
+ * prefix parameter empty, you can set the title separator manually. The prefix
+ * does not automatically place a space between the prefix, so if there should
+ * be a space, the parameter value will need to have it at the end.
  *
  * @since 0.71
  * @uses $wpdb
  *
- * @param unknown_type $prefix
- * @param unknown_type $display
- * @return unknown
+ * @param string $prefix Optional. What to display before the title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_post_title($prefix = '', $display = true) {
 	global $wpdb;
@@ -428,15 +445,21 @@ function single_post_title($prefix = '', $display = true) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display or retrieve page title for category archive.
  *
- * {@internal Missing Long Description}}
+ * This is useful for category template file or files, because it is optimized
+ * for category page title and with less overhead than {@link wp_title()}.
+ *
+ * It does not support placing the separator after the title, but by leaving the
+ * prefix parameter empty, you can set the title separator manually. The prefix
+ * does not automatically place a space between the prefix, so if there should
+ * be a space, the parameter value will need to have it at the end.
  *
  * @since 0.71
  *
- * @param unknown_type $prefix
- * @param unknown_type $display
- * @return unknown
+ * @param string $prefix Optional. What to display before the title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_cat_title($prefix = '', $display = true ) {
 	$cat = intval( get_query_var('cat') );
@@ -454,15 +477,21 @@ function single_cat_title($prefix = '', $display = true ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display or retrieve page title for tag post archive.
  *
- * {@internal Missing Long Description}}
+ * Useful for tag template files for displaying the tag page title. It has less
+ * overhead than {@link wp_title()}, because of its limited implementation.
+ *
+ * It does not support placing the separator after the title, but by leaving the
+ * prefix parameter empty, you can set the title separator manually. The prefix
+ * does not automatically place a space between the prefix, so if there should
+ * be a space, the parameter value will need to have it at the end.
  *
  * @since 2.3.0
  *
- * @param unknown_type $prefix
- * @param unknown_type $display
- * @return unknown
+ * @param string $prefix Optional. What to display before the title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_tag_title($prefix = '', $display = true ) {
 	if ( !is_tag() )
@@ -485,15 +514,22 @@ function single_tag_title($prefix = '', $display = true ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display or retrieve page title for post archive based on date.
  *
- * {@internal Missing Long Description}}
+ * Useful for when the template only needs to display the month and year, if
+ * either are available. Optimized for just this purpose, so if it is all that
+ * is needed, should be better than {@link wp_title()}.
+ *
+ * It does not support placing the separator after the title, but by leaving the
+ * prefix parameter empty, you can set the title separator manually. The prefix
+ * does not automatically place a space between the prefix, so if there should
+ * be a space, the parameter value will need to have it at the end.
  *
  * @since 0.71
  *
- * @param unknown_type $prefix
- * @param unknown_type $display
- * @return unknown
+ * @param string $prefix Optional. What to display before the title.
+ * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|null Title when retrieving, null when displaying or failure.
  */
 function single_month_title($prefix = '', $display = true ) {
 	global $wp_locale;
@@ -521,20 +557,39 @@ function single_month_title($prefix = '', $display = true ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve archive link content based on predefined or custom code.
  *
- * {@internal Missing Long Description}}
+ * The format can be one of four styles. The 'link' for head element, 'option'
+ * for use in the select element, 'html' for use in list (either ol or ul HTML
+ * elements). Custom content is also supported using the before and after
+ * parameters.
+ *
+ * The 'link' format uses the link HTML element with the <em>archives</em>
+ * relationship. The before and after parameters are not used. The text
+ * parameter is used to describe the link.
+ *
+ * The 'option' format uses the option HTML element for use in select element.
+ * The value is the url parameter and the before and after parameters are used
+ * between the text description.
+ *
+ * The 'html' format, which is the default, uses the li HTML element for use in
+ * the list HTML elements. The before parameter is before the link and the after
+ * parameter is after the closing link.
+ *
+ * The custom format uses the before parameter before the link ('a' HTML
+ * element) and the after parameter after the closing link tag. If the above
+ * three values for the format are not used, then custom format is assumed.
  *
  * @since 1.0.0
  * @author Orien
  * @link http://icecode.com/ link navigation hack by Orien
  *
- * @param unknown_type $url
- * @param unknown_type $text
- * @param unknown_type $format
- * @param unknown_type $before
- * @param unknown_type $after
- * @return unknown
+ * @param string $url URL to archive.
+ * @param string $text Archive text description.
+ * @param string $format Optional, default is 'html'. Can be 'link', 'option', 'html', or custom.
+ * @param string $before Optional.
+ * @param string $after Optional.
+ * @return string HTML link content for archive.
  */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
 	$text = wptexturize($text);
@@ -556,13 +611,30 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display archive links based on type and format.
  *
- * {@internal Missing Long Description}}
+ * The 'type' argument offers a few choices and by default will display monthly
+ * archive links. The other options for values are 'daily', 'weekly', 'monthly',
+ * 'yearly', 'postbypost' or 'alpha'. Both 'postbypost' and 'alpha' display the
+ * same archive link list, the difference between the two is that 'alpha'
+ * will order by post title and 'postbypost' will order by post date.
+ *
+ * The date archives will logically display dates with links to the archive post
+ * page. The 'postbypost' and 'alpha' values for 'type' argument will display
+ * the post titles.
+ *
+ * The 'limit' argument will only display a limited amount of links, specified
+ * by the 'limit' integer value. By default, there is no limit. The
+ * 'show_post_count' argument will show how many posts are within the archive.
+ * By default, the 'show_post_count' argument is set to false.
+ *
+ * For the 'format', 'before', and 'after' arguments, see {@link
+ * get_archives_link()}. The values of these arguments have to do with that
+ * function.
  *
  * @since 1.2.0
  *
- * @param unknown_type $args
+ * @param string|array $args Optional. Override defaults.
  */
 function wp_get_archives($args = '') {
 	global $wpdb, $wp_locale;
@@ -621,7 +693,7 @@ function wp_get_archives($args = '') {
 		if ( $arcresults ) {
 			$afterafter = $after;
 			foreach ( (array) $arcresults as $arcresult ) {
-				$url	= get_month_link($arcresult->year,	$arcresult->month);
+				$url = get_month_link( $arcresult->year, $arcresult->month );
 				$text = sprintf(__('%1$s %2$d'), $wp_locale->get_month($arcresult->month), $arcresult->year);
 				if ( $show_post_count )
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
@@ -730,15 +802,13 @@ function wp_get_archives($args = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Get number of days since the start of the week.
  *
  * @since 1.5.0
  * @usedby get_calendar()
  *
  * @param int $num Number of day.
- * @return int
+ * @return int Days since the start of the week.
  */
 function calendar_week_mod($num) {
 	$base = 7;
@@ -746,13 +816,14 @@ function calendar_week_mod($num) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display calendar with days that have posts as links.
  *
- * {@internal Missing Long Description}}
+ * The calendar is cached, which will be retrieved, if it exists. If there are
+ * no posts for the month, then it will not be displayed.
  *
  * @since 1.0.0
  *
- * @param unknown_type $initial
+ * @param bool $initial Optional, default is true. Use initial calendar names.
  */
 function get_calendar($initial = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
@@ -962,14 +1033,15 @@ add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache' );
 add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
 
 /**
- * {@internal Missing Short Description}}
+ * Display all of the allowed tags in HTML format with attributes.
  *
- * {@internal Missing Long Description}}
+ * This is useful for displaying in the comment area, which elements and
+ * attributes are supported. As well as any plugins which want to display it.
  *
  * @since 1.0.1
  * @uses $allowedtags
  *
- * @return unknown
+ * @return string HTML allowed tags entity encoded.
  */
 function allowed_tags() {
 	global $allowedtags;
@@ -1310,15 +1382,22 @@ function wp_default_editor() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display visual editor forms: TinyMCE, or HTML, or both.
  *
- * {@internal Missing Long Description}}
+ * The amount of rows the text area will have for the content has to be between
+ * 3 and 100 or will default at 12. There is only one option used for all users,
+ * named 'default_post_edit_rows'.
+ *
+ * If the user can not use the rich editor (TinyMCE), then the switch button
+ * will not be displayed.
  *
  * @since 2.1.0
  *
- * @param unknown_type $content
- * @param unknown_type $id
- * @param unknown_type $prev_id
+ * @param string $content Textarea content.
+ * @param string $id HTML ID attribute value.
+ * @param string $prev_id HTML ID name for switching back and forth between visual editors.
+ * @param bool $media_buttons Optional, default is true. Whether to display media buttons.
+ * @param int $tab_index Optional, default is 2. Tabindex for textarea element.
  */
 function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2) {
 	$rows = get_option('default_post_edit_rows');
@@ -1441,14 +1520,49 @@ function language_attributes($doctype = 'html') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve paginated link for archive post pages.
  *
- * {@internal Missing Long Description}}
+ * Technically, the function can be used to create paginated link list for any
+ * area. The 'base' argument is used to reference the url, which will be used to
+ * create the paginated links. The 'format' argument is then used for replacing
+ * the page number. It is however, most likely and by default, to be used on the
+ * archive post pages.
+ *
+ * The 'type' argument controls format of the returned value. The default is
+ * 'plain', which is just a string with the links separated by a newline
+ * character. The other possible values are either 'array' or 'list'. The
+ * 'array' value will return an array of the paginated link list to offer full
+ * control of display. The 'list' value will place all of the paginated links in
+ * an unordered HTML list.
+ *
+ * The 'total' argument is the total amount of pages and is an integer. The
+ * 'current' argument is the current page number and is also an integer.
+ *
+ * An example of the 'base' argument is "http://example.com/all_posts.php%_%"
+ * and the '%_%' is required. The '%_%' will be replaced by the contents of in
+ * the 'format' argument. An example for the 'format' argument is "?page=%#%"
+ * and the '%#%' is also required. The '%#%' will be replaced with the page
+ * number.
+ *
+ * You can include the previous and next links in the list by setting the
+ * 'prev_next' argument to true, which it is by default. You can set the
+ * previous text, by using the 'prev_text' argument. You can set the next text
+ * by setting the 'next_text' argument.
+ *
+ * If the 'show_all' argument is set to true, then it will show all of the pages
+ * instead of a short list of the pages near the current page. By default, the
+ * 'show_all' is set to false and controlled by the 'end_size' and 'mid_size'
+ * arguments. The 'end_size' argument is how many numbers on either the start
+ * and the end list edges, by default is 1. The 'mid_size' argument is how many
+ * numbers to either side of current page, but not including current page.
+ *
+ * It is possible to add query vars to the link by using the 'add_args' argument
+ * and see {@link add_query_arg()} for more information.
  *
  * @since 2.1.0
  *
- * @param unknown_type $args
- * @return unknown
+ * @param string|array $args Optional. Override defaults.
+ * @return array|string String of page links or array of page links.
  */
 function paginate_links( $args = '' ) {
 	$defaults = array(
@@ -1460,17 +1574,17 @@ function paginate_links( $args = '' ) {
 		'prev_next' => true,
 		'prev_text' => __('&laquo; Previous'),
 		'next_text' => __('Next &raquo;'),
-		'end_size' => 1, // How many numbers on either end including the end
-		'mid_size' => 2, // How many numbers to either side of current not including current
+		'end_size' => 1,
+		'mid_size' => 2,
 		'type' => 'plain',
-		'add_args' => false // array of query args to aadd
+		'add_args' => false // array of query args to add
 	);
 
 	$args = wp_parse_args( $args, $defaults );
 	extract($args, EXTR_SKIP);
 
 	// Who knows what else people pass in $args
-	$total	= (int) $total;
+	$total = (int) $total;
 	if ( $total < 2 )
 		return;
 	$current  = (int) $current;
