@@ -1,5 +1,27 @@
 <?php
+/**
+ * WordPress User API
+ *
+ * @package WordPress
+ */
 
+/**
+ * Authenticate user with remember capability.
+ *
+ * The credentials is an array that has 'user_login', 'user_password', and
+ * 'remember' indices. If the credentials is not given, then the log in form
+ * will be assumed and used if set.
+ *
+ * The various authentication cookies will be set by this function and will be
+ * set for a longer period depending on if the 'remember' credential is set to
+ * true.
+ *
+ * @since 2.5.0
+ *
+ * @param array $credentials Optional. User info in order to sign on.
+ * @param bool $secure_cookie Optional. Whether to use secure cookie.
+ * @return object Either WP_Error on failure, or WP_User on success.
+ */
 function wp_signon( $credentials = '', $secure_cookie = '' ) {
 	if ( empty($credentials) ) {
 		if ( ! empty($_POST['log']) )
@@ -26,20 +48,20 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 
 	// If no credential info provided, check cookie.
 	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
-			$user = wp_validate_auth_cookie();
-			if ( $user )
-				return new WP_User($user);
+		$user = wp_validate_auth_cookie();
+		if ( $user )
+			return new WP_User($user);
 
-			if ( $secure_cookie )
-				$auth_cookie = SECURE_AUTH_COOKIE;
-			else
-				$auth_cookie = AUTH_COOKIE;
+		if ( $secure_cookie )
+			$auth_cookie = SECURE_AUTH_COOKIE;
+		else
+			$auth_cookie = AUTH_COOKIE;
 
-			if ( !empty($_COOKIE[$auth_cookie]) )
-				return new WP_Error('expired_session', __('Please log in again.'));
+		if ( !empty($_COOKIE[$auth_cookie]) )
+			return new WP_Error('expired_session', __('Please log in again.'));
 
-			// If the cookie is not set, be silent.
-			return new WP_Error();
+		// If the cookie is not set, be silent.
+		return new WP_Error();
 	}
 
 	if ( empty($credentials['user_login']) || empty($credentials['user_password']) ) {
@@ -61,6 +83,27 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 	return $user;
 }
 
+/**
+ * Retrieve user data based on field.
+ *
+ * Use get_profile() will make a database query to get the value of the table
+ * column. The value might be cached using the query cache, but care should be
+ * taken when using the function to not make a lot of queries for retrieving
+ * user profile information.
+ *
+ * If the $user parameter is not used, then the user will be retrieved from a
+ * cookie of the user. Therefore, if the cookie does not exist, then no value
+ * might be returned. Sanity checking must be done to ensure that when using
+ * get_profile() that empty/null/false values are handled and that something is
+ * at least displayed.
+ *
+ * @since 1.5.0
+ * @uses $wpdb WordPress database object to create queries.
+ *
+ * @param string $field User field to retrieve.
+ * @param string $user Optional. User username.
+ * @return string The value in the field.
+ */
 function get_profile($field, $user = false) {
 	global $wpdb;
 	if ( !$user )
@@ -68,14 +111,32 @@ function get_profile($field, $user = false) {
 	return $wpdb->get_var( $wpdb->prepare("SELECT $field FROM $wpdb->users WHERE user_login = %s", $user) );
 }
 
+/**
+ * Number of posts user has written.
+ *
+ * @since 0.71
+ * @uses $wpdb WordPress database object for queries.
+ *
+ * @param int $userid User ID.
+ * @return int Amount of posts user has written.
+ */
 function get_usernumposts($userid) {
 	global $wpdb;
 	$userid = (int) $userid;
 	return $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = %d AND post_type = 'post' AND ", $userid) . get_private_posts_cap_sql('post'));
 }
 
-// TODO: xmlrpc only.  Maybe move to xmlrpc.php.
-function user_pass_ok($user_login,$user_pass) {
+/**
+ * Check that the user login name and password is correct.
+ *
+ * @since 0.71
+ * @todo xmlrpc only. Maybe move to xmlrpc.php.
+ *
+ * @param string $user_login User name.
+ * @param string $user_pass User password.
+ * @return bool False if does not authenticate, true if username and password authenticates.
+ */
+function user_pass_ok($user_login, $user_pass) {
 	$user = wp_authenticate($user_login, $user_pass);
 	if ( is_wp_error($user) )
 		return false;
@@ -87,6 +148,27 @@ function user_pass_ok($user_login,$user_pass) {
 // User option functions
 //
 
+/**
+ * Retrieve user option that can be either global, user, or blog.
+ *
+ * If the user ID is not given, then the current user will be used instead. If
+ * the user ID is given, then the user data will be retrieved. The filter for
+ * the result, will also pass the original option name and finally the user data
+ * object as the third parameter.
+ *
+ * The option will first check for the non-global name, then the global name,
+ * and if it still doesn't find it, it will try the blog option. The option can
+ * either be modified or set by a plugin.
+ *
+ * @since 2.0.0
+ * @uses $wpdb WordPress database object for queries.
+ * @uses apply_filters() Calls 'get_user_option_$option' hook with result,
+ *		option parameter, and user data object.
+ *
+ * @param string $option User option name.
+ * @param int $user Optional. User ID.
+ * @return mixed
+ */
 function get_user_option( $option, $user = 0 ) {
 	global $wpdb;
 
@@ -106,6 +188,22 @@ function get_user_option( $option, $user = 0 ) {
 	return apply_filters("get_user_option_{$option}", $result, $option, $user);
 }
 
+/**
+ * Update user option with global blog capability.
+ *
+ * User options are just like user metadata except that they have support for
+ * global blog options. If the 'global' parameter is false, which it is by false
+ * it will prepend the WordPress table prefix to the option name.
+ *
+ * @since 2.0.0
+ * @uses $wpdb WordPress database object for queries
+ *
+ * @param int $user_id User ID
+ * @param string $option_name User option name.
+ * @param mixed $newvalue User option value.
+ * @param bool $global Optional. Whether option name is blog specific or not.
+ * @return unknown
+ */
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
 	global $wpdb;
 	if ( !$global )
@@ -113,8 +211,19 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 	return update_usermeta( $user_id, $option_name, $newvalue );
 }
 
-// Get users with capabilities for the current blog.
-// For setups that use the multi-blog feature.
+/**
+ * Get users for the blog.
+ *
+ * For setups that use the multi-blog feature. Can be used outside of the
+ * multi-blog feature.
+ *
+ * @since 2.2.0
+ * @uses $wpdb WordPress database object for queries
+ * @uses $blog_id The Blog id of the blog for those that use more than one blog
+ *
+ * @param int $id Blog ID.
+ * @return array List of users that are part of that Blog ID
+ */
 function get_users_of_blog( $id = '' ) {
 	global $wpdb, $blog_id;
 	if ( empty($id) )
@@ -127,6 +236,17 @@ function get_users_of_blog( $id = '' ) {
 // User meta functions
 //
 
+/**
+ * Remove user meta data.
+ *
+ * @since 2.0.0
+ * @uses $wpdb WordPress database object for queries.
+ *
+ * @param int $user_id User ID.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @return bool True deletion completed and false if user_id is not a number.
+ */
 function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 	global $wpdb;
 	if ( !is_numeric( $user_id ) )
@@ -147,6 +267,21 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 	return true;
 }
 
+/**
+ * Retrieve user metadata.
+ *
+ * If $user_id is not a number, then the function will fail over with a 'false'
+ * boolean return value. Other returned values depend on whether there is only
+ * one item to be returned, which be that single item type. If there is more
+ * than one metadata value, then it will be list of metadata values.
+ *
+ * @since 2.0.0
+ * @uses $wpdb WordPress database object for queries.
+ *
+ * @param int $user_id User ID
+ * @param string $meta_key Optional. Metadata key.
+ * @return mixed
+ */
 function get_usermeta( $user_id, $meta_key = '') {
 	global $wpdb;
 	$user_id = (int) $user_id;
@@ -181,13 +316,30 @@ function get_usermeta( $user_id, $meta_key = '') {
 		return $metas;
 }
 
+/**
+ * Update metadata of user.
+ *
+ * There is no need to serialize values, they will be serialized if it is
+ * needed. The metadata key can only be a string with underscores. All else will
+ * be removed.
+ *
+ * Will remove the metadata, if the meta value is empty.
+ *
+ * @since 2.0.0
+ * @uses $wpdb WordPress database object for queries
+ *
+ * @param int $user_id User ID
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @return bool True on successful update, false on failure.
+ */
 function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	global $wpdb;
 	if ( !is_numeric( $user_id ) )
 		return false;
 	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 
-	// FIXME: usermeta data is assumed to be already escaped
+	/** @todo Might need fix because usermeta data is assumed to be already escaped */
 	if ( is_string($meta_value) )
 		$meta_value = stripslashes($meta_value);
 	$meta_value = maybe_serialize($meta_value);
@@ -216,7 +368,24 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 // Private helper functions
 //
 
-// Setup global user vars.  Used by set_current_user() for back compat.
+/**
+ * Setup global user vars.
+ *
+ * Used by set_current_user() for back compat. Might be deprecated in the
+ * future.
+ *
+ * @since 2.0.4
+ * @global string $userdata User description.
+ * @global string $user_login The user username for logging in
+ * @global int $user_level The level of the user
+ * @global int $user_ID The ID of the user
+ * @global string $user_email The email address of the user
+ * @global string $user_url The url in the user's profile
+ * @global string $user_pass_md5 MD5 of the user's password
+ * @global string $user_identity The display name of the user
+ *
+ * @param int $user_id Optional. User ID to setup global data.
+ */
 function setup_userdata($user_id = '') {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
 
@@ -238,6 +407,37 @@ function setup_userdata($user_id = '') {
 	$user_identity	= $user->display_name;
 }
 
+/**
+ * Create dropdown HTML content of users.
+ *
+ * The content can either be displayed, which it is by default or retrieved by
+ * setting the 'echo' argument. The 'include' and 'exclude' arguments do not
+ * need to be used; all users will be displayed in that case. Only one can be
+ * used, either 'include' or 'exclude', but not both.
+ *
+ * The available arguments are as follows:
+ * <ol>
+ * <li>show_option_all - Text to show all and whether HTML option exists.</li>
+ * <li>show_option_none - Text for show none and whether HTML option exists.
+ *     </li>
+ * <li>orderby - SQL order by clause for what order the users appear. Default is
+ * 'display_name'.</li>
+ * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
+ * <li>include - User IDs to include.</li>
+ * <li>exclude - User IDs to exclude.</li>
+ * <li>show - Default is 'display_name'. User table column to display.</li>
+ * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
+ * <li>selected - Which User ID is selected.</li>
+ * <li>name - Default is 'user'. Name attribute of select element.</li>
+ * <li>class - Class attribute of select element.</li>
+ * </ol>
+ *
+ * @since 2.3.0
+ * @uses $wpdb WordPress database object for queries
+ *
+ * @param string|array $args Optional. Override defaults.
+ * @return string|null Null on display. String of HTML content on retrieve.
+ */
 function wp_dropdown_users( $args = '' ) {
 	global $wpdb;
 	$defaults = array(
@@ -303,6 +503,20 @@ function wp_dropdown_users( $args = '' ) {
 	return $output;
 }
 
+/**
+ * Add user meta data as properties to given user object.
+ *
+ * The finished user data is cached, but the cache is not used to fill in the
+ * user data for the given object. Once the function has been used, the cache
+ * should be used to retrieve user data. The purpose seems then to be to ensure
+ * that the data in the object is always fresh.
+ *
+ * @access private
+ * @since 2.5.0
+ * @uses $wpdb WordPress database object for queries
+ *
+ * @param object $user The user data object.
+ */
 function _fill_user( &$user ) {
 	global $wpdb;
 
