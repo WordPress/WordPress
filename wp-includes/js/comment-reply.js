@@ -19,13 +19,11 @@ function moveAddCommentForm(theId, threadId, respondId) {
 	document.getElementById("comment").focus();
 }
 
-function cancelCommentReply() {
-	var addComment = document.getElementById("respond");			
+function cancelCommentReply(respondId, respondRoot) {
+	var addComment = document.getElementById(respondId);			
 	var reRootElement = document.getElementById("cancel-comment-reply");
 	reRootElement.style.display = "none";
-	var content = document.getElementById("content-main");
-	if( !content )
-		content = document.getElementById("content");
+	var content = document.getElementById(respondRoot);
 	if( content ) {
 		addComment.parentNode.removeChild(addComment);
 		content.appendChild(addComment);

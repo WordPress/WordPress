@@ -867,10 +867,10 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	return $link;
 }
 
-function cancel_comment_reply_link($text = '', $respond_id = 'respond') {
+function cancel_comment_reply_link($text = '', $respond_id = 'respond', $respond_root = 'content') {
 	if ( empty($text) )
 		$text = __('Click here to cancel reply.');
-	echo '<a href="#" onclick="cancelCommentReply(\'' . $respond_id . '\'); return false;">' . $text . '</a>';
+	echo '<a href="#" onclick="cancelCommentReply(\'' . $respond_id . '\', \'' . $respond_root . '\'); return false;">' . $text . '</a>';
 }
 
 class Walker_Comment extends Walker {
