@@ -845,9 +845,11 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	global $user_ID;
 
 	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Reply'),
-		'login_text' => __('Log in to Reply'));
+		'login_text' => __('Log in to Reply'), 'depth' => 0);
 
 	$args = wp_parse_args($args, $defaults);
+
+	if ( 0 == $args['depth'] || $args['max_depth'] < $args['depth'] )
 
 	extract($args, EXTR_SKIP);
 
@@ -939,7 +941,7 @@ class Walker_Comment extends Walker {
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 
 		<div class='reply'>
-		<?php if ( 0 == $args['depth'] || $depth < $args['depth'] ) echo comment_reply_link(array('add_below' => 'div-comment')) ?>
+		<?php echo comment_reply_link(array('add_below' => 'div-comment', 'depth' => $args['depth'], 'max_depth' => $depth)) ?>
 		<?php if ( 'list' == $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
