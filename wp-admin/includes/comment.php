@@ -106,6 +106,15 @@ function get_pending_comments_num( $post_id ) {
 
 // Add avatars to relevant places in admin, or try to
 
+add_action('admin_init', 'floated_admin_avatar_handler');
+function floated_admin_avatar_handler() {
+	global $pagenow;
+	if ( 'edit-comments.php' == $pagenow || 'edit.php' == $pagenow ) {
+		if ( get_option('show_avatars') )
+			add_filter( 'comment_author', 'floated_admin_avatar' );
+	}
+}
+
 function floated_admin_avatar( $name ) {
 	global $comment;
 
@@ -119,11 +128,6 @@ function floated_admin_avatar( $name ) {
 		$avatar = get_avatar( $id, 32 );
 
 	return "$avatar $name";
-}
-
-if ( is_admin() && ('edit-comments.php' == $pagenow || 'edit.php' == $pagenow) ) {
-	if ( get_option('show_avatars') )
-		add_filter( 'comment_author', 'floated_admin_avatar' );
 }
 
 function wp_get_inbox_items() {
