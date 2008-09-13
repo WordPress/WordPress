@@ -63,7 +63,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$this->method = 'ssh2';
 		$this->errors = new WP_Error();
 
-		//Check if possible to use ftp functions.
+		//Check if possible to use ssh2 functions.
 		if ( ! extension_loaded('ssh2') ) {
 			$this->errors->add('no_ssh2_ext', __('The ssh2 PHP extension is not available'));
 			return false;
@@ -89,7 +89,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		else
 			$this->options['username'] = $opt['username'];
 
-		if (( !empty ($opt['public_key']) ) && ( !empty ($opt['private_key']) )) {
+		if ( ( !empty ($opt['public_key']) ) && ( !empty ($opt['private_key']) ) ) {
 			$this->options['public_key'] = $opt['public_key'];	
 			$this->options['private_key'] = $opt['private_key'];
 			
@@ -99,20 +99,23 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		}
 
 
-		if ( empty ($opt['password']) )
+		if ( empty ($opt['password']) ) {
 			if ( !$this->keys )	//	 password can be blank if we are using keys
 				$this->errors->add('empty_password', __('SSH2 password is required'));
-		else
+		} else {
 			$this->options['password'] = $opt['password'];
+		}
 			
 	}
 
 	function connect() {
 		$this->debug("connect();");
-		if ( ! $this->keys )
-			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port']);
-		else
-			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port'], $this->options['hostkey']);	
+		
+		if ( ! $this->keys ) {
+			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port']);			
+		} else {
+			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port'], $this->options['hostkey']);			
+		}
 			
 		if ( ! $this->link ) {
 			$this->errors->add('connect', sprintf(__('Failed to connect to SSH2 Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
@@ -202,7 +205,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	function put_contents($file, $contents, $type = '' ) {
-		$this->debug("put_contents();");
+		$this->debug("put_contents($file);");
 		$tempfile = wp_tempnam( $file );
 		$temp = fopen($tempfile, 'w');
 		if ( ! $temp )
@@ -326,7 +329,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	function is_dir($path) {
 		$this->debug("is_dir();");
 		//DO NOT RELY ON dirlist()!
-		$list = $this->parselisting($this->run_command($this->link, sprintf('ls -lad %s', rtrim($path, '/'))));
+		$list = $this->parselisting($this->run_command($this->link, sprintf('ls -lad %s', untrailingslashit($path))));
 		if ( ! $list )
 			return false;
 		else
@@ -359,7 +362,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	
 	function mkdir($path, $chmod = null, $chown = false, $chgrp = false) {
 		$this->debug("mkdir();");
-		$path = trim($path, '/');
+		$path = untrailingslashit($path);
 		if( ! ssh2_sftp_mkdir($this->sftp_link, $path, $chmod, true) )
 			return false;
 		if( $chown )
