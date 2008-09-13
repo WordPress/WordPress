@@ -412,6 +412,19 @@ endif;
 <?php endif; ?>
 
 <div class="wrap">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php meta_box_prefs('post') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <h2><?php
 	if ( !isset($post_ID) || 0 == $post_ID)
 		printf( __( '<a href="%s">Posts</a> / Write New Post' ), 'edit.php' );
@@ -446,18 +459,6 @@ $saveasdraft = '<input name="save" type="submit" id="save" class="button" tabind
 <?php echo $form_extra ?>
 
 <div id="poststuff">
-
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php meta_box_prefs('post') ?>
-<br class="clear" />
-</div></div>
-</div>
 
 <div id="side-info" style="display: none;"><?php // TODO ?>
 

@@ -46,6 +46,11 @@ function xfn_check($class, $value = '', $deprecated = '') {
 
 <p class="submit">
 <input type="submit" class="button button-highlighted" name="save" value="<?php _e('Save'); ?>" tabindex="4" />
+
+<?php if ( !empty($link->link_id) ) { ?>
+<a class="preview button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
+<?php } ?>
+
 <?php
 if ( ( 'edit' == $action) && current_user_can('manage_links') )
 	echo "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape( sprintf( __("You are about to delete this link '%s'\n'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;link') . "</a>";
@@ -265,13 +270,20 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
 <div class="wrap">
-<h2><?php echo $heading; ?></h2>
 
-<?php if ( !empty($link->link_id) ) { ?>
-<div id="previewview">
-<a class="button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php meta_box_prefs('link') ?>
+<br class="clear" />
+</div></div>
 </div>
-<?php } ?>
+
+<h2><?php echo $heading; ?></h2>
 
 <!--
 <p id="big-add-button">
@@ -301,18 +313,6 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 -->
 
 <div id="poststuff">
-
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php meta_box_prefs('link') ?>
-<br class="clear" />
-</div></div>
-</div>
 
 <div id="side-info-column" class="inner-sidebar">
 <?php 

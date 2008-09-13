@@ -60,4 +60,14 @@ jQuery(document).ready( function($) {
 		
 		return false;
 	});
+
+	jQuery('.edit-post-status').click(function () {
+		if (jQuery('#post-status-select').is(":hidden")) {
+			jQuery('#post-status-select').slideDown("normal");
+		} else {
+			jQuery('#post-status-select').slideUp("normal");
+			jQuery('#post-status-display').html(jQuery('#post_status :selected').text());
+		}
+		return false;
+	});
 });

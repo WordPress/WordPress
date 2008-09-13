@@ -88,8 +88,8 @@ require_once('admin-header.php');
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
 
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Show Settings') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Settings') ?></a></div>
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
 <div id="edit-settings" class="hide-if-js hide-if-no-js">
 <div id="edit-settings-wrap">
