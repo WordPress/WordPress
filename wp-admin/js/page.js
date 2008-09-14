@@ -10,33 +10,41 @@ jQuery(document).ready( function($) {
 	// hide advanced slug field
 	jQuery('#pageslugdiv').hide();
 
-	jQuery('.edit-timestamp').click(function () {
-		if (jQuery('#timestampdiv').is(":hidden")) {
-			jQuery('#curtime').slideUp("normal");
-			jQuery('#timestampdiv').slideDown("normal");
-		} else {
-			jQuery('#timestampdiv').slideUp("normal");
-			jQuery('#mm').val(jQuery('#hidden_mm').val());
-			jQuery('#jj').val(jQuery('#hidden_jj').val());
-			jQuery('#aa').val(jQuery('#hidden_aa').val());
-			jQuery('#hh').val(jQuery('#hidden_hh').val());
-			jQuery('#mn').val(jQuery('#hidden_mn').val());
-			jQuery('#curtime').slideDown("normal");
+	var stamp = $('#timestamp').html();
+
+	$('.edit-timestamp').click(function () {
+		if ($('#timestampdiv').is(":hidden")) {
+			$('#timestampdiv').slideDown("normal");
+			$('.edit-timestamp').hide();
 		}
+
 		return false;
 	});
 
-	jQuery('.save-timestamp').click(function () { // crazyhorse - multiple ok cancels
-		jQuery('#timestampdiv').hide();
-		var link = jQuery('.timestamp a').clone( true );
-		jQuery('.timestamp').show().html(
-			jQuery( '#mm option[value=' + jQuery('#mm').val() + ']' ).text() + ' ' +
-			jQuery('#jj').val() + ',' +
-			jQuery('#aa').val() + '@' +
-			jQuery('#hh').val() + ':' +
-			jQuery('#mn').val() + ' '
-		).append( link );
-		jQuery('#curtime').slideDown("normal");
+	$('.cancel-timestamp').click(function() {
+		$('#timestampdiv').slideUp("normal");
+		$('#mm').val($('#hidden_mm').val());
+		$('#jj').val($('#hidden_jj').val());
+		$('#aa').val($('#hidden_aa').val());
+		$('#hh').val($('#hidden_hh').val());
+		$('#mn').val($('#hidden_mn').val());
+		$('#timestamp').html(stamp);
+		$('.edit-timestamp').show();
+
+		return false;
+	});
+
+	$('.save-timestamp').click(function () { // crazyhorse - multiple ok cancels
+		$('#timestampdiv').slideUp("normal");
+		$('.edit-timestamp').show();
+		$('#timestamp').html(
+			$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
+			$('#jj').val() + ', ' +
+			$('#aa').val() + ' @ ' +
+			$('#hh').val() + ':' +
+			$('#mn').val() + ' '
+		);
+
 		return false;
 	});
 
@@ -61,13 +69,29 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 
-	jQuery('.edit-post-status').click(function () {
-		if (jQuery('#post-status-select').is(":hidden")) {
-			jQuery('#post-status-select').slideDown("normal");
-		} else {
-			jQuery('#post-status-select').slideUp("normal");
-			jQuery('#post-status-display').html(jQuery('#post_status :selected').text());
+	$('.edit-post-status').click(function() {
+		if ($('#post-status-select').is(":hidden")) {
+			$('#post-status-select').slideDown("normal");
+			$(this).hide();
 		}
+
+		return false;
+	});
+
+	$('.save-post-status').click(function() {
+		$('#post-status-select').slideUp("normal");
+		$('#post-status-display').html($('#post_status :selected').text());
+		$('.edit-post-status').show();
+		
+		return false;
+	});
+	
+	$('.cancel-post-status').click(function() {
+		$('#post-status-select').slideUp("normal");
+		$('#post_status').val($('#hidden_post_status').val());
+		$('#post-status-display').html($('#post_status :selected').text());
+		$('.edit-post-status').show();
+		
 		return false;
 	});
 });

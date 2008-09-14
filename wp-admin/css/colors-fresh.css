@@ -769,10 +769,6 @@ table.diff .diff-addedline ins {
 	border-top-color: #e4f2fd;
 }
 
-.submitbox .submitdelete {
-	color: #fff;
-}
-
 #edit-settings-wrap,
 #show-settings {
 	background-color: #E4F2FD;

@@ -62,23 +62,20 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$post_data['post_status'] = 'publish';
 	if ( isset($post_data['advanced']) && '' != $post_data['advanced'] )
 		$post_data['post_status'] = 'draft';
+	if ( isset($post_data['pending']) && '' != $post_data['pending'] )
+		$post_data['post_status'] = 'pending';
 
 	$previous_status = get_post_field('post_status',  $post_data['ID']);
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( 'page' == $post_data['post_type'] ) {
-		if ( 'publish' == $post_data['post_status'] && !current_user_can( 'publish_pages' ) )
-			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_pages') )
-				$post_data['post_status'] = 'pending';
-	} else {
-		if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( 'publish_posts' )) ) :
-			// Stop attempts to publish new posts, but allow already published posts to be saved if appropriate.
-			if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_posts') )
-				$post_data['post_status'] = 'pending';
-		endif;
-	}
+	if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( 'publish_posts' )) )
+		if ( $previous_status != 'publish' OR !current_user_can( 'edit_published_pages') )
+			$post_data['post_status'] = 'pending';
 
+	if ( ! isset($post_data['post_status']) )
+		$post_data['post_status'] = $previous_status;
+	
 	if (!isset( $post_data['comment_status'] ))
 		$post_data['comment_status'] = 'closed';
 

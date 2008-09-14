@@ -237,16 +237,10 @@ table#availablethemes td.bottom {
 }
 
 .preview {
-	border: 0 none;
 	padding: 7px;
 }
 
-.submitbox .submit a.preview:hover {
-	border: 0 none;
-}
-
 #publish {
-	display: block;
 	margin: 8px auto auto;
 	min-width: 150px;
 }
@@ -1070,29 +1064,40 @@ table.form-table td .updated {
 	position: relative;
 	min-width: 195px;
 }
-#normal-sortables .postbox .submitbox {
-	clear: both;
-	position: relative;
+
+#normal-sortables .inside-submitbox .insidebox {
+	float: left;
+	margin: 5px 12px 5px 0;
 }
-#normal-sortables .postbox p {
-	display: inline;
+
+#normal-sortables .submit #publish {
+	margin: 8px 0 0 12px;
 }
-#normal-sortables .postbox .curtime {
-	display: block;
+
+#normal-sortables .inside-submitbox {
+	float: left;
 }
-#normal-sortables .postbox p strong {
-	display: inline;
+
+#trackback_url {
+	width: 99%;
 }
-#normal-sortables .postbox #private-checkbox, #normal-sortables .postbox #sticky-checkbox {
-	padding-left: 30px;
-}
+
 #normal-sortables .postbox .submit {
-	position: absolute;
-	top: -1em;
-	right: 0;
-	background: none;
-	border: 0;
-	padding: 0;
+	background: transparent none;
+	border: 0 none;
+	float: right;
+	padding: 0 12px;
+	margin: 0;
+}
+
+#side-sortables .submitbox .submit input,
+#side-sortables .submitbox .submit .preview,
+#side-sortables .submitbox .submit a.preview:hover {
+	border: 0 none;
+}
+
+#side-sortables .inside-submitbox .insidebox {
+	margin: 11px 0;
 }
 
 #mediadiv img {
@@ -1136,42 +1141,6 @@ table.form-table td .updated {
 	padding: 0;
 	margin: 0;
 }
-
-.submitbox {
-/*	margin: 1em 0; */
-}
-
-.submitbox p {
-/*	padding: 0;
-	margin: 0; */
-}
-
-.submitbox .submit {
-	text-align: left;
-	padding: 12px 10px 10px;
-	font-size: 11px;
-}
-
-.submitbox .submitdelete {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	text-decoration: none;
-	margin-left: 8px;
-	padding-bottom: 1px;
-}
-
-.submitbox .submit a:hover {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-.submitbox .submit input {
-	margin-bottom: 8px;
-	margin-right: 3px;
-	padding: 6px 4px;
-	border: none;
-}
-
 
 #tagchecklist {
 	margin-left: 10px;
@@ -1296,6 +1265,14 @@ table.form-table td .updated {
 	font-size: 11px;
 }
 
+#pending {
+	background: 0 none;
+	border: 0 none;
+	padding: 0;
+	font-size: 11px;
+	margin-top: -1px;
+}
+
 #link_name, #link_url, #link_description {
 	font-size: 1.7em;
 	padding: 4px 3px;
@@ -1416,15 +1393,26 @@ table.form-table td .updated {
 
 #side-info-column #side-sortables {
 	height: 100%;
-	padding-top: 39px;
+}
+
+.submitbox .submit {
+	text-align: left;
+	padding: 12px 10px 10px;
+	font-size: 11px;
 }
 
 .submitbox .submitdelete {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	text-decoration: none;
-	margin-left: 8px;
-	padding-bottom: 1px;
+	padding: 1px 2px;
+}
+
+.submitbox .inside-submitbox #deletebutton {
+	padding: 0 0 2px 20px;
+	background-image: url(images/no.png);
+	background-position: left center;
+	background-repeat: no-repeat;
 }
 
 .submitbox .submit a:hover {
@@ -1434,8 +1422,12 @@ table.form-table td .updated {
 
 .submitbox .submit input {
 	margin-bottom: 8px;
-	margin-right: 3px;
+	margin-right: 4px;
 	padding: 6px;
+}
+
+#post-status-select {
+	line-height: 2.5em;
 }
 
 /* Categories */
@@ -1842,10 +1834,16 @@ a.togbox {
 
 #jj, #hh, #mn {
 	width: 1.5em;
+	padding: 1px;
 }
 
 #aa {
 	width: 2.7em;
+	padding: 1px;
+}
+
+#timestampdiv {
+	padding-top: 3px;
 }
 
 #inbox-filter .actions {

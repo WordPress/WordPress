@@ -41,7 +41,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <div class="submitbox" id="submitlink">
 
 <div class="inside-submitbox">
-<p><label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label></p>
+<div  class="insidebox"><label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label></div>
 </div>
 
 <p class="submit">
@@ -52,11 +52,12 @@ function xfn_check($class, $value = '', $deprecated = '') {
 <?php } ?>
 
 <?php
-if ( ( 'edit' == $action) && current_user_can('manage_links') )
+if ( 'edit' == $_GET['action'] && current_user_can('manage_links') )
 	echo "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape( sprintf( __("You are about to delete this link '%s'\n'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;link') . "</a>";
 ?>
 </p>
 <?php do_action('submitlink_box'); ?>
+<div class="clear"></div>
 </div>
 <?php
 }

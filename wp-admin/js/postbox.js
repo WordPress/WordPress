@@ -3,7 +3,10 @@
 	postboxes = {
 		add_postbox_toggles : function(page) {
 			$('.postbox h3').before('<a class="togbox">+</a> ');
-			$('.postbox h3, .postbox a.togbox').click( function() { $($(this).parent().get(0)).toggleClass('closed'); save_postboxes_state(page); } );
+			$('.postbox h3, .postbox a.togbox').click( function() {
+				$($(this).parent().get(0)).toggleClass('closed');
+				postboxes.save_state(page);
+			});
 
 			$('.hide-postbox-tog').click( function() {
 				var box = jQuery(this).val();
@@ -13,7 +16,7 @@
 				} else {
 					jQuery('#' + box).hide();
 				}
-				save_postboxes_state(page);
+				postboxes.save_state(page);
 			} );
 
 			if ( $.browser.msie ) {
@@ -25,7 +28,7 @@
 			
 			this.init(page);
 		},
-	
+
 		expandSidebar : function( doIt ) {
 			if ( doIt || $.trim( $( '#side-info-column' ).text() ) ) {
 				$( '#post-body' ).addClass( 'has-sidebar' );
@@ -42,7 +45,6 @@
 				items: '> .postbox',
 				handle: '.hndle',
 				distance: 2,
-				containment: '#wpbody-content',
 				stop: function() {
 					if ( 'side-sortables' == this.id ) { // doing this with jQuery doesn't work for some reason: make-it-tall gets duplicated
 						var makeItTall = document.getElementById( 'make-it-tall' );
@@ -69,20 +71,21 @@
 					postboxes.expandSidebar( true );
 				}
 			} );
+		},
+
+		save_state : function(page) {
+			var closed = $('.postbox').filter('.closed').map(function() { return this.id; }).get().join(',');
+			var hidden = $('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
+			$.post(postboxL10n.requestFile, {
+				action: 'closed-postboxes',
+				closed: closed,
+				hidden: hidden,
+				closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
+				page: page
+			});
 		}
-	}
+	};
+
+	$(document).ready(function(){postboxes.expandSidebar();});
+
 }(jQuery));
-
-jQuery(document).ready(function(){postboxes.expandSidebar();});
-
-function save_postboxes_state(page) {
-	var closed = jQuery('.postbox').filter('.closed').map(function() { return this.id; }).get().join(',');
-	var hidden = jQuery('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
-	jQuery.post(postboxL10n.requestFile, {
-		action: 'closed-postboxes',
-		closed: closed,
-		hidden: hidden,
-		closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
-		page: page
-	});
-}
