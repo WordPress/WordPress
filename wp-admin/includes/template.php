@@ -406,6 +406,18 @@ function wp_manage_pages_columns() {
 	return $posts_columns;
 }
 
+function wp_manage_links_columns() {
+	$link_columns = array(
+		'name'       => __('Name'),
+		'url'       => __('URL'),
+		'categories' => __('Categories'),
+		'rel'      => __('rel'),
+		'visible'   => __('Visible'),
+	);
+
+	return apply_filters('manage_link_columns', $link_columns);
+}
+
 function inline_edit_row( $type ) {
 	global $current_user;
 
@@ -1970,6 +1982,8 @@ function manage_columns_prefs($page) {
 		$columns = wp_manage_posts_columns();
 	elseif ( 'page' == $page )
 		$columns = wp_manage_pages_columns();
+	elseif ( 'link' == $page )
+		$columns = wp_manage_links_columns();
 	elseif ( 'media' == $page )
 		$columns = wp_manage_media_columns();
 	else return;
@@ -1978,7 +1992,7 @@ function manage_columns_prefs($page) {
 
 	foreach ( $columns as $column => $title ) {
 		// Can't hide these
-		if ( 'cb' == $column || 'title' == $column )
+		if ( 'cb' == $column || 'title' == $column || 'name' == $column )
 			continue;
 		if ( 'comments' == $column )
 			$title = __('Comments');

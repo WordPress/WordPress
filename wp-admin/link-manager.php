@@ -34,6 +34,7 @@ if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 }
 
 wp_enqueue_script('admin-forms');
+wp_enqueue_script('links');
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
@@ -94,6 +95,19 @@ if ( isset($_GET['deleted']) ) {
 <div class="wrap">
 
 <form id="links-filter" action="" method="get">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('link') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
 
 <br class="clear" />
@@ -135,17 +149,6 @@ echo $select_order;
 <br class="clear" />
 
 <?php
-$link_columns = array(
-	'name'       => '<th style="width: 15%;">' . __('Name') . '</th>',
-	'url'       => '<th>' . __('URL') . '</th>',
-	'categories' => '<th>' . __('Categories') . '</th>',
-	'rel'      => '<th style="text-align: center">' . __('rel') . '</th>',
-	'visible'   => '<th style="text-align: center">' . __('Visible') . '</th>',
-);
-$link_columns = apply_filters('manage_link_columns', $link_columns);
-?>
-
-<?php
 if ( 'all' == $cat_id )
 	$cat_id = '';
 $args = array('category' => $cat_id, 'hide_invisible' => 0, 'orderby' => $sqlorderby, 'hide_empty' => 0);
@@ -153,6 +156,8 @@ if ( !empty($_GET['s']) )
 	$args['search'] = $_GET['s'];
 $links = get_bookmarks( $args );
 if ( $links ) {
+	$link_columns = wp_manage_links_columns();
+	$hidden = (array) get_user_option( 'manage-link-columns-hidden' );
 ?>
 
 <?php wp_nonce_field('bulk-bookmarks') ?>
@@ -160,9 +165,16 @@ if ( $links ) {
 	<thead>
 	<tr>
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
-<?php foreach($link_columns as $column_display_name) {
-	echo $column_display_name;
-} ?>
+<?php foreach($link_columns as $column_name => $column_display_name) {
+	$class = " class=\"manage-column column-$column_name\"";
+	$style = '';
+	if ( in_array($column_name, $hidden) )
+		$style = ' style="display:none;"';
+	if ( 'visible' == $column_name )
+		$style = empty($style) ? ' style="text-align: center;"' : ' style="text-align: center; display: none;"';
+?>
+	<th scope="col"<?php echo "id=\"$column_name\""; echo $class; echo $style ?>><?php echo $column_display_name; ?></th>
+<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -186,10 +198,19 @@ if ( $links ) {
 		?><tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>><?php
 		echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></th>';
 		foreach($link_columns as $column_name=>$column_display_name) {
+			$class = "class=\"column-$column_name\"";
+
+			$style = '';
+			if ( in_array($column_name, $hidden) )
+				$style = ' style="display:none;"';
+			if ( 'visible' == $column_name )
+				$style = empty($style) ? ' style="text-align: center;"' : ' style="text-align: center; display: none;"';
+			$attributes = "$class$style";
+
 			switch($column_name) {
 				case 'name':
 
-					echo "<td><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
+					echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
@@ -203,10 +224,10 @@ if ( $links ) {
 					echo '</td>';
 					break;
 				case 'url':
-					echo "<td><a href='$link->link_url' title='".sprintf(__('Visit %s'), $link->link_name)."'>$short_url</a></td>";
+					echo "<td $attributes><a href='$link->link_url' title='".sprintf(__('Visit %s'), $link->link_name)."'>$short_url</a></td>";
 					break;
 				case 'categories':
-					?><td><?php
+					?><td <?php echo $attributes ?>><?php
 					$cat_names = array();
 					foreach ($link->link_category as $category) {
 						$cat = get_term($category, 'link_category', OBJECT, 'display');
@@ -221,10 +242,10 @@ if ( $links ) {
 					?></td><?php
 					break;
 				case 'rel':
-					?><td><?php echo $link->link_rel; ?></td><?php
+					?><td <?php echo $attributes ?>><?php echo $link->link_rel; ?></td><?php
 					break;
 				case 'visible':
-					?><td style='text-align: center;'><?php echo $visible; ?></td><?php
+					?><td <?php echo $attributes ?>><?php echo $visible; ?></td><?php
 					break;
 				default:
 					?>
