@@ -112,7 +112,7 @@ function core_upgrade_preamble() {
 function do_core_upgrade() {
 	global $wp_filesystem;
 
-	$url = wp_nonce_url("update.php?action=upgrade-core", "upgrade-core");
+	$url = wp_nonce_url('update.php?action=do-core-upgrade', 'upgrade-core');
 	if ( false === ($credentials = request_filesystem_credentials($url)) )
 		return;
 
