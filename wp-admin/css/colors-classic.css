@@ -819,3 +819,20 @@ table.diff .diff-addedline ins {
 .vim-current {
 	background-color: #CFEBF7 !important;
 }
+
+/* Install Plugins */
+.star-average, .star.star-rating {
+	background-color: #fc0;
+}
+
+div.star.select:hover {
+	background-color: #d00;
+}
+
+#plugin-information .fyi ul {
+	background-color: #eaf3fa;
+}
+
+#plugin-information .fyi h2.mainheader {
+	background-color: #cee1ef;
+}

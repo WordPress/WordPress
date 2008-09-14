@@ -595,8 +595,8 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 
 /* Layout */
 .wp_themeSkin .mceStatusbar {
-	 color:#000;
-	 background-color: #eaf3fa;
+	color:#000;
+	background-color: #eaf3fa;
 }
 
 /* Button */
@@ -801,4 +801,21 @@ table.diff .diff-addedline ins {
 /* table vim shorcuts */
 .vim-current {
 	background-color: #E4F2FD !important;
+}
+
+/* Install Plugins */
+.star-average, .star.star-rating {
+	background-color: #fc0;
+}
+
+div.star.select:hover {
+	background-color: #d00;
+}
+
+#plugin-information .fyi ul {
+	background-color: #eaf3fa;
+}
+
+#plugin-information .fyi h2.mainheader {
+	background-color: #cee1ef;
 }

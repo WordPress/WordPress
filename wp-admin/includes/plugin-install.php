@@ -207,8 +207,8 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 					$title = '<a target="_blank" href="' . $plugin['homepage'] . '">' . $title . '</a>';
 
 				$action_links = array();
-				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&plugin=' . $plugin['slug'] .
-									'&TB_iframe=true&width=600&height=800') . '" class="thickbox onclick" title="' .
+				$action_links[] = '<a href="' . admin_url('plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
+									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' .
 									attribute_escape($name) . '">' . __('Install') . '</a>';
 
 				$action_links = apply_filters('plugin_install_action_links', $action_links, $plugin);
