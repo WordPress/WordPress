@@ -1406,4 +1406,31 @@ function update_comment_cache($comments) {
 		wp_cache_add($comment->comment_ID, $comment, 'comment');
 }
 
+//
+// Internal
+//
+
+/**
+ * Close comments on old posts on the fly, without any extra DB queries.
+ *
+ * @since 2.7
+ * @package WordPress
+ * @subpackage Internal
+ */
+function _close_comments_for_old_posts( $posts ) {
+	if ( !is_single() || !get_option('close_comments_for_old_posts') )
+		return $posts;
+
+	$days_old = (int) get_option('close_comments_days_old');
+	if ( !$days_old )
+		return $posts;
+
+	if ( time() - strtotime( $posts[0]->post_date_gmt ) > ( $days_old * 24 * 60 * 60 ) ) {
+		$posts[0]->comment_status = 'closed';
+		$posts[0]->ping_status = 'closed';
+	}
+
+	return $posts;
+}
+
 ?>

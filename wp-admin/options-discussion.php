@@ -36,6 +36,10 @@ include('admin-header.php');
 <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_option('default_comment_status')); ?> />
 <?php _e('Allow people to post comments on the article') ?></label>
 <br />
+<label for="close_comments_for_old_posts">
+<input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked('1', get_option('close_comments_for_old_posts')); ?> />
+<?php _e('Close comments on articles older than') ?></label> <?php printf(__('%s days'), '<input name="close_comments_days_old" type="text" id="close_comments_days_old" value="' . attribute_escape(get_option('close_comments_days_old')) . '" size="3" />') ?>
+<br />
 <small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
 </fieldset></td>
 </tr>
