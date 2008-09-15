@@ -48,6 +48,7 @@ if ( isset($_GET['action']) && isset($_GET['media']) ) {
 $title = __('Media Library');
 $parent_file = 'edit.php';
 wp_enqueue_script( 'admin-forms' );
+wp_enqueue_script('media');
 
 list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 
@@ -74,6 +75,19 @@ if ( !isset( $_GET['paged'] ) )
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('media') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <h2><?php
 if ( is_singular() ) {
 	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
@@ -213,6 +227,8 @@ foreach ($arc_result as $arc_row) {
 <br class="clear" />
 
 <?php include( 'edit-attachment-rows.php' ); ?>
+
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 
 </form>
 

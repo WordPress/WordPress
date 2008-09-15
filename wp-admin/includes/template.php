@@ -371,7 +371,8 @@ function wp_manage_media_columns() {
 //	$posts_columns['desc'] = _c('Description|media column header');
 	$posts_columns['date'] = _c('Date Added|media column header');
 	$posts_columns['parent'] = _c('Appears with|media column header');
-	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
+	//$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
+	$posts_columns['comments'] = __('Comments');
 //	$posts_columns['actions'] = _c('Actions|media column header');
 	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
 
@@ -1992,8 +1993,11 @@ function manage_columns_prefs($page) {
 
 	foreach ( $columns as $column => $title ) {
 		// Can't hide these
-		if ( 'cb' == $column || 'title' == $column || 'name' == $column )
+		if ( 'cb' == $column || 'title' == $column || 'name' == $column || 'media' == $column )
 			continue;
+		if ( empty($title) )
+			continue;
+
 		if ( 'comments' == $column )
 			$title = __('Comments');
 		$id = "$column-hide";

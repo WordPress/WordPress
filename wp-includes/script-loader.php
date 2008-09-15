@@ -263,6 +263,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'posts', '/wp-admin/js/posts.js', array('columns'), '20080910' );
 		$scripts->add( 'pages', '/wp-admin/js/pages.js', array('columns'), '20080910' );
 		$scripts->add( 'links', '/wp-admin/js/links.js', array('columns'), '20080913' );
+		$scripts->add( 'media', '/wp-admin/js/media.js', array('columns'), '20080915' );
 
 		$scripts->add( 'columns', '/wp-admin/js/columns.js', false, '20080910' );
 		$scripts->localize( 'columns', 'columnsL10n', array(

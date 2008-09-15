@@ -12,16 +12,25 @@ if ( ! defined('ABSPATH') ) die();
 	<thead>
 	<tr>
 
-<?php $posts_columns = wp_manage_media_columns(); ?>
-<?php foreach($posts_columns as $post_column_key => $column_display_name) {
+<?php
+$posts_columns = wp_manage_media_columns();
+$hidden = (array) get_user_option( 'manage-media-columns-hidden' );
+?>
+<?php foreach ($posts_columns as $post_column_key => $column_display_name ) {
 	if ( 'cb' === $post_column_key )
 		$class = ' class="check-column"';
 	elseif ( 'comments' === $post_column_key )
-		$class = ' class="num"';
+		$class = ' class="manage-column column-comments num"';
+	elseif ( 'modified' === $post_column_key )
+		$class = ' class="manage-column column-date"';
 	else
-		$class = '';
+		$class = " class=\"manage-column column-$post_column_key\"";
+
+	$style = '';
+	if ( in_array($post_column_key, $hidden) )
+		$style = ' style="display:none;"';
 ?>
-	<th scope="col"<?php echo $class; ?>><?php echo $column_display_name; ?></th>
+	<th scope="col"<?php echo "id=\"$post_column_key\""; echo $class; echo $style?>><?php echo $column_display_name; ?></th>
 <?php } ?>
 
 	</tr>
@@ -44,17 +53,25 @@ if ( empty($att_title) )
 
 <?php
 
-foreach($posts_columns as $column_name=>$column_display_name) {
+foreach ($posts_columns as $column_name => $column_display_name ) {
+	$class = "class=\"$column_name column-$column_name\"";
+
+	$style = '';
+	if ( in_array($column_name, $hidden) )
+		$style = ' style="display:none;"';
+
+	$attributes = "$class$style";
 
 	switch($column_name) {
 
 	case 'cb':
 		?>
-		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" <?php echo $attributes ?>><input type="checkbox" name="media[]" value="<?php the_ID(); ?>" /></th>
 		<?php
 		break;
 
 	case 'icon':
+		$attributes = 'class="post-title column-title"' . $style;
 		?>
 		<td class="media-icon"><?php
 			if ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) {
@@ -72,7 +89,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'media':
 		?>
-		<td><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
+		<td <?php echo $attributes ?>><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 		<p>
 		<a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php _e('Edit'); ?></a> |
@@ -86,7 +103,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'tags':
 		?>
-		<td><?php
+		<td <?php echo $attributes ?>><?php
 		$tags = get_the_tags();
 		if ( !empty( $tags ) ) {
 			$out = array();
@@ -102,7 +119,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'desc':
 		?>
-		<td><?php echo has_excerpt() ? $post->post_excerpt : ''; ?></td>
+		<td <?php echo $attributes ?>><?php echo has_excerpt() ? $post->post_excerpt : ''; ?></td>
 		<?php
 		break;
 
@@ -123,7 +140,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		?>
-		<td><?php echo $h_time ?></td>
+		<td <?php echo $attributes ?>><?php echo $h_time ?></td>
 		<?php
 		break;
 
@@ -136,19 +153,20 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 					$title = $parent_title;
 			}
 			?>
-			<td><strong><a href="<?php echo get_edit_post_link( $post->post_parent ); ?>"><?php echo $title ?></a></strong>, <?php echo get_the_time(__('Y/m/d')); ?></td>
+			<td <?php echo $attributes ?>><strong><a href="<?php echo get_edit_post_link( $post->post_parent ); ?>"><?php echo $title ?></a></strong>, <?php echo get_the_time(__('Y/m/d')); ?></td>
 			<?php
 		} else {
 			?>
-			<td>&nbsp;</td>
+			<td <?php echo $attributes ?>>&nbsp;</td>
 			<?php
 		}
 
 		break;
 
 	case 'comments':
+		$attributes = 'class="comments column-comments num"' . $style;
 		?>
-		<td class="num"><div class="post-com-count-wrapper">
+		<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 		<?php
 		$left = get_pending_comments_num( $post->ID );
 		$pending_phrase = sprintf( __('%s pending'), number_format( $left ) );
@@ -164,7 +182,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'actions':
 		?>
-		<td>
+		<td <?php echo $attributes ?>>
 		<a href="media.php?action=edit&amp;attachment_id=<?php the_ID(); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php _e('Edit'); ?></a> |
 		<a href="<?php the_permalink(); ?>"><?php _e('Get permalink'); ?></a>
 		</td>
@@ -173,7 +191,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	default:
 		?>
-		<td><?php do_action('manage_media_custom_column', $column_name, $id); ?></td>
+		<td <?php echo $attributes ?>><?php do_action('manage_media_custom_column', $column_name, $id); ?></td>
 		<?php
 		break;
 	}
