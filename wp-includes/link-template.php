@@ -599,7 +599,7 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 
 		if ( $in_same_cat ) {
 			$cat_array = wp_get_object_terms($post->ID, 'category', 'fields=ids');
-			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode($cat_array, ',') . ')';
+			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode(',', $cat_array) . ")";
 		}
 
 		$posts_in_ex_cats_sql = "AND tt.taxonomy = 'category'";
