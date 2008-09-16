@@ -730,9 +730,10 @@ function comments_template( $file = '/comments.php' ) {
 	}
 
 	// keep $comments for legacy's sake (remember $table*? ;) )
-	$comments = $wp_query->comments = apply_filters( 'comments_array', $comments, $post->ID );
+	$wp_query->comments = apply_filters( 'comments_array', $comments, $post->ID );
+	$comments = &$wp_query->comments;
 	$wp_query->comment_count = count($wp_query->comments);
-	update_comment_cache($comments);
+	update_comment_cache($wp_query->comments);
 
 	define('COMMENTS_TEMPLATE', true);
 
@@ -970,20 +971,43 @@ class Walker_Comment extends Walker {
  * @since 2.7
  * @uses Walker_Comment
  *
- * @param $comments array Array of comment object to list
- * @param $args string|array Additional arguments
+ * @param $args string|array Formatting options
+	* @param $comments array Optional array of comment objects.  Defaults to $wp_query->comments
  */
-function wp_list_comments(&$comments, $args = array() ) {
-	$defaults = array('walker' => null, 'depth' => 3, 'style' => 'ul', 'callback' => null, 'end-callback' => null);
+function wp_list_comments($args = array(), $comments = null ) {
+	global $wp_query;
+
+	$defaults = array('walker' => null, 'depth' => 3, 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all');
 
 	$r = wp_parse_args( $args, $defaults );
 
 	extract( $r, EXTR_SKIP );
 
 	if ( empty($walker) )
-		$walker = new Walker_Comment;
+	$walker = new Walker_Comment;
 
-	$walker->walk($comments, $depth, $r);
+	if ( empty($comments) ) {
+		if ( empty($wp_query->comments) )
+			return;
+		if ( 'all' != $type ) {
+			if ( empty($wp_query->comments_by_type) )
+				$wp_query->comments_by_type = &separate_comments($wp_query->comments);
+			if ( empty($wp_query->comments_by_type[$type]) )
+				return;
+			return $walker->walk($wp_query->comments_by_type[$type], $depth, $r);
+		}
+		$walker->walk($wp_query->comments, $depth, $r);
+	} else {
+		if ( empty($comments) )
+			return;
+		if ( 'all' != $type ) {
+			$comments_by_type = separate_comments($comments);
+			if ( empty($comments_by_type[$type]) )
+				return;
+			return $walker->walk($comments_by_type[$type], $depth, $r);
+		}
+		$walker->walk($comments, $depth, $r);
+	}
 }
 
 ?>

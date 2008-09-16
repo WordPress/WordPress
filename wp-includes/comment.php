@@ -457,6 +457,27 @@ function check_comment_flood_db( $ip, $email, $date ) {
 }
 
 /**
+ * Separates an array of comments into an array keyed by comment_type.
+ *
+ * @since 2.7
+ *
+ * @param array $comments Array of comments
+ * @return array Array of comments keyed by comment_type.
+ */
+function &separate_comments(&$comments) {
+	$comments_by_type = array('comment' => array(), 'trackback' => array(), 'pingback' => array(), 'pings' => array());
+	$count = count($comments);
+	for ( $i = 0; $i < $count; $i++ ) {
+		$type = $comments[$i]->comment_type;
+		$comments_by_type[$type][] = &$comments[$i];
+		if ( 'trackback' == $type || 'pingback' == $type )
+			$comments_by_type['pings'][] = &$comments[$i];
+	}
+
+	return $comments_by_type;
+}
+
+/**
  * Does comment contain blacklisted characters or words.
  *
  * {@internal Missing Long Description}}
