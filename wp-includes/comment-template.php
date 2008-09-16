@@ -851,6 +851,7 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	$args = wp_parse_args($args, $defaults);
 
 	if ( 0 == $args['depth'] || $args['max_depth'] < $args['depth'] )
+		return;
 
 	extract($args, EXTR_SKIP);
 
