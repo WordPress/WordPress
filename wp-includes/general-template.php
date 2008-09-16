@@ -642,7 +642,8 @@ function wp_get_archives($args = '') {
 	$defaults = array(
 		'type' => 'monthly', 'limit' => '',
 		'format' => 'html', 'before' => '',
-		'after' => '', 'show_post_count' => false
+		'after' => '', 'show_post_count' => false,
+		'echo' => 1
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -697,7 +698,11 @@ function wp_get_archives($args = '') {
 				$text = sprintf(__('%1$s %2$d'), $wp_locale->get_month($arcresult->month), $arcresult->year);
 				if ( $show_post_count )
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-				echo get_archives_link($url, $text, $format, $before, $after);
+				$output = get_archives_link($url, $text, $format, $before, $after);
+				if ( $echo )
+					echo $output;
+				else
+					return $output; 
 			}
 		}
 	} elseif ('yearly' == $type) {
@@ -718,7 +723,11 @@ function wp_get_archives($args = '') {
 				$text = sprintf('%d', $arcresult->year);
 				if ($show_post_count)
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-				echo get_archives_link($url, $text, $format, $before, $after);
+				$output = get_archives_link($url, $text, $format, $before, $after);
+				if ( $echo )
+					echo $output;
+				else
+					return $output; 	
 			}
 		}
 	} elseif ( 'daily' == $type ) {
@@ -740,7 +749,11 @@ function wp_get_archives($args = '') {
 				$text = mysql2date($archive_day_date_format, $date);
 				if ($show_post_count)
 					$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
-				echo get_archives_link($url, $text, $format, $before, $after);
+				$output = get_archives_link($url, $text, $format, $before, $after);
+				if ( $echo )
+					echo $output;
+				else
+					return $output;
 			}
 		}
 	} elseif ( 'weekly' == $type ) {
@@ -769,7 +782,11 @@ function wp_get_archives($args = '') {
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						if ($show_post_count)
 							$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
-						echo get_archives_link($url, $text, $format, $before, $after);
+						$output = get_archives_link($url, $text, $format, $before, $after);
+						if ( $echo )
+							echo $output;
+						else
+							return $output;
 					}
 				}
 		}
@@ -794,7 +811,11 @@ function wp_get_archives($args = '') {
 						$text = strip_tags(apply_filters('the_title', $arc_title));
 					else
 						$text = $arcresult->ID;
-					echo get_archives_link($url, $text, $format, $before, $after);
+					$output = get_archives_link($url, $text, $format, $before, $after);
+					if ( $echo )
+						echo $output;
+					else
+						return $output;
 				}
 			}
 		}
