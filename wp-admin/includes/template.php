@@ -2007,4 +2007,131 @@ function manage_columns_prefs($page) {
 	}
 }
 
+function find_posts_div($found_action = '') {
+?>
+	<div id="find-posts" class="find-box" style="display:none;">
+		<div id="find-posts-head" class="find-box-head"><?php _e('Find Posts or Pages'); ?></div>
+		<div class="find-box-inside">
+			<div class="find-box-search">
+				<?php if ( $found_action ) { ?>
+					<input type="hidden" name="found_action" value="<?php echo $found_action; ?>" />
+				<?php } ?>
+				
+				<input type="hidden" name="affected" id="affected" value="" />
+				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
+				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
+				<input type="text" id="find-posts-input" class="search-input" name="ps" value="" />
+				<input type="button" onclick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
+
+				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
+				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
+				<input type="radio" name="find-posts-what" id="find-posts-pages" value="pages" />
+				<label for="find-posts-pages"><?php _e( 'Pages' ); ?></label>
+			</div>
+			<div id="find-posts-response"></div>
+		</div>
+		<div class="find-box-buttons">
+			<input type="button" class="button" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
+			<input id="find-posts-submit" type="submit" class="button" value="<?php _e('Select'); ?>" />
+		</div>
+	</div>
+	<script type="text/javascript">
+	(function($){
+		findPosts = {
+			open : function(af_name, af_val) {
+				var st = document.documentElement.scrollTop || $(document).scrollTop();
+
+				if ( af_name && af_val )
+					$('#affected').attr('name', af_name).val(af_val);
+
+				$('#find-posts').show().draggable({
+					handle: '#find-posts-head'
+				}).resizable({
+					handles: 'all',
+					minHeight: 150,
+					minWidth: 280
+				}).css({'top':st+'px','left':'50%','marginLeft':'-200px'});
+				
+				$('.ui-resizable-handle').css({
+					'backgroundColor': '#e5e5e5'
+				});
+				
+				$('.ui-resizable-se').css({
+					'border': '0 none',
+					'width': '15px',
+					'height': '16px',
+					'background': 'transparent url(images/se.png) no-repeat scroll 0 0'
+				});
+				
+				$('#find-posts-input').focus().keyup(function(e){
+					if (e.which == 27) findPosts.close(); // close on Escape
+				});
+				
+				return false;
+			},
+			
+			close : function() {
+				$('#find-posts-response').html('');
+				$('#find-posts').draggable('destroy').resizable('destroy').hide();
+			},
+			
+			send : function() {
+				var post = {};
+
+				post['ps'] = $('#find-posts-input').val();
+				post['action'] = 'find_posts';
+				post['_ajax_nonce'] = $('#_ajax_nonce').val();
+				
+				if ( $('#find-posts-pages:checked').val() )
+					post['pages'] = 1;
+				else
+					post['posts'] = 1;
+		
+				$.ajax({
+					type : 'POST',
+					url : '<?php echo admin_url('admin-ajax.php'); ?>',
+					data : post,
+					success : function(x) { findPosts.show(x); },
+					error : function(r) { findPosts.error(r); }
+				});
+			},
+			
+			show : function(x) {
+
+				if ( typeof(x) == 'string' ) {
+					this.error({'responseText': x});
+					return;
+				}
+
+				var r = wpAjax.parseAjaxResponse(x);
+
+				if ( r.errors )
+					this.error({'responseText': wpAjax.broken});
+		
+				r = r.responses[0];
+				$('#find-posts-response').html(r.data);
+			},
+			
+			error : function(r) {
+				var er = r.statusText;
+
+				if ( r.responseText )
+					er = r.responseText.replace( /<.[^<>]*?>/g, '' );
+		
+				if ( er )
+					$('#find-posts-response').html(er);
+			}
+		};
+		
+		$(document).ready(function(){
+			$('#find-posts-submit').click(function(e) {
+				if ( '' == $('#find-posts-response').html() )
+					e.preventDefault();
+			});
+		});
+	})(jQuery);
+	</script>
+<?php
+}
+
 ?>

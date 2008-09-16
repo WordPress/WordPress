@@ -66,14 +66,14 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 
 	case 'cb':
 		?>
-		<th scope="row" <?php echo $attributes ?>><input type="checkbox" name="media[]" value="<?php the_ID(); ?>" /></th>
+		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php the_ID(); ?>" /></th>
 		<?php
 		break;
 
 	case 'icon':
-		$attributes = 'class="post-title column-title"' . $style;
+		$attributes = 'class="column-icon media-icon"' . $style;
 		?>
-		<td class="media-icon"><?php
+		<td <?php echo $attributes ?>><?php
 			if ( $thumb = wp_get_attachment_image( $post->ID, array(80, 60), true ) ) {
 ?>
 
@@ -104,6 +104,8 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			echo "<span class='$action'>$link$sep</span>";
 		}
+		?></p></td>
+		<?php
 		break;
 
 	case 'tags':

@@ -568,6 +568,7 @@ p.pagenav {
 td.media-icon {
 	vertical-align: middle;
 	text-align: center;
+	width: 80px;
 }
 
 td.media-icon img {
@@ -2255,4 +2256,97 @@ a.togbox {
 
 .inline td.status input {
 	vertical-align: middle;
+}
+
+/* Media library */
+#wpbody-content .media-item-info tr {
+	background-color: transparent;
+}
+
+#wpbody-content .filename {
+	margin-left: 10px;
+}
+
+#wpbody-content .media-item .thumbnail {
+	max-height:128px;
+	max-width:128px;
+}
+
+#wpbody-content .media-upload-form label {
+	display: block;
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0.5em;
+}
+
+abbr.required {
+	border: medium none;
+	text-decoration: none;
+}
+
+#wpbody-content .media-single input[type="text"],
+#wpbody-content .media-single textarea {
+	width: 460px;
+}
+
+#wpbody-content .media-upload-form p.help {
+	margin: 0;
+	padding: 0;
+}
+
+/* find posts */
+.find-box {
+	width: 400px;
+	height: 250px;
+	overflow: hidden;
+	padding: 33px 5px 50px;
+	position: absolute;
+	z-index: 1000;
+}
+
+.find-box-head {
+	cursor: move;
+	font-weight: bold;
+	height: 2em;
+	line-height: 2em;
+	padding: 1px 12px;
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.find-box-inside {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+}
+
+.find-box-search {
+	padding: 12px;
+	border-width: 1px;
+	border-style: none none solid;
+}
+
+#find-posts-response {
+	margin: 8px 0;
+	padding: 0 1px;
+}
+
+#find-posts-response table {
+	width: 100%;
+}
+
+#find-posts-response .found-radio {
+	padding: 8px 0 0 8px;
+	width: 15px;
+}
+
+.find-box-buttons {
+	bottom: 12px;
+	left: 12px;
+	position: absolute;
+}
+
+.find-box-search label {
+	padding-right: 6px;
 }

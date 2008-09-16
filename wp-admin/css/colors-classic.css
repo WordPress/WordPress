@@ -1,5 +1,6 @@
 
-#sidemenu-bg {
+#sidemenu-bg,
+.find-box-search {
 	background-color: #14568A;
 	border-color: #c6d9e9;
 }
@@ -12,7 +13,9 @@ a.page-numbers:hover {
 	border-color: #999;
 }
 
-body, .form-table .pre {
+body,
+.form-table .pre,
+.find-box-inside {
 	background-color: #fff;
 	color: #333;
 }
@@ -301,7 +304,9 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-bottom-color: #ccc;
 }
 
-.widefat thead, .thead {
+.widefat thead,
+.thead,
+.find-box-head {
 	background-color: #464646;
 	color: #d7d7d7;
 }
@@ -825,7 +830,8 @@ div.star.select:hover {
 	background-color: #d00;
 }
 
-#plugin-information .fyi ul {
+#plugin-information .fyi ul,
+.find-box {
 	background-color: #eaf3fa;
 }
 
