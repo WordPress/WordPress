@@ -232,7 +232,8 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-color: #328ab2;
 }
 
-ul.view-switch li.current a {
+ul.view-switch li.current a,
+#side-info-column #category-tabs .ui-tabs-selected a {
 	color: #333;
 }
 
@@ -483,6 +484,10 @@ input.readonly {
 	background-color: #FFF;
 }
 
+.curtime #timestamp {
+	background-image: url(../images/date-button.gif);
+}
+
 #quicktags #ed_link {
 	color: #00f;
 }
@@ -545,7 +550,7 @@ input.readonly {
 	border-top-color: #247fab;
 }
 
-.login #backtoblog a, #curtime, #user_info a, #dashmenu a {
+.login #backtoblog a, #user_info a, #dashmenu a {
 	color: #ccc;
 }
 
@@ -732,6 +737,7 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 	background-color: #2683ae;
 	border-color: #464646;
 }
+/* end TinyMCE */
 
 #editorcontainer, #post-status-info {
 	border-color: #ccc;
@@ -739,10 +745,6 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 
 #poststuff #titlewrap {
 	border-color: #ccc;
-}
-
-#curtime {
-	color: #666;
 }
 
 #tTips p#tTips_inside {

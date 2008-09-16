@@ -1491,11 +1491,15 @@ table.form-table td .updated {
 	text-decoration: none;
 }
 
-#categorydiv div.ui-tabs-panel, #linkcategorydiv div.ui-tabs-panel {
-	padding: .5em .9em;
+#categorydiv div.ui-tabs-panel,
+#linkcategorydiv div.ui-tabs-panel {
+	height: 150px;
+	overflow: auto;
+	padding: 0.5em 0.9em;
 }
 
-#post-body #categorydiv div.ui-tabs-panel, #post-body #linkcategorydiv div.ui-tabs-panel {
+#post-body #categorydiv div.ui-tabs-panel,
+#post-body #linkcategorydiv div.ui-tabs-panel {
 	margin: 0 5px 0 120px;
 	height: 10em;
 	overflow: auto;
@@ -1503,17 +1507,28 @@ table.form-table td .updated {
 	border-style: solid;
 }
 
-#side-info-column #category-tabs, #side-info-column #categories-pop {
-	display: none;
+#side-info-column #category-tabs li {
+	display: inline;
+	padding-right: 8px;
 }
 
-#categorydiv ul, #linkcategorydiv ul {
+#side-info-column #category-tabs a {
+	text-decoration: none;
+}
+
+#side-info-column #category-tabs {
+	margin-bottom: 3px;
+}
+
+#categorydiv ul,
+#linkcategorydiv ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
-#categorydiv ul.categorychecklist ul, #linkcategorydiv ul.categorychecklist ul {
+#categorydiv ul.categorychecklist ul,
+#linkcategorydiv ul.categorychecklist ul {
 	margin-left: 18px;
 }
 
@@ -1679,14 +1694,6 @@ ul.view-switch li.current {
 	text-decoration: none;
 }
 
-#submitpost p.curtime {
-	background-image: url(images/date-button.gif);
-	background-repeat: no-repeat;
-	background-position: left 4px;
-	padding-left: 18px;
-	padding-top: 2px;
-}
-
 .tablenav .delete {
 	margin-right: 20px;
 }
@@ -1841,6 +1848,12 @@ a.togbox {
 #aa {
 	width: 2.7em;
 	padding: 1px;
+}
+
+.curtime #timestamp {
+	background-repeat: no-repeat;
+	background-position: left 1px;
+	padding-left: 18px;
 }
 
 #timestampdiv {

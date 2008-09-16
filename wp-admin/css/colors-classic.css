@@ -233,7 +233,8 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	background-color: #a6d2e5 !important;
 }
 
-.submitbox #autosave .error, ul.view-switch li.current a {
+.submitbox #autosave .error, ul.view-switch li.current a,
+#side-info-column #category-tabs .ui-tabs-selected a {
 	color: #333;
 }
 
@@ -493,6 +494,10 @@ input.readonly {
 
 #poststuff .postbox {
 	background-color: #FFF;
+}
+
+.curtime #timestamp {
+	background-image: url(../images/date-button.gif);
 }
 
 #quicktags #ed_link {
