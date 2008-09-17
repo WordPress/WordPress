@@ -3,41 +3,44 @@
  * File contains all the administration image manipulation functions.
  *
  * @package WordPress
+ * @subpackage Administration
  */
 
 /**
- * wp_create_thumbnail() - Create a thumbnail from an Image given a maximum side size.
+ * Create a thumbnail from an Image given a maximum side size.
  *
- * @package WordPress
- * @param	mixed	$file	Filename of the original image, Or attachment id
- * @param	int		$max_side	Maximum length of a single side for the thumbnail
- * @return	string			Thumbnail path on success, Error string on failure
+ * This function can handle most image file formats which PHP supports. If PHP
+ * does not have the functionality to save in a file of the same format, the
+ * thumbnail will be created as a jpeg.
  *
- * This function can handle most image file formats which PHP supports.
- * If PHP does not have the functionality to save in a file of the same format, the thumbnail will be created as a jpeg.
+ * @since unknown
+ *
+ * @param mixed $file Filename of the original image, Or attachment id.
+ * @param int $max_side Maximum length of a single side for the thumbnail.
+ * @return string Thumbnail path on success, Error string on failure.
  */
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-
 	$thumbpath = image_resize( $file, $max_side, $max_side );
 	return apply_filters( 'wp_create_thumbnail', $thumbpath );
 }
 
 /**
- * wp_crop_image() - Crop an Image to a given size.
+ * Crop an Image to a given size.
  *
- * @package WordPress
  * @internal Missing Long Description
- * @param	int	$src_file	The source file
- * @param	int	$src_x		The start x position to crop from
- * @param	int	$src_y		The start y position to crop from
- * @param	int	$src_w		The width to crop
- * @param	int	$src_h		The height to crop
- * @param	int	$dst_w		The destination width
- * @param	int	$dst_h		The destination height
- * @param	int	$src_abs	If the source crop points are absolute
- * @param	int	$dst_file	The destination file to write to
- * @return	string			New filepath on success, String error message on failure
  *
+ * @since unknown
+ *
+ * @param string|int $src_file The source file or Attachment ID
+ * @param int $src_x The start x position to crop from.
+ * @param int $src_y The start y position to crop from.
+ * @param int $src_w The width to crop.
+ * @param int $src_h The height to crop.
+ * @param int $dst_w The destination width.
+ * @param int $dst_h The destination height.
+ * @param int $src_abs Optional. If the source crop points are absolute.
+ * @param string $dst_file Optional. The destination file to write to.
+ * @return string New filepath on success, String error message on failure.
  */
 function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false ) {
 	if ( is_numeric( $src_file ) ) // Handle int as attachment ID
@@ -74,14 +77,15 @@ function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_
 }
 
 /**
- * wp_generate_attachment_metadata() - Generate post Image attachment Metadata
+ * Generate post Image attachment Metadata.
  *
- * @package WordPress
  * @internal Missing Long Description
- * @param	int		$attachment_id	Attachment Id to process
- * @param	string	$file	Filepath of the Attached image
- * @return	mixed			Metadata for attachment
  *
+ * @since unknown
+ *
+ * @param int $attachment_id Attachment Id to process
+ * @param string $file Filepath of the Attached image
+ * @return mixed Metadata for attachment
  */
 function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$attachment = get_post( $attachment_id );
@@ -120,17 +124,19 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			$metadata['image_meta'] = $image_meta;
 
 	}
+
 	return apply_filters( 'wp_generate_attachment_metadata', $metadata );
 }
 
 /**
- * wp_load_image() - Load an image which PHP Supports.
+ * Load an image which PHP Supports.
  *
- * @package WordPress
  * @internal Missing Long Description
- * @param	string	$file	Filename of the image to load
- * @return	resource		The resulting image resource on success, Error string on failure.
  *
+ * @since unknown
+ *
+ * @param string $file Filename of the image to load.
+ * @return resource The resulting image resource on success, Error string on failure.
  */
 function wp_load_image( $file ) {
 	if ( is_numeric( $file ) )
@@ -153,36 +159,45 @@ function wp_load_image( $file ) {
 }
 
 /**
- * get_udims() - Calculated the new dimentions for downsampled images
+ * Calculated the new dimentions for downsampled images.
  *
- * @package WordPress
- * @internal Missing Description
+ * @since unknown
  * @see wp_shrink_dimensions()
- * @param	int		$width	Current width of the image
- * @param	int 	$height	Current height of the image
- * @return	mixed			Array(height,width) of shrunk dimensions.
+ *
+ * @param int $width Current width of the image
+ * @param int $height Current height of the image
+ * @return mixed Array(height,width) of shrunk dimensions.
  *
  */
 function get_udims( $width, $height) {
 	return wp_shrink_dimensions( $width, $height );
 }
+
 /**
- * wp_shrink_dimensions() - Calculates the new dimentions for a downsampled image.
+ * Calculates the new dimentions for a downsampled image.
  *
- * @package WordPress
- * @internal Missing Long Description
- * @param	int		$width	Current width of the image
- * @param	int 	$height	Current height of the image
- * @param	int		$wmax	Maximum wanted width
- * @param	int		$hmax	Maximum wanted height
- * @return	mixed			Array(height,width) of shrunk dimensions.
+ * @since unknown
+ * @see wp_constrain_dimensions()
+ *
+ * @param int $width Current width of the image
+ * @param int $height Current height of the image
+ * @param int $wmax Maximum wanted width
+ * @param int $hmax Maximum wanted height
+ * @return mixed Array(height,width) of shrunk dimensions.
  *
  */
 function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
 	return wp_constrain_dimensions( $width, $height, $wmax, $hmax );
 }
 
-// convert a fraction string to a decimal
+/**
+ * Convert a fraction string to a decimal.
+ *
+ * @since unknown
+ *
+ * @param string $str
+ * @return int|float
+ */
 function wp_exif_frac2dec($str) {
 	@list( $n, $d ) = explode( '/', $str );
 	if ( !empty($d) )
@@ -190,25 +205,39 @@ function wp_exif_frac2dec($str) {
 	return $str;
 }
 
-// convert the exif date format to a unix timestamp
+/**
+ * Convert the exif date format to a unix timestamp.
+ *
+ * @since unknown
+ *
+ * @param string $str
+ * @return int
+ */
 function wp_exif_date2ts($str) {
-	// seriously, who formats a date like 'YYYY:MM:DD hh:mm:ss'?
 	@list( $date, $time ) = explode( ' ', trim($str) );
 	@list( $y, $m, $d ) = explode( ':', $date );
 
 	return strtotime( "{$y}-{$m}-{$d} {$time}" );
 }
 
-// get extended image metadata, exif or iptc as available
+/**
+ * Get extended image metadata, exif or iptc as available
+ *
+ * @since unknown
+ *
+ * @param string $file
+ * @return bool|array False on failure. Image metadata array on success.
+ */
 function wp_read_image_metadata( $file ) {
 	if ( !file_exists( $file ) )
 		return false;
 
 	list(,,$sourceImageType) = getimagesize( $file );
 
-	// exif contains a bunch of data we'll probably never need formatted in ways that are difficult to use.
-	// We'll normalize it and just extract the fields that are likely to be useful.  Fractions and numbers
-	// are converted to floats, dates to unix timestamps, and everything else to strings.
+	// exif contains a bunch of data we'll probably never need formatted in ways
+	// that are difficult to use. We'll normalize it and just extract the fields
+	// that are likely to be useful.  Fractions and numbers are converted to
+	// floats, dates to unix timestamps, and everything else to strings.
 	$meta = array(
 		'aperture' => 0,
 		'credit' => '',
@@ -222,7 +251,8 @@ function wp_read_image_metadata( $file ) {
 		'title' => '',
 	);
 
-	// read iptc first, since it might contain data not available in exif such as caption, description etc
+	// read iptc first, since it might contain data not available in exif such
+	// as caption, description etc
 	if ( is_callable('iptcparse') ) {
 		getimagesize($file, $info);
 		if ( !empty($info['APP13']) ) {
@@ -231,7 +261,7 @@ function wp_read_image_metadata( $file ) {
 				$meta['credit'] = utf8_encode(trim($iptc['2#110'][0]));
 			elseif ( !empty($iptc['2#080'][0]) ) // byline
 				$meta['credit'] = utf8_encode(trim($iptc['2#080'][0]));
-			if ( !empty($iptc['2#055'][0]) and !empty($iptc['2#060'][0]) ) // created datee and time
+			if ( !empty($iptc['2#055'][0]) and !empty($iptc['2#060'][0]) ) // created date and time
 				$meta['created_timestamp'] = strtotime($iptc['2#055'][0] . ' ' . $iptc['2#060'][0]);
 			if ( !empty($iptc['2#120'][0]) ) // caption
 				$meta['caption'] = utf8_encode(trim($iptc['2#120'][0]));
@@ -258,19 +288,34 @@ function wp_read_image_metadata( $file ) {
 		if (!empty($exif['ExposureTime']))
 			$meta['shutter_speed'] = wp_exif_frac2dec( $exif['ExposureTime'] );
 	}
-	// FIXME: try other exif libraries if available
+	/** @todo FIXME: try other exif libraries if available */
 
 	return apply_filters( 'wp_read_image_metadata', $meta, $file, $sourceImageType );
 
 }
 
-// is the file a real image file?
+/**
+ * Validate that file is an image.
+ *
+ * @since unknown
+ *
+ * @param string $path File path to test if valid image.
+ * @return bool True if valid image, false if not valid image.
+ */
 function file_is_valid_image($path) {
 	$size = @getimagesize($path);
 	return !empty($size);
 }
 
-// is the file an image suitable for displaying within a web page?
+/**
+ * Validate that file is suitable for displaying within a web page.
+ *
+ * @since unknown
+ * @uses apply_filters() Calls 'file_is_displayable_image' on $result and $path.
+ *
+ * @param string $path File path to test.
+ * @return bool True if suitable, false if not suitable.
+ */
 function file_is_displayable_image($path) {
 	$info = @getimagesize($path);
 	if ( empty($info) )

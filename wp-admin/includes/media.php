@@ -691,7 +691,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'html'       => image_link_input_fields($post, get_option('image_default_link_type')),
 			'helps'      => __('Enter a link URL or click above for presets.'),
 		),
-    	'menu_order'   => array(
+		'menu_order'   => array(
 			'label'      => __('Order'),
 			'value'      => $edit_post->menu_order
 		),
@@ -1491,31 +1491,31 @@ function type_form_file() {
 
 // support a GET parameter for disabling the flash uploader
 function media_upload_use_flash($flash) {
-        if ( array_key_exists('flash', $_REQUEST) )
-                $flash = !empty($_REQUEST['flash']);
-        return $flash;
+	if ( array_key_exists('flash', $_REQUEST) )
+		$flash = !empty($_REQUEST['flash']);
+	return $flash;
 }
 
 add_filter('flash_uploader', 'media_upload_use_flash');
 
 function media_upload_flash_bypass() {
-        echo '<p class="upload-flash-bypass">';
-        printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), clean_url(add_query_arg('flash', 0)) );
-        echo '</p>';
+	echo '<p class="upload-flash-bypass">';
+	printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), clean_url(add_query_arg('flash', 0)) );
+	echo '</p>';
 }
 
 add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
 
 function media_upload_html_bypass() {
-        echo '<p class="upload-html-bypass">';
-        if ( array_key_exists('flash', $_REQUEST) )
-                // the user manually selected the browser uploader, so let them switch back to Flash
-                printf( __('You are using the Browser uploader.  Try the <a href="%s">Flash uploader</a> instead.'), clean_url(add_query_arg('flash', 1)) );
-        else
-                // the user probably doesn't have Flash
-                printf( __('You are using the Browser uploader.') );
+	echo '<p class="upload-html-bypass">';
+	if ( array_key_exists('flash', $_REQUEST) )
+		// the user manually selected the browser uploader, so let them switch back to Flash
+		printf( __('You are using the Browser uploader.  Try the <a href="%s">Flash uploader</a> instead.'), clean_url(add_query_arg('flash', 1)) );
+	else
+		// the user probably doesn't have Flash
+		printf( __('You are using the Browser uploader.') );
 
-        echo '</p>';
+	echo '</p>';
 }
 
 add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
@@ -1523,9 +1523,9 @@ add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
 // make sure the GET parameter sticks when we submit a form
 function media_upload_bypass_url($url) {
-        if ( array_key_exists('flash', $_REQUEST) )
-                $url = add_query_arg('flash', intval($_REQUEST['flash']));
-        return $url;
+	if ( array_key_exists('flash', $_REQUEST) )
+		$url = add_query_arg('flash', intval($_REQUEST['flash']));
+	return $url;
 }
 
 add_filter('media_upload_form_url', 'media_upload_bypass_url');

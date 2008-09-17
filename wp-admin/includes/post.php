@@ -1,7 +1,7 @@
 <?php
 
 /**
- * _wp_translate_postdata() - Rename $_POST data from form names to DB post columns.
+ * Rename $_POST data from form names to DB post columns.
  *
  * Manipulates $_POST directly.
  *
@@ -195,8 +195,8 @@ function get_default_post_to_edit() {
 		$text       = wp_specialchars( stripslashes( urldecode( $_REQUEST['text'] ) ) );
 		$text       = funky_javascript_fix( $text);
 		$popupurl   = clean_url($_REQUEST['popupurl']);
-        $post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
-    }
+		$post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
+	}
 
 	if ( !empty( $_REQUEST['excerpt'] ) )
 		$post_excerpt = wp_specialchars( stripslashes( $_REQUEST['excerpt'] ));
@@ -226,9 +226,9 @@ function get_default_post_to_edit() {
 }
 
 function get_default_page_to_edit() {
- 	$page = get_default_post_to_edit();
- 	$page->post_type = 'page';
- 	return $page;
+	$page = get_default_post_to_edit();
+	$page->post_type = 'page';
+	return $page;
 }
 
 // Get an existing post and format it for editing.

@@ -1,4 +1,10 @@
 <?php
+/**
+ * WordPress Comment Administration API
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
 /**
  * {@internal Missing Short Description}}
@@ -18,8 +24,9 @@ function comment_exists($comment_author, $comment_date) {
 }
 
 /**
- * 
+ * {@internal Missing Short Description}}
  *
+ * @since unknown
  */
 function edit_comment() {
 
@@ -42,7 +49,6 @@ function edit_comment() {
 		}
 	}
 
-
 	if (!empty ( $_POST['edit_date'] ) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
@@ -60,6 +66,14 @@ function edit_comment() {
 	wp_update_comment( $_POST);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_comment_to_edit( $id ) {
 	if ( !$comment = get_comment($id) )
 		return false;
@@ -78,6 +92,15 @@ function get_comment_to_edit( $id ) {
 	return $comment;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ * @uses $wpdb
+ *
+ * @param int $post_id Post ID
+ * @return unknown
+ */
 function get_pending_comments_num( $post_id ) {
 	global $wpdb;
 
@@ -104,8 +127,15 @@ function get_pending_comments_num( $post_id ) {
 	return $pending_keyed;
 }
 
-// Add avatars to relevant places in admin, or try to
-
+/**
+ * Add avatars to relevant places in admin, or try to.
+ *
+ * @since unknown
+ * @uses $comment
+ *
+ * @param string $name User name.
+ * @return string Avatar with Admin name.
+ */
 function floated_admin_avatar( $name ) {
 	global $comment;
 

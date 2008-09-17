@@ -1,6 +1,19 @@
 <?php
+/**
+ * WordPress Widgets Administration API
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
-// $_search is unsanitized
+/**
+ * Display list of widgets, either all or matching search.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $show
+ * @param unknown_type $_search Optional. Search for widgets. Should be unsanitized.
+ */
 function wp_list_widgets( $show = 'all', $_search = false ) {
 	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 	if ( $_search ) {
@@ -148,8 +161,13 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 <?php
 }
 
-
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $sidebar
+ */
 function wp_list_widget_controls( $sidebar ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
 ?>
@@ -163,7 +181,14 @@ function wp_list_widget_controls( $sidebar ) {
 <?php
 }
 
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $params
+ * @return unknown
+ */
 function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	global $wp_registered_widgets;
 	static $i = 0;
@@ -182,8 +207,15 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	return $params;
 }
 
-/*
- * Meta widget used to display the control form for a widget.  Called from dynamic_sidebar()
+/**
+ * Meta widget used to display the control form for a widget.
+ *
+ * Called from dynamic_sidebar().
+ *
+ * @since unknown
+ *
+ * @param unknown_type $sidebar_args
+ * @return unknown
  */
 function wp_widget_control( $sidebar_args ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $sidebars_widgets, $edit_widget;
@@ -276,6 +308,14 @@ function wp_widget_control( $sidebar_args ) {
 	return $sidebar_args;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $string
+ * @return unknown
+ */
 function wp_widget_control_ob_filter( $string ) {
 	if ( false === $beg = strpos( $string, '%BEG_OF_TITLE%' ) )
 		return '';

@@ -96,6 +96,26 @@ function get_plugin_data( $plugin_file ) {
 				);
 }
 
+/**
+ * Check the plugins directory and retrieve all plugin files with plugin data.
+ *
+ * WordPress only supports plugin files in the base plugins directory
+ * (wp-content/plugins) and in one directory above the plugins directory
+ * (wp-content/plugins/my-plugin). The file it looks for has the plugin data and
+ * must be found in those two locations. It is recommended that do keep your
+ * plugin files in directories.
+ *
+ * The file with the plugin data is the file that will be included and therefore
+ * needs to have the main execution for the plugin. This does not mean
+ * everything must be contained in the file and it is recommended that the file
+ * be split for maintainability. Keep everything in one file for extreme
+ * optimization purposes.
+ *
+ * @since unknown
+ *
+ * @param string $plugin_folder Optional. Relative path to single plugin folder.
+ * @return array Key is the plugin file path and the value is an array of the plugin data.
+ */
 function get_plugins($plugin_folder = '') {
 
 	if ( ! $cache_plugins = wp_cache_get('plugins', 'plugins') )
@@ -169,29 +189,64 @@ function is_plugin_active($plugin) {
 	return in_array($plugin, get_option('active_plugins'));
 }
 
+/**
+ * Attempts activation of plugin in a "sandbox" and redirects on success.
+ *
+ * A plugin that is already activated will not attempt to be activated again.
+ *
+ * The way it works is by setting the redirection to the error before trying to
+ * include the plugin file. If the plugin fails, then the redirection will not
+ * be overwritten with the success message. Also, the options will not be
+ * updated and the activation hook will not be called on plugin error.
+ *
+ * It should be noted that in no way the below code will actually prevent errors
+ * within the file. The code should not be used elsewhere to replicate the
+ * "sandbox", which uses redirection to work.
+ * {@source 13 1}
+ *
+ * If any errors are found or text is outputted, then it will be captured to
+ * ensure that the success redirection will update the error redirection.
+ *
+ * @since unknown
+ *
+ * @param string $plugin Plugin path to main plugin file with plugin data.
+ * @param string $redirect Optional. URL to redirect to.
+ * @return WP_Error|null WP_Error on invalid file or null on success.
+ */
 function activate_plugin($plugin, $redirect = '') {
-		$current = get_option('active_plugins');
-		$plugin = trim($plugin);
+	$current = get_option('active_plugins');
+	$plugin = trim($plugin);
 
-		$valid = validate_plugin($plugin);
-		if ( is_wp_error($valid) )
-			return $valid;
+	$valid = validate_plugin($plugin);
+	if ( is_wp_error($valid) )
+		return $valid;
 
-		if ( !in_array($plugin, $current) ) {
-			if ( !empty($redirect) )
-				wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
-			ob_start();
-			@include(WP_PLUGIN_DIR . '/' . $plugin);
-			$current[] = $plugin;
-			sort($current);
-			update_option('active_plugins', $current);
-			do_action('activate_' . $plugin);
-			ob_end_clean();
-		}
+	if ( !in_array($plugin, $current) ) {
+		if ( !empty($redirect) )
+			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
+		ob_start();
+		@include(WP_PLUGIN_DIR . '/' . $plugin);
+		$current[] = $plugin;
+		sort($current);
+		update_option('active_plugins', $current);
+		do_action('activate_' . $plugin);
+		ob_end_clean();
+	}
 
-		return null;
+	return null;
 }
 
+/**
+ * Deactivate a single plugin or multiple plugins.
+ *
+ * The deactivation hook is disabled by the plugin upgrader by using the $silent
+ * parameter.
+ *
+ * @since unknown
+ *
+ * @param string|array $plugins Single plugin or list of plugins to deactivate.
+ * @param bool $silent Optional, default is false. Prevent calling deactivate hook.
+ */
 function deactivate_plugins($plugins, $silent= false) {
 	$current = get_option('active_plugins');
 
@@ -209,6 +264,20 @@ function deactivate_plugins($plugins, $silent= false) {
 	update_option('active_plugins', $current);
 }
 
+/**
+ * Activate multiple plugins.
+ *
+ * When WP_Error is returned, it does not mean that one of the plugins had
+ * errors. It means that one or more of the plugins file path was invalid.
+ *
+ * The execution will be halted as soon as one of the plugins has an error.
+ *
+ * @since unknown
+ *
+ * @param string|array $plugins
+ * @param string $redirect Redirect to page after successful activation.
+ * @return bool|WP_Error True when finished or WP_Error if there were errors during a plugin activation.
+ */
 function activate_plugins($plugins, $redirect = '') {
 	if ( !is_array($plugins) )
 		$plugins = array($plugins);
@@ -228,6 +297,18 @@ function activate_plugins($plugins, $redirect = '') {
 	return true;
 }
 
+/**
+ * Remove directory and files of a plugin for a single or list of plugin(s).
+ *
+ * If the plugins parameter list is empty, false will be returned. True when
+ * completed.
+ *
+ * @since unknown
+ *
+ * @param array $plugins List of plugin
+ * @param string $redirect Redirect to page when complete.
+ * @return mixed
+ */
 function delete_plugins($plugins, $redirect = '' ) {
 	global $wp_filesystem;
 
@@ -331,6 +412,16 @@ function validate_active_plugins() {
 	return $invalid;
 }
 
+/**
+ * Validate the plugin path.
+ *
+ * Checks that the file exists and {@link validate_file() is valid file}.
+ *
+ * @since unknown
+ *
+ * @param string $plugin Plugin Path
+ * @return WP_Error|int 0 on success, WP_Error on failure.
+ */
 function validate_plugin($plugin) {
 	if ( validate_file($plugin) )
 		return new WP_Error('plugin_invalid', __('Invalid plugin path.'));
@@ -343,7 +434,7 @@ function validate_plugin($plugin) {
 /**
  * Whether the plugin can be uninstalled.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $plugin Plugin path to check.
  * @return bool Whether plugin can be uninstalled.
@@ -363,7 +454,7 @@ function is_uninstallable_plugin($plugin) {
  *
  * Calls the uninstall hook, if it is available.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $plugin Relative plugin path from Plugin Directory.
  */
@@ -454,6 +545,16 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 	return $hookname;
 }
 
+/**
+ * Add sub menu page to the management main menu.
+ *
+ * @param string $page_title 
+ * @param unknown_type $menu_title
+ * @param unknown_type $access_level
+ * @param unknown_type $file
+ * @param unknown_type $function
+ * @return unknown
+ */
 function add_management_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
 	return add_submenu_page( 'edit.php', $page_title, $menu_title, $access_level, $file, $function );
 }

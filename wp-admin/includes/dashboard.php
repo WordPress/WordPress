@@ -1,6 +1,18 @@
 <?php
+/**
+ * WordPress Dashboard Widget Administration Panel API
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
-// Registers dashboard widgets, handles POST data, sets up filters
+/**
+ * Registers dashboard widgets.
+ *
+ * handles POST data, sets up filters.
+ *
+ * @since unknown
+ */
 function wp_dashboard_setup() {
 	global $wpdb, $wp_dashboard_sidebars;
 	$update = false;
@@ -193,7 +205,11 @@ function wp_dashboard_setup() {
 		update_option( 'dashboard_widget_options', $widget_options );
 }
 
-// Echoes out the dashboard
+/**
+ * Displays the dashboard.
+ *
+ * @since unknown
+ */
 function wp_dashboard() {
 	echo "<div id='dashboard-widgets'>\n\n";
 
@@ -205,13 +221,27 @@ function wp_dashboard() {
 	echo "<br class='clear' />\n</div>\n\n\n";
 }
 
-// Makes sidebar_widgets option reflect the dashboard settings
+/**
+ * Makes sidebar_widgets option reflect the dashboard settings.
+ *
+ * @since unknown
+ *
+ * @return array WordPress Dashboard Widgets list.
+ */
 function wp_dashboard_sidebars_widgets() { // hackery
 	return $GLOBALS['wp_dashboard_sidebars'];
 }
 
 // Modifies sidbar params on the fly to set up ids, class names, titles for each widget (called once per widget)
 // Switches widget to edit mode if $_GET['edit']
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $params
+ * @return unknown
+ */
 function wp_dashboard_dynamic_sidebar_params( $params ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls;
 
@@ -483,6 +513,13 @@ function wp_dashboard_inbox( $sidebar_args ) {
 	echo $after_widget;
 }
 
+/**
+ * Display recent comments dashboard widget content.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $sidebar_args
+ */
 function wp_dashboard_recent_comments( $sidebar_args ) {
 	global $comment;
 	extract( $sidebar_args, EXTR_SKIP );
@@ -536,7 +573,13 @@ function wp_dashboard_recent_comments( $sidebar_args ) {
 	echo $after_widget;
 }
 
-// $sidebar_args are handled by wp_dashboard_empty()
+/**
+ * Display incoming links dashboard widget content.
+ *
+ * $sidebar_args are handled by wp_dashboard_empty().
+ *
+ * @since unknown
+ */
 function wp_dashboard_incoming_links_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
 	@extract( @$widgets['dashboard_incoming_links'], EXTR_SKIP );
@@ -596,13 +639,29 @@ function wp_dashboard_incoming_links_output() {
 	}
 }
 
-// $sidebar_args are handled by wp_dashboard_empty()
+/**
+ * {@internal Missing Short Description}}
+ *
+ * $sidebar_args are handled by wp_dashboard_empty().
+ *
+ * @since unknown
+ *
+ * @param int $widget_id
+ */
 function wp_dashboard_rss_output( $widget_id ) {
 	$widgets = get_option( 'dashboard_widget_options' );
 	wp_widget_rss_output( $widgets[$widget_id] );
 }
 
-// $sidebar_args are handled by wp_dashboard_empty()
+/**
+ * Display secondary dashboard RSS widget feed.
+ *
+ * $sidebar_args are handled by wp_dashboard_empty().
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function wp_dashboard_secondary_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
 	@extract( @$widgets['dashboard_secondary'], EXTR_SKIP );
@@ -624,7 +683,13 @@ function wp_dashboard_secondary_output() {
 	echo "</ul>\n<br class='clear' />\n";
 }
 
-// $sidebar_args are handled by wp_dashboard_empty()
+/**
+ * Display plugins most popular, newest plugins, and recently updated widget text.
+ *
+ * $sidebar_args are handled by wp_dashboard_empty().
+ *
+ * @since unknown
+ */
 function wp_dashboard_plugins_output() {
 	$popular = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
 	$new     = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
@@ -672,10 +737,21 @@ function wp_dashboard_plugins_output() {
 	}
 }
 
-// Checks to see if all of the feed url in $check_urls are cached.
-// If $check_urls is empty, look for the rss feed url found in the dashboard widget optios of $widget_id.
-// If cached, call $callback, a function that echoes out output for this widget.
-// If not cache, echo a "Loading..." stub which is later replaced by AJAX call (see top of /wp-admin/index.php)
+/**
+ * Checks to see if all of the feed url in $check_urls are cached.
+ *
+ * If $check_urls is empty, look for the rss feed url found in the dashboard
+ * widget optios of $widget_id. If cached, call $callback, a function that
+ * echoes out output for this widget. If not cache, echo a "Loading..." stub
+ * which is later replaced by AJAX call (see top of /wp-admin/index.php)
+ *
+ * @since unknown
+ *
+ * @param int $widget_id
+ * @param callback $callback
+ * @param array $check_urls RSS feeds
+ * @return bool False on failure. True on success.
+ */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
 	$loading = '<p class="widget-loading">' . __( 'Loading&#8230;' ) . '</p>';
 
@@ -711,8 +787,17 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 	return true;
 }
 
-// Empty widget used for JS/AJAX created output.
-// Callback inserts content between before_widget and after_widget.  Used when widget is in edit mode.  Can also be used for custom widgets.
+/**
+ * Empty widget used for JS/AJAX created output.
+ *
+ * Callback inserts content between before_widget and after_widget. Used when
+ * widget is in edit mode. Can also be used for custom widgets.
+ *
+ * @since unknown
+ *
+ * @param array $sidebar_args
+ * @param callback $callback Optional. Only used in edit mode.
+ */
 function wp_dashboard_empty( $sidebar_args, $callback = false ) {
 	extract( $sidebar_args, EXTR_SKIP );
 
@@ -732,7 +817,7 @@ function wp_dashboard_empty( $sidebar_args, $callback = false ) {
 	echo $after_widget;
 }
 
-/* Dashboard Widgets Controls. Ssee also wp_dashboard_empty() */
+/* Dashboard Widgets Controls. See also wp_dashboard_empty() */
 
 // Temp
 function wp_dashboard_empty_control() {
@@ -740,13 +825,30 @@ function wp_dashboard_empty_control() {
 }
 
 // Calls widget_control callback
+/**
+ * Calls widget control callback.
+ *
+ * @since unknown
+ *
+ * @param int $widget_control_id Registered Widget ID.
+ */
 function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
 	global $wp_registered_widget_controls;
 	if ( is_scalar($widget_control_id) && $widget_control_id && isset($wp_registered_widget_controls[$widget_control_id]) && is_callable($wp_registered_widget_controls[$widget_control_id]['callback']) )
 		call_user_func_array( $wp_registered_widget_controls[$widget_control_id]['callback'], $wp_registered_widget_controls[$widget_control_id]['params'] );
 }
 
-// Sets up $args to be used as input to wp_widget_rss_form(), handles POST data from RSS-type widgets
+/**
+ * The RSS dashboard widget control.
+ *
+ * Sets up $args to be used as input to wp_widget_rss_form(). Handles POST data
+ * from RSS-type widgets.
+ *
+ * @since unknown
+ *
+ * @param array $args Expects 'widget_id' and 'form_inputs'.
+ * @return bool|null False if no widget_id is given. Null on success.
+ */
 function wp_dashboard_rss_control( $args ) {
 	extract( $args );
 	if ( !$widget_id )

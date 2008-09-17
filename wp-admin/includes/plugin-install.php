@@ -1,6 +1,30 @@
 <?php
+/**
+ * WordPress Plugin Install Administration API
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
-function plugins_api($action, $args = NULL) {
+/**
+ * Retrieve plugin installer pages from WordPress Plugins API.
+ *
+ * It is possible for a plugin to override the Plugin API result with three
+ * filters. Assume this is for plugins, which can extend on the Plugin Info to
+ * offer more choices. This is very powerful and must be used with care, when
+ * overridding the filters.
+ *
+ * The first filter, 'plugins_api_args', is for the args and gives the action as
+ * the second parameter. The hook for 'plugins_api_args' must ensure that an
+ * object is returned.
+ *
+ * The second filter, 'plugins_api', is the result that would be returned.
+ *
+ * @param string $action
+ * @param array|object $args Optional. Arguments to serialize for the Plugin Info API.
+ * @return mixed
+ */
+function plugins_api($action, $args = null) {
 	global $wp_version;
 
 	if( is_array($args) )
@@ -19,9 +43,15 @@ function plugins_api($action, $args = NULL) {
 	return apply_filters('plugins_api_result', $res, $action, $args);
 }
 
+/**
+ * 
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function install_popular_tags( $args = array() ) {
 	if ( ! ($cache = wp_cache_get('popular_tags', 'api')) && ! ($cache = get_option('wporg_popular_tags')) )
-		add_option('wporg_popular_tags', array(), '', 'no');///No autoload.
+		add_option('wporg_popular_tags', array(), '', 'no'); ///No autoload.
 
 	if ( $cache && $cache->timeout + 3 * 60 * 60 > time() )
 		return $cache->cached;
