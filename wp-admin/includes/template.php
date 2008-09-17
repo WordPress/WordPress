@@ -1227,18 +1227,28 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	$numposts = get_usernumposts( $user_object->ID );
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
 		if ($current_user->ID == $user_object->ID) {
-			$edit = 'profile.php';
+			$edit_link = 'profile.php';
 		} else {
-			$edit = clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
+			$edit_link = clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
 		}
-		$edit = "<a href=\"$edit\">$user_object->user_login</a>";
+		$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
+		$actions = array();
+		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this user '%s'\n  'Cancel' to stop, 'OK' to delete."), $user_object->user_login )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+		$action_count = count($actions);
+		$i = 0;
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			$edit .= "<span class='$action'>$link$sep</span>";
+		}
 	} else {
-		$edit = $user_object->user_login;
+		$edit = '<strong>' . $user_object->user_login . '</strong>';
 	}
 	$role_name = isset($wp_roles->role_names[$role]) ? translate_with_context($wp_roles->role_names[$role]) : __('None');
 	$r = "<tr id='user-$user_object->ID'$style>
 		<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>
-		<td><strong>$edit</strong></td>
+		<td>$edit</td>
 		<td>$user_object->first_name $user_object->last_name</td>
 		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>
 		<td>$role_name</td>";

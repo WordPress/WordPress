@@ -114,7 +114,7 @@ case 'delete':
 
 	check_admin_referer('bulk-users');
 
-	if ( empty($_REQUEST['users']) ) {
+	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
 		wp_redirect($redirect);
 		exit();
 	}
@@ -122,7 +122,10 @@ case 'delete':
 	if ( !current_user_can('delete_users') )
 		$errors = new WP_Error('edit_users', __('You can&#8217;t delete users.'));
 
-	$userids = $_REQUEST['users'];
+	if ( empty($_REQUEST['users']) )
+		$userids = array(intval($_REQUEST['user']));
+	else
+		$userids = $_REQUEST['users'];
 
 	include ('admin-header.php');
 ?>
