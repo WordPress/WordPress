@@ -1097,7 +1097,8 @@ table.form-table td .updated {
 	border: 0 none;
 }
 
-#side-sortables .inside-submitbox .insidebox {
+#side-sortables .inside-submitbox .insidebox,
+.stuffbox .insidebox {
 	margin: 11px 0;
 }
 
