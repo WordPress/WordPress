@@ -588,11 +588,11 @@ function image_link_input_fields($post, $url_type='') {
 		$url = $link;
 	
 	return "<input type='text' name='attachments[$post->ID][url]' value='" . attribute_escape($url) . "' /><br />
-				<button type='button' class='button url-$post->ID' value=''>" . __('None') . "</button>
-				<button type='button' class='button url-$post->ID' value='" . attribute_escape($file) . "'>" . __('File URL') . "</button>
-				<button type='button' class='button url-$post->ID' value='" . attribute_escape($link) . "'>" . __('Post URL') . "</button>
+				<button type='button' class='button url-$post->ID' title=''>" . __('None') . "</button>
+				<button type='button' class='button url-$post->ID' title='" . attribute_escape($file) . "'>" . __('File URL') . "</button>
+				<button type='button' class='button url-$post->ID' title='" . attribute_escape($link) . "'>" . __('Post URL') . "</button>
 				<script type='text/javascript'>
-				jQuery('button.url-$post->ID').bind('click', function(){jQuery(this).siblings('input').val(this.value);});
+				jQuery('button.url-$post->ID').bind('click', function(){jQuery(this).siblings('input').val(jQuery(this).attr('title'));});
 				</script>\n";
 }
 
