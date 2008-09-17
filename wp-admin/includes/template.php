@@ -78,6 +78,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$category = get_category( $category );
 
+	$default_cat_id = (int) get_option( 'default_category' );
 	$pad = str_repeat( '&#8212; ', $level );
 	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
 	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
@@ -85,7 +86,8 @@ function _cat_row( $category, $level, $name_override = false ) {
 		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n  'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+		if ( $default_cat_id != $category->term_id )
+			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n  'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
 		foreach ( $actions as $action => $link ) {
@@ -103,7 +105,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='cat-$category->term_id'$class>
 			   <th scope='row' class='check-column'>";
-	if ( absint(get_option( 'default_category' ) ) != $category->term_id ) {
+	if ( $default_cat_id != $category->term_id ) {
 		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
 	} else {
 		$output .= "&nbsp;";
@@ -124,10 +126,22 @@ function link_cat_row( $category ) {
 	if ( is_wp_error( $category ) )
 		return $category;
 
+	$default_cat_id = (int) get_option( 'default_link_category' );
 	$name = ( $name_override ? $name_override : $category->name );
+	$edit_link = "link-category.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='link-category.php?action=edit&amp;cat_ID=$category->term_id' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a>";
-		$default_cat_id = (int) get_option( 'default_link_category' );
+		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
+		$actions = array();
+		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		if ( $default_cat_id != $category->term_id )
+			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link-category.php?action=delete&amp;cat_ID=$category->term_id", 'delete-link-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n  'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+		$action_count = count($actions);
+		$i = 0;
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			$edit .= "<span class='$action'>$link$sep</span>";
+		}
 	} else {
 		$edit = $name;
 	}
