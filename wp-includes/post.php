@@ -2385,7 +2385,7 @@ function wp_delete_attachment($postid) {
 	}
 
 	// remove intermediate images if there are any
-	$sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium'));
+	$sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium', 'large'));
 	foreach ( $sizes as $size ) {
 		if ( $intermediate = image_get_intermediate_size($postid, $size) ) {
 			$intermediate_file = apply_filters('wp_delete_file', $intermediate['path']);
