@@ -80,8 +80,19 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$pad = str_repeat( '&#8212; ', $level );
 	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
+	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='categories.php?action=edit&amp;cat_ID=$category->term_id' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a>";
+		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
+		$actions = array();
+		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n  'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+		$action_count = count($actions);
+		$i = 0;
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+			$edit .= "<span class='$action'>$link$sep</span>";
+		}
 	} else {
 		$edit = $name;
 	}
