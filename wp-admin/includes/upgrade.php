@@ -210,7 +210,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 8201 )
 		upgrade_260();
 
-	if ( $wp_current_db_version < 8539 )
+	if ( $wp_current_db_version < 8921 )
 		upgrade_270();
 
 	maybe_disable_automattic_widgets();
@@ -752,6 +752,8 @@ function upgrade_252() {
 }
 
 function upgrade_260() {
+	global $wp_current_db_version;
+
 	if ( $wp_current_db_version < 8000 )
 		populate_roles_260();
 
@@ -762,8 +764,14 @@ function upgrade_260() {
 }
 
 function upgrade_270() {
+	global $wpdb, $wp_current_db_version;
+
 	if ( $wp_current_db_version < 8530 )
 		populate_roles_270();
+
+	// Update post_date for unpublished posts with empty timestamp
+	if ( $wp_current_db_version < 8921 )
+		$wpdb->query( "UPDATE $wpdb->posts SET post_date = post_modified WHERE post_date = '0000-00-00 00:00:00'" );
 }
 
 
