@@ -51,8 +51,8 @@ function getInlineData(id) {
 	if(id == '') 
 		return false;
 	
-	jQuery.post('admin-ajax.php', 
-		{ 
+	jQuery.post('admin-ajax.php', {
+			'inline_edit_nonce': jQuery('#inline_edit_nonce').val(),
 			action: 'inline-data', 
 			posts: id 
 		}, 
@@ -79,7 +79,7 @@ function editRow(id) {
 
 	// add the new blank row
 	var editRow = blankRow.clone(true);
-	jQuery(editRow).attr('id', 'edit-'+id).addClass('inline').show();
+	jQuery(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
 	if(jQuery('#'+postType+'-'+id).hasClass('alternate'))
 		jQuery(editRow).addClass('alternate');
 	jQuery('#'+postType+'-'+id).hide().after(editRow);
@@ -139,12 +139,13 @@ function saveRow(id) {
 	if(typeof(id) == 'object')
 	  id = getRowId(id);
 
-	jQuery('#edit-'+id+' .check-column').html('<img src="images/loading.gif" alt="Saving..." />');
+	jQuery('#edit-'+id+' .check-column').html('<img src="images/loading.gif" alt="" />');
 
 	var params = {
-		action:    'inline-save',
+		'inline_edit_nonce': jQuery('#inline_edit_nonce').val(),
+		action: 'inline-save',
 		post_type: postType,
-		post_ID:   id,
+		post_ID: id,
 		edit_date: 'true',
 		post_view: postView
 	};

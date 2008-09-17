@@ -496,6 +496,7 @@ function inline_edit_row( $type ) {
 				$attributes = "class=\"$type-title column-title\"" . $style;
 			?>
 				<td <?php echo $attributes ?>>
+					<?php wp_nonce_field( 'inlineeditnonce', 'inline_edit_nonce', false ) ?>
 					<div class="title">
 						<input type="text" name="post_title" class="title" value="" /><br />
 						<label><?php _e('Slug'); ?></label><input type="text" name="post_name" value="" class="slug" />
@@ -519,6 +520,7 @@ function inline_edit_row( $type ) {
 					</div>
 					<?php endif; ?>
 					<div class="clear"></div>
+					<div class="save">
 					<?php
 					$actions = array();
 					$actions['save'] = '<a href="#">' . __('Save') . '</a>';
@@ -531,6 +533,7 @@ function inline_edit_row( $type ) {
 						echo "<span class='$action'>$link$sep</span>";
 					}
 					?>
+					</div>
 				</td>
 				<?php
 				break;

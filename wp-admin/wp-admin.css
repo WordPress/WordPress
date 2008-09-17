@@ -2155,86 +2155,89 @@ a.togbox {
 
 
 /* Inline Editor */
-
-.inline {
-	font-size: 10px;
+.inline-editor {
+	font-size: 11px;
 }
 
-.inline td {
+.inline-editor .save {
+	padding-top: 5px;
+}
+
+.inline-editor td {
 	padding-right: 4px;
 	padding-left: 7px;
 }
 
-.inline input, .inline select, .inline textarea {
+.inline-editor input, .inline-editor select, .inline-editor textarea {
 	font-size: 10px !important;
 	padding: 2px;
 	border: 1px solid #ddd;
 }
 
-.inline td.date {
+.inline-editor td.date {
 	width: 87px;
 }
 
-.inline td.page-title {
+.inline-editor td.page-title {
 	width: 495px;
 }
 
-.inline td.post-title input.title {
+.inline-editor td.post-title input.title {
 	width: 250px;
 }
 
-.inline td.post-title input.slug {
+.inline-editor td.post-title input.slug {
 	width: 222px;
 	float: right;
 }
 
-.inline div.title {
+.inline-editor div.title {
 	float: left;
 }
 
-.inline div.title input.title {
+.inline-editor div.title input.title {
 	font-size: 12px !important;
 }
 
-.inline div.title label {
+.inline-editor div.title label {
 	float: left;
 	margin-top: 4px;
 }
 
-.inline td.page-title input.slug {
+.inline-editor td.page-title input.slug {
 	width: 123px;
 	float: right;
 }
 
-.inline div.other, .inline div.more {
+.inline-editor div.other, .inline-editor div.more {
 	width: 190px;
 	float: left;
 	padding-left: 5px;
 }
 
-.inline div.other label, .inline div.more label {
+.inline-editor div.other label, .inline-editor div.more label {
 	display: block; float: left;
 	width: 54px;
 	margin-top: 4px;
 }
 
-.inline div.other select {
+.inline-editor div.other select {
 	width: 133px;
 }
 
-.inline div.more {
+.inline-editor div.more {
 	width: 125px;
 }
 
-.inline div.more input {
+.inline-editor div.more input {
 	width: 60px;
 }
 
-.inline td.author select {
+.inline-editor td.author select {
 	width: 110px;
 }
 
-.inline ul.categories {
+.inline-editor ul.categories {
 	list-style: none;
 	padding: 0; margin: 0;
 	height: 65px;
@@ -2242,33 +2245,33 @@ a.togbox {
 	font-size: 10px;
 }
 
-.inline ul.categories ul.children {
+.inline-editor ul.categories ul.children {
 	list-style: none;
 	padding-left: 15px;
 }
 
-.inline ul.categories li {
+.inline-editor ul.categories li {
 	margin-bottom: 2px;
 }
 
-.inline ul.categories input {
+.inline-editor ul.categories input {
 	vertical-align: middle;
 	padding: 0; border: 0;
 }
 
-.inline td.tags textarea {
+.inline-editor td.tags textarea {
 	height: 58px; width: 100%;
 }
 
-.inline td.comments {
+.inline-editor td.comments {
 	padding-left: 0;
 }
 
-.inline td.status select {
+.inline-editor td.status select {
 	width: 98px;
 }
 
-.inline td.status input {
+.inline-editor td.status input {
 	vertical-align: middle;
 }
 

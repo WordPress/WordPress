@@ -728,18 +728,27 @@ case 'sample-permalink':
 	die(get_sample_permalink_html($post_id, $title, $slug));
 break;
 case 'inline-data':
-	get_inline_data( explode(',', $_POST['posts']) );
+	check_ajax_referer( 'inlineeditnonce', 'inline_edit_nonce' );
+
+	if ( isset($_POST['posts']) )
+		get_inline_data( explode(',', $_POST['posts']) );
+
 	die();
 break;
 case 'inline-save':
+	check_ajax_referer( 'inlineeditnonce', 'inline_edit_nonce' );
+	
+	if ( ! isset($_POST['post_ID']) )
+		exit;
+	
 	inline_save_row( $_POST );
+	
+	$post = array();
 	if ( 'page' == $_POST['post_type'] ) {
-		$post = array();
 		$post[] = get_post($_POST['post_ID']);
-		page_rows( $post );
+		page_rows($post);
 	} elseif ( 'post' == $_POST['post_type'] ) {
 		$mode = $_POST['post_view'];
-		$post = array();
 		$post[] = get_post($_POST['post_ID']);
 		post_rows($post);
 	}
