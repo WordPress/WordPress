@@ -3,7 +3,7 @@
  * A simple set of functions to check our version 1.0 update service.
  *
  * @package WordPress
- * @since 2.3
+ * @since 2.3.0
  */
 
 /**
@@ -84,8 +84,7 @@ add_action( 'init', 'wp_version_check' );
  *
  * The WordPress version, PHP version, and Locale is sent along with a list of
  * all plugins installed. Checks against the WordPress server at
- * api.wordpress.org. Will only check if PHP has fsockopen enabled and WordPress
- * isn't installing.
+ * api.wordpress.org. Will only check if WordPress isn't installing.
  *
  * @package WordPress
  * @since 2.3.0
@@ -169,8 +168,8 @@ function wp_update_plugins() {
  * Check theme versions against the latest versions hosted on WordPress.org.
  *
  * A list of all themes installed in sent to WP. Checks against the 
- * WordPress server at api.wordpress.org. Will only check if PHP has 
- * fsockopen enabled and WordPress isn't installing.
+ * WordPress server at api.wordpress.org. Will only check if WordPress isn't
+ * installing.
  *
  * @package WordPress
  * @since 2.7.0
@@ -233,6 +232,16 @@ function wp_update_themes( ) {
 	update_option( 'update_themes', $new_option );
 }
 
+/**
+ * Check the last time plugins were run before checking plugin versions.
+ *
+ * This might have been backported to WordPress 2.6.1 for performance reasons.
+ * This is used for the wp-admin to check only so often instead of every page
+ * load.
+ *
+ * @since 2.7.0
+ * @access private
+ */
 function _maybe_update_plugins() {
 	$current = get_option( 'update_plugins' );
 	if ( isset( $current->last_checked ) && 43200 > ( time() - $current->last_checked ) )
@@ -240,6 +249,15 @@ function _maybe_update_plugins() {
 	wp_update_plugins();
 }
 
+/**
+ * Check themes versions only after a duration of time.
+ *
+ * This is for performance reasons to make sure that on the theme version
+ * checker is not run on every page load.
+ *
+ * @since 2.7.0
+ * @access private
+ */
 function _maybe_update_themes( ) {
 	$current = get_option( 'update_themes' );
 	if( isset( $current->last_checked ) && 43200 > ( time( ) - $current->last_checked ) )
