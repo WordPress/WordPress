@@ -191,17 +191,17 @@ function add_rewrite_endpoint($name, $places) {
 }
 
 /**
-  * Filter the URL base for taxonomies.
-  *
-  * To remove any manually prepended /index.php/.
-  *
-  * @access private
-  * @since unknown (2.3.0?)
-  * @author Mark Jaquith
-  *
-  * @param string $base The taxonomy base that we're going to filter
-  * @return string
-  */
+ * Filter the URL base for taxonomies.
+ *
+ * To remove any manually prepended /index.php/.
+ *
+ * @access private
+ * @since 2.6.0
+ * @author Mark Jaquith
+ *
+ * @param string $base The taxonomy base that we're going to filter
+ * @return string
+ */
 function _wp_filter_taxonomy_base( $base ) {
 	if ( !empty( $base ) ) {
 		$base = preg_replace( '|^/index\.php/|', '', $base );
@@ -481,8 +481,8 @@ class WP_Rewrite {
 	 *
 	 * The difference between the root property is that WordPress might be
 	 * located at example/WordPress/index.php, if permalinks are turned off. The
-	 * index.php will be the front portion. If permalinks are turned on, this
-	 * will most likely be empty or not set.
+	 * WordPress/index.php will be the front portion. If permalinks are turned
+	 * on, this will most likely be empty or not set.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -512,7 +512,7 @@ class WP_Rewrite {
 	var $index = 'index.php';
 
 	/**
-	 * {@internal Missing Description}}
+	 * Request match string.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -552,7 +552,9 @@ class WP_Rewrite {
 	var $extra_rules_top = array(); //
 
 	/**
-	 * Rules that don't redirect to WP's index.php
+	 * Rules that don't redirect to WP's index.php.
+	 *
+	 * These rules are written to the mod_rewrite portion of the .htaccess.
 	 *
 	 * @since 2.1.0
 	 * @access private
@@ -561,7 +563,7 @@ class WP_Rewrite {
 	var $non_wp_rules = array(); //
 
 	/**
-	 * {@internal Missing Description}}
+	 * Extra permalink structures.
 	 *
 	 * @since 2.1.0
 	 * @access private
@@ -579,7 +581,10 @@ class WP_Rewrite {
 	var $endpoints;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Whether to write every mod_rewrite rule for WordPress.
+	 *
+	 * This is off by default, turning it on might print a lot of rewrite rules
+	 * to the .htaccess file.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -588,7 +593,7 @@ class WP_Rewrite {
 	var $use_verbose_rules = false;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Whether to write every mod_rewrite rule for WordPress pages.
 	 *
 	 * @since 2.5.0
 	 * @access public
@@ -597,7 +602,7 @@ class WP_Rewrite {
 	var $use_verbose_page_rules = true;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Permalink structure search for preg_replace.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -621,7 +626,7 @@ class WP_Rewrite {
 					);
 
 	/**
-	 * {@internal Missing Description}}
+	 * Preg_replace values for the search, see {@link WP_Rewrite::$rewritecode}.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -645,7 +650,7 @@ class WP_Rewrite {
 					);
 
 	/**
-	 * {@internal Missing Description}}
+	 * Search for the query to look for replacing.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -735,9 +740,14 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Index for matches for usage in preg_*() functions.
 	 *
-	 * {@internal Missing Long Description}}
+	 * The format of the string is, with empty matches property value, '$NUM'.
+	 * The 'NUM' will be replaced with the value in the $number parameter. With
+	 * the matches property not empty, the value of the returned string will
+	 * contain that value of the matches property. The format then will be
+	 * '$MATCHES[NUM]', with MATCHES as the value in the property and NUM the
+	 * value of the $number parameter.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -749,7 +759,7 @@ class WP_Rewrite {
 		$match_prefix = '$';
 		$match_suffix = '';
 
-		if (! empty($this->matches)) {
+		if ( ! empty($this->matches) ) {
 			$match_prefix = '$' . $this->matches . '[';
 			$match_suffix = ']';
 		}
@@ -758,14 +768,15 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Retrieve all page and attachments for pages URIs.
 	 *
-	 * {@internal Missing Long Description}}
+	 * The attachments are for those that have pages as parents and will be
+	 * retrieved.
 	 *
 	 * @since 2.5.0
 	 * @access public
 	 *
-	 * @return unknown
+	 * @return array Array of page URIs as first element and attachment URIs as second element.
 	 */
 	function page_uri_index() {
 		global $wpdb;
@@ -780,7 +791,6 @@ class WP_Rewrite {
 
 		if ( !$posts )
 			return array( array(), array() );
-
 
 		foreach ($posts as $id => $post) {
 			// URL => page name
@@ -800,14 +810,17 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Retrieve all of the rewrite rules for pages.
 	 *
-	 * {@internal Missing Long Description}}
+	 * If the 'use_verbose_page_rules' property is false, then there will only
+	 * be a single rewrite rule for pages for those matching '%pagename%'. With
+	 * the property set to true, the attachments and the pages will be added for
+	 * each individual attachment URI and page URI, respectively.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return unknown
+	 * @return array
 	 */
 	function page_rewrite_rules() {
 		$rewrite_rules = array();
@@ -822,7 +835,6 @@ class WP_Rewrite {
 		$page_uris = $this->page_uri_index();
 		$uris = $page_uris[0];
 		$attachment_uris = $page_uris[1];
-
 
 		if( is_array( $attachment_uris ) ) {
 			foreach ($attachment_uris as $uri => $pagename) {
@@ -972,7 +984,10 @@ class WP_Rewrite {
 	/**
 	 * Retrieve the permalink structure for categories.
 	 *
-	 * {@internal Missing Long Description}}
+	 * If the category_base property has no value, then the category structure
+	 * will have the front property value, followed by 'category', and finally
+	 * '%category%'. If it does, then the root property will be used, along with
+	 * the category_base property value.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -1002,7 +1017,10 @@ class WP_Rewrite {
 	/**
 	 * Retrieve the permalink structure for tags.
 	 *
-	 * {@internal Missing Long Description}}
+	 * If the tag_base property has no value, then the tag structure will have
+	 * the front property value, followed by 'tag', and finally '%tag%'. If it
+	 * does, then the root property will be used, along with the tag_base
+	 * property value.
 	 *
 	 * @since 2.3.0
 	 * @access public
@@ -1180,23 +1198,25 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Append or update tag, pattern, and query for replacement.
 	 *
-	 * {@internal Missing Long Description}}
+	 * If the tag already exists, replace the existing pattern and query for
+	 * that tag, otherwise add the new tag, pattern, and query to the end of the
+	 * arrays.
+	 *
+	 * @internal What is the purpose of this function again? Need to finish long
+	 *           description.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @param unknown_type $tag
-	 * @param unknown_type $pattern
-	 * @param unknown_type $query
+	 * @param string $tag Append tag to rewritecode property array.
+	 * @param string $pattern Append pattern to rewritereplace property array.
+	 * @param string $query Append query to queryreplace property array.
 	 */
 	function add_rewrite_tag($tag, $pattern, $query) {
-		// If the tag already exists, replace the existing pattern and query for
-		// that tag, otherwise add the new tag, pattern, and query to the end of
-		// the arrays.
 		$position = array_search($tag, $this->rewritecode);
-		if (FALSE !== $position && NULL !== $position) {
+		if ( false !== $position && null !== $position ) {
 			$this->rewritereplace[$position] = $pattern;
 			$this->queryreplace[$position] = $query;
 		} else {
@@ -1209,21 +1229,21 @@ class WP_Rewrite {
 	/**
 	 * Generate the rules from permalink structure.
 	 *
-	 * {@internal Missing Long Description}}
-	 *
-	 * The main WP_Rewrite function.
+	 * The main WP_Rewrite function for building the rewrite rule list. The
+	 * contents of the function is a mix of black magic and regular expressions,
+	 * so best just ignore the contents and move to the parameters.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @param unknown_type $permalink_structure
-	 * @param unknown_type $ep_mask
-	 * @param unknown_type $paged
-	 * @param unknown_type $feed
-	 * @param unknown_type $forcomments
-	 * @param unknown_type $walk_dirs
-	 * @param unknown_type $endpoints
-	 * @return unknown
+	 * @param string $permalink_structure The permalink structure.
+	 * @param int $ep_mask Optional, default is EP_NONE. Endpoint constant, see EP_* constants.
+	 * @param bool $paged Optional, default is true. Whether permalink request is paged.
+	 * @param bool $feed Optional, default is true. Whether for feed.
+	 * @param bool $forcomments Optional, default is false. Whether for comments.
+	 * @param bool $walk_dirs Optional, default is true. Whether to create list of directories to walk over.
+	 * @param bool $endpoints Optional, default is true. Whether endpoints are enabled.
+	 * @return array Rewrite rule list.
 	 */
 	function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
 		//build a regex to match the feed section of URLs, something like (feed|atom|rss|rss2)/?
@@ -1442,30 +1462,41 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Generate Rewrite rules with permalink structure and walking directory only.
 	 *
-	 * {@internal Missing Long Description}}
+	 * Shorten version of {@link WP_Rewrite::generate_rewrite_rules()} that
+	 * allows for shorter list of parameters. See the method for longer
+	 * description of what generating rewrite rules does.
 	 *
+	 * @uses WP_Rewrite::generate_rewrite_rules() See for long description and rest of parameters.
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @param unknown_type $permalink_structure
-	 * @param unknown_type $walk_dirs
-	 * @return unknown
+	 * @param string $permalink_structure The permalink structure to generate rules.
+	 * @param bool $walk_dirs Optional, default is false. Whether to create list of directories to walk over.
+	 * @return array
 	 */
 	function generate_rewrite_rule($permalink_structure, $walk_dirs = false) {
 		return $this->generate_rewrite_rules($permalink_structure, EP_NONE, false, false, false, $walk_dirs);
 	}
 
 	/**
-	 * Construct rewrite matches and queries from permalink structure
+	 * Construct rewrite matches and queries from permalink structure.
 	 *
-	 * {@internal Missing Long Description}}
+	 * Runs the action 'generate_rewrite_rules' with the parameter that is an
+	 * reference to the current WP_Rewrite instance to further manipulate the
+	 * permalink structures and rewrite rules. Runs the 'rewrite_rules_array'
+	 * filter on the full rewrite rule array.
+	 *
+	 * There are two ways to manipulate the rewrite rules, one by hooking into
+	 * the 'generate_rewrite_rules' action and gaining full control of the
+	 * object or just manipulating the rewrite rule array before it is passed
+	 * from the function.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return array an associate array of matches and queries
+	 * @return array An associate array of matches and queries.
 	 */
 	function rewrite_rules() {
 		$rewrite = array();
@@ -1539,14 +1570,18 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Retrieve the rewrite rules.
 	 *
-	 * {@internal Missing Long Description}}
+	 * The difference between this method and {@link
+	 * WP_Rewrite::rewrite_rules()} is that this method stores the rewrite rules
+	 * in the 'rewrite_rules' option and retrieves it. This prevents having to
+	 * process all of the permalinks to get the rewrite rules in the form of
+	 * caching.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return unknown
+	 * @return array Rewrite rules.
 	 */
 	function wp_rewrite_rules() {
 		$this->rules = get_option('rewrite_rules');
@@ -1560,14 +1595,18 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Retrieve mod_rewrite formatted rewrite rules to write to .htaccess.
 	 *
-	 * {@internal Missing Long Description}}
+	 * Does not actually write to the .htaccess file, but creates the rules for
+	 * the process that will.
+	 *
+	 * Will add  the non_wp_rules property rules to the .htaccess file before
+	 * the WordPress rewrite rules one.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return unknown
+	 * @return string
 	 */
 	function mod_rewrite_rules() {
 		if ( ! $this->using_permalinks()) {
@@ -1637,16 +1676,17 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add a straight rewrite rule
+	 * Add a straight rewrite rule.
 	 *
-	 * {@internal Missing Long Description}}
+	 * Any value in the $after parameter that isn't 'bottom' will be placed at
+	 * the top of the rules.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @param unknown_type $regex
-	 * @param unknown_type $redirect
-	 * @param unknown_type $after
+	 * @param string $regex Regular expression to match against request.
+	 * @param string $redirect URL regex redirects to when regex matches request.
+	 * @param string $after Optional, default is bottom. Location to place rule.
 	 */
 	function add_rule($regex, $redirect, $after = 'bottom') {
 		//get everything up to the first ?
@@ -1664,32 +1704,30 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add a rule that doesn't redirect to index.php
+	 * Add a rule that doesn't redirect to index.php.
 	 *
-	 * {@internal Missing Long Description}}
+	 * Can redirect to any place.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @param unknown_type $regex
-	 * @param unknown_type $redirect
+	 * @param string $regex Regular expression to match against request.
+	 * @param string $redirect URL regex redirects to when regex matches request.
 	 */
 	function add_external_rule($regex, $redirect) {
 		$this->non_wp_rules[$regex] = $redirect;
 	}
 
 	/**
-	 * Add an endpoint, like /trackback/
+	 * Add an endpoint, like /trackback/.
 	 *
-	 * {@internal Missing Long Description}}
-	 *
-	 * To be inserted after certain URL types (specified in $places)
+	 * To be inserted after certain URL types (specified in $places).
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @param unknown_type $name
-	 * @param unknown_type $places
+	 * @param string $name Name of endpoint.
+	 * @param array $places URL types that endpoint can be used.
 	 */
 	function add_endpoint($name, $places) {
 		global $wp;
@@ -1698,16 +1736,17 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Add permalink structure.
 	 *
-	 * {@internal Missing Long Description}}
+	 * These are added along with the extra rewrite rules that are merged to the
+	 * top.
 	 *
 	 * @since unknown
 	 * @access public
 	 *
-	 * @param unknown_type $name
-	 * @param unknown_type $struct
-	 * @param unknown_type $with_front
+	 * @param string $name Name for permalink structure.
+	 * @param string $struct Permalink structure.
+	 * @param bool $with_front Prepend front base to permalink structure.
 	 */
 	function add_permastruct($name, $struct, $with_front = true) {
 		if ( $with_front )
@@ -1733,9 +1772,11 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
+	 * Sets up the object's properties.
 	 *
-	 * {@internal Missing Long Description}}
+	 * The 'use_verbose_page_rules' object property will be turned on, if the
+	 * permalink structure includes the following: '%postname%', '%category%',
+	 * '%tag%', or '%author%'.
 	 *
 	 * @since 1.5.0
 	 * @access public
