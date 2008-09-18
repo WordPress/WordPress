@@ -32,6 +32,8 @@ if ( empty($att_title) )
 
 <?php
 $posts_columns = wp_manage_media_columns();
+$hidden = (array) get_user_option( 'manage-media-columns-hidden' );
+
 foreach ($posts_columns as $column_name => $column_display_name ) {
 	$class = "class=\"$column_name column-$column_name\"";
 
