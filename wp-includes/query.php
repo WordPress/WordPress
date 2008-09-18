@@ -2006,6 +2006,10 @@ class WP_Query {
 		} else {
 			// Used to filter values
 			$allowed_keys = array('author', 'date', 'category', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand');
+			if ( !empty($q['meta_key']) ) {
+				$allowed_keys[] = $q['meta_key'];
+				$allowed_keys[] = 'meta_value';
+			}
 			$q['orderby'] = urldecode($q['orderby']);
 			$q['orderby'] = addslashes_gpc($q['orderby']);
 			$orderby_array = explode(' ',$q['orderby']);
@@ -2023,6 +2027,10 @@ class WP_Query {
 						break;
 					case 'rand':
 						$orderby = 'RAND()';
+						break;
+					case $q['meta_key']:
+					case 'meta_value':
+						$orderby = "$wpdb->postmeta.meta_value";
 						break;
 					default:
 						$orderby = "$wpdb->posts.post_" . $orderby;
@@ -2109,9 +2117,13 @@ class WP_Query {
 		if ( ! empty($q['meta_key']) || ! empty($q['meta_value']) )
 			$join .= " LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
 		if ( ! empty($q['meta_key']) )
-			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_key = %s ", $q['meta_key']);
-		if ( ! empty($q['meta_value']) )
-			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_value = %s ", $q['meta_value']);
+			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s ", $q['meta_key']);
+		if ( ! empty($q['meta_value']) ) {
+			if ( ! isset($q['meta_compare']) || empty($q['meta_compare']) || ! in_array($q['meta_compare'], array('=', '!=', '>', '>=', '<', '<=')) )
+				$q['meta_compare'] = '=';
+
+			$where .= $wpdb->prepare("AND $wpdb->postmeta.meta_value {$q['meta_compare']} %s ", $q['meta_value']);
+		}
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
@@ -2182,8 +2194,12 @@ class WP_Query {
 			$join = apply_filters('posts_join_paged', $join);
 			$orderby = apply_filters('posts_orderby', $orderby);
 			$distinct = apply_filters('posts_distinct', $distinct);
-			$fields = apply_filters('posts_fields', $fields);
 			$limits = apply_filters( 'post_limits', $limits );
+
+			if ( ! empty($q['meta_key']) )
+				$fields = "$fields, $wpdb->postmeta.meta_value";
+
+			$fields = apply_filters('posts_fields', $fields);
 		}
 
 		// Announce current selection parameters.  For use by caching plugins.
