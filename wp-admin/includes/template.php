@@ -39,7 +39,6 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
 		// If the page starts in a subtree, print the parents.
 		if ( $count == $start && $category->parent > 0 ) {
 			$my_parents = array();
-			$my_parent = $category->parent;
 			while ( $my_parent) {
 				$my_parent = get_category($my_parent);
 				$my_parents[] = $my_parent;
@@ -174,17 +173,40 @@ function link_cat_row( $category ) {
 
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='link-cat-$category->term_id'$class>
-			   <th scope='row' class='check-column'>";
-	if ( absint( get_option( 'default_link_category' ) ) != $category->term_id ) {
-		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
-	} else {
-		$output .= "&nbsp;";
+	$output = "<tr id='link-cat-$category->term_id'$class>";
+	$columns = get_column_headers('link-category');
+	$hidden = (array) get_user_option( 'manage-link-category-columns-hidden' );
+	foreach ( $columns as $column_name => $column_display_name ) {
+		$class = "class=\"$column_name column-$column_name\"";
+
+		$style = '';
+		if ( in_array($column_name, $hidden) )
+			$style = ' style="display:none;"';
+
+		$attributes = "$class$style";
+
+		switch ($column_name) {
+			case 'cb':
+			   $output .= "<th scope='row' class='check-column'>";
+			   if ( absint( get_option( 'default_link_category' ) ) != $category->term_id ) {
+			   	$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
+			   } else {
+			   	$output .= "&nbsp;";
+			   }
+			   $output .= "</th>";
+			   break;
+			case 'name':
+				$output .= "<td $attributes>$edit</td>";
+				break;
+			case 'description':
+				$output .= "<td $attributes>$category->description</td>";
+				break;
+			case 'links':
+				$attributes = 'class="links column-links num"' . $style;
+				$output .= "<td $attributes>$count</td>";
+		}
 	}
-	$output .= "</th>
-				<td>$edit</td>
-				<td>$category->description</td>
-				<td class='num'>$count</td></tr>";
+	$output .= '</tr>';
 
 	return apply_filters( 'link_cat_row', $output );
 }
