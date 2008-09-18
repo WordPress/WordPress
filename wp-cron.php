@@ -23,31 +23,41 @@ require_once('./wp-load.php');
 if ( $_GET['check'] != wp_hash('187425') )
 	exit;
 
-if ( get_option('doing_cron') > time() )
-	exit;
-
-update_option('doing_cron', time() + 30);
+$local_time = time();
 
 $crons = _get_cron_array();
-$keys = array_keys($crons);
-if (!is_array($crons) || $keys[0] > time())
-	return;
+$keys = array_keys( $crons );
 
-foreach ($crons as $timestamp => $cronhooks) {
-	if ($timestamp > time()) break;
+if (!is_array($crons) || $keys[0] > $local_time) {
+	update_option('doing_cron', 0);
+	return;
+}
+
+foreach ($crons as $timestamp  => $cronhooks) {
+
+	if ( $timestamp > $local_time )
+		break;
+
 	foreach ($cronhooks as $hook => $keys) {
-		foreach ($keys as $key => $args) {
-			$schedule = $args['schedule'];
+
+		foreach ($keys as $k => $v) {
+
+			$schedule = $v['schedule'];
+
 			if ($schedule != false) {
-				$new_args = array($timestamp, $schedule, $hook, $args['args']);
+				$new_args = array($timestamp, $schedule, $hook, $v['args']);
 				call_user_func_array('wp_reschedule_event', $new_args);
 			}
-			wp_unschedule_event($timestamp, $hook, $args['args']);
- 			do_action_ref_array($hook, $args['args']);
+
+			wp_unschedule_event($timestamp, $hook, $v['args']);
+
+ 			do_action_ref_array($hook, $v['args']);
 		}
 	}
 }
 
 update_option('doing_cron', 0);
+
+die();
 
 ?>
