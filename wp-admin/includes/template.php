@@ -913,7 +913,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 		case 'tags':
 		?>
 		<td <?php echo $attributes ?>><?php
-			$tags = get_the_tags();
+			$tags = get_the_tags($post->ID);
 			if ( !empty( $tags ) ) {
 				$out = array();
 				foreach ( $tags as $c )
