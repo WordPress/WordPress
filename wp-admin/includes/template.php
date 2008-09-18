@@ -443,16 +443,90 @@ function wp_manage_pages_columns() {
 	return $posts_columns;
 }
 
-function wp_manage_links_columns() {
-	$link_columns = array(
-		'name'       => __('Name'),
-		'url'       => __('URL'),
-		'categories' => __('Categories'),
-		'rel'      => __('rel'),
-		'visible'   => __('Visible'),
-	);
+function get_column_headers($page) {
+	switch ($page) {
+		case 'post':
+			return wp_manage_posts_columns();
+		case 'page':
+			return wp_manage_pages_columns();
+		case 'link':
+			$columns = array(
+				'cb' => '<input type="checkbox" />',
+				'name' => __('Name'),
+				'url' => __('URL'),
+				'categories' => __('Categories'),
+				'rel' => __('rel'),
+				'visible' => __('Visible')
+			);
 
-	return apply_filters('manage_link_columns', $link_columns);
+			return apply_filters('manage_link_columns', $columns);
+		case 'media':
+			return wp_manage_media_columns();
+		case 'category':
+			$columns = array(
+				'cb' => '<input type="checkbox" />',
+				'name' => __('Name'),
+				'description' => __('Description'),
+				'posts' => __('Posts')
+			);
+
+			return apply_filters('manage_categories_columns', $columns);
+		case 'link-category':
+			$columns = array(
+				'cb' => '<input type="checkbox" />',
+				'name' => __('Name'),
+				'description' => __('Description'),
+				'links' => __('Links')
+			);
+
+			return apply_filters('manage_link_categories_columns', $columns);
+		case 'tag':
+			$columns = array(
+				'cb' => '<input type="checkbox" />',
+				'name' => __('Name'),
+				'posts' => __('Posts')
+			);
+
+			return apply_filters('manage_link_categories_columns', $columns);
+	}
+
+	return $columns;
+}
+
+function print_column_headers( $type ) {
+	$columns = get_column_headers( $type ); 
+	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
+	$styles = array();
+	$styles['tag']['posts'] = 'width: 90px;';
+	$styles['link-category']['links'] = 'width: 90px;';
+	$styles['category']['posts'] = 'width: 90px;';
+	$styles['link']['visible'] = 'text-align: center;';
+
+	foreach ( $columns as $column_key => $column_display_name ) {
+		$class = ' class="manage-column';
+
+		if ( 'modified' == $column_key )
+			$column_key = 'date';
+
+		$class .= " column-$column_key";
+
+		if ( 'cb' == $column_key )
+			$class .= ' check-column';
+		elseif ( in_array($column_key, array('posts', 'comments', 'links')) )
+			$class .= ' num';
+
+		$class .= '"';
+
+		$style = '';
+		if ( in_array($column_key, $hidden) )
+			$style = 'display:none;';
+
+		if ( isset($styles[$type]) && isset($styles[$type][$column_key]) )
+			$style .= ' ' . $styles[$type][$column_key];
+		$style = ' style="' . $style . '"';
+?>
+	<th scope="col"<?php echo "id=\"$column_key\""; echo $class; echo $style?>><?php echo $column_display_name; ?></th>
+<?php }
 }
 
 function inline_edit_row( $type ) {
@@ -2034,15 +2108,7 @@ function do_settings_fields($page, $section) {
 }
 
 function manage_columns_prefs($page) {
-	if ( 'post' == $page )
-		$columns = wp_manage_posts_columns();
-	elseif ( 'page' == $page )
-		$columns = wp_manage_pages_columns();
-	elseif ( 'link' == $page )
-		$columns = wp_manage_links_columns();
-	elseif ( 'media' == $page )
-		$columns = wp_manage_media_columns();
-	else return;
+	$columns = get_column_headers($page);
 
 	$hidden = (array) get_user_option( "manage-$page-columns-hidden" );
 

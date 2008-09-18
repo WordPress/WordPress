@@ -192,25 +192,7 @@ if ($posts) {
 <table class="widefat">
   <thead>
   <tr>
-<?php
-$posts_columns = wp_manage_pages_columns();
-$hidden = (array) get_user_option( 'manage-page-columns-hidden' );
-foreach($posts_columns as $post_column_key => $column_display_name) {
-	if ( 'cb' === $post_column_key )
-		$class = ' class="check-column"';
-	elseif ( 'comments' === $post_column_key )
-		$class = ' class="manage-column column-comments num"';
-	elseif ( 'modified' === $post_column_key )
-		$class = ' class="manage-column column-date"';
-	else
-		$class = " class=\"manage-column column-$post_column_key\"";
-
-	$style = '';
-	if ( in_array($post_column_key, $hidden) )
-		$style = ' style="display:none;"';
-?>
-	<th scope="col"<?php echo "id=\"$post_column_key\""; echo $class; echo $style?>><?php echo $column_display_name; ?></th>
-<?php } ?>
+<?php print_column_headers('page'); ?>
   </tr>
   </thead>
   <tbody>

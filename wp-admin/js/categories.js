@@ -20,4 +20,31 @@ jQuery(function($) {
 		$('#the-list').wpList( { addAfter: addAfter, delAfter: delAfter } );
 	else
 		$('#the-list').wpList();
+
+	if ( jQuery('#link-category-search').size() ) {
+		columns.init('link-category');
+	} else {
+		columns.init('category');
+	}
+
+	// Edit Settings
+	$('#show-settings-link').click(function () {
+		$('#edit-settings').slideDown('normal', function(){
+			$('#show-settings-link').hide();
+			$('#hide-settings-link').show();
+			
+		});
+		$('#show-settings').addClass('show-settings-opened');
+		return false;
+	});
+	
+	$('#hide-settings-link').click(function () {
+		$('#edit-settings').slideUp('normal', function(){
+			$('#hide-settings-link').hide();
+			$('#show-settings-link').show();
+			$('#show-settings').removeClass('show-settings-opened');
+		});
+		
+		return false;
+	});
 });

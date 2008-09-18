@@ -134,6 +134,19 @@ endif; ?>
 
 <div class="wrap">
 <form id="posts-filter" action="" method="get">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('category') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 	<h2><?php printf( current_user_can('manage_categories') ? __('Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
 
 <br class="clear" />
@@ -175,10 +188,7 @@ if ( $page_links )
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col" class="check-column"><input type="checkbox" /></th>
-        <th scope="col"><?php _e('Name') ?></th>
-        <th scope="col"><?php _e('Description') ?></th>
-        <th scope="col" class="num"><?php _e('Posts') ?></th>
+<?php print_column_headers('category'); ?>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:cat">
@@ -187,6 +197,9 @@ cat_rows(0, 0, 0, $pagenum, $catsperpage);
 ?>
 	</tbody>
 </table>
+
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+
 </form>
 
 <div class="tablenav">

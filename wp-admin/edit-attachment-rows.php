@@ -11,28 +11,7 @@ if ( ! defined('ABSPATH') ) die();
 <table class="widefat">
 	<thead>
 	<tr>
-
-<?php
-$posts_columns = wp_manage_media_columns();
-$hidden = (array) get_user_option( 'manage-media-columns-hidden' );
-?>
-<?php foreach ($posts_columns as $post_column_key => $column_display_name ) {
-	if ( 'cb' === $post_column_key )
-		$class = ' class="check-column"';
-	elseif ( 'comments' === $post_column_key )
-		$class = ' class="manage-column column-comments num"';
-	elseif ( 'modified' === $post_column_key )
-		$class = ' class="manage-column column-date"';
-	else
-		$class = " class=\"manage-column column-$post_column_key\"";
-
-	$style = '';
-	if ( in_array($post_column_key, $hidden) )
-		$style = ' style="display:none;"';
-?>
-	<th scope="col"<?php echo "id=\"$post_column_key\""; echo $class; echo $style?>><?php echo $column_display_name; ?></th>
-<?php } ?>
-
+<?php print_column_headers('media'); ?>
 	</tr>
 	</thead>
 	<tbody id="the-list" class="list:post">
@@ -52,7 +31,7 @@ if ( empty($att_title) )
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $class . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 
 <?php
-
+$posts_columns = wp_manage_media_columns();
 foreach ($posts_columns as $column_name => $column_display_name ) {
 	$class = "class=\"$column_name column-$column_name\"";
 

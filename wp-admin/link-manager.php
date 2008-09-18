@@ -156,7 +156,7 @@ if ( !empty($_GET['s']) )
 	$args['search'] = $_GET['s'];
 $links = get_bookmarks( $args );
 if ( $links ) {
-	$link_columns = wp_manage_links_columns();
+	$link_columns = get_column_headers('link');
 	$hidden = (array) get_user_option( 'manage-link-columns-hidden' );
 ?>
 
@@ -164,17 +164,7 @@ if ( $links ) {
 <table class="widefat">
 	<thead>
 	<tr>
-	<th scope="col" class="check-column"><input type="checkbox" /></th>
-<?php foreach($link_columns as $column_name => $column_display_name) {
-	$class = " class=\"manage-column column-$column_name\"";
-	$style = '';
-	if ( in_array($column_name, $hidden) )
-		$style = ' style="display:none;"';
-	if ( 'visible' == $column_name )
-		$style = empty($style) ? ' style="text-align: center;"' : ' style="text-align: center; display: none;"';
-?>
-	<th scope="col"<?php echo "id=\"$column_name\""; echo $class; echo $style ?>><?php echo $column_display_name; ?></th>
-<?php } ?>
+<?php print_column_headers('link'); ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -196,7 +186,6 @@ if ( $links ) {
 		++ $alt;
 		$edit_link = get_edit_bookmark_link();
 		?><tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>><?php
-		echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></th>';
 		foreach($link_columns as $column_name=>$column_display_name) {
 			$class = "class=\"column-$column_name\"";
 
@@ -208,6 +197,9 @@ if ( $links ) {
 			$attributes = "$class$style";
 
 			switch($column_name) {
+				case 'cb':
+					echo '<th scope="row" class="check-column"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></th>';
+					break;
 				case 'name':
 
 					echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $link->link_name)) . "'>$link->link_name</a></strong><br />";
@@ -264,6 +256,7 @@ if ( $links ) {
 <?php } else { ?>
 <p><?php _e('No links found.') ?></p>
 <?php } ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 </form>
 
 <div id="ajax-response"></div>

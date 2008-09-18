@@ -149,8 +149,8 @@ function wp_default_scripts( &$scripts ) {
 			'add' => attribute_escape(__('Add')),
 			'how' => __('Separate multiple categories with commas.')
 		) );
-		$scripts->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20071031' );
-		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists'), '20071031' );
+		$scripts->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists', 'columns'), '20071031' );
+		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists', 'columns'), '20071031' );
 		$scripts->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
 		$scripts->add( 'password-strength-meter', '/wp-admin/js/password-strength-meter.js', array('jquery'), '20080824' );
 		$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
