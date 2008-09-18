@@ -326,21 +326,42 @@ function _tag_row( $tag, $class = '' ) {
 		$edit_link = "edit-tags.php?action=edit&amp;tag_ID=$tag->term_id"; 
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
-		$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
-		$out .= '<td><strong><a class="row-title" href="$edit_link" title="' . attribute_escape(sprintf(__('Edit "%s"'), $name)) . '">' . $name . '</a></strong><br />';
-		$actions = array();
-		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this tag '%s'\n  'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
-		$action_count = count($actions);
-		$i = 0;
-		foreach ( $actions as $action => $link ) {
-			++$i;
-			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-			$out .= "<span class='$action'>$link$sep</span>";
-		}
-		$out .= '</td>';
+		$columns = get_column_headers('tag');
+		$hidden = (array) get_user_option( 'manage-tag-columns-hidden' );
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$class = "class=\"$column_name column-$column_name\"";
 
-		$out .= "<td class='num'>$count</td>";
+			$style = '';
+			if ( in_array($column_name, $hidden) )
+				$style = ' style="display:none;"';
+
+			$attributes = "$class$style";
+
+			switch ($column_name) {
+				case 'cb':
+					$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
+					break;
+				case 'name':
+					$out .= '<td ' .  $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . attribute_escape(sprintf(__('Edit "%s"'), $name)) . '">' . $name . '</a></strong><br />';
+					$actions = array();
+					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this tag '%s'\n  'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+					$action_count = count($actions);
+					$i = 0;
+					foreach ( $actions as $action => $link ) {
+						++$i;
+						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+						$out .= "<span class='$action'>$link$sep</span>";
+					}
+					$out .= '</td>';
+					break;
+				case 'posts':
+					$attributes = 'class="posts column-posts num"' . $style;
+					$out .= "<td $attributes>$count</td>";
+					break;
+			}
+		}
+
 		$out .= '</tr>';
 
 		return $out;

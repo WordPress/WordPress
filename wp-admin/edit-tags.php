@@ -207,6 +207,7 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 ?>
 	</tbody>
 </table>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 </form>
 
 <div class="tablenav">
