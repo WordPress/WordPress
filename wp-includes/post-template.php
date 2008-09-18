@@ -923,7 +923,7 @@ function get_the_password_form() {
 	<p><label for="' . $label . '">' . __("Password:") . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . __("Submit") . '" /></p>
 	</form>
 	';
-	return $output;
+	return apply_filters('the_password_form', $output);
 }
 
 /**
