@@ -103,17 +103,41 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='cat-$category->term_id'$class>
-			   <th scope='row' class='check-column'>";
-	if ( $default_cat_id != $category->term_id ) {
-		$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
-	} else {
-		$output .= "&nbsp;";
+	$output = "<tr id='cat-$category->term_id'$class>";
+
+	$columns = get_column_headers('category');
+	$hidden = (array) get_user_option( 'manage-category-columns-hidden' );
+	foreach ( $columns as $column_name => $column_display_name ) {
+		$class = "class=\"$column_name column-$column_name\"";
+
+		$style = '';
+		if ( in_array($column_name, $hidden) )
+			$style = ' style="display:none;"';
+
+		$attributes = "$class$style";
+
+		switch ($column_name) {
+			case 'cb':
+				$output .= "<th scope='row' class='check-column'>";
+				if ( $default_cat_id != $category->term_id ) {
+					$output .= "<input type='checkbox' name='delete[]' value='$category->term_id' />";
+				} else {
+					$output .= "&nbsp;";
+				}
+				$output .= '</th>';
+				break;
+			case 'name':
+				$output .= "<td $attributes>$edit</td>";
+				break;
+			case 'description':
+				$output .= "<td $attributes>$category->description</td>";
+				break;
+			case 'posts':
+				$attributes = 'class="posts column-posts num"' . $style;
+				$output .= "<td $attributes>$posts_count</td>\n";
+		}
 	}
-	$output .= "</th>
-				<td>$edit</td>
-				<td>$category->description</td>
-				<td class='num'>$posts_count</td>\n\t</tr>\n";
+	$output .= '</tr>';
 
 	return apply_filters('cat_row', $output);
 }
