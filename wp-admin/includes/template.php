@@ -555,6 +555,16 @@ function get_column_headers($page) {
 			);
 
 			return apply_filters('manage_link_categories_columns', $columns);
+		case 'user':
+			$columns = array(
+				'cb' => '<input type="checkbox" />',
+				'username' => __('Username'),
+				'name' => __('Name'),
+				'email' => __('E-mail'),
+				'role' => __('Role'),
+				'posts' => __('Posts')
+			);
+			return apply_filters('manage_users_columns', $columns);
 	}
 
 	return $columns;
@@ -1390,21 +1400,49 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$edit = '<strong>' . $user_object->user_login . '</strong>';
 	}
 	$role_name = isset($wp_roles->role_names[$role]) ? translate_with_context($wp_roles->role_names[$role]) : __('None');
-	$r = "<tr id='user-$user_object->ID'$style>
-		<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>
-		<td>$edit</td>
-		<td>$user_object->first_name $user_object->last_name</td>
-		<td><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>
-		<td>$role_name</td>";
-	$r .= "\n\t\t<td class='num'>";
-	if ( $numposts > 0 ) {
-		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
-		$r .= $numposts;
-		$r .= '</a>';
-	} else {
-		$r .= 0;
+	$r = "<tr id='user-$user_object->ID'$style>";
+	$columns = get_column_headers('user');
+	$hidden = (array) get_user_option( 'manage-user-columns-hidden' );
+	foreach ( $columns as $column_name => $column_display_name ) {
+		$class = "class=\"$column_name column-$column_name\"";
+
+		$style = '';
+		if ( in_array($column_name, $hidden) )
+			$style = ' style="display:none;"';
+
+		$attributes = "$class$style";
+
+		switch ($column_name) {
+			case 'cb':
+				$r .= "<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>";
+				break;
+			case 'username':
+				$r .= "<td $attributes>$edit</td>";
+				break;
+			case 'name':
+				$r .= "<td $attributes>$user_object->first_name $user_object->last_name</td>";
+				break;
+			case 'email':
+				$r .= "<td $attributes><a href='mailto:$email' title='" . sprintf( __('e-mail: %s' ), $email ) . "'>$email</a></td>";
+				break;
+			case 'role':
+				$r .= "<td $attributes>$role_name</td>";
+				break;
+			case 'posts':
+				$attributes = 'class="posts column-posts num"' . $style;
+				$r .= "<td $attributes>";
+				if ( $numposts > 0 ) {
+					$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
+					$r .= $numposts;
+					$r .= '</a>';
+				} else {
+					$r .= 0;
+				}
+				$r .= "</td>";
+		}
 	}
-	$r .= "</td>\n\t</tr>";
+	$r .= '</tr>';
+
 	return $r;
 }
 
@@ -2181,7 +2219,7 @@ function manage_columns_prefs($page) {
 
 	foreach ( $columns as $column => $title ) {
 		// Can't hide these
-		if ( 'cb' == $column || 'title' == $column || 'name' == $column || 'media' == $column )
+		if ( 'cb' == $column || 'title' == $column || 'name' == $column || 'username' == $column || 'media' == $column )
 			continue;
 		if ( empty($title) )
 			continue;

@@ -261,6 +261,19 @@ if ( ! empty($messages) ) {
 } ?>
 
 <div class="wrap">
+
+<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('user') ?>
+<br class="clear" />
+</div></div>
+</div>
+
 <form id="posts-filter" action="" method="get">
 	<?php if ( $wp_user_search->is_search() ) : ?>
 		<h2><?php printf( current_user_can('create_users') ? __('Users Matching "%2$s" (<a href="%1$s">Add New</a>)') : __('Add New'), '#add-new-user', wp_specialchars($wp_user_search->search_term) ); ?></h2>
@@ -350,12 +363,7 @@ unset($role_links);
 <table class="widefat">
 <thead>
 <tr class="thead">
-	<th scope="col" class="check-column"><input type="checkbox" /></th>
-	<th><?php _e('Username') ?></th>
-	<th><?php _e('Name') ?></th>
-	<th><?php _e('E-mail') ?></th>
-	<th><?php _e('Role') ?></th>
-	<th class="num"><?php _e('Posts') ?></th>
+<?php print_column_headers('user') ?>
 </tr>
 </thead>
 <tbody id="users" class="list:user user-list">
@@ -383,7 +391,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 </div>
 
 <?php endif; ?>
-
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 </form>
 </div>
 

@@ -150,7 +150,7 @@ function wp_default_scripts( &$scripts ) {
 			'how' => __('Separate multiple categories with commas.')
 		) );
 		$scripts->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists', 'columns'), '20071031' );
-		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists', 'columns'), '20071031' );
+		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists', 'columns'), '20080918' );
 		$scripts->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
 		$scripts->add( 'password-strength-meter', '/wp-admin/js/password-strength-meter.js', array('jquery'), '20080824' );
 		$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
@@ -166,7 +166,7 @@ function wp_default_scripts( &$scripts ) {
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last']),
 		) );
-		$scripts->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20070823' );
+		$scripts->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists', 'columns'), '20080918' );
 		$scripts->add( 'admin-forms', '/wp-admin/js/forms.js', array('jquery'), '20080729');
 		$scripts->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 		$scripts->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
