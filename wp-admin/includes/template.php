@@ -1247,6 +1247,8 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
  * displays pages in hierarchical order with paging support
  */
 function page_rows($pages, $pagenum = 1, $per_page = 20) {
+	global $wpdb;
+
 	$level = 0;
 
 	if ( ! $pages ) {
