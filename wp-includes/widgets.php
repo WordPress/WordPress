@@ -575,6 +575,7 @@ function wp_widget_calendar($args) {
 	echo '</div>';
 	echo $after_widget;
 }
+
 function wp_widget_calendar_control() {
 	$options = $newoptions = get_option('widget_calendar');
 	if ( $_POST["calendar-submit"] ) {
@@ -931,6 +932,11 @@ function wp_widget_recent_entries($args) {
 		wp_cache_add('widget_recent_entries', ob_get_flush(), 'widget');
 }
 
+/**
+ * Remove recent entries widget items cache.
+ *
+ * @since unknown
+ */
 function wp_flush_widget_recent_entries() {
 	wp_cache_delete('widget_recent_entries', 'widget');
 }
@@ -993,6 +999,11 @@ function wp_widget_recent_comments($args) {
 <?php
 }
 
+/**
+ * Remove the cache for recent comments widget.
+ *
+ * @since unknown
+ */
 function wp_delete_recent_comments_cache() {
 	wp_cache_delete( 'recent_comments', 'widget' );
 }
@@ -1024,6 +1035,11 @@ function wp_widget_recent_comments_control() {
 <?php
 }
 
+/**
+ * Display the style for recent comments widget.
+ *
+ * @since unknown
+ */
 function wp_widget_recent_comments_style() {
 ?>
 <style type="text/css">.recentcomments a{display:inline !important;padding: 0 !important;margin: 0 !important;}</style>
@@ -1237,6 +1253,18 @@ function wp_widget_rss_control($widget_args) {
 	wp_widget_rss_form( compact( 'number', 'title', 'url', 'items', 'error', 'show_summary', 'show_author', 'show_date' ) );
 }
 
+/**
+ * Display RSS widget options form.
+ *
+ * The options for what fields are displayed for the RSS form are all booleans
+ * and are as follows: 'url', 'title', 'items', 'show_summary', 'show_author',
+ * 'show_date'.
+ *
+ * @since unknown
+ *
+ * @param array|string $args Values for input fields.
+ * @param array $inputs Override default display options.
+ */
 function wp_widget_rss_form( $args, $inputs = null ) {
 	$default_inputs = array( 'url' => true, 'title' => true, 'items' => true, 'show_summary' => true, 'show_author' => true, 'show_date' => true );
 	$inputs = wp_parse_args( $inputs, $default_inputs );
@@ -1309,7 +1337,22 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	endforeach;
 }
 
-// Expects unescaped data
+/**
+ * Process RSS feed widget data and optionally retrieve feed items.
+ *
+ * The feed widget can not have more than 20 items or it will reset back to the
+ * default, which is 10.
+ *
+ * The resulting array has the feed title, feed url, feed link (from channel),
+ * feed items, error (if any), and whether to show summary, author, and date.
+ * All respectively in the order of the array elements.
+ *
+ * @since unknown
+ *
+ * @param array $widget_rss RSS widget feed data. Expects unescaped data.
+ * @param bool $check_feed Optional, default is true. Whether to check feed for errors.
+ * @return array
+ */
 function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	$items = (int) $widget_rss['items'];
 	if ( $items < 1 || 20 < $items )
@@ -1338,6 +1381,11 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	return compact( 'title', 'url', 'link', 'items', 'error', 'show_summary', 'show_author', 'show_date' );
 }
 
+/**
+ * Register RSS widget to allow multiple RSS widgets.
+ *
+ * @since unknown
+ */
 function wp_widget_rss_register() {
 	if ( !$options = get_option('widget_rss') )
 		$options = array();
@@ -1362,6 +1410,13 @@ function wp_widget_rss_register() {
 	}
 }
 
+/**
+ * Display tag cloud WordPress widget.
+ *
+ * @since unknown
+ *
+ * @param array $args Widget arguments.
+ */
 function wp_widget_tag_cloud($args) {
 	extract($args);
 	$options = get_option('widget_tag_cloud');
@@ -1373,6 +1428,13 @@ function wp_widget_tag_cloud($args) {
 	echo $after_widget;
 }
 
+/**
+ * Manage WordPress Tag Cloud widget options.
+ *
+ * Displays management form for changing the tag cloud widget title.
+ *
+ * @since unknown
+ */
 function wp_widget_tag_cloud_control() {
 	$options = $newoptions = get_option('widget_tag_cloud');
 
@@ -1394,6 +1456,14 @@ function wp_widget_tag_cloud_control() {
 <?php
 }
 
+/**
+ * Register all of the default WordPress widgets.
+ *
+ * Calls 'widgets_init' action after all of the WordPress widgets have been
+ * registered.
+ *
+ * @since unknown
+ */
 function wp_widgets_init() {
 	if ( !is_blog_installed() )
 		return;
