@@ -943,7 +943,7 @@ class Walker_Comment extends Walker {
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 
 		<div class='reply'>
-		<?php echo comment_reply_link(array('add_below' => 'div-comment', 'depth' => $args['depth'], 'max_depth' => $depth)) ?>
+		<?php echo comment_reply_link(array('add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['depth'])) ?>
 		<?php if ( 'list' == $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
