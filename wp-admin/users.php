@@ -286,7 +286,6 @@ if ( ! empty($messages) ) {
 $role_links = array();
 $avail_roles = array();
 $users_of_blog = get_users_of_blog();
-//var_dump($users_of_blog);
 foreach ( (array) $users_of_blog as $b_user ) {
 	$b_roles = unserialize($b_user->meta_value);
 	foreach ( (array) $b_roles as $b_role => $val ) {
@@ -301,7 +300,7 @@ $current_role = false;
 $class = empty($role) ? ' class="current"' : '';
 $role_links[] = "<li><a href=\"users.php\"$class>" . __('All Users') . "</a>";
 foreach ( $wp_roles->get_names() as $this_role => $name ) {
-	if ( !isset($avail_roles[$role]) )
+	if ( !isset($avail_roles[$this_role]) )
 		continue;
 
 	$class = '';
