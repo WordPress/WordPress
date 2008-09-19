@@ -485,7 +485,7 @@ class WP {
 	/**
 	 * PHP4 Constructor - Does nothing.
 	 *
-	 * Call main() method when ready to run setup. 
+	 * Call main() method when ready to run setup.
 	 *
 	 * @since 2.0.0
 	 *
@@ -818,7 +818,7 @@ class Walker {
 
 		$id = $element->$id_field;
 
-		// descend only the depth is right and there are chilrens for this element
+		// descend only when the depth is right and there are childrens for this element
 		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) {
 
 			foreach( $children_elements[ $id ] as $child ){
@@ -917,8 +917,8 @@ class Walker {
 		foreach ( $top_level_elements as $e )
 			$this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
 
-		/* 
-		 * if we are displaying all levels, and remaining children_elements is not empty, 
+		/*
+		 * if we are displaying all levels, and remaining children_elements is not empty,
 		 * then we got orphans, which should be displayed regardless
 		 */
 		if ( ( $max_depth == 0 ) && count( $children_elements ) > 0 ) {
@@ -929,6 +929,109 @@ class Walker {
 		 }
 
 		 return $output;
+	}
+
+	/**
+ 	 * paged_walk() - produce a page of nested elements
+ 	 *
+ 	 * Given an array of hierarchical elements, the maximum depth, a specific page number,
+ 	 * and number of elements per page, this function first determines all top level root elements
+ 	 * belonging to that page, then lists them and all of their children in hierarchical order.
+ 	 *
+ 	 * @package WordPress
+ 	 * @since 2.7
+ 	 * @param $max_depth = 0  means display all levels; $max_depth > 0  specifies the number of display levels.
+ 	 * @param $page_num the specific page number, beginning with 1.
+ 	 * @return XHTML of the specified page of elements
+ 	 */
+	function paged_walk( $elements, $max_depth, $page_num, $per_page ) {
+
+		/* sanity check */
+		if ( empty($elements) || $max_depth < 0 )
+			return '';
+
+		$args = array_slice( func_get_args(), 4 );
+		$output = '';
+
+		$id_field = $this->db_fields['id'];
+		$parent_field = $this->db_fields['parent'];
+
+		/*
+		 * seperate elements into two buckets: top level and children elements
+		 * children_elements is two dimensional array, eg.
+		 * children_elements[10][] contains all sub-elements whose parent is 10.
+		 */
+		$top_level_elements = array();
+		$children_elements  = array();
+		foreach ( $elements as $e) {
+			if ( 0 == $e->$parent_field )
+				$top_level_elements[] = $e;
+			else
+				$children_elements[ $e->$parent_field ][] = $e;
+		}
+
+		$count = -1;
+		$total_top = count( $top_level_elements );
+		if ( $page_num < 1 || $per_page < 0  ) {
+			$start = 0;
+			$end = $total_top;
+		} else {
+			$start = ( (int)$page_num - 1 ) * (int)$per_page;
+			$end   = $start + $per_page;
+		}
+
+		foreach( $top_level_elements as $e ){
+			$count++;
+
+			//for the last page, need to unset earlier children in order to keep track of orphans
+			if ( $end >= $total_top && $count < $start )
+					$this->unset_children( $e, $children_elements );
+
+			if ( $count < $start )
+				continue;
+
+			if ( $count >= $end )
+				break;
+
+			$this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
+		}
+
+		if ( $end >= $total_top && count( $children_elements ) > 0 ){
+			$empty_array = array();
+			foreach ( $children_elements as $orphans )
+				foreach( $orphans as $op )
+					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
+		}
+
+		return $output;
+	}
+
+	function get_number_of_root_elements( $elements ){
+
+		$num = 0;
+		$parent_field = $this->db_fields['parent'];
+
+		foreach ( $elements as $e) {
+			if ( 0 == $e->$parent_field )
+				$num++;
+		}
+		return $num;
+	}
+
+	// unset all the children for a given top level element
+	function unset_children( $e, &$children_elements ){
+
+		if ( !$e || !$children_elements )
+			return;
+
+		$id_field = $this->db_fields['id'];
+		$id = $e->$id_field;
+
+		foreach ( (array)$children_elements[$id] as $child )
+			$this->unset_children( $child, $children_elements );
+
+		unset( $children_elements[$id] );
+
 	}
 }
 
