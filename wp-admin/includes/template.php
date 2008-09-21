@@ -737,7 +737,7 @@ function inline_edit_row( $type ) {
 				<div class="password quick-edit-div" title="<?php _e('Password'); ?>">
 					<div class="title"><?php _e('Password'); ?></div>
 					<div class="in">
-					<input type="text" name="post_password" value="<?php echo $post->post_password ?>" />
+					<input type="text" name="post_password" value="<?php the_post_password(); ?>" />
 					<label title="<?php _e('Privacy'); ?>">
 					<input type="checkbox" name="keep_private" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php echo $is_page ? __('Keep this page private') : __('Keep this post private'); ?></label>
 					</div>
@@ -2386,4 +2386,17 @@ function find_posts_div($found_action = '') {
 <?php
 }
 
+/**
+ * Display the post password.
+ * 
+ * The password is passed through {@link attribute_escape()}
+ * to ensure that it is safe for placing in an html attribute.
+ *
+ * @uses attribute_escape
+ * @since 2.7.0
+ */
+function the_post_password() {
+	global $post;
+	if ( isset( $post->post_password ) ) echo attribute_escape( $post->post_password );
+}
 ?>
