@@ -189,7 +189,7 @@ $all = !( $h2_search || $post_status_q );
 
 if ($posts) {
 ?>
-<table class="widefat">
+<table class="widefat page">
   <thead>
   <tr>
 <?php print_column_headers('page'); ?>

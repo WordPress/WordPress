@@ -2159,120 +2159,162 @@ a.togbox {
 	font-size: 11px;
 }
 
-.inline-editor .save {
-	padding-top: 5px;
-}
-
 .inline-editor td {
-	padding-right: 4px;
-	padding-left: 7px;
+	padding: 3px;
 }
 
-.inline-editor input, .inline-editor select, .inline-editor textarea {
-	font-size: 10px !important;
+.inline-editor .save,
+.inline-editor .cancel {
+	margin-right: 5px;
+}
+
+.inline-editor .quick-edit-div {
+	float: left;
+	height: 85px;
+	margin: 0 5px 3px 0;
+	width: 130px;
+	border-style: solid;
+	border-width: 1px;
 	padding: 2px;
-	border: 1px solid #ddd;
 }
 
-.inline-editor td.date {
-	width: 87px;
+.inline-editor .in {
+	padding: 4px;
+	margin: 2px 0 0;
+	line-height: 15px;
 }
 
-.inline-editor td.page-title {
-	width: 495px;
+.inline-editor input {
+	font-size: 11px !important;
+	padding: 2px;
+	border-width: 1px;
+	border-style: solid;
 }
 
-.inline-editor td.post-title input.title {
-	width: 250px;
-}
-
-.inline-editor td.post-title input.slug {
-	width: 222px;
-	float: right;
+#wpbody-content .inline-editor select {
+	padding: 0;
+	height: auto;
+	width: 120px;
+	font-size: 11px !important;
 }
 
 .inline-editor div.title {
-	float: left;
+	padding: 2px 5px;
+	cursor: default;
 }
 
-.inline-editor div.title input.title {
+.inline-editor .post-title,
+.inline-editor .page-title {
+	width: 260px;
+}
+
+.inline-editor .post-title .ptitle,
+.inline-editor .page-title .ptitle {
+	width: 245px;
+	margin-bottom: 5px;
 	font-size: 12px !important;
 }
 
-.inline-editor div.title label {
-	float: left;
-	margin-top: 4px;
+.inline-editor .post-title .slug,
+.inline-editor .page-title .slug {
+	text-align: right;
 }
 
-.inline-editor td.page-title input.slug {
-	width: 123px;
-	float: right;
+.inline-editor .slug input {
+	width: 170px;
+	margin: 0 2px 0 4px;
 }
 
-.inline-editor div.other, .inline-editor div.more {
-	width: 190px;
-	float: left;
-	padding-left: 5px;
+.inline-editor .password input,
+.inline-editor .order input {
+	width: 112px;
 }
 
-.inline-editor div.other label, .inline-editor div.more label {
-	display: block; float: left;
-	width: 54px;
-	margin-top: 4px;
+.inline-editor .password label input {
+	width: auto;
+	margin: 3px 0 0;
 }
 
-.inline-editor div.other select {
-	width: 133px;
+.inline-editor .date {
+	width: 160px;
 }
 
-.inline-editor div.more {
-	width: 125px;
+.inline-editor .date input {
+	padding: 2px 1px;
+	margin: 1px;
+	width: 18px;
 }
 
-.inline-editor div.more input {
-	width: 60px;
+.inline-editor .date input[name="aa"] {
+	width: 30px;
 }
 
-.inline-editor td.author select {
-	width: 110px;
+#wpbody-content .inline-editor .date select {
+	width: 80px;
 }
 
-.inline-editor ul.categories {
+.inline-editor .categories {
+	width: 180px;
+}
+
+.inline-editor .categories ul.cat-checklist {
 	list-style: none;
-	padding: 0; margin: 0;
+	padding: 0 0 0 4px;
+	margin: 0;
 	height: 65px;
 	overflow: auto;
-	font-size: 10px;
+	font-size: 11px;
+	z-index: 5;
+	position: relative;
+	overflow-x: hidden;
 }
 
-.inline-editor ul.categories ul.children {
+.inline-editor .categories ul.cat-hover {
+	height: 200px;
+	overflow: auto;
+}
+
+.inline-editor .categories ul.children {
 	list-style: none;
 	padding-left: 15px;
 }
 
-.inline-editor ul.categories li {
-	margin-bottom: 2px;
+.inline-editor .categories li {
+	margin-bottom: 3px;
+	line-height: auto;
 }
 
-.inline-editor ul.categories input {
+.inline-editor .categories input {
 	vertical-align: middle;
-	padding: 0; border: 0;
+	padding: 0;
+	border: 0;
 }
 
-.inline-editor td.tags textarea {
-	height: 58px; width: 100%;
+.inline-editor .categories .catshow,
+.inline-editor .categories .cathide {
+	font-size: 9px;
+	cursor: pointer;
 }
 
-.inline-editor td.comments {
-	padding-left: 0;
+.inline-editor .tags {
+	width: 220px;
 }
 
-.inline-editor td.status select {
-	width: 98px;
+.inline-editor textarea {
+	border-width: 1px;
+	border-style: solid;
+	height: 45px;
+	width: 200px;
+	font-size: 11px;
 }
 
-.inline-editor td.status input {
-	vertical-align: middle;
+.inline-editor .comments {
+	text-align: left;
+	width: 160px;
+}
+
+.inline-editor .quick-edit-save {
+	padding: 8px 10px;
 }
 
 /* Media library */

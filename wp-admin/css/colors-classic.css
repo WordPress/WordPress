@@ -806,7 +806,8 @@ table.diff .diff-addedline ins {
 	border-bottom-color: #14568A;
 }
 
-#replydiv {
+#replydiv,
+.inline-editor .quick-edit-div {
 	border-color: #EBEBEB #CCC #CCC #EBEBEB;
 	background-color: #fff;
 }
@@ -821,7 +822,7 @@ table.diff .diff-addedline ins {
 	background-color: #f8f8f8;
 }
 
-/* table vim shorcuts */
+/* table vim shortcuts */
 .vim-current {
 	background-color: #CFEBF7 !important;
 }
@@ -842,4 +843,27 @@ div.star.select:hover {
 
 #plugin-information .fyi h2.mainheader {
 	background-color: #cee1ef;
+}
+
+/* inline editor */
+.inline-editor input,
+.inline-editor textarea {
+	border-color: #ddd;
+}
+
+.inline-editor div.title {
+	background-color: #CFEBF7;
+}
+
+.inline-editor ul.cat-checklist {
+	background-color: #FFFFFF;
+}
+
+.inline-editor .categories .catshow,
+.inline-editor .categories .cathide {
+	color: #2583AD;
+}
+
+.inline-editor .quick-edit-save {
+	background-color: #CFEBF7;
 }

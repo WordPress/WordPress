@@ -715,6 +715,7 @@ case 'hidden-columns' :
 	$current_user = wp_get_current_user();
 	if ( is_array($hidden) )
 		update_usermeta($current_user->ID, "manage-$page-columns-hidden", $hidden);
+break;
 case 'get-permalink':
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
@@ -727,16 +728,8 @@ case 'sample-permalink':
 	$slug = isset($_POST['new_slug'])? $_POST['new_slug'] : '';
 	die(get_sample_permalink_html($post_id, $title, $slug));
 break;
-case 'inline-data':
-	check_ajax_referer( 'inlineeditnonce', 'inline_edit_nonce' );
-
-	if ( isset($_POST['posts']) )
-		get_inline_data( explode(',', $_POST['posts']) );
-
-	die();
-break;
 case 'inline-save':
-	check_ajax_referer( 'inlineeditnonce', 'inline_edit_nonce' );
+	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
 	
 	if ( ! isset($_POST['post_ID']) )
 		exit;
@@ -753,7 +746,7 @@ case 'inline-save':
 		post_rows($post);
 	}
 	die();
-break;
+	break;
 case 'meta-box-order':
 	check_ajax_referer( 'meta-box-order' );
 	update_user_option( $GLOBALS['current_user']->ID, "meta-box-order_$_POST[page]", $_POST['order'] );
