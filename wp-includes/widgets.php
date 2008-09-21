@@ -680,7 +680,7 @@ function wp_widget_pages( $args ) {
  */
 function wp_widget_pages_control() {
 	$options = $newoptions = get_option('widget_pages');
-	if ( $_POST['pages-submit'] ) {
+	if ( isset($_POST['pages-submit']) ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST['pages-title']));
 
 		$sortby = stripslashes( $_POST['pages-sortby'] );
@@ -811,7 +811,7 @@ function wp_widget_archives($args) {
  */
 function wp_widget_archives_control() {
 	$options = $newoptions = get_option('widget_archives');
-	if ( $_POST["archives-submit"] ) {
+	if ( isset($_POST["archives-submit"]) ) {
 		$newoptions['count'] = isset($_POST['archives-count']);
 		$newoptions['dropdown'] = isset($_POST['archives-dropdown']);
 		$newoptions['title'] = strip_tags(stripslashes($_POST["archives-title"]));
@@ -871,7 +871,7 @@ function wp_widget_meta($args) {
  */
 function wp_widget_meta_control() {
 	$options = $newoptions = get_option('widget_meta');
-	if ( $_POST["meta-submit"] ) {
+	if ( isset($_POST["meta-submit"]) ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST["meta-title"]));
 	}
 	if ( $options != $newoptions ) {
@@ -916,7 +916,7 @@ function wp_widget_calendar($args) {
  */
 function wp_widget_calendar_control() {
 	$options = $newoptions = get_option('widget_calendar');
-	if ( $_POST["calendar-submit"] ) {
+	if ( isset($_POST["calendar-submit"]) ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST["calendar-title"]));
 	}
 	if ( $options != $newoptions ) {
@@ -1367,7 +1367,7 @@ add_action('switch_theme', 'wp_flush_widget_recent_entries');
  */
 function wp_widget_recent_entries_control() {
 	$options = $newoptions = get_option('widget_recent_entries');
-	if ( $_POST["recent-entries-submit"] ) {
+	if ( isset($_POST["recent-entries-submit"]) ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST["recent-entries-title"]));
 		$newoptions['number'] = (int) $_POST["recent-entries-number"];
 	}
@@ -1450,7 +1450,7 @@ add_action( 'wp_set_comment_status', 'wp_delete_recent_comments_cache' );
  */
 function wp_widget_recent_comments_control() {
 	$options = $newoptions = get_option('widget_recent_comments');
-	if ( $_POST["recent-comments-submit"] ) {
+	if ( isset($_POST["recent-comments-submit"]) ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST["recent-comments-title"]));
 		$newoptions['number'] = (int) $_POST["recent-comments-number"];
 	}
@@ -1904,7 +1904,7 @@ function wp_widget_tag_cloud($args) {
 function wp_widget_tag_cloud_control() {
 	$options = $newoptions = get_option('widget_tag_cloud');
 
-	if ( $_POST['tag-cloud-submit'] ) {
+	if ( isset($_POST['tag-cloud-submit']) ) {
 		$newoptions['title'] = strip_tags(stripslashes($_POST['tag-cloud-title']));
 	}
 
