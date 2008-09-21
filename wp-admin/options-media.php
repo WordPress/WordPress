@@ -1,6 +1,6 @@
 <?php
 /**
- * Miscellaneous settings administration panel.
+ * Media settings administration panel.
  *
  * @package WordPress
  * @subpackage Administration
