@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$title = __('Miscellaneous Settings');
+$title = __('Media Settings');
 $parent_file = 'options-general.php';
 
 include('admin-header.php');
