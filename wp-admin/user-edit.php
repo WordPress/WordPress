@@ -157,7 +157,7 @@ include ('admin-header.php');
 	<?php endif; ?>
 </div>
 <?php endif; ?>
-<?php if ( is_wp_error( $errors ) ) : ?>
+<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
 <div class="error">
 	<ul>
 	<?php

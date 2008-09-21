@@ -13,7 +13,7 @@ $title = __('Categories');
 
 wp_reset_vars(array('action', 'cat'));
 
-if ( $_GET['action'] == 'delete' && isset($_GET['delete']) )
+if ( isset( $_GET['action'] ) && $_GET['action'] == 'delete' && isset($_GET['delete']) )
 	$action = 'bulk-delete';
 
 switch($action) {
@@ -154,10 +154,10 @@ endif; ?>
 <div class="tablenav">
 
 <?php
-$pagenum = absint( $_GET['pagenum'] );
+$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( !$catsperpage || $catsperpage < 0 )
+if( ! isset( $catsperpage ) || $catsperpage < 0 )
 	$catsperpage = 20;
 
 $page_links = paginate_links( array(

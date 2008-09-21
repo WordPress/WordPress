@@ -59,9 +59,11 @@ function wp_list_widgets( $show = 'all', $_search = false ) {
 			if ( ( 'unused' == $show && $sidebar ) || ( 'used' == $show && !$sidebar ) )
 				continue;
 
+			if ( ! isset( $widget['params'][0] ) )
+				$widget['params'][0] = array();
 			ob_start();
-				$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template', '_show' => $show ), 1 => $widget['params'][0] ) );
-				$sidebar_args = call_user_func_array( 'wp_widget_control', $args );
+			$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template', '_show' => $show ), 1 => $widget['params'][0] ) );
+			$sidebar_args = call_user_func_array( 'wp_widget_control', $args );
 			$widget_control_template = ob_get_contents();
 			ob_end_clean();
 
@@ -230,6 +232,13 @@ function wp_widget_control( $sidebar_args ) {
 	$edit = -1 <  $edit_widget && is_numeric($key) && $edit_widget === $key; // (bool) are we currently editing this widget
 
 	$id_format = $widget['id'];
+
+	if ( ! isset( $sidebar_args['_show'] ) )
+		$sidebar_args['_show'] = '';
+
+	if ( ! isset( $sidebar_args['_display'] ) )
+		$sidebar_args['_display'] = '';
+
 	// We aren't showing a widget control, we're outputing a template for a mult-widget control
 	if ( 'all' == $sidebar_args['_show'] && 'template' == $sidebar_args['_display'] && isset($control['params'][0]['number']) ) {
 		// number == -1 implies a template where id numbers are replaced by a generic '%i%'

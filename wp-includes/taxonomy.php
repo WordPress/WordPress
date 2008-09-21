@@ -715,7 +715,8 @@ function &get_terms($taxonomies, $args = '') {
 	if ( empty($terms) ) {
 		$cache[ $key ] = array();
 		wp_cache_set( 'get_terms', $cache, 'terms' );
-		return apply_filters('get_terms', array(), $taxonomies, $args);
+		$terms = apply_filters('get_terms', array(), $taxonomies, $args);
+		return $terms;
 	}
 
 	if ( $child_of || $hierarchical ) {

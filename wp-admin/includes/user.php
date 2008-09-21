@@ -230,10 +230,10 @@ function get_user_to_edit( $user_id ) {
 	$user->last_name    = attribute_escape($user->last_name);
 	$user->display_name = attribute_escape($user->display_name);
 	$user->nickname     = attribute_escape($user->nickname);
-	$user->aim          = attribute_escape($user->aim);
-	$user->yim          = attribute_escape($user->yim);
-	$user->jabber       = attribute_escape($user->jabber);
-	$user->description  =  wp_specialchars($user->description);
+	$user->aim          = isset( $user->aim ) && !empty( $user->aim ) ? attribute_escape($user->aim) : '';
+	$user->yim          = isset( $user->yim ) && !empty( $user->yim ) ? attribute_escape($user->yim) : '';
+	$user->jabber       = isset( $user->jabber ) && !empty( $user->jabber ) ? attribute_escape($user->jabber) : '';
+	$user->description  = isset( $user->description ) && !empty( $user->description ) ? wp_specialchars($user->description) : '';
 
 	return $user;
 }

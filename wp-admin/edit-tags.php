@@ -13,7 +13,7 @@ $title = __('Tags');
 
 wp_reset_vars(array('action', 'tag'));
 
-if ( $_GET['action'] == 'delete' && isset($_GET['delete_tags']) )
+if ( isset( $_GET['action'] ) && $_GET['action'] == 'delete' && isset($_GET['delete_tags']) )
 	$action = 'bulk-delete';
 
 switch($action) {
@@ -161,10 +161,10 @@ endif; ?>
 <div class="tablenav">
 
 <?php
-$pagenum = absint( $_GET['pagenum'] );
+$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
 	$pagenum = 1;
-if( !$tagsperpage || $tagsperpage < 0 )
+if( ! isset( $tagsperpage ) || $tagsperpage < 0 )
 	$tagsperpage = 20;
 
 $page_links = paginate_links( array(
@@ -201,7 +201,7 @@ if ( $page_links )
 	<tbody id="the-list" class="list:tag">
 <?php
 
-$searchterms = trim( $_GET['s'] );
+$searchterms = isset( $_GET['s'] ) ? trim( $_GET['s'] ) : '';
 
 $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 ?>

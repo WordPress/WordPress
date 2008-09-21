@@ -802,10 +802,8 @@ function maybe_serialize( $data ) {
  */
 function make_url_footnote( $content ) {
 	preg_match_all( '/<a(.+?)href=\"(.+?)\"(.*?)>(.+?)<\/a>/', $content, $matches );
-	$j = 0;
+	$links_summary = "\n";
 	for ( $i=0; $i<count($matches[0]); $i++ ) {
-		$links_summary = ( !$j ) ? "\n" : $links_summary;
-		$j++;
 		$link_match = $matches[0][$i];
 		$link_number = '['.($i+1).']';
 		$link_url = $matches[2][$i];

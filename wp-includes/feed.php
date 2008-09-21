@@ -494,7 +494,7 @@ function prep_atom_text_construct($data) {
  */
 function self_link() {
 	echo 'http'
-		. ( $_SERVER['https'] == 'on' ? 's' : '' ) . '://'
+		. ( (isset($_SERVER['https']) && $_SERVER['https'] == 'on') ? 's' : '' ) . '://'
 		. $_SERVER['HTTP_HOST']
 		. wp_specialchars(stripslashes($_SERVER['REQUEST_URI']), 1);
 }

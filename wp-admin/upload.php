@@ -177,7 +177,7 @@ if ( isset($_GET['detached']) ) {
 		$h2_noun = $post_mime_type_label;
 	// Use $_GET instead of is_ since they can override each other
 	$h2_author = '';
-	$_GET['author'] = (int) $_GET['author'];
+	$_GET['author'] = isset( $_GET['author'] ) ? (int) $_GET['author'] : 0;
 	if ( $_GET['author'] != 0 ) {
 		if ( $_GET['author'] == '-' . $user_ID ) { // author exclusion
 			$h2_author = ' ' . __('by other authors');

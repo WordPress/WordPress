@@ -6,6 +6,12 @@
  * @subpackage Administration
  */
 
+/**
+ * @var object
+ */
+if ( ! isset( $category ) )
+	$category = (object) array();
+
 if ( ! empty($cat_ID) ) {
 	/**
 	 * @var string
@@ -24,6 +30,26 @@ if ( ! empty($cat_ID) ) {
 	$nonce_action = 'add-link-category';
 	do_action('add_link_category_form_pre', $category);
 }
+
+/**
+ * @ignore
+ * @since 2.7
+ * @internal Used to prevent errors in page when no category is being edited.
+ *
+ * @param object $category
+ */
+function _fill_empty_link_category(&$category) {
+	if ( ! isset( $category->name ) )
+		$category->name = '';
+
+	if ( ! isset( $category->slug ) )
+		$category->slug = '';
+
+	if ( ! isset( $category->description ) )
+		$category->description = '';
+}
+
+_fill_empty_link_category($category);
 ?>
 
 <div class="wrap">

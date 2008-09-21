@@ -124,7 +124,9 @@ foreach ( $menu as $id => $data ) {
 			unset($submenu[$old_parent][$index]);
 		}
 		unset($submenu[$old_parent]);
-		$_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
+
+		if ( isset($_wp_submenu_nopriv[$old_parent]) )
+			$_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
 	}
 }
 

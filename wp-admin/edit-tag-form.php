@@ -36,12 +36,12 @@ if ( ! empty($tag_ID) ) {
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="name"><?php _e('Tag name') ?></label></th>
-			<td><input name="name" id="name" type="text" value="<?php echo attribute_escape($tag->name); ?>" size="40" aria-required="true" />
+			<td><input name="name" id="name" type="text" value="<?php if ( isset( $tag->name ) ) echo attribute_escape($tag->name); ?>" size="40" aria-required="true" />
             <p><?php _e('The name is how the tag appears on your site.'); ?></p></td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="slug"><?php _e('Tag slug') ?></label></th>
-			<td><input name="slug" id="slug" type="text" value="<?php echo attribute_escape(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
+			<td><input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo attribute_escape(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
             <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
 		</tr>
 	</table>
