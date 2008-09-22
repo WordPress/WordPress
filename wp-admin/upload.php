@@ -62,7 +62,7 @@ if ( isset($_GET['find_detached'] ) ) {
 
 	$_GET['detached'] = 1;
 
-} elseif ( isset($_GET['action']) && isset($_GET['media']) ) {
+} elseif ( isset($_GET['action']) && isset($_GET['media']) && isset($_GET['doaction']) ) {
 	check_admin_referer('bulk-media');
 	if ( $_GET['action'] == 'delete' ) {
 		foreach( (array) $_GET['media'] as $post_id_del ) {
@@ -147,8 +147,7 @@ require_once('admin-header.php'); ?>
 
 <div class="wrap">
 
-<form id="posts-filter" action="" method="get">
-
+<form id="adv-settings" action="" method="get">
 <div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
 <a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
@@ -159,7 +158,8 @@ require_once('admin-header.php'); ?>
 <?php manage_columns_prefs('media') ?>
 <br class="clear" />
 </div></div>
-</div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
 
 <h2><?php
 if ( isset($_GET['detached']) ) {
@@ -194,6 +194,7 @@ if ( isset($_GET['detached']) ) {
 }
 ?></h2>
 
+<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 $type_links = array();
@@ -317,7 +318,6 @@ foreach ($arc_result as $arc_row) {
 </div>
 
 <br class="clear" />
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 
 <?php if ( isset($orphans) ) { ?>
 <table class="widefat">

@@ -262,6 +262,7 @@ if ( ! empty($messages) ) {
 
 <div class="wrap">
 
+<form id="adv-settings" action="" method="get">
 <div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
 <a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
@@ -272,7 +273,8 @@ if ( ! empty($messages) ) {
 <?php manage_columns_prefs('user') ?>
 <br class="clear" />
 </div></div>
-</div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
 
 <form id="posts-filter" action="" method="get">
 	<?php if ( $wp_user_search->is_search() ) : ?>
@@ -390,7 +392,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 </div>
 
 <?php endif; ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+
 </form>
 </div>
 

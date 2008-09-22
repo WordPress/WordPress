@@ -10,7 +10,7 @@
 require_once('admin.php');
 
 // Handle bulk actions
-if ( !empty($_GET['action']) && $_GET['action'] != 'Actions' ) {
+if ( isset($_GET['action']) && $_GET['action'] != -1 && isset($_GET['doaction']) ) {
 	switch ( $_GET['action'] ) {
 		case 'delete':
 			if ( isset($_GET['post']) ) {
@@ -81,8 +81,7 @@ else
 
 <div class="wrap">
 
-<form id="posts-filter" action="" method="get">
-
+<form id="adv-settings" action="" method="get">
 <div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
 <a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
@@ -93,7 +92,8 @@ else
 <?php manage_columns_prefs('post') ?>
 <br class="clear" />
 </div></div>
-</div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
 
 <h2><?php
 if ( is_single() ) {
@@ -126,6 +126,7 @@ if ( is_single() ) {
 }
 ?></h2>
 
+<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 $status_links = array();
@@ -153,8 +154,7 @@ unset( $status_links );
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
-<?php
-endif;
+<?php endif;
 
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
@@ -185,7 +185,7 @@ if ( $page_links )
 
 <div class="alignleft">
 <select name="action">
-<option value="" selected="selected"><?php _e('Actions'); ?></option>
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
@@ -240,8 +240,6 @@ do_action('restrict_manage_posts');
 <br class="clear" />
 
 <?php include( 'edit-post-rows.php' ); ?>
-
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 
 </form>
 

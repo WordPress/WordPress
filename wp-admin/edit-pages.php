@@ -10,10 +10,10 @@
 require_once('admin.php');
 
 // Handle bulk deletes
-if ( isset($_GET['action']) && isset($_GET['delete']) ) {
+if ( isset($_GET['action']) && isset($_GET['post']) && isset($_GET['doaction']) ) {
 	check_admin_referer('bulk-pages');
 	if ( $_GET['action'] == 'delete' ) {
-		foreach( (array) $_GET['delete'] as $post_id_del ) {
+		foreach( (array) $_GET['post'] as $post_id_del ) {
 			$post_del = & get_post($post_id_del);
 
 			if ( !current_user_can('delete_page', $post_id_del) )
@@ -86,8 +86,7 @@ require_once('admin-header.php');
 </form>
 
 <div class="wrap">
-<form id="posts-filter" action="" method="get">
-
+<form id="adv-settings" action="" method="get">
 <div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
 <a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
@@ -98,7 +97,8 @@ require_once('admin-header.php');
 <?php manage_columns_prefs('page') ?>
 <br class="clear" />
 </div></div>
-</div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
 
 <h2><?php
 // Use $_GET instead of is_ since they can override each other
@@ -111,6 +111,7 @@ if ( isset($_GET['author']) && $_GET['author'] ) {
 printf( _c( '%1$s%2$s%3$s (<a href="%4$s">Add New</a>)|You can reorder these: 1: Pages, 2: by {s}, 3: matching {s}' ), $post_status_label, $h2_author, $h2_search, 'page-new.php' );
 ?></h2>
 
+<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 
@@ -139,8 +140,8 @@ unset($status_links);
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
-<?php
-endif;
+<?php endif;
+
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Your page has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View page'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit page'); ?></a></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
@@ -170,7 +171,7 @@ if ( $page_links )
 
 <div class="alignleft">
 <select name="action">
-<option value="" selected><?php _e('Actions'); ?></option>
+<option value="-1" selected><?php _e('Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
@@ -200,9 +201,6 @@ if ($posts) {
   <?php page_rows($posts, $pagenum, $per_page); ?>
   </tbody>
 </table>
-
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-
 </form>
 
 <div id="ajax-response"></div>

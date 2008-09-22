@@ -10,7 +10,7 @@
 require_once ('admin.php');
 
 // Handle bulk deletes
-if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
+if ( isset($_GET['action']) && isset($_GET['linkcheck']) && isset($_GET['doaction']) ) {
 	check_admin_referer('bulk-bookmarks');
 
 	if ( ! current_user_can('manage_links') )
@@ -94,8 +94,7 @@ if ( isset($_GET['deleted']) ) {
 
 <div class="wrap">
 
-<form id="links-filter" action="" method="get">
-
+<form id="adv-settings" action="" method="get">
 <div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
 <a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
@@ -106,12 +105,14 @@ if ( isset($_GET['deleted']) ) {
 <?php manage_columns_prefs('link') ?>
 <br class="clear" />
 </div></div>
-</div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
 
 <h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
 
 <br class="clear" />
 
+<form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
 <div class="alignleft">
@@ -256,7 +257,7 @@ if ( $links ) {
 <?php } else { ?>
 <p><?php _e('No links found.') ?></p>
 <?php } ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+
 </form>
 
 <div id="ajax-response"></div>

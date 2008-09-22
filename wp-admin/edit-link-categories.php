@@ -74,8 +74,7 @@ endif; ?>
 
 <div class="wrap">
 
-<form id="posts-filter" action="" method="get">
-
+<form id="adv-settings" action="" method="get">
 <div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
 <a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
 
@@ -86,12 +85,14 @@ endif; ?>
 <?php manage_columns_prefs('link-category') ?>
 <br class="clear" />
 </div></div>
-</div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
 
 	<h2><?php printf( current_user_can('manage_categories') ? __('Link Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
 
 <br class="clear" />
 
+<form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
 <?php
@@ -154,8 +155,6 @@ if ( $categories ) {
 ?>
 	</tbody>
 </table>
-
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 
 </form>
 
