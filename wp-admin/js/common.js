@@ -54,12 +54,28 @@ jQuery( function($) {
 			effect = 'slideToggle';
 		}
 		ul[effect]().parent().toggleClass( 'wp-menu-open' );
+
+		$('#adminmenu li.wp-has-submenu').each(function(i, e) {
+			var v = $(e).hasClass('wp-menu-open') ? 'o' : 'c';
+
+			setUserSetting( 'm'+i, v );
+		});
+
 		return false;
 	};
 
-	jQuery('#adminmenu li.wp-has-submenu > a').click( function() { return menuToggle( jQuery(this).siblings('ul') ); } );
+	$('#adminmenu li.wp-has-submenu').each(function(i, e) {
+		var v = getUserSetting( 'm'+i );
 
-	jQuery('#dashmenu li.wp-has-submenu').bind( 'mouseenter mouseleave', function() { return menuToggle( jQuery(this).children('ul'), 'toggle' ); } );
+		if ( $(e).hasClass('wp-has-current-submenu') ) return true; // leave the current parent open
+
+		if ( 'o' == v ) $(e).addClass('wp-menu-open');
+		else if ( 'c' == v ) $(e).removeClass('wp-menu-open');	
+	});
+
+	$('#adminmenu li.wp-has-submenu > a').click( function() { return menuToggle( $(this).siblings('ul') ); } );
+
+	$('#dashmenu li.wp-has-submenu').bind( 'mouseenter mouseleave', function() { return menuToggle( $(this).children('ul'), 'toggle' ); } );
 
 } );
 
