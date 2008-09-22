@@ -1411,10 +1411,14 @@ table.form-table td .updated {
 }
 
 .submitbox .inside-submitbox #deletebutton {
-	padding: 0 0 2px 20px;
-	background-image: url(images/no.png);
-	background-position: left center;
+	padding: 0 0 1px 17px;
+	background-image: url(images/del.png);
+	background-position: left bottom;
 	background-repeat: no-repeat;
+}
+
+.inside-submitbox #post_status {
+	margin: 2px 0 2px -2px;
 }
 
 .submitbox .submit a:hover {
@@ -1853,7 +1857,7 @@ a.togbox {
 
 .curtime #timestamp {
 	background-repeat: no-repeat;
-	background-position: left 1px;
+	background-position: left top;
 	padding-left: 18px;
 }
 
