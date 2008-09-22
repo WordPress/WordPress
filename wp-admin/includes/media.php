@@ -342,12 +342,18 @@ function media_upload_image() {
 function media_sideload_image($file, $post_id, $desc = null) {
 	if (!empty($file) ) {
 		$file_array['name'] = basename($file);
-		$file_array['tmp_name'] = download_url($file);
+		$tmp = download_url($file);
+		$file_array['tmp_name'] = $tmp;
 		$desc = @$desc;
 
+		if ( is_wp_error($tmp) ) {
+			@unlink($file_array['tmp_name']);
+			$file_array['tmp_name'] = '';
+		}
+		
 		$id = media_handle_sideload($file_array, $post_id, $desc);
 		$src = $id;
-
+		
 		if ( is_wp_error($id) ) {
 			@unlink($file_array['tmp_name']);
 			return $id;

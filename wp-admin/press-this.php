@@ -248,7 +248,7 @@ switch ($_REQUEST['ajax']) {
 				}
 				img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
 			}
-			if (!skip) strtoappend += '<a href="?ajax=photo_thickbox&amp;i=' + img.src + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
+			if (!skip) strtoappend += '<a href="?ajax=photo_thickbox&amp;i=' + encodeURI(img.src) + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
 		}
 
 		function pick(img, desc) {
@@ -257,7 +257,7 @@ switch ($_REQUEST['ajax']) {
 				if(length == 0) length = 1;
 				jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
 				jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
-				append_editor("\n\n" + '<p><img src="' + img +'" alt="' + desc + '" class="aligncenter"/></p>');
+				append_editor("\n\n" + '<p style="text-align: center;"><a href="<?php echo urlencode($url); ?>"><img src="' + img +'" alt="' + desc + '" /></a></p>');
 			}
 			tinyMCE.activeEditor.resizeToContent();
 			return false;
@@ -430,6 +430,7 @@ die;
 	}
 
 	jQuery(document).ready(function() {
+		top.resizeTo(700-screen.width+screen.availWidth,680-screen.height+screen.availHeight);
     	jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
 		
@@ -450,19 +451,11 @@ die;
 <div id="wphead">
 </div>
 
-<?php
-if ( isset($posted) && intval($posted) ) {
-	$post_ID = intval($posted);
-?>
-<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
-<?php
-}
-?>
 <form action="press-this.php?action=post" method="post">
 	<?php wp_nonce_field('press-this') ?>
 	<input type="hidden" name="post_type" id="post_type" value="text"/>
 	
-	<div id="poststuff">
+	<div id="poststuff">	
 	<div id="side-info-column">
 		<div class="sleeve">
 			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
@@ -514,6 +507,15 @@ if ( isset($posted) && intval($posted) ) {
 	</div>
 	
 		<div class="posting">
+			<?php
+			if ( isset($posted) && intval($posted) ) {
+				$post_ID = intval($posted);
+			?>
+			<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
+			<?php
+			}
+			?>
+			
 			<h2 id="title"><label for="post_title"><?php _e('Title') ?></label></h2>
 			<div class="titlewrap">
 				<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
