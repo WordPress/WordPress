@@ -14,6 +14,10 @@
  * links exceeds the amount in the administration, then the check fails. If any
  * of the parameter contents match the blacklist of words, then the check fails.
  *
+ * If the number of links exceeds the amount in the administration, then the
+ * check fails. If any of the parameter contents match the blacklist of words,
+ * then the check fails.
+ *
  * If the comment is a trackback and part of the blogroll, then the trackback is
  * automatically whitelisted. If the comment author was approved before, then
  * the comment is automatically whitelisted.
@@ -115,6 +119,9 @@ function get_approved_comments($post_id) {
  * If an object is passed then the comment data will be cached and then returned
  * after being passed through a filter. If the comment is empty, then the global
  * comment variable will be used, if it is set.
+ *
+ * If the comment is empty, then the global comment variable will be used, if it
+ * is set.
  *
  * @since 2.0.0
  * @uses $wpdb
@@ -591,7 +598,7 @@ function wp_count_comments( $post_id = 0 ) {
  * @uses do_action() Calls 'wp_set_comment_status' hook on comment ID with 'delete' set for the second parameter
  *
  * @param int $comment_id Comment ID
- * @return bool False if delete comment query failure, true on success
+ * @return bool False if delete comment query failure, true on success.
  */
 function wp_delete_comment($comment_id) {
 	global $wpdb;
@@ -727,8 +734,8 @@ function wp_insert_comment($commentdata) {
  * @uses apply_filters() Calls 'pre_comment_author_url' hook on comment author's URL
  * @uses apply_filters() Calls 'pre_comment_author_email' hook on comment author's email address
  *
- * @param array $commentdata Contains information on the comment
- * @return array Parsed comment information
+ * @param array $commentdata Contains information on the comment.
+ * @return array Parsed comment information.
  */
 function wp_filter_comment($commentdata) {
 	$commentdata['user_id']              = apply_filters('pre_user_id', $commentdata['user_ID']);
@@ -775,7 +782,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * @uses wp_allow_comment() checks to see if comment is approved.
  * @uses wp_insert_comment() Does the actual comment insertion to the database.
  *
- * @param array $commentdata Contains information on the comment
+ * @param array $commentdata Contains information on the comment.
  * @return int The ID of the comment after adding.
  */
 function wp_new_comment( $commentdata ) {
