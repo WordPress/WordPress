@@ -377,7 +377,7 @@ function wp_register_widget_control($id, $name, $control_callback, $options = ar
  * @since 2.2.0
  * @see wp_unregister_widget_control()
  *
- * @param int $id Widget ID
+ * @param int $id Widget ID.
  */
 function unregister_widget_control($id) {
 	return wp_unregister_widget_control($id);
@@ -637,9 +637,7 @@ function wp_get_widget_defaults() {
 /* Default Widgets */
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display pages widget.
  *
  * @since 2.2.0
  *
@@ -672,9 +670,7 @@ function wp_widget_pages( $args ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process pages widget options form.
  *
  * @since 2.2.0
  */
@@ -720,9 +716,7 @@ function wp_widget_pages_control() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display links widget.
  *
  * @since 2.2.0
  *
@@ -740,9 +734,7 @@ function wp_widget_links($args) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display search widget.
  *
  * @since 2.2.0
  *
@@ -769,9 +761,7 @@ function wp_widget_search($args) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display archives widget.
  *
  * @since 2.2.0
  *
@@ -803,9 +793,7 @@ function wp_widget_archives($args) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process archives widget options form.
  *
  * @since 2.2.0
  */
@@ -835,13 +823,13 @@ function wp_widget_archives_control() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display meta widget.
  *
- * {@internal Missing Long Description}}
+ * Displays log in/out, RSS feed links, etc.
  *
  * @since 2.2.0
  *
- * @param array $args Widget Arguments
+ * @param array $args Widget arguments.
  */
 function wp_widget_meta($args) {
 	extract($args);
@@ -863,9 +851,7 @@ function wp_widget_meta($args) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process meta widget options form.
  *
  * @since 2.2.0
  */
@@ -886,9 +872,7 @@ function wp_widget_meta_control() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display calendar widget.
  *
  * @since 2.2.0
  *
@@ -908,9 +892,7 @@ function wp_widget_calendar($args) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process calendar widget options form.
  *
  * @since 2.2.0
  */
@@ -965,9 +947,7 @@ function wp_widget_text($args, $widget_args = 1) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process text widget options form.
  *
  * @since 2.2.0
  *
@@ -1036,9 +1016,7 @@ function wp_widget_text_control($widget_args) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Register text widget on startup.
  *
  * @since 2.2.0
  */
@@ -1067,16 +1045,15 @@ function wp_widget_text_register() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display categories widget.
  *
- * {@internal Missing Long Description}}
+ * Allows multiple category widgets.
  *
  * @since 2.2.0
  *
- * @param unknown_type $args
- * @param unknown_type $number
+ * @param array $args Widget arguments.
+ * @param int $number Widget number.
  */
-// See large comment section at end of this file
 function wp_widget_categories($args, $widget_args = 1) {
 	extract($args, EXTR_SKIP);
 	if ( is_numeric($widget_args) )
@@ -1132,13 +1109,11 @@ function wp_widget_categories($args, $widget_args = 1) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process categories widget options form.
  *
  * @since 2.2.0
  *
- * @param unknown_type $number
+ * @param int $widget_args Widget number.
  */
 function wp_widget_categories_control( $widget_args ) {
 	global $wp_registered_widgets;
@@ -1227,9 +1202,7 @@ function wp_widget_categories_control( $widget_args ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Register categories widget on startup.
  *
  * @since 2.3.0
  */
@@ -1262,13 +1235,11 @@ function wp_widget_categories_register() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Upgrade previous category widget to current version.
  *
  * @since 2.3.0
  *
- * @return unknown
+ * @return array
  */
 function wp_widget_categories_upgrade() {
 	$options = get_option( 'widget_categories' );
@@ -1298,14 +1269,12 @@ function wp_widget_categories_upgrade() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display recent entries widget.
  *
  * @since 2.2.0
  *
- * @param unknown_type $args
- * @return unknown
+ * @param array $args Widget arguments.
+ * @return int Displayed cache.
  */
 function wp_widget_recent_entries($args) {
 	if ( '%BEG_OF_TITLE%' != $args['before_title'] ) {
@@ -1346,8 +1315,6 @@ function wp_widget_recent_entries($args) {
 /**
  * Remove recent entries widget items cache.
  *
- * {@internal Missing Long Description}}
- *
  * @since 2.2.0
  */
 function wp_flush_widget_recent_entries() {
@@ -1359,9 +1326,7 @@ add_action('deleted_post', 'wp_flush_widget_recent_entries');
 add_action('switch_theme', 'wp_flush_widget_recent_entries');
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process recent entries widget options form.
  *
  * @since 2.2.0
  */
@@ -1392,13 +1357,11 @@ function wp_widget_recent_entries_control() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display recent comments widget.
  *
  * @since 2.2.0
  *
- * @param unknown_type $args
+ * @param array $args Widget arguments.
  */
 function wp_widget_recent_comments($args) {
 	global $wpdb, $comments, $comment;
@@ -1431,8 +1394,6 @@ function wp_widget_recent_comments($args) {
 /**
  * Remove the cache for recent comments widget.
  *
- * {@internal Missing Long Description}}
- *
  * @since 2.2.0
  */
 function wp_delete_recent_comments_cache() {
@@ -1442,9 +1403,7 @@ add_action( 'comment_post', 'wp_delete_recent_comments_cache' );
 add_action( 'wp_set_comment_status', 'wp_delete_recent_comments_cache' );
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process recent comments widget options form.
  *
  * @since 2.2.0
  */
@@ -1476,8 +1435,6 @@ function wp_widget_recent_comments_control() {
 /**
  * Display the style for recent comments widget.
  *
- * {@internal Missing Long Description}}
- *
  * @since 2.2.0
  */
 function wp_widget_recent_comments_style() {
@@ -1487,9 +1444,7 @@ function wp_widget_recent_comments_style() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Register recent comments with control and hook for 'wp_head' action.
  *
  * @since 2.2.0
  */
@@ -1503,16 +1458,15 @@ function wp_widget_recent_comments_register() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display RSS widget.
  *
- * {@internal Missing Long Description}}
+ * Allows for multiple widgets to be displayed.
  *
  * @since 2.2.0
  *
- * @param unknown_type $args
- * @param unknown_type $number
+ * @param array $args Widget arguments.
+ * @param int $number Widget number.
  */
-// See large comment section at end of this file
 function wp_widget_rss($args, $widget_args = 1) {
 	extract($args, EXTR_SKIP);
 	if ( is_numeric($widget_args) )
@@ -1564,6 +1518,14 @@ function wp_widget_rss($args, $widget_args = 1) {
 	echo $after_widget;
 }
 
+/**
+ * Display the RSS entries in a list.
+ *
+ * @since 2.5.0
+ *
+ * @param string|array|object $rss RSS url.
+ * @param array $args Widget arguments.
+ */
 function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_string( $rss ) ) {
 		require_once(ABSPATH . WPINC . '/rss.php');
@@ -1648,13 +1610,11 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 }
 
 /**
- * wp_widget_rss_control() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display and process RSS widget control form.
  *
  * @since 2.2.0
  *
- * @param unknown_type $widget_args
+ * @param int $widget_args Widget number.
  */
 function wp_widget_rss_control($widget_args) {
 	global $wp_registered_widgets;
@@ -1726,7 +1686,7 @@ function wp_widget_rss_control($widget_args) {
  * and are as follows: 'url', 'title', 'items', 'show_summary', 'show_author',
  * 'show_date'.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param array|string $args Values for input fields.
  * @param array $inputs Override default display options.
@@ -1813,7 +1773,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
  * feed items, error (if any), and whether to show summary, author, and date.
  * All respectively in the order of the array elements.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param array $widget_rss RSS widget feed data. Expects unescaped data.
  * @param bool $check_feed Optional, default is true. Whether to check feed for errors.
@@ -1848,7 +1808,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 }
 
 /**
- * Register RSS widget to allow multiple RSS widgets.
+ * Register RSS widget to allow multiple RSS widgets on startup.
  *
  * @since 2.2.0
  */
@@ -1923,7 +1883,7 @@ function wp_widget_tag_cloud_control() {
 }
 
 /**
- * Register all of the default WordPress widgets.
+ * Register all of the default WordPress widgets on startup.
  *
  * Calls 'widgets_init' action after all of the WordPress widgets have been
  * registered.
@@ -1974,11 +1934,19 @@ function wp_widgets_init() {
 
 add_action('init', 'wp_widgets_init', 1);
 
-/* Pattern for multi-widget (allows multiple instances such as the text widget).
+/*
+ * Pattern for multi-widget (allows multiple instances such as the text widget).
+ *
+ * Make sure to close the comments after copying.
 
-// Displays widget on blag
-// $widget_args: number
-//    number: which of the several widgets of this type do we mean
+/**
+ * Displays widget.
+ *
+ * Supports multiple widgets.
+ *
+ * @param array $args Widget arguments.
+ * @param array|int $widget_args Widget number. Which of the several widgets of this type do we mean.
+ * /
 function widget_many( $args, $widget_args = 1 ) {
 	extract( $args, EXTR_SKIP );
 	if ( is_numeric($widget_args) )
@@ -1998,9 +1966,13 @@ function widget_many( $args, $widget_args = 1 ) {
 	echo $after_widget;
 }
 
-// Displays form for a particular instance of the widget.  Also updates the data after a POST submit
-// $widget_args: number
-//    number: which of the several widgets of this type do we mean
+/**
+ * Displays form for a particular instance of the widget.
+ *
+ * Also updates the data after a POST submit.
+ *
+ * @param array|int $widget_args Widget number. Which of the several widgets of this type do we mean.
+ * /
 function widget_many_control( $widget_args = 1 ) {
 	global $wp_registered_widgets;
 	static $updated = false; // Whether or not we have already updated the data after a POST submit
@@ -2068,7 +2040,9 @@ function widget_many_control( $widget_args = 1 ) {
 <?php
 }
 
-// Registers each instance of our widget on startup
+/**
+ * Registers each instance of our widget on startup.
+ * /
 function widget_many_register() {
 	if ( !$options = get_option('widget_many') )
 		$options = array();
