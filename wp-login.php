@@ -23,9 +23,8 @@ if ( force_ssl_admin() && !is_ssl() ) {
 }
 
 /**
- * login_header() - Outputs the header for the login page
+ * Outputs the header for the login page.
  *
- * @package WordPress
  * @uses do_action() Calls the 'login_head' for outputting HTML in the Login
  *		header.
  * @uses apply_filters() Calls 'login_headerurl' for the top login link.
@@ -87,9 +86,7 @@ function login_header($title = 'Login', $message = '', $wp_error = '') {
 } // End of login_header()
 
 /**
- * retrieve_password() - Handles sending password retrieval email to user
- *
- * {@internal Missing Long Description}}
+ * Handles sending password retrieval email to user.
  *
  * @uses $wpdb WordPress Database object
  *
@@ -157,9 +154,7 @@ function retrieve_password() {
 }
 
 /**
- * reset_password() - Handles resetting the user's password
- *
- * {@internal Missing Long Description}}
+ * Handles resetting the user's password.
  *
  * @uses $wpdb WordPress Database object
  *
@@ -196,9 +191,7 @@ function reset_password($key) {
 }
 
 /**
- * register_new_user() - Handles registering a new user
- *
- * {@internal Missing Long Description}}
+ * Handles registering a new user.
  *
  * @param string $user_login User's username for logging in
  * @param string $user_email User's email address to send password and add

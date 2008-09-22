@@ -67,14 +67,14 @@ function log_app($label,$msg) {
 
 if ( !function_exists('wp_set_current_user') ) :
 /**
- * wp_set_current_user() - Sets the current WordPress User
+ * Sets the current WordPress User.
  *
  * Pluggable function which is also found in pluggable.php.
  *
  * @see wp-includes/pluggable.php Documentation for this function.
  * @uses $current_user Global of current user to test whether $id is the same.
  *
- * @param int $id The user's ID
+ * @param int $id The user's ID.
  * @param string $name Optional. The username of the user.
  * @return WP_User Current user's User object
  */
@@ -91,7 +91,7 @@ function wp_set_current_user($id, $name = '') {
 endif;
 
 /**
- * wa_posts_where_include_drafts_filter() - Filter to add more post statuses
+ * Filter to add more post statuses.
  *
  * @param string $where SQL statement to filter
  * @return string Filtered SQL statement with added post_status for where clause
@@ -104,11 +104,11 @@ function wa_posts_where_include_drafts_filter($where) {
 add_filter('posts_where', 'wa_posts_where_include_drafts_filter');
 
 /**
- * @internal
- * Left undocumented to work on later. If you want to finish, then please do so.
+ * WordPress AtomPub API implementation.
  *
  * @package WordPress
  * @subpackage Publishing
+ * @since 2.2.0
  */
 class AtomServer {
 
