@@ -749,7 +749,7 @@ function inline_edit_row( $type ) {
 				<div <?php echo $attributes ?> title="<?php _e('Status'); ?>">
 					<div class="title"><?php _e('Status'); ?></div>
 					<div class="in">
-					<select name="post_status">
+					<select name="_status">
 						<?php if ( current_user_can('publish_posts') ) { // Contributors only get "Unpublished" and "Pending Review" ?>
 						<option value='publish'><?php _e('Published') ?></option>
 						<option value='future'><?php _e('Scheduled') ?></option>
@@ -812,6 +812,9 @@ function inline_save_row( $data ) {
 	// statuses
 	if ( 'private' == $data['keep_private'] )
 		$data['post_status'] = 'private';
+	else
+		$data['post_status'] = $data['_status'];
+
 	if ( empty($data['comment_status']) )
 		$data['comment_status'] = 'closed';
 	if ( empty($data['ping_status']) )
@@ -845,7 +848,7 @@ function get_inline_data($post) {
 	<input type="hidden" name="" class="post_author" value="' . $post->post_author . '" />
 	<input type="hidden" name="" class="comment_status" value="' . $post->comment_status . '" />
 	<input type="hidden" name="" class="ping_status" value="' . $post->ping_status . '" />
-	<input type="hidden" name="" class="post_status" value="' . $post->post_status . '" />
+	<input type="hidden" name="" class="_status" value="' . $post->post_status . '" />
 	<input type="hidden" name="" class="jj" value="' . mysql2date( 'd', $post->post_date ) . '" />
 	<input type="hidden" name="" class="mm" value="' . mysql2date( 'm', $post->post_date ) . '" />
 	<input type="hidden" name="" class="aa" value="' . mysql2date( 'Y', $post->post_date ) . '" />

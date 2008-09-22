@@ -49,7 +49,7 @@ inlineEdit = {
 			t.revert(old);
 		}
 
-		var fields = ['post_title', 'post_name', 'post_author', 'post_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'post_password'];
+		var fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'post_password'];
 		if ( type == 'page' ) fields.push('post_parent', 'menu_order', 'page_template');
 		if ( type == 'post' ) fields.push('tags_input');
 
@@ -79,8 +79,8 @@ inlineEdit = {
 			$('ul.cat-checklist :checkbox').val(cats.split(','));
 
 		// handle the post status
-		var status = $('.post_status', rowData).val();
-		if ( status != 'future' ) $('select[name="post_status"] option[value="future"]', editRow).remove();
+		var status = $('._status', rowData).val();
+		if ( status != 'future' ) $('select[name="_status"] option[value="future"]', editRow).remove();
 		if ( status == 'private' ) $('input[name="keep_private"]', editRow).attr("checked", "checked");
 
 		// remove the current page and children from the parent dropdown
