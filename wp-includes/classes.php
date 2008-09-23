@@ -26,7 +26,7 @@ class WP {
 	 * @access public
 	 * @var array
 	 */
-	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term');
+	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage');
 
 	/**
 	 * Private query variables.
@@ -36,7 +36,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var array
 	 */
-	var $private_query_vars = array('offset', 'posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging', 'post_type', 'post_status', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'tag_id', 'post_mime_type', 'perm');
+	var $private_query_vars = array('offset', 'posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging', 'post_type', 'post_status', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'tag_id', 'post_mime_type', 'perm', 'comments_per_page');
 
 	/**
 	 * Extra query variables set by the user.
@@ -731,6 +731,15 @@ class Walker {
 	var $db_fields;
 
 	/**
+	 * Max number of pages walked by the paged walker 
+	 *
+	 * @since 2.7.0
+	 * @var int
+	 * @access protected
+	 */
+	var $max_pages = 1;
+
+	/**
 	 * Starts the list before the elements are added.
 	 *
 	 * Additional parameters are used in child classes. The args parameter holds
@@ -947,7 +956,7 @@ class Walker {
 	function paged_walk( $elements, $max_depth, $page_num, $per_page ) {
 
 		/* sanity check */
-		if ( empty($elements) || $max_depth < 0 )
+		if ( empty($elements) || $max_depth < -1 )
 			return '';
 
 		$args = array_slice( func_get_args(), 4 );
@@ -955,6 +964,38 @@ class Walker {
 
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
+
+		$count = -1;
+		if ( -1 == $max_depth )
+			$total_top = count( $elements );
+		if ( $page_num < 1 || $per_page < 0  ) {
+			// No paging
+			$paging = false;
+			$start = 0;
+			if ( -1 == $max_depth )
+				$end = $total_top;
+			$this->max_pages = 1;
+		} else {
+			$paging = true;
+			$start = ( (int)$page_num - 1 ) * (int)$per_page;
+			$end   = $start + $per_page;
+			if ( -1 == $max_depth )
+				$this->max_pages = ceil($total_top / $per_page);
+		}
+
+		// flat display
+		if ( -1 == $max_depth ) {
+			$empty_array = array();
+			foreach ( $elements as $e ) {
+				$count++;
+				if ( $count < $start )
+					continue;
+				if ( $count >= $end )
+					break;
+				$this->display_element( $e, $empty_array, 1, 0, $args, $output );
+			}
+			return $output;
+		}
 
 		/*
 		 * seperate elements into two buckets: top level and children elements
@@ -970,15 +1011,10 @@ class Walker {
 				$children_elements[ $e->$parent_field ][] = $e;
 		}
 
-		$count = -1;
 		$total_top = count( $top_level_elements );
-		if ( $page_num < 1 || $per_page < 0  ) {
-			$start = 0;
-			$end = $total_top;
-		} else {
-			$start = ( (int)$page_num - 1 ) * (int)$per_page;
-			$end   = $start + $per_page;
-		}
+
+		if ( $paging )
+			$this->max_pages = ceil($total_top / $per_page);
 
 		foreach( $top_level_elements as $e ){
 			$count++;
@@ -996,7 +1032,7 @@ class Walker {
 			$this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
 		}
 
-		if ( $end >= $total_top && count( $children_elements ) > 0 ){
+		if ( $end >= $total_top && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans )
 				foreach( $orphans as $op )
@@ -1030,7 +1066,8 @@ class Walker {
 		foreach ( (array)$children_elements[$id] as $child )
 			$this->unset_children( $child, $children_elements );
 
-		unset( $children_elements[$id] );
+		if ( isset($children_elements[$id]) )
+			unset( $children_elements[$id] );
 
 	}
 }

@@ -1820,6 +1820,9 @@ function sanitize_option($option, $value) {
 		case 'default_category':
 		case 'default_email_category':
 		case 'default_link_category':
+		case 'close_comments_days_old':
+		case 'comments_per_page':
+		case 'thread_comments_depth':
 			$value = abs((int) $value);
 			break;
 

@@ -793,6 +793,84 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
 	}
 }
 
+function get_comments_pagenum_link($pagenum = 1) {
+	global $wp_rewrite;
+
+	$pagenum = (int) $pagenum;
+
+	$request = remove_query_arg( 'cpage' );
+
+	$home_root = parse_url(get_option('home'));
+	$home_root = ( isset($home_root['path']) ) ? $home_root['path'] : '';
+	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
+
+	$request = preg_replace('|^'. $home_root . '|', '', $request);
+	$request = preg_replace('|^/+|', '', $request);
+
+	$base = trailingslashit( get_bloginfo( 'home' ) );
+
+	if ( $pagenum > 1 ) {
+		$result = add_query_arg( 'cpage', $pagenum, $base . $request );
+	} else {
+		$result = $base . $request;
+	}
+
+	$result = apply_filters('get_comments_pagenum_link', $result);
+
+	return $result;
+}
+
+function next_comments_link($label='', $max_page = 0) {
+	global $wp_query;
+
+	if ( !is_singular() )
+		return;
+
+	$page = get_query_var('cpage');
+	
+	if ( !$page )
+		$page = 1;
+
+	if ( !$page )
+		$page = 1;
+
+	$nextpage = intval($page) + 1;
+
+	if ( empty($max_page) )
+		$max_page = $wp_query->max_num_comment_pages;
+
+	if ( $nextpage > $max_page )
+		return;
+
+	if ( empty($label) )
+		$label = __('&raquo; Newer Comments');
+
+	echo '<a href="' . clean_url(get_comments_pagenum_link($nextpage));
+	$attr = apply_filters( 'next_comments_link_attributes', '' );
+	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+}
+
+function previous_comments_link($label='') {
+	global $wp_query;
+
+	if ( !is_singular() )
+		return;
+
+	$page = get_query_var('cpage');
+
+	if ( $page <= 1 )
+		return;
+
+	$nextpage = intval($page) - 1;
+
+	if ( empty($label) )
+		$label = __('&laquo; Older Comments');
+
+	echo '<a href="' . clean_url(get_comments_pagenum_link($nextpage));
+	$attr = apply_filters( 'previous_comments_link_attributes', '' );
+	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+}
+
 function get_shortcut_link() {
 	$link = "javascript:
 			var d=document,

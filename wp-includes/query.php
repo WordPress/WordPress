@@ -844,6 +844,15 @@ class WP_Query {
 	var $max_num_pages = 0;
 
 	/**
+	 * The amount of comment pages.
+	 *
+	 * @since 2.7.0
+	 * @access public
+	 * @var int
+	 */
+	var $max_num_comment_pages = 0;
+
+	/**
 	 * Set if query is single post.
 	 *
 	 * @since 1.5.0
@@ -1611,6 +1620,9 @@ class WP_Query {
 			$q['posts_per_page'] = abs($q['posts_per_page']);
 		else if ( $q['posts_per_page'] == 0 )
 			$q['posts_per_page'] = 1;
+
+		if ( !isset($q['comments_per_page']) || $q['comments_per_page'] == 0 )
+			$q['comments_per_page'] = get_option('comments_per_page');
 
 		if ( $this->is_home && (empty($this->query) || $q['preview'] == 'true') && ( 'page' == get_option('show_on_front') ) && get_option('page_on_front') ) {
 			$this->is_page = true;

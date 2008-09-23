@@ -40,6 +40,14 @@ include('admin-header.php');
 <input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked('1', get_option('close_comments_for_old_posts')); ?> />
 <?php _e('Close comments on articles older than') ?></label> <?php printf(__('%s days'), '<input name="close_comments_days_old" type="text" id="close_comments_days_old" value="' . attribute_escape(get_option('close_comments_days_old')) . '" size="3" />') ?>
 <br />
+<label for="thread_comments">
+<input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked('1', get_option('thread_comments')); ?> />
+<?php _e('Group replies into threads') ?></label> <?php printf(__('%s levels deep'), '<input name="thread_comments_depth" type="text" id="thread_comments_depth" value="' . attribute_escape(get_option('thread_comments_depth')) . '" size="3" />') ?>
+<br />
+<label for="page_comments">
+<input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked('1', get_option('page_comments')); ?> />
+<?php _e('Break comments into pages with') ?></label> <?php printf(__('%s comments per page'), '<input name="comments_per_page" type="text" id="comments_per_page" value="' . attribute_escape(get_option('comments_per_page')) . '" size="3" />') ?>
+<br />
 <small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
 </fieldset></td>
 </tr>
