@@ -35,6 +35,7 @@ $wp_registered_sidebars = array();
 $wp_registered_widgets = array();
 
 /**
+ * Stores the registered widget control (options).
  *
  * @global array $wp_registered_widget_controls
  * @since 2.2.0
@@ -170,16 +171,22 @@ function unregister_sidebar( $name ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Register widget for sidebar with backwards compatibility.
  *
- * {@internal Missing Long Description}}
+ * Allows $name to be an array that accepts either three elements to grab the
+ * first element and the third for the name or just uses the first element of
+ * the array for the name.
+ *
+ * Passes to {@link wp_register_sidebar_widget()} after argument list and
+ * backwards compatibility is complete.
  *
  * @since 2.2.0
  * @uses wp_register_sidebar_widget() Passes the compiled arguments.
  *
- * @param string $name 
- * @param callback $output_callback
- * @param string $classname
+ * @param string|int $name Widget ID.
+ * @param callback $output_callback Run when widget is called.
+ * @param string $classname Classname widget option.
+ * @param mixed $params,... Widget parameters.
  */
 function register_sidebar_widget($name, $output_callback, $classname = '') {
 	// Compat
@@ -203,20 +210,24 @@ function register_sidebar_widget($name, $output_callback, $classname = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Register widget for use in sidebars.
  *
- * {@internal Missing Long Description}}
+ * The default widget option is 'classname' that can be override.
+ *
+ * The function can also be used to unregister widgets when $output_callback
+ * parameter is an empty string.
  *
  * @since 2.2.0
  *
- * @uses $wp_registered_widgets {@internal Missing Description}}
- * @uses $wp_register_widget_defaults {@internal Missing Description}}
+ * @uses $wp_registered_widgets Uses stored registered widgets.
+ * @uses $wp_register_widget_defaults Retrieves widget defaults.
  *
- * @param int $id {@internal Missing Description}}
- * @param string $name {@internal Missing Description}}
- * @param callback $output_callback {@internal Missing Description}}
- * @param array|string $options {@internal Missing Description}}
- * @return null Will return if $output_callback is empty
+ * @param int|string $id Widget ID.
+ * @param string $name Widget display title.
+ * @param callback $output_callback Run when widget is called.
+ * @param array|string Optional. $options Widget Options.
+ * @param mixed $params,... Widget parameters to add to widget.
+ * @return null Will return if $output_callback is empty after removing widget.
  */
 function wp_register_sidebar_widget($id, $name, $output_callback, $options = array()) {
 	global $wp_registered_widgets;
@@ -243,14 +254,16 @@ function wp_register_sidebar_widget($id, $name, $output_callback, $options = arr
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve description for widget.
  *
- * {@internal Missing Long Description}}
+ * When registering widgets, the options can also include 'description' that
+ * describes the widget for display on the widget administration panel or
+ * in the theme.
  *
  * @since 2.5.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int|string $id Widget ID.
+ * @return string Widget description, if available. Null on failure to retrieve description.
  */
 function wp_widget_description( $id ) {
 	if ( !is_scalar($id) )
@@ -269,20 +282,18 @@ function wp_widget_description( $id ) {
  *
  * @since 2.2.0
  *
- * @param int $id Same as wp_unregister_sidebar_widget()
+ * @param int|string $id Widget ID.
  */
 function unregister_sidebar_widget($id) {
 	return wp_unregister_sidebar_widget($id);
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Remove widget from sidebar.
  *
  * @since 2.2.0
  *
- * @param int $id {@internal Missing Description}}
+ * @param int|string $id Widget ID.
  */
 function wp_unregister_sidebar_widget($id) {
 	wp_register_sidebar_widget($id, '', '');
@@ -290,16 +301,21 @@ function wp_unregister_sidebar_widget($id) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Registers widget control callback for customizing options.
  *
- * {@internal Missing Long Description}}
+ * Allows $name to be an array that accepts either three elements to grab the
+ * first element and the third for the name or just uses the first element of
+ * the array for the name.
+ *
+ * Passes to {@link wp_register_widget_control()} after the argument list has
+ * been compiled.
  *
  * @since 2.2.0
  *
- * @param unknown_type $name {@internal Missing Description}}
- * @param unknown_type $control_callback {@internal Missing Description}}
- * @param unknown_type $width {@internal Missing Description}}
- * @param unknown_type $height {@internal Missing Description}}
+ * @param int|string $name Sidebar ID.
+ * @param callback $control_callback Widget control callback to display and process form.
+ * @param int $width Widget width.
+ * @param int $height Widget height.
  */
 function register_widget_control($name, $control_callback, $width = '', $height = '') {
 	// Compat
@@ -324,23 +340,23 @@ function register_widget_control($name, $control_callback, $width = '', $height 
 	call_user_func_array('wp_register_widget_control', $args);
 }
 
-/* $options: height, width, id_base
- *   height: never used
- *   width:  width of fully expanded control form.  Try hard to use the default width.
- *   id_base: for multi-widgets (widgets which allow multiple instances such as the text widget), an id_base must be provided.
- *            the widget id will ennd up looking like {$id_base}-{$unique_number}
- */
 /**
- * {@internal Missing Short Description}}
+ * Registers widget control callback for customizing options.
  *
- * {@internal Missing Long Description}}
+ * The options contains the 'height', 'width', and 'id_base' keys. The 'height'
+ * option is never used. The 'width' option is the width of the fully expanded
+ * control form, but try hard to use the default width. The 'id_base' is for
+ * multi-widgets (widgets which allow multiple instances such as the text
+ * widget), an id_base must be provided. The widget id will end up looking like
+ * {$id_base}-{$unique_number}.
  *
  * @since 2.2.0
  *
- * @param int $id {@internal Missing Description}}
- * @param string $name {@internal Missing Description}}
- * @param callback $control_callback {@internal Missing Description}}
- * @param array|string $options {@internal Missing Description}}
+ * @param int|string $id Sidebar ID.
+ * @param string $name Sidebar display name.
+ * @param callback $control_callback Run when sidebar is displayed.
+ * @param array|string $options Optional. Widget options. See above long description.
+ * @param mixed $params,... Optional. Additional parameters to add to widget.
  */
 function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
 	global $wp_registered_widget_controls;
@@ -377,35 +393,42 @@ function wp_register_widget_control($id, $name, $control_callback, $options = ar
  * @since 2.2.0
  * @see wp_unregister_widget_control()
  *
- * @param int $id Widget ID.
+ * @param int|string $id Widget ID.
  */
 function unregister_widget_control($id) {
 	return wp_unregister_widget_control($id);
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Remove control callback for widget.
  *
  * @since 2.2.0
- * @uses wp_register_widget_control() {@internal Missing Description}}
+ * @uses wp_register_widget_control() Unregisters by using empty callback.
  *
- * @param int $id {@internal Missing Description}}
+ * @param int|string $id Widget ID.
  */
 function wp_unregister_widget_control($id) {
 	return wp_register_widget_control($id, '', '');
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display dynamic sidebar.
  *
- * {@internal Missing Long Description}}
+ * By default it displays the default sidebar or 'sidebar-1'. The 'sidebar-1' is
+ * not named by the theme, the actual name is '1', but 'sidebar-' is added to
+ * the registered sidebars for the name. If you named your sidebar 'after-post',
+ * then the parameter $index will still be 'after-post', but the lookup will be
+ * for 'sidebar-after-post'.
+ *
+ * It is confusing for the $index parameter, but just know that it should just
+ * work. When you register the sidebar in the theme, you will use the same name
+ * for this function or "Pay no heed to the man behind the curtain." Just accept
+ * it as an oddity of WordPress sidebar register and display.
  *
  * @since 2.2.0
  *
- * @param unknown_type $index
- * @return unknown
+ * @param int|string $index Optional, default is 1. Name or ID of dynamic sidebar.
+ * @return bool True, if widget sidebar was found and called. False if not found or not called.
  */
 function dynamic_sidebar($index = 1) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
@@ -461,14 +484,17 @@ function dynamic_sidebar($index = 1) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Whether widget is registered using callback with widget ID.
  *
- * {@internal Missing Long Description}}
+ * Will only check if both parameters are used. Used to find which sidebar the
+ * widget is located in, but requires that both the callback and the widget ID
+ * be known.
  *
  * @since 2.2.0
  *
- * @param unknown_type $callback
-/* @return mixed false if widget is not active or id of sidebar in which the widget is active
+ * @param callback $callback Widget callback to check.
+ * @param int $widget_id Optional, but needed for checking. Widget ID.
+/* @return mixed false if widget is not active or id of sidebar in which the widget is active.
  */
 function is_active_widget($callback, $widget_id = false) {
 	global $wp_registered_widgets;
@@ -486,13 +512,11 @@ function is_active_widget($callback, $widget_id = false) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Whether the dynamic sidebar is enabled and used by theme.
  *
  * @since 2.2.0
  *
- * @return unknown
+ * @return bool True, if using widgets. False, if not using widgets.
  */
 function is_dynamic_sidebar() {
 	global $wp_registered_widgets, $wp_registered_sidebars;
@@ -510,15 +534,16 @@ function is_dynamic_sidebar() {
 /* Internal Functions */
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve full list of sidebars and their widgets.
  *
- * {@internal Missing Long Description}}
+ * Will upgrade sidebar widget list, if needed. Will also save updated list, if
+ * needed.
  *
  * @since 2.2.0
  * @access private
  *
- * @param unknown_type $update
- * @return unknown
+ * @param bool $update Optional, default is true. Whether to save upgrade of widget array list.
+ * @return array Upgraded list of widgets to version 2 array format.
  */
 function wp_get_sidebars_widgets($update = true) {
 	global $wp_registered_widgets, $wp_registered_sidebars;
@@ -599,29 +624,24 @@ function wp_get_sidebars_widgets($update = true) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Set the sidebar widget option to update sidebars.
  *
  * @since 2.2.0
  * @access private
- * @uses update_option() 
  *
- * @param unknown_type $sidebars_widgets
+ * @param array $sidebars_widgets Sidebar widgets and their settings.
  */
 function wp_set_sidebars_widgets( $sidebars_widgets ) {
 	update_option( 'sidebars_widgets', $sidebars_widgets );
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve default registered sidebars list.
  *
  * @since 2.2.0
  * @access private
  *
- * @return unknown
+ * @return array
  */
 function wp_get_widget_defaults() {
 	global $wp_registered_sidebars;
