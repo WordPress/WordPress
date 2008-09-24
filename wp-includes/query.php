@@ -1789,7 +1789,7 @@ class WP_Query {
 			$q['cat'] = implode(',', $req_cats);
 		}
 
-		if ( !empty($q['category__in']) || !empty($q['category__not_in']) || !empty($q['category__and']) ) {
+		if ( !empty($q['category__in']) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
@@ -1869,8 +1869,7 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($q['tag__in']) || !empty($q['tag__not_in']) || !empty($q['tag__and']) ||
-			!empty($q['tag_slug__in']) || !empty($q['tag_slug__and']) ) {
+		if ( !empty($q['tag__in']) || !empty($q['tag_slug__in']) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
