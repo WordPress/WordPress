@@ -1015,6 +1015,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 		$r['per_page'] = get_query_var('comments_per_page');
 
 	if ( empty($r['per_page']) ) {
+		$r['per_page'] = 0;
 		$r['page'] = 0;
 	} else {
 		$r['page'] = intval($r['page']);

@@ -1012,9 +1012,10 @@ class Walker {
 		}
 
 		$total_top = count( $top_level_elements );
-
 		if ( $paging )
 			$this->max_pages = ceil($total_top / $per_page);
+		else
+			$end = $total_top;
 
 		foreach( $top_level_elements as $e ){
 			$count++;
