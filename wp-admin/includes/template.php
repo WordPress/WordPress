@@ -565,6 +565,8 @@ function get_column_headers($page) {
 				'posts' => __('Posts')
 			);
 			return apply_filters('manage_users_columns', $columns);
+		default : 
+			return apply_filters('manage_' . $page . '_columns', $columns);
 	}
 
 	return $columns;
