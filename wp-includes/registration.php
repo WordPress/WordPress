@@ -109,6 +109,7 @@ function wp_insert_user($userdata) {
 	if ( !empty($ID) ) {
 		$ID = (int) $ID;
 		$update = true;
+		$old_user_data = get_userdata($ID);
 	} else {
 		$update = false;
 		// Hash the password
@@ -199,7 +200,7 @@ function wp_insert_user($userdata) {
 	wp_cache_delete($user_login, 'userlogins');
 
 	if ( $update )
-		do_action('profile_update', $user_id);
+		do_action('profile_update', $user_id, $old_user_data);
 	else
 		do_action('user_register', $user_id);
 
