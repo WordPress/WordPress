@@ -247,7 +247,7 @@ function comment_class( $class = '', $comment_id = null, $post_id = null, $echo 
  * @return array Array of classes
  */
 function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
-	static $comment_alt;
+	global $comment_alt, $comment_depth, $comment_thread_alt;
 
 	$comment = get_comment($comment_id);
 
@@ -269,6 +269,10 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 
 	if ( empty($comment_alt) )
 		$comment_alt = 0;
+	if ( empty($comment_depth) )
+		$comment_depth = 1;
+	if ( empty($comment_thread_alt) )
+		$comment_thread_alt = 0;
 
 	if ( $comment_alt % 2 ) {
 		$classes[] = 'odd';
@@ -278,6 +282,19 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	}
 
 	$comment_alt++;
+
+	// Alt for top-level comments
+	if ( 1 == $comment_depth ) {
+		if ( $comment_thread_alt % 2 ) {
+			$classes[] = 'thread-odd';
+			$classes[] = 'thread-alt';
+		} else {
+			$classes[] = 'thread-even';
+		}
+		$comment_thread_alt++;
+	}
+
+	$classes[] = "depth-$comment_depth";
 
 	if ( !empty($class) ) {
 		if ( !is_array( $class ) )
@@ -882,6 +899,8 @@ class Walker_Comment extends Walker {
 	var $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
 
 	function start_lvl(&$output, $depth, $args) {
+		$GLOBALS['comment_depth'] = $depth + 1;
+
 		switch ( $args['style'] ) {
 			case 'div':
 				break;
@@ -896,6 +915,8 @@ class Walker_Comment extends Walker {
 	}
 
 	function end_lvl(&$output, $depth, $args) {
+		$GLOBALS['comment_depth'] = $depth + 1;
+
 		switch ( $args['style'] ) {
 			case 'div':
 				break;
@@ -911,6 +932,7 @@ class Walker_Comment extends Walker {
 
 	function start_el(&$output, $comment, $depth, $args) {
 		$depth++;
+		$GLOBALS['comment_depth'] = $depth;
 
 		if ( !empty($args['callback']) ) {
 			call_user_func($args['callback'], $comment, $args, $depth);
@@ -920,10 +942,13 @@ class Walker_Comment extends Walker {
 		$GLOBALS['comment'] = $comment;
 		extract($args, EXTR_SKIP);
 
-		if ( 'div' == $args['style'] )
+		if ( 'div' == $args['style'] ) {
 			$tag = 'div';
-		else
+			$add_below = 'comment';
+		} else {
 			$tag = 'li';
+			$add_below = 'div-comment';
+		}
 ?>
 		<<?php echo $tag ?> <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
 		<?php if ( 'list' == $args['style'] ) : ?>
@@ -943,7 +968,7 @@ class Walker_Comment extends Walker {
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 
 		<div class='reply'>
-		<?php echo comment_reply_link(array('add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['depth'])) ?>
+		<?php echo comment_reply_link(array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth'])) ?>
 		<?php if ( 'list' == $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
@@ -976,7 +1001,10 @@ class Walker_Comment extends Walker {
  * @param $comments array Optional array of comment objects.  Defaults to $wp_query->comments
  */
 function wp_list_comments($args = array(), $comments = null ) {
-	global $wp_query;
+	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt;
+
+	$comment_alt = $comment_thread_alt = 0;
+	$comment_depth = 1;
 
 	$defaults = array('walker' => null, 'depth' => '', 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all',
 		'page' => get_query_var('cpage'), 'per_page' => '');
