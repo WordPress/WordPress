@@ -7,28 +7,30 @@
  */
 
 /**
- * Get current theme name.
+ * Retrieve name of the current stylesheet.
  *
- * The theme name that the administrator has currently set the frontend theme
+ * The theme name that the administrator has currently set the front end theme
  * as.
  *
- * @since 1.5.0
- * @uses apply_filters() Calls 'stylesheet' filter
+ * For all extensive purposes, the template name and the stylesheet name are
+ * going to be the same for most cases.
  *
- * @return string 
+ * @since 1.5.0
+ * @uses apply_filters() Calls 'stylesheet' filter on stylesheet name.
+ *
+ * @return string Stylesheet name.
  */
 function get_stylesheet() {
 	return apply_filters('stylesheet', get_option('stylesheet'));
 }
 
 /**
- * get_stylesheet_directory() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve stylesheet directory path for current theme.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'stylesheet_directory' filter on stylesheet directory and theme name.
  *
- * @return unknown
+ * @return string Path to current theme directory.
  */
 function get_stylesheet_directory() {
 	$stylesheet = get_stylesheet();
@@ -37,13 +39,11 @@ function get_stylesheet_directory() {
 }
 
 /**
- * get_stylesheet_directory_uri() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve stylesheet directory URI.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_stylesheet_directory_uri() {
 	$stylesheet = get_stylesheet();
@@ -52,13 +52,15 @@ function get_stylesheet_directory_uri() {
 }
 
 /**
- * get_stylesheet_uri() - {@internal Missing Short Description}}
+ * Retrieve URI of current theme stylesheet.
  *
- * {@internal Missing Long Description}}
+ * The stylesheet file name is 'style.css' which is appended to {@link 
+ * get_stylesheet_directory_uri() stylesheet directory URI} path.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'stylesheet_uri' filter on stylesheet URI path and stylesheet directory URI.
  *
- * @return unknown
+ * @return string
  */
 function get_stylesheet_uri() {
 	$stylesheet_dir_uri = get_stylesheet_directory_uri();
@@ -67,13 +69,14 @@ function get_stylesheet_uri() {
 }
 
 /**
- * get_locale_stylesheet_uri() - {@internal Missing Short Description}}
+ * Retrieve localized stylesheet URI.
  *
  * {@internal Missing Long Description}}
  *
  * @since 2.1.0
+ * @uses apply_filters() Calls 'locale_stylesheet_uri' filter on stylesheet URI path and stylesheet directory URI.
  *
- * @return unknown
+ * @return string
  */
 function get_locale_stylesheet_uri() {
 	global $wp_locale;
@@ -90,26 +93,24 @@ function get_locale_stylesheet_uri() {
 }
 
 /**
- * get_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve name of the current theme.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'template' filter on template option.
  *
- * @return unknown
+ * @return string Template name.
  */
 function get_template() {
 	return apply_filters('template', get_option('template'));
 }
 
 /**
- * get_template_directory() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve current theme directory.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'template_directory' filter on template directory path and template name.
  *
- * @return unknown
+ * @return string Template directory path.
  */
 function get_template_directory() {
 	$template = get_template();
@@ -118,13 +119,12 @@ function get_template_directory() {
 }
 
 /**
- * get_template_directory_uri() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve theme directory URI.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'template_directory_uri' filter on template directory URI path and template name.
  *
- * @return unknown
+ * @return string Template directory URI.
  */
 function get_template_directory_uri() {
 	$template = get_template();
@@ -133,14 +133,14 @@ function get_template_directory_uri() {
 }
 
 /**
- * get_theme_data() - {@internal Missing Short Description}}
+ * Retrieve theme data from parsed theme file.
  *
  * {@internal Missing Long Description}}
  *
  * @since 1.5.0
  *
- * @param unknown_type $theme_file
- * @return unknown
+ * @param string $theme_file Theme file path.
+ * @return array Theme data.
  */
 function get_theme_data( $theme_file ) {
 	$themes_allowed_tags = array(
@@ -207,13 +207,13 @@ function get_theme_data( $theme_file ) {
 }
 
 /**
- * get_themes() - {@internal Missing Short Description}}
+ * Retrieve list of themes with theme data in theme directory.
  *
  * {@internal Missing Long Description}}
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return array Theme list with theme data.
  */
 function get_themes() {
 	global $wp_themes, $wp_broken_themes;
@@ -400,14 +400,12 @@ function get_themes() {
 }
 
 /**
- * get_theme() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve theme data.
  *
  * @since 1.5.0
  *
- * @param unknown_type $theme
- * @return unknown
+ * @param string $theme Theme name.
+ * @return array|null Null, if theme name does not exist. Theme data, if exists.
  */
 function get_theme($theme) {
 	$themes = get_themes();
@@ -415,17 +413,19 @@ function get_theme($theme) {
 	if ( array_key_exists($theme, $themes) )
 		return $themes[$theme];
 
-	return NULL;
+	return null;
 }
 
 /**
- * get_current_theme() - {@internal Missing Short Description}}
+ * Retrieve current theme display name.
  *
- * {@internal Missing Long Description}}
+ * If the 'current_theme' option has already been set, then it will be returned
+ * instead. If it is not set, then each theme will be iterated over until both
+ * the current stylesheet and current template name.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_current_theme() {
 	if ( $theme = get_option('current_theme') )
@@ -453,40 +453,55 @@ function get_current_theme() {
 }
 
 /**
- * get_theme_root() - {@internal Missing Short Description}}
+ * Retrieve path to themes directory.
  *
- * {@internal Missing Long Description}}
+ * Does not have trailing slash.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'theme_root' filter on path.
  *
- * @return unknown
+ * @return string Theme path.
  */
 function get_theme_root() {
 	return apply_filters('theme_root', WP_CONTENT_DIR . "/themes");
 }
 
 /**
- * get_theme_root_uri() - {@internal Missing Short Description}}
+ * Retrieve URI for themes directory.
  *
- * {@internal Missing Long Description}}
+ * Does not have trailing slash.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string Themes URI.
  */
 function get_theme_root_uri() {
 	return apply_filters('theme_root_uri', content_url('themes'), get_option('siteurl'));
 }
 
 /**
- * get_query_template() - {@internal Missing Short Description}}
+ * Retrieve path to file without the use of extension.
  *
- * {@internal Missing Long Description}}
+ * Used to quickly retrieve the path of file without including the file
+ * extension. It will also check the parent template, if the file exists, with
+ * the use of {@link locate_template()}. Allows for more generic file location
+ * without the use of the other get_*_template() functions.
+ *
+ * Can be used with include() or require() to retrieve path.
+ * <code>
+ * if( '' != get_query_template( '404' ) )
+ *     include( get_query_template( '404' ) );
+ * </code>
+ * or the same can be accomplished with
+ * <code>
+ * if( '' != get_404_template() )
+ *     include( get_404_template() );
+ * </code>
  *
  * @since 1.5.0
  *
- * @param unknown_type $type
- * @return unknown
+ * @param string $type Filename without extension.
+ * @return string Full path to file.
  */
 function get_query_template($type) {
 	$type = preg_replace( '|[^a-z0-9-]+|', '', $type );
@@ -494,81 +509,71 @@ function get_query_template($type) {
 }
 
 /**
- * get_404_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve path of 404 template in current or parent template.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_404_template() {
 	return get_query_template('404');
 }
 
 /**
- * get_archive_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve path of archive template in current or parent template.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_archive_template() {
 	return get_query_template('archive');
 }
 
 /**
- * get_author_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve path of author template in current or parent template.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_author_template() {
 	return get_query_template('author');
 }
 
 /**
- * get_category_template() - {@internal Missing Short Description}}
+ * Retrieve path of category template in current or parent template.
  *
- * {@internal Missing Long Description}}
+ * Works by retrieving the current category ID, for example 'category-1.php' and
+ * will fallback to category.php template, if the ID category file doesn't
+ * exist.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'category_template' on file path of category template.
  *
- * @return unknown
+ * @return string
  */
 function get_category_template() {
-	$template =locate_template(array("category-" . absint( get_query_var('cat') ) . '.php',"category.php"));
+	$template = locate_template(array("category-" . absint( get_query_var('cat') ) . '.php', 'category.php'));
 	return apply_filters('category_template', $template);
 }
 
 /**
- * get_tag_template() - {@internal Missing Short Description}}
+ * Retrieve path of tag template in current or parent template.
  *
- * {@internal Missing Long Description}}
+ * Works by retrieving the current tag ID, for example 'tag-1.php' and will
+ * fallback to tag.php template, if the ID tag file doesn't exist.
  *
  * @since 2.3.0
+ * @uses apply_filters() Calls 'tag_template' on file path of tag template.
  *
- * @return unknown
+ * @return string
  */
 function get_tag_template() {
-	$template = locate_template(array("tag-" . absint( get_query_var('tag') ) . '.php',"tag.php"));
+	$template = locate_template(array("tag-" . absint( get_query_var('tag') ) . '.php', 'tag.php'));
 	return apply_filters('tag_template', $template);
 }
 
-/**
- * get_date_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
- *
- * @since 1.5.0
- *
- * @return unknown
- */
 function get_taxonomy_template() {
 	$taxonomy = get_query_var('taxonomy');
 	$term = get_query_var('term');
@@ -578,39 +583,49 @@ function get_taxonomy_template() {
 		$templates[] = "taxonomy-$taxonomy-$term.php";
 	if ( $taxonomy )
 		$templates[] = "taxonomy-$taxonomy.php";
-	
+
 	$templates[] = "taxonomy.php";
 
 	$template = locate_template($templates);
 	return apply_filters('taxonomy_template', $template);
 }
 
+/**
+ * Retrieve path of date template in current or parent template.
+ *
+ * @since 1.5.0
+ *
+ * @return string
+ */
 function get_date_template() {
 	return get_query_template('date');
 }
 
 /**
- * get_home_template() - {@internal Missing Short Description}}
+ * Retrieve path of home template in current or parent template.
  *
- * {@internal Missing Long Description}}
+ * Attempts to locate 'home.php' first before falling back to 'index.php'.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'home_template' on file path of home template.
  *
- * @return unknown
+ * @return string
  */
 function get_home_template() {
-	$template = locate_template(array('home.php','index.php'));
+	$template = locate_template(array('home.php', 'index.php'));
 	return apply_filters('home_template', $template);
 }
 
 /**
- * get_page_template() - {@internal Missing Short Description}}
+ * Retrieve path of page template in current or parent template.
  *
- * {@internal Missing Long Description}}
+ * First attempt is to look for the file in the '_wp_page_template' page meta
+ * data. The second attempt, if the first has a file and is not empty, is to
+ * look for 'page.php'.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_page_template() {
 	global $wp_query;
@@ -624,42 +639,36 @@ function get_page_template() {
 	$templates = array();
 	if ( !empty($template) && !validate_file($template) )
 		$templates[] = $template;
-	
+
 	$templates[] = "page.php";
 
 	return apply_filters('page_template', locate_template($templates));
 }
 
 /**
- * get_paged_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve path of paged template in current or parent template.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_paged_template() {
 	return get_query_template('paged');
 }
 
 /**
- * get_search_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve path of search template in current or parent template.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_search_template() {
 	return get_query_template('search');
 }
 
 /**
- * get_single_template() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve path of single template in current or parent template.
  *
  * @since 1.5.0
  *
@@ -670,13 +679,19 @@ function get_single_template() {
 }
 
 /**
- * get_attachment_template() - {@internal Missing Short Description}}
+ * Retrieve path of attachment template in current or parent template.
  *
- * {@internal Missing Long Description}}
+ * The attachment path first checks if the first part of the mime type exists.
+ * The second check is for the second part of the mime type. The last check is
+ * for both types separated by an underscore. If neither are found then the file
+ * 'attachment.php' is checked and returned.
+ *
+ * Some examples for the 'text/plain' mime type are 'text.php', 'plain.php', and
+ * finally 'text_plain.php'.
  *
  * @since 2.0.0
  *
- * @return unknown
+ * @return string
  */
 function get_attachment_template() {
 	global $posts;
@@ -692,13 +707,17 @@ function get_attachment_template() {
 }
 
 /**
- * get_comments_popup_template() - {@internal Missing Short Description}}
+ * Retrieve path of comment popup template in current or parent template.
  *
- * {@internal Missing Long Description}}
+ * Checks for comment popup template in current template, if it exists or in the
+ * parent template. If it doesn't exist, then it retrieves the comment-popup.php
+ * file from the default theme. The default theme must then exist for it to
+ * work.
  *
  * @since 1.5.0
+ * @uses apply_filters() Calls 'comments_popup_template' filter on path.
  *
- * @return unknown
+ * @return string
  */
 function get_comments_popup_template() {
 	$template = locate_template(array("comments-popup.php"));
@@ -709,20 +728,21 @@ function get_comments_popup_template() {
 }
 
 /**
- * Returns the name of the highest priority template file that exists
+ * Retrieve the name of the highest priority template file that exists.
  * 
  * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
  * inherit from a parent theme can just overload one file.
- * @since 2.7
  *
- * @param array $template_names Array of template files to search for in priority order
+ * @since 2.7.0
+ *
+ * @param array $template_names Array of template files to search for in priority order.
  * @param bool $load If true the template file will be loaded if it is found.
  * @return string The template filename if one is located.
  */
 function locate_template($template_names, $load = false) {
 	if (!is_array($template_names))
 		return '';
-	
+
 	$located = '';
 	foreach($template_names as $template_name) {
 		if ( file_exists(STYLESHEETPATH . '/' . $template_name)) {
@@ -733,21 +753,23 @@ function locate_template($template_names, $load = false) {
 			break;
 		}
 	}
-	
+
 	if ($load && '' != $located)
 		load_template($located);
-	
+
 	return $located;
 }
 
 /**
- * load_template() - {@internal Missing Short Description}}
+ * Require once the template file with WordPress environment.
  *
- * {@internal Missing Long Description}}
+ * The globals are set up for the template file to ensure that the WordPress
+ * environment is available from within the function. The query variables are
+ * also available.
  *
  * @since 1.5.0
  *
- * @param unknown_type $_template_file
+ * @param string $_template_file Path to template file.
  */
 function load_template($_template_file) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
@@ -759,9 +781,7 @@ function load_template($_template_file) {
 }
 
 /**
- * locale_stylesheet() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display localized stylesheet link element.
  *
  * @since 2.1.0
  */
@@ -773,7 +793,7 @@ function locale_stylesheet() {
 }
 
 /**
- * switch_theme() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -838,13 +858,15 @@ function switch_theme($template, $stylesheet) {
 }
 
 /**
- * validate_current_theme() - {@internal Missing Short Description}}
+ * Checks that current theme files 'index.php' and 'style.css' exists.
  *
- * {@internal Missing Long Description}}
+ * Does not check the 'default' theme. The 'default' theme should always exist
+ * or should have another theme renamed to that template name and directory
+ * path. Will switch theme to default if current theme does not validate.
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return bool
  */
 function validate_current_theme() {
 	// Don't validate during an install/upgrade.
@@ -865,15 +887,19 @@ function validate_current_theme() {
 }
 
 /**
- * get_theme_mod() - {@internal Missing Short Description}}
+ * Retrieve theme modification value for the current theme.
  *
- * {@internal Missing Long Description}}
+ * If the modification name does not exist, then the $default will be passed
+ * through {@link http://php.net/sprintf sprintf()} PHP function with the first
+ * string the template directory URI and the second string the stylesheet
+ * directory URI.
  *
  * @since 2.1.0
+ * @uses apply_filters() Calls 'theme_mod_$name' filter on the value.
  *
- * @param unknown_type $name
- * @param unknown_type $default
- * @return unknown
+ * @param string $name Theme modification name.
+ * @param bool|string $default
+ * @return string
  */
 function get_theme_mod($name, $default = false) {
 	$theme = get_current_theme();
@@ -887,14 +913,12 @@ function get_theme_mod($name, $default = false) {
 }
 
 /**
- * set_theme_mod() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Update theme modification value for the current theme.
  *
  * @since 2.1.0
  *
- * @param unknown_type $name
- * @param unknown_type $value
+ * @param string $name Theme modification name.
+ * @param string $value theme modification value.
  */
 function set_theme_mod($name, $value) {
 	$theme = get_current_theme();
@@ -908,14 +932,15 @@ function set_theme_mod($name, $value) {
 }
 
 /**
- * remove_theme_mod() - {@internal Missing Short Description}}
+ * Remove theme modification name from current theme list.
  *
- * {@internal Missing Long Description}}
+ * If removing the name also removes all elements, then the entire option will
+ * be removed.
  *
  * @since 2.1.0
  *
- * @param unknown_type $name
- * @return unknown
+ * @param string $name Theme modification name.
+ * @return null
  */
 function remove_theme_mod( $name ) {
 	$theme = get_current_theme();
@@ -935,9 +960,7 @@ function remove_theme_mod( $name ) {
 }
 
 /**
- * remove_theme_mods() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Remove theme modifications option for current theme.
  *
  * @since 2.1.0
  */
@@ -948,47 +971,40 @@ function remove_theme_mods() {
 }
 
 /**
- * get_header_textcolor() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve text color for custom header.
  *
  * @since 2.1.0
+ * @uses HEADER_TEXTCOLOR
  *
- * @return unknown
+ * @return string
  */
 function get_header_textcolor() {
 	return get_theme_mod('header_textcolor', HEADER_TEXTCOLOR);
 }
 
 /**
- * header_textcolor() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display text color for custom header.
  *
  * @since 2.1.0
- *
  */
 function header_textcolor() {
 	echo get_header_textcolor();
 }
 
 /**
- * get_header_image() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve header image for custom header.
  *
  * @since 2.1.0
+ * @uses HEADER_IMAGE
  *
- * @return unknown
+ * @return string
  */
 function get_header_image() {
 	return get_theme_mod('header_image', HEADER_IMAGE);
 }
 
 /**
- * header_image() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display header image path.
  *
  * @since 2.1.0
  */
@@ -997,14 +1013,18 @@ function header_image() {
 }
 
 /**
- * add_custom_image_header() - {@internal Missing Short Description}}
+ * Add callbacks for image header display.
  *
- * {@internal Missing Long Description}}
+ * The parameter $header_callback callback will be required to display the
+ * content for the 'wp_head' action. The parameter $admin_header_callback
+ * callback will be added to Custom_Image_Header class and that will be added
+ * to the 'admin_menu' action.
  *
  * @since 2.1.0
+ * @uses Custom_Image_Header Sets up for $admin_header_callback for administration panel display.
  *
- * @param unknown_type $header_callback
- * @param unknown_type $admin_header_callback
+ * @param callback $header_callback Call on 'wp_head' action.
+ * @param callback $admin_header_callback Call on administration panels.
  */
 function add_custom_image_header($header_callback, $admin_header_callback) {
 	if ( ! empty($header_callback) )
