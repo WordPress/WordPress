@@ -951,7 +951,7 @@ class Walker_Comment extends Walker {
 		}
 ?>
 		<<?php echo $tag ?> <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
-		<?php if ( 'list' == $args['style'] ) : ?>
+		<?php if ( 'ul' == $args['style'] ) : ?>
 		<div id="div-comment-<?php comment_ID() ?>">
 		<?php endif; ?>
 		<div class="comment-author vcard">
@@ -969,7 +969,7 @@ class Walker_Comment extends Walker {
 
 		<div class='reply'>
 		<?php echo comment_reply_link(array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth'])) ?>
-		<?php if ( 'list' == $args['style'] ) : ?>
+		<?php if ( 'ul' == $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
 		</div>
