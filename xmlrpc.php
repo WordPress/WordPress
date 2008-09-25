@@ -988,8 +988,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			$comment_status = 'hold';
 		else if ( 'spam' == $comment->comment_approved )
 			$comment_status = 'spam';
-		else
+		else if ( 1 == $comment->comment_approved )
 			$comment_status = 'approve';
+		else
+			$comment_status = $comment->comment_approved;
 
 		$link = get_comment_link($comment);
 
