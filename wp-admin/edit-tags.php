@@ -123,17 +123,8 @@ $messages[3] = __('Tag updated.');
 $messages[4] = __('Tag not added.');
 $messages[5] = __('Tag not updated.');
 $messages[6] = __('Tags deleted.');
-?>
 
-<form class="search-form" action="" method="get">
-	<p id="tag-search" class="search-box">
-		<label class="hidden" for="tag-search-input"><?php _e( 'Search Tags' ); ?></label>
-		<input type="text" id="tag-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-		<input type="submit" value="<?php _e( 'Search Tags' ); ?>" class="button" />
-	</p>
-</form>
-
-<?php if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
+if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$msg]; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>

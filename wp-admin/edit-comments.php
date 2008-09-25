@@ -67,17 +67,7 @@ $comment_status = isset($_GET['comment_status']) ? attribute_escape($_GET['comme
 
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty );
-?>
 
-<form class="search-form" action="" method="get">
-	<p id="comment-search" class="search-box">
-		<label class="hidden" for="comment-search-input"><?php _e( 'Search Comments' ); ?></label>
-		<input type="text" id="comment-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-		<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
-	</p>
-</form>
-
-<?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
 	$deleted = isset( $_GET['deleted'] ) ? (int) $_GET['deleted'] : 0;

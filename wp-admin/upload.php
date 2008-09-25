@@ -137,14 +137,6 @@ if ( is_singular() ) {
 
 require_once('admin-header.php'); ?>
 
-<form class="search-form" action="" method="get">
-	<p id="media-search" class="search-box" >
-		<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?></label>
-		<input type="text" id="media-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
-		<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
-	</p>
-</form>
-
 <div class="wrap">
 
 <form id="adv-settings" action="" method="get">

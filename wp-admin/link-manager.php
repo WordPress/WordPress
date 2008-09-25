@@ -72,17 +72,7 @@ switch ($order_by) {
 		$sqlorderby = 'name';
 		break;
 }
-?>
 
-<form class="search-form" action="" method="get">
-	<p id="link-search" class="search-box">
-		<label class="hidden" for="link-search-input"><?php _e( 'Search Links' ); ?></label>
-		<input type="text" id="link-search-input" name="s" value="<?php the_search_query(); ?>" />
-		<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button" />
-	</p>
-</form>
-
-<?php
 if ( isset($_GET['deleted']) ) {
 	echo '<div id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];

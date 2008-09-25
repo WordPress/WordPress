@@ -94,17 +94,7 @@ if ( is_singular() ) {
 
 require_once('admin-header.php');
 
-?>
-
-<form class="search-form" action="" method="get">
-	<p id="page-search" class="search-box">
-		<label class="hidden" for="page-search-input"><?php _e( 'Search Pages' ); ?></label>
-		<input type="text" id="page-search-input" name="s" value="<?php the_search_query(); ?>" />
-		<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
-	</p>
-</form>
-
-<?php if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
+if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
 <div id="message" class="updated fade"><p>
 <?php printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
 unset($_GET['upd']);
