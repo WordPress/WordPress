@@ -1,11 +1,28 @@
 <?php
+/**
+ * Category Template Tags and API.
+ *
+ * @package WordPress
+ * @subpackage Template
+ */
 
+/**
+ * Retrieve category children list separated before and after the term IDs.
+ *
+ * @since 1.2.0
+ *
+ * @param int $id Category ID to retrieve children.
+ * @param string $before Optional. Prepend before category term ID.
+ * @param string $after Optional, default is empty string. Append after category term ID.
+ * @param array $visited Optional. Category Term IDs that have already been added.
+ * @return string
+ */
 function get_category_children( $id, $before = '/', $after = '', $visited = array() ) {
 	if ( 0 == $id )
 		return '';
 
 	$chain = '';
-	// TODO: consult hierarchy
+	/** TODO: consult hierarchy */
 	$cat_ids = get_all_category_ids();
 	foreach ( (array) $cat_ids as $cat_id ) {
 		if ( $cat_id == $id )
@@ -23,6 +40,15 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
 	return $chain;
 }
 
+/**
+ * Retrieve category link URL.
+ *
+ * @since 1.0.0
+ * @uses apply_filters() Calls 'category_link' filter on category link and category ID.
+ *
+ * @param int $category_id Category ID.
+ * @return string
+ */
 function get_category_link( $category_id ) {
 	global $wp_rewrite;
 	$catlink = $wp_rewrite->get_category_permastruct();
@@ -45,7 +71,19 @@ function get_category_link( $category_id ) {
 	return apply_filters( 'category_link', $catlink, $category_id );
 }
 
-function get_category_parents( $id, $link = FALSE, $separator = '/', $nicename = FALSE, $visited = array() ) {
+/**
+ * Retrieve category parents with separator.
+ *
+ * @since 1.2.0
+ *
+ * @param int $id Category ID.
+ * @param bool $link Optional, default is false. Whether to format with link.
+ * @param string $separator Optional, default is '/'. How to separate categories.
+ * @param bool $nicename Optional, default is false. Whether to use nice name for display.
+ * @param array $visited Optional. Already linked to categories to prevent duplicates.
+ * @return string
+ */
+function get_category_parents( $id, $link = false, $separator = '/', $nicename = false, $visited = array() ) {
 	$chain = '';
 	$parent = &get_category( $id );
 	if ( is_wp_error( $parent ) )
@@ -68,6 +106,15 @@ function get_category_parents( $id, $link = FALSE, $separator = '/', $nicename =
 	return $chain;
 }
 
+/**
+ * Retrieve post categories.
+ *
+ * @since 0.71
+ * @uses $post
+ *
+ * @param int $id Optional, default to current post ID. The post ID.
+ * @return array
+ */
 function get_the_category( $id = false ) {
 	global $post;
 
@@ -91,10 +138,36 @@ function get_the_category( $id = false ) {
 	return $categories;
 }
 
+/**
+ * Sort categories by name.
+ *
+ * Used by usort() as a callback, should not be used directly. Can actually be
+ * used to sort any term object.
+ *
+ * @since 2.3.0
+ * @access private
+ *
+ * @param object $a
+ * @param object $b
+ * @return int
+ */
 function _usort_terms_by_name( $a, $b ) {
 	return strcmp( $a->name, $b->name );
 }
 
+/**
+ * Sort categories by ID.
+ *
+ * Used by usort() as a callback, should not be used directly. Can actually be
+ * used to sort any term object.
+ *
+ * @since 2.3.0
+ * @access private
+ *
+ * @param object $a
+ * @param object $b
+ * @return int
+ */
 function _usort_terms_by_ID( $a, $b ) {
 	if ( $a->term_id > $b->term_id )
 		return 1;
@@ -104,6 +177,14 @@ function _usort_terms_by_ID( $a, $b ) {
 		return 0;
 }
 
+/**
+ * Retrieve category name based on category ID.
+ *
+ * @since 0.71
+ *
+ * @param int $cat_ID Category ID.
+ * @return string Category name.
+ */
 function get_the_category_by_ID( $cat_ID ) {
 	$cat_ID = (int) $cat_ID;
 	$category = &get_category( $cat_ID );
@@ -112,6 +193,16 @@ function get_the_category_by_ID( $cat_ID ) {
 	return $category->name;
 }
 
+/**
+ * Retrieve category list in either HTML list or custom format.
+ *
+ * @since 1.5.1
+ *
+ * @param string $separator Optional, default is empty string. Separator for between the categories.
+ * @param string $parents Optional. How to display the parents.
+ * @param int $post_id Optional. Post ID to retrieve categories.
+ * @return string
+ */
 function get_the_category_list( $separator = '', $parents='', $post_id = false ) {
 	global $wp_rewrite;
 	$categories = get_the_category( $post_id );
@@ -128,13 +219,13 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 			switch ( strtolower( $parents ) ) {
 				case 'multiple':
 					if ( $category->parent )
-						$thelist .= get_category_parents( $category->parent, TRUE );
+						$thelist .= get_category_parents( $category->parent, true );
 					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>' . $category->name.'</a></li>';
 					break;
 				case 'single':
 					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>';
 					if ( $category->parent )
-						$thelist .= get_category_parents( $category->parent, FALSE );
+						$thelist .= get_category_parents( $category->parent, false );
 					$thelist .= $category->name.'</a></li>';
 					break;
 				case '':
@@ -151,13 +242,13 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 			switch ( strtolower( $parents ) ) {
 				case 'multiple':
 					if ( $category->parent )
-						$thelist .= get_category_parents( $category->parent, TRUE );
+						$thelist .= get_category_parents( $category->parent, true );
 					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>' . $category->cat_name.'</a>';
 					break;
 				case 'single':
 					$thelist .= '<a href="' . get_category_link( $category->term_id ) . '" title="' . sprintf( __( "View all posts in %s" ), $category->name ) . '" ' . $rel . '>';
 					if ( $category->parent )
-						$thelist .= get_category_parents( $category->parent, FALSE );
+						$thelist .= get_category_parents( $category->parent, false );
 					$thelist .= "$category->cat_name</a>";
 					break;
 				case '':
@@ -170,19 +261,20 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 	return apply_filters( 'the_category', $thelist, $separator, $parents );
 }
 
-/*
- * in_category() - Checks whether the current post is within a particular category
+/**
+ * Checks whether the current post is within a particular category.
  *
- * This function checks to see if the post is within the supplied category.  The categoy
- * can be specified by number or name and will be checked as a name first to allow for categories with numeric names.
- * Note: Prior to v2.5 of WordPress category names where not supported.
+ * This function checks to see if the post is within the supplied category. The
+ * category can be specified by number or name and will be checked as a name
+ * first to allow for categories with numeric names. Note: Prior to v2.5 of
+ * WordPress category names were not supported.
  *
  * @since 1.2.0
  *
- * @param int|string $category
- * @return bool true if the post is in the supplied category
+ * @param int|string $category Category ID or category name.
+ * @return bool True, if the post is in the supplied category.
 */
-function in_category( $category ) { // Check if the current post is in the given category
+function in_category( $category ) {
 	global $post;
 
 	if ( empty( $category ) )
@@ -204,10 +296,27 @@ function in_category( $category ) { // Check if the current post is in the given
 		return false;
 }
 
+/**
+ * Display the category list for the post.
+ *
+ * @since 0.71
+ *
+ * @param string $separator Optional, default is empty string. Separator for between the categories.
+ * @param string $parents Optional. How to display the parents.
+ * @param int $post_id Optional. Post ID to retrieve categories.
+ */
 function the_category( $separator = '', $parents='', $post_id = false ) {
 	echo get_the_category_list( $separator, $parents, $post_id );
 }
 
+/**
+ * Retrieve category description.
+ *
+ * @since 1.0.0
+ *
+ * @param int $category Optional. Category ID. Will use global category ID by default.
+ * @return string Category description, available.
+ */
 function category_description( $category = 0 ) {
 	global $cat;
 	if ( !$category )
@@ -216,6 +325,39 @@ function category_description( $category = 0 ) {
 	return get_term_field( 'description', $category, 'category' );
 }
 
+/**
+ * Display or retrieve the HTML dropdown list of categories.
+ *
+ * The list of arguments is below:
+ *     'show_option_all' (string) - Text to display for showing all categories.
+ *     'show_option_none' (string) - Text to display for showing no categories.
+ *     'orderby' (string) default is 'ID' - What column to use for ordering the
+ * categories.
+ *     'order' (string) default is 'ASC' - What direction to order categories.
+ *     'show_last_update' (bool|int) default is 0 - See {@link get_categories()}
+ *     'show_count' (bool|int) default is 0 - Whether to show how many posts are
+ * in the category.
+ *     'hide_empty' (bool|int) default is 1 - Whether to hide categories that
+ * don't have any posts attached to them.
+ *     'child_of' (int) default is 0 - See {@link get_categories()}.
+ *     'exclude' (string) - See {@link get_categories()}.
+ *     'echo' (bool|int) default is 1 - Whether to display or retrieve content.
+ *     'depth' (int) - The max depth.
+ *     'tab_index' (int) - Tab index for select element.
+ *     'name' (string) - The name attribute value for selected element.
+ *     'class' (string) - The class attribute value for selected element.
+ *     'selected' (int) - Which category ID is selected.
+ *
+ * The 'hierarchical' argument, which is disabled by default, will override the
+ * depth argument, unless it is true. When the argument is false, it will
+ * display all of the categories. When it is enabled it will use the value in
+ * the 'depth' argument.
+ *
+ * @since 2.1.0
+ *
+ * @param string|array $args Optional. Override default arguments.
+ * @return string HTML content only if 'echo' argument is 0.
+ */
 function wp_dropdown_categories( $args = '' ) {
 	$defaults = array(
 		'show_option_all' => '', 'show_option_none' => '',
@@ -271,6 +413,38 @@ function wp_dropdown_categories( $args = '' ) {
 	return $output;
 }
 
+/**
+ * Display or retrieve the HTML list of categories.
+ *
+ * The list of arguments is below:
+ *     'show_option_all' (string) - Text to display for showing all categories.
+ *     'orderby' (string) default is 'ID' - What column to use for ordering the
+ * categories.
+ *     'order' (string) default is 'ASC' - What direction to order categories.
+ *     'show_last_update' (bool|int) default is 0 - See {@link 
+ * walk_category_dropdown_tree()}
+ *     'show_count' (bool|int) default is 0 - Whether to show how many posts are
+ * in the category.
+ *     'hide_empty' (bool|int) default is 1 - Whether to hide categories that
+ * don't have any posts attached to them.
+ *     'use_desc_for_title' (bool|int) default is 1 - Whether to use the
+ * description instead of the category title.
+ *     'feed' - See {@link get_categories()}.
+ *     'feed_type' - See {@link get_categories()}.
+ *     'feed_image' - See {@link get_categories()}.
+ *     'child_of' (int) default is 0 - See {@link get_categories()}.
+ *     'exclude' (string) - See {@link get_categories()}.
+ *     'echo' (bool|int) default is 1 - Whether to display or retrieve content.
+ *     'current_category' (int) - See {@link get_categories()}.
+ *     'hierarchical' (bool) - See {@link get_categories()}.
+ *     'title_li' (string) - See {@link get_categories()}.
+ *     'depth' (int) - The max depth.
+ *
+ * @since 2.1.0
+ *
+ * @param string|array $args Optional. Override default arguments.
+ * @return string HTML content only if 'echo' argument is 0.
+ */
 function wp_list_categories( $args = '' ) {
 	$defaults = array(
 		'show_option_all' => '', 'orderby' => 'name',
@@ -337,6 +511,35 @@ function wp_list_categories( $args = '' ) {
 		return $output;
 }
 
+/**
+ * Display tag cloud.
+ *
+ * The text size is set by the 'smallest' and 'largest' arguments, which will
+ * use the 'unit' argument value for the CSS text size unit. The 'format'
+ * argument can be 'flat' (default), 'list', or 'array'. The flat value for the
+ * 'format' argument will separate tags with spaces. The list value for the
+ * 'format' argument will format the tags in a UL HTML list. The array value for
+ * the 'format' argument will return in PHP array type format.
+ *
+ * The 'orderby' argument will accept 'name' or 'count' and defaults to 'name'.
+ * The 'order' is the direction to sort, defaults to 'ASC' and can be 'DESC'.
+ *
+ * The 'number' argument is how many tags to return. By default, the limit will
+ * be to return the top 45 tags in the tag cloud list.
+ *
+ * The 'single_text' and 'multiple_text' arguments are used for the link title
+ * for the tag link. If the tag only has one, it will use the text in the
+ * 'single_text' or if it has more than one it will use 'multiple_text' instead.
+ *
+ * The 'exclude' and 'include' arguments are used for the {@link get_tags()}
+ * function. Only one should be used, because only one will be used and the
+ * other ignored, if they are both set.
+ *
+ * @since 2.3.0
+ *
+ * @param array|string $args Optional. Override default arguments.
+ * @return array Generated tag cloud, only if no failures and 'array' is set for the 'format' argument.
+ */
 function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
@@ -370,16 +573,33 @@ function wp_tag_cloud( $args = '' ) {
 }
 
 /**
- * Generates a tag cloud (heatmap) from provided data
+ * Generates a tag cloud (heatmap) from provided data.
  *
- * TODO: Complete
+ * The text size is set by the 'smallest' and 'largest' arguments, which will
+ * use the 'unit' argument value for the CSS text size unit. The 'format'
+ * argument can be 'flat' (default), 'list', or 'array'. The flat value for the
+ * 'format' argument will separate tags with spaces. The list value for the
+ * 'format' argument will format the tags in a UL HTML list. The array value for
+ * the 'format' argument will return in PHP array type format.
  *
- * @since 2.6
+ * The 'orderby' argument will accept 'name' or 'count' and defaults to 'name'.
+ * The 'order' is the direction to sort, defaults to 'ASC' and can be 'DESC' or
+ * 'RAND'.
  *
- * $tags = array of objects with the properties 'name', 'link', 'id', and 'count'
- * $args['format'] = 'flat' => whitespace separated, 'list' => UL, 'array' => array()
- * $args['orderby'] = 'name', 'count'
-*/
+ * The 'number' argument is how many tags to return. By default, the limit will
+ * be to return the entire tag cloud list.
+ *
+ * The 'single_text' and 'multiple_text' arguments are used for the link title
+ * for the tag link. If the tag only has one, it will use the text in the
+ * 'single_text' or if it has more than one it will use 'multiple_text' instead.
+ *
+ * @todo Complete functionality.
+ * @since 2.3.0
+ *
+ * @param array $tags List of tags.
+ * @param string|array $args Optional, override default arguments.
+ * @return string
+ */
 function wp_generate_tag_cloud( $tags, $args = '' ) {
 	global $wp_rewrite;
 	$defaults = array(
@@ -460,12 +680,26 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 // Helper functions
 //
 
+/**
+ * Retrieve HTML list content for category list.
+ *
+ * @uses Walker_Category to create HTML list content.
+ * @since 2.1.0
+ * @see Walker_Category::walk() for parameters and return description.
+ */
 function walk_category_tree() {
 	$walker = new Walker_Category;
 	$args = func_get_args();
 	return call_user_func_array(array( &$walker, 'walk' ), $args );
 }
 
+/**
+ * Retrieve HTML dropdown (select) content for category list.
+ *
+ * @uses Walker_CategoryDropdown to create HTML dropdown content.
+ * @since 2.1.0
+ * @see Walker_CategoryDropdown::walk() for parameters and return description.
+ */
 function walk_category_dropdown_tree() {
 	$walker = new Walker_CategoryDropdown;
 	$args = func_get_args();
@@ -476,6 +710,15 @@ function walk_category_dropdown_tree() {
 // Tags
 //
 
+/**
+ * Retrieve the link to the tag.
+ *
+ * @since 2.3.0
+ * @uses apply_filters() Calls 'tag_link' with tag link and tag ID as parameters.
+ *
+ * @param int $tag_id Tag (term) ID.
+ * @return string
+ */
 function get_tag_link( $tag_id ) {
 	global $wp_rewrite;
 	$taglink = $wp_rewrite->get_tag_permastruct();
@@ -495,18 +738,59 @@ function get_tag_link( $tag_id ) {
 	return apply_filters( 'tag_link', $taglink, $tag_id );
 }
 
+/**
+ * Retrieve the tags for a post.
+ *
+ * @since 2.3.0
+ * @uses apply_filters() Calls 'get_the_tags' filter on the list of post tags.
+ *
+ * @param int $id Post ID.
+ * @return array
+ */
 function get_the_tags( $id = 0 ) {
 	return apply_filters( 'get_the_tags', get_the_terms( $id, 'post_tag' ) );
 }
 
+/**
+ * Retrieve the tags for a post formatted as a string.
+ *
+ * @since 2.3.0
+ * @uses apply_filters() Calls 'the_tags' filter on string list of tags.
+ *
+ * @param string $before Optional. Before tags.
+ * @param string $sep Optional. Between tags.
+ * @param string $after Optional. After tags.
+ * @return string
+ */
 function get_the_tag_list( $before = '', $sep = '', $after = '' ) {
 	return apply_filters( 'the_tags', get_the_term_list( 0, 'post_tag', $before, $sep, $after ) );
 }
 
+/**
+ * Retrieve the tags for a post.
+ *
+ * @since 2.3.0
+ *
+ * @param string $before Optional. Before list.
+ * @param string $sep Optional. Separate items using this.
+ * @param string $after Optional. After list.
+ * @return string
+ */
 function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
 	return the_terms( 0, 'post_tag', $before, $sep, $after );
 }
 
+/**
+ * Retrieve the terms of the taxonomy that are attached to the post.
+ *
+ * This function can only be used within the loop.
+ *
+ * @since 2.5.0
+ *
+ * @param int $id Post ID. Is not optional.
+ * @param string $taxonomy Taxonomy name.
+ * @return array|bool False on failure. Array of term objects on success.
+ */
 function get_the_terms( $id = 0, $taxonomy ) {
 	global $post;
 
@@ -528,6 +812,18 @@ function get_the_terms( $id = 0, $taxonomy ) {
 	return $terms;
 }
 
+/**
+ * Retrieve terms as a list with specified format.
+ *
+ * @since 2.5.0
+ *
+ * @param int $id Term ID.
+ * @param string $taxonomy Taxonomy name.
+ * @param string $before Optional. Before list.
+ * @param string $sep Optional. Separate items using this.
+ * @param string $after Optional. After list.
+ * @return string
+ */
 function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after = '' ) {
 	$terms = get_the_terms( $id, $taxonomy );
 
@@ -549,6 +845,18 @@ function get_the_term_list( $id = 0, $taxonomy, $before = '', $sep = '', $after 
 	return $before . join( $sep, $term_links ) . $after;
 }
 
+/**
+ * Display the terms in a list.
+ *
+ * @since 2.5.0
+ *
+ * @param int $id Term ID.
+ * @param string $taxonomy Taxonomy name.
+ * @param string $before Optional. Before list.
+ * @param string $sep Optional. Separate items using this.
+ * @param string $after Optional. After list.
+ * @return null|bool False on WordPress error. Returns null when displaying.
+ */
 function the_terms( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 	$return = get_the_term_list( $id, $taxonomy, $before, $sep, $after );
 	if ( is_wp_error( $return ) )
@@ -558,15 +866,16 @@ function the_terms( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 }
 
 /**
- * Check if the current post has the given tag
+ * Check if the current post has the given tag.
  *
- * @package WordPress
- * @since 2.6
+ * This function is only for use within the WordPress Loop.
+ *
+ * @since 2.6.0
  *
  * @uses wp_get_object_terms() Gets the tags.
  *
- * @param string|int|array $tag Optional. The tag name/id/slug or array of them to check for
- * @return bool True if the current post has the given tag, or any tag, if no tag specified
+ * @param string|int|array $tag Optional. The tag name/id/slug or array of them to check for.
+ * @return bool True if the current post has the given tag, or any tag, if no tag specified.
  */
 function has_tag( $tag = '' ) {
 	global $post;
