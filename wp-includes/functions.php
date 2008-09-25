@@ -2231,9 +2231,9 @@ function wp_explain_nonce( $action ) {
  */
 function wp_nonce_ays( $action ) {
 	$title = __( 'WordPress Failure Notice' );
-	$html = wp_specialchars( wp_explain_nonce( $action ) ) . '</p>';
+	$html = wp_specialchars( wp_explain_nonce( $action ) );
 	if ( wp_get_referer() )
-		$html .= "<p><a href='" . remove_query_arg( 'updated', clean_url( wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+		$html .= "</p><p><a href='" . remove_query_arg( 'updated', clean_url( wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
 	wp_die( $html, $title);
 }
 
