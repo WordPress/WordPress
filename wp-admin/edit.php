@@ -10,10 +10,10 @@
 require_once('admin.php');
 
 // Handle bulk actions
-if ( isset($_GET['action']) && $_GET['action'] != -1 && isset($_GET['doaction']) ) {
+if ( isset($_GET['action']) && $_GET['action'] != -1 ) {
 	switch ( $_GET['action'] ) {
 		case 'delete':
-			if ( isset($_GET['post']) ) {
+			if ( isset($_GET['post']) && isset($_GET['doaction']) ) {
 				check_admin_referer('bulk-posts');
 				foreach( (array) $_GET['post'] as $post_id_del ) {
 					$post_del = & get_post($post_id_del);
@@ -32,14 +32,28 @@ if ( isset($_GET['action']) && $_GET['action'] != -1 && isset($_GET['doaction'])
 			}
 			break;
 		case 'edit':
-			// TODO: Decide what to do here - add bulk edit feature, or just disallow if >1 post selected
+			if ( isset($_GET['post']) ) {
+				check_admin_referer('bulk-posts');
+				$_GET['post_status'] = $_GET['_status'];
+	
+				if ( -1 == $_GET['post_author'] )
+					unset($_GET['post_author']);
+	
+				$done = bulk_edit_posts($_GET);
+			}
 			break;
 	}
+
 	$sendback = wp_get_referer();
 	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('post-new.php');
 	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
-
+	if ( isset($done) ) {
+		$done['upd'] = count( $done['upd'] );
+		$done['skip'] = count( $done['skip'] );
+		$sendback = add_query_arg( $done, $sendback );
+		unset($done);
+	}
 	wp_redirect($sendback);
 	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
@@ -78,6 +92,23 @@ else
 		<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
 	</p>
 </form>
+
+<?php if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
+<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
+<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
+endif; ?>
+
+<?php if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
+<div id="message" class="updated fade"><p>
+<?php printf( __ngettext( '%d post updated.', '%d posts updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
+unset($_GET['upd']);
+	
+	if ( isset($_GET['skip']) && (int) $_GET['skip'] ) {
+		printf( __ngettext( ' %d post not updated. Somebody is editing it.', ' %d posts not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
+		unset($_GET['skip']);
+	} ?>
+</p></div>
+<?php } ?>
 
 <div class="wrap">
 
@@ -154,14 +185,7 @@ unset( $status_links );
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
-<?php endif;
-
-if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
-endif;
-?>
-
+<?php endif; ?>
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 
 <ul class="view-switch">
@@ -189,7 +213,7 @@ if ( $page_links )
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-posts'); ?>
 <?php
 if ( !is_singular() ) {
@@ -242,6 +266,8 @@ do_action('restrict_manage_posts');
 <?php include( 'edit-post-rows.php' ); ?>
 
 </form>
+
+<?php inline_edit_row( 'post' ); ?>
 
 <div id="ajax-response"></div>
 

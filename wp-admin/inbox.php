@@ -31,7 +31,7 @@ endif;
 <option value="" selected><?php _e('Actions'); ?></option>
 <option value="archive"><?php _e('Archive'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 </div>
 <br class="clear" />
 </div>

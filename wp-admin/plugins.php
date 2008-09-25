@@ -331,7 +331,7 @@ function print_plugins_table($plugins, $context = '') {
 			<option value="" selected><?php _e('Actions'); ?></option>
 			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
 		</select>
-		<input type="submit" name="doaction" value="<?php _e('Apply'); ?>" class="button-secondary action" />
+		<input type="submit" name="doaction_active" value="<?php _e('Apply'); ?>" class="button-secondary action" />
 	</div>
 </div>
 <br class="clear" />
@@ -356,7 +356,7 @@ function print_plugins_table($plugins, $context = '') {
 			<option value="delete-selected"><?php _e('Delete'); ?></option>
 <?php endif; ?>
 		</select>
-		<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
+		<input type="submit" value="<?php _e('Apply'); ?>" name="doaction_recent" class="button-secondary action" />
 		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
 	</div>
 </div>

@@ -622,8 +622,14 @@ function inline_edit_row( $type ) {
 	$hidden_count = empty($hidden[0]) ? 0 : count($hidden);
 	$col_count = count($columns) - $hidden_count;
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
-	?>
-	<tr title="<?php _e('Double-click to cancel'); ?>" id="inline-edit" style="display: none"><td colspan="<?php echo $col_count; ?>">
+	$can_publish = current_user_can('publish_posts'); ?>
+
+<form method="get" action=""><table style="display: none"><tbody id="inlineedit">
+	<?php
+	$bulk = 0;
+	while ( $bulk < 2 ) { ?>
+	
+	<tr title="<?php _e('Double-click to cancel'); ?>" id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 	<?php
 	foreach($columns as $column_name=>$column_display_name) {
 		$class = "class=\"$column_name column-$column_name quick-edit-div\"";
@@ -640,7 +646,7 @@ function inline_edit_row( $type ) {
 
 			case 'modified':
 			case 'date':
-			?>
+				if ( ! $bulk ) { ?>
 				<div <?php echo $attributes; ?> title="<?php _e('Timestamp'); ?>">
 					<div class="title"><?php _e('Timestamp'); ?></div>
 					<div class="in">
@@ -648,10 +654,19 @@ function inline_edit_row( $type ) {
 					</div>
 				</div>
 				<?php
+				}
 				break;
 
 			case 'title':
 				$attributes = "class=\"$type-title column-title quick-edit-div\"" . $style; ?>
+				<?php if ( $bulk ) { ?>
+				<div <?php echo $attributes; ?> id="bulk-title-div" title="<?php $is_page ? _e('Selected pages') : _e('Selected posts'); ?>">
+					<div class="title"><?php $is_page ? _e('Selected pages') : _e('Selected posts'); ?></div>
+					<div class="in">
+					<div id="bulk-titles"></div>
+					</div>
+				</div>
+				<?php } else { ?>
 				<div <?php echo $attributes ?>>
 					<div class="title"><?php _e('Title'); ?></div>
 					<div class="in">
@@ -660,25 +675,36 @@ function inline_edit_row( $type ) {
 					<label title="<?php _e('Slug'); ?>"><?php _e('Slug'); ?><input type="text" name="post_name" value="" /></label></div>
 					</div>
 				</div>
+				<?php } ?>
+
 				<?php if ( $is_page ) { ?>
 				<div class="parent quick-edit-div" title="<?php _e('Page Parent'); ?>">
 					<div class="title"><?php _e('Page Parent'); ?></div>
 					<div class="in">
 					<select name="post_parent">
+						<?php if ( $bulk ) { ?>
+						<option value=""><?php _e('- No Change -'); ?></option>
+						<?php } ?>
 						<option value="0"><?php _e('Main Page (no parent)'); ?></option>
 						<?php parent_dropdown(); ?>
 					</select>
 					</div>
 				</div>
+
 				<div class="template quick-edit-div" title="<?php _e('Page Template'); ?>">
 					<div class="title"><?php _e('Page Template'); ?></div>
 					<div class="in">
 					<select name="page_template">
-						<option value='default'><?php _e('Default Template'); ?></option>
+						<?php if ( $bulk ) { ?>
+						<option value=""><?php _e('- No Change -'); ?></option>
+						<?php } ?>
+						<option value="default"><?php _e('Default Template'); ?></option>
 						<?php page_template_dropdown() ?>
 					</select>
 					</div>
 				</div>
+
+				<?php if ( ! $bulk ) { ?>
 				<div class="order quick-edit-div" title="<?php _e('Page Order'); ?>">
 					<div class="title"><?php _e('Page Order'); ?></div>
 					<div class="in">
@@ -686,10 +712,12 @@ function inline_edit_row( $type ) {
 					</div>
 				</div>
 				<?php }
+				}
 
 				break;
 
 			case 'categories': ?>
+				<?php if ( ! $bulk ) { ?>
 				<div <?php echo $attributes ?> title="<?php _e('Categories'); ?>">
 					<div class="title"><?php _e('Categories'); ?>
 					<span class="catshow"><?php _e('(expand)'); ?></span>
@@ -698,28 +726,42 @@ function inline_edit_row( $type ) {
 						<?php wp_category_checklist(); ?>
 					</ul>
 				</div>
-				<?php
+				<?php }
 				break;
 
 			case 'tags': ?>
+				<?php if ( ! $bulk ) { ?>
 				<div <?php echo $attributes ?> title="<?php _e('Tags'); ?>">
 					<div class="title"><?php _e('Tags'); ?></div>
 					<div class="in">
 					<textarea cols="22" rows="1" type="text" name="tags_input" class="tags_input"></textarea>
 					</div>
 				</div>
-				<?php
+				<?php }
 				break;
 
 			case 'comments':
-				$attributes = 'class="comments column-comments num quick-edit-div"' . $style; ?>
+				?>
 				<div <?php echo $attributes ?> title="<?php _e('Comments and Pings'); ?>">
 					<div class="title"><?php _e('Comments and Pings'); ?></div>
 					<div class="in">
+					<?php if ( $bulk ) { ?>
+					<select name="comment_status">
+						<option value=""><?php _e('- No Change -'); ?></option>
+						<option value="open"><?php _e('Allow Comments'); ?></option>
+						<option value="closed"><?php _e('Disallow Comments'); ?></option>
+					</select>
+					<select name="ping_status">
+						<option value=""><?php _e('- No Change -'); ?></option>
+						<option value="open"><?php _e('Allow Pings'); ?></option>
+						<option value="closed"><?php _e('Disallow Pings'); ?></option>
+					</select>
+					<?php } else { ?>
 					<label><input type="checkbox" name="comment_status" value="open" />
 					<?php _e('Allow Comments'); ?></label><br />
 					<label><input type="checkbox" name="ping_status" value="open" />
 					<?php _e('Allow Pings'); ?></label>
+					<?php } ?>
 					</div>
 				</div>
 				<?php
@@ -731,20 +773,24 @@ function inline_edit_row( $type ) {
 				<div <?php echo $attributes ?> title="<?php _e('Author'); ?>">
 					<div class="title"><?php _e('Author'); ?></div>
 					<div class="in">
-					<?php wp_dropdown_users( array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'selected' => $post->post_author) ); ?>
+					<?php 
+					$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors');
+					if ( $bulk ) $users_opt['show_option_none'] = __('- No Change -');
+					wp_dropdown_users( $users_opt ); ?>
 					</div>
 				</div>
 				<?php } ?>
 
+				<?php if ( ! $bulk ) { ?>
 				<div class="password quick-edit-div" title="<?php _e('Password'); ?>">
 					<div class="title"><?php _e('Password'); ?></div>
 					<div class="in">
-					<input type="text" name="post_password" value="<?php the_post_password(); ?>" />
+					<input type="text" name="post_password" value="" />
 					<label title="<?php _e('Privacy'); ?>">
 					<input type="checkbox" name="keep_private" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php echo $is_page ? __('Keep this page private') : __('Keep this post private'); ?></label>
 					</div>
 				</div>
-				<?php
+				<?php }
 				break;
 
 			case 'status': ?>
@@ -752,17 +798,23 @@ function inline_edit_row( $type ) {
 					<div class="title"><?php _e('Status'); ?></div>
 					<div class="in">
 					<select name="_status">
-						<?php if ( current_user_can('publish_posts') ) { // Contributors only get "Unpublished" and "Pending Review" ?>
-						<option value='publish'><?php _e('Published') ?></option>
-						<option value='future'><?php _e('Scheduled') ?></option>
+						<?php if ( $bulk ) { ?>
+						<option value=""><?php _e('- No Change -'); ?></option>
+							<?php if ( $can_publish ) { ?>
+							<option value="private"><?php _e('Private') ?></option>
+							<?php } ?>
 						<?php } ?>
-						<option value='pending'><?php _e('Pending Review') ?></option>
-						<option value='draft'><?php _e('Unpublished') ?></option>
+						<?php if ( $can_publish ) { // Contributors only get "Unpublished" and "Pending Review" ?>
+						<option value="publish"><?php _e('Published') ?></option>
+						<option value="future"><?php _e('Scheduled') ?></option>
+						<?php } ?>
+						<option value="pending"><?php _e('Pending Review') ?></option>
+						<option value="draft"><?php _e('Unpublished') ?></option>
 					</select>
 					</div>
 				</div>
 
-				<?php if ( current_user_can( 'edit_others_posts' ) && ! $is_page ) { ?>
+				<?php if ( ! $is_page && ! $bulk && current_user_can( 'edit_others_posts' ) ) { ?>
 				<div class="sticky quick-edit-div" <?php echo $style; ?> title="<?php _e('Sticky') ?>">
 					<div class="title"><?php _e('Sticky'); ?></div>
 					<div class="in">
@@ -773,24 +825,12 @@ function inline_edit_row( $type ) {
 				<?php }
 				break;
 
-			case 'control_view': ?>
-				<div><a href="<?php the_permalink(); ?>" rel="permalink" class="view"><?php _e('View'); ?></a></div>
-				<?php
-				break;
+			default:
+				if ( $bulk )
+					do_action('bulk_edit_custom_box', $column_name, $type);
+				else
+					do_action('quick_edit_custom_box', $column_name, $type);
 
-			case 'control_edit': ?>
-				<div><?php if ( current_user_can('edit_post',$post->ID) ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></div>
-				<?php
-				break;
-
-			case 'control_delete': ?>
-				<div><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete'>" . __('Delete') . "</a>"; } ?></div>
-				<?php
-				break;
-
-			default: ?>
-				<div><?php do_action('manage_posts_custom_column', $column_name, $post->ID); ?></div>
-				<?php
 				break;
 		}
 	} ?>
@@ -799,10 +839,14 @@ function inline_edit_row( $type ) {
 	<div class="quick-edit-save">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel"><?php _e('Cancel'); ?></a>
 		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-secondary save"><?php _e('Save'); ?></a>
-		<?php wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ) ?>
+		<?php if ( ! $bulk ) wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
 		<input type="hidden" name="post_view" value="<?php echo $m; ?>" />
 	</div>
 	</td></tr>
+<?php
+	$bulk++;
+	} ?>
+	</tbody></table></form>
 <?php
 }
 
@@ -844,31 +888,31 @@ function get_inline_data($post) {
 		$title = __('(no title)');
 
 	echo '
-<div id="inline_' . $post->ID . '">
-	<input type="hidden" name="" class="post_title" value="' . $title . '" />
-	<input type="hidden" name="" class="post_name" value="' . $post->post_name . '" />
-	<input type="hidden" name="" class="post_author" value="' . $post->post_author . '" />
-	<input type="hidden" name="" class="comment_status" value="' . $post->comment_status . '" />
-	<input type="hidden" name="" class="ping_status" value="' . $post->ping_status . '" />
-	<input type="hidden" name="" class="_status" value="' . $post->post_status . '" />
-	<input type="hidden" name="" class="jj" value="' . mysql2date( 'd', $post->post_date ) . '" />
-	<input type="hidden" name="" class="mm" value="' . mysql2date( 'm', $post->post_date ) . '" />
-	<input type="hidden" name="" class="aa" value="' . mysql2date( 'Y', $post->post_date ) . '" />
-	<input type="hidden" name="" class="hh" value="' . mysql2date( 'H', $post->post_date ) . '" />
-	<input type="hidden" name="" class="mn" value="' . mysql2date( 'i', $post->post_date ) . '" />
-	<input type="hidden" name="" class="post_password" value="' . wp_specialchars($post->post_password, 1) . '" />';
+<div class="hidden" id="inline_' . $post->ID . '">
+	<div class="post_title">' . $title . '</div>
+	<div class="post_name">' . $post->post_name . '</div>
+	<div class="post_author">' . $post->post_author . '</div>
+	<div class="comment_status">' . $post->comment_status . '</div>
+	<div class="ping_status">' . $post->ping_status . '</div>
+	<div class="_status">' . $post->post_status . '</div>
+	<div class="jj">' . mysql2date( 'd', $post->post_date ) . '</div>
+	<div class="mm">' . mysql2date( 'm', $post->post_date ) . '</div>
+	<div class="aa">' . mysql2date( 'Y', $post->post_date ) . '</div>
+	<div class="hh">' . mysql2date( 'H', $post->post_date ) . '</div>
+	<div class="mn">' . mysql2date( 'i', $post->post_date ) . '</div>
+	<div class="post_password">' . wp_specialchars($post->post_password, 1) . '</div>';
 
 	if( $post->post_type == 'page' )
 		echo '
-	<input type="hidden" name="" class="post_parent" value="' . $post->post_parent . '" />
-	<input type="hidden" name="" class="page_template" value="' . wp_specialchars(get_post_meta( $post->ID, '_wp_page_template', true ), 1) . '" />
-	<input type="hidden" name="" class="menu_order" value="' . $post->menu_order . '" />';
+	<div class="post_parent">' . $post->post_parent . '</div>
+	<div class="page_template">' . wp_specialchars(get_post_meta( $post->ID, '_wp_page_template', true ), 1) . '</div>
+	<div class="menu_order">' . $post->menu_order . '</div>';
 	
 	if( $post->post_type == 'post' )
 		echo '
-	<input type="hidden" name="" class="tags_input" value="' . wp_specialchars( str_replace( ',', ', ', get_tags_to_edit($post->ID) ), 1) . '" />
-	<input type="hidden" name="" class="post_category" value="' . implode( ',', wp_get_post_categories( $post->ID ) ) . '" />
-	<input type="hidden" name="" class="sticky" value="' . (is_sticky($post->ID) ? 'sticky' : '') . '" />';
+	<div class="tags_input">' . wp_specialchars( str_replace( ',', ', ', get_tags_to_edit($post->ID) ), 1) . '</div>
+	<div class="post_category">' . implode( ',', wp_get_post_categories( $post->ID ) ) . '</div>
+	<div class="sticky">' . (is_sticky($post->ID) ? 'sticky' : '') . '</div>';
 		
 	echo '</div>';
 }
@@ -1035,7 +1079,6 @@ function _post_row($a_post, $pending_comments, $mode) {
 		break;
 
 		case 'comments':
-			$attributes = 'class="comments column-comments num"' . $style;
 		?>
 		<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 		<?php
@@ -1210,7 +1253,6 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		break;
 
 	case 'comments':
-		$attributes = 'class="comments column-comments num"' . $style;
 		?>
 		<td <?php echo $attributes ?>><div class="post-com-count-wrapper">
 		<?php

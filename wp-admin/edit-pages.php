@@ -9,33 +9,52 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-// Handle bulk deletes
-if ( isset($_GET['action']) && isset($_GET['post']) && isset($_GET['doaction']) ) {
-	check_admin_referer('bulk-pages');
-	if ( $_GET['action'] == 'delete' ) {
-		foreach( (array) $_GET['post'] as $post_id_del ) {
-			$post_del = & get_post($post_id_del);
-
-			if ( !current_user_can('delete_page', $post_id_del) )
-				wp_die( __('You are not allowed to delete this page.') );
-
-			if ( $post_del->post_type == 'attachment' ) {
-				if ( ! wp_delete_attachment($post_id_del) )
-					wp_die( __('Error in deleting...') );
-			} else {
-				if ( !wp_delete_post($post_id_del) )
-					wp_die( __('Error in deleting...') );
+// Handle bulk actions
+if ( isset($_GET['action']) && $_GET['action'] != -1 ) {
+	switch ( $_GET['action'] ) {
+		case 'delete':
+			if ( isset($_GET['post']) && isset($_GET['doaction']) ) {
+				check_admin_referer('bulk-pages');
+				foreach( (array) $_GET['post'] as $post_id_del ) {
+					$post_del = & get_post($post_id_del);
+		
+					if ( !current_user_can('delete_page', $post_id_del) )
+						wp_die( __('You are not allowed to delete this page.') );
+		
+					if ( $post_del->post_type == 'attachment' ) {
+						if ( ! wp_delete_attachment($post_id_del) )
+							wp_die( __('Error in deleting...') );
+					} else {
+						if ( !wp_delete_post($post_id_del) )
+							wp_die( __('Error in deleting...') );
+					}
+				}
 			}
-		}
-
-		$sendback = wp_get_referer();
-		if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('page-new.php');
-		elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
-		$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
-
-		wp_redirect($sendback);
-		exit();
+			break;
+		case 'edit':
+			if ( isset($_GET['post']) ) {
+				check_admin_referer('bulk-pages');
+				$_GET['post_status'] = $_GET['_status'];
+	
+				if ( -1 == $_GET['post_author'] )
+					unset($_GET['post_author']);
+	
+				$done = bulk_edit_posts($_GET);
+			}
+			break;
 	}
+	$sendback = wp_get_referer();
+	if (strpos($sendback, 'page.php') !== false) $sendback = admin_url('page-new.php');
+	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+	if ( isset($done) ) {
+		$done['upd'] = count( $done['upd'] );
+		$done['skip'] = count( $done['skip'] );
+		$sendback = add_query_arg( $done, $sendback );
+		unset($done);
+	}
+	wp_redirect($sendback);
+	exit();
 } elseif ( !empty($_GET['_wp_http_referer']) ) {
 	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
 	 exit;
@@ -84,6 +103,18 @@ require_once('admin-header.php');
 		<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
 	</p>
 </form>
+
+<?php if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
+<div id="message" class="updated fade"><p>
+<?php printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
+unset($_GET['upd']);
+	
+	if ( isset($_GET['skip']) && (int) $_GET['skip'] ) {
+		printf( __ngettext( ' %d page not updated. Somebody is editing it.', ' %d pages not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
+		unset($_GET['skip']);
+	} ?>
+</p></div>
+<?php } ?>
 
 <div class="wrap">
 <form id="adv-settings" action="" method="get">
@@ -175,7 +206,7 @@ if ( $page_links )
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-pages'); ?>
 </div>
 
@@ -197,11 +228,12 @@ if ($posts) {
   </tr>
   </thead>
   <tbody>
-  <?php inline_edit_row( 'page' ) ?>
   <?php page_rows($posts, $pagenum, $per_page); ?>
   </tbody>
 </table>
 </form>
+
+<?php inline_edit_row( 'page' ) ?>
 
 <div id="ajax-response"></div>
 

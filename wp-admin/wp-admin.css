@@ -2203,13 +2203,21 @@ a.togbox {
 }
 
 .inline-editor div.title {
-	padding: 2px 5px;
+	height: 18px;
+	line-height: 16px;
+	padding: 1px 5px;
 	cursor: default;
 }
 
 .inline-editor .post-title,
 .inline-editor .page-title {
 	width: 260px;
+}
+
+#bulk-edit .post-title,
+#bulk-edit .page-title {
+	width: 200px;
+	height: 179px;
 }
 
 .inline-editor .post-title .ptitle,
@@ -2258,7 +2266,7 @@ a.togbox {
 }
 
 .inline-editor .categories {
-	width: 180px;
+	width: 200px;
 }
 
 .inline-editor .categories ul.cat-checklist {
@@ -2275,7 +2283,7 @@ a.togbox {
 
 .inline-editor .categories ul.cat-hover {
 	height: 200px;
-	overflow: auto;
+	overflow-x: auto;
 }
 
 .inline-editor .categories ul.children {
@@ -2301,14 +2309,14 @@ a.togbox {
 }
 
 .inline-editor .tags {
-	width: 220px;
+	width: 200px;
 }
 
 .inline-editor textarea {
 	border-width: 1px;
 	border-style: solid;
 	height: 45px;
-	width: 200px;
+	width: 180px;
 	font-size: 11px;
 }
 
@@ -2317,8 +2325,31 @@ a.togbox {
 	width: 160px;
 }
 
+#wpbody-content .inline-editor .comments select {
+	margin-bottom: 3px;
+	width: 150px;
+}
+
+.inline-editor .parent {
+	width: 180px;
+}
+
+#wpbody-content .inline-editor .parent select {
+	width: 170px;
+}
+
 .inline-editor .quick-edit-save {
 	padding: 8px 10px;
+}
+
+#bulk-titles {
+	height: 150px;
+	overflow: auto;
+	cursor: default;
+}
+
+#bulk-titles div {
+	padding: 1px 2px;
 }
 
 /* Media library */

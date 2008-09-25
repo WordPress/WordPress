@@ -731,8 +731,15 @@ break;
 case 'inline-save':
 	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
 	
-	if ( ! isset($_POST['post_ID']) )
+	if ( ! isset($_POST['post_ID']) || ! ( $id = (int) $_POST['post_ID'] ) )
 		exit;
+
+	if ( $last = wp_check_post_lock( $id ) ) {
+		$last_user = get_userdata( $last );
+		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
+		echo '<tr><td colspan="8"><div class="error"><p>' . sprintf( $_POST['post_type'] == 'page' ? __( 'Saving is disabled: %s is currently editing this page.' ) : __( 'Saving is disabled: %s is currently editing this post.' ),	wp_specialchars( $last_user_name ) ) . '</p></div></td></tr>';
+		exit;
+	}
 	
 	inline_save_row( $_POST );
 	

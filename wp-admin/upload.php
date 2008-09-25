@@ -271,7 +271,7 @@ if ( $page_links )
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction" class="button-secondary action" />
+<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-media'); ?>
 <?php
 

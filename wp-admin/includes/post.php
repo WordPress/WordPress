@@ -177,6 +177,68 @@ function edit_post( $post_data = null ) {
 	return $post_ID;
 }
 
+function bulk_edit_posts( $post_data = null ) {
+
+	if ( empty($post_data) )
+		$post_data = &$_POST;
+
+	if ( 'page' == $post_data['post_type'] ) {
+		if ( ! current_user_can( 'edit_pages' ) )
+			wp_die( __('You are not allowed to edit pages.') );
+	} else {
+		if ( ! current_user_can( 'edit_posts' ) )
+			wp_die( __('You are not allowed to edit posts.') );
+	}
+
+	$post_IDs = array_map( intval, (array) $post_data['post'] );
+
+	if ( isset($post_data['post_category']) ) {
+		if ( is_array($post_data['post_category']) && ! empty($post_data['post_category']) )
+			$new_cats = array_map( absint, $post_data['post_category'] );
+		else
+			unset($post_data['post_category']);
+	}
+
+	if ( isset($post_data['tags_input']) ) {
+		if ( ! empty($post_data['tags_input']) ) {
+			$new_tags = preg_replace( '/\s*,\s*/', ',', rtrim($post_data['tags_input'], ' ,') );
+			$new_tags = explode(',', $new_tags);
+		} else {
+			unset($post_data['tags_input']);
+		}
+	}
+
+	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private' );
+	foreach ( $reset as $field ) {
+		if ( isset($post_data[$field]) && '' == $post_data[$field] )
+			unset($post_data[$field]);
+	}
+
+	$updated = $skipped = array();
+	foreach ( $post_IDs as $post_ID ) {
+
+		if ( wp_check_post_lock( $post_ID ) ) {
+			$skipped[] = $post_ID;
+			continue;
+		}
+
+		if ( isset($new_cats) ) {
+			$cats = (array) wp_get_post_categories($post_ID);
+			$post_data['post_category'] = array_unique( array_merge($cats, $new_cats) );
+		}
+
+		if ( isset($new_tags) ) {
+			$tags = wp_get_post_tags($post_ID, array('fields' => 'names'));
+			$post_data['tags_input'] = array_unique( array_merge($tags, $new_tags) );
+		}
+
+		$post_data['ID'] = $post_ID;
+		$updated[] = wp_update_post( $post_data );
+	}
+
+	return array( 'upd' => $updated, 'skip' => $skipped );
+}
+
 // Default post information to use when populating the "Write Post" form.
 function get_default_post_to_edit() {
 	if ( !empty( $_REQUEST['post_title'] ) )

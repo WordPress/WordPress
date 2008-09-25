@@ -204,7 +204,8 @@ th.check-column + th, th.check-column + td {
 	padding-left: 5px;
 }
 */
-.widefat .num {
+.widefat .num,
+.widefat .column-comments {
 	text-align: center;
 }
 

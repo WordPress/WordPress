@@ -1,33 +1,73 @@
 
 (function($) {
 inlineEdit = {
-	type : '',
-	rows : '',
 
 	init : function() {
-		var t = this, blankRow = $('#inline-edit');
+		var t = this, qeRow = $('#inline-edit'), bulkRow = $('#bulk-edit');
 
 		t.type = $('table.widefat').hasClass('page') ? 'page' : 'post';
+		t.what = '#'+t.type+'-';
 
 		// get all editable rows
 		t.rows = $('tr.iedit');
 
 		// prepare the edit row
-		blankRow.dblclick(function() { inlineEdit.toggle(this); })
-			.keyup(function(e) { if(e.which == 27) return inlineEdit.revert(this); });
+		qeRow.dblclick(function() { inlineEdit.toggle(this); })
+			.keyup(function(e) { if(e.which == 27) return inlineEdit.revert(); });
 
-		$('a.cancel', blankRow).click(function() { return inlineEdit.revert(this); });
-		$('a.save', blankRow).click(function() { return inlineEdit.save(this); });
+		bulkRow.dblclick(function() { inlineEdit.revert(); })
+			.keyup(function(e) { if (e.which == 27) return inlineEdit.revert(); });
+
+		$('a.cancel', qeRow).click(function() { return inlineEdit.revert(); });
+		$('a.save', qeRow).click(function() { return inlineEdit.save(this); });
+
+		$('a.cancel', bulkRow).click(function() { return inlineEdit.revert(); });
+		$('a.save', bulkRow).click(function() { return inlineEdit.saveBulk(); });
 
 		// add events
 		t.rows.dblclick(function() { inlineEdit.toggle(this); });
 		t.addEvents(t.rows);
+
+		$('#bulk-title-div').after(
+			$('#inline-edit div.categories').clone(),
+			$('#inline-edit div.tags').clone()
+		);
+
+		// categories expandable?
+		$('span.catshow').click(function() {
+			$('.inline-editor ul.cat-checklist').addClass("cat-hover");
+			$('.inline-editor span.cathide').show();
+			$(this).hide();
+		});
+
+		$('span.cathide').click(function() {
+			$('.inline-editor ul.cat-checklist').removeClass("cat-hover");
+			$('.inline-editor span.catshow').show();
+			$(this).hide();
+		});
+
+		$('select[name="_status"] option[value="future"]', bulkRow).remove();
+
+		$('#doaction').click(function(e){
+			if ( $('select[name="action"]').val() == 'edit' ) {
+				e.preventDefault();
+				t.setBulk();
+			} else if ( $('form#posts-filter tr.inline-editor').length > 0 ) {
+				t.revert();
+			}
+		});
+		
+		$('#post-query-submit').click(function(e){
+			if ( $('form#posts-filter tr.inline-editor').length > 0 )
+				t.revert();
+		});
+		
 	},
 
 	toggle : function(el) {
 		var t = this;
 
-		$('#'+t.type+'-'+t.getId(el)).css('display') == 'none' ? t.revert(el) : t.edit(el);
+		$(t.what+t.getId(el)).css('display') == 'none' ? t.revert() : t.edit(el);
 	},
 
 	addEvents : function(r) {
@@ -38,48 +78,66 @@ inlineEdit = {
 		});
 	},
 
-	edit : function(id) {
-		var t = this, type = t.type, old = $('tr.inline-editor').attr('id');
+	setBulk : function() {
+		var te = '', c = '';
+		this.revert();
 
-		if( typeof(id) == 'object' )
+		$('table.widefat tbody').prepend( $('#bulk-edit') );
+		$('#bulk-edit').addClass('inline-editor').show();
+
+		$('tbody th.check-column input[type="checkbox"]').each(function(i){
+			if ( $(this).attr('checked') ) {
+				var id = $(this).val();
+				c = c == '' ? ' class="alternate"' : '';
+				te += '<div'+c+'>'+$('#inline_'+id+' .post_title').text()+'</div>';
+			}
+		});
+
+		$('#bulk-titles').html(te);
+
+		// enable autocomplete for tags
+		if ( this.type == 'post' )
+			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+	},
+
+	edit : function(id) {
+		var t = this;
+		t.revert();
+
+		if ( typeof(id) == 'object' )
 			id = t.getId(id);
 
-		if ( old ) {
-			old = old.split('-')[1];
-			t.revert(old);
-		}
-
 		var fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'post_password'];
-		if ( type == 'page' ) fields.push('post_parent', 'menu_order', 'page_template');
-		if ( type == 'post' ) fields.push('tags_input');
+		if ( t.type == 'page' ) fields.push('post_parent', 'menu_order', 'page_template');
+		if ( t.type == 'post' ) fields.push('tags_input');
 
 		// add the new blank row
 		var editRow = $('#inline-edit').clone(true);
 
-		if ( $('#'+type+'-'+id).hasClass('alternate') )
+		if ( $(t.what+id).hasClass('alternate') )
 			$(editRow).addClass('alternate');
-		$('#'+type+'-'+id).hide().after(editRow);
+		$(t.what+id).hide().after(editRow);
 
 		// populate the data
 		var rowData = $('#inline_'+id);
 		for ( var f = 0; f < fields.length; f++ ) {
-			$(':input[name="'+fields[f]+'"]', editRow).val( $('.'+fields[f], rowData).val() );
+			$(':input[name="'+fields[f]+'"]', editRow).val( $('.'+fields[f], rowData).text() );
 		}
 
-		if ( $('.comment_status', rowData).val() == 'open' )
+		if ( $('.comment_status', rowData).text() == 'open' )
 			$('input[name="comment_status"]', editRow).attr("checked", "checked");
-		if ( $('.ping_status', rowData).val() == 'open' )
+		if ( $('.ping_status', rowData).text() == 'open' )
 			$('input[name="ping_status"]', editRow).attr("checked", "checked");
-		if ( $('.sticky', rowData).val() == 'sticky' )
+		if ( $('.sticky', rowData).text() == 'sticky' )
 			$('input[name="sticky"]', editRow).attr("checked", "checked");
 
 		// categories
 		var cats;
-		if ( cats = $('.post_category', rowData).val() )
-			$('ul.cat-checklist :checkbox').val(cats.split(','));
+		if ( cats = $('.post_category', rowData).text() )
+			$('ul.cat-checklist :checkbox', editRow).val(cats.split(','));
 
 		// handle the post status
-		var status = $('._status', rowData).val();
+		var status = $('._status', rowData).text();
 		if ( status != 'future' ) $('select[name="_status"] option[value="future"]', editRow).remove();
 		if ( status == 'private' ) $('input[name="keep_private"]', editRow).attr("checked", "checked");
 
@@ -99,24 +157,11 @@ inlineEdit = {
 			pageOpt.remove();
 		}
 
-		// categories expandable?
-		$('span.catshow', editRow).click(function() {
-			$('ul.cat-checklist', editRow).addClass("cat-hover");
-			$('span.cathide', editRow).show();
-			$(this).hide();
-		});
-
-		$('span.cathide', editRow).click(function() {
-			$('ul.cat-checklist', editRow).removeClass("cat-hover");
-			$('span.catshow', editRow).show();
-			$(this).hide();
-		});
-
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
 		$('.ptitle', editRow).focus();
 
 		// enable autocomplete for tags
-		if ( type == 'post' )
+		if ( t.type == 'post' )
 			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
 
 		return false;
@@ -140,25 +185,36 @@ inlineEdit = {
 
 		// make ajax request
 		$.post('admin-ajax.php', params,
-			function(html) {
-				var row = $('#'+inlineEdit.type+'-'+id);
-				$('#edit-'+id).hide();
-				html = $(html).html();
-				row.html(html).show();
-				row.animate( { backgroundColor: '#FFFBCC' }, 200)
-					 .animate( { backgroundColor: row.css('background-color') }, 500);
+			function(r) {
+				var row = $(inlineEdit.what+id);
+				$('#edit-'+id).remove();
+				row.html($(r).html()).show()
+					.animate( { backgroundColor: '#CCEEBB' }, 500)
+					.animate( { backgroundColor: '#eefee7' }, 500);
 				inlineEdit.addEvents(row);
 			}
 		);
 		return false;
 	},
 
-	revert : function(id) {
-		if ( typeof(id) == 'object' )
-			id = this.getId(id);
+	saveBulk : function() {
+		$('form#posts-filter').submit();
+	},
 
-		$('#edit-'+id).remove();
-		$('#'+this.type+'-'+id).show();
+	revert : function() {
+		var id;
+
+		if ( id = $('table.widefat tr.inline-editor').attr('id') ) {
+			if ( 'bulk-edit' == id ) {
+				$('table.widefat #bulk-edit').removeClass('inline-editor').hide();
+				$('#bulk-titles').html('');
+				$('#inlineedit').append( $('#bulk-edit') );
+			} else  {
+				$('#'+id).remove();
+				id = id.substr( id.lastIndexOf('-') + 1 );
+				$(this.what+id).show();
+			}
+		}
 
 		return false;
 	},
