@@ -156,4 +156,7 @@ do_action('admin_notices');
 if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');
 }
+
+favorite_actions();
+
 ?>
