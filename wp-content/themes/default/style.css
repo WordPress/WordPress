@@ -65,11 +65,20 @@ body {
 	text-align: center;
 	}
 
-.alt {
+.thread-alt {
 	background-color: #f8f8f8;
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-	}
+}
+.thread-even {
+	background-color: white;
+}
+.depth-1 {
+border: 1px solid #ddd;
+}
+
+.even, .alt {
+
+	border-left: 1px solid #ddd;
+}
 
 #footer {
 	background: #eee url('images/kubrickfooter.jpg') no-repeat top;
@@ -134,10 +143,13 @@ h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar
 .commentlist li, #commentform input, #commentform textarea {
 	font: 0.9em 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	}
+.commentlist li ul li {
+	font-size: 1em;
+}
 
 .commentlist li {
 	font-weight: bold;
-	}
+}
 
 .commentlist li .avatar { 
 	float: right;
@@ -488,13 +500,22 @@ select {
 	margin: 5px 5px 1px 0;
 	}
 
+#commentform {
+	margin: 5px 10px 0 0;
+	}
 #commentform textarea {
 	width: 100%;
 	padding: 2px;
 	}
-
+#respond:after {
+		content: "."; 
+	    display: block; 
+	    height: 0; 
+	    clear: both; 
+	    visibility: hidden;
+	}
 #commentform #submit {
-	margin: 0;
+	margin: 0 0 5px auto;
 	float: right;
 	}
 /* End Form Elements */
@@ -513,14 +534,20 @@ select {
 	}
 
 .commentlist li {
-	margin: 15px 0 3px;
-	padding: 5px 10px 3px;
+	margin: 15px 0 10px;
+	padding: 5px 5px 10px 10px;
 	list-style: none;
+
 	}
+.commentlist li ul li { 
+	margin-right: -5px;
+	margin-left: 10px;
+}
 
 .commentlist p {
 	margin: 10px 5px 10px 0;
-	}
+}
+.children { padding: 0; }
 
 #commentform p {
 	margin: 5px 0;
