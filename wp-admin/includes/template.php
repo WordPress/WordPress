@@ -2446,4 +2446,26 @@ function the_post_password() {
 	global $post;
 	if ( isset( $post->post_password ) ) echo attribute_escape( $post->post_password );
 }
+
+function favorite_actions() {
+	$actions = array(
+		'post-new.php' => __('Add New Post'),
+		'page-new.php' => __('Add New Page'),
+		);
+
+	$actions = apply_filters('favorite_actions', $actions);
+	echo '<form class="favorites-form" action="" method="get">';
+	echo '<p id="favorite-actions" class="favorite-actions">';
+	echo '<select name="favorite-action">';
+	foreach ( $actions as $action => $label) {
+		echo "<option value='$action'>";
+		echo $label;
+		echo "</option>\n";
+	}
+	echo '</select>';
+	echo '<input type="submit" value="' . __('Go') . '" name="doaction" id="doaction" class="button action" />';
+	echo '</p>';
+	echo '</form>';
+}
+
 ?>

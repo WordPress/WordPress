@@ -1583,6 +1583,13 @@ p.search-box .button, #widget-search .button {
 	border-style: solid;
 }
 
+p.favorite-actions {
+	position: absolute;
+	right: 15px;
+	top: 52px;
+	margin: 0;
+}
+
 #posts-filter fieldset {
 	float: left;
 	margin: 0 1.5ex 1em 0;
