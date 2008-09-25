@@ -114,7 +114,6 @@ do_action( 'dashmenu' );
 
 <ul id="adminmenu" class="wp-menu">
 
-<li class="write-new-button"><a class="button-secondary" href="post-new.php"><?php _e( 'Write New Post' ); ?></a></li>
 <?php
 
 _wp_menu_output( $menu, $submenu );
