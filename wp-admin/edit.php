@@ -9,11 +9,17 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
+$action = -1;
+if ( isset($_GET['action2']) && $_GET['action2'] != -1 )
+	$action = $_GET['action2'];
+if ( isset($_GET['action']) && $_GET['action'] != -1 )
+	$action = $_GET['action'];
+
 // Handle bulk actions
-if ( isset($_GET['action']) && $_GET['action'] != -1 ) {
-	switch ( $_GET['action'] ) {
+if ( $action != -1 ) {
+	switch ( $action ) {
 		case 'delete':
-			if ( isset($_GET['post']) && isset($_GET['doaction']) ) {
+			if ( isset($_GET['post']) &&  (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
 				check_admin_referer('bulk-posts');
 				foreach( (array) $_GET['post'] as $post_id_del ) {
 					$post_del = & get_post($post_id_del);
@@ -265,12 +271,6 @@ do_action('restrict_manage_posts');
 
 <?php include( 'edit-post-rows.php' ); ?>
 
-</form>
-
-<?php inline_edit_row( 'post' ); ?>
-
-<div id="ajax-response"></div>
-
 <div class="tablenav">
 
 <?php
@@ -278,8 +278,23 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
+<div class="alignleft">
+<select name="action2">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="edit"><?php _e('Edit'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 <br class="clear" />
 </div>
+<br class="clear" />
+</div>
+
+</form>
+
+<?php inline_edit_row( 'post' ); ?>
+
+<div id="ajax-response"></div>
 
 <br class="clear" />
 

@@ -244,7 +244,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
 		
-		$scripts->add( 'inline-edit', '/wp-admin/js/inline-edit.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080925' );
+		$scripts->add( 'inline-edit', '/wp-admin/js/inline-edit.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080926' );
 		$scripts->localize( 'inline-edit', 'inlineEditL10n', array(
 			'edit' => __('Double-click to edit')
 		) );

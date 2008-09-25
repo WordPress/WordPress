@@ -28,4 +28,9 @@ if ( have_posts() ) {
 } // end if ( have_posts() )
 ?>
 	</tbody>
+	<thead>
+	<tr>
+<?php print_column_headers('post'); ?>
+	</tr>
+	</thead>
 </table>
