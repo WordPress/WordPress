@@ -86,6 +86,11 @@ $menu[40] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 	$submenu['plugins.php'][15] = array(__('Browse'), 'install_plugins', 'plugin-install.php');
 
+$menu[45] = array( __('Help'), 'read', 'dummy.php' );
+	$submenu['dummy.php'][5]  = array( __('Documentation'), 'read', __('http://codex.wordpress.org/') );
+	$submenu['dummy.php'][10]  = array( __('Forums'), 'read', __('http://wordpress.org/support/') );
+	$submenu['dummy.php'][15]  = array( __('Feedback'), 'read', __('http://wordpress.org/support/forum/4') );
+
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php'; 
 $_wp_real_parent_file['post-new.php'] = 'edit.php';
