@@ -71,7 +71,16 @@ function get_stylesheet_uri() {
 /**
  * Retrieve localized stylesheet URI.
  *
- * {@internal Missing Long Description}}
+ * The stylesheet directory for the localized stylesheet files are located, by
+ * default, in the base theme directory. The name of the locale file will be the
+ * locale followed by '.css'. If that does not exist, then the text direction
+ * stylesheet will be checked for existence, for example 'ltr.css'.
+ *
+ * The theme may change the location of the stylesheet directory by either using
+ * the 'stylesheet_directory_uri' filter or the 'locale_stylesheet_uri' filter.
+ * If you want to change the location of the stylesheet files for the entire
+ * WordPress workflow, then change the former. If you just have the locale in a
+ * separate folder, then change the latter.
  *
  * @since 2.1.0
  * @uses apply_filters() Calls 'locale_stylesheet_uri' filter on stylesheet URI path and stylesheet directory URI.
@@ -135,7 +144,17 @@ function get_template_directory_uri() {
 /**
  * Retrieve theme data from parsed theme file.
  *
- * {@internal Missing Long Description}}
+ * The description will have the tags filtered with the following HTML elements
+ * whitelisted. The <b>'a'</b> element with the <em>href</em> and <em>title</em>
+ * attributes. The <b>abbr</b> element with the <em>title</em> attribute. The
+ * <b>acronym<b> element with the <em>title</em> attribute allowed. The
+ * <b>code</b>, <b>em</b>, and <b>strong</b> elements also allowed.
+ *
+ * The style.css file must contain theme name, theme URI, and description. The
+ * data can also contain author URI, author, template (parent template),
+ * version, status, and finally tags. Some of these are not used by WordPress
+ * administration panels, but are used by theme directory web sites which list
+ * the theme.
  *
  * @since 1.5.0
  *
@@ -209,9 +228,15 @@ function get_theme_data( $theme_file ) {
 /**
  * Retrieve list of themes with theme data in theme directory.
  *
- * {@internal Missing Long Description}}
+ * The theme is broken, if it doesn't have a parent theme and is missing either
+ * style.css and, or index.php. If the theme has a parent theme then it is
+ * broken, if it is missing style.css; index.php is optional. The broken theme
+ * list is saved in the {@link $wp_broken_themes} global, which is displayed on
+ * the theme list in the administration panels.
  *
  * @since 1.5.0
+ * @global array $wp_broken_themes Stores the broken themes.
+ * @global array $wp_themes Stores the working themes.
  *
  * @return array Theme list with theme data.
  */
@@ -574,6 +599,23 @@ function get_tag_template() {
 	return apply_filters('tag_template', $template);
 }
 
+/**
+ * Retrieve path of taxonomy template in current or parent template.
+ *
+ * Retrieves the taxonomy and term, if term is available. The template is
+ * prepended with 'taxonomy-' and followed by both the taxonomy string and
+ * the taxonomy string followed by a dash and then followed by the term.
+ *
+ * The taxonomy and term template is checked and used first, if it exists.
+ * Second, just the taxonomy template is checked, and then finally, taxonomy.php
+ * template is used. If none of the files exist, then it will fall back on to
+ * index.php.
+ *
+ * @since unknown (2.6.0 most likely)
+ * @uses apply_filters() Calls 'taxonomy_template' filter on found path.
+ *
+ * @return string
+ */
 function get_taxonomy_template() {
 	$taxonomy = get_query_var('taxonomy');
 	$term = get_query_var('term');
@@ -672,7 +714,7 @@ function get_search_template() {
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string
  */
 function get_single_template() {
 	return get_query_template('single');
@@ -793,14 +835,12 @@ function locale_stylesheet() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Start preview theme output buffer.
  *
- * {@internal Missing Long Description}}
+ * Will only preform task if the user has permissions and template and preview
+ * query variables exist.
  *
  * @since 2.5.0
- *
- * @param unknown_type $template
- * @param unknown_type $stylesheet
  */
 function preview_theme() {
 	if ( ! (isset($_GET['template']) && isset($_GET['preview'])) )
@@ -827,10 +867,30 @@ function preview_theme() {
 }
 add_action('setup_theme', 'preview_theme');
 
+/**
+ * Callback function for ob_start() to capture all links in the theme.
+ *
+ * @since unknown
+ * @access private
+ *
+ * @param string $content
+ * @return string
+ */
 function preview_theme_ob_filter( $content ) {
 	return preg_replace_callback( "|(<a.*?href=([\"']))(.*?)([\"'].*?>)|", 'preview_theme_ob_filter_callback', $content );
 }
 
+/**
+ * Manipulates preview theme links in order to control and maintain location.
+ *
+ * Callback function for preg_replace_callback() to accept and filter matches.
+ *
+ * @since unknown
+ * @access private
+ *
+ * @param array $matches
+ * @return string
+ */
 function preview_theme_ob_filter_callback( $matches ) {
 	if (
 		( false !== strpos($matches[3], '/wp-admin/') )
@@ -849,6 +909,15 @@ function preview_theme_ob_filter_callback( $matches ) {
 	return $matches[1] . attribute_escape( $link ) . $matches[4];
 }
 
+/**
+ * Switches current theme to new template and stylesheet names.
+ *
+ * @since unknown
+ * @uses do_action() Calls 'switch_theme' action on updated theme display name.
+ *
+ * @param string $template Template name
+ * @param string $stylesheet Stylesheet name.
+ */
 function switch_theme($template, $stylesheet) {
 	update_option('template', $template);
 	update_option('stylesheet', $stylesheet);
