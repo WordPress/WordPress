@@ -38,28 +38,37 @@ $top_menu[25] = array( __('Help'), 'read', 'index.php?help' ); // place holder
 $top_submenu['profile.php'][5]  = array( __('Profile'), 'read', 'profile.php' );
 
 $menu[0] = array( __('Dashboard'), 'read', 'index.php' );
+	$submenu['index.php'][5]  = array( __('Overview'), 'read', 'index.php' );
+	$submenu['index.php'][10]  = array( __('Inbox'), 'read', 'inbox.php' );
 
-$menu[5] = array( __('Content'), 'edit_posts', 'edit.php', 'wp-menu-open' );
-	$submenu['edit.php'][5]  = array( __('Posts'), 'edit_posts', 'edit.php' );
-	$submenu['edit.php'][10] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );
-	$submenu['edit.php'][15] = array( __('Media Library'), 'upload_files', 'upload.php' );
-	$submenu['edit.php'][20] = array( __('Links'), 'manage_links', 'link-manager.php' );
-	$submenu['edit.php'][25] = array( __('Pages'), 'edit_pages', 'edit-pages.php' );
+$menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'wp-menu-open' );
+	$submenu['edit.php'][5]  = array( __('Write'), 'edit_posts', 'post-new.php' );
+	//$submenu['edit.php'][10]  = array( __('Drafts'), 'edit_posts', 'edit.php?post_status=draft' );
+	$submenu['edit.php'][15]  = array( __('View All'), 'edit_posts', 'edit.php' );
+	$submenu['edit.php'][20] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
+	$submenu['edit.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
-$menu[10] = array( __('Themes'), 'switch_themes', 'themes.php' );
-	$submenu['themes.php'][5]  = array(__('Directory'), 'switch_themes', 'themes.php');
-	$submenu['themes.php'][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
+$menu[10] = array( __('Media'), 'upload_files', 'upload.php' );
+	$submenu['upload.php'][5] = array( __('Upload New'), 'upload_files', 'media-1upload.php');
+	$submenu['upload.php'][10] = array( __('View All'), 'upload_files', 'upload.php');
 
-$menu[15] = array( __('Utilities'), 'read', 'users.php' ); // placeholder - should be inbox
-	$submenu['users.php'][5]  = array( __('Inbox'), 'read', 'inbox.php' );
-	$submenu['users.php'][10] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
-	$submenu['users.php'][15] = array( __('Categories'), 'manage_categories', 'categories.php' );
-	$submenu['users.php'][20] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
-	$submenu['users.php'][25] = array( __('Users'), 'edit_users', 'users.php' );
-	$submenu['users.php'][30] = array( __('Import'), 'import', 'import.php' );
-	$submenu['users.php'][35] = array( __('Export'), 'import', 'export.php' );
+$menu[15] = array( __('Links'), 'manage_links', 'link-manager.php' );
+	$submenu['link-manager.php'][5] = array( __('Add New'), 'manage_links', 'link-add.php' );
+	$submenu['link-manager.php'][10] = array( __('View All'), 'manage_links', 'link-manager.php' );
+	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
-$menu[20] = array(__('Settings'), 'manage_options', 'options-general.php');
+$menu[20] = array( __('Pages'), 'edit_pages', 'edit-pages.php' );
+	$submenu['edit-pages.php'][5] = array( __('Write'), 'edit_pages', 'page-new.php' );
+	//$submenu['edit-pages.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-pages.php?post_status=draft' );
+	$submenu['edit-pages.php'][15] = array( __('View All'), 'edit_pages', 'edit-pages.php' );
+
+$menu[25] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );
+
+$menu[30] = array( __('Appearance'), 'switch_themes', 'themes.php' );
+	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
+	$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
+
+$menu[35] = array(__('Settings'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
 	$submenu['options-general.php'][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
@@ -68,16 +77,18 @@ $menu[20] = array(__('Settings'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][35] = array(__('Privacy'), 'manage_options', 'options-privacy.php');
 	$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
 	$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
+	$submenu['options-general.php'][50] = array( __('Users'), 'edit_users', 'users.php' );
+	$submenu['options-general.php'][55] = array( __('Import'), 'import', 'import.php' );
+	$submenu['options-general.php'][60] = array( __('Export'), 'import', 'export.php' );
 
-$menu[25] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][5]  = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][10] = array( __('Plugin Editor'), 'edit_plugins', 'plugin-editor.php' );
-	$submenu['plugins.php'][15] = array(__('Install Plugins'), 'install_plugins', 'plugin-install.php');
+$menu[40] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
+	$submenu['plugins.php'][5]  = array( __('Manage'), 'activate_plugins', 'plugins.php' );
+	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
+	$submenu['plugins.php'][15] = array(__('Browse'), 'install_plugins', 'plugin-install.php');
 
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php'; 
 $_wp_real_parent_file['post-new.php'] = 'edit.php';
-$_wp_real_parent_file['edit-comments.php'] = 'edit.php';
 
 do_action('_admin_menu');
 

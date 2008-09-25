@@ -10,7 +10,6 @@
 require_once('admin.php');
 $title = __('Create New Post');
 $parent_file = 'edit.php';
-$submenu_file = 'edit.php';
 $editing = true;
 wp_enqueue_script('autosave');
 wp_enqueue_script('post');
