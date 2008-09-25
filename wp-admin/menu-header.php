@@ -120,4 +120,13 @@ _wp_menu_output( $menu, $submenu );
 do_action( 'adminmenu' );
 
 ?>
+<li>
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+	<p id="search" class="the-search-box">
+		<label class="hidden" for="tag-search-input"><?php _e( 'Search' ); ?></label>
+		<input type="text" size="15" id="tag-search-input" class="search-input" name="s" value="<?php the_search_query(); ?>" />
+		<input type="submit" value="<?php _e( 'Search' ); ?>" class="button" />
+	</p>
+</form>
+</li>
 </ul>
