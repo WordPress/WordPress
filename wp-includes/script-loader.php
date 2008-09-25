@@ -244,7 +244,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
 		
-		$scripts->add( 'inline-edit', '/wp-admin/js/inline-edit.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080920' );
+		$scripts->add( 'inline-edit', '/wp-admin/js/inline-edit.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080925' );
 		$scripts->localize( 'inline-edit', 'inlineEditL10n', array(
 			'edit' => __('Double-click to edit')
 		) );
@@ -302,7 +302,7 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20080829' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20080925' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );
@@ -312,7 +312,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css' ); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20080925' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20080709' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css' );
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css' );
