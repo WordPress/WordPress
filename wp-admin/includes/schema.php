@@ -456,6 +456,7 @@ function populate_roles_270() {
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'install_plugins' );
+		$role->add_cap( 'update_themes' );
 	}
 }
 

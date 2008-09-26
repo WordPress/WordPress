@@ -15,6 +15,6 @@ $wp_version = '2.7-hemorrhage';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 8921;
+$wp_db_version = 8989;
 
 ?>

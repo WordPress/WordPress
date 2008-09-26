@@ -62,6 +62,57 @@ function do_plugin_upgrade($plugin) {
 }
 
 /**
+ * Theme upgrade display.
+ *
+ * @since 2.5
+ *
+ * @param string $plugin Plugin
+ */
+function do_theme_upgrade($theme) {
+	global $wp_filesystem;
+
+	$url = wp_nonce_url('update.php?action=upgrade-theme&theme=' . urlencode($theme), 'upgrade-plugin_' . urlencode($theme));
+	if ( false === ($credentials = request_filesystem_credentials($url)) )
+		return;
+
+	if ( ! WP_Filesystem($credentials) ) {
+		$error = true;
+		if ( is_object($wp_filesystem) && $wp_filesystem->errors->get_error_code() )
+			$error = $wp_filesystem->errors;
+		request_filesystem_credentials($url, '', $error); //Failed to connect, Error and request again
+		return;
+	}
+
+	echo '<div class="wrap">';
+	echo '<h2>' . __('Upgrade Theme') . '</h2>';
+	if ( $wp_filesystem->errors->get_error_code() ) {
+		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
+			show_message($message);
+		echo '</div>';
+		return;
+	}
+
+	//TODO: Is theme currently active?
+	$was_current = false; //is_plugin_active($plugin); //Check now, It'll be deactivated by the next line if it is
+
+	$result = wp_update_theme($theme, 'show_message');
+
+	if ( is_wp_error($result) ) {
+		show_message($result);
+		show_message( __('Installation Failed') );
+	} else {
+		//Result is the new plugin file relative to WP_PLUGIN_DIR
+		show_message( __('Theme upgraded successfully') );
+		if( $result && $was_current ){
+			show_message(__('Setting theme as Current'));
+			//TODO: Actually set it as active again.
+			//echo '<iframe style="border:0" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $result, 'activate-plugin_' . $result) .'"></iframe>';
+		}
+	}
+	echo '</div>';
+}
+
+/**
  * Display upgrade WordPress for downloading latest or upgrading automatically form.
  *
  * @since 2.7
@@ -144,15 +195,17 @@ function do_core_upgrade() {
 
 if ( isset($_GET['action']) ) {
 	$plugin = isset($_GET['plugin']) ? trim($_GET['plugin']) : '';
-
-	if ( 'upgrade-plugin' == $_GET['action'] ) {
+	$theme = isset($_REQUEST['theme']) ? urldecode($_REQUEST['theme']) : '';
+	$action = isset($_GET['action']) ? $_GET['action'] : '';
+	
+	if ( 'upgrade-plugin' == $action ) {
 		check_admin_referer('upgrade-plugin_' . $plugin);
 		$title = __('Upgrade Plugin');
 		$parent_file = 'plugins.php';
 		require_once('admin-header.php');
 		do_plugin_upgrade($plugin);
 		include('admin-footer.php');
-	} elseif ('activate-plugin' == $_GET['action'] ) {
+	} elseif ('activate-plugin' == $action ) {
 		check_admin_referer('activate-plugin_' . $plugin);
 		if( ! isset($_GET['failure']) && ! isset($_GET['success']) ) {
 			wp_redirect( 'update.php?action=activate-plugin&failure=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] );
@@ -182,18 +235,25 @@ wp_admin_css( 'colors', true );
 			include(WP_PLUGIN_DIR . '/' . $plugin);
 		}
 		echo "</body></html>";
-	} elseif ( 'upgrade-core' == $_GET['action'] ) {
+	} elseif ( 'upgrade-core' == $action ) {
 		$title = __('Upgrade WordPress');
 		$parent_file = 'index.php';
 		require_once('admin-header.php');
 		core_upgrade_preamble();
 		include('admin-footer.php');
-	} elseif ( 'do-core-upgrade' ) {
+	} elseif ( 'do-core-upgrade' == $action ) {
 		check_admin_referer('upgrade-core');
 		$title = __('Upgrade WordPress');
 		$parent_file = 'index.php';
 		require_once('admin-header.php');
 		do_core_upgrade();
+		include('admin-footer.php');
+	} elseif ( 'upgrade-theme' == $action ) {	
+		check_admin_referer('upgrade-theme_' . $theme);
+		$title = __('Upgrade Theme');
+		$parent_file = 'themes.php';
+		require_once('admin-header.php');
+		do_theme_upgrade($theme);
 		include('admin-footer.php');
 	}
 }

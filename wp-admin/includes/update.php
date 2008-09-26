@@ -170,7 +170,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	// Copy new version of plugin into place.
 	$result = copy_dir($working_dir, $plugins_dir);
 	if ( is_wp_error($result) ) {
-		//$wp_filesystem->delete($working_dir, true); //TODO: Uncomment? This DOES mean that the new files are available in the upgrade folder if it fails.
+		$wp_filesystem->delete($working_dir, true);
 		return $result;
 	}
 
@@ -192,6 +192,127 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	return  $folder . '/' . $pluginfiles[0];
 }
+
+function wp_update_theme($theme, $feedback = '') {
+	global $wp_filesystem;
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	// Is an update available?
+	$current = get_option( 'update_themes' );
+	if ( !isset( $current->response[ $theme ] ) )
+		return new WP_Error('up_to_date', __('The theme is at the latest version.'));
+
+	$r = $current->response[ $theme ];
+	
+	$themes = get_themes();
+	foreach ( (array) $themes as $this_theme ) {
+		if ( $this_theme['Stylesheet'] == $theme ) {
+			$theme_directory = preg_replace('!^/themes/!i', '', $this_theme['Stylesheet Dir']);
+			break;
+		}
+	}
+	unset($themes);
+
+	if ( empty($theme_directory) )
+		return new WP_Error('theme_non_existant', __('Theme does not exist.'));
+
+	// Is a filesystem accessor setup?
+	if ( ! $wp_filesystem || ! is_object($wp_filesystem) )
+		WP_Filesystem();
+
+	if ( ! is_object($wp_filesystem) )
+		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
+
+	if ( $wp_filesystem->errors->get_error_code() )
+		return new WP_Error('fs_error', __('Filesystem error'), $wp_filesystem->errors);
+
+	//Get the base plugin folder
+	$themes_dir = $wp_filesystem->wp_themes_dir();
+	if ( empty($themes_dir) )
+		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress Theme directory.'));
+
+	//And the same for the Content directory.
+	$content_dir = $wp_filesystem->wp_content_dir();
+	if( empty($content_dir) )
+		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
+
+	$themes_dir = trailingslashit( $themes_dir );
+	$content_dir = trailingslashit( $content_dir );
+
+	if ( empty($r->package) )
+		return new WP_Error('no_package', __('Upgrade package not available.'));
+
+	// Download the package
+	apply_filters('update_feedback', sprintf(__('Downloading update from %s'), $r['package']));
+	$download_file = download_url($r['package']);
+
+	if ( is_wp_error($download_file) )
+		return new WP_Error('download_failed', __('Download failed.'), $download_file->get_error_message());
+
+	$working_dir = $content_dir . 'upgrade/' . basename($theme_directory);
+
+	// Clean up working directory
+	if ( $wp_filesystem->is_dir($working_dir) )
+		$wp_filesystem->delete($working_dir, true);
+
+	apply_filters('update_feedback', __('Unpacking the update'));
+	// Unzip package to working directory
+	$result = unzip_file($download_file, $working_dir);
+
+	// Once extracted, delete the package
+	unlink($download_file);
+
+	if ( is_wp_error($result) ) {
+		$wp_filesystem->delete($working_dir, true);
+		return $result;
+	}
+
+	//TODO: Is theme currently active? If so, set default theme
+	/*
+	if ( is_plugin_active($plugin) ) {
+		//Deactivate the plugin silently, Prevent deactivation hooks from running.
+		apply_filters('update_feedback', __('Deactivating the plugin'));
+		deactivate_plugins($plugin, true);
+	}*/
+
+	// Remove the existing plugin.
+	apply_filters('update_feedback', __('Removing the old version of the theme'));
+	$deleted = $wp_filesystem->delete($themes_dir . $theme_directory, true);
+
+	if ( ! $deleted ) {
+		$wp_filesystem->delete($working_dir, true);
+		return new WP_Error('delete_failed', __('Could not remove the old plugin'));
+	}
+
+	apply_filters('update_feedback', __('Installing the latest version'));
+	// Copy new version of plugin into place.
+	$result = copy_dir($working_dir, $themes_dir);
+	if ( is_wp_error($result) ) {
+		$wp_filesystem->delete($working_dir, true);
+		return $result;
+	}
+
+	//Get a list of the directories in the working directory before we delete it, We need to know the new folder for the plugin
+	//$filelist = array_keys( $wp_filesystem->dirlist($working_dir) );
+
+	// Remove working directory
+	$wp_filesystem->delete($working_dir, true);
+
+	// Force refresh of plugin update information
+	delete_option('update_themes');
+
+	/*if( empty($filelist) )
+		return false; //We couldnt find any files in the working dir, therefor no plugin installed? Failsafe backup.
+
+	$folder = $filelist[0];
+	$plugin = get_plugins('/' . $folder); //Ensure to pass with leading slash
+	$pluginfiles = array_keys($plugin); //Assume the requested plugin is the first in the list
+
+	return  $folder . '/' . $pluginfiles[0];*/
+}
+
 
 function wp_update_core($feedback = '') {
 	global $wp_filesystem;
