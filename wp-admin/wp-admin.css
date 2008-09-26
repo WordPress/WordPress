@@ -631,22 +631,13 @@ a.view-comment-post-link {
 	text-decoration: none;
 }
 
-#wphead #viewsite {
+#wphead #breadcrumb {
 	position: absolute;
 	margin-top: 12px;
 	margin-left: 10px;
-}
-#wphead #viewsite a {
-	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 16px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	padding: 3px 4px;
-	display: block;
 	letter-spacing: normal;
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 ul#adminmenu li.write-new-button {

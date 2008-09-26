@@ -67,7 +67,8 @@ if ( $action != -1 ) {
 	 exit;
 }
 
-$title = __('Posts');
+if ( empty($title) )
+	$title = __('View All Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit');
@@ -122,37 +123,6 @@ unset($_GET['upd']);
 </div></div>
 <?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 </div></form>
-
-<h2><?php
-if ( is_single() ) {
-	printf(__('Comments on %s'), apply_filters( "the_title", $post->post_title));
-} else {
-	$post_status_label = _c('Posts|manage posts header');
-	if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) )
-        $post_status_label = $post_stati[$_GET['post_status']][1];
-   	//TODO: Unreachable code: $post_listing_pageable is undefined, Similar code in upload.php
-	//if ( $post_listing_pageable && !is_archive() && !is_search() ) 
-	//	$h2_noun = is_paged() ? sprintf(__( 'Previous %s' ), $post_status_label) : sprintf(__('Latest %s'), $post_status_label);
-	//else
-		$h2_noun = $post_status_label;
-	// Use $_GET instead of is_ since they can override each other
-	$h2_author = '';
-	$_GET['author'] = isset($_GET['author']) ? (int) $_GET['author'] : 0;
-	if ( $_GET['author'] != 0 ) {
-		if ( $_GET['author'] == '-' . $user_ID ) { // author exclusion
-			$h2_author = ' ' . __('by other authors');
-		} else {
-			$author_user = get_userdata( get_query_var( 'author' ) );
-			$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
-		}
-	}
-	$h2_search = isset($_GET['s'])   && $_GET['s']   ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( get_search_query() ) ) : '';
-	$h2_cat    = isset($_GET['cat']) && $_GET['cat'] ? ' ' . sprintf( __('in &#8220;%s&#8221;'), single_cat_title('', false) ) : '';
-	$h2_tag    = isset($_GET['tag']) && $_GET['tag'] ? ' ' . sprintf( __('tagged with &#8220;%s&#8221;'), single_tag_title('', false) ) : '';
-	$h2_month  = isset($_GET['m'])   && $_GET['m']   ? ' ' . sprintf( __('during %s'), single_month_title(' ', false) ) : '';
-	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s (<a href="%7$s">Add New</a>)|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month, 'post-new.php' );
-}
-?></h2>
 
 <form id="posts-filter" action="" method="get">
 <ul class="subsubsub">

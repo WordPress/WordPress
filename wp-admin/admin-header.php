@@ -30,13 +30,13 @@ if ( in_array( $the_current_page, $min_width_pages ) ) {
 }
 
 get_admin_page_title();
-
+$title = wp_specialchars( strip_tags( $title ) );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-<title><?php bloginfo('name') ?> &rsaquo; <?php echo wp_specialchars( strip_tags( $title ) ); ?> &#8212; WordPress</title>
+<title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
 <?php
 
 wp_admin_css( 'css/global' );
@@ -80,7 +80,7 @@ unset($hook_suffixes, $hook_suffix);
 <div id="sidemenu-bg"><br /></div>
 <div id="wpcontent">
 <div id="wphead">
-<h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="viewsite"><a href="<?php echo trailingslashit( get_option('home') ); ?>"><?php _e('Visit Site') ?></a></span></h1>
+<h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="breadcrumb"><a href="index.php"><?php _e('Dashboard') ?></a> &rsaquo; <?php echo $title ?></span></h1>
 </div>
 
 <?php
