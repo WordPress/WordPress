@@ -157,6 +157,7 @@ if ( is_single() ) {
 <form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
+if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts( 'post', 'readable' );
 $class = empty( $_GET['post_status'] ) ? ' class="current"' : '';
@@ -177,6 +178,7 @@ foreach ( $post_stati as $status => $label ) {
 }
 echo implode( ' |</li>', $status_links ) . '</li>';
 unset( $status_links );
+endif;
 ?>
 </ul>
 

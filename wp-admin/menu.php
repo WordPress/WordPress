@@ -43,7 +43,7 @@ $menu[0] = array( __('Dashboard'), 'read', 'index.php' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'wp-menu-open' );
 	$submenu['edit.php'][5]  = array( __('Write'), 'edit_posts', 'post-new.php' );
-	//$submenu['edit.php'][10]  = array( __('Drafts'), 'edit_posts', 'edit.php?post_status=draft' );
+	$submenu['edit.php'][10]  = array( __('Drafts'), 'edit_posts', 'edit-post-drafts.php' );
 	$submenu['edit.php'][15]  = array( __('View All'), 'edit_posts', 'edit.php' );
 	$submenu['edit.php'][20] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
 	$submenu['edit.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );

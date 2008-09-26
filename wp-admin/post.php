@@ -61,7 +61,7 @@ function redirect_post($post_ID = '') {
 	} elseif (!empty($referredby) && $referredby != $referer) {
 		$location = $_POST['referredby'];
 		$location = remove_query_arg('_wp_original_http_referer', $location);
-		if ( false !== strpos($location, 'edit.php') )
+		if ( false !== strpos($location, 'edit.php') || false !== strpos($location, 'edit-post-drafts.php') )
 			$location = add_query_arg('posted', $post_ID, $location);
 		elseif ( false !== strpos($location, 'wp-admin') )
 			$location = "post-new.php?posted=$post_ID";
