@@ -594,13 +594,14 @@ function get_admin_page_parent( $parent = '' ) {
 			$parent = $_wp_real_parent_file[$parent];
 		return $parent;
 	}
-
+/*
 	if ( !empty ( $parent_file ) ) {
 		if ( isset( $_wp_real_parent_file[$parent_file] ) )
 			$parent_file = $_wp_real_parent_file[$parent_file];
 
 		return $parent_file;
 	}
+*/
 
 	if ( $pagenow == 'admin.php' && isset( $plugin_page ) ) {
 		foreach ( $menu as $parent_menu ) {
