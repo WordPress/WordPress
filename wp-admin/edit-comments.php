@@ -96,6 +96,21 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 }
 ?>
 <div class="wrap">
+
+<form id="adv-settings" action="" method="get">
+<div id="show-settings" class="hide-if-no-js"><a href="#edit_settings" id="show-settings-link"><?php _e('Advanced Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="hide-if-js"><?php _e('Hide Options') ?></a></div>
+
+<div id="edit-settings" class="hide-if-js hide-if-no-js">
+<div id="edit-settings-wrap">
+<h5><?php _e('Show on screen') ?></h5>
+<div class="metabox-prefs">
+<?php manage_columns_prefs('comment') ?>
+<br class="clear" />
+</div></div>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+</div></form>
+
 <form id="posts-filter" action="" method="get">
 <h2><?php _e('Manage Comments'); ?></h2>
 
@@ -208,13 +223,9 @@ if ($comments) {
 ?>
 <table class="widefat">
 <thead>
-  <tr>
-    <th scope="col" class="check-column"><input type="checkbox" /></th>
-    <th scope="col" class="comment-column"><?php _e('Comment') ?></th>
-	<th scope="col" class="author-column"><?php _e('Author') ?></th>
-    <th scope="col" class="date-column"><?php _e('Submitted') ?></th>
-    <th scope="col" class="response-column"><?php _e('In Response To This Post') ?></th>
-  </tr>
+	<tr>
+<?php print_column_headers('comment'); ?>
+	</tr>
 </thead>
 <tbody id="the-comment-list" class="list:comment">
 <?php

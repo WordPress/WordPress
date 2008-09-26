@@ -192,27 +192,6 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 
-	// Edit Settings
-	$('#show-settings-link').click(function () {
-		$('#edit-settings').slideDown('normal', function(){
-			$('#show-settings-link').hide();
-			$('#hide-settings-link').show();
-			
-		});
-		$('#show-settings').addClass('show-settings-opened');
-		return false;
-	});
-	
-	$('#hide-settings-link').click(function () {
-		$('#edit-settings').slideUp('normal', function(){
-			$('#hide-settings-link').hide();
-			$('#show-settings-link').show();
-			$('#show-settings').removeClass('show-settings-opened');
-		});
-		
-		return false;
-	});
-
 	// Custom Fields
 	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
 		if ( jQuery.isFunction( autosave_update_post_ID ) ) {

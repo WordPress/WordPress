@@ -508,11 +508,6 @@ input.readonly {
 	background: url(../images/xit.gif) no-repeat -10px 0;
 }
 
-#the-comment-list .comment a {
-	border-bottom-color: #ababab;
-	color: #666;
-}
-
 #update-nag, .plugin-update {
 	background-color: #fffeeb;
 	border-bottom-color: #ccc;

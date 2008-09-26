@@ -231,6 +231,8 @@ commentReply = {
 };
 
 $(document).ready(function(){
+	columns.init('comment');
+
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
 

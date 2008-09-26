@@ -512,20 +512,20 @@ p.pagenav {
 	font-weight: bold;
 }
 
-.comment-column p {
+.column-comment p {
 	margin-top: 0;
 }
 
-.comment-column {
+.column-comment {
 	width: 50%;
 }
 
-.author-column,
-.response-column {
+.column-author,
+.column-response {
 	width: 20%;
 }
 
-.author-column img {
+.column-author img {
 	float: left;
 	margin-right: 10px;
 	margin-top: 3px;
@@ -1665,15 +1665,6 @@ ul.view-switch li.current {
 	border-top-right-radius: 3px;
 }
 
-
-#the-comment-list .comment a {
-	padding-bottom: 1px;
-	text-decoration: none;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-
 #the-comment-list td.comment p.comment-author {
 	margin-top: 0;
 	margin-left: 0;
@@ -1693,8 +1684,10 @@ ul.view-switch li.current {
 }
 
 #the-comment-list td.comment {
+/*
 	width: 65%;
 	max-width: 460px;
+*/
 	word-wrap: break-word;
 }
 
