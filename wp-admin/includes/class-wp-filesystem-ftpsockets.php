@@ -22,21 +22,6 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 	var $permission = null;
 
-	var $filetypes = array(
-							'php' => FTP_ASCII,
-							'css' => FTP_ASCII,
-							'txt' => FTP_ASCII,
-							'js'  => FTP_ASCII,
-							'html'=> FTP_ASCII,
-							'htm' => FTP_ASCII,
-							'xml' => FTP_ASCII,
-
-							'jpg' => FTP_BINARY,
-							'png' => FTP_BINARY,
-							'gif' => FTP_BINARY,
-							'bmp' => FTP_BINARY
-							);
-
 	function WP_Filesystem_ftpsockets($opt = '') {
 		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
@@ -105,23 +90,27 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		if( ! $this->exists($file) )
 			return false;
 
-		if( empty($type) ){
-			$extension = substr(strrchr($file, '.'), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_AUTOASCII;
-		}
+		if( empty($type) )
+			$type = FTP_AUTOASCII;
 		$this->ftp->SetType($type);
+
 		$temp = wp_tempnam( $file );
+
 		if ( ! $temphandle = fopen($temp, 'w+') )
 			return false;
+
 		if ( ! $this->ftp->fget($temphandle, $file) ) {
 			fclose($temphandle);
 			unlink($temp);
 			return ''; //Blank document, File does exist, Its just blank.
 		}
+
 		fseek($temphandle, 0); //Skip back to the start of the file being written to
 		$contents = '';
+
 		while ( ! feof($temphandle) )
 			$contents .= fread($temphandle, 8192);
+
 		fclose($temphandle);
 		unlink($temp);
 		return $contents;
@@ -132,10 +121,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function put_contents($file, $contents, $type = '' ) {
-		if( empty($type) ){
-			$extension = substr(strrchr($file, '.'), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_AUTOASCII;
-		}
+		if( empty($type) )
+			$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
+
 		$this->ftp->SetType($type);
 
 		$temp = wp_tempnam( $file );
@@ -143,9 +131,12 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			unlink($temp);
 			return false;
 		}
+
 		fwrite($temphandle, $contents);
 		fseek($temphandle, 0); //Skip back to the start of the file being written to
+
 		$ret = $this->ftp->fput($file, $temphandle);
+
 		fclose($temphandle);
 		unlink($temp);
 		return $ret;

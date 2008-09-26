@@ -22,21 +22,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 	var $permission = null;
 
-	var $filetypes = array(
-							'php'=>FTP_ASCII,
-							'css'=>FTP_ASCII,
-							'txt'=>FTP_ASCII,
-							'js'=>FTP_ASCII,
-							'html'=>FTP_ASCII,
-							'htm'=>FTP_ASCII,
-							'xml'=>FTP_ASCII,
-
-							'jpg'=>FTP_BINARY,
-							'png'=>FTP_BINARY,
-							'gif'=>FTP_BINARY,
-							'bmp'=>FTP_BINARY
-							);
-
 	function WP_Filesystem_FTPext($opt='') {
 		$this->method = 'ftpext';
 		$this->errors = new WP_Error();
@@ -103,20 +88,22 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	function get_contents($file, $type = '', $resumepos = 0 ){
-		if( empty($type) ){
-			$extension = substr(strrchr($file, "."), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
-		}
+		if( empty($type) )
+			$type = FTP_BINARY;
+
 		$temp = tmpfile();
 		if ( ! $temp )
 			return false;
+
 		if( ! @ftp_fget($this->link, $temp, $file, $type, $resumepos) )
 			return false;
+
 		fseek($temp, 0); //Skip back to the start of the file being written to
 		$contents = '';
-		while (!feof($temp)) {
+
+		while ( ! feof($temp) )
 			$contents .= fread($temp, 8192);
-		}
+
 		fclose($temp);
 		return $contents;
 	}
@@ -124,16 +111,18 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return explode("\n", $this->get_contents($file));
 	}
 	function put_contents($file, $contents, $type = '' ) {
-		if( empty($type) ) {
-			$extension = substr(strrchr($file, "."), 1);
-			$type = isset($this->filetypes[ $extension ]) ? $this->filetypes[ $extension ] : FTP_ASCII;
-		}
+		if( empty($type) )
+			$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
+
 		$temp = tmpfile();
 		if ( ! $temp )
 			return false;
+
 		fwrite($temp, $contents);
 		fseek($temp, 0); //Skip back to the start of the file being written to
+
 		$ret = @ftp_fput($this->link, $file, $temp, $type);
+
 		fclose($temp);
 		return $ret;
 	}

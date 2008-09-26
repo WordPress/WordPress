@@ -166,6 +166,20 @@ class WP_Filesystem_Base {
 		$newmode .= $mode[6] + $mode[7] + $mode[8];
 		return $newmode;
 	}
+
+	/**
+	* Determines if the string provided contains binary characters.
+	*
+	* @since 2.7
+	* @package WordPress
+	* @subpackage WP_Filesystem
+	*
+	* @param string $text String to test against
+	*
+	*/
+	function is_binary( $text ) {
+		return (bool) preg_match('|[^\x20-\x7E]|', $text); //chr(32)..chr(127)
+	}
 }
 
 ?>
