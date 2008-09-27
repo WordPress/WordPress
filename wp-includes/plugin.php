@@ -658,7 +658,7 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 		if ( !isset($function[0]->wp_filter_id) ) {
 			if ( false === $priority )
 				return false;
-			$count = count((array)$wp_filter[$tag][$priority]);
+			$count = isset($wp_filter[$tag]) ? count((array)$wp_filter[$tag][$priority]) : 0;
 			$function[0]->wp_filter_id = $count;
 			$obj_idx .= $count;
 			unset($count);
