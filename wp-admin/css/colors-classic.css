@@ -78,8 +78,12 @@ strong .post-com-count span {
 
 #post-body ul#category-tabs li.ui-tabs-selected, .button-secondary,
 #quicktags, #login form .submit input, .search-box .button,
-#ed_reply_toolbar {
+#ed_reply_toolbar, .favorite-action, #favorite-first {
 	background-color: #8ebddc !important;
+}
+
+#favorite-actions .favorite-action {
+	border-top-color: #8ebddc;
 }
 
 ul#widget-list li.widget-list-item h4.widget-title {
@@ -209,7 +213,14 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #666;
 }
 
-.submit input, .button, .button-secondary, #login form .submit input, div.dashboard-widget-submit input, #edit-slug-buttons a.save {
+.submit input,
+.button,
+.button-secondary,
+#login form .submit input,
+div.dashboard-widget-submit input,
+#edit-slug-buttons a.save,
+.favorite-action,
+#favorite-first {
 	background-color: #e5e5e5;
 	color: #07273e;
 	border-color: #a3a3a3;

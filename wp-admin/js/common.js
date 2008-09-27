@@ -76,6 +76,8 @@ jQuery( function($) {
 	$('#adminmenu li.wp-has-submenu > a').click( function() { return menuToggle( $(this).siblings('ul') ); } );
 
 	$('#dashmenu li.wp-has-submenu').bind( 'mouseenter mouseleave', function() { return menuToggle( $(this).children('ul'), 'toggle' ); } );
+	
+	$('#favorite-actions').bind( 'mouseenter mouseleave', function(){$('#favorite-action').slideToggle('fast')} );
 
 } );
 

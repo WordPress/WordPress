@@ -1579,13 +1579,6 @@ p.search-box .button, #widget-search .button {
 	border-style: solid;
 }
 
-p.favorite-actions {
-	position: absolute;
-	right: 15px;
-	top: 52px;
-	margin: 0;
-}
-
 #posts-filter fieldset {
 	float: left;
 	margin: 0 1.5ex 1em 0;
@@ -2496,4 +2489,48 @@ abbr.required {
 
 .find-box-search label {
 	padding-right: 6px;
+}
+
+/* favorite-actions */
+#favorite-actions {
+	position: absolute;
+	right: 15px;
+	top: 55px;
+	width: 130px;
+	z-index: 10;
+}
+
+#favorite-first {
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 4px 8px;
+}
+
+.favorite-action {
+	margin: -3px 0 0;
+	padding: 4px 8px;
+	border-width: 1px;
+	border-top-width: 3px;
+	border-style: solid;
+	-moz-border-radius: 0 0 4px 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-khtml-border-bottom-right-radius: 4px;
+	-khtml-border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+#favorite-action {
+	padding: 0;
+	margin: 0;
+	display: none;
+}
+#favorite-actions a {
+	padding: 4px 0;
+	text-decoration: none;
 }
