@@ -231,7 +231,7 @@ $messages[3] = __('Error saving media attachment.');
 if ( isset($_GET['message']) && (int) $_GET['message'] )
 	$message = $messages[$_GET['message']];
 
-if ( $message ) { ?>
+if ( isset($message) ) { ?>
 <div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 }

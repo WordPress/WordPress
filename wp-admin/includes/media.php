@@ -939,7 +939,7 @@ function media_upload_form( $errors = null ) {
 		$flash = false;
 
 	$flash = apply_filters('flash_uploader', $flash);
-	$post_id = intval($_REQUEST['post_id']);
+	$post_id = isset($_REQUEST['post_id']) ? intval($_REQUEST['post_id']) : 0;
 
 ?>
 <div id="media-upload-notice">

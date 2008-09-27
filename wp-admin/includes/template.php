@@ -141,7 +141,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	return apply_filters('cat_row', $output);
 }
 
-function link_cat_row( $category ) {
+function link_cat_row( $category, $name_override = false ) {
 	global $class;
 
 	if ( !$category = get_term( $category, 'link_category' ) )

@@ -345,7 +345,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="descriptiondiv" class="stuffbox">
 <h3><label for="link_description"><?php _e('Description') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo $link->link_description; ?>" id="link_description" /><br />
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo isset($link->link_description) ? $link->link_description : ''; ?>" id="link_description" /><br />
     <?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?>
 </div>
 </div>
