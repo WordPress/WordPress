@@ -15,9 +15,6 @@
 /** Load WordPress Bootstrap */
 require_once('../wp-load.php');
 
-/** Load Snoopy HTTP Client class */
-require_once( ABSPATH . 'wp-includes/class-snoopy.php');
-
 if ( !get_option('use_linksupdate') )
 	wp_die(__('Feature disabled.'));
 
@@ -30,31 +27,27 @@ $link_uris = urlencode( join( $link_uris, "\n" ) );
 
 $query_string = "uris=$link_uris";
 
-$http_request  = "POST /updated-batch/ HTTP/1.0\r\n";
-$http_request .= "Host: api.pingomatic.com\r\n";
-$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_option('blog_charset')."\r\n";
-$http_request .= 'Content-Length: ' . strlen($query_string) . "\r\n";
-$http_request .= 'User-Agent: WordPress/' . $wp_version . "\r\n";
-$http_request .= "\r\n";
-$http_request .= $query_string;
+$options = array();
+$options['timeout'] = 30;
+$options['body'] = $query_string;
 
-$response = '';
-if ( false !== ( $fs = @fsockopen('api.pingomatic.com', 80, $errno, $errstr, 5) ) ) {
-	fwrite($fs, $http_request);
-	while ( !feof($fs) )
-		$response .= fgets($fs, 1160); // One TCP-IP packet
-	fclose($fs);
+$options['headers'] = array(
+	'content-type' => 'application/x-www-form-urlencoded; charset='.get_option('blog_charset'),
+	'content-length' => strlen( $query_string ),
+);
 
-	$response = explode("\r\n\r\n", $response, 2);
-	$body = trim( $response[1] );
-	$body = str_replace(array("\r\n", "\r"), "\n", $body);
+$response = wp_remote_get('http://api.pingomatic.com/updated-batch/', $options);
 
-	$returns = explode("\n", $body);
+if ( $response['response']['code'] != 200 )
+	wp_die(__('Request Failed.'));
 
-	foreach ($returns as $return) :
-		$time = substr($return, 0, 19);
-		$uri = preg_replace('/(.*?) | (.*?)/', '$2', $return);
-		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->links SET link_updated = %s WHERE link_url = %s", $time, $uri) );
-	endforeach;
-}
+$body = str_replace(array("\r\n", "\r"), "\n", $response['body']);
+$returns = explode("\n", $body);
+
+foreach ($returns as $return) :
+	$time = substr($return, 0, 19);
+	$uri = preg_replace('/(.*?) | (.*?)/', '$2', $return);
+	$wpdb->query( $wpdb->prepare("UPDATE $wpdb->links SET link_updated = %s WHERE link_url = %s", $time, $uri) );
+endforeach;
+
 ?>
