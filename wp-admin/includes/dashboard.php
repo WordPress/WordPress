@@ -66,14 +66,6 @@ function wp_dashboard_setup() {
 		array( 'widget_id' => 'dashboard_quick_press' )
 	);
 
-	// Inbox Widget
-	wp_register_sidebar_widget( 'dashboard_inbox', __( 'Inbox' ), 'wp_dashboard_inbox',
-		array( 'all_link' => 'inbox.php', 'height' => 'double' )
-	);
-	wp_register_widget_control( 'dashboard_inbox', __( 'Inbox' ), 'wp_dashboard_empty_control',
-		array( 'widget_id' => 'dashboard_inbox' )
-	);
-
 	// Incoming Links Widget
 	if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
 		$update = true;
@@ -171,10 +163,9 @@ function wp_dashboard_setup() {
 
 	// Hard code the sidebar's widgets and order
 	$dashboard_widgets = array();
-	$dashboard_widgets[] = 'dashboard_inbox';
 	$dashboard_widgets[] = 'dashboard_quick_press';
-/*
 	$dashboard_widgets[] = 'dashboard_recent_comments';
+/*
 	$dashboard_widgets[] = 'dashboard_incoming_links';
 	$dashboard_widgets[] = 'dashboard_primary';
 	if ( current_user_can( 'activate_plugins' ) )
@@ -446,71 +437,6 @@ jQuery( quickPressLoad );
 /* ]]> */
 </script>
 <?php
-}
-
-
-function wp_dashboard_inbox( $sidebar_args ) {
-	extract( $sidebar_args, EXTR_SKIP );
-
-	echo $before_widget;
-
-	echo $before_title;
-	echo $widget_name;
-	echo $after_title;
-
-?>
-
-	<script type="text/javascript">
-		jQuery( function($) {
-			$('#inbox-filter').submit( function() { return false; } )
-				.find( ':button' ).click( function() {
-					var done = $(':checked').size().toString(), txt = (done == '1') ? '<?php _e(' item archived'); ?>' : '<?php _e(' items archived'); ?>';
-					$(':checked').parent().slideUp( 'normal', function() {
-						$('.inbox-count').text( $('#inbox-filter li:visible').size().toString() );
-						$('#inbox-message').addClass('updated');
-						$('#inbox-message').text(done+txt+" (This feature isn't enabled in this prototype)");
-					} );
-				} );
-		} );
-	</script>
-
-	<form id="inbox-filter" action="" method="get">
-		<p class="actions"><input type="button" value="Archive" name="archive" class="button"></p>
-		<div id="inbox-message"></div>
-		<br class="clear" />
-		
-		<ul>
-
-<?php	$crazy_posts = array( '', 'some post', 'a post', 'my cool post' ); foreach ( wp_get_inbox_items() as $k => $item ) : // crazyhorse ?>
-
-			<li id="message-<?php echo $k; ?>">
-				<input type="checkbox" name="messages[]" value="<?php echo $k; ?>" class="checkbox" />
-				<p><?php
-					if ( $item->href )
-						echo "<a href='$item->href' class='no-crazy'>";
-					echo wp_specialchars( $item->text );
-					if ( strlen( $item->text ) > 180 ) // crazyhorse
-						echo '<br/><span class="inbox-more">more&hellip;</span>';
-					if ( $item->href )
-						echo '</a>';
-				?><br />
-				-- <cite><?php
-					echo $item->from; 
-					if ( 'comment' == $item->type ) // crazyhorse
-						echo " on &quot;<a href='#' class='no-crazy'>{$crazy_posts[$item->parent]}</a>&quot;";
-				?></cite>, <?php echo "$item->date, $item->time"; ?>
-				</p>
-				<br class="clear" />
-			</li>
-
-<?php	endforeach; ?>
-
-		</ul>
-	</form>
-
-<?php
-
-	echo $after_widget;
 }
 
 /**

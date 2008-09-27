@@ -22,10 +22,6 @@
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 
-$inbox_num = count( wp_get_inbox_items() );
-$awaiting_mod = wp_count_comments();
-$awaiting_mod = $awaiting_mod->moderated;
-
 $top_menu = $top_submenu = $menu = $submenu = array();
 
 $top_menu[5]  = array( __('My Account'), 'read', 'profile.php' );
@@ -38,8 +34,6 @@ $top_menu[25] = array( __('Help'), 'read', 'index.php?help' ); // place holder
 $top_submenu['profile.php'][5]  = array( __('Profile'), 'read', 'profile.php' );
 
 $menu[0] = array( __('Dashboard'), 'read', 'index.php' );
-	$submenu['index.php'][5]  = array( __('Overview'), 'read', 'index.php' );
-	$submenu['index.php'][10]  = array( __('Inbox'), 'read', 'inbox.php' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'wp-menu-open' );
 	$submenu['edit.php'][5]  = array( __('Write'), 'edit_posts', 'post-new.php' );
