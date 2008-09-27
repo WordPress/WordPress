@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Hello_Dolly
+ */
 /*
 Plugin Name: Hello Dolly
 Plugin URI: http://wordpress.org/#
@@ -8,7 +11,7 @@ Version: 1.5
 Author URI: http://ma.tt/
 */
 
-// These are the lyrics to Hello Dolly
+/** These are the lyrics to Hello Dolly */
 $lyrics = "Hello, Dolly
 Well, hello, Dolly
 It's so nice to have you back where you belong
