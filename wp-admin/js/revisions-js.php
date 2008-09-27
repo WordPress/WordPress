@@ -1,7 +1,9 @@
 <?php
+
 if ( !defined( 'ABSPATH' ) )
 	exit;
 
+/** @ignore */
 function dvortr( $str ) {
 	return strtr(
 		$str,
