@@ -1,13 +1,21 @@
 <?php
+/**
+ * BackPress script procedural API.
+ *
+ * @package BackPress
+ * @since r16
+ */
 
 /**
- * Prints script tags in document head
+ * Prints script tags in document head.
  *
- * Called by admin-header.php and by wp_head hook. Since it is called by wp_head on every page load,
- * the function does not instantiate the WP_Scripts object unless script names are explicitly passed.
- * Does make use of already instantiated $wp_scripts if present.
- * Use provided wp_print_scripts hook to register/enqueue new scripts.
+ * Called by admin-header.php and by wp_head hook. Since it is called by wp_head
+ * on every page load, the function does not instantiate the WP_Scripts object
+ * unless script names are explicitly passed. Does make use of already
+ * instantiated $wp_scripts if present. Use provided wp_print_scripts hook to
+ * register/enqueue new scripts.
  *
+ * @since r16
  * @see WP_Scripts::print_scripts()
  */
 function wp_print_scripts( $handles = false ) {

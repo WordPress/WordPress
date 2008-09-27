@@ -23,6 +23,7 @@
 | - Technology Consulting                                                   |
 | - Oursourcing (highly qualified programmers and graphic designers)        |
 '---------------------------------------------------------------------------'
+ */
 
 /**
  * POP Before SMTP Authentication Class
@@ -42,7 +43,6 @@
  * @package PHPMailer
  * @author Richard Davey
  */
-
 class POP3
 {
   /**

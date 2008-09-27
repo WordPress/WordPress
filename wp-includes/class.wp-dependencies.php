@@ -1,5 +1,21 @@
 <?php
+/**
+ * BackPress Scripts enqueue.
+ *
+ * These classes were refactored from the WordPress WP_Scripts and WordPress
+ * script enqueue API.
+ *
+ * @package BackPress
+ * @since r74
+ */
 
+/**
+ * BackPress enqueued dependiences class.
+ *
+ * @package BackPress
+ * @uses _WP_Dependency
+ * @since r74
+ */
 class WP_Dependencies {
 	var $registered = array();
 	var $queue = array();

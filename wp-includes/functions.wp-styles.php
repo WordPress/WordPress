@@ -1,5 +1,19 @@
 <?php
+/**
+ * BackPress styles procedural API.
+ *
+ * @package BackPress
+ * @since r79
+ */
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since r79
+ *
+ * @param mixed $handles See {@link WP_Styles::do_items()} for information.
+ * @return mixed See {@link WP_Styles::do_items()} for information.
+ */
 function wp_print_styles( $handles = false ) {
 	do_action( 'wp_print_styles' );
 	if ( '' === $handles ) // for wp_head
