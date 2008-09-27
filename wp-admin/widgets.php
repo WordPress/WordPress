@@ -228,14 +228,6 @@ $messages = array(
 
 require_once( 'admin-header.php' ); ?>
 
-<form class="search-form" action="" method="get">
-	<p id="widget-search" class="search-box">
-		<label class="hidden" for="widget-search-input"><?php _e( 'Search Widgets' ); ?></label>
-		<input type="text" id="widget-search-input" class="search-input" name="s" value="<?php echo attribute_escape( $widget_search ); ?>" />
-		<input type="submit" class="button" value="<?php _e( 'Search Widgets' ); ?>" />
-	</p>
-</form>
-
 <?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
@@ -243,8 +235,6 @@ require_once( 'admin-header.php' ); ?>
 <div class="wrap">
 
 	<form id="widgets-filter" action="" method="get">
-
-	<h2><?php _e( 'Widgets' ); ?></h2>
 
 	<div class="widget-liquid-left-holder">
 	<div id="available-widgets-filter" class="widget-liquid-left">
