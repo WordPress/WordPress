@@ -1,5 +1,10 @@
 <?php
+/**
+ * @package WordPress
+ * @subpackage Default_Theme
+ */
 
+/** @ignore */
 $img = 'kubrickheader.jpg';
 
 // If we don't have image processing support, redirect.

@@ -1,4 +1,10 @@
-<?php if ( post_password_required() ) : ?>
+<?php
+/**
+ * @package WordPress
+ * @subpackage Classic_Theme
+ */
+
+if ( post_password_required() ) : ?>
 <p><?php _e('Enter your password to view comments.'); ?></p>
 <?php return; endif; ?>
 

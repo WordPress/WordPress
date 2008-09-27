@@ -1,4 +1,11 @@
-<?php get_header(); ?>
+<?php
+/**
+ * @package WordPress
+ * @subpackage Default_Theme
+ */
+
+get_header();
+?>
 
 	<div id="content" class="widecolumn">
 

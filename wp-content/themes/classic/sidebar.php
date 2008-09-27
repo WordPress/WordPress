@@ -1,4 +1,9 @@
-
+<?php
+/**
+ * @package WordPress
+ * @subpackage Classic_Theme
+ */
+?>
 <!-- begin sidebar -->
 <div id="menu">
 

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package WordPress
+ * @subpackage Default_Theme
+ */
+
 if ( function_exists('register_sidebar') )
     register_sidebar(array(
         'before_widget' => '<li id="%1$s" class="widget %2$s">',
@@ -7,6 +12,7 @@ if ( function_exists('register_sidebar') )
         'after_title' => '</h2>',
     ));
 
+/** @ignore */
 function kubrick_head() {
 	$head = "<style type='text/css'>\n<!--";
 	$output = '';

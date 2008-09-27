@@ -1,4 +1,9 @@
 <?php
+/**
+ * @package WordPress
+ * @subpackage Classic_Theme
+ */
+
 /* Don't remove these lines. */
 add_filter('comment_text', 'popuplinks');
 while( have_posts()) : the_post();
