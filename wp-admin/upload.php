@@ -8,7 +8,7 @@
 
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
-add_thickbox();
+//add_thickbox();
 wp_enqueue_script( 'media-upload' );
 wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
@@ -182,7 +182,7 @@ if ( isset($_GET['detached']) ) {
 	$h2_cat    = isset($_GET['cat']) && $_GET['cat'] ? ' ' . sprintf( __('in &#8220;%s&#8221;'), single_cat_title('', false) ) : '';
 	$h2_tag    = isset($_GET['tag']) && $_GET['tag'] ? ' ' . sprintf( __('tagged with &#8220;%s&#8221;'), single_tag_title('', false) ) : '';
 	$h2_month  = isset($_GET['m'])   && $_GET['m']   ? ' ' . sprintf( __('during %s'), single_month_title(' ', false) ) : '';
-	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s (<a href="%7$s" class="thickbox">Add New</a>)|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month, 'media-upload.php?library=false&TB_iframe=true' );
+	printf( _c( '%1$s%2$s%3$s%4$s%5$s%6$s (<a href="%7$s">Add New</a>)|You can reorder these: 1: Posts, 2: by {s}, 3: matching {s}, 4: in {s}, 5: tagged with {s}, 6: during {s}' ), $h2_noun, $h2_author, $h2_search, $h2_cat, $h2_tag, $h2_month, 'media-upload.php?inline' );
 }
 ?></h2>
 
@@ -224,8 +224,9 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif;
 
-$messages[1] = __('Media updated.');
+$messages[1] = __('Media attachment updated.');
 $messages[2] = __('Media deleted.');
+$messages[3] = __('Error saving media attachment.');
 
 if ( isset($_GET['message']) && (int) $_GET['message'] )
 	$message = $messages[$_GET['message']];

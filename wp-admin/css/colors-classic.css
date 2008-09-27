@@ -62,7 +62,8 @@ li.widget-list-control-item h4.widget-title a,
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
 ul.view-switch li.current, .form-table tr, #poststuff h3, #replyhandle,
-.login form, h3.info-box-title, #post-status-info, #edit-settings-wrap {
+.login form, h3.info-box-title, #post-status-info, #edit-settings-wrap,
+#wpbody-content .describe tr {
 	background-color: #cfebf7;
 }
 
@@ -146,7 +147,10 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-color: #c6d9e9;
 }
 
-.form-table td, .form-table th {
+.form-table td,
+.form-table th,
+#wpbody-content .describe td,
+#wpbody-content .describe th {
 	border-bottom-color: #fff;
 }
 

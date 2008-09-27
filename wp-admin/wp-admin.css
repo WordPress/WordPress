@@ -964,7 +964,8 @@ html, body {
 	margin-bottom: -8px;
 }
 
-.form-table td {
+.form-table td,
+#wpbody-content .describe td {
 	margin-bottom: 9px;
 	padding: 10px;
 	line-height: 20px;
@@ -973,7 +974,8 @@ html, body {
 	font-size: 11px;
 }
 
-.form-table th {
+.form-table th,
+#wpbody-content .describe th {
 	vertical-align: top;
 	text-align: left;
 	padding: 10px;
@@ -986,7 +988,10 @@ html, body {
 	width: auto;
 }
 
-.form-table input, .form-table textarea {
+.form-table input,
+.form-table textarea,
+#wpbody-content .describe input,
+#wpbody-content .describe textarea {
 	border-width: 1px;
 	border-style: solid;
 }
@@ -2344,7 +2349,18 @@ a.togbox {
 }
 
 /* Media library */
-#wpbody-content .media-item-info tr {
+#wpbody-content #media-items .describe {
+	border-collapse: collapse;
+	width: 100%;
+	border-top-style: solid;
+	border-top-width: 1px;
+	clear: both;
+	cursor: default;
+	padding: 5px;
+	width: 100%;
+}
+
+#wpbody-content .describe .media-item-info tr {
 	background-color: transparent;
 }
 
@@ -2369,14 +2385,60 @@ abbr.required {
 	text-decoration: none;
 }
 
-#wpbody-content .media-single input[type="text"],
-#wpbody-content .media-single textarea {
+#wpbody-content .describe input[type="text"],
+#wpbody-content .describe textarea {
 	width: 460px;
 }
 
-#wpbody-content .media-upload-form p.help {
+#wpbody-content .describe p.help {
 	margin: 0;
 	padding: 0;
+}
+
+.describe-toggle-on, .describe-toggle-off {
+	display: block;
+	line-height: 36px;
+	float: right;
+	margin-right: 20px;
+}
+
+.describe-toggle-off {
+	display: none;
+}
+
+#wpbody-content .media-item {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	min-height: 36px;
+	position: relative;
+	width: 100%;
+}
+
+#wpbody-content #media-items {
+	border-style: solid solid none;
+	border-width: 1px;
+	width: 670px;
+}
+
+#wpbody-content #media-items .filename {
+	float: left;
+	line-height: 36px;
+	margin-left: 10px;
+	max-width: 430px;
+	overflow: hidden;
+}
+
+.media-item .pinkynail {
+	float: left;
+	height: 32px;
+	margin: 2px;
+	max-width: 40px;
+	max-height: 40px;
+}
+
+.media-item  .startopen,
+.media-item .startclosed {
+	display: none;
 }
 
 /* find posts */

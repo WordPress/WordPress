@@ -49,7 +49,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'wp-menu-open' );
 	$submenu['edit.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php' );
-	$submenu['upload.php'][5] = array( __('Upload New'), 'upload_files', 'media-upload.php');
+	$submenu['upload.php'][5] = array( __('Upload New'), 'upload_files', 'media-upload.php?inline');
 	$submenu['upload.php'][10] = array( __('View All'), 'upload_files', 'upload.php');
 
 $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php' );

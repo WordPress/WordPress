@@ -758,7 +758,7 @@ function get_media_items( $post_id, $errors ) {
 function get_media_item( $attachment_id, $args = null ) {
 	global $redir_tab;
 
-	$default_args = array( 'errors' => null, 'send' => true, 'delete' => true, 'toggle' => true );
+	$default_args = array( 'errors' => null, 'send' => true, 'delete' => true, 'toggle' => true, 'show_title' => true );
 	$args = wp_parse_args( $args, $default_args );
 	extract( $args, EXTR_SKIP );
 
@@ -805,7 +805,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$display_title = ( !empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
-	$display_title = wp_html_excerpt($display_title, 60);
+	$display_title = $show_title ? "<div class='filename new'>" . wp_html_excerpt($display_title, 60) . "</div>" : '';
 
 	$gallery = ( (isset($_REQUEST['tab']) && 'gallery' == $_REQUEST['tab']) || (isset($redir_tab) && 'gallery' == $redir_tab) ) ? true : false;
 	$order = '';
@@ -826,7 +826,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$type
 	$toggle_links
 	$order
-	<div class='filename new'>$display_title</div>
+	$display_title
 	<table class='slidetoggle describe $class'>
 		<thead class='media-item-info'>
 		<tr>

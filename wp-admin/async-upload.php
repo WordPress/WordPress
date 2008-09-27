@@ -26,7 +26,12 @@ if ( !current_user_can('upload_files') )
 
 // just fetch the detail form for that attachment
 if ( ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
-	echo get_media_item($id);
+	if ( 2 == $_REQUEST['fetch'] ) {
+		add_filter('attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2);
+		echo get_media_item($id, array( 'send' => false, 'delete' => false ));
+	} else {
+		echo get_media_item($id);
+	}
 	exit;
 }
 
