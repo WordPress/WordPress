@@ -1021,66 +1021,30 @@ function do_enclose( $content, $post_ID ) {
  *
  * @since 2.5.0
  *
- * @param string $url
+ * @param string $url URL to fetch.
  * @param string|bool $file_path Optional. File path to write request to.
- * @param int $red Optional. Number of Redirects. Stops at 5 redirects.
+ * @param bool $deprecated Deprecated. Not used.
  * @return bool|string False on failure and string of headers if HEAD request.
  */
-function wp_get_http( $url, $file_path = false, $red = 1 ) {
-	global $wp_version;
+function wp_get_http( $url, $file_path = false, $deprecated = false ) {
 	@set_time_limit( 60 );
 
-	if ( $red > 5 )
-		 return false;
+	$options = array();
+	$options['redirection'] = 5;
 
-	$parts = parse_url( $url );
-	$file = $parts['path'] . ( ( $parts['query'] ) ? '?' . $parts['query'] : '' );
-	$host = $parts['host'];
-	if ( !isset( $parts['port'] ) )
-		$parts['port'] = 80;
-
-	if ( $file_path )
-		$request_type = 'GET';
+	if ( false == $file_path )
+		$options['method'] = 'HEAD';
 	else
-		$request_type = 'HEAD';
+		$options['method'] = 'GET';
 
-	$head = "$request_type $file HTTP/1.1\r\nHOST: $host\r\nUser-Agent: WordPress/" . $wp_version . "\r\n\r\n";
+	$response = wp_remote_request($url, $options);
 
-	$fp = @fsockopen( $host, $parts['port'], $err_num, $err_msg, 3 );
-	if ( !$fp )
-		return false;
-
-	$response = '';
-	fputs( $fp, $head );
-	while ( !feof( $fp ) && strpos( $response, "\r\n\r\n" ) == false )
-		$response .= fgets( $fp, 2048 );
-	preg_match_all( '/(.*?): (.*)\r/', $response, $matches );
-	$count = count( $matches[1] );
-	for ( $i = 0; $i < $count; $i++ ) {
-		$key = strtolower( $matches[1][$i] );
-		$headers["$key"] = $matches[2][$i];
-	}
-
-	preg_match( '/.*([0-9]{3}).*/', $response, $return );
-	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
-
-		$code = $headers['response'];
-		if ( ( '302' == $code || '301' == $code ) && isset( $headers['location'] ) ) {
-				fclose($fp);
-				return wp_get_http( $headers['location'], $file_path, ++$red );
-		}
-
-	// make a note of the final location, so the caller can tell if we were redirected or not
-	$headers['x-final-location'] = $url;
-
-	// HEAD request only
-	if ( !$file_path ) {
-		fclose($fp);
+	$headers = wp_remote_retrieve_headers( $response );
+	if ( false == $file_path )
 		return $headers;
-	}
 
 	// GET request - fetch and write it to the supplied filename
-	$content_length = $headers['content-length'];
+	$content_length = isset( $headers['content-length'] ) ? $headers['content-length'] : strlen( $response['body'] );
 	$got_bytes = 0;
 	$out_fp = fopen($file_path, 'w');
 	while ( !feof($fp) ) {
@@ -1093,7 +1057,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	}
 
 	fclose($out_fp);
-	fclose($fp);
+
 	return $headers;
 }
 
@@ -1103,11 +1067,12 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
  * @since 1.5.1
  *
  * @param string $url
- * @param int $red Optional. Number of redirects.
+ * @param bool $deprecated Not Used.
  * @return bool|string False on failure, headers on success.
  */
-function wp_get_http_headers( $url, $red = 1 ) {
-	return wp_get_http( $url, false, $red );
+function wp_get_http_headers( $url, $deprecated = false ) {
+	$response = wp_remote_head( $url );
+	return wp_remote_retrieve_headers( $response );
 }
 
 /**
@@ -1271,47 +1236,26 @@ function add_magic_quotes( $array ) {
 /**
  * HTTP request for URI to retrieve content.
  *
- * Tries to retrieve the HTTP content with fopen first and then using cURL, if
- * fopen can't be used.
- *
  * @since 1.5.1
+ * @uses wp_remote_get()
  *
  * @param string $uri URI/URL of web page to retrieve.
  * @return string HTTP content.
  */
 function wp_remote_fopen( $uri ) {
-	$timeout = 10;
+	// parse url() should not be used for validation of URLs.
+	// Keeping anyway, since the Filter extension is not available on all servers.
 	$parsed_url = @parse_url( $uri );
 
 	if ( !$parsed_url || !is_array( $parsed_url ) )
 		return false;
 
-	if ( !isset( $parsed_url['scheme'] ) || !in_array( $parsed_url['scheme'], array( 'http','https' ) ) )
-		$uri = 'http://' . $uri;
+	$options = array();
+	$options['timeout'] = 10;
 
-	if ( ini_get( 'allow_url_fopen' ) ) {
-		$fp = @fopen( $uri, 'r' );
-		if ( !$fp )
-			return false;
+	$response = wp_remote_get( $uri, $options );
 
-		//stream_set_timeout($fp, $timeout); // Requires php 4.3
-		$linea = '';
-		while ( $remote_read = fread( $fp, 4096 ) )
-			$linea .= $remote_read;
-		fclose( $fp );
-		return $linea;
-	} elseif ( function_exists( 'curl_init' ) ) {
-		$handle = curl_init();
-		curl_setopt( $handle, CURLOPT_URL, $uri);
-		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, 1 );
-		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
-		$buffer = curl_exec( $handle );
-		curl_close( $handle );
-		return $buffer;
-	} else {
-		return false;
-	}
+	return $response['body'];
 }
 
 /**
