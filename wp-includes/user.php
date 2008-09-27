@@ -123,7 +123,8 @@ function get_profile($field, $user = false) {
 function get_usernumposts($userid) {
 	global $wpdb;
 	$userid = (int) $userid;
-	return $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = %d AND post_type = 'post' AND ", $userid) . get_private_posts_cap_sql('post'));
+	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = %d AND post_type = 'post' AND ", $userid) . get_private_posts_cap_sql('post'));
+	return apply_filters('get_usernumposts', $count, $userid);
 }
 
 /**
