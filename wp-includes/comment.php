@@ -1051,93 +1051,53 @@ function wp_update_comment_count_now($post_id) {
  * check for the rel="pingback" has more overhead than just the header.
  *
  * @since 1.5.0
- * @uses $wp_version
  *
  * @param string $url URL to ping.
- * @param int $timeout_bytes Number of bytes to timeout at. Prevents big file downloads, default is 2048.
+ * @param int $deprecated Not Used.
  * @return bool|string False on failure, string containing URI on success.
  */
-function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
-	global $wp_version;
+function discover_pingback_server_uri($url, $deprecated = 2048) {
 
-	$byte_count = 0;
-	$contents = '';
-	$headers = '';
 	$pingback_str_dquote = 'rel="pingback"';
 	$pingback_str_squote = 'rel=\'pingback\'';
-	$x_pingback_str = 'x-pingback: ';
 
-	extract(parse_url($url), EXTR_SKIP);
+	/** @todo Should use Filter Extension or custom preg_match instead. */
+	$parsed_url = parse_url($url);
 
-	if ( !isset($host) ) // Not an URL. This should never happen.
+	if ( ! isset( $parsed_url['host'] ) ) // Not an URL. This should never happen.
 		return false;
 
-	$path  = ( !isset($path) ) ? '/'          : $path;
-	$path .= ( isset($query) ) ? '?' . $query : '';
-	$port  = ( isset($port)  ) ? $port        : 80;
+	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.1' ) );
 
-	// Try to connect to the server at $host
-	$fp = @fsockopen($host, $port, $errno, $errstr, 2);
-	if ( !$fp ) // Couldn't open a connection to $host
+	if ( is_wp_error( $response ) )
 		return false;
 
-	// Send the GET request
-	$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: WordPress/$wp_version \r\n\r\n";
-	// ob_end_flush();
-	fputs($fp, $request);
+	if ( isset( $response['headers']['x-pingback'] ) )
+		return $response['headers']['x-pingback'];
 
-	// Let's check for an X-Pingback header first
-	while ( !feof($fp) ) {
-		$line = fgets($fp, 512);
-		if ( trim($line) == '' )
-			break;
-		$headers .= trim($line)."\n";
-		$x_pingback_header_offset = strpos(strtolower($headers), $x_pingback_str);
-		if ( $x_pingback_header_offset ) {
-			// We got it!
-			preg_match('#x-pingback: (.+)#is', $headers, $matches);
-			$pingback_server_url = trim($matches[1]);
+	// Not an (x)html, sgml, or xml page, no use going further.
+	if ( isset( $response['headers']['content-type'] ) && preg_match('#(image|audio|video|model)/#is', $response['headers']['content-type']) )
+		return false;
+
+	$contents = $response['body'];
+
+	$pingback_link_offset_dquote = strpos($contents, $pingback_str_dquote);
+	$pingback_link_offset_squote = strpos($contents, $pingback_str_squote);
+	if ( $pingback_link_offset_dquote || $pingback_link_offset_squote ) {
+		$quote = ($pingback_link_offset_dquote) ? '"' : '\'';
+		$pingback_link_offset = ($quote=='"') ? $pingback_link_offset_dquote : $pingback_link_offset_squote;
+		$pingback_href_pos = @strpos($contents, 'href=', $pingback_link_offset);
+		$pingback_href_start = $pingback_href_pos+6;
+		$pingback_href_end = @strpos($contents, $quote, $pingback_href_start);
+		$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
+		$pingback_server_url = substr($contents, $pingback_href_start, $pingback_server_url_len);
+
+		// We may find rel="pingback" but an incomplete pingback URL
+		if ( $pingback_server_url_len > 0 ) { // We got it!
 			return $pingback_server_url;
 		}
-		if ( strpos(strtolower($headers), 'content-type: ') ) {
-			preg_match('#content-type: (.+)#is', $headers, $matches);
-			$content_type = trim($matches[1]);
-		}
 	}
 
-	if ( preg_match('#(image|audio|video|model)/#is', $content_type) ) // Not an (x)html, sgml, or xml page, no use going further
-		return false;
-
-	while ( !feof($fp) ) {
-		$line = fgets($fp, 1024);
-		$contents .= trim($line);
-		$pingback_link_offset_dquote = strpos($contents, $pingback_str_dquote);
-		$pingback_link_offset_squote = strpos($contents, $pingback_str_squote);
-		if ( $pingback_link_offset_dquote || $pingback_link_offset_squote ) {
-			$quote = ($pingback_link_offset_dquote) ? '"' : '\'';
-			$pingback_link_offset = ($quote=='"') ? $pingback_link_offset_dquote : $pingback_link_offset_squote;
-			$pingback_href_pos = @strpos($contents, 'href=', $pingback_link_offset);
-			$pingback_href_start = $pingback_href_pos+6;
-			$pingback_href_end = @strpos($contents, $quote, $pingback_href_start);
-			$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
-			$pingback_server_url = substr($contents, $pingback_href_start, $pingback_server_url_len);
-			// We may find rel="pingback" but an incomplete pingback URL
-			if ( $pingback_server_url_len > 0 ) { // We got it!
-				fclose($fp);
-				return $pingback_server_url;
-			}
-		}
-		$byte_count += strlen($line);
-		if ( $byte_count > $timeout_bytes ) {
-			// It's no use going further, there probably isn't any pingback
-			// server to find in this file. (Prevents loading large files.)
-			fclose($fp);
-			return false;
-		}
-	}
-
-	// We didn't find anything.
-	fclose($fp);
 	return false;
 }
 
@@ -1332,7 +1292,6 @@ function privacy_ping_filter($sites) {
  *
  * @since 0.71
  * @uses $wpdb
- * @uses $wp_version WordPress version
  *
  * @param string $trackback_url URL to send trackbacks.
  * @param string $title Title of post.
@@ -1341,32 +1300,23 @@ function privacy_ping_filter($sites) {
  * @return mixed Database query from update.
  */
 function trackback($trackback_url, $title, $excerpt, $ID) {
-	global $wpdb, $wp_version;
+	global $wpdb;
 
 	if ( empty($trackback_url) )
 		return;
 
-	$title = urlencode($title);
-	$excerpt = urlencode($excerpt);
-	$blog_name = urlencode(get_option('blogname'));
-	$tb_url = $trackback_url;
-	$url = urlencode(get_permalink($ID));
-	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
-	$trackback_url = parse_url($trackback_url);
-	$http_request = 'POST ' . $trackback_url['path'] . ($trackback_url['query'] ? '?'.$trackback_url['query'] : '') . " HTTP/1.0\r\n";
-	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
-	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_option('blog_charset')."\r\n";
-	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
-	$http_request .= "User-Agent: WordPress/" . $wp_version;
-	$http_request .= "\r\n\r\n";
-	$http_request .= $query_string;
-	if ( '' == $trackback_url['port'] )
-		$trackback_url['port'] = 80;
-	$fs = @fsockopen($trackback_url['host'], $trackback_url['port'], $errno, $errstr, 4);
-	@fputs($fs, $http_request);
-	@fclose($fs);
+	$options = array();
+	$options['timeout'] = 4;
+	$options['body'] = array(
+		'title' => urlencode($title),
+		'url' => urlencode(get_permalink($ID)),
+		'blog_name' => urlencode(get_option('blogname')),
+		'excerpt' => urlencode($excerpt)
+	);
 
-	$tb_url = addslashes( $tb_url );
+	wp_remote_post($trackback_url, $options);
+
+	$tb_url = addslashes( $trackback_url );
 	$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = %d", $ID) );
 	return $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_url', '')) WHERE ID = %d", $ID) );
 }
