@@ -80,7 +80,14 @@ unset($hook_suffixes, $hook_suffix);
 <div id="sidemenu-bg"><br /></div>
 <div id="wpcontent">
 <div id="wphead">
-<h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="breadcrumb"><a href="index.php"><?php _e('Dashboard') ?></a> &rsaquo; <?php echo $title ?></span></h1>
+<?php
+if ( 'index.php' == $pagenow ) {
+	$breadcrumb = __('Dashboard');
+} else {
+	$breadcrumb = '<a href="index.php">' . __('Dashboard') . '</a> &rsaquo; ' . $title;
+}
+?>
+<h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="breadcrumb"><?php echo $breadcrumb ?></span></h1>
 </div>
 
 <?php
