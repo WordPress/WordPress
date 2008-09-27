@@ -609,7 +609,7 @@ a.view-comment-post-link {
 
 #user_info {
 	position: absolute;
-	right: 15px;
+	right: 300px;
 	top: 0;
 	font-size: 11px;
 	line-height: 31px;
@@ -620,11 +620,6 @@ a.view-comment-post-link {
 	margin: 0;
 	padding: 0;
 	line-height: 31px;
-}
-
-#wphead {
-	border-width: 31px 0 0;
-	border-style: solid;
 }
 
 #wphead a, #dashmenu a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
@@ -2495,7 +2490,7 @@ abbr.required {
 #favorite-actions {
 	position: absolute;
 	right: 15px;
-	top: 55px;
+	top: 20px;
 	width: 130px;
 	z-index: 10;
 }
