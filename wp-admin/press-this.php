@@ -117,7 +117,7 @@ switch ($_REQUEST['ajax']) {
 	case 'video': ?>
 		<script type="text/javascript" charset="utf-8">	
 			jQuery('.select').click(function() {
-				append_editor(jQuery('#embed-code').html());
+				append_editor(jQuery('#embed-code').val());
 			});
 			jQuery('.close').click(function() {
 				jQuery('#extra_fields').hide();
@@ -125,7 +125,7 @@ switch ($_REQUEST['ajax']) {
 		</script>
 		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
 		<div class="titlewrap" >
-			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection); ?></textarea>
+			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo $selection; ?></textarea>
 
 		</div>
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
@@ -177,12 +177,12 @@ switch ($_REQUEST['ajax']) {
 		<?php break;
 	case 'photo_images':
 		function get_images_from_uri($uri) {
-			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)/', $uri) && !strpos($uri,'blogger.com') )
+			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
 				return "'".$uri."'";
 
 			$content = wp_remote_fopen($uri);
 			if ( false === $content ) return '';
-
+		
 			$host = parse_url($uri);
 
 			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif))[^<>\'\"]*(\2)([^>\/]*)\/*>/is';
@@ -192,6 +192,7 @@ switch ($_REQUEST['ajax']) {
 
 			$sources = array();
 			foreach ($matches[3] as $src) {
+				error_log($src);
 				// if no http in url
 				if(strpos($src, 'http') === false)
 					// if it doesn't have a relative uri
@@ -257,9 +258,9 @@ switch ($_REQUEST['ajax']) {
 				if(length == 0) length = 1;
 				jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
 				jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
-				append_editor("\n\n" + '<p style="text-align: center;"><a href="<?php echo urlencode($url); ?>"><img src="' + img +'" alt="' + desc + '" /></a></p>');
+				insert_editor("\n\n" + '<p style="text-align: center;"><a href="<?php echo $url; ?>"><img src="' + img +'" alt="' + desc + '" /></a></p>');
 			}
-			tinyMCE.activeEditor.resizeToContent();
+			/*tinyMCE.activeEditor.resizeToContent();*/
 			return false;
 		}
 
@@ -342,7 +343,7 @@ die;
 				remove_linebreaks : true,
 				accessibility_focus : false,
 				tab_focus : ":next",
-				plugins : "safari,inlinepopups, media",
+				plugins : "safari, inlinepopups, media",
 				entities : "38,amp,60,lt,62,gt",
 				force_p_newlines : true,
 				save_callback : 'switchEditors.saveCallback'
@@ -372,10 +373,11 @@ die;
 		if ( '' == text || '<p></p>' == text ) text = '<p><br /></p>';
 		if ( tinyMCE.activeEditor ) tinyMCE.execCommand('mceSetContent', false, text);
 	}
-
+	function insert_editor(text) {
+		if ( '' != text && tinyMCE.activeEditor ) tinyMCE.execCommand('mceInsertContent', false, '<p>' + tinymce.DOM.decode(text) + '</p>');
+	}
 	function append_editor(text) {
-		if ( '' != text && tinyMCE.activeEditor ) tinyMCE.execCommand('mceSetContent', false, tinyMCE.activeEditor.getContent({format : 'raw'})
-		 + '<p>' + tinymce.DOM.decode(text) + '</p>');
+		if ( '' != text && tinyMCE.activeEditor ) tinyMCE.execCommand('mceSetContent', false, tinyMCE.activeEditor.getContent({format : 'raw'}) + '<p>' + text + '</p>');
 		tinyMCE.execCommand('mceCleanup');
 	}
 
@@ -532,7 +534,7 @@ die;
 				<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			
 				<div class="editor-container">
-					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><a href="<?php echo $url ?>"><?php echo $title; ?></a><?php if($selection) echo '.'; ?></textarea>
+					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><p>via <a href="<?php echo $url ?>"><?php echo $title; ?></a></p><?php if($selection) echo '.'; ?></textarea>
 				</div>
 			</div>
 		</div>
