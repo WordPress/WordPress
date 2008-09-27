@@ -22,17 +22,6 @@
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 
-$top_menu = $top_submenu = $menu = $submenu = array();
-
-$top_menu[5]  = array( __('My Account'), 'read', 'profile.php' );
-$top_menu[10] = array( __('My Dashboard'), 'read', 'index.php' );
-$top_menu[15] = array( __('New Post'), 'edit_posts', 'post-new.php', 'highlighted' );
-//$top_menu[20] = array( sprintf( __('Inbox (%s)'), "<span id='inbox-num' class='count-$inbox_num'><span class='inbox-count'>" . number_format_i18n($inbox_num) . "</span></span>" ), 'edit_posts', 'inbox.php' );
-$top_menu[20] = array( sprintf( __('Comments (%s)'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='comment-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php');
-$top_menu[25] = array( __('Help'), 'read', 'index.php?help' ); // place holder
-
-$top_submenu['profile.php'][5]  = array( __('Profile'), 'read', 'profile.php' );
-
 $menu[0] = array( __('Dashboard'), 'read', 'index.php' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'wp-menu-open' );
@@ -99,7 +88,7 @@ foreach ($menu as $menu_page) {
 $_wp_submenu_nopriv = array();
 $_wp_menu_nopriv = array();
 // Loop over submenus and remove pages for which the user does not have privs.
-foreach ( array( 'top_submenu', 'submenu' ) as $sub_loop ) {
+foreach ( array( 'submenu' ) as $sub_loop ) {
 	foreach ($$sub_loop as $parent => $sub) {
 		foreach ($sub as $index => $data) {
 			if ( ! current_user_can($data[1]) ) {

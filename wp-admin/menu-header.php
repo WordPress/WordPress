@@ -103,15 +103,6 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 
 ?>
 
-<ul id="dashmenu" class="wp-menu">
-<?php
-
-_wp_menu_output( $top_menu, $top_submenu, false );
-do_action( 'dashmenu' );
-
-?>
-</ul>
-
 <ul id="adminmenu" class="wp-menu">
 
 <?php
