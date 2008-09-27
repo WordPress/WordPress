@@ -8,7 +8,7 @@
 
 /** Load WordPress Administration Bootstrap */
 require_once('admin.php');
-$title = __('Create New Post');
+$title = __('Write Post');
 $parent_file = 'edit.php';
 $editing = true;
 wp_enqueue_script('autosave');

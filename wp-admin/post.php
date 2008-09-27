@@ -119,7 +119,7 @@ case 'post-quickpress-save-cont':
 	break;
 
 case 'edit':
-	$title = __('Edit');
+	$title = __('Edit Post');
 	$editing = true;
 
 	if ( empty( $_GET['post'] ) ) {
