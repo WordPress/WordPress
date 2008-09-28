@@ -772,7 +772,7 @@ if ( !function_exists('check_admin_referer') ) :
 function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
 	$adminurl = strtolower(admin_url());
 	$referer = strtolower(wp_get_referer());
-	$result = wp_verify_nonce($_REQUEST[$query_arg], $action);
+	$result = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
 	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) !== false) ) {
 		wp_nonce_ays($action);
 		die();
