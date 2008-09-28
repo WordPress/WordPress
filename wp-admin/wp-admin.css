@@ -2512,3 +2512,8 @@ abbr.required {
 	padding: 4px 0;
 	text-decoration: none;
 }
+
+#favorite-first {
+	padding-right: 22px;
+	background: url(images/menu-open.png) 108px 5px no-repeat;
+}
