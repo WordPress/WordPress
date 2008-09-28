@@ -104,11 +104,46 @@ function get_sidebar( $name = null ) {
  */
 function wp_loginout() {
 	if ( ! is_user_logged_in() )
-		$link = '<a href="' . site_url('wp-login.php', 'login') . '">' . __('Log in') . '</a>';
+		$link = '<a href="' . wp_login_url() . '">' . __('Log in') . '</a>';
 	else
-		$link = '<a href="' . site_url('wp-login.php?action=logout', 'login') . '">' . __('Log out') . '</a>';
+		$link = '<a href="' . wp_logout_url() . '">' . __('Log out') . '</a>';
 
 	echo apply_filters('loginout', $link);
+}
+
+/**
+ * Returns the Log Out URL.
+ *
+ * Returns the URL that allows the user to log out of the site
+ *
+ * @since 2.7
+ * @uses wp_nonce_url() To protect against CSRF
+ * @uses site_url() To generate the log in URL
+ * 
+ * @param string $redirect Path to redirect to on logout.
+ */
+function wp_logout_url($redirect = '') {
+	if ( strlen($redirect) )
+		$redirect = "&redirect_to=$redirect";
+	
+	return wp_nonce_url( site_url("wp-login.php?action=logout$redirect", 'login'), 'log-out' );
+}
+
+/**
+ * Returns the Log In URL.
+ *
+ * Returns the URL that allows the user to log in to the site
+ *
+ * @since 2.7
+ * @uses site_url() To generate the log in URL
+ * 
+ * @param string $redirect Path to redirect to on login.
+ */
+function wp_login_url($redirect = '') {
+	if ( strlen($redirect) )
+		$redirect = "?redirect_to=$redirect";
+	
+	return site_url("wp-login.php$redirect", 'login');
 }
 
 /**

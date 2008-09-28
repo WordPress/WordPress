@@ -272,7 +272,7 @@ $http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
 switch ($action) {
 
 case 'logout' :
-
+	check_admin_referer('log-out');
 	wp_logout();
 
 	$redirect_to = 'wp-login.php?loggedout=true';

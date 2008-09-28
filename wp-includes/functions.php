@@ -2145,6 +2145,8 @@ function wp_explain_nonce( $action ) {
 		$trans['edit']['theme']        = array( __( 'Your attempt to edit this theme file: &quot;%s&quot; has failed.' ), 'use_id' );
 		$trans['switch']['theme']      = array( __( 'Your attempt to switch to this theme: &quot;%s&quot; has failed.' ), 'use_id' );
 
+		$trans['log']['out']           = array( sprintf( __( 'You are attempting to log out of %s' ), get_bloginfo( 'sitename' ) ), false );
+
 		if ( isset( $trans[$verb][$noun] ) ) {
 			if ( !empty( $trans[$verb][$noun][1] ) ) {
 				$lookup = $trans[$verb][$noun][1];
@@ -2178,6 +2180,9 @@ function wp_nonce_ays( $action ) {
 	$html = wp_specialchars( wp_explain_nonce( $action ) );
 	if ( wp_get_referer() )
 		$html .= "</p><p><a href='" . remove_query_arg( 'updated', clean_url( wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+	elseif ( 'log-out' == $action )
+		$html .= "</p><p>" . sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_nonce_url( site_url('wp-login.php?action=logout', 'login'), 'log-out' ) );
+
 	wp_die( $html, $title);
 }
 
