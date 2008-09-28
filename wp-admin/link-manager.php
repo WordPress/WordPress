@@ -71,8 +71,22 @@ switch ($order_by) {
 	default :
 		$sqlorderby = 'name';
 		break;
-}
+} ?>
 
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
+<h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
+<div class="metabox-prefs">
+<?php manage_columns_prefs('link') ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+<br class="clear" />
+</div></form>
+</div></div>
+
+<?php
 if ( isset($_GET['deleted']) ) {
 	echo '<div id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];
@@ -84,23 +98,7 @@ if ( isset($_GET['deleted']) ) {
 
 <div class="wrap">
 
-<form id="adv-settings" action="" method="get">
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php manage_columns_prefs('link') ?>
-<br class="clear" />
-</div></div>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-</div></form>
-
 <h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
-
-<br class="clear" />
 
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">

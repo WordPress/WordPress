@@ -92,9 +92,22 @@ if ( is_singular() ) {
 	wp_enqueue_script( 'jquery-table-hotkeys' );
 }
 
-require_once('admin-header.php');
+require_once('admin-header.php'); ?>
 
-if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
+<h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
+<div class="metabox-prefs">
+<?php manage_columns_prefs('page') ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+<br class="clear" />
+</div></form>
+</div></div>
+
+<?php if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
 <div id="message" class="updated fade"><p>
 <?php printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
 unset($_GET['upd']);
@@ -107,19 +120,6 @@ unset($_GET['upd']);
 <?php } ?>
 
 <div class="wrap">
-<form id="adv-settings" action="" method="get">
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php manage_columns_prefs('page') ?>
-<br class="clear" />
-</div></div>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-</div></form>
 
 <h2><?php
 // Use $_GET instead of is_ since they can override each other

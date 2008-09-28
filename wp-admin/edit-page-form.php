@@ -46,14 +46,6 @@ $temp_ID = (int) $temp_ID;
 $user_ID = (int) $user_ID;
 ?>
 
-<form name="post" action="page.php" method="post" id="post">
-<?php if ( $notice ) : ?>
-<div id="notice" class="error"><p><?php echo $notice ?></p></div>
-<?php endif; ?>
-<?php if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
-<?php endif; ?>
-
 <?php
 function page_submit_meta_box($post) {
 	global $action;
@@ -285,19 +277,20 @@ add_meta_box('revisionsdiv', __('Page Revisions'), 'page_revisions_meta_box', 'p
 endif;
 ?>
 
-<div class="wrap">
-
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
 <h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">
 <?php meta_box_prefs('page') ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 <br class="clear" />
+</div></form>
 </div></div>
-</div>
+
+<div class="wrap">
 
 <h2><?php
 	if ( !isset($post_ID) || 0 == $post_ID )
@@ -305,6 +298,14 @@ endif;
 	else
 		printf( __( '<a href="%s">Pages</a> / Edit Page' ), 'edit-pages.php' );
 ?></h2>
+
+<form name="post" action="page.php" method="post" id="post">
+<?php if ( $notice ) : ?>
+<div id="notice" class="error"><p><?php echo $notice ?></p></div>
+<?php endif; ?>
+<?php if (isset($_GET['message'])) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php endif; ?>
 
 <?php
 wp_nonce_field($nonce_action);
@@ -431,8 +432,8 @@ do_meta_boxes('page', 'advanced', $post);
 </div>
 </div>
 
-</div>
 </form>
+</div>
 
 <script type="text/javascript">
 try{document.post.title.focus();}catch(e){}

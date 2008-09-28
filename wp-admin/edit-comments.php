@@ -66,8 +66,22 @@ $mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attribut
 $comment_status = isset($_GET['comment_status']) ? attribute_escape($_GET['comment_status']) : '';
 
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
-$search = attribute_escape( $search_dirty );
+$search = attribute_escape( $search_dirty ); ?>
 
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
+<h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
+<div class="metabox-prefs">
+<?php manage_columns_prefs('comment') ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+<br class="clear" />
+</div></form>
+</div></div>
+
+<?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
 	$deleted = isset( $_GET['deleted'] ) ? (int) $_GET['deleted'] : 0;
@@ -96,20 +110,6 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 }
 ?>
 <div class="wrap">
-
-<form id="adv-settings" action="" method="get">
-<div id="show-settings" class="hide-if-no-js"><a href="#edit_settings" id="show-settings-link"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php manage_columns_prefs('comment') ?>
-<br class="clear" />
-</div></div>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-</div></form>
 
 <form id="posts-filter" action="" method="get">
 <h2><?php _e('Manage Comments'); ?></h2>

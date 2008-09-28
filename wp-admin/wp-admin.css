@@ -2061,72 +2061,55 @@ a.togbox {
 }
 
 /* show/hide settings */
-#show-settings {
-	float: right;
-	margin: 0 0 -30px;
-	position: relative;
-	z-index: 1;
-	width: 218px;
-	height: 28px;
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-}
-
 #show-settings-link,
 #hide-settings-link {
-	background-position: 8px center;
-	background-repeat: no-repeat;
-	line-height: 28px;
-	padding: 0 0 0 26px;
+	display: block;
+	height: 18px;
+	font-size: 11px;
+	text-decoration: none;
+	z-index: 1;
 }
 
 #show-settings-link {
-	background-image: url(images/menu-closed.png);
+	position: absolute;
+	padding: 3px 8px 1px;
+	right: 15px;
+	top: 0;
 }
 
 #hide-settings-link {
-	background-image: url(images/menu-open.png);
+	float: right;
+	padding: 3px 8px;
+	position: relative;
 }
 
 #edit-settings {
-	padding: 29px 0 0;
-	margin: 0 0 20px;
+	position: relative;
+	top: -12px;
 }
 
 #edit-settings-wrap h5 {
-	padding: 10px 0 5px 20px;
+	padding: 10px 0 0 15px;
 	margin: 0;
 	font-size: 13px;
 }
 
 #edit-settings-wrap {
-	-moz-border-radius: 4px 0 4px 4px;
-	-khtml-border-radius: 4px;
-	-khtml-border-top-right-radius: 0;
-	-webkit-border-radius: 4px;
-	-webkit-border-top-right-radius: 0;
-	border-radius: 4px;
-	border-top-right-radius: 0;
-	border-width: 1px;
-	border-style: solid;
-}
-
-#show-settings.show-settings-opened {
-	-moz-border-radius: 4px 4px 0 0;
-	-webkit-border-bottom-left-radius: 0;
-	-webkit-border-bottom-right-radius: 0;
-	-khtml-border-bottom-left-radius: 0;
-	-khtml-border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
+	border-style: none solid solid;
+	border-top: 0 none;
+	border-width: 0 1px 1px;
+	margin: 0 15px;
+	-moz-border-radius: 0 0 4px 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-khtml-border-bottom-left-radius: 4px;
+	-khtml-border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
 }
 
 .metabox-prefs {
-	padding: 8px 15px 15px;
+	padding: 5px 10px 10px;
 }
 
 .metabox-prefs label {
@@ -2134,7 +2117,7 @@ a.togbox {
 	float: left;
 	padding: 5px 3px;
 	white-space: nowrap;
-	width: 15em;
+	width: 12em;
 }
 
 .metabox-prefs label input {

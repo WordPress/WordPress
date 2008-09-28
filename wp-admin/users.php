@@ -236,13 +236,18 @@ default:
 		}
 	endif; ?>
 
-<form class="search-form" action="" method="get">
-	<p id="user-search" class="search-box">
-	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?></label>
-	<input type="text" id="user-search-input" class="search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
-	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
-	</p>
-</form>
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
+<h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
+<div class="metabox-prefs">
+<?php manage_columns_prefs('user') ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
+<br class="clear" />
+</div></form>
+</div></div>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">
@@ -261,20 +266,6 @@ if ( ! empty($messages) ) {
 } ?>
 
 <div class="wrap">
-
-<form id="adv-settings" action="" method="get">
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php manage_columns_prefs('user') ?>
-<br class="clear" />
-</div></div>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-</div></form>
 
 <form id="posts-filter" action="" method="get">
 	<?php if ( $wp_user_search->is_search() ) : ?>

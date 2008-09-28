@@ -261,28 +261,22 @@ function link_advanced_meta_box($link) {
 </table>
 <?php
 }
-add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core');
+add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core'); ?>
 
-echo $form;
-echo $link_added;
-
-wp_nonce_field($nonce_action);
-wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
-
-<div class="wrap">
-
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
 <h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">
 <?php meta_box_prefs('link') ?>
+<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 <br class="clear" />
+</div></form>
 </div></div>
-</div>
+
+<div class="wrap">
 
 <h2><?php echo $heading; ?></h2>
 
@@ -312,6 +306,13 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 </ul>
 </div>
 -->
+<?php
+echo $form;
+echo $link_added;
+
+wp_nonce_field( $nonce_action );
+wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
 <div id="poststuff">
 

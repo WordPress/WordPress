@@ -50,7 +50,7 @@ input.disabled, textarea.disabled {
 	background-color: #ccc;
 }
 
-#user_info a:hover, li.widget-list-control-item h4.widget-title a:hover,
+li.widget-list-control-item h4.widget-title a:hover,
 #dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, 
 li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
@@ -239,7 +239,7 @@ div.dashboard-widget-submit input,
 #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover,
 #login form .submit input:hover, div.dashboard-widget-submit input:hover,
 #edit-slug-buttons a.save:hover, #media-upload a.delete:hover,
-#media-upload a.del-link:hover, .ui-tabs-nav a:hover {
+#media-upload a.del-link:hover, .ui-tabs-nav a:hover, #user_info a:hover {
 	color: #d54e21;
 }
 
@@ -800,8 +800,7 @@ table.diff .diff-addedline ins {
 	color: #CFEBF6;
 }
 
-#edit-settings-wrap,
-#show-settings {
+#edit-settings-wrap {
 	background-color: #14568A;
 	border-color: #14568A;
 	color: #CFEBF6;
@@ -810,10 +809,6 @@ table.diff .diff-addedline ins {
 #show-settings a,
 #show-settings a:visited {
 	color: #CFEBF6;
-}
-
-#show-settings.show-settings-opened {
-	border-bottom-color: #14568A;
 }
 
 #replydiv,

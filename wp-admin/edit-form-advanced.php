@@ -54,13 +54,7 @@ if ( 0 == $post_ID ) {
 	}
 }
 
-?>
-
-<form name="post" action="post.php" method="post" id="post">
-<?php
-
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
-
 function post_submit_meta_box($post) {
 	global $action;
 
@@ -407,6 +401,18 @@ endif;
 
 ?>
 
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<div id="edit-settings-wrap" class="hidden">
+<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
+<h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
+<div class="metabox-prefs">
+<?php meta_box_prefs('post') ?>
+<br class="clear" />
+</div></form>
+</div></div>
+
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>
 <?php endif; ?>
@@ -420,18 +426,6 @@ endif;
 
 <div class="wrap">
 
-<div id="show-settings"><a href="#edit_settings" id="show-settings-link" class="hide-if-no-js"><?php _e('Advanced Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="hide-if-js hide-if-no-js"><?php _e('Hide Options') ?></a></div>
-
-<div id="edit-settings" class="hide-if-js hide-if-no-js">
-<div id="edit-settings-wrap">
-<h5><?php _e('Show on screen') ?></h5>
-<div class="metabox-prefs">
-<?php meta_box_prefs('post') ?>
-<br class="clear" />
-</div></div>
-</div>
-
 <h2><?php
 	if ( !isset($post_ID) || 0 == $post_ID)
 		printf( __( '<a href="%s">Posts</a> / Write New Post' ), 'edit.php' );
@@ -439,6 +433,7 @@ endif;
 		printf( __( '<a href="%s">Posts</a> / Edit Post' ), 'edit.php' );
 ?></h2>
 
+<form name="post" action="post.php" method="post" id="post">
 <?php
 
 if ( 0 == $post_ID)
@@ -555,9 +550,8 @@ do_action('dbx_post_sidebar');
 </div>
 </div>
 </div><!-- /poststuff -->
-
-</div>
 </form>
+</div>
 
 <?php wp_comment_reply(); ?>
 
