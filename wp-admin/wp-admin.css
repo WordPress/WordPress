@@ -619,7 +619,7 @@ a.view-comment-post-link {
 #user_info p {
 	margin: 0;
 	padding: 0;
-	line-height: 31px;
+	line-height: 20px;
 }
 
 #wphead a, #dashmenu a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
@@ -633,6 +633,11 @@ a.view-comment-post-link {
 	font: 16px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	padding: 3px 4px;
 	letter-spacing: normal;
+}
+
+#logo50 {
+	margin: 8px;
+	position: absolute;
 }
 
 ul#adminmenu li.write-new-button {
@@ -656,7 +661,7 @@ ul#adminmenu li.write-new-button a {
 
 #wphead h1 {
 	font: normal 36px Georgia, "Times New Roman", Times, serif;
-	padding: 11px 170px 16px 12px;
+	padding: 11px 170px 16px 70px;
 	margin: 0;
 	margin-right: 15%;
 }
