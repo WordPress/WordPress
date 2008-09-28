@@ -150,6 +150,27 @@ require_once('admin-header.php'); ?>
 </div></form>
 </div></div>
 
+<?php
+if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
+	$_GET['message'] = '1';
+	$_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
+}
+
+$messages[1] = __('Media attachment updated.');
+$messages[2] = __('Media deleted.');
+$messages[3] = __('Error saving media attachment.');
+
+if ( isset($_GET['message']) && (int) $_GET['message'] )
+	$message = $messages[$_GET['message']];
+
+if ( isset($message) ) { ?>
+<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
+<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+}
+?>
+
+<?php do_action('restrict_manage_posts'); ?>
+
 <div class="wrap">
 
 <h2><?php
@@ -185,7 +206,6 @@ if ( isset($_GET['detached']) ) {
 }
 ?></h2>
 
-<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 $type_links = array();
@@ -217,56 +237,9 @@ unset($type_links);
 ?>
 </ul>
 
+<div class="filter">
+<form id="list-filter" action="" method="get">
 <?php
-if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Your media has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View media'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit media'); ?></a></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
-endif;
-
-$messages[1] = __('Media attachment updated.');
-$messages[2] = __('Media deleted.');
-$messages[3] = __('Error saving media attachment.');
-
-if ( isset($_GET['message']) && (int) $_GET['message'] )
-	$message = $messages[$_GET['message']];
-
-if ( isset($message) ) { ?>
-<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
-}
-?>
-
-<?php do_action('restrict_manage_posts'); ?>
-
-<div class="tablenav">
-
-<?php
-if ( ! isset($page_links_total) )
-	$page_links_total =  $wp_query->max_num_pages;
-
-$page_links = paginate_links( array(
-	'base' => add_query_arg( 'paged', '%#%' ),
-	'format' => '',
-	'total' => $page_links_total,
-	'current' => $_GET['paged']
-));
-
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
-
-<div class="alignleft">
-<select name="action" id="select-action">
-<option value="" selected><?php _e('Actions'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-<?php if ( isset($orphans) ) { ?>
-<option value="attach"><?php _e('Attach to a post'); ?></option>
-<?php } ?>
-</select>
-<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<?php wp_nonce_field('bulk-media'); ?>
-<?php
-
 if ( ! is_singular() && ! isset($_GET['detached']) ) {
 	$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'attachment' ORDER BY post_date DESC";
 
@@ -299,6 +272,36 @@ foreach ($arc_result as $arc_row) {
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
 
 <?php } // ! is_singular ?>
+</form></div>
+
+<form id="posts-filter" action="" method="get">
+
+<div class="tablenav">
+<?php
+if ( ! isset($page_links_total) )
+	$page_links_total =  $wp_query->max_num_pages;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'total' => $page_links_total,
+	'current' => $_GET['paged']
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div class="alignleft">
+<select name="action" id="select-action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+<?php if ( isset($orphans) ) { ?>
+<option value="attach"><?php _e('Attach to a post'); ?></option>
+<?php } ?>
+</select>
+<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<?php wp_nonce_field('bulk-media'); ?>
 
 <?php if ( isset($_GET['detached']) ) { ?>
 	<input type="submit" id="find_detached" name="find_detached" value="<?php _e('Scan for lost attachments'); ?>" class="button-secondary" />
@@ -427,16 +430,16 @@ if ( 1 == count($posts) && is_singular() ) :
 
 <table class="widefat" style="margin-top: .5em">
 <thead>
-  <tr>
-    <th scope="col"><?php _e('Comment') ?></th>
-    <th scope="col"><?php _e('Date') ?></th>
-    <th scope="col"><?php _e('Actions') ?></th>
-  </tr>
+	<tr>
+		<th scope="col"><?php _e('Comment') ?></th>
+		<th scope="col"><?php _e('Date') ?></th>
+		<th scope="col"><?php _e('Actions') ?></th>
+	</tr>
 </thead>
 <tbody id="the-comment-list" class="list:comment">
 <?php
-        foreach ($comments as $comment)
-                _wp_comment_row( $comment->comment_ID, 'detail', false, false );
+		foreach ($comments as $comment)
+			_wp_comment_row( $comment->comment_ID, 'detail', false, false );
 ?>
 </tbody>
 </table>
