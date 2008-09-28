@@ -1,6 +1,8 @@
 
 switchEditors = {
 
+	mode : '',
+
 	I : function(e) {
 		return document.getElementById(e);
 	},
@@ -9,15 +11,15 @@ switchEditors = {
 		var h = tinymce.util.Cookie.getHash("TinyMCE_content_size"), H = this.I('edButtonHTML'), P = this.I('edButtonPreview');
 
 		// Activate TinyMCE if it's the user's default editor
-		if ( getUserSetting( 'editor', 'tinymce' ) == 'tinymce' ) {
-			try { P.onclick = ''; P.className = 'active'; } catch(e){};
-			try { this.I('editorcontainer').style.padding = '0px'; } catch(e){};
-			try { this.I("quicktags").style.display = "none"; } catch(e){};
-			tinyMCE.execCommand("mceAddControl", false, "content");
-		} else {
-			try { H.onclick = ''; H.className = 'active'; } catch(e){};
+		if ( getUserSetting( 'editor' ) == 'html' ) {
 			if ( h )
 				try { this.I('content').style.height = h.ch - 30 + 'px'; } catch(e){};
+		} else {
+			try {
+				this.I('editorcontainer').style.padding = '0px';
+				this.I("quicktags").style.display = "none";
+			} catch(e){};
+			tinyMCE.execCommand("mceAddControl", false, "content");
 		}
 	},
 	
@@ -89,18 +91,27 @@ switchEditors = {
 		return content;
 	},
 
-	go : function(id) {
-		var ed = tinyMCE.get(id);
+	go : function(id, mode) {
+		id = id || 'content';
+		mode = mode || this.mode || '';
+
+		var ed = tinyMCE.get(id) || false;
 		var qt = this.I('quicktags');
 		var H = this.I('edButtonHTML');
 		var P = this.I('edButtonPreview');
 		var ta = this.I(id);
 		var ec = (ta.parentNode && ta.parentNode.nodeName == 'DIV') ? ta.parentNode : '';
 
-		if ( ! ed || ed.isHidden() ) {
+		if ( 'tinymce' == mode ) {
+
+			if ( ed && ! ed.isHidden() )
+				return false;
+
+			this.mode = 'html';
 			ta.style.color = '#fff';
 
-			this.edToggle(P, H);
+			P.className = 'active';
+			H.className = '';
 			edCloseAllTags(); // :-(
 
 			qt.style.display = 'none';
@@ -115,7 +126,13 @@ switchEditors = {
 
 			setUserSetting( 'editor', 'tinymce' );
 		} else {
-			this.edToggle(H, P);
+			if ( ! ed || ed.isHidden() )
+				return false;
+
+			this.mode = 'tinymce';
+			H.className = 'active';
+			P.className = '';
+
 			ta.style.height = ed.getContentAreaContainer().offsetHeight + 6 + 'px';
 
 			ed.hide();
@@ -135,14 +152,7 @@ switchEditors = {
 			ta.style.color = '';
 			setUserSetting( 'editor', 'html' );
 		}
-	},
-
-	edToggle : function(A, B) {
-		A.className = 'active';
-		B.className = '';
-
-		B.onclick = A.onclick;
-		A.onclick = null;
+		return false;
 	},
 
 	wpautop : function(pee) {

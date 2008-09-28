@@ -66,7 +66,7 @@ function wp_default_scripts( &$scripts ) {
 	$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
 	$scripts->add( 'editor', false, $visual_editor, '20080321' );
 
-	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080823' );
+	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080928' );
 
 	// Modify this version when tinyMCE plugins are changed.
 	$mce_version = apply_filters('tiny_mce_version', '20080830');
