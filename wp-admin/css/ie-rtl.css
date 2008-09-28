@@ -51,7 +51,7 @@ form#widgets-filter {
 	display:none;
 }
 /* fix manage comment page */
-ul.view-switch li {
+.view-switch {
 	float:left;
 }
 form#posts-filter {

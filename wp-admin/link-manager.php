@@ -100,15 +100,7 @@ if ( isset($_GET['deleted']) ) {
 
 <h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
 
-<form id="posts-filter" action="" method="get">
-<div class="tablenav">
-
-<div class="alignleft">
-<select name="action">
-<option value="" selected><?php _e('Actions'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-</select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<form id="list-filter" action="" method="get">
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
 $select_cat = "<select name=\"cat_id\">\n";
@@ -129,7 +121,17 @@ echo $select_order;
 
 ?>
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+</form>
 
+<form id="posts-filter" action="" method="get">
+<div class="tablenav">
+
+<div class="alignleft">
+<select name="action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 </div>
 
 <br class="clear" />

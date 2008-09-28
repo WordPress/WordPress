@@ -131,10 +131,11 @@ h6 {
 
 .subsubsub {
 	list-style: none;
-	margin: 14px 0 8px 0;
+	margin: 0 0 8px;
 	padding: 0;
 	white-space: nowrap;
 	font-size: 12px;
+	float: left;
 }
 
 .subsubsub a { line-height: 200%; padding: 3px; text-decoration: none; }

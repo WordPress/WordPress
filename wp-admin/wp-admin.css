@@ -223,7 +223,7 @@ table#availablethemes td.bottom {
 
 .submit input, .button, .button-secondary, .button-highlighted {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 3px 5px;
+	padding: 2px 4px;
 	font-size: 12px;
 	line-height: 1.5em;
 	border-width: 1px;
@@ -1540,10 +1540,6 @@ form#tags-filter {
 	position: relative;
 }
 
-form#posts-filter {
-	position: relative;
-}
-
 p#big-add-button {
 	position: absolute;
 	right: 0;
@@ -1616,37 +1612,27 @@ td.post-title p {
 }
 
 body.minwidth {
-	min-width: 808px;
+	min-width: 785px;
 }
 
-ul.view-switch {
+.view-switch {
 	float: right;
-	list-style: none;
-	margin: -23px 5px -2px 0;
+	margin: 3px 5px;
 	position: relative;
 }
 
-ul.view-switch li {
-	float: left;
+.view-switch img {
 	margin: 0;
-	font-size: 11px;
-	padding: 4px 6px;
-	font-weight: bold;
+	border: 1px solid #fff;
 }
 
-ul.view-switch a {
-	text-decoration: none;
+.view-switch img.current {
+	border: 1px solid #999;
 }
 
-ul.view-switch li.current {
-	border: none;
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	-khtml-border-top-left-radius: 3px;
-	-khtml-border-top-right-radius: 3px;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
+.filter {
+	float: left;
+	margin: 0 30px;
 }
 
 #the-comment-list td.comment p.comment-author {

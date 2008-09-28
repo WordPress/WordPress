@@ -61,7 +61,7 @@ li.widget-list-control-item h4.widget-title a,
 }
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
-ul.view-switch li.current, .form-table tr, #poststuff h3, #replyhandle,
+.form-table tr, #poststuff h3, #replyhandle,
 .login form, h3.info-box-title, #post-status-info, #edit-settings-wrap,
 #wpbody-content .describe tr {
 	background-color: #eaf3fa;
@@ -247,7 +247,6 @@ div.dashboard-widget-submit input,
 	border-color: #328ab2;
 }
 
-ul.view-switch li.current a,
 #side-info-column #category-tabs .ui-tabs-selected a {
 	color: #333;
 }

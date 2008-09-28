@@ -111,7 +111,6 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 ?>
 <div class="wrap">
 
-<form id="posts-filter" action="" method="get">
 <h2><?php _e('Manage Comments'); ?></h2>
 
 <ul class="subsubsub">
@@ -141,17 +140,6 @@ unset($status_links);
 ?>
 </ul>
 
-<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
-<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
-</form>
-
-<!-- crazyhorse
-<ul class="view-switch">
-	<li <?php if ( 'detail' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'detail', $_SERVER['REQUEST_URI'])) ?>"><?php _e('Detail View') ?></a></li>
-	<li <?php if ( 'list' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><?php _e('List View') ?></a></li>
-</ul>
--->
-
 <?php
 
 $comments_per_page = apply_filters('comments_per_page', 20, $comment_status);
@@ -178,6 +166,8 @@ $page_links = paginate_links( array(
 ?>
 
 <form id="comments-form" action="" method="post">
+<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
 
 <div class="tablenav">
 

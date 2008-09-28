@@ -132,7 +132,6 @@ if ( isset($_GET['author']) && $_GET['author'] ) {
 printf( _c( '%1$s%2$s%3$s (<a href="%4$s">Add New</a>)|You can reorder these: 1: Pages, 2: by {s}, 3: matching {s}' ), $post_status_label, $h2_author, $h2_search, 'page-new.php' );
 ?></h2>
 
-<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 
@@ -189,6 +188,8 @@ $page_links = paginate_links( array(
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
+
+<form id="posts-filter" action="" method="get">
 
 <div class="alignleft">
 <select name="action">

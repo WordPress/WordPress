@@ -310,13 +310,10 @@ p#tag-search, p.search-box {
 #posts-filter fieldset legend {
 	padding: 0 1px .2em 0;
 }
-ul.view-switch {
+.view-switch {
 	float: left;
-	margin: -23px 0 -2px 5px;
 }
-ul.view-switch li {
-	float: right;
-}
+
 #the-comment-list td.comment p.comment-author {
 	margin-right: 0 ;
 }

@@ -155,7 +155,6 @@ if ( is_single() ) {
 }
 ?></h2>
 
-<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 if ( empty($locked_post_status) ) :
@@ -183,38 +182,8 @@ endif;
 ?>
 </ul>
 
-<?php if ( isset($_GET['post_status'] ) ) : ?>
-<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
-<?php endif; ?>
-<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
-
-<ul class="view-switch">
-	<li <?php if ( 'list' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><?php _e('List View') ?></a></li>
-	<li <?php if ( 'excerpt' == $mode ) echo "class='current'" ?>><a href="<?php echo clean_url(add_query_arg('mode', 'excerpt', $_SERVER['REQUEST_URI'])) ?>"><?php _e('Excerpt View') ?></a></li>
-</ul>
-
-<div class="tablenav">
-
-<?php
-$page_links = paginate_links( array(
-	'base' => add_query_arg( 'paged', '%#%' ),
-	'format' => '',
-	'total' => $wp_query->max_num_pages,
-	'current' => $_GET['paged']
-));
-
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
-
-<div class="alignleft">
-<select name="action">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
-<option value="edit"><?php _e('Edit'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-</select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<?php wp_nonce_field('bulk-posts'); ?>
+<div class="filter">
+<form id="list-filter" action="" method="get">
 <?php
 if ( !is_singular() ) {
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
@@ -256,6 +225,42 @@ do_action('restrict_manage_posts');
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
 
 <?php } ?>
+</form>
+</div>
+
+<div class="view-switch">
+	<a href="<?php echo clean_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> src="images/list.gif" title="<?php _e('List View') ?>" alt="<?php _e('List View') ?>" /></a>
+	<a href="<?php echo clean_url(add_query_arg('mode', 'excerpt', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> src="images/exc.gif" title="<?php _e('Excerpt View') ?>" alt="<?php _e('Excerpt View') ?>" /></a>
+</div>
+
+<form id="posts-filter" action="" method="get">
+
+<?php if ( isset($_GET['post_status'] ) ) : ?>
+<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
+<?php endif; ?>
+<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+
+<div class="tablenav">
+<?php
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'total' => $wp_query->max_num_pages,
+	'current' => $_GET['paged']
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div class="alignleft">
+<select name="action">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="edit"><?php _e('Edit'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<?php wp_nonce_field('bulk-posts'); ?>
 </div>
 
 <br class="clear" />
