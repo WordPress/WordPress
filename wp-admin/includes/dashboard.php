@@ -379,6 +379,8 @@ function wp_dashboard_quick_press( $sidebar_args ) {
 		foreach ( $drafts_query->posts as $draft ) {
 			$url = get_edit_post_link( $draft->ID );
 			$title = get_the_title( $draft->ID );
+			if ( empty( $title ) )
+				$title = __('no-title');
 			$list[] = "<a href='$url' title='" . sprintf( __( 'Edit "%s"' ), attribute_escape( $title ) ) . "'>$title</a>";
 		}
 ?>
