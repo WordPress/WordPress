@@ -1529,11 +1529,12 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	return $r;
 }
 
-function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
+function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0 ) {
 	global $wpdb;
 
 	$start = abs( (int) $start );
 	$num = (int) $num;
+	$post = (int) $post;
 
 	if ( 'moderated' == $status )
 		$approved = "comment_approved = '0'";
@@ -1543,6 +1544,11 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 		$approved = "comment_approved = 'spam'";
 	else
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+
+	if ( $post )
+		$post = " AND comment_post_ID = '$post'";
+	else
+		$post = '';
 
 	if ( $s ) {
 		$s = $wpdb->escape($s);
@@ -1555,7 +1561,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num ) {
 			$approved
 			ORDER BY comment_date_gmt DESC LIMIT $start, $num");
 	} else {
-		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE $approved ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
+		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE $approved $post ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
 	}
 
 	update_comment_cache($comments);

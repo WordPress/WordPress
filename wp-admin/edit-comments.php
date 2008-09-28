@@ -65,6 +65,8 @@ $mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attribut
 
 $comment_status = isset($_GET['comment_status']) ? attribute_escape($_GET['comment_status']) : '';
 
+$post_id = isset($_GET['p']) ? (int) $_GET['p'] : 0;
+
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty ); ?>
 
@@ -151,7 +153,7 @@ else
 
 $start = $offset = ( $page - 1 ) * $comments_per_page;
 
-list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5 ); // Grab a few extra
+list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5, $post_id ); // Grab a few extra
 
 $comments = array_slice($_comments, 0, $comments_per_page);
 $extra_comments = array_slice($_comments, $comments_per_page);
