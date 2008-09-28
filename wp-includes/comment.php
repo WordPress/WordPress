@@ -1387,7 +1387,7 @@ function update_comment_cache($comments) {
 //
 
 /**
- * Close comments on old posts on the fly, without any extra DB queries.
+ * Close comments on old posts on the fly, without any extra DB queries.  Hooked to the_posts.
  *
  * @access private
  * @since 2.7.0
@@ -1409,6 +1409,35 @@ function _close_comments_for_old_posts( $posts ) {
 	}
 
 	return $posts;
+}
+
+/**
+ * Close comments on an old post.  Hooked to comments_open.
+ *
+ * @access private
+ * @since 2.7.0
+ *
+ * @param bool $open Comments open or closed
+ * @param int $post_id Post ID
+ * @return bool $open
+ */
+function _close_comments_for_old_post( $open, $post_id ) {
+	if ( ! $open )
+		return $open;
+
+	if ( !get_option('close_comments_for_old_posts') )
+		return $open;
+
+	$days_old = (int) get_option('close_comments_days_old');
+	if ( !$days_old )
+		return $open;
+
+	$post = get_post($post_id);
+
+	if ( time() - strtotime( $post->post_date_gmt ) > ( $days_old * 24 * 60 * 60 ) )
+		return false;
+
+	return $open;
 }
 
 ?>
