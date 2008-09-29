@@ -14,7 +14,7 @@ wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script( 'admin-forms' );
 wp_enqueue_script( 'jquery-table-hotkeys' );
 
-if ( isset( $_POST['delete_all_spam'] ) ) {
+if ( isset( $_POST['delete_all_spam'] ) || isset( $_POST['delete_all_spam2'] ) ) {
 	check_admin_referer('bulk-spam-delete');
 
 	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam'" );

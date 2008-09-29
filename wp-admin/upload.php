@@ -8,8 +8,6 @@
 
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
-//add_thickbox();
-wp_enqueue_script( 'media-upload' );
 wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'jquery-ui-resizable' );
@@ -56,15 +54,25 @@ if ( isset($_GET['find_detached'] ) ) {
 	if ( ! empty($attach) ) {
 		$attach = implode(',', $attach);
 		$attached = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ($attach)", $parent_id) );
-
-		$message = sprintf( __ngettext('Added %1$s attachment to <strong>%2$s</strong>', 'Added %1$s attachments to <strong>%2$s</strong>', $attached, apply_filters( "the_title", $parent->post_title ) ) , $attached, apply_filters( "the_title", $parent->post_title ) );
 	}
 
-	$_GET['detached'] = 1;
+	if ( isset($attached) ) {
+		$location = 'upload.php';
+		if ( $referer = wp_get_referer() ) {
+			if ( false !== strpos($referer, 'upload.php') )
+				$location = $referer;
+		}
+	
+		$location = add_query_arg( array( 'detached' => 1, 'attached' => $attached ) , $location );
+		wp_redirect($location);
+		exit;
+	}
 
-} elseif ( isset($_GET['action']) && isset($_GET['media']) && isset($_GET['doaction']) ) {
+} elseif ( isset($_GET['action']) && isset($_GET['media']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
 	check_admin_referer('bulk-media');
-	if ( $_GET['action'] == 'delete' ) {
+	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
+
+	if ( 'delete' == $doaction ) {
 		foreach( (array) $_GET['media'] as $post_id_del ) {
 			$post_del = & get_post($post_id_del);
 
@@ -87,9 +95,9 @@ if ( isset($_GET['find_detached'] ) ) {
 		wp_redirect($location);
 		exit;
 	}
-} elseif ( !empty($_GET['_wp_http_referer']) ) {
-	wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
-	exit;
+} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
+	 exit;
 }
 
 $title = __('Media Library');
@@ -154,6 +162,12 @@ require_once('admin-header.php'); ?>
 if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
 	$_GET['message'] = '1';
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
+}
+
+if ( isset($_GET['attached']) && (int) $_GET['attached'] ) {
+	$attached = (int) $_GET['attached'];
+	$message = sprintf( __ngettext('Reattached %d attachment', 'Reattached %d attachments', $attached), $attached );
+	$_SERVER['REQUEST_URI'] = remove_query_arg(array('attached'), $_SERVER['REQUEST_URI']);
 }
 
 $messages[1] = __('Media attachment updated.');
@@ -293,14 +307,14 @@ if ( $page_links )
 ?>
 
 <div class="alignleft">
-<select name="action" id="select-action">
-<option value="" selected><?php _e('Actions'); ?></option>
+<select name="action" class="select-action">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 <?php if ( isset($orphans) ) { ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
 <?php wp_nonce_field('bulk-media'); ?>
 
 <?php if ( isset($_GET['detached']) ) { ?>
@@ -324,6 +338,15 @@ if ( $page_links )
 	<th scope="col"><?php echo _c('Date Added|media column header'); ?></th>
 </tr>
 </thead>
+
+<tfoot>
+<tr>
+	<th scope="col" class="check-column"><input type="checkbox" /></th>
+	<th scope="col"></th>
+	<th scope="col"><?php echo _c('Media|media column header'); ?></th>
+	<th scope="col"><?php echo _c('Date Added|media column header'); ?></th>
+</tr>
+</tfoot>
 
 <tbody id="the-list" class="list:post">
 <?php
@@ -383,16 +406,7 @@ if ( $page_links )
 <?php } ?>
 </tbody>
 </table>
-<script type="text/javascript">
-	(function($){
-		$('#submit').click(function(e) {
-			if ( 'attach' == $('#select-action').val() ) {
-				e.preventDefault();
-				findPosts.open();
-			}
-		});
-	})(jQuery);
-</script>
+
 <?php find_posts_div();
 
 } else {
@@ -409,14 +423,14 @@ if ( $page_links )
 ?>
 
 <div class="alignleft">
-<select name="action2" id="select-action">
-<option value="" selected><?php _e('Actions'); ?></option>
+<select name="action2" class="select-action">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 <?php if ( isset($orphans) ) { ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
 <?php } ?>
 </select>
-<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 
 <br class="clear" />
@@ -463,6 +477,22 @@ endif; // posts;
 
 </div>
 
+<script type="text/javascript">
+	jQuery(function($) {
+		$('#doaction').click(function(e) {
+			if ( 'attach' == $('#posts-filter select[name="action"]').val() ) {
+				e.preventDefault();
+				findPosts.open();
+			}
+		});
+		$('#doaction2').click(function(e) {
+			if ( 'attach' == $('#posts-filter select[name="action2"]').val() ) {
+				e.preventDefault();
+				findPosts.open();
+			}
+		});
+	});
+</script>
 <?php
 
 include('admin-footer.php');

@@ -20,7 +20,7 @@ jQuery( function($) {
 		lastClicked = this;
 		return true;
 	} );
-	$( 'thead :checkbox' ).click( function() {
+	$( 'thead :checkbox, tfoot :checkbox' ).click( function() {
 		checkAll( $(this).parents( 'form:first' ) );
 	} );
 } );
