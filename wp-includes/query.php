@@ -1803,11 +1803,11 @@ class WP_Query {
 		if ( !empty($q['category__not_in']) ) {
 			if ( $wpdb->has_cap( 'subqueries' ) ) {
 				$cat_string = "'" . implode("', '", $q['category__not_in']) . "'";
-				$whichcat .= " AND $wpdb->posts.ID NOT IN (SELECT $wpdb->term_relationships.object_id FROM $wpdb->term_relationships WHERE $wpdb->term_relationships.term_taxonomy_id IN ($cat_string) )";
+				$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tt.term_id IN ($cat_string) )";
 			} else {
 				$ids = get_objects_in_term($q['category__not_in'], 'category');
 				if ( is_wp_error( $ids ) )
-					return $ids;
+					$ids = array();
 				if ( is_array($ids) && count($ids > 0) ) {
 					$out_posts = "'" . implode("', '", $ids) . "'";
 					$whichcat .= " AND $wpdb->posts.ID NOT IN ($out_posts)";
@@ -1894,10 +1894,17 @@ class WP_Query {
 		}
 
 		if ( !empty($q['tag__not_in']) ) {
-			$ids = get_objects_in_term($q['tag__not_in'], 'post_tag');
-			if ( is_array($ids) && count($ids > 0) ) {
-				$out_posts = "'" . implode("', '", $ids) . "'";
-				$whichcat .= " AND $wpdb->posts.ID NOT IN ($out_posts)";
+			if ( $wpdb->has_cap( 'subqueries' ) ) {
+				$tag_string = "'" . implode("', '", $q['tag__not_in']) . "'";
+				$whichcat .= " AND $wpdb->posts.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'post_tag' AND tt.term_id IN ($tag_string) )";
+			} else {
+				$ids = get_objects_in_term($q['tag__not_in'], 'post_tag');
+				if ( is_wp_error( $ids ) )
+					$ids = array();
+				if ( is_array($ids) && count($ids > 0) ) {
+					$out_posts = "'" . implode("', '", $ids) . "'";
+					$whichcat .= " AND $wpdb->posts.ID NOT IN ($out_posts)";
+				}
 			}
 		}
 
