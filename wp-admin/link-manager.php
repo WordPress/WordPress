@@ -10,14 +10,15 @@
 require_once ('admin.php');
 
 // Handle bulk deletes
-if ( isset($_GET['action']) && isset($_GET['linkcheck']) && isset($_GET['doaction']) ) {
+if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 	check_admin_referer('bulk-bookmarks');
+	$doaction = $_GET['action'] ? $_GET['action'] : $_GET['action2'];
 
 	if ( ! current_user_can('manage_links') )
 		wp_die( __('You do not have sufficient permissions to edit the links for this blog.') );
-	
-	if ( $_GET['action'] == 'delete' ) {
-		foreach ( (array) $_GET['linkcheck'] as $link_id) {
+
+	if ( 'delete' == $doaction ) {
+		foreach ( (array) $_GET['linkcheck'] as $link_id ) {
 			$link_id = (int) $link_id;
 
 			wp_delete_link($link_id);
@@ -28,8 +29,8 @@ if ( isset($_GET['action']) && isset($_GET['linkcheck']) && isset($_GET['doactio
 		wp_redirect($sendback);
 		exit;
 	}
-} elseif ( !empty($_GET['_wp_http_referer']) ) {
-	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
 
@@ -38,10 +39,10 @@ wp_enqueue_script('links');
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
-if (empty ($cat_id))
+if ( empty($cat_id) )
 	$cat_id = 'all';
 
-if (empty ($order_by))
+if ( empty($order_by) )
 	$order_by = 'order_name';
 
 $title = __('Manage Links');
@@ -158,6 +159,13 @@ if ( $links ) {
 <?php print_column_headers('link'); ?>
 	</tr>
 	</thead>
+
+	<tfoot>
+	<tr>
+<?php print_column_headers('link', false); ?>
+	</tr>
+	</tfoot>
+
 	<tbody>
 <?php
 	$alt = 0;
@@ -248,14 +256,22 @@ if ( $links ) {
 <p><?php _e('No links found.') ?></p>
 <?php } ?>
 
-</form>
-
-<div id="ajax-response"></div>
-
 <div class="tablenav">
+
+<div class="alignleft">
+<select name="action2">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+</div>
+
 <br class="clear" />
 </div>
 
+</form>
+
+<div id="ajax-response"></div>
 
 </div>
 

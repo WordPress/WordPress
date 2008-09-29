@@ -12,11 +12,12 @@ require_once('admin.php');
 // Handle bulk actions
 if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 	check_admin_referer('bulk-link-categories');
+	$doaction = $_GET['action'] ? $_GET['action'] : $_GET['action2'];
 
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
-	
-	if ( $_GET['action'] == 'delete' ) {
+
+	if ( 'delete' == $doaction ) {
 		foreach( (array) $_GET['delete'] as $cat_ID ) {
 			$cat_name = get_term_field('name', $cat_ID, 'link_category');
 			$default_cat_id = get_option('default_link_category');
@@ -38,8 +39,8 @@ if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 		wp_redirect($location);
 		exit();
 	}
-} elseif ( !empty($_GET['_wp_http_referer']) ) {
-	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
 
@@ -120,6 +121,13 @@ if ( $page_links )
 <?php print_column_headers('link-category'); ?>
 	</tr>
 	</thead>
+
+	<tfoot>
+	<tr>
+<?php print_column_headers('link-category', false); ?>
+	</tr>
+	</tfoot>
+
 	<tbody id="the-list" class="list:link-cat">
 <?php
 $start = ($pagenum - 1) * $catsperpage;
@@ -143,17 +151,24 @@ if ( $categories ) {
 	</tbody>
 </table>
 
-</form>
-
 <div class="tablenav">
-
 <?php
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
+
+<div class="alignleft">
+<select name="action2">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+</div>
+
 <br class="clear" />
 </div>
 <br class="clear" />
+</form>
 
 </div>
 

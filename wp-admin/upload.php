@@ -399,8 +399,6 @@ if ( $page_links )
 	include( 'edit-attachment-rows.php' );
 } ?>
 
-</form>
-
 <div id="ajax-response"></div>
 
 <div class="tablenav">
@@ -410,8 +408,20 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
+<div class="alignleft">
+<select name="action2" id="select-action">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+<?php if ( isset($orphans) ) { ?>
+<option value="attach"><?php _e('Attach to a post'); ?></option>
+<?php } ?>
+</select>
+<input type="submit" id="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
 </div>
 
+<br class="clear" />
+</div>
+</form>
 <br class="clear" />
 
 <?php

@@ -87,7 +87,7 @@ if ( 'index.php' == $pagenow ) {
 	$breadcrumb = '<a href="index.php">' . __('Dashboard') . '</a> &rsaquo; ' . $title;
 }
 ?>
-<img id="logo50" src="images/logo50.png" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="breadcrumb"><?php echo $breadcrumb ?></span></h1>
+<img id="logo50" src="images/logo50.png" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?><span id="breadcrumb"><?php echo $breadcrumb ?></span></h1>
 </div>
 
 <?php

@@ -9,15 +9,11 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$action = -1;
-if ( isset($_GET['action2']) && $_GET['action2'] != -1 )
-	$action = $_GET['action2'];
-if ( isset($_GET['action']) && $_GET['action'] != -1 )
-	$action = $_GET['action'];
-
 // Handle bulk actions
-if ( $action != -1 ) {
-	switch ( $action ) {
+if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
+	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
+
+	switch ( $doaction ) {
 		case 'delete':
 			if ( isset($_GET['post']) &&  (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
 				check_admin_referer('bulk-posts');
@@ -41,18 +37,18 @@ if ( $action != -1 ) {
 			if ( isset($_GET['post']) ) {
 				check_admin_referer('bulk-posts');
 				$_GET['post_status'] = $_GET['_status'];
-	
+
 				if ( -1 == $_GET['post_author'] )
 					unset($_GET['post_author']);
-	
+
 				$done = bulk_edit_posts($_GET);
 			}
 			break;
 	}
 
 	$sendback = wp_get_referer();
-	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('post-new.php');
-	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	if ( strpos($sendback, 'post.php') !== false ) $sendback = admin_url('post-new.php');
+	elseif ( strpos($sendback, 'attachments.php') !== false ) $sendback = admin_url('attachments.php');
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	if ( isset($done) ) {
 		$done['upd'] = count( $done['upd'] );
@@ -62,8 +58,8 @@ if ( $action != -1 ) {
 	}
 	wp_redirect($sendback);
 	exit();
-} elseif ( !empty($_GET['_wp_http_referer']) ) {
-	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
 
@@ -114,7 +110,7 @@ endif; ?>
 <div id="message" class="updated fade"><p>
 <?php printf( __ngettext( '%d post updated.', '%d posts updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
 unset($_GET['upd']);
-	
+
 	if ( isset($_GET['skip']) && (int) $_GET['skip'] ) {
 		printf( __ngettext( ' %d post not updated. Somebody is editing it.', ' %d posts not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
 		unset($_GET['skip']);
@@ -132,7 +128,7 @@ if ( is_single() ) {
 	if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) )
         $post_status_label = $post_stati[$_GET['post_status']][1];
    	//TODO: Unreachable code: $post_listing_pageable is undefined, Similar code in upload.php
-	//if ( $post_listing_pageable && !is_archive() && !is_search() ) 
+	//if ( $post_listing_pageable && !is_archive() && !is_search() )
 	//	$h2_noun = is_paged() ? sprintf(__( 'Previous %s' ), $post_status_label) : sprintf(__('Latest %s'), $post_status_label);
 	//else
 		$h2_noun = $post_status_label;
@@ -176,7 +172,7 @@ foreach ( $post_stati as $status => $label ) {
 	$status_links[] = "<li><a href='edit.php?post_status=$status' $class>" .
 	sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
-echo implode( ' |</li>', $status_links ) . '</li>';
+echo implode( ' | </li>', $status_links ) . '</li>';
 unset( $status_links );
 endif;
 ?>
@@ -319,6 +315,15 @@ if ( 1 == count($posts) && is_singular() ) :
     <th scope="col"><?php _e('Submitted') ?></th>
   </tr>
 </thead>
+
+<tfoot>
+  <tr>
+    <th scope="col"><?php _e('Comment') ?></th>
+    <th scope="col"><?php _e('Author') ?></th>
+    <th scope="col"><?php _e('Submitted') ?></th>
+  </tr>
+</tfoot>
+
 <tbody id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)

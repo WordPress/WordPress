@@ -212,6 +212,17 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				<th scope="col" class="action-links"><?php _e('Actions'); ?></th>
 			</tr>
 		</thead>
+
+		<tfoot>
+			<tr>
+				<th scope="col" class="name"><?php _e('Name'); ?></th>
+				<th scope="col" class="num"><?php _e('Version'); ?></th>
+				<th scope="col" class="num"><?php _e('Rating'); ?></th>
+				<th scope="col" class="desc"><?php _e('Description'); ?></th>
+				<th scope="col" class="action-links"><?php _e('Actions'); ?></th>
+			</tr>
+		</tfoot>
+
 		<tbody class="plugins">
 		<?php
 			if( empty($plugins) )
@@ -264,6 +275,13 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 			?>
 		</tbody>
 	</table>
+
+	<div class="tablenav">
+		<?php if ( $page_links )
+				echo "\t\t<div class='tablenav-pages'>$page_links</div>"; ?>
+	</div>
+	<br class="clear" />
+
 <?php
 }
 

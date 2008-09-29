@@ -279,6 +279,17 @@ function print_plugins_table($plugins, $context = '') {
 		<th scope="col" class="action-links"><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
+	
+	<tfoot>
+	<tr>
+		<th scope="col" class="check-column"><input type="checkbox" /></th>
+		<th scope="col"><?php _e('Plugin'); ?></th>
+		<th scope="col" class="num"><?php _e('Version'); ?></th>
+		<th scope="col"><?php _e('Description'); ?></th>
+		<th scope="col" class="action-links"><?php _e('Action'); ?></th>
+	</tr>
+	</tfoot>
+	
 	<tbody class="plugins">
 <?php
 

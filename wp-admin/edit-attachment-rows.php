@@ -14,6 +14,13 @@ if ( ! defined('ABSPATH') ) die();
 <?php print_column_headers('media'); ?>
 	</tr>
 	</thead>
+	
+	<tfoot>
+	<tr>
+<?php print_column_headers('media', false); ?>
+	</tr>
+	</tfoot>
+	
 	<tbody id="the-list" class="list:post">
 <?php
 if ( have_posts() ) {

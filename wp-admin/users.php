@@ -18,12 +18,13 @@ if ( !current_user_can('edit_users') )
 $title = __('Users');
 $parent_file = 'users.php';
 
-$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
-$update = '';
+$update = $doaction = '';
+if ( isset($_REQUEST['action']) )
+	$doaction = $_REQUEST['action'] ? $_REQUEST['action'] : $_REQUEST['action2'];
 
-if ( empty($action) ) {
+if ( empty($doaction) ) {
 	if ( isset($_GET['changeit']) && !empty($_GET['new_role']) )
-		$action = 'promote';
+		$doaction = 'promote';
 }
 
 if ( empty($_REQUEST) ) {
@@ -36,7 +37,7 @@ if ( empty($_REQUEST) ) {
 	$referer = '';
 }
 
-switch ($action) {
+switch ($doaction) {
 
 case 'promote':
 	check_admin_referer('bulk-users');
@@ -207,10 +208,10 @@ default:
 	$usersearch = isset($_GET['usersearch']) ? $_GET['usersearch'] : null;
 	$userspage = isset($_GET['userspage']) ? $_GET['userspage'] : null;
 	$role = isset($_GET['role']) ? $_GET['role'] : null;
-	
+
 	// Query the users
 	$wp_user_search = new WP_User_Search($usersearch, $userspage, $role);
-	
+
 	$messages = array();
 	if ( isset($_GET['update']) ) :
 		switch($_GET['update']) {
@@ -258,7 +259,7 @@ default:
 		?>
 		</ul>
 	</div>
-<?php endif; 
+<?php endif;
 
 if ( ! empty($messages) ) {
 	foreach ( $messages as $msg )
@@ -358,6 +359,13 @@ unset($role_links);
 <?php print_column_headers('user') ?>
 </tr>
 </thead>
+
+<tfoot>
+<tr class="thead">
+<?php print_column_headers('user', false) ?>
+</tr>
+</tfoot>
+
 <tbody id="users" class="list:user user-list">
 <?php
 $style = '';
@@ -378,6 +386,14 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <?php if ( $wp_user_search->results_are_paged() ) : ?>
 	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
+
+<div class="alignleft">
+<select name="action2">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+</div>
 
 <br class="clear" />
 </div>
@@ -474,7 +490,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 }
 break;
 
-} // end of the $action switch
+} // end of the $doaction switch
 
 include('admin-footer.php');
 ?>

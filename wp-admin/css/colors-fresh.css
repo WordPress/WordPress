@@ -315,7 +315,9 @@ div.dashboard-widget-submit input,
 }
 
 .widefat thead,
+.widefat tfoot,
 .thead,
+.tfoot,
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,

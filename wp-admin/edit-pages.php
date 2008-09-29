@@ -10,17 +10,19 @@
 require_once('admin.php');
 
 // Handle bulk actions
-if ( isset($_GET['action']) && $_GET['action'] != -1 ) {
-	switch ( $_GET['action'] ) {
+if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2'] ) ) {
+	$doaction = ( -1 != $_GET['action'] ) ? $_GET['action'] : $_GET['action2'];
+
+	switch ( $doaction ) {
 		case 'delete':
 			if ( isset($_GET['post']) && isset($_GET['doaction']) ) {
 				check_admin_referer('bulk-pages');
 				foreach( (array) $_GET['post'] as $post_id_del ) {
 					$post_del = & get_post($post_id_del);
-		
+
 					if ( !current_user_can('delete_page', $post_id_del) )
 						wp_die( __('You are not allowed to delete this page.') );
-		
+
 					if ( $post_del->post_type == 'attachment' ) {
 						if ( ! wp_delete_attachment($post_id_del) )
 							wp_die( __('Error in deleting...') );
@@ -35,10 +37,10 @@ if ( isset($_GET['action']) && $_GET['action'] != -1 ) {
 			if ( isset($_GET['post']) ) {
 				check_admin_referer('bulk-pages');
 				$_GET['post_status'] = $_GET['_status'];
-	
+
 				if ( -1 == $_GET['post_author'] )
 					unset($_GET['post_author']);
-	
+
 				$done = bulk_edit_posts($_GET);
 			}
 			break;
@@ -55,8 +57,8 @@ if ( isset($_GET['action']) && $_GET['action'] != -1 ) {
 	}
 	wp_redirect($sendback);
 	exit();
-} elseif ( !empty($_GET['_wp_http_referer']) ) {
-	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+} elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
 
@@ -107,19 +109,26 @@ require_once('admin-header.php'); ?>
 </div></form>
 </div></div>
 
-<?php if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
+<div class="wrap">
+
+<?php if ( isset($_GET['upd']) || isset($_GET['skip']) ) { ?>
 <div id="message" class="updated fade"><p>
-<?php printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
-unset($_GET['upd']);
-	
-	if ( isset($_GET['skip']) && (int) $_GET['skip'] ) {
-		printf( __ngettext( ' %d page not updated. Somebody is editing it.', ' %d pages not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
-		unset($_GET['skip']);
-	} ?>
+<?php if ( (int) $_GET['upd'] ) {
+	printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
+	unset($_GET['upd']);
+}
+
+if ( (int) $_GET['skip'] ) {
+	printf( __ngettext( ' %d page not updated. Somebody is editing it.', ' %d pages not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
+	unset($_GET['skip']);
+} ?>
 </p></div>
 <?php } ?>
 
-<div class="wrap">
+<?php if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
+<div id="message" class="updated fade"><p><strong><?php _e('Your page has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View page'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit page'); ?></a></p></div>
+<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
+endif; ?>
 
 <h2><?php
 // Use $_GET instead of is_ since they can override each other
@@ -158,15 +167,11 @@ unset($status_links);
 ?>
 </ul>
 
+<form id="posts-filter" action="" method="get">
+
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
-<?php endif;
-
-if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Your page has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View page'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit page'); ?></a></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
-endif;
-?>
+<?php endif; ?>
 
 <div class="tablenav">
 
@@ -189,11 +194,9 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<form id="posts-filter" action="" method="get">
-
 <div class="alignleft">
 <select name="action">
-<option value="-1" selected><?php _e('Actions'); ?></option>
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
@@ -218,10 +221,36 @@ if ($posts) {
 <?php print_column_headers('page'); ?>
   </tr>
   </thead>
+
+  <tfoot>
+  <tr>
+<?php print_column_headers('page', false); ?>
+  </tr>
+  </tfoot>
+
   <tbody>
   <?php page_rows($posts, $pagenum, $per_page); ?>
   </tbody>
 </table>
+
+<div class="tablenav">
+<?php
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div class="alignleft">
+<select name="action2">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="edit"><?php _e('Edit'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+</div>
+
+<br class="clear" />
+</div>
+
 </form>
 
 <?php inline_edit_row( 'page' ) ?>
@@ -237,13 +266,6 @@ if ($posts) {
 } // end if ($posts)
 ?>
 
-<div class="tablenav">
-<?php
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
-<br class="clear" />
-</div>
 
 <?php
 

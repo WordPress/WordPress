@@ -582,7 +582,7 @@ function get_column_headers($page) {
 	return $columns;
 }
 
-function print_column_headers( $type ) {
+function print_column_headers( $type, $id = true ) {
 	$columns = get_column_headers( $type );
 	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
 	$styles = array();
@@ -614,7 +614,7 @@ function print_column_headers( $type ) {
 			$style .= ' ' . $styles[$type][$column_key];
 		$style = ' style="' . $style . '"';
 ?>
-	<th scope="col" <?php echo "id=\"$column_key\""; echo $class; echo $style?>><?php echo $column_display_name; ?></th>
+	<th scope="col" <?php echo $id ? "id=\"$column_key\"" : ""; echo $class; echo $style; ?>><?php echo $column_display_name; ?></th>
 <?php }
 }
 

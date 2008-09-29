@@ -11,9 +11,9 @@ require_once('admin.php');
 
 $title = __('Tags');
 
-wp_reset_vars(array('action', 'tag'));
+wp_reset_vars( array('action', 'tag') );
 
-if ( isset( $_GET['action'] ) && $_GET['action'] == 'delete' && isset($_GET['delete_tags']) )
+if ( isset( $_GET['action'] ) && isset($_GET['delete_tags']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )
 	$action = 'bulk-delete';
 
 switch($action) {
@@ -107,8 +107,8 @@ break;
 
 default:
 
-if ( !empty($_GET['_wp_http_referer']) ) {
-	 wp_redirect(remove_query_arg(array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI'])));
+if ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
+	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
 
@@ -187,6 +187,13 @@ if ( $page_links )
 <?php print_column_headers('tag'); ?>
 	</tr>
 	</thead>
+
+	<tfoot>
+	<tr>
+<?php print_column_headers('tag', false); ?>
+	</tr>
+	</tfoot>
+
 	<tbody id="the-list" class="list:tag">
 <?php
 
@@ -197,17 +204,25 @@ $count = tag_rows( $pagenum, $tagsperpage, $searchterms );
 	</tbody>
 </table>
 
-</form>
-
 <div class="tablenav">
-
 <?php
 if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
+
+<div class="alignleft">
+<select name="action2">
+<option value="" selected><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+</div>
+
 <br class="clear" />
 </div>
+
 <br class="clear" />
+</form>
 
 </div>
 
