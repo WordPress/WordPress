@@ -132,7 +132,7 @@ function core_upgrade_preamble() {
 	}
 
 	echo '<p>';
-	_e('An updated version of WordPress is available.  Before upgrading, please backup your blog.  Pressing the Backup button below will create a backup of your blog and prompt you to save that backup to your computer.  This sometimes takes a few minutes, so please be patient.  After the backup finishes, continue below to upgrade your blog automatically or manually.');  
+	_e('A new version of WordPress is available for upgrade.  Before upgrading, please backup your blog.  Pressing the Backup button below will create a backup of your blog and prompt you to save that backup to your computer.  This sometimes takes a few minutes, so please be patient.  After the backup finishes, continue below to upgrade your blog automatically or manually.');  
 	echo '</p>';
 
 	echo '<p><a class="button" href="export.php?download=true">' . __('Backup') . '</a></p>';
