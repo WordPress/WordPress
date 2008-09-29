@@ -82,7 +82,7 @@ case 'post':
 	break;
 
 case 'edit':
-	$title = __('Edit');
+	$title = __('Edit Page');
 	$editing = true;
 	$page_ID = $post_ID = $p = (int) $_GET['post'];
 	$post = get_post_to_edit($page_ID);

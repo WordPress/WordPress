@@ -130,17 +130,6 @@ if ( (int) $_GET['skip'] ) {
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<h2><?php
-// Use $_GET instead of is_ since they can override each other
-$h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes( $_GET['s'] ) ) ) : '';
-$h2_author = '';
-if ( isset($_GET['author']) && $_GET['author'] ) {
-	$author_user = get_userdata( (int) $_GET['author'] );
-	$h2_author = ' ' . sprintf(__('by %s'), wp_specialchars( $author_user->display_name ));
-}
-printf( _c( '%1$s%2$s%3$s (<a href="%4$s">Add New</a>)|You can reorder these: 1: Pages, 2: by {s}, 3: matching {s}' ), $post_status_label, $h2_author, $h2_search, 'page-new.php' );
-?></h2>
-
 <ul class="subsubsub">
 <?php
 

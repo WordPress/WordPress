@@ -203,7 +203,6 @@ if( !empty($invalid) )
 <?php endif; ?>
 
 <div class="wrap">
-<h2><?php _e('Plugin Management'); ?></h2>
 <p><?php _e('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
 <?php
 

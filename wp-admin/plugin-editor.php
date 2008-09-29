@@ -96,9 +96,6 @@ default:
 </div>
 <?php endif; ?>
 <div class="wrap">
-<div class="bordertitle">
-	<h2><?php _e('Plugin Editor'); ?></h2>
-</div>
 <div class="tablenav">
 <div class="alignleft">
 <big><?php

@@ -16,7 +16,6 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Reading Settings') ?></h2>
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('reading-options') ?>
 <input type='hidden' name='option_page' value='reading' />

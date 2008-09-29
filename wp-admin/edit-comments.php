@@ -123,8 +123,6 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 
 <div class="wrap">
 
-<h2><?php _e('Manage Comments'); ?></h2>
-
 <ul class="subsubsub">
 <?php
 $status_links = array();

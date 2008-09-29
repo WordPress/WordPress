@@ -56,7 +56,6 @@ if ( isset($_GET['inline']) ) {
 	$parent_file = 'edit.php';
 	require_once('admin-header.php'); ?>
 	<div class="wrap">
-	<h2><?php _e('Upload Media') ?></h2>
 
 	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&upload-page-form=" class="media-upload-form type-form validate" id="file-form">
 	

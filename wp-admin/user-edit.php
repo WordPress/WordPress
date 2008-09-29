@@ -169,7 +169,6 @@ include ('admin-header.php');
 <?php endif; ?>
 
 <div class="wrap" id="profile-page">
-<h2><?php $is_profile_page? _e('Your Profile and Personal Options') : _e('Edit User'); ?></h2>
 
 <form id="your-profile" action="" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>

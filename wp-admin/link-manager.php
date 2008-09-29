@@ -99,8 +99,6 @@ if ( isset($_GET['deleted']) ) {
 
 <div class="wrap">
 
-<h2><?php printf( __('Links (<a href="%s">Add New</a>)' ), 'link-add.php' ); ?></h2>
-
 <form id="list-filter" action="" method="get">
 <?php
 $categories = get_terms('link_category', "hide_empty=1");

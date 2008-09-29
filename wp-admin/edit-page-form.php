@@ -292,13 +292,6 @@ endif;
 
 <div class="wrap">
 
-<h2><?php
-	if ( !isset($post_ID) || 0 == $post_ID )
-		printf( __( '<a href="%s">Pages</a> / Write New Page' ), 'edit-pages.php' );
-	else
-		printf( __( '<a href="%s">Pages</a> / Edit Page' ), 'edit-pages.php' );
-?></h2>
-
 <form name="post" action="page.php" method="post" id="post">
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>

@@ -278,8 +278,6 @@ add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link'
 
 <div class="wrap">
 
-<h2><?php echo $heading; ?></h2>
-
 <!--
 <p id="big-add-button">
 <span id="previewview">

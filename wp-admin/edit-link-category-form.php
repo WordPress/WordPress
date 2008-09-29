@@ -16,14 +16,14 @@ if ( ! empty($cat_ID) ) {
 	/**
 	 * @var string
 	 */
-	$heading = __('Edit Category');
+	$heading = '';
 	$submit_text = __('Edit Category');
 	$form = '<form name="editcat" id="editcat" method="post" action="link-category.php" class="validate">';
 	$action = 'editedcat';
 	$nonce_action = 'update-link-category_' . $cat_ID;
 	do_action('edit_link_category_form_pre', $category);
 } else {
-	$heading = __('Add Category');
+	$heading = '<h2>' . __('Add Category') . '</h2>';
 	$submit_text = __('Add Category');
 	$form = '<form name="addcat" id="addcat" class="add:the-list: validate" method="post" action="link-category.php">';
 	$action = 'addcat';
@@ -53,7 +53,7 @@ _fill_empty_link_category($category);
 ?>
 
 <div class="wrap">
-<h2><?php echo $heading ?></h2>
+<?php echo $heading ?>
 <div id="ajax-response"></div>
 <?php echo $form ?>
 <input type="hidden" name="action" value="<?php echo $action ?>" />

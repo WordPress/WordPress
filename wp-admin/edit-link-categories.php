@@ -78,8 +78,6 @@ endif; ?>
 
 <div class="wrap">
 
-	<h2><?php printf( current_user_can('manage_categories') ? __('Link Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
-
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">
 

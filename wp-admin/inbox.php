@@ -21,7 +21,6 @@ endif;
 ?>
 <div class="wrap">
 <form id="inbox-filter" action="" method="get">
-<h2><?php _e('Inbox'); ?></h2>
 <ul class="subsubsub">
 <li><a href="#" class="current"><?php _e('Messages') ?></a> | </li><li><a href="#"><?php echo sprintf(__('Archived') . ' (%s)', '42'); ?></a></li>
 </ul>

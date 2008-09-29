@@ -72,6 +72,7 @@ case 'bulk-delete':
 break;
 
 case 'edit':
+	$title = __('Edit Tag');
 
 	require_once ('admin-header.php');
 	$tag_ID = (int) $_GET['tag_ID'];
@@ -143,8 +144,6 @@ $messages[6] = __('Tags deleted.'); ?>
 endif; ?>
 
 <div class="wrap">
-
-	<h2><?php printf( current_user_can('manage_categories') ? __('Tags (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addtag' ); ?></h2>
 
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">

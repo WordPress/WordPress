@@ -16,7 +16,6 @@ include('./admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Privacy Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('privacy-options') ?>
 <input type='hidden' name='option_page' value='privacy' />

@@ -10,14 +10,14 @@ if ( ! empty($tag_ID) ) {
 	/**
 	 * @var string
 	 */
-	$heading = __('Edit Tag');
+	$heading = '';
 	$submit_text = __('Edit Tag');
 	$form = '<form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate">';
 	$action = 'editedtag';
 	$nonce_action = 'update-tag_' . $tag_ID;
 	do_action('edit_tag_form_pre', $tag);
 } else {
-	$heading = __('Add Tag');
+	$heading = '<h2>' . __('Add Tag') . '</h2>';
 	$submit_text = __('Add Tag');
 	$form = '<form name="addtag" id="addtag" method="post" action="edit-tags.php" class="add:the-list: validate">';
 	$action = 'addtag';
@@ -27,7 +27,7 @@ if ( ! empty($tag_ID) ) {
 ?>
 
 <div class="wrap">
-<h2><?php echo $heading ?></h2>
+<?php echo $heading ?>
 <div id="ajax-response"></div>
 <?php echo $form ?>
 <input type="hidden" name="action" value="<?php echo $action ?>" />

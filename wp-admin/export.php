@@ -22,7 +22,6 @@ require_once ('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('Export'); ?></h2>
 <p><?php _e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags.'); ?></p>
 <p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>

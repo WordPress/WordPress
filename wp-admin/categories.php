@@ -78,6 +78,8 @@ case 'bulk-delete':
 break;
 case 'edit':
 
+	$title = __('Edit Category');
+
 	require_once ('admin-header.php');
 	$cat_ID = (int) $_GET['cat_ID'];
 	$category = get_category_to_edit($cat_ID);
@@ -139,8 +141,6 @@ if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
 endif; ?>
 
 <div class="wrap">
-
-	<h2><?php printf( current_user_can('manage_categories') ? __('Categories (<a href="%s">Add New</a>)') : __('Manage Tags'), '#addcat' ); ?></h2>
 
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">

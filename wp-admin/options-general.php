@@ -16,7 +16,6 @@ include('./admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php _e('General Settings') ?></h2>
 <form method="post" action="options.php">
 <?php wp_nonce_field('general-options') ?>
 <input type='hidden' name='option_page' value='general' />

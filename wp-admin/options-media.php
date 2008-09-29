@@ -18,7 +18,6 @@ include('admin-header.php');
 
 <div class="wrap">
 
-<h2><?php _e('Media Settings') ?></h2>
 <form action="options.php" method="post">
 <p><?php _e('The setting below determines where images, documents, and other media files will be linked to when inserted into the body of a post.'); ?></p>
 

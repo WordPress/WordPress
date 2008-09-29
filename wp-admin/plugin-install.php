@@ -48,7 +48,6 @@ do_action('install_plugins_pre_' . $tab);
 include('admin-header.php');
 ?>
 <div class="wrap">
-	<h2><?php _e('Install Plugins') ?></h2>
 	<ul class="subsubsub">
 <?php
 $display_tabs = array();

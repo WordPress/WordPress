@@ -364,7 +364,6 @@ function kubrick_theme_page() {
 ?>
 <div class='wrap'>
 	<div id="kubrick-header">
-	<h2><?php _e('Header Image and Color'); ?></h2>
 		<div id="headwrap">
 			<div id="header">
 				<div id="headerimg">
