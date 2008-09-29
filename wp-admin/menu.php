@@ -24,26 +24,26 @@ $awaiting_mod = $awaiting_mod->moderated;
 
 $menu[0] = array( __('Dashboard'), 'read', 'index.php' );
 
-$menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', 'wp-menu-open' );
-	$submenu['edit.php'][5]  = array( __('Write'), 'edit_posts', 'post-new.php' );
-	$submenu['edit.php'][10]  = array( __('Drafts'), 'edit_posts', 'edit-post-drafts.php' );
-	$submenu['edit.php'][15]  = array( __('View All'), 'edit_posts', 'edit.php' );
-	$submenu['edit.php'][20] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
-	$submenu['edit.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );
+$menu[5] = array( __('Posts'), 'edit_posts', 'post-new.php', 'wp-menu-open' );
+	$submenu['post-new.php'][5]  = array( __('Write'), 'edit_posts', 'post-new.php' );
+	$submenu['post-new.php'][10]  = array( __('Drafts'), 'edit_posts', 'edit-post-drafts.php' );
+	$submenu['post-new.php'][15]  = array( __('View All'), 'edit_posts', 'edit.php' );
+	$submenu['post-new.php'][20] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
+	$submenu['post-new.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
-$menu[10] = array( __('Media'), 'upload_files', 'upload.php' );
-	$submenu['upload.php'][5] = array( __('Upload New'), 'upload_files', 'media-upload.php?inline');
-	$submenu['upload.php'][10] = array( __('View All'), 'upload_files', 'upload.php');
+$menu[10] = array( __('Media'), 'upload_files', 'media-upload.php' );
+	$submenu['media-upload.php'][5] = array( __('Upload New'), 'upload_files', 'media-upload.php?inline');
+	$submenu['media-upload.php'][10] = array( __('View All'), 'upload_files', 'upload.php');
 
-$menu[15] = array( __('Links'), 'manage_links', 'link-manager.php' );
-	$submenu['link-manager.php'][5] = array( __('Add New'), 'manage_links', 'link-add.php' );
-	$submenu['link-manager.php'][10] = array( __('View All'), 'manage_links', 'link-manager.php' );
-	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
+$menu[15] = array( __('Links'), 'manage_links', 'link-add.php' );
+	$submenu['link-add.php'][5] = array( __('Add New'), 'manage_links', 'link-add.php' );
+	$submenu['link-add.php'][10] = array( __('View All'), 'manage_links', 'link-manager.php' );
+	$submenu['link-add.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
-$menu[20] = array( __('Pages'), 'edit_pages', 'edit-pages.php' );
-	$submenu['edit-pages.php'][5] = array( __('Write'), 'edit_pages', 'page-new.php' );
-	//$submenu['edit-pages.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-pages.php?post_status=draft' );
-	$submenu['edit-pages.php'][15] = array( __('View All'), 'edit_pages', 'edit-pages.php' );
+$menu[20] = array( __('Pages'), 'edit_pages', 'page-new.php' );
+	$submenu['page-new.php'][5] = array( __('Write'), 'edit_pages', 'page-new.php' );
+	//$submenu['page-new.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-pages.php?post_status=draft' );
+	$submenu['page-new.php'][15] = array( __('View All'), 'edit_pages', 'edit-pages.php' );
 
 $menu[25] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );
 
@@ -75,8 +75,9 @@ $menu[45] = array( __('Help'), 'read', 'dummy.php' );
 	$submenu['dummy.php'][15]  = array( __('Feedback'), 'read', __('http://wordpress.org/support/forum/4') );
 
 // Back-compat for old top-levels
-$_wp_real_parent_file['post.php'] = 'edit.php'; 
-$_wp_real_parent_file['post-new.php'] = 'edit.php';
+$_wp_real_parent_file['post.php'] = 'post-new.php'; 
+$_wp_real_parent_file['edit.php'] = 'post-new.php';
+$_wp_real_parent_file['edit-pages.php'] = 'page-new.php';
 
 do_action('_admin_menu');
 
