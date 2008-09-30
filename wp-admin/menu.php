@@ -66,7 +66,7 @@ $menu[40] = array(__('Tools'), 'manage_options', 'import.php');
 	$submenu['import.php'][5] = array( __('Import'), 'import', 'import.php' );
 	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
 	$submenu['import.php'][15] = array( __('Press This'), 'publish_posts', get_shortcut_link() );
-	$submenu['import.php'][20] = array( __('Turbo'), 'read', '#\' onclick=\'wpGears.message(1);return false;' );
+	$submenu['import.php'][20] = array( __('Turbo'), 'read', 'turbo.php' );
 
 $menu[45] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][5]  = array( __('Manage'), 'activate_plugins', 'plugins.php' );
