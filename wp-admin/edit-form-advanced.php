@@ -132,7 +132,7 @@ if ( 0 != $post->ID ) {
 		$stamp = __('Scheduled for: %1$s at %2$s');
 	} else if ( 'publish' == $post->post_status ) { // already published
 		$stamp = __('Published on: %1$s at %2$s');
-	} else if ( '0000-00-00 00:00:00' == $post->post_date ) { // draft, 1 or more saves, no date specified
+	} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
 		$stamp = __('Publish immediately');
 	} else { // draft, 1 or more saves, date specified
 		$stamp = __('Publish on: %1$s at %2$s');
