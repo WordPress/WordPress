@@ -72,6 +72,9 @@ if ( ! $is_opera ) {
 	<script type="text/javascript">
 		wpGears.message(1);			
 	</script>
-<?php }
+<?php } else {
+	_e('Turbo is not available for your browser.');
+}
 
+include('admin-footer.php');
 ?>
