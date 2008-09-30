@@ -1037,7 +1037,7 @@ class Walker_Comment extends Walker {
 
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 
-		<div class='reply'>
+		<div class="reply" style="display:none">
 		<?php echo comment_reply_link(array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth'])) ?>
 		<?php if ( 'ul' == $args['style'] ) : ?>
 		</div>

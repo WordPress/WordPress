@@ -33,3 +33,8 @@ function cancelCommentReply(respondId, respondRoot) {
 	document.getElementById("comment").focus();				
 	document.getElementById("comment-parent").value = "0";
 }
+
+jQuery(document).ready(function($){
+	$(".thread-odd").find("div.reply").css("display", "block");
+	$(".thread-even").find("div.reply").css("display", "block");
+});
