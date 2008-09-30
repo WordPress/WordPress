@@ -82,7 +82,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
 	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
+		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>" . attribute_escape( $name ) . '</a><br />';
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		if ( $default_cat_id != $category->term_id )
@@ -130,6 +130,9 @@ function _cat_row( $category, $level, $name_override = false ) {
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
+				break;
+			case 'slug':
+				$output .= "<td $attributes>$category->slug</td>";
 				break;
 			case 'posts':
 				$attributes = 'class="posts column-posts num"' . $style;
@@ -401,6 +404,9 @@ function _tag_row( $tag, $class = '' ) {
 					}
 					$out .= '</td>';
 					break;
+				case 'slug':
+					$out .= "<td $attributes>$tag->slug</td>";
+					break;
 				case 'posts':
 					$attributes = 'class="posts column-posts num"' . $style;
 					$out .= "<td $attributes>$count</td>";
@@ -544,6 +550,7 @@ function get_column_headers($page) {
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
+				'slug' => __('Slug'),
 				'posts' => __('Posts')
 			);
 
@@ -561,6 +568,7 @@ function get_column_headers($page) {
 			$columns = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
+				'slug' => __('Slug'),
 				'posts' => __('Posts')
 			);
 
