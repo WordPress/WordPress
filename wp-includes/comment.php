@@ -470,6 +470,8 @@ function &separate_comments(&$comments) {
 	$count = count($comments);
 	for ( $i = 0; $i < $count; $i++ ) {
 		$type = $comments[$i]->comment_type;
+		if ( empty($type) )
+			$type = 'comment';
 		$comments_by_type[$type][] = &$comments[$i];
 		if ( 'trackback' == $type || 'pingback' == $type )
 			$comments_by_type['pings'][] = &$comments[$i];
