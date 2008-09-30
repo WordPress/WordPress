@@ -31,9 +31,9 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'post-new.php', 'wp-menu-open' );
 	$submenu['post-new.php'][20] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
 	$submenu['post-new.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
-$menu[10] = array( __('Media'), 'upload_files', 'media-upload.php' );
-	$submenu['media-upload.php'][5] = array( __('Upload New'), 'upload_files', 'media-upload.php?inline');
-	$submenu['media-upload.php'][10] = array( __('View All'), 'upload_files', 'upload.php');
+$menu[10] = array( __('Media'), 'upload_files', 'media-new.php' );
+	$submenu['media-new.php'][5] = array( __('Upload New'), 'upload_files', 'media-new.php');
+	$submenu['media-new.php'][10] = array( __('View All'), 'upload_files', 'upload.php');
 
 $menu[15] = array( __('Links'), 'manage_links', 'link-add.php' );
 	$submenu['link-add.php'][5] = array( __('Add New'), 'manage_links', 'link-add.php' );
