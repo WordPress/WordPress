@@ -893,9 +893,7 @@ function get_inline_data($post) {
 	if ( ! current_user_can('edit_' . $post->post_type, $post->ID) )
 		return;
 	
-	$title = apply_filters( 'the_title', $post->post_title );
-	if ( empty($title) )
-		$title = __('(no title)');
+	$title = _draft_or_post_title($post->ID);
 
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
@@ -965,9 +963,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 	global $current_user;
 	$post_owner = ( $current_user->ID == $post->post_author ? 'self' : 'other' );
 	$edit_link = get_edit_post_link( $post->ID );
-	$title = get_the_title();
-	if ( empty($title) )
-		$title = __('(no title)');
+	$title = _draft_or_post_title();
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $rowclass . ' author-' . $post_owner . ' status-' . $post->post_status ); ?> iedit' valign="top">
 <?php
@@ -1183,9 +1179,7 @@ function display_page_row( $page, $level = 0 ) {
 	$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
 	$posts_columns = wp_manage_pages_columns();
 	$hidden = (array) get_user_option( 'manage-page-columns-hidden' );
-	$title = get_the_title();
-	if ( empty($title) )
-		$title = __('(no title)');
+	$title = _draft_or_post_title();
 ?>
 <tr id="page-<?php echo $id; ?>" class="<?php echo $rowclass; ?> iedit">
 <?php
@@ -2500,5 +2494,20 @@ function favorite_actions() {
 	}
 	echo "</div></div>\n";
 }
-
+/**
+ * Get the post title.
+ * 
+ * The post title is fetched and if it is blank then a default string is returned.
+ *
+ * @since 2.7.0
+ * @param int $id The post id. If not supplied the global $post is used..
+ * 
+ */
+function _draft_or_post_title($post_id = 0)
+{
+	$title = get_the_title($post_id);
+	if ( empty($title) )
+		$title = __('(no title)'); 
+	return $title;
+}
 ?>

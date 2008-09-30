@@ -320,7 +320,7 @@ if ( $page_links )
 	if ( $orphans ) {
 		foreach ( $orphans as $post ) {
 			$class = 'alternate' == $class ? '' : 'alternate';
-			$att_title = empty($post->post_title) ? __('(no title)') : wp_specialchars( apply_filters('the_title', $post->post_title) );
+			$att_title = wp_specialchars( _draft_or_post_title($post->ID) );
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo $class; ?>' valign="top">
 		<th scope="row" class="check-column"><input type="checkbox" name="media[]" value="<?php echo $post->ID; ?>" /></th>
