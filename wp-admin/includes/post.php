@@ -177,7 +177,9 @@ function edit_post( $post_data = null ) {
 	return $post_ID;
 }
 
+// updates all bulk edited posts/pages, adding (but not removing) tags and categories. Skips pages when they would be their own parent or child.
 function bulk_edit_posts( $post_data = null ) {
+	global $wpdb;
 
 	if ( empty($post_data) )
 		$post_data = &$_POST;
@@ -192,6 +194,12 @@ function bulk_edit_posts( $post_data = null ) {
 
 	$post_IDs = array_map( intval, (array) $post_data['post'] );
 
+	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private', 'tags_input', 'post_category' );
+	foreach ( $reset as $field ) {
+		if ( isset($post_data[$field]) && ( '' == $post_data[$field] || -1 == $post_data[$field] ) )
+			unset($post_data[$field]);
+	}
+
 	if ( isset($post_data['post_category']) ) {
 		if ( is_array($post_data['post_category']) && ! empty($post_data['post_category']) )
 			$new_cats = array_map( absint, $post_data['post_category'] );
@@ -200,25 +208,36 @@ function bulk_edit_posts( $post_data = null ) {
 	}
 
 	if ( isset($post_data['tags_input']) ) {
-		if ( ! empty($post_data['tags_input']) ) {
-			$new_tags = preg_replace( '/\s*,\s*/', ',', rtrim($post_data['tags_input'], ' ,') );
-			$new_tags = explode(',', $new_tags);
-		} else {
-			unset($post_data['tags_input']);
+		$new_tags = preg_replace( '/\s*,\s*/', ',', rtrim( trim($post_data['tags_input']), ' ,' ) );
+		$new_tags = explode(',', $new_tags);
+	}
+
+	if ( isset($post_data['post_parent']) && ($parent = (int) $post_data['post_parent']) ) {
+		$pages = $wpdb->get_results("SELECT ID, post_parent FROM $wpdb->posts WHERE post_type = 'page'");
+		$children = array();
+
+		for ( $i = 0; $i < 50 && $parent > 0; $i++ ) {
+			$children[] = $parent;
+
+			foreach ( $pages as $page ) {
+				if ( $page->ID == $parent ) {
+					$parent = $page->post_parent;
+					break;
+				}
+			}
 		}
 	}
 
-	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private' );
-	foreach ( $reset as $field ) {
-		if ( isset($post_data[$field]) && '' == $post_data[$field] )
-			unset($post_data[$field]);
-	}
-
-	$updated = $skipped = array();
+	$updated = $skipped = $locked = array();
 	foreach ( $post_IDs as $post_ID ) {
 
-		if ( wp_check_post_lock( $post_ID ) ) {
+		if ( isset($children) && in_array($post_ID, $children) ) {
 			$skipped[] = $post_ID;
+			continue;
+		}
+		
+		if ( wp_check_post_lock( $post_ID ) ) {
+			$locked[] = $post_ID;
 			continue;
 		}
 
@@ -236,7 +255,7 @@ function bulk_edit_posts( $post_data = null ) {
 		$updated[] = wp_update_post( $post_data );
 	}
 
-	return array( 'upd' => $updated, 'skip' => $skipped );
+	return array( 'updated' => $updated, 'skipped' => $skipped, 'locked' => $locked );
 }
 
 // Default post information to use when populating the "Write Post" form.

@@ -36,10 +36,13 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 		case 'edit':
 			if ( isset($_GET['post']) ) {
 				check_admin_referer('bulk-posts');
-				$_GET['post_status'] = $_GET['_status'];
 
-				if ( -1 == $_GET['post_author'] )
-					unset($_GET['post_author']);
+				if ( -1 == $_GET['_status'] ) {
+					$_GET['post_status'] = null;
+					unset($_GET['_status'], $_GET['post_status']);
+				} else {
+					$_GET['post_status'] = $_GET['_status'];
+				}
 
 				$done = bulk_edit_posts($_GET);
 			}
@@ -51,10 +54,10 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 	elseif ( strpos($sendback, 'attachments.php') !== false ) $sendback = admin_url('attachments.php');
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	if ( isset($done) ) {
-		$done['upd'] = count( $done['upd'] );
-		$done['skip'] = count( $done['skip'] );
+		$done['updated'] = count( $done['updated'] );
+		$done['skipped'] = count( $done['skipped'] );
+		$done['locked'] = count( $done['locked'] );
 		$sendback = add_query_arg( $done, $sendback );
-		unset($done);
 	}
 	wp_redirect($sendback);
 	exit();
@@ -100,25 +103,30 @@ else
 </div></form>
 </div></div>
 
+<div class="wrap">
+
 <?php
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<?php if ( isset($_GET['upd']) && (int) $_GET['upd'] ) { ?>
+<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) ) { ?>
 <div id="message" class="updated fade"><p>
-<?php printf( __ngettext( '%d post updated.', '%d posts updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
-unset($_GET['upd']);
+<?php if ( (int) $_GET['updated'] ) {
+	printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
+	unset($_GET['updated']);
+}
 
-	if ( isset($_GET['skip']) && (int) $_GET['skip'] ) {
-		printf( __ngettext( ' %d post not updated. Somebody is editing it.', ' %d posts not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
-		unset($_GET['skip']);
-	} ?>
+if ( (int) $_GET['skipped'] )
+	unset($_GET['skipped']);
+
+if ( (int) $_GET['locked'] ) {
+	printf( __ngettext( ' %d page not updated, somebody is editing it.', ' %d pages not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['skipped'] ) );
+	unset($_GET['locked']);
+} ?>
 </p></div>
 <?php } ?>
-
-<div class="wrap">
 
 <ul class="subsubsub">
 <?php

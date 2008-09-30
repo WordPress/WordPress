@@ -36,10 +36,13 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 		case 'edit':
 			if ( isset($_GET['post']) ) {
 				check_admin_referer('bulk-pages');
-				$_GET['post_status'] = $_GET['_status'];
 
-				if ( -1 == $_GET['post_author'] )
-					unset($_GET['post_author']);
+				if ( -1 == $_GET['_status'] ) {
+					$_GET['post_status'] = null;
+					unset($_GET['_status'], $_GET['post_status']);
+				} else {
+					$_GET['post_status'] = $_GET['_status'];
+				}
 
 				$done = bulk_edit_posts($_GET);
 			}
@@ -50,10 +53,10 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	if ( isset($done) ) {
-		$done['upd'] = count( $done['upd'] );
-		$done['skip'] = count( $done['skip'] );
+		$done['updated'] = count( $done['updated'] );
+		$done['skipped'] = count( $done['skipped'] );
+		$done['locked'] = count( $done['locked'] );
 		$sendback = add_query_arg( $done, $sendback );
-		unset($done);
 	}
 	wp_redirect($sendback);
 	exit();
@@ -111,16 +114,21 @@ require_once('admin-header.php'); ?>
 
 <div class="wrap">
 
-<?php if ( isset($_GET['upd']) || isset($_GET['skip']) ) { ?>
+<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) ) { ?>
 <div id="message" class="updated fade"><p>
-<?php if ( (int) $_GET['upd'] ) {
-	printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['upd'] ), number_format_i18n( $_GET['upd'] ) );
-	unset($_GET['upd']);
+<?php if ( (int) $_GET['updated'] ) {
+	printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
+	unset($_GET['updated']);
 }
 
-if ( (int) $_GET['skip'] ) {
-	printf( __ngettext( ' %d page not updated. Somebody is editing it.', ' %d pages not updated. Somebody is editing them.', $_GET['skip'] ), number_format_i18n( $_GET['skip'] ) );
-	unset($_GET['skip']);
+if ( (int) $_GET['skipped'] ) {
+	printf( __ngettext( ' %d page not updated, invalid parent page specified.', ' %d pages not updated, invalid parent page specified.', $_GET['skipped'] ), number_format_i18n( $_GET['skipped'] ) );
+	unset($_GET['skipped']);
+}
+
+if ( (int) $_GET['locked'] ) {
+	printf( __ngettext( ' %d page not updated, somebody is editing it.', ' %d pages not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['skipped'] ) );
+	unset($_GET['locked']);
 } ?>
 </p></div>
 <?php } ?>

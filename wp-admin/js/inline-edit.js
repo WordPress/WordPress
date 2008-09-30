@@ -98,11 +98,17 @@ inlineEdit = {
 			if ( $(this).attr('checked') ) {
 				var id = $(this).val();
 				c = c == '' ? ' class="alternate"' : '';
-				te += '<div'+c+'>'+$('#inline_'+id+' .post_title').text()+'</div>';
+				te += '<div'+c+' id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+$('#inline_'+id+' .post_title').text()+'</div>';
 			}
 		});
 
 		$('#bulk-titles').html(te);
+		$('#bulk-titles a').click(function() {
+			var id = $(this).attr('id').substr(1), r = inlineEdit.type+'-'+id;
+
+			$('table.widefat input[value="'+id+'"]').attr('checked', '');
+			$('#ttle'+id).remove();
+		});
 
 		// enable autocomplete for tags
 		if ( this.type == 'post' )

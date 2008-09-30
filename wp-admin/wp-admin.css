@@ -2310,6 +2310,19 @@ a.togbox {
 	padding: 1px 2px;
 }
 
+#bulk-titles div a {
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 10px;
+	margin: 3px 3px 0 -2px;
+	overflow: hidden;
+	position: relative;
+	text-indent: -9999px;
+	width: 10px;
+}
+
+
 /* Media library */
 #wpbody-content #media-items .describe {
 	border-collapse: collapse;

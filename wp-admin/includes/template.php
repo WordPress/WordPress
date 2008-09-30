@@ -693,7 +693,7 @@ function inline_edit_row( $type ) {
 					<div class="in">
 					<select name="post_parent">
 						<?php if ( $bulk ) { ?>
-						<option value=""><?php _e('- No Change -'); ?></option>
+						<option value="-1"><?php _e('- No Change -'); ?></option>
 						<?php } ?>
 						<option value="0"><?php _e('Main Page (no parent)'); ?></option>
 						<?php parent_dropdown(); ?>
@@ -706,7 +706,7 @@ function inline_edit_row( $type ) {
 					<div class="in">
 					<select name="page_template">
 						<?php if ( $bulk ) { ?>
-						<option value=""><?php _e('- No Change -'); ?></option>
+						<option value="-1"><?php _e('- No Change -'); ?></option>
 						<?php } ?>
 						<option value="default"><?php _e('Default Template'); ?></option>
 						<?php page_template_dropdown() ?>
@@ -784,7 +784,7 @@ function inline_edit_row( $type ) {
 					<div class="title"><?php _e('Author'); ?></div>
 					<div class="in">
 					<?php 
-					$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors');
+					$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1);
 					if ( $bulk ) $users_opt['show_option_none'] = __('- No Change -');
 					wp_dropdown_users( $users_opt ); ?>
 					</div>
@@ -809,7 +809,7 @@ function inline_edit_row( $type ) {
 					<div class="in">
 					<select name="_status">
 						<?php if ( $bulk ) { ?>
-						<option value=""><?php _e('- No Change -'); ?></option>
+						<option value="-1"><?php _e('- No Change -'); ?></option>
 							<?php if ( $can_publish ) { ?>
 							<option value="private"><?php _e('Private') ?></option>
 							<?php } ?>
