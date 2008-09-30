@@ -42,7 +42,7 @@ $menu[15] = array( __('Links'), 'manage_links', 'link-add.php' );
 
 $menu[20] = array( __('Pages'), 'edit_pages', 'page-new.php' );
 	$submenu['page-new.php'][5] = array( __('Write'), 'edit_pages', 'page-new.php' );
-	//$submenu['page-new.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-pages.php?post_status=draft' );
+	$submenu['page-new.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-page-drafts.php' );
 	$submenu['page-new.php'][15] = array( __('View All'), 'edit_pages', 'edit-pages.php' );
 
 $menu[25] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );

@@ -65,7 +65,8 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 	 exit;
 }
 
-$title = __('Pages');
+if ( empty($title) )
+	$title = __('View All Pages');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit');
@@ -142,7 +143,7 @@ endif; ?>
 <?php
 
 $avail_post_stati = get_available_post_statuses('page');
-
+if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts('page', 'readable');
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
@@ -161,6 +162,7 @@ foreach ( $post_stati as $status => $label ) {
 }
 echo implode(' |</li>', $status_links) . '</li>';
 unset($status_links);
+endif;
 ?>
 </ul>
 
