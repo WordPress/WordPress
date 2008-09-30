@@ -61,15 +61,19 @@ $menu[35] = array(__('Settings'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
 	$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
 	$submenu['options-general.php'][50] = array( __('Users'), 'edit_users', 'users.php' );
-	$submenu['options-general.php'][55] = array( __('Import'), 'import', 'import.php' );
-	$submenu['options-general.php'][60] = array( __('Export'), 'import', 'export.php' );
 
-$menu[40] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
+$menu[40] = array(__('Tools'), 'manage_options', 'import.php');
+	$submenu['import.php'][5] = array( __('Import'), 'import', 'import.php' );
+	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
+	$submenu['import.php'][15] = array( __('Press This'), 'publish_posts', get_shortcut_link() );
+	$submenu['import.php'][20] = array( __('Turbo'), 'read', '#\' onclick=\'wpGears.message(1);return false;' );
+
+$menu[45] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][5]  = array( __('Manage'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 	$submenu['plugins.php'][15] = array(__('Browse'), 'install_plugins', 'plugin-install.php');
 
-$menu[45] = array( __('Help'), 'read', 'dummy.php' );
+$menu[50] = array( __('Help'), 'read', 'dummy.php' );
 	$submenu['dummy.php'][5]  = array( __('Documentation'), 'read', __('http://codex.wordpress.org/') );
 	$submenu['dummy.php'][10]  = array( __('Forums'), 'read', __('http://wordpress.org/support/') );
 	$submenu['dummy.php'][15]  = array( __('Feedback'), 'read', __('http://wordpress.org/support/forum/4') );
