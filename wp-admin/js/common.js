@@ -76,8 +76,9 @@ jQuery( function($) {
 	$('#adminmenu li.wp-has-submenu > a').click( function() { return menuToggle( $(this).siblings('ul') ); } );
 
 	$('#dashmenu li.wp-has-submenu').bind( 'mouseenter mouseleave', function() { return menuToggle( $(this).children('ul'), 'toggle' ); } );
-	
-	$('#favorite-actions').bind( 'mouseenter mouseleave', function(){$('#favorite-action').slideToggle('fast')} );
+
+	$('#favorite-actions').bind( 'mouseenter', function(){$('#favorite-action').removeClass('slideUp').addClass('slideDown'); setTimeout(function(){if ( $('#favorite-action').hasClass('slideDown') ) { $('#favorite-action').slideDown('fast') }}, 300) } );
+	$('#favorite-actions').bind( 'mouseleave', function(){$('#favorite-action').removeClass('slideDown').addClass('slideUp'); setTimeout(function(){if ( $('#favorite-action').hasClass('slideUp') ) { $('#favorite-action').slideUp('fast') }}, 500) } );
 
 } );
 
