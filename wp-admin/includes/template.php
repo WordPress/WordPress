@@ -1531,7 +1531,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	return $r;
 }
 
-function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0 ) {
+function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0, $type = '' ) {
 	global $wpdb;
 
 	$start = abs( (int) $start );
@@ -1552,6 +1552,15 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	else
 		$post = '';
 
+	if ( 'comment' == $type )
+		$typesql = "AND comment_type = ''";
+	elseif ( 'pingback' == $type )
+		$typesql = "AND comment_type = 'pingback'";
+	elseif ( 'trackback' == $type )
+		$typesql = "AND comment_type = 'trackback'";
+	else
+		$typesql = '';
+
 	if ( $s ) {
 		$s = $wpdb->escape($s);
 		$comments = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE
@@ -1561,9 +1570,10 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 			comment_author_IP LIKE ('%$s%') OR
 			comment_content LIKE ('%$s%') ) AND
 			$approved
+			$typesql
 			ORDER BY comment_date_gmt DESC LIMIT $start, $num");
 	} else {
-		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE $approved $post ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
+		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE $approved $post $typesql ORDER BY comment_date_gmt DESC LIMIT $start, $num" );
 	}
 
 	update_comment_cache($comments);

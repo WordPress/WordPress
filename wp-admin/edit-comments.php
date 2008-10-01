@@ -72,7 +72,9 @@ require_once('admin-header.php');
 
 $mode = ( ! isset($_GET['mode']) || empty($_GET['mode']) ) ? 'detail' : attribute_escape($_GET['mode']);
 
-$comment_status = isset($_GET['comment_status']) ? attribute_escape($_GET['comment_status']) : '';
+$comment_status = !empty($_GET['comment_status']) ? attribute_escape($_GET['comment_status']) : '';
+
+$comment_type = !empty($_GET['comment_type']) ? attribute_escape($_GET['comment_type']) : '';
 
 $post_id = isset($_GET['p']) ? (int) $_GET['p'] : 0;
 
@@ -134,13 +136,14 @@ $stati = array(
 	);
 $class = ( '' === $comment_status ) ? ' class="current"' : '';
 $status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('Show All Comments')."</a>";
+$type = ( !$comment_type && 'all' != $comment_type ) ? '' : "&amp;comment_type=$comment_type";
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
 	if ( $status == $comment_status )
 		$class = ' class="current"';
 
-	$status_links[] = "<li class='$status'><a href=\"edit-comments.php?comment_status=$status\"$class>$label</a>";
+	$status_links[] = "<li class='$status'><a href=\"edit-comments.php?comment_status=$status$type\"$class>$label</a>";
 }
 
 $status_links = apply_filters( 'comment_status_links', $status_links );
@@ -149,6 +152,29 @@ echo implode(' | </li>', $status_links) . '</li>';
 unset($status_links);
 ?>
 </ul>
+
+<div class="filter">
+<form id="list-filter" action="" method="get">
+<?php if ( $comment_status ) echo "<input type='hidden' name='comment_status' value='$comment_status' />\n"; ?>
+<select name="comment_type">
+	<option value="all"><?php _e('Show all comment types'); ?></option>
+<?php
+	$comment_types = array(
+		'comment' => __('Comments'),
+		'pingback' => __('Pingbacks'),
+		'trackback' => __('Trackbacks'),
+	);
+
+	foreach ( $comment_types as $type => $label ) {
+		echo "	<option value='$type'";
+		selected( $comment_type, $type );
+		echo ">$label</option>\n";
+	}
+?>
+</select>
+<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+</form>
+</div>
 
 <?php
 $comments_per_page = apply_filters('comments_per_page', 20, $comment_status);
@@ -160,7 +186,7 @@ else
 
 $start = $offset = ( $page - 1 ) * $comments_per_page;
 
-list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5, $post_id ); // Grab a few extra
+list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5, $post_id, $comment_type ); // Grab a few extra
 
 $comments = array_slice($_comments, 0, $comments_per_page);
 $extra_comments = array_slice($_comments, $comments_per_page);
