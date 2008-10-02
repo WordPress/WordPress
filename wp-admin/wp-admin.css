@@ -43,7 +43,6 @@ form#upload #post_content, form#upload #post_title {
 	border-style: solid !important;
 }
 
-
 form#upload #post_content {
 	height: 50px;
 }
@@ -58,7 +57,7 @@ form#upload #post_content {
 }
 
 table#availablethemes {
-	border-spacing: 0px;
+	border-spacing: 0;
 	border: none;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
@@ -165,7 +164,7 @@ table#availablethemes td.bottom {
 }
 
 .commentlist li li {
-	border-bottom: 0px;
+	border-bottom: 0;
 	padding: 0;
 }
 
@@ -251,7 +250,7 @@ table#availablethemes td.bottom {
 	border-width: 1px;
 	border-style: solid;
 	height: 2em;
-	vertical-align:top;
+	vertical-align: top;
 }
 
 .approve {
@@ -279,7 +278,6 @@ table#availablethemes td.bottom {
 .narrow p {
 	line-height: 150%;
 }
-
 
 table .vers {
 	text-align: center;
@@ -438,7 +436,7 @@ textarea.all-options, input.all-options {
 
 /* A handy div class for hiding controls.
 Some browsers will disable them when you
-set display:none; */
+set display: none; */
 .zerosize {
 	height: 0;
 	width: 0;
@@ -602,7 +600,7 @@ td.media-icon img {
 
 a.view-comment-post-link {
 	position: absolute;
-	text-decoration:underline;
+	text-decoration: underline;
 }
 
 /* Admin Header */
@@ -751,8 +749,8 @@ ul#adminmenu li.write-new-button a {
 	-webkit-border-bottom-right-radius: 7px;
 	border-bottom-left-radius: 7px;
 	border-bottom-right-radius: 7px;
-	-webkit-box-shadow:0 2px 6px rgba(0,0,0,0.2);
-	-moz-box-shadow:0 2px 6px rgba(0,0,0,0.2);
+	-webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 #dashmenu ul a {
@@ -813,7 +811,7 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu a {
 	font-size: 13px;
-	padding: 0px 7px 0px 36px;
+	padding: 0 7px 0 36px;
 	line-height: 1.1;
 	display: block;
 	text-indent: -18px;
@@ -920,7 +918,7 @@ strong .post-com-count {
 /* Admin Footer */
 
 html, body {
-	height:100%;
+	height: 100%;
 }
 
 #wpwrap {
@@ -1303,10 +1301,10 @@ table.form-table td .updated {
 }
 
 .postarea #add-media-button {
-	float:right;
-	margin:7px 0pt 0pt;
-	position:relative;
-	right:10px;
+	float: right;
+	margin: 7px 0pt 0pt;
+	position: relative;
+	right: 10px;
 }
 
 #poststuff #editor-toolbar {
@@ -1608,7 +1606,7 @@ td.post-title p {
 .ui-tabs-hide { display: none; }
 
 .commentlist .avatar {
-	vertical-align:text-top;
+	vertical-align: text-top;
 }
 
 .defaultavatarpicker .avatar {
@@ -1842,7 +1840,7 @@ a.togbox {
 
 #inbox-filter .actions {
 	margin-left: 6px;
-	background: url(images/archive-link.png) 0px 12px no-repeat;
+	background: url(images/archive-link.png) 0 12px no-repeat;
 	padding-left: 16px;
 }
 
@@ -1933,7 +1931,7 @@ a.togbox {
 	position: relative;
 	float: right;
 	padding-left: 10px;
-	font-size:12px;
+	font-size: 12px;
 }
 
 #sidemenu a {
@@ -2332,8 +2330,8 @@ a.togbox {
 }
 
 #wpbody-content .media-item .thumbnail {
-	max-height:128px;
-	max-width:128px;
+	max-height: 128px;
+	max-width: 128px;
 }
 
 #wpbody-content .media-upload-form label {
