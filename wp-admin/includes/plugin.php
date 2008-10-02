@@ -556,7 +556,7 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
  * @return unknown
  */
 function add_management_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'edit.php', $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( 'import.php', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 function add_options_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
