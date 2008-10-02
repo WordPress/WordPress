@@ -38,6 +38,9 @@ $options['headers'] = array(
 
 $response = wp_remote_get('http://api.pingomatic.com/updated-batch/', $options);
 
+if ( is_wp_error( $response ) )
+	wp_die(__('Request Failed.'));
+
 if ( $response['response']['code'] != 200 )
 	wp_die(__('Request Failed.'));
 

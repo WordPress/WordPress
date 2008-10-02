@@ -1316,7 +1316,10 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 		'excerpt' => urlencode($excerpt)
 	);
 
-	wp_remote_post($trackback_url, $options);
+	$response = wp_remote_post($trackback_url, $options);
+	
+	if ( is_wp_error( $response ) )
+		return;
 
 	$tb_url = addslashes( $trackback_url );
 	$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = %d", $ID) );

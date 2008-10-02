@@ -1039,6 +1039,9 @@ function wp_get_http( $url, $file_path = false, $deprecated = false ) {
 
 	$response = wp_remote_request($url, $options);
 
+	if ( is_wp_error( $response ) )
+		return false;
+
 	$headers = wp_remote_retrieve_headers( $response );
 	if ( false == $file_path )
 		return $headers;
@@ -1072,6 +1075,10 @@ function wp_get_http( $url, $file_path = false, $deprecated = false ) {
  */
 function wp_get_http_headers( $url, $deprecated = false ) {
 	$response = wp_remote_head( $url );
+
+	if ( is_wp_error( $response ) )
+		return false;
+
 	return wp_remote_retrieve_headers( $response );
 }
 
@@ -1240,11 +1247,9 @@ function add_magic_quotes( $array ) {
  * @uses wp_remote_get()
  *
  * @param string $uri URI/URL of web page to retrieve.
- * @return string HTTP content.
+ * @return bool|string HTTP content. False on failure.
  */
 function wp_remote_fopen( $uri ) {
-	// parse url() should not be used for validation of URLs.
-	// Keeping anyway, since the Filter extension is not available on all servers.
 	$parsed_url = @parse_url( $uri );
 
 	if ( !$parsed_url || !is_array( $parsed_url ) )
@@ -1254,6 +1259,9 @@ function wp_remote_fopen( $uri ) {
 	$options['timeout'] = 10;
 
 	$response = wp_remote_get( $uri, $options );
+
+	if ( is_wp_error( $response ) )
+		return false;
 
 	return $response['body'];
 }
