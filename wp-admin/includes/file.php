@@ -1,13 +1,20 @@
 <?php
+/**
+ * File contains all the administration image manipulation functions.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** The descriptions for theme files. */
 $wp_file_descriptions = array (
 	'index.php' => __( 'Main Index Template' ),
 	'style.css' => __( 'Stylesheet' ),
-	'rtl.css' => __( 'RTL Stylesheet' ), 
-	'comments.php' => __( 'Comments' ), 
-	'comments-popup.php' => __( 'Popup Comments' ), 
-	'footer.php' => __( 'Footer' ), 
-	'header.php' => __( 'Header' ), 
+	'rtl.css' => __( 'RTL Stylesheet' ),
+	'comments.php' => __( 'Comments' ),
+	'comments-popup.php' => __( 'Popup Comments' ),
+	'footer.php' => __( 'Footer' ),
+	'header.php' => __( 'Header' ),
 	'sidebar.php' => __( 'Sidebar' ),
 	'archive.php' => __( 'Archives' ),
 	'category.php' => __( 'Category Template' ),
@@ -27,6 +34,15 @@ $wp_file_descriptions = array (
 	'.htaccess' => __( '.htaccess (for rewrite rules )' ),
 	// Deprecated files
 	'wp-layout.css' => __( 'Stylesheet' ), 'wp-comments.php' => __( 'Comments Template' ), 'wp-comments-popup.php' => __( 'Popup Comments Template' ));
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file
+ * @return unknown
+ */
 function get_file_description( $file ) {
 	global $wp_file_descriptions;
 
@@ -42,6 +58,13 @@ function get_file_description( $file ) {
 	return basename( $file );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_home_path() {
 	$home = get_option( 'home' );
 	if ( $home != '' && $home != get_option( 'siteurl' ) ) {
@@ -56,6 +79,14 @@ function get_home_path() {
 	return $home_path;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file
+ * @return unknown
+ */
 function get_real_file_to_edit( $file ) {
 	if ('index.php' == $file || '.htaccess' == $file ) {
 		$real_file = get_home_path() . $file;
@@ -65,8 +96,16 @@ function get_real_file_to_edit( $file ) {
 
 	return $real_file;
 }
-//$folder = Full path to folder
-//$levels = Levels of folders to follow, Default: 100 (PHP Loop limit)
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param string $folder Optional. Full path to folder
+ * @param int $levels Optional. Levels of folders to follow, Default: 100 (PHP Loop limit).
+ * @return bool|array
+ */
 function list_files( $folder = '', $levels = 100 ) {
 	if( empty($folder) )
 		return false;
@@ -94,6 +133,13 @@ function list_files( $folder = '', $levels = 100 ) {
 	return $files;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_temp_dir() {
 	if ( defined('WP_TEMP_DIR') )
 		return trailingslashit(WP_TEMP_DIR);
@@ -108,6 +154,15 @@ function get_temp_dir() {
 	return '/tmp/';
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $filename
+ * @param unknown_type $dir
+ * @return unknown
+ */
 function wp_tempnam($filename = '', $dir = ''){
 	if ( empty($dir) )
 		$dir = get_temp_dir();
@@ -120,6 +175,15 @@ function wp_tempnam($filename = '', $dir = ''){
 	return $filename;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file
+ * @param unknown_type $allowed_files
+ * @return unknown
+ */
 function validate_file_to_edit( $file, $allowed_files = '' ) {
 	$file = stripslashes( $file );
 
@@ -140,11 +204,15 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
 	}
 }
 
-// array wp_handle_upload ( array &file [, array overrides] )
-// file: reference to a single element of $_FILES. Call the function once for each uploaded file.
-// overrides: an associative array of names=>values to override default variables with extract( $overrides, EXTR_OVERWRITE ).
-// On success, returns an associative array of file attributes.
-// On failure, returns $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param array $file Reference to a single element of $_FILES. Call the function once for each uploaded file.
+ * @param array $overrides Optional. An associative array of names=>values to override default variables with extract( $overrides, EXTR_OVERWRITE ).
+ * @return array On success, returns an associative array of file attributes. On failure, returns $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
+ */
 function wp_handle_upload( &$file, $overrides = false ) {
 	// The default error handler.
 	if (! function_exists( 'wp_handle_upload_error' ) ) {
@@ -236,7 +304,18 @@ function wp_handle_upload( &$file, $overrides = false ) {
 
 	return $return;
 }
-// Pass this function an array similar to that of a $_FILES POST array.
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * Pass this function an array similar to that of a $_FILES POST array.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file
+ * @param unknown_type $overrides
+ * @return unknown
+ */
 function wp_handle_sideload( &$file, $overrides = false ) {
 	// The default error handler.
 	if (! function_exists( 'wp_handle_upload_error' ) ) {
@@ -334,11 +413,14 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 }
 
 /**
-* Downloads a url to a local file using the Snoopy HTTP Class
-*
-* @param string $url the URL of the file to download
-* @return mixed WP_Error on failure, string Filename on success.
-*/
+ * Downloads a url to a local file using the Snoopy HTTP Class.
+ *
+ * @since unknown
+ * @todo Transition over to using the new HTTP Request API (jacob).
+ *
+ * @param string $url the URL of the file to download
+ * @return mixed WP_Error on failure, string Filename on success.
+ */
 function download_url( $url ) {
 	//WARNING: The file is not automatically deleted, The script must unlink() the file.
 	if( ! $url )
@@ -367,6 +449,15 @@ function download_url( $url ) {
 	return $tmpfname;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file
+ * @param unknown_type $to
+ * @return unknown
+ */
 function unzip_file($file, $to) {
 	global $wp_filesystem;
 
@@ -427,6 +518,15 @@ function unzip_file($file, $to) {
 	return true;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $from
+ * @param unknown_type $to
+ * @return unknown
+ */
 function copy_dir($from, $to) {
 	global $wp_filesystem;
 
@@ -452,6 +552,14 @@ function copy_dir($from, $to) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function WP_Filesystem( $args = false ) {
 	global $wp_filesystem;
 
@@ -480,6 +588,14 @@ function WP_Filesystem( $args = false ) {
 	return true;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $args
+ * @return unknown
+ */
 function get_filesystem_method($args = array()) {
 	$method = false;
 	if( function_exists('getmyuid') && function_exists('fileowner') ){
@@ -495,6 +611,16 @@ function get_filesystem_method($args = array()) {
 	return apply_filters('filesystem_method', $method);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $form_post
+ * @param unknown_type $type
+ * @param unknown_type $error
+ * @return unknown
+ */
 function request_filesystem_credentials($form_post, $type = '', $error = false) {
 	$req_cred = apply_filters('request_filesystem_credentials', '', $form_post, $type, $error);
 	if ( '' !== $req_cred )

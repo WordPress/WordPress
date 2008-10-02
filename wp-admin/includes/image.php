@@ -221,7 +221,7 @@ function wp_exif_date2ts($str) {
 }
 
 /**
- * Get extended image metadata, exif or iptc as available
+ * Get extended image metadata, exif or iptc as available.
  *
  * @since unknown
  *

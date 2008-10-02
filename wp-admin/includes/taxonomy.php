@@ -1,9 +1,23 @@
 <?php
+/**
+ * WordPress Taxonomy Administration API.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
 //
 // Category
 //
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $cat_name
+ * @return unknown
+ */
 function category_exists($cat_name) {
 	$id = is_term($cat_name, 'category');
 	if ( is_array($id) )
@@ -11,11 +25,28 @@ function category_exists($cat_name) {
 	return $id;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_category_to_edit( $id ) {
 	$category = get_category( $id, OBJECT, 'edit' );
 	return $category;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $cat_name
+ * @param unknown_type $parent
+ * @return unknown
+ */
 function wp_create_category( $cat_name, $parent = 0 ) {
 	if ( $id = category_exists($cat_name) )
 		return $id;
@@ -23,6 +54,15 @@ function wp_create_category( $cat_name, $parent = 0 ) {
 	return wp_insert_category( array('cat_name' => $cat_name, 'category_parent' => $parent) );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $categories
+ * @param unknown_type $post_id
+ * @return unknown
+ */
 function wp_create_categories($categories, $post_id = '') {
 	$cat_ids = array ();
 	foreach ($categories as $category) {
@@ -39,6 +79,14 @@ function wp_create_categories($categories, $post_id = '') {
 	return $cat_ids;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $cat_ID
+ * @return unknown
+ */
 function wp_delete_category($cat_ID) {
 	$cat_ID = (int) $cat_ID;
 	$default = get_option('default_category');
@@ -50,6 +98,15 @@ function wp_delete_category($cat_ID) {
 	return wp_delete_term($cat_ID, 'category', array('default' => $default));
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $catarr
+ * @param unknown_type $wp_error
+ * @return unknown
+ */
 function wp_insert_category($catarr, $wp_error = false) {
 	$cat_defaults = array('cat_ID' => 0, 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
 	$cat_arr = wp_parse_args($cat_arr, $cat_defaults);
@@ -99,6 +156,14 @@ function wp_insert_category($catarr, $wp_error = false) {
 	return $cat_ID['term_id'];
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $catarr
+ * @return unknown
+ */
 function wp_update_category($catarr) {
 	$cat_ID = (int) $catarr['cat_ID'];
 
@@ -121,6 +186,14 @@ function wp_update_category($catarr) {
 // Tags
 //
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_id
+ * @return unknown
+ */
 function get_tags_to_edit( $post_id ) {
 	$post_id = (int) $post_id;
 	if ( !$post_id )
@@ -139,10 +212,26 @@ function get_tags_to_edit( $post_id ) {
 	return $tags_to_edit;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $tag_name
+ * @return unknown
+ */
 function tag_exists($tag_name) {
 	return is_term($tag_name, 'post_tag');
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $tag_name
+ * @return unknown
+ */
 function wp_create_tag($tag_name) {
 	if ( $id = tag_exists($tag_name) )
 		return $id;

@@ -1,4 +1,10 @@
 <?php
+/**
+ * WordPress Post Administration API.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
 /**
  * Rename $_POST data from form names to DB post columns.
@@ -6,10 +12,10 @@
  * Manipulates $_POST directly.
  *
  * @package WordPress
- * @since 2.6
+ * @since 2.6.0
  *
  * @param bool $update Are we updating a pre-existing post?
- * @param post_data array Array of post data. Defaults to the contents of $_POST
+ * @param post_data array Array of post data. Defaults to the contents of $_POST.
  * @return object|bool WP_Error on failure, true on success.
  */
 function _wp_translate_postdata( $update = false, $post_data = null ) {
@@ -110,8 +116,14 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	return $post_data;
 }
 
-
-// Update an existing post with values provided in $_POST.
+/**
+ * Update an existing post with values provided in $_POST.
+ *
+ * @since unknown
+ *
+ * @param array $post_data Optional.
+ * @return int Post ID.
+ */
 function edit_post( $post_data = null ) {
 
 	if ( empty($post_data) )
@@ -177,7 +189,16 @@ function edit_post( $post_data = null ) {
 	return $post_ID;
 }
 
-// updates all bulk edited posts/pages, adding (but not removing) tags and categories. Skips pages when they would be their own parent or child.
+/**
+ * {@internal Missing Short Description}}
+ *
+ * Updates all bulk edited posts/pages, adding (but not removing) tags and
+ * categories. Skips pages when they would be their own parent or child.
+ *
+ * @since unknown
+ *
+ * @return array
+ */
 function bulk_edit_posts( $post_data = null ) {
 	global $wpdb;
 
@@ -258,7 +279,13 @@ function bulk_edit_posts( $post_data = null ) {
 	return array( 'updated' => $updated, 'skipped' => $skipped, 'locked' => $locked );
 }
 
-// Default post information to use when populating the "Write Post" form.
+/**
+ * Default post information to use when populating the "Write Post" form.
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_default_post_to_edit() {
 	if ( !empty( $_REQUEST['post_title'] ) )
 		$post_title = wp_specialchars( stripslashes( $_REQUEST['post_title'] ));
@@ -306,13 +333,27 @@ function get_default_post_to_edit() {
 	return $post;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_default_page_to_edit() {
 	$page = get_default_post_to_edit();
 	$page->post_type = 'page';
 	return $page;
 }
 
-// Get an existing post and format it for editing.
+/**
+ * Get an existing post and format it for editing.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_post_to_edit( $id ) {
 
 	$post = get_post( $id, OBJECT, 'edit' );
@@ -323,6 +364,16 @@ function get_post_to_edit( $id ) {
 	return $post;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $title
+ * @param unknown_type $content
+ * @param unknown_type $post_date
+ * @return unknown
+ */
 function post_exists($title, $content = '', $post_date = '') {
 	global $wpdb;
 
@@ -338,7 +389,13 @@ function post_exists($title, $content = '', $post_date = '') {
 	return 0;
 }
 
-// Creates a new post from the "Write Post" form using $_POST information.
+/**
+ * Creates a new post from the "Write Post" form using $_POST information.
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function wp_write_post() {
 	global $user_ID;
 
@@ -405,6 +462,13 @@ function wp_write_post() {
 	return $post_ID;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function write_post() {
 	$result = wp_write_post();
 	if( is_wp_error( $result ) )
@@ -417,6 +481,14 @@ function write_post() {
 // Post Meta
 //
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_ID
+ * @return unknown
+ */
 function add_meta( $post_ID ) {
 	global $wpdb;
 	$post_ID = (int) $post_ID;
@@ -451,6 +523,14 @@ function add_meta( $post_ID ) {
 	return false;
 } // add_meta
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $mid
+ * @return unknown
+ */
 function delete_meta( $mid ) {
 	global $wpdb;
 	$mid = (int) $mid;
@@ -461,7 +541,13 @@ function delete_meta( $mid ) {
 	return $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_id = %d", $mid) );
 }
 
-// Get a list of previously defined keys
+/**
+ * Get a list of previously defined keys.
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_meta_keys() {
 	global $wpdb;
 
@@ -474,6 +560,14 @@ function get_meta_keys() {
 	return $keys;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $mid
+ * @return unknown
+ */
 function get_post_meta_by_id( $mid ) {
 	global $wpdb;
 	$mid = (int) $mid;
@@ -484,7 +578,16 @@ function get_post_meta_by_id( $mid ) {
 	return $meta;
 }
 
-// Some postmeta stuff
+/**
+ * {@internal Missing Short Description}}
+ *
+ * Some postmeta stuff.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $postid
+ * @return unknown
+ */
 function has_meta( $postid ) {
 	global $wpdb;
 
@@ -494,6 +597,16 @@ function has_meta( $postid ) {
 
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $meta_id
+ * @param unknown_type $meta_key
+ * @param unknown_type $meta_value
+ * @return unknown
+ */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
 	global $wpdb;
 
@@ -518,7 +631,15 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
 // Private
 //
 
-// Replace hrefs of attachment anchors with up-to-date permalinks.
+/**
+ * Replace hrefs of attachment anchors with up-to-date permalinks.
+ *
+ * @since unknown
+ * @access private
+ *
+ * @param unknown_type $post_ID
+ * @return unknown
+ */
 function _fix_attachment_links( $post_ID ) {
 
 	$post = & get_post( $post_ID, ARRAY_A );
@@ -559,7 +680,16 @@ function _fix_attachment_links( $post_ID ) {
 	return wp_update_post( $post);
 }
 
-// Move child posts to a new parent
+/**
+ * Move child posts to a new parent.
+ *
+ * @since unknown
+ * @access private
+ *
+ * @param unknown_type $old_ID
+ * @param unknown_type $new_ID
+ * @return unknown
+ */
 function _relocate_children( $old_ID, $new_ID ) {
 	global $wpdb;
 	$old_ID = (int) $old_ID;
@@ -567,12 +697,28 @@ function _relocate_children( $old_ID, $new_ID ) {
 	return $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = %d WHERE post_parent = %d", $new_ID, $old_ID) );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $type
+ * @return unknown
+ */
 function get_available_post_statuses($type = 'post') {
 	$stati = wp_count_posts($type);
 
 	return array_keys(get_object_vars($stati));
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $q
+ * @return unknown
+ */
 function wp_edit_posts_query( $q = false ) {
 	global $wpdb;
 	if ( false === $q )
@@ -613,6 +759,14 @@ function wp_edit_posts_query( $q = false ) {
 	return array($post_stati, $avail_post_stati);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $type
+ * @return unknown
+ */
 function get_available_post_mime_types($type = 'attachment') {
 	global $wpdb;
 
@@ -620,6 +774,14 @@ function get_available_post_mime_types($type = 'attachment') {
 	return $types;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $q
+ * @return unknown
+ */
 function wp_edit_attachments_query( $q = false ) {
 	global $wpdb;
 	if ( false === $q )
@@ -647,6 +809,15 @@ function wp_edit_attachments_query( $q = false ) {
 	return array($post_mime_types, $avail_post_mime_types);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @param unknown_type $page
+ * @return unknown
+ */
 function postbox_classes( $id, $page ) {
 	$current_user = wp_get_current_user();
 	if ( $closed = get_usermeta( $current_user->ID, 'closedpostboxes_'.$page ) ) {
@@ -658,6 +829,16 @@ function postbox_classes( $id, $page ) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @param unknown_type $title
+ * @param unknown_type $name
+ * @return unknown
+ */
 function get_sample_permalink($id, $title=null, $name = null) {
 	$post = &get_post($id);
 	if (!$post->ID) {
@@ -701,6 +882,16 @@ function get_sample_permalink($id, $title=null, $name = null) {
 	return $permalink;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @param unknown_type $new_title
+ * @param unknown_type $new_slug
+ * @return unknown
+ */
 function get_sample_permalink_html($id, $new_title=null, $new_slug=null) {
 	$post = &get_post($id);
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
@@ -720,8 +911,14 @@ function get_sample_permalink_html($id, $new_title=null, $new_slug=null) {
 	return $return;
 }
 
-// false: not locked or locked by current user
-// int: user ID of user with lock
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_id
+ * @return bool|int False: not locked or locked by current user. Int: user ID of user with lock.
+ */
 function wp_check_post_lock( $post_id ) {
 	global $current_user;
 
@@ -738,6 +935,14 @@ function wp_check_post_lock( $post_id ) {
 	return false;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_id
+ * @return unknown
+ */
 function wp_set_post_lock( $post_id ) {
 	global $current_user;
 	if ( !$post = get_post( $post_id ) )
@@ -754,11 +959,11 @@ function wp_set_post_lock( $post_id ) {
 }
 
 /**
- * wp_create_post_autosave() - creates autosave data for the specified post from $_POST data
+ * Creates autosave data for the specified post from $_POST data.
  *
  * @package WordPress
- * @subpackage Post Revisions
- * @since 2.6
+ * @subpackage Post_Revisions
+ * @since 2.6.0
  *
  * @uses _wp_translate_postdata()
  * @uses _wp_post_revision_fields()
@@ -780,10 +985,10 @@ function wp_create_post_autosave( $post_id ) {
 }
 
 /**
- * wp_teeny_mce() - adds a trimmed down version of the tinyMCE editor used on the Write -> Post screen.
+ * Adds a trimmed down version of the tinyMCE editor used on the Write -> Post screen.
  *
  * @package WordPress
- * @since 2.6
+ * @since 2.6.0
  */
 function wp_teeny_mce( $args = null ) {
 	if ( !user_can_richedit() )

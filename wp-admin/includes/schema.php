@@ -1,6 +1,14 @@
 <?php
-// Here we keep the DB structure and option values
+/**
+ * WordPress Schema for installation and upgrading.
+ *
+ * Here we keep the DB structure and option values.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** WordPress Database collate charset */
 $charset_collate = '';
 
 // Declare these as global in case schema.php is included from a function.
@@ -13,7 +21,8 @@ if ( $wpdb->has_cap( 'collation' ) ) {
 		$charset_collate .= " COLLATE $wpdb->collate";
 }
 
-$wp_queries="CREATE TABLE $wpdb->terms (
+/** Create WordPress database tables SQL */
+$wp_queries = "CREATE TABLE $wpdb->terms (
  term_id bigint(20) NOT NULL auto_increment,
  name varchar(200) NOT NULL default '',
  slug varchar(200) NOT NULL default '',
@@ -152,6 +161,13 @@ CREATE TABLE $wpdb->usermeta (
   KEY meta_key (meta_key)
 ) $charset_collate;";
 
+/**
+ * Create WordPress options and set the default values.
+ *
+ * @since unknown
+ * @uses $wpdb
+ * @uses $wp_db_version
+ */
 function populate_options() {
 	global $wpdb, $wp_db_version;
 
@@ -280,6 +296,11 @@ function populate_options() {
 	endforeach;
 }
 
+/**
+ * Execute WordPress role creation for the various WordPress versions.
+ *
+ * @since unknown (2.0.0)
+ */
 function populate_roles() {
 	populate_roles_160();
 	populate_roles_210();
@@ -289,6 +310,11 @@ function populate_roles() {
 	populate_roles_270();
 }
 
+/**
+ * Create the roles for WordPress 2.0
+ *
+ * @since 2.0.0
+ */
 function populate_roles_160() {
 	// Add roles
 
@@ -384,6 +410,11 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 }
 
+/**
+ * Create and modify WordPress roles for WordPress 2.1.
+ *
+ * @since 2.1.0
+ */
 function populate_roles_210() {
 	$roles = array('administrator', 'editor');
 	foreach ($roles as $role) {
@@ -426,6 +457,11 @@ function populate_roles_210() {
 	}
 }
 
+/**
+ * Create and modify WordPress roles for WordPress 2.3.
+ *
+ * @since 2.3.0
+ */
 function populate_roles_230() {
 	$role = get_role( 'administrator' );
 
@@ -434,6 +470,11 @@ function populate_roles_230() {
 	}
 }
 
+/**
+ * Create and modify WordPress roles for WordPress 2.5.
+ *
+ * @since 2.5.0
+ */
 function populate_roles_250() {
 	$role = get_role( 'administrator' );
 
@@ -442,6 +483,11 @@ function populate_roles_250() {
 	}
 }
 
+/**
+ * Create and modify WordPress roles for WordPress 2.6.
+ *
+ * @since 2.6.0
+ */
 function populate_roles_260() {
 	$role = get_role( 'administrator' );
 
@@ -451,6 +497,11 @@ function populate_roles_260() {
 	}
 }
 
+/**
+ * Create and modify WordPress roles for WordPress 2.7.
+ *
+ * @since 2.7.0
+ */
 function populate_roles_270() {
 	$role = get_role( 'administrator' );
 

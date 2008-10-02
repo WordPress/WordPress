@@ -1,11 +1,38 @@
 <?php
+/**
+ * WordPress Upgrade API
+ *
+ * Most of the functions are pluggable and can be overwritten 
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/** Include user install customize script. */
 if ( file_exists(WP_CONTENT_DIR . '/install.php') )
 	require (WP_CONTENT_DIR . '/install.php');
+
+/** WordPress Administration API */
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
+
+/** WordPress Schema API */
 require_once(ABSPATH . 'wp-admin/includes/schema.php');
 
 if ( !function_exists('wp_install') ) :
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param string $blog_title Blog title.
+ * @param string $user_name User's username.
+ * @param string $user_email User's email.
+ * @param bool $public Whether blog is public.
+ * @param null $deprecated Optional. Not used.
+ * @return array Array keys 'url', 'user_id', 'password'.
+ */
 function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='') {
 	global $wp_rewrite;
 
@@ -53,6 +80,15 @@ function wp_install($blog_title, $user_name, $user_email, $public, $deprecated='
 endif;
 
 if ( !function_exists('wp_install_defaults') ) :
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ */
 function wp_install_defaults($user_id) {
 	global $wpdb;
 
@@ -107,6 +143,18 @@ function wp_install_defaults($user_id) {
 endif;
 
 if ( !function_exists('wp_new_blog_notification') ) :
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param string $blog_title Blog title.
+ * @param string $blog_url Blog url.
+ * @param int $user_id User ID.
+ * @param string $password User's Password.
+ */
 function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
 	$user = new WP_User($user_id);
 	$email = $user->user_email;
@@ -132,6 +180,15 @@ http://wordpress.org/
 endif;
 
 if ( !function_exists('wp_upgrade') ) :
+/**
+ * Run WordPress Upgrade functions.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @return null
+ */
 function wp_upgrade() {
 	global $wp_current_db_version, $wp_db_version;
 
@@ -141,7 +198,7 @@ function wp_upgrade() {
 	if ( $wp_db_version == $wp_current_db_version )
 		return;
 
-	if(!is_blog_installed())
+	if( ! is_blog_installed() )
 		return;
 
 	wp_check_mysql_version();
@@ -152,7 +209,13 @@ function wp_upgrade() {
 }
 endif;
 
-// Functions to be called in install and upgrade scripts
+/**
+ * Functions to be called in install and upgrade scripts.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ */
 function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version, $wp_rewrite;
 	$wp_current_db_version = __get_option('db_version');
@@ -220,6 +283,11 @@ function upgrade_all() {
 	update_option('db_version', $wp_db_version);
 }
 
+/**
+ * Execute changes made in WordPress 1.0.
+ *
+ * @since 1.0.0
+ */
 function upgrade_100() {
 	global $wpdb;
 
@@ -241,7 +309,6 @@ function upgrade_100() {
 			$wpdb->query( $wpdb->prepare("UPDATE $wpdb->categories SET category_nicename = %s WHERE cat_ID = %d", $newtitle, $category->cat_ID) );
 		}
 	}
-
 
 	$wpdb->query("UPDATE $wpdb->options SET option_value = REPLACE(option_value, 'wp-links/links-images/', 'wp-images/links/')
 	WHERE option_name LIKE 'links_rating_image%'
@@ -272,6 +339,11 @@ function upgrade_100() {
 	endif;
 }
 
+/**
+ * Execute changes made in WordPress 1.0.1.
+ *
+ * @since 1.0.1
+ */
 function upgrade_101() {
 	global $wpdb;
 
@@ -285,7 +357,11 @@ function upgrade_101() {
 	add_clean_index($wpdb->links , 'link_visible');
 }
 
-
+/**
+ * Execute changes made in WordPress 1.2.
+ *
+ * @since 1.2.0
+ */
 function upgrade_110() {
 	global $wpdb;
 
@@ -304,7 +380,6 @@ function upgrade_110() {
 			$wpdb->query('UPDATE '.$wpdb->users.' SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
 		}
 	}
-
 
 	// Get the GMT offset, we'll use that later on
 	$all_options = get_alloptions_110();
@@ -342,6 +417,11 @@ function upgrade_110() {
 
 }
 
+/**
+ * Execute changes made in WordPress 1.5.
+ *
+ * @since 1.5.0
+ */
 function upgrade_130() {
 	global $wpdb;
 
@@ -419,6 +499,11 @@ function upgrade_130() {
 	make_site_theme();
 }
 
+/**
+ * Execute changes made in WordPress 2.0.
+ *
+ * @since 2.0.0
+ */
 function upgrade_160() {
 	global $wpdb, $wp_current_db_version;
 
@@ -497,6 +582,11 @@ function upgrade_160() {
 	}
 }
 
+/**
+ * Execute changes made in WordPress 2.1.
+ *
+ * @since 2.1.0
+ */
 function upgrade_210() {
 	global $wpdb, $wp_current_db_version;
 
@@ -536,6 +626,11 @@ function upgrade_210() {
 	}
 }
 
+/**
+ * Execute changes made in WordPress 2.3.
+ *
+ * @since 2.3.0
+ */
 function upgrade_230() {
 	global $wp_current_db_version, $wpdb;
 
@@ -706,6 +801,11 @@ function upgrade_230() {
 	}
 }
 
+/**
+ * Remove old options from the database.
+ *
+ * @since 2.3.0
+ */
 function upgrade_230_options_table() {
 	global $wpdb;
 	$old_options_fields = array( 'option_can_override', 'option_type', 'option_width', 'option_height', 'option_description', 'option_admin_level' );
@@ -715,6 +815,11 @@ function upgrade_230_options_table() {
 	$wpdb->show_errors();
 }
 
+/**
+ * Remove old categories, link2cat, and post2cat database tables.
+ *
+ * @since 2.3.0
+ */
 function upgrade_230_old_tables() {
 	global $wpdb;
 	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'categories');
@@ -722,13 +827,22 @@ function upgrade_230_old_tables() {
 	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'post2cat');
 }
 
+/**
+ * Upgrade old slugs made in version 2.2.
+ *
+ * @since 2.2.0
+ */
 function upgrade_old_slugs() {
 	// upgrade people who were using the Redirect Old Slugs plugin
 	global $wpdb;
 	$wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '_wp_old_slug' WHERE meta_key = 'old_slug'");
 }
 
-
+/**
+ * Execute changes made in WordPress 2.5.0.
+ *
+ * @since 2.5.0
+ */
 function upgrade_250() {
 	global $wp_current_db_version;
 
@@ -738,6 +852,11 @@ function upgrade_250() {
 
 }
 
+/**
+ * Execute changes made in WordPress 2.5.1.
+ *
+ * @since 2.5.1
+ */
 function upgrade_251() {
 	global $wp_current_db_version;
 
@@ -745,12 +864,22 @@ function upgrade_251() {
 	update_option('secret', wp_generate_password(64));
 }
 
+/**
+ * Execute changes made in WordPress 2.5.2.
+ *
+ * @since 2.5.2
+ */
 function upgrade_252() {
 	global $wpdb;
 
 	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = ''");
 }
 
+/**
+ * Execute changes made in WordPress 2.6.
+ *
+ * @since 2.6.0
+ */
 function upgrade_260() {
 	global $wp_current_db_version;
 
@@ -763,6 +892,11 @@ function upgrade_260() {
 	}
 }
 
+/**
+ * Execute changes made in WordPress 2.7.
+ *
+ * @since 2.7.0
+ */
 function upgrade_270() {
 	global $wpdb, $wp_current_db_version;
 
@@ -778,6 +912,18 @@ function upgrade_270() {
 // The functions we use to actually do stuff
 
 // General
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param string $table_name Database table name to create.
+ * @param string $create_ddl SQL statement to create table.
+ * @return bool If table already exists or was created by function.
+ */
 function maybe_create_table($table_name, $create_ddl) {
 	global $wpdb;
 	foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
@@ -796,6 +942,17 @@ function maybe_create_table($table_name, $create_ddl) {
 	return false;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param string $table Database table name.
+ * @param string $index Index name to drop.
+ * @return bool True, when finished.
+ */
 function drop_index($table, $index) {
 	global $wpdb;
 	$wpdb->hide_errors();
@@ -808,6 +965,17 @@ function drop_index($table, $index) {
 	return true;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param string $table Database table name.
+ * @param string $index Database table index column.
+ * @return bool True, when done with execution.
+ */
 function add_clean_index($table, $index) {
 	global $wpdb;
 	drop_index($table, $index);
@@ -840,8 +1008,13 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
 	return false;
 }
 
-
-// get_alloptions as it was for 1.2.
+/**
+ * Retrieve all options as it was for 1.2.
+ *
+ * @since 1.2.0
+ *
+ * @return array List of options.
+ */
 function get_alloptions_110() {
 	global $wpdb;
 	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options")) {
@@ -857,7 +1030,15 @@ function get_alloptions_110() {
 	return $all_options;
 }
 
-// Version of get_option that is private to install/upgrade.
+/**
+ * Version of get_option that is private to install/upgrade.
+ *
+ * @since unknown
+ * @access private
+ *
+ * @param string $setting Option name.
+ * @return mixed
+ */
 function __get_option($setting) {
 	global $wpdb;
 
@@ -884,6 +1065,16 @@ function __get_option($setting) {
 		return $option;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param string $content
+ * @return string
+ */
 function deslash($content) {
 	// Note: \\\ inside a regex denotes a single backslash.
 
@@ -901,6 +1092,17 @@ function deslash($content) {
 	return $content;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $queries
+ * @param unknown_type $execute
+ * @return unknown
+ */
 function dbDelta($queries, $execute = true) {
 	global $wpdb;
 
@@ -1102,6 +1304,13 @@ function dbDelta($queries, $execute = true) {
 	return $for_update;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ */
 function make_db_current() {
 	global $wp_queries;
 
@@ -1111,12 +1320,30 @@ function make_db_current() {
 	echo "</ol>\n";
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ */
 function make_db_current_silent() {
 	global $wp_queries;
 
 	$alterations = dbDelta($wp_queries);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $theme_name
+ * @param unknown_type $template
+ * @return unknown
+ */
 function make_site_theme_from_oldschool($theme_name, $template) {
 	$home_path = get_home_path();
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";
@@ -1185,6 +1412,17 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 	return true;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $theme_name
+ * @param unknown_type $template
+ * @return unknown
+ */
 function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";
 	$default_dir = WP_CONTENT_DIR . '/themes/default';
@@ -1240,6 +1478,15 @@ function make_site_theme_from_default($theme_name, $template) {
 }
 
 // Create a site theme from the default theme.
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function make_site_theme() {
 	// Name the theme after the blog.
 	$theme_name = __get_option('blogname');
@@ -1281,6 +1528,14 @@ function make_site_theme() {
 	return $template;
 }
 
+/**
+ * Translate user level to user role name.
+ *
+ * @since unknown
+ *
+ * @param int $level User level.
+ * @return string User role name.
+ */
 function translate_level_to_role($level) {
 	switch ($level) {
 	case 10:
@@ -1302,6 +1557,13 @@ function translate_level_to_role($level) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ */
 function wp_check_mysql_version() {
 	global $wpdb;
 	$result = $wpdb->check_database_version();
@@ -1309,6 +1571,13 @@ function wp_check_mysql_version() {
 		die( $result->get_error_message() );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ */
 function maybe_disable_automattic_widgets() {
 	$plugins = __get_option( 'active_plugins' );
 

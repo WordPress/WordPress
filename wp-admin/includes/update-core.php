@@ -4,13 +4,13 @@
  *
  * @package WordPress
  * @subpackage Administration
- * @since 2.7
+ * @since 2.7.0
  */
 
 /**
  * Stores files to be deleted.
  *
- * @since 2.7
+ * @since 2.7.0
  * @global array $_old_files
  * @var array
  * @name $_old_files
@@ -165,6 +165,8 @@ $_old_files = array(
  * If it is assumed that every file will be copied over, including plugins and
  * themes, then if you edit the default theme, you should rename it, so that
  * your changes remain.
+ *
+ * @since 2.7.0
  *
  * @param string $from New release unzipped path.
  * @param string $to Path to old WordPress installation.

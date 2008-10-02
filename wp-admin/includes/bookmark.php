@@ -1,9 +1,30 @@
 <?php
+/**
+ * WordPress Bookmark Administration API
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function add_link() {
 	return edit_link();
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link_id
+ * @return unknown
+ */
 function edit_link( $link_id = '' ) {
 	if (!current_user_can( 'manage_links' ))
 		wp_die( __( 'Cheatin&#8217; uh?' ));
@@ -24,6 +45,13 @@ function edit_link( $link_id = '' ) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_default_link_to_edit() {
 	if ( isset( $_GET['linkurl'] ) )
 		$link->link_url = clean_url( $_GET['linkurl']);
@@ -40,6 +68,14 @@ function get_default_link_to_edit() {
 	return $link;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link_id
+ * @return unknown
+ */
 function wp_delete_link($link_id) {
 	global $wpdb;
 
@@ -56,6 +92,14 @@ function wp_delete_link($link_id) {
 	return true;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link_id
+ * @return unknown
+ */
 function wp_get_link_cats($link_id = 0) {
 
 	$cats = wp_get_object_terms($link_id, 'link_category', 'fields=ids');
@@ -63,10 +107,26 @@ function wp_get_link_cats($link_id = 0) {
 	return array_unique($cats);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link_id
+ * @return unknown
+ */
 function get_link_to_edit( $link_id ) {
 	return get_bookmark( $link_id, OBJECT, 'edit' );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $linkdata
+ * @return unknown
+ */
 function wp_insert_link($linkdata, $wp_error = false) {
 	global $wpdb, $current_user;
 
@@ -154,6 +214,14 @@ function wp_insert_link($linkdata, $wp_error = false) {
 	return $link_id;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link_id
+ * @param unknown_type $link_categories
+ */
 function wp_set_link_cats($link_id = 0, $link_categories = array()) {
 	// If $link_categories isn't already an array, make it one:
 	if (!is_array($link_categories) || 0 == count($link_categories))
@@ -167,6 +235,14 @@ function wp_set_link_cats($link_id = 0, $link_categories = array()) {
 	clean_bookmark_cache($link_id);
 }	// wp_set_link_cats()
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $linkdata
+ * @return unknown
+ */
 function wp_update_link($linkdata) {
 	$link_id = (int) $linkdata['link_id'];
 

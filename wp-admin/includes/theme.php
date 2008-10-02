@@ -1,5 +1,18 @@
 <?php
+/**
+ * WordPress Theme Administration API
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function current_theme_info() {
 	$themes = get_themes();
 	$current_theme = get_current_theme();
@@ -18,6 +31,13 @@ function current_theme_info() {
 	return $ct;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_broken_themes() {
 	global $wp_broken_themes;
 
@@ -25,6 +45,13 @@ function get_broken_themes() {
 	return $wp_broken_themes;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_page_templates() {
 	$themes = get_themes();
 	$theme = get_current_theme();

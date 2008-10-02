@@ -1,6 +1,21 @@
 <?php
+/**
+ * WordPress user administration API.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
-// Creates a new user from the "Users" form using $_POST information.
+/**
+ * Creates a new user from the "Users" form using $_POST information.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param int $user_id Optional. User ID.
+ * @return null|WP_Error|int Null when adding user, WP_Error or User ID integer when no parameters.
+ */
 function add_user() {
 	if ( func_num_args() ) { // The hackiest hack that ever did hack
 		global $current_user, $wp_roles;
@@ -18,6 +33,16 @@ function add_user() {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param int $user_id Optional. User ID.
+ * @return unknown
+ */
 function edit_user( $user_id = 0 ) {
 	global $current_user, $wp_roles, $wpdb;
 	if ( $user_id != 0 ) {
@@ -142,12 +167,31 @@ function edit_user( $user_id = 0 ) {
 	return $user_id;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @return array List of user IDs.
+ */
 function get_author_user_ids() {
 	global $wpdb;
 	$level_key = $wpdb->prefix . 'user_level';
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value != '0'", $level_key) );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ * @return array|bool List of editable authors. False if no editable users.
+ */
 function get_editable_authors( $user_id ) {
 	global $wpdb;
 
@@ -163,6 +207,17 @@ function get_editable_authors( $user_id ) {
 	return apply_filters('get_editable_authors', $authors);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ * @param bool $exclude_zeros Optional, default is true. Whether to exclude zeros.
+ * @return unknown
+ */
 function get_editable_user_ids( $user_id, $exclude_zeros = true ) {
 	global $wpdb;
 
@@ -184,6 +239,15 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true ) {
 	return $wpdb->get_col( $query );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_nonauthor_user_ids() {
 	global $wpdb;
 	$level_key = $wpdb->prefix . 'user_level';
@@ -191,6 +255,15 @@ function get_nonauthor_user_ids() {
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
 }
 
+/**
+ * Retrieve editable posts from other users.
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID to not retrieve posts from.
+ * @param string $type Optional, defaults to 'any'. Post type to retrieve, can be 'draft' or 'pending'.
+ * @return array List of posts from others.
+ */
 function get_others_unpublished_posts($user_id, $type='any') {
 	global $wpdb;
 
@@ -213,14 +286,38 @@ function get_others_unpublished_posts($user_id, $type='any') {
 	return apply_filters('get_others_drafts', $other_unpubs);
 }
 
+/**
+ * Retrieve drafts from other users.
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ * @return array List of drafts from other users.
+ */
 function get_others_drafts($user_id) {
 	return get_others_unpublished_posts($user_id, 'draft');
 }
 
+/**
+ * Retrieve pending review posts from other users.
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ * @return array List of posts with pending review post type from other users.
+ */
 function get_others_pending($user_id) {
 	return get_others_unpublished_posts($user_id, 'pending');
 }
 
+/**
+ * Retrieve user data and filter it.
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ * @return object WP_User object with user data.
+ */
 function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
 	$user->user_login   = attribute_escape($user->user_login);
@@ -238,6 +335,14 @@ function get_user_to_edit( $user_id ) {
 	return $user;
 }
 
+/**
+ * Retrieve the user's drafts.
+ *
+ * @since unknown
+ *
+ * @param int $user_id User ID.
+ * @return array
+ */
 function get_users_drafts( $user_id ) {
 	global $wpdb;
 	$query = $wpdb->prepare("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = %d ORDER BY post_modified DESC", $user_id);
@@ -245,6 +350,20 @@ function get_users_drafts( $user_id ) {
 	return $wpdb->get_results( $query );
 }
 
+/**
+ * Remove user and optionally reassign posts and links to another user.
+ *
+ * If the $reassign parameter is not assigned to an User ID, then all posts will
+ * be deleted of that user. The action 'delete_user' that is passed the User ID
+ * being deleted will be run after the posts are either reassigned or deleted.
+ * The user meta will also be deleted that are for that User ID.
+ *
+ * @since unknown
+ *
+ * @param int $id User ID.
+ * @param int $reassign Optional. Reassign posts and links to new User ID.
+ * @return bool True when finished.
+ */
 function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
@@ -279,6 +398,13 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	return true;
 }
 
+/**
+ * Remove all capabilities from user.
+ *
+ * @since unknown
+ *
+ * @param int $id User ID.
+ */
 function wp_revoke_user($id) {
 	$id = (int) $id;
 
@@ -286,28 +412,161 @@ function wp_revoke_user($id) {
 	$user->remove_all_caps();
 }
 
-// WP_User_Search class
-// by Mark Jaquith
-
 if ( !class_exists('WP_User_Search') ) :
+/**
+ * WordPress User Search class.
+ *
+ * @since unknown
+ * @author Mark Jaquith
+ */
 class WP_User_Search {
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $results;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $search_term;
+
+	/**
+	 * Page number.
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var int
+	 */
 	var $page;
+
+	/**
+	 * Role name that users have.
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var string
+	 */
 	var $role;
+
+	/**
+	 * Raw page number.
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var int|bool
+	 */
 	var $raw_page;
+
+	/**
+	 * Amount of users to display per page.
+	 *
+	 * @since unknown
+	 * @access public
+	 * @var int
+	 */
 	var $users_per_page = 50;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $first_user;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var int
+	 */
 	var $last_user;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $query_limit;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $query_sort;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $query_from_where;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var int
+	 */
 	var $total_users_for_query = 0;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var bool
+	 */
 	var $too_many_total_users = false;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $search_errors;
+
+	/**
+	 * {@internal Missing Description}}
+	 *
+	 * @since unknown
+	 * @access private
+	 * @var unknown_type
+	 */
 	var $paging_text;
 
-	function WP_User_Search ($search_term = '', $page = '', $role = '') { // constructor
+	/**
+	 * PHP4 Constructor - Sets up the object properties.
+	 *
+	 * @since unknown
+	 *
+	 * @param string $search_term Search terms string.
+	 * @param int $page Optional. Page ID.
+	 * @param string $role Role name.
+	 * @return WP_User_Search
+	 */
+	function WP_User_Search ($search_term = '', $page = '', $role = '') {
 		$this->search_term = $search_term;
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
 		$this->page = (int) ( '' == $page ) ? 1 : $page;
@@ -319,6 +578,14 @@ class WP_User_Search {
 		$this->do_paging();
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since unknown
+	 * @access public
+	 */
 	function prepare_query() {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
@@ -343,6 +610,14 @@ class WP_User_Search {
 
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since unknown
+	 * @access public
+	 */
 	function query() {
 		global $wpdb;
 		$this->results = $wpdb->get_col('SELECT ID ' . $this->query_from_where . $this->query_sort . $this->query_limit);
@@ -353,10 +628,26 @@ class WP_User_Search {
 			$this->search_errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since unknown
+	 * @access public
+	 */
 	function prepare_vars_for_template_usage() {
 		$this->search_term = stripslashes($this->search_term); // done with DB, from now on we want slashes gone
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since unknown
+	 * @access public
+	 */
 	function do_paging() {
 		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
 			$args = array();
@@ -375,20 +666,56 @@ class WP_User_Search {
 		}
 	}
 
+	/**
+	 * {@internal Missing Short Description}}
+	 *
+	 * {@internal Missing Long Description}}
+	 *
+	 * @since unknown
+	 * @access public
+	 *
+	 * @return unknown
+	 */
 	function get_results() {
 		return (array) $this->results;
 	}
 
+	/**
+	 * Displaying paging text.
+	 *
+	 * @see do_paging() Builds paging text.
+	 *
+	 * @since unknown
+	 * @access public
+	 */
 	function page_links() {
 		echo $this->paging_text;
 	}
 
+	/**
+	 * Whether paging is enabled.
+	 *
+	 * @see do_paging() Builds paging text.
+	 *
+	 * @since unknown
+	 * @access public
+	 *
+	 * @return bool
+	 */
 	function results_are_paged() {
 		if ( $this->paging_text )
 			return true;
 		return false;
 	}
 
+	/**
+	 * Whether there are search terms.
+	 *
+	 * @since unknown
+	 * @access public
+	 *
+	 * @return bool
+	 */
 	function is_search() {
 		if ( $this->search_term )
 			return true;

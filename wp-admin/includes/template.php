@@ -1,15 +1,43 @@
 <?php
-
-//
-// Big Mess
-//
+/**
+ * Template WordPress Administration API.
+ *
+ * A Big Mess. Also some neat functions that are nicely written.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
 // Ugly recursive category stuff.
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $parent
+ * @param unknown_type $level
+ * @param unknown_type $categories
+ * @param unknown_type $page
+ * @param unknown_type $per_page
+ */
 function cat_rows( $parent = 0, $level = 0, $categories = 0, $page = 1, $per_page = 20 ) {
 	$count = 0;
 	_cat_rows($categories, $count, $parent, $level, $page, $per_page);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $categories
+ * @param unknown_type $count
+ * @param unknown_type $parent
+ * @param unknown_type $level
+ * @param unknown_type $page
+ * @param unknown_type $per_page
+ * @return unknown
+ */
 function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $per_page = 20 ) {
 	if ( empty($categories) ) {
 		$args = array('hide_empty' => 0);
@@ -72,6 +100,16 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
 	echo $output;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $category
+ * @param unknown_type $level
+ * @param unknown_type $name_override
+ * @return unknown
+ */
 function _cat_row( $category, $level, $name_override = false ) {
 	global $class;
 
@@ -144,6 +182,15 @@ function _cat_row( $category, $level, $name_override = false ) {
 	return apply_filters('cat_row', $output);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $category
+ * @param unknown_type $name_override
+ * @return unknown
+ */
 function link_cat_row( $category, $name_override = false ) {
 	global $class;
 
@@ -214,11 +261,27 @@ function link_cat_row( $category, $name_override = false ) {
 	return apply_filters( 'link_cat_row', $output );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $checked
+ * @param unknown_type $current
+ */
 function checked( $checked, $current) {
 	if ( $checked == $current)
 		echo ' checked="checked"';
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $selected
+ * @param unknown_type $current
+ */
 function selected( $selected, $current) {
 	if ( $selected == $current)
 		echo ' selected="selected"';
@@ -228,12 +291,27 @@ function selected( $selected, $current) {
 // Category Checklists
 //
 
-// Deprecated. Use wp_link_category_checklist
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ * @deprecated Use {@link wp_link_category_checklist()}
+ * @see wp_link_category_checklist()
+ *
+ * @param unknown_type $default
+ * @param unknown_type $parent
+ * @param unknown_type $popular_ids
+ */
 function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
 	global $post_ID;
 	wp_category_checklist($post_ID);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 class Walker_Category_Checklist extends Walker {
 	var $tree_type = 'category';
 	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
@@ -260,6 +338,16 @@ class Walker_Category_Checklist extends Walker {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_id
+ * @param unknown_type $descendants_and_self
+ * @param unknown_type $selected_cats
+ * @param unknown_type $popular_cats
+ */
 function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false ) {
 	$walker = new Walker_Category_Checklist;
 	$descendants_and_self = (int) $descendants_and_self;
@@ -301,6 +389,17 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 	echo call_user_func_array(array(&$walker, 'walk'), array($categories, 0, $args));
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $taxonomy
+ * @param unknown_type $default
+ * @param unknown_type $number
+ * @param unknown_type $echo
+ * @return unknown
+ */
 function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = true ) {
 	global $post_ID;
 	if ( $post_ID )
@@ -329,13 +428,28 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	return $popular_ids;
 }
 
-// Deprecated. Use wp_link_category_checklist
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ * @deprecated Use {@link wp_link_category_checklist()}
+ * @see wp_link_category_checklist()
+ *
+ * @param unknown_type $default
+ */
 function dropdown_link_categories( $default = 0 ) {
 	global $link_id;
 
 	wp_link_category_checklist($link_id);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link_id
+ */
 function wp_link_category_checklist( $link_id = 0 ) {
 	$default = 1;
 
@@ -367,6 +481,15 @@ function wp_link_category_checklist( $link_id = 0 ) {
 
 // Returns a single tag row (see tag_rows below)
 // Note: this is also used in admin-ajax.php!
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $tag
+ * @param unknown_type $class
+ * @return unknown
+ */
 function _tag_row( $tag, $class = '' ) {
 		$count = number_format_i18n( $tag->count );
 		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
@@ -422,6 +545,16 @@ function _tag_row( $tag, $class = '' ) {
 // Outputs appropriate rows for the Nth page of the Tag Management screen,
 // assuming M tags displayed at a time on the page
 // Returns the number of tags displayed
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ * @param unknown_type $pagesize
+ * @param unknown_type $searchterms
+ * @return unknown
+ */
 function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 
 	// Get a page worth of tags
@@ -449,6 +582,13 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 }
 
 // define the columns to display, the syntax is 'internal name' => 'display name'
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
@@ -471,6 +611,13 @@ function wp_manage_posts_columns() {
 }
 
 // define the columns to display, the syntax is 'internal name' => 'display name'
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function wp_manage_media_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
@@ -488,6 +635,13 @@ function wp_manage_media_columns() {
 	return $posts_columns;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function wp_manage_pages_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
@@ -516,6 +670,14 @@ function wp_manage_pages_columns() {
 	return $posts_columns;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ * @return unknown
+ */
 function get_column_headers($page) {
 	switch ($page) {
 		case 'post':
@@ -590,6 +752,14 @@ function get_column_headers($page) {
 	return $columns;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $type
+ * @param unknown_type $id
+ */
 function print_column_headers( $type, $id = true ) {
 	$columns = get_column_headers( $type );
 	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
@@ -626,6 +796,13 @@ function print_column_headers( $type, $id = true ) {
 <?php }
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $type
+ */
 function inline_edit_row( $type ) {
 	global $current_user, $mode;
 
@@ -868,6 +1045,13 @@ function inline_edit_row( $type ) {
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $data
+ */
 function inline_save_row( $data ) {
 	// get the original post content
 	$post = get_post( $data['post_ID'], ARRAY_A );
@@ -896,6 +1080,13 @@ function inline_save_row( $data ) {
 }
 
 // adds hidden fields with the data for use in the inline editor
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post
+ */
 function get_inline_data($post) {
 
 	if ( ! current_user_can('edit_' . $post->post_type, $post->ID) )
@@ -933,6 +1124,13 @@ function get_inline_data($post) {
 	echo '</div>';
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $posts
+ */
 function post_rows( $posts = array() ) {
 	global $wp_query, $post, $mode;
 
@@ -959,6 +1157,15 @@ function post_rows( $posts = array() ) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $a_post
+ * @param unknown_type $pending_comments
+ * @param unknown_type $mode
+ */
 function _post_row($a_post, $pending_comments, $mode) {
 	global $post;
 	static $rowclass;
@@ -1174,6 +1381,14 @@ function _post_row($a_post, $pending_comments, $mode) {
  * display one row if the page doesn't have any children
  * otherwise, display the row and its children in subsequent rows
  */
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ * @param unknown_type $level
+ */
 function display_page_row( $page, $level = 0 ) {
 	global $post;
 	static $rowclass;
@@ -1329,6 +1544,16 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 /*
  * displays pages in hierarchical order with paging support
  */
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $pages
+ * @param unknown_type $pagenum
+ * @param unknown_type $per_page
+ * @return unknown
+ */
 function page_rows($pages, $pagenum = 1, $per_page = 20) {
 	global $wpdb;
 
@@ -1406,6 +1631,18 @@ function page_rows($pages, $pagenum = 1, $per_page = 20) {
  * Given a top level page ID, display the nested hierarchy of sub-pages
  * together with paging support
  */
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $children_pages
+ * @param unknown_type $count
+ * @param unknown_type $parent
+ * @param unknown_type $level
+ * @param unknown_type $pagenum
+ * @param unknown_type $per_page
+ */
 function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page ) {
 
 	if ( ! isset( $children_pages[$parent] ) )
@@ -1448,6 +1685,16 @@ function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_
 	unset( $children_pages[$parent] ); //required in order to keep track of orphans
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $user_object
+ * @param unknown_type $style
+ * @param unknown_type $role
+ * @return unknown
+ */
 function user_row( $user_object, $style = '', $role = '' ) {
 	global $wp_roles;
 
@@ -1531,6 +1778,19 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	return $r;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $status
+ * @param unknown_type $s
+ * @param unknown_type $start
+ * @param unknown_type $num
+ * @param unknown_type $post
+ * @param unknown_type $type
+ * @return unknown
+ */
 function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0, $type = '' ) {
 	global $wpdb;
 
@@ -1583,6 +1843,16 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	return array($comments, $total);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $comment_id
+ * @param unknown_type $mode
+ * @param unknown_type $comment_status
+ * @param unknown_type $checkbox
+ */
 function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true ) {
 	global $comment, $post;
 	$comment = get_comment( $comment_id );
@@ -1707,6 +1977,15 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	echo "</tr>\n";
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $position
+ * @param unknown_type $checkbox
+ * @param unknown_type $mode
+ */
 function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') {
 	global $current_user;
 
@@ -1750,6 +2029,18 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $currentcat
+ * @param unknown_type $currentparent
+ * @param unknown_type $parent
+ * @param unknown_type $level
+ * @param unknown_type $categories
+ * @return unknown
+ */
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
 	if (!$categories )
 		$categories = get_categories( array('hide_empty' => 0) );
@@ -1771,6 +2062,13 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $meta
+ */
 function list_meta( $meta ) {
 	// Exit if no meta
 	if (!$meta ) {
@@ -1793,6 +2091,15 @@ function list_meta( $meta ) {
 	echo "\n\t</tbody>";
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $entry
+ * @param unknown_type $count
+ * @return unknown
+ */
 function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = false;
 	if ( !$update_nonce )
@@ -1835,6 +2142,11 @@ function _list_meta_row( $entry, &$count ) {
 	return $r;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function meta_form() {
 	global $wpdb;
 	$limit = (int) apply_filters( 'postmeta_form_limit', 30 );
@@ -1881,6 +2193,16 @@ function meta_form() {
 
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $edit
+ * @param unknown_type $for_post
+ * @param unknown_type $tab_index
+ * @param unknown_type $multi
+ */
 function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	global $wp_locale, $post, $comment;
 
@@ -1931,6 +2253,13 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $default
+ */
 function page_template_dropdown( $default = '' ) {
 	$templates = get_page_templates();
 	ksort( $templates );
@@ -1943,6 +2272,16 @@ function page_template_dropdown( $default = '' ) {
 	endforeach;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $default
+ * @param unknown_type $parent
+ * @param unknown_type $level
+ * @return unknown
+ */
 function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 	global $wpdb, $post_ID;
 	$items = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' ORDER BY menu_order", $parent) );
@@ -1969,6 +2308,11 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function browse_happy() {
 	$getit = __( 'WordPress recommends a better browser' );
 	echo '
@@ -1979,6 +2323,14 @@ function browse_happy() {
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)
 	add_action( 'in_admin_footer', 'browse_happy' );
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function the_attachment_links( $id = false ) {
 	$id = (int) $id;
 	$post = & get_post( $id );
@@ -2022,6 +2374,13 @@ function the_attachment_links( $id = false ) {
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $default
+ */
 function wp_dropdown_roles( $default = false ) {
 	global $wp_roles;
 	$p = '';
@@ -2036,6 +2395,14 @@ function wp_dropdown_roles( $default = false ) {
 	echo $p . $r;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $size
+ * @return unknown
+ */
 function wp_convert_hr_to_bytes( $size ) {
 	$size = strtolower($size);
 	$bytes = (int) $size;
@@ -2048,6 +2415,14 @@ function wp_convert_hr_to_bytes( $size ) {
 	return $bytes;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $bytes
+ * @return unknown
+ */
 function wp_convert_bytes_to_hr( $bytes ) {
 	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
 	$log = log( $bytes, 1024 );
@@ -2056,6 +2431,13 @@ function wp_convert_bytes_to_hr( $bytes ) {
 	return $size . $units[$power];
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function wp_max_upload_size() {
 	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
 	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
@@ -2063,6 +2445,13 @@ function wp_max_upload_size() {
 	return $bytes;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $action
+ */
 function wp_import_upload_form( $action ) {
 	$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
 	$size = wp_convert_bytes_to_hr( $bytes );
@@ -2082,6 +2471,11 @@ function wp_import_upload_form( $action ) {
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function wp_remember_old_slug() {
 	global $post;
 	$name = attribute_escape($post->post_name); // just in case
@@ -2090,16 +2484,16 @@ function wp_remember_old_slug() {
 }
 
 /**
- * add_meta_box() - Add a meta box to an edit form
+ * Add a meta box to an edit form.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param string $id String for use in the 'id' attribute of tags.
- * @param string $title Title of the meta box
+ * @param string $title Title of the meta box.
  * @param string $callback Function that fills the box with the desired content. The function should echo its output.
- * @param string $page The type of edit page on which to show the box (post, page, link)
- * @param string $context The context within the page where the boxes should show ('normal', 'advanced')
- * @param string $priority The priority within the context where the boxes should show ('high', 'low')
+ * @param string $page The type of edit page on which to show the box (post, page, link).
+ * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
+ * @param string $priority The priority within the context where the boxes should show ('high', 'low').
  */
 function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default') {
 	global $wp_meta_boxes;
@@ -2151,6 +2545,16 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 	$wp_meta_boxes[$page][$context][$priority][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ * @param unknown_type $context
+ * @param unknown_type $object
+ * @return unknown
+ */
 function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
@@ -2202,13 +2606,13 @@ function do_meta_boxes($page, $context, $object) {
 }
 
 /**
- * remove_meta_box() - Remove a meta box from an edit form
+ * Remove a meta box from an edit form.
  *
- * @since 2.6
+ * @since 2.6.0
  *
  * @param string $id String for use in the 'id' attribute of tags.
- * @param string $page The type of edit page on which to show the box (post, page, link)
- * @param string $context The context within the page where the boxes should show ('normal', 'advanced')
+ * @param string $page The type of edit page on which to show the box (post, page, link).
+ * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
  */
 function remove_meta_box($id, $page, $context) {
 	global $wp_meta_boxes;
@@ -2224,6 +2628,13 @@ function remove_meta_box($id, $page, $context) {
 		$wp_meta_boxes[$page][$context][$priority][$id] = false;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ */
 function meta_box_prefs($page) {
 	global $wp_meta_boxes;
 
@@ -2250,14 +2661,14 @@ function meta_box_prefs($page) {
 }
 
 /**
- * Add a new section to a settings page
+ * Add a new section to a settings page.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $id String for use in the 'id' attribute of tags.
- * @param string $title Title of the section
+ * @param string $title Title of the section.
  * @param string $callback Function that fills the section with the desired content. The function should echo its output.
- * @param string $page The type of settings page on which to show the section (general, reading, writing, ...)
+ * @param string $page The type of settings page on which to show the section (general, reading, writing, ...).
  */
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
@@ -2273,15 +2684,15 @@ function add_settings_section($id, $title, $callback, $page) {
 }
 
 /**
- * Add a new field to a settings page
+ * Add a new field to a settings page.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $id String for use in the 'id' attribute of tags.
- * @param string $title Title of the field
+ * @param string $title Title of the field.
  * @param string $callback Function that fills the field with the desired content. The function should echo its output.
- * @param string $page The type of settings page on which to show the field (general, reading, writing, ...)
- * @param string $section The section of the settingss page in which to show the box (default, ...)
+ * @param string $page The type of settings page on which to show the field (general, reading, writing, ...).
+ * @param string $section The section of the settingss page in which to show the box (default, ...).
  * @param array $args Additional arguments
  */
 function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
@@ -2297,6 +2708,13 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
 	$wp_settings_fields[$page][$section][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback, 'args' => $args);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ */
 function do_settings_sections($page) {
 	global $wp_settings_sections, $wp_settings_fields;
 
@@ -2314,6 +2732,14 @@ function do_settings_sections($page) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ * @param unknown_type $section
+ */
 function do_settings_fields($page, $section) {
 	global $wp_settings_fields;
 
@@ -2333,6 +2759,13 @@ function do_settings_fields($page, $section) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ */
 function manage_columns_prefs($page) {
 	$columns = get_column_headers($page);
 
@@ -2354,6 +2787,13 @@ function manage_columns_prefs($page) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $found_action
+ */
 function find_posts_div($found_action = '') {
 ?>
 	<div id="find-posts" class="find-box" style="display:none;">
@@ -2484,8 +2924,8 @@ function find_posts_div($found_action = '') {
 /**
  * Display the post password.
  * 
- * The password is passed through {@link attribute_escape()}
- * to ensure that it is safe for placing in an html attribute.
+ * The password is passed through {@link attribute_escape()} to ensure that it
+ * is safe for placing in an html attribute.
  *
  * @uses attribute_escape
  * @since 2.7.0
@@ -2495,6 +2935,11 @@ function the_post_password() {
 	if ( isset( $post->post_password ) ) echo attribute_escape( $post->post_password );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function favorite_actions() {
 	$actions = array(
 		'page-new.php' => __('Add New Page'),
@@ -2512,13 +2957,15 @@ function favorite_actions() {
 	}
 	echo "</div></div>\n";
 }
+
 /**
  * Get the post title.
  * 
- * The post title is fetched and if it is blank then a default string is returned.
+ * The post title is fetched and if it is blank then a default string is
+ * returned.
  *
  * @since 2.7.0
- * @param int $id The post id. If not supplied the global $post is used..
+ * @param int $id The post id. If not supplied the global $post is used.
  * 
  */
 function _draft_or_post_title($post_id = 0)
@@ -2528,4 +2975,5 @@ function _draft_or_post_title($post_id = 0)
 		$title = __('(no title)'); 
 	return $title;
 }
+
 ?>

@@ -1,5 +1,18 @@
 <?php
+/**
+ * WordPress Administration Media API.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_tabs() {
 	$_default_tabs = array(
 		'type' => __('Choose File'), // handler action suffix => tab text
@@ -10,6 +23,14 @@ function media_upload_tabs() {
 	return apply_filters('media_upload_tabs', $_default_tabs);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $tabs
+ * @return unknown
+ */
 function update_gallery_tab($tabs) {
 	global $wpdb;
 	if ( !isset($_REQUEST['post_id']) ) {
@@ -25,6 +46,11 @@ function update_gallery_tab($tabs) {
 }
 add_filter('media_upload_tabs', 'update_gallery_tab');
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function the_media_upload_tabs() {
 	global $redir_tab;
 	$tabs = media_upload_tabs();
@@ -51,6 +77,20 @@ function the_media_upload_tabs() {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @param unknown_type $alt
+ * @param unknown_type $title
+ * @param unknown_type $align
+ * @param unknown_type $url
+ * @param unknown_type $rel
+ * @param unknown_type $size
+ * @return unknown
+ */
 function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false, $size='medium') {
 
 	$html = get_image_tag($id, $alt, $title, $align, $size);
@@ -65,6 +105,20 @@ function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = fal
 	return $html;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $html
+ * @param unknown_type $id
+ * @param unknown_type $alt
+ * @param unknown_type $title
+ * @param unknown_type $align
+ * @param unknown_type $url
+ * @param unknown_type $size
+ * @return unknown
+ */
 function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 
 	if ( empty($alt) || apply_filters( 'disable_captions', '' ) ) return $html;
@@ -84,8 +138,15 @@ function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 }
 add_filter( 'image_send_to_editor', 'image_add_caption', 20, 7 );
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $html
+ */
 function media_send_to_editor($html) {
-	?>
+?>
 <script type="text/javascript">
 /* <![CDATA[ */
 var win = window.dialogArguments || opener || parent || top;
@@ -96,7 +157,18 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
 	exit;
 }
 
-// this handles the file upload POST itself, creating the attachment post
+/**
+ * {@internal Missing Short Description}}
+ *
+ * This handles the file upload POST itself, creating the attachment post.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file_id
+ * @param unknown_type $post_id
+ * @param unknown_type $post_data
+ * @return unknown
+ */
 function media_handle_upload($file_id, $post_id, $post_data = array()) {
 	$overrides = array('test_form'=>false);
 	$file = wp_handle_upload($_FILES[$file_id], $overrides);
@@ -137,6 +209,17 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file_array
+ * @param unknown_type $post_id
+ * @param unknown_type $desc
+ * @param unknown_type $post_data
+ * @return unknown
+ */
 function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
 	$overrides = array('test_form'=>false);
 	$file = wp_handle_sideload($file_array, $overrides);
@@ -178,9 +261,16 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	return $id;
 }
 
-
-// wrap iframe content (produced by $content_func) in a doctype, html head/body etc
-// any additional function args will be passed to content_func
+/**
+ * {@internal Missing Short Description}}
+ *
+ * Wrap iframe content (produced by $content_func) in a doctype, html head/body
+ * etc any additional function args will be passed to content_func.
+ *
+ * @since unknown
+ *
+ * @param unknown_type $content_func
+ */
 function wp_iframe($content_func /* ... */) {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -220,6 +310,11 @@ if ( is_string($content_func) )
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function media_buttons() {
 	global $post_ID, $temp_ID;
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
@@ -245,6 +340,13 @@ EOF;
 add_action( 'media_buttons', 'media_buttons' );
 add_action('media_upload_media', 'media_upload_handler');
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_form_handler() {
 	check_admin_referer('media-form');
 
@@ -294,6 +396,13 @@ function media_upload_form_handler() {
 	return $errors;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_image() {
 	$errors = array();
 	$id = 0;
@@ -339,6 +448,16 @@ function media_upload_image() {
 	return wp_iframe( 'media_upload_type_form', 'image', $errors, $id );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $file
+ * @param unknown_type $post_id
+ * @param unknown_type $desc
+ * @return unknown
+ */
 function media_sideload_image($file, $post_id, $desc = null) {
 	if (!empty($file) ) {
 		$file_array['name'] = basename($file);
@@ -367,6 +486,13 @@ function media_sideload_image($file, $post_id, $desc = null) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_audio() {
 	$errors = array();
 	$id = 0;
@@ -410,6 +536,13 @@ function media_upload_audio() {
 	return wp_iframe( 'media_upload_type_form', 'audio', $errors, $id );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_video() {
 	$errors = array();
 	$id = 0;
@@ -453,6 +586,13 @@ function media_upload_video() {
 	return wp_iframe( 'media_upload_type_form', 'video', $errors, $id );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_file() {
 	$errors = array();
 	$id = 0;
@@ -496,6 +636,13 @@ function media_upload_file() {
 	return wp_iframe( 'media_upload_type_form', 'file', $errors, $id );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_gallery() {
 	$errors = array();
 
@@ -512,6 +659,13 @@ function media_upload_gallery() {
 	return wp_iframe( 'media_upload_gallery_form', $errors );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function media_upload_library() {
 	$errors = array();
 	if ( !empty($_POST) ) {
@@ -527,6 +681,15 @@ function media_upload_library() {
 }
 
 // produce HTML for the image alignment radio buttons with the specified one checked
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post
+ * @param unknown_type $checked
+ * @return unknown
+ */
 function image_align_input_fields($post, $checked='') {
 	
 	$alignments = array('none' => 'None', 'left' => 'Left', 'center' => 'Center', 'right' => 'Right');
@@ -544,6 +707,15 @@ function image_align_input_fields($post, $checked='') {
 }
 
 // produce HTML for the size radio buttons with the specified one checked
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post
+ * @param unknown_type $checked
+ * @return unknown
+ */
 function image_size_input_fields($post, $checked='') {
 		
 		// get a list of the actual pixel dimensions of each possible intermediate version of this image
@@ -582,6 +754,15 @@ function image_size_input_fields($post, $checked='') {
 }
 
 // produce HTML for the Link URL buttons with the default link type as specified
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post
+ * @param unknown_type $url_type
+ * @return unknown
+ */
 function image_link_input_fields($post, $url_type='') {
 
 	$file = wp_get_attachment_url($post->ID);
@@ -602,6 +783,15 @@ function image_link_input_fields($post, $url_type='') {
 				</script>\n";
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $form_fields
+ * @param unknown_type $post
+ * @return unknown
+ */
 function image_attachment_fields_to_edit($form_fields, $post) {
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$form_fields['post_title']['required'] = true;
@@ -624,11 +814,29 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 
 add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2);
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $form_fields
+ * @param unknown_type $post
+ * @return unknown
+ */
 function media_single_attachment_fields_to_edit( $form_fields, $post ) {
 	unset($form_fields['url'], $form_fields['align'], $form_fields['image-size']);
 	return $form_fields;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post
+ * @param unknown_type $attachment
+ * @return unknown
+ */
 function image_attachment_fields_to_save($post, $attachment) {
 	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
 		if ( strlen(trim($post['post_title'])) == 0 ) {
@@ -642,6 +850,16 @@ function image_attachment_fields_to_save($post, $attachment) {
 
 add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2);
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $html
+ * @param unknown_type $attachment_id
+ * @param unknown_type $attachment
+ * @return unknown
+ */
 function image_media_send_to_editor($html, $attachment_id, $attachment) {
 	$post =& get_post($attachment_id);
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
@@ -667,6 +885,15 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 
 add_filter('media_send_to_editor', 'image_media_send_to_editor', 10, 3);
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post
+ * @param unknown_type $errors
+ * @return unknown
+ */
 function get_attachment_fields_to_edit($post, $errors = null) {
 	if ( is_int($post) )
 		$post =& get_post($post);
@@ -732,6 +959,15 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	return $form_fields;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_id
+ * @param unknown_type $errors
+ * @return unknown
+ */
 function get_media_items( $post_id, $errors ) {
 	if ( $post_id ) {
 		$post = get_post($post_id);
@@ -755,6 +991,15 @@ function get_media_items( $post_id, $errors ) {
 	return $output;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $attachment_id
+ * @param unknown_type $args
+ * @return unknown
+ */
 function get_media_item( $attachment_id, $args = null ) {
 	global $redir_tab;
 
@@ -919,6 +1164,11 @@ function get_media_item( $attachment_id, $args = null ) {
 	return $item;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function media_upload_header() {
 	?>
 	<script type="text/javascript">post_id = <?php echo intval($_REQUEST['post_id']); ?>;</script>
@@ -928,6 +1178,13 @@ function media_upload_header() {
 	<?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $errors
+ */
 function media_upload_form( $errors = null ) {
 	global $type, $tab;
 
@@ -1017,6 +1274,15 @@ jQuery(function($){
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $type
+ * @param unknown_type $errors
+ * @param unknown_type $id
+ */
 function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 	media_upload_header();
 
@@ -1144,6 +1410,13 @@ var addExtImage = {
 	endif;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $errors
+ */
 function media_upload_gallery_form($errors) {
 	global $redir_tab;
 
@@ -1189,6 +1462,13 @@ jQuery(function($){
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $errors
+ */
 function media_upload_library_form($errors) {
 	global $wpdb, $wp_query, $wp_locale, $type, $tab, $post_mime_types;
 
@@ -1335,6 +1615,13 @@ jQuery(function($){
 <?php
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function type_form_image() {
 
 	if ( apply_filters( 'disable_captions', '' ) ) {
@@ -1411,6 +1698,13 @@ function type_form_image() {
 
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function type_form_audio() {
 	return '
 	<table class="describe"><tbody>
@@ -1439,6 +1733,13 @@ function type_form_audio() {
 ';
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function type_form_video() {
 	return '
 	<table class="describe"><tbody>
@@ -1467,6 +1768,13 @@ function type_form_video() {
 ';
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function type_form_file() {
 	return '
 	<table class="describe"><tbody>
@@ -1496,6 +1804,14 @@ function type_form_file() {
 }
 
 // support a GET parameter for disabling the flash uploader
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $flash
+ * @return unknown
+ */
 function media_upload_use_flash($flash) {
 	if ( array_key_exists('flash', $_REQUEST) )
 		$flash = !empty($_REQUEST['flash']);
@@ -1504,6 +1820,11 @@ function media_upload_use_flash($flash) {
 
 add_filter('flash_uploader', 'media_upload_use_flash');
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function media_upload_flash_bypass() {
 	echo '<p class="upload-flash-bypass">';
 	printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), clean_url(add_query_arg('flash', 0)) );
@@ -1512,6 +1833,11 @@ function media_upload_flash_bypass() {
 
 add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ */
 function media_upload_html_bypass() {
 	echo '<p class="upload-html-bypass">';
 	if ( array_key_exists('flash', $_REQUEST) )
@@ -1528,6 +1854,14 @@ add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
 add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
 // make sure the GET parameter sticks when we submit a form
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $url
+ * @return unknown
+ */
 function media_upload_bypass_url($url) {
 	if ( array_key_exists('flash', $_REQUEST) )
 		$url = add_query_arg('flash', intval($_REQUEST['flash']));
