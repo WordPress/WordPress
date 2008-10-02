@@ -237,10 +237,7 @@ default:
 		}
 	endif; ?>
 
-<div id="edit-settings">
-<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
 <div id="edit-settings-wrap" class="hidden">
-<a href="#edit_settings" id="hide-settings-link" class="show-settings"><?php _e('Hide Options') ?></a>
 <h5><?php _e('Show on screen') ?></h5>
 <form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">
@@ -248,7 +245,7 @@ default:
 <?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
 <br class="clear" />
 </div></form>
-</div></div>
+</div>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">

@@ -2052,31 +2052,19 @@ a.togbox {
 }
 
 /* show/hide settings */
-#show-settings-link,
-#hide-settings-link {
+#edit-settings {
+	position: absolute;
+	right: 200px;
+	top: 46px;
+}
+
+.show-settings {
 	display: block;
 	height: 18px;
 	font-size: 11px;
 	text-decoration: none;
 	z-index: 1;
-}
-
-#show-settings-link {
-	position: absolute;
-	padding: 3px 8px 1px;
-	right: 15px;
-	top: 0;
-}
-
-#hide-settings-link {
-	float: right;
 	padding: 3px 8px;
-	position: relative;
-}
-
-#edit-settings {
-	position: relative;
-	top: -12px;
 }
 
 #edit-settings-wrap h5 {
@@ -2089,7 +2077,7 @@ a.togbox {
 	border-style: none solid solid;
 	border-top: 0 none;
 	border-width: 0 1px 1px;
-	margin: 0 15px;
+	margin: -10px 15px 10px;
 	-moz-border-radius: 0 0 4px 4px;
 	-webkit-border-bottom-left-radius: 4px;
 	-webkit-border-bottom-right-radius: 4px;

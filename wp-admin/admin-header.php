@@ -105,4 +105,11 @@ if ( $parent_file == 'options-general.php' ) {
 
 favorite_actions();
 
-?>
+$settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php' );
+
+if ( in_array( $pagenow, $settings_pages ) ) { ?>
+<div id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
+</div>
+<?php } ?>
