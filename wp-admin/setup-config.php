@@ -16,7 +16,7 @@
  * @package WordPress
  */
 define('WP_INSTALLING', true);
-//These three defines are required to allow us to use require_wp_db() to load the database class while being wp-content/wp-db.php aware
+//These three defines are required to allow us to use require_wp_db() to load the database class while being wp-content/db.php aware
 define('ABSPATH', dirname(dirname(__FILE__)).'/');
 define('WPINC', 'wp-includes');
 define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
