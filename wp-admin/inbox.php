@@ -1,4 +1,12 @@
 <?php
+/**
+ * New Comment management "Inbox" Administration Panel feature.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+/** Administration bootstrap */
 require_once('admin.php');
 
 $title = __('Inbox');
