@@ -620,6 +620,11 @@ a.view-comment-post-link {
 	line-height: 20px;
 }
 
+a#view-site-link {
+	position: relative;
+	bottom: 10px;
+}
+
 #wphead a, #dashmenu a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
 	text-decoration: none;
 }
@@ -2463,7 +2468,7 @@ abbr.required {
 #favorite-actions {
 	position: absolute;
 	right: 15px;
-	top: 20px;
+	top: 35px;
 	width: 130px;
 	z-index: 10;
 }
