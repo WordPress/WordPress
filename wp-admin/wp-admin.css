@@ -634,7 +634,6 @@ a#view-site-link {
 }
 
 #wphead #breadcrumb {
-	position: absolute;
 	margin-top: 12px;
 	margin-left: 10px;
 	font: 16px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
@@ -1623,7 +1622,7 @@ td.post-title p {
 	vertical-align: middle;
 }
 
-body.minwidth {
+body.wp-admin {
 	min-width: 785px;
 }
 
@@ -2060,18 +2059,19 @@ a.togbox {
 
 /* show/hide settings */
 #edit-settings {
-	position: absolute;
-	right: 200px;
-	top: 46px;
+	margin-left: 20px;
 }
 
-.show-settings {
-	display: block;
+#edit-settings a.show-settings {
 	height: 18px;
 	font-size: 11px;
 	text-decoration: none;
 	z-index: 1;
 	padding: 3px 8px;
+}
+
+#edit-settings a.show-settings:hover {
+	text-decoration: none;
 }
 
 #edit-settings-wrap h5 {
@@ -2103,7 +2103,8 @@ a.togbox {
 	float: left;
 	padding: 5px 3px;
 	white-space: nowrap;
-	width: 12em;
+	overflow: hidden;
+	width: 13em;
 }
 
 .metabox-prefs label input {

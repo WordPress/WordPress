@@ -10,25 +10,6 @@
 if (!isset($_GET["page"])) require_once('admin.php');
 wp_enqueue_script( 'wp-gears' );
 
-$min_width_pages = array( 'post.php', 'post-new.php', 'page.php', 'page-new.php', 'widgets.php', 'comment.php', 'link.php' );
-$the_current_page = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
-$ie6_no_scrollbar = true;
-
-/**
- * Append 'minwidth' to value.
- *
- * @param mixed $c
- * @return string
- */
-function add_minwidth($c) {
-	return $c . 'minwidth ';
-}
-
-if ( in_array( $the_current_page, $min_width_pages ) ) {
-		$ie6_no_scrollbar = false;
-		add_filter( 'admin_body_class', 'add_minwidth' );
-}
-
 get_admin_page_title();
 $title = wp_specialchars( strip_tags( $title ) );
 ?>
@@ -50,9 +31,7 @@ wp_admin_css( 'css/ie' );
 addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document).ready(func); else if (typeof wpOnload!='function'){wpOnload=func;} else {var oldonload=wpOnload; wpOnload=function(){oldonload();func();}}};
 //]]>
 </script>
-<?php if ( ($parent_file != 'link-manager.php') && ($parent_file != 'options-general.php') && $ie6_no_scrollbar ) : ?>
-<style type="text/css">* html { overflow-x: hidden; }</style>
-<?php endif;
+<?php
 
 $hook_suffixes = array();
 
@@ -86,8 +65,18 @@ if ( 'index.php' == $pagenow ) {
 } else {
 	$breadcrumb = '<a href="index.php">' . __('Dashboard') . '</a> &rsaquo; ' . $title;
 }
+
+$settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php', 'post.php', 'page-new.php', 'page.php' );
 ?>
-<img id="logo50" src="images/logo50.png" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?> <a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="View site" id="view-site-link"><img src="<?php echo trailingslashit( bloginfo('wpurl') ) . 'wp-admin/images/new-window-icon.gif'; ?>" alt="View site" /></a><span id="breadcrumb"><?php echo $breadcrumb ?></span></h1>
+
+<img id="logo50" src="images/logo50.png" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?> <a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="View site" id="view-site-link"><img src="<?php echo trailingslashit( bloginfo('wpurl') ) . 'wp-admin/images/new-window-icon.gif'; ?>" alt="" /></a>
+<span id="breadcrumb"><?php echo $breadcrumb ?></span>
+<?php if ( in_array( $pagenow, $settings_pages ) ) { ?>
+<span id="edit-settings">
+<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
+<a href="#edit_settings" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
+</span>
+<?php } ?></h1>
 </div>
 
 <div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s">%2$s</a>!'), 'profile.php', $user_identity) ?> <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p></div>
@@ -104,12 +93,3 @@ if ( $parent_file == 'options-general.php' ) {
 }
 
 favorite_actions();
-
-$settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php' );
-
-if ( in_array( $pagenow, $settings_pages ) ) { ?>
-<div id="edit-settings">
-<a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
-<a href="#edit_settings" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
-</div>
-<?php } ?>
