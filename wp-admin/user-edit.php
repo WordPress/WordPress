@@ -186,7 +186,7 @@ include ('admin-header.php');
 <?php if ( rich_edit_exists() ) : // don't bother showing the option if the editor has been removed ?>
 	<tr>
 		<th scope="row"><?php _e('Visual Editor')?></th>
-		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></td>
+		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php checked('false', $profileuser->rich_editing); ?> /> <?php _e('Disable the visual editor when writing'); ?></label></td>
 	</tr>
 <?php endif; ?>
 <?php if (count($_wp_admin_css_colors) > 1 ) : ?>

@@ -96,7 +96,7 @@ function edit_user( $user_id = 0 ) {
 	else if ( isset( $_POST['rich_editing'] ) )
 		$user->rich_editing = $_POST['rich_editing'];
 	else
-		$user->rich_editing = 'false';
+		$user->rich_editing = 'true';
 
 	$user->use_ssl = 0;
 	if ( !empty($_POST['use_ssl']) )
