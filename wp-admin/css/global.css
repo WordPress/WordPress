@@ -3,11 +3,11 @@ div#wpbody {
 	float: right;
 	clear: right;
 	width: 100%;
-	margin-left: -185px;
+	margin-left: -155px;
 }
 
 div#wpbody-content {
-	margin-left: 177px;
+	margin-left: 137px;
 	border-top-width: 1px;
 	border-top-style: solid;
 	padding-top: 10px;
@@ -20,13 +20,13 @@ div#sidemenu-bg {
 	left: 0;
 	position: absolute;
 	top: 0;
-	width: 175px;
+	width: 135px;
 }
 
 ul#adminmenu {
 	float: left;
 	clear: left;
-	width: 165px; /* + 10 padding */
+	width: 125px; /* + 10 padding */
 	position: relative;
 }
 
