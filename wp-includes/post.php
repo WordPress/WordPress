@@ -1350,21 +1350,25 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$guid = get_post_field( 'guid', $post_ID );
 	}
 
-	// Create a valid post name.  Drafts are allowed to have an empty
+	// Don't allow contributors to set to set the post slug for pending review posts
+	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
+		$post_name = '';
+
+	// Create a valid post name.  Drafts and pending posts are allowed to have an empty
 	// post name.
 	if ( empty($post_name) ) {
-		if ( 'draft' != $post_status )
+		if ( !in_array( $post_status, array( 'draft', 'pending' ) ) )
 			$post_name = sanitize_title($post_title);
 	} else {
 		$post_name = sanitize_title($post_name);
 	}
 
-	// If the post date is empty (due to having been new or a draft) and status is not 'draft', set date to now
+	// If the post date is empty (due to having been new or a draft) and status is not 'draft' or 'pending', set date to now
 	if ( empty($post_date) || '0000-00-00 00:00:00' == $post_date )
 		$post_date = current_time('mysql');
 
 	if ( empty($post_date_gmt) || '0000-00-00 00:00:00' == $post_date_gmt ) {
-		if ( !in_array($post_status, array('draft', 'pending')) )
+		if ( !in_array( $post_status, array( 'draft', 'pending' ) ) )
 			$post_date_gmt = get_gmt_from_date($post_date);
 		else
 			$post_date_gmt = '0000-00-00 00:00:00';
@@ -1414,7 +1418,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	if ( !isset($post_password) )
 		$post_password = '';
 
-	if ( 'draft' != $post_status ) {
+	if ( !in_array( $post_status, array( 'draft', 'pending' ) ) ) {
 		$post_name_check = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1", $post_name, $post_type, $post_ID, $post_parent));
 
 		if ($post_name_check || in_array($post_name, $wp_rewrite->feeds) ) {
@@ -1457,7 +1461,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$where = array( 'ID' => $post_ID );
 	}
 
-	if ( empty($post_name) && 'draft' != $post_status ) {
+	if ( empty($post_name) && !in_array( $post_status, array( 'draft', 'pending' ) ) ) {
 		$post_name = sanitize_title($post_title, $post_ID);
 		$wpdb->update( $wpdb->posts, compact( 'post_name' ), $where );
 	}

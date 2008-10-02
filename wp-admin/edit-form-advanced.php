@@ -374,7 +374,8 @@ function post_slug_meta_box($post) {
 <label class="hidden" for="post_name"><?php _e('Post Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
 <?php
 }
-add_meta_box('slugdiv', __('Post Slug'), 'post_slug_meta_box', 'post', 'normal', 'core');
+if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) )
+	add_meta_box('slugdiv', __('Post Slug'), 'post_slug_meta_box', 'post', 'normal', 'core');
 
 $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
@@ -481,11 +482,13 @@ else
 </div>
 <div class="inside">
 <?php $sample_permalink_html = get_sample_permalink_html($post->ID); ?>
+<?php if ( !( 'pending' == $post->post_status && !current_user_can( 'publish_posts' ) ) ) { ?>
 	<div id="edit-slug-box">
 <?php if ( ! empty($post->ID) && ! empty($sample_permalink_html) ) :
 	echo $sample_permalink_html;
 endif; ?>
 	</div>
+<?php } ?>
 </div>
 </div>
 
