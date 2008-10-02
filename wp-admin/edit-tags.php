@@ -143,6 +143,13 @@ endif; ?>
 <div class="wrap">
 
 <form id="posts-filter" action="" method="get">
+
+<p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Tags' ); ?>:</label>
+	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" class="button" />
+</p>
+
 <div class="tablenav">
 
 <?php

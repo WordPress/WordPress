@@ -173,6 +173,16 @@ unset($status_links);
 </form>
 </div>
 
+<form id="posts-filter" action="" method="get">
+
+<p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Comments' ); ?>:</label>
+	<input type="text" id="post-search-input" name="s" value="<?php echo $search; ?>" />
+	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
+</p>
+
+</form>
+
 <?php
 $comments_per_page = apply_filters('comments_per_page', 20, $comment_status);
 

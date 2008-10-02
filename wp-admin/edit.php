@@ -204,6 +204,12 @@ do_action('restrict_manage_posts');
 
 <form id="posts-filter" action="" method="get">
 
+<p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
+	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
+</p>
+
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
 <?php endif; ?>

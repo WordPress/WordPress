@@ -254,6 +254,12 @@ foreach ($arc_result as $arc_row) {
 
 <form id="posts-filter" action="" method="get">
 
+<p id="post-search">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
+	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
+</p>
+
 <div class="tablenav">
 <?php
 if ( ! isset($page_links_total) )
