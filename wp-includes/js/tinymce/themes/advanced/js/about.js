@@ -7,7 +7,7 @@ function init() {
 	ed = tinyMCEPopup.editor;
 
 	// Give FF some time
-	window.setTimeout('insertHelpIFrame();', 10);
+	window.setTimeout(insertHelpIFrame, 10);
 
 	tcont = document.getElementById('plugintablecontainer');
 	document.getElementById('plugins_tab').style.display = 'none';

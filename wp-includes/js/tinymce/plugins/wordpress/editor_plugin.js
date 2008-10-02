@@ -210,6 +210,9 @@
 		do_align : function(n, a) {
 			var P, DL, DIV, cls, c, ed = tinyMCE.activeEditor;
 
+			if ( /^(mceItemFlash|mceItemShockWave|mceItemWindowsMedia|mceItemQuickTime|mceItemRealMedia)$/.test(n.className) )
+				return;
+
 			P = ed.dom.getParent(n, 'p');
 			DL = ed.dom.getParent(n, 'dl');
 			DIV = ed.dom.getParent(n, 'div');

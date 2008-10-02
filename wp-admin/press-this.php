@@ -305,51 +305,14 @@ die;
 	do_action('admin_print_styles');
 	do_action('admin_print_scripts');
 	do_action('admin_head');
+	
+	if ( user_can_richedit() ) {
+		add_filter( 'teeny_mce_before_init', create_function( '$a', '$a["onpageload"] = ""; $a["mode"] = "textareas"; $a["editor_selector"] = "mceEditor"; return $a;' ) );
+		
+		wp_tiny_mce( true );
+	}
 ?>
 	<script type="text/javascript">
-	<?php if ( user_can_richedit() ) {
-		$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
-		// Add TinyMCE languages
-		@include_once( dirname(__FILE__).'/../wp-includes/js/tinymce/langs/wp-langs.php' );
-		if ( isset($strings) ) echo $strings; ?>
-			(function() {
-				var base = tinymce.baseURL, sl = tinymce.ScriptLoader, ln = "<?php echo $language; ?>";
-				sl.markDone(base + '/langs/' + ln + '.js');
-				sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
-				sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
-			})();
-
-			tinyMCE.init({
-				mode: "textareas",
-				editor_selector: "mceEditor",
-				language : "<?php echo $language; ?>",
-				width: "100%",
-				height: "300",
-				theme : "advanced",
-				theme_advanced_buttons1 : "bold,italic,underline,blockquote,separator,strikethrough,bullist,numlist,justifyleft, justifycenter, justifyright, undo,redo,link,unlink",
-				theme_advanced_buttons2 : "",
-				theme_advanced_buttons3 : "",
-				theme_advanced_toolbar_location : "top",
-				theme_advanced_toolbar_align : "left",
-				theme_advanced_statusbar_location : "bottom",
-				theme_advanced_resizing : true,
-				theme_advanced_resize_horizontal : false,
-				skin : "wp_theme",
-				dialog_type : "modal",
-				relative_urls : false,
-				remove_script_host : false,
-				convert_urls : false,
-				apply_source_formatting : false,
-				remove_linebreaks : true,
-				accessibility_focus : false,
-				tab_focus : ":next",
-				plugins : "safari, inlinepopups, media",
-				entities : "38,amp,60,lt,62,gt",
-				force_p_newlines : true,
-				save_callback : 'switchEditors.saveCallback'
-			});
-    <?php } ?>
-
     jQuery('#tags-input').hide();
 	tag_update_quickclicks();
 	// add the quickadd form
@@ -534,12 +497,13 @@ die;
 				<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			
 				<div class="editor-container">
-					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15"><?php if ($selection) { echo wp_richedit_pre($selection); } ?><p>via <a href="<?php echo $url ?>"><?php echo $title; ?></a></p><?php if($selection) echo '.'; ?></textarea>
+					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
+					<?php if ($selection) echo wp_richedit_pre($selection); ?>
+					<p>via <a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p>
+					</textarea>
 				</div>
 			</div>
 		</div>
-
-		
 	</div>
 </form>
 </body>

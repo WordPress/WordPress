@@ -33,6 +33,21 @@ addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document
 </script>
 <?php
 
+switch ( $pagenow ) {
+	case 'post.php':
+		add_action( 'admin_head-post.php', 'wp_tiny_mce' );
+		break;
+	case 'post-new.php':
+		add_action( 'admin_head-post-new.php', 'wp_tiny_mce' );
+		break;
+	case 'page.php':
+		add_action( 'admin_head-page.php', 'wp_tiny_mce' );
+		break;
+	case 'page-new.php':
+		add_action( 'admin_head-page-new.php', 'wp_tiny_mce' );
+		break;
+}
+
 $hook_suffixes = array();
 
 if ( isset($page_hook) )

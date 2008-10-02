@@ -214,7 +214,7 @@ if ( $compress && isset($_SERVER['HTTP_ACCEPT_ENCODING']) ) {
 // Setup cache info
 if ( $disk_cache ) {
 
-	$cacheKey = apply_filters('tiny_mce_version', '20080830');
+	$cacheKey = apply_filters('tiny_mce_version', '20080930');
 
 	foreach ( $initArray as $v )
 		$cacheKey .= $v;
@@ -260,7 +260,7 @@ foreach ( $initArray as $k => $v )
 $mce_options = rtrim( trim($mce_options), '\n\r,' );
 
 // Pre-init settings
-$content = 'var tinyMCEPreInit = { base : "'. $baseurl .'", suffix : "", query : "ver=311b", mceInit : {' . $mce_options . '}};' . "\n";
+$content = 'var tinyMCEPreInit = { base : "'. $baseurl .'", suffix : "", query : "ver=3201", mceInit : {' . $mce_options . '}};' . "\n";
 
 // Load patch
 $content .= getFileContents( 'tiny_mce_ext.js' );

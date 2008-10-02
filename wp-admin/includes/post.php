@@ -985,77 +985,240 @@ function wp_create_post_autosave( $post_id ) {
 }
 
 /**
- * Adds a trimmed down version of the tinyMCE editor used on the Write -> Post screen.
+ * wp_tiny_mce() - adds the TinyMCE editor used on the Write and Edit screens.
+ * 
+ * Has option to output a trimmed down version used in Press This.
  *
  * @package WordPress
- * @since 2.6.0
+ * @since 2.7
  */
-function wp_teeny_mce( $args = null ) {
-	if ( !user_can_richedit() )
+function wp_tiny_mce( $teeny = false ) {
+	if ( ! user_can_richedit() )
 		return;
-
-	$defaults = array(
-		'buttons1' => 'bold,italic,underline,blockquote,separator,strikethrough,bullist,numlist,undo,redo,link,unlink'
-	);
-	$args = wp_parse_args( $args, $defaults );
-	if ( is_array( $args['buttons1'] ) )
-		$args['buttons1'] = join( ',', $args['buttons1'] );
-
-	$language = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) );
-
-?>
-
-<script type="text/javascript" src="<?php echo clean_url( site_url( 'wp-includes/js/tinymce/tiny_mce.js' ) ); ?>"></script>
-<script type="text/javascript">
-/* <![CDATA[ */
-<?php
-	// Add TinyMCE languages
-	@include_once( ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php' );
-
-	if ( isset($strings) )
-		echo $strings;
-
-?>
-	(function() {
-		var base = tinymce.baseURL, sl = tinymce.ScriptLoader, ln = "<?php echo $language; ?>";
-
-		sl.markDone(base + '/langs/' + ln + '.js');
-		sl.markDone(base + '/themes/advanced/langs/' + ln + '.js');
-		sl.markDone(base + '/themes/advanced/langs/' + ln + '_dlg.js');
-	})();
 	
-	var wpTeenyMCEInit = function() {
-	tinyMCE.init({
-		mode: "textareas",
-		editor_selector: "mceEditor",
-		language : "<?php echo $language; ?>",
-		width: "100%",
-		theme : "advanced",
-		theme_advanced_buttons1 : "<?php echo $args['buttons1']; ?>",
-		theme_advanced_buttons2 : "",
-		theme_advanced_buttons3 : "",
-		theme_advanced_toolbar_location : "top",
-		theme_advanced_toolbar_align : "left",
-		theme_advanced_statusbar_location : "bottom",
-		theme_advanced_resizing : true,
-		theme_advanced_resize_horizontal : false,
-		skin : "wp_theme",
-		dialog_type : "modal",
-		relative_urls : false,
-		remove_script_host : false,
-		convert_urls : false,
-		apply_source_formatting : false,
-		remove_linebreaks : true,
-		accessibility_focus : false,
-		tab_focus : ":next",
-		plugins : "safari,inlinepopups",
-		entities : "38,amp,60,lt,62,gt",
-		force_p_newlines : true,
-		save_callback : 'switchEditors.saveCallback'
-	});
-	};
-	wpTeenyMCEInit();
-/* ]]> */
+	$baseurl = includes_url('js/tinymce');
+
+	$mce_css = $baseurl . '/wordpress.css';
+	$mce_css = apply_filters('mce_css', $mce_css);
+
+	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
+
+	/*
+	The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
+	By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
+	The + sign marks the default language. More information:
+	http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker
+	*/
+	$mce_spellchecker_languages = apply_filters('mce_spellchecker_languages', '+English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv');
+	
+	if ( $teeny ) {
+		$plugins = apply_filters( 'teeny_mce_plugins', array('safari', 'inlinepopups', 'media', 'autosave', 'fullscreen') );
+		$ext_plugins = '';
+	} else {
+		$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage' );
+	
+		/*
+		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
+		It adds the plugin's name to TinyMCE's plugins init and the call to PluginManager to load the plugin.
+		The url should be absolute and should include the js file name to be loaded. Example:
+		array( 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js' )
+		If the plugin uses a button, it should be added with one of the "$mce_buttons" filters.
+		*/
+		$mce_external_plugins = apply_filters('mce_external_plugins', array());
+		
+		$ext_plugins = "\n";
+		if ( ! empty($mce_external_plugins) ) {
+		
+			/*
+			The following filter loads external language files for TinyMCE plugins.
+			It takes an associative array 'plugin_name' => 'path', where path is the
+			include path to the file. The language file should follow the same format as
+			/tinymce/langs/wp-langs.php and should define a variable $strings that
+			holds all translated strings. Example:
+			$strings = 'tinyMCE.addI18n("' . $mce_locale . '.mypluginname_dlg",{tab_general:"General", ... })';
+			*/
+			$mce_external_languages = apply_filters('mce_external_languages', array());
+		
+			$loaded_langs = array();
+			$strings = '';
+		
+			if ( ! empty($mce_external_languages) ) {
+				foreach ( $mce_external_languages as $name => $path ) {
+					if ( is_file($path) && is_readable($path) ) {
+						include_once($path);
+						$ext_plugins .= $strings;
+						$loaded_langs[] = $name;
+					}
+				}
+			}
+		
+			foreach ( $mce_external_plugins as $name => $url ) {
+		
+				if ( is_ssl() ) $url = str_replace('http://', 'https://', $url);
+		
+				$plugins[] = '-' . $name;
+		
+				if ( in_array($name, $loaded_langs) ) {
+					$plugurl = dirname($url);
+					$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
+				}
+				$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
+			}
+		}
+	}
+	
+	$plugins = implode($plugins, ',');
+	
+	if ( $teeny ) {
+		$mce_buttons = apply_filters( 'teeny_mce_buttons', array('bold, italic, underline, blockquote, separator, strikethrough, bullist, numlist,justifyleft, justifycenter, justifyright, undo, redo, link, unlink, fullscreen') );
+		$mce_buttons = implode($mce_buttons, ',');
+		$mce_buttons_2 = $mce_buttons_3 = $mce_buttons_4 = '';
+	} else {
+		$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'link', 'unlink', 'wp_more', '|', 'spellchecker', 'fullscreen', 'wp_adv' ));
+		$mce_buttons = implode($mce_buttons, ',');
+		
+		$mce_buttons_2 = apply_filters('mce_buttons_2', array('formatselect', 'underline', 'justifyfull', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|', 'media', 'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo', 'wp_help' ));
+		$mce_buttons_2 = implode($mce_buttons_2, ',');
+		
+		$mce_buttons_3 = apply_filters('mce_buttons_3', array());
+		$mce_buttons_3 = implode($mce_buttons_3, ',');
+		
+		$mce_buttons_4 = apply_filters('mce_buttons_4', array());
+		$mce_buttons_4 = implode($mce_buttons_4, ',');
+	}
+	$no_captions = ( apply_filters( 'disable_captions', '' ) ) ? true : false;
+	
+	// TinyMCE init settings
+	$initArray = array (
+		'mode' => 'none',
+		'onpageload' => 'switchEditors.edInit',
+		'width' => '100%',
+		'theme' => 'advanced',
+		'skin' => 'wp_theme',
+		'theme_advanced_buttons1' => "$mce_buttons",
+		'theme_advanced_buttons2' => "$mce_buttons_2",
+		'theme_advanced_buttons3' => "$mce_buttons_3",
+		'theme_advanced_buttons4' => "$mce_buttons_4",
+		'language' => "$mce_locale",
+		'spellchecker_languages' => "$mce_spellchecker_languages",
+		'theme_advanced_toolbar_location' => 'top',
+		'theme_advanced_toolbar_align' => 'left',
+		'theme_advanced_statusbar_location' => 'bottom',
+		'theme_advanced_resizing' => true,
+		'theme_advanced_resize_horizontal' => false,
+		'dialog_type' => 'modal',
+		'relative_urls' => false,
+		'remove_script_host' => false,
+		'convert_urls' => false,
+		'apply_source_formatting' => false,
+		'remove_linebreaks' => true,
+		'paste_convert_middot_lists' => true,
+		'paste_remove_spans' => true,
+		'paste_remove_styles' => true,
+		'gecko_spellcheck' => true,
+		'entities' => '38,amp,60,lt,62,gt',
+		'accessibility_focus' => false,
+		'tab_focus' => ':next',
+		'content_css' => "$mce_css",
+		'save_callback' => 'switchEditors.saveCallback',
+		'wpeditimage_disable_captions' => $no_captions,
+		'plugins' => "$plugins",
+		'strict_loading_mode' => true
+	);
+	
+	// For people who really REALLY know what they're doing with TinyMCE
+	// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
+	// Setting "valid_elements", "invalid_elements" and "extended_valid_elements" can be done through "tiny_mce_before_init".
+	// Best is to use the default cleanup by not specifying valid_elements, as TinyMCE contains full set of XHTML 1.0.
+	if ( $teeny ) {
+		$initArray = apply_filters('teeny_mce_before_init', $initArray);
+	} else {
+		$initArray = apply_filters('tiny_mce_before_init', $initArray);
+	}
+
+	$language = $initArray['language'];
+
+	$ver = apply_filters('tiny_mce_version', '200');
+/*
+	foreach ( $initArray as $v )
+		$ver .= $v;
+	
+	if ( ! empty($mce_external_plugins) ) {
+		foreach ( $mce_external_plugins as $n => $v )
+			$ver .= $n;
+	}
+	
+	$ver = md5( $ver );
+
+	
+	// Use cached translations file if exists
+	$langs_file = ABSPATH . WPINC . '/js/tinymce/langs/wp-langs-' . $language . '.js';
+
+	if ( is_file($langs_file) && is_readable($langs_file) ) {
+		if ( $ver != get_option('mce_refresh_check') ) {
+			@unlink($langs_file);
+			update_option('mce_refresh_check', $ver);
+		} else {
+			$lang = false;
+		}
+	}
+*/
+	if ( 'en' != $language )
+		include_once(ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php');
+
+	$mce_options = '';
+	foreach ( $initArray as $k => $v )
+	    $mce_options .= $k . ':"' . $v . '", ';
+	
+	$mce_options = rtrim( trim($mce_options), '\n\r,' ); ?>
+
+<script type="text/javascript">
+
+tinyMCEPreInit = {
+	base : "<?php echo $baseurl; ?>",
+	suffix : "",
+	query : "ver=<?php echo $ver; ?>",
+	mceInit : {<?php echo $mce_options; ?>},
+
+	go : function() {
+		var t = this, sl = tinymce.ScriptLoader, ln = t.mceInit.language, th = t.mceInit.theme, pl = t.mceInit.plugins;
+	
+		sl.markDone(t.base + '/langs/' + ln + '.js');
+	
+		sl.markDone(t.base + '/themes/' + th + '/langs/' + ln + '.js');
+		sl.markDone(t.base + '/themes/' + th + '/langs/' + ln + '_dlg.js');
+	
+		tinymce.each(pl.split(','), function(n) {
+			if (n && n.charAt(0) != '-') {
+				sl.markDone(t.base + '/plugins/' + n + '/langs/' + ln + '.js');
+				sl.markDone(t.base + '/plugins/' + n + '/langs/' + ln + '_dlg.js');
+			}
+		});
+	},
+	
+	load_ext : function(url,lang) {
+		var sl = tinymce.ScriptLoader;
+	
+		sl.markDone(url + '/langs/' + lang + '.js');
+		sl.markDone(url + '/langs/' + lang + '_dlg.js');
+	}
+};
+</script>
+<script type="text/javascript" src="<?php echo $baseurl; ?>/tiny_mce.js?ver=<?php echo $ver; ?>"></script>
+<?php if ( 'en' == $language ) { ?>
+	<script type="text/javascript" src="<?php echo $baseurl; ?>/langs/wp-langs-<?php echo $language; ?>.js?ver=<?php echo $ver; ?>"></script>
+<?php } ?>
+<script type="text/javascript">
+
+<?php if ( 'en' != $language && isset($lang) ) echo $lang; ?>
+<?php if ( $ext_plugins ) echo $ext_plugins; ?>
+	
+// Mark translations as done
+tinyMCEPreInit.go();
+
+// Init
+tinyMCE.init(tinyMCEPreInit.mceInit);
+
 </script>
 
 <?php

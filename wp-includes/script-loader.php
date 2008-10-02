@@ -62,15 +62,13 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'colorpicker', '/wp-includes/js/colorpicker.js', array('prototype'), '3517' );
 
-	// Let a plugin replace the visual editor
-	$visual_editor = apply_filters('visual_editor', array('tiny_mce'));
-	$scripts->add( 'editor', false, $visual_editor, '20080321' );
-
-	$scripts->add( 'editor_functions', '/wp-admin/js/editor.js', false, '20080928' );
-
 	// Modify this version when tinyMCE plugins are changed.
-	$mce_version = apply_filters('tiny_mce_version', '20080830');
-	$scripts->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('editor_functions'), $mce_version );
+	function mce_version() {
+		return '20080930';
+	}
+	add_filter( 'tiny_mce_version', 'mce_version' );
+
+	$scripts->add( 'editor', '/wp-admin/js/editor.js', false, mce_version() );
 
 	$scripts->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.6');
 
