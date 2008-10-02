@@ -317,7 +317,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081001' );
 	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20080709' );
 	$styles->add( 'widgets', '/wp-admin/css/widgets.css' );
-	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css' );
+	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20081001' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20080708' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css' );
 	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20080922' );

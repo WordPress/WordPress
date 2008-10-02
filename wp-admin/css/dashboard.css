@@ -41,7 +41,7 @@ div#dashboard-widgets {
 }
 
 div.dashboard-widget-holder {
-	margin-top: 20px;
+	margin-bottom: 20px;
 	width: 50%;
 	float: left;
 }
