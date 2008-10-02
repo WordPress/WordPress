@@ -52,7 +52,33 @@ $menu[30] = array( __('Appearance'), 'switch_themes', 'themes.php' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
 
-$menu[35] = array(__('Settings'), 'manage_options', 'options-general.php');
+$menu[35] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
+	$submenu['plugins.php'][15] = array(__('Add New'), 'install_plugins', 'plugin-install.php');	
+	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
+	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
+
+if ( current_user_can('edit_users') )
+	$menu[40] = array(__('Users'), 'edit_users', 'users.php');
+else
+	$menu[40] = array(__('Profile'), 'read', 'profile.php');
+
+if ( current_user_can('edit_users') ) {
+	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
+	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
+	$submenu['users.php'][10] = array(__('Your Profile'), 'read', 'profile.php');
+} else {
+	$_wp_real_parent_file['users.php'] = 'profile.php';
+	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
+}
+
+$menu[45] = array(__('Tools'), 'manage_options', 'import.php');
+	$submenu['import.php'][5] = array( __('Import'), 'import', 'import.php' );
+	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
+	$submenu['import.php'][15] = array( __('Press This'), 'publish_posts', 'press-this-landing.php' );
+	if ( ! $is_opera )
+		$submenu['import.php'][20] = array( __('Turbo'), 'read', 'turbo.php' );
+
+$menu[50] = array(__('Settings'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
 	$submenu['options-general.php'][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
@@ -61,22 +87,8 @@ $menu[35] = array(__('Settings'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][35] = array(__('Privacy'), 'manage_options', 'options-privacy.php');
 	$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
 	$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
-	$submenu['options-general.php'][50] = array( __('Users'), 'edit_users', 'users.php' );
 
-$menu[40] = array(__('Tools'), 'manage_options', 'import.php');
-	$submenu['import.php'][5] = array( __('Import'), 'import', 'import.php' );
-	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
-	$submenu['import.php'][15] = array( __('Press This'), 'publish_posts', 'press-this-landing.php' );
-	if ( ! $is_opera )
-		$submenu['import.php'][20] = array( __('Turbo'), 'read', 'turbo.php' );
-
-$menu[45] = array( __('Plugins'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][15] = array(__('Add New'), 'install_plugins', 'plugin-install.php');	
-	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
-	
-
-$menu[50] = array( __('Help'), 'read', 'dummy.php' );
+$menu[55] = array( __('Help'), 'read', 'dummy.php' );
 	$submenu['dummy.php'][5]  = array( __('Documentation'), 'read', __('http://codex.wordpress.org/') );
 	$submenu['dummy.php'][10]  = array( __('Forums'), 'read', __('http://wordpress.org/support/') );
 	$submenu['dummy.php'][15]  = array( __('Feedback'), 'read', __('http://wordpress.org/support/forum/4') );
