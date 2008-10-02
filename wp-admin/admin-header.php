@@ -8,7 +8,6 @@
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 if (!isset($_GET["page"])) require_once('admin.php');
-wp_enqueue_script( 'wp-gears' );
 
 get_admin_page_title();
 $title = wp_specialchars( strip_tags( $title ) );

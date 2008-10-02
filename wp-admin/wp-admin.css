@@ -1747,37 +1747,25 @@ fieldset {
 	margin: 0;
 }
 
-.info-box {
-	top: 100px;
-	left: 50%;
-	margin-left: -225px;
-	height: 300px;
-	width: 450px;
-	border: 5px solid #ddd;
-	background: #f8f8f8;
-	position: absolute;
-	padding: 15px 15px 10px;
-	z-index: 1000;
-	display: none;
+#gears-info-box {
+	max-width: 700px;
 }
 
-.info-box .submit {
-	position: absolute;
-	bottom: 15px;
-	width: 450px;
-	padding: 15px 0 0;
-}
-
-.info-box .gears-img {
+#gears-info-box .gears-img {
 	float: right;
 	margin: 10px;
+}
+
+#gears-info-box .buttons {
+	margin: 10px 0 0;
+	padding: 1.5em 0 0;
 }
 
 .info-box-title {
 	line-height: 2;
 	margin: 0;
 	padding: 4px 8px;
-	font: 18px Georgia, "Times New Roman", Times, serif;
+	font: 18px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;;
 }
 
 #wp_editbtns {
