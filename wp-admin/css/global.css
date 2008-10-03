@@ -131,8 +131,10 @@ h6 {
 
 .subsubsub {
 	list-style: none;
-	margin: 0 0 8px;
+	margin: 0;
 	padding: 0;
+	position: relative;
+	top: -5px;
 	white-space: nowrap;
 	font-size: 12px;
 	float: left;
@@ -223,7 +225,7 @@ th.check-column + th, th.check-column + td {
 	border-width: 1px;
 	border-style: solid;
 	padding: 0 0.6em;
-	margin-bottom: 1em;
+	margin: 3px 15px 5px;
 }
 
 .updated p, .error p {

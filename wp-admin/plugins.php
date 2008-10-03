@@ -344,7 +344,7 @@ function print_plugins_table($plugins, $context = '') {
 		<input type="submit" name="doaction_active" value="<?php _e('Apply'); ?>" class="button-secondary action" />
 	</div>
 </div>
-<br class="clear" />
+<div class="clear"></div>
 <?php print_plugins_table($active_plugins, 'active') ?>
 </form>
 
@@ -370,7 +370,7 @@ function print_plugins_table($plugins, $context = '') {
 		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
 	</div>
 </div>
-<br class="clear" />
+<div class="clear"></div>
 <?php print_plugins_table($recent_plugins, 'recent') ?>
 </form>
 <?php endif; ?>
@@ -388,7 +388,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php endif; ?>
 	</div>
 </div>
-<br class="clear" />
+<div class="clear"></div>
 <?php print_plugins_table($inactive_plugins, 'inactive') ?>
 </form>
 <?php endif; ?>

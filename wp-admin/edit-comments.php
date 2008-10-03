@@ -173,14 +173,12 @@ unset($status_links);
 </form>
 </div>
 
-<form id="posts-filter" action="" method="get">
-
-<p id="post-search">
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Comments' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo $search; ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php echo $search; ?>" />
 	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
 </p>
-
 </form>
 
 <?php
@@ -249,7 +247,7 @@ if ( 'spam' == $comment_status ) {
 
 </div>
 
-<br class="clear" />
+<div class="clear"></div>
 
 <?php if ( $comments ) { ?>
 <table class="widefat">

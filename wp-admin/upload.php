@@ -252,14 +252,15 @@ foreach ($arc_result as $arc_row) {
 <?php } // ! is_singular ?>
 </form></div>
 
-<form id="posts-filter" action="" method="get">
-
-<p id="post-search">
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
 </p>
+</form>
 
+<form id="posts-filter" action="" method="get">
 <div class="tablenav">
 <?php
 if ( ! isset($page_links_total) )
@@ -296,7 +297,7 @@ if ( $page_links )
 <br class="clear" />
 </div>
 
-<br class="clear" />
+<div class="clear"></div>
 
 <?php if ( isset($orphans) ) { ?>
 <table class="widefat">

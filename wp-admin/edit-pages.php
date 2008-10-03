@@ -110,8 +110,6 @@ require_once('admin-header.php'); ?>
 </div></form>
 </div>
 
-<div class="wrap">
-
 <?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) ) { ?>
 <div id="message" class="updated fade"><p>
 <?php if ( (int) $_GET['updated'] ) {
@@ -136,6 +134,7 @@ if ( (int) $_GET['locked'] ) {
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
+<div class="wrap">
 <ul class="subsubsub">
 <?php
 
@@ -163,13 +162,15 @@ endif;
 ?>
 </ul>
 
-<form id="posts-filter" action="" method="get">
-
-<p id="post-search">
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Pages' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
 	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
 </p>
+</form>
+
+<form id="posts-filter" action="" method="get">
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
@@ -209,7 +210,7 @@ if ( $page_links )
 <br class="clear" />
 </div>
 
-<br class="clear" />
+<div class="clear"></div>
 
 <?php
 

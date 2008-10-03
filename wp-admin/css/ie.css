@@ -117,10 +117,6 @@ table.ie-fixed {
 	table-layout: fixed;
 }
 
-.search-box .button, #widget-search .button {
-	padding: 1px;
-}
-
 .widefat tr, .widefat th {
 	margin-bottom: 0;
 	border-spacing: 0;

@@ -142,14 +142,17 @@ endif; ?>
 
 <div class="wrap">
 
-<form id="posts-filter" action="" method="get">
-
-<p id="post-search">
+<ul class="subsubsub"><li class="current"><a class="current"><br /></a></li></ul>
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Tags' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
 	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" class="button" />
 </p>
+</form>
+<br class="clear" />
 
+<form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
 <?php
@@ -182,7 +185,7 @@ if ( $page_links )
 <br class="clear" />
 </div>
 
-<br class="clear" />
+<div class="clear"></div>
 
 <table class="widefat">
 	<thead>

@@ -99,7 +99,6 @@ else
 <br class="clear" />
 </div></form>
 </div>
-<div class="wrap">
 
 <?php
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
@@ -110,7 +109,7 @@ endif; ?>
 <?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) ) { ?>
 <div id="message" class="updated fade"><p>
 <?php if ( (int) $_GET['updated'] ) {
-	printf( __ngettext( '%d page updated.', '%d pages updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
+	printf( __ngettext( '%d post updated.', '%d posts updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
 	unset($_GET['updated']);
 }
 
@@ -118,12 +117,13 @@ if ( (int) $_GET['skipped'] )
 	unset($_GET['skipped']);
 
 if ( (int) $_GET['locked'] ) {
-	printf( __ngettext( ' %d page not updated, somebody is editing it.', ' %d pages not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['skipped'] ) );
+	printf( __ngettext( ' %d post not updated, somebody is editing it.', ' %d posts not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['locked'] ) );
 	unset($_GET['locked']);
 } ?>
 </p></div>
 <?php } ?>
 
+<div class="wrap">
 <ul class="subsubsub">
 <?php
 if ( empty($locked_post_status) ) :
@@ -197,18 +197,15 @@ do_action('restrict_manage_posts');
 </form>
 </div>
 
-<div class="view-switch">
-	<a href="<?php echo clean_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> src="images/list.gif" title="<?php _e('List View') ?>" alt="<?php _e('List View') ?>" /></a>
-	<a href="<?php echo clean_url(add_query_arg('mode', 'excerpt', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> src="images/exc.gif" title="<?php _e('Excerpt View') ?>" alt="<?php _e('Excerpt View') ?>" /></a>
-</div>
-
-<form id="posts-filter" action="" method="get">
-
-<p id="post-search">
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
 </p>
+</form>
+
+<form id="posts-filter" action="" method="get">
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
@@ -224,8 +221,6 @@ $page_links = paginate_links( array(
 	'current' => $_GET['paged']
 ));
 
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
 <div class="alignleft">
@@ -238,10 +233,19 @@ if ( $page_links )
 <?php wp_nonce_field('bulk-posts'); ?>
 </div>
 
-<br class="clear" />
+<?php if ( $page_links ) { ?>
+<div class="tablenav-pages"><?php echo $page_links; ?></div>
+<?php } ?>
+
+<div class="view-switch">
+	<a href="<?php echo clean_url(add_query_arg('mode', 'list', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'list' == $mode ) echo 'class="current"'; ?> src="images/list.gif" title="<?php _e('List View') ?>" alt="<?php _e('List View') ?>" /></a>
+	<a href="<?php echo clean_url(add_query_arg('mode', 'excerpt', $_SERVER['REQUEST_URI'])) ?>"><img <?php if ( 'excerpt' == $mode ) echo 'class="current"'; ?> src="images/exc.gif" title="<?php _e('Excerpt View') ?>" alt="<?php _e('Excerpt View') ?>" /></a>
 </div>
 
-<br class="clear" />
+<div class="clear"></div>
+</div>
+
+<div class="clear"></div>
 
 <?php include( 'edit-post-rows.php' ); ?>
 

@@ -544,12 +544,14 @@ p.pagenav {
 }
 
 .tablenav {
+	clear: both;
+	vertical-align: text-top;
+	/*
 	height: 2em;
 	padding: 7px 10px;
-	clear: both;
 	margin-bottom: -10px;
 	margin-top: 8px;
-	vertical-align: text-top;
+	*/
 }
 
 .tablenav .tablenav-pages {
@@ -1565,20 +1567,15 @@ p#big-add-button .button {
 
 p.search-box {
 	position: absolute;
-	right: 15px;
-	top: 52px;
+	right: 0;
+	top: -5px;
 	margin: 0;
 }
 
-p.search-box .button, #widget-search .button {
-	padding: 3px;
-	font-size: 13px;
-}
-
 .search-input {
-	margin-right: 2px;
 	border-width: 1px;
 	border-style: solid;
+	padding: 2px;
 }
 
 #posts-filter fieldset {
@@ -1628,8 +1625,9 @@ body.wp-admin {
 
 .view-switch {
 	float: right;
-	margin: 3px 5px;
+	margin: 0 20px;
 	position: relative;
+	top: 2px;
 }
 
 .view-switch img {
@@ -1642,8 +1640,9 @@ body.wp-admin {
 }
 
 .filter {
-	float: left;
-	margin: 0 30px;
+	left: 180px;
+	position: absolute;
+	top: 24px;
 }
 
 #the-comment-list td.comment p.comment-author {

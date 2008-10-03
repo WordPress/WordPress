@@ -96,6 +96,7 @@ if ( isset($_GET['deleted']) ) {
 
 <div class="wrap">
 
+<div class="filter">
 <form id="list-filter" action="" method="get">
 <?php
 $categories = get_terms('link_category', "hide_empty=1");
@@ -117,16 +118,19 @@ echo $select_order;
 
 ?>
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
-</form>
+</form></div>
 
-<form id="posts-filter" action="" method="get">
-
-<p id="post-search">
+<ul class="subsubsub"><li><a class="current"><br /></a></li></ul>
+<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Links' ); ?>:</label>
-	<input type="text" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
 	<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button" />
 </p>
+</form>
+<br class="clear" />
 
+<form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
 <div class="alignleft">
@@ -140,7 +144,7 @@ echo $select_order;
 <br class="clear" />
 </div>
 
-<br class="clear" />
+<div class="clear"></div>
 
 <?php
 if ( 'all' == $cat_id )
