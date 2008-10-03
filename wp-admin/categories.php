@@ -143,7 +143,7 @@ endif; ?>
 <form class="search-form" action="<?php echo $pagenow ?>" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e('Search Categories'); ?>:</label>
-	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php echo attribute_escape(stripslashes($_GET['s'])); ?>" />
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 </form>

@@ -2978,4 +2978,18 @@ function _draft_or_post_title($post_id = 0)
 	return $title;
 }
 
+/**
+ * Display the search query.
+ * 
+ * A simple wrapper to display the "s" parameter in a GET URI. This function
+ * should only be used when {@link the_search_query()} cannot.
+ *
+ * @uses attribute_escape
+ * @since 2.7.0
+ * 
+ */
+function _admin_search_query() {
+	echo ( isset($_GET['s']) ) ? attribute_escape( stripslashes( $_GET['s'] ) ) : '';
+}
+
 ?>
