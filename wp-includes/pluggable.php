@@ -1471,6 +1471,9 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = 'Avatar' 
 		if ( $user )
 			$email = $user->user_email;
 	} elseif ( is_object($id_or_email) ) {
+		if ( isset($id_or_email->comment_type) && '' != $id_or_email->comment_type )
+			return false; // No avatar for pingbacks or trackbacks
+
 		if ( !empty($id_or_email->user_id) ) {
 			$id = (int) $id_or_email->user_id;
 			$user = get_userdata($id);
