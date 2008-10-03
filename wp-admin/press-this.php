@@ -293,14 +293,14 @@ die;
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<title><?php _e('Press This') ?></title>
-	<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce.js?ver=311"></script>
+
 <?php
 	add_thickbox();
 	wp_enqueue_style('press-this');
 	wp_enqueue_style('press-this-ie');
 	wp_enqueue_style( 'colors' );
 	wp_enqueue_script( 'post' );
-	wp_enqueue_script('editor_functions');
+	wp_enqueue_script('editor');
 
 	do_action('admin_print_styles');
 	do_action('admin_print_scripts');
