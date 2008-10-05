@@ -199,11 +199,6 @@ function update_core($from, $to) {
 		return $result;
 	}
 
-	// Upgrade DB with separate request
-	apply_filters('update_feedback', __('Upgrading database'));
-	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
-	wp_remote_post($db_upgrade_url, array('timeout' => 60));
-
 	// Remove old files
 	foreach ( $_old_files as $old_file ) {
 		$old_file = $to . $old_file;
@@ -211,6 +206,11 @@ function update_core($from, $to) {
 			continue;
 		$wp_filesystem->delete($old_file, true);
 	}
+
+	// Upgrade DB with separate request
+	apply_filters('update_feedback', __('Upgrading database'));
+	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
+	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
 	// Remove working directory
 	$wp_filesystem->delete($from, true);
