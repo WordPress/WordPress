@@ -107,7 +107,7 @@ if ( version_compare( '4.3', phpversion(), '>' ) ) {
 if ( !defined('WP_CONTENT_DIR') )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
 
-if ( file_exists(ABSPATH . '.maintenance') ) {
+if ( file_exists(ABSPATH . '.maintenance') && !defined('WP_INSTALLING') ) {
 	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
 		require_once( WP_CONTENT_DIR . '/maintenance.php' );
 		die();
@@ -445,7 +445,7 @@ if (get_option('hack_file')) {
 		require(ABSPATH . 'my-hacks.php');
 }
 
-if ( get_option('active_plugins') ) {
+if ( get_option('active_plugins') && !defined('WP_INSTALLING') ) {
 	$current_plugins = get_option('active_plugins');
 	if ( is_array($current_plugins) ) {
 		foreach ($current_plugins as $plugin) {

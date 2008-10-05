@@ -199,16 +199,10 @@ function update_core($from, $to) {
 		return $result;
 	}
 
-	// Might have to do upgrade in a separate step.
+	// Upgrade DB with separate request
 	apply_filters('update_feedback', __('Upgrading database'));
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
-
-	// Remove working directory
-	$wp_filesystem->delete($from, true);
-
-	// Remove maintenance file, we're done.
-	$wp_filesystem->delete($maintenance_file);
 
 	// Remove old files
 	foreach ( $_old_files as $old_file ) {
@@ -218,8 +212,14 @@ function update_core($from, $to) {
 		$wp_filesystem->delete($old_file, true);
 	}
 
+	// Remove working directory
+	$wp_filesystem->delete($from, true);
+
 	// Force refresh of update information
 	delete_option('update_core');
+
+	// Remove maintenance file, we're done.
+	$wp_filesystem->delete($maintenance_file);
 }
 
 ?>
