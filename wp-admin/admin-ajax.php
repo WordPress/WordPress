@@ -730,19 +730,49 @@ case 'sample-permalink':
 break;
 case 'inline-save':
 	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
-	
-	if ( ! isset($_POST['post_ID']) || ! ( $id = (int) $_POST['post_ID'] ) )
+
+	if ( ! isset($_POST['post_ID']) || ! ( $post_ID = (int) $_POST['post_ID'] ) )
 		exit;
 
-	if ( $last = wp_check_post_lock( $id ) ) {
+	if ( 'page' == $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_page', $post_ID ) )
+			die( __('You are not allowed to edit this page.') );
+	} else {
+		if ( ! current_user_can( 'edit_post', $post_ID ) )
+			die( __('You are not allowed to edit this post.') );
+	}
+
+	if ( $last = wp_check_post_lock( $post_ID ) ) {
 		$last_user = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
-		echo '<tr><td colspan="8"><div class="error"><p>' . sprintf( $_POST['post_type'] == 'page' ? __( 'Saving is disabled: %s is currently editing this page.' ) : __( 'Saving is disabled: %s is currently editing this post.' ),	wp_specialchars( $last_user_name ) ) . '</p></div></td></tr>';
+		printf( $_POST['post_type'] == 'page' ? __( 'Saving is disabled: %s is currently editing this page.' ) : __( 'Saving is disabled: %s is currently editing this post.' ),	wp_specialchars( $last_user_name ) );
 		exit;
 	}
-	
-	inline_save_row( $_POST );
-	
+
+	$data = &$_POST;
+	$post = get_post( $post_ID, ARRAY_A );
+	$data['content'] = $post['post_content'];
+	$data['excerpt'] = $post['post_excerpt'];
+
+	// rename
+	$data['user_ID'] = $GLOBALS['user_ID'];
+	$data['parent_id'] = $data['post_parent'];
+
+	// status
+	if ( 'private' == $data['keep_private'] )
+		$data['post_status'] = 'private';
+	else
+		$data['post_status'] = $data['_status'];
+
+	if ( empty($data['comment_status']) )
+		$data['comment_status'] = 'closed';
+	if ( empty($data['ping_status']) )
+		$data['ping_status'] = 'closed';
+
+	// update the post
+	$_POST = $data;
+	edit_post();
+
 	$post = array();
 	if ( 'page' == $_POST['post_type'] ) {
 		$post[] = get_post($_POST['post_ID']);
@@ -752,7 +782,61 @@ case 'inline-save':
 		$post[] = get_post($_POST['post_ID']);
 		post_rows($post);
 	}
-	die();
+
+	exit;
+	break;
+case 'inline-save-tax':
+	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
+
+	if ( ! current_user_can('manage_categories') )
+		die( '<tr colspan="6"><td>' . __('Cheatin&#8217; uh?') . '</td></tr>' );
+
+	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )
+		exit;
+
+	switch ($_POST['tax_type']) {
+		case 'cat' :
+			$data = array();
+			$data['cat_ID'] = $id;
+			$data['cat_name'] = $_POST['name'];
+			$data['category_nicename'] = $_POST['slug'];
+			if ( isset($_POST['parent']) && (int) $_POST['parent'] > 0 )
+				$data['category_parent'] = $_POST['parent'];
+
+			$updated = wp_update_category($data);
+
+			if ( $updated && !is_wp_error($updated) )
+				echo _cat_row( $id, 0 );
+			else
+				die( __('Category not updated.') );
+
+			break;
+		case 'link-cat' :
+			$updated = wp_update_term($id, 'link_category', $_POST);
+
+			if ( $updated && !is_wp_error($updated) )
+				echo link_cat_row($id);
+			else
+				die( __('Category not updated.') );
+
+			break;
+		case 'tag' :
+			$updated = wp_update_term($id, 'post_tag', $_POST);
+
+			if ( $updated && !is_wp_error($updated) ) {
+				$tag = get_term( $id, 'post_tag' );
+				if ( !$tag || is_wp_error( $tag ) )
+					die( __('Tag not updated.') );
+
+				echo _tag_row($tag);
+			} else {
+				die( __('Tag not updated.') );
+			}
+
+			break;
+	}
+
+	exit;
 	break;
 case 'meta-box-order':
 	check_ajax_referer( 'meta-box-order' );
@@ -803,7 +887,7 @@ case 'find_posts':
 				$stat = __('Unpublished');
 				break;
 		}
-		
+
 		if ( '0000-00-00 00:00:00' == $post->post_date ) {
 			$time = '';
 		} else {

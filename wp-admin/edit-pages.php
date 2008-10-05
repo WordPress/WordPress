@@ -69,7 +69,7 @@ if ( empty($title) )
 	$title = __('View All Pages');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
-wp_enqueue_script('inline-edit');
+wp_enqueue_script('inline-edit-post');
 wp_enqueue_script('pages');
 
 $post_stati  = array(	//	array( adj, noun )

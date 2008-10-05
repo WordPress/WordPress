@@ -48,6 +48,8 @@ $title = __('Link Categories');
 
 wp_enqueue_script( 'admin-categories' );
 wp_enqueue_script('admin-forms');
+if ( current_user_can('manage_categories') )
+	wp_enqueue_script('inline-edit-tax');
 
 require_once ('admin-header.php');
 
@@ -183,6 +185,7 @@ if ( $page_links )
 </div>
 
 <?php include('edit-link-category-form.php'); ?>
+<?php inline_edit_term_row('link-category'); ?>
 
 <?php endif; ?>
 

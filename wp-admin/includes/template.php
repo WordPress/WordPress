@@ -123,6 +123,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>" . attribute_escape( $name ) . '</a><br />';
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick Edit') . '</a>';
 		if ( $default_cat_id != $category->term_id )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n 'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
@@ -136,11 +137,11 @@ function _cat_row( $category, $level, $name_override = false ) {
 		$edit = $name;
 	}
 
-	$class = " class='alternate'" == $class ? '' : " class='alternate'";
+	$class = 'alternate' == $class ? '' : 'alternate';
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='cat-$category->term_id'$class>";
+	$output = "<tr id='cat-$category->term_id' class='iedit $class'>";
 
 	$columns = get_column_headers('category');
 	$hidden = (array) get_user_option( 'manage-category-columns-hidden' );
@@ -164,7 +165,11 @@ function _cat_row( $category, $level, $name_override = false ) {
 				$output .= '</th>';
 				break;
 			case 'name':
-				$output .= "<td $attributes>$edit</td>";
+				$output .= "<td $attributes>$edit";
+				$output .= '<div class="hidden" id="inline_' . $category->term_id . '">';
+				$output .= '<div class="name">' . attribute_escape( $category->name ) . '</div>';
+				$output .= '<div class="slug">' . $category->slug . '</div>';
+				$output .= '<div class="cat_parent">' . $category->parent . '</div></div></td>';
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
@@ -180,6 +185,86 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$output .= '</tr>';
 
 	return apply_filters('cat_row', $output);
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.7
+ * 
+ * Outputs the HTML for the hidden table rows used in Categories, Link Caregories and Tags quick edit.
+ *
+ * @param string $type "tag", "category" or "link-category"
+ * @return 
+ */
+function inline_edit_term_row($type) {
+
+	if ( ! current_user_can( 'manage_categories' ) )
+		return;
+
+	$is_tag = $type == 'tag';
+	$columns = $is_tag ? get_column_headers('tag') : get_column_headers('category');
+	$hidden = (array) get_user_option( "manage-$type-columns-hidden" ); ?>
+
+<form method="get" action=""><table style="display: none"><tbody id="inlineedit">
+	<tr title="<?php _e('Double-click to cancel'); ?>" id="inline-edit" style="display: none"><td colspan="8">
+	<?php
+
+	foreach ( $columns as $column_name => $column_display_name ) {
+		$class = "class=\"$column_name column-$column_name quick-edit-div\"";
+		$style = in_array($column_name, $hidden) ? ' style="display:none;"' : '';
+		$attributes = "$class$style";
+
+		switch ($column_name) {
+			case 'cb':
+				break;
+			case 'description':
+				break;
+			case 'name': ?>
+				<div class="tax-name quick-edit-div"<?php echo $style ?> title="<?php _e('Name'); ?>">
+					<div class="title"><?php _e('Name'); ?></div>
+					<div class="in">
+					<input type="text" name="name" class="ptitle" value="" />
+					</div>
+				</div>
+				<?php
+
+				$output .= "<td $attributes>$edit</td>";
+				break;
+			case 'slug': ?>
+				<div class="tax-slug quick-edit-div"<?php echo $style ?> title="<?php _e('Slug'); ?>">
+					<div class="title"><?php _e('Slug'); ?></div>
+					<div class="in">
+					<input type="text" name="slug" class="ptitle" value="" />
+					</div>
+				</div>
+				<?php
+
+				$output .= "<td $attributes>$category->slug</td>";
+				break;
+			case 'posts':
+				if ( 'category' == $type ) { ?>
+				<div class="tax-parent quick-edit-div"<?php echo $style ?> title="<?php _e('Parent Category'); ?>">
+					<div class="title"><?php _e('Parent Category'); ?></div>
+						<div class="in">
+						<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('None'))); ?>
+						</div>
+				</div>
+				<?php }
+				break;
+		}
+	}
+	?>
+	<div class="clear"></div>
+	<div class="quick-edit-save">
+		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel"><?php _e('Cancel'); ?></a>
+		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-secondary save"><?php _e('Save'); ?></a>
+		<span class="hidden error"></span>
+		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
+	</div>
+	</td></tr>
+	</tbody></table></form>
+<?php
 }
 
 /**
@@ -206,6 +291,7 @@ function link_cat_row( $category, $name_override = false ) {
 		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick Edit') . '</a>';
 		if ( $default_cat_id != $category->term_id )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link-category.php?action=delete&amp;cat_ID=$category->term_id", 'delete-link-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n 'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
@@ -219,11 +305,11 @@ function link_cat_row( $category, $name_override = false ) {
 		$edit = $name;
 	}
 
-	$class = " class='alternate'" == $class ? '' : " class='alternate'";
+	$class = 'alternate' == $class ? '' : 'alternate';
 
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='link-cat-$category->term_id'$class>";
+	$output = "<tr id='link-cat-$category->term_id' class='iedit $class'>";
 	$columns = get_column_headers('link-category');
 	$hidden = (array) get_user_option( 'manage-link-category-columns-hidden' );
 	foreach ( $columns as $column_name => $column_display_name ) {
@@ -246,7 +332,11 @@ function link_cat_row( $category, $name_override = false ) {
 				$output .= "</th>";
 				break;
 			case 'name':
-				$output .= "<td $attributes>$edit</td>";
+				$output .= "<td $attributes>$edit";
+				$output .= '<div class="hidden" id="inline_' . $category->term_id . '">';
+				$output .= '<div class="name">' . attribute_escape( $category->name ) . '</div>';
+				$output .= '<div class="slug">' . $category->slug . '</div>';
+				$output .= '<div class="cat_parent">' . $category->parent . '</div></div></td>';
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
@@ -517,6 +607,7 @@ function _tag_row( $tag, $class = '' ) {
 					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . attribute_escape(sprintf(__('Edit "%s"'), $name)) . '">' . $name . '</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick Edit') . '</a>';
 					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this tag '%s'\n 'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
@@ -525,7 +616,9 @@ function _tag_row( $tag, $class = '' ) {
 						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 						$out .= "<span class='$action'>$link$sep</span>";
 					}
-					$out .= '</td>';
+					$out .= '<div class="hidden" id="inline_' . $tag->term_id . '">';
+					$out .= '<div class="name">' . $name . '</div>';
+					$out .= '<div class="slug">' . $tag->slug . '</div></div></td>';
 					break;
 				case 'slug':
 					$out .= "<td $attributes>$tag->slug</td>";
@@ -573,7 +666,7 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 	$class = '';
 	$count = 0;
 	foreach( $tags as $tag )
-		$out .= _tag_row( $tag, ++$count % 2 ? ' class="alternate"' : '' );
+		$out .= _tag_row( $tag, ++$count % 2 ? ' class="iedit alternate"' : ' class="iedit"' );
 
 	// filter and send to screen
 	$out = apply_filters('tag_rows', $out);
@@ -745,7 +838,7 @@ function get_column_headers($page) {
 				'posts' => __('Posts')
 			);
 			return apply_filters('manage_users_columns', $columns);
-		default : 
+		default :
 			return apply_filters('manage_' . $page . '_columns', $columns);
 	}
 
@@ -799,9 +892,11 @@ function print_column_headers( $type, $id = true ) {
 /**
  * {@internal Missing Short Description}}
  *
- * @since unknown
+ * Outputs the quick edit and bulk edit table rows
+ *  
+ * @since 2.7
  *
- * @param unknown_type $type
+ * @param string $type 'post' or 'page'
  */
 function inline_edit_row( $type ) {
 	global $current_user, $mode;
@@ -823,7 +918,7 @@ function inline_edit_row( $type ) {
 	<?php
 	$bulk = 0;
 	while ( $bulk < 2 ) { ?>
-	
+
 	<tr title="<?php _e('Double-click to cancel'); ?>" id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 	<?php
 	foreach($columns as $column_name=>$column_display_name) {
@@ -968,7 +1063,7 @@ function inline_edit_row( $type ) {
 				<div <?php echo $attributes ?> title="<?php _e('Author'); ?>">
 					<div class="title"><?php _e('Author'); ?></div>
 					<div class="in">
-					<?php 
+					<?php
 					$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1);
 					if ( $bulk ) $users_opt['show_option_none'] = __('- No Change -');
 					wp_dropdown_users( $users_opt ); ?>
@@ -1045,40 +1140,6 @@ function inline_edit_row( $type ) {
 <?php
 }
 
-/**
- * {@internal Missing Short Description}}
- *
- * @since unknown
- *
- * @param unknown_type $data
- */
-function inline_save_row( $data ) {
-	// get the original post content
-	$post = get_post( $data['post_ID'], ARRAY_A );
-	$data['content'] = $post['post_content'];
-
-	// statuses
-	if ( 'private' == $data['keep_private'] )
-		$data['post_status'] = 'private';
-	else
-		$data['post_status'] = $data['_status'];
-
-	if ( empty($data['comment_status']) )
-		$data['comment_status'] = 'closed';
-	if ( empty($data['ping_status']) )
-		$data['ping_status'] = 'closed';
-
-	// rename
-	$data['user_ID'] = $GLOBALS['user_ID'];
-	$data['excerpt'] = $data['post_excerpt'];
-	$data['trackback_url'] = $data['to_ping'];
-	$data['parent_id'] = $data['post_parent'];
-
-	// update the post
-	$_POST = $data;
-	edit_post();
-}
-
 // adds hidden fields with the data for use in the inline editor
 /**
  * {@internal Missing Short Description}}
@@ -1091,7 +1152,7 @@ function get_inline_data($post) {
 
 	if ( ! current_user_can('edit_' . $post->post_type, $post->ID) )
 		return;
-	
+
 	$title = _draft_or_post_title($post->ID);
 
 	echo '
@@ -1114,13 +1175,13 @@ function get_inline_data($post) {
 	<div class="post_parent">' . $post->post_parent . '</div>
 	<div class="page_template">' . wp_specialchars(get_post_meta( $post->ID, '_wp_page_template', true ), 1) . '</div>
 	<div class="menu_order">' . $post->menu_order . '</div>';
-	
+
 	if( $post->post_type == 'post' )
 		echo '
 	<div class="tags_input">' . wp_specialchars( str_replace( ',', ', ', get_tags_to_edit($post->ID) ), 1) . '</div>
 	<div class="post_category">' . implode( ',', wp_get_post_categories( $post->ID ) ) . '</div>
 	<div class="sticky">' . (is_sticky($post->ID) ? 'sticky' : '') . '</div>';
-		
+
 	echo '</div>';
 }
 
@@ -1231,7 +1292,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 				echo apply_filters('post_date_column_time', $t_time, $post, $column_name, $mode);
 			else
 				echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) . '</abbr>';
-			
+
 			echo '</td>';
 		break;
 
@@ -1476,7 +1537,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			echo "<span class='$action'>$link$sep</span>";
 		}
-		
+
 		get_inline_data($post);
 		echo '</td>';
 		break;
@@ -2974,7 +3035,7 @@ function _draft_or_post_title($post_id = 0)
 {
 	$title = get_the_title($post_id);
 	if ( empty($title) )
-		$title = __('(no title)'); 
+		$title = __('(no title)');
 	return $title;
 }
 

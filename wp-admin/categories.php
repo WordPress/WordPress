@@ -111,6 +111,8 @@ if ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
 
 wp_enqueue_script( 'admin-categories' );
 wp_enqueue_script('admin-forms');
+if ( current_user_can('manage_categories') )
+	wp_enqueue_script('inline-edit-tax');
 
 require_once ('admin-header.php');
 
@@ -235,6 +237,7 @@ if ( $page_links )
 
 <?php include('edit-category-form.php'); ?>
 
+<?php inline_edit_term_row('category'); ?>
 <?php endif; ?>
 
 <?php

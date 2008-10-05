@@ -1544,7 +1544,7 @@ function wp_update_post($postarr = array()) {
 	$postarr = array_merge($post, $postarr);
 	$postarr['post_category'] = $post_cats;
 	if ( $clear_date ) {
-		$postarr['post_date'] = current_time('mysql');;
+		$postarr['post_date'] = current_time('mysql');
 		$postarr['post_date_gmt'] = '';
 	}
 

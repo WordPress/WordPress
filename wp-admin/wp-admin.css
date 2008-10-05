@@ -2151,7 +2151,9 @@ a.togbox {
 }
 
 .inline-editor .post-title,
-.inline-editor .page-title {
+.inline-editor .page-title,
+.inline-editor .tax-name,
+.inline-editor .tax-slug {
 	width: 260px;
 }
 
@@ -2162,7 +2164,9 @@ a.togbox {
 }
 
 .inline-editor .post-title .ptitle,
-.inline-editor .page-title .ptitle {
+.inline-editor .page-title .ptitle,
+.inline-editor .tax-name .ptitle,
+.inline-editor .tax-slug .ptitle {
 	width: 245px;
 	margin-bottom: 5px;
 	font-size: 12px !important;
@@ -2206,7 +2210,8 @@ a.togbox {
 	width: 80px;
 }
 
-.inline-editor .categories {
+.inline-editor .categories,
+.inline-editor .column-posts {
 	width: 200px;
 }
 
@@ -2271,11 +2276,13 @@ a.togbox {
 	width: 150px;
 }
 
-.inline-editor .parent {
+.inline-editor .parent,
+.inline-editor .tax-parent {
 	width: 180px;
 }
 
-#wpbody-content .inline-editor .parent select {
+#wpbody-content .inline-editor .parent select,
+#wpbody-content .inline-editor .tax-parent select {
 	width: 170px;
 }
 

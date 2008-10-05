@@ -36,10 +36,10 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  */
 function wp_default_scripts( &$scripts ) {
 	global $current_user;
-	
+
 	if (!$guessurl = site_url())
 		$guessurl = wp_guess_url();
-	
+
 	$userid = isset($current_user) ? $current_user->ID : 0;
 	$scripts->base_url = $guessurl;
 	$scripts->default_version = get_bloginfo( 'version' );
@@ -241,10 +241,16 @@ function wp_default_scripts( &$scripts ) {
 		));
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
-		
-		$scripts->add( 'inline-edit', '/wp-admin/js/inline-edit.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080930' );
-		$scripts->localize( 'inline-edit', 'inlineEditL10n', array(
+
+		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20080930' );
+		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
 			'edit' => __('Double-click to edit')
+		) );
+
+		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081003' );
+		$scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
+			'edit' => __('Double-click to edit'),
+			'error' => __('Error while saving the changes.')
 		) );
 
 		$scripts->add( 'plugin-install', '/wp-admin/js/plugin-install.js', array( 'thickbox', 'jquery' ), '20080803' );
@@ -253,7 +259,7 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
-		
+
 		$scripts->add( 'user-settings', '/wp-admin/js/user-settings.js', array(), '20080829' );
 		$scripts->localize( 'user-settings', 'userSettings', array(
 			'url' => SITECOOKIEPATH,

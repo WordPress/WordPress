@@ -70,7 +70,7 @@ if ( empty($title) )
 	$title = __('View All Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
-wp_enqueue_script('inline-edit');
+wp_enqueue_script('inline-edit-post');
 wp_enqueue_script('posts');
 
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();

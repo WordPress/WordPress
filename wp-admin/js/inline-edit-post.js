@@ -1,6 +1,6 @@
 
 (function($) {
-inlineEdit = {
+inlineEditPost = {
 
 	init : function() {
 		var t = this, qeRow = $('#inline-edit'), bulkRow = $('#bulk-edit');
@@ -12,20 +12,20 @@ inlineEdit = {
 		t.rows = $('tr.iedit');
 
 		// prepare the edit row
-		qeRow.dblclick(function() { inlineEdit.toggle(this); })
-			.keyup(function(e) { if(e.which == 27) return inlineEdit.revert(); });
+		qeRow.dblclick(function() { inlineEditPost.toggle(this); })
+			.keyup(function(e) { if(e.which == 27) return inlineEditPost.revert(); });
 
-		bulkRow.dblclick(function() { inlineEdit.revert(); })
-			.keyup(function(e) { if (e.which == 27) return inlineEdit.revert(); });
+		bulkRow.dblclick(function() { inlineEditPost.revert(); })
+			.keyup(function(e) { if (e.which == 27) return inlineEditPost.revert(); });
 
-		$('a.cancel', qeRow).click(function() { return inlineEdit.revert(); });
-		$('a.save', qeRow).click(function() { return inlineEdit.save(this); });
+		$('a.cancel', qeRow).click(function() { return inlineEditPost.revert(); });
+		$('a.save', qeRow).click(function() { return inlineEditPost.save(this); });
 
-		$('a.cancel', bulkRow).click(function() { return inlineEdit.revert(); });
-		$('a.save', bulkRow).click(function() { return inlineEdit.saveBulk(); });
+		$('a.cancel', bulkRow).click(function() { return inlineEditPost.revert(); });
+		$('a.save', bulkRow).click(function() { return inlineEditPost.saveBulk(); });
 
 		// add events
-		t.rows.dblclick(function() { inlineEdit.toggle(this); });
+		t.rows.dblclick(function() { inlineEditPost.toggle(this); });
 		t.addEvents(t.rows);
 
 		$('#bulk-title-div').after(
@@ -65,12 +65,12 @@ inlineEdit = {
 				t.revert();
 			}
 		});
-		
+
 		$('#post-query-submit').click(function(e){
 			if ( $('form#posts-filter tr.inline-editor').length > 0 )
 				t.revert();
 		});
-		
+
 	},
 
 	toggle : function(el) {
@@ -82,7 +82,7 @@ inlineEdit = {
 	addEvents : function(r) {
 		r.each(function() {
 			var row = $(this);
-			$('a.editinline', row).click(function() { inlineEdit.edit(this); return false; });
+			$('a.editinline', row).click(function() { inlineEditPost.edit(this); return false; });
 			row.attr('title', inlineEditL10n.edit);
 		});
 	},
@@ -104,7 +104,7 @@ inlineEdit = {
 
 		$('#bulk-titles').html(te);
 		$('#bulk-titles a').click(function() {
-			var id = $(this).attr('id').substr(1), r = inlineEdit.type+'-'+id;
+			var id = $(this).attr('id').substr(1), r = inlineEditPost.type+'-'+id;
 
 			$('table.widefat input[value="'+id+'"]').attr('checked', '');
 			$('#ttle'+id).remove();
@@ -186,7 +186,7 @@ inlineEdit = {
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 
-		$('#edit-'+id+' .check-column').html('<img src="images/loading.gif" alt="" />');
+		$('#edit-'+id+'.quick-edit-save').append('<img style="padding:0 15px;" src="images/loading.gif" alt="" />');
 
 		var params = {
 			action: 'inline-save',
@@ -201,12 +201,17 @@ inlineEdit = {
 		// make ajax request
 		$.post('admin-ajax.php', params,
 			function(r) {
-				var row = $(inlineEdit.what+id);
-				$('#edit-'+id).remove();
-				row.html($(r).html()).show()
-					.animate( { backgroundColor: '#CCEEBB' }, 500)
-					.animate( { backgroundColor: '#eefee7' }, 500);
-				inlineEdit.addEvents(row);
+				var row = $(inlineEditPost.what+id);
+
+				if (r) {
+					$('#edit-'+id).remove();
+					row.html($(r).html()).show()
+						.animate( { backgroundColor: '#CCEEBB' }, 500)
+						.animate( { backgroundColor: '#eefee7' }, 500);
+					inlineEditPost.addEvents(row);
+				} else {
+					$('#edit-'+id+' .quick-edit-save').append('<span class="error">'+inlineEditL10n.error+'</span>');
+				}
 			}
 		);
 		return false;
@@ -241,5 +246,5 @@ inlineEdit = {
 	}
 };
 
-$(document).ready(function(){inlineEdit.init();});
+$(document).ready(function(){inlineEditPost.init();});
 })(jQuery);

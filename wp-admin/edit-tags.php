@@ -115,6 +115,8 @@ if ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
 
 wp_enqueue_script( 'admin-tags' );
 wp_enqueue_script('admin-forms');
+if ( current_user_can('manage_categories') )
+	wp_enqueue_script('inline-edit-tax');
 
 require_once ('admin-header.php');
 
@@ -187,7 +189,7 @@ if ( $page_links )
 
 <div class="clear"></div>
 
-<table class="widefat">
+<table class="widefat tag">
 	<thead>
 	<tr>
 <?php print_column_headers('tag'); ?>
@@ -236,6 +238,7 @@ if ( $page_links )
 
 <br />
 <?php include('edit-tag-form.php'); ?>
+<?php inline_edit_term_row('tag'); ?>
 
 <?php endif; ?>
 

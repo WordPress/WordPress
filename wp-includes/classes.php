@@ -1402,7 +1402,7 @@ class Walker_CategoryDropdown extends Walker {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		$cat_name = apply_filters('list_cats', $category->name, $category);
-		$output .= "\t<option value=\"".$category->term_id."\"";
+		$output .= "\t<option class=\"level-$depth\" value=\"".$category->term_id."\"";
 		if ( $category->term_id == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
