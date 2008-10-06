@@ -530,18 +530,18 @@ class WP_Http_Fsockopen {
 		if ( (int) $arrHeaders['response']['code'] >= 400 && (int) $arrHeaders['response']['code'] < 500 )
 			return new WP_Error('http_request_failed', $arrHeaders['response']['code'] . ': ' . $arrHeaders['response']['message']);
 
-		// If the body was chunk encoded, then decode it.
-		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] ) && 'chunked' == $arrHeaders['headers']['transfer-encoding'] )
-			$process['body'] = WP_Http::chunkTransferDecode($process['body']);
-
 		// If location is found, then assume redirect and redirect to location.
 		if ( isset($arrHeaders['headers']['location']) ) {
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request($arrHeaders['headers']['location'], $r);
-			}
-			else
+			} else {
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
+			}
 		}
+
+		// If the body was chunk encoded, then decode it.
+		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] ) && 'chunked' == $arrHeaders['headers']['transfer-encoding'] )
+			$process['body'] = WP_Http::chunkTransferDecode($process['body']);
 
 		return array('headers' => $arrHeaders['headers'], 'body' => $process['body'], 'response' => $arrHeaders['response']);
 	}
@@ -858,9 +858,12 @@ class WP_Http_ExtHTTP {
 			'headers' => $r['headers'],
 		);
 
-		$strResponse = http_request($r['method'], $url, $r['body'], $options, $info);
+		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) //Emits warning level notices for max redirects and timeouts
+			$strResponse = @http_request($r['method'], $url, $r['body'], $options, $info);
+		else
+			$strResponse = http_request($r['method'], $url, $r['body'], $options, $info); //Emits warning level notices for max redirects and timeouts
 
-		if ( false === $strResponse )
+		if ( false === $strResponse || ! empty($info['error']) ) //Error may still be set, Response may return headers or partial document, and error contains a reason the request was aborted, eg, timeout expired or max-redirects reached
 			return new WP_Error('http_request_failed', $info['response_code'] . ': ' . $info['error']);
 
 		if ( ! $r['blocking'] )
@@ -869,8 +872,12 @@ class WP_Http_ExtHTTP {
 		list($theHeaders, $theBody) = explode("\r\n\r\n", $strResponse, 2);
 		$theHeaders = WP_Http::processHeaders($theHeaders);
 
-		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] )
-			$theBody = http_chunked_decode($theBody);
+		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] ) {
+			if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+				$theBody = @http_chunked_decode($theBody);
+			else
+				$theBody = http_chunked_decode($theBody);
+		}
 
 		$theResponse = array();
 		$theResponse['code'] = $info['response_code'];
@@ -970,12 +977,21 @@ class WP_Http_Curl {
 
 		$theResponse = curl_exec( $handle );
 
-		list($theHeaders, $theBody) = explode("\r\n\r\n", $theResponse, 2);
-		$theHeaders = WP_Http::processHeaders($theHeaders);
-
-		if ( ! empty( $theBody ) && isset( $theHeaders['headers']['transfer-encoding'] ) && 'chunked' == $theHeaders['headers']['transfer-encoding'] )
-			$theBody = WP_Http::chunkTransferDecode($theBody);
-
+		if ( $theResponse ) {
+			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
+			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
+			$theBody = substr( $theResponse, $headerLength );
+			if ( false !== strrpos($theHeaders, "\r\n\r\n") ) {
+				$headerParts = explode("\r\n\r\n", $theHeaders);
+				$theHeaders = $headerParts[ count($headerParts) -1 ];
+			}
+			$theHeaders = WP_Http::processHeaders($theHeaders);
+		} else {
+			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
+				return new WP_Error('http_request_failed', __('Too many redirects.'));
+			$theHeaders = array( 'headers' => array() );
+			$theBody = '';
+		}
 		$response = array();
 		$response['code'] = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
 		$response['message'] = get_status_header_desc($response['code']);
