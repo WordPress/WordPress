@@ -726,13 +726,17 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @uses $withcomments Will not try to get the comments if the post has none.
  *
  * @param string $file Optional, default '/comments.php'. The file to load
+ * @param bool $separate_comments Optional, whether to separate the comments by comment type. Default is false. 
  * @return null Returns null if no comments appear
  */
-function comments_template( $file = '/comments.php' ) {
+function comments_template( $file = '/comments.php', $separate_comments = false ) {
 	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity;
 
 	if ( ! (is_single() || is_page() || $withcomments) )
 		return;
+
+	if ( empty($file) )
+		$file = '/comments.php';
 
 	$req = get_option('require_name_email');
 	$commenter = wp_get_current_commenter();
@@ -747,11 +751,16 @@ function comments_template( $file = '/comments.php' ) {
 		$comments = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND ( comment_approved = '1' OR ( comment_author = %s AND comment_author_email = %s AND comment_approved = '0' ) ) ORDER BY comment_date", $post->ID, $comment_author, $comment_author_email));
 	}
 
-	// keep $comments for legacy's sake (remember $table*? ;) )
+	// keep $comments for legacy's sake
 	$wp_query->comments = apply_filters( 'comments_array', $comments, $post->ID );
 	$comments = &$wp_query->comments;
 	$wp_query->comment_count = count($wp_query->comments);
 	update_comment_cache($wp_query->comments);
+
+	if ( $separate_comments ) {
+		$wp_query->comments_by_type = &separate_comments($comments);
+		$comments_by_type = &$wp_query->comments_by_type;
+	}
 
 	define('COMMENTS_TEMPLATE', true);
 
