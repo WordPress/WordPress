@@ -932,6 +932,8 @@ function switch_theme($template, $stylesheet) {
  * Does not check the 'default' theme. The 'default' theme should always exist
  * or should have another theme renamed to that template name and directory
  * path. Will switch theme to default if current theme does not validate.
+ * You can use the 'validate_current_theme' filter to return FALSE to
+ * disable this functionality.
  *
  * @since 1.5.0
  *
@@ -939,7 +941,7 @@ function switch_theme($template, $stylesheet) {
  */
 function validate_current_theme() {
 	// Don't validate during an install/upgrade.
-	if ( defined('WP_INSTALLING') )
+	if ( defined('WP_INSTALLING') || !apply_filters( 'validate_current_theme', true ) )
 		return true;
 
 	if ( get_template() != 'default' && !file_exists(get_template_directory() . '/index.php') ) {
