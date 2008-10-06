@@ -620,6 +620,7 @@ function wp_get_sidebars_widgets($update = true) {
 
 	unset($sidebars_widgets['array_version']);
 
+	$sidebars_widgets = apply_filters('sidebars_widgets', $sidebars_widgets);
 	return $sidebars_widgets;
 }
 
