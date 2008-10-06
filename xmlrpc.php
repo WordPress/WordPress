@@ -2525,6 +2525,19 @@ class wp_xmlrpc_server extends IXR_Server {
 			if( $postdata['post_status'] === 'future' ) {
 				$postdata['post_status'] = 'publish';
 			}
+			
+			$enclosure = array();
+			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
+				if ($key == 'enclosure') {
+					foreach ( (array) $val as $enc ) {
+						$encdata = split("\n", $enc);
+						$enclosure['url'] = trim(htmlspecialchars($encdata[0]));
+						$enclosure['length'] = trim($encdata[1]);
+						$enclosure['type'] = trim($encdata[2]);
+						break 2;
+					}
+				}
+			}
 
 			$resp = array(
 				'dateCreated' => new IXR_Date($post_date),
@@ -2550,7 +2563,9 @@ class wp_xmlrpc_server extends IXR_Server {
 				'post_status' => $postdata['post_status'],
 				'custom_fields' => $this->get_custom_fields($post_ID)
 			);
-
+			
+			if (!empty($enclosure)) $resp['enclosure'] = $enclosure;
+			
 			return $resp;
 		} else {
 			return new IXR_Error(404, __('Sorry, no such post.'));
