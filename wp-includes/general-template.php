@@ -1633,7 +1633,8 @@ function paginate_links( $args = '' ) {
 		'end_size' => 1,
 		'mid_size' => 2,
 		'type' => 'plain',
-		'add_args' => false // array of query args to add
+		'add_args' => false, // array of query args to add
+		'add_fragment' => ''
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1657,6 +1658,7 @@ function paginate_links( $args = '' ) {
 		$link = str_replace('%#%', $current - 1, $link);
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
+		$link .= $add_fragment;
 		$page_links[] = "<a class='prev page-numbers' href='" . clean_url($link) . "'>$prev_text</a>";
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
@@ -1669,6 +1671,7 @@ function paginate_links( $args = '' ) {
 				$link = str_replace('%#%', $n, $link);
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
+				$link .= $add_fragment;
 				$page_links[] = "<a class='page-numbers' href='" . clean_url($link) . "'>$n</a>";
 				$dots = true;
 			elseif ( $dots && !$show_all ) :
@@ -1682,6 +1685,7 @@ function paginate_links( $args = '' ) {
 		$link = str_replace('%#%', $current + 1, $link);
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
+		$link .= $add_fragment;
 		$page_links[] = "<a class='next page-numbers' href='" . clean_url($link) . "'>$next_text</a>";
 	endif;
 	switch ( $type ) :

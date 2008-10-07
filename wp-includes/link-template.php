@@ -815,6 +815,8 @@ function get_comments_pagenum_link($pagenum = 1) {
 		$result = $base . $request;
 	}
 
+	$result .= '#comments';
+
 	$result = apply_filters('get_comments_pagenum_link', $result);
 
 	return $result;
@@ -828,9 +830,6 @@ function next_comments_link($label='', $max_page = 0) {
 
 	$page = get_query_var('cpage');
 	
-	if ( !$page )
-		$page = 1;
-
 	if ( !$page )
 		$page = 1;
 
@@ -858,6 +857,9 @@ function previous_comments_link($label='') {
 
 	$page = get_query_var('cpage');
 
+	if ( !$page )
+		$page = 1;
+
 	if ( $page <= 1 )
 		return;
 
@@ -869,6 +871,42 @@ function previous_comments_link($label='') {
 	echo '<a href="' . clean_url(get_comments_pagenum_link($nextpage));
 	$attr = apply_filters( 'previous_comments_link_attributes', '' );
 	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+}
+
+/** Create pagination links for the comments on the current post
+ *
+ * @package WordPress
+ * @see paginate_links
+ * @since 2.7
+ *
+ * @param string|array $args Optional args. See paginate_links.
+ * @return string Markup for pagination links
+*/
+function paginate_comments_links($args = array()) {
+	global $wp_query;
+
+	if ( !is_singular() )
+		return;
+
+	$page = get_query_var('cpage');
+	if ( !$page )
+		$page = 1;
+	$max_page = $wp_query->max_num_comment_pages;
+	$defaults = array(
+		'base' => add_query_arg( 'cpage', '%#%' ),
+		'format' => '',
+		'total' => $max_page,
+		'current' => $page,
+		'echo' => true,
+		'add_fragment' => '#comments'
+	);
+	$args = wp_parse_args( $args, $defaults );
+	$page_links = paginate_links( $args );
+
+	if ( $args['echo'] )
+		echo $page_links;
+	else
+		return $page_links;
 }
 
 function get_shortcut_link() {
