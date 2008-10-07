@@ -151,6 +151,10 @@ foreach ( $menu as $id => $data ) {
 
 do_action('admin_menu', '');
 
+// Move the help menu to the end
+$menu[] = $menu[55];
+unset($menu[55]);
+
 // Remove menus that have no accessible submenus and require privs that the user does not have.
 // Run re-parent loop again.
 foreach ( $menu as $id => $data ) {
