@@ -22,7 +22,7 @@
 $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 
-$menu[0] = array( __('Dashboard'), 'read', 'index.php' );
+$menu[0] = array( __('Dashboard'), 'read', 'index.php', 'wp-menu-open' );
 	$submenu['index.php'][5]  = array( __('Overview'), 'read' , 'index.php' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'post-new.php', 'wp-menu-open' );
