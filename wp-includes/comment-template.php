@@ -890,7 +890,7 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	global $user_ID;
 
 	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Reply'),
-		'login_text' => __('Log in to Reply'), 'depth' => 0);
+		'login_text' => __('Log in to Reply'), 'depth' => 0, 'before' => '', 'after' => '');
 
 	$args = wp_parse_args($args, $defaults);
 
@@ -912,7 +912,7 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	else 
 		$link = "<a href='#' onclick='moveAddCommentForm(\"$add_below-$comment->comment_ID\", $comment->comment_ID, \"$respond_id\"); return false;'>$reply_text</a>";
 
-	return $link;
+	return $before . $link . $after;
 }
 
 /**
