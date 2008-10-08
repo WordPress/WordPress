@@ -264,6 +264,9 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 			$where = "WHERE ID IN (".join(',', $next_posts).")";
 			$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_date_gmt ASC");
 				foreach ($posts as $post) {
+			// Don't export revisions.  They bloat the export.
+			if ( 'revision' == $post->post_type )
+				continue;
 			setup_postdata($post); ?>
 <item>
 <title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
