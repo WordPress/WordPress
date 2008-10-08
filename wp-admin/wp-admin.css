@@ -292,7 +292,7 @@ textarea.all-options, input.all-options {
 	padding: 0;
 }
 
-#emaildiv input, #uridiv input {
+#emaildiv input, #uridiv input, .stuffbox #name {
 	width: 94%;
 }
 
@@ -1136,6 +1136,19 @@ table.form-table td .updated {
  div.inside {
 	padding: 0;
 	margin: 0;
+}
+
+#comment-status-radio p {
+	margin: 3px 0 5px;
+}
+
+#comment-status-radio input {
+	margin: 2px 3px 5px 0;
+	vertical-align: middle;
+}
+
+#comment-status-radio label {
+	padding: 5px 0;
 }
 
 #tagchecklist {
