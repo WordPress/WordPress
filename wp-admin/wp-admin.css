@@ -329,8 +329,7 @@ textarea.all-options, input.all-options {
 	padding: 2px 4px;
 }
 
-#ed_toolbar input,
-#ed_reply_toolbar input {
+#ed_toolbar input {
 	margin: 3px 2px 2px;
 	padding: 2px 4px;
 	line-height: 18px;
@@ -512,15 +511,6 @@ p.pagenav {
 
 .column-comment p {
 	margin-top: 0;
-}
-
-.column-comment {
-	width: 50%;
-}
-
-.column-author,
-.column-response {
-	width: 20%;
 }
 
 .column-author img {
@@ -1960,49 +1950,84 @@ a.togbox {
 }
 
 /* reply to comments */
-#replydiv {
-	width: 700px;
-	border-width: 1px;
-	border-style: solid;
-	padding: 2px;
-	left: 20px;
-	top: 200px;
-	z-index: 100;
+#replyrow {
+	font-size: 11px;
 }
 
-#replydiv #editorcontainer {
+#replyrow input {
+	border-width: 1px;
+	border-style: solid;
+}
+
+#replyrow td {
+	padding: 2px;
+}
+
+#replyrow #editorcontainer {
 	border: 0 none;
 }
 
 #replysubmit {
 	margin: 0;
-	padding: 3px 5px;
+	padding: 5px;
 	border-top-width: 1px;
 	border-top-style: solid;
 }
 
-#replysubmit .button,
-#replyerror .button {
+#replysubmit img.waiting,
+.quick-edit-save img.waiting {
+	padding: 0 10px;
+	vertical-align: top;
+}
+
+#replysubmit .button {
 	margin-right: 5px;
 }
 
-#replydiv #editor-toolbar {
+#replyrow #editor-toolbar {
 	display: none;
 }
 
-#replydiv #replyhandle {
-	cursor: move;
-	margin: 0;
-	font-size: 14px;
+#replyhead {
+	font-size: 12px;
 	font-weight: bold;
-	padding: 7px;
+	padding: 2px 10px 4px;
+}
+
+#edithead #edittitle {
+	float: left;
+	font-size: 12px;
+	font-weight: bold;
+	height: 20px;
+	line-height: 19px;
+	margin: 0 4px 0 0;
+	padding: 4px 10px;
+}
+
+#edithead .inside {
+	float: left;
+	margin: 0 4px 2px 0;
+	padding: 3px 0 2px;
+	text-align: center;
+	width: 260px;
+	font-size: 11px;
+}
+
+#edithead .inside input {
+	width: 200px;
+	font-size: 11px;
+}
+
+#edithead label {
+	padding: 2px;
 }
 
 #replycontainer {
-	padding: 6px;
+	padding: 5px;
 	border: 0 none;
-	height: 100%;
+	height: 120px;
 	overflow: hidden;
+	position: relative;
 }
 
 #replycontent {
@@ -2014,34 +2039,23 @@ a.togbox {
 	line-height: 150%;
 	border: 0 none;
 	outline: none;
+	font-size: 12px;
 }
 
-#ed_reply_toolbar {
+#replyrow #ed_reply_toolbar {
 	margin: 0;
-	padding: 2px 4px;
+	padding: 2px 3px;
 }
 
-#replyerror {
-	border-width: 5px;
-	border-style: solid;
-	position: absolute;
-	padding: 15px 15px 10px;
-	width: 500px;
-	z-index: 1000;
-	display: none;
-}
-
-#replyerror img {
-	float: right;
-	margin: 15px;
-}
-
-#replyerror p.submit {
-	padding: 10px 0 0;
-}
-
-#replyerror .error {
-	margin: 15px 0 0;
+#replyrow #ed_reply_toolbar input {
+	margin: 1px 2px 1px 1px;
+	min-width: 26px;
+	padding: 3px 4px;
+	font-size: 12px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 /* show/hide settings */

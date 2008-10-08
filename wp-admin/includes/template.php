@@ -191,11 +191,11 @@ function _cat_row( $category, $level, $name_override = false ) {
  * {@internal Missing Short Description}}
  *
  * @since 2.7
- * 
+ *
  * Outputs the HTML for the hidden table rows used in Categories, Link Caregories and Tags quick edit.
  *
  * @param string $type "tag", "category" or "link-category"
- * @return 
+ * @return
  */
 function inline_edit_term_row($type) {
 
@@ -259,7 +259,8 @@ function inline_edit_term_row($type) {
 	<div class="quick-edit-save">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel"><?php _e('Cancel'); ?></a>
 		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-secondary save"><?php _e('Save'); ?></a>
-		<span class="hidden error"></span>
+		<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
+		<span class="error" style="display:none;"></span>
 		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
 	</div>
 	</td></tr>
@@ -892,8 +893,8 @@ function print_column_headers( $type, $id = true ) {
 /**
  * {@internal Missing Short Description}}
  *
- * Outputs the quick edit and bulk edit table rows
- *  
+ * Outputs the quick edit and bulk edit table rows for posts and pages
+ *
  * @since 2.7
  *
  * @param string $type 'post' or 'page'
@@ -1129,7 +1130,10 @@ function inline_edit_row( $type ) {
 	<div class="quick-edit-save">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel"><?php _e('Cancel'); ?></a>
 		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-secondary save"><?php _e('Save'); ?></a>
-		<?php if ( ! $bulk ) wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
+		<?php if ( ! $bulk ) {
+			wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
+			<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
+		<?php } ?>
 		<input type="hidden" name="post_view" value="<?php echo $m; ?>" />
 	</div>
 	</td></tr>
@@ -1140,7 +1144,7 @@ function inline_edit_row( $type ) {
 <?php
 }
 
-// adds hidden fields with the data for use in the inline editor
+// adds hidden fields with the data for use in the inline editor for posts and pages
 /**
  * {@internal Missing Short Description}}
  *
@@ -1969,8 +1973,15 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 				break;
 			case 'comment':
 				echo "<td $attributes>";
-				if ( 'detail' == $mode || 'single' == $mode ) comment_text();
-
+				if ( 'detail' == $mode || 'single' == $mode ) comment_text(); ?>
+				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
+				<textarea class="comment"><?php echo $comment->comment_content; ?></textarea>
+				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
+				<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
+				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
+				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
+				</div>
+				<?php
 				$actions = array();
 
 				if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
@@ -1989,24 +2000,22 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 						$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a>';
 					$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
 					$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
+					$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick Edit') . '</a>';
 					if ( 'spam' != $the_comment_status )
-						$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',this);return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
+						$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\');return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
 
 					$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
-					$action_count = count($actions);
 					$i = 0;
 					foreach ( $actions as $action => $link ) {
 						++$i;
-						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-						// The action before reply shouldn't output a sep
-						if ( 'edit' == $action )
-							$sep = '';
-						// Reply needs a hide-if-no-js span
-						if ( 'reply' == $action )
-							echo "<span class='$action'><span class='hide-if-no-js'> | $link</span>$sep</span>";
-						else
-							echo "<span class='$action'>$link$sep</span>";
+						( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
+
+						// Reply and quickedit need a hide-if-no-js span
+						if ( 'reply' == $action || 'quickedit' == $action )
+							$action .= ' hide-if-no-js';
+
+						echo "<span class='$action'>$sep$link</span>";
 					}
 				}
 
@@ -2053,42 +2062,60 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 	global $current_user;
 
 	// allow plugin to replace the popup content
-	$content = apply_filters( 'wp_comment_reply', '', array('position'=>$position, 'checkbox'=>$checkbox, 'mode'=>$mode) );
+	$content = apply_filters( 'wp_comment_reply', '', array('position' => $position, 'checkbox' => $checkbox, 'mode' => $mode) );
 
 	if ( ! empty($content) ) {
 		echo $content;
 		return;
 	}
 ?>
-	<div id="replyerror" style="display:none;">
-	<img src="images/logo.gif" />
-	<h3 class="info-box-title"><?php _e('Comment Reply Error'); ?></h3>
-	<p id="replyerrtext"></p>
-	<p class="submit"><button id="close-button" onclick="commentReply.close();" class="button"><?php _e('Close'); ?></button>
-	<button id="back-button" onclick="commentReply.back();" class="button"><?php _e('Go back'); ?></button></p>
+<form method="get" action=""><table style="display:none;"><tbody id="com-reply">
+	<tr id="replyrow"><td colspan="6">
+	<div id="replyhead" style="display:none;"><?php _e('Reply to Comment'); ?></div>
+
+	<div id="edithead" style="display:none;">
+		<div id="edittitle"><?php _e('Edit Comment'); ?></div>
+
+		<div class="inside">
+		<label for="author"><?php _e('Name') ?></label>
+		<input type="text" name="newcomment_author" size="50" value="" tabindex="101" id="author" />
+		</div>
+
+		<div class="inside">
+		<label for="author-email"><?php _e('E-mail') ?></label>
+		<input type="text" name="newcomment_author_email" size="50" value="" tabindex="102" id="author-email" />
+		</div>
+
+		<div class="inside">
+		<label for="author-url"><?php _e('URL') ?></label>
+		<input type="text" id="author-url" name="newcomment_author_url" size="103" value="" tabindex="103" />
+		</div>
+		<div style="clear:both;"></div>
 	</div>
 
-	<div id="replydiv" style="display:none;">
-	<p id="replyhandle"><?php _e('Reply'); ?></p>
-	<form action="" method="post" id="replyform">
+	<div id="replycontainer"><textarea rows="8" cols="40" name="replycontent" tabindex="104" id="replycontent"></textarea></div>
+
+	<p id="replysubmit">
+	<a href="#comments-form" class="cancel button" tabindex="106"><?php _e('Cancel'); ?></a>
+	<a href="#comments-form" class="save button" tabindex="105">
+	<span id="savebtn" style="display:none;"><?php _e('Save'); ?></span>
+	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
+	<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
+	<span class="error" style="display:none;"></span>
+	</p>
+
 	<input type="hidden" name="user_ID" id="user_ID" value="<?php echo $current_user->ID; ?>" />
-	<input type="hidden" name="action" value="replyto-comment" />
+	<input type="hidden" name="action" id="action" value="" />
 	<input type="hidden" name="comment_ID" id="comment_ID" value="" />
 	<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="" />
+	<input type="hidden" name="status" id="status" value="" />
 	<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />
 	<input type="hidden" name="checkbox" id="checkbox" value="<?php echo $checkbox ? 1 : 0; ?>" />
 	<input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>" />
 	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
-
-	<?php echo apply_filters( 'wp_comment_reply_content', '
-	<div id="replycontainer"><textarea rows="5" cols="40" name="replycontent" tabindex="1000" id="replycontent"></textarea></div>
-	'); ?>
-
-	<p id="replysubmit"><input type="button" onclick="commentReply.close();" class="button" tabindex="1002" value="<?php _e('Cancel'); ?>" />
-	<input type="button" onclick="commentReply.send();" class="button" tabindex="1001" value="<?php _e('Submit Reply'); ?>" /></p>
-	</form>
-	</div>
+	</td></tr>
+</tbody></table></form>
 <?php
 }
 
@@ -2986,7 +3013,7 @@ function find_posts_div($found_action = '') {
 
 /**
  * Display the post password.
- * 
+ *
  * The password is passed through {@link attribute_escape()} to ensure that it
  * is safe for placing in an html attribute.
  *
@@ -3023,13 +3050,13 @@ function favorite_actions() {
 
 /**
  * Get the post title.
- * 
+ *
  * The post title is fetched and if it is blank then a default string is
  * returned.
  *
  * @since 2.7.0
  * @param int $id The post id. If not supplied the global $post is used.
- * 
+ *
  */
 function _draft_or_post_title($post_id = 0)
 {
@@ -3041,13 +3068,13 @@ function _draft_or_post_title($post_id = 0)
 
 /**
  * Display the search query.
- * 
+ *
  * A simple wrapper to display the "s" parameter in a GET URI. This function
  * should only be used when {@link the_search_query()} cannot.
  *
  * @uses attribute_escape
  * @since 2.7.0
- * 
+ *
  */
 function _admin_search_query() {
 	echo ( isset($_GET['s']) ) ? attribute_escape( stripslashes( $_GET['s'] ) ) : '';

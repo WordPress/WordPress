@@ -26,7 +26,8 @@ body > #upload-menu {
 
 div#current-widgets, #postcustomstuff table, #your-profile fieldset,
 a.page-numbers, #rightnow, div.dashboard-widget,
-#dashboard-widgets p.dashboard-widget-links, .widefat {
+#dashboard-widgets p.dashboard-widget-links, .widefat,
+#replyrow #ed_reply_toolbar input {
 	border-color: #ccc;
 }
 
@@ -63,7 +64,7 @@ li.widget-list-control-item h4.widget-title a,
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
 .form-table tr, #poststuff h3, #replyhandle,
 .login form, h3.info-box-title, #post-status-info, #edit-settings-wrap,
-#wpbody-content .describe tr {
+#wpbody-content .describe tr, #edithead, #replyhead  {
 	background-color: #eaf3fa;
 }
 
@@ -839,7 +840,8 @@ div.star.select:hover {
 
 /* inline editor */
 .inline-editor input,
-.inline-editor textarea {
+.inline-editor textarea,
+#replyrow input {
 	border-color: #ddd;
 }
 
@@ -858,4 +860,9 @@ div.star.select:hover {
 
 .inline-editor .quick-edit-save {
 	background-color: #EAF3FA;
+}
+
+#replyrow #ed_reply_toolbar input:hover {
+	border-color: #aaa;
+	background: #ddd;
 }

@@ -65,7 +65,7 @@
 			}
 		};
 		var first_row = get_first_row();
-		if (!first_row.length) return;		
+		if (!first_row.length) return;
 		if (opts.highlight_first)
 			set_current_row(first_row);
 		else if (opts.highlight_last)
@@ -83,7 +83,7 @@
 				jQuery.hotkeys.add(key, opts.hotkeys_opts, make_key_callback('.'+opts.class_prefix+key));
 			}
 		});
-		
+
 	};
 	$.table_hotkeys.current_row = null;
 	$.table_hotkeys.defaults = {cycle_expr: 'tr', class_prefix: 'vim-', selected_suffix: 'current',

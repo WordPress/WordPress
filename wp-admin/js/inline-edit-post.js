@@ -186,7 +186,7 @@ inlineEditPost = {
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 
-		$('#edit-'+id+'.quick-edit-save').append('<img style="padding:0 15px;" src="images/loading.gif" alt="" />');
+		$('table.widefat .quick-edit-save .waiting').show();
 
 		var params = {
 			action: 'inline-save',
@@ -225,6 +225,8 @@ inlineEditPost = {
 		var id;
 
 		if ( id = $('table.widefat tr.inline-editor').attr('id') ) {
+			$('table.widefat .quick-edit-save .waiting').hide();
+
 			if ( 'bulk-edit' == id ) {
 				$('table.widefat #bulk-edit').removeClass('inline-editor').hide();
 				$('#bulk-titles').html('');

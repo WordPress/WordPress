@@ -90,7 +90,7 @@ inlineEditTax = {
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 
-		$('#edit-'+id+'.quick-edit-save').append('<img style="padding:0 15px;" src="images/loading.gif" alt="" />');
+		$('table.widefat .quick-edit-save .waiting').show();
 
 		var params = {
 			action: 'inline-save-tax',
@@ -126,6 +126,7 @@ inlineEditTax = {
 		var id = $('table.widefat tr.inline-editor').attr('id');
 
 		if ( id ) {
+			$('table.widefat .quick-edit-save .waiting').hide();
 			$('#'+id).remove();
 			id = id.substr( id.lastIndexOf('-') + 1 );
 			$(this.what+id).show();
