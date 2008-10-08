@@ -609,12 +609,16 @@ function &get_terms($taxonomies, $args = '') {
 	// $args can be whatever, only use the args defined in defaults to compute the key
 	$filter_key = ( has_filter('list_terms_exclusions') ) ? serialize($GLOBALS['wp_filter']['list_terms_exclusions']) : '';
 	$key = md5( serialize( compact(array_keys($defaults)) ) . serialize( $taxonomies ) . $filter_key );
+	$last_changed = wp_cache_get('last_changed', 'terms');
+	if ( !$last_changed ) {
+		$last_changed = time();
+		wp_cache_set('last_changed', $last_changed, 'terms');
+	}
+	$cache_key = "get_terms:$key:$last_changed";
 
-	if ( $cache = wp_cache_get( 'get_terms', 'terms' ) ) {
-		if ( isset( $cache[ $key ] ) ) {
-			$terms = apply_filters('get_terms', $cache[$key], $taxonomies, $args);
-			return $terms;
-		}
+	if ( $cache = wp_cache_get( $cache_key, 'terms' ) ) {
+		$terms = apply_filters('get_terms', $cache, $taxonomies, $args);
+		return $terms;
 	}
 
 	if ( 'count' == $orderby )
@@ -746,8 +750,7 @@ function &get_terms($taxonomies, $args = '') {
 	}
 	reset ( $terms );
 
-	$cache[ $key ] = $terms;
-	wp_cache_set( 'get_terms', $cache, 'terms' );
+	wp_cache_add( $cache_key, $terms, 'terms' );
 
 	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
 	return $terms;
@@ -1698,6 +1701,7 @@ function clean_object_term_cache($object_ids, $object_type) {
  */
 function clean_term_cache($ids, $taxonomy = '') {
 	global $wpdb;
+	static $cleaned = array();
 
 	if ( !is_array($ids) )
 		$ids = array($ids);
@@ -1720,12 +1724,15 @@ function clean_term_cache($ids, $taxonomy = '') {
 	}
 
 	foreach ( $taxonomies as $taxonomy ) {
+		if ( isset($cleaned[$taxonomy]) )
+			continue;
+		$cleaned[$taxonomy] = true;
 		wp_cache_delete('all_ids', $taxonomy);
 		wp_cache_delete('get', $taxonomy);
 		delete_option("{$taxonomy}_children");
 	}
 
-	wp_cache_delete('get_terms', 'terms');
+	wp_cache_set('last_changed', time(), 'terms');
 
 	do_action('clean_term_cache', $ids, $taxonomy);
 }
