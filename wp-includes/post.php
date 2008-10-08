@@ -3112,8 +3112,11 @@ function _publish_post_hook($post_id) {
 function _save_post_hook($post_id, $post) {
 	if ( $post->post_type == 'page' ) {
 		clean_page_cache($post_id);
-		global $wp_rewrite;
-		$wp_rewrite->flush_rules();
+		// Avoid flushing rules for every post during import.
+		if ( !defined('WP_IMPORTING') ) {
+			global $wp_rewrite;
+			$wp_rewrite->flush_rules();
+		}
 	} else {
 		clean_post_cache($post_id);
 	}

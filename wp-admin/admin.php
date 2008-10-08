@@ -120,6 +120,10 @@ if (isset($plugin_page)) {
 
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
+	// Make sure rules are flushed
+	global $wp_rewrite;
+	$wp_rewrite->flush_rules();
+
 	exit();
 } else {
 	do_action("load-$pagenow");
