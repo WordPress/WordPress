@@ -1,4 +1,4 @@
-#poststuff .postbox h3 {
+.metabox-holder .postbox h3, #poststuff .postbox h3 {
 	padding-left:0;
 	padding-right: 23px;
 }
@@ -20,7 +20,7 @@ div#dashboard-widgets {
 #tagchecklist span a {
 	margin: 4px -9px 0 0;
 }
-#poststuff .togbox {
+.metabox-holder .togbox, #poststuff .togbox {
 	margin-left:0;
 	margin-right: -19px;
 }

@@ -445,7 +445,7 @@ else
 
 <?php echo $form_extra ?>
 
-<div id="poststuff">
+<div id="poststuff" class="metabox-holder">
 
 <div id="side-info" style="display: none;"><?php // TODO ?>
 

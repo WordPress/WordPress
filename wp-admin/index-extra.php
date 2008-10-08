@@ -19,19 +19,19 @@ require_once (ABSPATH . WPINC . '/rss.php');
 
 switch ( $_GET['jax'] ) {
 
-case 'incominglinks' :
+case 'dashboard_incoming_links' :
 	wp_dashboard_incoming_links_output();
 	break;
 
-case 'devnews' :
+case 'dashboard_primary' :
 	wp_dashboard_rss_output( 'dashboard_primary' );
 	break;
 
-case 'planetnews' :
+case 'dashboard_secondary' :
 	wp_dashboard_secondary_output();
 	break;
 
-case 'plugins' :
+case 'dashboard_plugins' :
 	wp_dashboard_plugins_output();
 	break;
 

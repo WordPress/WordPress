@@ -86,7 +86,6 @@ case 'postajaxpost':
 case 'post':
 case 'post-quickpress-publish':
 case 'post-quickpress-save':
-case 'post-quickpress-save-cont':
 	check_admin_referer('add-post');
 
 	if ( 'post-quickpress-publish' == $action )
@@ -104,13 +103,11 @@ case 'post-quickpress-save-cont':
 		$post_ID = 'postajaxpost' == $action ? edit_post() : write_post();
 	}
 
-	if ( 'post-quickpress-save-cont' != $action && 0 === strpos( $action, 'post-quickpress' ) ) {
+	if ( 0 === strpos( $action, 'post-quickpress' ) ) {
 		$_POST['post_ID'] = $post_ID;
 		// output the quickpress dashboard widget
 		require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
-		add_filter( 'wp_dashboard_widgets', create_function( '$a', 'return array( "dashboard_quick_press" );' ) );
-		wp_dashboard_setup();
-		wp_dashboard();
+		wp_dashboard_quick_press();
 		exit;
 	}
 

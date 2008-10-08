@@ -1,18 +1,22 @@
-
 (function($) {
 	postboxes = {
-		add_postbox_toggles : function(page) {
+		add_postbox_toggles : function(page,args) {
 			$('.postbox h3').before('<a class="togbox">+</a> ');
 			$('.postbox h3, .postbox a.togbox').click( function() {
 				$($(this).parent().get(0)).toggleClass('closed');
 				postboxes.save_state(page);
 			});
+			$('.postbox h3 a').click( function(e) {
+				e.stopPropagation();
+			} );
 
 			$('.hide-postbox-tog').click( function() {
 				var box = jQuery(this).val();
-				var show = jQuery(this).attr('checked');
-				if ( show ) {
+				if ( jQuery(this).attr('checked') ) {
 					jQuery('#' + box).show();
+					if ( $.isFunction( postboxes.onShow ) ) {
+						postboxes.onShow( box );
+					}
 				} else {
 					jQuery('#' + box).hide();
 				}
@@ -26,7 +30,7 @@
 			}
 			$('#wpbody-content').css( 'overflow', 'hidden' );
 			
-			this.init(page);
+			this.init(page,args);
 		},
 
 		expandSidebar : function( doIt ) {
@@ -39,7 +43,8 @@
 			}
 		},
 
-		init : function(page) {
+		init : function(page,args) {
+			$.extend( this, args || {} );
 			jQuery('.meta-box-sortables').sortable( {
 				connectWith: [ '.meta-box-sortables' ],
 				items: '> .postbox',
@@ -83,7 +88,10 @@
 				closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
 				page: page
 			});
-		}
+		},
+
+		/* Callbacks */
+		onShow : false
 	};
 
 	$(document).ready(function(){postboxes.expandSidebar();});

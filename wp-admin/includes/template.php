@@ -2058,7 +2058,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
  * @param unknown_type $checkbox
  * @param unknown_type $mode
  */
-function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') {
+function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
 	global $current_user;
 
 	// allow plugin to replace the popup content
@@ -2069,8 +2069,12 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 		return;
 	}
 ?>
-<form method="get" action=""><table style="display:none;"><tbody id="com-reply">
-	<tr id="replyrow"><td colspan="6">
+<form method="get" action="">
+<?php if ( $table_row ) : ?>
+<table style="display:none;"><tbody id="com-reply"><tr id="replyrow"><td colspan="6">
+<?php else : ?>
+<div id="com-reply" style="display:none;"><div id="replyrow">
+<?php endif; ?>
 	<div id="replyhead" style="display:none;"><?php _e('Reply to Comment'); ?></div>
 
 	<div id="edithead" style="display:none;">
@@ -2114,8 +2118,11 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single') 
 	<input type="hidden" name="mode" id="mode" value="<?php echo $mode; ?>" />
 	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
-	</td></tr>
-</tbody></table></form>
+<?php if ( $table_row ) : ?>
+</td></tr></tbody></table></form>
+<?php else : ?>
+</div></div>
+<?php endif; ?>
 <?php
 }
 
@@ -2643,7 +2650,7 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
  * @param unknown_type $page
  * @param unknown_type $context
  * @param unknown_type $object
- * @return unknown
+ * @return int number of meta_boxes
  */
 function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;

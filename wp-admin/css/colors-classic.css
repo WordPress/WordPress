@@ -62,7 +62,7 @@ li.widget-list-control-item h4.widget-title a,
 }
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
-.form-table tr, #poststuff h3, #replyhandle,
+.form-table tr, #poststuff h3, .metabox-holder h3, #replyhandle,
 .login form, h3.info-box-title, #post-status-info, #edit-settings-wrap,
 #wpbody-content .describe tr, #edithead, #replyhead {
 	background-color: #cfebf7;
@@ -498,23 +498,23 @@ input.readonly {
 	color: #333;
 }
 
-#poststuff .closed .togbox {
+.metabox-holder .closed .togbox, #poststuff .closed .togbox {
 	background-color: #2583ad;
 	background-image: url(../images/toggle-arrow.gif);
 }
 
-#poststuff .postbox, #titlediv, #poststuff .postarea, #poststuff .stuffbox {
+.metabox-holder .postbox, #poststuff .postbox, #titlediv, #poststuff .postarea, #poststuff .stuffbox {
 	border-color: #ebebeb;
 	border-right-color: #ccc;
 	border-bottom-color: #ccc;
 }
 
-#poststuff .togbox {
+.metabox-holder .togbox, #poststuff .togbox {
 	background-color: #b2b2b2;
 	background-image: url(../images/toggle-arrow.gif);
 }
 
-#poststuff .postbox {
+.metabox-holder .postbox, #poststuff .postbox {
 	background-color: #FFF;
 }
 

@@ -347,7 +347,7 @@ if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND 
 
 -->
 
-<div id="poststuff">
+<div id="poststuff" class="metabox-holder">
 
 <div id="side-info-column" class="inner-sidebar">
 

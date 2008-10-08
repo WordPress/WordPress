@@ -465,7 +465,8 @@ case 'replyto-comment' :
 	$comment = get_comment($comment_id);
 	if ( ! $comment ) die('1');
 
-	$mode = ( isset($_POST['mode']) && 'single' == $_POST['mode'] ) ? 'single' : 'detail';
+	$modes = array( 'single', 'detail', 'dashboard' );
+	$mode = isset($_POST['mode']) && in_array( $_POST['mode'], $modes ) ? $_POST['mode'] : 'detail';
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
 
@@ -475,7 +476,12 @@ case 'replyto-comment' :
 	$x = new WP_Ajax_Response();
 
 	ob_start();
-		_wp_comment_row( $comment->comment_ID, $mode, false, $checkbox );
+		if ( 'dashboard' == $mode ) {
+			require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
+			_wp_dashboard_recent_comments_row( $comment, false );
+		} else {
+			_wp_comment_row( $comment->comment_ID, $mode, false, $checkbox );
+		}
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
 

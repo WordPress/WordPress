@@ -309,7 +309,7 @@ wp_nonce_field( $nonce_action );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 
-<div id="poststuff">
+<div id="poststuff" class="metabox-holder">
 
 <div id="side-info-column" class="inner-sidebar">
 <?php 

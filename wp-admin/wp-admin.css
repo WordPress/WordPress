@@ -1222,14 +1222,14 @@ table.form-table td .updated {
 	clear: left;
 }
 
-#poststuff h3 {
+#poststuff h3, .metabox-holder h3 {
 	font-size: 14px;
 	font-weight: bold;
 	padding: 7px;
 	margin: 0 0 10px;
 }
 
-#poststuff .postbox, #poststuff .stuffbox {
+.metabox-holder .postbox, #poststuff .postbox, #poststuff .stuffbox {
 	padding: 2px;
 	margin-bottom: 20px;
 	border-width: 1px;
@@ -1368,7 +1368,7 @@ table.form-table td .updated {
 	vertical-align: middle;
 }
 
-#poststuff .togbox {
+.metabox-holder .togbox, #poststuff .togbox {
 	background-position: -10px 16px;
 	background-repeat: no-repeat;
 	display: block;
@@ -1388,15 +1388,15 @@ table.form-table td .updated {
 	border-bottom-left-radius: 3px;
 }
 
-#poststuff .closed .inside {
+.metabox-holder .closed .inside, #poststuff .closed .inside {
 	display: none;
 }
 
-#poststuff .closed h3 {
+.metabox-holder .closed h3, #poststuff .closed h3 {
 	margin: 0;
 }
 
-#poststuff .closed .togbox {
+.metabox-holder .closed .togbox, #poststuff .closed .togbox {
 	background-position: 4px 15px;
 }
 
@@ -2125,6 +2125,9 @@ a.togbox {
 	margin: 0 5px 0 2px;
 }
 
+.metabox-prefs label a {
+	display: none;
+}
 
 /* Inline Editor */
 .inline-editor {

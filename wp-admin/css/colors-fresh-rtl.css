@@ -15,7 +15,7 @@
 	border-right-color: transparent;
 	border-left-color: #ccc;
 }
-#poststuff .closed .togbox, #poststuff .togbox {
+.metabox-holder .closed .togbox, .metabox-holder .togbox, #poststuff .closed .togbox, #poststuff .togbox {
 	background-image: url(../images/toggle-arrow-rtl.gif);
 }
 #upload-menu li.current {

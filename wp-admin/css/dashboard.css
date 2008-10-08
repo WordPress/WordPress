@@ -29,213 +29,78 @@ form .textarea-wrap textarea {
 	width: 99%;
 }
 
-
-/* Widgets */
-
-div#dashboard-widgets-wrap {
-	margin-right: -13px; /* 20 (div.dashboard-widget margin-right) - 7 (#rightnow margin-right) */
+form p.field-tip {
+	font-size: .9em;
+	font-style: italic;
+	margin: 0;
+	padding: 0;
 }
 
-div#dashboard-widgets {
-	width: 100%;
-}
-
-div.dashboard-widget-holder {
-	margin-bottom: 20px;
-	width: 50%;
-	float: left;
-}
-
-div.dashboard-widget-holder.third {
-	width: 33.3%;
-}
-
-div.dashboard-widget-holder.fourth {
-	width: 25%;
-}
-
-div.dashboard-widget-holder.full {
-	width: 100%;
-}
-
-div.dashboard-widget-holder.double div.dashboard-widget {
-	height: 54em;
-        padding-bottom: 28px /* lame */
-}
-
-div.dashboard-widget {
-	position: relative;
-	margin-right: 20px;
-	border-width: 1px;
-	border-style: solid;
-	height: 27em;
-	overflow: auto;
-	font-size: 11px;
-}
-
-#dashboard-widgets p.dashboard-widget-links {
-	padding: 2px;
-	font-size: 11px;
-	line-height: 2;
-	border-width: 1px;
-	margin: 0 20px 0 0;
-	padding: 0 7px;
-	border: 1px solid;
-	border-top: none;
-}
-
-h3.dashboard-widget-title  {
-	margin: 2px;
-	padding: 0 7px;
-	font-size: 14px;
-	line-height: 2;
-}
-
-h3.dashboard-widget-title span {
-	display: block;
-	text-align: left;
-	float: left;
-}
-
-h3.dashboard-widget-title small {
-	display: block;
-	text-align: right;
-	float: right;
-	font-size: 75%;
-	line-height: 2.67; /* math: it works, bitches */
-}
-
-p.dashboard-widget-links img.rss-icon {
-	vertical-align: middle;
-}
-
-div.dashboard-widget-notice {
-	padding: 0 14px;
-	font-size: 1.2em;
-	line-height: 2;
-}
-
-div.dashboard-widget-error {
-	padding: 0 20px;
-	font-size: 1.2em;
-	line-height: 2;
-}
-
-div.dashboard-widget-content {
-	padding: 10px 15px;
-}
-
-div.dashboard-widget-submit {
-	border-top: 1px solid #ccc;
-	padding: 1em 0 0 0;
-	margin: 10px 0 0 0;
-}
-div.dashboard-widget-submit input {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 4px 6px;
+#dashboard-widgets .postbox form .submit {
+	float: none;
+	margin: .5em 0 0;
+	padding: 0;
 	border: none;
-	font-size: 13px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	cursor: pointer;
-	text-decoration: none;
 }
 
-div.dashboard-widget-content ul, div.dashboard-widget-content ol, div.dashboard-widget-content dl {
-	margin: 0;
-	text-indent: 0;
-	padding-left: 15px;
-}
-div.dashboard-widget-content li {
-	margin: .5em 0 1em;
-}
-
-div.dashboard-widget-content blockquote {
-	margin: -1em 0;
-}
-
-div#dashboard_recent_comments p {
-	font-size: 14px;
-}
-
-div.dashboard-widget-content p.comment-meta {
-	font-size: 11px !important;
-}
-
-#dashboard_secondary div.dashboard-widget {
-	height: auto;
-}
-
-#dashboard_secondary div.dashboard-widget-content ul {
-	list-style: none;
-	padding: 0;
-}
-
-#dashboard_secondary div.dashboard-widget-content ul li {
-	display: block;
-	width: 19.95%;
-	padding-bottom: 10px;
-	margin: 0;
-	float: left;
-	font-size: 95%;
-}
-
-#dashboard_secondary div.dashboard-widget-content {
-	margin: 10px 5px;
-	padding: 0;
-}
-
-#dashboard_secondary div.dashboard-widget-content ul li .post {
-	display:block;
-	font-family:Georgia,"Times New Roman",Times,serif;
-	font-size:18px;
-	line-height: 1.2em;
-	height:90px;
-	overflow:hidden;
-}
-
-#dashboard_secondary div.dashboard-widget-content ul li a {
-	display: block;
-	height:100%;
-	overflow:hidden;
-	margin: 5px 10px;
-	text-decoration: none;
-	padding: .5em;
-	border-right: 1px solid #dadada;
-	border-bottom: 1px solid #dadada;
-}
-
-#dashboard_secondary div.dashboard-widget-content ul li a cite {
-	display: block;
-	font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-}
-
-#dashboard-widgets .widget_rss ul {
-	list-style: none;
-	padding: 0;
-}
-
-#dashboard-widgets .widget_rss ul li {
-	clear: both;
-}
-
-#dashboard-widgets .widget_rss ul li span.rss-date {
-	float: left;
+#dashboard-widgets-wrap #dashboard-widgets .postbox form .submit input {
 	margin: 0;
 }
 
-#dashboard-widgets .widget_rss ul li a {
-	float: left;
-	margin: 0 .5em .2em 0;
-	font-weight: bold;
+#dashboard-widgets-wrap #dashboard-widgets .postbox form .submit #publish {
+	min-width: 0;
 }
 
-#dashboard-widgets .widget_rss ul li div {
-	clear: both;
-	line-height: 1.5em;
+div.postbox div.inside {
+	margin: 0 10px 10px;
+	position: relative;
 }
+
+.view-all {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
+}
+
+#dashboard-widgets h4 {
+	font-size: 1em;
+	margin: 0 0 .2em;
+	padding: 0;
+}
+
+/* Recent Comments */
+
+#the-comment-list {
+	position: relative;
+}
+
+#the-comment-list .comment-item {
+	padding: 5px 5px 5px 47px;
+}
+
+#the-comment-list .comment-item .avatar {
+	position: absolute;
+	left: 5px;
+}
+
+#the-comment-list .comment-item blockquote, #the-comment-list .comment-item blockquote p {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
+#dashboard_recent_comments #the-comment-list .trackback blockquote, #dashboard_recent_comments #the-comment-list .pingback blockquote {
+	display: block;
+}
+
+#the-comment-list .comment-item p.comment-actions {
+	margin: 0;
+	padding: 0;
+}
+
+/* Primary Feed */
 
 #dashboard_primary a.rsswidget, #dashboard_plugins h5 {
 	font-size: 14px;
@@ -245,10 +110,7 @@ div.dashboard-widget-content p.comment-meta {
 	font-size: 14px;
 }
 
-#dashboard_plugins h4 {
-	font-size: 1em;
-	margin: 0 0 .1em;
-}
+/* Plugins */
 
 #dashboard_plugins h5 {
 	margin: 0;
@@ -259,42 +121,4 @@ div.dashboard-widget-content p.comment-meta {
 #dashboard_plugins p {
 	margin: 0 0 1em;
 	line-height: 1.5em;
-}
-
-#dashboard_inbox div.dashboard-widget, #dashboard_quick_press div.dashboard-widget {
-	height: 35em;
-	padding-bottom: 0;
-}
-
-#dashboard_quick_press div.dashboard-widget-content {
-	padding-bottom: 0;
-}
-
-#dashboard_inbox p.actions {
-	margin-bottom:0pt;
-	margin-top: 0;
-	float:left;
-}
-
-#dashboard_quick_press h3 {
-	margin-bottom: 3px;
-}
-
-#dashboard_quick_press h3#quick-post-title {
-	margin-top: 0;
-}
-
-#dashboard_quick_press p.field-tip {
-	margin-top: 0;
-	font-style: italic;
-}
-
-#dashboard_quick_press .submit {
-	padding: 0 0 1em 0;
-	border-top: none;
-	border-bottom: 1px solid #ccc;
-}
-
-#dashboard_quick_press p#recent-drafts {
-	margin: 0;
 }

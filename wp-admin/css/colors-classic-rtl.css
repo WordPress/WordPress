@@ -7,7 +7,7 @@
 #footer {
 	background-position:99% 10px;
 }
-#poststuff .closed .togbox, #poststuff .togbox {
+.metabox-holder .closed .togbox, .metabox-holder .togbox, #poststuff .closed .togbox, #poststuff .togbox {
 	background-image: url(../images/toggle-arrow-rtl.gif) !important;
 }
 .bar {

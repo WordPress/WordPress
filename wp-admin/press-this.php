@@ -420,7 +420,7 @@ die;
 	<?php wp_nonce_field('press-this') ?>
 	<input type="hidden" name="post_type" id="post_type" value="text"/>
 	
-	<div id="poststuff">	
+	<div id="poststuff" class="metabox-holder">
 	<div id="side-info-column">
 		<div class="sleeve">
 			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>

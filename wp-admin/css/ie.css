@@ -1,6 +1,6 @@
 /* Fixes for IE bugs */
 
-#poststuff .postbox h3 {
+.metabox-holder .postbox h3, #poststuff .postbox h3 {
 	padding-left: 23px;
 }
 
@@ -31,7 +31,7 @@
 	position: relative;
 }
 
-#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list, li.widget-list-control-item, #dragHelper, li.widget-list-control-item h4, .widget-sortable, .widget-control-actions {
+#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, .metabox-holder, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list, li.widget-list-control-item, #dragHelper, li.widget-list-control-item h4, .widget-sortable, .widget-control-actions {
 	display: block;
 	zoom: 100%;
 }
@@ -88,7 +88,7 @@ div#dashboard-widgets {
 	margin: 4px 0 0 -9px;
 }
 
-#poststuff .togbox {
+.metabox-holder .togbox, #poststuff .togbox {
 	margin-left: -19px;
 }
 

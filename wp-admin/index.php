@@ -14,32 +14,7 @@ require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 
 wp_dashboard_setup();
 
-/**
- * Display dashboard widget custom JavaScript.
- *
- * @since unknown
- */
-function index_js() {
-?>
-<script type="text/javascript">
-jQuery(function($) {
-	var ajaxWidgets = {
-		dashboard_incoming_links: 'incominglinks',
-		dashboard_primary: 'devnews',
-		dashboard_secondary: 'planetnews',
-		dashboard_plugins: 'plugins'
-	};
-	$.each( ajaxWidgets, function(i,a) {
-		var e = jQuery('#' + i + ' div.dashboard-widget-content').not('.dashboard-widget-control').find('.widget-loading');
-		if ( e.size() ) { e.parent().load('index-extra.php?jax=' + a); }
-	} );
-});
-</script>
-<?php
-}
-add_action( 'admin_head', 'index_js' );
-
-wp_enqueue_script( 'jquery' );
+wp_enqueue_script( 'dashboard' );
 wp_enqueue_script( 'plugin-install' );
 wp_admin_css( 'dashboard' );
 wp_admin_css( 'plugin-install' );
@@ -51,6 +26,15 @@ require_once('admin-header.php');
 
 $today = current_time('mysql', 1);
 ?>
+
+<div id="edit-settings-wrap" class="hidden">
+<h5><?php _e('Show on screen') ?></h5>
+<form id="adv-settings" action="" method="get">
+<div class="metabox-prefs">
+<?php meta_box_prefs('dashboard') ?>
+<br class="clear" />
+</div></form>
+</div>
 
 <div class="wrap">
 <div id="dashboard-widgets-wrap">

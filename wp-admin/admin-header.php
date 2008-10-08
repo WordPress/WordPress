@@ -80,7 +80,7 @@ if ( 'index.php' == $pagenow ) {
 	$breadcrumb = '<a href="index.php">' . __('Dashboard') . '</a> &rsaquo; ' . $title;
 }
 
-$settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php', 'post.php', 'page-new.php', 'page.php' );
+$settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php', 'post.php', 'page-new.php', 'page.php', 'index.php' );
 ?>
 
 <img id="logo50" src="images/logo50.png" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?> <a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="View site" id="view-site-link"><img src="<?php echo trailingslashit( bloginfo('wpurl') ) . 'wp-admin/images/new-window-icon.gif'; ?>" alt="" /></a>
