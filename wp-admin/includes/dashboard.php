@@ -117,7 +117,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form action="" method="post">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
-	echo "<p class='submit'><input type='hidden' name='widget_id' value='$meta_box[id]' /><input type='submit' value='" . __( 'Sumbit' ) . "' /></p>";
+	echo "<p class='submit'><input type='hidden' name='widget_id' value='$meta_box[id]' /><input type='submit' value='" . __( 'Submit' ) . "' /></p>";
 
 	echo '</form>';	
 }
