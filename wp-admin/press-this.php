@@ -61,7 +61,7 @@ function press_it() {
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
-
+	
 	$content = $_REQUEST['content'];
 
 	if($_REQUEST['photo_src'])
@@ -81,7 +81,7 @@ function press_it() {
 	// error handling for $post
 	if ( is_wp_error($post_ID)) {
 		wp_die($id);
-		wp_delete_post($post_ID);error_log('2');
+		wp_delete_post($post_ID);
 	// error handling for media_sideload
 	} elseif ( is_wp_error($upload)) {
 		wp_die($upload);
@@ -97,9 +97,7 @@ function press_it() {
 if ( 'post' == $_REQUEST['action'] ) {
 	check_admin_referer('press-this');
 	$post_ID = press_it();
-	error_log($post_ID);
 	$posted =  $post_ID;
-	//wp_redirect('press-this.php?posted=' . press_it());
 }
 
 // Set Variables
@@ -125,8 +123,7 @@ switch ($_REQUEST['ajax']) {
 		</script>
 		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
 		<div class="titlewrap" >
-			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo $selection; ?></textarea>
-
+			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection, true); ?></textarea>
 		</div>
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
 		<?php break;
@@ -192,17 +189,14 @@ switch ($_REQUEST['ajax']) {
 
 			$sources = array();
 			foreach ($matches[3] as $src) {
-				error_log($src);
 				// if no http in url
 				if(strpos($src, 'http') === false)
 					// if it doesn't have a relative uri
-					if( strpos($src, '../') === false && strpos($src, './') === false && strpos($src, '/') === true)
+					if( strpos($src, '../') === false && strpos($src, './') === false && strpos($src, '/') === 0)
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 					else
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
-
 				$sources[] = clean_url($src);
-				error_log($src);
 			}
 			return "'" . implode("','", $sources) . "'";
 		}
@@ -260,7 +254,6 @@ switch ($_REQUEST['ajax']) {
 				jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
 				insert_editor("\n\n" + '<p style="text-align: center;"><a href="<?php echo $url; ?>"><img src="' + img +'" alt="' + desc + '" /></a></p>');
 			}
-			/*tinyMCE.activeEditor.resizeToContent();*/
 			return false;
 		}
 
@@ -499,7 +492,7 @@ die;
 				<div class="editor-container">
 					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
 					<?php if ($selection) echo wp_richedit_pre($selection); ?>
-					<p>via <a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p>
+					<?php if ($url) { ?><p>via <a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p><?php } ?>
 					</textarea>
 				</div>
 			</div>
