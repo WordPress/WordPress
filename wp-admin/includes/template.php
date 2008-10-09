@@ -1433,7 +1433,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		default:
 		?>
-		<td><?php do_action('manage_posts_custom_column', $column_name, $post->ID); ?></td>
+		<td <?php echo $attributes ?>><?php do_action('manage_posts_custom_column', $column_name, $post->ID); ?></td>
 		<?php
 		break;
 	}
@@ -1596,7 +1596,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 
 	default:
 		?>
-		<td><?php do_action('manage_pages_custom_column', $column_name, $id); ?></td>
+		<td <?php echo $attributes ?>><?php do_action('manage_pages_custom_column', $column_name, $id); ?></td>
 		<?php
 		break;
 	}
