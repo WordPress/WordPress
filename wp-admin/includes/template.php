@@ -687,12 +687,7 @@ function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['title'] = __('Title');
-	if ( isset($_GET['post_status']) && 'draft' === $_GET['post_status'] )
-		$posts_columns['modified'] = __('Modified');
-	elseif ( isset($_GET['post_status']) && 'pending' === $_GET['post_status'] )
-		$posts_columns['modified'] = __('Submitted');
-	else
-		$posts_columns['date'] = __('Date');
+	$posts_columns['date'] = __('Date');
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
@@ -739,16 +734,8 @@ function wp_manage_media_columns() {
 function wp_manage_pages_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
-
 	$posts_columns['title'] = __('Title');
-
-	if ( isset($_GET['post_status']) && 'draft' === $_GET['post_status'] )
-		$posts_columns['modified'] = __('Modified');
-	elseif ( isset($_GET['post_status']) && 'pending' === $_GET['post_status'] )
-		$posts_columns['modified'] = __('Submitted');
-	else
-		$posts_columns['date'] = __('Date');
-
+	$posts_columns['date'] = __('Date');
 	$posts_columns['author'] = __('Author');
 	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
@@ -926,7 +913,6 @@ function inline_edit_row( $type ) {
 			case 'cb':
 				break;
 
-			case 'modified':
 			case 'date':
 				if ( ! $bulk ) { ?>
 				<div <?php echo $attributes; ?> title="<?php _e('Timestamp'); ?>">
@@ -1257,20 +1243,14 @@ function _post_row($a_post, $pending_comments, $mode) {
 		<?php
 		break;
 
-		case 'modified':
 		case 'date':
 			if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
 				$t_time = $h_time = __('Unpublished');
 			} else {
-				if ( 'modified' == $column_name ) {
-					$t_time = get_the_modified_time(__('Y/m/d g:i:s A'));
-					$m_time = $post->post_modified;
-					$time = get_post_modified_time('G', true);
-				} else {
-					$t_time = get_the_time(__('Y/m/d g:i:s A'));
-					$m_time = $post->post_date;
-					$time = get_post_time('G', true);
-				}
+				$t_time = get_the_time(__('Y/m/d g:i:s A'));
+				$m_time = $post->post_date;
+				$time = get_post_time('G', true);
+
 				if ( ( abs(time() - $time) ) < 86400 ) {
 					if ( ( 'future' == $post->post_status) )
 						$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
@@ -1480,20 +1460,14 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		<th scope="row" class="check-column"><input type="checkbox" name="post[]" value="<?php the_ID(); ?>" /></th>
 		<?php
 		break;
-	case 'modified':
 	case 'date':
 		if ( '0000-00-00 00:00:00' == $page->post_date && 'date' == $column_name ) {
 			$t_time = $h_time = __('Unpublished');
 		} else {
-			if ( 'modified' == $column_name ) {
-				$t_time = get_the_modified_time(__('Y/m/d g:i:s A'));
-				$m_time = $page->post_modified;
-				$time = get_post_modified_time('G', true);
-			} else {
-				$t_time = get_the_time(__('Y/m/d g:i:s A'));
-				$m_time = $page->post_date;
-				$time = get_post_time('G', true);
-			}
+			$t_time = get_the_time(__('Y/m/d g:i:s A'));
+			$m_time = $page->post_date;
+			$time = get_post_time('G', true);
+
 			if ( ( abs(time() - $time) ) < 86400 ) {
 				if ( ( 'future' == $page->post_status) )
 					$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
