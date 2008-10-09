@@ -1,10 +1,13 @@
 
 addComment = {
 	moveForm : function(commId, parentId, respondId) {
-		var t = this, div, comm = t.I(commId), respond = t.I(respondId);
-		
+		var t = this, div, comm = t.I(commId), respond = t.I(respondId), cancel = t.I('cancel-comment-reply-link'), parent = t.I('comment_parent');
+
+		if ( ! comm || ! respond || ! cancel || ! parent )
+			return;
+
 		t.respondId = respondId;
-		
+
 		if ( ! t.I('wp-temp-form-div') ) {
 			div = document.createElement('div');
 			div.id = 'wp-temp-form-div';
@@ -13,23 +16,29 @@ addComment = {
 		}
 
 		comm.parentNode.insertBefore(respond, comm.nextSibling);
-		
-		t.I('comment_parent').value = parentId;
-		
-		t.I('cancel-comment-reply-link').style.display = '';
-		t.I('cancel-comment-reply-link').onclick = function() {
+		parent.value = parentId;
+		cancel.style.display = '';
+
+		cancel.onclick = function() {
 			var t = addComment, temp = t.I('wp-temp-form-div'), respond = t.I(t.respondId);
-			
+
+			if ( ! temp || ! respond )
+				return;
+
 			t.I('comment_parent').value = '0';
 			temp.parentNode.insertBefore(respond, temp);
 			temp.parentNode.removeChild(temp);
-			t.I('cancel-comment-reply-link').style.display = 'none';
-			t.I('cancel-comment-reply-link').onclick = null;
+			this.style.display = 'none';
+			this.onclick = null;
 			return false;
 		}
-		t.I('comment').focus();
+
+		try { t.I('comment').focus(); }
+		catch(e) {}
+
+		return false;
 	},
-	
+
 	I : function(e) {
 		return document.getElementById(e);
 	}
