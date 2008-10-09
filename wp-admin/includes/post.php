@@ -377,6 +377,10 @@ function get_post_to_edit( $id ) {
 function post_exists($title, $content = '', $post_date = '') {
 	global $wpdb;
 
+	$title = stripslashes($title);
+	$content = stripslashes($content);
+	$post_date = stripslashes($post_date);
+
 	if (!empty ($post_date))
 		$post_date = $wpdb->prepare("AND post_date = %s", $post_date);
 
