@@ -2847,4 +2847,24 @@ function wp_guess_url() {
 	return $url;
 }
 
+/**
+ * Suspend cache invalidation.
+ *
+ * Turns cache invalidation on and off.  Useful during imports where you don't wont to do invalidations
+ * every time a post is inserted.  Callers must be sure that what they are doing won't lead to an inconsistent
+ * cache when invalidation is suspended.
+ *
+ * @since 2.7.0
+ *
+ * @param bool $suspend Whether to suspend or enable cache invalidation
+ * @return bool The current suspend setting
+ */
+function wp_suspend_cache_invalidation($suspend = true) {
+	global $_wp_suspend_cache_invalidation;
+
+	$current_suspend = $_wp_suspend_cache_invalidation;
+	$_wp_suspend_cache_invalidation = $suspend;
+	return $current_suspend;
+}
+
 ?>

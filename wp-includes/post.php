@@ -2861,7 +2861,11 @@ function update_post_cache(&$posts) {
  * @param int $id The Post ID in the cache to clean
  */
 function clean_post_cache($id) {
-	global $wpdb;
+	global $_wp_suspend_cache_invalidation, $wpdb;
+
+	if ( !empty($_wp_suspend_cache_invalidation) )
+		return;
+
 	$id = (int) $id;
 
 	wp_cache_delete($id, 'posts');

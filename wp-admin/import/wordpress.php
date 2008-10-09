@@ -717,10 +717,12 @@ class WP_Import {
 
 		$this->import_start();
 		$this->get_authors_from_post();
+		wp_suspend_cache_invalidation(true);
 		$this->get_entries();
 		$this->process_categories();
 		$this->process_tags();
 		$result = $this->process_posts();
+		wp_suspend_cache_invalidation(false);
 		$this->backfill_parents();
 		$this->backfill_attachment_urls();
 		$this->import_end();
