@@ -44,10 +44,10 @@
 
 <div id="respond">
 
-<h3>Leave a Reply</h3>
+<h3><?php comment_form_title( 'Leave a Reply', 'Leave a Reply to %s' ); ?></h3>
 
-<div id="cancel-comment-reply" style="display: none;">
-	<small><?php echo cancel_comment_reply_link() ?></small>
+<div class="cancel-comment-reply">
+	<small><?php cancel_comment_reply_link(); ?></small>
 </div>
 
 <?php if ( get_option('comment_registration') && !$user_ID ) : ?>
@@ -79,7 +79,7 @@
 
 <p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
 <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
-<input type="hidden" name="comment_parent" id="comment-parent" value="0" />
+<?php comment_parent_field(); ?>
 </p>
 <?php do_action('comment_form', $post->ID); ?>
 

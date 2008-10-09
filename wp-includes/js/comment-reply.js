@@ -1,17 +1,13 @@
-function moveAddCommentForm(theId,threadId,respondId){
-	jQuery("#"+respondId).appendTo("#"+theId);
-	jQuery("#comment-parent").val(threadId);
-	jQuery("#cancel-comment-reply").show();
+
+function moveAddCommentForm(commId, parentId, respondId) {
+	var div = document.createElement('div');
+	jQuery("#"+respondId).before( jQuery(div).attr('id', 'wp-temp-form-div').hide() ).appendTo("#"+commId);
+	jQuery("#comment-parent").val(parentId);
+	jQuery("#cancel-comment-reply-link").show().click(function(){
+		jQuery("#comment-parent").val("0");
+		jQuery('#wp-temp-form-div').after( jQuery("#"+respondId) ).remove();
+		jQuery(this).hide();
+		return false;
+	});
 	jQuery("#comment").focus();
 }
-function cancelCommentReply(respondId,respondRoot){
-	jQuery("#cancel-comment-reply").hide();
-	jQuery("#"+respondId).appendTo("#"+respondRoot);
-	document.location.href="#respond";
-	jQuery("#comment").focus();
-	jQuery("#comment-parent").val("0");
-}
-jQuery(document).ready(function($){
-	$(".thread-odd").find("div.reply").show();
-	$(".thread-even").find("div.reply").show();
-});

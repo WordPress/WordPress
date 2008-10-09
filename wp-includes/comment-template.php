@@ -908,9 +908,9 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	$link = '';
 
 	if ( get_option('comment_registration') && !$user_ID )
-		$link = '<a href="' . site_url('wp-login.php?redirect_to=' . get_permalink()) . '">' . $login_text . '</a>';
+		$link = '<a rel="nofollow" href="' . site_url('wp-login.php?redirect_to=' . get_permalink()) . '">' . $login_text . '</a>';
 	else 
-		$link = "<a href='#' onclick='moveAddCommentForm(\"$add_below-$comment->comment_ID\", $comment->comment_ID, \"$respond_id\"); return false;'>$reply_text</a>";
+		$link = "<a rel='nofollow' href='" . wp_specialchars( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#respond' onclick='moveAddCommentForm(\"$add_below-$comment->comment_ID\", $comment->comment_ID, \"$respond_id\"); return false;'>$reply_text</a>";
 
 	return $before . $link . $after;
 }
@@ -920,14 +920,48 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  *
  * @since 2.7.0
  *
- * @param string $text Optional. Text to display for cancel reply.
- * @param string $respond_id Optional. HTML ID attribute for JS cancelCommentReply function.
- * @param string $respond_root Optional. Second parameter for JS cancelCommentReply function.
+ * @param string $text Optional. Text to display for cancel reply link.
  */
-function cancel_comment_reply_link($text = '', $respond_id = 'respond', $respond_root = 'content') {
+function cancel_comment_reply_link($text = '') {
 	if ( empty($text) )
 		$text = __('Click here to cancel reply.');
-	echo '<a href="#" onclick="cancelCommentReply(\'' . $respond_id . '\', \'' . $respond_root . '\'); return false;">' . $text . '</a>';
+	
+	$style = isset($_GET['replytocom']) ? '' : ' style="display:none;"';
+
+	echo '<a rel="nofollow" id="cancel-comment-reply-link" href="' . wp_specialchars( remove_query_arg('replytocom') ) . '#respond"' . $style . '>' . $text . '</a>';
+}
+
+/**
+ * Output hidden input HTML for replying to comments.
+ *
+ * @since 2.7.0
+ */
+function comment_parent_field() {
+	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
+	echo "<input type='hidden' name='comment_parent' id='comment-parent' value='$replytoid' />\n";
+}
+
+/**
+ * Display text based on comment reply status. Only affects users with Javascript disabled.
+ *
+ * @since 2.7.0
+ *
+ * @param string $noreplytext Optional. Text to display when not replying to a comment.
+ * @param string $replytext Optional. Text to display when replying to a comment. Accepts "%s" for the author of the comment being replied to.
+ * @param string $linktoparent Optional. Boolean to control making the author's name a link to their comment.
+ */
+function comment_form_title( $noreplytext = 'Leave a Reply', $replytext = 'Leave a Reply to %s', $linktoparent = TRUE ) {
+	global $comment;
+
+	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
+
+	if ( 0 == $replytoid )
+		echo $noreplytext;
+	else {
+		$comment = get_comment($replytoid);
+		$author = ( $linktoparent ) ? '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author() . '</a>' : get_comment_author();
+		printf( $replytext, $author );
+	}
 }
 
 /**
@@ -1046,7 +1080,7 @@ class Walker_Comment extends Walker {
 
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 
-		<div class="reply" style="display:none">
+		<div class="reply">
 		<?php echo comment_reply_link(array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth'])) ?>
 		<?php if ( 'ul' == $args['style'] ) : ?>
 		</div>
