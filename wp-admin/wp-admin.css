@@ -2222,21 +2222,25 @@ a.togbox {
 	margin: 3px 0 0;
 }
 
-.inline-editor .date {
+.inline-editor .date,
+.inline-editor .modified {
 	width: 160px;
 }
 
-.inline-editor .date input {
+.inline-editor .date input,
+.inline-editor .modified input {
 	padding: 2px 1px;
 	margin: 1px;
 	width: 18px;
 }
 
-.inline-editor .date input[name="aa"] {
+.inline-editor .date input[name="aa"],
+.inline-editor .modified input[name="aa"] {
 	width: 30px;
 }
 
-#wpbody-content .inline-editor .date select {
+#wpbody-content .inline-editor .date select,
+#wpbody-content .inline-editor .modified select {
 	width: 80px;
 }
 

@@ -742,18 +742,12 @@ function wp_manage_pages_columns() {
 
 	$posts_columns['title'] = __('Title');
 
-	$post_status = isset( $_GET['post_status'] ) ? $_GET['post_status'] : '';
-
-	switch( $post_status ) {
-		case 'draft':
-			$posts_columns['modified'] = __('Modified');
-			break;
-		case 'pending':
-			$posts_columns['modified'] = __('Submitted');
-			break;
-		default:
-			$posts_columns['date'] = __('Date');
-	}
+	if ( isset($_GET['post_status']) && 'draft' === $_GET['post_status'] )
+		$posts_columns['modified'] = __('Modified');
+	elseif ( isset($_GET['post_status']) && 'pending' === $_GET['post_status'] )
+		$posts_columns['modified'] = __('Submitted');
+	else
+		$posts_columns['date'] = __('Date');
 
 	$posts_columns['author'] = __('Author');
 	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
@@ -865,9 +859,6 @@ function print_column_headers( $type, $id = true ) {
 
 	foreach ( $columns as $column_key => $column_display_name ) {
 		$class = ' class="manage-column';
-
-		if ( 'modified' == $column_key )
-			$column_key = 'date';
 
 		$class .= " column-$column_key";
 
@@ -1268,7 +1259,6 @@ function _post_row($a_post, $pending_comments, $mode) {
 
 		case 'modified':
 		case 'date':
-			$attributes = 'class="date column-date"' . $style;
 			if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
 				$t_time = $h_time = __('Unpublished');
 			} else {
@@ -1492,7 +1482,6 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		break;
 	case 'modified':
 	case 'date':
-		$attributes = 'class="date column-date"' . $style;
 		if ( '0000-00-00 00:00:00' == $page->post_date && 'date' == $column_name ) {
 			$t_time = $h_time = __('Unpublished');
 		} else {
