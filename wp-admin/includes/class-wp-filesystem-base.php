@@ -48,7 +48,11 @@ class WP_Filesystem_Base {
 	function abspath() {
 		if ( defined('FTP_BASE') && strpos($this->method, 'ftp') !== false )
 			return FTP_BASE;
-		return $this->find_folder(ABSPATH);
+		$folder = $this->find_folder(ABSPATH);
+		//Perhaps the FTP folder is rooted at the WordPress install, Check for wp-includes folder in root, Could have some false positives, but rare.
+		if ( ! $folder && $this->is_dir('/wp-includes') )
+			$folder = '/';
+		return $folder;
 	}
 	/**
 	 * Returns the path on the remote filesystem of WP_CONTENT_DIR
