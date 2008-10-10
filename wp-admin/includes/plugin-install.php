@@ -20,6 +20,8 @@
  *
  * The second filter, 'plugins_api', is the result that would be returned.
  *
+ * @since 2.7.0
+ *
  * @param string $action
  * @param array|object $args Optional. Arguments to serialize for the Plugin Info API.
  * @return mixed
@@ -44,10 +46,12 @@ function plugins_api($action, $args = null) {
 }
 
 /**
- * 
+ * Retrieve popular WordPress plugin tags.
  *
- * @param unknown_type $args
- * @return unknown
+ * @since 2.7.0
+ *
+ * @param array $args
+ * @return array
  */
 function install_popular_tags( $args = array() ) {
 	if ( ! ($cache = wp_cache_get('popular_tags', 'api')) && ! ($cache = get_option('wporg_popular_tags')) )
@@ -67,6 +71,14 @@ function install_popular_tags( $args = array() ) {
 }
 
 add_action('install_plugins_search', 'install_search', 10, 1);
+
+/**
+ * Display search results and display as tag cloud.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page
+ */
 function install_search($page) {
 	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
@@ -111,18 +123,23 @@ function install_search($page) {
 	<p><?php _e('You may also search based on these popular tags, These are tags which are most popular on WordPress.org') ?></p>
 	<?php
 
-		$api_tags = install_popular_tags();
+	$api_tags = install_popular_tags();
 
-		//Set up the tags in a way which can be interprated by wp_generate_tag_cloud()
-		$tags = array();
-		foreach ( (array)$api_tags as $tag )
-			$tags[ $tag['name'] ] = (object) array(
-									'link' => clean_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
-									'name' => $tag['name'],
-									'count' => $tag['count'] );
-		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
+	//Set up the tags in a way which can be interprated by wp_generate_tag_cloud()
+	$tags = array();
+	foreach ( (array)$api_tags as $tag )
+		$tags[ $tag['name'] ] = (object) array(
+								'link' => clean_url( admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
+								'name' => $tag['name'],
+								'count' => $tag['count'] );
+	echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
 }
 
+/**
+ * Display search form for searching plugins.
+ *
+ * @since 2.7.0
+ */
 function install_search_form(){
 	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
@@ -139,30 +156,70 @@ function install_search_form(){
 }
 
 add_action('install_plugins_featured', 'install_featured', 10, 1);
+
+/**
+ * Display featured plugins.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page
+ */
 function install_featured($page){
 	$args = array('browse' => 'featured', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 add_action('install_plugins_popular', 'install_popular', 10, 1);
+
+/**
+ * Display popular plugins.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page
+ */
 function install_popular($page){
 	$args = array('browse' => 'popular', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 add_action('install_plugins_new', 'install_new', 10, 1);
+
+/**
+ * Display new plugins.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page
+ */
 function install_new($page){
 	$args = array('browse' => 'new', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 add_action('install_plugins_updated', 'install_updated', 10, 1);
+
+/**
+ * Display recently updated plugins.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page
+ */
 function install_updated($page){
 	$args = array('browse' => 'updated', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 add_action('install_plugins_upload', 'install_upload_custom', 10, 1);
+
+/**
+ * Display upload plugin form for adding plugins by uploading them manually.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page
+ */
 function install_upload_custom($page){
 	//$args = array('browse' => 'updated', 'page' => $page);
 	//$api = plugins_api('query_plugins', $args);
@@ -170,6 +227,15 @@ function install_upload_custom($page){
 	echo '<h1>Not Implemented</h1> <p>Will utilise SwfUpload(if available) & unzip .zip plugin packages</p>';
 }
 
+/**
+ * Display plugin content based on plugin list.
+ *
+ * @since 2.7.0
+ *
+ * @param array $plugins List of plugins.
+ * @param string $page
+ * @param int $totalpages Number of pages.
+ */
 function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 	global $tab;
 
@@ -285,6 +351,13 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 <?php
 }
 
+/**
+ * Display iframe header.
+ *
+ * @since 2.7.0
+ *
+ * @param string $title Title for iframe.
+ */
 function install_iframe_header($title = '') {
 if( empty($title) )
 	$title = __('Plugin Install &#8212; WordPress');
@@ -317,6 +390,11 @@ do_action('admin_head');
 <?php
 }
 
+/**
+ * Display iframe footer.
+ *
+ * @since 2.7.0
+ */
 function install_iframe_footer() {
 echo '
 </body>
@@ -324,6 +402,12 @@ echo '
 }
 
 add_action('install_plugins_pre_plugin-information', 'install_plugin_information');
+
+/**
+ * Display plugin information in dialog box form.
+ *
+ * @since 2.7.0
+ */
 function install_plugin_information() {
 	global $tab;
 
@@ -447,6 +531,12 @@ function install_plugin_information() {
 }
 
 add_action('install_plugins_pre_install', 'install_plugin');
+
+/**
+ * Display plugin link and execute install.
+ *
+ * @since 2.7.0
+ */
 function install_plugin() {
 
 	$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
@@ -465,7 +555,16 @@ function install_plugin() {
 
 	exit;
 }
-function do_plugin_install($download_url = '', $plugin_information = NULL) {
+
+/**
+ * Retrieve plugin and install.
+ *
+ * @since 2.7.0
+ *
+ * @param string $download_url Optional. Download URL.
+ * @param object $plugin_information Optional. Plugin information
+ */
+function do_plugin_install($download_url = '', $plugin_information = null) {
 	global $wp_filesystem;
 
 	if ( empty($download_url) ) {
@@ -512,6 +611,15 @@ function do_plugin_install($download_url = '', $plugin_information = NULL) {
 	}
 }
 
+/**
+ * Install plugin.
+ *
+ * @since 2.7.0
+ *
+ * @param string $package
+ * @param string $feedback Optional.
+ * @return mixed.
+ */
 function wp_install_plugin($package, $feedback = '') {
 	global $wp_filesystem;
 

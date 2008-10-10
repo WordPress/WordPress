@@ -59,6 +59,16 @@ $page_links = paginate_links( array(
 
 $themes = array_slice( $themes, $start, $per_page );
 
+/**
+ * Check if there is an update for a theme available.
+ *
+ * Will display link, if there is an update available.
+ *
+ * @since 2.7.0
+ *
+ * @param object $theme Theme data object.
+ * @return bool False if no valid info was passed.
+ */
 function theme_update_available( $theme ) {
 	static $themes_update;
 	if ( !isset($themes_update) )

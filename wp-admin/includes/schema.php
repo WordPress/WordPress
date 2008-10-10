@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Schema for installation and upgrading.
+ * WordPress Administration Scheme API
  *
  * Here we keep the DB structure and option values.
  *
@@ -8,7 +8,12 @@
  * @subpackage Administration
  */
 
-/** WordPress Database collate charset */
+/**
+ * The database character collate.
+ * @var string
+ * @global string
+ * @name $charset_collate
+ */
 $charset_collate = '';
 
 // Declare these as global in case schema.php is included from a function.
@@ -164,7 +169,7 @@ CREATE TABLE $wpdb->usermeta (
 /**
  * Create WordPress options and set the default values.
  *
- * @since unknown
+ * @since 1.5.0
  * @uses $wpdb
  * @uses $wp_db_version
  */
@@ -299,7 +304,7 @@ function populate_options() {
 /**
  * Execute WordPress role creation for the various WordPress versions.
  *
- * @since unknown (2.0.0)
+ * @since 2.0.0
  */
 function populate_roles() {
 	populate_roles_160();

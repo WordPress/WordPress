@@ -7,7 +7,7 @@
  */
 
 /**
- * Post ID global
+ * Post ID global.
  * @name $post_ID
  * @var int
  */
@@ -47,6 +47,13 @@ $user_ID = (int) $user_ID;
 ?>
 
 <?php
+/**
+ * Display submit form fields.
+ *
+ * @since 2.7.0
+ *
+ * @param object $post
+ */
 function page_submit_meta_box($post) {
 	global $action;
 
@@ -172,6 +179,13 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->
 }
 add_meta_box('pagesubmitdiv', __('Publish'), 'page_submit_meta_box', 'page', 'side', 'core');
 
+/**
+ * Display custom field for page form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_custom_meta_box($post){
 ?>
 <div id="postcustomstuff">
@@ -192,6 +206,13 @@ list_meta($metadata);
 }
 add_meta_box('pagecustomdiv', __('Custom Fields'), 'page_custom_meta_box', 'page', 'normal', 'core');
 
+/**
+ * Display comments status form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_comments_status_meta_box($post){
 ?>
 <input name="advanced_view" type="hidden" value="1" />
@@ -204,6 +225,13 @@ function page_comments_status_meta_box($post){
 }
 add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_status_meta_box', 'page', 'normal', 'core');
 
+/**
+ * Display page password form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_password_meta_box($post){
 ?>
 <p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
@@ -214,6 +242,13 @@ function page_password_meta_box($post){
 }
 add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'normal', 'core');
 
+/**
+ * Display page slug form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_slug_meta_box($post){
 ?>
 <label class="hidden" for="post_name"><?php _e('Page Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
@@ -221,6 +256,13 @@ function page_slug_meta_box($post){
 }
 add_meta_box('pageslugdiv', __('Page Slug'), 'page_slug_meta_box', 'page', 'normal', 'core');
 
+/**
+ * Display page parent form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_parent_meta_box($post){
 ?>
 <label class="hidden" for="parent_id"><?php _e('Page Parent') ?></label>
@@ -231,6 +273,13 @@ function page_parent_meta_box($post){
 add_meta_box('pageparentdiv', __('Page Parent'), 'page_parent_meta_box', 'page', 'normal', 'core');
 
 if ( 0 != count( get_page_templates() ) ) {
+	/**
+	 * Display page template form fields.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param object $post
+	 */
 	function page_template_meta_box($post){
 ?>
 <label class="hidden" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
@@ -243,6 +292,13 @@ if ( 0 != count( get_page_templates() ) ) {
 	add_meta_box('pagetemplatediv', __('Page Template'), 'page_template_meta_box', 'page', 'normal', 'core');
 }
 
+/**
+ * Display page order form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_order_meta_box($post){
 ?>
 <p><label class="hidden" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
@@ -256,6 +312,13 @@ $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) {
+	/**
+	 * Display page author form fields, when more than one author exists.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param object $post
+	 */
 	function page_author_meta_box($post){
 		global $current_user, $user_ID;
 		$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
@@ -270,6 +333,13 @@ if ( $authors && count( $authors ) > 1 ) {
 
 
 if ( 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
+/**
+ * Display list of page revisions.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function page_revisions_meta_box($post) {
 	wp_list_post_revisions();
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Comment Administration API
+ * WordPress Comment Administration API.
  *
  * @package WordPress
  * @subpackage Administration

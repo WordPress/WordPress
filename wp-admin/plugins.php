@@ -266,6 +266,12 @@ foreach( (array)$all_plugins as $plugin_file => $plugin_data) {
 ?>
 
 <?php
+/**
+ * @ignore
+ *
+ * @param array $plugins
+ * @param string $context
+ */
 function print_plugins_table($plugins, $context = '') {
 ?>
 <table class="widefat" id="<?php echo $context ?>-plugins-table">

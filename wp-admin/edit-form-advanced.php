@@ -55,6 +55,14 @@ if ( 0 == $post_ID ) {
 }
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
+
+/**
+ * Display post submit form fields.
+ *
+ * @since 2.7.0
+ *
+ * @param object $post
+ */
 function post_submit_meta_box($post) {
 	global $action;
 
@@ -186,6 +194,13 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->
 }
 add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', 'post', 'side', 'core');
 
+/**
+ * Display post tags form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_tags_meta_box($post) {
 ?>
 <p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
@@ -195,6 +210,14 @@ function post_tags_meta_box($post) {
 }
 add_meta_box('tagsdiv', __('Tags'), 'post_tags_meta_box', 'post', 'side', 'core');
 
+/**
+ * Display add post media and current post media form fields and images.
+ *
+ * @todo Complete.
+ * @since 2.7.0
+ *
+ * @param object $post
+ */
 function post_media_meta_box($post) {
 	echo "<p><small><em>This feature isn't fully functional in this prototype.</em></small></p>";
 
@@ -231,6 +254,13 @@ function post_media_meta_box($post) {
 }
 add_meta_box( 'mediadiv', __('Media' ), 'post_media_meta_box', 'post', 'side', 'core' );
 
+/**
+ * Display post categories form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_categories_meta_box($post) {
 ?>
 <ul id="category-tabs">
@@ -265,6 +295,13 @@ function post_categories_meta_box($post) {
 }
 add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'side', 'core');
 
+/**
+ * Display post excerpt form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_excerpt_meta_box($post) {
 ?>
 <label class="hidden" for="excerpt"><?php _e('Excerpt') ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea>
@@ -273,6 +310,13 @@ function post_excerpt_meta_box($post) {
 }
 add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', 'post', 'normal', 'core');
 
+/**
+ * Display trackback links form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_trackback_meta_box($post) {
 	$form_trackback = '<input type="text" name="trackback_url" id="trackback_url" tabindex="7" value="'. attribute_escape( str_replace("\n", ' ', $post->to_ping) ) .'" />';
 	if ('' != $post->pinged) {
@@ -296,6 +340,13 @@ if ( ! empty($pings) )
 }
 add_meta_box('trackbacksdiv', __('Trackbacks and Pings'), 'post_trackback_meta_box', 'post', 'normal', 'core');
 
+/**
+ * Display custom fields for the post form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_custom_meta_box($post) {
 ?>
 <div id="postcustomstuff">
@@ -318,6 +369,13 @@ add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', 'post', 
 
 do_action('dbx_post_advanced');
 
+/**
+ * Display comment status for post form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_comment_status_meta_box($post) {
 	global $wpdb, $post_ID;
 ?>
@@ -357,6 +415,13 @@ function post_comment_status_meta_box($post) {
 }
 add_meta_box('commentstatusdiv', __('Comments on this Post'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
 
+/**
+ * Display post password form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_password_meta_box($post) {
 ?>
 <p>
@@ -369,6 +434,13 @@ function post_password_meta_box($post) {
 }
 add_meta_box('passworddiv', __('Privacy Options'), 'post_password_meta_box', 'post', 'normal', 'core');
 
+/**
+ * Display post slug form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_slug_meta_box($post) {
 ?>
 <label class="hidden" for="post_name"><?php _e('Post Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo attribute_escape( $post->post_name ); ?>" />
@@ -381,6 +453,13 @@ $authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) :
+/**
+ * Display form field with list of authors.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_author_meta_box($post) {
 	global $current_user, $user_ID;
 	$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
@@ -394,6 +473,13 @@ add_meta_box('authordiv', __('Post Author'), 'post_author_meta_box', 'post', 'no
 endif;
 
 if ( 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
+/**
+ * Display list of post revisions.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
 function post_revisions_meta_box($post) {
 	wp_list_post_revisions();
 }

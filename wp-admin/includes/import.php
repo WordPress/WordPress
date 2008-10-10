@@ -7,11 +7,11 @@
  */
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve list of importers.
  *
- * @since unknown
+ * @since 2.0.0
  *
- * @return unknown
+ * @return array
  */
 function get_importers() {
 	global $wp_importers;
@@ -21,15 +21,15 @@ function get_importers() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Register importer for WordPress.
  *
- * @since unknown
+ * @since 2.0.0
  *
- * @param unknown_type $id
- * @param unknown_type $name
- * @param unknown_type $description
- * @param unknown_type $callback
- * @return unknown
+ * @param string $id Importer tag. Used to uniquely identify importer.
+ * @param string $name Importer name and title.
+ * @param string $description Importer description.
+ * @param callback $callback Callback to run.
+ * @return WP_Error Returns WP_Error when $callback is WP_Error.
  */
 function register_importer( $id, $name, $description, $callback ) {
 	global $wp_importers;
@@ -39,22 +39,24 @@ function register_importer( $id, $name, $description, $callback ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Cleanup importer.
  *
- * @since unknown
+ * Removes attachment based on ID.
  *
- * @param unknown_type $id
+ * @since 2.0.0
+ *
+ * @param string $id Importer ID.
  */
 function wp_import_cleanup( $id ) {
 	wp_delete_attachment( $id );
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Handle importer uploading and add attachment.
  *
- * @since unknown
+ * @since 2.0.0
  *
- * @return unknown
+ * @return array
  */
 function wp_import_handle_upload() {
 	$overrides = array( 'test_form' => false, 'test_type' => false );

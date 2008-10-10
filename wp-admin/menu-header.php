@@ -20,6 +20,16 @@ global $menu, $submenu, $parent_file; //For when admin-header is included from w
 
 get_admin_page_parent();
 
+/**
+ * Display menu.
+ *
+ * @access private
+ * @since 2.7.0
+ *
+ * @param array $menu
+ * @param array $submenu
+ * @param bool $submenu_as_parent
+ */
 function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow;
 

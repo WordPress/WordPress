@@ -467,7 +467,7 @@ function wp_write_post() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Calls wp_write_post() and handles the errors.
  *
  * @since unknown
  *

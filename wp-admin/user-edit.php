@@ -17,8 +17,7 @@ else
 /**
  * Display JavaScript for profile page.
  *
- * @package WordPress
- * @subpackage Administration
+ * @since 2.5.0
  */
 function profile_js ( ) {
 ?>
@@ -101,7 +100,13 @@ if ( !$user_id ) {
 	}
 }
 
-// Optional SSL preference that can be turned on by hooking to the 'personal_options' action 
+/**
+ * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
+ *
+ * @since 2.7.0
+ *
+ * @param object $user User data object
+ */
 function use_ssl_preference($user) {
 ?>
 	<tr>

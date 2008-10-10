@@ -12,7 +12,6 @@
 /**
  * We are installing.
  *
- * @since unknown
  * @package WordPress
  */
 define('WP_INSTALLING', true);
@@ -49,7 +48,8 @@ else
 /**
  * Display setup wp-config.php file header.
  *
- * @since unknown
+ * @ignore
+ * @since 2.3.0
  * @package WordPress
  * @subpackage Installer_WP_Config
  */

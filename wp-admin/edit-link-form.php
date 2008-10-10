@@ -18,6 +18,15 @@ if ( ! empty($link_id) ) {
 	$nonce_action = 'add-bookmark';
 }
 
+/**
+ * Display checked checkboxes attribute for xfn microformat options.
+ *
+ * @since 1.0.1
+ *
+ * @param string $class
+ * @param string $value
+ * @param mixed $deprecated Not used.
+ */
 function xfn_check($class, $value = '', $deprecated = '') {
 	global $link;
 
@@ -37,7 +46,16 @@ function xfn_check($class, $value = '', $deprecated = '') {
 }
 ?>
 
-<?php function link_submit_meta_box($link) { ?>
+<?php
+/**
+ * Display link create form fields.
+ *
+ * @since 2.7.0
+ *
+ * @param object $link
+ */
+function link_submit_meta_box($link) {
+?>
 <div class="submitbox" id="submitlink">
 
 <div class="inside-submitbox">
@@ -63,6 +81,13 @@ if ( 'edit' == $_GET['action'] && current_user_can('manage_links') )
 }
 add_meta_box('linksubmitdiv', __('Save'), 'link_submit_meta_box', 'link', 'side', 'core');
 
+/**
+ * Display link categories form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $link
+ */
 function link_categories_meta_box($link) { ?>
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
@@ -100,6 +125,13 @@ function link_categories_meta_box($link) { ?>
 }
 add_meta_box('linkcategorydiv', __('Categories'), 'link_categories_meta_box', 'link', 'normal', 'core');
 
+/**
+ * Display form fields for changing link target.
+ *
+ * @since 2.6.0
+ *
+ * @param object $link
+ */
 function link_target_meta_box($link) { ?>
 <fieldset><legend class="hidden"><?php _e('Target') ?></legend>
 <label for="link_target_blank" class="selectit">
@@ -117,6 +149,13 @@ function link_target_meta_box($link) { ?>
 }
 add_meta_box('linktargetdiv', __('Target'), 'link_target_meta_box', 'link', 'normal', 'core');
 
+/**
+ * Display xfn form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $link
+ */
 function link_xfn_meta_box($link) {
 ?>
 <table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
@@ -230,6 +269,13 @@ function link_xfn_meta_box($link) {
 }
 add_meta_box('linkxfndiv', __('Link Relationship (XFN)'), 'link_xfn_meta_box', 'link', 'normal', 'core');
 
+/**
+ * Display advanced link options form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $link
+ */
 function link_advanced_meta_box($link) {
 ?>
 <table class="form-table" style="width: 100%;" cellspacing="2" cellpadding="5">

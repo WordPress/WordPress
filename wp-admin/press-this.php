@@ -16,7 +16,7 @@ if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' ) );
  *
  * @package WordPress
  * @subpackage Press_This
- * @since unknown
+ * @since 2.6.0
  *
  * @param string $string
  * @return string
@@ -30,7 +30,7 @@ function preg_quote2($string) {
  *
  * @package WordPress
  * @subpackage Press_This
- * @since unknown
+ * @since 2.6.0
  *
  * @param string $text
  * @return string
@@ -47,7 +47,7 @@ function aposfix($text) {
  *
  * @package WordPress
  * @subpackage Press_This
- * @since unknown
+ * @since 2.6.0
  *
  * @return int Post ID
  */
@@ -173,6 +173,16 @@ switch ($_REQUEST['ajax']) {
 		<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
 		<?php break;
 	case 'photo_images':
+		/**
+		 * Retrieve all image URLs from given URI.
+		 *
+		 * @package WordPress
+		 * @subpackage Press_This
+		 * @since 2.6.0
+		 *
+		 * @param string $uri
+		 * @return string
+		 */
 		function get_images_from_uri($uri) {
 			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
 				return "'".$uri."'";

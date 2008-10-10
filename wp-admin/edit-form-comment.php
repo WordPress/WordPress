@@ -25,7 +25,16 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 <?php
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 
-function comment_submit_meta_box($comment) { // not used, but keeping for a bit longer in case it's needed
+/**
+ * Display comment edit meta box.
+ *
+ * Not used, but keeping for a bit longer in case it's needed.
+ *
+ * @since 2.7.0
+ *
+ * @param object $comment Comment data.
+ */
+function comment_submit_meta_box($comment) {
 ?>
 <div class="submitbox" id="submitcomment">
 <div class="inside-submitbox">

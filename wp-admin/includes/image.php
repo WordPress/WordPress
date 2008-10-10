@@ -13,7 +13,7 @@
  * does not have the functionality to save in a file of the same format, the
  * thumbnail will be created as a jpeg.
  *
- * @since unknown
+ * @since 1.2.0
  *
  * @param mixed $file Filename of the original image, Or attachment id.
  * @param int $max_side Maximum length of a single side for the thumbnail.
@@ -27,11 +27,9 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 /**
  * Crop an Image to a given size.
  *
- * @internal Missing Long Description
+ * @since 2.1.0
  *
- * @since unknown
- *
- * @param string|int $src_file The source file or Attachment ID
+ * @param string|int $src_file The source file or Attachment ID.
  * @param int $src_x The start x position to crop from.
  * @param int $src_y The start y position to crop from.
  * @param int $src_w The width to crop.
@@ -77,15 +75,13 @@ function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_
 }
 
 /**
- * Generate post Image attachment Metadata.
+ * Generate post image attachment meta data.
  *
- * @internal Missing Long Description
+ * @since 2.1.0
  *
- * @since unknown
- *
- * @param int $attachment_id Attachment Id to process
- * @param string $file Filepath of the Attached image
- * @return mixed Metadata for attachment
+ * @param int $attachment_id Attachment Id to process.
+ * @param string $file Filepath of the Attached image.
+ * @return mixed Metadata for attachment.
  */
 function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$attachment = get_post( $attachment_id );
@@ -129,11 +125,9 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 }
 
 /**
- * Load an image which PHP Supports.
+ * Load an image from a string, if PHP supports it.
  *
- * @internal Missing Long Description
- *
- * @since unknown
+ * @since 2.1.0
  *
  * @param string $file Filename of the image to load.
  * @return resource The resulting image resource on success, Error string on failure.
@@ -159,15 +153,14 @@ function wp_load_image( $file ) {
 }
 
 /**
- * Calculated the new dimentions for downsampled images.
+ * Calculated the new dimentions for a downsampled image.
  *
- * @since unknown
+ * @since 2.0.0
  * @see wp_shrink_dimensions()
  *
  * @param int $width Current width of the image
  * @param int $height Current height of the image
  * @return mixed Array(height,width) of shrunk dimensions.
- *
  */
 function get_udims( $width, $height) {
 	return wp_shrink_dimensions( $width, $height );
@@ -176,7 +169,7 @@ function get_udims( $width, $height) {
 /**
  * Calculates the new dimentions for a downsampled image.
  *
- * @since unknown
+ * @since 2.0.0
  * @see wp_constrain_dimensions()
  *
  * @param int $width Current width of the image
@@ -184,7 +177,6 @@ function get_udims( $width, $height) {
  * @param int $wmax Maximum wanted width
  * @param int $hmax Maximum wanted height
  * @return mixed Array(height,width) of shrunk dimensions.
- *
  */
 function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
 	return wp_constrain_dimensions( $width, $height, $wmax, $hmax );
@@ -193,7 +185,7 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
 /**
  * Convert a fraction string to a decimal.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $str
  * @return int|float
@@ -208,7 +200,7 @@ function wp_exif_frac2dec($str) {
 /**
  * Convert the exif date format to a unix timestamp.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $str
  * @return int
@@ -223,7 +215,15 @@ function wp_exif_date2ts($str) {
 /**
  * Get extended image metadata, exif or iptc as available.
  *
- * @since unknown
+ * Retrieves the EXIF metadata aperture, credit, camera, caption, copyright, iso
+ * created_timestamp, focal_length, shutter_speed, and title.
+ *
+ * The IPTC metadata that is retrieved is APP13, credit, byline, created date
+ * and time, caption, copyright, and title. Also includes FNumber, Model,
+ * DateTimeDigitized, FocalLength, ISOSpeedRatings, and ExposureTime.
+ *
+ * @todo Try other exif libraries if available.
+ * @since 2.5.0
  *
  * @param string $file
  * @return bool|array False on failure. Image metadata array on success.
@@ -288,7 +288,6 @@ function wp_read_image_metadata( $file ) {
 		if (!empty($exif['ExposureTime']))
 			$meta['shutter_speed'] = wp_exif_frac2dec( $exif['ExposureTime'] );
 	}
-	/** @todo FIXME: try other exif libraries if available */
 
 	return apply_filters( 'wp_read_image_metadata', $meta, $file, $sourceImageType );
 
@@ -297,7 +296,7 @@ function wp_read_image_metadata( $file ) {
 /**
  * Validate that file is an image.
  *
- * @since unknown
+ * @since 2.5.0
  *
  * @param string $path File path to test if valid image.
  * @return bool True if valid image, false if not valid image.
@@ -310,7 +309,7 @@ function file_is_valid_image($path) {
 /**
  * Validate that file is suitable for displaying within a web page.
  *
- * @since unknown
+ * @since 2.5.0
  * @uses apply_filters() Calls 'file_is_displayable_image' on $result and $path.
  *
  * @param string $path File path to test.

@@ -1,4 +1,10 @@
 <?php
+/**
+ * WordPress Administration Update API
+ *
+ * @package WordPress
+ * @subpackage Admin
+ */
 
 // The admin side of our 1.1 update system
 
