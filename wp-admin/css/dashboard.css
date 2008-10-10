@@ -1,3 +1,11 @@
+.edit-box {
+	display: none;
+}
+
+h3:hover .edit-box {
+	display: inline;
+}
+
 form .input-text-wrap {
 	border-style: solid;
 	border-width: 1px;

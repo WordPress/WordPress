@@ -109,7 +109,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 			return;
 		}
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
-		$widget_name .= ' <a href="' . clean_url( "$url#$widget_id" ) . '" class="open-box">' . __( 'Edit' ) . '</a>';
+		$widget_name .= ' <a href="' . clean_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Edit' ) . '</a>';
 	}
 	add_meta_box( $widget_id, $widget_name , $callback, 'dashboard', 'normal', 'core' );
 }
