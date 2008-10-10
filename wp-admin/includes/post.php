@@ -499,10 +499,9 @@ function add_meta( $post_ID ) {
 
 	$protected = array( '_wp_attached_file', '_wp_attachment_metadata', '_wp_old_slug', '_wp_page_template' );
 
-	$metakeyselect = $wpdb->escape( stripslashes( trim( $_POST['metakeyselect'] ) ) );
-	$metakeyinput = $wpdb->escape( stripslashes( trim( $_POST['metakeyinput'] ) ) );
-	$metavalue = maybe_serialize( stripslashes( (trim( $_POST['metavalue'] ) ) ));
-	$metavalue = $wpdb->escape( $metavalue );
+	$metakeyselect = stripslashes( trim( $_POST['metakeyselect'] ) );
+	$metakeyinput = stripslashes( trim( $_POST['metakeyinput'] ) );
+	$metavalue = maybe_serialize( stripslashes( trim( $_POST['metavalue'] ) ) );
 
 	if ( ('0' === $metavalue || !empty ( $metavalue ) ) && ((('#NONE#' != $metakeyselect) && !empty ( $metakeyselect) ) || !empty ( $metakeyinput) ) ) {
 		// We have a key/value pair. If both the select and the
@@ -519,9 +518,7 @@ function add_meta( $post_ID ) {
 
 		wp_cache_delete($post_ID, 'post_meta');
 
-		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->postmeta
-			(post_id,meta_key,meta_value ) VALUES (%s, %s, %s)",
-			$post_ID, $metakey, $metavalue) );
+		$wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value ) VALUES (%s, %s, %s)", $post_ID, $metakey, $metavalue) );
 		return $wpdb->insert_id;
 	}
 	return false;
