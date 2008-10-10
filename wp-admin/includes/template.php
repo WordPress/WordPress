@@ -2082,10 +2082,11 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<?php wp_nonce_field( 'replyto-comment', '_ajax_nonce', false ); ?>
 	<?php wp_comment_form_unfiltered_html_nonce(); ?>
 <?php if ( $table_row ) : ?>
-</td></tr></tbody></table></form>
+</td></tr></tbody></table>
 <?php else : ?>
 </div></div>
 <?php endif; ?>
+</form>
 <?php
 }
 

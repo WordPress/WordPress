@@ -144,6 +144,8 @@ function wp_dashboard() {
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 	echo "</p>\n</form>\n";
+
+	echo "</div>";
 }
 
 /* Dashboard Widgets */
@@ -182,7 +184,7 @@ function wp_dashboard_quick_press( $dashboard, $meta_box ) {
 			<input type="text" name="post_title" id="title" autocomplete="off" value="<?php echo attribute_escape( $post->post_title ); ?>" />
 		</div>
 
-		<h4><label for="content"><?php _e('Post') ?></label></h4>
+		<h4><label for="quickpress-content"><?php _e('Post') ?></label></h4>
 		<div class="textarea-wrap">
 			<textarea name="content" id="quickpress-content" class="mceEditor" rows="3" cols="15"><?php echo $post->post_content; ?></textarea>
 		</div>
@@ -210,6 +212,7 @@ function wp_dashboard_quick_press( $dashboard, $meta_box ) {
 }
 
 function wp_dashboard_recent_drafts( $drafts = false ) {
+	global $post;
 	if ( !$drafts ) {
 		$drafts_query = new WP_Query( array(
 			'post_type' => 'post',
@@ -225,10 +228,10 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 
 	if ( $drafts && is_array( $drafts ) ) :
 		$list = array();
-		foreach ( $drafts as $draft ) {
+		foreach ( $drafts as $post ) {
 			$url = get_edit_post_link( $draft->ID );
 			$title = _draft_or_post_title( $draft->ID );
-			$list[] = "<a href='$url' title='" . sprintf( __( 'Edit "%s"' ), attribute_escape( $title ) ) . "'>$title</a>";
+			$list[] = '<abbr title="' . get_the_time(__('Y/m/d g:i:s A')) . '">' . get_the_time( get_option( 'date_format' ) ) . "</abbr> <a href='$url' title='" . sprintf( __( 'Edit "%s"' ), attribute_escape( $title ) ) . "'>$title</a>";
 		}
 ?>
 	<ul>
@@ -542,7 +545,7 @@ function wp_dashboard_plugins_output() {
 			$slug = '';
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
-							'&TB_iframe=true&width=600&height=800';
+							'&amp;TB_iframe=true&amp;width=600&amp;height=800';
 
 		echo "<h4>$label</h4>\n";
 		echo "<h5><a href='$link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span>\n";

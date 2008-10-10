@@ -100,6 +100,13 @@ div.postbox div.inside {
 	padding: 0;
 }
 
+/* Recent Drafts */
+#dashboard_recent_drafts ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
 /* Primary Feed */
 
 #dashboard_primary a.rsswidget, #dashboard_plugins h5 {
