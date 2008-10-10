@@ -12,42 +12,135 @@
  * @since 2.5
  */
 class WP_Filesystem_Base {
+	/**
+	 * Whether to display debug data for the connection or not.
+	 *
+	 * @since 2.5
+	 * @access public
+	 * @var bool
+	 */
 	var $verbose = false;
+	/**
+	 * Cached list of local filepaths to maped remote filepaths.
+	 *
+	 * @since 2.7
+	 * @access private
+	 * @var array
+	 */
 	var $cache = array();
 
+	/**
+	 * The Access method of the current connection, Set automatically.
+	 *
+	 * @since 2.5
+	 * @access public
+	 * @var string
+	 */
 	var $method = '';
 
+	/**
+	 * Returns the path on the remote filesystem of ABSPATH
+	 *
+	 * @since 2.7
+	 * @access public
+	 * @return string The location of the remote path.
+	 */
 	function abspath() {
 		if ( defined('FTP_BASE') && strpos($this->method, 'ftp') !== false )
 			return FTP_BASE;
 		return $this->find_folder(ABSPATH);
 	}
+	/**
+	 * Returns the path on the remote filesystem of WP_CONTENT_DIR
+	 *
+	 * @since 2.7
+	 * @access public
+	 * @return string The location of the remote path.
+	 */
 	function wp_content_dir() {
 		if ( defined('FTP_CONTENT_DIR') && strpos($this->method, 'ftp') !== false )
 			return FTP_CONTENT_DIR;
 		return $this->find_folder(WP_CONTENT_DIR);
 	}
+	/**
+	 * Returns the path on the remote filesystem of WP_PLUGIN_DIR
+	 *
+	 * @since 2.7
+	 * @access public
+	 *
+	 * @return string The location of the remote path.
+	 */
 	function wp_plugins_dir() {
 		if ( defined('FTP_PLUGIN_DIR') && strpos($this->method, 'ftp') !== false )
 			return FTP_PLUGIN_DIR;
 		return $this->find_folder(WP_PLUGIN_DIR);
 	}
+	/**
+	 * Returns the path on the remote filesystem of the Themes Directory
+	 *
+	 * @since 2.7
+	 * @access public
+	 *
+	 * @return string The location of the remote path.
+	 */
 	function wp_themes_dir() {
 		return $this->wp_content_dir() . '/themes';
 	}
-	//Back compat: use abspath() or wp_*_dir
+	
+	/**
+	 * Locates a folder on the remote filesystem.
+	 *
+	 * Deprecated; use WP_Filesystem::abspath() or WP_Filesystem::wp_*_dir() methods instead.
+	 *
+	 * @since 2.5
+	 * @deprecated 2.7
+	 * @access public
+	 *
+	 * @param string $base The folder to start searching from
+	 * @param bool $echo True to display debug information
+	 * @return string The location of the remote path.
+	 */
 	function find_base_dir($base = '.', $echo = false) {
+		_deprecated_function(__FUNCTION__, '2.7', 'WP_Filesystem::abspath() or WP_Filesystem::wp_*_dir()' );
 		$this->verbose = $echo;
 		return $this->abspath();
 	}
-	//Back compat: use ::abspath() or ::wp_*_dir
+	/**
+	 * Locates a folder on the remote filesystem.
+	 *
+	 * Deprecated; use WP_Filesystem::abspath() or WP_Filesystem::wp_*_dir() methods instead.
+	 *
+	 * @since 2.5
+	 * @deprecated 2.7
+	 * @access public
+	 *
+	 * @param string $base The folder to start searching from
+	 * @param bool $echo True to display debug information
+	 * @return string The location of the remote path.
+	 */
 	function get_base_dir($base = '.', $echo = false) {
+		_deprecated_function(__FUNCTION__, '2.7', 'WP_Filesystem::abspath() or WP_Filesystem::wp_*_dir()' );
 		$this->verbose = $echo;
 		return $this->abspath();
 	}
 
+	/**
+	 * Locates a folder on the remote filesystem.
+	 *
+	 * Assumes that on Windows systems, Stripping off the Drive letter is OK
+	 * Sanitizes \\ to / in windows filepaths.
+	 *
+	 * @since 2.7
+	 * @access public
+	 * 
+	 * @param string $folder the folder to locate
+	 * @return string The location of the remote path.
+	 */
 	function find_folder($folder) {
-		$folder = str_replace('\\', '/', $folder); //Windows Sanitiation
+
+		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows driveletter if its there.
+		$folder = str_replace('\\', '/', $folder); //Windows path sanitiation
+
 		if ( isset($this->cache[ $folder ] ) )
 			return $this->cache[ $folder ];
 
@@ -60,13 +153,24 @@ class WP_Filesystem_Base {
 		return $return;
 	}
 
-	// Assumes $folder is windows sanitized;
-	// Assumes that the drive letter is safe to be stripped off, Should not be a problem for windows servers.
+	/**
+	 * Locates a folder on the remote filesystem.
+	 *
+	 * Expects Windows sanitized path
+	 *
+	 * @since 2.7
+	 * @access private
+	 * 
+	 * @param string $folder the folder to locate
+	 * @param string $base the folder to start searching from
+	 * @param bool $loop if the function has recursed, Internal use only
+	 * @return string The location of the remote path.
+	 */
 	function search_for_folder($folder, $base = '.', $loop = false ) {
 		if ( empty( $base ) || '.' == $base )
 			$base = trailingslashit($this->cwd());
 
-		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows driveletter if its there.
+		$folder = untrailingslashit($folder);
 
 		$folder_parts = explode('/', $folder);
 		$last_path = $folder_parts[ count($folder_parts) - 1 ];
@@ -104,9 +208,19 @@ class WP_Filesystem_Base {
 
 	}
 
-	//Common Helper functions.
+	/**
+	 * Returns the *nix style file permissions for a file
+	 *
+	 * From the PHP documentation page for fileperms()
+	 *
+	 * @link http://docs.php.net/fileperms
+	 * @since 2.5
+	 * @access public
+	 *
+	 * @param string $file string filename
+	 * @return int octal representation of permissions
+	 */
 	function gethchmod($file){
-		//From the PHP.net page for ...?
 		$perms = $this->getchmod($file);
 		if (($perms & 0xC000) == 0xC000) // Socket
 			$info = 's';
@@ -147,10 +261,24 @@ class WP_Filesystem_Base {
 					(($perms & 0x0200) ? 'T' : '-'));
 		return $info;
 	}
+
+	/**
+	 * Converts *nix style file permissions to a octal number.
+	 *
+	 * Converts '-rw-r--r--' to 0644
+	 * From "info at rvgate dot nl"'s comment on the PHP documentation for chmod()
+ 	 *
+	 * @link http://docs.php.net/manual/en/function.chmod.php#49614
+	 * @since 2.5
+	 * @access public
+	 *
+	 * @param string $mode string *nix style file permission
+	 * @return int octal representation
+	 */
 	function getnumchmodfromh($mode) {
-		$realmode = "";
-		$legal =  array("", "w", "r", "x", "-");
-		$attarray = preg_split("//", $mode);
+		$realmode = '';
+		$legal =  array('', 'w', 'r', 'x', '-');
+		$attarray = preg_split('//', $mode);
 
 		for($i=0; $i < count($attarray); $i++)
 		   if($key = array_search($attarray[$i], $legal))
@@ -168,15 +296,14 @@ class WP_Filesystem_Base {
 	}
 
 	/**
-	* Determines if the string provided contains binary characters.
-	*
-	* @since 2.7
-	* @package WordPress
-	* @subpackage WP_Filesystem
-	*
-	* @param string $text String to test against
-	*
-	*/
+	 * Determines if the string provided contains binary characters.
+	 *
+	 * @since 2.7
+	 * @access private
+	 *
+	 * @param string $text String to test against
+	 * @return bool true if string is binary, false otherwise
+	 */
 	function is_binary( $text ) {
 		return (bool) preg_match('|[^\x20-\x7E]|', $text); //chr(32)..chr(127)
 	}
