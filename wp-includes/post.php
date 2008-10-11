@@ -1622,6 +1622,14 @@ function check_and_publish_future_post($post_id) {
 	if ( 'future' != $post->post_status )
 		return;
 
+	$time = strtotime( $post->post_date_gmt . ' GMT' );
+
+	if ( $time > time() ) { // Uh oh, someone jumped the gun!
+		wp_clear_scheduled_hook( 'publish_future_post', $post_id ); // clear anything else in the system
+		wp_schedule_single_event( $time, 'publish_future_post', array( $post_id ) );
+		return;
+	}
+
 	return wp_publish_post($post_id);
 }
 
