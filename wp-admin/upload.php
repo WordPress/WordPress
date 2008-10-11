@@ -252,7 +252,7 @@ foreach ($arc_result as $arc_row) {
 <?php } // ! is_singular ?>
 </form></div>
 
-<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />

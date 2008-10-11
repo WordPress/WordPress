@@ -173,7 +173,7 @@ unset($status_links);
 </form>
 </div>
 
-<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />

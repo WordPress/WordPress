@@ -197,7 +197,7 @@ do_action('restrict_manage_posts');
 </form>
 </div>
 
-<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />

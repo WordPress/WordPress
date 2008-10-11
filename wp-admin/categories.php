@@ -142,7 +142,7 @@ endif; ?>
 <div class="wrap">
 
 <ul class="subsubsub"><li class="current"><a class="current"><br /></a></li></ul>
-<form class="search-form" action="<?php echo $pagenow ?>" method="get">
+<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e('Search Categories'); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
