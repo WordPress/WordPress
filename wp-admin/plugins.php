@@ -315,6 +315,7 @@ function print_plugins_table($plugins, $context = '') {
 			$action_links[] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . __('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
 
 		$action_links = apply_filters('plugin_action_links', $action_links, $plugin_file, $plugin_data, $context);
+		$action_links = apply_filters("plugin_action_links_$plugin_file", $action_links, $plugin_data, $context);
 
 		echo "
 	<tr class='$context'>
@@ -328,6 +329,7 @@ function print_plugins_table($plugins, $context = '') {
 		echo '</td>
 	</tr>';
 		do_action( 'after_plugin_row', $plugin_file, $plugin_data, $context );
+		do_action( "after_plugin_row_$plugin_file", $plugin_data, $context );
 	}
 ?>
 	</tbody>
