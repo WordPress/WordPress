@@ -15,10 +15,16 @@
  * @package WordPress
  */
 define('WP_INSTALLING', true);
-//These three defines are required to allow us to use require_wp_db() to load the database class while being wp-content/db.php aware
+
+/**#@+
+ * These three defines are required to allow us to use require_wp_db() to load
+ * the database class while being wp-content/db.php aware.
+ * @ignore
+ */
 define('ABSPATH', dirname(dirname(__FILE__)).'/');
 define('WPINC', 'wp-includes');
 define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
+/**#@-*/
 
 require_once('../wp-includes/compat.php');
 require_once('../wp-includes/functions.php');
@@ -135,10 +141,14 @@ switch($step) {
 	if (empty($prefix)) $prefix = 'wp_';
 
 	// Test the db connection.
+	/**#@+
+	 * @ignore
+	 */
 	define('DB_NAME', $dbname);
 	define('DB_USER', $uname);
 	define('DB_PASSWORD', $passwrd);
 	define('DB_HOST', $dbhost);
+	/**#@-*/
 
 	// We'll fail here if the values are no good.
 	require_wp_db();
