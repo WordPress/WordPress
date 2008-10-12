@@ -586,8 +586,8 @@ function get_category_template() {
 /**
  * Retrieve path of tag template in current or parent template.
  *
- * Works by retrieving the current tag ID, for example 'tag-1.php' and will
- * fallback to tag.php template, if the ID tag file doesn't exist.
+ * Works by retrieving the current tag name, for example 'tag-wordpress.php' and will
+ * fallback to tag.php template, if the name tag file doesn't exist.
  *
  * @since 2.3.0
  * @uses apply_filters() Calls 'tag_template' on file path of tag template.
@@ -595,7 +595,7 @@ function get_category_template() {
  * @return string
  */
 function get_tag_template() {
-	$template = locate_template(array("tag-" . absint( get_query_var('tag') ) . '.php', 'tag.php'));
+	$template = locate_template(array("tag-" . get_query_var('tag') . '.php', 'tag.php'));
 	return apply_filters('tag_template', $template);
 }
 
