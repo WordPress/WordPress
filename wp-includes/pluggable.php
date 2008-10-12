@@ -1462,9 +1462,9 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 		return false;
 
 	if ( false === $alt)
-		$alt = __( 'Avatar' );
-
-	$safe_alt = attribute_escape( $alt );
+		$safe_alt = '';
+	else
+		$safe_alt = attribute_escape( $alt );
 
 	if ( !is_numeric($size) )
 		$size = '96';
