@@ -177,8 +177,8 @@ function update_core($from, $to) {
 
 	// Sanity check the unzipped distribution
 	apply_filters('update_feedback', __('Verifying the unpacked files'));
-	if ( !file_exists($from . '/wordpress/wp-settings.php') || !file_exists($from . '/wordpress/wp-admin/admin.php') ||
-		!file_exists($from . '/wordpress/wp-includes/functions.php') ) {
+	if ( !$wp_filesystem->exists($from . '/wordpress/wp-settings.php') || !$wp_filesystem->exists($from . '/wordpress/wp-admin/admin.php') ||
+		!$wp_filesystem->exists($from . '/wordpress/wp-includes/functions.php') ) {
 		$wp_filesystem->delete($from, true);
 		return new WP_Error('insane_distro', __('The update could not be unpacked') );
 	}
@@ -202,7 +202,7 @@ function update_core($from, $to) {
 	// Remove old files
 	foreach ( $_old_files as $old_file ) {
 		$old_file = $to . $old_file;
-		if ( !file_exists($old_file) )
+		if ( !$wp_filesystem->exists($old_file) )
 			continue;
 		$wp_filesystem->delete($old_file, true);
 	}
