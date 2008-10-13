@@ -222,11 +222,13 @@ function wp_default_scripts( &$scripts ) {
 			'saveText' => attribute_escape(__('Save &raquo;')),
 			'confirmText' => __("Are you sure you want to delete the file '%title%'?\nClick ok to delete or cancel to go back.")
 		) );
-		$scripts->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20080503' );
+		$scripts->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20081010' );
 		$scripts->localize( 'admin-widgets', 'widgetsL10n', array(
 			'add' => __('Add'),
 			'edit' => __('Edit'),
 			'cancel' => __('Cancel'),
+			'lameReminder' => __('Remember to click the "Save Changes" button at the bottom of the Current Widgets column after you\'re all done!'),
+			'lamerReminder' => __("You're about to leave without having saved your changes!")
 		));
 
 		$scripts->add( 'word-count', '/wp-admin/js/word-count.js', array( 'jquery' ), '20080423' );

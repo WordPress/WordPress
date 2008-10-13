@@ -1,6 +1,18 @@
 jQuery(function($) {
 	$('.noscript-action').remove();
 
+	var reminded = false;
+	var lameWidgetReminder = function() {
+		if ( reminded )
+			return;
+		window.onbeforeunload = function () { return widgetsL10n.lamerReminder };
+		$('div.wrap:first').prepend( '<div class="updated" style="display:none"><p>' + widgetsL10n.lameReminder + '</p></div>' ).children( ':first' ).slideDown();
+		$('#current-widgets .submit input[name=save-widgets]').css( 'background-color', '#ffffe0' ).click( function() {
+			window.onbeforeunload = null;
+		} );
+		reminded = true;
+	};
+
 	var increment = 1;
 
 	// Open or close widget control form
@@ -84,6 +96,7 @@ jQuery(function($) {
 		var n = parseInt( $('#widget-count').text(), 10 ) + 1;
 		$('#widget-count').text( n.toString() )
 
+		lameWidgetReminder();
 		return false;
 	};
 
@@ -96,6 +109,7 @@ jQuery(function($) {
 
 		// onclick for save links
 		$('a.widget-control-save', context).click( function() {
+			lameWidgetReminder();
 			toggleWidget( $(this).parents('li:first'), false ).blur()
 			return false;
 		} );

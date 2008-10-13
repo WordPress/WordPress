@@ -305,7 +305,7 @@ function wp_widget_control( $sidebar_args ) {
 
 				<?php if ( $control ) : ?>
 
-				<a class="widget-action widget-control-save hide-if-no-js edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Change'); ?></a>
+				<a class="widget-action widget-control-save hide-if-no-js edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Done'); ?></a>
 
 				<?php endif; ?>
 
