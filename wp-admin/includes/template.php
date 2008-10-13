@@ -2006,7 +2006,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 				break;
 			case 'response':
 				if ( 'single' !== $mode )
-					echo "<td $attributes>&quot;$post_link&quot; " . sprintf('(%s comments)', $post->comment_count) . '<br />' . get_the_time(__('Y/m/d \a\t g:ia')) . '</td>';
+					echo "<td $attributes>&quot;$post_link&quot; " . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '<br />' . get_the_time(__('Y/m/d \a\t g:ia')) . '</td>';
 		}
 	}
 	echo "</tr>\n";
