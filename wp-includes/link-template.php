@@ -1,15 +1,33 @@
 <?php
+/**
+ * WordPress Link Template Functions
+ *
+ * @package WordPress
+ * @subpackage Template
+ */
 
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.2.0
+ * @uses apply_filters() 
+ */
 function the_permalink() {
 	echo apply_filters('the_permalink', get_permalink());
 }
 
-
 /**
+ * {@internal Missing Short Description}}
+ *
  * Conditionally adds a trailing slash if the permalink structure
  * has a trailing slash, strips the trailing slash if not
- * @global object Uses $wp_rewrite
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.2.0
+ * @uses $wp_rewrite
+ *
  * @param $string string a URL with or without a trailing slash
  * @param $type_of_url string the type of URL being considered (e.g. single, category, etc) for use in the filter
  * @return string
@@ -27,7 +45,15 @@ function user_trailingslashit($string, $type_of_url = '') {
 	return $string;
 }
 
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $mode
+ */
 function permalink_anchor($mode = 'id') {
 	global $post;
 	switch ( strtolower($mode) ) {
@@ -42,7 +68,16 @@ function permalink_anchor($mode = 'id') {
 	}
 }
 
-
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_permalink($id = 0, $leavename=false) {
 	$rewritecode = array(
 		'%year%',
@@ -119,12 +154,32 @@ function get_permalink($id = 0, $leavename=false) {
 	}
 }
 
-// get permalink from post ID
+/**
+ * Retrieve permalink from post ID.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $post_id
+ * @param unknown_type $deprecated
+ * @return unknown
+ */
 function post_permalink($post_id = 0, $deprecated = '') {
 	return get_permalink($post_id);
 }
 
 // Respects page_on_front.  Use this one.
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_page_link($id = false, $leavename = false) {
 	global $post;
 
@@ -140,7 +195,19 @@ function get_page_link($id = false, $leavename = false) {
 	return apply_filters('page_link', $link, $id);
 }
 
-// Ignores page_on_front.  Internal use only.
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * Ignores page_on_front. Internal use only.
+ *
+ * @since 2.1.0
+ * @access private
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function _get_page_link( $id = false, $leavename = false ) {
 	global $post, $wp_rewrite;
 
@@ -163,6 +230,16 @@ function _get_page_link( $id = false, $leavename = false ) {
 	return apply_filters( '_get_page_link', $link, $id );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_attachment_link($id = false) {
 	global $post, $wp_rewrite;
 
@@ -194,6 +271,16 @@ function get_attachment_link($id = false) {
 	return apply_filters('attachment_link', $link, $id);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $year
+ * @return unknown
+ */
 function get_year_link($year) {
 	global $wp_rewrite;
 	if ( !$year )
@@ -207,6 +294,17 @@ function get_year_link($year) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $year
+ * @param unknown_type $month
+ * @return unknown
+ */
 function get_month_link($year, $month) {
 	global $wp_rewrite;
 	if ( !$year )
@@ -223,6 +321,18 @@ function get_month_link($year, $month) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $year
+ * @param unknown_type $month
+ * @param unknown_type $day
+ * @return unknown
+ */
 function get_day_link($year, $month, $day) {
 	global $wp_rewrite;
 	if ( !$year )
@@ -243,6 +353,16 @@ function get_day_link($year, $month, $day) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $feed
+ * @return unknown
+ */
 function get_feed_link($feed = '') {
 	global $wp_rewrite;
 
@@ -272,6 +392,17 @@ function get_feed_link($feed = '') {
 	return apply_filters('feed_link', $output, $feed);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.2.0
+ *
+ * @param unknown_type $post_id
+ * @param unknown_type $feed
+ * @return unknown
+ */
 function get_post_comments_feed_link($post_id = '', $feed = '') {
 	global $id;
 
@@ -297,18 +428,20 @@ function get_post_comments_feed_link($post_id = '', $feed = '') {
 	return apply_filters('post_comments_feed_link', $url);
 }
 
-/** post_comments_feed_link() - Output the comment feed link for a post.
+/**
+ * Display the comment feed link for a post.
  *
- * Prints out the comment feed link for a post.  Link text is placed in the
- * anchor.  If no link text is specified, default text is used.  If no post ID
- * is specified, the current post is used.
+ * Prints out the comment feed link for a post. Link text is placed in the
+ * anchor. If no link text is specified, default text is used. If no post ID is
+ * specified, the current post is used.
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.5
+ * @since 2.5.0
  *
- * @param string Descriptive text
- * @param int Optional post ID.  Default to current post.
+ * @param string $link_text Descriptive text
+ * @param int $post_id Optional post ID.  Default to current post.
+ * @param string $feed Optional. {@internal Missing Description}}
  * @return string Link to the comment feed for the current post
 */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
@@ -319,18 +452,19 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	echo "<a href='$url'>$link_text</a>";
 }
 
-/** Get the feed link for a given author
+/**
+ * Retrieve the feed link for a given author.
  *
- * Returns a link to the feed for all posts by a given author.  A specific feed can be requested
- * or left blank to get the default feed.
+ * Returns a link to the feed for all posts by a given author. A specific feed
+ * can be requested or left blank to get the default feed.
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.5
+ * @since 2.5.0
  *
- * @param int $author_id ID of an author
- * @param string $feed Feed type
- * @return string Link to the feed for the author specified by $author_id
+ * @param int $author_id ID of an author.
+ * @param string $feed Feed type.
+ * @return string Link to the feed for the author specified by $author_id.
 */
 function get_author_feed_link( $author_id, $feed = '' ) {
 	$author_id = (int) $author_id;
@@ -356,18 +490,19 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 	return $link;
 }
 
-/** Get the feed link for a given category
+/**
+ * Retrieve the feed link for a category.
  *
- * Returns a link to the feed for all posts in a given category.  A specific feed can be requested
- * or left blank to get the default feed.
+ * Returns a link to the feed for all post in a given category. A specific feed
+ * can be requested or left blank to get the default feed.
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.5
+ * @since 2.5.0
  *
- * @param int $cat_id ID of a category
- * @param string $feed Feed type
- * @return string Link to the feed for the category specified by $cat_id
+ * @param int $cat_id ID of a category.
+ * @param string $feed Feed type.
+ * @return string Link to the feed for the category specified by $cat_id.
 */
 function get_category_feed_link($cat_id, $feed = '') {
 	$cat_id = (int) $cat_id;
@@ -399,6 +534,17 @@ function get_category_feed_link($cat_id, $feed = '') {
 	return $link;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @param unknown_type $tag_id
+ * @param unknown_type $feed
+ * @return unknown
+ */
 function get_tag_feed_link($tag_id, $feed = '') {
 	$tag_id = (int) $tag_id;
 
@@ -428,6 +574,17 @@ function get_tag_feed_link($tag_id, $feed = '') {
 	return $link;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
+ *
+ * @param unknown_type $search_query
+ * @param unknown_type $feed
+ * @return unknown
+ */
 function get_search_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
 		$search = attribute_escape(get_search_query());
@@ -444,6 +601,17 @@ function get_search_feed_link($search_query = '', $feed = '') {
 	return $link;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
+ *
+ * @param unknown_type $search_query
+ * @param unknown_type $feed
+ * @return unknown
+ */
 function get_search_comments_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
 		$search = attribute_escape(get_search_query());
@@ -460,6 +628,16 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 	return $link;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
 function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !$post = &get_post( $id ) )
 		return;
@@ -500,6 +678,17 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	return apply_filters( 'get_edit_post_link', admin_url("$file.php?{$action}$var=$post->ID"), $post->ID, $context );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $link
+ * @param unknown_type $before
+ * @param unknown_type $after
+ */
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $post;
 
@@ -515,6 +704,16 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.3.0
+ *
+ * @param unknown_type $comment_id
+ * @return unknown
+ */
 function get_edit_comment_link( $comment_id = 0 ) {
 	$comment = &get_comment( $comment_id );
 	$post = &get_post( $comment->comment_post_ID );
@@ -531,6 +730,17 @@ function get_edit_comment_link( $comment_id = 0 ) {
 	return apply_filters( 'get_edit_comment_link', $location );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.0.0
+ *
+ * @param unknown_type $link
+ * @param unknown_type $before
+ * @param unknown_type $after
+ */
 function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $echo = true ) {
 	global $comment, $post;
 
@@ -551,6 +761,16 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $ech
 		return $link;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link
+ * @return unknown
+ */
 function get_edit_bookmark_link( $link = 0 ) {
 	$link = &get_bookmark( $link );
 
@@ -561,6 +781,18 @@ function get_edit_bookmark_link( $link = 0 ) {
 	return apply_filters( 'get_edit_bookmark_link', $location, $link->link_id );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $link
+ * @param unknown_type $before
+ * @param unknown_type $after
+ * @param unknown_type $bookmark
+ */
 function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = null ) {
 	$bookmark = get_bookmark($bookmark);
 
@@ -576,14 +808,48 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 
 // Navigation links
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $in_same_cat
+ * @param unknown_type $excluded_categories
+ * @return unknown
+ */
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	return get_adjacent_post($in_same_cat, $excluded_categories);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $in_same_cat
+ * @param unknown_type $excluded_categories
+ * @return unknown
+ */
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	return get_adjacent_post($in_same_cat, $excluded_categories, false);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
+ *
+ * @param unknown_type $in_same_cat
+ * @param unknown_type $excluded_categories
+ * @param unknown_type $previous
+ * @return unknown
+ */
 function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $previous = true) {
 	global $post, $wpdb;
 
@@ -627,14 +893,51 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 	return $wpdb->get_row("SELECT p.* FROM $wpdb->posts AS p $join $where $sort");
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $format
+ * @param unknown_type $link
+ * @param unknown_type $in_same_cat
+ * @param unknown_type $excluded_categories
+ */
 function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
 	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, true);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $format
+ * @param unknown_type $link
+ * @param unknown_type $in_same_cat
+ * @param unknown_type $excluded_categories
+ */
 function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
 	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, false);
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.5.0
+ *
+ * @param unknown_type $format
+ * @param unknown_type $link
+ * @param unknown_type $in_same_cat
+ * @param unknown_type $excluded_categories
+ * @param unknown_type $previous
+ */
 function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true) {
 	if ( $previous && is_attachment() )
 		$post = & get_post($GLOBALS['post']->post_parent);
@@ -663,6 +966,16 @@ function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_cate
 	echo apply_filters( "{$adjacent}_post_link", $format, $link );
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 1.5.0
+ *
+ * @param unknown_type $pagenum
+ * @return unknown
+ */
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
 
@@ -717,6 +1030,17 @@ function get_pagenum_link($pagenum = 1) {
 	return $result;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ * Backported from 2.1.3 to 2.0.10.
+ *
+ * @since 2.0.10
+ *
+ * @param unknown_type $max_page
+ * @return unknown
+ */
 function get_next_posts_page_link($max_page = 0) {
 	global $paged;
 
@@ -729,10 +1053,29 @@ function get_next_posts_page_link($max_page = 0) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $max_page
+ */
 function next_posts($max_page = 0) {
 	echo clean_url(get_next_posts_page_link($max_page));
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $label
+ * @param unknown_type $max_page
+ */
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 	global $paged, $wp_query;
 	if ( !$max_page ) {
@@ -749,6 +1092,16 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 2.0.10 Backported
+ * @since 2.1.3
+ *
+ * @return unknown
+ */
 function get_previous_posts_page_link() {
 	global $paged;
 
@@ -760,10 +1113,27 @@ function get_previous_posts_page_link() {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ */
 function previous_posts() {
 	echo clean_url(get_previous_posts_page_link());
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $label
+ */
 function previous_posts_link($label='&laquo; Previous Page') {
 	global $paged;
 	if ( (!is_single())	&& ($paged > 1) ) {
@@ -774,6 +1144,17 @@ function previous_posts_link($label='&laquo; Previous Page') {
 	}
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since 0.71
+ *
+ * @param unknown_type $sep
+ * @param unknown_type $prelabel
+ * @param unknown_type $nxtlabel
+ */
 function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
 	global $wp_query;
 	if ( !is_singular() ) {
@@ -909,6 +1290,15 @@ function paginate_comments_links($args = array()) {
 		return $page_links;
 }
 
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @return unknown
+ */
 function get_shortcut_link() {
 	$link = "javascript:
 			var d=document,
@@ -938,18 +1328,18 @@ function get_shortcut_link() {
 	return apply_filters('shortcut_link', $link);
 }
 
-/** Return the site url
+/**
+ * Retrieve the site url.
  *
+ * Returns the 'site_url' option with the appropriate protocol,  'https' if
+ * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
+ * overridden.
  *
- * @package WordPress
- * @since 2.6
+ * @since 2.6.0
  *
- * Returns the 'site_url' option with the appropriate protocol,  'https' if is_ssl() and 'http' otherwise.
- * If $scheme is 'http' or 'https', is_ssl() is overridden.
- *
- * @param string $path Optional path relative to the site url
- * @param string $scheme Optional scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'
- * @return string Site url link with optional path appended
+ * @param string $path Optional. Path relative to the site url.
+ * @param string $scheme Optional. Scheme to give the site url context. Currently 'http','https', 'login', 'login_post', or 'admin'.
+ * @return string Site url link with optional path appended.
 */
 function site_url($path = '', $scheme = null) {
 	// should the list of allowed schemes be maintained elsewhere?
@@ -973,13 +1363,11 @@ function site_url($path = '', $scheme = null) {
 	return apply_filters('site_url', $url, $path, $orig_scheme);
 }
 
-/** Return the admin url
- *
+/**
+ * Retrieve the url to the admin area.
  *
  * @package WordPress
- * @since 2.6
- *
- * Returns the url to the admin area
+ * @since 2.6.0
  *
  * @param string $path Optional path relative to the admin url
  * @return string Admin url link with optional path appended
@@ -993,16 +1381,14 @@ function admin_url($path = '') {
 	return $url;
 }
 
-/** Return the includes url
- *
+/**
+ * Retrieve the url to the includes directory.
  *
  * @package WordPress
- * @since 2.6
+ * @since 2.6.0
  *
- * Returns the url to the includes directory
- *
- * @param string $path Optional path relative to the includes url
- * @return string Includes url link with optional path appended
+ * @param string $path Optional. Path relative to the includes url.
+ * @return string Includes url link with optional path appended.
 */
 function includes_url($path = '') {
 	$url = site_url() . '/' . WPINC . '/';
@@ -1013,16 +1399,14 @@ function includes_url($path = '') {
 	return $url;
 }
 
-/** Return the content url
- *
+/**
+ * Retrieve the url to the content directory.
  *
  * @package WordPress
- * @since 2.6
+ * @since 2.6.0
  *
- * Returns the url to the content directory
- *
- * @param string $path Optional path relative to the content url
- * @return string Content url link with optional path appended
+ * @param string $path Optional. Path relative to the content url.
+ * @return string Content url link with optional path appended.
 */
 function content_url($path = '') {
 	$scheme = ( is_ssl() ? 'https' : 'http' );
@@ -1038,16 +1422,14 @@ function content_url($path = '') {
 	return $url;
 }
 
-/** Return the plugins url
- *
+/**
+ * Retrieve the url to the plugins directory.
  *
  * @package WordPress
- * @since 2.6
+ * @since 2.6.0
  *
- * Returns the url to the plugins directory
- *
- * @param string $path Optional path relative to the plugins url
- * @return string Plugins url link with optional path appended
+ * @param string $path Optional. Path relative to the plugins url.
+ * @return string Plugins url link with optional path appended.
 */
 function plugins_url($path = '') {
 	$scheme = ( is_ssl() ? 'https' : 'http' );
