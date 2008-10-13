@@ -98,6 +98,8 @@ if ( !$user_id ) {
 	} else {
 		wp_die(__('Invalid user ID.'));
 	}
+} elseif ( !get_userdata($user_id) ) {
+	wp_die( __('Invalid user ID.') );
 }
 
 /**
