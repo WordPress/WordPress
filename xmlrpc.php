@@ -137,6 +137,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getPageList'		=> 'this:wp_getPageList',
 			'wp.getAuthors'			=> 'this:wp_getAuthors',
 			'wp.getCategories'		=> 'this:mw_getCategories',		// Alias
+			'wp.getTags'			=> 'this:wp_getTags',		
 			'wp.newCategory'		=> 'this:wp_newCategory',
 			'wp.deleteCategory'		=> 'this:wp_deleteCategory',
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
@@ -821,6 +822,50 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return($authors);
+	}
+
+	/**
+	 * Get list of all tags
+	 *
+	 * @since 2.7
+	 *
+	 * @param array $args Method parameters.
+	 * @return array
+	 */
+	function wp_getTags( $args ) {
+		$this->escape( $args );
+
+		$blog_id		= (int) $args[0];
+		$username		= $args[1];
+		$password		= $args[2];
+
+		if( !$this->login_pass_ok( $username, $password ) ) {
+			return $this->error;
+		}
+
+		set_current_user( 0, $username );
+		if( !current_user_can( 'edit_posts' ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you must be able to edit posts on this blog in order to view tags.' ) );
+		}
+
+		do_action( 'xmlrpc_call', 'wp.getKeywords' );
+
+		$tags = array( );
+
+		if( $all_tags = get_tags( ) ) {
+			foreach( (array) $all_tags as $tag ) {
+				$struct['tag_id']			= $tag->term_id;
+				$struct['name']				= $tag->name;
+				$struct['count']			= $tag->count;
+				$struct['slug']				= $tag->slug;
+				$struct['html_url']			= wp_specialchars( get_tag_link( $tag->term_id ) );
+				$struct['rss_url']			= wp_specialchars( get_tag_feed_link( $tag->term_id ) );
+
+				$tags[] = $struct;
+			}
+		}
+
+		return $tags;
 	}
 
 	/**
