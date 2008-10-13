@@ -2598,8 +2598,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$posts_list = wp_get_recent_posts($num_posts);
 
 		if (!$posts_list) {
-			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
-			return $this->error;
+			return array( );
 		}
 
 		set_current_user( 0, $user_login );
