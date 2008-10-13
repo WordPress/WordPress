@@ -46,7 +46,7 @@ jQuery(function($) {
 		$('#plugin-information-header a.current').removeClass('current');
 		$(this).addClass('current');
 		//Flip the content.
-		$('#section-holder div').hide(); //Hide 'em all
+		$('#section-holder div.section').hide(); //Hide 'em all
 		$('#section-' + tab).show();
 		return false;
 	});

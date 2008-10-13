@@ -49,14 +49,24 @@ function do_plugin_upgrade($plugin) {
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
-		show_message( __('Installation Failed') );
+		show_message( __('Plugin upgrade Failed') );
 	} else {
-		//Result is the new plugin file relative to WP_PLUGIN_DIR
+		$plugin_file = $result;
 		show_message( __('Plugin upgraded successfully') );
 		if( $result && $was_activated ){
 			show_message(__('Attempting reactivation of the plugin'));
-			echo '<iframe style="border:0" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $result, 'activate-plugin_' . $result) .'"></iframe>';
+			echo '<iframe style="border:0" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) .'"></iframe>';
 		}
+		$update_actions =  array(
+			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . attribute_escape(__('Activate this plugin')) . '" target="_parent">' . __('Activate Plugin') . '</a>',
+			'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . attribute_escape(__('Goto plugins page')) . '" target="_parent">' . __('Return to Plugins page') . '</a>'
+		);
+		if ( $was_activated )
+			unset( $update_actions['activate_plugin'] );
+
+		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $plugin_file);
+		if ( ! empty($update_actions) )
+			show_message('<strong>' . __('Actions:') . '</strong>' . implode(' | ', (array)$update_actions));
 	}
 	echo '</div>';
 }
@@ -207,7 +217,7 @@ if ( isset($_GET['action']) ) {
 	if ( 'upgrade-plugin' == $action ) {
 		check_admin_referer('upgrade-plugin_' . $plugin);
 		$title = __('Upgrade Plugin');
-		$parent_file = 'plugins.php';
+		$parent_file = 'index.php';
 		require_once('admin-header.php');
 		do_plugin_upgrade($plugin);
 		include('admin-footer.php');
@@ -219,18 +229,7 @@ if ( isset($_GET['action']) ) {
 			wp_redirect( 'update.php?action=activate-plugin&success=true&plugin=' . $plugin . '&_wpnonce=' . $_GET['_wpnonce'] );
 			die();
 		}
-			?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
-<head>
-<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-<title><?php bloginfo('name') ?> &rsaquo; <?php _e('Plugin Reactivation'); ?> &#8212; <?php _e('WordPress'); ?></title>
-<?php
-wp_admin_css( 'global', true );
-wp_admin_css( 'colors', true );
-?>
-</head>
-<body>
-<?php
+		iframe_header( __('Plugin Reactivation'), true );
 		if( isset($_GET['success']) )
 			echo '<p>' . __('Plugin reactivated successfully.') . '</p>';
 
@@ -240,7 +239,7 @@ wp_admin_css( 'colors', true );
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
 			include(WP_PLUGIN_DIR . '/' . $plugin);
 		}
-		echo "</body></html>";
+		iframe_footer();
 	} elseif ( 'upgrade-core' == $action ) {
 		$title = __('Upgrade WordPress');
 		$parent_file = 'index.php';

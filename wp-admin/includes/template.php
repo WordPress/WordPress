@@ -3064,7 +3064,54 @@ function _draft_or_post_title($post_id = 0)
  *
  */
 function _admin_search_query() {
-	echo ( isset($_GET['s']) ) ? attribute_escape( stripslashes( $_GET['s'] ) ) : '';
+	echo isset($_GET['s']) ? attribute_escape( stripslashes( $_GET['s'] ) ) : '';
+}
+
+/**
+ * Generic Iframe header for use with Thickbox
+ *
+ * @since 2.7.0
+ * @param string $title Title of the Iframe page.
+ * @param bool $limit_styles Limit styles to colour-related styles only (unless others are enqueued).
+ *
+ */
+function iframe_header( $title = '', $limit_styles = false) {
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<head>
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+<title><?php bloginfo('name') ?> &rsaquo; <?php echo $title ?> &#8212; <?php _e('WordPress'); ?></title>
+<?php
+wp_enqueue_style( 'global' );
+wp_enqueue_style( 'colors' );
+if ( ! $limit_styles )
+	wp_enqueue_style( 'wp-admin' );
+?>
+<script type="text/javascript">
+//<![CDATA[
+function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}else{ var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}}
+//]]>
+</script>
+<?php
+do_action('admin_print_styles');
+do_action('admin_print_scripts');
+do_action('admin_head');
+?>
+</head>
+<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?>>
+<?php
+}
+
+/**
+ * Generic Iframe footer for use with Thickbox
+ *
+ * @since 2.7.0
+ *
+ */
+function iframe_footer() {
+	echo '
+	</body>
+</html>';
 }
 
 ?>

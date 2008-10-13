@@ -125,8 +125,13 @@ div.star img {
 #plugin-information #section-screenshots li img {
 	vertical-align: text-top;
 }
+
 #plugin-information #section-screenshots li p {
 	font-style: italic;
 	padding-left: 20px;
 	padding-bottom: 2em;
+}
+
+#plugin-information .updated {
+	margin-right: 215px;
 }
