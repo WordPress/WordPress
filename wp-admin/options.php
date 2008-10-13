@@ -41,33 +41,39 @@ if ( !current_user_can('manage_options') )
 switch($action) {
 
 case 'update':
-	$any_changed = 0;
-
 	$option_page = $_POST[ 'option_page' ];
 	check_admin_referer( $option_page . '-options' );
 
 	if ( !isset( $whitelist_options[ $option_page ] ) )
 		wp_die( __( 'Error! Options page not found.' ) );
 
-	if ( $option_page == 'options' ) {
+	if ( 'options' == $option_page ) {
 		$options = explode(',', stripslashes( $_POST[ 'page_options' ] ));
 	} else {
 		$options = $whitelist_options[ $option_page ];
 	}
 
-	if ($options) {
-		foreach ($options as $option) {
+	// Handle custom date/time formats
+	if ( 'general' == $option_page ) {
+		if ( !empty($_POST['date_format']) && !empty($_POST['date_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['date_format'] ) )
+			$_POST['date_format'] = $_POST['date_format_custom'];
+		if ( !empty($_POST['time_format']) && !empty($_POST['time_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['time_format'] ) )
+			$_POST['time_format'] = $_POST['time_format_custom'];
+	}
+
+	if ( $options ) {
+		foreach ( $options as $option ) {
 			$option = trim($option);
 			$value = $_POST[$option];
-			if(!is_array($value))	$value = trim($value);
+			if ( !is_array($value) ) $value = trim($value);
 			$value = stripslashes_deep($value);
 			update_option($option, $value);
 		}
 	}
 
-	$goback = add_query_arg('updated', 'true', wp_get_referer());
-	wp_redirect($goback);
-    break;
+	$goback = add_query_arg( 'updated', 'true', wp_get_referer() );
+	wp_redirect( $goback );
+	break;
 
 default:
 	include('admin-header.php'); ?>
