@@ -519,12 +519,11 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
-	$meta_value = stripslashes($meta_value);
 
 	if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) )
 		return false;
 
-	$meta_value = maybe_serialize($meta_value);
+	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
 	$wpdb->insert( $wpdb->postmeta, compact( 'post_id', 'meta_key', 'meta_value' ) );
 
@@ -545,31 +544,31 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
  * @link http://codex.wordpress.org/Function_Reference/delete_post_meta
  *
  * @param int $post_id post ID
- * @param string $key Metadata name.
- * @param mixed $value Optional. Metadata value.
+ * @param string $meta_key Metadata name.
+ * @param mixed $meta_value Optional. Metadata value.
  * @return bool False for failure. True for success.
  */
-function delete_post_meta($post_id, $key, $value = '') {
+function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 	global $wpdb;
 
 	$post_id = absint( $post_id );
 
-	// expected_slashed ($key, $value)
-	$key = stripslashes( $key );
-	$value = stripslashes( $value );
+	// expected_slashed ($meta_key, $meta_value)
+	$meta_key = stripslashes( $meta_key );
+	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
-	if ( empty( $value ) )
-		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $key ) );
+	if ( empty( $meta_value ) )
+		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
 	else
-		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $key, $value ) );
+		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $meta_key, $meta_value ) );
 
 	if ( !$meta_id )
 		return false;
 
-	if ( empty( $value ) )
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $key ) );
+	if ( empty( $meta_value ) )
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
 	else
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $key, $value ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s AND meta_value = %s", $post_id, $meta_key, $meta_value ) );
 
 	wp_cache_delete($post_id, 'post_meta');
 
@@ -632,13 +631,12 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
-	$meta_value = stripslashes($meta_value);
 
 	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) ) {
 		return add_post_meta($post_id, $meta_key, $meta_value);
 	}
 
-	$meta_value = maybe_serialize($meta_value);
+	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
 	$data  = compact( 'meta_value' );
 	$where = compact( 'meta_key', 'post_id' );

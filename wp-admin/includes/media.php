@@ -680,9 +680,8 @@ function media_upload_library() {
 	return wp_iframe( 'media_upload_library_form', $errors );
 }
 
-// produce HTML for the image alignment radio buttons with the specified one checked
 /**
- * {@internal Missing Short Description}}
+ * Retrieve HTML for the image alignment radio buttons with the specified one checked.
  *
  * @since unknown
  *
@@ -706,9 +705,8 @@ function image_align_input_fields($post, $checked='') {
 	return join("\n", $out);
 }
 
-// produce HTML for the size radio buttons with the specified one checked
 /**
- * {@internal Missing Short Description}}
+ * Retrieve HTML for the size radio buttons with the specified one checked.
  *
  * @since unknown
  *
@@ -723,7 +721,7 @@ function image_size_input_fields($post, $checked='') {
 		
 		foreach ( $size_names as $size => $name) {
 			$downsize = image_downsize($post->ID, $size);
-			
+
 			// is this size selectable?
 			$enabled = ( $downsize[3] || 'full' == $size );
 			$css_id = "image-size-{$size}-{$post->ID}";
@@ -753,9 +751,8 @@ function image_size_input_fields($post, $checked='') {
 		);
 }
 
-// produce HTML for the Link URL buttons with the default link type as specified
 /**
- * {@internal Missing Short Description}}
+ * Retrieve HTML for the Link URL buttons with the default link type as specified.
  *
  * @since unknown
  *
@@ -960,13 +957,17 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve HTML for media items of post gallery.
+ *
+ * The HTML markup retrieved will be created for the progress of SWF Upload
+ * component. Will also create link for showing and hiding the form to modify
+ * the image attachment.
  *
  * @since unknown
  *
- * @param unknown_type $post_id
- * @param unknown_type $errors
- * @return unknown
+ * @param int $post_id Optional. Post ID.
+ * @param array $errors Errors for attachment, if any.
+ * @return string
  */
 function get_media_items( $post_id, $errors ) {
 	if ( $post_id ) {
@@ -992,13 +993,13 @@ function get_media_items( $post_id, $errors ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve HTML form for modifying the image attachment.
  *
  * @since unknown
  *
- * @param unknown_type $attachment_id
- * @param unknown_type $args
- * @return unknown
+ * @param int $attachment_id Attachment ID for modification.
+ * @param string|array $args Optional. Override defaults.
+ * @return string HTML form for attachment.
  */
 function get_media_item( $attachment_id, $args = null ) {
 	global $redir_tab;
@@ -1803,9 +1804,10 @@ function type_form_file() {
 ';
 }
 
-// support a GET parameter for disabling the flash uploader
 /**
  * {@internal Missing Short Description}}
+ *
+ * Support a GET parameter for disabling the flash uploader.
  *
  * @since unknown
  *
@@ -1853,9 +1855,10 @@ function media_upload_html_bypass() {
 add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
 add_action('post-html-upload-ui', 'media_upload_html_bypass');
 
-// make sure the GET parameter sticks when we submit a form
 /**
  * {@internal Missing Short Description}}
+ *
+ * Make sure the GET parameter sticks when we submit a form.
  *
  * @since unknown
  *
