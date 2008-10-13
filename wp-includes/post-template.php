@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Post Template Functions
+ * WordPress Post Template Functions.
  *
  * Gets content for the current post in the loop.
  *
@@ -9,9 +9,7 @@
  */
 
 /**
- * the_ID() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display the ID of the current item in the WordPress Loop.
  *
  * @since 0.71
  * @uses $id
@@ -22,9 +20,7 @@ function the_ID() {
 }
 
 /**
- * get_the_ID() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the ID of the current item in the WordPress Loop.
  *
  * @since 2.1.0
  * @uses $id
@@ -37,16 +33,14 @@ function get_the_ID() {
 }
 
 /**
- * the_title() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display or retrieve the current post title with optional content.
  *
  * @since 0.71
  *
- * @param unknown_type $before
- * @param unknown_type $after
- * @param unknown_type $echo
- * @return unknown
+ * @param string $before Optional. Content to prepend to the title.
+ * @param string $after Optional. Content to append to the title.
+ * @param bool $echo Optional, default to true.Whether to display or return.
+ * @return null|string Null on no title. String if $echo parameter is false.
  */
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
@@ -63,14 +57,19 @@ function the_title($before = '', $after = '', $echo = true) {
 }
 
 /**
- * the_title_attribute() - {@internal Missing Short Description}}
+ * Sanitize the current title when retrieving or displaying.
  *
- * {@internal Missing Long Description}}
+ * Works like {@link the_title()}, except the parameters can be in a string or
+ * an array. See the function for what can be override in the $args parameter.
+ *
+ * The title before it is displayed will have the tags stripped and {@link
+ * attribute_escape()} before it is passed to the user or displayed. The default
+ * as with {@link the_title()}, is to display the title.
  *
  * @since 2.3.0
  *
- * @param unknown_type $args
- * @return unknown
+ * @param string|array $args Optional. Override the defaults.
+ * @return string|null Null on failure or display. String when echo is false.
  */
 function the_title_attribute( $args = '' ) {
 	$title = get_the_title();
@@ -93,13 +92,13 @@ function the_title_attribute( $args = '' ) {
 }
 
 /**
- * get_the_title() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
  * @since 0.71
  *
- * @param unknown_type $id
+ * @param int $id
  * @return unknown
  */
 function get_the_title( $id = 0 ) {
@@ -117,7 +116,7 @@ function get_the_title( $id = 0 ) {
 }
 
 /**
- * the_guid() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -130,7 +129,7 @@ function the_guid( $id = 0 ) {
 }
 
 /**
- * get_the_guid() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -146,7 +145,7 @@ function get_the_guid( $id = 0 ) {
 }
 
 /**
- * the_content() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -156,7 +155,7 @@ function get_the_guid( $id = 0 ) {
  * @param unknown_type $stripteaser
  * @param unknown_type $more_file
  */
-function the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') {
+function the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
@@ -164,7 +163,7 @@ function the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') 
 }
 
 /**
- * get_the_content() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -175,10 +174,10 @@ function the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') 
  * @param unknown_type $more_file
  * @return unknown
  */
-function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = '') {
+function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
 
-	if ( NULL == $more_link_text )
+	if ( null == $more_link_text )
 		$more_link_text = __( '(more...)' );
 
 	$output = '';
@@ -227,7 +226,7 @@ function get_the_content($more_link_text = NULL, $stripteaser = 0, $more_file = 
 }
 
 /**
- * the_excerpt() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -239,7 +238,7 @@ function the_excerpt() {
 }
 
 /**
- * get_the_excerpt() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -261,7 +260,7 @@ function get_the_excerpt($deprecated = '') {
 }
 
 /**
- * has_excerpt() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -276,16 +275,14 @@ function has_excerpt( $id = 0 ) {
 }
 
 /**
- * Echo the classes for the post div
+ * Display the classes for the post div.
  *
  * {@internal Missing Long Description}}
  *
- * @package WordPress
- * @subpackage Post
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string|array $class One or more classes to add to the class list
- * @param int $post_id An optional post ID
+ * @param int $post_id An optional post ID.
  */
 function post_class( $class = '', $post_id = null ) {
 	// Separates classes with a single space, collates classes for post DIV
@@ -293,13 +290,11 @@ function post_class( $class = '', $post_id = null ) {
 }
 
 /**
- * Returns the classes for the post div as an array
+ * Retrieve the classes for the post div as an array.
  *
  * {@internal Missing Long Description}}
  *
- * @package WordPress
- * @subpackage Post
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string|array $class One or more classes to add to the class list
  * @param int $post_id An optional post ID
@@ -343,13 +338,11 @@ function get_post_class( $class = '', $post_id = null ) {
 }
 
 /**
- * Determines if post requires a password and if the correct password has been provided
+ * Determines if post requires a password and if the correct password has been provided.
  *
  * {@internal Missing Long Description}}
  *
- * @package WordPress
- * @subpackage Post
- * @since 2.7
+ * @since 2.7.0
  *
  * @param int|object $post An optional post.  Global $post used if not provided.
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise
@@ -370,13 +363,9 @@ function post_password_required( $post = null ) {
 }
 
 /**
- * Echo "sticky" CSS class if a post is sticky
+ * Display "sticky" CSS class, if a post is sticky.
  *
- * {@internal Missing Long Description}}
- *
- * @package WordPress
- * @subpackage Post
- * @since 2.7
+ * @since 2.7.0
  *
  * @param int $post_id An optional post ID
  */
@@ -388,7 +377,7 @@ function sticky_class( $post_id = null ) {
 }
 
 /**
- * wp_link_pages() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -478,14 +467,12 @@ function wp_link_pages($args = '') {
 //
 
 /**
- * post_custom() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve post custom meta data field.
  *
  * @since 1.5.0
  *
- * @param unknown_type $key
- * @return unknown
+ * @param string $key Meta data key name.
+ * @return string|array Array of values or single value, if only one element exists.
  */
 function post_custom( $key = '' ) {
 	$custom = get_post_custom();
@@ -496,15 +483,12 @@ function post_custom( $key = '' ) {
 		return $custom[$key];
 }
 
-
-// this will probably change at some point...
 /**
- * the_meta() - {@internal Missing Short Description}}
+ * Display list of post custom fields.
  *
- * {@internal Missing Long Description}}
- *
+ * @internal This will probably change at some point...
  * @since 1.2.0
- * @uses apply_filters() 
+ * @uses apply_filters() Calls 'the_meta_key' on list item HTML content, with key and value as separate parameters.
  */
 function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
@@ -527,7 +511,7 @@ function the_meta() {
 //
 
 /**
- * wp_dropdown_pages() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -566,13 +550,13 @@ function wp_dropdown_pages($args = '') {
 }
 
 /**
- * wp_list_pages() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
  * @since 1.5.0
  *
- * @param unknown_type $args
+ * @param array|string $args Optional. Override default arguments.
  * @return unknown
  */
 function wp_list_pages($args = '') {
@@ -622,7 +606,7 @@ function wp_list_pages($args = '') {
 }
 
 /**
- * Create menu of pages
+ * Display menu of pages.
  *
  * @since 2.7.0
  *
@@ -661,13 +645,11 @@ function wp_page_menu( $args = array() ) {
 //
 
 /**
- * walk_page_tree() - {@internal Missing Short Description}}
+ * Retrieve HTML list content for page list.
  *
- * {@internal Missing Long Description}}
- *
+ * @uses Walker_Page to create HTML list content.
  * @since 2.1.0
- *
- * @return unknown
+ * @see Walker_Page::walk() for parameters and return description.
  */
 function walk_page_tree() {
 	$walker = new Walker_Page;
@@ -676,13 +658,11 @@ function walk_page_tree() {
 }
 
 /**
- * walk_page_dropdown_tree() - {@internal Missing Short Description}}
+ * Retrieve HTML dropdown (select) content for page list.
  *
- * {@internal Missing Long Description}}
- *
+ * @uses Walker_PageDropdown to create HTML dropdown content.
  * @since 2.1.0
- *
- * @return unknown
+ * @see Walker_PageDropdown::walk() for parameters and return description.
  */
 function walk_page_dropdown_tree() {
 	$walker = new Walker_PageDropdown;
@@ -695,7 +675,7 @@ function walk_page_dropdown_tree() {
 //
 
 /**
- * the_attachment_link() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -712,7 +692,19 @@ function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $p
 		echo wp_get_attachment_link($id, 'thumbnail', $permalink);
 }
 
-// get an attachment page link using an image or icon if possible
+/**
+ * Retrieve an attachment page link using an image or icon, if possible.
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $id
+ * @param unknown_type $size
+ * @param unknown_type $permalink
+ * @param unknown_type $icon
+ * @return unknown
+ */
 function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false) {
 	$id = intval($id);
 	$_post = & get_post( $id );
@@ -733,7 +725,21 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 
 }
 
-// deprecated - use wp_get_attachment_link()
+/**
+ * {@internal Missing Short Description}}
+ *
+ * {@internal Missing Long Description}}
+ *
+ * @since unknown
+ * @deprecated Use {@link wp_get_attachment_link()}
+ * @see wp_get_attachment_link() Use instead.
+ *
+ * @param unknown_type $id
+ * @param unknown_type $fullsize
+ * @param unknown_type $max_dims
+ * @param unknown_type $permalink
+ * @return unknown
+ */
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
 	$id = (int) $id;
 	$_post = & get_post($id);
@@ -750,14 +756,14 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 	return "<a href='$url' title='$post_title'>$innerHTML</a>";
 }
 
-
-// deprecated: use wp_get_attachment_image_src()
 /**
- * get_attachment_icon_src() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
  * @since 2.1.0
+ * @deprecated Use {@link wp_get_attachment_image_src()}
+ * @see wp_get_attachment_image_src() Use instead.
  *
  * @param unknown_type $id
  * @param unknown_type $fullsize
@@ -794,13 +800,14 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	return array($src, $src_file);
 }
 
-// deprecated: use wp_get_attachment_image()
 /**
- * get_attachment_icon() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
  * @since 2.0.0
+ * @deprecated Use {@link wp_get_attachment_image()}
+ * @see wp_get_attachment_image() Use instead of.
  *
  * @param unknown_type $id
  * @param unknown_type $fullsize
@@ -850,13 +857,14 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	return apply_filters( 'attachment_icon', $icon, $post->ID );
 }
 
-// deprecated: use wp_get_attachment_image()
 /**
- * get_attachment_innerHTML() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
  * @since 2.0.0
+ * @deprecated Use {@link wp_get_attachment_image()}
+ * @see wp_get_attachment_image() Use instead.
  *
  * @param unknown_type $id
  * @param unknown_type $fullsize
@@ -878,7 +886,7 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 }
 
 /**
- * prepend_attachment() - {@internal Missing Short Description}}
+ * {@internal Missing Short Description}}
  *
  * {@internal Missing Long Description}}
  *
@@ -907,13 +915,12 @@ function prepend_attachment($content) {
 //
 
 /**
- * get_the_password_form() - {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve protected post password form content.
  *
  * @since 1.0.0
+ * @uses apply_filters() Calls 'the_password_form' filter on output.
  *
- * @return unknown
+ * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form() {
 	global $post;
@@ -927,17 +934,17 @@ function get_the_password_form() {
 }
 
 /**
- * is_page_template() - Determine wether or not we are in a page template
+ * Whether currently in a page template.
  *
- * This template tag allows you to determine wether or not you are in a page template.
- * You can optional provide a template name and then the check will be specific to
- * that template.
+ * This template tag allows you to determine whether or not you are in a page
+ * template. You can optional provide a template name and then the check will be
+ * specific to that template.
  *
  * @since 2.5.0
  * @uses $wp_query
  *
- * @param string $template The specific template name if specific matching is required
- * @return bool False on failure, true if success
+ * @param string $template The specific template name if specific matching is required.
+ * @return bool False on failure, true if success.
  */
 function is_page_template($template = '') {
 	if (!is_page()) {
@@ -963,17 +970,17 @@ function is_page_template($template = '') {
 }
 
 /**
- * wp_post_revision_title() - returns formatted datetimestamp of a revision (linked to that revisions's page)
+ * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
  *
  * @package WordPress
- * @subpackage Post Revisions
- * @since 2.6
+ * @subpackage Post_Revisions
+ * @since 2.6.0
  *
  * @uses date_i18n()
  *
- * @param int|object $revision revision ID or revision object
- * @param bool $link optional Link to revisions's page?
- * @return string i18n formatted datetimestamp or localized 'Corrent Revision'
+ * @param int|object $revision Revision ID or revision object.
+ * @param bool $link Optional, default is true. Link to revisions's page?
+ * @return string i18n formatted datetimestamp or localized 'Current Revision'.
  */
 function wp_post_revision_title( $revision, $link = true ) {
 	if ( !$revision = get_post( $revision ) )
@@ -999,29 +1006,36 @@ function wp_post_revision_title( $revision, $link = true ) {
 }
 
 /**
- * wp_list_post_revisions() - echoes list of a post's revisions
+ * Display list of a post's revisions.
  *
- * Can output either a UL with edit links or a TABLE with diff interface, and restore action links
+ * Can output either a UL with edit links or a TABLE with diff interface, and
+ * restore action links.
  *
  * Second argument controls parameters:
- *   (bool)   parent : include the parent (the "Current Revision") in the list
- *   (string) format : 'list' or 'form-table'.  'list' outputs UL, 'form-table' outputs TABLE with UI
- *   (int)    right  : what revision is currently being viewed - used in form-table format
- *   (int)    left   : what revision is currently being diffed against right - used in form-table format
+ *   (bool)   parent : include the parent (the "Current Revision") in the list.
+ *   (string) format : 'list' or 'form-table'.  'list' outputs UL, 'form-table'
+ *                     outputs TABLE with UI.
+ *   (int)    right  : what revision is currently being viewed - used in
+ *                     form-table format.
+ *   (int)    left   : what revision is currently being diffed against right -
+ *                     used in form-table format.
  *
  * @package WordPress
- * @subpackage Post Revisions
- * @since 2.6
+ * @subpackage Post_Revisions
+ * @since 2.6.0
  *
  * @uses wp_get_post_revisions()
  * @uses wp_post_revision_title()
  * @uses get_edit_post_link()
  * @uses get_author_name()
  *
- * @param int|object $post_id post ID or post object
- * @param string|array $args see description @see wp_parse_args()
+ * @todo split into two functions (list, form-table) ?
+ *
+ * @param int|object $post_id Post ID or post object.
+ * @param string|array $args See description {@link wp_parse_args()}.
+ * @return null
  */
-function wp_list_post_revisions( $post_id = 0, $args = null ) { // TODO? split into two functions (list, form-table) ?
+function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	if ( !$post = get_post( $post_id ) )
 		return;
 
