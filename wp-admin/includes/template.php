@@ -3003,15 +3003,31 @@ function the_post_password() {
  */
 function favorite_actions() {
 	$actions = array(
-		'page-new.php' => __('Add New Page'),
-		'edit-comments.php' => __('Manage Comments')
+		'post-new.php' => array(__('Add New Post'), 'edit_posts'),
+		'page-new.php' => array(__('Add New Page'), 'edit_pages'),
+		'edit-comments.php' => array(__('Manage Comments'), 'moderate_comments')
 		);
 
 	$actions = apply_filters('favorite_actions', $actions);
+
+	$allowed_actions = array();
+	foreach ( $actions as $action => $data ) {
+		if ( current_user_can($data[1]) )
+			$allowed_actions[$action] = $data[0];
+	}
+
+	if ( empty($allowed_actions) )
+		return;
+
+	$first = array_keys($allowed_actions);
+	$first = $first[0];
 	echo '<div id="favorite-actions">';
-	echo '<div id="favorite-first"><a href="post-new.php">' . __('Add New Post') . '</a></div>';
+	echo '<div id="favorite-first"><a href="$first">' . $allowed_actions[$first] . '</a></div>';
 	echo '<div id="favorite-action">';
-	foreach ( $actions as $action => $label) {
+
+	array_shift($allowed_actions);
+
+	foreach ( $allowed_actions as $action => $label) {
 		echo "<div class='favorite-action'><a href='$action'>";
 		echo $label;
 		echo "</a></div>\n";
