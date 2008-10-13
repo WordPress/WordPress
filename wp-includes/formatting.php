@@ -1215,8 +1215,10 @@ function iso8601_timezone_to_offset($timezone) {
  * @param string $timezone Optional. If set to GMT returns the time minus gmt_offset. Default is 'user'.
  * @return string The date and time in MySQL DateTime format - Y-m-d H:i:s.
  */
-function iso8601_to_datetime($date_string, $timezone = USER) {
-	if ($timezone == GMT) {
+function iso8601_to_datetime($date_string, $timezone = 'user') {
+	$timezone = strtolower($timezone);
+
+	if ($timezone == 'gmt') {
 
 		preg_match('#([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(Z|[\+|\-][0-9]{2,4}){0,1}#', $date_string, $date_bits);
 
@@ -1231,7 +1233,7 @@ function iso8601_to_datetime($date_string, $timezone = USER) {
 
 		return gmdate('Y-m-d H:i:s', $timestamp);
 
-	} else if ($timezone == USER) {
+	} else if ($timezone == 'user') {
 		return preg_replace('#([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(Z|[\+|\-][0-9]{2,4}){0,1}#', '$1-$2-$3 $4:$5:$6', $date_string);
 	}
 }
