@@ -434,16 +434,14 @@ function download_url( $url ) {
 	if( ! $handle )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
-	require_once( ABSPATH . 'wp-includes/class-snoopy.php' );
-	$snoopy = new Snoopy();
-	$snoopy->fetch($url);
+	$response = wp_remote_get($url);
 
-	if( $snoopy->status != '200' ){
+	if( $response['response']['code'] != '200' ){
 		fclose($handle);
 		unlink($tmpfname);
-		return new WP_Error('http_404', trim($snoopy->response_code));
+		return new WP_Error('http_404', trim($response['response']['message']));
 	}
-	fwrite($handle, $snoopy->results);
+	fwrite($handle, $response['body']);
 	fclose($handle);
 
 	return $tmpfname;
