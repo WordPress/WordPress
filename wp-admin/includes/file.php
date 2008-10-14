@@ -441,7 +441,7 @@ function download_url( $url ) {
 		unlink($tmpfname);
 		return new WP_Error('http_404', trim($response['response']['message']));
 	}
-	var_dump($response);
+
 	fwrite($handle, $response['body']);
 	fclose($handle);
 
