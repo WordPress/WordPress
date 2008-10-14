@@ -175,6 +175,8 @@ $_old_files = array(
 function update_core($from, $to) {
 	global $wp_filesystem, $_old_files;
 
+	@set_time_limit( 300 );
+
 	// Sanity check the unzipped distribution
 	apply_filters('update_feedback', __('Verifying the unpacked files'));
 	if ( !$wp_filesystem->exists($from . '/wordpress/wp-settings.php') || !$wp_filesystem->exists($from . '/wordpress/wp-admin/admin.php') ||

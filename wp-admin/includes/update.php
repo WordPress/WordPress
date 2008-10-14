@@ -323,6 +323,8 @@ function wp_update_theme($theme, $feedback = '') {
 function wp_update_core($feedback = '') {
 	global $wp_filesystem;
 
+	@set_time_limit( 300 );
+
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
