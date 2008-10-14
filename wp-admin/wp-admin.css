@@ -801,7 +801,7 @@ ul#adminmenu li.write-new-button a {
 #adminmenu li .wp-submenu {
 	margin: 0;
 	position: relative;
-	z-index: 1001;
+	z-index: 11;
 }
 
 #adminmenu ul.wp-submenu li {

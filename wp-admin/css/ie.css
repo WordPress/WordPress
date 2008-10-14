@@ -17,6 +17,10 @@ input.button, input.button-secondary, input.button-highlighted {
 }
 */
 
+#adminmenu {
+	z-index: 1;
+}
+
 #adminmenu li.wp-has-submenu {
 	margin-top: 2px;
 }
