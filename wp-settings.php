@@ -108,16 +108,19 @@ if ( !defined('WP_CONTENT_DIR') )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
 
 if ( file_exists(ABSPATH . '.maintenance') && !defined('WP_INSTALLING') ) {
-	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
-		require_once( WP_CONTENT_DIR . '/maintenance.php' );
-		die();
-	}
+	include(ABSPATH . '.maintenance');
+	// If the $upgrading timestamp is older than 10 minutes, don't die.
+	if ( ( time() - $upgrading ) < 600 ) {
+		if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
+			require_once( WP_CONTENT_DIR . '/maintenance.php' );
+			die();
+		}
 
-	$protocol = $_SERVER["SERVER_PROTOCOL"];
-	if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
-		$protocol = 'HTTP/1.0';
-	header( "$protocol 503 Service Unavailable", true, 503 );
-	header( 'Content-Type: text/html; charset=utf-8' );
+		$protocol = $_SERVER["SERVER_PROTOCOL"];
+		if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
+			$protocol = 'HTTP/1.0';
+		header( "$protocol 503 Service Unavailable", true, 503 );
+		header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -131,7 +134,8 @@ if ( file_exists(ABSPATH . '.maintenance') && !defined('WP_INSTALLING') ) {
 </body>
 </html>
 <?php
-die();
+		die();
+	}
 }
 
 if ( !extension_loaded('mysql') && !file_exists(WP_CONTENT_DIR . '/db.php') )

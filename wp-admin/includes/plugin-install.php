@@ -37,9 +37,13 @@ function plugins_api($action, $args = null) {
 
 	if ( ! $res ) {
 		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array( 'body' => array('action' => $action, 'request' => serialize($args))) );
-		$res = unserialize($request['body']);
-		if ( ! $res )
-			$res = new WP_Error('plugins_api_failed', __('An unknown error occured'), $request['body']);
+		if ( is_wp_error($request) ) {
+			$res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occured during the API request.</p> <p><a href="?" onclick="document.location.reload(); return false;">Try again</a>'), $request->get_error_message() );
+		} else {
+			$res = unserialize($request['body']);
+			if ( ! $res )
+				$res = new WP_Error('plugins_api_failed', __('An unknown error occured'), $request['body']);
+		}
 	}
 
 	return apply_filters('plugins_api_result', $res, $action, $args);
@@ -61,6 +65,9 @@ function install_popular_tags( $args = array() ) {
 		return $cache->cached;
 
 	$tags = plugins_api('hot_tags', $args);
+
+	if ( is_wp_error($tags) )
+		return $tags;
 
 	$cache = (object) array('timeout' => time(), 'cached' => $tags);
 
@@ -99,6 +106,9 @@ function install_search($page) {
 	$args['page'] = $page;
 
 	$api = plugins_api('query_plugins', $args);
+
+	if ( is_wp_error($api) )
+		wp_die($api);
 
 	add_action('install_plugins_table_header', 'install_search_form');
 
@@ -173,6 +183,8 @@ add_action('install_plugins_featured', 'install_featured', 10, 1);
 function install_featured($page = 1) {
 	$args = array('browse' => 'featured', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
+	if ( is_wp_error($api) )
+		wp_die($api);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 
@@ -201,6 +213,8 @@ add_action('install_plugins_new', 'install_new', 10, 1);
 function install_new($page = 1) {
 	$args = array('browse' => 'new', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
+	if ( is_wp_error($api) )
+		wp_die($api);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
 }
 add_action('install_plugins_updated', 'install_updated', 10, 1);
@@ -234,7 +248,9 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 
-	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
+	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),
+								'abbr' => array('title' => array()),'acronym' => array('title' => array()),
+								'code' => array(),'em' => array(),'strong' => array());
 
 ?>
 	<div class="tablenav">
@@ -316,7 +332,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 				<td class="name"><?php echo $title; ?></td>
 				<td class="vers"><?php echo $version; ?></td>
 				<td class="vers">
-					<div class="star-holder" title="<?php printf( __('based on %d ratings'), $plugin['num_ratings'] ); ?>">
+					<div class="star-holder" title="<?php printf(__ngettext(__('based on %d rating'), __('based on %d ratings'), $plugin['num_ratings']), $plugin['num_ratings']) ?>">
 						<div class="star star-rating" style="width: <?php echo attribute_escape($plugin['rating']) ?>px"></div>
 						<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
 						<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
@@ -354,6 +370,19 @@ function install_plugin_information() {
 	global $tab;
 
 	$api = plugins_api('plugin_information', array('slug' => $_REQUEST['plugin']));
+
+	if ( is_wp_error($api) )
+		wp_die($api);
+
+	$plugins_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
+								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
+								'code' => array(), 'em' => array(), 'strong' => array(), 'div' => array(),
+								'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array());
+	//Sanitize HTML
+	foreach ( (array)$api->sections as $section_name => $content )
+		$api->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
+	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
+		$api->$key = wp_kses($api->$key, $plugins_allowedtags);
 
 	$section = isset($_REQUEST['section']) ? $_REQUEST['section'] : 'description'; //Default to the Description tab, Do not translate, API returns English.
 	if( empty($section) || ! isset($api->sections[ $section ]) )
@@ -521,6 +550,9 @@ function install_plugin() {
 
 	check_admin_referer('install-plugin_' . $plugin);
 	$api = plugins_api('plugin_information', array('slug' => $plugin, 'fields' => array('sections' => false) ) ); //Save on a bit of bandwidth.
+	
+	if ( is_wp_error($api) )
+		wp_die($api);
 
 	echo '<div class="wrap">';
 	echo '<h2>', sprintf( __('Installing Plugin: %s'), $api->name . ' ' . $api->version ), '</h2>';
@@ -833,7 +865,5 @@ function wp_install_plugin_local_package($package, $feedback = '') {
 	//Return the plugin files name.
 	return  $folder . '/' . $pluginfiles[0];
 }
-
-
 
 ?>
