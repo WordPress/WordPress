@@ -69,6 +69,9 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 </div>
 <?php
 }
+
+$email = attribute_escape( $comment->comment_author_email );
+$url = attribute_escape( $comment->comment_author_url );
 // add_meta_box('submitdiv', __('Save'), 'comment_submit_meta_box', 'comment', 'side', 'core');
 ?>
 
@@ -131,14 +134,22 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 <div id="emaildiv" class="stuffbox">
 <h3><label for="email"><?php _e('E-mail') ?></label></h3>
 <div class="inside">
-<input type="text" name="newcomment_author_email" size="30" value="<?php echo attribute_escape( $comment->comment_author_email ); ?>" tabindex="2" id="email" />
+<input type="text" name="newcomment_author_email" size="30" value="<?php echo $email; ?>" tabindex="2" id="email" />
+<?php if ( $email )
+	comment_author_email_link( __('Send Email'), '<p>', '</p>'); ?>
 </div>
 </div>
 
 <div id="uridiv" class="stuffbox">
 <h3><label for="newcomment_author_url"><?php _e('URL') ?></label></h3>
 <div class="inside">
-<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo attribute_escape( $comment->comment_author_url ); ?>" tabindex="3" />
+<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo $url; ?>" tabindex="3" />
+<?php if ( ! empty( $url ) && 'http://' != $url ) {
+	$url = get_comment_author_url();
+	$link = "<a href='$url' rel='external nofollow' target='_blank'>" . __('Visit site') . "</a>";
+	
+	echo '<p>' . apply_filters('get_comment_author_link', $link) . '</p>'; 
+} ?>
 </div>
 </div>
 
