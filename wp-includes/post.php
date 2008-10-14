@@ -2051,7 +2051,7 @@ function &get_pages($args = '') {
 		'sort_column' => 'post_title', 'hierarchical' => 1,
 		'exclude' => '', 'include' => '',
 		'meta_key' => '', 'meta_value' => '',
-		'authors' => ''
+		'authors' => '', 'parent' => -1
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -2064,7 +2064,8 @@ function &get_pages($args = '') {
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include
+		$child_of = 0; //ignore child_of, parent, exclude, meta_key, and meta_value params if using include
+		$parent = -1;
 		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
@@ -2137,6 +2138,10 @@ function &get_pages($args = '') {
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_value = %s", $meta_value);
 
 	}
+	
+	if ( $parent >= 0 ) 
+		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent); 
+	
 	$query = "SELECT * FROM $wpdb->posts $join WHERE (post_type = 'page' AND post_status = 'publish') $where ";
 	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
