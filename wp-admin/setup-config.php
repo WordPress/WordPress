@@ -67,7 +67,7 @@ function display_header() {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>WordPress &rsaquo; Setup Configuration File</title>
-<link rel="stylesheet" href="<?php echo $admin_dir; ?>css/install.css" type="text/css" />
+<link rel="stylesheet" href="css/install.css" type="text/css" />
 
 </head>
 <body>
