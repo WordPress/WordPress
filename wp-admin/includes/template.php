@@ -2952,7 +2952,7 @@ function favorite_actions() {
 	$first = array_keys($allowed_actions);
 	$first = $first[0];
 	echo '<div id="favorite-actions">';
-	echo '<div id="favorite-first"><a href="$first">' . $allowed_actions[$first] . '</a></div>';
+	echo '<div id="favorite-first"><a href="' . $first . '">' . $allowed_actions[$first] . '</a></div>';
 	echo '<div id="favorite-action">';
 
 	array_shift($allowed_actions);
