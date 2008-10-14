@@ -580,7 +580,7 @@ function do_plugin_install($download_url, $plugin_information = null) {
 			'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . attribute_escape(__('Goto plugins page')) . '" target="_parent">' . __('Return to Plugins page') . '</a>'
 							), $plugin_information, $plugin_file);
 		if ( ! empty($install_actions) )
-			show_message('<strong>' . __('Actions:') . '</strong>' . implode(' | ', (array)$install_actions));
+			show_message('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
 	}
 }
 
@@ -636,7 +636,7 @@ function do_plugin_install_local_package($package, $filename = '') {
 							'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . __('Goto plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
 							), $plugin_information, $plugin_file);
 		if ( ! empty($install_actions) )
-			show_message('<strong>' . __('Actions:') . '</strong>' . implode(' | ', (array)$install_actions));
+			show_message('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
 	}
 }
 

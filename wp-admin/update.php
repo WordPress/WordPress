@@ -66,7 +66,7 @@ function do_plugin_upgrade($plugin) {
 
 		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $plugin_file);
 		if ( ! empty($update_actions) )
-			show_message('<strong>' . __('Actions:') . '</strong>' . implode(' | ', (array)$update_actions));
+			show_message('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$update_actions));
 	}
 	echo '</div>';
 }
