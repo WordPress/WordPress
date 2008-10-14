@@ -22,19 +22,23 @@ wp_enqueue_style( 'plugin-install' );
 wp_enqueue_script( 'plugin-install' );
 add_thickbox();
 
-//These are the tabs which are shown on the page, Note that 'install' and 'plugin-information' are valid hooks, but not shown here due to not requiring the header
-$tabs = array(
-			'search'	=> __('Search Plugins'),
-			'upload'	=> __('Upload a Plugin'),
-			'featured'	=> __('Featured Plugins'),
-			'popular'	=> __('Popular Plugins'),
-			'new'		=> __('Newest Plugins'),
-			'updated'	=> __('Recently Updated Plugins')
-		);
+//These are the tabs which are shown on the page,
+$tabs = array();
+$tabs['dashboard'] = __('Start Page'); //TODO: Better name?
+if ( 'search' == $tab )
+	$tabs['search']	= __('Search Results');
+$tabs['featured'] = __('Featured');
+$tabs['popular']  = __('Popular');
+$tabs['new']      = __('Newest');
+$tabs['updated']  = __('Recently Updated');
+
+$nonmenu_tabs = array('install', 'plugin-information', 'upload'); //Valid actions to perform which do not have a Menu item.
 
 $tabs = apply_filters('install_plugins_tabs', $tabs );
+$nonmenu_tabs = apply_filters('install_plugins_nonmenu_tabs', $nonmenu_tabs);
 
-if( empty($tab) || ( ! isset($tabs[ $tab ]) && ! in_array($tab, array('install', 'plugin-information')) ) ){
+//If a non-valid menu tab has been selected, And its not a non-menu action.
+if( empty($tab) || ( ! isset($tabs[ $tab ]) && ! in_array($tab, (array)$nonmenu_tabs) ) ) {
 	$tab_actions = array_keys($tabs);
 	$tab = $tab_actions[0];
 }
@@ -43,7 +47,7 @@ if( empty($paged) )
 
 $body_id = $tab;
 
-do_action('install_plugins_pre_' . $tab);
+do_action('install_plugins_pre_' . $tab); //Used to override the general interface, Eg, install or plugin information.
 
 include('admin-header.php');
 ?>
@@ -59,6 +63,7 @@ foreach ( (array)$tabs as $action => $text ) {
 }
 ?>
 	</ul>
+	<br class="clear" />
 	<?php do_action('install_plugins_' . $tab, $paged); ?>
 </div>
 <?php
