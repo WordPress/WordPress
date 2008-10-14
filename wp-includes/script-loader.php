@@ -158,7 +158,7 @@ function wp_default_scripts( &$scripts ) {
 			'good' => __('Medium'),
 			'strong' => __('Strong')
 		) );
-		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'columns', 'settings-box'), '20081007' );
+		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'columns', 'settings-box'), '20081014' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'pending' => __('%i% pending'), // must look like: "# blah blah"
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
@@ -244,15 +244,14 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
 
-		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20081007' );
+		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20081014' );
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
-			'edit' => __('Double-click to edit'),
-			'error' => __('Error while saving the changes.')
+			'error' => __('Error while saving the changes.'),
+			'rem_title' => __('Remove from batch edit')
 		) );
 
-		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081007' );
+		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081014' );
 		$scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
-			'edit' => __('Double-click to edit'),
 			'error' => __('Error while saving the changes.')
 		) );
 

@@ -26,7 +26,6 @@ inlineEditPost = {
 
 		// add events
 		t.rows.dblclick(function() { inlineEditPost.toggle(this); });
-		t.addEvents(t.rows);
 
 		$('#bulk-title-div').after(
 			$('#inline-edit div.categories').clone(),
@@ -79,14 +78,6 @@ inlineEditPost = {
 		$(t.what+t.getId(el)).css('display') == 'none' ? t.revert() : t.edit(el);
 	},
 
-	addEvents : function(r) {
-		r.each(function() {
-			var row = $(this);
-			$('a.editinline', row).click(function() { inlineEditPost.edit(this); return false; });
-			row.attr('title', inlineEditL10n.edit);
-		});
-	},
-
 	setBulk : function() {
 		var te = '', c = '';
 		this.revert();
@@ -98,7 +89,7 @@ inlineEditPost = {
 			if ( $(this).attr('checked') ) {
 				var id = $(this).val();
 				c = c == '' ? ' class="alternate"' : '';
-				te += '<div'+c+' id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+$('#inline_'+id+' .post_title').text()+'</div>';
+				te += '<div'+c+' id="ttle'+id+'"><a id="_'+id+'" title="'+inlineEditL10n.rem_title+'" class="ntdelbutton">X</a>'+$('#inline_'+id+' .post_title').text()+'</div>';
 			}
 		});
 
@@ -208,7 +199,6 @@ inlineEditPost = {
 					row.html($(r).html()).show()
 						.animate( { backgroundColor: '#CCEEBB' }, 500)
 						.animate( { backgroundColor: '#eefee7' }, 500);
-					inlineEditPost.addEvents(row);
 				} else {
 					$('#edit-'+id+' .quick-edit-save').append('<span class="error">'+inlineEditL10n.error+'</span>');
 				}

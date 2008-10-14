@@ -107,24 +107,25 @@ commentReply = {
 	addEvents : function(r) {
 		r.each(function() {
 			$(this).dblclick(function(){
-				commentReply.toggle(this);
+				commentReply.toggle_edit(this);
 			});
 		});
 	},
 
-	toggle : function(el) {
-		if ( $(el).css('display') != 'none' )
-			$(el).find('a.vim-q').click();
+	toggle_edit : function(el) {
+		if ( $(el).css('display') != 'none' ) {
+			var id = $(el).attr('id').substr(8);
+			if (id) this.open(id, '', 'edit');
+		}
 	},
 
 	revert : function() {
 
-		if ( $('#the-comment-list #replyrow').length < 1 )
-			return false;
-
-		$('#replyrow').fadeOut('fast', function(){
-			commentReply.close();
-		});
+		if ( $('#the-comment-list #replyrow').length > 0 ) {
+			$('#replyrow').fadeOut('fast', function(){
+				commentReply.close();
+			});
+		}
 
 		return false;
 	},
@@ -144,7 +145,10 @@ commentReply = {
 
 	open : function(id, p, a) {
 		var t = this;
-		t.close();
+
+		if ( $('#the-comment-list #replyrow').length > 0 )
+			t.close();
+
 		t.o = '#comment-'+id;
 
 		$('#replyrow td').attr('colspan', $('.widefat tfoot th:visible').length);
@@ -314,7 +318,7 @@ $(document).ready(function(){
 				$('form#comments-form')[0].submit();
 			}
 		};
-		$.table_hotkeys($('table.widefat'),['a', 'u', 's', 'd', 'r', 'q', ['e', edit_comment],
+		$.table_hotkeys($('table.widefat'),['a', 'u', 's', 'd', 'r', ['e', edit_comment],
 				['shift+a', make_bulk('approve')], ['shift+s', make_bulk('markspam')],
 				['shift+d', make_bulk('delete')], ['shift+x', toggle_all]],
 				{highlight_first: adminCommentsL10n.hotkeys_highlight_first, highlight_last: adminCommentsL10n.hotkeys_highlight_last,

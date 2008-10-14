@@ -20,7 +20,6 @@ inlineEditTax = {
 
 		// add events
 		t.rows.dblclick(function() { inlineEditTax.toggle(this); });
-		t.addEvents(t.rows);
 
 		$('#doaction, #doaction2, #post-query-submit').click(function(e){
 			if ( $('form#posts-filter tr.inline-editor').length > 0 )
@@ -32,14 +31,6 @@ inlineEditTax = {
 		var t = this;
 
 		$(t.what+t.getId(el)).css('display') == 'none' ? t.revert() : t.edit(el);
-	},
-
-	addEvents : function(r) {
-		r.each(function() {
-			var row = $(this);
-			$('a.editinline', row).click(function() { inlineEditTax.edit(this); return false; });
-			row.attr('title', inlineEditL10n.edit);
-		});
 	},
 
 	edit : function(id) {
@@ -112,7 +103,6 @@ inlineEditTax = {
 						row.html($(r).html()).show()
 							.animate( { backgroundColor: '#CCEEBB' }, 500)
 							.animate( { backgroundColor: '#eefee7' }, 500);
-						inlineEditTax.addEvents(row);
 					} else
 						$('#edit-'+id+' .quick-edit-save .error').html(r).show();
 				} else
