@@ -55,9 +55,9 @@ case 'update':
 
 	// Handle custom date/time formats
 	if ( 'general' == $option_page ) {
-		if ( !empty($_POST['date_format']) && !empty($_POST['date_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['date_format'] ) )
+		if ( !empty($_POST['date_format']) && isset($_POST['date_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['date_format'] ) )
 			$_POST['date_format'] = $_POST['date_format_custom'];
-		if ( !empty($_POST['time_format']) && !empty($_POST['time_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['time_format'] ) )
+		if ( !empty($_POST['time_format']) && isset($_POST['time_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['time_format'] ) )
 			$_POST['time_format'] = $_POST['time_format_custom'];
 	}
 
