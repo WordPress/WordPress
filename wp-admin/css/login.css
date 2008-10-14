@@ -29,7 +29,7 @@ form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	cursor: default;
+	cursor: pointer;
 	text-decoration: none;
 	margin-top: -6px;
 }
