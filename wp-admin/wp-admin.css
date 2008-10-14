@@ -623,7 +623,7 @@ a#view-site-link {
 	border-bottom-style: solid;
 }
 
-#wphead a, #dashmenu a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
+#wphead a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
 	text-decoration: none;
 }
 
@@ -668,102 +668,11 @@ ul#adminmenu li.write-new-button a {
 
 /* menu stuff */
 
-#dashmenu .wp-submenu, #adminmenu .wp-submenu {
+#adminmenu .wp-submenu {
 	display: none;
 	list-style: none;
 	margin: 2px 0 0;
 	padding: 0;
-}
-
-#dashmenu {
-	margin: 0 0 0 12px;
-	background: url(images/logo-ghost.png) no-repeat center left;
-	list-style: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 31px;
-	font-size: 11px;
-	padding: 0 0 0 30px;
-}
-
-#dashmenu li {
-	display: block;
-	float: left;
-	list-style: none;
-	white-space: nowrap;
-	margin: 0 5px 0 0;
-	padding: 0;
-	position: relative;
-}
-
-#dashmenu li.highlighted {
-	margin-left: 6px;
-	text-align: center;
-	padding: 1px 0;
-}
-
-#dashmenu li.highlighted a {
-	background: #666;
-	border: 1px solid #888;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-border-radius: 3px;
-	color: #ddd;
-	margin-top: 4px;
-	display: block;
-	padding: 5px 10px;
-	line-height: 1em;
-}
-
-#dashmenu li.highlighted a:hover {
-	color: #fff;
-	border-color: #aaa;
-}
-
-/* Temp */
-#dashmenu li.wp-has-submenu > a:after {
-	content: " \25BC";
-}
-
-#dashmenu a {
-	padding: 5px 6px;
-	line-height: 31px;
-}
-
-#dashmenu ul {
-	position: absolute;
-	top: 29px;
-	left: 0;
-	min-width: 100%;
-}
-
-#dashmenu ul {
-	background: #fff;
-	border: 1px solid #c6d9e9;
-	-moz-border-radius: 0 0 7px 7px;
-	-webkit-border-bottom-left-radius: 7px;
-	-webkit-border-bottom-right-radius: 7px;
-	border-bottom-left-radius: 7px;
-	border-bottom-right-radius: 7px;
-	-webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-	-moz-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-#dashmenu ul a {
-	color: #2583ad;
-	display: block;
-	padding: 0 4px;
-}
-
-#dashmenu ul a:hover {
-	color: #d54e21;
-}
-
-#dashmenu ul li {
-	float: none;
-	margin-left: 5px;
 }
 
 /* side admin menu */
