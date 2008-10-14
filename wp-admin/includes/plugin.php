@@ -497,13 +497,13 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 
 	$file = plugin_basename( $file );
 
-	$menu[] = array ( $menu_title, $access_level, $file, $page_title );
-
 	$admin_page_hooks[$file] = sanitize_title( $menu_title );
 
 	$hookname = get_plugin_page_hookname( $file, '' );
 	if (!empty ( $function ) && !empty ( $hookname ))
 		add_action( $hookname, $function );
+
+	$menu[] = array ( $menu_title, $access_level, $file, $page_title, $hookname, $hookname );
 
 	return $hookname;
 }
@@ -660,6 +660,7 @@ function get_admin_page_title() {
 	$hook = get_plugin_page_hook( $plugin_page, $pagenow );
 
 	$parent = $parent1 = get_admin_page_parent();
+
 	if ( empty ( $parent) ) {
 		foreach ( $menu as $menu_array ) {
 			if ( isset( $menu_array[3] ) ) {
@@ -718,8 +719,8 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 	$parent = get_admin_page_parent( $parent_page );
 
 	$page_type = 'admin';
-	if ( empty ( $parent_page ) || 'admin.php' == $parent_page ) {
-		if ( isset( $admin_page_hooks[$plugin_page] ))
+	if ( empty ( $parent_page ) || 'admin.php' == $parent_page || isset( $admin_page_hooks[$plugin_page] ) ) {
+		if ( isset( $admin_page_hooks[$plugin_page] ) )
 			$page_type = 'toplevel';
 		else
 			if ( isset( $admin_page_hooks[$parent] ))

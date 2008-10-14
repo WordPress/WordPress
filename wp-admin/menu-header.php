@@ -51,12 +51,12 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 				$class[] = 'current';
 		}
 
-		if ( isset($item[3]) && ! empty($item[3]) )
-			$class[] = $item[3];
+		if ( isset($item[4]) && ! empty($item[4]) )
+			$class[] = $item[4];
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
-		$id = isset($item[4]) && ! empty($item[4]) ? ' id="' . $item[4] . '"' : '';
-		$img = isset($item[5]) && ! empty($item[5]) ? '<img class="wp-menu-image" src="' . $item[5] . '" alt="" />' : '';
+		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . $item[5] . '"' : '';
+		$img = isset($item[6]) && ! empty($item[6]) ? '<img class="wp-menu-image" src="' . $item[6] . '" alt="" />' : '';
 
 		echo "\n\t<li$class$id>";
 
