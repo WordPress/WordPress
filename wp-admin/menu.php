@@ -25,7 +25,7 @@ $awaiting_mod = wp_count_comments();
 $awaiting_mod = $awaiting_mod->moderated;
 
 $menu[0] = array( __('Dashboard'), 'read', 'index.php', 'wp-menu-open', 'menu-dashboard', 'images/menu/home.png' );
-	$submenu['index.php'][5]  = array( __('Overview'), 'read' , 'index.php' );
+	$submenu['index.php'][5]  = array( __('Dashboard'), 'read' , 'index.php' );
 
 $menu[4] = array( '', 'read', '', 'wp-menu-separator' );
 
@@ -51,7 +51,7 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'page-new.php', '', 'menu-pages', 
 	$submenu['page-new.php'][15] = array( __('Edit'), 'edit_pages', 'edit-pages.php' );
 
 $menu[25] = array( __('Comments'), 'edit_posts', 'edit-comments.php', '', 'menu-comments', 'images/menu/comments.png' );
-	$submenu['edit-comments.php'][15] = array( __('Moderate'), 'edit_posts', 'edit-comments.php' );
+	$submenu['edit-comments.php'][15] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );
 
 $menu[29] = array( '', 'read', '', 'wp-menu-separator' );
 
