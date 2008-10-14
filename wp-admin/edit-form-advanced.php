@@ -533,25 +533,6 @@ else
 
 <div id="poststuff" class="metabox-holder">
 
-<div id="side-info" style="display: none;"><?php // TODO ?>
-
-<h5><?php _e('Related') ?></h5>
-<ul>
-<?php if ($post_ID): ?>
-<li><a href="edit.php?p=<?php echo $post_ID ?>"><?php _e('See Comments on this Post') ?></a></li>
-<?php endif; ?>
-<li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
-<li><a href="edit.php"><?php _e('Manage All Posts') ?></a></li>
-<li><a href="categories.php"><?php _e('Manage All Categories') ?></a></li>
-<li><a href="edit-tags.php"><?php _e('Manage All Tags') ?></a></li>
-<li><a href="edit.php?post_status=draft"><?php _e('View Drafts'); ?></a></li>
-<?php do_action('post_relatedlinks_list'); ?>
-</ul>
-
-<h5><?php _e('Shortcuts') ?></h5>
-<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?>  <a href="<?php echo get_shortcut_link(); ?>" title="<?php echo attribute_escape(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
-</div>
-
 <div id="side-info-column" class="inner-sidebar">
 
 <?php do_action('submitpost_box'); ?>

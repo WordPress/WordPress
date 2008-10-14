@@ -383,40 +383,6 @@ if (isset($mode) && 'bookmarklet' == $mode)
 <input name="referredby" type="hidden" id="referredby" value="<?php echo clean_url(stripslashes(wp_get_referer())); ?>" />
 <?php if ( 'draft' != $post->post_status ) wp_original_referer_field(true, 'previous'); ?>
 
-<!-- TODO
-<div class="inside">
-<p><strong><label for='post_status'><?php _e('Publish Status') ?></label></strong></p>
-<p>
-<select name='post_status' tabindex='4' id='post_status'>
-<?php // Show publish in dropdown if user can publish or if they can re-publish this page ('edit_published_pages')
-// 'publish' option will be selected for published AND private posts (checkbox overrides dropdown)
-if ( current_user_can('publish_pages') OR ( $post->post_status == 'publish' AND current_user_can('edit_page', $post->ID) ) ) : 
-?>
-<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
-<?php endif; ?>
-<?php if ( 'future' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Pending') ?></option>
-<?php endif; ?>
-<option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
-<option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
-</select>
-</p>
-<?php if ( current_user_can( 'publish_posts' ) ) : ?> 
-<p><label for="post_status_private2" class="selectit"><input id="post_status_private2" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
-<?php endif; ?>
-
-<h5><?php _e('Related') ?></h5>
-<ul>
-<?php if ($post_ID): ?>
-<li><a href="edit-pages.php?page_id=<?php echo $post_ID ?>"><?php _e('See Comments on this Page') ?></a></li>
-<?php endif; ?>
-<li><a href="edit-comments.php"><?php _e('Manage All Comments') ?></a></li>
-<li><a href="edit-pages.php"><?php _e('Manage All Pages') ?></a></li>
-<?php do_action('page_relatedlinks_list'); ?>
-</ul>
-
--->
-
 <div id="poststuff" class="metabox-holder">
 
 <div id="side-info-column" class="inner-sidebar">
