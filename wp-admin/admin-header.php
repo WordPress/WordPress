@@ -93,7 +93,10 @@ $settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edi
 <?php } ?></h1>
 </div>
 
-<div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s">%2$s</a>!'), 'profile.php', $user_identity) ?> <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p></div>
+<div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?> |
+<?php _e('<a href="http://codex.wordpress.org/">Documentation</a>'); ?> |
+<?php _e('<a href="http://wordpress.org/support/forum/4">Feedback</a>'); ?> |
+<a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p></div>
 <?php
 require(ABSPATH . 'wp-admin/menu-header.php');
 ?>
