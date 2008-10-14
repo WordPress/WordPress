@@ -52,7 +52,7 @@ input.disabled, textarea.disabled {
 }
 
 li.widget-list-control-item h4.widget-title a:hover,
-#dashmenu a:hover, #footer a, #upload-menu li a.upload-tab-link, 
+#footer a, #upload-menu li a.upload-tab-link, 
 li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited,
@@ -164,7 +164,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #d54e21;
 }
 
-.howto, .nonessential, #dashmenu a, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
+.howto, .nonessential, #edit-slug-box, .form-input-tip, #dashboard_primary span.rss-date, .subsubsub, #dashboard_secondary div.dashboard-widget-content ul li a cite {
 	color: #999;
 }
 
@@ -565,7 +565,7 @@ input.readonly {
 	border-top-color: #247fab;
 }
 
-.login #backtoblog a, #dashmenu a {
+.login #backtoblog a {
 	color: #ccc;
 }
 

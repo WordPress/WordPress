@@ -28,9 +28,6 @@ div#dashboard-widgets {
 	margin: 0 5px 0 0;
 }
 /* ---------- add by navid */
-#dashmenu { /* fix top right bottom in admin */
-	direction:ltr;
-}
 #sidemenu a { /* fix left admin buttom ex. plugins, options */
 	float:left;
 }
