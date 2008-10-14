@@ -166,6 +166,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	$user_home = @parse_url(get_option('home'));
 	if ( isset($user_home['host']) )
 		$redirect['host'] = $user_home['host'];
+	if ( !isset($user_home['path']) )
+		$user_home['path'] = '/';
 
 	// Handle ports
 	if ( isset($user_home['port']) )
@@ -239,7 +241,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		if ( isset($redirect['port']) )
 		 	$redirect_url .= ':' . $redirect['port'];
 		$redirect_url .= $redirect['path'];
-		if ( $redirect['query'] )
+		if ( isset($redirect['query']) )
 			$redirect_url .= '?' . $redirect['query'];
 	}
 

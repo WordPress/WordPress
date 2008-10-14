@@ -28,10 +28,8 @@
 function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
 	// If the file is relative, prepend upload dir
-	if ( 0 !== strpos($file, '/') ) {
-		$uploads = wp_upload_dir();
+	if ( 0 !== strpos($file, '/') && ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) )
 		$file = $uploads['basedir'] . "/$file";
-	}
 	 	
 	if ( $unfiltered )
 		return $file;
