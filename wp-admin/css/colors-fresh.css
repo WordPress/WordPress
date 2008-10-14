@@ -5,7 +5,7 @@
 	border-color: #c6d9e9;
 }
 
-#wpbody-content {
+#wphead {
 	border-color: #c6d9e9;
 }
 
@@ -782,7 +782,7 @@ table.diff .diff-addedline ins {
 	background-color: #99ff99;
 }
 
-#adminmenu,
+#adminmenu li,
 #att-info {
 	background-color: #E4F2FD;
 }

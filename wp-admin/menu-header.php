@@ -34,7 +34,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow;
 
 	$first = true;
-	// 0 = name, 1 = capability, 2 = file, 3 = class
+	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = image src
 	foreach ( $menu as $key => $item ) {
 		$class = array();
 		if ( $first ) {
@@ -51,26 +51,31 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 				$class[] = 'current';
 		}
 
-		if ( isset($item[3]) )
+		if ( isset($item[3]) && ! empty($item[3]) )
 			$class[] = $item[3];
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
+		$id = isset($item[4]) && ! empty($item[4]) ? ' id="' . $item[4] . '"' : '';
+		$img = isset($item[5]) && ! empty($item[5]) ? '<img class="wp-menu-image" src="' . $item[5] . '" alt="" />' : '';
 
-		echo "\n\t<li$class>";
+		echo "\n\t<li$class$id>";
 
-		if ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
+		if ( false !== strpos($class, 'wp-menu-separator') ) {
+			echo '<br />';
+		} elseif ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 			if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-				echo "<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				echo "$img<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 			else
-				echo "\n\t<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
-			if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) )
-				echo "\n\t<a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
-			else
-				echo "\n\t<a href='{$item[2]}'$class>{$item[0]}</a>";
+			if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) ) {
+				echo "\n\t$img<a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
+			} else {
+				echo "\n\t$img<a href='{$item[2]}'$class>{$item[0]}</a>";
+			}
 		}
 
 		if ( !empty($submenu[$item[2]]) ) {
@@ -98,14 +103,14 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 
 				if ( file_exists(WP_PLUGIN_DIR . "/{$sub_item[2]}") || ! empty($menu_hook) ) {
 					if ( 'admin.php' == $pagenow || !file_exists(WP_PLUGIN_DIR . "/$parent_file") )
-						echo "\n\t\t<li$class><a href='admin.php?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+						echo "<li$class><a href='admin.php?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
 					else
-						echo "\n\t\t<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
 				} else {
-					echo "\n\t\t<li$class><a href='{$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+					echo "<li$class><a href='{$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
 				}
 			}
-			echo "\n\t</ul>";
+			echo "</ul>";
 		}
 		echo "</li>";
 	}

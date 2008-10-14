@@ -5,7 +5,7 @@
 	border-color: #c6d9e9;
 }
 
-#wpbody-content {
+#wphead {
 	border-color: #c6d9e9;
 }
 
@@ -367,6 +367,10 @@ h3.dashboard-widget-title small a:hover {
 	border-bottom-color: #fff;
 	color: #d54e21;
 	font-weight: bold;
+}
+
+#adminmenu li {
+	color: #14568A;
 }
 
 #adminmenu li.current {

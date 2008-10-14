@@ -7,9 +7,7 @@ div#wpbody {
 }
 
 div#wpbody-content {
-	margin-left: 137px;
-	border-top-width: 1px;
-	border-top-style: solid;
+	margin-left: 140px;
 	padding-top: 10px;
 }
 
@@ -26,7 +24,8 @@ div#sidemenu-bg {
 ul#adminmenu {
 	float: left;
 	clear: left;
-	width: 125px; /* + 10 padding */
+	margin: 10px 8px;
+	width: 135px; /* + 10 padding */
 	position: relative;
 }
 

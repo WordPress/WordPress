@@ -4,11 +4,10 @@
 	padding-left: 23px;
 }
 
-#submenu li a.current {
-	background:none;
-	border:none;
+input.button, input.button-secondary, input.button-highlighted {
+	padding: 0;
 }
-
+/*
 * html body.minwidth {
 	_width: expression(document.documentElement.clientWidth < 810 ? "808px" : "99.9%");
 }
@@ -16,6 +15,44 @@
 * html #wpbody {
 	_width: expression(document.documentElement.clientWidth > 982 ? "980px" : "99.9%");
 }
+*/
+
+#adminmenu li.wp-has-submenu {
+	margin-top: 2px;
+}
+
+#adminmenu.folded li.wp-has-submenu {
+	height: 24px;
+}
+
+* html #wpcontent #adminmenu ul.wp-submenu li {
+	margin: 0;
+	padding: 0;
+}
+
+* html #wpcontent #adminmenu ul.wp-submenu a {
+	padding: 2px 4px 2px 8px;
+	margin: 0;
+	line-height: 20px;
+}
+
+* html #wpcontent #adminmenu ul.wp-submenu li a.current,
+* html #wpcontent #adminmenu ul.wp-submenu li.current {
+	border: 0;
+	background-color: #fff;
+}
+
+ul#adminmenu li.wp-menu-separator {
+	background-color: #fff;
+	height: 5px;
+	width: 1px;
+	line-height: 5px;
+	font-size: 5px;
+	padding: 0;
+	margin: 0;
+}
+
+
 
 * html #poststuff .postarea, * html #poststuff #titlediv {
 	width: 95%;

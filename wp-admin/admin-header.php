@@ -70,7 +70,6 @@ unset($hook_suffixes, $hook_suffix);
 </head>
 <body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ); ?>">
 <div id="wpwrap">
-<div id="sidemenu-bg"><br /></div>
 <div id="wpcontent">
 <div id="wphead">
 <?php
