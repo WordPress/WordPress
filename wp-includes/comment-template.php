@@ -936,8 +936,11 @@ function cancel_comment_reply_link($text = '') {
  *
  * @since 2.7.0
  */
-function comment_parent_field() {
+function comment_id_fields() {
+	global $id;
+
 	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
+	echo "<input type='hidden' name='comment_post_ID' value='$id' />\n";
 	echo "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
 }
 
