@@ -1249,7 +1249,11 @@ function _post_row($a_post, $pending_comments, $mode) {
 				echo apply_filters('post_date_column_time', $t_time, $post, $column_name, $mode);
 			else
 				echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) . '</abbr>';
-
+			echo '<br />';
+			if ( 'publish' == $post->post_status || 'future' == $post->post_status )
+				_e('Published');
+			else
+				_e('Last Modified');
 			echo '</td>';
 		break;
 
@@ -1431,9 +1435,14 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 				$h_time = mysql2date(__('Y/m/d'), $m_time);
 			}
 		}
-		?>
-		<td <?php echo $attributes ?>><abbr title="<?php echo $t_time ?>"><?php echo $h_time ?></abbr></td>
-		<?php
+		echo '<td ' . $attributes . '>';
+		echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $page, $column_name, $mode) . '</abbr>';
+		echo '<br />';
+		if ( 'publish' == $page->post_status || 'future' == $page->post_status )
+			_e('Published');
+		else
+			_e('Last Modified');
+		echo '</td>';
 		break;
 	case 'title':
 		$attributes = 'class="post-title page-title column-title"' . $style;
