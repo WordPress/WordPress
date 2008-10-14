@@ -50,8 +50,14 @@ include('./admin-header.php');
 
 <div class="wrap">
 <form method="post" action="options.php">
-<?php wp_nonce_field('general-options') ?>
 <input type='hidden' name='option_page' value='general' />
+<input type="hidden" name="action" value="update" />
+<?php wp_nonce_field('general-options') ?>
+
+<p class="submit">
+<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+</p>
+
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="blogname"><?php _e('Blog Title') ?></label></th>
@@ -206,8 +212,8 @@ endfor;
 
 <?php do_settings_sections('general'); ?>
 
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
-<input type="hidden" name="action" value="update" />
+<p class="submit">
+<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>
 

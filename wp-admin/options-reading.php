@@ -19,6 +19,12 @@ include('admin-header.php');
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('reading-options') ?>
 <input type='hidden' name='option_page' value='reading' />
+<input type="hidden" name="action" value="update" />
+
+<p class="submit">
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+</p>
+
 <table class="form-table">
 <?php if ( get_pages() ): ?>
 <tr valign="top">
@@ -74,8 +80,7 @@ include('admin-header.php');
 <?php do_settings_fields('reading', 'default'); ?>
 </table>
 <p class="submit">
-<input type="hidden" name="action" value="update" />
-<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>
 </div>

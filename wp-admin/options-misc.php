@@ -19,7 +19,13 @@ include('admin-header.php');
 <div class="wrap">
 <form method="post" action="options.php">
 <input type='hidden' name='option_page' value='misc' />
+<input type="hidden" name="action" value="update" />
 <?php wp_nonce_field('misc-options') ?>
+
+<p class="submit">
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
+</p>
+
 <h3><?php _e('Uploading'); ?></h3>
 <table class="form-table">
 <tr valign="top">
@@ -72,9 +78,9 @@ include('admin-header.php');
 <?php do_settings_sections('misc'); ?>
 
 <p class="submit">
-<input type="hidden" name="action" value="update" />
-<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
 </p>
+
 </form>
 </div>
 

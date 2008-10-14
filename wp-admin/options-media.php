@@ -19,6 +19,15 @@ include('admin-header.php');
 <div class="wrap">
 
 <form action="options.php" method="post">
+<input type="hidden" name="action" value="update" />
+<?php wp_nonce_field( 'media-options' ); ?>
+<input type='hidden' name='option_page' value='media' />
+<input type="hidden" name="page_options" value="thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h,image_default_size,image_default_align,image_default_link_type,large_size_w,large_size_h" /> <!-- is this needed anymore TODO -->
+
+<p class="submit">
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+</p>
+
 <p><?php _e('The setting below determines where images, documents, and other media files will be linked to when inserted into the body of a post.'); ?></p>
 
 <table class="form-table">
@@ -116,10 +125,6 @@ include('admin-header.php');
 <?php do_settings_sections('media'); ?>
 
 <p class="submit">
-	<input type="hidden" name="action" value="update" />
-	<?php wp_nonce_field( 'media-options' ); ?>
-	<input type='hidden' name='option_page' value='media' />
-	<input type="hidden" name="page_options" value="thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h,image_default_size,image_default_align,image_default_link_type,large_size_w,large_size_h" />
 	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 

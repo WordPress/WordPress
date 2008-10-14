@@ -18,7 +18,13 @@ include('admin-header.php');
 <div class="wrap">
 <form method="post" action="options.php">
 <input type='hidden' name='option_page' value='discussion' />
+<input type="hidden" name="action" value="update" />
 <?php wp_nonce_field('discussion-options') ?>
+
+<p class="submit">
+<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+</p>
+
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e('Default article settings') ?></th>
@@ -172,7 +178,6 @@ echo apply_filters('default_avatar_select', $avatar_list);
 <?php do_settings_sections('discussion'); ?>
 
 <p class="submit">
-<input type="hidden" name="action" value="update" />
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>

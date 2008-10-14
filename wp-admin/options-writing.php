@@ -19,6 +19,12 @@ include('admin-header.php');
 <form method="post" action="options.php">
 <?php wp_nonce_field('writing-options') ?>
 <input type='hidden' name='option_page' value='writing' />
+<input type="hidden" name="action" value="update" />
+
+<p class="submit">
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+</p>
+
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="default_post_edit_rows"> <?php _e('Size of the post box') ?></label></th>
@@ -142,8 +148,7 @@ endforeach;
 <?php do_settings_sections('writing'); ?>
 
 <p class="submit">
-<input type="hidden" name="action" value="update" />
-<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 </form>
 </div>
