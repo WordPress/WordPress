@@ -39,7 +39,7 @@
 function redirect_canonical($requested_url=null, $do_redirect=true) {
 	global $wp_rewrite, $is_IIS, $wp_query, $wpdb;
 
-	if ( is_feed() || is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() || is_robots() )
+	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || $is_IIS || ( isset($_POST) && count($_POST) ) || is_preview() || is_robots() )
 		return;
 
 	if ( !$requested_url ) {
@@ -117,26 +117,36 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg('author', $redirect['author']);
 		}
 
-	// paging
-		if ( $paged = get_query_var('paged') ) {
-			if ( $paged > 0 ) {
-				if ( !$redirect_url )
-					$redirect_url = $requested_url;
-				$paged_redirect = @parse_url($redirect_url);
-				$paged_redirect['path'] = preg_replace('|/page/[0-9]+?(/+)?$|', '/', $paged_redirect['path']); // strip off any existing paging
-				$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']); // strip off trailing /index.php/
+	// paging and feeds
+		if ( get_query_var('paged') || is_feed() ) {
+			if ( !$redirect_url )
+				$redirect_url = $requested_url;
+			$paged_redirect = @parse_url($redirect_url);
+			while ( preg_match( '#page/[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/feed(/[a-z0-9-]*?(/+)?)?$#', $paged_redirect['path'] ) ) {
+				// Strip off paging and feed
+				$paged_redirect['path'] = preg_replace('#/page/[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing paging
+				$paged_redirect['path'] = preg_replace('#/feed(/[a-z0-9-]*?(/+)?)?$#', '/', $paged_redirect['path']); // strip off any existing feed
+			}
+
+			$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']); // strip off trailing /index.php/
+			if ( get_query_var('paged') > 0 ) {
+				$paged = get_query_var('paged');
 				if ( $paged > 1 && !is_single() ) {
 					$paged_redirect['path'] = trailingslashit($paged_redirect['path']);
 					if ( $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
 						$paged_redirect['path'] .= 'index.php/';
 					$paged_redirect['path'] .= user_trailingslashit("page/$paged", 'paged');
-				} elseif ( !is_home() && !is_single() ){
+				} elseif ( !is_single() ) {
 					$paged_redirect['path'] = user_trailingslashit($paged_redirect['path'], 'paged');
 				}
-				$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
-				$redirect['path'] = $paged_redirect['path'];
 			}
-			$redirect['query'] = remove_query_arg('paged', $redirect['query']);
+			if ( is_feed() ) {
+				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'feed/' . ( ( 'rss2' ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
+			}
+			$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
+			$redirect['path'] = $paged_redirect['path'];
+			$redirect['query'] = remove_query_arg( 'paged', $redirect['query'] );
+			$redirect['query'] = remove_query_arg(  'feed', $redirect['query'] );
 		}
 	}
 
@@ -248,6 +258,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			wp_redirect($redirect_url, 301);
 			exit();
 		} else {
+			// Debug
+			// die("1: $redirect_url<br />2: " . redirect_canonical( $redirect_url, false ) );
 			return false;
 		}
 	} else {
