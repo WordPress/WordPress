@@ -687,13 +687,12 @@ function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['title'] = __('Title');
-	$posts_columns['date'] = __('Date');
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
 	if ( !isset($_GET['post_status']) || !in_array($_GET['post_status'], array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
-	$posts_columns['status'] = __('Status');
+	$posts_columns['date'] = __('Date');
 	$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
 	return $posts_columns;
@@ -735,11 +734,10 @@ function wp_manage_pages_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['title'] = __('Title');
-	$posts_columns['date'] = __('Date');
 	$posts_columns['author'] = __('Author');
 	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
-	$posts_columns['status'] = __('Status');
+	$posts_columns['date'] = __('Date');
 	$posts_columns = apply_filters('manage_pages_columns', $posts_columns);
 
 	return $posts_columns;
@@ -945,6 +943,26 @@ function inline_edit_row( $type ) {
 				</div>
 				<?php } ?>
 
+				<div class="status quick-edit-div" title="<?php _e('Status'); ?>">
+					<div class="title"><?php _e('Status'); ?></div>
+					<div class="in">
+					<select name="_status">
+						<?php if ( $bulk ) { ?>
+						<option value="-1"><?php _e('- No Change -'); ?></option>
+							<?php if ( $can_publish ) { ?>
+							<option value="private"><?php _e('Private') ?></option>
+							<?php } ?>
+						<?php } ?>
+						<?php if ( $can_publish ) { // Contributors only get "Unpublished" and "Pending Review" ?>
+						<option value="publish"><?php _e('Published') ?></option>
+						<option value="future"><?php _e('Scheduled') ?></option>
+						<?php } ?>
+						<option value="pending"><?php _e('Pending Review') ?></option>
+						<option value="draft"><?php _e('Unpublished') ?></option>
+					</select>
+					</div>
+				</div>
+
 				<?php if ( $is_page ) { ?>
 				<div class="parent quick-edit-div" title="<?php _e('Page Parent'); ?>">
 					<div class="title"><?php _e('Page Parent'); ?></div>
@@ -1056,38 +1074,6 @@ function inline_edit_row( $type ) {
 					<input type="text" name="post_password" value="" />
 					<label title="<?php _e('Privacy'); ?>">
 					<input type="checkbox" name="keep_private" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php echo $is_page ? __('Keep this page private') : __('Keep this post private'); ?></label>
-					</div>
-				</div>
-				<?php }
-				break;
-
-			case 'status': ?>
-				<div <?php echo $attributes ?> title="<?php _e('Status'); ?>">
-					<div class="title"><?php _e('Status'); ?></div>
-					<div class="in">
-					<select name="_status">
-						<?php if ( $bulk ) { ?>
-						<option value="-1"><?php _e('- No Change -'); ?></option>
-							<?php if ( $can_publish ) { ?>
-							<option value="private"><?php _e('Private') ?></option>
-							<?php } ?>
-						<?php } ?>
-						<?php if ( $can_publish ) { // Contributors only get "Unpublished" and "Pending Review" ?>
-						<option value="publish"><?php _e('Published') ?></option>
-						<option value="future"><?php _e('Scheduled') ?></option>
-						<?php } ?>
-						<option value="pending"><?php _e('Pending Review') ?></option>
-						<option value="draft"><?php _e('Unpublished') ?></option>
-					</select>
-					</div>
-				</div>
-
-				<?php if ( ! $is_page && ! $bulk && current_user_can( 'edit_others_posts' ) ) { ?>
-				<div class="sticky quick-edit-div" <?php echo $style; ?> title="<?php _e('Sticky') ?>">
-					<div class="title"><?php _e('Sticky'); ?></div>
-					<div class="in">
-					<label title="<?php _e('Sticky') ?>">
-					<input type="checkbox" name="sticky" value="sticky" /> <?php _e('Stick this post to the front page') ?></label>
 					</div>
 				</div>
 				<?php }
@@ -1275,7 +1261,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 		?>
 		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $post->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $title ?></a><?php } else { echo $title; } ?></strong>
 		<?php
-			if ( !empty($post->post_password) ) { _e(' &#8212; <strong>Protected</strong>'); } elseif ('private' == $post->post_status) { _e(' &#8212; <strong>Private</strong>'); }
+			_post_states($post);
 
 			if ( 'excerpt' == $mode )
 				the_excerpt();
@@ -1354,32 +1340,6 @@ function _post_row($a_post, $pending_comments, $mode) {
 		case 'author':
 		?>
 		<td <?php echo $attributes ?>><a href="edit.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
-		<?php
-		break;
-
-		case 'status':
-		?>
-		<td <?php echo $attributes ?>>
-		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
-		<?php
-			switch ( $post->post_status ) {
-				case 'publish' :
-				case 'private' :
-					_e('Published');
-					break;
-				case 'future' :
-					_e('Scheduled');
-					break;
-				case 'pending' :
-					_e('Pending Review');
-					break;
-				case 'draft' :
-					_e('Unpublished');
-					break;
-			}
-		?>
-		</a>
-		</td>
 		<?php
 		break;
 
@@ -1487,7 +1447,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		?>
 		<td <?php echo $attributes ?>><strong><?php if ( current_user_can( 'edit_post', $page->ID ) ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $title)); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; } ?></strong>
 		<?php
-		if ( !empty($post->post_password) ) { _e(' &#8212; <strong>Protected</strong>'); } elseif ('private' == $post->post_status) { _e(' &#8212; <strong>Private</strong>'); }
+		_post_states($page);
 
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
@@ -1528,32 +1488,6 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 	case 'author':
 		?>
 		<td <?php echo $attributes ?>><a href="edit-pages.php?author=<?php the_author_ID(); ?>"><?php the_author() ?></a></td>
-		<?php
-		break;
-
-	case 'status':
-		?>
-		<td <?php echo $attributes ?>>
-		<a href="<?php the_permalink(); ?>" title="<?php echo attribute_escape(sprintf(__('View "%s"'), $title)); ?>" rel="permalink">
-		<?php
-		switch ( $page->post_status ) {
-			case 'publish' :
-			case 'private' :
-				_e('Published');
-				break;
-			case 'future' :
-				_e('Scheduled');
-				break;
-			case 'pending' :
-				_e('Pending Review');
-				break;
-			case 'draft' :
-				_e('Unpublished');
-				break;
-		}
-		?>
-		</a>
-		</td>
 		<?php
 		break;
 
@@ -3112,6 +3046,35 @@ function iframe_footer() {
 	echo '
 	</body>
 </html>';
+}
+
+function _post_states($post) {
+	$post_states = array();
+	if ( isset($_GET['post_status']) )
+		$post_status = $_GET['post_status'];
+	else
+		$post_status = '';
+
+	if ( !empty($post->post_password) )
+		$post_states[] = __('Protected');
+	if ( 'private' == $post->post_status && 'private' != $post_status )
+		$post_states[] = __('Private');
+	if ( 'draft' == $post->post_status && 'draft' != $post_status )
+		$post_states[] = __('Draft');
+	if ( 'pending' == $post->post_status && 'pending' != $post_status )
+		$post_states[] = __('Pending');
+
+	if ( ! empty($post_states) ) {
+		$state_count = count($post_states);
+		$i = 0;
+		echo '<div id="post-states">';
+		foreach ( $post_states as $state ) {
+			++$i;
+			( $i == $state_count ) ? $sep = '' : $sep = ', ';
+			echo "<span class='post-state'>$state$sep</span>";
+		}
+		echo '</div>';
+	}
 }
 
 ?>
