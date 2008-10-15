@@ -94,6 +94,12 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		<?php
 		break;
 
+	case 'author':
+		?>
+		<td <?php echo $attributes ?>><?php the_author() ?></td>
+		<?php
+		break;
+
 	case 'tags':
 		?>
 		<td <?php echo $attributes ?>><?php

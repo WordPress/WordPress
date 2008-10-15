@@ -707,14 +707,13 @@ function wp_manage_media_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['icon'] = '';
-	$posts_columns['media'] = _c('Media|media column header');
+	$posts_columns['media'] = _c('File|media column header');
+	$posts_columns['author'] = __('Author');
 	$posts_columns['tags'] = _c('Tags|media column header');
-//	$posts_columns['desc'] = _c('Description|media column header');
-	$posts_columns['date'] = _c('Date Added|media column header');
-	$posts_columns['parent'] = _c('Appears with|media column header');
+	$posts_columns['parent'] = _c('Attached to|media column header');
 	//$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['comments'] = __('Comments');
-//	$posts_columns['actions'] = _c('Actions|media column header');
+	$posts_columns['date'] = _c('Date|media column header');
 	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
 
 	return $posts_columns;
