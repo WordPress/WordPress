@@ -2031,8 +2031,10 @@ function wp_sprintf_l($pattern, $args) {
 	if ( count($args) == 1 )
 		$result .= $l['between_only_two'] . array_shift($args);
 	// Loop when more than two args
-	while ( count($args) ) {
+	$i = count($args);
+	while ( $i ) {
 		$arg = array_shift($args);
+		$i--;
 		if ( $i == 1 )
 			$result .= $l['between_last_two'] . $arg;
 		else
