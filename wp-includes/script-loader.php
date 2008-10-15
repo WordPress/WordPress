@@ -35,12 +35,9 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  * @param object $scripts WP_Scripts object.
  */
 function wp_default_scripts( &$scripts ) {
-	global $current_user;
-
 	if (!$guessurl = site_url())
 		$guessurl = wp_guess_url();
 
-	$userid = isset($current_user) ? $current_user->ID : 0;
 	$scripts->base_url = $guessurl;
 	$scripts->default_version = get_bloginfo( 'version' );
 
@@ -263,11 +260,6 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
 
 		$scripts->add( 'user-settings', '/wp-admin/js/user-settings.js', array(), '20080829' );
-		$scripts->localize( 'user-settings', 'userSettings', array(
-			'url' => SITECOOKIEPATH,
-			'uid' => $userid,
-			'time' => time()
-		) );
 
 		$scripts->add( 'posts', '/wp-admin/js/posts.js', array('columns', 'settings-box'), '20080925' );
 		$scripts->add( 'pages', '/wp-admin/js/pages.js', array('columns', 'settings-box'), '20080925' );
@@ -378,12 +370,21 @@ function wp_prototype_before_jquery( $js_array ) {
  * @since 2.5.0
  */
 function wp_just_in_time_script_localization() {
+	global $current_user;
+
 	wp_localize_script( 'autosave', 'autosaveL10n', array(
 		'autosaveInterval' => AUTOSAVE_INTERVAL,
 		'previewPageText' => __('Preview this Page'),
 		'previewPostText' => __('Preview this Post'),
 		'requestFile' => admin_url('admin-ajax.php'),
 		'savingText' => __('Saving Draft&#8230;')
+	) );
+
+	$userid = isset($current_user) ? $current_user->ID : 0;
+	wp_localize_script( 'user-settings', 'userSettings', array(
+		'url' => SITECOOKIEPATH,
+		'uid' => $userid,
+		'time' => time()
 	) );
 }
 
