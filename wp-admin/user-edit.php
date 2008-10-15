@@ -134,9 +134,10 @@ check_admin_referer('update-user_' . $user_id);
 if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('You do not have permission to edit this user.'));
 
-if ( $is_profile_page ) {
+if ($is_profile_page)
 	do_action('personal_options_update');
-}
+else
+	do_action('edit_user_profile_update');
 
 $errors = edit_user($user_id);
 
