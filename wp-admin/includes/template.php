@@ -1683,7 +1683,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
-		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this user '%s'\n 'Cancel' to stop, 'OK' to delete."), $user_object->user_login )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
+		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
 		foreach ( $actions as $action => $link ) {
