@@ -14,10 +14,12 @@ wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script( 'admin-forms' );
 wp_enqueue_script( 'jquery-table-hotkeys' );
 
-if ( isset( $_POST['delete_all_spam'] ) || isset( $_POST['delete_all_spam2'] ) ) {
+if ( ( isset( $_POST['delete_all_spam'] ) || isset( $_POST['delete_all_spam2'] ) ) && !empty( $_POST['pagegen_timestamp'] ) ) {
 	check_admin_referer('bulk-spam-delete');
 
-	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam'" );
+	$formtime = (int) $_POST['pagegen_timestamp'];
+
+	$deleted_spam = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND comment_date_gmt < FROM_UNIXTIME(%d)", $formtime ) );
 	wp_redirect('edit-comments.php?deleted=' . (int) $deleted_spam);
 }
 
@@ -208,6 +210,7 @@ $page_links = paginate_links( array(
 <form id="comments-form" action="" method="post">
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 <input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
+<input type="hidden" name="pagegen_timestamp" value="<?php echo current_time( 'timestamp', TRUE ); ?>" />
 
 <div class="tablenav">
 
