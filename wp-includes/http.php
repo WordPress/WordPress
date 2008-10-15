@@ -183,15 +183,18 @@ class WP_Http {
 		global $wp_version;
 
 		$defaults = array(
-			'method' => 'GET', 'timeout' => apply_filters('http_request_timeout', 3),
-			'redirection' => 5, 'httpversion' => '1.0',
-			'user-agent' => apply_filters('http_headers_useragent', 'WordPress/' . $wp_version ),
+			'method' => 'GET',
+			'timeout' => apply_filters( 'http_request_timeout', 5),
+			'redirection' => apply_filters( 'http_request_redirection_count', 5),
+			'httpversion' => apply_filters( 'http_request_version', '1.0'),
+			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version ),
 			'blocking' => true,
 			'headers' => array(), 'body' => null
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-
+		$r = apply_filters( 'http_request_args', $r );
+		
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
 
@@ -423,7 +426,7 @@ class WP_Http_Fsockopen {
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 3,
+			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
 			'blocking' => true,
 			'headers' => array(), 'body' => null
@@ -597,7 +600,7 @@ class WP_Http_Fopen {
 		global $http_response_header;
 
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 3,
+			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
 			'blocking' => true,
 			'headers' => array(), 'body' => null
@@ -691,7 +694,7 @@ class WP_Http_Streams {
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 3,
+			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
 			'blocking' => true,
 			'headers' => array(), 'body' => null
@@ -815,7 +818,7 @@ class WP_Http_ExtHTTP {
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 3,
+			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
 			'blocking' => true,
 			'headers' => array(), 'body' => null
@@ -832,15 +835,13 @@ class WP_Http_ExtHTTP {
 		}
 
 		switch ( $r['method'] ) {
-			case 'GET':
-				$r['method'] = HTTP_METH_GET;
-				break;
 			case 'POST':
 				$r['method'] = HTTP_METH_POST;
 				break;
 			case 'HEAD':
 				$r['method'] = HTTP_METH_HEAD;
 				break;
+			case 'GET':
 			default:
 				$r['method'] = HTTP_METH_GET;
 		}
@@ -924,7 +925,7 @@ class WP_Http_Curl {
 	 */
 	function request($url, $args = array()) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 3,
+			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
 			'blocking' => true,
 			'headers' => array(), 'body' => null
