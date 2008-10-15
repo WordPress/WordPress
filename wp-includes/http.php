@@ -977,7 +977,7 @@ class WP_Http_Curl {
 
 		$theResponse = curl_exec( $handle );
 
-		if ( $theResponse ) {
+		if ( !empty($theResponse) ) {
 			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
 			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
 			$theBody = substr( $theResponse, $headerLength );
@@ -987,8 +987,11 @@ class WP_Http_Curl {
 			}
 			$theHeaders = WP_Http::processHeaders($theHeaders);
 		} else {
+			if ( $curl_error = curl_error($handle) )
+				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
+			
 			$theHeaders = array( 'headers' => array() );
 			$theBody = '';
 		}

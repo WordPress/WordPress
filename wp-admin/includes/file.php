@@ -423,20 +423,26 @@ function wp_handle_sideload( &$file, $overrides = false ) {
  */
 function download_url( $url ) {
 	//WARNING: The file is not automatically deleted, The script must unlink() the file.
-	if( ! $url )
+	if ( ! $url )
 		return new WP_Error('http_no_url', __('Invalid URL Provided'));
 
 	$tmpfname = wp_tempnam($url);
-	if( ! $tmpfname )
+	if ( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
 	$handle = @fopen($tmpfname, 'w');
-	if( ! $handle )
+	if ( ! $handle )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
 	$response = wp_remote_get($url);
 
-	if( $response['response']['code'] != '200' ){
+	if ( is_wp_error($response) ) {
+		fclose($handle);
+		unlink($tmpfname);
+		return $response;
+	}
+
+	if ( $response['response']['code'] != '200' ){
 		fclose($handle);
 		unlink($tmpfname);
 		return new WP_Error('http_404', trim($response['response']['message']));
