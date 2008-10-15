@@ -95,6 +95,8 @@ $menu[50] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 	$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
 	$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
 
+$menu[55] = array( '', 'read', '', '', 'wp-menu-separator' );
+
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'post-new.php'; 
 $_wp_real_parent_file['edit.php'] = 'post-new.php';

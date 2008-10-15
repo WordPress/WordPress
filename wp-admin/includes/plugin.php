@@ -492,7 +492,7 @@ function uninstall_plugin($plugin) {
 // Menu
 //
 
-function add_menu_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+function add_menu_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '' ) {
 	global $menu, $admin_page_hooks;
 
 	$file = plugin_basename( $file );
@@ -503,7 +503,10 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	if (!empty ( $function ) && !empty ( $hookname ))
 		add_action( $hookname, $function );
 
-	$menu[] = array ( $menu_title, $access_level, $file, $page_title, $hookname, $hookname );
+	if ( empty($icon_url) )
+		$icon_url = 'images/menu/generic.png';
+	
+	$menu[] = array ( $menu_title, $access_level, $file, $page_title, $hookname, $hookname, $icon_url );
 
 	return $hookname;
 }

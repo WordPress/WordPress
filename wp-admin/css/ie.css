@@ -21,39 +21,42 @@ input.button, input.button-secondary, input.button-highlighted {
 	z-index: 1;
 }
 
+#adminmenu.folded .wp-submenu {
+	margin: -1px 0 0 4px;
+}
+
 #adminmenu li.wp-has-submenu {
-	margin-top: 2px;
+	margin: 2px 0;
 }
 
 #adminmenu.folded li.wp-has-submenu {
 	height: 24px;
 }
 
-* html #wpcontent #adminmenu ul.wp-submenu li {
-	margin: 0;
-	padding: 0;
-}
-
-* html #wpcontent #adminmenu ul.wp-submenu a {
+#wpcontent #adminmenu ul.wp-submenu a {
 	padding: 2px 4px 2px 8px;
 	margin: 0;
 	line-height: 20px;
 }
 
-* html #wpcontent #adminmenu ul.wp-submenu li a.current,
-* html #wpcontent #adminmenu ul.wp-submenu li.current {
-	border: 0;
-	background-color: #fff;
+ul.wp-submenu, ul.wp-submenu li, ul.wp-submenu a {
+	display: block;
+	zoom: 100%;
+}
+
+* html #wpcontent #adminmenu {
+	margin: 8px 4px;
+}
+
+#wpcontent #adminmenu ul.wp-submenu li {
+	padding: 0;
 }
 
 ul#adminmenu li.wp-menu-separator {
 	background-color: #fff;
-	height: 5px;
-	width: 1px;
-	line-height: 5px;
-	font-size: 5px;
-	padding: 0;
-	margin: 0;
+	height: 3px;
+	line-height: 3px;
+	font-size: 3px;
 }
 
 

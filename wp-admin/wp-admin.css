@@ -488,7 +488,7 @@ div.nav {
 	border-style: solid;
 }
 
-.page-numbers.current {
+#tablenav-pages .page-numbers.current {
 	font-weight: bold;
 	border-width: 1px;
 	border-style: solid;
@@ -677,7 +677,6 @@ ul#adminmenu li.write-new-button a {
 
 /* side admin menu */
 #adminmenu {
-	margin: 0;
 	padding: 0;
 	list-style: none;
 }
@@ -724,7 +723,7 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu .wp-menu-image {
 	float: left;
-	padding: 4px 6px 0 4px;
+	padding: 4px 4px 0;
 }
 
 #adminmenu ul.wp-submenu li.current {
@@ -732,32 +731,35 @@ ul#adminmenu li.write-new-button a {
 }
 
 #adminmenu a {
-	font-size: 13px !important;
-	padding: 5px 4px 6px 0;
-	line-height: 13px;
 	display: block;
+	font-size: 13px !important;
+	line-height: 18px;
+	padding: 3px 4px;
 }
 
 #adminmenu .wp-submenu a {
-	margin: 0 0 0 12px;
+	margin: 0;
+	padding-left: 12px;
 }
 
 #adminmenu .wp-menu-separator {
 	background-color: transparent;
-	height: 8px;
+	height: 6px;
+	width: 1px;
 	padding: 0;
 	margin: 0;
 }
 
 #adminmenu.folded .wp-submenu {
 	position: absolute;
-	margin: -25px 0 0 30px;
-	zIndex: 999;
+	margin: -1px 0 0 30px;
+	z-index: 999;
 	width: 125px;
 	border-width: 1px;
 	border-style: solid;
 	
 
+	background-color: #fff;
 	border-color: #C6D9E9;
 }
 
@@ -766,7 +768,7 @@ ul#adminmenu li.write-new-button a {
 }
 
 #adminmenu.folded .wp-submenu a {
-	margin: 0 0 0 10px;
+	padding-left: 10px;
 }
 
 #adminmenu.folded a.wp-has-submenu {
