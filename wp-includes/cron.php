@@ -20,6 +20,11 @@
  * @param array $args Optional. Arguments to pass to the hook function.
  */
 function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
+	// don't schedule a duplicate if there's already an identical event due in the next 10 minutes
+	$next = wp_next_scheduled($hook, $args);
+	if ( $next && $next <= $timestamp + 600 )
+		return;
+		
 	$crons = _get_cron_array();
 	$key = md5(serialize($args));
 	$crons[$timestamp][$hook][$key] = array( 'schedule' => false, 'args' => $args );
