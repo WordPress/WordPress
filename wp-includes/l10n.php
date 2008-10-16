@@ -301,10 +301,12 @@ function load_plugin_textdomain($domain, $abs_rel_path = false, $plugin_rel_path
  *
  * @param string $domain Unique identifier for retrieving translated strings
  */
-function load_theme_textdomain($domain) {
+function load_theme_textdomain($domain, $path = false) {
 	$locale = get_locale();
 
-	$mofile = get_template_directory() . "/$locale.mo";
+	$path = ( empty( $path ) ) ? get_template_directory() : $path;
+
+	$mofile = "$path/$locale.mo";
 	load_textdomain($domain, $mofile);
 }
 
