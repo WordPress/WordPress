@@ -377,18 +377,51 @@ function sticky_class( $post_id = null ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Page Template Functions for usage in Themes
  *
- * {@internal Missing Long Description}}
+ * @package WordPress
+ * @subpackage Template
+ */
+
+/**
+ * The formatted output of a list of Pages.
+ *
+ * Displays page-links for paginated posts (i.e. includes the <!--nextpage-->  Quicktag one or
+ * more times). This works in much the same way as link_pages(), the difference being that
+ * arguments are given in query string format. This tag must be within The_Loop. 
+ *
+ * The defaults for overwriting are:
+ * 'next_or_number' - Default is 'number' (string). Indicates whether page numbers should be
+ *      used. Valid values are number and next.
+ * 'nextpagelink' - Default is 'Next Page' (string). Text for link to next page.
+ *		of the bookmark.
+ * 'previouspagelink' - Default is 'Previous Page' (string). Text for link to previous page.
+ *		available.
+ * 'pagelink' - Default is '%' (String).Format string for page numbers. The  %  in the
+ *      parameter string will be replaced with the page number, so Page % generates
+ *      "Page 1", "Page 2", etc. Defaults to %, just the page number. 
+ * 'before' - Default is '<p> Pages:' (string). The html or text to prepend to each
+ *		bookmarks.
+ * 'after' - Default is '</p>' (string). The html or text to append to each
+ *		bookmarks.
+ * 'more_file' - Default is '' (string) Page the links should point to. Defaults to
+ *      the current page.
+ * 'link_before' - Default is '' (string). The html or text to prepend to each
+ *		Pages link inside the <a> tag.
+ * 'link_after' - Default is '' (string). The html or text to append to each
+ *		Pages link inside the <a> tag.
  *
  * @since 1.2.0
+ * @access private
  *
- * @param unknown_type $args
- * @return unknown
+ * @param array $bookmarks List of bookmarks to traverse
+ * @param string|array $args Optional. Overwrite the defaults.
+ * @return string Formatted output in HTML
  */
 function wp_link_pages($args = '') {
 	$defaults = array(
 		'before' => '<p>' . __('Pages:'), 'after' => '</p>',
+		'link_before' => '', 'link_after' => '',
 		'next_or_number' => 'number', 'nextpagelink' => __('Next page'),
 		'previouspagelink' => __('Previous page'), 'pagelink' => '%',
 		'more_file' => '', 'echo' => 1
@@ -419,8 +452,11 @@ function wp_link_pages($args = '') {
 						else
 							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
 					}
+					
 				}
+				$output .= $link_before;
 				$output .= $j;
+				$output .= $link_after;
 				if ( ($i != $page) || ((!$more) && ($page==1)) )
 					$output .= '</a>';
 			}
@@ -431,23 +467,23 @@ function wp_link_pages($args = '') {
 				$i = $page - 1;
 				if ( $i && $more ) {
 					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">' . $previouspagelink . '</a>';
+						$output .= '<a href="' . get_permalink() . '">' . $link_before. $previouspagelink . $link_after . '</a>';
 					} else {
 						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $previouspagelink . '</a>';
+							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $link_before. $previouspagelink . $link_after . '</a>';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $previouspagelink . '</a>';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $link_before. $previouspagelink . $link_after . '</a>';
 					}
 				}
 				$i = $page + 1;
 				if ( $i <= $numpages && $more ) {
 					if ( 1 == $i ) {
-						$output .= '<a href="' . get_permalink() . '">' . $nextpagelink . '</a>';
+						$output .= '<a href="' . get_permalink() . '">' . $link_before. $nextpagelink . $link_after . '</a>';
 					} else {
 						if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $nextpagelink . '</a>';
+							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $link_before. $nextpagelink . $link_after . '</a>';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $nextpagelink . '</a>';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $link_before. $nextpagelink . $link_after . '</a>';
 					}
 				}
 				$output .= $after;
