@@ -5,6 +5,7 @@ adminMenu = {
 	init : function() {
 		$('#adminmenu a').attr('tabindex', '10');
 		$('#adminmenu a.wp-has-submenu').click( function() { return adminMenu.toggle( $(this).siblings('ul') ); } );
+		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
 		
 		var li = document.createElement('li'); // temp
 		$(li).attr('id', 'menu-toggle').html('&laquo;&laquo;').click(function(){
@@ -52,12 +53,13 @@ adminMenu = {
 		if (off) {
 			$('#wpbody-content').css('marginLeft', '140px');
 			$('#adminmenu').removeClass('folded');
+			$('#adminmenu li.wp-submenu-head').hide();
 			$('#adminmenu a.wp-has-submenu').show();
 			$('#adminmenu li.wp-has-submenu').unbind().css('width', '');
 		} else {
 			$('#adminmenu').addClass('folded');
-			$('#adminmenu a.wp-has-submenu').hide();
-			$('#adminmenu .wp-submenu').hide();
+			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-submenu').hide();
+			$('#adminmenu li.wp-submenu-head').show();
 			$('#wpbody-content').css('marginLeft', '38px');
 			$('#adminmenu li.wp-has-submenu').css({'width':'24px'}).hoverIntent({
 				over: function(){ $(this).find('.wp-submenu').show(); },

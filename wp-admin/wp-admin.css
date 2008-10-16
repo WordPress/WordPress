@@ -706,13 +706,13 @@ ul#adminmenu li.write-new-button a {
 	margin-top: 4px;
 }
 
-#adminmenu li .wp-submenu {
+#adminmenu .wp-submenu {
 	margin: 0;
 	position: relative;
 	z-index: 11;
 }
 
-#adminmenu ul.wp-submenu li {
+#adminmenu .wp-submenu li {
 	padding: 0;
 	margin: 0;
 	border-top: 1px dotted #DDDDDD;
@@ -726,7 +726,7 @@ ul#adminmenu li.write-new-button a {
 	padding: 4px 4px 0;
 }
 
-#adminmenu ul.wp-submenu li.current {
+#adminmenu .wp-submenu li.current {
 	background-color: #fff;
 }
 
@@ -748,6 +748,16 @@ ul#adminmenu li.write-new-button a {
 	width: 1px;
 	padding: 0;
 	margin: 0;
+}
+
+#adminmenu .wp-submenu li.wp-submenu-head {
+	border-top: 0 none;
+	padding: 4px 4px 4px 10px;
+	cursor: default;
+	
+	
+	
+	background-color: #E4F2FD;
 }
 
 #adminmenu.folded .wp-submenu {

@@ -52,6 +52,10 @@ ul.wp-submenu, ul.wp-submenu li, ul.wp-submenu a {
 	padding: 0;
 }
 
+#wpcontent #adminmenu .wp-submenu li.wp-submenu-head {
+	padding: 3px 4px 4px 10px;
+}
+
 ul#adminmenu li.wp-menu-separator {
 	background-color: #fff;
 	height: 3px;

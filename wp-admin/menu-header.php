@@ -79,7 +79,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( !empty($submenu[$item[2]]) ) {
-			echo "\n\t<ul class='wp-submenu'>";
+			echo "\n\t<ul class='wp-submenu'><li class='wp-submenu-head' style='display:none;'>{$item[0]}</li>";
 			$first = true;
 			foreach ( $submenu[$item[2]] as $sub_key => $sub_item ) {
 				if ( !current_user_can($sub_item[1]) )
