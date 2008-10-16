@@ -253,11 +253,15 @@ if ( !function_exists( 'wp_mail' ) ) :
  * @param string $subject Email subject
  * @param string $message Message contents
  * @param string|array $headers Optional. Additional headers.
+ * @param string|array $attachments Optional. Files to attach.
  * @return bool Whether the email contents were sent successfully.
  */
-function wp_mail( $to, $subject, $message, $headers = '' ) {
+function wp_mail( $to, $subject, $message, $headers = '', $attachments = array() ) {
 	// Compact the input, apply the filters, and extract them back out
-	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers' ) ) );
+	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments' ) ) );
+
+	if ( !is_array($attachments) )
+		$attachments = explode( "\n", $attachments );
 
 	global $phpmailer;
 
@@ -403,6 +407,13 @@ function wp_mail( $to, $subject, $message, $headers = '' ) {
 	if ( !empty( $headers ) ) {
 		foreach( (array) $headers as $name => $content ) {
 			$phpmailer->AddCustomHeader( sprintf( '%1$s: %2$s', $name, $content ) );
+		}
+	}
+
+	error_log($attachments);
+	if ( !empty( $attachments ) ) {
+		foreach ( $attachments as $attachment ) {
+			$phpmailer->AddAttachment($attachment);
 		}
 	}
 
