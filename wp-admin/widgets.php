@@ -312,12 +312,11 @@ require_once( 'admin-header.php' ); ?>
 	</div>
 
 	</form>
+	<br class="clear" />
 
 </div>
 
 <?php do_action( 'sidebar_admin_page' ); ?>
-
-<br class="clear" />
 
 <?php require_once( 'admin-footer.php' ); ?>
 
