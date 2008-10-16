@@ -598,6 +598,7 @@ function wp_count_comments( $post_id = 0 ) {
  * @uses $wpdb
  * @uses do_action() Calls 'delete_comment' hook on comment ID
  * @uses do_action() Calls 'wp_set_comment_status' hook on comment ID with 'delete' set for the second parameter
+ * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param int $comment_id Comment ID
  * @return bool False if delete comment query failure, true on success.
@@ -618,6 +619,7 @@ function wp_delete_comment($comment_id) {
 	clean_comment_cache($comment_id);
 
 	do_action('wp_set_comment_status', $comment_id, 'delete');
+	wp_transition_comment_status('delete', $comment->comment_approved, $comment);
 	return true;
 }
 
@@ -646,6 +648,46 @@ function wp_get_comment_status($comment_id) {
 		return 'spam';
 	else
 		return false;
+}
+
+/**
+ * Call hooks for when a comment status transition occurs.
+ *
+ * Calls hooks for comment status transitions. If the new comment status is not the same
+ * as the previous comment status, then two hooks will be ran, the first is
+ * 'transition_comment_status' with new status, old status, and comment data. The
+ * next action called is 'comment_OLDSTATUS_to_NEWSTATUS' the NEWSTATUS is the
+ * $new_status parameter and the OLDSTATUS is $old_status parameter; it has the
+ * comment data.
+ *
+ * The final action will run whether or not the comment statuses are the same. The
+ * action is named 'comment_NEWSTATUS_COMMENTTYPE', NEWSTATUS is from the $new_status
+ * parameter and COMMENTTYPE is comment_type comment data.
+ *
+ * @since 2.7.0
+ *
+ * @param string $new_status New comment status.
+ * @param string $old_status Previous comment status.
+ * @param object $comment Comment data.
+ */
+function wp_transition_comment_status($new_status, $old_status, $comment) {
+	// Translate raw statuses to human readable formats for the hooks
+	// This is not a complete list of comment status, it's only the ones that need to be renamed
+	$comment_statuses = array(
+		0         => 'unapproved',
+		'hold'    => 'unapproved', // wp_set_comment_status() uses "hold"
+		1         => 'approved',
+		'approve' => 'approved', // wp_set_comment_status() uses "approve"
+	);
+	if ( isset($comment_statuses[$new_status]) ) $new_status = $comment_statuses[$new_status];
+	if ( isset($comment_statuses[$old_status]) ) $old_status = $comment_statuses[$old_status];
+
+	// Call the hooks
+	if ( $new_status != $old_status ) {
+		do_action('transition_comment_status', $new_status, $old_status, $comment);
+		do_action("comment_${old_status}_to_$new_status", $comment);
+	}
+	do_action("comment_${new_status}_$comment->comment_type", $comment->ID, $comment);
 }
 
 /**
@@ -834,6 +876,7 @@ function wp_new_comment( $commentdata ) {
  * action.
  *
  * @since 1.0.0
+ * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param int $comment_id Comment ID.
  * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'delete'.
@@ -868,8 +911,11 @@ function wp_set_comment_status($comment_id, $comment_status) {
 
 	clean_comment_cache($comment_id);
 
-	do_action('wp_set_comment_status', $comment_id, $comment_status);
 	$comment = get_comment($comment_id);
+
+	do_action('wp_set_comment_status', $comment_id, $comment_status);
+	wp_transition_comment_status($comment_status, $comment->comment_approved, $comment);
+
 	wp_update_comment_count($comment->comment_post_ID);
 
 	return true;
@@ -882,6 +928,7 @@ function wp_set_comment_status($comment_id, $comment_status) {
  *
  * @since 2.0.0
  * @uses $wpdb
+ * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param array $commentarr Contains information on the comment.
  * @return int Comment was updated if value is 1, or was not updated if value is 0.
@@ -938,6 +985,7 @@ function wp_update_comment($commentarr) {
 	clean_comment_cache($comment_ID);
 	wp_update_comment_count($comment_post_ID);
 	do_action('edit_comment', $comment_ID);
+	wp_transition_comment_status($comment_approved, $comment->comment_approved, $comment);
 	return $rval;
 }
 
