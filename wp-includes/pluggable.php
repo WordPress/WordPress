@@ -1454,7 +1454,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  * @param int|string|object $id_or_email A user ID,  email address, or comment object
  * @param int $size Size of the avatar image
  * @param string $default URL to a default image to use if no avatar is available
- * @param string $alt Alternate text to use in image tag, the default is Avatar
+ * @param string $alt Alternate text to use in image tag. Defaults to blank
  * @return string <img> tag for the user's avatar
 */
 function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
