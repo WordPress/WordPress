@@ -44,7 +44,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	if ( !$requested_url ) {
 		// build the URL in the address bar
-		$requested_url  = ( isset($_SERVER['HTTPS'] ) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
+		$requested_url  = ( !empty($_SERVER['HTTPS'] ) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
 		$requested_url .= $_SERVER['HTTP_HOST'];
 		$requested_url .= $_SERVER['REQUEST_URI'];
 	}
@@ -77,15 +77,15 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect_url = redirect_guess_404_permalink();
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
-		if ( is_single() && isset($_GET['p']) && ! $redirect_url ) {
+		if ( is_single() && !empty($_GET['p']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('p')) )
 				$redirect['query'] = remove_query_arg('p', $redirect['query']);
 		} elseif ( is_single() && ! $redirect_url ) {
 			$redirect_url = get_permalink( url_to_postid( $requested_url ) );
-		} elseif ( is_page() && isset($_GET['page_id']) && ! $redirect_url ) {
+		} elseif ( is_page() && !empty($_GET['page_id']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('page_id')) )
 				$redirect['query'] = remove_query_arg('page_id', $redirect['query']);
-		} elseif ( isset($_GET['m']) && ( is_year() || is_month() || is_day() ) ) {
+		} elseif ( !empty($_GET['m']) && ( is_year() || is_month() || is_day() ) ) {
 			$m = get_query_var('m');
 			switch ( strlen($m) ) {
 				case 4: // Yearly
@@ -101,19 +101,19 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			if ( $redirect_url )
 				$redirect['query'] = remove_query_arg('m', $redirect['query']);
 		// now moving on to non ?m=X year/month/day links
-		} elseif ( is_day() && get_query_var('year') && get_query_var('monthnum') && isset($_GET['day']) ) {
+		} elseif ( is_day() && get_query_var('year') && get_query_var('monthnum') && !empty($_GET['day']) ) {
 			if ( $redirect_url = get_day_link(get_query_var('year'), get_query_var('monthnum'), get_query_var('day')) )
 				$redirect['query'] = remove_query_arg(array('year', 'monthnum', 'day'), $redirect['query']);
-		} elseif ( is_month() && get_query_var('year') && isset($_GET['monthnum']) ) {
+		} elseif ( is_month() && get_query_var('year') && !empty($_GET['monthnum']) ) {
 			if ( $redirect_url = get_month_link(get_query_var('year'), get_query_var('monthnum')) )
 				$redirect['query'] = remove_query_arg(array('year', 'monthnum'), $redirect['query']);
-		} elseif ( is_year() && isset($_GET['year']) ) {
+		} elseif ( is_year() && !empty($_GET['year']) ) {
 			if ( $redirect_url = get_year_link(get_query_var('year')) )
 				$redirect['query'] = remove_query_arg('year', $redirect['query']);
-		} elseif ( is_category() && isset($_GET['cat']) ) {
+		} elseif ( is_category() && !empty($_GET['cat']) ) {
 			if ( $redirect_url = get_category_link(get_query_var('cat')) )
 				$redirect['query'] = remove_query_arg('cat', $redirect['query']);
-		} elseif ( is_author() && isset($_GET['author']) ) {
+		} elseif ( is_author() && !empty($_GET['author']) ) {
 			$author = get_userdata(get_query_var('author'));
 			if ( false !== $author && $redirect_url = get_author_link(false, $author->ID, $author->user_nicename) )
 				$redirect['query'] = remove_query_arg('author', $redirect['author']);
@@ -166,13 +166,13 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	// www.example.com vs example.com
 	$user_home = @parse_url(get_option('home'));
-	if ( isset($user_home['host']) )
+	if ( !empty($user_home['host']) )
 		$redirect['host'] = $user_home['host'];
-	if ( !isset($user_home['path']) )
+	if ( empty($user_home['path']) )
 		$user_home['path'] = '/';
 
 	// Handle ports
-	if ( isset($user_home['port']) )
+	if ( !empty($user_home['port']) )
 		$redirect['port'] = $user_home['port'];
 	else
 		unset($redirect['port']);
@@ -183,7 +183,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	// Remove trailing spaces from the path
 	$redirect['path'] = preg_replace( '#(%20| )+$#', '', $redirect['path'] );
 
-	if ( isset( $redirect['query'] ) ) {
+	if ( !empty( $redirect['query'] ) ) {
 		// Remove trailing slashes from certain terminating query string args
 		$redirect['query'] = preg_replace( '#((p|page_id|cat|tag)=[^&]*?)(%20| )+$#', '$1', $redirect['query'] );
 
@@ -224,26 +224,26 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 
 	$compare_original = array($original['host'], $original['path']);
 
-	if ( isset( $original['port'] ) )
+	if ( !empty( $original['port'] ) )
 		$compare_original[] = $original['port'];
 
-	if ( isset( $original['query'] ) )
+	if ( !empty( $original['query'] ) )
 		$compare_original[] = $original['query'];
 
 	$compare_redirect = array($redirect['host'], $redirect['path']);
 
-	if ( isset( $redirect['port'] ) )
+	if ( !empty( $redirect['port'] ) )
 		$compare_redirect[] = $redirect['port'];
 
-	if ( isset( $redirect['query'] ) )
+	if ( !empty( $redirect['query'] ) )
 		$compare_redirect[] = $redirect['query'];
 
 	if ( $compare_original !== $compare_redirect ) {
 		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'];
-		if ( isset($redirect['port']) )
+		if ( !empty($redirect['port']) )
 		 	$redirect_url .= ':' . $redirect['port'];
 		$redirect_url .= $redirect['path'];
-		if ( isset($redirect['query']) )
+		if ( !empty($redirect['query']) )
 			$redirect_url .= '?' . $redirect['query'];
 	}
 
