@@ -145,6 +145,9 @@ endforeach;
 
 <?php endif; ?>
 
+<h3><?php _e('Press This') ?></h3>
+<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?>  <a href="<?php echo get_shortcut_link(); ?>" title="<?php echo attribute_escape(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
+
 <?php do_settings_sections('writing'); ?>
 
 <p class="submit">

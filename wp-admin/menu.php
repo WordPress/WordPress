@@ -81,7 +81,6 @@ if ( current_user_can('edit_users') ) {
 $menu[45] = array( __('Tools'), 'manage_options', 'import.php', '', '', 'menu-tools', 'images/menu/tools.png' );
 	$submenu['import.php'][5] = array( __('Import'), 'import', 'import.php' );
 	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
-	$submenu['import.php'][15] = array( __('Press This'), 'publish_posts', 'press-this-landing.php' );
 	if ( ! $is_opera )
 		$submenu['import.php'][20] = array( __('Turbo'), 'read', 'turbo.php' );
 
