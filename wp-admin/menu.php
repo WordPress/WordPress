@@ -30,23 +30,23 @@ $menu[0] = array( __('Dashboard'), 'read', 'index.php', '', 'wp-menu-open', 'men
 $menu[4] = array( '', 'read', '', '', 'wp-menu-separator' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'post-new.php', '', 'wp-menu-open', 'menu-posts', 'images/menu/posts.png' );
-	$submenu['post-new.php'][5]  = array( __('Add New'), 'edit_posts', 'post-new.php' );
+	$submenu['post-new.php'][5]  = array( _c('Add New|post'), 'edit_posts', 'post-new.php' );
 	//$submenu['post-new.php'][10]  = array( __('Drafts'), 'edit_posts', 'edit-post-drafts.php' );
 	$submenu['post-new.php'][15]  = array( __('Edit'), 'edit_posts', 'edit.php' );
 	$submenu['post-new.php'][20] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
 	$submenu['post-new.php'][25] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
 $menu[10] = array( __('Media'), 'upload_files', 'media-new.php', '', '', 'menu-media', 'images/menu/media.png' );
-	$submenu['media-new.php'][5] = array( __('Add New'), 'upload_files', 'media-new.php');
+	$submenu['media-new.php'][5] = array( _c('Add New|file'), 'upload_files', 'media-new.php');
 	$submenu['media-new.php'][10] = array( __('Edit'), 'upload_files', 'upload.php');
 
 $menu[15] = array( __('Links'), 'manage_links', 'link-add.php', '', '', 'menu-links', 'images/menu/links.png' );
-	$submenu['link-add.php'][5] = array( __('Add New'), 'manage_links', 'link-add.php' );
+	$submenu['link-add.php'][5] = array( _c('Add New|links'), 'manage_links', 'link-add.php' );
 	$submenu['link-add.php'][10] = array( __('Edit'), 'manage_links', 'link-manager.php' );
 	$submenu['link-add.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
 $menu[20] = array( __('Pages'), 'edit_pages', 'page-new.php', '', '', 'menu-pages', 'images/menu/pages.png' );
-	$submenu['page-new.php'][5] = array( __('Add New'), 'edit_pages', 'page-new.php' );
+	$submenu['page-new.php'][5] = array( _c('Add New|page'), 'edit_pages', 'page-new.php' );
 	//$submenu['page-new.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-page-drafts.php' );
 	$submenu['page-new.php'][15] = array( __('Edit'), 'edit_pages', 'edit-pages.php' );
 
@@ -60,7 +60,7 @@ $menu[30] = array( __('Appearance'), 'switch_themes', 'themes.php', '', '', 'men
 	$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
 
 $menu[35] = array( __('Plugins'), 'activate_plugins', 'plugins.php', '', '', 'menu-plugins', 'images/menu/plugins.png' );
-	$submenu['plugins.php'][15] = array(__('Add New'), 'install_plugins', 'plugin-install.php');	
+	$submenu['plugins.php'][15] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');	
 	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 
