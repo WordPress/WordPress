@@ -95,7 +95,7 @@ wp($query_str);
 
 if ( is_singular() ) {
 	wp_enqueue_script( 'admin-comments' );
-	wp_enqueue_script( 'jquery-table-hotkeys' );
+	enqueue_comment_hotkeys_js();
 }
 
 require_once('admin-header.php'); ?>

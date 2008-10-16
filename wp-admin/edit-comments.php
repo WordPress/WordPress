@@ -12,7 +12,7 @@ require_once('admin.php');
 $title = __('Edit Comments');
 wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script( 'admin-forms' );
-wp_enqueue_script( 'jquery-table-hotkeys' );
+enqueue_comment_hotkeys_js();
 
 if ( ( isset( $_POST['delete_all_spam'] ) || isset( $_POST['delete_all_spam2'] ) ) && !empty( $_POST['pagegen_timestamp'] ) ) {
 	check_admin_referer('bulk-spam-delete');

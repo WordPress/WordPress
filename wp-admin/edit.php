@@ -77,7 +77,7 @@ list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 
 if ( 1 == count($posts) && is_singular() ) {
 	wp_enqueue_script( 'admin-comments' );
-	wp_enqueue_script( 'jquery-table-hotkeys' );
+	enqueue_comment_hotkeys_js();
 }
 
 require_once('admin-header.php');

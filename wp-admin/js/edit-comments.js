@@ -320,7 +320,8 @@ $(document).ready(function(){
 		};
 		$.table_hotkeys($('table.widefat'),['a', 'u', 's', 'd', 'r', ['e', edit_comment],
 				['shift+a', make_bulk('approve')], ['shift+s', make_bulk('markspam')],
-				['shift+d', make_bulk('delete')], ['shift+x', toggle_all]],
+				['shift+d', make_bulk('delete')], ['shift+x', toggle_all],
+				['shift+u', make_bulk('unapprove')]],
 				{highlight_first: adminCommentsL10n.hotkeys_highlight_first, highlight_last: adminCommentsL10n.hotkeys_highlight_last,
 				prev_page_link_cb: make_hotkeys_redirect('prev'), next_page_link_cb: make_hotkeys_redirect('next')}
 		);

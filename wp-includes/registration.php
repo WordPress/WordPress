@@ -154,6 +154,9 @@ function wp_insert_user($userdata) {
 	if ( empty($rich_editing) )
 		$rich_editing = 'true';
 
+	if ( empty($comment_shortcuts) )
+		$comment_shortcuts = 'false';
+
 	if ( empty($admin_color) )
 		$admin_color = 'fresh';
 	$admin_color = preg_replace('|[^a-z0-9 _.\-@]|i', '', $admin_color);
@@ -183,6 +186,7 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'aim', $aim );
 	update_usermeta( $user_id, 'yim', $yim );
 	update_usermeta( $user_id, 'rich_editing', $rich_editing);
+	update_usermeta( $user_id, 'comment_shortcuts', $comment_shortcuts);
 	update_usermeta( $user_id, 'admin_color', $admin_color);
 	update_usermeta( $user_id, 'use_ssl', $use_ssl);
 
