@@ -54,7 +54,10 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		return;
 
 	// Some PHP setups turn requests for / into /index.php in REQUEST_URI
-	$original['path'] = preg_replace('|/index\.php$|', '/', $original['path']);
+	// See: http://trac.wordpress.org/ticket/5017
+	// See: http://trac.wordpress.org/ticket/7173
+	// Disabled, for now:
+	// $original['path'] = preg_replace('|/index\.php$|', '/', $original['path']);
 
 	$redirect = $original;
 	$redirect_url = false;
@@ -177,8 +180,8 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	else
 		unset($redirect['port']);
 
-	// trailing /index.php/
-	$redirect['path'] = preg_replace('|/index.php/$|', '/', $redirect['path']);
+	// trailing /index.php
+	$redirect['path'] = preg_replace('|/index.php/*?$|', '/', $redirect['path']);
 
 	// Remove trailing spaces from the path
 	$redirect['path'] = preg_replace( '#(%20| )+$#', '', $redirect['path'] );
