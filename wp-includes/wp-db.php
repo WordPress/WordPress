@@ -497,7 +497,7 @@ class wpdb {
 			$log_error = false;
 
 		$log_file = @ini_get('error_log');
-		if ( !empty($log_file) && ('syslog' != $log_file) && !is_writable($log_file) )
+		if ( !empty($log_file) && ('syslog' != $log_file) && !@is_writable($log_file) )
 			$log_error = false;
 
 		if ( $log_error )
