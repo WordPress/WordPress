@@ -65,9 +65,9 @@ function translate($text, $domain = 'default') {
 	global $l10n;
 
 	if (isset($l10n[$domain]))
-		return apply_filters('gettext', $l10n[$domain]->translate($text), $text);
+		return apply_filters('gettext', $l10n[$domain]->translate($text), $text, $domain);
 	else
-		return $text;
+		return apply_filters('gettext', $text, $text, $domain);
 }
 
 /**
