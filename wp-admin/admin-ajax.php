@@ -17,8 +17,25 @@ define('WP_ADMIN', true);
 require_once('../wp-load.php');
 require_once('includes/admin.php');
 
-if ( !is_user_logged_in() )
+if ( ! is_user_logged_in() ) {
+
+	if ( $_POST['action'] == 'autosave' ) {
+		$id = isset($_POST['post_ID'])? (int) $_POST['post_ID'] : 0;
+
+		if ( ! $id )
+			die('-1');
+
+		$message = sprintf( __('<strong>ALERT: You are logged out!</strong> Could not save draft. <a href="%s" target="blank">Please log in again.</a>'), wp_login_url() );
+			$x = new WP_Ajax_Response( array(
+				'what' => 'autosave',
+				'id' => $id,
+				'data' => $message
+			) );
+			$x->send();
+	}
+
 	die('-1');
+}
 
 if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 	if ( !current_user_can( 'manage_categories' ) )
