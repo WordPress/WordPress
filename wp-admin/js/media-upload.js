@@ -9,8 +9,11 @@ function send_to_editor(h) {
 			h = ed.plugins.wpeditimage._do_shcode(h);
 
 		ed.execCommand('mceInsertContent', false, h);
-	} else
+	} else if ( jQuery.isFunction( 'edInsertContent' ) ) {
 		edInsertContent(edCanvas, h);
+	} else {
+		jQuery( edCanvas ).val( jQuery( edCanvas ).val() + h );
+	}
 
 	tb_remove();
 }

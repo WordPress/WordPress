@@ -1581,11 +1581,13 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			if ( empty($title) )
 				$title = __('Untitled');
 			$desc = '';
-			$summary = '';
 			if ( isset( $item['description'] ) && is_string( $item['description'] ) )
-				$desc = $summary = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['description'], ENT_QUOTES))));
+				$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['description'], ENT_QUOTES))));
 			elseif ( isset( $item['summary'] ) && is_string( $item['summary'] ) )
-				$desc = $summary = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['summary'], ENT_QUOTES))));
+				$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['summary'], ENT_QUOTES))));
+			if ( 360 < strlen( $desc ) )
+				$desc = substr( $desc, 0, 360 ) . ' [&hellip;]';
+			$summary = $desc;
 
 			if ( $show_summary ) {
 				$desc = '';

@@ -28,7 +28,7 @@ function wp_dashboard_setup() {
 	wp_add_dashboard_widget( 'dashboard_recent_comments', __( 'Recent Comments' ), 'wp_dashboard_recent_comments' );
 
 	// QuickPress Widget
-	wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press', 'wp_dashboard_empty_control' );
+	wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
 
 	// Recent Drafts
 	wp_add_dashboard_widget( 'dashboard_recent_drafts', __( 'Recent Drafts' ), 'wp_dashboard_recent_drafts' );
@@ -184,9 +184,13 @@ function wp_dashboard_quick_press( $dashboard, $meta_box ) {
 			<input type="text" name="post_title" id="title" autocomplete="off" value="<?php echo attribute_escape( $post->post_title ); ?>" />
 		</div>
 
-		<h4><label for="quickpress-content"><?php _e('Post') ?></label></h4>
+		<div id="add-media-button" class="alignright">
+			<a class="thickbox button" href="http://hacek.local/wordpress/wp-admin/media-upload.php?TB_iframe=true" id="add-media-link"><?php _e( 'Insert Media' ); ?></a>
+		</div>
+
+		<h4 id="content-label"><label for="content"><?php _e('Post') ?></label></h4>
 		<div class="textarea-wrap">
-			<textarea name="content" id="quickpress-content" class="mceEditor" rows="3" cols="15"><?php echo $post->post_content; ?></textarea>
+			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"><?php echo $post->post_content; ?></textarea>
 		</div>
 
 		<h4><label for="tags-input"><?php _e('Tags') ?></label></h4>
@@ -315,7 +319,8 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
 		$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a>';
 		$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
-		$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
+		$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick Edit') . '</a>';
+		$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
 
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
@@ -326,8 +331,10 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
 
 			// Reply and quickedit need a hide-if-no-js span
-			if ( 'reply' == $action || 'quickedit' == $action )
+			if ( 'reply' == $action )
 				$action .= ' hide-if-no-js';
+			elseif ( 'quickedit' == $action )
+				$action .= ' hide-if-no-js hide-if-js'; // hah
 
 			$actions_string .= "<span class='$action'>$sep$link</span>";
 		}
@@ -361,6 +368,15 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<?php endif; // comment_type ?>
 			<blockquote><p><?php comment_excerpt(); ?></p></blockquote>
 			<p class="comment-actions"><?php echo $actions_string; ?></p>
+
+			<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
+				<textarea class="comment"><?php echo $comment->comment_content; ?></textarea>
+				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
+				<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
+				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
+				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
+			</div>
+
 		</div>
 <?php
 }
@@ -454,7 +470,9 @@ function wp_dashboard_primary_control() {
  */
 function wp_dashboard_rss_output( $widget_id ) {
 	$widgets = get_option( 'dashboard_widget_options' );
+	echo "<div class='rss-widget'>";
 	wp_widget_rss_output( $widgets[$widget_id] );
+	echo "</div>";
 }
 
 function wp_dashboard_secondary() {
@@ -462,7 +480,7 @@ function wp_dashboard_secondary() {
 }
 
 function wp_dashboard_secondary_control() {
-	wp_dashboard_rss_control( 'dashboard_secondary', array( 'show_summary' => false, 'show_author' => false, 'show_date' => false ) );
+	wp_dashboard_rss_control( 'dashboard_secondary' );
 }
 
 /**
@@ -476,21 +494,23 @@ function wp_dashboard_secondary_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
 	@extract( @$widgets['dashboard_secondary'], EXTR_SKIP );
 	$rss = @fetch_rss( $url );
+
 	if ( !isset($rss->items) || 0 == count($rss->items) )
 		return false;
 
-	echo "<ul id='planetnews'>\n";
-
 	$rss->items = array_slice($rss->items, 0, $items);
-	foreach ($rss->items as $item ) {
-		$title = wp_specialchars($item['title']);
-		list($author,$post) = explode( ':', $title, 2 );
-		$link = clean_url($item['link']);
 
-		echo "\t<li><a href='$link'><span class='post'>$post</span><span class='hidden'> - </span><cite>$author</cite></a></li>\n";
+	if ( 'http://planet.wordpress.org/' == $rss->channel['link'] ) {
+		foreach ( array_keys($rss->items) as $i ) {
+			list($site, $description) = explode( ':', wp_specialchars($rss->items[$i]['title']), 2 );
+			$rss->items[$i]['dc']['creator'] = trim($site);
+			$rss->items[$i]['title'] = trim($description);
+		}
 	}
 
-	echo "</ul>\n<br class='clear' />\n";
+	echo "<div class='rss-widget'>";
+	wp_widget_rss_output( $rss, $widgets['dashboard_secondary'] );
+	echo "</div>";
 }
 
 function wp_dashboard_plugins() {
@@ -604,11 +624,6 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 }
 
 /* Dashboard Widgets Controls */
-
-// Temp
-function wp_dashboard_empty_control() {
-	echo "This feature isn't enabled in this prototype.";
-}
 
 // Calls widget_control callback
 /**

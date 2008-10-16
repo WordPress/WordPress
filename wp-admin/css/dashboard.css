@@ -108,6 +108,20 @@ div.postbox div.inside {
 	padding: 0;
 }
 
+/* QuickPress */
+
+#quick-press #add-media-button {
+	margin: .5em 0;
+}
+
+#quick-press #content-label {
+	margin-top: 1em;
+}
+
+#quick-press .textarea-wrap {
+	clear: both;
+}
+
 /* Recent Drafts */
 #dashboard_recent_drafts ul {
 	margin: 0;
@@ -115,19 +129,37 @@ div.postbox div.inside {
 	list-style: none;
 }
 
-/* Primary Feed */
+/* Feeds */
 
-#dashboard_primary a.rsswidget, #dashboard_plugins h5 {
+.rss-widget ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.rss-widget a.rsswidget {
 	font-size: 14px;
 }
 
-#dashboard_primary span.rss-date {
+.rss-widget span.rss-date {
 	font-size: 14px;
+}
+
+.rss-widget cite {
+	display: block;
+	text-align: right;
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+.rss-widget cite:before {
+	content: '\2014';
 }
 
 /* Plugins */
 
 #dashboard_plugins h5 {
+	font-size: 14px;
 	margin: 0;
 	display: inline;
 	line-height: 1.4em;

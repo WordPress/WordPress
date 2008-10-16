@@ -1,3 +1,5 @@
+var edCanvas;
+
 jQuery( function($) {
 
 // close postboxes that should be closed
@@ -42,6 +44,8 @@ var quickPressLoad = function() {
 	} );
 
 	$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );
+
+	edCanvas = jQuery('#content');
 };
 quickPressLoad();
 
