@@ -196,7 +196,7 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => __('Edit'),
 		) );
 		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080709' );
-		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20080723' );
+		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20081016' );
 		$scripts->localize( 'upload', 'uploadL10n', array(
 			'browseTitle' => attribute_escape(__('Browse your files')),
 			'back' => __('&laquo; Back'),
@@ -273,7 +273,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'settings-box', '/wp-admin/js/settings-box.js', array( 'jquery' ), '20080925' );
 
-		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox', 'settings-box' ), '20081008' );
+		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox', 'settings-box' ), '20081016' );
 
 		$scripts->add( 'hoverIntent', '/wp-includes/js/hoverIntent.js', array('jquery'), '20070327' );
 		$scripts->add( 'menu', '/wp-admin/js/menu.js', array( 'jquery', 'hoverIntent' ), '20081013' );
