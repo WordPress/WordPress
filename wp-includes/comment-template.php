@@ -1071,7 +1071,7 @@ class Walker_Comment extends Walker {
 		<div id="div-comment-<?php comment_ID() ?>">
 		<?php endif; ?>
 		<div class="comment-author vcard">
-		<?php echo get_avatar( $comment, 32 ) ?>
+		<?php if ($args['avatar_size'] != 0) echo get_avatar( $comment, $args['avatar_size'] ); ?>
 		<?php printf(__('<cite>%s</cite> Says:'), get_comment_author_link()) ?>
 		</div>
 <?php if ($comment->comment_approved == '0') : ?>
@@ -1132,7 +1132,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 	$comment_depth = 1;
 
 	$defaults = array('walker' => null, 'depth' => '', 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all',
-		'page' => get_query_var('cpage'), 'per_page' => '');
+		'page' => get_query_var('cpage'), 'per_page' => '', 'avatar_size' => 32);
 
 	$r = wp_parse_args( $args, $defaults );
 
