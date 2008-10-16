@@ -199,12 +199,12 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect['path'] = str_replace('/index.php/', '/', $redirect['path']);
 
 	// trailing slashes
-	if ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() && !is_404() && (!is_home() || ( is_home() && (get_query_var('paged') > 1) ) ) ) {
+	if ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() && !is_404() && (!is_front_page() || ( is_front_page() && (get_query_var('paged') > 1) ) ) ) {
 		$user_ts_type = '';
 		if ( get_query_var('paged') > 0 ) {
 			$user_ts_type = 'paged';
 		} else {
-			foreach ( array('single', 'category', 'page', 'day', 'month', 'year') as $type ) {
+			foreach ( array('single', 'category', 'page', 'day', 'month', 'year', 'home') as $type ) {
 				$func = 'is_' . $type;
 				if ( call_user_func($func) ) {
 					$user_ts_type = $type;
@@ -213,12 +213,12 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			}
 		}
 		$redirect['path'] = user_trailingslashit($redirect['path'], $user_ts_type);
-	} elseif ( is_home() ) {
+	} elseif ( is_front_page() ) {
 		$redirect['path'] = trailingslashit($redirect['path']);
 	}
 
-	// Always trailing slash the 'home' URL
-	if ( $redirect['path'] == $user_home['path'] )
+	// Always trailing slash the Front Page URL
+	if ( trailingslashit( $redirect['path'] ) == trailingslashit( $user_home['path'] ) )
 		$redirect['path'] = trailingslashit($redirect['path']);
 
 	// Ignore differences in host capitalization, as this can lead to infinite redirects
