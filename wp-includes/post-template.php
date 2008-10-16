@@ -757,8 +757,7 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 	if ( !$link_text )
 		$link_text = $_post->post_title;
 
-	return "<a href='$url' title='$post_title'>$link_text</a>";
-
+	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon );
 }
 
 /**
