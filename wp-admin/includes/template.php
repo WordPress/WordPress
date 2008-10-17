@@ -1824,7 +1824,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 
 	if ( current_user_can( 'edit_post', $post->ID ) ) {
-		$post_link = "<a href='" . get_comment_link() . "'>";
+		$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
 		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
 	} else {
 		$post_link = get_the_title($comment->comment_post_ID);
@@ -1937,8 +1937,11 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 				echo "<td $attributes>" . get_comment_date(__('Y/m/d \a\t g:ia')) . '</td>';
 				break;
 			case 'response':
-				if ( 'single' !== $mode )
-					echo "<td $attributes>&quot;$post_link&quot; " . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '<br />' . get_the_time(__('Y/m/d \a\t g:ia')) . '</td>';
+				echo "<td $attributes>\n";
+				echo "&quot;$post_link&quot; ";
+				echo '<a href="edit-comments.php?p=' . $post->ID . '">' . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '</a><br />';
+				echo get_the_time(__('Y/m/d \a\t g:ia'));
+				echo '</td>';
 		}
 	}
 	echo "</tr>\n";
