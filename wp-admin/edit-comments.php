@@ -15,15 +15,13 @@ wp_enqueue_script( 'admin-forms' );
 enqueue_comment_hotkeys_js();
 
 if ( ( isset( $_POST['delete_all_spam'] ) || isset( $_POST['delete_all_spam2'] ) ) && !empty( $_POST['pagegen_timestamp'] ) ) {
-	check_admin_referer('bulk-spam-delete');
+	check_admin_referer('bulk-spam-delete', '_spam_nonce');
 
-	$delete_time = $wpdb->escape( $_POST['display_time'] );
+	$delete_time = $wpdb->escape( $_POST['pagegen_timestamp'] );
 	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND '$delete_time' > comment_date_gmt" );
 
-	wp_redirect('edit-comments.php?deleted=' . (int) $deleted_spam);
-}
-
-if ( isset($_REQUEST['delete_comments']) && isset($_REQUEST['action']) && ( -1 != $_REQUEST['action'] || -1 != $_REQUEST['action2'] ) ) {
+	wp_redirect('edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam);
+} elseif ( isset($_REQUEST['delete_comments']) && isset($_REQUEST['action']) && ( -1 != $_REQUEST['action'] || -1 != $_REQUEST['action2'] ) ) {
 	check_admin_referer('bulk-comments');
 	$doaction = ( -1 != $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2'];
 
@@ -240,7 +238,7 @@ if ( $page_links )
 <?php }
 
 if ( 'spam' == $comment_status ) {
-	wp_nonce_field('bulk-spam-delete'); ?>
+	wp_nonce_field('bulk-spam-delete', '_spam_nonce'); ?>
 <input type="submit" name="delete_all_spam" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
 <?php } ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
