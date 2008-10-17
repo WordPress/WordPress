@@ -341,17 +341,13 @@ function post_comment_status_meta_box($post) {
 </p>
 <?php
 
-	if ( !$post_ID || $post_ID < 0 )
+	if ( !$post_ID || $post_ID < 0 || 0 == $post->comment_count )
 		return;
 
-	if ( !$comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved != 'spam' ORDER BY comment_date", $post_ID) ) )
-		return;
-
-	// Make sure comments, post, and post_author are cached
-//	update_comment_cache($comments);
+wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 ?>
 
-<table class="widefat">
+<table class="widefat comments-box" style="display:none;">
 <thead>
 	<tr>
 		<th scope="col"><?php _e('Comments') ?></th>
@@ -360,13 +356,9 @@ function post_comment_status_meta_box($post) {
 	</tr>
 </thead>
 <tbody id="the-comment-list" class="list:comment">
-<?php
-	foreach ($comments as $comment)
-		_wp_comment_row( $comment, 'single', false, false );
-?>
 </tbody>
 </table>
-
+<p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get();return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
 <?php
 }
 add_meta_box('commentstatusdiv', __('Comments on this Post'), 'post_comment_status_meta_box', 'post', 'normal', 'core');

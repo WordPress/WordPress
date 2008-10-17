@@ -442,6 +442,36 @@ case 'add-comment' :
 	}
 	$x->send();
 	break;
+case 'get-comments' :
+	check_ajax_referer( $action );
+
+	$post_ID = (int) $_POST['post_ID'];
+	if ( !current_user_can( 'edit_post', $post_ID ) )
+		die('-1');
+
+	$start = isset($_POST['start']) ? intval($_POST['start']) : 0;
+	$num = isset($_POST['num']) ? intval($_POST['num']) : 10;
+
+	list($comments, $total) = _wp_get_comment_list( false, false, $start, $num, $post_ID );
+
+	if ( !$comments )
+		die('1');
+
+	$comment_list_item = '';
+	$x = new WP_Ajax_Response();
+	foreach ( (array) $comments as $comment ) {
+		get_comment( $comment );
+		ob_start();
+			_wp_comment_row( $comment->comment_ID, 'single', false, false );
+			$comment_list_item .= ob_get_contents();
+		ob_end_clean();
+	}
+	$x->add( array(
+		'what' => 'comments',
+		'data' => $comment_list_item
+	) );
+	$x->send();
+	break;
 case 'replyto-comment' :
 	check_ajax_referer( $action );
 

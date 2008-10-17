@@ -153,7 +153,7 @@ commentReply = {
 
 		t.o = '#comment-'+id;
 
-		$('#replyrow td').attr('colspan', $('.widefat tfoot th:visible').length);
+		$('#replyrow td').attr('colspan', $('.widefat thead th:visible').length);
 		var editRow = $('#replyrow'), rowData = $('#inline-'+id);
 		var act = t.act = (a == 'edit') ? 'edit-comment' : 'replyto-comment';
 

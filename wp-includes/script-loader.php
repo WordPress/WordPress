@@ -183,6 +183,8 @@ function wp_default_scripts( &$scripts ) {
 			'separate' => __('Separate tags with commas'),
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
+			'showcomm' => __('Show more comments'),
+			'endcomm' => __('No more comments found.')
 		) );
 		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox', 'settings-box'), '20080925' );
 		$scripts->localize( 'page', 'postL10n', array(

@@ -1083,6 +1083,11 @@ table.form-table td .updated {
 	margin: 11px 0;
 }
 
+#side-sortables .comments-box,
+#side-sortables #show-comments {
+	display: none;
+}
+
 #mediadiv img {
 	float: left;
 	margin-right: 1em;
@@ -1975,7 +1980,8 @@ a.togbox {
 }
 
 #replysubmit img.waiting,
-.quick-edit-save img.waiting {
+.quick-edit-save img.waiting,
+#commentstatusdiv img.waiting {
 	padding: 0 10px;
 	vertical-align: top;
 }
