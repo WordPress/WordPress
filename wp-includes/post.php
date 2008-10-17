@@ -2056,9 +2056,12 @@ function &get_pages($args = '') {
 	extract( $r, EXTR_SKIP );
 
 	$key = md5( serialize( $r ) );
-	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) )
-		if ( isset( $cache[ $key ] ) )
-			return apply_filters('get_pages', $cache[ $key ], $r );
+	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) ) {
+		if ( isset( $cache[ $key ] ) ) {
+			$pages = apply_filters('get_pages', $cache[ $key ], $r );
+			return $pages;
+		}
+	}
 
 	$inclusions = '';
 	if ( !empty($include) ) {
