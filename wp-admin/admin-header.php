@@ -82,8 +82,8 @@ if ( 'index.php' == $pagenow ) {
 $settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php', 'post.php', 'page-new.php', 'page.php', 'index.php' );
 ?>
 
-<img id="logo50" src="images/logo50.png" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?> <a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="View site" id="view-site-link"><img src="<?php echo trailingslashit( bloginfo('wpurl') ) . 'wp-admin/images/new-window-icon.gif'; ?>" alt="" /></a>
-<span id="breadcrumb"><?php echo $breadcrumb ?></span>
+<img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?> <a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="View site" id="view-site-link"><!--<img src="<?php echo trailingslashit( bloginfo('wpurl') ) . 'wp-admin/images/new-window-icon.gif'; ?>" alt="" />--></a>
+<!--<span id="breadcrumb"><?php echo $breadcrumb ?></span>-->
 <?php if ( in_array( $pagenow, $settings_pages ) ) { ?>
 <span id="edit-settings">
 <a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
@@ -92,10 +92,18 @@ $settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edi
 <?php } ?></h1>
 </div>
 
-<div id="user_info"><p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?> |
+<div id="wphead-info">
+<?php favorite_actions(); ?>
+
+<div id="user_info">
+<p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?> |
+<!--
 <?php _e('<a href="http://codex.wordpress.org/">Documentation</a>'); ?> |
 <?php _e('<a href="http://wordpress.org/support/forum/4">Feedback</a>'); ?> |
-<a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p></div>
+-->
+<a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
+</div>
+</div>
 <?php
 require(ABSPATH . 'wp-admin/menu-header.php');
 ?>
@@ -107,5 +115,3 @@ do_action('admin_notices');
 if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');
 }
-
-favorite_actions();

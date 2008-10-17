@@ -597,19 +597,22 @@ a.view-comment-post-link {
 
 /* Admin Header */
 
-#user_info {
+#wphead-info {
 	position: absolute;
 	right: 15px;
 	top: 0;
-	font-size: 11px;
-	line-height: 31px;
-	height: 31px;
+}
+
+#user_info {
+	font-size: 12px;
+	line-height: 46px;
+	height: 46px;
 }
 
 #user_info p {
 	margin: 0;
 	padding: 0;
-	line-height: 20px;
+	line-height: 46px;
 }
 
 a#view-site-link {
@@ -618,7 +621,7 @@ a#view-site-link {
 }
 
 #wphead {
-	height: 58px;
+	height: 46px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 }
@@ -636,7 +639,7 @@ a#view-site-link {
 }
 
 #logo50 {
-	margin: 4px 8px 0;
+	margin: 9px 0 0 20px;
 	position: absolute;
 }
 
@@ -660,8 +663,8 @@ ul#adminmenu li.write-new-button a {
 }
 
 #wphead h1 {
-	font: normal 36px Georgia, "Times New Roman", Times, serif;
-	padding: 11px 170px 5px 70px;
+	font: normal 22px Georgia, "Times New Roman", Times, serif;
+	padding: 11px 170px 5px 60px;
 	margin: 0;
 	margin-right: 15%;
 }
@@ -2484,8 +2487,8 @@ abbr.required {
 /* favorite-actions */
 #favorite-actions {
 	position: absolute;
-	right: 15px;
-	top: 25px;
+	left: -150px;
+	top: 10px;
 	width: 130px;
 	z-index: 10;
 }

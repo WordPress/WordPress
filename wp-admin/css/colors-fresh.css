@@ -573,7 +573,7 @@ input.readonly {
 }
 
 #wphead {
-	background-color: #e4f2fd;
+	background-color: #464646;
 }
 
 #wphead, body.login {
@@ -591,12 +591,22 @@ input.readonly {
 }
 
 #wphead h1, #wphead h1 a, #login form input {
-	color: #555;
+	color: #fff;
 }
 
 #wphead h1 a:hover {
 	text-decoration: underline;
 }
+
+#user_info {
+	color: #999;
+}
+
+#user_info a, #user_info a:visited {
+	color: #ccc;
+	text-decoration: none;
+}
+
 
 div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover, .delete:hover {
 	color: #f00;
