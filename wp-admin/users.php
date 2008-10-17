@@ -264,7 +264,7 @@ if ( ! empty($messages) ) {
 } ?>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form id="posts-filter" action="" method="get">
 	<?php if ( $wp_user_search->is_search() ) : ?>

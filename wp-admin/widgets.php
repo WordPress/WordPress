@@ -233,7 +233,7 @@ require_once( 'admin-header.php' ); ?>
 <?php endif; ?>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 	<form id="widgets-filter" action="" method="get">
 

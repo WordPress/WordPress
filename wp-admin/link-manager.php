@@ -95,7 +95,7 @@ if ( isset($_GET['deleted']) ) {
 ?>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <div class="filter">
 <form id="list-filter" action="" method="get">

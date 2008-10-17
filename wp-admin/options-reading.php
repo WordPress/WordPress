@@ -16,7 +16,7 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form name="form1" method="post" action="options.php">
 <?php wp_nonce_field('reading-options') ?>

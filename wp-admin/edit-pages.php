@@ -135,7 +135,7 @@ if ( (int) $_GET['locked'] ) {
 endif; ?>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <ul class="subsubsub">
 <?php

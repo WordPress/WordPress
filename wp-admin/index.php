@@ -38,7 +38,7 @@ $today = current_time('mysql', 1);
 </div>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2>
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <div id="dashboard-widgets-wrap">
 

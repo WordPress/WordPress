@@ -56,7 +56,7 @@ if ( isset($_GET['inline']) ) {
 	$parent_file = 'edit.php';
 	require_once('admin-header.php'); ?>
 	<div class="wrap">
-	<h2><?php echo $title ?></h2> 
+	<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&amp;upload-page-form=" class="media-upload-form type-form validate" id="file-form">
 

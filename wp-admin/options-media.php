@@ -17,7 +17,7 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php echo $title ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form action="options.php" method="post">
 <input type="hidden" name="action" value="update" />
