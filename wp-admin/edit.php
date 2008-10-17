@@ -67,7 +67,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 }
 
 if ( empty($title) )
-	$title = __('View All Posts');
+	$title = __('Edit Posts');
 $parent_file = 'edit.php';
 wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit-post');
@@ -124,6 +124,8 @@ if ( (int) $_GET['locked'] ) {
 <?php } ?>
 
 <div class="wrap">
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+
 <ul class="subsubsub">
 <?php
 if ( empty($locked_post_status) ) :
