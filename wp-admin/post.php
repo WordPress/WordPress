@@ -116,7 +116,6 @@ case 'post-quickpress-save':
 	break;
 
 case 'edit':
-	$title = __('Edit Post');
 	$editing = true;
 
 	if ( empty( $_GET['post'] ) ) {
@@ -154,6 +153,8 @@ case 'edit':
 			wp_enqueue_script('autosave');
 		}
 	}
+
+	$title = sprintf(__('Edit "%s"'), wp_html_excerpt(_draft_or_post_title($post->ID), 50));
 
 	require_once('admin-header.php');
 
