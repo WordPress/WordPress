@@ -956,6 +956,10 @@ function inline_edit_row( $type ) {
 						<option value="pending"><?php _e('Pending Review') ?></option>
 						<option value="draft"><?php _e('Unpublished') ?></option>
 					</select>
+					<?php if ( !$is_page ) { ?>
+					<label title="<?php _e('Sticky') ?>">
+					<input type="checkbox" name="sticky" value="sticky" /> <?php _e('Sticky') ?></label>
+					<?php } ?>  
 					</div>
 				</div>
 
