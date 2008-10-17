@@ -590,8 +590,12 @@ input.readonly {
 	border-color: #328ab2;
 }
 
-#wphead h1, #wphead h1 a, #login form input {
+#wphead h1, #wphead h1 a {
 	color: #fff;
+}
+
+#login form input {
+	color: #555;
 }
 
 #wphead h1 a:hover {
