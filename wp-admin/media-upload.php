@@ -57,7 +57,7 @@ if ( isset($_GET['inline']) ) {
 	require_once('admin-header.php'); ?>
 	<div class="wrap">
 
-	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&upload-page-form=" class="media-upload-form type-form validate" id="file-form">
+	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&amp;upload-page-form=" class="media-upload-form type-form validate" id="file-form">
 	
 	<?php media_upload_form(); ?>
 	

@@ -370,7 +370,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<p class="comment-actions"><?php echo $actions_string; ?></p>
 
 			<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
-				<textarea class="comment"><?php echo $comment->comment_content; ?></textarea>
+				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
 				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
 				<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
 				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>

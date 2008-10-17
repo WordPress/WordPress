@@ -134,7 +134,7 @@ foreach ( $offset_range as $offset ) {
 </td>
 </tr>
 <tr>
-<th scope="row"><label for="date_format"><?php _e('Date Format') ?></label></th>
+<th scope="row"><?php _e('Date Format') ?></th>
 <td>
 	<fieldset><legend class="hidden"><?php _e('Date Format') ?></legend>
 <?php
@@ -159,7 +159,7 @@ foreach ( $offset_range as $offset ) {
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom') . ': </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" size="30" /> ' . gmdate( get_option('date_format'), current_time('timestamp') ) . "</label>\n";
+	echo '/> ' . __('Custom') . ': </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" size="30" /> ' . gmdate( get_option('date_format'), current_time('timestamp') ) . "\n";
 
 	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') . "</p>\n";
 ?>
@@ -167,7 +167,7 @@ foreach ( $offset_range as $offset ) {
 </td>
 </tr>
 <tr>
-<th scope="row"><label for="time_format"><?php _e('Time Format') ?></label></th>
+<th scope="row"><?php _e('Time Format') ?></th>
 <td>
 	<fieldset><legend class="hidden"><?php _e('Time Format') ?></legend>
 <?php
@@ -191,7 +191,7 @@ foreach ( $offset_range as $offset ) {
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom') . ': </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" size="30" /> ' . gmdate( get_option('time_format'), current_time('timestamp') ) . "</label>\n";
+	echo '/> ' . __('Custom') . ': </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" size="30" /> ' . gmdate( get_option('time_format'), current_time('timestamp') ) . "\n";
 ?>
 	</fieldset>
 </td>

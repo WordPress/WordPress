@@ -1016,7 +1016,7 @@ function inline_edit_row( $type ) {
 				<div <?php echo $attributes ?> title="<?php _e('Tags'); ?>">
 					<div class="title"><?php _e('Tags'); ?></div>
 					<div class="in">
-					<textarea cols="22" rows="1" type="text" name="tags_input" class="tags_input"></textarea>
+					<textarea cols="22" rows="1" name="tags_input" class="tags_input"></textarea>
 					</div>
 				</div>
 				<?php }
@@ -1871,7 +1871,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 				echo "<td $attributes>";
 				if ( 'detail' == $mode || 'single' == $mode ) comment_text(); ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
-				<textarea class="comment"><?php echo $comment->comment_content; ?></textarea>
+				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
 				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
 				<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
 				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
