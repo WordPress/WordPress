@@ -73,17 +73,13 @@ unset($hook_suffixes, $hook_suffix);
 <div id="wpcontent">
 <div id="wphead">
 <?php
-if ( 'index.php' == $pagenow ) {
-	$breadcrumb = __('Dashboard');
-} else {
-	$breadcrumb = '<a href="index.php">' . __('Dashboard') . '</a> &rsaquo; ' . $title;
-}
-
 $settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php', 'post.php', 'page-new.php', 'page.php', 'index.php' );
+$blog_name = get_bloginfo('name', 'display');
+if ( '' == $blog_name )
+	$blog_name = '&nbsp;';
 ?>
 
-<img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><?php if ( '' == get_bloginfo('name', 'display') ) echo '&nbsp;'; else echo get_bloginfo('name', 'display'); ?> <a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="View site" id="view-site-link"><!--<img src="<?php echo trailingslashit( bloginfo('wpurl') ) . 'wp-admin/images/new-window-icon.gif'; ?>" alt="" />--></a>
-<!--<span id="breadcrumb"><?php echo $breadcrumb ?></span>-->
+<img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a>
 <?php if ( in_array( $pagenow, $settings_pages ) ) { ?>
 <span id="edit-settings">
 <a href="#edit_settings" id="show-settings-link" class="hide-if-no-js show-settings"><?php _e('Page Options') ?></a>
