@@ -93,6 +93,22 @@ function get_sidebar( $name = null ) {
 		load_template( get_theme_root() . '/default/sidebar.php');
 }
 
+function get_search_form() {
+	do_action( 'get_search_form' );
+
+	if ( '' != locate_template(array('searchform.php'), true) )
+		return;
+
+	$form = '<form method="get" id="searchform" action="' . get_option('siteurl') . '/" >
+	<label class="hidden" for="s">' . __('Search for:') . '</label>
+	<div><input type="text" value="' . the_search_query() . '" name="s" id="s" />
+	<input type="submit" id="searchsubmit" value="Search" />
+	</div>
+	</form>';
+
+	echo apply_filters('get_search_form', $form);
+}
+
 /**
  * Display the Log In/Out link.
  *

@@ -763,21 +763,11 @@ function wp_widget_links($args) {
  */
 function wp_widget_search($args) {
 	extract($args);
-	$searchform_template = get_template_directory() . '/searchform.php';
-
 	echo $before_widget;
 
 	// Use current theme search form if it exists
-	if ( file_exists($searchform_template) ) {
-		include_once($searchform_template);
-	} else { ?>
-		<form id="searchform" method="get" action="<?php bloginfo('url'); ?>/"><div>
-			<label class="hidden" for="s"><?php _e('Search for:'); ?></label>
-			<input type="text" name="s" id="s" size="15" value="<?php the_search_query(); ?>" />
-			<input type="submit" value="<?php echo attribute_escape(__('Search')); ?>" />
-		</div></form>
-	<?php }
-
+	get_search_form();
+	
 	echo $after_widget;
 }
 

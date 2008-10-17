@@ -63,7 +63,7 @@ get_header();
 			printf("<h2 class='center'>Sorry, but there aren't any posts by %s yet.</h2>", get_userdatabylogin(get_query_var('author_name'))->display_name);
 		else
 			echo("<h2 class='center'>No posts found.</h2>");
-		include (TEMPLATEPATH . '/searchform.php');
+		get_search_form();
 
 	endif;
 ?>
