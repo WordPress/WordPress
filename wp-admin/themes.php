@@ -74,9 +74,9 @@ function theme_update_available( $theme ) {
 	if ( !isset($themes_update) )
 		$themes_update = get_option('update_themes');
 
-	if ( isset($theme->stylesheet) )
+	if ( is_object($theme) && isset($theme->stylesheet) )
 		$stylesheet = $theme->stylesheet;
-	elseif ( isset($theme['Stylesheet']) )
+	elseif ( is_array($theme) && isset($theme['Stylesheet']) )
 		$stylesheet = $theme['Stylesheet'];
 	else
 		return false; //No valid info passed.
