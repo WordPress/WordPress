@@ -123,6 +123,8 @@ else
 <?php endif; ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
+
 <form name="form" action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
 

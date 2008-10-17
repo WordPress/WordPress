@@ -38,6 +38,8 @@ $today = current_time('mysql', 1);
 </div>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2>
+
 <div id="dashboard-widgets-wrap">
 
 <?php wp_dashboard(); ?>

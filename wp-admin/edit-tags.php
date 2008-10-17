@@ -143,6 +143,7 @@ $messages[6] = __('Tags deleted.'); ?>
 endif; ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
 
 <ul class="subsubsub"><li class="current"><a class="current"><br /></a></li></ul>
 <form class="search-form" action="" method="get">

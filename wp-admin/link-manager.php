@@ -45,7 +45,7 @@ if ( empty($cat_id) )
 if ( empty($order_by) )
 	$order_by = 'order_name';
 
-$title = __('Manage Links');
+$title = __('Edit Links');
 $this_file = $parent_file = 'edit.php';
 include_once ("./admin-header.php");
 
@@ -95,6 +95,7 @@ if ( isset($_GET['deleted']) ) {
 ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
 
 <div class="filter">
 <form id="list-filter" action="" method="get">

@@ -9,7 +9,7 @@
 /** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$title = __('Add Link');
+$title = __('Add New Link');
 $parent_file = 'link-manager.php';
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',

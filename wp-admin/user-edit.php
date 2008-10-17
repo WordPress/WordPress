@@ -177,6 +177,7 @@ include ('admin-header.php');
 <?php endif; ?>
 
 <div class="wrap" id="profile-page">
+	<h2><?php echo $title ?></h2> 
 
 <form id="your-profile" action="" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>

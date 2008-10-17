@@ -96,6 +96,8 @@ default:
 </div>
 <?php endif; ?>
 <div class="wrap">
+	<h2><?php echo $title ?></h2> 
+
 <div class="tablenav">
 <div class="alignleft">
 <big><?php

@@ -183,6 +183,7 @@ if ( isset($message) ) { ?>
 <?php do_action('restrict_manage_posts'); ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
 
 <ul class="subsubsub">
 <?php

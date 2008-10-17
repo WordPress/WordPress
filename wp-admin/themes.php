@@ -98,6 +98,8 @@ function theme_update_available( $theme ) {
 ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
+
 <h2><?php _e('Current Theme'); ?></h2>
 <div id="current-theme">
 <?php if ( $ct->screenshot ) : ?>

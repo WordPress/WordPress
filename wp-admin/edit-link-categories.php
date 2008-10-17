@@ -76,6 +76,7 @@ $messages[6] = __('Categories deleted.'); ?>
 endif; ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
 
 <ul class="subsubsub"><li><a class="current"><br /></a></li></ul>
 <form class="search-form" action="" method="get">

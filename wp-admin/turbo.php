@@ -17,6 +17,8 @@ require_once('admin-header.php');
 if ( ! $is_opera ) {
 ?>
 	<div id="gears-info-box" class="wrap">
+	<h2><?php echo $title ?></h2> 
+
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
 	<div id="gears-msg1">
 	<h3 class="info-box-title"><?php _e('Speed up WordPress'); ?></h3>

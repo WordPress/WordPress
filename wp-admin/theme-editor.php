@@ -99,8 +99,8 @@ $description = get_file_description($file);
 $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "%s";
 ?>
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
 <div class="bordertitle">
-	<h2><?php _e('Theme Editor'); ?></h2>
 	<form id="themeselector" action="theme-editor.php" method="post">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
 		<select name="theme" id="theme">

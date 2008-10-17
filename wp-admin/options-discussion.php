@@ -16,6 +16,8 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
+
 <form method="post" action="options.php">
 <input type='hidden' name='option_page' value='discussion' />
 <input type="hidden" name="action" value="update" />

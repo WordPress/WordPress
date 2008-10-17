@@ -52,6 +52,8 @@ do_action('install_plugins_pre_' . $tab); //Used to override the general interfa
 include('admin-header.php');
 ?>
 <div class="wrap">
+<h2><?php echo $title ?></h2> 
+
 	<ul class="subsubsub">
 <?php
 $display_tabs = array();

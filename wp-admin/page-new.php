@@ -8,7 +8,7 @@
 
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
-$title = __('New Page');
+$title = __('Add New Page');
 $parent_file = 'edit-pages.php';
 $editing = true;
 wp_enqueue_script('autosave');

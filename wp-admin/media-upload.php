@@ -31,7 +31,7 @@ if ( isset($action) && $action == 'edit' && !$ID )
 	wp_die(__("You are not allowed to be here"));
 
 if ( isset($_GET['inline']) ) {
-	
+
 	if ( isset($_GET['upload-page-form']) ) {
 		$errors = media_upload_form_handler();
 
@@ -52,15 +52,16 @@ if ( isset($_GET['inline']) ) {
 		}
 	}
 
-	$title = __('Upload Media');
+	$title = __('Upload New Media');
 	$parent_file = 'edit.php';
 	require_once('admin-header.php'); ?>
 	<div class="wrap">
+	<h2><?php echo $title ?></h2> 
 
 	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&amp;upload-page-form=" class="media-upload-form type-form validate" id="file-form">
-	
+
 	<?php media_upload_form(); ?>
-	
+
 	<script type="text/javascript">
 	jQuery(function($){
 		var preloaded = $(".media-item.preloaded");
