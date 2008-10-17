@@ -375,6 +375,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 			return false;
 	} else if ( 'name' == $field ) {
 		// Assume already escaped
+		$value = stripslashes($value);
 		$field = 't.name';
 	} else {
 		$field = 't.term_id';
