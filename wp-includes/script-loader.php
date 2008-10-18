@@ -298,7 +298,6 @@ function wp_default_scripts( &$scripts ) {
  *
  * @param object $styles
  */
-
 function wp_default_styles( &$styles ) {
 	// This checks to see if site_url() returns something and if it does not
 	// then it assigns $guess_url to wp_guess_url(). Strange format, but it works.
@@ -346,7 +345,6 @@ function wp_default_styles( &$styles ) {
  * @param array $js_array JavaScript scripst array
  * @return array Reordered array, if needed.
  */
-
 function wp_prototype_before_jquery( $js_array ) {
 	if ( false === $jquery = array_search( 'jquery', $js_array ) )
 		return $js_array;

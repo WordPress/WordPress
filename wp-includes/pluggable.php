@@ -426,16 +426,16 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 }
 endif;
 
+if ( !function_exists('wp_authenticate') ) :
 /**
  * Checks a user's login information and logs them in if it checks out.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param string $username User's username
  * @param string $password User's password
  * @return WP_Error|WP_User WP_User object if login successful, otherwise WP_Error object.
  */
-if ( !function_exists('wp_authenticate') ) :
 function wp_authenticate($username, $password) {
 	$username = sanitize_user($username);
 
@@ -467,12 +467,12 @@ function wp_authenticate($username, $password) {
 }
 endif;
 
+if ( !function_exists('wp_logout') ) :
 /**
  * Log the current user out.
  *
- * @since 2.5
+ * @since 2.5.0
  */
-if ( !function_exists('wp_logout') ) :
 function wp_logout() {
 	wp_clear_auth_cookie();
 	do_action('wp_logout');

@@ -17,7 +17,7 @@
  */
 do_action('load_feed_engine');
 
-
+/** RSS feed constant. */
 define('RSS', 'RSS');
 define('ATOM', 'Atom');
 define('MAGPIE_USER_AGENT', 'WordPress/' . $GLOBALS['wp_version']);

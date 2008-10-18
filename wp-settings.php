@@ -17,7 +17,7 @@ if ( function_exists('memory_get_usage') && ( (int) @ini_get('memory_limit') < a
 
 
 /**
- * wp_unregister_GLOBALS() - Turn register globals off
+ * Turn register globals off.
  *
  * @access private
  * @since 2.1.0
@@ -142,12 +142,12 @@ if ( !extension_loaded('mysql') && !file_exists(WP_CONTENT_DIR . '/db.php') )
 	die( /*WP_I18N_OLD_MYSQL*/'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.'/*/WP_I18N_OLD_MYSQL*/ );
 
 /**
- * timer_start() - PHP 4 standard microtime start capture
+ * PHP 4 standard microtime start capture.
  *
  * @access private
  * @since 0.71
- * @global int $timestart Seconds and Microseconds added together from when function is called
- * @return bool Always returns true
+ * @global int $timestart Seconds and Microseconds added together from when function is called.
+ * @return bool Always returns true.
  */
 function timer_start() {
 	global $timestart;
@@ -158,7 +158,7 @@ function timer_start() {
 }
 
 /**
- * timer_stop() - Return and/or display the time from the page start to when function is called.
+ * Return and/or display the time from the page start to when function is called.
  *
  * You can get the results and print them by doing:
  * <code>
@@ -315,12 +315,24 @@ if ( !defined('WP_CONTENT_URL') )
 /**
  * Allows for the plugins directory to be moved from the default location.
  *
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('WP_PLUGIN_DIR') )
 	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
+
+/**
+ * Allows for the plugins directory to be moved from the default location.
+ *
+ * @since 2.6.0
+ */
 if ( !defined('WP_PLUGIN_URL') )
 	define( 'WP_PLUGIN_URL', WP_CONTENT_URL . '/plugins' ); // full url, no trailing slash
+
+/**
+ * Allows for the plugins directory to be moved from the default location.
+ *
+ * @since 2.1.0
+ */
 if ( !defined('PLUGINDIR') )
 	define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
 
@@ -336,7 +348,7 @@ if ( ! defined('WP_INSTALLING') ) {
 
 /**
  * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php
- * @since 2.5
+ * @since 2.5.0
  */
 $wp_default_secret_key = 'put your unique phrase here';
 
@@ -356,21 +368,21 @@ if ( !defined('PASS_COOKIE') )
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.5
+ * @since 2.5.0
  */
 if ( !defined('AUTH_COOKIE') )
 	define('AUTH_COOKIE', 'wordpress_' . COOKIEHASH);
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('SECURE_AUTH_COOKIE') )
 	define('SECURE_AUTH_COOKIE', 'wordpress_sec_' . COOKIEHASH);
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('LOGGED_IN_COOKIE') )
 	define('LOGGED_IN_COOKIE', 'wordpress_logged_in_' . COOKIEHASH);
@@ -398,14 +410,14 @@ if ( !defined('SITECOOKIEPATH') )
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('ADMIN_COOKIE_PATH') )
 	define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin' );
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('PLUGINS_COOKIE_PATH') )
 	define( 'PLUGINS_COOKIE_PATH', preg_replace('|https?://[^/]+|i', '', WP_PLUGIN_URL)  );
@@ -419,7 +431,7 @@ if ( !defined('COOKIE_DOMAIN') )
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('FORCE_SSL_ADMIN') )
 	define('FORCE_SSL_ADMIN', false);
@@ -427,7 +439,7 @@ force_ssl_admin(FORCE_SSL_ADMIN);
 
 /**
  * It is possible to define this in wp-config.php
- * @since 2.6
+ * @since 2.6.0
  */
 if ( !defined('FORCE_SSL_LOGIN') )
 	define('FORCE_SSL_LOGIN', false);
@@ -529,13 +541,13 @@ do_action('setup_theme');
 
 /**
  * Web Path to the current active template directory
- * @since 1.5
+ * @since 1.5.0
  */
 define('TEMPLATEPATH', get_template_directory());
 
 /**
  * Web Path to the current active template stylesheet directory
- * @since 2.1
+ * @since 2.1.0
  */
 define('STYLESHEETPATH', get_stylesheet_directory());
 
@@ -568,10 +580,10 @@ if ( file_exists(TEMPLATEPATH . '/functions.php') )
 	include(TEMPLATEPATH . '/functions.php');
 
 /**
- * shutdown_action_hook() - Runs just before PHP shuts down execution.
+ * Runs just before PHP shuts down execution.
  *
  * @access private
- * @since 1.2
+ * @since 1.2.0
  */
 function shutdown_action_hook() {
 	do_action('shutdown');

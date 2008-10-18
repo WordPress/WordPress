@@ -156,7 +156,12 @@ function install_dashboard() {
 	echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
 }
 
-function install_search_form($after_submit = '') {
+/**
+ * Display search form for searching plugins.
+ *
+ * @since 2.7.0
+ */
+function install_search_form(){
 	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
 	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
 

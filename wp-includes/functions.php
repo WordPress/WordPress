@@ -646,12 +646,13 @@ function delete_option( $name ) {
 /**
  * Saves and restores user interface settings stored in a cookie.
  *
+ * Checks if the current user-settings cookie is updated and stores it. When no
+ * cookie exists (different browser used), adds the last saved cookie restoring
+ * the settings.
+ *
  * @package WordPress
  * @subpackage Option
  * @since 2.7.0
- *
- * Checks if the current user-settings cookie is updated and stores it.
- * When no cookie exists (different browser used), adds the last saved cookie restoring the settings.
  */
 function wp_user_settings() {
 
@@ -690,8 +691,8 @@ function wp_user_settings() {
  *
  * @package WordPress
  * @subpackage Option
- * @since 2.7.0 
- *   
+ * @since 2.7.0
+ *
  * @param string $name The name of the setting.
  * @param string $default Optional default value to return when $name is not set.
  * @return mixed the last saved user setting or the default value/false if it doesn't exist.
@@ -706,11 +707,11 @@ function get_user_setting( $name, $default = false ) {
 /**
  * Delete user interface settings.
  *
+ * Deleting settings would reset them to the defaults.
+ *
  * @package WordPress
  * @subpackage Option
  * @since 2.7.0
- *
- * Deleting settings would reset them to the defaults.
  *
  * @param mixed $names The name or array of names of the setting to be deleted.
  */
@@ -763,6 +764,13 @@ function get_all_user_settings() {
 	return array();
 }
 
+/**
+ * Delete the user settings of the current user.
+ *
+ * @package WordPress
+ * @subpackage Option
+ * @since 2.7.0
+ */
 function delete_all_user_settings() {
 	if ( ! $user = wp_get_current_user() )
 		return;

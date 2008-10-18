@@ -93,6 +93,15 @@ function get_sidebar( $name = null ) {
 		load_template( get_theme_root() . '/default/sidebar.php');
 }
 
+/**
+ * Display search form.
+ *
+ * Will first attempt to locate the searchform.php file in either the child or
+ * the parent, then load it. If it doesn't exist, then the default search form
+ * will be displayed.
+ *
+ * @since 2.7.0
+ */
 function get_search_form() {
 	do_action( 'get_search_form' );
 

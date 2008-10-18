@@ -7,12 +7,14 @@
  */
 
 /**
- * {@internal Missing Short Description}}
+ * Display styles that are in the queue or part of $handles.
  *
  * @since r79
+ * @uses do_action() Calls 'wp_print_styles' hook.
+ * @global object $wp_styles The WP_Styles object for printing styles.
  *
- * @param mixed $handles See {@link WP_Styles::do_items()} for information.
- * @return mixed See {@link WP_Styles::do_items()} for information.
+ * @param array $handles (optional) Styles to be printed.  (void) prints queue, (string) prints that style, (array of strings) prints those styles.
+ * @return bool True on success, false on failure.
  */
 function wp_print_styles( $handles = false ) {
 	do_action( 'wp_print_styles' );
@@ -30,6 +32,12 @@ function wp_print_styles( $handles = false ) {
 	return $wp_styles->do_items( $handles );
 }
 
+/**
+ * Register CSS style file.
+ *
+ * @since r79
+ * @see WP_Styles::add() For parameter and additional information.
+ */
 function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = false ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )
@@ -38,6 +46,12 @@ function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media
 	$wp_styles->add( $handle, $src, $deps, $ver, $media );
 }
 
+/**
+ * Remove a registered CSS file.
+ *
+ * @since r79
+ * @see WP_Styles::remove() For parameter and additional information.
+ */
 function wp_deregister_style( $handle ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )
@@ -46,6 +60,12 @@ function wp_deregister_style( $handle ) {
 	$wp_styles->remove( $handle );
 }
 
+/**
+ * Enqueue a CSS style file.
+ *
+ * @since r79
+ * @see WP_Styles::add(), WP_Styles::enqueue()
+ */
 function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false, $media = false ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )

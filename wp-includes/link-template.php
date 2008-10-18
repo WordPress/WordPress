@@ -28,8 +28,8 @@ function the_permalink() {
  * @since 2.2.0
  * @uses $wp_rewrite
  *
- * @param $string string a URL with or without a trailing slash
- * @param $type_of_url string the type of URL being considered (e.g. single, category, etc) for use in the filter
+ * @param $string String a URL with or without a trailing slash
+ * @param $type_of_url String the type of URL being considered (e.g. single, category, etc) for use in the filter
  * @return string
  */
 function user_trailingslashit($string, $type_of_url = '') {
@@ -439,10 +439,10 @@ function get_post_comments_feed_link($post_id = '', $feed = '') {
  * @subpackage Feed
  * @since 2.5.0
  *
- * @param string $link_text Descriptive text
+ * @param string $link_text Descriptive text.
  * @param int $post_id Optional post ID.  Default to current post.
- * @param string $feed Optional. {@internal Missing Description}}
- * @return string Link to the comment feed for the current post
+ * @param string $feed Optional. Feed format.
+ * @return string Link to the comment feed for the current post.
 */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	$url = get_post_comments_feed_link($post_id, $feed);
