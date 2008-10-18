@@ -664,16 +664,19 @@ function wp_page_menu( $args = array() ) {
 		$class = '';
 		if ( is_home() && !is_paged() )
 			$class = 'class="current_page_item"';
-		$menu = '<li ' . $class . '><a href="' . get_option('home') . '">' . $text . '</a></li>';
+		$menu .= '<li ' . $class . '><a href="' . get_option('home') . '">' . $text . '</a></li>';
 	}
 
-	$menu .= str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($args) );
+	$list_args = $args;
+	$list_args['echo'] = false;
+	$list_args['title_li'] = '';
+	$menu .= str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($list_args) );
 
 	if ( $menu )
 		$menu = '<ul>' . $menu . '</ul>';
 
 	$menu = '<div id="' . $args['menu_class'] . '">' . $menu . "</div>\n";
-	$menu = apply_filters( 'wp_page_menu', $menu ); 
+	$menu = apply_filters( 'wp_page_menu', $menu, $args ); 
 	if ( $args['echo'] )
 		echo $menu;
 	else
