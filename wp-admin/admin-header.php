@@ -86,7 +86,6 @@ if ( '' == $blog_name )
 <a href="#edit_settings" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
 </span>
 <?php } ?></h1>
-</div>
 
 <div id="wphead-info">
 <?php favorite_actions(); ?>
@@ -100,6 +99,9 @@ if ( '' == $blog_name )
 <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 </div>
 </div>
+
+</div>
+
 <?php
 require(ABSPATH . 'wp-admin/menu-header.php');
 ?>

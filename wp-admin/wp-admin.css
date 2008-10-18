@@ -598,12 +598,12 @@ a.view-comment-post-link {
 /* Admin Header */
 
 #wphead-info {
-	position: absolute;
-	right: 15px;
-	top: 0;
+	float: right;
+	margin: 0 15px;
 }
 
 #user_info {
+	float: right;
 	font-size: 12px;
 	line-height: 46px;
 	height: 46px;
@@ -639,8 +639,8 @@ a#view-site-link {
 }
 
 #logo50 {
+	float: left;
 	margin: 9px 0 0 20px;
-	position: absolute;
 }
 
 ul#adminmenu li.write-new-button {
@@ -664,9 +664,9 @@ ul#adminmenu li.write-new-button a {
 
 #wphead h1 {
 	font: normal 22px Georgia, "Times New Roman", Times, serif;
-	padding: 11px 170px 5px 60px;
+	padding: 10px 10px 5px;
 	margin: 0;
-	margin-right: 15%;
+	float: left;
 }
 
 /* menu stuff */
@@ -2492,49 +2492,82 @@ abbr.required {
 
 /* favorite-actions */
 #favorite-actions {
-	position: absolute;
-	left: -150px;
-	top: 10px;
-	width: 130px;
-	z-index: 10;
+	float: left;
+	margin: 11px 12px 0;
+	min-width: 130px;
+	position: relative;
+	
 }
 
 #favorite-first {
-	-moz-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+	-moz-border-radius: 12px;
+	-khtml-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	line-height: 15px;
+	padding: 3px 30px 4px 12px;
+	border-color: #464646;
 	border-width: 1px;
 	border-style: solid;
-	padding: 4px 8px;
+	background-color: #797979;
+	background-image: url(images/fav.png);
+	background-repeat: repeat-x;
+	background-position: 0 center;
+}
+
+#favorite-inside {
+	margin: 0 0 0 1px;
+	padding: 2px 8px 4px;
+	border-width: 1px;
+	border-style: solid;
+	position: absolute;
+	z-index: 11;
+	display: none;
+	-moz-border-radius: 0 0 12px 12px;
+	-webkit-border-bottom-right-radius: 12px;
+	-webkit-border-bottom-left-radius: 12px;
+	-khtml-border-bottom-right-radius: 12px;
+	-khtml-border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+	border-color: #797979;
+	background-color: #797979;
+	background-image: url(images/fav-bottom.png);
+	background-repeat: repeat-x;
+	background-position: 0 bottom;
 }
 
 .favorite-action {
-	margin: -3px 0 0;
-	padding: 4px 8px;
-	border-width: 1px;
-	border-top-width: 3px;
-	border-style: solid;
-	-moz-border-radius: 0 0 4px 4px;
-	-webkit-border-bottom-right-radius: 4px;
-	-webkit-border-bottom-left-radius: 4px;
-	-khtml-border-bottom-right-radius: 4px;
-	-khtml-border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-	border-bottom-left-radius: 4px;
+	padding: 3px;
 }
 
-#favorite-action {
-	padding: 0;
-	margin: 0;
-	display: none;
-}
 #favorite-actions a {
-	padding: 4px 0;
+	padding: 4px 5px 4px 0;
 	text-decoration: none;
+	color: #eee;
+	font-size: 11px;
 }
 
-#favorite-first {
-	padding-right: 22px;
-	background: url(images/menu-open.png) 108px 5px no-repeat;
+#favorite-toggle {
+	height: 22px;
+	position: absolute;
+	right: 0;
+	top: 1px;
+	width: 28px;
+	background: transparent url(images/fav-arrow.png) no-repeat 0 -4px;
 }
+
+#favorite-actions .slide-down {
+	background-image: url(images/fav-top.png);
+	background-repeat: repeat-x;
+	background-position: 0 top;
+	-moz-border-radius: 12px 12px 0 0;
+	-webkit-border-bottom-right-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+	-khtml-border-bottom-right-radius: 0;
+	-khtml-border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom: 1px solid #626262;
+}
+

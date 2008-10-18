@@ -79,7 +79,7 @@ strong .post-com-count span {
 
 #post-body ul#category-tabs li.ui-tabs-selected, .button-secondary,
 #quicktags, #login form .submit input, .search-box .button,
-#ed_reply_toolbar, .favorite-action, #favorite-first {
+#ed_reply_toolbar {
 	background-color: #cee1ef !important;
 }
 
@@ -219,9 +219,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .button-secondary,
 #login form .submit input,
 div.dashboard-widget-submit input,
-#edit-slug-buttons a.save,
-.favorite-action,
-#favorite-first {
+#edit-slug-buttons a.save {
 	background-color: #e5e5e5;
 	color: #246;
 	border-color: #80b5d0;
