@@ -673,7 +673,11 @@ function wp_page_menu( $args = array() ) {
 		$menu = '<ul>' . $menu . '</ul>';
 
 	$menu = '<div id="' . $args['menu_class'] . '">' . $menu . "</div>\n";
-	echo apply_filters( 'wp_page_menu', $menu );
+	$menu = apply_filters( 'wp_page_menu', $menu ); 
+	if ( $args['echo'] )
+		echo $menu;
+	else
+		return $menu;
 }
 
 //
