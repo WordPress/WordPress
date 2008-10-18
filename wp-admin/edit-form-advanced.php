@@ -340,8 +340,9 @@ function post_comment_status_meta_box($post) {
 	<label for="comment_status" class="selectit"> <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> /> <?php _e('Allow comments on this post') ?></label>
 </p>
 <?php
+	$total = $wpdb->get_var($wpdb->prepare("SELECT count(1) FROM $wpdb->comments WHERE comment_post_ID = '%d' AND ( comment_approved = '0' OR comment_approved = '1')", $post_ID));
 
-	if ( !$post_ID || $post_ID < 0 || 0 == $post->comment_count )
+	if ( !$post_ID || $post_ID < 0 || 1 > $total )
 		return;
 
 wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
@@ -358,8 +359,13 @@ wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 <tbody id="the-comment-list" class="list:comment">
 </tbody>
 </table>
-<p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get();return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
+<p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
 <?php
+	$hidden = (array) get_user_option( "meta-box-hidden_post" );
+	if ( ! in_array('commentstatusdiv', $hidden) ) { ?>
+		<script type="text/javascript">commentsBox.get(<?php echo $total; ?>, 10);</script>
+<?php
+	}
 }
 add_meta_box('commentstatusdiv', __('Comments on this Post'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
 

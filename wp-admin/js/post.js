@@ -234,10 +234,13 @@ jQuery(document).ready( function($) {
 	commentsBox = {
 		st : 0,
 
-		get : function(id, nonce) {
+		get : function(total, num) {
 			var st = this.st;
-			this.st += 20;
+			if ( ! num )
+				num = 20;
 
+			this.st += num;
+			this.total = total;
 			$('.waiting').show();
 
 			var data = {
@@ -246,7 +249,7 @@ jQuery(document).ready( function($) {
 				'_ajax_nonce' : $('#add_comment_nonce').val(),
 				'post_ID' : $('#post_ID').val(),
 				'start' : st,
-				'num' : '20'
+				'num' : num
 			};
 
 			$.post('admin-ajax.php', data,
@@ -262,7 +265,11 @@ jQuery(document).ready( function($) {
 						theList = theExtraList = null;
 						$("a[className*=':']").unbind();
 						setCommentsList();
-						$('#show-comments').html(postL10n.showcomm);
+
+						if ( commentsBox.st > commentsBox.total )
+							$('#show-comments').hide();
+						else
+							$('#show-comments').html(postL10n.showcomm);
 						return;
 					} else if ( 1 == r ) {
 						$('#show-comments').parent().html(postL10n.endcomm);
