@@ -797,4 +797,149 @@ function user_can_access_admin_page() {
 	return true;
 }
 
+/* Whitelist functions */
+
+/**
+ * Register a setting and its sanitization callback
+ *
+ * @since 2.7.0
+ *
+ * @param string $option_group A settings group name.  Can be anything.
+ * @param string $option_name The name of an option to sanitize and save.
+ * @param unknown_type $sanitize_callback A callback function that sanitizes the option's value.
+ * @return unknown
+ */
+function register_setting($option_group, $option_name, $sanitize_callback = '') {
+	return add_option_update_handler($option_group, $option_name, $sanitize_callback);
+}
+
+/**
+ * Unregister a setting
+ *
+ * @since 2.7.0
+ *
+ * @param unknown_type $option_group
+ * @param unknown_type $option_name
+ * @param unknown_type $sanitize_callback
+ * @return unknown
+ */
+function unregister_setting($option_group, $option_name, $sanitize_callback = '') {
+	return remove_option_update_handler($option_group, $option_name, $sanitize_callback);
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $option_group
+ * @param unknown_type $option_name
+ * @param unknown_type $sanitize_callback
+ */
+function add_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
+	global $new_whitelist_options;
+	$new_whitelist_options[ $option_group ][] = $option_name;
+	if ( $sanitize_callback != '' )
+		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $option_group
+ * @param unknown_type $option_name
+ * @param unknown_type $sanitize_callback
+ */
+function remove_option_update_handler($option_group, $option_name, $sanitize_callback = '') {
+	global $new_whitelist_options;
+	$pos = array_search( $option_name, $new_whitelist_options );
+	if ( $pos !== false )
+		unset( $new_whitelist_options[ $option_group ][ $pos ] );
+	if ( $sanitize_callback != '' )
+		remove_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $options
+ * @return unknown
+ */
+function option_update_filter( $options ) {
+	global $new_whitelist_options;
+
+	if ( is_array( $new_whitelist_options ) )
+		$options = add_option_whitelist( $new_whitelist_options, $options );
+
+	return $options;
+}
+add_filter( 'whitelist_options', 'option_update_filter' );
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $new_options
+ * @param unknown_type $options
+ * @return unknown
+ */
+function add_option_whitelist( $new_options, $options = '' ) {
+	if( $options == '' ) {
+		global $whitelist_options;
+	} else {
+		$whitelist_options = $options;
+	}
+	foreach( $new_options as $page => $keys ) {
+		foreach( $keys as $key ) {
+			$pos = array_search( $key, $whitelist_options[ $page ] );
+			if( $pos === false )
+				$whitelist_options[ $page ][] = $key;
+		}
+	}
+	return $whitelist_options;
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $del_options
+ * @param unknown_type $options
+ * @return unknown
+ */
+function remove_option_whitelist( $del_options, $options = '' ) {
+	if( $options == '' ) {
+		global $whitelist_options;
+	} else {
+		$whitelist_options = $options;
+	}
+	foreach( $del_options as $page => $keys ) {
+		foreach( $keys as $key ) {
+			$pos = array_search( $key, $whitelist_options[ $page ] );
+			if( $pos !== false )
+				unset( $whitelist_options[ $page ][ $pos ] );
+		}
+	}
+	return $whitelist_options;
+}
+
+/**
+ * Output nonce, action, and option_page fields for a settings page.
+ *
+ * @since 2.7.0
+ *
+ * @param string $option_group A settings group name.  This should match the group name used in register_setting().
+ */
+function settings_fields($option_group) {
+	echo "<input type='hidden' name='option_page' value='$option_group' />";
+	echo '<input type="hidden" name="action" value="update" />';
+	wp_nonce_field("$option_group-options");
+}
+
 ?>
