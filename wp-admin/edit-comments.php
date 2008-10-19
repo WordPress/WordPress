@@ -157,11 +157,10 @@ unset($status_links);
 <select name="comment_type">
 	<option value="all"><?php _e('Show all comment types'); ?></option>
 <?php
-	$comment_types = array(
+	$comment_types = apply_filters( 'admin_comment_types_dropdown', array(
 		'comment' => __('Comments'),
-		'pingback' => __('Pingbacks'),
-		'trackback' => __('Trackbacks'),
-	);
+		'pings' => __('Pings'),
+	) );
 
 	foreach ( $comment_types as $type => $label ) {
 		echo "	<option value='$type'";

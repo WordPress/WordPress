@@ -1785,6 +1785,8 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 		$typesql = "AND comment_type = 'pingback'";
 	elseif ( 'trackback' == $type )
 		$typesql = "AND comment_type = 'trackback'";
+	elseif ( 'pings' == $type )
+		$typesql = "AND ( comment_type = 'pingback' OR comment_type = 'trackback' )";
 	else
 		$typesql = '';
 
@@ -1943,7 +1945,9 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 			case 'response':
 				echo "<td $attributes>\n";
 				echo "&quot;$post_link&quot; ";
-				echo '<a href="edit-comments.php?p=' . $post->ID . '">' . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '</a><br />';
+				echo '<a href="edit-comments.php?p=' . $post->ID;
+				if ( !empty($_GET['comment_type']) ) echo '&amp;comment_type=' . htmlspecialchars( $_GET['comment_type'] );
+				echo '">' . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '</a><br />';
 				echo get_the_time(__('Y/m/d \a\t g:ia'));
 				echo '</td>';
 		}
