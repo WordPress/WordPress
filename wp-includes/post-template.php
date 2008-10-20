@@ -649,7 +649,7 @@ function wp_list_pages($args = '') {
  * @param array|string $args
  */
 function wp_page_menu( $args = array() ) {
-	$defaults = array('title_li' => '', 'sort_column' => 'menu_order', 'menu_class' => 'menu', 'echo' => false);
+	$defaults = array('sort_column' => 'post_title', 'menu_class' => 'menu', 'echo' => true);
 	$args = wp_parse_args( $args, $defaults );
 	$args = apply_filters( 'wp_page_menu_args', $args );
 
