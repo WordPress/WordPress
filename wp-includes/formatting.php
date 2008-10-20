@@ -126,7 +126,11 @@ function wpautop($pee, $br = 1) {
 		$pee = preg_replace('|\s*</embed>\s*|', '</embed>', $pee);
 	}
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
-	$pee = preg_replace('/\n?(.+?)(?:\n\s*\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end
+	// make paragraphs, including one at the end
+	$pees = preg_split('/\n\s*\n/', $pee, -1, PREG_SPLIT_NO_EMPTY);
+	$pee = '';
+	foreach ( $pees as $tinkle )
+		$pee .= '<p>' . trim($tinkle, "\n") . "</p>\n";
 	$pee = preg_replace('|<p>\s*?</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace
 	$pee = preg_replace('!<p>([^<]+)\s*?(</(?:div|address|form)[^>]*>)!', "<p>$1</p>$2", $pee);
 	$pee = preg_replace( '|<p>|', "$1<p>", $pee );
