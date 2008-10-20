@@ -133,6 +133,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/del.png" },
 { "url" : "images/list.gif" },
 { "url" : "images/exc.gif" },
+{ "url" : "images/wp-logo.gif" },
 
 { "url" : "images/align-center.png" },
 { "url" : "images/align-left.png" },
