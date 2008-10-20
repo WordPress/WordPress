@@ -41,8 +41,14 @@ if ( !current_user_can('manage_options') )
 switch($action) {
 
 case 'update':
-	$option_page = $_POST[ 'option_page' ];
-	check_admin_referer( $option_page . '-options' );
+	if ( isset($_POST[ 'option_page' ]) ) {
+		$option_page = $_POST[ 'option_page' ];
+		check_admin_referer( $option_page . '-options' );
+	} else {
+		// This is for back compat and will eventually be removed.
+		$option_page = 'options';
+		check_admin_referer( 'update-options' );
+	}
 
 	if ( !isset( $whitelist_options[ $option_page ] ) )
 		wp_die( __( 'Error! Options page not found.' ) );
