@@ -50,7 +50,7 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'page-new.php', '', '', 'menu-page
 	//$submenu['page-new.php'][10] = array( __('Drafts'), 'edit_pages', 'edit-page-drafts.php' );
 	$submenu['page-new.php'][15] = array( __('Edit'), 'edit_pages', 'edit-pages.php' );
 
-$menu[25] = array( __('Comments'), 'edit_posts', 'edit-comments.php', '', '', 'menu-comments', 'images/menu/comments.png' );
+$menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='comment-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', '', 'menu-comments', 'images/menu/comments.png' );
 	$submenu['edit-comments.php'][15] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );
 
 $menu[29] = array( '', 'read', '', '', 'wp-menu-separator' );
