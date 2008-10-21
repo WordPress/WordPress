@@ -21,18 +21,18 @@ function core_update_footer( $msg = '' ) {
 
 	switch ( $cur->response ) {
 	case 'development' :
-		return sprintf( '| '.__( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), $GLOBALS['wp_version'], 'update.php?action=upgrade-core');
+		return sprintf( __( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), $GLOBALS['wp_version'], 'update.php?action=upgrade-core');
 	break;
 
 	case 'upgrade' :
 		if ( current_user_can('manage_options') ) {
-			return sprintf( '| <strong>'.__( '<a href="%1$s">Get Version %2$s</a>' ).'</strong>', wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core'), $cur->current);
+			return sprintf( '<strong>'.__( '<a href="%1$s">Get Version %2$s</a>' ).'</strong>', wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core'), $cur->current);
 			break;
 		}
 
 	case 'latest' :
 	default :
-		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
+		return sprintf( __( 'Version %s' ), $GLOBALS['wp_version'] );
 	break;
 	}
 }

@@ -952,16 +952,26 @@ html, body {
 }
 
 #footer {
+	font: 12px Georgia, "Times New Roman", Times, serif;
 	clear: both;
-	font-size: 12px;
-	height: 75px;
-	margin-top: -75px;
+	height: 45px;
+	margin-top: -45px;
 	position: relative;
+}
+
+#footer #footer-thankyou, #footer #footer-upgrade {
+	font-style: italic;
+}
+
+#footer #footer-upgrade {
+	position: absolute;
+	bottom: 12px;
+	right: 15px;
 }
 
 #footer p {
 	margin: 0;
-	padding: 17px 0 7px 60px;
+	padding: 17px 0 7px 15px;
 }
 
 #footer p a {

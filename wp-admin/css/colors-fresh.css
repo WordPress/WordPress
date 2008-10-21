@@ -421,7 +421,7 @@ input.readonly {
 }
 
 #footer {
-	background: url(../images/logo-ghost.png) #464646 no-repeat 20px 10px;
+	background: #464646;
 	color: #999;
 }
 
