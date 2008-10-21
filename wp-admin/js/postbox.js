@@ -32,6 +32,7 @@
 		init : function(page,args) {
 			$.extend( this, args || {} );
 			jQuery('.meta-box-sortables').sortable( {
+				placeholder: 'sortable-placeholder',
 				connectWith: [ '.meta-box-sortables' ],
 				items: '> .postbox',
 				handle: '.hndle',

@@ -1076,7 +1076,8 @@ table.form-table td .updated {
 
 .postbox {
 	position: relative;
-	min-width: 195px;
+	min-width: 255px;
+	width: 99.5%;
 }
 
 #normal-sortables .inside-submitbox .insidebox {
@@ -1810,6 +1811,12 @@ fieldset {
 .ui-sortable .postbox .hndle {
 	padding: 6px 0;
 	cursor: move;
+}
+
+.sortable-placeholder {
+	border: 1px #bbb dashed;
+	background: #f5f5f5;
+	z-index: -1;
 }
 
 #jj, #hh, #mn {
