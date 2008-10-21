@@ -215,7 +215,7 @@ function is_plugin_active($plugin) {
  */
 function activate_plugin($plugin, $redirect = '') {
 	$current = get_option('active_plugins');
-	$plugin = trim($plugin);
+	$plugin = plugin_basename(trim($plugin));
 
 	$valid = validate_plugin($plugin);
 	if ( is_wp_error($valid) )
@@ -254,6 +254,7 @@ function deactivate_plugins($plugins, $silent= false) {
 		$plugins = array($plugins);
 
 	foreach ( $plugins as $plugin ) {
+		$plugin = plugin_basename($plugin);
 		if( ! is_plugin_active($plugin) )
 			continue;
 		array_splice($current, array_search( $plugin, $current), 1 ); // Fixed Array-fu!
