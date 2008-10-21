@@ -200,6 +200,39 @@ table#availablethemes td.bottom {
 	border-bottom-right-radius: 3px;
 }
 
+#misc-publishing-actions {
+	width: 70%;
+	float: left;
+}
+
+#minor-publishing-actions {
+	width: 30%;
+	float: right;
+	text-align: right;
+}
+
+#minor-publishing {
+}
+
+#major-publishing-actions {
+	padding: 0 3px;
+	clear: both;
+	height: 30px;
+	line-height: 30px;
+}
+
+#delete-action {
+	text-align: left;
+	float: left;
+	width: 30%;
+}
+
+#publishing-action {
+	text-align: right;
+	float: right;
+	width: 70%;
+}
+
 .side-info {
 	margin: 0;
 	padding: 4px;
@@ -236,12 +269,11 @@ table#availablethemes td.bottom {
 }
 
 .preview {
-	padding: 7px;
+	/* padding: 7px; */
 }
 
 #publish {
-	margin: 8px auto auto;
-	min-width: 150px;
+	min-width: 100px;
 }
 
 #wpcontent select {
@@ -1057,7 +1089,7 @@ table.form-table td .updated {
 }
 
 #normal-sortables .inside-submitbox {
-	float: left;
+	/* float: left; */
 }
 
 #trackback_url {
@@ -1230,7 +1262,7 @@ table.form-table td .updated {
 
 #poststuff .inside {
 	font-size: 11px;
-	margin: 0 12px 12px;
+	margin: 0 6px 6px;
 }
 
 #titlediv, #poststuff .postarea {
@@ -1262,7 +1294,7 @@ table.form-table td .updated {
 
 #poststuff .inside-submitbox,
 #side-info-column .inside-submitbox {
-	margin: 0 12px 12px;
+	margin: 0 3px;
 	font-size: 11px;
 }
 

@@ -72,67 +72,15 @@ function post_submit_meta_box($post) {
 
 <div class="inside-submitbox">
 
-<div class="insidebox"><label for="post_status"><?php _e('This post is') ?></label>
-<strong><span id="post-status-display">
-<?php
-switch ( $post->post_status ) {
-	case 'publish':
-	case 'private':
-		_e('Published');
-		break;
-	case 'future':
-		_e('Scheduled');
-		break;
-	case 'pending':
-		_e('Pending Review');
-		break;
-	case 'draft':
-		_e('Unpublished');
-		break;
-}
-?>
-</span></strong>
-<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { ?>
-<a href="#post_status" class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-
-<div id="post-status-select" class="hide-if-js">
-<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
-<?php _e('Change post status'); ?><br />
-<select name='post_status' id='post_status' tabindex='4'>
-<?php
-// only show the publish menu item if they are allowed to publish posts or they are allowed to edit this post (accounts for 'edit_published_posts' capability)
-if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edit_post', $post->ID) ) ) : ?>
-<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
-<?php if ( 'future' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
-<?php endif; ?>
-<?php endif; ?>
-<option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
-<option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Unpublished') ?></option>
-</select>
-
-<a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
-<a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
-</div>
-</div>
-
-<?php } else { ?>
-</div>
-
-<?php if ( $can_publish && 'pending' != $post->post_status ) { ?>
-<div  class="insidebox"><input name="pending" type="submit" class="button" id="pending" tabindex="6" accesskey="r" value="<?php _e('Submit for Review') ?>" /></div>
-<?php } ?>
-
-<?php } ?>
-
+<div id="minor-publishing">
+<div id="misc-publishing-actions">
 <?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
-	<div class="insidebox" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this post to the front page') ?></label></div>
+	<div class="insidebox" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
 <?php } ?>
 
-<?php
-if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
-	<div class="insidebox" id="deletebutton"><a class="submitdelete" href="<?php echo wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID); ?>" onclick="if ( confirm('<?php echo js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )); ?>') ) {return true;}return false;"><?php _e('Delete&nbsp;post'); ?></a></div>
-<?php } ?>
+<div class="insidebox" id="visibility">
+<?php _e('Visibility:'); ?> <?php _e('Public'); // TODO: dropdown ?>
+</div>
 
 <?php
 if ( 0 != $post->ID ) {
@@ -154,16 +102,71 @@ if ( 0 != $post->ID ) {
 }
 ?>
 <?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
-<div class="insidebox curtime"><span id="timestamp"><?php printf($stamp, $date, $time); ?></span>
-&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-
-<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div></div>
+<div class="insidebox curtime">
+	<span id="timestamp"><?php printf($stamp, $date, $time); ?></span>
+	&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
+</div>
 <?php endif; ?>
+
+<div class="insidebox"><label for="post_status"><?php _e('Status:') ?></label>
+<strong><span id="post-status-display">
+<?php
+switch ( $post->post_status ) {
+	case 'publish':
+	case 'private':
+		_e('Published');
+		break;
+	case 'future':
+		_e('Scheduled');
+		break;
+	case 'pending':
+		_e('Pending Review');
+		break;
+	case 'draft':
+		_e('Draft');
+		break;
+}
+?>
+</span></strong>
+<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { ?>
+<a href="#post_status" class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+
+<div id="post-status-select" class="hide-if-js">
+<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
+<?php _e('Change post status'); ?><br />
+<select name='post_status' id='post_status' tabindex='4'>
+<?php
+// only show the publish menu item if they are allowed to publish posts or they are allowed to edit this post (accounts for 'edit_published_posts' capability)
+if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edit_post', $post->ID) ) ) : ?>
+<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
+<?php if ( 'future' == $post->post_status ) : ?>
+<option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
+<?php endif; ?>
+<?php endif; ?>
+<option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
+<option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Draft') ?></option>
+</select>
+
+<a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
+<a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
+</div>
+</div>
+
+<?php } else { ?>
+</div>
+
+<?php if ( $can_publish && 'pending' != $post->post_status ) { ?>
+<!--
+<div  class="insidebox"><input name="pending" type="submit" class="button" id="pending" tabindex="6" accesskey="r" value="<?php _e('Submit for Review') ?>" /></div>
+-->
+<?php } ?>
+
+<?php } ?>
 
 </div>
 
-<p class="submit">
-<?php do_action('post_submitbox_start'); ?>
+<div id="minor-publishing-actions">
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status )
 	$savebtn = attribute_escape( __('Save') );
 else
@@ -172,11 +175,25 @@ else
 <input type="submit" name="save" id="save-post" value="<?php echo $savebtn; ?>" tabindex="4" class="button button-highlighted" />
 
 <?php if ( 'publish' == $post->post_status ) { ?>
-<a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View this Post'); ?></a>
+<a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View Post'); ?></a>
 <?php } else { ?>
 <a class="preview button" href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" target="_blank" tabindex="4"><?php _e('Preview'); ?></a>
 <?php } ?>
+</div>
+<div class="clear"></div>
+</div>
+</div>
 
+<div id="major-publishing-actions">
+<?php do_action('post_submitbox_start'); ?>
+<div id="delete-action">
+<?php
+if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
+<a class="submitdelete deletion" href="<?php echo wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID); ?>" onclick="if ( confirm('<?php echo js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this post '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )); ?>') ) {return true;}return false;"><?php _e('Delete'); ?></a>
+<?php } ?>
+</div>
+
+<div id="publishing-action">
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->ID ) { ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
@@ -185,8 +202,8 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->
 	<input name="publish" type="submit" class="button" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
 <?php } ?>
-
-</p>
+</div>
+</div>
 <div class="clear"></div>
 </div>
 
