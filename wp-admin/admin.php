@@ -57,8 +57,14 @@ do_action('admin_init');
 
 // Handle plugin admin pages.
 if (isset($plugin_page)) {
-	if( ! $page_hook = get_plugin_page_hook($plugin_page, $pagenow) )
+	if( ! $page_hook = get_plugin_page_hook($plugin_page, $pagenow) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
+		// backwards compatibility for plugins using add_management_page
+		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'import.php') ) {
+			wp_redirect('import.php?page=' . $plugin_page);
+			exit;
+		}
+	}
 
 	if ( $page_hook ) {
 		do_action('load-' . $page_hook);
