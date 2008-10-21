@@ -339,7 +339,6 @@ class WP_Import {
 	}
 
 	function process_posts() {
-		$i = -1;
 		echo '<ol>';
 
 		$this->get_entries(array(&$this, 'process_post'));

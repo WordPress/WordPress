@@ -1893,7 +1893,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	$filename = strtolower( $filename );
 	// separate the filename into a name and extension
 	$info = pathinfo($filename);
-	$ext = $info['extension'];
+	$ext = !empty($info['extension']) ? $info['extension'] : '';
 	$name = basename($filename, ".{$ext}");
 
 	// edge case: if file is named '.ext', treat as an empty name
@@ -1906,9 +1906,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	} else {
 		$number = '';
 
-		if ( empty( $ext ) )
-			$ext = '';
-		else
+		if ( !empty( $ext ) )
 			$ext = strtolower( ".$ext" );
 
 		$filename = str_replace( $ext, '', $filename );
@@ -1951,11 +1949,11 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
  */
 function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	if ( empty( $name ) )
-		return array( 'error' => __( "Empty filename" ) );
+		return array( 'error' => __( 'Empty filename' ) );
 
 	$wp_filetype = wp_check_filetype( $name );
 	if ( !$wp_filetype['ext'] )
-		return array( 'error' => __( "Invalid file type" ) );
+		return array( 'error' => __( 'Invalid file type' ) );
 
 	$upload = wp_upload_dir( $time );
 

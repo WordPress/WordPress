@@ -14,7 +14,8 @@ require_once('includes/export.php');
 $title = __('Export');
 
 if ( isset( $_GET['download'] ) ) {
-	export_wp( $_GET['author'] );
+	$author = isset($_GET['author']) ? $_GET['author'] : 'all';
+	export_wp( $author );
 	die();
 }
 
