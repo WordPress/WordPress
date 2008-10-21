@@ -136,10 +136,6 @@ div#dashboard-widgets {
 	margin: 4px 0 0 -9px;
 }
 
-.metabox-holder .togbox, #poststuff .togbox {
-	margin-left: -19px;
-}
-
 .tablenav .button-secondary, .nav .button-secondary {
 	padding: 0 1px;
 	vertical-align: middle;

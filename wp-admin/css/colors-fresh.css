@@ -483,20 +483,10 @@ input.readonly {
 	color: #333;
 }
 
-.metabox-holder .closed .togbox, #poststuff .closed .togbox {
-	background-color: #2583ad;
-	background-image: url(../images/toggle-arrow.gif);
-}
-
 .metabox-holder .postbox, #poststuff .postbox, #titlediv, #poststuff .postarea, #poststuff .stuffbox {
 	border-color: #ebebeb;
 	border-right-color: #ccc;
 	border-bottom-color: #ccc;
-}
-
-.metabox-holder .togbox, #poststuff .togbox {
-	background-color: #b2b2b2;
-	background-image: url(../images/toggle-arrow.gif);
 }
 
 .metabox-holder .postbox, #poststuff .postbox {

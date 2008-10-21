@@ -20,10 +20,6 @@ div#dashboard-widgets {
 #tagchecklist span a {
 	margin: 4px -9px 0 0;
 }
-.metabox-holder .togbox, #poststuff .togbox {
-	margin-left:0;
-	margin-right: -19px;
-}
 .widefat th input {
 	margin: 0 5px 0 0;
 }
