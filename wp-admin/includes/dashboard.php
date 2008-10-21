@@ -24,6 +24,9 @@ function wp_dashboard_setup() {
 
 	/* Register Widgets and Controls */
 
+	// Right Now
+	wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
+
 	// Recent Comments Widget
 	wp_add_dashboard_widget( 'dashboard_recent_comments', __( 'Recent Comments' ), 'wp_dashboard_recent_comments' );
 
@@ -149,6 +152,119 @@ function wp_dashboard() {
 }
 
 /* Dashboard Widgets */
+
+function wp_dashboard_right_now() {
+	$num_posts = wp_count_posts( 'post' );
+	$num_pages = wp_count_posts( 'page' );
+
+	$num_cats  = wp_count_terms('category');
+
+	$num_tags = wp_count_terms('post_tag');
+
+	$num_comm = get_comment_count( );
+
+	echo '<p>' . __('At a Glance') . '</p>';
+	echo '<table>';
+	echo '<tr>';
+
+	// Posts
+	$num = number_format_i18n( $num_posts->publish );
+	if ( current_user_can( 'edit_posts' ) )
+		$num = "<a href='edit.php'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Post', 'Posts', $num_posts->publish ) . '</td>';
+	/* TODO: Show status breakdown on hover
+	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
+		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
+	}
+	if ( $can_edit_posts && !empty($num_posts->draft) ) {
+		$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%s draft', '%s drafts', $num_posts->draft ), number_format_i18n( $num_posts->draft ) ).'</a>';
+	}
+	if ( $can_edit_posts && !empty($num_posts->future) ) {
+		$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%s scheduled post', '%s scheduled posts', $num_posts->future ), number_format_i18n( $num_posts->future ) ).'</a>';
+	}
+	if ( current_user_can('publish_posts') && !empty($num_posts->pending) ) {
+		$pending_text = sprintf( __ngettext( 'There is <a href="%1$s">%2$s post</a> pending your review.', 'There are <a href="%1$s">%2$s posts</a> pending your review.', $num_posts->pending ), 'edit.php?post_status=pending', number_format_i18n( $num_posts->pending ) );
+	} else {
+		$pending_text = '';
+	}
+	*/
+
+	// Total Comments
+	$num = number_format_i18n($num_comm['total_comments']);
+	if ( current_user_can( 'moderate_comments' ) )
+		$num = "<a href='edit-comments.php'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Comment', 'Comments', $num_comm['total_comments'] ) . '</td>';
+
+	echo '</tr><tr>';
+
+	// Pages
+	$num = number_format_i18n( $num_pages->publish );
+	if ( current_user_can( 'edit_pages' ) )
+		$num = "<a href='edit-pages.php'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Page', 'Pages', $num_pages->publish ) . '</td>';
+
+	// Approved Comments
+	$num = number_format_i18n($num_comm['approved']);
+	if ( current_user_can( 'moderate_comments' ) )
+		$num = "<a href='edit-comments.php?comment_status=approved'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Approved', 'Approved', $num_comm['approved'] ) . '</td>';
+
+	echo '</tr><tr>';
+
+	// Categories
+	$num = number_format_i18n( $num_cats );
+	if ( current_user_can( 'manage_categories' ) )
+		$num = "<a href='categories.php'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Category', 'Categories', $num_cats ) . '</td>';
+
+	// Spam Comments
+	$num = number_format_i18n($num_comm['spam']);
+	if ( current_user_can( 'moderate_comments' ) )
+		$num = "<a href='edit-comments.php?comment_status=spam'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Spam', 'Spam', $num_comm['spam'] ) . '</td>';
+
+	echo '</tr><tr>';
+
+	// Tags
+	$num = number_format_i18n( $num_tags );
+	if ( current_user_can( 'manage_categories' ) )
+		$num = "<a href='edit-tags.php'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Tag', 'Tags', $num_tags ) . '</td>';
+
+	// Pending Comments
+	$num = number_format_i18n($num_comm['awaiting_moderation']);
+	if ( current_user_can( 'moderate_comments' ) )
+		$num = "<a href='edit-comments.php?comment_status=moderated'>$num</a>";
+	echo "<td>$num</td>";
+	echo '<td>' . __ngettext( 'Pending', 'Pending', $num_comm['awaiting_moderation'] ) . '</td>';
+
+	echo '</tr></table>';	
+
+	$ct = current_theme_info();
+	$sidebars_widgets = wp_get_sidebars_widgets();
+	$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ), 0 );
+	$num = number_format_i18n( $num_widgets );
+	if ( $can_switch_themes = current_user_can( 'switch_themes' ) )
+		$num = "<a href='widgets.php'>$num</a>";
+
+	echo '<p>';
+	printf(__ngettext('Theme %1$s with %2$s Widgets', 'Theme %1$s with %2$s Widgets', $num_widgets), $ct->title, $num);
+	if ( $can_switch_themes )
+		echo '<a href="themes.php" class="rbutton">' . __('Change Theme') . '</a>';
+	echo '</p>';
+
+	update_right_now_message();
+
+	do_action( 'rightnow_end' );
+	do_action( 'activity_box_end' );
+}
 
 function wp_dashboard_quick_press( $dashboard, $meta_box ) {
 	$drafts = false;
