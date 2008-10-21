@@ -116,7 +116,7 @@ if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edi
 <?php } ?>
 
 <?php if ( ('edit' == $action) && current_user_can('delete_page', $post->ID) ) { ?>
-	<div class="insidebox" id="deletebutton"><a class="submitdelete" href="<?php echo wp_nonce_url("page.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID); ?>" onclick="if ( confirm('<?php echo js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )); ?>') ) {return true;}return false;"><?php _e('Delete&nbsp;page'); ?></a></div>
+	<div class="insidebox" id="deletebutton"><a class="submitdelete" href="<?php echo wp_nonce_url("page.php?action=delete&amp;post=$post->ID", 'delete-page_' . $post->ID); ?>" onclick="if ( confirm('<?php echo js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )); ?>') ) {return true;}return false;"><?php _e('Delete&nbsp;page'); ?></a></div>
 <?php } ?>
 
 <?php
