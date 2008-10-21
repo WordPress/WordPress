@@ -301,7 +301,7 @@ function wp_dashboard_quick_press( $dashboard, $meta_box ) {
 		</div>
 
 		<div id="add-media-button" class="alignright">
-			<a class="thickbox button" href="http://hacek.local/wordpress/wp-admin/media-upload.php?TB_iframe=true" id="add-media-link"><?php _e( 'Insert Media' ); ?></a>
+			<a class="thickbox button" href="<?php echo clean_url( admin_url('media-upload.php?TB_iframe=true') ) ?>" id="add-media-link"><?php _e( 'Insert Media' ); ?></a>
 		</div>
 
 		<h4 id="content-label"><label for="content"><?php _e('Post') ?></label></h4>
