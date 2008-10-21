@@ -34,7 +34,7 @@ ul#adminmenu {
 .inner-sidebar {
 	float: right;
 	clear: right;
-	width: 220px;
+	width: 280px;
 	position: relative;
 }
 
@@ -42,11 +42,11 @@ ul#adminmenu {
 	float: left;
 	clear: left;
 	width: 100%;
-	margin-right: -240px;
+	margin-right: -340px;
 }
 
 .has-sidebar .has-sidebar-content {
-	margin-right: 245px;
+	margin-right: 305px;
 }
 
 
