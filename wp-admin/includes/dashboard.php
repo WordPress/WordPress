@@ -255,9 +255,9 @@ function wp_dashboard_right_now() {
 		$num = "<a href='widgets.php'>$num</a>";
 
 	echo '<p>';
-	printf(__ngettext('Theme %1$s with %2$s Widgets', 'Theme %1$s with %2$s Widgets', $num_widgets), $ct->title, $num);
+	printf(__ngettext('Theme %1$s with %2$s Widget', 'Theme %1$s with %2$s Widgets', $num_widgets), $ct->title, $num);
 	if ( $can_switch_themes )
-		echo '<a href="themes.php" class="rbutton">' . __('Change Theme') . '</a>';
+		echo ' <a href="themes.php" class="rbutton">' . __('Change Theme') . '</a>';
 	echo '</p>';
 
 	update_right_now_message();
