@@ -4,9 +4,22 @@
 			$('.postbox h3').click( function() {
 				$($(this).parent().get(0)).toggleClass('closed');
 				postboxes.save_state(page);
-			});
+			} );
 			$('.postbox h3 a').click( function(e) {
 				e.stopPropagation();
+			} );
+
+			$('.hide-postbox-tog').click( function() { 
+				var box = jQuery(this).val(); 
+				if ( jQuery(this).attr('checked') ) { 
+					jQuery('#' + box).show(); 
+					if ( $.isFunction( postboxes.onShow ) ) { 
+						postboxes.onShow( box ); 
+					}
+				} else { 
+					jQuery('#' + box).hide(); 
+				} 
+				postboxes.save_state(page);
 			} );
 
 			if ( $.browser.msie ) {

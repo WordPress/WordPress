@@ -2659,7 +2659,7 @@ function meta_box_prefs($page) {
 					continue;
 				$box_id = $box['id'];
 				echo '<label for="' . $box_id . '-hide">';
-				echo '<input name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
+				echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
 				echo "{$box['title']}</label>\n";
 			}
 		}
