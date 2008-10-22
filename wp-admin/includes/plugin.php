@@ -61,9 +61,11 @@
  * @since 1.5.0
  *
  * @param string $plugin_file Path to the plugin file
+ * @param bool $markup If the returned data should have HTML markup applied
+ * @param bool $translate If the returned data should be translated
  * @return array See above for description.
  */
-function get_plugin_data( $plugin_file ) {
+function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 	// We don't need to write to the file, so just open for reading.
 	$fp = fopen($plugin_file, 'r');
 
@@ -89,11 +91,53 @@ function get_plugin_data( $plugin_file ) {
 			${$field} = '';
 	}
 
-	return array(
-				'Name' => $name, 'PluginURI' => $uri, 'Description' => $description,
+	$plugin_data = array(
+				'Name' => $name, 'Title' => $name, 'PluginURI' => $uri, 'Description' => $description,
 				'Author' => $author_name, 'AuthorURI' => $author_uri, 'Version' => $version,
 				'TextDomain' => $text_domain, 'DomainPath' => $domain_path
 				);
+	if ( $markup || $translate )
+		$plugin_data = _get_plugin_data_markup_translate($plugin_data, $markup, $translate);
+	return $plugin_data;
+}
+
+function _get_plugin_data_markup_translate($plugin_data, $markup = true, $translate = true) {
+
+	//Translate fields
+	if( $translate && ! empty($plugin_data['TextDomain']) ) {
+		if( ! empty( $plugin_data['DomainPath'] ) )
+			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file). $plugin_data['DomainPath']);
+		else
+			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file));
+
+		foreach ( array('Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version') as $field )
+			$plugin_data[ $field ] = translate($plugin_data[ $field ], $plugin_data['TextDomain']);
+	}
+
+	//Apply Markup
+	if ( $markup ) {
+		if ( ! empty($plugin_data['PluginURI']) && ! empty($plugin_data['Name']) )
+			$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="' . __( 'Visit plugin homepage' ) . '">' . $plugin_data['Name'] . '</a>';
+		else
+			$plugin_data['Title'] = $plugin_data['Name'];
+
+		if ( ! empty($plugin_data['AuthorURI']) )
+			$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
+
+		$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
+		if( ! empty($plugin_data['Author']) )
+			$plugin_data['Description'] .= ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
+	}
+
+	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
+
+	// Sanitize all displayed data
+	$plugin_data['Title']       = wp_kses($plugin_data['Title'], $plugins_allowedtags);
+	$plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags);
+	$plugin_data['Description'] = wp_kses($plugin_data['Description'], $plugins_allowedtags);
+	$plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags);
+
+	return $plugin_data;
 }
 
 /**
@@ -161,7 +205,7 @@ function get_plugins($plugin_folder = '') {
 		if ( !is_readable( "$plugin_root/$plugin_file" ) )
 			continue;
 
-		$plugin_data = get_plugin_data( "$plugin_root/$plugin_file" );
+		$plugin_data = get_plugin_data( "$plugin_root/$plugin_file", false, false ); //Do not apply markup/translate as it'll be cached.
 
 		if ( empty ( $plugin_data['Name'] ) )
 			continue;

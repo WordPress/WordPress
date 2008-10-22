@@ -221,38 +221,10 @@ foreach( $recently_activated as $key => $time )
 if( $recently_activated != get_option('recently_activated') ) //If array changed, update it.
 	update_option('recently_activated', $recently_activated);
 
-$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
-
 foreach( (array)$all_plugins as $plugin_file => $plugin_data) {
 
-	//Translate fields
-	if( !empty($plugin_data['TextDomain']) ) {
-		if( !empty( $plugin_data['DomainPath'] ) )
-			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file). $plugin_data['DomainPath']);
-		else
-			load_plugin_textdomain($plugin_data['TextDomain'], dirname($plugin_file));
-
-		foreach ( array('Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version') as $field )
-			$plugin_data[ $field ] = translate($plugin_data[ $field ], $plugin_data['TextDomain']);
-	}
-
-	//Apply Markup
-	$plugin_data['Title'] = $plugin_data['Name'];
-	if ( !empty($plugin_data['PluginURI']) && !empty($plugin_data['Name']) )
-		$plugin_data['Title'] = '<a href="' . $plugin_data['PluginURI'] . '" title="'.__( 'Visit plugin homepage' ).'">' . $plugin_data['Name'] . '</a>';
-
-	if ( ! empty($plugin_data['AuthorURI']) )
-		$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="'.__( 'Visit author homepage' ).'">' . $plugin_data['Author'] . '</a>';
-
-	$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
-
-	// Sanitize all displayed data
-	$plugin_data['Title']       = wp_kses($plugin_data['Title'], $plugins_allowedtags);
-	$plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags);
-	$plugin_data['Description'] = wp_kses($plugin_data['Description'], $plugins_allowedtags);
-	$plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags);
-	if( ! empty($plugin_data['Author']) )
-		$plugin_data['Description'] .= ' <cite>' . sprintf( __('By %s'), $plugin_data['Author'] ) . '.</cite>';
+	//Translate, Apply Markup, Sanitize HTML
+	$plugin_data = _get_plugin_data_markup_translate($plugin_data, true, true);
 
 	//Filter into individual sections
 	if ( is_plugin_active($plugin_file) ) {
