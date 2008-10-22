@@ -266,7 +266,7 @@ function wp_dashboard_right_now() {
 	do_action( 'activity_box_end' );
 }
 
-function wp_dashboard_quick_press( $dashboard, $meta_box ) {
+function wp_dashboard_quick_press() {
 	$drafts = false;
 	if ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) && isset( $_POST['action'] ) && 0 === strpos( $_POST['action'], 'post-quickpress' ) ) {
 		$view = get_permalink( $_POST['post_ID'] );
