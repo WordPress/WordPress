@@ -142,10 +142,8 @@ function core_upgrade_preamble() {
 	}
 
 	echo '<p>';
-	_e('A new version of WordPress is available for upgrade.  Before upgrading, please <a href="http://codex.wordpress.org/Backing_Up_Your_Database">backup your blog</a>.');  
+	_e('A new version of WordPress is available for upgrade.  Before upgrading, please <a href="http://codex.wordpress.org/WordPress_Backups">backup your database and files</a>.');  
 	echo '</p>';
-
-	echo '<p><a href="' . __('http://codex.wordpress.org/WordPress_Backups') . '">' . __('How To Backup Your Database and Files') . '</a></p>';
 
 	if ( 'development' == $update->response ) {
 		$message = __('You are using a development version of WordPress.  You can upgrade to the latest nightly build automatically or download the nightly build and install it manually. Which would you like to do?');
