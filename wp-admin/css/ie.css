@@ -1,12 +1,45 @@
 /* Fixes for IE bugs */
 
-.metabox-holder .postbox h3, #poststuff .postbox h3 {
+* html #wpbody-content {
+	margin-left: 140px;
+}
+
+* html #wpbody {
+	clear: right;
+	float: right;
+	margin-left: -185px;
+	width: 100%;
+}
+
+* html body {
+	background-color: #464646;
+}
+
+* html #wpwrap {
+	background-color: #fff;
+}
+
+#footer {
+	overflow: hidden;
+}
+
+.metabox-holder .postbox h3 {
 	padding-left: 23px;
 }
 
 input.button, input.button-secondary, input.button-highlighted {
 	padding: 0;
 }
+
+#side-info-column {
+	position: absolute;
+	right: 15px;
+}
+
+#wphead-info {
+	float: right;
+}
+
 /*
 * html body.minwidth {
 	_width: expression(document.documentElement.clientWidth < 810 ? "808px" : "99.9%");
@@ -63,11 +96,13 @@ ul#adminmenu li.wp-menu-separator {
 	font-size: 3px;
 }
 
+#template, #template div, #editcat, #addcat {
+	zoom: 100%;
+}
 
 
 * html #poststuff .postarea, * html #poststuff #titlediv {
-	width: 95%;
-	margin-left: 3%;
+	
 }
 
 .submitbox {
@@ -79,9 +114,29 @@ ul#adminmenu li.wp-menu-separator {
 	position: relative;
 }
 
-#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, .metabox-holder, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list, li.widget-list-control-item, #dragHelper, li.widget-list-control-item h4, .widget-sortable, .widget-control-actions {
+#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, .metabox-holder, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list, li.widget-list-control-item, #dragHelper, li.widget-list-control-item h4, .widget-sortable, .widget-control-actions, #tagchecklist {
 	display: block;
 	zoom: 100%;
+}
+
+#favorite-inside, #favorite-inside a, .favorite-action {
+	z-index: 11;
+	zoom: 100%;
+}
+
+#wphead-info {
+	width: 350px;
+	max-width: 350px;
+}
+
+p.search-box {
+	position: static;
+	float: right;
+	margin: -3px 0 4px;
+}
+
+#wpbody .wrap {
+	position: static;
 }
 
 * html #editorcontainer {
@@ -114,17 +169,13 @@ form#template div {
 }
 
 #bh {
-	padding-right: 15px;
+	margin: 3px 0 0 6px;
+	float: right;
 }
 
 /* without this dashboard widgets appear in one column for some screen widths */
 div#dashboard-widgets {
 	padding-right: 1px;
-}
-
-#tagchecklist {
-	display: block;
-	zoom: 100%;
 }
 
 #tagchecklist span, #tagchecklist span a {

@@ -88,8 +88,6 @@ if ( '' == $blog_name )
 <?php } ?></h1>
 
 <div id="wphead-info">
-<?php favorite_actions(); ?>
-
 <div id="user_info">
 <p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?> |
 <!--
@@ -98,6 +96,8 @@ if ( '' == $blog_name )
 -->
 <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 </div>
+
+<?php favorite_actions(); ?>
 </div>
 
 </div>

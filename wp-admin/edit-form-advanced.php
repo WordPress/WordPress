@@ -580,6 +580,7 @@ do_action('dbx_post_sidebar');
 
 </div>
 </div>
+<br class="clear" />
 </div><!-- /poststuff -->
 </form>
 </div>

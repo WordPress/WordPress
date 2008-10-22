@@ -1,32 +1,32 @@
 /* 2 column liquid layout */
-div#wpbody {
-	float: right;
-	clear: right;
+#wpwrap {
+	height: auto;
+	min-height: 100%;
+	overflow: hidden;
 	width: 100%;
-	margin-left: -155px;
 }
 
-div#wpbody-content {
-	margin-left: 140px;
+#wpcontent {
+	height: 100%;
+	margin-bottom: 50px;
+}
+
+#wpbody-content {
+	overflow: hidden;
 	padding-top: 10px;
 }
 
-div#sidemenu-bg {
-	border-right-style: solid;
-	border-right-width: 1px;
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 135px;
-}
-
-ul#adminmenu {
+#adminmenu {
 	float: left;
 	clear: left;
 	margin: 10px 8px;
-	width: 135px; /* + 10 padding */
 	position: relative;
+}
+
+#footer {
+	clear: both;
+	position: relative;
+	width: 100%;
 }
 
 /* inner 2 column liquid layout */
@@ -77,13 +77,23 @@ textarea, input, select {
 	padding: 3px;
 }
 
-.alignleft { float: left; }
-.alignright { float: right; }
+.alignleft {
+	float: left;
+}
 
-.textleft { text-align: left; }
-.textright { text-align: right; }
+.alignright {
+	float: right;
+}
 
-.clear { clear: both; height: 2px; }
+.textleft {
+	text-align: left;
+}
+
+.textright {
+	text-align: right;
+}
+
+.clear { clear: both; }
 
 .hidden { display: none; }
 
@@ -139,13 +149,24 @@ h6 {
 	float: left;
 }
 
-.subsubsub a { line-height: 200%; padding: 3px; text-decoration: none; }
+.subsubsub a {
+	line-height: 200%;
+	padding: 3px;
+	text-decoration: none;
+}
 
-.subsubsub a.current { font-weight: bold; background: none; border: none;}
+.subsubsub a.current {
+	font-weight: bold;
+	background: none;
+	border: none;
+}
 
-.subsubsub li { display: inline; margin: 0; padding: 0; }
+.subsubsub li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
 
-/* make it small? */
 .subsubsub li.spam {
 	font-size: .9em;
 }
@@ -209,10 +230,6 @@ th.check-column + th, th.check-column + td {
 .widefat .num,
 .widefat .column-comments {
 	text-align: center;
-}
-
-#wpbody .wrap {
-	position: relative;
 }
 
 .wrap, .updated, .error {

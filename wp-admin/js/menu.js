@@ -51,7 +51,8 @@ adminMenu = {
 	
 	fold : function(off) {
 		if (off) {
-			$('#wpbody-content').css('marginLeft', '140px');
+			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
+				$('#wpbody-content').css('marginLeft', '140px');
 			$('#adminmenu').removeClass('folded');
 			$('#adminmenu li.wp-submenu-head').hide();
 			$('#adminmenu a.wp-has-submenu').show();
@@ -60,7 +61,8 @@ adminMenu = {
 			$('#adminmenu').addClass('folded');
 			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-submenu').hide();
 			$('#adminmenu li.wp-submenu-head').show();
-			$('#wpbody-content').css('marginLeft', '38px');
+			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
+				$('#wpbody-content').css('marginLeft', '40px');
 			$('#adminmenu li.wp-has-submenu').css({'width':'24px'}).hoverIntent({
 				over: function(){ $(this).find('.wp-submenu').show(); },
 				out: function(){ $(this).find('.wp-submenu').hide(); },
@@ -75,7 +77,7 @@ adminMenu = {
 $(document).ready(function(){
 	adminMenu.init();
 
-	$('#favorite-inside').width($('#favorite-first').width()+24);
+	$('#favorite-inside').width($('#favorite-actions').width()-4);
 	$('#favorite-toggle, #favorite-inside').bind( 'mouseenter', function(){$('#favorite-inside').removeClass('slideUp').addClass('slideDown'); setTimeout(function(){if ( $('#favorite-inside').hasClass('slideDown') ) { $('#favorite-inside').slideDown(100); $('#favorite-first').addClass('slide-down'); }}, 200) } );
 
 	$('#favorite-toggle, #favorite-inside').bind( 'mouseleave', function(){$('#favorite-inside').removeClass('slideDown').addClass('slideUp'); setTimeout(function(){if ( $('#favorite-inside').hasClass('slideUp') ) { $('#favorite-inside').slideUp(100, function(){ $('#favorite-first').removeClass('slide-down'); } ); }}, 300) } );

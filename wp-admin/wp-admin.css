@@ -461,10 +461,6 @@ textarea.all-options, input.all-options {
 	margin-right: 0;
 }
 
-#template, #template div, #editcat, #addcat {
-	zoom: 1;
-}
-
 /* A handy div class for hiding controls.
 Some browsers will disable them when you
 set display: none; */
@@ -630,7 +626,6 @@ a.view-comment-post-link {
 /* Admin Header */
 
 #wphead-info {
-	float: right;
 	margin: 0 15px;
 }
 
@@ -930,24 +925,16 @@ html, body {
 	height: 100%;
 }
 
-#wpwrap {
-	position: relative;
-	min-height: 100%;
-	overflow: hidden;
-}
-
-#wpcontent {
-	padding-bottom: 80px;
-	position: relative;
-}
-
 #footer {
 	word-spacing: .3em;
 	font-size: 11px;
-	clear: both;
 	height: 45px;
 	margin-top: -45px;
-	position: relative;
+}
+
+#in-footer {
+	padding: 15px 0 0 15px;
+	float: left;
 }
 
 #footer #footer-thankyou, #footer #footer-upgrade {
@@ -1404,9 +1391,16 @@ table.form-table td .updated {
 	margin: 0;
 }
 
+
+
+/*
 #side-info-column #side-sortables {
 	height: 100%;
 }
+*/
+
+
+
 
 .submitbox .submit {
 	text-align: left;
@@ -1573,10 +1567,8 @@ p#big-add-button .button {
 }
 
 p.search-box {
-	position: absolute;
-	right: 0;
-	top: -5px;
-	margin: 0;
+	float: right;
+	margin: -5px 0 0;
 }
 
 .search-input {
@@ -1647,9 +1639,8 @@ body.wp-admin {
 }
 
 .filter {
-	left: 180px;
-	position: absolute;
-	top: 24px;
+	float: left;
+	margin: -5px 0 0 10px;
 }
 
 #the-comment-list td.comment p.comment-author {
@@ -1818,7 +1809,7 @@ fieldset {
 
 .sortable-placeholder {
 	border: 1px #bbb dashed;
-	background: #f5f5f5;
+	background-color: #f5f5f5;
 	z-index: -1;
 }
 
@@ -2506,7 +2497,7 @@ abbr.required {
 
 /* favorite-actions */
 #favorite-actions {
-	float: left;
+	float: right;
 	margin: 11px 12px 0;
 	min-width: 130px;
 	position: relative;
@@ -2531,7 +2522,7 @@ abbr.required {
 
 #favorite-inside {
 	margin: 0 0 0 1px;
-	padding: 2px 8px 4px;
+	padding: 0 0 6px;
 	border-width: 1px;
 	border-style: solid;
 	position: absolute;
@@ -2552,14 +2543,23 @@ abbr.required {
 }
 
 .favorite-action {
-	padding: 3px;
+
 }
 
 #favorite-actions a {
-	padding: 4px 5px 4px 0;
+	display: block;
 	text-decoration: none;
 	color: #eee;
 	font-size: 11px;
+}
+
+#favorite-inside a {
+	padding: 3px 5px 3px 10px;
+}
+
+#favorite-inside a:hover {
+	background-color: #8f8f8f;
+	color: #fff;
 }
 
 #favorite-toggle {
