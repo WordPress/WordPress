@@ -504,7 +504,7 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
 		return $image;
 
 	if ( $icon && $src = wp_mime_type_icon($attachment_id) ) {
-		$icon_dir = apply_filters( 'icon_dir', includes_url('images/crystal') );
+		$icon_dir = apply_filters( 'icon_dir_uri', includes_url('images/crystal') );
 		$src_file = $icon_dir . '/' . basename($src);
 		@list($width, $height) = getimagesize($src_file);
 	}
