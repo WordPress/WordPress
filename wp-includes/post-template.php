@@ -92,14 +92,16 @@ function the_title_attribute( $args = '' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve post title.
  *
- * {@internal Missing Long Description}}
+ * If the post is protected and the visitor is not an admin, then "Protected"
+ * will be displayed before the post title. If the post is private, then
+ * "Private" will be located before the post title.
  *
  * @since 0.71
  *
- * @param int $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @return string
  */
 function get_the_title( $id = 0 ) {
 	$post = &get_post($id);
@@ -116,27 +118,31 @@ function get_the_title( $id = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display the Post Global Unique Identifier (guid).
  *
- * {@internal Missing Long Description}}
+ * The guid will appear to be a link, but should not be used as an link to the
+ * post. The reason you should not use it as a link, is because of moving the
+ * blog across domains.
  *
  * @since 1.5.0
  *
- * @param unknown_type $id
+ * @param int $id Optional. Post ID.
  */
 function the_guid( $id = 0 ) {
 	echo get_the_guid($id);
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve the Post Global Unique Identifier (guid).
  *
- * {@internal Missing Long Description}}
+ * The guid will appear to be a link, but should not be used as an link to the
+ * post. The reason you should not use it as a link, is because of moving the
+ * blog across domains.
  *
  * @since 1.5.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @return string
  */
 function get_the_guid( $id = 0 ) {
 	$post = &get_post($id);
@@ -145,15 +151,13 @@ function get_the_guid( $id = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display the post content.
  *
  * @since 0.71
  *
- * @param unknown_type $more_link_text
- * @param unknown_type $stripteaser
- * @param unknown_type $more_file
+ * @param string $more_link_text Optional. Content for when there is more text.
+ * @param string $stripteaser Optional. Teaser content before the more text.
+ * @param string $more_file Optional. Not used.
  */
 function the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
@@ -163,16 +167,14 @@ function the_content($more_link_text = null, $stripteaser = 0, $more_file = '') 
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the post content.
  *
  * @since 0.71
  *
- * @param unknown_type $more_link_text
- * @param unknown_type $stripteaser
- * @param unknown_type $more_file
- * @return unknown
+ * @param string $more_link_text Optional. Content for when there is more text.
+ * @param string $stripteaser Optional. Teaser content before the more text.
+ * @param string $more_file Optional. Not used.
+ * @return string
  */
 function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
@@ -182,7 +184,8 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 
 	$output = '';
 
-	if ( post_password_required($post) ) {	// If post password required and it doesn't match the cookie
+	// If post password required and it doesn't match the cookie.
+	if ( post_password_required($post) ) {
 		$output = get_the_password_form();
 		return $output;
 	}
@@ -226,26 +229,22 @@ function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = 
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display the post excerpt.
  *
  * @since 0.71
- * @uses apply_filters() - 
+ * @uses apply_filters() Calls 'the_excerpt' hook on post excerpt.
  */
 function the_excerpt() {
 	echo apply_filters('the_excerpt', get_the_excerpt());
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the post excerpt.
  *
  * @since 0.71
  *
- * @param unknown_type $deprecated
- * @return unknown
+ * @param mixed $deprecated Not used.
+ * @return string
  */
 function get_the_excerpt($deprecated = '') {
 	global $post;
@@ -260,14 +259,12 @@ function get_the_excerpt($deprecated = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Whether post has excerpt.
  *
  * @since 2.3.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @return bool
  */
 function has_excerpt( $id = 0 ) {
 	$post = &get_post( $id );
@@ -277,11 +274,9 @@ function has_excerpt( $id = 0 ) {
 /**
  * Display the classes for the post div.
  *
- * {@internal Missing Long Description}}
- *
  * @since 2.7.0
  *
- * @param string|array $class One or more classes to add to the class list
+ * @param string|array $class One or more classes to add to the class list.
  * @param int $post_id An optional post ID.
  */
 function post_class( $class = '', $post_id = null ) {
@@ -292,13 +287,19 @@ function post_class( $class = '', $post_id = null ) {
 /**
  * Retrieve the classes for the post div as an array.
  *
- * {@internal Missing Long Description}}
+ * The class names are add are many. If the post is a sticky, then the 'sticky'
+ * class name. The class 'hentry' is always added to each post. For each
+ * category, the class will be added with 'category-' with category slug is
+ * added. The tags are the same way as the categories with 'tag-' before the tag
+ * slug. All classes are passed through the filter, 'post_class' with the list
+ * of classes, followed by $class parameter value, with the post ID as the last
+ * parameter.
  *
  * @since 2.7.0
  *
- * @param string|array $class One or more classes to add to the class list
- * @param int $post_id An optional post ID
- * @return array Array of classes
+ * @param string|array $class One or more classes to add to the class list.
+ * @param int $post_id An optional post ID.
+ * @return array Array of classes.
  */
 function get_post_class( $class = '', $post_id = null ) {
 	$post = get_post($post_id);
@@ -338,14 +339,12 @@ function get_post_class( $class = '', $post_id = null ) {
 }
 
 /**
- * Determines if post requires a password and if the correct password has been provided.
- *
- * {@internal Missing Long Description}}
+ * Whether post requires password and correct password has been provided.
  *
  * @since 2.7.0
  *
  * @param int|object $post An optional post.  Global $post used if not provided.
- * @return bool false if a password is not required or the correct password cookie is present, true otherwise
+ * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
 function post_password_required( $post = null ) {
 	$post = get_post($post);
@@ -367,7 +366,7 @@ function post_password_required( $post = null ) {
  *
  * @since 2.7.0
  *
- * @param int $post_id An optional post ID
+ * @param int $post_id An optional post ID.
  */
 function sticky_class( $post_id = null ) {
 	if ( !is_sticky($post_id) )
@@ -384,39 +383,39 @@ function sticky_class( $post_id = null ) {
  */
 
 /**
- * The formatted output of a list of Pages.
+ * The formatted output of a list of pages.
  *
- * Displays page-links for paginated posts (i.e. includes the <!--nextpage-->  Quicktag one or
- * more times). This works in much the same way as link_pages(), the difference being that
- * arguments are given in query string format. This tag must be within The_Loop. 
+ * Displays page links for paginated posts (i.e. includes the <!--nextpage-->.
+ * Quicktag one or more times). This works in much the same way as link_pages(),
+ * the difference being that arguments are given in query string format. This
+ * tag must be within The Loop.
  *
  * The defaults for overwriting are:
- * 'next_or_number' - Default is 'number' (string). Indicates whether page numbers should be
- *      used. Valid values are number and next.
+ * 'next_or_number' - Default is 'number' (string). Indicates whether page
+ *      numbers should be used. Valid values are number and next.
  * 'nextpagelink' - Default is 'Next Page' (string). Text for link to next page.
- *		of the bookmark.
- * 'previouspagelink' - Default is 'Previous Page' (string). Text for link to previous page.
- *		available.
- * 'pagelink' - Default is '%' (String).Format string for page numbers. The  %  in the
- *      parameter string will be replaced with the page number, so Page % generates
- *      "Page 1", "Page 2", etc. Defaults to %, just the page number. 
- * 'before' - Default is '<p> Pages:' (string). The html or text to prepend to each
- *		bookmarks.
+ *      of the bookmark.
+ * 'previouspagelink' - Default is 'Previous Page' (string). Text for link to
+ *      previous page, if available.
+ * 'pagelink' - Default is '%' (String).Format string for page numbers. The % in
+ *      the parameter string will be replaced with the page number, so Page %
+ *      generates "Page 1", "Page 2", etc. Defaults to %, just the page number.
+ * 'before' - Default is '<p> Pages:' (string). The html or text to prepend to
+ *      each bookmarks.
  * 'after' - Default is '</p>' (string). The html or text to append to each
- *		bookmarks.
- * 'more_file' - Default is '' (string) Page the links should point to. Defaults to
- *      the current page.
+ *      bookmarks.
+ * 'more_file' - Default is '' (string) Page the links should point to. Defaults
+ *      to the current page.
  * 'link_before' - Default is '' (string). The html or text to prepend to each
- *		Pages link inside the <a> tag.
+ *      Pages link inside the <a> tag.
  * 'link_after' - Default is '' (string). The html or text to append to each
- *		Pages link inside the <a> tag.
+ *      Pages link inside the <a> tag.
  *
  * @since 1.2.0
  * @access private
  *
- * @param array $bookmarks List of bookmarks to traverse
  * @param string|array $args Optional. Overwrite the defaults.
- * @return string Formatted output in HTML
+ * @return string Formatted output in HTML.
  */
 function wp_link_pages($args = '') {
 	$defaults = array(
@@ -541,20 +540,17 @@ function the_meta() {
 	}
 }
 
-
 //
 // Pages
 //
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve or display list of pages as a dropdown (select list).
  *
  * @since 2.1.0
  *
- * @param unknown_type $args
- * @return unknown
+ * @param array|string $args Optional. Override default arguments.
+ * @return string HTML content, if not displaying.
  */
 function wp_dropdown_pages($args = '') {
 	$defaults = array(
@@ -586,14 +582,12 @@ function wp_dropdown_pages($args = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve or display list of pages in list (li) format.
  *
  * @since 1.5.0
  *
  * @param array|string $args Optional. Override default arguments.
- * @return unknown
+ * @return string HTML content, if not displaying.
  */
 function wp_list_pages($args = '') {
 	$defaults = array(
@@ -718,15 +712,14 @@ function walk_page_dropdown_tree() {
 //
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display an attachment page link using an image or icon.
  *
  * @since 2.0.0
  *
- * @param unknown_type $id
- * @param unknown_type $fullsize
- * @param unknown_type $max_dims
+ * @param int $id Optional. Post ID.
+ * @param bool $fullsize Optional, default is false. Whether to use full size.
+ * @param bool $deprecated Deprecated. Not used.
+ * @param bool $permalink Optional, default is false. Whether to include permalink.
  */
 function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $permalink = false) {
 	if ( $fullsize )
@@ -738,15 +731,14 @@ function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $p
 /**
  * Retrieve an attachment page link using an image or icon, if possible.
  *
- * {@internal Missing Long Description}}
+ * @since 2.5.0
+ * @uses apply_filters() Calls 'wp_get_attachment_link' filter on HTML content with same parameters as function.
  *
- * @since unknown
- *
- * @param unknown_type $id
- * @param unknown_type $size
- * @param unknown_type $permalink
- * @param unknown_type $icon
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param string $size Optional. Image size.
+ * @param bool $permalink Optional, default is false. Whether to add permalink to image.
+ * @param bool $icon Optional, default is false. Whether to include icon.
+ * @return string HTML content.
  */
 function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false) {
 	$id = intval($id);
@@ -768,19 +760,17 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve HTML content of attachment image with link.
  *
- * {@internal Missing Long Description}}
- *
- * @since unknown
+ * @since 2.0.0
  * @deprecated Use {@link wp_get_attachment_link()}
  * @see wp_get_attachment_link() Use instead.
  *
- * @param unknown_type $id
- * @param unknown_type $fullsize
- * @param unknown_type $max_dims
- * @param unknown_type $permalink
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $fullsize Optional, default is false. Whether to use full size image.
+ * @param array $max_dims Optional. Max image dimensions.
+ * @param bool $permalink Optional, default is false. Whether to include permalink to image.
+ * @return string
  */
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
 	$id = (int) $id;
@@ -799,17 +789,15 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve icon URL and Path.
  *
  * @since 2.1.0
  * @deprecated Use {@link wp_get_attachment_image_src()}
  * @see wp_get_attachment_image_src() Use instead.
  *
- * @param unknown_type $id
- * @param unknown_type $fullsize
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $fullsize Optional, default to false. Whether to have full image.
+ * @return array Icon URL and full path to file, respectively.
  */
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	$id = (int) $id;
@@ -843,18 +831,16 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve HTML content of icon attachment image element.
  *
  * @since 2.0.0
  * @deprecated Use {@link wp_get_attachment_image()}
  * @see wp_get_attachment_image() Use instead of.
  *
- * @param unknown_type $id
- * @param unknown_type $fullsize
- * @param unknown_type $max_dims
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $fullsize Optional, default to false. Whether to have full size image.
+ * @param array $max_dims Optional. Dimensions of image.
+ * @return string HTML content.
  */
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	$id = (int) $id;
@@ -900,18 +886,16 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve HTML content of image element.
  *
  * @since 2.0.0
  * @deprecated Use {@link wp_get_attachment_image()}
  * @see wp_get_attachment_image() Use instead.
  *
- * @param unknown_type $id
- * @param unknown_type $fullsize
- * @param unknown_type $max_dims
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $fullsize Optional, default to false. Whether to have full size image.
+ * @param array $max_dims Optional. Dimensions of image.
+ * @return string
  */
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	$id = (int) $id;
@@ -928,14 +912,13 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Wrap attachment in <<p>> element before content.
  *
  * @since 2.0.0
+ * @uses apply_filters() Calls 'prepend_attachment' hook on HTML content.
  *
- * @param unknown_type $content
- * @return unknown
+ * @param string $content
+ * @return string
  */
 function prepend_attachment($content) {
 	global $post;
