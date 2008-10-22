@@ -1358,10 +1358,10 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$options = array();
 	$options['timeout'] = 4;
 	$options['body'] = array(
-		'title' => urlencode($title),
-		'url' => urlencode(get_permalink($ID)),
-		'blog_name' => urlencode(get_option('blogname')),
-		'excerpt' => urlencode($excerpt)
+		'title' => $title,
+		'url' => get_permalink($ID),
+		'blog_name' => get_option('blogname'),
+		'excerpt' => $excerpt
 	);
 
 	$response = wp_remote_post($trackback_url, $options);
