@@ -15,6 +15,6 @@ $wp_version = '2.7-almost-beta';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 8989;
+$wp_db_version = 9290;
 
 ?>

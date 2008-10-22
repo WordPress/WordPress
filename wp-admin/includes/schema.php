@@ -139,7 +139,8 @@ CREATE TABLE $wpdb->posts (
   comment_count bigint(20) NOT NULL default '0',
   PRIMARY KEY  (ID),
   KEY post_name (post_name),
-  KEY type_status_date (post_type,post_status,post_date,ID)
+  KEY type_status_date (post_type,post_status,post_date,ID),
+  KEY post_parent (post_parent)
 ) $charset_collate;
 CREATE TABLE $wpdb->users (
   ID bigint(20) unsigned NOT NULL auto_increment,
