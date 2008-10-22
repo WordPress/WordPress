@@ -942,7 +942,8 @@ html, body {
 }
 
 #footer {
-	font: 12px Georgia, "Times New Roman", Times, serif;
+	word-spacing: .3em;
+	font-size: 11px;
 	clear: both;
 	height: 45px;
 	margin-top: -45px;
@@ -950,18 +951,20 @@ html, body {
 }
 
 #footer #footer-thankyou, #footer #footer-upgrade {
+	font-size: 12px;
+	word-spacing: 0;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-style: italic;
 }
 
 #footer #footer-upgrade {
 	position: absolute;
-	bottom: 12px;
 	right: 15px;
 }
 
 #footer p {
 	margin: 0;
-	padding: 17px 0 7px 15px;
+	padding: 15px 0 0 15px;
 }
 
 #footer p a {
