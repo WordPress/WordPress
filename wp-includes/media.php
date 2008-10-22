@@ -658,6 +658,7 @@ function gallery_shortcode($attr) {
 		<!-- see gallery_shortcode() in wp-includes/media.php -->
 		<div class='gallery'>");
 
+	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
 		$link = wp_get_attachment_link($id, $size, true);
 		$output .= "<{$itemtag} class='gallery-item'>";
