@@ -654,20 +654,10 @@ a#view-site-link {
 
 #wphead {
 	height: 46px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
 }
 
 #wphead a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
 	text-decoration: none;
-}
-
-#wphead #breadcrumb {
-	margin-top: 12px;
-	margin-left: 10px;
-	font: 16px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 3px 4px;
-	letter-spacing: normal;
 }
 
 #logo50 {

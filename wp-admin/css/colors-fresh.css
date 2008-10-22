@@ -5,10 +5,6 @@
 	border-color: #c6d9e9;
 }
 
-#wphead {
-	border-color: #c6d9e9;
-}
-
 a.page-numbers:hover {
 	border-color: #999;
 }
@@ -564,21 +560,11 @@ input.readonly {
 	background-color: #464646;
 }
 
-#wphead, body.login {
+body.login {
 	border-top-color: #464646;
 }
 
-#wphead #viewsite a {
-	background-color: #c6d9e9;
-	color: #246;
-	border-color: #80b5d0;
-}
-
-#wphead #viewsite a:hover {
-	border-color: #328ab2;
-}
-
-#wphead h1, #wphead h1 a {
+#wphead h1 a {
 	color: #fff;
 }
 
