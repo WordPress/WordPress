@@ -346,7 +346,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		$drafts =& $drafts_query->posts;
 	}
 
-	if ( $drafts && is_array( $drafts ) ) :
+	if ( $drafts && is_array( $drafts ) ) {
 		$list = array();
 		foreach ( $drafts as $post ) {
 			$url = get_edit_post_link( $draft->ID );
@@ -359,8 +359,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	</ul>
 
 <?php
-
-	endif; // drafts
+	} else {
+		_e('There are no drafts at the moment');
+	}
 }
 
 /**
