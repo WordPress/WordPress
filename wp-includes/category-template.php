@@ -288,12 +288,19 @@ function in_category( $category ) {
 	}
 
 	$categories = get_object_term_cache( $post->ID, 'category' );
-	if ( false === $categories )
-		$categories = wp_get_object_terms( $post->ID, 'category' );
-	if ( array_key_exists( $category, $categories ) )
+	if ( false !== $categories ) {
+		if ( array_key_exists( $category, $categories ) )
+			return true;
+		else
+			return false;
+	}
+
+	$categories = wp_get_object_terms( $post->ID, 'category', 'fields=ids' );
+	if ( is_array($categories) && in_array($category, $categories) )
 		return true;
 	else
 		return false;
+	
 }
 
 /**
