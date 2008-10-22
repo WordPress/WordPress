@@ -7,29 +7,28 @@
  */
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display the permalink for the current post.
  *
  * @since 1.2.0
- * @uses apply_filters() 
+ * @uses apply_filters() Calls 'the_permalink' filter on the permalink string.
  */
 function the_permalink() {
 	echo apply_filters('the_permalink', get_permalink());
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve trailing slash string, if blog set for adding trailing slashes.
  *
- * Conditionally adds a trailing slash if the permalink structure
- * has a trailing slash, strips the trailing slash if not
- * {@internal Missing Long Description}}
+ * Conditionally adds a trailing slash if the permalink structure has a trailing
+ * slash, strips the trailing slash if not. The string is passed through the
+ * 'user_trailingslashit' filter. Will remove trailing slash from string, if
+ * blog is not set to have them.
  *
  * @since 2.2.0
  * @uses $wp_rewrite
  *
- * @param $string String a URL with or without a trailing slash
- * @param $type_of_url String the type of URL being considered (e.g. single, category, etc) for use in the filter
+ * @param $string String a URL with or without a trailing slash.
+ * @param $type_of_url String the type of URL being considered (e.g. single, category, etc) for use in the filter.
  * @return string
  */
 function user_trailingslashit($string, $type_of_url = '') {
@@ -46,13 +45,14 @@ function user_trailingslashit($string, $type_of_url = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display permalink anchor for current post.
  *
- * {@internal Missing Long Description}}
+ * The permalink mode title will use the post title for the 'a' element 'id'
+ * attribute. The id mode uses 'post-' with the post ID for the 'id' attribute.
  *
  * @since 0.71
  *
- * @param unknown_type $mode
+ * @param string $mode Permalink mode can be either 'title', 'id', or default, which is 'id'.
  */
 function permalink_anchor($mode = 'id') {
 	global $post;
@@ -69,16 +69,15 @@ function permalink_anchor($mode = 'id') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve full permalink for current post or post ID.
  *
  * @since 1.0.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $leavename Optional, defaults to false. Whether to keep post name or page name.
+ * @return string
  */
-function get_permalink($id = 0, $leavename=false) {
+function get_permalink($id = 0, $leavename = false) {
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
@@ -95,7 +94,7 @@ function get_permalink($id = 0, $leavename=false) {
 
 	$post = &get_post($id);
 
-	if ( empty($post->ID) ) return FALSE;
+	if ( empty($post->ID) ) return false;
 
 	if ( $post->post_type == 'page' )
 		return get_page_link($post->ID, $leavename);
@@ -114,7 +113,7 @@ function get_permalink($id = 0, $leavename=false) {
 				usort($cats, '_usort_terms_by_ID'); // order by ID
 			$category = $cats[0]->slug;
 			if ( $parent=$cats[0]->parent )
-				$category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
+				$category = get_category_parents($parent, false, '/', true) . $category;
 
 			// show default category in permalinks, without
 			// having to assign it explicitly
@@ -157,28 +156,26 @@ function get_permalink($id = 0, $leavename=false) {
 /**
  * Retrieve permalink from post ID.
  *
- * {@internal Missing Long Description}}
- *
  * @since 1.0.0
  *
- * @param unknown_type $post_id
- * @param unknown_type $deprecated
- * @return unknown
+ * @param int $post_id Optional. Post ID.
+ * @param mixed $deprecated Not used.
+ * @return string
  */
 function post_permalink($post_id = 0, $deprecated = '') {
 	return get_permalink($post_id);
 }
 
-// Respects page_on_front.  Use this one.
 /**
- * {@internal Missing Short Description}}
+ * Retrieve the permalink for current page or page ID.
  *
- * {@internal Missing Long Description}}
+ * Respects page_on_front. Use this one.
  *
  * @since 1.5.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $leavename Optional, defaults to false. Whether to keep post name or page name.
+ * @return string
  */
 function get_page_link($id = false, $leavename = false) {
 	global $post;
@@ -196,17 +193,16 @@ function get_page_link($id = false, $leavename = false) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the page permalink.
  *
  * Ignores page_on_front. Internal use only.
  *
  * @since 2.1.0
  * @access private
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param bool $leavename Optional. Leave name.
+ * @return string
  */
 function _get_page_link( $id = false, $leavename = false ) {
 	global $post, $wp_rewrite;
@@ -231,14 +227,14 @@ function _get_page_link( $id = false, $leavename = false ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve permalink for attachment.
  *
- * {@internal Missing Long Description}}
+ * This can be used in the WordPress Loop or outside of it.
  *
  * @since 2.0.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @return string
  */
 function get_attachment_link($id = false) {
 	global $post, $wp_rewrite;
@@ -272,14 +268,12 @@ function get_attachment_link($id = false) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the year archives.
  *
  * @since 1.5.0
  *
- * @param unknown_type $year
- * @return unknown
+ * @param int|bool $year False for current year or year for permalink.
+ * @return string
  */
 function get_year_link($year) {
 	global $wp_rewrite;
@@ -295,15 +289,13 @@ function get_year_link($year) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the month archives with year.
  *
  * @since 1.0.0
  *
- * @param unknown_type $year
- * @param unknown_type $month
- * @return unknown
+ * @param bool|int $year False for current year. Integer of year.
+ * @param bool|int $month False for current month. Integer of month.
+ * @return string
  */
 function get_month_link($year, $month) {
 	global $wp_rewrite;
@@ -322,16 +314,14 @@ function get_month_link($year, $month) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the day archives with year and month.
  *
  * @since 1.0.0
  *
- * @param unknown_type $year
- * @param unknown_type $month
- * @param unknown_type $day
- * @return unknown
+ * @param bool|int $year False for current year. Integer of year.
+ * @param bool|int $month False for current month. Integer of month.
+ * @param bool|int $day False for current day. Integer of day.
+ * @return string
  */
 function get_day_link($year, $month, $day) {
 	global $wp_rewrite;
@@ -354,14 +344,12 @@ function get_day_link($year, $month, $day) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the feed type.
  *
  * @since 1.5.0
  *
- * @param unknown_type $feed
- * @return unknown
+ * @param string $feed Optional, defaults to default feed. Feed type.
+ * @return string
  */
 function get_feed_link($feed = '') {
 	global $wp_rewrite;
@@ -393,15 +381,13 @@ function get_feed_link($feed = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the post comments feed.
  *
  * @since 2.2.0
  *
- * @param unknown_type $post_id
- * @param unknown_type $feed
- * @return unknown
+ * @param int $post_id Optional. Post ID.
+ * @param string $feed Optional. Feed type.
+ * @return string
  */
 function get_post_comments_feed_link($post_id = '', $feed = '') {
 	global $id;
@@ -463,7 +449,7 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
  * @since 2.5.0
  *
  * @param int $author_id ID of an author.
- * @param string $feed Feed type.
+ * @param string $feed Optional. Feed type.
  * @return string Link to the feed for the author specified by $author_id.
 */
 function get_author_feed_link( $author_id, $feed = '' ) {
@@ -501,7 +487,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  * @since 2.5.0
  *
  * @param int $cat_id ID of a category.
- * @param string $feed Feed type.
+ * @param string $feed Optional. Feed type.
  * @return string Link to the feed for the category specified by $cat_id.
 */
 function get_category_feed_link($cat_id, $feed = '') {
@@ -535,15 +521,13 @@ function get_category_feed_link($cat_id, $feed = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve permalink for feed of tag.
  *
  * @since 2.3.0
  *
- * @param unknown_type $tag_id
- * @param unknown_type $feed
- * @return unknown
+ * @param int $tag_id Tag ID.
+ * @param string $feed Optional. Feed type.
+ * @return string
  */
 function get_tag_feed_link($tag_id, $feed = '') {
 	$tag_id = (int) $tag_id;
@@ -575,15 +559,13 @@ function get_tag_feed_link($tag_id, $feed = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the feed of the search results.
  *
  * @since 2.5.0
  *
- * @param unknown_type $search_query
- * @param unknown_type $feed
- * @return unknown
+ * @param string $search_query Optional. Search query.
+ * @param string $feed Optional. Feed type.
+ * @return string
  */
 function get_search_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
@@ -602,15 +584,13 @@ function get_search_feed_link($search_query = '', $feed = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve the permalink for the comments feed of the search results.
  *
  * @since 2.5.0
  *
- * @param unknown_type $search_query
- * @param unknown_type $feed
- * @return unknown
+ * @param string $search_query Optional. Search query.
+ * @param string $feed Optional. Feed type.
+ * @return string
  */
 function get_search_comments_feed_link($search_query = '', $feed = '') {
 	if ( empty($search_query) )
@@ -629,14 +609,16 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve edit posts link for post.
  *
- * {@internal Missing Long Description}}
+ * Can be used within the WordPress loop or outside of it. Can be used with
+ * pages, posts, attachments, and revisions.
  *
  * @since 2.3.0
  *
- * @param unknown_type $id
- * @return unknown
+ * @param int $id Optional. Post ID.
+ * @param string $context Optional, default to display. How to write the '&', defaults to '&amp;'.
+ * @return string
  */
 function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !$post = &get_post( $id ) )
@@ -679,15 +661,13 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve edit posts link for post.
  *
  * @since 1.0.0
  *
- * @param unknown_type $link
- * @param unknown_type $before
- * @param unknown_type $after
+ * @param string $link Optional. Anchor text.
+ * @param string $before Optional. Display before edit link.
+ * @param string $after Optional. Display after edit link.
  */
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $post;
@@ -705,14 +685,12 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve edit comment link.
  *
  * @since 2.3.0
  *
- * @param unknown_type $comment_id
- * @return unknown
+ * @param int $comment_id Optional. Comment ID.
+ * @return string
  */
 function get_edit_comment_link( $comment_id = 0 ) {
 	$comment = &get_comment( $comment_id );
@@ -731,15 +709,15 @@ function get_edit_comment_link( $comment_id = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display or retrieve edit comment link with formatting.
  *
  * @since 1.0.0
  *
- * @param unknown_type $link
- * @param unknown_type $before
- * @param unknown_type $after
+ * @param string $link Optional. Anchor text.
+ * @param string $before Optional. Display before edit link.
+ * @param string $after Optional. Display after edit link.
+ * @param bool $echo Optional, defaults to true. Whether to echo or return HTML.
+ * @return string|null HTML content, if $echo is set to false.
  */
 function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $echo = true ) {
 	global $comment, $post;
@@ -762,14 +740,12 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $ech
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display edit bookmark (literally a URL external to blog) link.
  *
- * {@internal Missing Long Description}}
+ * @since 2.7.0
  *
- * @since unknown
- *
- * @param unknown_type $link
- * @return unknown
+ * @param int $link Optional. Bookmark ID.
+ * @return string
  */
 function get_edit_bookmark_link( $link = 0 ) {
 	$link = &get_bookmark( $link );
@@ -782,16 +758,14 @@ function get_edit_bookmark_link( $link = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display edit bookmark (literally a URL external to blog) link anchor content.
  *
- * {@internal Missing Long Description}}
+ * @since 2.7.0
  *
- * @since unknown
- *
- * @param unknown_type $link
- * @param unknown_type $before
- * @param unknown_type $after
- * @param unknown_type $bookmark
+ * @param string $link Optional. Anchor text.
+ * @param string $before Optional. Display before edit link.
+ * @param string $after Optional. Display after edit link.
+ * @param int $bookmark Optional. Bookmark ID.
  */
 function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = null ) {
 	$bookmark = get_bookmark($bookmark);
@@ -809,46 +783,42 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 // Navigation links
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve previous post link that is adjacent to current post.
  *
  * @since 1.5.0
  *
- * @param unknown_type $in_same_cat
- * @param unknown_type $excluded_categories
- * @return unknown
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @return string
  */
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	return get_adjacent_post($in_same_cat, $excluded_categories);
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve next post link that is adjacent to current post.
  *
  * @since 1.5.0
  *
- * @param unknown_type $in_same_cat
- * @param unknown_type $excluded_categories
- * @return unknown
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @return string
  */
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	return get_adjacent_post($in_same_cat, $excluded_categories, false);
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve adjacent post link.
  *
- * {@internal Missing Long Description}}
+ * Can either be next or previous post link.
  *
  * @since 2.5.0
  *
- * @param unknown_type $in_same_cat
- * @param unknown_type $excluded_categories
- * @param unknown_type $previous
- * @return unknown
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param bool $previous Optional. Whether to retrieve previous post.
+ * @return string
  */
 function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $previous = true) {
 	global $post, $wpdb;
@@ -894,49 +864,45 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display previous post link that is adjacent to the current post.
  *
  * @since 1.5.0
  *
- * @param unknown_type $format
- * @param unknown_type $link
- * @param unknown_type $in_same_cat
- * @param unknown_type $excluded_categories
+ * @param string $format Optional. Link anchor format.
+ * @param string $link Optional. Link permalink format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
  */
 function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
 	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, true);
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display next post link that is adjacent to the current post.
  *
  * @since 1.5.0
  *
- * @param unknown_type $format
- * @param unknown_type $link
- * @param unknown_type $in_same_cat
- * @param unknown_type $excluded_categories
+ * @param string $format Optional. Link anchor format.
+ * @param string $link Optional. Link permalink format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
  */
 function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
 	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, false);
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display adjacent post link.
  *
- * {@internal Missing Long Description}}
+ * Can be either next post link or previous.
  *
  * @since 2.5.0
  *
- * @param unknown_type $format
- * @param unknown_type $link
- * @param unknown_type $in_same_cat
- * @param unknown_type $excluded_categories
- * @param unknown_type $previous
+ * @param string $format Link anchor format.
+ * @param string $link Link permalink format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param bool $previous Optional, default is true. Whether display link to previous post.
  */
 function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true) {
 	if ( $previous && is_attachment() )
@@ -967,14 +933,12 @@ function adjacent_post_link($format, $link, $in_same_cat = false, $excluded_cate
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Retrieve get links for page numbers.
  *
  * @since 1.5.0
  *
- * @param unknown_type $pagenum
- * @return unknown
+ * @param int $pagenum Optional. Page ID.
+ * @return string
  */
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
@@ -1031,15 +995,14 @@ function get_pagenum_link($pagenum = 1) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve next posts pages link.
  *
- * {@internal Missing Long Description}}
  * Backported from 2.1.3 to 2.0.10.
  *
  * @since 2.0.10
  *
- * @param unknown_type $max_page
- * @return unknown
+ * @param int $max_page Optional. Max pages.
+ * @return string
  */
 function get_next_posts_page_link($max_page = 0) {
 	global $paged;
@@ -1054,27 +1017,23 @@ function get_next_posts_page_link($max_page = 0) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display the next posts pages link.
  *
  * @since 0.71
  *
- * @param unknown_type $max_page
+ * @param int $max_page Optional. Max pages.
  */
 function next_posts($max_page = 0) {
 	echo clean_url(get_next_posts_page_link($max_page));
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display the next posts pages link.
  *
  * @since 0.71
  *
- * @param unknown_type $label
- * @param unknown_type $max_page
+ * @param string $label Content for link text.
+ * @param int $max_page Optional. Max pages.
  */
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 	global $paged, $wp_query;
@@ -1093,14 +1052,15 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve previous post pages link.
  *
- * {@internal Missing Long Description}}
+ * Will only return string, if not on a single page or post.
  *
- * @since 2.0.10 Backported
- * @since 2.1.3
+ * Backported to 2.0.10 from 2.1.3.
  *
- * @return unknown
+ * @since 2.0.10
+ *
+ * @return string|null
  */
 function get_previous_posts_page_link() {
 	global $paged;
@@ -1114,25 +1074,20 @@ function get_previous_posts_page_link() {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display previous posts pages link.
  *
  * @since 0.71
- *
  */
 function previous_posts() {
 	echo clean_url(get_previous_posts_page_link());
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display previous posts page link.
  *
  * @since 0.71
  *
- * @param unknown_type $label
+ * @param string $label Optional. Previous page link text.
  */
 function previous_posts_link($label='&laquo; Previous Page') {
 	global $paged;
@@ -1145,15 +1100,13 @@ function previous_posts_link($label='&laquo; Previous Page') {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Display post pages link navigation for previous and next pages.
  *
  * @since 0.71
  *
- * @param unknown_type $sep
- * @param unknown_type $prelabel
- * @param unknown_type $nxtlabel
+ * @param string $sep Optional. Separator for posts navigation links.
+ * @param string $prelabel Optional. Label for previous pages.
+ * @param string $nxtlabel Optional Label for next pages.
  */
 function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
 	global $wp_query;
@@ -1174,6 +1127,14 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
 	}
 }
 
+/**
+ * Retrieve page numbers links.
+ *
+ * @since 2.7.0
+ *
+ * @param int $pagenum Optional. Page number.
+ * @return string
+ */
 function get_comments_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
 
@@ -1203,6 +1164,14 @@ function get_comments_pagenum_link($pagenum = 1) {
 	return $result;
 }
 
+/**
+ * Display link to next comments pages.
+ *
+ * @since 2.7.0
+ *
+ * @param string $label Optional. Label for link text.
+ * @param int $max_page Optional. Max page.
+ */
 function next_comments_link($label='', $max_page = 0) {
 	global $wp_query;
 
@@ -1230,6 +1199,13 @@ function next_comments_link($label='', $max_page = 0) {
 	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 }
 
+/**
+ * Display the previous comments page link.
+ *
+ * @since 2.7.0
+ *
+ * @param string $label Optional. Label for comments link text.
+ */
 function previous_comments_link($label='') {
 	global $wp_query;
 
@@ -1254,14 +1230,14 @@ function previous_comments_link($label='') {
 	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 }
 
-/** Create pagination links for the comments on the current post
+/**
+ * Create pagination links for the comments on the current post.
  *
- * @package WordPress
- * @see paginate_links
- * @since 2.7
+ * @see paginate_links()
+ * @since 2.7.0
  *
  * @param string|array $args Optional args. See paginate_links.
- * @return string Markup for pagination links
+ * @return string Markup for pagination links.
 */
 function paginate_comments_links($args = array()) {
 	global $wp_query;
@@ -1291,13 +1267,13 @@ function paginate_comments_links($args = array()) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieve shortcut link.
  *
- * {@internal Missing Long Description}}
+ * Use this in 'a' element 'href' attribute.
  *
- * @since unknown
+ * @since 2.6.0
  *
- * @return unknown
+ * @return string
  */
 function get_shortcut_link() {
 	$link = "javascript:
@@ -1335,6 +1311,7 @@ function get_shortcut_link() {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
+ * @package WordPress
  * @since 2.6.0
  *
  * @param string $path Optional. Path relative to the site url.
