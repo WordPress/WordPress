@@ -633,7 +633,6 @@ function gallery_shortcode($attr) {
 		return $output;
 	}
 
-	$listtag = tag_escape($listtag);
 	$itemtag = tag_escape($itemtag);
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
