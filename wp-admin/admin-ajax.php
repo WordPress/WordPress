@@ -37,7 +37,9 @@ if ( ! is_user_logged_in() ) {
 	die('-1');
 }
 
-if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
+if ( isset( $_GET['action'] ) ) :
+switch ( $action = $_GET['action'] ) :
+case 'ajax-tag-search' :
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
@@ -53,7 +55,13 @@ if ( isset($_GET['action']) && 'ajax-tag-search' == $_GET['action'] ) {
 	$results = $wpdb->get_col( "SELECT name FROM $wpdb->terms WHERE name LIKE ('%". $s . "%')" );
 	echo join( $results, "\n" );
 	die;
-}
+	break;
+default :
+	do_action( 'wp_ajax_' . $_GET['action'] );
+	die('0');
+	break;
+endswitch;
+endif;
 
 $id = isset($_POST['id'])? (int) $_POST['id'] : 0;
 switch ( $action = $_POST['action'] ) :
