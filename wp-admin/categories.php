@@ -94,10 +94,18 @@ case 'editedcat':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
+	$location = 'categories.php';
+	if ( $referer = wp_get_original_referer() ) {
+		if ( false !== strpos($referer, 'categories.php') )
+			$location = $referer;
+	}
+
 	if ( wp_update_category($_POST) )
-		wp_redirect('categories.php?message=3');
+		$location = add_query_arg('message', 3, $location);
 	else
-		wp_redirect('categories.php?message=5');
+		$location = add_query_arg('message', 5, $location);
+
+	wp_redirect($location);
 
 	exit;
 break;
