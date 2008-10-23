@@ -4,22 +4,18 @@ adminMenu = {
 		
 	init : function() {
 		$('#adminmenu a').attr('tabindex', '10');
-		$('#adminmenu a.wp-has-submenu').click( function() { return adminMenu.toggle( $(this).siblings('ul') ); } );
-		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
-		
-		var li = document.createElement('li'); // temp
-		$(li).attr('id', 'menu-toggle').html('&laquo;&laquo;').click(function(){
-			if ( 'o' == getUserSetting( 'mfold' ) ) {
-				adminMenu.fold();
-				setUserSetting( 'mfold', 'f' );
-				$(this).html('&raquo;&raquo;');
-			} else {
+		$('#adminmenu div.wp-menu-toggle').click( function() { return adminMenu.toggle( $(this).siblings('ul') ); } );
+		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { adminMenu.fold(); } );
+
+		$('.wp-menu-separator').click(function(){
+			if ( $('#adminmenu').hasClass('folded') ) {
 				adminMenu.fold(1);
 				setUserSetting( 'mfold', 'o' );
-				$(this).html('&laquo;&laquo;');
+			} else {
+				adminMenu.fold();
+				setUserSetting( 'mfold', 'f' );
 			}
 		});
-		$('#adminmenu').prepend(li);
 
 		if ( 'o' == getUserSetting( 'mfold' ) ) {
 			$('#adminmenu li.wp-has-submenu').each(function(i, e) {
@@ -31,7 +27,6 @@ adminMenu = {
 			});
 		} else {
 			this.fold();
-			$('#menu-toggle').html('&raquo;&raquo;');
 		}
 	},
 
@@ -52,18 +47,20 @@ adminMenu = {
 	fold : function(off) {
 		if (off) {
 			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
-				$('#wpbody-content').css('marginLeft', '140px');
+				$('#wpbody-content').css('marginLeft', '180px');
 			$('#adminmenu').removeClass('folded');
 			$('#adminmenu li.wp-submenu-head').hide();
-			$('#adminmenu a.wp-has-submenu').show();
+			$('#adminmenu a.wp-has-submenu, #adminmenu div.wp-menu-toggle').show();
 			$('#adminmenu li.wp-has-submenu').unbind().css('width', '');
+			$('#adminmenu li.wp-has-submenu img.wp-menu-image').unbind().dblclick( function() { adminMenu.fold(); } );
 		} else {
 			$('#adminmenu').addClass('folded');
-			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-submenu').hide();
+			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-submenu, #adminmenu div.wp-menu-toggle').hide();
 			$('#adminmenu li.wp-submenu-head').show();
+			$('#adminmenu li.wp-has-submenu img.wp-menu-image').unbind().dblclick( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
 			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
-				$('#wpbody-content').css('marginLeft', '40px');
-			$('#adminmenu li.wp-has-submenu').css({'width':'24px'}).hoverIntent({
+				$('#wpbody-content').css('marginLeft', '60px');
+			$('#adminmenu li.wp-has-submenu').css({'width':'28px'}).hoverIntent({
 				over: function(){ $(this).find('.wp-submenu').show(); },
 				out: function(){ $(this).find('.wp-submenu').hide(); },
 				timeout: 220,

@@ -1,7 +1,7 @@
 /* Fixes for IE bugs */
 
 * html #wpbody-content {
-	margin-left: 140px;
+	margin-left: 160px;
 }
 
 * html #wpbody {
@@ -21,6 +21,10 @@
 
 #footer {
 	overflow: hidden;
+}
+
+* html #footer {
+	width: 100%;
 }
 
 .metabox-holder .postbox h3 {
@@ -54,12 +58,25 @@ input.button, input.button-secondary, input.button-highlighted {
 	z-index: 1;
 }
 
-#adminmenu.folded .wp-submenu {
-	margin: -1px 0 0 4px;
+#adminmenu li.wp-has-submenu {
+	padding: 0;
+	margin: 0;
 }
 
-#adminmenu li.wp-has-submenu {
-	margin: 2px 0;
+#adminmenu a.wp-has-submenu {
+
+}
+
+ul.wp-submenu, ul.wp-submenu li,
+ul.wp-submenu a,
+#adminmenu a.wp-has-submenu,
+#adminmenu .wp-menu-image  {
+	display: block;
+	zoom: 100%;
+}
+
+#adminmenu.folded .wp-submenu {
+	margin: -1px 0 0 4px;
 }
 
 #adminmenu.folded li.wp-has-submenu {
@@ -67,18 +84,13 @@ input.button, input.button-secondary, input.button-highlighted {
 }
 
 #wpcontent #adminmenu ul.wp-submenu a {
-	padding: 2px 4px 2px 8px;
+	padding: 2px 4px 2px 10px;
 	margin: 0;
-	line-height: 20px;
-}
-
-ul.wp-submenu, ul.wp-submenu li, ul.wp-submenu a {
-	display: block;
-	zoom: 100%;
+	line-height: 18px;
 }
 
 * html #wpcontent #adminmenu {
-	margin: 8px 4px;
+	margin: 8px 9px;
 }
 
 #wpcontent #adminmenu ul.wp-submenu li {
@@ -89,12 +101,15 @@ ul.wp-submenu, ul.wp-submenu li, ul.wp-submenu a {
 	padding: 3px 4px 4px 10px;
 }
 
+/*
 ul#adminmenu li.wp-menu-separator {
 	background-color: #fff;
 	height: 3px;
 	line-height: 3px;
 	font-size: 3px;
 }
+*/
+
 
 #template, #template div, #editcat, #addcat {
 	zoom: 100%;

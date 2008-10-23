@@ -34,7 +34,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow;
 
 	$first = true;
-	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = image src
+	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
 	foreach ( $menu as $key => $item ) {
 		$class = array();
 		if ( $first ) {
@@ -57,6 +57,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . $item[5] . '"' : '';
 		$img = isset($item[6]) && ! empty($item[6]) ? '<img class="wp-menu-image" src="' . $item[6] . '" alt="" />' : '';
+		$toggle = '<div class="wp-menu-toggle"><br /></div>';
 
 		echo "\n\t<li$class$id>";
 
@@ -66,15 +67,15 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 			if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-				echo "$img<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				echo "$img$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 			else
-				echo "\n\t$img<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img$toggle<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
 			if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) ) {
-				echo "\n\t$img<a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img$toggle<a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
 			} else {
-				echo "\n\t$img<a href='{$item[2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img$toggle<a href='{$item[2]}'$class>{$item[0]}</a>";
 			}
 		}
 
