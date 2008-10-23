@@ -1663,13 +1663,8 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 	if ( !class_exists( 'WP_Text_Diff_Renderer_Table' ) )
 		require( ABSPATH . WPINC . '/wp-diff.php' );
 
-	// Normalize whitespace
-	$left_string  = trim($left_string);
-	$right_string = trim($right_string);
-	$left_string  = str_replace("\r", "\n", $left_string);
-	$right_string = str_replace("\r", "\n", $right_string);
-	$left_string  = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $left_string );
-	$right_string = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $right_string );
+	$left_string  = normalize_whitespace($left_string);
+	$right_string = normalize_whitespace($right_string);
 
 	$left_lines  = split("\n", $left_string);
 	$right_lines = split("\n", $right_string);

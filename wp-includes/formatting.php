@@ -2144,4 +2144,12 @@ function _links_add_target( $m, $target ) {
 	return '<' . $tag . $link . ' target="' . $target . '">';
 }
 
+// normalize EOL characters and strip duplicate whitespace
+function normalize_whitespace( $str ) {
+	$str  = trim($str);
+	$str  = str_replace("\r", "\n", $str);
+	$str  = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $str );
+	return $str;
+}
+
 ?>
