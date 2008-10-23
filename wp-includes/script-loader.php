@@ -243,14 +243,15 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
 
-		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20081014' );
+		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20081007' );
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
-			'error' => __('Error while saving the changes.'),
-			'rem_title' => __('Remove from batch edit')
+			'edit' => __('Double-click to edit'),
+			'error' => __('Error while saving the changes.')
 		) );
 
-		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081014' );
+		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081007' );
 		$scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
+			'edit' => __('Double-click to edit'),
 			'error' => __('Error while saving the changes.')
 		) );
 
