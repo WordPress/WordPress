@@ -277,7 +277,7 @@ switch ($_REQUEST['ajax']) {
 		}
 
 		jQuery(document).ready(function() {
-			jQuery('#extra_fields').html('<h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><div class="photolist"></div><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a></p>');
+			jQuery('#extra_fields').html('<h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a></p>');
 			jQuery('.close').click(function() {
 				jQuery('#extra_fields').hide();
 			});
@@ -401,7 +401,9 @@ die;
 		top.resizeTo(700-screen.width+screen.availWidth,680-screen.height+screen.availHeight);
     	jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
-		
+		jQuery('#visual_mode_button').click(function() {
+			
+		});
 		// Set default tabs
 		<?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
 			show('video');
@@ -420,14 +422,16 @@ die;
 </div>
 
 <form action="press-this.php?action=post" method="post">
-	<?php wp_nonce_field('press-this') ?>
-	<input type="hidden" name="post_type" id="post_type" value="text"/>
+	
 	
 	<div id="poststuff" class="metabox-holder">
 	<div id="side-info-column">
 		<div class="sleeve">
-			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
-			
+			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/" target="_blank"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
+			<?php wp_nonce_field('press-this') ?>
+		<input type="hidden" name="post_type" id="post_type" value="text"/>
+	
+		<div class="photolist"></div>
 			<div id="categorydiv" class="stuffbox">
 			<h2><?php _e('Categories') ?></h2>
 				<div class="inside">
@@ -495,6 +499,19 @@ die;
 				<ul id="actions">
 					<li id="photo_button"><a href="#" class="button"><?php _e( 'Add Photo' ); ?></a></li>
 					<li id="video_button"><a href="#" class="button"><?php _e( 'Add Video' ); ?></a></li>
+					<li id="switcher"><?php if ( user_can_richedit() ) {
+		$wp_default_editor = wp_default_editor(); ?>
+		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
+		<?php if ( 'html' == $wp_default_editor ) {
+			add_filter('the_editor_content', 'wp_htmledit_pre'); ?>
+			<a id="edButtonHTML" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
+			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
+		<?php } else {
+			add_filter('the_editor_content', 'wp_richedit_pre'); ?>
+			<a id="edButtonHTML" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
+			<a id="edButtonPreview" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
+		<?php } 
+	} ?></li>
 				</ul>
 			
 				<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
@@ -502,7 +519,7 @@ die;
 				<div class="editor-container">
 					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
 					<?php if ($selection) echo wp_richedit_pre($selection); ?>
-					<?php if ($url) { ?><p>via <a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p><?php } ?>
+					<?php if ($url) { ?><p><?php if($selection) _e('via'); ?> <a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p><?php } ?>
 					</textarea>
 				</div>
 			</div>

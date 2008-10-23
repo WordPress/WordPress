@@ -36,6 +36,26 @@ div#poststuff {
 	margin-top: 10px;
 }
 
+
+div.zerosize {
+border:0 none;
+height:0;
+margin:0;
+overflow:hidden;
+padding:0;
+position:absolute;
+width:0;
+}
+
+#poststuff #edButtonPreview, #poststuff #edButtonHTML {
+	display: block;
+	height: 20px;
+	padding: 5px 5px 1px;
+	margin: 5px 8px 0 0;
+	float: right;
+	cursor: pointer;
+}
+
 .posting {
 margin-right: 228px;
 }
