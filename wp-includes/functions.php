@@ -1054,19 +1054,12 @@ function wp_get_http( $url, $file_path = false, $deprecated = false ) {
 	if ( false == $file_path )
 		return $headers;
 
-	// GET request - fetch and write it to the supplied filename
-	$content_length = isset( $headers['content-length'] ) ? $headers['content-length'] : strlen( $response['body'] );
-	$got_bytes = 0;
+	// GET request - write it to the supplied filename
 	$out_fp = fopen($file_path, 'w');
-	while ( !feof($fp) ) {
-		$buf = fread( $fp, 4096 );
-		fwrite( $out_fp, $buf );
-		$got_bytes += strlen($buf);
-		// don't read past the content-length
-		if ($content_length and $got_bytes >= $content_length)
-			break;
-	}
+	if ( !$out_fp )
+		return $headers;
 
+	fwrite( $out_fp,  $response['body']);
 	fclose($out_fp);
 
 	return $headers;
