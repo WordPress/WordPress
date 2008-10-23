@@ -83,7 +83,6 @@ inlineEditPost = {
 		r.each(function() {
 			var row = $(this);
 			$('a.editinline', row).click(function() { inlineEditPost.edit(this); return false; });
-			row.attr('title', inlineEditL10n.edit);
 		});
 	},
 
