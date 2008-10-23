@@ -762,6 +762,9 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$comments_by_type = &$wp_query->comments_by_type;
 	}
 
+	if ( '' == get_query_var('cpage') && get_option('page_comments') && 'newest' == get_option('default_comments_page') ) 
+		set_query_var( 'cpage', get_comment_pages_count() );
+
 	define('COMMENTS_TEMPLATE', true);
 
 	$include = apply_filters('comments_template', STYLESHEETPATH . $file );
@@ -1122,8 +1125,8 @@ class Walker_Comment extends Walker {
  * @since 2.7.0
  * @uses Walker_Comment
  *
- * @param $args string|array Formatting options
- * @param $comments array Optional array of comment objects.  Defaults to $wp_query->comments
+ * @param string|array $args Formatting options
+ * @param array $comments Optional array of comment objects.  Defaults to $wp_query->comments
  */
 function wp_list_comments($args = array(), $comments = null ) {
 	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt;
@@ -1132,7 +1135,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 	$comment_depth = 1;
 
 	$defaults = array('walker' => null, 'depth' => '', 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all',
-		'page' => get_query_var('cpage'), 'per_page' => '', 'avatar_size' => 32);
+		'page' => '', 'per_page' => '', 'avatar_size' => 32, 'reverse_top_level' => '', 'reverse_children' => '');
 
 	$r = wp_parse_args( $args, $defaults );
 
@@ -1142,10 +1145,6 @@ function wp_list_comments($args = array(), $comments = null ) {
 	if ( empty($r['per_page']) ) {
 		$r['per_page'] = 0;
 		$r['page'] = 0;
-	} else {
-		$r['page'] = intval($r['page']);
-		if ( empty($r['page']) )
-			$r['page'] = 1;
 	}
 
 	if ( '' === $r['depth'] ) {
@@ -1154,6 +1153,23 @@ function wp_list_comments($args = array(), $comments = null ) {
 		else
 			$r['depth'] = -1;
 	}
+
+	if ( '' === $r['page'] ) {
+		if ( empty($comments) ) {
+			$r['page'] = get_query_var('cpage');
+		} else {
+			$threaded = ( -1 == $r['depth'] ) ? false : true;
+			$r['page'] = ( 'newest' == get_option('default_comments_page') ) ? get_comment_pages_count($comments, $r['per_page'], $threaded) : 1;
+			set_query_var( 'cpage', $r['page'] );
+		}
+	}
+	// Validation check
+	$r['page'] = intval($r['page']);
+	if ( 0 == $r['page'] && 0 != $r['per_page'] )
+		$r['page'] = 1;
+
+	if ( '' == $r['reverse_top_level'] )
+		$r['reverse_top_level'] = ( 'asc' == get_option('comment_order') ) ? FALSE : TRUE;
 
 	extract( $r, EXTR_SKIP );
 

@@ -1135,7 +1135,7 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
  * @param int $pagenum Optional. Page number.
  * @return string
  */
-function get_comments_pagenum_link($pagenum = 1) {
+function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 	global $wp_rewrite;
 
 	$pagenum = (int) $pagenum;
@@ -1151,11 +1151,13 @@ function get_comments_pagenum_link($pagenum = 1) {
 
 	$base = trailingslashit( get_bloginfo( 'home' ) );
 
-	if ( $pagenum > 1 ) {
+	$result = $base . $request;
+	
+	if ( 'newest' == get_option('default_comments_page') ) {
+		if ( $pagenum != $max_page )
+			$result = add_query_arg( 'cpage', $pagenum, $base . $request );
+	} elseif ( $pagenum > 1 )
 		$result = add_query_arg( 'cpage', $pagenum, $base . $request );
-	} else {
-		$result = $base . $request;
-	}
 
 	$result .= '#comments';
 
@@ -1194,7 +1196,7 @@ function next_comments_link($label='', $max_page = 0) {
 	if ( empty($label) )
 		$label = __('&raquo; Newer Comments');
 
-	echo '<a href="' . clean_url(get_comments_pagenum_link($nextpage));
+	echo '<a href="' . clean_url( get_comments_pagenum_link( $nextpage, $max_page ) );
 	$attr = apply_filters( 'next_comments_link_attributes', '' );
 	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 }

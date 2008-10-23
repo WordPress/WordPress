@@ -985,6 +985,13 @@ class Walker {
 
 		// flat display
 		if ( -1 == $max_depth ) {
+			if ( !empty($args[0]['reverse_top_level']) ) {
+				$elements = array_reverse( $elements );
+				$oldstart = $start;
+				$start = $total_top - $end;
+				$end = $total_top - $oldstart;
+			}
+
 			$empty_array = array();
 			foreach ( $elements as $e ) {
 				$count++;
@@ -1017,7 +1024,18 @@ class Walker {
 		else
 			$end = $total_top;
 
-		foreach( $top_level_elements as $e ){
+		if ( !empty($args[0]['reverse_top_level']) ) {
+			$top_level_elements = array_reverse( $top_level_elements );
+			$oldstart = $start;
+			$start = $total_top - $end;
+			$end = $total_top - $oldstart;
+		}
+		if ( !empty($args[0]['reverse_children']) ) {
+			foreach ( $children_elements as $parent => $children )
+				$children_elements[$parent] = array_reverse( $children );
+		}
+
+		foreach ( $top_level_elements as $e ) {
 			$count++;
 
 			//for the last page, need to unset earlier children in order to keep track of orphans

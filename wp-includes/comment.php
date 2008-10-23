@@ -481,6 +481,45 @@ function &separate_comments(&$comments) {
 }
 
 /**
+ * Calculate the total number of comment pages.
+ *
+ * @since 2.7.0
+ *
+ * @param array $comments Optional array of comment objects.  Defaults to $wp_query->comments
+ * @param int $per_page Optional comments per page.
+ * @param boolean $threaded Optional control over flat or threaded comments.
+ * @return int Number of comment pages.
+ */
+function get_comment_pages_count( $comments = null, $per_page = null, $threaded = null ) {
+	global $wp_query;
+
+	if ( !$comments || !is_array($comments) )
+		$comments = $wp_query->comments;
+
+	if ( empty($comments) )
+		return 0;
+
+	if ( !isset($per_page) )
+		$per_page = (int) get_query_var('comments_per_page');
+	if ( 0 === $per_page )
+		$per_page = (int) get_option('comments_per_page');
+	if ( 0 === $per_page )
+		return 1;
+
+	if ( !isset($threaded) )
+		$threaded = get_option('thread_comments');
+
+	if ( $threaded ) {
+		$walker = new Walker_Comment;
+		$count = ceil( $walker->get_number_of_root_elements( $comments ) / $per_page );
+	} else {
+		$count = ceil( count( $comments ) / $per_page );
+	}
+
+	return $count;
+}
+
+/**
  * Does comment contain blacklisted characters or words.
  *
  * @since 1.5.0
