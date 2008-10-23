@@ -63,9 +63,9 @@ $menu[30] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 $update_plugins = get_option( 'update_plugins' );
 $update_count = count( $update_plugins->response );	
 $menu[35] = array( sprintf( __('Plugins %s'), "<span id='update-plugins' class='count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', '', 'menu-plugins', 'images/menu/plugins.png' );
-	$submenu['plugins.php'][15] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');	
 	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][10] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
+	$submenu['plugins.php'][10] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');	
+	$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 
 if ( current_user_can('edit_users') )
 	$menu[40] = array( __('Users'), 'edit_users', 'users.php', '', '', 'menu-users', 'images/menu/users.png' );
