@@ -123,14 +123,15 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		}
 
 	// paging and feeds
-		if ( get_query_var('paged') || is_feed() ) {
+		if ( get_query_var('paged') || is_feed() || get_query_var('cpage') ) {
 			if ( !$redirect_url )
 				$redirect_url = $requested_url;
 			$paged_redirect = @parse_url($redirect_url);
-			while ( preg_match( '#page/[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/feed(/[a-z0-9-]*?(/+)?)?$#', $paged_redirect['path'] ) ) {
+			while ( preg_match( '#page/[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/feed(/[a-z0-9-]*?(/+)?)?$#', $paged_redirect['path'] ) || preg_match( '#comment-page-[0-9]+/?$#', $paged_redirect['path'] ) ) {
 				// Strip off paging and feed
 				$paged_redirect['path'] = preg_replace('#/page/[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing paging
 				$paged_redirect['path'] = preg_replace('#/feed(/[a-z0-9-]*?(/+)?)?$#', '/', $paged_redirect['path']); // strip off any existing feed
+				$paged_redirect['path'] = preg_replace('#comment-page-[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing comment paging
 			}
 
 			$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']); // strip off trailing /index.php/
@@ -148,10 +149,14 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			if ( is_feed() ) {
 				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'feed/' . ( ( 'rss2' ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
 			}
+			if ( get_query_var('cpage') > 1 ) {
+				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'comment-page-' . get_query_var('cpage'), 'commentpaged' );
+			}
 			$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
 			$redirect['path'] = $paged_redirect['path'];
 			$redirect['query'] = remove_query_arg( 'paged', $redirect['query'] );
-			$redirect['query'] = remove_query_arg(  'feed', $redirect['query'] );
+			$redirect['query'] = remove_query_arg( 'feed', $redirect['query'] );
+			$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 		}
 	}
 

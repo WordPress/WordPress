@@ -1242,7 +1242,7 @@ function previous_comments_link($label='') {
  * @return string Markup for pagination links.
 */
 function paginate_comments_links($args = array()) {
-	global $wp_query;
+	global $wp_query, $wp_rewrite;
 
 	if ( !is_singular() )
 		return;
@@ -1259,6 +1259,9 @@ function paginate_comments_links($args = array()) {
 		'echo' => true,
 		'add_fragment' => '#comments'
 	);
+	if ( $wp_rewrite->using_permalinks() )
+		$defaults['base'] = user_trailingslashit(get_permalink() . 'comment-page-%#%', 'commentpaged');
+
 	$args = wp_parse_args( $args, $defaults );
 	$page_links = paginate_links( $args );
 

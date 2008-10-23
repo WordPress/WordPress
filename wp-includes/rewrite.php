@@ -1259,6 +1259,7 @@ class WP_Rewrite {
 		//build a regex to match the trackback and page/xx parts of URLs
 		$trackbackregex = 'trackback/?$';
 		$pageregex = 'page/?([0-9]{1,})/?$';
+		$commentregex = 'comment-page-([0-9]{1,})/?$';
 
 		//build up an array of endpoint regexes to append => queries to append
 		if ($endpoints) {
@@ -1339,6 +1340,10 @@ class WP_Rewrite {
 			$pagematch = $match . $pageregex;
 			$pagequery = $index . '?' . $query . '&paged=' . $this->preg_index($num_toks + 1);
 
+			//create query for /comment-page-xx
+			$commentmatch = $match . $commentregex;
+			$commentquery = $index . '?' . $query . '&cpage=' . $this->preg_index($num_toks + 1);
+
 			//create query for /feed/(feed|atom|rss|rss2|rdf)
 			$feedmatch = $match . $feedregex;
 			$feedquery = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
@@ -1359,6 +1364,10 @@ class WP_Rewrite {
 				$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2);
 			if ($paged) //...and /page/xx ones
 				$rewrite = array_merge($rewrite, array($pagematch => $pagequery));
+
+			//only on pages with comments add ../comment-page-xx/
+			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask || EP_NONE & $ep_mask )
+				$rewrite = array_merge($rewrite, array($commentmatch => $commentquery));
 
 			//do endpoints
 			if ($endpoints) {
@@ -1403,6 +1412,7 @@ class WP_Rewrite {
 					$sub1tb = $sub1 . $trackbackregex; //add trackback regex <permalink>/trackback/...
 					$sub1feed = $sub1 . $feedregex; //and <permalink>/feed/(atom|...)
 					$sub1feed2 = $sub1 . $feedregex2; //and <permalink>/(feed|atom...)
+					$sub1comment = $sub1 . $commentregex; //and <permalink>/comment-page-xx
 					//add an ? as we don't have to match that last slash, and finally a $ so we
 					//match to the end of the URL
 
@@ -1412,11 +1422,13 @@ class WP_Rewrite {
 					$sub2tb = $sub2 . $trackbackregex; //and add trackbacks <permalink>/attachment/trackback
 					$sub2feed = $sub2 . $feedregex;    //feeds, <permalink>/attachment/feed/(atom|...)
 					$sub2feed2 = $sub2 . $feedregex2;  //and feeds again on to this <permalink>/attachment/(feed|atom...)
+					$sub2comment = $sub2 . $commentregex; //and <permalink>/comment-page-xx
 
 					//create queries for these extra tag-ons we've just dealt with
 					$subquery = $index . '?attachment=' . $this->preg_index(1);
 					$subtbquery = $subquery . '&tb=1';
 					$subfeedquery = $subquery . '&feed=' . $this->preg_index(2);
+					$subcommentquery = $subquery . '&cpage=' . $this->preg_index(2);
 
 					//do endpoints for attachments
 					if ( !empty($endpoint) ) { foreach ( (array) $ep_query_append as $regex => $ep ) {
@@ -1451,8 +1463,8 @@ class WP_Rewrite {
 
 					//add regexes/queries for attachments, attachment trackbacks and so on
 					if ( ! $page ) //require <permalink>/attachment/stuff form for pages because of confusion with subpages
-						$rewrite = array_merge($rewrite, array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery));
-					$rewrite = array_merge(array($sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery), $rewrite);
+						$rewrite = array_merge($rewrite, array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery, $sub1comment => $subcommentquery));
+					$rewrite = array_merge(array($sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery, $sub2comment => $subcommentquery), $rewrite);
 				}
 			} //if($num_toks)
 			//add the rules for this dir to the accumulating $post_rewrite
