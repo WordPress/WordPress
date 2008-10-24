@@ -272,7 +272,7 @@ function wp_default_scripts( &$scripts ) {
 			'requestFile' => admin_url('admin-ajax.php'),
 		) );
 
-		$scripts->add( 'settings-box', '/wp-admin/js/settings-box.js', array( 'jquery' ), '20081023' );
+		$scripts->add( 'settings-box', '/wp-admin/js/settings-box.js', array( 'jquery' ), '20081024' );
 
 		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox', 'settings-box' ), '20081016' );
 
@@ -308,7 +308,7 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081023d' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081024' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );

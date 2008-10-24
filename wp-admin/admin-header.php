@@ -82,8 +82,8 @@ if ( '' == $blog_name )
 <img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a>
 <?php if ( in_array( $pagenow, $settings_pages ) ) { ?>
 
-<span id="screen-options-link-wrap" class="hide-if-no-js">
-<span id="screen-options" class="screen-options-closed">
+<span id="screen-options-link-wrap" class="hide-if-no-js screen-options-closed">
+<span id="screen-options">
 <a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
 <a href="#screen-options" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
 </span>

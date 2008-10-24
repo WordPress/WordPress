@@ -2221,6 +2221,10 @@ fieldset {
 	padding-right: 20px;
 }
 
+.screen-options-open #screen-options {
+	background: url( images/screen-options-right-up.gif ) no-repeat 100% 0;
+}
+
 #screen-options a.show-settings {
 	color: #666;
 	text-decoration: none;
@@ -2265,8 +2269,7 @@ fieldset {
 	float: left;
 	padding: 5px 3px;
 	white-space: nowrap;
-	overflow: hidden;
-	width: 14em;
+	min-width: 14em;
 }
 
 .metabox-prefs label input {
