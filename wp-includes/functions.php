@@ -2208,9 +2208,13 @@ function wp_nonce_ays( $action ) {
  *
  * @param string $message Error message.
  * @param string $title Error title.
+ * @param string|array $args Optional arguements to control behaviour.
  */
-function wp_die( $message, $title = '' ) {
+function wp_die( $message, $title = '', $args = array() ) {
 	global $wp_locale;
+
+	$defaults = array( 'response' => 500 );
+	$r = wp_parse_args($args, $defaults);
 
 	if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
 		if ( empty( $title ) ) {
@@ -2245,7 +2249,7 @@ function wp_die( $message, $title = '' ) {
 
 	if ( !function_exists( 'did_action' ) || !did_action( 'admin_head' ) ) :
 	if( !headers_sent() ){
-		status_header( 500 );
+		status_header( $r['response'] );
 		nocache_headers();
 		header( 'Content-Type: text/html; charset=utf-8' );
 	}

@@ -452,7 +452,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 			if ( defined('DOING_AJAX') )
 				die( __('You are posting comments too quickly.  Slow down.') );
 
-			wp_die( __('You are posting comments too quickly.  Slow down.') );
+			wp_die( __('You are posting comments too quickly.  Slow down.'), '', array('response' => 403) );
 		}
 	}
 }
