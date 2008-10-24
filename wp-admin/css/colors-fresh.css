@@ -816,6 +816,14 @@ div.star.select:hover {
 	background-color: #cee1ef;
 }
 
+#plugin-information pre, #plugin-information code {
+	background-color: #ededff;
+}
+
+#plugin-information pre {
+	border: 1px solid #ccc;
+}
+
 /* inline editor */
 .inline-editor input,
 .inline-editor textarea,

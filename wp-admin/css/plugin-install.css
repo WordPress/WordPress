@@ -132,6 +132,7 @@ div.star img {
 	padding-bottom: 2em;
 }
 
-#plugin-information .updated {
+#plugin-information .updated,
+#plugin-information pre {
 	margin-right: 215px;
 }

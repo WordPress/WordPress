@@ -255,7 +255,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),
 								'abbr' => array('title' => array()),'acronym' => array('title' => array()),
-								'code' => array(),'em' => array(),'strong' => array());
+								'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array());
 
 ?>
 	<div class="tablenav">
@@ -381,8 +381,8 @@ function install_plugin_information() {
 
 	$plugins_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
 								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
-								'code' => array(), 'em' => array(), 'strong' => array(), 'div' => array(),
-								'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array());
+								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
+								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array());
 	//Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
 		$api->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
