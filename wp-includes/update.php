@@ -158,8 +158,10 @@ function wp_update_plugins() {
 
 	$response = unserialize( $raw_response['body'] );
 
-	if ( $response )
+	if ( false !== $response )
 		$new_option->response = $response;
+	else
+		$new_option->response = array();
 
 	update_option( 'update_plugins', $new_option );
 }
