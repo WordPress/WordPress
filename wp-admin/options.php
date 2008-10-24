@@ -85,14 +85,14 @@ default:
 	include('admin-header.php'); ?>
 
 <div class="wrap">
-<ul class="wp-menu">
-<?php $array = array(); _wp_menu_output( $submenu['options-general.php'], $array ); unset($array); ?>
-</ul>
   <h2><?php _e('All Settings'); ?></h2>
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('options-options') ?>
   <input type="hidden" name="action" value="update" />
   <input type='hidden' name='option_page' value='options' />
+<p class="submit submit-top">
+	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
+</p>
   <table class="form-table">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");

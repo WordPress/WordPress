@@ -189,8 +189,8 @@ table#availablethemes td.bottom {
 
 .submit {
 	border-top: 1px solid #ccc;
-	padding: 1.5em 0 0 0;
-	margin: 10px 0 0 0;
+	padding: 1.5em 0;
+	margin: 5px 0;
 	-moz-border-radius: 0 0 3px 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
@@ -198,6 +198,11 @@ table#availablethemes td.bottom {
 	-khtml-border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
+}
+
+.submit-top {
+	border-top: 0;
+	border-bottom: 1px solid #ccc;
 }
 
 #misc-publishing-actions {

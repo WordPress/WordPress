@@ -129,7 +129,7 @@ else
 <?php wp_nonce_field('update-permalink') ?>
 
 
-<p class="submit">
+<p class="submit submit-top">
 	<input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" />
 </p>
 

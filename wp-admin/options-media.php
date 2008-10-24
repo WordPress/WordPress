@@ -25,7 +25,7 @@ include('admin-header.php');
 <input type='hidden' name='option_page' value='media' />
 <input type="hidden" name="page_options" value="thumbnail_size_w,thumbnail_size_h,thumbnail_crop,medium_size_w,medium_size_h,image_default_size,image_default_align,image_default_link_type,large_size_w,large_size_h" /> <!-- is this needed anymore TODO -->
 
-<p class="submit">
+<p class="submit submit-top">
 	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 

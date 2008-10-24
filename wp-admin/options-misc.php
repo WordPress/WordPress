@@ -24,7 +24,7 @@ include('admin-header.php');
 <input type="hidden" name="action" value="update" />
 <?php wp_nonce_field('misc-options') ?>
 
-<p class="submit">
+<p class="submit submit-top">
 	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button" />
 </p>
 

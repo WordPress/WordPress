@@ -23,7 +23,7 @@ include('./admin-header.php');
 <input type='hidden' name='option_page' value='privacy' />
 <input type="hidden" name="action" value="update" />
 
-<p class="submit">
+<p class="submit submit-top">
 	<input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" />
 </p>
 

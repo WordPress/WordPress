@@ -54,7 +54,7 @@ include('./admin-header.php');
 <form method="post" action="options.php">
 <?php settings_fields('general'); ?>
 
-<p class="submit">
+<p class="submit submit-top">
 <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 </p>
 
