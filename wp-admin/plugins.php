@@ -28,9 +28,9 @@ if( !empty($action) ) {
 			check_admin_referer('activate-plugin_' . $plugin);
 			$result = activate_plugin($plugin, 'plugins.php?error=true&plugin=' . $plugin);
 			if ( is_wp_error( $result ) )
-				wp_die( $result->get_error_message() );
+				wp_die($result);
 			$recent = (array)get_option('recently_activated');
-			if( isset($recent[ $plugin ]) ){
+			if ( isset($recent[ $plugin ]) ) {
 				unset($recent[ $plugin ]);
 				update_option('recently_activated', $recent);
 			}
@@ -43,7 +43,7 @@ if( !empty($action) ) {
 
 			$recent = (array)get_option('recently_activated');
 			foreach( (array)$_POST['checked'] as $plugin => $time) {
-				if( isset($recent[ $plugin ]) )
+				if ( isset($recent[ $plugin ]) )
 					unset($recent[ $plugin ]);
 			}
 			if( $recent != get_option('recently_activated') ) //If array changed, update it.
@@ -59,7 +59,9 @@ if( !empty($action) ) {
 				wp_die($valid);
 			error_reporting( E_ALL ^ E_NOTICE );
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
-			include(WP_PLUGIN_DIR . '/' . $plugin);
+			$result = activate_plugin($plugin, false); 
+			if ( is_wp_error( $result ) ) 
+				wp_die($result);
 			exit;
 			break;
 		case 'deactivate':
@@ -73,14 +75,14 @@ if( !empty($action) ) {
 			check_admin_referer('bulk-manage-plugins');
 			deactivate_plugins($_POST['checked']);
 			$deactivated = array();
-			foreach( (array)$_POST['checked'] as $plugin )
+			foreach ( (array)$_POST['checked'] as $plugin )
 				$deactivated[ $plugin ] = time();
 			update_option('recently_activated', $deactivated + (array)get_option('recently_activated'));
 			wp_redirect('plugins.php?deactivate-multi=true');
 			exit;
 			break;
 		case 'delete-selected':
-			if( ! current_user_can('delete_plugins') )
+			if ( ! current_user_can('delete_plugins') )
 				wp_die(__('You do not have sufficient permissions to delete plugins for this blog.'));
 
 			check_admin_referer('bulk-manage-plugins');
@@ -91,7 +93,7 @@ if( !empty($action) ) {
 			$title = __('Delete Plugin');
 			$parent_file = 'plugins.php';
 
-			if( ! isset($_REQUEST['verify-delete']) ) {
+			if ( ! isset($_REQUEST['verify-delete']) ) {
 				wp_enqueue_script('jquery');
 				require_once('admin-header.php');
 				?>
@@ -99,8 +101,8 @@ if( !empty($action) ) {
 				<h2><?php _e('Delete Plugin(s)'); ?></h2>
 				<?php
 					$files_to_delete = $plugin_info = array();
-					foreach( (array) $plugins as $plugin ) {
-						if( '.' == dirname($plugin) ) {
+					foreach ( (array) $plugins as $plugin ) {
+						if ( '.' == dirname($plugin) ) {
 							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
 							if( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) )
 								$plugin_info[ $plugin ] = $data;
@@ -120,7 +122,7 @@ if( !empty($action) ) {
 				<p>
 					<ul>
 						<?php
-						foreach( $plugin_info as $plugin )
+						foreach ( $plugin_info as $plugin )
 							echo '<li>', sprintf(__('%s by %s'), $plugin['Name'], $plugin['Author']), '</li>';
 						?>
 					</ul>
@@ -130,7 +132,7 @@ if( !empty($action) ) {
 					<input type="hidden" name="verify-delete" value="1" />
 					<input type="hidden" name="delete-selected" value="1" />
 					<?php
-						foreach( (array)$plugins as $plugin )
+						foreach ( (array)$plugins as $plugin )
 							echo '<input type="hidden" name="checked[]" value="' . attribute_escape($plugin) . '" />';
 					?>
 					<?php wp_nonce_field('bulk-manage-plugins') ?>
@@ -144,7 +146,7 @@ if( !empty($action) ) {
 				<div id="files-list" style="display:none;">
 					<ul>
 					<?php
-						foreach( (array)$files_to_delete as $file )
+						foreach ( (array)$files_to_delete as $file )
 							echo '<li>' . str_replace(WP_PLUGIN_DIR, '', $file) . '</li>';
 					?>
 					</ul>
@@ -172,8 +174,8 @@ $title = __('Manage Plugins');
 require_once('admin-header.php');
 
 $invalid = validate_active_plugins();
-if( !empty($invalid) )
-	foreach($invalid as $plugin_file => $error)
+if ( !empty($invalid) )
+	foreach ( $invalid as $plugin_file => $error )
 		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), wp_specialchars($plugin_file), $error->get_error_message()) . '</p></div>';
 ?>
 
@@ -215,13 +217,13 @@ $recent_plugins = array();
 $recently_activated = (array) get_option('recently_activated');
 
 //Clean out any plugins which were deactivated over a week ago.
-foreach( $recently_activated as $key => $time )
-	if( $time + (7*24*60*60) < time() ) //1 week
+foreach ( $recently_activated as $key => $time )
+	if ( $time + (7*24*60*60) < time() ) //1 week
 		unset($recently_activated[ $key ]);
-if( $recently_activated != get_option('recently_activated') ) //If array changed, update it.
+if ( $recently_activated != get_option('recently_activated') ) //If array changed, update it.
 	update_option('recently_activated', $recently_activated);
 
-foreach( (array)$all_plugins as $plugin_file => $plugin_data) {
+foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
 
 	//Translate, Apply Markup, Sanitize HTML
 	$plugin_data = _get_plugin_data_markup_translate($plugin_data, true, true);
@@ -272,15 +274,15 @@ function print_plugins_table($plugins, $context = '') {
 	<tbody class="plugins">
 <?php
 
-	if( empty($plugins) ) {
+	if ( empty($plugins) ) {
 		echo '<tr>
 			<td colspan="6">' . __('No plugins to show') . '</td>
 		</tr>';
 	}
-	foreach( (array)$plugins as $plugin_file => $plugin_data) {
+	foreach ( (array)$plugins as $plugin_file => $plugin_data) {
 		$action_links = array();
 
-		if( 'active' == $context )
+		if ( 'active' == $context )
 			$action_links[] = '<a href="' . wp_nonce_url('plugins.php?action=deactivate&amp;plugin=' . $plugin_file, 'deactivate-plugin_' . $plugin_file) . '" title="' . __('Deactivate this plugin') . '" class="delete">' . __('Deactivate') . '</a>';
 		else //Inactive or Recently deactivated
 			$action_links[] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" class="edit">' . __('Activate') . '</a>';
