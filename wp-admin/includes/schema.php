@@ -291,7 +291,7 @@ function populate_options() {
 	add_option('thread_comments', 0);
 	add_option('thread_comments_depth', 5);
 	add_option('page_comments', 1);
-	add_option('comments_per_page', 10);
+	add_option('comments_per_page', 50);
 	add_option('default_comments_page', 'newest');
 	add_option('comment_order', 'asc');
 
