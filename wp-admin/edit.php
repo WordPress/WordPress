@@ -153,9 +153,44 @@ endif;
 ?>
 </ul>
 
-<div class="filter">
-<form id="list-filter" action="" method="get">
+<form class="search-form" action="" method="get">
+<p class="search-box">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button-primary" />
+</p>
+</form>
+
+<form id="posts-filter" action="" method="get">
+
+<?php if ( isset($_GET['post_status'] ) ) : ?>
+<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
+<?php endif; ?>
+<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+
+<div class="tablenav">
 <?php
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
+	'total' => $wp_query->max_num_pages,
+	'current' => $_GET['paged']
+));
+
+?>
+
+<div class="alignleft actions">
+<select name="action">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="edit"><?php _e('Edit'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<?php wp_nonce_field('bulk-posts'); ?>
+
+<?php // view filters
 if ( !is_singular() ) {
 $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC";
 
@@ -196,43 +231,6 @@ do_action('restrict_manage_posts');
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
 
 <?php } ?>
-</form>
-</div>
-
-<form class="search-form" action="" method="get">
-<p class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
-	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button" />
-</p>
-</form>
-
-<form id="posts-filter" action="" method="get">
-
-<?php if ( isset($_GET['post_status'] ) ) : ?>
-<input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
-<?php endif; ?>
-<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
-
-<div class="tablenav">
-<?php
-$page_links = paginate_links( array(
-	'base' => add_query_arg( 'paged', '%#%' ),
-	'format' => '',
-	'total' => $wp_query->max_num_pages,
-	'current' => $_GET['paged']
-));
-
-?>
-
-<div class="alignleft">
-<select name="action">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
-<option value="edit"><?php _e('Edit'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-</select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<?php wp_nonce_field('bulk-posts'); ?>
 </div>
 
 <?php if ( $page_links ) { ?>
@@ -258,7 +256,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>

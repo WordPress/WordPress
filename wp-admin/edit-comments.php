@@ -151,33 +151,11 @@ unset($status_links);
 ?>
 </ul>
 
-<div class="filter">
-<form id="list-filter" action="" method="get">
-<?php if ( $comment_status ) echo "<input type='hidden' name='comment_status' value='$comment_status' />\n"; ?>
-<select name="comment_type">
-	<option value="all"><?php _e('Show all comment types'); ?></option>
-<?php
-	$comment_types = apply_filters( 'admin_comment_types_dropdown', array(
-		'comment' => __('Comments'),
-		'pings' => __('Pings'),
-	) );
-
-	foreach ( $comment_types as $type => $label ) {
-		echo "	<option value='$type'";
-		selected( $comment_type, $type );
-		echo ">$label</option>\n";
-	}
-?>
-</select>
-<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
-</form>
-</div>
-
 <form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
+	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button-primary" />
 </p>
 </form>
 
@@ -199,6 +177,8 @@ $extra_comments = array_slice($_comments, $comments_per_page);
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'apage', '%#%' ),
 	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
 	'total' => ceil($total / $comments_per_page),
 	'current' => $page
 ));
@@ -217,7 +197,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Actions') ?></option>
 <?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>
@@ -233,6 +213,25 @@ if ( $page_links )
 </select>
 <input type="submit" name="doaction" id="doaction" value="<?php _e('Apply'); ?>" class="button-secondary apply" />
 <?php wp_nonce_field('bulk-comments'); ?>
+
+<?php if ( $comment_status ) echo "<input type='hidden' name='comment_status' value='$comment_status' />\n"; ?>
+<select name="comment_type">
+	<option value="all"><?php _e('Show all comment types'); ?></option>
+<?php
+	$comment_types = apply_filters( 'admin_comment_types_dropdown', array(
+		'comment' => __('Comments'),
+		'pings' => __('Pings'),
+	) );
+
+	foreach ( $comment_types as $type => $label ) {
+		echo "	<option value='$type'";
+		selected( $comment_type, $type );
+		echo ">$label</option>\n";
+	}
+?>
+</select>
+<input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
+
 <?php if ( isset($_GET['apage']) ) { ?>
 	<input type="hidden" name="apage" value="<?php echo absint( $_GET['apage'] ); ?>" />
 <?php }
@@ -284,7 +283,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Actions') ?></option>
 <?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>

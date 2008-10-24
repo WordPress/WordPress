@@ -53,6 +53,8 @@ $start = $offset = ( $page - 1 ) * $per_page;
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ) . '#themenav',
 	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
 	'total' => ceil($theme_total / $per_page),
 	'current' => $page
 ));

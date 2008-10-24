@@ -315,7 +315,7 @@ unset($role_links);
 	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action">
 <option value="" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
@@ -328,8 +328,6 @@ unset($role_links);
 
 <br class="clear" />
 </div>
-
-<br class="clear" />
 
 	<?php if ( is_wp_error( $wp_user_search->search_errors ) ) : ?>
 		<div class="error">
@@ -383,7 +381,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 	<div class="tablenav-pages"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action2">
 <option value="" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>

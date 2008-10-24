@@ -148,14 +148,13 @@ if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
 endif; ?>
 
 <div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2 class="floatedh2"><?php echo wp_specialchars( $title ); ?></h2> 
 
-<ul class="subsubsub"><li class="current"><a class="current"><br /></a></li></ul>
-<form class="search-form" action="" method="get">
+<form class="search-form topmargin" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e('Search Categories'); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
+	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button-primary" />
 </p>
 </form>
 <br class="clear" />
@@ -173,6 +172,8 @@ if( ! isset( $catsperpage ) || $catsperpage < 0 )
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
 	'total' => ceil(wp_count_terms('category') / $catsperpage),
 	'current' => $pagenum
 ));
@@ -181,7 +182,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action">
 <option value="" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
@@ -221,7 +222,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action2">
 <option value="" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>

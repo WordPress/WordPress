@@ -320,7 +320,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
-	<div class="alignleft">
+	<div class="alignleft actions">
 		<select name="action">
 			<option value="" selected="selected"><?php _e('Actions'); ?></option>
 			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
@@ -342,7 +342,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
-	<div class="alignleft">
+	<div class="alignleft actions">
 		<select name="action">
 			<option value="" selected="selected"><?php _e('Actions'); ?></option>
 			<option value="activate-selected"><?php _e('Activate'); ?></option>
@@ -365,7 +365,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
-	<div class="alignleft">
+	<div class="alignleft actions">
 		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
 <?php if( current_user_can('delete_plugins') ) : ?>
 		<input type="submit" name="delete-selected" value="<?php _e('Delete') ?>" class="button-secondary" />

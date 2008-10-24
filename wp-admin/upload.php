@@ -216,8 +216,44 @@ unset($type_links);
 ?>
 </ul>
 
-<div class="filter">
-<form id="list-filter" action="" method="get">
+<form class="search-form" action="" method="get">
+<p class="search-box">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
+	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button-primary" />
+</p>
+</form>
+
+<form id="posts-filter" action="" method="get">
+<div class="tablenav">
+<?php
+if ( ! isset($page_links_total) )
+	$page_links_total =  $wp_query->max_num_pages;
+
+$page_links = paginate_links( array(
+	'base' => add_query_arg( 'paged', '%#%' ),
+	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
+	'total' => $page_links_total,
+	'current' => $_GET['paged']
+));
+
+if ( $page_links )
+	echo "<div class='tablenav-pages'>$page_links</div>";
+?>
+
+<div class="alignleft actions">
+<select name="action" class="select-action">
+<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="delete"><?php _e('Delete'); ?></option>
+<?php if ( isset($orphans) ) { ?>
+<option value="attach"><?php _e('Attach to a post'); ?></option>
+<?php } ?>
+</select>
+<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
+<?php wp_nonce_field('bulk-media'); ?>
+
 <?php
 if ( ! is_singular() && ! isset($_GET['detached']) ) {
 	$arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'attachment' ORDER BY post_date DESC";
@@ -251,43 +287,6 @@ foreach ($arc_result as $arc_row) {
 <input type="submit" id="post-query-submit" value="<?php _e('Filter'); ?>" class="button-secondary" />
 
 <?php } // ! is_singular ?>
-</form></div>
-
-<form class="search-form" action="" method="get">
-<p class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
-	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
-</p>
-</form>
-
-<form id="posts-filter" action="" method="get">
-<div class="tablenav">
-<?php
-if ( ! isset($page_links_total) )
-	$page_links_total =  $wp_query->max_num_pages;
-
-$page_links = paginate_links( array(
-	'base' => add_query_arg( 'paged', '%#%' ),
-	'format' => '',
-	'total' => $page_links_total,
-	'current' => $_GET['paged']
-));
-
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
-
-<div class="alignleft">
-<select name="action" class="select-action">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
-<option value="delete"><?php _e('Delete'); ?></option>
-<?php if ( isset($orphans) ) { ?>
-<option value="attach"><?php _e('Attach to a post'); ?></option>
-<?php } ?>
-</select>
-<input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
-<?php wp_nonce_field('bulk-media'); ?>
 
 <?php if ( isset($_GET['detached']) ) { ?>
 	<input type="submit" id="find_detached" name="find_detached" value="<?php _e('Scan for lost attachments'); ?>" class="button-secondary" />
@@ -394,7 +393,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action2" class="select-action">
 <option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>

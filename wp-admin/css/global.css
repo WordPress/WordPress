@@ -174,10 +174,16 @@ h6 {
 .widefat {
 	border-width: 1px;
 	border-style: solid;
-	border-collapse: collapse;
+	border-collapse: separate;
+	border-spacing: 0;
 	width: 100%;
 	clear: both;
 	margin: 0;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	
 }
 
 .widefat a {
@@ -202,7 +208,7 @@ h6 {
 }
 
 .widefat th {
-	padding: 9px 15px 6px 10px;
+	padding: 7px 15px 8px 10px;
 	text-align: left;
 	line-height: 1.3em;
 }
@@ -210,6 +216,7 @@ h6 {
 .widefat th input {
 	margin: 0 0 0 8px;
 	padding: 0;
+	vertical-align: text-top;
 }
 
 .widefat .check-column {
@@ -220,7 +227,7 @@ h6 {
 }
 
 .widefat tbody th.check-column {
-	padding: 8px 0 22px;
+	padding: 10px 0 22px;
 }
 /*
 th.check-column + th, th.check-column + td {
@@ -230,6 +237,10 @@ th.check-column + th, th.check-column + td {
 .widefat .num,
 .widefat .column-comments {
 	text-align: center;
+}
+
+.widefat th#comments {
+	vertical-align: middle;
 }
 
 .wrap, .updated, .error {
@@ -262,14 +273,10 @@ th.check-column + th, th.check-column + td {
 }
 
 .wrap h2 {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
 	clear: both;
-	font: 24px Georgia, "Times New Roman", Times, serif;
-	margin: 5px 0 10px -4px;
-	padding: 0;
-	padding-bottom: 7px;
-	padding-right: 280px;
+	font: italic normal normal 24px/29px Georgia, "Times New Roman", Times, serif;
+	margin: 5px 0 10px;
+	padding: 8px 15px 4px 0;
 }
 
 .wrap h2.long-header {

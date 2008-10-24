@@ -258,23 +258,40 @@ table#availablethemes td.bottom {
 	list-style: square;
 }
 
-.submit input, .button, .button-secondary, .button-highlighted {
+.submit input,
+.button,
+.button-primary,
+.button-secondary,
+.button-highlighted {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 2px 4px;
-	font-size: 12px;
-	line-height: 1.5em;
+	text-decoration: none;
+	font-size: 11px;
+	line-height: 16px;
+	padding: 2px 8px;
+	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	cursor: pointer;
-	text-decoration: none;
+	-moz-border-radius: 11px;
+	-khtml-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
 }
 
-.preview {
-	/* padding: 7px; */
+#doaction,
+#doaction2 {
+	margin-right: 8px;
+}
+
+.tablenav select[name="action"] {
+	width: 90px;
+}
+
+.tablenav select[name="m"] {
+	width: 120px;
+}
+
+.tablenav select#cat {
+	width: 150px;
 }
 
 #publish {
@@ -515,16 +532,13 @@ div.nav {
 }
 
 .page-numbers {
-	padding: 2px 4px;
-	margin-right: 3px;
-	border-width: 1px;
-	border-style: solid;
+	margin-right: 5px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
 }
 
-#tablenav-pages .page-numbers.current {
-	font-weight: bold;
-	border-width: 1px;
-	border-style: solid;
+.tablenav-pages span.current {
+	border: 0 none;
 }
 
 p.pagenav {
@@ -557,35 +571,27 @@ p.pagenav {
 	margin: 1px 8px 0 0;
 }
 
-.tablenav .button-secondary {
-	padding: 2px 4px;
-	vertical-align: top;
-}
-
-.tablenav .tablenav-pages a.next, .tablenav .tablenav-pages a.prev {
-	text-decoration: underline;
-}
-
 .tablenav {
 	clear: both;
-	vertical-align: text-top;
-	/*
-	height: 2em;
-	padding: 7px 10px;
-	margin-bottom: -10px;
-	margin-top: 8px;
-	*/
+	height: 40px;
+	margin: 6px 0;
+	vertical-align: middle;
 }
 
 .tablenav .tablenav-pages {
 	float: right;
-	height: 18px;
-	padding-top: 6px;
 	font-size: 11px;
+	height: 22px;
+	line-height: 22px;
+	padding: 7px 8px 0;
 }
 
 .tablenav .tablenav-pages a {
 	text-decoration: none;
+}
+
+.tablenav .actions {
+	padding: 7px 8px 0;
 }
 
 td.media-icon {
@@ -1347,6 +1353,11 @@ table.form-table td .updated {
 	text-decoration: underline;
 }
 
+.wrap h2.floatedh2 {
+	float: left;
+	margin: 5px 0;
+}
+
 #poststuff h2 {
 	margin-top: 20px;
 	font-size: 1.5em;
@@ -1686,7 +1697,11 @@ p#big-add-button .button {
 
 p.search-box {
 	float: right;
-	margin: -5px 0 0;
+	margin: -10px 0 0;
+}
+
+.topmargin p.search-box {
+	margin-top: 25px;
 }
 
 .search-input {
@@ -1742,9 +1757,7 @@ body.wp-admin {
 
 .view-switch {
 	float: right;
-	margin: 0 20px;
-	position: relative;
-	top: 2px;
+	margin: 9px 8px 0;
 }
 
 .view-switch img {

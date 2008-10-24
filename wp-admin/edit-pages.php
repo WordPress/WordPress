@@ -168,7 +168,7 @@ endif;
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Pages' ); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button" />
+	<input type="submit" value="<?php _e( 'Search Pages' ); ?>" class="button-primary" />
 </p>
 </form>
 
@@ -191,6 +191,8 @@ $num_pages = ceil(count($posts) / $per_page);
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
 	'total' => $num_pages,
 	'current' => $pagenum
 ));
@@ -199,7 +201,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action">
 <option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
@@ -244,7 +246,7 @@ if ( $page_links )
 	echo "<div class='tablenav-pages'>$page_links</div>";
 ?>
 
-<div class="alignleft">
+<div class="alignleft actions">
 <select name="action2">
 <option value="-1" selected="selected"><?php _e('Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
