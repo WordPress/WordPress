@@ -560,6 +560,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
+		$num_pages	= (int) $args[3];
 
 		if(!$this->login_pass_ok($username, $password)) {
 			return($this->error);
@@ -571,8 +572,12 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		do_action('xmlrpc_call', 'wp.getPages');
 
-		// Lookup info on pages.
-		$pages = get_pages();
+		$page_limit = 10;
+		if( isset( $num_pages ) ) {
+			$page_limit = $num_pages;
+		}
+
+		$pages = get_posts( "post_type=page&post_status=all&numberposts={$page_limit}" );
 		$num_pages = count($pages);
 
 		// If we have pages, put together their info.
