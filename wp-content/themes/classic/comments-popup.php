@@ -3,12 +3,7 @@
  * @package WordPress
  * @subpackage Classic_Theme
  */
-
-/* Don't remove these lines. */
-add_filter('comment_text', 'popuplinks');
-while( have_posts()) : the_post();
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
      <title><?php echo get_option('blogname'); ?> - <?php echo sprintf(__("Comments on %s"), the_title('','',false)); ?></title>
@@ -23,6 +18,13 @@ while( have_posts()) : the_post();
 <body id="commentspopup">
 
 <h1 id="header"><a href="" title="<?php echo get_option('blogname'); ?>"><?php echo get_option('blogname'); ?></a></h1>
+
+<?php
+/* Don't remove these lines. */
+add_filter('comment_text', 'popuplinks');
+if ( have_posts() ) :
+while( have_posts()) : the_post();
+?>
 
 <h2 id="comments"><?php _e("Comments"); ?></h2>
 
@@ -67,8 +69,6 @@ if ( post_password_required($commentstatus) ) {  // and it doesn't match the coo
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
 	   <label for="author"><?php _e("Name"); ?></label>
-	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
-	<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER["REQUEST_URI"]); ?>" />
 	</p>
 
 	<p>
@@ -89,6 +89,8 @@ if ( post_password_required($commentstatus) ) {  // and it doesn't match the coo
 	</p>
 
 	<p>
+	  <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
+	  <input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER["REQUEST_URI"]); ?>" />
 	  <input name="submit" type="submit" tabindex="5" value="<?php _e("Say It!"); ?>" />
 	</p>
 	<?php do_action('comment_form', $post->ID); ?>
@@ -102,8 +104,11 @@ if ( post_password_required($commentstatus) ) {  // and it doesn't match the coo
 <div><strong><a href="javascript:window.close()"><?php _e("Close this window."); ?></a></strong></div>
 
 <?php // if you delete this the sky will fall on your head
-endwhile;
+endwhile; //endwhile have_posts()
+else: //have_posts()
 ?>
+<p>Sorry, no posts matched your criteria.</p>
+<?php endif; ?>
 
 <!-- // this is just the end of the motor - don't touch that line either :) -->
 <?php //} ?>

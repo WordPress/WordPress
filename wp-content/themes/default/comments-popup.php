@@ -3,12 +3,7 @@
  * @package WordPress
  * @subpackage Default_Theme
  */
-
-/* Don't remove these lines. */
-add_filter('comment_text', 'popuplinks');
-while ( have_posts()) : the_post();
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
      <title><?php echo get_option('blogname'); ?> - Comments on <?php the_title(); ?></title>
@@ -24,6 +19,12 @@ while ( have_posts()) : the_post();
 
 <h1 id="header"><a href="" title="<?php echo get_option('blogname'); ?>"><?php echo get_option('blogname'); ?></a></h1>
 
+<?php
+/* Don't remove these lines. */
+add_filter('comment_text', 'popuplinks');
+if ( have_posts() ) :
+while ( have_posts() ) : the_post();
+?>
 <h2 id="comments">Comments</h2>
 
 <p><a href="<?php echo get_post_comments_feed_link($post->ID); ?>"><abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.</a></p>
@@ -67,8 +68,6 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
 	   <label for="author">Name</label>
-	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
-	<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER["REQUEST_URI"]); ?>" />
 	</p>
 
 	<p>
@@ -89,6 +88,8 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 	</p>
 
 	<p>
+      <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
+	  <input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER["REQUEST_URI"]); ?>" />
 	  <input name="submit" type="submit" tabindex="5" value="Say It!" />
 	</p>
 	<?php do_action('comment_form', $post->ID); ?>
@@ -102,9 +103,11 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 <div><strong><a href="javascript:window.close()">Close this window.</a></strong></div>
 
 <?php // if you delete this the sky will fall on your head
-endwhile;
+endwhile; //endwhile have_posts()
+else: //have_posts()
 ?>
-
+<p>Sorry, no posts matched your criteria.</p>
+<?php endif; ?>
 <!-- // this is just the end of the motor - don't touch that line either :) -->
 <?php //} ?>
 <p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a></cite></p>
