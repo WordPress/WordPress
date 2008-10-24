@@ -459,7 +459,7 @@ endif;
 
 ?>
 
-<div id="edit-settings-wrap" class="hidden">
+<div id="screen-options-wrap" class="hidden">
 <h5><?php _e('Show on screen') ?></h5>
 <form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">

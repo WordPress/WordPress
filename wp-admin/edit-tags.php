@@ -127,7 +127,7 @@ $messages[4] = __('Tag not added.');
 $messages[5] = __('Tag not updated.');
 $messages[6] = __('Tags deleted.'); ?>
 
-<div id="edit-settings-wrap" class="hidden">
+<div id="screen-options-wrap" class="hidden">
 <h5><?php _e('Show on screen') ?></h5>
 <form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">

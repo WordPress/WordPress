@@ -347,7 +347,7 @@ add_meta_box('revisionsdiv', __('Page Revisions'), 'page_revisions_meta_box', 'p
 endif;
 ?>
 
-<div id="edit-settings-wrap" class="hidden">
+<div id="screen-options-wrap" class="hidden">
 <h5><?php _e('Show on screen') ?></h5>
 <form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">

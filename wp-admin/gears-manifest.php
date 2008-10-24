@@ -170,6 +170,8 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/no.png" },
 { "url" : "images/yes.png" },
 { "url" : "images/se.png" },
+{ "url" : "images/screen-options-left.gif" },
+{ "url" : "images/screen-options-right.gif" },
 
 <?php if ( is_file('../wp-includes/js/tinymce/tiny_mce.js') ) { ?>
 { "url" : "../wp-includes/js/tinymce/tiny_mce.js", "src" : "../wp-includes/js/tinymce/tiny_mce.js?ver=<?php echo $mce_ver; ?>", "ignoreQuery" : true },

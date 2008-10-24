@@ -2183,29 +2183,43 @@ fieldset {
 }
 
 /* show/hide settings */
-#edit-settings {
-	margin-left: 20px;
+#screen-options-link-wrap {
+	background: url( images/screen-options-left.gif ) no-repeat 0 0;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	height: 23px;
+	position: absolute;
+	right: 100px;
+	top: 46px;
+	padding: 0 0 0 8px;
 }
 
-#edit-settings a.show-settings {
-	height: 18px;
+#screen-options {
+	vertical-align: middle;
+	height: 23px;
+	line-height: 23px;
 	font-size: 11px;
+	background: url( images/screen-options-right.gif ) no-repeat 100% 0;
+	display: block;
+	padding-right: 20px;
+}
+
+#screen-options a.show-settings {
+	color: #666;
 	text-decoration: none;
 	z-index: 1;
-	padding: 3px 8px;
 }
 
-#edit-settings a.show-settings:hover {
+#screen-options a.show-settings:hover {
 	text-decoration: none;
 }
 
-#edit-settings-wrap h5 {
+#screen-options-wrap h5 {
 	padding: 10px 0 0 15px;
 	margin: 0;
 	font-size: 13px;
 }
 
-#edit-settings-wrap {
+#screen-options-wrap {
 	border-style: none solid solid;
 	border-top: 0 none;
 	border-width: 0 1px 1px;
@@ -2229,7 +2243,7 @@ fieldset {
 	padding: 5px 3px;
 	white-space: nowrap;
 	overflow: hidden;
-	width: 13em;
+	width: 14em;
 }
 
 .metabox-prefs label input {

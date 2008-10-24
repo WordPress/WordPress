@@ -63,7 +63,7 @@ li.widget-list-control-item h4.widget-title a,
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
 .form-table tr, #poststuff h3, .metabox-holder h3, #replyhandle,
-.login form, h3.info-box-title, #post-status-info, #edit-settings-wrap,
+.login form, h3.info-box-title, #post-status-info, #screen-options-wrap,
 #wpbody-content .describe tr, #edithead, #replyhead {
 	background-color: #cfebf7;
 }
@@ -241,7 +241,7 @@ div.dashboard-widget-submit input,
 #login form .submit input:hover, div.dashboard-widget-submit input:hover,
 #edit-slug-buttons a.save:hover, #media-upload a.delete:hover,
 #media-upload a.del-link:hover, .ui-tabs-nav a:hover, #user_info a:hover,
-#edit-settings a.show-settings:hover {
+#screen-options a.show-settings:hover {
 	color: #d54e21;
 }
 
@@ -352,7 +352,7 @@ h3.dashboard-widget-title small a:hover {
 	color: #5a5a5a;
 }
 
-#poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-upload a.delete, .ui-sortable .postbox h3:hover span, a, #edit-settings a.show-settings {
+#poststuff #edButtonPreview, #poststuff #edButtonHTML, #the-comment-list p.comment-author strong a, #media-upload a.del-link, #media-upload a.delete, .ui-sortable .postbox h3:hover span, a, #screen-options a.show-settings {
 	color: #2e7ca0;
 }
 
@@ -803,7 +803,7 @@ table.diff .diff-addedline ins {
 	color: #CFEBF6;
 }
 
-#edit-settings-wrap {
+#screen-options-wrap {
 	background-color: #14568A;
 	border-color: #14568A;
 	color: #CFEBF6;

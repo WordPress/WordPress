@@ -1,6 +1,6 @@
 jQuery(document).ready( function($) {
 	$('#show-settings-link').click(function () {
-		$('#edit-settings-wrap').slideDown('normal', function(){
+		$('#screen-options-wrap').slideDown('normal', function(){
 			$('#hide-settings-link').show();
 			$('#show-settings-link').hide();
 		});
@@ -9,7 +9,7 @@ jQuery(document).ready( function($) {
 	});
 	
 	$('#hide-settings-link').click(function () {
-		$('#edit-settings-wrap').slideUp('normal', function(){
+		$('#screen-options-wrap').slideUp('normal', function(){
 			$('#show-settings-link').show();
 			$('#hide-settings-link').hide();
 		});

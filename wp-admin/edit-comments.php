@@ -81,7 +81,7 @@ $post_id = isset($_GET['p']) ? (int) $_GET['p'] : 0;
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty ); ?>
 
-<div id="edit-settings-wrap" class="hidden">
+<div id="screen-options-wrap" class="hidden">
 <h5><?php _e('Show on screen') ?></h5>
 <form id="adv-settings" action="" method="get">
 <div class="metabox-prefs">
