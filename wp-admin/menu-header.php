@@ -36,6 +36,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
 	foreach ( $menu as $key => $item ) {
+		$admin_is_parent = false;
 		$class = array();
 		if ( $first ) {
 			$class[] = 'wp-first-item';
@@ -66,13 +67,16 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 		} elseif ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-			if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
+			if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook)) {
+				$admin_is_parent = true;
 				echo "$img$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
-			else
+			} else {
 				echo "\n\t$img$toggle<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+			}
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
 			if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) ) {
+				$admin_is_parent = true;
 				echo "\n\t$img$toggle<a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
 			} else {
 				echo "\n\t$img$toggle<a href='{$item[2]}'$class>{$item[0]}</a>";
@@ -106,7 +110,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 
 				if ( file_exists(WP_PLUGIN_DIR . "/{$sub_item[2]}") || ! empty($menu_hook) ) {
 					// If admin.php is the current page or if the parent exists as a file in the plugins or admin dir
-					$parent_exists = (file_exists(WP_PLUGIN_DIR . "/{$item[2]}") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($item[2]);
+					$parent_exists = (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/{$item[2]}") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($item[2]);
 					if ( $parent_exists )
 						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
 					elseif ( 'admin.php' == $pagenow || !$parent_exists )
