@@ -740,6 +740,8 @@ function wp_get_archives($args = '') {
 	$where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'", $r );
 	$join = apply_filters('getarchives_join', "", $r);
 
+	$output = '';
+
 	if ( 'monthly' == $type ) {
 		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit";
 		$key = md5($query);
@@ -758,11 +760,7 @@ function wp_get_archives($args = '') {
 				$text = sprintf(__('%1$s %2$d'), $wp_locale->get_month($arcresult->month), $arcresult->year);
 				if ( $show_post_count )
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-				$output = get_archives_link($url, $text, $format, $before, $after);
-				if ( $echo )
-					echo $output;
-				else
-					return $output; 
+				$output .= get_archives_link($url, $text, $format, $before, $after);
 			}
 		}
 	} elseif ('yearly' == $type) {
@@ -783,11 +781,7 @@ function wp_get_archives($args = '') {
 				$text = sprintf('%d', $arcresult->year);
 				if ($show_post_count)
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-				$output = get_archives_link($url, $text, $format, $before, $after);
-				if ( $echo )
-					echo $output;
-				else
-					return $output; 	
+				$output .= get_archives_link($url, $text, $format, $before, $after);
 			}
 		}
 	} elseif ( 'daily' == $type ) {
@@ -809,11 +803,7 @@ function wp_get_archives($args = '') {
 				$text = mysql2date($archive_day_date_format, $date);
 				if ($show_post_count)
 					$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
-				$output = get_archives_link($url, $text, $format, $before, $after);
-				if ( $echo )
-					echo $output;
-				else
-					return $output;
+				$output .= get_archives_link($url, $text, $format, $before, $after);
 			}
 		}
 	} elseif ( 'weekly' == $type ) {
@@ -842,16 +832,12 @@ function wp_get_archives($args = '') {
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						if ($show_post_count)
 							$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
-						$output = get_archives_link($url, $text, $format, $before, $after);
-						if ( $echo )
-							echo $output;
-						else
-							return $output;
+						$output .= get_archives_link($url, $text, $format, $before, $after);
 					}
 				}
 		}
 	} elseif ( ( 'postbypost' == $type ) || ('alpha' == $type) ) {
-		('alpha' == $type) ? $orderby = "post_title ASC " : $orderby = "post_date DESC ";
+		$orderby = ('alpha' == $type) ? "post_title ASC " : "post_date DESC ";
 		$query = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
 		$key = md5($query);
 		$cache = wp_cache_get( 'wp_get_archives' , 'general');
@@ -871,15 +857,15 @@ function wp_get_archives($args = '') {
 						$text = strip_tags(apply_filters('the_title', $arc_title));
 					else
 						$text = $arcresult->ID;
-					$output = get_archives_link($url, $text, $format, $before, $after);
-					if ( $echo )
-						echo $output;
-					else
-						return $output;
+					$output .= get_archives_link($url, $text, $format, $before, $after);
 				}
 			}
 		}
 	}
+	if ( $echo )
+		echo $output;
+	else
+		return $output; 
 }
 
 /**
