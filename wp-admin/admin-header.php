@@ -93,10 +93,6 @@ if ( '' == $blog_name )
 <div id="wphead-info">
 <div id="user_info">
 <p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?> |
-<!--
-<?php _e('<a href="http://codex.wordpress.org/">Documentation</a>'); ?> |
-<?php _e('<a href="http://wordpress.org/support/forum/4">Feedback</a>'); ?> |
--->
 <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 </div>
 
