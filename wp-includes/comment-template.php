@@ -730,7 +730,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @return null Returns null if no comments appear
  */
 function comments_template( $file = '/comments.php', $separate_comments = false ) {
-	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity;
+	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity, $overridden_cpage;
 
 	if ( ! (is_single() || is_page() || $withcomments) )
 		return;
@@ -762,8 +762,11 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$comments_by_type = &$wp_query->comments_by_type;
 	}
 
-	if ( '' == get_query_var('cpage') && get_option('page_comments') && 'newest' == get_option('default_comments_page') ) 
+	$overridden_cpage = FALSE;
+	if ( '' == get_query_var('cpage') && get_option('page_comments') && 'newest' == get_option('default_comments_page') ) {
 		set_query_var( 'cpage', get_comment_pages_count() );
+		$overridden_cpage = TRUE;
+	}
 
 	define('COMMENTS_TEMPLATE', true);
 
@@ -1129,7 +1132,7 @@ class Walker_Comment extends Walker {
  * @param array $comments Optional array of comment objects.  Defaults to $wp_query->comments
  */
 function wp_list_comments($args = array(), $comments = null ) {
-	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt;
+	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage;
 
 	$comment_alt = $comment_thread_alt = 0;
 	$comment_depth = 1;
@@ -1158,9 +1161,13 @@ function wp_list_comments($args = array(), $comments = null ) {
 		if ( empty($comments) ) {
 			$r['page'] = get_query_var('cpage');
 		} else {
-			$threaded = ( -1 == $r['depth'] ) ? false : true;
-			$r['page'] = ( 'newest' == get_option('default_comments_page') ) ? get_comment_pages_count($comments, $r['per_page'], $threaded) : 1;
-			set_query_var( 'cpage', $r['page'] );
+			if ( empty($overridden_cpage) ) {
+				$r['page'] = get_query_var('cpage');
+			} else {
+				$threaded = ( -1 == $r['depth'] ) ? false : true;
+				$r['page'] = ( 'newest' == get_option('default_comments_page') ) ? get_comment_pages_count($comments, $r['per_page'], $threaded) : 1;
+				set_query_var( 'cpage', $r['page'] );
+			}
 		}
 	}
 	// Validation check
