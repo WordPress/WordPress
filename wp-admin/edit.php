@@ -126,6 +126,7 @@ if ( (int) $_GET['locked'] ) {
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>
 
+<form id="posts-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 if ( empty($locked_post_status) ) :
@@ -153,15 +154,11 @@ endif;
 ?>
 </ul>
 
-<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="post-search-input"><?php _e( 'Search Posts' ); ?>:</label>
 	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Posts' ); ?>" class="button-primary" />
 </p>
-</form>
-
-<form id="posts-filter" action="" method="get">
 
 <?php if ( isset($_GET['post_status'] ) ) : ?>
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
