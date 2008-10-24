@@ -923,14 +923,14 @@ ul#adminmenu li.write-new-button a {
 	padding: 1px 2px 0 0;
 }
 
-#adminmenu .wp-menu-toggle:hover {
-	background: transparent url(images/menu-bits.gif) repeat-x scroll left -108px;
-}
-
-#adminmenu li.wp-has-current-submenu .wp-menu-toggle {
+#adminmenu li.wp-has-current-submenu .wp-menu-toggle,
+#adminmenu li.wp-has-current-submenu:hover div.wp-menu-toggle {
 	background: transparent url(images/menu-bits.gif) repeat-x scroll left -206px;
 }
 
+#adminmenu li.wp-has-submenu:hover .wp-menu-toggle {
+	background: transparent url(images/menu-bits.gif) repeat-x scroll left -108px;
+}
 /* end side admin menu */
 
 
