@@ -66,7 +66,7 @@ inlineEditPost = {
 			}
 		});
 
-		$('#post-query-submit').click(function(e){
+		$('#posts-filter input[type="submit"]').click(function(e){
 			if ( $('form#posts-filter tr.inline-editor').length > 0 )
 				t.revert();
 		});
