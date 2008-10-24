@@ -1148,16 +1148,25 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 
 	$request = preg_replace('|^'. $home_root . '|', '', $request);
 	$request = preg_replace('|^/+|', '', $request);
+	$request = preg_replace('|comment-page-[0-9]+/?$|', '', $request);
 
 	$base = trailingslashit( get_bloginfo( 'home' ) );
 
 	$result = $base . $request;
 	
 	if ( 'newest' == get_option('default_comments_page') ) {
-		if ( $pagenum != $max_page )
+		if ( $pagenum != $max_page ) {
+			if ( $wp_rewrite->using_permalinks() )
+				$result = user_trailingslashit( trailingslashit($base . $request) . 'comment-page-' . $pagenum, 'commentpaged');
+			else
+				$result = add_query_arg( 'cpage', $pagenum, $base . $request );
+		}
+	} elseif ( $pagenum > 1 ) {
+		if ( $wp_rewrite->using_permalinks() )
+			$result = user_trailingslashit( trailingslashit($base . $request) . 'comment-page-' . $pagenum, 'commentpaged');
+		else
 			$result = add_query_arg( 'cpage', $pagenum, $base . $request );
-	} elseif ( $pagenum > 1 )
-		$result = add_query_arg( 'cpage', $pagenum, $base . $request );
+	}
 
 	$result .= '#comments';
 
@@ -1181,7 +1190,7 @@ function next_comments_link($label='', $max_page = 0) {
 		return;
 
 	$page = get_query_var('cpage');
-	
+
 	if ( !$page )
 		$page = 1;
 
@@ -1209,7 +1218,6 @@ function next_comments_link($label='', $max_page = 0) {
  * @param string $label Optional. Label for comments link text.
  */
 function previous_comments_link($label='') {
-	global $wp_query;
 
 	if ( !is_singular() )
 		return;
@@ -1222,12 +1230,12 @@ function previous_comments_link($label='') {
 	if ( $page <= 1 )
 		return;
 
-	$nextpage = intval($page) - 1;
+	$prevpage = intval($page) - 1;
 
 	if ( empty($label) )
 		$label = __('&laquo; Older Comments');
 
-	echo '<a href="' . clean_url(get_comments_pagenum_link($nextpage));
+	echo '<a href="' . clean_url(get_comments_pagenum_link($prevpage));
 	$attr = apply_filters( 'previous_comments_link_attributes', '' );
 	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 }

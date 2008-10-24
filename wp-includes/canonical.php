@@ -149,7 +149,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			if ( is_feed() ) {
 				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'feed/' . ( ( 'rss2' ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
 			}
-			if ( get_query_var('cpage') > 1 ) {
+			if ( ( 'newest' == get_option('default_comments_page') && get_query_var('cpage') > 0 ) || ( 'newest' != get_option('default_comments_page') && get_query_var('cpage') > 1 ) ) {
 				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'comment-page-' . get_query_var('cpage'), 'commentpaged' );
 			}
 			$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
