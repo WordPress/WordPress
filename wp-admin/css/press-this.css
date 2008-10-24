@@ -10,7 +10,7 @@ img { border: 0; }
 /* Header */
 #wphead{border-top:none;padding-top:8px; background: #444 !important;}
 
-.button{font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;padding:3px 5px;font-size:12px;line-height:1.5em;border-width:1px;border-style:solid;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;cursor:pointer;margin-left:5px;text-decoration:none;}
+#poststuff #edButtonPreview, #poststuff #edButtonHTML, .button{font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;padding:3px 5px;font-size:12px;line-height:1.5em;border-width:1px;border-style:solid;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;cursor:pointer;margin-left:5px;text-decoration:none;}
 
 .howto {
 	font-size: 11px;
@@ -47,14 +47,8 @@ position:absolute;
 width:0;
 }
 
-#poststuff #edButtonPreview, #poststuff #edButtonHTML {
-	display: block;
-	height: 20px;
-	padding: 5px 5px 1px;
-	margin: 5px 8px 0 0;
-	float: right;
-	cursor: pointer;
-}
+
+#poststuff #edButtonPreview.active, #poststuff #edButtonHTML.active { display: none; }
 
 .posting {
 margin-right: 228px;

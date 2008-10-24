@@ -116,9 +116,12 @@ switch ($_REQUEST['ajax']) {
 		<script type="text/javascript" charset="utf-8">	
 			jQuery('.select').click(function() {
 				append_editor(jQuery('#embed-code').val());
+				jQuery('#extra_fields').hide();
+				jQuery('#extra_fields').html('');
 			});
 			jQuery('.close').click(function() {
 				jQuery('#extra_fields').hide();
+				jQuery('#extra_fields').html('');
 			});
 		</script>
 		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
@@ -273,6 +276,7 @@ switch ($_REQUEST['ajax']) {
 			src = jQuery('#this_photo').val();
 			pick(src, desc);
 			jQuery('#extra_fields').hide();
+			jQuery('#extra_fields').html('');
 			return false;
 		}
 
@@ -280,6 +284,7 @@ switch ($_REQUEST['ajax']) {
 			jQuery('#extra_fields').html('<h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a></p>');
 			jQuery('.close').click(function() {
 				jQuery('#extra_fields').hide();
+				jQuery('#extra_fields').html('');
 			});
 			jQuery('#img_container').html(strtoappend);
 			jQuery('#photo_add_url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
@@ -351,6 +356,7 @@ die;
 		
 		switch(tab_name) {
 			case 'video' :
+				jQuery('#extra_fields').html('');
 				jQuery('#extra_fields').show();
 				jQuery('#extra_fields').load('<?php echo clean_url($_SERVER['PHP_SELF']); ?>', { ajax: 'video', s: '<?php echo attribute_escape($selection); ?>'}, function() {
 					<?php
@@ -376,7 +382,7 @@ die;
 				return false;
 				break;
 			case 'photo' :
-				if(jQuery('#extra_fields').css('display') == 'none') {
+					jQuery('#extra_fields').html('');
 					jQuery('#extra_fields').show();
 					jQuery('#extra_fields').before('<p id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></p>');
 					jQuery.ajax({
@@ -389,9 +395,7 @@ die;
 							jQuery('#waiting').remove();
 						}
 					});
-				} else {
-					jQuery('#extra_fields').hide();
-				}
+
 				return false;
 				break;
 		}
@@ -499,21 +503,20 @@ die;
 				<ul id="actions">
 					<li id="photo_button"><a href="#" class="button"><?php _e( 'Add Photo' ); ?></a></li>
 					<li id="video_button"><a href="#" class="button"><?php _e( 'Add Video' ); ?></a></li>
-					<li id="switcher"><?php if ( user_can_richedit() ) {
-		$wp_default_editor = wp_default_editor(); ?>
-		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
-		<?php if ( 'html' == $wp_default_editor ) {
-			add_filter('the_editor_content', 'wp_htmledit_pre'); ?>
-			<a id="edButtonHTML" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
-			<a id="edButtonPreview" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-		<?php } else {
-			add_filter('the_editor_content', 'wp_richedit_pre'); ?>
+					<li id="switcher">
+						<?php wp_print_scripts( 'quicktags' ); ?>
+		
+			<?php add_filter('the_editor_content', 'wp_richedit_pre'); ?>
 			<a id="edButtonHTML" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
 			<a id="edButtonPreview" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-		<?php } 
-	} ?></li>
+			<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
+		</li>
 				</ul>
-			
+			<div id="quicktags">
+	
+	
+	</div>
+	
 				<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
 			
 				<div class="editor-container">
