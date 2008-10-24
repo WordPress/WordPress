@@ -1051,6 +1051,8 @@ function wp_get_http( $url, $file_path = false, $deprecated = false ) {
 		return false;
 
 	$headers = wp_remote_retrieve_headers( $response );
+	$headers['response'] = $response['response']['code'];
+
 	if ( false == $file_path )
 		return $headers;
 

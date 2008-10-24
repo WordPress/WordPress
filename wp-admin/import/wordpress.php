@@ -604,10 +604,16 @@ class WP_Import {
 		// fetch the remote url and write it to the placeholder file
 		$headers = wp_get_http($url, $upload['file']);
 
+		//Request failed
+		if ( ! $headers ) {
+			@unlink($upload['file']);
+			return new WP_Error( 'import_file_error', __('Remote server did not respond') );
+		}
+
 		// make sure the fetch was successful
 		if ( $headers['response'] != '200' ) {
 			@unlink($upload['file']);
-			return new WP_Error( 'import_file_error', sprintf(__('Remote file returned error response %d'), intval($headers['response'])) );
+			return new WP_Error( 'import_file_error', sprintf(__('Remote file returned error response %1$d %2$s'), $headers['response'], get_status_header_desc($headers['response']) ) );
 		}
 		elseif ( isset($headers['content-length']) && filesize($upload['file']) != $headers['content-length'] ) {
 			@unlink($upload['file']);
