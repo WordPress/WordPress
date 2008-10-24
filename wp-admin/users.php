@@ -266,11 +266,8 @@ if ( ! empty($messages) ) {
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
-<form id="posts-filter" action="" method="get">
-	<?php if ( $wp_user_search->is_search() ) : ?>
-		<h2><?php printf( current_user_can('create_users') ? __('Users Matching "%2$s" (<a href="%1$s">Add New</a>)') : __('Add New'), '#add-new-user', wp_specialchars($wp_user_search->search_term) ); ?></h2>
-	<?php endif; ?>
-
+<div class="filter">
+<form id="list-filter" action="" method="get">
 <ul class="subsubsub">
 <?php
 $role_links = array();
@@ -308,7 +305,18 @@ echo implode(' |</li>', $role_links) . '</li>';
 unset($role_links);
 ?>
 </ul>
+</form>
+</div>
 
+<form class="search-form" action="" method="get">
+<p class="search-box">
+	<label class="hidden" for="post-search-input"><?php _e( 'Search Users' ); ?>:</label>
+	<input type="text" class="search-input" id="post-search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
+	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
+</p>
+</form>
+
+<form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
 <?php if ( $wp_user_search->results_are_paged() ) : ?>
