@@ -54,34 +54,29 @@ include('./admin-header.php');
 <form method="post" action="options.php">
 <?php settings_fields('general'); ?>
 
-<p class="submit submit-top">
-<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
-</p>
-
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="blogname"><?php _e('Blog Title') ?></label></th>
-<td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="40" /></td>
+<td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="45" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
-<td><input name="blogdescription" type="text" id="blogdescription" style="width: 95%" value="<?php form_option('blogdescription'); ?>" size="45" />
-<br />
-<?php _e('In a few words, explain what this blog is about.') ?></td>
+<td><input name="blogdescription" type="text" id="blogdescription"  value="<?php form_option('blogdescription'); ?>" size="45" />
+<span class="setting-description"><?php _e('In a few words, explain what this blog is about.') ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="siteurl"><?php _e('WordPress address (URL)') ?></label></th>
-<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="40" class="code<?php if ( defined( 'WP_SITEURL' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /></td>
+<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="45" class="code<?php if ( defined( 'WP_SITEURL' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="home"><?php _e('Blog address (URL)') ?></label></th>
-<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" size="40" class="code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /><br /><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></td>
+<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" size="45" class="code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> />
+<span class="setting-description"><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="admin_email"><?php _e('E-mail address') ?> </label></th>
-<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" size="40" class="code" />
-<br />
-<?php _e('This address is used for admin purposes, like new user notification.') ?></td>
+<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" size="45" class="code" />
+<span class="setting-description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e('Membership') ?></th>
@@ -127,10 +122,13 @@ foreach ( $offset_range as $offset ) {
 }
 ?>
 </select>
-<?php _e('hours') ?><br />
-<?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), gmdate(__('Y-m-d G:i:s'))); ?><br />
-<?php if ($current_offset) printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, gmdate(__('Y-m-d G:i:s'), current_time('timestamp'))); ?><br />
-<?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?>
+<?php _e('hours') ?>
+<span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), gmdate(__('Y-m-d G:i:s'))); ?></span>
+<?php if ($current_offset) : ?>
+	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, gmdate(__('Y-m-d G:i:s'), current_time('timestamp'))); ?></span>
+<?php endif; ?>
+<br/>
+<span class="setting-description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
 </td>
 </tr>
 <tr>

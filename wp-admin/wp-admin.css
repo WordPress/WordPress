@@ -1090,7 +1090,7 @@ html, body {
 
 .form-table {
 	border-collapse: collapse;
-	margin-top: 1em;
+	margin-top: 0.5em;
 	width: 100%;
 	margin-bottom: -8px;
 }
@@ -1110,7 +1110,7 @@ html, body {
 	vertical-align: top;
 	text-align: left;
 	padding: 10px;
-	width: 150px;
+	width: 200px;
 	border-bottom-width: 8px;
 	border-bottom-style: solid;
 }
@@ -2779,3 +2779,11 @@ abbr.required {
 	border-bottom: 1px solid #626262;
 }
 
+#utc-time, #local-time {
+	padding-left: 25px;
+	font-style: italic;
+}
+
+.setting-description {
+	font-style: italic;
+}
