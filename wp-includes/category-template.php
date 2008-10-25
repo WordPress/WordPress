@@ -551,7 +551,7 @@ function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
-		'exclude' => '', 'include' => ''
+		'exclude' => '', 'include' => '', 'link' => 'view'
 	);
 	$args = wp_parse_args( $args, $defaults );
 
@@ -561,7 +561,10 @@ function wp_tag_cloud( $args = '' ) {
 		return;
 
 	foreach ( $tags as $key => $tag ) {
-		$link = get_tag_link( $tag->term_id );
+		if ( 'edit' == $args['link'] )
+			$link = get_edit_tag_link( $tag->term_id );
+		else
+			$link = get_tag_link( $tag->term_id );
 		if ( is_wp_error( $link ) )
 			return false;
 

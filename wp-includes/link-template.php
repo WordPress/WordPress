@@ -559,6 +559,48 @@ function get_tag_feed_link($tag_id, $feed = '') {
 }
 
 /**
+ * Retrieve edit tag link.
+ *
+ * @since 2.7.0
+ *
+ * @param int $tag_id Tag ID
+ * @return string
+ */
+function get_edit_tag_link( $tag_id = 0 ) {
+	$tag = get_term($tag_id, 'post_tag');
+
+	if ( !current_user_can('manage_categories') )
+		return;
+
+	$location = admin_url('edit-tags.php?action=edit&amp;tag_ID=') . $tag->term_id;
+	return apply_filters( 'get_edit_tag_link', $location );
+}
+
+/**
+ * Display or retrieve edit tag link with formatting.
+ *
+ * @since 2.7.0
+ *
+ * @param string $link Optional. Anchor text.
+ * @param string $before Optional. Display before edit link.
+ * @param string $after Optional. Display after edit link.
+ * @param int|object $tag Tag object or ID
+ * @return string|null HTML content, if $echo is set to false.
+ */
+function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
+	$tag = get_term($tag, 'post_tag');
+
+	if ( !current_user_can('manage_categories') )
+		return;
+
+	if ( empty($link) )
+		$link = __('Edit This');
+
+	$link = '<a href="' . get_edit_tag_link( $tag->term_id ) . '" title="' . __( 'Edit tag' ) . '">' . $link . '</a>';
+	echo $before . apply_filters( 'edit_tag_link', $link, $tag->term_id ) . $after;
+}
+
+/**
  * Retrieve the permalink for the feed of the search results.
  *
  * @since 2.5.0
@@ -716,10 +758,9 @@ function get_edit_comment_link( $comment_id = 0 ) {
  * @param string $link Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
- * @param bool $echo Optional, defaults to true. Whether to echo or return HTML.
  * @return string|null HTML content, if $echo is set to false.
  */
-function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $echo = true ) {
+function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $comment, $post;
 
 	if ( $post->post_type == 'attachment' ) {
@@ -732,11 +773,7 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '', $ech
 	}
 
 	$link = '<a href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
-	$link = $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
-	if ( $echo )
-		echo $link;
-	else
-		return $link;
+	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
 }
 
 /**
