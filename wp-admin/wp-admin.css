@@ -1987,8 +1987,10 @@ fieldset {
 	cursor: pointer;
 }
 
-.ui-sortable .postbox .hndle {
+.ui-sortable .postbox .hndle span {
 	padding: 6px 0;
+}
+.ui-sortable .postbox .hndle {
 	cursor: move;
 }
 
