@@ -147,8 +147,8 @@ endif; ?>
 
 <form class="search-form topmargin" action="" method="get">
 <p class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Tags' ); ?>:</label>
-	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<label class="hidden" for="tag-search-input"><?php _e( 'Search Tags' ); ?>:</label>
+	<input type="text" class="search-input" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Tags' ); ?>" class="button-primary" />
 </p>
 </form>

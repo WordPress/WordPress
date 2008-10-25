@@ -81,8 +81,8 @@ endif; ?>
 <ul class="subsubsub"><li><a class="current"><br /></a></li></ul>
 <form class="search-form topmargin" action="" method="get">
 <p class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Categories' ); ?>:</label>
-	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<label class="hidden" for="category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
+	<input type="text" class="search-input" id="category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button-primary" />
 </p>
 </form>

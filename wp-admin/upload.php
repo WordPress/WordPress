@@ -218,8 +218,8 @@ unset($type_links);
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
-	<label class="hidden" for="post-search-input"><?php _e( 'Search Media' ); ?>:</label>
-	<input type="text" class="search-input" id="post-search-input" name="s" value="<?php the_search_query(); ?>" />
+	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
+	<input type="text" class="search-input" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button-primary" />
 </p>
 </form>
