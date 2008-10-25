@@ -23,10 +23,6 @@ include('admin-header.php');
 <input type='hidden' name='option_page' value='reading' />
 <input type="hidden" name="action" value="update" />
 
-<p class="submit submit-top">
-	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
-</p>
-
 <table class="form-table">
 <?php if ( get_pages() ): ?>
 <tr valign="top">
@@ -76,8 +72,8 @@ include('admin-header.php');
 
 <tr valign="top">
 <th scope="row"><label for="blog_charset"><?php _e('Encoding for pages and feeds') ?></label></th>
-<td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" size="20" class="code" /><br />
-<?php _e('The character encoding you write your blog in (UTF-8 is <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></td>
+<td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" size="20" class="code" />
+<span class="setting-description"><?php _e('The character encoding you write your blog in (UTF-8 is <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></span></td>
 </tr>
 <?php do_settings_fields('reading', 'default'); ?>
 </table>
