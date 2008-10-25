@@ -312,6 +312,32 @@ function print_plugins_table($plugins, $context = '') {
 </table>
 <?php
 } //End print_plugins_table()
+
+/**
+ * @ignore
+ *
+ * @param string $context
+ */
+function print_plugin_actions($context) {
+?>
+	<div class="alignleft actions">
+		<select name="action">
+			<option value="" selected="selected"><?php _e('Actions'); ?></option>
+	<?php if( 'active' != $context) : ?>
+			<option value="activate-selected"><?php _e('Activate'); ?></option>
+	<?php endif; ?>
+			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
+	<?php if( current_user_can('delete_plugins') && 'recent' == $context) : ?>
+			<option value="delete-selected"><?php _e('Delete'); ?></option>
+	<?php endif; ?>
+		</select>
+		<input type="submit" name="doaction_active" value="<?php _e('Apply'); ?>" class="button-secondary action" />
+	<?php if( 'recent' == $context) : ?>
+		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
+	<?php endif; ?>
+	</div>	
+<?php
+}
 ?>
 
 <?php if ( ! empty($active_plugins) ) : ?>
@@ -320,13 +346,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
-	<div class="alignleft actions">
-		<select name="action">
-			<option value="" selected="selected"><?php _e('Actions'); ?></option>
-			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
-		</select>
-		<input type="submit" name="doaction_active" value="<?php _e('Apply'); ?>" class="button-secondary action" />
-	</div>
+<?php print_plugin_actions('active') ?>
 </div>
 <div class="clear"></div>
 <?php print_plugins_table($active_plugins, 'active') ?>
@@ -342,17 +362,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
-	<div class="alignleft actions">
-		<select name="action">
-			<option value="" selected="selected"><?php _e('Actions'); ?></option>
-			<option value="activate-selected"><?php _e('Activate'); ?></option>
-<?php if( current_user_can('delete_plugins') ) : ?>
-			<option value="delete-selected"><?php _e('Delete'); ?></option>
-<?php endif; ?>
-		</select>
-		<input type="submit" value="<?php _e('Apply'); ?>" name="doaction_recent" class="button-secondary action" />
-		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
-	</div>
+<?php print_plugin_actions('recent') ?>
 </div>
 <div class="clear"></div>
 <?php print_plugins_table($recent_plugins, 'recent') ?>
@@ -365,12 +375,7 @@ function print_plugins_table($plugins, $context = '') {
 <?php wp_nonce_field('bulk-manage-plugins') ?>
 
 <div class="tablenav">
-	<div class="alignleft actions">
-		<input type="submit" name="activate-selected" value="<?php _e('Activate') ?>" class="button-secondary" />
-<?php if( current_user_can('delete_plugins') ) : ?>
-		<input type="submit" name="delete-selected" value="<?php _e('Delete') ?>" class="button-secondary" />
-<?php endif; ?>
-	</div>
+<?php print_plugin_actions('inactive') ?>
 </div>
 <div class="clear"></div>
 <?php print_plugins_table($inactive_plugins, 'inactive') ?>
