@@ -65,10 +65,15 @@ li.widget-list-control-item h4.widget-title a,
 }
 
 li.widget-list-control-item, div.nav, .tablenav, #dashboard-widgets p.dashboard-widget-links,
-.form-table tr, #poststuff h3, .metabox-holder h3, #replyhandle,
+ #poststuff h3, .metabox-holder h3, #replyhandle,
 .login form, h3.info-box-title, #post-status-info, #screen-options-wrap,
 #wpbody-content .describe tr, #edithead, #replyhead  {
 	background-color: #eaf3fa;
+}
+
+.form-table tr,
+.form-wrap .form-field {
+	background-color: #f1f1f1;
 }
 
 select {
@@ -151,8 +156,14 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-color: #c00 !important;
 }
 
-.form-table input, .form-table textarea, .search-input {
-	border-color: #c6d9e9;
+.form-table input,
+.form-table textarea,
+.search-input,
+.form-field input,
+.form-field textarea,
+.submit,
+.submit-top {
+	border-color: #DFDFDF;
 }
 
 .form-table td,
@@ -767,10 +778,6 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 #tTips p#tTips_inside {
 	background-color: #ddd;
 	color: #333;
-}
-
-.form-wrap .form-field {
-	background-color: #f5f5f5;
 }
 
 /* Diff */

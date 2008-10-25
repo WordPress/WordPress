@@ -414,6 +414,7 @@ case 'add-tag' : // From Manage->Tags
 	$x = new WP_Ajax_Response( array(
 		'what' => 'tag',
 		'id' => $tag->term_id,
+		'position' => '-1',
 		'data' => _tag_row( $tag ),
 		'supplemental' => array('name' => $tag_full_name, 'show-link' => sprintf(__( 'Tag <a href="#%s">%s</a> added' ), "tag-$tag->term_id", $tag_full_name))
 	) );

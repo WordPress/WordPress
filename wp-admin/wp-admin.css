@@ -188,7 +188,8 @@ table#availablethemes td.bottom {
 }
 
 .submit {
-	border-top: 1px solid #ccc;
+	border-top-style: solid;
+	border-top-width: 1px;
 	padding: 1.5em 0;
 	margin: 5px 0;
 	-moz-border-radius: 0 0 3px 3px;
@@ -201,8 +202,9 @@ table#availablethemes td.bottom {
 }
 
 .submit-top {
-	border-top: 0;
-	border-bottom: 1px solid #ccc;
+	border-top: 0 none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
 }
 
 #misc-publishing-actions {
@@ -1184,14 +1186,14 @@ table.form-table td .updated {
 
 /* divs for cats and tags pages */
 
-.col-wrap h3 {
-	margin: 12px 0;
+.form-wrap {
+	margin: 10px 0;
+	width: 90%;
 }
 
-.form-wrap {
-	margin: 8px 0 -8px;
+.form-wrap p,
+.form-wrap label {
 	font-size: 11px;
-	width: 90%;
 }
 
 .form-wrap label {
@@ -1200,7 +1202,9 @@ table.form-table td .updated {
 	font-weight: bold;
 }
 
-.form-wrap input {
+.form-field input {
+	border-style: solid;
+	border-width: 1px;
 	width: 95%;
 }
 
@@ -1214,13 +1218,22 @@ table.form-table td .updated {
 	padding: 8px;
 }
 
+.col-wrap h3 {
+	margin: 12px 0;
+	font-size: 1.1em;
+}
+
 .col-wrap p.submit {
-	width: 90%;
+	margin-top: -10px;
 }
 
 .tagcloud {
 	width: 90%;
-	margin: 20px 5px 5px;
+	margin: 10px 0 40px;
+}
+
+#col-left .col-wrap {
+	margin-left: 12px;
 }
 
 /* Post Screen */
