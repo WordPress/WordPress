@@ -462,9 +462,9 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="pass1"><?php _e('Password (twice)') ?> </label></th>
-		<td><input name="pass1" type="password" id="pass1" />
+		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
 		<br />
-		<input name="pass2" type="password" id="pass2" /></td>
+		<input name="pass2" type="password" id="pass2" autocomplete="off"/></td>
 	</tr>
 <?php endif; ?>
 

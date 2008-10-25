@@ -62,7 +62,6 @@ function profile_js ( ) {
 	}
 
 	$(document).ready( function() {
-		$('#pass1,#pass2').attr('autocomplete','off');
 		$('#nickname').blur(update_nickname);
 		$('#pass1').keyup( check_pass_strength );
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
@@ -350,8 +349,8 @@ if ( $show_password_fields ) :
 ?>
 <tr>
 	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
-	<td><input type="password" name="pass1" id="pass1" size="16" value="" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
-		<input type="password" name="pass2" id="pass2" size="16" value="" /> <?php _e("Type your new password again."); ?><br />
+	<td><input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" /> <?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?><br />
+		<input type="password" name="pass2" id="pass2" size="16" value="" autocomplete="off" /> <?php _e("Type your new password again."); ?><br />
 	<?php if ( $is_profile_page ): ?>
 		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
 		<p><?php _e('Hint: Your password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
