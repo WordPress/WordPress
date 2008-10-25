@@ -395,4 +395,18 @@ function wp_update_core($feedback = '') {
 	return update_core($working_dir, $wp_dir);
 }
 
+function maintenance_nag() {
+	global $upgrading;
+	if ( ! isset( $upgrading ) )
+		return false;
+
+	if ( current_user_can('manage_options') )
+		$msg = sprintf( __('An automated WordPress update has failed to complete - <a href="%s">please attempt the update again now</a>.'), 'update.php?action=upgrade-core' );
+	else
+		$msg = __('An automated WordPress update has failed to complete! Please notify the site administrator.');
+
+	echo "<div id='update-nag'>$msg</div>";
+}
+add_action( 'admin_notices', 'maintenance_nag' );
+
 ?>
