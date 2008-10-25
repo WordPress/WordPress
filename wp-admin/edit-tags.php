@@ -154,9 +154,12 @@ endif; ?>
 </form>
 <br class="clear" />
 
+<div id="col-container">
+
+<div id="col-right">
+<div class="col-wrap">
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">
-
 <?php
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
 if ( empty($pagenum) )
@@ -233,16 +236,52 @@ if ( $page_links )
 
 <br class="clear" />
 </form>
+</div>
+</div><!-- /col-right -->
 
+<div id="col-left">
+<div class="col-wrap">
+<?php if ( current_user_can('manage_categories') ) {
+	do_action('add_tag_form_pre', $tag); ?>
+
+<h3><?php _e('Add a New Tag'); ?></h3>
+<div id="ajax-response"></div>
+<form name="addtag" id="addtag" method="post" action="edit-tags.php" class="add:the-list: validate">
+<input type="hidden" name="action" value="addtag" />
+<input type="hidden" name="tag_ID" value="<?php echo $tag->term_id ?>" />
+<?php wp_original_referer_field(true, 'previous'); wp_nonce_field('add-tag'); ?>
+
+<div class="form-wrap">
+<div class="form-field form-required">
+	<label for="name"><?php _e('Tag name') ?></label>
+	<input name="name" id="name" type="text" value="<?php if ( isset( $tag->name ) ) echo attribute_escape($tag->name); ?>" size="40" aria-required="true" />
+    <p><?php _e('The name is how the tag appears on your site.'); ?></p>
 </div>
 
-<?php if ( current_user_can('manage_categories') ) : ?>
+<div class="form-field">
+	<label for="slug"><?php _e('Tag slug') ?></label>
+	<input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo attribute_escape(apply_filters('editable_slug', $tag->slug)); ?>" size="40" />
+    <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
+</div></div>
 
-<br />
-<?php include('edit-tag-form.php'); ?>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Tag'); ?>" /></p>
+<?php
+do_action('edit_tag_form', $tag);
+
+} ?>
+</form>
+
+<div class="tagcloud">
+<h3><?php _e('Popular Tags'); ?></h3>
+<?php wp_tag_cloud(); ?>
+</div>
+
+</div>
+</div><!-- /col-left -->
+
+</div><!-- /col-container -->
+</div><!-- /wrap -->
 <?php inline_edit_term_row('tag'); ?>
-
-<?php endif; ?>
 
 <?php
 break;

@@ -769,6 +769,10 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 	color: #333;
 }
 
+.form-wrap .form-field {
+	background-color: #f5f5f5;
+}
+
 /* Diff */
 
 table.diff .diff-deletedline {
