@@ -427,7 +427,7 @@ function setup_userdata($user_id = '') {
  * <li>include - User IDs to include.</li>
  * <li>exclude - User IDs to exclude.</li>
  * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element.</li> 
- * <li>show - Default is 'display_name'. User table column to display.</li>
+ * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentesis</li>
  * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
  * <li>selected - Which User ID is selected.</li>
  * <li>name - Default is 'user'. Name attribute of select element.</li>
@@ -493,7 +493,8 @@ function wp_dropdown_users( $args = '' ) {
 		foreach ( (array) $users as $user ) {
 			$user->ID = (int) $user->ID;
 			$_selected = $user->ID == $selected ? " selected='selected'" : '';
-			$output .= "\t<option value='$user->ID'$_selected>" . wp_specialchars($user->$show) . "</option>\n";
+			$display = !empty($user->$show) ? $user->$show : '('. $user->user_login . ')';
+			$output .= "\t<option value='$user->ID'$_selected>" . wp_specialchars($display) . "</option>\n";
 		}
 
 		$output .= "</select>";
