@@ -322,16 +322,18 @@ function print_plugin_actions($context) {
 	<div class="alignleft actions">
 		<select name="action">
 			<option value="" selected="selected"><?php _e('Actions'); ?></option>
-	<?php if( 'active' != $context) : ?>
+	<?php if( 'active' != $context ) : ?>
 			<option value="activate-selected"><?php _e('Activate'); ?></option>
 	<?php endif; ?>
+	<?php if ( 'active' == $context ) : ?>
 			<option value="deactivate-selected"><?php _e('Deactivate'); ?></option>
-	<?php if( current_user_can('delete_plugins') && 'recent' == $context) : ?>
+	<?php endif; ?>
+	<?php if( current_user_can('delete_plugins') && ( 'recent' == $context || 'inactive' == $context ) ) : ?>
 			<option value="delete-selected"><?php _e('Delete'); ?></option>
 	<?php endif; ?>
 		</select>
 		<input type="submit" name="doaction_active" value="<?php _e('Apply'); ?>" class="button-secondary action" />
-	<?php if( 'recent' == $context) : ?>
+	<?php if( 'recent' == $context ) : ?>
 		<input type="submit" name="clear-recent-list" value="<?php _e('Clear List') ?>" class="button-secondary" />
 	<?php endif; ?>
 	</div>	
