@@ -448,6 +448,10 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 			$title = "$tax $sep $term";
 	}
 
+	if ( is_404() ) {
+		$title = __('Page not found');	
+	}
+	
 	$prefix = '';
 	if ( !empty($title) )
 		$prefix = " $sep ";
