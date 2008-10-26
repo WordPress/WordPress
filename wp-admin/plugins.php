@@ -59,9 +59,8 @@ if( !empty($action) ) {
 				wp_die($valid);
 			error_reporting( E_ALL ^ E_NOTICE );
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
-			$result = activate_plugin($plugin, false); 
-			if ( is_wp_error( $result ) ) 
-				wp_die($result);
+			include(WP_PLUGIN_DIR . '/' . $plugin);
+			do_action('activate_' . $plugin);
 			exit;
 			break;
 		case 'deactivate':
