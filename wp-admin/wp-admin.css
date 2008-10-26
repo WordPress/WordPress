@@ -1202,7 +1202,8 @@ table.form-table td .updated {
 	font-weight: bold;
 }
 
-.form-field input {
+.form-field input,
+.form-field textarea {
 	border-style: solid;
 	border-width: 1px;
 	width: 95%;

@@ -343,6 +343,7 @@ case 'add-cat' : // From Manage->Categories
 	$x = new WP_Ajax_Response( array(
 		'what' => 'cat',
 		'id' => $cat->term_id,
+		'position' => -1,
 		'data' => _cat_row( $cat, $level, $cat_full_name ),
 		'supplemental' => array('name' => $cat_full_name, 'show-link' => sprintf(__( 'Category <a href="#%s">%s</a> added' ), "cat-$cat->term_id", $cat_full_name))
 	) );
@@ -378,6 +379,7 @@ case 'add-link-cat' : // From Blogroll -> Categories
 	$x = new WP_Ajax_Response( array(
 		'what' => 'link-cat',
 		'id' => $term_id,
+		'position' => -1,
 		'data' => $link_cat
 	) );
 	$x->send();

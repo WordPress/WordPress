@@ -159,6 +159,10 @@ endif; ?>
 </form>
 <br class="clear" />
 
+<div id="col-container">
+
+<div id="col-right">
+<div class="col-wrap">
 <form id="posts-filter" action="" method="get">
 <div class="tablenav">
 
@@ -236,21 +240,66 @@ if ( $page_links )
 
 <br class="clear" />
 </form>
+</div>
+</div><!-- /col-right -->
 
+<div id="col-left">
+<div class="col-wrap">
+
+<?php if ( current_user_can('manage_categories') ) { ?>
+<?php do_action('add_category_form_pre', $category); ?>
+
+<div class="form-wrap">
+<h3><?php _e('Add Category'); ?></h3>
+<div id="ajax-response"></div>
+<form name="addcat" id="addcat" method="post" action="categories.php" class="add:the-list: validate">
+<input type="hidden" name="action" value="addcat" />
+<?php wp_original_referer_field(true, 'previous'); wp_nonce_field('add-category'); ?>
+
+<div class="form-field form-required">
+	<label for="cat_name"><?php _e('Category Name') ?></label>
+	<input name="cat_name" id="cat_name" type="text" value="" size="40" aria-required="true" />
+    <p><?php _e('The name is used to identify the category almost everywhere, for example under the post or in the category widget.'); ?></p>
 </div>
 
-<?php if ( current_user_can('manage_categories') ) : ?>
-<div class="wrap">
+<div class="form-field">
+	<label for="category_nicename"><?php _e('Category Slug') ?></label>
+	<input name="category_nicename" id="category_nicename" type="text" value="" size="40" />
+    <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
+</div>
+
+<div class="form-field">
+	<label for="category_parent"><?php _e('Category Parent') ?></label>
+	<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'category_parent', 'orderby' => 'name', 'selected' => $category->parent, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+    <p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
+</div>
+
+<div class="form-field">
+	<label for="category_description"><?php _e('Description') ?></label>
+	<textarea name="category_description" id="category_description" rows="5" cols="40"></textarea>
+    <p><?php _e('The description is not prominent by default, however some themes may show it.'); ?></p>
+</div>
+
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Category'); ?>" /></p>
+<?php do_action('edit_category_form', $category); ?>
+</form></div>
+
+<?php } ?>
+
+<div class="form-wrap">
 <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_catname(get_option('default_category')))) ?></p>
 <p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'admin.php?import=wp-cat2tag') ?></p>
 </div>
 
-<?php include('edit-category-form.php'); ?>
+</div>
+</div><!-- /col-left -->
 
-<?php inline_edit_term_row('category'); ?>
-<?php endif; ?>
+</div><!-- /col-container -->
+</div><!-- /wrap -->
 
 <?php
+inline_edit_term_row('category');
+
 break;
 }
 
