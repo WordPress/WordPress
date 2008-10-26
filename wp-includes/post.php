@@ -2245,7 +2245,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
 		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
-		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '');
+		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0);
 
 	$object = wp_parse_args($object, $defaults);
 	if ( !empty($parent) )
@@ -2341,6 +2341,14 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ( $update ) {
 		$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_ID ) );
 	} else {
+		// If there is a suggested ID, use it if not already present
+		if ( !empty($import_id) ) { 
+			$import_id = (int) $import_id; 
+			if ( ! $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id) ) ) { 
+				$data['ID'] = $import_id; 
+			} 
+		} 
+
 		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
 	}
