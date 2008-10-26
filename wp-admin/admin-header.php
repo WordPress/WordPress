@@ -80,7 +80,7 @@ if ( '' == $blog_name )
 ?>
 
 <img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a>
-<?php if ( in_array( $pagenow, $settings_pages ) ) { ?>
+<?php if ( false === strpos($_SERVER['REQUEST_URI'], 'page=') && in_array( $pagenow, $settings_pages ) ) { ?>
 
 <span id="screen-options-link-wrap" class="hide-if-no-js screen-options-closed">
 <span id="screen-options">
