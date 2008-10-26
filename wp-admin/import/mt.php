@@ -69,8 +69,35 @@ class MT_Import {
 	</select>
 	<?php
 
-
 	}
+
+	function has_gzip() {
+		return is_callable('gzopen');
+	}
+
+	function fopen($filename, $mode='r') {
+		if ( $this->has_gzip() )
+			return gzopen($filename, $mode);
+		return fopen($filename, $mode);
+	}
+
+	function feof($fp) {
+		if ( $this->has_gzip() )
+			return gzeof($fp);
+		return feof($fp);
+	}
+
+	function fgets($fp, $len=8192) {
+		if ( $this->has_gzip() )
+			return gzgets($fp, $len);
+		return fgets($fp, $len);
+	}
+
+	function fclose($fp) {
+		if ( $this->has_gzip() )
+			return gzclose($fp);
+		return fclose($fp);
+ 	}
 
 	//function to check the authorname and do the mapping
 	function checkauthor($author) {
@@ -103,12 +130,12 @@ class MT_Import {
 		$temp = array();
 		$authors = array();
 
-		$handle = fopen($this->file, 'r');
+		$handle = $this->fopen($this->file, 'r');
 		if ( $handle == null )
 			return false;
 
 		$in_comment = false;
-		while ( $line = fgets($handle) ) {
+		while ( $line = $this->fgets($handle) ) {
 			$line = trim($line);
 
 			if ( 'COMMENT:' == $line )
@@ -131,7 +158,7 @@ class MT_Import {
 				array_push($authors, "$next");
 		}
 
-		fclose($handle);
+		$this->fclose($handle);
 
 		return $authors;
 	}
@@ -286,7 +313,7 @@ class MT_Import {
 	function process_posts() {
 		global $wpdb;
 
-		$handle = fopen($this->file, 'r');
+		$handle = $this->fopen($this->file, 'r');
 		if ( $handle == null )
 			return false;
 
@@ -299,7 +326,7 @@ class MT_Import {
 
 		echo "<div class='wrap'><ol>";
 
-		while ( $line = fgets($handle) ) {
+		while ( $line = $this->fgets($handle) ) {
 			$line = trim($line);
 
 			if ( '-----' == $line ) {
@@ -427,6 +454,8 @@ class MT_Import {
 				}
 			}
 		}
+
+		$this->fclose($handle);
 
 		echo '</ol>';
 
