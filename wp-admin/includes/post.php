@@ -1037,8 +1037,9 @@ function wp_tiny_mce( $teeny = false ) {
 			It takes an associative array 'plugin_name' => 'path', where path is the
 			include path to the file. The language file should follow the same format as
 			/tinymce/langs/wp-langs.php and should define a variable $strings that
-			holds all translated strings. Example:
-			$strings = 'tinyMCE.addI18n("' . $mce_locale . '.mypluginname_dlg",{tab_general:"General", ... })';
+			holds all translated strings.
+			When this filter is not used, the function will try to load {mce_locale}.js.
+			If that is not found, en.js will be tried next.
 			*/
 			$mce_external_languages = apply_filters('mce_external_languages', array());
 		
@@ -1061,15 +1062,35 @@ function wp_tiny_mce( $teeny = false ) {
 		
 				$plugins[] = '-' . $name;
 		
-				if ( in_array($name, $loaded_langs) ) {
-					$plugurl = dirname($url);
-					$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
+				$plugurl = dirname($url);
+				$strings = '';
+				if ( ! in_array($name, $loaded_langs) ) {
+					$plugpath = str_replace( WP_PLUGIN_URL, '', $plugurl );	
+					$plugpath = WP_PLUGIN_DIR . $plugpath;
+
+					if ( function_exists('realpath') )
+						$plugpath = realpath($plugpath);
+
+					$path = $plugpath . '/langs/' . $mce_locale . '.js';
+					$path2 = $plugpath . '/langs/en.js';
+
+					if ( is_file($path) && is_readable($path) ) {
+						$strings = @file_get_contents($path);
+					} elseif ( 'en' != $mce_locale && is_file($path2) && is_readable($path2) ) {
+						$strings = @file_get_contents($path2);
+						$strings = preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $strings, 1 );
+					}
+
+					if ( $strings )
+						$ext_plugins .= "\n" . $strings . "\n";
 				}
+
+				$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
 				$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
 			}
 		}
 	}
-	
+
 	$plugins = implode($plugins, ',');
 	
 	if ( $teeny ) {
@@ -1125,8 +1146,7 @@ function wp_tiny_mce( $teeny = false ) {
 		'content_css' => "$mce_css",
 		'save_callback' => 'switchEditors.saveCallback',
 		'wpeditimage_disable_captions' => $no_captions,
-		'plugins' => "$plugins",
-		'strict_loading_mode' => true
+		'plugins' => "$plugins"
 	);
 	
 	// For people who really REALLY know what they're doing with TinyMCE
@@ -1141,31 +1161,8 @@ function wp_tiny_mce( $teeny = false ) {
 
 	$language = $initArray['language'];
 
-	$ver = apply_filters('tiny_mce_version', '200');
-/*
-	foreach ( $initArray as $v )
-		$ver .= $v;
-	
-	if ( ! empty($mce_external_plugins) ) {
-		foreach ( $mce_external_plugins as $n => $v )
-			$ver .= $n;
-	}
-	
-	$ver = md5( $ver );
+	$ver = apply_filters('tiny_mce_version', '3101');
 
-	
-	// Use cached translations file if exists
-	$langs_file = ABSPATH . WPINC . '/js/tinymce/langs/wp-langs-' . $language . '.js';
-
-	if ( is_file($langs_file) && is_readable($langs_file) ) {
-		if ( $ver != get_option('mce_refresh_check') ) {
-			@unlink($langs_file);
-			update_option('mce_refresh_check', $ver);
-		} else {
-			$lang = false;
-		}
-	}
-*/
 	if ( 'en' != $language )
 		include_once(ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php');
 
@@ -1209,11 +1206,11 @@ tinyMCEPreInit = {
 </script>
 <script type="text/javascript" src="<?php echo $baseurl; ?>/tiny_mce.js?ver=<?php echo $ver; ?>"></script>
 <?php if ( 'en' == $language ) { ?>
-	<script type="text/javascript" src="<?php echo $baseurl; ?>/langs/wp-langs-<?php echo $language; ?>.js?ver=<?php echo $ver; ?>"></script>
+	<script type="text/javascript" src="<?php echo $baseurl; ?>/langs/wp-langs-en.js?ver=<?php echo $ver; ?>"></script>
 <?php } ?>
 <script type="text/javascript">
-
 <?php if ( 'en' != $language && isset($lang) ) echo $lang; ?>
+
 <?php if ( $ext_plugins ) echo $ext_plugins; ?>
 	
 // Mark translations as done
