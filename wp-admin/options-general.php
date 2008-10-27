@@ -82,11 +82,7 @@ include('./admin-header.php');
 <th scope="row"><?php _e('Membership') ?></th>
 <td> <fieldset><legend class="hidden"><?php _e('Membership') ?></legend><label for="users_can_register">
 <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_option('users_can_register')); ?> />
-<?php _e('Anyone can register') ?></label><br />
-<label for="comment_registration">
-<input name="comment_registration" type="checkbox" id="comment_registration" value="1" <?php checked('1', get_option('comment_registration')); ?> />
-<?php _e('Users must be registered and logged in to comment') ?>
-</label>
+<?php _e('Anyone can register') ?></label>
 </fieldset></td>
 </tr>
 <tr valign="top">
