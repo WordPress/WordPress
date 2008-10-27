@@ -51,7 +51,7 @@
 function _walk_bookmarks($bookmarks, $args = '' ) {
 	$defaults = array(
 		'show_updated' => 0, 'show_description' => 0,
-		'show_images' => 1, 'show_name' => 1,
+		'show_images' => 1, 'show_name' => 0,
 		'before' => '<li>', 'after' => '</li>', 'between' => "\n",
 		'show_rating' => 0, 'link_before' => '', 'link_after' => ''
 	);
@@ -105,10 +105,12 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
 			else // If it's a relative path
 				$output .= "<img src=\"" . get_option('siteurl') . "$bookmark->link_image\" $alt $title />";
+
+			if ($show_name) $output .= $name;
+		} else { 
+			$output .= $name; 
 		}
 		
-		if ($show_name) $output .= $name;
-
 		$output .= $link_after;
 		
 		$output .= '</a>';
