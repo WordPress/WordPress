@@ -520,6 +520,55 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 }
 
 /**
+ * Calculate what page number a comment will appear on for comment paging.
+ *
+ * @since 2.7.0
+ *
+ * @param int $comment_ID Comment ID.
+ * @param int $per_page Optional comments per page.
+ * @return int|null Comment page number or null on error.
+ */
+function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) {
+	if ( !$comment = get_comment( $comment_ID ) )
+		return;
+
+	if ( !get_option('page_comments') )
+		return 1;
+
+	$comments = array_reverse( get_comments( $comment->comment_post_ID ) );
+
+	if ( null === $per_page )
+		$per_page = get_option('comments_per_page');
+
+	if ( null === $threaded )
+		$threaded = get_option('thread_comments');
+
+	// Find this comment's top level parent
+	if ( $threaded ) {
+		while ( 0 != $comment->comment_parent )
+			$comment = get_comment( $comment->comment_parent );
+	}
+
+	// Start going through the comments until we find what page number the above top level comment is on
+	$page = 1;
+	$comthispage = 0;
+	foreach ( $comments as $com ) {
+		if ( $threaded && 0 != $com->comment_parent )
+			continue;
+
+		if ( $com->comment_ID == $comment->comment_ID )
+			return $page;
+
+		$comthispage++;
+
+		if ( $comthispage >= $per_page ) {
+			$page++;
+			$comthispage = 0;
+		}
+	}
+}
+
+/**
  * Does comment contain blacklisted characters or words.
  *
  * @since 1.5.0

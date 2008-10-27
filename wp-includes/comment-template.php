@@ -402,7 +402,7 @@ function comment_ID() {
 }
 
 /**
- * Retrieve the link to the current comment.
+ * Retrieve the link to a given comment.
  *
  * @since 1.5.0
  * @uses $comment
@@ -411,8 +411,20 @@ function comment_ID() {
  * @return string The permalink to the current comment
  */
 function get_comment_link($comment = null) {
+	global $wp_rewrite;
+
 	$comment = get_comment($comment);
-	return get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment->comment_ID;
+
+	if ( get_option('page_comments') ) {
+		$page = get_page_of_comment( $comment->comment_ID );
+
+		if ( $wp_rewrite->using_permalinks() )
+			return user_trailingslashit( trailingslashit( get_permalink( $comment->comment_post_ID ) ) . "comment-page-$page", 'comment' ) . '#comment-' . $comment->comment_ID;
+		else
+			return add_query_arg( 'cpage', $page, get_permalink( $comment->comment_post_ID ) ) . '#comment-' . $comment->comment_ID;
+	} else {
+		return get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment->comment_ID;
+	}
 }
 
 /**
@@ -1085,7 +1097,7 @@ class Walker_Comment extends Walker {
 		<br />
 <?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
 
 		<?php echo apply_filters('comment_text', get_comment_text()) ?>
 

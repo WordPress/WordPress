@@ -249,20 +249,20 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	if ( $compare_original !== $compare_redirect ) {
 		$redirect_url = $redirect['scheme'] . '://' . $redirect['host'];
 		if ( !empty($redirect['port']) )
-		 	$redirect_url .= ':' . $redirect['port'];
+			$redirect_url .= ':' . $redirect['port'];
 		$redirect_url .= $redirect['path'];
 		if ( !empty($redirect['query']) )
 			$redirect_url .= '?' . $redirect['query'];
 	}
 
 	if ( !$redirect_url || $redirect_url == $requested_url )
-	 	return false;
+		return false;
 
 	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning FALSE
 	$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
 
 	if ( !$redirect_url || $redirect_url == $requested_url ) // yes, again -- in case the filter aborted the request
-	 	return false;
+		return false;
 
 	if ( $do_redirect ) {
 		// protect against chained redirects
