@@ -206,9 +206,9 @@ class WP_Import {
 
 
 		$authors = $this->get_wp_authors();
-		echo '<ol id="authors">';
 		echo '<form action="?import=wordpress&amp;step=2&amp;id=' . $this->id . '" method="post">';
 		wp_nonce_field('import-wordpress');
+		echo '<ol id="authors">';
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
@@ -229,7 +229,9 @@ class WP_Import {
 <?php
 		}
 
-		echo '<input type="submit" value="'.attribute_escape( __('Submit') ).'">'.'<br />';
+		echo '<p class="submit">';
+		echo '<input type="submit" class="button" value="'.attribute_escape( __('Submit') ).'" />'.'<br />';
+		echo '</p>';
 		echo '</form>';
 
 	}
@@ -237,7 +239,7 @@ class WP_Import {
 	function users_form($n, $author) {
 
 		if ( $this->allow_create_users() ) {
-			printf('<label>'.__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user_create['.intval($n).']'.'" maxlength="30"></label> <br />');
+			printf('<label>'.__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user_create['.intval($n).']'.'" maxlength="30" /></label> <br />');
 		}
 		else {
 			echo __('Map to existing').'<br />';
