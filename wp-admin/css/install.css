@@ -17,10 +17,14 @@ a { color: #2583ad; text-decoration: none; }
 
 a:hover { color: #d54e21; }
 
-
 h1 {
-	font-size: 18px;
-	margin-bottom: 0;
+	border-bottom: 1px solid #dadada;
+	clear: both;
+	color: #666;
+	font: 24px Georgia, "Times New Roman", Times, serif;
+	margin: 5px 0 0 -4px;
+	padding: 0;
+	padding-bottom: 7px;
 }
 
 h2 { font-size: 16px; }
@@ -31,23 +35,17 @@ p, li {
 	line-height: 18px;
 }
 
-code {
-	font-size: 13px;
-}
+code { font-size: 13px; }
 
 ul, ol { padding: 5px 5px 5px 22px; }
 
-#logo { margin: 6px 0 14px 0px; border-bottom: none;}
+#logo { margin: 6px 0 14px 0; border-bottom: none;}
 
 .step {
 	margin: 20px 0 15px;
 }
 
-.step input {
-	font-size: 18px;
-}
-
-a.button {
+.step input, a.button {
 	font-size: 18px;
 }
 
@@ -117,19 +115,7 @@ a.button {
 	padding: 2px;
 }
 
-h1 {
-	border-bottom: 1px solid #dadada;
-	clear: both;
-	color: #666666;
-	font: 24px Georgia, "Times New Roman", Times, serif;
-	margin: 5px 0 0 -4px;
-	padding: 0;
-	padding-bottom: 7px;
-}
-
-#error-page {
-	margin-top: 50px;
-}
+#error-page { margin-top: 50px; }
 
 #error-page p {
 	font-size: 14px;
@@ -137,6 +123,4 @@ h1 {
 	margin: 25px 0 20px;
 }
 
-#error-page code {
-	font-size: 15px;
-}
+#error-page code { font-size: 15px; }

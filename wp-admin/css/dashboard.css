@@ -10,25 +10,25 @@ form .input-text-wrap {
 	border-style: solid;
 	border-width: 1px;
 	padding: 2px 3px;
-	border-color: #CCCCCC;
+	border-color: #ccc;
 }
 
 form .input-text-wrap input {
-	border: 0pt none;
+	border: none;
 	outline-color: -moz-use-text-color;
 	outline-style: none;
 	outline-width: medium;
-	padding: 0pt;
+	padding: 0;
 	width: 99%;
 	border-style: solid;
-	color: #333333;
+	color: #333;
 }
 
 form .textarea-wrap {
 	border-style: solid;
 	border-width: 1px;
 	padding: 2px;
-	border-color: #CCCCCC;
+	border-color: #ccc;
 }
 
 form .textarea-wrap textarea {
@@ -137,10 +137,7 @@ div.postbox div.inside {
 	list-style: none;
 }
 
-.rss-widget a.rsswidget {
-	font-size: 14px;
-}
-
+.rss-widget a.rsswidget,
 .rss-widget span.rss-date {
 	font-size: 14px;
 }

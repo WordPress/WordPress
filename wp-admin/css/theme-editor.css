@@ -23,7 +23,7 @@ h3#bordertitle {
 }
 
 #templateside h4 {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 #templateside ol, #templateside ul {
@@ -33,7 +33,7 @@ h3#bordertitle {
 }
 
 #templateside ol li, #templateside ul li {
-	margin: 1px 0px;
+	margin: 1px 0;
 }
 
 #themeselector {
@@ -58,7 +58,7 @@ h3#bordertitle {
 
 div.bordertitle h2 {
 	border: none;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 div.tablenav {

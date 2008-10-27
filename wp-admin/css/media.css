@@ -63,6 +63,7 @@ th { position: relative; }
 	padding: 0 0 0 28px;
 	margin: 0 1em 0 0;
 }
+
 .image-align-none-label {
 	background: url(../images/align-none.png) no-repeat center left;
 }
@@ -86,15 +87,18 @@ th { position: relative; }
 tr.image-size td {
 	width: 460px;
 }
+
 tr.image-size div.image-size-item {
 	float: left;
 	width: 25%;
 	margin: 0;
 }
+
 tr.image-size label {
 	display: inline;
 	margin: 0 0 0 1em;
 }
+
 .pinkynail {
 	max-width: 40px;
 	max-height: 40px;
@@ -103,18 +107,21 @@ tr.image-size label {
 .filename.original {
 	float: left;
 }
+
 .crunching {
 	display: block;
 	line-height: 32px;
 	text-align: right;
 	margin-right: 5px;
 }
+
 button.dismiss {
 	position: absolute;
 	top: 5px;
 	right: 5px;
 	z-index: 4;
 }
+
 .file-error {
 	margin: 0 0 5px 50px;
 	font-weight: bold;
@@ -122,13 +129,14 @@ button.dismiss {
 
 .progress {
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	width: 623px;
 	height: 36px;
 }
+
 .bar {
-	width: 0px;
+	width: 0;
 	height: 100%;
 	border-right-width: 3px;
 	border-right-style: solid;
@@ -142,6 +150,7 @@ button.dismiss {
 	max-width: 128px;
 	max-height: 128px;
 }
+
 .media-item .pinkynail {
 	float: left;
 	margin: 2px;
@@ -152,6 +161,7 @@ button.dismiss {
 thead.media-item-info tr {
 	background-color: transparent;
 }
+
 thead.media-item-info th, thead.media-item-info td {
 	border: none;
 	margin: 0;
@@ -164,33 +174,37 @@ thead.media-item-info th, thead.media-item-info td {
 .describe.startopen, .describe.startclosed {
 	display: none;
 }
+
 abbr.required {
 	text-decoration: none;
 	border: none;
 }
+
 .describe label {
 	display: inline;
 }
+
 .describe td {
 	vertical-align: middle;
 }
+
 .describe td.A1 {
 	width: 132px;
 }
+
 .describe input[type="text"], .describe textarea {
 	width: 460px;
 }
+
 .describe-toggle-on, .describe-toggle-off {
 	display: block;
 	line-height: 36px;
 	float: right;
 	margin-right: 20px;
 }
+
 .describe-toggle-off {
 	display: none;
-}
-
-.clickmask {
 }
 
 .hidden {
@@ -214,9 +228,11 @@ abbr.required {
 	font-style: italic;
 	font-weight: normal;
 }
+
 #media-upload tr.image-size td.field {
 	text-align: center;
 }
+
 #media-upload #media-items {
 	border-width: 1px;
 	border-style: solid;
@@ -243,6 +259,7 @@ abbr.required {
 	overflow: hidden;
 	max-width: 430px;
 }
+
 #media-upload .describe {
 	border-top-width: 1px;
 	border-top-style: solid;
@@ -251,13 +268,16 @@ abbr.required {
 	clear: both;
 	cursor: default;
 }
+
 #media-upload .describe th.label {
 	padding-top: .5em;
 	text-align: left;
 }
+
 #media-upload tr.align td.field {
 	text-align: center;
 }
+
 #media-upload tr.image-size {
 	margin-bottom: 1em;
 	height: 3em;
@@ -272,10 +292,10 @@ abbr.required {
 }
 
 #filter .tablenav select {
-	border-style:solid;
-	border-width:1px;
-	padding:2px;
-	vertical-align:top;
+	border-style: solid;
+	border-width: 1px;
+	padding: 2px;
+	vertical-align: top;
 }
 
 #media-upload a.delete,
@@ -295,7 +315,7 @@ abbr.required {
 }
 
 .menu_order_input {
-	border: 1px solid #DDDDDD;
+	border: 1px solid #ddd;
 	font-size: 10px;
 	padding: 1px;
 	width: 23px;
@@ -309,8 +329,8 @@ abbr.required {
 }
 
 #media-upload th.order-head {
-	 width: 25%;
-	 text-align: center;
+	width: 25%;
+	text-align: center;
 }
 
 #media-upload .widefat {
