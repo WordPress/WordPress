@@ -199,7 +199,7 @@ $structures = array(
 <?php do_settings_sections('permalink'); ?>
 
 <p class="submit">
-	<input type="submit" name="submit" class="button" value="<?php _e('Save Changes') ?>" />
+	<input type="submit" name="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 </p>
   </form>
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>

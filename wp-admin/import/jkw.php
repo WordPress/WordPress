@@ -119,7 +119,7 @@ class JeromesKeyword_Import {
 
 		echo '<form action="admin.php?import=jkw&amp;step='.($precheck? 2:6).'" method="post">';
 		wp_nonce_field('import-jkw');
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'.__('Next').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
@@ -152,7 +152,7 @@ class JeromesKeyword_Import {
 		}
 		echo '<form action="admin.php?import=jkw&amp;step='.($precheck? 4:5).'" method="post">';
 		wp_nonce_field('import-jkw');
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Next').'" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" class="button" value="'.__('Next').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}

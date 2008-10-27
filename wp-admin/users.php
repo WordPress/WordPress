@@ -474,7 +474,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 </table>
 <p class="submit">
 	<?php echo $referer; ?>
-	<input name="adduser" type="submit" id="addusersub" value="<?php _e('Add User') ?>" />
+	<input name="adduser" type="submit" id="addusersub" class="button" value="<?php _e('Add User') ?>" />
 </p>
 </form>
 

@@ -305,7 +305,7 @@ require_once( 'admin-header.php' ); ?>
 		<p class="submit">
 			<input type="hidden" id='sidebar' name='sidebar' value="<?php echo $sidebar; ?>" />
 			<input type="hidden" id="generated-time" name="generated-time" value="<?php echo time() - 1199145600; // Jan 1, 2008 ?>" />
-			<input type="submit" name="save-widgets" value="<?php _e( 'Save Changes' ); ?>" />
+			<input type="submit" name="save-widgets" class="button" value="<?php _e( 'Save Changes' ); ?>" />
 <?php
 			wp_nonce_field( 'edit-sidebar_' . $sidebar );
 ?>
@@ -320,4 +320,5 @@ require_once( 'admin-header.php' ); ?>
 <?php do_action( 'sidebar_admin_page' ); ?>
 
 <?php require_once( 'admin-footer.php' ); ?>
+
 

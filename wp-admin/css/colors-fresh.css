@@ -217,25 +217,10 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	color: #666;
 }
 
-.submit input,
-#login form .submit input,
-div.dashboard-widget-submit input,
-#edit-slug-buttons a.save {
-	background-color: #e5e5e5;
-	color: #246;
-	border-color: #80b5d0;
-}
-
 .button {
 	border-color: #DCDCDC;
 	color: #464646;
 	text-shadow: #FFF 0 1px 0;
-}
-
-.button-primary {
-	border-color: #21759B;
-	color: #FFF;
-	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
 }
 
 .button-secondary {
@@ -249,15 +234,22 @@ div.dashboard-widget-submit input,
 	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
 }
 
+.button-primary {
+	border-color: #21759B;
+	color: #FFF;
+	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
+}
+
 .button[disabled], .button:disabled {
 	background-color: #999;
 }
 
-.submit input:hover, .button:hover, #edit-slug-buttons a.save:hover {
+.button:hover,
+#edit-slug-buttons a.save:hover {
 	border-color: #535353;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover, #wphead #viewsite a:hover,
+.button:hover, .button-secondary:hover, #wphead #viewsite a:hover,
 #adminmenu a:hover, #adminmenu ul.wp-submenu a:hover, #the-comment-list .comment a:hover,
 #rightnow a:hover, a:hover, .subsubsub a:hover, .subsubsub a.current:hover,
 #login form .submit input:hover, div.dashboard-widget-submit input:hover,
@@ -266,13 +258,14 @@ div.dashboard-widget-submit input,
 	color: #d54e21;
 }
 
-.button-primary:hover {
-	border-color: #156079; 
-}
-
 .button-secondary:hover,
 #login form .submit input:hover {
 	border-color: #328ab2;
+}
+
+.button-primary:hover {
+	border-color: #156079;
+	background-image: inherit;
 }
 
 #side-info-column #category-tabs .ui-tabs-selected a {

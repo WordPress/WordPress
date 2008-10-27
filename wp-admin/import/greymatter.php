@@ -66,7 +66,7 @@ class GM_Import {
 </tr>
 </table>
 </p>
-<p><input type="submit" name="submit" value="<?php _e('Start Importing') ?>" class="button" /></p>
+<p class="submit"><input type="submit" name="submit" class="button" value="<?php _e('Start Importing') ?>" /></p>
 </form>
 <?php
 		$this->footer();
