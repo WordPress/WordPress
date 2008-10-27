@@ -279,6 +279,10 @@ table#availablethemes td.bottom {
 	border-radius: 11px;
 }
 
+a.button {
+	padding: 4px 8px;
+}
+
 #doaction,
 #doaction2 {
 	margin-right: 8px;
