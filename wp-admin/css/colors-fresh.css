@@ -290,12 +290,8 @@ div.dashboard-widget-submit input,
 }
 
 .submitbox .submitdelete {
-	border-bottom-color: #999;
-}
-
-#normal-sortables .submitbox .submitdelete {
-	color: #000;
-	border-bottom-color: #999;
+	color: #f00;
+	border-bottom-color: #f00;
 }
 
 .submitbox .submitdelete:hover,

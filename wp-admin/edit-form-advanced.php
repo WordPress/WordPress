@@ -70,15 +70,15 @@ function post_submit_meta_box($post) {
 ?>
 <div class="submitbox" id="submitpost">
 
-<div class="inside-submitbox">
+<!--<div class="inside-submitbox">-->
 
 <div id="minor-publishing">
 <div id="misc-publishing-actions">
 <?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
-	<div class="insidebox" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
+	<div class="misc-pub-section" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
 <?php } ?>
 
-<div class="insidebox" id="visibility">
+<div class="misc-pub-section" id="visibility">
 <?php _e('Visibility:'); ?> <?php _e('Public'); // TODO: dropdown ?>
 </div>
 
@@ -102,14 +102,14 @@ if ( 0 != $post->ID ) {
 }
 ?>
 <?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
-<div class="insidebox curtime">
+<div class="misc-pub-section curtime">
 	<span id="timestamp"><?php printf($stamp, $date, $time); ?></span>
 	&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
 </div>
 <?php endif; ?>
 
-<div class="insidebox"><label for="post_status"><?php _e('Status:') ?></label>
+<div class="misc-pub-section misc-pub-section-last"><label for="post_status"><?php _e('Status:') ?></label>
 <strong><span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
@@ -168,7 +168,7 @@ if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edi
 
 <div id="minor-publishing-actions">
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status )
-	$savebtn = attribute_escape( __('Save') );
+	$savebtn = attribute_escape( __('Update Post') );
 else
 	$savebtn = attribute_escape( __('Save Draft') );
 ?>
@@ -182,7 +182,7 @@ else
 </div>
 <div class="clear"></div>
 </div>
-</div>
+<!--</div>-->
 
 <div id="major-publishing-actions">
 <?php do_action('post_submitbox_start'); ?>
@@ -197,13 +197,14 @@ if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->ID ) { ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
-	<input name="publish" type="submit" class="button" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
+	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
 <?php else : ?>
-	<input name="publish" type="submit" class="button" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
+	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
 <?php } ?>
 </div>
 </div>
+
 <div class="clear"></div>
 </div>
 

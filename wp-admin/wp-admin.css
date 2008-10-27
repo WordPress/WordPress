@@ -208,8 +208,18 @@ table#availablethemes td.bottom {
 }
 
 #misc-publishing-actions {
-	width: 70%;
+	width: 69%;
 	float: left;
+	border-right: 1px solid #ddd;
+}
+
+.misc-pub-section {
+	padding: 6px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.misc-pub-section-last {
+	border-bottom: 0;
 }
 
 #minor-publishing-actions {
@@ -218,26 +228,37 @@ table#availablethemes td.bottom {
 	text-align: right;
 }
 
+.preview {
+	float: right;
+	padding: 2px 8px !important;
+	top: 10px;
+	position: relative;
+}
+
 #minor-publishing {
+	border-bottom: 1px solid #ddd;
 }
 
 #major-publishing-actions {
-	padding: 0 3px;
+	background: #eaf2fa;
+	padding-top: 8px;
 	clear: both;
-	height: 30px;
-	line-height: 30px;
 }
 
 #delete-action {
+	line-height: 25px;
+	vertical-align: middle;
 	text-align: left;
 	float: left;
 	width: 30%;
+	background: #eaf2fa;
 }
 
 #publishing-action {
 	text-align: right;
 	float: right;
 	width: 70%;
+	background: #eaf2fa;
 }
 
 .side-info {
@@ -793,7 +814,6 @@ ul#adminmenu li.write-new-button a {
 	border-style: none none solid;
 }
 
-
 #adminmenu .wp-submenu {
 	margin: 0;
 	position: relative;
@@ -950,7 +970,6 @@ ul#adminmenu li.write-new-button a {
 }
 /* end side admin menu */
 
-
 /* 2.6 */
 #adminmenu li a #awaiting-mod, #sidemenu li a #update-plugins {
 	position: absolute;
@@ -965,9 +984,6 @@ ul#adminmenu li.write-new-button a {
 #adminmenu li a .count-0, #sidemenu li a .count-0 {
 	display: none;
 }
-
-
-
 
 .post-com-count-wrapper {
 	min-width: 22px;
@@ -1254,19 +1270,6 @@ table.form-table td .updated {
 	width: 99.5%;
 }
 
-#normal-sortables .inside-submitbox .insidebox {
-	float: left;
-	margin: 5px 12px 5px 0;
-}
-
-#normal-sortables .submit #publish {
-	margin: 8px 0 0 12px;
-}
-
-#normal-sortables .inside-submitbox {
-	/* float: left; */
-}
-
 #trackback_url {
 	width: 99%;
 }
@@ -1329,7 +1332,6 @@ table.form-table td .updated {
 	border: none;
 }
 
-#submitdiv div.inside,
 #pagesubmitdiv div.inside,
 #linksubmitdiv div.inside,
  div.inside {
@@ -1575,16 +1577,11 @@ table.form-table td .updated {
 	margin: 0;
 }
 
-
-
 /*
 #side-info-column #side-sortables {
 	height: 100%;
 }
 */
-
-
-
 
 .submitbox .submit {
 	text-align: left;
@@ -2064,7 +2061,6 @@ fieldset {
 	margin: 0 0 0 7.5em;
 	padding: 5px;
 }
-
 
 /* media popup 0819 */
 #sidemenu {
@@ -2564,7 +2560,6 @@ fieldset {
 	text-indent: -9999px;
 	width: 10px;
 }
-
 
 /* Media library */
 #wpbody-content #media-items .describe {
