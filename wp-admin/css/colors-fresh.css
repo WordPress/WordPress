@@ -807,8 +807,12 @@ table.diff .diff-addedline ins {
 }
 
 #screen-options-wrap {
-	background-color: #E4F2FD;
-	border-color: #c6d9e9;
+	background-color: #f1f1f1;
+	border-color: #dfdfdf;
+}
+
+#screen-options a.show-settings {
+	color: #606060;
 }
 
 #replydiv,

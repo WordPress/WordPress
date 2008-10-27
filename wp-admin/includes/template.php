@@ -3090,4 +3090,31 @@ function _post_states($post) {
 	}
 }
 
+function screen_options($screen, $metabox = false) {
+?>
+<div id="screen-options">
+	<div id="screen-options-wrap" class="hidden">
+	<h5><?php _e('Show on screen') ?></h5>
+	<form id="adv-settings" action="" method="get">
+	<div class="metabox-prefs">
+<?php 
+	if ( $metabox ) {
+		meta_box_prefs($screen);
+	} else {
+		manage_columns_prefs($screen);
+		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); 
+	}
+?>
+	<br class="clear" />
+	</div></form>
+	</div>
+
+	<div id="screen-options-link-wrap" class="hide-if-no-js screen-options-closed">
+	<a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
+	<a href="#screen-options" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
+	</div>
+</div>
+<?php
+}
+
 ?>

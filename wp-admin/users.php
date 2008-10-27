@@ -237,15 +237,7 @@ default:
 		}
 	endif; ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php manage_columns_prefs('user') ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('user') ?>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">
@@ -312,7 +304,7 @@ unset($role_links);
 <p class="search-box">
 	<label class="hidden" for="user-search-input"><?php _e( 'Search Users' ); ?>:</label>
 	<input type="text" class="search-input" id="user-search-input" name="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" />
-	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button" />
+	<input type="submit" value="<?php _e( 'Search Users' ); ?>" class="button-primary" />
 </p>
 </form>
 

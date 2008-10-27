@@ -349,15 +349,7 @@ add_meta_box('revisionsdiv', __('Page Revisions'), 'page_revisions_meta_box', 'p
 endif;
 ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php meta_box_prefs('page') ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('page', 1); ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 

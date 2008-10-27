@@ -13,7 +13,6 @@
 
 #wpbody-content {
 	overflow: hidden;
-	padding-top: 10px;
 }
 
 #adminmenu {
@@ -163,10 +162,8 @@ h6 {
 
 .subsubsub {
 	list-style: none;
-	margin: 0;
+	margin: 0 0 5px;
 	padding: 0;
-	position: relative;
-	top: -5px;
 	white-space: nowrap;
 	font-size: 12px;
 	float: left;
@@ -296,10 +293,9 @@ th.check-column + th, th.check-column + td {
 }
 
 .wrap h2 {
-	clear: both;
 	font: italic normal normal 24px/29px Georgia, "Times New Roman", Times, serif;
-	margin: 5px 0 10px;
-	padding: 8px 15px 4px 0;
+	margin: 0;
+	padding: 20px 15px 10px 0;
 }
 
 .wrap h2.long-header {

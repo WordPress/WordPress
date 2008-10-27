@@ -1019,6 +1019,7 @@ strong .post-com-count {
 	border-radius: 3px;
 }
 
+/*
 #wpbody ul.wp-menu {
 	list-style: none;
 	margin: 10px 0;
@@ -1042,7 +1043,7 @@ strong .post-com-count {
 	text-decoration: none;
 	color: #666;
 }
-
+*/
 /* end menu stuff */
 
 /* Admin Footer */
@@ -1408,11 +1409,6 @@ table.form-table td .updated {
 	text-decoration: underline;
 }
 
-.wrap h2.floatedh2 {
-	float: left;
-	margin: 5px 0;
-}
-
 #poststuff h2 {
 	margin-top: 20px;
 	font-size: 1.5em;
@@ -1752,11 +1748,15 @@ p#big-add-button .button {
 
 p.search-box {
 	float: right;
-	margin: -10px 0 0;
+	margin: -5px 0 0;
 }
 
-.topmargin p.search-box {
-	margin-top: 25px;
+#wpbody-content .nosubsub p.search-box {
+	margin-top: -12px;
+}
+
+#wpbody-content .nosubsub h2 {
+	padding-bottom: 0;
 }
 
 .search-input {
@@ -2258,39 +2258,46 @@ fieldset {
 }
 
 /* show/hide settings */
-#screen-options-link-wrap {
-	background: url( images/screen-options-left.gif ) no-repeat 0 0;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	height: 23px;
-	position: absolute;
-	right: 100px;
-	top: 46px;
-	padding: 0 0 0 8px;
-}
 
 #screen-options {
-	vertical-align: middle;
-	height: 23px;
-	line-height: 23px;
-	font-size: 11px;
-	background: url( images/screen-options-right.gif ) no-repeat 100% 0;
-	display: block;
-	padding-right: 20px;
+	position: relative;
+	clear: both;
 }
 
-.screen-options-open #screen-options {
-	background: url( images/screen-options-right-up.gif ) no-repeat 100% 0;
+#wpbody {
+	clear: both;
+}
+
+#screen-options-link-wrap {
+	float: right;
+	background: transparent url( images/screen-options-left.gif ) no-repeat 0 0;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	height: 23px;
+	padding: 0;
+	position: relative;
+	right: 100px;
+	top: -1px;
 }
 
 #screen-options a.show-settings {
-	color: #666;
 	text-decoration: none;
 	z-index: 1;
-	float: left;
-	margin-left: -8px;
-	padding-left: 8px;
-	margin-right: -20px;
-	padding-right: 20px;
+	padding: 0 18px 0 8px;
+	height: 23px;
+	line-height: 23px;
+	font-size: 11px;
+	display: block;
+	background-repeat: no-repeat;
+	background-position: right top;
+	background-color: tarnsparent;
+}
+
+#screen-options a#show-settings-link {
+	background-image: url( images/screen-options-right.gif );
+}
+
+#screen-options a#hide-settings-link {
+	background-image: url( images/screen-options-right-up.gif );
 }
 
 #screen-options a.show-settings:hover {
@@ -2307,7 +2314,7 @@ fieldset {
 	border-style: none solid solid;
 	border-top: 0 none;
 	border-width: 0 1px 1px;
-	margin: -10px 15px 10px;
+	margin: 0 15px;
 	-moz-border-radius: 0 0 4px 4px;
 	-webkit-border-bottom-left-radius: 4px;
 	-webkit-border-bottom-right-radius: 4px;

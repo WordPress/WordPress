@@ -74,15 +74,7 @@ switch ($order_by) {
 		break;
 } ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php manage_columns_prefs('link') ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('link') ?>
 
 <?php
 if ( isset($_GET['deleted']) ) {
@@ -94,14 +86,14 @@ if ( isset($_GET['deleted']) ) {
 }
 ?>
 
-<div class="wrap">
-<h2 class="floatedh2"><?php echo wp_specialchars( $title ); ?></h2> 
+<div class="wrap nosubsub">
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
-<form class="search-form topmargin" action="" method="get">
+<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="link-search-input"><?php _e( 'Search Links' ); ?>:</label>
 	<input type="text" class="search-input" id="link-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button" />
+	<input type="submit" value="<?php _e( 'Search Links' ); ?>" class="button-primary" />
 </p>
 </form>
 <br class="clear" />

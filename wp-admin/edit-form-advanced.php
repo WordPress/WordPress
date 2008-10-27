@@ -459,14 +459,7 @@ endif;
 
 ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php meta_box_prefs('post') ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('post', 1) ?>
 
 <?php if ( $notice ) : ?>
 <div id="notice" class="error"><p><?php echo $notice ?></p></div>

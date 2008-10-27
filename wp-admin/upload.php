@@ -145,15 +145,7 @@ if ( is_singular() ) {
 
 require_once('admin-header.php'); ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php manage_columns_prefs('media') ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('media') ?>
 
 <?php
 if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {

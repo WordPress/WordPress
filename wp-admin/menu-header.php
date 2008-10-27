@@ -129,7 +129,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 
 ?>
 
-<ul id="adminmenu" class="wp-menu">
+<ul id="adminmenu">
 
 <?php
 

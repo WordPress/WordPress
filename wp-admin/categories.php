@@ -131,15 +131,7 @@ $messages[4] = __('Category not added.');
 $messages[5] = __('Category not updated.');
 ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php manage_columns_prefs('category') ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('category') ?>
 
 <?php
 if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
@@ -147,8 +139,8 @@ if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<div class="wrap">
-<h2 class="floatedh2"><?php echo wp_specialchars( $title ); ?></h2> 
+<div class="wrap nosubsub">
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form class="search-form topmargin" action="" method="get">
 <p class="search-box">

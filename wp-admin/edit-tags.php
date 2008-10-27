@@ -129,25 +129,17 @@ $messages[4] = __('Tag not added.');
 $messages[5] = __('Tag not updated.');
 $messages[6] = __('Tags deleted.'); ?>
 
-<div id="screen-options-wrap" class="hidden">
-<h5><?php _e('Show on screen') ?></h5>
-<form id="adv-settings" action="" method="get">
-<div class="metabox-prefs">
-<?php manage_columns_prefs('tag') ?>
-<?php wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); ?>
-<br class="clear" />
-</div></form>
-</div>
+<?php screen_options('tag') ?>
 
 <?php if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>
 <div id="message" class="updated fade"><p><?php echo $messages[$msg]; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<div class="wrap">
-<h2 class="floatedh2"><?php echo wp_specialchars( $title ); ?></h2> 
+<div class="wrap nosubsub">
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
-<form class="search-form topmargin" action="" method="get">
+<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="tag-search-input"><?php _e( 'Search Tags' ); ?>:</label>
 	<input type="text" class="search-input" id="tag-search-input" name="s" value="<?php _admin_search_query(); ?>" />

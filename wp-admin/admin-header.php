@@ -73,22 +73,12 @@ unset($hook_suffixes, $hook_suffix);
 <div id="wpcontent">
 <div id="wphead">
 <?php
-$settings_pages = array( 'categories.php', 'edit.php', 'edit-comments.php', 'edit-form-advanced.php', 'edit-link-categories.php', 'edit-link-form.php', 'edit-page-form.php', 'edit-tags.php', 'link-manager.php', 'upload.php', 'users.php', 'edit-pages.php', 'post-new.php', 'post.php', 'page-new.php', 'page.php', 'index.php' );
 $blog_name = get_bloginfo('name', 'display');
 if ( '' == $blog_name )
 	$blog_name = '&nbsp;';
 ?>
 
-<img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a>
-<?php if ( false === strpos($_SERVER['REQUEST_URI'], 'page=') && in_array( $pagenow, $settings_pages ) ) { ?>
-
-<span id="screen-options-link-wrap" class="hide-if-no-js screen-options-closed">
-<span id="screen-options">
-<a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
-<a href="#screen-options" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
-</span>
-</span>
-<?php } ?></h1>
+<img id="logo50" src="images/wp-logo.gif" alt="" /> <h1><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a></h1>
 
 <div id="wphead-info">
 <div id="user_info">
@@ -98,13 +88,11 @@ if ( '' == $blog_name )
 
 <?php favorite_actions(); ?>
 </div>
-
 </div>
 
-<?php
-require(ABSPATH . 'wp-admin/menu-header.php');
-?>
 <div id="wpbody">
+<?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
+
 <div id="wpbody-content">
 <?php
 do_action('admin_notices');
