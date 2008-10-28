@@ -194,8 +194,7 @@ function get_comments( $args = '' ) {
 	else
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
 
-	if ( 'ASC' != $order )
-		$order = 'DESC';
+	$order = ( 'ASC' == $order ) ? 'ASC' : 'DESC';
 
 	$orderby = 'comment_date_gmt';  // Hard code for now
 
@@ -484,6 +483,9 @@ function &separate_comments(&$comments) {
  * Calculate the total number of comment pages.
  *
  * @since 2.7.0
+ * @uses get_query_var() Used to fill in the default for $per_page parameter.
+ * @uses get_option() Used to fill in defaults for parameters.
+ * @uses Walker_Comment
  *
  * @param array $comments Optional array of comment objects.  Defaults to $wp_query->comments
  * @param int $per_page Optional comments per page.
@@ -523,21 +525,20 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  * Calculate what page number a comment will appear on for comment paging.
  *
  * @since 2.7.0
+ * @uses get_comment() Gets the full comment of the $comment_ID parameter.
+ * @uses get_option() Get various settings to control function and defaults.
+ * @uses get_page_of_comment() Used to loop up to top level comment.
  *
  * @param int $comment_ID Comment ID.
  * @param int $per_page Optional comments per page.
  * @return int|null Comment page number or null on error.
  */
 function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) {
-	$comment = get_comment( $comment_ID );
-
-	if ( !$comment || 1 != $comment->comment_approved )
+	if ( !$comment = get_comment( $comment_ID ) )
 		return;
 
 	if ( !get_option('page_comments') )
 		return 1;
-
-	$comments = array_reverse( get_comments( array( 'post_id' => $comment->comment_post_ID ) ) );
 
 	if ( null === $per_page )
 		$per_page = get_option('comments_per_page');
@@ -546,13 +547,10 @@ function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) 
 		$threaded = get_option('thread_comments');
 
 	// Find this comment's top level parent if threading is enabled
-	if ( $threaded && 0 != $comment->comment_parent ) {
-		while ( 0 != $comment->comment_parent ) {
-			$comment = get_comment( $comment->comment_parent );
-			if ( !$comment || 1 != $comment->comment_approved )
-				return;
-		}
-	}
+	if ( $threaded && 0 != $comment->comment_parent )
+		return get_page_of_comment( $comment->comment_parent, $per_page, $threaded );
+
+	$comments = get_comments( array( 'post_id' => $comment->comment_post_ID, 'order' => 'ASC' ) );
 
 	// Start going through the comments until we find what page number the above top level comment is on
 	$page = 1;
