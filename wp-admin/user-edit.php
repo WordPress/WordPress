@@ -239,7 +239,7 @@ do_action('personal_options', $profileuser);
 <table class="form-table">
 	<tr>
 		<th><label for="user_login"><?php _e('Username'); ?></label></th>
-		<td><input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" /> <?php _e('Your username cannot be changed'); ?></td>
+		<td><input type="text" name="user_login" id="user_login" value="<?php echo $profileuser->user_login; ?>" disabled="disabled" class="regular-text" /> <?php _e('Your username cannot be changed.'); ?></td>
 	</tr>
 
 <?php if ( !$is_profile_page ): ?>
@@ -269,17 +269,17 @@ echo $role_list . '</select></td></tr>';
 
 <tr>
 	<th><label for="first_name"><?php _e('First name') ?></label></th>
-	<td><input type="text" name="first_name" id="first_name" value="<?php echo $profileuser->first_name ?>" /></td>
+	<td><input type="text" name="first_name" id="first_name" value="<?php echo $profileuser->first_name ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="last_name"><?php _e('Last name') ?></label></th>
-	<td><input type="text" name="last_name" id="last_name" value="<?php echo $profileuser->last_name ?>" /></td>
+	<td><input type="text" name="last_name" id="last_name" value="<?php echo $profileuser->last_name ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="nickname"><?php _e('Nickname') ?></label></th>
-	<td><input type="text" name="nickname" id="nickname" value="<?php echo $profileuser->nickname ?>" /></td>
+	<td><input type="text" name="nickname" id="nickname" value="<?php echo $profileuser->nickname ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
@@ -311,27 +311,27 @@ echo $role_list . '</select></td></tr>';
 <table class="form-table">
 <tr>
 	<th><label for="email"><?php _e('E-mail') ?></label></th>
-	<td><input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" /> <?php _e('Required'); ?></td>
+	<td><input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" class="regular-text" /> <?php _e('Required.');?></td>
 </tr>
 
 <tr>
 	<th><label for="url"><?php _e('Website') ?></label></th>
-	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" /></td>
+	<td><input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="aim"><?php _e('AIM') ?></label></th>
-	<td><input type="text" name="aim" id="aim" value="<?php echo $profileuser->aim ?>" /></td>
+	<td><input type="text" name="aim" id="aim" value="<?php echo $profileuser->aim ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="yim"><?php _e('Yahoo IM') ?></label></th>
-	<td><input type="text" name="yim" id="yim" value="<?php echo $profileuser->yim ?>" /></td>
+	<td><input type="text" name="yim" id="yim" value="<?php echo $profileuser->yim ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
 	<th><label for="jabber"><?php _e('Jabber / Google Talk') ?></label></th>
-	<td><input type="text" name="jabber" id="jabber" value="<?php echo $profileuser->jabber ?>" /></td>
+	<td><input type="text" name="jabber" id="jabber" value="<?php echo $profileuser->jabber ?>" class="regular-text" /></td>
 </tr>
 </table>
 
@@ -390,8 +390,8 @@ if ( $show_password_fields ) :
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-	<input type="submit" class="button" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User') ?>" name="submit" />
- </p>
+	<input type="submit" class="button-primary" value="<?php $is_profile_page? _e('Update Profile') : _e('Update User') ?>" name="submit" />
+</p>
 </form>
 </div>
 <?php

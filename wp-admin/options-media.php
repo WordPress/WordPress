@@ -56,9 +56,9 @@ include('admin-header.php');
 <th scope="row"><?php _e('Thumbnail size') ?></th>
 <td>
 <label for="thumbnail_size_w"><?php _e('Width'); ?></label>
-<input name="thumbnail_size_w" type="text" id="thumbnail_size_w" value="<?php form_option('thumbnail_size_w'); ?>" size="6" />
+<input name="thumbnail_size_w" type="text" id="thumbnail_size_w" value="<?php form_option('thumbnail_size_w'); ?>" class="small-text" />
 <label for="thumbnail_size_h"><?php _e('Height'); ?></label>
-<input name="thumbnail_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('thumbnail_size_h'); ?>" size="6" /><br />
+<input name="thumbnail_size_h" type="text" id="thumbnail_size_h" value="<?php form_option('thumbnail_size_h'); ?>" class="small-text" /><br />
 <input name="thumbnail_crop" type="checkbox" id="thumbnail_crop" value="1" <?php checked('1', get_option('thumbnail_crop')); ?>/>
 <label for="thumbnail_crop"><?php _e('Crop thumbnail to exact dimensions (normally thumbnails are proportional)'); ?></label>
 </td>
@@ -68,9 +68,9 @@ include('admin-header.php');
 <th scope="row"><?php _e('Medium size') ?></th>
 <td><fieldset><legend class="hidden"><?php _e('Medium size') ?></legend>
 <label for="medium_size_w"><?php _e('Max Width'); ?></label>
-<input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" size="6" />
+<input name="medium_size_w" type="text" id="medium_size_w" value="<?php form_option('medium_size_w'); ?>" class="small-text" />
 <label for="medium_size_h"><?php _e('Max Height'); ?></label>
-<input name="medium_size_h" type="text" id="medium_size_h" value="<?php form_option('medium_size_h'); ?>" size="6" />
+<input name="medium_size_h" type="text" id="medium_size_h" value="<?php form_option('medium_size_h'); ?>" class="small-text" />
 </fieldset></td>
 </tr>
 
@@ -78,9 +78,9 @@ include('admin-header.php');
 <th scope="row"><?php _e('Large size') ?></th> 
 <td><fieldset><legend class="hidden"><?php _e('Large size') ?></legend> 
 <label for="large_size_w"><?php _e('Max Width'); ?></label> 
-<input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" size="6" /> 
+<input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" class="small-text" /> 
 <label for="large_size_h"><?php _e('Max Height'); ?></label> 
-<input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" size="6" /> 
+<input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" class="small-text" /> 
 </fieldset></td> 
 </tr> 
  

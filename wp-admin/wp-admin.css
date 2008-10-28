@@ -1193,6 +1193,18 @@ html, body {
 	line-height: 1px;
 }
 
+textarea.large-text {
+	width: 99%;
+}
+
+.form-table input.regular-text {
+	width: 325px;
+}
+
+.form-table input.small-text {
+	width: 40px;
+}
+
 #profile-page .form-table textarea {
 	width: 500px;
 	margin-bottom: 6px;

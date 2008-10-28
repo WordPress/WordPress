@@ -55,7 +55,7 @@ include('admin-header.php');
 
 <label for="close_comments_for_old_posts">
 <input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked('1', get_option('close_comments_for_old_posts')); ?> />
-<?php printf( __('Automatically close comments on articles older than %s days'), '</label><input name="close_comments_days_old" type="text" id="close_comments_days_old" value="' . attribute_escape(get_option('close_comments_days_old')) . '" size="3" />') ?>
+<?php printf( __('Automatically close comments on articles older than %s days'), '</label><input name="close_comments_days_old" type="text" id="close_comments_days_old" value="' . attribute_escape(get_option('close_comments_days_old')) . '" class="small-text" />') ?>
 <br />
 <label for="thread_comments">
 <input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked('1', get_option('thread_comments')); ?> />
@@ -84,7 +84,7 @@ $default_comments_page .= '>' . __('last') . '</option><option value="oldest"';
 if ( 'oldest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
 $default_comments_page .= '>' . __('first') . '</option></select>';
 
-printf( __('Break comments into pages with %1$s comments per page and the %2$s page displayed by default'), '</label><input name="comments_per_page" type="text" id="comments_per_page" value="' . attribute_escape(get_option('comments_per_page')) . '" size="3" />', $default_comments_page );
+printf( __('Break comments into pages with %1$s comments per page and the %2$s page displayed by default'), '</label><input name="comments_per_page" type="text" id="comments_per_page" value="' . attribute_escape(get_option('comments_per_page')) . '" class="small-text" />', $default_comments_page );
 
 ?>
 <br />
@@ -126,11 +126,11 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <tr valign="top">
 <th scope="row"><?php _e('Comment Moderation') ?></th>
 <td><fieldset><legend class="hidden"><?php _e('Comment Moderation') ?></legend>
-<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_option('comment_max_links'). '" />' ) ?></label></p>
+<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" value="' . get_option('comment_max_links'). '" class="small-text" />' ) ?></label></p>
 
 <p><label for="moderation_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="edit-comments.php?comment_status=moderated">moderation queue</a>. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></label></p>
 <p>
-<textarea name="moderation_keys" cols="60" rows="10" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('moderation_keys'); ?></textarea>
+<textarea name="moderation_keys" rows="10" id="moderation_keys" class="large-text code"><?php form_option('moderation_keys'); ?></textarea>
 </p>
 </fieldset></td>
 </tr>
@@ -139,7 +139,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <td><fieldset><legend class="hidden"><?php _e('Comment Blacklist') ?></legend>
 <p><label for="blacklist_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></label></p>
 <p>
-<textarea name="blacklist_keys" cols="60" rows="10" id="blacklist_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('blacklist_keys'); ?></textarea>
+<textarea name="blacklist_keys" rows="10" id="blacklist_keys" class="large-text code"><?php form_option('blacklist_keys'); ?></textarea>
 </p>
 </fieldset></td>
 </tr>

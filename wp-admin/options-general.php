@@ -57,25 +57,25 @@ include('./admin-header.php');
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="blogname"><?php _e('Blog Title') ?></label></th>
-<td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="45" /></td>
+<td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" class="regular-text" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
-<td><input name="blogdescription" type="text" id="blogdescription"  value="<?php form_option('blogdescription'); ?>" size="45" />
+<td><input name="blogdescription" type="text" id="blogdescription"  value="<?php form_option('blogdescription'); ?>" class="regular-text" />
 <span class="setting-description"><?php _e('In a few words, explain what this blog is about.') ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="siteurl"><?php _e('WordPress address (URL)') ?></label></th>
-<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="45" class="code<?php if ( defined( 'WP_SITEURL' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /></td>
+<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="home"><?php _e('Blog address (URL)') ?></label></th>
-<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" size="45" class="code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> />
+<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" class="regular-text code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> />
 <span class="setting-description"><?php _e('Enter the address here if you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></span></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="admin_email"><?php _e('E-mail address') ?> </label></th>
-<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" size="45" class="code" />
+<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text code" />
 <span class="setting-description"><?php _e('This address is used for admin purposes, like new user notification.') ?></span></td>
 </tr>
 <tr valign="top">
@@ -153,7 +153,7 @@ foreach ( $offset_range as $offset ) {
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom') . ': </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" size="30" /> ' . gmdate( get_option('date_format'), current_time('timestamp') ) . "\n";
+	echo '/> ' . __('Custom') . ': </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" class="small-text" /> ' . gmdate( get_option('date_format'), current_time('timestamp') ) . "\n";
 
 	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') . "</p>\n";
 ?>
@@ -185,7 +185,7 @@ foreach ( $offset_range as $offset ) {
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom') . ': </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" size="30" /> ' . gmdate( get_option('time_format'), current_time('timestamp') ) . "\n";
+	echo '/> ' . __('Custom') . ': </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" class="small-text" /> ' . gmdate( get_option('time_format'), current_time('timestamp') ) . "\n";
 ?>
 	</fieldset>
 </td>

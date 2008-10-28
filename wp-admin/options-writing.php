@@ -26,7 +26,7 @@ include('admin-header.php');
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="default_post_edit_rows"> <?php _e('Size of the post box') ?></label></th>
-<td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em;" />
+<td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" class="small-text" />
 <?php _e('lines') ?></td>
 </tr>
 <tr valign="top">
@@ -97,19 +97,19 @@ endforeach;
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><label for="mailserver_url"><?php _e('Mail Server') ?></label></th>
-<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
+<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" class="regular-text" />
 <label for="mailserver_port"><?php _e('Port') ?></label>
-<input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" size="6" />
+<input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" class="small-text" />
 </td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="mailserver_login"><?php _e('Login Name') ?></label></th>
-<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option('mailserver_login'); ?>" size="40" /></td>
+<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option('mailserver_login'); ?>" class="regular-text" /></td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="mailserver_pass"><?php _e('Password') ?></label></th>
 <td>
-<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option('mailserver_pass'); ?>" size="40" />
+<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option('mailserver_pass'); ?>" class="regular-text" />
 </td>
 </tr>
 <tr valign="top">
@@ -135,7 +135,7 @@ endforeach;
 
 <p><label for="ping_sites"><?php _e('When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="http://codex.wordpress.org/Update_Services">Update Services</a> on the Codex. Separate multiple service <abbr title="Universal Resource Locator">URL</abbr>s with line breaks.') ?></label></p>
 
-<textarea name="ping_sites" id="ping_sites" style="width: 98%;" rows="3" cols="50"><?php form_option('ping_sites'); ?></textarea>
+<textarea name="ping_sites" id="ping_sites" class="large-text" rows="3"><?php form_option('ping_sites'); ?></textarea>
 
 <?php else : ?>
 

@@ -172,7 +172,7 @@ $structures = array(
 			</label>
 		</th>
 		<td>
-			<input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo attribute_escape($permalink_structure); ?>" size="50" />
+			<input name="permalink_structure" id="permalink_structure" type="text" value="<?php echo attribute_escape($permalink_structure); ?>" class="regular-text code" />
 		</td>
 	</tr>
 </table>
@@ -187,11 +187,11 @@ $structures = array(
 <table class="form-table">
 	<tr>
 		<th><label for="category_base"><?php _e('Category base'); ?></label></th>
-		<td><input name="category_base" id="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" /></td>
+		<td><input name="category_base" id="category_base" type="text" value="<?php echo attribute_escape($category_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>
 		<th><label for="tag_base"><?php _e('Tag base'); ?></label></th>
-		<td><input name="tag_base" id="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" /></td>
+		<td><input name="tag_base" id="tag_base" type="text" value="<?php echo attribute_escape($tag_base); ?>" class="regular-text code" /></td>
 	</tr>
 	<?php do_settings_fields('permalink', 'optional'); ?>
 </table>
@@ -206,7 +206,7 @@ $structures = array(
   <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
-	<p><textarea rows="5" style="width: 98%;" name="rules" id="rules"><?php echo wp_specialchars($wp_rewrite->mod_rewrite_rules()); ?></textarea></p>
+	<p><textarea rows="6" class="large-text readonly" name="rules" id="rules" readonly="readonly"><?php echo wp_specialchars($wp_rewrite->mod_rewrite_rules()); ?></textarea></p>
 </form>
 <?php endif; ?>
 
