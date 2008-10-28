@@ -14,13 +14,10 @@ form .input-text-wrap {
 }
 
 form .input-text-wrap input {
-	border: none;
-	outline-color: -moz-use-text-color;
-	outline-style: none;
-	outline-width: medium;
+	border: 0 none;
+	outline: none;
 	padding: 0;
 	width: 99%;
-	border-style: solid;
 	color: #333;
 }
 
@@ -32,9 +29,13 @@ form .textarea-wrap {
 }
 
 form .textarea-wrap textarea {
-	border: 0pt none;
+	border: 0 none;
 	padding: 0;
+	outline: none;
 	width: 99%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 form p.field-tip {
