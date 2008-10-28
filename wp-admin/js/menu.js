@@ -5,7 +5,7 @@ adminMenu = {
 	init : function() {
 		$('#adminmenu a').attr('tabindex', '10');
 		$('#adminmenu div.wp-menu-toggle').click( function() { return adminMenu.toggle( $(this).siblings('ul') ); } );
-		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { adminMenu.fold(); } );
+		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { adminMenu.fold(); setUserSetting( 'mfold', 'f' ); } );
 
 		$('.wp-menu-separator').click(function(){
 			if ( $('#adminmenu').hasClass('folded') ) {
@@ -56,7 +56,7 @@ adminMenu = {
 			$('#adminmenu li.wp-submenu-head').hide();
 			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-menu-open .wp-submenu, #adminmenu div.wp-menu-toggle').show();
 			$('#adminmenu li.wp-has-submenu').unbind().css('width', '');
-			$('#adminmenu li.wp-has-submenu img.wp-menu-image').unbind().dblclick( function() { adminMenu.fold(); } );
+			$('#adminmenu li.wp-has-submenu img.wp-menu-image').unbind().dblclick( function() { adminMenu.fold(); setUserSetting( 'mfold', 'f' ); } );
 			this.restoreMenuState();
 		} else {
 			$('#adminmenu').addClass('folded');
