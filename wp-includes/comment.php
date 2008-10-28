@@ -529,13 +529,15 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  * @return int|null Comment page number or null on error.
  */
 function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) {
-	if ( !$comment = get_comment( $comment_ID ) )
+	$comment = get_comment( $comment_ID );
+
+	if ( !$comment || 1 != $comment->comment_approved )
 		return;
 
 	if ( !get_option('page_comments') )
 		return 1;
 
-	$comments = array_reverse( get_comments( $comment->comment_post_ID ) );
+	$comments = array_reverse( get_comments( array( 'post_id' => $comment->comment_post_ID ) ) );
 
 	if ( null === $per_page )
 		$per_page = get_option('comments_per_page');
@@ -543,10 +545,13 @@ function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) 
 	if ( null === $threaded )
 		$threaded = get_option('thread_comments');
 
-	// Find this comment's top level parent
-	if ( $threaded ) {
-		while ( 0 != $comment->comment_parent )
+	// Find this comment's top level parent if threading is enabled
+	if ( $threaded && 0 != $comment->comment_parent ) {
+		while ( 0 != $comment->comment_parent ) {
 			$comment = get_comment( $comment->comment_parent );
+			if ( !$comment || 1 != $comment->comment_approved )
+				return;
+		}
 	}
 
 	// Start going through the comments until we find what page number the above top level comment is on
