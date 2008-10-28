@@ -16,7 +16,6 @@ switchEditors = {
 				try { this.I('content').style.height = h.ch - 30 + 'px'; } catch(e){};
 		} else {
 			try {
-				this.I('editorcontainer').style.padding = '0px';
 				this.I("quicktags").style.display = "none";
 			} catch(e){};
 			tinyMCE.execCommand("mceAddControl", false, "content");
@@ -100,7 +99,6 @@ switchEditors = {
 		var H = this.I('edButtonHTML');
 		var P = this.I('edButtonPreview');
 		var ta = this.I(id);
-		var ec = (ta.parentNode && ta.parentNode.nodeName == 'DIV') ? ta.parentNode : '';
 
 		if ( 'tinymce' == mode ) {
 
@@ -115,9 +113,6 @@ switchEditors = {
 			edCloseAllTags(); // :-(
 
 			qt.style.display = 'none';
-			ta.style.padding = '0px';
-			if ( ec )
-				ec.style.padding = '0px';
 
 			ta.value = this.wpautop(ta.value);
 
@@ -137,17 +132,6 @@ switchEditors = {
 
 			ed.hide();
 			qt.style.display = 'block';
-
-			if ( tinymce.isIE6 ) {
-				ta.style.width = '98%';
-				if ( ec )
-					ec.style.padding = '0px';
-				ta.style.padding = '6px';
-			} else {
-				ta.style.width = '100%';
-				if ( ec )
-					ec.style.padding = '6px';
-			}
 
 			ta.style.color = '';
 			setUserSetting( 'editor', 'html' );

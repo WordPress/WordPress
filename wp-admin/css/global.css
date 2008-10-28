@@ -97,6 +97,8 @@ textarea, input, select {
 	font: 13px Verdana, Arial, Helvetica, sans-serif;
 	margin: 1px;
 	padding: 3px;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .alignleft {

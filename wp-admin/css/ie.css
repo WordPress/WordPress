@@ -158,10 +158,8 @@ p.search-box {
 	padding: 0;
 }
 
-* html #editorcontainer #content {
-	position: relative;
+#editorcontainer #content {
 	overflow: auto;
-	padding: 6px;
 	margin: auto;
 	width: 98%;
 }

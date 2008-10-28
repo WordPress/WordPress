@@ -19,9 +19,25 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin table.mceToolbar, .wp_themeSkin tr.mceFirst .mceToolbar tr td, .wp_themeSkin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0}
 .wp_themeSkin table.mceLayout {border:0;}
 .wp_themeSkin .mceIframeContainer {}
-.wp_themeSkin .mceStatusbar {display:block; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible;height:20px;}
+.wp_themeSkin .mceStatusbar {
+	display: block;
+	font-family: 'MS Sans Serif',sans-serif,Verdana,Arial;
+	font-size: 9pt;
+	line-height: 16px;
+	overflow: visible;
+	height: 20px;
+	border-top-width: 1px;
+	border-top-style: solid;
+}
 .wp_themeSkin .mceStatusbar div {float:left; padding:2px;}
-.wp_themeSkin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize}
+.wp_themeSkin .mceStatusbar a.mceResize {
+	display: block;
+	float: right;
+	background: url(../../img/icons.gif) -800px 0;
+	width: 20px;
+	height: 20px;
+	cursor: se-resize
+}
 .wp_themeSkin .mceStatusbar a:hover {text-decoration:underline}
 .wp_themeSkin table.mceToolbar {margin: 0 2px 2px;}
 .wp_themeSkin #content_toolbar1 {margin-top: 2px;}
@@ -38,8 +54,8 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	padding: 1px 2px; 
 	margin: 1px; 
 	background-image: url(img/butt2.png);
-	background-position: 2px 1px;
-	background-repeat: no-repeat;
+	background-position: left top;
+	background-repeat: repeat-x;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	-khtml-border-radius: 3px;
@@ -48,10 +64,10 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 .wp_themeSkin a.mceButton span, .wp_themeSkin a.mceButton img {}
 .wp_themeSkin .mceOldBoxModel a.mceButton span, .wp_themeSkin .mceOldBoxModel a.mceButton img {margin:0 0 0 1px}
 .wp_themeSkin a.mceButtonEnabled:hover {
-	background-position:0 -20px;
+	background-position:0 -10px;
 }
 .wp_themeSkin a.mceButtonActive, .wp_themeSkin a.mceButtonSelected {
-	background-position:0 -20px;
+	background-image: inherit;
 }
 .wp_themeSkin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30);}
 .wp_themeSkin .mceButtonDisabled {}
@@ -74,7 +90,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	text-decoration: none !important;
 	width:70px;  
 	background-image: url(img/butt2.png);
-	background-position: 1px 1px;
+	background-position: left top;
 	background-repeat: repeat-x;
 	font-family: Tahoma,Verdana,Arial,Helvetica; 
 	font-size: 11px; 
@@ -91,7 +107,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	height: 20px; 
 	border-collapse: separate;
 	background-image: url(img/butt2.png);
-	background-position: 1px 1px;
+	background-position: left top;
 	background-repeat: repeat-x;
 	padding: 1px;
 	border-left: 0 none !important;
@@ -131,7 +147,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	height:20px;
 	width:20px;
 	background-image: url(img/butt2.png);
-	background-position: 1px 1px;
+	background-position: left top;
 	background-repeat: repeat-x;
 	padding: 1px 2px;
 }
@@ -144,7 +160,7 @@ border:0; margin:0; padding:0; white-space:nowrap; text-decoration:none; font-we
 	height:20px;
 	border-collapse:separate;
 	background-image: url(img/butt2.png);
-	background-position: 1px 1px;
+	background-position: left top;
 	background-repeat: repeat-x;
 	padding: 1px;
 	border-left: 0 none !important;

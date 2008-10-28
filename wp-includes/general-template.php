@@ -1494,11 +1494,11 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 		<?php } 
 	}
 
-/*	if ( $media_buttons ) { ?>
+	if ( $media_buttons ) { ?>
 		<div id="media-buttons" class="hide-if-no-js">
 		<?php do_action( 'media_buttons' ); ?>
 		</div>
-	<?php } */ ?>
+	<?php } ?>
 	</div>
 
 	<div id="quicktags">
@@ -1519,19 +1519,17 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 	// If tinyMCE is defined.
 	if ( typeof tinyMCE != 'undefined' ) {
 		// This code is meant to allow tabbing from Title to Post (TinyMCE).
-		document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e) {
-			e = e || window.event;
-			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-				if ( tinyMCE.activeEditor ) {
-					if ( (jQuery("#post_ID").val() < 1) && (jQuery("#title").val().length > 0) ) { autosave(); }
-					e = null;
-					if ( tinyMCE.activeEditor.isHidden() ) return true;
+		jQuery('#<?php echo $prev_id; ?>').keydown(function (e) {
+			if (e.which == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				if ( (jQuery("#post_ID").val() < 1) && (jQuery("#title").val().length > 0) ) { autosave(); }
+				if ( tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
 					tinyMCE.activeEditor.focus();
+					e.preventDefault();
 					return false;
 				}
-				return true;
+				return;
 			}
-		}
+		});
 	}
 	<?php } ?>
 	// ]]>
