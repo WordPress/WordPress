@@ -29,15 +29,18 @@ form {
 	text-align: right;
 }
 
-.media-upload-form label, .media-upload-form legend {
-	display:block;
+.media-upload-form label,
+.media-upload-form legend {
+	display: block;
 	font-weight: bold;
 	font-size: 13px;
 	margin-bottom: 0.5em;
 	margin: 0 0 0.5em 0;
 }
 
-th { position: relative; }
+th {
+	position: relative;
+}
 
 .media-upload-form label.form-help, td.help {
 	font-style: italic;
@@ -78,10 +81,6 @@ th { position: relative; }
 
 .image-align-right-label {
 	background: url(../images/align-right.png) no-repeat center left;
-}
-
-#flash-upload-ui, .insert-gallery {
-	display: none;
 }
 
 tr.image-size td {
@@ -142,7 +141,12 @@ button.dismiss {
 	border-right-style: solid;
 }
 
-#library-form .progress, #gallery-form .progress {
+#library-form .progress,
+#gallery-form .progress,
+#flash-upload-ui,
+.insert-gallery,
+.describe.startopen,
+.describe.startclosed {
 	display: none;
 }
 
@@ -162,17 +166,14 @@ thead.media-item-info tr {
 	background-color: transparent;
 }
 
-thead.media-item-info th, thead.media-item-info td {
+thead.media-item-info th,
+thead.media-item-info td {
 	border: none;
 	margin: 0;
 }
 
 .form-table thead.media-item-info {
 	border: 8px solid #fff;
-}
-
-.describe.startopen, .describe.startclosed {
-	display: none;
 }
 
 abbr.required {
@@ -192,11 +193,13 @@ abbr.required {
 	width: 132px;
 }
 
-.describe input[type="text"], .describe textarea {
+.describe input[type="text"],
+.describe textarea {
 	width: 460px;
 }
 
-.describe-toggle-on, .describe-toggle-off {
+.describe-toggle-on,
+.describe-toggle-off {
 	display: block;
 	line-height: 36px;
 	float: right;
@@ -208,8 +211,8 @@ abbr.required {
 }
 
 .hidden {
-	height: 0px;
-	width: 0px;
+	height: 0;
+	width: 0;
 	overflow: hidden;
 	border: none;
 }
@@ -224,7 +227,8 @@ abbr.required {
 	padding: 1em 0;
 }
 
-#media-upload p.help, #media-upload label.help {
+#media-upload p.help,
+#media-upload label.help {
 	font-style: italic;
 	font-weight: normal;
 }
