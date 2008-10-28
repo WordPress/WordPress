@@ -1150,7 +1150,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 	$comment_depth = 1;
 
 	$defaults = array('walker' => null, 'depth' => '', 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all',
-		'page' => '', 'per_page' => '', 'avatar_size' => 32, 'reverse_top_level' => '', 'reverse_children' => '');
+		'page' => '', 'per_page' => '', 'avatar_size' => 32, 'reverse_top_level' => null, 'reverse_children' => '');
 
 	$r = wp_parse_args( $args, $defaults );
 
@@ -1187,8 +1187,8 @@ function wp_list_comments($args = array(), $comments = null ) {
 	if ( 0 == $r['page'] && 0 != $r['per_page'] )
 		$r['page'] = 1;
 
-	if ( ! isset( $r['reverse_top_level'] ) )
-		$r['reverse_top_level'] = ( 'asc' == get_option('comment_order') ) ? FALSE : TRUE;
+	if ( null === $r['reverse_top_level'] )
+		$r['reverse_top_level'] = ( 'desc' == get_option('comment_order') ) ? TRUE : FALSE;
 
 	extract( $r, EXTR_SKIP );
 
