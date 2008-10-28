@@ -377,6 +377,8 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	$day = get_query_var('day');
 	$title = '';
 
+	$t_sep = '%WP_TITILE_SEP%'; // Temporary separator, for accurate flipping, if necessary
+
 	// If there's a category
 	if ( !empty($cat) ) {
 			// category exclusion
@@ -418,15 +420,15 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$my_year = substr($m, 0, 4);
 		$my_month = $wp_locale->get_month(substr($m, 4, 2));
 		$my_day = intval(substr($m, 6, 2));
-		$title = "$my_year" . ($my_month ? "$sep $my_month" : "") . ($my_day ? "$sep $my_day" : "");
+		$title = "$my_year" . ($my_month ? "$t_sep$my_month" : "") . ($my_day ? "$t_sep$my_day" : "");
 	}
 
 	if ( !empty($year) ) {
 		$title = $year;
 		if ( !empty($monthnum) )
-			$title .= " $sep " . $wp_locale->get_month($monthnum);
+			$title .= "$t_sep" . $wp_locale->get_month($monthnum);
 		if ( !empty($day) )
-			$title .= " $sep " . zeroise($day, 2);
+			$title .= "$t_sep" . zeroise($day, 2);
 	}
 
 	// If there is a post
@@ -442,10 +444,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$tax = $tax->label;
 		$term = $wp_query->get_queried_object();
 		$term = $term->name;
-		if ( 'right' == $seplocation )
-			$title = "$term $sep $tax";
-		else
-			$title = "$tax $sep $term";
+		$title = "$tax$t_sep$term";
 	}
 
 	if ( is_404() ) {
@@ -456,11 +455,15 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	if ( !empty($title) )
 		$prefix = " $sep ";
 
- 	// Determines position of the separator
-	if ( 'right' == $seplocation )
-		$title = $title . $prefix;
-	else
-		$title = $prefix . $title;
+ 	// Determines position of the separator and direction of the breadcrumb
+	if ( 'right' == $seplocation ) { // sep on right, so reverse the order
+		$title_array = explode( $t_sep, $title );
+		$title_array = array_reverse( $title_array );
+		$title = implode( " $sep ", $title_array ) . $prefix;
+	} else {
+		$title_array = explode( $t_sep, $title );
+		$title = $prefix . implode( " $sep ", $title_array );
+	}
 
 	$title = apply_filters('wp_title', $title, $sep, $seplocation);
 
