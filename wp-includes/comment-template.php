@@ -1099,14 +1099,14 @@ class Walker_Comment extends Walker {
 
 		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
 
-		<?php echo apply_filters('comment_text', get_comment_text()) ?>
+		<?php comment_text() ?>
 
 		<div class="reply">
 		<?php echo comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth']))) ?>
+		</div>
 		<?php if ( 'ul' == $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
-		</div>
 <?php
 	}
 
@@ -1187,7 +1187,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 	if ( 0 == $r['page'] && 0 != $r['per_page'] )
 		$r['page'] = 1;
 
-	if ( '' == $r['reverse_top_level'] )
+	if ( ! isset( $r['reverse_top_level'] ) )
 		$r['reverse_top_level'] = ( 'asc' == get_option('comment_order') ) ? FALSE : TRUE;
 
 	extract( $r, EXTR_SKIP );
