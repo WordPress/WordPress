@@ -1537,7 +1537,7 @@ function update_comment_cache($comments) {
  * @return object
  */
 function _close_comments_for_old_posts( $posts ) {
-	if ( !is_single() || !get_option('close_comments_for_old_posts') )
+	if ( empty($posts) || !is_single() || !get_option('close_comments_for_old_posts') )
 		return $posts;
 
 	$days_old = (int) get_option('close_comments_days_old');
