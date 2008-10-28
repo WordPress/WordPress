@@ -60,6 +60,18 @@ form p.field-tip {
 	min-width: 0;
 }
 
+#dashboard-widgets-wrap .has-sidebar {
+	margin-right: -51%;
+}
+
+#dashboard-widgets-wrap .inner-sidebar {
+	width: 49%;
+}
+
+#dashboard-widgets-wrap .has-sidebar .has-sidebar-content {
+	margin-right: 51%;
+}
+
 div.postbox div.inside {
 	margin: 0 10px 10px;
 	position: relative;
