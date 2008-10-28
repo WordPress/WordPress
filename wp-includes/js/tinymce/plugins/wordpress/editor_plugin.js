@@ -91,14 +91,11 @@
 				title : 'wordpress.add_media',
 				image : url + '/img/media.gif',
 				onclick : function() {
-					var a = tinymce.DOM.get('add-media-link');
-					if ( a ) {
-						tb_show('', a.href);
-						tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
-					}
+					tb_show('', tinymce.DOM.get('add_media').href);
+					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 				}
 			});
-/*
+
 			ed.addButton('add_image', {
 				title : 'wordpress.add_image',
 				image : url + '/img/image.gif',
@@ -125,12 +122,12 @@
 					tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 				}
 			});
-*/
+
 			// Add Media buttons to fullscreen
 			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
 				if ( 'mceFullScreen' != cmd ) return;
 				if ( 'mce_fullscreen' != ed.id )
-					ed.settings.theme_advanced_buttons1 += ',|,add_media';
+					ed.settings.theme_advanced_buttons1 += ',|,add_image,add_video,add_audio,add_media';
 			});
 
 			// Add class "alignleft", "alignright" and "aligncenter" when selecting align for images.
