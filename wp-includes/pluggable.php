@@ -410,7 +410,6 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		}
 	}
 
-	error_log($attachments);
 	if ( !empty( $attachments ) ) {
 		foreach ( $attachments as $attachment ) {
 			$phpmailer->AddAttachment($attachment);
