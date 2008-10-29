@@ -1593,7 +1593,7 @@ function wp_defer_term_counting($defer=null) {
  * @since 2.3.0
  * @uses $wpdb
  *
- * @param int|array $terms The ID of the terms
+ * @param int|array $terms The term_taxonomy_id of the terms
  * @param string $taxonomy The context of the term.
  * @return bool If no terms will return false, and if successful will return true.
  */
@@ -1628,7 +1628,7 @@ function wp_update_term_count( $terms, $taxonomy, $do_deferred=false ) {
  *
  * @since 2.5.0
  *
- * @param array $terms IDs of Terms to update.
+ * @param array $terms The term_taxonomy_id of terms to update.
  * @param string $taxonomy The context of the term.
  * @return bool Always true when complete.
  */
@@ -2019,7 +2019,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
  * @since 2.3.0
  * @uses $wpdb
  *
- * @param array $terms List of Term IDs
+ * @param array $terms List of Term taxonomy IDs
  */
 function _update_post_term_count( $terms ) {
 	global $wpdb;
