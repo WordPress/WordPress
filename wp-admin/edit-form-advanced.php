@@ -137,7 +137,7 @@ switch ( $post->post_status ) {
 
 <div id="post-status-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
-<?php _e('Change post status'); ?><br />
+<br />
 <select name='post_status' id='post_status' tabindex='4'>
 <?php
 // only show the publish menu item if they are allowed to publish posts or they are allowed to edit this post (accounts for 'edit_published_posts' capability)
