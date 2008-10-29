@@ -208,13 +208,16 @@ table#availablethemes td.bottom {
 }
 
 #misc-publishing-actions {
-	width: 69%;
 	float: left;
 	border-right: 1px solid #ddd;
 }
 
+#side-sortables #misc-publishing-actions {
+	max-width: 170px;
+}
+
 .misc-pub-section {
-	padding: 6px 0;
+	padding: 6px;
 	border-bottom: 1px solid #ddd;
 }
 
@@ -223,26 +226,38 @@ table#availablethemes td.bottom {
 }
 
 #minor-publishing-actions {
-	width: 30%;
+	padding: 6px 6px 0 0;
 	float: right;
 	text-align: right;
 }
 
+#save-post {
+	float: right;
+	margin-bottom: 10px;
+}
+
 .preview {
 	float: right;
+	clear: right;
 	padding: 2px 8px !important;
-	top: 10px;
-	position: relative;
 }
 
 #minor-publishing {
+	margin-top: -10px;
 	border-bottom: 1px solid #ddd;
 }
 
 #major-publishing-actions {
 	background: #eaf2fa;
-	padding-top: 8px;
+	padding: 6px;
 	clear: both;
+}
+
+#minor-publishing-actions input,
+#major-publishing-actions input,
+#minor-publishing-actions .preview {
+	min-width: 80px;
+	text-align: center;
 }
 
 #delete-action {
@@ -251,14 +266,12 @@ table#availablethemes td.bottom {
 	text-align: left;
 	float: left;
 	width: 30%;
-	background: #eaf2fa;
 }
 
 #publishing-action {
 	text-align: right;
 	float: right;
 	width: 70%;
-	background: #eaf2fa;
 }
 
 .side-info {
@@ -299,6 +312,9 @@ table#availablethemes td.bottom {
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
 	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-khtml-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
 a.button {
@@ -320,10 +336,6 @@ a.button {
 
 .tablenav select#cat {
 	width: 150px;
-}
-
-#publish {
-	min-width: 100px;
 }
 
 #wpcontent select {
@@ -399,6 +411,7 @@ textarea.all-options, input.all-options {
 	outline: none;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+	-khtml-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -1499,6 +1512,10 @@ table.form-table td .updated {
 #poststuff .inside {
 	font-size: 11px;
 	margin: 0 6px 6px;
+}
+
+#poststuff #submitdiv .inside {
+	margin: 0;
 }
 
 #titlediv, #poststuff .postarea {

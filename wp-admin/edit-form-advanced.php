@@ -70,47 +70,50 @@ function post_submit_meta_box($post) {
 ?>
 <div class="submitbox" id="submitpost">
 
-<!--<div class="inside-submitbox">-->
-
 <div id="minor-publishing">
 <div id="misc-publishing-actions">
+
+<?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
+<div style="display:none;">
+<input type="submit" name="save" value="<?php echo attribute_escape( __('Save') ); ?>" />
+</div>
+
 <?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
 	<div class="misc-pub-section" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
 <?php } ?>
 
 <div class="misc-pub-section" id="visibility">
-<?php _e('Visibility:'); ?> <?php _e('Public'); // TODO: dropdown ?>
+<?php _e('Visibility:'); ?> <b><?php _e('Public'); // TODO: dropdown ?></b>
 </div>
 
 <?php
+$datef = _c( 'M j, Y \a\t G:i|Publish box date format');
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
-		$stamp = __('Scheduled for: %1$s at %2$s');
+		$stamp = __('Scheduled for:<br />%1$s');
 	} else if ( 'publish' == $post->post_status ) { // already published
-		$stamp = __('Published on: %1$s at %2$s');
+		$stamp = __('Published on:<br />%1$s');
 	} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
 		$stamp = __('Publish immediately');
 	} else { // draft, 1 or more saves, date specified
-		$stamp = __('Publish on: %1$s at %2$s');
+		$stamp = __('Publish on:<br />%1$s');
 	}
-	$date = mysql2date(get_option('date_format'), $post->post_date);
-	$time = mysql2date(get_option('time_format'), $post->post_date);
+	$date = date_i18n( $datef, strtotime( $post->post_date ) );
 } else { // draft (no saves, and thus no date specified)
 	$stamp = __('Publish immediately');
-	$date = mysql2date(get_option('date_format'), current_time('mysql'));
-	$time = mysql2date(get_option('time_format'), current_time('mysql'));
+	$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
 }
 ?>
 <?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime">
-	<span id="timestamp"><?php printf($stamp, $date, $time); ?></span>
+	<span id="timestamp"><?php printf($stamp, $date); ?></span>
 	&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
 </div>
 <?php endif; ?>
 
 <div class="misc-pub-section misc-pub-section-last"><label for="post_status"><?php _e('Status:') ?></label>
-<strong><span id="post-status-display">
+<b><span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
 	case 'publish':
@@ -128,7 +131,7 @@ switch ( $post->post_status ) {
 		break;
 }
 ?>
-</span></strong>
+</span></b>
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { ?>
 <a href="#post_status" class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
@@ -167,12 +170,10 @@ if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edi
 </div>
 
 <div id="minor-publishing-actions">
-<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status )
-	$savebtn = attribute_escape( __('Update Post') );
-else
-	$savebtn = attribute_escape( __('Save Draft') );
-?>
-<input type="submit" name="save" id="save-post" value="<?php echo $savebtn; ?>" tabindex="4" class="button button-highlighted" />
+
+<?php if ( 'publish' != $post->post_status && 'private' != $post->post_status )  { ?>
+<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
+<?php } ?>
 
 <?php if ( 'publish' == $post->post_status ) { ?>
 <a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View Post'); ?></a>
@@ -182,7 +183,6 @@ else
 </div>
 <div class="clear"></div>
 </div>
-<!--</div>-->
 
 <div id="major-publishing-actions">
 <?php do_action('post_submitbox_start'); ?>
@@ -201,11 +201,12 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->
 <?php else : ?>
 	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
+<?php } else { ?>
+	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Update Post') ?>" />
 <?php } ?>
 </div>
-</div>
-
 <div class="clear"></div>
+</div>
 </div>
 
 <?php
