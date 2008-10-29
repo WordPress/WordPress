@@ -226,6 +226,7 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
  * @param string|array $class One or more classes to add to the class list
  * @param int $comment_id An optional comment ID
  * @param int $post_id An optional post ID
+ * @param bool $echo Whether comment_class should echo or return
  */
 function comment_class( $class = '', $comment_id = null, $post_id = null, $echo = true ) {
 	// Separates classes with a single space, collates classes for comment DIV
@@ -254,7 +255,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	$classes = array();
 
 	// Get the comment type (comment, trackback),
-	$classes[] = $comment->comment_type;
+	$classes[] = ( empty( $comment->comment_type ) ) ? 'comment' : $comment->comment_type;
 
 	// If the comment author has an id (registered), then print the log in name
 	if ( $comment->user_id > 0 && $user = get_userdata($comment->user_id) ) {
