@@ -5,7 +5,7 @@ adminMenu = {
 	init : function() {
 		$('#adminmenu a').attr('tabindex', '10');
 		$('#adminmenu div.wp-menu-toggle').click( function() { return adminMenu.toggle( $(this).siblings('ul') ); } );
-		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { adminMenu.fold(); setUserSetting( 'mfold', 'f' ); } );
+		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
 
 		$('.wp-menu-separator').click(function(){
 			if ( $('#adminmenu').hasClass('folded') ) {
@@ -56,13 +56,11 @@ adminMenu = {
 			$('#adminmenu li.wp-submenu-head').hide();
 			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-menu-open .wp-submenu, #adminmenu div.wp-menu-toggle').show();
 			$('#adminmenu li.wp-has-submenu').unbind().css('width', '');
-			$('#adminmenu li.wp-has-submenu img.wp-menu-image').unbind().dblclick( function() { adminMenu.fold(); setUserSetting( 'mfold', 'f' ); } );
 			this.restoreMenuState();
 		} else {
 			$('#adminmenu').addClass('folded');
 			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-submenu, #adminmenu div.wp-menu-toggle').hide();
 			$('#adminmenu li.wp-submenu-head').show();
-			$('#adminmenu li.wp-has-submenu img.wp-menu-image').unbind().dblclick( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
 			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
 				$('#wpbody-content').css('marginLeft', '60px');
 			$('#adminmenu li.wp-has-submenu').css({'width':'28px'}).hoverIntent({
