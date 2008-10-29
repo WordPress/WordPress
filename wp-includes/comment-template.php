@@ -905,7 +905,7 @@ function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more =
  * @param int $post Optional. Post that the comment is going to be displayed on.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
-function comment_reply_link($args = array(), $comment = null, $post = null) {
+function get_comment_reply_link($args = array(), $comment = null, $post = null) {
 	global $user_ID;
 
 	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Reply'),
@@ -931,7 +931,38 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 	else 
 		$link = "<a rel='nofollow' href='" . wp_specialchars( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#respond' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\")'>$reply_text</a>";
 
-	return $before . $link . $after;
+	return apply_filters('comment_reply_link', $before . $link . $after, $args, $comment, $post);
+}
+
+/**
+ * Displays the HTML content for reply to comment link.
+ *
+ * @since 2.7.0
+ * @see get_comment_reply_link() Echoes result
+ *
+ * @param array $args Optional. Override default options.
+ * @param int $comment Optional. Comment being replied to.
+ * @param int $post Optional. Post that the comment is going to be displayed on.
+ * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
+ */
+function comment_reply_link($args = array(), $comment = null, $post = null) {
+	echo get_comment_reply_link($args, $comment, $post);
+}
+
+/**
+ * Retrieve HTML content for cancel comment reply link.
+ *
+ * @since 2.7.0
+ * 
+ * @param string $text Optional. Text to display for cancel reply link.
+ */
+function get_cancel_comment_reply_link($text = '') {
+	if ( empty($text) )
+		$text = __('Click here to cancel reply.');
+	
+	$style = isset($_GET['replytocom']) ? '' : ' style="display:none;"';
+	$link = wp_specialchars( remove_query_arg('replytocom') ) . '#respond';
+	return apply_filters('cancel_comment_reply_link', '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>', $link, $text);
 }
 
 /**
@@ -942,12 +973,7 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  * @param string $text Optional. Text to display for cancel reply link.
  */
 function cancel_comment_reply_link($text = '') {
-	if ( empty($text) )
-		$text = __('Click here to cancel reply.');
-	
-	$style = isset($_GET['replytocom']) ? '' : ' style="display:none;"';
-
-	echo '<a rel="nofollow" id="cancel-comment-reply-link" href="' . wp_specialchars( remove_query_arg('replytocom') ) . '#respond"' . $style . '>' . $text . '</a>';
+	echo get_cancel_comment_reply_link($text);
 }
 
 /**
@@ -1103,7 +1129,7 @@ class Walker_Comment extends Walker {
 		<?php comment_text() ?>
 
 		<div class="reply">
-		<?php echo comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth']))) ?>
+		<?php comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth']))) ?>
 		</div>
 		<?php if ( 'ul' == $args['style'] ) : ?>
 		</div>

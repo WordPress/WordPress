@@ -178,8 +178,6 @@ function spawn_cron( $local_time ) {
 	if ( $timestamp > $local_time )
 		return;
 
-	// WPCOM: Use SERVER_ADDR
-	//$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?check=' . wp_hash('187425');
 	$cron_url = 'http://' . $_SERVER['SERVER_ADDR'] . '/wp-cron.php?check=' . wp_hash('187425');
 	/*
 	* multiple processes on multiple web servers can run this code concurrently
