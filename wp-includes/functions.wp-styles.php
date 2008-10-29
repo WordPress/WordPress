@@ -38,7 +38,7 @@ function wp_print_styles( $handles = false ) {
  * @since r79
  * @see WP_Styles::add() For parameter and additional information.
  */
-function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = false ) {
+function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media = 'all' ) {
 	global $wp_styles;
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
