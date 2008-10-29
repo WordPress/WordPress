@@ -175,13 +175,36 @@ jQuery(document).ready( function($) {
 		$('#timestamp').html(stamp);
 		$('.edit-timestamp').show();
 
+		var attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val() );
+		var currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val() );
+		if ( attemptedDate > currentDate ) {
+			$('#publish').val( postL10n.schedule );
+		} else if ( $('#original_post_status').val() != 'publish' ) {
+			$('#publish').val( postL10n.publish );
+		} else {
+			$('#publish').val( postL10n.update );
+		}
+
 		return false;
 	});
 
 	$('.save-timestamp').click(function () { // crazyhorse - multiple ok cancels
 		$('#timestampdiv').slideUp("normal");
 		$('.edit-timestamp').show();
+		var attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val() );
+		var currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val() );
+		if ( attemptedDate > currentDate ) {
+			var publishOn = postL10n.publishOnFuture;
+			$('#publish').val( postL10n.schedule );
+		} else if ( $('#original_post_status').val() != 'publish' ) {
+			var publishOn = postL10n.publishOn;
+			$('#publish').val( postL10n.publish );
+		} else {
+			var publishOn = postL10n.publishOnPast;
+			$('#publish').val( postL10n.update );
+		}
 		$('#timestamp').html(
+			publishOn + '<br />' +
 			$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
 			$('#jj').val() + ', ' +
 			$('#aa').val() + ' @ ' +
@@ -216,7 +239,11 @@ jQuery(document).ready( function($) {
 		$('#post-status-select').slideUp("normal");
 		$('#post-status-display').html($('#post_status :selected').text());
 		$('.edit-post-status').show();
-
+		if ( $('#post_status :selected').val() == 'pending' ) {
+			$('#save-post').val( postL10n.savePending );
+		} else {
+			$('#save-post').val( postL10n.saveDraft );
+		}
 		return false;
 	});
 
@@ -225,6 +252,11 @@ jQuery(document).ready( function($) {
 		$('#post_status').val($('#hidden_post_status').val());
 		$('#post-status-display').html($('#post_status :selected').text());
 		$('.edit-post-status').show();
+		if ( $('#post_status :selected').val() == 'pending' ) {
+			$('#save-post').val( postL10n.savePending );
+		} else {
+			$('#save-post').val( postL10n.saveDraft );
+		}
 
 		return false;
 	});

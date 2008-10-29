@@ -95,6 +95,8 @@ if ( 0 != $post->ID ) {
 		$stamp = __('Published on:<br />%1$s');
 	} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
 		$stamp = __('Publish immediately');
+	} else if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
+		$stamp = __('Schedule for:<br />%1$s');
 	} else { // draft, 1 or more saves, date specified
 		$stamp = __('Publish on:<br />%1$s');
 	}
@@ -106,7 +108,8 @@ if ( 0 != $post->ID ) {
 ?>
 <?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime">
-	<span id="timestamp"><?php printf($stamp, $date); ?></span>
+	<span id="timestamp">
+	<?php printf($stamp, $date); ?></span>
 	&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
 </div>
@@ -132,16 +135,14 @@ switch ( $post->post_status ) {
 }
 ?>
 </span></b>
-<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { ?>
+<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
 <a href="#post_status" class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
 <div id="post-status-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
-<br />
 <select name='post_status' id='post_status' tabindex='4'>
 <?php
-// only show the publish menu item if they are allowed to publish posts or they are allowed to edit this post (accounts for 'edit_published_posts' capability)
-if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edit_post', $post->ID) ) ) : ?>
+if ( $post->post_status == 'publish' ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
 <?php if ( 'future' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
@@ -150,7 +151,7 @@ if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edi
 <option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Draft') ?></option>
 </select>
-
+<br />
 <a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
 <a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
 </div>
@@ -171,8 +172,10 @@ if ( $can_publish OR ( $post->post_status == 'publish' AND current_user_can('edi
 
 <div id="minor-publishing-actions">
 
-<?php if ( 'publish' != $post->post_status && 'private' != $post->post_status )  { ?>
+<?php if ( 'publish' != $post->post_status && 'private' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
 <input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
+<?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
+<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Pending') ); ?>" tabindex="4" class="button button-highlighted" />
 <?php } ?>
 
 <?php if ( 'publish' == $post->post_status ) { ?>
@@ -197,7 +200,11 @@ if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->ID ) { ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
-	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
+	<?php if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Schedule') ?>" />
+	<?php else : ?>
+		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
+	<?php endif; ?>
 <?php else : ?>
 	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>

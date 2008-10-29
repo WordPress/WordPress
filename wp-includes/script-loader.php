@@ -183,8 +183,16 @@ function wp_default_scripts( &$scripts ) {
 			'separate' => __('Separate tags with commas'),
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
+			'publishOn' => __('Publish on:'),
+			'publishOnFuture' =>  __('Schedule for:'),
+			'publishOnPast' => __('Published on:'),
 			'showcomm' => __('Show more comments'),
-			'endcomm' => __('No more comments found.')
+			'endcomm' => __('No more comments found.'),
+			'publish' => __('Publish'),
+			'schedule' => __('Schedule'),
+			'update' => __('Update Post'),
+			'savePending' => __('Save Pending'),
+			'saveDraft' => __('Save Draft')
 		) );
 		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox', 'settings-box'), '20080925' );
 		$scripts->localize( 'page', 'postL10n', array(
@@ -308,7 +316,7 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081029' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081029b' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );

@@ -2236,6 +2236,12 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	$mn = ($edit) ? mysql2date( 'i', $post_date ) : gmdate( 'i', $time_adj );
 	$ss = ($edit) ? mysql2date( 's', $post_date ) : gmdate( 's', $time_adj );
 
+	$cur_jj = gmdate( 'd', $time_adj );
+	$cur_mm = gmdate( 'm', $time_adj );
+	$cur_aa = gmdate( 'Y', $time_adj );
+	$cur_hh = gmdate( 'H', $time_adj );
+	$cur_mn = gmdate( 'i', $time_adj );
+
 	$month = "<select " . ( $multi ? '' : 'id="mm" ' ) . "name=\"mm\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
 		$month .= "\t\t\t" . '<option value="' . zeroise($i, 2) . '"';
@@ -2254,8 +2260,11 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	if ( $multi ) return;
 
 	echo "\n\n";
-	foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit )
+	foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit ) {
 		echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
+		$cur_timeunit = 'cur_' . $timeunit;
+		echo '<input type="hidden" id="'. $cur_timeunit . '" name="'. $cur_timeunit . '" value="' . $$cur_timeunit . '" />' . "\n";
+	}
 ?>
 
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" />

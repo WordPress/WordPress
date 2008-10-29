@@ -210,10 +210,15 @@ table#availablethemes td.bottom {
 #misc-publishing-actions {
 	float: left;
 	border-right: 1px solid #ddd;
+	min-height: 70px;
 }
 
 #side-sortables #misc-publishing-actions {
 	max-width: 170px;
+}
+
+#side-sortable #minor-publishing-actions {
+	max-width: 108px;
 }
 
 .misc-pub-section {
@@ -226,7 +231,7 @@ table#availablethemes td.bottom {
 }
 
 #minor-publishing-actions {
-	padding: 6px 6px 0 0;
+	padding: 4px 4px 4px 0;
 	float: right;
 	text-align: right;
 }
