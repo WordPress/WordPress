@@ -443,7 +443,7 @@ input.readonly {
 	color: #777;
 }
 
-#footer {
+#footer, #footer-upgrade {
 	background: #464646;
 	color: #999;
 }

@@ -1094,13 +1094,6 @@ html, body {
 #footer {
 	word-spacing: .3em;
 	font-size: 11px;
-	height: 45px;
-	margin-top: -45px;
-}
-
-#in-footer {
-	padding: 15px 0 0 15px;
-	float: left;
 }
 
 #footer #footer-thankyou, #footer #footer-upgrade {
@@ -1117,7 +1110,7 @@ html, body {
 
 #footer p {
 	margin: 0;
-	padding: 15px 0 0 15px;
+	padding: 15px;
 }
 
 #footer p a {
