@@ -297,7 +297,7 @@ th.check-column + th, th.check-column + td {
 .wrap h2 {
 	font: italic normal normal 24px/29px Georgia, "Times New Roman", Times, serif;
 	margin: 0;
-	padding: 20px 15px 10px 0;
+	padding: 10px 15px 5px 0;
 }
 
 .wrap h2.long-header {
