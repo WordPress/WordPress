@@ -414,7 +414,7 @@ div#media-upload-header, div#plugin-information-header {
 	background-color: #f9f9f9;
 }
 
-input.readonly {
+input.readonly, textarea.readonly {
 	background-color: #ddd;
 }
 
