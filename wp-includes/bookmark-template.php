@@ -110,7 +110,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		} else { 
 			$output .= $name; 
 		}
-		
+
 		$output .= $link_after;
 		
 		$output .= '</a>';
