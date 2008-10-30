@@ -789,11 +789,6 @@ ul#adminmenu li.write-new-button a {
 }
 
 /* menu stuff */
-
-#adminmenu * {
-	border-color: #e3e3e3;
-}
-
 #adminmenu .wp-submenu {
 	display: none;
 	list-style: none;
@@ -805,6 +800,7 @@ ul#adminmenu li.write-new-button a {
 #adminmenu {
 	padding: 0;
 	list-style: none;
+	font: normal 11.5px/16px Georgia, "Times New Roman", Times, serif;
 }
 
 #adminmenu li.wp-menu-open .wp-submenu {
@@ -827,7 +823,7 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu a {
 	display: block;
-	font-size: 12px !important;
+	font-size: 11.5px !important;
 	line-height: 18px;
 	padding: 1px 5px 3px;
 }
@@ -842,12 +838,9 @@ ul#adminmenu li.write-new-button a {
 	padding: 6px 5px;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
-	background: #f1f1f1 url(images/menu-bits.gif) repeat-x scroll left -379px;
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-submenu {
-	background: #b5b5b5 url(images/menu-bits.gif) repeat-x scroll left top;
-	color: #fff;
 	font-style: italic;
 }
 
@@ -856,20 +849,6 @@ ul#adminmenu li.write-new-button a {
 	padding-left: 12px;
 	border-width: 0 1px 0 0;
 	border-style: none solid none none;
-	background: #FFFFFF url(images/menu-bits.gif) no-repeat scroll 0 -310px;
-}
-
-#adminmenu li.current a,
-#adminmenu .wp-submenu a:hover {
-	background-image: url(images/menu-bits.gif);
-	background-repeat: no-repeat;
-	background-position:  0 -289px;
-	background-attachment: scroll;
-}
-
-#adminmenu li.current a {
-	color: #333;
-	background-color: #EAF2FA;
 }
 
 #adminmenu .menu-top-last ul.wp-submenu,
@@ -882,10 +861,8 @@ ul#adminmenu li.write-new-button a {
 	margin: 0;
 	position: relative;
 	z-index: 2;
-	
 	border-width: 1px 0 0;
 	border-style: solid none none;
-	background-color: #fff;
 }
 
 #adminmenu .wp-submenu li {
@@ -960,19 +937,10 @@ ul#adminmenu li.write-new-button a {
 	padding: 7px 0 0 6px;
 }
 
-#adminmenu .wp-submenu li.current {
-	background-color: #fff;
-}
-
 #adminmenu li.wp-menu-separator {
-	background: transparent url(images/menu-arrows.gif) no-repeat scroll left 5px;
 	height: 21px;
 	padding: 0;
 	margin: 0;
-}
-
-#adminmenu.folded li.wp-menu-separator {
-	background: transparent url(images/menu-arrows.gif) no-repeat scroll right -34px;
 }
 
 #adminmenu .wp-menu-separator-last {
@@ -985,10 +953,6 @@ ul#adminmenu li.write-new-button a {
 	border-style: solid;
 	padding: 6px 4px 6px 10px;
 	cursor: default;
-	
-	
-	
-	background-color:#F1F1F1;
 }
 
 #adminmenu.folded .wp-submenu {
@@ -998,10 +962,6 @@ ul#adminmenu li.write-new-button a {
 	width: 135px;
 	border-width: 0 0 1px;
 	border-style: none none solid;
-
-	
-
-	background-color: #fff;
 }
 
 #adminmenu.folded .wp-submenu li.wp-first-item {
@@ -1023,19 +983,11 @@ ul#adminmenu li.write-new-button a {
 	height: 29px;
 	padding: 1px 2px 0 0;
 }
-
-#adminmenu li.wp-has-current-submenu .wp-menu-toggle,
-#adminmenu li.wp-has-current-submenu:hover div.wp-menu-toggle {
-	background: transparent url(images/menu-bits.gif) repeat-x scroll left -206px;
-}
-
-#adminmenu li.wp-has-submenu:hover .wp-menu-toggle {
-	background: transparent url(images/menu-bits.gif) repeat-x scroll left -108px;
-}
 /* end side admin menu */
 
 /* 2.6 */
-#adminmenu li a #awaiting-mod, #sidemenu li a #update-plugins {
+#adminmenu a #awaiting-mod,
+#sidemenu li a #update-plugins {
 	position: absolute;
 	margin-top: 0.2em;
 	font-size: 0.7em;
@@ -1045,7 +997,8 @@ ul#adminmenu li.write-new-button a {
 	width: 1em;
 }
 
-#adminmenu li a .count-0, #sidemenu li a .count-0 {
+#adminmenu li a .count-0,
+#sidemenu li a .count-0 {
 	display: none;
 }
 
@@ -1139,6 +1092,7 @@ html, body {
 #footer {
 	word-spacing: .3em;
 	font-size: 11px;
+	margin-top: -45px;
 }
 
 #footer #footer-thankyou, #footer #footer-upgrade {
@@ -1278,7 +1232,7 @@ table.form-table td .updated {
 
 .form-wrap {
 	margin: 10px 0;
-	width: 90%;
+	width: 97%;
 }
 
 .form-wrap p,
@@ -1319,8 +1273,12 @@ table.form-table td .updated {
 }
 
 .tagcloud {
-	width: 90%;
-	margin: 10px 0 40px;
+	width: 97%;
+	margin: 0 0 40px;
+}
+
+.tagcloud h3 {
+	margin: 2px 0 12px;
 }
 
 #col-left .col-wrap {
@@ -1891,10 +1849,6 @@ p#big-add-button .button {
 p.search-box {
 	float: right;
 	margin: -5px 0 0;
-}
-
-#wpbody-content .nosubsub p.search-box {
-	margin-top: -12px;
 }
 
 #wpbody-content .nosubsub h2 {

@@ -56,6 +56,9 @@ input.button, input.button-secondary, input.button-highlighted {
 
 #adminmenu {
 	z-index: 1;
+	width: 125px;
+	float: none;
+	background-color: f1f1f1;
 }
 
 #adminmenu li.wp-has-submenu {
@@ -64,14 +67,17 @@ input.button, input.button-secondary, input.button-highlighted {
 }
 
 #adminmenu a.wp-has-submenu {
-
+display: block;
 }
 
-ul.wp-submenu, ul.wp-submenu li,
+#adminmenu,
+#adminmenu .wp-menu-toggle,
+ul.wp-submenu,
+ul.wp-submenu li,
 ul.wp-submenu a,
 #adminmenu a.wp-has-submenu,
 #adminmenu .wp-menu-image  {
-	display: block;
+	
 	zoom: 100%;
 }
 
@@ -111,12 +117,16 @@ ul#adminmenu li.wp-menu-separator {
 */
 
 
-#template, #template div, #editcat, #addcat {
+#template,
+#template div,
+#editcat,
+#addcat {
 	zoom: 100%;
 }
 
 
-* html #poststuff .postarea, * html #poststuff #titlediv {
+* html #poststuff .postarea,
+* html #poststuff #titlediv {
 	
 }
 
@@ -124,12 +134,33 @@ ul#adminmenu li.wp-menu-separator {
 	margin-top: 10px;
 }
 
-* html div.widget-liquid-left-holder, * html div.widget-liquid-right {
+* html div.widget-liquid-left-holder,
+* html div.widget-liquid-right {
 	display: block;
 	position: relative;
 }
 
-#wpwrap, #wpcontent, #post, #wrap, #postdivrich, #postdiv, #poststuff, .metabox-holder, #titlediv, #post-body, #editorcontainer, .tablenav, .widget-control-list, li.widget-list-control-item, #dragHelper, li.widget-list-control-item h4, .widget-sortable, .widget-control-actions, #tagchecklist {
+#wpwrap,
+#wpcontent,
+#post, #wrap,
+#postdivrich,
+#postdiv,
+#poststuff,
+.metabox-holder,
+#titlediv,
+#post-body,
+#editorcontainer,
+.tablenav,
+.widget-control-list,
+li.widget-list-control-item,
+#dragHelper,
+li.widget-list-control-item h4,
+.widget-sortable,
+.widget-control-actions,
+#tagchecklist,
+#col-container,
+#col-left,
+#col-right {
 	display: block;
 	zoom: 100%;
 }

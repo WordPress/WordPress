@@ -64,7 +64,15 @@ adminMenu = {
 			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
 				$('#wpbody-content').css('marginLeft', '60px');
 			$('#adminmenu li.wp-has-submenu').css({'width':'28px'}).hoverIntent({
-				over: function(){ $(this).find('.wp-submenu').show(); },
+				over: function(e){
+					var m = $(this).find('.wp-submenu'), t = e.clientY, H = $(window).height(), h = m.height(), o;
+
+					if ( (t+h+10) > H ) {
+						o = (t+h+10) - H;
+						m.css({'marginTop':'-'+o+'px'})
+					}
+					m.show();
+				},
 				out: function(){ $(this).find('.wp-submenu').hide(); },
 				timeout: 220,
 				sensitivity: 8,
