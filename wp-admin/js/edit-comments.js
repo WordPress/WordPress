@@ -88,9 +88,7 @@ $(document).ready(function(){
 commentReply = {
 
 	init : function() {
-		this.rows = $('#the-comment-list tr');
-		if ( !this.rows.size() )
-			this.rows = $('#the-comment-list > div.comment-item');
+		this.rows = $('#the-comment-list li');
 		var row = $('#replyrow');
 
 		$('a.cancel', row).click(function() { return commentReply.revert(); });
@@ -149,7 +147,7 @@ commentReply = {
 		t.close();
 		t.o = '#comment-'+id;
 
-		$('#replyrow td').attr('colspan', $('.widefat thead th:visible').length);
+//		$('#replyrow td').attr('colspan', $('.widefat thead th:visible').length);
 		var editRow = $('#replyrow'), rowData = $('#inline-'+id);
 		var act = t.act = (a == 'edit') ? 'edit-comment' : 'replyto-comment';
 

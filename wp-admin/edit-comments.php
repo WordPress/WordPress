@@ -242,32 +242,19 @@ if ( 'spam' == $comment_status ) {
 <div class="clear"></div>
 
 <?php if ( $comments ) { ?>
-<table class="widefat">
-<thead>
-	<tr>
-<?php print_column_headers('comment'); ?>
-	</tr>
-</thead>
 
-<tfoot>
-	<tr>
-<?php print_column_headers('comment', false); ?>
-	</tr>
-</tfoot>
-
-<tbody id="the-comment-list" class="list:comment">
+<ol id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)
 		_wp_comment_row( $comment->comment_ID, $mode, $comment_status );
 ?>
-</tbody>
-<tbody id="the-extra-comment-list" class="list:comment" style="display: none;">
+</ol>
+<ol id="the-extra-comment-list" class="list:comment" style="display: none;">
 <?php
 	foreach ($extra_comments as $comment)
 		_wp_comment_row( $comment->comment_ID, $mode, $comment_status );
 ?>
-</tbody>
-</table>
+</ol>
 
 <div class="tablenav">
 <?php
@@ -330,5 +317,5 @@ if ( $page_links )
 </div>
 
 <?php
-wp_comment_reply('-1', true, 'detail');
+wp_comment_reply('-1', true, 'detail', false);
 include('admin-footer.php'); ?>

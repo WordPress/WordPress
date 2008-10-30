@@ -1925,9 +1925,29 @@ body.wp-admin {
 	margin: -5px 0 0 10px;
 }
 
-#the-comment-list td.comment p.comment-author {
-	margin-top: 0;
-	margin-left: 0;
+#the-comment-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+}
+
+#the-comment-list .sepa {
+	color: #999;
+}
+
+#the-comment-list .comment-action-link {
+	width: 6em;
+	display: inline-block;
+}
+
+#the-comment-list p.comment-author {
+	height: 2.8em;
+}
+
+#the-comment-list li.comment-list-item {
+	padding: 0 1.2em 1em;
+	border-bottom: 1px solid #ccc;
 }
 
 #the-comment-list p.comment-author img {
@@ -1937,22 +1957,6 @@ body.wp-admin {
 
 #the-comment-list p.comment-author strong a {
 	border: none;
-}
-
-#the-comment-list td {
-	vertical-align: top;
-}
-
-#the-comment-list td.comment {
-/*
-	width: 65%;
-	max-width: 460px;
-*/
-	word-wrap: break-word;
-}
-
-#the-comment-list .check-column {
-	padding-top: 8px;
 }
 
 #templateside ul li a {
@@ -2245,7 +2249,10 @@ fieldset {
 
 /* reply to comments */
 #replyrow {
+	border-width: 1px;
+	border-style: solid;
 	font-size: 11px;
+	margin: 0 0 12px;
 }
 
 #replyrow input {
@@ -2905,3 +2912,9 @@ abbr.required {
 .setting-description {
 	font-style: italic;
 }
+
+.comments-box {
+	margin: 12px 0 5px;
+}
+
+

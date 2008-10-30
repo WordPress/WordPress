@@ -279,30 +279,12 @@ if ( 1 == count($posts) && is_singular() ) :
 
 <br class="clear" />
 
-<table class="widefat" style="margin-top: .5em">
-<thead>
-  <tr>
-    <th scope="col"><?php _e('Comment') ?></th>
-    <th scope="col"><?php _e('Author') ?></th>
-    <th scope="col"><?php _e('Submitted') ?></th>
-  </tr>
-</thead>
-
-<tfoot>
-  <tr>
-    <th scope="col"><?php _e('Comment') ?></th>
-    <th scope="col"><?php _e('Author') ?></th>
-    <th scope="col"><?php _e('Submitted') ?></th>
-  </tr>
-</tfoot>
-
-<tbody id="the-comment-list" class="list:comment">
+<ol id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)
 		_wp_comment_row( $comment->comment_ID, 'single', false, false );
 ?>
-</tbody>
-</table>
+</ol>
 
 <?php
 wp_comment_reply();

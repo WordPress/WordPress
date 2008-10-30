@@ -29,7 +29,8 @@ div.dashboard-widget,
 	border-color: #ccc;
 }
 
-.widefat {
+.widefat,
+#replyrow {
 	border-color: #dfdfdf;
 }
 
