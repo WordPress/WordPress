@@ -31,11 +31,13 @@
 
 		expandSidebar : function(doIt) {
 			if ( doIt || $('#side-sortables > .postbox:visible').length ) {
-				$('#post-body').addClass('has-sidebar');
-				$('#side-sortables').height( $('#post-body').height() );
+				if ( ! $('#post-body').hasClass('has-sidebar') ) {
+					$('#post-body').addClass('has-sidebar');
+					$('#side-sortables').css({'minHeight':$('#post-body').height()+'px'});
+				}
 			} else {
 				$('#post-body').removeClass('has-sidebar');
-				$('#side-sortables').height('0')
+				$('#side-sortables').css({'minHeight':'0'});
 			}
 		},
 

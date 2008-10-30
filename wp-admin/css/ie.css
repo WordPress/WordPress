@@ -1,13 +1,10 @@
 /* Fixes for IE bugs */
 
 * html #wpbody-content {
-	margin-left: 160px;
+	float: right;
 }
 
 * html #wpbody {
-	clear: right;
-	float: right;
-	margin-left: -185px;
 	width: 100%;
 }
 
@@ -27,17 +24,10 @@
 	width: 100%;
 }
 
-.metabox-holder .postbox h3 {
-	padding-left: 23px;
-}
-
-input.button, input.button-secondary, input.button-highlighted {
+input.button,
+input.button-secondary,
+input.button-highlighted {
 	padding: 0;
-}
-
-#side-info-column {
-	position: absolute;
-	right: 15px;
 }
 
 #wphead-info {
@@ -54,80 +44,50 @@ input.button, input.button-secondary, input.button-highlighted {
 }
 */
 
-#adminmenu {
+* html #adminmenu {
 	z-index: 1;
 	width: 125px;
-	float: none;
-	background-color: f1f1f1;
+	margin: 12px;
+	padding: 0;
 }
 
-#adminmenu li.wp-has-submenu {
+* html #wpcontent #adminmenu.folded {
+	width: 28px;
+}
+
+ul#adminmenu li.wp-has-submenu {
 	padding: 0;
 	margin: 0;
-}
-
-#adminmenu a.wp-has-submenu {
-display: block;
-}
-
-#adminmenu,
-#adminmenu .wp-menu-toggle,
-ul.wp-submenu,
-ul.wp-submenu li,
-ul.wp-submenu a,
-#adminmenu a.wp-has-submenu,
-#adminmenu .wp-menu-image  {
-	
-	zoom: 100%;
-}
-
-#adminmenu.folded .wp-submenu {
-	margin: -1px 0 0 4px;
-}
-
-#adminmenu.folded li.wp-has-submenu {
-	height: 24px;
-}
-
-#wpcontent #adminmenu ul.wp-submenu a {
-	padding: 2px 4px 2px 10px;
-	margin: 0;
-	line-height: 18px;
-}
-
-* html #wpcontent #adminmenu {
-	margin: 8px 9px;
 }
 
 #wpcontent #adminmenu ul.wp-submenu li {
 	padding: 0;
 }
+#adminmenu,
+#adminmenu .wp-menu-toggle,
+ul.wp-submenu li,
+ul.wp-submenu {
+	zoom: 100%;
+}
 
-#wpcontent #adminmenu .wp-submenu li.wp-submenu-head {
+#wpcontent #adminmenu.folded li.wp-menu-separator {
+	width: 28px;
+}
+
+#wpcontent #adminmenu ul.wp-submenu li.wp-submenu-head {
 	padding: 3px 4px 4px 10px;
+	zoom: 100%;
 }
 
-/*
-ul#adminmenu li.wp-menu-separator {
-	background-color: #fff;
-	height: 3px;
-	line-height: 3px;
-	font-size: 3px;
+#adminmenu.folded ul.wp-submenu {
+	margin: -1px 0 0 13px;
 }
-*/
-
 
 #template,
 #template div,
 #editcat,
 #addcat {
 	zoom: 100%;
-}
-
-
-* html #poststuff .postarea,
-* html #poststuff #titlediv {
-	
 }
 
 .submitbox {
@@ -142,7 +102,8 @@ ul#adminmenu li.wp-menu-separator {
 
 #wpwrap,
 #wpcontent,
-#post, #wrap,
+#post,
+#wrap,
 #postdivrich,
 #postdiv,
 #poststuff,
@@ -165,7 +126,9 @@ li.widget-list-control-item h4,
 	zoom: 100%;
 }
 
-#favorite-inside, #favorite-inside a, .favorite-action {
+#favorite-inside,
+#favorite-inside a,
+.favorite-action {
 	z-index: 11;
 	zoom: 100%;
 }

@@ -50,8 +50,6 @@ adminMenu = {
 	
 	fold : function(off) {
 		if (off) {
-			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
-				$('#wpbody-content').css('marginLeft', '180px');
 			$('#adminmenu').removeClass('folded');
 			$('#adminmenu li.wp-submenu-head').hide();
 			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-menu-open .wp-submenu, #adminmenu div.wp-menu-toggle').show();
@@ -61,8 +59,6 @@ adminMenu = {
 			$('#adminmenu').addClass('folded');
 			$('#adminmenu a.wp-has-submenu, #adminmenu .wp-submenu, #adminmenu div.wp-menu-toggle').hide();
 			$('#adminmenu li.wp-submenu-head').show();
-			if ( $.browser.msie && $.browser.version.charAt(0) == 6 )
-				$('#wpbody-content').css('marginLeft', '60px');
 			$('#adminmenu li.wp-has-submenu').css({'width':'28px'}).hoverIntent({
 				over: function(e){
 					var m = $(this).find('.wp-submenu'), t = e.clientY, H = $(window).height(), h = m.height(), o;
