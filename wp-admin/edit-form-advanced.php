@@ -78,14 +78,17 @@ function post_submit_meta_box($post) {
 <input type="submit" name="save" value="<?php echo attribute_escape( __('Save') ); ?>" />
 </div>
 
+<div id="misc-pub-block-1">
 <?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
 	<div class="misc-pub-section" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
 <?php } ?>
 
-<div class="misc-pub-section" id="visibility">
+<div class="misc-pub-section misc-pub-section-1-last" id="visibility">
 <?php _e('Visibility:'); ?> <b><?php _e('Public'); // TODO: dropdown ?></b>
 </div>
+</div>
 
+<div id="misc-pub-block-2">
 <?php
 $datef = _c( 'M j, Y \a\t G:i|Publish box date format');
 if ( 0 != $post->ID ) {
@@ -115,7 +118,7 @@ if ( 0 != $post->ID ) {
 </div>
 <?php endif; ?>
 
-<div class="misc-pub-section misc-pub-section-last"><label for="post_status"><?php _e('Status:') ?></label>
+<div class="misc-pub-section misc-pub-section-2-last"><label for="post_status"><?php _e('Status:') ?></label>
 <b><span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
@@ -155,19 +158,10 @@ if ( $post->post_status == 'publish' ) : ?>
 <a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
 <a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
 </div>
-</div>
-
-<?php } else { ?>
-</div>
-
-<?php if ( $can_publish && 'pending' != $post->post_status ) { ?>
-<!--
-<div  class="insidebox"><input name="pending" type="submit" class="button" id="pending" tabindex="6" accesskey="r" value="<?php _e('Submit for Review') ?>" /></div>
--->
-<?php } ?>
 
 <?php } ?>
-
+</div>
+</div>
 </div>
 
 <div id="minor-publishing-actions">

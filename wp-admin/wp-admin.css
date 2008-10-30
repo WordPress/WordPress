@@ -226,12 +226,32 @@ table#availablethemes td.bottom {
 	border-bottom: 1px solid #ddd;
 }
 
-.misc-pub-section-last {
+#normal-sortables .misc-pub-section {
+	min-height: 18px;
+}
+
+#normal-sortables .misc-pub-section-1-last,
+.misc-pub-section-2-last {
 	border-bottom: 0;
 }
 
+#normal-sortables #misc-pub-block-1,
+#normal-sortables #misc-pub-block-2 {
+	float: left;
+	min-height: 70px;
+}
+
+#normal-sortables #misc-pub-block-1 {
+	border-right: 1px solid #ddd;
+}
+
+#normal-sortables #misc-pub-block-2 {
+	border-left: 1px solid #ddd;
+	margin-left: -1px;
+}
+
 #minor-publishing-actions {
-	padding: 4px 4px 4px 0;
+	padding: 6px 6px 6px 0;
 	float: right;
 	text-align: right;
 }
