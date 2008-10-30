@@ -287,7 +287,7 @@ jQuery(document).ready( function($) {
 			$.post('admin-ajax.php', data,
 				function(r) {
 					var r = wpAjax.parseAjaxResponse(r);
-					$('#commentstatusdiv .comments-box').show();
+					$('#commentstatusdiv .widefat').show();
 					$('.waiting').hide();
 
 					if ( 'object' == typeof r && r.responses[0] ) {
@@ -308,7 +308,7 @@ jQuery(document).ready( function($) {
 						return;
 					}
 
-					$('#the-comment-list').append('<li>'+wpAjax.broken+'</li>');
+					$('#the-comment-list').append('<tr><td colspan="5">'+wpAjax.broken+'</td></tr>');
 				}
 			);
 

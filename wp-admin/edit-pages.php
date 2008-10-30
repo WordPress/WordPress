@@ -277,12 +277,21 @@ if ( 1 == count($posts) && is_singular() ) :
 
 <br class="clear" />
 
-<ol id="the-comment-list" class="list:comment">
+<table class="widefat" style="margin-top: .5em">
+<thead>
+  <tr>
+    <th scope="col"><?php _e('Comment') ?></th>
+    <th scope="col"><?php _e('Date') ?></th>
+    <th scope="col"><?php _e('Actions') ?></th>
+  </tr>
+</thead>
+<tbody id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)
 		_wp_comment_row( $comment->comment_ID, 'detail', false, false );
 ?>
-</ol>
+</tbody>
+</table>
 
 <?php
 wp_comment_reply();

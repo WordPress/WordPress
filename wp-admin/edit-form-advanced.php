@@ -368,10 +368,17 @@ function post_comment_status_meta_box($post) {
 wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 ?>
 
-<div class="comments-box" style="display:none;">
-<ol id="the-comment-list" class="list:comment">
-</ol>
-</div>
+<table class="widefat comments-box" style="display:none;">
+<thead>
+	<tr>
+		<th scope="col"><?php _e('Comments') ?></th>
+		<th scope="col"><?php _e('Author') ?></th>
+		<th scope="col"><?php _e('Submitted') ?></th>
+	</tr>
+</thead>
+<tbody id="the-comment-list" class="list:comment">
+</tbody>
+</table>
 <p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
 <?php
 	$hidden = (array) get_user_option( "meta-box-hidden_post" );

@@ -1858,70 +1858,109 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
 	$unapprove_url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "unapprove-comment_$comment->comment_ID" ) );
 	$spam_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-?>
-<li id='comment-<?php echo $comment->comment_ID; ?>' class='<?php echo $the_comment_status; ?> comment-list-item'>
-<p class="comment-author"><strong><?php comment_author(); ?></strong> 
-<?php if ( current_user_can( 'edit_post', $post->ID ) && !empty( $comment->comment_author_email ) ) { echo ' | '; comment_author_email_link(); } ?> 
-<span class="sepa">|</span> <a href="edit-comments.php?s=<?php comment_author_IP(); ?>"><?php comment_author_IP(); ?></a> <span class="sepa">|</span> <a href="<?php echo get_permalink( $post->ID ) . '#comment-' . $comment->comment_ID; ?>" style="text-decoration: none;">#</a><br />
-<?php if ( !empty($author_url) ) echo "<a href='$author_url'>$author_url_display</a>"; ?>
-</p>
 
-<?php if ( 'detail' == $mode || 'single' == $mode ) comment_text(); ?>
-<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
-<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
-<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
-<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
-<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
-<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
-</div>
+	echo "<tr id='comment-$comment->comment_ID' class='$the_comment_status'>";
+	$columns = get_column_headers('comment');
+	$hidden = (array) get_user_option( 'manage-comment-columns-hidden' );
+	foreach ( $columns as $column_name => $column_display_name ) {
+		$class = "class=\"$column_name column-$column_name\"";
 
-<?php
-// TODO: I don't think checkboxes really matter anymore
-// if ( $checkbox && current_user_can( 'edit_post', $comment->comment_post_ID ) )
-//	echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
-?>
+		$style = '';
+		if ( in_array($column_name, $hidden) )
+			$style = ' style="display:none;"';
 
-<?php
-$actions = array();
+		$attributes = "$class$style";
 
-if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-	$actions['approve'] = "<span class='comment-action-link'><a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a></span>';
-	$actions['unapprove'] = "<span class='comment-action-link'><a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a></span>';
-	if ( $comment_status ) { // not looking at all comments
-		if ( 'approved' == $the_comment_status ) {
-			$actions['unapprove'] = "<span class='comment-action-link'><a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment vim-u vim-destructive' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a></span>';
-			unset($actions['approve']);
-		} else {
-			$actions['approve'] = "<span class='comment-action-link'><a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment vim-a vim-destructive' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a></span>';
-			unset($actions['unapprove']);
+		switch ($column_name) {
+			case 'cb':
+				if ( !$checkbox ) break;
+				echo '<th scope="row" class="check-column">';
+				if ( current_user_can('edit_post', $comment->comment_post_ID) ) echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
+				echo '</th>';
+				break;
+			case 'comment':
+				echo "<td $attributes>";
+				if ( 'detail' == $mode || 'single' == $mode ) comment_text(); ?>
+				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
+				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
+				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>
+				<div class="author"><?php echo attribute_escape( $comment->comment_author ); ?></div>
+				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
+				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
+				</div>
+				<?php
+				$actions = array();
+
+				if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+					$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
+					$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+					if ( $comment_status ) { // not looking at all comments
+						if ( 'approved' == $the_comment_status ) {
+							$actions['unapprove'] = "<a href='$unapprove_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment vim-u vim-destructive' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+							unset($actions['approve']);
+						} else {
+							$actions['approve'] = "<a href='$approve_url' class='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment vim-a vim-destructive' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
+							unset($actions['unapprove']);
+						}
+					}
+					if ( 'spam' != $the_comment_status )
+						$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a>';
+					$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
+					$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
+					$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick&nbsp;Edit') . '</a>';
+					if ( 'spam' != $the_comment_status )
+						$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\');return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
+
+					$actions = apply_filters( 'comment_row_actions', $actions, $comment );
+
+					$i = 0;
+					foreach ( $actions as $action => $link ) {
+						++$i;
+						( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
+
+						// Reply and quickedit need a hide-if-no-js span
+						if ( 'reply' == $action || 'quickedit' == $action )
+							$action .= ' hide-if-no-js';
+
+						echo "<span class='$action'>$sep$link</span>";
+					}
+				}
+
+				echo '</td>';
+				break;
+			case 'author':
+				echo "<td $attributes><strong>"; comment_author(); echo '</strong><br />';
+				if ( !empty($author_url) )
+					echo "<a href='$author_url'>$author_url_display</a><br />";
+				if ( current_user_can( 'edit_post', $post->ID ) ) {
+					if ( !empty($comment->comment_author_email) ) {
+						comment_author_email_link();
+						echo '<br />';
+					}
+					echo '<a href="edit-comments.php?s=';
+					comment_author_IP();
+					echo '&amp;mode=detail">';
+					comment_author_IP();
+					echo '</a>';
+				} //current_user_can
+				echo '</td>';
+				break;
+			case 'date':
+				echo "<td $attributes>" . get_comment_date(__('Y/m/d \a\t g:ia')) . '</td>';
+				break;
+			case 'response':
+				if ( 'single' !== $mode ) {
+					echo "<td $attributes>\n";
+					echo "&quot;$post_link&quot; ";
+					echo '<a href="edit-comments.php?p=' . $post->ID;
+					if ( !empty($_GET['comment_type']) ) echo '&amp;comment_type=' . htmlspecialchars( $_GET['comment_type'] );
+					echo '">' . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '</a><br />';
+					echo get_the_time(__('Y/m/d \a\t g:ia'));
+					echo '</td>';
+				}
 		}
 	}
-	if ( 'spam' != $the_comment_status )
-		$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . __( 'Spam' ) . '</a>';
-	$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
-	$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
-	$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick Edit') . '</a>';
-	if ( 'spam' != $the_comment_status )
-		$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\');return false;" class="vim-r" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
-
-	$actions = apply_filters( 'comment_row_actions', $actions, $comment );
-
-	$i = 0;
-	foreach ( $actions as $action => $link ) {
-		++$i;
-		( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' <span class="sepa">|</span> ';
-
-		// Reply and quickedit need a hide-if-no-js span
-		if ( 'reply' == $action || 'quickedit' == $action )
-			$action .= ' hide-if-no-js';
-
-		echo "<span class='$action'>$sep$link</span>";
-	}
-}
-?>
- &nbsp;<span class="sepa">&#8212;</span>&nbsp; <?php echo get_comment_date( __('Y/m/d \a\t g:ia') ); ?> <span class="sepa">|</span> <a href="<?php echo get_permalink( $post->ID ); ?>" style="text-decoration: none;">&para;</a> <?php echo $post_link; ?>
-</li>
-<?php
+	echo "</tr>\n";
 }
 
 /**
@@ -1933,7 +1972,7 @@ if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
  * @param unknown_type $checkbox
  * @param unknown_type $mode
  */
-function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = false) {
+function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
 	global $current_user;
 
 	// allow plugin to replace the popup content
@@ -1948,7 +1987,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 <?php if ( $table_row ) : ?>
 <table style="display:none;"><tbody id="com-reply"><tr id="replyrow"><td colspan="6">
 <?php else : ?>
-<ul id="com-reply" style="display:none;"><li id="replyrow">
+<div id="com-reply" style="display:none;"><div id="replyrow">
 <?php endif; ?>
 	<div id="replyhead" style="display:none;"><?php _e('Reply to Comment'); ?></div>
 
@@ -1996,7 +2035,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 <?php if ( $table_row ) : ?>
 </td></tr></tbody></table>
 <?php else : ?>
-</li></ul>
+</div></div>
 <?php endif; ?>
 </form>
 <?php
@@ -2789,7 +2828,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" class="search-input" name="ps" value="" />
-				<input type="button" onClick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onclick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -2799,7 +2838,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button" onClick="findPosts.close();" value="<?php _e('Close'); ?>" />
+			<input type="button" class="button" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button" value="<?php _e('Select'); ?>" />
 		</div>
 	</div>
