@@ -1,3 +1,60 @@
+/* http://meyerweb.com/eric/tools/css/reset/ */
+/* v1.0 | 20080212 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+/*
+:focus {
+	outline: 0;
+}
+*/
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* end reset css */
+
+
 /* 2 column liquid layout */
 #wpwrap {
 	height: auto;
@@ -72,6 +129,20 @@
 	width: 59%;
 }
 
+/* include margin and padding in the width calculation of input and textarea */
+input[type="text"],
+textarea {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box; /* ie8 only */
+	box-sizing: border-box;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	vertical-align: text-top;
+}
+
 /* styles for use by people extending the WordPress interface */
 
 body	{
@@ -83,22 +154,31 @@ body, td {
 	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
-form, label input { margin: 0; padding: 0; }
+form, label input {
+	margin: 0;
+	padding: 0;
+}
 
-img { border: 0; }
+img {
+	border: 0;
+}
 
-label { cursor: pointer; }
+label {
+	cursor: pointer;
+}
 
-li, dd { margin-bottom: 6px; }
+li, dd {
+	margin-bottom: 6px;
+}
 
-p, li, dl, dd, dt { line-height: 140%; }
+p, li, dl, dd, dt {
+	line-height: 140%;
+}
 
 textarea, input, select {
 	font: 13px Verdana, Arial, Helvetica, sans-serif;
 	margin: 1px;
 	padding: 3px;
-	border-width: 1px;
-	border-style: solid;
 }
 
 .alignleft {
@@ -205,7 +285,6 @@ h6 {
 	-khtml-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	
 }
 
 .widefat a {

@@ -9,79 +9,68 @@
 				e.stopPropagation();
 			} );
 
-			$('.hide-postbox-tog').click( function() { 
-				var box = jQuery(this).val(); 
-				if ( jQuery(this).attr('checked') ) { 
-					jQuery('#' + box).show(); 
-					if ( $.isFunction( postboxes.onShow ) ) { 
-						postboxes.onShow( box ); 
-					}
-				} else { 
-					jQuery('#' + box).hide(); 
-				} 
+			$('.hide-postbox-tog').click( function() {
+				var box = jQuery(this).val();
+				if ( jQuery(this).attr('checked') ) {
+					jQuery('#' + box).show();
+					if ( $.isFunction( postboxes.pbshow ) )
+						postboxes.pbshow( box );
+
+				} else {
+					jQuery('#' + box).hide();
+					if ( $.isFunction( postboxes.pbhide ) )
+						postboxes.pbhide( box );
+
+				}
 				postboxes.save_state(page);
 			} );
 
-			this.makeItTall();
+			this.expandSidebar();
 			this.init(page,args);
 		},
-		
-		makeItTall : function() {
-			var t = $('#make-it-tall').remove();
 
-			if ( t.length < 1 )
-				t = $.browser.mozilla ? '<div id="make-it-tall" style="margin-bottom: -2000px; padding-bottom: 2001px"></div>' : '<div id="make-it-tall"> <br /> <br /></div>';
-			
-			$('#side-sortables').append(t);
-			
-			if ( $('#side-sortables').children().length > 1 )
-				$('#side-sortables').css({'minHeight':'300px'});
-
-			$('#wpbody-content').css( 'overflow', 'hidden' );
-		},
-
-		expandSidebar : function( doIt ) {
-			if ( doIt || $.trim( $( '#side-info-column' ).text() ) ) {
-				$( '#post-body' ).addClass( 'has-sidebar' );
-				$( '#side-sortables' ).css('z-index','0');
+		expandSidebar : function(doIt) {
+			if ( doIt || $('#side-sortables > .postbox:visible').length ) {
+				$('#post-body').addClass('has-sidebar');
+				$('#side-sortables').height( $('#post-body').height() );
 			} else {
-				$( '#post-body' ).removeClass( 'has-sidebar' );
-				$( '#side-sortables' ).css('z-index','-1');
+				$('#post-body').removeClass('has-sidebar');
+				$('#side-sortables').height('0')
 			}
 		},
 
-		init : function(page,args) {
+		init : function(page, args) {
 			$.extend( this, args || {} );
-			jQuery('.meta-box-sortables').sortable( {
+			$('.meta-box-sortables').sortable( {
 				placeholder: 'sortable-placeholder',
 				connectWith: [ '.meta-box-sortables' ],
 				items: '> .postbox',
 				handle: '.hndle',
 				distance: 2,
 				tolerance: 'pointer',
-				receive: function() {
-					postboxes.makeItTall();
+				sort: function(e,ui) {
+					if ( $(document).width() - e.clientX < 300 ) {
+						if ( ! $('#post-body').hasClass('has-sidebar') ) {
+							var pos = $('#side-sortables').offset();
+
+							$('#side-sortables').append(ui.item)
+							$(ui.placeholder).css({'top':pos.top,'left':pos.left}).width($(ui.item).width())
+							postboxes.expandSidebar(1);
+						}
+					}
 				},
 				stop: function() {
-					if ( $('#side-sortables').children().length < 2 )
-						$('#side-sortables').css({'minHeight':''});
-
 					var postVars = {
 						action: 'meta-box-order',
-						_ajax_nonce: jQuery('#meta-box-order-nonce').val(),
+						_ajax_nonce: $('#meta-box-order-nonce').val(),
 						page: page
 					}
-					jQuery('.meta-box-sortables').each( function() {
-						postVars["order[" + this.id.split('-')[0] + "]"] = jQuery(this).sortable( 'toArray' ).join(',');
+					$('.meta-box-sortables').each( function() {
+						postVars["order[" + this.id.split('-')[0] + "]"] = $(this).sortable( 'toArray' ).join(',');
 					} );
-					jQuery.post( postboxL10n.requestFile, postVars, function() {
+					$.post( postboxL10n.requestFile, postVars, function() {
 						postboxes.expandSidebar();
 					} );
-				},
-				over: function(e, ui) {
-					if ( !ui.element.is( '#side-sortables' ) )
-						return;
-					postboxes.expandSidebar( true );
 				}
 			} );
 		},
@@ -96,12 +85,13 @@
 				closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
 				page: page
 			});
+			postboxes.expandSidebar();
 		},
 
 		/* Callbacks */
-		onShow : false
-	};
+		pbshow : false,
 
-	$(document).ready(function(){postboxes.expandSidebar();});
+		pbhide : false
+	};
 
 }(jQuery));

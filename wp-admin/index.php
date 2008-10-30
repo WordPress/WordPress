@@ -37,7 +37,7 @@ $today = current_time('mysql', 1);
 
 <?php wp_dashboard(); ?>
 
-
+<div class="clear"></div>
 </div><!-- dashboard-widgets-wrap -->
 
 </div><!-- wrap -->

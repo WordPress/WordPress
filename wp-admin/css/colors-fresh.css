@@ -1,8 +1,4 @@
 
-textarea, input, select {
-	border-color: #dfdfdf;
-}
-
 #sidemenu-bg,
 .find-box-search {
 	background-color: #e4f2fd;
@@ -17,7 +13,6 @@ body,
 #wpbody,
 .form-table .pre,
 .find-box-inside {
-	background-color: #f9f9f9;
 	color: #333;
 }
 
@@ -431,8 +426,9 @@ input.readonly {
 	color: #fff;
 }
 
-#ed_toolbar input, #ed_reply_toolbar input {
-	background: url( ../images/fade-butt.png ) #fff repeat-x 0 -2px;
+#ed_toolbar input,
+#ed_reply_toolbar input {
+	background: #fff url("../images/fade-butt.png") repeat-x 0 -2px;
 }
 
 #editable-post-name {
@@ -629,6 +625,15 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 	background-color: #dfdfdf;
 }
 
+#ed_toolbar input {
+	border-color: #C3C3C3;
+}
+
+#ed_toolbar input:hover {
+	border-color: #aaa;
+	background: #ddd;
+}
+
 #poststuff .wp_themeSkin .mceStatusbar {
 	border-color: #EDEDED;
 }
@@ -810,17 +815,21 @@ div#media-upload-error, .file-error, abbr.required, .widget-control-remove:hover
 
 #editorcontainer,
 #post-status-info,
-#poststuff #titlewrap {
+#titlediv #title {
 	border-color: #dfdfdf;
 }
 
-#poststuff #titlewrap {
+#titlediv #title {
 	background-color: #fff;
 }
 
 #tTips p#tTips_inside {
 	background-color: #ddd;
 	color: #333;
+}
+
+#timestampdiv input {
+	border-color: #ddd;
 }
 
 /* Diff */
