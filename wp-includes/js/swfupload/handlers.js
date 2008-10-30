@@ -205,6 +205,14 @@ function fileDialogComplete(num_files_queued) {
 	}
 }
 
+function swfuploadPreLoad() {
+	return true;
+}
+
+function swfuploadLoadFailed() {
+	return true;
+}
+
 function uploadError(fileObj, error_code, message) {
 	// first the file specific error
 	if ( error_code == SWFUpload.UPLOAD_ERROR.MISSING_UPLOAD_URL ) {
