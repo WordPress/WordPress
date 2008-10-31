@@ -82,12 +82,12 @@ function post_submit_meta_box($post) {
 <?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
 	<div class="misc-pub-section" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
 <?php } ?>
-
+<!--
 <div class="misc-pub-section misc-pub-section-1-last" id="visibility">
 <?php _e('Visibility:'); ?> <b><?php _e('Public'); // TODO: dropdown ?></b>
 </div>
+-->
 </div>
-
 <div id="misc-pub-block-2">
 <?php
 $datef = _c( 'M j, Y \a\t G:i|Publish box date format');
@@ -144,12 +144,10 @@ switch ( $post->post_status ) {
 <div id="post-status-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
 <select name='post_status' id='post_status' tabindex='4'>
-<?php
-if ( $post->post_status == 'publish' ) : ?>
+<?php if ( $post->post_status == 'publish' ) : ?>
 <option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
-<?php if ( 'future' == $post->post_status ) : ?>
+<?php elseif ( 'future' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
-<?php endif; ?>
 <?php endif; ?>
 <option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Draft') ?></option>

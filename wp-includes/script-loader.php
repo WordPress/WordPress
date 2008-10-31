@@ -199,6 +199,16 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->localize( 'page', 'postL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
+			'publishOn' => __('Publish on:'),
+			'publishOnFuture' =>  __('Schedule for:'),
+			'publishOnPast' => __('Published on:'),
+			'showcomm' => __('Show more comments'),
+			'endcomm' => __('No more comments found.'),
+			'publish' => __('Publish'),
+			'schedule' => __('Schedule'),
+			'update' => __('Update Page'),
+			'savePending' => __('Save Pending'),
+			'saveDraft' => __('Save Draft')
 		) );
 		$scripts->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox', 'settings-box'), '20080925' );
 		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20080219' );

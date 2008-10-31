@@ -215,17 +215,6 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 
-	// Custom Fields
-	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
-		if ( jQuery.isFunction( autosave_update_post_ID ) ) {
-			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
-		}
-	}, addBefore: function( s ) {
-		s.data += '&post_id=' + jQuery('#post_ID').val();
-		return s;
-	}
-	});
-
 	$('.edit-post-status').click(function() {
 		if ($('#post-status-select').is(":hidden")) {
 			$('#post-status-select').slideDown("normal");
@@ -259,6 +248,17 @@ jQuery(document).ready( function($) {
 		}
 
 		return false;
+	});
+
+	// Custom Fields
+	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
+		if ( jQuery.isFunction( autosave_update_post_ID ) ) {
+			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
+		}
+	}, addBefore: function( s ) {
+		s.data += '&post_id=' + jQuery('#post_ID').val();
+		return s;
+	}
 	});
 });
 
