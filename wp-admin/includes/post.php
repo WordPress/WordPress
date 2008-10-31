@@ -827,8 +827,7 @@ function postbox_classes( $id, $page ) {
 		if ( !is_array( $closed ) ) return '';
 		return in_array( $id, $closed )? 'if-js-closed' : '';
 	} else {
-		if ( 'tagsdiv' == $id || 'categorydiv' == $id ) return '';
-		else return 'if-js-closed';
+		return '';
 	}
 }
 
