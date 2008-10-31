@@ -105,4 +105,11 @@ jQuery(document).ready( function($) {
 
 		return false;
 	});
+	
+	// preview
+	$('#post-preview').click(function(e){
+		$('input#wp-preview').val('dopreview');
+		$('form#post').attr('target', 'wp-preview').submit().attr('target', '');
+		$('input#wp-preview').val('');
+	});
 });

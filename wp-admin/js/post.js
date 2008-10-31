@@ -260,6 +260,14 @@ jQuery(document).ready( function($) {
 		return s;
 	}
 	});
+
+	// preview
+	$('#post-preview').click(function(e){
+		$('input#wp-preview').val('dopreview');
+		$('form#post').attr('target', 'wp-preview').submit().attr('target', '');
+		$('input#wp-preview').val('');
+	});
+
 });
 
 (function($){
@@ -314,7 +322,7 @@ jQuery(document).ready( function($) {
 
 			return false;
 		}
-	}
-
+	};
+	
 })(jQuery);
 

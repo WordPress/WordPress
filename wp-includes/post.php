@@ -3551,3 +3551,25 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 		return array();
 	return $revisions;
 }
+
+function _show_post_preview() {
+
+	if ( isset($_GET['wp_preview']) && isset($_GET['preview_nonce']) ) {
+		$post_ID = (int) $_GET['wp_preview'];
+
+		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $post_ID ) )
+			wp_die( __('You do not have permission to preview drafts.') );
+
+		$q = array(
+			'name' => "{$post_ID}-autosave",
+			'post_parent' => $post_ID,
+			'post_type' => 'revision',
+			'post_status' => 'inherit'
+		);
+
+		add_action( 'parse_query', '_wp_get_post_autosave_hack' );
+		query_posts($q);
+		remove_action( 'parse_query', '_wp_get_post_autosave_hack' );
+
+	}
+}

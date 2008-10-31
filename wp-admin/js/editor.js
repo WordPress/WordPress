@@ -24,7 +24,6 @@ switchEditors = {
 	
 	saveCallback : function(el, content, body) {
 
-		this.I(el).style.color = '#fff';
 		if ( tinyMCE.activeEditor.isHidden() )
 			content = this.I(el).value;
 		else

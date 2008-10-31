@@ -80,6 +80,8 @@ function redirect_post($post_ID = '') {
 
 if ( isset( $_POST['deletepost'] ) )
 	$action = 'delete';
+elseif ( isset($_POST['wp-preview']) && 'dopreview' == $_POST['wp-preview'] )
+	$action = 'preview';
 
 switch($action) {
 case 'postajaxpost':
@@ -215,6 +217,28 @@ case 'delete':
 	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	wp_redirect($sendback);
+	exit();
+	break;
+
+case 'preview':
+	check_admin_referer( 'autosave', 'autosavenonce' );
+
+	if ( empty($_POST['post_title']) )
+		wp_die( __('Please enter a title before previewing this post.') );
+
+	$id = post_preview();
+
+	if ( is_wp_error($id) )
+		wp_die( $id->get_error_message() );
+
+	if ( $_POST['post_status'] == 'publish'  ) {
+		$nonce = wp_create_nonce('post_preview_' . $id);
+		$url = site_url('?wp_preview=' . $id . '&preview_nonce=' . $nonce);
+	} else {
+		$url = site_url('?p=' . $id . '&preview=true');
+	}
+
+	wp_redirect($url);
 	exit();
 	break;
 

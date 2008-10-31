@@ -160,11 +160,17 @@ switch ( $post->post_status ) {
 <input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Pending') ); ?>" tabindex="4" class="button button-highlighted" />
 <?php } ?>
 
+<noscript>
 <?php if ( 'publish' == $post->post_status ) { ?>
 <a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View Post'); ?></a>
 <?php } else { ?>
 <a class="preview button" href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" target="_blank" tabindex="4"><?php _e('Preview'); ?></a>
 <?php } ?>
+</noscript>
+
+<a class="preview button hide-if-no-js" href="#" id="post-preview" tabindex="4"><?php _e('Preview'); ?></a>
+<input type="hidden" name="wp-preview" id="wp-preview" value="" />
+
 </div>
 <div class="clear"></div>
 </div>

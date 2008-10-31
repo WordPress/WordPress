@@ -987,7 +987,56 @@ function wp_create_post_autosave( $post_id ) {
 }
 
 /**
- * wp_tiny_mce() - adds the TinyMCE editor used on the Write and Edit screens.
+ * Save draft or manually autosave for showing preview.
+ *
+ * @package WordPress
+ * @since 2.7
+ * 
+ * @uses wp_write_post()
+ * @uses edit_post()
+ * @uses get_post()
+ * @uses current_user_can()
+ * @uses wp_create_post_autosave()
+ * 
+ * @return int|object the saved post id or wp_error object
+ */
+function post_preview() {
+
+	$_POST['post_category'] = explode(",", $_POST['catslist']);
+	$_POST['tags_input'] = explode(",", $_POST['tags_input']);
+	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
+		unset($_POST['post_category']);
+
+	if($_POST['post_ID'] < 0) {
+		$_POST['post_status'] = 'draft';
+		$_POST['temp_ID'] = $_POST['post_ID'];
+		$id = wp_write_post();
+	} else {
+		$post_ID = (int) $_POST['post_ID'];
+		$_POST['ID'] = $post_ID;
+		$post = get_post($post_ID);
+
+		if ( 'page' == $post->post_type ) {
+			if ( !current_user_can('edit_page', $post_ID) )
+				die(__('You are not allowed to edit this page.'));
+		} else {
+			if ( !current_user_can('edit_post', $post_ID) )
+				die(__('You are not allowed to edit this post.'));
+		}
+
+		if ( 'draft' == $post->post_status ) {
+			$id = edit_post();
+		} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
+			wp_create_post_autosave( $post->ID );
+			$id = $post->ID;
+		}
+	}
+
+	return $id;
+}
+
+/**
+ * Adds the TinyMCE editor used on the Write and Edit screens.
  * 
  * Has option to output a trimmed down version used in Press This.
  *
