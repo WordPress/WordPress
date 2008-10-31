@@ -270,6 +270,25 @@ function post_categories_meta_box($post) {
 add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'side', 'core');
 
 /**
+ * Display post password form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
+function post_password_meta_box($post) {
+?>
+<p>
+	<label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label>
+</p>
+<h4><?php _e( 'Post Password' ); ?></h4>
+<p><label class="hidden" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
+<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
+<?php
+}
+add_meta_box('passworddiv', __('Privacy Options'), 'post_password_meta_box', 'post', 'side', 'core');
+
+/**
  * Display post excerpt form fields.
  *
  * @since 2.6.0
@@ -386,25 +405,6 @@ wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 	}
 }
 add_meta_box('commentstatusdiv', __('Comments on this Post'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
-
-/**
- * Display post password form fields.
- *
- * @since 2.6.0
- *
- * @param object $post
- */
-function post_password_meta_box($post) {
-?>
-<p>
-	<label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex="4" /> <?php _e('Keep this post private') ?></label>
-</p>
-<h4><?php _e( 'Post Password' ); ?></h4>
-<p><label class="hidden" for="post_password"><?php _e('Password Protect This Post') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
-<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this post and its comments.'); ?></p>
-<?php
-}
-add_meta_box('passworddiv', __('Privacy Options'), 'post_password_meta_box', 'post', 'normal', 'core');
 
 /**
  * Display post slug form fields.
