@@ -1478,9 +1478,12 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 	if (($rows < 3) || ($rows > 100))
 		$rows = 12;
 
-	$rows = "rows='$rows'";	?>
+	$richedit =  user_can_richedit();
+	$rows = "rows='$rows'";
+	
+	if ( $richedit || $media_buttons ) { ?>
 	<div id="editor-toolbar">
-	<?php if ( user_can_richedit() ) {
+	<?php if ( $richedit ) {
 		$wp_default_editor = wp_default_editor(); ?>
 		<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
 		<?php if ( 'html' == $wp_default_editor ) {
@@ -1491,15 +1494,16 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 			add_filter('the_editor_content', 'wp_richedit_pre'); ?>
 			<a id="edButtonHTML" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
 			<a id="edButtonPreview" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-		<?php } 
-	}
+		<?php }
+		}
 
-	if ( $media_buttons ) { ?>
-		<div id="media-buttons" class="hide-if-no-js">
-		<?php do_action( 'media_buttons' ); ?>
-		</div>
-	<?php } ?>
+		if ( $media_buttons ) { ?>
+			<div id="media-buttons" class="hide-if-no-js">
+			<?php do_action( 'media_buttons' ); ?>
+			</div>
+		<?php } ?>
 	</div>
+	<?php } ?>
 
 	<div id="quicktags">
 	<?php wp_print_scripts( 'quicktags' ); ?>

@@ -888,7 +888,10 @@ abbr.required,
 	color: #333;
 }
 
-#timestampdiv input {
+#timestampdiv input,
+#emaildiv input,
+#uridiv input,
+.stuffbox #name {
 	border-color: #ddd;
 }
 

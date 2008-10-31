@@ -405,8 +405,12 @@ textarea.all-options, input.all-options {
 	padding: 0;
 }
 
-#emaildiv input, #uridiv input, .stuffbox #name {
+#emaildiv input,
+#uridiv input,
+.stuffbox #name {
 	width: 94%;
+	border-style: solid;
+	border-width: 1px;
 }
 
 #wpbody-content .metabox-holder {
