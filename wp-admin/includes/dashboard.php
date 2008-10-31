@@ -30,12 +30,6 @@ function wp_dashboard_setup() {
 	// Recent Comments Widget
 	wp_add_dashboard_widget( 'dashboard_recent_comments', __( 'Recent Comments' ), 'wp_dashboard_recent_comments' );
 
-	// QuickPress Widget
-	wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
-
-	// Recent Drafts
-	wp_add_dashboard_widget( 'dashboard_recent_drafts', __( 'Recent Drafts' ), 'wp_dashboard_recent_drafts' );
-
 	// Incoming Links Widget
 	if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
 		$update = true;
@@ -52,6 +46,13 @@ function wp_dashboard_setup() {
 	// WP Plugins Widget
 	if ( current_user_can( 'activate_plugins' ) )
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
+
+	// QuickPress Widget
+	wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
+
+	// Recent Drafts
+	wp_add_dashboard_widget( 'dashboard_recent_drafts', __( 'Recent Drafts' ), 'wp_dashboard_recent_drafts' );
+
 
 	// Primary feed (Dev Blog) Widget
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
@@ -75,7 +76,7 @@ function wp_dashboard_setup() {
 			'link' => apply_filters( 'dashboard_secondary_link',  __( 'http://planet.wordpress.org/' ) ),
 			'url' => apply_filters( 'dashboard_secondary_feed',  __( 'http://planet.wordpress.org/feed/' ) ),
 			'title' => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
-			'items' => 15
+			'items' => 5
 		);
 	}
 	wp_add_dashboard_widget( 'dashboard_secondary', $widget_options['dashboard_secondary']['title'], 'wp_dashboard_secondary', 'wp_dashboard_secondary_control' );
