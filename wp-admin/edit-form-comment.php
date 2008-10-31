@@ -32,14 +32,13 @@ $url = attribute_escape( $comment->comment_author_url );
 
 <div id="side-info-column" class="inner-sidebar">
 <div id="submitdiv" class="stuffbox" >
-<h3><span class='hndle'>Save</span></h3>
+<h3><span class='hndle'>Status</span></h3>
 <div class="inside">
 <div class="submitbox" id="submitcomment">
 <div id="minor-publishing">
 <div id="misc-publishing-actions">
 <div id="misc-pub-block-1">
 <div class="misc-pub-section" id="comment-status-radio">
-<p><?php _e('Status:') ?></p>
 <label class="approved"><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _e('Approved') ?></label><br />
 <label class="waiting"><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _e('Awaiting Moderation') ?></label><br />
 <label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _e('Spam') ?></label>
@@ -80,37 +79,46 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <div id="post-body-content" class="has-sidebar-content">
 
 <div id="namediv" class="stuffbox">
-<h3><label for="name"><?php _e('Name') ?></label></h3>
+<h3><label for="name"><?php _e( 'Author' ) ?></label></h3>
 <div class="inside">
-<input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" />
+<table class="form-table">
+<tbody>
+<tr valign="top">
+	<td class="first"><?php _e( 'Name:' ); ?></td>
+	<td><input type="text" name="newcomment_author" size="30" value="<?php echo attribute_escape( $comment->comment_author ); ?>" tabindex="1" id="name" /></td>
+</tr>
+<tr valign="top">
+	<td class="first">
+	<?php
+		if ( $email ) {
+			printf( __( 'E-mail (%s):' ), get_comment_author_email_link( __( 'send e-mail' ), '', '' ) );
+		} else {
+			_e( 'E-mail:' );
+		}
+?></td>
+	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $email; ?>" tabindex="2" id="email" /></td>
+</tr>
+<tr valign="top">
+	<td class="first">
+	<?php
+		$url = get_comment_author_url();
+		if ( ! empty( $url ) && 'http://' != $url ) {
+			$link = "<a href='$url' rel='external nofollow' target='_blank'>" . __('visit site') . "</a>";
+			printf( __( 'URL (%s):' ), apply_filters('get_comment_author_link', $link ) ); 
+		} else {
+			_e( 'URL:' );
+		} ?></td>
+	<td><input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo $url; ?>" tabindex="3" /></td>
+</tr>
+</tbody>
+</table>
+<br />
 </div>
 </div>
 
 <div id="postdiv" class="postarea">
 <?php the_editor($comment->comment_content, 'content', 'newcomment_author_url', false, 4); ?>
 <?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-</div>
-
-<div id="emaildiv" class="stuffbox">
-<h3><label for="email"><?php _e('E-mail') ?></label></h3>
-<div class="inside">
-<input type="text" name="newcomment_author_email" size="30" value="<?php echo $email; ?>" tabindex="2" id="email" />
-<?php if ( $email )
-	comment_author_email_link( __('Send Email'), '<p>', '</p>'); ?>
-</div>
-</div>
-
-<div id="uridiv" class="stuffbox">
-<h3><label for="newcomment_author_url"><?php _e('URL') ?></label></h3>
-<div class="inside">
-<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" value="<?php echo $url; ?>" tabindex="3" />
-<?php if ( ! empty( $url ) && 'http://' != $url ) {
-	$url = get_comment_author_url();
-	$link = "<a href='$url' rel='external nofollow' target='_blank'>" . __('Visit site') . "</a>";
-	
-	echo '<p>' . apply_filters('get_comment_author_link', $link) . '</p>'; 
-} ?>
-</div>
 </div>
 
 <?php do_meta_boxes('comment', 'normal', $comment); ?>

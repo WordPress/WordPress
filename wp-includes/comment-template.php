@@ -80,6 +80,7 @@ function comment_author_email() {
  *
  * @since 0.71
  * @uses apply_filters() Calls 'comment_email' hook for the display of the comment author's email
+ * @uses get_comment_author_email_link() For generating the link
  * @global object $comment The current Comment row object
  *
  * @param string $linktext The text to display instead of the comment author's email address
@@ -87,13 +88,38 @@ function comment_author_email() {
  * @param string $after The text or HTML to display after the email link.
  */
 function comment_author_email_link($linktext='', $before='', $after='') {
+	if ( $link = get_comment_author_email_link( $linktext, $before, $after ) )
+		echo $link;
+}
+
+/**
+ * Return the html email link to the author of the current comment.
+ *
+ * Care should be taken to protect the email address and assure that email
+ * harvesters do not capture your commentors' email address. Most assume that
+ * their email address will not appear in raw form on the blog. Doing so will
+ * enable anyone, including those that people don't want to get the email
+ * address and use it for their own means good and bad.
+ *
+ * @since 2.7
+ * @uses apply_filters() Calls 'comment_email' hook for the display of the comment author's email
+ * @global object $comment The current Comment row object
+ *
+ * @param string $linktext The text to display instead of the comment author's email address
+ * @param string $before The text or HTML to display before the email link.
+ * @param string $after The text or HTML to display after the email link.
+ */
+function get_comment_author_email_link($linktext='', $before='', $after='') {
 	global $comment;
 	$email = apply_filters('comment_email', $comment->comment_author_email);
 	if ((!empty($email)) && ($email != '@')) {
 	$display = ($linktext != '') ? $linktext : $email;
-		echo $before;
-		echo "<a href='mailto:$email'>$display</a>";
-		echo $after;
+		$return  = $before;
+		$return .= "<a href='mailto:$email'>$display</a>";
+	 	$return .= $after;
+		return $return;
+	} else {
+		return '';
 	}
 }
 

@@ -328,14 +328,14 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081030b' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081031' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );
 	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
 
 	$styles->add( 'colors', true ); // Register "meta" stylesheet for admin colors
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081030'); // for login.php.  Is there a better way?
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081031'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081030' );

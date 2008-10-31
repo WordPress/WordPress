@@ -889,9 +889,7 @@ abbr.required,
 }
 
 #timestampdiv input,
-#emaildiv input,
-#uridiv input,
-.stuffbox #name {
+#namediv input {
 	border-color: #ddd;
 }
 

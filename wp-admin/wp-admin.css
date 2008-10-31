@@ -405,12 +405,23 @@ textarea.all-options, input.all-options {
 	padding: 0;
 }
 
-#emaildiv input,
-#uridiv input,
-.stuffbox #name {
+#namediv table {
+	width: 100%;
+}
+
+#namediv td.first {
+	width: 10px;
+	white-space: nowrap;
+}
+
+#namediv input {
 	width: 94%;
 	border-style: solid;
 	border-width: 1px;
+}
+
+#namediv p {
+	margin: 10px 0;
 }
 
 #wpbody-content .metabox-holder {
