@@ -16,7 +16,7 @@ if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
 
 wp_enqueue_script('swfupload');
-wp_enqueue_script('swfupload-degrade');
+wp_enqueue_script('swfupload-swfobject');
 wp_enqueue_script('swfupload-queue');
 wp_enqueue_script('swfupload-handlers');
 

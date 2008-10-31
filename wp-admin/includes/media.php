@@ -1220,8 +1220,14 @@ function media_upload_form( $errors = null ) {
 <!--
 jQuery(function($){
 	swfu = new SWFUpload({
+			button_text: '<span class="button"><?php _e('Upload'); ?></span>',
+			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }',
+			button_height: "24",
+			button_width: "132",
+			button_image_url: '<?php echo includes_url('images/upload.png'); ?>',
+			button_placeholder_id: "async-upload-wrap",
 			upload_url : "<?php echo attribute_escape( $flash_action_url ); ?>",
-			flash_url : "<?php echo includes_url('js/swfupload/swfupload_f9.swf'); ?>",
+			flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",
 			file_post_name: "async-upload",
 			file_types: "<?php echo apply_filters('upload_file_glob', '*.*'); ?>",
 			post_params : {
@@ -1244,6 +1250,8 @@ jQuery(function($){
 			upload_complete_handler : uploadComplete,
 			file_queue_error_handler : fileQueueError,
 			file_dialog_complete_handler : fileDialogComplete,
+			swfupload_pre_load_handler: swfuploadPreLoad,
+			swfupload_load_failed_handler: swfuploadLoadFailed,
 
 			debug: false
 		});
@@ -1263,7 +1271,7 @@ jQuery(function($){
 
 <div id="html-upload-ui">
 <?php do_action('pre-html-upload-ui'); ?>
-	<p>
+	<p id="async-upload-wrap">
 	<input type="file" name="async-upload" id="async-upload" /> <input type="submit" class="button" name="html-upload" value="<?php echo attribute_escape(__('Upload')); ?>" /> <a href="#" onclick="return top.tb_remove();"><?php _e('Cancel'); ?></a>
 	</p>
 
