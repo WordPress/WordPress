@@ -8,11 +8,79 @@
 
 // The admin side of our 1.1 update system
 
+/**
+ * Selects the first update version from the update_core option
+ *
+ * @return object the response from the API
+ */
+function get_preferred_from_update_core() {
+	$updates = get_core_updates();
+	if ( !is_array( $updates ) )
+		return false;
+	if ( empty( $updates ) )
+		return (object)array('response' => 'latest');
+	return $updates[0];
+}
+
+/**
+ * Get available core updates
+ *
+ * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
+ * 	set $options['available'] to false to skip not-dimissed updates.
+ * @return array Array of the update objects
+ */
+function get_core_updates( $options = array() ) {
+	$options = array_merge( array('available' => true, 'dismissed' => false ), $options );
+	$dismissed = get_option( 'dismissed_update_core' );
+	if ( !is_array( $dismissed ) ) $dismissed = array();
+	$from_api = get_option( 'update_core' );
+	if ( !is_array( $from_api ) ) return false;
+	$result = array();
+	foreach($from_api as $update) {
+		if ( array_key_exists( $update->current.'|'.$update->locale, $dismissed ) ) {
+			if ( $options['dismissed'] ) {
+				$update->dismissed = true;
+				$result[]= $update;
+			}
+		} else {
+			if ( $options['available'] ) {
+				$update->dismissed = false;
+				$result[]= $update;
+			}
+		}
+	}
+	return $result;
+}
+
+function dismiss_core_update( $update ) {
+	$dismissed = get_option( 'dismissed_update_core' );
+	$dismissed[ $update->current.'|'.$update->locale ] = true;
+	return update_option( 'dismissed_update_core', $dismissed );
+}
+
+function undismiss_core_update( $version, $locale ) {
+	$dismissed = get_option( 'dismissed_update_core' );
+	$key = $version.'|'.$locale;
+	if ( !isset( $dismissed[$key] ) ) return false;
+	unset( $dismissed[$key] );
+	return update_option( 'dismissed_update_core', $dismissed );
+}
+
+function find_core_update( $version, $locale ) {
+	$from_api = get_option( 'update_core' );
+	if ( !is_array( $from_api ) ) return false;
+	foreach($from_api as $update) {
+		if ( $update->current == $version && $update->locale == $locale )
+			return $update;
+	}
+	return false;
+}
+
 function core_update_footer( $msg = '' ) {
 	if ( !current_user_can('manage_options') )
 		return sprintf( '| '.__( 'Version %s' ), $GLOBALS['wp_version'] );
 
-	$cur = get_option( 'update_core' );
+	$cur = get_preferred_from_update_core();
 	if ( ! isset( $cur->current ) )
 		$cur->current = '';
 
@@ -39,7 +107,7 @@ function core_update_footer( $msg = '' ) {
 add_filter( 'update_footer', 'core_update_footer' );
 
 function update_nag() {
-	$cur = get_option( 'update_core' );
+	$cur = get_preferred_from_update_core();
 
 	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
 		return false;
@@ -55,7 +123,7 @@ function update_nag() {
 
 // Called directly from dashboard
 function update_right_now_message() {
-	$cur = get_option( 'update_core' );
+	$cur = get_preferred_from_update_core();
 
 	$msg = sprintf( __('You are using <span class="b">WordPress %s</span>.'), $GLOBALS['wp_version'] );
 	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('manage_options') )
@@ -320,7 +388,7 @@ function wp_update_theme($theme, $feedback = '') {
 }
 
 
-function wp_update_core($feedback = '') {
+function wp_update_core($current, $feedback = '') {
 	global $wp_filesystem;
 
 	@set_time_limit( 300 );
@@ -329,7 +397,6 @@ function wp_update_core($feedback = '') {
 		add_filter('update_feedback', $feedback);
 
 	// Is an update available?
-	$current = get_option( 'update_core' );
 	if ( !isset( $current->response ) || $current->response == 'latest' )
 		return new WP_Error('up_to_date', __('WordPress is at the latest version.'));
 

@@ -23,19 +23,17 @@ function wp_version_check() {
 	if ( defined('WP_INSTALLING') )
 		return;
 
-	global $wp_version, $wpdb;
+	global $wp_version, $wpdb, $wp_local_package;
 	$php_version = phpversion();
 
 	$current = get_option( 'update_core' );
 	$locale = get_locale();
-
 	if (
 		isset( $current->last_checked ) &&
 		43200 > ( time() - $current->last_checked ) &&
 		$current->version_checked == $wp_version
 	)
 		return false;
-
 	$new_option = '';
 	$new_option->last_checked = time(); // this gets set whether we get a response or not, so if something is down or misconfigured it won't delay the page load for more than 3 seconds, twice a day
 	$new_option->version_checked = $wp_version;
@@ -44,8 +42,8 @@ function wp_version_check() {
 		$mysql_version = preg_replace('/[^0-9.].*/', '', $wpdb->db_version($wpdb->users));
 	else
 		$mysql_version = 'N/A';
-
-	$url = "http://api.wordpress.org/core/version-check/1.2/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version";
+	$local_package = isset( $wp_local_package )? $wp_local_package : '';
+	$url = "http://api.wordpress.org/core/version-check/1.3/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
 
 	$options = array('timeout' => 3);
 	$options['headers'] = array(
@@ -63,19 +61,23 @@ function wp_version_check() {
 
 	$body = trim( $response['body'] );
 	$body = str_replace(array("\r\n", "\r"), "\n", $body);
-	$returns = explode("\n", $body);
+	$new_options = array();
+	foreach( explode( "\n\n", $body ) as $entry) {
+		$returns = explode("\n", $entry);
+		$new_option = new stdClass();
+		$new_option->response = attribute_escape( $returns[0] );
+		if ( isset( $returns[1] ) )
+			$new_option->url = clean_url( $returns[1] );
+		if ( isset( $returns[2] ) )
+			$new_option->package = clean_url( $returns[2] );
+		if ( isset( $returns[3] ) )
+			$new_option->current = attribute_escape( $returns[3] );
+		if ( isset( $returns[4] ) )
+			$new_option->locale = attribute_escape( $returns[4] );
+		$new_options[] = $new_option;
+	}
 
-	$new_option->response = attribute_escape( $returns[0] );
-	if ( isset( $returns[1] ) )
-		$new_option->url = clean_url( $returns[1] );
-	if ( isset( $returns[2] ) )
-		$new_option->package = clean_url( $returns[2] );
-	if ( isset( $returns[3] ) )
-		$new_option->current = attribute_escape( $returns[3] );
-	if ( isset( $returns[4] ) )
-		$new_option->locale = attribute_escape( $returns[4] );
-
-	update_option( 'update_core', $new_option );
+	update_option( 'update_core', $new_options );
 }
 add_action( 'init', 'wp_version_check' );
 

@@ -2914,3 +2914,12 @@ abbr.required {
 .setting-description {
 	font-style: italic;
 }
+ul#dismissed-updates {
+	display: none;
+}
+ul.core-updates li {
+	padding: 12px;
+}
+form.upgrade {
+	margin-top: 8px;
+}
