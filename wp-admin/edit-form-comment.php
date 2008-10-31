@@ -33,40 +33,46 @@ $url = attribute_escape( $comment->comment_author_url );
 <div id="side-info-column" class="inner-sidebar">
 <div id="submitdiv" class="stuffbox" >
 <h3><span class='hndle'>Save</span></h3>
-
+<div class="inside">
 <div class="submitbox" id="submitcomment">
-<div class="inside-submitbox">
-
-<div class="insidebox">
-<div id='comment-status-radio'>
-<p><strong><?php _e('This comment is') ?></strong></p>
-<label><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _e('Approved') ?></label><br />
-<label><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _e('Awaiting Moderation') ?></label><br />
-<label><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _e('Spam') ?></label>
+<div id="minor-publishing">
+<div id="misc-publishing-actions">
+<div id="misc-pub-block-1">
+<div class="misc-pub-section" id="comment-status-radio">
+<p><?php _e('Status:') ?></p>
+<label class="approved"><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _e('Approved') ?></label><br />
+<label class="waiting"><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _e('Awaiting Moderation') ?></label><br />
+<label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _e('Spam') ?></label>
 </div>
 </div>
-
-<div class="insidebox" id="deletebutton">
+<div id="misc-pub-block-2">
+<div class="misc-pub-section curtime misc-pub-section-2-last">
 <?php
-echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>"; ?>
-</div>
-
-<?php
-$stamp = __('%1$s at %2$s');
-$date = mysql2date(get_option('date_format'), $comment->comment_date);
-$time = mysql2date(get_option('time_format'), $comment->comment_date);
+$datef = _c( 'M j, Y \a\t G:i|Publish box date format');
+$stamp = __('Submitted on:<br />%1$s');
+$date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
-<div class="insidebox curtime"><span id="timestamp"><?php printf($stamp, $date, $time); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0, 5); ?></div></div>
-
+<span id="timestamp"><?php printf($stamp, $date); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
 </div>
-
-<p class="submit">
-<input type="submit" name="save" value="<?php _e('Save'); ?>" tabindex="4" class="button button-highlighted" />
+</div>
+</div> <!-- misc actions -->
+<div id="minor-publishing-actions">
 <a class="preview button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View Comment'); ?></a>
-</p>
 </div>
-
+<div class="clear"></div>
+</div>
+<div id="major-publishing-actions">
+<div id="delete-action">
+<a class='submitdelete deletion' href='"<?php echo wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete'); ?></a>
+</div>
+<div id="publishing-action">
+<input type="submit" name="save" value="<?php _e('Update Comment'); ?>" tabindex="4" class="button-primary" />
+</div>
+<div class="clear"></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 

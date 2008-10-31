@@ -211,10 +211,11 @@ function wp_default_scripts( &$scripts ) {
 			'saveDraft' => __('Save Draft')
 		) );
 		$scripts->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox', 'settings-box'), '20080925' );
-		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20080219' );
+		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20081030' );
 		$scripts->localize( 'comment', 'commentL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
+			'submittedOn' => __('Submitted on:')
 		) );
 		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080709' );
 		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20081016' );
@@ -327,14 +328,14 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081030' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081030b' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );
 	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
 
 	$styles->add( 'colors', true ); // Register "meta" stylesheet for admin colors
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081028'); // for login.php.  Is there a better way?
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081030'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081030' );

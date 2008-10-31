@@ -35,6 +35,7 @@ jQuery(document).ready( function($) {
 		$('#timestampdiv').slideUp("normal");
 		$('.edit-timestamp').show();
 		$('#timestamp').html(
+			commentL10n.submittedOn + '<br />' +
 			$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
 			$('#jj').val() + ', ' +
 			$('#aa').val() + ' @ ' +

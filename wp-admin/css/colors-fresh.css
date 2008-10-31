@@ -29,6 +29,18 @@ div.dashboard-widget,
 	border-color: #ccc;
 }
 
+#poststuff .inside .spam {
+	color: red;
+}
+
+#poststuff .inside .waiting {
+	color: orange;
+}
+
+#poststuff .inside .approved {
+	color: green;
+}
+
 .widefat {
 	border-color: #dfdfdf;
 }
