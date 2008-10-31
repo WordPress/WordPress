@@ -3557,7 +3557,7 @@ function _show_post_preview() {
 	if ( isset($_GET['wp_preview']) && isset($_GET['preview_nonce']) ) {
 		$post_ID = (int) $_GET['wp_preview'];
 
-		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $post_ID ) )
+		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $post_ID ) || ! current_user_can('edit_post', $post_ID) )
 			wp_die( __('You do not have permission to preview drafts.') );
 
 		$q = array(
