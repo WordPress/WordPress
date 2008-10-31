@@ -245,7 +245,9 @@ function wp_dashboard_right_now() {
 	echo '<td class="b b-waiting">'.$num.'</td>';
 	echo '<td class="last t waiting">' . __ngettext( 'Awaiting Moderation', 'Awaiting Moderation', $num_comm['awaiting_moderation'] ) . '</td>';
 
-  echo "</tr>\n\t</table>\n\t</div>";
+	echo "</tr>";
+	do_action('right_now_table_end');
+	echo "\n\t</table>\n\t</div>";
   
   echo "\n\t".'<div class="versions">';
 	$ct = current_theme_info();
