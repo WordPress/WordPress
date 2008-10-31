@@ -14,10 +14,10 @@ wp_enqueue_script( 'admin-comments' );
 wp_enqueue_script( 'admin-forms' );
 enqueue_comment_hotkeys_js();
 
-if ( ( isset( $_POST['delete_all_spam'] ) || isset( $_POST['delete_all_spam2'] ) ) && !empty( $_POST['pagegen_timestamp'] ) ) {
+if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spam2'] ) ) && !empty( $_REQUEST['pagegen_timestamp'] ) ) {
 	check_admin_referer('bulk-spam-delete', '_spam_nonce');
 
-	$delete_time = $wpdb->escape( $_POST['pagegen_timestamp'] );
+	$delete_time = $wpdb->escape( $_REQUEST['pagegen_timestamp'] );
 	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND '$delete_time' > comment_date_gmt" );
 
 	wp_redirect('edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam);
@@ -113,8 +113,8 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 ?>
 
 <div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
-
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+<form id="comments-form" action="" method="get">
 <ul class="subsubsub">
 <?php
 $status_links = array();
@@ -143,13 +143,11 @@ unset($status_links);
 ?>
 </ul>
 
-<form class="search-form" action="" method="get">
 <p class="search-box">
 	<label class="hidden" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" class="search-input" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button-primary" />
 </p>
-</form>
 
 <?php
 $comments_per_page = apply_filters('comments_per_page', 20, $comment_status);
@@ -177,7 +175,6 @@ $page_links = paginate_links( array(
 
 ?>
 
-<form id="comments-form" action="" method="post">
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 <input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
 <input type="hidden" name="pagegen_timestamp" value="<?php echo current_time('mysql', 1); ?>" />
