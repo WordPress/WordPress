@@ -12,11 +12,11 @@ inlineEditPost = {
 		t.rows = $('tr.iedit');
 
 		// prepare the edit row
-		qeRow.dblclick(function() { inlineEditPost.toggle(this); })
-			.keyup(function(e) { if(e.which == 27) return inlineEditPost.revert(); });
+//		.dblclick(function() { inlineEditPost.toggle(this); })
+		qeRow.keyup(function(e) { if(e.which == 27) return inlineEditPost.revert(); });
 
-		bulkRow.dblclick(function() { inlineEditPost.revert(); })
-			.keyup(function(e) { if (e.which == 27) return inlineEditPost.revert(); });
+//		.dblclick(function() { inlineEditPost.revert(); })
+		bulkRow.keyup(function(e) { if (e.which == 27) return inlineEditPost.revert(); });
 
 		$('a.cancel', qeRow).click(function() { return inlineEditPost.revert(); });
 		$('a.save', qeRow).click(function() { return inlineEditPost.save(this); });
@@ -25,7 +25,7 @@ inlineEditPost = {
 		$('a.save', bulkRow).click(function() { return inlineEditPost.saveBulk(); });
 
 		// add events
-		t.rows.dblclick(function() { inlineEditPost.toggle(this); });
+//		t.rows.dblclick(function() { inlineEditPost.toggle(this); });
 		t.addEvents(t.rows);
 
 		$('#bulk-title-div').after(

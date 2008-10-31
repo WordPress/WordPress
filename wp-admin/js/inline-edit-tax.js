@@ -12,14 +12,14 @@ inlineEditTax = {
 		t.rows = $('tr.iedit');
 
 		// prepare the edit row
-		row.dblclick(function() { inlineEditTax.toggle(this); })
-			.keyup(function(e) { if(e.which == 27) return inlineEditTax.revert(); });
+//		.dblclick(function() { inlineEditTax.toggle(this); })
+		row.keyup(function(e) { if(e.which == 27) return inlineEditTax.revert(); });
 
 		$('a.cancel', row).click(function() { return inlineEditTax.revert(); });
 		$('a.save', row).click(function() { return inlineEditTax.save(this); });
 
 		// add events
-		t.rows.dblclick(function() { inlineEditTax.toggle(this); });
+//		t.rows.dblclick(function() { inlineEditTax.toggle(this); });
 		t.addEvents(t.rows);
 
 		$('#posts-filter input[type="submit"]').click(function(e){
