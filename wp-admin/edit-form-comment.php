@@ -24,52 +24,6 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 <input type="hidden" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 <?php
-// All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
-
-/**
- * Display comment edit meta box.
- *
- * Not used, but keeping for a bit longer in case it's needed.
- *
- * @since 2.7.0
- *
- * @param object $comment Comment data.
- */
-function comment_submit_meta_box($comment) {
-?>
-<div class="submitbox" id="submitcomment">
-<div class="inside-submitbox">
-
-<p><strong><?php _e('Approval Status') ?></strong></p>
-<p id='comment-status-radio'>
-<label><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _e('Approved') ?></label>
-<label><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _e('Awaiting Moderation') ?></label>
-<label><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _e('Spam') ?></label>
-</p>
-
-<div class="insidebox" id="deletebutton">
-<?php
-echo "<a class='submitdelete' href='" . wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete comment') . "</a>"; ?>
-</div>
-
-<?php
-$stamp = __('%1$s at %2$s');
-$date = mysql2date(get_option('date_format'), $comment->comment_date);
-$time = mysql2date(get_option('time_format'), $comment->comment_date);
-?>
-<div class="insidebox curtime"><span id="timestamp"><?php printf($stamp, $date, $time); ?></span>
-&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0, 5); ?></div></div>
-
-</div>
-
-<p class="submit">
-<input type="submit" name="save" value="<?php _e('Save'); ?>" tabindex="4" class="button button-highlighted" />
-<a class="preview button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View Comment'); ?></a>
-</p>
-</div>
-<?php
-}
 
 $email = attribute_escape( $comment->comment_author_email );
 $url = attribute_escape( $comment->comment_author_url );
@@ -116,7 +70,7 @@ $time = mysql2date(get_option('time_format'), $comment->comment_date);
 </div>
 </div>
 
-<div id="post-body" class="<?php echo $side_meta_boxes ? 'has-sidebar' : ''; ?>">
+<div id="post-body" class="has-sidebar">
 <div id="post-body-content" class="has-sidebar-content">
 
 <div id="namediv" class="stuffbox">

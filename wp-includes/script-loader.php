@@ -201,7 +201,7 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => __('Edit'),
 		) );
 		$scripts->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox', 'settings-box'), '20080925' );
-		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('postbox'), '20080219' );
+		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20080219' );
 		$scripts->localize( 'comment', 'commentL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
