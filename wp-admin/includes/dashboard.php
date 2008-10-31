@@ -115,7 +115,11 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
 		$widget_name .= ' <a href="' . clean_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Edit' ) . '</a>';
 	}
-	add_meta_box( $widget_id, $widget_name , $callback, 'dashboard', 'normal', 'core' );
+	$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
+	$location = 'normal';
+	if ( in_array($widget_id, $side_widgets) )
+		$location = 'side';
+	add_meta_box( $widget_id, $widget_name , $callback, 'dashboard', $location, 'core' );
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
