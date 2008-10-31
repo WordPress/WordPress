@@ -206,11 +206,13 @@ function fileDialogComplete(num_files_queued) {
 }
 
 function swfuploadPreLoad() {
-	return true;
+	jQuery('#' + swfu.customSettings.degraded_element_id).hide();
+	jQuery('#' + swfu.customSettings.swfupload_element_id).show();
 }
 
 function swfuploadLoadFailed() {
-	return true;
+	jQuery('#' + swfu.customSettings.swfupload_element_id).hide();
+	jQuery('#' + swfu.customSettings.degraded_element_id).show();
 }
 
 function uploadError(fileObj, error_code, message) {

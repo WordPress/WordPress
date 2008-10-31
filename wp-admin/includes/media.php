@@ -1225,7 +1225,7 @@ jQuery(function($){
 			button_height: "24",
 			button_width: "132",
 			button_image_url: '<?php echo includes_url('images/upload.png'); ?>',
-			button_placeholder_id: "async-upload-wrap",
+			button_placeholder_id: "flash-browse-button",
 			upload_url : "<?php echo attribute_escape( $flash_action_url ); ?>",
 			flash_url : "<?php echo includes_url('js/swfupload/swfupload.swf'); ?>",
 			file_post_name: "async-upload",
@@ -1239,8 +1239,6 @@ jQuery(function($){
 				"short" : "1"
 			},
 			file_size_limit : "<?php echo wp_max_upload_size(); ?>b",
-			swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
-			degraded_element_id : "html-upload-ui",   // when swfupload is unavailable
 			file_dialog_start_handler : fileDialogStart,
 			file_queued_handler : fileQueued,
 			upload_start_handler : uploadStart,
@@ -1252,7 +1250,10 @@ jQuery(function($){
 			file_dialog_complete_handler : fileDialogComplete,
 			swfupload_pre_load_handler: swfuploadPreLoad,
 			swfupload_load_failed_handler: swfuploadLoadFailed,
-
+			custom_settings : { 
+				degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
+				swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
+			},
 			debug: false
 		});
 	$("#flash-browse-button").bind( "click", function(){swfu.selectFiles();});
@@ -1262,7 +1263,8 @@ jQuery(function($){
 
 <div id="flash-upload-ui">
 <?php do_action('pre-flash-upload-ui'); ?>
-	<p><input id="flash-browse-button" type="button" value="<?php echo attribute_escape( __( 'Choose files to upload' ) ); ?>" class="button" /></p>
+	<div id="flash-browse-button"></div>
+	<p><?php _e( 'Choose files to upload' ); ?></p>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 </div>
@@ -1844,8 +1846,6 @@ function media_upload_flash_bypass() {
 	printf( __('You are using the Flash uploader.  Problems?  Try the <a href="%s">Browser uploader</a> instead.'), clean_url(add_query_arg('flash', 0)) );
 	echo '</p>';
 }
-
-add_action('post-flash-upload-ui', 'media_upload_flash_bypass');
 
 /**
  * {@internal Missing Short Description}}
