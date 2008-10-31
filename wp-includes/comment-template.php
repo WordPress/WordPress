@@ -1129,7 +1129,7 @@ class Walker_Comment extends Walker {
 		<?php comment_text() ?>
 
 		<div class="reply">
-		<?php comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['depth']))) ?>
+		<?php comment_reply_link(array_merge( $args, array('add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
 		</div>
 		<?php if ( 'ul' == $args['style'] ) : ?>
 		</div>
@@ -1176,7 +1176,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 	$comment_alt = $comment_thread_alt = 0;
 	$comment_depth = 1;
 
-	$defaults = array('walker' => null, 'depth' => '', 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all',
+	$defaults = array('walker' => null, 'max_depth' => '', 'style' => 'ul', 'callback' => null, 'end-callback' => null, 'type' => 'all',
 		'page' => '', 'per_page' => '', 'avatar_size' => 32, 'reverse_top_level' => null, 'reverse_children' => '');
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1189,11 +1189,11 @@ function wp_list_comments($args = array(), $comments = null ) {
 		$r['page'] = 0;
 	}
 
-	if ( '' === $r['depth'] ) {
+	if ( '' === $r['max_depth'] ) {
 		if ( get_option('thread_comments') )
-			$r['depth'] = get_option('thread_comments_depth');
+			$r['max_depth'] = get_option('thread_comments_depth');
 		else
-			$r['depth'] = -1;
+			$r['max_depth'] = -1;
 	}
 
 	if ( '' === $r['page'] ) {
@@ -1203,7 +1203,7 @@ function wp_list_comments($args = array(), $comments = null ) {
 			if ( empty($overridden_cpage) ) {
 				$r['page'] = get_query_var('cpage');
 			} else {
-				$threaded = ( -1 == $r['depth'] ) ? false : true;
+				$threaded = ( -1 == $r['max_depth'] ) ? false : true;
 				$r['page'] = ( 'newest' == get_option('default_comments_page') ) ? get_comment_pages_count($comments, $r['per_page'], $threaded) : 1;
 				set_query_var( 'cpage', $r['page'] );
 			}
@@ -1230,11 +1230,11 @@ function wp_list_comments($args = array(), $comments = null ) {
 				$wp_query->comments_by_type = &separate_comments($wp_query->comments);
 			if ( empty($wp_query->comments_by_type[$type]) )
 				return;
-			$walker->paged_walk($wp_query->comments_by_type[$type], $depth, $page, $per_page, $r);
+			$walker->paged_walk($wp_query->comments_by_type[$type], $max_depth, $page, $per_page, $r);
 			$wp_query->max_num_comment_pages = $walker->max_pages;
 			return;
 		}
-		$walker->paged_walk($wp_query->comments, $depth, $page, $per_page, $r);
+		$walker->paged_walk($wp_query->comments, $max_depth, $page, $per_page, $r);
 		$wp_query->max_num_comment_pages = $walker->max_pages;
 	} else {
 		if ( empty($comments) )
@@ -1243,11 +1243,11 @@ function wp_list_comments($args = array(), $comments = null ) {
 			$comments_by_type = &separate_comments($comments);
 			if ( empty($comments_by_type[$type]) )
 				return;
-			$walker->paged_walk($comments_by_type[$type], $depth, $page, $per_page, $r);
+			$walker->paged_walk($comments_by_type[$type], $max_depth, $page, $per_page, $r);
 			$wp_query->max_num_comment_pages = $walker->max_pages;
 			return;
 		}
-		$walker->paged_walk($comments, $depth, $page, $per_page, $r);
+		$walker->paged_walk($comments, $max_depth, $page, $per_page, $r);
 		$wp_query->max_num_comment_pages = $walker->max_pages;
 	}
 }
