@@ -218,7 +218,7 @@ function wp_dashboard_right_now() {
 	// Categories
 	$num = number_format_i18n( $num_cats );
 	if ( current_user_can( 'manage_categories' ) )
-		$num = "<a href='caftegories.php'>$num</a>";
+		$num = "<a href='categories.php'>$num</a>";
 	echo '<td class="first b b-cats">'.$num.'</td>';
 	echo '<td class="t cats">' . __ngettext( 'Category', 'Categories', $num_cats ) . '</td>';
 
