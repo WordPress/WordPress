@@ -163,16 +163,16 @@ function wp_dashboard_right_now() {
 
 	$num_comm = get_comment_count( );
 
-	echo '<p>' . __('At a Glance') . '</p>';
-	echo '<table>';
-	echo '<tr>';
+	echo "\n\t".'<p class="sub">' . __('At a Glance') . '</p>';
+	echo "\n\t".'<div class="table">'."\n\t".'<table>';
+	echo "\n\t".'<tr class="first">';
 
 	// Posts
 	$num = number_format_i18n( $num_posts->publish );
 	if ( current_user_can( 'edit_posts' ) )
 		$num = "<a href='edit.php'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Post', 'Posts', $num_posts->publish ) . '</td>';
+	echo '<td class="first b b-posts">'.$num.'</td>';
+	echo '<td class="t posts">' . __ngettext( 'Post', 'Posts', $num_posts->publish ) . '</td>';
 	/* TODO: Show status breakdown on hover
 	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
 		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
@@ -194,8 +194,8 @@ function wp_dashboard_right_now() {
 	$num = number_format_i18n($num_comm['total_comments']);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Comment', 'Comments', $num_comm['total_comments'] ) . '</td>';
+	echo '<td class="b b-comments">'.$num.'</td>';
+	echo '<td class="last t comments">' . __ngettext( 'Comment', 'Comments', $num_comm['total_comments'] ) . '</td>';
 
 	echo '</tr><tr>';
 
@@ -203,65 +203,69 @@ function wp_dashboard_right_now() {
 	$num = number_format_i18n( $num_pages->publish );
 	if ( current_user_can( 'edit_pages' ) )
 		$num = "<a href='edit-pages.php'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Page', 'Pages', $num_pages->publish ) . '</td>';
+	echo '<td class="first b b_pages">'.$num.'</td>';
+	echo '<td class="t pages">' . __ngettext( 'Page', 'Pages', $num_pages->publish ) . '</td>';
 
 	// Approved Comments
 	$num = number_format_i18n($num_comm['approved']);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php?comment_status=approved'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Approved', 'Approved', $num_comm['approved'] ) . '</td>';
+	echo '<td class="b b_approved">'.$num.'</td>';
+	echo '<td class="last t approved">' . __ngettext( 'Approved', 'Approved', $num_comm['approved'] ) . '</td>';
 
-	echo '</tr><tr>';
+	echo "</tr>\n\t<tr>";
 
 	// Categories
 	$num = number_format_i18n( $num_cats );
 	if ( current_user_can( 'manage_categories' ) )
-		$num = "<a href='categories.php'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Category', 'Categories', $num_cats ) . '</td>';
+		$num = "<a href='caftegories.php'>$num</a>";
+	echo '<td class="first b b-cats">'.$num.'</td>';
+	echo '<td class="t cats">' . __ngettext( 'Category', 'Categories', $num_cats ) . '</td>';
 
 	// Spam Comments
 	$num = number_format_i18n($num_comm['spam']);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php?comment_status=spam'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Spam', 'Spam', $num_comm['spam'] ) . '</td>';
+	echo '<td class="b b-spam">'.$num.'</td>';
+	echo '<td class="last t spam">' . __ngettext( 'Spam', 'Spam', $num_comm['spam'] ) . '</td>';
 
-	echo '</tr><tr>';
+	echo "</tr>\n\t<tr>";
 
 	// Tags
 	$num = number_format_i18n( $num_tags );
 	if ( current_user_can( 'manage_categories' ) )
 		$num = "<a href='edit-tags.php'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Tag', 'Tags', $num_tags ) . '</td>';
+	echo '<td class="first b b-tags">'.$num.'</td>';
+	echo '<td class="t tags">' . __ngettext( 'Tag', 'Tags', $num_tags ) . '</td>';
 
 	// Pending Comments
 	$num = number_format_i18n($num_comm['awaiting_moderation']);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php?comment_status=moderated'>$num</a>";
-	echo "<td>$num</td>";
-	echo '<td>' . __ngettext( 'Pending', 'Pending', $num_comm['awaiting_moderation'] ) . '</td>';
+	echo '<td class="b b-waiting">'.$num.'</td>';
+	echo '<td class="last t waiting">' . __ngettext( 'Awaiting Moderation', 'Awaiting Moderation', $num_comm['awaiting_moderation'] ) . '</td>';
 
-	echo '</tr></table>';	
-
+  echo "</tr>\n\t</table>\n\t</div>";
+  
+  echo "\n\t".'<div class="versions">';
 	$ct = current_theme_info();
 	$sidebars_widgets = wp_get_sidebars_widgets();
 	$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ), 0 );
 	$num = number_format_i18n( $num_widgets );
-	if ( $can_switch_themes = current_user_can( 'switch_themes' ) )
-		$num = "<a href='widgets.php'>$num</a>";
 
-	echo '<p>';
-	printf(__ngettext('Theme %1$s with %2$s Widget', 'Theme %1$s with %2$s Widgets', $num_widgets), $ct->title, $num);
-	if ( $can_switch_themes )
-		echo ' <a href="themes.php" class="rbutton">' . __('Change Theme') . '</a>';
+	echo "\n\t<p>";
+	if ( current_user_can( 'switch_themes' ) ) {
+		echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
+		printf(__ngettext('Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $ct->title, $num);
+	} else {
+		printf(__ngettext('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
+	}
+		
 	echo '</p>';
 
 	update_right_now_message();
 
+  echo "\n\t".'</div>';
 	do_action( 'rightnow_end' );
 	do_action( 'activity_box_end' );
 }

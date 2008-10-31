@@ -57,9 +57,9 @@ function update_nag() {
 function update_right_now_message() {
 	$cur = get_option( 'update_core' );
 
-	$msg = sprintf( __('This is WordPress version %s.'), $GLOBALS['wp_version'] );
+	$msg = sprintf( __('You are using <span class="b">WordPress %s</span>.'), $GLOBALS['wp_version'] );
 	if ( isset( $cur->response ) && $cur->response == 'upgrade' && current_user_can('manage_options') )
-		$msg .= " <a href='update.php?action=upgrade-core' class='rbutton'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
+		$msg .= " <a href='update.php?action=upgrade-core' class='button'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 
 	echo "<span id='wp-version-message'>$msg</span>";
 }
