@@ -202,6 +202,23 @@ if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->
 add_meta_box('pagesubmitdiv', __('Publish'), 'page_submit_meta_box', 'page', 'side', 'core');
 
 /**
+ * Display page password form fields.
+ *
+ * @since 2.6.0
+ *
+ * @param object $post
+ */
+function page_password_meta_box($post){
+?>
+<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
+<h4><?php _e( 'Page Password' ); ?></h4>
+<p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
+<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
+<?php
+}
+add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'side', 'core');
+
+/**
  * Display custom field for page form fields.
  *
  * @since 2.6.0
@@ -246,23 +263,6 @@ function page_comments_status_meta_box($post){
 <?php
 }
 add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_status_meta_box', 'page', 'normal', 'core');
-
-/**
- * Display page password form fields.
- *
- * @since 2.6.0
- *
- * @param object $post
- */
-function page_password_meta_box($post){
-?>
-<p><label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="checkbox" value="private" <?php checked($post->post_status, 'private'); ?> tabindex='4' /> <?php _e('Keep this page private') ?></label></p>
-<h4><?php _e( 'Page Password' ); ?></h4>
-<p><label class="hidden" for="post_password"><?php _e('Password Protect This Page') ?></label><input name="post_password" type="text" size="25" id="post_password" value="<?php the_post_password(); ?>" /></p>
-<p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
-<?php
-}
-add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'normal', 'core');
 
 /**
  * Display page slug form fields.
