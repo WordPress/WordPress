@@ -154,7 +154,7 @@ case 'edit':
 		}
 	}
 
-	$title = sprintf(__('Edit "%s"'), wp_html_excerpt(_draft_or_post_title($post->ID), 50));
+	$title = __('Edit Post');
 
 	require_once('admin-header.php');
 
