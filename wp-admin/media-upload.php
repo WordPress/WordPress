@@ -71,7 +71,6 @@ if ( isset($_GET['inline']) ) {
 		updateMediaForm();
 		post_id = 0;
 		shortform = 1;
-		$('body:last div:has(embed), body:last div:has(object)').css({'visibility':'hidden','marginTop':'-1px'});
 	});
 	</script>
 	<input type="hidden" name="post_id" id="post_id" value="0" />

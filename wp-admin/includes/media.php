@@ -1256,7 +1256,6 @@ jQuery(function($){
 			},
 			debug: false
 		});
-	$("#flash-browse-button").bind( "click", function(){swfu.selectFiles();});
 });
 //-->
 </script>
