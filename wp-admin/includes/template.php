@@ -3122,7 +3122,6 @@ function screen_options($screen, $metabox = false) {
 
 	<div id="screen-options-link-wrap" class="hide-if-no-js screen-options-closed">
 	<a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
-	<a href="#screen-options" id="hide-settings-link" class="show-settings" style="display:none;"><?php _e('Hide Options') ?></a>
 	</div>
 </div>
 <?php

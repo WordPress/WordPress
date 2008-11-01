@@ -1,21 +1,14 @@
 jQuery(document).ready( function($) {
 	$('#show-settings-link').click(function () {
-		$('#screen-options-wrap').slideDown('normal', function(){
-			$('#hide-settings-link').show();
-			$('#show-settings-link').hide();
-			$('#screen-options-link-wrap').removeClass('screen-options-closed').addClass('screen-options-open');
+		$('#screen-options-wrap').slideToggle('normal', function(){
+			if ( $(this).hasClass('screen-options-open') ) {
+				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right.gif")'});
+				$(this).removeClass('screen-options-open');
+			} else {
+				$('#show-settings-link').css({'backgroundImage':'url("images/screen-options-right-up.gif")'});
+				$(this).addClass('screen-options-open');
+			}
 		});
-
-		return false;
-	});
-	
-	$('#hide-settings-link').click(function () {
-		$('#screen-options-wrap').slideUp('normal', function(){
-			$('#show-settings-link').show();
-			$('#hide-settings-link').hide();
-			$('#screen-options-link-wrap').removeClass('screen-options-open').addClass('screen-options-closed');
-		});
-
 		return false;
 	});
 });
