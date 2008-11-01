@@ -602,7 +602,6 @@ function WP_Filesystem( $args = false ) {
  * @return unknown
  */
 function get_filesystem_method($args = array()) {
-	return 'ftpext';
 	$method = false;
 	if( function_exists('getmyuid') && function_exists('fileowner') ){
 		$temp_file = wp_tempnam();
