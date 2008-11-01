@@ -1221,6 +1221,7 @@ function wp_tiny_mce( $teeny = false ) {
 	$mce_options = rtrim( trim($mce_options), '\n\r,' ); ?>
 
 <script type="text/javascript">
+/* <![CDATA[ */
 
 tinyMCEPreInit = {
 	base : "<?php echo $baseurl; ?>",
@@ -1251,6 +1252,8 @@ tinyMCEPreInit = {
 		sl.markDone(url + '/langs/' + lang + '_dlg.js');
 	}
 };
+
+/* ]]> */
 </script>
 <script type="text/javascript" src="<?php echo $baseurl; ?>/tiny_mce.js?ver=<?php echo $ver; ?>"></script>
 <?php if ( 'en' == $language ) { ?>

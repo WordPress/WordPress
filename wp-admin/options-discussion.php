@@ -78,15 +78,15 @@ printf( __('Enable threaded (nested) comments %s levels deep'), $thread_comments
 <input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked('1', get_option('page_comments')); ?> />
 <?php
 
-$default_comments_page = '</label><select name="default_comments_page" id="default_comments_page"><option value="newest"';
+$default_comments_page = '</label><label for="default_comments_page"><select name="default_comments_page" id="default_comments_page"><option value="newest"';
 if ( 'newest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
 $default_comments_page .= '>' . __('last') . '</option><option value="oldest"';
 if ( 'oldest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
 $default_comments_page .= '>' . __('first') . '</option></select>';
 
-printf( __('Break comments into pages with %1$s comments per page and the %2$s page displayed by default'), '</label><input name="comments_per_page" type="text" id="comments_per_page" value="' . attribute_escape(get_option('comments_per_page')) . '" class="small-text" />', $default_comments_page );
+printf( __('Break comments into pages with %1$s comments per page and the %2$s page displayed by default'), '</label><label for="comments_per_page"><input name="comments_per_page" type="text" id="comments_per_page" value="' . attribute_escape(get_option('comments_per_page')) . '" class="small-text" />', $default_comments_page );
 
-?>
+?></label>
 <br />
 <label for="comment_order"><?php
 
@@ -130,7 +130,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 
 <p><label for="moderation_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="edit-comments.php?comment_status=moderated">moderation queue</a>. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></label></p>
 <p>
-<textarea name="moderation_keys" rows="10" id="moderation_keys" class="large-text code"><?php form_option('moderation_keys'); ?></textarea>
+<textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys" class="large-text code"><?php form_option('moderation_keys'); ?></textarea>
 </p>
 </fieldset></td>
 </tr>
@@ -139,7 +139,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <td><fieldset><legend class="hidden"><?php _e('Comment Blacklist') ?></legend>
 <p><label for="blacklist_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></label></p>
 <p>
-<textarea name="blacklist_keys" rows="10" id="blacklist_keys" class="large-text code"><?php form_option('blacklist_keys'); ?></textarea>
+<textarea name="blacklist_keys" rows="10" cols="50" id="blacklist_keys" class="large-text code"><?php form_option('blacklist_keys'); ?></textarea>
 </p>
 </fieldset></td>
 </tr>
