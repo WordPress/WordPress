@@ -179,8 +179,8 @@ switch ( $post->post_status ) {
 <?php do_action('post_submitbox_start'); ?>
 <div id="delete-action">
 <?php
-if ( ( 'edit' == $action ) && current_user_can('delete_post', $post->ID) ) { ?>
-<a class="submitdelete deletion" href="<?php echo wp_nonce_url("post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID); ?>" onclick="if ( confirm('<?php echo js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )); ?>') ) {return true;}return false;"><?php _e('Delete'); ?></a>
+if ( ( 'edit' == $action ) && current_user_can('delete_page', $post->ID) ) { ?>
+<a class="submitdelete deletion" href="<?php echo wp_nonce_url("page.php?action=delete&amp;post=$post->ID", 'delete-page_' . $post->ID); ?>" onclick="if ( confirm('<?php echo js_escape(sprintf( ('draft' == $post->post_status) ? __("You are about to delete this draft '%s'\n  'Cancel' to stop, 'OK' to delete.") : __("You are about to delete this page '%s'\n  'Cancel' to stop, 'OK' to delete."), $post->post_title )); ?>') ) {return true;}return false;"><?php _e('Delete'); ?></a>
 <?php } ?>
 </div>
 
