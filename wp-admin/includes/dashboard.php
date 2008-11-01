@@ -386,9 +386,8 @@ function wp_dashboard_recent_comments() {
 	if ( $comments ) :
 ?>
 
-		<p class="view-all"><a href="edit-comments.php"><?php _e( 'View All Comments' ); ?></a></p>
 		<div id="the-comment-list" class="list:comment">
-
+		<p class="view-all"><a href="edit-comments.php"><?php _e( 'View All Comments' ); ?></a></p>
 <?php
 		foreach ( $comments as $comment )
 			_wp_dashboard_recent_comments_row( $comment );
