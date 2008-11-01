@@ -233,9 +233,9 @@ case 'preview':
 
 	if ( $_POST['post_status'] == 'publish'  ) {
 		$nonce = wp_create_nonce('post_preview_' . $id);
-		$url = site_url('?wp_preview=' . $id . '&preview_nonce=' . $nonce);
+		$url = get_option('home') . '/?wp_preview=' . $id . '&preview_nonce=' . $nonce;
 	} else {
-		$url = site_url('?p=' . $id . '&preview=true');
+		$url = get_option('home') . '/?p=' . $id . '&preview=true';
 	}
 
 	wp_redirect($url);
