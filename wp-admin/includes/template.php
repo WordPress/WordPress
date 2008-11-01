@@ -1707,6 +1707,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	$r = "<tr id='user-$user_object->ID'$style>";
 	$columns = get_column_headers('user');
 	$hidden = (array) get_user_option( 'manage-user-columns-hidden' );
+	$avatar = get_avatar( $user_object->user_email, 32 );
 	foreach ( $columns as $column_name => $column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
@@ -1721,7 +1722,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 				$r .= "<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>";
 				break;
 			case 'username':
-				$r .= "<td $attributes>$edit</td>";
+				$r .= "<td $attributes>$avatar $edit</td>";
 				break;
 			case 'name':
 				$r .= "<td $attributes>$user_object->first_name $user_object->last_name</td>";
@@ -2828,7 +2829,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" class="search-input" name="ps" value="" />
-				<input type="button" onclick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onClick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -2838,7 +2839,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
+			<input type="button" class="button" onClick="findPosts.close();" value="<?php _e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button" value="<?php _e('Select'); ?>" />
 		</div>
 	</div>

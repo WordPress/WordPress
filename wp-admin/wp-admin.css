@@ -660,7 +660,7 @@ p.pagenav {
 	margin-top: 0;
 }
 
-.column-author img {
+.column-author img, .column-username img {
 	float: left;
 	margin-right: 10px;
 	margin-top: 3px;
