@@ -602,6 +602,7 @@ function WP_Filesystem( $args = false ) {
  * @return unknown
  */
 function get_filesystem_method($args = array()) {
+	return 'ftpext';
 	$method = false;
 	if( function_exists('getmyuid') && function_exists('fileowner') ){
 		$temp_file = wp_tempnam();
@@ -720,8 +721,14 @@ jQuery(function($){
 </td>
 </tr>
 </table>
+<?php if ( isset( $_POST['version'] ) ) : ?>
+<input type="hidden" name="version" value="<?php echo attribute_escape($_POST['version']) ?>" />
+<?php endif; ?>
+<?php if ( isset( $_POST['locale'] ) ) : ?>
+<input type="hidden" name="locale" value="<?php echo attribute_escape($_POST['locale']) ?>" />
+<?php endif; ?>
 <p class="submit">
-<input type="submit" name="submit" value="<?php _e('Proceed'); ?>" />
+<input id="upgrade" name="upgrade" type="submit" value="<?php _e('Proceed'); ?>" />
 </p>
 </div>
 </form>
