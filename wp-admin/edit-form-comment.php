@@ -32,7 +32,7 @@ $url = attribute_escape( $comment->comment_author_url );
 
 <div id="side-info-column" class="inner-sidebar">
 <div id="submitdiv" class="stuffbox" >
-<h3><span class='hndle'>Status</span></h3>
+<h3><span class='hndle'><?php _e('Status') ?></span></h3>
 <div class="inside">
 <div class="submitbox" id="submitcomment">
 <div id="minor-publishing">
