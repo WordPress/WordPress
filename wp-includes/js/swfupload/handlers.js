@@ -206,8 +206,11 @@ function fileDialogComplete(num_files_queued) {
 }
 
 function swfuploadPreLoad() {
+	var swfupload_element = jQuery('#'+swfu.customSettings.swfupload_element_id).get(0);
 	jQuery('#' + swfu.customSettings.degraded_element_id).hide();
-	jQuery('#' + swfu.customSettings.swfupload_element_id).show();
+	// Doing this directly because jQuery().show() seems to have timing problems
+	if ( swfupload_element && ! swfupload_element.style.display )
+			swfupload_element.style.display = 'block';
 }
 
 function swfuploadLoadFailed() {

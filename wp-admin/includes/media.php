@@ -1218,7 +1218,7 @@ function media_upload_form( $errors = null ) {
 <?php if ( $flash ) : ?>
 <script type="text/javascript">
 <!--
-jQuery(function($){
+SWFUpload.onload = function() {
 	swfu = new SWFUpload({
 			button_text: '<span class="button"><?php _e('Upload'); ?></span>',
 			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }',
@@ -1256,7 +1256,7 @@ jQuery(function($){
 			},
 			debug: false
 		});
-});
+};
 //-->
 </script>
 
