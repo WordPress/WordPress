@@ -359,10 +359,10 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 
 	if ( $drafts && is_array( $drafts ) ) {
 		$list = array();
-		foreach ( $drafts as $post ) {
+		foreach ( $drafts as $draft ) {
 			$url = get_edit_post_link( $draft->ID );
 			$title = _draft_or_post_title( $draft->ID );
-			$list[] = '<abbr title="' . get_the_time(__('Y/m/d g:i:s A')) . '">' . get_the_time( get_option( 'date_format' ) ) . "</abbr> <a href='$url' title='" . sprintf( __( 'Edit "%s"' ), attribute_escape( $title ) ) . "'>$title</a>";
+			$list[] = '<abbr title="' . get_the_time(__('Y/m/d g:i:s A'), $draft) . '">' . get_the_time( get_option( 'date_format' ), $draft ) . "</abbr> <a href='$url' title='" . sprintf( __( 'Edit "%s"' ), attribute_escape( $title ) ) . "'>$title</a>";
 		}
 ?>
 	<ul>

@@ -1222,14 +1222,17 @@ function the_time( $d = '' ) {
  * @since 1.5.0
  *
  * @param string $d Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
+ * @param int|object $post Optional post ID or object. Default is global $post object.
  * @return string
  */
-function get_the_time( $d = '' ) {
+function get_the_time( $d = '', $post = null ) {
+	$post = get_post($post);
+
 	if ( '' == $d )
-		$the_time = get_post_time(get_option('time_format'));
+		$the_time = get_post_time(get_option('time_format'), false, $post);
 	else
-		$the_time = get_post_time($d);
-	return apply_filters('get_the_time', $the_time, $d);
+		$the_time = get_post_time($d, false, $post);
+	return apply_filters('get_the_time', $the_time, $d, $post);
 }
 
 /**
@@ -1239,10 +1242,12 @@ function get_the_time( $d = '' ) {
  *
  * @param string $d Either 'G', 'U', or php date format.
  * @param bool $gmt Whether of not to return the gmt time.
+ * @param int|object $post Optional post ID or object. Default is global $post object.
  * @return string
  */
-function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
-	global $post;
+function get_post_time( $d = 'U', $gmt = false, $post ) { // returns timestamp
+	$post = get_post($post);
+
 	if ( $gmt )
 		$time = $post->post_date_gmt;
 	else
