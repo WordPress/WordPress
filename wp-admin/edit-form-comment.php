@@ -63,7 +63,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 </div>
 <div id="major-publishing-actions">
 <div id="delete-action">
-<a class='submitdelete deletion' href='"<?php echo wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete'); ?></a>
+<a class='submitdelete deletion' href='<?php echo wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete'); ?></a>
 </div>
 <div id="publishing-action">
 <input type="submit" name="save" value="<?php _e('Update Comment'); ?>" tabindex="4" class="button-primary" />
