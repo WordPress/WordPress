@@ -1245,7 +1245,7 @@ function get_the_time( $d = '', $post = null ) {
  * @param int|object $post Optional post ID or object. Default is global $post object.
  * @return string
  */
-function get_post_time( $d = 'U', $gmt = false, $post ) { // returns timestamp
+function get_post_time( $d = 'U', $gmt = false, $post = null ) { // returns timestamp
 	$post = get_post($post);
 
 	if ( $gmt )
