@@ -62,7 +62,7 @@ function get_category_link( $category_id ) {
 			return $category;
 		$category_nicename = $category->slug;
 
-		if ( $parent == $category_id ) // recursive recursion
+		if ( $category->parent == $category_id ) // recursive recursion
 			$category->parent = 0;
 
 		if ( $parent = $category->parent )

@@ -165,7 +165,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	}
 
 	// tack on any additional query vars
-	if ( $redirect_url && $redirect['query'] ) {
+	if ( $redirect_url && !empty($redirect['query']) ) {
 		if ( strpos($redirect_url, '?') !== false )
 			$redirect_url .= '&';
 		else
