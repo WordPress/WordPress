@@ -204,7 +204,8 @@ function inline_edit_term_row($type) {
 
 	$is_tag = $type == 'tag';
 	$columns = $is_tag ? get_column_headers('tag') : get_column_headers('category');
-	$hidden = (array) get_user_option( "manage-$type-columns-hidden" ); ?>
+	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
+	$output = ''; ?>
 
 <form method="get" action=""><table style="display: none"><tbody id="inlineedit">
 	<tr id="inline-edit" style="display: none"><td colspan="8">
@@ -229,7 +230,7 @@ function inline_edit_term_row($type) {
 				</div>
 				<?php
 
-				$output .= "<td $attributes>$edit</td>";
+				$output .= "<td $attributes></td>";
 				break;
 			case 'slug': ?>
 				<div class="tax-slug quick-edit-div"<?php echo $style ?> title="<?php _e('Slug'); ?>">
@@ -240,7 +241,7 @@ function inline_edit_term_row($type) {
 				</div>
 				<?php
 
-				$output .= "<td $attributes>$category->slug</td>";
+				$output .= "<td $attributes></td>";
 				break;
 			case 'posts':
 				if ( 'category' == $type ) { ?>

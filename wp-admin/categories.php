@@ -239,7 +239,7 @@ if ( $page_links )
 <div class="col-wrap">
 
 <?php if ( current_user_can('manage_categories') ) { ?>
-<?php do_action('add_category_form_pre', $category); ?>
+<?php $category = (object) array(); $category->parent = 0; do_action('add_category_form_pre', $category); ?>
 
 <div class="form-wrap">
 <h3><?php _e('Add Category'); ?></h3>
