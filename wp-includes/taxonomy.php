@@ -327,9 +327,11 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	if ( $output == OBJECT ) {
 		return $_term;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($_term);
+		$__term = get_object_vars($_term);
+		return $__term;
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($_term));
+		$__term = array_values(get_object_vars($_term));
+		return $__term;
 	} else {
 		return $_term;
 	}

@@ -109,7 +109,7 @@ function wp_delete_category($cat_ID) {
  */
 function wp_insert_category($catarr, $wp_error = false) {
 	$cat_defaults = array('cat_ID' => 0, 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
-	$cat_arr = wp_parse_args($cat_arr, $cat_defaults);
+	$catarr = wp_parse_args($catarr, $cat_defaults);
 	extract($catarr, EXTR_SKIP);
 
 	if ( trim( $cat_name ) == '' ) {
@@ -167,7 +167,7 @@ function wp_insert_category($catarr, $wp_error = false) {
 function wp_update_category($catarr) {
 	$cat_ID = (int) $catarr['cat_ID'];
 
-	if ( $cat_ID == $catarr['category_parent'] )
+	if ( isset($catarr['category_parent']) && ($cat_ID == $catarr['category_parent']) )
 		return false;
 
 	// First, get all of the original fields
