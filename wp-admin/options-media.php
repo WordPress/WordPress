@@ -91,7 +91,7 @@ include('admin-header.php');
     $size_names = array('' => __('Auto'), 'thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size')); 
     foreach ($size_names as $size => $name) { ?> 
         <input type="radio" name="image_default_size" id="image_default_size_<?php echo $size; ?>" value="<?php echo $size; ?>"<?php echo (get_option('image_default_size') == $size ? ' checked="checked"' : ''); ?> />             
-        <label for="image_default_size_<?php echo $size; ?>"><?php _e($name); ?></label> 
+        <label for="image_default_size_<?php echo $size; ?>"><?php echo $name; ?></label> 
     <?php 
 	} 
 ?> 
