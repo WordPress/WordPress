@@ -2829,7 +2829,7 @@ function find_posts_div($found_action = '') {
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="hidden" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" class="search-input" name="ps" value="" />
-				<input type="button" onClick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
+				<input type="button" onclick="findPosts.send();" value="<?php _e( 'Search' ); ?>" class="button" /><br />
 
 				<input type="radio" name="find-posts-what" id="find-posts-posts" checked="checked" value="posts" />
 				<label for="find-posts-posts"><?php _e( 'Posts' ); ?></label>
@@ -2839,11 +2839,12 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input type="button" class="button" onClick="findPosts.close();" value="<?php _e('Close'); ?>" />
+			<input type="button" class="button" onclick="findPosts.close();" value="<?php _e('Close'); ?>" />
 			<input id="find-posts-submit" type="submit" class="button" value="<?php _e('Select'); ?>" />
 		</div>
 	</div>
 	<script type="text/javascript">
+	/* <![CDATA[ */ 
 	(function($){
 		findPosts = {
 			open : function(af_name, af_val) {
@@ -2938,6 +2939,7 @@ function find_posts_div($found_action = '') {
 			});
 		});
 	})(jQuery);
+	/* ]]> */ 
 	</script>
 <?php
 }
