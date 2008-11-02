@@ -181,7 +181,7 @@ commentReply = {
 		} else {
 			$('#edithead, #savebtn', editRow).hide();
 			$('#replyhead, #replybtn', editRow).show();
-			$(t.o).after(editRow).animate( { backgroundColor: '#eefee7' }, 800);
+			$(t.o).after(editRow);
 			$('#replyrow').hide().fadeIn('fast');
 		}
 
