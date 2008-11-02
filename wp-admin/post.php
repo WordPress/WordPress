@@ -223,19 +223,16 @@ case 'delete':
 case 'preview':
 	check_admin_referer( 'autosave', 'autosavenonce' );
 
-	if ( empty($_POST['post_title']) )
-		wp_die( __('Please enter a title before previewing this post.') );
-
 	$id = post_preview();
 
 	if ( is_wp_error($id) )
 		wp_die( $id->get_error_message() );
 
-	if ( $_POST['post_status'] == 'publish'  ) {
+	if ( $_POST['post_status'] == 'draft'  ) {
+		$url = get_option('home') . '/?p=' . $id . '&preview=true';
+	} else {
 		$nonce = wp_create_nonce('post_preview_' . $id);
 		$url = get_option('home') . '/?wp_preview=' . $id . '&preview_nonce=' . $nonce;
-	} else {
-		$url = get_option('home') . '/?p=' . $id . '&preview=true';
 	}
 
 	wp_redirect($url);

@@ -1002,34 +1002,36 @@ function wp_create_post_autosave( $post_id ) {
  */
 function post_preview() {
 
-	$_POST['post_category'] = explode(",", $_POST['catslist']);
-	$_POST['tags_input'] = explode(",", $_POST['tags_input']);
-	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
+	$post_ID = (int) $_POST['post_ID'];
+	if ( $post_ID < 1 )
+		wp_die( __('Preview not available. Please save as draft first.') );
+	
+	if ( isset($_POST['catslist']) )
+		$_POST['post_category'] = explode(",", $_POST['catslist']);
+	
+	if ( isset($_POST['tags_input']) )
+		$_POST['tags_input'] = explode(",", $_POST['tags_input']);
+	
+	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
 		unset($_POST['post_category']);
 
-	if($_POST['post_ID'] < 0) {
-		$_POST['post_status'] = 'draft';
-		$_POST['temp_ID'] = $_POST['post_ID'];
-		$id = wp_write_post();
+	$_POST['ID'] = $post_ID;
+	$post = get_post($post_ID);
+
+	if ( 'page' == $post->post_type ) {
+		if ( !current_user_can('edit_page', $post_ID) )
+			wp_die(__('You are not allowed to edit this page.'));
 	} else {
-		$post_ID = (int) $_POST['post_ID'];
-		$_POST['ID'] = $post_ID;
-		$post = get_post($post_ID);
+		if ( !current_user_can('edit_post', $post_ID) )
+			wp_die(__('You are not allowed to edit this post.'));
+	}
 
-		if ( 'page' == $post->post_type ) {
-			if ( !current_user_can('edit_page', $post_ID) )
-				die(__('You are not allowed to edit this page.'));
-		} else {
-			if ( !current_user_can('edit_post', $post_ID) )
-				die(__('You are not allowed to edit this post.'));
-		}
-
-		if ( 'draft' == $post->post_status ) {
-			$id = edit_post();
-		} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
-			wp_create_post_autosave( $post->ID );
+	if ( 'draft' == $post->post_status ) {
+		$id = edit_post();
+	} else { // Non drafts are not overwritten.  The autosave is stored in a special post revision.
+		$id = wp_create_post_autosave( $post->ID );
+		if ( ! is_wp_error($id) )
 			$id = $post->ID;
-		}
 	}
 
 	return $id;
