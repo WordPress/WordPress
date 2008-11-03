@@ -393,12 +393,15 @@ function edInsertImage(myField) {
 // Name = unique value, id = textarea id, container = container div.
 // Can disable some buttons by passing comma delimited string as 4th param.
 var QTags = function(name, id, container, disabled) {
-	var t = this;
+	var t = this, cont = document.getElementById(container);
 
 	t.Buttons = [];
 	t.Links = [];
 	t.OpenTags = [];
 	t.Canvas = document.getElementById(id);
+	
+	if ( ! t.Canvas || ! cont )
+		return;
 
 	disabled = ( typeof disabled != 'undefined' ) ? ','+disabled+',' : '';
 
@@ -574,7 +577,6 @@ var QTags = function(name, id, container, disabled) {
 	html += '<input type="button" id="'+name+'_ed_close" class="ed_button" onclick="'+name+'.edCloseAllTags();" title="' + quicktagsL10n.closeAllOpenTags + '" value="' + quicktagsL10n.closeTags + '" /></div>';
 
 	tb.innerHTML = html;
-	var cont = document.getElementById(container);
 	cont.parentNode.insertBefore(tb, cont);
 
 };
