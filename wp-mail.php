@@ -28,7 +28,7 @@ $count = $pop3->pass(get_option('mailserver_pass'));
 if (false === $count)
 	wp_die(wp_specialchars($pop3->ERROR));
 if (0 == $count)
-	echo "<p>There doesn't seem to be any new mail.</p>\n"; // will fall-through to end of for loop
+	echo '<p>' . __("There doesn't seem to be any new mail.") . "</p>\n"; // will fall-through to end of for loop
 
 for ($i=1; $i <= $count; $i++) :
 
