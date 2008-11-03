@@ -155,9 +155,11 @@ function &get_comment(&$comment, $output = OBJECT) {
 	if ( $output == OBJECT ) {
 		return $_comment;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($_comment);
+		$__comment = get_object_vars($_comment);
+		return $__comment;
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($_comment));
+		$__comment = array_values(get_object_vars($_comment));
+		return $__comment;
 	} else {
 		return $_comment;
 	}
@@ -778,7 +780,7 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 		do_action('transition_comment_status', $new_status, $old_status, $comment);
 		do_action("comment_${old_status}_to_$new_status", $comment);
 	}
-	do_action("comment_${new_status}_$comment->comment_type", $comment->ID, $comment);
+	do_action("comment_${new_status}_$comment->comment_type", $comment->comment_ID, $comment);
 }
 
 /**
@@ -1076,6 +1078,7 @@ function wp_update_comment($commentarr) {
 	clean_comment_cache($comment_ID);
 	wp_update_comment_count($comment_post_ID);
 	do_action('edit_comment', $comment_ID);
+	$comment = get_comment($comment_ID);
 	wp_transition_comment_status($comment_approved, $comment->comment_approved, $comment);
 	return $rval;
 }
