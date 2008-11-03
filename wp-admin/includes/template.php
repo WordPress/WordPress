@@ -735,6 +735,9 @@ function wp_manage_pages_columns() {
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['title'] = __('Title');
 	$posts_columns['author'] = __('Author');
+	$post_status = 'all';
+	if ( !empty($_GET['post_status']) )
+		$post_status = $_GET['post_status'];
 	if ( !in_array($post_status, array('pending', 'draft', 'future')) )
 		$posts_columns['comments'] = '<div class="vers"><img alt="" src="images/comment-grey-bubble.png" /></div>';
 	$posts_columns['date'] = __('Date');

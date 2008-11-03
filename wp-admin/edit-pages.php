@@ -207,8 +207,6 @@ if ( $page_links )
 
 <?php
 
-$all = !( $h2_search || $post_status_q );
-
 if ($posts) {
 ?>
 <table class="widefat page">
