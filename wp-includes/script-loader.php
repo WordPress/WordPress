@@ -44,7 +44,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'common', '/wp-admin/js/common.js', array('jquery', 'user-settings', 'menu'), '20081013' );
 	$scripts->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
 
-	$scripts->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '20080823' );
+	$scripts->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '20081103' );
 	$scripts->localize( 'quicktags', 'quicktagsL10n', array(
 		'quickLinks' => __('(Quick Links)'),
 		'wordLookup' => __('Enter a word to look up:'),
