@@ -55,7 +55,7 @@ $url = attribute_escape( $comment->comment_author_url );
 <div class="misc-pub-section curtime misc-pub-section-last">
 <?php
 $datef = _c( 'M j, Y @ G:i|Publish box date format');
-$stamp = __('Submitted on: <b>%1$s</a>');
+$stamp = __('Submitted on: <b>%1$s</b>');
 $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
 <span id="timestamp"><?php printf($stamp, $date); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
