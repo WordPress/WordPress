@@ -1119,7 +1119,7 @@ function wp_tiny_mce( $teeny = false ) {
 					$path = WP_PLUGIN_DIR . $path . '/langs/';
 
 					if ( function_exists('realpath') )
-						$path = realpath($path);
+						$path = trailingslashit( realpath($path) );
 
 					if ( is_file($path . $mce_locale . '.js') )
 						$strings .= @file_get_contents($path . $mce_locale . '.js');
