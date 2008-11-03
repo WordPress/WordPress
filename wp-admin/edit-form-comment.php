@@ -36,31 +36,35 @@ $url = attribute_escape( $comment->comment_author_url );
 <div class="inside">
 <div class="submitbox" id="submitcomment">
 <div id="minor-publishing">
+
+<div id="minor-publishing-actions">
+<div id="preview=action">
+<a class="preview button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View Comment'); ?></a>
+</div>
+<div class="clear"></div>
+</div>
+
 <div id="misc-publishing-actions">
-<div id="misc-pub-block-1">
+
 <div class="misc-pub-section" id="comment-status-radio">
 <label class="approved"><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _e('Approved') ?></label><br />
 <label class="waiting"><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _e('Awaiting Moderation') ?></label><br />
 <label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _e('Spam') ?></label>
 </div>
-</div>
-<div id="misc-pub-block-2">
-<div class="misc-pub-section curtime misc-pub-section-2-last">
+
+<div class="misc-pub-section curtime misc-pub-section-last">
 <?php
-$datef = _c( 'M j, Y \a\t G:i|Publish box date format');
-$stamp = __('Submitted on:<br />%1$s');
+$datef = _c( 'M j, Y @ G:i|Publish box date format');
+$stamp = __('Submitted on: <b>%1$s</a>');
 $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
 <span id="timestamp"><?php printf($stamp, $date); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 <div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0, 5); ?></div>
 </div>
-</div>
 </div> <!-- misc actions -->
-<div id="minor-publishing-actions">
-<a class="preview button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View Comment'); ?></a>
-</div>
 <div class="clear"></div>
 </div>
+
 <div id="major-publishing-actions">
 <div id="delete-action">
 <a class='submitdelete deletion' href='<?php echo wp_nonce_url("comment.php?action=deletecomment&amp;c=$comment->comment_ID&amp;_wp_original_http_referer=" . wp_get_referer(), 'delete-comment_' . $comment->comment_ID) . "' onclick=\"if ( confirm('" . js_escape(__("You are about to delete this comment. \n  'Cancel' to stop, 'OK' to delete.")) . "') ) { return true;}return false;\">" . __('Delete'); ?></a>

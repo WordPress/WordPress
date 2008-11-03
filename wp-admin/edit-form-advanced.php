@@ -71,54 +71,45 @@ function post_submit_meta_box($post) {
 <div class="submitbox" id="submitpost">
 
 <div id="minor-publishing">
-<div id="misc-publishing-actions">
 
 <?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
 <div style="display:none;">
 <input type="submit" name="save" value="<?php echo attribute_escape( __('Save') ); ?>" />
 </div>
 
-<div id="misc-pub-block-1">
-<?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
-	<div class="misc-pub-section" id="sticky-checkbox"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick to front page') ?></label></div>
+<div id="minor-publishing-actions">
+<div id="preview-action">
+<noscript>
+<?php if ( 'publish' == $post->post_status ) { ?>
+<a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View Post'); ?></a>
+<?php } else { ?>
+<a class="preview button" href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" target="_blank" tabindex="4"><?php _e('Preview'); ?></a>
 <?php } ?>
-<!--
-<div class="misc-pub-section misc-pub-section-1-last" id="visibility">
+</noscript>
+
+<a class="preview button hide-if-no-js" href="#" id="post-preview" tabindex="4"><?php _e('Preview'); ?></a>
+<input type="hidden" name="wp-preview" id="wp-preview" value="" />
+</div>
+
+<div id="save-action">
+<?php if ( 'publish' != $post->post_status && 'private' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
+<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
+<?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
+<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save as Pending') ); ?>" tabindex="4" class="button button-highlighted" />
+<?php } ?>
+</div>
+<div class="clear"></div>
+</div><?php // /minor-publishing-actions ?>
+
+<div id="misc-publishing-actions">
+
+<?php if ( false ) { // Stub for 2.8 ?>
+<div class="misc-pub-section" id="visibility">
 <?php _e('Visibility:'); ?> <b><?php _e('Public'); // TODO: dropdown ?></b>
 </div>
--->
-</div>
-<div id="misc-pub-block-2">
-<?php
-$datef = _c( 'M j, Y \a\t G:i|Publish box date format');
-if ( 0 != $post->ID ) {
-	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
-		$stamp = __('Scheduled for:<br />%1$s');
-	} else if ( 'publish' == $post->post_status ) { // already published
-		$stamp = __('Published on:<br />%1$s');
-	} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
-		$stamp = __('Publish immediately');
-	} else if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
-		$stamp = __('Schedule for:<br />%1$s');
-	} else { // draft, 1 or more saves, date specified
-		$stamp = __('Publish on:<br />%1$s');
-	}
-	$date = date_i18n( $datef, strtotime( $post->post_date ) );
-} else { // draft (no saves, and thus no date specified)
-	$stamp = __('Publish immediately');
-	$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
-}
-?>
-<?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
-<div class="misc-pub-section curtime">
-	<span id="timestamp">
-	<?php printf($stamp, $date); ?></span>
-	&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
-	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
-</div>
-<?php endif; ?>
+<?php } ?>
 
-<div class="misc-pub-section misc-pub-section-2-last"><label for="post_status"><?php _e('Status:') ?></label>
+<div class="misc-pub-section<?php if ( !$can_publish ) { echo '  misc-pub-section-last'; } ?>"><label for="post_status"><?php _e('Status:') ?></label>
 <b><span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
@@ -152,34 +143,49 @@ switch ( $post->post_status ) {
 <option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
 <option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Draft') ?></option>
 </select>
-<br />
-<a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
-<a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
+ <a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
+ <a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
 </div>
 
 <?php } ?>
-</div>
-</div>
-</div>
+</div><?php // /misc-pub-section ?>
 
-<div id="minor-publishing-actions">
 
-<?php if ( 'publish' != $post->post_status && 'private' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
-<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
-<?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
-<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Pending') ); ?>" tabindex="4" class="button button-highlighted" />
+<?php if ( $can_publish && current_user_can( 'edit_others_posts' ) ) { ?>
+<div class="misc-pub-section " id="sticky-checkbox">
+<input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked(is_sticky($post->ID), true); ?> tabindex="4" /> <label for="sticky" class="selectit"><?php _e('Stick this post to the front page') ?></label>
+</div><?php // /misc-pub-section ?>
 <?php } ?>
 
-<noscript>
-<?php if ( 'publish' == $post->post_status ) { ?>
-<a class="preview button" href="<?php echo clean_url(get_permalink($post->ID)); ?>" target="_blank" tabindex="4"><?php _e('View Post'); ?></a>
-<?php } else { ?>
-<a class="preview button" href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" target="_blank" tabindex="4"><?php _e('Preview'); ?></a>
-<?php } ?>
-</noscript>
 
-<a class="preview button hide-if-no-js" href="#" id="post-preview" tabindex="4"><?php _e('Preview'); ?></a>
-<input type="hidden" name="wp-preview" id="wp-preview" value="" />
+<?php
+$datef = _c( 'M j, Y @ G:i|Publish box date format');
+if ( 0 != $post->ID ) {
+	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
+		$stamp = __('Scheduled for: <b>%1$s</b>');
+	} else if ( 'publish' == $post->post_status ) { // already published
+		$stamp = __('Published on: <b>%1$s</b>');
+	} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
+		$stamp = __('Publish <b>immediately</b>');
+	} else if ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
+		$stamp = __('Schedule for: <b>%1$s</b>');
+	} else { // draft, 1 or more saves, date specified
+		$stamp = __('Publish on: <b>%1$s</b>');
+	}
+	$date = date_i18n( $datef, strtotime( $post->post_date ) );
+} else { // draft (no saves, and thus no date specified)
+	$stamp = __('Publish <b>immediately</b>');
+	$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
+}
+?>
+<?php if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
+<div class="misc-pub-section curtime misc-pub-section-last">
+	<span id="timestamp">
+	<?php printf($stamp, $date); ?></span>
+	&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'),1,4); ?></div>
+</div><?php // /misc-pub-section ?>
+<?php endif; ?>
 
 </div>
 <div class="clear"></div>

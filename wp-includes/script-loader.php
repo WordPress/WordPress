@@ -176,7 +176,7 @@ function wp_default_scripts( &$scripts ) {
 			'save' => __('Save'),
 			'cancel' => __('Cancel'),
 		) );
-		$scripts->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug', 'settings-box'), '20081102' );
+		$scripts->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug', 'settings-box'), '20081103' );
 		$scripts->localize( 'post', 'postL10n', array(
 			'tagsUsed' =>  __('Tags used on this post:'),
 			'add' => attribute_escape(__('Add')),
@@ -192,10 +192,10 @@ function wp_default_scripts( &$scripts ) {
 			'publish' => __('Publish'),
 			'schedule' => __('Schedule'),
 			'update' => __('Update Post'),
-			'savePending' => __('Save Pending'),
+			'savePending' => __('Save as Pending'),
 			'saveDraft' => __('Save Draft')
 		) );
-		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox', 'settings-box'), '20081102' );
+		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'postbox', 'settings-box'), '20081103' );
 		$scripts->localize( 'page', 'postL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
@@ -207,11 +207,11 @@ function wp_default_scripts( &$scripts ) {
 			'publish' => __('Publish'),
 			'schedule' => __('Schedule'),
 			'update' => __('Update Page'),
-			'savePending' => __('Save Pending'),
+			'savePending' => __('Save as Pending'),
 			'saveDraft' => __('Save Draft')
 		) );
 		$scripts->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox', 'settings-box'), '20080925' );
-		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20081030' );
+		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20081103' );
 		$scripts->localize( 'comment', 'commentL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
@@ -328,7 +328,7 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081031' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081103' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );

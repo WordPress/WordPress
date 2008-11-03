@@ -60,12 +60,12 @@ jQuery(document).ready( function($) {
 			$('#publish').val( postL10n.update );
 		}
 		$('#timestamp').html(
-			publishOn + '<br />' +
+			publishOn + ' <b>' +
 			$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
 			$('#jj').val() + ', ' +
 			$('#aa').val() + ' @ ' +
 			$('#hh').val() + ':' +
-			$('#mn').val() + ' '
+			$('#mn').val() + '</b> '
 		);
 
 		return false;
