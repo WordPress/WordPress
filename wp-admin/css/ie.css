@@ -100,6 +100,14 @@ ul.wp-submenu {
 	position: relative;
 }
 
+#screen-options-wrap {
+	overflow: hidden;
+}
+
+#favorite-actions {
+	z-index: 12;
+}
+
 #wpwrap,
 #wpcontent,
 #post,
