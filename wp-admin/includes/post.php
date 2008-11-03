@@ -1115,11 +1115,11 @@ function wp_tiny_mce( $teeny = false ) {
 				$plugurl = dirname($url);
 				$strings = $str1 = $str2 = '';
 				if ( ! in_array($name, $loaded_langs) ) {
-					$path = preg_replace( '|.+?' . basename(WP_PLUGIN_URL) . '|', '', $plugurl );
+					$path = str_replace( WP_PLUGIN_URL, '', $plugurl );
 					$path = WP_PLUGIN_DIR . $path . '/langs/';
 
 					if ( function_exists('realpath') )
-						$plugpath = realpath($plugpath);
+						$path = realpath($path);
 
 					if ( is_file($path . $mce_locale . '.js') )
 						$strings .= @file_get_contents($path . $mce_locale . '.js');
