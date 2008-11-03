@@ -2388,7 +2388,7 @@ fieldset {
 	display: block;
 	background-repeat: no-repeat;
 	background-position: right top;
-	background-color: tarnsparent;
+	background-color: transparent;
 }
 
 #screen-options a#show-settings-link {
