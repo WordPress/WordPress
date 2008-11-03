@@ -401,7 +401,12 @@ function rss_enclosure() {
 		if ($key == 'enclosure') {
 			foreach ( (array) $val as $enc ) {
 				$enclosure = split("\n", $enc);
-				echo apply_filters('rss_enclosure', '<enclosure url="' . trim(htmlspecialchars($enclosure[0])) . '" length="' . trim($enclosure[1]) . '" type="' . trim($enclosure[2]) . '" />' . "\n");
+				
+				//only get the the first element eg, audio/mpeg from 'audio/mpeg mpga mp2 mp3'
+				$t = split('[ \t]', trim($enclosure[2]) ); 
+				$type = $t[0]; 
+				
+				echo apply_filters('rss_enclosure', '<enclosure url="' . trim(htmlspecialchars($enclosure[0])) . '" length="' . trim($enclosure[1]) . '" type="' . $type . '" />' . "\n");
 			}
 		}
 	}
