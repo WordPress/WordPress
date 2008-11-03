@@ -2545,17 +2545,17 @@ fieldset {
 .inline-editor .modified input {
 	padding: 2px 1px;
 	margin: 1px;
-	width: 18px;
+	width: 2em;
 }
 
 .inline-editor .date input[name="aa"],
 .inline-editor .modified input[name="aa"] {
-	width: 30px;
+	width: 3.5em;
 }
 
 #wpbody-content .inline-editor .date select,
 #wpbody-content .inline-editor .modified select {
-	width: 80px;
+	width: 6em;
 }
 
 .inline-editor .categories,
