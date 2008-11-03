@@ -542,8 +542,12 @@ function copy_dir($from, $to) {
 
 	foreach ( (array) $dirlist as $filename => $fileinfo ) {
 		if ( 'f' == $fileinfo['type'] ) {
-			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
-				return new WP_Error('copy_failed', __('Could not copy file'), $to . $filename);
+			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) ) {
+				// If copy failed, chmod file to 0644 and try again.
+				$wp_filesystem->chmod($to . $filename, 0644);
+				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
+					return new WP_Error('copy_failed', __('Could not copy file'), $to . $filename);
+			}
 			$wp_filesystem->chmod($to . $filename, 0644);
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->is_dir($to . $filename) ) {

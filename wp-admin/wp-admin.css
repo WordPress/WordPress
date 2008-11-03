@@ -1290,6 +1290,10 @@ table.form-table td .updated {
 
 /* Post Screen */
 
+#normal-sortables {
+	min-height: 50px;
+}
+
 .postbox {
 	position: relative;
 	min-width: 255px;
