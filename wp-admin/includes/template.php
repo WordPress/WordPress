@@ -1444,7 +1444,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 			}
 		}
 		echo '<td ' . $attributes . '>';
-		echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $page, $column_name, $mode) . '</abbr>';
+		echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $page, $column_name, '') . '</abbr>';
 		echo '<br />';
 		if ( 'publish' == $page->post_status || 'future' == $page->post_status )
 			_e('Published');
