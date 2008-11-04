@@ -889,7 +889,8 @@ abbr.required,
 }
 
 #timestampdiv input,
-#namediv input {
+#namediv input,
+#tagsdiv #the-tagcloud {
 	border-color: #ddd;
 }
 

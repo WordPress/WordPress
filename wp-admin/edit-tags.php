@@ -242,7 +242,7 @@ if ( $page_links )
 if ( $can_manage )
 	wp_tag_cloud(array('link' => 'edit')); 
 else
-	wp_tag_cloud(); 
+	wp_tag_cloud();
 ?>
 </div>
 

@@ -145,38 +145,40 @@ input[type="radio"] {
 
 /* styles for use by people extending the WordPress interface */
 
-body	{
-	margin: 0;
-	padding: 0;
+body,
+td {
+	font: 13px/19px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
-body, td {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+p {
+	margin: 1em 0;
 }
 
-form, label input {
-	margin: 0;
-	padding: 0;
-}
-
-img {
-	border: 0;
+blockquote {
+	margin: 1em;
 }
 
 label {
 	cursor: pointer;
 }
 
-li, dd {
+li,
+dd {
 	margin-bottom: 6px;
 }
 
-p, li, dl, dd, dt {
+p,
+li,
+dl,
+dd,
+dt {
 	line-height: 140%;
 }
 
-textarea, input, select {
-	font: 13px Verdana, Arial, Helvetica, sans-serif;
+textarea,
+input,
+select {
+	font: 13px/19px Verdana, Arial, Helvetica, sans-serif;
 	margin: 1px;
 	padding: 3px;
 }
@@ -291,7 +293,8 @@ h6 {
 	white-space: nowrap;
 }
 
-.widefat td, .widefat th {
+.widefat td,
+.widefat th {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;
@@ -326,11 +329,7 @@ h6 {
 .widefat tbody th.check-column {
 	padding: 10px 0 22px;
 }
-/*
-th.check-column + th, th.check-column + td {
-	padding-left: 5px;
-}
-*/
+
 .widefat .num,
 .widefat .column-comments {
 	text-align: center;
@@ -340,27 +339,33 @@ th.check-column + th, th.check-column + td {
 	vertical-align: middle;
 }
 
-.wrap, .updated, .error {
+.wrap,
+.updated,
+.error {
 	margin: 0 15px;
 	padding: 0;
 }
 
-.updated, .error {
+.updated,
+.error {
 	border-width: 1px;
 	border-style: solid;
 	padding: 0 0.6em;
 	margin: 3px 15px 5px;
 }
 
-.updated p, .error p {
+.updated p,
+.error p {
 	margin: 0.6em 0;
 }
 
-.wrap .updated, .wrap .error {
+.wrap .updated,
+.wrap .error {
 	margin: auto 0 0;
 }
 
-.updated a, .error a {
+.updated a,
+.error a {
 	text-decoration: underline;
 }
 

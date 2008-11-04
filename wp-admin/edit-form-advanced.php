@@ -235,7 +235,7 @@ function post_tags_meta_box($post) {
 ?>
 <p id="jaxtag"><label class="hidden" for="newtag"><?php _e('Tags'); ?></label><input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" /></p>
 <div id="tagchecklist"></div>
-<p><a href='#'><?php _e( 'Choose from tags' ); ?></a></p>
+<p id="tagcloud-link" class="hide-if-no-js"><a href='#'><?php _e( 'Choose from the most popular tags' ); ?></a></p>
 <?php
 }
 add_meta_box('tagsdiv', __('Tags'), 'post_tags_meta_box', 'post', 'side', 'core');

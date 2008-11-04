@@ -2921,3 +2921,16 @@ ul.core-updates li {
 form.upgrade {
 	margin-top: 8px;
 }
+
+#tagsdiv #the-tagcloud {
+	margin: 5px 5px 10px;
+	padding: 8px;
+	border-width: 1px;
+	border-style: solid;
+	line-height: 1.8em;
+	word-spacing: 3px;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}

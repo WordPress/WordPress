@@ -37,14 +37,25 @@ function tag_update_quickclicks() {
 		jQuery( '#tagchecklist' ).prepend( '<strong>'+postL10n.tagsUsed+'</strong><br />' );
 }
 
-function tag_flush_to_text() {
-	var newtags = jQuery('#tags-input').val() + ',' + jQuery('#newtag').val();
+function tag_flush_to_text(e,a) {
+	a = a || false;
+	var text = a ? jQuery(a).text() : jQuery('#newtag').val();
+	var newtags = jQuery('#tags-input').val();
+	var t = text.replace( /\s*([^,]+)[\s,]*/, '$1' );
+
+	if ( newtags.indexOf(t) != -1 )
+		return false;
+
+	newtags += ',' + text;
+
 	// massage
 	newtags = newtags.replace( /\s+,+\s*/g, ',' ).replace( /,+/g, ',' ).replace( /,+\s+,+/g, ',' ).replace( /,+\s*$/g, '' ).replace( /^\s*,+/g, '' );
 	jQuery('#tags-input').val( newtags );
 	tag_update_quickclicks();
-	jQuery('#newtag').val('');
-	jQuery('#newtag').focus();
+	if ( ! a ) {
+		jQuery('#newtag').val('');
+		jQuery('#newtag').focus();
+	}
 	return false;
 }
 
@@ -58,9 +69,33 @@ function tag_press_key( e ) {
 		tag_flush_to_text();
 		return false;
 	}
-}
+};
+
+(function($){
+	tagCloud = {
+		init : function() {
+			$('#tagcloud-link').click(function(){tagCloud.get(); return false;});
+		},
+
+		get : function() {
+			$.post('admin-ajax.php', {'action':'get-tagcloud'}, function(r, stat) {
+				if ( 0 == r || 'success' != stat )
+					r = wpAjax.broken;
+
+				r = '<p id="the-tagcloud">'+r+'</p>';
+				$('#tagcloud-link').after($(r));
+				$('#the-tagcloud a').click(function(){
+					tag_flush_to_text(0,this);
+					return false;
+				});
+			});
+		}
+	}
+})(jQuery);
 
 jQuery(document).ready( function($) {
+	tagCloud.init();
+	
 	// close postboxes that should be closed
 	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
