@@ -77,7 +77,11 @@ function wp_version_check() {
 		$new_options[] = $new_option;
 	}
 
-	update_option( 'update_core', $new_options );
+	$updates = new stdClass();
+	$updates->updates = $new_options;
+	$updates->last_checked = time();
+	$updates->version_checked = $wp_version;
+	update_option( 'update_core',  $updates);
 }
 add_action( 'init', 'wp_version_check' );
 

@@ -34,9 +34,13 @@ function get_core_updates( $options = array() ) {
 	$dismissed = get_option( 'dismissed_update_core' );
 	if ( !is_array( $dismissed ) ) $dismissed = array();
 	$from_api = get_option( 'update_core' );
-	if ( !is_array( $from_api ) ) return false;
+	if ( empty($from_api) )
+		return false;
+	if ( !is_array( $from_api->updates ) ) return false;
+	$updates = $from_api->updates;
+	if ( !is_array( $updates ) ) return false;
 	$result = array();
-	foreach($from_api as $update) {
+	foreach($updates as $update) {
 		if ( array_key_exists( $update->current.'|'.$update->locale, $dismissed ) ) {
 			if ( $options['dismissed'] ) {
 				$update->dismissed = true;
@@ -68,8 +72,9 @@ function undismiss_core_update( $version, $locale ) {
 
 function find_core_update( $version, $locale ) {
 	$from_api = get_option( 'update_core' );
-	if ( !is_array( $from_api ) ) return false;
-	foreach($from_api as $update) {
+	if ( !is_array( $from_api->updates ) ) return false;
+	$updates = $from_api->updates;
+	foreach($updates as $update) {
 		if ( $update->current == $version && $update->locale == $locale )
 			return $update;
 	}
