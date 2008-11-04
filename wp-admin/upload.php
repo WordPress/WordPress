@@ -184,7 +184,7 @@ $_num_posts = (array) wp_count_attachments();
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 foreach ( $matches as $type => $reals )
 	foreach ( $reals as $real )
-		$num_posts[$type] += $_num_posts[$real];
+		$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
 $class = empty($_GET['post_mime_type']) && ! isset($_GET['detached']) ? ' class="current"' : '';
 $type_links[] = "<li><a href=\"upload.php\"$class>".__('All Types')."</a>";
@@ -194,7 +194,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
 		continue;
 
-	if ( wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
+	if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
 	$type_links[] = "<li><a href=\"upload.php?post_mime_type=$mime_type\"$class>" .

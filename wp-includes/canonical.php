@@ -62,6 +62,10 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	$redirect = $original;
 	$redirect_url = false;
 
+	// Notice fixing
+	if ( !isset($redirect['path']) )  $redirect['path'] = '';
+	if ( !isset($redirect['query']) ) $redirect['query'] = '';
+
 	if ( is_singular() && 1 > $wp_query->post_count && ($id = get_query_var('p')) ) {
 
 		$vars = $wpdb->get_results( $wpdb->prepare("SELECT post_type, post_parent FROM $wpdb->posts WHERE ID = %d", $id) );

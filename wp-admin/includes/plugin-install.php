@@ -173,7 +173,6 @@ function install_search_form(){
 		</select>
 		<input type="text" name="s" id="search-field" value="<?php echo attribute_escape($term) ?>" />
 		<input type="submit" name="search" value="<?php echo attribute_escape(__('Search')) ?>" class="button" />
-		<?php echo $after_submit ?>
 	</form><?php
 }
 

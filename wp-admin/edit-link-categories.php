@@ -180,7 +180,7 @@ if ( $page_links )
 <div id="col-left">
 <div class="col-wrap">
 
-<?php if ( current_user_can('manage_categories') ) {
+<?php if ( isset( $category ) && current_user_can('manage_categories') ) {
 	$category = (object) array(); $category->parent = 0; do_action('add_link_category_form_pre', $category); ?>
 
 <div class="form-wrap">
@@ -198,7 +198,7 @@ if ( $page_links )
 <div class="form-field">
 	<label for="slug"><?php _e('Category slug') ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
-    <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
+	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 
 <div class="form-field">

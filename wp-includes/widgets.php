@@ -1551,6 +1551,8 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		return;
 	}
 
+	$default_args = array( 'show_author' => 0, 'show_date' => 0, 'show_summary' => 0 );
+	$args = wp_parse_args( $args, $default_args );
 	extract( $args, EXTR_SKIP );
 
 	$items = (int) $items;

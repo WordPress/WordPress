@@ -1242,7 +1242,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			} else {
 				$t_time = get_the_time(__('Y/m/d g:i:s A'));
 				$m_time = $post->post_date;
-				$time = get_post_time('G', true);
+				$time = get_post_time('G', true, $post);
 
 				if ( ( abs(time() - $time) ) < 86400 ) {
 					if ( ( 'future' == $post->post_status) )

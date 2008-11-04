@@ -70,7 +70,7 @@ function link_submit_meta_box($link) {
 <?php } ?>
 
 <?php
-if ( 'edit' == $_GET['action'] && current_user_can('manage_links') )
+if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('manage_links') )
 	echo "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape( sprintf( __("You are about to delete this link '%s'\n'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete&nbsp;link') . "</a>";
 ?>
 </p>
@@ -341,8 +341,10 @@ add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link'
 </div>
 -->
 <?php
-echo $form;
-echo $link_added;
+if ( !empty($form) )
+	echo $form;
+if ( !empty($link_added) )
+	echo $link_added;
 
 wp_nonce_field( $nonce_action );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );

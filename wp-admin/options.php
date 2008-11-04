@@ -70,7 +70,9 @@ case 'update':
 	if ( $options ) {
 		foreach ( $options as $option ) {
 			$option = trim($option);
-			$value = $_POST[$option];
+			$value = null;
+			if ( isset($_POST[$option]) )
+				$value = $_POST[$option];
 			if ( !is_array($value) ) $value = trim($value);
 			$value = stripslashes_deep($value);
 			update_option($option, $value);

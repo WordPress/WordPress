@@ -814,7 +814,7 @@ class Blogger_Import {
 				echo $result->get_error_message();
 		} elseif ( isset($_GET['token']) )
 			$this->auth();
-		elseif ( $this->token && $this->token_is_valid() )
+		elseif ( isset($this->token) && $this->token_is_valid() )
 			$this->show_blogs();
 		else
 			$this->greet();

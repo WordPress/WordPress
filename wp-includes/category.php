@@ -277,8 +277,10 @@ function sanitize_category_field( $field, $value, $cat_id, $context ) {
 function &get_tags( $args = '' ) {
 	$tags = get_terms( 'post_tag', $args );
 
-	if ( empty( $tags ) )
-		return array();
+	if ( empty( $tags ) ) {
+		$return = array();
+		return $return;
+	}
 
 	$tags = apply_filters( 'get_tags', $tags, $args );
 	return $tags;
