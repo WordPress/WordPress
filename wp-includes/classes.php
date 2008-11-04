@@ -1082,8 +1082,9 @@ class Walker {
 		$id_field = $this->db_fields['id'];
 		$id = $e->$id_field;
 
-		foreach ( (array)$children_elements[$id] as $child )
-			$this->unset_children( $child, $children_elements );
+		if ( !empty($children_elements[$id]) && is_array($children_elements[$id]) )
+			foreach ( (array) $children_elements[$id] as $child )
+				$this->unset_children( $child, $children_elements );
 
 		if ( isset($children_elements[$id]) )
 			unset( $children_elements[$id] );
