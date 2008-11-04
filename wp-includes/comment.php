@@ -182,8 +182,21 @@ function get_comments( $args = '' ) {
 
 	$defaults = array('status' => '', 'orderby' => 'comment_date_gmt', 'order' => 'DESC', 'number' => '', 'offset' => '', 'post_id' => 0);
 
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
+	$args = wp_parse_args( $args, $defaults );
+	extract( $args, EXTR_SKIP );
+
+	// $args can be whatever, only use the args defined in defaults to compute the key
+	$key = md5( serialize( compact(array_keys($defaults)) )  );
+	$last_changed = wp_cache_get('last_changed', 'comment');
+	if ( !$last_changed ) {
+		$last_changed = time();
+		wp_cache_set('last_changed', $last_changed, 'comment');
+	}
+	$cache_key = "get_comments:$key:$last_changed";
+
+	if ( $cache = wp_cache_get( $cache_key, 'comment' ) ) {
+		return $cache;
+	}
 
 	$post_id = absint($post_id);
 
@@ -218,7 +231,10 @@ function get_comments( $args = '' ) {
 	else
 		$post_where = '';
 
-	return $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE $post_where $approved ORDER BY $orderby $order $number" );
+	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE $post_where $approved ORDER BY $orderby $order $number" );
+	wp_cache_add( $cache_key, $comments, 'comment' );
+
+	return $comments;
 }
 
 /**
