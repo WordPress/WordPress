@@ -80,18 +80,18 @@ $post_stati  = array(	//	array( adj, noun )
 		'private' => array(__('Private'), __('Private pages'), __ngettext_noop('Private (%s)', 'Private (%s)'))
 	);
 
+$query = array('post_type' => 'page', 'orderby' => 'menu_order title', 'what_to_show' => 'posts',
+	'posts_per_page' => -1, 'posts_per_archive_page' => -1, 'order' => 'asc');
+
 $post_status_label = __('Pages');
-$post_status_q = '';
 if ( isset($_GET['post_status']) && in_array( $_GET['post_status'], array_keys($post_stati) ) ) {
 	$post_status_label = $post_stati[$_GET['post_status']][1];
-	$post_status_q = '&post_status=' . $_GET['post_status'];
-	$post_status_q .= '&perm=readable';
+	$query['post_status'] = $_GET['post_status'];
+	$query['perm'] = 'readable';
 }
 
-$query_str = "post_type=page&orderby=menu_order title&what_to_show=posts$post_status_q&posts_per_page=-1&posts_per_archive_page=-1&order=asc";
-
-$query_str = apply_filters('manage_pages_query', $query_str);
-wp($query_str);
+$query = apply_filters('manage_pages_query', $query);
+wp($query);
 
 if ( is_singular() ) {
 	wp_enqueue_script( 'admin-comments' );
