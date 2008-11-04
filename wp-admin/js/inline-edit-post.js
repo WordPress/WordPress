@@ -205,6 +205,7 @@ inlineEditPost = {
 				var row = $(inlineEditPost.what+id);
 
 				if (r) {
+					r = r.replace(/hide-if-no-js/, '');
 					$('#edit-'+id).remove();
 					row.html($(r).html()).show()
 						.animate( { backgroundColor: '#CCEEBB' }, 500)
