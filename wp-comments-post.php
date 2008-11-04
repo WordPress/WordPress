@@ -79,7 +79,7 @@ if ( !$user->ID ) {
 	setcookie('comment_author_url_' . COOKIEHASH, clean_url($comment->comment_author_url), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
 }
 
-$location = ( empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] ) . '#comment-' . $comment_id;
+$location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] . '#comment-' . $comment_id;
 $location = apply_filters('comment_post_redirect', $location, $comment);
 
 wp_redirect($location);
