@@ -79,10 +79,7 @@ if ( !$user->ID ) {
 	setcookie('comment_author_url_' . COOKIEHASH, clean_url($comment->comment_author_url), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
 }
 
-if ( empty($_POST['redirect_to']) )
-	$postlink = ( 'newest' == get_option('default_comments_page') ) ? get_permalink($comment_post_ID) : add_query_arg( 'cpage', get_comment_pages_count( get_comments( array( 'post_id' => $comment_post_ID ) ) ), get_permalink($comment_post_ID) );
-
-$location = ( empty($_POST['redirect_to']) ? $postlink : $_POST['redirect_to'] ) . '#comment-' . $comment_id;
+$location = ( empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] ) . '#comment-' . $comment_id;
 $location = apply_filters('comment_post_redirect', $location, $comment);
 
 wp_redirect($location);
