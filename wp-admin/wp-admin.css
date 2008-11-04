@@ -1312,6 +1312,10 @@ table.form-table td .updated {
 	margin: 0;
 }
 
+#side-sortables {
+	min-height: 300px;
+}
+
 #side-sortables .submitbox .submit input,
 #side-sortables .submitbox .submit .preview,
 #side-sortables .submitbox .submit a.preview:hover {

@@ -33,7 +33,8 @@
 			if ( doIt || $('#side-sortables > .postbox:visible').length ) {
 				if ( ! $('#post-body').hasClass('has-sidebar') ) {
 					$('#post-body').addClass('has-sidebar');
-					$('#side-sortables').css({'minHeight':$('#post-body').height()+'px'});
+					var h = Math.min( $('#post-body').height(), 300 );
+					$('#side-sortables').css({'minHeight':h+'px'});
 				}
 			} else {
 				$('#post-body').removeClass('has-sidebar');
