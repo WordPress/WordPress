@@ -1633,6 +1633,8 @@ class WP_Rewrite {
 		$home_root = parse_url(get_option('home'));
 		if ( isset( $home_root['path'] ) ) {
 			$home_root = trailingslashit($home_root['path']);
+		} else {
+			$home_root = '/';
 		}
 
 		$rules = "<IfModule mod_rewrite.c>\n";
