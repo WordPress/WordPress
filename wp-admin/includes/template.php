@@ -1290,7 +1290,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			foreach ( $actions as $action => $link ) {
 				++$i;
 				( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-				echo "<span class='$action'>$link$sep</span>";
+				echo "<span class='$action'>$link</span>$sep";
 			}
 
 			get_inline_data($post);
