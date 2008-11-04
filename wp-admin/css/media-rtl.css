@@ -1,83 +1,70 @@
 body#media-upload ul#sidemenu {
 	left: auto;
 	right: 0;
-	width: 620px;
 }
-
 #search-filter {
 	text-align: left;
 }
-
+/* specific to the image upload form */
 .align .field label {
 	padding: 0 28px 0 0;
 	margin: 0 0 0 1em;
 }
-
-.image-align-none-label, .image-align-left-label,
-.image-align-center-label, .image-align-right-label {
+.image-align-none-label, .image-align-left-label, .image-align-center-label, .image-align-right-label {
 	background-position: center right;
 }
-
-tr.image-size label {
-	margin: 0 0 0 1em;
+tr.image-size div.image-size-item {
+	float: right;
 }
-
+tr.image-size label {
+	margin: 0 1em 0 0;
+}
 .filename.original {
 	float: right;
 }
-
 .crunching {
 	text-align: left;
 	margin-right: 0;
 	margin-left: 5px;
 }
-
 button.dismiss {
 	right: auto;
 	left: 5px;
 }
-
 .file-error {
 	margin: 0 50px 5px 0;
 }
-
 .progress {
 	left: auto;
 	right: 0;
 }
-
 .bar {
 	border-right-width: 0;
 	border-left-width: 3px;
+	border-right-style: none;
 	border-left-style: solid;
 }
-
 .media-item .pinkynail {
 	float: right;
 }
-
-.describe-toggle-on, .describe-toggle-off {
+.describe-toggle-on,
+.describe-toggle-off {
 	float: left;
 	margin-right: 0;
 	margin-left: 20px;
 }
-
 /* Specific to Uploader */
-
 #media-upload .media-upload-form p {
 	margin: 0 0 1em 1em;
 }
-
 .filename {
 	float: right;
 	margin-left: 0;
 	margin-right: 10px;
 }
-
 #media-upload .describe th.label {
 	text-align: right;
 }
-
 .menu_order {
 	float: left;
 }

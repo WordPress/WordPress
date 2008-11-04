@@ -1,15 +1,12 @@
-#template textarea {
-	font-family:monospace;
-}
 #templateside {
-	float:left;
+	float: left;
 }
 #themeselector {
-	padding-right:0;
+	padding-right: 0;
 	padding-left: 5px;
 	float: left;
 }
 div.tablenav {
-	margin-right:0;
+	margin-right: 0;
 	margin-left: 210px;
 }

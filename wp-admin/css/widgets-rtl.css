@@ -2,44 +2,41 @@
 div.widget-liquid-left-holder {
 	float: right;
 	clear: right;
-	margin-right:0;
+	margin-right: 0;
 	margin-left: -310px;
 }
 div.widget-liquid-left {
-	margin-right:0;
+	margin-right: 0;
 	margin-left: 320px;
 }
 div.widget-liquid-right {
 	float: left;
 	clear: left;
 }
-p#widget-search {
-	right:auto;
-	left:0;
-}
+/* pasitioning etc. */
 h4.widget-title span {
 	float: right;
 }
 h4.widget-title a {
 	float: left;
-	margin-left:0;
+	margin-left: 0;
 	margin-right: 1em;
 }
 ul#widget-list li.widget-list-item h4.widget-title {
-	float:right;
+	float: right;
 }
 ul#widget-list li.widget-list-item div.widget-description {
 	margin: 0 200px 0 0;
 	padding: 0 4em 0 0;
 }
 .widget-control-save, .widget-control-remove {
-	margin-right:0;
+	margin-right: 0;
 	margin-left: 8px;
 	float: right;
 }
 li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited {
-	right:auto;
+	right: auto;
 	left: 1em;
 }

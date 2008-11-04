@@ -1,35 +1,27 @@
-body , #login form .submit input {
-	font-family: Tahoma;
+body {
+	font-family: Tahoma, arial;
 }
-
 form {
-	margin-left:0;
 	margin-right: 8px;
+	margin-left: 0;
 }
-
-form .forgetmenot { float: right; }
-
+form .forgetmenot {
+	float: right;
+}
+#login form .submit input {
+	font-family: Tahoma, arial;
+}
 form .submit { float: left; }
-
 #backtoblog a {
 	left: auto;
 	right: 15px;
 }
-
 #login_error, .message {
 	margin: 0 8px 16px 0;
 }
-
 #nav { margin: 0 8px 0 0; }
-
 #user_pass, #user_login, #user_email {
-	margin-right: 0;
 	margin-left: 6px;
-}
-
-h1 a { text-decoration: none; }
-
-/* ltr input */
-#user_login, #user_pass {
-	direction: ltr;
+	margin-right: 0;
+	direction:ltr;
 }

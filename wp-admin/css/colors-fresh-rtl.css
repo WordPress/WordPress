@@ -2,22 +2,44 @@
 	border-right-color: transparent;
 	border-left-color: #99d;
 }
-
-#adminmenu li a #awaiting-mod, #sidemenu li a #update-plugins {
-	background-image: url(../images/comment-stalk-rtl.gif);
-	background-position: right bottom;
-}
-
-#footer {
-	background-position: 99% 10px;
-}
-
 .plugins .togl {
 	border-right-color: transparent;
 	border-left-color: #ccc;
 }
-
+.post-com-count {
+	background-image: url(../images/bubble_bg-rtl.gif);
+}
+#adminmenu li a #awaiting-mod {
+	background-image: url(../images/comment-stalk-rtl.gif);
+}
 #upload-menu li.current {
 	border-right-color: transparent;
 	border-left-color: #448abd;
+}
+#adminmenu li.wp-menu-separator {
+	background: transparent url(../images/menu-arrows.gif) no-repeat scroll right -34px;
+}
+#adminmenu.folded li.wp-menu-separator {
+	background: transparent url(../images/menu-arrows.gif) no-repeat scroll left 5px;
+}
+#adminmenu li.wp-has-current-submenu .wp-menu-toggle,
+#adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
+	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -206px;
+}
+#adminmenu .wp-has-submenu:hover .wp-menu-toggle,
+#adminmenu .wp-menu-open .wp-menu-toggle {
+	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -108px;
+}
+#adminmenu a.wp-has-submenu {
+	background: #f1f1f1 url(../images/menu-bits-rtl.gif) repeat-x scroll right -379px;
+}
+#adminmenu .wp-submenu a {
+	background: #FFFFFF url(../images/menu-bits-rtl.gif) no-repeat scroll right -310px;
+}
+#adminmenu li.current a,
+#adminmenu .wp-submenu a:hover {
+	background: transparent url(../images/menu-bits-rtl.gif) no-repeat scroll  right -289px;
+}
+#adminmenu li.wp-has-current-submenu a.wp-has-submenu {
+	background: #b5b5b5 url(../images/menu-bits-rtl.gif) repeat-x scroll right top;
 }

@@ -1,1 +1,44 @@
-/* TODO */
+#dashboard-widgets-wrap .has-sidebar {
+	margin-right: 0;
+	margin-left: -51%;
+}
+#dashboard-widgets-wrap .has-sidebar .has-sidebar-content {
+	margin-right: 0;
+	margin-left: 51%;
+}
+.view-all {
+	right: auto;
+	left: 0;
+}
+#dashboard_right_now .inside {
+	font-family: Tahoma, Arial;
+}
+#dashboard_right_now td.b {
+	padding-right: 0;
+	padding-left: 6px;
+	text-align: left;
+	font-family: Tahoma, Arial;
+}
+#dashboard_right_now .t {
+	padding-right: 0;
+	padding-left: 12px;
+}
+#dashboard_right_now .versions a, #dashboard_right_now .versions .b {
+	font-family: Tahoma, Arial;
+}
+#dashboard_right_now a.button {
+	float: left;
+	clear: left;
+}
+/* Recent Comments */
+#the-comment-list .comment-item {
+	padding: 5px 47px 5px 5px;
+}
+#the-comment-list .comment-item .avatar {
+	left: auto;
+	right: 5px;
+}
+/* Feeds */
+.rss-widget cite {
+	text-align: left;
+}

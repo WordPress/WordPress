@@ -1,0 +1,81 @@
+body {
+	font-family: Tahoma, arial;
+}
+.button,
+#poststuff #edButtonPreview,
+#poststuff #edButtonHTML {
+	font-family: Tahoma, arial;
+	margin-left: 0;
+	margin-right: 5px;
+}
+/* Editor/Main Column */
+div#poststuff {
+	padding-left: 0;
+	padding-right: 10px;
+}
+.posting {
+	margin-right: 0;
+	margin-left: 228px;
+}
+#side-info-column {
+	float: left;
+	margin-right: 0;
+	margin-left: 10px;
+}
+#side-info-column .sleeve {
+	padding-left: 0;
+	padding-right: 10px;
+}
+#actions {
+	right: auto;
+	left: 4px;
+}
+#actions li {
+	float: right;
+}
+/* Photo Styles */
+#img_container a {
+	float:right;
+}
+#category-add input, #category-add select  {
+	font-family: Tahoma, arial;
+}
+/* Categories */
+#categorydiv ul.categorychecklist ul {
+	margin-left: 0;
+	margin-right: 18px;
+}
+/* Tags */
+#tagsdiv #newtag {
+	margin-right: 0;
+	margin-left: 5px;
+}
+#tagchecklist {
+	padding-left: 0;
+	padding-right: 1em;
+}
+#tagchecklist span {
+	margin-right: 10px;
+	margin-left: .5em;
+	float: right;
+}
+#tagchecklist span a {
+	margin: 6px -9px 0 0;
+	float: right;
+}
+/* Submit */
+.submitbox .submit, .ac_results li  {
+	text-align:right;
+}
+#TB_ajaxContent #options {
+	right: auto;
+	left: 25px;
+}
+#post_status {
+	margin-left: 0;
+	margin-right: 10px;
+}
+/* Footer */
+#footer {
+	padding: 10px 60px 0 0;
+}
