@@ -3552,24 +3552,33 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	return $revisions;
 }
 
+function _set_preview($post) {
+
+	if ( ! is_object($post) )
+		return $post;
+
+	$preview = wp_get_post_autosave($post->ID);
+
+	if ( ! is_object($preview) )
+		return $post;
+
+	$preview = sanitize_post($preview);
+
+	$post->post_content = $preview->post_content;
+	$post->post_title = $preview->post_title;
+	$post->post_excerpt = $preview->post_excerpt;
+
+	return $post;
+}
+
 function _show_post_preview() {
 
-	if ( isset($_GET['wp_preview']) && isset($_GET['preview_nonce']) ) {
-		$post_ID = (int) $_GET['wp_preview'];
+	if ( isset($_GET['preview_id']) && isset($_GET['preview_nonce']) ) {
+		$id = (int) $_GET['preview_id'];
 
-		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $post_ID ) || ! current_user_can('edit_post', $post_ID) )
+		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $id ) )
 			wp_die( __('You do not have permission to preview drafts.') );
 
-		$q = array(
-			'name' => "{$post_ID}-autosave",
-			'post_parent' => $post_ID,
-			'post_type' => 'revision',
-			'post_status' => 'inherit'
-		);
-
-		add_action( 'parse_query', '_wp_get_post_autosave_hack' );
-		query_posts($q);
-		remove_action( 'parse_query', '_wp_get_post_autosave_hack' );
-
+		add_filter('the_preview', '_set_preview');
 	}
 }

@@ -176,17 +176,7 @@ case 'delete':
 case 'preview':
 	check_admin_referer( 'autosave', 'autosavenonce' );
 
-	$id = post_preview();
-
-	if ( is_wp_error($id) )
-		wp_die( $id->get_error_message() );
-
-	if ( $_POST['post_status'] == 'draft'  ) {
-		$url = get_option('home') . '/?page_id=' . $id . '&preview=true';
-	} else {
-		$nonce = wp_create_nonce('post_preview_' . $id);
-		$url = get_option('home') . '/?wp_preview=' . $id . '&preview_nonce=' . $nonce;
-	}
+	$url = post_preview();
 
 	wp_redirect($url);
 	exit();

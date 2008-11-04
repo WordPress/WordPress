@@ -2294,6 +2294,9 @@ class WP_Query {
 					}
 				}
 			}
+
+			if ( $this->is_preview && current_user_can( "edit_{$post_type}", $this->posts[0]->ID ) )
+				$this->posts[0] = apply_filters('the_preview', $this->posts[0]);
 		}
 
 		// Put sticky posts at the top of the posts array

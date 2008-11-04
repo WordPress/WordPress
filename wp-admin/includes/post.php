@@ -998,7 +998,7 @@ function wp_create_post_autosave( $post_id ) {
  * @uses current_user_can()
  * @uses wp_create_post_autosave()
  * 
- * @return int|object the saved post id or wp_error object
+ * @return str URL to redirect to show the preview
  */
 function post_preview() {
 
@@ -1034,7 +1034,17 @@ function post_preview() {
 			$id = $post->ID;
 	}
 
-	return $id;
+	if ( is_wp_error($id) )
+		wp_die( $id->get_error_message() );
+
+	if ( $_POST['post_status'] == 'draft'  ) {
+		$url = add_query_arg( 'preview', 'true', get_permalink($id) );
+	} else {
+		$nonce = wp_create_nonce('post_preview_' . $id);
+		$url = add_query_arg( array( 'preview' => 'true', 'preview_id' => $id, 'preview_nonce' => $nonce ), get_permalink($id) );
+	}
+
+	return $url;
 }
 
 /**
