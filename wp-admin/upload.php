@@ -163,12 +163,9 @@ $messages[1] = __('Media attachment updated.');
 $messages[2] = __('Media deleted.');
 $messages[3] = __('Error saving media attachment.');
 
-if ( isset($_GET['message']) && (int) $_GET['message'] )
+if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 	$message = $messages[$_GET['message']];
-
-if ( isset($message) ) { ?>
-<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+	$_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 }
 ?>
 
@@ -176,6 +173,13 @@ if ( isset($message) ) { ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
+
+<?php
+if ( isset($message) ) { ?>
+<div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
+<?php 
+}
+?>
 
 <ul class="subsubsub">
 <?php

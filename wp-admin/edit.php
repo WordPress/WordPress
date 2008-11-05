@@ -92,6 +92,9 @@ else
 
 <?php screen_options('post') ?>
 
+<div class="wrap">
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+
 <?php
 if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET['posted']; ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit post'); ?></a></p></div>
@@ -114,9 +117,6 @@ if ( (int) $_GET['locked'] ) {
 } ?>
 </p></div>
 <?php } ?>
-
-<div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form id="posts-filter" action="" method="get">
 <ul class="subsubsub">

@@ -76,6 +76,9 @@ switch ($order_by) {
 
 <?php screen_options('link') ?>
 
+<div class="wrap nosubsub">
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
+
 <?php
 if ( isset($_GET['deleted']) ) {
 	echo '<div id="message" class="updated fade"><p>';
@@ -85,9 +88,6 @@ if ( isset($_GET['deleted']) ) {
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
 }
 ?>
-
-<div class="wrap nosubsub">
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
