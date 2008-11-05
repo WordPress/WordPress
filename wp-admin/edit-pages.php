@@ -102,6 +102,9 @@ require_once('admin-header.php'); ?>
 
 <?php screen_options('page') ?>
 
+<div class="wrap">
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+
 <?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) ) { ?>
 <div id="message" class="updated fade"><p>
 <?php if ( (int) $_GET['updated'] ) {
@@ -125,9 +128,6 @@ if ( (int) $_GET['locked'] ) {
 <div id="message" class="updated fade"><p><strong><?php _e('Your page has been saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View page'); ?></a> | <a href="<?php echo get_edit_post_link( $_GET['posted'] ); ?>"><?php _e('Edit page'); ?></a></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
-
-<div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form id="posts-filter" action="" method="get">
 <ul class="subsubsub">

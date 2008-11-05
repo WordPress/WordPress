@@ -474,19 +474,18 @@ endif;
 
 <?php screen_options('post', 1) ?>
 
-<?php if ( $notice ) : ?>
-<div id="notice" class="error"><p><?php echo $notice ?></p></div>
-<?php endif; ?>
-<?php if (isset($_GET['message'])) : ?>
-<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
-<?php endif; ?>
-
 <?php if ( (isset($mode) && 'bookmarklet' == $mode) || isset($_GET['popupurl']) ): ?>
 <input type="hidden" name="mode" value="bookmarklet" />
 <?php endif; ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>
+<?php if ( $notice ) : ?>
+<div id="notice" class="error"><p><?php echo $notice ?></p></div>
+<?php endif; ?>
+<?php if (isset($_GET['message'])) : ?>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php endif; ?>
 <form name="post" action="post.php" method="post" id="post">
 <?php
 
