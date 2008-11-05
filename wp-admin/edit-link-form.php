@@ -314,32 +314,6 @@ add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link'
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
-<!--
-<p id="big-add-button">
-<span id="previewview">
-<?php if ( !empty($link_id) ) { ?>
-<a class="button" href="<?php echo $link->link_url; ?>" target="_blank"><?php _e('Visit Link'); ?></a>
-<?php } ?>
-</span>
-</p>
--->
-
-<!-- TODO
-<div class="inside">
-<p><label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label></p>
-</div>
-
-<div class="side-info">
-<h5><?php _e('Related') ?></h5>
-
-<ul>
-<li><a href="link-manager.php"><?php _e('Manage All Links') ?></a></li>
-<li><a href="edit-link-categories.php"><?php _e('Manage All Link Categories') ?></a></li>
-<li><a href="link-import.php"><?php _e('Import Links') ?></a></li>
-<?php do_action('link_relatedlinks_list'); ?>
-</ul>
-</div>
--->
 <?php
 if ( !empty($form) )
 	echo $form;
