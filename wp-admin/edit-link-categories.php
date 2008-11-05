@@ -180,7 +180,7 @@ if ( $page_links )
 <div id="col-left">
 <div class="col-wrap">
 
-<?php if ( isset( $category ) && current_user_can('manage_categories') ) {
+<?php if ( current_user_can('manage_categories') ) {
 	$category = (object) array(); $category->parent = 0; do_action('add_link_category_form_pre', $category); ?>
 
 <div class="form-wrap">
