@@ -54,6 +54,8 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'page-new.php', '', '', 'menu-page
 $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='comment-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top-last', 'menu-comments', 'images/menu/comments.png' );
 	$submenu['edit-comments.php'][15] = array( __('Comments'), 'edit_posts', 'edit-comments.php' );
 
+$_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
+
 $menu[29] = array( '', 'read', '', '', 'wp-menu-separator' );
 
 $menu[30] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top-first', 'menu-appearance', 'images/menu/appearance.png' );

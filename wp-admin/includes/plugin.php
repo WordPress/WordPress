@@ -557,6 +557,29 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 	return $hookname;
 }
 
+function add_object_page( $page_title, $menu_title, $access_level, $file, $function = '', $icon_url = '') {
+	global $menu, $admin_page_hooks, $_wp_last_object_menu;
+
+	$file = plugin_basename( $file );
+
+	$admin_page_hooks[$file] = sanitize_title( $menu_title );
+
+	$hookname = get_plugin_page_hookname( $file, '' );
+	if (!empty ( $function ) && !empty ( $hookname ))
+		add_action( $hookname, $function );
+
+	if ( empty($icon_url) )
+		$icon_url = 'images/menu/generic.png';
+
+	$menu[$_wp_last_object_menu][4] = ''; // Remove menu-top-last
+
+	$_wp_last_object_menu++;
+
+	$menu[$_wp_last_object_menu] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top-last ' . $hookname, $hookname, $icon_url );
+
+	return $hookname;
+}
+
 function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $file, $function = '' ) {
 	global $submenu;
 	global $menu;
