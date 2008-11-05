@@ -86,8 +86,8 @@ add_action('install_plugins_search', 'install_search', 10, 1);
  * @param string $page
  */
 function install_search($page) {
-	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
+	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	$args = array();
 
@@ -162,8 +162,8 @@ function install_dashboard() {
  * @since 2.7.0
  */
 function install_search_form(){
-	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
+	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	?><form id="search-plugins" method="post" action="<?php echo admin_url('plugin-install.php?tab=search') ?>">
 		<select name="type" id="typeselector">
@@ -249,8 +249,8 @@ function install_updated($page = 1) {
 function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 	global $tab;
 
-	$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-	$term = isset($_REQUEST['s']) ? $_REQUEST['s'] : '';
+	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
+	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),
 								'abbr' => array('title' => array()),'acronym' => array('title' => array()),
@@ -375,7 +375,7 @@ add_action('install_plugins_pre_plugin-information', 'install_plugin_information
 function install_plugin_information() {
 	global $tab;
 
-	$api = plugins_api('plugin_information', array('slug' => $_REQUEST['plugin']));
+	$api = plugins_api('plugin_information', array('slug' => stripslashes( $_REQUEST['plugin'] ) ));
 
 	if ( is_wp_error($api) )
 		wp_die($api);
@@ -390,7 +390,7 @@ function install_plugin_information() {
 	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
 		$api->$key = wp_kses($api->$key, $plugins_allowedtags);
 
-	$section = isset($_REQUEST['section']) ? $_REQUEST['section'] : 'description'; //Default to the Description tab, Do not translate, API returns English.
+	$section = isset($_REQUEST['section']) ? stripslashes( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
 	if( empty($section) || ! isset($api->sections[ $section ]) )
 		$section = array_shift( $section_titles = array_keys((array)$api->sections) );
 
@@ -552,7 +552,7 @@ add_action('install_plugins_install', 'install_plugin');
  */
 function install_plugin() {
 
-	$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+	$plugin = isset($_REQUEST['plugin']) ? stripslashes( $_REQUEST['plugin'] ) : '';
 
 	check_admin_referer('install-plugin_' . $plugin);
 	$api = plugins_api('plugin_information', array('slug' => $plugin, 'fields' => array('sections' => false) ) ); //Save on a bit of bandwidth.
@@ -584,10 +584,10 @@ function do_plugin_install($download_url, $plugin_information = null) {
 		return;
 	}
 
-	$plugin = isset($_REQUEST['plugin']) ? $_REQUEST['plugin'] : '';
+	$plugin = isset($_REQUEST['plugin']) ? stripslashes( $_REQUEST['plugin'] ) : '';
 
 	$url = 'plugin-install.php?tab=install';
-	$url = add_query_arg(array('plugin' => $plugin, 'plugin_name' => $_REQUEST['plugin_name'], 'download_url' => $_REQUEST['download_url']), $url);
+	$url = add_query_arg(array('plugin' => $plugin, 'plugin_name' => stripslashes( $_REQUEST['plugin_name'] ), 'download_url' => stripslashes( $_REQUEST['download_url'] ) ), $url);
 
 	$url = wp_nonce_url($url, 'install-plugin_' . $plugin);
 	if ( false === ($credentials = request_filesystem_credentials($url)) )
