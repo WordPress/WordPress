@@ -368,11 +368,6 @@ a.button {
 	display: inline;
 }
 
-.updated a {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
 .unapproved .unapprove {
 	display: none;
 }

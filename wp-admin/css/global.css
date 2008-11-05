@@ -361,17 +361,7 @@ h6 {
 
 .wrap .updated,
 .wrap .error {
-	margin: auto 0 0;
-}
-
-.updated a,
-.error a {
-	text-decoration: underline;
-}
-
-.updated a {
-	text-decoration: none;
-	padding-bottom: 2px;
+	margin: 0 0 12px;
 }
 
 .wrap h2 {
