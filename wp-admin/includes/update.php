@@ -254,7 +254,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 
 	//Create folder if not exists.
 	if( ! $wp_filesystem->exists( $res['to'] ) )
-		if ( ! $wp_filesystem->mkdir( $res['to'] ) )
+		if ( ! $wp_filesystem->mkdir( $res['to'], 0755 ) )
 			return new WP_Error('mkdir_failed', __('Could not create directory'), $res['to']);	
 
 	// Copy new version of plugin into place.

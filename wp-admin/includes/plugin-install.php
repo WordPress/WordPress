@@ -753,7 +753,7 @@ function wp_install_plugin($package, $feedback = '') {
 
 	//Create folder if not exists.
 	if( ! $wp_filesystem->exists( $res['to'] ) )
-		if ( ! $wp_filesystem->mkdir( $res['to'] ) )
+		if ( ! $wp_filesystem->mkdir( $res['to'], 0755 ) )
 			return new WP_Error('mkdir_failed', __('Could not create directory'), $res['to']);	
 
 	// Copy new version of plugin into place.
@@ -844,10 +844,11 @@ function wp_install_plugin_local_package($package, $feedback = '') {
 	$res = update_pluginfiles_base_dir($working_dir . '/' . $filelist[0], $plugins_dir . $filelist[0]);
 
 	//Create folder if not exists.
-	if( ! $wp_filesystem->exists( $res['to'] ) )
-		if ( ! $wp_filesystem->mkdir( $res['to'] ) )
-			return new WP_Error('mkdir_failed', __('Could not create directory'), $res['to']);	
-
+	if( ! $wp_filesystem->exists( $res['to'] ) ) {
+		if ( ! $wp_filesystem->mkdir( $res['to'], 0755 ) )
+			return new WP_Error('mkdir_failed', __('Could not create directory'), $res['to']);
+	}
+	
 	// Copy new version of plugin into place.
 	$result = copy_dir($res['from'], $res['to']);
 	if ( is_wp_error($result) ) {
