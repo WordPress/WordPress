@@ -1073,3 +1073,7 @@ div.star.select:hover {
 	border-color: #aaa;
 	background: #ddd;
 }
+
+.attention {
+	color: #D54E21;
+}

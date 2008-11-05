@@ -1244,13 +1244,21 @@ function _post_row($a_post, $pending_comments, $mode) {
 				$m_time = $post->post_date;
 				$time = get_post_time('G', true, $post);
 
-				if ( ( abs(time() - $time) ) < 86400 ) {
-					if ( ( 'future' == $post->post_status) )
+				$time_diff = time() - $time; 
+
+				if ( ( 'future' == $post->post_status) ) {
+					if ( $time_diff <= 0 ) {
 						$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
-					else
-						$h_time = sprintf( __('%s ago'), human_time_diff( $time ) );
+					} else {
+						$h_time = $t_time;
+						$missed = true;
+					}
 				} else {
-					$h_time = mysql2date(__('Y/m/d'), $m_time);
+
+					if ( $time_diff > 0 && $time_diff < 24*60*60 )
+						$h_time = sprintf( __('%s ago'), human_time_diff( $time ) );
+					else
+						$h_time = mysql2date(__('Y/m/d'), $m_time);
 				}
 			}
 
@@ -1260,10 +1268,16 @@ function _post_row($a_post, $pending_comments, $mode) {
 			else
 				echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $post, $column_name, $mode) . '</abbr>';
 			echo '<br />';
-			if ( 'publish' == $post->post_status || 'future' == $post->post_status )
+			if ( 'publish' == $post->post_status ) {
 				_e('Published');
-			else
+			} elseif ( 'future' == $post->post_status ) {
+				if ( isset($missed) )
+					echo '<strong class="attention">' . __('Missed schedule') . '</strong>';
+				else
+					_e('Scheduled');
+			} else {
 				_e('Last Modified');
+			}
 			echo '</td>';
 		break;
 
