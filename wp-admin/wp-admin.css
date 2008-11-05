@@ -1655,18 +1655,18 @@ table.form-table td .updated {
 	/*font-weight: bold;*/
 }
 
-#poststuff #media-buttons {
+#media-buttons {
 	cursor: default;
 	padding: 8px 8px 0;
 }
 
-#poststuff #media-buttons a {
+#media-buttons a {
 	cursor: pointer;
 	padding: 0 0 5px 10px;
 	vertical-align: middle;
 }
 
-#poststuff #media-buttons img {
+#media-buttons img {
 	vertical-align: middle;
 }
 
