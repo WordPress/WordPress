@@ -246,15 +246,23 @@ function wp_update_plugin($plugin, $feedback = '') {
 	}
 
 	apply_filters('update_feedback', __('Installing the latest version'));
+
+	$filelist = array_keys( $wp_filesystem->dirlist($working_dir) );
+
+	//find base plugin directory
+	$res = update_pluginfiles_base_dir($working_dir . '/' . $filelist[0], $plugins_dir . $filelist[0]);
+
+	//Create folder if not exists.
+	if( ! $wp_filesystem->exists( $res['to'] ) )
+		if ( ! $wp_filesystem->mkdir( $res['to'] ) )
+			return new WP_Error('mkdir_failed', __('Could not create directory'), $res['to']);	
+
 	// Copy new version of plugin into place.
-	$result = copy_dir($working_dir, $plugins_dir);
+	$result = copy_dir($res['from'], $res['to']);
 	if ( is_wp_error($result) ) {
 		$wp_filesystem->delete($working_dir, true);
 		return $result;
 	}
-
-	//Get a list of the directories in the working directory before we delete it, We need to know the new folder for the plugin
-	$filelist = array_keys( $wp_filesystem->dirlist($working_dir) );
 
 	// Remove working directory
 	$wp_filesystem->delete($working_dir, true);
@@ -262,14 +270,12 @@ function wp_update_plugin($plugin, $feedback = '') {
 	// Force refresh of plugin update information
 	delete_option('update_plugins');
 
-	if( empty($filelist) )
-		return false; //We couldnt find any files in the working dir, therefor no plugin installed? Failsafe backup.
-
-	$folder = $filelist[0];
+	$folder = trailingslashit(str_replace($plugins_dir, '', $res['to']));
 	$plugin = get_plugins('/' . $folder); //Ensure to pass with leading slash
 	$pluginfiles = array_keys($plugin); //Assume the requested plugin is the first in the list
 
-	return  $folder . '/' . $pluginfiles[0];
+	//Return the plugin files name.
+	return $folder . $pluginfiles[0];
 }
 
 function wp_update_theme($theme, $feedback = '') {
