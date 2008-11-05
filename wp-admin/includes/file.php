@@ -787,7 +787,7 @@ jQuery(function($){
 <input type="hidden" name="locale" value="<?php echo attribute_escape($_POST['locale']) ?>" />
 <?php endif; ?>
 <p class="submit">
-<input id="upgrade" name="upgrade" type="submit" value="<?php _e('Proceed'); ?>" />
+<input id="upgrade" name="upgrade" type="submit" class="button" value="<?php _e('Proceed'); ?>" />
 </p>
 </div>
 </form>

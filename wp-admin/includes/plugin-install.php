@@ -136,7 +136,7 @@ function install_dashboard() {
 	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('plugin-install.php?tab=upload') ?>">
 		<?php wp_nonce_field( 'plugin-upload') ?>
 		<input type="file" name="pluginzip" />
-		<input type="submit" value="<?php _e('Install Now') ?>" />
+		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
 	</form>
 	
 	<h4><?php _e('Popular tags') ?></h4>
