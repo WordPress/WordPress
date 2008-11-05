@@ -74,7 +74,7 @@ function tag_press_key( e ) {
 (function($){
 	tagCloud = {
 		init : function() {
-			$('#tagcloud-link').click(function(){tagCloud.get(); return false;});
+			$('#tagcloud-link').click(function(){tagCloud.get(); $(this).unbind().click(function(){return false;}); return false;});
 		},
 
 		get : function() {

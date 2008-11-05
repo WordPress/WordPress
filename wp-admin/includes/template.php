@@ -2020,7 +2020,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 
 	<p id="replysubmit">
 	<a href="#comments-form" class="cancel button" tabindex="106"><?php _e('Cancel'); ?></a>
-	<a href="#comments-form" class="save button" tabindex="105">
+	<a href="#comments-form" class="save button" tabindex="104">
 	<span id="savebtn" style="display:none;"><?php _e('Save'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
 	<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
