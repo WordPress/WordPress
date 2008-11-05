@@ -83,6 +83,9 @@ $search = attribute_escape( $search_dirty ); ?>
 
 <?php screen_options('comment') ?>
 
+<div class="wrap">
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+
 <?php
 if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['spam'] ) ) {
 	$approved = isset( $_GET['approved'] ) ? (int) $_GET['approved'] : 0;
@@ -112,8 +115,6 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 }
 ?>
 
-<div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2>
 <form id="comments-form" action="" method="get">
 <ul class="subsubsub">
 <?php
