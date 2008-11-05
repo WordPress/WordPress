@@ -167,7 +167,6 @@ if( !empty($action) ) {
 
 wp_enqueue_script('admin-forms');
 wp_enqueue_script('plugin-install');
-add_thickbox();
 
 $title = __('Manage Plugins');
 require_once('admin-header.php');

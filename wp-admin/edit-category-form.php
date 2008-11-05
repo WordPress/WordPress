@@ -12,25 +12,6 @@
 if ( ! isset( $category ) )
 	$category = (object) array();
 
-if ( ! empty($cat_ID) ) {
-	/**
-	 * @var string
-	 */
-	$heading = '';
-	$submit_text = __('Edit Category');
-	$form = '<form name="editcat" id="editcat" method="post" action="categories.php" class="validate">';
-	$action = 'editedcat';
-	$nonce_action = 'update-category_' . $cat_ID;
-	do_action('edit_category_form_pre', $category);
-} else {
-	$heading = '<h2>' . __('Add Category') . '</h2>';
-	$submit_text = __('Add Category');
-	$form = '<form name="addcat" id="addcat" method="post" action="categories.php" class="add:the-list: validate">';
-	$action = 'addcat';
-	$nonce_action = 'add-category';
-	do_action('add_category_form_pre', $category);
-}
-
 /**
  * @ignore
  * @since 2.7
@@ -52,16 +33,18 @@ function _fill_empty_category(&$category) {
 		$category->description = '';
 }
 
+do_action('edit_category_form_pre', $category);
+
 _fill_empty_category($category);
 ?>
 
 <div class="wrap">
-<?php echo $heading ?>
+<h2><?php _e('Edit Category'); ?></h2>
 <div id="ajax-response"></div>
-<?php echo $form ?>
-<input type="hidden" name="action" value="<?php echo $action ?>" />
+<form name="editcat" id="editcat" method="post" action="categories.php" class="validate">
+<input type="hidden" name="action" value="editedcat" />
 <input type="hidden" name="cat_ID" value="<?php echo $category->term_id ?>" />
-<?php wp_original_referer_field(true, 'previous'); wp_nonce_field($nonce_action); ?>
+<?php wp_original_referer_field(true, 'previous'); wp_nonce_field('update-category_' . $cat_ID); ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row" valign="top"><label for="cat_name"><?php _e('Category Name') ?></label></th>
@@ -86,7 +69,7 @@ _fill_empty_category($category);
             <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo $submit_text ?>" /></p>
+<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Edit Category'); ?>" /></p>
 <?php do_action('edit_category_form', $category); ?>
 </form>
 </div>

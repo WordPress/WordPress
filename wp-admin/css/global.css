@@ -14,8 +14,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	padding: 0;
 	border: 0;
 	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
+/*	font-size: 100%;
+	vertical-align: baseline; */
 	background: transparent;
 }
 body {
@@ -48,10 +48,12 @@ del {
 }
 
 /* tables still need 'cellspacing="0"' in the markup */
+/*
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+*/
 /* end reset css */
 
 
@@ -147,7 +149,7 @@ input[type="radio"] {
 
 body,
 td {
-	font: 13px/19px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 p {

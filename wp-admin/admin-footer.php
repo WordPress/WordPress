@@ -7,9 +7,9 @@
  */
 ?>
 
-<br class="clear" /></div><!-- wpbody-content -->
+<div class="clear" /></div></div><!-- wpbody-content -->
 </div><!-- wpbody -->
-<br class="clear" /></div><!-- wpcontent -->
+<div class="clear" /></div></div><!-- wpcontent -->
 </div><!-- wpwrap -->
 
 <div id="footer">

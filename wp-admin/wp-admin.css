@@ -14,8 +14,6 @@
 
 .plugins .togl {
 	width: 150px;
-	border-right-width: 1px;
-	border-right-style: solid;
 }
 
 .import-system {
@@ -2928,4 +2926,8 @@ form.upgrade {
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
+}
+
+#flash-upload-ui {
+	padding: 20px 12px 0;
 }
