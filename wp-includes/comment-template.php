@@ -435,15 +435,16 @@ function comment_ID() {
  * @uses $comment
  *
  * @param object|string|int $comment Comment to retrieve.
+ * @param string|int $page The comment's page if known. Optional. Avoids extra database query.
  * @return string The permalink to the current comment
  */
-function get_comment_link($comment = null) {
+function get_comment_link( $comment = null, $page = null ) {
 	global $wp_rewrite;
 
 	$comment = get_comment($comment);
 
 	if ( get_option('page_comments') ) {
-		$page = get_page_of_comment( $comment->comment_ID );
+		$page = ( null !== $page ) ? (int) $page : get_page_of_comment( $comment->comment_ID );
 
 		if ( $wp_rewrite->using_permalinks() )
 			return user_trailingslashit( trailingslashit( get_permalink( $comment->comment_post_ID ) ) . "comment-page-$page", 'comment' ) . '#comment-' . $comment->comment_ID;
@@ -1150,7 +1151,7 @@ class Walker_Comment extends Walker {
 		<br />
 <?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID, $page ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
 
 		<?php comment_text() ?>
 

@@ -552,6 +552,8 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  * @return int|null Comment page number or null on error.
  */
 function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) {
+	global $wpdb;
+
 	if ( !$comment = get_comment( $comment_ID ) )
 		return;
 
@@ -568,25 +570,15 @@ function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) 
 	if ( $threaded && 0 != $comment->comment_parent )
 		return get_page_of_comment( $comment->comment_parent, $per_page, $threaded );
 
-	$comments = get_comments( array( 'post_id' => $comment->comment_post_ID, 'order' => 'ASC' ) );
+	// Count comments older than this one
+	$oldercoms = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = 0 AND comment_date_gmt < '%s'", $comment->comment_post_ID, $comment->comment_date_gmt ) );
 
-	// Start going through the comments until we find what page number the above top level comment is on
-	$page = 1;
-	$comthispage = 0;
-	foreach ( $comments as $com ) {
-		if ( $threaded && 0 != $com->comment_parent )
-			continue;
+	// No older comments? Then it's page #1.
+	if ( 0 == $oldercoms )
+		return 1;
 
-		if ( $com->comment_ID == $comment->comment_ID )
-			return $page;
-
-		$comthispage++;
-
-		if ( $comthispage >= $per_page ) {
-			$page++;
-			$comthispage = 0;
-		}
-	}
+	// Divide comments older than this one by comments per page to get this comment's page number
+	return ceil( ( $oldercoms + 1 ) / $per_page );
 }
 
 /**

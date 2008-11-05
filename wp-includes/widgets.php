@@ -1387,7 +1387,7 @@ function wp_widget_recent_comments($args) {
 		$number = 15;
 
 	if ( !$comments = wp_cache_get( 'recent_comments', 'widget' ) ) {
-		$comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT $number");
+		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT $number");
 		wp_cache_add( 'recent_comments', $comments, 'widget' );
 	}
 ?>
@@ -1396,7 +1396,7 @@ function wp_widget_recent_comments($args) {
 			<?php echo $before_title . $title . $after_title; ?>
 			<ul id="recentcomments"><?php
 			if ( $comments ) : foreach ( (array) $comments as $comment) :
-			echo  '<li class="recentcomments">' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
+			echo  '<li class="recentcomments">' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_comment_link($comment->comment_ID) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 			endforeach; endif;?></ul>
 		<?php echo $after_widget; ?>
 <?php
