@@ -91,7 +91,7 @@ $menu[45] = array( __('Tools'), 'manage_options', 'import.php', '', '', 'menu-to
 	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
 	if ( ! $is_opera )
 		$submenu['import.php'][20] = array( __('Turbo'), 'read', 'turbo.php' );
-	$submenu['import.php'][30] = array( __('Update'), 'read',  wp_nonce_url('update.php?action=upgrade-core', 'upgrade-core'));
+	$submenu['import.php'][30] = array( __('Update'), 'read',  'update-core.php');
 
 $menu[50] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top-last', 'menu-settings', 'images/menu/settings.png' );
 	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
