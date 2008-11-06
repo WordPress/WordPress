@@ -176,7 +176,7 @@ if ( empty($pagenum) )
 if( ! isset( $per_page ) || $per_page < 0 )
 	$per_page = 20;
 
-$num_pages = ceil(count($posts) / $per_page);
+$num_pages = ceil($wp_query->post_count / $per_page);
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
@@ -188,9 +188,9 @@ $page_links = paginate_links( array(
 
 if ( $page_links ) : ?>
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
-	number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
-	number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
-	number_format_i18n( $wp_query->found_posts ),
+	number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
+	number_format_i18n( min( $pagenum * $per_page, $wp_query->post_count ) ),
+	number_format_i18n( $wp_query->post_count ),
 	$page_links
 ); echo $page_links_text; ?></div>
 <?php endif; ?>
