@@ -40,31 +40,19 @@ include('admin-header.php');
 </tr>
 <tr valign="top">
 <th scope="row"><label for="default_category"><?php _e('Default Post Category') ?></label></th>
-<td><select name="default_category" id="default_category">
+<td>
 <?php
-$categories = get_categories('get=all');
-foreach ($categories as $category) :
-$category = sanitize_category($category);
-if ($category->term_id == get_option('default_category')) $selected = " selected='selected'";
-else $selected = '';
-echo "\n\t<option value='$category->term_id' $selected>$category->name</option>";
-endforeach;
+wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_category', 'orderby' => 'name', 'selected' => get_option('default_category'), 'hierarchical' => true));
 ?>
-</select></td>
+</td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="default_link_category"><?php _e('Default Link Category') ?></label></th>
-<td><select name="default_link_category" id="default_link_category">
+<td>
 <?php
-$link_categories = get_terms('link_category', 'get=all');
-foreach ($link_categories as $category) :
-$category = sanitize_term($category, 'link_category');
-if ($category->term_id == get_option('default_link_category')) $selected = " selected='selected'";
-else $selected = '';
-echo "\n\t<option value='$category->term_id' $selected>$category->name</option>";
-endforeach;
+wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_link_category', 'orderby' => 'name', 'selected' => get_option('default_link_category'), 'hierarchical' => true, 'type' => 'link'));
 ?>
-</select></td>
+</td>
 </tr>
 <?php do_settings_fields('writing', 'default'); ?>
 </table>
@@ -114,17 +102,11 @@ endforeach;
 </tr>
 <tr valign="top">
 <th scope="row"><label for="default_email_category"><?php _e('Default Mail Category') ?></label></th>
-<td><select name="default_email_category" id="default_email_category">
+<td>
 <?php
-//Alreay have $categories from default_category
-foreach ($categories as $category) :
-$category = sanitize_category($category);
-if ($category->cat_ID == get_option('default_email_category')) $selected = " selected='selected'";
-else $selected = '';
-echo "\n\t<option value='$category->cat_ID' $selected>$category->cat_name</option>";
-endforeach;
+wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_category', 'orderby' => 'name', 'selected' => get_option('default_email_category'), 'hierarchical' => true));
 ?>
-</select></td>
+</td>
 </tr>
 <?php do_settings_fields('writing', 'post_via_email'); ?>
 </table>
