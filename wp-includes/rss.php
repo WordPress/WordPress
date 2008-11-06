@@ -542,6 +542,7 @@ function _fetch_remote_file ($url, $headers = "" ) {
 		$resp->status = 500;
 		return $resp;
 	}
+	$response = new stdClass;
 	$response->status = $resp['response']['code'];
 	$response->headers = $resp['headers'];
 	$response->results = $resp['body'];
