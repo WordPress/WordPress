@@ -81,7 +81,7 @@ $post_id = isset($_GET['p']) ? (int) $_GET['p'] : 0;
 $search_dirty = ( isset($_GET['s']) ) ? $_GET['s'] : '';
 $search = attribute_escape( $search_dirty ); ?>
 
-<?php screen_options('comment') ?>
+<?php screen_meta('comment') ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>

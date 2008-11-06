@@ -1,3 +1,10 @@
+
+
+
+#wpbody {
+	clear: both;
+}
+
 .plugins .name,
 #pass-strength-result.strong,
 #pass-strength-result.short,
@@ -1494,6 +1501,7 @@ table.form-table td .updated {
 	font-weight: bold;
 	padding: 6px 7px;
 	margin: 0 0 10px;
+	line-height: 1;
 }
 
 .metabox-holder .postbox,
@@ -1502,6 +1510,7 @@ table.form-table td .updated {
 	margin-bottom: 20px;
 	border-width: 1px;
 	border-style: solid;
+	line-height: 1;
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
@@ -2355,27 +2364,30 @@ fieldset {
 
 /* show/hide settings */
 
-#screen-options {
+#screen-meta {
 	position: relative;
 	clear: both;
 }
 
-#wpbody {
-	clear: both;
+#screen-meta-links {
+	margin: 0 20px 0 0;
 }
 
-#screen-options-link-wrap {
+#screen-meta .invisible {
+	visibility: hidden;
+}
+
+#screen-options-link-wrap,
+#contextual-help-link-wrap {
 	float: right;
 	background: transparent url( images/screen-options-left.gif ) no-repeat 0 0;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	height: 23px;
 	padding: 0;
-	position: relative;
-	right: 100px;
-	top: -1px;
+	margin: -1px 10px 0 0;
 }
 
-#screen-options a.show-settings {
+#screen-meta a.show-settings {
 	text-decoration: none;
 	z-index: 1;
 	padding: 0 18px 0 8px;
@@ -2388,25 +2400,23 @@ fieldset {
 	background-color: transparent;
 }
 
-#screen-options a#show-settings-link {
+#screen-meta a.show-settings {
 	background-image: url( images/screen-options-right.gif );
 }
 
-#screen-options a#hide-settings-link {
-	background-image: url( images/screen-options-right-up.gif );
-}
-
-#screen-options a.show-settings:hover {
+#screen-meta a.show-settings:hover {
 	text-decoration: none;
 }
 
-#screen-options-wrap h5 {
+#screen-options-wrap h5,
+#contextual-help-wrap h5 {
 	padding: 10px 0 0 15px;
 	margin: 0;
 	font-size: 13px;
 }
 
-#screen-options-wrap {
+#screen-options-wrap,
+#contextual-help-wrap {
 	border-style: none solid solid;
 	border-top: 0 none;
 	border-width: 0 1px 1px;

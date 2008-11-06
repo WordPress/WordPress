@@ -100,7 +100,7 @@ if ( is_singular() ) {
 
 require_once('admin-header.php'); ?>
 
-<?php screen_options('page') ?>
+<?php screen_meta('page') ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>

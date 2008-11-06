@@ -28,7 +28,7 @@ require_once('admin-header.php');
 $today = current_time('mysql', 1);
 ?>
 
-<?php screen_options('dashboard', 1); ?>
+<?php screen_meta('dashboard', 1); ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>

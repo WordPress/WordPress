@@ -3122,10 +3122,10 @@ function _post_states($post) {
 	}
 }
 
-function screen_options($screen, $metabox = false) {
+function screen_meta($screen, $metabox = false, $page = '') {
 ?>
-<div id="screen-options">
-	<div id="screen-options-wrap" class="hidden">
+<div id="screen-meta">
+<div id="screen-options-wrap" class="hidden">
 	<h5><?php _e('Show on screen') ?></h5>
 	<form id="adv-settings" action="" method="get">
 	<div class="metabox-prefs">
@@ -3139,13 +3139,63 @@ function screen_options($screen, $metabox = false) {
 ?>
 	<br class="clear" />
 	</div></form>
-	</div>
+</div>
 
-	<div id="screen-options-link-wrap" class="hide-if-no-js screen-options-closed">
-	<a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
+<?php
+	if ( '' != $page ) {
+// Allow a plugin to short-circuit
+		$help = apply_filters('contextual_help', '', $page);
+		if ( !empty($help) )
+			return;
+	
+		global $title;
+	
+		$help['edit-post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts">Writing Posts</a>');
+		$help['general-settings'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel">General Settings</a>');
+	?>
+	<div id="contextual-help-wrap" class="hidden">
+	<?php
+		if ( isset($help[$page]) ) {
+			if ( isset($title) && 'edit-post' != $page )
+				echo '<h5>' . sprintf(__('Get help with "%s"'), $title) . '</h5>';
+			else
+				echo '<h5>' . __('Get help with this page') . '</h5>';
+			echo '<div class="metabox-prefs">' . $help[$page] . "</div>\n";
+	
+			echo '<h5>' . __('Other Help') . '</h5>';
+		} else {
+			echo '<h5>' . __('Help') . '</h5>';
+		}
+	
+		echo '<div class="metabox-prefs">';
+		_e('<a href="http://codex.wordpress.org/">Documentation</a>');
+		echo '<br />';
+		_e('<a href="http://wordpress.org/support/">Support Forums</a>');
+		echo "</div>\n";
+	?>
 	</div>
+	<?php
+	}
+?>
+
+
+<div id="screen-meta-links">
+<?php if ( '' != $page ) { ?>
+<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
+<a href="#contextual-help" id="contextual-help-link" class="show-settings"><?php _e('Help') ?></a>
+</div>
+<?php } ?>
+<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
+<a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
+</div>
+</div>
 </div>
 <?php
+
+}
+
+function contextual_help(  ) {
+	
 }
 
 ?>
