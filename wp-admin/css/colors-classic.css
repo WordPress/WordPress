@@ -364,10 +364,6 @@ div.dashboard-widget-submit input:hover,
 	border-color: #e6db55;
 }
 
-.updated a {
-	border-bottom-color: #2583ad;
-}
-
 a.page-numbers {
 	border-bottom-color: #B8D3E2;
 }
@@ -889,7 +885,8 @@ abbr.required,
 }
 
 #timestampdiv input,
-#namediv input {
+#namediv input,
+#tagsdiv #the-tagcloud {
 	border-color: #ddd;
 }
 
@@ -988,12 +985,13 @@ table.diff .diff-addedline ins {
 	border-top-color: #e4f2fd;
 }
 
-#screen-options-wrap {
+#screen-options-wrap,
+#contextual-help-wrap {
 	background-color: #f1f1f1;
 	border-color: #dfdfdf;
 }
 
-#screen-options a.show-settings {
+#screen-meta-links a.show-settings {
 	color: #606060;
 }
 
@@ -1071,4 +1069,8 @@ div.star.select:hover {
 #replyrow #ed_reply_toolbar input:hover {
 	border-color: #aaa;
 	background: #ddd;
+}
+
+.attention {
+	color: #D54E21;
 }
