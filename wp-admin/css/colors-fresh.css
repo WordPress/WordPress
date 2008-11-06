@@ -985,12 +985,13 @@ table.diff .diff-addedline ins {
 	border-top-color: #e4f2fd;
 }
 
-#screen-options-wrap {
+#screen-options-wrap,
+#contextual-help-wrap {
 	background-color: #f1f1f1;
 	border-color: #dfdfdf;
 }
 
-#screen-options a.show-settings {
+#screen-meta-links a.show-settings {
 	color: #606060;
 }
 

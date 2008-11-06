@@ -3149,9 +3149,9 @@ function screen_meta($screen, $metabox = false, $page = '') {
 			return;
 	
 		global $title;
-	
-		$help['edit-post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts">Writing Posts</a>');
-		$help['general-settings'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel">General Settings</a>');
+
+		$help['edit-post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
+		$help['general-settings'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
 	?>
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
@@ -3166,18 +3166,17 @@ function screen_meta($screen, $metabox = false, $page = '') {
 		} else {
 			echo '<h5>' . __('Help') . '</h5>';
 		}
-	
+
 		echo '<div class="metabox-prefs">';
-		_e('<a href="http://codex.wordpress.org/">Documentation</a>');
+		_e('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
 		echo '<br />';
-		_e('<a href="http://wordpress.org/support/">Support Forums</a>');
+		_e('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
 		echo "</div>\n";
 	?>
 	</div>
 	<?php
 	}
 ?>
-
 
 <div id="screen-meta-links">
 <?php if ( '' != $page ) { ?>
@@ -3191,11 +3190,6 @@ function screen_meta($screen, $metabox = false, $page = '') {
 </div>
 </div>
 <?php
-
-}
-
-function contextual_help(  ) {
-	
 }
 
 ?>
