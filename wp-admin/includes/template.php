@@ -822,10 +822,8 @@ function get_column_headers($page) {
 			);
 			return apply_filters('manage_users_columns', $columns);
 		default :
-			return apply_filters('manage_' . $page . '_columns', $columns);
+			return apply_filters('manage_' . $page . '_columns', array());
 	}
-
-	return $columns;
 }
 
 /**
@@ -3122,18 +3120,28 @@ function _post_states($post) {
 	}
 }
 
-function screen_meta($screen, $metabox = false, $page = '') {
+function screen_meta($screen) {
+	global $wp_meta_boxes;
+
+	$column_screens = array('edit-posts' => 'post', 'edit-pages' => 'page', 'edit-tags' => 'tag', 'edit-categories' => 'category',
+		'edit-link-categories' => 'link-category', 'edit-links' => 'link', 'edit-users' => 'user', 'edit-media' => 'media',
+		'edit-comments' => 'comment');
+
+	$show_screen = false;
+	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens[$screen]) )
+		$show_screen = true;
 ?>
 <div id="screen-meta">
+<?php
+	if ( $show_screen ) :
+?>
 <div id="screen-options-wrap" class="hidden">
 	<h5><?php _e('Show on screen') ?></h5>
 	<form id="adv-settings" action="" method="get">
 	<div class="metabox-prefs">
 <?php 
-	if ( $metabox ) {
-		meta_box_prefs($screen);
-	} else {
-		manage_columns_prefs($screen);
+	if ( !meta_box_prefs($screen) ) {
+		manage_columns_prefs($column_screens[$screen]);
 		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); 
 	}
 ?>
@@ -3142,25 +3150,22 @@ function screen_meta($screen, $metabox = false, $page = '') {
 </div>
 
 <?php
-	if ( '' != $page ) {
-// Allow a plugin to short-circuit
-		$help = apply_filters('contextual_help', '', $page);
-		if ( !empty($help) )
-			return;
-	
-		global $title;
+	endif;
 
-		$help['edit-post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
-		$help['general-settings'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+	global $title;
+
+	$help['post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
+	$help['general-settings'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
 	?>
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
-		if ( isset($help[$page]) ) {
-			if ( isset($title) && 'edit-post' != $page )
+	if ( !apply_filters('contextual_help', '', $screen) ) {
+		if ( isset($help[$screen]) ) {
+			if ( isset($title) )
 				echo '<h5>' . sprintf(__('Get help with "%s"'), $title) . '</h5>';
 			else
 				echo '<h5>' . __('Get help with this page') . '</h5>';
-			echo '<div class="metabox-prefs">' . $help[$page] . "</div>\n";
+			echo '<div class="metabox-prefs">' . $help[$screen] . "</div>\n";
 	
 			echo '<h5>' . __('Other Help') . '</h5>';
 		} else {
@@ -3172,21 +3177,19 @@ function screen_meta($screen, $metabox = false, $page = '') {
 		echo '<br />';
 		_e('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
 		echo "</div>\n";
+	}
 	?>
 	</div>
-	<?php
-	}
-?>
 
 <div id="screen-meta-links">
-<?php if ( '' != $page ) { ?>
 <div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
 <a href="#contextual-help" id="contextual-help-link" class="show-settings"><?php _e('Help') ?></a>
 </div>
-<?php } ?>
+<?php if ( $show_screen ) { ?>
 <div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
 <a href="#screen-options" id="show-settings-link" class="show-settings"><?php _e('Screen Options') ?></a>
 </div>
+<?php } ?>
 </div>
 </div>
 <?php

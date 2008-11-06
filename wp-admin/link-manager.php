@@ -74,7 +74,7 @@ switch ($order_by) {
 		break;
 } ?>
 
-<?php screen_meta('link') ?>
+<?php screen_meta('edit-links') ?>
 
 <div class="wrap nosubsub">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 

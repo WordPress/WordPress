@@ -237,7 +237,7 @@ default:
 		}
 	endif; ?>
 
-<?php screen_meta('user') ?>
+<?php screen_meta('edit-users') ?>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">

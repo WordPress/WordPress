@@ -471,7 +471,7 @@ add_meta_box('revisionsdiv', __('Post Revisions'), 'post_revisions_meta_box', 'p
 endif;
 
 ?>
-<?php screen_meta('post', 1, 'edit-post'); ?>
+<?php screen_meta('post'); ?>
 
 <?php if ( (isset($mode) && 'bookmarklet' == $mode) || isset($_GET['popupurl']) ): ?>
 <input type="hidden" name="mode" value="bookmarklet" />

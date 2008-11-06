@@ -376,7 +376,7 @@ add_meta_box('revisionsdiv', __('Page Revisions'), 'page_revisions_meta_box', 'p
 endif;
 ?>
 
-<?php screen_meta('page', 1); ?>
+<?php screen_meta('page'); ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 

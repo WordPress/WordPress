@@ -309,7 +309,7 @@ function link_advanced_meta_box($link) {
 }
 add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core'); ?>
 
-<?php screen_meta('link', 1) ?>
+<?php screen_meta('link') ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 

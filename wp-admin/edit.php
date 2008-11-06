@@ -90,7 +90,7 @@ if ( empty($_GET['mode']) )
 else
 	$mode = attribute_escape($_GET['mode']); ?>
 
-<?php screen_meta('post') ?>
+<?php screen_meta('edit-posts') ?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>

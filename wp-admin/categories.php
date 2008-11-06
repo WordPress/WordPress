@@ -131,7 +131,7 @@ $messages[4] = __('Category not added.');
 $messages[5] = __('Category not updated.');
 ?>
 
-<?php screen_meta('category') ?>
+<?php screen_meta('edit-categories') ?>
 
 <div class="wrap nosubsub">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
