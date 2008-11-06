@@ -34,9 +34,6 @@ function wp_version_check() {
 		$current->version_checked == $wp_version
 	)
 		return false;
-	$new_option = '';
-	$new_option->last_checked = time(); // this gets set whether we get a response or not, so if something is down or misconfigured it won't delay the page load for more than 3 seconds, twice a day
-	$new_option->version_checked = $wp_version;
 
 	if ( method_exists( $wpdb, 'db_version' ) )
 		$mysql_version = preg_replace('/[^0-9.].*/', '', $wpdb->db_version($wpdb->users));
