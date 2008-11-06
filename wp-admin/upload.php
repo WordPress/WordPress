@@ -185,13 +185,14 @@ if ( isset($message) ) { ?>
 <?php
 $type_links = array();
 $_num_posts = (array) wp_count_attachments();
+$_total_posts = array_sum( $_num_posts );
 $matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 foreach ( $matches as $type => $reals )
 	foreach ( $reals as $real )
 		$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
 $class = empty($_GET['post_mime_type']) && ! isset($_GET['detached']) ? ' class="current"' : '';
-$type_links[] = "<li><a href=\"upload.php\"$class>".__('All Types')."</a>";
+$type_links[] = "<li><a href='upload.php'$class>" . sprintf( __ngettext( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts ), number_format_i18n( $_total_posts ) ) . '</a>';
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
@@ -201,13 +202,12 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
-	$type_links[] = "<li><a href=\"upload.php?post_mime_type=$mime_type\"$class>" .
-	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts[$mime_type]), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
+	$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
 }
 $class = isset($_GET['detached']) ? ' class="current"' : '';
 $type_links[] = '<li><a href="upload.php?detached=1"' . $class . '>' . __('Unattached') . '</a>';
 
-echo implode(' | </li>', $type_links) . '</li>';
+echo implode( " |</li>\n", $type_links) . '</li>';
 unset($type_links);
 ?>
 </ul>
@@ -235,9 +235,14 @@ $page_links = paginate_links( array(
 	'current' => $_GET['paged']
 ));
 
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
+if ( $page_links ) : ?>
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+	number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
+	number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
+	number_format_i18n( $wp_query->found_posts ),
+	$page_links
+); echo $page_links_text; ?></div>
+<?php endif; ?>
 
 <div class="alignleft actions">
 <select name="action" class="select-action">
@@ -386,7 +391,7 @@ foreach ($arc_result as $arc_row) {
 
 <?php
 if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
+	echo "<div class='tablenav-pages'>$page_links_text</div>";
 ?>
 
 <div class="alignleft actions">

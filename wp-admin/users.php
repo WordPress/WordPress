@@ -265,6 +265,7 @@ if ( ! empty($messages) ) {
 $role_links = array();
 $avail_roles = array();
 $users_of_blog = get_users_of_blog();
+$total_users = count( $users_of_blog );
 foreach ( (array) $users_of_blog as $b_user ) {
 	$b_roles = unserialize($b_user->meta_value);
 	foreach ( (array) $b_roles as $b_role => $val ) {
@@ -277,7 +278,7 @@ unset($users_of_blog);
 
 $current_role = false;
 $class = empty($role) ? ' class="current"' : '';
-$role_links[] = "<li><a href=\"users.php\"$class>" . __('All Users') . "</a>";
+$role_links[] = "<li><a href='users.php'$class>" . sprintf( __ngettext( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users ), number_format_i18n( $total_users ) ) . '</a>';
 foreach ( $wp_roles->get_names() as $this_role => $name ) {
 	if ( !isset($avail_roles[$this_role]) )
 		continue;
@@ -290,10 +291,10 @@ foreach ( $wp_roles->get_names() as $this_role => $name ) {
 	}
 
 	$name = translate_with_context($name);
-	$name = sprintf(_c('%1$s (%2$s)|user role with count'), $name, $avail_roles[$this_role]);
-	$role_links[] = "<li><a href=\"users.php?role=$this_role\"$class>" . $name . '</a>';
+	$name = sprintf( _c('%1$s <span class="count">(%2$s)</span>|user role with count'), $name, $avail_roles[$this_role] );
+	$role_links[] = "<li><a href='users.php?role=$this_role'$class>$name</a>";
 }
-echo implode(' |</li>', $role_links) . '</li>';
+echo implode( " |</li>\n", $role_links) . '</li>';
 unset($role_links);
 ?>
 </ul>

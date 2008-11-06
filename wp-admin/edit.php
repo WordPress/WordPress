@@ -124,8 +124,11 @@ if ( (int) $_GET['locked'] ) {
 if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts( 'post', 'readable' );
+$total_posts = array_sum( (array) $num_posts );
 $class = empty( $_GET['post_status'] ) ? ' class="current"' : '';
-$status_links[] = "<li><a href='edit.php' $class>" . __('All Posts') . '</a>';
+$status_links[] = "<li><a href='edit.php' $class>" . sprintf( __ngettext( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts ), number_format_i18n( $total_posts ) ) . '</a>';
+
+
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
@@ -137,10 +140,9 @@ foreach ( $post_stati as $status => $label ) {
 	if ( isset($_GET['post_status']) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href='edit.php?post_status=$status' $class>" .
-	sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
+	$status_links[] = "<li><a href='edit.php?post_status=$status' $class>" . sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
-echo implode( ' | </li>', $status_links ) . '</li>';
+echo implode( " |</li>\n", $status_links ) . '</li>';
 unset( $status_links );
 endif;
 ?>
@@ -223,7 +225,12 @@ do_action('restrict_manage_posts');
 </div>
 
 <?php if ( $page_links ) { ?>
-<div class="tablenav-pages"><?php echo $page_links; ?></div>
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+	number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
+	number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
+	number_format_i18n( $wp_query->found_posts ),
+	$page_links
+); echo $page_links_text; ?></div>
 <?php } ?>
 
 <div class="view-switch">
@@ -242,7 +249,7 @@ do_action('restrict_manage_posts');
 
 <?php
 if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
+	echo "<div class='tablenav-pages'>$page_links_text</div>";
 ?>
 
 <div class="alignleft actions">

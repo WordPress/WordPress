@@ -338,22 +338,18 @@ div.dashboard-widget-submit input:hover,
 }
 
 .tablenav .dots {
-	background-color: #e4f2fd;
-	border-color: #e4f2fd;
+	border-color: transparent;
 }
 
 .tablenav .next,
 .tablenav .prev {
-	background-color: #e4f2fd;
-	border-bottom-color: #2583ad;
-	border-color: #e4f2fd;
+	border-color: transparent;
 	color: #2583ad;
 }
 
 .tablenav .next:hover,
 .tablenav .prev:hover {
-	border-bottom-color: #d54e21;
-	border-color: #e4f2fd;
+	border-color: transparent;
 	color: #d54e21;
 }
 

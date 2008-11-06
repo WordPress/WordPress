@@ -256,9 +256,14 @@ h6 {
 }
 
 .subsubsub a {
-	line-height: 200%;
-	padding: 3px;
+	line-height: 2;
+	padding: .2em;
 	text-decoration: none;
+}
+
+.subsubsub a .count, .subsubsub a.current .count {
+	color: #999;
+	font-weight: normal;
 }
 
 .subsubsub a.current {

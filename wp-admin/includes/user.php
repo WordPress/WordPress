@@ -665,6 +665,14 @@ class WP_User_Search {
 				'format' => 'userspage=%#%',
 				'add_args' => $args
 			) );
+			if ( $this->paging_text ) {
+				$this->paging_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+					number_format_i18n( ( $this->page - 1 ) * $this->users_per_page + 1 ),
+					number_format_i18n( min( $this->page * $this->users_per_page, $this->total_users_for_query ) ),
+					number_format_i18n( $this->total_users_for_query ),
+					$this->paging_text
+				);
+			}
 		}
 	}
 

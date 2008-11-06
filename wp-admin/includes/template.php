@@ -687,7 +687,7 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
-	$posts_columns['title'] = __('Title');
+	$posts_columns['title'] = __('Post');
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');

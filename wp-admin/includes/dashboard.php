@@ -331,7 +331,7 @@ function wp_dashboard_quick_press() {
 			<?php wp_nonce_field('add-post'); ?>
 			<input type="submit" name="save" id="save-post" class="button" value="<?php _e('Save Draft'); ?>" />
 			<input type="reset" value="<?php _e( 'Cancel' ); ?>" class="cancel" />
-			<input type="submit" name="publish" id="publish" accesskey="p" class="button button-highlighted" value="<?php _e('Publish'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" class="button button-primary" value="<?php _e('Publish'); ?>" />
 			<br class="clear" />
 		</p>
 

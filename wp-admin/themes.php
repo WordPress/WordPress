@@ -125,11 +125,12 @@ function theme_update_available( $theme ) {
 <br class="clear" />
 
 <?php if ( $page_links ) : ?>
-<div class="tablenav">
-<?php echo "<div class='tablenav-pages'>$page_links</div>"; ?>
-<br class="clear" />
-</div>
-<br class="clear" />
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+	number_format_i18n( $start + 1 ),
+	number_format_i18n( min( $page * $per_page, $theme_total ) ),
+	number_format_i18n( $theme_total ),
+	$page_links
+); echo $page_links_text; ?></div>
 <?php endif; ?>
 
 <?php if ( 1 < $theme_total ) { ?>
@@ -199,7 +200,7 @@ foreach ( $cols as $col => $theme_name ) {
 
 <?php if ( $page_links ) : ?>
 <div class="tablenav">
-<?php echo "<div class='tablenav-pages'>$page_links</div>"; ?>
+<?php echo "<div class='tablenav-pages'>$page_links_text</div>"; ?>
 <br class="clear" />
 </div>
 <?php endif; ?>

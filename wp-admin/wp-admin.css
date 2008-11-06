@@ -1,6 +1,3 @@
-
-
-
 #wpbody {
 	clear: both;
 }
@@ -626,9 +623,11 @@ div.nav {
 }
 
 .page-numbers {
-	margin-right: 5px;
-	border-bottom-width: 2px;
 	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	font-weight: bold;
+	margin-right: 1px;
+	padding: 0 2px;
 }
 
 .tablenav-pages span.current {
@@ -674,14 +673,21 @@ p.pagenav {
 
 .tablenav .tablenav-pages {
 	float: right;
+	display: block;
+	cursor: default;
+	height: 40px;
+	line-height: 40px;
 	font-size: 11px;
-	height: 22px;
-	line-height: 22px;
-	padding: 7px 8px 0;
+	margin: 0 8px 0 0;
+	color: #555;
 }
 
 .tablenav .tablenav-pages a {
 	text-decoration: none;
+}
+
+.tablenav .displaying-num {
+	margin-right: 10px;
 }
 
 .tablenav .actions {

@@ -73,11 +73,11 @@ wp_enqueue_script('inline-edit-post');
 wp_enqueue_script('pages');
 
 $post_stati  = array(	//	array( adj, noun )
-		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published (%s)', 'Published (%s)')),
-		'future' => array(__('Scheduled'), __('Scheduled pages'), __ngettext_noop('Scheduled (%s)', 'Scheduled (%s)')),
-		'pending' => array(__('Pending Review'), __('Pending pages'), __ngettext_noop('Pending Review (%s)', 'Pending Review (%s)')),
-		'draft' => array(__('Draft'), _c('Drafts|manage posts header'), __ngettext_noop('Draft (%s)', 'Drafts (%s)')),
-		'private' => array(__('Private'), __('Private pages'), __ngettext_noop('Private (%s)', 'Private (%s)'))
+		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')),
+		'future' => array(__('Scheduled'), __('Scheduled pages'), __ngettext_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')),
+		'pending' => array(__('Pending Review'), __('Pending pages'), __ngettext_noop('Pending Review <span class="count">(%s)</span>', 'Pending Review <span class="count">(%s)</span>')),
+		'draft' => array(__('Draft'), _c('Drafts|manage posts header'), __ngettext_noop('Draft <span class="count">(%s)</span>', 'Drafts</a> <span class="count">(%s)</span>')),
+		'private' => array(__('Private'), __('Private pages'), __ngettext_noop('<a %s>Private</a> <span class="count">(%s)</span>', '<a %s>Private</a> <span class="count">(%s)</span>'))
 	);
 
 $query = array('post_type' => 'page', 'orderby' => 'menu_order title', 'what_to_show' => 'posts',
@@ -137,8 +137,9 @@ $avail_post_stati = get_available_post_statuses('page');
 if ( empty($locked_post_status) ) :
 $status_links = array();
 $num_posts = wp_count_posts('page', 'readable');
+$total_posts = array_sum( (array) $num_posts );
 $class = empty($_GET['post_status']) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit-pages.php\"$class>".__('All Pages')."</a>";
+$status_links[] = "<li><a href='edit-pages.php'$class>" . sprintf( __ngettext( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts ), number_format_i18n( $total_posts ) ) . '</a>';
 foreach ( $post_stati as $status => $label ) {
 	$class = '';
 
@@ -148,10 +149,9 @@ foreach ( $post_stati as $status => $label ) {
 	if ( isset( $_GET['post_status'] ) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href=\"edit-pages.php?post_status=$status\"$class>" .
-	sprintf(__ngettext($label[2][0], $label[2][1], $num_posts->$status), number_format_i18n( $num_posts->$status ) ) . '</a>';
+	$status_links[] = "<li><a href='edit-pages.php?post_status=$status'$class>" . sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
-echo implode(' |</li>', $status_links) . '</li>';
+echo implode( " |</li>\n", $status_links ) . '</li>';
 unset($status_links);
 endif;
 ?>
@@ -186,9 +186,14 @@ $page_links = paginate_links( array(
 	'current' => $pagenum
 ));
 
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
+if ( $page_links ) : ?>
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+	number_format_i18n( ( $_GET['paged'] - 1 ) * $wp_query->query_vars['posts_per_page'] + 1 ),
+	number_format_i18n( min( $_GET['paged'] * $wp_query->query_vars['posts_per_page'], $wp_query->found_posts ) ),
+	number_format_i18n( $wp_query->found_posts ),
+	$page_links
+); echo $page_links_text; ?></div>
+<?php endif; ?>
 
 <div class="alignleft actions">
 <select name="action">
@@ -230,7 +235,7 @@ if ($posts) {
 <div class="tablenav">
 <?php
 if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
+	echo "<div class='tablenav-pages'>$page_links_text</div>";
 ?>
 
 <div class="alignleft actions">

@@ -120,26 +120,33 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 <?php
 $status_links = array();
 $num_comments = wp_count_comments();
+//, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
+//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 $stati = array(
-		'moderated' => sprintf(__ngettext('Awaiting Moderation (%s)', 'Awaiting Moderation (%s)', number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
-		'approved' => _c('Approved|plural'),
-		'spam' => sprintf(__ngettext('Spam (%s)', 'Spam (%s)', number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
+		'moderated' => __ngettext_noop('Awaiting Moderation <span class="count">(%s)</span>', 'Awaiting Moderation <span class="count">(%s)</span>'),
+		'approved' => __ngettext_noop('Approved', 'Approved'), // singular not used
+		'spam' => __ngettext_noop('Spam <span class="count">(%s)</span>', 'Spam <span class="count">(%s)</span>')
 	);
 $class = ( '' === $comment_status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href=\"edit-comments.php\"$class>".__('Show All Comments')."</a>";
+$status_links[] = "<li><a href='edit-comments.php'$class>" . __( 'All' ) . '</a>';
 $type = ( !$comment_type && 'all' != $comment_type ) ? '' : "&amp;comment_type=$comment_type";
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
 	if ( $status == $comment_status )
 		$class = ' class="current"';
+	if ( !isset( $num_comments->$status ) )
+		$num_comments->$status = 10;
 
-	$status_links[] = "<li class='$status'><a href=\"edit-comments.php?comment_status=$status$type\"$class>$label</a>";
+	$status_links[] = "<li class='$status'><a href='edit-comments.php?comment_status=$status$type'$class>" . sprintf(
+		__ngettext( $label[0], $label[1], $num_comments->$status ),
+		number_format_i18n( $num_comments->$status )
+	) . '</a>';
 }
 
 $status_links = apply_filters( 'comment_status_links', $status_links );
 
-echo implode(' | </li>', $status_links) . '</li>';
+echo implode( " |</li>\n", $status_links) . '</li>';
 unset($status_links);
 ?>
 </ul>
@@ -182,10 +189,14 @@ $page_links = paginate_links( array(
 
 <div class="tablenav">
 
-<?php
-if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
-?>
+<?php if ( $page_links ) : ?>
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+	number_format_i18n( $start + 1 ),
+	number_format_i18n( min( $page * $comments_per_page, $total ) ),
+	number_format_i18n( $total ),
+	$page_links
+); echo $page_links_text; ?></div>
+<?php endif; ?>
 
 <div class="alignleft actions">
 <select name="action">
@@ -270,7 +281,7 @@ if ( 'spam' == $comment_status ) {
 <div class="tablenav">
 <?php
 if ( $page_links )
-	echo "<div class='tablenav-pages'>$page_links</div>";
+	echo "<div class='tablenav-pages'>$page_links_text</div>";
 ?>
 
 <div class="alignleft actions">
