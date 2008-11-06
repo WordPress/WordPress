@@ -108,6 +108,7 @@ inlineEditTax = {
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
 						$('#edit-'+id).remove();
+						r = r.replace(/hide-if-no-js/, '');
 						row.html($(r).html()).show()
 							.animate( { backgroundColor: '#CCEEBB' }, 500)
 							.animate( { backgroundColor: '#eefee7' }, 500);
