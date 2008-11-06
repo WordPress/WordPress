@@ -23,7 +23,7 @@ $messages[1] = sprintf( __( 'Post updated. Continue editing below or <a href="%s
 $messages[2] = __('Custom field updated.');
 $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Post updated.');
-$messages[6] = __('Post published.');
+$messages[6] = sprintf(__('Post published. <a href="%s">View post</a>'), get_permalink($post_ID));
 $messages[7] = __('Post saved.');
 
 if ( isset($_GET['revision']) )
