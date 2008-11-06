@@ -384,7 +384,6 @@ class MagpieRSS {
 	}
 
 }
-require_once( dirname(__FILE__) . '/class-snoopy.php');
 
 if ( !function_exists('fetch_rss') ) :
 /**
@@ -526,7 +525,7 @@ function fetch_rss ($url) {
 endif;
 
 /**
- * Retrieve URL headers and content using Snoopy.
+ * Retrieve URL headers and content using WP HTTP Request API.
  *
  * @since unknown
  * @package External
@@ -534,21 +533,20 @@ endif;
  *
  * @param string $url URL to retrieve
  * @param array $headers Optional. Headers to send to the URL.
- * @return Snoopy
+ * @return Snoopy style response
  */
 function _fetch_remote_file ($url, $headers = "" ) {
-	// Snoopy is an HTTP client in PHP
-	$client = new Snoopy();
-	$client->agent = apply_filters( 'magpie_user_agent', MAGPIE_USER_AGENT );
-	$client->read_timeout = MAGPIE_FETCH_TIME_OUT;
-	$client->use_gzip = MAGPIE_USE_GZIP;
-	if (is_array($headers) ) {
-		$client->rawheaders = $headers;
+	$resp = wp_remote_request($url, array('headers' => $headers, 'timeout' => MAGPIE_FETCH_TIME_OUT));
+	if ( is_wp_error($resp) ) {
+		$resp = new stdClass;
+		$resp->status = 500;
+		return $resp;
 	}
+	$response->status = $resp['response']['code'];
+	$response->headers = $resp['headers'];
+	$response->results = $resp['body'];
 
-	@$client->fetch($url);
-	return $client;
-
+	return $response;
 }
 
 /**
