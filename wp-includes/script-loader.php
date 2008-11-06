@@ -297,7 +297,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox', 'settings-box' ), '20081016' );
 
 		$scripts->add( 'hoverIntent', '/wp-includes/js/hoverIntent.js', array('jquery'), '20070327' );
-		$scripts->add( 'menu', '/wp-admin/js/menu.js', array( 'jquery', 'hoverIntent' ), '20081030' );
+		$scripts->add( 'menu', '/wp-admin/js/menu.js', array( 'jquery', 'hoverIntent' ), '20081105' );
 
 	}
 }

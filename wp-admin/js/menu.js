@@ -5,7 +5,7 @@ adminMenu = {
 	init : function() {
 		$('#adminmenu a').attr('tabindex', '10');
 		$('#adminmenu div.wp-menu-toggle').click( function() { return adminMenu.toggle( $(this).siblings('ul') ); } );
-		$('#adminmenu li.wp-has-submenu img.wp-menu-image').dblclick( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
+		$('#adminmenu li.wp-has-submenu img.wp-menu-image').click( function() { window.location = $(this).siblings('a.wp-has-submenu')[0].href; } );
 
 		$('.wp-menu-separator').click(function(){
 			if ( $('#adminmenu').hasClass('folded') ) {
