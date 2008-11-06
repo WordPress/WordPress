@@ -41,12 +41,14 @@ function tag_flush_to_text(e,a) {
 	a = a || false;
 	var text = a ? jQuery(a).text() : jQuery('#newtag').val();
 	var newtags = jQuery('#tags-input').val();
-	var t = text.replace( /\s*([^,]+)[\s,]*/, '$1' );
+
+	var t = text.replace( /\s*([^,]+).*/, '$1,' );
+	newtags += ','
 
 	if ( newtags.indexOf(t) != -1 )
 		return false;
 
-	newtags += ',' + text;
+	newtags += text;
 
 	// massage
 	newtags = newtags.replace( /\s+,+\s*/g, ',' ).replace( /,+/g, ',' ).replace( /,+\s+,+/g, ',' ).replace( /,+\s*$/g, '' ).replace( /^\s*,+/g, '' );
