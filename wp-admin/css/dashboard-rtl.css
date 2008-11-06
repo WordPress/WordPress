@@ -32,13 +32,49 @@
 }
 /* Recent Comments */
 #the-comment-list .comment-item {
-	padding: 5px 47px 5px 5px;
+	padding: 1em 70px 1em 10px;
 }
 #the-comment-list .comment-item .avatar {
 	left: auto;
-	right: 5px;
+	right: 0;
 }
 /* Feeds */
 .rss-widget cite {
 	text-align: left;
+}
+.rss-widget span.rss-date {
+	font-family: Tahoma, Arial;
+}
+/* QuickPress */
+#dashboard_quick_press h4 {
+	float: right;
+	font-family: Tahoma, Arial;
+	text-align: left;
+}
+#dashboard_quick_press h4 label {
+	margin-right: 0;
+	margin-left: 10px;
+}
+#dashboard_quick_press .input-text-wrap, #dashboard_quick_press .textarea-wrap {
+	margin: 0 5em 1em 0;
+}
+#dashboard_quick_press #media-buttons {
+	margin: 0 5em .5em 0;
+	padding: 0 2px 0 0;
+}
+#dashboard-widgets #dashboard_quick_press form p.submit {
+	padding: 1em 5em 1em 1em;
+}
+#dashboard-widgets #dashboard_quick_press form p.submit input {
+	float: right;
+}
+#dashboard-widgets #dashboard_quick_press form p.submit #save-post {
+	margin: 0 10px 0 1em;
+}
+#dashboard-widgets #dashboard_quick_press form p.submit #publish {
+	float: left;
+}
+/* Recent Drafts */
+#dashboard_recent_drafts h4 abbr {
+	font-family: Tahoma, Arial;
 }

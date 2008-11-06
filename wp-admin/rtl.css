@@ -1,11 +1,5 @@
 /* 0 - 200
 =================================== */
-.plugins .togl {
-	border-right-width: 0;
-	border-left-width: 1px;
-	border-right-style: none;
-	border-left-style: solid;
-}
 form#upload th {
 	text-align: left;
 }
@@ -267,7 +261,7 @@ ul#adminmenu li.write-new-button a {
 	margin-right: 0;
 	margin-left: 15px;
 }
-#poststuff #media-buttons a {
+#media-buttons a {
 	padding: 0 10px 5px 0;
 }
 .submitbox .submit {
@@ -427,13 +421,17 @@ td.action-links, th.action-links {
 	margin: 1px 1px 1px 2px;
 }
 /* show/hide settings */
-#screen-options-link-wrap {
+#screen-meta-links {
+	margin: 0 0 0 20px;
+}
+#screen-options-link-wrap,
+#contextual-help-link-wrap {
 	float: left;
 	font-family: Tahoma, Arial;
-	right: auto;
-	left: 100px;
+	margin: -1px 0 0 10px;
 }
-#screen-options-wrap h5 {
+#screen-options-wrap h5,
+#contextual-help-wrap h5 {
 	padding: 10px 15px 0 0;
 }
 .metabox-prefs label {
