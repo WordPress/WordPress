@@ -154,7 +154,7 @@ unset($status_links);
 <p class="search-box">
 	<label class="hidden" for="comment-search-input"><?php _e( 'Search Comments' ); ?>:</label>
 	<input type="text" class="search-input" id="comment-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button-primary" />
+	<input type="submit" value="<?php _e( 'Search Comments' ); ?>" class="button" />
 </p>
 
 <?php

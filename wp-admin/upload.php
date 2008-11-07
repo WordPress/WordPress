@@ -216,7 +216,7 @@ unset($type_links);
 <p class="search-box">
 	<label class="hidden" for="media-search-input"><?php _e( 'Search Media' ); ?>:</label>
 	<input type="text" class="search-input" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button-primary" />
+	<input type="submit" value="<?php _e( 'Search Media' ); ?>" class="button" />
 </p>
 </form>
 
