@@ -292,7 +292,7 @@ function wp_default_scripts( &$scripts ) {
 			'requestFile' => admin_url('admin-ajax.php'),
 		) );
 
-		$scripts->add( 'settings-box', '/wp-admin/js/settings-box.js', array( 'jquery' ), '20081105' );
+		$scripts->add( 'settings-box', '/wp-admin/js/settings-box.js', array( 'jquery' ), '20081107' );
 
 		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox', 'settings-box' ), '20081016' );
 
