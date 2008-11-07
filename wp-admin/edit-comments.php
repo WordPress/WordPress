@@ -338,6 +338,22 @@ if ( $page_links )
 
 </div>
 
+<script type="text/javascript">
+/* <![CDATA[ */
+(function($){
+	$(document).ready(function(){
+		$('#doaction, #doaction2').click(function(){
+			if ( $('select[name^="action"]').val() == 'delete' ) {
+				var n = $('#the-comment-list input[type="checkbox"]:checked').length;
+				var m = n > 1 ? '<?php echo js_escape(__("You are about to delete the selected comments.\n  'Cancel' to stop, 'OK' to delete.")); ?>' : '<?php echo js_escape(__("You are about to delete the selected comment.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
+				return showNotice.warn(m);
+			}
+		});
+	});
+})(jQuery);
+/* ]]> */
+</script>
+
 <?php
 wp_comment_reply('-1', true, 'detail');
 include('admin-footer.php'); ?>

@@ -450,21 +450,24 @@ endif; // posts;
 </div>
 
 <script type="text/javascript">
-	jQuery(function($) {
-		$('#doaction').click(function(e) {
-			if ( 'attach' == $('#posts-filter select[name="action"]').val() ) {
-				e.preventDefault();
-				findPosts.open();
-			}
-		});
-		$('#doaction2').click(function(e) {
-			if ( 'attach' == $('#posts-filter select[name="action2"]').val() ) {
+/* <![CDATA[ */
+(function($){
+	$(document).ready(function(){
+		$('#doaction, #doaction2').click(function(e){
+			if ( $('select[name^="action"]').val() == 'delete' ) {
+				var n = $('#the-list input[type="checkbox"]:checked').length;
+				var m = n > 1 ? '<?php echo js_escape(__("You are about to delete the selected attachments.\n  'Cancel' to stop, 'OK' to delete.")); ?>' : '<?php echo js_escape(__("You are about to delete the selected attachment.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
+				return showNotice.warn(m);
+			} else if ( $('select[name^="action"]').val() == 'attach' ) {
 				e.preventDefault();
 				findPosts.open();
 			}
 		});
 	});
+})(jQuery);
+/* ]]> */
 </script>
+
 <?php
 
 include('admin-footer.php');

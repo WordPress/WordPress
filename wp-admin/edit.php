@@ -320,4 +320,20 @@ endif; // posts;
 
 </div>
 
+<script type="text/javascript">
+/* <![CDATA[ */
+(function($){
+	$(document).ready(function(){
+		$('#doaction, #doaction2').click(function(){
+			if ( $('select[name^="action"]').val() == 'delete' ) {
+				var n = $('table.post input[type="checkbox"]:checked').length;
+				var m = n > 1 ? '<?php echo js_escape(__("You are about to delete the selected posts.\n  'Cancel' to stop, 'OK' to delete.")); ?>' : '<?php echo js_escape(__("You are about to delete the selected post.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
+				return showNotice.warn(m);
+			}
+		});
+	});
+})(jQuery);
+/* ]]> */
+</script>
+
 <?php include('admin-footer.php'); ?>

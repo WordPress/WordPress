@@ -289,6 +289,22 @@ if ( $page_links )
 </div><!-- /col-container -->
 </div><!-- /wrap -->
 
+<script type="text/javascript">
+/* <![CDATA[ */
+(function($){
+	$(document).ready(function(){
+		$('#doaction, #doaction2').click(function(){
+			if ( $('select[name^="action"]').val() == 'delete' ) {
+				var n = $('#the-list input[type="checkbox"]:checked').length;
+				var m = n > 1 ? '<?php echo js_escape(__("You are about to delete the selected categories.\n  'Cancel' to stop, 'OK' to delete.")); ?>' : '<?php echo js_escape(__("You are about to delete the selected category.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
+				return showNotice.warn(m);
+			}
+		});
+	});
+})(jQuery);
+/* ]]> */
+</script>
+
 <?php
 inline_edit_term_row('category');
 

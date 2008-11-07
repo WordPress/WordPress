@@ -1,7 +1,15 @@
 
 .find-box-search {
-	background-color: #e4f2fd;
-	border-color: #c6d9e9;
+	border-color: #dfdfdf;
+	background-color: #f1f1f1;
+}
+
+.find-box {
+	background-color: #f1f1f1;
+}
+
+.find-box-inside {
+	background-color: #fff;
 }
 
 a.page-numbers:hover {
@@ -10,8 +18,7 @@ a.page-numbers:hover {
 
 body,
 #wpbody,
-.form-table .pre,
-.find-box-inside {
+.form-table .pre {
 	color: #333;
 }
 
@@ -1021,8 +1028,7 @@ div.star.select:hover {
 	background-color: #d00;
 }
 
-#plugin-information .fyi ul,
-.find-box {
+#plugin-information .fyi ul {
 	background-color: #eaf3fa;
 }
 

@@ -11,6 +11,23 @@ jQuery(document).ready( function() {
 		jQuery('form.validate').submit( function() { return wpAjax.validateForm( jQuery(this) ); } );
 	}
 });
+
+// stub for doing better warnings
+(function($){
+	showNotice = {
+		warn : function(text) {
+			if ( confirm(text) )
+				return true;
+
+			return false;
+		},
+		
+		note : function(text) {
+			alert(text);
+		}
+	}
+})(jQuery);
+
 /*
 (function($) {
 	$.fn.tTips = function() {
