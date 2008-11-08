@@ -2761,7 +2761,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$struct['description'] = $cat->name;
 				$struct['categoryName'] = $cat->name;
 				$struct['htmlUrl'] = wp_specialchars(get_category_link($cat->term_id));
-				$struct['rssUrl'] = wp_specialchars(get_category_rss_link(false, $cat->term_id, $cat->name));
+				$struct['rssUrl'] = wp_specialchars(get_category_feed_link($cat->term_id, 'rss2'));
 
 				$categories_struct[] = $struct;
 			}
