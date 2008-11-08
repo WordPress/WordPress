@@ -266,6 +266,7 @@ function post_categories_meta_box($post) {
 	</ul>
 </div>
 
+<?php if ( current_user_can('manage_categories') ) : ?>
 <div id="category-adder" class="wp-hidden-children">
 	<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
 	<p id="category-add" class="wp-hidden-child">
@@ -276,8 +277,9 @@ function post_categories_meta_box($post) {
 		<span id="category-ajax-response"></span>
 	</p>
 </div>
-
 <?php
+endif;
+
 }
 add_meta_box('categorydiv', __('Categories'), 'post_categories_meta_box', 'post', 'side', 'core');
 
