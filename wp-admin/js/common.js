@@ -10,6 +10,11 @@ jQuery(document).ready( function() {
 	if ( ( 'undefined' != typeof wpAjax ) && jQuery.isFunction( wpAjax.validateForm ) ) {
 		jQuery('form.validate').submit( function() { return wpAjax.validateForm( jQuery(this) ); } );
 	}
+
+	// Move .updated and .error alert boxes 
+	jQuery('div.wrap h2 ~ div.updated, div.wrap h2 ~ div.error').addClass('below-h2');
+	jQuery('div.updated, div.error').not('.below-h2').insertAfter('div.wrap h2:first');
+
 });
 
 // stub for doing better warnings
