@@ -187,7 +187,7 @@ $page_links = paginate_links( array(
 ));
 
 if ( $page_links ) : ?>
-<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>' . __( '%s' ),
 	number_format_i18n( ( $pagenum - 1 ) * $per_page + 1 ),
 	number_format_i18n( min( $pagenum * $per_page, $wp_query->post_count ) ),
 	number_format_i18n( $wp_query->post_count ),

@@ -190,7 +190,7 @@ $page_links = paginate_links( array(
 <div class="tablenav">
 
 <?php if ( $page_links ) : ?>
-<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s-%s of %s' ) . '</span>' . __( '%s' ),
+<div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>' . __( '%s' ),
 	number_format_i18n( $start + 1 ),
 	number_format_i18n( min( $page * $comments_per_page, $total ) ),
 	number_format_i18n( $total ),
