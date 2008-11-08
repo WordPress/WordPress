@@ -105,7 +105,19 @@ jQuery(document).ready( function($) {
 
 		return false;
 	});
-	
+
+	// Custom Fields
+	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
+		$('table#list-table').show();
+		if ( jQuery.isFunction( autosave_update_post_ID ) ) {
+			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
+		}
+	}, addBefore: function( s ) {
+		s.data += '&post_id=' + jQuery('#post_ID').val();
+		return s;
+	}
+	});
+
 	// preview
 	$('#post-preview').click(function(e){
 		if ( 1 > $('#post_ID').val() && autosaveFirst ) {

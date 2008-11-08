@@ -2100,24 +2100,38 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
  */
 function list_meta( $meta ) {
 	// Exit if no meta
-	if (!$meta ) {
-		echo '<tbody id="the-list" class="list:meta"><tr style="display: none;"><td>&nbsp;</td></tr></tbody>'; //TBODY needed for list-manipulation JS
+	if ( ! $meta ) {
+		echo '
+<table id="list-table" style="display: none;">
+	<thead>
+	<tr>
+		<th class="left">' . __( 'Name' ) . '</th>
+		<th>' . __( 'Value' ) . '</th>
+	</tr>
+	</thead>
+	<tbody id="the-list" class="list:meta">
+	<tr><td></td></tr>
+	</tbody>
+</table>'; //TBODY needed for list-manipulation JS
 		return;
 	}
 	$count = 0;
 ?>
+<table id="list-table">
 	<thead>
 	<tr>
-		<th><?php _e( 'Key' ) ?></th>
+		<th class="left"><?php _e( 'Name' ) ?></th>
 		<th><?php _e( 'Value' ) ?></th>
-		<th colspan='2'><?php _e( 'Action' ) ?></th>
 	</tr>
 	</thead>
 	<tbody id='the-list' class='list:meta'>
 <?php
 	foreach ( $meta as $entry )
 		echo _list_meta_row( $entry, $count );
-	echo "\n\t</tbody>";
+?>
+	</tbody>
+</table>
+<?php
 }
 
 /**
@@ -2161,13 +2175,15 @@ function _list_meta_row( $entry, &$count ) {
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
 
 	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
-	$r .= "\n\t\t<td valign='top'><label class='hidden' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
-	$r .= "\n\t\t<td><label class='hidden' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
-	$r .= "\n\t\t<td style='text-align: center;'><input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /><br />";
-	$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
+	$r .= "\n\t\t<td class='left'><label class='hidden' for='meta[{$entry['meta_id']}][key]'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' />";
+
+	$r .= "\n\t\t<div class='submit'><input name='deletemeta[{$entry['meta_id']}]' type='submit' ";
 	$r .= "class='delete:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$delete_nonce deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' />";
+	$r .= "\n\t\t<input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /></div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
-	$r .= "</td>\n\t</tr>";
+	$r .= "</td>";
+	
+	$r .= "\n\t\t<td><label class='hidden' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
 	return $r;
 }
 
@@ -2190,13 +2206,17 @@ function meta_form() {
 		natcasesort($keys);
 ?>
 <p><strong><?php _e( 'Add a new custom field:' ) ?></strong></p>
-<table id="newmeta" cellspacing="3" cellpadding="3">
-	<tr>
-<th colspan="2"><label <?php if ( $keys ) : ?> for="metakeyselect" <?php else : ?> for="metakeyinput" <?php endif; ?>><?php _e( 'Key' ) ?></label></th>
+<table id="newmeta">
+<thead>
+<tr>
+<th class="left"><label for="metakeyselect"><?php _e( 'Name' ) ?></label></th>
 <th><label for="metavalue"><?php _e( 'Value' ) ?></label></th>
 </tr>
-	<tr valign="top">
-		<td style="width: 18%;" class="textright">
+</thead>
+
+<tbody>
+<tr>
+<td id="newmetaleft" class="left">
 <?php if ( $keys ) : ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#"><?php _e( '- Select -' ); ?></option>
@@ -2204,19 +2224,25 @@ function meta_form() {
 
 	foreach ( $keys as $key ) {
 		$key = attribute_escape( $key );
-		echo "\n\t<option value='$key'>$key</option>";
+		echo "\n<option value='$key'>$key</option>";
 	}
 ?>
-</select> <label for="metakeyinput"><?php _e( 'or' ); ?></label>
+</select>
 <?php endif; ?>
+<input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
+<a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
+<span id="enternew"><?php _e('Enter new'); ?></span>
+<span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span>
+</a>
 </td>
-<td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
-		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="8"></textarea></td>
-	</tr>
-<tr class="submit"><td colspan="3">
-	<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>
-	<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
+<td><textarea id="metavalue" name="metavalue" rows="2" cols="25" tabindex="8"></textarea></td>
+</tr>
+
+<tr><td colspan="2" class="submit">
+<input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
+<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>	
 </td></tr>
+</tbody>
 </table>
 <?php
 

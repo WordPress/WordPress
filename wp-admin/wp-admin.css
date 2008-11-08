@@ -313,7 +313,8 @@ table#availablethemes td.bottom {
 .button,
 .button-primary,
 .button-secondary,
-.button-highlighted {
+.button-highlighted,
+#postcustomstuff .submit input {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	text-decoration: none;
 	font-size: 11px;
@@ -515,9 +516,6 @@ textarea.all-options, input.all-options {
 	width: 98%;
 }
 
-.plugins p {
-}
-
 #login .fullwidth {
 	width: 320px;
 }
@@ -543,8 +541,48 @@ textarea.all-options, input.all-options {
 	top: .35em;
 }
 
-#postcustomstuff .updatemeta, #postcustomstuff .deletemeta {
+/* post meta postbox */
+#postcustomstuff table,
+#postcustomstuff input,
+#postcustomstuff textarea {
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#postcustomstuff .updatemeta,
+#postcustomstuff .deletemeta {
 	margin: auto;
+}
+
+#postcustomstuff thead th {
+	padding: 5px 8px 8px;
+}
+
+#postcustom #postcustomstuff .submit,
+#pagecustomdiv #postcustomstuff .submit {
+	border: 0 none;
+	float: none;
+	padding: 5px 8px;
+}
+
+#side-sortables #postcustom #postcustomstuff .submit,
+#side-sortables #pagecustomdiv #postcustomstuff .submit {
+	padding: 0 5px;
+}
+
+#side-sortables #postcustom #postcustomstuff td.left input,
+#side-sortables #pagecustomdiv #postcustomstuff td.left input {
+	margin: 3px 3px 0;
+}
+
+#side-sortables #postcustom #postcustomstuff #the-list textarea,
+#side-sortables #pagecustomdiv #postcustomstuff #the-list textarea {
+	height: 85px;
+	margin: 3px;
 }
 
 #postcustomstuff table {
@@ -552,14 +590,40 @@ textarea.all-options, input.all-options {
 	width: 100%;
 	border-width: 1px;
 	border-style: solid;
+	border-spacing: 0;
 }
 
-#postcustomstuff table input, #postcustomstuff table textarea {
+#postcustomstuff table input,
+#postcustomstuff table select,
+#postcustomstuff table textarea {
 	width: 95%;
+	margin: 8px 0 8px 8px;
+}
+
+#postcustomstuff th.left,
+#postcustomstuff td.left {
+	width: 38%;
+}
+
+#postcustomstuff .submit input {
+	width: auto;
+}
+
+#postcustomstuff #newmeta .submit {
+	padding: 0 8px;
 }
 
 #postcustomstuff table #addmetasub {
 	width: auto;
+}
+
+#postcustomstuff #newmetaleft {
+	vertical-align: top;
+}
+
+#postcustomstuff #newmetaleft a {
+	padding: 0 10px;
+	text-decoration: none;
 }
 
 #save {

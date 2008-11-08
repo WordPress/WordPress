@@ -355,15 +355,10 @@ add_meta_box('trackbacksdiv', __('Trackbacks and Pings'), 'post_trackback_meta_b
 function post_custom_meta_box($post) {
 ?>
 <div id="postcustomstuff">
-<table cellpadding="3">
 <?php
 $metadata = has_meta($post->ID);
 list_meta($metadata);
-?>
-
-</table>
-<?php
-	meta_form();
+meta_form();
 ?>
 <div id="ajax-response"></div>
 </div>

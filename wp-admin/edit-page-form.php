@@ -287,15 +287,10 @@ add_meta_box('pageorderdiv', __('Page Order'), 'page_order_meta_box', 'page', 's
 function page_custom_meta_box($post){
 ?>
 <div id="postcustomstuff">
-<table cellpadding="3">
 <?php
 $metadata = has_meta($post->ID);
 list_meta($metadata);
-?>
-
-</table>
-<?php
-	meta_form();
+meta_form();
 ?>
 <div id="ajax-response"></div>
 </div>
