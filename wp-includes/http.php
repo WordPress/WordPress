@@ -84,25 +84,40 @@ class WP_Http {
 	 * @since 2.7
 	 * @access private
 	 *
+	 * @param array $args Request args, default us an empty array
 	 * @return object|null Null if no transports are available, HTTP transport object.
 	 */
-	function &_getTransport() {
-		static $working_transport;
+	function &_getTransport( $args = array() ) {
+		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) )
-				$working_transport[] = new WP_Http_ExtHttp();
-			else if ( true === WP_Http_Curl::test() && apply_filters('use_curl_transport', true) )
-				$working_transport[] = new WP_Http_Curl();
-			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
-				$working_transport[] = new WP_Http_Streams();
-			else if ( true === WP_Http_Fopen::test() && apply_filters('use_fopen_transport', true) )
-				$working_transport[] = new WP_Http_Fopen();
-			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
-				$working_transport[] = new WP_Http_Fsockopen();
+			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) ) {
+				$working_transport['exthttp'] = new WP_Http_ExtHttp();
+				$blocking_transport[] = &$working_transport['exthttp'];
+			} else if ( true === WP_Http_Curl::test() && apply_filters('use_curl_transport', true) ) {
+				$working_transport['curl'] = new WP_Http_Curl();
+				$blocking_transport[] = &$working_transport['curl'];
+			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
+				$working_transport['streams'] = new WP_Http_Streams();
+				$blocking_transport[] = &$working_transport['streams'];
+			} else if ( true === WP_Http_Fopen::test() && apply_filters('use_fopen_transport', true) ) {
+				$working_transport['fopen'] = new WP_Http_Fopen();
+				$blocking_transport[] = &$working_transport['fopen'];
+			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) ) {
+				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
+				$blocking_transport[] = &$working_transport['fsockopen'];
+			}
+
+			foreach ( array('curl', 'streams', 'fopen', 'fsockopen', 'exthttp') as $transport ) {
+				if ( isset($working_transport[$transport]) )
+					$nonblocking_transport[] = &$working_transport[$transport];
+			}
 		}
 
-		return $working_transport;
+		if ( isset($args['blocking']) && !$args['blocking'] )
+			return $nonblocking_transport;
+		else
+			return $blocking_transport;
 	}
 
 	/**
@@ -117,21 +132,34 @@ class WP_Http {
 	 * @since 2.7
 	 * @access private
 	 *
+	 * @param array $args Request args, default us an empty array
 	 * @return object|null Null if no transports are available, HTTP transport object.
 	 */
-	function &_postTransport() {
-		static $working_transport;
+	function &_postTransport( $args = array() ) {
+		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) )
+			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) ) {
 				$working_transport[] = new WP_Http_ExtHttp();
-			else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) )
+				$blocking_transport[] = &$working_transport['exthttp'];
+			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
 				$working_transport[] = new WP_Http_Streams();
-			else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) )
+				$blocking_transport[] = &$working_transport['streams'];
+			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) ) {
 				$working_transport[] = new WP_Http_Fsockopen();
+				$blocking_transport[] = &$working_transport['fsockopen'];
+			}
+
+			foreach ( array('streams', 'fsockopen', 'exthttp') as $transport ) {
+				if ( isset($working_transport[$transport]) )
+					$nonblocking_transport[] = &$working_transport[$transport];
+			}			
 		}
 
-		return $working_transport;
+		if ( isset($args['blocking']) && !$args['blocking'] )
+			return $nonblocking_transport;
+		else
+			return $blocking_transport;
 	}
 
 	/**
@@ -214,7 +242,7 @@ class WP_Http {
 		}
 
 		if ( is_null($r['body']) ) {
-			$transports = WP_Http::_getTransport();
+			$transports = WP_Http::_getTransport($r);
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
 				$r['body'] = http_build_query($r['body'], null, '&');
@@ -222,7 +250,7 @@ class WP_Http {
 				$r['headers']['Content-Length'] = strlen($r['body']);
 			}
 
-			$transports = WP_Http::_postTransport();
+			$transports = WP_Http::_postTransport($r);
 		}
 
 		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
