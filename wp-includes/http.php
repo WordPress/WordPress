@@ -140,13 +140,13 @@ class WP_Http {
 
 		if ( is_null($working_transport) ) {
 			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) ) {
-				$working_transport[] = new WP_Http_ExtHttp();
+				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
 			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
-				$working_transport[] = new WP_Http_Streams();
+				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
 			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) ) {
-				$working_transport[] = new WP_Http_Fsockopen();
+				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
 
