@@ -20,6 +20,7 @@ inlineEditPost = {
 
 		$('a.cancel', qeRow).click(function() { return inlineEditPost.revert(); });
 		$('a.save', qeRow).click(function() { return inlineEditPost.save(this); });
+		$('input, select', qeRow).keydown(function(e) { if(e.which == 13) return inlineEditPost.save(this); });
 
 		$('a.cancel', bulkRow).click(function() { return inlineEditPost.revert(); });
 		$('a.save', bulkRow).click(function() { return inlineEditPost.saveBulk(); });

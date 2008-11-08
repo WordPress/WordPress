@@ -17,6 +17,7 @@ inlineEditTax = {
 
 		$('a.cancel', row).click(function() { return inlineEditTax.revert(); });
 		$('a.save', row).click(function() { return inlineEditTax.save(this); });
+		$('input, select', row).keydown(function(e) { if(e.which == 13) return inlineEditTax.save(this); });
 
 		// add events
 //		t.rows.dblclick(function() { inlineEditTax.toggle(this); });
