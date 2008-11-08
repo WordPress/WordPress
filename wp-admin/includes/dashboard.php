@@ -37,8 +37,8 @@ function wp_dashboard_setup() {
 			'home' => get_option('home'),
 			'link' => apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.google.com/blogsearch?hl=en&scoring=d&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
 			'url' => apply_filters( 'dashboard_incoming_links_feed', 'http://blogsearch.google.com/blogsearch_feeds?hl=en&scoring=d&ie=utf-8&num=10&output=rss&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
-			'items' => 5,
-			'show_date' => 0
+			'items' => $widget_options['dashboard_incoming_links']['items'],
+			'show_date' => $widget_options['dashboard_incoming_links']['show_date']
 		);
 	}
 	wp_add_dashboard_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_incoming_links', 'wp_dashboard_incoming_links_control' );
