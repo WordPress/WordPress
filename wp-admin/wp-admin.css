@@ -64,6 +64,7 @@ table#availablethemes {
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	margin: 10px auto;
+	width: 100%;
 }
 
 td.available-theme {
@@ -111,7 +112,7 @@ table#availablethemes td.bottom {
 }
 
 #current-theme {
-	margin-top: 1em;
+	margin: 1em 0 1.5em;
 }
 
 #current-theme a {
@@ -3010,4 +3011,9 @@ form.upgrade {
 
 #flash-upload-ui {
 	padding: 20px 12px 0;
+}
+
+br.clear {
+	height: 2px;
+	line-height: 2px;
 }
