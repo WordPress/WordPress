@@ -862,6 +862,11 @@ ul#adminmenu li.write-new-button a {
 	float: left;
 }
 
+#wphead h1.long-title {
+	font: normal 18px Georgia, "Times New Roman", Times, serif;
+	padding: 12px 10px 5px;
+}
+
 /* side admin menu */
 #adminmenu .wp-submenu {
 	display: none;
