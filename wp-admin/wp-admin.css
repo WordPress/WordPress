@@ -971,7 +971,7 @@ ul#adminmenu li.write-new-button a {
 	margin: 0;
 }
 
-#adminmenu.folded li.wp-has-submenu {
+#adminmenu.folded li.menu-top {
 	width: 28px;
 	height: 30px;
 	overflow: hidden;
