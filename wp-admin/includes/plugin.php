@@ -570,8 +570,6 @@ function add_object_page( $page_title, $menu_title, $access_level, $file, $funct
 	if ( empty($icon_url) )
 		$icon_url = 'images/menu/generic.png';
 
-	//$menu[$_wp_last_object_menu][4] = ''; // Remove menu-top-last
-
 	$_wp_last_object_menu++;
 
 	$menu[$_wp_last_object_menu] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
