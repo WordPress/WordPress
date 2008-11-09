@@ -220,9 +220,9 @@ function add_menu_classes($menu) {
 	return apply_filters( 'add_menu_classes', $menu );
 }
 
-$menu = add_menu_classes($menu);
-
 uksort($menu, "strnatcasecmp"); // make it all pretty
+
+$menu = add_menu_classes($menu);
 
 if (! user_can_access_admin_page()) {
 	do_action('admin_page_access_denied');
