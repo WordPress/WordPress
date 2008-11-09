@@ -1252,7 +1252,7 @@ SWFUpload.onload = function() {
 			swfupload_load_failed_handler: swfuploadLoadFailed,
 			custom_settings : { 
 				degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
-				swfupload_element_id : "flash-upload-ui", // id of the element displayed when swfupload is available
+				swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
 			},
 			debug: false
 		});
@@ -1262,8 +1262,8 @@ SWFUpload.onload = function() {
 
 <div id="flash-upload-ui">
 <?php do_action('pre-flash-upload-ui'); ?>
-	<div id="flash-browse-button"></div>
-	<p><?php _e( 'Choose files to upload' ); ?></p>
+	
+	<div><?php _e( 'Choose files to upload' ); ?> <div id="flash-browse-button"></div></div>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
 </div>

@@ -1,7 +1,7 @@
 (function($) {
 	postboxes = {
 		add_postbox_toggles : function(page,args) {
-			$('.postbox h3').click( function() {
+			$('.postbox h3, .postbox .handlediv').click( function() {
 				$($(this).parent().get(0)).toggleClass('closed');
 				postboxes.save_state(page);
 			} );

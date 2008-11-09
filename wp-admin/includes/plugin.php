@@ -549,10 +549,9 @@ function add_menu_page( $page_title, $menu_title, $access_level, $file, $functio
 		add_action( $hookname, $function );
 
 	if ( empty($icon_url) )
-		$icon_url = 'images/menu/generic.png';
+		$icon_url = 'images/generic.png';
 	
-	$menu[] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top-single ' . $hookname, $hookname, $icon_url );
- 	$menu[] = array ( '', $access_level, '', '', 'wp-menu-separator-last' );
+	$menu[] = array ( $menu_title, $access_level, $file, $page_title, 'menu-top ' . $hookname, $hookname, $icon_url );
 
 	return $hookname;
 }

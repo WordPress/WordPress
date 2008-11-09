@@ -57,7 +57,13 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . $item[5] . '"' : '';
-		$img = isset($item[6]) && ! empty($item[6]) ? '<img class="wp-menu-image" src="' . $item[6] . '" alt="" />' : '';
+		$img = '';
+		if ( isset($item[6]) && ! empty($item[6]) ) {
+			if ( 'div' === $item[6] )
+				$img = '<div class="wp-menu-image"><br /></div>';
+			else
+				$img = '<img class="wp-menu-image" src="' . $item[6] . '" alt="" />';
+		}
 		$toggle = '<div class="wp-menu-toggle"><br /></div>';
 
 		echo "\n\t<li$class$id>";
@@ -84,7 +90,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( !empty($submenu[$item[2]]) ) {
-			echo "\n\t<ul class='wp-submenu'><li class='wp-submenu-head' style='display:none;'>{$item[0]}</li>";
+			echo "\n\t<div class='wp-submenu'><div class='wp-submenu-head'>{$item[0]}</div><ul>";
 			$first = true;
 			foreach ( $submenu[$item[2]] as $sub_key => $sub_item ) {
 				if ( !current_user_can($sub_item[1]) )
@@ -121,7 +127,7 @@ function _wp_menu_output( &$menu, &$submenu, $submenu_as_parent = true ) {
 					echo "<li$class><a href='{$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
 				}
 			}
-			echo "</ul>";
+			echo "</ul></div>";
 		}
 		echo "</li>";
 	}

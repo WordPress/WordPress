@@ -166,7 +166,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-forms', '/wp-admin/js/forms.js', array('jquery'), '20080729');
 		$scripts->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 		$scripts->add( 'upload', '/wp-admin/js/upload.js', array('jquery'), '20070518' );
-		$scripts->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery-ui-sortable'), '20081104' );
+		$scripts->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery-ui-sortable'), '20081109' );
 		$scripts->localize( 'postbox', 'postboxL10n', array(
 			'requestFile' => admin_url('admin-ajax.php'),
 		) );
@@ -296,8 +296,8 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox', 'settings-box' ), '20081016' );
 
-		$scripts->add( 'hoverIntent', '/wp-includes/js/hoverIntent.js', array('jquery'), '20070327' );
-		$scripts->add( 'menu', '/wp-admin/js/menu.js', array( 'jquery', 'hoverIntent' ), '20081105' );
+		$scripts->add( 'hoverIntent', '/wp-includes/js/hoverIntent.js', array('jquery'), '20081109' );
+		$scripts->add( 'menu', '/wp-admin/js/menu.js', array( 'jquery', 'hoverIntent' ), '20081109' );
 
 	}
 }
@@ -328,14 +328,14 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie', 'plugin-install', 'farbtastic' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081107' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081109' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
 	$styles->add( 'ie', '/wp-admin/css/ie.css' );
 	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
 
 	$styles->add( 'colors', true ); // Register "meta" stylesheet for admin colors
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081031'); // for login.php.  Is there a better way?
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081109'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 
 	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081106' );

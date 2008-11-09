@@ -926,17 +926,17 @@ abbr.required,
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll right -34px;
 }
 
-#adminmenu li.wp-has-current-submenu .wp-menu-toggle,
+#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif) repeat-x scroll left -206px;
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -206px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif) repeat-x scroll left -108px;
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -108px;
 }
 
-#adminmenu a.wp-has-submenu {
+#adminmenu a.menu-top {
 	background: #f1f1f1 url(../images/menu-bits.gif) repeat-x scroll left -379px;
 }
 
@@ -944,14 +944,21 @@ abbr.required,
 	background: #FFFFFF url(../images/menu-bits.gif) no-repeat scroll 0 -310px;
 }
 
-#adminmenu li.current a,
-#adminmenu .wp-submenu a:hover {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll  0 -289px;
+#adminmenu .wp-has-current-submenu .wp-has-submenu,
+#adminmenu .menu-top .current {
+	background-color: #c0c0c0;
+	background-image: none;
+	border-color: #B5B5B5;
+	color: #fff;
 }
 
-#adminmenu li.wp-has-current-submenu a.wp-has-submenu {
-	background: #b5b5b5 url(../images/menu-bits.gif) repeat-x scroll left top;
-	color: #fff;
+#adminmenu li.menu-top .current:hover {
+	background: #c0c0c0 none repeat scroll 0 0;
+	border-color: #B5B5B5;
+}
+
+#adminmenu .wp-submenu .current a.current {
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll  0 -289px;
 }
 
 #adminmenu .wp-submenu a:hover {
@@ -959,26 +966,114 @@ abbr.required,
 	color: #333 !important;
 }
 
-#adminmenu li.current a,
-#adminmenu li.current a:hover {
+#adminmenu .wp-submenu li.current,
+#adminmenu .wp-submenu li.current a,
+#adminmenu .wp-submenu li.current a:hover {
 	color: #d54e21;
 	background-color: #fff;
+	border-color: #e3e3e3;
 }
 
-#adminmenu .wp-submenu {
+#adminmenu .wp-submenu ul {
 	background-color: #fff;
 }
 
-#adminmenu.folded li.wp-has-submenu {
+#adminmenu.folded li.menu-top,
+#adminmenu .wp-submenu .wp-submenu-head {
 	background-color: #F1F1F1;
 }
 
-#adminmenu .wp-submenu li.wp-submenu-head {
-	background-color: #F1F1F1;
+#adminmenu div.wp-submenu {
+	background-color: transparent;
 }
 
-#adminmenu.folded .wp-submenu {
-	background-color: #fff;
+/* menu icons */
+#adminmenu #menu-dashboard div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -61px -34px;
+}
+
+#adminmenu #menu-dashboard:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -61px -2px;
+}
+
+#adminmenu #menu-posts div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -272px -33px;
+}
+
+#adminmenu #menu-posts:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -272px -1px;
+}
+
+#adminmenu #menu-media div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -121px -33px;
+}
+
+#adminmenu #menu-media:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -121px -1px;
+}
+
+#adminmenu #menu-links div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -91px -33px;
+}
+
+#adminmenu #menu-links:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -91px -1px;
+}
+
+#adminmenu #menu-pages div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -151px -33px;
+}
+
+#adminmenu #menu-pages:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -151px -1px;
+}
+
+#adminmenu #menu-comments div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -31px -33px;
+}
+
+#adminmenu #menu-comments:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -31px -1px;
+}
+
+#adminmenu #menu-appearance div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -1px -32px;
+}
+
+#adminmenu #menu-appearance:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -1px 0;
+}
+
+#adminmenu #menu-plugins div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -181px -33px;
+}
+
+#adminmenu #menu-plugins:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -181px -1px;
+}
+
+#adminmenu #menu-users div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -301px -33px;
+}
+
+#adminmenu #menu-users:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -301px -1px;
+}
+
+#adminmenu #menu-tools div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -211px -33px;
+}
+
+#adminmenu #menu-tools:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -211px -1px;
+}
+
+#adminmenu #menu-settings div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -241px -33px;
+}
+
+#adminmenu #menu-settings:hover div.wp-menu-image {
+	background: transparent url("../images/menu.png") no-repeat scroll -241px -1px;
 }
 /* end menu */
 
@@ -1095,4 +1190,8 @@ div.star.select:hover {
 
 .attention {
 	color: #D54E21;
+}
+
+.ui-sortable .postbox:hover .handlediv {
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -111px;
 }
