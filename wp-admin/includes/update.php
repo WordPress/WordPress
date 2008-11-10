@@ -124,7 +124,7 @@ function update_nag() {
 
 	echo "<div id='update-nag'>$msg</div>";
 }
-//add_action( 'admin_notices', 'update_nag', 3 ); // crazyhorse
+add_action( 'admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
