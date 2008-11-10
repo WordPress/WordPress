@@ -944,7 +944,7 @@ abbr.required,
 	background: #FFFFFF url(../images/menu-bits.gif) no-repeat scroll 0 -310px;
 }
 
-#adminmenu .wp-has-current-submenu .wp-has-submenu,
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu .menu-top .current {
 	background-color: #c0c0c0;
 	background-image: none;

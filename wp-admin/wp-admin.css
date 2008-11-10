@@ -883,7 +883,7 @@ ul#adminmenu li.write-new-button a {
 	padding: 0;
 	width: 12em;
 	list-style: none;
-	font: normal 11.5px/16px Georgia, "Times New Roman", Times, serif;
+	font: normal 11.5px/18px Georgia, "Times New Roman", Times, serif;
 }
 
 #adminmenu.folded,
@@ -945,6 +945,7 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu a.menu-top {
 	line-height: 18px;
+	min-width: 10em;
 	padding: 6px 5px;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
@@ -1081,6 +1082,7 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu .wp-menu-toggle {
 	width: 22px;
+	clear: right;
 	float: right;
 	margin: 1px 0 0;
 	height: 29px;

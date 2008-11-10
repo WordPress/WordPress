@@ -207,8 +207,13 @@ inlineEditPost = {
 
 				if (r) {
 					r = r.replace(/hide-if-no-js/, '');
+					
+	
 					$('#edit-'+id).remove();
-					row.html($(r).html()).show()
+					row.html($(r).html());
+					if ( 'draft' == $('input[name="post_status"]').val() )
+						row.find('td.column-comments').hide();
+					row.show()
 						.animate( { backgroundColor: '#CCEEBB' }, 500)
 						.animate( { backgroundColor: '#eefee7' }, 500);
 					inlineEditPost.addEvents(row);
