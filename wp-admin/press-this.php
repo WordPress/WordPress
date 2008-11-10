@@ -522,7 +522,7 @@ die;
 				<div class="editor-container">
 					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
 					<?php if ($selection) echo wp_richedit_pre($selection); ?>
-					<?php if ($url) { ?><p><?php if($selection) _e('via'); ?> <a href="<?php echo $url ?>"><?php echo $title; ?></a>.</p><?php } ?>
+					<?php if ($url) { echo '<p>'; if($selection) printf( __('via %s.'), "<a href='$url'>$title</a>" ); echo '</p>'; } ?>
 					</textarea>
 				</div>
 			</div>
