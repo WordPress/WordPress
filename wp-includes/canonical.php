@@ -126,7 +126,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg('cat', $redirect['query']);
 		} elseif ( is_author() && !empty($_GET['author']) ) {
 			$author = get_userdata(get_query_var('author'));
-			if ( false !== $author && $redirect_url = get_author_link(false, $author->ID, $author->user_nicename) )
+			if ( false !== $author && $redirect_url = get_author_posts_url($author->ID, $author->user_nicename) )
 				$redirect['query'] = remove_query_arg('author', $redirect['author']);
 		}
 

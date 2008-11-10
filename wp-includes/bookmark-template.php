@@ -122,7 +122,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 			$output .= $between . $desc;
 
 		if ($show_rating) {
-			$output .= $between . get_linkrating($bookmark);
+			$output .= $between . sanitize_bookmark_field('link_rating', $bookmark->link_rating, $bookmark->link_id, 'display');
 		}
 
 		$output .= "$after\n";

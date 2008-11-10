@@ -499,7 +499,7 @@ function wp_list_authors($args = '') {
 				$link .= ' ';
 				if (empty($feed_image))
 					$link .= '(';
-				$link .= '<a href="' . get_author_rss_link(0, $author->ID, $author->user_nicename) . '"';
+				$link .= '<a href="' . get_author_feed_link($author->ID) . '"';
 
 				if ( !empty($feed) ) {
 					$title = ' title="' . $feed . '"';

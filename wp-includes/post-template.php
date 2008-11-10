@@ -386,9 +386,7 @@ function sticky_class( $post_id = null ) {
  * The formatted output of a list of pages.
  *
  * Displays page links for paginated posts (i.e. includes the <!--nextpage-->.
- * Quicktag one or more times). This works in much the same way as link_pages(),
- * the difference being that arguments are given in query string format. This
- * tag must be within The Loop.
+ * Quicktag one or more times). This tag must be within The Loop.
  *
  * The defaults for overwriting are:
  * 'next_or_number' - Default is 'number' (string). Indicates whether page
