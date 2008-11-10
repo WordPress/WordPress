@@ -1990,16 +1990,17 @@ function _pad_term_counts(&$terms, $taxonomy) {
 	$results = $wpdb->get_results("SELECT object_id, term_taxonomy_id FROM $wpdb->term_relationships INNER JOIN $wpdb->posts ON object_id = ID WHERE term_taxonomy_id IN (".join(',', array_keys($term_ids)).") AND post_type = 'post' AND post_status = 'publish'");
 	foreach ( $results as $row ) {
 		$id = $term_ids[$row->term_taxonomy_id];
-		++$term_items[$id][$row->object_id];
+		$term_items[$id][$row->object_id] = isset($term_items[$id][$row->object_id]) ? ++$term_items[$id][$row->object_id] : 1;
 	}
-
+	
 	// Touch every ancestor's lookup row for each post in each term
 	foreach ( $term_ids as $term_id ) {
 		$child = $term_id;
 		while ( $parent = $terms_by_id[$child]->parent ) {
 			if ( !empty($term_items[$term_id]) )
-				foreach ( $term_items[$term_id] as $item_id => $touches )
-					++$term_items[$parent][$item_id];
+				foreach ( $term_items[$term_id] as $item_id => $touches ) {
+					$term_items[$parent][$item_id] = isset($term_items[$parent][$item_id]) ? ++$term_items[$parent][$item_id]: 1;
+				}
 			$child = $parent;
 		}
 	}
