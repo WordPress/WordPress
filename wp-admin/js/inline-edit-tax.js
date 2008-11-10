@@ -69,7 +69,9 @@ inlineEditTax = {
 		if ( pageOpt.length > 0 ) {
 			var pageLevel = pageOpt[0].className.split('-')[1], nextPage = pageOpt, pageLoop = true;
 			while ( pageLoop ) {
-				var nextPage = nextPage.next('option'), nextLevel = nextPage[0].className.split('-')[1];
+				var nextPage = nextPage.next('option');
+				if (nextPage.length == 0) break;
+				var nextLevel = nextPage[0].className.split('-')[1];
 				if ( nextLevel <= pageLevel ) {
 					pageLoop = false;
 				} else {
