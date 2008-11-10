@@ -77,7 +77,7 @@ $blog_name = get_bloginfo('name', 'display');
 if ( '' == $blog_name )
 	$blog_name = '&nbsp;';
 $title_class = '';
-if ( mb_strlen($blog_name, 'UTF-8') > 30 )
+if ( function_exists('mb_strlen') && mb_strlen($blog_name, 'UTF-8') > 30 )
 	$title_class = 'class="long-title"';
 ?>
 
