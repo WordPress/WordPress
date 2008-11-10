@@ -1336,6 +1336,10 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 		$post_category = array(get_option('default_category'));
 	}
 
+	//Set the default tag list
+	if ( !isset($tags_input) )
+		$tags_input = array();
+
 	if ( empty($post_author) )
 		$post_author = $user_ID;
 

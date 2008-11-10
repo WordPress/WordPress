@@ -39,7 +39,7 @@ function redirect_post($post_ID = '') {
 		elseif ( isset($_POST['publish']) )
 			$location = 'sidebar.php?a=b';
 	} elseif ( ( isset($_POST['save']) || isset($_POST['publish']) ) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
-		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post-new.php') === false )
+		if ( isset($_POST['_wp_original_http_referer']) && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/post-new.php') === false )
 			$location = add_query_arg( array(
 				'_wp_original_http_referer' => urlencode( stripslashes( $_POST['_wp_original_http_referer'] ) ),
 				'message' => 1

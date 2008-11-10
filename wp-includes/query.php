@@ -1691,7 +1691,7 @@ class WP_Query {
 				$q['name'] = $q['pagename'];
 				$where .= " AND ($wpdb->posts.ID = '$reqpage')";
 				$reqpage_obj = get_page($reqpage);
-				if ( 'attachment' == $reqpage_obj->post_type ) {
+				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
 					$this->is_page = true;
 					$q['attachment_id'] = $reqpage;

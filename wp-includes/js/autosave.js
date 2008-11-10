@@ -179,6 +179,7 @@ var autosave = function() {
 		post_data["excerpt"] = jQuery("#excerpt").val();
 	if ( jQuery("#post_author").size() )
 		post_data["post_author"] = jQuery("#post_author").val();
+	post_data["user_ID"] = jQuery("#user-id").val();
 
 	// Don't run while the TinyMCE spellcheck is on.  Why?  Who knows.
 	if ( rich && tinyMCE.activeEditor.plugins.spellchecker && tinyMCE.activeEditor.plugins.spellchecker.active ) {

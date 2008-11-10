@@ -336,15 +336,11 @@ if ( !defined('WP_PLUGIN_URL') )
 if ( !defined('PLUGINDIR') )
 	define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
 
-if ( ! defined('WP_INSTALLING') ) {
-	// Used to guarantee unique hash cookies
-	$cookiehash = md5(get_option('siteurl'));
-	/**
-	 * Used to guarantee unique hash cookies
-	 * @since 1.5
-	 */
-	define('COOKIEHASH', $cookiehash);
-}
+/**
+ * Used to guarantee unique hash cookies
+ * @since 1.5
+ */
+define('COOKIEHASH', md5(get_option('siteurl')));
 
 /**
  * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php

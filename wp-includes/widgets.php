@@ -1707,9 +1707,12 @@ function wp_widget_rss_control($widget_args) {
  * @param array $inputs Override default display options.
  */
 function wp_widget_rss_form( $args, $inputs = null ) {
+
 	$default_inputs = array( 'url' => true, 'title' => true, 'items' => true, 'show_summary' => true, 'show_author' => true, 'show_date' => true );
 	$inputs = wp_parse_args( $inputs, $default_inputs );
 	extract( $args );
+	extract( $inputs, EXTR_SKIP);
+
 	$number = attribute_escape( $number );
 	$title  = attribute_escape( $title );
 	$url    = attribute_escape( $url );

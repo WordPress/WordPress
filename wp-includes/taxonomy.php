@@ -840,11 +840,16 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
 	if ( is_object($term) )
 		$do_object = true;
 
+	$term_id = $do_object ? $term->term_id : (isset($term['term_id']) ? $term['term_id'] : 0);
+
 	foreach ( (array) $fields as $field ) {
-		if ( $do_object )
-			$term->$field = sanitize_term_field($field, $term->$field, $term->term_id, $taxonomy, $context);
-		else
-			$term[$field] = sanitize_term_field($field, $term[$field], $term['term_id'], $taxonomy, $context);
+		if ( $do_object ) {
+			if ( isset($term->$field) )
+				$term->$field = sanitize_term_field($field, $term->$field, $term_id, $taxonomy, $context);
+		} else {
+			if ( isset($term[$field]) )
+				$term[$field] = sanitize_term_field($field, $term[$field], $term_id, $taxonomy, $context);
+		}
 	}
 
 	return $term;

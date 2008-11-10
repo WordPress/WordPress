@@ -77,8 +77,13 @@ $blog_name = get_bloginfo('name', 'display');
 if ( '' == $blog_name )
 	$blog_name = '&nbsp;';
 $title_class = '';
-if ( function_exists('mb_strlen') && mb_strlen($blog_name, 'UTF-8') > 30 )
-	$title_class = 'class="long-title"';
+if ( function_exists('mb_strlen') ) {
+	if ( mb_strlen($blog_name, 'UTF-8') > 30 )
+		$title_class = 'class="long-title"';
+} else {
+	if ( strlen($blog_name) > 30 )
+		$title_class = 'class="long-title"';
+}
 ?>
 
 <img id="logo50" src="images/wp-logo.gif" alt="" /> <h1 <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a></h1>

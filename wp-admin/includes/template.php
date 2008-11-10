@@ -3166,7 +3166,7 @@ function screen_meta($screen) {
 	<form id="adv-settings" action="" method="get">
 	<div class="metabox-prefs">
 <?php 
-	if ( !meta_box_prefs($screen) ) {
+	if ( !meta_box_prefs($screen) && isset($column_screens[$screen]) ) {
 		manage_columns_prefs($column_screens[$screen]);
 		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); 
 	}

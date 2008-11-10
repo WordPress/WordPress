@@ -34,18 +34,18 @@ function redirect_page($page_ID) {
 	} elseif ( 'post' == $_POST['originalaction'] && !empty($_POST['mode']) && 'sidebar' == $_POST['mode'] ) {
 		$location = 'sidebar.php?a=b';
 	} elseif ( isset($_POST['save']) && ( empty($referredby) || $referredby == $referer || 'redo' != $referredby ) ) {
-		if ( $_POST['_wp_original_http_referer'] && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/page.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/page-new.php') === false )
+		if ( isset($_POST['_wp_original_http_referer']) && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/page.php') === false && strpos( $_POST['_wp_original_http_referer'], '/wp-admin/page-new.php') === false )
 			$location = add_query_arg( array(
 				'_wp_original_http_referer' => urlencode( stripslashes( $_POST['_wp_original_http_referer'] ) ),
 				'message' => 1
 			), get_edit_post_link( $page_ID, 'url' ) );
 		else
 			$location = add_query_arg( 'message', 4, get_edit_post_link( $page_ID, 'url' ) );
-	} elseif ($_POST['addmeta']) {
+	} elseif ( isset($_POST['addmeta']) ) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );
 		$location = explode('#', $location);
 		$location = $location[0] . '#postcustom';
-	} elseif ($_POST['deletemeta']) {
+	} elseif ( isset($_POST['deletemeta']) ) {
 		$location = add_query_arg( 'message', 3, wp_get_referer() );
 		$location = explode('#', $location);
 		$location = $location[0] . '#postcustom';

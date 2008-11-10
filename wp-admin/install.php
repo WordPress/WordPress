@@ -89,9 +89,9 @@ switch($step) {
 
 		display_header();
 		// Fill in the data we gathered
-		$weblog_title = stripslashes($_POST['weblog_title']);
-		$admin_email = stripslashes($_POST['admin_email']);
-		$public = (int) $_POST['blog_public'];
+		$weblog_title = isset($_POST['weblog_title']) ? stripslashes($_POST['weblog_title']) : '';
+		$admin_email = isset($_POST['admin_email']) ? stripslashes($_POST['admin_email']) : '';
+		$public = isset($_POST['blog_public']) ? (int) $_POST['blog_public'] : 0;
 		// check e-mail address
 		if (empty($admin_email)) {
 			// TODO: poka-yoke

@@ -25,8 +25,8 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	if ( $update )
 		$post_data['ID'] = (int) $post_data['post_ID'];
-	$post_data['post_content'] = $post_data['content'];
-	$post_data['post_excerpt'] = $post_data['excerpt'];
+	$post_data['post_content'] = isset($post_data['content']) ? $post_data['content'] : '';
+	$post_data['post_excerpt'] = isset($post_data['excerpt']) ? $post_data['excerpt'] : '';
 	$post_data['post_parent'] = isset($post_data['parent_id'])? $post_data['parent_id'] : '';
 	if ( isset($post_data['trackback_url']) )
 		$post_data['to_ping'] = $post_data['trackback_url'];
@@ -71,7 +71,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	if ( isset($post_data['pending']) && '' != $post_data['pending'] )
 		$post_data['post_status'] = 'pending';
 
-	$previous_status = get_post_field('post_status',  $post_data['ID']);
+	$previous_status = get_post_field('post_status',  isset($post_data['ID']) ? $post_data['ID'] : $post_data['temp_ID']);
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
