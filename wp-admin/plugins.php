@@ -118,14 +118,12 @@ if( !empty($action) ) {
 					}
 				?>
 				<p><?php _e('Deleting the selected plugins will remove the following plugin(s) and their files:'); ?></p>
-				<p>
 					<ul>
 						<?php
 						foreach ( $plugin_info as $plugin )
 							echo '<li>', sprintf(__('%s by %s'), $plugin['Name'], $plugin['Author']), '</li>';
 						?>
 					</ul>
-				</p>
 				<p><?php _e('Are you sure you wish to delete these files?') ?></p>
 				<form method="post" action="<?php echo clean_url($_SERVER['REQUEST_URI']); ?>" style="display:inline;">
 					<input type="hidden" name="verify-delete" value="1" />
