@@ -110,7 +110,7 @@ if ( ! isset( $_GET['paged'] ) || $_GET['paged'] < 1 )
 
 if ( isset($_GET['detached']) ) {
 
-	if ( isset($lost) ) {
+	if ( !empty($lost) ) {
 		$start = ( $_GET['paged'] - 1 ) * 50;
 		$page_links_total = ceil(count($lost) / 50);
 		$lost = implode(',', $lost);
