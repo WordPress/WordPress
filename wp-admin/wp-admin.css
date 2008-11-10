@@ -476,6 +476,7 @@ textarea.all-options, input.all-options {
 	border-width: 1px;
 	border-style: solid;
 	min-width: 26px;
+	min-height: 1.9em;
 	padding: 2px 4px;
 	font-size: 13px;
 	-moz-border-radius: 3px;
@@ -501,7 +502,7 @@ textarea.all-options, input.all-options {
 
 #quicktags #ed_code,
 #ed_reply_toolbar #ed_reply_code {
-	font-family: "Courier New", Courier, mono;
+	font-family: "Courier New", Courier, monospace;
 	vertical-align: top;
 }
 
@@ -2458,6 +2459,7 @@ fieldset {
 #replyrow #ed_reply_toolbar input {
 	margin: 1px 2px 1px 1px;
 	min-width: 26px;
+	min-height: 25px;
 	padding: 3px 4px;
 	font-size: 12px;
 	-moz-border-radius: 3px;
