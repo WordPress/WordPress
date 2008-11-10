@@ -227,7 +227,7 @@ function get_comments( $args = '' ) {
 	}
 
 	if ( ! empty($post_id) )
-		$post_where = "comment_post_ID = $post_id AND";
+		$post_where = $wpdb->prepare( 'comment_post_ID = %d AND', $post_id );
 	else
 		$post_where = '';
 
