@@ -40,3 +40,6 @@ li.widget-list-control-item h4.widget-title a,
 	right: auto;
 	left: 1em;
 }
+div#current-widgets { /* fix */
+	overflow: auto;
+}

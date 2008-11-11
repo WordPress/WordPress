@@ -16,6 +16,9 @@
 	border-right-color: transparent;
 	border-left-color: #448abd;
 }
+#adminmenu .wp-submenu .current a.current {
+	background: transparent url(../images/menu-bits-rtl.gif) no-repeat scroll  right -289px;
+}
 #adminmenu li.wp-menu-separator {
 	background: transparent url(../images/menu-arrows-rtl.gif) no-repeat scroll right 5px;
 }
@@ -25,6 +28,9 @@
 #adminmenu li.wp-has-current-submenu .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
 	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -206px;
+}
+#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle, #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
+	background: transparent url(../images/menu-bits-rtl.gif) no-repeat right -206px;
 }
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
@@ -42,4 +48,7 @@
 }
 #adminmenu li.wp-has-current-submenu a.wp-has-submenu {
 	background: #b5b5b5 url(../images/menu-bits-rtl.gif) repeat-x scroll right top;
+}
+.ui-sortable .postbox:hover .handlediv {
+	background: transparent url(../images/menu-bits-rtl.gif) no-repeat scroll right -111px;
 }

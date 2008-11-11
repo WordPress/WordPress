@@ -12,7 +12,7 @@ td.available-theme {
 	margin-left: 1em;
 }
 .quicktags, .search {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, "Times New Roman";
 }
 /* 200 - 500
 =================================== */
@@ -46,11 +46,12 @@ td.available-theme {
 .button,
 .button-primary,
 .button-secondary,
-.button-highlighted {
-	font-family: Tahoma, Arial;
+.button-highlighted,
+#postcustomstuff .submit input {
+	font-family: Tahoma, "Times New Roman";
 }
 #wpcontent select {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, "Times New Roman";
 }
 #quicktags {
 	background-position: right top;
@@ -75,7 +76,7 @@ td.available-theme {
 	margin-left: 0;
 }
 #your-profile legend {
-	font-family: Arial, Tahoma;
+	font-family: "Times New Roman", Tahoma;
 }
 #ajax-response.alignleft {
 	margin-left: 0;
@@ -83,7 +84,7 @@ td.available-theme {
 }
 .page-numbers {
 	margin-right: 0;
-	margin-left: 5px;
+	margin-left: 1px;
 }
 .column-author img, .column-username img {
 	float: right;
@@ -95,6 +96,16 @@ td.available-theme {
 }
 .tablenav .tablenav-pages {
 	float: left;
+	margin: 0 0 0 8px;
+}
+.tablenav .displaying-num {
+	margin-right: 0;
+	margin-left: 10px;
+}
+#postcustomstuff table input,
+#postcustomstuff table select,
+#postcustomstuff table textarea {
+	margin: 8px 8px 8px 0;
 }
 /* 700 - 1000
 =================================== */
@@ -111,14 +122,17 @@ td.available-theme {
 	margin: 9px 20px 0 0;
 }
 ul#adminmenu li.write-new-button a {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, "Times New Roman";
 }
 #wphead h1 {
-	font-family: Arial, Tahoma;
+	font-family: "Times New Roman", Tahoma;
 	float: right;
 }
+#wphead h1.long-title {
+	font-family: "Times New Roman", Tahoma;
+}
 #adminmenu {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, "Times New Roman";
 }
 #adminmenu .wp-submenu a {
 	padding-left: 0;
@@ -126,17 +140,17 @@ ul#adminmenu li.write-new-button a {
 	border-width: 0 0 0 1px;
 	border-style: none none none solid;
 }
-#adminmenu .wp-menu-image {
+#adminmenu img.wp-menu-image {
 	float: right;
 }
-#adminmenu.folded .wp-menu-image {
+#adminmenu.folded img.wp-menu-image {
 	padding: 7px 6px 0 0;
 }
-#adminmenu .wp-submenu li.wp-submenu-head {
+#adminmenu .wp-submenu .wp-submenu-head {
 	padding: 6px 10px 6px 4px;
 }
 #adminmenu.folded .wp-submenu {
-	margin: -1px 33px 0 0;
+	margin: -1px 28px 0 0;
 }
 #adminmenu.folded .wp-submenu a {
 	padding-left: 0;
@@ -149,6 +163,9 @@ ul#adminmenu li.write-new-button a {
 #adminmenu .wp-menu-toggle {
 	float: left;
 	padding: 1px 0 0 2px;
+}
+#adminmenu div.wp-menu-image {
+	float: right;
 }
 /* end side admin menu */
 /* 1000 - 1300
@@ -165,7 +182,7 @@ ul#adminmenu li.write-new-button a {
 	left:0;
 }
 #footer #footer-thankyou, #footer #footer-upgrade {
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, "Times New Roman";
 }
 #footer #footer-upgrade {
 	right: auto;
@@ -232,6 +249,9 @@ ul#adminmenu li.write-new-button a {
 }
 /* 1500 - 1800
 =================================== */
+.ui-sortable .postbox .handlediv {
+	float: left;
+}
 .metabox-holder .postbox h3,
 #poststuff .postbox h3,
 #poststuff .stuffbox h3 {
@@ -360,7 +380,7 @@ td.action-links, th.action-links {
 	margin-right: 10px;
 }
 .info-box-title {
-	font-family: Arial, Tahoma;
+	font-family: "Times New Roman", Tahoma;
 }
 .settings-toggle {
 	text-align: left;
@@ -427,7 +447,7 @@ td.action-links, th.action-links {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: left;
-	font-family: Tahoma, Arial;
+	font-family: Tahoma, "Times New Roman";
 	margin: -1px 0 0 10px;
 }
 #screen-options-wrap h5,
@@ -525,4 +545,9 @@ td.action-links, th.action-links {
 =================================== */
 .clearlooks2 .mceTop .mceLeft {
 	width:100% !important;
+}
+/* ltr
+=================================== */
+#author-email, #author-url, #rss-url-1, #edit-slug-box, #post_name, #trackback_url, #metakeyinput, #post_password, #slug, #category_nicename, #link_url, #link_image, #rss_uri, #menu_order, #email, #newcomment_author_url, #pages-exclude, #template textarea, #user_login, #url, #pass1, #pass2, #aim, #yim, #jabber, #siteurl, #home, #admin_email, #gmt_offset, #default_post_edit_rows, #mailserver_url, #mailserver_login, #mailserver_pass, #mailserver_port, #ping_sites, #posts_per_page, #posts_per_rss, #blog_charset, #close_comments_days_old, #comments_per_page, #comment_max_links, #moderation_keys, #blacklist_keys, #thumbnail_size_w, #thumbnail_size_h, #medium_size_w, #medium_size_h, #large_size_w, #large_size_h, #permalink_structure, #category_base, #tag_base, #upload_path, #upload_url_path, #rules {
+	direction: ltr;
 }
