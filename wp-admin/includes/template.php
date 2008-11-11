@@ -757,7 +757,7 @@ function get_column_headers($page) {
 				'comment' => __('Comment'),
 				'author' => __('Author'),
 				'date' => __('Submitted'),
-				'response' => __('In Response To This Post')
+				'response' => __('In Response To')
 			);
 
 			return apply_filters('manage_comments_columns', $columns);
