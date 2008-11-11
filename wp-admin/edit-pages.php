@@ -15,7 +15,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 
 	switch ( $doaction ) {
 		case 'delete':
-			if ( isset($_GET['post']) && isset($_GET['doaction']) ) {
+			if ( isset($_GET['post']) && (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
 				check_admin_referer('bulk-pages');
 				foreach( (array) $_GET['post'] as $post_id_del ) {
 					$post_del = & get_post($post_id_del);
