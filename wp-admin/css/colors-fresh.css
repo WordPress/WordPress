@@ -327,6 +327,10 @@ div.dashboard-widget-submit input:hover,
 	color: #d54e21;
 }
 
+#the-comment-list .comment-item {
+	border-color: #dfdfdf;
+}
+
 .button-secondary:hover,
 #login form .submit input:hover {
 	border-color: #328ab2;
