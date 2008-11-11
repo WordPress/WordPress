@@ -61,7 +61,6 @@ table {
 #wpwrap {
 	height: auto;
 	min-height: 100%;
-	overflow: hidden;
 	width: 100%;
 }
 

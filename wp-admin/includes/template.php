@@ -204,66 +204,57 @@ function inline_edit_term_row($type) {
 
 	$is_tag = $type == 'tag';
 	$columns = $is_tag ? get_column_headers('tag') : get_column_headers('category');
-	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
+	$hidden = array_intersect( array_keys( $columns ), array_filter( (array) get_user_option( "manage-$type-columns-hidden" ) ) );
+	$col_count = count($columns) - count($hidden);
 	$output = ''; ?>
 
 <form method="get" action=""><table style="display: none"><tbody id="inlineedit">
-	<tr id="inline-edit" style="display: none"><td colspan="8">
-	<?php
+	<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $col_count; ?>">
+
+		<fieldset><div class="inline-edit-col">
+			<h4><?php _e( 'Quick Edit' ); ?></h4>
+
+			<label>
+				<span class="title"><?php _e( 'Name' ); ?></span>
+				<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
+			</label>
+
+			<label>
+				<span class="title"><?php _e( 'Slug' ); ?></span>
+				<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
+			</label>
+
+<?php if ( 'category' == $type ) : ?>
+
+			<label>
+				<span class="title"><?php _e( 'Parent' ); ?></span>
+				<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('None'))); ?>
+			</label>
+
+<?php endif; // $type ?>
+
+		</div></fieldset>
+
+<?php
+
+	$core_columns = array( 'cb' => true, 'description' => true, 'name' => true, 'slug' => true, 'posts' => true );
 
 	foreach ( $columns as $column_name => $column_display_name ) {
-		$class = "class=\"$column_name column-$column_name quick-edit-div\"";
-		$style = in_array($column_name, $hidden) ? ' style="display:none;"' : '';
-		$attributes = "$class$style";
-
-		switch ($column_name) {
-			case 'cb':
-				break;
-			case 'description':
-				break;
-			case 'name': ?>
-				<div class="tax-name quick-edit-div"<?php echo $style ?> title="<?php _e('Name'); ?>">
-					<div class="title"><?php _e('Name'); ?></div>
-					<div class="in">
-					<input type="text" name="name" class="ptitle" value="" />
-					</div>
-				</div>
-				<?php
-
-				$output .= "<td $attributes></td>";
-				break;
-			case 'slug': ?>
-				<div class="tax-slug quick-edit-div"<?php echo $style ?> title="<?php _e('Slug'); ?>">
-					<div class="title"><?php _e('Slug'); ?></div>
-					<div class="in">
-					<input type="text" name="slug" class="ptitle" value="" />
-					</div>
-				</div>
-				<?php
-
-				$output .= "<td $attributes></td>";
-				break;
-			case 'posts':
-				if ( 'category' == $type ) { ?>
-				<div class="tax-parent quick-edit-div"<?php echo $style ?> title="<?php _e('Parent Category'); ?>">
-					<div class="title"><?php _e('Parent Category'); ?></div>
-						<div class="in">
-						<?php wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('None'))); ?>
-						</div>
-				</div>
-				<?php }
-				break;
-		}
+		if ( isset( $core_columns[$column_name] ) )
+			continue;
+		do_action( 'quick_edit_custom_box', $column_name, $type );
 	}
-	?>
-	<div class="clear"></div>
-	<div class="quick-edit-save">
-		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel"><?php _e('Cancel'); ?></a>
-		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-secondary save"><?php _e('Save'); ?></a>
+
+?>
+
+	<p class="inline-edit-save submit">
+		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
+		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="save button-primary alignright"><?php _e('Save'); ?></a>
 		<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
 		<span class="error" style="display:none;"></span>
 		<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
-	</div>
+		<br class="clear" />
+	</p>
 	</td></tr>
 	</tbody></table></form>
 <?php
@@ -886,224 +877,258 @@ function inline_edit_row( $type ) {
 		$post = get_default_post_to_edit();
 
 	$columns = $is_page ? wp_manage_pages_columns() : wp_manage_posts_columns();
-	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
-	$hidden_count = empty($hidden[0]) ? 0 : count($hidden);
-	$col_count = count($columns) - $hidden_count;
+	$hidden = array_intersect( array_keys( $columns ), array_filter( (array) get_user_option( "manage-$type-columns-hidden" ) ) );
+	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
-	$can_publish = current_user_can('publish_posts'); ?>
+	$can_publish = current_user_can('publish_posts');
+	$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
+
+?>
 
 <form method="get" action=""><table style="display: none"><tbody id="inlineedit">
 	<?php
 	$bulk = 0;
 	while ( $bulk < 2 ) { ?>
 
-	<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
-	<?php
-	foreach($columns as $column_name=>$column_display_name) {
-		$class = "class=\"$column_name column-$column_name quick-edit-div\"";
+	<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="inline-edit-row inline-edit-row-<?php echo "$type ";
+		echo $bulk ? "bulk-edit-row bulk-edit-row-$type" : "quick-edit-row quick-edit-row-$type";
+	?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 
-		$style = '';
-		if ( in_array($column_name, $hidden) )
-			$style = ' style="display:none;"';
+	<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
+		<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
 
-		$attributes = "$class$style";
 
-		switch($column_name) {
-			case 'cb':
-				break;
+<?php if ( $bulk ) : ?>
+		<div id="bulk-title-div">
+			<div id="bulk-titles"></div>
+		</div>
 
-			case 'date':
-				if ( ! $bulk ) { ?>
-				<div <?php echo $attributes; ?> title="<?php _e('Timestamp'); ?>">
-					<div class="title"><?php _e('Timestamp'); ?></div>
-					<div class="in">
-					<?php touch_time(1, 1, 4, 1); ?>
-					</div>
-				</div>
-				<?php
-				}
-				break;
+<?php else : // $bulk ?>
 
-			case 'title':
-				$attributes = "class=\"$type-title column-title quick-edit-div\"" . $style; ?>
-				<?php if ( $bulk ) { ?>
-				<div <?php echo $attributes; ?> id="bulk-title-div" title="<?php $is_page ? _e('Selected pages') : _e('Selected posts'); ?>">
-					<div class="title"><?php $is_page ? _e('Selected pages') : _e('Selected posts'); ?></div>
-					<div class="in">
-					<div id="bulk-titles"></div>
-					</div>
-				</div>
-				<?php } else { ?>
-				<div <?php echo $attributes ?>>
-					<div class="title"><?php _e('Title'); ?></div>
-					<div class="in">
-					<label title="<?php _e('Title'); ?>"><input type="text" name="post_title" class="ptitle" value="" /></label><br />
-					<div class="slug">
-					<label title="<?php _e('Slug'); ?>"><?php _e('Slug'); ?><input type="text" name="post_name" value="" /></label></div>
-					</div>
-				</div>
-				<?php } ?>
+		<label>
+			<span class="title"><?php _e( 'Title' ); ?></span>
+			<span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="" /></span>
+		</label>
 
-				<div class="status quick-edit-div" title="<?php _e('Status'); ?>">
-					<div class="title"><?php _e('Status'); ?></div>
-					<div class="in">
-					<select name="_status">
-						<?php if ( $bulk ) { ?>
-						<option value="-1"><?php _e('- No Change -'); ?></option>
-							<?php if ( $can_publish ) { ?>
-							<option value="private"><?php _e('Private') ?></option>
-							<?php } ?>
-						<?php } ?>
-						<?php if ( $can_publish ) { // Contributors only get "Unpublished" and "Pending Review" ?>
-						<option value="publish"><?php _e('Published') ?></option>
-						<option value="future"><?php _e('Scheduled') ?></option>
-						<?php } ?>
-						<option value="pending"><?php _e('Pending Review') ?></option>
-						<option value="draft"><?php _e('Unpublished') ?></option>
-					</select>
-					<?php if ( !$is_page ) { ?>
-					<label title="<?php _e('Sticky') ?>">
-					<input type="checkbox" name="sticky" value="sticky" /> <?php _e('Sticky') ?></label>
-					<?php } ?>  
-					</div>
-				</div>
+<?php endif; // $bulk ?>
 
-				<?php if ( $is_page ) { ?>
-				<div class="parent quick-edit-div" title="<?php _e('Page Parent'); ?>">
-					<div class="title"><?php _e('Page Parent'); ?></div>
-					<div class="in">
-					<select name="post_parent">
-						<?php if ( $bulk ) { ?>
-						<option value="-1"><?php _e('- No Change -'); ?></option>
-						<?php } ?>
-						<option value="0"><?php _e('Main Page (no parent)'); ?></option>
-						<?php parent_dropdown(); ?>
-					</select>
-					</div>
-				</div>
 
-				<div class="template quick-edit-div" title="<?php _e('Page Template'); ?>">
-					<div class="title"><?php _e('Page Template'); ?></div>
-					<div class="in">
-					<select name="page_template">
-						<?php if ( $bulk ) { ?>
-						<option value="-1"><?php _e('- No Change -'); ?></option>
-						<?php } ?>
-						<option value="default"><?php _e('Default Template'); ?></option>
-						<?php page_template_dropdown() ?>
-					</select>
-					</div>
-				</div>
+<?php if ( !$bulk ) : ?>
 
-				<?php if ( ! $bulk ) { ?>
-				<div class="order quick-edit-div" title="<?php _e('Page Order'); ?>">
-					<div class="title"><?php _e('Page Order'); ?></div>
-					<div class="in">
-					<input type="text" name="menu_order" value="<?php echo $post->menu_order ?>" />
-					</div>
-				</div>
-				<?php }
-				}
+		<label>
+			<span class="title"><?php _e( 'Slug' ); ?></span>
+			<span class="input-text-wrap"><input type="text" name="post_name" value="" /></span>
+		</label>
 
-				break;
+		<label><span class="title"><?php _e( 'Date' ); ?></span></label>
+		<div class="inline-edit-date">
+			<?php touch_time(1, 1, 4, 1); ?>
+		</div>
+		<br class="clear" />
 
-			case 'categories': ?>
-				<?php if ( ! $bulk ) { ?>
-				<div <?php echo $attributes ?> title="<?php _e('Categories'); ?>">
-					<div class="title"><?php _e('Categories'); ?>
-					<span class="catshow"><?php _e('(expand)'); ?></span>
-					<span class="cathide" style="display:none;"><?php _e('(fold)'); ?></span></div>
-					<ul class="cat-checklist">
-						<?php wp_category_checklist(); ?>
-					</ul>
-				</div>
-				<?php }
-				break;
+<?php endif; // $bulk
 
-			case 'tags': ?>
-				<?php if ( ! $bulk ) { ?>
-				<div <?php echo $attributes ?> title="<?php _e('Tags'); ?>">
-					<div class="title"><?php _e('Tags'); ?></div>
-					<div class="in">
-					<textarea cols="22" rows="1" name="tags_input" class="tags_input"></textarea>
-					</div>
-				</div>
-				<?php }
-				break;
+		ob_start();
+		$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+		if ( $authors && count( $authors ) > 1 ) :
+			$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1);
+			if ( $bulk )
+				$users_opt['show_option_none'] = __('- No Change -');
+?>
+		<label>
+			<span class="title"><?php _e( 'Author' ); ?></span>
+			<?php wp_dropdown_users( $users_opt ); ?>
+		</label>
 
-			case 'comments':
-				?>
-				<div <?php echo $attributes ?> title="<?php _e('Comments and Pings'); ?>">
-					<div class="title"><?php _e('Comments and Pings'); ?></div>
-					<div class="in">
-					<?php if ( $bulk ) { ?>
-					<select name="comment_status">
-						<option value=""><?php _e('- No Change -'); ?></option>
-						<option value="open"><?php _e('Allow Comments'); ?></option>
-						<option value="closed"><?php _e('Disallow Comments'); ?></option>
-					</select>
-					<select name="ping_status">
-						<option value=""><?php _e('- No Change -'); ?></option>
-						<option value="open"><?php _e('Allow Pings'); ?></option>
-						<option value="closed"><?php _e('Disallow Pings'); ?></option>
-					</select>
-					<?php } else { ?>
-					<label><input type="checkbox" name="comment_status" value="open" />
-					<?php _e('Allow Comments'); ?></label><br />
-					<label><input type="checkbox" name="ping_status" value="open" />
-					<?php _e('Allow Pings'); ?></label>
-					<?php } ?>
-					</div>
-				</div>
-				<?php
-				break;
+<?php
+		endif; // authors 
+		$authors_dropdown = ob_get_clean();
+?>
 
-			case 'author':
-				$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
-				if ( $authors && count( $authors ) > 1 ) { ?>
-				<div <?php echo $attributes ?> title="<?php _e('Author'); ?>">
-					<div class="title"><?php _e('Author'); ?></div>
-					<div class="in">
-					<?php
-					$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1);
-					if ( $bulk ) $users_opt['show_option_none'] = __('- No Change -');
-					wp_dropdown_users( $users_opt ); ?>
-					</div>
-				</div>
-				<?php } ?>
+<?php if ( !$bulk ) : echo $authors_dropdown; ?>
 
-				<?php if ( ! $bulk ) { ?>
-				<div class="password quick-edit-div" title="<?php _e('Password'); ?>">
-					<div class="title"><?php _e('Password'); ?></div>
-					<div class="in">
-					<input type="text" name="post_password" value="" />
-					<label title="<?php _e('Privacy'); ?>">
-					<input type="checkbox" name="keep_private" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php echo $is_page ? __('Keep this page private') : __('Keep this post private'); ?></label>
-					</div>
-				</div>
-				<?php }
-				break;
+		<div class="inline-edit-group">
+			<label class="alignleft">
+				<span class="title"><?php _e( 'Password' ); ?></span>
+				<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
+			</label>
 
-			default:
-				if ( $bulk )
-					do_action('bulk_edit_custom_box', $column_name, $type);
-				else
-					do_action('quick_edit_custom_box', $column_name, $type);
+			<label class="alignleft inline-edit-private">
+				<input type="checkbox" name="keep_private" value="private" <?php checked($post->post_status, 'private'); ?> />
+				<span class="checkbox-title"><?php echo $is_page ? __('Private page') : __('Private post'); ?></span>
+			</label>
+		</div>
 
-				break;
-		}
-	} ?>
+<?php endif; ?>
 
-	<div class="clear"></div>
-	<div class="quick-edit-save">
-		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel"><?php _e('Cancel'); ?></a>
-		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-secondary save"><?php _e('Save'); ?></a>
+	</div></fieldset>
+
+<?php if ( !$is_page && !$bulk ) : ?>
+
+	<fieldset class="inline-edit-col-center inline-edit-categories"><div class="inline-edit-col">
+		<span class="title inline-edit-categories-label"><?php _e( 'Categories' ); ?>
+			<span class="catshow"><?php _e('[more]'); ?></span>
+			<span class="cathide" style="display:none;"><?php _e('[less]'); ?></span>
+		</span>
+		<ul class="cat-checklist">
+			<?php wp_category_checklist(); ?>
+		</ul>
+	</div></fieldset>
+
+<?php endif; // !$is_page && !$bulk ?>
+
+	<fieldset class="inline-edit-col-right"><div class="inline-edit-col">
+
+<?php
+	if ( $bulk )
+		echo $authors_dropdown;
+?>
+
+<?php if ( $is_page ) : ?>
+
+		<label>
+			<span class="title"><?php _e( 'Parent' ); ?></span>
+			<select name="post_parent">
+<?php	if ( $bulk ) : ?>
+				<option value="-1"><?php _e('- No Change -'); ?></option>
+<?php	endif; // $bulk ?>
+				<option value="0"><?php _e( 'Main Page (no parent)' ); ?></option>
+				<?php parent_dropdown(); ?>
+			</select>
+		</label>
+
+<?php	if ( !$bulk ) : ?>
+
+		<label>
+			<span class="title"><?php _e( 'Order' ); ?></span>
+			<span class="input-text-wrap"><input type="text" name="menu_order" class="inline-edit-menu-order-input" value="<?php echo $post->menu_order ?>" /></span>
+		</label>
+
+<?php	endif; // !$bulk ?>
+
+		<label>
+			<span class="title"><?php _e( 'Template' ); ?></span>
+			<select name="page_template">
+<?php	if ( $bulk ) : ?>
+				<option value="-1"><?php _e('- No Change -'); ?></option>
+<?php	endif; // $bulk ?>
+				<option value="default"><?php _e( 'Default Template' ); ?></option>
+				<?php page_template_dropdown() ?>
+			</select>
+		</label>
+
+<?php elseif ( !$bulk ) : // $is_page ?>
+
+		<label class="inline-edit-tags">
+			<span class="title"><?php _e( 'Tags' ); ?></span>
+			<textarea cols="22" rows="1" name="tags_input" class="tags_input"></textarea>
+		</label>
+
+<?php endif; // $is_page  ?>
+
+<?php if ( $bulk ) : ?>
+
+		<div class="inline-edit-group">
+		<label class="alignleft">
+			<span class="title"><?php _e( 'Comments' ); ?></span>
+			<select name="comment_status">
+				<option value=""><?php _e('- No Change -'); ?></option>
+				<option value="open"><?php _e('Allow'); ?></option>
+				<option value="closed"><?php _e('Do not allow'); ?></option>
+			</select>
+		</label>
+
+		<label class="alignright">
+			<span class="title"><?php _e( 'Pings' ); ?></span>
+			<select name="ping_status">
+				<option value=""><?php _e('- No Change -'); ?></option>
+				<option value="open"><?php _e('Allow'); ?></option>
+				<option value="closed"><?php _e('Do not allow'); ?></option>
+			</select>
+		</label>
+		</div>
+
+<?php else : // $bulk ?>
+
+		<div class="inline-edit-group">
+			<label class="alignleft">
+				<input type="checkbox" name="comment_status" value="open" />
+				<span class="checkbox-title"><?php _e( 'Allow Comments' ); ?></span>
+			</label>
+
+			<label class="alignleft">
+				<input type="checkbox" name="ping_status" value="open" />
+				<span class="checkbox-title"><?php _e( 'Allow Pings' ); ?></span>
+			</label>
+		</div>
+
+<?php endif; // $bulk ?>
+
+
+		<div class="inline-edit-group">
+			<label class="inline-edit-status alignleft">
+				<span class="title"><?php _e( 'Status' ); ?></span>
+				<select name="_status">
+<?php if ( $bulk ) : ?>
+					<option value="-1"><?php _e('- No Change -'); ?></option>
+<?php endif; // $bulk ?>
+				<?php if ( $can_publish ) : // Contributors only get "Unpublished" and "Pending Review" ?>
+					<option value="publish"><?php _e( 'Published' ); ?></option>
+					<option value="future"><?php _e( 'Scheduled' ); ?></option>
+<?php if ( $bulk ) : ?>
+					<option value="private"><?php _e('Private') ?></option>
+<?php endif; // $bulk ?>
+				<?php endif; ?>
+					<option value="pending"><?php _e( 'Pending Review' ); ?></option>
+					<option value="draft"><?php _e( 'Unpublished' ); ?></option>
+				</select>
+			</label>
+
+<?php if ( !$is_page && $can_publish && current_user_can( 'edit_others_posts' ) ) : ?>
+
+<?php	if ( $bulk ) : ?>
+
+			<label class="alignright">
+				<span class="title"><?php _e( 'Sticky' ); ?></span>
+				<select name="sticky">
+					<option value="-1"><?php _e( '- No Change -' ); ?></option>
+					<option value="sticky"><?php _e( 'Sticky' ); ?></option>
+					<option value="unsticky"><?php _e( 'Not Sticky' ); ?></option>
+				</select>
+			</label>
+
+<?php	else : // $bulk ?>
+
+			<label class="alignleft">
+				<input type="checkbox" name="sticky" value="sticky" />
+				<span class="checkbox-title"><?php _e( 'Make this post sticky' ); ?></span>
+			</label>
+
+<?php	endif; // $bulk ?>
+
+<?php endif; // !$is_page && $can_publish && current_user_can( 'edit_others_posts' ) ?>
+
+		</div>
+
+	</div></fieldset>
+
+<?php
+	foreach ( $columns as $column_name => $column_display_name ) {
+		if ( isset( $core_columns[$column_name] ) )
+			continue;
+		do_action( $bulk ? 'bulk_edit_custom_box' : 'quick_edit_custom_box', $column_name, $type);
+	}
+?>
+	<p class="submit inline-edit-save">
+		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel alignleft"><?php _e('Cancel'); ?></a>
+		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-primary save alignright"><?php _e('Save'); ?></a>
 		<?php if ( ! $bulk ) {
 			wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
 			<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
 		<?php } ?>
 		<input type="hidden" name="post_view" value="<?php echo $m; ?>" />
-	</div>
+		<br class="clear" />
+	</p>
 	</td></tr>
 <?php
 	$bulk++;
@@ -2030,13 +2055,14 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 
 	<div id="replycontainer"><textarea rows="8" cols="40" name="replycontent" tabindex="104" id="replycontent"></textarea></div>
 
-	<p id="replysubmit">
-	<a href="#comments-form" class="cancel button" tabindex="106"><?php _e('Cancel'); ?></a>
-	<a href="#comments-form" class="save button" tabindex="104">
+	<p id="replysubmit" class="submit">
+	<a href="#comments-form" class="cancel button-secondary alignleft" tabindex="106"><?php _e('Cancel'); ?></a>
+	<a href="#comments-form" class="save button-primary alignright" tabindex="104">
 	<span id="savebtn" style="display:none;"><?php _e('Save'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
 	<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
 	<span class="error" style="display:none;"></span>
+	<br class="clear" />
 	</p>
 
 	<input type="hidden" name="user_ID" id="user_ID" value="<?php echo $current_user->ID; ?>" />

@@ -92,7 +92,7 @@ inlineEditTax = {
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
 
-		$('table.widefat .quick-edit-save .waiting').show();
+		$('table.widefat .inline-edit-save .waiting').show();
 
 		var params = {
 			action: 'inline-save-tax',
@@ -117,9 +117,9 @@ inlineEditTax = {
 							.animate( { backgroundColor: '#eefee7' }, 500);
 						inlineEditTax.addEvents(row);
 					} else
-						$('#edit-'+id+' .quick-edit-save .error').html(r).show();
+						$('#edit-'+id+' .inline-edit-save .error').html(r).show();
 				} else
-					$('#edit-'+id+' .quick-edit-save .error').html(inlineEditL10n.error).show();
+					$('#edit-'+id+' .inline-edit-save .error').html(inlineEditL10n.error).show();
 			}
 		);
 		return false;
@@ -129,7 +129,7 @@ inlineEditTax = {
 		var id = $('table.widefat tr.inline-editor').attr('id');
 
 		if ( id ) {
-			$('table.widefat .quick-edit-save .waiting').hide();
+			$('table.widefat .inline-edit-save .waiting').hide();
 			$('#'+id).remove();
 			id = id.substr( id.lastIndexOf('-') + 1 );
 			$(this.what+id).show();

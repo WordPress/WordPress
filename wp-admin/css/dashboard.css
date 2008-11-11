@@ -296,20 +296,6 @@ div.postbox div.inside {
 	margin: 0 1em 0 10px;
 }
 
-#dashboard-widgets #dashboard_quick_press form p.submit .cancel {
-	padding-left: 0;
-	padding-right: 0;
-	border: none;
-	background-color: transparent;
-	text-decoration: underline;
-	color: red;
-}
-
-#dashboard-widgets #dashboard_quick_press form p.submit .cancel:hover {
-	text-decoration: none;
-}
-
-
 #dashboard-widgets #dashboard_quick_press form p.submit #publish {
 	float: right;
 }

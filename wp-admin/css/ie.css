@@ -137,6 +137,43 @@ input.button-highlighted {
 	margin-top: 10px;
 }
 
+/* Inline Editor */
+#wpbody-content .quick-edit-row-post .inline-edit-col-left {
+	width: 39%;
+}
+
+#wpbody-content .inline-edit-row-post .inline-edit-col-center {
+	width: 19%;
+}
+
+#wpbody-content .quick-edit-row-page .inline-edit-col-left {
+	width: 49%;
+}
+
+#wpbody-content .bulk-edit-row .inline-edit-col-left {
+	width: 29%;
+}
+
+.inline-edit-row p.submit {
+	zoom: 100%;
+}
+
+.inline-edit-row fieldset label span.title {
+	display: block;
+	float: left;
+	width: 5em;
+}
+
+.inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 0;
+	zoom: 100%;
+}
+
+#wpbody-content .inline-edit-row fieldset label span.input-text-wrap input {
+	line-height: 130%;
+}
+/* end Inline Editor */
+
 * html div.widget-liquid-left-holder,
 * html div.widget-liquid-right {
 	display: block;

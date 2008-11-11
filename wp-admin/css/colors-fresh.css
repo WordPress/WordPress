@@ -1,4 +1,8 @@
 
+html {
+	background-color: #f9f9f9;
+}
+
 .find-box-search {
 	border-color: #dfdfdf;
 	background-color: #f1f1f1;
@@ -65,6 +69,7 @@ div.dashboard-widget,
 
 .widefat {
 	border-color: #dfdfdf;
+	background-color: #fff;
 }
 
 div.dashboard-widget-error {
@@ -1160,8 +1165,9 @@ div.star.select:hover {
 }
 
 /* inline editor */
-.inline-editor input,
-.inline-editor textarea,
+.inline-edit-row fieldset input[type="text"],
+.inline-edit-row fieldset textarea,
+#bulk-titles,
 #replyrow input {
 	border-color: #ddd;
 }
@@ -1172,6 +1178,11 @@ div.star.select:hover {
 
 .inline-editor ul.cat-checklist {
 	background-color: #FFFFFF;
+	border-color: #ddd;
+}
+
+.inline-edit-row p.submit {
+	background-color: #f1f1f1;
 }
 
 .inline-editor .categories .catshow,
