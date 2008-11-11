@@ -112,12 +112,12 @@ function current_time( $type, $gmt = 0 ) {
  * @param int $unixtimestamp Unix timestamp
  * @return string The date, translated if locale specifies it.
  */
-function date_i18n( $dateformatstring, $unixtimestamp ) {
+function date_i18n( $dateformatstring, $unixtimestamp, $gmt = false ) {
 	global $wp_locale;
 	$i = $unixtimestamp;
 	// Sanity check for PHP 5.1.0-
-	if ( -1 == $i )
-		$i = false;
+	if ( intval($i) < 1 )
+		$i = time();
 
 	if ( ( !empty( $wp_locale->month ) ) && ( !empty( $wp_locale->weekday ) ) ) {
 		$datemonth = $wp_locale->get_month( date( 'm', $i ) );
@@ -136,7 +136,7 @@ function date_i18n( $dateformatstring, $unixtimestamp ) {
 
 		$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
 	}
-	$j = @date( $dateformatstring, $i );
+	$j = $gmt? @gmdate( $dateformatstring, $i ) : @date( $dateformatstring, $i );
 	return $j;
 }
 
