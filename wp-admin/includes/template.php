@@ -1121,10 +1121,12 @@ function inline_edit_row( $type ) {
 ?>
 	<p class="submit inline-edit-save">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel alignleft"><?php _e('Cancel'); ?></a>
-		<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-primary save alignright"><?php _e('Save'); ?></a>
 		<?php if ( ! $bulk ) {
 			wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
+			<a accesskey="s" href="#inline-edit" title="<?php _e('Save'); ?>" class="button-primary save alignright"><?php _e('Save'); ?></a>
 			<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
+		<?php } else { ?>
+			<input accesskey="s" class="button-primary alignright" type="submit" name="bulk_edit" value="<?php _e('Save'); ?>" />
 		<?php } ?>
 		<input type="hidden" name="post_view" value="<?php echo $m; ?>" />
 		<br class="clear" />

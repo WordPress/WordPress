@@ -23,7 +23,6 @@ inlineEditPost = {
 		$('input, select', qeRow).keydown(function(e) { if(e.which == 13) return inlineEditPost.save(this); });
 
 		$('a.cancel', bulkRow).click(function() { return inlineEditPost.revert(); });
-		$('a.save', bulkRow).click(function() { return inlineEditPost.saveBulk(); });
 
 		// add events
 //		t.rows.dblclick(function() { inlineEditPost.toggle(this); });
@@ -225,10 +224,6 @@ inlineEditPost = {
 			}
 		);
 		return false;
-	},
-
-	saveBulk : function() {
-		$('form#posts-filter').submit();
 	},
 
 	revert : function() {

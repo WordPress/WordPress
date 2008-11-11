@@ -15,7 +15,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 
 	switch ( $doaction ) {
 		case 'delete':
-			if ( isset($_GET['post']) &&  (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
+			if ( isset($_GET['post']) && ! isset($_GET['bulk_edit']) && (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
 				check_admin_referer('bulk-posts');
 				foreach( (array) $_GET['post'] as $post_id_del ) {
 					$post_del = & get_post($post_id_del);
@@ -34,7 +34,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 			}
 			break;
 		case 'edit':
-			if ( isset($_GET['post']) ) {
+			if ( isset($_GET['post']) && isset($_GET['bulk_edit']) ) {
 				check_admin_referer('bulk-posts');
 
 				if ( -1 == $_GET['_status'] ) {
@@ -114,7 +114,9 @@ if ( (int) $_GET['skipped'] )
 if ( (int) $_GET['locked'] ) {
 	printf( __ngettext( '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['locked'] ) );
 	unset($_GET['locked']);
-} ?>
+} 
+$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'), $_SERVER['REQUEST_URI'] );
+?>
 </p></div>
 <?php } ?>
 
