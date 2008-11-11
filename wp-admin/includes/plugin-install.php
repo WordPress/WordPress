@@ -486,7 +486,7 @@ function install_plugin_information() {
 		if ( version_compare($GLOBALS['wp_version'], $api->tested, '>') ) 
 			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been tested</strong> with your current version of WordPress.') . '</p></div>';
 		else if ( version_compare($GLOBALS['wp_version'], $api->requires, '<') ) 
-			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has not been marked as being <strong>not compatible</strong> with your version of WordPress.') . '</p></div>';
+			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has not been marked as <strong>compatible</strong> with your version of WordPress.') . '</p></div>';
 		foreach ( (array)$api->sections as $section_name => $content ) {
 			$title = $section_name;
 			$title[0] = strtoupper($title[0]);
