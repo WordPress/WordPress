@@ -257,7 +257,7 @@ ul#adminmenu li.write-new-button a {
 #poststuff .stuffbox h3 {
 	background-position: right top;
 }
-#edit-slug-buttons a.save {
+#edit-slug-buttons a {
 	margin-right: 0;
 	margin-left: 4px;
 }

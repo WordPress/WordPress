@@ -5,6 +5,13 @@ jQuery(function($) {
 		var name = $("<span>" + $('name', r).text() + "</span>").html();
 		var id = $('tag', r).attr('id');
 		options[options.length] = new Option(name, id);
+
+	}
+
+	var addAfter2 = function( x, r ) {
+		var t = $(r.parsed.responses[0].data);
+		if ( t.length == 1 )
+			inlineEditTax.addEvents($(t.id));
 	}
 
 	var delAfter = function( r, settings ) {
@@ -17,7 +24,7 @@ jQuery(function($) {
 	if ( options )
 		$('#the-list').wpList( { addAfter: addAfter, delAfter: delAfter } );
 	else
-		$('#the-list').wpList();
+		$('#the-list').wpList({ addAfter: addAfter2 });
 
 	columns.init('tag');
 });

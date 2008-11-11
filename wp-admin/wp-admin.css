@@ -348,7 +348,7 @@ form p.submit .cancel:hover {
 }
 
 a.button {
-	padding: 4px 8px;
+	padding: 3px 8px;
 }
 
 #doaction,
@@ -1719,19 +1719,6 @@ table.form-table td .updated {
 
 #editable-post-name input {
 	width: 16em;
-}
-
-#edit-slug-buttons a.save {
-	padding: 6px 4px;
-	margin-right: 4px;
-	text-decoration: none;
-	border-width: 1px;
-	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	font-weight: bold;
 }
 
 .postarea h3 label {

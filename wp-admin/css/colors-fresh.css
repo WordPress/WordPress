@@ -303,7 +303,6 @@ ul#widget-list li.widget-list-item h4.widget-title {
 
 .button:hover,
 .submit input:hover,
-#edit-slug-buttons a.save:hover,
 #postcustomstuff .submit input:hover {
 	border-color: #535353;
 }
@@ -319,8 +318,6 @@ a:hover,
 .subsubsub a.current:hover,
 #login form .submit input:hover,
 div.dashboard-widget-submit input:hover,
-#edit-slug-buttons a.save:hover,
-#media-upload a.delete:hover,
 #media-upload a.del-link:hover,
 .ui-tabs-nav a:hover,
 #user_info a:hover {

@@ -610,7 +610,7 @@ function _tag_row( $tag, $class = '' ) {
 						$out .= "<span class='$action'>$link$sep</span>";
 					}
 					$out .= '<div class="hidden" id="inline_' . $tag->term_id . '">';
-					$out .= '<div class="name">' . $name . '</div>';
+					$out .= '<div class="name">' . attribute_escape($tag->name) . '</div>';
 					$out .= '<div class="slug">' . $tag->slug . '</div></div></td>';
 					break;
 				case 'slug':
@@ -1150,7 +1150,7 @@ function get_inline_data($post) {
 	if ( ! current_user_can('edit_' . $post->post_type, $post->ID) )
 		return;
 
-	$title = _draft_or_post_title($post->ID);
+	$title = attribute_escape($post->post_title);
 
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">

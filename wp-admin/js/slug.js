@@ -8,7 +8,7 @@ function edit_permalink(post_id) {
 	var revert_b = b.html();
 	var full = jQuery('#editable-post-name-full').html();
 
-	b.html('<a href="" class="save">'+slugL10n.save+'</a> <a class="cancel" href="">'+slugL10n.cancel+'</a>');
+	b.html('<a href="" class="save button">'+slugL10n.save+'</a> <a class="cancel" href="">'+slugL10n.cancel+'</a>');
 	b.children('.save').click(function() {
 		var new_slug = e.children('input').val();
 		jQuery.post(slugL10n.requestFile, {

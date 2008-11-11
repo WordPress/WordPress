@@ -37,8 +37,8 @@ inlineEditTax = {
 
 	addEvents : function(r) {
 		r.each(function() {
-			var row = $(this);
-			$('a.editinline', row).click(function() { inlineEditTax.edit(this); return false; });
+			$(this).find('a.editinline').click(function() { inlineEditTax.edit(this); return false; });
+			$(this).find('.hide-if-no-js').removeClass('hide-if-no-js');
 		});
 	},
 
