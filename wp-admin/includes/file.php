@@ -469,6 +469,9 @@ function unzip_file($file, $to) {
 	if ( ! $wp_filesystem || !is_object($wp_filesystem) )
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
+	// Unzip uses a lot of memory
+	@ini_set('memory_limit', '256M');
+
 	$fs =& $wp_filesystem;
 
 	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
