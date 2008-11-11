@@ -1998,7 +1998,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 					echo "&quot;$post_link&quot; ";
 					echo '<a href="edit-comments.php?p=' . $post->ID;
 					if ( !empty($_GET['comment_type']) ) echo '&amp;comment_type=' . htmlspecialchars( $_GET['comment_type'] );
-					echo '">' . sprintf ( __ngettext('(%s comment)', '(%s comments)', $post->comment_count), $post->comment_count ) . '</a><br />';
+					echo '">' . sprintf ( __ngettext('(%s)', '(%s)', $post->comment_count), number_format_i18n($post->comment_count) ) . '</a> <a href="' . get_permalink($post->ID) . '">#</a><br />';
 					echo get_the_time(__('Y/m/d \a\t g:ia'));
 					echo '</td>';
 				}
