@@ -176,23 +176,6 @@ case 'delete':
 
 break;
 
-case 'adduser':
-	check_admin_referer('add-user');
-
-	if ( ! current_user_can('create_users') )
-		wp_die(__('You can&#8217;t create users.'));
-
-	$user_id = add_user();
-	$update = 'add';
-	if ( is_wp_error( $user_id ) )
-		$add_user_errors = $user_id;
-	else {
-		$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
-		$redirect = add_query_arg( array('usersearch' => urlencode($new_user_login), 'update' => $update), $redirect );
-		wp_redirect( $redirect . '#user-' . $user_id );
-		die();
-	}
-
 default:
 
 	if ( !empty($_GET['_wp_http_referer']) ) {
@@ -407,82 +390,7 @@ foreach ( $wp_user_search->get_results() as $userid ) {
 ?>
 
 <br class="clear" />
-<?php if ( current_user_can('create_users') ) { ?>
-
-<div class="wrap">
-<h2 id="add-new-user"><?php _e('Add New User') ?></h2>
-
-<?php if ( isset($add_user_errors) && is_wp_error( $add_user_errors ) ) : ?>
-	<div class="error">
-		<?php
-			foreach ( $add_user_errors->get_error_messages() as $message )
-				echo "<p>$message</p>";
-		?>
-	</div>
-<?php endif; ?>
-<div id="ajax-response"></div>
-
 <?php
-	if ( get_option('users_can_register') )
-		echo '<p>' . sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), site_url('wp-register.php')) . '</p>';
-	else
-		echo '<p>' . sprintf(__('Users cannot currently <a href="%1$s">register themselves</a>, but you can manually create users here.'), admin_url('options-general.php#users_can_register')) . '</p>';
-?>
-<form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users: validate">
-<?php wp_nonce_field('add-user') ?>
-<table class="form-table">
-	<tr class="form-field form-required">
-		<th scope="row"><label for="user_login"><?php _e('Username (required)') ?></label><input name="action" type="hidden" id="action" value="adduser" /></th>
-		<td ><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" aria-required="true" /></td>
-	</tr>
-	<tr class="form-field">
-		<th scope="row"><label for="first_name"><?php _e('First Name') ?> </label></th>
-		<td><input name="first_name" type="text" id="first_name" value="<?php echo $new_user_firstname; ?>" /></td>
-	</tr>
-	<tr class="form-field">
-		<th scope="row"><label for="last_name"><?php _e('Last Name') ?> </label></th>
-		<td><input name="last_name" type="text" id="last_name" value="<?php echo $new_user_lastname; ?>" /></td>
-	</tr>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="email"><?php _e('E-mail (required)') ?></label></th>
-		<td><input name="email" type="text" id="email" value="<?php echo $new_user_email; ?>" /></td>
-	</tr>
-	<tr class="form-field">
-		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
-		<td><input name="url" type="text" id="url" value="<?php echo $new_user_uri; ?>" /></td>
-	</tr>
-
-<?php if ( apply_filters('show_password_fields', true) ) : ?>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="pass1"><?php _e('Password (twice)') ?> </label></th>
-		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
-		<br />
-		<input name="pass2" type="password" id="pass2" autocomplete="off"/></td>
-	</tr>
-<?php endif; ?>
-
-	<tr class="form-field">
-		<th scope="row"><label for="role"><?php _e('Role'); ?></label></th>
-		<td><select name="role" id="role">
-			<?php
-			if ( !$new_user_role )
-				$new_user_role = $current_role ? $current_role : get_option('default_role');
-			wp_dropdown_roles($new_user_role);
-			?>
-			</select>
-		</td>
-	</tr>
-</table>
-<p class="submit">
-	<?php echo $referer; ?>
-	<input name="adduser" type="submit" id="addusersub" class="button" value="<?php _e('Add User') ?>" />
-</p>
-</form>
-
-</div>
-
-<?php
-}
 break;
 
 } // end of the $doaction switch

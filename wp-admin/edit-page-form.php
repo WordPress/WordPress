@@ -316,7 +316,7 @@ function page_comments_status_meta_box($post){
 <p><?php _e('These settings apply to this page only. &#8220;Pings&#8221; are <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a>.'); ?></p>
 <?php
 }
-add_meta_box('pagecommentstatusdiv', __('Comments &amp; Pings'), 'page_comments_status_meta_box', 'page', 'normal', 'core');
+add_meta_box('pagecommentstatusdiv', __('Discussion'), 'page_comments_status_meta_box', 'page', 'normal', 'core');
 
 /**
  * Display page slug form fields.
