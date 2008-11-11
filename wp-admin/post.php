@@ -158,8 +158,6 @@ case 'edit':
 
 	$title = __('Edit Post');
 
-	require_once('admin-header.php');
-
 	if ( !current_user_can('edit_post', $post_ID) )
 		die ( __('You are not allowed to edit this post.') );
 

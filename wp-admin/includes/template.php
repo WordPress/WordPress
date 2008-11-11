@@ -2650,7 +2650,7 @@ function do_meta_boxes($page, $context, $object) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
 
-	do_action('do_meta_boxes', $page, $context, $object);
+	//do_action('do_meta_boxes', $page, $context, $object);
 
 	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
 
@@ -3177,10 +3177,19 @@ function _post_states($post) {
 function screen_meta($screen) {
 	global $wp_meta_boxes;
 
-	$column_screens = array('edit-posts' => 'post', 'edit-pages' => 'page', 'edit-tags' => 'tag', 'edit-categories' => 'category',
-		'edit-link-categories' => 'link-category', 'edit-links' => 'link', 'edit-users' => 'user', 'edit-media' => 'media',
+	$screen = str_replace('.php', '', $screen);
+
+	$column_screens = array('edit' => 'post', 'edit-pages' => 'page', 'edit-tags' => 'tag', 'categories' => 'category',
+		'edit-link-categories' => 'link-category', 'link-manager' => 'link', 'users' => 'user', 'upload' => 'media',
 		'edit-comments' => 'comment');
 
+	$screen = str_replace('-new', '', $screen);
+	$screen = str_replace('-add', '', $screen);
+	$meta_screens = array('index' => 'dashboard');
+
+	if ( isset($meta_screens[$screen]) )
+		$screen = $meta_screens[$screen];
+error_log("screen: $screen");
 	$show_screen = false;
 	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens[$screen]) )
 		$show_screen = true;

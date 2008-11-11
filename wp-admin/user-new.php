@@ -41,8 +41,6 @@ wp_enqueue_script('admin-forms');
 
 require_once ('admin-header.php');
 
-screen_meta('user');
-
 ?>
 <div class="wrap">
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>

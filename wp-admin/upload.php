@@ -145,8 +145,6 @@ if ( is_singular() ) {
 
 require_once('admin-header.php'); ?>
 
-<?php screen_meta('edit-media') ?>
-
 <?php
 if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
 	$_GET['message'] = '1';

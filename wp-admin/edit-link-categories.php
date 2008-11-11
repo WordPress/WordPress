@@ -60,8 +60,6 @@ $messages[4] = __('Category not added.');
 $messages[5] = __('Category not updated.');
 $messages[6] = __('Categories deleted.'); ?>
 
-<?php screen_meta('edit-link-categories') ?>
-
 <div class="wrap nosubsub">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 

@@ -16,7 +16,7 @@ if ( ! empty($cat_ID) ) {
 	/**
 	 * @var string
 	 */
-	$heading = '';
+	$heading = '<h2>' . __('Edit Category') . '</h2>';
 	$submit_text = __('Edit Category');
 	$form = '<form name="editcat" id="editcat" method="post" action="link-category.php" class="validate">';
 	$action = 'editedcat';

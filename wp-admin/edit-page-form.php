@@ -369,9 +369,13 @@ function page_revisions_meta_box($post) {
 }
 add_meta_box('revisionsdiv', __('Page Revisions'), 'page_revisions_meta_box', 'page', 'normal', 'core');
 endif;
-?>
 
-<?php screen_meta('page'); ?>
+do_action('do_meta_boxes', 'page', 'normal', $post);
+do_action('do_meta_boxes', 'page', 'advanced', $post);
+do_action('do_meta_boxes', 'page', 'side', $post);
+
+require_once('admin-header.php');
+?>
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 

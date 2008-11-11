@@ -115,8 +115,6 @@ case 'edit':
 		}
 	}
 
-	require_once('admin-header.php');
-
 	if ( !current_user_can('edit_page', $page_ID) )
 		die ( __('You are not allowed to edit this page.') );
 

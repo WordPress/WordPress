@@ -129,8 +129,6 @@ $messages[4] = __('Tag not added.');
 $messages[5] = __('Tag not updated.');
 $messages[6] = __('Tags deleted.'); ?>
 
-<?php screen_meta('edit-tags') ?>
-
 <div class="wrap nosubsub">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 

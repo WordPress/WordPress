@@ -307,12 +307,28 @@ function link_advanced_meta_box($link) {
 </table>
 <?php
 }
-add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core'); ?>
+add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core'); 
 
-<?php screen_meta('link') ?>
+do_action('do_meta_boxes', 'link', 'normal', $link);
+do_action('do_meta_boxes', 'link', 'advanced', $link);
+do_action('do_meta_boxes', 'link', 'side', $link);
+
+require_once ('admin-header.php');
+
+?>
+
 
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
+
+<?php
+$link_added = ( isset($_GET['added']) && '' != $_POST['link_name'] ) ?
+	'<div id="message" class="updated fade"><p>' . __('Link added.') . '</p></div>' : '';
+?>
+
+<?php if ( isset( $_GET['added'] ) && '' != $_POST['link_name']) : ?>
+<div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>
+<?php endif; ?>
 
 <?php
 if ( !empty($form) )

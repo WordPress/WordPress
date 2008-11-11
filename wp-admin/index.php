@@ -28,8 +28,6 @@ require_once('admin-header.php');
 $today = current_time('mysql', 1);
 ?>
 
-<?php screen_meta('dashboard'); ?>
-
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2>
 

@@ -105,6 +105,8 @@ if ( function_exists('mb_strlen') ) {
 <?php
 do_action('admin_notices');
 
+screen_meta($pagenow);
+
 if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');
 }

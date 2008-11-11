@@ -465,8 +465,13 @@ function post_revisions_meta_box($post) {
 add_meta_box('revisionsdiv', __('Post Revisions'), 'post_revisions_meta_box', 'post', 'normal', 'core');
 endif;
 
+do_action('do_meta_boxes', 'post', 'normal', $post);
+do_action('do_meta_boxes', 'post', 'advanced', $post);
+do_action('do_meta_boxes', 'post', 'side', $post);
+
+require_once('admin-header.php');
+
 ?>
-<?php screen_meta('post'); ?>
 
 <?php if ( (isset($mode) && 'bookmarklet' == $mode) || isset($_GET['popupurl']) ): ?>
 <input type="hidden" name="mode" value="bookmarklet" />
