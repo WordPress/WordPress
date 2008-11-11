@@ -357,12 +357,12 @@ add_meta_box('trackbacksdiv', __('Trackbacks and Pings'), 'post_trackback_meta_b
 function post_custom_meta_box($post) {
 ?>
 <div id="postcustomstuff">
+<div id="ajax-response"></div>
 <?php
 $metadata = has_meta($post->ID);
 list_meta($metadata);
 meta_form();
 ?>
-<div id="ajax-response"></div>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 <?php
