@@ -566,7 +566,7 @@ function register_deactivation_hook($file, $function) {
  * the plugin should create a file named 'uninstall.php' in the base plugin
  * folder. This file will be called, if it exists, during the uninstall process
  * bypassing the uninstall hook. The plugin, when using the 'uninstall.php'
- * should always check for the 'WP_UNINSTALLING_PLUGIN' constant, before
+ * should always check for the 'WP_UNINSTALL_PLUGIN' constant, before
  * executing.
  *
  * @since 2.7
