@@ -48,7 +48,7 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
-	if ( current_user_can('publish_posts') )
+	if ( current_user_can('edit_posts') )
 		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
 
 	// Recent Drafts
@@ -332,7 +332,11 @@ function wp_dashboard_quick_press() {
 			<?php wp_nonce_field('add-post'); ?>
 			<input type="submit" name="save" id="save-post" class="button" value="<?php _e('Save Draft'); ?>" />
 			<input type="reset" value="<?php _e( 'Cancel' ); ?>" class="cancel" />
+			<?php if ( current_user_can('publish_posts') ) { ?>
 			<input type="submit" name="publish" id="publish" accesskey="p" class="button button-primary" value="<?php _e('Publish'); ?>" />
+			<?php } else { ?>
+			<input type="submit" name="publish" id="publish" accesskey="p" class="button button-primary" value="<?php _e('Submit for Review'); ?>" />
+			<?php } ?>
 			<br class="clear" />
 		</p>
 
