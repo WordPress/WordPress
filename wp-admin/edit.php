@@ -69,9 +69,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 if ( empty($title) )
 	$title = __('Edit Posts');
 $parent_file = 'edit.php';
-wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit-post');
-wp_enqueue_script('posts');
 
 list($post_stati, $avail_post_stati) = wp_edit_posts_query();
 
@@ -332,6 +330,7 @@ endif; // posts;
 		});
 	});
 })(jQuery);
+columns.init('post');
 /* ]]> */
 </script>
 

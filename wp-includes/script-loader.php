@@ -145,8 +145,8 @@ function wp_default_scripts( &$scripts ) {
 			'add' => attribute_escape(__('Add')),
 			'how' => __('Separate multiple categories with commas.')
 		) );
-		$scripts->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists', 'columns'), '20080925' );
-		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists', 'columns'), '20080925' );
+		$scripts->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20080925' );
+		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists'), '20080925' );
 		$scripts->add( 'admin-custom-fields', '/wp-admin/js/custom-fields.js', array('wp-lists'), '20070823' );
 		$scripts->add( 'password-strength-meter', '/wp-admin/js/password-strength-meter.js', array('jquery'), '20081021' );
 		$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
@@ -156,14 +156,13 @@ function wp_default_scripts( &$scripts ) {
 			'good' => __('Medium'),
 			'strong' => __('Strong')
 		) );
-		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags', 'columns'), '20081031' );
+		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20081031' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'pending' => __('%i% pending'), // must look like: "# blah blah"
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last']),
 		) );
-		$scripts->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists', 'columns'), '20080925' );
-		$scripts->add( 'admin-forms', '/wp-admin/js/forms.js', array('jquery'), '20080729');
+		$scripts->add( 'admin-users', '/wp-admin/js/users.js', array('wp-lists'), '20080925' );
 		$scripts->add( 'xfn', '/wp-admin/js/xfn.js', false, '3517' );
 		$scripts->add( 'postbox', '/wp-admin/js/postbox.js', array('jquery-ui-sortable'), '20081109' );
 		$scripts->localize( 'postbox', 'postboxL10n', array(
@@ -257,16 +256,6 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
-
-		$scripts->add( 'posts', '/wp-admin/js/posts.js', array('columns'), '20080925' );
-		$scripts->add( 'pages', '/wp-admin/js/pages.js', array('columns'), '20080925' );
-		$scripts->add( 'links', '/wp-admin/js/links.js', array('columns'), '20080925' );
-		$scripts->add( 'media', '/wp-admin/js/media.js', array('columns'), '20080925' );
-
-		$scripts->add( 'columns', '/wp-admin/js/columns.js', false, '20080910' );
-		$scripts->localize( 'columns', 'columnsL10n', array(
-			'requestFile' => admin_url('admin-ajax.php'),
-		) );
 
 		$scripts->add( 'dashboard', '/wp-admin/js/dashboard.js', array( 'jquery', 'admin-comments', 'postbox' ), '20081016' );
 

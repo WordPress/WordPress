@@ -46,8 +46,7 @@ if ( isset($_GET['action']) && isset($_GET['delete']) ) {
 
 $title = __('Link Categories');
 
-wp_enqueue_script( 'admin-categories' );
-wp_enqueue_script('admin-forms');
+wp_enqueue_script('admin-categories');
 if ( current_user_can('manage_categories') )
 	wp_enqueue_script('inline-edit-tax');
 

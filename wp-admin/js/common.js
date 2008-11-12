@@ -182,6 +182,30 @@ jQuery(document).ready( function($) {
 		});
 		return false;
 	});
+
+	// check all checkboxes
+	var lastClicked = false;
+	$( 'table.widefat tbody .check-column :checkbox' ).click( function(e) {
+		if ( 'undefined' == e.shiftKey ) { return true; }
+		if ( e.shiftKey ) {
+			if ( !lastClicked ) { return true; }
+			var checks = $( lastClicked ).parents( 'form:first' ).find( ':checkbox' );
+			var first = checks.index( lastClicked );
+			var last = checks.index( this );
+			if ( 0 < first && 0 < last && first != last ) {
+				checks.slice( first, last ).attr( 'checked', $( this ).is( ':checked' ) ? 'checked' : '' );
+			}
+		}
+		lastClicked = this;
+		return true;
+	} );
+
+	$( 'thead :checkbox, tfoot :checkbox' ).click( function() {
+		$(this).parents( 'form:first' ).find( 'tbody:visible .check-column :checkbox' ).attr( 'checked', function() {
+			return $(this).attr( 'checked' ) ? '' : 'checked';
+		});
+		return false;
+	});
 });
 
 (function($){
@@ -289,6 +313,32 @@ adminMenu = {
 };
 
 $(document).ready(function(){adminMenu.init();});
+
+// show/hide/save table columns
+columns = {
+	init : function(page) {
+		$('.hide-column-tog').click( function() {
+			var column = $(this).val();
+			var show = $(this).attr('checked');
+			if ( show ) {
+				$('.column-' + column).show();
+			} else {
+				$('.column-' + column).hide();
+			}
+			columns.save_manage_columns_state(page);
+		} );
+	},
+
+	save_manage_columns_state : function(page) {
+		var hidden = $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+		$.post('admin-ajax.php', {
+			action: 'hidden-columns',
+			hidden: hidden,
+			hiddencolumnsnonce: $('#hiddencolumnsnonce').val(),
+			page: page
+		});
+	}
+}
 
 })(jQuery);
 

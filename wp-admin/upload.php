@@ -102,8 +102,6 @@ if ( isset($_GET['find_detached'] ) ) {
 
 $title = __('Media Library');
 $parent_file = 'edit.php';
-wp_enqueue_script( 'admin-forms' );
-wp_enqueue_script('media');
 
 if ( ! isset( $_GET['paged'] ) || $_GET['paged'] < 1 )
 	$_GET['paged'] = 1;
@@ -463,6 +461,7 @@ endif; // posts;
 		});
 	});
 })(jQuery);
+columns.init('media');
 /* ]]> */
 </script>
 

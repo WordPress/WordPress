@@ -115,8 +115,7 @@ if ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
 
 $can_manage = current_user_can('manage_categories');
 
-wp_enqueue_script( 'admin-tags' );
-wp_enqueue_script('admin-forms');
+wp_enqueue_script('admin-tags');
 if ( $can_manage )
 	wp_enqueue_script('inline-edit-tax');
 

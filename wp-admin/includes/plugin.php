@@ -568,7 +568,7 @@ function add_object_page( $page_title, $menu_title, $access_level, $file, $funct
 		add_action( $hookname, $function );
 
 	if ( empty($icon_url) )
-		$icon_url = 'images/menu/generic.png';
+		$icon_url = 'images/generic.png';
 
 	$_wp_last_object_menu++;
 

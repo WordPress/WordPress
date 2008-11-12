@@ -34,9 +34,6 @@ if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 	 exit;
 }
 
-wp_enqueue_script('admin-forms');
-wp_enqueue_script('links');
-
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
 if ( empty($cat_id) )
@@ -282,6 +279,7 @@ if ( $links ) {
 		});
 	});
 })(jQuery);
+columns.init('link');
 /* ]]> */
 </script>
 

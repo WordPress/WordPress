@@ -69,9 +69,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 if ( empty($title) )
 	$title = __('Edit Pages');
 $parent_file = 'edit.php';
-wp_enqueue_script('admin-forms');
 wp_enqueue_script('inline-edit-post');
-wp_enqueue_script('pages');
 
 $post_stati  = array(	//	array( adj, noun )
 		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')),
@@ -318,6 +316,7 @@ endif; // posts;
 		});
 	});
 })(jQuery);
+columns.init('page');
 /* ]]> */
 </script>
 

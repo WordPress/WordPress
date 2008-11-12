@@ -10,8 +10,7 @@
 require_once('admin.php');
 
 $title = __('Edit Comments');
-wp_enqueue_script( 'admin-comments' );
-wp_enqueue_script( 'admin-forms' );
+wp_enqueue_script('admin-comments');
 enqueue_comment_hotkeys_js();
 
 if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spam2'] ) ) && !empty( $_REQUEST['pagegen_timestamp'] ) ) {

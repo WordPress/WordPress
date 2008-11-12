@@ -37,7 +37,6 @@ $title = __('Add New User');
 $parent_file = 'users.php';
 
 wp_enqueue_script('admin-users');
-wp_enqueue_script('admin-forms');
 
 require_once ('admin-header.php');
 
