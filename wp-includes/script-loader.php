@@ -194,13 +194,12 @@ function wp_default_scripts( &$scripts ) {
 			'saveDraft' => __('Save Draft'),
 			'private' => __('Private'),
 			'public' => __('Public'),
-			'publicSticky' => __('Public, sticky'),
-			'password' => __('Password protected'),
+			'publicSticky' => __('Public, Sticky'),
+			'password' => __('Password Protected'),
 			'privatelyPublished' => __('Privately Published'),
 			'published' => __('Published')
-			
 		) );
-		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'wp-lists', 'postbox'), '20081107' );
+		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'wp-lists', 'postbox'), '20081112' );
 		$scripts->localize( 'page', 'postL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
@@ -213,7 +212,12 @@ function wp_default_scripts( &$scripts ) {
 			'schedule' => __('Schedule'),
 			'update' => __('Update Page'),
 			'savePending' => __('Save as Pending'),
-			'saveDraft' => __('Save Draft')
+			'saveDraft' => __('Save Draft'),
+			'private' => __('Private'),
+			'public' => __('Public'),
+			'password' => __('Password Protected'),
+			'privatelyPublished' => __('Privately Published'),
+			'published' => __('Published')
 		) );
 		$scripts->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080925' );
 		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20081103' );

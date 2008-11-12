@@ -165,7 +165,7 @@ if ( !empty( $post->post_password ) ) {
 	$visibility_trans = __('Private');
 } elseif ( is_sticky( $post->ID ) ) {
 	$visibility = 'public';
-	$visibility_trans = __('Public, sticky');
+	$visibility_trans = __('Public, Sticky');
 	$sticky = 'sticky';
 } else {
 	$visibility = 'public';

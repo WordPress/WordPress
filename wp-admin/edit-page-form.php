@@ -85,8 +85,8 @@ function page_submit_meta_box($post) {
 </div>
 
 <div id="save-action">
-<?php if ( 'publish' != $post->post_status && 'private' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
-<input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
+<?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
+<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
 <?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
 <input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save as Pending') ); ?>" tabindex="4" class="button button-highlighted" />
 <?php } ?>
@@ -106,8 +106,10 @@ function page_submit_meta_box($post) {
 <b><span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
-	case 'publish':
 	case 'private':
+		_e('Privately Published');
+		break;
+	case 'publish':
 		_e('Published');
 		break;
 	case 'future':
@@ -123,13 +125,15 @@ switch ( $post->post_status ) {
 ?>
 </span></b>
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
-<a href="#post_status" class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
+<a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js" tabindex='4'><?php _e('Edit') ?></a>
 
 <div id="post-status-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post->post_status; ?>" />
 <select name='post_status' id='post_status' tabindex='4'>
-<?php if ( $post->post_status == 'publish' ) : ?>
-<option<?php selected( $post->post_status, 'publish' ); selected( $post->post_status, 'private' );?> value='publish'><?php _e('Published') ?></option>
+<?php if ( 'publish' == $post->post_status ) : ?>
+<option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e('Published') ?></option>
+<?php elseif ( 'private' == $post->post_status ) : ?>
+<option<?php selected( $post->post_status, 'private' ); ?> value='publish'><?php _e('Privately Published') ?></option>
 <?php elseif ( 'future' == $post->post_status ) : ?>
 <option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
 <?php endif; ?>
@@ -144,12 +148,47 @@ switch ( $post->post_status ) {
 <?php } ?>
 </div><?php // /misc-pub-section ?>
 
+<div class="misc-pub-section " id="visibility">
+<?php _e('Visibility:'); ?> <b><span id="post-visibility-display"><?php
+
+if ( !empty( $post->post_password ) ) {
+	$visibility = 'password';
+	$visibility_trans = __('Password protected');
+} elseif ( 'private' == $post->post_status ) {
+	$visibility = 'private';
+	$visibility_trans = __('Private');
+} else {
+	$visibility = 'public';
+	$visibility_trans = __('Public');
+}
+
+?><?php echo wp_specialchars( $visibility_trans ); ?></span></b> <?php if ( $can_publish ) { ?> <a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
+
+<div id="post-visibility-select" class="hide-if-js">
+<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo attribute_escape($post->post_password); ?>" />
+<input type="hidden" name="hidden_post_visibility" id="hidden-post-visibility" value="<?php echo attribute_escape( $visibility ); ?>" />
+
+
+<input type="radio" name="visibility" id="visibility-radio-public" value="public" <?php checked( $visibility, 'public' ); ?> /> <label for="visibility-radio-public" class="selectit"><?php _e('Public'); ?></label><br />
+<input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
+<span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo attribute_escape($post->post_password); ?>" /><br /></span>
+<input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _e('Private'); ?></label><br />
+
+<p>
+ <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
+ <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a>
+</p>
+</div>
+<?php } ?>
+
+</div><?php // /misc-pub-section ?>
+
 <?php
 $datef = _c( 'M j, Y @ G:i|Publish box date format');
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
 		$stamp = __('Scheduled for: <b>%1$s</b>');
-	} else if ( 'publish' == $post->post_status ) { // already published
+	} else if ( 'publish' == $post->post_status || 'private' == $post->post_status ) { // already published
 		$stamp = __('Published on: <b>%1$s</b>');
 	} else if ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
 		$stamp = __('Publish <b>immediately</b>');
@@ -188,17 +227,21 @@ if ( ( 'edit' == $action ) && current_user_can('delete_page', $post->ID) ) { ?>
 
 <div id="publishing-action">
 <?php
-if ( !in_array( $post->post_status, array('publish', 'future') ) || 0 == $post->ID ) { ?>
+if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) { ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<?php if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Schedule') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Schedule') ?>" />
 	<?php else : ?>
+		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Publish') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" />
 	<?php endif; ?>
 <?php else : ?>
+	<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Submit for Review') ?>" />
 	<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Submit for Review') ?>" />
 <?php endif; ?>
 <?php } else { ?>
+	<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Update Page') ?>" />
 	<input name="save" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Update Page') ?>" />
 <?php } ?>
 </div>
@@ -224,7 +267,7 @@ function page_password_meta_box($post){
 <p><?php _e('Setting a password will require people who visit your blog to enter the above password to view this page and its comments.'); ?></p>
 <?php
 }
-add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'side', 'core');
+// add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'side', 'core');
 
 /**
  * Display page parent form fields.
@@ -378,7 +421,7 @@ require_once('admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form name="post" action="page.php" method="post" id="post">
 <?php if ( $notice ) : ?>
