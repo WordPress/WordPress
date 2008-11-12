@@ -3174,7 +3174,7 @@ function _post_states($post) {
 	}
 }
 
-function screen_meta($screen) {
+function screen_meta($screen, $suffix = '') {
 	global $wp_meta_boxes;
 
 	$screen = str_replace('.php', '', $screen);
@@ -3221,25 +3221,25 @@ function screen_meta($screen) {
 	?>
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
-	if ( !apply_filters('contextual_help', '', $screen) ) {
-		if ( isset($help[$screen]) ) {
-			if ( isset($title) )
-				echo '<h5>' . sprintf(__('Get help with "%s"'), $title) . '</h5>';
-			else
-				echo '<h5>' . __('Get help with this page') . '</h5>';
-			echo '<div class="metabox-prefs">' . $help[$screen] . "</div>\n";
-	
-			echo '<h5>' . __('Other Help') . '</h5>';
-		} else {
-			echo '<h5>' . __('Help') . '</h5>';
-		}
+	$contextual_help = '';
+	if ( isset($help[$screen]) ) {
+		if ( isset($title) )
+			$contextual_help .= '<h5>' . sprintf(__('Get help with "%s"'), $title) . '</h5>';
+		else
+			$contextual_help .= '<h5>' . __('Get help with this page') . '</h5>';
+		$contextual_help .= '<div class="metabox-prefs">' . $help[$screen] . "</div>\n";
 
-		echo '<div class="metabox-prefs">';
-		_e('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
-		echo '<br />';
-		_e('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
-		echo "</div>\n";
+		$contextual_help .= '<h5>' . __('Other Help') . '</h5>';
+	} else {
+		$contextual_help .= '<h5>' . __('Help') . '</h5>';
 	}
+
+	$contextual_help .= '<div class="metabox-prefs">';
+	$contextual_help .= __('<a href="http://codex.wordpress.org/" target="_blank">Documentation</a>');
+	$contextual_help .= '<br />';
+	$contextual_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
+	$contextual_help .= "</div>\n";
+	echo apply_filters('contextual_help', $contextual_help, $screen, $suffix);
 	?>
 	</div>
 

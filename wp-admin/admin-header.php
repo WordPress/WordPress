@@ -32,39 +32,24 @@ addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document
 </script>
 <?php
 
-switch ( $pagenow ) {
-	case 'post.php':
-		add_action( 'admin_head-post.php', 'wp_tiny_mce' );
-		break;
-	case 'post-new.php':
-		add_action( 'admin_head-post-new.php', 'wp_tiny_mce' );
-		break;
-	case 'page.php':
-		add_action( 'admin_head-page.php', 'wp_tiny_mce' );
-		break;
-	case 'page-new.php':
-		add_action( 'admin_head-page-new.php', 'wp_tiny_mce' );
-		break;
+if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php', 'page-new.php') ) ) {
+	add_action( 'admin_head', 'wp_tiny_mce' );
 }
 
-$hook_suffixes = array();
-
+$hook_suffix = '';
 if ( isset($page_hook) )
-	$hook_suffixes[] = "-$page_hook";
+	$hook_suffix = "$page_hook";
 else if ( isset($plugin_page) )
-	$hook_suffixes[] = "-$plugin_page";
+	$hook_suffix = "$plugin_page";
 else if ( isset($pagenow) )
-	$hook_suffixes[] = "-$pagenow";
+	$hook_suffix = "$pagenow";
 
-$hook_suffixes[] = '';
-
-foreach ( $hook_suffixes as $hook_suffix )
-	do_action("admin_print_styles$hook_suffix"); // do_action( 'admin_print_styles-XXX' ); do_action( 'admin_print_styles' );
-foreach ( $hook_suffixes as $hook_suffix )
-	do_action("admin_print_scripts$hook_suffix"); // do_action( 'admin_print_scripts-XXX' ); do_action( 'admin_print_scripts' );
-foreach ( $hook_suffixes as $hook_suffix )
-	do_action("admin_head$hook_suffix"); // do_action( 'admin_head-XXX' ); do_action( 'admin_head' );
-unset($hook_suffixes, $hook_suffix);
+do_action("admin_print_styles-$hook_suffix");
+do_action('admin_print_styles');
+do_action("admin_print_scripts-$hook_suffix");
+do_action('admin_print_scripts');
+do_action("admin_head-$hook_suffix");
+do_action('admin_head');
 
 ?>
 </head>
@@ -105,7 +90,8 @@ if ( function_exists('mb_strlen') ) {
 <?php
 do_action('admin_notices');
 
-screen_meta($pagenow);
+screen_meta($pagenow, $hook_suffix);
+unset($hook_suffix);
 
 if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');
