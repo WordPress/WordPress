@@ -185,7 +185,7 @@ jQuery(document).ready( function($) {
 
 	// check all checkboxes
 	var lastClicked = false;
-	$( 'table.widefat tbody .check-column :checkbox' ).click( function(e) {
+	$( 'table:visible tbody .check-column :checkbox' ).click( function(e) {
 		if ( 'undefined' == e.shiftKey ) { return true; }
 		if ( e.shiftKey ) {
 			if ( !lastClicked ) { return true; }
