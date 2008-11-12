@@ -51,8 +51,8 @@ case 'ajax-tag-search' :
 	}
 	$s = trim( $s );
 	if ( strlen( $s ) < 2 )
-	 die; // require 2 chars for matching
-	$results = $wpdb->get_col( "SELECT name FROM $wpdb->terms WHERE name LIKE ('%". $s . "%')" );
+		die; // require 2 chars for matching
+	$results = $wpdb->get_col( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = 'post_tag' AND t.name LIKE ('%". $s . "%')" );
 	echo join( $results, "\n" );
 	die;
 	break;
