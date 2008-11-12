@@ -3189,7 +3189,6 @@ function screen_meta($screen) {
 
 	if ( isset($meta_screens[$screen]) )
 		$screen = $meta_screens[$screen];
-error_log("screen: $screen");
 	$show_screen = false;
 	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens[$screen]) )
 		$show_screen = true;
