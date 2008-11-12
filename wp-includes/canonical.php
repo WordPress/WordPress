@@ -87,8 +87,6 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		if ( is_single() && !empty($_GET['p']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('p')) )
 				$redirect['query'] = remove_query_arg('p', $redirect['query']);
-		} elseif ( is_single() && ! $redirect_url ) {
-			$redirect_url = get_permalink( url_to_postid( $requested_url ) );
 			if ( get_query_var( 'page' ) ) {
 				$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
 				$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
