@@ -238,7 +238,9 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect['path'] = trailingslashit($redirect['path']);
 
 	// Ignore differences in host capitalization, as this can lead to infinite redirects
-	if ( strtolower($original['host']) == strtolower($redirect['host']) )
+	// Only redirect no-www <=> yes-www
+	if ( strtolower($original['host']) == strtolower($redirect['host']) ||
+		( strtolower($original['host']) != 'www.' . strtolower($redirect['host']) && 'www.' . strtolower($original['host']) != strtolower($redirect['host']) ) )
 		$redirect['host'] = $original['host'];
 
 	$compare_original = array($original['host'], $original['path']);
