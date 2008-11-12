@@ -121,7 +121,7 @@ foreach ( $offset_range as $offset ) {
 <?php _e('hours') ?>
 <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n(__('Y-m-d G:i:s'), false, 'gmt')); ?></span>
 <?php if ($current_offset) : ?>
-	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n(__('Y-m-d G:i:s'))); ?></span>
+	<span id="local-time"><?php printf(__('UTC %1$s is <code>%2$s</code>'), $current_offset_name, date_i18n(__('Y-m-d G:i:s'), current_time('timestamp'), 'gmt')); ?></span>
 <?php endif; ?>
 <br/>
 <span class="setting-description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
@@ -148,12 +148,12 @@ foreach ( $offset_range as $offset ) {
 			echo " checked='checked'";
 			$custom = FALSE;
 		}
-		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
+		echo ' /> ' . date_i18n( $format, current_time('timestamp'), 'gmt' ) . "</label><br />\n";
 	}
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format'), current_time('timestamp'), 'gmt' ) . "\n";
 
 	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') . "</p>\n";
 ?>
@@ -180,12 +180,12 @@ foreach ( $offset_range as $offset ) {
 			echo " checked='checked'";
 			$custom = FALSE;
 		}
-		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
+		echo ' /> ' . date_i18n( $format, current_time('timestamp'), 'gmt' ) . "</label><br />\n";
 	}
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
+	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format'), current_time('timestamp'), 'gmt' ) . "\n";
 ?>
 	</fieldset>
 </td>
