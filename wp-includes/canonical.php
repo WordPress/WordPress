@@ -200,11 +200,14 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 	$redirect['path'] = preg_replace( '#(%20| )+$#', '', $redirect['path'] );
 
 	if ( !empty( $redirect['query'] ) ) {
-		// Remove trailing slashes from certain terminating query string args
+		// Remove trailing spaces from certain terminating query string args
 		$redirect['query'] = preg_replace( '#((p|page_id|cat|tag)=[^&]*?)(%20| )+$#', '$1', $redirect['query'] );
 
 		// Clean up empty query strings
-		$redirect['query'] = preg_replace( '#&?(p|page_id|cat|tag)=?$#', '', $redirect['query'] );
+		$redirect['query'] = preg_replace( '#(^\??|&)(p|page_id|cat|tag)=?$#', '', $redirect['query'] );
+
+		// Remove redundant leading ampersands
+		$redirect['query'] = preg_replace( '#^\??&+#', '', $redirect['query'] );
 	}
 
 	// strip /index.php/ when we're not using PATHINFO permalinks
