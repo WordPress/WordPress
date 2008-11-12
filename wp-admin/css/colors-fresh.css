@@ -126,7 +126,7 @@ h3.info-box-title,
 
 .form-table tr,
 .form-wrap .form-field {
-	background-color: #f1f1f1;
+	background-color: #f9f9f9;
 }
 
 select {
@@ -223,7 +223,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .form-table th,
 #wpbody-content .describe td,
 #wpbody-content .describe th {
-	border-bottom-color: #fff;
+	border-bottom-color: #f9f9f9;
 }
 
 .highlight {
