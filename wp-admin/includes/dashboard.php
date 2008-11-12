@@ -28,7 +28,8 @@ function wp_dashboard_setup() {
 	wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
 
 	// Recent Comments Widget
-	wp_add_dashboard_widget( 'dashboard_recent_comments', sprintf( __( 'Recent Comments <a href="%s">View all</a>' ), 'edit-comments.php' ), 'wp_dashboard_recent_comments' );
+	$recent_comments_title = ( current_user_can('edit_posts') ) ? sprintf( __( 'Recent Comments <a href="%s">View all</a>' ), 'edit-comments.php' ) : __( 'Recent Comments' );
+	wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments' );
 
 	// Incoming Links Widget
 	if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
@@ -52,7 +53,8 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
 
 	// Recent Drafts
-	wp_add_dashboard_widget( 'dashboard_recent_drafts', sprintf( __( 'Recent Drafts <a href="%s">View all</a>' ), 'edit.php?post_status=draft' ), 'wp_dashboard_recent_drafts' );
+	if ( current_user_can('edit_posts') )
+		wp_add_dashboard_widget( 'dashboard_recent_drafts', sprintf( __( 'Recent Drafts <a href="%s">View all</a>' ), 'edit.php?post_status=draft' ), 'wp_dashboard_recent_drafts' );
 
 
 	// Primary feed (Dev Blog) Widget
@@ -254,8 +256,8 @@ function wp_dashboard_right_now() {
 	echo "</tr>";
 	do_action('right_now_table_end');
 	echo "\n\t</table>\n\t</div>";
-  
-  echo "\n\t".'<div class="versions">';
+
+	echo "\n\t".'<div class="versions">';
 	$ct = current_theme_info();
 	$sidebars_widgets = wp_get_sidebars_widgets();
 	$num_widgets = array_reduce( $sidebars_widgets, create_function( '$prev, $curr', 'return $prev+count($curr);' ), 0 );
@@ -273,7 +275,7 @@ function wp_dashboard_right_now() {
 
 	update_right_now_message();
 
-  echo "\n\t".'</div>';
+	echo "\n\t".'</div>';
 	do_action( 'rightnow_end' );
 	do_action( 'activity_box_end' );
 }
@@ -389,7 +391,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
  * @since unknown
  */
 function wp_dashboard_recent_comments() {
-	list($comments, $total) = _wp_get_comment_list( '', false, 0, 5 );
+	$status = ( current_user_can('edit_posts') ) ? '' : 'approved';
+
+	list($comments, $total) = _wp_get_comment_list( $status, false, 0, 5 );
 
 	if ( $comments ) :
 ?>
