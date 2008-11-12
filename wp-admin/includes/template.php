@@ -138,6 +138,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	}
 
 	$class = 'alternate' == $class ? '' : 'alternate';
+	$qe_data = get_category_to_edit($category->term_id);
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
@@ -166,10 +167,10 @@ function _cat_row( $category, $level, $name_override = false ) {
 				break;
 			case 'name':
 				$output .= "<td $attributes>$edit";
-				$output .= '<div class="hidden" id="inline_' . $category->term_id . '">';
-				$output .= '<div class="name">' . attribute_escape( $category->name ) . '</div>';
-				$output .= '<div class="slug">' . $category->slug . '</div>';
-				$output .= '<div class="cat_parent">' . $category->parent . '</div></div></td>';
+				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
+				$output .= '<div class="name">' . $qe_data->name . '</div>';
+				$output .= '<div class="slug">' . $qe_data->slug . '</div>';
+				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
@@ -299,6 +300,7 @@ function link_cat_row( $category, $name_override = false ) {
 	}
 
 	$class = 'alternate' == $class ? '' : 'alternate';
+	$qe_data = get_term_to_edit($category->term_id, 'link_category');
 
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
@@ -326,10 +328,10 @@ function link_cat_row( $category, $name_override = false ) {
 				break;
 			case 'name':
 				$output .= "<td $attributes>$edit";
-				$output .= '<div class="hidden" id="inline_' . $category->term_id . '">';
-				$output .= '<div class="name">' . attribute_escape( $category->name ) . '</div>';
-				$output .= '<div class="slug">' . $category->slug . '</div>';
-				$output .= '<div class="cat_parent">' . $category->parent . '</div></div></td>';
+				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
+				$output .= '<div class="name">' . $qe_data->name . '</div>';
+				$output .= '<div class="slug">' . $qe_data->slug . '</div>';
+				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
 				break;
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
@@ -578,6 +580,7 @@ function _tag_row( $tag, $class = '' ) {
 		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
 
 		$name = apply_filters( 'term_name', $tag->name );
+		$qe_data = get_term($tag->term_id, 'post_tag', object, 'edit');
 		$edit_link = "edit-tags.php?action=edit&amp;tag_ID=$tag->term_id";
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
@@ -609,9 +612,9 @@ function _tag_row( $tag, $class = '' ) {
 						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 						$out .= "<span class='$action'>$link$sep</span>";
 					}
-					$out .= '<div class="hidden" id="inline_' . $tag->term_id . '">';
-					$out .= '<div class="name">' . attribute_escape($tag->name) . '</div>';
-					$out .= '<div class="slug">' . $tag->slug . '</div></div></td>';
+					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
+					$out .= '<div class="name">' . $qe_data->name . '</div>';
+					$out .= '<div class="slug">' . $qe_data->slug . '</div></div></td>';
 					break;
 				case 'slug':
 					$out .= "<td $attributes>$tag->slug</td>";
