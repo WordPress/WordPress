@@ -48,7 +48,8 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
-	wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
+	if ( current_user_can('publish_posts') )
+		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
 
 	// Recent Drafts
 	wp_add_dashboard_widget( 'dashboard_recent_drafts', sprintf( __( 'Recent Drafts <a href="%s">View all</a>' ), 'edit.php?post_status=draft' ), 'wp_dashboard_recent_drafts' );
