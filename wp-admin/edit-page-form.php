@@ -270,31 +270,22 @@ function page_password_meta_box($post){
 // add_meta_box('pagepassworddiv', __('Privacy Options'), 'page_password_meta_box', 'page', 'side', 'core');
 
 /**
- * Display page parent form fields.
+ * Display page attributes form fields.
  *
- * @since 2.6.0
+ * @since 2.7.0
  *
  * @param object $post
  */
-function page_parent_meta_box($post){
+function page_attributes_meta_box($post){
 ?>
+<h5><?php _e('Parent') ?></h5>
 <label class="hidden" for="parent_id"><?php _e('Page Parent') ?></label>
 <?php wp_dropdown_pages(array('selected' => $post->post_parent, 'name' => 'parent_id', 'show_option_none' => __('Main Page (no parent)'))); ?>
 <p><?php _e('You can arrange your pages in hierarchies, for example you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how deeply nested you can make pages.'); ?></p>
 <?php
-}
-add_meta_box('pageparentdiv', __('Page Parent'), 'page_parent_meta_box', 'page', 'side', 'core');
-
-if ( 0 != count( get_page_templates() ) ) {
-	/**
-	 * Display page template form fields.
-	 *
-	 * @since 2.6.0
-	 *
-	 * @param object $post
-	 */
-	function page_template_meta_box($post){
+	if ( 0 != count( get_page_templates() ) ) {
 ?>
+<h5><?php _e('Template') ?></h5>
 <label class="hidden" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <option value='default'><?php _e('Default Template'); ?></option>
 <?php page_template_dropdown($post->page_template); ?>
@@ -302,23 +293,13 @@ if ( 0 != count( get_page_templates() ) ) {
 <p><?php _e('Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them above.'); ?></p>
 <?php
 	}
-	add_meta_box('pagetemplatediv', __('Page Template'), 'page_template_meta_box', 'page', 'side', 'core');
-}
-
-/**
- * Display page order form fields.
- *
- * @since 2.6.0
- *
- * @param object $post
- */
-function page_order_meta_box($post){
 ?>
+<h5><?php _e('Order') ?></h5>
 <p><label class="hidden" for="menu_order"><?php _e('Page Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p>
 <p><?php _e('Pages are usually ordered alphabetically, but you can put a number above to change the order pages appear in. (We know this is a little janky, it&#8217;ll be better in future releases.)'); ?></p>
 <?php
 }
-add_meta_box('pageorderdiv', __('Page Order'), 'page_order_meta_box', 'page', 'side', 'core');
+add_meta_box('pageparentdiv', __('Attributes'), 'page_attributes_meta_box', 'page', 'side', 'core');
 
 /**
  * Display custom field for page form fields.
