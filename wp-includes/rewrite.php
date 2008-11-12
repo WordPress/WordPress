@@ -1518,7 +1518,7 @@ class WP_Rewrite {
 		}
 
 		// robots.txt
-		$robots_rewrite = array('robots.txt$' => $this->index . '?robots=1');
+		$robots_rewrite = array('robots\.txt$' => $this->index . '?robots=1');
 
 		//Default Feed rules - These are require to allow for the direct access files to work with permalink structure starting with %category%
 		$default_feeds = array(	'.*wp-atom.php$'	=>	$this->index .'?feed=atom',
