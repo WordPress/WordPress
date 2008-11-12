@@ -204,7 +204,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect['query'] = preg_replace( '#((p|page_id|cat|tag)=[^&]*?)(%20| )+$#', '$1', $redirect['query'] );
 
 		// Clean up empty query strings
-		$redirect['query'] = preg_replace( '#(^\??|&)(p|page_id|cat|tag)=?$#', '', $redirect['query'] );
+		$redirect['query'] = trim(preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query']), '&');
 
 		// Remove redundant leading ampersands
 		$redirect['query'] = preg_replace( '#^\??&+#', '', $redirect['query'] );
