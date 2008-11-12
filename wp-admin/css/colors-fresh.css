@@ -274,7 +274,6 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .submit input {
 	border-color: #DCDCDC;
 	color: #464646;
-	text-shadow: #FFF 0 1px 0;
 }
 
 .button,
@@ -287,7 +286,6 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .submit .button-secondary {
 	border-color: #CFE1EF;
 	color: #464646;
-	text-shadow: #FFF, 0 1px 0;
 }
 
 .button-primary,
@@ -298,9 +296,14 @@ ul#widget-list li.widget-list-item h4.widget-title {
 }
 
 .button[disabled],
-.button:disabled {
-	background-color: #999;
-	background-image: none;
+.button:disabled,
+.button-primary[disabled],
+.button-primary:disabled,
+.button-secondary[disabled],
+.button-secondary:disabled,
+a.button.disabled {
+	background: #ddd;
+	color: #888;
 }
 
 .button:hover,
