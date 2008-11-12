@@ -303,6 +303,10 @@ form p.submit .cancel:hover {
 	border-right: 0;
 }
 
+#sticky-span {
+	margin-left: 18px;
+}
+
 .side-info {
 	margin: 0;
 	padding: 4px;

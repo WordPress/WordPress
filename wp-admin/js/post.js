@@ -192,6 +192,126 @@ jQuery(document).ready( function($) {
 	} );
 	jQuery('.categorychecklist .popular-category :checkbox').change( syncChecks ).filter( ':checked' ).change();
 	var stamp = $('#timestamp').html();
+	var visibility = $('#post-visibility-display').html();
+	var sticky = '';
+
+	function updateVisibility() {
+		if ( $('#post-visibility-select input:radio:checked').val() != 'public' ) {
+			$('#sticky').attr('checked', false);
+			$('#sticky-span').hide();
+		} else {
+			$('#sticky-span').show();
+		}
+		if ( $('#post-visibility-select input:radio:checked').val() != 'password' ) {
+			$('#password-span').hide();
+		} else {
+			$('#password-span').show();
+		}
+	}
+
+	function updateText() {
+		var attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val());
+		var originalDate = new Date( $('#hidden_aa').val(), $('#hidden_mm').val() -1, $('#hidden_jj').val(), $('#hidden_hh').val(), $('#hidden_mn').val());
+		var currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val());
+		if ( attemptedDate > currentDate ) {
+			var publishOn = postL10n.publishOnFuture;
+			$('#publish').val( postL10n.schedule );
+		} else if ( $('#original_post_status').val() != 'publish' ) {
+			var publishOn = postL10n.publishOn;
+			$('#publish').val( postL10n.publish );
+		} else {
+			var publishOn = postL10n.publishOnPast;
+			$('#publish').val( postL10n.update );
+		}
+		if ( originalDate.toUTCString() == attemptedDate.toUTCString() ) { //hack
+			$('#timestamp').html(stamp);
+		} else {
+			$('#timestamp').html(
+				publishOn + ' <b>' +
+				$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
+				$('#jj').val() + ', ' +
+				$('#aa').val() + ' @ ' +
+				$('#hh').val() + ':' +
+				$('#mn').val() + '</b> '
+			);
+		}
+
+		if ( $('#post-visibility-select input:radio:checked').val() == 'private' ) {
+			$('#publish').val( postL10n.update );
+			if ( $('#post_status option[value=publish]').length == 0 ) {
+				$('#post_status').append('<option value="publish">' + postL10n.privatelyPublished + '</option>');
+			}
+			$('#post_status option[value=publish]').html( postL10n.privatelyPublished );
+			$('#post_status option[value=publish]').attr('selected', true);
+			$('.edit-post-status').hide();
+		} else {
+			if ( $('#original_post_status').val() == 'future' || $('#original_post_status').val() == 'draft' ) {
+				if ( $('#post_status option[value=publish]').length != 0 ) {
+					$('#post_status option[value=publish]').remove();
+					$('#post_status').val($('#hidden_post_status').val());
+				}
+			} else {
+				$('#post_status option[value=publish]').html( postL10n.published );
+			}
+			$('.edit-post-status').show();
+		}
+		$('#post-status-display').html($('#post_status :selected').text());
+		if ( $('#post_status :selected').val() == 'private' || $('#post_status :selected').val() == 'publish' ) {
+			$('#save-post').hide();
+		} else {
+			$('#save-post').show();
+			if ( $('#post_status :selected').val() == 'pending' ) {
+				$('#save-post').show().val( postL10n.savePending );
+			} else {
+				$('#save-post').show().val( postL10n.saveDraft );
+			}
+		}
+	}
+
+	$('.edit-visibility').click(function () {
+		if ($('#post-visibility-select').is(":hidden")) {
+			updateVisibility();
+			$('#post-visibility-select').slideDown("normal");
+			$('.edit-visibility').hide();
+		}
+		return false;
+	});
+
+	$('.cancel-post-visibility').click(function () {
+		$('#post-visibility-select').slideUp("normal");
+		$('#visibility-radio-' + $('#hidden-post-visibility').val()).attr('checked', true);
+		$('#post_password').val($('#hidden_post_password').val());
+		$('#sticky').attr('checked', $('#hidden-post-sticky').attr('checked'));
+		$('#post-visibility-display').html(visibility);
+		$('.edit-visibility').show();
+		updateText();
+		return false;
+	});
+
+	$('.save-post-visibility').click(function () { // crazyhorse - multiple ok cancels
+		$('#post-visibility-select').slideUp("normal");
+		$('.edit-visibility').show();
+		updateText();
+		if ( $('#post-visibility-select input:radio:checked').val() != 'public' ) {
+			$('#sticky').attr('checked', false);
+		}
+
+		if ( true == $('#sticky').attr('checked') ) {
+			sticky = 'Sticky';
+		} else {
+			sticky = '';
+		}
+
+		$('#post-visibility-display').html(
+			postL10n[$('#post-visibility-select input:radio:checked').val() + sticky]
+		);
+
+		return false;
+	});
+
+	$('#post-visibility-select input:radio').change(function() {
+		updateVisibility();
+	});
 
 	$('.edit-timestamp').click(function () {
 		if ($('#timestampdiv').is(":hidden")) {
@@ -209,45 +329,15 @@ jQuery(document).ready( function($) {
 		$('#aa').val($('#hidden_aa').val());
 		$('#hh').val($('#hidden_hh').val());
 		$('#mn').val($('#hidden_mn').val());
-		$('#timestamp').html(stamp);
 		$('.edit-timestamp').show();
-
-		var attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val() );
-		var currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val() );
-		if ( attemptedDate > currentDate ) {
-			$('#publish').val( postL10n.schedule );
-		} else if ( $('#original_post_status').val() != 'publish' ) {
-			$('#publish').val( postL10n.publish );
-		} else {
-			$('#publish').val( postL10n.update );
-		}
-
+		updateText();
 		return false;
 	});
 
 	$('.save-timestamp').click(function () { // crazyhorse - multiple ok cancels
 		$('#timestampdiv').slideUp("normal");
 		$('.edit-timestamp').show();
-		var attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val() );
-		var currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val() );
-		if ( attemptedDate > currentDate ) {
-			var publishOn = postL10n.publishOnFuture;
-			$('#publish').val( postL10n.schedule );
-		} else if ( $('#original_post_status').val() != 'publish' ) {
-			var publishOn = postL10n.publishOn;
-			$('#publish').val( postL10n.publish );
-		} else {
-			var publishOn = postL10n.publishOnPast;
-			$('#publish').val( postL10n.update );
-		}
-		$('#timestamp').html(
-			publishOn + ' <b>' +
-			$( '#mm option[value=' + $('#mm').val() + ']' ).text() + ' ' +
-			$('#jj').val() + ', ' +
-			$('#aa').val() + ' @ ' +
-			$('#hh').val() + ':' +
-			$('#mn').val() + '</b> '
-		);
+		updateText();
 
 		return false;
 	});
@@ -263,27 +353,16 @@ jQuery(document).ready( function($) {
 
 	$('.save-post-status').click(function() {
 		$('#post-status-select').slideUp("normal");
-		$('#post-status-display').html($('#post_status :selected').text());
 		$('.edit-post-status').show();
-		if ( $('#post_status :selected').val() == 'pending' ) {
-			$('#save-post').val( postL10n.savePending );
-		} else {
-			$('#save-post').val( postL10n.saveDraft );
-		}
+		updateText();
 		return false;
 	});
 
 	$('.cancel-post-status').click(function() {
 		$('#post-status-select').slideUp("normal");
 		$('#post_status').val($('#hidden_post_status').val());
-		$('#post-status-display').html($('#post_status :selected').text());
 		$('.edit-post-status').show();
-		if ( $('#post_status :selected').val() == 'pending' ) {
-			$('#save-post').val( postL10n.savePending );
-		} else {
-			$('#save-post').val( postL10n.saveDraft );
-		}
-
+		updateText();
 		return false;
 	});
 
