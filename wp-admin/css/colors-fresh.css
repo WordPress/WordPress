@@ -1,4 +1,3 @@
-
 html {
 	background-color: #f9f9f9;
 }
@@ -128,6 +127,10 @@ h3.info-box-title,
 	background-color: #dfdfdf;
 }
 
+.metabox-holder {
+	color: #777;
+}
+
 .form-table tr,
 .form-wrap .form-field {
 	background-color: #f9f9f9;
@@ -160,8 +163,12 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	background-color: #ccf3fa;
 }
 
-.ac_match, .subsubsub a.current, h2 {
+.ac_match, .subsubsub a.current {
 	color: #000;
+}
+
+.wrap h2 {
+	color: #464646;
 }
 
 .ac_over {
@@ -594,12 +601,12 @@ li.widget-list-control-item h4,
 }
 
 .ui-sortable .postbox h3 {
-	color: #555;
+	color: #464646;
 }
 
 .ui-sortable .postbox h3:hover {
 	color: #000;
-} 
+}
 
 .curtime #timestamp {
 	background-image: url(../images/date-button.gif);
@@ -1217,4 +1224,8 @@ div.star.select:hover {
 
 .ui-sortable .postbox:hover .handlediv {
 	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -111px;
+}
+
+#major-publishing-actions, #dashboard_quick_press .submit {
+	background: #eaf2fa;
 }

@@ -88,11 +88,11 @@ div.postbox div.inside {
 
 #dashboard_right_now p.sub, #dashboard_right_now .table, #dashboard_right_now .versions {
 	margin: -10px;
+	font-family: Georgia, serif;
 }
 
 #dashboard_right_now .inside {
-	font-family: Georgia, serif;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 #dashboard_right_now p.sub {
@@ -141,6 +141,7 @@ div.postbox div.inside {
 #dashboard_right_now .t {
 	font-size: 12px;
 	padding-right: 12px;
+	padding-top: 6px;
 	color: #777;
 }
 
@@ -162,19 +163,18 @@ div.postbox div.inside {
 }
 
 #dashboard_right_now .versions {
-	line-height: 2.5em;
-	padding: 10px;
+	padding: 6px 10px 12px;
 }
 
-#dashboard_right_now .versions {
+#dashboard_right_now .versions, #dashboard_right_now .versions p {
 	font-style: italic;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 #dashboard_right_now .versions a, #dashboard_right_now .versions .b {
 	font-style: normal;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;;
-	font-weight: bold;
+	font-size: 12px;
 }
 
 #dashboard_right_now a.button {
@@ -183,7 +183,7 @@ div.postbox div.inside {
 	clear: right;
 	position: relative;
 	top: -5px;
-	
+	padding: 2px 11px;	
 }
 
 /* Recent Comments */
@@ -243,6 +243,7 @@ div.postbox div.inside {
 #the-comment-list .comment-item p.comment-actions {
 	margin: 0;
 	padding: 0;
+	font-size: 11px;
 }
 
 #the-comment-list .approve a {
@@ -283,8 +284,7 @@ div.postbox div.inside {
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit {
-	border-top: 1px solid;
-	padding: 1em 1em 1em 5em;
+	padding: .8em .8em .8em 5.3em;
 	margin: 0 -10px -10px;
 }
 
@@ -333,6 +333,15 @@ div.postbox div.inside {
 	list-style: none;
 }
 
+a.rsswidget {
+	font-size: 13px;
+	line-height: 1.7em;
+}
+
+.rss-widget ul li {
+	line-height: 1.4em;
+}
+
 .rss-widget span.rss-date {
 	font-family: Georgia, serif;
 }
@@ -355,6 +364,11 @@ div.postbox div.inside {
 	margin: 0;
 	display: inline;
 	line-height: 1.4em;
+}
+
+#dashboard_plugins h5 a {
+	font-weight: normal;
+	line-height: 1.7em;
 }
 
 #dashboard_plugins p {

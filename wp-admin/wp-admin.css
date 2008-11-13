@@ -2,6 +2,8 @@
 	clear: both;
 }
 
+p, ul, ol, blockquote { font-size: 12px; }
+
 .plugins .name,
 #pass-strength-result.strong,
 #pass-strength-result.short,
@@ -198,8 +200,6 @@ kbd, code {
 }
 
 .submit {
-	border-top-style: solid;
-	border-top-width: 1px;
 	padding: 1.5em 0;
 	margin: 5px 0;
 	-moz-border-radius: 0 0 3px 3px;
@@ -212,16 +212,21 @@ kbd, code {
 }
 
 form p.submit .cancel {
-	padding-left: 0;
-	padding-right: 0;
+	padding: 3px 0 0;
 	border: none;
 	background: transparent;
-	text-decoration: underline;
+	border-bottom: 1px solid red;
 	color: red;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
 }
 
 form p.submit .cancel:hover {
 	text-decoration: none;
+	background: red;
+	color: #fff;
 }
 
 .submit-top {
@@ -266,9 +271,9 @@ form p.submit .cancel:hover {
 }
 
 #major-publishing-actions {
-	background: #eaf2fa;
 	padding: 6px;
 	clear: both;
+	border-top: none;
 }
 
 #minor-publishing-actions input,
@@ -342,7 +347,7 @@ form p.submit .cancel:hover {
 #postcustomstuff .submit input {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	text-decoration: none;
-	font-size: 11px;
+	font-size: 11px !important;
 	line-height: 16px;
 	padding: 2px 8px;
 	cursor: pointer;
@@ -934,6 +939,7 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu li.wp-menu-open .wp-submenu {
 	display: block;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 #adminmenu div.wp-menu-image {
@@ -1617,10 +1623,15 @@ table.form-table td .updated {
 	cursor: move;
 }
 
+.hndle a {
+	font-size: 11px;
+	font-weight: normal;
+}
+
 .ui-sortable .postbox .handlediv {
 	float: right;
-	width: 24px;
-	height: 24px;
+	width: 23px;
+	height: 27px;
 }
 
 .sortable-placeholder {
@@ -1633,9 +1644,10 @@ table.form-table td .updated {
 .metabox-holder h3 {
 	font-size: 12px;
 	font-weight: bold;
-	padding: 6px 7px;
+	padding: 7px 9px;
 	margin: 0 0 10px;
 	line-height: 1;
+	text-shadow: #fff 0 1px 0;
 }
 
 .metabox-holder .postbox,
@@ -2170,7 +2182,7 @@ fieldset {
 	line-height: 2;
 	margin: 0;
 	padding: 4px 8px;
-	font: 18px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;;
+	font: 18px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 #wp_editbtns {
