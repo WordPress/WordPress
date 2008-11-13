@@ -463,7 +463,7 @@ function install_plugin_information() {
 <?php endif; if ( ! empty($api->tested) ) : ?>
 			<li><strong><?php _e('Compatible up to:') ?></strong> <?php echo $api->tested ?></li>
 <?php endif; if ( ! empty($api->downloaded) ) : ?>
-			<li><strong><?php _e('Downloaded:') ?></strong> <?php printf('%s times', number_format_i18n($api->downloaded)) ?></li>
+			<li><strong><?php _e('Downloaded:') ?></strong> <?php printf(__ngettext('%s time', '%s times', $api->downloaded), number_format_i18n($api->downloaded)) ?></li>
 <?php endif; if ( ! empty($api->slug) ) : ?>
 			<li><a target="_blank" href="http://wordpress.org/extend/plugins/<?php echo $api->slug ?>/"><?php _e('WordPress.org Plugin Page &#187;') ?></a></li>
 <?php endif; if ( ! empty($api->homepage) ) : ?>

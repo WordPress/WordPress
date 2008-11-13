@@ -461,11 +461,12 @@ body.press-this .ui-tabs-selected a:hover {
 	color: #d54e21;
 }
 
-#adminmenu li a #awaiting-mod {
+#adminmenu li a #awaiting-mod, #adminmenu li a #update-plugins {
 	background-image: url(../images/comment-stalk-fresh.gif);
 }
 
 #adminmenu li a #awaiting-mod span,
+#adminmenu li a #update-plugins span,
 #sidemenu li a #update-plugins span,
 #rightnow .reallynow,
 #plugin-information .action-button {
@@ -474,6 +475,7 @@ body.press-this .ui-tabs-selected a:hover {
 }
 
 #adminmenu li a:hover #awaiting-mod span,
+#adminmenu li a:hover #update-plugins span,
 #sidemenu li a:hover #update-plugins span {
 	background-color: #264761;
 }

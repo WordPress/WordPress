@@ -1117,6 +1117,7 @@ ul#adminmenu li.write-new-button a {
 
 /* 2.6 */
 #adminmenu a #awaiting-mod,
+#adminmenu a #update-plugins,
 #sidemenu li a #update-plugins {
 	position: absolute;
 	margin-top: 0.2em;
@@ -1168,11 +1169,11 @@ strong .post-com-count {
 	background-position: center -3px;
 }
 
-#adminmenu li a:hover #awaiting-mod, #sidemenu li a:hover #update-plugins {
+#adminmenu li a:hover #awaiting-mod, #adminmenu li a:hover #update-plugins, #sidemenu li a:hover #update-plugins {
 	background-position: -80px bottom;
 }
 
-#adminmenu li a #awaiting-mod span, #sidemenu li a #update-plugins span {
+#adminmenu li a #awaiting-mod span, #adminmenu li a #update-plugins span, #sidemenu li a #update-plugins span {
 	top: -0.8em;
 	right: 0;
 	position: absolute;

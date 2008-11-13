@@ -9,7 +9,7 @@
 .post-com-count {
 	background-image: url(../images/bubble_bg-rtl.gif);
 }
-#adminmenu li a #awaiting-mod {
+#adminmenu li a #awaiting-mod, #adminmenu li a #update-plugins {
 	background-image: url(../images/comment-stalk-rtl.gif);
 }
 #upload-menu li.current {
