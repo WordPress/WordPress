@@ -173,7 +173,11 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
  */
 function media_handle_upload($file_id, $post_id, $post_data = array()) {
 	$overrides = array('test_form'=>false);
-	$file = wp_handle_upload($_FILES[$file_id], $overrides);
+	
+	$post = get_post($post_id);
+	$time = $post->post_date_gmt;
+
+	$file = wp_handle_upload($_FILES[$file_id], $overrides, $time);
 
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );

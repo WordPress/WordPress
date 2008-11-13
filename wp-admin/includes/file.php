@@ -213,7 +213,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * @param array $overrides Optional. An associative array of names=>values to override default variables with extract( $overrides, EXTR_OVERWRITE ).
  * @return array On success, returns an associative array of file attributes. On failure, returns $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
  */
-function wp_handle_upload( &$file, $overrides = false ) {
+function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// The default error handler.
 	if (! function_exists( 'wp_handle_upload_error' ) ) {
 		function wp_handle_upload_error( &$file, $message ) {
@@ -281,7 +281,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
-	if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
+	if ( ! ( ( $uploads = wp_upload_dir($time) ) && false === $uploads['error'] ) )
 		return $upload_error_handler( $file, $uploads['error'] );
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
