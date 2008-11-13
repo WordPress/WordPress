@@ -30,6 +30,14 @@ input.button-highlighted {
 	padding: 0;
 }
 
+#minor-publishing-actions input,
+#major-publishing-actions input,
+#minor-publishing-actions .preview {
+	min-width: auto;
+	padding-left: 0;
+	padding-right: 0;
+}
+
 #wphead-info {
 	float: right;
 }
