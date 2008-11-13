@@ -112,6 +112,11 @@ function core_update_footer( $msg = '' ) {
 add_filter( 'update_footer', 'core_update_footer' );
 
 function update_nag() {
+	global $pagenow;
+
+	if ( 'update-core.php' == $pagenow )
+		return;
+
 	$cur = get_preferred_from_update_core();
 
 	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
