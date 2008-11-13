@@ -86,7 +86,11 @@ ul.widget-control-list div.widget-control-actions {
 }
 
 div.ui-tabs-panel {
-	border-color: #cee1ef;
+	border-color: #f1f1f1;
+}
+
+ul#category-tabs li.ui-tabs-selected {
+	background-color: #f1f1f1;
 }
 
 input.disabled,
@@ -138,7 +142,6 @@ strong .post-com-count span {
 	background-color: #2583ad;
 }
 
-#post-body ul#category-tabs li.ui-tabs-selected,
 #login form .submit input, .search-box .button,
 #ed_reply_toolbar {
 	background-color: #cee1ef !important;

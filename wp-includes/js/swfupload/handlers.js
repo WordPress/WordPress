@@ -247,3 +247,36 @@ function uploadError(fileObj, error_code, message) {
 		wpQueueError(swfuploadL10n.security_error);
 	}
 }
+
+// remember the last used image size, alignment and url
+jQuery(document).ready(function($){
+	var align = getUserSetting('align') || '', imgsize = getUserSetting('imgsize') || '';
+
+	$('tr.align input[type="radio"]').click(function(){
+		setUserSetting('align', $(this).val());
+	}).filter(function(){
+		if ( $(this).val() == align )
+			return true;
+		return false;
+	}).attr('checked','checked');
+
+	$('tr.image-size input[type="radio"]').click(function(){
+		setUserSetting('imgsize', $(this).val());
+	}).filter(function(){
+		if ( $(this).attr('disabled') || $(this).val() != imgsize )
+			return false;
+		return true;
+	}).attr('checked','checked');
+
+	$('tr.url button').click(function(){
+		var c = this.className || '';
+		c = c.replace(/.*?(url[^ '"]+).*/, '$1');
+		if (c) setUserSetting('urlbutton', c);
+		$(this).siblings('.urlfield').val( $(this).attr('title') );
+	});
+
+	$('tr.url .urlfield').each(function(){
+		var b = getUserSetting('urlbutton');
+		$(this).val( $(this).siblings('button.'+b).attr('title') );
+	});
+});

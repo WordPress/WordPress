@@ -190,6 +190,12 @@ jQuery(document).ready( function($) {
 		jQuery('#newcat').focus();
 		return false;
 	} );
+
+	$('a[href="#categories-all"]').click(function(){deleteUserSetting('cats');});
+	$('a[href="#categories-pop"]').click(function(){setUserSetting('cats','pop');});
+	if ( 'pop' == getUserSetting('cats') )
+		$('a[href="#categories-pop"]').click();
+
 	jQuery('.categorychecklist .popular-category :checkbox').change( syncChecks ).filter( ':checked' ).change();
 	var stamp = $('#timestamp').html();
 	var visibility = $('#post-visibility-display').html();
