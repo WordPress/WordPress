@@ -319,7 +319,8 @@ div.dashboard-widget-submit input:hover,
 	color: #d54e21;
 }
 
-#the-comment-list .comment-item {
+#the-comment-list .comment-item,
+#dashboard-widgets #dashboard_quick_press form p.submit {
 	border-color: #dfdfdf;
 }
 
