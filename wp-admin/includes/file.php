@@ -485,14 +485,6 @@ function unzip_file($file, $to) {
 	if ( 0 == count($archive_files) )
 		return new WP_Error('empty_archive', __('Empty archive'));
 
-	//Prepend another directory level if there are files in the root directory of the zip
-	foreach ( $archive_files as $archive_file ) {
-		if ( false === strpos($archive_file['filename'], '/') ) {
-			$to = trailingslashit($to) . basename($file, '.zip');
-			break;
-		}
-	}
-
 	$path = explode('/', untrailingslashit($to));
 	for ( $i = count($path); $i > 0; $i-- ) { //>0 = first element is empty allways for paths starting with '/'
 		$tmppath = implode('/', array_slice($path, 0, $i) );
@@ -570,54 +562,6 @@ function copy_dir($from, $to) {
 				return $result;
 		}
 	}
-}
-
-/**
- * Locates the lowest safe directory in a Plugin folder to copy to the plugins directory.
- *
- * Note: Desination directory will allways be unique.
- *
- * @since 2.7.0
- *
- * @param string $from the Working directory of the plugin files
- * @param string $to the proposed destination for the for the plugin files
- * @return array an array of the keys 'from' and 'to' for the actual copy.
- */
-function update_pluginfiles_base_dir($from, $to) {
-	$files = list_files($from);
-
-	//Remove non-php files
-	foreach ( (array)$files as $key => $file ) 
-		if ( ! preg_match('!.php$!i', $file) )
-			unset($files[$key]);
-
-	//remove non-plugin files
-	foreach ( (array)$files as $key => $file ) {
-		$details = get_plugin_data($file, false, false);
-		if ( empty($details['Name']) )
-			unset($files[$key]);
-	}
-
-	if ( empty($files) )
-		return false;
-
-	//Left with paths to files which ARE plugins.
-	$min_num = 100; //assume no zips with deeper paths will come along
-	$min_file = '';
-	foreach ( (array)$files as $key => $file ) {
-		$this_num = substr_count($file, '/');
-		if ( $this_num < $min_num ) {
-			$min_file = $file;
-			$min_num = $this_num;
-		}
-	}
-	unset($min_num);
-
-	$from = dirname($min_file);
-	//Ensure its a unique install folder, Upgrades delete the folder prior to this.
-	$to = dirname($to) . '/' . wp_unique_filename(dirname($to), basename($to));
-
-	return compact('from', 'to');
 }
 
 /**
