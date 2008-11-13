@@ -505,7 +505,7 @@ function get_term_to_edit( $id, $taxonomy ) {
 }
 
 /**
- * Retrieve the terms in taxonomy or list of taxonomies.
+ * Retrieve the terms in a given taxonomy or list of taxonomies.
  *
  * You can fully inject any customizations to the query before it is sent, as
  * well as control the output with a filter.
@@ -518,33 +518,60 @@ function get_term_to_edit( $id, $taxonomy ) {
  * The 'list_terms_exclusions' filter passes the compiled exclusions along with
  * the $args.
  *
- * The list that $args can contain, which will overwrite the defaults.
+ * The list of arguments that $args can contain, which will overwrite the defaults:
  *
  * orderby - Default is 'name'. Can be name, count, or nothing (will use
  * term_id).
  *
  * order - Default is ASC. Can use DESC.
- * hide_empty - Default is true. Will not return empty $terms.
- * fields - Default is all.
- * slug - Any terms that has this value. Default is empty string.
- * hierarchical - Whether to return hierarchical taxonomy. Default is true.
- * name__like - Default is empty string.
  *
- * The argument 'pad_counts' will count all of the children along with the
- * $terms.
+ * hide_empty - Default is true. Will not return empty terms, which means
+ * terms whose count is 0 according to the given taxonomy.
+ * 
+ * exclude - Default is an empty string.  A comma- or space-delimited string
+ * of term ids to exclude from the return array.  If 'include' is non-empty, 
+ * 'exclude' is ignored.
  *
- * The 'get' argument allows for overwriting 'hide_empty' and 'child_of', which
- * can be done by setting the value to 'all', instead of its default empty
- * string value.
+ * include - Default is an empty string.  A comma- or space-delimited string
+ * of term ids to include in the return array.
+ * 
+ * number - The maximum number of terms to return.  Default is empty.
+ * 
+ * offset - The number by which to offset the terms query.
  *
- * The 'child_of' argument will be used if you use multiple taxonomy or the
- * first $taxonomy isn't hierarchical or 'parent' isn't used. The default is 0,
- * which will be translated to a false value. If 'child_of' is set, then
- * 'child_of' value will be tested against $taxonomy to see if 'child_of' is
- * contained within. Will return an empty array if test fails.
+ * fields - Default is 'all', which returns an array of term objects. 
+ * If 'fields' is 'ids' or 'names', returns an array of
+ * integers or strings, respectively.
  *
- * If 'parent' is set, then it will be used to test against the first taxonomy.
- * Much like 'child_of'. Will return an empty array if the test fails.
+ * slug - Returns terms whose "slug" matches this value. Default is empty string.
+ * 
+ * hierarchical - Whether to include terms that have non-empty descendants
+ * (even if 'hide_empty' is set to true).
+ * 
+ * search - Returned terms' names will contain the value of 'search',
+ * case-insensitive.  Default is an empty string.
+ *
+ * name__like - Returned terms' names will begin with the value of 'name__like',
+ * case-insensitive. Default is empty string.
+ *
+ * The argument 'pad_counts', if set to true will include the quantity of a term's
+ * children in the quantity of each term's "count" object variable.
+ *
+ * The 'get' argument, if set to 'all' instead of its default empty string,
+ * returns terms regardless of ancestry or whether the terms are empty.
+ *
+ * The 'child_of' argument, when used, should be set to the integer of a term ID.  Its default
+ * is 0.  If set to a non-zero value, all returned terms will be descendants 
+ * of that term according to the given taxonomy.  Hence 'child_of' is set to 0 
+ * if more than one taxonomy is passed in $taxonomies, because multiple taxonomies 
+ * make term ancestry ambiguous.
+ *
+ * The 'parent' argument, when used, should be set to the integer of a term ID.  Its default is
+ * the empty string '', which has a different meaning from the integer 0.
+ * If set to an integer value, all returned terms will have as an immediate 
+ * ancestor the term whose ID is specified by that integer according to the given taxonomy.
+ * The 'parent' argument is different from 'child_of' in that a term X is considered a 'parent'
+ * of term Y only if term X is the father of term Y, not its grandfather or great-grandfather, etc.
  *
  * @package WordPress
  * @subpackage Taxonomy
@@ -706,9 +733,9 @@ function &get_terms($taxonomies, $args = '') {
 	if ( 'all' == $fields )
 		$select_this = 't.*, tt.*';
 	else if ( 'ids' == $fields )
-		$select_this = 't.term_id';
+		$select_this = 't.term_id, tt.parent, tt.count';
 	else if ( 'names' == $fields )
-		$select_this = 't.name';
+		$select_this = 't.term_id, tt.parent, tt.count, t.name';
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
 
@@ -716,7 +743,7 @@ function &get_terms($taxonomies, $args = '') {
 		$terms = $wpdb->get_results($query);
 		update_term_cache($terms);
 	} else if ( ('ids' == $fields) || ('names' == $fields) ) {
-		$terms = $wpdb->get_col($query);
+		$terms = $wpdb->get_results($query);
 	}
 
 	if ( empty($terms) ) {
@@ -726,14 +753,14 @@ function &get_terms($taxonomies, $args = '') {
 		return $terms;
 	}
 
-	if ( $child_of || $hierarchical ) {
+	if ( $child_of ) {
 		$children = _get_term_hierarchy($taxonomies[0]);
 		if ( ! empty($children) )
 			$terms = & _get_term_children($child_of, $terms, $taxonomies[0]);
 	}
 
 	// Update term counts to include children.
-	if ( $pad_counts )
+	if ( $pad_counts && 'all' == $fields )
 		_pad_term_counts($terms, $taxonomies[0]);
 
 	// Make sure we show empty categories that have children.
@@ -752,6 +779,17 @@ function &get_terms($taxonomies, $args = '') {
 		}
 	}
 	reset ( $terms );
+	
+	$_terms = array();
+	if ( 'ids' == $fields ) {
+		while ( $term = array_shift($terms) )
+			$_terms[] = $term->term_id;
+		$terms = $_terms;
+	} elseif ( 'names' == $fields ) {
+		while ( $term = array_shift($terms) )
+			$_terms[] = $term->name;
+		$terms = $_terms;
+	}
 
 	wp_cache_add( $cache_key, $terms, 'terms' );
 
@@ -1894,21 +1932,20 @@ function _get_term_hierarchy($taxonomy) {
 
 
 /**
- * Get array of child terms.
+ * Get the subset of $terms that are descendants of $term_id.
  *
- * If $terms is an array of objects, then objects will returned from the
- * function. If $terms is an array of IDs, then an array of ids of children will
- * be returned.
+ * If $terms is an array of objects, then _get_term_children returns an array of objects.
+ * If $terms is an array of IDs, then _get_term_children returns an array of IDs.
  *
  * @package WordPress
  * @subpackage Taxonomy
  * @access private
  * @since 2.3.0
  *
- * @param int $term_id Look for this Term ID in $terms
- * @param array $terms List of Term IDs
- * @param string $taxonomy Term Context
- * @return array Empty if $terms is empty else returns full list of child terms.
+ * @param int $term_id The ancestor term: all returned terms should be descendants of $term_id.
+ * @param array $terms The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
+ * @param string $taxonomy The taxonomy which determines the hierarchy of the terms.
+ * @return array The subset of $terms that are descendants of $term_id. 
  */
 function &_get_term_children($term_id, $terms, $taxonomy) {
 	$empty_array = array();
