@@ -72,7 +72,7 @@ if ( ! $is_opera ) {
 	</div>
 
 	<script type="text/javascript">
-		wpGears.message(1);			
+		wpGears.message(1);
 	</script>
 <?php } else {
 	_e('Turbo is not available for your browser.');
