@@ -159,6 +159,13 @@ table#availablethemes td.bottom {
 	font-family: "Courier New", Courier, monospace;
 }
 
+kbd, code {
+	background: #e5e5e5;
+	padding: 2px 3px;
+	margin: 0 1px;
+	font-size: 12px;
+}
+
 .commentlist li {
 	padding: 1em 1em .2em;
 	margin: 0;
