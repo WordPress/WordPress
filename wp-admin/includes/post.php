@@ -1040,7 +1040,7 @@ function post_preview() {
 
 	$post_ID = (int) $_POST['post_ID'];
 	if ( $post_ID < 1 )
-		wp_die( __('Preview not available. Please save as draft first.') );
+		wp_die( __('Preview not available. Please save as a draft first.') );
 	
 	if ( isset($_POST['catslist']) )
 		$_POST['post_category'] = explode(",", $_POST['catslist']);
