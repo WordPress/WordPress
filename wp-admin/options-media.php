@@ -49,7 +49,7 @@ include('admin-header.php');
 </table>
 
 <h3><?php _e('Image sizes') ?></h3>
-<p><?php _e('The sizes listed below determine the maximum dimensions to use when inserting an image into the body of a post.'); ?></p>
+<p><?php _e('The sizes listed below determine the maximum dimensions in pixels to use when inserting an image into the body of a post.'); ?></p>
 
 <table class="form-table">
 <tr valign="top">

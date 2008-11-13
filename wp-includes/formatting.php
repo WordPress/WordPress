@@ -1820,6 +1820,12 @@ function sanitize_option($option, $value) {
 			$value = sanitize_email($value);
 			break;
 
+		case 'thumbnail_size_w':
+		case 'thumbnail_size_h':
+		case 'medium_size_w':
+		case 'medium_size_h':
+		case 'large_size_w':
+		case 'large_size_h':
 		case 'default_post_edit_rows':
 		case 'mailserver_port':
 		case 'comment_max_links':
