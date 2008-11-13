@@ -120,7 +120,7 @@ $num_comments = wp_count_comments();
 //, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
 //, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 $stati = array(
-		'moderated' => __ngettext_noop('Awaiting Moderation <span class="count">(%s)</span>', 'Awaiting Moderation <span class="count">(%s)</span>'),
+		'moderated' => __ngettext_noop('Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>'),
 		'approved' => __ngettext_noop('Approved', 'Approved'), // singular not used
 		'spam' => __ngettext_noop('Spam <span class="count">(%s)</span>', 'Spam <span class="count">(%s)</span>')
 	);
