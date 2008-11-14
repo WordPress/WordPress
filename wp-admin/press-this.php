@@ -56,7 +56,7 @@ function press_it() {
 	$quick['post_status'] = isset($_REQUEST['publish']) ? 'publish' : 'draft';
 	$quick['post_category'] = $_REQUEST['post_category'];
 	$quick['tags_input'] = $_REQUEST['tags_input'];
-	$quick['post_title'] = $_REQUEST['post_title'];
+	$quick['post_title'] = $_REQUEST['title'];
 	$quick['post_content'] = '';
 
 	// insert the post with nothing in it, to get an ID
@@ -124,11 +124,15 @@ switch ($_REQUEST['ajax']) {
 				jQuery('#extra_fields').html('');
 			});
 		</script>
+		<div class="postbox">
 		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
-		<div class="titlewrap" >
+		<div class="inside">
+
 			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection, true); ?></textarea>
-		</div>
+
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
+		</div>
+		</div>
 		<?php break;
 		
 	case 'photo_thickbox': ?>
@@ -141,7 +145,7 @@ switch ($_REQUEST['ajax']) {
 				image_selector();
 			});
 		</script>
-		<h3 id="title"><label for="post_title"><?php _e('Description') ?></label></h3>
+		<h3 id="title"><label for="title"><?php _e('Description') ?></label></h3>
 		<div class="titlewrap">
 			<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
 		</div>
@@ -150,6 +154,8 @@ switch ($_REQUEST['ajax']) {
 			<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
 
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
+		
+		
 		<?php break;
 	
 	case 'photo_thickbox_url': ?>
@@ -162,13 +168,13 @@ switch ($_REQUEST['ajax']) {
 				image_selector();
 			});
 		</script>
-		<h3 id="title"><label for="post_title"><?php _e('URL') ?></label></h3>
+		<h3 id="title"><label for="title"><?php _e('URL') ?></label></h3>
 		<div class="titlewrap">
 			<input id="this_photo" name="this_photo" class="text" onkeypress="if(event.keyCode==13) image_selector();" />
 		</div>
 
 
-		<h3 id="title"><label for="post_title"><?php _e('Description') ?></label></h3>
+		<h3 id="title"><label for="title"><?php _e('Description') ?></label></h3>
 		<div class="titlewrap">
 			<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
 		</div>
@@ -281,7 +287,7 @@ switch ($_REQUEST['ajax']) {
 		}
 
 		jQuery(document).ready(function() {
-			jQuery('#extra_fields').html('<h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a></p>');
+			jQuery('#extra_fields').html('<div class="postbox"><h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a></p></div>');
 			jQuery('.close').click(function() {
 				jQuery('#extra_fields').hide();
 				jQuery('#extra_fields').html('');
@@ -384,7 +390,7 @@ die;
 			case 'photo' :
 					jQuery('#extra_fields').html('');
 					jQuery('#extra_fields').show();
-					jQuery('#extra_fields').before('<p id="waiting"><img src="images/loading.gif" alt="" /><?php echo js_escape( __( 'Loading...' ) ); ?></p>');
+					jQuery('#extra_fields').before('<p id="waiting"><img src="images/loading.gif" alt="" /> <?php echo js_escape( __( 'Loading...' ) ); ?></p>');
 					jQuery.ajax({
 						type: "GET",
 						cache : false,
@@ -402,7 +408,7 @@ die;
 	}
 
 	jQuery(document).ready(function() {
-		top.resizeTo(700-screen.width+screen.availWidth,680-screen.height+screen.availHeight);
+		top.resizeTo(720-screen.width+screen.availWidth,680-screen.height+screen.availHeight);
     	jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
 		jQuery('#visual_mode_button').click(function() {
@@ -432,10 +438,13 @@ die;
 	<div id="side-info-column">
 		<div class="sleeve">
 			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/" target="_blank"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
+			
 			<?php wp_nonce_field('press-this') ?>
-		<input type="hidden" name="post_type" id="post_type" value="text"/>
-	
-		<div class="photolist"></div>
+			<input type="hidden" name="post_type" id="post_type" value="text"/>
+		
+			<!-- This div holds the photo metadata -->
+			<div class="photolist"></div>
+		
 			<div id="categorydiv" class="stuffbox">
 			<h2><?php _e('Categories') ?></h2>
 				<div class="inside">
@@ -448,7 +457,7 @@ die;
 			</div>
 
 			<div id="category-adder" class="wp-hidden-children">
-				<h4><a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a></h4>
+				<a id="category-add-toggle" href="#category-add" class="hide-if-no-js" tabindex="3"><?php _e( '+ Add New Category' ); ?></a>
 				<p id="category-add" class="wp-hidden-child">
 					<label class="hidden" for="newcat"><?php _e( 'Add New Category' ); ?></label><input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" tabindex="3" aria-required="true"/>
 					<label class="hidden" for="newcat_parent"><?php _e('Parent category'); ?>:</label><?php wp_dropdown_categories( array( 'hide_empty' => 0, 'name' => 'newcat_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => __('Parent category'), 'tab_index' => 3 ) ); ?>
@@ -469,12 +478,12 @@ die;
 			<div id="tagchecklist"></div>
 				</div>
 			</div>
-			<div id="submitdiv" class="stuffbox">
+			<div id="submitdiv" class="postbox">
 				<h2><?php _e('Publish') ?></h2>
-				<div class="submitbox">
-				<p class="submit">
+				<div class="inside">
+				<p>
 					<input class="button" type="submit" name="draft" value="<?php _e('Save Draft') ?>" id="save" />
-					<input class="button" type="submit" name="publish" value="<?php _e('Publish') ?>" id="publish" />
+					<input class="button-primary" type="submit" name="publish" value="<?php _e('Publish') ?>" id="publish" />
 					<img src="images/loading-publish.gif" alt="" id="saving" style="display:none;"/>
 				</p>
 				</div>
@@ -492,17 +501,25 @@ die;
 			}
 			?>
 			
-			<h2 id="title"><label for="post_title"><?php _e('Title') ?></label></h2>
-			<div class="titlewrap">
-				<input name="post_title" id="post_title" class="text" value="<?php echo attribute_escape($title);?>"/>
-			</div>
-
+			
+				<div id="titlediv">
+					<div class="titlewrap">
+						<input name="title" id="title" class="text" value="<?php echo attribute_escape($title);?>"/>
+					</div>
+				</div>
+			
 			<div id="extra_fields" style="display: none"></div>
-
+			
 			<div class="postdivrich">
 				<ul id="actions">
-					<li id="photo_button"><a href="#" class="button"><?php _e( 'Add Photo' ); ?></a></li>
-					<li id="video_button"><a href="#" class="button"><?php _e( 'Add Video' ); ?></a></li>
+					<li id="photo_button">
+						
+						Add: <a title="<?php _e('Insert an Image'); ?>" href="#">
+<img alt="<?php _e('Insert an Image'); ?>" src="images/media-button-image.gif"/></a>
+					</li>
+					<li id="video_button">
+						<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="images/media-button-video.gif"/></a>
+						</li>
 					<li id="switcher">
 						<?php wp_print_scripts( 'quicktags' ); ?>
 		
@@ -512,12 +529,9 @@ die;
 			<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
 		</li>
 				</ul>
-			<div id="quicktags">
+			<div id="quicktags"></div>
 	
-	
-	</div>
-	
-				<h2 id="content_type"><label for="content"><?php _e('Post') ?></label></h2>
+				
 			
 				<div class="editor-container">
 					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
@@ -525,6 +539,7 @@ die;
 					<?php if ($url) { echo '<p>'; if($selection) printf( __('via %s.'), "<a href='$url'>$title</a>" ); echo '</p>'; } ?>
 					</textarea>
 				</div>
+			
 			</div>
 		</div>
 	</div>
