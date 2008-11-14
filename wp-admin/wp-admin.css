@@ -857,7 +857,12 @@ a#view-site-link {
 	height: 46px;
 }
 
-#wphead a, #adminmenu a, #sidemenu a, #taglist a, #catlist a, #show-settings a {
+#wphead a,
+#adminmenu a,
+#sidemenu a,
+#taglist a,
+#catlist a,
+#show-settings a {
 	text-decoration: none;
 }
 
@@ -898,6 +903,13 @@ ul#adminmenu li.write-new-button a {
 }
 
 /* side admin menu */
+#adminmenu * {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
 #adminmenu .wp-submenu {
 	display: none;
 	list-style: none;
@@ -1622,6 +1634,10 @@ table.form-table td .updated {
 
 .ui-sortable .postbox h3 {
 	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
 
 .ui-sortable .postbox .hndle span {
