@@ -1,54 +1,50 @@
 /* Generic */
 body {
 font-family:Verdana, Arial, Helvetica, sans-serif; font-size:11px;
-/*scrollbar-3dlight-color:#F0F0EE;
-scrollbar-arrow-color:#676662;
-scrollbar-base-color:#F0F0EE;
-scrollbar-darkshadow-color:#DDDDDD;
-scrollbar-face-color:#E0E0DD;
-scrollbar-highlight-color:#F0F0EE;
-scrollbar-shadow-color:#F0F0EE;
-scrollbar-track-color:#F5F5F5;*/
-background:#E4F2FD;
+background:#f1f1f1;
 padding:0;
 margin:8px 8px 0 8px;
 }
 
-html {background:#E4F2FD;}
+html {background:#f1f1f1;}
 td {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px;}
 textarea {resize:none;outline:none;}
 a:link, a:visited {color:black;}
 a:hover {color:#2B6FB6;}
 
 /* Forms */
-fieldset {margin:0; padding:4px; border:1px solid #919B9C; font-family:Verdana, Arial; font-size:10px;}
+fieldset {margin:0; padding:4px; border:1px solid #dfdfdf; font-family:Verdana, Arial; font-size:10px;}
 legend {color:#2B6FB6; font-weight:bold;}
 label.msg {display:none;}
 label.invalid {color:#EE0000; display:inline;}
 input.invalid {border:1px solid #EE0000;}
-input {background:#FFF; border:1px solid #CCC;}
+input {background:#FFF; border:1px solid #dfdfdf;}
 input, select, textarea {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px;}
-input, select, textarea {border:1px solid #808080;}
+input, select, textarea {border:1px solid #dfdfdf;}
 input.radio {border:1px none #000000; background:transparent; vertical-align:middle;}
 input.checkbox {border:1px none #000000; background:transparent; vertical-align:middle;}
 .input_noborder {border:0;}
 
 /* Buttons */
 #insert, #cancel, #apply, .mceActionPanel .button, input.mceButton, .updateButton {
-border: 1px solid #bbb; 
-margin:0; 
-padding:0 0 1px;
-font-weight:bold;
-font-size: 11px;
-width:94px; 
-height:24px;
-background:url(img/fade-butt.png) 0 0;
-cursor:pointer;
+	border: 1px solid #bbb; 
+	margin:0; 
+	padding:0 0 1px;
+	font-weight:bold;
+	font-size: 11px;
+	width:94px; 
+	height:24px;
+	background:url(img/fade-butt.png) 0 0;
+	cursor:pointer;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 #insert:hover, #cancel:hover, input.mceButton:hover, .updateButton:hover,
 #insert:focus, #cancel:focus, input.mceButton:focus, .updateButton:focus {
-border: 1px solid #555;
-} 
+	border: 1px solid #555;
+}
 
 /* Browse */
 a.browse span {display:block; width:20px; height:18px; background:url(../../img/icons.gif) -860px 0; border:1px solid #FFF; margin-left:1px;}
