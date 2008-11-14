@@ -228,7 +228,7 @@ if ( ( 'edit' == $action ) && current_user_can('delete_page', $post->ID) ) { ?>
 <div id="publishing-action">
 <?php
 if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0 == $post->ID ) { ?>
-<?php if ( current_user_can('publish_posts') ) : ?>
+<?php if ( $can_publish ) : ?>
 	<?php if ( !empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) : ?>
 		<input name="original_publish" type="hidden" id="original_publish" value="<?php _e('Schedule') ?>" />
 		<input name="publish" type="submit" class="button-primary" id="publish" tabindex="5" accesskey="p" value="<?php _e('Schedule') ?>" />
