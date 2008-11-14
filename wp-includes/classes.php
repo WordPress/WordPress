@@ -911,7 +911,8 @@ class Walker {
 		 */
 		if ( empty($top_level_elements) ) {
 
-			$root = $elements[0];
+			$first = array_slice( $elements, 0, 1 ); 
+			$root = $first[0]; 
 
 			$top_level_elements = array();
 			$children_elements  = array();
