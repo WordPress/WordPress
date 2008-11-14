@@ -1,20 +1,38 @@
-.metabox-holder .postbox h3, #poststuff .postbox h3 {
-	padding-left:0;
-	padding-right: 23px;
+* html #wpbody-content {
+	float: left;
 }
-* html #poststuff .postarea, * html #poststuff #titlediv {
-	margin-left:0;
-	margin-right: 3%;
+#wphead-info {
+	float: left;
+}
+* html #wpcontent #adminmenu .wp-has-submenu .wp-menu-toggle {
+	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -108px;
+}
+
+* html #wpcontent #adminmenu li.wp-has-current-submenu .wp-menu-toggle {
+	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -206px;
+}
+#wpcontent #adminmenu .wp-submenu li.wp-submenu-head {
+	padding: 3px 10px 4px 4px;
+}
+.inline-edit-row fieldset label span.title {
+	float: right;
+}
+.inline-edit-row fieldset label span.input-text-wrap {
+	margin-right: 0;
+}
+p.search-box {
+	float: left;
 }
 * html #poststuff h2 {
 	margin-right: 0;
 }
 #bh {
-	padding-right:0;
-	padding-left: 15px;
+	margin: 3px 6px 0 0;
+	float: left;
 }
+/* without this dashboard widgets appear in one column for some screen widths */
 div#dashboard-widgets {
-	padding-right:0;
+	padding-right: 0;
 	padding-left: 1px;
 }
 #tagchecklist span a {
@@ -23,44 +41,39 @@ div#dashboard-widgets {
 .widefat th input {
 	margin: 0 5px 0 0;
 }
-/* ---------- add by navid */
-#sidemenu a { /* fix left admin buttom ex. plugins, options */
-	float:left;
+/* ---------- add by navid */ 
+#TB_window {
+	width: 670px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: 335px !important;
 }
-.wrap h2 {
-	margin:5px 4px 0 0;
+#dashboard_plugins {
+	direction: ltr;
 }
-#editor-toolbar {/* fix hover in media uploader icon */
-	direction:ltr;
+#dashboard_plugins h3.hndle {
+	direction: rtl;
 }
-#TB_window { /* fix theme preview */
-	left:2%;
+#dashboard_incoming_links ul li, #dashboard_secondary ul li, #dashboard_primary ul li, p.comment-actions {
+	width: 100%;
 }
-/* fix widget page */
-form#widgets-filter {
-	position:static;
+#favorite-inside {
+	position: absolute;
+	right:0;
 }
-#widget-search {
-	display:none;
+#post-status-info {
+	height: 25px;
 }
-/* fix manage comment page */
-.view-switch {
-	float:left;
+#screen-meta {
+	position: static;
 }
-form#posts-filter {
-	position:static;
+p.submit { /* quick edit and reply in edit-comments.php */
+	height:22px;
 }
-.search-box {
-	display:none;
+.inner-sidebar { /* fix edit single comment */
+	position: static;
 }
-#submenu {
-	margin-right: 20px;
+form#widgets-filter { /* fix widget page */
+	position: static;
 }
-/* Fixes for media-upload window */
-/* Center media-upload panel on screen */
-#TB_window { 
-	width: 670px; 
-	position: absolute; 
-	top: 50%; 
-	left: 50%; 
-	margin-right: 335px !important; }
