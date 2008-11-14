@@ -209,7 +209,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array()) {
 	), $post_data );
 
 	// Save the data
-	$id = wp_insert_attachment($attachment, $file, $post_parent);
+	$id = wp_insert_attachment($attachment, $file, $post_id);
 	if ( !is_wp_error($id) ) {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 	}
@@ -989,10 +989,8 @@ function get_media_items( $post_id, $errors ) {
 				$attachments[$attachment->ID] = $attachment;
 	}
 
-	if ( empty($attachments) )
-		return '';
-
-	foreach ( $attachments as $id => $attachment )
+	$output = '';
+	foreach ( (array) $attachments as $id => $attachment )
 		if ( $item = get_media_item( $id, array( 'errors' => isset($errors[$id]) ? $errors[$id] : null) ) )
 			$output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div class='progress'><div class='bar'></div></div><div id='media-upload-error-$id'></div><div class='filename'></div>$item\n</div>";
 
@@ -1039,6 +1037,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		$tags = attribute_escape(join(', ', $tags));
 	}
 
+	$type = '';
 	if ( isset($post_mime_types) ) {
 		$keys = array_keys(wp_match_mime_types(array_keys($post_mime_types), $post->post_mime_type));
 		$type = array_shift($keys);

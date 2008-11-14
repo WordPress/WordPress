@@ -34,7 +34,7 @@ function edit_link( $link_id = '' ) {
 	$_POST['link_name'] = wp_specialchars( $_POST['link_name'] );
 	$_POST['link_image'] = wp_specialchars( $_POST['link_image'] );
 	$_POST['link_rss'] = clean_url($_POST['link_rss']);
-	if ( 'N' != $_POST['link_visible'] )
+	if ( !isset($_POST['link_visible']) || 'N' != $_POST['link_visible'] )
 		$_POST['link_visible'] = 'Y';
 
 	if ( !empty( $link_id ) ) {
@@ -176,7 +176,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 		$link_rel = '';
 
 	// Make sure we set a valid category
-	if ( 0 == count( $link_category ) || !is_array( $link_category ) ) {
+	if ( ! isset( $link_category ) ||0 == count( $link_category ) || !is_array( $link_category ) ) {
 		$link_category = array( get_option( 'default_link_category' ) );
 	}
 

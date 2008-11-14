@@ -153,18 +153,20 @@ function edit_post( $post_data = null ) {
 	if ( is_wp_error($post_data) )
 		wp_die( $post_data->get_error_message() );
 
-	switch ( $post_data['visibility'] ) {
-		case 'public' :
-			unset( $post_data['post_password'] );
-			break;
-		case 'password' :
-			unset( $post_data['sticky'] );
-			break;
-		case 'private' :
-			$post_data['post_status'] = 'private';
-			$post_data['post_password'] = '';
-			unset( $post_data['sticky'] );
-			break;
+	if ( isset($post_data['visibility']) ) {
+		switch ( $post_data['visibility'] ) {
+			case 'public' :
+				unset( $post_data['post_password'] );
+				break;
+			case 'password' :
+				unset( $post_data['sticky'] );
+				break;
+			case 'private' :
+				$post_data['post_status'] = 'private';
+				$post_data['post_password'] = '';
+				unset( $post_data['sticky'] );
+				break;
+		}
 	}
 
 	// Meta Stuff
@@ -337,6 +339,7 @@ function get_default_post_to_edit() {
 	$post->post_name = '';
 	$post->post_author = '';
 	$post->post_date = '';
+	$post->post_password = '';
 	$post->post_status = 'draft';
 	$post->post_type = 'post';
 	$post->to_ping = '';
@@ -456,18 +459,20 @@ function wp_write_post() {
 	if ( is_wp_error($translated) )
 		return $translated;
 
-	switch ( $_POST['visibility'] ) {
-		case 'public' :
-			$_POST['post_password'] = '';
-			break;
-		case 'password' :
-			unset( $_POST['sticky'] );
-			break;
-		case 'private' :
-			$_POST['post_status'] = 'private';
-			$_POST['post_password'] = '';
-			unset( $_POST['sticky'] );
-			break;
+	if ( isset($_POST['visibility']) ) {
+		switch ( $_POST['visibility'] ) {
+			case 'public' :
+				$_POST['post_password'] = '';
+				break;
+			case 'password' :
+				unset( $_POST['sticky'] );
+				break;
+			case 'private' :
+				$_POST['post_status'] = 'private';
+				$_POST['post_password'] = '';
+				unset( $_POST['sticky'] );
+				break;
+		}
 	}
 
 	// Create the post.

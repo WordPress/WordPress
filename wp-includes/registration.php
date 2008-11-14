@@ -164,6 +164,15 @@ function wp_insert_user($userdata) {
 	if ( empty($use_ssl) )
 		$use_ssl = 0;
 
+	if ( empty($jabber) )
+		$jabber = '';
+
+	if ( empty($aim) )
+		$aim = '';
+
+	if ( empty($yim) )
+		$yim = '';
+
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
 

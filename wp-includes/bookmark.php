@@ -265,15 +265,22 @@ function sanitize_bookmark($bookmark, $context = 'display') {
 		'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_updated',
 		'link_rel', 'link_notes', 'link_rss', );
 
-	$do_object = false;
-	if ( is_object($bookmark) )
+	if ( is_object($bookmark) ) {
 		$do_object = true;
+		$link_id = $bookmark->link_id;
+	} else {
+		$do_object = false;
+		$link_id = $bookmark['link_id'];
+	}
 
 	foreach ( $fields as $field ) {
-		if ( $do_object )
-			$bookmark->$field = sanitize_bookmark_field($field, $bookmark->$field, $bookmark->link_id, $context);
-		else
-			$bookmark[$field] = sanitize_bookmark_field($field, $bookmark[$field], $bookmark['link_id'], $context);
+		if ( $do_object ) {
+			if ( isset($bookmark->$field) )
+				$bookmark->$field = sanitize_bookmark_field($field, $bookmark->$field, $link_id, $context);
+		} else {
+			if ( isset($bookmark[$field]) )
+				$bookmark[$field] = sanitize_bookmark_field($field, $bookmark[$field], $link_id, $context);
+		}
 	}
 
 	return $bookmark;

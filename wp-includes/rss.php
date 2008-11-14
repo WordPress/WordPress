@@ -459,7 +459,7 @@ function fetch_rss ($url) {
 		// setup headers
 		if ( $cache_status == 'STALE' ) {
 			$rss = $cache->get( $url );
-			if ( $rss->etag and $rss->last_modified ) {
+			if ( isset($rss->etag) and $rss->last_modified ) {
 				$request_headers['If-None-Match'] = $rss->etag;
 				$request_headers['If-Last-Modified'] = $rss->last_modified;
 			}
@@ -564,7 +564,7 @@ function _response_to_rss ($resp) {
 	$rss = new MagpieRSS( $resp->results );
 
 	// if RSS parsed successfully
-	if ( $rss && !$rss->ERROR) {
+	if ( $rss && (!isset($rss->ERROR) || !$rss->ERROR) ) {
 
 		// find Etag, and Last-Modified
 		foreach( (array) $resp->headers as $h) {

@@ -22,12 +22,12 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		wp_die(__('You can&#8217;t create users.'));
 
 	$user_id = add_user();
-	$update = 'add';
-	if ( is_wp_error( $user_id ) )
+
+	if ( is_wp_error( $user_id ) ) {
 		$add_user_errors = $user_id;
-	else {
+	} else {
 		$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
-		$redirect = add_query_arg( array('usersearch' => urlencode($new_user_login), 'update' => $update), $redirect );
+		$redirect = 'users.php?usersearch='. urlencode($new_user_login) . '&update=add';
 		wp_redirect( $redirect . '#user-' . $user_id );
 		die();
 	}
@@ -78,6 +78,15 @@ if ( ! empty($messages) ) {
 ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser" class="add:users: validate">
 <?php wp_nonce_field('add-user') ?>
+<?php
+//Load up the passed data, else set to a default.
+foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name' => 'lastname',
+				'email' => 'email', 'url' => 'uri', 'role' => 'role') as $post_field => $var ) {
+	$var = "new_user_$var";
+	if ( ! isset($$var) )
+		$$var = isset($_POST[$post_field]) ? stripslashes($_POST[$post_field]) : '';
+}
+?>
 <table class="form-table">
 	<tr class="form-field form-required">
 		<th scope="row"><label for="user_login"><?php _e('Username (required)') ?></label><input name="action" type="hidden" id="action" value="adduser" /></th>
@@ -114,7 +123,7 @@ if ( ! empty($messages) ) {
 		<td><select name="role" id="role">
 			<?php
 			if ( !$new_user_role )
-				$new_user_role = $current_role ? $current_role : get_option('default_role');
+				$new_user_role = !empty($current_role) ? $current_role : get_option('default_role');
 			wp_dropdown_roles($new_user_role);
 			?>
 			</select>
@@ -122,7 +131,6 @@ if ( ! empty($messages) ) {
 	</tr>
 </table>
 <p class="submit">
-	<?php echo $referer; ?>
 	<input name="adduser" type="submit" id="addusersub" class="button" value="<?php _e('Add User') ?>" />
 </p>
 </form>

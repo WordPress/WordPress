@@ -343,12 +343,7 @@ require_once ('admin-header.php');
 <div class="wrap">
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
-<?php
-$link_added = ( isset($_GET['added']) && '' != $_POST['link_name'] ) ?
-	'<div id="message" class="updated fade"><p>' . __('Link added.') . '</p></div>' : '';
-?>
-
-<?php if ( isset( $_GET['added'] ) && '' != $_POST['link_name']) : ?>
+<?php if ( isset( $_GET['added'] ) ) : ?>
 <div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 

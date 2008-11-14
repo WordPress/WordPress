@@ -224,6 +224,9 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// You may define your own function and pass the name in $overrides['upload_error_handler']
 	$upload_error_handler = 'wp_handle_upload_error';
 
+	// You may define your own function and pass the name in $overrides['unique_filename_callback']
+	$unique_filename_callback = null;
+
 	// $_POST['action'] must be set and its value must equal $overrides['action'] or this:
 	$action = 'wp_handle_upload';
 
