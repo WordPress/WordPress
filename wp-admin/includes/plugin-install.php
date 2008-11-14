@@ -140,7 +140,7 @@ function install_dashboard() {
 	</form>
 	
 	<h4><?php _e('Popular tags') ?></h4>
-	<p><?php _e('You may also browse based on the most popular tags on wordpress.org') ?></p>
+	<p><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
 	<?php
 
 	$api_tags = install_popular_tags();
