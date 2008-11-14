@@ -219,10 +219,10 @@ jQuery(document).ready( function($) {
 		var attemptedDate = new Date( $('#aa').val(), $('#mm').val() -1, $('#jj').val(), $('#hh').val(), $('#mn').val());
 		var originalDate = new Date( $('#hidden_aa').val(), $('#hidden_mm').val() -1, $('#hidden_jj').val(), $('#hidden_hh').val(), $('#hidden_mn').val());
 		var currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val());
-		if ( attemptedDate > currentDate ) {
+		if ( attemptedDate > currentDate && $('#original_post_status').val() != 'future' ) {
 			var publishOn = postL10n.publishOnFuture;
 			$('#publish').val( postL10n.schedule );
-		} else if ( $('#original_post_status').val() != 'publish' ) {
+		} else if ( attemptedDate <= currentDate && $('#original_post_status').val() != 'publish' ) {
 			var publishOn = postL10n.publishOn;
 			$('#publish').val( postL10n.publish );
 		} else {
