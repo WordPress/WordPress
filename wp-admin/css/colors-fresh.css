@@ -198,8 +198,8 @@ ul#widget-list li.widget-list-item h4.widget-title {
 	border-right-color: #99d;
 }
 
-.describe {
-	border-top-color: #d0d0d0;
+#media-upload .slidetoggle {
+	border-top-color: #dfdfdf;
 }
 
 .error, #login #login_error {
@@ -246,10 +246,16 @@ ul#widget-list li.widget-list-item h4.widget-title {
 }
 
 .media-item {
-	border-bottom-color: #d0d0d0;
+	border-bottom-color: #dfdfdf;
 }
 
-.media-upload-form label.form-help, td.help {
+.describe input[type="text"],
+.describe textarea {
+	border-color: #dfdfdf;
+}
+
+.media-upload-form label.form-help,
+td.help {
 	color: #9a9a9a;
 }
 
@@ -488,7 +494,11 @@ body.press-this .ui-tabs-selected a:hover {
 	background-color: #264761;
 }
 
-div#media-upload-header,
+div#media-upload-header {
+	background-color: #f1f1f1;
+	border-bottom-color: #dfdfdf;
+}
+
 div#plugin-information-header {
 	background-color: #e4f2fd;
 	border-bottom-color: #c6d9e9;
@@ -537,7 +547,7 @@ li.widget-list-control-item h4,
 }
 
 #media-items {
-	border-color: #c0c0c0;
+	border-color: #dfdfdf;
 }
 
 #pass-strength-result {
@@ -1120,11 +1130,17 @@ table.diff .diff-addedline ins {
 	background-color: #E4F2FD;
 }
 
-/* media popup 0819 */
+/* edit image */
 #sidemenu a {
-	background-color: #e4f2fd;
-	border-bottom-color: #c6d9e9;
-	border-top-color: #e4f2fd;
+	background-color: #f1f1f1;
+	border-color: #f1f1f1;
+	border-bottom-color: #dfdfdf;
+}
+
+#sidemenu a.current {
+	background-color: #fff;
+	border-color: #dfdfdf #dfdfdf #fff;
+	color: #D54E21;
 }
 
 #screen-options-wrap,

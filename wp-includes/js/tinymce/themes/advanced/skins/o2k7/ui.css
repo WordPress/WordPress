@@ -40,7 +40,7 @@
 .o2k7Skin .mceOldBoxModel a.mceButton span, .o2k7Skin .mceOldBoxModel a.mceButton img {margin:0 0 0 1px}
 .o2k7Skin a.mceButtonEnabled:hover {background-color:#B2BBD0; background-position:0 -22px}
 .o2k7Skin a.mceButtonActive, .o2k7Skin a.mceButtonSelected {background-position:0 -44px}
-.o2k7Skin .mceButtonDisabled .mceIcon {opacity:0.3; filter:alpha(opacity=30)}
+.o2k7Skin .mceButtonDisabled .mceIcon {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 .o2k7Skin .mceButtonLabeled {width:auto}
 .o2k7Skin .mceButtonLabeled span.mceIcon {float:left}
 .o2k7Skin span.mceButtonLabel {display:block; font-size:10px; padding:4px 6px 0 22px; font-family:Tahoma,Verdana,Arial,Helvetica}
@@ -66,11 +66,11 @@
 .o2k7Skin .mceSplitButton {background:url(img/button_bg.png)}
 .o2k7Skin .mceSplitButton a.mceAction {width:22px}
 .o2k7Skin .mceSplitButton span.mceAction {width:22px; background:url(../../img/icons.gif) 20px 20px}
-.o2k7Skin .mceSplitButton a.mceOpen {width:10px}
-.o2k7Skin .mceSplitButton span.mceOpen {width:10px; background:url(img/button_bg.png) -44px 0}
+.o2k7Skin .mceSplitButton a.mceOpen {width:10px; background:url(img/button_bg.png) -44px 0}
+.o2k7Skin .mceSplitButton span.mceOpen {display:none}
 .o2k7Skin table.mceSplitButtonEnabled:hover a.mceAction, .o2k7Skin .mceSplitButtonHover a.mceAction, .o2k7Skin .mceSplitButtonSelected {background:url(img/button_bg.png) 0 -22px}
-.o2k7Skin table.mceSplitButtonEnabled:hover span.mceOpen, .o2k7Skin .mceSplitButtonHover span.mceOpen, .o2k7Skin .mceSplitButtonSelected span.mceOpen {background-position:-44px -44px}
-.o2k7Skin .mceSplitButtonDisabled .mceAction {opacity:0.3; filter:alpha(opacity=30)}
+.o2k7Skin table.mceSplitButtonEnabled:hover a.mceOpen, .o2k7Skin .mceSplitButtonHover a.mceOpen, .o2k7Skin .mceSplitButtonSelected a.mceOpen {background-position:-44px -44px}
+.o2k7Skin .mceSplitButtonDisabled .mceAction {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 .o2k7Skin .mceSplitButtonActive {background-position:0 -44px}
 
 /* ColorSplitButton */
@@ -107,7 +107,7 @@
 .o2k7Skin .mceMenuItemSub a {background:url(../default/img/menu_arrow.gif) no-repeat top right;}
 
 /* Progress,Resize */
-.o2k7Skin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; filter:alpha(opacity=50); background:#FFF}
+.o2k7Skin .mceBlocker {position:absolute; left:0; top:0; z-index:1000; opacity:0.5; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=50); background:#FFF}
 .o2k7Skin .mceProgress {position:absolute; left:0; top:0; z-index:1001; background:url(../default/img/progress.gif) no-repeat; width:32px; height:32px; margin:-16px 0 0 -16px}
 .o2k7Skin .mcePlaceHolder {border:1px dotted gray}
 

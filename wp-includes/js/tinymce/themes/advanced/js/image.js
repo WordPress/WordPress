@@ -76,7 +76,7 @@ var ImageDialog = {
 			});
 		} else
 			args.style = this.styleVal;
-		
+
 		tinymce.extend(args, {
 			src : f.src.value,
 			alt : f.alt.value,

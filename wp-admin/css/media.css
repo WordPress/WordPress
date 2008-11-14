@@ -187,6 +187,7 @@ abbr.required {
 
 .describe td {
 	vertical-align: middle;
+	padding: 0 5px 0 0;
 }
 
 .describe td.A1 {
@@ -196,6 +197,8 @@ abbr.required {
 .describe input[type="text"],
 .describe textarea {
 	width: 460px;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .describe-toggle-on,
@@ -265,12 +268,15 @@ abbr.required {
 }
 
 #media-upload .describe {
-	border-top-width: 1px;
-	border-top-style: solid;
 	padding: 5px;
 	width: 100%;
 	clear: both;
 	cursor: default;
+}
+
+#media-upload .slidetoggle {
+	border-top-width: 1px;
+	border-top-style: solid;
 }
 
 #media-upload .describe th.label {
@@ -300,6 +306,7 @@ abbr.required {
 	border-width: 1px;
 	padding: 2px;
 	vertical-align: top;
+	width: auto;
 }
 
 #media-upload a.delete,

@@ -50,7 +50,7 @@ padding-bottom:2px;
 a.browse span {display:block; width:20px; height:18px; background:url(../../img/icons.gif) -860px 0; border:1px solid #FFF; margin-left:1px;}
 .mceOldBoxModel a.browse span {width:22px; height:20px;}
 a.browse:hover span {border:1px solid #0A246A; background-color:#B2BBD0;}
-a.browse span.disabled {border:1px solid white; -moz-opacity:0.3; opacity:0.3; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);}
+a.browse span.disabled {border:1px solid white; opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 a.browse:hover span.disabled {border:1px solid white; background-color:transparent;}
 a.pickcolor span {display:block; width:20px; height:16px; background:url(../../img/icons.gif) -840px 0; margin-left:2px;}
 .mceOldBoxModel a.pickcolor span {width:21px; height:17px;}

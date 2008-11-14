@@ -15,7 +15,7 @@
 				if ( ed.dom.getAttrib(el, 'class').indexOf('mceItem') != -1 || el.nodeName != 'IMG' )
 					return;
 
-				tb_show('', url + '/editimage.html?ver=311f&TB_iframe=true');
+				tb_show('', url + '/editimage.html?ver=321&TB_iframe=true');
 				tinymce.DOM.setStyles('TB_window', {
 					'top':'20px',
 					'marginTop':'0',

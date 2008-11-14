@@ -6,19 +6,30 @@ html, body {
 }
 
 .submit input,
-.button {
+.button,
+.button-primary,
+.button-secondary,
+.button-highlighted {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	padding: 3px 5px;
-	font-size: 12px;
-	line-height: 1.5em;
+	text-decoration: none;
+	font-size: 11px !important;
+	line-height: 16px;
+	padding: 2px 8px;
+	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	cursor: pointer;
-	text-decoration: none;
+	-moz-border-radius: 11px;
+	-khtml-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-khtml-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+a.button {
+	padding: 4px 8px;
 }
 
 textarea,
@@ -78,7 +89,7 @@ th.label {
 }
 
 #media-upload #img-edit {
-	border: 1px solid #c0c0c0;
+	border: 1px solid #dfdfdf;
 	width: 623px;
 	margin: 15px auto;
 }
@@ -236,4 +247,88 @@ td {
 
 #img_align_td {
 	padding: 2px 0 8px;
+}
+
+#media-upload tr.align td.field {
+	text-align: center;
+}
+
+.describe td {
+	vertical-align: middle;
+}
+
+#media-upload .describe th.label {
+	padding-top: .5em;
+	text-align: left;
+}
+
+#media-upload .describe {
+	border-top-width: 1px;
+	border-top-style: solid;
+	padding: 5px;
+	width: 100%;
+	clear: both;
+	cursor: default;
+}
+
+form {
+	margin: 1em;
+}
+
+.describe input[type="text"],
+.describe textarea {
+	width: 460px;
+	border: 1px solid #dfdfdf;
+}
+
+
+.media-upload-form label,
+.media-upload-form legend {
+	font-weight: bold;
+	font-size: 13px;
+	color: #464646;
+}
+
+.align .field label {
+	display: inline;
+	padding: 0 0 0 28px;
+	margin: 0 1em 0 0;
+}
+.image-align-none-label {
+	background: url(../../../../../../wp-admin/images/align-none.png) no-repeat center left;
+}
+
+.image-align-left-label {
+	background: url(../../../../../../wp-admin/images/align-left.png) no-repeat center left;
+}
+
+.image-align-center-label {
+	background: url(../../../../../../wp-admin/images/align-center.png) no-repeat center left;
+}
+
+.image-align-right-label {
+	background: url(../../../../../../wp-admin/images/align-right.png) no-repeat center left;
+}
+
+div#media-upload-header {
+	margin: 0;
+	padding: 0 5px;
+	font-weight: bold;
+	position: relative;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	height: 2.5em;
+}
+
+body#media-upload ul#sidemenu {
+	font-weight: normal;
+	margin: 0 5px;
+	position: relative;
+	left: 0px;
+	bottom: -4px;
+}
+
+div#media-upload-error {
+	margin: 1em;
+	font-weight: bold;
 }
