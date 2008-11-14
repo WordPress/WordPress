@@ -13,7 +13,7 @@ form .input-text-wrap {
 	border-color: #ccc;
 }
 
-form .input-text-wrap input {
+#dashboard-widgets form .input-text-wrap input {
 	border: 0 none;
 	outline: none;
 	padding: 0;
@@ -28,7 +28,7 @@ form .textarea-wrap {
 	border-color: #ccc;
 }
 
-form .textarea-wrap textarea {
+#dashboard-widgets form .textarea-wrap textarea {
 	border: 0 none;
 	padding: 0;
 	outline: none;

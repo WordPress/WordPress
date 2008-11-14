@@ -29,6 +29,10 @@ body > #upload-menu {
 	border-bottom-color: #fff;
 }
 
+kbd, code {
+	background: #eaeaea;
+}
+
 div#current-widgets,
 #postcustomstuff table,
 #your-profile fieldset,
@@ -601,7 +605,11 @@ li.widget-list-control-item h4,
 #poststuff .postbox,
 #titlediv,
 #poststuff .postarea,
-#poststuff .stuffbox {
+#poststuff .stuffbox,
+.postbox input[type="text"],
+.postbox textarea,
+.stuffbox input[type="text"],
+.stuffbox textarea {
 	border-color: #dfdfdf;
 }
 

@@ -162,8 +162,7 @@ table#availablethemes td.bottom {
 }
 
 kbd, code {
-	background: #e5e5e5;
-	padding: 2px 3px;
+	padding: 1px 3px;
 	margin: 0 1px;
 	font-size: 12px;
 }
@@ -437,9 +436,7 @@ textarea.all-options, input.all-options {
 }
 
 #namediv input {
-	width: 94%;
-	border-style: solid;
-	border-width: 1px;
+	width: 98%;
 }
 
 #namediv p {
@@ -1695,9 +1692,26 @@ table.form-table td .updated {
 	background-repeat: repeat-x;
 }
 
-#poststuff .inside {
+.postbox table.form-table {
+	margin-bottom: 0;
+}
+
+.postbox input[type="text"],
+.postbox textarea,
+.stuffbox input[type="text"],
+.stuffbox textarea {
+	border-width: 1px;
+	border-style: solid;
+}
+
+#poststuff .inside,
+#poststuff .inside p {
 	font-size: 11px;
-	margin: 0 6px 6px;
+	margin: 2px 6px 6px;
+}
+
+#poststuff .inside .submitbox p {
+	margin: 1em 0;
 }
 
 #poststuff #submitdiv .inside {
@@ -1748,12 +1762,6 @@ table.form-table td .updated {
 	padding: 0;
 	font-size: 11px;
 	margin-top: -1px;
-}
-
-#link_name, #link_url, #link_description {
-	font-size: 1.7em;
-	padding: 4px 3px;
-	width: 98%;
 }
 
 #edit-slug-box {

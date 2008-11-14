@@ -373,24 +373,24 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 <div id="namediv" class="stuffbox">
 <h3><label for="link_name"><?php _e('Name') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" /><br />
-    <?php _e('Example: Nifty blogging software'); ?>
+	<input type="text" name="link_name" size="30" tabindex="1" value="<?php echo $link->link_name; ?>" id="link_name" />
+    <p><?php _e('Example: Nifty blogging software'); ?></p>
 </div>
 </div>
 
 <div id="addressdiv" class="stuffbox">
 <h3><label for="link_url"><?php _e('Web Address') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" /><br />
-    <?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?>
+	<input type="text" name="link_url" size="30" tabindex="1" value="<?php echo $link->link_url; ?>" id="link_url" />
+    <p><?php _e('Example: <code>http://wordpress.org/</code> &#8212; don&#8217;t forget the <code>http://</code>'); ?></p>
 </div>
 </div>
 
 <div id="descriptiondiv" class="stuffbox">
 <h3><label for="link_description"><?php _e('Description') ?></label></h3>
 <div class="inside">
-	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo isset($link->link_description) ? $link->link_description : ''; ?>" id="link_description" /><br />
-    <?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?>
+	<input type="text" name="link_description" size="30" tabindex="1" value="<?php echo isset($link->link_description) ? $link->link_description : ''; ?>" id="link_description" />
+    <p><?php _e('This will be shown when someone hovers over the link in the blogroll, or optionally below the link.'); ?></p>
 </div>
 </div>
 

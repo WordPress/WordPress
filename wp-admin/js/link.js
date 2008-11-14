@@ -42,6 +42,12 @@ jQuery(document).ready( function($) {
 		response: 'category-ajax-response',
 		addAfter: catAddAfter
 	} );
+
+	$('a[href="#categories-all"]').click(function(){deleteUserSetting('cats');});
+	$('a[href="#categories-pop"]').click(function(){setUserSetting('cats','pop');});
+	if ( 'pop' == getUserSetting('cats') )
+		$('a[href="#categories-pop"]').click();
+
 	jQuery('#category-add-toggle').click( function() {
 		jQuery(this).parents('div:first').toggleClass( 'wp-hidden-children' );
 		categoryTabs.tabsClick( 1 );
