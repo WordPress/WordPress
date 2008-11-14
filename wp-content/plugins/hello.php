@@ -1,6 +1,8 @@
 <?php
 /**
  * @package Hello_Dolly
+ * @author Matt Mullenweg
+ * @version 1.5
  */
 /*
 Plugin Name: Hello Dolly
@@ -11,8 +13,9 @@ Version: 1.5
 Author URI: http://ma.tt/
 */
 
-/** These are the lyrics to Hello Dolly */
-$lyrics = "Hello, Dolly
+function hello_dolly_get_lyric() {
+	/** These are the lyrics to Hello Dolly */
+	$lyrics = "Hello, Dolly
 Well, hello, Dolly
 It's so nice to have you back where you belong
 You're lookin' swell, Dolly
@@ -41,14 +44,16 @@ Dolly'll never go away
 Dolly'll never go away
 Dolly'll never go away again";
 
-// Here we split it into lines
-$lyrics = explode("\n", $lyrics);
-// And then randomly choose a line
-$chosen = wptexturize( $lyrics[ mt_rand(0, count($lyrics) - 1) ] );
+	// Here we split it into lines
+	$lyrics = explode("\n", $lyrics);
+
+	// And then randomly choose a line
+	return wptexturize( $lyrics[ mt_rand(0, count($lyrics) - 1) ] );
+}
 
 // This just echoes the chosen line, we'll position it later
 function hello_dolly() {
-	global $chosen;
+	$chosen = hello_dolly_get_lyric();
 	echo "<p id='dolly'>$chosen</p>";
 }
 
@@ -61,12 +66,11 @@ function dolly_css() {
 	<style type='text/css'>
 	#dolly {
 		position: absolute;
-		top: 2.3em;
+		top: 4.5em;
 		margin: 0;
 		padding: 0;
-		right: 10px;
-		font-size: 16px;
-		color: #d54e21;
+		right: 215px;
+		font-size: 11px;
 	}
 	</style>
 	";
