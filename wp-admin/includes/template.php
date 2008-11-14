@@ -111,7 +111,7 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
  * @return unknown
  */
 function _cat_row( $category, $level, $name_override = false ) {
-	global $class;
+	static $row_class;
 
 	$category = get_category( $category );
 
@@ -137,12 +137,12 @@ function _cat_row( $category, $level, $name_override = false ) {
 		$edit = $name;
 	}
 
-	$class = 'alternate' == $class ? '' : 'alternate';
+	$row_class = 'alternate' == $row_class ? '' : 'alternate';
 	$qe_data = get_category_to_edit($category->term_id);
 
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='cat-$category->term_id' class='iedit $class'>";
+	$output = "<tr id='cat-$category->term_id' class='iedit $row_class'>";
 
 	$columns = get_column_headers('category');
 	$hidden = (array) get_user_option( 'manage-category-columns-hidden' );
