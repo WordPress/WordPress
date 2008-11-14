@@ -913,7 +913,15 @@ ul#adminmenu li.write-new-button a {
 	padding: 0;
 	width: 12em;
 	list-style: none;
-	font: normal 11.5px/18px Georgia, "Times New Roman", Times, serif;
+}
+
+#adminmenu .wp-submenu a {
+	font: normal 12px/18px Helvetica, Verdana, sans-serif;
+}
+	
+#adminmenu a.menu-top,
+#adminmenu .wp-submenu-head {
+	font: normal 12px/18px Georgia, "Times New Roman", Times, serif;
 }
 
 #adminmenu.folded,
@@ -939,7 +947,6 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu li.wp-menu-open .wp-submenu {
 	display: block;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 #adminmenu div.wp-menu-image {
@@ -980,10 +987,6 @@ ul#adminmenu li.write-new-button a {
 	padding: 6px 5px;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
-}
-
-#adminmenu li.wp-has-current-submenu a.wp-has-submenu {
-	font-style: italic;
 }
 
 #adminmenu .wp-submenu a {
@@ -1118,6 +1121,11 @@ ul#adminmenu li.write-new-button a {
 	margin: 1px 0 0;
 	height: 29px;
 	padding: 1px 2px 0 0;
+}
+
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+#adminmenu li.menu-top > a.current {
+	font-style: italic;
 }
 /* end side admin menu */
 
