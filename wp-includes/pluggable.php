@@ -1270,6 +1270,9 @@ function wp_salt($scheme = 'auth') {
 				update_option('logged_in_salt', $salt);
 			}
 		}
+	} else {
+		// ensure each auth scheme has its own unique salt
+		$salt = hash_hmac('md5', $scheme, $secret_key);
 	}
 
 	return apply_filters('salt', $secret_key . $salt, $scheme);
