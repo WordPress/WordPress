@@ -3,6 +3,13 @@ var theList; var theExtraList;
 
 setCommentsList = function() {
 	var dimAfter = function( r, settings ) {
+		var c = $('#' + settings.element);
+		
+		if ( c.is('.unapproved') )
+			c.find('div.comment_status').html('0')
+		else
+			c.find('div.comment_status').html('1')
+
 		$('li span.comment-count').each( function() {
 			var a = $(this);
 			var n = parseInt(a.html(),10);
@@ -263,10 +270,11 @@ commentReply = {
 		$(id+' .hide-if-no-js').removeClass('hide-if-no-js');
 		this.revert();
 		this.addEvents($(id));
+		var bg = $(id).hasClass('unapproved') ? '#ffffe0' : '#fff';
 
 		$(id)
-			.animate( { backgroundColor:"#CCEEBB" }, 600 )
-			.animate( { backgroundColor:"transparent" }, 600 );
+			.animate( { 'backgroundColor':'#CCEEBB' }, 600 )
+			.animate( { 'backgroundColor': bg }, 600 );
 
 		theList = theExtraList = null;
 		$("#get-extra-comments, a[className*=':']").unbind();
