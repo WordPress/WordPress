@@ -615,7 +615,7 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 }
 
 /**
- * Add sub menu page to the management main menu.
+ * Add sub menu page to the tools main menu.
  *
  * @param string $page_title 
  * @param unknown_type $menu_title
@@ -642,6 +642,26 @@ function add_users_page( $page_title, $menu_title, $access_level, $file, $functi
 	else
 		$parent = 'profile.php';
 	return add_submenu_page( $parent, $page_title, $menu_title, $access_level, $file, $function );
+}
+
+function add_posts_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+	return add_submenu_page( 'posts-new.php', $page_title, $menu_title, $access_level, $file, $function );
+}
+
+function add_media_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+	return add_submenu_page( 'media-new.php', $page_title, $menu_title, $access_level, $file, $function );
+}
+
+function add_links_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+	return add_submenu_page( 'link-add.php', $page_title, $menu_title, $access_level, $file, $function );
+}
+
+function add_pages_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+	return add_submenu_page( 'page-new.php', $page_title, $menu_title, $access_level, $file, $function );
+}
+
+function add_comments_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 //
