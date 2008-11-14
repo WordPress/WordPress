@@ -174,7 +174,7 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
 function media_handle_upload($file_id, $post_id, $post_data = array()) {
 	$overrides = array('test_form'=>false);
 
-	$time = current_time('mysql', true);
+	$time = current_time('mysql');
 	if ( $post = get_post($post_id) ) {
 		if ( substr( $post->post_date, 0, 4 ) > 0 )
 			$time = $post->post_date;
