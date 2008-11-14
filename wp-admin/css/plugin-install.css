@@ -122,6 +122,13 @@ div.star img {
 	padding: 10px;
 }
 
+#plugin-information .section ul,
+#plugin-information .section ol {
+	margin-left: 16px;
+	list-style-type: square;
+	list-style-image: none;
+}
+
 #plugin-information #section-screenshots li img {
 	vertical-align: text-top;
 }
@@ -135,4 +142,8 @@ div.star img {
 #plugin-information .updated,
 #plugin-information pre {
 	margin-right: 215px;
+}
+
+#plugin-information pre {
+	padding: 7px;
 }

@@ -322,7 +322,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add_data( 'press-this-ie', 'conditional', 'gte IE 6' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20080613' );
 	$styles->add( 'login', '/wp-admin/css/login.css' );
-	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css' );
+	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081114' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 
 	foreach ( $rtl_styles as $rtl_style )
