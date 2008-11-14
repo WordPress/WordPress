@@ -28,7 +28,9 @@ function wp_dashboard_setup() {
 	wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
 
 	// Recent Comments Widget
-	$recent_comments_title = ( current_user_can('edit_posts') ) ? sprintf( __( 'Recent Comments <a href="%s">View all</a>' ), 'edit-comments.php' ) : __( 'Recent Comments' );
+	$recent_comments_title = __( 'Recent Comments' );
+	if ( current_user_can('edit_posts') ) 
+		$recent_comments_title .= ' <a href="edit-comments.php" class="edit-box open-box">' . __('View all') . '</a>';
 	wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments' );
 
 	// Incoming Links Widget
@@ -54,8 +56,7 @@ function wp_dashboard_setup() {
 
 	// Recent Drafts
 	if ( current_user_can('edit_posts') )
-		wp_add_dashboard_widget( 'dashboard_recent_drafts', sprintf( __( 'Recent Drafts <a href="%s">View all</a>' ), 'edit.php?post_status=draft' ), 'wp_dashboard_recent_drafts' );
-
+		wp_add_dashboard_widget( 'dashboard_recent_drafts', __( 'Recent Drafts') . ' <a href="edit.php?post_status=draft" class="edit-box open-box">' . __('View all') . '</a>', 'wp_dashboard_recent_drafts' );
 
 	// Primary feed (Dev Blog) Widget
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
