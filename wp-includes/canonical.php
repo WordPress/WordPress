@@ -133,40 +133,49 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 			if ( !$redirect_url )
 				$redirect_url = $requested_url;
 			$paged_redirect = @parse_url($redirect_url);
-			while ( preg_match( '#page/[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/feed(/[a-z0-9-]*?(/+)?)?$#', $paged_redirect['path'] ) || preg_match( '#comment-page-[0-9]+/?$#', $paged_redirect['path'] ) ) {
+			while ( preg_match( '#/page/[0-9]+?(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/(feed|rss|rdf|atom|rss2)(/+)?$#', $paged_redirect['path'] ) || preg_match( '#/comment-page-[0-9]+(/+)?$#', $paged_redirect['path'] ) ) {
 				// Strip off paging and feed
 				$paged_redirect['path'] = preg_replace('#/page/[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing paging
-				$paged_redirect['path'] = preg_replace('#/feed(/[a-z0-9-]*?(/+)?)?$#', '/', $paged_redirect['path']); // strip off any existing feed
-				$paged_redirect['path'] = preg_replace('#comment-page-[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing comment paging
+				$paged_redirect['path'] = preg_replace('#/(feed|rss2?|rdf|atom)(/+)?$#', '/', $paged_redirect['path']); // strip off feed endings
+				$paged_redirect['path'] = preg_replace('#/comment-page-[0-9]+?(/+)?$#', '/', $paged_redirect['path']); // strip off any existing comment paging
 			}
 
-			$paged_redirect['path'] = preg_replace('|/index.php/?$|', '/', $paged_redirect['path']); // strip off trailing /index.php/
+			$addl_path = '';
+			if ( is_feed() ) {
+				$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit( 'feed/' . ( ( 'rss2' ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
+				$redirect['query'] = remove_query_arg( 'feed', $redirect['query'] );
+			}
+
 			if ( get_query_var('paged') > 0 ) {
 				$paged = get_query_var('paged');
-				if ( $paged > 1 && !is_single() ) {
-					$paged_redirect['path'] = trailingslashit($paged_redirect['path']);
-					if ( $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
-						$paged_redirect['path'] .= 'index.php/';
-					$paged_redirect['path'] .= user_trailingslashit("page/$paged", 'paged');
-				} elseif ( !is_single() ) {
-					$paged_redirect['path'] = user_trailingslashit($paged_redirect['path'], 'paged');
+				$redirect['query'] = remove_query_arg( 'paged', $redirect['query'] );
+				if ( !is_feed() ) {
+					if ( $paged > 1 && !is_single() ) {
+						$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit("page/$paged", 'paged');
+					} elseif ( !is_single() ) {
+						$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit($paged_redirect['path'], 'paged');
+					}
+				} elseif ( $paged > 1 ) {
+					$redirect['query'] = add_query_arg( 'paged', $paged, $redirect['query'] );
 				}
 			}
-			if ( is_feed() ) {
-				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'feed/' . ( ( 'rss2' ==  get_query_var('feed') || 'feed' == get_query_var('feed') ) ? '' : get_query_var('feed') ), 'feed' );
-			}
+
 			if ( get_option('page_comments') && ( ( 'newest' == get_option('default_comments_page') && get_query_var('cpage') > 0 ) || ( 'newest' != get_option('default_comments_page') && get_query_var('cpage') > 1 ) ) ) {
-				$paged_redirect['path'] = user_trailingslashit( trailingslashit( $paged_redirect['path'] ) . 'comment-page-' . get_query_var('cpage'), 'commentpaged' );
+				$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit( 'comment-page-' . get_query_var('cpage'), 'commentpaged' );
+				$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 			}
+
+			$paged_redirect['path'] = trailingslashit( preg_replace('|/index.php/?$|', '/', $paged_redirect['path']) ); // strip off trailing /index.php/
+			if ( !empty( $addl_path ) && $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
+				$paged_redirect['path'] .= 'index.php/';
+			$paged_redirect['path'] .= $addl_path;
 			$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
 			$redirect['path'] = $paged_redirect['path'];
-			$redirect['query'] = remove_query_arg( 'paged', $redirect['query'] );
-			$redirect['query'] = remove_query_arg( 'feed', $redirect['query'] );
-			$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 		}
 	}
 
 	// tack on any additional query vars
+	$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
 	if ( $redirect_url && !empty($redirect['query']) ) {
 		if ( strpos($redirect_url, '?') !== false )
 			$redirect_url .= '&';
@@ -205,7 +214,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		$redirect['query'] = trim(preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query']), '&');
 
 		// Remove redundant leading ampersands
-		$redirect['query'] = preg_replace( '#^\??&+#', '', $redirect['query'] );
+		$redirect['query'] = preg_replace( '#^\??&*?#', '', $redirect['query'] );
 	}
 
 	// strip /index.php/ when we're not using PATHINFO permalinks
