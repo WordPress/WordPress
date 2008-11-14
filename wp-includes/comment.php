@@ -1570,7 +1570,7 @@ function _close_comments_for_old_posts( $posts ) {
 }
 
 /**
- * Close comments on an old post.  Hooked to comments_open.
+ * Close comments on an old post.  Hooked to comments_open and pings_open.
  *
  * @access private
  * @since 2.7.0
