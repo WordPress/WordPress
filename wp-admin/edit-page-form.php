@@ -356,7 +356,7 @@ function page_slug_meta_box($post){
 }
 add_meta_box('pageslugdiv', __('Page Slug'), 'page_slug_meta_box', 'page', 'normal', 'core');
 
-$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+$authors = get_editable_user_ids( $current_user->id, true, 'page' ); // TODO: ROLE SYSTEM
 if ( $post->post_author && !in_array($post->post_author, $authors) )
 	$authors[] = $post->post_author;
 if ( $authors && count( $authors ) > 1 ) {
@@ -369,7 +369,7 @@ if ( $authors && count( $authors ) > 1 ) {
 	 */
 	function page_author_meta_box($post){
 		global $current_user, $user_ID;
-		$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+		$authors = get_editable_user_ids( $current_user->id, true, 'page' ); // TODO: ROLE SYSTEM
 		if ( $post->post_author && !in_array($post->post_author, $authors) )
 			$authors[] = $post->post_author;
 ?>

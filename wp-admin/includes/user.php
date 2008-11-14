@@ -220,13 +220,13 @@ function get_editable_authors( $user_id ) {
  * @param bool $exclude_zeros Optional, default is true. Whether to exclude zeros.
  * @return unknown
  */
-function get_editable_user_ids( $user_id, $exclude_zeros = true ) {
+function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'post' ) {
 	global $wpdb;
 
 	$user = new WP_User( $user_id );
 
-	if ( ! $user->has_cap('edit_others_posts') ) {
-		if ( $user->has_cap('edit_posts') || $exclude_zeros == false )
+	if ( ! $user->has_cap("edit_others_{$post_type}s") ) {
+		if ( $user->has_cap("edit_{$post_type}s") || $exclude_zeros == false )
 			return array($user->id);
 		else
 			return false;
