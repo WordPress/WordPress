@@ -33,6 +33,11 @@ acronym, abbr, span.caps, h2, p, li, #header, #menu ul li, #menu ul ul li, #wp-c
 	margin-left: 12px;
 }
 
+#commentlist li .avatar {
+	margin-right: 0;
+	margin-left: 12px;
+}
+
 #content {
 	margin: 30px 3em 0 13em;
 	padding-right: 0;
