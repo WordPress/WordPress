@@ -3177,7 +3177,7 @@ function _post_states($post) {
 	}
 }
 
-function screen_meta($screen, $suffix = '') {
+function screen_meta($screen) {
 	global $wp_meta_boxes;
 
 	$screen = str_replace('.php', '', $screen);
@@ -3220,7 +3220,8 @@ function screen_meta($screen, $suffix = '') {
 	global $title;
 
 	$help['post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
-	$help['general-settings'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+	$help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+	$help = apply_filters('contextual_help_link', $help, $screen); 
 	?>
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
@@ -3242,7 +3243,7 @@ function screen_meta($screen, $suffix = '') {
 	$contextual_help .= '<br />';
 	$contextual_help .= __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>');
 	$contextual_help .= "</div>\n";
-	echo apply_filters('contextual_help', $contextual_help, $screen, $suffix);
+	echo apply_filters('contextual_help', $contextual_help, $screen);
 	?>
 	</div>
 

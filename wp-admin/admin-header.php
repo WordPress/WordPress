@@ -91,7 +91,7 @@ if ( function_exists('mb_strlen') ) {
 <?php
 do_action('admin_notices');
 
-screen_meta($pagenow, $hook_suffix);
+screen_meta($hook_suffix);
 unset($hook_suffix);
 
 if ( $parent_file == 'options-general.php' ) {
