@@ -173,9 +173,12 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
  */
 function media_handle_upload($file_id, $post_id, $post_data = array()) {
 	$overrides = array('test_form'=>false);
-	
-	$post = get_post($post_id);
-	$time = $post->post_date_gmt;
+
+	$time = current_time('mysql', true);
+	if ( $post = get_post($post_id) ) {
+		if ( substr( $post->post_date, 0, 4 ) > 0 )
+			$time = $post->post_date;
+	}
 
 	$file = wp_handle_upload($_FILES[$file_id], $overrides, $time);
 
