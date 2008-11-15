@@ -17,8 +17,11 @@ setCommentsList = function() {
 			if ( isNaN(n) ) return;
 			n = n + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
 			if ( n < 0 ) { n = 0; }
-			a.html( n.toString() );
 			$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			n = n.toString();
+			if ( n.length > 3 )
+				n = n.substr(0, n.length-3)+' '+n.substr(-3);
+			a.html(n);
 		});
 	};
 
@@ -34,8 +37,11 @@ setCommentsList = function() {
 				n = n + 1;
 			}
 			if ( n < 0 ) { n = 0; }
-			a.html( n.toString() );
 			$('#awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			n = n.toString();
+			if ( n.length > 3 )
+				n = n.substr(0, n.length-3)+' '+n.substr(-3);
+			a.html(n);
 		});
 
 		$('span.spam-count' ).each( function() {
@@ -49,7 +55,10 @@ setCommentsList = function() {
 				n = n - 1;
 			}
 			if ( n < 0 ) { n = 0; }
-			a.html( n.toString() );
+			n = n.toString();
+			if ( n.length > 3 )
+				n = n.substr(0, n.length-3)+' '+n.substr(-3);
+			a.html(n);
 		});
 
 		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {

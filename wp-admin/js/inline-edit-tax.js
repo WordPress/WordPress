@@ -105,6 +105,7 @@ inlineEditTax = {
 		$.post('admin-ajax.php', params,
 			function(r) {
 				var row = $(inlineEditTax.what+id);
+				$('table.widefat .inline-edit-save .waiting').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {

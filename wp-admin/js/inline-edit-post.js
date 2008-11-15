@@ -11,11 +11,8 @@ inlineEditPost = {
 		// get all editable rows
 		t.rows = $('tr.iedit');
 
-		// prepare the edit row
-//		.dblclick(function() { inlineEditPost.toggle(this); })
+		// prepare the edit rows
 		qeRow.keyup(function(e) { if(e.which == 27) return inlineEditPost.revert(); });
-
-//		.dblclick(function() { inlineEditPost.revert(); })
 		bulkRow.keyup(function(e) { if (e.which == 27) return inlineEditPost.revert(); });
 
 		$('a.cancel', qeRow).click(function() { return inlineEditPost.revert(); });
@@ -25,7 +22,6 @@ inlineEditPost = {
 		$('a.cancel', bulkRow).click(function() { return inlineEditPost.revert(); });
 
 		// add events
-//		t.rows.dblclick(function() { inlineEditPost.toggle(this); });
 		t.addEvents(t.rows);
 
 		$('#bulk-title-div').parents('fieldset').after(
@@ -51,17 +47,9 @@ inlineEditPost = {
 
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
 
-		$('#doaction').click(function(e){
-			if ( $('select[name="action"]').val() == 'edit' ) {
-				e.preventDefault();
-				t.setBulk();
-			} else if ( $('form#posts-filter tr.inline-editor').length > 0 ) {
-				t.revert();
-			}
-		});
-
-		$('#doaction2').click(function(e){
-			if ( $('select[name="action2"]').val() == 'edit' ) {
+		$('#doaction, #doaction2').click(function(e){
+			var n = $(this).attr('id').substr(2);
+			if ( $('select[name="'+n+'"]').val() == 'edit' ) {
 				e.preventDefault();
 				t.setBulk();
 			} else if ( $('form#posts-filter tr.inline-editor').length > 0 ) {
@@ -205,6 +193,7 @@ inlineEditPost = {
 		$.post('admin-ajax.php', params,
 			function(r) {
 				var row = $(inlineEditPost.what+id);
+				$('table.widefat .inline-edit-save .waiting').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
