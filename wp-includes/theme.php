@@ -892,6 +892,8 @@ function preview_theme_ob_filter( $content ) {
  * @return string
  */
 function preview_theme_ob_filter_callback( $matches ) {
+	if ( strpos($matches[4], 'onclick') !== false )
+		$matches[4] = preg_replace('#onclick=([\'"]).*?(?<!\\\)\\1#i', '', $matches[4]); //Strip out any onclicks from rest of <a>. (?<!\\\) means to ignore the '" if its escaped by \  to prevent breaking mid-attribute.
 	if (
 		( false !== strpos($matches[3], '/wp-admin/') )
 	||
