@@ -883,7 +883,7 @@ function inline_edit_row( $type ) {
 	$hidden = array_intersect( array_keys( $columns ), array_filter( (array) get_user_option( "manage-$type-columns-hidden" ) ) );
 	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
-	$can_publish = current_user_can('publish_posts');
+	$can_publish = current_user_can("publish_{$type}s");
 	$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
 
 ?>
@@ -932,7 +932,7 @@ function inline_edit_row( $type ) {
 <?php endif; // $bulk
 
 		ob_start();
-		$authors = get_editable_user_ids( $current_user->id ); // TODO: ROLE SYSTEM
+		$authors = get_editable_user_ids( $current_user->id, true, $type ); // TODO: ROLE SYSTEM
 		if ( $authors && count( $authors ) > 1 ) :
 			$users_opt = array('include' => $authors, 'name' => 'post_author', 'class'=> 'authors', 'multi' => 1);
 			if ( $bulk )
