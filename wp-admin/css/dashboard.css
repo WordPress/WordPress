@@ -86,7 +86,8 @@ div.postbox div.inside {
 
 /* Right Now */
 
-#dashboard_right_now p.sub, #dashboard_right_now .table, #dashboard_right_now .versions {
+#dashboard_right_now p.sub,
+#dashboard_right_now .table, #dashboard_right_now .versions {
 	margin: -10px;
 	font-family: Georgia, serif;
 }
@@ -123,7 +124,8 @@ div.postbox div.inside {
 	border-top: none;
 }
 
-#dashboard_right_now .b, #dashboard_right_now .b a {
+#dashboard_right_now .b,
+#dashboard_right_now .b a {
 	color: #2583ad;
 }
 
@@ -166,14 +168,16 @@ div.postbox div.inside {
 	padding: 6px 10px 12px;
 }
 
-#dashboard_right_now .versions, #dashboard_right_now .versions p {
+#dashboard_right_now .versions,
+#dashboard_right_now .versions p {
 	font-style: italic;
 	font-size: 13px;
 }
 
-#dashboard_right_now .versions a, #dashboard_right_now .versions .b {
+#dashboard_right_now .versions a,
+#dashboard_right_now .versions .b {
 	font-style: normal;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	font-size: 12px;
 }
 
@@ -201,7 +205,8 @@ div.postbox div.inside {
 	border-top: 1px solid;
 }
 
-#the-comment-list .comment-item, #the-comment-list #replyrow {
+#the-comment-list .comment-item,
+#the-comment-list #replyrow {
 	margin: 0 -10px;
 }
 
@@ -221,7 +226,8 @@ div.postbox div.inside {
 	color: #999;
 }
 
-#the-comment-list .comment-item h4 cite, #the-comment-list .comment-item h4 strong {
+#the-comment-list .comment-item h4 cite,
+#the-comment-list .comment-item h4 strong {
 	font-style: normal;
 	color: #333;
 }
@@ -230,13 +236,15 @@ div.postbox div.inside {
 	margin: 0.2em 0;
 }
 
-#the-comment-list .comment-item blockquote, #the-comment-list .comment-item blockquote p {
+#the-comment-list .comment-item blockquote,
+#the-comment-list .comment-item blockquote p {
 	margin: 0;
 	padding: 0;
 	display: inline;
 }
 
-#dashboard_recent_comments #the-comment-list .trackback blockquote, #dashboard_recent_comments #the-comment-list .pingback blockquote {
+#dashboard_recent_comments #the-comment-list .trackback blockquote,
+#dashboard_recent_comments #the-comment-list .pingback blockquote {
 	display: block;
 }
 
@@ -274,7 +282,8 @@ div.postbox div.inside {
 	margin-right: 10px;
 }
 
-#dashboard_quick_press .input-text-wrap, #dashboard_quick_press .textarea-wrap {
+#dashboard_quick_press .input-text-wrap,
+#dashboard_quick_press .textarea-wrap {
 	margin: 0 0 1em 5em;
 }
 
