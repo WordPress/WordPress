@@ -236,7 +236,7 @@ function wp_dashboard_right_now() {
 	// Spam Comments
 	$num = number_format_i18n($num_comm['spam']);
 	if ( current_user_can( 'moderate_comments' ) )
-		$num = "<a href='edit-comments.php?comment_status=spam'>$num</a>";
+		$num = "<a href='edit-comments.php?comment_status=spam'><span class='spam-count'>$num</span></a>";
 	echo '<td class="b b-spam">'.$num.'</td>';
 	echo '<td class="last t spam">' . __ngettext( 'Spam', 'Spam', $num_comm['spam'] ) . '</td>';
 
@@ -252,7 +252,7 @@ function wp_dashboard_right_now() {
 	// Pending Comments
 	$num = number_format_i18n($num_comm['awaiting_moderation']);
 	if ( current_user_can( 'moderate_comments' ) )
-		$num = "<a href='edit-comments.php?comment_status=moderated'>$num</a>";
+		$num = "<a href='edit-comments.php?comment_status=moderated'><span class='pending-count'>$num</span></a>";
 	echo '<td class="b b-waiting">'.$num.'</td>';
 	echo '<td class="last t waiting">' . __ngettext( 'Pending', 'Pending', $num_comm['awaiting_moderation'] ) . '</td>';
 
