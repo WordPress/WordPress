@@ -289,9 +289,9 @@ function wp_dashboard_quick_press() {
 		$view = get_permalink( $_POST['post_ID'] );
 		$edit = clean_url( get_edit_post_link( $_POST['post_ID'] ) );
 		if ( 'post-quickpress-publish' == $_POST['action'] ) {
-			printf( __( 'Post Published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ), clean_url( $view ), $edit );
+			printf( '<div class="message"><p>' . __( 'Post Published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', clean_url( $view ), $edit );
 		} else {
-			printf( __( 'Draft Saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ), clean_url( add_query_arg( 'preview', 1, $view ) ), $edit );
+			printf( '<div class="message"><p>' . __( 'Draft Saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', clean_url( add_query_arg( 'preview', 1, $view ) ), $edit );
 			$drafts_query = new WP_Query( array(
 				'post_type' => 'post',
 				'what_to_show' => 'posts',
