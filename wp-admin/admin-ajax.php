@@ -880,10 +880,12 @@ case 'inline-save':
 
 	// rename
 	$data['user_ID'] = $GLOBALS['user_ID'];
-	$data['parent_id'] = $data['post_parent'];
+
+	if ( isset($data['post_parent']) )
+		$data['parent_id'] = $data['post_parent'];
 
 	// status
-	if ( 'private' == $data['keep_private'] )
+	if ( isset($data['keep_private']) && 'private' == $data['keep_private'] )
 		$data['post_status'] = 'private';
 	else
 		$data['post_status'] = $data['_status'];

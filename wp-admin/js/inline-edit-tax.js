@@ -12,7 +12,6 @@ inlineEditTax = {
 		t.rows = $('tr.iedit');
 
 		// prepare the edit row
-//		.dblclick(function() { inlineEditTax.toggle(this); })
 		row.keyup(function(e) { if(e.which == 27) return inlineEditTax.revert(); });
 
 		$('a.cancel', row).click(function() { return inlineEditTax.revert(); });
@@ -20,7 +19,6 @@ inlineEditTax = {
 		$('input, select', row).keydown(function(e) { if(e.which == 13) return inlineEditTax.save(this); });
 
 		// add events
-//		t.rows.dblclick(function() { inlineEditTax.toggle(this); });
 		t.addEvents(t.rows);
 
 		$('#posts-filter input[type="submit"]').click(function(e){
@@ -112,9 +110,7 @@ inlineEditTax = {
 					if ( -1 != r.indexOf('<tr') ) {
 						$('#edit-'+id).remove();
 						r = r.replace(/hide-if-no-js/, '');
-						row.html($(r).html()).show()
-							.animate( { backgroundColor: '#CCEEBB' }, 500)
-							.animate( { backgroundColor: '#eefee7' }, 500);
+						row.html($(r).html()).fadeIn();
 						inlineEditTax.addEvents(row);
 					} else
 						$('#edit-'+id+' .inline-edit-save .error').html(r).show();

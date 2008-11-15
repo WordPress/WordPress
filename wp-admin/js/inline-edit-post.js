@@ -123,7 +123,7 @@ inlineEditPost = {
 		if ( typeof(id) == 'object' )
 			id = t.getId(id);
 
-		var fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'post_password'];
+		var fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password'];
 		if ( t.type == 'page' ) fields.push('post_parent', 'menu_order', 'page_template');
 		if ( t.type == 'post' ) fields.push('tags_input');
 
@@ -207,15 +207,19 @@ inlineEditPost = {
 				var row = $(inlineEditPost.what+id);
 
 				if (r) {
-					r = r.replace(/hide-if-no-js/, '');
-					
-	
-					$('#edit-'+id).remove();
-					row.html($(r).html());
-					if ( 'draft' == $('input[name="post_status"]').val() )
-						row.find('td.column-comments').hide();
-					inlineEditPost.addEvents(row);
-					row.fadeIn();
+					if ( -1 != r.indexOf('<tr') ) {
+						r = r.replace(/hide-if-no-js/, '');
+
+						$('#edit-'+id).remove();
+						row.html($(r).html());
+						if ( 'draft' == $('input[name="post_status"]').val() )
+							row.find('td.column-comments').hide();
+						inlineEditPost.addEvents(row);
+						row.fadeIn();
+					} else {
+						r = r.replace( /<.[^<>]*?>/g, '' );
+						$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+r+'</span>');
+					}
 				} else {
 					$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+inlineEditL10n.error+'</span>');
 				}
