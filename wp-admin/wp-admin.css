@@ -1463,6 +1463,12 @@ table.form-table td .updated {
 	margin: 0;
 }
 
+#normal-sortables .postbox #replyrow .submit {
+	float: none;
+	margin: 0;
+	padding: 7px;
+}
+
 #side-sortables {
 	min-height: 300px;
 }
@@ -1649,7 +1655,7 @@ table.form-table td .updated {
 	font-weight: normal;
 }
 
-.ui-sortable .postbox .handlediv {
+.meta-box-sortables .postbox .handlediv {
 	float: right;
 	width: 23px;
 	height: 27px;
@@ -1754,6 +1760,11 @@ table.form-table td .updated {
 #side-info-column .inside-submitbox {
 	margin: 0 3px;
 	font-size: 11px;
+}
+
+input#link_description,
+input#link_url {
+	width: 98%;
 }
 
 #pending {
@@ -2515,7 +2526,6 @@ fieldset {
 #replyrow #ed_reply_toolbar input {
 	margin: 1px 2px 1px 1px;
 	min-width: 26px;
-	min-height: 25px;
 	padding: 3px 4px;
 	font-size: 12px;
 	-moz-border-radius: 3px;
@@ -3152,5 +3162,6 @@ br.clear {
 	margin: 0 10px;
 	vertical-align: middle;
 }
+
 
 

@@ -251,7 +251,7 @@ ul#adminmenu li.write-new-button a {
 }
 /* 1500 - 1800
 =================================== */
-.ui-sortable .postbox .handlediv {
+.meta-box-sortables .postbox .handlediv {
 	float: left;
 }
 .metabox-holder .postbox h3,
@@ -463,10 +463,7 @@ td.action-links, th.action-links {
 	margin-right: 0;
 	margin-left: 5px;
 }
-.inline-editor .quick-edit-div {
-	float: right;
-	margin: 0 0 3px 5px;
-}
+
 /* 2500 - 2700
 =================================== */
 #bulk-titles div a {

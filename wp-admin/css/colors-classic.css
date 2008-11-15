@@ -1117,12 +1117,6 @@ table.diff .diff-addedline ins {
 	color: #606060;
 }
 
-#replydiv,
-.inline-editor .quick-edit-div {
-	border-color: #EBEBEB #CCC #CCC #EBEBEB;
-	background-color: #fff;
-}
-
 #replysubmit {
 	background-color: #EAF3FA;
 	border-top-color: #ddd;
@@ -1196,6 +1190,6 @@ div.star.select:hover {
 	color: #D54E21;
 }
 
-.ui-sortable .postbox:hover .handlediv {
+.meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -111px;
 }

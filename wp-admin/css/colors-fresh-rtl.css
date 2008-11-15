@@ -64,6 +64,6 @@
 	background: #b5b5b5 url(../images/menu-bits-rtl.gif) repeat-x scroll right top;
 }
 
-.ui-sortable .postbox:hover .handlediv {
+.meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/menu-bits-rtl.gif) no-repeat scroll right -111px;
 }

@@ -120,9 +120,7 @@ div.nav,
 #replyhandle,
 h3.info-box-title,
 #screen-options-wrap,
-#wpbody-content .describe tr,
-#edithead,
-#replyhead  {
+#wpbody-content .describe tr {
 	background-color: #eaf3fa;
 }
 
@@ -149,8 +147,8 @@ strong .post-com-count span {
 	background-color: #2583ad;
 }
 
-#login form .submit input, .search-box .button,
-#ed_reply_toolbar {
+#login form .submit input, 
+.search-box .button {
 	background-color: #cee1ef !important;
 }
 
@@ -1204,6 +1202,7 @@ table.diff .diff-addedline ins {
 	color: #D54E21;
 }
 
+
 #screen-options-wrap,
 #contextual-help-wrap {
 	background-color: #f1f1f1;
@@ -1214,20 +1213,23 @@ table.diff .diff-addedline ins {
 	color: #606060;
 }
 
-#replydiv,
-.inline-editor .quick-edit-div {
-	border-color: #EBEBEB #CCC #CCC #EBEBEB;
-	background-color: #fff;
-}
-
 #replysubmit {
-	background-color: #EAF3FA;
+	background-color: #f1f1f1;
 	border-top-color: #ddd;
 }
 
 #replyerror {
 	border-color: #ddd;
-	background-color: #f8f8f8;
+	background-color: #f9f9f9;
+}
+
+#edithead,
+#replyhead {
+	background-color: #f1f1f1;
+}
+
+#ed_reply_toolbar {
+	background-color: #e9e9e9;
 }
 
 /* table vim shortcuts */
@@ -1287,7 +1289,7 @@ div.star.select:hover {
 }
 
 .inline-editor .quick-edit-save {
-	background-color: #EAF3FA;
+	background-color: #f1f1f1;
 }
 
 #replyrow #ed_reply_toolbar input:hover {
@@ -1299,7 +1301,7 @@ div.star.select:hover {
 	color: #D54E21;
 }
 
-.ui-sortable .postbox:hover .handlediv {
+.meta-box-sortables .postbox:hover .handlediv {
 	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -111px;
 }
 
