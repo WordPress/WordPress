@@ -538,12 +538,17 @@ endif;
 function _fetch_remote_file ($url, $headers = "" ) {
 	$resp = wp_remote_request($url, array('headers' => $headers, 'timeout' => MAGPIE_FETCH_TIME_OUT));
 	if ( is_wp_error($resp) ) {
+		$error = array_shift($resp->errors);
+
 		$resp = new stdClass;
 		$resp->status = 500;
+		$resp->response_code = 500;
+		$resp->error = $error[0] . "\n"; //\n = Snoopy compatibility
 		return $resp;
 	}
 	$response = new stdClass;
 	$response->status = $resp['response']['code'];
+	$response->response_code = $resp['response']['code'];
 	$response->headers = $resp['headers'];
 	$response->results = $resp['body'];
 

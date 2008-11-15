@@ -24,7 +24,6 @@ if ( ! defined('ABSPATH') ) die();
 	<tbody id="the-list" class="list:post">
 <?php
 if ( have_posts() ) {
-$bgcolor = '';
 add_filter('the_title','wp_specialchars');
 while (have_posts()) : the_post();
 $alt = ( 'alternate' == $alt ) ? '' : 'alternate';
@@ -200,7 +199,7 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 endwhile;
 } else {
 ?>
-  <tr style='background-color: <?php echo $bgcolor; ?>'>
+  <tr>
     <td colspan="8"><?php _e('No posts found.') ?></td>
   </tr>
 <?php

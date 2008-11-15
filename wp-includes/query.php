@@ -1740,13 +1740,13 @@ class WP_Query {
 		if ( !empty($q['s']) ) {
 			// added slashes screw with quote grouping when done early, so done later
 			$q['s'] = stripslashes($q['s']);
-			if ($q['sentence']) {
+			if ( !empty($q['sentence']) ) {
 				$q['search_terms'] = array($q['s']);
 			} else {
-				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $q[s], $matches);
+				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $q['s'], $matches);
 				$q['search_terms'] = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
 			}
-			$n = ($q['exact']) ? '' : '%';
+			$n = !empty($q['exact']) ? '' : '%';
 			$searchand = '';
 			foreach( (array) $q['search_terms'] as $term) {
 				$term = addslashes_gpc($term);
@@ -1754,7 +1754,7 @@ class WP_Query {
 				$searchand = ' AND ';
 			}
 			$term = $wpdb->escape($q['s']);
-			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
+			if (empty($q['sentence']) && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
 				$search .= " OR ($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}')";
 
 			if ( !empty($search) )
