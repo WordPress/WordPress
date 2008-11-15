@@ -200,11 +200,17 @@ jQuery(document).ready( function($) {
 		return true;
 	} );
 
-	$( 'thead :checkbox, tfoot :checkbox' ).click( function() {
-		$(this).parents( 'form:first' ).find( 'tbody:visible .check-column :checkbox' ).attr( 'checked', function() {
-			return $(this).attr( 'checked' ) ? '' : 'checked';
+	$( 'thead :checkbox, tfoot :checkbox' ).click( function(e) {
+		var c = $(this).attr('checked');
+
+		$(this).parents( 'form:first' ).find( 'table .check-column :checkbox' ).attr( 'checked', function() {
+			if ( e.shiftKey )
+				return $(this).attr( 'checked' ) ? '' : 'checked';
+			else if (c)
+				return 'checked';
+
+			return '';
 		});
-		return false;
 	});
 });
 
