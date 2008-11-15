@@ -1522,7 +1522,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 		$default = "http://www.gravatar.com/avatar/s={$size}";
 	elseif ( empty($email) )
 		$default = "http://www.gravatar.com/avatar/?d=$default&amp;s={$size}";
-	else
+	elseif ( strpos($default, 'http://') === 0 )
 		$default = add_query_arg( 's', $size, $default );
 
 	if ( !empty($email) ) {
