@@ -2743,7 +2743,7 @@ function meta_box_prefs($page) {
 				if ( false == $box || ! $box['title'] )
 					continue;
 				// Submit box cannot be hidden
-				if ( 'submitdiv' == $box['id'] )
+				if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] )
 					continue;
 				$box_id = $box['id'];
 				echo '<label for="' . $box_id . '-hide">';
