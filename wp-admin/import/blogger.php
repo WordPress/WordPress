@@ -522,7 +522,7 @@ class Blogger_Import {
 	}
 
 	function import_post( $entry ) {
-		global $wpdb, $importing_blog;
+		global $importing_blog;
 
 		// The old permalink is all Blogger gives us to link comments to their posts.
 		if ( isset( $entry->draft ) )
@@ -659,7 +659,7 @@ class Blogger_Import {
 	}
 
 	function get_user_options($current) {
-		global $wpdb, $importer_users;
+		global $importer_users;
 		if ( ! isset( $importer_users ) )
 			$importer_users = (array) get_users_of_blog();
 

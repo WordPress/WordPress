@@ -259,7 +259,7 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 	$meta_value = trim( $meta_value );
 
 	if ( ! empty($meta_value) )
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s AND meta_value = %s", $userid, $meta_key, $meta_value) );
+		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s AND meta_value = %s", $user_id, $meta_key, $meta_value) );
 	else
 		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->usermeta WHERE user_id = %d AND meta_key = %s", $user_id, $meta_key) );
 

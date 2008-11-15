@@ -158,7 +158,6 @@ function wp_next_scheduled( $hook, $args = array() ) {
  * @return null Cron could not be spawned, because it is not needed to run.
  */
 function spawn_cron( $local_time ) {
-	global $current_blog;
 
 	/*
 	 * do not even start the cron if local server timer has drifted

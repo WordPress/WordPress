@@ -262,7 +262,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	), $post_data );
 
 	// Save the data
-	$id = wp_insert_attachment($attachment, $file, $post_parent);
+	$id = wp_insert_attachment($attachment, $file, $post_id);
 	if ( !is_wp_error($id) ) {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 		return $url;
@@ -905,8 +905,6 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 		$post = (object) $post;
 
 	$edit_post = sanitize_post($post, 'edit');
-	$file = wp_get_attachment_url($post->ID);
-	$link = get_attachment_link($post->ID);
 
 	$form_fields = array(
 		'post_title'   => array(
@@ -1019,10 +1017,6 @@ function get_media_item( $attachment_id, $args = null ) {
 	else
 		return false;
 
-	$title_label = __('Title');
-	$description_label = __('Description');
-	$tags_label = __('Tags');
-
 	$toggle_on = __('Show');
 	$toggle_off = __('Hide');
 
@@ -1030,7 +1024,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$filename = basename($post->guid);
 	$title = attribute_escape($post->post_title);
-	$description = attribute_escape($post->post_content);
+
 	if ( $_tags = get_the_tags($attachment_id) ) {
 		foreach ( $_tags as $tag )
 			$tags[] = $tag->name;

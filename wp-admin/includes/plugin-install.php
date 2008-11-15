@@ -27,7 +27,6 @@
  * @return mixed
  */
 function plugins_api($action, $args = null) {
-	global $wp_version;
 
 	if( is_array($args) )
 		$args = (object)$args;
@@ -247,8 +246,6 @@ function install_updated($page = 1) {
  * @param int $totalpages Number of pages.
  */
 function display_plugins_table($plugins, $page = 1, $totalpages = 1){
-	global $tab;
-
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
@@ -674,7 +671,7 @@ function do_plugin_install_local_package($package, $filename = '') {
 		$install_actions = apply_filters('install_plugin_complete_actions', array(
 							'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . __('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
 							'plugins_page' => '<a href="' . admin_url('plugins.php') . '" title="' . __('Goto plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
-							), $plugin_information, $plugin_file);
+							), array(), $plugin_file);
 		if ( ! empty($install_actions) )
 			show_message('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
 	}

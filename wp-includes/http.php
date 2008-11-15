@@ -411,7 +411,7 @@ class WP_Http {
 				$length = hexdec( $match[1] );
 				$chunkLength = strlen( $match[0] );
 
-				$strBody = substr($body, strlen( $match[0] ), $length);
+				$strBody = substr($body, $chunkLength, $length);
 				$parsedBody .= $strBody;
 
 				$body = ltrim(str_replace(array($match[0], $strBody), '', $body), "\n");

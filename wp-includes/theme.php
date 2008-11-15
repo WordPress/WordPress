@@ -186,7 +186,7 @@ function get_theme_data( $theme_file ) {
 	if ( preg_match( '|Author URI:(.*)$|mi', $theme_data, $author_uri ) )
 		$author_uri = clean_url( trim( $author_uri[1]) );
 	else
-		$author_uti = '';
+		$author_uri = '';
 
 	if ( preg_match( '|Template:(.*)$|mi', $theme_data, $template ) )
 		$template = wp_kses( trim( $template[1] ), $themes_allowed_tags );

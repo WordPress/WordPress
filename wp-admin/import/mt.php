@@ -55,7 +55,7 @@ class MT_Import {
 	}
 
 	function users_form($n) {
-		global $wpdb, $testing;
+		global $wpdb;
 		$users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY ID");
 ?><select name="userselect[<?php echo $n; ?>]">
 	<option value="#NONE#"><?php _e('- Select -') ?></option>
@@ -101,7 +101,6 @@ class MT_Import {
 
 	//function to check the authorname and do the mapping
 	function checkauthor($author) {
-		global $wpdb;
 		//mtnames is an array with the names in the mt import file
 		$pass = wp_generate_password();
 		if (!(in_array($author, $this->mtnames))) { //a new mt author name is found
@@ -109,7 +108,7 @@ class MT_Import {
 			$this->mtnames[$this->j] = $author; //add that new mt author name to an array
 			$user_id = username_exists($this->newauthornames[$this->j]); //check if the new author name defined by the user is a pre-existing wp user
 			if (!$user_id) { //banging my head against the desk now.
-				if ($newauthornames[$this->j] == 'left_blank') { //check if the user does not want to change the authorname
+				if ($this->newauthornames[$this->j] == 'left_blank') { //check if the user does not want to change the authorname
 					$user_id = wp_create_user($author, $pass);
 					$this->newauthornames[$this->j] = $author; //now we have a name, in the place of left_blank.
 				} else {

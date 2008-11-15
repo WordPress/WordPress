@@ -207,7 +207,7 @@ function inline_edit_term_row($type) {
 	$columns = $is_tag ? get_column_headers('tag') : get_column_headers('category');
 	$hidden = array_intersect( array_keys( $columns ), array_filter( (array) get_user_option( "manage-$type-columns-hidden" ) ) );
 	$col_count = count($columns) - count($hidden);
-	$output = ''; ?>
+	?>
 
 <form method="get" action=""><table style="display: none"><tbody id="inlineedit">
 	<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $col_count; ?>">
@@ -659,7 +659,6 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '' ) {
 
 	// convert it to table rows
 	$out = '';
-	$class = '';
 	$count = 0;
 	foreach( $tags as $tag )
 		$out .= _tag_row( $tag, ++$count % 2 ? ' class="iedit alternate"' : ' class="iedit"' );
@@ -1879,7 +1878,6 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	global $comment, $post;
 	$comment = get_comment( $comment_id );
 	$post = get_post($comment->comment_post_ID);
-	$authordata = get_userdata($post->post_author);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 
 	if ( current_user_can( 'edit_post', $post->ID ) ) {

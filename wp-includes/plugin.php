@@ -123,7 +123,7 @@ function has_filter($tag, $function_to_check = false) {
  * @subpackage Plugin
  * @since 0.71
  * @global array $wp_filter Stores all of the filters
- * @global array $merge_filters Merges the filter hooks using this function.
+ * @global array $merged_filters Merges the filter hooks using this function.
  * @global array $wp_current_filter stores the list of current filters with the current one last
  *
  * @param string $tag The name of the filter hook.
@@ -219,7 +219,7 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
  * @return bool True when finished.
  */
 function remove_all_filters($tag, $priority = false) {
-	global $wp_filter, $merge_filters;
+	global $wp_filter, $merged_filters;
 
 	if( isset($wp_filter[$tag]) ) {
 		if( false !== $priority && isset($$wp_filter[$tag][$priority]) )

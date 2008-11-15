@@ -2161,7 +2161,7 @@ function &get_pages($args = '') {
 	$pages = $wpdb->get_results($query);
 
 	if ( empty($pages) ) {
-		$page = apply_filters('get_pages', array(), $r);
+		$pages = apply_filters('get_pages', array(), $r);
 		return $pages;
 	}
 
@@ -3322,7 +3322,7 @@ function wp_save_post_revision( $post_id ) {
  * @return object|bool The autosaved data or false on failure or when no autosave exists.
  */
 function wp_get_post_autosave( $post_id ) {
-	global $wpdb;
+
 	if ( !$post = get_post( $post_id ) )
 		return false;
 

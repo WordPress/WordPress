@@ -769,7 +769,6 @@ function get_available_post_statuses($type = 'post') {
  * @return unknown
  */
 function wp_edit_posts_query( $q = false ) {
-	global $wpdb;
 	if ( false === $q )
 		$q = $_GET;
 	$q['m']   = isset($q['m']) ? (int) $q['m'] : 0;
@@ -832,7 +831,6 @@ function get_available_post_mime_types($type = 'attachment') {
  * @return unknown
  */
 function wp_edit_attachments_query( $q = false ) {
-	global $wpdb;
 	if ( false === $q )
 		$q = $_GET;
 

@@ -29,7 +29,7 @@ function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw') {
 		wp_cache_add($bookmark->link_id, $bookmark, 'bookmark');
 		$_bookmark = $bookmark;
 	} else {
-		if ( isset($GLOBALS['link']) && ($GLOBALS['link']->link_id == $link) ) {
+		if ( isset($GLOBALS['link']) && ($GLOBALS['link']->link_id == $bookmark) ) {
 			$_bookmark = & $GLOBALS['link'];
 		} elseif ( ! $_bookmark = wp_cache_get($bookmark, 'bookmark') ) {
 			$_bookmark = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1", $bookmark));

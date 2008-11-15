@@ -353,7 +353,6 @@ function wp_dashboard_quick_press() {
 }
 
 function wp_dashboard_recent_drafts( $drafts = false ) {
-	global $post;
 	if ( !$drafts ) {
 		$drafts_query = new WP_Query( array(
 			'post_type' => 'post',

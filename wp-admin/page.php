@@ -22,6 +22,8 @@ wp_reset_vars(array('action'));
  * @param int $page_ID Page ID.
  */
 function redirect_page($page_ID) {
+	global $action;
+
 	$referredby = '';
 	if ( !empty($_POST['referredby']) ) {
 		$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
