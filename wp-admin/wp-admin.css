@@ -261,11 +261,11 @@ form p.submit .cancel:hover {
 }
 
 #save-post {
-	float: right;
+	float: left;
 }
 
 .preview {
-	float: left;
+	float: right;
 	padding: 2px 8px !important;
 }
 

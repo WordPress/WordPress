@@ -78,13 +78,6 @@ function post_submit_meta_box($post) {
 </div>
 
 <div id="minor-publishing-actions">
-<div id="preview-action">
-<?php $preview_link = 'publish' == $post->post_status ? clean_url(get_permalink($post->ID)) : clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>
-
-<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php _e('Preview'); ?></a>
-<input type="hidden" name="wp-preview" id="wp-preview" value="" />
-</div>
-
 <div id="save-action">
 <?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status )  { ?>
 <input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save Draft') ); ?>" tabindex="4" class="button button-highlighted" />
@@ -92,6 +85,14 @@ function post_submit_meta_box($post) {
 <input type="submit" name="save" id="save-post" value="<?php echo attribute_escape( __('Save as Pending') ); ?>" tabindex="4" class="button button-highlighted" />
 <?php } ?>
 </div>
+
+<div id="preview-action">
+<?php $preview_link = 'publish' == $post->post_status ? clean_url(get_permalink($post->ID)) : clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>
+
+<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview" tabindex="4"><?php _e('Preview'); ?></a>
+<input type="hidden" name="wp-preview" id="wp-preview" value="" />
+</div>
+
 <div class="clear"></div>
 </div><?php // /minor-publishing-actions ?>
 
