@@ -92,6 +92,9 @@ function core_update_footer( $msg = '' ) {
 	if ( ! isset( $cur->url ) )
 		$cur->url = '';
 
+	if ( ! isset( $cur->response ) )
+		$cur->response = '';
+
 	switch ( $cur->response ) {
 	case 'development' :
 		return sprintf( __( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), $GLOBALS['wp_version'], 'update-core.php');
