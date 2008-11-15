@@ -12,7 +12,8 @@ setCommentsList = function() {
 
 		$('span.pending-count').each( function() {
 			var a = $(this);
-			var n = parseInt(a.html(),10);
+			var n = a.html().replace(/[ ,.]+/g, '');
+			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
 			n = n + ( $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1 );
 			if ( n < 0 ) { n = 0; }
@@ -24,7 +25,8 @@ setCommentsList = function() {
 	var delAfter = function( r, settings ) {
 		$('span.pending-count').each( function() {
 			var a = $(this);
-			var n = parseInt(a.html(),10);
+			var n = a.html().replace(/[ ,.]+/g, '');
+			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
 			if ( $('#' + settings.element).is('.unapproved') ) { // we deleted a formerly unapproved comment
 				n = n - 1;
@@ -38,7 +40,8 @@ setCommentsList = function() {
 
 		$('span.spam-count' ).each( function() {
 			var a = $(this);
-			var n = parseInt(a.html(),10);
+			var n = a.html().replace(/[ ,.]+/g, '');
+			n = parseInt(n,10);
 			if ( isNaN(n) ) return;
 			if ( $(settings.target).parents( 'span.spam' ).size() ) { // we marked a comment as spam
 				n = n + 1;
