@@ -319,13 +319,8 @@ function file_is_displayable_image($path) {
 	$info = @getimagesize($path);
 	if ( empty($info) )
 		$result = false;
-	elseif ( !in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG)) )
-		// only gif, jpeg and png images can reliably be displayed
+	elseif ( !in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG)) )	// only gif, jpeg and png images can reliably be displayed
 		$result = false;
-	elseif ( $info['channels'] > 0 && $info['channels'] != 3 ) {
-		// some web browsers can't display cmyk or grayscale jpegs
-		$result = false;
-	}
 	else
 		$result = true;
 
