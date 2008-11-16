@@ -104,6 +104,9 @@ function wp_dashboard_setup() {
 
 	foreach ( $dashboard_widgets as $widget_id )
 		wp_add_dashboard_widget( $widget_id, $wp_registered_widgets[$widget_id]['name'], $wp_registered_widgets[$widget_id]['callback'], $wp_registered_widget_controls[$widget_id]['callback'] );
+
+	do_action('do_meta_boxes', 'dashboard', 'normal', '');
+	do_action('do_meta_boxes', 'dashboard', 'side', '');
 }
 
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null ) {
