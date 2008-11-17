@@ -78,16 +78,18 @@ inlineEditPost = {
 	},
 
 	setBulk : function() {
-		var te = '', c = '';
+		var te = '', c = '', type = this.type;
 		this.revert();
 
+		$('#bulk-edit td').attr('colspan', $('.widefat:first thead th:visible').length);
 		$('table.widefat tbody').prepend( $('#bulk-edit') );
 		$('#bulk-edit').addClass('inline-editor').show();
 
 		$('tbody th.check-column input[type="checkbox"]').each(function(i){
 			if ( $(this).attr('checked') ) {
 				var id = $(this).val();
-				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+$('tr#post_'+id+' .post_title strong').text()+'</div>';
+				var theTitle = $('#inline_'+id+' .post_title').text() || '#'+id;
+				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+theTitle+'</div>';
 			}
 		});
 
@@ -100,7 +102,7 @@ inlineEditPost = {
 		});
 
 		// enable autocomplete for tags
-		if ( this.type == 'post' )
+		if ( type == 'post' )
 			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
 	},
 
@@ -117,6 +119,7 @@ inlineEditPost = {
 
 		// add the new blank row
 		var editRow = $('#inline-edit').clone(true);
+		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
 
 		if ( $(t.what+id).hasClass('alternate') )
 			$(editRow).addClass('alternate');

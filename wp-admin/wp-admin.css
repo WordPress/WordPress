@@ -2730,7 +2730,7 @@ tr.inline-edit-row td {
 	padding-right: 0.5em;
 }
 
-.inline-edit-row fieldset label input[type=text] {
+.inline-edit-row .input-text-wrap input[type=text] {
 	width: 100%;
 }
 

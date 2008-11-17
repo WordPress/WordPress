@@ -194,6 +194,14 @@ ul#adminmenu {
 #wpbody-content .inline-edit-row fieldset label span.input-text-wrap input {
 	line-height: 130%;
 }
+
+#wpbody-content .inline-edit-row .input-text-wrap input {
+	width: 95%;
+}
+
+#wpbody-content .inline-edit-row .input-text-wrap input.inline-edit-password-input {
+	width: 8em;
+}
 /* end Inline Editor */
 
 #titlediv #title {

@@ -48,6 +48,7 @@ inlineEditTax = {
 			id = t.getId(id);
 
 		var editRow = $('#inline-edit').clone(true), rowData = $('#inline_'+id);
+		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
 		
 		if ( $(t.what+id).hasClass('alternate') )
 			$(editRow).addClass('alternate');
