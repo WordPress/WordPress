@@ -17,12 +17,18 @@
 
 				tb_show('', url + '/editimage.html?ver=321&TB_iframe=true');
 				tinymce.DOM.setStyles('TB_window', {
-					'top':'20px',
-					'marginTop':'0',
 					'width':( W - 50 )+'px',
 					'height':( H - 45 )+'px',
 					'margin-left':'-'+parseInt((( W - 50 ) / 2),10) + 'px'
 				});
+
+				if ( ! tinymce.isIE6 ) {
+					tinymce.DOM.setStyles('TB_window', {
+						'top':'20px',
+						'marginTop':'0'
+					});
+				}
+
 				tinymce.DOM.setStyles('TB_iframeContent', {
 					'width':( W - 50 )+'px',
 					'height':( H - 75 )+'px'
