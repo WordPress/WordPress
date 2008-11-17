@@ -39,7 +39,7 @@ if (empty ($importers)) {
 	echo '<p>'.__('No importers are available.').'</p>'; // TODO: make more helpful
 } else {
 ?>
-<table class="widefat">
+<table class="widefat" cellspacing="0">
 
 <?php
 	$style = '';

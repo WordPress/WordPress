@@ -708,8 +708,8 @@ function wp_manage_media_columns() {
 	$posts_columns['author'] = __('Author');
 	$posts_columns['tags'] = _c('Tags|media column header');
 	$posts_columns['parent'] = _c('Attached to|media column header');
-	//$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
-	$posts_columns['comments'] = __('Comments');
+	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
+	//$posts_columns['comments'] = __('Comments');
 	$posts_columns['date'] = _c('Date|media column header');
 	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
 
@@ -831,10 +831,10 @@ function print_column_headers( $type, $id = true ) {
 	$columns = get_column_headers( $type );
 	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
 	$styles = array();
-	$styles['tag']['posts'] = 'width: 90px;';
-	$styles['link-category']['links'] = 'width: 90px;';
-	$styles['category']['posts'] = 'width: 90px;';
-	$styles['link']['visible'] = 'text-align: center;';
+//	$styles['tag']['posts'] = 'width: 90px;';
+//	$styles['link-category']['links'] = 'width: 90px;';
+//	$styles['category']['posts'] = 'width: 90px;';
+//	$styles['link']['visible'] = 'text-align: center;';
 
 	foreach ( $columns as $column_key => $column_display_name ) {
 		$class = ' class="manage-column';
@@ -1977,7 +1977,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 			case 'author':
 				echo "<td $attributes><strong>"; comment_author(); echo '</strong><br />';
 				if ( !empty($author_url) )
-					echo "<a href='$author_url'>$author_url_display</a><br />";
+					echo "<a title='$author_url' href='$author_url'>$author_url_display</a><br />";
 				if ( current_user_can( 'edit_post', $post->ID ) ) {
 					if ( !empty($comment->comment_author_email) ) {
 						comment_author_email_link();
@@ -2038,8 +2038,6 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	<div id="replyhead" style="display:none;"><?php _e('Reply to Comment'); ?></div>
 
 	<div id="edithead" style="display:none;">
-		<div id="edittitle"><?php _e('Edit Comment'); ?></div>
-
 		<div class="inside">
 		<label for="author"><?php _e('Name') ?></label>
 		<input type="text" name="newcomment_author" size="50" value="" tabindex="101" id="author" />

@@ -8,7 +8,7 @@
 
 if ( ! defined('ABSPATH') ) die();
 ?>
-<table class="widefat post">
+<table class="widefat post fixed" cellspacing="0">
 	<thead>
 	<tr>
 <?php print_column_headers('post'); ?>

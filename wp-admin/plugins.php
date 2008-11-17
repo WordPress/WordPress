@@ -246,7 +246,7 @@ foreach ( (array)$all_plugins as $plugin_file => $plugin_data) {
  */
 function print_plugins_table($plugins, $context = '') {
 ?>
-<table class="widefat" id="<?php echo $context ?>-plugins-table">
+<table class="widefat" cellspacing="0" id="<?php echo $context ?>-plugins-table">
 	<thead>
 	<tr>
 		<th scope="col" class="check-column"><input type="checkbox" /></th>

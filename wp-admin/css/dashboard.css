@@ -16,6 +16,7 @@ form .input-text-wrap {
 #dashboard-widgets form .input-text-wrap input {
 	border: 0 none;
 	outline: none;
+	margin: 0;
 	padding: 0;
 	width: 99%;
 	color: #333;
@@ -66,7 +67,7 @@ form .textarea-wrap {
 }
 
 div.postbox div.inside {
-	margin: 0 10px 10px;
+	margin: 10px;
 	position: relative;
 }
 
@@ -293,8 +294,7 @@ div.postbox div.inside {
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit {
-	padding: .8em .8em .8em 5.3em;
-	margin: 0 -10px -10px;
+	margin-left: 4.6em;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit input {

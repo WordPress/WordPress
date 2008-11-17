@@ -328,7 +328,7 @@ unset($role_links);
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-<table class="widefat">
+<table class="widefat fixed" cellspacing="0">
 <thead>
 <tr class="thead">
 <?php print_column_headers('user') ?>

@@ -87,7 +87,7 @@ inlineEditPost = {
 		$('tbody th.check-column input[type="checkbox"]').each(function(i){
 			if ( $(this).attr('checked') ) {
 				var id = $(this).val();
-				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+$('#inline_'+id+' .post_title').text()+'</div>';
+				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+$('tr#post_'+id+' .post_title strong').text()+'</div>';
 			}
 		});
 

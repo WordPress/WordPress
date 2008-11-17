@@ -248,7 +248,7 @@ if ( 'spam' == $comment_status ) {
 <div class="clear"></div>
 
 <?php if ( $comments ) { ?>
-<table class="widefat">
+<table class="widefat comments fixed" cellspacing="0">
 <thead>
 	<tr>
 <?php print_column_headers('comment'); ?>

@@ -66,7 +66,7 @@ table {
 
 #wpcontent {
 	height: 100%;
-	margin-bottom: 50px;
+	padding-bottom: 50px;
 }
 
 #wpbody-content {
@@ -291,12 +291,12 @@ h6 {
 	border-radius: 4px;
 }
 
-.widefat a {
-	text-decoration: none;
+.widefat * {
+	word-wrap: break-word;
 }
 
-.widefat abbr {
-	white-space: nowrap;
+.widefat a {
+	text-decoration: none;
 }
 
 .widefat td,
@@ -309,12 +309,12 @@ h6 {
 }
 
 .widefat td {
-	padding: 7px 15px 9px 10px;
+	padding: 5px 7px;
 	vertical-align: top;
 }
 
 .widefat th {
-	padding: 7px 15px 8px 10px;
+	padding: 7px 7px 8px;
 	text-align: left;
 	line-height: 1.3em;
 }
@@ -326,18 +326,20 @@ h6 {
 }
 
 .widefat .check-column {
-	text-align: right;
-	width: 1.5em;
+	width: 2.2em;
 	padding: 0;
 
 }
 
 .widefat tbody th.check-column {
-	padding: 10px 0 22px;
+	padding: 7px 0 22px;
 }
 
 .widefat .num,
-.widefat .column-comments {
+.column-comments,
+.column-links,
+.column-posts,
+.column-parent {
 	text-align: center;
 }
 

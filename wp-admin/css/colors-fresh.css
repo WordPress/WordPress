@@ -43,15 +43,15 @@ div.dashboard-widget,
 	border-color: #ccc;
 }
 
-#poststuff .inside .spam {
+#poststuff .inside label.spam {
 	color: red;
 }
 
-#poststuff .inside .waiting {
+#poststuff .inside label.waiting {
 	color: orange;
 }
 
-#poststuff .inside .approved {
+#poststuff .inside label.approved {
 	color: green;
 }
 
@@ -127,10 +127,6 @@ h3.info-box-title,
 #poststuff h3,
 .metabox-holder h3 {
 	background-color: #dfdfdf;
-}
-
-.metabox-holder {
-	color: #777;
 }
 
 .form-table tr,
@@ -330,13 +326,18 @@ a.button.disabled {
 	border-color: #535353;
 }
 
+a:active,
+a:focus {
+	color: #d54e21 !important;
+}
+
+a:hover, 
 .button:hover,
 #wphead #viewsite a:hover,
 #adminmenu a:hover,
 #adminmenu ul.wp-submenu a:hover,
 #the-comment-list .comment a:hover,
 #rightnow a:hover,
-a:hover,
 .subsubsub a:hover,
 .subsubsub a.current:hover,
 #login form .submit input:hover,
@@ -432,8 +433,8 @@ ul#widget-list li.widget-list-item,
 	border-color: #dfdfdf;
 }
 
-.widefat thead,
-.widefat tfoot,
+.widefat thead tr,
+.widefat tfoot tr,
 .thead,
 .tfoot,
 h3.dashboard-widget-title,
@@ -913,7 +914,7 @@ abbr.required,
 	color: #888;
 }
 
-.wp_themeSkin tr.mceFirst {
+.wp_themeSkin tr.mceFirst td.mceToolbar {
 	background-color: #dfdfdf;
 	border-color: #dfdfdf;
 }

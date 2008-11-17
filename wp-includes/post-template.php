@@ -1136,7 +1136,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 <br class="clear" />
 
-<table class="widefat post-revisions">
+<table class="widefat post-revisions" cellspacing="0">
 	<col />
 	<col style="width: 33%" />
 	<col style="width: 33%" />

@@ -213,7 +213,7 @@ if ( $page_links ) : ?>
 
 if ($posts) {
 ?>
-<table class="widefat page">
+<table class="widefat page fixed" cellspacing="0">
   <thead>
   <tr>
 <?php print_column_headers('page'); ?>
@@ -279,18 +279,18 @@ if ( 1 == count($posts) && is_singular() ) :
 
 <br class="clear" />
 
-<table class="widefat" style="margin-top: .5em">
+<table class="widefat" cellspacing="0">
 <thead>
   <tr>
-    <th scope="col"><?php _e('Comment') ?></th>
-    <th scope="col"><?php _e('Date') ?></th>
-    <th scope="col"><?php _e('Actions') ?></th>
+    <th scope="col" class="column-comment"><?php _e('Comment') ?></th>
+    <th scope="col" class="column-author"><?php _e('Author') ?></th>
+    <th scope="col" class="column-date"><?php _e('Submitted') ?></th>
   </tr>
 </thead>
 <tbody id="the-comment-list" class="list:comment">
 <?php
 	foreach ($comments as $comment)
-		_wp_comment_row( $comment->comment_ID, 'detail', false, false );
+		_wp_comment_row( $comment->comment_ID, 'single', false, false );
 ?>
 </tbody>
 </table>

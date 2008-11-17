@@ -427,10 +427,6 @@ td.action-links, th.action-links {
 }
 /* 2300 - 2500
 =================================== */
-#edithead #edittitle {
-	float: right;
-	margin: 0 0 0 4px;
-}
 #edithead .inside {
 	float: right;
 	margin: 0 0 2px 4px;

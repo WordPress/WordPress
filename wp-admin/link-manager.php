@@ -144,7 +144,7 @@ if ( $links ) {
 ?>
 
 <?php wp_nonce_field('bulk-bookmarks') ?>
-<table class="widefat">
+<table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
 <?php print_column_headers('link'); ?>
