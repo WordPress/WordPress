@@ -785,7 +785,7 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
  * @return string
  */
 function get_edit_bookmark_link( $link = 0 ) {
-	$link = &get_bookmark( $link );
+	$link = get_bookmark( $link );
 
 	if ( !current_user_can('manage_links') )
 		return;
