@@ -139,21 +139,21 @@ if ( !empty($_GET['s']) )
 	$args['search'] = $_GET['s'];
 $links = get_bookmarks( $args );
 if ( $links ) {
-	$link_columns = get_column_headers('link');
-	$hidden = (array) get_user_option( 'manage-link-columns-hidden' );
+	$link_columns = get_column_headers('link-manager');
+	$hidden = (array) get_user_option( 'manage-link-manager-columns-hidden' );
 ?>
 
 <?php wp_nonce_field('bulk-bookmarks') ?>
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('link'); ?>
+<?php print_column_headers('link-manager'); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('link', false); ?>
+<?php print_column_headers('link-manager', false); ?>
 	</tr>
 	</tfoot>
 
@@ -278,7 +278,7 @@ if ( $links ) {
 		});
 	});
 })(jQuery);
-columns.init('link');
+columns.init('link-manager');
 /* ]]> */
 </script>
 

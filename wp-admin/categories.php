@@ -192,13 +192,13 @@ if ( $page_links )
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('category'); ?>
+<?php print_column_headers('categories'); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('category', false); ?>
+<?php print_column_headers('categories', false); ?>
 	</tr>
 	</tfoot>
 

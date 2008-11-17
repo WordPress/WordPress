@@ -144,8 +144,8 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='cat-$category->term_id' class='iedit $row_class'>";
 
-	$columns = get_column_headers('category');
-	$hidden = (array) get_user_option( 'manage-category-columns-hidden' );
+	$columns = get_column_headers('categories');
+	$hidden = get_hidden_columns('categories');
 	foreach ( $columns as $column_name => $column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
@@ -305,8 +305,8 @@ function link_cat_row( $category, $name_override = false ) {
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='link-cat-$category->term_id' class='iedit $class'>";
-	$columns = get_column_headers('link-category');
-	$hidden = (array) get_user_option( 'manage-link-category-columns-hidden' );
+	$columns = get_column_headers('edit-link-categories');
+	$hidden = get_hidden_columns('edit-link-categories');
 	foreach ( $columns as $column_name => $column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
@@ -584,8 +584,8 @@ function _tag_row( $tag, $class = '' ) {
 		$edit_link = "edit-tags.php?action=edit&amp;tag_ID=$tag->term_id";
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
-		$columns = get_column_headers('tag');
-		$hidden = (array) get_user_option( 'manage-tag-columns-hidden' );
+		$columns = get_column_headers('edit-tags');
+		$hidden = get_hidden_columns('edit-tags');
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$class = "class=\"$column_name column-$column_name\"";
 
@@ -748,13 +748,21 @@ function wp_manage_pages_columns() {
  * @return unknown
  */
 function get_column_headers($page) {
+	static $columns = array();
+
+	// Store in static to avoid running filters on each call
+	if ( isset($columns[$page]) )
+		return $columns[$page];
+
 	switch ($page) {
-		case 'post':
-			return wp_manage_posts_columns();
-		case 'page':
-			return wp_manage_pages_columns();
-		case 'comment':
-			$columns = array(
+		case 'edit':
+			 $columns[$page] = wp_manage_posts_columns();
+			 break;
+		case 'edit-pages':
+			$columns[$page] = wp_manage_pages_columns();
+			break;
+		case 'edit-comments':
+			$columns[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'comment' => __('Comment'),
 				'author' => __('Author'),
@@ -762,9 +770,9 @@ function get_column_headers($page) {
 				'response' => __('In Response To')
 			);
 
-			return apply_filters('manage_comments_columns', $columns);
-		case 'link':
-			$columns = array(
+			break;
+		case 'link-manager':
+			$columns[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'url' => __('URL'),
@@ -773,11 +781,12 @@ function get_column_headers($page) {
 				'visible' => __('Visible')
 			);
 
-			return apply_filters('manage_link_columns', $columns);
-		case 'media':
-			return wp_manage_media_columns();
-		case 'category':
-			$columns = array(
+			break;
+		case 'upload':
+			$columns[$page] = wp_manage_media_columns();
+			break;
+		case 'categories':
+			$columns[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
@@ -785,27 +794,27 @@ function get_column_headers($page) {
 				'posts' => __('Posts')
 			);
 
-			return apply_filters('manage_categories_columns', $columns);
-		case 'link-category':
-			$columns = array(
+			break;
+		case 'edit-link-categories':
+			$columns[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
 				'links' => __('Links')
 			);
 
-			return apply_filters('manage_link_categories_columns', $columns);
-		case 'tag':
-			$columns = array(
+			break;
+		case 'edit-tags':
+			$columns[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'slug' => __('Slug'),
 				'posts' => __('Posts')
 			);
 
-			return apply_filters('manage_link_categories_columns', $columns);
-		case 'user':
-			$columns = array(
+			break;
+		case 'users':
+			$columns[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'username' => __('Username'),
 				'name' => __('Name'),
@@ -813,10 +822,13 @@ function get_column_headers($page) {
 				'role' => __('Role'),
 				'posts' => __('Posts')
 			);
-			return apply_filters('manage_users_columns', $columns);
+			break;
 		default :
-			return apply_filters('manage_' . $page . '_columns', array());
+			$columns[$page] = array();
 	}
+
+	$columns[$page] = apply_filters('manage_' . $page . '_columns', $columns[$page]);
+	return $columns[$page];
 }
 
 /**
@@ -828,8 +840,9 @@ function get_column_headers($page) {
  * @param unknown_type $id
  */
 function print_column_headers( $type, $id = true ) {
+	$type = str_replace('.php', '', $type);
 	$columns = get_column_headers( $type );
-	$hidden = (array) get_user_option( "manage-$type-columns-hidden" );
+	$hidden = get_hidden_columns($type);
 	$styles = array();
 //	$styles['tag']['posts'] = 'width: 90px;';
 //	$styles['link-category']['links'] = 'width: 90px;';
@@ -858,6 +871,18 @@ function print_column_headers( $type, $id = true ) {
 ?>
 	<th scope="col" <?php echo $id ? "id=\"$column_key\"" : ""; echo $class; echo $style; ?>><?php echo $column_display_name; ?></th>
 <?php }
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $page
+ */
+function get_hidden_columns($page) {
+	$page = str_replace('.php', '', $page);
+	return (array) get_user_option( 'manage-' . $page . '-columns-hidden' );	
 }
 
 /**
@@ -1245,8 +1270,8 @@ function _post_row($a_post, $pending_comments, $mode) {
 ?>
 	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $rowclass . ' author-' . $post_owner . ' status-' . $post->post_status ); ?> iedit' valign="top">
 <?php
-	$posts_columns = wp_manage_posts_columns();
-	$hidden = (array) get_user_option( 'manage-post-columns-hidden' );
+	$posts_columns = get_column_headers('edit');
+	$hidden = get_hidden_columns('edit');
 	foreach ( $posts_columns as $column_name=>$column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
@@ -1448,8 +1473,8 @@ function display_page_row( $page, $level = 0 ) {
 	$pad = str_repeat( '&#8212; ', $level );
 	$id = (int) $page->ID;
 	$rowclass = 'alternate' == $rowclass ? '' : 'alternate';
-	$posts_columns = wp_manage_pages_columns();
-	$hidden = (array) get_user_option( 'manage-page-columns-hidden' );
+	$posts_columns = get_column_headers('edit-pages');
+	$hidden = get_hidden_columns('edit-pages');
 	$title = _draft_or_post_title();
 ?>
 <tr id="page-<?php echo $id; ?>" class="<?php echo $rowclass; ?> iedit">
@@ -1751,8 +1776,8 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	}
 	$role_name = isset($wp_roles->role_names[$role]) ? translate_with_context($wp_roles->role_names[$role]) : __('None');
 	$r = "<tr id='user-$user_object->ID'$style>";
-	$columns = get_column_headers('user');
-	$hidden = (array) get_user_option( 'manage-user-columns-hidden' );
+	$columns = get_column_headers('users');
+	$hidden = get_hidden_columns('users');
 	$avatar = get_avatar( $user_object->user_email, 32 );
 	foreach ( $columns as $column_name => $column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
@@ -1906,8 +1931,8 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 	$spam_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 
 	echo "<tr id='comment-$comment->comment_ID' class='$the_comment_status'>";
-	$columns = get_column_headers('comment');
-	$hidden = (array) get_user_option( 'manage-comment-columns-hidden' );
+	$columns = get_column_headers('edit-comments');
+	$hidden = get_hidden_columns('edit-comments');
 	foreach ( $columns as $column_name => $column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
@@ -2862,7 +2887,7 @@ function do_settings_fields($page, $section) {
 function manage_columns_prefs($page) {
 	$columns = get_column_headers($page);
 
-	$hidden = (array) get_user_option( "manage-$page-columns-hidden" );
+	$hidden = get_hidden_columns($page);
 
 	foreach ( $columns as $column => $title ) {
 		// Can't hide these
@@ -3180,19 +3205,16 @@ function screen_meta($screen) {
 	global $wp_meta_boxes;
 
 	$screen = str_replace('.php', '', $screen);
-
-	$column_screens = array('edit' => 'post', 'edit-pages' => 'page', 'edit-tags' => 'tag', 'categories' => 'category',
-		'edit-link-categories' => 'link-category', 'link-manager' => 'link', 'users' => 'user', 'upload' => 'media',
-		'edit-comments' => 'comment');
-
 	$screen = str_replace('-new', '', $screen);
 	$screen = str_replace('-add', '', $screen);
+
+	$column_screens = get_column_headers($screen);
 	$meta_screens = array('index' => 'dashboard');
 
 	if ( isset($meta_screens[$screen]) )
 		$screen = $meta_screens[$screen];
 	$show_screen = false;
-	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens[$screen]) )
+	if ( !empty($wp_meta_boxes[$screen]) || !empty($column_screens) )
 		$show_screen = true;
 ?>
 <div id="screen-meta">
@@ -3204,8 +3226,8 @@ function screen_meta($screen) {
 	<form id="adv-settings" action="" method="get">
 	<div class="metabox-prefs">
 <?php 
-	if ( !meta_box_prefs($screen) && isset($column_screens[$screen]) ) {
-		manage_columns_prefs($column_screens[$screen]);
+	if ( !meta_box_prefs($screen) && isset($column_screens) ) {
+		manage_columns_prefs($screen);
 		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); 
 	}
 ?>

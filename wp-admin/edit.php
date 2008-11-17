@@ -330,7 +330,7 @@ endif; // posts;
 		});
 	});
 })(jQuery);
-columns.init('post');
+columns.init('edit');
 /* ]]> */
 </script>
 

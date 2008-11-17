@@ -251,13 +251,13 @@ if ( 'spam' == $comment_status ) {
 <table class="widefat comments fixed" cellspacing="0">
 <thead>
 	<tr>
-<?php print_column_headers('comment'); ?>
+<?php print_column_headers('edit-comments'); ?>
 	</tr>
 </thead>
 
 <tfoot>
 	<tr>
-<?php print_column_headers('comment', false); ?>
+<?php print_column_headers('edit-comments', false); ?>
 	</tr>
 </tfoot>
 

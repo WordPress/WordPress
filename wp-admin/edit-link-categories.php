@@ -69,8 +69,8 @@ endif; ?>
 
 <form class="search-form" action="" method="get">
 <p class="search-box">
-	<label class="hidden" for="category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
-	<input type="text" class="search-input" id="category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
+	<label class="hidden" for="link-category-search-input"><?php _e( 'Search Categories' ); ?>:</label>
+	<input type="text" class="search-input" id="link-category-search-input" name="s" value="<?php _admin_search_query(); ?>" />
 	<input type="submit" value="<?php _e( 'Search Categories' ); ?>" class="button" />
 </p>
 </form>
@@ -120,13 +120,13 @@ if ( $page_links )
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('link-category'); ?>
+<?php print_column_headers('edit-link-categories'); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('link-category', false); ?>
+<?php print_column_headers('edit-link-categories', false); ?>
 	</tr>
 	</tfoot>
 

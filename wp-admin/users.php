@@ -331,13 +331,13 @@ unset($role_links);
 <table class="widefat fixed" cellspacing="0">
 <thead>
 <tr class="thead">
-<?php print_column_headers('user') ?>
+<?php print_column_headers('users') ?>
 </tr>
 </thead>
 
 <tfoot>
 <tr class="thead">
-<?php print_column_headers('user', false) ?>
+<?php print_column_headers('users', false) ?>
 </tr>
 </tfoot>
 

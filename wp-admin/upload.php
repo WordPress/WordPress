@@ -463,7 +463,7 @@ endif; // posts;
 		});
 	});
 })(jQuery);
-columns.init('media');
+columns.init('upload');
 /* ]]> */
 </script>
 

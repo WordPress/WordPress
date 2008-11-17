@@ -188,13 +188,13 @@ if ( $page_links )
 <table class="widefat tag fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('tag'); ?>
+<?php print_column_headers('edit-tags'); ?>
 	</tr>
 	</thead>
 
 	<tfoot>
 	<tr>
-<?php print_column_headers('tag', false); ?>
+<?php print_column_headers('edit-tags', false); ?>
 	</tr>
 	</tfoot>
 

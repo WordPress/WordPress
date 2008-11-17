@@ -216,13 +216,13 @@ if ($posts) {
 <table class="widefat page fixed" cellspacing="0">
   <thead>
   <tr>
-<?php print_column_headers('page'); ?>
+<?php print_column_headers('edit-pages'); ?>
   </tr>
   </thead>
 
   <tfoot>
   <tr>
-<?php print_column_headers('page', false); ?>
+<?php print_column_headers('edit-pages', false); ?>
   </tr>
   </tfoot>
 
@@ -316,7 +316,7 @@ endif; // posts;
 		});
 	});
 })(jQuery);
-columns.init('page');
+columns.init('edit-pages');
 /* ]]> */
 </script>
 

@@ -1,5 +1,5 @@
 jQuery( function($) {
 	$('#users').wpList();
 
-	columns.init('user');
+	columns.init('users');
 });

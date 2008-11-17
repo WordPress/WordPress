@@ -283,7 +283,7 @@ commentReply = {
 };
 
 $(document).ready(function(){
-	columns.init('comment');
+	columns.init('edit-comments');
 	commentReply.init();
 
 	if ( typeof QTags != 'undefined' )

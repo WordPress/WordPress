@@ -26,5 +26,5 @@ jQuery(function($) {
 	else
 		$('#the-list').wpList({ addAfter: addAfter2 });
 
-	columns.init('tag');
+	columns.init('edit-tags');
 });
