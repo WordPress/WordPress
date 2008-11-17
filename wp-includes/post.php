@@ -1899,8 +1899,8 @@ function &get_page(&$page, $output = OBJECT, $filter = 'raw') {
 		}
 	}
 
-	$page = get_post($page, $output, $filter);
-	return $page;
+	$the_page = get_post($page, $output, $filter);
+	return $the_page;
 }
 
 /**
