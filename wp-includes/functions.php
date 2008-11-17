@@ -2881,8 +2881,18 @@ function wp_suspend_cache_invalidation($suspend = true) {
 	return $current_suspend;
 }
 
+/**
+ * Copy an object.
+ * 
+ * Returns a cloned copy of an object.
+ * 
+ * @since 2.7.0
+ * 
+ * @param object $object The object to clone
+ * @return object The cloned object
+ */
 function wp_clone($object) {
-  return version_compare(phpversion(), '5.0') < 0 ? $object : clone($object);
+	return version_compare(phpversion(), '5.0') < 0 ? $object : clone($object);
 }
 
 
