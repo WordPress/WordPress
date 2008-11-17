@@ -309,10 +309,12 @@ function &get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 		return $error;
 	}
 
-	if ( is_object($term) ) {
+	if ( is_object($term) && empty($term->filter) ) {
 		wp_cache_add($term->term_id, $term, $taxonomy);
 		$_term = $term;
 	} else {
+		if ( is_object($term) )
+			$term = $term->term_id;
 		$term = (int) $term;
 		if ( ! $_term = wp_cache_get($term, $taxonomy) ) {
 			$_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND t.term_id = %s LIMIT 1", $taxonomy, $term) );
@@ -889,6 +891,11 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
 				$term[$field] = sanitize_term_field($field, $term[$field], $term_id, $taxonomy, $context);
 		}
 	}
+
+	if ( $do_object )
+		$term->filter = $context;
+	else
+		$term['filter'] = $context;
 
 	return $term;
 }
