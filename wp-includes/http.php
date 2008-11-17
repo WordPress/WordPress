@@ -250,6 +250,9 @@ class WP_Http {
 				$r['headers']['Content-Length'] = strlen($r['body']);
 			}
 
+			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
+				$r['headers']['Content-Length'] = strlen($r['body']);
+
 			$transports = WP_Http::_postTransport($r);
 		}
 
