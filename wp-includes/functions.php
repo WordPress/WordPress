@@ -2872,4 +2872,9 @@ function wp_suspend_cache_invalidation($suspend = true) {
 	return $current_suspend;
 }
 
+function wp_clone($object) {
+  return version_compare(phpversion(), '5.0') < 0 ? $object : clone($object);
+}
+
+
 ?>
