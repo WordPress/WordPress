@@ -549,7 +549,9 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 function delete_post_meta($post_id, $key, $value = '') {
 	global $wpdb;
 
-	$post_id = absint( $post_id );
+	// make sure meta is added to the post, not a revision
+	if ( $the_post = wp_is_post_revision($post_id) )
+		$post_id = $the_post;
 
 	// expected_slashed ($key, $value)
 	$key = stripslashes( $key );
@@ -629,6 +631,10 @@ function get_post_meta($post_id, $key, $single = false) {
  */
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	global $wpdb;
+
+	// make sure meta is added to the post, not a revision
+	if ( $the_post = wp_is_post_revision($post_id) )
+		$post_id = $the_post;
 
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
