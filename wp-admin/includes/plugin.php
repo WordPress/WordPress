@@ -644,6 +644,10 @@ function add_users_page( $page_title, $menu_title, $access_level, $file, $functi
 	return add_submenu_page( $parent, $page_title, $menu_title, $access_level, $file, $function );
 }
 
+function add_dashboard_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
+	return add_submenu_page( 'index.php', $page_title, $menu_title, $access_level, $file, $function );
+}
+
 function add_posts_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
 	return add_submenu_page( 'posts-new.php', $page_title, $menu_title, $access_level, $file, $function );
 }
