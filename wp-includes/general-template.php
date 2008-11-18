@@ -1690,8 +1690,9 @@ function paginate_links( $args = '' ) {
 		$page_links[] = "<a class='prev page-numbers' href='" . clean_url($link) . "'>$prev_text</a>";
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
+		$n_display = number_format_i18n($n);
 		if ( $n == $current ) :
-			$page_links[] = "<span class='page-numbers current'>$n</span>";
+			$page_links[] = "<span class='page-numbers current'>$n_display</span>";
 			$dots = true;
 		else :
 			if ( $show_all || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
@@ -1700,7 +1701,7 @@ function paginate_links( $args = '' ) {
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
 				$link .= $add_fragment;
-				$page_links[] = "<a class='page-numbers' href='" . clean_url($link) . "'>$n</a>";
+				$page_links[] = "<a class='page-numbers' href='" . clean_url($link) . "'>$n_display</a>";
 				$dots = true;
 			elseif ( $dots && !$show_all ) :
 				$page_links[] = "<span class='page-numbers dots'>...</span>";
