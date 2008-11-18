@@ -1906,7 +1906,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
 
-		if (!$actual_post) {
+		if (!$actual_post || $actual_post['post_type'] != 'post') {
 			return new IXR_Error(404, __('Sorry, no such post.'));
 		}
 
@@ -1961,7 +1961,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$actual_post = wp_get_single_post($post_ID,ARRAY_A);
 
-		if (!$actual_post) {
+		if (!$actual_post || $actual_post['post_type'] != 'post') {
 			return new IXR_Error(404, __('Sorry, no such post.'));
 		}
 
