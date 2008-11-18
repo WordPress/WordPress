@@ -1281,7 +1281,7 @@ function next_comments_link($label='', $max_page = 0) {
 		return;
 
 	if ( empty($label) )
-		$label = __('&raquo; Newer Comments');
+		$label = __('Newer Comments &raquo;');
 
 	echo '<a href="' . clean_url( get_comments_pagenum_link( $nextpage, $max_page ) );
 	$attr = apply_filters( 'next_comments_link_attributes', '' );
