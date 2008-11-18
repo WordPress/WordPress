@@ -109,7 +109,7 @@ function _cat_rows( $categories, &$count, $parent = 0, $level = 0, $page = 1, $p
  * @return unknown
  */
 function _cat_row( $category, $level, $name_override = false ) {
-	static $row_class;
+	static $row_class = '';
 
 	$category = get_category( $category, OBJECT, 'display' );
 
@@ -269,7 +269,7 @@ function inline_edit_term_row($type) {
  * @return unknown
  */
 function link_cat_row( $category, $name_override = false ) {
-	global $class;
+	static $row_class = '';
 
 	if ( !$category = get_term( $category, 'link_category', OBJECT, 'display' ) )
 		return false;
@@ -297,12 +297,12 @@ function link_cat_row( $category, $name_override = false ) {
 		$edit = $name;
 	}
 
-	$class = 'alternate' == $class ? '' : 'alternate';
+	$row_class = 'alternate' == $row_class ? '' : 'alternate';
 	$qe_data = get_term_to_edit($category->term_id, 'link_category');
 
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
-	$output = "<tr id='link-cat-$category->term_id' class='iedit $class'>";
+	$output = "<tr id='link-cat-$category->term_id' class='iedit $row_class'>";
 	$columns = get_column_headers('edit-link-categories');
 	$hidden = get_hidden_columns('edit-link-categories');
 	foreach ( $columns as $column_name => $column_display_name ) {
