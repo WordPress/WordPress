@@ -729,7 +729,7 @@ div#media-upload-error,
 .file-error,
 abbr.required,
 .widget-control-remove:hover,
-.delete:hover {
+.delete a:hover {
 	color: #f00;
 }
 
