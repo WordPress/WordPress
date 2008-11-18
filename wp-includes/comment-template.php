@@ -139,7 +139,7 @@ function get_comment_author_link() {
 	if ( empty( $url ) || 'http://' == $url )
 		$return = $author;
 	else
-		$return = "<a href='$url' rel='external nofollow'>$author</a>";
+		$return = "<a href='$url' rel='external nofollow' class='url'>$author</a>";
 	return apply_filters('get_comment_author_link', $return);
 }
 
@@ -1149,7 +1149,7 @@ class Walker_Comment extends Walker {
 		<?php endif; ?>
 		<div class="comment-author vcard">
 		<?php if ($args['avatar_size'] != 0) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-		<?php printf(__('<cite>%s</cite> Says:'), get_comment_author_link()) ?>
+		<?php printf(__('<cite class="fn">%s</cite> Says:'), get_comment_author_link()) ?>
 		</div>
 <?php if ($comment->comment_approved == '0') : ?>
 		<em><?php _e('Your comment is awaiting moderation.') ?></em>
