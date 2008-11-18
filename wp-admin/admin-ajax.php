@@ -819,7 +819,7 @@ case 'closed-postboxes' :
 	$hidden = isset( $_POST['hidden'] )? $_POST['hidden'] : '';
 	$hidden = explode( ',', $_POST['hidden'] );
 	$page = isset( $_POST['page'] )? $_POST['page'] : '';
-	if ( !preg_match( '/^[a-z-]+$/', $page ) ) {
+	if ( !preg_match( '/^[a-z-_]+$/', $page ) ) {
 		die(-1);
 	}
 	$current_user = wp_get_current_user();
@@ -833,7 +833,7 @@ case 'hidden-columns' :
 	$hidden = isset( $_POST['hidden'] )? $_POST['hidden'] : '';
 	$hidden = explode( ',', $_POST['hidden'] );
 	$page = isset( $_POST['page'] )? $_POST['page'] : '';
-	if ( !preg_match( '/^[a-z-]+$/', $page ) ) {
+	if ( !preg_match( '/^[a-z-_]+$/', $page ) ) {
 		die(-1);
 	}
 	$current_user = wp_get_current_user();
