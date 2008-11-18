@@ -143,7 +143,6 @@ if ( $categories ) {
 	foreach ( $categories as $category ) {
 		$output .= link_cat_row($category);
 	}
-	$output = apply_filters('cat_rows', $output);
 	echo $output;
 	unset($category);
 }
