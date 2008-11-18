@@ -114,13 +114,16 @@ function _cat_row( $category, $level, $name_override = false ) {
 	static $row_class;
 
 	$category = get_category( $category );
+	$catname = sanitize_term_field( 'name', $category->name, $category->term_id, 'category', 'display' );
+	$catdesc = sanitize_term_field( 'description', $category->description, $category->term_id, 'category', 'display' );
+	$qe_name = sanitize_term_field( 'name', $category->name, $category->term_id, 'category', 'edit' );
 
 	$default_cat_id = (int) get_option( 'default_category' );
 	$pad = str_repeat( '&#8212; ', $level );
-	$name = ( $name_override ? $name_override : $pad . ' ' . $category->name );
+	$name = ( $name_override ? $name_override : $pad . ' ' . $catname );
 	$edit_link = "categories.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>" . attribute_escape( $name ) . '</a><br />';
+		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $catname)) . "'>" . attribute_escape( $name ) . '</a><br />';
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
@@ -138,8 +141,6 @@ function _cat_row( $category, $level, $name_override = false ) {
 	}
 
 	$row_class = 'alternate' == $row_class ? '' : 'alternate';
-	$qe_data = get_category_to_edit($category->term_id);
-
 	$category->count = number_format_i18n( $category->count );
 	$posts_count = ( $category->count > 0 ) ? "<a href='edit.php?cat=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='cat-$category->term_id' class='iedit $row_class'>";
@@ -167,13 +168,13 @@ function _cat_row( $category, $level, $name_override = false ) {
 				break;
 			case 'name':
 				$output .= "<td $attributes>$edit";
-				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
-				$output .= '<div class="name">' . $qe_data->name . '</div>';
-				$output .= '<div class="slug">' . $qe_data->slug . '</div>';
-				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
+				$output .= '<div class="hidden" id="inline_' . $category->term_id . '">';
+				$output .= '<div class="name">' . $qe_name . '</div>';
+				$output .= '<div class="slug">' . $category->slug . '</div>';
+				$output .= '<div class="cat_parent">' . $category->parent . '</div></div></td>';
 				break;
 			case 'description':
-				$output .= "<td $attributes>$category->description</td>";
+				$output .= "<td $attributes>$catdesc</td>";
 				break;
 			case 'slug':
 				$output .= "<td $attributes>$category->slug</td>";
@@ -278,11 +279,15 @@ function link_cat_row( $category, $name_override = false ) {
 	if ( is_wp_error( $category ) )
 		return $category;
 
+	$catname = sanitize_term_field( 'name', $category->name, $category->term_id, 'category', 'display' );
+	$catdesc = sanitize_term_field( 'description', $category->description, $category->term_id, 'category', 'display' );
+	$qe_name = sanitize_term_field( 'name', $category->name, $category->term_id, 'category', 'edit' );
+
 	$default_cat_id = (int) get_option( 'default_link_category' );
-	$name = ( $name_override ? $name_override : $category->name );
+	$name = ( $name_override ? $name_override : $catname );
 	$edit_link = "link-category.php?action=edit&amp;cat_ID=$category->term_id";
 	if ( current_user_can( 'manage_categories' ) ) {
-		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $category->name)) . "'>$name</a><br />";
+		$edit = "<a class='row-title' href='$edit_link' title='" . attribute_escape(sprintf(__('Edit "%s"'), $catname)) . "'>$name</a><br />";
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
@@ -300,8 +305,6 @@ function link_cat_row( $category, $name_override = false ) {
 	}
 
 	$class = 'alternate' == $class ? '' : 'alternate';
-	$qe_data = get_term_to_edit($category->term_id, 'link_category');
-
 	$category->count = number_format_i18n( $category->count );
 	$count = ( $category->count > 0 ) ? "<a href='link-manager.php?cat_id=$category->term_id'>$category->count</a>" : $category->count;
 	$output = "<tr id='link-cat-$category->term_id' class='iedit $class'>";
@@ -328,13 +331,13 @@ function link_cat_row( $category, $name_override = false ) {
 				break;
 			case 'name':
 				$output .= "<td $attributes>$edit";
-				$output .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
-				$output .= '<div class="name">' . $qe_data->name . '</div>';
-				$output .= '<div class="slug">' . $qe_data->slug . '</div>';
-				$output .= '<div class="cat_parent">' . $qe_data->parent . '</div></div></td>';
+				$output .= '<div class="hidden" id="inline_' . $category->term_id . '">';
+				$output .= '<div class="name">' . $qe_name . '</div>';
+				$output .= '<div class="slug">' . $category->slug . '</div>';
+				$output .= '<div class="cat_parent">' . $category->parent . '</div></div></td>';
 				break;
 			case 'description':
-				$output .= "<td $attributes>$category->description</td>";
+				$output .= "<td $attributes>$catdesc</td>";
 				break;
 			case 'links':
 				$attributes = 'class="links column-links num"' . $style;
@@ -576,11 +579,12 @@ function wp_link_category_checklist( $link_id = 0 ) {
  * @return unknown
  */
 function _tag_row( $tag, $class = '' ) {
+
 		$count = number_format_i18n( $tag->count );
 		$count = ( $count > 0 ) ? "<a href='edit.php?tag=$tag->slug'>$count</a>" : $count;
+		$tagname = sanitize_term_field( 'name', $tag->name, $tag->term_id, 'tag', 'display' );
+		$qe_name = sanitize_term_field( 'name', $tag->name, $tag->term_id, 'tag', 'edit' );
 
-		$name = apply_filters( 'term_name', $tag->name );
-		$qe_data = get_term($tag->term_id, 'post_tag', object, 'edit');
 		$edit_link = "edit-tags.php?action=edit&amp;tag_ID=$tag->term_id";
 		$out = '';
 		$out .= '<tr id="tag-' . $tag->term_id . '"' . $class . '>';
@@ -600,7 +604,7 @@ function _tag_row( $tag, $class = '' ) {
 					$out .= '<th scope="row" class="check-column"> <input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" /></th>';
 					break;
 				case 'name':
-					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . attribute_escape(sprintf(__('Edit "%s"'), $name)) . '">' . $name . '</a></strong><br />';
+					$out .= '<td ' . $attributes . '><strong><a class="row-title" href="' . $edit_link . '" title="' . attribute_escape(sprintf(__('Edit "%s"'), $tagname)) . '">' . $tagname . '</a></strong><br />';
 					$actions = array();
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
@@ -612,9 +616,9 @@ function _tag_row( $tag, $class = '' ) {
 						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 						$out .= "<span class='$action'>$link$sep</span>";
 					}
-					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
-					$out .= '<div class="name">' . $qe_data->name . '</div>';
-					$out .= '<div class="slug">' . $qe_data->slug . '</div></div></td>';
+					$out .= '<div class="hidden" id="inline_' . $tag->term_id . '">';
+					$out .= '<div class="name">' . $qe_name . '</div>';
+					$out .= '<div class="slug">' . $tag->slug . '</div></div></td>';
 					break;
 				case 'slug':
 					$out .= "<td $attributes>$tag->slug</td>";

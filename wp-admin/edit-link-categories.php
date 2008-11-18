@@ -141,7 +141,6 @@ $categories = get_terms( 'link_category', $args );
 if ( $categories ) {
 	$output = '';
 	foreach ( $categories as $category ) {
-		$category = sanitize_term($category, 'link_category', 'display');
 		$output .= link_cat_row($category);
 	}
 	$output = apply_filters('cat_rows', $output);

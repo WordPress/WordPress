@@ -1328,14 +1328,15 @@ html, body {
 .form-table table.color-palette {
 	vertical-align: bottom;
 	float: left;
-	margin: -3px 3px 8px;
+	margin: -8px 3px 12px;
 }
 
 .form-table .color-palette td {
 	border-bottom: none;
 	border: 1px solid #fff;
-	font-size: 1px;
-	line-height: 1px;
+	height: 10px;
+	line-height: 20px;
+	width: 10px;
 }
 
 textarea.large-text {
@@ -1657,7 +1658,7 @@ table.form-table td .updated {
 .meta-box-sortables .postbox .handlediv {
 	float: right;
 	width: 23px;
-	height: 27px;
+	height: 26px;
 }
 
 .sortable-placeholder {
