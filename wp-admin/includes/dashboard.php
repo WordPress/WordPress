@@ -343,9 +343,9 @@ function wp_dashboard_quick_press() {
 			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php _e('Save Draft'); ?>" />
 			<input type="reset" value="<?php _e( 'Cancel' ); ?>" class="cancel" />
 			<?php if ( current_user_can('publish_posts') ) { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button button-primary" value="<?php _e('Publish'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _e('Publish'); ?>" />
 			<?php } else { ?>
-			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button button-primary" value="<?php _e('Submit for Review'); ?>" />
+			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _e('Submit for Review'); ?>" />
 			<?php } ?>
 			<br class="clear" />
 		</p>
