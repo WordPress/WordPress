@@ -3199,7 +3199,7 @@ function _post_states($post) {
 }
 
 function screen_meta($screen) {
-	global $wp_meta_boxes;
+	global $wp_meta_boxes, $_wp_contextual_help;
 
 	$screen = str_replace('.php', '', $screen);
 	$screen = str_replace('-new', '', $screen);
@@ -3237,19 +3237,23 @@ function screen_meta($screen) {
 
 	global $title;
 
-	$help['post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
-	$help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
-	$help = apply_filters('contextual_help_link', $help, $screen); 
+	if ( !isset($_wp_contextual_help) )
+		$_wp_contextual_help = array();
+	if ( !isset($_wp_contextual_help['post']) )
+		$_wp_contextual_help['post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
+	if ( !isset($_wp_contextual_help['options-general']) )
+		$_wp_contextual_help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen); 
 	?>
 	<div id="contextual-help-wrap" class="hidden">
 	<?php
 	$contextual_help = '';
-	if ( isset($help[$screen]) ) {
-		if ( isset($title) )
+	if ( isset($_wp_contextual_help[$screen]) ) {
+		if ( !empty($title) )
 			$contextual_help .= '<h5>' . sprintf(__('Get help with "%s"'), $title) . '</h5>';
 		else
 			$contextual_help .= '<h5>' . __('Get help with this page') . '</h5>';
-		$contextual_help .= '<div class="metabox-prefs">' . $help[$screen] . "</div>\n";
+		$contextual_help .= '<div class="metabox-prefs">' . $_wp_contextual_help[$screen] . "</div>\n";
 
 		$contextual_help .= '<h5>' . __('Other Help') . '</h5>';
 	} else {
@@ -3277,6 +3281,23 @@ function screen_meta($screen) {
 </div>
 </div>
 <?php
+}
+
+/**
+ * Add contextual help text for a page
+ *
+ * @since 2.7.0
+ *
+ * @param string $screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
+ * @param string $help Arbitrary help text
+ */
+function add_contextual_help($screen, $help) {
+	global $_wp_contextual_help;
+
+	if ( !isset($_wp_contextual_help) )
+		$_wp_contextual_help = array();
+
+	$_wp_contextual_help[$screen] = $help;
 }
 
 ?>
