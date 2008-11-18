@@ -91,6 +91,11 @@ function wp_dashboard_setup() {
 	// Filter widget order
 	$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', array() );
 
+	foreach ( $dashboard_widgets as $widget_id ) {
+		$name = empty( $wp_registered_widgets[$widget_id]['all_link'] ) ? $wp_registered_widgets[$widget_id]['name'] : $wp_registered_widgets[$widget_id]['name'] . " <a href='{$wp_registered_widgets[$widget_id]['all_link']}' class='edit-box open-box'>" . __('View all') . '</a>';
+		wp_add_dashboard_widget( $widget_id, $name, $wp_registered_widgets[$widget_id]['callback'], $wp_registered_widget_controls[$widget_id]['callback'] );
+	}
+
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget_id']) ) {
 		ob_start(); // hack - but the same hack wp-admin/widgets.php uses
 		wp_dashboard_trigger_widget_control( $_POST['widget_id'] );
@@ -101,9 +106,6 @@ function wp_dashboard_setup() {
 
 	if ( $update )
 		update_option( 'dashboard_widget_options', $widget_options );
-
-	foreach ( $dashboard_widgets as $widget_id )
-		wp_add_dashboard_widget( $widget_id, $wp_registered_widgets[$widget_id]['name'], $wp_registered_widgets[$widget_id]['callback'], $wp_registered_widget_controls[$widget_id]['callback'] );
 
 	do_action('do_meta_boxes', 'dashboard', 'normal', '');
 	do_action('do_meta_boxes', 'dashboard', 'side', '');
@@ -130,7 +132,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
-	echo '<form action="" method="post">';
+	echo '<form action="" method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
 	echo "<p class='submit'><input type='hidden' name='widget_id' value='$meta_box[id]' /><input type='submit' value='" . __( 'Submit' ) . "' /></p>";
 
@@ -800,5 +802,10 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 
 	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
 }
+
+/**
+ * Empty function usable by plugins to output empty dashboard widget (to be populated later by JS).
+ */
+function wp_dashboard_empty() {}
 
 ?>

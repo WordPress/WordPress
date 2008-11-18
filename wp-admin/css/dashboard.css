@@ -85,6 +85,13 @@ div.postbox div.inside {
 	padding: 0;
 }
 
+#dashboard-widgets .heading {
+	font-size: 1em;
+	font-weight: normal;
+	font-style: italic;
+	font-family: Georgia, serif;
+}
+
 /* Right Now */
 
 #dashboard_right_now p.sub,
