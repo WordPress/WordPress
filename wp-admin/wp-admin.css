@@ -715,10 +715,6 @@ a.page-numbers {
 	padding: 0 2px;
 }
 
-.tablenav-pages span.current {
-	border: 0 none;
-}
-
 p.pagenav {
 	margin: 0;
 	display: inline;
@@ -764,15 +760,25 @@ p.pagenav {
 	line-height: 30px;
 	font-size: 11px;
 	margin: 0 8px 0 0;
-	color: #555;
 }
 
-.tablenav .tablenav-pages a {
+.tablenav .tablenav-pages a, .tablenav-pages span.current  {
 	text-decoration: none;
+	border: none;
+	padding: 3px 6px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .tablenav .displaying-num {
 	margin-right: 10px;
+	font-size: 12px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-style: italic;
 }
 
 .tablenav .actions {

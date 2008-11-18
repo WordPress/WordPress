@@ -325,7 +325,7 @@ unset($role_links);
 <?php if ( $wp_user_search->get_results() ) : ?>
 
 	<?php if ( $wp_user_search->is_search() ) : ?>
-		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
+		<p><a href="users.php"><?php _e('&larr; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
 <table class="widefat fixed" cellspacing="0">

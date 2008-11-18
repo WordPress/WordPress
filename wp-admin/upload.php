@@ -225,8 +225,8 @@ if ( ! isset($page_links_total) )
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'paged', '%#%' ),
 	'format' => '',
-	'prev_text' => __('&laquo;'),
-	'next_text' => __('&raquo;'),
+	'prev_text' => __('&larr;'),
+	'next_text' => __('&rarr;'),
 	'total' => $page_links_total,
 	'current' => $_GET['paged']
 ));

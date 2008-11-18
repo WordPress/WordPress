@@ -161,8 +161,8 @@ if( ! isset( $tagsperpage ) || $tagsperpage < 0 )
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
-	'prev_text' => __('&laquo;'),
-	'next_text' => __('&raquo;'),
+	'prev_text' => __('&larr;'),
+	'next_text' => __('&rarr;'),
 	'total' => ceil(wp_count_terms('post_tag') / $tagsperpage),
 	'current' => $pagenum
 ));

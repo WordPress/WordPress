@@ -539,7 +539,7 @@ li.widget-list-control-item h4,
 	background-color: #fffbcc;
 }
 
-#edit-slug-box strong, .login #nav a {
+#edit-slug-box strong, .login #nav a, .tablenav .displaying-num {
 	color: #777;
 }
 
@@ -1308,4 +1308,28 @@ div.star.select:hover {
 
 #major-publishing-actions, #dashboard_quick_press .submit {
 	background: #eaf2fa;
+}
+
+.tablenav .tablenav-pages, {
+	color: #555;
+}
+
+.tablenav .tablenav-pages a {
+	border-color: #efefef;
+	background: #eee;
+}
+
+.tablenav .tablenav-pages a:hover {
+	color: #fff;
+	background-color: #d54e21;
+	border-color: #d54321;
+}
+
+.tablenav .tablenav-pages a:active {
+	color: #fff !important;
+}
+
+.tablenav .tablenav-pages .current {
+	background: #dfdfdf;
+	border-color: #dfdfdf;
 }

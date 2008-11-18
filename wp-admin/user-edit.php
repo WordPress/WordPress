@@ -160,7 +160,7 @@ include ('admin-header.php');
 <div id="message" class="updated fade">
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php if ( $wp_http_referer && !$is_profile_page ) : ?>
-	<p><a href="users.php"><?php _e('&laquo; Back to Authors and Users'); ?></a></p>
+	<p><a href="users.php"><?php _e('&larr; Back to Authors and Users'); ?></a></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>
