@@ -745,21 +745,24 @@ function wp_manage_pages_columns() {
  * @return unknown
  */
 function get_column_headers($page) {
-	static $columns = array();
+	global $_wp_column_headers;
+
+	if ( !isset($_wp_column_headers) )
+		$_wp_column_headers = array();
 
 	// Store in static to avoid running filters on each call
-	if ( isset($columns[$page]) )
-		return $columns[$page];
+	if ( isset($_wp_column_headers[$page]) )
+		return $_wp_column_headers[$page];
 
 	switch ($page) {
 		case 'edit':
-			 $columns[$page] = wp_manage_posts_columns();
+			 $_wp_column_headers[$page] = wp_manage_posts_columns();
 			 break;
 		case 'edit-pages':
-			$columns[$page] = wp_manage_pages_columns();
+			$_wp_column_headers[$page] = wp_manage_pages_columns();
 			break;
 		case 'edit-comments':
-			$columns[$page] = array(
+			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'comment' => __('Comment'),
 				'author' => __('Author'),
@@ -769,7 +772,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'link-manager':
-			$columns[$page] = array(
+			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'url' => __('URL'),
@@ -780,10 +783,10 @@ function get_column_headers($page) {
 
 			break;
 		case 'upload':
-			$columns[$page] = wp_manage_media_columns();
+			$_wp_column_headers[$page] = wp_manage_media_columns();
 			break;
 		case 'categories':
-			$columns[$page] = array(
+			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
@@ -793,7 +796,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'edit-link-categories':
-			$columns[$page] = array(
+			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
@@ -802,7 +805,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'edit-tags':
-			$columns[$page] = array(
+			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'slug' => __('Slug'),
@@ -811,7 +814,7 @@ function get_column_headers($page) {
 
 			break;
 		case 'users':
-			$columns[$page] = array(
+			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'username' => __('Username'),
 				'name' => __('Name'),
@@ -821,11 +824,11 @@ function get_column_headers($page) {
 			);
 			break;
 		default :
-			$columns[$page] = array();
+			$_wp_column_headers[$page] = array();
 	}
 
-	$columns[$page] = apply_filters('manage_' . $page . '_columns', $columns[$page]);
-	return $columns[$page];
+	$_wp_column_headers[$page] = apply_filters('manage_' . $page . '_columns', $_wp_column_headers[$page]);
+	return $_wp_column_headers[$page];
 }
 
 /**
@@ -868,6 +871,24 @@ function print_column_headers( $type, $id = true ) {
 ?>
 	<th scope="col" <?php echo $id ? "id=\"$column_key\"" : ""; echo $class; echo $style; ?>><?php echo $column_display_name; ?></th>
 <?php }
+}
+
+/**
+ * Register column headers for a particular screen.  The header names will be listed in the Screen Options.
+ *
+ * @since 2.7.0
+ *
+ * @param string $screen The handle for the screen to add help to.  This is usually the hook name returned by the add_*_page() functions.
+ * @param array $columns An array of columns with column IDs as the keys and translated column names as the values
+ * @see get_column_headers(), print_column_headers(), get_hidden_columns()
+ */
+function register_column_headers($screen, $columns) {
+	global $_wp_column_headers;
+
+	if ( !isset($_wp_column_headers) )
+		$_wp_column_headers = array();
+
+	$_wp_column_headers[$screen] = $columns;
 }
 
 /**
