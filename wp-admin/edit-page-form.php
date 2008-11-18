@@ -91,12 +91,6 @@ function page_submit_meta_box($post) {
 
 <div id="misc-publishing-actions">
 
-<?php if ( false ) { // Stub for 2.8 ?>
-<div class="misc-pub-section misc-pub-section-1-last" id="visibility">
-<?php _e('Visibility:'); ?> <b><?php _e('Public'); // TODO: dropdown ?></b>
-</div>
-<?php } ?>
-
 <div class="misc-pub-section<?php if ( !$can_publish ) { echo ' misc-pub-section-last'; } ?>"><label for="post_status"><?php _e('Status:') ?></label>
 <b><span id="post-status-display">
 <?php
