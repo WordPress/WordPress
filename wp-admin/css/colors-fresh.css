@@ -1306,7 +1306,7 @@ div.star.select:hover {
 	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -111px;
 }
 
-#major-publishing-actions, #dashboard_quick_press .submit {
+#major-publishing-actions {
 	background: #eaf2fa;
 }
 
