@@ -498,10 +498,12 @@ function prep_atom_text_construct($data) {
  * @since 2.5
  */
 function self_link() {
+	$host = @parse_url(get_option('home'));
+	$host = $host['host'];
 	echo clean_url( 
 		'http'
 		. ( (isset($_SERVER['https']) && $_SERVER['https'] == 'on') ? 's' : '' ) . '://'
-		. $_SERVER['HTTP_HOST']
+		. $host
 		. stripslashes($_SERVER['REQUEST_URI'])
 		);
 }
