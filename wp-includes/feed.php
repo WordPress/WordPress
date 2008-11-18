@@ -495,10 +495,12 @@ function prep_atom_text_construct($data) {
  * @since 2.5
  */
 function self_link() {
-	echo 'http'
-		. ( $_SERVER['https'] == 'on' ? 's' : '' ) . '://'
+	echo clean_url( 
+		'http'
+		. ( (isset($_SERVER['https']) && $_SERVER['https'] == 'on') ? 's' : '' ) . '://'
 		. $_SERVER['HTTP_HOST']
-		. wp_specialchars(stripslashes($_SERVER['REQUEST_URI']), 1);
+		. stripslashes($_SERVER['REQUEST_URI'])
+		);
 }
 
 ?>
