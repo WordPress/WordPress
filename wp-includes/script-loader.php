@@ -153,7 +153,7 @@ function wp_default_scripts( &$scripts ) {
 			'empty' => __('Strength indicator'),
 			'short' => __('Very weak'),
 			'bad' => __('Weak'),
-			'good' => __('Medium'),
+			'good' => _c('Medium|password strength'),
 			'strong' => __('Strong')
 		) );
 		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20081117' );
