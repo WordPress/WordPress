@@ -20,6 +20,7 @@ global $_old_files;
 $_old_files = array(
 'wp-admin/bookmarklet.php',
 'wp-admin/css/upload.css',
+'wp-admin/edit-form.php',
 'wp-admin/images/box-bg-left.gif',
 'wp-admin/images/box-bg-right.gif',
 'wp-admin/images/box-bg.gif',
