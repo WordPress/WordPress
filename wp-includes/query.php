@@ -1726,7 +1726,7 @@ class WP_Query {
 			$where .= " AND {$wpdb->posts}.ID NOT IN ($post__not_in)";
 		}
 
-		if ( is_integer($q['post_parent']) )
+		if ( is_numeric($q['post_parent']) )
 			$where .= $wpdb->prepare( " AND $wpdb->posts.post_parent = %d ", $q['post_parent'] );
 
 		if ( $q['page_id'] ) {
