@@ -92,9 +92,6 @@ default:
   <?php wp_nonce_field('options-options') ?>
   <input type="hidden" name="action" value="update" />
   <input type='hidden' name='option_page' value='options' />
-<p class="submit submit-top">
-	<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" class="button-primary" />
-</p>
   <table class="form-table">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
