@@ -109,7 +109,7 @@ ul#adminmenu {
 }
 
 * html #wpcontent #adminmenu .wp-has-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits.gif) no-repeat scroll left -108px;
+	background: url(../images/menu-bits.gif) no-repeat scroll left -109px;
 }
 
 * html #wpcontent #adminmenu li.wp-has-current-submenu .wp-menu-toggle {
@@ -117,7 +117,7 @@ ul#adminmenu {
 }
 
 * html #adminmenu div.wp-menu-image {
-	height: 31px;
+	height: 29px;
 }
 
 #wpcontent #adminmenu .wp-submenu li {
@@ -231,6 +231,11 @@ a.button {
 
 #favorite-actions {
 	z-index: 12;
+}
+
+#user_info + div#favorite-actions {
+	float: none; 
+ 	right: 15px;
 }
 
 #post-status-info,

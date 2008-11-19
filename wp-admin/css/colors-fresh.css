@@ -1025,10 +1025,6 @@ abbr.required,
 	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -207px;
 }
 
-#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle {
-	border-color: #b5b5b5;
-}
-
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
 	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -109px;
