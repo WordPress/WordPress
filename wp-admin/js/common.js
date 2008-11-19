@@ -214,8 +214,8 @@ jQuery(document).ready( function($) {
 	});
 });
 
+var showNotice, adminMenu, columns;
 (function($){
-
 // stub for doing better warnings
 showNotice = {
 	warn : function(text) {
@@ -229,7 +229,9 @@ showNotice = {
 		alert(text);
 	}
 };
+})(jQuery);
 
+(function($){
 // sidebar admin menu
 adminMenu = {
 		
@@ -319,7 +321,9 @@ adminMenu = {
 };
 
 $(document).ready(function(){adminMenu.init();});
+})(jQuery);
 
+(function($){
 // show/hide/save table columns
 columns = {
 	init : function(page) {
