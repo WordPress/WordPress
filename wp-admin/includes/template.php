@@ -3225,6 +3225,7 @@ function screen_meta($screen) {
 	$screen = str_replace('.php', '', $screen);
 	$screen = str_replace('-new', '', $screen);
 	$screen = str_replace('-add', '', $screen);
+	$screen = apply_filters('screen_meta_screen', $screen);
 
 	$column_screens = get_column_headers($screen);
 	$meta_screens = array('index' => 'dashboard');
