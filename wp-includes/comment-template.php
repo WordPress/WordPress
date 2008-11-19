@@ -21,10 +21,16 @@
  */
 function get_comment_author() {
 	global $comment;
-	if ( empty($comment->comment_author) )
-		$author = __('Anonymous');
-	else
+	if ( empty($comment->comment_author) ) {
+		if (!empty($comment->user_id)){
+			$user=get_userdata($comment->user_id);
+			$author=$user->user_login;
+		} else {
+			$author = __('Anonymous');
+		}
+	} else {
 		$author = $comment->comment_author;
+	}
 	return apply_filters('get_comment_author', $author);
 }
 

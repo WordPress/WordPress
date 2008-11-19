@@ -40,6 +40,8 @@ $comment_content      = ( isset($_POST['comment']) ) ? trim($_POST['comment']) :
 // If the user is logged in
 $user = wp_get_current_user();
 if ( $user->ID ) {
+	if ( empty( $user->display_name ) )
+		$user->display_name=$user->user_login;
 	$comment_author       = $wpdb->escape($user->display_name);
 	$comment_author_email = $wpdb->escape($user->user_email);
 	$comment_author_url   = $wpdb->escape($user->user_url);
