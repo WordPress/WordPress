@@ -425,8 +425,23 @@ function install_plugin_information() {
 					break;
 				}
 			}
-			if ( 'install' == $type && file_exists( WP_PLUGIN_DIR  . '/' . $api->slug ) ) //TODO: Make more.. searchable?
-				$type = 'latest_installed';
+			if ( 'install' == $type && is_dir( WP_PLUGIN_DIR  . '/' . $api->slug ) ) {
+				$installed_plugin = get_plugins('/' . $api->slug);
+				if ( ! empty($installed_plugin) ) {
+					$key = array_shift( $key = array_keys($installed_plugin) ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
+					if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '>') ){
+						$type = 'latest_installed';
+					} elseif ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '<') ) {
+						$type = 'newer_installed';
+						$newer_version = $installed_plugin[ $key ]['Version'];
+					} else {
+						//If the above update check failed, Then that probably means that the update checker has out-of-date information, force a refresh
+						delete_option('update_plugins');
+						$update_file = $api->slug . '/' . $key; //This code branch only deals with a plugin which is in a folder the same name as its slug, Doesnt support plugins which have 'non-standard' names
+						$type = 'update_available';
+					}
+				}
+			}
 
 			switch ( $type ) :
 				default:
@@ -438,6 +453,11 @@ function install_plugin_information() {
 				case 'update_available':
 					if ( current_user_can('update_plugins') ) :
 						?><a href="<?php echo wp_nonce_url(admin_url('update.php?action=upgrade-plugin&plugin=' . $update_file), 'upgrade-plugin_' . $update_file) ?>" target="_parent"><?php _e('Install Update Now') ?></a><?php
+					endif;
+				break;
+				case 'newer_installed':
+					if ( current_user_can('install_plugins') || current_user_can('update_plugins') ) :
+					?><a><?php printf(__('Newer Version (%s) Installed'), $newer_version) ?></a><?php
 					endif;
 				break;
 				case 'latest_installed':
