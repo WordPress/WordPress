@@ -148,7 +148,7 @@ input[type="radio"] {
 
 body,
 td {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 13px "Lucida Grande", Verdana, Arial, sans-serif;
 }
 
 p {
@@ -179,7 +179,7 @@ dt {
 textarea,
 input,
 select {
-	font: 13px/19px Verdana, Arial, Helvetica, sans-serif;
+	font: 13px/19px "Lucida Grande", Verdana, Arial, sans-serif;
 	margin: 1px;
 	padding: 3px;
 }
@@ -375,7 +375,7 @@ h6 {
 .wrap h2 {
 	font: italic normal normal 24px/29px Georgia, "Times New Roman", Times, serif;
 	margin: 0;
-	padding: 10px 15px 5px 0;
+	padding: 14px 15px 1px 0;
 }
 
 .wrap h2.long-header {

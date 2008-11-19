@@ -344,7 +344,7 @@ form p.submit .cancel:hover {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;
@@ -384,7 +384,7 @@ a.button {
 }
 
 #wpcontent select {
-	font: 12px/20px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 12px/20px "Lucida Grande", Verdana, Arial, sans-serif;
 	padding: 2px;
 	border-width: 1px;
 	border-style: solid;
@@ -872,7 +872,7 @@ ul#adminmenu li.write-new-button {
 }
 ul#adminmenu li.write-new-button a {
 	line-height: 1.2em;
-	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 12px "Lucida Grande", Verdana, Arial, sans-serif;
 	padding: 6px 4px;
 	letter-spacing: normal;
 	border-width: 1px;
@@ -924,7 +924,13 @@ ul#adminmenu li.write-new-button a {
 }
 
 #adminmenu .wp-submenu a {
-	font: normal 12px/18px Helvetica, Verdana, sans-serif;
+	font: normal 11px/18px "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+#adminmenu .wp-submenu li.current,
+#adminmenu .wp-submenu li.current a,
+#adminmenu .wp-submenu li.current a:hover {
+	font-weight: bold;
 }
 	
 #adminmenu a.menu-top,
@@ -960,7 +966,7 @@ ul#adminmenu li.write-new-button a {
 #adminmenu div.wp-menu-image {
 	float: left;
 	width: 28px;
-	height: 30px;
+	height: 28px;
 }
 
 /*
@@ -980,19 +986,19 @@ ul#adminmenu li.write-new-button a {
 
 #adminmenu a {
 	display: block;
-	font-size: 11.5px !important;
+	font-size: 11.5px;
 	line-height: 18px;
 	padding: 1px 5px 3px;
 }
 
 #adminmenu li.menu-top {
-	min-height: 28px;
+	min-height: 26px;
 }
 
 #adminmenu a.menu-top {
 	line-height: 18px;
 	min-width: 10em;
-	padding: 6px 5px;
+	padding: 5px 5px;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 }
@@ -1028,28 +1034,28 @@ ul#adminmenu li.write-new-button a {
 #adminmenu .wp-submenu .wp-submenu-head {
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
-	-moz-border-radius-topleft :8px;
-	-moz-border-radius-topright: 8px;
-	-webkit-border-top-right-radius: 8px;
-	-webkit-border-top-left-radius: 8px;
-	-khtml-border-top-right-radius: 8px;
-	-khtml-border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	border-top-left-radius: 8px;
+	-moz-border-radius-topleft :6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-khtml-border-top-right-radius: 6px;
+	-khtml-border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
 }
 
 #adminmenu .menu-top-last a.menu-top,
 #adminmenu.folded li.menu-top-last {
 	border-width: 1px;
 	border-style: solid;
-	-moz-border-radius-bottomleft: 8px;
-	-moz-border-radius-bottomright: 8px;
-	-webkit-border-bottom-right-radius: 8px;
-	-webkit-border-bottom-left-radius: 8px;
-	-khtml-border-bottom-right-radius: 8px;
-	-khtml-border-bottom-left-radius: 8px;
-	border-bottom-right-radius: 8px;
-	border-bottom-left-radius: 8px;
+	-moz-border-radius-bottomleft: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-khtml-border-bottom-right-radius: 6px;
+	-khtml-border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
 }
 
 #adminmenu li.wp-menu-open a.menu-top-last {
@@ -1127,14 +1133,19 @@ ul#adminmenu li.write-new-button a {
 	clear: right;
 	float: right;
 	margin: 1px 0 0;
-	height: 29px;
+	height: 27px;
 	padding: 1px 2px 0 0;
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.menu-top > a.current {
-	font-style: italic;
 }
+
+#adminmenu li.wp-has-current-submenu ul {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
 /* end side admin menu */
 
 /* 2.6 */
@@ -1847,7 +1858,6 @@ input#link_url {
 #media-buttons a {
 	cursor: pointer;
 	padding: 0 0 5px 10px;
-	vertical-align: middle;
 }
 
 #media-buttons img {
@@ -2227,7 +2237,7 @@ fieldset {
 	line-height: 2;
 	margin: 0;
 	padding: 4px 8px;
-	font: 18px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 18px "Lucida Grande", Verdana, Arial, sans-serif;
 }
 
 #wp_editbtns {
@@ -2542,7 +2552,7 @@ fieldset {
 #contextual-help-link-wrap {
 	float: right;
 	background: transparent url( images/screen-options-left.gif ) no-repeat 0 0;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
 	height: 23px;
 	padding: 0;
 	margin: -1px 10px 0 0;
@@ -2824,7 +2834,7 @@ ul.cat-checklist {
 .inline-edit-row .catshow,
 .inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
 	font-style: normal;
 	font-size: 11px;
 }
@@ -3199,5 +3209,4 @@ table.fixed {
 .widefat td {
 	overflow: hidden;
 }
-
 

@@ -297,7 +297,12 @@ div.postbox div.inside {
 
 #dashboard_quick_press #media-buttons {
 	margin: 0 0 .5em 5em;
-	padding: 0 0 0 2px;
+	padding: 0 0 0 10px;
+	font-size: 11px;
+}
+
+#dashboard_quick_press #media-buttons a {
+	vertical-align: bottom;
 }
 
 #dashboard-widgets #dashboard_quick_press form p.submit {
@@ -353,6 +358,14 @@ a.rsswidget {
 	font-size: 13px;
 	line-height: 1.7em;
 }
+/*
+#the-comment-list .comment-item h4 {
+	line-height: 1.4;
+	margin-top: -.2em;
+	font-weight: normal;
+	color: #999;
+}
+*/
 
 .rss-widget ul li {
 	line-height: 1.4em;
@@ -376,7 +389,7 @@ a.rsswidget {
 /* Plugins */
 
 #dashboard_plugins h5 {
-	font-size: 14px;
+	font-size: 13px;
 	margin: 0;
 	display: inline;
 	line-height: 1.4em;
