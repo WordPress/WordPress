@@ -429,7 +429,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach( $blogs as $blog ) {
 			// Don't include blogs that aren't hosted at this site
-			if( $blog->site_id != 1 )
+			if( $blog->site_id != $current_site->id )
 				continue;
 
 			$blog_id = $blog->userblog_id;
@@ -443,6 +443,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'blogName'		=> get_option( 'blogname' ),
 				'xmlrpc'		=> get_option( 'home' ) . '/xmlrpc.php'
 			);
+
+			restore_current_blog( );
 		}
 
 		return $struct;
