@@ -148,14 +148,14 @@ table#availablethemes td.bottom {
 	padding: 0;
 }
 
-.code {
-	font-family: "Courier New", Courier, monospace;
+.code, code {
+	font-family: Consolas, Monaco, Courier, monospace;
 }
 
 kbd, code {
 	padding: 1px 3px;
 	margin: 0 1px;
-	font-size: 12px;
+	font-size: 11px;
 }
 
 .commentlist li {
@@ -353,6 +353,20 @@ form p.submit a.cancel:hover {
 	box-sizing: content-box;
 }
 
+.submit input,
+.button,
+.button-primary,
+.button-secondary,
+.button-highlighted,
+#postcustomstuff .submit input {
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
+}
+
+.button-primary,
+.submit .button-primary {
+	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
+}
+
 a.button {
 	padding: 4px 8px;
 }
@@ -375,8 +389,8 @@ a.button {
 }
 
 #wpcontent select {
-	font: 12px/20px "Lucida Grande", Verdana, Arial, sans-serif;
-	padding: 2px;
+	font: 11px/20px "Lucida Grande", Verdana, Arial, sans-serif;
+	padding: 0 0 0 4px;
 	border-width: 1px;
 	border-style: solid;
 	height: 2em;
@@ -739,7 +753,7 @@ p.pagenav {
 .tablenav {
 	clear: both;
 	height: 30px;
-	margin: 6px 6px 4px;
+	margin: 6px 0 4px;
 	vertical-align: middle;
 }
 
@@ -750,7 +764,6 @@ p.pagenav {
 	height: 30px;
 	line-height: 30px;
 	font-size: 11px;
-	margin: 0 8px 0 0;
 }
 
 .tablenav .tablenav-pages a, .tablenav-pages span.current  {
@@ -863,6 +876,7 @@ a#view-site-link {
 	padding: 10px 10px 5px;
 	margin: 0;
 	float: left;
+	text-shadow: rgba(0,0,0,0.6) 0 -1px 0;
 }
 
 #wphead h1.long-title {
@@ -903,11 +917,12 @@ a#view-site-link {
 #adminmenu .wp-submenu li.current a,
 #adminmenu .wp-submenu li.current a:hover {
 	font-weight: bold;
+	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
 }
 	
 #adminmenu a.menu-top,
 #adminmenu .wp-submenu-head {
-	font: normal 12px/18px Georgia, "Times New Roman", Times, serif;
+	font: normal 13px/18px Georgia, "Times New Roman", Times, serif;
 }
 
 #adminmenu.folded,
@@ -1098,7 +1113,8 @@ a#view-site-link {
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
-#adminmenu li.menu-top > a.current {
+#adminmenu .menu-top .current {
+	text-shadow: rgba(0,0,0,0.4) 0px -1px 0px;
 }
 
 #adminmenu li.wp-has-current-submenu ul {
@@ -1196,7 +1212,7 @@ html, body {
 }
 
 #footer #footer-thankyou, #footer #footer-upgrade {
-	font-size: 12px;
+	font-size: 13px;
 	word-spacing: 0;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-style: italic;
@@ -1239,6 +1255,11 @@ html, body {
 	font-size: 11px;
 }
 
+.form-table th, .form-wrap label {
+	font-weight: normal;
+	text-shadow: #fff 0 1px 0;
+}
+
 .form-table th,
 #wpbody-content .describe th {
 	vertical-align: top;
@@ -1264,6 +1285,7 @@ html, body {
 .form-table div.color-option {
 	display: block;
 	clear: both;
+	margin-top: 12px;
 }
 
 .form-table input.tog {
@@ -1275,7 +1297,7 @@ html, body {
 .form-table table.color-palette {
 	vertical-align: bottom;
 	float: left;
-	margin: -8px 3px 12px;
+	margin: -8px 3px 8px;
 }
 
 .form-table .color-palette td {
@@ -1344,7 +1366,7 @@ table.form-table td .updated {
 .form-wrap label {
 	display: block;
 	padding: 2px;
-	font-weight: bold;
+	font-size: 12px;
 }
 
 .form-field input,
@@ -1356,7 +1378,11 @@ table.form-table td .updated {
 
 .form-wrap p {
 	margin: 2px 0 5px;
+}
+
+.setting-description, .form-wrap p {
 	font-style: italic;
+	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
 }
 
 .form-wrap .form-field {
@@ -1547,6 +1573,7 @@ table.form-table td .updated {
 .howto {
 	font-style: italic;
 	display: block;
+	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
 }
 
 .ac_results {
@@ -2468,7 +2495,7 @@ fieldset {
 }
 
 #screen-meta-links {
-	margin: 0 20px 0 0;
+	margin: 0 9px 0 0;
 }
 
 #screen-meta .invisible {
@@ -2482,20 +2509,24 @@ fieldset {
 	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
 	height: 23px;
 	padding: 0;
-	margin: -1px 10px 0 0;
+	margin: -1px 6px 0 0;
 }
 
 #screen-meta a.show-settings {
 	text-decoration: none;
 	z-index: 1;
-	padding: 0 18px 0 8px;
-	height: 23px;
-	line-height: 23px;
-	font-size: 11px;
+	padding: 0 16px 0 6px;
+	height: 22px;
+	line-height: 22px;
+	font-size: 10px;
 	display: block;
 	background-repeat: no-repeat;
-	background-position: right top;
+	background-position: right bottom;
 	background-color: transparent;
+	border-top-color: #dfdfdf;
+	border-top-width: 1px;
+	border-top-style: solid;
+	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
 
 #screen-meta a.show-settings {
@@ -2519,13 +2550,10 @@ fieldset {
 	border-top: 0 none;
 	border-width: 0 1px 1px;
 	margin: 0 15px;
-	-moz-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 0 4px;
 	-webkit-border-bottom-left-radius: 4px;
-	-webkit-border-bottom-right-radius: 4px;
 	-khtml-border-bottom-left-radius: 4px;
-	-khtml-border-bottom-right-radius: 4px;
 	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
 }
 
 .metabox-prefs {
@@ -2960,7 +2988,6 @@ abbr.required {
 	margin: 11px 12px 0;
 	min-width: 130px;
 	position: relative;
-	
 }
 
 #favorite-first {
@@ -2975,8 +3002,8 @@ abbr.required {
 }
 
 #favorite-inside {
-	margin: 0 0 0 1px;
-	padding: 0 0 6px;
+	margin: 0 0 0 0px;
+	padding: 0 1px 6px 1px;
 	border-width: 1px;
 	border-style: solid;
 	position: absolute;
@@ -2995,6 +3022,7 @@ abbr.required {
 	display: block;
 	text-decoration: none;
 	font-size: 11px;
+	text-shadow: rgba(0,0,0,0.2) 0 -1px 0;
 }
 
 #favorite-inside a {
@@ -3027,11 +3055,9 @@ abbr.required {
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
+	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
 }
 
-.setting-description {
-	font-style: italic;
-}
 ul#dismissed-updates {
 	display: none;
 }
@@ -3115,5 +3141,6 @@ table.fixed {
 .widefat th,
 .widefat td {
 	overflow: hidden;
+	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 

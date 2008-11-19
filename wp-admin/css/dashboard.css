@@ -132,11 +132,6 @@ div.postbox div.inside {
 	border-top: none;
 }
 
-#dashboard_right_now .b,
-#dashboard_right_now .b a {
-	color: #2583ad;
-}
-
 #dashboard_right_now td.b {
 	padding-right: 6px;
 	text-align: right;
@@ -146,6 +141,10 @@ div.postbox div.inside {
 
 #dashboard_right_now td.b a {
 	font-size: 18px;
+}
+
+#dashboard_right_now td.b a:hover {
+	color: #d54e21;
 }
 
 #dashboard_right_now .t {
@@ -185,8 +184,6 @@ div.postbox div.inside {
 #dashboard_right_now .versions a,
 #dashboard_right_now .versions .b {
 	font-style: normal;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-	font-size: 12px;
 }
 
 #dashboard_right_now a.button {
