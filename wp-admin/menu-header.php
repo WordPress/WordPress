@@ -56,6 +56,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$class[] = $item[4];
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
+		$tabindex = ' tabindex="1"';
 		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . $item[5] . '"' : '';
 		$img = '';
 		if ( isset($item[6]) && ! empty($item[6]) ) {
@@ -75,17 +76,17 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 			if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook)) {
 				$admin_is_parent = true;
-				echo "$img$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				echo "$img$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>{$item[0]}</a>";
 			} else {
-				echo "\n\t$img$toggle<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img$toggle<a href='{$submenu[$item[2]][0][2]}'$class$tabindex>{$item[0]}</a>";
 			}
 		} else if ( current_user_can($item[1]) ) {
 			$menu_hook = get_plugin_page_hook($item[2], 'admin.php');
 			if ( file_exists(WP_PLUGIN_DIR . "/{$item[2]}") || !empty($menu_hook) ) {
 				$admin_is_parent = true;
-				echo "\n\t$img$toggle<a href='admin.php?page={$item[2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img$toggle<a href='admin.php?page={$item[2]}'$class$tabindex>{$item[0]}</a>";
 			} else {
-				echo "\n\t$img$toggle<a href='{$item[2]}'$class>{$item[0]}</a>";
+				echo "\n\t$img$toggle<a href='{$item[2]}'$class$tabindex>{$item[0]}</a>";
 			}
 		}
 
@@ -118,13 +119,13 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					// If admin.php is the current page or if the parent exists as a file in the plugins or admin dir
 					$parent_exists = (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/{$item[2]}") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($item[2]);
 					if ( $parent_exists )
-						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
 					elseif ( 'admin.php' == $pagenow || !$parent_exists )
-						echo "<li$class><a href='admin.php?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+						echo "<li$class><a href='admin.php?page={$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
 					else
-						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+						echo "<li$class><a href='{$item[2]}?page={$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
 				} else {
-					echo "<li$class><a href='{$sub_item[2]}'$class>{$sub_item[0]}</a></li>";
+					echo "<li$class><a href='{$sub_item[2]}'$class$tabindex>{$sub_item[0]}</a></li>";
 				}
 			}
 			echo "</ul></div>";

@@ -236,7 +236,6 @@ showNotice = {
 adminMenu = {
 		
 	init : function() {
-		$('#adminmenu a').attr('tabindex', '10');
 		$('#adminmenu div.wp-menu-toggle').each( function() {
 			if ( $(this).siblings('.wp-submenu').length ) 
 				$(this).click(function(){ adminMenu.toggle( $(this).siblings('.wp-submenu') ); });
