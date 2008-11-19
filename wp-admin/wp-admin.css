@@ -1106,6 +1106,10 @@ a#view-site-link {
 	border-bottom-style: solid;
 }
 
+#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
 /* end side admin menu */
 
 /* 2.6 */

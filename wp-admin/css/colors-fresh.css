@@ -1022,12 +1022,16 @@ abbr.required,
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -208px;
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -207px;
+}
+
+#adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle {
+	border-color: #b5b5b5;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -108px;
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -109px;
 }
 
 #adminmenu a.menu-top {
@@ -1048,8 +1052,8 @@ abbr.required,
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu .menu-top .current {
-	background: url(../images/menu-bits.gif) top left repeat-x;
-	border-color: #B5B5B5;
+	background: #6d6d6d url(../images/menu-bits.gif) top left repeat-x;
+	border-color: #6d6d6d;
 	color: #fff;
 	text-shadow: #666 0px -1px 0px;
 }
