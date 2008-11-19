@@ -11,13 +11,13 @@ if ( ! defined('ABSPATH') ) die();
 <table class="widefat fixed" cellspacing="0">
 	<thead>
 	<tr>
-<?php print_column_headers('media'); ?>
+<?php print_column_headers('upload'); ?>
 	</tr>
 	</thead>
 	
 	<tfoot>
 	<tr>
-<?php print_column_headers('media', false); ?>
+<?php print_column_headers('upload', false); ?>
 	</tr>
 	</tfoot>
 	
