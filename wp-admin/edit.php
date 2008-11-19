@@ -52,7 +52,6 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 	$sendback = wp_get_referer();
 	if ( strpos($sendback, 'post.php') !== false ) $sendback = admin_url('post-new.php');
 	elseif ( strpos($sendback, 'attachments.php') !== false ) $sendback = admin_url('attachments.php');
-	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	if ( isset($done) ) {
 		$done['updated'] = count( $done['updated'] );
 		$done['skipped'] = count( $done['skipped'] );

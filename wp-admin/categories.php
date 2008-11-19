@@ -70,7 +70,6 @@ case 'bulk-delete':
 	}
 
 	$sendback = wp_get_referer();
-	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 
 	wp_redirect($sendback);
 	exit();

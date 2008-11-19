@@ -24,9 +24,7 @@ if ( isset($_GET['action']) && isset($_GET['linkcheck']) ) {
 			wp_delete_link($link_id);
 		}
 
-		$sendback = wp_get_referer();
-		$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
-		wp_redirect($sendback);
+		wp_redirect( wp_get_referer() );
 		exit;
 	}
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
