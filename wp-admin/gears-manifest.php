@@ -18,6 +18,11 @@ function __() {}
 /**
  * @ignore
  */
+function _c() {}
+
+/**
+ * @ignore
+ */
 function add_filter() {}
 
 /**
