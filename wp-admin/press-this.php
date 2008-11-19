@@ -145,9 +145,11 @@ switch ($_REQUEST['ajax']) {
 				image_selector();
 			});
 		</script>
-		<h3 id="title"><label for="title"><?php _e('Description') ?></label></h3>
+		<h3 class="tb"><label for="this_photo_description"><?php _e('Description') ?></label></h3>
+		<div class="titlediv">
 		<div class="titlewrap">
-			<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+		</div>
 		</div>
 
 		<p class="centered"><input type="hidden" name="this_photo" value="<?php echo attribute_escape($image); ?>" id="this_photo" />
@@ -168,15 +170,19 @@ switch ($_REQUEST['ajax']) {
 				image_selector();
 			});
 		</script>
-		<h3 id="title"><label for="title"><?php _e('URL') ?></label></h3>
-		<div class="titlewrap">
-			<input id="this_photo" name="this_photo" class="text" onkeypress="if(event.keyCode==13) image_selector();" />
+		<h3 class="tb"><label for="this_photo"><?php _e('URL') ?></label></h3>
+		<div class="titlediv">
+			<div class="titlewrap">
+			<input id="this_photo" name="this_photo" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" />
+			</div>
 		</div>
 
 
-		<h3 id="title"><label for="title"><?php _e('Description') ?></label></h3>
-		<div class="titlewrap">
-			<input id="this_photo_description" name="photo_description" class="text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+		<h3 class="tb"><label for="photo_description"><?php _e('Description') ?></label></h3>
+		<div id="titlediv">
+			<div class="titlewrap">
+			<input id="this_photo_description" name="photo_description" class="tbtitle text" onkeypress="if(event.keyCode==13) image_selector();" value="<?php echo attribute_escape($title);?>"/>
+			</div>
 		</div>
 
 		<p id="options"><a href="#" class="select"><?php _e('Insert Image'); ?></a> | <a href="#" class="cancel"><?php _e('Cancel'); ?></a></p>
@@ -248,21 +254,21 @@ switch ($_REQUEST['ajax']) {
 			img_attr = 'id="img' + i + '"';
 			skip = false;
 			if (img.width && img.height) {
-				if (img.width * img.height < 2500)
-					skip = true;
-				aspect = img.width / img.height;
-				scale = (aspect > 1) ? (71 / img.width) : (71 / img.height);
-
-				w = img.width;
-				h = img.height;
-
-				if (scale < 1) {
-					w = parseInt(img.width * scale);
-					h = parseInt(img.height * scale);
+				if (img.width >= 30 && img.height >= 30) {
+					aspect = img.width / img.height;
+					scale = (aspect > 1) ? (71 / img.width) : (71 / img.height);
+                	
+					w = img.width;
+					h = img.height;
+                	
+					if (scale < 1) {
+						w = parseInt(img.width * scale);
+						h = parseInt(img.height * scale);
+					}
+					img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
+					strtoappend += '<a href="?ajax=photo_thickbox&amp;i=' + encodeURI(img.src) + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
 				}
-				img_attr += ' style="width: ' + w + 'px; height: ' + h + 'px;"';
 			}
-			if (!skip) strtoappend += '<a href="?ajax=photo_thickbox&amp;i=' + encodeURI(img.src) + '&amp;u=<?php echo $url; ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
 		}
 
 		function pick(img, desc) {
@@ -321,7 +327,7 @@ die;
 	do_action('admin_head');
 	
 	if ( user_can_richedit() ) {
-		add_filter( 'teeny_mce_before_init', create_function( '$a', '$a["onpageload"] = ""; $a["mode"] = "textareas"; $a["editor_selector"] = "mceEditor"; return $a;' ) );
+		add_filter( 'teeny_mce_before_init', create_function( '$a', '$a["height"] = "400"; $a["onpageload"] = ""; $a["mode"] = "textareas"; $a["editor_selector"] = "mceEditor"; return $a;' ) );
 		
 		wp_tiny_mce( true );
 	}
@@ -408,7 +414,8 @@ die;
 	}
 
 	jQuery(document).ready(function() {
-		top.resizeTo(720-screen.width+screen.availWidth,680-screen.height+screen.availHeight);
+		//resize screen
+		top.resizeTo(720-screen.width+screen.availWidth,660-screen.height+screen.availHeight);
     	jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
 		jQuery('#visual_mode_button').click(function() {
@@ -535,8 +542,8 @@ die;
 			
 				<div class="editor-container">
 					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
-					<?php if ($selection) echo wp_richedit_pre($selection); ?>
-					<?php if ($url) { echo '<p>'; if($selection) printf( __('via %s.'), "<a href='$url'>$title</a>" ); echo '</p>'; } ?>
+					<?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?>
+					<?php if ($url) { echo '<p>'; if($selection) _e('via '); echo "<a href='$url'>$title</a>"; echo '</p>'; } ?>
 					</textarea>
 				</div>
 			

@@ -298,7 +298,7 @@ function wp_default_styles( &$styles ) {
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 
-	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'press-this-ie', 'plugin-install', 'farbtastic' );
+	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
 	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081119b' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
@@ -317,8 +317,6 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20080708' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css' );
 	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20081115' );
-	$styles->add( 'press-this-ie', '/wp-admin/css/press-this-ie.css', array(), '20080915' );
-	$styles->add_data( 'press-this-ie', 'conditional', 'gte IE 6' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20080613' );
 	$styles->add( 'login', '/wp-admin/css/login.css' );
 	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081114' );

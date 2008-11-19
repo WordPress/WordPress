@@ -12,7 +12,7 @@ img {
 /* Header */
 #wphead {
 	border-top: none;
-	padding-top: 8px;
+	padding-top: 4px;
 	background: #444 !important;
 }
 
@@ -22,6 +22,19 @@ img {
 -moz-border-radius-bottomright:0;
 -moz-border-radius-topleft:3px;
 -moz-border-radius-topright:3px;
+-khtml-border-radius-bottomleft:0;
+-khtml-border-radius-bottomright:0;
+-khtml-border-radius-topleft:3px;
+-khtml-border-radius-topright:3px;
+-webkit-border-radius-bottomleft:0;
+-webkit-border-radius-bottomright:0;
+-webkit-border-radius-topleft:3px;
+-webkit-border-radius-topright:3px;
+border-radius-bottomleft:0;
+border-radius-bottomright:0;
+border-radius-topleft:3px;
+border-radius-topright:3px;
+
 border-style:solid;
 border-width:1px;
 cursor:pointer;
@@ -47,13 +60,18 @@ margin-bottom: 3px;
 }
 
 input.text {
-	border: none;
 	outline-color: -moz-use-text-color;
 	outline-style: none;
 	outline-width: medium;
-	padding: 0;
 	width: 100%;
-	color: #333;
+
+}
+
+#message {
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
 }
 
 /* Editor/Main Column */
@@ -78,13 +96,16 @@ div.zerosize {
 }
 
 .posting {
-	margin-right: 228px;
+margin-right: 228px;
+position: relative;
+left: 0;
 }
 
 #side-info-column {
 	float: right;
 	width: 218px;
-	position: relative;
+	position: absolute;
+	right: 0;
 	margin-right: 10px;
 }
 
@@ -114,11 +135,24 @@ margin:0 0 10px;
 padding:7px 9px;
 text-shadow:0 1px 0 #FFFFFF;
 }
+h3.tb {
+text-shadow:0 1px 0 #FFFFFF;
+font-weight: bold;
+font-size: 12px;
+margin-left: 5px;
+}
+#TB_window {
+border: 1px solid #333;
+-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
 
 .metabox-holder .postbox,
  .postbox,
 .stuffbox {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	border-width: 1px;
 	border-style: solid;
 	line-height: 1;
@@ -130,11 +164,11 @@ text-shadow:0 1px 0 #FFFFFF;
 .titlediv {
 border-color:#DFDFDF;
 }
-#title {
--moz-border-radius-bottomleft:6px;
--moz-border-radius-bottomright:6px;
--moz-border-radius-topleft:6px;
--moz-border-radius-topright:6px;
+#title, .tbtitle {
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
 border-style:solid;
 border-width:1px;
 font-size:1.7em;
@@ -142,7 +176,14 @@ outline-color:-moz-use-text-color;
 outline-style:none;
 outline-width:medium;
 padding:3px 4px;
-width:98%;
+border-color: #DFDFDF;
+}
+.tbtitle {
+font-size: 12px;
+padding: 3px;
+}
+#title {
+width: 98%;
 }
 .postbox h2 {
 background-image:url(../images/postbox-bg.gif);
@@ -152,14 +193,15 @@ background-color:#DFDFDF;
 }
 
 .editor-container {
-	-moz-border-radius-bottomleft:0;
--moz-border-radius-bottomright:0;
--moz-border-radius-topleft:6px;
--moz-border-radius-topright:6px;
+	-moz-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
 border-collapse:separate;
 border-style:solid;
 border-width:1px;
 border-color:#DFDFDF;
+
 }
 
 .postdivrich {
@@ -201,6 +243,9 @@ border-color:#DFDFDF;
 	margin-top: 10px;
 	position: relative;
 }
+#extra_fields .postbox {
+margin-bottom: 5px;
+}
 
 #extra_fields .titlewrap {
 	padding: 0;
@@ -214,16 +259,18 @@ border-color:#DFDFDF;
 
 #img_container a {
 	display: block;
-	width: 71px;
-	height: 71px;
 	float: left;
 	overflow: hidden;
 	vertical-align: center;
 }
+#img_container img, #img_container a {
+	width: 68px;
+	height: 68px;
+}
 
 #img_container img {
-	width: 71px;
-	height: 71px;
+	width: 68px;
+	height: 68px;
 	border: none;
 	background-color: #f4f4f4;
 	cursor: pointer;
