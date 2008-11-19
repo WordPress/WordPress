@@ -1578,7 +1578,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			elseif ( isset( $item['summary'] ) && is_string( $item['summary'] ) )
 				$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['summary'], ENT_QUOTES))));
 			if ( 360 < strlen( $desc ) )
-				$desc = substr( $desc, 0, 360 ) . ' [&hellip;]';
+				$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
 			$summary = $desc;
 
 			if ( $show_summary ) {
