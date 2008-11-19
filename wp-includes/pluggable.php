@@ -760,7 +760,9 @@ function auth_redirect() {
 	else
 		$proto = 'http://';
 
-	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode($proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']), 'login' );
+	$redirect = ( strpos($_SERVER['REQUEST_URI'], '/options.php') && wp_get_referer() ) ? wp_get_referer() : $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode( $redirect ), 'login' );
 
 	wp_redirect($login_url);
 	exit();
