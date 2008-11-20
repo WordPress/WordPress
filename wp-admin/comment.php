@@ -183,7 +183,7 @@ case 'unapprovecomment' :
 	if ( '' != wp_get_referer() && false == $noredir )
 		wp_redirect( wp_get_referer() );
 	else
-		wp_redirect( admin_url('edit.php?p=' . absint( $comment->comment_post_ID ) . '#comments') );
+		wp_redirect( admin_url('edit-comments.php?p=' . absint( $comment->comment_post_ID ) . '#comments') );
 
 	exit();
 	break;
@@ -208,7 +208,7 @@ case 'approvecomment' :
 	if ( '' != wp_get_referer() && false == $noredir )
 		wp_redirect( wp_get_referer() );
 	else
-		wp_redirect( admin_url('edit.php?p=' . absint( $comment->comment_post_ID ) . '#comments') );
+		wp_redirect( admin_url('edit-comments.php?p=' . absint( $comment->comment_post_ID ) . '#comments') );
 
 	exit();
 	break;
@@ -222,7 +222,7 @@ case 'editedcomment' :
 
 	edit_comment();
 
-	$location = ( empty( $_POST['referredby'] ) ? "edit.php?p=$comment_post_id" : $_POST['referredby'] ) . '#comment-' . $comment_id;
+	$location = ( empty( $_POST['referredby'] ) ? "edit-comments.php?p=$comment_post_id" : $_POST['referredby'] ) . '#comment-' . $comment_id;
 	$location = apply_filters( 'comment_edit_redirect', $location, $comment_id );
 	wp_redirect( $location );
 
