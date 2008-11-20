@@ -349,17 +349,3 @@ columns = {
 }
 
 })(jQuery);
-/*
-(function($) {
-	$.attrEn = function(elem, name, value) {
-		if ( typeof value === 'string' )
-			value = $('<span>'+value+'</span>').html();
-		return $.attr(elem, name, value);
-	}
-	$.fn.valEn = function(value) {
-		if ( typeof value === 'string' )
-			value = $('<span>'+value+'</span>').html();
-		return $.fn.val.call(this, value);
-	}
-})(jQuery);
-*/
