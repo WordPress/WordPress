@@ -128,6 +128,7 @@ case 'delete':
 <?php
 	$go_delete = false;
 	foreach ( (array) $userids as $id ) {
+		$id = (int) $id;
 		$user = new WP_User($id);
 		if ( $id == $current_user->ID ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
