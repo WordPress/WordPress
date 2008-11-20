@@ -35,16 +35,29 @@
 
 #adminmenu li.wp-has-current-submenu .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -206px;
+	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -208px;
+}
+
+#adminmenu .wp-has-current-submenu ul li a.current {
+	background: url(../images/menu-dark-rtl.gif) top right no-repeat !important;
+}
+
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+#adminmenu .menu-top .current {
+	background: url(../images/menu-bits-rtl.gif) top right repeat-x;
+}
+
+#adminmenu li.wp-has-current-submenu ul li a {
+	background: url(../images/menu-dark-rtl.gif) bottom right no-repeat !important;
 }
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle, #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif) no-repeat right -206px;
+	background: transparent url(../images/menu-bits-rtl.gif) no-repeat right -207px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -108px;
+	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -109px;
 }
 
 #adminmenu a.wp-has-submenu {

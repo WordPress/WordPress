@@ -38,6 +38,9 @@ button.dismiss {
 	left: auto;
 	right: 0;
 }
+.describe td {
+	padding: 0 0 0 5px;
+}
 .bar {
 	border-right-width: 0;
 	border-left-width: 3px;

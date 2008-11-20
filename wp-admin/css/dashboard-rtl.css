@@ -10,7 +10,7 @@
 	right: auto;
 	left: 0;
 }
-#dashboard_right_now .inside {
+#dashboard_right_now p.sub, #dashboard_right_now .table, #dashboard_right_now .versions {
 	font-family: Tahoma, Arial;
 }
 #dashboard_right_now td.b {
@@ -38,6 +38,9 @@
 	left: auto;
 	right: 0;
 }
+#dashboard-widgets .heading {
+	font-family: Tahoma, Arial;
+}
 /* Feeds */
 .rss-widget cite {
 	text-align: left;
@@ -60,10 +63,11 @@
 }
 #dashboard_quick_press #media-buttons {
 	margin: 0 5em .5em 0;
-	padding: 0 2px 0 0;
+	padding: 0 10px 0 0;
 }
 #dashboard-widgets #dashboard_quick_press form p.submit {
-	padding: 1em 5em 1em 1em;
+	margin-left: 0;
+	margin-right: 4.6em;
 }
 #dashboard-widgets #dashboard_quick_press form p.submit input {
 	float: right;

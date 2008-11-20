@@ -17,14 +17,20 @@ td.available-theme {
 /* 200 - 500
 =================================== */
 #save-post {
-	float: left;
-}
-.preview {
 	float: right;
 }
+.preview {
+	float: left;
+}
+#sticky-span {
+	margin-left: 0;
+	margin-right: 18px;
+}
 #post-body .misc-pub-section {
-	border-right: 0 none;
-	border-left: 1px solid #eee;
+	border-right-width: 0;
+	border-left-width: 1;
+	border-right-style: none;
+	border-left-style: solid;
 	float: right;
 }
 #post-body .misc-pub-section-last {
@@ -101,6 +107,7 @@ td.available-theme {
 .tablenav .displaying-num {
 	margin-right: 0;
 	margin-left: 10px;
+	font-family: Tahoma, "Times New Roman";
 }
 #postcustomstuff table input,
 #postcustomstuff table select,
@@ -128,14 +135,16 @@ td.available-theme {
 #wphead h1.long-title {
 	font-family: "Times New Roman", Tahoma;
 }
-#adminmenu {
-	font-family: Tahoma, "Times New Roman";
-}
 #adminmenu .wp-submenu a {
 	padding-left: 0;
 	padding-right: 12px;
 	border-width: 0 0 0 1px;
 	border-style: none none none solid;
+	font-family: Tahoma, "Times New Roman";
+}
+#adminmenu a.menu-top,
+#adminmenu .wp-submenu-head {
+	font-family: Tahoma, "Times New Roman";
 }
 #adminmenu img.wp-menu-image {
 	float: right;
@@ -264,7 +273,7 @@ td.available-theme {
 	right: auto;
 	left: 10px;
 }
-.wp_themeSkin tr.mceFirst {
+.wp_themeSkin tr.mceFirst td.mceToolbar {
 	background-position: right top;
 }
 #poststuff #edButtonPreview,
@@ -426,7 +435,7 @@ td.action-links, th.action-links {
 =================================== */
 #edithead .inside {
 	float: right;
-	margin: 0 0 2px 4px;
+	margin: 3px 5px 2px 0;
 }
 #replyrow #ed_reply_toolbar input {
 	margin: 1px 1px 1px 2px;
