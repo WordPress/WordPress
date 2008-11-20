@@ -228,7 +228,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20080709' );
 		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20081031' );
 		
-		$scripts->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20081010' );
+		$scripts->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20081120' );
 		$scripts->localize( 'admin-widgets', 'widgetsL10n', array(
 			'add' => __('Add'),
 			'edit' => __('Edit'),

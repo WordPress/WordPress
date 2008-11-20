@@ -6,7 +6,7 @@ jQuery(function($) {
 		if ( reminded )
 			return;
 		window.onbeforeunload = function () { return widgetsL10n.lamerReminder };
-		$('div.wrap:first').prepend( '<div class="updated" style="display:none"><p>' + widgetsL10n.lameReminder + '</p></div>' ).children( ':first' ).slideDown();
+		$('h2:first').after( '<div class="updated"><p>' + widgetsL10n.lameReminder + '</p></div>' );
 		$('#current-widgets .submit input[name=save-widgets]').css( 'background-color', '#ffffe0' ).click( function() {
 			window.onbeforeunload = null;
 		} );
