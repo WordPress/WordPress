@@ -316,7 +316,8 @@ td.help {
 }
 
 .button-primary,
-.submit .button-primary {
+.submit .button-primary,
+#login form .submit input {
 	border-color: #21759B;
 	font-weight: bold;
 	color: #FFF;
@@ -371,7 +372,7 @@ div.dashboard-widget-submit input:hover,
 	border-color: #328ab2;
 }
 
-.button-primary:hover {
+.button-primary:hover, #login form .submit input:hover {
 	color: #EAF2FA;
 }
 
@@ -551,8 +552,16 @@ li.widget-list-control-item h4,
 	background-color: #fffbcc;
 }
 
-#edit-slug-box strong, .login #nav a, .tablenav .displaying-num {
+#edit-slug-box strong, .tablenav .displaying-num {
 	color: #777;
+}
+
+.login #nav a {
+	color: #21759b !important;
+}
+
+.login #nav a:hover {
+	color: #d54e21 !important;
 }
 
 #footer,

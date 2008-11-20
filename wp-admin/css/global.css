@@ -360,6 +360,10 @@ h6 {
 	border-style: solid;
 	padding: 0 0.6em;
 	margin: 3px 15px 5px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .updated p,

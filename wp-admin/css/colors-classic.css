@@ -129,9 +129,17 @@ h3.info-box-title,
 	background-color: #dfdfdf;
 }
 
+.form-table th, .form-wrap label {
+	color: #222;
+}
+
+.setting-description, .form-wrap p {
+	color: #999;
+}
+
 .form-table tr,
 .form-wrap .form-field {
-	background-color: #f9f9f9;
+	background-color: #f3f3f3;
 }
 
 select {
@@ -296,6 +304,11 @@ td.help {
 	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
 }
 
+#wpcontent select {
+	background: url(../images/white-grad.png) repeat-x scroll left top;
+	color: #555;
+}
+
 .button-secondary,
 .submit .button-secondary {
 	border-color: #CFE1EF;
@@ -303,8 +316,10 @@ td.help {
 }
 
 .button-primary,
-.submit .button-primary {
+.submit .button-primary,
+#login form .submit input {
 	border-color: #21759B;
+	font-weight: bold;
 	color: #FFF;
 	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
 }
@@ -343,8 +358,7 @@ a:hover,
 #login form .submit input:hover,
 div.dashboard-widget-submit input:hover,
 #media-upload a.del-link:hover,
-.ui-tabs-nav a:hover,
-#user_info a:hover {
+.ui-tabs-nav a:hover {
 	color: #d54e21;
 }
 
@@ -358,9 +372,8 @@ div.dashboard-widget-submit input:hover,
 	border-color: #328ab2;
 }
 
-.button-primary:hover {
-	border-color: #156079;
-	background-image: inherit;
+.button-primary:hover, #login form .submit input:hover {
+	color: #EAF2FA;
 }
 
 #side-info-column #category-tabs .ui-tabs-selected a {
@@ -539,8 +552,16 @@ li.widget-list-control-item h4,
 	background-color: #fffbcc;
 }
 
-#edit-slug-box strong, .login #nav a, .tablenav .displaying-num {
+#edit-slug-box strong, .tablenav .displaying-num {
 	color: #777;
+}
+
+.login #nav a {
+	color: #21759b !important;
+}
+
+.login #nav a:hover {
+	color: #d54e21 !important;
 }
 
 #footer,
@@ -717,6 +738,15 @@ body.login {
 
 #user_info {
 	color: #999;
+}
+
+#user_info a:hover {
+	color: #fff;
+	text-decoration: underline !important;
+}
+
+#user_info a:active {
+	color: #ccc !important;
 }
 
 #user_info a, #user_info a:visited {
@@ -1022,12 +1052,12 @@ abbr.required,
 
 #adminmenu li.wp-has-current-submenu.wp-menu-open .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -208px;
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -207px;
 }
 
 #adminmenu .wp-has-submenu:hover .wp-menu-toggle,
 #adminmenu .wp-menu-open .wp-menu-toggle {
-	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -108px;
+	background: transparent url(../images/menu-bits.gif) no-repeat scroll left -109px;
 }
 
 #adminmenu a.menu-top {
@@ -1048,10 +1078,9 @@ abbr.required,
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu .menu-top .current {
-	background: url(../images/menu-bits.gif) top left repeat-x;
-	border-color: #B5B5B5;
+	background: #6d6d6d url(../images/menu-bits.gif) top left repeat-x;
+	border-color: #6d6d6d;
 	color: #fff;
-	text-shadow: #666 0px -1px 0px;
 }
 
 #adminmenu li.wp-has-current-submenu .wp-submenu, #adminmenu li.wp-has-current-submenu ul li a {
@@ -1086,7 +1115,6 @@ abbr.required,
 	background-color: #f5f5f5;
 	background-image: none;
 	border-color: #e3e3e3;
-	text-shadow: #fff 0px 1px 0px;
 }
 
 #adminmenu .wp-submenu ul {
@@ -1341,8 +1369,7 @@ div.star.select:hover {
 }
 
 .tablenav .tablenav-pages a:hover {
-	color: #fff;
-	background-color: #d54e21;
+	color: #d54e21;
 	border-color: #d54321;
 }
 
@@ -1433,8 +1460,9 @@ form p.submit a.cancel:hover {
 }
 
 #favorite-first {
-	border-color: #464646;
 	background: #797979 url(../images/fav.png) repeat-x 0 center;
+	border-color: #777 !important;
+	border-bottom-color: #666 !important;
 }
 
 #favorite-inside {
@@ -1451,8 +1479,8 @@ form p.submit a.cancel:hover {
 }
 
 #favorite-inside a:hover {
-	background-color: #8f8f8f;
 	color: #fff;
+	text-decoration: underline;
 }
 
 #favorite-actions .slide-down {
