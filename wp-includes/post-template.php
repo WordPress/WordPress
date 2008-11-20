@@ -179,7 +179,7 @@ function the_content($more_link_text = null, $stripteaser = 0, $more_file = '') 
 function get_the_content($more_link_text = null, $stripteaser = 0, $more_file = '') {
 	global $id, $post, $more, $page, $pages, $multipage, $preview, $pagenow;
 
-	if ( null == $more_link_text )
+	if ( null === $more_link_text )
 		$more_link_text = __( '(more...)' );
 
 	$output = '';
