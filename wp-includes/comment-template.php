@@ -1168,7 +1168,7 @@ class Walker_Comment extends Walker {
 			$add_below = 'div-comment';
 		}
 ?>
-		<<?php echo $tag ?> <?php comment_class() ?> id="comment-<?php comment_ID() ?>">
+		<<?php echo $tag ?> <?php comment_class(empty( $args['has_children'] ) ? '' : 'parent') ?> id="comment-<?php comment_ID() ?>">
 		<?php if ( 'ul' == $args['style'] ) : ?>
 		<div id="div-comment-<?php comment_ID() ?>">
 		<?php endif; ?>
