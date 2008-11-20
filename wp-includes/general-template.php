@@ -111,7 +111,7 @@ function get_search_form() {
 	$form = '<form method="get" id="searchform" action="' . get_option('siteurl') . '/" >
 	<label class="hidden" for="s">' . __('Search for:') . '</label>
 	<div><input type="text" value="' . the_search_query() . '" name="s" id="s" />
-	<input type="submit" id="searchsubmit" value="Search" />
+	<input type="submit" id="searchsubmit" value="'.attribute_escape(__('Search')).'" /> 
 	</div>
 	</form>';
 
