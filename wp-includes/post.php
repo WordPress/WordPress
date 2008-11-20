@@ -1677,7 +1677,6 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	if ( empty($tags) )
 		$tags = array();
 	$tags = (is_array($tags)) ? $tags : explode( ',', trim($tags, " \n\t\r\0\x0B,") );
-	$tags = array_map('trim', $tags); //Trim whitespace from around the tags.
 	wp_set_object_terms($post_id, $tags, 'post_tag', $append);
 }
 
