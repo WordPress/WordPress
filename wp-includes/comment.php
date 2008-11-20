@@ -548,37 +548,55 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  * @uses get_page_of_comment() Used to loop up to top level comment.
  *
  * @param int $comment_ID Comment ID.
- * @param int $per_page Optional comments per page.
+ * @param array $args Optional args.
  * @return int|null Comment page number or null on error.
  */
-function get_page_of_comment( $comment_ID, $per_page = null, $threaded = null ) {
+function get_page_of_comment( $comment_ID, $args = array() ) {
 	global $wpdb;
 
 	if ( !$comment = get_comment( $comment_ID ) )
 		return;
 
-	if ( !get_option('page_comments') )
+	$defaults = array( 'type' => 'all', 'page' => '', 'per_page' => '', 'max_depth' => '' );
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( '' === $args['per_page'] && get_option('page_comments') )
+		$args['per_page'] = get_query_var('comments_per_page');
+	if ( empty($args['per_page']) ) {
+		$args['per_page'] = 0;
+		$args['page'] = 0;
+	}
+	if ( $args['per_page'] < 1 )
 		return 1;
 
-	if ( null === $per_page )
-		$per_page = get_option('comments_per_page');
-
-	if ( null === $threaded )
-		$threaded = get_option('thread_comments');
+	if ( '' === $args['max_depth'] ) {
+		if ( get_option('thread_comments') )
+			$args['max_depth'] = get_option('thread_comments_depth');
+		else
+			$args['max_depth'] = -1;
+	}
 
 	// Find this comment's top level parent if threading is enabled
-	if ( $threaded && 0 != $comment->comment_parent )
-		return get_page_of_comment( $comment->comment_parent, $per_page, $threaded );
+	if ( $args['max_depth'] > 1 && 0 != $comment->comment_parent )
+		return get_page_of_comment( $comment->comment_parent, $args );
+
+	$allowedtypes = array(
+		'comment' => '',
+		'pingback' => 'pingback',
+		'trackback' => 'trackback',
+	);
+
+	$comtypewhere = ( 'all' != $args['type'] && isset($allowedtypes[$args['type']]) ) ? " AND comment_type = '" . $allowedtypes[$args['type']] . "'" : '';
 
 	// Count comments older than this one
-	$oldercoms = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = 0 AND comment_date_gmt < '%s'", $comment->comment_post_ID, $comment->comment_date_gmt ) );
+	$oldercoms = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = 0 AND comment_date_gmt < '%s'" . $comtypewhere, $comment->comment_post_ID, $comment->comment_date_gmt ) );
 
 	// No older comments? Then it's page #1.
 	if ( 0 == $oldercoms )
 		return 1;
 
 	// Divide comments older than this one by comments per page to get this comment's page number
-	return ceil( ( $oldercoms + 1 ) / $per_page );
+	return ceil( ( $oldercoms + 1 ) / $args['per_page'] );
 }
 
 /**

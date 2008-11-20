@@ -441,21 +441,40 @@ function comment_ID() {
  * @uses $comment
  *
  * @param object|string|int $comment Comment to retrieve.
- * @param string|int $page The comment's page if known. Optional. Avoids extra database query.
+ * @param array $args Optional args.
  * @return string The permalink to the current comment
  */
-function get_comment_link( $comment = null, $page = null ) {
-	global $wp_rewrite;
+function get_comment_link( $comment = null, $args = array() ) {
+	global $wp_rewrite, $in_comment_loop;
 
 	$comment = get_comment($comment);
 
-	if ( get_option('page_comments') ) {
-		$page = ( null !== $page ) ? (int) $page : get_page_of_comment( $comment->comment_ID );
+	// Backwards compat
+	if ( !is_array($args) ) {
+		$page = $args;
+		$args = array();
+		$args['page'] = $page;
+	}
+
+	$defaults = array( 'type' => 'all', 'page' => '', 'per_page' => '', 'max_depth' => '' );
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( '' === $args['per_page'] && get_option('page_comments') )
+		$args['per_page'] = get_query_var('comments_per_page');
+
+	if ( empty($args['per_page']) ) {
+		$args['per_page'] = 0;
+		$args['page'] = 0;
+	}
+
+	if ( $args['per_page'] ) {
+		if ( '' == $args['page'] )
+			$args['page'] = ( !empty($in_comment_loop) ) ? get_query_var('cpage') : get_page_of_comment( $comment->comment_ID, $args );
 
 		if ( $wp_rewrite->using_permalinks() )
-			return user_trailingslashit( trailingslashit( get_permalink( $comment->comment_post_ID ) ) . "comment-page-$page", 'comment' ) . '#comment-' . $comment->comment_ID;
+			return user_trailingslashit( trailingslashit( get_permalink( $comment->comment_post_ID ) ) . 'comment-page-' . $args['page'], 'comment' ) . '#comment-' . $comment->comment_ID;
 		else
-			return add_query_arg( 'cpage', $page, get_permalink( $comment->comment_post_ID ) ) . '#comment-' . $comment->comment_ID;
+			return add_query_arg( 'cpage', $args['page'], get_permalink( $comment->comment_post_ID ) ) . '#comment-' . $comment->comment_ID;
 	} else {
 		return get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment->comment_ID;
 	}
@@ -1162,7 +1181,7 @@ class Walker_Comment extends Walker {
 		<br />
 <?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID, $page ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
 
 		<?php comment_text() ?>
 
@@ -1209,7 +1228,9 @@ class Walker_Comment extends Walker {
  * @param array $comments Optional array of comment objects.  Defaults to $wp_query->comments
  */
 function wp_list_comments($args = array(), $comments = null ) {
-	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage;
+	global $wp_query, $comment_alt, $comment_depth, $comment_thread_alt, $overridden_cpage, $in_comment_loop;
+
+	$in_comment_loop = true;
 
 	$comment_alt = $comment_thread_alt = 0;
 	$comment_depth = 1;
@@ -1285,6 +1306,8 @@ function wp_list_comments($args = array(), $comments = null ) {
 
 	$walker->paged_walk($_comments, $max_depth, $page, $per_page, $r);
 	$wp_query->max_num_comment_pages = $walker->max_pages;
+
+	$in_comment_loop = false;
 }
 
 ?>
