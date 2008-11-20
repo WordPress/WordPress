@@ -16,7 +16,10 @@ form {
 	border-radius: 5px;
 	background: #fff;
 	border: 1px solid #e5e5e5;
+	-moz-box-shadow: rgba(200,200,200,1) 0 4px 18px;
 	-webkit-box-shadow: rgba(200,200,200,1) 0 4px 18px;
+	-khtml-box-shadow: rgba(200,200,200,1) 0 4px 18px;
+	box-shadow: rgba(200,200,200,1) 0 4px 18px;
 }
 
 form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0; }
@@ -100,5 +103,5 @@ h1 a {
 	margin-right: 6px;
 	margin-bottom: 16px;
 	border: 1px solid #e5e5e5;
-	background: #f9f9f9;
+	background: #fbfbfb;
 }
