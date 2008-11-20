@@ -25,7 +25,7 @@ if ( force_ssl_admin() && !is_ssl() ) {
 /**
  * Outputs the header for the login page.
  *
- * @uses do_action() Calls the 'login_head' for outputting HTML in the Login
+ * @uses do_action() Calls the 'login_head' for outputting HTML in the Log In
  *		header.
  * @uses apply_filters() Calls 'login_headerurl' for the top login link.
  * @uses apply_filters() Calls 'login_headertitle' for the top login title.
@@ -33,12 +33,12 @@ if ( force_ssl_admin() && !is_ssl() ) {
  *		header.
  * @uses $error The error global, which is checked for displaying errors.
  *
- * @param string $title Optional. WordPress Login Page title to display in
+ * @param string $title Optional. WordPress Log In Page title to display in
  *		<title/> element.
  * @param string $message Optional. Message to display in header.
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
-function login_header($title = 'Login', $message = '', $wp_error = '') {
+function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	global $error;
 
 	if ( empty($wp_error) )
@@ -456,7 +456,7 @@ default:
 	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )	$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
 	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )	$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 
-	login_header(__('Login'), '', $errors);
+	login_header(__('Log In'), '', $errors);
 
 	if ( isset($_POST['log']) )
 		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? attribute_escape(stripslashes($_POST['log'])) : '';

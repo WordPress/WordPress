@@ -121,8 +121,8 @@ function get_search_form() {
 /**
  * Display the Log In/Out link.
  *
- * Displays a link, which allows the user to navigate to the Login page to login
- * or logout depending on whether or not they are currently logged in.
+ * Displays a link, which allows the user to navigate to the Log In page to log in
+ * or log out depending on whether or not they are currently logged in.
  *
  * @since 1.5.0
  * @uses apply_filters() Calls 'loginout' hook on HTML link content.
