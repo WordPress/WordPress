@@ -51,7 +51,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		<dc:creator><?php echo get_comment_author_rss() ?></dc:creator>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid isPermaLink="false"><?php comment_guid() ?></guid>
-<?php if (!empty($comment_post->post_password) && $_COOKIE['wp-postpass'] != $comment_post->post_password) : ?>
+<?php if ( post_password_required($comment_post) ) : ?>
 		<description><?php _e('Protected Comments: Please enter your password to view comments.'); ?></description>
 		<content:encoded><![CDATA[<?php echo get_the_password_form() ?>]]></content:encoded>
 <?php else : // post pass ?>
