@@ -12,7 +12,7 @@
 	background-image: url(../images/bubble_bg-rtl.gif);
 }
 
-#adminmenu li a #awaiting-mod, #adminmenu li a #update-plugins {
+#adminmenu li a #awaiting-mod, #adminmenu li a span.update-plugins {
 	background-image: url(../images/comment-stalk-rtl.gif);
 }
 

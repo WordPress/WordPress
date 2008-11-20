@@ -1125,8 +1125,8 @@ a#view-site-link {
 
 /* 2.6 */
 #adminmenu a #awaiting-mod,
-#adminmenu a #update-plugins,
-#sidemenu li a #update-plugins {
+#adminmenu a span.update-plugins,
+#sidemenu li a span.update-plugins {
 	position: absolute;
 	margin-top: 0.2em;
 	font-size: 0.7em;
@@ -1136,7 +1136,7 @@ a#view-site-link {
 	width: 1em;
 }
 
-#adminmenu li a .count-0,
+#adminmenu li span.count-0,
 #sidemenu li a .count-0 {
 	display: none;
 }
@@ -1177,14 +1177,14 @@ strong .post-com-count {
 }
 
 #adminmenu li a:hover #awaiting-mod,
-#adminmenu li a:hover #update-plugins,
-#sidemenu li a:hover #update-plugins {
+#adminmenu li a:hover span.update-plugins,
+#sidemenu li a:hover span.update-plugins {
 	background-position: -80px bottom;
 }
 
 #adminmenu li a #awaiting-mod span,
-#adminmenu li a #update-plugins span,
-#sidemenu li a #update-plugins span {
+#adminmenu li a span.update-plugins span,
+#sidemenu li a span.update-plugins span {
 	top: -0.8em;
 	right: 0;
 	position: absolute;
