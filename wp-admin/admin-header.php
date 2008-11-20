@@ -28,6 +28,20 @@ wp_admin_css( 'css/ie' );
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document).ready(func); else if (typeof wpOnload!='function'){wpOnload=func;} else {var oldonload=wpOnload; wpOnload=function(){oldonload();func();}}};
+
+function convertEntities(o) {
+	var p = document.createElement('p');
+	var c = function(s) { p.innerHTML = s; return p.innerHTML; }
+
+	if ( typeof o === 'object' )
+		for (var v in o)
+			o[v] = c(o[v]);
+
+	else if ( typeof o === 'string' )
+		return c(o);
+
+	p = null;
+};
 //]]>
 </script>
 <?php

@@ -51,6 +51,7 @@ class WP_Scripts extends WP_Dependencies {
 			$eol = ",\n";
 		}
 		echo "\n\t}\n";
+		echo "try{convertEntities($object_name);}catch(e){};\n";
 		echo "/* ]]> */\n";
 		echo "</script>\n";
 

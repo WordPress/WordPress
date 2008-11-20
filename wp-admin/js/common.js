@@ -215,7 +215,7 @@ jQuery(document).ready( function($) {
 });
 
 var showNotice, adminMenu, columns;
-(function($){
+
 // stub for doing better warnings
 showNotice = {
 	warn : function(text) {
@@ -229,7 +229,6 @@ showNotice = {
 		alert(text);
 	}
 };
-})(jQuery);
 
 (function($){
 // sidebar admin menu
@@ -350,39 +349,17 @@ columns = {
 }
 
 })(jQuery);
-
-
 /*
 (function($) {
-	$.fn.tTips = function() {
-
-		$('body').append('<div id="tTips"><p id="tTips_inside"></p></div>');
-		var TT = $('#tTips');
-
-		this.each(function() {
-			var el = $(this), txt;
-
-			if ( txt = el.attr('title') ) el.attr('tip', txt).removeAttr('title');
-			else return;
-			el.find('img').removeAttr('alt');
-
-			el.mouseover(function(e) {
-				txt = el.attr('tip'), o = el.offset();
-
-				clearTimeout(TT.sD);
-				TT.find('p').html(txt);
-
-				TT.css({'top': o.top - 43, 'left': o.left - 5});
-				TT.sD = setTimeout(function(){TT.fadeIn(150);}, 100);
-			});
-
-			el.mouseout(function() {
-				clearTimeout(TT.sD);
-				TT.css({display : 'none'});
-			})
-		});
+	$.attrEn = function(elem, name, value) {
+		if ( typeof value === 'string' )
+			value = $('<span>'+value+'</span>').html();
+		return $.attr(elem, name, value);
 	}
-}(jQuery));
+	$.fn.valEn = function(value) {
+		if ( typeof value === 'string' )
+			value = $('<span>'+value+'</span>').html();
+		return $.fn.val.call(this, value);
+	}
+})(jQuery);
 */
-
-//jQuery(function(){jQuery('#media-buttons a').tTips();});
