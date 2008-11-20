@@ -317,22 +317,16 @@ if ( $page_links )
 </form>
 
 <div id="ajax-response"></div>
-<?php
-} elseif ( 'moderated' == $_GET['comment_status'] ) {
-?>
-<p>
-<?php _e('No comments awaiting moderation&hellip; yet.') ?>
-</p>
-<?php
-} else {
-?>
-<p>
-<?php _e('No results found.') ?>
-</p>
-<?php
-}
-?>
 
+<?php } elseif ( 'moderated' == $_GET['comment_status'] ) { ?>
+<p><?php _e('No comments awaiting moderation&hellip; yet.') ?></p>
+</form>
+
+<?php } else { ?>
+<p><?php _e('No results found.') ?></p>
+</form>
+
+<?php } ?>
 </div>
 
 <script type="text/javascript">
