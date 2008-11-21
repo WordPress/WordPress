@@ -127,10 +127,13 @@ h3.info-box-title,
 #poststuff h3,
 .metabox-holder h3 {
 	background-color: #dfdfdf;
+	text-shadow: #fff 0 1px 0;
 }
 
-.form-table th, .form-wrap label {
+.form-table th,
+.form-wrap label {
 	color: #222;
+	text-shadow: #fff 0 1px 0;
 }
 
 .setting-description, .form-wrap p {
@@ -1076,6 +1079,7 @@ abbr.required,
 	background: #6d6d6d url(../images/menu-bits.gif) top left repeat-x;
 	border-color: #6d6d6d;
 	color: #fff;
+	text-shadow: rgba(0,0,0,0.4) 0px -1px 0px;
 }
 
 #adminmenu li.wp-has-current-submenu .wp-submenu, #adminmenu li.wp-has-current-submenu ul li a {
@@ -1110,6 +1114,7 @@ abbr.required,
 	background-color: #f5f5f5;
 	background-image: none;
 	border-color: #e3e3e3;
+	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
 }
 
 #adminmenu .wp-submenu ul {
@@ -1471,6 +1476,7 @@ form p.submit a.cancel:hover {
 
 #favorite-actions a {
 	color: #eee;
+	text-shadow: rgba(0,0,0,0.2) 0 -1px 0;
 }
 
 #favorite-inside a:hover {
@@ -1480,4 +1486,31 @@ form p.submit a.cancel:hover {
 
 #favorite-actions .slide-down {
 	border-bottom-color: #626262;
+}
+
+.submit input,
+.button,
+.button-primary,
+.button-secondary,
+.button-highlighted,
+#postcustomstuff .submit input {
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
+}
+
+.button-primary,
+.submit .button-primary {
+	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
+}
+
+.widefat th {
+	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
+}
+
+#wphead h1 {
+	text-shadow: rgba(0,0,0,0.6) 0 -1px 0;
+}
+
+#screen-meta a.show-settings {
+	background-color: transparent;
+	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }

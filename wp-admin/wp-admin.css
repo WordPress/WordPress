@@ -350,20 +350,6 @@ form p.submit a.cancel:hover {
 	box-sizing: content-box;
 }
 
-.submit input,
-.button,
-.button-primary,
-.button-secondary,
-.button-highlighted,
-#postcustomstuff .submit input {
-	text-shadow: rgba(255,255,255,1) 0 1px 0;
-}
-
-.button-primary,
-.submit .button-primary {
-	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
-}
-
 a.button {
 	padding: 4px 8px;
 }
@@ -877,7 +863,6 @@ a#view-site-link {
 	padding: 10px 10px 5px;
 	margin: 0;
 	float: left;
-	text-shadow: rgba(0,0,0,0.6) 0 -1px 0;
 }
 
 #wphead h1.long-title {
@@ -918,7 +903,6 @@ a#view-site-link {
 #adminmenu .wp-submenu li.current a,
 #adminmenu .wp-submenu li.current a:hover {
 	font-weight: bold;
-	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
 }
 	
 #adminmenu a.menu-top,
@@ -1113,11 +1097,6 @@ a#view-site-link {
 	padding: 1px 2px 0 0;
 }
 
-#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
-#adminmenu .menu-top .current {
-	text-shadow: rgba(0,0,0,0.4) 0px -1px 0px;
-}
-
 #adminmenu li.wp-has-current-submenu ul {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -1256,9 +1235,9 @@ html, body {
 	font-size: 11px;
 }
 
-.form-table th, .form-wrap label {
+.form-table th,
+.form-wrap label {
 	font-weight: normal;
-	text-shadow: #fff 0 1px 0;
 }
 
 .form-table th,
@@ -1644,7 +1623,6 @@ table.form-table td .updated {
 	padding: 7px 9px;
 	margin: 0;
 	line-height: 1;
-	text-shadow: #fff 0 1px 0;
 }
 
 .metabox-holder .postbox,
@@ -2518,8 +2496,6 @@ fieldset {
 	display: block;
 	background-repeat: no-repeat;
 	background-position: right bottom;
-	background-color: transparent;
-	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
 
 #screen-meta a.show-settings {
@@ -3015,7 +2991,6 @@ abbr.required {
 	display: block;
 	text-decoration: none;
 	font-size: 11px;
-	text-shadow: rgba(0,0,0,0.2) 0 -1px 0;
 }
 
 #favorite-inside a {
@@ -3134,6 +3109,5 @@ table.fixed {
 .widefat th,
 .widefat td {
 	overflow: hidden;
-	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
