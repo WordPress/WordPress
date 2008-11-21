@@ -445,10 +445,6 @@ margin-top: 3px;
 	-khtml-border-radius: 11px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-khtml-box-sizing: content-box;
-	box-sizing: content-box;
 }
 .button-primary {
 background:#21759B url(../images/button-grad.png) repeat-x scroll left top;

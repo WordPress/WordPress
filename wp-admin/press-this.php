@@ -412,10 +412,10 @@ die;
 				break;
 		}
 	}
-
 	jQuery(document).ready(function() {
 		//resize screen
-		top.resizeTo(720-screen.width+screen.availWidth,660-screen.height+screen.availHeight);
+		window.resizeTo(720,570);
+		
     	jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
 		jQuery('#visual_mode_button').click(function() {
@@ -448,7 +448,7 @@ die;
 			
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>
-		
+		<input type="hidden" name="autosave" id="autosave" />
 			<!-- This div holds the photo metadata -->
 			<div class="photolist"></div>
 		
@@ -543,7 +543,7 @@ die;
 				<div class="editor-container">
 					<textarea name="content" id="content" style="width:100%;" class="mceEditor" rows="15">
 					<?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?>
-					<?php if ($url) { echo '<p>'; if($selection) _e('via '); echo "<a href='$url'>$title</a>"; echo '</p>'; } ?>
+					<?php if ($url) { echo '<p>'; if($selection) _e('via '); echo "<a href='$url'>$title</a>."; echo '</p>'; } ?>
 					</textarea>
 				</div>
 			

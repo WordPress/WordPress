@@ -1379,7 +1379,7 @@ function get_shortcut_link() {
 			e=encodeURIComponent,
 			g=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=2';
 			function a(){
-				if(!w.open(g,'t','toolbar=0,resizable=0,scrollbars=1,status=1,width=700,height=500')){
+				if(!w.open(g,'t','toolbar=0,resizable=0,scrollbars=1,status=1,width=720,height=570')){
 					l.href=g;
 				}
 			}";
