@@ -536,9 +536,9 @@ function wp_list_categories( $args = '' ) {
  * The 'number' argument is how many tags to return. By default, the limit will
  * be to return the top 45 tags in the tag cloud list.
  *
- * The 'single_text' and 'multiple_text' arguments are used for the link title
- * for the tag link. If the tag only has one, it will use the text in the
- * 'single_text' or if it has more than one it will use 'multiple_text' instead.
+* The 'topic_count_text_callback' argument is a function, which, given the count
+ * of the posts  with that tag, returns a text for the tooltip of the tag link.
+ * @see default_topic_count_text
  *
  * The 'exclude' and 'include' arguments are used for the {@link get_tags()}
  * function. Only one should be used, because only one will be used and the
@@ -585,6 +585,16 @@ function wp_tag_cloud( $args = '' ) {
 }
 
 /**
+ * Default text for tooltip for tag links
+ *
+ * @param integer $count number of posts with that tag
+ * @return string text for the tooltip of a tag link.
+ */
+function default_topic_count_text( $count ) {
+	return sprintf( __ngettext('%s topic', '%s topics', $count), number_format_i18n( $count ) );
+}
+
+/**
  * Generates a tag cloud (heatmap) from provided data.
  *
  * The text size is set by the 'smallest' and 'largest' arguments, which will
@@ -601,9 +611,10 @@ function wp_tag_cloud( $args = '' ) {
  * The 'number' argument is how many tags to return. By default, the limit will
  * be to return the entire tag cloud list.
  *
- * The 'single_text' and 'multiple_text' arguments are used for the link title
- * for the tag link. If the tag only has one, it will use the text in the
- * 'single_text' or if it has more than one it will use 'multiple_text' instead.
+ * The 'topic_count_text_callback' argument is a function, which given the count
+ * of the posts  with that tag returns a text for the tooltip of the tag link.
+ * @see default_topic_count_text 
+ * 
  *
  * @todo Complete functionality.
  * @since 2.3.0
@@ -617,9 +628,18 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 0,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
-		'single_text' => '%d topic', 'multiple_text' => '%d topics'
+		'topic_count_text_callback' => 'default_topic_count_text',
 	);
+	
+	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
+		$body = 'return sprintf ( 
+			__ngettext('.var_export($args['single_text'], true).', '.var_export($args['multiple_text'], true).', $count),
+			number_format_i18n( $count ));';
+		$args['topic_count_text_callback'] = create_function('$count', $body);
+	}
+	
 	$args = wp_parse_args( $args, $defaults );
+		
 	extract( $args );
 
 	if ( empty( $tags ) )
@@ -666,7 +686,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tag_link = '#' != $tag->link ? clean_url( $tag->link ) : '#';
 		$tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
 		$tag_name = $tags[ $key ]->name;
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( sprintf( __ngettext( $single_text, $multiple_text, $count ), $count ) ) . "'$rel style='font-size: " .
+		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . attribute_escape( $topic_count_text_callback( $count ) ) . "'$rel style='font-size: " .
 			( $smallest + ( ( $count - $min_count ) * $font_step ) )
 			. "$unit;'>$tag_name</a>";
 	}
