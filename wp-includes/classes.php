@@ -822,7 +822,7 @@ class Walker {
 		$id_field = $this->db_fields['id'];
 
 		//display this element
-		if ( ! empty( $args[0] ) )
+		if ( is_array( $args[0] ) )
 			$args[0]['has_children'] = ! empty( $children_elements[$element->$id_field] );
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array(&$this, 'start_el'), $cb_args);
@@ -1152,7 +1152,7 @@ class Walker_Page extends Walker {
 	 * @param int $current_page Page ID.
 	 * @param array $args
 	 */
-	function start_el(&$output, $page, $depth, $current_page, $args) {
+	function start_el(&$output, $page, $depth, $args, $current_page) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
 		else

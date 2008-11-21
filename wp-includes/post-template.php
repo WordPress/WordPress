@@ -687,9 +687,9 @@ function wp_page_menu( $args = array() ) {
  * @since 2.1.0
  * @see Walker_Page::walk() for parameters and return description.
  */
-function walk_page_tree() {
+function walk_page_tree($pages, $depth, $current_page, $r) {
 	$walker = new Walker_Page;
-	$args = func_get_args();
+	$args = array($pages, $depth, $r, $current_page);
 	return call_user_func_array(array(&$walker, 'walk'), $args);
 }
 
