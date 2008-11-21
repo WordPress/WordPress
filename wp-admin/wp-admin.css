@@ -1302,7 +1302,7 @@ html, body {
 }
 
 .form-table .color-palette td {
-	border-width: 1px 1px 0
+	border-width: 1px 1px 0;
 	border-stile: solid solid none;
 	height: 10px;
 	line-height: 20px;
