@@ -165,10 +165,11 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 				$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 			}
 
-			$paged_redirect['path'] = trailingslashit( preg_replace('|/index.php/?$|', '/', $paged_redirect['path']) ); // strip off trailing /index.php/
+			$paged_redirect['path'] = user_trailingslashit( preg_replace('|/index.php/?$|', '/', $paged_redirect['path']) ); // strip off trailing /index.php/
 			if ( !empty( $addl_path ) && $wp_rewrite->using_index_permalinks() && strpos($paged_redirect['path'], '/index.php/') === false )
-				$paged_redirect['path'] .= 'index.php/';
-			$paged_redirect['path'] .= $addl_path;
+				$paged_redirect['path'] = trailingslashit($paged_redirect['path']) . 'index.php/';
+			if ( !empty( $addl_path ) )
+				$paged_redirect['path'] = trailingslashit($paged_redirect['path']) . $addl_path;
 			$redirect_url = $paged_redirect['scheme'] . '://' . $paged_redirect['host'] . $paged_redirect['path'];
 			$redirect['path'] = $paged_redirect['path'];
 		}
