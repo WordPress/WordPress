@@ -1,29 +1,4 @@
 /* Fixes for IE bugs */
-
-* html #wpbody-content {
-	float: right;
-}
-
-* html #wpbody {
-	width: 100%;
-}
-
-* html body {
-	background-color: #464646;
-}
-
-* html #wpwrap {
-	background-color: #fff;
-}
-
-#footer {
-	overflow: hidden;
-}
-
-* html #footer {
-	width: 100%;
-}
-
 input.button,
 input.button-secondary,
 input.button-highlighted {
@@ -75,24 +50,27 @@ input.button-highlighted {
 	_width: expression(document.documentElement.clientWidth > 982 ? "980px" : "99.9%");
 }
 */
-ul#adminmenu {
-	z-index: 99;
-}
 
 * html #adminmenu {
-	width: 145px;
-	margin: 12px;
-	padding: 0;
+	margin-left: -80px;
 }
 
-#wpcontent #adminmenu.folded li.menu-top {
-	display: block;
+* html div.folded #adminmenu {
+	margin-left: -22px;
 }
 
 * html #wpcontent #adminmenu li.menu-top {
 	display: inline;
 	padding: 0;
 	margin: 0;
+}
+
+#wpcontent.folded #adminmenu li.menu-top {
+	display: block;
+}
+
+ul#adminmenu {
+	z-index: 99;
 }
 
 #adminmenu li.menu-top a.menu-top {
@@ -131,7 +109,7 @@ ul#adminmenu {
 	zoom: 100%;
 }
 
-#wpcontent #adminmenu.folded li.wp-menu-separator {
+#wpcontent.folded #adminmenu li.wp-menu-separator {
 	width: 28px;
 }
 
@@ -140,11 +118,11 @@ ul#adminmenu {
 	zoom: 100%;
 }
 
-#wpcontent #adminmenu.folded .menu-top {
+#wpcontent.folded #adminmenu .menu-top {
 	height: 30px;
 }
 
-#adminmenu.folded .wp-submenu {
+.folded #adminmenu .wp-submenu {
 	margin: -1px 0 0 0;
 }
 

@@ -1041,7 +1041,7 @@ abbr.required,
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll left 5px;
 }
 
-#adminmenu.folded li.wp-menu-separator {
+.folded #adminmenu li.wp-menu-separator {
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll right -34px;
 }
 
@@ -1116,7 +1116,7 @@ abbr.required,
 	background-color: #fff;
 }
 
-#adminmenu.folded li.menu-top,
+.folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
 	background-color: #F1F1F1;
 }

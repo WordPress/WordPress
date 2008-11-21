@@ -304,11 +304,6 @@ td.help {
 	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
 }
 
-#wpcontent select {
-	background: url(../images/white-grad.png) repeat-x scroll left top;
-	color: #555;
-}
-
 .button-secondary,
 .submit .button-secondary {
 	border-color: #CFE1EF;
@@ -1046,7 +1041,7 @@ abbr.required,
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll left 5px;
 }
 
-#adminmenu.folded li.wp-menu-separator {
+.folded #adminmenu li.wp-menu-separator {
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll right -34px;
 }
 
@@ -1121,7 +1116,7 @@ abbr.required,
 	background-color: #fff;
 }
 
-#adminmenu.folded li.menu-top,
+.folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
 	background-color: #F1F1F1;
 }

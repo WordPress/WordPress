@@ -69,15 +69,29 @@ table {
 	padding-bottom: 50px;
 }
 
+#wpbody {
+	clear: both;
+	margin-left: 175px;
+} 
+
+div.folded #wpbody {
+	margin-left: 60px;
+}
+
 #wpbody-content {
-	overflow: hidden;
+	float: left;
+	width: 100%;
 }
 
 #adminmenu {
 	float: left;
 	clear: left;
-	margin: 15px 5px 15px 18px;
+	margin: 15px 5px 15px -160px;
 	position: relative;
+}
+
+div.folded #adminmenu {
+	margin-left: -45px;
 }
 
 #footer {
@@ -347,11 +361,8 @@ h6 {
 	vertical-align: middle;
 }
 
-.wrap,
-.updated,
-.error {
-	margin: 0 15px;
-	padding: 0;
+.wrap {
+	margin: 0 15px 0 5px;
 }
 
 .updated,
@@ -359,7 +370,7 @@ h6 {
 	border-width: 1px;
 	border-style: solid;
 	padding: 0 0.6em;
-	margin: 3px 15px 5px;
+	margin: 5px 15px 2px;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -379,7 +390,7 @@ h6 {
 .wrap h2 {
 	font: italic normal normal 24px/29px Georgia, "Times New Roman", Times, serif;
 	margin: 0;
-	padding: 14px 15px 1px 0;
+	padding: 12px 15px 1px 0;
 }
 
 .wrap h2.long-header {
