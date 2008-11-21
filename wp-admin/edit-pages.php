@@ -281,7 +281,7 @@ if ( 1 == count($posts) && is_singular() ) :
 <table class="widefat" cellspacing="0">
 <thead>
   <tr>
-    <th scope="col" class="column-comment"><?php _e('Comment') ?></th>
+    <th scope="col" class="column-comment"><?php echo _c('Comment|noun') ?></th>
     <th scope="col" class="column-author"><?php _e('Author') ?></th>
     <th scope="col" class="column-date"><?php _e('Submitted') ?></th>
   </tr>

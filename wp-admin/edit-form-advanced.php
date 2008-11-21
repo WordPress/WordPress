@@ -425,7 +425,7 @@ wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
 <thead>
 	<tr>
-    <th scope="col" class="column-comment"><?php _e('Comment') ?></th>
+    <th scope="col" class="column-comment"><?php echo _c('Comment|noun') ?></th>
     <th scope="col" class="column-author"><?php _e('Author') ?></th>
     <th scope="col" class="column-date"><?php _e('Submitted') ?></th>
   </tr>

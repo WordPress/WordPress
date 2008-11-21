@@ -123,7 +123,7 @@ if ( 'spam' == $_GET['dt'] ) {
 </tr>
 <?php } ?>
 <tr>
-<th scope="row" valign="top"><?php _e('Comment'); ?></th>
+<th scope="row" valign="top"><?php echo _c('Comment|noun'); ?></th>
 <td><?php echo $comment->comment_content; ?></td>
 </tr>
 </table>
