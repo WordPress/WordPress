@@ -327,6 +327,10 @@ h6 {
 	vertical-align: top;
 }
 
+.widefat td p {
+	font-size: 11px;
+}
+
 .widefat th {
 	padding: 7px 7px 8px;
 	text-align: left;

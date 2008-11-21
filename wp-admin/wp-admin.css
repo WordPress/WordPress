@@ -359,7 +359,8 @@ a.button {
 	margin-right: 8px;
 }
 
-.tablenav select[name="action"] {
+.tablenav select[name="action"],
+.tablenav select[name="action2"] {
 	width: 90px;
 }
 
