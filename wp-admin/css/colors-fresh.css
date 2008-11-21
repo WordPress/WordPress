@@ -304,11 +304,6 @@ td.help {
 	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
 }
 
-#wpcontent select {
-	background: url(../images/white-grad.png) repeat-x scroll left top;
-	color: #555;
-}
-
 .button-secondary,
 .submit .button-secondary {
 	border-color: #CFE1EF;

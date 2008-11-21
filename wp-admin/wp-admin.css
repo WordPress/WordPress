@@ -390,11 +390,15 @@ a.button {
 
 #wpcontent select {
 	font: 11px/20px "Lucida Grande", Verdana, Arial, sans-serif;
-	padding: 0 0 0 4px;
+	padding: 2px;
 	border-width: 1px;
 	border-style: solid;
 	height: 2em;
 	vertical-align: top;
+}
+
+#wpcontent option {
+	padding: 2px;
 }
 
 .approve {
