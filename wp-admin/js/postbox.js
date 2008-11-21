@@ -44,6 +44,7 @@
 
 		init : function(page, args) {
 			$.extend( this, args || {} );
+			$('#wpbody-content').css('overflow','hidden');
 			$('.meta-box-sortables').sortable( {
 				placeholder: 'sortable-placeholder',
 				connectWith: [ '.meta-box-sortables' ],
