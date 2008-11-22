@@ -32,7 +32,7 @@ include('admin-header.php');
 <th scope="row"><?php _e('Default media links') ?></th> 
 <td><fieldset><legend class="hidden"><?php _e('Default image links') ?></legend> 
 <?php 
-    $link_types = array('none' => 'None', 'post' => 'Post URL', 'file' => 'File'); 
+    $link_types = array('none' => __('None'), 'post' => __('Post URL'), 'file' => __('File')); 
 
     $default_link_type = get_option('image_default_link_type');
         if ( empty($default_link_type) )
@@ -40,7 +40,7 @@ include('admin-header.php');
 
     foreach ($link_types as $type => $name) { ?>
         <input type="radio" name="image_default_link_type" id="image_default_link_type_<?php echo $type; ?>" value="<?php echo $type; ?>"<?php echo ($default_link_type == $type ? ' checked="checked"' : ''); ?> />
-        <label for="image_default_link_type_<?php echo $type; ?>"><?php _e($name); ?></label>
+        <label for="image_default_link_type_<?php echo $type; ?>"><?php echo $name; ?></label>
     <?php 
     } 
 ?> 
