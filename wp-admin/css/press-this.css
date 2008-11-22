@@ -18,42 +18,43 @@ img {
 
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML {
--moz-border-radius-bottomleft:0;
--moz-border-radius-bottomright:0;
--moz-border-radius-topleft:3px;
--moz-border-radius-topright:3px;
--khtml-border-radius-bottomleft:0;
--khtml-border-radius-bottomright:0;
--khtml-border-radius-topleft:3px;
--khtml-border-radius-topright:3px;
--webkit-border-radius-bottomleft:0;
--webkit-border-radius-bottomright:0;
--webkit-border-radius-topleft:3px;
--webkit-border-radius-topright:3px;
-border-radius-bottomleft:0;
-border-radius-bottomright:0;
-border-radius-topleft:3px;
-border-radius-topright:3px;
+	-moz-border-radius-bottomleft: 0;
+	-moz-border-radius-bottomright: 0;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	-khtml-border-radius-bottomleft: 0;
+	-khtml-border-radius-bottomright: 0;
+	-khtml-border-radius-topleft: 3px;
+	-khtml-border-radius-topright: 3px;
+	-webkit-border-radius-bottomleft: 0;
+	-webkit-border-radius-bottomright: 0;
+	-webkit-border-radius-topleft: 3px;
+	-webkit-border-radius-topright: 3px;
+	border-radius-bottomleft: 0;
+	border-radius-bottomright: 0;
+	border-radius-topleft: 3px;
+	border-radius-topright: 3px;
 
-border-style:solid;
-border-width:1px;
-cursor:pointer;
-display:block;
-height:18px;
-margin:0px 5px 0 0;
-padding:0px 5px 0px;
-background-color:#E9E9E9;
-border-bottom-color:#E9E9E9;
-color:#333333;
-font-size: 10px;
-line-height: 18px;
+	border-style: solid;
+	border-width: 1px;
+	cursor: pointer;
+	display: block;
+	height: 18px;
+	margin: 0px 5px 0 0;
+	padding: 0px 5px 0px;
+	background-color: #E9E9E9;
+	border-bottom-color: #E9E9E9;
+	color: #333333;
+	font-size: 10px;
+	line-height: 18px;
+	float: left;
 }
 
 
 
 .howto {
-margin-top: 2px;
-margin-bottom: 3px;
+	margin-top: 2px;
+	margin-bottom: 3px;
 	font-size: 11px;
 	font-style: italic;
 	display: block;
@@ -96,9 +97,9 @@ div.zerosize {
 }
 
 .posting {
-margin-right: 228px;
-position: relative;
-left: 0;
+	margin-right: 228px;
+	position: relative;
+	left: 0;
 }
 
 #side-info-column {
@@ -124,33 +125,35 @@ left: 0;
 	padding: 7px;
 	margin: 0 0 10px;
 	
-	background-image:url(../images/postbox-bg.gif);
-background-position:left top;
-background-repeat:repeat-x;
+	background-image: url(../images/postbox-bg.gif);
+	background-position: left top;
+	background-repeat: repeat-x;
 
-font-size:12px;
-font-weight:bold;
-line-height:1;
-margin:0 0 10px;
-padding:7px 9px;
-text-shadow:0 1px 0 #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 1;
+	margin: 0 0 10px;
+	padding: 7px 9px;
+	text-shadow: 0 1px 0 #FFFFFF;
 }
+
 h3.tb {
-text-shadow:0 1px 0 #FFFFFF;
-font-weight: bold;
-font-size: 12px;
-margin-left: 5px;
+	text-shadow: 0 1px 0 #FFFFFF;
+	font-weight: bold;
+	font-size: 12px;
+	margin-left: 5px;
 }
+
 #TB_window {
-border: 1px solid #333;
--moz-border-radius: 6px;
+	border: 1px solid #333;
+	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
 }
 
 .metabox-holder .postbox,
- .postbox,
+.postbox,
 .stuffbox {
 	margin-bottom: 10px;
 	border-width: 1px;
@@ -160,36 +163,40 @@ border: 1px solid #333;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
+	border-color: #DFDFDF;
 }
+
 .titlediv {
-border-color:#DFDFDF;
+	border-color: #DFDFDF;
 }
+
 #title, .tbtitle {
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-border-style:solid;
-border-width:1px;
-font-size:1.7em;
-outline-color:-moz-use-text-color;
-outline-style:none;
-outline-width:medium;
-padding:3px 4px;
-border-color: #DFDFDF;
+	border-style: solid;
+	border-width: 1px;
+	font-size: 1.7em;
+	outline: none;
+	padding: 3px 4px;
+	border-color: #DFDFDF;
 }
+
 .tbtitle {
-font-size: 12px;
-padding: 3px;
+	font-size: 12px;
+	padding: 3px;
 }
+
 #title {
-width: 98%;
+	width: 98%;
 }
+
 .postbox h2 {
-background-image:url(../images/postbox-bg.gif);
-background-position:left top;
-background-repeat:repeat-x;
-background-color:#DFDFDF;
+	background-image: url(../images/postbox-bg.gif);
+	background-position: left top;
+	background-repeat: repeat-x;
+	background-color: #DFDFDF;
 }
 
 .editor-container {
@@ -197,11 +204,10 @@ background-color:#DFDFDF;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-border-collapse:separate;
-border-style:solid;
-border-width:1px;
-border-color:#DFDFDF;
-
+	border-collapse: separate;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #DFDFDF;
 }
 
 .postdivrich {
@@ -211,10 +217,9 @@ border-color:#DFDFDF;
 
 #actions {
 	clear: both;
-	position: absolute;
-	right: 4px;
-	top: 6px;
-	margin: 0;
+	float: right;
+	margin-top: -19px;
+	position: relative;
 }
 
 #actions li {
@@ -243,8 +248,9 @@ border-color:#DFDFDF;
 	margin-top: 10px;
 	position: relative;
 }
+
 #extra_fields .postbox {
-margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 #extra_fields .titlewrap {
@@ -263,6 +269,7 @@ margin-bottom: 5px;
 	overflow: hidden;
 	vertical-align: center;
 }
+
 #img_container img, #img_container a {
 	width: 68px;
 	height: 68px;
@@ -294,7 +301,7 @@ margin-bottom: 5px;
 
 /* Video */
 #embed-code {
-width: 100%;
+	width: 100%;
 	height: 98px;
 }
 
@@ -349,10 +356,6 @@ width: 100%;
 	width: auto;
 }
 
-#categorydiv {
-
-}
-
 /* Categories */
 #categorydiv ul, #linkcategorydiv ul {
 	list-style: none;
@@ -386,12 +389,13 @@ ul.categorychecklist li {
 	clear: both;
 	margin: 0;
 }
+
 #tagadd {
-margin-left: 3px;
+	margin-left: 3px;
 }
 
 #tagchecklist {
-margin-top: 3px;
+	margin-top: 3px;
 	margin-bottom: 1em;
 	font-size: 12px;
 	overflow: auto;
@@ -446,10 +450,11 @@ margin-top: 3px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
 }
+
 .button-primary {
-background:#21759B url(../images/button-grad.png) repeat-x scroll left top;
-border-color:#21759B;
-color:#FFFFFF;
+	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
+	border-color: #21759B;
+	color: #FFFFFF;
 }
 
 .ac_results {
@@ -493,7 +498,7 @@ color:#FFFFFF;
 	padding: 0;
 	border-width: 1px;
 	border-style: solid;
-	width:99%;
+	width: 99%;
 }
 
 .updated p,
@@ -503,7 +508,7 @@ color:#FFFFFF;
 }
 
 .error a {
-	text-decoration:underline;
+	text-decoration: underline;
 }
 
 .updated a {
