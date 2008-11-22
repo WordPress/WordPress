@@ -21,8 +21,8 @@
  * @since 2.0.0
  * @uses apply_filters() Calls 'get_attached_file' on file path and attachment ID.
  *
- * @param int $attachment_id Attachment ID
- * @param bool $unfiltered Whether to apply filters or not
+ * @param int $attachment_id Attachment ID.
+ * @param bool $unfiltered Whether to apply filters or not.
  * @return string The file path to the attached file.
  */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
@@ -2418,12 +2418,14 @@ function wp_delete_attachment($postid) {
 
 	$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d ", $postid ));
 
+	$uploadPath = wp_upload_dir();
+
 	if ( ! empty($meta['thumb']) ) {
 		// Don't delete the thumb if another attachment uses it
 		if (! $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s AND post_id <> %d", '%'.$meta['thumb'].'%', $postid)) ) {
 			$thumbfile = str_replace(basename($file), $meta['thumb'], $file);
 			$thumbfile = apply_filters('wp_delete_file', $thumbfile);
-			@ unlink($thumbfile);
+			@ unlink( path_join($uploadPath['basedir'], $thumbfile) );
 		}
 	}
 
@@ -2432,7 +2434,7 @@ function wp_delete_attachment($postid) {
 	foreach ( $sizes as $size ) {
 		if ( $intermediate = image_get_intermediate_size($postid, $size) ) {
 			$intermediate_file = apply_filters('wp_delete_file', $intermediate['path']);
-			@ unlink($intermediate_file);
+			@ unlink( path_join($uploadPath['basedir'], $intermediate_file) );
 		}
 	}
 
