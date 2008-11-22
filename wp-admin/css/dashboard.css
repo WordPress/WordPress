@@ -89,15 +89,14 @@ div.postbox div.inside {
 	font-size: 1em;
 	font-weight: normal;
 	font-style: italic;
-	font-family: Georgia, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
 /* Right Now */
 
 #dashboard_right_now p.sub,
 #dashboard_right_now .table, #dashboard_right_now .versions {
-	margin: -10px;
-	font-family: Georgia, serif;
+	margin: -12px;
 }
 
 #dashboard_right_now .inside {
@@ -106,8 +105,10 @@ div.postbox div.inside {
 
 #dashboard_right_now p.sub {
 	font-style: italic;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 5px 10px 15px;
 	color: #777;
+	font-size: 13px;
 }
 
 #dashboard_right_now .table {
@@ -135,7 +136,7 @@ div.postbox div.inside {
 #dashboard_right_now td.b {
 	padding-right: 6px;
 	text-align: right;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 14px;
 }
 
@@ -175,15 +176,8 @@ div.postbox div.inside {
 	padding: 6px 10px 12px;
 }
 
-#dashboard_right_now .versions,
-#dashboard_right_now .versions p {
-	font-style: italic;
-	font-size: 13px;
-}
-
-#dashboard_right_now .versions a,
 #dashboard_right_now .versions .b {
-	font-style: normal;
+	font-weight: bold;
 }
 
 #dashboard_right_now a.button {
@@ -275,12 +269,12 @@ div.postbox div.inside {
 
 #dashboard_quick_press h4 {
 	float: left;
-	width: 5em;
+	width: 5.5em;
 	clear: both;
 	font-weight: normal;
-	font-style: italic;
-	font-family: Georgia, serif;
 	text-align: right;
+	padding-top: 5px;
+	font-size: 12px;
 }
 
 #dashboard_quick_press h4 label {
@@ -334,7 +328,7 @@ div.postbox div.inside {
 }
 
 #dashboard_recent_drafts h4 abbr {
-	font-family: Georgia, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	color: #999;
 }
 
@@ -369,7 +363,7 @@ a.rsswidget {
 }
 
 .rss-widget span.rss-date {
-	font-family: Georgia, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
 .rss-widget cite {
@@ -399,5 +393,5 @@ a.rsswidget {
 
 #dashboard_plugins p {
 	margin: 0 0 1em;
-	line-height: 1.5em;
+	line-height: 1.4em;
 }

@@ -183,7 +183,7 @@ kbd, code {
 }
 
 .quicktags, .search {
-	font: 12px Georgia, "Times New Roman", Times, serif;
+	font: 12px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
 .submit {
@@ -332,7 +332,7 @@ form p.submit a.cancel:hover {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;
@@ -373,7 +373,7 @@ a.button {
 }
 
 #wpcontent select {
-	font: 11px/20px "Lucida Grande", Verdana, Arial, sans-serif;
+	font: 11px/20px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	padding: 2px;
 	border-width: 1px;
 	border-style: solid;
@@ -489,14 +489,14 @@ textarea.all-options, input.all-options {
 }
 
 #ed_toolbar input {
-	margin: 3px 2px 4px;
+	margin: 3px 1px 4px;
 	line-height: 18px;
 	display: inline-block;
 	border-width: 1px;
 	border-style: solid;
 	min-width: 26px;
 	padding: 2px 4px;
-	font-size: 13px;
+	font-size: 12px;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -671,7 +671,7 @@ set display: none; */
 }
 
 #your-profile legend {
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 22px;
 }
 
@@ -769,7 +769,7 @@ p.pagenav {
 .tablenav .displaying-num {
 	margin-right: 10px;
 	font-size: 12px;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
 }
 
@@ -860,14 +860,14 @@ a#view-site-link {
 }
 
 #wphead h1 {
-	font: normal 22px Georgia, "Times New Roman", Times, serif;
+	font: normal 22px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 10px 10px 5px;
 	margin: 0;
 	float: left;
 }
 
 #wphead h1.long-title {
-	font: normal 18px Georgia, "Times New Roman", Times, serif;
+	font: normal 18px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 12px 10px 5px;
 }
 
@@ -897,7 +897,7 @@ a#view-site-link {
 }
 
 #adminmenu .wp-submenu a {
-	font: normal 11px/18px "Lucida Grande", Verdana, Arial, sans-serif;
+	font: normal 11px/18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 #adminmenu .wp-submenu li.current,
@@ -908,7 +908,7 @@ a#view-site-link {
 	
 #adminmenu a.menu-top,
 #adminmenu .wp-submenu-head {
-	font: normal 13px/18px Georgia, "Times New Roman", Times, serif;
+	font: normal 13px/18px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
 .folded #adminmenu,
@@ -1188,14 +1188,14 @@ html, body {
 
 #footer {
 	word-spacing: .3em;
-	font-size: 11px;
+	font-size: 12px;
 	margin-top: -47px;
 }
 
-#footer #footer-thankyou, #footer #footer-upgrade {
-	font-size: 13px;
+#footer #footer-thankyou, #footer #footer-upgrade, #footer #footer-thankyou a, #footer #footer-upgrade a {
+	font-size: 12px;
 	word-spacing: 0;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
 }
 
@@ -1209,8 +1209,9 @@ html, body {
 	padding: 15px;
 }
 
-#footer p a {
+#footer a {
 	text-decoration: none;
+	font-size: 11px;
 }
 
 #footer p a:hover {
@@ -1239,6 +1240,7 @@ html, body {
 .form-table th,
 .form-wrap label {
 	font-weight: normal;
+	text-shadow: rgba(255,255,255,1) 0 1px 0;
 }
 
 .form-table th,
@@ -1363,7 +1365,7 @@ table.form-table td .updated {
 
 .setting-description, .form-wrap p {
 	font-style: italic;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
+	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .form-wrap .form-field {
@@ -1549,7 +1551,7 @@ table.form-table td .updated {
 .howto {
 	font-style: italic;
 	display: block;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
+	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .ac_results {
@@ -1645,6 +1647,13 @@ table.form-table td .updated {
 	background-image: url("images/postbox-bg.gif");
 	background-position: left top;
 	background-repeat: repeat-x;
+	-moz-border-radius: 6px 6px 0 0;
+	-webkit-border-top-right-radius: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-khtml-border-top-right-radius: 6px;
+	-khtml-border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
 }
 
 .postbox table.form-table {
@@ -2171,7 +2180,7 @@ fieldset {
 	line-height: 2;
 	margin: 0;
 	padding: 4px 8px;
-	font: 18px "Lucida Grande", Verdana, Arial, sans-serif;
+	font: 18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 #wp_editbtns {
@@ -2481,8 +2490,8 @@ fieldset {
 #contextual-help-link-wrap {
 	float: right;
 	background: transparent url( images/screen-options-left.gif ) no-repeat 0 0;
-	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-	height: 23px;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	height: 22px;
 	padding: 0;
 	margin: 0 6px 0 0;
 }
@@ -2700,7 +2709,7 @@ tr.inline-edit-row td {
 
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
-	font-family: Georgia, serif;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
 }
 
@@ -2759,7 +2768,7 @@ ul.cat-checklist {
 .inline-edit-row .catshow,
 .inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
-	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	font-style: normal;
 	font-size: 11px;
 }
@@ -2830,7 +2839,6 @@ table .inline-edit-row fieldset ul.cat-hover {
 #wpbody-content .media-upload-form label {
 	display: block;
 	font-size: 13px;
-	font-weight: bold;
 	margin: 0.5em;
 }
 
@@ -3024,14 +3032,11 @@ abbr.required {
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
+	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 ul#dismissed-updates {
 	display: none;
-}
-ul.core-updates li {
-	padding: 12px;
 }
 form.upgrade {
 	margin-top: 8px;
@@ -3048,10 +3053,6 @@ form.upgrade {
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-}
-
-#flash-upload-ui {
-	padding: 20px 12px 0;
 }
 
 br.clear {
@@ -3110,5 +3111,9 @@ table.fixed {
 .widefat th,
 .widefat td {
 	overflow: hidden;
+}
+
+.widefat th {
+	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 

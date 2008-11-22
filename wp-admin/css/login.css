@@ -3,7 +3,7 @@
 body {
 	border-top-width: 30px;
 	border-top-style: solid;
-	font: 11px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 11px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 form {
@@ -25,7 +25,7 @@ form {
 form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0; }
 
 #login form .submit input {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	padding: 3px 10px;
 	border: none;
 	font-size: 12px;
