@@ -61,7 +61,7 @@ function wp_default_scripts( &$scripts ) {
 
 	// Modify this version when tinyMCE plugins are changed.
 	function mce_version() {
-		return '20081116';
+		return '20081122';
 	}
 	add_filter( 'tiny_mce_version', 'mce_version' );
 

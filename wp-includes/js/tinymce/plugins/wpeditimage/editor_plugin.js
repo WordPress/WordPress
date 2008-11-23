@@ -11,8 +11,9 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
 			ed.addCommand('WP_EditImage', function() {
 				var el = ed.selection.getNode(), vp = tinymce.DOM.getViewPort(), H = vp.h, W = ( 720 < vp.w ) ? 720 : vp.w;
+				var cls = ed.dom.getAttrib(el, 'class');
 
-				if ( ed.dom.getAttrib(el, 'class').indexOf('mceItem') != -1 || el.nodeName != 'IMG' )
+				if ( cls.indexOf('mceItem') != -1 || cls.indexOf('wpGallery') != -1 || el.nodeName != 'IMG' )
 					return;
 
 				tb_show('', url + '/editimage.html?ver=321&TB_iframe=true');
@@ -142,8 +143,9 @@
 
 		showButtons : function(n) {
 			var t = this, ed = tinyMCE.activeEditor, p1, p2, vp, DOM = tinymce.DOM, X, Y;
+			var cls = ed.dom.getAttrib(n, 'class');
 
-			if (ed.dom.getAttrib(n, 'class').indexOf('mceItem') != -1)
+			if ( cls.indexOf('mceItem') != -1 || cls.indexOf('wpGallery') != -1 )
 				return;
 
 			vp = ed.dom.getViewPort(ed.getWin());

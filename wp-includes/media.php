@@ -522,15 +522,16 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
  * @param int $attachment_id Image attachment ID.
  * @param string $size Optional, default is 'thumbnail'.
  * @param bool $icon Optional, default is false. Whether it is an icon.
+ * @param int $imgwidth Override image width.
  * @return string HTML img element or empty string on failure.
  */
-function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = false) {
+function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = false, $imgwidth = false) {
 
 	$html = '';
 	$image = wp_get_attachment_image_src($attachment_id, $size, $icon);
 	if ( $image ) {
 		list($src, $width, $height) = $image;
-		$hwstring = image_hwstring($width, $height);
+		$hwstring = $imgwidth ? image_hwstring($imgwidth, '') : image_hwstring($width, $height);
 		if ( is_array($size) )
 			$size = join('x', $size);
 		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" alt="" />';
@@ -618,6 +619,7 @@ function gallery_shortcode($attr) {
 		'captiontag' => 'dd',
 		'columns'    => 3,
 		'size'       => 'thumbnail',
+		'imgwidth'	 => ''
 	), $attr));
 
 	$id = intval($id);
@@ -637,6 +639,7 @@ function gallery_shortcode($attr) {
 	$captiontag = tag_escape($captiontag);
 	$columns = intval($columns);
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
+	$imgwidth = isset($imgwidth) && (int) $imgwidth ? $imgwidth : false;
 
 	$output = apply_filters('gallery_style', "
 		<style type='text/css'>
@@ -660,7 +663,8 @@ function gallery_shortcode($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		$link = wp_get_attachment_link($id, $size, true);
+		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false, $imgwidth) : wp_get_attachment_link($id, $size, true, false, $imgwidth);
+
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
 			<{$icontag} class='gallery-icon'>

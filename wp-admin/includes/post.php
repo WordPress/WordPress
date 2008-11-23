@@ -1124,7 +1124,7 @@ function wp_tiny_mce( $teeny = false ) {
 		$plugins = apply_filters( 'teeny_mce_plugins', array('safari', 'inlinepopups', 'media', 'autosave', 'fullscreen') );
 		$ext_plugins = '';
 	} else {
-		$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage' );
+		$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery' );
 
 		/*
 		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.

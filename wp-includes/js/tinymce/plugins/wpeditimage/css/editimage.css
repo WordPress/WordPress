@@ -88,7 +88,7 @@ th.label {
 	overflow: hidden;
 }
 
-#media-upload #img-edit {
+#img-edit {
 	border: 1px solid #dfdfdf;
 	width: 623px;
 	margin: 15px auto;
@@ -100,11 +100,10 @@ th.label {
 }
 
 #img_demo_txt {
-	font-size: 6px;
-	line-height: 10px;
-	font-family: "Courier New",Courier,monotype;
-	color: #ccc;
-	background-color: #ccc;
+	font-size: 9px;
+	line-height: 13px;
+	font-family: Monaco,"Courier New",Courier,monospace;
+	color: #888;
 }
 
 #img_demo {
@@ -132,6 +131,7 @@ th.label {
 	border-top-width: 1px;
 	display: block;
 	float: left;
+	height: 28px;
 	line-height: 28px;
 	text-decoration: none;
 	text-align: center;
@@ -331,4 +331,13 @@ body#media-upload ul#sidemenu {
 div#media-upload-error {
 	margin: 1em;
 	font-weight: bold;
+}
+
+* html #sidemenu li {
+	zoom: 100%;
+}
+
+* html #sidemenu a {
+	height: 27px;
+	line-height: 26px;
 }

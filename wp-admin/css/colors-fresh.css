@@ -1452,12 +1452,18 @@ form p.submit a.cancel:hover {
 	border-color: #999;
 }
 
-#wp_editimgbtn, #wp_delimgbtn {
+#wp_editimgbtn,
+#wp_delimgbtn,
+#wp_editgallery,
+#wp_delgallery {
 	border-color: #999;
 	background-color: #eee;
 }
 
-#wp_editimgbtn:hover, #wp_delimgbtn:hover {
+#wp_editimgbtn:hover,
+#wp_delimgbtn:hover,
+#wp_editgallery:hover,
+#wp_delgallery:hover {
 	border-color: #555;
 	background-color: #ccc;
 }

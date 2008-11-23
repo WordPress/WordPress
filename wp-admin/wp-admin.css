@@ -2183,14 +2183,18 @@ fieldset {
 	font: 18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
-#wp_editbtns {
+#wp_editbtns,
+#wp_gallerybtns {
 	padding: 2px;
 	position: absolute;
 	display: none;
 	z-index: 999998;
 }
 
-#wp_editimgbtn, #wp_delimgbtn {
+#wp_editimgbtn,
+#wp_delimgbtn,
+#wp_editgallery,
+#wp_delgallery {
 	margin: 2px;
 	padding: 2px;
 	border-width: 1px;

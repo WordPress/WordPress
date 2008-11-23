@@ -427,3 +427,29 @@ img_title:"Edit Image Title",
 caption:"Edit Image Caption",
 alt:"Edit Alternate Text"
 });
+
+tinyMCE.addI18n("en.gallery",{
+settings:"Gallery Settings",
+linkto:"Link thumbnails to:",
+linktofile:"Image File",
+linktopost:"Attachment Page",
+orderby:"Order images by:",
+menu_order:"Menu order",
+byname:"Name",
+bydate:"Date/Time",
+random:"Random",
+order:"Order:",
+orderasc:"Ascending",
+orderdesc:"Descending",
+cols:"Gallery columns:",
+two:"two",
+three:"three",
+four:"four",
+five:"five",
+six:"six",
+seven:"seven",
+eight:"eight",
+nine:"nine",
+imgwidth:"Limit the thumbnails width:",
+imgwidthhelp:"Overrides the thumbnail images width. The default can be changed from the Media Settings page."
+});
