@@ -182,13 +182,13 @@ function wp_dashboard_right_now() {
 	echo "\n\t".'<tr class="first">';
 
 	// Posts
-	$num = isset($num_posts->publish) ? number_format_i18n( $num_posts->publish ) : 0;
+	$num = number_format_i18n( $num_posts->publish );
 	if ( current_user_can( 'edit_posts' ) )
 		$text = "<a href='edit.php'>$num</a>";
 	else
 		$text = $num;
 	echo '<td class="first b b-posts">' . $text . '</td>';
-	echo '<td class="t posts">' . __ngettext( 'Post', 'Posts', $num ) . '</td>';
+	echo '<td class="t posts">' . __ngettext( 'Post', 'Posts', intval($num_posts->publish) ) . '</td>';
 	/* TODO: Show status breakdown on hover
 	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
 		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
