@@ -235,7 +235,6 @@ switch ($_REQUEST['ajax']) {
 		// gather images and load some default JS
 		var last = null
 		var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
-		if(!my_src) {
 			var my_src = eval(
 				jQuery.ajax({
 			   		type: "GET",
@@ -246,7 +245,23 @@ switch ($_REQUEST['ajax']) {
 					dataType : "script"
 				}).responseText
 			);
-		}
+			if(my_src.length == 0) {
+				var my_src = eval(
+				jQuery.ajax({
+			   		type: "GET",
+			   		url: "<?php echo clean_url($_SERVER['PHP_SELF']); ?>",
+					cache : false,
+					async : false,
+			   		data: "ajax=photo_images&u=<?php echo urlencode($url); ?>",
+					dataType : "script"
+				}).responseText
+				);
+				if(my_src.length == 0) {
+	
+					strtoappend = '<?php _e('Unable to retrieve images or no images on page.'); ?>';
+				}
+			}
+		
 
 		for (i = 0; i < my_src.length; i++) {
 			img = new Image();
@@ -293,14 +308,19 @@ switch ($_REQUEST['ajax']) {
 		}
 
 		jQuery(document).ready(function() {
-			jQuery('#extra_fields').html('<div class="postbox"><h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a></p></div>');
+			jQuery('#extra_fields').html('<div class="postbox"><h2>Photo <small id="photo_directions">(<?php _e("click images to select") ?>)</small></h2><ul id="actions"><li><a href="#" id="photo_add_url" class="thickbox button"><?php _e("Add from URL") ?> +</a></li></ul><div class="inside"><div class="titlewrap"><div id="img_container"></div></div><p id="options"><a href="#" class="close button"><?php _e('Cancel'); ?></a><a href="#" class="refresh button"><?php _e('Refresh'); ?></a></p></div>');
 			jQuery('.close').click(function() {
 				jQuery('#extra_fields').hide();
 				jQuery('#extra_fields').html('');
 			});
+			jQuery('.refresh').click(function() {
+						show('photo');
+					});
 			jQuery('#img_container').html(strtoappend);
 			jQuery('#photo_add_url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
 			tb_init('#extra_fields .thickbox');
+			
+			
 		});
 		<?php break;
 }

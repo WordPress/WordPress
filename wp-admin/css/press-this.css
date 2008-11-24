@@ -34,7 +34,6 @@ img {
 	border-radius-bottomright: 0;
 	border-radius-topleft: 3px;
 	border-radius-topright: 3px;
-
 	border-style: solid;
 	border-width: 1px;
 	cursor: pointer;
@@ -47,6 +46,7 @@ img {
 	color: #333333;
 	font-size: 10px;
 	line-height: 18px;
+	float: left;
 	float: left;
 }
 
@@ -65,7 +65,6 @@ input.text {
 	outline-style: none;
 	outline-width: medium;
 	width: 100%;
-
 }
 
 #message {
@@ -124,11 +123,9 @@ div.zerosize {
 	font-weight: bold;
 	padding: 7px;
 	margin: 0 0 10px;
-	
 	background-image: url(../images/postbox-bg.gif);
 	background-position: left top;
 	background-repeat: repeat-x;
-
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 1;
@@ -221,11 +218,21 @@ h3.tb {
 	margin-top: -19px;
 	position: relative;
 }
+#extra_fields #actions {
+	clear: both;
+	position: absolute;
+	right: 4px;
+	top: 6px;
+	margin: 0;
+}
 
 #actions li {
 	float: left;
 	list-style: none;
 	margin-right: 10px;
+}
+#extra_fields .button {
+	margin-right: 5px;
 }
 
 /* Photo Styles */
@@ -331,7 +338,7 @@ h3.tb {
 }
 
 #category-add input {
-	width: 94%;	
+	width: 94%;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	margin: 1px;
