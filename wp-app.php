@@ -1392,7 +1392,7 @@ EOD;
 		nocache_headers();
 		header('WWW-Authenticate: Basic realm="WordPress Atom Protocol"');
 		header("HTTP/1.1 401 $msg");
-		header('Status: ' . $msg);
+		header('Status: 401 ' . $msg);
 		header('Content-Type: text/html');
 		$content = <<<EOD
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
