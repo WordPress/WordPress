@@ -2524,13 +2524,15 @@ class WP_Query {
 		if ($this->is_category) {
 			$cat = $this->get('cat');
 			$category = &get_category($cat);
+			if ( is_wp_error( $category ) )
+				return NULL;
 			$this->queried_object = &$category;
 			$this->queried_object_id = (int) $cat;
 		} else if ($this->is_tag) {
 			$tag_id = $this->get('tag_id');
 			$tag = &get_term($tag_id, 'post_tag');
 			if ( is_wp_error( $tag ) )
-				return $tag;
+				return NULL;
 			$this->queried_object = &$tag;
 			$this->queried_object_id = (int) $tag_id;
 		} else if ($this->is_tax) {
@@ -2538,7 +2540,7 @@ class WP_Query {
 			$slug = $this->get('term');
 			$term = &get_terms($tax, array('slug'=>$slug));
 			if ( is_wp_error($term) || empty($term) )
-				return $term;
+				return NULL;
 			$term = $term[0];
 			$this->queried_object = $term;
 			$this->queried_object_id = $term->term_id;
