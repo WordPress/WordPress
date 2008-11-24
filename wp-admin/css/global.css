@@ -159,6 +159,10 @@ input[type="radio"] {
 }
 
 /* styles for use by people extending the WordPress interface */
+html,
+body {
+	height: 100%;
+}
 
 body,
 td {

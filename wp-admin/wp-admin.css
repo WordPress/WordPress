@@ -818,9 +818,10 @@ a.view-comment-post-link {
 }
 
 /* Admin Header */
-
 #wphead-info {
-	margin: 0 15px;
+	margin: 0 0 0 15px;
+	padding-right: 15px;
+	float: right;
 }
 
 #user_info {
@@ -1181,40 +1182,28 @@ strong .post-com-count {
 /* end menu stuff */
 
 /* Admin Footer */
-
-html, body {
-	height: 100%;
-}
-
 #footer {
-	word-spacing: .3em;
-	font-size: 12px;
-	margin-top: -47px;
+	margin-top: -45px;
 }
 
-#footer #footer-thankyou, #footer #footer-upgrade, #footer #footer-thankyou a, #footer #footer-upgrade a {
+#footer,
+#footer a {
 	font-size: 12px;
-	word-spacing: 0;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
-}
-
-#footer #footer-upgrade {
-	position: absolute;
-	right: 15px;
 }
 
 #footer p {
 	margin: 0;
 	padding: 15px;
+	line-height: 15px;
 }
 
 #footer a {
 	text-decoration: none;
-	font-size: 11px;
 }
 
-#footer p a:hover {
+#footer a:hover {
 	text-decoration: underline;
 }
 
@@ -1598,6 +1587,7 @@ table.form-table td .updated {
 .ui-sortable .postbox .hndle span {
 	padding: 6px 0;
 }
+
 .ui-sortable .postbox .hndle {
 	cursor: move;
 }

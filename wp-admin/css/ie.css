@@ -1,4 +1,5 @@
 /* Fixes for IE bugs */
+
 input.button,
 input.button-secondary,
 input.button-highlighted {
@@ -21,12 +22,8 @@ input.button-highlighted {
 	margin-bottom: -1px;
 }
 
-#wpbody-content .postbox .inside {
-	
-}
-
-#wphead-info {
-	float: right;
+#side-info-column {
+	height: 0;
 }
 
 * html #wpbody-content #screen-options-link-wrap {
@@ -211,9 +208,10 @@ a.button {
 	z-index: 12;
 }
 
-#user_info + div#favorite-actions {
-	float: none; 
- 	right: 15px;
+#favorite-inside,
+#favorite-inside a,
+.favorite-action {
+	zoom: 100%;
 }
 
 #post-status-info,
@@ -243,26 +241,10 @@ li.widget-list-control-item h4,
 	zoom: 100%;
 }
 
-#favorite-inside,
-#favorite-inside a,
-.favorite-action {
-	z-index: 11;
-	zoom: 100%;
-}
-
-#wphead-info {
-	width: 350px;
-	max-width: 350px;
-}
-
 p.search-box {
 	position: static;
 	float: right;
 	margin: -3px 0 4px;
-}
-
-#wpbody .wrap {
-	position: static;
 }
 
 * html #editorcontainer {
@@ -293,7 +275,7 @@ form#template div {
 }
 
 #bh {
-	margin: 3px 0 0 6px;
+	margin: 7px 10px 0 0;
 	float: right;
 }
 
