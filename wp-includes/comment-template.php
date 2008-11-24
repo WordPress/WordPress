@@ -1174,14 +1174,14 @@ class Walker_Comment extends Walker {
 		<?php endif; ?>
 		<div class="comment-author vcard">
 		<?php if ($args['avatar_size'] != 0) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-		<?php printf(__('<cite class="fn">%s</cite> Says:'), get_comment_author_link()) ?>
+		<cite class="fn"><?php comment_author_link(); ?></cite> <span class="says"><?php _e('says:'); ?></span>
 		</div>
 <?php if ($comment->comment_approved == '0') : ?>
 		<em><?php _e('Your comment is awaiting moderation.') ?></em>
 		<br />
 <?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date('F jS, Y'),  get_comment_time()) ?></a><?php edit_comment_link('edit','&nbsp;&nbsp;','') ?></div>
+		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'&nbsp;&nbsp;','') ?></div>
 
 		<?php comment_text() ?>
 
