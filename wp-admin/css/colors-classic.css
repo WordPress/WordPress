@@ -1364,8 +1364,8 @@ div.star.select:hover {
 }
 
 .tablenav .tablenav-pages a {
-	border-color: #efefef;
-	background: #eee;
+	border-color: #e3e3e3;
+	background: #eee url('../images/menu-bits.gif') repeat-x scroll left -379px;
 }
 
 .tablenav .tablenav-pages a:hover {
@@ -1379,7 +1379,7 @@ div.star.select:hover {
 
 .tablenav .tablenav-pages .current {
 	background: #dfdfdf;
-	border-color: #dfdfdf;
+	border-color: #d3d3d3;
 }
 
 #availablethemes,
