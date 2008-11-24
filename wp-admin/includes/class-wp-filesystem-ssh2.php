@@ -161,7 +161,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 					$data .= $buf;
 			}
 			fclose($stream);
-			$data = str_replace("__COMMAND_FINISHED__", "", $data);
+			$data = trim(str_replace("__COMMAND_FINISHED__", "", $data));
 			if (($returnbool) && ( (int) $data )) {
 				return true;
 			} elseif (($returnbool) && (! (int) $data )) {
@@ -311,8 +311,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 	function exists($file) {
 		$this->debug("exists();");
-		$list = $this->run_command($this->link, sprintf('ls -lad %s', $file));
-		return (bool) $list;
+		return $this->run_command($this->link, sprintf('ls -lad %s', $file), true);
 	}
 
 	function is_file($file) {
