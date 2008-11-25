@@ -70,6 +70,14 @@ function translate($text, $domain = 'default') {
 		return apply_filters('gettext', $text, $text, $domain);
 }
 
+function before_last_bar( $string ) {
+	$last_bar = strrpos( $string, '|' );
+	if ( false == $last_bar )
+		return $string;
+	else
+		return substr( $string, 0, $last_bar );
+}
+
 /**
  * Retrieve the translated text and strip context.
  *
@@ -86,14 +94,9 @@ function translate($text, $domain = 'default') {
  * @param string $domain Domain to retrieve the translated text
  * @return string Translated text
  */
-function translate_with_context($text, $domain = 'default') {
-	$whole = translate($text, $domain);
-	$last_bar = strrpos($whole, '|');
-	if ( false == $last_bar ) {
-		return $whole;
-	} else {
-		return substr($whole, 0, $last_bar);
-	}
+function translate_with_context( $text, $domain = 'default' ) {
+	return before_last_bar( translate( $text, $domain ) );
+
 }
 
 /**
@@ -182,6 +185,24 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
 }
 
 /**
+ * @see __ngettext() An alias of __ngettext
+ *
+ */
+function _n() {
+	$args = func_get_args();
+	return call_user_func_array('__ngettext', $args);
+}
+
+/**
+ * @see _n() A version of _n(), which supports contexts --
+ * strips everything from the translation after the last bar
+ *
+ */
+function _nc( $single, $plural, $number, $domain = 'default' ) {
+	return before_last_bar( __ngettext( $single, $plural, $number, $domain ) );
+}
+
+/**
  * Register plural strings in POT file, but don't translate them.
  *
  * Used when you want do keep structures with translatable plural strings and
@@ -205,6 +226,15 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
  */
 function __ngettext_noop($single, $plural, $number=1, $domain = 'default') {
 	return array($single, $plural);
+}
+
+/**
+ * @see __ngettext_noop() An alias of __ngettext_noop()
+ *
+ */
+function _n_noop() {
+	$args = func_get_args();
+	return call_user_func_array('__ngettext_noop', $args);
 }
 
 /**

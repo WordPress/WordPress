@@ -71,11 +71,11 @@ $parent_file = 'edit.php';
 wp_enqueue_script('inline-edit-post');
 
 $post_stati  = array(	//	array( adj, noun )
-		'publish' => array(__('Published'), __('Published pages'), __ngettext_noop('Published <span class="count">(%s)</span>', 'Published <span class="count">(%s)</span>')),
-		'future' => array(__('Scheduled'), __('Scheduled pages'), __ngettext_noop('Scheduled <span class="count">(%s)</span>', 'Scheduled <span class="count">(%s)</span>')),
-		'pending' => array(__('Pending Review'), __('Pending pages'), __ngettext_noop('Pending Review <span class="count">(%s)</span>', 'Pending Review <span class="count">(%s)</span>')),
-		'draft' => array(__('Draft'), _c('Drafts|manage posts header'), __ngettext_noop('Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>')),
-		'private' => array(__('Private'), __('Private pages'), __ngettext_noop('<a %s>Private</a> <span class="count">(%s)</span>', '<a %s>Private</a> <span class="count">(%s)</span>'))
+		'publish' => array(__('Published|page'), __('Published pages'), _n_noop('Published <span class="count">(%s)</span>|page', 'Published <span class="count">(%s)</span>')),
+		'future' => array(__('Scheduled|page'), __('Scheduled pages'), _n_noop('Scheduled <span class="count">(%s)</span>|page', 'Scheduled <span class="count">(%s)</span>')),
+		'pending' => array(__('Pending Review|page'), __('Pending pages'), _n_noop('Pending Review <span class="count">(%s)</span>|page', 'Pending Review <span class="count">(%s)</span>')),
+		'draft' => array(__('Draft|page'), _c('Drafts|manage posts header'), _n_noop('Draft <span class="count">(%s)</span>|page', 'Drafts <span class="count">(%s)</span>')),
+		'private' => array(__('Private|page'), __('Private pages'), _n_noop('<a %s>Private</a> <span class="count">(%s)</span>|page', '<a %s>Private</a> <span class="count">(%s)</span>'))
 	);
 
 $query = array('post_type' => 'page', 'orderby' => 'menu_order title', 'what_to_show' => 'posts',
@@ -147,7 +147,7 @@ foreach ( $post_stati as $status => $label ) {
 	if ( isset( $_GET['post_status'] ) && $status == $_GET['post_status'] )
 		$class = ' class="current"';
 
-	$status_links[] = "<li><a href='edit-pages.php?post_status=$status'$class>" . sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
+	$status_links[] = "<li><a href='edit-pages.php?post_status=$status'$class>" . sprintf( _nc( $label[2][0], $label[2][1], $num_posts->$status ), number_format_i18n( $num_posts->$status ) ) . '</a>';
 }
 echo implode( " |</li>\n", $status_links ) . '</li>';
 unset($status_links);
