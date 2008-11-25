@@ -958,7 +958,7 @@ class wpdb {
 			return '';
 
 		$bt = debug_backtrace();
-		$caller = '';
+		$caller = array();
 
 		$bt = array_reverse( $bt );
 		foreach ( (array) $bt as $call ) {
