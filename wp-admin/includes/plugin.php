@@ -649,19 +649,19 @@ function add_dashboard_page( $page_title, $menu_title, $access_level, $file, $fu
 }
 
 function add_posts_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'posts-new.php', $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( 'edit.php', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 function add_media_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'media-new.php', $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( 'upload.php', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 function add_links_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'link-add.php', $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( 'link-manager.php', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 function add_pages_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
-	return add_submenu_page( 'page-new.php', $page_title, $menu_title, $access_level, $file, $function );
+	return add_submenu_page( 'edit-pages.php', $page_title, $menu_title, $access_level, $file, $function );
 }
 
 function add_comments_page( $page_title, $menu_title, $access_level, $file, $function = '' ) {
