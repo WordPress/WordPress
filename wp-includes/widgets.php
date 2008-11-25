@@ -633,6 +633,8 @@ function wp_get_sidebars_widgets($update = true) {
  * @param array $sidebars_widgets Sidebar widgets and their settings.
  */
 function wp_set_sidebars_widgets( $sidebars_widgets ) {
+	if ( !isset( $sidebars_widgets['array_version'] ) )
+		$sidebars_widgets['array_version'] = 3;
 	update_option( 'sidebars_widgets', $sidebars_widgets );
 }
 
