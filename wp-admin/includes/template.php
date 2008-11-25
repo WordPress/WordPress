@@ -764,9 +764,9 @@ function get_column_headers($page) {
 		case 'edit-comments':
 			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
-				'comment' => _c('Comment|noun'),
 				'author' => __('Author'),
-				'date' => __('Submitted'),
+				'comment' => _c('Comment|noun'),
+				//'date' => __('Submitted'),
 				'response' => __('In Response To')
 			);
 
@@ -1924,9 +1924,11 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 
 	if ( current_user_can( 'edit_post', $post->ID ) ) {
-		$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
+		$post_href = get_edit_post_link($post->ID);
+		$post_link = "<a href='" . $post_href . "'>";
 		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
 	} else {
+		$post_href = '';
 		$post_link = get_the_title($comment->comment_post_ID);
 	}
 
@@ -1969,7 +1971,13 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				break;
 			case 'comment':
 				echo "<td $attributes>";
-				if ( 'detail' == $mode || 'single' == $mode ) comment_text(); ?>
+				echo '<div id="submitted-on">';
+				if ( !empty($post_href) )
+					printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), $post_href, get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
+				else
+					printf(__('Submitted on %1$s at %2$s</a>'), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
+				echo '</div>';
+				comment_text(); ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>
 				<div class="author-email"><?php echo attribute_escape( $comment->comment_author_email ); ?></div>

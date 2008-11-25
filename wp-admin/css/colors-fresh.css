@@ -553,7 +553,7 @@ li.widget-list-control-item h4,
 	background-color: #fffbcc;
 }
 
-#edit-slug-box strong, .tablenav .displaying-num {
+#edit-slug-box strong, .tablenav .displaying-num, #submitted-on {
 	color: #777;
 }
 
