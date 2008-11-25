@@ -1970,7 +1970,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 			case 'comment':
 				echo "<td $attributes>";
 				echo '<div id="submitted-on">';
-				printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), get_permalink($post->ID), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
+				printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), get_comment_link($post->ID), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
 				echo '</div>';
 				comment_text(); ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
