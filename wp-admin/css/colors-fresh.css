@@ -1134,11 +1134,11 @@ abbr.required,
 
 /* menu icons */
 #adminmenu #menu-dashboard div.wp-menu-image {
-	background: transparent url("../images/menu.png") no-repeat scroll -61px -34px;
+	background: transparent url("../images/menu.png") no-repeat scroll -61px -33px;
 }
 
 #adminmenu #menu-dashboard:hover div.wp-menu-image {
-	background: transparent url("../images/menu.png") no-repeat scroll -61px -2px;
+	background: transparent url("../images/menu.png") no-repeat scroll -61px -1px;
 }
 
 #adminmenu #menu-posts div.wp-menu-image {
@@ -1182,11 +1182,11 @@ abbr.required,
 }
 
 #adminmenu #menu-appearance div.wp-menu-image {
-	background: transparent url("../images/menu.png") no-repeat scroll -1px -32px;
+	background: transparent url("../images/menu.png") no-repeat scroll -1px -33px;
 }
 
 #adminmenu #menu-appearance:hover div.wp-menu-image {
-	background: transparent url("../images/menu.png") no-repeat scroll -1px 0;
+	background: transparent url("../images/menu.png") no-repeat scroll -1px -1px;
 }
 
 #adminmenu #menu-plugins div.wp-menu-image {
