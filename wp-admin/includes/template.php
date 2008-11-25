@@ -3080,9 +3080,11 @@ function the_post_password() {
  */
 function favorite_actions() {
 	$actions = array(
-		'post-new.php' => array(__('Add New Post'), 'edit_posts'),
-		'page-new.php' => array(__('Add New Page'), 'edit_pages'),
-		'edit-comments.php' => array(__('Manage Comments'), 'moderate_comments')
+		'post-new.php' => array(__('New Post'), 'edit_posts'),
+		'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),	
+		'page-new.php' => array(__('New Page'), 'edit_pages'),
+		'media-new.php' => array(__('Upload'), 'upload_files'),
+		'edit-comments.php' => array(__('Comments'), 'moderate_comments')
 		);
 
 	$actions = apply_filters('favorite_actions', $actions);
