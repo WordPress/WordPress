@@ -125,8 +125,10 @@ function get_the_category( $id = false ) {
 		$id = (int) $post->ID;
 
 	$categories = get_object_term_cache( $id, 'category' );
-	if ( false === $categories )
+	if ( false === $categories ) {
 		$categories = wp_get_object_terms( $id, 'category' );
+		wp_cache_add($post->ID, $categories, 'category_relationships');
+	}
 
 	if ( !empty( $categories ) )
 		usort( $categories, '_usort_terms_by_name' );
