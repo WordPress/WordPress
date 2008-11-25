@@ -1924,11 +1924,9 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
 
 	if ( current_user_can( 'edit_post', $post->ID ) ) {
-		$post_href = get_edit_post_link($post->ID);
-		$post_link = "<a href='" . $post_href . "'>";
+		$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
 		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
 	} else {
-		$post_href = '';
 		$post_link = get_the_title($comment->comment_post_ID);
 	}
 
@@ -1972,10 +1970,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 			case 'comment':
 				echo "<td $attributes>";
 				echo '<div id="submitted-on">';
-				if ( !empty($post_href) )
-					printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), $post_href, get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
-				else
-					printf(__('Submitted on %1$s at %2$s</a>'), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
+				printf(__('Submitted on <a href="%1$s">%2$s at %3$s</a>'), get_permalink($post->ID), get_comment_date(__('Y/m/d')), get_comment_date(__('g:ia')));
 				echo '</div>';
 				comment_text(); ?>
 				<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
