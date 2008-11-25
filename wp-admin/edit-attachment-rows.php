@@ -25,6 +25,7 @@ if ( ! defined('ABSPATH') ) die();
 <?php
 if ( have_posts() ) {
 add_filter('the_title','wp_specialchars');
+$alt = '';
 while (have_posts()) : the_post();
 $alt = ( 'alternate' == $alt ) ? '' : 'alternate';
 global $current_user;
