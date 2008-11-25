@@ -465,7 +465,7 @@ case 'add-comment' :
 	foreach ( (array) $comments as $comment ) {
 		get_comment( $comment );
 		ob_start();
-			_wp_comment_row( $comment->comment_ID, $mode, $status );
+			_wp_comment_row( $comment->comment_ID, $mode, $status, true, true );
 			$comment_list_item = ob_get_contents();
 		ob_end_clean();
 		$x->add( array(

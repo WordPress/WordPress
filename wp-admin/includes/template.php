@@ -1917,7 +1917,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
  * @param unknown_type $comment_status
  * @param unknown_type $checkbox
  */
-function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true ) {
+function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true, $from_ajax = false ) {
 	global $comment, $post;
 	$comment = get_comment( $comment_id );
 	$post = get_post($comment->comment_post_ID);
@@ -2007,8 +2007,8 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true 
 						++$i;
 						( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
 
-						// Reply and quickedit need a hide-if-no-js span
-						if ( 'reply' == $action || 'quickedit' == $action )
+						// Reply and quickedit need a hide-if-no-js span when not added with ajax
+						if ( ('reply' == $action || 'quickedit' == $action) && ! $from_ajax )
 							$action .= ' hide-if-no-js';
 
 						echo "<span class='$action'>$sep$link</span>";

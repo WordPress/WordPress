@@ -81,9 +81,6 @@ $(document).ready(function(){
 commentReply = {
 
 	init : function() {
-		this.rows = $('#the-comment-list tr');
-		if ( !this.rows.size() )
-			this.rows = $('#the-comment-list > div.comment-item');
 		var row = $('#replyrow');
 
 		$('a.cancel', row).click(function() { return commentReply.revert(); });
