@@ -127,10 +127,8 @@ switch ($_REQUEST['ajax']) {
 		<div class="postbox">
 		<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
 		<div class="inside">
-
 			<textarea name="embed-code" id="embed-code" rows="8" cols="40"><?php echo format_to_edit($selection, true); ?></textarea>
-
-		<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
+			<p id="options"><a href="#" class="select button"><?php _e('Insert Video'); ?></a> <a href="#" class="close button"><?php _e('Cancel'); ?></a></p>
 		</div>
 		</div>
 		<?php break;
@@ -140,7 +138,6 @@ switch ($_REQUEST['ajax']) {
 			jQuery('.cancel').click(function() {
 				tb_remove();
 			});
-
 			jQuery('.select').click(function() {
 				image_selector();
 			});
@@ -297,7 +294,7 @@ switch ($_REQUEST['ajax']) {
 				if(length == 0) length = 1;
 				jQuery('.photolist').append('<input name="photo_src[' + length + ']" value="' + img +'" type="hidden"/>');
 				jQuery('.photolist').append('<input name="photo_description[' + length + ']" value="' + desc +'" type="hidden"/>');
-				insert_editor( "\n\n" + '<p style="text-align: center;"><a href="<?php echo $url; ?>"><img src="' + img +'" alt="' + desc + '" /></a></p>');
+				insert_editor( "\n\n" + encodeURI('<p style="text-align: center;"><a href="<?php echo $url; ?>"><img src="' + img +'" alt="' + desc + '" /></a></p>'));
 			}
 			return false;
 		}
@@ -385,7 +382,7 @@ die;
 	}
 	function insert_editor(text) {
 		if ( '' != text && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden()) {
-			tinyMCE.execCommand('mceInsertContent', false, '<p>' + tinymce.DOM.decode(text) + '</p>', {format : 'raw'});
+			tinyMCE.execCommand('mceInsertContent', false, '<p>' + decodeURI(tinymce.DOM.decode(text)) + '</p>', {format : 'raw'});
 		} else {
 			insert_plain_editor(text);
 		}
@@ -457,7 +454,7 @@ die;
 			show('photo');
 		<?php } ?>
 		
-		jQuery('#publish, #save').click(function() { alert('test'); jQuery('#saving').css('display', 'inline'); });
+		jQuery('#publish, #save').click(function() { jQuery('#saving').css('display', 'inline'); });
 	});
 </script>
 </head>

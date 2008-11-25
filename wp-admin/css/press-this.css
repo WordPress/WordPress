@@ -47,10 +47,7 @@ img {
 	font-size: 10px;
 	line-height: 18px;
 	float: left;
-	float: left;
 }
-
-
 
 .howto {
 	margin-top: 2px;
@@ -436,7 +433,19 @@ ul.categorychecklist li {
 	position: absolute;
 }
 
+#content {
+	width: 96% !important;
+	margin-left: 1%;
+	margin-bottom: 10px;
+	border: 1px solid #f1f1f1;
+}
+
 /* Submit */
+
+#saving {
+	display: inline;
+	padding-top: 5px;
+}
 
 .submit input,
 .button,
