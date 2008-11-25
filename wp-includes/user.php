@@ -168,9 +168,10 @@ function user_pass_ok($user_login, $user_pass) {
  *
  * @param string $option User option name.
  * @param int $user Optional. User ID.
+ * @param bool $check_global Whether to check for a global option if a per-user option does not exist. Default is true.
  * @return mixed
  */
-function get_user_option( $option, $user = 0 ) {
+function get_user_option( $option, $user = 0, $check_global = true ) {
 	global $wpdb;
 
 	$option = preg_replace('|[^a-z0-9_]|i', '', $option);
@@ -183,8 +184,10 @@ function get_user_option( $option, $user = 0 ) {
 		$result = $user->{$wpdb->prefix . $option};
 	elseif ( isset( $user->{$option} ) ) // User specific and cross-blog
 		$result = $user->{$option};
-	else // Blog global
+	elseif ( $check_global ) // Blog global
 		$result = get_option( $option );
+	else
+		$result = false;
 
 	return apply_filters("get_user_option_{$option}", $result, $option, $user);
 }

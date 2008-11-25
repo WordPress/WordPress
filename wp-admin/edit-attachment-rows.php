@@ -35,8 +35,8 @@ $att_title = _draft_or_post_title();
 	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 
 <?php
-$posts_columns = wp_manage_media_columns();
-$hidden = (array) get_user_option( 'manage-media-columns-hidden' );
+$posts_columns = get_column_headers('media');
+$hidden = get_hidden_columns('media');
 
 foreach ($posts_columns as $column_name => $column_display_name ) {
 	$class = "class=\"$column_name column-$column_name\"";

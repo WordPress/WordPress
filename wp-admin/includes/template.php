@@ -203,7 +203,7 @@ function inline_edit_term_row($type) {
 
 	$is_tag = $type == 'tag';
 	$columns = $is_tag ? get_column_headers('tag') : get_column_headers('category');
-	$hidden = array_intersect( array_keys( $columns ), array_filter( (array) get_user_option( "manage-$type-columns-hidden" ) ) );
+	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($type) ) );
 	$col_count = count($columns) - count($hidden);
 	?>
 
@@ -900,7 +900,7 @@ function register_column_headers($screen, $columns) {
  */
 function get_hidden_columns($page) {
 	$page = str_replace('.php', '', $page);
-	return (array) get_user_option( 'manage-' . $page . '-columns-hidden' );	
+	return (array) get_user_option( 'manage-' . $page . '-columns-hidden', 0, false );	
 }
 
 /**
@@ -922,7 +922,7 @@ function inline_edit_row( $type ) {
 		$post = get_default_post_to_edit();
 
 	$columns = $is_page ? wp_manage_pages_columns() : wp_manage_posts_columns();
-	$hidden = array_intersect( array_keys( $columns ), array_filter( (array) get_user_option( "manage-$type-columns-hidden" ) ) );
+	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($type) ) );
 	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
 	$can_publish = current_user_can("publish_{$type}s");
@@ -2697,14 +2697,14 @@ function do_meta_boxes($page, $context, $object) {
 
 	//do_action('do_meta_boxes', $page, $context, $object);
 
-	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
+	$hidden = (array) get_user_option( "meta-box-hidden_$page", 0, false );
 
 	echo "<div id='$context-sortables' class='meta-box-sortables'>\n";
 
 	$i = 0;
 	do {
 		// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
-		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
+		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page", 0, false ) ) {
 			foreach ( $sorted as $box_context => $ids )
 				foreach ( explode(',', $ids) as $id )
 					if ( $id )
@@ -2777,7 +2777,7 @@ function meta_box_prefs($page) {
 	if ( empty($wp_meta_boxes[$page]) )
 		return;
 
-	$hidden = (array) get_user_option( "meta-box-hidden_$page" );
+	$hidden = (array) get_user_option( "meta-box-hidden_$page", 0, false );
 
 	foreach ( array_keys($wp_meta_boxes[$page]) as $context ) {
 		foreach ( array_keys($wp_meta_boxes[$page][$context]) as $priority ) {

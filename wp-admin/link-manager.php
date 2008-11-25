@@ -138,7 +138,7 @@ if ( !empty($_GET['s']) )
 $links = get_bookmarks( $args );
 if ( $links ) {
 	$link_columns = get_column_headers('link-manager');
-	$hidden = (array) get_user_option( 'manage-link-manager-columns-hidden' );
+	$hidden = get_hidden_columns('link-manager');
 ?>
 
 <?php wp_nonce_field('bulk-bookmarks') ?>

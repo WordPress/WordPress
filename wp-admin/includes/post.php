@@ -869,7 +869,7 @@ function postbox_classes( $id, $page ) {
 	if ( isset( $_GET['edit'] ) && $_GET['edit'] == $id )
 		return '';
 	$current_user = wp_get_current_user();
-	if ( $closed = get_usermeta( $current_user->ID, 'closedpostboxes_'.$page ) ) {
+	if ( $closed = get_user_option('closedpostboxes_'.$page, 0, false ) ) {
 		if ( !is_array( $closed ) ) return '';
 		return in_array( $id, $closed )? 'if-js-closed' : '';
 	} else {

@@ -435,7 +435,7 @@ wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 </table>
 <p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
 <?php
-	$hidden = (array) get_user_option( "meta-box-hidden_post" );
+	$hidden = (array) get_user_option( "meta-box-hidden_post", 0, false );
 	if ( ! in_array('commentstatusdiv', $hidden) ) { ?>
 		<script type="text/javascript">commentsBox.get(<?php echo $total; ?>, 10);</script>
 <?php
