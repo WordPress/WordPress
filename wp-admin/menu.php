@@ -36,7 +36,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'wp-menu-open menu-
 	$submenu['edit.php'][20] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'menu-media', 'div' );
-	$submenu['upload.php'][5] = array( __('Edit'), 'upload_files', 'upload.php');
+	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
 	$submenu['upload.php'][10] = array( _c('Add New|file'), 'upload_files', 'media-new.php');
 
 $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-top', 'menu-links', 'div' );
