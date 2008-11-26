@@ -43,7 +43,7 @@ th {
 }
 
 .media-upload-form label.form-help, td.help {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	font-style: italic;
 	font-weight: normal;
 }
@@ -284,6 +284,7 @@ abbr.required {
 #media-upload .describe th.label {
 	padding-top: .5em;
 	text-align: left;
+	min-width: 120px;
 }
 
 #media-upload tr.align td.field {
@@ -353,4 +354,71 @@ abbr.required {
 
 .sorthelper {
 	z-index: -1;
+}
+
+#gallery-settings th.label {
+	width: 160px;
+}
+
+#gallery-settings #basic th.label {
+	padding: 5px 5px 5px 0;
+}
+
+#gallery-settings .title {
+	clear: both;
+	padding: 0 0 3px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	font-family: Georgia,"Times New Roman",Times,serif;
+	font-size: 1.6em;
+	border-bottom-color: #DADADA;
+	color: #5A5A5A;
+}
+
+.media-blank h3 {
+	color: #5A5A5A;
+	font-family: Georgia,"Times New Roman",Times,serif;
+	font-size: 1.6em;
+	font-weight: normal;
+}
+
+#gallery-settings .describe td {
+	vertical-align: middle;
+	height: 3.5em;
+}
+
+#gallery-settings .describe th.label {
+	padding-top: .5em;
+	text-align: left;
+}
+
+#gallery-settings .describe {
+	padding: 5px;
+	width: 615px;
+	clear: both;
+	cursor: default;
+}
+
+#gallery-settings .describe select {
+	width: 15em;
+	border: 1px solid #dfdfdf;
+}
+
+#gallery-settings label,
+#gallery-settings legend {
+	font-size: 13px;
+	color: #464646;
+	margin-right: 15px;
+}
+
+#gallery-settings .align .field label {
+	margin: 0 1.5em 0 0;
+}
+
+#gallery-settings p.ml-submit {
+	border-top: 1px solid #dfdfdf;
+}
+
+#gallery-settings select#columns {
+	width: 6em;
 }

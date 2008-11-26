@@ -963,12 +963,6 @@ abbr.required,
 	border-top-left-radius: 4px;
 }
 
-.wp-admin .clearlooks2 .mceFocus .mceTop .mceCenter {
-	background: #444444;
-	border-bottom: 1px solid #999;
-	border-top: 1px solid #999;
-}
-
 .wp-admin .clearlooks2 .mceFocus .mceTop .mceRight {
 	background: #444444;
 	border-right: 1px solid #999;
@@ -1012,7 +1006,7 @@ abbr.required,
 }
 
 .wp-admin .clearlooks2 .mceFocus .mceTop span {
-	color: #fff;
+	color: #e5e5e5;
 }
 /* end TinyMCE */
 

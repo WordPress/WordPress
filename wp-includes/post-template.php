@@ -757,7 +757,7 @@ function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $p
  * @param bool $icon Optional, default is false. Whether to include icon.
  * @return string HTML content.
  */
-function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $imgwidth = false) {
+function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false) {
 	$id = intval($id);
 	$_post = & get_post( $id );
 
@@ -769,7 +769,7 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 
 	$post_title = attribute_escape($_post->post_title);
 
-	$link_text = wp_get_attachment_image($id, $size, $icon, $imgwidth);
+	$link_text = wp_get_attachment_image($id, $size, $icon);
 	if ( !$link_text )
 		$link_text = $_post->post_title;
 

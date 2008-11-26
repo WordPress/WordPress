@@ -1540,7 +1540,7 @@ table.form-table td .updated {
 .howto {
 	font-style: italic;
 	display: block;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", "Lucida Sans", Verdana, Arial, sans-serif;
 }
 
 .ac_results {
@@ -3055,7 +3055,7 @@ br.clear {
 }
 
 .swfupload {
-	margin: 0 10px;
+	margin: 5px 10px;
 	vertical-align: middle;
 }
 

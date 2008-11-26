@@ -56,7 +56,7 @@ function prepareMediaItemInit(fileObj) {
 	jQuery('#media-item-' + fileObj.id + ' .filename.original').replaceWith(jQuery('#media-item-' + fileObj.id + ' .filename.new'));
 
 	// Also bind toggle to the links
-	jQuery('#media-item-' + fileObj.id + ' a.toggle').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150, function(){window.scrollTo(0,this.parentNode.offsetTop);});jQuery(this).parent().eq(0).children('.toggle').toggle();jQuery(this).siblings('a.toggle').focus();return false;});
+	jQuery('#media-item-' + fileObj.id + ' a.toggle').bind('click', function(){jQuery(this).siblings('.slidetoggle').slideToggle(150, function(){var o=jQuery(this).offset();window.scrollTo(0,o.top-36);});jQuery(this).parent().eq(0).children('.toggle').toggle();jQuery(this).siblings('a.toggle').focus();return false;});
 
 	// Bind AJAX to the new Delete button
 	jQuery('#media-item-' + fileObj.id + ' a.delete').bind('click',function(){

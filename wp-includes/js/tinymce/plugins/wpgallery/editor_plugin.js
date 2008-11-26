@@ -15,7 +15,9 @@
 				if ( el.nodeName != 'IMG' ) return;
 				if ( ed.dom.getAttrib(el, 'class').indexOf('wpGallery') == -1 )	return;
 
-				tb_show('', url + '/gallery.html?ver=321&TB_iframe=true');
+				var post_id = tinymce.DOM.get('post_ID').value;
+				tb_show('', tinymce.documentBaseURL + '/media-upload.php?post_id='+post_id+'&tab=gallery&TB_iframe=true');
+/*
 				tinymce.DOM.setStyles('TB_window', {
 					'width':( W - 50 )+'px',
 					'height':'430px',
@@ -33,6 +35,7 @@
 					'width':( W - 50 )+'px',
 					'height':'400px'
 				});
+*/
 				tinymce.DOM.setStyle( ['TB_overlay','TB_window','TB_load'], 'z-index', '999999' );
 			});
 
@@ -95,7 +98,7 @@
 				if ( cls.indexOf('wpGallery') != -1 )
 					return '<p>'+getAttr(im, 'title')+'</p>';
 
-				return im;
+				return a;
 			});
 		},
 
@@ -164,7 +167,7 @@
 			wp_delgallery.onmousedown = function(e) {
 				var ed = tinyMCE.activeEditor, el = ed.selection.getNode();
 
-				if ( el.nodeName == 'IMG' && ed.dom.getAttrib(el, 'class').indexOf('mceItemWPgallery') != -1 ) {
+				if ( el.nodeName == 'IMG' && ed.dom.getAttrib(el, 'class').indexOf('wpGallery') != -1 ) {
 					ed.dom.remove(el);
 
 					this.parentNode.style.display = 'none';
