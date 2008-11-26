@@ -27,7 +27,7 @@ switch ($step) {
 ?>
 
 <div class="wrap">
-
+<?php screen_icon(); ?>
 <h2><?php _e('Import your blogroll from another system') ?> </h2>
 <form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 <?php wp_nonce_field('import-bookmarks') ?>

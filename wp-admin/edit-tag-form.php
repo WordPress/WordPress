@@ -15,6 +15,7 @@ if ( empty($tag_ID) ) { ?>
 do_action('edit_tag_form_pre', $tag); ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php _e('Edit Tag'); ?></h2>
 <div id="ajax-response"></div>
 <form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate">

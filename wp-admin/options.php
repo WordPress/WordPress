@@ -87,6 +87,7 @@ default:
 	include('admin-header.php'); ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
   <h2><?php _e('All Settings'); ?></h2>
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('options-options') ?>

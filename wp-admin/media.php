@@ -82,7 +82,7 @@ case 'edit' :
 ?>
 
 <div class="wrap">
-
+<?php screen_icon(); ?>
 <h2><?php _e( 'Edit Media' ); ?></h2>
 
 <form method="post" action="<?php echo clean_url( remove_query_arg( 'message' ) ); ?>" class="media-upload-form" id="media-single-form">

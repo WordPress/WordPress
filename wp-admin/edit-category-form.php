@@ -39,6 +39,7 @@ _fill_empty_category($category);
 ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php _e('Edit Category'); ?></h2>
 <div id="ajax-response"></div>
 <form name="editcat" id="editcat" method="post" action="categories.php" class="validate">

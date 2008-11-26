@@ -547,6 +547,7 @@ function upload_plugin() {
 	check_admin_referer('plugin-upload');
 
 	echo '<div class="wrap">';
+	screen_icon();
 	echo '<h2>', sprintf( __('Installing Plugin from file: %s'), basename($filename) ), '</h2>';
 
 	//Handle a newly uploaded file, Else assume it was 
@@ -583,6 +584,7 @@ function install_plugin() {
 		wp_die($api);
 
 	echo '<div class="wrap">';
+	screen_icon();
 	echo '<h2>', sprintf( __('Installing Plugin: %s'), $api->name . ' ' . $api->version ), '</h2>';
 
 	do_plugin_install($api->download_link, $api);
