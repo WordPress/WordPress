@@ -391,7 +391,7 @@ div.dashboard-widget-submit input:hover,
 	color: #ccc;
 }
 
-.submitbox .submitdelete, a.delete, a.submitdelete {
+.submitbox .submitdelete, a.delete {
 	color: #f00;
 	border-bottom-color: #f00;
 }
