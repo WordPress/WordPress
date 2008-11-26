@@ -469,6 +469,8 @@ die;
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>
 			<input type="hidden" name="autosave" id="autosave" />
+			<input type="hidden" id="original_post_status" name="original_post_status" value="draft" />
+			<input type="hidden" id="prev_status" name="prev_status" value="draft" />
 			
 			<!-- This div holds the photo metadata -->
 			<div class="photolist"></div>
