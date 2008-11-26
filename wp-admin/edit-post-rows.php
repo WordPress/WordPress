@@ -22,16 +22,6 @@ if ( ! defined('ABSPATH') ) die();
 	</tfoot>
 
 	<tbody>
-<?php
-if ( have_posts() ) {
-	post_rows();
-} else {
-?>
-  <tr>
-    <td colspan="8"><?php _e('No posts found.') ?></td>
-  </tr>
-<?php
-} // end if ( have_posts() )
-?>
+<?php post_rows(); ?>
 	</tbody>
 </table>

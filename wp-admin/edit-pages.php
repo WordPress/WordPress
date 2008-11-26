@@ -165,6 +165,8 @@ endif;
 <input type="hidden" name="post_status" value="<?php echo attribute_escape($_GET['post_status']) ?>" />
 <?php endif; ?>
 
+<?php if ($posts) { ?>
+
 <div class="tablenav">
 
 <?php
@@ -208,10 +210,6 @@ if ( $page_links ) : ?>
 
 <div class="clear"></div>
 
-<?php
-
-if ($posts) {
-?>
 <table class="widefat page fixed" cellspacing="0">
   <thead>
   <tr>
@@ -248,20 +246,18 @@ if ( $page_links )
 <br class="clear" />
 </div>
 
+<?php } else { ?>
+<div class="clear"></div>
+<p><?php _e('No pages found.') ?></p>
+<?php
+} // end if ($posts)
+?>
+
 </form>
 
 <?php inline_edit_row( 'page' ) ?>
 
 <div id="ajax-response"></div>
-
-<?php
-} else {
-?>
-</form>
-<p><?php _e('No pages found.') ?></p>
-<?php
-} // end if ($posts)
-?>
 
 
 <?php
