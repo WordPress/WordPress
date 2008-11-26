@@ -75,7 +75,7 @@ $post_stati  = array(	//	array( adj, noun )
 		'future' => array(__('Scheduled|page'), __('Scheduled pages'), _n_noop('Scheduled <span class="count">(%s)</span>|page', 'Scheduled <span class="count">(%s)</span>')),
 		'pending' => array(__('Pending Review|page'), __('Pending pages'), _n_noop('Pending Review <span class="count">(%s)</span>|page', 'Pending Review <span class="count">(%s)</span>')),
 		'draft' => array(__('Draft|page'), _c('Drafts|manage posts header'), _n_noop('Draft <span class="count">(%s)</span>|page', 'Drafts <span class="count">(%s)</span>')),
-		'private' => array(__('Private|page'), __('Private pages'), _n_noop('<a %s>Private</a> <span class="count">(%s)</span>|page', '<a %s>Private</a> <span class="count">(%s)</span>'))
+		'private' => array(__('Private|page'), __('Private pages'), _n_noop('Private <span class="count">(%s)</span>|page', 'Private <span class="count">(%s)</span>'))
 	);
 
 $query = array('post_type' => 'page', 'orderby' => 'menu_order title', 'what_to_show' => 'posts',
