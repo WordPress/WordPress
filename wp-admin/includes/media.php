@@ -1239,7 +1239,7 @@ function media_upload_form( $errors = null ) {
 <!--
 SWFUpload.onload = function() {
 	swfu = new SWFUpload({
-			button_text: '<span class="button"><?php _e('Upload'); ?></span>',
+			button_text: '<span class="button"><?php _e('Select Files'); ?></span>',
 			button_text_style: '.button { text-align: center; font-weight: bold; font-family:"Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }',
 			button_height: "24",
 			button_width: "132",
@@ -1780,7 +1780,7 @@ function type_url_form_image() {
 	<table class="describe"><tbody>
 		<tr>
 			<th valign="top" scope="row" class="label" style="width:120px;">
-				<span class="alignleft"><label for="src">' . __('Source') . '</label></span>
+				<span class="alignleft"><label for="src">' . __('Image URL') . '</label></span>
 				<span class="alignright"><img id="status_img" src="images/required.gif" title="required" alt="required" /></span>
 			</th>
 			<td class="field"><input id="src" name="src" value="" type="text" aria-required="true" onblur="addExtImage.getImageData()" /></td>
@@ -1818,7 +1818,7 @@ function type_url_form_image() {
 
 		<tr>
 			<th valign="top" scope="row" class="label">
-				<span class="alignleft"><label for="url">' . __('Link URL') . '</label></span>
+				<span class="alignleft"><label for="url">' . __('Link Image To:') . '</label></span>
 			</th>
 			<td class="field"><input id="url" name="url" value="" type="text" /><br />
 
