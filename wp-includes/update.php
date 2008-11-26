@@ -27,6 +27,9 @@ function wp_version_check() {
 	$php_version = phpversion();
 
 	$current = get_option( 'update_core' );
+	if ( ! is_object($current) )
+		$current = new stdClass;
+
 	$locale = get_locale();
 	if (
 		isset( $current->last_checked ) &&
@@ -112,6 +115,8 @@ function wp_update_plugins() {
 	$plugins = get_plugins();
 	$active  = get_option( 'active_plugins' );
 	$current = get_option( 'update_plugins' );
+	if ( ! is_object($current) )
+		$current = new stdClass;
 
 	$new_option = '';
 	$new_option->last_checked = time();
@@ -201,6 +206,8 @@ function wp_update_themes( ) {
 
 	$installed_themes = get_themes( );
 	$current_theme = get_option( 'update_themes' );
+	if ( ! is_object($current_theme) )
+		$current_theme = new stdClass;
 
 	$new_option = '';
 	$new_option->last_checked = time( );
