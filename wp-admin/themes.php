@@ -100,6 +100,7 @@ function theme_update_available( $theme ) {
 ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <h3><?php _e('Current Theme'); ?></h3>

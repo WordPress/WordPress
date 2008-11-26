@@ -1214,6 +1214,7 @@ strong .post-com-count {
 	margin-top: 0.5em;
 	width: 100%;
 	margin-bottom: -8px;
+	clear: both;
 }
 
 .form-table td,
@@ -3111,3 +3112,9 @@ table.fixed {
 	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
+.icon32 {
+	float: left;
+	height: 36px;
+	margin: 8px 6px 0 0;
+	width: 36px;
+}

@@ -19,6 +19,7 @@ class LJ_Import {
 
 	function header() {
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import LiveJournal').'</h2>';
 	}
 

@@ -198,6 +198,7 @@ class Dotclear_Import {
 	function header()
 	{
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import DotClear').'</h2>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
 	}

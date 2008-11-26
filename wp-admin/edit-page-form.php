@@ -391,6 +391,7 @@ require_once('admin-header.php');
 ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form name="post" action="page.php" method="post" id="post">

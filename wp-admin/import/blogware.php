@@ -21,6 +21,7 @@ class BW_Import {
 
 	function header() {
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import Blogware').'</h2>';
 	}
 

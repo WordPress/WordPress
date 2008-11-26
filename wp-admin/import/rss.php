@@ -22,6 +22,7 @@ class RSS_Import {
 
 	function header() {
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import RSS').'</h2>';
 	}
 

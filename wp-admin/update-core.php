@@ -88,10 +88,11 @@ function dismissed_updates() {
  */
 function core_upgrade_preamble() {
 	$updates = get_core_updates();
-	
-	echo '<div class="wrap">';
-	echo '<h2>' . __('Upgrade WordPress') . '</h2>';
-
+?>
+	<div class="wrap">
+	<?php screen_icon(); ?>
+	<h2><?php _e('Upgrade WordPress'); ?></h2>
+<?php
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
 		echo '<h3>';
 		_e('You have the latest version of WordPress. You do not need to upgrade');
@@ -146,9 +147,11 @@ function do_core_upgrade() {
 		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
 		return;
 	}
-
-	echo '<div class="wrap">';
-	echo '<h2>' . __('Upgrade WordPress') . '</h2>';
+?>
+	<div class="wrap">
+	<?php screen_icon(); ?>
+	<h2><?php _e('Upgrade WordPress'); ?></h2>
+<?php
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
 			show_message($message);

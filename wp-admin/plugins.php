@@ -201,6 +201,7 @@ if ( !empty($invalid) )
 <?php endif; ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 	<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <p><?php _e('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>

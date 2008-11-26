@@ -16,6 +16,7 @@ include('admin-header.php');
 ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form name="form1" method="post" action="options.php">

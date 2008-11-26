@@ -1520,3 +1520,52 @@ form p.submit a.cancel:hover {
 	background-color: transparent;
 	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
+
+#icon-edit,
+#icon-post {
+	background: transparent url(../images/icons32.png) no-repeat -552px -5px;
+}
+
+#icon-index {
+	background: transparent url(../images/icons32.png) no-repeat -137px -5px;
+}
+
+#icon-upload {
+	background: transparent url(../images/icons32.png) no-repeat -251px -5px;
+}
+
+#icon-link-manager,
+#icon-link {
+	background: transparent url(../images/icons32.png) no-repeat -190px -5px;
+}
+
+#icon-edit-pages,
+#icon-page {
+	background: transparent url(../images/icons32.png) no-repeat -312px -5px;
+}
+
+#icon-edit-comments {
+	background: transparent url(../images/icons32.png) no-repeat -72px -5px;
+}
+
+#icon-themes {
+	background: transparent url(../images/icons32.png) no-repeat -11px -5px;
+}
+
+#icon-plugins {
+	background: transparent url(../images/icons32.png) no-repeat -370px -5px;
+}
+
+#icon-users
+#icon-user-edit {
+	background: transparent url(../images/icons32.png) no-repeat -600px -5px;
+}
+
+#icon-import,
+#icon-admin {
+	background: transparent url(../images/icons32.png) no-repeat -432px -5px;
+}
+
+#icon-options-general {
+	background: transparent url(../images/icons32.png) no-repeat -492px -5px;
+}

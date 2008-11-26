@@ -16,6 +16,7 @@
 class STP_Import {
 	function header()  {
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import Simple Tagging').'</h2>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'<br /><br /></p>';
 	}

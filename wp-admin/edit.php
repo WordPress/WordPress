@@ -91,6 +91,7 @@ else
 	$mode = attribute_escape($_GET['mode']); ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <?php

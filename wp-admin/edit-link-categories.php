@@ -60,6 +60,7 @@ $messages[5] = __('Category not updated.');
 $messages[6] = __('Categories deleted.'); ?>
 
 <div class="wrap nosubsub">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <?php if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>

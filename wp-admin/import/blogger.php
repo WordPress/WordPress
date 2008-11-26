@@ -54,7 +54,10 @@ class Blogger_Import {
 		$auth = __('Authorize');
 
 		echo "
-		<div class='wrap'><h2>$title</h2><p>$welcome</p><p>$prereqs</p><p>$stepone</p>
+		<div class='wrap'>
+		".screen_icon()."
+		<h2>$title</h2>
+		<p>$welcome</p><p>$prereqs</p><p>$stepone</p>
 			<form action='$auth_url' method='get'>
 				<p class='submit' style='text-align:left;'>
 					<input type='submit' class='button' value='$auth' />
@@ -68,7 +71,9 @@ class Blogger_Import {
 	}
 
 	function uh_oh($title, $message, $info) {
-		echo "<div class='wrap'><h2>$title</h2><p>$message</p><pre>$info</pre></div>";
+		echo "<div class='wrap'>";
+		screen_icon();
+		echo "<h2>$title</h2><p>$message</p><pre>$info</pre></div>";
 	}
 
 	function auth() {

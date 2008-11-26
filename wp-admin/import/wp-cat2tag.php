@@ -64,6 +64,7 @@ class WP_Categories_to_Tags {
 		echo '<br class="clear" />';
 
 		if ( $cat_num > 0 ) {
+			screen_icon();
 			echo '<h2>' . sprintf( __ngettext( 'Convert Category to Tag.', 'Convert Categories (%d) to Tags.', $cat_num ), $cat_num ) . '</h2>';
 			echo '<div class="narrow">';
 			echo '<p>' . __('Hey there. Here you can selectively convert existing categories to tags. To get started, check the categories you wish to be converted, then click the Convert button.') . '</p>';
@@ -139,6 +140,7 @@ function check_all_rows() {
 		echo '<br class="clear" />';
 
 		if ( $tags_num > 0 ) {
+			screen_icon();
 			echo '<h2>' . sprintf( __ngettext( 'Convert Tag to Category.', 'Convert Tags (%d) to Categories.', $tags_num ), $tags_num ) . '</h2>';
 			echo '<div class="narrow">';
 			echo '<p>' . __('Here you can selectively converts existing tags to categories. To get started, check the tags you wish to be converted, then click the Convert button.') . '</p>';

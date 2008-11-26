@@ -20,6 +20,7 @@ class GM_Import {
 
 	function header() {
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import GreyMatter').'</h2>';
 	}
 

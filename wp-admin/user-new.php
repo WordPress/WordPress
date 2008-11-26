@@ -42,6 +42,7 @@ require_once ('admin-header.php');
 
 ?>
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>

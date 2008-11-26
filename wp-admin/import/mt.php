@@ -24,6 +24,7 @@ class MT_Import {
 
 	function header() {
 		echo '<div class="wrap">';
+		screen_icon();
 		echo '<h2>'.__('Import Movable Type or TypePad').'</h2>';
 	}
 
@@ -191,6 +192,7 @@ class MT_Import {
 	function mt_authors_form() {
 ?>
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php _e('Assign Authors'); ?></h2>
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as admin\'s entries.'); ?></p>
 <p><?php _e('Below, you can see the names of the authors of the MovableType posts in <em>italics</em>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>

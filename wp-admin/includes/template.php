@@ -3327,4 +3327,18 @@ function add_contextual_help($screen, $help) {
 	$_wp_contextual_help[$screen] = $help;
 }
 
+function screen_icon() {
+	global $parent_file, $hook_suffix;
+
+	if ( isset($parent_file) && !empty($parent_file) )
+		$name = substr($parent_file, 0, -4);
+	else
+		$name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
+
+	unset($hook_suffix);
+?>
+	<div id="icon-<?php echo $name; ?>" class="icon32"><br /></div>
+<?php
+}
+
 ?>

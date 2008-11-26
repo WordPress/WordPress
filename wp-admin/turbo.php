@@ -17,6 +17,7 @@ require_once('admin-header.php');
 if ( ! $is_opera ) {
 ?>
 	<div id="gears-info-box" class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />

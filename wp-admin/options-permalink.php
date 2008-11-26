@@ -123,6 +123,7 @@ else
 <?php endif; ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form name="form" action="options-permalink.php" method="post">

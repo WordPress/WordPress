@@ -112,7 +112,7 @@ if ( function_exists('mb_strlen') ) {
 do_action('admin_notices');
 
 screen_meta($hook_suffix);
-unset($hook_suffix);
+//unset($hook_suffix);
 
 if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . 'wp-admin/options-head.php');

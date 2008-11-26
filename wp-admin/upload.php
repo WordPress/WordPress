@@ -163,6 +163,7 @@ if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 <?php do_action('restrict_manage_posts'); ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <?php
