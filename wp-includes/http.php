@@ -786,6 +786,7 @@ class WP_Http_Streams {
 		stream_set_timeout($handle, $r['timeout'] );
 
 		if ( ! $r['blocking'] ) {
+			stream_set_blocking($handle, 0);
 			fclose($handle);
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
 		}

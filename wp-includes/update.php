@@ -35,6 +35,10 @@ function wp_version_check() {
 	)
 		return false;
 
+	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	$current->last_checked = time();
+	update_option( 'update_core', $current );
+
 	if ( method_exists( $wpdb, 'db_version' ) )
 		$mysql_version = preg_replace('/[^0-9.].*/', '', $wpdb->db_version($wpdb->users));
 	else
@@ -138,6 +142,10 @@ function wp_update_plugins() {
 	if ( $time_not_changed && !$plugin_changed )
 		return false;
 
+	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	$current->last_checked = time();
+	update_option( 'update_plugins', $current );
+
 	$to_send->plugins = $plugins;
 	$to_send->active = $active;
 	$send = serialize( $to_send );
@@ -196,10 +204,14 @@ function wp_update_themes( ) {
 
 	$new_option = '';
 	$new_option->last_checked = time( );
-	$time_not_changed = isset( $current->last_checked ) && 43200 > ( time( ) - $current->last_checked );
+	$time_not_changed = isset( $current_theme->last_checked ) && 43200 > ( time( ) - $current_theme->last_checked );
 
 	if( $time_not_changed )
 		return false;
+
+	// Update last_checked for current to prevent multiple blocking requests if request hangs
+	$current_theme->last_checked = time();
+	update_option( 'update_themes', $current_theme );
 
 	$themes = array( );
 	$themes['current_theme'] = $current_theme;
