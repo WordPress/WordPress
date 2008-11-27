@@ -39,7 +39,7 @@ $url = attribute_escape( $comment->comment_author_url );
 <div id="minor-publishing">
 
 <div id="minor-publishing-actions">
-<div id="preview=action">
+<div id="preview-action">
 <a class="preview button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View Comment'); ?></a>
 </div>
 <div class="clear"></div>
