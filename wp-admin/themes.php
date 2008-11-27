@@ -121,7 +121,7 @@ function theme_update_available( $theme ) {
 <?php theme_update_available($ct); ?>
 
 </div>
-
+<div class="clear"></div>
 <h3><?php _e('Available Themes'); ?></h3>
 <div class="clear"></div>
 

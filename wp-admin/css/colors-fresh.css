@@ -303,13 +303,19 @@ td.help {
 }
 
 .button,
-.submit input {
+.button-secondary,
+.submit input,
+input[type=button],
+input[type=submit] {
 	border-color: #bbb;
 	color: #464646;
 }
 
 .button:hover,
-.submit input:hover {
+.button-secondary:hover,
+.submit input:hover,
+input[type=button]:hover,
+input[type=submit]:hover {
 	color: #000;
 	border-color: #666;
 }
@@ -329,9 +335,9 @@ td.help {
 .button-primary,
 .submit .button-primary,
 #login form .submit input {
-	border-color: #298cba;
+	border-color: #298cba !important;
 	font-weight: bold;
-	color: #FFF;
+	color: #FFF !important;
 	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
 }
 
@@ -342,15 +348,16 @@ td.help {
 
 .button[disabled],
 .button:disabled,
-.button-primary[disabled],
-.button-primary:disabled,
 .button-secondary[disabled],
 .button-secondary:disabled,
 a.button.disabled {
-	background: #ddd;
-	color: #888;
-	text-shadow: rgba(255,255,255,0.6) 0 1px 0;
+	color: #ccc !important;
 	border-color: #ccc;
+}
+
+.button-primary[disabled],
+.button-primary:disabled {
+	color: #2fa0d5 !important;
 }
 
 a:active,
@@ -1262,6 +1269,10 @@ table.diff .diff-addedline ins {
 
 #screen-meta-links a.show-settings {
 	color: #606060;
+}
+
+#screen-meta-links a.show-settings:hover {
+	color: #000;
 }
 
 #replysubmit {

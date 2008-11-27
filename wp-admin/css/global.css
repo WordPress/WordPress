@@ -166,7 +166,7 @@ body {
 
 body,
 td {
-	font: 13px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: 13px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
 p {
@@ -197,7 +197,7 @@ dt {
 textarea,
 input,
 select {
-	font: 13px/19px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: 13px/19px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	margin: 1px;
 	padding: 3px;
 }
@@ -265,7 +265,7 @@ h6 {
 
 .subsubsub {
 	list-style: none;
-	margin: 0 0 5px;
+	margin: 8px 0 5px;
 	padding: 0;
 	white-space: nowrap;
 	font-size: 11px;
@@ -397,8 +397,9 @@ h6 {
 
 .wrap h2 {
 	font: italic normal normal 24px/29px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	margin: 0;
-	padding: 12px 15px 2px 0;
+	margin: 13px 0 0 0;
+	padding: 0 15px 1px 0;
+	line-height: 35px;
 	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
 }
 

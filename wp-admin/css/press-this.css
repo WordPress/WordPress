@@ -1,5 +1,5 @@
 body {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font: 13px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -347,7 +347,7 @@ h3.tb {
 	-x-system-font: none;
 	border-style: solid;
 	border-width: 1px;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	font-size: 12px;
 	height: 2em;
 	line-height: 20px;
@@ -453,7 +453,7 @@ ul.categorychecklist li {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;

@@ -332,7 +332,7 @@ form p.submit a.cancel:hover {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;
@@ -373,7 +373,7 @@ a.button {
 }
 
 #wpcontent select {
-	font: 11px/20px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: 11px/20px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	padding: 2px;
 	border-width: 1px;
 	border-style: solid;
@@ -898,7 +898,7 @@ a#view-site-link {
 }
 
 #adminmenu .wp-submenu a {
-	font: normal 11px/18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: normal 11px/18px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
 #adminmenu .wp-submenu li.current,
@@ -1356,7 +1356,7 @@ table.form-table td .updated {
 
 .setting-description, .form-wrap p {
 	font-style: italic;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Sans", "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
 .form-wrap .form-field {
@@ -2053,6 +2053,11 @@ body.wp-admin {
 	margin: -5px 0 0 10px;
 }
 
+.filter .subsubsub {
+	margin-left: -10px;
+	margin-top: 13px;
+}
+
 #the-comment-list td.comment p.comment-author {
 	margin-top: 0;
 	margin-left: 0;
@@ -2136,7 +2141,7 @@ table.diff tr {
 
 table.diff td, table.diff th {
 	padding: .5em;
-	font-family: monospace;
+	font-family: Consolas, Monaco, Courier, monospace;
 	border: none;
 }
 
@@ -2172,7 +2177,7 @@ fieldset {
 	line-height: 2;
 	margin: 0;
 	padding: 4px 8px;
-	font: 18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font: 18px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
 #wp_editbtns,
@@ -2486,7 +2491,7 @@ fieldset {
 #contextual-help-link-wrap {
 	float: right;
 	background: transparent url( images/screen-options-left.gif ) no-repeat 0 0;
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	height: 22px;
 	padding: 0;
 	margin: 0 6px 0 0;
@@ -2764,7 +2769,7 @@ ul.cat-checklist {
 .inline-edit-row .catshow,
 .inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
-	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 	font-style: normal;
 	font-size: 11px;
 }
@@ -3028,7 +3033,7 @@ abbr.required {
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Sans", "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
 ul#dismissed-updates {
