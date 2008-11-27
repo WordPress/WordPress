@@ -61,7 +61,7 @@ function wp_default_scripts( &$scripts ) {
 
 	// Modify this version when tinyMCE plugins are changed.
 	function mce_version() {
-		return '20081125b';
+		return '20081127';
 	}
 	add_filter( 'tiny_mce_version', 'mce_version' );
 
@@ -225,7 +225,7 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => __('Edit'),
 			'submittedOn' => __('Submitted on:')
 		) );
-		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20081125' );
+		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20081127' );
 		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20081125' );
 		
 		$scripts->add( 'admin-widgets', '/wp-admin/js/widgets.js', array( 'interface' ), '20081120' );

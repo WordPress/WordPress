@@ -134,6 +134,8 @@ function image_add_caption( $html, $id, $alt, $title, $align, $url, $size ) {
 	$html = preg_replace( '/align[^\s\'"]+\s?/', '', $html );
 	if ( empty($align) ) $align = 'none';
 
+	$alt = ! empty($alt) ? addslashes($alt) : '';
+
 	$shcode = '[caption id="' . $id . '" align="align' . $align
 	. '" width="' . $width . '" caption="' . $alt . '"]' . $html . '[/caption]';
 

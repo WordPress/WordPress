@@ -140,10 +140,8 @@ var wpgallery = {
 		if (t.el.nodeName != 'IMG') return;
 
 		all = ed.dom.decode(ed.dom.getAttrib(t.el, 'title'));
-		all = all.substr(0, all.lastIndexOf(']'));
 		all = all.replace(/\s*(order|link|columns|orderby)=['"]([^'"]+)['"]/gi, '');
 		all += t.getSettings();
-		all += ']';
 
 		ed.dom.setAttrib(t.el, 'title', all);
 		t.getWin().tb_remove();

@@ -1,4 +1,7 @@
 /* This file contains the CSS data for the editable area(iframe) of TinyMCE */
+html {
+	background-color: #fff;
+}
 
 .aligncenter,
 dl.aligncenter {
@@ -48,9 +51,7 @@ img.wpGallery {
 }
 
 body.mceContentBody {
-	background: #fff;
-	color: #000;
-	font: 13px/19px "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+	font: 13px/19px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	padding: 0.6em;
 	margin: 0;
 }

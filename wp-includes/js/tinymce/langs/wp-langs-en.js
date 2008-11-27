@@ -389,7 +389,9 @@ wp_page_alt:"Next page...",
 add_media:"Add Media",
 add_image:"Add an Image",
 add_video:"Add Video",
-add_audio:"Add Audio"
+add_audio:"Add Audio",
+editgallery:"Edit Gallery",
+delgallery:"Delete Gallery"
 });
 
 tinyMCE.addI18n("en.wpeditimage",{

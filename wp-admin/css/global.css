@@ -392,13 +392,13 @@ h6 {
 
 .wrap .updated,
 .wrap .error {
-	margin: 5px 0 12px;
+	margin: 5px 0;
 }
 
 .wrap h2 {
 	font: italic normal normal 24px/29px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	margin: 0;
-	padding: 12px 15px 1px 0;
+	padding: 12px 15px 2px 0;
 	text-shadow: rgba(255,255,255,1) 0px 1px 0px;
 }
 
