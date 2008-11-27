@@ -271,8 +271,8 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 			$page_links = paginate_links( array(
 				'base' => add_query_arg('paged', '%#%', $url),
 				'format' => '',
-				'prev_text' => __('&larr;'),
-				'next_text' => __('&rarr;'),
+				'prev_text' => __('&laquo;'),
+				'next_text' => __('&raquo;'),
 				'total' => $totalpages,
 				'current' => $page
 			));

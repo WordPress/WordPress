@@ -177,8 +177,8 @@ $extra_comments = array_slice($_comments, $comments_per_page);
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'apage', '%#%' ),
 	'format' => '',
-	'prev_text' => __('&larr;'),
-	'next_text' => __('&rarr;'),
+	'prev_text' => __('&laquo;'),
+	'next_text' => __('&raquo;'),
 	'total' => ceil($total / $comments_per_page),
 	'current' => $page
 ));
