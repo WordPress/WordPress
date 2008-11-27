@@ -60,8 +60,8 @@ if (isset($plugin_page)) {
 	if( ! $page_hook = get_plugin_page_hook($plugin_page, $pagenow) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 		// backwards compatibility for plugins using add_management_page
-		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'import.php') ) {
-			wp_redirect('import.php?page=' . $plugin_page);
+		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'tools.php') ) {
+			wp_redirect('tool.php?page=' . $plugin_page);
 			exit;
 		}
 	}
@@ -112,7 +112,7 @@ if (isset($plugin_page)) {
 		include(ABSPATH . "wp-admin/import/$importer.php");
 	}
 
-	$parent_file = 'import.php';
+	$parent_file = 'tools.php';
 	$submenu_file = 'import.php';
 	$title = __('Import');
 

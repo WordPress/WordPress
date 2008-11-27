@@ -9,16 +9,19 @@
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$title = __('Turbo');
+$title = __('Tools');
 wp_enqueue_script( 'wp-gears' );
 
 require_once('admin-header.php');
 
+screen_icon();
+?>
+<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<?php
 if ( ! $is_opera ) {
 ?>
 	<div id="gears-info-box" class="wrap">
-	<?php screen_icon(); ?>
-	<h2><?php echo wp_specialchars( $title ); ?></h2> 
+	<h3><?php _e('Turbo'); ?></h3> 
 
 	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
 	<div id="gears-msg1">
@@ -78,6 +81,10 @@ if ( ! $is_opera ) {
 <?php } else {
 	_e('Turbo is not available for your browser.');
 }
+?>
+<h3><?php _e('Press This') ?></h3>
+<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?>  <a href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>" title="<?php echo attribute_escape(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
 
+<?php
 include('admin-footer.php');
 ?>

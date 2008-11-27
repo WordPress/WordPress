@@ -10,6 +10,7 @@
 require_once ('admin.php');
 $title = __('Import');
 require_once ('admin-header.php');
+$parent_file = 'tools.php';
 ?>
 
 <div class="wrap">

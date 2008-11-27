@@ -83,12 +83,11 @@ if ( current_user_can('edit_users') ) {
 	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
 }
 
-$menu[45] = array( __('Tools'), 'manage_options', 'import.php', '', 'menu-top', 'menu-tools', 'div' );
-	$submenu['import.php'][5] = array( __('Import'), 'import', 'import.php' );
-	$submenu['import.php'][10] = array( __('Export'), 'import', 'export.php' );
-	if ( ! $is_opera )
-		$submenu['import.php'][20] = array( __('Turbo'), 'read', 'turbo.php' );
-	$submenu['import.php'][30] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
+$menu[45] = array( __('Tools'), 'manage_options', 'tools.php', '', 'menu-top', 'menu-tools', 'div' );
+	$submenu['tools.php'][5] = array( __('Tools'), 'read', 'tools.php' );
+	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
+	$submenu['tools.php'][15] = array( __('Export'), 'import', 'export.php' );
+	$submenu['tools.php'][20] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
 
 $menu[50] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top', 'menu-settings', 'div' );
 	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
