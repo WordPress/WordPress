@@ -266,6 +266,7 @@ class Custom_Image_Header {
 		<?php } ?>
 
 <div class="wrap">
+<?php screen_icon(); ?>
 <h2><?php _e('Your Header Image'); ?></h2>
 <p><?php _e('This is your header image. You can change the text color or upload and crop a new image.'); ?></p>
 
