@@ -63,9 +63,9 @@ case 'edit' :
 	wp_enqueue_script( 'wp-ajax-response' );
 //	wp_admin_css( 'media' );
 
-
 	require( 'admin-header.php' );
 
+	$parent_file = 'upload.php';
 	$message = '';
 	$class = '';
 	if ( isset($_GET['message']) ) {
