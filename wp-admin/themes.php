@@ -126,12 +126,14 @@ function theme_update_available( $theme ) {
 <div class="clear"></div>
 
 <?php if ( $page_links ) : ?>
+<div class="tablenav">
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 	number_format_i18n( $start + 1 ),
 	number_format_i18n( min( $page * $per_page, $theme_total ) ),
 	number_format_i18n( $theme_total ),
 	$page_links
 ); echo $page_links_text; ?></div>
+</div>
 <?php endif; ?>
 
 <?php if ( 1 < $theme_total ) { ?>
