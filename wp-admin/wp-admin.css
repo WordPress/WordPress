@@ -1111,12 +1111,24 @@ a#view-site-link {
 #adminmenu a span.update-plugins,
 #sidemenu li a span.update-plugins {
 	position: absolute;
-	margin-top: 0.2em;
-	font-size: 0.7em;
-	background-repeat: no-repeat;
-	background-position: 0 bottom;
-	height: 0.9em;
-	width: 1em;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9px;
+	margin-top: 2px;
+	margin-left: 2px;
+	-moz-border-radius: 7px;
+	-khtml-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+}
+
+#adminmenu li a #awaiting-mod span,
+#adminmenu li a span.update-plugins span,
+#sidemenu li a span.update-plugins span {
+	float: left;
+	display: block;
+	height: 1.6em;
+	line-height: 1.6em;
+	padding: 0 0.7em;
 }
 
 #adminmenu li span.count-0,
@@ -1126,6 +1138,7 @@ a#view-site-link {
 
 .post-com-count-wrapper {
 	min-width: 22px;
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 .post-com-count {
@@ -1140,15 +1153,17 @@ a#view-site-link {
 }
 
 .post-com-count span {
-	height: 1.3em;
-	line-height: 1.2em;
-	padding: 0 0.5em;
+	height: 1.7em;
+	line-height: 1.7em;
+	padding: 0 0.4em;
+	min-width: 13px;
 	display: inline-block;
 	cursor: pointer;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 9px;
 }
 
 strong .post-com-count {
@@ -1159,27 +1174,6 @@ strong .post-com-count {
 	background-position: center -3px;
 }
 
-#adminmenu li a:hover #awaiting-mod,
-#adminmenu li a:hover span.update-plugins,
-#sidemenu li a:hover span.update-plugins {
-	background-position: -80px bottom;
-}
-
-#adminmenu li a #awaiting-mod span,
-#adminmenu li a span.update-plugins span,
-#sidemenu li a span.update-plugins span {
-	top: -0.8em;
-	right: 0;
-	position: absolute;
-	display: block;
-	height: 1.3em;
-	line-height: 1.3em;
-	padding: 0 0.6em;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
 /* end menu stuff */
 
 /* Admin Footer */

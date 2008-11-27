@@ -202,6 +202,16 @@ div.postbox div.inside {
 	margin-bottom: 0;
 }
 
+#dashboard_recent_comments .inside {
+	margin-top: 0;
+}
+
+#dashboard_recent_comments .comment-meta .approve {
+	font-style: italic;
+	font-family: "Lucida Sans", "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-size: 10px;
+}
+
 #the-comment-list {
 	position: relative;
 }

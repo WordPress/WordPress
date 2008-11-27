@@ -507,23 +507,30 @@ body.press-this .ui-tabs-selected a:hover {
 }
 
 #adminmenu li a #awaiting-mod,
-#adminmenu li a span.update-plugins {
-	background-image: url(../images/comment-stalk-fresh.gif);
-}
-
-#adminmenu li a #awaiting-mod span,
-#adminmenu li a span.update-plugins span,
-#sidemenu li a span.update-plugins span,
+#adminmenu li a span.update-plugins,
+#sidemenu li a span.update-plugins,
 #rightnow .reallynow,
 #plugin-information .action-button {
 	background-color: #d54e21;
 	color: #fff;
 }
 
-#adminmenu li a:hover #awaiting-mod span,
-#adminmenu li a:hover span.update-plugins span,
-#sidemenu li a:hover span.update-plugins span {
+#adminmenu li a:hover #awaiting-mod,
+#adminmenu li a:hover span.update-plugins,
+#sidemenu li a:hover span.update-plugins {
 	background-color: #264761;
+}
+
+#adminmenu li.current a #awaiting-mod,
+#adminmenu li.current a span.update-plugins,
+#adminmenu li.wp-has-current-submenu span.update-plugins {
+	background-color: #ddd;
+	color: #000;
+	text-shadow: none;
+	-moz-box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
+	-khtml-box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
+	-webkit-box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
+	box-shadow: rgba(0,0,0,0.2) 0px -1px 0px;
 }
 
 div#media-upload-header {
