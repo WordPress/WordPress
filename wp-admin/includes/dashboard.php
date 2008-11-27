@@ -29,8 +29,6 @@ function wp_dashboard_setup() {
 
 	// Recent Comments Widget
 	$recent_comments_title = __( 'Recent Comments' );
-	if ( current_user_can('edit_posts') ) 
-		$recent_comments_title .= ' <a href="edit-comments.php" class="edit-box open-box">' . __('View all') . '</a>';
 	wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments' );
 
 	// Incoming Links Widget
@@ -56,7 +54,7 @@ function wp_dashboard_setup() {
 
 	// Recent Drafts
 	if ( current_user_can('edit_posts') )
-		wp_add_dashboard_widget( 'dashboard_recent_drafts', __( 'Recent Drafts') . ' <a href="edit.php?post_status=draft" class="edit-box open-box">' . __('View all') . '</a>', 'wp_dashboard_recent_drafts' );
+		wp_add_dashboard_widget( 'dashboard_recent_drafts', __('Recent Drafts'), 'wp_dashboard_recent_drafts' );
 
 	// Primary feed (Dev Blog) Widget
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
@@ -122,7 +120,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 			return;
 		}
 		list($url) = explode( '#', add_query_arg( 'edit', $widget_id ), 2 );
-		$widget_name .= ' <a href="' . clean_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Edit' ) . '</a>';
+		$widget_name .= ' <a href="' . clean_url( "$url#$widget_id" ) . '" class="edit-box open-box">' . __( 'Configure' ) . '</a>';
 	}
 	$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
 	$location = 'normal';
@@ -385,7 +383,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	<ul>
 		<li><?php echo join( "</li>\n<li>", $list ); ?></li>
 	</ul>
-
+	<p class="textright"><a href="edit.php?post_status=draft" class="button"><?php _e('View all'); ?></a></p>
 <?php
 	} else {
 		_e('There are no drafts at the moment');
@@ -414,6 +412,10 @@ function wp_dashboard_recent_comments() {
 		</div>
 
 <?php
+		if ( current_user_can('edit_posts') ) { ?>
+			<p class="textright"><a href="edit-comments.php" class="button"><?php _e('View all'); ?></a></p>
+<?php	}
+		
 		wp_comment_reply( -1, false, 'dashboard', false );
 
 	else :

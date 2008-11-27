@@ -77,6 +77,10 @@ div.postbox div.inside {
 
 #dashboard-widgets h3 a {
 	text-decoration: underline;
+	float: right;
+	position: relative;
+	right: 5px;
+	top: -12px;
 }
 
 #dashboard-widgets h4 {
