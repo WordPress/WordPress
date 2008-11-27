@@ -1329,9 +1329,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <?php wp_nonce_field('media-form'); ?>
 
-<div class="media-blank">
-<h3><?php _e('Add media files from your computer'); ?></h3>
-</div>
+<h3 class="media-title"><?php _e('Add media files from your computer'); ?></h3>
 
 <?php media_upload_form( $errors ); ?>
 
@@ -1346,16 +1344,20 @@ jQuery(function($){
 });
 -->
 </script>
-<?php if ( $id && !is_wp_error($id) ) { ?>
 <div id="media-items">
-<?php echo get_media_items( $id, $errors ); ?>
-</div>
-<input type="submit" class="button savebutton" name="save" value="<?php echo attribute_escape( __( 'Save all changes' ) ); ?>" />
-<?php
-	} elseif ( is_wp_error($id) ) {
+<?php 
+if ( $id ) {
+	if ( !is_wp_error($id) ) {
+		echo get_media_items( $id, $errors );
+	} else {
 		echo '<div id="media-upload-error">'.wp_specialchars($id->get_error_message()).'</div>';
 		exit;
 	}
+}
+?>
+</div>
+<input type="submit" class="button savebutton" name="save" value="<?php echo attribute_escape( __( 'Save all changes' ) ); ?>" />
+<?php
 }
 
 /**
@@ -1384,9 +1386,7 @@ function media_upload_type_url_form($type = 'file', $errors = null, $id = null) 
 
 <?php if ( is_callable($callback) ) { ?>
 
-<div class="media-blank">
-<h3><?php _e('Add media file from URL'); ?></h3>
-</div>
+<h3 class="media-title"><?php _e('Add media file from URL'); ?></h3>
 
 <script type="text/javascript">
 //<![CDATA[

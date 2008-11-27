@@ -375,7 +375,7 @@ abbr.required {
 	color: #5A5A5A;
 }
 
-.media-blank h3 {
+h3.media-title  {
 	color: #5A5A5A;
 	font-family: Georgia,"Times New Roman",Times,serif;
 	font-size: 1.6em;
