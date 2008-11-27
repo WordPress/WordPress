@@ -1,4 +1,4 @@
-html { background: #f1f1f1; }
+html { background: #f7f7f7; }
 
 body {
 	background: #fff;
@@ -7,10 +7,11 @@ body {
 	margin: 2em auto 0 auto;
 	width: 700px;
 	padding: 1em 2em;
-	-moz-border-radius: 12px;
-	-khtml-border-radius: 12px;
-	-webkit-border-radius: 12px;
-	border-radius: 12px;
+	-moz-border-radius: 11px;
+	-khtml-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+	border: 1px solid #dfdfdf;
 }
 
 a { color: #2583ad; text-decoration: none; }
@@ -31,7 +32,7 @@ h2 { font-size: 16px; }
 
 p, li {
 	padding-bottom: 2px;
-	font-size: 13px;
+	font-size: 12px;
 	line-height: 18px;
 }
 
@@ -45,32 +46,38 @@ ul, ol { padding: 5px 5px 5px 22px; }
 	margin: 20px 0 15px;
 }
 
-.step input, a.button {
-	font-size: 18px;
-}
-
 .step, th { text-align: left; padding: 0; }
 
 .submit input, .button, .button-secondary {
 	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
-	padding: 5px 7px 7px;
-	border: 1px solid #a3a3a3;
-	margin-left: 0;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	color: #246;
-	background: #e5e5e5;
+	text-decoration: none;
+	font-size: 14px !important;
+	line-height: 16px;
+	padding: 6px 12px;
+	cursor: pointer;
+	border: 1px solid #bbb;
+	color: #464646;
+	-moz-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-khtml-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
-.button-secondary {
-	background: #cee1ef;
+.button:hover, .button-secondary:hover, .submit input:hover {
+	color: #000;
+	border-color: #666;
 }
 
-.submit input:hover, .button:hover, .button-secondary:hover {
-	color: #d54e21;
-	border-color: #535353;
+.button, .submit input, .button-secondary {
+	background: #f2f2f2 url(../images/white-grad.png) repeat-x scroll left top;
+}
+
+.button:active, .submit input:active, .button-secondary:active {
+	background: #eee url(../images/white-grad-active.png) repeat-x scroll left top;
 }
 
 .form-table {
@@ -96,7 +103,7 @@ ul, ol { padding: 5px 5px 5px 22px; }
 }
 
 .form-table tr {
-	background: #eaf3fa;
+	background: #f3f3f3;
 }
 
 .form-table code {
@@ -118,9 +125,9 @@ ul, ol { padding: 5px 5px 5px 22px; }
 #error-page { margin-top: 50px; }
 
 #error-page p {
-	font-size: 14px;
-	line-height: 16px;
+	font-size: 12px;
+	line-height: 18px;
 	margin: 25px 0 20px;
 }
 
-#error-page code { font-size: 15px; }
+#error-page code { font-family: Consolas, Monaco, Courier, monospace; }
