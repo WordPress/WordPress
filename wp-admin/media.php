@@ -9,7 +9,7 @@
 /** Load WordPress Administration Bootstrap */
 require_once('admin.php');
 
-$parent_file = 'edit.php';
+$parent_file = 'upload.php';
 $submenu_file = 'upload.php';
 
 wp_reset_vars(array('action'));
