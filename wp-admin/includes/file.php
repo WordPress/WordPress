@@ -236,6 +236,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		__( "The uploaded file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form." ),
 		__( "The uploaded file was only partially uploaded." ),
 		__( "No file was uploaded." ),
+		'',
 		__( "Missing a temporary folder." ),
 		__( "Failed to write file to disk." ));
 
