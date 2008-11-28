@@ -198,17 +198,6 @@ kbd, code {
 	border-bottom-right-radius: 3px;
 }
 
-form p.submit a.cancel {
-	padding: 3px 0 0;
-	background: transparent;
-	border-width: 0 0 1px;
-	border-style: none none solid;
-	-moz-border-radius: 0;
-	-webkit-border-radius: 0;
-	-khtml-border-radius: 0;
-	border-radius: 0;
-}
-
 form p.submit a.cancel:hover {
 	text-decoration: none;
 }
@@ -350,8 +339,12 @@ form p.submit a.cancel:hover {
 	box-sizing: content-box;
 }
 
-a.button {
-	padding: 4px 8px;
+a.button,
+a.button-primary,
+a.button-secondary {
+	line-height: 1.4em;
+	-webkit-border-radius: 10px;
+	padding: 3px 10px;
 }
 
 #doaction,

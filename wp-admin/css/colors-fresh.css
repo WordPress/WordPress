@@ -1422,18 +1422,6 @@ div.star.select:hover {
 	color: #ccc;
 }
 
-
-form p.submit a.cancel {
-	border-color: red;
-	color: red;
-	text-shadow: none;
-}
-
-form p.submit a.cancel:hover {
-	background: red;
-	color: white;
-}
-
 .misc-pub-section {
 	border-bottom-color: #eee;
 }
