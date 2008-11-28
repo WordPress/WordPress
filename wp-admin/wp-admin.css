@@ -724,7 +724,7 @@ p.pagenav {
 }
 
 .column-comment p {
-	margin-top: 0;
+	margin: 0.6em 0;
 }
 
 .column-author img, .column-username img {
@@ -815,6 +815,15 @@ td.media-icon img {
 a.view-comment-post-link {
 	position: absolute;
 	text-decoration: underline;
+}
+
+.row-actions {
+	visibility: hidden;
+}
+
+tr:hover .row-actions,
+div.comment-item:hover .row-actions {
+	visibility: visible;
 }
 
 /* Admin Header */
@@ -2010,13 +2019,15 @@ td.post-title strong {
 }
 
 td.post-title p {
-	margin: 0;
+	margin: 6px 0;
 }
 
 /* Global classes */
 
-.wp-hidden-children .wp-hidden-child { display: none; }
-.ui-tabs-hide { display: none; }
+.wp-hidden-children .wp-hidden-child,
+.ui-tabs-hide {
+	display: none;
+}
 
 .commentlist .avatar {
 	vertical-align: text-top;
@@ -3097,9 +3108,9 @@ table.fixed {
 	width: 80px;
 }
 
-.fixed .comments .column-author,
-#commentstatusdiv .fixed .column-date,
-#commentstatusdiv .fixed .column-author {
+#commentstatusdiv .fixed .column-author,
+#comments-form .fixed .column-author,
+#commentstatusdiv .fixed .column-date {
 	width: 20%;
 }
 
@@ -3115,6 +3126,6 @@ table.fixed {
 .icon32 {
 	float: left;
 	height: 36px;
-	margin: 0 6px 0 0;
+	margin: 12px 6px 0 0;
 	width: 36px;
 }

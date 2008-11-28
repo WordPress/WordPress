@@ -495,7 +495,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 			<?php endif; // comment_type ?>
 			<blockquote><p><?php comment_excerpt(); ?></p></blockquote>
-			<p class="comment-actions"><?php echo $actions_string; ?></p>
+			<p class="row-actions"><?php echo $actions_string; ?></p>
 
 			<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 				<textarea class="comment" rows="3" cols="10"><?php echo $comment->comment_content; ?></textarea>

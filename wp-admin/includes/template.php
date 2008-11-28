@@ -126,11 +126,13 @@ function _cat_row( $category, $level, $name_override = false ) {
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n 'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
+		$edit .= '<div class="row-actions">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			$edit .= "<span class='$action'>$link$sep</span>";
 		}
+		$edit .= '</div>';
 	} else {
 		$edit = $name;
 	}
@@ -288,11 +290,13 @@ function link_cat_row( $category, $name_override = false ) {
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link-category.php?action=delete&amp;cat_ID=$category->term_id", 'delete-link-category_' . $category->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this category '%s'\n 'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
+		$edit .= '<div class="row-actions">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			$edit .= "<span class='$action'>$link$sep</span>";
 		}
+		$edit .= '</div>';
 	} else {
 		$edit = $name;
 	}
@@ -605,11 +609,13 @@ function _tag_row( $tag, $class = '' ) {
 					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf(__("You are about to delete this tag '%s'\n 'Cancel' to stop, 'OK' to delete."), $name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
+					$out .= '<div class="row-actions">';
 					foreach ( $actions as $action => $link ) {
 						++$i;
 						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 						$out .= "<span class='$action'>$link$sep</span>";
 					}
+					$out .= '</div>';
 					$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 					$out .= '<div class="name">' . $qe_data->name . '</div>';
 					$out .= '<div class="slug">' . $qe_data->slug . '</div></div></td>';
@@ -1372,11 +1378,13 @@ function _post_row($a_post, $pending_comments, $mode) {
 				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attribute_escape(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 			$action_count = count($actions);
 			$i = 0;
+			echo '<div class="row-actions">';
 			foreach ( $actions as $action => $link ) {
 				++$i;
 				( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 				echo "<span class='$action'>$link</span>$sep";
 			}
+			echo '</div>';
 
 			get_inline_data($post);
 		?>
@@ -1555,12 +1563,15 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		else
 			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . attribute_escape(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		$action_count = count($actions);
+
 		$i = 0;
+		echo '<div class="row-actions">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			echo "<span class='$action'>$link$sep</span>";
 		}
+		echo '</div>';
 
 		get_inline_data($post);
 		echo '</td>';
@@ -1784,11 +1795,13 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . "</a>";
 		$action_count = count($actions);
 		$i = 0;
+		$edit .= '<div class="row-actions">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			$edit .= "<span class='$action'>$link$sep</span>";
 		}
+		$edit .= '</div>';
 	} else {
 		$edit = '<strong>' . $user_object->user_login . '</strong>';
 	}
@@ -2008,6 +2021,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 					$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
 					$i = 0;
+					echo '<div class="row-actions">';
 					foreach ( $actions as $action => $link ) {
 						++$i;
 						( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
@@ -2018,6 +2032,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 
 						echo "<span class='$action'>$sep$link</span>";
 					}
+					echo '</div>';
 				}
 
 				echo '</td>';

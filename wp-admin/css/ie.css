@@ -179,6 +179,15 @@ ul#adminmenu {
 }
 /* end Inline Editor */
 
+* html .row-actions {
+	visibility: visible;
+}
+
+#dashboard-widgets h3 a {
+	height: 20px;
+	line-height: 20px;
+}
+
 #titlediv #title {
 	width: 98%;
 }

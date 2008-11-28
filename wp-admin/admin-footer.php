@@ -8,7 +8,7 @@
 ?>
 
 <div class="clear"></div></div><!-- wpbody-content -->
-</div><!-- wpbody -->
+<div class="clear"></div></div><!-- wpbody -->
 <div class="clear"></div></div><!-- wpcontent -->
 </div><!-- wpwrap -->
 

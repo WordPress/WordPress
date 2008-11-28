@@ -55,7 +55,10 @@ div#dashboard-widgets {
 #dashboard_plugins h3.hndle {
 	direction: rtl;
 }
-#dashboard_incoming_links ul li, #dashboard_secondary ul li, #dashboard_primary ul li, p.comment-actions {
+#dashboard_incoming_links ul li,
+#dashboard_secondary ul li,
+#dashboard_primary ul li,
+p.row-actions {
 	width: 100%;
 }
 #favorite-inside {
