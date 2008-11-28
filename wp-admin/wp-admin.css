@@ -942,6 +942,7 @@ a#view-site-link {
 	float: left;
 	width: 28px;
 	height: 28px;
+	cursor: pointer;
 }
 
 #adminmenu li {
