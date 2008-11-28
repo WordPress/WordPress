@@ -21,9 +21,7 @@ include('admin-header.php');
 <h2><?php echo wp_specialchars( $title ); ?></h2> 
 
 <form method="post" action="options.php">
-<input type='hidden' name='option_page' value='misc' />
-<input type="hidden" name="action" value="update" />
-<?php wp_nonce_field('misc-options') ?>
+<?php settings_fields('misc'); ?>
 
 <h3><?php _e('Uploading Files'); ?></h3>
 <table class="form-table">
