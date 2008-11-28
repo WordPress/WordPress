@@ -188,6 +188,10 @@ ul#adminmenu {
 	line-height: 20px;
 }
 
+#wphead-info {
+	float: right;
+}
+
 #titlediv #title {
 	width: 98%;
 }
