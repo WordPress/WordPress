@@ -7,9 +7,6 @@ jQuery(document).ready( function($) {
 
 	jQuery('#title').blur( function() { if ( (jQuery("#post_ID").val() > 0) || (jQuery("#title").val().length == 0) ) return; autosave(); } );
 
-	// hide advanced slug field
-	jQuery('#pageslugdiv').hide();
-
 	var stamp = $('#timestamp').html();
 
 	var visibility = $('#post-visibility-display').html();

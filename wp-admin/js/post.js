@@ -107,9 +107,6 @@ jQuery(document).ready( function($) {
 	// Editable slugs
 	make_slugedit_clickable();
 
-	// hide advanced slug field
-	jQuery('#slugdiv').hide();
-
 	jQuery('#tags-input').hide();
 	tag_update_quickclicks();
 	// add the quickadd form

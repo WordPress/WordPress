@@ -2718,7 +2718,7 @@ function do_meta_boxes($page, $context, $object) {
 
 	//do_action('do_meta_boxes', $page, $context, $object);
 
-	$hidden = (array) get_user_option( "meta-box-hidden_$page", 0, false );
+	$hidden = get_hidden_meta_boxes($page);
 
 	echo "<div id='$context-sortables' class='meta-box-sortables'>\n";
 
@@ -2798,7 +2798,7 @@ function meta_box_prefs($page) {
 	if ( empty($wp_meta_boxes[$page]) )
 		return;
 
-	$hidden = (array) get_user_option( "meta-box-hidden_$page", 0, false );
+	$hidden = get_hidden_meta_boxes($page);
 
 	foreach ( array_keys($wp_meta_boxes[$page]) as $context ) {
 		foreach ( array_keys($wp_meta_boxes[$page][$context]) as $priority ) {
@@ -2815,6 +2815,20 @@ function meta_box_prefs($page) {
 			}
 		}
 	}
+}
+
+function get_hidden_meta_boxes($page) {
+	$hidden = (array) get_user_option( "meta-box-hidden_$page", 0, false );
+
+	// Hide slug boxes by default
+	if ( empty($hidden[0]) ) {
+		if ( 'page' == $page )
+			$hidden = array('pageslugdiv');
+		elseif ( 'post' == $page )
+			$hidden = array('slugdiv');
+	}
+
+	return $hidden;
 }
 
 /**
