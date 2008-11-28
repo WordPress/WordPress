@@ -119,12 +119,8 @@ li.widget-sortable h4 {
 	border-radius: 3px;
 }
 
-.widget-control-save, .widget-control-remove {
-	padding: 3px 5px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+.widget-control-save,
+.widget-control-remove {
 	margin-right: 8px;
 	float: left;
 	text-decoration: none;
@@ -142,6 +138,8 @@ li.widget-list-control-item h4.widget-title a:hover {
 }
 
 li.widget-list-control-item div.widget-control {
+	border-width: 0 1px 1px;
+	border-style: none solid solid;
 	display: none;
 	padding: 15px;
 	font-size: 11px;
@@ -154,8 +152,6 @@ li.widget-list-control-item div.widget-control p {
 }
 
 ul.widget-control-list div.widget-control-actions {
-	border-top-width: 1px;
-	border-top-style: solid;
 	padding: 0.5em 0 0;
 }
 
@@ -166,7 +162,7 @@ ul.widget-control-list div.widget-control-actions {
 
 div#current-widgets {
 	padding-top: 1em;
-	border-width: 1px;
+	border-width: 1px 0 0;
 	border-style: solid none none;
 }
 

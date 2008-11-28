@@ -123,6 +123,12 @@ h3.info-box-title,
 	background-color: #eaf3fa;
 }
 */
+
+li.widget-list-control-item div.widget-control {
+	background-color: #fff;
+	border-color: #dfdfdf;
+}
+
 #poststuff h3,
 .metabox-holder h3 {
 	background-color: #dfdfdf;
@@ -467,12 +473,6 @@ h3.dashboard-widget-title small a {
 
 h3.dashboard-widget-title small a:hover {
 	color: #fff;
-}
-
-.widget-control-save,
-.widget-control-remove {
-	background-color: #cee1ef;
-	color: #246;
 }
 
 #adminmenu a,

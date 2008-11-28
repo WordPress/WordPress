@@ -474,12 +474,6 @@ h3.dashboard-widget-title small a:hover {
 	color: #fff;
 }
 
-.widget-control-save,
-.widget-control-remove {
-	background-color: #cee1ef;
-	color: #246;
-}
-
 #adminmenu a,
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML,

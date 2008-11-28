@@ -305,11 +305,11 @@ function wp_widget_control( $sidebar_args ) {
 
 				<?php if ( $control ) : ?>
 
-				<a class="widget-action widget-control-save hide-if-no-js edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Done'); ?></a>
+				<a class="button widget-action widget-control-save hide-if-no-js edit alignleft" href="#save:<?php echo $id_format; ?>"><?php _e('Done'); ?></a>
 
 				<?php endif; ?>
 
-				<a class="widget-action widget-control-remove delete alignright" href="<?php echo clean_url( wp_nonce_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key ) ), "remove-widget_$widget[id]" ) ); ?>"><?php _e('Remove'); ?></a>
+				<a class="button widget-action widget-control-remove alignright" href="<?php echo clean_url( wp_nonce_url( add_query_arg( array( 'remove' => $id_format, 'key' => $key ) ), "remove-widget_$widget[id]" ) ); ?>"><?php _e('Remove'); ?></a>
 				<br class="clear" />
 			</div>
 		</div>
