@@ -96,7 +96,7 @@ if ( function_exists('mb_strlen') ) {
 <div id="wphead-info">
 <div id="user_info">
 <p><?php printf(__('Howdy, <a href="%1$s" title="Edit your profile">%2$s</a>'), 'profile.php', $user_identity) ?>
-<?php if ( ! $is_opera ) { ?> | <span id="gears-menu"><a href="turbo.php"><?php _e('Turbo') ?></a></span><?php } ?> |
+<?php if ( ! $is_opera ) { ?> | <span id="gears-menu"><a href="tools.php"><?php _e('Turbo') ?></a></span><?php } ?> |
 <a href="<?php echo wp_logout_url() ?>" title="<?php _e('Log Out') ?>"><?php _e('Log Out'); ?></a></p>
 </div>
 
