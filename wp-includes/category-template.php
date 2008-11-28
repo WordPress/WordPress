@@ -675,7 +675,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	if ( $spread <= 0 )
 		$spread = 1;
 	$font_spread = $largest - $smallest;
-	if ( $font_spread <= 0 )
+	if ( $font_spread < 0 )
 		$font_spread = 1;
 	$font_step = $font_spread / $spread;
 
