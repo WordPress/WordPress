@@ -52,9 +52,9 @@ $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='c
 
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
-$menu[29] = array( '', 'read', '', '', 'wp-menu-separator' );
+$menu[39] = array( '', 'read', '', '', 'wp-menu-separator' );
 
-$menu[30] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top', 'menu-appearance', 'div' );
+$menu[40] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-top', 'menu-appearance', 'div' );
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
 
@@ -63,15 +63,15 @@ $update_count = 0;
 if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );
 
-$menu[35] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
+$menu[45] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
 	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
 	$submenu['plugins.php'][10] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');	
 	$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 
 if ( current_user_can('edit_users') )
-	$menu[40] = array( __('Users'), 'edit_users', 'users.php', '', 'menu-top', 'menu-users', 'div' );
+	$menu[50] = array( __('Users'), 'edit_users', 'users.php', '', 'menu-top', 'menu-users', 'div' );
 else
-	$menu[40] = array( __('Profile'), 'read', 'profile.php', '', 'menu-top', 'menu-users', 'div' );
+	$menu[50] = array( __('Profile'), 'read', 'profile.php', '', 'menu-top', 'menu-users', 'div' );
 
 if ( current_user_can('edit_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
@@ -83,13 +83,13 @@ if ( current_user_can('edit_users') ) {
 	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
 }
 
-$menu[45] = array( __('Tools'), 'manage_options', 'tools.php', '', 'menu-top', 'menu-tools', 'div' );
+$menu[55] = array( __('Tools'), 'manage_options', 'tools.php', '', 'menu-top', 'menu-tools', 'div' );
 	$submenu['tools.php'][5] = array( __('Tools'), 'read', 'tools.php' );
 	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
 	$submenu['tools.php'][15] = array( __('Export'), 'import', 'export.php' );
 	$submenu['tools.php'][20] = array( __('Upgrade'), 'install_plugins',  'update-core.php');
 
-$menu[50] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top', 'menu-settings', 'div' );
+$menu[60] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top', 'menu-settings', 'div' );
 	$submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
 	$submenu['options-general.php'][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
@@ -99,7 +99,9 @@ $menu[50] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 	$submenu['options-general.php'][40] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
 	$submenu['options-general.php'][45] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
 
-$menu[55] = array( '', 'read', '', '', 'wp-menu-separator-last' );
+$_wp_last_utility_menu = 60; // The index of the last top-level menu in the utility menu group
+
+$menu[79] = array( '', 'read', '', '', 'wp-menu-separator-last' );
 
 // Back-compat for old top-levels
 $_wp_real_parent_file['post.php'] = 'edit.php'; 
