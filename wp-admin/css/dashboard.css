@@ -276,6 +276,18 @@ div.postbox div.inside {
 	font-size: 10px;
 }
 
+#the-comment-list .approve a { 
+	color: #006505; 
+} 
+
+#the-comment-list .unapprove a { 
+	color: #d98500; 
+} 
+
+#the-comment-list .delete a { 
+	color: #bc0b0b; 
+} 
+
 /* QuickPress */
 
 #dashboard_quick_press h4 {
