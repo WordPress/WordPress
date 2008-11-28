@@ -1220,10 +1220,8 @@ strong .post-com-count {
 .form-table td,
 #wpbody-content .describe td {
 	margin-bottom: 9px;
-	padding: 4px 10px;
+	padding: 4px 10px 12px;
 	line-height: 20px;
-	border-bottom-width: 8px;
-	border-bottom-style: solid;
 	font-size: 11px;
 }
 
@@ -1239,8 +1237,6 @@ strong .post-com-count {
 	text-align: left;
 	padding: 10px;
 	width: 200px;
-	border-bottom-width: 8px;
-	border-bottom-style: solid;
 }
 
 .form-table th.th-full {

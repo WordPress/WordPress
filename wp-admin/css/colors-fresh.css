@@ -139,11 +139,6 @@ h3.info-box-title,
 	color: #999;
 }
 
-.form-table tr,
-.form-wrap .form-field {
-	background-color: #f3f3f3;
-}
-
 select {
 	background-color: #fff;
 	border-color: #ddd;
@@ -238,13 +233,6 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .submit,
 .submit-top {
 	border-color: #DFDFDF;
-}
-
-.form-table td,
-.form-table th,
-#wpbody-content .describe td,
-#wpbody-content .describe th {
-	border-bottom-color: #f9f9f9;
 }
 
 .highlight {
