@@ -1056,6 +1056,10 @@ a#view-site-link {
 	cursor: w-resize;
 }
 
+.folded #adminmenu li.wp-menu-separator { 
+ 	cursor: e-resize; 
+} 
+
 #adminmenu .wp-menu-separator-last {
 	height: 10px;
 	width: 1px;
