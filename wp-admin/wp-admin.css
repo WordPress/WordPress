@@ -2156,25 +2156,21 @@ fieldset {
 	margin: 0;
 }
 
-#gears-info-box {
-	max-width: 700px;
+.tool-box {
+	margin: 15px 0 35px;
 }
 
-#gears-info-box .gears-img {
-	float: right;
-	margin: 10px;
+.tool-box .buttons {
+	margin: 15px 0;
 }
 
-#gears-info-box .buttons {
-	margin: 10px 0 0;
-	padding: 1.5em 0 0;
+.tool-box .title {
+	margin: 8px 0;
+	font: 18px/24px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
-.info-box-title {
-	line-height: 2;
-	margin: 0;
-	padding: 4px 8px;
-	font: 18px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+.pressthis a {
+	font-size: 1.2em;
 }
 
 #wp_editbtns,

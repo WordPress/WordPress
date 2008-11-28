@@ -112,7 +112,7 @@ li.widget-list-control-item h4.widget-title a,
 #plugin-information .action-button a:visited {
 	color: #fff;
 }
-
+/*
 li.widget-list-control-item,
 div.nav,
 #dashboard-widgets p.dashboard-widget-links,
@@ -122,7 +122,7 @@ h3.info-box-title,
 #wpbody-content .describe tr {
 	background-color: #eaf3fa;
 }
-
+*/
 #poststuff h3,
 .metabox-holder h3 {
 	background-color: #dfdfdf;

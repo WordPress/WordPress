@@ -16,16 +16,15 @@ require_once('admin-header.php');
 
 screen_icon();
 ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<div class="wrap">
+<h2><?php echo wp_specialchars( $title ); ?></h2>
+
+<div class="tool-box">
 <?php
 if ( ! $is_opera ) {
 ?>
-	<div id="gears-info-box" class="wrap">
-	<h3><?php _e('Turbo'); ?></h3> 
-
-	<img src="images/gear.png" title="Gear" alt="" class="gears-img" />
 	<div id="gears-msg1">
-	<h3 class="info-box-title"><?php _e('Speed up WordPress'); ?></h3>
+	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Speed up WordPress'); ?></h3>
 	<p><?php _e('WordPress now has support for Gears, which adds new features to your web browser.'); ?><br />
 	<a href="http://gears.google.com/" target="_blank" style="font-weight:normal;"><?php _e('More information...'); ?></a></p>
 	<p><?php _e('After you install and enable Gears, most of WordPress&#8217; images, scripts, and CSS files will be stored locally on your computer. This speeds up page load time.'); ?></p>
@@ -34,7 +33,7 @@ if ( ! $is_opera ) {
 	</div>
 
 	<div id="gears-msg2" style="display:none;">
-	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
+	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
 	<p><?php _e('Gears is installed on this computer, but is not enabled for use with WordPress.'); ?></p>
 	<p><?php _e('To enable it click the button below.'); ?></p>
 	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
@@ -42,7 +41,7 @@ if ( ! $is_opera ) {
 	</div>
 
 	<div id="gears-msg3" style="display:none;">
-	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
+	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
 	<p><?php
 
 	if ( $is_chrome )
@@ -58,7 +57,7 @@ if ( ! $is_opera ) {
 	</div>
 
 	<div id="gears-msg4" style="display:none;">
-	<h3 class="info-box-title"><?php _e('Gears Status'); ?></h3>
+	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
 	<p><?php _e('This web site is denied to use Gears.'); ?></p>
 	<p><?php
 
@@ -72,19 +71,19 @@ if ( ! $is_opera ) {
 	?></p>
 	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
 	</div>
-	
-	</div>
-
-	<script type="text/javascript">
-		wpGears.message(1);
-	</script>
+	<script type="text/javascript">wpGears.message();</script>
 <?php } else {
 	_e('Turbo is not available for your browser.');
-}
-?>
-<h3><?php _e('Press This') ?></h3>
-<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?>  <a href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>" title="<?php echo attribute_escape(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
+} ?>
+</div>
 
+<div class="tool-box">
+	<h3 class="title"><?php _e('Press This') ?></h3>
+	<p><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?></p>
+	<p class="pressthis"><a href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>" title="<?php echo attribute_escape(__('Press This')) ?>"><?php _e('Press This') ?></a></p>
+</div>
+
+</div>
 <?php
 include('admin-footer.php');
 ?>

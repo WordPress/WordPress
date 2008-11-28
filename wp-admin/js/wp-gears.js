@@ -60,9 +60,6 @@ wpGears = {
 				msg2.style.display = 'block';
 			}
 		}
-
-		if ( show ) t.I('gears-info-box').style.display = 'block';
-		else t.I('gears-info-box').style.display = 'none';
 	},
 
 	I : function(id) {
