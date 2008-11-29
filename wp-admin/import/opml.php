@@ -9,11 +9,13 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('admin.php');
 $parent_file = 'tools.php';
 $submenu_file = 'import.php';
 $title = __('Import Blogroll');
 
+class OPML_Import {
+
+	function dispatch() { 
 $step = $_POST['step'];
 if (!$step) $step = 0;
 ?>
@@ -139,7 +141,13 @@ if ( ! $blogrolling )
 		break;
 	} // end case 1
 } // end switch
+	}
 
-include('admin-footer.php');
+	function OPML_Import() {}
+}
+
+$opml_importer = new OPML_Import();
+
+register_importer('opml', __('Blogroll'), __('Import links in OPML format.'), array(&$opml_importer, 'dispatch'));
 
 ?>
