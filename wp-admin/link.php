@@ -97,7 +97,7 @@ switch ($action) {
 		wp_enqueue_script('link');
 		wp_enqueue_script('xfn');
 
-		$parent_file = 'edit.php';
+		$parent_file = 'link-manager.php';
 		$submenu_file = 'link-manager.php';
 		$title = __('Edit Link');
 
