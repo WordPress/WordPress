@@ -165,7 +165,6 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/fav-top.png" },
 { "url" : "images/gray-grad.png" },
 { "url" : "images/list.gif" },
-{ "url" : "images/gear.png" },
 { "url" : "images/logo.gif" },
 { "url" : "images/logo-ghost.png" },
 { "url" : "images/logo-login.gif" },
