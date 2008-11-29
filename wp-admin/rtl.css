@@ -341,10 +341,13 @@ td.available-theme {
 	margin-right: 18px;
 }
 /* positioning etc. */
+
+/*
 p#big-add-button {
 	right: auto;
 	left: 0;
 }
+*/
 p.search-box {
 	float: left;
 }
@@ -397,6 +400,8 @@ td.action-links, th.action-links {
 	padding-left: 0;
 	padding-right: 18px;
 }
+
+/*
 #inbox-filter .actions {
 	margin-left: 0;
 	margin-right: 6px;
@@ -416,6 +421,8 @@ td.action-links, th.action-links {
 #inbox-message {
 	margin: 0 7.5em 0 0;
 }
+*/
+
 /* media popup 0819 */
 #sidemenu {
 	margin: -30px 315px 0 15px;

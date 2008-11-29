@@ -38,9 +38,11 @@
 	left: auto;
 	right: 0;
 }
+/*
 #dashboard-widgets .heading {
 	font-family: Tahoma, Arial;
 }
+*/
 /* Feeds */
 .rss-widget cite {
 	text-align: left;

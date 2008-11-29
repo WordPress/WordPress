@@ -235,8 +235,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .search-input,
 .form-field input,
 .form-field textarea,
-.submit,
-.submit-top {
+.submit {
 	border-color: #DFDFDF;
 }
 

@@ -89,14 +89,14 @@ div.postbox div.inside {
 	margin: 0 0 .2em;
 	padding: 0;
 }
-
+/*
 #dashboard-widgets .heading {
 	font-size: 1em;
 	font-weight: normal;
 	font-style: italic;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 }
-
+*/
 /* Right Now */
 
 #dashboard_right_now p.sub,
@@ -243,21 +243,22 @@ div.postbox div.inside {
 	font-weight: normal;
 	color: #999;
 }
-
+/*
 .comment-meta strong {
 	font-weight: normal;
 }
+*/
 
-#the-comment-list .comment-item h4 cite,
-#the-comment-list .comment-item h4 strong {
+/*#the-comment-list .comment-item h4 strong*/
+#the-comment-list .comment-item h4 cite {
 	font-style: normal;
 	font-weight: normal;
 }
-
+/*
 #the-comment-list .comment-item p.comment-author {
 	margin: 0.2em 0;
 }
-
+*/
 #the-comment-list .comment-item blockquote,
 #the-comment-list .comment-item blockquote p {
 	margin: 0;

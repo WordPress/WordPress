@@ -23,6 +23,7 @@ p, ul, ol, blockquote { font-size: 12px; }
 	font-size: 16px;
 }
 
+/*
 #uploading {
 	border-style: none;
 	padding: 0;
@@ -47,11 +48,7 @@ form#upload #post_content, form#upload #post_title {
 form#upload #post_content {
 	height: 50px;
 }
-
-.attpreview {
-	width: 1px; /* hug */
-	text-align: center;
-}
+*/
 
 .anchors {
 	margin: 10px 20px 10px 20px;
@@ -202,13 +199,8 @@ form p.submit a.cancel:hover {
 	text-decoration: none;
 }
 
-.submit-top {
-	border-top: 0 none;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-}
-
-#submitdiv h3, #pagesubmitdiv h3 {
+#submitdiv h3,
+#pagesubmitdiv h3 {
 	margin-bottom: 0 !important;
 }
 
@@ -406,12 +398,12 @@ table .vers {
 textarea.all-options, input.all-options {
 	width: 250px;
 }
-
-#postdiv, #titlediv, #guiddiv, #poststuff .stuffbox {
+/*
+#postdiv, #titlediv, #poststuff .stuffbox {
 	margin: 0;
 	padding: 0;
 }
-
+*/
 #namediv table {
 	width: 100%;
 }
@@ -432,12 +424,12 @@ textarea.all-options, input.all-options {
 #wpbody-content .metabox-holder {
 	padding-top: 10px;
 }
-
+/*
 #postdivrich {
 	margin: 0;
 	padding: 0;
 }
-
+*/
 #content {
 	margin: 0;
 	width: 100%;
@@ -510,19 +502,19 @@ textarea.all-options, input.all-options {
 #ed_reply_toolbar #ed_reply_em {
 	font-style: italic;
 }
-
+/*
 #attachmentlinks textarea {
 	width: 100%;
 	height: 2.5em;
 	margin-bottom: 6px;
 }
-
+*/
 #excerpt, .attachmentlinks {
 	margin: 0;
 	height: 4em;
 	width: 98%;
 }
-
+/*
 #login .fullwidth {
 	width: 320px;
 }
@@ -547,7 +539,7 @@ textarea.all-options, input.all-options {
 	position: relative;
 	top: .35em;
 }
-
+*/
 /* post meta postbox */
 #postcustomstuff table,
 #postcustomstuff input,
@@ -805,11 +797,6 @@ td.media-icon img {
 	width: 200px;
 }
 
-a.view-comment-post-link {
-	position: absolute;
-	text-decoration: underline;
-}
-
 .row-actions {
 	visibility: hidden;
 	padding: 2px 0 0;
@@ -837,11 +824,6 @@ div.comment-item:hover .row-actions {
 	margin: 0;
 	padding: 0;
 	line-height: 46px;
-}
-
-a#view-site-link {
-	position: relative;
-	bottom: 10px;
 }
 
 #wphead {
@@ -1436,7 +1418,7 @@ table.form-table td .updated {
 #side-sortables #show-comments {
 	display: none;
 }
-
+/*
 #mediadiv img {
 	float: left;
 	margin-right: 1em;
@@ -1445,7 +1427,7 @@ table.form-table td .updated {
 #mediadiv h4 {
 	margin: 0 0 .5em;
 }
-
+*/
 #post-body #tagsdiv #newtag {
 	margin-right: 5px;
 	width: 16em;
@@ -1974,7 +1956,7 @@ ul.categorychecklist li {
 form#tags-filter {
 	position: relative;
 }
-
+/*
 p#big-add-button {
 	position: absolute;
 	right: 0;
@@ -1986,7 +1968,7 @@ p#big-add-button .button {
 	font-size: 18px;
 	padding: 3px 30px;
 }
-
+*/
 p.search-box {
 	float: right;
 	margin: -5px 0 0;
@@ -2253,7 +2235,7 @@ fieldset {
 	border-width: 1px;
 	border-style: solid;
 }
-
+/*
 #inbox-filter .actions {
 	margin-left: 6px;
 	background: url(images/archive-link.png) 0 12px no-repeat;
@@ -2293,7 +2275,7 @@ fieldset {
 	margin: 0 0 0 7.5em;
 	padding: 5px;
 }
-
+*/
 /* media popup 0819 */
 #sidemenu {
 	margin: -30px 15px 0 315px;
@@ -2363,7 +2345,7 @@ fieldset {
 #sidemenu li a .count-0 {
 	display: none;
 }
-
+/*
 #previewview {
 	float: right;
 	margin-top: -53px;
@@ -2378,6 +2360,7 @@ fieldset {
 	text-decoration: none;
 	width: 200px;
 }
+*/
 
 /* reply to comments */
 #replyrow {
@@ -2583,7 +2566,8 @@ tr.inline-edit-row td {
 }
 
 #wpbody-content .quick-edit-row-page fieldset.inline-edit-col-right .inline-edit-col {
-	border-left: 1px solid;
+	border-width: 0 0 0 1px;
+	border-style: none none none solid;
 }
 
 #wpbody-content .quick-edit-row-post .inline-edit-col-left {
