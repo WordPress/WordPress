@@ -756,7 +756,8 @@ function get_admin_page_parent( $parent = '' ) {
 		}
 	}
 
-	$parent_file = '';
+	if ( empty($parent_file) )
+		$parent_file = '';
 	return '';
 }
 
