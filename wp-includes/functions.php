@@ -1744,9 +1744,9 @@ function wp_mkdir_p( $target ) {
 	}
 
 	// If the above failed, attempt to create the parent node, then try again.
-	if ( wp_mkdir_p( dirname( $target ) ) )
+	if ( ( $target != '/' ) && ( wp_mkdir_p( dirname( $target ) ) ) )
 		return wp_mkdir_p( $target );
-
+	
 	return false;
 }
 
