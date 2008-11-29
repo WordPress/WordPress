@@ -812,6 +812,7 @@ a.view-comment-post-link {
 
 .row-actions {
 	visibility: hidden;
+	padding: 2px 0 0;
 }
 
 tr:hover .row-actions,

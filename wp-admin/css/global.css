@@ -388,6 +388,8 @@ h6 {
 .updated p,
 .error p {
 	margin: 0.5em 0;
+	line-height: 1;
+	padding: 2px;
 }
 
 .wrap .updated,
