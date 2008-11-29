@@ -266,7 +266,7 @@ switch ($_REQUEST['ajax']) {
 			img_attr = 'id="img' + i + '"';
 			skip = false;
 			
-			maybeappend = '<a href="?ajax=photo_thickbox&amp;i=' + encodeURI(img.src) + '&amp;u=<?php echo urlencode($url); ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
+			maybeappend = '<a href="?ajax=photo_thickbox&amp;i=' + encodeURIComponent(img.src) + '&amp;u=<?php echo urlencode($url); ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
 			
 			if (img.width && img.height) {
 				if (img.width >= 30 && img.height >= 30) {
