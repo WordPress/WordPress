@@ -302,7 +302,7 @@ if ( $page_links )
 </script>
 
 <?php
-inline_edit_term_row('category');
+inline_edit_term_row('categories');
 
 break;
 }

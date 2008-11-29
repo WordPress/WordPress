@@ -292,7 +292,7 @@ else
 /* ]]> */
 </script>
 
-<?php inline_edit_term_row('tag'); ?>
+<?php inline_edit_term_row('edit-tags'); ?>
 
 <?php
 break;

@@ -234,5 +234,5 @@ if ( $page_links )
 /* ]]> */
 </script>
 
-<?php inline_edit_term_row('link-category'); ?>
+<?php inline_edit_term_row('edit-link-categories'); ?>
 <?php include('admin-footer.php'); ?>

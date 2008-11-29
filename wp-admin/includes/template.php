@@ -203,8 +203,8 @@ function inline_edit_term_row($type) {
 	if ( ! current_user_can( 'manage_categories' ) )
 		return;
 
-	$is_tag = $type == 'tag';
-	$columns = $is_tag ? get_column_headers('tag') : get_column_headers('category');
+	$is_tag = $type == 'edit-tags';
+	$columns = get_column_headers($type);
 	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($type) ) );
 	$col_count = count($columns) - count($hidden);
 	?>
@@ -922,13 +922,16 @@ function inline_edit_row( $type ) {
 	global $current_user, $mode;
 
 	$is_page = 'page' == $type;
-	if ( $is_page )
+	if ( $is_page ) {
+		$screen = 'edit';
 		$post = get_default_page_to_edit();
-	else
+	} else {
+		$screen = 'edit-pages';
 		$post = get_default_post_to_edit();
+	}
 
 	$columns = $is_page ? wp_manage_pages_columns() : wp_manage_posts_columns();
-	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($type) ) );
+	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns($screen) ) );
 	$col_count = count($columns) - count($hidden);
 	$m = ( isset($mode) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
 	$can_publish = current_user_can("publish_{$type}s");
