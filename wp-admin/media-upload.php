@@ -53,7 +53,7 @@ if ( isset($_GET['inline']) ) {
 	}
 
 	$title = __('Upload New Media');
-	$parent_file = 'edit.php';
+	$parent_file = 'upload.php';
 	require_once('admin-header.php'); ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>

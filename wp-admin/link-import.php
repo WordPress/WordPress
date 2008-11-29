@@ -10,7 +10,8 @@
 
 /** Load WordPress Administration Bootstrap */
 require_once('admin.php');
-$parent_file = 'edit.php';
+$parent_file = 'tools.php';
+$submenu_file = 'import.php';
 $title = __('Import Blogroll');
 
 $step = $_POST['step'];

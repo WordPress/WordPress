@@ -101,7 +101,7 @@ if ( isset($_GET['find_detached'] ) ) {
 }
 
 $title = __('Media Library');
-$parent_file = 'edit.php';
+$parent_file = 'upload.php';
 
 if ( ! isset( $_GET['paged'] ) || $_GET['paged'] < 1 )
 	$_GET['paged'] = 1;

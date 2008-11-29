@@ -130,7 +130,7 @@ if ( isset($_GET['action']) ) {
 	if ( 'upgrade-plugin' == $action ) {
 		check_admin_referer('upgrade-plugin_' . $plugin);
 		$title = __('Upgrade Plugin');
-		$parent_file = 'index.php';
+		$parent_file = 'plugins.php';
 		require_once('admin-header.php');
 		do_plugin_upgrade($plugin);
 		include('admin-footer.php');

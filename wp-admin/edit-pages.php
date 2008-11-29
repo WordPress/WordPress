@@ -67,7 +67,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 
 if ( empty($title) )
 	$title = __('Edit Pages');
-$parent_file = 'edit.php';
+$parent_file = 'edit-pages.php';
 wp_enqueue_script('inline-edit-post');
 
 $post_stati  = array(	//	array( adj, noun )

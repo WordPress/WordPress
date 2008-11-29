@@ -41,7 +41,7 @@ if ( empty($order_by) )
 	$order_by = 'order_name';
 
 $title = __('Edit Links');
-$this_file = $parent_file = 'edit.php';
+$this_file = $parent_file = 'link-manager.php';
 include_once ("./admin-header.php");
 
 if (!current_user_can('manage_links'))

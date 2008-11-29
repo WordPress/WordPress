@@ -195,14 +195,14 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
 	
 if ( 'upgrade-core' == $action ) {
 	$title = __('Upgrade WordPress');
-	$parent_file = 'index.php';
+	$parent_file = 'tools.php';
 	require_once('admin-header.php');
 	core_upgrade_preamble();
 	include('admin-footer.php');
 } elseif ( 'do-core-upgrade' == $action ) {
 	check_admin_referer('upgrade-core');
 	$title = __('Upgrade WordPress');
-	$parent_file = 'index.php';
+	$parent_file = 'tools.php';
 	// do the (un)dismiss actions before headers,
 	// so that they can redirect
 	if ( isset( $_POST['dismiss'] ) )
