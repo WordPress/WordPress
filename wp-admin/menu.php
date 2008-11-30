@@ -174,6 +174,21 @@ foreach ( $menu as $id => $data ) {
 	}
 }
 
+// Remove any duplicated seperators
+$seperator_found = false;
+foreach ( $menu as $id => $data ) {
+	if ( 0 == strcmp('wp-menu-separator', $data[4] ) ) {
+		if (false == $seperator_found) {
+			$seperator_found = true;
+		} else {
+			unset($menu[$id]);
+			$seperator_found = false;
+		}
+	} else {
+		$seperator_found = false;
+	}
+}
+
 unset($id);
 
 function add_cssclass($add, $class) {
