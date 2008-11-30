@@ -451,10 +451,8 @@ ul#widget-list li.widget-list-item,
 	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
-.widefat thead tr,
-.widefat tfoot tr,
-.thead,
-.tfoot,
+.widefat thead tr th,
+.widefat tfoot tr th,
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,

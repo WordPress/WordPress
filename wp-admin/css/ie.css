@@ -201,12 +201,6 @@ a.button {
 	margin: 1px;
 }
 
-.widefat thead tr th,
-.widefat tfoot tr th {
-	background: #DFDFDF url(../images/gray-grad.png) repeat-x scroll left top;
-	color: #333333;
-}
-
 * html div.widget-liquid-left-holder,
 * html div.widget-liquid-right {
 	display: block;
