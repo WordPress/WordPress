@@ -49,6 +49,7 @@ $_old_files = array(
 'wp-admin/images/tail.gif',
 'wp-admin/images/gear.png',
 'wp-admin/images/tab.png',
+'wp-admin/images/postbox-bg.gif',
 'wp-admin/includes/upload.php',
 'wp-admin/js/dbx-admin-key.js',
 'wp-admin/js/link-cat.js',
