@@ -1,5 +1,5 @@
 html {
-	background-color: #f9f9f9;
+	background-color: #F5FCFD;
 }
 
 .find-box-search {
@@ -71,7 +71,7 @@ div.dashboard-widget,
 }
 
 .widefat {
-	border-color: #dfdfdf;
+	border-color: #BBD8E7;
 	background-color: #fff;
 }
 
@@ -117,9 +117,10 @@ li.widget-list-control-item div.widget-control {
 	border-color: #dfdfdf;
 }
 
-#poststuff h3,
-.metabox-holder h3 {
-	background-color: #dfdfdf;
+.metabox-holder .postbox h3,
+#poststuff .postbox h3,
+#poststuff .stuffbox h3 {
+	background: #dfdfdf url("../images/blue-grad.png") repeat-x left top;
 	text-shadow: #fff 0 1px 0;
 }
 
@@ -173,7 +174,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 }
 
 .alternate, .alt {
-	background-color: #f9f9f9;
+	background-color: #EDFBFC;
 }
 
 .available-theme a.screenshot {
@@ -434,7 +435,11 @@ ul#widget-list li.widget-list-item,
 
 .widefat td,
 .widefat th {
-	border-color: #dfdfdf;
+	border-bottom-color: #BBD8E7;
+}
+
+.widefat th {
+	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
 .widefat thead tr,
@@ -446,7 +451,7 @@ h3.dashboard-widget-title span,
 h3.dashboard-widget-title small,
 .find-box-head {
 	color: #333;
-	background: #dfdfdf url(../images/gray-grad.png) repeat-x scroll left top;
+	background: #dfdfdf url(../images/blue-grad.png) repeat-x scroll left top;
 }
 
 h3.dashboard-widget-title small a {
@@ -464,7 +469,7 @@ h3.dashboard-widget-title small a:hover {
 #media-upload a.del-link,
 #media-upload a.delete,
 .ui-tabs-nav a, a {
-	color: #21759b;
+	color: #1C6280;
 }
 
 /* Because we don't want visited on these links */
@@ -625,7 +630,7 @@ li.widget-list-control-item h4,
 .postbox textarea,
 .stuffbox input[type="text"],
 .stuffbox textarea {
-	border-color: #dfdfdf;
+	border-color: #BBD8E7;
 }
 
 .metabox-holder .postbox,
@@ -1010,7 +1015,7 @@ abbr.required,
 }
 
 #adminmenu a.menu-top {
-	background: #f1f1f1 url(../images/menu-bits.gif) repeat-x scroll left -379px;
+	background: #EAF3FA url(../images/menu-bits.gif) repeat-x scroll left -379px;
 }
 
 #adminmenu .wp-submenu a {
@@ -1075,17 +1080,17 @@ abbr.required,
 
 .folded #adminmenu li.menu-top,
 #adminmenu .wp-submenu .wp-submenu-head {
-	background-color: #F1F1F1;
+	background-color: #EAF2FA;
 }
 
 .folded #adminmenu li.wp-has-current-submenu,
 .folded #adminmenu li.menu-top.current {
-	background-color: #eaeaea;
+	background-color: #BBD8E7;
 }
 
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
-	background-color: #EAEAEA;
-	border-color: #aaa;
+	background-color: #BBD8E7;
+	border-color: #8CBDD5;
 }
 
 #adminmenu div.wp-submenu {
@@ -1483,10 +1488,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 .button-primary,
 .submit .button-primary {
 	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
-}
-
-.widefat th {
-	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
 #wphead h1 {

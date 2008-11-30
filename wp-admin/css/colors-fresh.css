@@ -111,26 +111,16 @@ li.widget-list-control-item h4.widget-title a,
 #plugin-information .action-button a:visited {
 	color: #fff;
 }
-/*
-li.widget-list-control-item,
-div.nav,
-#dashboard-widgets p.dashboard-widget-links,
-#replyhandle,
-h3.info-box-title,
-#screen-options-wrap,
-#wpbody-content .describe tr {
-	background-color: #eaf3fa;
-}
-*/
 
 li.widget-list-control-item div.widget-control {
 	background-color: #fff;
 	border-color: #dfdfdf;
 }
 
-#poststuff h3,
-.metabox-holder h3 {
-	background-color: #dfdfdf;
+.metabox-holder .postbox h3,
+#poststuff .postbox h3,
+#poststuff .stuffbox h3 {
+	background: #dfdfdf url("../images/gray-grad.png") repeat-x left top;
 	text-shadow: #fff 0 1px 0;
 }
 
@@ -457,6 +447,10 @@ ul#widget-list li.widget-list-item,
 	border-color: #dfdfdf;
 }
 
+.widefat th {
+	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
+}
+
 .widefat thead tr,
 .widefat tfoot tr,
 .thead,
@@ -693,40 +687,7 @@ li.widget-list-control-item h4,
 	border-top-color: #ccc;
 	color: #555;
 }
-/*
-#upload-files a.file-link {
-	background-color: #d1e2ef;
-}
 
-#upload-file-view a img {
-	border-bottom-color: #69c;
-}
-
-#upload-menu li #current-tab-nav,
-#upload-file {
-	background-color: #f9fcfe;
-}
-
-#upload-menu li span a.page-numbers {
-	color: #00019b;
-}
-
-#upload-menu li.current {
-	border-right-color: #448abd;
-	color: #000;
-}
-
-#upload-menu li.current a.upload-tab-link,
-#upload-menu li a:hover {
-	background-color: #f9fcfe;
-	color: #000;
-}
-
-#upload-menu,
-#upload-menu li {
-	border-top-color: #247fab;
-}
-*/
 .login #backtoblog a {
 	color: #ccc;
 }
@@ -1133,7 +1094,7 @@ abbr.required,
 
 .folded #adminmenu li.wp-has-current-submenu,
 .folded #adminmenu li.menu-top.current {
-	background-color: #eaeaea;
+	background-color: #e6e6e6;
 }
 
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
@@ -1536,10 +1497,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 .button-primary,
 .submit .button-primary {
 	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
-}
-
-.widefat th {
-	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
 }
 
 #wphead h1 {

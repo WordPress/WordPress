@@ -1624,9 +1624,6 @@ table.form-table td .updated {
 .metabox-holder .postbox h3,
 #poststuff .postbox h3,
 #poststuff .stuffbox h3 {
-	background-image: url("images/postbox-bg.gif");
-	background-position: left top;
-	background-repeat: repeat-x;
 	-moz-border-radius: 6px 6px 0 0;
 	-webkit-border-top-right-radius: 6px;
 	-webkit-border-top-left-radius: 6px;

@@ -308,7 +308,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20081128' );
 	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
 
-	$styles->add( 'colors', true, array(), '20081129' ); // Register "meta" stylesheet for admin colors
+	$styles->add( 'colors', true, array(), '20081130' ); // Register "meta" stylesheet for admin colors
 	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081129'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
 	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081129');
