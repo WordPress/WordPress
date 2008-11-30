@@ -2700,6 +2700,7 @@ tr.inline-edit-row td {
 .inline-edit-row fieldset span.checkbox-title {
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-style: italic;
+	line-height: 1.8em;
 }
 
 /*	Specific Elements */

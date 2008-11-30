@@ -949,7 +949,7 @@ function inline_edit_row( $type ) {
 	?>" style="display: none"><td colspan="<?php echo $col_count; ?>">
 
 	<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
-		<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
+		<h4><?php echo $bulk ? ( $is_page ? __( 'Bulk Edit Pages' ) : __( 'Bulk Edit Posts' ) ) : __( 'Quick Edit' ); ?></h4>
 
 
 <?php if ( $bulk ) : ?>

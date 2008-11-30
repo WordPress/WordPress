@@ -250,9 +250,11 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
 
-		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20081117' );
+		$scripts->add( 'inline-edit-post', '/wp-admin/js/inline-edit-post.js', array( 'jquery', 'jquery-form', 'suggest' ), '20081129' );
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
-			'error' => __('Error while saving the changes.')
+			'error' => __('Error while saving the changes.'),
+			'ntdeltitle' => __('Remove From Bulk Edit'),
+			'notitle' => __('(no title)')
 		) );
 
 		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081117' );

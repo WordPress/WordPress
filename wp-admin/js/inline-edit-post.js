@@ -88,8 +88,8 @@ inlineEditPost = {
 		$('tbody th.check-column input[type="checkbox"]').each(function(i){
 			if ( $(this).attr('checked') ) {
 				var id = $(this).val();
-				var theTitle = $('#inline_'+id+' .post_title').text() || '#'+id;
-				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton">X</a>'+theTitle+'</div>';
+				var theTitle = $('#inline_'+id+' .post_title').text() || inlineEditL10n.notitle;
+				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+inlineEditL10n.ntdeltitle+'">X</a>'+theTitle+'</div>';
 			}
 		});
 
