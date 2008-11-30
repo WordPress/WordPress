@@ -38,8 +38,8 @@ $time_format = get_option('time_format');
 
 wp_reset_vars(array('profile', 'redirect', 'redirect_url', 'a', 'popuptitle', 'popupurl', 'text', 'trackback', 'pingback'));
 
-wp_admin_css_color('classic', __('Bold'), admin_url("css/colors-classic.css"), array('#6D6D6D', '#F1F1F1', '#DFDFDF', '#E3E3E3'));
-wp_admin_css_color('fresh', __('Subtle'), admin_url("css/colors-fresh.css"), array('#6D6D6D', '#F1F1F1', '#DFDFDF', '#E3E3E3'));
+wp_admin_css_color('classic', __('Blue'), admin_url("css/colors-classic.css"), array('#073447', '#6D6D6D', '#F1F1F1', '#DFDFDF'));
+wp_admin_css_color('fresh', __('Gray'), admin_url("css/colors-fresh.css"), array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));
 
 wp_enqueue_script( 'common' );
 wp_enqueue_script( 'jquery-color' );
