@@ -1,5 +1,5 @@
 /* Silver */
-.o2k7SkinSilver .mceToolbar .mceToolbarStart span, .o2k7SkinSilver .mceButton, .o2k7SkinSilver .mceSplitButton, .o2k7SkinSilver .mceSeparator, .o2k7SkinSilver .mceSplitButton span.mceOpen, .o2k7SkinSilver .mceListBox .mceOpen {background-image:url(img/button_bg_silver.png)}
+.o2k7SkinSilver .mceToolbar .mceToolbarStart span, .o2k7SkinSilver .mceButton, .o2k7SkinSilver .mceSplitButton, .o2k7SkinSilver .mceSeparator, .o2k7SkinSilver .mceSplitButton a.mceOpen, .o2k7SkinSilver .mceListBox a.mceOpen {background-image:url(img/button_bg_silver.png)}
 .o2k7SkinSilver table, .o2k7SkinSilver .mceMenuItemTitle a {background:#eee}
 .o2k7SkinSilver .mceListBox .mceText {background:#FFF}
 .o2k7SkinSilver .mceExternalToolbar, .o2k7SkinSilver .mceListBox .mceText, .o2k7SkinSilver div.mceMenu, .o2k7SkinSilver table.mceLayout, .o2k7SkinSilver .mceMenuItemTitle a, .o2k7SkinSilver table.mceLayout tr.mceFirst td, .o2k7SkinSilver table.mceLayout, .o2k7SkinSilver .mceMenuItemTitle a, .o2k7SkinSilver table.mceLayout tr.mceLast td, .o2k7SkinSilver .mceIframeContainer {border-color: #bbb}

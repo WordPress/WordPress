@@ -12,10 +12,6 @@
 	background-image: url(../images/bubble_bg-rtl.gif);
 }
 
-#adminmenu li a #awaiting-mod, #adminmenu li a span.update-plugins {
-	background-image: url(../images/comment-stalk-rtl.gif);
-}
-
 #upload-menu li.current {
 	border-right-color: transparent;
 	border-left-color: #448abd;

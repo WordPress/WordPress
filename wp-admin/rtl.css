@@ -293,10 +293,7 @@ td.available-theme {
 .submitbox .submit {
 	text-align: right;
 }
-.submitbox .inside-submitbox #deletebutton {
-	padding: 0 17px 1px 0;
-	background-position: right bottom;
-}
+
 .inside-submitbox #post_status {
 	margin: 2px -2px 2px 0;
 }
