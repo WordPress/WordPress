@@ -330,7 +330,7 @@ if ( is_string($content_func) )
 function media_buttons() {
 	global $post_ID, $temp_ID;
 	$uploading_iframe_ID = (int) (0 == $post_ID ? $temp_ID : $post_ID);
-	$context = apply_filters('media_buttons_context', __('Upload %s'));
+	$context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
 	$media_upload_iframe_src = "media-upload.php?post_id=$uploading_iframe_ID";
 	$media_title = __('Add Media');
 	$image_upload_iframe_src = apply_filters('image_upload_iframe_src', "$media_upload_iframe_src&amp;type=image");
