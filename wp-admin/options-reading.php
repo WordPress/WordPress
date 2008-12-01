@@ -76,6 +76,9 @@ include('admin-header.php');
 </tr>
 <?php do_settings_fields('reading', 'default'); ?>
 </table>
+
+<?php do_settings_sections('reading'); ?>
+
 <p class="submit">
 	<input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 </p>
