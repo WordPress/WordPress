@@ -128,7 +128,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20081129",
+"version" : "<?php echo $man_version; ?>_20081130",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -182,7 +182,6 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/screen-options-right-up.gif" },
 { "url" : "images/se.png" },
 { "url" : "images/star.gif" },
-{ "url" : "images/tail.gif" },
 { "url" : "images/toggle-arrow.gif" },
 { "url" : "images/toggle-arrow-rtl.gif" },
 { "url" : "images/white-grad.png" },
