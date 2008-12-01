@@ -923,10 +923,10 @@ function inline_edit_row( $type ) {
 
 	$is_page = 'page' == $type;
 	if ( $is_page ) {
-		$screen = 'edit';
+		$screen = 'edit-pages';
 		$post = get_default_page_to_edit();
 	} else {
-		$screen = 'edit-pages';
+		$screen = 'edit';
 		$post = get_default_post_to_edit();
 	}
 
@@ -2300,7 +2300,7 @@ function meta_form() {
 	if ( $keys )
 		natcasesort($keys);
 ?>
-<p><strong><?php _e( 'Add a new custom field:' ) ?></strong></p>
+<p><strong><?php _e( 'Add new custom field:' ) ?></strong></p>
 <table id="newmeta">
 <thead>
 <tr>
@@ -2312,7 +2312,7 @@ function meta_form() {
 <tbody>
 <tr>
 <td id="newmetaleft" class="left">
-<?php if ( $keys ) : ?>
+<?php if ( $keys ) { ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#"><?php _e( '- Select -' ); ?></option>
 <?php
@@ -2323,12 +2323,13 @@ function meta_form() {
 	}
 ?>
 </select>
-<?php endif; ?>
 <input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
 <a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
 <span id="enternew"><?php _e('Enter new'); ?></span>
-<span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span>
-</a>
+<span id="cancelnew" class="hidden"><?php _e('Cancel'); ?></span></a>
+<?php } else { ?>
+<input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" value="" />
+<?php } ?>
 </td>
 <td><textarea id="metavalue" name="metavalue" rows="2" cols="25" tabindex="8"></textarea></td>
 </tr>
