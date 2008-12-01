@@ -188,7 +188,8 @@ ul#adminmenu {
 	line-height: 20px;
 }
 
-#the-comment-list .comment-item {
+#the-comment-list .comment-item,
+ul#widget-list li.widget-list-item {
 	zoom: 100%;
 }
 
