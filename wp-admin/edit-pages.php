@@ -124,7 +124,7 @@ if ( isset($_GET['locked']) && (int) $_GET['locked'] ) {
 }
 
 if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
-	printf( __ngettext( 'Post deleted.', '%s posts deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
+	printf( __ngettext( 'Page deleted.', '%s pages deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
 	unset($_GET['deleted']);
 }
 $_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted'), $_SERVER['REQUEST_URI'] );
