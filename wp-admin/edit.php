@@ -25,6 +25,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 		case 'delete':
 			if ( isset($_GET['post']) && ! isset($_GET['bulk_edit']) && (isset($_GET['doaction']) || isset($_GET['doaction2'])) ) {
 				check_admin_referer('bulk-posts');
+				$deleted = 0;
 				foreach( (array) $_GET['post'] as $post_id_del ) {
 					$post_del = & get_post($post_id_del);
 
@@ -38,6 +39,7 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 						if ( !wp_delete_post($post_id_del) )
 							wp_die( __('Error in deleting...') );
 					}
+					$deleted++;
 				}
 			}
 			break;
@@ -66,6 +68,8 @@ if ( isset($_GET['action']) && ( -1 != $_GET['action'] || -1 != $_GET['action2']
 		$done['locked'] = count( $done['locked'] );
 		$sendback = add_query_arg( $done, $sendback );
 	}
+	if ( isset($deleted) )
+		$sendback = add_query_arg('deleted', $deleted, $sendback);
 	wp_redirect($sendback);
 	exit();
 } elseif ( isset($_GET['_wp_http_referer']) && ! empty($_GET['_wp_http_referer']) ) {
@@ -100,21 +104,27 @@ if ( isset($_GET['posted']) && $_GET['posted'] ) : $_GET['posted'] = (int) $_GET
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 endif; ?>
 
-<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) ) { ?>
+<?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) || isset($_GET['deleted']) ) { ?>
 <div id="message" class="updated fade"><p>
-<?php if ( (int) $_GET['updated'] ) {
+<?php if ( isset($_GET['updated']) && (int) $_GET['updated'] ) {
 	printf( __ngettext( '%s post updated.', '%s posts updated.', $_GET['updated'] ), number_format_i18n( $_GET['updated'] ) );
 	unset($_GET['updated']);
 }
 
-if ( (int) $_GET['skipped'] )
+if ( isset($_GET['skipped']) && (int) $_GET['skipped'] )
 	unset($_GET['skipped']);
 
-if ( (int) $_GET['locked'] ) {
+if ( isset($_GET['locked']) && (int) $_GET['locked'] ) {
 	printf( __ngettext( '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.', $_GET['locked'] ), number_format_i18n( $_GET['locked'] ) );
 	unset($_GET['locked']);
-} 
-$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated'), $_SERVER['REQUEST_URI'] );
+}
+
+if ( isset($_GET['deleted']) && (int) $_GET['deleted'] ) {
+	printf( __ngettext( 'Post deleted.', '%s posts deleted.', $_GET['deleted'] ), number_format_i18n( $_GET['deleted'] ) );
+	unset($_GET['deleted']);
+}
+
+$_SERVER['REQUEST_URI'] = remove_query_arg( array('locked', 'skipped', 'updated', 'deleted'), $_SERVER['REQUEST_URI'] );
 ?>
 </p></div>
 <?php } ?>

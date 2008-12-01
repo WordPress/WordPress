@@ -211,8 +211,9 @@ case 'delete':
 	}
 
 	$sendback = wp_get_referer();
-	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('post-new.php');
+	if (strpos($sendback, 'post.php') !== false) $sendback = admin_url('edit.php?deleted=1');
 	elseif (strpos($sendback, 'attachments.php') !== false) $sendback = admin_url('attachments.php');
+	else $sendback = add_query_arg('deleted', 1, $sendback);
 	wp_redirect($sendback);
 	exit();
 	break;
