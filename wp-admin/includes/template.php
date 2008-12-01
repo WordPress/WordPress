@@ -2750,7 +2750,8 @@ function do_meta_boxes($page, $context, $object) {
 					if ( in_array($box['id'], $hidden) )
 						$style = 'style="display:none;"';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . '" ' . $style . '>' . "\n";
-					echo "<div class='handlediv'><br /></div><h3 class='hndle'><span>{$box['title']}</span></h3>\n";
+					echo '<div class="handlediv" title="' . __('Click to toggle') . '"><br /></div>';
+					echo "<h3 class='hndle'><span>{$box['title']}</span></h3>\n";
 					echo '<div class="inside">' . "\n";
 					call_user_func($box['callback'], $object, $box);
 					echo "</div>\n";

@@ -188,6 +188,10 @@ ul#adminmenu {
 	line-height: 20px;
 }
 
+#the-comment-list .comment-item {
+	zoom: 100%;
+}
+
 #wphead-info {
 	float: right;
 }
