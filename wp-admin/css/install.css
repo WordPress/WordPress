@@ -3,7 +3,7 @@ html { background: #f7f7f7; }
 body {
 	background: #fff;
 	color: #333;
-	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	margin: 2em auto 0 auto;
 	width: 700px;
 	padding: 1em 2em;
@@ -49,7 +49,7 @@ ul, ol { padding: 5px 5px 5px 22px; }
 .step, th { text-align: left; padding: 0; }
 
 .submit input, .button, .button-secondary {
-	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	text-decoration: none;
 	font-size: 14px !important;
 	line-height: 16px;
