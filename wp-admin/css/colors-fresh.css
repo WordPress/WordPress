@@ -143,15 +143,6 @@ strong .post-com-count span {
 	background-color: #21759b;
 }
 
-#login form .submit input, 
-.search-box .button {
-	background-color: #cee1ef !important;
-}
-
-#favorite-actions .favorite-action {
-	border-top-color: #cee1ef;
-}
-
 ul#widget-list li.widget-list-item h4.widget-title {
 	background-color: #f0f0f0;
 	color: #000;
@@ -1427,14 +1418,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 	color: #333;
 }
 
-.view-switch img {
-	border-color: #fff;
-}
-
-.view-switch img.current {
-	border-color: #999;
-}
-
 #wp_editimgbtn,
 #wp_delimgbtn,
 #wp_editgallery,
@@ -1554,4 +1537,20 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #icon-options-general {
 	background: transparent url(../images/icons32.png) no-repeat -492px -5px;
+}
+
+.view-switch #view-switch-list {
+	background: transparent url(../images/list.png) no-repeat 0 0;
+}
+
+.view-switch #view-switch-list.current {
+	background: transparent url(../images/list.png) no-repeat -40px 0;
+}
+
+.view-switch #view-switch-excerpt {
+	background: transparent url(../images/list.png) no-repeat -20px 0;
+}
+
+.view-switch #view-switch-excerpt.current {
+	background: transparent url(../images/list.png) no-repeat -60px 0;
 }

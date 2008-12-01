@@ -128,7 +128,7 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 ?>
 {
 "betaManifestVersion" : 1,
-"version" : "<?php echo $man_version; ?>_20081130",
+"version" : "<?php echo $man_version; ?>_20081201",
 "entries" : [
 <?php echo $defaults; ?>
 
@@ -146,7 +146,6 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/comment-grey-bubble.png" },
 { "url" : "images/date-button.gif" },
 { "url" : "images/ed-bg.gif" },
-{ "url" : "images/exc.gif" },
 { "url" : "images/fade-butt.png" },
 { "url" : "images/fav.png" },
 { "url" : "images/fav-arrow.png" },
@@ -157,7 +156,8 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/gray-grad.png" },
 { "url" : "images/icons32.png" },
 { "url" : "images/icons32-vs.png" },
-{ "url" : "images/list.gif" },
+{ "url" : "images/list.png" },
+{ "url" : "images/list-vs.png" },
 { "url" : "images/loading.gif" },
 { "url" : "images/loading-publish.gif" },
 { "url" : "images/logo.gif" },

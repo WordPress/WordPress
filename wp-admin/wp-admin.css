@@ -1924,13 +1924,11 @@ body.wp-admin {
 
 .view-switch {
 	float: right;
-	margin: 5px 8px 0;
+	margin: 6px 8px 0;
 }
 
-.view-switch img {
-	margin: 0;
-	border-width: 1px;
-	border-style: solid;
+.view-switch a {
+	text-decoration: none;
 }
 
 .filter {
