@@ -92,7 +92,11 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
 </div>
 
 <div id="publishing-action">
+<?php if ( !empty($link->link_id) ) { ?>
 	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php _e('Update Link') ?>" />
+<?php } else { ?>
+	<input name="save" type="submit" class="button-primary" id="publish" tabindex="4" accesskey="p" value="<?php _e('Add Link') ?>" />
+<?php } ?>
 </div>
 <div class="clear"></div>
 </div>
