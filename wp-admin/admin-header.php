@@ -71,9 +71,12 @@ do_action('admin_print_scripts');
 do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
-?>
+if ( $is_iphone ) { ?>
+<style type="text/css">.row-actions{visibility:visible;}</style>
+<?php } ?>
 </head>
 <body class="wp-admin <?php echo apply_filters( 'admin_body_class', '' ); ?>">
+
 <div id="wpwrap">
 <div id="wpcontent">
 <div id="wphead">
