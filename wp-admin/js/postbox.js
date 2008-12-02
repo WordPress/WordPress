@@ -34,11 +34,13 @@
 				if ( ! $('#post-body').hasClass('has-sidebar') ) {
 					$('#post-body').addClass('has-sidebar');
 					var h = Math.min( $('#post-body').height(), 300 );
-					$('#side-sortables').css({'minHeight':h+'px'});
+					$('#side-sortables').css({'minHeight':h+'px','height':'auto'});
 				}
 			} else {
 				$('#post-body').removeClass('has-sidebar');
 				$('#side-sortables').css({'minHeight':'0'});
+				if ( $.browser.msie && $.browser.version.charAt(0) == 7 )
+					$('#side-sortables').css({'height':'0'});
 			}
 		},
 

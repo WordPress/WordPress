@@ -22,8 +22,8 @@ input.button-highlighted {
 	margin-bottom: -1px;
 }
 
-#side-info-column {
-	height: 0;
+* html #side-info-column {
+	height: auto;
 }
 
 * html #wpbody-content #screen-options-link-wrap {

@@ -2337,15 +2337,13 @@ fieldset {
 }
 
 .metabox-prefs {
-	padding: 5px 10px 10px;
+	padding: 5px 5px 10px 10px;
 }
 
 .metabox-prefs label {
-	display: block;
-	float: left;
-	padding: 5px 3px;
+	padding-right: 15px;
 	white-space: nowrap;
-	min-width: 14em;
+	line-height: 30px;
 }
 
 .metabox-prefs label input {
