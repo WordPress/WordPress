@@ -900,7 +900,6 @@ function get_sample_permalink($id, $title=null, $name = null) {
 	// drafts, so we will fake, that our post is published
 	if (in_array($post->post_status, array('draft', 'pending'))) {
 		$post->post_status = 'publish';
-		$post->post_date = date('Y-m-d H:i:s');
 		$post->post_name = sanitize_title($post->post_name? $post->post_name : $post->post_title, $post->ID);
 	}
 
