@@ -1042,7 +1042,8 @@ div.comment-item:hover .row-actions {
 #sidemenu li a span.update-plugins {
 	position: absolute;
 	font-family: Helvetica, Arial, sans-serif;
-	font-size: 9px;
+	font-size: 7pt;
+	font-weight: bold;
 	margin-top: 2px;
 	margin-left: 2px;
 	-moz-border-radius: 7px;
