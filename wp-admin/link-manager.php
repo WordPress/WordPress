@@ -197,11 +197,13 @@ if ( $links ) {
 					$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm('" . js_escape(sprintf( __("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name )) . "') ) { return true;}return false;\">" . __('Delete') . "</a>";
 					$action_count = count($actions);
 					$i = 0;
+					echo '<div class="row-actions">';
 					foreach ( $actions as $action => $linkaction ) {
 						++$i;
 						( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 						echo "<span class='$action'>$linkaction$sep</span>";
 					}
+					echo '</div>';
 					echo '</td>';
 					break;
 				case 'url':

@@ -86,11 +86,13 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 		$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attribute_escape(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		$action_count = count($actions);
 		$i = 0;
+		echo '<div class="row-actions">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			echo "<span class='$action'>$link$sep</span>";
 		}
+		echo '</div>';
 		?></p></td>
 		<?php
 		break;
