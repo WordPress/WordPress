@@ -23,29 +23,6 @@ include('admin-header.php');
 <form action="options.php" method="post">
 <?php settings_fields('media'); ?>
 
-<p><?php _e('The setting below determines where images, documents, and other media files will be linked to when inserted into the body of a post.'); ?></p>
-
-<table class="form-table">
-<tr valign="top"> 
-<th scope="row"><?php _e('Default media links') ?></th> 
-<td><fieldset><legend class="hidden"><?php _e('Default image links') ?></legend> 
-<?php 
-    $link_types = array('none' => __('None'), 'post' => __('Post URL'), 'file' => __('File')); 
-
-    $default_link_type = get_option('image_default_link_type');
-        if ( empty($default_link_type) )
-            $default_link_type = 'file';
-
-    foreach ($link_types as $type => $name) { ?>
-        <input type="radio" name="image_default_link_type" id="image_default_link_type_<?php echo $type; ?>" value="<?php echo $type; ?>"<?php echo ($default_link_type == $type ? ' checked="checked"' : ''); ?> />
-        <label for="image_default_link_type_<?php echo $type; ?>"><?php echo $name; ?></label>
-    <?php 
-    } 
-?> 
-</fieldset></td> 
-</tr> 
-</table>
-
 <h3><?php _e('Image sizes') ?></h3>
 <p><?php _e('The sizes listed below determine the maximum dimensions in pixels to use when inserting an image into the body of a post.'); ?></p>
 
@@ -81,39 +58,7 @@ include('admin-header.php');
 <input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" class="small-text" /> 
 </fieldset></td> 
 </tr> 
- 
-<tr valign="top"> 
-<th scope="row"><?php _e('Default image size') ?></th> 
-<td><fieldset><legend class="hidden"><?php _e('Default image size') ?></legend> 
-<?php 
-    $size_names = array('' => __('Auto'), 'thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size')); 
-    foreach ($size_names as $size => $name) { ?> 
-        <input type="radio" name="image_default_size" id="image_default_size_<?php echo $size; ?>" value="<?php echo $size; ?>"<?php echo (get_option('image_default_size') == $size ? ' checked="checked"' : ''); ?> />             
-        <label for="image_default_size_<?php echo $size; ?>"><?php echo $name; ?></label> 
-    <?php 
-	} 
-?> 
-</fieldset></td> 
-</tr> 
 
-<tr valign="top"> 
-<th scope="row"><?php _e('Default image alignment') ?></th> 
-<td><fieldset><legend class="hidden"><?php _e('Default image alignment') ?></legend> 
-<?php 
-    $alignments = array('none' => 'None', 'left' => 'Left', 'center' => 'Center', 'right' => 'Right'); 
-
-    $default_align = get_option('image_default_align'); 
-	if ( empty($default_align) )
-		$default_align = 'none'; 
-
-    foreach ($alignments as $align => $name) { ?> 
-        <input type="radio" name="image_default_align" id="image_default_align_<?php echo $align; ?>" value="<?php echo $align; ?>"<?php echo ($default_align == $align ? ' checked="checked"' : ''); ?> />           
-        <label for="image_default_align_<?php echo $align; ?>"><?php _e($name); ?></label> 
-    <?php 
-    } 
-?> 
-</fieldset></td> 
-</tr>
 <?php do_settings_fields('media', 'default'); ?>
 </table>
 

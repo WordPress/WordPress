@@ -119,6 +119,7 @@ function deleteError(X, textStatus, errorThrown) {
 }
 
 function updateMediaForm() {
+	storeState();
 	// Just one file, no need for collapsible part
 	if ( jQuery('.type-form #media-items>*').length == 1 ) {
 		jQuery('#media-items .slidetoggle').slideDown(500).parent().eq(0).children('.toggle').toggle();
@@ -249,7 +250,10 @@ function uploadError(fileObj, error_code, message) {
 }
 
 // remember the last used image size, alignment and url
-jQuery(document).ready(function($){
+var storeState;
+(function($){
+
+storeState = function(){
 	var align = getUserSetting('align') || '', imgsize = getUserSetting('imgsize') || '';
 
 	$('tr.align input[type="radio"]').click(function(){
@@ -279,4 +283,5 @@ jQuery(document).ready(function($){
 		var b = getUserSetting('urlbutton');
 		$(this).val( $(this).siblings('button.'+b).attr('title') );
 	});
-});
+}
+})(jQuery);

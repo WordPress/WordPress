@@ -166,7 +166,7 @@ body {
 
 body,
 td {
-	font: 13px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font: 13px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 p {
