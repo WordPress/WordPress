@@ -413,7 +413,7 @@ class WP_Import {
 		if ( $post_exists ) {
 			echo '<li>';
 			printf(__('Post <em>%s</em> already exists.'), stripslashes($post_title));
-			$post_id = $post_exists; 
+			$comment_post_ID = $post_id = $post_exists; 
 		} else {
 
 			// If it has parent, process parent first.
