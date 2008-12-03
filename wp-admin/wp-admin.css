@@ -2924,3 +2924,7 @@ table.fixed {
 	margin: 14px 6px 0 0;
 	width: 36px;
 }
+
+.key-labels label {
+	line-height: 24px;
+}
