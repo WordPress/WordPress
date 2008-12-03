@@ -973,6 +973,10 @@ class WP_Http_Curl {
 			unset($r['headers']['user-agent']);
 		}
 
+		// If timeout is a float less than 1, round it up to 1.
+		if ( $r['timeout'] > 0 && $r['timeout'] < 1 )
+			$r['timeout'] = 1;
+
 		$handle = curl_init();
 		curl_setopt( $handle, CURLOPT_URL, $url);
 
