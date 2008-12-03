@@ -170,6 +170,12 @@ if ( $page_links )
 </div>
 <br class="clear" />
 </form>
+
+<div class="form-wrap">
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the links in that category. Instead, links that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), get_term_field('name', get_option('default_link_category'), 'link_category')) ?></p>
+</div>
+
+
 </div>
 </div><!-- /col-right -->
 
@@ -208,10 +214,6 @@ if ( $page_links )
 </div>
 
 <?php } ?>
-
-<div class="form-wrap">
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the links in that category. Instead, links that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), get_term_field('name', get_option('default_link_category'), 'link_category')) ?></p>
-</div>
 
 </div>
 </div><!-- /col-left -->
