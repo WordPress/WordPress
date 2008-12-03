@@ -338,6 +338,9 @@ function link_cat_row( $category, $name_override = false ) {
 			case 'description':
 				$output .= "<td $attributes>$category->description</td>";
 				break;
+			case 'slug':
+				$output .= "<td $attributes>$category->slug</td>";
+				break;
 			case 'links':
 				$attributes = 'class="links column-links num"' . $style;
 				$output .= "<td $attributes>$count</td>";
@@ -806,6 +809,7 @@ function get_column_headers($page) {
 				'cb' => '<input type="checkbox" />',
 				'name' => __('Name'),
 				'description' => __('Description'),
+				'slug' => __('Slug'),
 				'links' => __('Links')
 			);
 
