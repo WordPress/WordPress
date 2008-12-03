@@ -461,6 +461,8 @@ class WP_Import {
 			if (count($categories) > 0) {
 				$post_cats = array();
 				foreach ($categories as $category) {
+					if ( '' == $category )
+						continue;
 					$slug = sanitize_term_field('slug', $category, 0, 'category', 'db');
 					$cat = get_term_by('slug', $slug, 'category');
 					$cat_ID = 0;
@@ -469,6 +471,8 @@ class WP_Import {
 					if ($cat_ID == 0) {
 						$category = $wpdb->escape($category);
 						$cat_ID = wp_insert_category(array('cat_name' => $category));
+						if ( is_wp_error($cat_ID) )
+							continue;
 					}
 					$post_cats[] = $cat_ID;
 				}
@@ -479,6 +483,8 @@ class WP_Import {
 			if (count($tags) > 0) {
 				$post_tags = array();
 				foreach ($tags as $tag) {
+					if ( '' == $tag )
+						continue;
 					$slug = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
 					$tag_obj = get_term_by('slug', $slug, 'post_tag');
 					$tag_id = 0;
@@ -487,6 +493,8 @@ class WP_Import {
 					if ( $tag_id == 0 ) {
 						$tag = $wpdb->escape($tag);
 						$tag_id = wp_insert_term($tag, 'post_tag');
+						if ( is_wp_error($tag_id) )
+							continue;
 						$tag_id = $tag_id['term_id'];
 					}
 					$post_tags[] = intval($tag_id);
