@@ -302,28 +302,28 @@ function wp_default_styles( &$styles ) {
 
 	$rtl_styles = array( 'global', 'colors', 'dashboard', 'ie', 'install', 'login', 'media', 'theme-editor', 'upload', 'widgets', 'press-this', 'plugin-install', 'farbtastic' );
 
-	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081201' );
+	$styles->add( 'wp-admin', '/wp-admin/wp-admin.css', array(), '20081203' );
 	$styles->add_data( 'wp-admin', 'rtl', '/wp-admin/rtl.css' );
 
-	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20081201' );
+	$styles->add( 'ie', '/wp-admin/css/ie.css', array(), '20081203' );
 	$styles->add_data( 'ie', 'conditional', 'gte IE 6' );
 
-	$styles->add( 'colors', true, array(), '20081201' ); // Register "meta" stylesheet for admin colors
-	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081201'); // for login.php.  Is there a better way?
+	$styles->add( 'colors', true, array(), '20081203' ); // Register "meta" stylesheet for admin colors
+	$styles->add( 'colors-fresh', '/wp-admin/css/colors-fresh.css', array(), '20081203'); // for login.php.  Is there a better way?
 	$styles->add_data( 'colors-fresh', 'rtl', true );
-	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081201');
+	$styles->add( 'colors-classic', '/wp-admin/css/colors-classic.css', array(), '20081203');
 	$styles->add_data( 'colors-classic', 'rtl', true );
 
-	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081201' );
-	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20081201' );
-	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20081201' );
-	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20081201' );
-	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081201' );
-	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20081201' );
-	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20081201' );
-	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20081201' );
-	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20081201' );
-	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081201' );
+	$styles->add( 'global', '/wp-admin/css/global.css', array(), '20081203' );
+	$styles->add( 'media', '/wp-admin/css/media.css', array(), '20081203' );
+	$styles->add( 'widgets', '/wp-admin/css/widgets.css', array(), '20081203' );
+	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20081203' );
+	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081203' );
+	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20081203' );
+	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20081203' );
+	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20081203' );
+	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20081203' );
+	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081203' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 
 	foreach ( $rtl_styles as $rtl_style )
