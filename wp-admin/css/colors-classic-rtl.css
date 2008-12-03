@@ -11,7 +11,9 @@
 .post-com-count {
 	background-image: url(../images/bubble_bg-rtl.gif);
 }
-
+.tablenav .tablenav-pages a {
+	background: #eee url('../images/menu-bits-rtl.gif') repeat-x scroll right -379px;
+}
 #upload-menu li.current {
 	border-right-color: transparent;
 	border-left-color: #448abd;
@@ -25,13 +27,13 @@
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll right -34px;
 }
 
-#adminmenu.folded li.wp-menu-separator {
+.folded #adminmenu li.wp-menu-separator {
 	background: transparent url(../images/menu-arrows.gif) no-repeat scroll left 5px;
 }
 
 #adminmenu li.wp-has-current-submenu .wp-menu-toggle,
 #adminmenu li.wp-has-current-submenu:hover .wp-menu-toggle {
-	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -208px;
+	background: transparent url(../images/menu-bits-rtl.gif) repeat-x scroll right -207px;
 }
 
 #adminmenu .wp-has-current-submenu ul li a.current {

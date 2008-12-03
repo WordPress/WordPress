@@ -102,7 +102,6 @@ td.available-theme {
 }
 .tablenav .tablenav-pages {
 	float: left;
-	margin: 0 0 0 8px;
 }
 .tablenav .displaying-num {
 	margin-right: 0;
@@ -149,20 +148,20 @@ td.available-theme {
 #adminmenu img.wp-menu-image {
 	float: right;
 }
-#adminmenu.folded img.wp-menu-image {
+.folded #adminmenu img.wp-menu-image {
 	padding: 7px 6px 0 0;
 }
 #adminmenu .wp-submenu .wp-submenu-head {
 	padding: 6px 10px 6px 4px;
 }
-#adminmenu.folded .wp-submenu {
+.folded #adminmenu .wp-submenu {
 	margin: -1px 28px 0 0;
 }
-#adminmenu.folded .wp-submenu a {
+.folded #adminmenu .wp-submenu a {
 	padding-left: 0;
 	padding-right: 10px;
 }
-#adminmenu.folded a.wp-has-submenu {
+.folded #adminmenu a.wp-has-submenu {
 	margin-left: 0;
 	margin-right: 40px;
 }
@@ -173,6 +172,12 @@ td.available-theme {
 }
 #adminmenu div.wp-menu-image {
 	float: right;
+}
+#wphead-info {
+	margin: 0 15px 0 0;
+	padding-right:0;
+	padding-left: 15px;
+	float: left;
 }
 /* end side admin menu */
 /* 1000 - 1300
@@ -187,16 +192,9 @@ td.available-theme {
 #sidemenu li a:hover span.update-plugins {
 	background-position: -160px top;
 }
-#adminmenu li a #awaiting-mod span, #adminmenu li a #update-plugins span, #sidemenu li a #update-plugins span {
+#adminmenu li a #awaiting-mod span, #adminmenu li a span.update-plugins span, #sidemenu li a span.update-plugins span {
 	right:auto;
 	left:0;
-}
-#footer #footer-thankyou, #footer #footer-upgrade {
-	font-family: Tahoma, "Times New Roman";
-}
-#footer #footer-upgrade {
-	right: auto;
-	left: 15px;
 }
 /* Tables used on comment.php and option/setting pages */
 .form-table th,
@@ -257,10 +255,16 @@ td.available-theme {
 #poststuff h2 {
 	clear: right;
 }
+.setting-description, .form-wrap p {
+	font-family: Tahoma, Arial;
+}
 /* 1500 - 1800
 =================================== */
 .meta-box-sortables .postbox .handlediv {
 	float: left;
+}
+.howto {
+	font-family: Tahoma, Arial;
 }
 .metabox-holder .postbox h3,
 #poststuff .postbox h3,
@@ -448,13 +452,13 @@ td.action-links, th.action-links {
 }
 /* show/hide settings */
 #screen-meta-links {
-	margin: 0 0 0 20px;
+	margin: 0 0 0 9px;
 }
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: left;
 	font-family: Tahoma, "Times New Roman";
-	margin: -1px 0 0 10px;
+	margin: -1px 0 0 6px;
 }
 #screen-options-wrap h5,
 #contextual-help-wrap h5 {
@@ -471,7 +475,9 @@ td.action-links, th.action-links {
 	margin-right: 0;
 	margin-left: 5px;
 }
-
+#screen-meta a.show-settings {
+	padding: 0 6px 0 16px;
+}
 /* 2500 - 2700
 =================================== */
 #bulk-titles div a {
@@ -557,7 +563,6 @@ td.action-links, th.action-links {
 	padding: 3px 12px 4px 30px;
 }
 #favorite-inside {
-	margin: 0 1px 0 0;
 }
 #favorite-inside a {
 	padding: 3px 10px 3px 5px;
@@ -570,6 +575,11 @@ td.action-links, th.action-links {
 #utc-time, #local-time {
 	padding-left: 0;
 	padding-right: 25px;
+	font-family: Tahoma, Arial;
+}
+.icon32 {
+	float: right;
+	margin: 8px 0 0 6px;
 }
 /* TinyMCE
 =================================== */

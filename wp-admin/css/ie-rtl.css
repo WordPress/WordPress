@@ -1,15 +1,17 @@
-* html #wpbody-content {
-	float: left;
-}
-#wphead-info {
-	float: left;
-}
 * html #wpcontent #adminmenu .wp-has-submenu .wp-menu-toggle {
-	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -108px;
+	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -109px;
 }
 
 * html #wpcontent #adminmenu li.wp-has-current-submenu .wp-menu-toggle {
 	background: url(../images/menu-bits-rtl.gif) no-repeat scroll right -206px;
+}
+* html #adminmenu {
+	margin-left:0;
+	margin-right: -80px;
+}
+* html div.folded #adminmenu {
+	margin-left: 0;
+	margin-right: -22px;
 }
 #wpcontent #adminmenu .wp-submenu li.wp-submenu-head {
 	padding: 3px 10px 4px 4px;
@@ -27,8 +29,12 @@ p.search-box {
 	margin-right: 0;
 }
 #bh {
-	margin: 3px 6px 0 0;
+	margin: 7px 10px 0 0;
 	float: left;
+}
+#user_info + div#favorite-actions {
+	right: auto;
+	left: 15px;
 }
 /* without this dashboard widgets appear in one column for some screen widths */
 div#dashboard-widgets {

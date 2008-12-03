@@ -71,3 +71,23 @@ button.dismiss {
 .menu_order {
 	float: left;
 }
+.media-upload-form label.form-help, td.help, #media-upload p.help, #media-upload label.help {
+	font-family: Tahoma, Arial;
+}
+#gallery-settings #basic th.label {
+	padding: 5px 0 5px 5px;
+}
+#gallery-settings .title, .media-blank h3 {
+	font-family: Tahoma, Arial;
+}
+#gallery-settings .describe th.label {
+	text-align: right;
+}
+#gallery-settings label,
+#gallery-settings legend {
+	margin-right: 0;
+	margin-left: 15px;
+}
+#gallery-settings .align .field label { 
+	margin: 0 0 0 1.5em;
+}

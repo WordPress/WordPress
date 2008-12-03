@@ -10,7 +10,7 @@
 	right: auto;
 	left: 0;
 }
-#dashboard_right_now p.sub, #dashboard_right_now .table, #dashboard_right_now .versions {
+#dashboard_right_now p.sub {
 	font-family: Tahoma, Arial;
 }
 #dashboard_right_now td.b {
@@ -23,7 +23,7 @@
 	padding-right: 0;
 	padding-left: 12px;
 }
-#dashboard_right_now .versions a, #dashboard_right_now .versions .b {
+#dashboard_right_now .versions a {
 	font-family: Tahoma, Arial;
 }
 #dashboard_right_now a.button {
@@ -53,7 +53,6 @@
 /* QuickPress */
 #dashboard_quick_press h4 {
 	float: right;
-	font-family: Tahoma, Arial;
 	text-align: left;
 }
 #dashboard_quick_press h4 label {

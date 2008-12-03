@@ -2,7 +2,11 @@
 #adminmenu {
 	float: right;
 	clear: right;
-	margin: 15px 18px 15px 5px;
+	margin: 15px -160px 15px 5px;
+}
+div.folded #adminmenu {
+	margin-left: 0;
+	margin-right: -45px;
 }
 /* inner 2 column liquid layout */
 .inner-sidebar {
@@ -19,10 +23,24 @@
 	margin-right: 0;
 	margin-left: 305px;
 }
+#wpbody {
+	margin-left:0;
+	margin-right: 175px;
+}
+div.folded #wpbody {
+	margin-left: 0;
+	margin-right: 60px;
+}
+#wpbody-content {
+	float: right;
+}
 /* 2 columns main area */
 #col-right {
 	float: left;
 	clear: left;
+}
+.wrap {
+	margin: 0 5px 0 15px;
 }
 /* styles for use by people extending the WordPress interface */
 body, td, textarea, input, select {
