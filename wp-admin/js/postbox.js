@@ -54,6 +54,7 @@
 				handle: '.hndle',
 				distance: 2,
 				tolerance: 'pointer',
+				toleranceMove: 'tolerance',
 				sort: function(e,ui) {
 					if ( $(document).width() - e.clientX < 300 ) {
 						if ( ! $('#post-body').hasClass('has-sidebar') ) {
