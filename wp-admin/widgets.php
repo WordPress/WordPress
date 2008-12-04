@@ -35,6 +35,7 @@ if ( isset($_GET['sidebar']) && isset($wp_registered_sidebars[$_GET['sidebar']])
 ?>
 
 	<div class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php echo wp_specialchars( $title ); ?></h2>
 		<div class="error">
 			<p><?php _e( 'No Sidebars Defined' ); ?></p>
