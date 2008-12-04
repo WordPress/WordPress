@@ -165,7 +165,7 @@ if ( isset($_GET['message']) && (int) $_GET['message'] ) {
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title );
-<?php if ( isset($_GET['s']) && $_GET['s'] )
+if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', wp_specialchars( get_search_query() ) ); ?>
 </h2>
 
