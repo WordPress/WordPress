@@ -74,7 +74,7 @@ table {
 	margin-left: 175px;
 } 
 
-div.folded #wpbody {
+.folded #wpbody {
 	margin-left: 60px;
 }
 
@@ -86,12 +86,23 @@ div.folded #wpbody {
 #adminmenu {
 	float: left;
 	clear: left;
-	margin: 15px 5px 15px -160px;
+	width: 145px;
+	margin-top: 15px;
+	margin-right: 5px;
+	margin-bottom: 15px;
+	margin-left: -160px;
 	position: relative;
+	padding: 0;
+	list-style: none;
 }
 
-div.folded #adminmenu {
+.folded #adminmenu {
 	margin-left: -45px;
+}
+
+.folded #adminmenu,
+.folded #adminmenu li.menu-top {
+	width: 28px;
 }
 
 #footer {
@@ -197,7 +208,7 @@ dt {
 textarea,
 input,
 select {
-	font: 13px/19px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font: 13px/19px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	margin: 1px;
 	padding: 3px;
 }

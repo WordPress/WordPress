@@ -807,12 +807,6 @@ div.comment-item:hover .row-actions {
 	border-style: solid none none;
 }
 
-#adminmenu {
-	padding: 0;
-	width: 12em;
-	list-style: none;
-}
-
 #adminmenu .wp-submenu a {
 	font: normal 11px/18px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
@@ -826,11 +820,6 @@ div.comment-item:hover .row-actions {
 #adminmenu a.menu-top,
 #adminmenu .wp-submenu-head {
 	font: normal 13px/18px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-}
-
-.folded #adminmenu,
-.folded #adminmenu li.menu-top {
-	width: 28px;
 }
 
 #adminmenu div.wp-submenu-head {
@@ -1036,9 +1025,9 @@ div.comment-item:hover .row-actions {
 }
 /* end side admin menu */
 
-/* 2.6 */
-#adminmenu a #awaiting-mod,
-#adminmenu a span.update-plugins,
+/* comments/plugins bubble in menu */
+#adminmenu #awaiting-mod,
+#adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
 	position: absolute;
 	font-family: Helvetica, Arial, sans-serif;
@@ -1052,8 +1041,8 @@ div.comment-item:hover .row-actions {
 	border-radius: 7px;
 }
 
-#adminmenu li a #awaiting-mod span,
-#adminmenu li a span.update-plugins span,
+#adminmenu li #awaiting-mod span,
+#adminmenu li span.update-plugins span,
 #sidemenu li a span.update-plugins span {
 	float: left;
 	display: block;

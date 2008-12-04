@@ -479,8 +479,8 @@ body.press-this .ui-tabs-selected a:hover {
 	color: #d54e21;
 }
 
-#adminmenu a #awaiting-mod,
-#adminmenu a .update-plugins,
+#adminmenu #awaiting-mod,
+#adminmenu .update-plugins,
 #sidemenu a .update-plugins,
 #rightnow .reallynow,
 #plugin-information .action-button {
