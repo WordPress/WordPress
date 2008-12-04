@@ -222,7 +222,7 @@ echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . '"?' . ">\n";
 
 <!-- To import this information into a WordPress blog follow these steps. -->
 <!-- 1. Log into that blog as an administrator. -->
-<!-- 2. Go to Manage: Import in the blog's admin panels. -->
+<!-- 2. Go to Tools: Import in the blog's admin panels (or Manage: Import in older versions of WordPress). -->
 <!-- 3. Choose "WordPress" from the list. -->
 <!-- 4. Upload this file using the form provided on that page. -->
 <!-- 5. You will first be asked to map the authors in this export file to users -->
