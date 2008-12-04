@@ -241,7 +241,7 @@ if ( $page_links ) : ?>
 
 <div class="alignleft actions">
 <select name="action" class="select-action">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 <?php if ( isset($orphans) ) { ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>
@@ -394,7 +394,7 @@ if ( $page_links )
 
 <div class="alignleft actions">
 <select name="action2" class="select-action">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 <?php if ( isset($orphans) ) { ?>
 <option value="attach"><?php _e('Attach to a post'); ?></option>

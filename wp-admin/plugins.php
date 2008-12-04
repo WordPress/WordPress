@@ -319,7 +319,7 @@ function print_plugin_actions($context) {
 ?>
 	<div class="alignleft actions">
 		<select name="action">
-			<option value="" selected="selected"><?php _e('Actions'); ?></option>
+			<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 	<?php if( 'active' != $context ) : ?>
 			<option value="activate-selected"><?php _e('Activate'); ?></option>
 	<?php endif; ?>

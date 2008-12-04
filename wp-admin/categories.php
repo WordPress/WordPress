@@ -180,7 +180,7 @@ if ( $page_links )
 
 <div class="alignleft actions">
 <select name="action">
-<option value="" selected="selected"><?php _e('Actions'); ?></option>
+<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
 <input type="submit" value="<?php _e('Apply'); ?>" name="doaction" id="doaction" class="button-secondary action" />
@@ -220,7 +220,7 @@ if ( $page_links )
 
 <div class="alignleft actions">
 <select name="action2">
-<option value="" selected="selected"><?php _e('Actions'); ?></option>
+<option value="" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
 <input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />

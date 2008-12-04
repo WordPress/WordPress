@@ -191,7 +191,7 @@ $page_links = paginate_links( array(
 
 <div class="alignleft actions">
 <select name="action">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
@@ -271,7 +271,7 @@ if ( $page_links )
 
 <div class="alignleft actions">
 <select name="action2">
-<option value="-1" selected="selected"><?php _e('Actions'); ?></option>
+<option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 <option value="edit"><?php _e('Edit'); ?></option>
 <option value="delete"><?php _e('Delete'); ?></option>
 </select>
