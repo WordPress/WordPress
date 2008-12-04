@@ -498,7 +498,7 @@ function unzip_file($file, $to) {
 		if ( $fs->is_dir($tmppath) ) { //Found the highest folder that exists, Create from here(ie +1)
 			for ( $i = $i + 1; $i <= count($path); $i++ ) {
 				$tmppath = implode('/', array_slice($path, 0, $i) );
-				if ( ! $fs->mkdir($tmppath, 0755) )
+				if ( ! $fs->mkdir($tmppath, FS_CHMOD_DIR) )
 					return new WP_Error('mkdir_failed', __('Could not create directory'), $tmppath);
 			}
 			break; //Exit main for loop
@@ -516,7 +516,7 @@ function unzip_file($file, $to) {
 			if ( $fs->is_dir($tmppath) ) {//Found the highest folder that exists, Create from here
 				for ( $i = $i + 1; $i <= count($path); $i++ ) { //< count() no file component please.
 					$tmppath = $to . implode('/', array_slice($path, 0, $i) );
-					if ( ! $fs->is_dir($tmppath) && ! $fs->mkdir($tmppath, 0755) )
+					if ( ! $fs->is_dir($tmppath) && ! $fs->mkdir($tmppath, FS_CHMOD_DIR) )
 						return new WP_Error('mkdir_failed', __('Could not create directory'), $tmppath);
 				}
 				break; //Exit main for loop
@@ -527,7 +527,7 @@ function unzip_file($file, $to) {
 		if ( ! $file['folder'] ) {
 			if ( !$fs->put_contents( $to . $file['filename'], $file['content']) )
 				return new WP_Error('copy_failed', __('Could not copy file'), $to . $file['filename']);
-			$fs->chmod($to . $file['filename'], 0644);
+			$fs->chmod($to . $file['filename'], FS_CHMOD_FILE);
 		}
 	}
 	return true;
@@ -558,10 +558,10 @@ function copy_dir($from, $to) {
 				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true) )
 					return new WP_Error('copy_failed', __('Could not copy file'), $to . $filename);
 			}
-			$wp_filesystem->chmod($to . $filename, 0644);
+			$wp_filesystem->chmod($to . $filename, FS_CHMOD_FILE);
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->is_dir($to . $filename) ) {
-				if ( !$wp_filesystem->mkdir($to . $filename, 0755) )
+				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )
 					return new WP_Error('mkdir_failed', __('Could not create directory'), $to . $filename);
 			}
 			$result = copy_dir($from . $filename, $to . $filename);
@@ -603,6 +603,12 @@ function WP_Filesystem( $args = false ) {
 
 	if ( !$wp_filesystem->connect() )
 		return false; //There was an erorr connecting to the server.
+
+	// Set the permission constants if not already set.
+	if ( ! defined('FS_CHMOD_DIR') )
+		define('FS_CHMOD_DIR', 0755 );
+	if ( ! defined('FS_CHMOD_FILE') )
+		define('FS_CHMOD_FILE', 0644 );
 
 	return true;
 }

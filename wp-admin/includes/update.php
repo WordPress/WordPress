@@ -468,7 +468,7 @@ function wp_update_core($current, $feedback = '') {
 		$wp_filesystem->delete($working_dir, true);
 		return new WP_Error('copy_failed', __('Could not copy files'));
 	}
-	$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', 0644);
+	$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
 
 	require(ABSPATH . 'wp-admin/includes/update-core.php');
 

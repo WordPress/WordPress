@@ -227,7 +227,7 @@ function update_core($from, $to) {
 	$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
 	$maintenance_file = $to . '.maintenance';
 	$wp_filesystem->delete($maintenance_file);
-	$wp_filesystem->put_contents($maintenance_file, $maintenance_string, 0644);
+	$wp_filesystem->put_contents($maintenance_file, $maintenance_string, FS_CHMOD_FILE);
 
 	// Copy new versions of WP files into place.
 	$result = copy_dir($from . '/wordpress', $to);
