@@ -460,7 +460,7 @@ function get_comment_link( $comment = null, $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	if ( '' === $args['per_page'] && get_option('page_comments') )
-		$args['per_page'] = get_query_var('comments_per_page');
+		$args['per_page'] = get_option('comments_per_page');
 
 	if ( empty($args['per_page']) ) {
 		$args['per_page'] = 0;
