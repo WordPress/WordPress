@@ -349,3 +349,32 @@ columns = {
 }
 
 })(jQuery);
+
+
+jQuery(document).ready(function($){
+	if ( 'undefined' != typeof google && google.gears ) return;
+	
+	var gf = false;
+	if ( 'undefined' != typeof GearsFactory ) {
+		gf = new GearsFactory();
+	} else {
+		try {
+			gf = new ActiveXObject('Gears.Factory');
+			if ( factory.getBuildInfo().indexOf('ie_mobile') != -1 )
+				gf.privateSetGlobalObject(this);
+		} catch (e) {
+			if ( ( 'undefined' != typeof navigator.mimeTypes ) && navigator.mimeTypes['application/x-googlegears'] ) {
+				gf = document.createElement("object");
+				gf.style.display = "none";
+				gf.width = 0;
+				gf.height = 0;
+				gf.type = "application/x-googlegears";
+				document.documentElement.appendChild(gf);
+			}
+		}
+	}
+	if ( gf && gf.hasPermission )
+		return;
+		
+	$('.turbo-nag').show();
+});
