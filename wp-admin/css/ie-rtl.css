@@ -36,6 +36,9 @@ p.search-box {
 	right: auto;
 	left: 15px;
 }
+#wphead-info {
+	float: left;
+}
 /* without this dashboard widgets appear in one column for some screen widths */
 div#dashboard-widgets {
 	padding-right: 0;

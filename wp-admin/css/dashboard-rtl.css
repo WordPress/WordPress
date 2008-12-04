@@ -10,7 +10,7 @@
 	right: auto;
 	left: 0;
 }
-#dashboard_right_now p.sub {
+#dashboard_right_now p.sub, #dashboard-widgets h4, #dashboard_quick_press h4, a.rsswidget, #dashboard_plugins h4, #dashboard_plugins h5, #dashboard_recent_comments .comment-meta .approve {
 	font-family: Tahoma, Arial;
 }
 #dashboard_right_now td.b {
@@ -30,25 +30,31 @@
 	float: left;
 	clear: left;
 }
+#dashboard-widgets h3 a {
+	right: auto;
+	left: 30px;
+}
+#the-comment-list .pingback {
+	padding-left: 0 !important;
+	padding-right: 9px !important;
+}
 /* Recent Comments */
 #the-comment-list .comment-item {
 	padding: 1em 70px 1em 10px;
 }
 #the-comment-list .comment-item .avatar {
-	left: auto;
-	right: 0;
+	float: right;
+	margin-left: 0;
+	margin-right: -60px;
 }
-/*
-#dashboard-widgets .heading {
-	font-family: Tahoma, Arial;
-}
-*/
 /* Feeds */
 .rss-widget cite {
 	text-align: left;
 }
 .rss-widget span.rss-date {
 	font-family: Tahoma, Arial;
+	margin-left: 0;
+	margin-right: 3px;
 }
 /* QuickPress */
 #dashboard_quick_press h4 {
@@ -82,4 +88,6 @@
 /* Recent Drafts */
 #dashboard_recent_drafts h4 abbr {
 	font-family: Tahoma, Arial;
+	margin-left:0;
+	margin-right: 3px;
 }

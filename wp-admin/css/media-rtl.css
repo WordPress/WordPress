@@ -77,7 +77,7 @@ button.dismiss {
 #gallery-settings #basic th.label {
 	padding: 5px 0 5px 5px;
 }
-#gallery-settings .title, .media-blank h3 {
+#gallery-settings .title, h3.media-title {
 	font-family: Tahoma, Arial;
 }
 #gallery-settings .describe th.label {

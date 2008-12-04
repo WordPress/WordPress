@@ -1,12 +1,10 @@
 body {
-	font-family: Tahoma, arial;
+	font-family: Tahoma, Arial;
 }
-.button,
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML {
-	font-family: Tahoma, arial;
-	margin-left: 0;
-	margin-right: 5px;
+	margin: 0px 0 0 5px;
+	float: right;
 }
 /* Editor/Main Column */
 div#poststuff {
@@ -16,9 +14,13 @@ div#poststuff {
 .posting {
 	margin-right: 0;
 	margin-left: 228px;
+	left:auto;
+	right: 0;
 }
 #side-info-column {
 	float: left;
+	right: auto;
+	left: 0;
 	margin-right: 0;
 	margin-left: 10px;
 }
@@ -26,21 +28,33 @@ div#poststuff {
 	padding-left: 0;
 	padding-right: 10px;
 }
+h3.tb {
+	margin-left: 0;
+	margin-right: 5px;
+}
 #actions {
+	float: left;
+}
+#extra_fields #actions {
 	right: auto;
 	left: 4px;
 }
 #actions li {
 	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+#extra_fields .button {
+	margin-right: 0;
+	margin-left: 5px;
 }
 /* Photo Styles */
 #img_container a {
-	float:right;
+	float: right;
 }
-#category-add input, #category-add select  {
-	font-family: Tahoma, arial;
+#category-add input, #category-add select {
+	font-family: Tahoma, Arial;
 }
-/* Categories */
 #categorydiv ul.categorychecklist ul {
 	margin-left: 0;
 	margin-right: 18px;
@@ -50,22 +64,33 @@ div#poststuff {
 	margin-right: 0;
 	margin-left: 5px;
 }
-#tagchecklist {
-	padding-left: 0;
-	padding-right: 1em;
+#tagadd {
+	margin-left: 0;
+	margin-right: 3px;
 }
 #tagchecklist span {
-	margin-right: 10px;
 	margin-left: .5em;
+	margin-right: 10px;
 	float: right;
 }
 #tagchecklist span a {
 	margin: 6px -9px 0 0;
 	float: right;
 }
-/* Submit */
-.submitbox .submit, .ac_results li  {
-	text-align:right;
+#content {
+	margin-left: 0;
+	margin-right: 1%;
+}
+.submit input,
+.button,
+.button-primary,
+.button-secondary,
+.button-highlighted,
+#postcustomstuff .submit input {
+	font-family: tahoma;
+}
+.ac_results li {
+	text-align: right;
 }
 #TB_ajaxContent #options {
 	right: auto;

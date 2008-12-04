@@ -1,8 +1,5 @@
 /* 0 - 200
 =================================== */
-form#upload th {
-	text-align: left;
-}
 td.available-theme {
 	text-align: right;
 }
@@ -64,16 +61,6 @@ td.available-theme {
 }
 /* 500 - 700
 =================================== */
-#searchform fieldset {
-	float: right;
-	margin: 0 0 1em 1.5ex;
-}
-#searchform fieldset legend {
-	padding: 0 1px .2em 0;
-}
-#searchform #post-query-submit {
-	float: right;
-}
 #template div {
 	margin-right: 0;
 	margin-left: 190px;
@@ -125,7 +112,7 @@ td.available-theme {
 }
 #logo50 {
 	float: right;
-	margin: 9px 20px 0 0;
+	margin: 7px 15px 0 0;
 }
 #wphead h1 {
 	font-family: "Times New Roman", Tahoma;
@@ -177,24 +164,24 @@ td.available-theme {
 	margin: 0 15px 0 0;
 	padding-right:0;
 	padding-left: 15px;
-	float: left;
 }
 /* end side admin menu */
 /* 1000 - 1300
 =================================== */
-#adminmenu a #awaiting-mod,
-#adminmenu a span.update-plugins,
+#adminmenu #awaiting-mod,
+#adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
-	background-position: -240px top;
+	font-family: tahoma;
+	margin-left: 0;
+	margin-right: 2px;
 }
-#adminmenu li a:hover #awaiting-mod,
-#adminmenu li a:hover span.update-plugins,
-#sidemenu li a:hover span.update-plugins {
-	background-position: -160px top;
+#adminmenu li #awaiting-mod span,
+#adminmenu li span.update-plugins span,
+#sidemenu li a span.update-plugins span {
+	float: right;
 }
-#adminmenu li a #awaiting-mod span, #adminmenu li a span.update-plugins span, #sidemenu li a span.update-plugins span {
-	right:auto;
-	left:0;
+.post-com-count-wrapper {
+	font-family: tahoma;
 }
 /* Tables used on comment.php and option/setting pages */
 .form-table th,
@@ -218,11 +205,6 @@ td.available-theme {
 =================================== */
 #normal-sortables .postbox .submit {
 	float: left;
-}
-#mediadiv img {
-	float: right;
-	margin-right: 0;
-	margin-left: 1em;
 }
 #post-body #tagsdiv #newtag {
 	margin-right: 0;
@@ -265,11 +247,6 @@ td.available-theme {
 }
 .howto {
 	font-family: Tahoma, Arial;
-}
-.metabox-holder .postbox h3,
-#poststuff .postbox h3,
-#poststuff .stuffbox h3 {
-	background-position: right top;
 }
 .postarea h3 label {
 	float: right;
@@ -342,13 +319,6 @@ td.available-theme {
 	margin-right: 18px;
 }
 /* positioning etc. */
-
-/*
-p#big-add-button {
-	right: auto;
-	left: 0;
-}
-*/
 p.search-box {
 	float: left;
 }
@@ -383,13 +353,14 @@ td.action-links, th.action-links {
 }
 /* 2000 - 2300
 =================================== */
-#gears-info-box .gears-img {
-	float: left;
+.filter .subsubsub {
+	margin-left: 0;
+	margin-right: -10px;
 }
 #wp-word-count {
 	margin-right: 10px;
 }
-.info-box-title {
+.tool-box .title {
 	font-family: "Times New Roman", Tahoma;
 }
 .settings-toggle {
@@ -401,29 +372,6 @@ td.action-links, th.action-links {
 	padding-left: 0;
 	padding-right: 18px;
 }
-
-/*
-#inbox-filter .actions {
-	margin-left: 0;
-	margin-right: 6px;
-	padding-left: 0;
-	padding-right: 16px;
-}
-#inbox-filter ul input.checkbox {
-	float: right;
-}
-#inbox-filter ul p {
-	float: right;
-	margin-left: 0;
-	margin-right: -40px;
-	left: auto;
-	right: 50px;
-}
-#inbox-message {
-	margin: 0 7.5em 0 0;
-}
-*/
-
 /* media popup 0819 */
 #sidemenu {
 	margin: -30px 315px 0 15px;
@@ -433,9 +381,6 @@ td.action-links, th.action-links {
 }
 #sidemenu a {
 	float: right;
-}
-#previewview {
-	float: left;
 }
 #replysubmit .button {
 	margin-right: 0;
@@ -449,6 +394,9 @@ td.action-links, th.action-links {
 }
 #replyrow #ed_reply_toolbar input {
 	margin: 1px 1px 1px 2px;
+}
+.metabox-prefs {
+	padding: 5px 10px 10px 5px;
 }
 /* show/hide settings */
 #screen-meta-links {
@@ -465,7 +413,8 @@ td.action-links, th.action-links {
 	padding: 10px 15px 0 0;
 }
 .metabox-prefs label {
-	float: right;
+	padding-right: 0;
+	padding-left: 15px;
 }
 .metabox-prefs label input {
 	margin: 0 2px 0 5px;
@@ -579,7 +528,7 @@ td.action-links, th.action-links {
 }
 .icon32 {
 	float: right;
-	margin: 8px 0 0 6px;
+	margin: 14px 0 0 6px;
 }
 /* TinyMCE
 =================================== */
