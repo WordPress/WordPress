@@ -15,11 +15,11 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 >
 	<title type="text"><?php
 		if ( is_singular() )
-			printf(__('Comments on: %s'), get_the_title_rss());
+			printf(ent2ncr(__('Comments on: %s')), get_the_title_rss());
 		elseif ( is_search() )
-			printf(__('Comments for %1$s searching on %2$s'), get_bloginfo_rss( 'name' ), attribute_escape(get_search_query()));
+			printf(ent2ncr(__('Comments for %1$s searching on %2$s')), get_bloginfo_rss( 'name' ), attribute_escape(get_search_query()));
 		else
-			printf(__('Comments for %s'), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
+			printf(ent2ncr(__('Comments for %s')), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
 	?></title>
 	<subtitle type="text"><?php bloginfo_rss('description'); ?></subtitle>
 
@@ -50,9 +50,9 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 			if ( !is_singular() ) {
 				$title = get_the_title($comment_post->ID);
 				$title = apply_filters('the_title_rss', $title);
-				printf(__('Comment on %1$s by %2$s'), $title, get_comment_author_rss());
+				printf(ent2ncr(__('Comment on %1$s by %2$s')), $title, get_comment_author_rss());
 			} else {
-				printf(__('By: %s'), get_comment_author_rss());
+				printf(ent2ncr(__('By: %s')), get_comment_author_rss());
 			}
 		?></title>
 		<link rel="alternate" href="<?php comment_link(); ?>" type="<?php bloginfo_rss('html_type'); ?>" />

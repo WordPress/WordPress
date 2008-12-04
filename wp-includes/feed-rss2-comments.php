@@ -18,11 +18,11 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 <channel>
 	<title><?php
 		if ( is_singular() )
-			printf(__('Comments on: %s'), get_the_title_rss());
+			printf(ent2ncr(__('Comment&uuml;s on: %s')), get_the_title_rss());
 		elseif ( is_search() )
-			printf(__('Comments for %s searching on %s'), get_bloginfo_rss( 'name' ), attribute_escape($wp_query->query_vars['s']));
+			printf(ent2ncr(__('Comments for %s searching on %s')), get_bloginfo_rss( 'name' ), attribute_escape($wp_query->query_vars['s']));
 		else
-			printf(__('Comments for %s'), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
+			printf(ent2ncr(__('Comments for %s')), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
 	?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php (is_single()) ? the_permalink_rss() : bloginfo_rss("url") ?></link>
@@ -42,9 +42,9 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 			if ( !is_singular() ) {
 				$title = get_the_title($comment_post->ID);
 				$title = apply_filters('the_title_rss', $title);
-				printf(__('Comment on %1$s by %2$s'), $title, get_comment_author_rss());
+				printf(ent2ncr(__('Comment on %1$s by %2$s')), $title, get_comment_author_rss());
 			} else {
-				printf(__('By: %s'), get_comment_author_rss());
+				printf(ent2ncr(__('By: %s')), get_comment_author_rss());
 			}
 		?></title>
 		<link><?php comment_link() ?></link>
@@ -52,7 +52,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid isPermaLink="false"><?php comment_guid() ?></guid>
 <?php if ( post_password_required($comment_post) ) : ?>
-		<description><?php _e('Protected Comments: Please enter your password to view comments.'); ?></description>
+		<description><?php echo ent2ncr(__('Protected Comments: Please enter your password to view comments.')); ?></description>
 		<content:encoded><![CDATA[<?php echo get_the_password_form() ?>]]></content:encoded>
 <?php else : // post pass ?>
 		<description><?php comment_text_rss() ?></description>
