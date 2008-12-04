@@ -135,12 +135,22 @@ if ($allowed_files) :
 	<ul>
 <?php
 	$template_mapping = array();
+	$template_dir = $themes[$theme]['Template Dir'];
 	foreach($themes[$theme]['Template Files'] as $template_file) {
 		$description = trim( get_file_description($template_file) );
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : "$description";
 		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($template_show)</span></span>" : $filedesc;
-		$template_mapping[ $description ] = array( $template_file, $filedesc );
+		
+		// If we have two files of the same name prefer the one in the Template Directory
+		// This means that we display the correct files for child themes which overload Templates as well as Styles
+		if( array_key_exists($description, $template_mapping ) ) {
+			if ( false !== strpos( $template_file, $template_dir ) )  { 
+				$template_mapping[ $description ] = array( $template_file, $filedesc );
+			}
+		} else {
+			$template_mapping[ $description ] = array( $template_file, $filedesc );
+		}
 	}
 	ksort( $template_mapping );
 	while ( list( $template_sorted_key, list( $template_file, $filedesc ) ) = each( $template_mapping ) ) :
