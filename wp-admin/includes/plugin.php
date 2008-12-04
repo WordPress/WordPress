@@ -1011,9 +1011,14 @@ function add_option_whitelist( $new_options, $options = '' ) {
 	}
 	foreach( $new_options as $page => $keys ) {
 		foreach( $keys as $key ) {
-			$pos = array_search( $key, $whitelist_options[ $page ] );
-			if( $pos === false )
+			if ( !isset($whitelist_options[ $page ]) || !is_array($whitelist_options[ $page ]) ) {
+				$whitelist_options[ $page ] = array();
 				$whitelist_options[ $page ][] = $key;
+			} else {
+				$pos = array_search( $key, $whitelist_options[ $page ] );
+				if ( $pos === false )
+					$whitelist_options[ $page ][] = $key;
+			}
 		}
 	}
 	return $whitelist_options;
