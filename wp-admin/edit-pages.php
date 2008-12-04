@@ -104,8 +104,10 @@ require_once('admin-header.php'); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<?php $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( get_search_query() ) ) : ''; ?>
-<h2><?php echo wp_specialchars( $title ) . $h2_search; ?></h2>
+<h2><?php echo wp_specialchars( $title );
+if ( isset($_GET['s']) && $_GET['s'] )
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', wp_specialchars( get_search_query() ) ); ?>
+</h2>
 
 <?php if ( isset($_GET['locked']) || isset($_GET['skipped']) || isset($_GET['updated']) || isset($_GET['deleted']) ) { ?>
 <div id="message" class="updated fade"><p>

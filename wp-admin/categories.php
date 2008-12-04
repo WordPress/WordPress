@@ -131,8 +131,10 @@ $messages[5] = __('Category not updated.');
 
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
-<?php $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes($_GET['s']) ) ) : ''; ?>
-<h2><?php echo wp_specialchars( $title ) . $h2_search; ?></h2>
+<h2><?php echo wp_specialchars( $title );
+if ( isset($_GET['s']) && $_GET['s'] )
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', wp_specialchars( stripslashes($_GET['s']) ) ); ?>
+</h2>
 
 <?php
 if ( isset($_GET['message']) && ( $msg = (int) $_GET['message'] ) ) : ?>

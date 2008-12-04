@@ -2917,3 +2917,9 @@ table.fixed {
 .key-labels label {
 	line-height: 24px;
 }
+
+.subtitle {
+	font-size: 0.75em;
+	line-height: 1;
+	padding-left: 25px;
+}
