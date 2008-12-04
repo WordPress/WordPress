@@ -63,7 +63,7 @@ function profile_js ( ) {
 
 	$(document).ready( function() {
 		$('#nickname').blur(update_nickname);
-		$('#pass1').keyup( check_pass_strength );
+		$('#pass1').val('').keyup( check_pass_strength );
 		$('.color-palette').click(function(){$(this).siblings('input[name=admin_color]').attr('checked', 'checked')});
     });
 })(jQuery);
