@@ -232,7 +232,9 @@ class WP_Filesystem_Direct  extends WP_Filesystem_Base {
 			return false;
 
 		$ret = array();
-		$dir = dir($path);
+		$dir = @dir($path);
+		if ( ! $dir )
+			return false;
 		while (false !== ($entry = $dir->read()) ) {
 			$struc = array();
 			$struc['name'] = $entry;
