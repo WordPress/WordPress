@@ -1061,6 +1061,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			"author_url"			=> $comment->comment_author_url,
 			"author_email"			=> $comment->comment_author_email,
 			"author_ip"				=> $comment->comment_author_IP,
+			"type"					=> $comment->comment_type,
 		);
 
 		return $comment_struct;
