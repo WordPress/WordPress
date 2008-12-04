@@ -71,7 +71,8 @@ switch ($order_by) {
 
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<?php $h2_search = isset($_GET['s']) && $_GET['s'] ? ' ' . sprintf(__('matching &#8220;%s&#8221;'), wp_specialchars( stripslashes($_GET['s']) ) ) : ''; ?>
+<h2><?php echo wp_specialchars( $title ) . $h2_search; ?></h2>
 
 <?php
 if ( isset($_GET['deleted']) ) {
