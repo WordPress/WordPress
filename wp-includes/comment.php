@@ -421,7 +421,7 @@ function wp_allow_comment($commentdata) {
 		$post_author = $wpdb->get_var($wpdb->prepare("SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1", $comment_post_ID));
 	}
 
-	if ( $userdata && ( $user_id == $post_author || $user->has_cap('moderate_comments') ) ) {
+	if ( isset($userdata) && ( $user_id == $post_author || $user->has_cap('moderate_comments') ) ) {
 		// The author and the admins get respect.
 		$approved = 1;
 	 } else {
