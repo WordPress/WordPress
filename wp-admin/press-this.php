@@ -61,7 +61,6 @@ function press_it() {
 
 	// insert the post with nothing in it, to get an ID
 	$post_ID = wp_insert_post($quick, true);
-	
 	$content = $_REQUEST['content'];
 
 	if($_REQUEST['photo_src'])
@@ -75,7 +74,7 @@ function press_it() {
 				$quoted = preg_quote2($image);
 				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=(\"|\')'.$quoted.'(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
-	
+
 	// set the post_content
 	$quick['post_content'] = $content;
 	// error handling for $post
@@ -350,7 +349,6 @@ die;
 	
 	if ( user_can_richedit() ) {
 		add_filter( 'teeny_mce_before_init', create_function( '$a', '$a["height"] = "400"; $a["onpageload"] = ""; $a["mode"] = "textareas"; $a["editor_selector"] = "mceEditor"; return $a;' ) );
-		
 		wp_tiny_mce( true );
 	}
 ?>
@@ -453,7 +451,7 @@ die;
 		<?php  } elseif ( preg_match("/flickr\.com/i", $url) ) { ?>
 			show('photo');
 		<?php } ?>
-		
+		jQuery('#title').unbind();
 		jQuery('#publish, #save').click(function() { jQuery('#saving').css('display', 'inline'); });
 	});
 </script>
@@ -544,6 +542,7 @@ die;
 				<li id="video_button">
 					<a title="<?php _e('Embed a Video'); ?>" href="#"><img alt="<?php _e('Embed a Video'); ?>" src="images/media-button-video.gif"/></a>
 				</li>
+				<?php if( user_can_richedit() ) { ?>
 				<li id="switcher">
 					<?php wp_print_scripts( 'quicktags' ); ?>
 					<?php add_filter('the_editor_content', 'wp_richedit_pre'); ?>
@@ -551,6 +550,7 @@ die;
 					<a id="edButtonPreview" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
 					<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
 				</li>
+				<?php } ?>
 			</ul>
 			<div id="quicktags"></div>
 			<div class="editor-container">

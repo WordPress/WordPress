@@ -320,7 +320,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'dashboard', '/wp-admin/css/dashboard.css', array(), '20081203' );
 	$styles->add( 'install', '/wp-admin/css/install.css', array(), '20081203' );
 	$styles->add( 'theme-editor', '/wp-admin/css/theme-editor.css', array(), '20081203' );
-	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20081203' );
+	$styles->add( 'press-this', '/wp-admin/css/press-this.css', array(), '20081203b' );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20081203' );
 	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20081203' );
 	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081203' );
