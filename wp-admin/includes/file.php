@@ -437,7 +437,7 @@ function download_url( $url ) {
 	if ( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
-	$handle = @fopen($tmpfname, 'w');
+	$handle = @fopen($tmpfname, 'wb');
 	if ( ! $handle )
 		return new WP_Error('http_no_file', __('Could not create Temporary file'));
 
