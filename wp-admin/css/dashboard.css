@@ -79,8 +79,12 @@ div.postbox div.inside {
 
 #dashboard-widgets h3 a {
 	text-decoration: underline;
+}
+
+#dashboard-widgets h3 .postbox-title-action {
 	position: absolute;
 	right: 30px;
+	padding: 0;
 }
 
 #dashboard-widgets h4 {
