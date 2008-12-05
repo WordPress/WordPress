@@ -565,11 +565,11 @@ function wp_dropdown_pages($args = '') {
 	$output = '';
 
 	if ( ! empty($pages) ) {
-		$output = "<select name='$name' id='$name'>\n";
+		$output = "<select name=\"$name\" id=\"$name\">\n";
 		if ( $show_option_no_change )
-			$output .= "\t<option value='-1'>$show_option_no_change</option>";
+			$output .= "\t<option value=\"-1\">$show_option_no_change</option>";
 		if ( $show_option_none )
-			$output .= "\t<option value='$option_none_value'>$show_option_none</option>\n";
+			$output .= "\t<option value=\"$option_none_value\">$show_option_none</option>\n";
 		$output .= walk_page_dropdown_tree($pages, $depth, $r);
 		$output .= "</select>\n";
 	}

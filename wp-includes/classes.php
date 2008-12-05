@@ -1233,7 +1233,7 @@ class Walker_PageDropdown extends Walker {
 	function start_el(&$output, $page, $depth, $args) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
-		$output .= "\t<option value=\"$page->ID\"";
+		$output .= "\t<option class=\"level-$depth\" value=\"$page->ID\"";
 		if ( $page->ID == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
