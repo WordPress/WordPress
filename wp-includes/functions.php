@@ -674,7 +674,7 @@ function wp_user_settings() {
 	if ( ! $user = wp_get_current_user() )
 		return;
 
-	$settings = get_user_option( 'user-settings', $user->ID );
+	$settings = get_user_option( 'user-settings', $user->ID, false );
 
 	if ( isset($_COOKIE['wp-settings-'.$user->ID]) ) {
 		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-'.$user->ID] );
@@ -683,7 +683,7 @@ function wp_user_settings() {
 			if ( $cookie == $settings )
 				return;
 
-			$last_time = (int) get_user_option( 'user-settings-time', $user->ID );
+			$last_time = (int) get_user_option( 'user-settings-time', $user->ID, false );
 			$saved = isset($_COOKIE['wp-settings-time-'.$user->ID]) ? preg_replace( '/[^0-9]/', '', $_COOKIE['wp-settings-time-'.$user->ID] ) : 0;
 
 			if ( $saved > $last_time ) {
