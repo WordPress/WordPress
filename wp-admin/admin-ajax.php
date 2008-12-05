@@ -935,7 +935,7 @@ case 'inline-save-tax':
 			$updated = wp_update_category($data);
 
 			if ( $updated && !is_wp_error($updated) )
-				echo _cat_row( $id, 0 );
+				echo _cat_row( $updated, 0 );
 			else
 				die( __('Category not updated.') );
 
@@ -944,16 +944,15 @@ case 'inline-save-tax':
 			$updated = wp_update_term($id, 'link_category', $_POST);
 
 			if ( $updated && !is_wp_error($updated) )
-				echo link_cat_row($id);
+				echo link_cat_row($updated['term_id']);
 			else
 				die( __('Category not updated.') );
 
 			break;
 		case 'tag' :
 			$updated = wp_update_term($id, 'post_tag', $_POST);
-
 			if ( $updated && !is_wp_error($updated) ) {
-				$tag = get_term( $id, 'post_tag' );
+				$tag = get_term( $updated['term_id'], 'post_tag' );
 				if ( !$tag || is_wp_error( $tag ) )
 					die( __('Tag not updated.') );
 
