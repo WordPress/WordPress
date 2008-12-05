@@ -1050,6 +1050,7 @@ function inline_edit_row( $type ) {
 	$dropdown_args = array('selected' => $post->post_parent, 'name' => 'post_parent', 'show_option_none' => __('Main Page (no parent)'), 'option_none_value' => 0);
 	if ( $bulk )
 		$dropdown_args['show_option_no_change'] =  __('- No Change -');
+	$dropdown_args = apply_filters('quick_edit_dropdown_pages_args', $dropdown_args);
 	wp_dropdown_pages($dropdown_args);
 ?>
 		</label>
