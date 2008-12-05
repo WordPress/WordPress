@@ -1,10 +1,4 @@
 jQuery(document).ready( function($) {
-//	postboxes.add_postbox_toggles('comment');
-
-	// close postboxes that should be closed
-//	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-
-	// show things that should be visible, hide what should be hidden
 	jQuery('.hide-if-no-js').show();
 	jQuery('.hide-if-js').hide();
 
@@ -14,7 +8,6 @@ jQuery(document).ready( function($) {
 			$('#timestampdiv').slideDown("normal");
 			$('.edit-timestamp').hide();
 		}
-
 		return false;
 	});
 
@@ -27,7 +20,6 @@ jQuery(document).ready( function($) {
 		$('#mn').val($('#hidden_mn').val());
 		$('#timestamp').html(stamp);
 		$('.edit-timestamp').show();
-
 		return false;
 	});
 
@@ -42,7 +34,6 @@ jQuery(document).ready( function($) {
 			$('#hh').val() + ':' +
 			$('#mn').val() + '</b> '
 		);
-
 		return false;
 	});
 });
