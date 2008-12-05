@@ -676,6 +676,10 @@ function wp_count_comments( $post_id = 0 ) {
 
 	$post_id = (int) $post_id;
 
+	$stats = apply_filters('wp_count_comments', array(), $post_id);
+	if ( !empty($stats) )
+		return $stats;
+
 	$count = wp_cache_get("comments-{$post_id}", 'counts');
 
 	if ( false !== $count )
@@ -688,7 +692,6 @@ function wp_count_comments( $post_id = 0 ) {
 	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
 
 	$total = 0;
-	$stats = array( );
 	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam');
 	foreach( (array) $count as $row_num => $row ) {
 		$total += $row['num_comments'];
