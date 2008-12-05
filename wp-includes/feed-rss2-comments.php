@@ -18,7 +18,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 <channel>
 	<title><?php
 		if ( is_singular() )
-			printf(ent2ncr(__('Comment&uuml;s on: %s')), get_the_title_rss());
+			printf(ent2ncr(__('Comments on: %s')), get_the_title_rss());
 		elseif ( is_search() )
 			printf(ent2ncr(__('Comments for %s searching on %s')), get_bloginfo_rss( 'name' ), attribute_escape($wp_query->query_vars['s']));
 		else
