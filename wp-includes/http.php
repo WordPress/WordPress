@@ -760,7 +760,7 @@ class WP_Http_Streams {
 		$arrContext = array('http' =>
 			array(
 				'method' => strtoupper($r['method']),
-				'user-agent' => $r['user-agent'],
+				'user_agent' => $r['user-agent'],
 				'max_redirects' => $r['redirection'],
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $strHeaders,
