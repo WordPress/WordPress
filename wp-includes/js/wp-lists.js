@@ -26,7 +26,7 @@ var wpList = {
 		var c = [], cl;
 		try {
 			cl = $(e).attr('class') || '';
-			cl = cl.match(new RegExp(t+':[A-Za-z0-9:_=-]+'));
+			cl = cl.match(new RegExp(t+':[\\S]+'));
 			if ( cl ) { c = cl[0].split(':'); }
 		} catch(r) {}
 		return c;
