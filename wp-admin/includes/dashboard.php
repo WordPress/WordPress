@@ -396,17 +396,25 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
  * @since unknown
  */
 function wp_dashboard_recent_comments() {
-	$status = ( current_user_can('edit_posts') ) ? '' : 'approved';
+	global $wpdb;
 
-	list($comments, $total) = _wp_get_comment_list( $status, false, 0, 5 );
+	if ( current_user_can('edit_posts') )
+		$allowed_states = array('0', '1');
+	else
+		$allowed_states = array('1');
+
+	// Select all comment types and filter out spam later for better query performance.
+	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments ORDER BY comment_date_gmt DESC LIMIT 0, 50" );
 
 	if ( $comments ) :
 ?>
 
 		<div id="the-comment-list" class="list:comment">
 <?php
-		foreach ( $comments as $comment )
-			_wp_dashboard_recent_comments_row( $comment );
+		foreach ( $comments as $comment ) {
+			if ( in_array($comment->comment_approved, $allowed_states) )
+				_wp_dashboard_recent_comments_row( $comment );
+		}
 ?>
 
 		</div>
