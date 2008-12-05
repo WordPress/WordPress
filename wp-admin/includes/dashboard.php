@@ -411,9 +411,13 @@ function wp_dashboard_recent_comments() {
 
 		<div id="the-comment-list" class="list:comment">
 <?php
+		$count = 0;
 		foreach ( $comments as $comment ) {
+			if ( $count >= 5 )
+				break;
 			if ( in_array($comment->comment_approved, $allowed_states) )
 				_wp_dashboard_recent_comments_row( $comment );
+			$count++;
 		}
 ?>
 
