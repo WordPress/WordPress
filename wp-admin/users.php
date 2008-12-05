@@ -242,7 +242,7 @@ if ( ! empty($messages) ) {
 <h2><?php echo wp_specialchars( $title );
 if ( isset($_GET['s']) && $_GET['s'] )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', wp_specialchars( get_search_query() ) ); ?>
-<h2>
+</h2>
 
 <div class="filter">
 <form id="list-filter" action="" method="get">
