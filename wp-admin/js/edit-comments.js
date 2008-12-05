@@ -278,7 +278,7 @@ commentReply = {
 
 	}
 };
-
+toggleWithKeyboard = false;
 $(document).ready(function(){
 	columns.init('edit-comments');
 	commentReply.init();
@@ -299,9 +299,10 @@ $(document).ready(function(){
 			window.location = $('span.edit a', current_row).attr('href');
 		};
 		var toggle_all = function() {
+			toggleWithKeyboard = true;
 			var master_checkbox = $('form#comments-form .check-column :checkbox:first');
-			master_checkbox.attr('checked', master_checkbox.attr('checked')? '' : 'checked');
-			checkAll('form#comments-form');
+			master_checkbox.click().attr('checked', '');
+			toggleWithKeyboard = false;
 		}
 		var make_bulk = function(value) {
 			return function(event, _) {

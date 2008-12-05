@@ -199,16 +199,21 @@ jQuery(document).ready( function($) {
 		lastClicked = this;
 		return true;
 	} );
-
 	$( 'thead :checkbox, tfoot :checkbox' ).click( function(e) {
 		var c = $(this).attr('checked');
-
-		$(this).parents( 'form:first' ).find( 'table tbody:visible, table thead:visible, table tfoot:visible').find( '.check-column :checkbox' ).attr( 'checked', function() {
-			if ( e.shiftKey )
+		var toggle = e.shiftKey || toggleWithKeyboard;
+		$(this).parents( 'form:first' ).find( 'table tbody:visible').find( '.check-column :checkbox' ).attr( 'checked', function() {
+			if ( toggle )
 				return $(this).attr( 'checked' ) ? '' : 'checked';
 			else if (c)
 				return 'checked';
-
+			return '';
+		});
+		$(this).parents( 'form:first' ).find( 'table thead:visible, table tfoot:visible').find( '.check-column :checkbox' ).attr( 'checked', function() {
+			if ( toggle )
+				return '';
+			else if (c)
+				return 'checked';
 			return '';
 		});
 	});
