@@ -175,6 +175,8 @@ var wpList = {
 	},
 
 	ajaxDim: function( e, s ) {
+		if ( $(e).parent().css('display') == 'none' ) // Prevent hidden links from being clicked by hotkeys
+			return false;
 		var list = this; e = $(e); s = s || {};
 		var cls = wpList.parseClass(e,'dim');
 		s = wpList.pre.call( list, e, s, 'dim' );
