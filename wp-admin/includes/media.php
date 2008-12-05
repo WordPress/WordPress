@@ -372,6 +372,8 @@ function media_upload_form_handler() {
 			$post['post_excerpt'] = $attachment['post_excerpt'];
 		if ( isset($attachment['menu_order']) )
 			$post['menu_order'] = $attachment['menu_order'];
+		if ( isset($attachment['post_parent']) )
+			$post['post_parent'] = $attachment['post_parent'];
 
 		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
 
@@ -1184,6 +1186,13 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	foreach ( $hidden_fields as $name => $value )
 		$item .= "\t<input type='hidden' name='$name' id='$name' value='" . attribute_escape( $value ) . "' />\n";
+
+	if ( $post->post_parent < 1 && (int) $_REQUEST['post_id'] ) {
+		$parent = (int) $_REQUEST['post_id'];
+		$parent_name = "attachments[$attachment_id][post_parent]";
+
+		$item .= "\t<input type='hidden' name='$parent_name' id='$parent_name' value='" . $parent . "' />\n";
+	}
 
 	return $item;
 }
