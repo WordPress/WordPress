@@ -173,7 +173,7 @@ function wp_dashboard_right_now() {
 
 	$num_tags = wp_count_terms('post_tag');
 
-	$num_comm = get_comment_count( );
+	$num_comm = wp_count_comments( );
 
 	echo "\n\t".'<p class="sub">' . __('At a Glance') . '</p>';
 	echo "\n\t".'<div class="table">'."\n\t".'<table>';
@@ -205,11 +205,11 @@ function wp_dashboard_right_now() {
 	*/
 
 	// Total Comments
-	$num = number_format_i18n($num_comm['total_comments']);
+	$num = number_format_i18n($num_comm->total_comments);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php'>$num</a>";
 	echo '<td class="b b-comments">'.$num.'</td>';
-	echo '<td class="last t comments">' . __ngettext( 'Comment', 'Comments', $num_comm['total_comments'] ) . '</td>';
+	echo '<td class="last t comments">' . __ngettext( 'Comment', 'Comments', $num_comm->total_comments ) . '</td>';
 
 	echo '</tr><tr>';
 
@@ -221,11 +221,11 @@ function wp_dashboard_right_now() {
 	echo '<td class="t pages">' . __ngettext( 'Page', 'Pages', $num_pages->publish ) . '</td>';
 
 	// Approved Comments
-	$num = number_format_i18n($num_comm['approved']);
+	$num = number_format_i18n($num_comm->approved);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php?comment_status=approved'>$num</a>";
 	echo '<td class="b b_approved">'.$num.'</td>';
-	echo '<td class="last t approved">' . __ngettext( 'Approved', 'Approved', $num_comm['approved'] ) . '</td>';
+	echo '<td class="last t approved">' . __ngettext( 'Approved', 'Approved', $num_comm->approved ) . '</td>';
 
 	echo "</tr>\n\t<tr>";
 
@@ -237,11 +237,11 @@ function wp_dashboard_right_now() {
 	echo '<td class="t cats">' . __ngettext( 'Category', 'Categories', $num_cats ) . '</td>';
 
 	// Pending Comments
-	$num = number_format_i18n($num_comm['awaiting_moderation']);
+	$num = number_format_i18n($num_comm->moderated);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php?comment_status=moderated'><span class='pending-count'>$num</span></a>";
 	echo '<td class="b b-waiting">'.$num.'</td>';
-	echo '<td class="last t waiting">' . __ngettext( 'Pending', 'Pending', $num_comm['awaiting_moderation'] ) . '</td>';
+	echo '<td class="last t waiting">' . __ngettext( 'Pending', 'Pending', $num_comm->moderated ) . '</td>';
 
 	echo "</tr>\n\t<tr>";
 
@@ -253,11 +253,11 @@ function wp_dashboard_right_now() {
 	echo '<td class="t tags">' . __ngettext( 'Tag', 'Tags', $num_tags ) . '</td>';
 
 	// Spam Comments
-	$num = number_format_i18n($num_comm['spam']);
+	$num = number_format_i18n($num_comm->spam);
 	if ( current_user_can( 'moderate_comments' ) )
 		$num = "<a href='edit-comments.php?comment_status=spam'><span class='spam-count'>$num</span></a>";
 	echo '<td class="b b-spam">'.$num.'</td>';
-	echo '<td class="last t spam">' . __ngettext( 'Spam', 'Spam', $num_comm['spam'] ) . '</td>';
+	echo '<td class="last t spam">' . __ngettext( 'Spam', 'Spam', $num_comm->spam ) . '</td>';
 
 	echo "</tr>";
 	do_action('right_now_table_end');
