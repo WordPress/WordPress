@@ -423,8 +423,9 @@ function form_option( $option ) {
 /**
  * Retrieve all autoload options or all options, if no autoloaded ones exist.
  *
- * This is different from wp_load_alloptions(), in this that function does not
- * cache all options and will retrieve all options from the database every time
+ * This is different from wp_load_alloptions() in that this function does not
+ * cache its results and will retrieve all options from the database every time
+ * 
  * it is called.
  *
  * @since 1.0.0
