@@ -554,7 +554,8 @@ function wp_dropdown_pages($args = '') {
 	$defaults = array(
 		'depth' => 0, 'child_of' => 0,
 		'selected' => 0, 'echo' => 1,
-		'name' => 'page_id', 'show_option_none' => ''
+		'name' => 'page_id', 'show_option_none' => '', 'show_option_no_change' => '',
+		'option_none_value' => ''
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -565,8 +566,10 @@ function wp_dropdown_pages($args = '') {
 
 	if ( ! empty($pages) ) {
 		$output = "<select name='$name' id='$name'>\n";
+		if ( $show_option_no_change )
+			$output .= "\t<option value='-1'>$show_option_no_change</option>";
 		if ( $show_option_none )
-			$output .= "\t<option value=''>$show_option_none</option>\n";
+			$output .= "\t<option value='$option_none_value'>$show_option_none</option>\n";
 		$output .= walk_page_dropdown_tree($pages, $depth, $r);
 		$output .= "</select>\n";
 	}

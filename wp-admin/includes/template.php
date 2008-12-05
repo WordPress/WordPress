@@ -1046,13 +1046,12 @@ function inline_edit_row( $type ) {
 
 		<label>
 			<span class="title"><?php _e( 'Parent' ); ?></span>
-			<select name="post_parent">
-<?php	if ( $bulk ) : ?>
-				<option value="-1"><?php _e('- No Change -'); ?></option>
-<?php	endif; // $bulk ?>
-				<option value="0"><?php _e( 'Main Page (no parent)' ); ?></option>
-				<?php parent_dropdown(); ?>
-			</select>
+<?php
+	$dropdown_args = array('selected' => $post->post_parent, 'name' => 'post_parent', 'show_option_none' => __('Main Page (no parent)'), 'option_none_value' => 0);
+	if ( $bulk )
+		$dropdown_args['show_option_no_change'] =  __('- No Change -');
+?>
+				<?php wp_dropdown_pages($dropdown_args); ?>
 		</label>
 
 <?php	if ( !$bulk ) : ?>
