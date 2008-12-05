@@ -668,6 +668,9 @@ function wp_user_settings() {
 	if ( ! is_admin() )
 		return;
 
+	if ( defined('DOING_AJAX') )
+		return;
+
 	if ( ! $user = wp_get_current_user() )
 		return;
 
