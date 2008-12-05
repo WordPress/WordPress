@@ -201,6 +201,8 @@ jQuery(document).ready( function($) {
 	} );
 	$( 'thead :checkbox, tfoot :checkbox' ).click( function(e) {
 		var c = $(this).attr('checked');
+		if ( 'undefined' == typeof  toggleWithKeyboard)
+			toggleWithKeyboard = false;
 		var toggle = e.shiftKey || toggleWithKeyboard;
 		$(this).parents( 'form:first' ).find( 'table tbody:visible').find( '.check-column :checkbox' ).attr( 'checked', function() {
 			if ( toggle )
