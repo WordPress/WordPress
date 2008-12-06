@@ -21,6 +21,15 @@ inlineEditPost = {
 
 		$('a.cancel', bulkRow).click(function() { return inlineEditPost.revert(); });
 
+		$('#inline-edit .inline-edit-private input[value=private]').click( function(){
+			var pw = $('input.inline-edit-password-input');
+			if ( $(this).attr('checked') ) {
+				pw.val('').attr('disabled', 'disabled');
+			} else {
+				pw.attr('disabled', '');
+			}
+		});
+
 		// add events
 		t.addEvents(t.rows);
 
@@ -146,7 +155,10 @@ inlineEditPost = {
 		// handle the post status
 		var status = $('._status', rowData).text();
 		if ( status != 'future' ) $('select[name="_status"] option[value="future"]', editRow).remove();
-		if ( status == 'private' ) $('input[name="keep_private"]', editRow).attr("checked", "checked");
+		if ( status == 'private' ) {
+			$('input[name="keep_private"]', editRow).attr("checked", "checked");
+			$('input.inline-edit-password-input').val('').attr('disabled', 'disabled');
+		}
 
 		// remove the current page and children from the parent dropdown
 		var pageOpt = $('select[name="post_parent"] option[value="'+id+'"]', editRow);

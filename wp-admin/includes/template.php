@@ -1011,8 +1011,10 @@ function inline_edit_row( $type ) {
 				<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
 			</label>
 
+			<em style="margin:5px 10px 0 0" class="alignleft"><?php echo _c( '&ndash;OR&ndash;|Between password field and private checkbox on post quick edit interface' ); ?></em>
+
 			<label class="alignleft inline-edit-private">
-				<input type="checkbox" name="keep_private" value="private" <?php checked($post->post_status, 'private'); ?> />
+				<input type="checkbox" name="keep_private" value="private" />
 				<span class="checkbox-title"><?php echo $is_page ? __('Private page') : __('Private post'); ?></span>
 			</label>
 		</div>
@@ -3248,7 +3250,7 @@ function _post_states($post) {
 		$post_status = '';
 
 	if ( !empty($post->post_password) )
-		$post_states[] = __('Protected');
+		$post_states[] = __('Password protected');
 	if ( 'private' == $post->post_status && 'private' != $post_status )
 		$post_states[] = __('Private');
 	if ( 'draft' == $post->post_status && 'draft' != $post_status )

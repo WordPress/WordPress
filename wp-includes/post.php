@@ -1422,7 +1422,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	else
 		$menu_order = 0;
 
-	if ( !isset($post_password) )
+	if ( !isset($post_password) || 'private' == $post_status )
 		$post_password = '';
 
 	if ( !in_array( $post_status, array( 'draft', 'pending' ) ) ) {

@@ -141,12 +141,13 @@ switch ( $post->post_status ) {
 <div class="misc-pub-section " id="visibility">
 <?php _e('Visibility:'); ?> <b><span id="post-visibility-display"><?php
 
-if ( !empty( $post->post_password ) ) {
-	$visibility = 'password';
-	$visibility_trans = __('Password protected');
-} elseif ( 'private' == $post->post_status ) {
+if ( 'private' == $post->post_status ) {
+	$post->post_password = '';
 	$visibility = 'private';
 	$visibility_trans = __('Private');
+} elseif ( !empty( $post->post_password ) ) {
+	$visibility = 'password';
+	$visibility_trans = __('Password protected');
 } else {
 	$visibility = 'public';
 	$visibility_trans = __('Public');
