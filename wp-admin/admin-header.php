@@ -95,7 +95,7 @@ if ( function_exists('mb_strlen') ) {
 }
 ?>
 
-<img id="logo50" src="images/wp-logo.gif" alt="" /> <h1 <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a></h1>
+<img id="header-logo" src="../wp-includes/images/blank.gif" alt="" width="32" height="32" /> <h1 <?php echo $title_class ?>><a href="<?php echo trailingslashit( get_bloginfo('url') ); ?>" title="<?php _e('Visit site') ?>"><?php echo $blog_name ?></a></h1>
 
 <div id="wphead-info">
 <div id="user_info">
