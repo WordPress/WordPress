@@ -47,9 +47,7 @@ if ( 0 == $post_ID) {
 
 $temp_ID = (int) $temp_ID;
 $user_ID = (int) $user_ID;
-?>
 
-<?php
 /**
  * Display submit form fields.
  *
@@ -369,7 +367,6 @@ if ( $authors && count( $authors ) > 1 ) {
 	}
 	add_meta_box('pageauthordiv', __('Page Author'), 'page_author_meta_box', 'page', 'normal', 'core');
 }
-
 
 if ( 0 < $post_ID && wp_get_post_revisions( $post_ID ) ) :
 /**
