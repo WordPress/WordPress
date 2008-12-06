@@ -404,21 +404,28 @@ function wp_dashboard_recent_comments() {
 		$allowed_states = array('1');
 
 	// Select all comment types and filter out spam later for better query performance.
-	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments ORDER BY comment_date_gmt DESC LIMIT 0, 50" );
+	$comments = array();
+	$start = 0;
+
+	while ( count( $comments ) < 5 && $possible = $wpdb->get_results( "SELECT * FROM $wpdb->comments ORDER BY comment_date_gmt DESC LIMIT $start, 50" ) ) {
+
+		foreach ( $possible as $comment ) {
+			if ( count( $comments ) >= 5 )
+				break;
+			if ( in_array( $comment->comment_approved, $allowed_states ) )
+				$comments[] = $comment;
+		}
+
+		$start = $start + 50;
+	}
 
 	if ( $comments ) :
 ?>
 
 		<div id="the-comment-list" class="list:comment">
 <?php
-		$count = 0;
-		foreach ( $comments as $comment ) {
-			if ( $count >= 5 )
-				break;
-			if ( in_array($comment->comment_approved, $allowed_states) )
-				_wp_dashboard_recent_comments_row( $comment );
-			$count++;
-		}
+		foreach ( $comments as $comment )
+			_wp_dashboard_recent_comments_row( $comment );
 ?>
 
 		</div>
