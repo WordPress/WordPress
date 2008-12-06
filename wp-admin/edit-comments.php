@@ -12,13 +12,18 @@ require_once('admin.php');
 wp_enqueue_script('admin-comments');
 enqueue_comment_hotkeys_js();
 
+$post_id = isset($_REQUEST['p']) ? (int) $_REQUEST['p'] : 0;
+
 if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spam2'] ) ) && !empty( $_REQUEST['pagegen_timestamp'] ) ) {
 	check_admin_referer('bulk-spam-delete', '_spam_nonce');
 
 	$delete_time = $wpdb->escape( $_REQUEST['pagegen_timestamp'] );
 	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND '$delete_time' > comment_date_gmt" );
 
-	wp_redirect('edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam);
+	$redirect_to = 'edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam; 
+	if ( $post_id )
+		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
+	wp_redirect( $redirect_to );
 } elseif ( isset($_REQUEST['delete_comments']) && isset($_REQUEST['action']) && ( -1 != $_REQUEST['action'] || -1 != $_REQUEST['action2'] ) ) {
 	check_admin_referer('bulk-comments');
 	$doaction = ( -1 != $_REQUEST['action'] ) ? $_REQUEST['action'] : $_REQUEST['action2'];
@@ -26,9 +31,9 @@ if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spa
 	$deleted = $approved = $unapproved = $spammed = 0;
 	foreach ( (array) $_REQUEST['delete_comments'] as $comment_id) : // Check the permissions on each
 		$comment_id = (int) $comment_id;
-		$post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id) );
+		$_post_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = %d", $comment_id) );
 
-		if ( !current_user_can('edit_post', $post_id) )
+		if ( !current_user_can('edit_post', $_post_id) )
 			continue;
 
 		switch( $doaction ) {
@@ -52,6 +57,8 @@ if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spa
 	endforeach;
 
 	$redirect_to = 'edit-comments.php?deleted=' . $deleted . '&approved=' . $approved . '&spam=' . $spammed . '&unapproved=' . $unapproved;
+	if ( $post_id )
+		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
 	if ( isset($_REQUEST['apage']) )
 		$redirect_to = add_query_arg( 'apage', absint($_REQUEST['apage']), $redirect_to );
 	if ( !empty($_REQUEST['mode']) )
@@ -65,8 +72,6 @@ if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spa
 	 wp_redirect( remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) ) );
 	 exit;
 }
-
-$post_id = isset($_GET['p']) ? (int) $_GET['p'] : 0;
 
 if ( $post_id )
 	$title = sprintf(__('Edit Comments on &#8220;%s&#8221;'), wp_html_excerpt(_draft_or_post_title($post_id), 50));
@@ -88,7 +93,7 @@ $search = attribute_escape( $search_dirty ); ?>
 <?php screen_icon(); ?>
 <h2><?php echo wp_specialchars( $title );
 if ( isset($_GET['s']) && $_GET['s'] )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', wp_specialchars( stripslashes($_GET['s']) ) ); ?>
+	printf( '<span class="subtitle">' . sprintf( __( 'Search results for &#8220;%s&#8221;' ), wp_html_excerpt( wp_specialchars( stripslashes( $_GET['s'] ) ), 50 ) ) . '</span>' ); ?>
 </h2>
 
 <?php
@@ -124,26 +129,37 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 <ul class="subsubsub">
 <?php
 $status_links = array();
-$num_comments = wp_count_comments();
+$num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments();
 //, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
 //, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 $stati = array(
+		'all' => __ngettext_noop('All', 'All'), // singular not used
 		'moderated' => __ngettext_noop('Pending (<span class="pending-count">%s</span>)', 'Pending (<span class="pending-count">%s</span>)'),
 		'approved' => __ngettext_noop('Approved', 'Approved'), // singular not used
 		'spam' => __ngettext_noop('Spam (<span class="spam-count">%s</span>)', 'Spam (<span class="spam-count">%s</span>)')
 	);
 $class = ( '' === $comment_status ) ? ' class="current"' : '';
-$status_links[] = "<li><a href='edit-comments.php'$class>" . __( 'All' ) . '</a>';
-$type = ( !$comment_type && 'all' != $comment_type ) ? '' : "&amp;comment_type=$comment_type";
+// $status_links[] = "<li><a href='edit-comments.php'$class>" . __( 'All' ) . '</a>';
+$link = 'edit-comments.php';
+if ( !empty($comment_type) && 'all' != $comment_type )
+	$link = add_query_arg( 'comment_type', $comment_type, $link );
 foreach ( $stati as $status => $label ) {
 	$class = '';
 
-	if ( $status == $comment_status )
+	if ( str_replace( 'all', '', $status ) == $comment_status )
 		$class = ' class="current"';
 	if ( !isset( $num_comments->$status ) )
 		$num_comments->$status = 10;
-
-	$status_links[] = "<li class='$status'><a href='edit-comments.php?comment_status=$status$type'$class>" . sprintf(
+	if ( 'all' != $status )
+		$link = add_query_arg( 'comment_status', $status, $link );
+	if ( $post_id )
+		$link = add_query_arg( 'p', absint( $post_id ), $link );
+	/*
+	// I toyed with this, but decided against it. Leaving it in here in case anyone thinks it is a good idea. ~ Mark
+	if ( !empty( $_GET['s'] ) )
+		$link = add_query_arg( 's', attribute_escape( stripslashes( $_GET['s'] ) ), $link );
+	*/
+	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf(
 		__ngettext( $label[0], $label[1], $num_comments->$status ),
 		number_format_i18n( $num_comments->$status )
 	) . '</a>';
@@ -189,6 +205,9 @@ $page_links = paginate_links( array(
 ?>
 
 <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
+<?php if ( $post_id ) : ?>
+<input type="hidden" name="p" value="<?php echo intval( $post_id ); ?>" />
+<?php endif; ?>
 <input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
 <input type="hidden" name="pagegen_timestamp" value="<?php echo current_time('mysql', 1); ?>" />
 
