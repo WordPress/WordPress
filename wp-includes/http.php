@@ -980,6 +980,10 @@ class WP_Http_Curl {
 		$handle = curl_init();
 		curl_setopt( $handle, CURLOPT_URL, $url);
 
+		if ( 'HEAD' === $r['method'] ) {
+			curl_setopt( $handle, CURLOPT_NOBODY, true );
+		}
+
 		if ( true === $r['blocking'] ) {
 			curl_setopt( $handle, CURLOPT_HEADER, true );
 			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
@@ -989,7 +993,6 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 0 );
 		}
 
-		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
 		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
 		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, 1 );
 		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
