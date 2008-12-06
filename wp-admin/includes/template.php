@@ -3312,10 +3312,31 @@ function screen_meta($screen) {
 
 	if ( !isset($_wp_contextual_help) )
 		$_wp_contextual_help = array();
-	if ( !isset($_wp_contextual_help['post']) )
-		$_wp_contextual_help['post'] =  __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>');
+
+	if ( !isset($_wp_contextual_help['post']) ) {
+		$help = drag_drop_help();
+		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>') . '</p>';
+		$_wp_contextual_help['post'] = $help;
+	}
+
+	if ( !isset($_wp_contextual_help['page']) ) {
+		$help = drag_drop_help();
+		$_wp_contextual_help['page'] = $help;
+	}
+
+	if ( !isset($_wp_contextual_help['dashboard']) ) {
+		$help = drag_drop_help();
+		$_wp_contextual_help['dashboard'] = $help;
+	}
+
+	if ( !isset($_wp_contextual_help['link']) ) {
+		$help = drag_drop_help();
+		$_wp_contextual_help['link'] = $help;
+	}
+
 	if ( !isset($_wp_contextual_help['options-general']) )
 		$_wp_contextual_help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+
 	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen); 
 	?>
 	<div id="contextual-help-wrap" class="hidden">
@@ -3371,6 +3392,13 @@ function add_contextual_help($screen, $help) {
 		$_wp_contextual_help = array();
 
 	$_wp_contextual_help[$screen] = $help;
+}
+
+function drag_drop_help() {
+	return '
+	<p>' .	__('Most of the modules on this screen can be moved. If you hover your mouse over the title bar of a module you’ll notice the 4 arrow cursor appears to let you know it is movable. Click on it, hold down the mouse button and start dragging the module to a new location. As you drag the module, notice the dotted gray box that also moves. This box indicates where the module will be placed when you release the mouse button.') . '</p>
+	<p>' . __('The same modules can be expanded and collapsed by clicking once on their title bar and also completely hidden from the Screen Options tab.') . '</p>
+';
 }
 
 function screen_icon($name = '') {

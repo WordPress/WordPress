@@ -2308,8 +2308,7 @@ fieldset {
 
 #screen-options-wrap h5,
 #contextual-help-wrap h5 {
-	padding: 10px 0 0 15px;
-	margin: 0;
+	margin: 8px 0;
 	font-size: 13px;
 }
 
@@ -2319,14 +2318,11 @@ fieldset {
 	border-top: 0 none;
 	border-width: 0 1px 1px;
 	margin: 0 15px;
+	padding: 8px 12px 12px;
 	-moz-border-radius: 0 0 0 4px;
 	-webkit-border-bottom-left-radius: 4px;
 	-khtml-border-bottom-left-radius: 4px;
 	border-bottom-left-radius: 4px;
-}
-
-.metabox-prefs {
-	padding: 5px 5px 10px 10px;
 }
 
 .metabox-prefs label {
