@@ -2104,10 +2104,15 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 		echo $content;
 		return;
 	}
+
+	$columns = get_column_headers('edit-comments');
+	$hidden = array_intersect( array_keys( $columns ), array_filter( get_hidden_columns('edit-comments') ) );
+	$col_count = count($columns) - count($hidden);
+
 ?>
 <form method="get" action="">
 <?php if ( $table_row ) : ?>
-<table style="display:none;"><tbody id="com-reply"><tr id="replyrow"><td colspan="6">
+<table style="display:none;"><tbody id="com-reply"><tr id="replyrow"><td colspan="<?php echo $col_count; ?>">
 <?php else : ?>
 <div id="com-reply" style="display:none;"><div id="replyrow">
 <?php endif; ?>
