@@ -396,7 +396,7 @@ class WP_Http {
 		$body = str_replace(array("\r\n", "\r"), "\n", $body);
 		// The body is not chunked encoding or is malformed.
 		if ( ! preg_match( '/^[0-9a-f]+(\s|\n)+/mi', trim($body) ) )
-			return false;
+			return $body;
 
 		$parsedBody = '';
 		//$parsedHeaders = array(); Unsupported
@@ -672,7 +672,11 @@ class WP_Http_Fopen {
 		if ( function_exists('stream_get_meta_data') ) {
 			$meta = stream_get_meta_data($handle);
 			$theHeaders = $meta['wrapper_data'];
+			if( isset( $meta['wrapper_data']['headers'] ) )
+				$theHeaders = $meta['wrapper_data']['headers'];
 		} else {
+			if( ! isset( $http_response_header ) )
+				global $http_response_header;
 			$theHeaders = $http_response_header;
 		}
 
@@ -793,7 +797,12 @@ class WP_Http_Streams {
 
 		$strResponse = stream_get_contents($handle);
 		$meta = stream_get_meta_data($handle);
-		$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
+
+		$processedHeaders = array();
+		if( isset( $meta['wrapper_data']['headers'] ) )
+			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']['headers']);
+		else
+			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
@@ -1031,7 +1040,7 @@ class WP_Http_Curl {
 				return new WP_Error('http_request_failed', $curl_error);
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array(301, 302) ) )
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
-			
+
 			$theHeaders = array( 'headers' => array() );
 			$theBody = '';
 		}
