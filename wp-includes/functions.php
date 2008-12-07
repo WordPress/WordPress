@@ -2290,6 +2290,7 @@ if ( ( $wp_locale ) && ( 'rtl' == $wp_locale->text_direction ) ) : ?>
 <body id="error-page">
 <?php endif; ?>
 	<?php echo $message; ?>
+	<?php if ( strlen($message) < 512) echo str_repeat(' ', 512-strlen($message)); ?>
 </body>
 </html>
 <?php
