@@ -1944,17 +1944,10 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
  * @param unknown_type $checkbox
  */
 function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true, $from_ajax = false ) {
-	global $comment, $post;
+	global $comment, $post, $_comment_pending_count;
 	$comment = get_comment( $comment_id );
 	$post = get_post($comment->comment_post_ID);
 	$the_comment_status = wp_get_comment_status($comment->comment_ID);
-
-	if ( current_user_can( 'edit_post', $post->ID ) ) {
-		$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
-		$post_link .= get_the_title($comment->comment_post_ID) . '</a>';
-	} else {
-		$post_link = get_the_title($comment->comment_post_ID);
-	}
 
 	$author_url = get_comment_author_url();
 	if ( 'http://' == $author_url )
@@ -1971,10 +1964,10 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 	else
 		$ptime = mysql2date(__('Y/m/d \a\t g:i A'), $comment->comment_date );
 
-	$delete_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
-	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
-	$unapprove_url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID", "unapprove-comment_$comment->comment_ID" ) );
-	$spam_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$comment->comment_post_ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+	$delete_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&p=$post->ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
+	$approve_url = clean_url( wp_nonce_url( "comment.php?action=approvecomment&p=$post->ID&c=$comment->comment_ID", "approve-comment_$comment->comment_ID" ) );
+	$unapprove_url = clean_url( wp_nonce_url( "comment.php?action=unapprovecomment&p=$post->ID&c=$comment->comment_ID", "unapprove-comment_$comment->comment_ID" ) );
+	$spam_url = clean_url( wp_nonce_url( "comment.php?action=deletecomment&dt=spam&p=$post->ID&c=$comment->comment_ID", "delete-comment_$comment->comment_ID" ) );
 
 	echo "<tr id='comment-$comment->comment_ID' class='$the_comment_status'>";
 	$columns = get_column_headers('edit-comments');
@@ -1992,7 +1985,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 			case 'cb':
 				if ( !$checkbox ) break;
 				echo '<th scope="row" class="check-column">';
-				if ( current_user_can('edit_post', $comment->comment_post_ID) ) echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
+				if ( current_user_can('edit_post', $post->ID) ) echo "<input type='checkbox' name='delete_comments[]' value='$comment->comment_ID' />";
 				echo '</th>';
 				break;
 			case 'comment':
@@ -2011,7 +2004,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				<?php
 				$actions = array();
 
-				if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+				if ( current_user_can('edit_post', $post->ID) ) {
 					$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
 					$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
 					if ( $comment_status ) { // not looking at all comments
@@ -2072,12 +2065,30 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 				break;
 			case 'response':
 				if ( 'single' !== $mode ) {
+					if ( isset( $_comment_pending_count[$post->ID] ) ) {
+						$pending_comments = absint( $_comment_pending_count[$post->ID] );
+					} else {
+						$_comment_pending_count_temp = (array) get_pending_comments_num( array( $post->ID ) );
+						$pending_comments = $_comment_pending_count[$post->ID] = $_comment_pending_count_temp[$post->ID];
+					}
+					if ( current_user_can( 'edit_post', $post->ID ) ) {
+						$post_link = "<a href='" . get_edit_post_link($post->ID) . "'>";
+						$post_link .= get_the_title($post->ID) . '</a>';
+					} else {
+						$post_link = get_the_title($post->ID);
+					}
 					echo "<td $attributes>\n";
-					echo "&quot;$post_link&quot; ";
-					echo '<a href="edit-comments.php?p=' . $post->ID;
-					if ( !empty($_GET['comment_type']) ) echo '&amp;comment_type=' . htmlspecialchars( $_GET['comment_type'] );
-					echo '">' . sprintf ( __ngettext('(%s)', '(%s)', $post->comment_count), number_format_i18n($post->comment_count) ) . '</a> <a href="' . get_permalink($post->ID) . '">#</a><br />';
-					echo get_the_time(__('Y/m/d \a\t g:ia'));
+					echo "&#8220;$post_link&#8221;<br />";
+
+					echo '<span class="post-com-count-wrapper">';
+					$pending_phrase = sprintf( __('%s pending'), number_format( $pending_comments ) );
+					if ( $pending_comments )
+						echo '<strong>';
+					comments_number("<a href='edit-comments.php?p=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('0') . '</span></a>', "<a href='edit-comments.php?p=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('1') . '</span></a>', "<a href='edit-comments.php?p=$post->ID' title='$pending_phrase' class='post-com-count'><span class='comment-count'>" . __('%') . '</span></a>');
+					if ( $pending_comments )
+						echo '</strong>';
+					echo '</span> ';
+					echo "<a href='" . get_permalink( $post->ID ) . "'>#</a>";
 					echo '</td>';
 				}
 		}

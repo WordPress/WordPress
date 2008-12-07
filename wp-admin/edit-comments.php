@@ -190,6 +190,16 @@ $start = $offset = ( $page - 1 ) * $comments_per_page;
 
 list($_comments, $total) = _wp_get_comment_list( $comment_status, $search_dirty, $start, $comments_per_page + 5, $post_id, $comment_type ); // Grab a few extra
 
+$_comment_post_ids = array();
+foreach ( $_comments as $_c ) {
+	$_comment_post_ids[] = $_c->comment_post_ID;
+}
+$_comment_pending_count_temp = (array) get_pending_comments_num($_comment_post_ids);
+foreach ( (array) $_comment_post_ids as $_cpid )
+	$_comment_pending_count[$_cpid] = isset( $_comment_pending_count_temp[$_cpid] ) ? $_comment_pending_count_temp[$_cpid] : 0;
+if ( empty($_comment_pending_count) )
+	$_comment_pending_count = array();
+
 $comments = array_slice($_comments, 0, $comments_per_page);
 $extra_comments = array_slice($_comments, $comments_per_page);
 
