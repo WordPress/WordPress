@@ -688,8 +688,8 @@ function wp_user_settings() {
 			$saved = isset( $_COOKIE['wp-settings-time-' . $user->ID]) ? preg_replace( '/[^0-9]/', '', $_COOKIE['wp-settings-time-' . $user->ID] ) : 0;
 
 			if ( $saved > $last_time ) {
-				update_user_option( $user->ID, 'user-settings', $cookie, false );
-				update_user_option( $user->ID, 'user-settings-time', time() - 5, false );
+				update_user_option( $user->ID, 'user-settings', $cookie, true );
+				update_user_option( $user->ID, 'user-settings-time', time() - 5, true );
 				return;
 			}
 		}
