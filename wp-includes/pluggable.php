@@ -1159,10 +1159,10 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$i = wp_nonce_tick();
 
 	// Nonce generated 0-12 hours ago
-	if ( substr(wp_hash($i . $action . $uid), -12, 10) == $nonce )
+	if ( substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10) == $nonce )
 		return 1;
 	// Nonce generated 12-24 hours ago
-	if ( substr(wp_hash(($i - 1) . $action . $uid), -12, 10) == $nonce )
+	if ( substr(wp_hash(($i - 1) . $action . $uid, 'nonce'), -12, 10) == $nonce )
 		return 2;
 	// Invalid nonce
 	return false;
@@ -1184,7 +1184,7 @@ function wp_create_nonce($action = -1) {
 
 	$i = wp_nonce_tick();
 
-	return substr(wp_hash($i . $action . $uid), -12, 10);
+	return substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10);
 }
 endif;
 
@@ -1270,6 +1270,19 @@ function wp_salt($scheme = 'auth') {
 			if ( empty($salt) ) {
 				$salt = wp_generate_password();
 				update_option('logged_in_salt', $salt);
+			}
+		}
+	} elseif ( 'nonce' == $scheme ) {
+		if ( defined('NONCE_KEY') && ('' != NONCE_KEY) && ( $wp_default_secret_key != NONCE_KEY) )
+			$secret_key = NONCE_KEY;
+
+		if ( defined('NONCE_SALT') ) {
+			$salt = NONCE_SALT;
+		} else {
+			$salt = get_option('nonce_salt');
+			if ( empty($salt) ) {
+				$salt = wp_generate_password();
+				update_option('nonce_salt', $salt);
 			}
 		}
 	} else {
