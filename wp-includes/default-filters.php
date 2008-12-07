@@ -158,6 +158,7 @@ add_filter('option_category_base', '_wp_filter_taxonomy_base');
 add_filter( 'the_posts', '_close_comments_for_old_posts' );
 add_filter( 'comments_open', '_close_comments_for_old_post', 10, 2 );
 add_filter( 'pings_open', '_close_comments_for_old_post', 10, 2 );
+add_filter( 'editable_slug', 'urldecode' );
 
 // Atom SSL support
 add_filter('atom_service_url','atom_service_url_filter');
