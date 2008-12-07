@@ -688,7 +688,7 @@ function wp_page_menu( $args = array() ) {
 			} else {
 				$list_args['exclude'] = '';
 			}
-			$list_args['exclude'] = get_option('page_on_front');
+			$list_args['exclude'] .= get_option('page_on_front');
 		}
 	}
 
