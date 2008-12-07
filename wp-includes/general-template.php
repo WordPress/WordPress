@@ -108,9 +108,9 @@ function get_search_form() {
 	if ( '' != locate_template(array('searchform.php'), true) )
 		return;
 
-	$form = '<form method="get" id="searchform" action="' . get_option('siteurl') . '/" >
+	$form = '<form method="get" id="searchform" action="' . get_option('home') . '/" >
 	<label class="hidden" for="s">' . __('Search for:') . '</label>
-	<div><input type="text" value="' . the_search_query() . '" name="s" id="s" />
+	<div><input type="text" value="' . attribute_escape(apply_filters('the_search_query', get_search_query())) . '" name="s" id="s" />
 	<input type="submit" id="searchsubmit" value="'.attribute_escape(__('Search')).'" /> 
 	</div>
 	</form>';
