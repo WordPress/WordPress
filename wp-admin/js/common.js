@@ -192,8 +192,14 @@ jQuery(document).ready( function($) {
 			var checks = $( lastClicked ).parents( 'form:first' ).find( ':checkbox' );
 			var first = checks.index( lastClicked );
 			var last = checks.index( this );
+			var checked = $(this).attr('checked');
 			if ( 0 < first && 0 < last && first != last ) {
-				checks.slice( first, last ).attr( 'checked', $( this ).is( ':checked' ) ? 'checked' : '' );
+				checks.slice( first, last ).attr( 'checked', function(){
+					if ( $(this).parents('tr').is(':visible') )
+						return checked ? 'checked' : '';
+
+					return '';
+				});
 			}
 		}
 		lastClicked = this;
@@ -205,6 +211,8 @@ jQuery(document).ready( function($) {
 			toggleWithKeyboard = false;
 		var toggle = e.shiftKey || toggleWithKeyboard;
 		$(this).parents( 'form:first' ).find( 'table tbody:visible').find( '.check-column :checkbox' ).attr( 'checked', function() {
+			if ( $(this).parents('tr').is(':hidden') )
+				return '';
 			if ( toggle )
 				return $(this).attr( 'checked' ) ? '' : 'checked';
 			else if (c)
