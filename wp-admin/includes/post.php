@@ -163,7 +163,7 @@ function edit_post( $post_data = null ) {
 	if ( isset($post_data['visibility']) ) {
 		switch ( $post_data['visibility'] ) {
 			case 'public' :
-				unset( $post_data['post_password'] );
+				$post_data['post_password'] = '';
 				break;
 			case 'password' :
 				unset( $post_data['sticky'] );
