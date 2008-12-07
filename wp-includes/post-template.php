@@ -689,7 +689,7 @@ function wp_page_menu( $args = array() ) {
 	if ( $menu )
 		$menu = '<ul>' . $menu . '</ul>';
 
-	$menu = '<div id="' . $args['menu_class'] . '">' . $menu . "</div>\n";
+	$menu = '<div class="' . $args['menu_class'] . '">' . $menu . "</div>\n";
 	$menu = apply_filters( 'wp_page_menu', $menu, $args ); 
 	if ( $args['echo'] )
 		echo $menu;
