@@ -600,7 +600,7 @@ case 'edit-comment' :
 	$x = new WP_Ajax_Response();
 
 	ob_start();
-		_wp_comment_row( $comment_id, $mode, false, $checkbox );
+		_wp_comment_row( $comment_id, $mode, true, $checkbox );
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
 

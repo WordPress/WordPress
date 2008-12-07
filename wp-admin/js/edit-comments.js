@@ -259,10 +259,7 @@ commentReply = {
 			.animate( { 'backgroundColor':'#CCEEBB' }, 600 )
 			.animate( { 'backgroundColor': bg }, 600 );
 
-		theList = theExtraList = null;
-		$("#get-extra-comments, a[className*=':']").unbind();
-		setCommentsList();
-
+		$.fn.wpList.process($(id))
 	},
 
 	error : function(r) {
