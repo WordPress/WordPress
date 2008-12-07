@@ -58,15 +58,15 @@ if ( ! $is_opera ) {
 
 	<div id="gears-msg4" style="display:none;">
 	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
-	<p><?php _e('This web site is denied to use Gears.'); ?></p>
+	<p><?php _e('Your browser&#8217;s settings do not permit this website to use Google Gears.'); ?></p>
 	<p><?php
 
 	if ( $is_chrome )
-	 	_e('To allow it, change the Gears settings from your browser&#8217;s Options, Under the Hood menu and reload this page.');
+	 	_e('To allow it, change the Gears settings in your browser&#8217;s Options, Under the Hood menu and reload this page.');
 	elseif ( $is_safari )
-	 	_e('To allow it, change the Gears settings from the Safari menu and reload this page.');
+	 	_e('To allow it, change the Gears settings in the Safari menu and reload this page.');
 	else
-		_e('To allow it, change the Gears settings from your browser&#8217;s Tools menu and reload this page.');
+		_e('To allow it, change the Gears settings in your browser&#8217;s Tools menu and reload this page.');
 
 	?></p>
 	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
