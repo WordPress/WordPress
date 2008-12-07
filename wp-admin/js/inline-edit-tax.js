@@ -105,15 +105,20 @@ inlineEditTax = {
 		// make ajax request
 		$.post('admin-ajax.php', params,
 			function(r) {
-				var row = $(inlineEditTax.what+id);
+				
 				$('table.widefat .inline-edit-save .waiting').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
-						$('#edit-'+id).remove();
-						r = r.replace(/hide-if-no-js/, '');
-						row.html($(r).html()).fadeIn();
+						$(inlineEditTax.what+id).remove();
+						$('#edit-'+id).before(r).remove();
+
+						var row = $(inlineEditTax.what+id);
+						row.hide();
+						
+						row.find('.hide-if-no-js').removeClass('hide-if-no-js');
 						inlineEditTax.addEvents(row);
+						row.fadeIn();
 					} else
 						$('#edit-'+id+' .inline-edit-save .error').html(r).show();
 				} else

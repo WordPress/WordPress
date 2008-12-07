@@ -207,17 +207,20 @@ inlineEditPost = {
 		// make ajax request
 		$.post('admin-ajax.php', params,
 			function(r) {
-				var row = $(inlineEditPost.what+id);
 				$('table.widefat .inline-edit-save .waiting').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
-						r = r.replace(/hide-if-no-js/, '');
+						$(inlineEditPost.what+id).remove();
+						$('#edit-'+id).before(r).remove();
 
-						$('#edit-'+id).remove();
-						row.html($(r).html());
+						var row = $(inlineEditPost.what+id);
+						row.hide();
+
 						if ( 'draft' == $('input[name="post_status"]').val() )
 							row.find('td.column-comments').hide();
+
+						row.find('.hide-if-no-js').removeClass('hide-if-no-js');
 						inlineEditPost.addEvents(row);
 						row.fadeIn();
 					} else {
@@ -228,7 +231,7 @@ inlineEditPost = {
 					$('#edit-'+id+' .inline-edit-save').append('<span class="error">'+inlineEditL10n.error+'</span>');
 				}
 			}
-		);
+		, 'html');
 		return false;
 	},
 
