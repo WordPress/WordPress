@@ -1346,3 +1346,4 @@ tinyMCE.init(tinyMCEPreInit.mceInit);
 
 <?php
 }
+?>
