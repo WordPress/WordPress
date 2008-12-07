@@ -1265,6 +1265,9 @@ function next_comments_link($label='', $max_page = 0) {
 	if ( empty($max_page) )
 		$max_page = $wp_query->max_num_comment_pages;
 
+	if ( empty($max_page) )
+		$max_page = get_comment_pages_count();
+
 	if ( $nextpage > $max_page )
 		return;
 
@@ -1324,7 +1327,7 @@ function paginate_comments_links($args = array()) {
 	$page = get_query_var('cpage');
 	if ( !$page )
 		$page = 1;
-	$max_page = $wp_query->max_num_comment_pages;
+	$max_page = get_comment_pages_count();
 	$defaults = array(
 		'base' => add_query_arg( 'cpage', '%#%' ),
 		'format' => '',

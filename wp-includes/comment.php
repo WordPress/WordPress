@@ -513,6 +513,9 @@ function &separate_comments(&$comments) {
 function get_comment_pages_count( $comments = null, $per_page = null, $threaded = null ) {
 	global $wp_query;
 
+	if ( null === $comments && null === $per_page && null === $threaded && !empty($wp_query->max_num_comment_pages) )
+		return $wp_query->max_num_comment_pages;
+
 	if ( !$comments || !is_array($comments) )
 		$comments = $wp_query->comments;
 
