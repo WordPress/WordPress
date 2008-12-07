@@ -453,8 +453,9 @@ case 'add-comment' :
 	$start = isset($_POST['page']) ? intval($_POST['page']) * 25 - 1: 24;
 	$status = isset($_POST['comment_status']) ? $_POST['comment_status'] : false;
 	$mode = isset($_POST['mode']) ? $_POST['mode'] : 'detail';
-
-	list($comments, $total) = _wp_get_comment_list( $status, $search, $start, 1 );
+	$p = isset($_POST['p']) ? $_POST['p'] : 0;
+	$comment_type = isset($_POST['comment_type']) ? $_POST['comment_type'] : '';
+	list($comments, $total) = _wp_get_comment_list( $status, $search, $start, 1, $p, $comment_type );
 
 	if ( get_option('show_avatars') )
 		add_filter( 'comment_author', 'floated_admin_avatar' );

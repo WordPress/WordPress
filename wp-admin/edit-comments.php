@@ -350,6 +350,8 @@ if ( $page_links )
 	<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 	<input type="hidden" name="comment_status" value="<?php echo $comment_status; ?>" />
 	<input type="hidden" name="page" value="<?php echo isset($_REQUEST['page']) ? absint( $_REQUEST['page'] ) : 1; ?>" />
+	<input type="hidden" name="p" value="<?php echo attribute_escape( $post_id ); ?>" />
+	<input type="hidden" name="comment_type" value="<?php echo attribute_escape( $comment_type ); ?>" />
 	<?php wp_nonce_field( 'add-comment', '_ajax_nonce', false ); ?>
 </form>
 
