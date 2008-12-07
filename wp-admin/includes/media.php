@@ -751,8 +751,8 @@ function image_align_input_fields($post, $checked='') {
 function image_size_input_fields($post, $checked='') {
 		
 		// get a list of the actual pixel dimensions of each possible intermediate version of this image
-		$size_names = array('thumbnail' => 'Thumbnail', 'medium' => 'Medium', 'large' => 'Large', 'full' => 'Full size');
-		
+		$size_names = array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size'));		
+
 		foreach ( $size_names as $size => $name) {
 			$downsize = image_downsize($post->ID, $size);
 
