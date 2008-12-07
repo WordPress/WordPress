@@ -42,10 +42,14 @@ function redirect_page($page_ID) {
 				'message' => 1
 			), get_edit_post_link( $page_ID, 'url' ) );
 		else {
-			if ( isset( $_POST['publish'] ) )
-				$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
-			else
+			if ( isset( $_POST['publish'] ) ) {
+				if ( 'pending' == get_post_status( $page_ID ) )
+					$location = add_query_arg( 'message', 6, get_edit_post_link( $page_ID, 'url' ) );
+				else
+					$location = add_query_arg( 'message', 5, get_edit_post_link( $page_ID, 'url' ) );
+			} else {
 				$location = add_query_arg( 'message', 4, get_edit_post_link( $page_ID, 'url' ) );
+			}
 		}
 	} elseif ( isset($_POST['addmeta']) ) {
 		$location = add_query_arg( 'message', 2, wp_get_referer() );

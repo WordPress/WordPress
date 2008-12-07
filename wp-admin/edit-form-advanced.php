@@ -25,6 +25,7 @@ $messages[3] = __('Custom field deleted.');
 $messages[4] = __('Post updated.');
 $messages[6] = sprintf(__('Post published. <a href="%s">View post</a>'), get_permalink($post_ID));
 $messages[7] = __('Post saved.');
+$messages[8] = sprintf(__('Post submitted. <a href="%s">Preview post</a>'), add_query_arg( 'preview', 'true', get_permalink($post_ID) ) );
 
 if ( isset($_GET['revision']) )
 	$messages[5] = sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) );
