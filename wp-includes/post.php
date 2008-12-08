@@ -1417,6 +1417,18 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	else
 		$post_parent = 0;
 
+	if ( !empty($post_ID) ) {
+		if ( $post_parent == $post_ID ) {
+			// Post can't be its own parent
+			$post_parent = 0;
+		} elseif ( !empty($post_parent) ) {
+			$parent_post = get_post($post_parent);
+			// Check for circular dependency
+			if ( $parent_post->post_parent == $post_ID )
+				$post_parent = 0;
+		}
+	}
+
 	if ( isset($menu_order) )
 		$menu_order = (int) $menu_order;
 	else
@@ -2059,7 +2071,7 @@ function &get_pages($args = '') {
 		'sort_column' => 'post_title', 'hierarchical' => 1,
 		'exclude' => '', 'include' => '',
 		'meta_key' => '', 'meta_value' => '',
-		'authors' => '', 'parent' => -1
+		'authors' => '', 'parent' => -1, 'exclude_tree' => ''
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -2169,6 +2181,22 @@ function &get_pages($args = '') {
 
 	if ( $child_of || $hierarchical )
 		$pages = & get_page_children($child_of, $pages);
+
+	if ( !empty($exclude_tree) ) {
+		$exclude = array();
+		
+		$exclude = (int) $exclude_tree;
+		$children = get_page_children($exclude, $pages);
+		$excludes = array();
+		foreach ( $children as $child )
+			$excludes[] = $child->ID;
+		$excludes[] = $exclude;
+		$total = count($pages);
+		for ( $i = 0; $i < $total; $i++ ) {
+			if ( in_array($pages[$i]->ID, $excludes) )
+				unset($pages[$i]);
+		}
+	}
 
 	$cache[ $key ] = $pages;
 	wp_cache_set( 'get_pages', $cache, 'posts' );
