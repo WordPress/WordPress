@@ -127,8 +127,8 @@ function &get_children($args = '', $output = OBJECT) {
 	}
 
 	$defaults = array(
-		'numberposts' => -1, 'post_type' => '',
-		'post_status' => '', 'post_parent' => 0
+		'numberposts' => -1, 'post_type' => 'any',
+		'post_status' => 'any', 'post_parent' => 0,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
