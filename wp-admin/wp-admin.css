@@ -1055,7 +1055,9 @@ div.comment-item:hover .row-actions {
 #sidemenu li a .count-0 {
 	display: none;
 }
+/* end menu stuff */
 
+/* comments bubble */
 .post-com-count-wrapper {
 	min-width: 22px;
 	font-family: Helvetica, Arial, sans-serif;
@@ -1073,17 +1075,18 @@ div.comment-item:hover .row-actions {
 }
 
 .post-com-count span {
+	font-size: 9px;
+	font-weight: bild;
 	height: 1.7em;
-	line-height: 1.7em;
-	padding: 0 0.4em;
-	min-width: 13px;
+	line-height: 1.70em;
+	min-width: 0.7em;
+	padding: 0 6px;
 	display: inline-block;
 	cursor: pointer;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	font-size: 9px;
 }
 
 strong .post-com-count {
@@ -1100,7 +1103,9 @@ strong .post-com-count {
 	text-align: center;
 }
 
-/* end menu stuff */
+.response-links {
+	margin: 4px 0;
+}
 
 /* Admin Footer */
 #footer {

@@ -2078,9 +2078,9 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						$post_link = get_the_title($post->ID);
 					}
 					echo "<td $attributes>\n";
-					echo "&#8220;$post_link&#8221;<br />";
+					echo $post_link;
 
-					echo '<span class="post-com-count-wrapper">';
+					echo '<div class="response-links"><span class="post-com-count-wrapper">';
 					$pending_phrase = sprintf( __('%s pending'), number_format( $pending_comments ) );
 					if ( $pending_comments )
 						echo '<strong>';
@@ -2089,7 +2089,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						echo '</strong>';
 					echo '</span> ';
 					echo "<a href='" . get_permalink( $post->ID ) . "'>#</a>";
-					echo '</td>';
+					echo '</div></td>';
 				}
 		}
 	}
