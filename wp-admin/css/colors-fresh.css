@@ -1473,7 +1473,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #favorite-actions a {
 	color: #ddd;
-	text-shadow: rgba(0,0,0,0.2) 0 -1px 0;
 }
 
 #favorite-actions a:hover {
@@ -1500,10 +1499,6 @@ fieldset.inline-edit-col-right .inline-edit-col {
 .button-primary,
 .submit .button-primary {
 	text-shadow: rgba(0,0,0,0.3) 0 -1px 0;
-}
-
-#wphead h1 {
-	text-shadow: rgba(0,0,0,0.6) 0 -1px 0;
 }
 
 #screen-meta a.show-settings {
