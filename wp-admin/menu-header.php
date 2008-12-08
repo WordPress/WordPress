@@ -57,7 +57,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$tabindex = ' tabindex="1"';
-		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . $item[5] . '"' : '';
+		$id = isset($item[5]) && ! empty($item[5]) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
 		$img = '';
 		if ( isset($item[6]) && ! empty($item[6]) ) {
 			if ( 'div' === $item[6] )
