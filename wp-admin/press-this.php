@@ -53,7 +53,7 @@ function aposfix($text) {
  */
 function press_it() {
 	// define some basic variables
-	$quick['post_status'] = isset($_REQUEST['publish']) ? 'publish' : 'draft';
+	$quick['post_status'] = 'draft'; // set as draft first
 	$quick['post_category'] = $_REQUEST['post_category'];
 	$quick['tags_input'] = $_REQUEST['tags_input'];
 	$quick['post_title'] = $_REQUEST['title'];
@@ -75,7 +75,8 @@ function press_it() {
 				if( !is_wp_error($upload) ) $content = preg_replace('/<img ([^>]*)src=(\"|\')'.$quoted.'(\2)([^>\/]*)\/*>/is', $upload, $content);
 			}
 
-	// set the post_content
+	// set the post_content and status
+	$quick['post_status'] = isset($_REQUEST['publish']) ? 'publish' : 'draft';
 	$quick['post_content'] = $content;
 	// error handling for $post
 	if ( is_wp_error($post_ID)) {
@@ -112,7 +113,7 @@ $image = $_GET['i'];
 if($_REQUEST['ajax']) {
 switch ($_REQUEST['ajax']) {
 	case 'video': ?>
-		<script type="text/javascript" charset="utf-8">	
+		<script type="text/javascript" charset="utf-8">
 			jQuery('.select').click(function() {
 				append_editor(jQuery('#embed-code').val());
 				jQuery('#extra_fields').hide();
@@ -131,7 +132,7 @@ switch ($_REQUEST['ajax']) {
 		</div>
 		</div>
 		<?php break;
-		
+
 	case 'photo_thickbox': ?>
 		<script type="text/javascript" charset="utf-8">
 			jQuery('.cancel').click(function() {
@@ -152,10 +153,10 @@ switch ($_REQUEST['ajax']) {
 			<a href="#" class="select"><img src="<?php echo clean_url($image); ?>" alt="<?php echo attribute_escape(__('Click to insert.')); ?>" title="<?php echo attribute_escape(__('Click to insert.')); ?>" /></a></p>
 
 		<p id="options"><a href="#" class="select button"><?php _e('Insert Image'); ?></a> <a href="#" class="cancel button"><?php _e('Cancel'); ?></a></p>
-		
-		
+
+
 		<?php break;
-	
+
 	case 'photo_thickbox_url': ?>
 		<script type="text/javascript" charset="utf-8">
 			jQuery('.cancel').click(function() {
@@ -197,19 +198,15 @@ switch ($_REQUEST['ajax']) {
 		function get_images_from_uri($uri) {
 			if( preg_match('/\.(jpg|jpe|jpeg|png|gif)$/', $uri) && !strpos($uri,'blogger.com') )
 				return "'".$uri."'";
-
 			$content = wp_remote_fopen($uri);
-			if ( false === $content ) return '';
-		
+			if ( false === $content )
+				return '';
 			$host = parse_url($uri);
-
 			$pattern = '/<img ([^>]*)src=(\"|\')([^<>]+?\.(png|jpeg|jpg|jpe|gif))[^<>\'\"]*(\2)([^>\/]*)\/*>/is';
 			preg_match_all($pattern, $content, $matches);
-
-			if ( empty($matches[0]) ) return '';
-
+			if ( empty($matches[0]) )
+				return '';
 			$sources = array();
-			
 			foreach ($matches[3] as $src) {
 				// if no http in url
 				if(strpos($src, 'http') === false)
@@ -220,15 +217,14 @@ switch ($_REQUEST['ajax']) {
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.dirname($host['path']).'/'.$src);
 				$sources[] = clean_url($src);
 			}
-			
 			return "'" . implode("','", $sources) . "'";
 		}
-
 		$url = urldecode($url);
 		$url = str_replace(' ', '%20', $url);
 		echo 'new Array('.get_images_from_uri($url).')';
+
 		break;
-		
+
 	case 'photo_js': ?>
 		// gather images and load some default JS
 		var last = null
@@ -258,23 +254,23 @@ switch ($_REQUEST['ajax']) {
 					strtoappend = '<?php _e('Unable to retrieve images or no images on page.'); ?>';
 				}
 			}
-		
+
 		for (i = 0; i < my_src.length; i++) {
 			img = new Image();
 			img.src = my_src[i];
 			img_attr = 'id="img' + i + '"';
 			skip = false;
-			
+
 			maybeappend = '<a href="?ajax=photo_thickbox&amp;i=' + encodeURIComponent(img.src) + '&amp;u=<?php echo urlencode($url); ?>&amp;height=400&amp;width=500" title="" class="thickbox"><img src="' + img.src + '" ' + img_attr + '/></a>';
-			
+
 			if (img.width && img.height) {
 				if (img.width >= 30 && img.height >= 30) {
 					aspect = img.width / img.height;
 					scale = (aspect > 1) ? (71 / img.width) : (71 / img.height);
-                	
+
 					w = img.width;
 					h = img.height;
-                	
+
 					if (scale < 1) {
 						w = parseInt(img.width * scale);
 						h = parseInt(img.height * scale);
@@ -286,7 +282,7 @@ switch ($_REQUEST['ajax']) {
 				strtoappend += maybeappend;
 			}
 		}
-		
+
 		function pick(img, desc) {
 			if (img) {
 				if('object' == typeof jQuery('.photolist input') && jQuery('.photolist input').length != 0) length = jQuery('.photolist input').length;
@@ -320,8 +316,8 @@ switch ($_REQUEST['ajax']) {
 			jQuery('#img_container').html(strtoappend);
 			jQuery('#photo_add_url').attr('href', '?ajax=photo_thickbox_url&height=200&width=500');
 			tb_init('#extra_fields .thickbox');
-			
-			
+
+
 		});
 		<?php break;
 }
@@ -346,7 +342,7 @@ die;
 	do_action('admin_print_styles');
 	do_action('admin_print_scripts');
 	do_action('admin_head');
-	
+
 	if ( user_can_richedit() ) {
 		add_filter( 'teeny_mce_before_init', create_function( '$a', '$a["height"] = "400"; $a["onpageload"] = ""; $a["mode"] = "textareas"; $a["editor_selector"] = "mceEditor"; return $a;' ) );
 		wp_tiny_mce( true );
@@ -382,7 +378,7 @@ die;
 		if ( '' != text && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden()) {
 			tinyMCE.execCommand('mceInsertContent', false, '<p>' + decodeURI(tinymce.DOM.decode(text)) + '</p>', {format : 'raw'});
 		} else {
-			insert_plain_editor(text);
+			insert_plain_editor(decodeURI(text));
 		}
 	}
 	function append_editor(text) {
@@ -463,20 +459,20 @@ die;
 	<div id="side-info-column">
 		<div class="sleeve">
 			<h1 id="viewsite"><a class="button" href="<?php echo get_option('home'); ?>/" target="_blank"><?php bloginfo('name'); ?> &rsaquo; <?php _e('Press This') ?></a></span></h1>
-			
+
 			<?php wp_nonce_field('press-this') ?>
 			<input type="hidden" name="post_type" id="post_type" value="text"/>
 			<input type="hidden" name="autosave" id="autosave" />
 			<input type="hidden" id="original_post_status" name="original_post_status" value="draft" />
 			<input type="hidden" id="prev_status" name="prev_status" value="draft" />
-			
+
 			<!-- This div holds the photo metadata -->
 			<div class="photolist"></div>
-		
+
 			<div id="categorydiv" class="stuffbox">
 				<h2><?php _e('Categories') ?></h2>
 				<div class="inside">
-			
+
 					<div id="categories-all" class="ui-tabs-panel">
 						<ul id="categorychecklist" class="list:category categorychecklist form-no-clear">
 							<?php wp_category_checklist($post->ID, false, false, $popular_ids) ?>
@@ -495,11 +491,11 @@ die;
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="stuffbox">
 				<h2><?php _e('Tags') ?></h2>
 				<div class="inside">
-			
+
 					<div id="jaxtag">
 						<label class="hidden" for="newtag"><?php _e('Tags'); ?></label>
 						<input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
@@ -519,7 +515,7 @@ die;
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="posting">
 		<?php if ( isset($posted) && intval($posted) ) { $post_ID = intval($posted); ?>
 		<div id="message" class="updated fade"><p><strong><?php _e('Your post has been saved.'); ?></strong> <a onclick="window.opener.location.replace(this.href); window.close();" href="<?php echo get_permalink( $post_ID); ?>"><?php _e('View post'); ?></a> | <a href="<?php echo get_edit_post_link( $post_ID ); ?>" onclick="window.opener.location.replace(this.href); window.close();"><?php _e('Edit post'); ?></a> | <a href="#" onclick="window.close();"><?php _e('Close Window'); ?></a></p></div>
@@ -530,12 +526,12 @@ die;
 				<input name="title" id="title" class="text" value="<?php echo attribute_escape($title);?>"/>
 			</div>
 		</div>
-			
+
 		<div id="extra_fields" style="display: none"></div>
-			
+
 		<div class="postdivrich">
 			<ul id="actions">
-				<li id="photo_button">	
+				<li id="photo_button">
 					Add: <a title="<?php _e('Insert an Image'); ?>" href="#">
 <img alt="<?php _e('Insert an Image'); ?>" src="images/media-button-image.gif"/></a>
 				</li>
@@ -558,7 +554,7 @@ die;
 					<?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?>
 					<?php if ($url) { echo '<p>'; if($selection) _e('via '); echo "<a href='$url'>$title</a>."; echo '</p>'; } ?>
 				</textarea>
-			</div>			
+			</div>
 		</div>
 	</div>
 </div>
