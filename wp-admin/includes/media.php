@@ -34,12 +34,19 @@ function media_upload_tabs() {
  */
 function update_gallery_tab($tabs) {
 	global $wpdb;
+
 	if ( !isset($_REQUEST['post_id']) ) {
 		unset($tabs['gallery']);
 		return $tabs;
 	}
+
 	if ( intval($_REQUEST['post_id']) )
 		$attachments = intval($wpdb->get_var($wpdb->prepare("SELECT count(*) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $_REQUEST['post_id'])));
+
+	if ( empty($attachments) ) {
+		unset($tabs['gallery']);
+		return $tabs;
+	}
 
 	$tabs['gallery'] = sprintf(__('Gallery (%s)'), "<span id='attachments-count'>$attachments</span>");
 
