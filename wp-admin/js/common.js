@@ -316,7 +316,7 @@ adminMenu = {
 					}
 					m.addClass('sub-open');
 				},
-				out: function(){ $(this).find('.wp-submenu').removeClass('sub-open'); },
+				out: function(){ $(this).find('.wp-submenu').removeClass('sub-open').css({'marginTop':''}); },
 				timeout: 220,
 				sensitivity: 8,
 				interval: 100
