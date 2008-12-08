@@ -150,7 +150,6 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "images/fav.png" },
 { "url" : "images/fav-arrow.gif" },
 { "url" : "images/fav-arrow-rtl.gif" },
-{ "url" : "images/fav-bottom.png" },
 { "url" : "images/fav-top.png" },
 { "url" : "images/generic.png" },
 { "url" : "images/gray-grad.png" },

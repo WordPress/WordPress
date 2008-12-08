@@ -1464,7 +1464,7 @@ fieldset.inline-edit-col-right .inline-edit-col {
 
 #favorite-inside {
 	border-color: #797979;
-	background: #797979 url(../images/fav-bottom.png) repeat-x 0 bottom;
+	background-color: #797979;
 }
 
 #favorite-toggle {
