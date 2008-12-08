@@ -1,4 +1,3 @@
-var edCanvas;
 
 jQuery( function($) {
 
@@ -38,6 +37,8 @@ var quickPressLoad = function() {
 			$('#dashboard_quick_press ul').find('li').each( function() {
 				$('#dashboard_recent_drafts ul').prepend( this );
 			} ).end().remove();
+			$(this).find('.hide-if-no-js').removeClass('hide-if-no-js');
+			tb_init('a.thickbox');
 			quickPressLoad();
 		} );
 		return false;
@@ -45,7 +46,6 @@ var quickPressLoad = function() {
 
 	$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );
 
-	edCanvas = jQuery('#content');
 };
 quickPressLoad();
 

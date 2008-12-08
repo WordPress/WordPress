@@ -1048,7 +1048,7 @@ div.comment-item:hover .row-actions {
 	display: block;
 	height: 1.6em;
 	line-height: 1.6em;
-	padding: 0 0.7em;
+	padding: 0 6px;
 }
 
 #adminmenu li span.count-0,
@@ -2263,9 +2263,9 @@ fieldset {
 
 #replyrow #ed_reply_toolbar input {
 	margin: 1px 2px 1px 1px;
-	min-width: 26px;
+	min-width: 24px;
 	padding: 3px 4px;
-	font-size: 12px;
+	font-size: 11px;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;

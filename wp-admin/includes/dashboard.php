@@ -308,6 +308,7 @@ function wp_dashboard_quick_press() {
 			if ( $drafts_query->posts )
 				$drafts =& $drafts_query->posts;
 		}
+		printf('<p class="textright">' . __('You can also try %s, easy blogging from anywhere on the Web.') . '</p>', '<a href="tools.php">' . __('Press This') . '</a>' );
 		$_REQUEST = array(); // hack for get_default_post_to_edit()
 	}
 
@@ -328,6 +329,8 @@ function wp_dashboard_quick_press() {
 		<div class="textarea-wrap">
 			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" tabindex="2"><?php echo $post->post_content; ?></textarea>
 		</div>
+		
+		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
 
 		<h4><label for="tags-input"><?php _e('Tags') ?></label></h4>
 		<div class="input-text-wrap">
