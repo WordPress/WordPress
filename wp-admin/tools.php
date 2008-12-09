@@ -36,7 +36,7 @@ if ( ! $is_opera ) {
 	<h3 class="title"><?php _e('Turbo:'); ?> <?php _e('Gears Status'); ?></h3>
 	<p><?php _e('Gears is installed on this computer, but is not enabled for use with WordPress.'); ?></p>
 	<p><?php _e('To enable it click the button below.'); ?></p>
-	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
+	<p><strong><?php _e('Note: Do not enable Gears if this is a public or shared computer!'); ?></strong></p>
 	<div class="buttons"><button class="button" onclick="wpGears.getPermission();"><?php _e('Enable Gears'); ?></button></div>
 	</div>
 
@@ -69,7 +69,7 @@ if ( ! $is_opera ) {
 		_e('To allow it, change the Gears settings in your browser&#8217;s Tools menu and reload this page.');
 
 	?></p>
-	<p><strong><?php _e('However, Gears should not be enabled if this is a public or shared computer.'); ?></strong></p>
+	<p><strong><?php _e('Note: Do not enable Gears if this is a public or shared computer!'); ?></strong></p>
 	</div>
 	<script type="text/javascript">wpGears.message();</script>
 <?php } else {
