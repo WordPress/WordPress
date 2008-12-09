@@ -54,7 +54,8 @@ function wp_default_scripts( &$scripts ) {
 		'closeTags' => attribute_escape(__('close tags')),
 		'enterURL' => __('Enter the URL'),
 		'enterImageURL' => __('Enter the URL of the image'),
-		'enterImageDescription' => __('Enter a description of the image')
+		'enterImageDescription' => __('Enter a description of the image'),
+		'l10n_print_after' => 'try{convertEntities(quicktagsL10n);}catch(e){};'
 	) );
 
 	$scripts->add( 'colorpicker', '/wp-includes/js/colorpicker.js', array('prototype'), '3517' );
@@ -72,7 +73,8 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wp-ajax-response', '/wp-includes/js/wp-ajax-response.js', array('jquery'), '20080316' );
 	$scripts->localize( 'wp-ajax-response', 'wpAjax', array(
 		'noPerm' => __('You do not have permission to do that.'),
-		'broken' => __('An unidentified error has occurred.')
+		'broken' => __('An unidentified error has occurred.'),
+		'l10n_print_after' => 'try{convertEntities(wpAjax);}catch(e){};'
 	) );
 
 	$scripts->add( 'autosave', '/wp-includes/js/autosave.js', array('schedule', 'wp-ajax-response'), '20081110' );
@@ -127,7 +129,8 @@ function wp_default_scripts( &$scripts ) {
 			'upload_stopped' => __('Upload stopped.'),
 			'dismiss' => __('Dismiss'),
 			'crunching' => __('Crunching&hellip;'),
-			'deleted' => __('Deleted')
+			'deleted' => __('Deleted'),
+			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
 	) );
 
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui.core.js', array('jquery'), '1.5.2' );
@@ -143,7 +146,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
 		$scripts->localize( 'ajaxcat', 'catL10n', array(
 			'add' => attribute_escape(__('Add')),
-			'how' => __('Separate multiple categories with commas.')
+			'how' => __('Separate multiple categories with commas.'),
+			'l10n_print_after' => 'try{convertEntities(catL10n);}catch(e){};'
 		) );
 		$scripts->add( 'admin-categories', '/wp-admin/js/categories.js', array('wp-lists'), '20081117' );
 		$scripts->add( 'admin-tags', '/wp-admin/js/tags.js', array('wp-lists'), '20081117' );
@@ -154,7 +158,8 @@ function wp_default_scripts( &$scripts ) {
 			'short' => __('Very weak'),
 			'bad' => __('Weak'),
 			'good' => _c('Medium|password strength'),
-			'strong' => __('Strong')
+			'strong' => __('Strong'),
+			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 		) );
 		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20081206' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
@@ -171,7 +176,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->localize( 'slug', 'slugL10n', array(
 			'requestFile' => admin_url('admin-ajax.php'),
 			'save' => __('Save'),
-			'cancel' => __('Cancel')
+			'cancel' => __('Cancel'),
+			'l10n_print_after' => 'try{convertEntities(slugL10n);}catch(e){};'
 		) );
 		$scripts->add( 'post', '/wp-admin/js/post.js', array('suggest', 'jquery-ui-tabs', 'wp-lists', 'postbox', 'slug'), '20081128' );
 		$scripts->localize( 'post', 'postL10n', array(
@@ -196,7 +202,8 @@ function wp_default_scripts( &$scripts ) {
 			'publicSticky' => __('Public, Sticky'),
 			'password' => __('Password Protected'),
 			'privatelyPublished' => __('Privately Published'),
-			'published' => __('Published')
+			'published' => __('Published'),
+			'l10n_print_after' => 'try{convertEntities(postL10n);}catch(e){};'
 		) );
 		$scripts->add( 'page', '/wp-admin/js/page.js', array('jquery', 'slug', 'wp-lists', 'postbox'), '20081128' );
 		$scripts->localize( 'page', 'postL10n', array(
@@ -216,14 +223,16 @@ function wp_default_scripts( &$scripts ) {
 			'public' => __('Public'),
 			'password' => __('Password Protected'),
 			'privatelyPublished' => __('Privately Published'),
-			'published' => __('Published')
+			'published' => __('Published'),
+			'l10n_print_after' => 'try{convertEntities(postL10n);}catch(e){};'
 		) );
 		$scripts->add( 'link', '/wp-admin/js/link.js', array('jquery-ui-tabs', 'wp-lists', 'postbox'), '20080925' );
 		$scripts->add( 'comment', '/wp-admin/js/comment.js', array('jquery'), '20081103' );
 		$scripts->localize( 'comment', 'commentL10n', array(
 			'cancel' => __('Cancel'),
 			'edit' => __('Edit'),
-			'submittedOn' => __('Submitted on:')
+			'submittedOn' => __('Submitted on:'),
+			'l10n_print_after' => 'try{convertEntities(commentL10n);}catch(e){};'
 		) );
 		$scripts->add( 'admin-gallery', '/wp-admin/js/gallery.js', array( 'jquery-ui-sortable' ), '20081127' );
 		$scripts->add( 'media-upload', '/wp-admin/js/media-upload.js', array( 'thickbox' ), '20081125' );
@@ -234,18 +243,21 @@ function wp_default_scripts( &$scripts ) {
 			'edit' => __('Edit'),
 			'cancel' => __('Cancel'),
 			'lameReminder' => __('Remember to click the "Save Changes" button at the bottom of the Current Widgets column after you\'re all done!'),
-			'lamerReminder' => __("You're about to leave without having saved your changes!")
+			'lamerReminder' => __("You're about to leave without having saved your changes!"),
+			'l10n_print_after' => 'try{convertEntities(widgetsL10n);}catch(e){};'
 		));
 
 		$scripts->add( 'word-count', '/wp-admin/js/word-count.js', array( 'jquery' ), '20080423' );
 		$scripts->localize( 'word-count', 'wordCountL10n', array(
-			'count' => __('Word count: %d')
+			'count' => __('Word count: %d'),
+			'l10n_print_after' => 'try{convertEntities(wordCountL10n);}catch(e){};'
 		));
 
 		$scripts->add( 'wp-gears', '/wp-admin/js/wp-gears.js', false, '20080905' );
 		$scripts->localize( 'wp-gears', 'wpGearsL10n', array(
 			'updateCompleted' => __('Update completed.'),
-			'error' => __('Error:')
+			'error' => __('Error:'),
+			'l10n_print_after' => 'try{convertEntities(wpGearsL10n);}catch(e){};'
 		));
 
 		$scripts->add( 'theme-preview', '/wp-admin/js/theme-preview.js', array( 'thickbox', 'jquery' ), '20080625' );
@@ -254,17 +266,20 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),
 			'ntdeltitle' => __('Remove From Bulk Edit'),
-			'notitle' => __('(no title)')
+			'notitle' => __('(no title)'),
+			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
 		$scripts->add( 'inline-edit-tax', '/wp-admin/js/inline-edit-tax.js', array( 'jquery', 'jquery-form' ), '20081206' );
 		$scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
-			'error' => __('Error while saving the changes.')
+			'error' => __('Error while saving the changes.'),
+			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
 		$scripts->add( 'plugin-install', '/wp-admin/js/plugin-install.js', array( 'thickbox', 'jquery' ), '20080803' );
 		$scripts->localize( 'plugin-install', 'plugininstallL10n', array(
-			'plugin_information' => __('Plugin Information:')
+			'plugin_information' => __('Plugin Information:'),
+			'l10n_print_after' => 'try{convertEntities(plugininstallL10n);}catch(e){};'
 		) );
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
@@ -370,7 +385,8 @@ function wp_just_in_time_script_localization() {
 		'previewPageText' => __('Preview this Page'),
 		'previewPostText' => __('Preview this Post'),
 		'requestFile' => admin_url('admin-ajax.php'),
-		'savingText' => __('Saving Draft&#8230;')
+		'savingText' => __('Saving Draft&#8230;'),
+		'l10n_print_after' => 'try{convertEntities(autosaveL10n);}catch(e){};'
 	) );
 
 	$userid = isset($current_user) ? $current_user->ID : 0;
