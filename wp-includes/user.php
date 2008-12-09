@@ -429,7 +429,7 @@ function setup_userdata($user_id = '') {
  * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
  * <li>include - User IDs to include.</li>
  * <li>exclude - User IDs to exclude.</li>
- * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element.</li> 
+ * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element.</li>
  * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentesis</li>
  * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
  * <li>selected - Which User ID is selected.</li>

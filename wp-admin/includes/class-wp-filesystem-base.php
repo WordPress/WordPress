@@ -90,7 +90,7 @@ class WP_Filesystem_Base {
 	function wp_themes_dir() {
 		return $this->wp_content_dir() . '/themes';
 	}
-	
+
 	/**
 	 * Locates a folder on the remote filesystem.
 	 *
@@ -136,7 +136,7 @@ class WP_Filesystem_Base {
 	 *
 	 * @since 2.7
 	 * @access public
-	 * 
+	 *
 	 * @param string $folder the folder to locate
 	 * @return string The location of the remote path.
 	 */
@@ -164,7 +164,7 @@ class WP_Filesystem_Base {
 	 *
 	 * @since 2.7
 	 * @access private
-	 * 
+	 *
 	 * @param string $folder the folder to locate
 	 * @param string $base the folder to start searching from
 	 * @param bool $loop if the function has recursed, Internal use only

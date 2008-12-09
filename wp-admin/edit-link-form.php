@@ -333,7 +333,7 @@ function link_advanced_meta_box($link) {
 </table>
 <?php
 }
-add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core'); 
+add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', 'link', 'normal', 'core');
 
 do_action('do_meta_boxes', 'link', 'normal', $link);
 do_action('do_meta_boxes', 'link', 'advanced', $link);
@@ -346,7 +346,7 @@ require_once ('admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <?php if ( isset( $_GET['added'] ) ) : ?>
 <div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>
@@ -365,7 +365,7 @@ wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 <div id="poststuff" class="metabox-holder">
 
 <div id="side-info-column" class="inner-sidebar">
-<?php 
+<?php
 
 do_action('submitlink_box');
 $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
@@ -399,7 +399,7 @@ $side_meta_boxes = do_meta_boxes( 'link', 'side', $link );
 </div>
 </div>
 
-<?php 
+<?php
 
 do_meta_boxes('link', 'normal', $link);
 

@@ -529,27 +529,27 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * hide_empty - Default is true. Will not return empty terms, which means
  * terms whose count is 0 according to the given taxonomy.
- * 
+ *
  * exclude - Default is an empty string.  A comma- or space-delimited string
- * of term ids to exclude from the return array.  If 'include' is non-empty, 
+ * of term ids to exclude from the return array.  If 'include' is non-empty,
  * 'exclude' is ignored.
  *
  * include - Default is an empty string.  A comma- or space-delimited string
  * of term ids to include in the return array.
- * 
+ *
  * number - The maximum number of terms to return.  Default is empty.
- * 
+ *
  * offset - The number by which to offset the terms query.
  *
- * fields - Default is 'all', which returns an array of term objects. 
+ * fields - Default is 'all', which returns an array of term objects.
  * If 'fields' is 'ids' or 'names', returns an array of
  * integers or strings, respectively.
  *
  * slug - Returns terms whose "slug" matches this value. Default is empty string.
- * 
+ *
  * hierarchical - Whether to include terms that have non-empty descendants
  * (even if 'hide_empty' is set to true).
- * 
+ *
  * search - Returned terms' names will contain the value of 'search',
  * case-insensitive.  Default is an empty string.
  *
@@ -563,14 +563,14 @@ function get_term_to_edit( $id, $taxonomy ) {
  * returns terms regardless of ancestry or whether the terms are empty.
  *
  * The 'child_of' argument, when used, should be set to the integer of a term ID.  Its default
- * is 0.  If set to a non-zero value, all returned terms will be descendants 
- * of that term according to the given taxonomy.  Hence 'child_of' is set to 0 
- * if more than one taxonomy is passed in $taxonomies, because multiple taxonomies 
+ * is 0.  If set to a non-zero value, all returned terms will be descendants
+ * of that term according to the given taxonomy.  Hence 'child_of' is set to 0
+ * if more than one taxonomy is passed in $taxonomies, because multiple taxonomies
  * make term ancestry ambiguous.
  *
  * The 'parent' argument, when used, should be set to the integer of a term ID.  Its default is
  * the empty string '', which has a different meaning from the integer 0.
- * If set to an integer value, all returned terms will have as an immediate 
+ * If set to an integer value, all returned terms will have as an immediate
  * ancestor the term whose ID is specified by that integer according to the given taxonomy.
  * The 'parent' argument is different from 'child_of' in that a term X is considered a 'parent'
  * of term Y only if term X is the father of term Y, not its grandfather or great-grandfather, etc.
@@ -781,7 +781,7 @@ function &get_terms($taxonomies, $args = '') {
 		}
 	}
 	reset ( $terms );
-	
+
 	$_terms = array();
 	if ( 'ids' == $fields ) {
 		while ( $term = array_shift($terms) )
@@ -1952,7 +1952,7 @@ function _get_term_hierarchy($taxonomy) {
  * @param int $term_id The ancestor term: all returned terms should be descendants of $term_id.
  * @param array $terms The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
  * @param string $taxonomy The taxonomy which determines the hierarchy of the terms.
- * @return array The subset of $terms that are descendants of $term_id. 
+ * @return array The subset of $terms that are descendants of $term_id.
  */
 function &_get_term_children($term_id, $terms, $taxonomy) {
 	$empty_array = array();
@@ -2036,7 +2036,7 @@ function _pad_term_counts(&$terms, $taxonomy) {
 		$id = $term_ids[$row->term_taxonomy_id];
 		$term_items[$id][$row->object_id] = isset($term_items[$id][$row->object_id]) ? ++$term_items[$id][$row->object_id] : 1;
 	}
-	
+
 	// Touch every ancestor's lookup row for each post in each term
 	foreach ( $term_ids as $term_id ) {
 		$child = $term_id;

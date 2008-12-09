@@ -69,7 +69,7 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 	}
 
 	list( $max_width, $max_height ) = apply_filters( 'editor_max_image_size', array( $max_width, $max_height ), $size );
-	
+
 	return wp_constrain_dimensions( $width, $height, $max_width, $max_height );
 }
 
@@ -158,7 +158,7 @@ function image_downsize($id, $size = 'medium') {
 		$width = $meta['width'];
 		$height = $meta['height'];
 	}
-	
+
 	if ( $img_url) {
 		// we have the actual image size, but might need to further constrain it if content_width is narrower
 		list( $width, $height ) = image_constrain_size_for_editor( $width, $height, $size );
@@ -430,7 +430,7 @@ function image_make_intermediate_size($file, $width, $height, $crop=false) {
  * will be used. If there is no direct match, then the nearest image size larger
  * than the specified size will be used. If nothing is found, then the function
  * will break out and return false.
- * 
+ *
  * The metadata 'sizes' is used for compatible sizes that can be used for the
  * parameter $size value.
  *

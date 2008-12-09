@@ -662,11 +662,11 @@ function request_filesystem_credentials($form_post, $type = '', $error = false) 
 	$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : (!empty($_POST['hostname']) ? $_POST['hostname'] : $credentials['hostname']);
 	$credentials['username'] = defined('FTP_USER') ? FTP_USER : (!empty($_POST['username']) ? $_POST['username'] : $credentials['username']);
 	$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : (!empty($_POST['password']) ? $_POST['password'] : $credentials['password']);
-	
+
 	// Check to see if we are setting the public/private keys for ssh
 	$credentials['public_key'] = defined('FTP_PUBKEY') ? FTP_PUBKEY : (!empty($_POST['public_key']) ? $_POST['public_key'] : $credentials['public_key']);
-	$credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : (!empty($_POST['private_key']) ? $_POST['private_key'] : $credentials['private_key']);		
-	
+	$credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : (!empty($_POST['private_key']) ? $_POST['private_key'] : $credentials['private_key']);
+
 	if ( strpos($credentials['hostname'], ':') )
 		list( $credentials['hostname'], $credentials['port'] ) = explode(':', $credentials['hostname'], 2);
 
@@ -704,7 +704,7 @@ jQuery(function($){
 	});
 	jQuery("#ftp, #ftps").click(function () {
 		jQuery("#ssh_keys").hide();
-	});	
+	});
 });
 -->
 </script>

@@ -54,7 +54,7 @@ function get_stylesheet_directory_uri() {
 /**
  * Retrieve URI of current theme stylesheet.
  *
- * The stylesheet file name is 'style.css' which is appended to {@link 
+ * The stylesheet file name is 'style.css' which is appended to {@link
  * get_stylesheet_directory_uri() stylesheet directory URI} path.
  *
  * @since 1.5.0
@@ -771,7 +771,7 @@ function get_comments_popup_template() {
 
 /**
  * Retrieve the name of the highest priority template file that exists.
- * 
+ *
  * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
  * inherit from a parent theme can just overload one file.
  *

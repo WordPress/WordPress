@@ -106,7 +106,7 @@ li.widget-list-control-item h4.widget-title a,
 #dragHelper li.widget-list-control-item h4.widget-title a,
 #draghelper li.widget-list-control-item h4.widget-title a:visited,
 .login #backtoblog a:hover,
-#plugin-information .action-button a, 
+#plugin-information .action-button a,
 #plugin-information .action-button a:hover,
 #plugin-information .action-button a:visited {
 	color: #fff;
@@ -342,7 +342,7 @@ a:focus {
 	color: #d54e21;
 }
 
-a:hover, 
+a:hover,
 #wphead #viewsite a:hover,
 #adminmenu a:hover,
 #adminmenu ul.wp-submenu a:hover,
@@ -625,17 +625,17 @@ li.widget-list-control-item h4,
 	background-color: #ffffe0;
 }
 
-#the-comment-list .approve a { 
-	color: #006505; 
-} 
+#the-comment-list .approve a {
+	color: #006505;
+}
 
-#the-comment-list .unapprove a { 
-	color: #d98500; 
-} 
+#the-comment-list .unapprove a {
+	color: #d98500;
+}
 
-#the-comment-list .delete a { 
-	color: #bc0b0b; 
-} 
+#the-comment-list .delete a {
+	color: #bc0b0b;
+}
 
 .plugins tr {
 	background-color: #fff;

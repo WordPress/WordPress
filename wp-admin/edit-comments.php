@@ -20,7 +20,7 @@ if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spa
 	$delete_time = $wpdb->escape( $_REQUEST['pagegen_timestamp'] );
 	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND '$delete_time' > comment_date_gmt" );
 
-	$redirect_to = 'edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam; 
+	$redirect_to = 'edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam;
 	if ( $post_id )
 		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
 	wp_redirect( $redirect_to );

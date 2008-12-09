@@ -15,7 +15,7 @@
  *     2: The URL of the item's file
  *     3: Class
  *     4: ID
- *     5: Icon for top level menu 
+ *     5: Icon for top level menu
  *
  * @global array $menu
  * @name $menu
@@ -65,7 +65,7 @@ if ( !empty($update_plugins->response) )
 
 $menu[45] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
 	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][10] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');	
+	$submenu['plugins.php'][10] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');
 	$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 
 if ( current_user_can('edit_users') )
@@ -104,7 +104,7 @@ $_wp_last_utility_menu = 60; // The index of the last top-level menu in the util
 $menu[79] = array( '', 'read', '', '', 'wp-menu-separator-last' );
 
 // Back-compat for old top-levels
-$_wp_real_parent_file['post.php'] = 'edit.php'; 
+$_wp_real_parent_file['post.php'] = 'edit.php';
 $_wp_real_parent_file['post-new.php'] = 'edit.php';
 $_wp_real_parent_file['page-new.php'] = 'edit-pages.php';
 

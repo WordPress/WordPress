@@ -41,7 +41,7 @@ if ( isset($_GET['inline']) ) {
 
 		wp_redirect( admin_url($location) );
 	}
-	
+
 	if ( isset($_POST['html-upload']) && !empty($_FILES) ) {
 		// Upload File button was clicked
 		$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
@@ -57,7 +57,7 @@ if ( isset($_GET['inline']) ) {
 	require_once('admin-header.php'); ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php echo wp_specialchars( $title ); ?></h2> 
+	<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 	<form enctype="multipart/form-data" method="post" action="media-upload.php?inline=&amp;upload-page-form=" class="media-upload-form type-form validate" id="file-form">
 
@@ -93,15 +93,15 @@ if ( isset($_GET['inline']) ) {
 		$type = strval($_GET['type']);
 	else
 		$type = apply_filters('media_upload_default_type', 'file');
-	
+
 	// tab: gallery, library, or type-specific
 	if ( isset($_GET['tab']) )
 		$tab = strval($_GET['tab']);
 	else
 		$tab = apply_filters('media_upload_default_tab', 'type');
-	
+
 	$body_id = 'media-upload';
-	
+
 	// let the action code decide how to handle the request
 	if ( $tab == 'type' || $tab == 'type_url' )
 		do_action("media_upload_$type");

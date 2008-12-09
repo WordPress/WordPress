@@ -796,7 +796,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @uses $withcomments Will not try to get the comments if the post has none.
  *
  * @param string $file Optional, default '/comments.php'. The file to load
- * @param bool $separate_comments Optional, whether to separate the comments by comment type. Default is false. 
+ * @param bool $separate_comments Optional, whether to separate the comments by comment type. Default is false.
  * @return null Returns null if no comments appear
  */
 function comments_template( $file = '/comments.php', $separate_comments = false ) {
@@ -985,7 +985,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 
 	if ( get_option('comment_registration') && !$user_ID )
 		$link = '<a rel="nofollow" href="' . site_url('wp-login.php?redirect_to=' . get_permalink()) . '">' . $login_text . '</a>';
-	else 
+	else
 		$link = "<a rel='nofollow' href='" . wp_specialchars( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\")'>$reply_text</a>";
 
 	return apply_filters('comment_reply_link', $before . $link . $after, $args, $comment, $post);
@@ -1010,13 +1010,13 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  * Retrieve HTML content for cancel comment reply link.
  *
  * @since 2.7.0
- * 
+ *
  * @param string $text Optional. Text to display for cancel reply link.
  */
 function get_cancel_comment_reply_link($text = '') {
 	if ( empty($text) )
 		$text = __('Click here to cancel reply.');
-	
+
 	$style = isset($_GET['replytocom']) ? '' : ' style="display:none;"';
 	$link = wp_specialchars( remove_query_arg('replytocom') ) . '#respond';
 	return apply_filters('cancel_comment_reply_link', '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>', $link, $text);

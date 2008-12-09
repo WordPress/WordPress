@@ -163,7 +163,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	if ( function_exists('iconv') && ! empty( $charset ) ) {
 		$content = iconv($charset, get_option('blog_charset'), $content);
 	}
-	
+
 	// Captures any text in the body after $phone_delim as the body
 	$content = explode($phone_delim, $content);
 	$content = empty( $content[1] ) ? $content[0] : $content[1];

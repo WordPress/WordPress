@@ -79,10 +79,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
 			return false;
 		}
-		
+
 		//Set the Connection to use Passive FTP
-		@ftp_pasv( $this->link, true ); 
-		
+		@ftp_pasv( $this->link, true );
+
 		return true;
 	}
 

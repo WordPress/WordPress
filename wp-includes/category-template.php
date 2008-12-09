@@ -304,7 +304,7 @@ function in_category( $category ) {
 		return true;
 	else
 		return false;
-	
+
 }
 
 /**
@@ -432,7 +432,7 @@ function wp_dropdown_categories( $args = '' ) {
  *     'orderby' (string) default is 'ID' - What column to use for ordering the
  * categories.
  *     'order' (string) default is 'ASC' - What direction to order categories.
- *     'show_last_update' (bool|int) default is 0 - See {@link 
+ *     'show_last_update' (bool|int) default is 0 - See {@link
  * walk_category_dropdown_tree()}
  *     'show_count' (bool|int) default is 0 - Whether to show how many posts are
  * in the category.
@@ -615,8 +615,8 @@ function default_topic_count_text( $count ) {
  *
  * The 'topic_count_text_callback' argument is a function, which given the count
  * of the posts  with that tag returns a text for the tooltip of the tag link.
- * @see default_topic_count_text 
- * 
+ * @see default_topic_count_text
+ *
  *
  * @todo Complete functionality.
  * @since 2.3.0
@@ -632,16 +632,16 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
 		'topic_count_text_callback' => 'default_topic_count_text',
 	);
-	
+
 	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
-		$body = 'return sprintf ( 
+		$body = 'return sprintf (
 			__ngettext('.var_export($args['single_text'], true).', '.var_export($args['multiple_text'], true).', $count),
 			number_format_i18n( $count ));';
 		$args['topic_count_text_callback'] = create_function('$count', $body);
 	}
-	
+
 	$args = wp_parse_args( $args, $defaults );
-		
+
 	extract( $args );
 
 	if ( empty( $tags ) )

@@ -22,7 +22,7 @@ if ( isset( $_POST['deletecomment'] ) )
  *
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
  */
-function comment_footer_die( $msg ) {  // 
+function comment_footer_die( $msg ) {  //
 	echo "<div class='wrap'><p>$msg</p></div>";
 	include('admin-footer.php');
 	die;

@@ -1496,7 +1496,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	);
 
 	$response = wp_remote_post($trackback_url, $options);
-	
+
 	if ( is_wp_error( $response ) )
 		return;
 

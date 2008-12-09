@@ -425,7 +425,7 @@ function form_option( $option ) {
  *
  * This is different from wp_load_alloptions() in that this function does not
  * cache its results and will retrieve all options from the database every time
- * 
+ *
  * it is called.
  *
  * @since 1.0.0
@@ -1750,7 +1750,7 @@ function wp_mkdir_p( $target ) {
 	// If the above failed, attempt to create the parent node, then try again.
 	if ( ( $target != '/' ) && ( wp_mkdir_p( dirname( $target ) ) ) )
 		return wp_mkdir_p( $target );
-	
+
 	return false;
 }
 
@@ -2889,11 +2889,11 @@ function wp_suspend_cache_invalidation($suspend = true) {
 
 /**
  * Copy an object.
- * 
+ *
  * Returns a cloned copy of an object.
- * 
+ *
  * @since 2.7.0
- * 
+ *
  * @param object $object The object to clone
  * @return object The cloned object
  */

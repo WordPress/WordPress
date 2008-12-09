@@ -98,8 +98,8 @@ function edit_user( $user_id = 0 ) {
 	else
 		$user->rich_editing = 'true';
 
-	$user->comment_shortcuts = isset( $_POST['comment_shortcuts'] )? $_POST['comment_shortcuts'] : ''; 
-	
+	$user->comment_shortcuts = isset( $_POST['comment_shortcuts'] )? $_POST['comment_shortcuts'] : '';
+
 	$user->use_ssl = 0;
 	if ( !empty($_POST['use_ssl']) )
 		$user->use_ssl = 1;

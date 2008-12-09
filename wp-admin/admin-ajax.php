@@ -427,10 +427,10 @@ case 'get-tagcloud' :
 		die('-1');
 
 	$tags = get_tags( array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
-	
+
 	if ( empty( $tags ) )
 		die( __('No tags found!') );
-	
+
 	foreach ( $tags as $key => $tag ) {
 		$tags[ $key ]->link = '#';
 		$tags[ $key ]->id = $tag->term_id;
@@ -440,9 +440,9 @@ case 'get-tagcloud' :
 
 	if ( empty($return) )
 		die('0');
-	
+
 	echo $return;
-	
+
 	exit;
 	break;
 case 'add-comment' :

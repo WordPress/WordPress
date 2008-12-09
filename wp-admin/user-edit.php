@@ -23,7 +23,7 @@ function profile_js ( ) {
 ?>
 <script type="text/javascript">
 (function($){
-	
+
 	function check_pass_strength () {
 
 		var pass = $('#pass1').val();
@@ -177,7 +177,7 @@ include ('admin-header.php');
 
 <div class="wrap" id="profile-page">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form id="your-profile" action="" method="post">
 <?php wp_nonce_field('update-user_' . $user_id) ?>

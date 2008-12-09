@@ -146,24 +146,24 @@ class Custom_Image_Header {
 		jQuery('#textcolor').val(color);
 		farbtastic.setColor(color);
 	}
-	
+
 	jQuery(document).ready(function() {
 		jQuery('#pickcolor').click(function() {
 			jQuery('#colorPickerDiv').show();
 		});
-		
+
 		jQuery('#hidetext').click(function() {
 			toggle_text();
 		});
-		
+
 		farbtastic = jQuery.farbtastic('#colorPickerDiv', function(color) { pickColor(color); });
 		pickColor('#<?php echo get_theme_mod('header_textcolor', HEADER_TEXTCOLOR); ?>');
-		
+
 		<?php if ( 'blank' == get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) ) { ?>
 		toggle_text();
 		<?php } ?>
 	});
-	
+
 	jQuery(document).mousedown(function(){
 		// Make the picker disappear, since we're using it in an independant div
 		hide_picker();

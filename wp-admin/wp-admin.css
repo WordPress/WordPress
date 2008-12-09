@@ -816,7 +816,7 @@ div.comment-item:hover .row-actions {
 #adminmenu .wp-submenu li.current a:hover {
 	font-weight: bold;
 }
-	
+
 #adminmenu a.menu-top,
 #adminmenu .wp-submenu-head {
 	font: normal 13px/18px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
@@ -962,9 +962,9 @@ div.comment-item:hover .row-actions {
 	cursor: w-resize;
 }
 
-.folded #adminmenu li.wp-menu-separator { 
- 	cursor: e-resize; 
-} 
+.folded #adminmenu li.wp-menu-separator {
+ 	cursor: e-resize;
+}
 
 #adminmenu .wp-menu-separator-last {
 	height: 10px;
@@ -1604,7 +1604,7 @@ table.form-table td .updated {
 #poststuff #titlewrap {
 	border: 0;
 	padding: 0;
-	
+
 }
 
 #titlediv #title {
@@ -2059,7 +2059,7 @@ fieldset {
 	height: 20px;
 	line-height: 20px;
 	padding: 0;
-} 
+}
 
 #jj, #hh, #mn {
 	width: 2em;

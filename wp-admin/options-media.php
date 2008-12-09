@@ -18,7 +18,7 @@ include('admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form action="options.php" method="post">
 <?php settings_fields('media'); ?>
@@ -49,15 +49,15 @@ include('admin-header.php');
 </fieldset></td>
 </tr>
 
-<tr valign="top"> 
-<th scope="row"><?php _e('Large size') ?></th> 
-<td><fieldset><legend class="hidden"><?php _e('Large size') ?></legend> 
-<label for="large_size_w"><?php _e('Max Width'); ?></label> 
-<input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" class="small-text" /> 
-<label for="large_size_h"><?php _e('Max Height'); ?></label> 
-<input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" class="small-text" /> 
-</fieldset></td> 
-</tr> 
+<tr valign="top">
+<th scope="row"><?php _e('Large size') ?></th>
+<td><fieldset><legend class="hidden"><?php _e('Large size') ?></legend>
+<label for="large_size_w"><?php _e('Max Width'); ?></label>
+<input name="large_size_w" type="text" id="large_size_w" value="<?php form_option('large_size_w'); ?>" class="small-text" />
+<label for="large_size_h"><?php _e('Max Height'); ?></label>
+<input name="large_size_h" type="text" id="large_size_h" value="<?php form_option('large_size_h'); ?>" class="small-text" />
+</fieldset></td>
+</tr>
 
 <?php do_settings_fields('media', 'default'); ?>
 </table>

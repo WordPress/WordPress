@@ -389,7 +389,7 @@ function edInsertImage(myField) {
 }
 
 
-// Allow multiple instances. 
+// Allow multiple instances.
 // Name = unique value, id = textarea id, container = container div.
 // Can disable some buttons by passing comma delimited string as 4th param.
 var QTags = function(name, id, container, disabled) {
@@ -399,7 +399,7 @@ var QTags = function(name, id, container, disabled) {
 	t.Links = [];
 	t.OpenTags = [];
 	t.Canvas = document.getElementById(id);
-	
+
 	if ( ! t.Canvas || ! cont )
 		return;
 

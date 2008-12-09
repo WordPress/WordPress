@@ -94,7 +94,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$metadata['height'] = $imagesize[1];
 		list($uwidth, $uheight) = wp_shrink_dimensions($metadata['width'], $metadata['height']);
 		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
-		
+
 		// Make the file path relative to the upload dir
 		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { // Get upload directory
 			if ( 0 === strpos($file, $uploads['basedir']) ) {// Check that the upload base exists in the file path

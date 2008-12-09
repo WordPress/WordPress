@@ -161,7 +161,7 @@ if ( empty($pagenum) )
 	$pagenum = 1;
 
 $tagsperpage = apply_filters("tagsperpage",20);
-	
+
 $page_links = paginate_links( array(
 	'base' => add_query_arg( 'pagenum', '%#%' ),
 	'format' => '',
@@ -239,9 +239,9 @@ if ( $page_links )
 
 <div class="tagcloud">
 <h3><?php _e('Popular Tags'); ?></h3>
-<?php 
+<?php
 if ( $can_manage )
-	wp_tag_cloud(array('link' => 'edit')); 
+	wp_tag_cloud(array('link' => 'edit'));
 else
 	wp_tag_cloud();
 ?>

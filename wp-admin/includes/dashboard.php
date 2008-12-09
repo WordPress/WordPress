@@ -134,7 +134,7 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
 	echo "<p class='submit'><input type='hidden' name='widget_id' value='$meta_box[id]' /><input type='submit' value='" . __( 'Submit' ) . "' /></p>";
 
-	echo '</form>';	
+	echo '</form>';
 }
 
 /**
@@ -276,7 +276,7 @@ function wp_dashboard_right_now() {
 	} else {
 		printf(__ngettext('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
 	}
-		
+
 	echo '</p>';
 
 	update_right_now_message();
@@ -304,7 +304,7 @@ function wp_dashboard_quick_press() {
 				'orderby' => 'modified',
 				'order' => 'DESC'
 			) );
-		
+
 			if ( $drafts_query->posts )
 				$drafts =& $drafts_query->posts;
 		}
@@ -329,7 +329,7 @@ function wp_dashboard_quick_press() {
 		<div class="textarea-wrap">
 			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" tabindex="2"><?php echo $post->post_content; ?></textarea>
 		</div>
-		
+
 		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
 
 		<h4><label for="tags-input"><?php _e('Tags') ?></label></h4>
@@ -437,7 +437,7 @@ function wp_dashboard_recent_comments() {
 		if ( current_user_can('edit_posts') ) { ?>
 			<p class="textright"><a href="edit-comments.php" class="button"><?php _e('View all'); ?></a></p>
 <?php	}
-		
+
 		wp_comment_reply( -1, false, 'dashboard', false );
 
 	else :
@@ -785,7 +785,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
  */
 function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
 	global $wp_dashboard_control_callbacks;
-	
+
 	if ( is_scalar($widget_control_id) && $widget_control_id && isset($wp_dashboard_control_callbacks[$widget_control_id]) && is_callable($wp_dashboard_control_callbacks[$widget_control_id]) ) {
 		call_user_func( $wp_dashboard_control_callbacks[$widget_control_id], '', array( 'id' => $widget_control_id, 'callback' => $wp_dashboard_control_callbacks[$widget_control_id] ) );
 	}

@@ -659,7 +659,7 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 		setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, $cookie_domain, $secure);
 		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, $cookie_domain);
 		if ( COOKIEPATH != SITECOOKIEPATH )
-			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, $cookie_domain);	
+			setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, $cookie_domain);
 	}
 }
 endif;
@@ -1446,7 +1446,7 @@ function wp_rand( $min = 0, $max = 0 ) {
 	if ( $max != 0 )
 		$value = $min + (($max - $min + 1) * ($value / (4294967295 + 1)));
 
-	return abs(intval($value)); 
+	return abs(intval($value));
 }
 endif;
 

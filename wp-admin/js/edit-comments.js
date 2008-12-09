@@ -4,7 +4,7 @@ var theList; var theExtraList;
 setCommentsList = function() {
 	var dimAfter = function( r, settings ) {
 		var c = $('#' + settings.element);
-		
+
 		if ( c.is('.unapproved') )
 			c.find('div.comment_status').html('0')
 		else

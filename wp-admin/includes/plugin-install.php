@@ -132,7 +132,7 @@ function install_dashboard() {
 		<?php _e('<strong>Tag:</strong> Searches for plugins tagged as such') ?><br />
 		<?php _e('<strong>Author:</strong> Searches for plugins created by the Author, or which the Author contributed to.') ?></p>
 	</div>
-	
+
 	<h4><?php _e('Install a plugin in .zip format') ?></h4>
 	<p><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
 	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('plugin-install.php?tab=upload') ?>">
@@ -140,7 +140,7 @@ function install_dashboard() {
 		<input type="file" name="pluginzip" />
 		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
 	</form>
-	
+
 	<h4><?php _e('Popular tags') ?></h4>
 	<p><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
 	<?php
@@ -396,7 +396,7 @@ function install_plugin_information() {
 	if( empty($section) || ! isset($api->sections[ $section ]) )
 		$section = array_shift( $section_titles = array_keys((array)$api->sections) );
 
-	iframe_header( __('Plugin Install') );	
+	iframe_header( __('Plugin Install') );
 	echo "<div id='$tab-header'>\n";
 	echo "<ul id='sidemenu'>\n";
 	foreach ( (array)$api->sections as $section_name => $content ) {
@@ -505,9 +505,9 @@ function install_plugin_information() {
 	</div>
 	<div id="section-holder" class="wrap">
 	<?php
-		if ( version_compare($GLOBALS['wp_version'], $api->tested, '>') ) 
+		if ( version_compare($GLOBALS['wp_version'], $api->tested, '>') )
 			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been tested</strong> with your current version of WordPress.') . '</p></div>';
-		else if ( version_compare($GLOBALS['wp_version'], $api->requires, '<') ) 
+		else if ( version_compare($GLOBALS['wp_version'], $api->requires, '<') )
 			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has not been marked as <strong>compatible</strong> with your version of WordPress.') . '</p></div>';
 		foreach ( (array)$api->sections as $section_name => $content ) {
 			$title = $section_name;
@@ -549,11 +549,11 @@ function upload_plugin() {
 	echo '<div class="wrap">';
 	echo '<h2>', sprintf( __('Installing Plugin from file: %s'), basename($filename) ), '</h2>';
 
-	//Handle a newly uploaded file, Else assume it was 
+	//Handle a newly uploaded file, Else assume it was
 	if ( !empty($_FILES) ) {
 		$filename = wp_unique_filename( $uploads['basedir'], $filename );
 		$local_file = $uploads['basedir'] . '/' . $filename;
-	
+
 		// Move the file to the uploads dir
 		if ( false === @ move_uploaded_file( $_FILES['pluginzip']['tmp_name'], $local_file) )
 			wp_die( sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path']));
@@ -578,7 +578,7 @@ function install_plugin() {
 
 	check_admin_referer('install-plugin_' . $plugin);
 	$api = plugins_api('plugin_information', array('slug' => $plugin, 'fields' => array('sections' => false) ) ); //Save on a bit of bandwidth.
-	
+
 	if ( is_wp_error($api) )
 		wp_die($api);
 
@@ -660,7 +660,7 @@ function do_plugin_install_local_package($package, $filename = '') {
 		show_message( __('No plugin Specified') );
 		return;
 	}
-	
+
 	if ( empty($filename) )
 		$filename = basename($package);
 

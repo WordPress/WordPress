@@ -17,7 +17,7 @@ include('admin-header.php');
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <form method="post" action="options.php">
 <?php settings_fields('discussion'); ?>
@@ -58,7 +58,7 @@ include('admin-header.php');
 <br />
 <label for="thread_comments">
 <input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked('1', get_option('thread_comments')); ?> />
-<?php 
+<?php
 
 $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 

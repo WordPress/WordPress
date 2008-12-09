@@ -126,7 +126,7 @@ if ( isset($_GET['action']) ) {
 	$plugin = isset($_GET['plugin']) ? trim($_GET['plugin']) : '';
 	$theme = isset($_REQUEST['theme']) ? urldecode($_REQUEST['theme']) : '';
 	$action = isset($_GET['action']) ? $_GET['action'] : '';
-	
+
 	if ( 'upgrade-plugin' == $action ) {
 		check_admin_referer('upgrade-plugin_' . $plugin);
 		$title = __('Upgrade Plugin');
@@ -153,7 +153,7 @@ if ( isset($_GET['action']) ) {
 			include(WP_PLUGIN_DIR . '/' . $plugin);
 		}
 		iframe_footer();
-	} elseif ( 'upgrade-theme' == $action ) {	
+	} elseif ( 'upgrade-theme' == $action ) {
 		check_admin_referer('upgrade-theme_' . $theme);
 		$title = __('Upgrade Theme');
 		$parent_file = 'themes.php';

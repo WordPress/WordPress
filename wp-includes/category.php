@@ -40,7 +40,7 @@ function &get_categories( $args = '' ) {
 	$defaults = array( 'type' => 'category' );
 	$args = wp_parse_args( $args, $defaults );
 
-	$taxonomy = apply_filters( 'get_categories_taxonomy', 'category', $args ); 
+	$taxonomy = apply_filters( 'get_categories_taxonomy', 'category', $args );
 	if ( 'link' == $args['type'] )
 		$taxonomy = 'link_category';
 	$categories = (array) get_terms( $taxonomy, $args );

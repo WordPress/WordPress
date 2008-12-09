@@ -100,7 +100,7 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 <div class="bordertitle">
 	<form id="themeselector" action="theme-editor.php" method="post">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
@@ -141,11 +141,11 @@ if ($allowed_files) :
 		$template_show = basename($template_file);
 		$filedesc = ( $description != $template_file ) ? "$description <span class='nonessential'>($template_show)</span>" : "$description";
 		$filedesc = ( $template_file == $file ) ? "<span class='highlight'>$description <span class='nonessential'>($template_show)</span></span>" : $filedesc;
-		
+
 		// If we have two files of the same name prefer the one in the Template Directory
 		// This means that we display the correct files for child themes which overload Templates as well as Styles
 		if( array_key_exists($description, $template_mapping ) ) {
-			if ( false !== strpos( $template_file, $template_dir ) )  { 
+			if ( false !== strpos( $template_file, $template_dir ) )  {
 				$template_mapping[ $description ] = array( $template_file, $filedesc );
 			}
 		} else {

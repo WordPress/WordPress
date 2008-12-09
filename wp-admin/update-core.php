@@ -49,18 +49,18 @@ function list_core_update( $update ) {
 			echo '<input id="undismiss" class="button" type="submit" value="' . attribute_escape(__('Bring back this update')) . '" name="undismiss" />';
 	echo '</p>';
 	echo '</form>';
-	
+
 }
 
 function dismissed_updates() {
 	$dismissed = get_core_updates( array( 'dismissed' => true, 'available' => false ) );
 	if ( $dismissed ) {
-		
+
 		$show_text = js_escape(__('Show hidden updates'));
 		$hide_text = js_escape(__('Hide hidden updates'));
 	?>
 	<script type="text/javascript">
-		
+
 		jQuery(function($) {
 			$('dismissed-updates').show();
 			$('#show-dismissed').toggle(function(){$(this).text('<?php echo $hide_text; ?>');}, function() {$(this).text('<?php echo $show_text; ?>')});
@@ -76,7 +76,7 @@ function dismissed_updates() {
 			echo '</li>';
 		}
 		echo '</ul>';
-	}	
+	}
 }
 
 /**
@@ -99,9 +99,9 @@ function core_upgrade_preamble() {
 		echo '</h3>';
 	} else {
 		echo '<div class="updated fade"><p>';
-		_e('<strong>Important:</strong> before upgrading, please <a href="http://codex.wordpress.org/WordPress_Backups">backup your database and files</a>.');  
+		_e('<strong>Important:</strong> before upgrading, please <a href="http://codex.wordpress.org/WordPress_Backups">backup your database and files</a>.');
 		echo '</p></div>';
-	
+
 		echo '<h3 class="response">';
 		_e( 'There is a new version of WordPress available for upgrade' );
 		echo '</h3>';
@@ -131,17 +131,17 @@ function core_upgrade_preamble() {
  */
 function do_core_upgrade() {
 	global $wp_filesystem;
-	
+
 	$url = wp_nonce_url('update-core.php?action=do-core-upgrade', 'upgrade-core');
 	if ( false === ($credentials = request_filesystem_credentials($url)) )
 		return;
-		
+
 	$version = isset( $_POST['version'] )? $_POST['version'] : false;
 	$locale = isset( $_POST['locale'] )? $_POST['locale'] : 'en_US';
 	$update = find_core_update( $version, $locale );
 	if ( !$update )
 		return;
-		
+
 
 	if ( ! WP_Filesystem($credentials) ) {
 		request_filesystem_credentials($url, '', true); //Failed to connect, Error and request again
@@ -192,7 +192,7 @@ function do_undismiss_core_update() {
 }
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
-	
+
 if ( 'upgrade-core' == $action ) {
 	$title = __('Upgrade WordPress');
 	$parent_file = 'tools.php';

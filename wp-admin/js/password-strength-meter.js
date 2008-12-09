@@ -12,9 +12,9 @@ function passwordStrength(password,username) {
 	var symbolSize = 0;
 	if (password.match(/[0-9]/)) symbolSize +=10;
 	if (password.match(/[a-z]/)) symbolSize +=26;
-	if (password.match(/[A-Z]/)) symbolSize +=26; 
+	if (password.match(/[A-Z]/)) symbolSize +=26;
 	if (password.match(/[^a-zA-Z0-9]/)) symbolSize +=31;
-    
+
 	var natLog = Math.log( Math.pow(symbolSize,password.length) );
 	var score = natLog / Math.LN2;
 	if (score < 40 )  return badPass

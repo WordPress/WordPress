@@ -185,7 +185,7 @@ function wp_update_plugins() {
 /**
  * Check theme versions against the latest versions hosted on WordPress.org.
  *
- * A list of all themes installed in sent to WP. Checks against the 
+ * A list of all themes installed in sent to WP. Checks against the
  * WordPress server at api.wordpress.org. Will only check if WordPress isn't
  * installing.
  *

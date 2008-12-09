@@ -556,7 +556,7 @@ function _fetch_remote_file ($url, $headers = "" ) {
 }
 
 /**
- * Retrieve 
+ * Retrieve
  *
  * @since unknown
  * @package External

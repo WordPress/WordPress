@@ -97,7 +97,7 @@ function tag_press_key( e ) {
 
 jQuery(document).ready( function($) {
 	tagCloud.init();
-	
+
 	// close postboxes that should be closed
 	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
 
@@ -450,6 +450,6 @@ jQuery(document).ready( function($) {
 			return false;
 		}
 	};
-	
+
 })(jQuery);
 

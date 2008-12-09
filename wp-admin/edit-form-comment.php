@@ -109,7 +109,7 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 		$url = get_comment_author_url();
 		if ( ! empty( $url ) && 'http://' != $url ) {
 			$link = "<a href='$url' rel='external nofollow' target='_blank'>" . __('visit site') . "</a>";
-			printf( __( 'URL (%s):' ), apply_filters('get_comment_author_link', $link ) ); 
+			printf( __( 'URL (%s):' ), apply_filters('get_comment_author_link', $link ) );
 		} else {
 			_e( 'URL:' );
 		} ?></td>

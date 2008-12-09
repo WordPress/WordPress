@@ -97,7 +97,7 @@ default:
 <?php endif; ?>
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 <div class="tablenav">
 <div class="alignleft">

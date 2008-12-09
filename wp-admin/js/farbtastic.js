@@ -25,7 +25,7 @@ jQuery._farbtastic = function (container, callback) {
   fb.radius = 84;
   fb.square = 100;
   fb.width = 194;
-  
+
   // Fix background PNGs in IE6
   if (navigator.appVersion.match(/MSIE [0-6]\./)) {
     jQuery('*', e).each(function () {

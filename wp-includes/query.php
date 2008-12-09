@@ -182,7 +182,7 @@ function is_author ($author = '') {
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param string|array $category Optional. 
+ * @param string|array $category Optional.
  * @return bool
  */
 function is_category ($category = '') {

@@ -153,7 +153,7 @@ class WP_Http {
 			foreach ( array('streams', 'fsockopen', 'exthttp') as $transport ) {
 				if ( isset($working_transport[$transport]) )
 					$nonblocking_transport[] = &$working_transport[$transport];
-			}			
+			}
 		}
 
 		if ( isset($args['blocking']) && !$args['blocking'] )
@@ -222,7 +222,7 @@ class WP_Http {
 
 		$r = wp_parse_args( $args, $defaults );
 		$r = apply_filters( 'http_request_args', $r );
-		
+
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
 

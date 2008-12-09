@@ -90,12 +90,12 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->options['username'] = $opt['username'];
 
 		if ( ( !empty ($opt['public_key']) ) && ( !empty ($opt['private_key']) ) ) {
-			$this->options['public_key'] = $opt['public_key'];	
+			$this->options['public_key'] = $opt['public_key'];
 			$this->options['private_key'] = $opt['private_key'];
-			
+
 			$this->options['hostkey'] = array("hostkey" => "ssh-rsa");
-			
-			$this->keys = true;			
+
+			$this->keys = true;
 		}
 
 
@@ -105,18 +105,18 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		} else {
 			$this->options['password'] = $opt['password'];
 		}
-			
+
 	}
 
 	function connect() {
 		$this->debug("connect();");
-		
+
 		if ( ! $this->keys ) {
-			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port']);			
+			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port']);
 		} else {
-			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port'], $this->options['hostkey']);			
+			$this->link = @ssh2_connect($this->options['hostname'], $this->options['port'], $this->options['hostkey']);
 		}
-			
+
 		if ( ! $this->link ) {
 			$this->errors->add('connect', sprintf(__('Failed to connect to SSH2 Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
 			return false;
@@ -358,7 +358,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	function touch($file, $time = 0, $atime = 0) {
 		//Not implmented.
 	}
-	
+
 	function mkdir($path, $chmod = null, $chown = false, $chgrp = false) {
 		$this->debug("mkdir();");
 		$path = untrailingslashit($path);

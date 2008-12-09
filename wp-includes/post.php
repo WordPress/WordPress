@@ -203,7 +203,7 @@ function get_extended($post) {
  *
  * @param int|object $post Post ID or post object.
  * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
- * @param string $filter Optional, default is raw. 
+ * @param string $filter Optional, default is raw.
  * @return mixed Post data
  */
 function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
@@ -2161,10 +2161,10 @@ function &get_pages($args = '') {
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_value = %s", $meta_value);
 
 	}
-	
-	if ( $parent >= 0 ) 
-		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent); 
-	
+
+	if ( $parent >= 0 )
+		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent);
+
 	$query = "SELECT * FROM $wpdb->posts $join WHERE (post_type = 'page' AND post_status = 'publish') $where ";
 	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
@@ -2184,7 +2184,7 @@ function &get_pages($args = '') {
 
 	if ( !empty($exclude_tree) ) {
 		$exclude = array();
-		
+
 		$exclude = (int) $exclude_tree;
 		$children = get_page_children($exclude, $pages);
 		$excludes = array();
@@ -2379,12 +2379,12 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_ID ) );
 	} else {
 		// If there is a suggested ID, use it if not already present
-		if ( !empty($import_id) ) { 
-			$import_id = (int) $import_id; 
-			if ( ! $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id) ) ) { 
-				$data['ID'] = $import_id; 
-			} 
-		} 
+		if ( !empty($import_id) ) {
+			$import_id = (int) $import_id;
+			if ( ! $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id) ) ) {
+				$data['ID'] = $import_id;
+			}
+		}
 
 		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;

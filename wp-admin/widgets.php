@@ -235,7 +235,7 @@ require_once( 'admin-header.php' ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
-<h2><?php echo wp_specialchars( $title ); ?></h2> 
+<h2><?php echo wp_specialchars( $title ); ?></h2>
 
 	<form id="widgets-filter" action="" method="get">
 

@@ -137,7 +137,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getPageList'		=> 'this:wp_getPageList',
 			'wp.getAuthors'			=> 'this:wp_getAuthors',
 			'wp.getCategories'		=> 'this:mw_getCategories',		// Alias
-			'wp.getTags'			=> 'this:wp_getTags',		
+			'wp.getTags'			=> 'this:wp_getTags',
 			'wp.newCategory'		=> 'this:wp_newCategory',
 			'wp.deleteCategory'		=> 'this:wp_deleteCategory',
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
@@ -2578,7 +2578,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if( $postdata['post_status'] === 'future' ) {
 				$postdata['post_status'] = 'publish';
 			}
-			
+
 			$enclosure = array();
 			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
 				if ($key == 'enclosure') {
@@ -2616,9 +2616,9 @@ class wp_xmlrpc_server extends IXR_Server {
 				'post_status' => $postdata['post_status'],
 				'custom_fields' => $this->get_custom_fields($post_ID)
 			);
-			
+
 			if (!empty($enclosure)) $resp['enclosure'] = $enclosure;
-			
+
 			return $resp;
 		} else {
 			return new IXR_Error(404, __('Sorry, no such post.'));

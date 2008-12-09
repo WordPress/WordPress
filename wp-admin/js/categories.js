@@ -7,7 +7,7 @@ jQuery(function($) {
 		var name = $("<span>" + $('name', r).text() + "</span>").html();
 		var id = $('cat', r).attr('id');
 		options[options.length] = new Option(name, id);
-		
+
 		addAfter2( r, settings );
 	}
 

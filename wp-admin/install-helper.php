@@ -17,7 +17,7 @@
  * check_column('wp_links', 'link_description', 'mediumtext');
  * if (check_column($wpdb->comments, 'comment_author', 'tinytext'))
  *     echo "ok\n";
- * 
+ *
  * $error_count = 0;
  * $tablename = $wpdb->links;
  * // check the column
@@ -25,7 +25,7 @@
  *     $ddl = "ALTER TABLE $wpdb->links MODIFY COLUMN link_description varchar(255) NOT NULL DEFAULT '' ";
  *     $q = $wpdb->query($ddl);
  * }
- * 
+ *
  * if (check_column($wpdb->links, 'link_description', 'varchar(255)')) {
  *     $res .= $tablename . ' - ok <br />';
  * } else {

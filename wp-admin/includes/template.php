@@ -911,7 +911,7 @@ function register_column_headers($screen, $columns) {
  */
 function get_hidden_columns($page) {
 	$page = str_replace('.php', '', $page);
-	return (array) get_user_option( 'manage-' . $page . '-columns-hidden', 0, false );	
+	return (array) get_user_option( 'manage-' . $page . '-columns-hidden', 0, false );
 }
 
 /**
@@ -1000,7 +1000,7 @@ function inline_edit_row( $type ) {
 		</label>
 
 <?php
-		endif; // authors 
+		endif; // authors
 		$authors_dropdown = ob_get_clean();
 ?>
 
@@ -1335,7 +1335,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 				$m_time = $post->post_date;
 				$time = get_post_time('G', true, $post);
 
-				$time_diff = time() - $time; 
+				$time_diff = time() - $time;
 
 				if ( ( 'future' == $post->post_status) ) {
 					if ( $time_diff <= 0 ) {
@@ -2316,7 +2316,7 @@ function _list_meta_row( $entry, &$count ) {
 	$r .= "\n\t\t<input name='updatemeta' type='submit' tabindex='6' value='".attribute_escape(__( 'Update' ))."' class='add:the-list:meta-{$entry['meta_id']}::_ajax_nonce=$update_nonce updatemeta' /></div>";
 	$r .= wp_nonce_field( 'change-meta', '_ajax_nonce', false, false );
 	$r .= "</td>";
-	
+
 	$r .= "\n\t\t<td><label class='hidden' for='meta[{$entry['meta_id']}][value]'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
 	return $r;
 }
@@ -2375,7 +2375,7 @@ function meta_form() {
 
 <tr><td colspan="2" class="submit">
 <input type="submit" id="addmetasub" name="addmeta" class="add:the-list:newmeta" tabindex="9" value="<?php _e( 'Add Custom Field' ) ?>" />
-<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>	
+<?php wp_nonce_field( 'add-meta', '_ajax_nonce', false ); ?>
 </td></tr>
 </tbody>
 </table>
@@ -3038,7 +3038,7 @@ function find_posts_div($found_action = '') {
 		</div>
 	</div>
 	<script type="text/javascript">
-	/* <![CDATA[ */ 
+	/* <![CDATA[ */
 	(function($){
 		findPosts = {
 			open : function(af_name, af_val) {
@@ -3133,7 +3133,7 @@ function find_posts_div($found_action = '') {
 			});
 		});
 	})(jQuery);
-	/* ]]> */ 
+	/* ]]> */
 	</script>
 <?php
 }
@@ -3160,7 +3160,7 @@ function the_post_password() {
 function favorite_actions() {
 	$actions = array(
 		'post-new.php' => array(__('New Post'), 'edit_posts'),
-		'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),	
+		'edit.php?post_status=draft' => array(__('Drafts'), 'edit_posts'),
 		'page-new.php' => array(__('New Page'), 'edit_pages'),
 		'media-new.php' => array(__('Upload'), 'upload_files'),
 		'edit-comments.php' => array(__('Comments'), 'moderate_comments')
@@ -3325,10 +3325,10 @@ function screen_meta($screen) {
 	<h5><?php _e('Show on screen') ?></h5>
 	<form id="adv-settings" action="" method="get">
 	<div class="metabox-prefs">
-<?php 
+<?php
 	if ( !meta_box_prefs($screen) && isset($column_screens) ) {
 		manage_columns_prefs($screen);
-		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false ); 
+		wp_nonce_field( 'hiddencolumns', 'hiddencolumnsnonce', false );
 	}
 ?>
 	<br class="clear" />
@@ -3367,7 +3367,7 @@ function screen_meta($screen) {
 	if ( !isset($_wp_contextual_help['options-general']) )
 		$_wp_contextual_help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
 
-	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen); 
+	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen);
 	?>
 	<div id="contextual-help-wrap" class="hidden">
 	<?php

@@ -15,7 +15,7 @@ wpGears = {
 
 	getPermission : function() {
 		var perm = true;
-		
+
 		if ( 'undefined' != typeof google && google.gears ) {
 			if ( ! google.gears.factory.hasPermission )
 				perm = google.gears.factory.getPermission( 'WordPress', 'images/logo.gif' );

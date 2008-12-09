@@ -15,13 +15,13 @@ if ( have_posts() ) { ?>
 <?php print_column_headers('upload'); ?>
 	</tr>
 	</thead>
-	
+
 	<tfoot>
 	<tr>
 <?php print_column_headers('upload', false); ?>
 	</tr>
 	</tfoot>
-	
+
 	<tbody id="the-list" class="list:post">
 <?php
 add_filter('the_title','wp_specialchars');
@@ -207,4 +207,4 @@ foreach ($posts_columns as $column_name => $column_display_name ) {
 <?php
 } // end if ( have_posts() )
 ?>
-	
+

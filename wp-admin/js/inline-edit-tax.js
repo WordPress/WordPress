@@ -49,10 +49,10 @@ inlineEditTax = {
 
 		var editRow = $('#inline-edit').clone(true), rowData = $('#inline_'+id);
 		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
-		
+
 		if ( $(t.what+id).hasClass('alternate') )
 			$(editRow).addClass('alternate');
-		
+
 		$(t.what+id).hide().after(editRow);
 
 		$(':input[name="name"]', editRow).val( $('.name', rowData).text() );
@@ -105,7 +105,7 @@ inlineEditTax = {
 		// make ajax request
 		$.post('admin-ajax.php', params,
 			function(r) {
-				
+
 				$('table.widefat .inline-edit-save .waiting').hide();
 
 				if (r) {
@@ -115,7 +115,7 @@ inlineEditTax = {
 
 						var row = $(inlineEditTax.what+id);
 						row.hide();
-						
+
 						row.find('.hide-if-no-js').removeClass('hide-if-no-js');
 						inlineEditTax.addEvents(row);
 						row.fadeIn();

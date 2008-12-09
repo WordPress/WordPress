@@ -292,7 +292,7 @@ class WP_Role {
 	 * @access public
 	 *
 	 * @param string $cap Capability name.
-	 * @param bool $grant Whether role has capability privilege. 
+	 * @param bool $grant Whether role has capability privilege.
 	 */
 	function add_cap( $cap, $grant = true ) {
 		global $wp_roles;

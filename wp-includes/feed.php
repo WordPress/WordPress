@@ -401,11 +401,11 @@ function rss_enclosure() {
 		if ($key == 'enclosure') {
 			foreach ( (array) $val as $enc ) {
 				$enclosure = split("\n", $enc);
-				
+
 				//only get the the first element eg, audio/mpeg from 'audio/mpeg mpga mp2 mp3'
-				$t = split('[ \t]', trim($enclosure[2]) ); 
-				$type = $t[0]; 
-				
+				$t = split('[ \t]', trim($enclosure[2]) );
+				$type = $t[0];
+
 				echo apply_filters('rss_enclosure', '<enclosure url="' . trim(htmlspecialchars($enclosure[0])) . '" length="' . trim($enclosure[1]) . '" type="' . $type . '" />' . "\n");
 			}
 		}
@@ -500,7 +500,7 @@ function prep_atom_text_construct($data) {
 function self_link() {
 	$host = @parse_url(get_option('home'));
 	$host = $host['host'];
-	echo clean_url( 
+	echo clean_url(
 		'http'
 		. ( (isset($_SERVER['https']) && $_SERVER['https'] == 'on') ? 's' : '' ) . '://'
 		. $host

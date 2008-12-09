@@ -535,7 +535,7 @@ function sanitize_title_with_dashes($title) {
  * @since 2.5.1
  *
  * @param string $orderby Order by string to be checked.
- * @return string|false Returns the order by clause if it is a match, false otherwise. 
+ * @return string|false Returns the order by clause if it is a match, false otherwise.
  */
 function sanitize_sql_orderby( $orderby ){
 	preg_match('/^\s*([a-z0-9_]+(\s+(ASC|DESC))?(\s*,\s*|\s*$))+|^\s*RAND\(\s*\)\s*$/i', $orderby, $obmatches);
@@ -881,7 +881,7 @@ function untrailingslashit($string) {
  * @since 0.71
  *
  * @param string $gpc The string returned from HTTP request data.
- * @return string Returns a string escaped with slashes. 
+ * @return string Returns a string escaped with slashes.
  */
 function addslashes_gpc($gpc) {
 	global $wpdb;
@@ -912,8 +912,8 @@ function stripslashes_deep($value) {
 /**
  * Navigates through an array and encodes the values to be used in a URL.
  *
- * Uses a callback to pass the value of the array back to the function as a 
- * string. 
+ * Uses a callback to pass the value of the array back to the function as a
+ * string.
  *
  * @since 2.2.0
  *
@@ -1195,7 +1195,7 @@ function get_date_from_gmt($string) {
  * @since 1.5.0
  *
  * @param string $timezone Either 'Z' for 0 offset or '±hhmm'.
- * @return int|float The offset in seconds. 
+ * @return int|float The offset in seconds.
  */
 function iso8601_timezone_to_offset($timezone) {
 	// $timezone is either 'Z' or '[+|-]hhmm'
@@ -1689,7 +1689,7 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 	// Replace ampersands and single quotes only when displaying.
 	if ( 'display' == $context ) {
 		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
-		$url = str_replace( "'", '&#039;', $url ); 
+		$url = str_replace( "'", '&#039;', $url );
 	}
 
 	if ( !is_array($protocols) )
@@ -1805,7 +1805,7 @@ function wp_make_link_relative( $link ) {
  * Sanitises various option values based on the nature of the option.
  *
  * This is basically a switch statement which will pass $value through a number
- * of functions depending on the $option. 
+ * of functions depending on the $option.
  *
  * @since 2.0.5
  *

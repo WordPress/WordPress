@@ -731,7 +731,7 @@ class Walker {
 	var $db_fields;
 
 	/**
-	 * Max number of pages walked by the paged walker 
+	 * Max number of pages walked by the paged walker
 	 *
 	 * @since 2.7.0
 	 * @var int
@@ -913,8 +913,8 @@ class Walker {
 		 */
 		if ( empty($top_level_elements) ) {
 
-			$first = array_slice( $elements, 0, 1 ); 
-			$root = $first[0]; 
+			$first = array_slice( $elements, 0, 1 );
+			$root = $first[0];
 
 			$top_level_elements = array();
 			$children_elements  = array();

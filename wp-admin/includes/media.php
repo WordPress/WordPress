@@ -102,7 +102,7 @@ function the_media_upload_tabs() {
 function get_image_send_to_editor($id, $alt, $title, $align, $url='', $rel = false, $size='medium') {
 
 	$htmlalt = ( empty($alt) ) ? $title : $alt;
- 
+
 	$html = get_image_tag($id, $htmlalt, $title, $align, $size);
 
 	$rel = $rel ? ' rel="attachment wp-att-'.attribute_escape($id).'"' : '';
@@ -473,7 +473,7 @@ function media_upload_image() {
 		$errors['upload_notice'] = __('Saved.');
 		return media_upload_gallery();
 	}
-	
+
 	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
 		return wp_iframe( 'media_upload_type_url_form', 'image', $errors, $id );
 
@@ -501,10 +501,10 @@ function media_sideload_image($file, $post_id, $desc = null) {
 			@unlink($file_array['tmp_name']);
 			$file_array['tmp_name'] = '';
 		}
-		
+
 		$id = media_handle_sideload($file_array, $post_id, $desc);
 		$src = $id;
-		
+
 		if ( is_wp_error($id) ) {
 			@unlink($file_array['tmp_name']);
 			return $id;
@@ -567,7 +567,7 @@ function media_upload_audio() {
 
 	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
 		return wp_iframe( 'media_upload_type_url_form', 'audio', $errors, $id );
-	
+
 	return wp_iframe( 'media_upload_type_form', 'audio', $errors, $id );
 }
 
@@ -620,7 +620,7 @@ function media_upload_video() {
 
 	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
 		return wp_iframe( 'media_upload_type_url_form', 'video', $errors, $id );
-	
+
 	return wp_iframe( 'media_upload_type_form', 'video', $errors, $id );
 }
 
@@ -673,7 +673,7 @@ function media_upload_file() {
 
 	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' )
 		return wp_iframe( 'media_upload_type_url_form', 'file', $errors, $id );
-	
+
 	return wp_iframe( 'media_upload_type_form', 'file', $errors, $id );
 }
 
@@ -731,16 +731,16 @@ function media_upload_library() {
  * @return unknown
  */
 function image_align_input_fields($post, $checked='') {
-	
+
 	$alignments = array('none' => 'None', 'left' => 'Left', 'center' => 'Center', 'right' => 'Right');
 	if ( !array_key_exists($checked, $alignments) )
 		$checked = 'none';
-	
+
 	$out = array();
 	foreach ($alignments as $name => $label) {
-	
+
 		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
-		 	( $checked == $name ? " checked='checked'" : "" ) . 
+		 	( $checked == $name ? " checked='checked'" : "" ) .
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . __($label) . "</label>";
 	}
 	return join("\n", $out);
@@ -756,9 +756,9 @@ function image_align_input_fields($post, $checked='') {
  * @return unknown
  */
 function image_size_input_fields($post, $checked='') {
-		
+
 		// get a list of the actual pixel dimensions of each possible intermediate version of this image
-		$size_names = array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size'));		
+		$size_names = array('thumbnail' => __('Thumbnail'), 'medium' => __('Medium'), 'large' => __('Large'), 'full' => __('Full size'));
 
 		foreach ( $size_names as $size => $name) {
 			$downsize = image_downsize($post->ID, $size);
@@ -772,19 +772,19 @@ function image_size_input_fields($post, $checked='') {
 			// if $checked was not specified, default to the first available size that's bigger than a thumbnail
 			if ( !$checked && $enabled && 'thumbnail' != $size )
 				$checked = $size;
-			
+
 			$html = "<div class='image-size-item'><input type='radio' ".( $enabled ? '' : "disabled='disabled'")."name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'".( $checked == $size ? " checked='checked'" : '') ." />";
-			
+
 			$html .= "<label for='{$css_id}'>" . __($name). "</label>";
 			// only show the dimensions if that choice is available
 			if ( $enabled )
 				$html .= " <label for='{$css_id}' class='help'>" . sprintf( __("(%d&nbsp;&times;&nbsp;%d)"), $downsize[1], $downsize[2] ). "</label>";
-				
+
 			$html .= '</div>';
-		
+
 			$out[] = $html;
 		}
-		
+
 		return array(
 			'label' => __('Size'),
 			'input' => 'html',
@@ -811,7 +811,7 @@ function image_link_input_fields($post, $url_type='') {
 		$url = $file;
 	elseif ( $url_type == 'post' )
 		$url = $link;
-	
+
 	return "<input type='text' class='urlfield' name='attachments[$post->ID][url]' value='" . attribute_escape($url) . "' /><br />
 				<button type='button' class='button urlnone' title=''>" . __('None') . "</button>
 				<button type='button' class='button urlfile' title='" . attribute_escape($file) . "'>" . __('File URL') . "</button>
@@ -842,7 +842,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 			'input' => 'html',
 			'html'  => image_align_input_fields($post, get_option('image_default_align')),
 		);
-		
+
 		$form_fields['image-size'] = image_size_input_fields($post, get_option('image_default_size'));
 	}
 	return $form_fields;
@@ -1287,7 +1287,7 @@ SWFUpload.onload = function() {
 			file_dialog_complete_handler : fileDialogComplete,
 			swfupload_pre_load_handler: swfuploadPreLoad,
 			swfupload_load_failed_handler: swfuploadLoadFailed,
-			custom_settings : { 
+			custom_settings : {
 				degraded_element_id : "html-upload-ui", // id of the element displayed when swfupload is unavailable
 				swfupload_element_id : "flash-upload-ui" // id of the element displayed when swfupload is available
 			},
@@ -1299,7 +1299,7 @@ SWFUpload.onload = function() {
 
 <div id="flash-upload-ui">
 <?php do_action('pre-flash-upload-ui'); ?>
-	
+
 	<div><?php _e( 'Choose files to upload' ); ?> <div id="flash-browse-button"></div></div>
 <?php do_action('post-flash-upload-ui'); ?>
 	<p class="howto"><?php _e('After a file has been uploaded, you can add titles and descriptions.'); ?></p>
@@ -1361,7 +1361,7 @@ jQuery(function($){
 -->
 </script>
 <div id="media-items">
-<?php 
+<?php
 if ( $id ) {
 	if ( !is_wp_error($id) ) {
 		echo get_media_items( $id, $errors );
@@ -1793,7 +1793,7 @@ function type_url_form_image() {
 	$default_align = get_option('image_default_align');
 	if ( empty($default_align) )
 		$default_align = 'none';
-		
+
 	return '
 	<table class="describe"><tbody>
 		<tr>

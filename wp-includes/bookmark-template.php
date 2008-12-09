@@ -97,7 +97,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 			$target = ' target="' . $target . '"';
 
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
-		
+
 		$output .= $link_before;
 
 		if ( $bookmark->link_image != null && $show_images ) {
@@ -107,12 +107,12 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 				$output .= "<img src=\"" . get_option('siteurl') . "$bookmark->link_image\" $alt $title />";
 
 			if ($show_name) $output .= $name;
-		} else { 
-			$output .= $name; 
+		} else {
+			$output .= $name;
 		}
 
 		$output .= $link_after;
-		
+
 		$output .= '</a>';
 
 		if ( $show_updated && $bookmark->recently_updated )

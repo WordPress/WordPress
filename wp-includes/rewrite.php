@@ -572,7 +572,7 @@ class WP_Rewrite {
 	var $extra_permastructs = array();
 
 	/**
-	 * Endpoints permalinks 
+	 * Endpoints permalinks
 	 *
 	 * @since unknown
 	 * @access private

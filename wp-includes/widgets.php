@@ -769,7 +769,7 @@ function wp_widget_search($args) {
 
 	// Use current theme search form if it exists
 	get_search_form();
-	
+
 	echo $after_widget;
 }
 
@@ -1615,9 +1615,9 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			}
 
 			if ( $link == '' ) {
-				echo "<li>$title{$date}{$summary}{$author}</li>"; 
+				echo "<li>$title{$date}{$summary}{$author}</li>";
 			} else {
-				echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>"; 
+				echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>";
 			}
 }
 		echo '</ul>';

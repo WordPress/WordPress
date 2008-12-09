@@ -597,7 +597,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# "value"
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )		
+					if ( in_array($attrname, $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -613,7 +613,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# 'value'
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )		
+					if ( in_array($attrname, $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {
@@ -629,7 +629,7 @@ function wp_kses_hair($attr, $allowed_protocols) {
 					# value
 					{
 					$thisval = $match[1];
-					if ( in_array($attrname, $uris) )		
+					if ( in_array($attrname, $uris) )
 						$thisval = wp_kses_bad_protocol($thisval, $allowed_protocols);
 
 					if(FALSE === array_key_exists($attrname, $attrarr)) {

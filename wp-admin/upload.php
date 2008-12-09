@@ -62,7 +62,7 @@ if ( isset($_GET['find_detached'] ) ) {
 			if ( false !== strpos($referer, 'upload.php') )
 				$location = $referer;
 		}
-	
+
 		$location = add_query_arg( array( 'detached' => 1, 'attached' => $attached ) , $location );
 		wp_redirect($location);
 		exit;
@@ -172,7 +172,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 <?php
 if ( isset($message) ) { ?>
 <div id="message" class="updated fade"><p><?php echo $message; ?></p></div>
-<?php 
+<?php
 }
 ?>
 
