@@ -120,6 +120,7 @@ button.dismiss {
 	top: 7px;
 	right: 5px;
 	z-index: 4;
+	width: 8em;
 }
 
 .file-error {
