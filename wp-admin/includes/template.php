@@ -2059,7 +2059,10 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 					}
 					echo '<a href="edit-comments.php?s=';
 					comment_author_IP();
-					echo '&amp;mode=detail">';
+					echo '&amp;mode=detail';
+					if ( 'spam' == $comment_status )
+						echo '&amp;comment_status=spam';
+					echo '">';
 					comment_author_IP();
 					echo '</a>';
 				} //current_user_can
