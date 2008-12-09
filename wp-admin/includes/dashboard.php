@@ -321,9 +321,11 @@ function wp_dashboard_quick_press() {
 			<input type="text" name="post_title" id="title" tabindex="1" autocomplete="off" value="<?php echo attribute_escape( $post->post_title ); ?>" />
 		</div>
 
+		<?php if ( current_user_can( 'upload_files' ) ) : ?>
 		<div id="media-buttons" class="hide-if-no-js">
 			<?php do_action( 'media_buttons' ); ?>
 		</div>
+		<?php endif; ?>
 
 		<h4 id="content-label"><label for="content"><?php _e('Content') ?></label></h4>
 		<div class="textarea-wrap">
