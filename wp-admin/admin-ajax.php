@@ -429,7 +429,7 @@ case 'get-tagcloud' :
 	$tags = get_tags( array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
 	
 	if ( empty( $tags ) )
-		die('0');
+		die( __('No tags found!') );
 	
 	foreach ( $tags as $key => $tag ) {
 		$tags[ $key ]->link = '#';
