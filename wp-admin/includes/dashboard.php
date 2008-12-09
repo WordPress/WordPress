@@ -464,6 +464,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 	$actions = array();
 
+	$actions_string = '';
 	if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 		$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . __( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
 		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . __( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
@@ -476,7 +477,6 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
 		$i = 0;
-		$actions_string = '';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
