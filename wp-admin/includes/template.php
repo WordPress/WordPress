@@ -1183,8 +1183,9 @@ function inline_edit_row( $type ) {
 	<p class="submit inline-edit-save">
 		<a accesskey="c" href="#inline-edit" title="<?php _e('Cancel'); ?>" class="button-secondary cancel alignleft"><?php _e('Cancel'); ?></a>
 		<?php if ( ! $bulk ) {
-			wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
+			wp_nonce_field( 'inlineeditnonce', '_inline_edit', false );
 			$update_text = ( $is_page ) ? __( 'Update Page' ) : __( 'Update Post' );
+			?>
 			<a accesskey="s" href="#inline-edit" title="<?php _e('Update'); ?>" class="button-primary save alignright"><?php echo attribute_escape( $update_text ); ?></a>
 			<img class="waiting" style="display:none;" src="images/loading.gif" alt="" />
 		<?php } else {
