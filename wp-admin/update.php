@@ -55,7 +55,7 @@ function do_plugin_upgrade($plugin) {
 		show_message( __('Plugin upgraded successfully') );
 		if( $result && $was_activated ){
 			show_message(__('Attempting reactivation of the plugin'));
-			echo '<iframe style="border:0" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) .'"></iframe>';
+			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) .'"></iframe>';
 		}
 		$update_actions =  array(
 			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . attribute_escape(__('Activate this plugin')) . '" target="_parent">' . __('Activate Plugin') . '</a>',
