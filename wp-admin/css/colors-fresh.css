@@ -131,7 +131,7 @@ li.widget-list-control-item div.widget-control {
 }
 
 .setting-description, .form-wrap p {
-	color: #999;
+	color: #666;
 }
 
 select {
@@ -231,7 +231,7 @@ ul#widget-list li.widget-list-item h4.widget-title {
 .form-input-tip,
 .rss-widget span.rss-date,
 .subsubsub {
-	color: #999;
+	color: #666;
 }
 
 .media-item {

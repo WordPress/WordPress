@@ -1277,7 +1277,7 @@ table.form-table td .updated {
 
 .setting-description, .form-wrap p {
 	font-style: italic;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .form-wrap .form-field {
@@ -1454,7 +1454,7 @@ table.form-table td .updated {
 .howto {
 	font-style: italic;
 	display: block;
-	font-family: "Lucida Grande", "Bitstream Vera Sans", "Lucida Sans", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 .ac_results {
@@ -2817,7 +2817,7 @@ abbr.required {
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
-	font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 }
 
 ul#dismissed-updates {
