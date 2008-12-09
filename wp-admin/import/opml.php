@@ -15,7 +15,7 @@ $title = __('Import Blogroll');
 
 class OPML_Import {
 
-	function dispatch() { 
+	function dispatch() {
 $step = $_POST['step'];
 if (!$step) $step = 0;
 ?>
