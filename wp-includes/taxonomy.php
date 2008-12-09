@@ -2224,4 +2224,54 @@ function get_post_taxonomies($post = 0) {
 	return get_object_taxonomies($post);
 }
 
+/**
+ * Determine if the given object is associated with any of the given terms.
+ *
+ * The given terms are checked against the object's terms' term_ids, names and slugs.
+ * Terms given as integers will only be checked against the object's terms' term_ids.
+ * If no terms are given, determines if object is associated with any terms in the given taxonomy.
+ *
+ * @since 2.7.0
+ * @uses get_object_term_cache()
+ * @uses wp_get_object_terms()
+ *
+ * @param int $object_id.  ID of the object (post ID, link ID, ...)
+ * @param string $taxonomy.  Single taxonomy name
+ * @param int|string|array $terms Optional.  Term term_id, name, slug or array of said
+ * @return bool|WP_Error. WP_Error on input error.
+ */
+function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
+	if ( !$object_id = (int) $object_id )
+		return new WP_Error( 'invalid_object', __( 'Invalid object ID' ) );
+
+	$object_terms = get_object_term_cache( $object_id, $taxonomy );
+	if ( empty( $object_terms ) )
+		 $object_terms = wp_get_object_terms( $object_id, $taxonomy );
+
+	if ( is_wp_error( $object_terms ) )
+		return $object_terms;
+	if ( empty( $object_terms ) )
+		return false;
+	if ( empty( $terms ) )
+		return ( !empty( $object_terms ) );
+
+	$terms = (array) $terms;
+
+	if ( $ints = array_filter( $terms, 'is_int' ) )
+		$strs = array_diff( $terms, $ints );
+	else
+		$strs =& $terms;
+
+	foreach ( $object_terms as $object_term ) {
+		if ( $ints && in_array( $object_term->term_id, $ints ) ) return true; // If int, check against term_id
+		if ( $strs ) {
+			if ( in_array( $object_term->term_id, $strs ) ) return true;
+			if ( in_array( $object_term->name, $strs ) )    return true;
+			if ( in_array( $object_term->slug, $strs ) )    return true;
+		}
+	}
+
+	return false;
+}
+
 ?>

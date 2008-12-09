@@ -265,46 +265,44 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 	return apply_filters( 'the_category', $thelist, $separator, $parents );
 }
 
+
 /**
- * Checks whether the current post is within a particular category.
+ * Check if the current post in within any of the given categories.
  *
- * This function checks to see if the post is within the supplied category. The
- * category can be specified by number or name and will be checked as a name
- * first to allow for categories with numeric names. Note: Prior to v2.5 of
- * WordPress category names were not supported.
+ * The given categories are checked against the post's categories' term_ids, names and slugs.
+ * Categories given as integers will only be checked against the post's categories' term_ids.
+ *
+ * Prior to v2.5 of WordPress, category names were not supported.
+ * Prior to v2.7, category slugs were not supported.
+ * Prior to v2.7, only one category could be compared: in_category( $single_category ).
+ * Prior to v2.7, this function could only be used in the WordPress Loop.
+ * As of 2.7, the function can be used anywhere if it is provided a post ID or post object.
  *
  * @since 1.2.0
  *
- * @param int|string $category Category ID or category name.
- * @return bool True, if the post is in the supplied category.
-*/
-function in_category( $category ) {
-	global $post;
-
+ * @uses is_object_in_term()
+ *
+ * @param int|string|array $category. Category ID, name or slug, or array of said.
+ * @param int|post object Optional.  Post to check instead of the current post. @since 2.7.0
+ * @return bool True if the current post is in any of the given categories.
+ */
+function in_category( $category, $_post = null ) {
 	if ( empty( $category ) )
 		return false;
 
-	// If category is not an int, check to see if it's a name
-	if ( ! is_int( $category ) ) {
-		$cat_ID = get_cat_ID( $category );
-		if ( $cat_ID )
-			$category = $cat_ID;
+	if ( $_post ) {
+		$_post = get_post( $_post );
+	} else {
+		$_post =& $GLOBALS['post'];
 	}
 
-	$categories = get_object_term_cache( $post->ID, 'category' );
-	if ( false !== $categories ) {
-		if ( array_key_exists( $category, $categories ) )
-			return true;
-		else
-			return false;
-	}
-
-	$categories = wp_get_object_terms( $post->ID, 'category', 'fields=ids' );
-	if ( is_array($categories) && in_array($category, $categories) )
-		return true;
-	else
+	if ( !$_post )
 		return false;
 
+	$r = is_object_in_term( $_post->ID, 'category', $category );
+	if ( is_wp_error( $r ) )
+		return false;
+	return $r;
 }
 
 /**
@@ -900,41 +898,38 @@ function the_terms( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 }
 
 /**
- * Check if the current post has the given tag.
+ * Check if the current post has any of given tags.
  *
- * This function is only for use within the WordPress Loop.
+ * The given tags are checked against the post's tags' term_ids, names and slugs.
+ * Tags given as integers will only be checked against the post's tags' term_ids.
+ * If no tags are given, determines if post has any tags.
+ *
+ * Prior to v2.7 of WordPress, tags given as integers would also be checked against the post's tags' names and slugs (in addition to term_ids)
+ * Prior to v2.7, this function could only be used in the WordPress Loop.
+ * As of 2.7, the function can be used anywhere if it is provided a post ID or post object.
  *
  * @since 2.6.0
  *
- * @uses wp_get_object_terms() Gets the tags.
+ * @uses is_object_in_term()
  *
- * @param string|int|array $tag Optional. The tag name/id/slug or array of them to check for.
- * @return bool True if the current post has the given tag, or any tag, if no tag specified.
+ * @param string|int|array $tag Optional. The tag name/term_id/slug or array of them to check for.
+ * @param int|post object Optional.  Post to check instead of the current post. @since 2.7.0
+ * @return bool True if the current post has any of the the given tags (or any tag, if no tag specified).
  */
-function has_tag( $tag = '' ) {
-	global $post;
-	$taxonomy = 'post_tag';
-
-	if ( !in_the_loop() ) return false; // in-the-loop function
-
-	$post_id = (int) $post->ID;
-
-	$terms = get_object_term_cache( $post_id, $taxonomy );
-	if ( empty( $terms ) )
-		 $terms = wp_get_object_terms( $post_id, $taxonomy );
-	if ( empty( $terms ) ) return false;
-
-	if ( empty( $tag ) ) return ( !empty( $terms ) );
-
-	$tag = (array) $tag;
-
-	foreach ( $terms as $term ) {
-		if ( in_array( $term->term_id, $tag ) ) return true;
-		if ( in_array( $term->name, $tag ) ) return true;
-		if ( in_array( $term->slug, $tag ) ) return true;
+function has_tag( $tag = '', $_post = null ) {
+	if ( $_post ) {
+		$_post = get_post( $_post );
+	} else {
+		$_post =& $GLOBALS['post'];
 	}
 
-	return false;
+	if ( !$_post )
+		return false;
+
+	$r = is_object_in_term( $_post->ID, 'post_tag', $tag );
+	if ( is_wp_error( $r ) )
+		return false;
+	return $r;
 }
 
 ?>
