@@ -132,7 +132,7 @@ foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name
 	</tr>
 </table>
 <p class="submit">
-	<input name="adduser" type="submit" id="addusersub" class="button" value="<?php _e('Add User') ?>" />
+	<input name="adduser" type="submit" id="addusersub" class="button-primary" value="<?php _e('Add User') ?>" />
 </p>
 </form>
 

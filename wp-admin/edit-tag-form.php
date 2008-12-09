@@ -34,7 +34,7 @@ do_action('edit_tag_form_pre', $tag); ?>
             <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Edit Tag'); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php _e('Update Tag'); ?>" /></p>
 <?php do_action('edit_tag_form', $tag); ?>
 </form>
 </div>

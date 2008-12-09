@@ -70,7 +70,7 @@ _fill_empty_category($category);
             <?php _e('The description is not prominent by default, however some themes may show it.'); ?></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Edit Category'); ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php _e('Update Category'); ?>" /></p>
 <?php do_action('edit_category_form', $category); ?>
 </form>
 </div>

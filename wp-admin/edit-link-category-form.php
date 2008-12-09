@@ -17,7 +17,7 @@ if ( ! empty($cat_ID) ) {
 	 * @var string
 	 */
 	$heading = '<h2>' . __('Edit Link Category') . '</h2>';
-	$submit_text = __('Edit Category');
+	$submit_text = __('Update Category');
 	$form = '<form name="editcat" id="editcat" method="post" action="link-category.php" class="validate">';
 	$action = 'editedcat';
 	$nonce_action = 'update-link-category_' . $cat_ID;
@@ -75,7 +75,7 @@ _fill_empty_link_category($category);
 			<td><textarea name="description" id="description" rows="5" cols="50" style="width: 97%;"><?php echo $category->description; ?></textarea></td>
 		</tr>
 	</table>
-<p class="submit"><input type="submit" class="button" name="submit" value="<?php echo $submit_text ?>" /></p>
+<p class="submit"><input type="submit" class="button-primary" name="submit" value="<?php echo $submit_text ?>" /></p>
 <?php do_action('edit_link_category_form', $category); ?>
 </form>
 </div>

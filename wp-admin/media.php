@@ -93,7 +93,7 @@ case 'edit' :
 </div>
 
 <p class="submit">
-<input type="submit" class="button" name="save" value="<?php _e('Save Changes'); ?>" />
+<input type="submit" class="button-primary" name="save" value="<?php _e('Update Media'); ?>" />
 <input type="hidden" name="post_id" id="post_id" value="<?php echo $post_id; ?>" />
 <input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo $att_id; ?>" />
 <input type="hidden" name="action" value="editattachment" />

@@ -192,7 +192,7 @@ if ($allowed_files) :
 <?php if ( is_writeable($real_file) ) : ?>
 			<p class="submit">
 <?php
-	echo "<input type='submit' name='submit' class='button' value='" . __('Update File') . "' tabindex='2' />";
+	echo "<input type='submit' name='submit' class='button-primary' value='" . __('Update File') . "' tabindex='2' />";
 ?>
 </p>
 <?php else : ?>
