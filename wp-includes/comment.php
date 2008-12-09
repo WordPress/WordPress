@@ -696,9 +696,11 @@ function wp_count_comments( $post_id = 0 ) {
 
 	$total = 0;
 	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam');
+	$known_types = array_keys( $approved );
 	foreach( (array) $count as $row_num => $row ) {
 		$total += $row['num_comments'];
-		$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
+		if ( in_array( $row['comment_approved'], $known_types ) )
+			$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
 	}
 
 	$stats['total_comments'] = $total;
