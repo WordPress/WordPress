@@ -117,14 +117,15 @@ tr.image-size label {
 
 button.dismiss {
 	position: absolute;
-	top: 5px;
+	top: 7px;
 	right: 5px;
 	z-index: 4;
 }
 
 .file-error {
-	margin: 0 0 5px 50px;
+	float: left;
 	font-weight: bold;
+	padding: 10px;
 }
 
 .progress {
