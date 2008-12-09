@@ -110,7 +110,7 @@ td.available-theme {
 #user_info {
 	float: left;
 }
-#logo50 {
+#header-logo {
 	float: right;
 	margin: 7px 15px 0 0;
 }
@@ -182,6 +182,11 @@ td.available-theme {
 }
 .post-com-count-wrapper {
 	font-family: tahoma;
+}
+.column-response .post-com-count {
+	float: right;
+	margin-right: 0;
+	margin-left: 5px;
 }
 /* Tables used on comment.php and option/setting pages */
 .form-table th,
@@ -395,9 +400,6 @@ td.action-links, th.action-links {
 #replyrow #ed_reply_toolbar input {
 	margin: 1px 1px 1px 2px;
 }
-.metabox-prefs {
-	padding: 5px 10px 10px 5px;
-}
 /* show/hide settings */
 #screen-meta-links {
 	margin: 0 0 0 9px;
@@ -406,11 +408,7 @@ td.action-links, th.action-links {
 #contextual-help-link-wrap {
 	float: left;
 	font-family: Tahoma, "Times New Roman";
-	margin: -1px 0 0 6px;
-}
-#screen-options-wrap h5,
-#contextual-help-wrap h5 {
-	padding: 10px 15px 0 0;
+	margin: 0 0 0 6px;
 }
 .metabox-prefs label {
 	padding-right: 0;
@@ -423,9 +421,6 @@ td.action-links, th.action-links {
 .inline-editor .cancel {
 	margin-right: 0;
 	margin-left: 5px;
-}
-#screen-meta a.show-settings {
-	padding: 0 6px 0 16px;
 }
 /* 2500 - 2700
 =================================== */
@@ -529,6 +524,10 @@ td.action-links, th.action-links {
 .icon32 {
 	float: right;
 	margin: 14px 0 0 6px;
+}
+.subtitle {
+	padding-left: 0;
+	padding-right: 25px;
 }
 /* TinyMCE
 =================================== */

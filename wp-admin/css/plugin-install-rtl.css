@@ -16,8 +16,8 @@ div.star {
 	margin-left: 200px;
 }
 #plugin-information .fyi {
-	margin-left: 0;
-	margin-right: 10px;
+	margin-left: 5px;
+	margin-right: 20px;
 }
 #plugin-information .fyi h2 {
 	margin-left: 0;
@@ -33,4 +33,11 @@ div.star {
 #plugin-information pre {
 	margin-right: 0;
 	margin-left: 215px;
+}
+#plugin-information .updated, #plugin-information .error {
+	clear: none;
+	direction: rtl;
+}
+#section-description {
+	direction: ltr;
 }

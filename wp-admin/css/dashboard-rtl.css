@@ -30,7 +30,7 @@
 	float: left;
 	clear: left;
 }
-#dashboard-widgets h3 a {
+#dashboard-widgets h3 .postbox-title-action {
 	right: auto;
 	left: 30px;
 }

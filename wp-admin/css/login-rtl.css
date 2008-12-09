@@ -25,3 +25,6 @@ form .submit { float: left; }
 	margin-right: 0;
 	direction:ltr;
 }
+h1 a {
+	text-decoration: none;
+}
