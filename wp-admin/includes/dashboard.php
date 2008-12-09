@@ -485,7 +485,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			if ( 'reply' == $action || 'quickedit' == $action )
 				$action .= ' hide-if-no-js';
 
-			$actions_string .= "$sep<span class='$action'>$link</span>";
+			$actions_string .= "<span class='$action'>$sep$link</span>";
 		}
 	}
 

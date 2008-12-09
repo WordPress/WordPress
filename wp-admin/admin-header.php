@@ -108,6 +108,10 @@ if ( function_exists('mb_strlen') ) {
 </div>
 </div>
 
+<?php if ( get_user_setting('mfold') == 'f' ) { ?>
+<script type="text/javascript">jQuery('#wpcontent').addClass('folded');</script>
+<?php } ?>
+
 <div id="wpbody">
 <?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
 

@@ -155,6 +155,33 @@ table {
 	width: 59%;
 }
 
+/* utility classes */
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.textleft {
+	text-align: left;
+}
+
+.textright {
+	text-align: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.hidden,
+.closed .inside,
+.hide-if-no-js {
+	display: none;
+}
+
 /* include margin and padding in the width calculation of input and textarea */
 input[type="text"],
 textarea {
@@ -212,26 +239,6 @@ select {
 	margin: 1px;
 	padding: 3px;
 }
-
-.alignleft {
-	float: left;
-}
-
-.alignright {
-	float: right;
-}
-
-.textleft {
-	text-align: left;
-}
-
-.textright {
-	text-align: right;
-}
-
-.clear { clear: both; }
-
-.hidden { display: none; }
 
 h1 {
   display: block;

@@ -1712,14 +1712,6 @@ input#link_url {
 	vertical-align: middle;
 }
 
-.metabox-holder .closed .inside, #poststuff .closed .inside {
-	display: none;
-}
-
-.metabox-holder .closed h3, #poststuff .closed h3 {
-	margin: 0;
-}
-
 .submitbox .submit {
 	text-align: left;
 	padding: 12px 10px 10px;
@@ -1978,10 +1970,6 @@ body.wp-admin {
 
 td.action-links, th.action-links {
 	text-align: right;
-}
-
-.hide-if-no-js {
-	display: none;
 }
 
 /* Diff */
