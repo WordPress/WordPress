@@ -183,12 +183,10 @@ div.postbox div.inside {
 }
 
 #dashboard_right_now a.button {
-	font-weight: normal;
 	float: right;
 	clear: right;
 	position: relative;
 	top: -5px;
-	padding: 2px 11px;
 }
 
 /* Recent Comments */

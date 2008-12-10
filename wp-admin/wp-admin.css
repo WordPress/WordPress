@@ -207,7 +207,6 @@ form p.submit a.cancel:hover {
 
 .preview {
 	float: right;
-	padding: 2px 8px !important;
 }
 
 #major-publishing-actions {
@@ -307,9 +306,9 @@ form p.submit a.cancel:hover {
 a.button,
 a.button-primary,
 a.button-secondary {
-	line-height: 1.4em;
+	line-height: 1.2em;
 	-webkit-border-radius: 10px;
-	padding: 3px 10px;
+	padding: 4px 10px;
 }
 
 #doaction,
