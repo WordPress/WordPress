@@ -234,7 +234,7 @@ $page_links = paginate_links( array(
 
 <div class="alignleft actions">
 <select name="action">
-<option value="-1" selected="selected"><?php _e('Actions') ?></option>
+<option value="-1" selected="selected"><?php _e('Bulk Actions') ?></option>
 <?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
@@ -320,7 +320,7 @@ if ( $page_links )
 
 <div class="alignleft actions">
 <select name="action2">
-<option value="-1" selected="selected"><?php _e('Actions') ?></option>
+<option value="-1" selected="selected"><?php _e('Bulk Actions') ?></option>
 <?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
