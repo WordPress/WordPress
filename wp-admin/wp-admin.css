@@ -787,6 +787,10 @@ div.comment-item:hover .row-actions {
 	padding: 12px 10px 5px;
 }
 
+#wphead h1 span {
+	font-size: 50%;
+}
+
 /* side admin menu */
 #adminmenu * {
 	-webkit-user-select: none;
