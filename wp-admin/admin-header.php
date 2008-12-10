@@ -83,8 +83,14 @@ if ( $is_iphone ) { ?>
 <div id="wphead">
 <?php
 $blog_name = get_bloginfo('name', 'display');
-if ( '' == $blog_name )
+if ( '' == $blog_name ) {
 	$blog_name = '&nbsp;';
+} else {
+	$blog_name_excerpt = wp_html_excerpt($blog_name, 60);
+	if ( $blog_name != $blog_name_excerpt )
+		$blog_name_excerpt = trim($blog_name_excerpt) . '&hellip;';
+	$blog_name = $blog_name_excerpt;
+}
 $title_class = '';
 if ( function_exists('mb_strlen') ) {
 	if ( mb_strlen($blog_name, 'UTF-8') > 30 )
