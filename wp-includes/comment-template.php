@@ -1052,7 +1052,7 @@ function get_post_reply_link($args = array(), $post = null) {
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
 function post_reply_link($args = array(), $post = null) {
-	echo get_post_comments_link($args, $post);
+	echo get_post_reply_link($args, $post);
 }
 
 /**
