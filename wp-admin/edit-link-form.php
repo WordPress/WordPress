@@ -44,9 +44,7 @@ function xfn_check($class, $value = '', $deprecated = '') {
 		if ('identity' == $class && in_array('me', $rels) ) echo ' checked="checked"';
 	}
 }
-?>
 
-<?php
 /**
  * Display link create form fields.
  *
