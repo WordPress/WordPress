@@ -840,9 +840,6 @@ function wp_install_plugin_local_package($package, $feedback = '') {
 	if ( empty($package) )
 		return new WP_Error('no_package', __('Install package not available.'));
 
-	if ( is_wp_error($download_file) )
-		return new WP_Error('download_failed', __('Download failed.'), $download_file->get_error_message());
-
 	$working_dir = $content_dir . 'upgrade/' . basename($package, '.zip');
 
 	// Clean up working directory
