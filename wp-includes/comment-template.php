@@ -1004,6 +1004,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 function comment_reply_link($args = array(), $comment = null, $post = null) {
 	echo get_comment_reply_link($args, $comment, $post);
 }
+
 /**
  * Retrieve HTML content for reply to post link.
  *
@@ -1017,22 +1018,20 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  * @since 2.7.0
  *
  * @param array $args Optional. Override default options.
- * @param int $post Optional. Post that the comment is going to be displayed on.
+ * @param int|object $post Optional. Post that the comment is going to be displayed on.  Defaults to current post.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
-
-
-function get_post_comments_link($args = array(), $comment = null, $post = null) {
+function get_post_reply_link($args = array(), $post = null) {
 	global $user_ID;
 
-	$defaults = array('add_below' => 'prologue', 'respond_id' => 'respond', 'reply_text' => __('Leave a Comment'),
+	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Leave a Comment'),
 		'login_text' => __('Log in to leave a Comment'), 'before' => '', 'after' => '');
 
 	$args = wp_parse_args($args, $defaults);
 	extract($args, EXTR_SKIP);
 	$post = get_post($post);
 	
-	if ( 'open' != $post->comment_status )
+	if ( !comments_open($post->ID) )
 		return false;
 
 	if ( get_option('comment_registration') && !$user_ID ) {
@@ -1046,13 +1045,13 @@ function get_post_comments_link($args = array(), $comment = null, $post = null) 
 /**
  * Displays the HTML content for reply to post link.
  * @since 2.7.0
- * @see get_post_comments_link() Echoes result
+ * @see get_post_reply_link()
  *
  * @param array $args Optional. Override default options.
- * @param int $post Optional. Post that the comment is going to be displayed on.
+ * @param int|object $post Optional. Post that the comment is going to be displayed on.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
-function post_comments_link ($args = array(), $post = null) {
+function post_reply_link($args = array(), $post = null) {
 	echo get_post_comments_link($args, $post);
 }
 
