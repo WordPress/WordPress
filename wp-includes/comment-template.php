@@ -986,8 +986,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 	if ( get_option('comment_registration') && !$user_ID )
 		$link = '<a rel="nofollow" href="' . site_url('wp-login.php?redirect_to=' . get_permalink()) . '">' . $login_text . '</a>';
 	else
-		$link = "<a rel='nofollow' href='" . wp_specialchars( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\")'>$reply_text</a>";
-
+		$link = "<a rel='nofollow' href='" . wp_specialchars( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
 	return apply_filters('comment_reply_link', $before . $link . $after, $args, $comment, $post);
 }
 
@@ -1004,6 +1003,57 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
  */
 function comment_reply_link($args = array(), $comment = null, $post = null) {
 	echo get_comment_reply_link($args, $comment, $post);
+}
+/**
+ * Retrieve HTML content for reply to post link.
+ *
+ * The default arguments that can be override are 'add_below', 'respond_id',
+ * 'reply_text', 'login_text', and 'depth'. The 'login_text' argument will be
+ * used, if the user must log in or register first before posting a comment. The
+ * 'reply_text' will be used, if they can post a reply. The 'add_below' and
+ * 'respond_id' arguments are for the JavaScript moveAddCommentForm() function
+ * parameters.
+ *
+ * @since 2.7.0
+ *
+ * @param array $args Optional. Override default options.
+ * @param int $post Optional. Post that the comment is going to be displayed on.
+ * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
+ */
+
+
+function get_post_comments_link($args = array(), $comment = null, $post = null) {
+	global $user_ID;
+
+	$defaults = array('add_below' => 'prologue', 'respond_id' => 'respond', 'reply_text' => __('Leave a Comment'),
+		'login_text' => __('Log in to leave a Comment'), 'before' => '', 'after' => '');
+
+	$args = wp_parse_args($args, $defaults);
+	extract($args, EXTR_SKIP);
+	$post = get_post($post);
+	
+	if ( 'open' != $post->comment_status )
+		return false;
+
+	if ( get_option('comment_registration') && !$user_ID ) {
+		$link = '<a rel="nofollow" href="' . site_url('wp-login.php?redirect_to=' . get_permalink()) . '">' . $login_text . '</a>';
+	} else {
+		$link = "<a rel='nofollow' href='" . get_permalink($post->ID) . "#$respond_id' onclick='return addComment.moveForm(\"$add_below-$post->ID\", \"0\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
+	}
+	return apply_filters('post_comments_link', $before . $link . $after, $post);
+}
+
+/**
+ * Displays the HTML content for reply to post link.
+ * @since 2.7.0
+ * @see get_post_comments_link() Echoes result
+ *
+ * @param array $args Optional. Override default options.
+ * @param int $post Optional. Post that the comment is going to be displayed on.
+ * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
+ */
+function post_comments_link ($args = array(), $post = null) {
+	echo get_post_comments_link($args, $post);
 }
 
 /**
@@ -1042,7 +1092,7 @@ function comment_id_fields() {
 	global $id;
 
 	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
-	echo "<input type='hidden' name='comment_post_ID' value='$id' />\n";
+	echo "<input type='hidden' name='comment_post_ID' value='$id' id='comment_post_ID' />\n";
 	echo "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
 }
 

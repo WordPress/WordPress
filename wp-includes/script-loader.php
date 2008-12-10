@@ -140,7 +140,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-resizable', '/wp-includes/js/jquery/ui.resizable.js', array('jquery-ui-core'), '1.5.2' );
 	$scripts->add( 'jquery-ui-dialog', '/wp-includes/js/jquery/ui.dialog.js', array('jquery-ui-resizable', 'jquery-ui-draggable'), '1.5.2' );
 
-	$scripts->add( 'comment-reply', '/wp-includes/js/comment-reply.js', false, '20081009');
+	$scripts->add( 'comment-reply', '/wp-includes/js/comment-reply.js', false, '20081210');
 
 	if ( is_admin() ) {
 		$scripts->add( 'ajaxcat', '/wp-admin/js/cat.js', array( 'wp-lists' ), '20071101' );
