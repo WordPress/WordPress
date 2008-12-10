@@ -73,12 +73,12 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 <?php endif; // post pass
 	// Return comment threading information (http://www.ietf.org/rfc/rfc4685.txt)
 	if ( $comment->comment_parent == 0 ) : // This comment is top level ?>
-		<thr:in-reply-to rel="<?php the_guid() ?>" href="<?php the_permalink_rss() ?>" type="<?php bloginfo_rss('html_type'); ?>" />
+		<thr:in-reply-to ref="<?php the_guid() ?>" href="<?php the_permalink_rss() ?>" type="<?php bloginfo_rss('html_type'); ?>" />
 <?php else : // This comment is in reply to another comment
 	$parent_comment = get_comment($comment->comment_parent);
 	// The rel attribute below and the id tag above should be GUIDs, but WP doesn't create them for comments (unlike posts). Either way, its more important that they both use the same system
 ?>
-		<thr:in-reply-to rel="<?php echo get_comment_link($parent_comment) ?>" href="<?php echo get_comment_link($parent_comment) ?>" type="<?php bloginfo_rss('html_type'); ?>" />
+		<thr:in-reply-to ref="<?php echo get_comment_link($parent_comment) ?>" href="<?php echo get_comment_link($parent_comment) ?>" type="<?php bloginfo_rss('html_type'); ?>" />
 <?php endif;
 	do_action('comment_atom_entry', $comment->comment_ID, $comment_post->ID);
 ?>
