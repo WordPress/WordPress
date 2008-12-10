@@ -1024,7 +1024,7 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
 function get_post_reply_link($args = array(), $post = null) {
 	global $user_ID;
 
-	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Leave a Comment'),
+	$defaults = array('add_below' => 'post', 'respond_id' => 'respond', 'reply_text' => __('Leave a Comment'),
 		'login_text' => __('Log in to leave a Comment'), 'before' => '', 'after' => '');
 
 	$args = wp_parse_args($args, $defaults);
