@@ -9,6 +9,8 @@
 /** Load WordPress Bootstrap */
 require_once('../wp-load.php');
 
+global $opml, $map;
+
 // columns we wish to find are:  link_url, link_name, link_target, link_description
 // we need to map XML attribute names to our columns
 $opml_map = array('URL'         => 'link_url',

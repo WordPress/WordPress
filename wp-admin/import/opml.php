@@ -16,6 +16,7 @@ $title = __('Import Blogroll');
 class OPML_Import {
 
 	function dispatch() {
+		global $wpdb, $user_ID;
 $step = $_POST['step'];
 if (!$step) $step = 0;
 ?>
@@ -101,6 +102,7 @@ foreach ($categories as $category) {
 			$blogrolling = false;
 		}
 
+		global $opml, $updated_timestamp, $all_links, $map, $names, $urls, $targets, $descriptions, $feeds;
 		if ( isset($opml_url) && $opml_url != '' ) {
 			if ( $blogrolling === true ) {
 				$opml = wp_remote_fopen($opml_url);
