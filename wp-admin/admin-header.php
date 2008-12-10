@@ -86,7 +86,7 @@ $blog_name = get_bloginfo('name', 'display');
 if ( '' == $blog_name ) {
 	$blog_name = '&nbsp;';
 } else {
-	$blog_name_excerpt = wp_html_excerpt($blog_name, 60);
+	$blog_name_excerpt = wp_html_excerpt($blog_name, 40);
 	if ( $blog_name != $blog_name_excerpt )
 		$blog_name_excerpt = trim($blog_name_excerpt) . '&hellip;';
 	$blog_name = $blog_name_excerpt;
