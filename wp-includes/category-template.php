@@ -536,9 +536,8 @@ function wp_list_categories( $args = '' ) {
  * The 'number' argument is how many tags to return. By default, the limit will
  * be to return the top 45 tags in the tag cloud list.
  *
-* The 'topic_count_text_callback' argument is a function, which, given the count
+ * The 'topic_count_text_callback' argument is a function, which, given the count
  * of the posts  with that tag, returns a text for the tooltip of the tag link.
- * @see default_topic_count_text
  *
  * The 'exclude' and 'include' arguments are used for the {@link get_tags()}
  * function. Only one should be used, because only one will be used and the
@@ -613,8 +612,6 @@ function default_topic_count_text( $count ) {
  *
  * The 'topic_count_text_callback' argument is a function, which given the count
  * of the posts  with that tag returns a text for the tooltip of the tag link.
- * @see default_topic_count_text
- *
  *
  * @todo Complete functionality.
  * @since 2.3.0
