@@ -1062,7 +1062,7 @@ class WP_Http_Curl {
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
 	function test() {
-		if ( function_exists('curl_init') )
+		if ( function_exists('curl_init') && function_exists('curl_exec') )
 			return true;
 
 		return false;
