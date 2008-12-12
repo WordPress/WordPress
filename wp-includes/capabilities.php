@@ -533,7 +533,7 @@ class WP_User {
 		//Build $allcaps from role caps, overlay user's $caps
 		$this->allcaps = array();
 		foreach ( (array) $this->roles as $role ) {
-			$role = $wp_roles->get_role( $role );
+			$role =& $wp_roles->get_role( $role );
 			$this->allcaps = array_merge( $this->allcaps, $role->capabilities );
 		}
 		$this->allcaps = array_merge( $this->allcaps, $this->caps );
