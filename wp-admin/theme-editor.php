@@ -96,7 +96,7 @@ default:
 <?php endif;
 
 $description = get_file_description($file);
-$desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "%s";
+$desc_header = ( $description != $file_show ) ? "<strong>$description</strong> (%s)" : "%s";
 ?>
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -120,7 +120,7 @@ $desc_header = ( $description != $file_show ) ? "$description</strong> (%s)" : "
 </div>
 <div class="tablenav">
 <div class="alignleft">
-<big><strong><?php echo sprintf($desc_header, $file_show); ?></big>
+<big><?php echo sprintf($desc_header, $file_show); ?></big>
 </div>
 <br class="clear" />
 </div>
