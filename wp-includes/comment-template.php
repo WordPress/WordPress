@@ -833,8 +833,8 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	}
 
 	$overridden_cpage = FALSE;
-	if ( '' == get_query_var('cpage') && get_option('page_comments') && 'newest' == get_option('default_comments_page') ) {
-		set_query_var( 'cpage', get_comment_pages_count() );
+	if ( '' == get_query_var('cpage') && get_option('page_comments') ) {
+		set_query_var( 'cpage', 'newest' == get_option('default_comments_page') ? get_comment_pages_count() : 1 );
 		$overridden_cpage = TRUE;
 	}
 
