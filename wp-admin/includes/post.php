@@ -1161,9 +1161,9 @@ function wp_tiny_mce( $teeny = false ) {
 
 			if ( ! empty($mce_external_languages) ) {
 				foreach ( $mce_external_languages as $name => $path ) {
-					if ( is_file($path) && is_readable($path) ) {
+					if ( @is_file($path) && @is_readable($path) ) {
 						include_once($path);
-						$ext_plugins .= $strings;
+						$ext_plugins .= $strings . "\n";
 						$loaded_langs[] = $name;
 					}
 				}
@@ -1184,21 +1184,21 @@ function wp_tiny_mce( $teeny = false ) {
 					if ( function_exists('realpath') )
 						$path = trailingslashit( realpath($path) );
 
-					if ( is_file($path . $mce_locale . '.js') )
-						$strings .= @file_get_contents($path . $mce_locale . '.js');
+					if ( @is_file($path . $mce_locale . '.js') )
+						$strings .= @file_get_contents($path . $mce_locale . '.js') . "\n";
 
-					if ( is_file($path . $mce_locale . '_dlg.js') )
-						$strings .= @file_get_contents($path . $mce_locale . '_dlg.js');
+					if ( @is_file($path . $mce_locale . '_dlg.js') )
+						$strings .= @file_get_contents($path . $mce_locale . '_dlg.js') . "\n";
 
 					if ( 'en' != $mce_locale && empty($strings) ) {
-						if ( is_file($path . 'en.js') ) {
+						if ( @is_file($path . 'en.js') ) {
 							$str1 = @file_get_contents($path . 'en.js');
-							$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str1, 1 );
+							$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str1, 1 ) . "\n";
 						}
 
-						if ( is_file($path . 'en_dlg.js') ) {
+						if ( @is_file($path . 'en_dlg.js') ) {
 							$str2 = @file_get_contents($path . 'en_dlg.js');
-							$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str2, 1 );
+							$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str2, 1 ) . "\n";
 						}
 					}
 
