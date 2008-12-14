@@ -2,6 +2,11 @@ var theList; var theExtraList;
 (function($) {
 
 setCommentsList = function() {
+	var totalInput = $('#comments-form .tablenav :input[name="_total"]');
+	var perPageInput = $('#comments-form .tablenav :input[name="_per_page"]');
+	var pageInput = $('#comments-form .tablenav :input[name="_page"]');
+	var lastConfidentTime = 0;
+
 	var dimAfter = function( r, settings ) {
 		var c = $('#' + settings.element);
 
@@ -25,6 +30,36 @@ setCommentsList = function() {
 		});
 	};
 
+	// Send current total, page, per_page and url
+	var delBefore = function( settings ) {
+		settings.data._total = totalInput.val();
+		settings.data._per_page = perPageInput.val();
+		settings.data._page = pageInput.val();
+		settings.data._url = document.location.href;
+		return settings;
+	};
+
+	/* Updates the current total (as displayed visibly)
+	*/
+	var updateTotalCount = function( total, time, setConfidentTime ) {
+		if ( time < lastConfidentTime ) {
+			return;
+		}
+		totalInput.val( total.toString() );
+		if ( setConfidentTime ) {
+			lastConfidentTime = time;
+		}
+		$('span.total-type-count').each( function() {
+			var a = $(this);
+			var n = totalInput.val().toString();
+			if ( n.length > 3 )
+				n = n.substr(0, n.length-3)+' '+n.substr(-3);
+			a.html(n);
+		});
+
+	};
+
+	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	var delAfter = function( r, settings ) {
 		$('span.pending-count').each( function() {
 			var a = $(this);
@@ -44,7 +79,7 @@ setCommentsList = function() {
 			a.html(n);
 		});
 
-		$('span.spam-count' ).each( function() {
+		$('span.spam-count').each( function() {
 			var a = $(this);
 			var n = a.html().replace(/[ ,.]+/g, '');
 			n = parseInt(n,10);
@@ -61,6 +96,24 @@ setCommentsList = function() {
 			a.html(n);
 		});
 
+		
+		// XML response
+		if ( ( 'object' == typeof r ) && lastConfidentTime < settings.parsed.responses[0].supplemental.time ) {
+			// Set the total to the known good value (even if this value is a little old, newer values should only be a few less, and so shouldn't mess up the page links)
+			updateTotalCount( settings.parsed.responses[0].supplemental.total, settings.parsed.responses[0].supplemental.time, true );
+			if ( $.trim( settings.parsed.responses[0].supplemental.pageLinks ) ) {
+				$('.tablenav-pages').find( '.page-numbers' ).remove().end().append( $( settings.parsed.responses[0].supplemental.pageLinks ) );
+			} else if ( 'undefined' != typeof settings.parsed.responses[0].supplemental.pageLinks ) {
+				$('.tablenav-pages').find( '.page-numbers' ).remove();
+			}
+		} else {
+			// Decrement the total
+			var total = parseInt( totalInput.val(), 10 );
+			if ( total-- < 0 )
+				total = 0;
+			updateTotalCount( total, r, false );
+		}
+
 		if ( theExtraList.size() == 0 || theExtraList.children().size() == 0 ) {
 			return;
 		}
@@ -70,7 +123,7 @@ setCommentsList = function() {
 	};
 
 	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
-	theList = $('#the-comment-list').wpList( { alt: '', dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
+	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
 
 };
 

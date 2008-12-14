@@ -227,9 +227,12 @@ $page_links = paginate_links( array(
 <div class="tablenav-pages"><?php $page_links_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
 	number_format_i18n( $start + 1 ),
 	number_format_i18n( min( $page * $comments_per_page, $total ) ),
-	number_format_i18n( $total ),
+	'<span class="total-type-count">' . number_format_i18n( $total ) . '</span>',
 	$page_links
 ); echo $page_links_text; ?></div>
+<input type="hidden" name="_total" value="<?php echo $total; ?>" />
+<input type="hidden" name="_per_page" value="<?php echo $comments_per_page; ?>" />
+<input type="hidden" name="_page" value="<?php echo $page; ?>" />
 <?php endif; ?>
 
 <div class="alignleft actions">

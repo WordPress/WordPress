@@ -161,7 +161,7 @@ function wp_default_scripts( &$scripts ) {
 			'strong' => __('Strong'),
 			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 		) );
-		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20081210' );
+		$scripts->add( 'admin-comments', '/wp-admin/js/edit-comments.js', array('wp-lists', 'jquery-ui-resizable', 'quicktags'), '20081211' );
 		$scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last'])

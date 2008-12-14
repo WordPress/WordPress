@@ -1169,12 +1169,13 @@ function the_date($d='', $before='', $after='', $echo = true) {
 			$the_date .= mysql2date($d, $post->post_date);
 		$the_date .= $after;
 		$previousday = $day;
-	}
+
 	$the_date = apply_filters('the_date', $the_date, $d, $before, $after);
 	if ( $echo )
 		echo $the_date;
 	else
 		return $the_date;
+	}
 }
 
 /**
