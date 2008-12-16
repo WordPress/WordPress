@@ -26,7 +26,7 @@
  *		of the bookmark.
  * 'show_images' - Default is 1 (integer). Whether to show link image if
  *		available.
- * 'show_name' - Default is 1 (integer). Whether to show link name if
+ * 'show_name' - Default is 0 (integer). Whether to show link name if
  *		available.
  * 'before' - Default is '<li>' (string). The html or text to prepend to each
  *		bookmarks.
