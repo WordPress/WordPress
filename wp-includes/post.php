@@ -215,11 +215,13 @@ function &get_post(&$post, $output = OBJECT, $filter = 'raw') {
 			$_post = & $GLOBALS['post'];
 		else
 			return $null;
-	} elseif ( is_object($post) ) {
+	} elseif ( is_object($post) && empty($post->filter) ) {
 		_get_post_ancestors($post);
 		wp_cache_add($post->ID, $post, 'posts');
 		$_post = &$post;
 	} else {
+		if ( is_object($post) )
+			$post = $post->ID;
 		$post = (int) $post;
 		if ( ! $_post = wp_cache_get($post, 'posts') ) {
 			$_post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d LIMIT 1", $post));
@@ -792,12 +794,15 @@ function sanitize_post($post, $context = 'display') {
 			$post->ID = 0;
 		foreach ( array_keys(get_object_vars($post)) as $field )
 			$post->$field = sanitize_post_field($field, $post->$field, $post->ID, $context);
+		$post->filter = $context;
 	} else {
 		if ( !isset($post['ID']) )
 			$post['ID'] = 0;
 		foreach ( array_keys($post) as $field )
 			$post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
+		$post['filter'] = $context;
 	}
+
 	return $post;
 }
 

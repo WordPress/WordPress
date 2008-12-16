@@ -92,7 +92,10 @@ function get_permalink($id = 0, $leavename = false) {
 		$leavename? '' : '%pagename%',
 	);
 
-	$post = &get_post($id);
+	if ( is_object($id) && isset($id->filter) && 'sample' == $id->filter )
+		$post = $id;
+	else
+		$post = &get_post($id);
 
 	if ( empty($post->ID) ) return false;
 

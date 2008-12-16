@@ -909,6 +909,8 @@ function get_sample_permalink($id, $title=null, $name = null) {
 		$post->post_name = sanitize_title($name? $name : $title, $post->ID);
 	}
 
+	$post->filter = 'sample'; 
+
 	$permalink = get_permalink($post, true);
 
 	// Handle page hierarchy
@@ -926,6 +928,8 @@ function get_sample_permalink($id, $title=null, $name = null) {
 	$post->post_status = $original_status;
 	$post->post_date = $original_date;
 	$post->post_name = $original_name;
+	unset($post->filter);
+
 	return $permalink;
 }
 
