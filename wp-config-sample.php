@@ -37,7 +37,7 @@ define('DB_COLLATE', '');
  * Authentication Unique Keys.
  *
  * Change these to different unique phrases!
- * You can generate these using the {@link http://api.wordpress.org/secret-key/1.1/ WordPress.org secret-key service}
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/ WordPress.org secret-key service}
  *
  * @since 2.6.0
  */
