@@ -242,6 +242,7 @@ class WP_Http {
 		}
 
 		if ( is_null($r['body']) ) {
+			$r['headers']['Content-Length'] = 0;
 			$transports = WP_Http::_getTransport($r);
 		} else {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
