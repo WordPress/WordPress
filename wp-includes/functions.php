@@ -2035,10 +2035,13 @@ function wp_check_filetype( $filename, $mimes = null ) {
 	// Accepted MIME types are set here as PCRE unless provided.
 	$mimes = ( is_array( $mimes ) ) ? $mimes : apply_filters( 'upload_mimes', array(
 		'jpg|jpeg|jpe' => 'image/jpeg',
+		'jpeg' => 'image/jpeg',
+		'jpe' => 'image/jpeg',
 		'gif' => 'image/gif',
 		'png' => 'image/png',
 		'bmp' => 'image/bmp',
-		'tif|tiff' => 'image/tiff',
+		'tif' => 'image/tiff',
+		'tiff' => 'image/tiff',
 		'ico' => 'image/x-icon',
 		'asf|asx|wax|wmv|wmx' => 'video/asf',
 		'avi' => 'video/avi',
@@ -2804,7 +2807,15 @@ function validate_file( $file, $allowed_files = '' ) {
  * @return bool True if SSL, false if not used.
  */
 function is_ssl() {
-	return ( isset($_SERVER['HTTPS']) && 'on' == strtolower($_SERVER['HTTPS']) ) ? true : false;
+	if ( isset($_SERVER['HTTPS']) ) {
+		if ( 'on' == strtolower($_SERVER['HTTPS']) )
+			return true;
+		if ( '1' == $_SERVER['HTTPS'] )
+			return true;
+	} elseif ( isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
+		return true;
+	}
+	return false;
 }
 
 /**
