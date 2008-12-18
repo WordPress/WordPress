@@ -2035,13 +2035,10 @@ function wp_check_filetype( $filename, $mimes = null ) {
 	// Accepted MIME types are set here as PCRE unless provided.
 	$mimes = ( is_array( $mimes ) ) ? $mimes : apply_filters( 'upload_mimes', array(
 		'jpg|jpeg|jpe' => 'image/jpeg',
-		'jpeg' => 'image/jpeg',
-		'jpe' => 'image/jpeg',
 		'gif' => 'image/gif',
 		'png' => 'image/png',
 		'bmp' => 'image/bmp',
-		'tif' => 'image/tiff',
-		'tiff' => 'image/tiff',
+		'tif|tiff' => 'image/tiff',
 		'ico' => 'image/x-icon',
 		'asf|asx|wax|wmv|wmx' => 'video/asf',
 		'avi' => 'video/avi',
