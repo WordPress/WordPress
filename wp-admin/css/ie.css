@@ -245,7 +245,7 @@ li.widget-list-control-item,
 li.widget-list-control-item h4,
 .widget-sortable,
 .widget-control-actions,
-#tagchecklist,
+.tagchecklist,
 #col-container,
 #col-left,
 #col-right {
@@ -296,12 +296,12 @@ div#dashboard-widgets {
 	padding-right: 1px;
 }
 
-#tagchecklist span, #tagchecklist span a {
+.tagchecklist span, .tagchecklist span a {
 	display: inline-block;
 	display: block;
 }
 
-#tagchecklist span a {
+.tagchecklist span a {
 	margin: 4px 0 0 -9px;
 }
 

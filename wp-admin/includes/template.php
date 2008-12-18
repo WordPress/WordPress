@@ -2695,7 +2695,7 @@ function wp_remember_old_slug() {
  * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
  * @param string $priority The priority within the context where the boxes should show ('high', 'low').
  */
-function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default') {
+function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $priority = 'default', $callback_args=null) {
 	global $wp_meta_boxes;
 
 	if ( !isset($wp_meta_boxes) )
@@ -2729,6 +2729,7 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 		} elseif ( 'sorted' == $priority ) {
 			$title = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['title'];
 			$callback = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['callback'];
+			$callback_args = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['args'];
 		}
 		// An id can be in only one priority and one context
 		if ( $priority != $a_priority || $context != $a_context )
@@ -2742,7 +2743,7 @@ function add_meta_box($id, $title, $callback, $page, $context = 'advanced', $pri
 	if ( !isset($wp_meta_boxes[$page][$context][$priority]) )
 		$wp_meta_boxes[$page][$context][$priority] = array();
 
-	$wp_meta_boxes[$page][$context][$priority][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
+	$wp_meta_boxes[$page][$context][$priority][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback, 'args' => $callback_args);
 }
 
 /**

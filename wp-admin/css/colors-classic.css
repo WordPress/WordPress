@@ -682,12 +682,12 @@ li.widget-list-control-item h4,
 	color: #448abd;
 }
 
-#tagchecklist span a,
+.tagchecklist span a,
 #bulk-titles div a {
 	background: url(../images/xit.gif) no-repeat;
 }
 
-#tagchecklist span a:hover,
+.tagchecklist span a:hover,
 #bulk-titles div a:hover {
 	background: url(../images/xit.gif) no-repeat -10px 0;
 }
@@ -1007,7 +1007,7 @@ abbr.required,
 
 #timestampdiv input,
 #namediv input,
-#tagsdiv #the-tagcloud {
+#poststuff .inside .the-tagcloud {
 	border-color: #ddd;
 }
 

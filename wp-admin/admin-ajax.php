@@ -44,6 +44,11 @@ case 'ajax-tag-search' :
 		die('-1');
 
 	$s = $_GET['q']; // is this slashed already?
+	
+	if ( isset($_GET['tax']) )
+		$taxonomy = sanitize_title($_GET['tax']);
+	else
+		die('0');
 
 	if ( false !== strpos( $s, ',' ) ) {
 		$s = explode( ',', $s );
@@ -52,7 +57,9 @@ case 'ajax-tag-search' :
 	$s = trim( $s );
 	if ( strlen( $s ) < 2 )
 		die; // require 2 chars for matching
-	$results = $wpdb->get_col( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = 'post_tag' AND t.name LIKE ('%". $s . "%')" );
+
+	$results = $wpdb->get_col( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = '$taxonomy' AND t.name LIKE ('%" . $s . "%')" );
+
 	echo join( $results, "\n" );
 	die;
 	break;
@@ -490,7 +497,12 @@ case 'get-tagcloud' :
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
-	$tags = get_tags( array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
+	if ( isset($_POST['tax']) )
+		$taxonomy = sanitize_title($_POST['tax']);
+	else
+		die('0');
+	
+	$tags = get_terms( $taxonomy, array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
 
 	if ( empty( $tags ) )
 		die( __('No tags found!') );
@@ -776,7 +788,6 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	global $current_user;
 
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
-	$_POST['tags_input'] = explode(",", $_POST['tags_input']);
 	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
 		unset($_POST['post_category']);
 

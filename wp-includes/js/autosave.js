@@ -130,10 +130,14 @@ var autosave = function() {
 		post_ID:  jQuery("#post_ID").val() || 0,
 		post_title: jQuery("#title").val() || "",
 		autosavenonce: jQuery('#autosavenonce').val(),
-		tags_input: jQuery("#tags-input").val() || "",
+		//tags_input: jQuery("#tags-input").val() || "",
 		post_type: jQuery('#post_type').val() || "",
 		autosave: 1
 	};
+	
+	jQuery('.tags-input').each( function() {
+		post_data[this.name] = this.value;
+	} );
 
 	// We always send the ajax request in order to keep the post lock fresh.
 	// This (bool) tells whether or not to write the post to the DB during the ajax request.

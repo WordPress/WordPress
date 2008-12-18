@@ -1,95 +1,146 @@
 // this file contains all the scripts used in the post/edit page
 
+// return an array with any duplicate, whitespace or values removed
+function array_unique_noempty(a) {
+	var out = [];
+	jQuery.each( a, function(key, val) {
+		val = jQuery.trim(val);
+		if ( val && jQuery.inArray(val, out) == -1 )
+			out.push(val);
+		} );
+	return out;
+}
+
 function new_tag_remove_tag() {
 	var id = jQuery( this ).attr( 'id' );
-	var num = id.substr( 10 );
-	var current_tags = jQuery( '#tags-input' ).val().split(',');
+	var num = id.split('-check-num-')[1];
+	var taxbox = jQuery(this).parents('.tagsdiv');
+	var current_tags = taxbox.find( '.the-tags' ).val().split(',');
 	delete current_tags[num];
 	var new_tags = [];
-	jQuery.each( current_tags, function( key, val ) {
-		if ( val && !val.match(/^\s+$/) && '' != val ) {
-			new_tags = new_tags.concat( val );
+
+	jQuery.each( current_tags, function(key, val) {
+		val = jQuery.trim(val);
+		if ( val ) {
+			new_tags.push(val);
 		}
 	});
-	jQuery( '#tags-input' ).val( new_tags.join( ',' ).replace( /\s*,+\s*/, ',' ).replace( /,+/, ',' ).replace( /,+\s+,+/, ',' ).replace( /,+\s*$/, '' ).replace( /^\s*,+/, '' ) );
-	tag_update_quickclicks();
-	jQuery('#newtag').focus();
+
+	taxbox.find('.the-tags').val( new_tags.join(',').replace(/\s*,+\s*/, ',').replace(/,+/, ',').replace(/,+\s+,+/, ',').replace(/,+\s*$/, '').replace(/^\s*,+/, '') );
+
+	tag_update_quickclicks(taxbox);
 	return false;
 }
 
-function tag_update_quickclicks() {
-	if ( jQuery( '#tags-input' ).length == 0 )
+function tag_update_quickclicks(taxbox) {
+	if ( jQuery(taxbox).find('.the-tags').length == 0 )
 		return;
-	var current_tags = jQuery( '#tags-input' ).val().split(',');
-	jQuery( '#tagchecklist' ).empty();
+
+	var current_tags = jQuery(taxbox).find('.the-tags').val().split(',');
+	jQuery(taxbox).find('.tagchecklist').empty();
 	shown = false;
-//	jQuery.merge( current_tags, current_tags ); // this doesn't work anymore, need something to array_unique
+
 	jQuery.each( current_tags, function( key, val ) {
-		val = val.replace( /^\s+/, '' ).replace( /\s+$/, '' ); // trim
+		val = jQuery.trim(val);
 		if ( !val.match(/^\s+$/) && '' != val ) {
-			txt = '<span><a id="tag-check-' + key + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
-			jQuery( '#tagchecklist' ).append( txt );
-			jQuery( '#tag-check-' + key ).click( new_tag_remove_tag );
-			shown = true;
+			var button_id = jQuery(taxbox).attr('id') + '-check-num-' + key;
+ 			txt = '<span><a id="' + button_id + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
+ 			jQuery(taxbox).find('.tagchecklist').append(txt);
+ 			jQuery( '#' + button_id ).click( new_tag_remove_tag );
 		}
 	});
 	if ( shown )
-		jQuery( '#tagchecklist' ).prepend( '<strong>'+postL10n.tagsUsed+'</strong><br />' );
+		jQuery(taxbox).find('.tagchecklist').prepend('<strong>'+postL10n.tagsUsed+'</strong><br />');
 }
 
-function tag_flush_to_text(e,a) {
+function tag_flush_to_text(id, a) {
 	a = a || false;
-	var text = a ? jQuery(a).text() : jQuery('#newtag').val();
-	var newtags = jQuery('#tags-input').val();
+	var taxbox = jQuery('#'+id);
+	var text = a ? jQuery(a).text() : taxbox.find('input.newtag').val();
 
-	var t = text.replace( /\s*([^,]+).*/, '$1,' );
-	newtags += ','
-
-	if ( newtags.indexOf(t) != -1 )
+	// is the input box empty (i.e. showing the 'Add new tag' tip)?
+	if ( taxbox.find('input.newtag').hasClass('form-input-tip') && ! a )
 		return false;
 
-	newtags += text;
+	var tags = taxbox.find('.the-tags').val();
+	var newtags = tags ? tags + ',' + text : text;
 
 	// massage
-	newtags = newtags.replace( /\s+,+\s*/g, ',' ).replace( /,+/g, ',' ).replace( /,+\s+,+/g, ',' ).replace( /,+\s*$/g, '' ).replace( /^\s*,+/g, '' );
-	jQuery('#tags-input').val( newtags );
-	tag_update_quickclicks();
-	if ( ! a ) {
-		jQuery('#newtag').val('');
-		jQuery('#newtag').focus();
-	}
+	newtags = newtags.replace(/\s+,+\s*/g, ',').replace(/,+/g, ',').replace(/,+\s+,+/g, ',').replace(/,+\s*$/g, '').replace(/^\s*,+/g, '');
+	newtags = array_unique_noempty(newtags.split(',')).join(',');
+	taxbox.find('.the-tags').val(newtags);
+	tag_update_quickclicks(taxbox);
+	
+	if ( ! a )
+		taxbox.find('input.newtag').val('').focus();
+
 	return false;
 }
 
 function tag_save_on_publish() {
-	if ( jQuery('#newtag').val() != postL10n.addTag )
-		tag_flush_to_text();
+	jQuery('.tagsdiv').each( function(i) {
+		if ( !jQuery(this).find('input.newtag').hasClass('form-input-tip') )
+        	tag_flush_to_text(jQuery(this).parents('.tagsdiv').attr('id'));
+		} );
 }
 
 function tag_press_key( e ) {
-	if ( 13 == e.keyCode ) {
-		tag_flush_to_text();
+	if ( 13 == e.which ) {
+		tag_flush_to_text(jQuery(e.target).parents('.tagsdiv').attr('id'));
 		return false;
 	}
 };
 
+function tag_init() {
+
+	jQuery('.ajaxtag').show();
+    jQuery('.tagsdiv').each( function(i) {
+        tag_update_quickclicks(this);
+    } );
+
+    // add the quickadd form
+    jQuery('.ajaxtag input.tagadd').click(function(){tag_flush_to_text(jQuery(this).parents('.tagsdiv').attr('id'));});
+    jQuery('.ajaxtag input.newtag').focus(function() {
+        if ( this.value == postL10n.addTag ) {
+            jQuery(this).val( '' ).removeClass( 'form-input-tip' );
+        }
+    });
+
+    jQuery('.ajaxtag input.newtag').blur(function() {
+        if ( this.value == '' ) {
+            jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
+        }
+    });
+
+    // auto-save tags on post save/publish
+    jQuery('#publish').click( tag_save_on_publish );
+    jQuery('#save-post').click( tag_save_on_publish );
+
+    // catch the enter key
+    jQuery('.ajaxtag input.newtag').keypress( tag_press_key );
+}
+
 (function($){
 	tagCloud = {
 		init : function() {
-			$('#tagcloud-link').click(function(){tagCloud.get(); $(this).unbind().click(function(){return false;}); return false;});
+			$('.tagcloud-link').click(function(){tagCloud.get($(this).attr('id')); $(this).unbind().click(function(){return false;}); return false;});
 		},
 
-		get : function() {
-			$.post('admin-ajax.php', {'action':'get-tagcloud'}, function(r, stat) {
+		get : function(id) {
+			tax = id.substr(id.indexOf('-')+1);
+
+			$.post('admin-ajax.php', {'action':'get-tagcloud','tax':tax}, function(r, stat) {
 				if ( 0 == r || 'success' != stat )
 					r = wpAjax.broken;
 
-				r = '<p id="the-tagcloud">'+r+'</p>';
-				$('#tagcloud-link').after($(r));
-				$('#the-tagcloud a').click(function(){
-					tag_flush_to_text(0,this);
+				r = $('<p id="tagcloud-'+tax+'" class="the-tagcloud">'+r+'</p>');
+				$('a', r).click(function(){
+					var id = $(this).parents('p').attr('id');
+					tag_flush_to_text(id.substr(id.indexOf('-')+1), this);
 					return false;
 				});
+
+				$('#'+id).after(r);
 			});
 		}
 	}
@@ -107,29 +158,16 @@ jQuery(document).ready( function($) {
 	// Editable slugs
 	make_slugedit_clickable();
 
-	jQuery('#tags-input').hide();
-	tag_update_quickclicks();
-	// add the quickadd form
-	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="button" class="button" id="tagadd" value="' + postL10n.add + '" tabindex="3" /><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
-	jQuery('#tagadd').click( tag_flush_to_text );
-	jQuery('#newtag').focus(function() {
-		if ( this.value == postL10n.addTag )
-			jQuery(this).val( '' ).removeClass( 'form-input-tip' );
-	});
-	jQuery('#newtag').blur(function() {
-		if ( this.value == '' )
-			jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
-	});
-
-	// auto-save tags on post save/publish
-	jQuery('#publish').click( tag_save_on_publish );
-	jQuery('#save-post').click( tag_save_on_publish );
+	// prepare the tag UI
+	tag_init();
 
 	jQuery('#title').blur( function() { if ( (jQuery("#post_ID").val() > 0) || (jQuery("#title").val().length == 0) ) return; autosave(); } );
 
 	// auto-suggest stuff
-	jQuery('#newtag').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
-	jQuery('#newtag').keypress( tag_press_key );
+	jQuery('.newtag').each(function(){
+		var tax = $(this).parents('div.tagsdiv').attr('id');
+		$(this).suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+	});
 
 	// category tabs
 	var categoryTabs =jQuery('#category-tabs').tabs();

@@ -194,21 +194,37 @@ function wp_update_category($catarr) {
  * @param unknown_type $post_id
  * @return unknown
  */
-function get_tags_to_edit( $post_id ) {
+function get_tags_to_edit( $post_id, $taxonomy = 'post_tag' ) {
+	return get_terms_to_edit( $post_id, $taxonomy);
+}
+
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $post_id
+ * @return unknown
+ */
+function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	$post_id = (int) $post_id;
 	if ( !$post_id )
 		return false;
 
-	$tags = wp_get_post_tags($post_id);
+	$tags = wp_get_post_terms($post_id, $taxonomy, array());
 
 	if ( !$tags )
 		return false;
 
+	if ( is_wp_error($tags) )
+		return $tags;
+	
 	foreach ( $tags as $tag )
 		$tag_names[] = $tag->name;
 	$tags_to_edit = join( ',', $tag_names );
 	$tags_to_edit = attribute_escape( $tags_to_edit );
-	$tags_to_edit = apply_filters( 'tags_to_edit', $tags_to_edit );
+	$tags_to_edit = apply_filters( 'terms_to_edit', $tags_to_edit, $taxonomy );
+
 	return $tags_to_edit;
 }
 
@@ -233,10 +249,20 @@ function tag_exists($tag_name) {
  * @return unknown
  */
 function wp_create_tag($tag_name) {
-	if ( $id = tag_exists($tag_name) )
-		return $id;
-
-	return wp_insert_term($tag_name, 'post_tag');
+	return wp_create_term( $tag_name, 'post_tag');
 }
 
-?>
+/**
+ * {@internal Missing Short Description}}
+ *
+ * @since unknown
+ *
+ * @param unknown_type $tag_name
+ * @return unknown
+ */
+function wp_create_term($tag_name, $taxonomy = 'post_tag') {
+	if ( $id = is_term($tag_name, $taxonomy) )
+		return $id;
+
+	return wp_insert_term($tag_name, $taxonomy);
+}

@@ -1355,7 +1355,7 @@ table.form-table td .updated {
 	display: none;
 }
 
-#post-body #tagsdiv #newtag {
+#post-body .tagsdiv #newtag {
 	margin-right: 5px;
 	width: 16em;
 }
@@ -1364,7 +1364,7 @@ table.form-table td .updated {
 	width: 94%
 }
 
-#side-info-column #tagsdiv #newtag {
+#side-info-column .tagsdiv #newtag {
 	width: 68%;
 }
 
@@ -1421,18 +1421,18 @@ table.form-table td .updated {
 	padding: 5px 0;
 }
 
-#tagchecklist {
+.tagchecklist {
 	margin-left: 10px;
 	font-size: 12px;
 	overflow: auto;
 }
 
-#tagchecklist strong {
+.tagchecklist strong {
 	margin-left: -8px;
 	position: absolute;
 }
 
-#tagchecklist span {
+.tagchecklist span {
 	margin-right: 25px;
 	display: block;
 	float: left;
@@ -1442,7 +1442,7 @@ table.form-table td .updated {
 	cursor: default;
 }
 
-#tagchecklist span a {
+.tagchecklist span a {
 	margin: 6px 0pt 0pt -9px;
 	cursor: pointer;
 	width: 10px;
@@ -2830,8 +2830,8 @@ form.upgrade {
 	margin-top: 8px;
 }
 
-#tagsdiv #the-tagcloud {
-	margin: 5px 5px 10px;
+#poststuff .inside .the-tagcloud {
+	margin: 5px 0 10px;
 	padding: 8px;
 	border-width: 1px;
 	border-style: solid;

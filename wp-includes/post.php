@@ -1206,12 +1206,34 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  * @return array List of post tags.
  */
 function wp_get_post_tags( $post_id = 0, $args = array() ) {
+	return wp_get_post_terms( $post_id, 'post_tag', $args);
+}
+
+/**
+ * Retrieve the terms for a post.
+ *
+ * There is only one default for this function, called 'fields' and by default
+ * is set to 'all'. There are other defaults that can be override in
+ * {@link wp_get_object_terms()}.
+ *
+ * @package WordPress
+ * @subpackage Post
+ * @since 2.8.0
+ *
+ * @uses wp_get_object_terms() Gets the tags for returning. Args can be found here
+ *
+ * @param int $post_id Optional. The Post ID
+ * @param string $taxonomy The taxonomy for which to retrieve terms. Defaults to post_tag.
+ * @param array $args Optional. Overwrite the defaults
+ * @return array List of post tags.
+ */
+function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array() ) {
 	$post_id = (int) $post_id;
 
 	$defaults = array('fields' => 'all');
 	$args = wp_parse_args( $args, $defaults );
 
-	$tags = wp_get_object_terms($post_id, 'post_tag', $args);
+	$tags = wp_get_object_terms($post_id, $taxonomy, $args);
 
 	return $tags;
 }
@@ -1498,7 +1520,15 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	}
 
 	wp_set_post_categories( $post_ID, $post_category );
-	wp_set_post_tags( $post_ID, $tags_input );
+	// old-style tags_input
+	if ( !empty($tags_input) )
+		wp_set_post_tags( $post_ID, $tags_input );
+	// new-style support for all tag-like taxonomies
+	if ( !empty($tax_input) ) {
+		foreach ( $tax_input as $taxonomy => $tags ) {
+			wp_set_post_terms( $post_ID, $tags, $taxonomy );			
+		}
+	}
 
 	$current_guid = get_post_field( 'guid', $post_ID );
 
@@ -1685,7 +1715,21 @@ function wp_add_post_tags($post_id = 0, $tags = '') {
  * @return bool|null Will return false if $post_id is not an integer or is 0. Will return null otherwise
  */
 function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
+	return wp_set_post_terms( $post_id, $tags, 'post_tag', $append);
+}
 
+/**
+ * Set the terms for a post.
+ *
+ * @since 2.8.0
+ * @uses wp_set_object_terms() Sets the tags for the post.
+ *
+ * @param int $post_id Post ID.
+ * @param string $tags The tags to set for the post, separated by commas.
+ * @param bool $append If true, don't delete existing tags, just add on. If false, replace the tags with the new tags.
+ * @return bool|null Will return false if $post_id is not an integer or is 0. Will return null otherwise
+ */
+function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $append = false ) {
 	$post_id = (int) $post_id;
 
 	if ( !$post_id )
@@ -1693,8 +1737,9 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 
 	if ( empty($tags) )
 		$tags = array();
-	$tags = (is_array($tags)) ? $tags : explode( ',', trim($tags, " \n\t\r\0\x0B,") );
-	wp_set_object_terms($post_id, $tags, 'post_tag', $append);
+
+	$tags = is_array($tags) ? $tags : explode( ',', trim($tags, " \n\t\r\0\x0B,") );
+	wp_set_object_terms($post_id, $tags, $taxonomy, $append);
 }
 
 /**

@@ -211,7 +211,7 @@ td.available-theme {
 #normal-sortables .postbox .submit {
 	float: left;
 }
-#post-body #tagsdiv #newtag {
+#post-body .tagsdiv #newtag {
 	margin-right: 0;
 	margin-left: 5px;
 }
@@ -221,18 +221,18 @@ td.available-theme {
 #comment-status-radio input {
 	margin: 2px 0 5px 3px;
 }
-#tagchecklist {
+.tagchecklist {
 	margin-left: 0;
 	margin-right: 10px;
 }
-#tagchecklist strong {
+.tagchecklist strong {
 	margin-left: 0;
 	margin-right: -8px;
 }
-#tagchecklist span {
+.tagchecklist span {
 	float: right;
 }
-#tagchecklist span a {
+.tagchecklist span a {
 	margin: 6px -9px 0 0;
 	float: right;
 }
