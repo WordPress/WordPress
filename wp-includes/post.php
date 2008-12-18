@@ -2127,13 +2127,17 @@ function &get_pages($args = '') {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	$cache = array();
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) ) {
-		if ( isset( $cache[ $key ] ) ) {
+		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			$pages = apply_filters('get_pages', $cache[ $key ], $r );
 			return $pages;
 		}
 	}
+
+	if ( !is_array($cache) )
+		$cache = array();
 
 	$inclusions = '';
 	if ( !empty($include) ) {
