@@ -120,9 +120,7 @@ div.zerosize {
 	font-weight: bold;
 	padding: 7px;
 	margin: 0 0 10px;
-	background-image: url(../images/postbox-bg.gif);
-	background-position: left top;
-	background-repeat: repeat-x;
+	background: #dfdfdf url("../images/gray-grad.png") repeat-x left top;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 1;
