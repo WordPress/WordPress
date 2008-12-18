@@ -50,12 +50,8 @@ function wp_version_check() {
 	$url = "http://api.wordpress.org/core/version-check/1.3/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
 
 	$options = array('timeout' => 3);
-	$options['headers'] = array(
-		'Content-Type' => 'application/x-www-form-urlencoded; charset=' . get_option('blog_charset'),
-		'User-Agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo('url')
-	);
 
-	$response = wp_remote_request($url, $options);
+	$response = wp_remote_get($url, $options);
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -118,20 +114,16 @@ function wp_update_plugins() {
 	if ( ! is_object($current) )
 		$current = new stdClass;
 
-	$new_option = '';
+	$new_option = new stdClass;
 	$new_option->last_checked = time();
-	$time_not_changed = isset( $current->last_checked ) && 43200 > ( time() - $current->last_checked );
+	$timeout = 'load-plugins.php' == current_filter() ? 360 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
+	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 
 	$plugin_changed = false;
 	foreach ( $plugins as $file => $p ) {
 		$new_option->checked[ $file ] = $p['Version'];
 
-		if ( !isset( $current->checked[ $file ] ) ) {
-			$plugin_changed = true;
-			continue;
-		}
-
-		if ( strval($current->checked[ $file ]) !== strval($p['Version']) )
+		if ( !isset( $current->checked[ $file ] ) || strval($current->checked[ $file ]) !== strval($p['Version']) )
 			$plugin_changed = true;
 	}
 
@@ -139,6 +131,7 @@ function wp_update_plugins() {
 		foreach ( $current->response as $plugin_file => $update_details ) {
 			if ( ! isset($plugins[ $plugin_file ]) ) {
 				$plugin_changed = true;
+				break;
 			}
 		}
 	}
@@ -151,26 +144,18 @@ function wp_update_plugins() {
 	$current->last_checked = time();
 	update_option( 'update_plugins', $current );
 
-	$to_send->plugins = $plugins;
-	$to_send->active = $active;
-	$send = serialize( $to_send );
-	$body = 'plugins=' . urlencode( $send );
+	$to_send = (object)compact('plugins', 'active');
+	$body = array('plugins' => serialize( $to_send ) );
 
-	$options = array('method' => 'POST', 'timeout' => 3, 'body' => $body);
-	$options['headers'] = array(
-		'Content-Type' => 'application/x-www-form-urlencoded; charset=' . get_option('blog_charset'),
-		'Content-Length' => strlen($body),
-		'User-Agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo('url')
-	);
+	$options = array('timeout' => 3, 'body' => $body);
 
-	$raw_response = wp_remote_request('http://api.wordpress.org/plugins/update-check/1.0/', $options);
+	$raw_response = wp_remote_post('http://api.wordpress.org/plugins/update-check/1.0/', $options);
 
 	if ( is_wp_error( $raw_response ) )
 		return false;
 
-	if( 200 != $raw_response['response']['code'] ) {
+	if( 200 != $raw_response['response']['code'] )
 		return false;
-	}
 
 	$response = unserialize( $raw_response['body'] );
 
@@ -209,9 +194,10 @@ function wp_update_themes( ) {
 	if ( ! is_object($current_theme) )
 		$current_theme = new stdClass;
 
-	$new_option = '';
+	$new_option = new stdClass;
 	$new_option->last_checked = time( );
-	$time_not_changed = isset( $current_theme->last_checked ) && 43200 > ( time( ) - $current_theme->last_checked );
+	$timeout = 'load-themes.php' == current_filter() ? 360 : 43200; //Check for updated every 60 minutes if hitting the themes page, Else, check every 12 hours
+	$time_not_changed = isset( $current_theme->last_checked ) && $timeout > ( time( ) - $current_theme->last_checked );
 
 	if( $time_not_changed )
 		return false;
@@ -231,17 +217,11 @@ function wp_update_themes( ) {
 	}
 
 	$options = array(
-		'method'		=> 'POST',
 		'timeout'		=> 3,
-		'body'			=> 'themes=' . urlencode( serialize( $themes ) )
-	);
-	$options['headers'] = array(
-		'Content-Type'		=> 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' ),
-		'Content-Length'	=> strlen( $options['body'] ),
-		'User-Agent'		=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
+		'body'			=> array( 'themes' => serialize( $themes ) )
 	);
 
-	$raw_response = wp_remote_request( 'http://api.wordpress.org/themes/update-check/1.0/', $options );
+	$raw_response = wp_remote_post( 'http://api.wordpress.org/themes/update-check/1.0/', $options );
 
 	if( is_wp_error( $raw_response ) )
 		return false;
@@ -295,6 +275,8 @@ add_action( 'load-update.php', 'wp_update_plugins' );
 add_action( 'admin_init', '_maybe_update_plugins' );
 add_action( 'wp_update_plugins', 'wp_update_plugins' );
 
+add_action( 'load-themes.php', 'wp_update_themes' );
+add_action( 'load-update.php', 'wp_update_themes' );
 add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
 
