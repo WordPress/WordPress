@@ -1041,9 +1041,11 @@ function remove_option_whitelist( $del_options, $options = '' ) {
 	}
 	foreach( $del_options as $page => $keys ) {
 		foreach( $keys as $key ) {
-			$pos = array_search( $key, $whitelist_options[ $page ] );
-			if( $pos !== false )
-				unset( $whitelist_options[ $page ][ $pos ] );
+			if ( isset($whitelist_options[ $page ]) && is_array($whitelist_options[ $page ]) ) {
+				$pos = array_search( $key, $whitelist_options[ $page ] );
+				if( $pos !== false )
+					unset( $whitelist_options[ $page ][ $pos ] );
+			}
 		}
 	}
 	return $whitelist_options;
