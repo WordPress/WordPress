@@ -719,7 +719,11 @@ function wp_page_menu( $args = array() ) {
  * @see Walker_Page::walk() for parameters and return description.
  */
 function walk_page_tree($pages, $depth, $current_page, $r) {
-	$walker = new Walker_Page;
+	if ( empty($r['walker']) ) 
+		$walker = new Walker_Page;
+	else
+		$walker = $r['walker'];
+
 	$args = array($pages, $depth, $r, $current_page);
 	return call_user_func_array(array(&$walker, 'walk'), $args);
 }
@@ -732,8 +736,12 @@ function walk_page_tree($pages, $depth, $current_page, $r) {
  * @see Walker_PageDropdown::walk() for parameters and return description.
  */
 function walk_page_dropdown_tree() {
-	$walker = new Walker_PageDropdown;
 	$args = func_get_args();
+	if ( empty($args[2]['walker']) ) // the user's options are the third parameter
+		$walker = new Walker_PageDropdown;
+	else
+		$walker = $args[2]['walker'];
+
 	return call_user_func_array(array(&$walker, 'walk'), $args);
 }
 
