@@ -1,4 +1,4 @@
-wpAjax = jQuery.extend( {
+var wpAjax = jQuery.extend( {
 	unserialize: function( s ) {
 		var r = {}; if ( !s ) { return r; }
 		var q = s.split('?'); if ( q[1] ) { s = q[1]; }
