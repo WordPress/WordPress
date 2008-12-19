@@ -231,10 +231,10 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 
 	$width_ratio = $height_ratio = 1.0;
 
-	if ( $max_width > 0 && $current_width > $max_width )
+	if ( $max_width > 0 && $current_width > 0 && $current_width > $max_width )
 		$width_ratio = $max_width / $current_width;
 
-	if ( $max_height > 0 && $current_height > $max_height )
+	if ( $max_height > 0 && $current_height > 0 && $current_height > $max_height )
 		$height_ratio = $max_height / $current_height;
 
 	// the smaller ratio is the one we need to fit it to the constraining box
