@@ -16,8 +16,8 @@
  * @link http://codex.wordpress.org/Function_Reference/wp_schedule_single_event
  *
  * @param int $timestamp Timestamp for when to run the event.
- * @param callback $hook Function or method to call, when cron is run.
- * @param array $args Optional. Arguments to pass to the hook function.
+ * @param string $hook Action hook to execute when cron is run.
+ * @param array $args Optional. Arguments to pass to the hook's callback function.
  */
 function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 	// don't schedule a duplicate if there's already an identical event due in the next 10 minutes
@@ -43,8 +43,8 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
  *
  * @param int $timestamp Timestamp for when to run the event.
  * @param string $recurrence How often the event should recur.
- * @param callback $hook Function or method to call, when cron is run.
- * @param array $args Optional. Arguments to pass to the hook function.
+ * @param string $hook Action hook to execute when cron is run.
+ * @param array $args Optional. Arguments to pass to the hook's callback function.
  * @return bool|null False on failure, null when complete with scheduling event.
  */
 function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
@@ -65,8 +65,8 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
  *
  * @param int $timestamp Timestamp for when to run the event.
  * @param string $recurrence How often the event should recur.
- * @param callback $hook Function or method to call, when cron is run.
- * @param array $args Optional. Arguments to pass to the hook function.
+ * @param string $hook Action hook to execute when cron is run.
+ * @param array $args Optional. Arguments to pass to the hook's callback function.
  * @return bool|null False on failure. Null when event is rescheduled.
  */
 function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array()) {
@@ -100,8 +100,11 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array()) {
  * @since 2.1.0
  *
  * @param int $timestamp Timestamp for when to run the event.
- * @param callback $hook Function or method to call, when cron is run.
- * @param array $args Optional. Arguments to pass to the hook function.
+ * @param string $hook Action hook, the execution of which will be unscheduled.
+ * @param array $args Arguments to pass to the hook's callback function.
+ * Although not passed to a callback function, these arguments are used
+ * to uniquely identify the scheduled event, so they should be the same
+ * as those used when originally scheduling the event.
  */
 function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
 	$crons = _get_cron_array();
@@ -119,7 +122,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
  *
  * @since 2.1.0
  *
- * @param callback $hook Function or method to call, when cron is run.
+ * @param string $hook Action hook, the execution of which will be unscheduled.
  * @param mixed $args,... Optional. Event arguments.
  */
 function wp_clear_scheduled_hook( $hook ) {
@@ -134,8 +137,8 @@ function wp_clear_scheduled_hook( $hook ) {
  *
  * @since 2.1.0
  *
- * @param callback $hook Function or method to call, when cron is run.
- * @param array $args Optional. Arguments to pass to the hook function.
+ * @param string $hook Action hook to execute when cron is run.
+ * @param array $args Optional. Arguments to pass to the hook's callback function.
  * @return bool|int The UNIX timestamp of the next time the scheduled event will occur.
  */
 function wp_next_scheduled( $hook, $args = array() ) {
@@ -280,8 +283,8 @@ function wp_get_schedules() {
  *
  * @since 2.1.0
  *
- * @param callback $hook Function or method to call, when cron is run.
- * @param array $args Optional. Arguments to pass to the hook function.
+ * @param string $hook Action hook to execute when cron is run.
+ * @param array $args Optional. Arguments to pass to the hook's callback function.
  * @return string|bool False, if no schedule. Schedule on success.
  */
 function wp_get_schedule($hook, $args = array()) {
