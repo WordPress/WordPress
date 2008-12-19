@@ -142,10 +142,15 @@ function get_bookmarks($args = '') {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
+	$cache = array();
 	$key = md5( serialize( $r ) );
-	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) )
-		if ( isset( $cache[ $key ] ) )
+	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) ) {
+		if ( is_array($cache) && isset( $cache[ $key ] ) )
 			return apply_filters('get_bookmarks', $cache[ $key ], $r );
+	}
+
+	if ( !is_array($cache) )
+		$cache = array();
 
 	$inclusions = '';
 	if ( !empty($include) ) {
