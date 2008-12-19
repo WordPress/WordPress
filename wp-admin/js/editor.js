@@ -1,5 +1,5 @@
 
-switchEditors = {
+var switchEditors = {
 
 	mode : '',
 
@@ -169,4 +169,4 @@ switchEditors = {
 
 		return pee;
 	}
-}
+};

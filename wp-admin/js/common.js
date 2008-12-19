@@ -1,5 +1,5 @@
 
-wpCookies = {
+var wpCookies = {
 // The following functions are from Cookie.js class in TinyMCE, Moxiecode, used under LGPL.
 
 	each : function(o, cb, s) {
