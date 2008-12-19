@@ -902,13 +902,17 @@ function calendar_week_mod($num) {
 function get_calendar($initial = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
+	$cache = array();
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
-		if ( isset( $cache[ $key ] ) ) {
+		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			echo $cache[ $key ];
 			return;
 		}
 	}
+
+	if ( !is_array($cache) )
+		$cache = array();
 
 	ob_start();
 	// Quick check. If we have no posts at all, abort!
