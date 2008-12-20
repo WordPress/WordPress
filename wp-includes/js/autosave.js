@@ -33,7 +33,7 @@ function autosave_parse_response(response) {
 
 		// if no errors: add slug UI
 		if ( !res.errors ) {
-			var postID = parseInt( res.responses[0].id );
+			var postID = parseInt( res.responses[0].id, 10 );
 			if ( !isNaN(postID) && postID > 0 ) {
 				autosave_update_slug(postID);
 			}
@@ -56,7 +56,7 @@ function autosave_saved_new(response) {
 	// if no errors: update post_ID from the temporary value, grab new save-nonce for that new ID
 	if ( res && res.responses.length && !res.errors ) {
 		var tempID = jQuery('#post_ID').val();
-		var postID = parseInt( res.responses[0].id );
+		var postID = parseInt( res.responses[0].id, 10 );
 		autosave_update_post_ID( postID ); // disabled form buttons are re-enabled here
 		if ( tempID < 0 && postID > 0 ) // update media buttons
 			jQuery('#media-buttons a').each(function(){
@@ -73,7 +73,7 @@ function autosave_saved_new(response) {
 
 function autosave_update_post_ID( postID ) {
 	if ( !isNaN(postID) && postID > 0 ) {
-		if ( postID == parseInt(jQuery('#post_ID').val()) ) { return; } // no need to do this more than once
+		if ( postID == parseInt(jQuery('#post_ID').val(), 10) ) { return; } // no need to do this more than once
 		jQuery('#post_ID').attr({name: "post_ID"});
 		jQuery('#post_ID').val(postID);
 		// We need new nonces
@@ -190,7 +190,7 @@ var autosave = function() {
 		doAutoSave = false;
 	}
 
-	if(parseInt(post_data["post_ID"]) < 1) {
+	if ( parseInt(post_data["post_ID"], 10) < 1 ) {
 		post_data["temp_ID"] = post_data["post_ID"];
 		var successCallback = autosave_saved_new; // new post
 	} else {
