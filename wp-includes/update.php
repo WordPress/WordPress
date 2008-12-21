@@ -49,7 +49,10 @@ function wp_version_check() {
 	$local_package = isset( $wp_local_package )? $wp_local_package : '';
 	$url = "http://api.wordpress.org/core/version-check/1.3/?version=$wp_version&php=$php_version&locale=$locale&mysql=$mysql_version&local_package=$local_package";
 
-	$options = array('timeout' => 3);
+	$options = array(
+		'timeout' => 3,
+		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
+	);
 
 	$response = wp_remote_get($url, $options);
 
@@ -145,9 +148,12 @@ function wp_update_plugins() {
 	update_option( 'update_plugins', $current );
 
 	$to_send = (object)compact('plugins', 'active');
-	$body = array('plugins' => serialize( $to_send ) );
 
-	$options = array('timeout' => 3, 'body' => $body);
+	$options = array(
+		'timeout' => 3,
+		'body' => array( 'plugins' => serialize( $to_send ) ),
+		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
+	);
 
 	$raw_response = wp_remote_post('http://api.wordpress.org/plugins/update-check/1.0/', $options);
 
@@ -218,7 +224,8 @@ function wp_update_themes( ) {
 
 	$options = array(
 		'timeout'		=> 3,
-		'body'			=> array( 'themes' => serialize( $themes ) )
+		'body'			=> array( 'themes' => serialize( $themes ) ),
+		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
 	$raw_response = wp_remote_post( 'http://api.wordpress.org/themes/update-check/1.0/', $options );
