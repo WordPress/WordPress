@@ -96,4 +96,11 @@ function _mb_strcut( $str, $start, $length=null, $encoding=null ) {
 	return implode( '', $chars );
 }
 
+// from php.net
+if ( !function_exists('htmlspecialchars_decode') ) {
+	function htmlspecialchars_decode( $str, $quote_style = ENT_COMPAT ) {
+        return strtr( $str, array_flip( get_html_translation_table(HTML_SPECIALCHARS, $quote_style) ) );
+    }
+}
+
 ?>
