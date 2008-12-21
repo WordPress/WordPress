@@ -1671,9 +1671,6 @@ input#link_url {
 }
 
 .wp_themeSkin tr.mceFirst td.mceToolbar {
-	background-image: url("images/ed-bg.gif");
-	background-position: left top;
-	background-repeat: repeat-x;
 	border-width: 0 0 1px;
 	border-style: none none solid;
 }

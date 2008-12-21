@@ -349,23 +349,6 @@ die;
 	}
 ?>
 	<script type="text/javascript">
-    jQuery('#tags-input').hide();
-	tag_update_quickclicks();
-	// add the quickadd form
-	jQuery('#jaxtag').prepend('<span id="ajaxtag"><input type="text" name="newtag" id="newtag" class="form-input-tip" size="16" autocomplete="off" value="'+postL10n.addTag+'" /><input type="submit" class="button" id="tagadd" value="' + postL10n.add + '" tabindex="3" onclick="return false;" /><input type="hidden"/><input type="hidden"/><span class="howto">'+postL10n.separate+'</span></span>');
-
-	jQuery('#tagadd').click( tag_flush_to_text );
-	jQuery('#newtag').focus(function() {
-		if ( this.value == postL10n.addTag )
-			jQuery(this).val( '' ).removeClass( 'form-input-tip' );
-	});
-	jQuery('#newtag').blur(function() {
-		if ( this.value == '' )
-			jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
-	});
-	// auto-save tags on post save/publish
-	jQuery('#publish').click( tag_save_on_publish );
-	jQuery('#save').click( tag_save_on_publish );
 	function insert_plain_editor(text) {
 		edCanvas = document.getElementById('content');
 		edInsertContent(edCanvas, text);
@@ -492,15 +475,21 @@ die;
 				</div>
 			</div>
 
-			<div class="stuffbox">
-				<h2><?php _e('Tags') ?></h2>
+			<div id="tagsdiv-post_tag" class="postbox" >
+				<h3><span><?php _e('Post Tags'); ?></span></h3>
 				<div class="inside">
-
-					<div id="jaxtag">
-						<label class="hidden" for="newtag"><?php _e('Tags'); ?></label>
-						<input type="text" name="tags_input" class="tags-input" id="tags-input" size="40" tabindex="3" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
+					<div class="tagsdiv" id="post_tag"> 
+						<p class="jaxtag">
+							<label class="hidden" for="newtag"><?php _e('Post Tags'); ?></label>
+							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" /> 
+							<span class="ajaxtag" style="display:none;">
+								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
+								<input type="button" class="button tagadd" value="Add" tabindex="3" />
+							</span>
+						</p> 
+						<div class="tagchecklist"></div> 
 					</div>
-					<div id="tagchecklist"></div>
+					<p class="tagcloud-link"><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php _e('Choose from the most used tags in Post Tags'); ?></a></p>
 				</div>
 			</div>
 			<div id="submitdiv" class="postbox">
@@ -509,7 +498,7 @@ die;
 					<p>
 						<input class="button" type="submit" name="draft" value="<?php _e('Save Draft') ?>" id="save" />
 						<input class="button-primary" type="submit" name="publish" value="<?php _e('Publish') ?>" id="publish" />
-						<img src="images/loading-publish.gif" alt="" id="saving" style="display:none;"/>
+						<img src="images/loading-publish.gif" alt="" id="saving" style="display:none;" />
 					</p>
 				</div>
 			</div>
@@ -542,9 +531,9 @@ die;
 				<li id="switcher">
 					<?php wp_print_scripts( 'quicktags' ); ?>
 					<?php add_filter('the_editor_content', 'wp_richedit_pre'); ?>
-					<a id="edButtonHTML" onclick="switchEditors.go('<?php echo $id; ?>', 'html');"><?php _e('HTML'); ?></a>
-					<a id="edButtonPreview" class="active" onclick="switchEditors.go('<?php echo $id; ?>', 'tinymce');"><?php _e('Visual'); ?></a>
-					<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('<?php echo $id; ?>')" /></div>
+					<a id="edButtonHTML" onclick="switchEditors.go('content', 'html');"><?php _e('HTML'); ?></a>
+					<a id="edButtonPreview" class="active" onclick="switchEditors.go('content', 'tinymce');"><?php _e('Visual'); ?></a>
+					<div class="zerosize"><input accesskey="e" type="button" onclick="switchEditors.go('content')" /></div>
 				</li>
 				<?php } ?>
 			</ul>
@@ -559,5 +548,6 @@ die;
 	</div>
 </div>
 </form>
+<?php do_action('admin_print_footer_scripts'); ?>
 </body>
 </html>
