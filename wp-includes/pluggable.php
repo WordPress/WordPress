@@ -1210,7 +1210,7 @@ if ( !function_exists('wp_salt') ) :
  * Below is an example of how the SECRET_KEY constant is defined with a value.
  * You must not copy the below example and paste into your wp-config.php. If you
  * need an example, then you can have a
- * {@link http://api.wordpress.org/secret-key/1.0/ secret key created} for you.
+ * {@link https://api.wordpress.org/secret-key/1.1/ secret key created} for you.
  *
  * <code>
  * define('SECRET_KEY', 'mAry1HadA15|\/|b17w55w1t3asSn09w');
@@ -1221,7 +1221,7 @@ if ( !function_exists('wp_salt') ) :
  * salt string is not weak.
  *
  * @since 2.5
- * @link http://api.wordpress.org/secret-key/1.0/ Create a Secret Key for wp-config.php
+ * @link https://api.wordpress.org/secret-key/1.1/ Create a Secret Key for wp-config.php
  *
  * @return string Salt value from either 'SECRET_KEY' or 'secret' option
  */
