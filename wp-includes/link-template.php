@@ -1245,14 +1245,15 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 }
 
 /**
- * Display link to next comments pages.
+ * Return the link to next comments pages.
  *
- * @since 2.7.0
+ * @since 2.7.1
  *
  * @param string $label Optional. Label for link text.
  * @param int $max_page Optional. Max page.
+ * @return string|null
  */
-function next_comments_link($label='', $max_page = 0) {
+function get_next_comments_link( $label = '', $max_page = 0 ) {
 	global $wp_query;
 
 	if ( !is_singular() )
@@ -1277,20 +1278,30 @@ function next_comments_link($label='', $max_page = 0) {
 	if ( empty($label) )
 		$label = __('Newer Comments &raquo;');
 
-	echo '<a href="' . clean_url( get_comments_pagenum_link( $nextpage, $max_page ) );
-	$attr = apply_filters( 'next_comments_link_attributes', '' );
-	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+	return '<a href="' . clean_url( get_comments_pagenum_link( $nextpage, $max_page ) ) . '" ' . apply_filters( 'next_comments_link_attributes', '' ) . '>'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
 }
 
 /**
- * Display the previous comments page link.
+ * Display the link to next comments pages.
  *
  * @since 2.7.0
  *
- * @param string $label Optional. Label for comments link text.
+ * @param string $label Optional. Label for link text.
+ * @param int $max_page Optional. Max page.
  */
-function previous_comments_link($label='') {
+function next_comments_link( $label = '', $max_page = 0 ) {
+	echo get_next_comments_link( $label, $max_page );
+}
 
+/**
+ * Return the previous comments page link.
+ *
+ * @since 2.7.1
+ *
+ * @param string $label Optional. Label for comments link text.
+ * @return string|null
+ */
+function get_previous_comments_link( $label = '' ) {
 	if ( !is_singular() )
 		return;
 
@@ -1307,9 +1318,18 @@ function previous_comments_link($label='') {
 	if ( empty($label) )
 		$label = __('&laquo; Older Comments');
 
-	echo '<a href="' . clean_url(get_comments_pagenum_link($prevpage));
-	$attr = apply_filters( 'previous_comments_link_attributes', '' );
-	echo "\" $attr>". preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+	return '<a href="' . clean_url( get_comments_pagenum_link( $prevpage ) ) . '" ' . apply_filters( 'previous_comments_link_attributes', '' ) . '>' . preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
+}
+
+/**
+ * Display the previous comments page link.
+ *
+ * @since 2.7.0
+ *
+ * @param string $label Optional. Label for comments link text.
+ */
+function previous_comments_link( $label = '' ) {
+	echo get_previous_comments_link( $label );
 }
 
 /**
