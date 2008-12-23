@@ -439,8 +439,10 @@ class Walker_Category_Checklist extends Walker {
  * @param unknown_type $selected_cats
  * @param unknown_type $popular_cats
  */
-function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false ) {
-	$walker = new Walker_Category_Checklist;
+function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null ) {
+	if ( empty($walker) || !is_a($walker, 'Walker') )
+		$walker = new Walker_Category_Checklist;
+
 	$descendants_and_self = (int) $descendants_and_self;
 
 	$args = array();
