@@ -397,12 +397,14 @@ function wp_dropdown_categories( $args = '' ) {
 
 		if ( $show_option_all ) {
 			$show_option_all = apply_filters( 'list_cats', $show_option_all );
-			$output .= "\t<option value='0'>$show_option_all</option>\n";
+			$selected = ( '0' === strval($r['selected']) ) ? " selected='selected'" : '';
+			$output .= "\t<option value='0'$selected>$show_option_all</option>\n";
 		}
 
 		if ( $show_option_none ) {
 			$show_option_none = apply_filters( 'list_cats', $show_option_none );
-			$output .= "\t<option value='-1'>$show_option_none</option>\n";
+			$selected = ( '-1' === strval($r['selected']) ) ? " selected='selected'" : '';
+			$output .= "\t<option value='-1'$selected>$show_option_none</option>\n";
 		}
 
 		if ( $hierarchical )
