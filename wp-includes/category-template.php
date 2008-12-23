@@ -719,8 +719,13 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
  * @see Walker_Category::walk() for parameters and return description.
  */
 function walk_category_tree() {
-	$walker = new Walker_Category;
 	$args = func_get_args();
+	// the user's options are the third parameter
+	if ( empty($args[2]['walker']) || !is_a($args[2]['walker'], 'Walker') )
+		$walker = new Walker_Category;
+	else
+		$walker = $args[2]['walker'];
+
 	return call_user_func_array(array( &$walker, 'walk' ), $args );
 }
 
@@ -732,8 +737,13 @@ function walk_category_tree() {
  * @see Walker_CategoryDropdown::walk() for parameters and return description.
  */
 function walk_category_dropdown_tree() {
-	$walker = new Walker_CategoryDropdown;
 	$args = func_get_args();
+	// the user's options are the third parameter
+	if ( empty($args[2]['walker']) || !is_a($args[2]['walker'], 'Walker') )
+		$walker = new Walker_CategoryDropdown;
+	else
+		$walker = $args[2]['walker'];
+
 	return call_user_func_array(array( &$walker, 'walk' ), $args );
 }
 
