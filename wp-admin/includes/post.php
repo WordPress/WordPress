@@ -228,7 +228,7 @@ function bulk_edit_posts( $post_data = null ) {
 	if ( empty($post_data) )
 		$post_data = &$_POST;
 
-	if ( 'page' == $post_data['post_type'] ) {
+	if ( isset($post_data['post_type']) && 'page' == $post_data['post_type'] ) {
 		if ( ! current_user_can( 'edit_pages' ) )
 			wp_die( __('You are not allowed to edit pages.') );
 	} else {
@@ -236,7 +236,7 @@ function bulk_edit_posts( $post_data = null ) {
 			wp_die( __('You are not allowed to edit posts.') );
 	}
 
-	$post_IDs = array_map( intval, (array) $post_data['post'] );
+	$post_IDs = array_map( 'intval', (array) $post_data['post'] );
 
 	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private', 'tags_input', 'post_category', 'sticky' );
 	foreach ( $reset as $field ) {
