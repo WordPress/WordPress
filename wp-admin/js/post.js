@@ -101,13 +101,15 @@ function tag_init() {
     // add the quickadd form
     jQuery('.ajaxtag input.tagadd').click(function(){tag_flush_to_text(jQuery(this).parents('.tagsdiv').attr('id'));});
     jQuery('.ajaxtag input.newtag').focus(function() {
-        if ( this.value == postL10n.addTag ) {
+        if ( !this.cleared ) {
+            this.cleared = true;
             jQuery(this).val( '' ).removeClass( 'form-input-tip' );
         }
     });
 
     jQuery('.ajaxtag input.newtag').blur(function() {
         if ( this.value == '' ) {
+            this.cleared = false;
             jQuery(this).val( postL10n.addTag ).addClass( 'form-input-tip' );
         }
     });
