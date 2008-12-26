@@ -741,7 +741,7 @@ function get_post_custom_keys( $post_id = 0 ) {
 function get_post_custom_values( $key = '', $post_id = 0 ) {
 	$custom = get_post_custom($post_id);
 
-	return $custom[$key];
+	return isset($custom[$key]) ? $custom[$key] : null;
 }
 
 /**
@@ -2540,6 +2540,10 @@ function wp_get_attachment_url( $post_id = 0 ) {
 		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { //Get upload directory
 			if ( 0 === strpos($file, $uploads['basedir']) ) //Check that the upload base exists in the file location
 				$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file); //replace file location with url location
+			elseif ( false !== strpos($file, 'wp-content/uploads') )
+				$url = $uploads['baseurl'] . substr( $file, strpos($file, 'wp-content/uploads') + 18 );
+			else
+				$url = $uploads['baseurl'] . "/$file"; //Its a newly uploaded file, therefor $file is relative to the basedir.
 		}
 	}
 
