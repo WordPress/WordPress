@@ -178,7 +178,7 @@ table {
 
 .hidden,
 .closed .inside,
-.hide-if-no-js {
+.hide-if-js {
 	display: none;
 }
 

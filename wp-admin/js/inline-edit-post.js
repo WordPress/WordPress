@@ -220,7 +220,6 @@ inlineEditPost = {
 						if ( 'draft' == $('input[name="post_status"]').val() )
 							row.find('td.column-comments').hide();
 
-						row.find('.hide-if-no-js').removeClass('hide-if-no-js');
 						inlineEditPost.addEvents(row);
 						row.fadeIn();
 					} else {

@@ -72,7 +72,16 @@ do_action('admin_print_scripts');
 do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
-if ( $is_iphone ) { ?>
+wp_print_styles('no-js');
+?>
+<script type="text/javascript">
+(function(){
+	var nojs = document.getElementById('no-js');
+	nojs.parentNode.removeChild(nojs);
+})();
+</script>
+
+<?php if ( $is_iphone ) { ?>
 <style type="text/css">.row-actions{visibility:visible;}</style>
 <?php } ?>
 </head>

@@ -36,7 +36,6 @@ inlineEditTax = {
 	addEvents : function(r) {
 		r.each(function() {
 			$(this).find('a.editinline').click(function() { inlineEditTax.edit(this); return false; });
-			$(this).find('.hide-if-no-js').removeClass('hide-if-no-js');
 		});
 	},
 
@@ -116,7 +115,6 @@ inlineEditTax = {
 						var row = $(inlineEditTax.what+id);
 						row.hide();
 
-						row.find('.hide-if-no-js').removeClass('hide-if-no-js');
 						inlineEditTax.addEvents(row);
 						row.fadeIn();
 					} else

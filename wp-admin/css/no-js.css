@@ -1,0 +1,14 @@
+/* styles to be used when Javascript is disabled */
+
+.hide-if-no-js {
+	display: none;
+}
+
+.hide-if-js,
+.closed .inside {
+	display: block;
+}
+
+.hide-if-js-inline {
+	display: inline;
+}

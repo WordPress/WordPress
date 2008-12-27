@@ -303,7 +303,6 @@ commentReply = {
 		$(c).hide()
 		$('#replyrow').after(c);
 		this.o = id = '#comment-'+r.id;
-		$(id+' .hide-if-no-js').removeClass('hide-if-no-js');
 		this.revert();
 		this.addEvents($(id));
 		var bg = $(id).hasClass('unapproved') ? '#ffffe0' : '#fff';

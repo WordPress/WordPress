@@ -1,9 +1,6 @@
 
 jQuery( function($) {
 
-// close postboxes that should be closed
-jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-
 // These widgets are sometimes populated via ajax
 var ajaxWidgets = [
 	'dashboard_incoming_links',
@@ -37,7 +34,6 @@ var quickPressLoad = function() {
 			$('#dashboard_quick_press ul').find('li').each( function() {
 				$('#dashboard_recent_drafts ul').prepend( this );
 			} ).end().remove();
-			$(this).find('.hide-if-no-js').removeClass('hide-if-no-js');
 			tb_init('a.thickbox');
 			quickPressLoad();
 		} );

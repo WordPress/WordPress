@@ -1,6 +1,4 @@
 jQuery(document).ready( function($) {
-	jQuery('.hide-if-no-js').show();
-	jQuery('.hide-if-js').hide();
 
 	var stamp = $('#timestamp').html();
 	$('.edit-timestamp').click(function () {

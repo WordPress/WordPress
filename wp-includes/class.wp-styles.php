@@ -39,6 +39,8 @@ class WP_Styles extends WP_Dependencies {
 			$media = 'all';
 
 		$href = $this->_css_href( $this->registered[$handle]->src, $ver, $handle );
+		$rel = isset($this->registered[$handle]->extra['alt']) && $this->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
+		$title = isset($this->registered[$handle]->extra['title']) ? "title='" . attribute_escape( $this->registered[$handle]->extra['title'] ) . "'" : '';
 
 		$end_cond = '';
 		if ( isset($this->registered[$handle]->extra['conditional']) && $this->registered[$handle]->extra['conditional'] ) {
@@ -46,14 +48,14 @@ class WP_Styles extends WP_Dependencies {
 			$end_cond = "<![endif]-->\n";
 		}
 
-		echo apply_filters( 'style_loader_tag', "<link rel='stylesheet' href='$href' type='text/css' media='$media' />\n", $handle );
+		echo apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$href' type='text/css' media='$media' />\n", $handle );
 		if ( 'rtl' === $this->text_direction && isset($this->registered[$handle]->extra['rtl']) && $this->registered[$handle]->extra['rtl'] ) {
 			if ( is_bool( $this->registered[$handle]->extra['rtl'] ) )
 				$rtl_href = str_replace( '.css', '-rtl.css', $href );
 			else
 				$rtl_href = $this->_css_href( $this->registered[$handle]->extra['rtl'], $ver, "$handle-rtl" );
 
-			echo apply_filters( 'style_loader_tag', "<link rel='stylesheet' href='$rtl_href' type='text/css' media='$media' />\n", $handle );
+			echo apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
 		}
 
 		echo $end_cond;

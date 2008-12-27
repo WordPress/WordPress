@@ -151,9 +151,6 @@ function tag_init() {
 jQuery(document).ready( function($) {
 	tagCloud.init();
 
-	// close postboxes that should be closed
-	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-
 	// postboxes
 	postboxes.add_postbox_toggles('post');
 
@@ -467,7 +464,6 @@ jQuery(document).ready( function($) {
 
 					if ( 'object' == typeof r && r.responses[0] ) {
 						$('#the-comment-list').append( r.responses[0].data );
-						$('#the-comment-list .hide-if-no-js').removeClass('hide-if-no-js');
 
 						theList = theExtraList = null;
 						$("a[className*=':']").unbind();

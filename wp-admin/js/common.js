@@ -133,10 +133,6 @@ jQuery(document).ready( function($) {
 	// pulse
 	$('.fade').animate( { backgroundColor: '#ffffe0' }, 300).animate( { backgroundColor: '#fffbcc' }, 300).animate( { backgroundColor: '#ffffe0' }, 300).animate( { backgroundColor: '#fffbcc' }, 300);
 
-	// show things that should be visible, hide what should be hidden
-	$('.hide-if-no-js').removeClass('hide-if-no-js');
-	$('.hide-if-js').hide();
-
 	// Basic form validation
 	if ( ( 'undefined' != typeof wpAjax ) && $.isFunction( wpAjax.validateForm ) ) {
 		$('form.validate').submit( function() { return wpAjax.validateForm( $(this) ); } );

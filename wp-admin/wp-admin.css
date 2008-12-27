@@ -670,7 +670,8 @@ p.pagenav {
 	font-size: 11px;
 }
 
-.tablenav .tablenav-pages a, .tablenav-pages span.current  {
+.tablenav .tablenav-pages a,
+.tablenav-pages span.current  {
 	text-decoration: none;
 	border: none;
 	padding: 3px 6px;
@@ -704,7 +705,8 @@ td.media-icon img {
 	max-height: 60px;
 }
 
-#update-nag, .plugin-update {
+#update-nag,
+.plugin-update {
 	line-height: 29px;
 	font-size: 12px;
 	text-align: center;
@@ -714,7 +716,8 @@ td.media-icon img {
 	border-top-style: solid;
 }
 
-#update-nag a, .plugin-update a {
+#update-nag a,
+.plugin-update a {
 	font-size: 1.1em;
 }
 
