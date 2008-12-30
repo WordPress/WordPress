@@ -281,7 +281,7 @@ function wp_dashboard_right_now() {
 
 	update_right_now_message();
 
-	echo "\n\t".'</div>';
+	echo "\n\t".'<br class="clear" /></div>';
 	do_action( 'rightnow_end' );
 	do_action( 'activity_box_end' );
 }
