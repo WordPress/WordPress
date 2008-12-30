@@ -11,7 +11,7 @@ jQuery(document).ready( function($) {
 
 	// Ajax Cat
 	var newCat = jQuery('#newcat').one( 'focus', function() { jQuery(this).val( '' ).removeClass( 'form-input-tip' ) } );
-	jQuery('#category-add-sumbit').click( function() { newCat.focus(); } );
+	jQuery('#category-add-submit').click( function() { newCat.focus(); } );
 	var noSyncChecks = false; // prophylactic. necessary?
 	var syncChecks = function() {
 		if ( noSyncChecks )
