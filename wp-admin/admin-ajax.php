@@ -507,6 +507,9 @@ case 'get-tagcloud' :
 	if ( empty( $tags ) )
 		die( __('No tags found!') );
 
+	if ( is_wp_error($tags) )
+		die($tags->get_error_message());
+
 	foreach ( $tags as $key => $tag ) {
 		$tags[ $key ]->link = '#';
 		$tags[ $key ]->id = $tag->term_id;
