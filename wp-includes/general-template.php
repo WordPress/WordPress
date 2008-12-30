@@ -1592,7 +1592,7 @@ function language_attributes($doctype = 'html') {
 		$attributes[] = "dir=\"$dir\"";
 
 	if ( $lang = get_bloginfo('language') ) {
-		if ( get_option('html_type') == 'text/html' || $doctype == 'xhtml' )
+		if ( get_option('html_type') == 'text/html' || $doctype == 'html' )
 			$attributes[] = "lang=\"$lang\"";
 
 		if ( get_option('html_type') != 'text/html' || $doctype == 'xhtml' )
