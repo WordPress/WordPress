@@ -18,8 +18,11 @@ if ( ( isset( $_REQUEST['delete_all_spam'] ) || isset( $_REQUEST['delete_all_spa
 	check_admin_referer('bulk-spam-delete', '_spam_nonce');
 
 	$delete_time = $wpdb->escape( $_REQUEST['pagegen_timestamp'] );
-	$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND '$delete_time' > comment_date_gmt" );
-
+	if ( current_user_can('moderate_comments')) {
+		$deleted_spam = $wpdb->query( "DELETE FROM $wpdb->comments WHERE comment_approved = 'spam' AND '$delete_time' > comment_date_gmt" );
+	} else {
+		$deleted_spam = 0;
+	}
 	$redirect_to = 'edit-comments.php?comment_status=spam&deleted=' . (int) $deleted_spam;
 	if ( $post_id )
 		$redirect_to = add_query_arg( 'p', absint( $post_id ), $redirect_to );
@@ -275,9 +278,11 @@ $page_links = paginate_links( array(
 <?php }
 
 if ( 'spam' == $comment_status ) {
-	wp_nonce_field('bulk-spam-delete', '_spam_nonce'); ?>
-<input type="submit" name="delete_all_spam" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
-<?php } ?>
+	wp_nonce_field('bulk-spam-delete', '_spam_nonce'); 
+        if ( current_user_can ('moderate_comments')) { ?>
+		<input type="submit" name="delete_all_spam" value="<?php _e('Delete All Spam'); ?>" class="button-secondary apply" />
+<?php	}
+} ?>
 <?php do_action('manage_comments_nav', $comment_status); ?>
 </div>
 
