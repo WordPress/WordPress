@@ -1805,13 +1805,19 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	if ( strlen( $short_url ) > 35 )
 		$short_url = substr( $short_url, 0, 32 ).'...';
 	$numposts = get_usernumposts( $user_object->ID );
+	$checkbox = '';
+	// Check if the user for this row is editable 
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
+		// Set up the user editing link 
+		// TODO: make profile/user-edit determination a seperate function
 		if ($current_user->ID == $user_object->ID) {
 			$edit_link = 'profile.php';
 		} else {
 			$edit_link = clean_url( add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" ) );
 		}
 		$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
+		
+		// Set up the hover actions for this user
 		$actions = array();
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		if ( $current_user->ID != $user_object->ID )
@@ -1825,6 +1831,10 @@ function user_row( $user_object, $style = '', $role = '' ) {
 			$edit .= "<span class='$action'>$link$sep</span>";
 		}
 		$edit .= '</div>';
+		
+		// Set up the checkbox (because the user is editable, otherwise its empty)
+		$checkbox = "<input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' />";
+		
 	} else {
 		$edit = '<strong>' . $user_object->user_login . '</strong>';
 	}
@@ -1844,7 +1854,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 
 		switch ($column_name) {
 			case 'cb':
-				$r .= "<th scope='row' class='check-column'><input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' /></th>";
+				$r .= "<th scope='row' class='check-column'>$checkbox</th>";
 				break;
 			case 'username':
 				$r .= "<td $attributes>$avatar $edit</td>";
