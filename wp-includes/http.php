@@ -8,7 +8,7 @@
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  * @author Jacob Santos <wordpress@santosj.name>
  */
 
@@ -41,14 +41,14 @@
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  */
 class WP_Http {
 
 	/**
 	 * PHP4 style Constructor - Calls PHP5 Style Constructor
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @return WP_Http
 	 */
 	function WP_Http() {
@@ -64,7 +64,7 @@ class WP_Http {
 	 * The transport are setup to save time. This should only be called once, so
 	 * the overhead should be fine.
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @return WP_Http
 	 */
 	function __construct() {
@@ -90,7 +90,7 @@ class WP_Http {
 	 * period of time, or established connection failed because connected host
 	 * has failed to respond."
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @access private
 	 *
 	 * @param array $args Request args, default us an empty array
@@ -141,7 +141,7 @@ class WP_Http {
 	 * to send content, but the streams transport can. This is a limitation that
 	 * is addressed here, by just not including that transport.
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @access private
 	 *
 	 * @param array $args Request args, default us an empty array
@@ -216,7 +216,7 @@ class WP_Http {
 	 * continue going after making the request.
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -295,7 +295,7 @@ class WP_Http {
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -313,7 +313,7 @@ class WP_Http {
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -331,7 +331,7 @@ class WP_Http {
 	 * Used for sending data that is expected to be in the body.
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -348,7 +348,7 @@ class WP_Http {
 	 *
 	 * @access public
 	 * @static
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $strResponse The full response string
 	 * @return array Array with 'headers' and 'body' keys.
@@ -367,7 +367,7 @@ class WP_Http {
 	 *
 	 * @access public
 	 * @static
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string|array $headers
 	 * @return array Processed string headers
@@ -408,7 +408,7 @@ class WP_Http {
 	 *
 	 * @todo Add support for footer chunked headers.
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @static
 	 *
 	 * @param string $body Body content
@@ -449,7 +449,7 @@ class WP_Http {
 			} else {
 				return $body;
 			}
-		} while ( false === $done );
+		} while ( true === $done );
 	}
 }
 
@@ -461,7 +461,7 @@ class WP_Http {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  */
 class WP_Http_Fsockopen {
 	/**
@@ -605,7 +605,7 @@ class WP_Http_Fsockopen {
 	/**
 	 * Whether this class can be used for retrieving an URL.
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 * @static
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
@@ -629,7 +629,7 @@ class WP_Http_Fsockopen {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  */
 class WP_Http_Fopen {
 	/**
@@ -643,7 +643,7 @@ class WP_Http_Fopen {
 	 * @see WP_Http::retrieve For default options descriptions.
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -715,6 +715,7 @@ class WP_Http_Fopen {
 	/**
 	 * Whether this class can be used for retrieving an URL.
 	 *
+	 * @since 2.7.0
 	 * @static
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
@@ -736,14 +737,14 @@ class WP_Http_Fopen {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  */
 class WP_Http_Streams {
 	/**
 	 * Send a HTTP request to a URI using streams with fopen().
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
@@ -839,7 +840,7 @@ class WP_Http_Streams {
 	 *
 	 * @static
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
@@ -864,7 +865,7 @@ class WP_Http_Streams {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  */
 class WP_Http_ExtHTTP {
 	/**
@@ -954,7 +955,7 @@ class WP_Http_ExtHTTP {
 	 * Whether this class can be used for retrieving an URL.
 	 *
 	 * @static
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
@@ -980,7 +981,7 @@ class WP_Http_Curl {
 	 * Send a HTTP request to a URI using cURL extension.
 	 *
 	 * @access public
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @param string $url
 	 * @param str|array $args Optional. Override the defaults.
@@ -1081,7 +1082,7 @@ class WP_Http_Curl {
 	 * Whether this class can be used for retrieving an URL.
 	 *
 	 * @static
-	 * @since 2.7
+	 * @since 2.7.0
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
@@ -1096,7 +1097,7 @@ class WP_Http_Curl {
 /**
  * Returns the initialized WP_Http Object
  *
- * @since 2.7
+ * @since 2.7.0
  * @access private
  *
  * @return WP_Http HTTP Transport object.
@@ -1147,7 +1148,7 @@ function wp_remote_request($url, $args = array()) {
  *
  * @see wp_remote_request() For more information on the response array format.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -1164,7 +1165,7 @@ function wp_remote_get($url, $args = array()) {
  *
  * @see wp_remote_request() For more information on the response array format.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -1180,7 +1181,7 @@ function wp_remote_post($url, $args = array()) {
  *
  * @see wp_remote_request() For more information on the response array format.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $url Site URL to retrieve.
  * @param array $args Optional. Override the defaults.
@@ -1194,7 +1195,7 @@ function wp_remote_head($url, $args = array()) {
 /**
  * Retrieve only the headers from the raw response.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param array $response HTTP response.
  * @return array The headers of the response. Empty array if incorrect parameter given.
@@ -1209,7 +1210,7 @@ function wp_remote_retrieve_headers(&$response) {
 /**
  * Retrieve a single header by name from the raw response.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param array $response
  * @param string $header Header name to retrieve value from.
@@ -1230,7 +1231,7 @@ function wp_remote_retrieve_header(&$response, $header) {
  *
  * Will return an empty array if incorrect parameter value is given.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param array $response HTTP response.
  * @return array The keys 'code' and 'message' give information on the response.
@@ -1247,7 +1248,7 @@ function wp_remote_retrieve_response_code(&$response) {
  *
  * Will return an empty array if incorrect parameter value is given.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param array $response HTTP response.
  * @return array The keys 'code' and 'message' give information on the response.
@@ -1262,7 +1263,7 @@ function wp_remote_retrieve_response_message(&$response) {
 /**
  * Retrieve only the body from the raw response.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param array $response HTTP response.
  * @return string The body of the response. Empty string if no body or incorrect parameter given.
