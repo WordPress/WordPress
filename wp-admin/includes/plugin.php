@@ -862,7 +862,7 @@ function user_can_access_admin_page() {
 
 	$parent = get_admin_page_parent();
 
-	if ( isset( $_wp_submenu_nopriv[$parent][$pagenow] ) )
+	if ( !isset( $plugin_page ) && isset( $_wp_submenu_nopriv[$parent][$pagenow] ) )
 		return false;
 
 	if ( isset( $plugin_page ) && isset( $_wp_submenu_nopriv[$parent][$plugin_page] ) )
