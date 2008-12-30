@@ -1394,6 +1394,8 @@ if ( !function_exists('wp_generate_password') ) :
  *
  * @since 2.5
  *
+ * @param int $length The length of password to generate
+ * @param bool $special_chars Whether to include standard special characters 
  * @return string The random password
  **/
 function wp_generate_password($length = 12, $special_chars = true) {
