@@ -30,6 +30,15 @@
  * requirement, it will be easy to add the static keyword to the code. It is not
  * as easy to convert a function to a method after enough code uses the old way.
  *
+ * Debugging includes several actions, which pass different variables for
+ * debugging the HTTP API.
+ *
+ * <strong>http_transport_get_debug</strong> - gives working, nonblocking, and
+ * blocking transports.
+ *
+ * <strong>http_transport_post_debug</strong> - gives working, nonblocking, and
+ * blocking transports.
+ *
  * @package WordPress
  * @subpackage HTTP
  * @since 2.7
@@ -114,6 +123,9 @@ class WP_Http {
 			}
 		}
 
+		if( has_filter('http_transport_get_debug') )
+			do_action('http_transport_get_debug', $working_transport, $blocking_transport, $nonblocking_transport);
+
 		if ( isset($args['blocking']) && !$args['blocking'] )
 			return $nonblocking_transport;
 		else
@@ -155,6 +167,9 @@ class WP_Http {
 					$nonblocking_transport[] = &$working_transport[$transport];
 			}
 		}
+
+		if( has_filter('http_transport_post_debug') )
+			do_action('http_transport_post_debug', $working_transport, $blocking_transport, $nonblocking_transport);
 
 		if ( isset($args['blocking']) && !$args['blocking'] )
 			return $nonblocking_transport;
@@ -257,11 +272,17 @@ class WP_Http {
 			$transports = WP_Http::_postTransport($r);
 		}
 
+		if( has_action('http_api_debug') )
+			do_action('http_api_debug', $transports, 'transports_list');
+
 		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code', 'message') );
 		foreach( (array) $transports as $transport ) {
 			$response = $transport->request($url, $r);
 
-			if( !is_wp_error($response) )
+			if( has_action('http_api_debug') )
+				do_action( 'http_api_debug', $response, 'response', get_class($transport) );
+
+			if( ! is_wp_error($response) )
 				return $response;
 		}
 
@@ -409,7 +430,7 @@ class WP_Http {
 
 			if ( $hasChunk ) {
 				if ( empty($match[1]) ) {
-					return new WP_Error('http_chunked_decode', __('Does not appear to be chunked encoded or body is malformed.') );
+					return $body;
 				}
 
 				$length = hexdec( $match[1] );
@@ -426,7 +447,7 @@ class WP_Http {
 					break;
 				}
 			} else {
-				return new WP_Error('http_chunked_decode', __('Does not appear to be chunked encoded or body is malformed.') );
+				return $body;
 			}
 		} while ( false === $done );
 	}
@@ -1018,6 +1039,8 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
 		else
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
+
+		do_action_ref_array( 'http_api_curl', &$handle );
 
 		if ( ! $r['blocking'] ) {
 			curl_exec( $handle );
