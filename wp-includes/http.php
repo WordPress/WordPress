@@ -391,7 +391,7 @@ class WP_Http {
 	 * @static
 	 *
 	 * @param string $body Body content
-	 * @return bool|string|WP_Error False if not chunked encoded. WP_Error on failure. Chunked decoded body on success.
+	 * @return string Chunked decoded body on success or raw body on failure.
 	 */
 	function chunkTransferDecode($body) {
 		$body = str_replace(array("\r\n", "\r"), "\n", $body);
@@ -402,15 +402,12 @@ class WP_Http {
 		$parsedBody = '';
 		//$parsedHeaders = array(); Unsupported
 
-		$done = false;
-
-		do {
+		while ( true ) {
 			$hasChunk = (bool) preg_match( '/^([0-9a-f]+)(\s|\n)+/mi', $body, $match );
 
 			if ( $hasChunk ) {
-				if ( empty($match[1]) ) {
-					return new WP_Error('http_chunked_decode', __('Does not appear to be chunked encoded or body is malformed.') );
-				}
+				if ( empty($match[1]) )
+					return $body;
 
 				$length = hexdec( $match[1] );
 				$chunkLength = strlen( $match[0] );
@@ -420,15 +417,12 @@ class WP_Http {
 
 				$body = ltrim(str_replace(array($match[0], $strBody), '', $body), "\n");
 
-				if( "0" == trim($body) ) {
-					$done = true;
+				if( "0" == trim($body) )
 					return $parsedBody; // Ignore footer headers.
-					break;
-				}
 			} else {
-				return new WP_Error('http_chunked_decode', __('Does not appear to be chunked encoded or body is malformed.') );
+				return $body;
 			}
-		} while ( false === $done );
+		}
 	}
 }
 
