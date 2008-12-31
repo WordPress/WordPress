@@ -1035,7 +1035,7 @@ class WP_Http_Curl {
 		else
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
-		do_action_ref_array( 'http_api_curl', &$handle );
+		do_action_ref_array( 'http_api_curl', array(&$handle) );
 
 		if ( ! $r['blocking'] ) {
 			curl_exec( $handle );
