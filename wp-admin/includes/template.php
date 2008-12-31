@@ -2586,20 +2586,28 @@ function the_attachment_links( $id = false ) {
 <?php
 }
 
+ 
 /**
- * {@internal Missing Short Description}}
+ * Print out <option> html elements for role selectors based on $wp_roles
  *
- * @since unknown
+ * @package WordPress
+ * @subpackage Administration
+ * @since 2.1
  *
- * @param unknown_type $default
+ * @uses $wp_roles
+ * @param string $default slug for the role that should be already selected
  */
-function wp_dropdown_roles( $default = false ) {
+function wp_dropdown_roles( $selected = false ) {
 	global $wp_roles;
 	$p = '';
 	$r = '';
-	foreach( $wp_roles->role_names as $role => $name ) {
+	
+	$role_names = $wp_roles->role_names;
+	$role_names = apply_filters('role_names_listing', $role_names);
+	
+	foreach( $role_names as $role => $name ) {
 		$name = translate_with_context($name);
-		if ( $default == $role ) // Make default first in list
+		if ( $selected == $role ) // Make default first in list
 			$p = "\n\t<option selected='selected' value='$role'>$name</option>";
 		else
 			$r .= "\n\t<option value='$role'>$name</option>";
