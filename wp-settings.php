@@ -15,6 +15,8 @@ if ( !defined('WP_MEMORY_LIMIT') )
 if ( function_exists('memory_get_usage') && ( (int) @ini_get('memory_limit') < abs(intval(WP_MEMORY_LIMIT)) ) )
 	@ini_set('memory_limit', WP_MEMORY_LIMIT);
 
+set_magic_quotes_runtime(0);
+@ini_set('magic_quotes_sybase', 0);
 
 /**
  * Turn register globals off.
