@@ -529,6 +529,7 @@ function update_option( $option_name, $newvalue ) {
 		return true;
 	}
 
+error_log(var_export($newvalue, true));
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( is_array( $notoptions ) && isset( $notoptions[$option_name] ) ) {
 		unset( $notoptions[$option_name] );
@@ -537,7 +538,8 @@ function update_option( $option_name, $newvalue ) {
 
 	$_newvalue = $newvalue;
 	$newvalue = maybe_serialize( $newvalue );
-
+error_log(var_export($newvalue, true));
+	
 	$alloptions = wp_load_alloptions();
 	if ( isset( $alloptions[$option_name] ) ) {
 		$alloptions[$option_name] = $newvalue;
@@ -545,6 +547,8 @@ function update_option( $option_name, $newvalue ) {
 	} else {
 		wp_cache_set( $option_name, $newvalue, 'options' );
 	}
+$prep = $wpdb->prepare( "UPDATE $wpdb->options SET option_value = %s WHERE option_name = %s", $newvalue, $option_name );
+error_log(var_export($prep, true));
 
 	$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->options SET option_value = %s WHERE option_name = %s", $newvalue, $option_name ) );
 	if ( $wpdb->rows_affected == 1 ) {
@@ -587,6 +591,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	wp_protect_special_option( $name );
 	$safe_name = $wpdb->escape( $name );
+	error_log('Incoming ' . var_export($value, true));
 	$value = sanitize_option( $name, $value );
 
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
@@ -597,7 +602,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 
 	$value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
-
+error_log('Serialize ' . var_export($value, true));
 	if ( 'yes' == $autoload ) {
 		$alloptions = wp_load_alloptions();
 		$alloptions[$name] = $value;
@@ -612,7 +617,8 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 		unset( $notoptions[$name] );
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
-
+$prep = $wpdb->prepare( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES (%s, %s, %s)", $name, $value, $autoload );
+error_log('Prepare ' . var_export($prep, true));
 	$wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES (%s, %s, %s)", $name, $value, $autoload ) );
 
 	do_action( "add_option_{$name}", $name, $value );
