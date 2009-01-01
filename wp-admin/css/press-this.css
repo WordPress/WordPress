@@ -1,5 +1,5 @@
 body {
-	font: 13px "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font: 13px "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	color: #333;
 	margin: 0;
 	padding: 0;
@@ -18,32 +18,20 @@ img {
 
 #poststuff #edButtonPreview,
 #poststuff #edButtonHTML {
-	-moz-border-radius-bottomleft: 0;
-	-moz-border-radius-bottomright: 0;
-	-moz-border-radius-topleft: 3px;
-	-moz-border-radius-topright: 3px;
-	-khtml-border-radius-bottomleft: 0;
-	-khtml-border-radius-bottomright: 0;
-	-khtml-border-radius-topleft: 3px;
-	-khtml-border-radius-topright: 3px;
-	-webkit-border-radius-bottomleft: 0;
-	-webkit-border-radius-bottomright: 0;
-	-webkit-border-radius-topleft: 3px;
-	-webkit-border-radius-topright: 3px;
-	border-radius-bottomleft: 0;
-	border-radius-bottomright: 0;
-	border-radius-topleft: 3px;
-	border-radius-topright: 3px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-khtml-border-top-right-radius: 3px;
+	-khtml-border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
 	border-style: solid;
 	border-width: 1px;
 	cursor: pointer;
 	display: block;
 	height: 18px;
-	margin: 0px 5px 0 0;
-	padding: 0px 5px 0px;
-	background-color: #E9E9E9;
-	border-bottom-color: #E9E9E9;
-	color: #333333;
+	margin: 0 5px 0 0;
+	padding: 0 5px 0;
 	font-size: 10px;
 	line-height: 18px;
 	float: left;
@@ -116,21 +104,15 @@ div.zerosize {
 }
 
 #poststuff h2, #poststuff h3 {
-	font-size: 14px;
-	font-weight: bold;
-	padding: 7px;
-	margin: 0 0 10px;
-	background: #dfdfdf url("../images/gray-grad.png") repeat-x left top;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 1;
 	margin: 0 0 10px;
 	padding: 7px 9px;
-	text-shadow: 0 1px 0 #FFFFFF;
 }
 
 h3.tb {
-	text-shadow: 0 1px 0 #FFFFFF;
+	text-shadow: 0 1px 0 #fff;
 	font-weight: bold;
 	font-size: 12px;
 	margin-left: 5px;
@@ -144,7 +126,6 @@ h3.tb {
 	border-radius: 6px;
 }
 
-.metabox-holder .postbox,
 .postbox,
 .stuffbox {
 	margin-bottom: 10px;
@@ -155,14 +136,10 @@ h3.tb {
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	border-color: #DFDFDF;
 }
 
-.titlediv {
-	border-color: #DFDFDF;
-}
-
-#title, .tbtitle {
+#title,
+.tbtitle {
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
@@ -172,7 +149,7 @@ h3.tb {
 	font-size: 1.7em;
 	outline: none;
 	padding: 3px 4px;
-	border-color: #DFDFDF;
+	border-color: #dfdfdf;
 }
 
 .tbtitle {
@@ -184,22 +161,13 @@ h3.tb {
 	width: 98%;
 }
 
-.postbox h2 {
-	background-image: url(../images/postbox-bg.gif);
-	background-position: left top;
-	background-repeat: repeat-x;
-	background-color: #DFDFDF;
-}
-
 .editor-container {
 	-moz-border-radius: 6px;
 	-khtml-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	border-collapse: separate;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #DFDFDF;
+	border: 1px solid #dfdfdf;
+	background-color: #fff;
 }
 
 .postdivrich {
@@ -213,6 +181,7 @@ h3.tb {
 	margin-top: -19px;
 	position: relative;
 }
+
 #extra_fields #actions {
 	clear: both;
 	position: absolute;
@@ -226,6 +195,7 @@ h3.tb {
 	list-style: none;
 	margin-right: 10px;
 }
+
 #extra_fields .button {
 	margin-right: 5px;
 }
@@ -272,14 +242,13 @@ h3.tb {
 	vertical-align: center;
 }
 
-#img_container img, #img_container a {
+#img_container img,
+#img_container a {
 	width: 68px;
 	height: 68px;
 }
 
 #img_container img {
-	width: 68px;
-	height: 68px;
 	border: none;
 	background-color: #f4f4f4;
 	cursor: pointer;
@@ -316,11 +285,12 @@ h3.tb {
 }
 
 #viewsite .button {
-	margin: 0 0 0px 0;
+	margin: 0;
 	display: block;
 }
 
-.wp-hidden-children .wp-hidden-child {
+.wp-hidden-children
+.wp-hidden-child {
 	display: none;
 }
 
@@ -354,12 +324,14 @@ h3.tb {
 	vertical-align: top;
 }
 
-#category-add input#category-add-sumbit {
+#category-add input,
+#category-add-sumbit {
 	width: auto;
 }
 
 /* Categories */
-#categorydiv ul, #linkcategorydiv ul {
+#categorydiv ul,
+#linkcategorydiv ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -381,34 +353,32 @@ ul.categorychecklist li {
 }
 
 /* Tags */
-#tagsdiv #newtag {
-	padding: 3px;
+.tagsdiv .newtag {
 	margin-right: 5px;
-	width: 16em;
 }
 
-#jaxtag {
+.jaxtag {
 	clear: both;
 	margin: 0;
 }
 
-#tagadd {
+.tagadd {
 	margin-left: 3px;
 }
 
-#tagchecklist {
+.tagchecklist {
 	margin-top: 3px;
 	margin-bottom: 1em;
 	font-size: 12px;
 	overflow: auto;
 }
 
-#tagchecklist strong {
+.tagchecklist strong {
 	position: absolute;
 	font-size: .75em;
 }
 
-#tagchecklist span {
+.tagchecklist span {
 	margin-right: .5em;
 	margin-left: 10px;
 	display: block;
@@ -419,7 +389,7 @@ ul.categorychecklist li {
 	cursor: default;
 }
 
-#tagchecklist span a {
+.tagchecklist span a {
 	margin: 6px 0 0 -9px;
 	cursor: pointer;
 	width: 10px;
@@ -435,7 +405,7 @@ ul.categorychecklist li {
 	width: 96% !important;
 	margin-left: 1%;
 	margin-bottom: 10px;
-	border: 1px solid #f1f1f1;
+	border: 0 none;
 }
 
 /* Submit */
@@ -450,7 +420,7 @@ ul.categorychecklist li {
 .button-secondary,
 .button-highlighted,
 #postcustomstuff .submit input {
-	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;
 	text-decoration: none;
 	font-size: 11px !important;
 	line-height: 16px;
@@ -467,7 +437,7 @@ ul.categorychecklist li {
 .button-primary {
 	background: #21759B url(../images/button-grad.png) repeat-x scroll left top;
 	border-color: #21759B;
-	color: #FFFFFF;
+	color: #fff;
 }
 
 .ac_results {
@@ -569,7 +539,9 @@ ul.categorychecklist li {
 }
 
 .postbox input[type="text"],
-.postbox textarea {
+.postbox textarea,
+.stuffbox input[type="text"],
+.stuffbox textarea {
 	border-width: 1px;
 	border-style: solid;
 }

@@ -453,7 +453,7 @@ die;
 			<div class="photolist"></div>
 
 			<div id="categorydiv" class="stuffbox">
-				<h2><?php _e('Categories') ?></h2>
+				<h3><?php _e('Categories') ?></h3>
 				<div class="inside">
 
 					<div id="categories-all" class="ui-tabs-panel">
@@ -475,7 +475,7 @@ die;
 				</div>
 			</div>
 
-			<div id="tagsdiv-post_tag" class="postbox" >
+			<div id="tagsdiv-post_tag" class="stuffbox" >
 				<h3><span><?php _e('Post Tags'); ?></span></h3>
 				<div class="inside">
 					<div class="tagsdiv" id="post_tag"> 
@@ -492,8 +492,8 @@ die;
 					<p class="tagcloud-link"><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php _e('Choose from the most used tags in Post Tags'); ?></a></p>
 				</div>
 			</div>
-			<div id="submitdiv" class="postbox">
-				<h2><?php _e('Publish') ?></h2>
+			<div id="submitdiv" class="stuffbox">
+				<h3><?php _e('Publish') ?></h3>
 				<div class="inside">
 					<p>
 						<input class="button" type="submit" name="draft" value="<?php _e('Save Draft') ?>" id="save" />
