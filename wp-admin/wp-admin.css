@@ -435,7 +435,8 @@ textarea.all-options, input.all-options {
 	padding: 2px 4px 0;
 }
 
-#ed_toolbar input {
+#ed_toolbar input,
+#ed_reply_toolbar input {
 	margin: 3px 1px 4px;
 	line-height: 18px;
 	display: inline-block;
@@ -448,6 +449,10 @@ textarea.all-options, input.all-options {
 	-khtml-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+#ed_reply_toolbar input {
+	margin: 1px 2px 1px 1px;
 }
 
 #quicktags #ed_link,
@@ -2252,19 +2257,7 @@ fieldset {
 	padding: 2px 3px;
 }
 
-#replyrow #ed_reply_toolbar input {
-	margin: 1px 2px 1px 1px;
-	min-width: 24px;
-	padding: 3px 4px;
-	font-size: 11px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-}
-
 /* show/hide settings */
-
 #screen-meta {
 	position: relative;
 	clear: both;
