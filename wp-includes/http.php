@@ -236,7 +236,7 @@ class WP_Http {
 		);
 
 		$r = wp_parse_args( $args, $defaults );
-		$r = apply_filters( 'http_request_args', $r );
+		$r = apply_filters( 'http_request_args', $r, $url );
 
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
