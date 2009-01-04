@@ -181,6 +181,11 @@ function _cat_row( $category, $level, $name_override = false ) {
 			case 'posts':
 				$attributes = 'class="posts column-posts num"' . $style;
 				$output .= "<td $attributes>$posts_count</td>\n";
+				break;
+			default:
+				$output .= "<td $attributes>";
+				$output .= apply_filters('manage_categories_custom_column', $column_name, $category->term_id);
+				$output .= "</td>";
 		}
 	}
 	$output .= '</tr>';
@@ -345,6 +350,11 @@ function link_cat_row( $category, $name_override = false ) {
 			case 'links':
 				$attributes = 'class="links column-links num"' . $style;
 				$output .= "<td $attributes>$count</td>";
+				break;
+			default:
+				$output .= "<td $attributes>";
+				$output .= apply_filters('manage_link_categories_custom_column', $column_name, $category->term_id);
+				$output .= "</td>";
 		}
 	}
 	$output .= '</tr>';
@@ -633,6 +643,10 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					$attributes = 'class="posts column-posts num"' . $style;
 					$out .= "<td $attributes>$count</td>";
 					break;
+				default:
+					$out .= "<td $attributes>";
+					$out .= apply_filters("manage_${taxonomy}_custom_column", $column_name, $tag->term_id);
+					$out .= "</td>";
 			}
 		}
 
@@ -1878,6 +1892,11 @@ function user_row( $user_object, $style = '', $role = '' ) {
 				} else {
 					$r .= 0;
 				}
+				$r .= "</td>";
+				break;
+			default:
+				$r .= "<td $attributes>";
+				$r .= apply_filters('manage_users_custom_column', $column_name, $user_object->ID);
 				$r .= "</td>";
 		}
 	}
