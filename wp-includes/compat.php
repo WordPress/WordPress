@@ -98,11 +98,20 @@ function _mb_strcut( $str, $start, $length=null, $encoding=null ) {
 
 if ( !function_exists( 'htmlspecialchars_decode' ) ) {
 	// Added in PHP 5.1.0
-	// from php.net (modified by Sam Bauers to deal with some quirks in HTML_SPECIALCHARS constant)
-	function htmlspecialchars_decode( $str, $quote_style = ENT_COMPAT ) {
-		$table = array_flip( get_html_translation_table( HTML_SPECIALCHARS, $quote_style ) );
-		$table = array_merge( array( '&#039;' => "'" ), $table, array( '&#38;' => "&", '&#038;' => "&" ) );
-		return strtr( $str, $table );
+	// Error checks from PEAR::PHP_Compat
+	function htmlspecialchars_decode( $str, $quote_style = ENT_COMPAT )
+	{
+		if ( !is_scalar( $string ) ) {
+			trigger_error( 'htmlspecialchars_decode() expects parameter 1 to be string, ' . gettype( $string ) . ' given', E_USER_WARNING );
+			return;
+		}
+
+		if ( !is_int( $quote_style ) && $quote_style !== null ) {
+			trigger_error( 'htmlspecialchars_decode() expects parameter 2 to be integer, ' . gettype( $quote_style ) . ' given', E_USER_WARNING );
+			return;
+		}
+
+		return wp_specialchars_decode( $str, $quote_style );
 	}
 }
 
