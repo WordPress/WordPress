@@ -179,6 +179,10 @@ ul#adminmenu {
 }
 /* end Inline Editor */
 
+input {
+	line-height: 1;
+}
+
 * html .row-actions {
 	visibility: visible;
 }
@@ -273,7 +277,8 @@ form#template div {
 	width: 100%;
 }
 
-#ed_toolbar input {
+#ed_toolbar input,
+#ed_reply_toolbar input {
 	overflow: visible;
 	padding: 0 4px;
 }

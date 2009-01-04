@@ -621,7 +621,9 @@ li.widget-list-control-item h4,
 	border-right-color: #ccc;
 }
 
-#the-comment-list .unapproved {
+#the-comment-list .unapproved,
+#the-comment-list .unapproved th,
+#the-comment-list .unapproved td {
 	background-color: #ffffe0;
 }
 
