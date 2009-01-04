@@ -623,7 +623,7 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 	// parent file someone is trying to link back to the parent manually.  In
 	// this case, don't automatically add a link back to avoid duplication.
 	if (!isset( $submenu[$parent] ) && $file != $parent  ) {
-		foreach ( $menu as $parent_menu ) {
+		foreach ( (array)$menu as $parent_menu ) {
 			if ( $parent_menu[2] == $parent && current_user_can( $parent_menu[1] ) )
 				$submenu[$parent][] = $parent_menu;
 		}
@@ -721,7 +721,7 @@ function get_admin_page_parent( $parent = '' ) {
 */
 
 	if ( $pagenow == 'admin.php' && isset( $plugin_page ) ) {
-		foreach ( $menu as $parent_menu ) {
+		foreach ( (array)$menu as $parent_menu ) {
 			if ( $parent_menu[2] == $plugin_page ) {
 				$parent_file = $plugin_page;
 				if ( isset( $_wp_real_parent_file[$parent_file] ) )
@@ -744,7 +744,7 @@ function get_admin_page_parent( $parent = '' ) {
 		return $parent_file;
 	}
 
-	foreach (array_keys( $submenu ) as $parent) {
+	foreach (array_keys( (array)$submenu ) as $parent) {
 		foreach ( $submenu[$parent] as $submenu_array ) {
 			if ( isset( $_wp_real_parent_file[$parent] ) )
 				$parent = $_wp_real_parent_file[$parent];
@@ -780,7 +780,7 @@ function get_admin_page_title() {
 	$parent = $parent1 = get_admin_page_parent();
 
 	if ( empty ( $parent) ) {
-		foreach ( $menu as $menu_array ) {
+		foreach ( (array)$menu as $menu_array ) {
 			if ( isset( $menu_array[3] ) ) {
 				if ( $menu_array[2] == $pagenow ) {
 					$title = $menu_array[3];
