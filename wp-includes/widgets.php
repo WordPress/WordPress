@@ -1398,7 +1398,7 @@ function wp_widget_recent_comments($args) {
 			<?php echo $before_title . $title . $after_title; ?>
 			<ul id="recentcomments"><?php
 			if ( $comments ) : foreach ( (array) $comments as $comment) :
-			echo  '<li class="recentcomments">' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_comment_link($comment->comment_ID) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
+			echo  '<li class="recentcomments">' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="' . clean_url( get_comment_link($comment->comment_ID) ) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 			endforeach; endif;?></ul>
 		<?php echo $after_widget; ?>
 <?php
