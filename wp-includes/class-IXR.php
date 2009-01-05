@@ -495,6 +495,7 @@ class IXR_Client {
     var $port;
     var $path;
     var $useragent;
+	var $headers;
     var $response;
     var $message = false;
     var $debug = false;
@@ -528,10 +529,17 @@ class IXR_Client {
         $xml = $request->getXml();
         $r = "\r\n";
         $request  = "POST {$this->path} HTTP/1.0$r";
-        $request .= "Host: {$this->server}$r";
-        $request .= "Content-Type: text/xml$r";
-        $request .= "User-Agent: {$this->useragent}$r";
-        $request .= "Content-length: {$length}$r$r";
+
+		$this->headers['Host']			= $this->server;
+		$this->headers['Content-Type']	= 'text/xml';
+		$this->headers['User-Agent']	= $this->useragent;
+		$this->headers['Content-Length']= $length;
+
+		foreach( $this->headers as $header => $value ) {
+			$request .= "{$header}: {$value}{$r}";
+		}
+		$request .= $r;
+
         $request .= $xml;
         // Now send the request
         if ($this->debug) {
@@ -555,7 +563,7 @@ class IXR_Client {
             if (!$gotFirstLine) {
                 // Check line for '200'
                 if (strstr($line, '200') === false) {
-                    $this->error = new IXR_Error(-32300, 'transport error - HTTP status code was not 200');
+                    $this->error = new IXR_Error(-32301, 'transport error - HTTP status code was not 200');
                     return false;
                 }
                 $gotFirstLine = true;
