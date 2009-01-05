@@ -548,7 +548,7 @@ function is_dynamic_sidebar() {
 function wp_get_sidebars_widgets($update = true) {
 	global $wp_registered_widgets, $wp_registered_sidebars;
 
-	$sidebars_widgets = get_option('sidebars_widgets');
+	$sidebars_widgets = get_option('sidebars_widgets', array());
 	$_sidebars_widgets = array();
 
 	if ( !isset($sidebars_widgets['array_version']) )
@@ -618,7 +618,8 @@ function wp_get_sidebars_widgets($update = true) {
 				update_option('sidebars_widgets', $sidebars_widgets);
 	}
 
-	unset($sidebars_widgets['array_version']);
+	if ( isset($sidebars_widgets['array_version']) )
+		unset($sidebars_widgets['array_version']);
 
 	$sidebars_widgets = apply_filters('sidebars_widgets', $sidebars_widgets);
 	return $sidebars_widgets;
