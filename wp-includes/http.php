@@ -745,7 +745,7 @@ class WP_Http_Streams {
 		if ( false === $arrURL )
 			return new WP_Error('http_request_failed', sprintf(__('Malformed URL: %s'), $url));
 
-		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
+		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
 		// Convert Header array to string.
