@@ -2092,7 +2092,7 @@ function widget_many_register() {
 }
 
 // This is important
-add_action( 'widgets_init', 'widget_many_register' )
+add_action( 'widgets_init', 'widget_many_register' );
 
 */
 
