@@ -1651,6 +1651,7 @@ input#link_url {
 }
 
 #edit-slug-box {
+	height: 1em;
 	margin-top: 8px;
 	padding: 0 7px;
 }
