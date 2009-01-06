@@ -158,7 +158,7 @@ class IXR_Message {
     }
     function parse() {
         // first remove the XML declaration
-        $this->message = preg_replace('/<\?xml(.*)?\?'.'>/', '', $this->message);
+        $this->message = preg_replace('/<\?xml.*?\?'.'>/', '', $this->message);
         if (trim($this->message) == '') {
             return false;
         }
