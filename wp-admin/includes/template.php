@@ -2621,11 +2621,10 @@ function wp_dropdown_roles( $selected = false ) {
 	$p = '';
 	$r = '';
 	
-	$role_names = $wp_roles->role_names;
-	$role_names = apply_filters('role_names_listing', $role_names);
+	$editable_roles = get_editable_roles();
 	
-	foreach( $role_names as $role => $name ) {
-		$name = translate_with_context($name);
+	foreach( $editable_roles as $role => $details ) {
+		$name = translate_with_context($details['name']);
 		if ( $selected == $role ) // Make default first in list
 			$p = "\n\t<option selected='selected' value='$role'>$name</option>";
 		else

@@ -39,6 +39,7 @@ if ( empty($_REQUEST) ) {
 
 switch ($doaction) {
 
+/* Bulk Dropdown menu Role changes */
 case 'promote':
 	check_admin_referer('bulk-users');
 
@@ -47,8 +48,9 @@ case 'promote':
 		exit();
 	}
 
-	if ( !current_user_can('edit_users') )
-		wp_die(__('You can&#8217;t edit users.'));
+	$editable_roles = get_editable_roles();
+	if (!$editable_roles[$_REQUEST['new_role']])
+		wp_die(__('You can&#8217;t give users that role.'));
 
 	$userids = $_REQUEST['users'];
 	$update = 'promote';
