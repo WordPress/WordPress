@@ -257,6 +257,8 @@ class WP_Http {
 		}
 
 		if ( is_null($r['body']) ) {
+			// Some servers fail when sending content without the content-length
+			// header being set.
 			$r['headers']['Content-Length'] = 0;
 			$transports = WP_Http::_getTransport($r);
 		} else {
@@ -660,7 +662,7 @@ class WP_Http_Fopen {
 		if ( false === $arrURL )
 			return new WP_Error('http_request_failed', sprintf(__('Malformed URL: %s'), $url));
 
-		if ( 'http' != $arrURL['scheme'] || 'https' != $arrURL['scheme'] )
+		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
 			$url = str_replace($arrURL['scheme'], 'http', $url);
 
 		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
@@ -794,7 +796,7 @@ class WP_Http_Streams {
 
 		$context = stream_context_create($arrContext);
 
-		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
+		if ( ! defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
 			$handle = @fopen($url, 'r', false, $context);
 		else
 			$handle = fopen($url, 'r', false, $context);
@@ -999,13 +1001,16 @@ class WP_Http_Curl {
 			unset($r['headers']['user-agent']);
 		}
 
-		// If timeout is a float less than 1, round it up to 1.
+		// cURL extension will sometimes fail when the timeout is less than 1 as
+		// it may round down to 0, which gives it unlimited timeout.
 		if ( $r['timeout'] > 0 && $r['timeout'] < 1 )
 			$r['timeout'] = 1;
 
 		$handle = curl_init();
 		curl_setopt( $handle, CURLOPT_URL, $url);
 
+		// The cURL extension requires that the option be set for the HEAD to
+		// work properly.
 		if ( 'HEAD' === $r['method'] ) {
 			curl_setopt( $handle, CURLOPT_NOBODY, true );
 		}
@@ -1024,6 +1029,7 @@ class WP_Http_Curl {
 		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
 		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
 
+		// The option doesn't work with safe mode or when open_basedir is set.
 		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
 			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
 
@@ -1035,8 +1041,13 @@ class WP_Http_Curl {
 		else
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
+		// Cookies are not handled by the HTTP API currently. Allow for plugin
+		// authors to handle it themselves... Although, it is somewhat pointless
+		// without some reference.
 		do_action_ref_array( 'http_api_curl', array(&$handle) );
 
+		// We don't need to return the body, so don't. Just execution request
+		// and return.
 		if ( ! $r['blocking'] ) {
 			curl_exec( $handle );
 			curl_close( $handle );
