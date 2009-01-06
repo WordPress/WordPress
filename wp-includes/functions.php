@@ -2366,6 +2366,7 @@ function _mce_set_direction( $input ) {
 	return $input;
 }
 
+
 /**
  * Convert smiley code to the icon graphic file equivalent.
  *
@@ -2376,25 +2377,19 @@ function _mce_set_direction( $input ) {
  * to an array, with the key the code the blogger types in and the value the
  * image file.
  *
- * The $wp_smiliessearch global is for the regular expression array and is
- * set each time the function is called. The $wp_smiliesreplace is the full
- * replacement. Supposely, the $wp_smiliessearch array is looped over using
- * preg_replace() or just setting the array of $wp_smiliessearch along with the
- * array of $wp_smiliesreplace in the search and replace parameters of
- * preg_replace(), which would be faster and less overhead. Either way, both are
- * used with preg_replace() and can be defined after the function is called.
+ * The $wp_smiliessearch global is for the regular expression and is set each
+ * time the function is called.
  *
  * The full list of smilies can be found in the function and won't be listed in
  * the description. Probably should create a Codex page for it, so that it is
  * available.
  *
  * @global array $wpsmiliestrans
- * @global array $wp_smiliesreplace
  * @global array $wp_smiliessearch
  * @since 2.2.0
  */
 function smilies_init() {
-	global $wpsmiliestrans, $wp_smiliessearch, $wp_smiliesreplace;
+	global $wpsmiliestrans, $wp_smiliessearch;
 
 	// don't bother setting up smilies if they are disabled
 	if ( !get_option( 'use_smilies' ) )
@@ -2449,12 +2444,38 @@ function smilies_init() {
 		);
 	}
 
-	$siteurl = get_option( 'siteurl' );
-	foreach ( (array) $wpsmiliestrans as $smiley => $img ) {
-		$wp_smiliessearch[] = '/(\s|^)' . preg_quote( $smiley, '/' ) . '(\s|$)/';
-		$smiley_masked = attribute_escape( trim( $smiley ) );
-		$wp_smiliesreplace[] = " <img src='$siteurl/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
+	if (count($wpsmiliestrans) == 0) {
+		return;
 	}
+
+	/*
+	 * NOTE: we sort the smilies in reverse key order. This is to make sure
+	 * we match the longest possible smilie (:???: vs :?) as the regular
+	 * expression used below is first-match
+	 */
+	krsort($wpsmiliestrans);
+
+	$wp_smiliessearch = '/(?:\s|^)';
+
+	$subchar = '';
+	foreach ( (array) $wpsmiliestrans as $smiley => $img ) {
+		$firstchar = substr($smiley, 0, 1);
+		$rest = substr($smiley, 1);
+
+		// new subpattern?
+		if ($firstchar != $subchar) {
+			if ($subchar != '') {
+				$wp_smiliessearch .= ')|';
+			}
+			$subchar = $firstchar;
+			$wp_smiliessearch .= preg_quote($firstchar, '/') . '(?:';
+		} else {
+			$wp_smiliessearch .= '|';
+		}
+		$wp_smiliessearch .= preg_quote($rest);
+	}
+
+	$wp_smiliessearch .= ')(?:\s|$)/';
 }
 
 /**

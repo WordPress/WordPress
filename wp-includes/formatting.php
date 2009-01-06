@@ -1218,29 +1218,59 @@ function wp_rel_nofollow_callback( $matches ) {
 	return "<a $text rel=\"nofollow\">";
 }
 
+
+/**
+ * Convert one smiley code to the icon graphic file equivalent.
+ *
+ * Looks up one smiley code in the $wpsmiliestrans global array and returns an
+ * <img> string for that smiley.
+ *
+ * @global array $wpsmiliestrans
+ * @since 2.8.0
+ *
+ * @param string $smiley Smiley code to convert to image.
+ * @return string Image string for smiley.
+ */
+function translate_smiley($smiley) {
+	global $wpsmiliestrans;
+
+	if (count($smiley) == 0) {
+		return '';
+	}
+
+	$siteurl = get_option( 'siteurl' );
+
+	$smiley = trim(reset($smiley));
+	$img = $wpsmiliestrans[$smiley];
+	$smiley_masked = attribute_escape($smiley);
+
+	return " <img src='$siteurl/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
+}
+
+
 /**
  * Convert text equivalent of smilies to images.
  *
- * Will only convert smilies if the option 'use_smilies' is true and the globals
- * used in the function aren't empty.
+ * Will only convert smilies if the option 'use_smilies' is true and the global
+ * used in the function isn't empty.
  *
  * @since 0.71
- * @uses $wp_smiliessearch, $wp_smiliesreplace Smiley replacement arrays.
+ * @uses $wp_smiliessearch
  *
  * @param string $text Content to convert smilies from text.
  * @return string Converted content with text smilies replaced with images.
  */
 function convert_smilies($text) {
-	global $wp_smiliessearch, $wp_smiliesreplace;
+	global $wp_smiliessearch;
 	$output = '';
-	if ( get_option('use_smilies') && !empty($wp_smiliessearch) && !empty($wp_smiliesreplace) ) {
+	if ( get_option('use_smilies') && !empty($wp_smiliessearch) ) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
 		$stop = count($textarr);// loop stuff
 		for ($i = 0; $i < $stop; $i++) {
 			$content = $textarr[$i];
 			if ((strlen($content) > 0) && ('<' != $content{0})) { // If it's not a tag
-				$content = preg_replace($wp_smiliessearch, $wp_smiliesreplace, $content);
+				$content = preg_replace_callback($wp_smiliessearch, 'translate_smiley', $content);
 			}
 			$output .= $content;
 		}
