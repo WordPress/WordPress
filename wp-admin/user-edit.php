@@ -257,11 +257,10 @@ wp_dropdown_roles($user_role);
 
 // print the 'no role' option. Make it selected if the user has no role yet.
 if ( $user_role )
-	$role_list .= '<option value="">' . __('&mdash; No role for this blog &mdash;') . '</option>';
+	echo '<option value="">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 else
-	$role_list .= '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
-
-echo $role_list;?>
+	echo '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
+?>
 </select></td></tr>
 <?php endif; //!$is_profile_page ?>
 
