@@ -245,28 +245,25 @@ do_action('personal_options', $profileuser);
 
 <?php if ( !$is_profile_page ): ?>
 <tr><th><label for="role"><?php _e('Role:') ?></label></th>
+<td><select name="role" id="role">
 <?php
-// print_r($profileuser);
-echo '<td><select name="role" id="role">';
-$role_list = '';
-$user_has_role = false;
-foreach($wp_roles->role_names as $role => $name) {
-	$name = translate_with_context($name);
-	if ( $profileuser->has_cap($role) ) {
-		$selected = ' selected="selected"';
-		$user_has_role = true;
-	} else {
-		$selected = '';
-	}
-	$role_list .= "<option value=\"{$role}\"{$selected}>{$name}</option>";
-}
-if ( $user_has_role )
+// Get the highest/primary role for this user
+// TODO: create a function that does this: wp_get_user_role()
+$user_roles = $profileuser->roles;
+$user_role = array_shift($user_roles);
+
+// print the full list of roles with the primary one selected.
+wp_dropdown_roles($user_role);
+
+// print the 'no role' option. Make it selected if the user has no role yet.
+if ( $user_role )
 	$role_list .= '<option value="">' . __('&mdash; No role for this blog &mdash;') . '</option>';
 else
 	$role_list .= '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
-echo $role_list . '</select></td></tr>';
-?>
-<?php endif; ?>
+
+echo $role_list;?>
+</select></td></tr>
+<?php endif; //!$is_profile_page ?>
 
 <tr>
 	<th><label for="first_name"><?php _e('First name') ?></label></th>
