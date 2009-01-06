@@ -203,9 +203,9 @@ jQuery(document).ready( function($) {
 		return true;
 	} );
 	$( 'thead :checkbox, tfoot :checkbox' ).click( function(e) {
-		var c = $(this).attr('checked'), toggle = e.shiftKey || toggleWithKeyboard;
 		if ( 'undefined' == typeof  toggleWithKeyboard)
 			toggleWithKeyboard = false;
+		var c = $(this).attr('checked'), toggle = e.shiftKey || toggleWithKeyboard;
 
 		$(this).parents( 'form:first' ).find( 'table tbody:visible').find( '.check-column :checkbox' ).attr( 'checked', function() {
 			if ( $(this).parents('tr').is(':hidden') )
