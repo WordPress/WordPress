@@ -654,7 +654,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	if ( 'name' == $orderby )
 		uasort( $tags, create_function('$a, $b', 'return strnatcasecmp($a->name, $b->name);') );
 	else
-		uasort( $tags, create_function('$a, $b', 'return ($a->count < $b->count);') );
+		uasort( $tags, create_function('$a, $b', 'return ($a->count > $b->count);') );
 
 	if ( 'DESC' == $order )
 		$tags = array_reverse( $tags, true );
