@@ -29,8 +29,6 @@ jQuery(function($) {
 		$('#TB_ajaxWindowTitle').html('<strong>' + plugininstallL10n.plugin_information + '</strong>&nbsp;' + $(this).attr('title') );
 		return false;
 	});
-
-	$(window).resize( function() { tb_position() } );
 });
 
 /* Plugin install related JS*/
