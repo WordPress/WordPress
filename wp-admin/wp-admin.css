@@ -15,8 +15,8 @@ p, ul, ol, blockquote { font-size: 12px; }
 	padding: 0;
 }
 
-.plugins .togl {
-	width: 150px;
+.plugins .action-links { 
+	white-space: nowrap;
 }
 
 .import-system {
