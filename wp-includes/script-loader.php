@@ -42,7 +42,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_version = get_bloginfo( 'version' );
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent'), '20090102' );
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent'), '20090106' );
 
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", false, '1.6.1' );
 
@@ -79,7 +79,7 @@ function wp_default_scripts( &$scripts ) {
 		'l10n_print_after' => 'try{convertEntities(wpAjax);}catch(e){};'
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090102' );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), '20090106' );
 
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array('wp-ajax-response'), '20090102' );
 	$scripts->localize( 'wp-lists', 'wpListL10n', array(
@@ -97,7 +97,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
 
-	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.2.6');
+	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.3b2');
 	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array('jquery'), '2.02m');
 	$scripts->add( 'jquery-color', "/wp-includes/js/jquery/jquery.color$suffix.js", array('jquery'), '2.0-4561m');
 	$scripts->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2' );
@@ -105,7 +105,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20m');
 	$scripts->add( 'jquery-hotkeys', "/wp-includes/js/jquery/jquery.hotkeys$suffix.js", array('jquery'), '0.0.2m' );
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array('jquery', 'jquery-hotkeys'), '20090102' );
-	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox$suffix.js", array('jquery'), '3.1-20080430m');
+	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20080430m');
 
 	if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
 		$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.2.0-20081031');
@@ -184,7 +184,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('wp-lists'), '20090102' );
 
-		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090102' );
+		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
 
 		$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), '20090102' );
 		$scripts->localize( 'password-strength-meter', 'pwsL10n', array(
@@ -281,7 +281,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox' ), '20090102' );
 
-		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'interface' ), '20090102' );
+		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'interface' ), '20090106' );
 		$scripts->localize( 'admin-widgets', 'widgetsL10n', array(
 			'add' => __('Add'),
 			'edit' => __('Edit'),

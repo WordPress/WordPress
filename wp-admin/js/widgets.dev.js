@@ -59,7 +59,7 @@ jQuery(function($) {
 		// if link is in available widgets list, make sure it points to the current sidebar
 		if ( ( q.sidebar && q.sidebar == $('#sidebar').val() ) || q.add ) {
 			var w = q.edit || q.add;
-			toggleWidget( $('#current-sidebar .widget-control-list input[@name^="widget-id"][@value=' + w + ']').parents('li:first'), false ).blur();
+			toggleWidget( $('#current-sidebar .widget-control-list input[name^="widget-id"][value=' + w + ']').parents('li:first'), false ).blur();
 			return false;
 		} else if ( q.sidebar ) { // otherwise, redirect to correct page
 			return true;
@@ -116,7 +116,7 @@ jQuery(function($) {
 
 		// onclick for remove links
 		$('a.widget-control-remove', context).click( function() {
-			var w = $(this).parents('li:first').find('input[@name^="widget-id"]').val();
+			var w = $(this).parents('li:first').find('input[name^="widget-id"]').val();
 			$(this).parents('li:first').remove();
 			var t = $('#widget-list ul#widget-control-info-' + w + ' textarea');
 			t.parent().html( t.text() ).parents('li.widget-list-item:first').children( 'h4' ).children('a.widget-action')

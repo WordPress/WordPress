@@ -166,7 +166,7 @@ var autosave = function() {
 
 	autosaveLast = jQuery("#title").val()+jQuery("#content").val();
 	goodcats = ([]);
-	jQuery("[@name='post_category[]']:checked").each( function(i) {
+	jQuery("[name='post_category[]']:checked").each( function(i) {
 		goodcats.push(this.value);
 	} );
 	post_data["catslist"] = goodcats.join(",");
