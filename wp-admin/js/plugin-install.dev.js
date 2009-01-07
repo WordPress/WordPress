@@ -27,8 +27,6 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	$(window).resize( function() { tb_position() } );
-
 	/* Plugin install related JS*/
 	$('#install-plugins tbody.plugins tr').click( function() {
 		$(this).find('.action-links a.onclick').click();
