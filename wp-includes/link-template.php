@@ -1354,7 +1354,7 @@ function paginate_comments_links($args = array()) {
 		'add_fragment' => '#comments'
 	);
 	if ( $wp_rewrite->using_permalinks() )
-		$defaults['base'] = user_trailingslashit(get_permalink() . 'comment-page-%#%', 'commentpaged');
+		$defaults['base'] = user_trailingslashit(trailingslashit(get_permalink()) . 'comment-page-%#%', 'commentpaged');
 
 	$args = wp_parse_args( $args, $defaults );
 	$page_links = paginate_links( $args );
