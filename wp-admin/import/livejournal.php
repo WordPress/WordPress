@@ -59,6 +59,7 @@ class LJ_Import {
 			if ( empty($post_title) ) {
 				preg_match('|<itemid>(.*?)</itemid>|is', $post, $post_title);
 				$post_title = $wpdb->escape(trim($post_title[1]));
+			$post_content = preg_replace('|<lj\s+user\s*=\s*["\']([\w-]+)["\']>|', '<a href="http://$1.livejournal.com/">$1</a>', $post_content);
 			}
 
 			preg_match('|<eventtime>(.*?)</eventtime>|is', $post, $post_date);
