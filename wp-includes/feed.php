@@ -252,7 +252,7 @@ function get_comment_guid() {
  * @since 1.5.0
  */
 function comment_link() {
-	echo get_comment_link();
+	echo clean_url( get_comment_link() );
 }
 
 /**
