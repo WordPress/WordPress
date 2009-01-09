@@ -1118,9 +1118,6 @@ function wp_tiny_mce( $teeny = false ) {
 
 	$baseurl = includes_url('js/tinymce');
 
-	$mce_css = $baseurl . '/wordpress.css';
-	$mce_css = apply_filters('mce_css', $mce_css);
-
 	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 
 	/*
@@ -1268,11 +1265,15 @@ function wp_tiny_mce( $teeny = false ) {
 		'entities' => '38,amp,60,lt,62,gt',
 		'accessibility_focus' => true,
 		'tab_focus' => ':prev,:next',
-		'content_css' => "$mce_css",
 		'save_callback' => 'switchEditors.saveCallback',
 		'wpeditimage_disable_captions' => $no_captions,
 		'plugins' => "$plugins"
 	);
+
+	$mce_css = apply_filters('mce_css', '');
+
+	if ( ! empty($mce_css) )
+		$initArray['content_css'] = "$mce_css";
 
 	// For people who really REALLY know what they're doing with TinyMCE
 	// You can modify initArray to add, remove, change elements of the config before tinyMCE.init
