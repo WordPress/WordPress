@@ -394,8 +394,11 @@ function wp_kses_version() {
  * @return string Content with fixed HTML tags
  */
 function wp_kses_split($string, $allowed_html, $allowed_protocols) {
-	return preg_replace('%((<!--.*?(-->|$))|(<[^>]*(>|$)|>))%e',
-	"wp_kses_split2('\\1', \$allowed_html, ".'$allowed_protocols)', $string);
+	global $pass_allowed_html, $pass_allowed_protocols;
+	$pass_allowed_html = $allowed_html;
+	$pass_allowed_protocols = $allowed_protocols;
+	return preg_replace_callback('%((<!--.*?(-->|$))|(<[^>]*(>|$)|>))%',
+		create_function('$match', 'global $pass_allowed_html, $pass_allowed_protocols; return wp_kses_split2($match[1], $pass_allowed_html, $pass_allowed_protocols);'), $string);
 }
 
 /**
@@ -999,8 +1002,8 @@ function valid_unicode($i) {
  * @return string Content after decoded entities
  */
 function wp_kses_decode_entities($string) {
-	$string = preg_replace('/&#([0-9]+);/e', 'chr("\\1")', $string);
-	$string = preg_replace('/&#[Xx]([0-9A-Fa-f]+);/e', 'chr(hexdec("\\1"))', $string);
+	$string = preg_replace_callback('/&#([0-9]+);/', create_function('$match', 'return chr($match[1]);'), $string);
+	$string = preg_replace_callback('/&#[Xx]([0-9A-Fa-f]+);/', create_function('$match', 'return chr(hexdec($match[1]));'), $string);
 
 	return $string;
 }
