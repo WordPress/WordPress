@@ -1,4 +1,4 @@
-body, td {color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px; margin:8px;}
+/* default styles */
 body {background:#FFF;}
 body.mceForceColors {background:#FFF; color:#000;}
 h1 {font-size: 2em}
@@ -17,3 +17,76 @@ ins {border-bottom:1px solid green; text-decoration: none; color:green}
 del {color:red; text-decoration:line-through}
 cite {border-bottom:1px dashed blue}
 acronym {border-bottom:1px dotted #CCC; cursor:help}
+abbr, html\:abbr {border-bottom:1px dashed #CCC; cursor:help}
+
+/* WordPress styles */
+html {
+	background-color: #fff;
+}
+
+.aligncenter,
+dl.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.wp-caption {
+	border: 1px solid #ddd;
+	text-align: center;
+	background-color: #f3f3f3;
+	padding-top: 4px;
+	margin: 10px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.wp-caption img {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+.wp-caption-dd {
+	font-size: 11px;
+	line-height: 17px;
+	padding: 0 4px 5px;
+	margin: 0;
+}
+
+img.wpGallery {
+	border: 1px dotted #cc0000;
+	background: #ffffcc url("../../../../plugins/wpgallery/img/gallery.png") no-repeat scroll center center;
+	width: 99%;
+	height: 250px;
+}
+
+body.mceContentBody {
+	font: 13px/19px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	padding: 0.6em;
+	margin: 0;
+}
+
+pre {
+	font: 12px/18px Consolas, Monaco, "Courier New", Courier, monospace;
+}
+
+td {
+	color: #000;
+	font-size: 11px;
+	margin: 8px;
+}
+
+.mceIEcenter {
+	text-align: center;
+}

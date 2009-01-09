@@ -54,7 +54,7 @@ function convertEntities(o) {
 <?php
 
 if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php', 'page-new.php') ) ) {
-	add_action( 'admin_head', 'wp_tiny_mce' );
+	add_action( 'admin_footer', 'wp_tiny_mce' );
 }
 
 $hook_suffix = '';
