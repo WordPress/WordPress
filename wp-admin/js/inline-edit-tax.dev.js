@@ -39,7 +39,7 @@ inlineEditTax = {
 	},
 
 	edit : function(id) {
-		var t = this, editRow, cat_parent, pageOpt;
+		var t = this, editRow;
 		t.revert();
 
 		if ( typeof(id) == 'object' )
@@ -55,29 +55,6 @@ inlineEditTax = {
 
 		$(':input[name="name"]', editRow).val( $('.name', rowData).text() );
 		$(':input[name="slug"]', editRow).val( $('.slug', rowData).text() );
-
-		// cat parents
-		cat_parent = $('.cat_parent', rowData).text();
-		if ( cat_parent != '0' )
-			$('select[name="parent"]', editRow).val(cat_parent);
-
-		// remove the current parent and children from the parent dropdown
-		pageOpt = $('select[name="parent"] option[value="'+id+'"]', editRow);
-		if ( pageOpt.length > 0 ) {
-			var pageLevel = pageOpt[0].className.split('-')[1], nextPage, pageLoop = true, nextLevel;
-			while ( pageLoop ) {
-				nextPage = nextPage.next('option');
-				if (nextPage.length == 0) break;
-				nextLevel = nextPage[0].className.split('-')[1];
-				if ( nextLevel <= pageLevel ) {
-					pageLoop = false;
-				} else {
-					nextPage.remove();
-					nextPage = pageOpt;
-				}
-			}
-			pageOpt.remove();
-		}
 
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
 		$('.ptitle', editRow).eq(0).focus();
@@ -105,15 +82,16 @@ inlineEditTax = {
 		// make ajax request
 		$.post('admin-ajax.php', params,
 			function(r) {
-
+				var row, new_id;
 				$('table.widefat .inline-edit-save .waiting').hide();
 
 				if (r) {
 					if ( -1 != r.indexOf('<tr') ) {
 						$(inlineEditTax.what+id).remove();
-						$('#edit-'+id).before(r).remove();
+						new_id = $(r).attr('id');
 
-						var row = $(inlineEditTax.what+id);
+						$('#edit-'+id).before(r).remove();
+						row = new_id ? $('#'+new_id) : $(inlineEditTax.what+id);
 						row.hide();
 
 						inlineEditTax.addEvents(row);
