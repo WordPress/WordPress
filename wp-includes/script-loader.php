@@ -111,53 +111,34 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.2.0-20081031');
 		$scripts->add( 'swfupload-swfobject', '/wp-includes/js/swfupload/plugins/swfupload.swfobject.js', array('swfupload'), '2.2.0-20081031');
 		$scripts->add( 'swfupload-queue', '/wp-includes/js/swfupload/plugins/swfupload.queue.js', array('swfupload'), '2.2.0-20081031');
-		$scripts->add( 'swfupload-handlers', '/wp-includes/js/swfupload/handlers.js', array('swfupload'), '2.2.0-20081201');
-		// these error messages came from the sample swfupload js, they might need changing.
-		$scripts->localize( 'swfupload-handlers', 'swfuploadL10n', array(
-				'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
-				'file_exceeds_size_limit' => sprintf(__('This file is too big. Your php.ini upload_max_filesize is %s.'), @ini_get('upload_max_filesize')),
-				'zero_byte_file' => __('This file is empty. Please try another.'),
-				'invalid_filetype' => __('This file type is not allowed. Please try another.'),
-				'default_error' => __('An error occurred in the upload. Please try again later.'),
-				'missing_upload_url' => __('There was a configuration error. Please contact the server administrator.'),
-				'upload_limit_exceeded' => __('You may only upload 1 file.'),
-				'http_error' => __('HTTP error.'),
-				'upload_failed' => __('Upload failed.'),
-				'io_error' => __('IO error.'),
-				'security_error' => __('Security error.'),
-				'file_cancelled' => __('File cancelled.'),
-				'upload_stopped' => __('Upload stopped.'),
-				'dismiss' => __('Dismiss'),
-				'crunching' => __('Crunching&hellip;'),
-				'deleted' => __('Deleted'),
-				'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
-		) );
 	} else {
-		$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload-all.js', false, '2.2.0-20081201m');
-		// these error messages came from the sample swfupload js, they might need changing.
-		$scripts->localize( 'swfupload', 'swfuploadL10n', array(
-				'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
-				'file_exceeds_size_limit' => sprintf(__('This file is too big. Your php.ini upload_max_filesize is %s.'), @ini_get('upload_max_filesize')),
-				'zero_byte_file' => __('This file is empty. Please try another.'),
-				'invalid_filetype' => __('This file type is not allowed. Please try another.'),
-				'default_error' => __('An error occurred in the upload. Please try again later.'),
-				'missing_upload_url' => __('There was a configuration error. Please contact the server administrator.'),
-				'upload_limit_exceeded' => __('You may only upload 1 file.'),
-				'http_error' => __('HTTP error.'),
-				'upload_failed' => __('Upload failed.'),
-				'io_error' => __('IO error.'),
-				'security_error' => __('Security error.'),
-				'file_cancelled' => __('File cancelled.'),
-				'upload_stopped' => __('Upload stopped.'),
-				'dismiss' => __('Dismiss'),
-				'crunching' => __('Crunching&hellip;'),
-				'deleted' => __('Deleted'),
-				'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
-		) );
+		$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload-all.js', false, '2.2.0-20090109');
 		$scripts->add( 'swfupload-swfobject', false, array('swfupload') );
 		$scripts->add( 'swfupload-queue', false, array('swfupload') );
-		$scripts->add( 'swfupload-handlers', false, array('swfupload') );
 	}
+
+	$scripts->add( 'swfupload-handlers', "/wp-includes/js/swfupload/handlers$suffix.js", array('swfupload'), '2.2.0-20081201');
+	// these error messages came from the sample swfupload js, they might need changing.
+	$scripts->localize( 'swfupload-handlers', 'swfuploadL10n', array(
+			'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
+			'file_exceeds_size_limit' => sprintf(__('This file is too big. Your php.ini upload_max_filesize is %s.'), @ini_get('upload_max_filesize')),
+			'zero_byte_file' => __('This file is empty. Please try another.'),
+			'invalid_filetype' => __('This file type is not allowed. Please try another.'),
+			'default_error' => __('An error occurred in the upload. Please try again later.'),
+			'missing_upload_url' => __('There was a configuration error. Please contact the server administrator.'),
+			'upload_limit_exceeded' => __('You may only upload 1 file.'),
+			'http_error' => __('HTTP error.'),
+			'upload_failed' => __('Upload failed.'),
+			'io_error' => __('IO error.'),
+			'security_error' => __('Security error.'),
+			'file_cancelled' => __('File cancelled.'),
+			'upload_stopped' => __('Upload stopped.'),
+			'dismiss' => __('Dismiss'),
+			'crunching' => __('Crunching&hellip;'),
+			'deleted' => __('Deleted'),
+			'l10n_print_after' => 'try{convertEntities(swfuploadL10n);}catch(e){};'
+	) );
+	
 	$scripts->add( 'swfupload-degrade', '/wp-includes/js/swfupload/plugins/swfupload.graceful_degradation.js', array('swfupload'), '2.2.0-20081031');
 	$scripts->localize( 'swfupload-degrade', 'uploadDegradeOptions', array(
 		'is_lighttpd_before_150' => is_lighttpd_before_150(),
