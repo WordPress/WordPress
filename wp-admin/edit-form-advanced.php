@@ -266,21 +266,18 @@ add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', 'post', 'side',
 function post_tags_meta_box($post, $box) {
 	$tax_name = substr($box['id'], 8); 
 	$taxonomy = get_taxonomy($tax_name);
-	if ( isset($taxonomy->helps) )
-		$helps = attribute_escape($taxonomy->helps);
-	else
-		$helps = '';
+	$helps = isset($taxonomy->helps) ? attribute_escape($taxonomy->helps) : __('Separate tags with commas.');
 ?>
 <div class="tagsdiv" id="<?php echo $tax_name; ?>"> 
 	<p class="jaxtag">
 		<label class="hidden" for="newtag"><?php _e( $box['title'] ); ?></label>
 		<input type="hidden" name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" value="<?php echo get_terms_to_edit( $post->ID, $tax_name ); ?>" /> 
 	 
-	<span class="ajaxtag" style="display:none;">
+	<span class="ajaxtag">
 		<input type="text" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
 		<input type="button" class="button tagadd" value="<?php _e('Add'); ?>" tabindex="3" />
 	</span>
-	<?php echo $helps ? "<div class='howto'>$helps</div>" : ''; ?>
+	<p class="howto"><?php echo $helps; ?></p>
 	</p> 
 	<div class="tagchecklist"></div> 
 </div> 
@@ -464,7 +461,7 @@ wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 <?php
 	$hidden = get_hidden_meta_boxes('post');
 	if ( ! in_array('commentstatusdiv', $hidden) ) { ?>
-		<script type="text/javascript">commentsBox.get(<?php echo $total; ?>, 10);</script>
+		<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 <?php
 	}
 }
