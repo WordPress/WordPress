@@ -134,7 +134,11 @@ function core_upgrade_preamble() {
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;
 
-	$url = wp_nonce_url('update-core.php?action=do-core-upgrade', 'upgrade-core');
+	if ( $reinstall )
+		$url = 'update-core.php?action=do-core-reinstall';
+	else
+		$url = 'update-core.php?action=do-core-upgrade';
+	$url = wp_nonce_url($url, 'upgrade-core');
 	if ( false === ($credentials = request_filesystem_credentials($url)) )
 		return;
 
