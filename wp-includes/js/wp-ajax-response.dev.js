@@ -57,3 +57,8 @@ var wpAjax = jQuery.extend( {
 		return !wpAjax.invalidateForm( selector.find('.form-required').andSelf().filter('.form-required:has(:input[value=""]), .form-required:input[value=""]') ).size();
 	}
 }, wpAjax || { noPerm: 'You do not have permission to do that.', broken: 'An unidentified error has occurred.' } );
+
+// Basic form validation
+jQuery(document).ready( function($){
+	$('form.validate').submit( function() { return wpAjax.validateForm( $(this) ); } );
+});

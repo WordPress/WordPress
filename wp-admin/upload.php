@@ -136,6 +136,7 @@ if ( isset($_GET['detached']) ) {
 	list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
 }
 
+wp_enqueue_script('media');
 require_once('admin-header.php'); ?>
 
 <?php
@@ -410,26 +411,5 @@ if ( $page_links )
 
 </div>
 
-<script type="text/javascript">
-/* <![CDATA[ */
-(function($){
-	$(document).ready(function(){
-		$('#doaction, #doaction2').click(function(e){
-			if ( $('select[name^="action"]').val() == 'delete' ) {
-				var m = '<?php echo js_escape(__("You are about to delete the selected attachments.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
-				return showNotice.warn(m);
-			} else if ( $('select[name^="action"]').val() == 'attach' ) {
-				e.preventDefault();
-				findPosts.open();
-			}
-		});
-	});
-})(jQuery);
-columns.init('upload');
-/* ]]> */
-</script>
-
 <?php
-
 include('admin-footer.php');
-?>

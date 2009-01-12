@@ -42,7 +42,13 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_version = get_bloginfo( 'version' );
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 
-	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent'), '20090106' );
+	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
+	
+	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), '20090106' );
+	$scripts->localize( 'common', 'commonL10n', array(
+		'warnDelete' => __("You are about to delete the selected items.\n  'Cancel' to stop, 'OK' to delete."),
+		'l10n_print_after' => 'try{convertEntities(commonL10n);}catch(e){};'
+	) );
 
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", false, '1.6.1' );
 
@@ -182,8 +188,6 @@ function wp_default_scripts( &$scripts ) {
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last'])
 		) );
-
-		$scripts->add( 'admin-users', "/wp-admin/js/users$suffix.js", array('wp-lists'), '20090102' );
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", false, '3517m' );
 
@@ -404,7 +408,6 @@ function wp_prototype_before_jquery( $js_array ) {
  * @since 2.5.0
  */
 function wp_just_in_time_script_localization() {
-	global $current_user;
 
 	wp_localize_script( 'autosave', 'autosaveL10n', array(
 		'autosaveInterval' => AUTOSAVE_INTERVAL,
@@ -413,13 +416,6 @@ function wp_just_in_time_script_localization() {
 		'requestFile' => admin_url('admin-ajax.php'),
 		'savingText' => __('Saving Draft&#8230;'),
 		'l10n_print_after' => 'try{convertEntities(autosaveL10n);}catch(e){};'
-	) );
-
-	$userid = isset($current_user) ? $current_user->ID : 0;
-	wp_localize_script( 'common', 'userSettings', array(
-		'url' => SITECOOKIEPATH,
-		'uid' => $userid,
-		'time' => time()
 	) );
 }
 

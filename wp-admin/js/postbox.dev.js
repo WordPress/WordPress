@@ -1,3 +1,4 @@
+var postboxes;
 (function($) {
 	postboxes = {
 		add_postbox_toggles : function(page,args) {

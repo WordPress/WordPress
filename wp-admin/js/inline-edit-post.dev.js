@@ -113,7 +113,7 @@ inlineEditPost = {
 	},
 
 	edit : function(id) {
-		var t = this, fields, editRow, rowData, cats, status, pageOpt, f;
+		var t = this, fields, editRow, rowData, cats, status, pageOpt, f, pageLevel, nextPage, pageLoop = true, nextLevel;
 		t.revert();
 
 		if ( typeof(id) == 'object' )
@@ -159,7 +159,8 @@ inlineEditPost = {
 		// remove the current page and children from the parent dropdown
 		pageOpt = $('select[name="post_parent"] option[value="'+id+'"]', editRow);
 		if ( pageOpt.length > 0 ) {
-			var pageLevel = pageOpt[0].className.split('-')[1], pageLoop = true, nextPage, nextLevel;
+			pageLevel = pageOpt[0].className.split('-')[1];
+			nextPage = pageOpt;
 			while ( pageLoop ) {
 				nextPage = nextPage.next('option');
 				if (nextPage.length == 0) break;

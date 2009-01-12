@@ -36,7 +36,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 $title = __('Add New User');
 $parent_file = 'users.php';
 
-wp_enqueue_script('admin-users');
+wp_enqueue_script('wp-ajax-response');
 
 require_once ('admin-header.php');
 
@@ -137,7 +137,6 @@ foreach ( array('user_login' => 'login', 'first_name' => 'firstname', 'last_name
 </form>
 
 </div>
-
 <?php
 include('admin-footer.php');
 ?>

@@ -1,5 +1,3 @@
-// this file contains all the scripts used in the post/edit page
-
 // return an array with any duplicate, whitespace or values removed
 function array_unique_noempty(a) {
 	var out = [];
@@ -37,11 +35,11 @@ function tag_update_quickclicks(taxbox) {
 	shown = false;
 
 	jQuery.each( current_tags, function( key, val ) {
-		var txt;
+		var txt, button_id;
 		
 		val = jQuery.trim(val);
 		if ( !val.match(/^\s+$/) && '' != val ) {
-			var button_id = jQuery(taxbox).attr('id') + '-check-num-' + key;
+			button_id = jQuery(taxbox).attr('id') + '-check-num-' + key;
  			txt = '<span><a id="' + button_id + '" class="ntdelbutton">X</a>&nbsp;' + val + '</span> ';
  			jQuery(taxbox).find('.tagchecklist').append(txt);
  			jQuery( '#' + button_id ).click( new_tag_remove_tag );
@@ -122,16 +120,77 @@ function tag_init() {
     jQuery('.ajaxtag input.newtag').keypress( tag_press_key );
 }
 
+var commentsBox, tagCloud;
 (function($){
+
+	commentsBox = {
+		st : 0,
+
+		get : function(total, num) {
+			var st = this.st, data;
+			if ( ! num )
+				num = 20;
+
+			this.st += num;
+			this.total = total;
+			$('.waiting').show();
+
+			data = {
+				'action' : 'get-comments',
+				'mode' : 'single',
+				'_ajax_nonce' : $('#add_comment_nonce').val(),
+				'post_ID' : $('#post_ID').val(),
+				'start' : st,
+				'num' : num
+			};
+
+			$.post(ajaxurl, data,
+				function(r) {
+					r = wpAjax.parseAjaxResponse(r);
+					$('#commentstatusdiv .widefat').show();
+					$('.waiting').hide();
+
+					if ( 'object' == typeof r && r.responses[0] ) {
+						$('#the-comment-list').append( r.responses[0].data );
+
+						theList = theExtraList = null;
+						$("a[className*=':']").unbind();
+						setCommentsList();
+
+						if ( commentsBox.st > commentsBox.total )
+							$('#show-comments').hide();
+						else
+							$('#show-comments').html(postL10n.showcomm);
+						return;
+					} else if ( 1 == r ) {
+						$('#show-comments').parent().html(postL10n.endcomm);
+						return;
+					}
+
+					$('#the-comment-list').append('<tr><td colspan="5">'+wpAjax.broken+'</td></tr>');
+				}
+			);
+
+			return false;
+		}
+	};
+
 	tagCloud = {
 		init : function() {
-			$('.tagcloud-link').click(function(){tagCloud.get($(this).attr('id')); $(this).unbind().click(function(){return false;}); return false;});
+			$('.tagcloud-link').click(function(){
+				tagCloud.get($(this).attr('id'));
+				$(this).unbind().click(function(){
+					$(this).siblings('.the-tagcloud').toggle();
+					return false;
+				});
+				return false;
+			});
 		},
 
 		get : function(id) {
 			var tax = id.substr(id.indexOf('-')+1);
 
-			$.post('admin-ajax.php', {'action':'get-tagcloud','tax':tax}, function(r, stat) {
+			$.post(ajaxurl, {'action':'get-tagcloud','tax':tax}, function(r, stat) {
 				if ( 0 == r || 'success' != stat )
 					r = wpAjax.broken;
 
@@ -145,13 +204,13 @@ function tag_init() {
 				$('#'+id).after(r);
 			});
 		}
-	}
+	};
+
+	$(document).ready(function(){tagCloud.init();});
 })(jQuery);
 
 jQuery(document).ready( function($) {
-	var categoryTabs, newCat, newCatParent = false, newCatParentOption = false, noSyncChecks = false, syncChecks, catAddAfter;
-	
-	tagCloud.init();
+	var categoryTabs, newCat, newCatParent = false, newCatParentOption = false, noSyncChecks = false, syncChecks, catAddAfter, dotabkey = true, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
 
 	// postboxes
 	postboxes.add_postbox_toggles('post');
@@ -431,60 +490,18 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 
-});
-
-(function($){
-	commentsBox = {
-		st : 0,
-
-		get : function(total, num) {
-			var st = this.st, data;
-			if ( ! num )
-				num = 20;
-
-			this.st += num;
-			this.total = total;
-			$('.waiting').show();
-
-			data = {
-				'action' : 'get-comments',
-				'mode' : 'single',
-				'_ajax_nonce' : $('#add_comment_nonce').val(),
-				'post_ID' : $('#post_ID').val(),
-				'start' : st,
-				'num' : num
-			};
-
-			$.post('admin-ajax.php', data,
-				function(r) {
-					r = wpAjax.parseAjaxResponse(r);
-					$('#commentstatusdiv .widefat').show();
-					$('.waiting').hide();
-
-					if ( 'object' == typeof r && r.responses[0] ) {
-						$('#the-comment-list').append( r.responses[0].data );
-
-						theList = theExtraList = null;
-						$("a[className*=':']").unbind();
-						setCommentsList();
-
-						if ( commentsBox.st > commentsBox.total )
-							$('#show-comments').hide();
-						else
-							$('#show-comments').html(postL10n.showcomm);
-						return;
-					} else if ( 1 == r ) {
-						$('#show-comments').parent().html(postL10n.endcomm);
-						return;
-					}
-
-					$('#the-comment-list').append('<tr><td colspan="5">'+wpAjax.broken+'</td></tr>');
+	//  This code is meant to allow tabbing from Title to Post if tinyMCE is defined.
+	if ( typeof tinyMCE != 'undefined' ) {
+		$('#title')[$.browser.opera ? 'keypress' : 'keydown'](function (e) {
+			if (e.which == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				if ( ($("#post_ID").val() < 1) && ($("#title").val().length > 0) ) { autosave(); }
+				if ( tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() && dotabkey ) {
+					e.preventDefault();
+					dotabkey = false;
+					tinyMCE.activeEditor.focus();
+					return false;
 				}
-			);
-
-			return false;
-		}
-	};
-
-})(jQuery);
-
+			}
+		});
+	}
+});

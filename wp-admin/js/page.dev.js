@@ -2,9 +2,9 @@ jQuery(document).ready( function($) {
 	postboxes.add_postbox_toggles('page');
 	make_slugedit_clickable();
 
-	jQuery('#title').blur( function() { if ( (jQuery("#post_ID").val() > 0) || (jQuery("#title").val().length == 0) ) return; autosave(); } );
+	$('#title').blur( function() { if ( ($("#post_ID").val() > 0) || ($("#title").val().length == 0) ) return; autosave(); } );
 
-	var stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html();
+	var stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), dotabkey = true;
 
 	function updateVisibility() {
 		if ( $('#post-visibility-select input:radio:checked').val() != 'public' ) {
@@ -172,13 +172,13 @@ jQuery(document).ready( function($) {
 	});
 
 	// Custom Fields
-	jQuery('#the-list').wpList( { addAfter: function( xml, s ) {
+	$('#the-list').wpList( { addAfter: function( xml, s ) {
 		$('table#list-table').show();
-		if ( jQuery.isFunction( autosave_update_post_ID ) ) {
+		if ( $.isFunction( autosave_update_post_ID ) ) {
 			autosave_update_post_ID(s.parsed.responses[0].supplemental.postid);
 		}
 	}, addBefore: function( s ) {
-		s.data += '&post_id=' + jQuery('#post_ID').val();
+		s.data += '&post_id=' + $('#post_ID').val();
 		return s;
 	}
 	});
@@ -196,4 +196,19 @@ jQuery(document).ready( function($) {
 		$('input#wp-preview').val('');
 		return false;
 	});
+
+	//  This code is meant to allow tabbing from Title to Post if tinyMCE is defined.
+	if ( typeof tinyMCE != 'undefined' ) {
+		$('#title')[$.browser.opera ? 'keypress' : 'keydown'](function (e) {
+			if (e.which == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				if ( ($("#post_ID").val() < 1) && ($("#title").val().length > 0) ) { autosave(); }
+				if ( tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() && dotabkey ) {
+					e.preventDefault();
+					dotabkey = false;
+					tinyMCE.activeEditor.focus();
+					return false;
+				}
+			}
+		});
+	}
 });

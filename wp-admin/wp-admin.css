@@ -109,6 +109,11 @@ table#availablethemes td.bottom {
 	text-decoration: none;
 }
 
+#TB_window #TB_title {
+	background-color: #222;
+	color: #cfcfcf;
+}
+
 .checkbox {
 	border: none;
 	margin: 0;

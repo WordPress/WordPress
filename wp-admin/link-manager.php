@@ -270,20 +270,5 @@ if ( $links ) {
 
 </div>
 
-<script type="text/javascript">
-/* <![CDATA[ */
-(function($){
-	$(document).ready(function(){
-		$('#doaction, #doaction2').click(function(){
-			if ( $('select[name^="action"]').val() == 'delete' ) {
-				var m = '<?php echo js_escape(__("You are about to delete the selected links.\n  'Cancel' to stop, 'OK' to delete.")); ?>';
-				return showNotice.warn(m);
-			}
-		});
-	});
-})(jQuery);
-columns.init('link-manager');
-/* ]]> */
-</script>
-
-<?php include('admin-footer.php'); ?>
+<?php
+include('admin-footer.php');

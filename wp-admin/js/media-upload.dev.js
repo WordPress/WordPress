@@ -27,8 +27,8 @@ function send_to_editor(h) {
 }
 
 // thickbox settings
-jQuery(document).ready(function($) {
-	tb_position = function() {
+(function($) {
+	var tb_position = function() {
 		var tbWindow = $('#TB_window'), width = $(window).width(), H = $(window).height(), W = ( 720 < width ) ? 720 : width;
 
 		if ( tbWindow.size() ) {
@@ -37,7 +37,6 @@ jQuery(document).ready(function($) {
 			tbWindow.css({'margin-left': '-' + parseInt((( W - 50 ) / 2),10) + 'px'});
 			if ( typeof document.body.style.maxWidth != 'undefined' )
 				tbWindow.css({'top':'20px','margin-top':'0'});
-			$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
 		};
 
 		return $('a.thickbox').each( function() {
@@ -56,6 +55,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	$(window).resize( function() { tb_position() } );
-});
+	$(window).resize(function(){ tb_position(); });
+	$(document).ready(function(){ tb_position(); });
+})(jQuery);
 

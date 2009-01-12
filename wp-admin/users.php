@@ -187,8 +187,6 @@ default:
 		exit;
 	}
 
-	wp_enqueue_script('admin-users');
-
 	include('admin-header.php');
 
 	$usersearch = isset($_GET['usersearch']) ? $_GET['usersearch'] : null;

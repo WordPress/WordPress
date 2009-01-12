@@ -308,6 +308,7 @@ if ( 0 === strpos( $content_func, 'media' ) )
 <script type="text/javascript">
 //<![CDATA[
 function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}else{ var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}}
+var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
 //]]>
 </script>
 <?php

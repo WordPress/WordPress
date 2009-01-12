@@ -1530,27 +1530,9 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
 
 	?>
 	<script type="text/javascript">
-	// <![CDATA[
+	/* <![CDATA[ */
 	edCanvas = document.getElementById('<?php echo $id; ?>');
-	<?php if ( user_can_richedit() && $prev_id ) { ?>
-	var dotabkey = true;
-	// If tinyMCE is defined.
-	if ( typeof tinyMCE != 'undefined' ) {
-		// This code is meant to allow tabbing from Title to Post (TinyMCE).
-		jQuery('#<?php echo $prev_id; ?>')[jQuery.browser.opera ? 'keypress' : 'keydown'](function (e) {
-			if (e.which == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-				if ( (jQuery("#post_ID").val() < 1) && (jQuery("#title").val().length > 0) ) { autosave(); }
-				if ( tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() && dotabkey ) {
-					e.preventDefault();
-					dotabkey = false;
-					tinyMCE.activeEditor.focus();
-					return false;
-				}
-			}
-		});
-	}
-	<?php } ?>
-	// ]]>
+	/* ]]> */
 	</script>
 	<?php
 }

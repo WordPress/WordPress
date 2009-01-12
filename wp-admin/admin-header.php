@@ -24,37 +24,22 @@ wp_admin_css( 'css/global' );
 wp_admin_css();
 wp_admin_css( 'css/colors' );
 wp_admin_css( 'css/ie' );
+wp_enqueue_script('utils');
 
 ?>
 <script type="text/javascript">
 //<![CDATA[
-addLoadEvent = function(func) {if (typeof jQuery != "undefined") jQuery(document).ready(func); else if (typeof wpOnload!='function'){wpOnload=func;} else {var oldonload=wpOnload; wpOnload=function(){oldonload();func();}}};
-
-function convertEntities(o) {
-	var c = function(s) {
-		if (/&[^;]+;/.test(s)) {
-			var e = document.createElement("div");
-			e.innerHTML = s;
-			return !e.firstChild ? s : e.firstChild.nodeValue;
-		}
-		return s;
-	}
-
-	if ( typeof o === 'string' )
-		return c(o);
-	else if ( typeof o === 'object' )
-		for (var v in o) {
-			if ( typeof o[v] === 'string' )
-				o[v] = c(o[v]);
-		}
-	return o;
-};
+addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+var userSettings = {'url':'<?php echo SITECOOKIEPATH; ?>','uid':'<?php if ( ! isset($current_user) ) $current_user = wp_get_current_user(); echo $current_user->ID; ?>','time':'<?php echo time() ?>'};
+var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
+var pagenow = '<?php echo substr($pagenow, 0, -4); ?>';
 //]]>
 </script>
 <?php
 
 if ( in_array( $pagenow, array('post.php', 'post-new.php', 'page.php', 'page-new.php') ) ) {
 	add_action( 'admin_footer', 'wp_tiny_mce' );
+	wp_enqueue_script('quicktags');
 }
 
 $hook_suffix = '';

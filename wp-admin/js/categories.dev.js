@@ -31,9 +31,4 @@ jQuery(document).ready(function($) {
 	else
 		$('#the-list').wpList({ addAfter: addAfter2 });
 
-	if ( jQuery('#link-category-search-input').size() ) {
-		columns.init('edit-link-categories');
-	} else {
-		columns.init('categories');
-	}
 });

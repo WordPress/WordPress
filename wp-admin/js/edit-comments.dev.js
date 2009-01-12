@@ -1,4 +1,4 @@
-var theList, theExtraList;
+var theList, theExtraList, toggleWithKeyboard = false;
 (function($) {
 
 setCommentsList = function() {
@@ -142,8 +142,8 @@ commentReply = {
 
 		// add events
 		$('#the-comment-list .column-comment > p').dblclick(function(){
-				commentReply.toggle($(this).parent());
-			});
+			commentReply.toggle($(this).parent());
+		});
 
 		$('#doaction, #doaction2, #post-query-submit').click(function(e){
 			if ( $('#the-comment-list #replyrow').length > 0 )
@@ -332,11 +332,10 @@ commentReply = {
 
 	}
 };
-toggleWithKeyboard = false;
+
 $(document).ready(function(){
 	var make_hotkeys_redirect, edit_comment, toggle_all, make_bulk;
-	
-	columns.init('edit-comments');
+
 	commentReply.init();
 
 	if ( typeof QTags != 'undefined' )
@@ -358,8 +357,7 @@ $(document).ready(function(){
 		};
 		toggle_all = function() {
 			toggleWithKeyboard = true;
-			var master_checkbox = $('form#comments-form .check-column :checkbox:first');
-			master_checkbox.click().attr('checked', '');
+			$('#comments-form thead #cb input:checkbox').click().attr('checked', '');
 			toggleWithKeyboard = false;
 		}
 		make_bulk = function(value) {

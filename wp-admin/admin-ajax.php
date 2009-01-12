@@ -912,7 +912,7 @@ case 'hidden-columns' :
 	$hidden = isset( $_POST['hidden'] )? $_POST['hidden'] : '';
 	$hidden = explode( ',', $_POST['hidden'] );
 	$page = isset( $_POST['page'] )? $_POST['page'] : '';
-	if ( !preg_match( '/^[a-z-_]+$/', $page ) ) {
+	if ( !preg_match( '/^[a-z_-]+$/', $page ) ) {
 		die(-1);
 	}
 	$current_user = wp_get_current_user();

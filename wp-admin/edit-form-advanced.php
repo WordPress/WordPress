@@ -276,9 +276,8 @@ function post_tags_meta_box($post, $box) {
 	<span class="ajaxtag">
 		<input type="text" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
 		<input type="button" class="button tagadd" value="<?php _e('Add'); ?>" tabindex="3" />
-	</span>
+	</span></p>
 	<p class="howto"><?php echo $helps; ?></p>
-	</p> 
 	<div class="tagchecklist"></div> 
 </div> 
 <p class="tagcloud-link hide-if-no-js"><a href="#titlediv" class="tagcloud-link" id="link-<?php echo $tax_name; ?>"><?php printf( __('Choose from the most used tags in %s'), $box['title'] ); ?></a></p>
