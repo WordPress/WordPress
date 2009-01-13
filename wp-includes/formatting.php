@@ -207,9 +207,19 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
 		return '';
 	}
 
+	// Don't bother if there are no specialchars - saves some processing
+	if ( !preg_match( '/[&<>"\']/', $string ) ) {
+		return $string;
+	}
+
+	// Store the site charset as a static to avoid multiple calls to wp_load_alloptions()
 	if ( !$charset ) {
-		$alloptions = wp_load_alloptions();
-		$charset = isset( $alloptions['blog_charset'] ) ? $alloptions['blog_charset'] : '';
+		static $_charset;
+		if ( !isset( $_charset ) ) {
+			$alloptions = wp_load_alloptions();
+			$_charset = isset( $alloptions['blog_charset'] ) ? $alloptions['blog_charset'] : '';
+		}
+		$charset = $_charset;
 	}
 	if ( in_array( $charset, array( 'utf8', 'utf-8', 'UTF8' ) ) ) {
 		$charset = 'UTF-8';
@@ -283,6 +293,11 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES )
 		return '';
 	}
 
+	// Don't bother if there are no entities - saves a lot of processing
+	if ( strpos( $string, '&' ) === false ) {
+		return $string;
+	}
+
 	// More complete than get_html_translation_table( HTML_SPECIALCHARS )
 	$single = array( '&#039;'  => '\'', '&#x27;' => '\'' );
 	$single_preg = array( '/&#0*39;/'  => '&#039;', '/&#x0*27;/i' => '&#x27;' );
@@ -340,20 +355,36 @@ function wp_check_invalid_utf8( $string, $strip = false )
 		return '';
 	}
 
-	if ( !in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
+	// Store the site charset as a static to avoid multiple calls to get_option()
+	static $is_utf8;
+	if ( !isset( $is_utf8 ) ) {
+		$is_utf8 = in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) );
+	}
+	if ( !$is_utf8 ) {
+		return $string;
+	}
+
+	// Check for support for utf8 in the installed PCRE library once and store the result in a static
+	static $utf8_pcre;
+	if ( !isset( $utf8_pcre ) ) {
+		$utf8_pcre = @preg_match( '/^./u', 'a' );
+	}
+	// We can't demand utf8 in the PCRE installation, so just return the string in those cases
+	if ( !$utf8_pcre ) {
 		return $string;
 	}
 
 	// preg_match fails when it encounters invalid UTF8 in $string
-	if ( 1 === @preg_match( '@^.@us', $string ) ) {
+	if ( 1 === @preg_match( '/^./us', $string ) ) {
 		return $string;
 	}
 
+	// Attempt to strip the bad chars if requested (not recommended)
 	if ( $strip && function_exists( 'iconv' ) ) {
 		return iconv( 'utf-8', 'utf-8', $string );
-	} else {
-		return '';
 	}
+
+	return '';
 }
 
 /**
