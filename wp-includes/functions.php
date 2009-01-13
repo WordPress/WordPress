@@ -2926,8 +2926,12 @@ function wp_suspend_cache_invalidation($suspend = true) {
  * @param object $object The object to clone
  * @return object The cloned object
  */
-function wp_clone($object) {
-	return version_compare(phpversion(), '5.0') < 0 ? $object : clone($object);
+function wp_clone( $object ) {
+	static $can_clone;
+	if ( !isset( $can_clone ) ) {
+		$can_clone = version_compare( phpversion(), '5.0', '>=' );
+	}
+	return $can_clone ? clone $object : $object;
 }
 
 
