@@ -2910,7 +2910,7 @@ function wp_clone( $object ) {
 	if ( !isset( $can_clone ) ) {
 		$can_clone = version_compare( phpversion(), '5.0', '>=' );
 	}
-	return $can_clone ? clone $object : $object;
+	return $can_clone ? clone( $object ) : $object;
 }
 
 
