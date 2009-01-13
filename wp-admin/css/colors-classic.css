@@ -1287,7 +1287,9 @@ table.diff .diff-addedline ins {
 }
 
 /* table vim shortcuts */
-.vim-current {
+.vim-current,
+.vim-current th,
+.vim-current td {
 	background-color: #E4F2FD !important;
 }
 

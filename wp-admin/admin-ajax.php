@@ -672,6 +672,7 @@ case 'edit-comment' :
 	$mode = ( isset($_POST['mode']) && 'single' == $_POST['mode'] ) ? 'single' : 'detail';
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
 	$checkbox = ( isset($_POST['checkbox']) && true == $_POST['checkbox'] ) ? 1 : 0;
+	$comments_listing = isset($_POST['comments_listing']) ? $_POST['comments_listing'] : '';
 
 	if ( get_option('show_avatars') && 'single' != $mode )
 		add_filter( 'comment_author', 'floated_admin_avatar' );
@@ -679,7 +680,7 @@ case 'edit-comment' :
 	$x = new WP_Ajax_Response();
 
 	ob_start();
-		_wp_comment_row( $comment_id, $mode, true, $checkbox );
+		_wp_comment_row( $comment_id, $mode, $comments_listing, $checkbox );
 		$comment_list_item = ob_get_contents();
 	ob_end_clean();
 

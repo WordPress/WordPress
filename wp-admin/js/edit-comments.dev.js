@@ -138,7 +138,14 @@ commentReply = {
 		var row = $('#replyrow');
 
 		$('a.cancel', row).click(function() { return commentReply.revert(); });
-		$('a.save', row).click(function() { return commentReply.send(this); });
+		$('a.save', row).click(function() { return commentReply.send(); });
+		$('input#author, input#author-email, input#author-url', row).keypress(function(e){
+			if ( e.which == 13 ) {
+				commentReply.send();
+				e.preventDefault();
+				return false;
+			}
+		});
 
 		// add events
 		$('#the-comment-list .column-comment > p').dblclick(function(){
@@ -149,6 +156,8 @@ commentReply = {
 			if ( $('#the-comment-list #replyrow').length > 0 )
 				commentReply.close();
 		});
+		
+		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
 
 	},
 
@@ -272,6 +281,7 @@ commentReply = {
 
 		post.content = $('#replycontent').val();
 		post.id = post.comment_post_ID;
+		post.comments_listing = this.comments_listing;
 
 		$.ajax({
 			type : 'POST',
