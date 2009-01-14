@@ -1256,7 +1256,7 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 function get_next_comments_link( $label = '', $max_page = 0 ) {
 	global $wp_query;
 
-	if ( !is_singular() )
+	if ( !is_singular() || !get_option('page_comments') )
 		return;
 
 	$page = get_query_var('cpage');
@@ -1299,7 +1299,7 @@ function next_comments_link( $label = '', $max_page = 0 ) {
  * @return string|null
  */
 function get_previous_comments_link( $label = '' ) {
-	if ( !is_singular() )
+	if ( !is_singular() || !get_option('page_comments') )
 		return;
 
 	$page = get_query_var('cpage');
@@ -1338,7 +1338,7 @@ function previous_comments_link( $label = '' ) {
 function paginate_comments_links($args = array()) {
 	global $wp_query, $wp_rewrite;
 
-	if ( !is_singular() )
+	if ( !is_singular() || !get_option('page_comments') )
 		return;
 
 	$page = get_query_var('cpage');
