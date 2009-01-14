@@ -95,7 +95,7 @@ class WP_Scripts extends WP_Dependencies {
 		$src = $this->registered[$handle]->src;
 
 		if ( $this->do_concat ) {
-			$srce = apply_filters( 'script_loader_src', $src, $handle, $echo );
+			$srce = apply_filters( 'script_loader_src', $src, $handle );
 			if ( $this->in_default_dir($srce) ) {
 				$this->print_code .= $this->print_scripts_l10n( $handle, false );
 				$this->concat .= $handle . ',';
@@ -110,7 +110,7 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		$src = add_query_arg('ver', $ver, $src);
-		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle, $echo ));
+		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle ));
 
 		if ( $this->do_concat )
 			$this->print_html .= "<script type='text/javascript' src='$src'></script>\n";
