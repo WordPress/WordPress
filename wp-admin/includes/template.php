@@ -3387,4 +3387,37 @@ function screen_icon($name = '') {
 <?php
 }
 
+/**
+ * Test support for compressed JavaScript and CSS
+ *
+ * Outputs JavaScript that tests if compression from PHP works as expected
+ * and sets an option with the result. Has no effect when the current user
+ * is not an administrator. To run the test again the option 'can_compress_scripts'
+ * has to be deleted. 
+ *
+ * @since 2.8.0
+ */
+function compression_test() {
+?>
+	<script type="text/javascript" src="load-scripts.php?test=1"></script>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	(function() {
+		var x, test = typeof wpCompressionTest == 'undefined' ? 0 : 1;
+		if ( window.XMLHttpRequest ) {
+			x = new XMLHttpRequest();
+		} else {
+			try{x=new ActiveXObject('Msxml2.XMLHTTP');}catch(e){try{x=new ActiveXObject('Microsoft.XMLHTTP');}catch(e){};}
+		}
+	
+		if (x) {
+			x.open('GET', 'admin-ajax.php?action=wp-compression-test&tested='+test+'&'+(new Date()).getTime(), true);
+			x.send('');
+		}
+	})();
+	/* ]]> */
+	</script>
+<?php
+}
+
 ?>

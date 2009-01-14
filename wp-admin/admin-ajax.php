@@ -63,6 +63,18 @@ case 'ajax-tag-search' :
 	echo join( $results, "\n" );
 	die;
 	break;
+case 'wp-compression-test' :
+	if ( !current_user_can( 'manage_options' ) )
+		die('-1');
+	
+	if ( isset($_GET['tested']) ) {
+		if ( 1 == $_GET['tested'] )
+			update_option('can_compress_scripts', 1);
+		elseif ( 0 == $_GET['tested'] )
+			update_option('can_compress_scripts', 0);
+	}
+	die('0');
+	break;
 default :
 	do_action( 'wp_ajax_' . $_GET['action'] );
 	die('0');

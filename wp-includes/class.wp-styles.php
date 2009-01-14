@@ -18,8 +18,14 @@
  */
 class WP_Styles extends WP_Dependencies {
 	var $base_url;
+	var $content_url;
 	var $default_version;
 	var $text_direction = 'ltr';
+	var $concat = '';
+	var $concat_version = '';
+	var $do_concat = false;
+	var $print_html = '';
+	var $default_dirs;
 
 	function __construct() {
 		do_action_ref_array( 'wp_default_styles', array(&$this) );
@@ -33,6 +39,14 @@ class WP_Styles extends WP_Dependencies {
 		if ( isset($this->args[$handle]) )
 			$ver .= '&amp;' . $this->args[$handle];
 
+		if ( $this->do_concat ) {
+			if ( $this->in_default_dir($this->registered[$handle]->src) && !isset($this->registered[$handle]->extra['conditional']) && !isset($this->registered[$handle]->extra['alt']) ) {
+				$this->concat .= $handle . ',';
+				$this->concat_version .= $ver;
+				return true;
+			}
+		}
+
 		if ( isset($this->registered[$handle]->args) )
 			$media = attribute_escape( $this->registered[$handle]->args );
 		else
@@ -42,23 +56,28 @@ class WP_Styles extends WP_Dependencies {
 		$rel = isset($this->registered[$handle]->extra['alt']) && $this->registered[$handle]->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
 		$title = isset($this->registered[$handle]->extra['title']) ? "title='" . attribute_escape( $this->registered[$handle]->extra['title'] ) . "'" : '';
 
-		$end_cond = '';
+		$end_cond = $tag = '';
 		if ( isset($this->registered[$handle]->extra['conditional']) && $this->registered[$handle]->extra['conditional'] ) {
-			echo "<!--[if {$this->registered[$handle]->extra['conditional']}]>\n";
+			$tag .= "<!--[if {$this->registered[$handle]->extra['conditional']}]>\n";
 			$end_cond = "<![endif]-->\n";
 		}
 
-		echo apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$href' type='text/css' media='$media' />\n", $handle );
+		$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$href' type='text/css' media='$media' />\n", $handle );
 		if ( 'rtl' === $this->text_direction && isset($this->registered[$handle]->extra['rtl']) && $this->registered[$handle]->extra['rtl'] ) {
 			if ( is_bool( $this->registered[$handle]->extra['rtl'] ) )
 				$rtl_href = str_replace( '.css', '-rtl.css', $href );
 			else
 				$rtl_href = $this->_css_href( $this->registered[$handle]->extra['rtl'], $ver, "$handle-rtl" );
 
-			echo apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
+			$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
 		}
 
-		echo $end_cond;
+		$tag .= $end_cond;
+
+		if ( $this->do_concat )
+			$this->print_html .= $tag;
+		else
+			echo $tag;
 
 		// Could do something with $this->registered[$handle]->extra here to print out extra CSS rules
 //		echo "<style type='text/css'>\n";
@@ -77,13 +96,24 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	function _css_href( $src, $ver, $handle ) {
-		if ( !preg_match('|^https?://|', $src) && !preg_match('|^' . preg_quote(WP_CONTENT_URL) . '|', $src) ) {
+		if ( !preg_match('|^https?://|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
 		}
 
 		$src = add_query_arg('ver', $ver, $src);
 		$src = apply_filters( 'style_loader_src', $src, $handle );
 		return clean_url( $src );
+	}
+
+	function in_default_dir($src) {
+		if ( ! $this->default_dirs )
+			return true;
+
+		foreach ( (array) $this->default_dirs as $test ) {
+			if ( 0 === strpos($src, $test) )
+				return true;
+		}
+		return false;
 	}
 
 }

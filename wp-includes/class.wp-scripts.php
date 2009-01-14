@@ -18,7 +18,15 @@
  */
 class WP_Scripts extends WP_Dependencies {
 	var $base_url; // Full URL with trailing slash
+	var $content_url;
 	var $default_version;
+	var $in_footer = array();
+	var $concat = '';
+	var $concat_version = '';
+	var $do_concat = false;
+	var $print_html = '';
+	var $print_code = '';
+	var $default_dirs;
 
 	function __construct() {
 		do_action_ref_array( 'wp_default_scripts', array(&$this) );
@@ -30,57 +38,84 @@ class WP_Scripts extends WP_Dependencies {
 	 * Prints the scripts passed to it or the print queue.  Also prints all necessary dependencies.
 	 *
 	 * @param mixed handles (optional) Scripts to be printed.  (void) prints queue, (string) prints that script, (array of strings) prints those scripts.
+	 * @param int group (optional) If scripts were queued in groups prints this group number.
 	 * @return array Scripts that have been printed
 	 */
-	function print_scripts( $handles = false ) {
-		return $this->do_items( $handles );
+	function print_scripts( $handles = false, $group = false ) {
+		return $this->do_items( $handles, $group );
 	}
 
-	function print_scripts_l10n( $handle ) {
+	function print_scripts_l10n( $handle, $echo = true ) {
 		if ( empty($this->registered[$handle]->extra['l10n']) || empty($this->registered[$handle]->extra['l10n'][0]) || !is_array($this->registered[$handle]->extra['l10n'][1]) )
 			return false;
 
 		$object_name = $this->registered[$handle]->extra['l10n'][0];
 
-		echo "<script type='text/javascript'>\n";
-		echo "/* <![CDATA[ */\n";
-		echo "\t$object_name = {\n";
+		$data = "var $object_name = {\n";
 		$eol = '';
 		foreach ( $this->registered[$handle]->extra['l10n'][1] as $var => $val ) {
 			if ( 'l10n_print_after' == $var ) {
 				$after = $val;
 				continue;
 			}
-			echo "$eol\t\t$var: \"" . js_escape( $val ) . '"';
+			$data .= "$eol\t$var: \"" . js_escape( $val ) . '"';
 			$eol = ",\n";
 		}
-		echo "\n\t}\n";
-		echo isset($after) ? "\t$after\n" : '';
-		echo "/* ]]> */\n";
-		echo "</script>\n";
+		$data .= "\n};\n";
+		$data .= isset($after) ? "$after\n" : '';
 
-		return true;
+		if ( $echo ) {
+			echo "<script type='text/javascript'>\n";
+			echo "/* <![CDATA[ */\n";
+			echo $data;
+			echo "/* ]]> */\n";
+			echo "</script>\n";
+			return true;
+		} else {
+			return $data;
+		}
 	}
 
-	function do_item( $handle ) {
+	function do_item( $handle, $group = false ) {
 		if ( !parent::do_item($handle) )
 			return false;
+
+		if ( 0 === $group && $this->groups[$handle] > 0 ) {
+			$this->in_footer[] = $handle;
+			return false;
+		}
+
+		if ( false === $group && in_array($handle, $this->in_footer, true) )
+			$this->in_footer = array_diff( $this->in_footer, (array) $handle );
 
 		$ver = $this->registered[$handle]->ver ? $this->registered[$handle]->ver : $this->default_version;
 		if ( isset($this->args[$handle]) )
 			$ver .= '&amp;' . $this->args[$handle];
 
 		$src = $this->registered[$handle]->src;
-		if ( !preg_match('|^https?://|', $src) && !preg_match('|^' . preg_quote(WP_CONTENT_URL) . '|', $src) ) {
+
+		if ( $this->do_concat ) {
+			$srce = apply_filters( 'script_loader_src', $src, $handle, $echo );
+			if ( $this->in_default_dir($srce) ) {
+				$this->print_code .= $this->print_scripts_l10n( $handle, false );
+				$this->concat .= $handle . ',';
+				$this->concat_version .= $ver;
+				return true;
+			}
+		}
+
+		$this->print_scripts_l10n( $handle );
+		if ( !preg_match('|^https?://|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
 		}
 
 		$src = add_query_arg('ver', $ver, $src);
-		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle ));
+		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle, $echo ));
 
-		$this->print_scripts_l10n( $handle );
-
-		echo "<script type='text/javascript' src='$src'></script>\n";
+		if ( $this->do_concat )
+			$this->print_html .= "<script type='text/javascript' src='$src'></script>\n";
+		else
+			echo "<script type='text/javascript' src='$src'></script>\n";
 
 		return true;
 	}
@@ -101,10 +136,47 @@ class WP_Scripts extends WP_Dependencies {
 		return $this->add_data( $handle, 'l10n', array( $object_name, $l10n ) );
 	}
 
+	function set_group( $handle, $recursion, $group = false ) {
+		$grp = isset($this->registered[$handle]->extra['group']) ? (int) $this->registered[$handle]->extra['group'] : 0;
+		if ( false !== $group && $grp > $group )
+			$grp = $group;
+
+		parent::set_group( $handle, $recursion, $grp );
+	}
+
 	function all_deps( $handles, $recursion = false ) {
 		$r = parent::all_deps( $handles, $recursion );
 		if ( !$recursion )
 			$this->to_do = apply_filters( 'print_scripts_array', $this->to_do );
 		return $r;
+	}
+
+	function do_head_items() {
+		$this->do_items(false, 0);
+		return $this->done;
+	}
+
+	function do_footer_items() {
+		if ( !empty($this->in_footer) ) {
+			foreach( $this->in_footer as $key => $handle ) {
+				if ( !in_array($handle, $this->done, true) && isset($this->registered[$handle]) ) {
+					$this->do_item($handle, false, $this->doecho);
+					$this->done[] = $handle;
+					unset( $this->in_footer[$key] );
+				}
+			}
+		}
+		return $this->done;
+	}
+
+	function in_default_dir($src) {
+		if ( ! $this->default_dirs )
+			return true;
+
+		foreach ( (array) $this->default_dirs as $test ) {
+			if ( 0 === strpos($src, $test) )
+				return true;
+		}
+		return false;
 	}
 }
