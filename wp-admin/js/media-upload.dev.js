@@ -27,8 +27,9 @@ function send_to_editor(h) {
 }
 
 // thickbox settings
+var tb_position;
 (function($) {
-	var tb_position = function() {
+	tb_position = function() {
 		var tbWindow = $('#TB_window'), width = $(window).width(), H = $(window).height(), W = ( 720 < width ) ? 720 : width;
 
 		if ( tbWindow.size() ) {

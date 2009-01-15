@@ -1,9 +1,8 @@
 
+var thickDims;
 jQuery(document).ready(function($) {
-	if ( 'undefined' == typeof $.fn.pngFix )
-		$.fn.pngFix = function() { return this; }
 
-	var thickDims = function() {
+	thickDims = function() {
 		var tbWindow = $('#TB_window'), H = $(window).height(), W = $(window).width();
 
 		if ( tbWindow.size() ) {
@@ -38,3 +37,7 @@ jQuery(document).ready(function($) {
 
 	$(window).resize( function() { thickDims() } );
 });
+
+function tb_position() {
+	thickDims();
+}
