@@ -49,14 +49,15 @@ var tb_position;
 		});
 	};
 
+	$(window).resize(function(){ tb_position(); });
+
+})(jQuery);
+
+jQuery(document).ready(function($){
 	$('a.thickbox').click(function(){
 		if ( typeof tinyMCE != 'undefined' && tinyMCE.activeEditor ) {
 			tinyMCE.get('content').focus();
 			tinyMCE.activeEditor.windowManager.bookmark = tinyMCE.activeEditor.selection.getBookmark('simple');
 		}
 	});
-
-	$(window).resize(function(){ tb_position(); });
-	$(document).ready(function(){ tb_position(); });
-})(jQuery);
-
+});
