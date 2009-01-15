@@ -50,6 +50,7 @@ else if ( isset($plugin_page) )
 else if ( isset($pagenow) )
 	$hook_suffix = "$pagenow";
 
+do_action('admin_enqueue_scripts', $hook_suffix);
 do_action("admin_print_styles-$hook_suffix");
 do_action('admin_print_styles');
 do_action("admin_print_scripts-$hook_suffix");
