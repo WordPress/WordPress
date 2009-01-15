@@ -3381,7 +3381,6 @@ function screen_icon($name = '') {
 		else
 			$name = str_replace(array('.php', '-new', '-add'), '', $hook_suffix);
 	}
-	unset($hook_suffix);
 ?>
 	<div id="icon-<?php echo $name; ?>" class="icon32"><br /></div>
 <?php

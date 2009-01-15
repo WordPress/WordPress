@@ -160,7 +160,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( !empty($this->in_footer) ) {
 			foreach( $this->in_footer as $key => $handle ) {
 				if ( !in_array($handle, $this->done, true) && isset($this->registered[$handle]) ) {
-					$this->do_item($handle, false, $this->doecho);
+					$this->do_item($handle);
 					$this->done[] = $handle;
 					unset( $this->in_footer[$key] );
 				}
