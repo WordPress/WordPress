@@ -40,12 +40,14 @@ function wp_print_scripts( $handles = false ) {
  * @since r16
  * @see WP_Scripts::add() For parameter information.
  */
-function wp_register_script( $handle, $src, $deps = array(), $ver = false ) {
+function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		$wp_scripts = new WP_Scripts();
 
 	$wp_scripts->add( $handle, $src, $deps, $ver );
+	if ( $in_footer )
+		$wp_scripts->add_data( $handle, 'group', 1 );
 }
 
 /**
@@ -86,7 +88,7 @@ function wp_deregister_script( $handle ) {
  * @since r16
  * @see WP_Script::add(), WP_Script::enqueue()
 */
-function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false ) {
+function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		$wp_scripts = new WP_Scripts();
@@ -94,6 +96,8 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 	if ( $src ) {
 		$_handle = explode('?', $handle);
 		$wp_scripts->add( $_handle[0], $src, $deps, $ver );
+		if ( $in_footer )
+			$wp_scripts->add_data( $_handle[0], 'group', 1 );
 	}
 	$wp_scripts->enqueue( $handle );
 }

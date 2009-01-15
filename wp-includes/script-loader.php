@@ -536,7 +536,7 @@ function wp_style_loader_src( $src, $handle ) {
  */
 function wp_print_head_scripts() {
 	do_action( 'wp_print_scripts' );
-	global $wp_scripts, $concatenate_scripts, $compress_scripts;
+	global $wp_scripts, $concatenate_scripts;
 
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		$wp_scripts = new WP_Scripts();
@@ -547,9 +547,11 @@ function wp_print_head_scripts() {
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_head_items();
 
-	_pring_scripts();
+	if ( apply_filters('print_head_scripts', true) )
+		_pring_scripts();
 
 	$wp_scripts->do_concat = false;
+	$wp_scripts->print_code = $wp_scripts->concat = $wp_scripts->concat_version = $wp_scripts->print_html = $wp_scripts->src = '';
 	return $wp_scripts->done;
 }
 
@@ -570,9 +572,11 @@ function wp_print_footer_scripts() {
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_footer_items();
 
-	_pring_scripts();
+	if ( apply_filters('print_footer_scripts', true) )
+		_pring_scripts();
 
 	$wp_scripts->do_concat = false;
+	$wp_scripts->concat = $wp_scripts->concat_version = $wp_scripts->print_code = $wp_scripts->print_html = $wp_scripts->src = '';
 	return $wp_scripts->done;
 }
 
@@ -589,19 +593,16 @@ function _pring_scripts() {
 			echo $wp_scripts->print_code;
 			echo "/* ]]> */\n";
 			echo "</script>\n";
-			$wp_scripts->print_code = '';
 		}
 
-		$ver = md5($wp_scripts->concat_version);
-		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&load=" . rtrim($wp_scripts->concat, ',') . "&ver=$ver";
+		$ver = md5("$wp_scripts->concat" . "$wp_scripts->concat_version");
+		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&amp;load=" . rtrim($wp_scripts->concat, ',') . "&amp;ver=$ver";
 		echo "<script type='text/javascript' src='$src'></script>\n";
-		$wp_scripts->concat = $wp_scripts->concat_version = '';
 	}
 
-	if ( !empty($wp_scripts->print_html) ) {
+	if ( !empty($wp_scripts->print_html) )
 		echo $wp_scripts->print_html;
-		$wp_scripts->print_html = '';
-	}
+
 }
 
 function wp_print_admin_styles() {
@@ -618,20 +619,20 @@ function wp_print_admin_styles() {
 
 	$wp_styles->do_items(false);
 
-	if ( !empty($wp_styles->concat) ) {
-		$ver = md5($wp_styles->concat_version);
-		$rtl = 'rtl' === $wp_styles->text_direction ? 1 : 0;
-		$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&rtl={$rtl}&load=" . rtrim($wp_styles->concat, ',') . "&ver=$ver";
-		echo "<link rel='stylesheet' href='$href' type='text/css' media='all' />\n";
-		$wp_styles->concat = $wp_styles->concat_version = '';
-	}
+	if ( apply_filters('print_admin_styles', true) ) {
+		if ( !empty($wp_styles->concat) ) {
+			$ver = md5("$wp_styles->concat" . "$wp_styles->concat_version");
+			$rtl = 'rtl' === $wp_styles->text_direction ? 1 : 0;
+			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&amp;rtl={$rtl}&amp;load=" . rtrim($wp_styles->concat, ',') . "&amp;ver=$ver";
+			echo "<link rel='stylesheet' href='$href' type='text/css' media='all' />\n";
+		}
 
-	if ( !empty($wp_styles->print_html) ) {
-		echo $wp_styles->print_html;
-		$wp_styles->print_html = '';
+		if ( !empty($wp_styles->print_html) )
+			echo $wp_styles->print_html;
 	}
 
 	$wp_styles->do_concat = false;
+	$wp_styles->concat = $wp_styles->concat_version = $wp_styles->print_html = '';
 	return $wp_styles->done;
 }
 

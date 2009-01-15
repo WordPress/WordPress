@@ -26,6 +26,7 @@ class WP_Scripts extends WP_Dependencies {
 	var $do_concat = false;
 	var $print_html = '';
 	var $print_code = '';
+	var $src = '';
 	var $default_dirs;
 
 	function __construct() {
@@ -109,6 +110,7 @@ class WP_Scripts extends WP_Dependencies {
 			$src = $this->base_url . $src;
 		}
 
+		$this->src .= "$src,";
 		$src = add_query_arg('ver', $ver, $src);
 		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle ));
 
