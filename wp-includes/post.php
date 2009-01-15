@@ -1131,6 +1131,8 @@ function wp_delete_post($postid = 0) {
 		$children = $wpdb->get_results($children_query);
 
 		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'page' ) );
+	} else {
+		unstick_post($postid);
 	}
 
 	// Do raw query.  wp_get_post_revisions() is filtered
