@@ -40,7 +40,7 @@ function wp_default_scripts( &$scripts ) {
 		$guessurl = wp_guess_url();
 
 	$scripts->base_url = $guessurl;
-	$scripts->content_url = WP_CONTENT_URL;
+	$scripts->content_url = defined('WP_CONTENT_URL')? WP_CONTENT_URL : '';
 	$scripts->default_version = get_bloginfo( 'version' );
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
@@ -403,7 +403,7 @@ function wp_default_styles( &$styles ) {
 		$guessurl = wp_guess_url();
 
 	$styles->base_url = $guessurl;
-	$styles->content_url = WP_CONTENT_URL;
+	$styles->content_url = defined('WP_CONTENT_URL')? WP_CONTENT_URL : '';
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = 'rtl' == get_bloginfo( 'text_direction' ) ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/');
