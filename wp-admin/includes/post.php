@@ -1113,6 +1113,8 @@ function post_preview() {
  * @since 2.7
  */
 function wp_tiny_mce( $teeny = false ) {
+	global $concatenate_scripts, $compress_scripts;
+	
 	if ( ! user_can_richedit() )
 		return;
 
@@ -1143,7 +1145,7 @@ function wp_tiny_mce( $teeny = false ) {
 		*/
 		$mce_external_plugins = apply_filters('mce_external_plugins', array());
 
-		$ext_plugins = "\n";
+		$ext_plugins = '';
 		if ( ! empty($mce_external_plugins) ) {
 
 			/*
@@ -1285,9 +1287,12 @@ function wp_tiny_mce( $teeny = false ) {
 		$initArray = apply_filters('tiny_mce_before_init', $initArray);
 	}
 
-	$language = $initArray['language'];
+	if ( ! isset($concatenate_scripts) )
+		script_concat_settings();
 
-	$ver = apply_filters('tiny_mce_version', '3101');
+	$language = $initArray['language'];
+	$zip = $compress_scripts ? 1 : 0;
+	$ver = apply_filters('tiny_mce_version', '3211');
 
 	if ( 'en' != $language )
 		include_once(ABSPATH . WPINC . '/js/tinymce/langs/wp-langs.php');
@@ -1305,50 +1310,32 @@ tinyMCEPreInit = {
 	suffix : "",
 	query : "ver=<?php echo $ver; ?>",
 	mceInit : {<?php echo $mce_options; ?>},
-
-	go : function() {
-		var t = this, sl = tinymce.ScriptLoader, ln = t.mceInit.language, th = t.mceInit.theme, pl = t.mceInit.plugins;
-
-		sl.markDone(t.base + '/langs/' + ln + '.js');
-
-		sl.markDone(t.base + '/themes/' + th + '/langs/' + ln + '.js');
-		sl.markDone(t.base + '/themes/' + th + '/langs/' + ln + '_dlg.js');
-
-		tinymce.each(pl.split(','), function(n) {
-			if (n && n.charAt(0) != '-') {
-				sl.markDone(t.base + '/plugins/' + n + '/langs/' + ln + '.js');
-				sl.markDone(t.base + '/plugins/' + n + '/langs/' + ln + '_dlg.js');
-			}
-		});
-	},
-
-	load_ext : function(url,lang) {
-		var sl = tinymce.ScriptLoader;
-
-		sl.markDone(url + '/langs/' + lang + '.js');
-		sl.markDone(url + '/langs/' + lang + '_dlg.js');
-	}
+	load_ext : function(url,lang){var sl=tinymce.ScriptLoader;sl.markDone(url+'/langs/'+lang+'.js');sl.markDone(url+'/langs/'+lang+'_dlg.js');}
 };
 /* ]]> */
 </script>
-<script type="text/javascript" src="<?php echo $baseurl; ?>/tiny_mce.js?ver=<?php echo $ver; ?>"></script>
-<?php if ( 'en' != $language && isset($lang) ) { ?>
-<script type="text/javascript">
-<?php echo $lang; ?>
-</script>
-<?php } else { ?>
-<script type="text/javascript" src="<?php echo $baseurl; ?>/langs/wp-langs-en.js?ver=<?php echo $ver; ?>"></script>
-<?php } ?>
-<script type="text/javascript">
-<?php if ( $ext_plugins ) echo $ext_plugins; ?>
-
-// Mark translations as done
-tinyMCEPreInit.go();
-
-// Init
-tinyMCE.init(tinyMCEPreInit.mceInit);
-</script>
 
 <?php
-}
+	if ( $concatenate_scripts ) {
+		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&amp;ver=$ver'></script>";
+	} else {
+		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?ver=$ver'></script>";
+
+		if ( 'en' != $language && isset($lang) )
+			echo "<script type='text/javascript'>\n$lang\n</script>";
+		else
+			echo "<script type='text/javascript' src='$baseurl/langs/wp-langs-en.js?ver=$ver'></script>";
+	}
 ?>
+
+<script type="text/javascript">
+<?php if ( $ext_plugins ) echo $ext_plugins; ?>
+<?php if ( $concatenate_scripts ) { ?>
+tinyMCEPreInit.go();
+<?php } else { ?>
+(function(){var t=tinyMCEPreInit,sl=tinymce.ScriptLoader,ln=t.mceInit.language,th=t.mceInit.theme,pl=t.mceInit.plugins;sl.markDone(t.base+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'.js');sl.markDone(t.base+'/themes/'+th+'/langs/'+ln+'_dlg.js');tinymce.each(pl.split(','),function(n){if(n&&n.charAt(0)!='-'){sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'.js');sl.markDone(t.base+'/plugins/'+n+'/langs/'+ln+'_dlg.js');}});})();
+<?php } ?>
+tinyMCE.init(tinyMCEPreInit.mceInit);
+</script>
+<?php
+}
