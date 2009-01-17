@@ -2945,3 +2945,8 @@ table.fixed {
 	line-height: 1;
 	padding-left: 25px;
 }
+
+ol {
+	list-style-type: decimal;
+	margin-left: 2em;
+}
