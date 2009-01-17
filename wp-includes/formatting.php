@@ -1357,10 +1357,11 @@ function wp_iso_descrambler($string) {
  * Returns a date in the GMT equivalent.
  *
  * Requires and returns a date in the Y-m-d H:i:s format. Simply subtracts the
- * value of gmt_offset.
+ * value of the 'gmt_offset' option.
  *
  * @since 1.2.0
  *
+ * @uses get_option() to retrieve the the value of 'gmt_offset'.
  * @param string $string The date to be converted.
  * @return string GMT version of the date provided.
  */
