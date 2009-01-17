@@ -85,24 +85,19 @@ function get_file($path) {
 	return @file_get_contents($path);
 }
 
+// Discard any buffers
+while ( @ob_end_clean() );
+
 if ( isset($_GET['test']) && 1 == $_GET['test'] ) {
 	if ( ini_get('zlib.output_compression') )
 		exit('');
-	
-	$out = 'var wpCompressionTest = 1;';
 
-	$compressed = false;
-	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') ) {
-		header('Content-Encoding: deflate');
-		$out = gzdeflate( $out, 3 );
-		$compressed = true;
-	} elseif ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && function_exists('gzencode') ) {
+	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && function_exists('gzencode') ) {
 		header('Content-Encoding: gzip');
-		$out = gzencode( $out, 3 );
-		$compressed = true;
+		$out = gzencode( 'var wpCompressionTest = 1;', 3 );
 	}
 	
-	if ( ! $compressed )
+	if ( ! isset($out) )
 		exit('');
 	
 	header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
@@ -123,9 +118,6 @@ if ( empty($load) )
 require(ABSPATH . '/wp-includes/script-loader.php');
 require(ABSPATH . '/wp-includes/version.php');
 
-// Discard any buffers
-while ( @ob_end_clean() );
-
 $compress = ( isset($_GET['c']) && 1 == $_GET['c'] );
 $expires_offset = 31536000;
 $out = '';
@@ -142,15 +134,12 @@ foreach( $load as $handle ) {
 }
 
 header('Content-Type: application/x-javascript; charset=UTF-8');
-header('Vary: Accept-Encoding'); // Handle proxies
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
 	
-if ( $compress && ! ini_get('zlib.output_compression') ) {
-	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') ) {
-		header('Content-Encoding: deflate');
-		$out = gzdeflate( $out, 3 );
-	} elseif ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && function_exists('gzencode') ) {
+if ( $compress && ! ini_get('zlib.output_compression') && function_exists('gzencode') ) {
+	header('Vary: Accept-Encoding'); // Handle proxies
+	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') ) {
 		header('Content-Encoding: gzip');
 		$out = gzencode( $out, 3 );
 	}

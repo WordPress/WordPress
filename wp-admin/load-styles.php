@@ -123,15 +123,12 @@ foreach( $load as $handle ) {
 }
 
 header('Content-Type: text/css');
-header('Vary: Accept-Encoding'); // Handle proxies
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
 	
-if ( $compress && ! ini_get('zlib.output_compression') ) {
-	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') ) {
-		header('Content-Encoding: deflate');
-		$out = gzdeflate( $out, 3 );
-	} elseif ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && function_exists('gzencode') ) {
+if ( $compress && ! ini_get('zlib.output_compression') && function_exists('gzencode') ) {
+	header('Vary: Accept-Encoding'); // Handle proxies
+	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') ) {
 		header('Content-Encoding: gzip');
 		$out = gzencode( $out, 3 );
 	}

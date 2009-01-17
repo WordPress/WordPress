@@ -1,5 +1,7 @@
 <?php
 
+$basepath = dirname(__FILE__);
+
 while ( @ob_end_clean() );
 
 function get_file($path) {
@@ -22,8 +24,8 @@ header("Cache-Control: public, max-age=$expires_offset");
 
 if ( isset($_GET['c']) && 1 == $_GET['c'] && ! ini_get('zlib.output_compression') && false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') ) {
 	header('Content-Encoding: gzip');
-	echo get_file('wp-tinymce.js.gz');
+	echo get_file($basepath . '/wp-tinymce.js.gz');
 } else {
-	echo get_file('wp-tinymce.js');
+	echo get_file($basepath . '/wp-tinymce.js');
 }
 exit;

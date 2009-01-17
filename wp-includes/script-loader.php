@@ -596,7 +596,7 @@ function _pring_scripts() {
 		}
 
 		$ver = md5("$wp_scripts->concat" . "$wp_scripts->concat_version");
-		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&amp;load=" . rtrim($wp_scripts->concat, ',') . "&amp;ver=$ver";
+		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&load=" . rtrim($wp_scripts->concat, ',') . "&ver=$ver";
 		echo "<script type='text/javascript' src='$src'></script>\n";
 	}
 
@@ -606,7 +606,7 @@ function _pring_scripts() {
 }
 
 function wp_print_admin_styles() {
-	global $wp_styles, $concatenate_scripts, $compress_scripts;
+	global $wp_styles, $concatenate_scripts, $compress_css;
 
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
@@ -615,7 +615,7 @@ function wp_print_admin_styles() {
 		script_concat_settings();
 
 	$wp_styles->do_concat = $concatenate_scripts;
-	$zip = $compress_scripts ? 1 : 0;
+	$zip = $compress_css ? 1 : 0;
 
 	$wp_styles->do_items(false);
 
@@ -623,7 +623,7 @@ function wp_print_admin_styles() {
 		if ( !empty($wp_styles->concat) ) {
 			$ver = md5("$wp_styles->concat" . "$wp_styles->concat_version");
 			$rtl = 'rtl' === $wp_styles->text_direction ? 1 : 0;
-			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&amp;rtl={$rtl}&amp;load=" . rtrim($wp_styles->concat, ',') . "&amp;ver=$ver";
+			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&rtl={$rtl}&load=" . rtrim($wp_styles->concat, ',') . "&ver=$ver";
 			echo "<link rel='stylesheet' href='$href' type='text/css' media='all' />\n";
 		}
 
@@ -637,7 +637,7 @@ function wp_print_admin_styles() {
 }
 
 function script_concat_settings() {
-	global $concatenate_scripts, $compress_scripts;
+	global $concatenate_scripts, $compress_scripts, $compress_css;
 
 	$concatenate_scripts = defined('CONCATENATE_SCRIPTS') ? CONCATENATE_SCRIPTS : true;
 	if ( $concatenate_scripts && -1 == get_option('concatenate_scripts') )
@@ -646,6 +646,10 @@ function script_concat_settings() {
 	$compress_scripts = defined('COMPRESS_SCRIPTS') ? COMPRESS_SCRIPTS : true;
 	if ( $compress_scripts && ! get_option('can_compress_scripts') )
 		$compress_scripts = false;
+
+	$compress_css = defined('COMPRESS_CSS') ? COMPRESS_CSS : true;
+	if ( $compress_css && ! get_option('can_compress_scripts') )
+		$compress_css = false;
 }
 
 add_action( 'wp_default_scripts', 'wp_default_scripts' );
