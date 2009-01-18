@@ -8,6 +8,7 @@
 
 /** WordPress Administration Bootstrap */
 require_once('admin.php');
+header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 if ( ! current_user_can('publish_posts') ) wp_die( __( 'Cheatin&#8217; uh?' ) );
 

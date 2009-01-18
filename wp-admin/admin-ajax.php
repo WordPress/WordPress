@@ -16,6 +16,7 @@ define('WP_ADMIN', true);
 
 require_once('../wp-load.php');
 require_once('includes/admin.php');
+@header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
 if ( ! is_user_logged_in() ) {
 
