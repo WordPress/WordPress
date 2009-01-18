@@ -212,6 +212,10 @@ var commentsBox, tagCloud;
 jQuery(document).ready( function($) {
 	var categoryTabs, newCat, newCatParent = false, newCatParentOption = false, noSyncChecks = false, syncChecks, catAddAfter, dotabkey = true, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
 
+	// for Press This
+	if ( typeof autosave != 'function' )
+		autosave = function(){};
+
 	// postboxes
 	postboxes.add_postbox_toggles('post');
 
