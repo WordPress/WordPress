@@ -1258,8 +1258,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		} else {
 			$logged_in = true;
 			set_current_user( 0, $username );
-			if ( !current_user_can( 'moderate_comments' ) )
-				return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this blog.' ) );
 		}
 
 		if ( is_numeric($post) )
@@ -1285,12 +1283,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			$comment['comment_author'] = '';
 			if ( isset($content_struct['author']) )
 				$comment['comment_author'] = $content_struct['author'];
+
 			$comment['comment_author_email'] = '';
-			if ( isset($content_struct['author']) )
+			if ( isset($content_struct['author_email']) )
 				$comment['comment_author_email'] = $content_struct['author_email'];
+
 			$comment['comment_author_url'] = '';
-			if ( isset($content_struct['author']) )
+			if ( isset($content_struct['author_url']) )
 				$comment['comment_author_url'] = $content_struct['author_url'];
+
 			$comment['user_ID'] = 0;
 
 			if ( get_option('require_name_email') ) {
