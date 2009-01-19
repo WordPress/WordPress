@@ -212,6 +212,13 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
 		return $string;
 	}
 
+	// Account for the previous behaviour of the function when the $quote_style is not an accepted value
+	if ( empty( $quote_style ) ) {
+		$quote_style = ENT_NOQUOTES;
+	} elseif ( !in_array( $quote_style, array( 0, 2, 3, 'single', 'double' ), true ) ) {
+		$quote_style = ENT_QUOTES;
+	}
+
 	// Store the site charset as a static to avoid multiple calls to wp_load_alloptions()
 	if ( !$charset ) {
 		static $_charset;
@@ -225,29 +232,13 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
 		$charset = 'UTF-8';
 	}
 
-	switch ( $quote_style ) {
-		case ENT_QUOTES:
-		default:
-			$quote_style = ENT_QUOTES;
-			$_quote_style = ENT_QUOTES;
-			break;
-		case ENT_COMPAT:
-		case 'double':
-			$quote_style = ENT_COMPAT;
-			$_quote_style = ENT_COMPAT;
-			break;
-		case 'single':
-			$quote_style = ENT_NOQUOTES;
-			$_quote_style = 'single';
-			break;
-		case ENT_NOQUOTES:
-		case false:
-		case 0:
-		case '':
-		case null:
-			$quote_style = ENT_NOQUOTES;
-			$_quote_style = ENT_NOQUOTES;
-			break;
+	$_quote_style = $quote_style;
+
+	if ( $quote_style === 'double' ) {
+		$quote_style = ENT_COMPAT;
+		$_quote_style = ENT_COMPAT;
+	} elseif ( $quote_style === 'single' ) {
+		$quote_style = ENT_NOQUOTES;
 	}
 
 	// Handle double encoding ourselves
@@ -298,6 +289,13 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES )
 		return $string;
 	}
 
+	// Match the previous behaviour of wp_specialchars() when the $quote_style is not an accepted value
+	if ( empty( $quote_style ) ) {
+		$quote_style = ENT_NOQUOTES;
+	} elseif ( !in_array( $quote_style, array( 0, 2, 3, 'single', 'double' ), true ) ) {
+		$quote_style = ENT_QUOTES;
+	}
+
 	// More complete than get_html_translation_table( HTML_SPECIALCHARS )
 	$single = array( '&#039;'  => '\'', '&#x27;' => '\'' );
 	$single_preg = array( '/&#0*39;/'  => '&#039;', '/&#x0*27;/i' => '&#x27;' );
@@ -306,29 +304,18 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES )
 	$others = array( '&lt;'   => '<', '&#060;'  => '<', '&gt;'   => '>', '&#062;'  => '>', '&amp;'  => '&', '&#038;'  => '&', '&#x26;' => '&' );
 	$others_preg = array( '/&#0*60;/'  => '&#060;', '/&#0*62;/'  => '&#062;', '/&#0*38;/'  => '&#038;', '/&#x0*26;/i' => '&#x26;' );
 
-	switch ( $quote_style ) {
-		case ENT_QUOTES:
-		default:
-			$translation = array_merge( $single, $double, $others );
-			$translation_preg = array_merge( $single_preg, $double_preg, $others_preg );
-			break;
-		case ENT_COMPAT:
-		case 'double':
-			$translation = array_merge( $double, $others );
-			$translation_preg = array_merge( $double_preg, $others_preg );
-			break;
-		case 'single':
-			$translation = array_merge( $single, $others );
-			$translation_preg = array_merge( $single_preg, $others_preg );
-			break;
-		case ENT_NOQUOTES:
-		case false:
-		case 0:
-		case '':
-		case null:
-			$translation = $others;
-			$translation_preg = $others_preg;
-			break;
+	if ( $quote_style === ENT_QUOTES ) {
+		$translation = array_merge( $single, $double, $others );
+		$translation_preg = array_merge( $single_preg, $double_preg, $others_preg );
+	} elseif ( $quote_style === ENT_COMPAT || $quote_style === 'double' ) {
+		$translation = array_merge( $double, $others );
+		$translation_preg = array_merge( $double_preg, $others_preg );
+	} elseif ( $quote_style === 'single' ) {
+		$translation = array_merge( $single, $others );
+		$translation_preg = array_merge( $single_preg, $others_preg );
+	} elseif ( $quote_style === ENT_NOQUOTES ) {
+		$translation = $others;
+		$translation_preg = $others_preg;
 	}
 
 	// Remove zero padding on numeric entities
