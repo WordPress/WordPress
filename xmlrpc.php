@@ -2231,10 +2231,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// Handle enclosures
-		$enclosure = $content_struct['enclosure'];
-		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
-			add_post_meta( $post_ID, 'enclosure', $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] );
-		}
+		$this->add_enclosure_if_new($post_ID, $content_struct['enclosure']);
 
 		$this->attach_uploads( $post_ID, $post_content );
 
@@ -2243,6 +2240,27 @@ class wp_xmlrpc_server extends IXR_Server {
 		return strval($post_ID);
 	}
 
+	function add_enclosure_if_new($post_ID, $enclosure) {
+		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
+		
+			$encstring = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'];
+			$found = false;
+			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
+				if ($key == 'enclosure') {
+					foreach ( (array) $val as $enc ) {
+						if ($enc == $encstring) {
+							$found = true;
+							break 2;
+						}
+					}
+				}
+			}
+			if (!$found) {
+				add_post_meta( $post_ID, 'enclosure', $encstring );
+			}
+		}
+	}
+	
 	/**
 	 * Attach upload to a post.
 	 *
@@ -2521,10 +2539,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// Handle enclosures
-		$enclosure = $content_struct['enclosure'];
-		if( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
-			add_post_meta( $post_ID, 'enclosure', $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] );
-		}
+		$this->add_enclosure_if_new($post_ID, $content_struct['enclosure']);
 
 		$this->attach_uploads( $ID, $post_content );
 
