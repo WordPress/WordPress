@@ -2219,6 +2219,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
 		}
 
+		// Only posts can be sticky 
+		if ( $post_type == 'post' && isset( $content_struct['sticky'] ) ) 
+			if ( $content_struct['sticky'] == true ) 
+				stick_post( $post_ID ); 
+			elseif ( $content_struct['sticky'] == false ) 
+				unstick_post( $post_ID ); 
+
 		if ( isset($content_struct['custom_fields']) ) {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 		}
@@ -2502,6 +2509,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, __('Sorry, your entry could not be edited. Something wrong happened.'));
 		}
 
+		// Only posts can be sticky 
+		if ( $post_type == 'post' && isset( $content_struct['sticky'] ) ) 
+			if ( $content_struct['sticky'] == true ) 
+				stick_post( $post_ID ); 
+			elseif ( $content_struct['sticky'] == false ) 
+				unstick_post( $post_ID ); 
+
 		if ( isset($content_struct['custom_fields']) ) {
 			$this->set_custom_fields($post_ID, $content_struct['custom_fields']);
 		}
@@ -2580,6 +2594,10 @@ class wp_xmlrpc_server extends IXR_Server {
 				$postdata['post_status'] = 'publish';
 			}
 
+			$sticky = false; 
+			if ( is_sticky( $post_ID ) ) 
+				$sticky = true; 
+
 			$enclosure = array();
 			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
 				if ($key == 'enclosure') {
@@ -2615,7 +2633,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'wp_author_display_name'	=> $author->display_name,
 				'date_created_gmt' => new IXR_Date($post_date_gmt),
 				'post_status' => $postdata['post_status'],
-				'custom_fields' => $this->get_custom_fields($post_ID)
+				'custom_fields' => $this->get_custom_fields($post_ID),
+				'sticky' => $sticky
 			);
 
 			if (!empty($enclosure)) $resp['enclosure'] = $enclosure;
