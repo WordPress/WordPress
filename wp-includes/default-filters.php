@@ -164,6 +164,7 @@ add_filter( 'editable_slug', 'urldecode' );
 add_filter('atom_service_url','atom_service_url_filter');
 
 // Actions
+add_action('wp_head', 'feed_links_extra', 3);
 add_action('wp_head', 'rsd_link');
 add_action('wp_head', 'wlwmanifest_link');
 add_action('wp_head', 'locale_stylesheet');

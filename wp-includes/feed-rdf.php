@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-header('Content-Type: application/rdf+xml; charset=' . get_option('blog_charset'), true);
+header('Content-Type: ' . feed_content_type('rdf') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
 ?>

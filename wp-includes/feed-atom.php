@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-header('Content-Type: application/atom+xml; charset=' . get_option('blog_charset'), true);
+header('Content-Type: ' . feed_content_type('atom') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
 ?>

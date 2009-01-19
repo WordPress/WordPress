@@ -508,4 +508,27 @@ function self_link() {
 		);
 }
 
+/**
+ * Return the content type for specified feed type.
+ *
+ * @package WordPress
+ * @subpackage Feed
+ * @since 2.8.0
+ */
+function feed_content_type( $type = '' ) {
+	if ( empty($type) )
+		$type = get_default_feed();
+
+	$types = array(
+		'rss'  => 'application/rss+xml',
+		'rss2' => 'application/rss+xml',
+		'atom' => 'application/atom+xml',
+		'rdf'  => 'application/rdf+xml',
+	);
+
+	$content_type = ( !empty($types[$type]) ) ? $types[$type] : 'application/octet-stream';
+
+	return apply_filters( 'feed_content_type', $content_type, $type );
+}
+
 ?>

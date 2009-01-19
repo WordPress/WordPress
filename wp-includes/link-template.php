@@ -507,7 +507,7 @@ function get_category_feed_link($cat_id, $feed = '') {
 	$permalink_structure = get_option('permalink_structure');
 
 	if ( '' == $permalink_structure ) {
-		$link = get_option('home') . "?feed=$feed&amp;cat=" . $cat_id;
+		$link = trailingslashit( get_option('home') ) . "?feed=$feed&amp;cat=" . $cat_id;
 	} else {
 		$link = get_category_link($cat_id);
 		if( $feed == get_default_feed() )

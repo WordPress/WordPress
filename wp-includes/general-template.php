@@ -1369,6 +1369,88 @@ function wp_footer() {
 }
 
 /**
+ * Enable/disable automatic general feed link outputting.
+ *
+ * @since 2.8.0
+ *
+ * @param boolean $add Add or remove links. Defaults to true.
+ */
+function automatic_feed_links( $add = true ) {
+	if ( $add )
+		add_action( 'wp_head', 'feed_links', 2 );
+	else {
+		remove_action( 'wp_head', 'feed_links', 2 );
+		remove_action( 'wp_head', 'feed_links_extra', 3 );
+	}
+}
+
+/**
+ * Display the links to the general feeds.
+ *
+ * @since 2.8.0
+ *
+ * @param array $args Optional arguments.
+ */
+function feed_links( $args ) {
+	$defaults = array(
+		'seperator'   => _c('&raquo;|Seperator character feed titles in theme head'),
+		'rsstitle'    => __('%s Feed'),
+		'comstitle'   => __('%s Comments Feed'),
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['rsstitle'], get_bloginfo('name') ) . '" href="' . get_feed_link() . "\" />\n";
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['comstitle'], get_bloginfo('name') ) . '" href="' . get_feed_link( 'comments_' . get_default_feed() ) . "\" />\n";
+}
+
+/**
+ * Display the links to the extra feeds such as category feeds.
+ *
+ * @since 2.8.0
+ *
+ * @param array $args Optional arguments.
+ */
+function feed_links_extra( $args ) {
+	$defaults = array(
+		'seperator'   => _c('&raquo;|Seperator character feed titles in theme head'),
+		'singletitle' => __('%1$s %2$s %3$s Comments Feed'),
+		'cattitle'    => __('%1$s %2$s %3$s Category Feed'),
+		'tagtitle'    => __('%1$s %2$s %3$s Tag Feed'),
+		'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
+		'searchtitle' => __('%1$s %2$s Search Results for &quot;%3$s&quot; Feed'),
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( is_single() || is_page() ) {
+		$post = &get_post( $id = 0 );
+		if ( comments_open() || pings_open() || $post->comment_count > 0 )
+			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['singletitle'], get_bloginfo('name'), $args['seperator'], get_the_title() ) . '" href="' . get_post_comments_feed_link( $post->ID ) . "\" />\n";
+	}
+
+	elseif ( is_category() ) {
+		$cat_id = intval( get_query_var('cat') );
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['cattitle'], get_bloginfo('name'), $args['seperator'], get_cat_name( $cat_id ) ) . '" href="' . get_category_feed_link( $cat_id ) . "\" />\n";
+	}
+
+	elseif ( is_tag() ) {
+		$tag_id = intval( get_query_var('tag_id') );
+		$tag = get_tag( $tag_id );
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['tagtitle'], get_bloginfo('name'), $args['seperator'], $tag->name ) . '" href="' . get_tag_feed_link( $tag_id ) . "\" />\n";
+	}
+
+	elseif ( is_author() ) {
+		$author_id = intval( get_query_var('author') );
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['authortitle'], get_bloginfo('name'), $args['seperator'], get_author_name( $author_id ) ) . '" href="' . get_author_feed_link( $author_id ) . "\" />\n";
+	}
+
+	elseif ( is_search() ) {
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['searchtitle'], get_bloginfo('name'), $args['seperator'], get_search_query() ) . '" href="' . get_search_feed_link() . "\" />\n";
+	}
+}
+
+/**
  * Display the link to the Really Simple Discovery service endpoint.
  *
  * @link http://archipelago.phrasewise.com/rsd
