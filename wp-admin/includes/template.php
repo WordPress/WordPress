@@ -1548,27 +1548,32 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 	case 'date':
 		if ( '0000-00-00 00:00:00' == $page->post_date && 'date' == $column_name ) {
 			$t_time = $h_time = __('Unpublished');
+			$time_diff = 0;
 		} else {
 			$t_time = get_the_time(__('Y/m/d g:i:s A'));
 			$m_time = $page->post_date;
 			$time = get_post_time('G', true);
 
-			if ( ( abs(time() - $time) ) < 86400 ) {
-				if ( ( 'future' == $page->post_status) )
-					$h_time = sprintf( __('%s from now'), human_time_diff( $time ) );
-				else
-					$h_time = sprintf( __('%s ago'), human_time_diff( $time ) );
-			} else {
+			$time_diff = time() - $time;
+
+			if ( $time_diff > 0 && $time_diff < 24*60*60 )
+				$h_time = sprintf( __('%s ago'), human_time_diff( $time ) );
+			else
 				$h_time = mysql2date(__('Y/m/d'), $m_time);
-			}
 		}
 		echo '<td ' . $attributes . '>';
 		echo '<abbr title="' . $t_time . '">' . apply_filters('post_date_column_time', $h_time, $page, $column_name, '') . '</abbr>';
 		echo '<br />';
-		if ( 'publish' == $page->post_status || 'future' == $page->post_status )
+		if ( 'publish' == $page->post_status ) {
 			_e('Published');
-		else
+		} elseif ( 'future' == $page->post_status ) {
+			if ( $time_diff > 0 )
+				echo '<strong class="attention">' . __('Missed schedule') . '</strong>';
+			else
+				_e('Scheduled');
+		} else {
 			_e('Last Modified');
+		}
 		echo '</td>';
 		break;
 	case 'title':
