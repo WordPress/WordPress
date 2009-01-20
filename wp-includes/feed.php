@@ -223,9 +223,11 @@ function the_permalink_rss() {
  * @package WordPress
  * @subpackage Feed
  * @since unknown
+ *
+ * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  */
-function comment_guid() {
-	echo get_comment_guid();
+function comment_guid($comment_id = null) {
+	echo get_comment_guid($comment_id);
 }
 
 /**
@@ -235,10 +237,11 @@ function comment_guid() {
  * @subpackage Feed
  * @since unknown
  *
+ * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  * @return bool|string false on failure or guid for comment on success.
  */
-function get_comment_guid() {
-	global $comment;
+function get_comment_guid($comment_id = null) {
+	$comment = get_comment($comment_id);
 
 	if ( !is_object($comment) )
 		return false;
