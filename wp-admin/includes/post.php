@@ -1316,20 +1316,19 @@ tinyMCEPreInit = {
 </script>
 
 <?php
-	if ( $concatenate_scripts ) {
-		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&amp;ver=$ver'></script>";
-	} else {
-		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?ver=$ver'></script>";
+	if ( $concatenate_scripts )
+		echo "<script type='text/javascript' src='$baseurl/wp-tinymce.php?c=$zip&ver=$ver'></script>\n";
+	else
+		echo "<script type='text/javascript' src='$baseurl/tiny_mce.js?ver=$ver'></script>\n";
 
-		if ( 'en' != $language && isset($lang) )
-			echo "<script type='text/javascript'>\n$lang\n</script>";
-		else
-			echo "<script type='text/javascript' src='$baseurl/langs/wp-langs-en.js?ver=$ver'></script>";
-	}
+	if ( 'en' != $language && isset($lang) )
+		echo "<script type='text/javascript'>\n$lang\n</script>\n";
+	else
+		echo "<script type='text/javascript' src='$baseurl/langs/wp-langs-en.js?ver=$ver'></script>\n";
 ?>
 
 <script type="text/javascript">
-<?php if ( $ext_plugins ) echo $ext_plugins; ?>
+<?php if ( $ext_plugins ) echo "$ext_plugins\n"; ?>
 <?php if ( $concatenate_scripts ) { ?>
 tinyMCEPreInit.go();
 <?php } else { ?>
