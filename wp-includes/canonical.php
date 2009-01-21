@@ -119,7 +119,7 @@ function redirect_canonical($requested_url=null, $do_redirect=true) {
 		} elseif ( is_year() && !empty($_GET['year']) ) {
 			if ( $redirect_url = get_year_link(get_query_var('year')) )
 				$redirect['query'] = remove_query_arg('year', $redirect['query']);
-		} elseif ( is_category() && !empty($_GET['cat']) ) {
+		} elseif ( is_category() && !empty($_GET['cat']) && preg_match( '|^[0-9]+$|', $_GET['cat'] ) ) {
 			if ( $redirect_url = get_category_link(get_query_var('cat')) )
 				$redirect['query'] = remove_query_arg('cat', $redirect['query']);
 		} elseif ( is_author() && !empty($_GET['author']) ) {
