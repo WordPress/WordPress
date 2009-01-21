@@ -121,7 +121,7 @@ function _get_plugin_data_markup_translate($plugin_data, $markup = true, $transl
 		else
 			$plugin_data['Title'] = $plugin_data['Name'];
 
-		if ( ! empty($plugin_data['AuthorURI']) )
+		if ( ! empty($plugin_data['AuthorURI']) && ! empty($plugin_data['Author']) )
 			$plugin_data['Author'] = '<a href="' . $plugin_data['AuthorURI'] . '" title="' . __( 'Visit author homepage' ) . '">' . $plugin_data['Author'] . '</a>';
 
 		$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
