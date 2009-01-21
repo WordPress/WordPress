@@ -139,21 +139,6 @@ function get_userdata( $user_id ) {
 }
 endif;
 
-if ( !function_exists('update_user_cache') ) :
-/**
- * Updates a users cache when overridden by a plugin.
- *
- * Core function does nothing.
- *
- * @since 1.5
- *
- * @return bool Only returns true
- */
-function update_user_cache() {
-	return true;
-}
-endif;
-
 if ( !function_exists('get_userdatabylogin') ) :
 /**
  * Retrieve user info by login name.
