@@ -96,4 +96,23 @@ function _mb_strcut( $str, $start, $length=null, $encoding=null ) {
 	return implode( '', $chars );
 }
 
+if ( !function_exists( 'htmlspecialchars_decode' ) ) {
+	// Added in PHP 5.1.0
+	// Error checks from PEAR::PHP_Compat
+	function htmlspecialchars_decode( $str, $quote_style = ENT_COMPAT )
+	{
+		if ( !is_scalar( $string ) ) {
+			trigger_error( 'htmlspecialchars_decode() expects parameter 1 to be string, ' . gettype( $string ) . ' given', E_USER_WARNING );
+			return;
+		}
+
+		if ( !is_int( $quote_style ) && $quote_style !== null ) {
+			trigger_error( 'htmlspecialchars_decode() expects parameter 2 to be integer, ' . gettype( $quote_style ) . ' given', E_USER_WARNING );
+			return;
+		}
+
+		return wp_specialchars_decode( $str, $quote_style );
+	}
+}
+
 ?>
