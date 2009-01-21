@@ -70,7 +70,7 @@ class LJ_Import {
 			$post_content = $this->unhtmlentities($post_content);
 
 			// Clean up content
-			$post_content = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $post_content);
+			$post_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $post_content);
 			$post_content = str_replace('<br>', '<br />', $post_content);
 			$post_content = str_replace('<hr>', '<hr />', $post_content);
 			$post_content = $wpdb->escape($post_content);
@@ -106,7 +106,7 @@ class LJ_Import {
 					$comment_content = $this->unhtmlentities($comment_content);
 
 					// Clean up content
-					$comment_content = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $comment_content);
+					$comment_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $comment_content);
 					$comment_content = str_replace('<br>', '<br />', $comment_content);
 					$comment_content = str_replace('<hr>', '<hr />', $comment_content);
 					$comment_content = $wpdb->escape($comment_content);

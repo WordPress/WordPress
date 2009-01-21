@@ -1305,8 +1305,7 @@ function wp_iso_descrambler($string) {
 		return $string;
 	} else {
 		$subject = str_replace('_', ' ', $matches[2]);
-		/** @todo use preg_replace_callback() */
-		$subject = preg_replace('#\=([0-9a-f]{2})#ei', "chr(hexdec(strtolower('$1')))", $subject);
+		$subject = preg_replace_callback('#\=([0-9a-f]{2})#i', create_function('$match', 'return chr(hexdec(strtolower($match[1])));'), $subject);
 		return $subject;
 	}
 }
