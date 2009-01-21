@@ -2493,6 +2493,8 @@ function wp_delete_attachment($postid) {
 	$meta = wp_get_attachment_metadata( $postid );
 	$file = get_attached_file( $postid );
 
+	do_action('delete_attachment', $postid);
+
 	/** @todo Delete for pluggable post taxonomies too */
 	wp_delete_object_term_relationships($postid, array('category', 'post_tag'));
 
@@ -2528,8 +2530,6 @@ function wp_delete_attachment($postid) {
 		@ unlink($file);
 
 	clean_post_cache($postid);
-
-	do_action('delete_attachment', $postid);
 
 	return $post;
 }
