@@ -29,48 +29,15 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 		return false;
 
 	if( 'G' == $dateformatstring ) {
-		return gmmktime(
-			(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
-			(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )
-		);
+		return strtotime( $m . ' +0000' );
 	}
 
-	$i = mktime(
-		(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ),
-		(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 )
-	);
+	$i = strtotime( $m );
 
 	if( 'U' == $dateformatstring )
 		return $i;
 
-	if ( -1 == $i || false == $i )
-		$i = 0;
-
-	if ( !empty( $wp_locale->month ) && !empty( $wp_locale->weekday ) && $translate ) {
-		$datemonth = $wp_locale->get_month( date( 'm', $i ) );
-		$datemonth_abbrev = $wp_locale->get_month_abbrev( $datemonth );
-		$dateweekday = $wp_locale->get_weekday( date( 'w', $i ) );
-		$dateweekday_abbrev = $wp_locale->get_weekday_abbrev( $dateweekday );
-		$datemeridiem = $wp_locale->get_meridiem( date( 'a', $i ) );
-		$datemeridiem_capital = $wp_locale->get_meridiem( date( 'A', $i ) );
-		$dateformatstring = ' ' . $dateformatstring;
-		$dateformatstring = preg_replace( "/([^\\\])D/", "\\1" . backslashit( $dateweekday_abbrev ), $dateformatstring );
-		$dateformatstring = preg_replace( "/([^\\\])F/", "\\1" . backslashit( $datemonth ), $dateformatstring );
-		$dateformatstring = preg_replace( "/([^\\\])l/", "\\1" . backslashit( $dateweekday ), $dateformatstring );
-		$dateformatstring = preg_replace( "/([^\\\])M/", "\\1" . backslashit( $datemonth_abbrev ), $dateformatstring );
-		$dateformatstring = preg_replace( "/([^\\\])a/", "\\1" . backslashit( $datemeridiem ), $dateformatstring );
-		$dateformatstring = preg_replace( "/([^\\\])A/", "\\1" . backslashit( $datemeridiem_capital ), $dateformatstring );
-
-		$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) -1 );
-	}
-	$j = @date( $dateformatstring, $i );
-
-	/*
-	if ( !$j ) // for debug purposes
-		echo $i." ".$mysqlstring;
-	*/
-
-	return $j;
+	return date_i18n( $dateformatstring, $i );
 }
 
 /**
@@ -108,8 +75,9 @@ function current_time( $type, $gmt = 0 ) {
  *
  * @since 0.71
  *
- * @param string $dateformatstring Format to display the date
- * @param int $unixtimestamp Unix timestamp
+ * @param string $dateformatstring Format to display the date.
+ * @param int $unixtimestamp Optional. Unix timestamp.
+ * @param bool $gmt Optional, default is false. Whether to convert to GMT for time.
  * @return string The date, translated if locale specifies it.
  */
 function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
