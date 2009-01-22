@@ -13,6 +13,134 @@
  */
 
 /**
+ * Implementation for deflate and gzip transfer encodings.
+ *
+ * Includes RFC 1950, RFC 1951, and RFC 1952.
+ *
+ * @since unknown
+ * @package WordPress
+ * @subpackage HTTP
+ */
+class WP_Http_Encoding {
+
+	/**
+	 * Compress raw string using the deflate format.
+	 *
+	 * Supports the RFC 1951 standard.
+	 *
+	 * @since unknown
+	 *
+	 * @param string $raw String to compress.
+	 * @param int $level Optional, default is 9. Compression level, 9 is highest.
+	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
+	 * @return string|bool False on failure.
+	 */
+	function compress( $raw, $level = 9, $supports = null ) {
+		return gzdeflate( $raw, $level );
+	}
+
+	/**
+	 * Decompression of deflated string.
+	 *
+	 * Will attempt to decompress using the RFC 1950 standard, and if that fails
+	 * then the RFC 1951 standard deflate will be attempted. Finally, the RFC
+	 * 1952 standard gzip decode will be attempted. If all fail, then the
+	 * original compressed string will be returned.
+	 *
+	 * @since unknown
+	 *
+	 * @param string $compressed String to decompress.
+	 * @param int $length The optional length of the compressed data.
+	 * @return string|bool False on failure.
+	 */
+	function decompress( $compressed, $length = null ) {
+		$decompressed = gzinflate( $compressed );
+
+		if( false !== $decompressed )
+			return $decompressed;
+
+		$decompressed = gzuncompress( $compressed );
+
+		if( false !== $decompressed )
+			return $decompressed;
+
+		$decompressed = gzdecode( $compressed );
+
+		if( false !== $decompressed )
+			return $decompressed;
+
+		return $compressed;
+	}
+
+	/**
+	 * What encoding types to accept and their priority values.
+	 *
+	 * @since unknown
+	 *
+	 * @return string Types of encoding to accept.
+	 */
+	function accept_encoding() {
+		$type = array();
+		if( function_exists( 'gzinflate' ) )
+			$type[] = 'deflate;q=1.0';
+
+		if( function_exists( 'gzuncompress' ) )
+			$type[] = 'compress;q=0.5';
+
+		if( function_exists( 'gzdecode' ) )
+			$type[] = 'gzip;q=0.5';
+
+		return implode(', ', $type);
+	}
+
+	/**
+	 * What enconding the content used when it was compressed to send in the headers.
+	 *
+	 * @since unknown
+	 *
+	 * @return string Content-Encoding string to send in the header.
+	 */
+	function content_encoding() {
+		return 'deflate';
+	}
+
+	/**
+	 * Whether the content be decoded based on the headers.
+	 *
+	 * @since unknown
+	 *
+	 * @param array|string $headers All of the available headers.
+	 * @return bool
+	 */
+	function should_decode($headers) {
+		if( is_array( $headers ) ) {
+			if( array_key_exists('content-encoding', $headers) && ! empty( $headers['content-encoding'] ) )
+				return true;
+		} else if( is_string( $headers ) ) {
+			return ( stripos($headers, 'content-encoding:') !== false );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether decompression and compression are supported by the PHP version.
+	 *
+	 * Each function is tested instead of checking for the zlib extension, to
+	 * ensure that the functions all exist in the PHP version and aren't
+	 * disabled.
+	 *
+	 * @since unknown
+	 *
+	 * @return bool
+	 */
+	function is_available() {
+		return ( function_exists('gzuncompress') || function_exists('gzdeflate') ||
+				 function_exists('gzinflate') );
+	}
+}
+
+/**
  * WordPress HTTP Class for managing HTTP Transports and making HTTP requests.
  *
  * This class is called for the functionality of making HTTP requests and should
@@ -232,7 +360,10 @@ class WP_Http {
 			'httpversion' => apply_filters( 'http_request_version', '1.0'),
 			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version ),
 			'blocking' => true,
-			'headers' => array(), 'body' => null
+			'headers' => array(),
+			'body' => null,
+			'compress' => false,
+			'decompress' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -255,6 +386,9 @@ class WP_Http {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
+
+		if( WP_Http_Encoding::is_available() )
+			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
 
 		if ( is_null($r['body']) ) {
 			// Some servers fail when sending content without the content-length
@@ -595,6 +729,9 @@ class WP_Http_Fsockopen {
 		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] ) && 'chunked' == $arrHeaders['headers']['transfer-encoding'] )
 			$process['body'] = WP_Http::chunkTransferDecode($process['body']);
 
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($arrHeaders) )
+			$process['body'] = WP_Http_Encoding::decompress( $process['body'] );
+
 		return array('headers' => $arrHeaders['headers'], 'body' => $process['body'], 'response' => $arrHeaders['response']);
 	}
 
@@ -704,6 +841,9 @@ class WP_Http_Fopen {
 
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
+
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders) )
+			$strResponse = WP_Http_Encoding::decompress( $strResponse );
 
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
@@ -817,6 +957,8 @@ class WP_Http_Streams {
 		$strResponse = stream_get_contents($handle);
 		$meta = stream_get_meta_data($handle);
 
+		fclose($handle);
+
 		$processedHeaders = array();
 		if( isset( $meta['wrapper_data']['headers'] ) )
 			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']['headers']);
@@ -826,7 +968,8 @@ class WP_Http_Streams {
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
 
-		fclose($handle);
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders) )
+			$strResponse = WP_Http_Encoding::decompress( $strResponse );
 
 		return array('headers' => $processedHeaders['headers'], 'body' => $strResponse, 'response' => $processedHeaders['response']);
 	}
@@ -939,6 +1082,9 @@ class WP_Http_ExtHTTP {
 			else
 				$theBody = http_chunked_decode($theBody);
 		}
+
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders) )
+			$theBody = http_inflate( $theBody );
 
 		$theResponse = array();
 		$theResponse['code'] = $info['response_code'];
@@ -1074,11 +1220,15 @@ class WP_Http_Curl {
 			$theHeaders = array( 'headers' => array() );
 			$theBody = '';
 		}
+
 		$response = array();
 		$response['code'] = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
 		$response['message'] = get_status_header_desc($response['code']);
 
 		curl_close( $handle );
+
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders) )
+			$theBody = WP_Http_Encoding::decompress( $theBody );
 
 		return array('headers' => $theHeaders['headers'], 'body' => $theBody, 'response' => $response);
 	}
