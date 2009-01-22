@@ -142,8 +142,13 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	if ( !empty( $link_id ) )
 		$update = true;
 
-	if ( trim( $link_name ) == '' )
-		return 0;
+	if ( trim( $link_name ) == '' ) {
+		if ( trim( $link_url ) != '' ) {
+			$link_name = $link_url;
+		} else {
+			return 0;
+		}
+	}
 
 	if ( trim( $link_url ) == '' )
 		return 0;
