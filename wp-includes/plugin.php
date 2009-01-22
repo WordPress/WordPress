@@ -512,8 +512,6 @@ function plugin_basename($file) {
  * @subpackage Plugin
  * @since 2.0
  *
- * @access private
- *
  * @param string $file The filename of the plugin including the path.
  * @param callback $function the function hooked to the 'activate_PLUGIN' action.
  */
@@ -538,8 +536,6 @@ function register_activation_hook($file, $function) {
  * @package WordPress
  * @subpackage Plugin
  * @since 2.0
- *
- * @access private
  *
  * @param string $file The filename of the plugin including the path.
  * @param callback $function the function hooked to the 'activate_PLUGIN' action.
