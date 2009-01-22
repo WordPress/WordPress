@@ -736,14 +736,15 @@ function &get_terms($taxonomies, $args = '') {
 	if ( $hide_empty && !$hierarchical )
 		$where .= ' AND tt.count > 0';
 
-	if ( !empty($number) ) {
+	// don't limit the query results when we have to descend the family tree 
+	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' == $parent ) {
 		if( $offset )
-			$number = 'LIMIT ' . $offset . ',' . $number;
+			$limit = 'LIMIT ' . $offset . ',' . $number;
 		else
-			$number = 'LIMIT ' . $number;
+			$limit = 'LIMIT ' . $number;
 
 	} else
-		$number = '';
+		$limit = '';
 
 	if ( !empty($search) ) {
 		$search = like_escape($search);
@@ -758,13 +759,11 @@ function &get_terms($taxonomies, $args = '') {
 	else if ( 'names' == $fields )
 		$select_this = 't.term_id, tt.parent, tt.count, t.name';
 
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $number";
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ($in_taxonomies) $where ORDER BY $orderby $order $limit";
 
+	$terms = $wpdb->get_results($query);
 	if ( 'all' == $fields ) {
-		$terms = $wpdb->get_results($query);
 		update_term_cache($terms);
-	} else if ( ('ids' == $fields) || ('names' == $fields) ) {
-		$terms = $wpdb->get_results($query);
 	}
 
 	if ( empty($terms) ) {
@@ -810,6 +809,10 @@ function &get_terms($taxonomies, $args = '') {
 		while ( $term = array_shift($terms) )
 			$_terms[] = $term->name;
 		$terms = $_terms;
+	}
+
+	if ( 0 < $number && intval(@count($terms)) > $number ) {
+		$terms = array_slice($terms, $offset, $number);
 	}
 
 	wp_cache_add( $cache_key, $terms, 'terms' );
