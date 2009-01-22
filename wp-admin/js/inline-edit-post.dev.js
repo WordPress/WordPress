@@ -84,7 +84,7 @@ inlineEditPost = {
 	},
 
 	setBulk : function() {
-		var te = '', type = this.type;
+		var te = '', type = this.type, tax;
 		this.revert();
 
 		$('#bulk-edit td').attr('colspan', $('.widefat:first thead th:visible').length);
@@ -108,12 +108,15 @@ inlineEditPost = {
 		});
 
 		// enable autocomplete for tags
-		if ( type == 'post' )
-			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+		if ( type == 'post' ) {
+			// support multi taxonomies?
+			tax = 'post_tag';
+			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+		}
 	},
 
 	edit : function(id) {
-		var t = this, fields, editRow, rowData, cats, status, pageOpt, f, pageLevel, nextPage, pageLoop = true, nextLevel;
+		var t = this, fields, editRow, rowData, cats, status, pageOpt, f, pageLevel, nextPage, pageLoop = true, nextLevel, tax;
 		t.revert();
 
 		if ( typeof(id) == 'object' )
@@ -179,8 +182,10 @@ inlineEditPost = {
 		$('.ptitle', editRow).focus();
 
 		// enable autocomplete for tags
-		if ( t.type == 'post' )
-			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search', { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+		if ( t.type == 'post' ) {
+			tax = 'post_tag';
+			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+		}
 
 		return false;
 	},
