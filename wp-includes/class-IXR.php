@@ -543,7 +543,7 @@ class IXR_Client {
         $request .= $xml;
         // Now send the request
         if ($this->debug) {
-            echo '<pre>'.htmlspecialchars($request)."\n</pre>\n\n";
+            echo '<pre class="ixr_request">'.htmlspecialchars($request)."\n</pre>\n\n";
         }
         if ($this->timeout) {
             $fp = @fsockopen($this->server, $this->port, $errno, $errstr, $this->timeout);
@@ -574,9 +574,12 @@ class IXR_Client {
             if (!$gettingHeaders) {
                 $contents .= trim($line);
             }
+            if ($this->debug) {
+                $debug_contents .= $line;
+            }
         }
         if ($this->debug) {
-            echo '<pre>'.htmlspecialchars($contents)."\n</pre>\n\n";
+            echo '<pre class="ixr_response">'.htmlspecialchars($debug_contents)."\n</pre>\n\n";
         }
         // Now parse what we've got back
         $this->message = new IXR_Message($contents);
