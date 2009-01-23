@@ -1969,13 +1969,12 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 			comment_author_IP LIKE ('%$s%') OR
 			comment_content LIKE ('%$s%') ) AND
 			$approved
-			$typesql
-			$orderby";
+			$typesql";
 	} else {
-		$query = "FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $approved $post $typesql $orderby";
+		$query = "FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $approved $post $typesql";
 	}
 
-	$comments = $wpdb->get_results("SELECT * $query");
+	$comments = $wpdb->get_results("SELECT * $query $orderby");
 	if ( '' === $total )
 		$total = $wpdb->get_var("SELECT COUNT(comment_ID) $query");
 
