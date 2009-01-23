@@ -204,7 +204,7 @@ if (defined('WP_DEBUG') and WP_DEBUG == true) {
 	if ( defined( 'E_DEPRECATED' ) )
 		error_reporting(E_ALL ^ E_STRICT ^ E_DEPRECATED ^ E_NOTICE ^ E_USER_NOTICE);
 	else if ( defined( 'E_STRICT' ) )
-		error_reporting(E_ALL & E_STRICT ^ E_NOTICE ^ E_USER_NOTICE);
+		error_reporting( ( E_ALL ^ E_NOTICE ^ E_USER_NOTICE ) & E_STRICT);
 	else
 		error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
 }
