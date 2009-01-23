@@ -1920,17 +1920,24 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	$start = abs( (int) $start );
 	$num = (int) $num;
 	$post = (int) $post;
+	$count = wp_count_comments();
 
-	if ( 'moderated' == $status )
+	if ( 'moderated' == $status ) {
 		$approved = "comment_approved = '0'";
-	elseif ( 'approved' == $status )
+		$total = $count->moderated;
+	} elseif ( 'approved' == $status ) {
 		$approved = "comment_approved = '1'";
-	elseif ( 'spam' == $status )
+		$total = $count->approved;
+	} elseif ( 'spam' == $status ) {
 		$approved = "comment_approved = 'spam'";
-	else
+		$total = $count->spam;
+	} else {
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+		$total = $count->moderated + $count->approved;
+	}
 
 	if ( $post ) {
+		$total = '';
 		$post = " AND comment_post_ID = '$post'";
 		$orderby = "ORDER BY comment_date_gmt ASC LIMIT $start, $num";
 	} else {
@@ -1949,9 +1956,13 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	else
 		$typesql = '';
 
+	if ( !empty($type) )
+		$total = '';
+
 	if ( $s ) {
+		$total = '';
 		$s = $wpdb->escape($s);
-		$comments = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE
+		$query = "FROM $wpdb->comments WHERE
 			(comment_author LIKE '%$s%' OR
 			comment_author_email LIKE '%$s%' OR
 			comment_author_url LIKE ('%$s%') OR
@@ -1959,14 +1970,16 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 			comment_content LIKE ('%$s%') ) AND
 			$approved
 			$typesql
-			$orderby");
+			$orderby";
 	} else {
-		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE $approved $post $typesql $orderby" );
+		$query = "FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $approved $post $typesql $orderby";
 	}
 
-	update_comment_cache($comments);
+	$comments = $wpdb->get_results("SELECT * $query");
+	if ( '' === $total )
+		$total = $wpdb->get_var("SELECT COUNT(comment_ID) $query");
 
-	$total = $wpdb->get_var( "SELECT FOUND_ROWS()" );
+	update_comment_cache($comments);
 
 	return array($comments, $total);
 }
