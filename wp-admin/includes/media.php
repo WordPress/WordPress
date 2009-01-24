@@ -369,6 +369,11 @@ add_action('media_upload_media', 'media_upload_handler');
 function media_upload_form_handler() {
 	check_admin_referer('media-form');
 
+	if ( isset($_POST['send']) ) {
+		$keys = array_keys($_POST['send']);
+		$send_id = (int) array_shift($keys);
+	}
+	
 	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
 		$post = $_post = get_post($attachment_id, ARRAY_A);
 		if ( isset($attachment['post_content']) )
@@ -379,8 +384,10 @@ function media_upload_form_handler() {
 			$post['post_excerpt'] = $attachment['post_excerpt'];
 		if ( isset($attachment['menu_order']) )
 			$post['menu_order'] = $attachment['menu_order'];
-		if ( isset($attachment['post_parent']) )
-			$post['post_parent'] = $attachment['post_parent'];
+		if ( isset($send_id) && $attachment_id == $send_id ) {
+			if ( isset($attachment['post_parent']) )
+				$post['post_parent'] = $attachment['post_parent'];
+		}
 
 		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
 
@@ -408,9 +415,7 @@ function media_upload_form_handler() {
 		exit;
 	}
 
-	if ( isset($_POST['send']) ) {
-		$keys = array_keys($_POST['send']);
-		$send_id = (int) array_shift($keys);
+	if ( isset($send_id) ) {
 		$attachment = stripslashes_deep( $_POST['attachments'][$send_id] );
 		$html = $attachment['post_title'];
 		if ( !empty($attachment['url']) ) {
