@@ -32,27 +32,90 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 			$credentials['remember'] = $_POST['rememberme'];
 	}
 
-	if ( !empty($credentials['user_login']) )
-		$credentials['user_login'] = sanitize_user($credentials['user_login']);
-	if ( !empty($credentials['user_password']) )
-		$credentials['user_password'] = trim($credentials['user_password']);
 	if ( !empty($credentials['remember']) )
 		$credentials['remember'] = true;
 	else
 		$credentials['remember'] = false;
 
+	// TODO do we deprecate the wp_authentication action?
 	do_action_ref_array('wp_authenticate', array(&$credentials['user_login'], &$credentials['user_password']));
 
 	if ( '' === $secure_cookie )
 		$secure_cookie = is_ssl() ? true : false;
 
-	// If no credential info provided, check cookie.
-	if ( empty($credentials['user_login']) && empty($credentials['user_password']) ) {
-		$user = wp_validate_auth_cookie();
-		if ( $user )
-			return new WP_User($user);
+	global $auth_secure_cookie; // XXX ugly hack to pass this to wp_authenticate_cookie
+	$auth_secure_cookie = $secure_cookie;
 
-		if ( $secure_cookie )
+	add_filter('authenticate', 'wp_authenticate_cookie', 30, 3);
+
+	$user = wp_authenticate($credentials['user_login'], $credentials['user_password']);
+
+	if ( is_wp_error($user) )
+		return $user;
+
+	wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
+	do_action('wp_login', $credentials['user_login']);
+	return $user;
+}
+
+
+/**
+ * Authenticate the user using the username and password.
+ */
+add_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
+function wp_authenticate_username_password($user, $username, $password) {
+	if ( is_a($user, 'WP_User') ) { return $user; }
+
+	// XXX slight hack to handle initial load of wp-login.php
+	if ( (empty($username) && empty($password)) && $GLOBALS['pagenow'] == 'wp-login.php' ) {
+		return $user;
+	}
+
+	if ( empty($username) || empty($password) ) {
+		$error = new WP_Error();
+
+		if ( empty($username) )
+			$error->add('empty_username', __('<strong>ERROR</strong>: The username field is empty.'));
+
+		if ( empty($password) )
+			$error->add('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
+
+		return $error;
+	}
+
+	$userdata = get_userdatabylogin($username);
+
+	if ( !$userdata || ($userdata->user_login != $username) ) {
+		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
+	}
+
+	$user = apply_filters('wp_authenticate_user', $user, $password);
+	if ( is_wp_error($user) ) {
+		return $user;
+	}
+
+	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) ) {
+		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
+	}
+
+	$user =  new WP_User($userdata->ID);
+	return $user;
+}
+
+/**
+ * Authenticate the user using the WordPress auth cookie.
+ */
+function wp_authenticate_cookie($user, $username, $password) {
+	if ( is_a($user, 'WP_User') ) { return $user; }
+
+	if ( empty($username) && empty($password) ) {
+		$user_id = wp_validate_auth_cookie();
+		if ( $user_id )
+			return new WP_User($user_id);
+
+		global $auth_secure_cookie;
+
+		if ( $auth_secure_cookie )
 			$auth_cookie = SECURE_AUTH_COOKIE;
 		else
 			$auth_cookie = AUTH_COOKIE;
@@ -61,25 +124,8 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 			return new WP_Error('expired_session', __('Please log in again.'));
 
 		// If the cookie is not set, be silent.
-		return new WP_Error();
 	}
 
-	if ( empty($credentials['user_login']) || empty($credentials['user_password']) ) {
-		$error = new WP_Error();
-
-		if ( empty($credentials['user_login']) )
-			$error->add('empty_username', __('<strong>ERROR</strong>: The username field is empty.'));
-		if ( empty($credentials['user_password']) )
-			$error->add('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
-		return $error;
-	}
-
-	$user = wp_authenticate($credentials['user_login'], $credentials['user_password']);
-	if ( is_wp_error($user) )
-		return $user;
-
-	wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
-	do_action('wp_login', $credentials['user_login']);
 	return $user;
 }
 

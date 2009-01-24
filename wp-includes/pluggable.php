@@ -422,32 +422,21 @@ if ( !function_exists('wp_authenticate') ) :
  */
 function wp_authenticate($username, $password) {
 	$username = sanitize_user($username);
+	$password = trim($password);
 
-	if ( '' == $username )
-		return new WP_Error('empty_username', __('<strong>ERROR</strong>: The username field is empty.'));
+	$user = apply_filters('authenticate', null, $username, $password);
 
-	if ( '' == $password )
-		return new WP_Error('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
-
-	$user = get_userdatabylogin($username);
-
-	if ( !$user || ($user->user_login != $username) ) {
-		do_action( 'wp_login_failed', $username );
-		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
+	if ($user == null) {
+		// TODO what should the error message be? (Or would these even happen?)
+		// Only needed if all authentication handlers fail to return anything.
+		$user = new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Invalid username or incorrect password.'));
 	}
 
-	$user = apply_filters('wp_authenticate_user', $user, $password);
-	if ( is_wp_error($user) ) {
-		do_action( 'wp_login_failed', $username );
-		return $user;
+	if (is_wp_error($user)) {
+		do_action('wp_login_failed', $username);
 	}
 
-	if ( !wp_check_password($password, $user->user_pass, $user->ID) ) {
-		do_action( 'wp_login_failed', $username );
-		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
-	}
-
-	return new WP_User($user->ID);
+	return $user;
 }
 endif;
 
