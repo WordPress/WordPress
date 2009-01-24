@@ -556,6 +556,7 @@ class IXR_Client {
         }
         fputs($fp, $request);
         $contents = '';
+        $debug_contents = '';
         $gotFirstLine = false;
         $gettingHeaders = true;
         while (!feof($fp)) {
