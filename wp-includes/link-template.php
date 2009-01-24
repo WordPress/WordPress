@@ -725,7 +725,7 @@ function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 			return;
 	}
 
-	$link = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . attribute_escape( __( 'Edit post' ) ) . '">' . $link . '</a>';
+	$link = '<a class="post-edit-link" href="' . get_edit_post_link( $post->ID ) . '" title="' . attribute_escape( __( 'Edit post' ) ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
 
@@ -775,7 +775,7 @@ function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
 			return;
 	}
 
-	$link = '<a href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
+	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
 }
 
