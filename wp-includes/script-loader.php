@@ -103,7 +103,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'schedule', '/wp-includes/js/jquery/jquery.schedule.js', array('jquery'), '20');
 	$scripts->add( 'jquery-hotkeys', '/wp-includes/js/jquery/jquery.hotkeys.js', array('jquery'), '0.0.2' );
 	$scripts->add( 'jquery-table-hotkeys', '/wp-includes/js/jquery/jquery.table-hotkeys.js', array('jquery', 'jquery-hotkeys'), '20081128' );
-	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1-20080430');
+	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array('jquery'), '3.1-20090123');
 	$scripts->add( 'swfupload', '/wp-includes/js/swfupload/swfupload.js', false, '2.2.0-20081031');
 	$scripts->add( 'swfupload-degrade', '/wp-includes/js/swfupload/plugins/swfupload.graceful_degradation.js', array('swfupload'), '2.2.0-20081031');
 	$scripts->add( 'swfupload-swfobject', '/wp-includes/js/swfupload/plugins/swfupload.swfobject.js', array('swfupload'), '2.2.0-20081031');
