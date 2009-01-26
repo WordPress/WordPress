@@ -210,11 +210,6 @@ if (defined('WP_DEBUG') and WP_DEBUG == true) {
 		error_reporting(E_ALL ^ E_NOTICE ^ E_USER_NOTICE);
 }
 
-// When this is defined and set to true the non-minified versions of the Javascripts will be used.
-// Add define('SCRIPT_DEBUG', false); to wp-config.php to test the minified versions.
-if ( !defined('SCRIPT_DEBUG') )
-	define('SCRIPT_DEBUG', true);
-
 // For an advanced caching plugin to use, static because you would only want one
 if ( defined('WP_CACHE') )
 	@include WP_CONTENT_DIR . '/advanced-cache.php';
