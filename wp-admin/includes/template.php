@@ -1852,7 +1852,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	$r = "<tr id='user-$user_object->ID'$style>";
 	$columns = get_column_headers('users');
 	$hidden = get_hidden_columns('users');
-	$avatar = get_avatar( $user_object->user_email, 32 );
+	$avatar = get_avatar( $user_object->ID, 32 );
 	foreach ( $columns as $column_name => $column_display_name ) {
 		$class = "class=\"$column_name column-$column_name\"";
 
