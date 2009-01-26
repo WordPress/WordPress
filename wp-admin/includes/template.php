@@ -1921,7 +1921,8 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	$num = (int) $num;
 	$post = (int) $post;
 	$count = wp_count_comments();
-
+	$index = '';
+	
 	if ( 'moderated' == $status ) {
 		$approved = "comment_approved = '0'";
 		$total = $count->moderated;
@@ -1934,6 +1935,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 	} else {
 		$approved = "( comment_approved = '0' OR comment_approved = '1' )";
 		$total = $count->moderated + $count->approved;
+		$index = 'USE INDEX (comment_date_gmt)';
 	}
 
 	if ( $post ) {
@@ -1971,7 +1973,7 @@ function _wp_get_comment_list( $status = '', $s = false, $start, $num, $post = 0
 			$approved
 			$typesql";
 	} else {
-		$query = "FROM $wpdb->comments USE INDEX (comment_date_gmt) WHERE $approved $post $typesql";
+		$query = "FROM $wpdb->comments $index WHERE $approved $post $typesql";
 	}
 
 	$comments = $wpdb->get_results("SELECT * $query $orderby");
