@@ -332,7 +332,7 @@ if ( $page_links )
 <?php if ( empty($comment_status) || 'approved' == $comment_status ): ?>
 <option value="unapprove"><?php _e('Unapprove'); ?></option>
 <?php endif; ?>
-<?php if ( empty($comment_status) || 'moderated' == $comment_status ): ?>
+<?php if ( empty($comment_status) || 'moderated' == $comment_status || 'spam' == $comment_status ): ?>
 <option value="approve"><?php _e('Approve'); ?></option>
 <?php endif; ?>
 <?php if ( 'spam' != $comment_status ): ?>
