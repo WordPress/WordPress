@@ -26,7 +26,8 @@ class WP_Scripts extends WP_Dependencies {
 	var $do_concat = false;
 	var $print_html = '';
 	var $print_code = '';
-	var $src = '';
+	var $ext_handles = '';
+	var $ext_version = '';
 	var $default_dirs;
 
 	function __construct() {
@@ -99,9 +100,12 @@ class WP_Scripts extends WP_Dependencies {
 			$srce = apply_filters( 'script_loader_src', $src, $handle );
 			if ( $this->in_default_dir($srce) ) {
 				$this->print_code .= $this->print_scripts_l10n( $handle, false );
-				$this->concat .= $handle . ',';
-				$this->concat_version .= $ver;
+				$this->concat .= "$handle,";
+				$this->concat_version .= "$handle$ver";
 				return true;
+			} else {
+				$this->ext_handles .= "$handle,";
+				$this->ext_version .= "$handle$ver";
 			}
 		}
 
@@ -110,7 +114,6 @@ class WP_Scripts extends WP_Dependencies {
 			$src = $this->base_url . $src;
 		}
 
-		$this->src .= "$src,";
 		$src = add_query_arg('ver', $ver, $src);
 		$src = clean_url(apply_filters( 'script_loader_src', $src, $handle ));
 
@@ -146,7 +149,7 @@ class WP_Scripts extends WP_Dependencies {
 		parent::set_group( $handle, $recursion, $grp );
 	}
 
-	function all_deps( $handles, $recursion = false ) {
+	function all_deps( $handles, $recursion = false, $group = false ) {
 		$r = parent::all_deps( $handles, $recursion );
 		if ( !$recursion )
 			$this->to_do = apply_filters( 'print_scripts_array', $this->to_do );
@@ -180,5 +183,15 @@ class WP_Scripts extends WP_Dependencies {
 				return true;
 		}
 		return false;
+	}
+
+	function reset() {
+		$this->do_concat = false;
+		$this->print_code = '';
+		$this->concat = '';
+		$this->concat_version = '';
+		$this->print_html = '';
+		$this->ext_version = '';
+		$this->ext_handles = '';
 	}
 }

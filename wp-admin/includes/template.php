@@ -3395,7 +3395,7 @@ function screen_icon($name = '') {
 }
 
 /**
- * Test support for compressed JavaScript and CSS
+ * Test support for compressing JavaScript from PHP
  *
  * Outputs JavaScript that tests if compression from PHP works as expected
  * and sets an option with the result. Has no effect when the current user
@@ -3406,7 +3406,7 @@ function screen_icon($name = '') {
  */
 function compression_test() {
 ?>
-	<script type="text/javascript" src="load-scripts.php?test=1"></script>
+	<script type="text/javascript" src="load-scripts.php?test=1<?php echo ( defined('ENFORCE_GZIP') && ENFORCE_GZIP ) ? '&c=gzip' : ''; ?>"></script>
 	<script type="text/javascript">
 	/* <![CDATA[ */
 	(function() {

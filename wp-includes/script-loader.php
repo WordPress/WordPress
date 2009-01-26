@@ -526,57 +526,53 @@ function wp_style_loader_src( $src, $handle ) {
 }
 
 /**
- * Print the script queue in the HTML head.
+ * Prints the script queue in the HTML head on admin pages.
  *
  * Postpones the scripts that were queued for the footer.
- * wp_print_footer_scripts() has to be called in the footer to print these scripts.
+ * print_footer_scripts() is called in the footer to print these scripts.
  *
- * @since unknown
+ * @since 2.8
  * @see wp_print_scripts()
  */
-function wp_print_head_scripts() {
-	do_action( 'wp_print_scripts' );
+function print_head_scripts() {
+	if ( ! did_action('wp_print_scripts') )
+		do_action('wp_print_scripts');
+
 	global $wp_scripts, $concatenate_scripts;
 
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		$wp_scripts = new WP_Scripts();
 
-	if ( ! isset($concatenate_scripts) )
-		script_concat_settings();
-
+	script_concat_settings();
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_head_items();
 
 	if ( apply_filters('print_head_scripts', true) )
 		_pring_scripts();
 
-	$wp_scripts->do_concat = false;
-	$wp_scripts->print_code = $wp_scripts->concat = $wp_scripts->concat_version = $wp_scripts->print_html = $wp_scripts->src = '';
+	$wp_scripts->reset();
 	return $wp_scripts->done;
 }
 
 /**
- * Print the scripts that were queued for the footer.
+ * Prints the scripts that were queued for the footer on admin pages.
  *
- * @since unknown
+ * @since 2.8
  */
-function wp_print_footer_scripts() {
+function print_footer_scripts() {
 	global $wp_scripts, $concatenate_scripts;
 
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		return array(); // No need to run if not instantiated.
 
-	if ( ! isset($concatenate_scripts) )
-		script_concat_settings();
-
+	script_concat_settings();
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_footer_items();
 
 	if ( apply_filters('print_footer_scripts', true) )
 		_pring_scripts();
 
-	$wp_scripts->do_concat = false;
-	$wp_scripts->concat = $wp_scripts->concat_version = $wp_scripts->print_code = $wp_scripts->print_html = $wp_scripts->src = '';
+	$wp_scripts->reset();
 	return $wp_scripts->done;
 }
 
@@ -584,6 +580,8 @@ function _pring_scripts() {
 	global $wp_scripts, $compress_scripts;
 
 	$zip = $compress_scripts ? 1 : 0;
+	if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
+		$zip = 'gzip';
 
 	if ( !empty($wp_scripts->concat) ) {
 
@@ -595,35 +593,75 @@ function _pring_scripts() {
 			echo "</script>\n";
 		}
 
-		$ver = md5("$wp_scripts->concat" . "$wp_scripts->concat_version");
-		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&load=" . rtrim($wp_scripts->concat, ',') . "&ver=$ver";
+		$ver = md5("$wp_scripts->concat_version");
+		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&load=" . trim($wp_scripts->concat, ', ') . "&ver=$ver";
 		echo "<script type='text/javascript' src='$src'></script>\n";
 	}
 
 	if ( !empty($wp_scripts->print_html) )
 		echo $wp_scripts->print_html;
-
 }
 
-function wp_print_admin_styles() {
+/**
+ * Prints the script queue in the HTML head on the front end.
+ *
+ * Postpones the scripts that were queued for the footer.
+ * wp_print_footer_scripts() is called in the footer to print these scripts.
+ *
+ * @since 2.8
+ */
+function wp_print_head_scripts() {
+	if ( ! did_action('wp_print_scripts') )
+		do_action('wp_print_scripts');
+
+	global $wp_scripts;
+	
+	if ( !is_a($wp_scripts, 'WP_Scripts') )
+		return array(); // no need to run if nothing is queued
+	
+	return print_head_scripts();
+}
+
+/**
+ * Prints the scripts that were queued for the footer on the front end.
+ *
+ * @since 2.8
+ */
+function wp_print_footer_scripts() {
+	return print_footer_scripts();
+}
+
+/**
+ * Wrapper for do_action('wp_enqueue_scripts')
+ *  
+ * Allows plugins to queue scripts for the front end using wp_enqueue_script().
+ * Runs first in wp_head() where all is_home(), is_page(), etc. functions are available.
+ *
+ * @since 2.8
+ */
+function wp_enqueue_scripts() {
+	do_action('wp_enqueue_scripts');
+}
+
+function print_admin_styles() {
 	global $wp_styles, $concatenate_scripts, $compress_css;
 
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
 
-	if ( ! isset($concatenate_scripts) )
-		script_concat_settings();
-
+	script_concat_settings();
 	$wp_styles->do_concat = $concatenate_scripts;
 	$zip = $compress_css ? 1 : 0;
+	if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
+		$zip = 'gzip';
 
 	$wp_styles->do_items(false);
 
 	if ( apply_filters('print_admin_styles', true) ) {
 		if ( !empty($wp_styles->concat) ) {
-			$ver = md5("$wp_styles->concat" . "$wp_styles->concat_version");
-			$rtl = 'rtl' === $wp_styles->text_direction ? 1 : 0;
-			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&rtl={$rtl}&load=" . rtrim($wp_styles->concat, ',') . "&ver=$ver";
+			$dir = $wp_styles->text_direction;
+			$ver = md5("$wp_styles->concat_version{$dir}");
+			$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}&load=" . trim($wp_styles->concat, ', ') . "&ver=$ver";
 			echo "<link rel='stylesheet' href='$href' type='text/css' media='all' />\n";
 		}
 
@@ -639,17 +677,23 @@ function wp_print_admin_styles() {
 function script_concat_settings() {
 	global $concatenate_scripts, $compress_scripts, $compress_css;
 
-	$concatenate_scripts = defined('CONCATENATE_SCRIPTS') ? CONCATENATE_SCRIPTS : true;
-	if ( $concatenate_scripts && -1 == get_option('concatenate_scripts') )
-		$concatenate_scripts = false;
+	if ( ! isset($concatenate_scripts) ) {
+		$concatenate_scripts = defined('CONCATENATE_SCRIPTS') ? CONCATENATE_SCRIPTS : true;
+		if ( ! is_admin() || ( $concatenate_scripts && -1 == get_user_option('concatenate_scripts') ) )
+			$concatenate_scripts = false;
+	}
 
-	$compress_scripts = defined('COMPRESS_SCRIPTS') ? COMPRESS_SCRIPTS : true;
-	if ( $compress_scripts && ! get_option('can_compress_scripts') )
-		$compress_scripts = false;
+	if ( ! isset($compress_scripts) ) {
+		$compress_scripts = defined('COMPRESS_SCRIPTS') ? COMPRESS_SCRIPTS : true;
+		if ( $compress_scripts && ! get_option('can_compress_scripts') )
+			$compress_scripts = false;
+	}
 
-	$compress_css = defined('COMPRESS_CSS') ? COMPRESS_CSS : true;
-	if ( $compress_css && ! get_option('can_compress_scripts') )
-		$compress_css = false;
+	if ( ! isset($compress_css) ) {
+		$compress_css = defined('COMPRESS_CSS') ? COMPRESS_CSS : true;
+		if ( $compress_css && ! get_option('can_compress_scripts') )
+			$compress_css = false;
+	}
 }
 
 add_action( 'wp_default_scripts', 'wp_default_scripts' );

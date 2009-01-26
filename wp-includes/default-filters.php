@@ -164,15 +164,17 @@ add_filter( 'editable_slug', 'urldecode' );
 add_filter('atom_service_url','atom_service_url_filter');
 
 // Actions
+add_action('wp_head', 'wp_enqueue_scripts', 1);
 add_action('wp_head', 'feed_links_extra', 3);
 add_action('wp_head', 'rsd_link');
 add_action('wp_head', 'wlwmanifest_link');
 add_action('wp_head', 'locale_stylesheet');
 add_action('publish_future_post', 'check_and_publish_future_post', 10, 1);
 add_action('wp_head', 'noindex', 1);
-add_action('wp_head', 'wp_print_styles', 9);
-add_action('wp_head', 'wp_print_scripts');
+add_action('wp_head', 'wp_print_styles', 8);
+add_action('wp_head', 'wp_print_head_scripts', 9);
 add_action('wp_head', 'wp_generator');
+add_action('wp_footer', 'wp_print_footer_scripts');
 if(!defined('DOING_CRON'))
 	add_action('init', 'wp_cron');
 add_action('do_feed_rdf', 'do_feed_rdf', 10, 1);
@@ -182,9 +184,9 @@ add_action('do_feed_atom', 'do_feed_atom', 10, 1);
 add_action('do_pings', 'do_all_pings', 10, 1);
 add_action('do_robots', 'do_robots');
 add_action('sanitize_comment_cookies', 'sanitize_comment_cookies');
-add_action('admin_print_scripts', 'wp_print_head_scripts', 20);
-add_action('admin_print_footer_scripts', 'wp_print_footer_scripts', 20);
-add_action('admin_print_styles', 'wp_print_admin_styles', 20);
+add_action('admin_print_scripts', 'print_head_scripts', 20);
+add_action('admin_print_footer_scripts', 'print_footer_scripts', 20);
+add_action('admin_print_styles', 'print_admin_styles', 20);
 add_action('init', 'smilies_init', 5);
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1);

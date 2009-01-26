@@ -41,8 +41,8 @@ class WP_Styles extends WP_Dependencies {
 
 		if ( $this->do_concat ) {
 			if ( $this->in_default_dir($this->registered[$handle]->src) && !isset($this->registered[$handle]->extra['conditional']) && !isset($this->registered[$handle]->extra['alt']) ) {
-				$this->concat .= $handle . ',';
-				$this->concat_version .= $ver;
+				$this->concat .= "$handle,";
+				$this->concat_version .= "$handle$ver";
 				return true;
 			}
 		}
@@ -88,7 +88,7 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
-	function all_deps( $handles, $recursion = false ) {
+	function all_deps( $handles, $recursion = false, $group = false ) {
 		$r = parent::all_deps( $handles, $recursion );
 		if ( !$recursion )
 			$this->to_do = apply_filters( 'print_styles_array', $this->to_do );
