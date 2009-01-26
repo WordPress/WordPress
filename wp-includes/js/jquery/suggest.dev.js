@@ -2,12 +2,12 @@
  *	jquery.suggest 1.1b - 2007-08-06
  * Patched by Mark Jaquith with Alexander Dick's "multiple items" patch to allow for auto-suggesting of more than one tag before submitting
  * See: http://www.vulgarisoip.com/2007/06/29/jquerysuggest-an-alternative-jquery-based-autocomplete-library/#comment-7228
- *	
+ *
  *	Uses code and techniques from following libraries:
  *	1. http://www.dyve.net/jquery/?autocomplete
- *	2. http://dev.jquery.com/browser/trunk/plugins/interface/iautocompleter.js	
+ *	2. http://dev.jquery.com/browser/trunk/plugins/interface/iautocompleter.js
  *
- *	All the new stuff written by Peter Vulgaris (www.vulgarisoip.com)	
+ *	All the new stuff written by Peter Vulgaris (www.vulgarisoip.com)
  *	Feel free to do whatever you want with this file
  *
  */
@@ -15,17 +15,18 @@
 (function($) {
 
 	$.suggest = function(input, options) {
+		var $input, $results, timeout, prevLength, cache, cacheSize;
 
-		var $input = $(input).attr("autocomplete", "off");
-		var $results = $(document.createElement("ul"));
+		$input = $(input).attr("autocomplete", "off");
+		$results = $(document.createElement("ul"));
 
-		var timeout = false;		// hold timeout ID for suggestion results to appear	
-		var prevLength = 0;			// last recorded length of $input.val()
-		var cache = [];				// cache MRU list
-		var cacheSize = 0;			// size of cache in chars (bytes?)
-		
+		timeout = false;		// hold timeout ID for suggestion results to appear
+		prevLength = 0;			// last recorded length of $input.val()
+		cache = [];				// cache MRU list
+		cacheSize = 0;			// size of cache in chars (bytes?)
+
 		$results.addClass(options.resultsClass).appendTo('body');
-			
+
 
 		resetPosition();
 		$(window)
@@ -35,20 +36,21 @@
 		$input.blur(function() {
 			setTimeout(function() { $results.hide() }, 200);
 		});
-		
-		
-		// help IE users if possible
-		try {
-			$results.bgiframe();
-		} catch(e) { }
 
+
+		// help IE users if possible
+		if ( $.browser.msie ) {
+			try {
+				$results.bgiframe();
+			} catch(e) { }
+		}
 
 		// I really hate browser detection, but I don't see any other way
 		if ($.browser.mozilla)
 			$input.keypress(processKey);	// onkeypress repeats arrow keys in Mozilla/Opera
 		else
 			$input.keydown(processKey);		// onkeydown repeats arrow keys in IE/Safari
-		
+
 
 
 
@@ -60,15 +62,15 @@
 				left: offset.left + 'px'
 			});
 		}
-		
-		
+
+
 		function processKey(e) {
-			
+
 			// handling up/down/escape requires results to be visible
 			// handling enter/tab requires that AND a result to be selected
 			if ((/27$|38$|40$/.test(e.keyCode) && $results.is(':visible')) ||
 				(/^13$|^9$/.test(e.keyCode) && getCurrentResult())) {
-				
+
 				if (e.preventDefault)
 					e.preventDefault();
 				if (e.stopPropagation)
@@ -76,13 +78,13 @@
 
 				e.cancelBubble = true;
 				e.returnValue = false;
-			
+
 				switch(e.keyCode) {
 
 					case 38: // up
 						prevResult();
 						break;
-			
+
 					case 40: // down
 						nextResult();
 						break;
@@ -91,102 +93,102 @@
 					case 13: // return
 						selectCurrentResult();
 						break;
-						
+
 					case 27: //	escape
 						$results.hide();
 						break;
 
 				}
-				
+
 			} else if ($input.val().length != prevLength) {
 
-				if (timeout) 
+				if (timeout)
 					clearTimeout(timeout);
 				timeout = setTimeout(suggest, options.delay);
 				prevLength = $input.val().length;
-				
-			}			
-				
-			
+
+			}
+
+
 		}
-		
-		
+
+
 		function suggest() {
-		
-			var q = $.trim($input.val());
+
+			var q = $.trim($input.val()), multipleSepPos, items;
 
 			if ( options.multiple ) {
-				var multipleSepPos = q.lastIndexOf(options.multipleSep);
+				multipleSepPos = q.lastIndexOf(options.multipleSep);
 				if ( multipleSepPos != -1 ) {
 					q = q.substr(multipleSepPos + options.multipleSep.length);
 				}
 			}
 			if (q.length >= options.minchars) {
-				
+
 				cached = checkCache(q);
-				
+
 				if (cached) {
-				
+
 					displayItems(cached['items']);
-					
+
 				} else {
-				
+
 					$.get(options.source, {q: q}, function(txt) {
 
 						$results.hide();
-						
-						var items = parseTxt(txt, q);
-						
+
+						items = parseTxt(txt, q);
+
 						displayItems(items);
 						addToCache(q, items, txt.length);
-						
-					});
-					
-				}
-				
-			} else {
-			
-				$results.hide();
-				
-			}
-				
-		}
-		
-		
-		function checkCache(q) {
 
-			for (var i = 0; i < cache.length; i++)
+					});
+
+				}
+
+			} else {
+
+				$results.hide();
+
+			}
+
+		}
+
+
+		function checkCache(q) {
+			var i;
+			for (i = 0; i < cache.length; i++)
 				if (cache[i]['q'] == q) {
 					cache.unshift(cache.splice(i, 1)[0]);
 					return cache[0];
 				}
-			
-			return false;
-		
-		}
-		
-		function addToCache(q, items, size) {
 
+			return false;
+
+		}
+
+		function addToCache(q, items, size) {
+			var cached;
 			while (cache.length && (cacheSize + size > options.maxCacheSize)) {
-				var cached = cache.pop();
+				cached = cache.pop();
 				cacheSize -= cached['size'];
 			}
-			
+
 			cache.push({
 				q: q,
 				size: size,
 				items: items
 				});
-				
+
 			cacheSize += size;
-		
+
 		}
-		
+
 		function displayItems(items) {
-			
+			var html = '', i;
 			if (!items)
 				return;
-				
+
 			if (!items.length) {
 				$results.hide();
 				return;
@@ -194,12 +196,11 @@
 
 			resetPosition(); // when the form moves after the page has loaded
 
-			var html = '';
-			for (var i = 0; i < items.length; i++)
+			for (i = 0; i < items.length; i++)
 				html += '<li>' + items[i] + '</li>';
 
 			$results.html(html).show();
-			
+
 			$results
 				.children('li')
 				.mouseover(function() {
@@ -207,51 +208,50 @@
 					$(this).addClass(options.selectClass);
 				})
 				.click(function(e) {
-					e.preventDefault(); 
+					e.preventDefault();
 					e.stopPropagation();
 					selectCurrentResult();
 				});
-						
+
 		}
-		
+
 		function parseTxt(txt, q) {
-			
-			var items = [];
-			var tokens = txt.split(options.delimiter);
-			
+
+			var items = [], tokens = txt.split(options.delimiter), i, token;
+
 			// parse returned data for non-empty items
-			for (var i = 0; i < tokens.length; i++) {
-				var token = $.trim(tokens[i]);
+			for (i = 0; i < tokens.length; i++) {
+				token = $.trim(tokens[i]);
 				if (token) {
 					token = token.replace(
-						new RegExp(q, 'ig'), 
+						new RegExp(q, 'ig'),
 						function(q) { return '<span class="' + options.matchClass + '">' + q + '</span>' }
 						);
 					items[items.length] = token;
 				}
 			}
-			
+
 			return items;
 		}
-		
+
 		function getCurrentResult() {
-		
+			var $currentResult;
 			if (!$results.is(':visible'))
 				return false;
-		
-			var $currentResult = $results.children('li.' + options.selectClass);
-			
+
+			$currentResult = $results.children('li.' + options.selectClass);
+
 			if (!$currentResult.length)
 				$currentResult = false;
-				
+
 			return $currentResult;
 
 		}
-		
+
 		function selectCurrentResult() {
-		
+
 			$currentResult = getCurrentResult();
-		
+
 			if ($currentResult) {
 				if ( options.multiple ) {
 					if ( $input.val().indexOf(options.multipleSep) != -1 ) {
@@ -265,18 +265,18 @@
 					$input.val($currentResult.text());
 				}
 				$results.hide();
-				
+
 				if (options.onSelect)
 					options.onSelect.apply($input[0]);
-					
+
 			}
-		
+
 		}
-		
+
 		function nextResult() {
-		
+
 			$currentResult = getCurrentResult();
-		
+
 			if ($currentResult)
 				$currentResult
 					.removeClass(options.selectClass)
@@ -284,13 +284,12 @@
 						.addClass(options.selectClass);
 			else
 				$results.children('li:first-child').addClass(options.selectClass);
-		
+
 		}
-		
+
 		function prevResult() {
-		
-			$currentResult = getCurrentResult();
-		
+			var $currentResult = getCurrentResult();
+
 			if ($currentResult)
 				$currentResult
 					.removeClass(options.selectClass)
@@ -298,16 +297,15 @@
 						.addClass(options.selectClass);
 			else
 				$results.children('li:last-child').addClass(options.selectClass);
-		
-		}
 
+		}
 	}
-	
+
 	$.fn.suggest = function(source, options) {
-	
+
 		if (!source)
 			return;
-	
+
 		options = options || {};
 		options.multiple = options.multiple || false;
 		options.multipleSep = options.multipleSep || ", ";
@@ -326,7 +324,7 @@
 		});
 
 		return this;
-		
+
 	};
-	
+
 })(jQuery);
