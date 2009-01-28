@@ -66,7 +66,7 @@ add_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 function wp_authenticate_username_password($user, $username, $password) {
 	if ( is_a($user, 'WP_User') ) { return $user; }
 
-	// XXX slight hack to handle initial load of wp-login.php
+	// TODO slight hack to handle initial load of wp-login.php
 	if ( (empty($username) && empty($password)) && $GLOBALS['pagenow'] == 'wp-login.php' ) {
 		return $user;
 	}
