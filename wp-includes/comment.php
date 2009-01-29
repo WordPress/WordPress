@@ -888,6 +888,9 @@ function wp_insert_comment($commentdata) {
 	if ( $comment_approved == 1)
 		wp_update_comment_count($comment_post_ID);
 
+	$comment = get_comment($id);
+	do_action('wp_insert_comment', $id, $comment);
+
 	return $id;
 }
 
