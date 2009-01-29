@@ -426,15 +426,10 @@ function wp_authenticate($username, $password) {
 
 	$user = apply_filters('authenticate', null, $username, $password);
 
-	if ( ($user == null ) ) {
-		// TODO slight hack to handle initial load of wp-login.php
-		if ( empty($username) && empty($password) && ($GLOBALS['pagenow'] == 'wp-login.php' ) ) {
-			$user = new WP_Error('',''); //No Error
-		} else {
+	if ( $user == null ) {
 		// TODO what should the error message be? (Or would these even happen?)
 		// Only needed if all authentication handlers fail to return anything.
 		$user = new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Invalid username or incorrect password.'));
-		}
 	}
 
 	if (is_wp_error($user)) {

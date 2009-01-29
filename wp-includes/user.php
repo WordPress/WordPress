@@ -50,8 +50,13 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 
 	$user = wp_authenticate($credentials['user_login'], $credentials['user_password']);
 
-	if ( is_wp_error($user) )
+	if ( is_wp_error($user) ) {
+		if ( $user->get_error_codes() == array('empty_username', 'empty_password') ) {
+			$user = new WP_Error('', '');
+		}
+
 		return $user;
+	}
 
 	wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
 	do_action('wp_login', $credentials['user_login']);
@@ -65,11 +70,6 @@ function wp_signon( $credentials = '', $secure_cookie = '' ) {
 add_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 function wp_authenticate_username_password($user, $username, $password) {
 	if ( is_a($user, 'WP_User') ) { return $user; }
-
-	// TODO slight hack to handle initial load of wp-login.php
-	if ( (empty($username) && empty($password)) && $GLOBALS['pagenow'] == 'wp-login.php' ) {
-		return $user;
-	}
 
 	if ( empty($username) || empty($password) ) {
 		$error = new WP_Error();
