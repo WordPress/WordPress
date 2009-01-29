@@ -1529,21 +1529,26 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 			$default = $avatar_default;
 	}
 
+ 	if ( is_ssl() )
+		$host = 'https://secure.gravatar.com'; 
+	else
+		$host = 'http://www.gravatar.com';
+
 	if ( 'mystery' == $default )
-		$default = "http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
+		$default = "$host/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
 	elseif ( 'blank' == $default )
 		$default = includes_url('images/blank.gif');
 	elseif ( !empty($email) && 'gravatar_default' == $default )
 		$default = '';
 	elseif ( 'gravatar_default' == $default )
-		$default = "http://www.gravatar.com/avatar/s={$size}";
+		$default = "$host/avatar/s={$size}";
 	elseif ( empty($email) )
-		$default = "http://www.gravatar.com/avatar/?d=$default&amp;s={$size}";
+		$default = "$host/avatar/?d=$default&amp;s={$size}";
 	elseif ( strpos($default, 'http://') === 0 )
 		$default = add_query_arg( 's', $size, $default );
 
 	if ( !empty($email) ) {
-		$out = 'http://www.gravatar.com/avatar/';
+		$out = "$host/avatar/";
 		$out .= md5( strtolower( $email ) );
 		$out .= '?s='.$size;
 		$out .= '&amp;d=' . urlencode( $default );
