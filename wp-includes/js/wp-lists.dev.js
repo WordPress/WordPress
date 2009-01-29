@@ -313,10 +313,9 @@ wpList = {
 		$("[class^=add:" + list.id + ":]", el || null)
 			.filter('form').submit( function() { return list.wpList.add(this); } ).end()
 			.not('form').click( function() { return list.wpList.add(this); } ).each( function() {
-				var addEl = this, c = wpList.parseClass(this,'add')[2] || addEl.id, forms, ins;
+				var addEl = this, c = wpList.parseClass(this,'add')[2] || addEl.id, forms = [], ins = [];
 				if ( !c ) { return; }
-				forms = [];
-				ins = []; // this is all really inefficient
+				// this is all really inefficient
 				$('#' + c + ' :input').focus( function() { currentFormEl = this; } ).blur( function() { currentFormEl = false; } ).each( function() {
 					ins.push(this);
 					var f = $(this).parents('form:first').get(0);

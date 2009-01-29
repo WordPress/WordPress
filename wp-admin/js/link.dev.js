@@ -46,7 +46,7 @@ jQuery(document).ready( function($) {
 
 	$('#category-add-toggle').click( function() {
 		$(this).parents('div:first').toggleClass( 'wp-hidden-children' );
-		categoryTabs.tabsClick( 1 );
+		categoryTabs.find('a[href="#categories-all"]').click();
 		return false;
 	} );
 

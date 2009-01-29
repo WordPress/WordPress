@@ -113,17 +113,6 @@ add_meta_box('linksubmitdiv', __('Save'), 'link_submit_meta_box', 'link', 'side'
  * @param object $link
  */
 function link_categories_meta_box($link) { ?>
-<div id="category-adder" class="wp-hidden-children">
-	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
-	<p id="link-category-add" class="wp-hidden-child">
-		<label class="hidden" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
-		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" aria-required="true" />
-		<input type="button" id="category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php _e( 'Add' ); ?>" />
-		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
-		<span id="category-ajax-response"></span>
-	</p>
-</div>
-
 <ul id="category-tabs">
 	<li class="ui-tabs-selected"><a href="#categories-all"><?php _e( 'All Categories' ); ?></a></li>
 	<li class="hide-if-no-js"><a href="#categories-pop"><?php _e( 'Most Used' ); ?></a></li>
@@ -144,6 +133,17 @@ function link_categories_meta_box($link) { ?>
 	<ul id="categorychecklist-pop" class="categorychecklist form-no-clear">
 		<?php wp_popular_terms_checklist('link_category'); ?>
 	</ul>
+</div>
+
+<div id="category-adder" class="wp-hidden-children">
+	<h4><a id="category-add-toggle" href="#category-add"><?php _e( '+ Add New Category' ); ?></a></h4>
+	<p id="link-category-add" class="wp-hidden-child">
+		<label class="hidden" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
+		<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php _e( 'New category name' ); ?>" aria-required="true" />
+		<input type="button" id="category-add-submit" class="add:categorychecklist:linkcategorydiv button" value="<?php _e( 'Add' ); ?>" />
+		<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
+		<span id="category-ajax-response"></span>
+	</p>
 </div>
 <?php
 }
