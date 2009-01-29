@@ -1792,8 +1792,8 @@ class WP_Rewrite {
 	/**
 	 * Sets up the object's properties.
 	 *
-	 * The 'use_verbose_page_rules' object property will be turned on, if the
-	 * permalink structure includes the following: '%postname%', '%category%',
+	 * The 'use_verbose_page_rules' object property will be set to true if the
+	 * permalink structure begins with one of the following: '%postname%', '%category%',
 	 * '%tag%', or '%author%'.
 	 *
 	 * @since 1.5.0
