@@ -20,9 +20,6 @@ define('DOING_CRON', true);
 /** Setup WordPress environment */
 require_once('./wp-load.php');
 
-if ( $_GET['check'] != wp_hash('187425') )
-	exit;
-
 $local_time = time();
 
 $crons = _get_cron_array();
