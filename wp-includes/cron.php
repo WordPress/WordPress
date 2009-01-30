@@ -180,7 +180,7 @@ function spawn_cron( $local_time ) {
 	if ( $timestamp > $local_time )
 		return;
 
-	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?check=' . wp_hash('187425');
+	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php';
 	/*
 	* multiple processes on multiple web servers can run this code concurrently
 	* try to make this as atomic as possible by setting doing_cron switch
