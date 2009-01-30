@@ -34,7 +34,7 @@ if ( !function_exists('wp_set_current_user') ) :
  * the signed in user. Therefore, it opens the ability to edit and perform
  * actions on users who aren't signed in.
  *
- * @since 2.0.4
+ * @since 2.0.3
  * @global object $current_user The current user object which holds the user data.
  * @uses do_action() Calls 'set_current_user' hook after setting the current user.
  *
@@ -62,7 +62,7 @@ if ( !function_exists('wp_get_current_user') ) :
 /**
  * Retrieve the current user object.
  *
- * @since 2.0.4
+ * @since 2.0.3
  *
  * @return WP_User Current user WP_User object
  */
@@ -771,7 +771,7 @@ if ( !function_exists('check_ajax_referer') ) :
 /**
  * Verifies the AJAX request to prevent processing requests external of the blog.
  *
- * @since 2.0.4
+ * @since 2.0.3
  *
  * @param string $action Action nonce
  * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
@@ -1120,7 +1120,7 @@ if ( !function_exists('wp_verify_nonce') ) :
  * The user is given an amount of time to use the token, so therefore, since the
  * UID and $action remain the same, the independent variable is the time.
  *
- * @since 2.0.4
+ * @since 2.0.3
  *
  * @param string $nonce Nonce that was used in the form to verify
  * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
@@ -1147,7 +1147,7 @@ if ( !function_exists('wp_create_nonce') ) :
 /**
  * Creates a random, one time use token.
  *
- * @since 2.0.4
+ * @since 2.0.3
  *
  * @param string|int $action Scalar value to add context to the nonce.
  * @return string The one use form token
@@ -1272,7 +1272,7 @@ if ( !function_exists('wp_hash') ) :
 /**
  * Get hash of given string.
  *
- * @since 2.0.4
+ * @since 2.0.3
  * @uses wp_salt() Get WordPress salt
  *
  * @param string $data Plain text to hash
@@ -1583,7 +1583,7 @@ if ( !function_exists('wp_get_cookie_login') ):
  * This function is deprecated and should no longer be extended as it won't be
  * used anywhere in WordPress. Also, plugins shouldn't use it either.
  *
- * @since 2.0.4
+ * @since 2.0.3
  * @deprecated No alternative
  *
  * @return bool Always returns false
