@@ -1436,7 +1436,7 @@ function feed_links_extra( $args ) {
 	if ( is_single() || is_page() ) {
 		$post = &get_post( $id = 0 );
 		if ( comments_open() || pings_open() || $post->comment_count > 0 )
-			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['singletitle'], get_bloginfo('name'), $args['seperator'], get_the_title() ) . '" href="' . get_post_comments_feed_link( $post->ID ) . "\" />\n";
+			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['singletitle'], get_bloginfo('name'), $args['seperator'], wp_specialchars( get_the_title() ) ) . '" href="' . get_post_comments_feed_link( $post->ID ) . "\" />\n";
 	}
 
 	elseif ( is_category() ) {
