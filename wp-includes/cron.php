@@ -180,7 +180,6 @@ function spawn_cron( $local_time ) {
 	if ( $timestamp > $local_time )
 		return;
 
-	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php';
 	/*
 	* multiple processes on multiple web servers can run this code concurrently
 	* try to make this as atomic as possible by setting doing_cron switch
@@ -201,7 +200,7 @@ function spawn_cron( $local_time ) {
 
 	update_option( 'doing_cron', $local_time + 30 );
 
-	wp_remote_post($cron_url, array('timeout' => 0.01, 'blocking' => false));
+	add_action('wp_head', 'spawn_cron_request');
 }
 
 /**
@@ -369,6 +368,16 @@ function _upgrade_cron_array($cron) {
 // stub for checking server timer accuracy, using outside standard time sources
 function check_server_timer( $local_time ) {
 	return true;
+}
+
+function spawn_cron_request() {
+?>
+<script type="text/javascript">
+/* <![CDATA[ */
+window.setTimeout(function(){var x;if(window.XMLHttpRequest){x=new XMLHttpRequest();}else{try{x=new ActiveXObject('Msxml2.XMLHTTP');}catch(e){try{x=new ActiveXObject('Microsoft.XMLHTTP');}catch(e){};}}if(x){x.open('GET','<?php echo get_option('siteurl'); ?>/wp-cron.php?'+(new Date()).getTime(), true);x.send('');}},10);
+/* ]]> */
+</script>
+<?php
 }
 
 ?>
