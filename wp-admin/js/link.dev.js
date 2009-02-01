@@ -17,7 +17,7 @@ jQuery(document).ready( function($) {
 			return;
 		noSyncChecks = true;
 		var th = $(this), c = th.is(':checked'), id = th.val().toString();
-		$('#in-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
+		$('#in-link-category-' + id + ', #in-popular-category-' + id).attr( 'checked', c );
 		noSyncChecks = false;
 	};
 
