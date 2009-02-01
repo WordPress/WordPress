@@ -85,36 +85,7 @@ function get_file($path) {
 	return @file_get_contents($path);
 }
 
-// Discard any buffers
-while ( @ob_end_clean() );
-
-if ( isset($_GET['test']) && 1 == $_GET['test'] ) {
-	if ( ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler') )
-		exit('');
-
-	$out = 'var wpCompressionTest = 1;';
-	$force_gzip = ( isset($_GET['c']) && 'gzip' == $_GET['c'] );
-
-	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') && ! $force_gzip ) {
-		header('Content-Encoding: deflate');
-		$out = gzdeflate( $out, 3 );
-	} elseif ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'gzip') && function_exists('gzencode') ) {
-		header('Content-Encoding: gzip');
-		$out = gzencode( $out, 3 );
-	} else {
-		exit('');
-	}
-
-	header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
-	header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-	header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
-	header( 'Pragma: no-cache' );
-	header( 'Content-Type: application/x-javascript; charset=UTF-8' );
-	echo $out;
-	exit;
-}
-
-$load = preg_replace( '/[^a-z0-9,_-]*/i', '', $_GET['load'] );
+$load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
 $load = explode(',', $load);
 
 if ( empty($load) )
@@ -142,7 +113,7 @@ foreach( $load as $handle ) {
 header('Content-Type: application/x-javascript; charset=UTF-8');
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
-	
+
 if ( $compress && ! ini_get('zlib.output_compression') && 'ob_gzhandler' != ini_get('output_handler') ) {
 	header('Vary: Accept-Encoding'); // Handle proxies
 	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') && ! $force_gzip ) {

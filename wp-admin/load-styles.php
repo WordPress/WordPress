@@ -88,10 +88,7 @@ function get_file($path) {
 require(ABSPATH . '/wp-includes/script-loader.php');
 require(ABSPATH . '/wp-includes/version.php');
 
-// Discard any buffers
-while ( @ob_end_clean() );
-
-$load = preg_replace( '/[^a-z0-9,_-]*/i', '', $_GET['load'] );
+$load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
 $load = explode(',', $load);
 
 if ( empty($load) )
@@ -126,7 +123,7 @@ foreach( $load as $handle ) {
 header('Content-Type: text/css');
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
-	
+
 if ( $compress && ! ini_get('zlib.output_compression') && 'ob_gzhandler' != ini_get('output_handler') ) {
 	header('Vary: Accept-Encoding'); // Handle proxies
 	if ( false !== strpos( strtolower($_SERVER['HTTP_ACCEPT_ENCODING']), 'deflate') && function_exists('gzdeflate') && ! $force_gzip ) {

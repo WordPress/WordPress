@@ -616,10 +616,10 @@ function wp_print_head_scripts() {
 		do_action('wp_print_scripts');
 
 	global $wp_scripts;
-	
+
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		return array(); // no need to run if nothing is queued
-	
+
 	return print_head_scripts();
 }
 
@@ -634,7 +634,7 @@ function wp_print_footer_scripts() {
 
 /**
  * Wrapper for do_action('wp_enqueue_scripts')
- *  
+ *
  * Allows plugins to queue scripts for the front end using wp_enqueue_script().
  * Runs first in wp_head() where all is_home(), is_page(), etc. functions are available.
  *
@@ -678,6 +678,8 @@ function print_admin_styles() {
 function script_concat_settings() {
 	global $concatenate_scripts, $compress_scripts, $compress_css;
 
+	$compressed_output = ( ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler') );
+
 	if ( ! isset($concatenate_scripts) ) {
 		$concatenate_scripts = defined('CONCATENATE_SCRIPTS') ? CONCATENATE_SCRIPTS : true;
 		if ( ! is_admin() || ( $concatenate_scripts && -1 == get_user_option('concatenate_scripts') ) )
@@ -686,13 +688,13 @@ function script_concat_settings() {
 
 	if ( ! isset($compress_scripts) ) {
 		$compress_scripts = defined('COMPRESS_SCRIPTS') ? COMPRESS_SCRIPTS : true;
-		if ( $compress_scripts && ! get_option('can_compress_scripts') )
+		if ( $compress_scripts && ( ! get_option('can_compress_scripts') || $compressed_output ) )
 			$compress_scripts = false;
 	}
 
 	if ( ! isset($compress_css) ) {
 		$compress_css = defined('COMPRESS_CSS') ? COMPRESS_CSS : true;
-		if ( $compress_css && ! get_option('can_compress_scripts') )
+		if ( $compress_css && ( ! get_option('can_compress_scripts') || $compressed_output ) )
 			$compress_css = false;
 	}
 }
