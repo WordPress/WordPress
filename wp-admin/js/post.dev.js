@@ -133,7 +133,7 @@ var commentsBox, tagCloud;
 
 			this.st += num;
 			this.total = total;
-			$('.waiting').show();
+			$('#commentsdiv img.waiting').show();
 
 			data = {
 				'action' : 'get-comments',
@@ -147,8 +147,8 @@ var commentsBox, tagCloud;
 			$.post(ajaxurl, data,
 				function(r) {
 					r = wpAjax.parseAjaxResponse(r);
-					$('#commentstatusdiv .widefat').show();
-					$('.waiting').hide();
+					$('#commentsdiv .widefat').show();
+					$('#commentsdiv img.waiting').hide();
 
 					if ( 'object' == typeof r && r.responses[0] ) {
 						$('#the-comment-list').append( r.responses[0].data );

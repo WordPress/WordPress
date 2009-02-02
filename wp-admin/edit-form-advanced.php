@@ -11,10 +11,7 @@
  * @name $post_ID
  * @var int
  */
-if ( ! isset( $post_ID ) )
-	$post_ID = 0;
-else
-	$post_ID = (int) $post_ID;
+$post_ID = isset($post_ID) ? (int) $post_ID : 0;
 
 $action = isset($action) ? $action : '';
 if ( isset($_GET['message']) )
@@ -437,7 +434,6 @@ do_action('dbx_post_advanced');
  * @param object $post
  */
 function post_comment_status_meta_box($post) {
-	global $wpdb, $post_ID;
 ?>
 <input name="advanced_view" type="hidden" value="1" />
 <p class="meta-options">
@@ -445,12 +441,27 @@ function post_comment_status_meta_box($post) {
 	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow <a href="http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">trackbacks and pingbacks</a> on this post') ?></label>
 </p>
 <?php
+}
+add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
+
+/**
+ * Display comments for post.
+ *
+ * @since 2.8.0
+ *
+ * @param object $post
+ */
+function post_comment_meta_box($post) {
+	global $wpdb, $post_ID;
+
 	$total = $wpdb->get_var($wpdb->prepare("SELECT count(1) FROM $wpdb->comments WHERE comment_post_ID = '%d' AND ( comment_approved = '0' OR comment_approved = '1')", $post_ID));
 
-	if ( !$post_ID || $post_ID < 0 || 1 > $total )
+	if ( 1 > $total ) {
+		echo '<p>' . __('No comments yet.') . '</p>';
 		return;
+	}
 
-wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
+	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 ?>
 
 <table class="widefat comments-box fixed" cellspacing="0" style="display:none;">
@@ -466,12 +477,13 @@ wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 <p class="hide-if-no-js"><a href="#commentstatusdiv" id="show-comments" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <img class="waiting" style="display:none;" src="images/loading.gif" alt="" /></p>
 <?php
 	$hidden = get_hidden_meta_boxes('post');
-	if ( ! in_array('commentstatusdiv', $hidden) ) { ?>
+	if ( ! in_array('commentsdiv', $hidden) ) { ?>
 		<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 <?php
 	}
 }
-add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', 'post', 'normal', 'core');
+if ( 'publish' == $post->post_status || 'private' == $post->post_status )
+	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', 'post', 'normal', 'core');
 
 /**
  * Display post slug form fields.

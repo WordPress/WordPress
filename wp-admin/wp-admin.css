@@ -1364,8 +1364,20 @@ table.form-table td .updated {
 }
 
 #side-sortables .comments-box,
-#side-sortables #show-comments {
-	display: none;
+#normal-sortables .comments-box {
+	border: 0 none;
+}
+
+#side-sortables .comments-box thead th,
+#normal-sortables .comments-box thead th {
+	background: transparent;
+	padding: 0 7px 4px;
+	font-style: italic;
+}
+
+#commentsdiv img.waiting {
+	padding-left: 5px;
+	vertical-align: middle;
 }
 
 #post-body .tagsdiv #newtag {
