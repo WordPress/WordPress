@@ -369,7 +369,7 @@ function wp_dashboard_quick_press() {
 			<input type="hidden" name="quickpress_post_ID" value="<?php echo (int) $post->ID; ?>" />
 			<?php wp_nonce_field('add-post'); ?>
 			<input type="submit" name="save" id="save-post" class="button" tabindex="4" value="<?php _e('Save Draft'); ?>" />
-			<input type="reset" value="<?php _e( 'Cancel' ); ?>" class="cancel" />
+			<input type="reset" value="<?php _e( 'Reset' ); ?>" class="button" />
 			<?php if ( current_user_can('publish_posts') ) { ?>
 			<input type="submit" name="publish" id="publish" accesskey="p" tabindex="5" class="button-primary" value="<?php _e('Publish'); ?>" />
 			<?php } else { ?>
