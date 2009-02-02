@@ -3237,7 +3237,7 @@ function _post_states($post) {
 	if ( 'draft' == $post->post_status && 'draft' != $post_status )
 		$post_states[] = __('Draft');
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
-		$post_states[] = __('Pending');
+		$post_states[] = _c('Pending|post state');
 
 	if ( ! empty($post_states) ) {
 		$state_count = count($post_states);
