@@ -168,7 +168,7 @@ if ( $links ) {
 		$link->link_name = attribute_escape($link->link_name);
 		$link->link_category = wp_get_link_cats($link->link_id);
 		$short_url = str_replace('http://', '', $link->link_url);
-		$short_url = str_replace('www.', '', $short_url);
+		$short_url = preg_replace('/^www./i', '', $short_url);
 		if ('/' == substr($short_url, -1))
 			$short_url = substr($short_url, 0, -1);
 		if (strlen($short_url) > 35)
