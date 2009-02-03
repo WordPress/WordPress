@@ -723,7 +723,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$do_lock = true;
 
 	$data = '';
-	$message = sprintf( __('Draft Saved at %s.'), date( __('g:i:s a'), current_time( 'timestamp', true ) ) );
+	$message = sprintf( __('Draft Saved at %s.'), date_i18n( __('g:i:s a') ) );
 
 	$supplemental = array();
 
