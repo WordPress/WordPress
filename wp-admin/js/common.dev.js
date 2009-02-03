@@ -185,6 +185,7 @@ jQuery(document).ready( function($) {
 		});
 		return false;
 	});
+	$('#contextual-help-link-wrap, #screen-options-link-wrap').show();
 
 	// check all checkboxes
 	$( 'table:visible tbody .check-column :checkbox' ).click( function(e) {
