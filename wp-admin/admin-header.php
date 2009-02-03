@@ -61,10 +61,7 @@ do_action('admin_head');
 wp_print_styles('no-js');
 ?>
 <script type="text/javascript">
-(function(){
-	var nojs = document.getElementById('no-js');
-	nojs.parentNode.removeChild(nojs);
-})();
+document.getElementById('no-js').href = 'javascript("void");';
 </script>
 
 <?php if ( $is_iphone ) { ?>
