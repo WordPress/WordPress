@@ -488,17 +488,19 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 		return false;
 	}
 
-	$key = wp_hash($username . '|' . $expiration, $scheme);
+	$user = get_userdatabylogin($username);
+	if ( ! $user ) {
+		do_action('auth_cookie_bad_username', $cookie_elements);
+		return false;
+	}
+
+	$pass_frag = substr($user->user_pass, 8, 4);
+
+	$key = wp_hash($username . $pass_frag . '|' . $expiration, $scheme);
 	$hash = hash_hmac('md5', $username . '|' . $expiration, $key);
 
 	if ( $hmac != $hash ) {
 		do_action('auth_cookie_bad_hash', $cookie_elements);
-		return false;
-	}
-
-	$user = get_userdatabylogin($username);
-	if ( ! $user ) {
-		do_action('auth_cookie_bad_username', $cookie_elements);
 		return false;
 	}
 
@@ -524,7 +526,9 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
 function wp_generate_auth_cookie($user_id, $expiration, $scheme = 'auth') {
 	$user = get_userdata($user_id);
 
-	$key = wp_hash($user->user_login . '|' . $expiration, $scheme);
+	$pass_frag = substr($user->user_pass, 8, 4);
+
+	$key = wp_hash($user->user_login . $pass_frag . '|' . $expiration, $scheme);
 	$hash = hash_hmac('md5', $user->user_login . '|' . $expiration, $key);
 
 	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
