@@ -46,13 +46,13 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
  * The 'mysql' type will return the time in the format for MySQL DATETIME field.
  * The 'timestamp' type will return the current timestamp.
  *
- * If the $gmt is set to either '1' or 'true', then both types will use the
- * GMT offset in the WordPress option to add the GMT offset to the time.
+ * If $gmt is set to either '1' or 'true', then both types will use GMT time.
+ * if $gmt is false, the output is adjusted with the GMT offset in the WordPress option.
  *
  * @since 1.0.0
  *
  * @param string $type Either 'mysql' or 'timestamp'.
- * @param int|bool $gmt Optional. Whether to use $gmt offset. Default is false.
+ * @param int|bool $gmt Optional. Whether to use GMT timezone. Default is false.
  * @return int|string String if $type is 'gmt', int if $type is 'timestamp'.
  */
 function current_time( $type, $gmt = 0 ) {
