@@ -37,7 +37,10 @@ function mysql2date( $dateformatstring, $mysqlstring, $translate = true ) {
 	if( 'U' == $dateformatstring )
 		return $i;
 
-	return date_i18n( $dateformatstring, $i );
+	if ( $translate)
+	    return date_i18n( $dateformatstring, $i );
+	else
+	    return date( $dateformatstring, $i );
 }
 
 /**
