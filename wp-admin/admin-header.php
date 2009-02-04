@@ -57,11 +57,16 @@ do_action("admin_print_scripts-$hook_suffix");
 do_action('admin_print_scripts');
 do_action("admin_head-$hook_suffix");
 do_action('admin_head');
-
-wp_print_styles('no-js');
 ?>
+
+<noscript>
+<?php wp_print_styles('no-js'); ?>
+</noscript>
 <script type="text/javascript">
-document.getElementById('no-js').href = 'javascript("void");';
+(function(){
+	var nojs = document.getElementById('no-js');
+	if ( nojs ) nojs.parentNode.removeChild(nojs);
+})();
 </script>
 
 <?php if ( $is_iphone ) { ?>
