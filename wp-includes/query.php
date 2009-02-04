@@ -2064,14 +2064,14 @@ class WP_Query {
 				$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		}
 
-		if ( $this->is_attachment ) {
+		if ( 'any' == $post_type ) {
+			$where .= '';
+		} elseif ( $this->is_attachment ) {
 			$where .= " AND $wpdb->posts.post_type = 'attachment'";
 		} elseif ($this->is_page) {
 			$where .= " AND $wpdb->posts.post_type = 'page'";
 		} elseif ($this->is_single) {
 			$where .= " AND $wpdb->posts.post_type = 'post'";
-		} elseif ( 'any' == $post_type ) {
-			$where .= '';
 		} else {
 			$where .= " AND $wpdb->posts.post_type = '$post_type'";
 		}
