@@ -578,7 +578,7 @@ function img_caption_shortcode($attr, $content = null) {
 	if ( $id ) $id = 'id="' . $id . '" ';
 
 	return '<div ' . $id . 'class="wp-caption ' . $align . '" style="width: ' . (10 + (int) $width) . 'px">'
-	. $content . '<p class="wp-caption-text">' . $caption . '</p></div>';
+	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $caption . '</p></div>';
 }
 
 add_shortcode('gallery', 'gallery_shortcode');
