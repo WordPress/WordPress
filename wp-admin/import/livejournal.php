@@ -234,12 +234,6 @@ class LJ_API_Import {
 		<?php
 	}
 	
-	function unhtmlentities($string) { // From php.net for < 4.3 compat
-		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-		$trans_tbl = array_flip($trans_tbl);
-		return strtr($string, $trans_tbl);
-	}
-	
 	function import_posts() {
 		$total           = (int) get_option( 'ljapi_total' );
 		$count           = (int) get_option( 'ljapi_count' );
@@ -583,7 +577,8 @@ class LJ_API_Import {
 		// Get the body and HTMLize it
 		preg_match( '|<body>(.*)</body>|is', $comment, $matches );
 		$comment_content = !empty( $comment_subject ) ? $comment_subject . "\n\n" . $matches[1] : $matches[1];
-		$comment_content = $this->unhtmlentities( $comment_content );
+		$comment_content = html_entity_decode( $comment_content );
+		$comment_content = str_replace( '&apos;', "'", $comment_content );
 		$comment_content = wpautop( $comment_content );
 		$comment_content = str_replace( '<br>', '<br />', $comment_content );
 		$comment_content = str_replace( '<hr>', '<hr />', $comment_content );
