@@ -3239,6 +3239,8 @@ function _post_states($post) {
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
 		$post_states[] = _c('Pending|post state');
 
+	$post_states = apply_filters( 'display_post_states', $post_states );
+
 	if ( ! empty($post_states) ) {
 		$state_count = count($post_states);
 		$i = 0;
