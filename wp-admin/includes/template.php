@@ -184,7 +184,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 				break;
 			default:
 				$output .= "<td $attributes>";
-				$output .= apply_filters('manage_categories_custom_column', $column_name, $category->term_id);
+				$output .= apply_filters('manage_categories_custom_column', '', $column_name, $category->term_id);
 				$output .= "</td>";
 		}
 	}
@@ -353,7 +353,7 @@ function link_cat_row( $category, $name_override = false ) {
 				break;
 			default:
 				$output .= "<td $attributes>";
-				$output .= apply_filters('manage_link_categories_custom_column', $column_name, $category->term_id);
+				$output .= apply_filters('manage_link_categories_custom_column', '', $column_name, $category->term_id);
 				$output .= "</td>";
 		}
 	}
@@ -645,7 +645,7 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					break;
 				default:
 					$out .= "<td $attributes>";
-					$out .= apply_filters("manage_${taxonomy}_custom_column", $column_name, $tag->term_id);
+					$out .= apply_filters("manage_${taxonomy}_custom_column", '', $column_name, $tag->term_id);
 					$out .= "</td>";
 			}
 		}
@@ -1892,7 +1892,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 				break;
 			default:
 				$r .= "<td $attributes>";
-				$r .= apply_filters('manage_users_custom_column', $column_name, $user_object->ID);
+				$r .= apply_filters('manage_users_custom_column', '', $column_name, $user_object->ID);
 				$r .= "</td>";
 		}
 	}
