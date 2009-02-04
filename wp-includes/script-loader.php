@@ -368,7 +368,6 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
-		$scripts->add_data( 'farbtastic', 'group', 1 );
 
 		$scripts->add( 'dashboard', "/wp-admin/js/dashboard$suffix.js", array( 'jquery', 'admin-comments', 'postbox' ), '20090201' );
 		$scripts->add_data( 'dashboard', 'group', 1 );
