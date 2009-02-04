@@ -908,12 +908,13 @@ function the_attachment_link($id = 0, $fullsize = false, $deprecated = false, $p
  * @uses apply_filters() Calls 'wp_get_attachment_link' filter on HTML content with same parameters as function.
  *
  * @param int $id Optional. Post ID.
- * @param string $size Optional. Image size.
+ * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
  * @param bool $permalink Optional, default is false. Whether to add permalink to image.
  * @param bool $icon Optional, default is false. Whether to include icon.
+ * @param string $text Optional, default is false. If string, then will be link text.
  * @return string HTML content.
  */
-function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false) {
+function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false) {
 	$id = intval($id);
 	$_post = & get_post( $id );
 
@@ -924,11 +925,15 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 		$url = get_attachment_link($_post->ID);
 
 	$post_title = attribute_escape($_post->post_title);
-
-	$link_text = wp_get_attachment_image($id, $size, $icon);
-	if ( !$link_text )
+	
+	if ( $text ) {
+		$link_text = attribute_escape($text);
+	} elseif ( ( is_int($size) && $size != 0 ) or ( is_string($size) && $size != 'none' ) or $size != false ) {
+		$link_text = wp_get_attachment_image($id, $size, $icon);
+	} else {
 		$link_text = $_post->post_title;
-
+	}
+	
 	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon );
 }
 
@@ -1191,7 +1196,7 @@ function wp_post_revision_title( $revision, $link = true ) {
 	$autosavef = __( '%s [Autosave]' );
 	$currentf  = __( '%s [Current Revision]' );
 
-	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
+	$date = date_i18n( $datef, strtotime( $revision->post_modified_gmt . ' +0000' ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
 		$date = "<a href='$link'>$date</a>";
 

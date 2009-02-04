@@ -689,18 +689,24 @@ function gallery_shortcode($attr) {
  * Display previous image link that has the same post parent.
  *
  * @since 2.5.0
+ * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string. 0 or 'none' will default to post_title or $text;
+ * @param string $text Optional, default is false. If included, link will reflect $text variable.
+ * @return string HTML content.
  */
-function previous_image_link() {
-	adjacent_image_link(true);
+function previous_image_link($size = 'thumbnail', $text = false) {
+	adjacent_image_link(true, $size, $text);
 }
 
 /**
  * Display next image link that has the same post parent.
  *
  * @since 2.5.0
+ * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string. 0 or 'none' will default to post_title or $text;
+ * @param string $text Optional, default is false. If included, link will reflect $text variable.
+ * @return string HTML content.
  */
-function next_image_link() {
-	adjacent_image_link(false);
+function next_image_link($size = 'thumbnail', $text = false) {
+	adjacent_image_link(false, $size, $text);
 }
 
 /**
@@ -712,7 +718,7 @@ function next_image_link() {
  *
  * @param bool $prev Optional. Default is true to display previous link, true for next.
  */
-function adjacent_image_link($prev = true) {
+function adjacent_image_link($prev = true, $size = 'thumbnail', $text = false) {
 	global $post;
 	$post = get_post($post);
 	$attachments = array_values(get_children( array('post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID') ));
@@ -724,7 +730,7 @@ function adjacent_image_link($prev = true) {
 	$k = $prev ? $k - 1 : $k + 1;
 
 	if ( isset($attachments[$k]) )
-		echo wp_get_attachment_link($attachments[$k]->ID, 'thumbnail', true);
+		echo wp_get_attachment_link($attachments[$k]->ID, $size, true, false, $text);
 }
 
 /**
