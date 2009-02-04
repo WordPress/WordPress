@@ -1059,7 +1059,7 @@ function wp_post_mime_type_where($post_mime_types) {
 		$slashpos = strpos($mime_type, '/');
 		if ( false !== $slashpos ) {
 			$mime_group = preg_replace('/[^-*.a-zA-Z0-9]/', '', substr($mime_type, 0, $slashpos));
-			$mime_subgroup = preg_replace('/[^-*.a-zA-Z0-9]/', '', substr($mime_type, $slashpos + 1));
+			$mime_subgroup = preg_replace('/[^-*.+a-zA-Z0-9]/', '', substr($mime_type, $slashpos + 1));
 			if ( empty($mime_subgroup) )
 				$mime_subgroup = '*';
 			else
