@@ -714,14 +714,8 @@ class RSSCache {
 		$cache_option = 'rss_' . $this->file_name( $url );
 		$cache_timestamp = 'rss_' . $this->file_name( $url ) . '_ts';
 
-		// shouldn't these be using get_option() ?
-		if ( !$wpdb->get_var( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name = %s", $cache_option ) ) )
-			add_option($cache_option, '', '', 'no');
-		if ( !$wpdb->get_var( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name = %s", $cache_timestamp ) ) )
-			add_option($cache_timestamp, '', '', 'no');
-
-		update_option($cache_option, $rss);
-		update_option($cache_timestamp, time() );
+		set_transient($cache_option, $rss);
+		set_transient($cache_timestamp, time() );
 
 		return $cache_option;
 	}
@@ -736,14 +730,12 @@ class RSSCache {
 		$this->ERROR = "";
 		$cache_option = 'rss_' . $this->file_name( $url );
 
-		if ( ! get_option( $cache_option ) ) {
+		if ( ! $rss = get_transient( $cache_option ) ) {
 			$this->debug(
 				"Cache doesn't contain: $url (cache option: $cache_option)"
 			);
 			return 0;
 		}
-
-		$rss = get_option( $cache_option );
 
 		return $rss;
 	}
@@ -760,7 +752,7 @@ class RSSCache {
 		$cache_option = $this->file_name( $url );
 		$cache_timestamp = 'rss_' . $this->file_name( $url ) . '_ts';
 
-		if ( $mtime = get_option($cache_timestamp) ) {
+		if ( $mtime = get_transient($cache_timestamp) ) {
 			// find how long ago the file was added to the cache
 			// and whether that is longer then MAX_AGE
 			$age = time() - $mtime;
