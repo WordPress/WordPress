@@ -257,10 +257,13 @@ $prefix = $wpdb->set_prefix($table_prefix);
 if ( is_wp_error($prefix) )
 	wp_die(/*WP_I18N_BAD_PREFIX*/'<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.'/*/WP_I18N_BAD_PREFIX*/);
 
-if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') )
+if ( file_exists(WP_CONTENT_DIR . '/object-cache.php') ) {
 	require_once (WP_CONTENT_DIR . '/object-cache.php');
-else
+	$_wp_using_ext_object_cache = true;
+} else {
 	require_once (ABSPATH . WPINC . '/cache.php');
+	$_wp_using_ext_object_cache = false;
+}
 
 wp_cache_init();
 if ( function_exists('wp_cache_add_global_groups') ) {
