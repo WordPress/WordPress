@@ -625,6 +625,80 @@ function delete_option( $name ) {
 }
 
 /**
+ * Delete a transient
+ *
+ * @since 2.8.0
+ * @package WordPress
+ * @subpackage Transient
+ *
+ * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @return bool true if successful, false otherwise
+ */
+function delete_transient($transient) {
+	global $_wp_using_ext_object_cache, $wpdb;
+
+	if ( $_wp_using_ext_object_cache ) {
+		return wp_cache_delete($transient, 'transient');
+	} else {
+		$transient = '_transient_' . $wpdb->escape($transient);
+		return delete_option($transient);
+	}
+}
+
+/**
+ * Get the value of a transient
+ *
+ * If the transient does not exist or does not have a value, then the return value
+ * will be false.
+ * 
+ * @since 2.8.0
+ * @package WordPress
+ * @subpackage Transient
+ *
+ * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @return mixed Value of transient
+ */
+function get_transient($transient) {
+	global $_wp_using_ext_object_cache, $wpdb;
+
+	if ( $_wp_using_ext_object_cache ) {
+		return wp_cache_get($transient, 'transient');
+	} else {
+		$transient = '_transient_' . $wpdb->escape($transient);
+		return get_option($transient);
+	}
+}
+
+/**
+ * Set/update the value of a transient
+ *
+ * You do not need to serialize values, if the value needs to be serialize, then
+ * it will be serialized before it is set.
+ *
+ * @since 2.8.0
+ * @package WordPress
+ * @subpackage Transient
+ *
+ * @param string $transient Transient name. Expected to not be SQL-escaped
+ * @param mixed $value Transient value.
+ * @return bool False if value was not set and true if value was set.
+ */
+function set_transient($transient, $value) {
+	global $_wp_using_ext_object_cache, $wpdb;
+
+	if ( $_wp_using_ext_object_cache ) {
+		return wp_cache_set($transient, $value, 'transient');
+	} else {
+		$transient = '_transient_' . $transient;
+		$safe_transient = $wpdb->escape($transient);
+		if ( false === get_option( $safe_transient ) )
+			return add_option($transient, $value, '', 'no');
+		else
+			return update_option($transient, $value);
+	}
+}
+
+/**
  * Saves and restores user interface settings stored in a cookie.
  *
  * Checks if the current user-settings cookie is updated and stores it. When no
