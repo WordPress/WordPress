@@ -237,10 +237,10 @@ class WP_Http {
 			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fopen::test() && apply_filters('use_fopen_transport', true) && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fopen::test() && apply_filters('use_fopen_transport', true) ) {
 				$working_transport['fopen'] = new WP_Http_Fopen();
 				$blocking_transport[] = &$working_transport['fopen'];
-			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
@@ -282,18 +282,15 @@ class WP_Http {
 			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test() && apply_filters('use_curl_transport', true) ) {
-				$working_transport['curl'] = new WP_Http_Curl();
-				$blocking_transport[] = &$working_transport['curl'];
 			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
 
-			foreach ( array('curl', 'streams', 'fsockopen', 'exthttp') as $transport ) {
+			foreach ( array('streams', 'fsockopen', 'exthttp') as $transport ) {
 				if ( isset($working_transport[$transport]) )
 					$nonblocking_transport[] = &$working_transport[$transport];
 			}
@@ -361,26 +358,16 @@ class WP_Http {
 			'timeout' => apply_filters( 'http_request_timeout', 5),
 			'redirection' => apply_filters( 'http_request_redirection_count', 5),
 			'httpversion' => apply_filters( 'http_request_version', '1.0'),
-			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )  ),
+			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version ),
 			'blocking' => true,
 			'headers' => array(),
 			'body' => null,
 			'compress' => false,
-			'decompress' => true,
-			'sslverify' => true
+			'decompress' => true
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 		$r = apply_filters( 'http_request_args', $r, $url );
-
-		$arrURL = parse_url($url);
-
-		// Determine if this is a https call and pass that on to the transport functions
-		// so that we can blacklist the transports that do not support ssl verification
-		if ( $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl' )
-			$r['ssl'] = true;
-		else
-			$r['ssl'] = false;
 
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
@@ -940,11 +927,7 @@ class WP_Http_Streams {
 				'max_redirects' => $r['redirection'],
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $strHeaders,
-				'timeout' => $r['timeout'],
-				'ssl' => array(
-                                	'verify_peer' => apply_filters('https_ssl_verify', $r['sslverify']),
-	                                'verify_host' => apply_filters('https_ssl_verify', $r['sslverify'])
-	                        )
+				'timeout' => $r['timeout']
 			)
 		);
 
@@ -1077,10 +1060,6 @@ class WP_Http_ExtHTTP {
 			'redirect' => $r['redirection'],
 			'useragent' => $r['user-agent'],
 			'headers' => $r['headers'],
-			'ssl' => array( 
-				'verifypeer' => apply_filters('https_ssl_verify', $r['sslverify']),
-				'verifyhost' => apply_filters('https_ssl_verify', $r['sslverify'])
-			)
 		);
 
 		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) //Emits warning level notices for max redirects and timeouts
@@ -1174,30 +1153,27 @@ class WP_Http_Curl {
 			$r['timeout'] = 1;
 
 		$handle = curl_init();
-
 		curl_setopt( $handle, CURLOPT_URL, $url);
-		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, apply_filters('https_ssl_verify', $r['sslverify']) );
-		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, apply_filters('https_ssl_verify', $r['sslverify']) );
-		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
-		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $r['timeout'] );
-		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
-		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
 
-		switch ( $r['method'] ) {
-			case 'HEAD':
-				curl_setopt( $handle, CURLOPT_NOBODY, true );
-				break;
-			case 'POST':
-				curl_setopt( $handle, CURLOPT_POST, true );
-				curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
-				break;
+		// The cURL extension requires that the option be set for the HEAD to
+		// work properly.
+		if ( 'HEAD' === $r['method'] ) {
+			curl_setopt( $handle, CURLOPT_NOBODY, true );
 		}
 
-		if ( true === $r['blocking'] )
+		if ( true === $r['blocking'] ) {
 			curl_setopt( $handle, CURLOPT_HEADER, true );
-		else
+			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 1 );
+		} else {
 			curl_setopt( $handle, CURLOPT_HEADER, false );
+			curl_setopt( $handle, CURLOPT_NOBODY, true );
+			curl_setopt( $handle, CURLOPT_RETURNTRANSFER, 0 );
+		}
+
+		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
+		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, 1 );
+		curl_setopt( $handle, CURLOPT_TIMEOUT, $r['timeout'] );
+		curl_setopt( $handle, CURLOPT_MAXREDIRS, $r['redirection'] );
 
 		// The option doesn't work with safe mode or when open_basedir is set.
 		if ( !ini_get('safe_mode') && !ini_get('open_basedir') )
