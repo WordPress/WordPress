@@ -254,7 +254,7 @@ function update_core($from, $to) {
 	$wp_filesystem->delete($from, true);
 
 	// Force refresh of update information
-	delete_option('update_core');
+	delete_transient('update_core');
 
 	// Remove maintenance file, we're done.
 	$wp_filesystem->delete($maintenance_file);

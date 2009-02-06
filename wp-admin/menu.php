@@ -58,7 +58,7 @@ $menu[40] = array( __('Appearance'), 'switch_themes', 'themes.php', '', 'menu-to
 	$submenu['themes.php'][5]  = array(__('Themes'), 'switch_themes', 'themes.php');
 	$submenu['themes.php'][10] = array(__('Editor'), 'edit_themes', 'theme-editor.php');
 
-$update_plugins = get_option( 'update_plugins' );
+$update_plugins = get_transient( 'update_plugins' );
 $update_count = 0;
 if ( !empty($update_plugins->response) )
 	$update_count = count( $update_plugins->response );

@@ -26,7 +26,7 @@ function wp_version_check() {
 	global $wp_version, $wpdb, $wp_local_package;
 	$php_version = phpversion();
 
-	$current = get_option( 'update_core' );
+	$current = get_transient( 'update_core' );
 	if ( ! is_object($current) )
 		$current = new stdClass;
 
@@ -40,7 +40,7 @@ function wp_version_check() {
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$current->last_checked = time();
-	update_option( 'update_core', $current );
+	set_transient( 'update_core', $current );
 
 	if ( method_exists( $wpdb, 'db_version' ) )
 		$mysql_version = preg_replace('/[^0-9.].*/', '', $wpdb->db_version($wpdb->users));
@@ -84,7 +84,7 @@ function wp_version_check() {
 	$updates->updates = $new_options;
 	$updates->last_checked = time();
 	$updates->version_checked = $wp_version;
-	update_option( 'update_core',  $updates);
+	set_transient( 'update_core',  $updates);
 }
 add_action( 'init', 'wp_version_check' );
 
@@ -113,7 +113,7 @@ function wp_update_plugins() {
 
 	$plugins = get_plugins();
 	$active  = get_option( 'active_plugins' );
-	$current = get_option( 'update_plugins' );
+	$current = get_transient( 'update_plugins' );
 	if ( ! is_object($current) )
 		$current = new stdClass;
 
@@ -145,7 +145,7 @@ function wp_update_plugins() {
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$current->last_checked = time();
-	update_option( 'update_plugins', $current );
+	set_transient( 'update_plugins', $current );
 
 	$to_send = (object)compact('plugins', 'active');
 
@@ -170,7 +170,7 @@ function wp_update_plugins() {
 	else
 		$new_option->response = array();
 
-	update_option( 'update_plugins', $new_option );
+	set_transient( 'update_plugins', $new_option );
 }
 
 /**
@@ -196,7 +196,7 @@ function wp_update_themes( ) {
 		require_once( ABSPATH . 'wp-includes/theme.php' );
 
 	$installed_themes = get_themes( );
-	$current_theme = get_option( 'update_themes' );
+	$current_theme = get_transient( 'update_themes' );
 	if ( ! is_object($current_theme) )
 		$current_theme = new stdClass;
 
@@ -210,7 +210,7 @@ function wp_update_themes( ) {
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$current_theme->last_checked = time();
-	update_option( 'update_themes', $current_theme );
+	set_transient( 'update_themes', $current_theme );
 
 	$themes = array( );
 	$themes['current_theme'] = $current_theme;
@@ -240,7 +240,7 @@ function wp_update_themes( ) {
 	if( $response )
 		$new_option->response = $response;
 
-	update_option( 'update_themes', $new_option );
+	set_transient( 'update_themes', $new_option );
 }
 
 /**
@@ -254,7 +254,7 @@ function wp_update_themes( ) {
  * @access private
  */
 function _maybe_update_plugins() {
-	$current = get_option( 'update_plugins' );
+	$current = get_transient( 'update_plugins' );
 	if ( isset( $current->last_checked ) && 43200 > ( time() - $current->last_checked ) )
 		return;
 	wp_update_plugins();
@@ -270,7 +270,7 @@ function _maybe_update_plugins() {
  * @access private
  */
 function _maybe_update_themes( ) {
-	$current = get_option( 'update_themes' );
+	$current = get_transient( 'update_themes' );
 	if( isset( $current->last_checked ) && 43200 > ( time( ) - $current->last_checked ) )
 		return;
 
