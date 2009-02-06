@@ -184,12 +184,12 @@ function spawn_cron( $local_time ) {
 	* multiple processes on multiple web servers can run this code concurrently
 	* try to make this as atomic as possible by setting doing_cron switch
 	*/
-	$flag = get_option('doing_cron');
+	$flag = get_transient('doing_cron');
 
 	// clean up potential invalid value resulted from various system chaos
 	if ( $flag != 0 ) {
 		if ( $flag > $local_time + 10*60 || $flag < $local_time - 10*60 ) {
-			update_option('doing_cron', 0);
+			set_transient('doing_cron', 0);
 			$flag = 0;
 		}
 	}
@@ -198,7 +198,7 @@ function spawn_cron( $local_time ) {
 	if ( $flag > $local_time )
 		return;
 
-	update_option( 'doing_cron', $local_time + 30 );
+	set_transient( 'doing_cron', $local_time + 30 );
 
 	add_action('wp_head', 'spawn_cron_request');
 }

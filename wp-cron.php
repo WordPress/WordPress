@@ -26,7 +26,7 @@ $crons = _get_cron_array();
 $keys = array_keys( $crons );
 
 if (!is_array($crons) || $keys[0] > $local_time) {
-	update_option('doing_cron', 0);
+	set_transient('doing_cron', 0);
 	return;
 }
 
@@ -53,7 +53,7 @@ foreach ($crons as $timestamp  => $cronhooks) {
 	}
 }
 
-update_option('doing_cron', 0);
+set_transient('doing_cron', 0);
 
 die();
 
