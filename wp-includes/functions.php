@@ -2510,7 +2510,7 @@ function smilies_init() {
 		// new subpattern?
 		if ($firstchar != $subchar) {
 			if ($subchar != '') {
-				$wp_smiliessearch .= ')|';
+				$wp_smiliessearch .= ')|(?:\s|^)';
 			}
 			$subchar = $firstchar;
 			$wp_smiliessearch .= preg_quote($firstchar, '/') . '(?:';
@@ -2520,7 +2520,7 @@ function smilies_init() {
 		$wp_smiliessearch .= preg_quote($rest);
 	}
 
-	$wp_smiliessearch .= ')(?:\s|$)/';
+	$wp_smiliessearch .= ')(?:\s|$)/m';
 }
 
 /**
