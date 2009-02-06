@@ -74,7 +74,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		} elseif ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
-			if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook)) {
+			if ( ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") && ('index.php' != $submenu[$item[2]][0][2]) ) || !empty($menu_hook)) {
 				$admin_is_parent = true;
 				echo "$img$toggle<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class$tabindex>{$item[0]}</a>";
 			} else {
