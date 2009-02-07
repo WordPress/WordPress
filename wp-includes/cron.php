@@ -160,7 +160,13 @@ function wp_next_scheduled( $hook, $args = array() ) {
  *
  * @return null Cron could not be spawned, because it is not needed to run.
  */
-function spawn_cron( $local_time ) {
+function spawn_cron( $local_time = 0 ) {
+
+	if ( !$local_time )
+		$local_time = time();
+
+	if ( defined('DOING_CRON') || isset($_GET['doing_wp_cron']) )
+		return;
 
 	/*
 	 * do not even start the cron if local server timer has drifted
@@ -170,37 +176,50 @@ function spawn_cron( $local_time ) {
 	if ( !$timer_accurate )
 		return;
 
-	//sanity check
-	$crons = _get_cron_array();
-	if ( !is_array($crons) )
-		return;
-
-	$keys = array_keys( $crons );
-	$timestamp =  $keys[0];
-	if ( $timestamp > $local_time )
-		return;
-
 	/*
 	* multiple processes on multiple web servers can run this code concurrently
 	* try to make this as atomic as possible by setting doing_cron switch
 	*/
 	$flag = get_transient('doing_cron');
 
-	// clean up potential invalid value resulted from various system chaos
-	if ( $flag != 0 ) {
-		if ( $flag > $local_time + 10*60 || $flag < $local_time - 10*60 ) {
-			set_transient('doing_cron', 0);
-			$flag = 0;
-		}
-	}
+	if ( $flag > $local_time + 10*60 )
+		$flag = 0;
 
-	//don't run if another process is currently running it
-	if ( $flag > $local_time )
+	// don't run if another process is currently running it or more than once every 60 sec.
+	if ( $flag + 60 > $local_time )
 		return;
 
-	set_transient( 'doing_cron', $local_time + 30 );
+	//sanity check
+	$crons = _get_cron_array();
+	if ( !is_array($crons) )
+		return;
 
-	add_action('wp_head', 'spawn_cron_request');
+	$keys = array_keys( $crons );
+	if ( isset($keys[0]) && $keys[0] > $local_time )
+		return;
+
+	if ( defined('ALTERNATE_WP_CRON') && ALTERNATE_WP_CRON ) {
+		if ( !empty($_POST) || defined('DOING_AJAX') )
+			return;
+
+		set_transient( 'doing_cron', $local_time );
+
+		ob_start();
+		wp_redirect( add_query_arg('doing_wp_cron', '', stripslashes($_SERVER['REQUEST_URI'])) );
+		echo ' ';
+
+		// flush any buffers and send the headers
+		while ( @ob_end_flush() );
+		flush();
+
+		@include_once(ABSPATH . 'wp-cron.php');
+		return;
+	}
+
+	set_transient( 'doing_cron', $local_time );
+
+	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php?doing_wp_cron';
+	wp_remote_post( $cron_url, array('timeout' => 0.01, 'blocking' => false) );
 }
 
 /**
@@ -213,19 +232,17 @@ function spawn_cron( $local_time ) {
 function wp_cron() {
 
 	// Prevent infinite loops caused by lack of wp-cron.php
-	if ( strpos($_SERVER['REQUEST_URI'], '/wp-cron.php') !== false )
+	if ( strpos($_SERVER['REQUEST_URI'], '/wp-cron.php') !== false || ( defined('DISABLE_WP_CRON') && DISABLE_WP_CRON ) )
 		return;
 
-	$crons = _get_cron_array();
-
-	if ( !is_array($crons) )
-		return;
-
-	$keys = array_keys( $crons );
-	if ( isset($keys[0]) && $keys[0] > time() )
+	if ( false === $crons = _get_cron_array() )
 		return;
 
 	$local_time = time();
+	$keys = array_keys( $crons );
+	if ( isset($keys[0]) && $keys[0] > $local_time )
+		return;
+
 	$schedules = wp_get_schedules();
 	foreach ( $crons as $timestamp => $cronhooks ) {
 		if ( $timestamp > $local_time ) break;
@@ -368,16 +385,6 @@ function _upgrade_cron_array($cron) {
 // stub for checking server timer accuracy, using outside standard time sources
 function check_server_timer( $local_time ) {
 	return true;
-}
-
-function spawn_cron_request() {
-?>
-<script type="text/javascript">
-/* <![CDATA[ */
-window.setTimeout(function(){var x;if(window.XMLHttpRequest){x=new XMLHttpRequest();}else{try{x=new ActiveXObject('Msxml2.XMLHTTP');}catch(e){try{x=new ActiveXObject('Microsoft.XMLHTTP');}catch(e){};}}if(x){x.open('GET','<?php echo get_option('siteurl'); ?>/wp-cron.php?'+(new Date()).getTime(), true);x.send('');}},10);
-/* ]]> */
-</script>
-<?php
 }
 
 ?>

@@ -176,7 +176,7 @@ add_action('wp_head', 'wp_print_head_scripts', 9);
 add_action('wp_head', 'wp_generator');
 add_action('wp_footer', 'wp_print_footer_scripts');
 if(!defined('DOING_CRON'))
-	add_action('init', 'wp_cron');
+	add_action('sanitize_comment_cookies', 'wp_cron');
 add_action('do_feed_rdf', 'do_feed_rdf', 10, 1);
 add_action('do_feed_rss', 'do_feed_rss', 10, 1);
 add_action('do_feed_rss2', 'do_feed_rss2', 10, 1);
