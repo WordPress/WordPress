@@ -930,11 +930,12 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 		$link_text = attribute_escape($text);
 	} elseif ( ( is_int($size) && $size != 0 ) or ( is_string($size) && $size != 'none' ) or $size != false ) {
 		$link_text = wp_get_attachment_image($id, $size, $icon);
-	} else {
-		$link_text = $_post->post_title;
 	}
+
+	if( trim($link_text) == '' )
+		$link_text = $_post->post_title;
 	
-	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon );
+	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
 
 /**
