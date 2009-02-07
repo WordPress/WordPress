@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-	var options = false, addAfter, addAfter2, delAfter;
+	var options = false, addAfter, addAfter2, delBefore, delAfter;
 
 	addAfter = function( r, settings ) {
 		var name = $("<span>" + $('name', r).text() + "</span>").html(), id = $('tag', r).attr('id');
@@ -18,10 +18,18 @@ jQuery(document).ready(function($) {
 			if ( id == options[o].value )
 				options[o] = null;
 	}
+	
+	delBefore = function(s) {
+		if ( 'undefined' != showNotice )
+			return showNotice.warn() ? s : false;
+
+		return s;
+	}
 
 	if ( options )
-		$('#the-list').wpList( { addAfter: addAfter, delAfter: delAfter } );
+		$('#the-list').wpList( { addAfter: addAfter, delBefore: delBefore, delAfter: delAfter } );
 	else
-		$('#the-list').wpList({ addAfter: addAfter2 });
+		$('#the-list').wpList({ addAfter: addAfter2, delBefore: delBefore });
 
+	$('.delete a[class^="delete"]').click(function(){return false;});
 });

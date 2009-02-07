@@ -37,6 +37,10 @@ setCommentsList = function() {
 		settings.data._per_page = perPageInput.val();
 		settings.data._page = pageInput.val();
 		settings.data._url = document.location.href;
+
+		if ( 'undefined' != showNotice )
+			return showNotice.warn() ? settings : false;
+
 		return settings;
 	};
 
@@ -127,10 +131,6 @@ setCommentsList = function() {
 	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } );
 
 };
-
-$(document).ready(function(){
-	setCommentsList();
-});
 
 commentReply = {
 
@@ -346,7 +346,9 @@ commentReply = {
 $(document).ready(function(){
 	var make_hotkeys_redirect, edit_comment, toggle_all, make_bulk;
 
+	setCommentsList();
 	commentReply.init();
+	$('.delete a[class^="delete"]').click(function(){return false;});
 
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
