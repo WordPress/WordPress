@@ -1286,7 +1286,7 @@ function wp_tiny_mce( $teeny = false ) {
 		'plugins' => "$plugins"
 	);
 
-	$mce_css = apply_filters('mce_css', '');
+	$mce_css = trim(apply_filters('mce_css', ''), ' ,');
 
 	if ( ! empty($mce_css) )
 		$initArray['content_css'] = "$mce_css";

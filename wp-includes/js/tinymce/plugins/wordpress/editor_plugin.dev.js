@@ -182,6 +182,7 @@
 			ed.addShortcut('alt+shift+h', ed.getLang('help_desc'), 'WP_Help');
 			ed.addShortcut('alt+shift+t', ed.getLang('wp_more_desc'), 'WP_More');
 			ed.addShortcut('alt+shift+p', ed.getLang('wp_page_desc'), 'WP_Page');
+			ed.addShortcut('ctrl+s', ed.getLang('save_desc'), function(){if('function'==typeof autosave)autosave();});
 
 			if ( tinymce.isWebKit ) {
 				ed.addShortcut('alt+shift+b', ed.getLang('bold_desc'), 'Bold');
