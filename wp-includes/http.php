@@ -1385,12 +1385,18 @@ class WP_Http_Cookie {
 				$this->$key = $val;
 			}
 		} else {
+			if ( !isset( $data['name'] ) )
+				return false;
+			
 			// Set properties based directly on parameters
-			$this->name    = $data['name'];
-			$this->value   = $data['value'];
-			$this->expires = is_int( $data['expires'] ) ? $data['expires'] : strtotime( $data['expires'] );
-			$this->path    = $data['path'];
-			$this->domain  = $data['domain'];
+			$this->name   = $data['name'];
+			$this->value  = isset( $data['value'] ) ? $data['value'] : '';
+			$this->path   = isset( $data['path'] ) ? $data['path'] : '';
+			$this->domain = isset( $data['domain'] ) ? $data['domain'] : '';
+			if ( isset( $data['expires'] ) )
+				$this->expires = is_int( $data['expires'] ) ? $data['expires'] : strtotime( $data['expires'] );
+			else
+				$this->expires = null;
 		}
 	}
 	
