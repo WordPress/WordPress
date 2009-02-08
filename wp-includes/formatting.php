@@ -848,7 +848,7 @@ function force_balance_tags( $text ) {
 		// clear the shifter
 		$tagqueue = '';
 		// Pop or Push
-		if ($regex[1][0] == "/") { // End Tag
+		if ( isset($regex[1][0]) && '/' == $regex[1][0] ) { // End Tag
 			$tag = strtolower(substr($regex[1],1));
 			// if too many closing tags
 			if($stacksize <= 0) {
