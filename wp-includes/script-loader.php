@@ -240,7 +240,7 @@ function wp_default_scripts( &$scripts ) {
 			'requestFile' => admin_url('admin-ajax.php')
 		) );
 
-		$scripts->add( 'slug', "/wp-admin/js/slug$suffix.js", array('jquery'), '20090102' );
+		$scripts->add( 'slug', "/wp-admin/js/slug$suffix.js", array('jquery'), '20090207' );
 		$scripts->add_data( 'slug', 'group', 1 );
 		$scripts->localize( 'slug', 'slugL10n', array(
 			'requestFile' => admin_url('admin-ajax.php'),

@@ -1,7 +1,8 @@
 function edit_permalink(post_id) {
 	var i, c = 0, e = jQuery('#editable-post-name'), revert_e = e.html(), real_slug = jQuery('#post_name'), revert_slug = real_slug.html(), b = jQuery('#edit-slug-buttons'), revert_b = b.html(), full = jQuery('#editable-post-name-full').html();
 
-	b.html('<a href="" class="save button">'+slugL10n.save+'</a> <a class="cancel" href="">'+slugL10n.cancel+'</a>');
+	jQuery('#view-post-btn').hide();
+	b.html('<a href="#" class="save button">'+slugL10n.save+'</a> <a class="cancel" href="#">'+slugL10n.cancel+'</a>');
 	b.children('.save').click(function() {
 		var new_slug = e.children('input').val();
 		jQuery.post(slugL10n.requestFile, {
@@ -14,10 +15,12 @@ function edit_permalink(post_id) {
 				b.html(revert_b);
 				real_slug.attr('value', new_slug);
 				make_slugedit_clickable();
+				jQuery('#view-post-btn').show();
 			});
 		return false;
 	});
 	jQuery('#edit-slug-buttons .cancel').click(function() {
+		jQuery('#view-post-btn').show();
 		e.html(revert_e);
 		b.html(revert_b);
 		real_slug.attr('value', revert_slug);

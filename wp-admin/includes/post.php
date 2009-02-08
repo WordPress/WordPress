@@ -943,16 +943,13 @@ function get_sample_permalink($id, $title=null, $name = null) {
  * @param unknown_type $new_slug
  * @return unknown
  */
-function get_sample_permalink_html($id, $new_title=null, $new_slug=null) {
+function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$post = &get_post($id);
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 	if ( 'publish' == $post->post_status )
 		$view_post = 'post' == $post->post_type ? __('View Post') : __('View Page');
 	
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
-		if ( 'page' == $post->post_type )
-			return '';
-		
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $permalink . "</span>\n";
 		$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		if ( isset($view_post) )
