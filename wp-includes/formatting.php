@@ -131,9 +131,8 @@ function wpautop($pee, $br = 1) {
 	$pee = '';
 	foreach ( $pees as $tinkle )
 		$pee .= '<p>' . trim($tinkle, "\n") . "</p>\n";
-	$pee = preg_replace('|<p>\s*?</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace
-	$pee = preg_replace('!<p>([^<]+)\s*?(</(?:div|address|form)[^>]*>)!', "<p>$1</p>$2", $pee);
-	$pee = preg_replace( '|<p>|', "$1<p>", $pee );
+	$pee = preg_replace('|<p>\s*</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace
+	$pee = preg_replace('!<p>([^<]+)</(div|address|form)>!', "<p>$1</p></$2>", $pee);
 	$pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee); // don't pee all over a tag
 	$pee = preg_replace("|<p>(<li.+?)</p>|", "$1", $pee); // problem with nested lists
 	$pee = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $pee);
@@ -148,7 +147,7 @@ function wpautop($pee, $br = 1) {
 	$pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)!', '$1', $pee);
 	if (strpos($pee, '<pre') !== false)
-		$pee = preg_replace_callback('!(<pre.*?>)(.*?)</pre>!is', 'clean_pre', $pee );
+		$pee = preg_replace_callback('!(<pre[^>]*>)(.*?)</pre>!is', 'clean_pre', $pee );
 	$pee = preg_replace( "|\n</p>$|", '</p>', $pee );
 	$pee = preg_replace('/<p>\s*?(' . get_shortcode_regex() . ')\s*<\/p>/s', '$1', $pee); // don't auto-p wrap shortcodes that stand alone
 
