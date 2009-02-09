@@ -18,7 +18,17 @@ if ( defined('ABSPATH') )
 else
 	require_once('../wp-load.php');
 
-if ( get_option('db_version') != $wp_db_version ) {
+if ( get_option('db_version') == 'db_upgraded' ) {
+	$wp_rewrite->flush_rules();
+	update_option('db_version', $wp_db_version);
+
+	/**
+	 * Runs on the next page load after successful upgrade
+	 *
+	 * @since 2.8
+	 */
+	do_action('after_db_upgrade');
+} elseif ( get_option('db_version') != $wp_db_version ) {
 	wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI']))));
 	exit;
 }
