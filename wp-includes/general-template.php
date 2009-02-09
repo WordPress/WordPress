@@ -1410,8 +1410,8 @@ function feed_links( $args ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
-	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['rsstitle'], get_bloginfo('name') ) . '" href="' . get_feed_link() . "\" />\n";
-	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['comstitle'], get_bloginfo('name') ) . '" href="' . get_feed_link( 'comments_' . get_default_feed() ) . "\" />\n";
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['rsstitle'], get_bloginfo('name') )) . '" href="' . get_feed_link() . "\" />\n";
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['comstitle'], get_bloginfo('name') )) . '" href="' . get_feed_link( 'comments_' . get_default_feed() ) . "\" />\n";
 }
 
 /**
@@ -1436,27 +1436,27 @@ function feed_links_extra( $args ) {
 	if ( is_single() || is_page() ) {
 		$post = &get_post( $id = 0 );
 		if ( comments_open() || pings_open() || $post->comment_count > 0 )
-			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['singletitle'], get_bloginfo('name'), $args['seperator'], wp_specialchars( get_the_title() ) ) . '" href="' . get_post_comments_feed_link( $post->ID ) . "\" />\n";
+			echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['singletitle'], get_bloginfo('name'), $args['seperator'], wp_specialchars( get_the_title() ) )) . '" href="' . get_post_comments_feed_link( $post->ID ) . "\" />\n";
 	}
 
 	elseif ( is_category() ) {
 		$cat_id = intval( get_query_var('cat') );
-		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['cattitle'], get_bloginfo('name'), $args['seperator'], get_cat_name( $cat_id ) ) . '" href="' . get_category_feed_link( $cat_id ) . "\" />\n";
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['cattitle'], get_bloginfo('name'), $args['seperator'], get_cat_name( $cat_id ) )) . '" href="' . get_category_feed_link( $cat_id ) . "\" />\n";
 	}
 
 	elseif ( is_tag() ) {
 		$tag_id = intval( get_query_var('tag_id') );
 		$tag = get_tag( $tag_id );
-		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['tagtitle'], get_bloginfo('name'), $args['seperator'], $tag->name ) . '" href="' . get_tag_feed_link( $tag_id ) . "\" />\n";
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['seperator'], $tag->name )) . '" href="' . get_tag_feed_link( $tag_id ) . "\" />\n";
 	}
 
 	elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
-		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['authortitle'], get_bloginfo('name'), $args['seperator'], get_author_name( $author_id ) ) . '" href="' . get_author_feed_link( $author_id ) . "\" />\n";
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['authortitle'], get_bloginfo('name'), $args['seperator'], get_author_name( $author_id ) )) . '" href="' . get_author_feed_link( $author_id ) . "\" />\n";
 	}
 
 	elseif ( is_search() ) {
-		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . sprintf( $args['searchtitle'], get_bloginfo('name'), $args['seperator'], get_search_query() ) . '" href="' . get_search_feed_link() . "\" />\n";
+		echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['seperator'], get_search_query() )) . '" href="' . get_search_feed_link() . "\" />\n";
 	}
 }
 
