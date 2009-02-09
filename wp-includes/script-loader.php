@@ -433,7 +433,6 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20081210' );
 	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081210' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
-	$styles->add( 'no-js', '/wp-admin/css/no-js.css', array(), '20081225' );
 
 	foreach ( $rtl_styles as $rtl_style )
 		$styles->add_data( $rtl_style, 'rtl', true );

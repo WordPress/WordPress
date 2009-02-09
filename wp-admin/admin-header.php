@@ -60,12 +60,15 @@ do_action('admin_head');
 ?>
 
 <noscript>
-<?php wp_print_styles('no-js'); ?>
+<style type="text/css">
+.hide-if-no-js{display:none}
+.hide-if-js,.closed .inside{display:block}
+</style>
 </noscript>
 <script type="text/javascript">
 (function(){
-	var nojs = document.getElementById('no-js');
-	if ( nojs ) nojs.parentNode.removeChild(nojs);
+	var ns = document.getElementsByTagName('noscript');
+	if ( ns && (ns = ns[0]) ) ns.parentNode.removeChild(ns);
 })();
 </script>
 
