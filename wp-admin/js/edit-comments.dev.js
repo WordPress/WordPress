@@ -38,7 +38,7 @@ setCommentsList = function() {
 		settings.data._page = pageInput.val();
 		settings.data._url = document.location.href;
 
-		if ( 'undefined' != showNotice )
+		if ( 'undefined' != showNotice && settings.data.action && settings.data.action == 'delete-comment' && !settings.data.spam )
 			return showNotice.warn() ? settings : false;
 
 		return settings;
@@ -348,7 +348,7 @@ $(document).ready(function(){
 
 	setCommentsList();
 	commentReply.init();
-	$('.delete a[class^="delete"]').click(function(){return false;});
+	$('span.delete a.delete').click(function(){return false;});
 
 	if ( typeof QTags != 'undefined' )
 		ed_reply = new QTags('ed_reply', 'replycontent', 'replycontainer', 'more');
