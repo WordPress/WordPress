@@ -486,9 +486,8 @@ function dynamic_sidebar($index = 1) {
 /**
  * Whether widget is registered using callback with widget ID.
  *
- * Will only check if both parameters are used. Used to find which sidebar the
- * widget is located in, but requires that both the callback and the widget ID
- * be known.
+ * Without the optional $widget_id parameter, returns the ID of the first sidebar in which the first instance of the widget with the given callback is found.
+ * With the $widget_id parameter, returns the ID of the sidebar in which the widget with that callback AND that ID is found.
  *
  * @since 2.2.0
  *
