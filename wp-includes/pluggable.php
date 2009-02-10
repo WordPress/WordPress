@@ -306,7 +306,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 						$from_email = str_replace( '>', '', $from_email );
 						$from_email = trim( $from_email );
 					} else {
-						$from_name = trim( $content );
+						$from_email = trim( $content );
 					}
 				} elseif ( 'content-type' == strtolower($name) ) {
 					if ( strpos( $content,';' ) !== false ) {
