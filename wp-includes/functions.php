@@ -662,11 +662,13 @@ function get_transient($transient) {
 	global $_wp_using_ext_object_cache, $wpdb;
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_get($transient, 'transient');
+		$value = wp_cache_get($transient, 'transient');
 	} else {
-		$transient = '_transient_' . $wpdb->escape($transient);
-		return get_option($transient);
+		$transient_option = '_transient_' . $wpdb->escape($transient);
+		$value = get_option($transient_option);
 	}
+
+	return apply_filters('transient_' . $transient, $value);
 }
 
 /**
