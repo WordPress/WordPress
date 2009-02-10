@@ -1403,9 +1403,9 @@ function automatic_feed_links( $add = true ) {
  */
 function feed_links( $args ) {
 	$defaults = array(
-		'seperator'   => _c('&raquo;|Seperator character feed titles in theme head'),
-		'rsstitle'    => __('%s Feed'),
-		'comstitle'   => __('%s Comments Feed'),
+		'seperator' => _c('&raquo;|Seperator character for feed titles in theme head'),
+		'feedtitle' => __('%s Feed'),
+		'comstitle' => __('%s Comments Feed'),
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1423,7 +1423,7 @@ function feed_links( $args ) {
  */
 function feed_links_extra( $args ) {
 	$defaults = array(
-		'seperator'   => _c('&raquo;|Seperator character feed titles in theme head'),
+		'seperator'   => _c('&raquo;|Seperator character for feed titles in theme head'),
 		'singletitle' => __('%1$s %2$s %3$s Comments Feed'),
 		'cattitle'    => __('%1$s %2$s %3$s Category Feed'),
 		'tagtitle'    => __('%1$s %2$s %3$s Tag Feed'),
