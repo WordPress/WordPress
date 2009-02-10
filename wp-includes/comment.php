@@ -873,15 +873,17 @@ function wp_insert_comment($commentdata) {
 		$comment_parent = 0;
 	if ( ! isset($comment_approved) )
 		$comment_approved = 1;
+	if ( ! isset($comment_karma) )
+		$comment_karma = 0;
 	if ( ! isset($user_id) )
 		$user_id = 0;
 	if ( ! isset($comment_type) )
 		$comment_type = '';
 
 	$result = $wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->comments
-	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type, comment_parent, user_id)
-	VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d)",
-	$comment_post_ID, $comment_author, $comment_author_email, $comment_author_url, $comment_author_IP, $comment_date, $comment_date_gmt, $comment_content, $comment_approved, $comment_agent, $comment_type, $comment_parent, $user_id) );
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id)
+	VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %d, %d)",
+	$comment_post_ID, $comment_author, $comment_author_email, $comment_author_url, $comment_author_IP, $comment_date, $comment_date_gmt, $comment_content, $comment_karma, $comment_approved, $comment_agent, $comment_type, $comment_parent, $user_id) );
 
 	$id = (int) $wpdb->insert_id;
 
@@ -1099,6 +1101,7 @@ function wp_update_comment($commentarr) {
 			comment_author       = %s,
 			comment_author_email = %s,
 			comment_approved     = %s,
+			comment_karma        = %d,
 			comment_author_url   = %s,
 			comment_date         = %s,
 			comment_date_gmt     = %s
@@ -1107,6 +1110,7 @@ function wp_update_comment($commentarr) {
 			$comment_author,
 			$comment_author_email,
 			$comment_approved,
+			$comment_karma,
 			$comment_author_url,
 			$comment_date,
 			$comment_date_gmt,
