@@ -2658,12 +2658,12 @@ function dead_db() {
 }
 
 /**
- * Converts value to positive integer.
+ * Converts value to nonnegative integer.
  *
  * @since 2.5.0
  *
- * @param mixed $maybeint Data you wish to have convered to an absolute integer
- * @return int An absolute integer
+ * @param mixed $maybeint Data you wish to have convered to an nonnegative integer
+ * @return int An nonnegative integer
  */
 function absint( $maybeint ) {
 	return abs( intval( $maybeint ) );
