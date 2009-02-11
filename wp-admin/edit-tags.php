@@ -244,9 +244,9 @@ if ( $page_links )
 <h3><?php _e('Popular Tags'); ?></h3>
 <?php
 if ( $can_manage )
-	wp_tag_cloud(array('link' => 'edit'));
+	wp_tag_cloud(array('taxonomy' => $taxonomy, 'link' => 'edit'));
 else
-	wp_tag_cloud();
+	wp_tag_cloud(array('taxonomy' => $taxonomy));
 ?>
 </div>
 

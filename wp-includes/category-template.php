@@ -560,20 +560,20 @@ function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
 		'format' => 'flat', 'orderby' => 'name', 'order' => 'ASC',
-		'exclude' => '', 'include' => '', 'link' => 'view'
+		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag'
 	);
 	$args = wp_parse_args( $args, $defaults );
 
-	$tags = get_tags( array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' ) ) ); // Always query top tags
+	$tags = get_terms( $args['taxonomy'], array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' ) ) ); // Always query top tags
 
 	if ( empty( $tags ) )
 		return;
 
 	foreach ( $tags as $key => $tag ) {
 		if ( 'edit' == $args['link'] )
-			$link = get_edit_tag_link( $tag->term_id );
+			$link = get_edit_tag_link( $tag->term_id, $args['taxonomy'] );
 		else
-			$link = get_tag_link( $tag->term_id );
+			$link = get_term_link( $tag->term_id, $args['taxonomy'] );
 		if ( is_wp_error( $link ) )
 			return false;
 

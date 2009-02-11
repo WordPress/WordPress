@@ -575,7 +575,7 @@ function get_tag_feed_link($tag_id, $feed = '') {
  * @return string
  */
 function get_edit_tag_link( $tag_id = 0, $taxonomy = 'post_tag' ) {
-	$tag = get_term($tag_id, 'post_tag');
+	$tag = get_term($tag_id, $taxonomy);
 
 	if ( !current_user_can('manage_categories') )
 		return;
