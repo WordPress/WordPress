@@ -99,7 +99,7 @@ function _mb_strcut( $str, $start, $length=null, $encoding=null ) {
 if ( !function_exists( 'htmlspecialchars_decode' ) ) {
 	// Added in PHP 5.1.0
 	// Error checks from PEAR::PHP_Compat
-	function htmlspecialchars_decode( $str, $quote_style = ENT_COMPAT )
+	function htmlspecialchars_decode( $string, $quote_style = ENT_COMPAT )
 	{
 		if ( !is_scalar( $string ) ) {
 			trigger_error( 'htmlspecialchars_decode() expects parameter 1 to be string, ' . gettype( $string ) . ' given', E_USER_WARNING );
@@ -111,7 +111,7 @@ if ( !function_exists( 'htmlspecialchars_decode' ) ) {
 			return;
 		}
 
-		return wp_specialchars_decode( $str, $quote_style );
+		return wp_specialchars_decode( $string, $quote_style );
 	}
 }
 
