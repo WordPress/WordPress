@@ -276,6 +276,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 8989 )
 		upgrade_270();
 
+	if ( $wp_current_db_version < 10360 )
+		upgrade_280();
+
 	maybe_disable_automattic_widgets();
 
 	update_option('db_version', 'db_upgraded');
@@ -904,6 +907,18 @@ function upgrade_270() {
 	// Update post_date for unpublished posts with empty timestamp
 	if ( $wp_current_db_version < 8921 )
 		$wpdb->query( "UPDATE $wpdb->posts SET post_date = post_modified WHERE post_date = '0000-00-00 00:00:00'" );
+}
+
+/**
+ * Execute changes made in WordPress 2.8.
+ *
+ * @since 2.8.0
+ */
+function upgrade_280() {
+	global $wp_current_db_version;
+
+	if ( $wp_current_db_version < 10360 )
+		populate_roles_280();
 }
 
 
