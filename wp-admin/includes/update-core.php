@@ -161,11 +161,7 @@ $_old_files = array(
 'wp-images/smilies',
 'wp-images/wp-small.png',
 'wp-images/wpminilogo.png',
-'wp.php',
-'wp-content/themes/default/attachment.php',
-'wp-content/themes/default/images/kubrickbg.jpg',
-'wp-content/plugins/markdown.php',
-'wp-content/plugins/textile1.php',
+'wp.php'
 );
 
 /**
