@@ -364,6 +364,7 @@ class WP_Http {
 			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )  ),
 			'blocking' => true,
 			'headers' => array(),
+			'cookies' => array(),
 			'body' => null,
 			'compress' => false,
 			'decompress' => true,
@@ -660,7 +661,7 @@ class WP_Http_Fsockopen {
 			'method' => 'GET', 'timeout' => 5,
 			'redirection' => 5, 'httpversion' => '1.0',
 			'blocking' => true,
-			'headers' => array(), 'body' => null
+			'headers' => array(), 'body' => null, 'cookies' => array()
 		);
 
 		$r = wp_parse_args( $args, $defaults );
