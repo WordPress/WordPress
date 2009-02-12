@@ -1410,7 +1410,7 @@ function feed_links( $args ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
-	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['rsstitle'], get_bloginfo('name') )) . '" href="' . get_feed_link() . "\" />\n";
+	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['feedtitle'], get_bloginfo('name') )) . '" href="' . get_feed_link() . "\" />\n";
 	echo '<link rel="alternate" type="' . feed_content_type() . '" title="' . attribute_escape(sprintf( $args['comstitle'], get_bloginfo('name') )) . '" href="' . get_feed_link( 'comments_' . get_default_feed() ) . "\" />\n";
 }
 
