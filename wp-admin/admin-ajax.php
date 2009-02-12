@@ -1083,9 +1083,14 @@ case 'inline-save-tax':
 
 			break;
 		case 'tag' :
-			$updated = wp_update_term($id, 'post_tag', $_POST);
+			if ( !empty($_POST['taxonomy']) )
+				$taxonomy = $_POST['taxonomy'];
+			else
+				$taxonomy = 'post_tag';
+
+			$updated = wp_update_term($id, $taxonomy, $_POST);
 			if ( $updated && !is_wp_error($updated) ) {
-				$tag = get_term( $updated['term_id'], 'post_tag' );
+				$tag = get_term( $updated['term_id'], $taxonomy );
 				if ( !$tag || is_wp_error( $tag ) )
 					die( __('Tag not updated.') );
 

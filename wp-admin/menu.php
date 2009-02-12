@@ -32,7 +32,16 @@ $menu[4] = array( '', 'read', '', '', 'wp-menu-separator' );
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'wp-menu-open menu-top', 'menu-posts', 'div' );
 	$submenu['edit.php'][5]  = array( __('Edit'), 'edit_posts', 'edit.php' );
 	$submenu['edit.php'][10]  = array( _c('Add New|post'), 'edit_posts', 'post-new.php' );
-	$submenu['edit.php'][15] = array( __('Tags'), 'manage_categories', 'edit-tags.php' );
+
+	$i = 15;
+	foreach ( $wp_taxonomies as $tax ) {
+		if ( 'category' == $tax->name || 'link_category' == $tax->name )
+			continue;
+
+		$submenu['edit.php'][$i] = array( attribute_escape($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
+		++$i;
+	}
+
 	$submenu['edit.php'][20] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'menu-media', 'div' );

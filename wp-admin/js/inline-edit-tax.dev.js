@@ -63,7 +63,7 @@ inlineEditTax = {
 	},
 
 	save : function(id) {
-		var params, fields;
+		var params, fields, tax = $('input[name="taxonomy"]').val() || '';
 		
 		if( typeof(id) == 'object' )
 			id = this.getId(id);
@@ -73,7 +73,8 @@ inlineEditTax = {
 		params = {
 			action: 'inline-save-tax',
 			tax_type: this.type,
-			tax_ID: id
+			tax_ID: id,
+			taxonomy: tax
 		};
 
 		fields = $('#edit-'+id+' :input').fieldSerialize();

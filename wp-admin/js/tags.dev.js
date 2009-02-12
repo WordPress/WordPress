@@ -20,6 +20,8 @@ jQuery(document).ready(function($) {
 	}
 	
 	delBefore = function(s) {
+		s.data.taxonomy = $('input[name="taxonomy"]').val();
+
 		if ( 'undefined' != showNotice )
 			return showNotice.warn() ? s : false;
 

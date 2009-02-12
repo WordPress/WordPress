@@ -2461,6 +2461,12 @@ tr.inline-edit-row td {
 	margin: 0.5em 0 0;
 }
 
+.inline-edit-row span.error {
+	line-height: 22px;
+	margin: 0 15px;
+	padding: 3px 5px;
+}
+
 /*	Positioning */
 .inline-edit-row h4 {
 	margin: .2em 0;

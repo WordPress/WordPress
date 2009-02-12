@@ -208,7 +208,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'admin-categories', "/wp-admin/js/categories$suffix.js", array('wp-lists'), '20090207' );
 		$scripts->add_data( 'admin-categories', 'group', 1 );
 
-		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('wp-lists'), '20090207' );
+		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('wp-lists'), '20090211' );
 		$scripts->add_data( 'admin-tags', 'group', 1 );
 
 		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), '20090106' );
@@ -353,7 +353,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(inlineEditL10n);}catch(e){};'
 		) );
 
-		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery-form' ), '20090109' );
+		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery-form' ), '20090211' );
 		$scripts->add_data( 'inline-edit-tax', 'group', 1 );
 		$scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),
