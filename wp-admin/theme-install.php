@@ -25,10 +25,10 @@ add_thickbox();
 
 //These are the tabs which are shown on the page,
 $tabs = array();
-$tabs['dashboard'] = __('Start Page'); //TODO: Better name?
+$tabs['dashboard'] = __('Search');
 if ( 'search' == $tab )
 	$tabs['search']	= __('Search Results');
-$tabs['tag-filter'] = __('Tag Filter');
+$tabs['upload'] = __('Upload');
 $tabs['featured'] = __('Featured');
 //$tabs['popular']  = __('Popular');
 $tabs['new']      = __('Newest');

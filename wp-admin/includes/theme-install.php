@@ -122,9 +122,8 @@ function install_theme_search($page) {
 add_action('install_themes_dashboard', 'install_themes_dashboard');
 function install_themes_dashboard() {
 	?>
-	<p><?php _e('Themes give your WordPress a personalized feel &amp; touch. You may automatically install themes from the <a href="http://wordpress.org/extend/themes/">WordPress Theme Directory</a> or upload a theme in .zip format via this page.') ?></p>
+	<p><?php _e('Search for themes by keyword, author, or tag.') ?></p>
 
-	<h4><?php _e('Search') ?></h4>
 	<?php install_theme_search_form('<a href="' . add_query_arg('show-help', !isset($_REQUEST['show-help'])) .'" onclick="jQuery(\'#search-help\').toggle(); return false;">' . __('[need help?]') . '</a>') ?>
 	<div id="search-help" style="display: <?php echo isset($_REQUEST['show-help']) ? 'block' : 'none'; ?>;">
 	<p>	<?php _e('You may search based on 3 criteria:') ?><br />
@@ -133,13 +132,8 @@ function install_themes_dashboard() {
 		<?php _e('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') ?></p>
 	</div>
 
-	<h4><?php _e('Install a theme in .zip format') ?></h4>
-	<p><?php _e('If you have a theme in a .zip format, You may install it by uploading it here.') ?></p>
-	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('theme-install.php?tab=upload') ?>">
-		<?php wp_nonce_field( 'theme-upload') ?>
-		<input type="file" name="themezip" />
-		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
-	</form>
+	<h4><?php _e('Advanced Search') ?></h4>
+	<p><?php _e('Tag filter goes here') ?></p>
 
 	<h4><?php _e('Popular tags') ?></h4>
 	<p><?php _e('You may also browse based on the most popular tags in the Theme Directory:') ?></p>
@@ -240,6 +234,19 @@ function install_themes_updated($page = 1) {
 	display_themes($api->themes, $api->info['page'], $api->info['pages']);
 }
 
+add_action('install_themes_upload', 'install_themes_upload', 10, 1);
+function install_themes_upload() {
+?>
+	<h4><?php _e('Install a theme in .zip format') ?></h4>
+	<p><?php _e('If you have a theme in a .zip format, You may install it by uploading it here.') ?></p>
+	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('theme-install.php?tab=upload') ?>">
+		<?php wp_nonce_field( 'theme-upload') ?>
+		<input type="file" name="themezip" />
+		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
+	</form>
+<?php
+}
+
 /**
  * Display theme content based on theme list.
  *
@@ -331,79 +338,6 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 		
 		?>
 	</div>
-	<table class="widefat" id="install-themes" cellspacing="0">
-		<thead>
-			<tr>
-				<th scope="col" class="name"><?php _e('Name'); ?></th>
-				<th scope="col" class="num"><?php _e('Version'); ?></th>
-				<th scope="col" class="num"><?php _e('Rating'); ?></th>
-				<th scope="col" class="desc"><?php _e('Description'); ?></th>
-				<th scope="col" class="action-links"><?php _e('Actions'); ?></th>
-			</tr>
-		</thead>
-
-		<tfoot>
-			<tr>
-				<th scope="col" class="name"><?php _e('Name'); ?></th>
-				<th scope="col" class="num"><?php _e('Version'); ?></th>
-				<th scope="col" class="num"><?php _e('Rating'); ?></th>
-				<th scope="col" class="desc"><?php _e('Description'); ?></th>
-				<th scope="col" class="action-links"><?php _e('Actions'); ?></th>
-			</tr>
-		</tfoot>
-
-		<tbody class="themes">
-		<?php
-			if( empty($themes) )
-				echo '<tr><td colspan="5">', __('No themes match your request.'), '</td></tr>';
-
-			foreach( (array) $themes as $theme ){
-				if ( is_object($theme) )
-					$theme = (array) $theme;
-
-				$title = wp_kses($theme['name'], $themes_allowedtags);
-				$description = wp_kses($theme['description'], $themes_allowedtags);
-				$version = wp_kses($theme['version'], $themes_allowedtags);
-
-				$name = strip_tags($title . ' ' . $version);
-
-				$author = $theme['author'];
-				if( ! empty($theme['author']) )
-					$author = ' <cite>' . sprintf( __('By %s'), $author ) . '.</cite>';
-
-				$author = wp_kses($author, $themes_allowedtags);
-
-				if( isset($theme['homepage']) )
-					$title = '<a target="_blank" href="' . attribute_escape($theme['homepage']) . '">' . $title . '</a>';
-
-				$action_links = array();
-				$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme['slug'] .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' .
-									attribute_escape($name) . '">' . __('Install') . '</a>';
-
-				$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
-			?>
-			<tr>
-				<td class="name"><?php echo $title; ?></td>
-				<td class="vers"><?php echo $version; ?></td>
-				<td class="vers">
-					<div class="star-holder" title="<?php printf(__ngettext('(based on %s rating)', '(based on %s ratings)', $theme['num_ratings']), number_format_i18n($theme['num_ratings'])) ?>">
-						<div class="star star-rating" style="width: <?php echo attribute_escape($theme['rating']) ?>px"></div>
-						<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
-						<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
-						<div class="star star3"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('3 stars') ?>" /></div>
-						<div class="star star2"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('2 stars') ?>" /></div>
-						<div class="star star1"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('1 star') ?>" /></div>
-					</div>
-				</td>
-				<td class="desc"><p><?php echo $description, $author; ?></p></td>
-				<td class="action-links"><?php if ( !empty($action_links) )	echo implode(' | ', $action_links); ?></td>
-			</tr>
-			<?php
-			}
-			?>
-		</tbody>
-	</table>
 
 	<div class="tablenav">
 		<?php if ( $page_links )
