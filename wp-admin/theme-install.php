@@ -18,11 +18,8 @@ $title = __('Install Themes');
 $parent_file = 'themes.php';
 
 wp_reset_vars( array('tab', 'paged') );
-//wp_enqueue_style( 'theme-install' );
-//wp_enqueue_script( 'theme-install' );
-//TODO: Combine? This'll do until a new UI is dreamed up though :)
-wp_enqueue_style( 'plugin-install' );
-wp_enqueue_script( 'plugin-install' );
+wp_enqueue_style( 'theme-install' );
+wp_enqueue_script( 'theme-install' );
 
 add_thickbox();
 
@@ -31,8 +28,9 @@ $tabs = array();
 $tabs['dashboard'] = __('Start Page'); //TODO: Better name?
 if ( 'search' == $tab )
 	$tabs['search']	= __('Search Results');
+$tabs['tag-filter'] = __('Tag Filter');
 $tabs['featured'] = __('Featured');
-$tabs['popular']  = __('Popular');
+//$tabs['popular']  = __('Popular');
 $tabs['new']      = __('Newest');
 $tabs['updated']  = __('Recently Updated');
 

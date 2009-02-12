@@ -47,7 +47,7 @@ function themes_api($action, $args = null) {
 				$res = new WP_Error('themes_api_failed', __('An unknown error occured'), $request['body']);
 		}
 	}
-
+	//var_dump(array($args, $res));
 	return apply_filters('themes_api_result', $res, $action, $args);
 }
 
@@ -94,7 +94,10 @@ function install_theme_search($page) {
 
 	switch( $type ){
 		case 'tag':
-			$args['tag'] = sanitize_title_with_dashes($term);
+			$terms = explode(',', $term);
+			$terms = array_map('trim', $terms);
+			$terms = array_map('sanitize_title_with_dashes', $terms);
+			$args['tag'] = $terms;
 			break;
 		case 'term':
 			$args['search'] = $term;
@@ -257,28 +260,76 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 ?>
 	<div class="tablenav">
 		<div class="alignleft actions">
-		<?php do_action('install_themes_table_header'); ?>
+<?php do_action('install_themes_table_header'); ?>
 		</div>
-		<?php
-			$url = clean_url($_SERVER['REQUEST_URI']);
-			if ( ! empty($term) )
-				$url = add_query_arg('s', $term, $url);
-			if ( ! empty($type) )
-				$url = add_query_arg('type', $type, $url);
+<?php
+		$url = clean_url($_SERVER['REQUEST_URI']);
+		if ( ! empty($term) )
+			$url = add_query_arg('s', $term, $url);
+		if ( ! empty($type) )
+			$url = add_query_arg('type', $type, $url);
 
-			$page_links = paginate_links( array(
-				'base' => add_query_arg('paged', '%#%', $url),
-				'format' => '',
-				'prev_text' => __('&laquo;'),
-				'next_text' => __('&raquo;'),
-				'total' => $totalpages,
-				'current' => $page
-			));
+		$page_links = paginate_links( array(
+			'base' => add_query_arg('paged', '%#%', $url),
+			'format' => '',
+			'prev_text' => __('&laquo;'),
+			'next_text' => __('&raquo;'),
+			'total' => $totalpages,
+			'current' => $page
+		));
 
-			if ( $page_links )
-				echo "\t\t<div class='tablenav-pages'>$page_links</div>";
+		if ( $page_links )
+			echo "\t\t<div class='tablenav-pages'>$page_links</div>";
 ?>
 		<br class="clear" />
+	</div>
+	<div class="theme-listing">
+		<?php
+		$in_column = 0;
+		foreach ( $themes as $theme ) {
+			//var_dump($theme);
+			
+			$name = wp_kses($theme->name, $themes_allowedtags);
+			$desc = wp_kses($theme->description, $themes_allowedtags);
+			if ( strlen($desc) > 30 )
+				$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
+
+			$action_links = array();
+			$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
+								'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' .
+								attribute_escape($name) . '">' . __('Install') . '</a>';
+			$action_links[] = '<a href="' . $theme->preview_url . '&TB_iframe" class="thickbox onclick" title="' .
+								attribute_escape( sprintf(__('Preview %s'), $name) ) . '">' . __('Preview') . '</a>';
+
+			$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
+			$actions = implode ( ' | ', $action_links );
+			echo "
+		<div class='theme-item'>
+			<h3>{$theme->name}</h3>
+			<img src='{$theme->screenshot_url}' width='150' /><br />
+			<div class='theme-item-info'>
+				{$desc}
+				<br class='line' />
+				<span class='action-links'>$actions</span>
+			</div>
+		</div>";
+		/*
+		object(stdClass)[59]
+		  public 'name' => string 'Magazine Basic' (length=14)
+		  public 'slug' => string 'magazine-basic' (length=14)
+		  public 'version' => string '1.1' (length=3)
+		  public 'author' => string 'tinkerpriest' (length=12)
+		  public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
+		  public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
+		  public 'rating' => float 80
+		  public 'num_ratings' => int 1
+		  public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
+		  public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
+		  public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
+		  */
+		}
+		
+		?>
 	</div>
 	<table class="widefat" id="install-themes" cellspacing="0">
 		<thead>
