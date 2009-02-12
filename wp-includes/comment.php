@@ -252,7 +252,7 @@ function get_comments( $args = '' ) {
 function get_comment_statuses( ) {
 	$status = array(
 		'hold'		=> __('Unapproved'),
-		'approve'	=> __('Approved'),
+		'approve'	=> _c('Approved|adjective'),
 		'spam'		=> _c('Spam|adjective'),
 	);
 
