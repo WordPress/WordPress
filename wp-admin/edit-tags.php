@@ -16,6 +16,9 @@ wp_reset_vars( array('action', 'tag', 'taxonomy') );
 if ( empty($taxonomy) )
 	$taxonomy = 'post_tag';
 
+if ( !is_taxonomy($taxonomy) )
+	wp_die(__('Invalid taxonomy'));
+
 if ( isset( $_GET['action'] ) && isset($_GET['delete_tags']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )
 	$action = 'bulk-delete';
 
