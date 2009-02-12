@@ -1375,10 +1375,12 @@ class WP_Http_Cookie {
 			$value = substr( $pairs[0], strpos( $pairs[0], '=' ) + 1 );
 			$this->name  = $name;
 			$this->value = urldecode( $value );
-			array_shift( $pairs );
+			array_shift( $pairs ); //Removes name=value from items.
 			
 			// Set everything else as a property
 			foreach ( $pairs as $pair ) {
+				if ( empty($pair) ) //Handles the cookie ending in ; which results in a empty final pair
+					continue;
 				list( $key, $val ) = explode( '=', $pair );
 				$key = strtolower( trim( $key ) );
 				if ( 'expires' == $key )
