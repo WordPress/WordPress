@@ -157,6 +157,7 @@ endif; ?>
 <div id="col-right">
 <div class="col-wrap">
 <form id="posts-filter" action="" method="get">
+<input type="hidden" name="taxonomy" value="<?php echo attribute_escape($taxonomy); ?>" />
 <div class="tablenav">
 <?php
 $pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 0;
@@ -258,6 +259,7 @@ else
 <div id="ajax-response"></div>
 <form name="addtag" id="addtag" method="post" action="edit-tags.php" class="add:the-list: validate">
 <input type="hidden" name="action" value="addtag" />
+<input type="hidden" name="taxonomy" value="<?php echo attribute_escape($taxonomy); ?>" />
 <?php wp_original_referer_field(true, 'previous'); wp_nonce_field('add-tag'); ?>
 
 <div class="form-field form-required">

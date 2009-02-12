@@ -212,11 +212,16 @@ case 'delete-tag' :
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 
-	$tag = get_term( $id, 'post_tag' );
+	if ( !empty($_POST['taxonomy']) )
+		$taxonomy = $_POST['taxonomy'];
+	else
+		$taxonomy = 'post_tag';
+
+	$tag = get_term( $id, $taxonomy );
 	if ( !$tag || is_wp_error( $tag ) )
 		die('1');
 
-	if ( wp_delete_term($id, 'post_tag'))
+	if ( wp_delete_term($id, $taxonomy))
 		die('1');
 	else
 		die('0');
@@ -511,7 +516,12 @@ case 'add-tag' : // From Manage->Tags
 		$x->send();
 	}
 
-	$tag = wp_insert_term($_POST['name'], 'post_tag', $_POST );
+	if ( !empty($_POST['taxonomy']) )
+		$taxonomy = $_POST['taxonomy'];
+	else
+		$taxonomy = 'post_tag';
+
+	$tag = wp_insert_term($_POST['name'], $taxonomy, $_POST );
 
 	if ( is_wp_error($tag) ) {
 		$x = new WP_Ajax_Response( array(
@@ -521,7 +531,7 @@ case 'add-tag' : // From Manage->Tags
 		$x->send();
 	}
 
-	if ( !$tag || (!$tag = get_term( $tag['term_id'], 'post_tag' )) )
+	if ( !$tag || (!$tag = get_term( $tag['term_id'], $taxonomy )) )
 		die('0');
 
 	$tag_full_name = $tag->name;
