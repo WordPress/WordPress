@@ -35,14 +35,14 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'wp-menu-open menu-
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
-		if ( 'category' == $tax->name || 'link_category' == $tax->name )
+		if ( $tax->hierarchical || ! in_array('post', (array) $tax->object_type, true) )
 			continue;
 
 		$submenu['edit.php'][$i] = array( attribute_escape($tax->label), 'manage_categories', 'edit-tags.php?taxonomy=' . $tax->name );
 		++$i;
 	}
 
-	$submenu['edit.php'][20] = array( __('Categories'), 'manage_categories', 'categories.php' );
+	$submenu['edit.php'][50] = array( __('Categories'), 'manage_categories', 'categories.php' );
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'menu-media', 'div' );
 	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
