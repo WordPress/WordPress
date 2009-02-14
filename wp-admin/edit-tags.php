@@ -19,6 +19,9 @@ if ( empty($taxonomy) )
 if ( !is_taxonomy($taxonomy) )
 	wp_die(__('Invalid taxonomy'));
 
+$parent_file = 'edit.php';
+$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
+
 if ( isset( $_GET['action'] ) && isset($_GET['delete_tags']) && ( 'delete' == $_GET['action'] || 'delete' == $_GET['action2'] ) )
 	$action = 'bulk-delete';
 
