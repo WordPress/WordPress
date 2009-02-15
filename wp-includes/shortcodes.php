@@ -156,7 +156,15 @@ function do_shortcode($content) {
  *
  * The regular expression combines the shortcode tags in the regular expression
  * in a regex class.
- *
+ * 
+ * The regular expresion contains 6 different sub matches to help with parsing.
+ * 
+ * 1/6 - An extra [ or ] to allow for escaping shortcodes with double [[]]
+ * 2 - The shortcode name
+ * 3 - The shortcode argument list
+ * 4 - The self closing /
+ * 5 - The content of a shortcode when it wraps some content.
+ * 
  * @since 2.5
  * @uses $shortcode_tags
  *
@@ -167,11 +175,12 @@ function get_shortcode_regex() {
 	$tagnames = array_keys($shortcode_tags);
 	$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
 
-	return '\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\1\])?';
+	return '(.?)\[('.$tagregexp.')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)';
 }
 
 /**
  * Regular Expression callable for do_shortcode() for calling shortcode hook.
+ * @see get_shortcode_regex for details of the match array contents.
  *
  * @since 2.5
  * @access private
@@ -183,15 +192,20 @@ function get_shortcode_regex() {
 function do_shortcode_tag($m) {
 	global $shortcode_tags;
 
-	$tag = $m[1];
-	$attr = shortcode_parse_atts($m[2]);
+	// allow [[foo]] syntax for escaping a tag
+	if ($m[1] == '[' && $m[6] == ']') {
+		return substr($m[0], 1, -1);
+	}
+	
+	$tag = $m[2];
+	$attr = shortcode_parse_atts($m[3]);
 
-	if ( isset($m[4]) ) {
+	if ( isset($m[5]) ) {
 		// enclosing tag - extra parameter
-		return call_user_func($shortcode_tags[$tag], $attr, $m[4], $tag);
+		return $m[1] . call_user_func($shortcode_tags[$tag], $attr, $m[5]) . $m[6]; 
 	} else {
 		// self-closing tag
-		return call_user_func($shortcode_tags[$tag], $attr, NULL, $tag);
+		return $m[1] . call_user_func($shortcode_tags[$tag], $attr) . $m[6];
 	}
 }
 
