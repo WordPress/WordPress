@@ -77,3 +77,28 @@ function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false,
 	}
 	$wp_styles->enqueue( $handle );
 }
+
+/**
+ * Check whether style has been added to WordPress Styles.
+ *
+ * The values for list defaults to 'queue', which is the same as enqueue for
+ * styles.
+ *
+ * @since WP unknown; BP unknown
+ *
+ * @param string $handle Handle used to add style.
+ * @param string $list Optional, defaults to 'queue'. Others values are 'registered', 'queue', 'done', 'to_do'
+ * @return bool
+ */
+function wp_style_is( $handle, $list = 'queue' ) {
+	global $wp_styles;
+	if ( !is_a($wp_styles, 'WP_Scripts') )
+		$wp_styles = new WP_Styles();
+
+	$query = $wp_styles->query( $handle, $list );
+
+	if ( is_object( $query ) )
+		return true;
+
+	return $query;
+}

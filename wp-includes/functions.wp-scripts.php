@@ -16,7 +16,7 @@
  * register/enqueue new scripts.
  *
  * @since r16
- * @see WP_Scripts::print_scripts()
+ * @see WP_Dependencies::print_scripts()
  */
 function wp_print_scripts( $handles = false ) {
 	do_action( 'wp_print_scripts' );
@@ -38,7 +38,7 @@ function wp_print_scripts( $handles = false ) {
  * Register new JavaScript file.
  *
  * @since r16
- * @see WP_Scripts::add() For parameter information.
+ * @see WP_Dependencies::add() For parameter information.
  */
 function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
@@ -100,4 +100,29 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 			$wp_scripts->add_data( $_handle[0], 'group', 1 );
 	}
 	$wp_scripts->enqueue( $handle );
+}
+
+/**
+ * Check whether script has been added to WordPress Scripts.
+ *
+ * The values for list defaults to 'queue', which is the same as enqueue for
+ * scripts.
+ *
+ * @since WP unknown; BP unknown
+ *
+ * @param string $handle Handle used to add script.
+ * @param string $list Optional, defaults to 'queue'. Others values are 'registered', 'queue', 'done', 'to_do'
+ * @return bool
+ */
+function wp_script_is( $handle, $list = 'queue' ) {
+	global $wp_scripts;
+	if ( !is_a($wp_scripts, 'WP_Scripts') )
+		$wp_scripts = new WP_Scripts();
+
+	$query = $wp_scripts->query( $handle, $list );
+
+	if ( is_object( $query ) )
+		return true;
+
+	return $query;
 }
