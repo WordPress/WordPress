@@ -1504,15 +1504,17 @@ function content_url($path = '') {
 }
 
 /**
- * Retrieve the url to the plugins directory.
+ * Retrieve the url to the plugins directory or to a specific file within that directory.
+ * You can hardcode the plugin slug in $path or pass __FILE__ as a second argument to get the correct folder name.
  *
  * @package WordPress
  * @since 2.6.0
  *
  * @param string $path Optional. Path relative to the plugins url.
+ * @param string $plugin Optional. The plugin file that you want to be relative to - i.e. pass in __FILE__
  * @return string Plugins url link with optional path appended.
 */
-function plugins_url($path = '') {
+function plugins_url($path = '', $plugin = '') {
 	$scheme = ( is_ssl() ? 'https' : 'http' );
 	$url = WP_PLUGIN_URL;
 	if ( 0 === strpos($url, 'http') ) {
@@ -1520,6 +1522,13 @@ function plugins_url($path = '') {
 			$url = str_replace( 'http://', "{$scheme}://", $url );
 	}
 
+	if ( !empty($plugin) && is_string($plugin) )
+	{
+		$folder = dirname(plugin_basename($plugin));
+		if ('.' != $folder)
+			$url .= '/' . ltrim($folder, '/');
+	}
+	
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 
