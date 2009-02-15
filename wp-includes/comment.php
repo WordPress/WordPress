@@ -1254,7 +1254,12 @@ function discover_pingback_server_uri($url, $deprecated = 2048) {
 	if ( ! isset( $parsed_url['host'] ) ) // Not an URL. This should never happen.
 		return false;
 
-	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.1' ) );
+	//Do not search for a pingback server on our own uploads
+	$uploads_dir = wp_upload_dir();
+	if ( 0 === strpos($url, $uploads_dir['baseurl']) )
+		return false;
+
+	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1264,6 +1269,12 @@ function discover_pingback_server_uri($url, $deprecated = 2048) {
 
 	// Not an (x)html, sgml, or xml page, no use going further.
 	if ( isset( $response['headers']['content-type'] ) && preg_match('#(image|audio|video|model)/#is', $response['headers']['content-type']) )
+		return false;
+
+	// Now do a GET since we're going to look in the html headers (and we're sure its not a binary file)
+	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+
+	if ( is_wp_error( $response ) )
 		return false;
 
 	$contents = $response['body'];
