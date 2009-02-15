@@ -328,7 +328,13 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		$from_name = 'WordPress';
 	}
 
-	// If we don't have an email from the input headers
+	/* If we don't have an email from the input headers default to wordpress@$sitename
+	 * Some hosts will block outgoing mail from this address if it doesn't exist but
+	 * there's no easy alternative. Defaulting to admin_email might appear to be another 
+	 * option but some hosts may refuse to relay mail from an unknown domain. See
+	 * http://trac.wordpress.org/ticket/5007.
+	 */
+	
 	if ( !isset( $from_email ) ) {
 		// Get the site domain and get rid of www.
 		$sitename = strtolower( $_SERVER['SERVER_NAME'] );
@@ -339,7 +345,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		$from_email = 'wordpress@' . $sitename;
 	}
 
-	// Set the from name and email
+	// Plugin authors can override the potentially troublesome default
 	$phpmailer->From = apply_filters( 'wp_mail_from', $from_email );
 	$phpmailer->FromName = apply_filters( 'wp_mail_from_name', $from_name );
 
