@@ -442,15 +442,23 @@ function get_author_name( $auth_id ) {
 /**
  * List all the authors of the blog, with several options available.
  *
- * optioncount (boolean) (false): Show the count in parenthesis next to the
- *		author's name.
- * exclude_admin (boolean) (true): Exclude the 'admin' user that is installed by
- *		default.
- * show_fullname (boolean) (false): Show their full names.
- * hide_empty (boolean) (true): Don't show authors without any posts.
- * feed (string) (''): If isn't empty, show links to author's feeds.
- * feed_image (string) (''): If isn't empty, use this image to link to feeds.
- * echo (boolean) (true): Set to false to return the output, instead of echoing.
+ * <ul>
+ * <li>optioncount (boolean) (false): Show the count in parenthesis next to the
+ * author's name.</li>
+ * <li>exclude_admin (boolean) (true): Exclude the 'admin' user that is
+ * installed bydefault.</li>
+ * <li>show_fullname (boolean) (false): Show their full names.</li>
+ * <li>hide_empty (boolean) (true): Don't show authors without any posts.</li>
+ * <li>feed (string) (''): If isn't empty, show links to author's feeds.</li>
+ * <li>feed_image (string) (''): If isn't empty, use this image to link to
+ * feeds.</li>
+ * <li>echo (boolean) (true): Set to false to return the output, instead of
+ * echoing.</li>
+ * <li>style (string) ('list'): Whether to display list of authors in list form
+ * or as a string.</li>
+ * <li>html (bool) (true): Whether to list the items in html for or plaintext.
+ * </li>
+ * </ul>
  *
  * @link http://codex.wordpress.org/Template_Tags/wp_list_authors
  * @since 1.2.0
@@ -463,12 +471,12 @@ function wp_list_authors($args = '') {
 	$defaults = array(
 		'optioncount' => false, 'exclude_admin' => true,
 		'show_fullname' => false, 'hide_empty' => true,
-		'feed' => '', 'feed_image' => '', 'feed_type' => '', 'echo' => true
+		'feed' => '', 'feed_image' => '', 'feed_type' => '', 'echo' => true,
+		'style' => 'list', 'html' => true
 	);
 
 	$r = wp_parse_args( $args, $defaults );
 	extract($r, EXTR_SKIP);
-
 	$return = '';
 
 	/** @todo Move select to get_authors(). */
@@ -487,10 +495,21 @@ function wp_list_authors($args = '') {
 		if ( $show_fullname && ($author->first_name != '' && $author->last_name != '') )
 			$name = "$author->first_name $author->last_name";
 
-		if ( !($posts == 0 && $hide_empty) )
+		if( !$html ) {
+			if ( $posts == 0 ) {
+				if ( ! $hide_empty )
+					$return .= $name . ', ';
+			} else
+				$return .= $name . ', ';
+
+			// No need to go further to process HTML.
+			continue;
+		}
+
+		if ( !($posts == 0 && $hide_empty) && 'list' == $style )
 			$return .= '<li>';
 		if ( $posts == 0 ) {
-			if ( !$hide_empty )
+			if ( ! $hide_empty )
 				$link = $name;
 		} else {
 			$link = '<a href="' . get_author_posts_url($author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), attribute_escape($author->display_name)) . '">' . $name . '</a>';
@@ -526,10 +545,15 @@ function wp_list_authors($args = '') {
 
 		}
 
-		if ( !($posts == 0 && $hide_empty) )
+		if ( !($posts == 0 && $hide_empty) && 'list' == $style )
 			$return .= $link . '</li>';
+		else
+			$return .= $link . ', ';
 	}
-	if ( !$echo )
+
+	$return = trim($return, ', ');
+
+	if ( ! $echo )
 		return $return;
 	echo $return;
 }
