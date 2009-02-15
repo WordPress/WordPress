@@ -48,6 +48,31 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <?php
 }//end function display_header();
 
+function display_setup_form( $error = null ) {
+	if ( ! is_null( $error ) ) {
+?>
+<p><strong><?php _e('ERROR'); ?></strong>: <?php echo $error; ?></p>
+<?php } ?>
+<form id="setup" method="post" action="install.php?step=2">
+	<table class="form-table">
+		<tr>
+			<th scope="row"><label for="weblog_title"><?php _e('Blog Title'); ?></label></th>
+			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo ( isset($_POST['weblog_title']) ? $_POST['weblog_title'] : '' ); ?>" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="admin_email"><?php _e('Your E-mail'); ?></label></th>
+			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo ( isset($_POST['admin_email']) ? $_POST['admin_email'] : '' ); ?>" /><br />
+			<?php _e('Double-check your email address before continuing.'); ?>
+		</tr>
+		<tr>
+			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1"<?php if( isset($_POST) && ! empty($_POST) && isset( $_POST['blog_public'] ) ) : ?> checked="checked"<?php endif; ?> /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
+		</tr>
+	</table>
+	<p class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" class="button" /></p>
+</form>
+<?php
+}
+
 // Let's check to make sure WP isn't already installed.
 if ( is_blog_installed() ) {display_header(); die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');}
 
@@ -63,25 +88,10 @@ switch($step) {
 <h1><?php _e('Information needed'); ?></h1>
 <p><?php _e("Please provide the following information.  Don't worry, you can always change these settings later."); ?></p>
 
-<form id="setup" method="post" action="install.php?step=2">
-	<table class="form-table">
-		<tr>
-			<th scope="row"><label for="weblog_title"><?php _e('Blog Title'); ?></label></th>
-			<td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
-		</tr>
-		<tr>
-			<th scope="row"><label for="admin_email"><?php _e('Your E-mail'); ?></label></th>
-			<td><input name="admin_email" type="text" id="admin_email" size="25" /><br />
-			<?php _e('Double-check your email address before continuing.'); ?>
-		</tr>
-		<tr>
-			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('Allow my blog to appear in search engines like Google and Technorati.'); ?></label></td>
-		</tr>
-	</table>
-	<p class="step"><input type="submit" name="Submit" value="<?php _e('Install WordPress'); ?>" class="button" /></p>
-</form>
+
 
 <?php
+		display_setup_form();
 		break;
 	case 2:
 		if ( !empty($wpdb->error) )
@@ -93,17 +103,21 @@ switch($step) {
 		$admin_email = isset($_POST['admin_email']) ? stripslashes($_POST['admin_email']) : '';
 		$public = isset($_POST['blog_public']) ? (int) $_POST['blog_public'] : 0;
 		// check e-mail address
+		$error = false;
 		if (empty($admin_email)) {
 			// TODO: poka-yoke
-			die('<p>'.__("<strong>ERROR</strong>: you must provide an e-mail address.").'</p>');
+			display_setup_form( __('you must provide an e-mail address.') );
+			$error = true;
 		} else if (!is_email($admin_email)) {
 			// TODO: poka-yoke
-			die('<p>'.__('<strong>ERROR</strong>: that isn&#8217;t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>').'</p>');
+			display_setup_form( __('that isn&#8217;t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>') );
+			$error = true;
 		}
 
-		$wpdb->show_errors();
-		$result = wp_install($weblog_title, 'admin', $admin_email, $public);
-		extract($result, EXTR_SKIP);
+		if ( $error === false ) {
+			$wpdb->show_errors();
+			$result = wp_install($weblog_title, 'admin', $admin_email, $public);
+			extract($result, EXTR_SKIP);
 ?>
 
 <h1><?php _e('Success!'); ?></h1>
@@ -125,6 +139,7 @@ switch($step) {
 <p class="step"><a href="../wp-login.php" class="button"><?php _e('Log In'); ?></a></p>
 
 <?php
+		}
 		break;
 }
 ?>
