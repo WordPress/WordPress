@@ -1226,7 +1226,7 @@ function wp_salt($scheme = 'auth') {
 		} else {
 			$salt = get_option('auth_salt');
 			if ( empty($salt) ) {
-				$salt = wp_generate_password();
+				$salt = wp_generate_password(64);
 				update_option('auth_salt', $salt);
 			}
 		}
@@ -1239,7 +1239,7 @@ function wp_salt($scheme = 'auth') {
 		} else {
 			$salt = get_option('secure_auth_salt');
 			if ( empty($salt) ) {
-				$salt = wp_generate_password();
+				$salt = wp_generate_password(64);
 				update_option('secure_auth_salt', $salt);
 			}
 		}
@@ -1252,7 +1252,7 @@ function wp_salt($scheme = 'auth') {
 		} else {
 			$salt = get_option('logged_in_salt');
 			if ( empty($salt) ) {
-				$salt = wp_generate_password();
+				$salt = wp_generate_password(64);
 				update_option('logged_in_salt', $salt);
 			}
 		}
@@ -1265,7 +1265,7 @@ function wp_salt($scheme = 'auth') {
 		} else {
 			$salt = get_option('nonce_salt');
 			if ( empty($salt) ) {
-				$salt = wp_generate_password();
+				$salt = wp_generate_password(64);
 				update_option('nonce_salt', $salt);
 			}
 		}
