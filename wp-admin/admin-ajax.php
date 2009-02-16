@@ -1179,7 +1179,7 @@ case 'lj-importer' :
 		die('-1');
 	if ( empty( $_POST['step'] ) )
 		die( '-1' );
-
+	define('WP_IMPORTING', true);
 	include( ABSPATH . 'wp-admin/import/livejournal.php' );
 	$result = $lj_api_import->{ 'step' . ( (int) $_POST['step'] ) }();
 	if ( is_wp_error( $result ) )
