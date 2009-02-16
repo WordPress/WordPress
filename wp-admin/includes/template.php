@@ -1157,7 +1157,7 @@ function inline_edit_row( $type ) {
 <?php endif; // $bulk ?>
 				<?php endif; ?>
 					<option value="pending"><?php _e( 'Pending Review' ); ?></option>
-					<option value="draft"><?php _e( 'Unpublished' ); ?></option>
+					<option value="draft"><?php _e( 'Draft' ); ?></option>
 				</select>
 			</label>
 
