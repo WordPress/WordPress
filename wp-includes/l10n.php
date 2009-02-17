@@ -44,16 +44,11 @@ function get_locale() {
 }
 
 /**
- * Retrieve the translated text.
+ * Retrieves the translation of $text. If there is no translation, or
+ * the domain isn't loaded the original text is returned.
  *
- * If the domain is set in the $l10n global, then the text is run through the
- * domain's translate method. After it is passed to the 'gettext' filter hook,
- * along with the untranslated text as the second parameter.
- *
- * If the domain is not set, the $text is just returned.
- *
+ * @see __() Don't use translate() directly, use __()
  * @since 2.2.0
- * @uses $l10n Gets list of domain translated string (gettext_reader) objects.
  * @uses apply_filters() Calls 'gettext' on domain translated text
  *		with the untranslated text as second parameter.
  *
@@ -61,13 +56,9 @@ function get_locale() {
  * @param string $domain Domain to retrieve the translated text.
  * @return string Translated text
  */
-function translate($text, $domain = 'default') {
-	global $l10n;
-
-	if (isset($l10n[$domain]))
-		return apply_filters('gettext', $l10n[$domain]->translate($text), $text, $domain);
-	else
-		return apply_filters('gettext', $text, $text, $domain);
+function translate( $text, $domain = 'default' ) {
+	$translations = &get_translations_for_domain( $domain );
+	return apply_filters('gettext', $translations->translate($text), $text, $domain);
 }
 
 function before_last_bar( $string ) {
@@ -79,13 +70,8 @@ function before_last_bar( $string ) {
 }
 
 /**
- * Retrieve the translated text and strip context.
- *
- * If the domain is set in the $l10n global, then the text is run through the
- * domain's translate method. After it is passed to the 'gettext' filter hook,
- * along with the untranslated text as the second parameter.
- *
- * If the domain is not set, the $text is just returned.
+ * Translate $text like translate(), but assumes that the text
+ * contains a context after its last vertical bar.
  *
  * @since 2.5
  * @uses translate()
@@ -99,8 +85,14 @@ function translate_with_context( $text, $domain = 'default' ) {
 
 }
 
+function translate_with_gettext_context( $text, $context, $domain = 'default' ) {
+	$translations = &get_translations_for_domain( $domain );
+	return apply_filters( 'gettext_with_context', $translations->translate( $text, $context ), $text, $context, $domain);
+}
+
 /**
- * Retrieves the translated string from the translate().
+ * Retrieves the translation of $text. If there is no translation, or
+ * the domain isn't loaded the original text is returned.
  *
  * @see translate() An alias of translate()
  * @since 2.1.0
@@ -109,8 +101,8 @@ function translate_with_context( $text, $domain = 'default' ) {
  * @param string $domain Optional. Domain to retrieve the translated text
  * @return string Translated text
  */
-function __($text, $domain = 'default') {
-	return translate($text, $domain);
+function __( $text, $domain = 'default' ) {
+	return translate( $text, $domain );
 }
 
 /**
@@ -122,12 +114,12 @@ function __($text, $domain = 'default') {
  * @param string $text Text to translate
  * @param string $domain Optional. Domain to retrieve the translated text
  */
-function _e($text, $domain = 'default') {
-	echo translate($text, $domain);
+function _e( $text, $domain = 'default' ) {
+	echo translate( $text, $domain );
 }
 
 /**
- * Retrieve context translated string.
+ * Retrieve translated string with vertical bar context
  *
  * Quite a few times, there will be collisions with similar translatable text
  * found in more than two places but with different translated context.
@@ -147,6 +139,16 @@ function _e($text, $domain = 'default') {
  */
 function _c($text, $domain = 'default') {
 	return translate_with_context($text, $domain);
+}
+
+function _x( $single, $context, $domain = 'default' ) {
+	return translate_with_gettext_context( $single, $context, $domain );
+}
+
+function __ngettext() {
+	_deprecated_function( __FUNCTION__, '2.8', '_n()' );
+	$args = func_get_args();
+	return call_user_func_array('_n', $args);
 }
 
 /**
@@ -171,26 +173,10 @@ function _c($text, $domain = 'default') {
  * @param string $domain Optional. The domain identifier the text should be retrieved in
  * @return string Either $single or $plural translated text
  */
-function __ngettext($single, $plural, $number, $domain = 'default') {
-	global $l10n;
-
-	if (isset($l10n[$domain])) {
-		return apply_filters('ngettext', $l10n[$domain]->ngettext($single, $plural, $number), $single, $plural, $number);
-	} else {
-		if ($number != 1)
-			return $plural;
-		else
-			return $single;
-	}
-}
-
-/**
- * @see __ngettext() An alias of __ngettext
- *
- */
-function _n() {
-	$args = func_get_args();
-	return call_user_func_array('__ngettext', $args);
+function _n($single, $plural, $number, $domain = 'default') {
+	$translations = &get_translations_for_domain( $domain );
+	$translation = $translations->translate_plural( $single, $plural, $number );
+	return apply_filters( 'ngettext', $translation, $single, $plural, $number );
 }
 
 /**
@@ -199,7 +185,23 @@ function _n() {
  *
  */
 function _nc( $single, $plural, $number, $domain = 'default' ) {
-	return before_last_bar( __ngettext( $single, $plural, $number, $domain ) );
+	return before_last_bar( _n( $single, $plural, $number, $domain ) );
+}
+
+function _nx($single, $plural, $number, $context, $domain = 'default') {
+	$translations = &get_translations_for_domain( $domain );
+	$translation = $translations->translate_plural( $single, $plural, $number, $context );
+	return apply_filters( 'ngettext_with_context ', $translation, $single, $plural, $number, $context );
+}
+
+/**
+ * @deprecated Use _n_noop()
+ */
+function __ngettext_noop() {
+	_deprecated_function( __FUNCTION__, '2.8', '_n_noop()' );
+	$args = func_get_args();
+	return call_user_func_array('_n_noop', $args);
+
 }
 
 /**
@@ -210,31 +212,22 @@ function _nc( $single, $plural, $number, $domain = 'default' ) {
  *
  * Example:
  *  $messages = array(
- *  	'post' => ngettext_noop('%s post', '%s posts'),
- *  	'page' => ngettext_noop('%s pages', '%s pages')
+ *  	'post' => _n_noop('%s post', '%s posts'),
+ *  	'page' => _n_noop('%s pages', '%s pages')
  *  );
  *  ...
  *  $message = $messages[$type];
- *  $usable_text = sprintf(__ngettext($message[0], $message[1], $count), $count);
+ *  $usable_text = sprintf(_n($message[0], $message[1], $count), $count);
  *
  * @since 2.5
  * @param $single Single form to be i18ned
  * @param $plural Plural form to be i18ned
- * @param $number Not used, here for compatibility with __ngettext, optional
- * @param $domain Not used, here for compatibility with __ngettext, optional
+ * @param $number Not used, here for compatibility with _n, optional
+ * @param $domain Not used, here for compatibility with _n, optional
  * @return array array($single, $plural)
  */
-function __ngettext_noop($single, $plural, $number=1, $domain = 'default') {
-	return array($single, $plural);
-}
-
-/**
- * @see __ngettext_noop() An alias of __ngettext_noop()
- *
- */
-function _n_noop() {
-	$args = func_get_args();
-	return call_user_func_array('__ngettext_noop', $args);
+function _n_noop( $single, $plural, $number = 1, $domain = 'default' ) {
+	return array( $single, $plural );
 }
 
 /**
@@ -258,21 +251,15 @@ function _n_noop() {
 function load_textdomain($domain, $mofile) {
 	global $l10n;
 
-	if ( is_readable($mofile))
-		$input = new CachedFileReader($mofile);
-	else
-		return;
+	if ( !is_readable($mofile)) return;
+	
+	$mo = new MO();
+	$mo->import_from_file( $mofile );
 
-	$gettext = new gettext_reader($input);
-
-	if (isset($l10n[$domain])) {
-		$l10n[$domain]->load_tables();
-		$gettext->load_tables();
-		$l10n[$domain]->cache_translations = array_merge($gettext->cache_translations, $l10n[$domain]->cache_translations);
-	} else
-		$l10n[$domain] = $gettext;
-
-	unset($input, $gettext);
+	if (isset($l10n[$domain]))
+		$mo->merge_with( $l10n[$domain] );
+		
+	$l10n[$domain] = &$mo;
 }
 
 /**
@@ -338,6 +325,19 @@ function load_theme_textdomain($domain, $path = false) {
 
 	$mofile = "$path/$locale.mo";
 	load_textdomain($domain, $mofile);
+}
+
+/**
+ * Returns the Translations instance for a domain. If there isn't one,
+ * returns empty Translations instance.
+ * 
+ * @param string $domain
+ * @return object A Translation instance
+ */
+function get_translations_for_domain( $domain ) {
+	global $l10n;
+	$empty = &new Translations;
+	return isset($l10n[$domain])? $l10n[$domain] : $empty;
 }
 
 ?>
