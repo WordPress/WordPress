@@ -15,7 +15,7 @@ require_once( ABSPATH . WPINC . '/class-IXR.php' );
  *
  * Imports your LiveJournal contents into WordPress using the LJ API
  *
- * @since 2.7.1
+ * @since 2.8
  */
 class LJ_API_Import {
 
@@ -190,6 +190,7 @@ class LJ_API_Import {
 			<p>
 		<?php else : ?>
 			<input type="hidden" name="step" value="1" />
+			<input type="hidden" name="login" value="true" />
 			<p><?php _e( 'Howdy! This importer allows you to connect directly to LiveJournal and download all your entries and comments' ) ?></p>
 			<p><?php _e( 'Enter your LiveJournal username and password below so we can connect to your account:' ) ?></p>
 		
@@ -236,7 +237,7 @@ class LJ_API_Import {
 		<?php
 	}
 	
-	function import_posts() {
+	function download_post_meta() {
 		$total           = (int) get_option( 'ljapi_total' );
 		$count           = (int) get_option( 'ljapi_count' );
 		$lastsync        = get_option( 'ljapi_lastsync' );
@@ -250,7 +251,9 @@ class LJ_API_Import {
 		do {
 			$lastsync = date( 'Y-m-d H:i:s', strtotime( get_option( 'ljapi_lastsync' ) ) );
 			$synclist = $this->lj_ixr( 'syncitems', array( 'ver' => 1, 'lastsync' => $lastsync ) );
-			
+			if ( is_wp_error( $synclist ) )
+				return $synclist;
+				
 			// Keep track of if we've downloaded everything
 			$total = $synclist['total'];
 			$count = $synclist['count'];
@@ -258,27 +261,31 @@ class LJ_API_Import {
 			foreach ( $synclist['syncitems'] as $event ) {
 				if ( substr( $event['item'], 0, 2 ) == 'L-' ) {
 					$sync_item_times[ str_replace( 'L-', '', $event['item'] ) ] = $event['time'];
-					if ( $event['time'] > $lastsync )
+					if ( $event['time'] > $lastsync ) {
 						$lastsync = $event['time'];
+						update_option( 'ljapi_lastsync', $lastsync );
+					}
 				}
 			}
 		} while ( $total > $count );
 		// endwhile - all post meta is cached locally
-		
+		unset( $synclist );
 		update_option( 'ljapi_sync_item_times', $sync_item_times );
 		update_option( 'ljapi_total', $total );
 		update_option( 'ljapi_count', $count );
-		update_option( 'ljapi_lastsync', $lastsync );
 
 		echo '<p>' . __( 'Post metadata has been downloaded, proceeding with posts...' ) . '</p>';
-		
-		echo '<ol>';
-		
-		$imported_count = (int) get_option( 'ljapi_imported_count' );
-		$lastsync = get_option( 'ljapi_lastsync_posts' );
+	}
+	
+	function download_post_bodies() {
+		$imported_count  = (int) get_option( 'ljapi_imported_count' );
+		$sync_item_times = get_option( 'ljapi_sync_item_times' );
+		$lastsync        = get_option( 'ljapi_lastsync_posts' );
 		if ( !$lastsync )
 			update_option( 'ljapi_lastsync_posts', date( 'Y-m-d H:i:s', 0 ) );
-		
+
+		$count = 0;
+		echo '<ol>';		
 		do {
 			$lastsync = date( 'Y-m-d H:i:s', strtotime( get_option( 'ljapi_lastsync_posts' ) ) );
 			
@@ -289,19 +296,30 @@ class LJ_API_Import {
 															'lastsync' => $lastsync ) );
 			if ( is_wp_error( $itemlist ) )
 				return $itemlist;
-				
+			
 			if ( $num = count( $itemlist['events'] ) ) {
-				foreach ( $itemlist['events'] as $event ) {
+				for ( $e = 0; $e < count( $itemlist['events'] ); $e++ ) {
+					$event = $itemlist['events'][$e];
 					$imported_count++;
-					$this->import_post( $event );
+					$inserted = $this->import_post( $event );
+					if ( is_wp_error( $inserted ) )
+						return $inserted;
 					if ( $sync_item_times[ $event['itemid'] ] > $lastsync )
 						$lastsync = $sync_item_times[ $event['itemid'] ];
+					wp_cache_flush();
 				}
 				update_option( 'ljapi_lastsync_posts',  $lastsync );
 				update_option( 'ljapi_imported_count',  $imported_count );
 				update_option( 'ljapi_last_sync_count', $num );
 			}
-		} while ( $num > 0 );
+			$count++;
+		} while ( $num > 0 && $count < 3 ); // Doing up to 3 requests at a time to avoid memory problems
+		
+		// Used so that step1 knows when to stop posting back on itself
+		update_option( 'ljapi_last_sync_count', $num );
+		
+		// Counter just used to show progress to user
+		update_option( 'ljapi_post_batch', ( (int) get_option( 'ljapi_post_batch' ) + 1 ) );
 
 		echo '</ol>';
 	}
@@ -356,18 +374,19 @@ class LJ_API_Import {
 		if ( $post_id = post_exists( $post_title, $post_content, $post_date ) ) {
 			printf( __( 'Post <strong>%s</strong> already exists.' ), stripslashes( $post_title ) );
 		} else {
-			printf( __( 'Importing post <strong>%s</strong>...' ), stripslashes( $post_title ) );
+			printf( __( 'Imported post <strong>%s</strong>...' ), stripslashes( $post_title ) );
 			$postdata = compact( 'post_author', 'post_date', 'post_content', 'post_title', 'post_status', 'post_password', 'tags_input', 'comment_status' );
-			$post_id = wp_insert_post( $postdata );
-			if ( is_wp_error( $post_id ) )
+			$post_id = wp_insert_post( $postdata, true );
+			if ( is_wp_error( $post_id ) ) {
+				if ( 'empty_content' == $post_id->get_error_code() )
+					return; // Silent skip on "empty" posts
 				return $post_id;
-			if ( !$post_id ) {
-				_e( "Couldn't get post ID" );
-				echo '</li>';
-				break;
 			}
-			$postdata['post_ID']   = $post_id;
-			$postdata['lj_itemid'] = $post['itemid'];
+			if ( !$post_id ) {
+				_e( "Couldn't get post ID (creating post failed!)" );
+				echo '</li>';
+				return new WP_Error( 'insert_post_failed', __( 'Failed to create post.' ) );
+			}
 			
 			// Handle all the metadata for this post
 			$this->insert_postmeta( $post_id, $post );
@@ -407,15 +426,19 @@ class LJ_API_Import {
 	}
 	
 	// Set up a session (authenticate) with LJ
-	function getsession() {
+	function get_session() {
 		// Get a session via XMLRPC
 		$cookie = $this->lj_ixr( 'sessiongenerate', array( 'ver' => 1, 'expiration' => 'short' ) );
+		if ( is_wp_error( $cookie ) )
+			return new WP_Error( 'cookie', __( 'Could not get a cookie from LiveJournal. Please try again soon.' ) );
 		return new WP_Http_Cookie( array( 'name' => 'ljsession', 'value' => $cookie['ljsession'] ) );
 	}
 	
 	// Loops through and gets comment meta from LJ in batches
 	function download_comment_meta() {
-		$cookie = $this->getsession();
+		$cookie = $this->get_session();
+		if ( is_wp_error( $cookie ) )
+			return $cookie;
 		
 		// Load previous state (if any)
 		$this->usermap = (array) get_option( 'ljapi_usermap' );
@@ -463,7 +486,7 @@ class LJ_API_Import {
 		update_option( 'ljapi_maxid',      $maxid );
 		update_option( 'ljapi_highest_id', $highest_id );
 		
-		echo '<p>' . __( ' Comment metadata downloaded successfully, proceeding with posts...' ) . '</p>';
+		echo '<p>' . __( ' Comment metadata downloaded successfully, proceeding with comment bodies...' ) . '</p>';
 		
 		return true;
 	}
@@ -472,7 +495,9 @@ class LJ_API_Import {
 	// Inserts them all directly to the DB, with additional info stored in "spare" fields
 	function download_comment_bodies() {
 		global $wpdb;
-		$cookie = $this->getsession();
+		$cookie = $this->get_session();
+		if ( is_wp_error( $cookie ) )
+			return $cookie;
 		
 		// Load previous state (if any)
 		$this->usermap = (array) get_option( 'ljapi_usermap' );
@@ -603,8 +628,10 @@ class LJ_API_Import {
 	// Gets the post_ID that a LJ post has been saved as within WP
 	function get_wp_post_ID( $post ) {
 		global $wpdb;
+		
 		if ( empty( $this->postmap[$post] ) )
 		 	$this->postmap[$post] = (int) $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'lj_itemid' AND meta_value = %d", $post ) );
+		
 		return $this->postmap[$post];
 	}
 	
@@ -626,7 +653,7 @@ class LJ_API_Import {
 							'auth_challenge' => $challenge['challenge'],
 							'auth_response' => md5( $challenge['challenge'] . md5( $this->password ) ) );
 		} else {
-			return new WP_Error( 'IXR', __( 'LiveJournal does not appear to be responding right now. Please try again later.' ) );
+			return new WP_Error( 'IXR', __( 'LiveJournal is not responding to authentication requests. Please wait a while and then try again.' ) );
 		}
 		
 		$args = func_get_args();
@@ -636,7 +663,7 @@ class LJ_API_Import {
 		if ( $this->ixr->query( 'LJ.XMLRPC.' . $method, $params ) ) {
 			return $this->ixr->getResponse();
 		} else {
-			return new WP_Error( 'IXR', __( 'XML-RPC Request Failed - ' ) . $this->ixr->getErrorCode() . ': ' . $this->ixr->getErrorMessage() );
+			return new WP_Error( 'IXR', __( 'XML-RPC Request Failed -- ' ) . $this->ixr->getErrorCode() . ': ' . $this->ixr->getErrorMessage() );
 		}
 	}
 	
@@ -656,22 +683,23 @@ class LJ_API_Import {
 				$this->greet();
 				break;
 			case 1 :
-				$this->ixr = new IXR_Client( $this->ixr_url );
-				// Intentional no break
 			case 2 :
 			case 3 :
 				check_admin_referer( 'lj-api-import' );
 				$result = $this->{ 'step' . $step }();
-				if ( is_wp_error( $result ) )
-					echo $result->get_error_message();
+				if ( is_wp_error( $result ) ) {
+					$this->throw_error( $result, $step );
+				}
 				break;
 		}
 
 		$this->footer();
 	}
 
-	// Check form inputs and start importing posts
-	function step1() {
+	// Technically the first half of step 1, this is separated to allow for AJAX
+	// calls. Sets up some variables and options and confirms authentication.
+	function setup() {
+		global $verified;
 		// Get details from form or from DB
 		if ( !empty( $_POST['lj_username'] ) && !empty( $_POST['lj_password'] ) ) {
 			// Store details for later
@@ -698,21 +726,24 @@ class LJ_API_Import {
 			<p><?php _e( 'Please enter your LiveJournal username <em>and</em> password so we can download your posts and comments.' ) ?></p>
 			<p><a href="<?php echo $_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . attribute_escape( str_replace( '&step=1', '', $_SERVER['REQUEST_URI'] ) ) ?>"><?php _e( 'Start again' ) ?></a></p>
 			<?php
-			return;
+			return false;
 		}
-		$login = $this->lj_ixr( 'login' );
-		if ( is_wp_error( $login ) ) {
+		$verified = $this->lj_ixr( 'login' );
+		if ( is_wp_error( $verified ) ) {
 			if ( 100 == $this->ixr->getErrorCode() || 101 == $this->ixr->getErrorCode() ) {
 				delete_option( 'ljapi_username' );
 				delete_option( 'ljapi_password' );
+				delete_option( 'ljapi_protected_password' );
 				?>
 				<p><?php _e( 'Logging in to LiveJournal failed. Check your username and password and try again.' ) ?></p>
 				<p><a href="<?php echo $_SERVER['PHP_SELF'] . '?import=livejournal&amp;step=-1&amp;_wpnonce=' . wp_create_nonce( 'lj-api-import' ) . '&amp;_wp_http_referer=' . attribute_escape( str_replace( '&step=1', '', $_SERVER['REQUEST_URI'] ) ) ?>"><?php _e( 'Start again' ) ?></a></p>
 				<?php
-				return;
+				return false;
 			} else {
-				return $login;
+				return $verified;
 			}
+		} else {
+			update_option( 'ljapi_verified', 'yes' );
 		}
 		
 		// Set up some options to avoid them autoloading (these ones get big)
@@ -720,28 +751,81 @@ class LJ_API_Import {
 		add_option( 'ljapi_usermap',          '', '', 'no' );
 		update_option( 'ljapi_comment_batch', 0 );
 		
+		return true;
+	}
+
+	// Check form inputs and start importing posts
+	function step1() {
+		global $verified;
+		set_time_limit( 0 );
+		update_option( 'ljapi_step', 1 );
+		if ( !$this->ixr ) $this->ixr = new IXR_Client( $this->ixr_url, false, 80, 30 );
+		if ( empty( $_POST['login'] ) ) {
+			// We're looping -- load some details from DB
+			$this->username = get_option( 'ljapi_username' );
+			$this->password = get_option( 'ljapi_password' );
+			$this->protected_password = get_option( 'ljapi_protected_password' );
+		} else {
+			// First run (non-AJAX)
+			$setup = $this->setup();
+			if ( !$setup ) {
+				return false;
+			} else if ( is_wp_error( $setup ) ) {
+				$this->throw_error( $setup, 1 );
+				return false;
+			}
+		}
+		
+		echo '<div id="ljapi-status">';
 		echo '<h3>' . __( 'Importing Posts' ) . '</h3>';
-		echo '<p>' . __( "We're downloading and importing all your LiveJournal posts..." ) . '</p>';
+		echo '<p>' . __( "We're downloading and importing your LiveJournal posts..." ) . '</p>';
+		if ( get_option( 'ljapi_post_batch' ) && count( get_option( 'ljapi_sync_item_times' ) ) ) {
+			$batch = count( get_option( 'ljapi_sync_item_times' ) );
+			$batch = $count > 300 ? ceil( $batch / 300 ) : 1;
+			echo '<p><strong>' . sprintf( __( 'Imported post batch %d of <strong>approximately</strong> %d' ), ( get_option( 'ljapi_post_batch' ) + 1 ), $batch ) . '</strong></p>';
+		}
 		ob_flush(); flush();
 		
-		// Now do the grunt work
-		set_time_limit( 0 );
-		$result = $this->import_posts();
+		if ( !get_option( 'ljapi_lastsync' ) || '1900-01-01 00:00:00' == get_option( 'ljapi_lastsync' ) ) {
+			// We haven't downloaded meta yet, so do that first
+			$result = $this->download_post_meta();
+			if ( is_wp_error( $result ) ) {
+				$this->throw_error( $result, 1 );
+				return false;
+			}
+		}
+
+		// Download a batch of actual posts
+		$result = $this->download_post_bodies();
 		if ( is_wp_error( $result ) ) {
 			if ( 406 == $this->ixr->getErrorCode() ) {
 				?>
 				<p><strong><?php _e( 'Uh oh &ndash; LiveJournal has disconnected us because we made too many requests to their servers too quickly.' ) ?></strong></p>
 				<p><strong><?php _e( "We've saved where you were up to though, so if you come back to this importer in about 30 minutes, you should be able to continue from where you were." ) ?></strong></p>
 				<?php
-				return;
+				echo $this->next_step( 1, __( 'Try Again' ) );
+				return false;
 			} else {
-				return $result;
+				$this->throw_error( $result, 1 );
+				return false;
 			}
 		}
-		
-		echo '<p>' . __( "Your posts have all been imported, but wait - there's more! Now we need to download &amp; import your comments." ) . '</p>';
-		echo $this->next_step( 2, __( 'Download my comments &raquo;' ) );
-		$this->auto_submit();
+
+		if ( get_option( 'ljapi_last_sync_count' ) > 0 ) {
+		?>
+			<form action="admin.php?import=livejournal" method="post" id="ljapi-auto-repost">
+			<?php wp_nonce_field( 'lj-api-import' ) ?>
+			<input type="hidden" name="step" id="step" value="1" />
+			<p><input type="submit" class="button-primary" value="<?php echo attribute_escape( __( 'Import the next batch &raquo;' ) ) ?>" /> <span id="auto-message"></span></p>
+			</form>
+			<?php $this->auto_ajax( 'ljapi-auto-repost', 'auto-message', 0 ); ?>
+		<?php
+		} else {
+			echo '<p>' . __( "Your posts have all been imported, but wait - there's more! Now we need to download &amp; import your comments." ) . '</p>';
+			echo $this->next_step( 2, __( 'Download my comments &raquo;' ) );
+			$this->auto_submit();
+		}
+		echo '</div>';
 	}
 	
 	// Download comments to local XML
@@ -750,7 +834,7 @@ class LJ_API_Import {
 		update_option( 'ljapi_step', 2 );
 		$this->username = get_option( 'ljapi_username' );
 		$this->password = get_option( 'ljapi_password' );
-		$this->ixr = new IXR_Client( $this->ixr_url );
+		$this->ixr = new IXR_Client( $this->ixr_url, false, 80, 30 );
 		
 		echo '<div id="ljapi-status">';
 		echo '<h3>' . __( 'Downloading Comments' ) . '</h3>';
@@ -760,21 +844,26 @@ class LJ_API_Import {
 		if ( !get_option( 'ljapi_usermap' ) ) {
 			// We haven't downloaded meta yet, so do that first
 			$result = $this->download_comment_meta();
-			if ( is_wp_error( $result ) )
-				return $result;
+			if ( is_wp_error( $result ) ) {
+				$this->throw_error( $result, 2 );
+				return false;
+			}
 		}
 
 		// Download a batch of actual comments
 		$result = $this->download_comment_bodies();
-		if ( is_wp_error( $result ) )
-			return $result;
+		if ( is_wp_error( $result ) ) {
+			$this->throw_error( $result, 2 );
+			return false;
+		}
 
 		$maxid      = get_option( 'ljapi_maxid' ) ? (int) get_option( 'ljapi_maxid' ) : 1;
 		$highest_id = (int) get_option( 'ljapi_highest_comment_id' );
 		if ( $maxid > $highest_id ) {
+			$batch = $maxid > 5000 ? ceil( $maxid / 5000 ) : 1;
 		?>
 			<form action="admin.php?import=livejournal" method="post" id="ljapi-auto-repost">
-			<p><strong><?php printf( __( 'Imported comment batch %d of <strong>approximately</strong> %d' ), get_option( 'ljapi_comment_batch' ), ( $maxid / 5000 ) ) ?></strong></p>
+			<p><strong><?php printf( __( 'Imported comment batch %d of <strong>approximately</strong> %d' ), get_option( 'ljapi_comment_batch' ), $batch ) ?></strong></p>
 			<?php wp_nonce_field( 'lj-api-import' ) ?>
 			<input type="hidden" name="step" id="step" value="2" />
 			<p><input type="submit" class="button-primary" value="<?php echo attribute_escape( __( 'Import the next batch &raquo;' ) ) ?>" /> <span id="auto-message"></span></p>
@@ -834,11 +923,17 @@ class LJ_API_Import {
 		$this->cleanup();
 		do_action( 'import_done', 'livejournal' );
 		if ( $imported_comments > 1 )
-			echo '<p>' . sprintf( __( "Successfully re-threaded %d comments." ), number_format( $imported_comments ) ) . '</p>';
+			echo '<p>' . sprintf( __( "Successfully re-threaded %s comments." ), number_format( $imported_comments ) ) . '</p>';
 		echo '<h3>';
 		printf( __( 'All done. <a href="%s">Have fun!</a>' ), get_option( 'home' ) );
 		echo '</h3>';
 		echo '</div>';
+	}
+	
+	// Output an error message with a button to try again.
+	function throw_error( $error, $step ) {
+		echo '<p><strong>' . $error->get_error_message() . '</strong></p>';
+		echo $this->next_step( $step, __( 'Try Again' ) );
 	}
 	
 	// Returns the HTML for a link to the next page
@@ -920,12 +1015,14 @@ class LJ_API_Import {
 		delete_option( 'ljapi_username' );
 		delete_option( 'ljapi_password' );
 		delete_option( 'ljapi_protected_password' );
+		delete_option( 'ljapi_verified' );
 		delete_option( 'ljapi_total' );
 		delete_option( 'ljapi_count' );
 		delete_option( 'ljapi_lastsync' );
 		delete_option( 'ljapi_last_sync_count' );
 		delete_option( 'ljapi_sync_item_times' );
 		delete_option( 'ljapi_lastsync_posts' );
+		delete_option( 'ljapi_post_batch' );
 		delete_option( 'ljapi_imported_count' );
 		delete_option( 'ljapi_maxid' );
 		delete_option( 'ljapi_usermap' );
