@@ -203,6 +203,7 @@ function do_undismiss_core_update() {
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
 
 if ( 'upgrade-core' == $action ) {
+	wp_version_check();
 	$title = __('Upgrade WordPress');
 	$parent_file = 'tools.php';
 	require_once('admin-header.php');

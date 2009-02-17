@@ -31,12 +31,6 @@ function wp_version_check() {
 		$current = new stdClass;
 
 	$locale = get_locale();
-	if (
-		isset( $current->last_checked ) &&
-		43200 > ( time() - $current->last_checked ) &&
-		$current->version_checked == $wp_version
-	)
-		return false;
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$current->last_checked = time();
@@ -86,7 +80,6 @@ function wp_version_check() {
 	$updates->version_checked = $wp_version;
 	set_transient( 'update_core',  $updates);
 }
-add_action( 'init', 'wp_version_check' );
 
 /**
  * Check plugin versions against the latest versions hosted on WordPress.org.
@@ -243,6 +236,18 @@ function wp_update_themes( ) {
 	set_transient( 'update_themes', $new_option );
 }
 
+function _maybe_update_core() {
+	global $wp_version;
+
+	$current = get_transient( 'update_core' );
+
+	if ( isset( $current->last_checked ) &&
+		43200 > ( time() - $current->last_checked ) &&
+		$current->version_checked == $wp_version )
+		return;
+
+	wp_version_check();
+}
 /**
  * Check the last time plugins were run before checking plugin versions.
  *
@@ -276,6 +281,8 @@ function _maybe_update_themes( ) {
 
 	wp_update_themes( );
 }
+
+add_action( 'init', '_maybe_update_core' );
 
 add_action( 'load-plugins.php', 'wp_update_plugins' );
 add_action( 'load-update.php', 'wp_update_plugins' );
