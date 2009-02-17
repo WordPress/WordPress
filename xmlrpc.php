@@ -3341,7 +3341,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		global $wpdb;
 
-		do_action('xmlrpc_call', 'pingback.extensions.getPingsbacks');
+		do_action('xmlrpc_call', 'pingback.extensions.getPingbacks');
 
 		$this->escape($args);
 
