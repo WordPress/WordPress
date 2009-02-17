@@ -3244,6 +3244,8 @@ function _post_states($post) {
 		$post_states[] = __('Draft');
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
 		$post_states[] = _c('Pending|post state');
+	if ( is_sticky($post->ID) )
+		$post_states[] = __('Sticky');
 
 	$post_states = apply_filters( 'display_post_states', $post_states );
 
