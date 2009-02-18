@@ -27,7 +27,7 @@ do_action('admin_footer', '');
 do_action('admin_print_footer_scripts');
 do_action("admin_footer-$hook_suffix");
 
-if ( false === get_option('can_compress_scripts') )
+if ( false === get_site_option('can_compress_scripts') )
 	compression_test();
 ?>
 

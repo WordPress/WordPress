@@ -2981,5 +2981,19 @@ function wp_clone( $object ) {
 	return $can_clone ? clone( $object ) : $object;
 }
 
+function get_site_option( $key, $default = false, $use_cache = true ) {
+	return get_option($key, $default);
+}
+
+// expects $key, $value not to be SQL escaped
+function add_site_option( $key, $value ) {
+	return add_option($key, $value);
+}
+
+// expects $key, $value not to be SQL escaped
+function update_site_option( $key, $value ) {
+	return update_option($key, $value);
+}
+
 
 ?>
