@@ -22,6 +22,7 @@ wp_enqueue_style( 'theme-install' );
 wp_enqueue_script( 'theme-install' );
 
 add_thickbox();
+wp_enqueue_script( 'theme-preview' );
 
 //These are the tabs which are shown on the page,
 $tabs = array();

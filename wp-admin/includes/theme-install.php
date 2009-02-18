@@ -6,6 +6,13 @@
  * @subpackage Administration
  */
 
+$themes_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
+								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
+								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
+								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
+								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
+								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
+
 /**
  * Retrieve theme installer pages from WordPress Themes API.
  *
@@ -257,6 +264,8 @@ function install_themes_upload() {
  * @param int $totalpages Number of pages.
  */
 function display_themes($themes, $page = 1, $totalpages = 1) {
+	global $themes_allowedtags;
+
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
@@ -298,26 +307,26 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 			
 			$name = wp_kses($theme->name, $themes_allowedtags);
 			$desc = wp_kses($theme->description, $themes_allowedtags);
-			if ( strlen($desc) > 30 )
-				$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
+			//if ( strlen($desc) > 30 )
+			//	$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
 
+			$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
 			$action_links = array();
 			$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-								'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' .
-								attribute_escape($name) . '">' . __('Install') . '</a>';
-			$action_links[] = '<a href="' . $theme->preview_url . '&TB_iframe" class="thickbox onclick" title="' .
-								attribute_escape( sprintf(__('Preview %s'), $name) ) . '">' . __('Preview') . '</a>';
+								'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="button thickbox onclick">' . __('Install') . '</a>';
+			$action_links[] = '<a href="' . $preview_link . '" class="button thickbox onclick previewlink">' . __('Preview') . '</a>';
 
 			$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
-			$actions = implode ( ' | ', $action_links );
+			$actions = implode ( ' ', $action_links );
 			echo "
-		<div class='theme-item'>
-			<h3>{$theme->name}</h3>
-			<img src='{$theme->screenshot_url}' width='150' /><br />
+		<div class='theme-item available-theme'>
+			<a class='thickbox screenshot' href='$preview_link'>
+			<img src='{$theme->screenshot_url}' width='150' />
+			</a>
+			<h3>{$name}</h3>
+			<span class='action-links'>$actions</span>
 			<div class='theme-item-info'>
 				{$desc}
-				<br class='line' />
-				<span class='action-links'>$actions</span>
 			</div>
 		</div>";
 		/*
@@ -357,19 +366,13 @@ add_action('install_themes_pre_theme-information', 'install_theme_information');
  */
 function install_theme_information() {
 	//TODO: This function needs a LOT of UI work :)
-	global $tab;
+	global $tab, $themes_allowedtags;;
 
 	$api = themes_api('theme_information', array('slug' => stripslashes( $_REQUEST['theme'] ) ));
 
 	if ( is_wp_error($api) )
 		wp_die($api);
 
-	$themes_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
-								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
-								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
 	//Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
 		$api->sections[$section_name] = wp_kses($content, $themes_allowedtags);

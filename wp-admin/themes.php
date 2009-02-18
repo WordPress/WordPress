@@ -178,7 +178,7 @@ foreach ( $cols as $col => $theme_name ) {
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
 	$activate_text = attribute_escape( sprintf( __('Activate "%s"'), $title ) );
 ?>
-		<a href="<?php echo $activate_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
+		<a href="<?php echo $preview_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
 			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>

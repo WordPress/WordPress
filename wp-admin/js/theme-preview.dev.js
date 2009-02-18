@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
 		};
 
 		return $('a.thickbox').each( function() {
-			var href = $(this).parents('.available-theme').find('.previewlink').attr('href');
+			var href = $(this).attr('href');
 			if ( ! href ) return;
 			href = href.replace(/&width=[0-9]+/g, '');
 			href = href.replace(/&height=[0-9]+/g, '');
@@ -26,6 +26,7 @@ jQuery(document).ready(function($) {
 	.click( function() {
 		var alink = $(this).parents('.available-theme').find('.activatelink'), url = alink.attr('href'), text = alink.html();
 
+		if ( null == text ) text = '';
 		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
 		$('#TB_closeAjaxWindow').css({'float':'left'});
 		$('#TB_ajaxWindowTitle').css({'float':'right'})
