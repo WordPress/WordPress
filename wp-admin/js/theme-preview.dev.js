@@ -13,8 +13,8 @@ jQuery(document).ready(function($) {
 				tbWindow.css({'top':'30px','margin-top':'0'});
 		};
 
-		return $('a.thickbox').each( function() {
-			var href = $(this).attr('href');
+		return $('a.thickbox-preview').each( function() {
+			var href = $(this).parents('.available-theme').find('.previewlink').attr('href');
 			if ( ! href ) return;
 			href = href.replace(/&width=[0-9]+/g, '');
 			href = href.replace(/&height=[0-9]+/g, '');

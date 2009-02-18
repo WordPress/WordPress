@@ -174,16 +174,16 @@ foreach ( $cols as $col => $theme_name ) {
 	$preview_link = htmlspecialchars( add_query_arg( array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'TB_iframe' => 'true', 'width' => 600, 'height' => 400 ), $preview_link ) );
 	$preview_text = attribute_escape( sprintf( __('Preview of "%s"'), $title ) );
 	$tags = $themes[$theme_name]['Tags'];
-	$thickbox_class = 'thickbox';
+	$thickbox_class = 'thickbox thickbox-preview';
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
 	$activate_text = attribute_escape( sprintf( __('Activate "%s"'), $title ) );
 ?>
-		<a href="<?php echo $preview_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
+		<a href="<?php echo $activate_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
 			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
 		</a>
-		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $preview_link; ?>"><?php echo $title; ?></a></h3>
+		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
 		<p><?php echo $description; ?></p>
 <?php if ( $tags ) : ?>
 		<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>

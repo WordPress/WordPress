@@ -313,14 +313,14 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 			$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
 			$action_links = array();
 			$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-								'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="button thickbox onclick">' . __('Install') . '</a>';
-			$action_links[] = '<a href="' . $preview_link . '" class="button thickbox onclick previewlink">' . __('Preview') . '</a>';
+								'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="button thickbox onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
+			$action_links[] = '<a href="' . $preview_link . '" class="button thickbox thickbox-preview onclick previewlink" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
 
 			$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
 			$actions = implode ( ' ', $action_links );
 			echo "
 		<div class='theme-item available-theme'>
-			<a class='thickbox screenshot' href='$preview_link'>
+			<a class='thickbox thickbox-preview screenshot' href='$preview_link' title='" . attribute_escape(sprintf(__('Preview "%s"'), $name)) . "'>
 			<img src='{$theme->screenshot_url}' width='150' />
 			</a>
 			<h3>{$name}</h3>
