@@ -183,7 +183,7 @@ foreach ( $cols as $col => $theme_name ) {
 			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
 		</a>
-		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
+		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $preview_link; ?>"><?php echo $title; ?></a></h3>
 		<p><?php echo $description; ?></p>
 <?php if ( $tags ) : ?>
 		<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
