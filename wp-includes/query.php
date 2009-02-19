@@ -1790,10 +1790,6 @@ class WP_Query {
 		}
 
 		if ( !empty($q['category__in']) ) {
-			$groupby = "{$wpdb->posts}.ID";
-		}
-
-		if ( !empty($q['category__in']) ) {
 			$join = " INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON ($wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id) ";
 			$whichcat .= " AND $wpdb->term_taxonomy.taxonomy = 'category' ";
 			$include_cats = "'" . implode("', '", $q['category__in']) . "'";
@@ -1869,7 +1865,7 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty($q['tag__in']) || !empty($q['tag_slug__in']) ) {
+		if ( !empty($q['category__in']) || !empty($q['meta_key']) || !empty($q['tag__in']) || !empty($q['tag_slug__in']) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
