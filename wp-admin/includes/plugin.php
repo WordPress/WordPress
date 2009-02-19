@@ -476,6 +476,9 @@ function validate_plugin($plugin) {
 	if ( ! file_exists(WP_PLUGIN_DIR . '/' . $plugin) )
 		return new WP_Error('plugin_not_found', __('Plugin file does not exist.'));
 
+	$installed_plugins = get_plugins();
+	if ( ! isset($installed_plugins[$plugin]) )
+		return new WP_Error('no_plugin_header', __('The plugin does not have a valid header.'));
 	return 0;
 }
 
