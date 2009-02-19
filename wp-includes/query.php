@@ -2210,9 +2210,6 @@ class WP_Query {
 			$distinct = apply_filters('posts_distinct', $distinct);
 			$limits = apply_filters( 'post_limits', $limits );
 
-			if ( ! empty($q['meta_key']) )
-				$fields = "$fields, $wpdb->postmeta.meta_value";
-
 			$fields = apply_filters('posts_fields', $fields);
 		}
 
