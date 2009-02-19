@@ -760,7 +760,7 @@ function wp_get_archives($args = '') {
 	$output = '';
 
 	if ( 'monthly' == $type ) {
-		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit";
+		$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit";
 		$key = md5($query);
 		$cache = wp_cache_get( 'wp_get_archives' , 'general');
 		if ( !isset( $cache[ $key ] ) ) {
@@ -781,7 +781,7 @@ function wp_get_archives($args = '') {
 			}
 		}
 	} elseif ('yearly' == $type) {
-		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date DESC $limit";
+		$query = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date DESC $limit";
 		$key = md5($query);
 		$cache = wp_cache_get( 'wp_get_archives' , 'general');
 		if ( !isset( $cache[ $key ] ) ) {
@@ -802,7 +802,7 @@ function wp_get_archives($args = '') {
 			}
 		}
 	} elseif ( 'daily' == $type ) {
-		$query = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date DESC $limit";
+		$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date DESC $limit";
 		$key = md5($query);
 		$cache = wp_cache_get( 'wp_get_archives' , 'general');
 		if ( !isset( $cache[ $key ] ) ) {
@@ -927,7 +927,7 @@ function get_calendar($initial = true) {
 	ob_start();
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
 		if ( !$gotsome )
 			return;
 	}
@@ -961,16 +961,16 @@ function get_calendar($initial = true) {
 	$unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
 
 	// Get the next and previous month and year with at least one post
-	$previous = $wpdb->get_row("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
+	$previous = $wpdb->get_row("SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date < '$thisyear-$thismonth-01'
 		AND post_type = 'post' AND post_status = 'publish'
 			ORDER BY post_date DESC
 			LIMIT 1");
-	$next = $wpdb->get_row("SELECT	DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
+	$last_day = date('t');
+	$next = $wpdb->get_row("SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
-		WHERE post_date >	'$thisyear-$thismonth-01'
-		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
+		WHERE post_date > '$thisyear-$thismonth-{$last_day} 23:59:59'
 		AND post_type = 'post' AND post_status = 'publish'
 			ORDER	BY post_date ASC
 			LIMIT 1");
@@ -1025,8 +1025,7 @@ function get_calendar($initial = true) {
 
 	// Get days with posts
 	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
-		FROM $wpdb->posts WHERE MONTH(post_date) = '$thismonth'
-		AND YEAR(post_date) = '$thisyear'
+		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
 		AND post_type = 'post' AND post_status = 'publish'
 		AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
 	if ( $dayswithposts ) {
@@ -1045,8 +1044,7 @@ function get_calendar($initial = true) {
 	$ak_titles_for_day = array();
 	$ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH(post_date) as dom "
 		."FROM $wpdb->posts "
-		."WHERE YEAR(post_date) = '$thisyear' "
-		."AND MONTH(post_date) = '$thismonth' "
+		."WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00' "
 		."AND post_date < '".current_time('mysql')."' "
 		."AND post_type = 'post' AND post_status = 'publish'"
 	);
