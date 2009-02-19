@@ -210,7 +210,7 @@ var commentsBox, tagCloud;
 })(jQuery);
 
 jQuery(document).ready( function($) {
-	var categoryTabs, newCat, newCatParent = false, newCatParentOption = false, noSyncChecks = false, syncChecks, catAddAfter, dotabkey = true, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
+	var categoryTabs, noSyncChecks = false, syncChecks, catAddAfter, dotabkey = true, stamp = $('#timestamp').html(), visibility = $('#post-visibility-display').html(), sticky = '';
 
 	// for Press This
 	if ( typeof autosave != 'function' )
@@ -237,8 +237,8 @@ jQuery(document).ready( function($) {
 	categoryTabs =jQuery('#category-tabs').tabs();
 
 	// Ajax Cat
-	newCat = $('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
-	$('#category-add-sumbit').click( function() { newCat.focus(); } );
+	$('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
+	$('#category-add-sumbit').click( function() { $('#newcat').focus(); } );
 
 	syncChecks = function() {
 		if ( noSyncChecks )
@@ -256,20 +256,19 @@ jQuery(document).ready( function($) {
 	};
 
 	catAddAfter = function( r, s ) {
-		if ( !newCatParent ) newCatParent = jQuery('#newcat_parent');
-		if ( !newCatParentOption ) newCatParentOption = newCatParent.find( 'option[value=-1]' );
+		var newCatParent = jQuery('#newcat_parent'), newCatParentOption = newCatParent.find( 'option[value="-1"]' );
 		$(s.what + ' response_data', r).each( function() {
 			var t = $($(this).text());
 			t.find( 'label' ).each( function() {
 				var th = $(this), val = th.find('input').val(), id = th.find('input')[0].id, name, o;
 				$('#' + id).change( syncChecks ).change();
-				if ( newCatParent.find( 'option[value=' + val + ']' ).size() )
+				if ( newCatParent.find( 'option[value="' + val + '"]' ).size() )
 					return;
 				name = $.trim( th.text() );
 				o = $( '<option value="' +  parseInt( val, 10 ) + '"></option>' ).text( name );
 				newCatParent.prepend( o );
 			} );
-			newCatParentOption.attr( 'selected', true );
+			newCatParentOption.attr( 'selected', 'selected' );
 		} );
 	};
 
@@ -281,10 +280,8 @@ jQuery(document).ready( function($) {
 	} );
 
 	$('#category-add-toggle').click( function() {
-		$(this).parents('div:first').toggleClass( 'wp-hidden-children' );
-		// categoryTabs.tabs( 'select', '#categories-all' ); // this is broken (in the UI beta?)
-		categoryTabs.find( 'a[href="#categories-all"]' ).click();
-		$('#newcat').focus();
+		$('#category-adder').toggleClass( 'wp-hidden-children' );
+		categoryTabs.tabs( 'select', 0 );
 		return false;
 	} );
 
