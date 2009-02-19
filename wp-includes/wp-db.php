@@ -273,6 +273,15 @@ class wpdb {
 	var $collate;
 
 	/**
+	 * Whether to use mysql_real_escape_string
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var bool
+	 */
+	var $real_escape = false;
+
+	/**
 	 * Connects to the database server and selects a database
 	 *
 	 * PHP4 compatibility layer for calling the PHP5 constructor.
@@ -333,16 +342,17 @@ class wpdb {
 		$this->ready = true;
 
 		if ( $this->has_cap( 'collation' ) ) {
-			$collation_query = '';
 			if ( !empty($this->charset) ) {
-				$collation_query = "SET NAMES '{$this->charset}'";
-				if (!empty($this->collate) )
-					$collation_query .= " COLLATE '{$this->collate}'";
+				if ( function_exists('mysql_set_charset') ) {
+					mysql_set_charset($this->charset, $this->dbh);
+					$this->real_escape = true;
+				} else {
+					$collation_query = "SET NAMES '{$this->charset}'";
+					if ( !empty($this->collate) )
+						$collation_query .= " COLLATE '{$this->collate}'";
+					$this->query($collation_query);
+				}
 			}
-
-			if ( !empty($collation_query) )
-				$this->query($collation_query);
-
 		}
 
 		$this->select($dbname);
@@ -426,14 +436,10 @@ class wpdb {
 	 * @return string query safe string
 	 */
 	function escape($string) {
-		return addslashes( $string );
-		// Disable rest for now, causing problems
-		/*
-		if( !$this->dbh || version_compare( phpversion(), '4.3.0' ) == '-1' )
-			return mysql_escape_string( $string );
-		else
+		if ( $this->dbh && $this->real_escape )
 			return mysql_real_escape_string( $string, $this->dbh );
-		*/
+		else
+			return addslashes( $string );
 	}
 
 	/**
