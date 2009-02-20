@@ -325,14 +325,12 @@ function check_all_tagrows() {
 
 		if ( ! empty($clean_term_cache) ) {
 			$clean_term_cache = array_unique(array_values($clean_term_cache));
-			foreach ( $clean_term_cache as $id )
-				wp_cache_delete($id, 'post_tag');
+			clean_term_cache($clean_term_cache, 'post_tag');
 		}
 
 		if ( ! empty($clean_cat_cache) ) {
 			$clean_cat_cache = array_unique(array_values($clean_cat_cache));
-			foreach ( $clean_cat_cache as $id )
-				wp_cache_delete($id, 'category');
+			clean_term_cache($clean_cat_cache, 'category');
 		}
 
 		if ( $clear_parents ) delete_option('category_children');
@@ -414,14 +412,12 @@ function check_all_tagrows() {
 
 		if ( ! empty($clean_term_cache) ) {
 			$clean_term_cache = array_unique(array_values($clean_term_cache));
-			foreach ( $clean_term_cache as $id )
-				wp_cache_delete($id, 'post_tag');
+			clean_term_cache($clean_term_cache, 'post_tag');
 		}
 
 		if ( ! empty($clean_cat_cache) ) {
 			$clean_cat_cache = array_unique(array_values($clean_cat_cache));
-			foreach ( $clean_cat_cache as $id )
-				wp_cache_delete($id, 'category');
+			clean_term_cache($clean_term_cache, 'category');
 		}
 
 		if ( $clear_parents ) delete_option('category_children');
