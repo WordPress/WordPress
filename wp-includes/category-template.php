@@ -573,7 +573,7 @@ function wp_tag_cloud( $args = '' ) {
 		if ( 'edit' == $args['link'] )
 			$link = get_edit_tag_link( $tag->term_id, $args['taxonomy'] );
 		else
-			$link = get_term_link( $tag->term_id, $args['taxonomy'] );
+			$link = get_term_link( intval($tag->term_id), $args['taxonomy'] );
 		if ( is_wp_error( $link ) )
 			return false;
 
