@@ -192,9 +192,9 @@ $sidebar_widget_count = count($sidebars_widgets[$sidebar]);
 
 // This is sort of lame since "widget" won't be converted to "widgets" in the JS
 if ( 1 < $sidebars_count = count($wp_registered_sidebars) )
-	$sidebar_info_text = __ngettext( 'You are using %1$s widget in the "%2$s" sidebar.', 'You are using %1$s widgets in the "%2$s" sidebar.', $sidebar_widget_count );
+	$sidebar_info_text = _n( 'You are using %1$s widget in the "%2$s" sidebar.', 'You are using %1$s widgets in the "%2$s" sidebar.', $sidebar_widget_count );
 else
-	$sidebar_info_text = __ngettext( 'You are using %1$s widget in the sidebar.', 'You are using %1$s widgets in the sidebar.', $sidebar_widget_count );
+	$sidebar_info_text = _n( 'You are using %1$s widget in the sidebar.', 'You are using %1$s widgets in the sidebar.', $sidebar_widget_count );
 
 
 $sidebar_info_text = sprintf( wp_specialchars( $sidebar_info_text ), "<span id='widget-count'>$sidebar_widget_count</span>", $wp_registered_sidebars[$sidebar]['name'] );

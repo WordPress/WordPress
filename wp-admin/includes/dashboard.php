@@ -181,7 +181,7 @@ function wp_dashboard_right_now() {
 
 	// Posts
 	$num = number_format_i18n( $num_posts->publish );
-	$text = __ngettext( 'Post', 'Posts', intval($num_posts->publish) );
+	$text = _n( 'Post', 'Posts', intval($num_posts->publish) );
 	if ( current_user_can( 'edit_posts' ) ) {
 		$num = "<a href='edit.php'>$num</a>";
 		$text = "<a href='edit.php'>$text</a>";
@@ -190,16 +190,16 @@ function wp_dashboard_right_now() {
 	echo '<td class="t posts">' . $text . '</td>';
 	/* TODO: Show status breakdown on hover
 	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds.  Don't show if !current_user_can
-		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( __ngettext( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
+		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( _n( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
 	}
 	if ( $can_edit_posts && !empty($num_posts->draft) ) {
-		$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( __ngettext( '%s draft', '%s drafts', $num_posts->draft ), number_format_i18n( $num_posts->draft ) ).'</a>';
+		$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( _n( '%s draft', '%s drafts', $num_posts->draft ), number_format_i18n( $num_posts->draft ) ).'</a>';
 	}
 	if ( $can_edit_posts && !empty($num_posts->future) ) {
-		$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( __ngettext( '%s scheduled post', '%s scheduled posts', $num_posts->future ), number_format_i18n( $num_posts->future ) ).'</a>';
+		$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( _n( '%s scheduled post', '%s scheduled posts', $num_posts->future ), number_format_i18n( $num_posts->future ) ).'</a>';
 	}
 	if ( current_user_can('publish_posts') && !empty($num_posts->pending) ) {
-		$pending_text = sprintf( __ngettext( 'There is <a href="%1$s">%2$s post</a> pending your review.', 'There are <a href="%1$s">%2$s posts</a> pending your review.', $num_posts->pending ), 'edit.php?post_status=pending', number_format_i18n( $num_posts->pending ) );
+		$pending_text = sprintf( _n( 'There is <a href="%1$s">%2$s post</a> pending your review.', 'There are <a href="%1$s">%2$s posts</a> pending your review.', $num_posts->pending ), 'edit.php?post_status=pending', number_format_i18n( $num_posts->pending ) );
 	} else {
 		$pending_text = '';
 	}
@@ -207,7 +207,7 @@ function wp_dashboard_right_now() {
 
 	// Total Comments
 	$num = number_format_i18n($num_comm->total_comments);
-	$text = __ngettext( 'Comment', 'Comments', $num_comm->total_comments );
+	$text = _n( 'Comment', 'Comments', $num_comm->total_comments );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php'>$num</a>";
 		$text = "<a href='edit-comments.php'>$text</a>";
@@ -219,7 +219,7 @@ function wp_dashboard_right_now() {
 
 	// Pages
 	$num = number_format_i18n( $num_pages->publish );
-	$text = __ngettext( 'Page', 'Pages', $num_pages->publish );
+	$text = _n( 'Page', 'Pages', $num_pages->publish );
 	if ( current_user_can( 'edit_pages' ) ) {
 		$num = "<a href='edit-pages.php'>$num</a>";
 		$text = "<a href='edit-pages.php'>$text</a>";
@@ -241,7 +241,7 @@ function wp_dashboard_right_now() {
 
 	// Categories
 	$num = number_format_i18n( $num_cats );
-	$text = __ngettext( 'Category', 'Categories', $num_cats );
+	$text = _n( 'Category', 'Categories', $num_cats );
 	if ( current_user_can( 'manage_categories' ) ) {
 		$num = "<a href='categories.php'>$num</a>";
 		$text = "<a href='categories.php'>$text</a>";
@@ -251,7 +251,7 @@ function wp_dashboard_right_now() {
 
 	// Pending Comments
 	$num = number_format_i18n($num_comm->moderated);
-	$text = __ngettext( 'Pending', 'Pending', $num_comm->moderated );
+	$text = _n( 'Pending', 'Pending', $num_comm->moderated );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php?comment_status=moderated'><span class='pending-count'>$num</span></a>";
 		$text = "<a class='waiting' href='edit-comments.php?comment_status=moderated'>$text</a>";
@@ -263,7 +263,7 @@ function wp_dashboard_right_now() {
 
 	// Tags
 	$num = number_format_i18n( $num_tags );
-	$text = __ngettext( 'Tag', 'Tags', $num_tags );
+	$text = _n( 'Tag', 'Tags', $num_tags );
 	if ( current_user_can( 'manage_categories' ) ) {
 		$num = "<a href='edit-tags.php'>$num</a>";
 		$text = "<a href='edit-tags.php'>$text</a>";
@@ -273,7 +273,7 @@ function wp_dashboard_right_now() {
 
 	// Spam Comments
 	$num = number_format_i18n($num_comm->spam);
-	$text = __ngettext( 'Spam', 'Spam', $num_comm->spam );
+	$text = _n( 'Spam', 'Spam', $num_comm->spam );
 	if ( current_user_can( 'moderate_comments' ) ) {
 		$num = "<a href='edit-comments.php?comment_status=spam'><span class='spam-count'>$num</span></a>";
 		$text = "<a class='spam' href='edit-comments.php?comment_status=spam'>$text</a>";
@@ -294,9 +294,9 @@ function wp_dashboard_right_now() {
 	echo "\n\t<p>";
 	if ( current_user_can( 'switch_themes' ) ) {
 		echo '<a href="themes.php" class="button rbutton">' . __('Change Theme') . '</a>';
-		printf(__ngettext('Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $ct->title, $num);
+		printf(_n('Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b"><a href="themes.php">%1$s</a></span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $ct->title, $num);
 	} else {
-		printf(__ngettext('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
+		printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $ct->title, $num);
 	}
 
 	echo '</p>';

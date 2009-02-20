@@ -109,17 +109,17 @@ if ( isset( $_GET['approved'] ) || isset( $_GET['deleted'] ) || isset( $_GET['sp
 		echo '<div id="moderated" class="updated fade"><p>';
 
 		if ( $approved > 0 ) {
-			printf( __ngettext( '%s comment approved', '%s comments approved', $approved ), $approved );
+			printf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
 			echo '<br />';
 		}
 
 		if ( $deleted > 0 ) {
-			printf( __ngettext( '%s comment deleted', '%s comments deleted', $deleted ), $deleted );
+			printf( _n( '%s comment deleted', '%s comments deleted', $deleted ), $deleted );
 			echo '<br />';
 		}
 
 		if ( $spam > 0 ) {
-			printf( __ngettext( '%s comment marked as spam', '%s comments marked as spam', $spam ), $spam );
+			printf( _n( '%s comment marked as spam', '%s comments marked as spam', $spam ), $spam );
 			echo '<br />';
 		}
 
@@ -136,10 +136,10 @@ $num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments
 //, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
 //, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 $stati = array(
-		'all' => __ngettext_noop('All', 'All'), // singular not used
-		'moderated' => __ngettext_noop('Pending (<span class="pending-count">%s</span>)', 'Pending (<span class="pending-count">%s</span>)'),
-		'approved' => __ngettext_noop('Approved', 'Approved'), // singular not used
-		'spam' => __ngettext_noop('Spam (<span class="spam-count">%s</span>)', 'Spam (<span class="spam-count">%s</span>)')
+		'all' => _n_noop('All', 'All'), // singular not used
+		'moderated' => _n_noop('Pending (<span class="pending-count">%s</span>)', 'Pending (<span class="pending-count">%s</span>)'),
+		'approved' => _n_noop('Approved', 'Approved'), // singular not used
+		'spam' => _n_noop('Spam (<span class="spam-count">%s</span>)', 'Spam (<span class="spam-count">%s</span>)')
 	);
 $class = ( '' === $comment_status ) ? ' class="current"' : '';
 // $status_links[] = "<li><a href='edit-comments.php'$class>" . __( 'All' ) . '</a>';
@@ -163,7 +163,7 @@ foreach ( $stati as $status => $label ) {
 		$link = add_query_arg( 's', attribute_escape( stripslashes( $_GET['s'] ) ), $link );
 	*/
 	$status_links[] = "<li class='$status'><a href='$link'$class>" . sprintf(
-		__ngettext( $label[0], $label[1], $num_comments->$status ),
+		_n( $label[0], $label[1], $num_comments->$status ),
 		number_format_i18n( $num_comments->$status )
 	) . '</a>';
 }
