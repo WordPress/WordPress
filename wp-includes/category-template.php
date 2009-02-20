@@ -598,7 +598,7 @@ function wp_tag_cloud( $args = '' ) {
  * @return string text for the tooltip of a tag link.
  */
 function default_topic_count_text( $count ) {
-	return sprintf( __ngettext('%s topic', '%s topics', $count), number_format_i18n( $count ) );
+	return sprintf( _n('%s topic', '%s topics', $count), number_format_i18n( $count ) );
 }
 
 /**
@@ -638,7 +638,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
 		$body = 'return sprintf (
-			__ngettext('.var_export($args['single_text'], true).', '.var_export($args['multiple_text'], true).', $count),
+			_n('.var_export($args['single_text'], true).', '.var_export($args['multiple_text'], true).', $count),
 			number_format_i18n( $count ));';
 		$args['topic_count_text_callback'] = create_function('$count', $body);
 	}

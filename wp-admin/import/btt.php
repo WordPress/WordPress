@@ -83,7 +83,7 @@ class BunnyTags_Import {
 			return false;
 		} else {
 			$count = count($metakeys);
-			echo '<p>' . sprintf( __ngettext('Done! <strong>%s</strong> post with tags were read.', 'Done! <strong>%s</strong> posts with tags were read.', $count), $count ) . '<br /></p>';
+			echo '<p>' . sprintf( _n('Done! <strong>%s</strong> post with tags were read.', 'Done! <strong>%s</strong> posts with tags were read.', $count), $count ) . '<br /></p>';
 			echo '<ul>';
 			foreach ( $metakeys as $post_meta ) {
 				if ( $post_meta->meta_value != '' ) {

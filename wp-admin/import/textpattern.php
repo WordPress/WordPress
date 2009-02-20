@@ -201,7 +201,7 @@ class Textpattern_Import {
 
 			// Store category translation for future use
 			add_option('txpcat2wpcat',$txpcat2wpcat);
-			echo '<p>'.sprintf(__ngettext('Done! <strong>%1$s</strong> category imported.', 'Done! <strong>%1$s</strong> categories imported.', $count), $count).'<br /><br /></p>';
+			echo '<p>'.sprintf(_n('Done! <strong>%1$s</strong> category imported.', 'Done! <strong>%1$s</strong> categories imported.', $count), $count).'<br /><br /></p>';
 			return true;
 		}
 		echo __('No Categories to Import!');
@@ -486,7 +486,7 @@ class Textpattern_Import {
 			}
 			add_option('txplinks2wplinks',$txplinks2wplinks);
 			echo '<p>';
-			printf(__ngettext('Done! <strong>%s</strong> link imported', 'Done! <strong>%s</strong> links imported', $count), $count);
+			printf(_n('Done! <strong>%s</strong> link imported', 'Done! <strong>%s</strong> links imported', $count), $count);
 			echo '<br /><br /></p>';
 			return true;
 		}

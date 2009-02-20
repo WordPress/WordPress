@@ -80,7 +80,7 @@ if ( isset($_GET['s']) && $_GET['s'] )
 if ( isset($_GET['deleted']) ) {
 	echo '<div id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];
-	printf(__ngettext('%s link deleted.', '%s links deleted', $deleted), $deleted);
+	printf(_n('%s link deleted.', '%s links deleted', $deleted), $deleted);
 	echo '</p></div>';
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
 }

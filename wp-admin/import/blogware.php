@@ -155,7 +155,7 @@ class BW_Import {
 			}
 			if ( $num_comments ) {
 				echo ' ';
-				printf( __ngettext('%s comment', '%s comments', $num_comments), $num_comments );
+				printf( _n('%s comment', '%s comments', $num_comments), $num_comments );
 			}
 			echo '</li>';
 			flush();

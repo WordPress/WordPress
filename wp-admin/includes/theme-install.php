@@ -472,7 +472,7 @@ function install_theme_information() {
 <?php endif; if ( ! empty($api->tested) ) : ?>
 			<li><strong><?php _e('Compatible up to:') ?></strong> <?php echo $api->tested ?></li>
 <?php endif; if ( ! empty($api->downloaded) ) : ?>
-			<li><strong><?php _e('Downloaded:') ?></strong> <?php printf(__ngettext('%s time', '%s times', $api->downloaded), number_format_i18n($api->downloaded)) ?></li>
+			<li><strong><?php _e('Downloaded:') ?></strong> <?php printf(_n('%s time', '%s times', $api->downloaded), number_format_i18n($api->downloaded)) ?></li>
 <?php endif; if ( ! empty($api->slug) ) : ?>
 			<li><a target="_blank" href="http://wordpress.org/extend/themes/<?php echo $api->slug ?>/"><?php _e('WordPress.org Theme Page &#187;') ?></a></li>
 <?php endif; if ( ! empty($api->homepage) ) : ?>
@@ -480,7 +480,7 @@ function install_theme_information() {
 <?php endif; ?>
 		</ul>
 		<h2><?php _e('Average Rating') ?></h2>
-		<div class="star-holder" title="<?php printf(__ngettext('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?>">
+		<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?>">
 			<div class="star star-rating" style="width: <?php echo attribute_escape($api->rating) ?>px"></div>
 			<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
 			<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
@@ -488,7 +488,7 @@ function install_theme_information() {
 			<div class="star star2"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('2 stars') ?>" /></div>
 			<div class="star star1"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('1 star') ?>" /></div>
 		</div>
-		<small><?php printf(__ngettext('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?></small>
+		<small><?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?></small>
 	</div>
 	<div id="section-holder" class="wrap">
 	<?php

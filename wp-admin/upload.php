@@ -121,9 +121,9 @@ if ( isset($_GET['detached']) ) {
 	}
 
 	$post_mime_types = array(
-				'image' => array(__('Images'), __('Manage Images'), __ngettext_noop('Image (%s)', 'Images (%s)')),
-				'audio' => array(__('Audio'), __('Manage Audio'), __ngettext_noop('Audio (%s)', 'Audio (%s)')),
-				'video' => array(__('Video'), __('Manage Video'), __ngettext_noop('Video (%s)', 'Video (%s)')),
+				'image' => array(__('Images'), __('Manage Images'), _n_noop('Image (%s)', 'Images (%s)')),
+				'audio' => array(__('Audio'), __('Manage Audio'), _n_noop('Audio (%s)', 'Audio (%s)')),
+				'video' => array(__('Video'), __('Manage Video'), _n_noop('Video (%s)', 'Video (%s)')),
 			);
 	$post_mime_types = apply_filters('post_mime_types', $post_mime_types);
 
@@ -147,7 +147,7 @@ if ( isset($_GET['posted']) && (int) $_GET['posted'] ) {
 
 if ( isset($_GET['attached']) && (int) $_GET['attached'] ) {
 	$attached = (int) $_GET['attached'];
-	$message = sprintf( __ngettext('Reattached %d attachment', 'Reattached %d attachments', $attached), $attached );
+	$message = sprintf( _n('Reattached %d attachment', 'Reattached %d attachments', $attached), $attached );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('attached'), $_SERVER['REQUEST_URI']);
 }
 
@@ -188,7 +188,7 @@ foreach ( $matches as $type => $reals )
 		$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
 $class = empty($_GET['post_mime_type']) && ! isset($_GET['detached']) ? ' class="current"' : '';
-$type_links[] = "<li><a href='upload.php'$class>" . sprintf( __ngettext( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts ), number_format_i18n( $_total_posts ) ) . '</a>';
+$type_links[] = "<li><a href='upload.php'$class>" . sprintf( _n( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts ), number_format_i18n( $_total_posts ) ) . '</a>';
 foreach ( $post_mime_types as $mime_type => $label ) {
 	$class = '';
 
@@ -198,7 +198,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
 		$class = ' class="current"';
 
-	$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( __ngettext( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
+	$type_links[] = "<li><a href='upload.php?post_mime_type=$mime_type'$class>" . sprintf( _n( $label[2][0], $label[2][1], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
 }
 $class = isset($_GET['detached']) ? ' class="current"' : '';
 $type_links[] = '<li><a href="upload.php?detached=1"' . $class . '>' . __('Unattached') . '</a>';

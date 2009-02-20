@@ -1473,19 +1473,19 @@ function human_time_diff( $from, $to = '' ) {
 		if ($mins <= 1) {
 			$mins = 1;
 		}
-		$since = sprintf(__ngettext('%s min', '%s mins', $mins), $mins);
+		$since = sprintf(_n('%s min', '%s mins', $mins), $mins);
 	} else if (($diff <= 86400) && ($diff > 3600)) {
 		$hours = round($diff / 3600);
 		if ($hours <= 1) {
 			$hours = 1;
 		}
-		$since = sprintf(__ngettext('%s hour', '%s hours', $hours), $hours);
+		$since = sprintf(_n('%s hour', '%s hours', $hours), $hours);
 	} elseif ($diff >= 86400) {
 		$days = round($diff / 86400);
 		if ($days <= 1) {
 			$days = 1;
 		}
-		$since = sprintf(__ngettext('%s day', '%s days', $days), $days);
+		$since = sprintf(_n('%s day', '%s days', $days), $days);
 	}
 	return $since;
 }
