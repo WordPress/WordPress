@@ -665,6 +665,17 @@ function get_transient($transient) {
 		$value = wp_cache_get($transient, 'transient');
 	} else {
 		$transient_option = '_transient_' . $wpdb->escape($transient);
+		// If option is not in alloptions, it is not autoloaded and thus has a timeout
+		$alloptions = wp_load_alloptions();
+		if ( !isset( $alloptions[$transient_option] ) ) {
+			$transient_timeout = '_transient_timeout_' . $wpdb->escape($transient);
+			if ( get_option($transient_timeout) > time() ) {
+				delete_option($transient_option);
+				delete_option($transient_timeout);
+				return false;
+			}
+		}
+
 		$value = get_option($transient_option);
 	}
 
@@ -683,20 +694,30 @@ function get_transient($transient) {
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @param mixed $value Transient value.
+ * @param int $expiration Time until expiration in seconds, default 0
  * @return bool False if value was not set and true if value was set.
  */
-function set_transient($transient, $value) {
+function set_transient($transient, $value, $expiration = 0) {
 	global $_wp_using_ext_object_cache, $wpdb;
 
 	if ( $_wp_using_ext_object_cache ) {
-		return wp_cache_set($transient, $value, 'transient');
+		return wp_cache_set($transient, $value, 'transient', $expiration);
 	} else {
+		$transient_timeout = '_transient_timeout_' . $transient;
 		$transient = '_transient_' . $transient;
 		$safe_transient = $wpdb->escape($transient);
-		if ( false === get_option( $safe_transient ) )
-			return add_option($transient, $value, '', 'no');
-		else
+		if ( false === get_option( $safe_transient ) ) {
+			$autoload = 'yes';
+			if ( 0 != $expiration ) {
+				$autoload = 'no'; 
+				add_option($transient_timeout, time() + $expiration, '', 'no');
+			}
+			return add_option($transient, $value, '', $autoload);
+		} else {
+			if ( 0 != $expiration )
+				update_option($transient_timeout, time() + $expiration);
 			return update_option($transient, $value);
+		}
 	}
 }
 

@@ -712,10 +712,8 @@ class RSSCache {
 	function set ($url, $rss) {
 		global $wpdb;
 		$cache_option = 'rss_' . $this->file_name( $url );
-		$cache_timestamp = 'rss_' . $this->file_name( $url ) . '_ts';
 
-		set_transient($cache_option, $rss);
-		set_transient($cache_timestamp, time() );
+		set_transient($cache_option, $rss, $this->MAX_AGE);
 
 		return $cache_option;
 	}
@@ -749,23 +747,12 @@ class RSSCache {
 \*=======================================================================*/
 	function check_cache ( $url ) {
 		$this->ERROR = "";
-		$cache_option = $this->file_name( $url );
-		$cache_timestamp = 'rss_' . $this->file_name( $url ) . '_ts';
+		$cache_option = 'rss_' . $this->file_name( $url );
 
-		if ( $mtime = get_transient($cache_timestamp) ) {
-			// find how long ago the file was added to the cache
-			// and whether that is longer then MAX_AGE
-			$age = time() - $mtime;
-			if ( $this->MAX_AGE > $age ) {
-				// object exists and is current
+		if ( get_transient($cache_option) ) {
+			// object exists and is current
 				return 'HIT';
-			}
-			else {
-				// object exists but is old
-				return 'STALE';
-			}
-		}
-		else {
+		} else {
 			// object does not exist
 			return 'MISS';
 		}
