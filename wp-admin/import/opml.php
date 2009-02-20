@@ -92,6 +92,7 @@ foreach ($categories as $category) {
 			$blogrolling = true;
 		} else { // try to get the upload file.
 			$overrides = array('test_form' => false, 'test_type' => false);
+			$_FILES['userfile']['name'] .= '.txt';
 			$file = wp_handle_upload($_FILES['userfile'], $overrides);
 
 			if ( isset($file['error']) )

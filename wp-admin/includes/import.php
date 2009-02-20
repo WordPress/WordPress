@@ -60,7 +60,7 @@ function wp_import_cleanup( $id ) {
  */
 function wp_import_handle_upload() {
 	$overrides = array( 'test_form' => false, 'test_type' => false );
-	$_FILES['import']['name'] .= '.import';
+	$_FILES['import']['name'] .= '.txt';
 	$file = wp_handle_upload( $_FILES['import'], $overrides );
 
 	if ( isset( $file['error'] ) )
