@@ -427,19 +427,53 @@ class wpdb {
 		}
 	}
 
-	/**
-	 * Escapes content for insertion into the database, for security
-	 *
-	 * @since 0.71
-	 *
-	 * @param string $string
-	 * @return string query safe string
-	 */
-	function escape($string) {
+	function _weak_escape($string) {
+		return addslashes($string);
+	}
+
+	function _real_escape($string) {
 		if ( $this->dbh && $this->real_escape )
 			return mysql_real_escape_string( $string, $this->dbh );
 		else
-			return addslashes( $string );
+			return addslashes( $string );	
+	}
+
+	function _escape($data) {
+		if ( is_array($data) ) {
+			foreach ( (array) $data as $k => $v ) {
+				if ( is_array($v) )
+					$data[$k] = $this->_escape( $v );
+				else
+					$data[$k] = $this->_real_escape( $v );
+			}
+		} else {
+			$data = $this->_real_escape( $data );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Escapes content for insertion into the database using addslashes(), for security
+	 *
+	 * @since 0.71
+	 *
+	 * @param string|array $data
+	 * @return string query safe string
+	 */
+	function escape($data) {
+		if ( is_array($data) ) {
+			foreach ( (array) $data as $k => $v ) {
+				if ( is_array($v) )
+					$data[$k] = $this->escape( $v );
+				else
+					$data[$k] = $this->_weak_escape( $v );
+			}
+		} else {
+			$data = $this->_weak_escape( $data );
+		}
+
+		return $data;
 	}
 
 	/**
@@ -449,8 +483,8 @@ class wpdb {
 	 *
 	 * @param string $s
 	 */
-	function escape_by_ref(&$s) {
-		$s = $this->escape($s);
+	function escape_by_ref(&$string) {
+		$string = $this->_real_escape( $string );
 	}
 
 	/**
@@ -665,7 +699,7 @@ class wpdb {
 	 * @return mixed Results of $this->query()
 	 */
 	function insert($table, $data) {
-		$data = add_magic_quotes($data);
+		$data = $this->_escape($data);
 		$fields = array_keys($data);
 		return $this->query("INSERT INTO $table (`" . implode('`,`',$fields) . "`) VALUES ('".implode("','",$data)."')");
 	}
@@ -681,14 +715,14 @@ class wpdb {
 	 * @return mixed Results of $this->query()
 	 */
 	function update($table, $data, $where){
-		$data = add_magic_quotes($data);
+		$data = $this->_escape($data);
 		$bits = $wheres = array();
 		foreach ( (array) array_keys($data) as $k )
 			$bits[] = "`$k` = '$data[$k]'";
 
 		if ( is_array( $where ) )
 			foreach ( $where as $c => $v )
-				$wheres[] = "$c = '" . $this->escape( $v ) . "'";
+				$wheres[] = "$c = '" . $this->_escape( $v ) . "'";
 		else
 			return false;
 
