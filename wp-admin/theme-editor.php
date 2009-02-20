@@ -87,7 +87,19 @@ default:
 	if (!$error && filesize($real_file) > 0) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));
-		$content = htmlspecialchars($content);
+
+		if ( 'php' == mb_substr( $real_file, mb_strrpos( $real_file, '.' ) + 1 ) ) {
+			$functions = wp_doc_link_parse( $content );
+			
+			$docs_select = '<select name="docs-list" id="docs-list">';
+			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
+			foreach ( $functions as $function) {					
+				$docs_select .= '<option value="' . urlencode( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+			}
+			$docs_select .= '</select>';
+		}
+
+		$content = htmlspecialchars( $content );
 	}
 
 	?>
@@ -187,6 +199,9 @@ if ($allowed_files) :
 		 <input type="hidden" name="file" value="<?php echo $file ?>" />
 		 <input type="hidden" name="theme" value="<?php echo $theme ?>" />
 		 </div>
+		<?php if ( count( $functions ) ) : ?>
+		<div id="documentation"><label for="docs-list">Documentation:</label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php _e( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
+		<?php endif; ?>
 
 		<div>
 <?php if ( is_writeable($real_file) ) : ?>

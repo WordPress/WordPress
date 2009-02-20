@@ -81,8 +81,22 @@ default:
 	if ( ! is_file($real_file) )
 		$error = 1;
 
-	if ( ! $error )
-		$content = htmlspecialchars(file_get_contents($real_file));
+	if ( ! $error ) {
+		$content = file_get_contents( $real_file );
+		
+		if ( 'php' == mb_substr( $real_file, mb_strrpos( $real_file, '.' ) + 1 ) ) {
+			$functions = wp_doc_link_parse( $content );
+			
+			$docs_select = '<select name="docs-list" id="docs-list">';
+			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
+			foreach ( $functions as $function) {
+				$docs_select .= '<option value="' . urlencode( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
+			}
+			$docs_select .= '</select>';
+		}
+		
+		$content = htmlspecialchars( $content );
+	}
 
 	?>
 <?php if (isset($_GET['a'])) : ?>
@@ -124,7 +138,7 @@ default:
 	<h4><?php _e('Plugins'); ?></h4>
 	<ul>
 <?php foreach($plugin_files as $plugin_file) : ?>
-		<li><a href="plugin-editor.php?file=<?php echo $plugin_file; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>
+		<li<?php echo $file == $plugin_file ? ' class="highlight"' : ''; ?>><a href="plugin-editor.php?file=<?php echo $plugin_file; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>
 <?php endforeach; ?>
 	</ul>
 	</div>
@@ -135,6 +149,9 @@ default:
 		<input type="hidden" name="action" value="update" />
 		<input type="hidden" name="file" value="<?php echo $file ?>" />
 		</div>
+		<?php if ( count( $functions ) ) : ?>
+		<div id="documentation"><label for="docs-list">Documentation:</label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php _e( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
+		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array($file, (array) get_option('active_plugins')) ) { ?>
 		<p><?php _e('<strong>Warning:</strong> Making changes to active plugins is not recommended.  If your changes cause a fatal error, the plugin will be automatically deactivated.'); ?></p>

@@ -64,3 +64,12 @@ div.bordertitle h2 {
 div.tablenav {
 	margin-right: 210px;
 }
+
+#documentation {
+	margin-top: 10px;
+}
+#documentation label {
+	line-height: 22px;
+	vertical-align: top;
+	font-weight: bold;
+}

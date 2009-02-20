@@ -238,4 +238,38 @@ function show_message($message) {
 	echo "<p>$message</p>\n";
 }
 
+function wp_doc_link_parse( $content ) {
+	if ( !is_string( $content ) || empty( $content ) )
+		return array();
+		
+	$tokens = token_get_all( $content );
+	$functions = array();
+	$ignore_functions = array();
+	for ( $t = 0, $count = count( $tokens ); $t < $count; $t++ ) {
+		if ( !is_array( $tokens[$t] ) ) continue;
+		if ( T_STRING == $tokens[$t][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
+			// If it's a function or class defined locally, there's not going to be any docs available
+			if ( 'class' == $tokens[ $t - 2 ][1] || 'function' == $tokens[ $t - 2 ][1] || T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) {
+				$ignore_functions[] = $tokens[$t][1];
+			}
+			// Add this to our stack of unique references
+			$functions[] = $tokens[$t][1];
+		}
+	}
+	
+	$functions = array_unique( $functions );
+	sort( $functions );
+	$ignore_functions = apply_filters( 'documentation_ignore_functions', $ignore_functions );
+	$ignore_functions = array_unique( $ignore_functions );
+	
+	$out = array();
+	foreach ( $functions as $function ) {
+		if ( in_array( $function, $ignore_functions ) )
+			continue;
+		$out[] = $function;
+	}
+	
+	return $out;
+}
+
 ?>
