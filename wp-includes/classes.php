@@ -302,16 +302,17 @@ class WP {
 	 * @since 2.0.0
 	 */
 	function send_headers() {
-		@header('X-Pingback: '. get_bloginfo('pingback_url'));
+		$headers = array('X-Pingback' => get_bloginfo('pingback_url'));
+		$status = null;
 		if ( is_user_logged_in() )
-			nocache_headers();
+			$headers = array_merge($headers, wp_get_nocache_headers());
 		if ( !empty($this->query_vars['error']) && '404' == $this->query_vars['error'] ) {
-			status_header( 404 );
+			$status = 404;
 			if ( !is_user_logged_in() )
-				nocache_headers();
-			@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+				$headers = array_merge($headers, wp_get_nocache_headers());
+			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
 		} else if ( empty($this->query_vars['feed']) ) {
-			@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed
 			if ( !empty($this->query_vars['withcomments'])
@@ -329,8 +330,8 @@ class WP {
 			else
 				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';
 			$wp_etag = '"' . md5($wp_last_modified) . '"';
-			@header("Last-Modified: $wp_last_modified");
-			@header("ETag: $wp_etag");
+			$headers['Last-Modified'] = $wp_last_modified;
+			$headers['ETag'] = $wp_etag;
 
 			// Support for Conditional GET
 			if (isset($_SERVER['HTTP_IF_NONE_MATCH']))
@@ -347,10 +348,17 @@ class WP {
 			if ( ($client_last_modified && $client_etag) ?
 					 (($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
 					 (($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
-				status_header( 304 );
-				exit;
+				$status = 304;
+				add_action('send_headers', 'exit', 1);
 			}
 		}
+
+		$headers = apply_filters('wp_headers', $headers, $this); 
+
+		if ( ! empty( $status ) ) 
+			status_header( $status );
+		foreach( (array) $headers as $name => $field_value )
+			@header("{$name}: {$field_value}");
 
 		do_action_ref_array('send_headers', array(&$this));
 	}

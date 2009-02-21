@@ -1460,19 +1460,39 @@ function status_header( $header ) {
 }
 
 /**
+ * Gets the header information to prevent caching.
+ *
+ * The several different headers cover the different ways cache prevention is handled
+ * by different browsers
+ *
+ * @since 2.8
+ *
+ * @uses apply_filters()
+ * @return array The associative array of header names and field values.
+ */
+function wp_get_nocache_headers() {
+	$headers = array(
+		'Expires' => 'Wed, 11 Jan 1984 05:00:00 GMT',
+		'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
+		'Cache-Control' => 'no-cache, must-revalidate, max-age=0',
+		'Pragma' => 'no-cache',
+	);
+	return apply_filters('nocache_headers', $headers);	
+}
+
+/**
  * Sets the headers to prevent caching for the different browsers.
  *
  * Different browsers support different nocache headers, so several headers must
  * be sent so that all of them get the point that no caching should occur.
  *
  * @since 2.0.0
+ * @uses wp_get_nocache_headers()
  */
 function nocache_headers() {
-	// why are these @-silenced when other header calls aren't?
-	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
-	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-	@header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
-	@header( 'Pragma: no-cache' );
+	$headers = wp_get_nocache_headers();
+	foreach( (array) $headers as $name => $field_value ) 
+		@header("{$name}: {$field_value}");		
 }
 
 /**
