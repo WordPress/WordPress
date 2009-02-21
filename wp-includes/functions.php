@@ -1456,10 +1456,7 @@ function status_header( $header ) {
 	if ( function_exists( 'apply_filters' ) )
 		$status_header = apply_filters( 'status_header', $status_header, $header, $text, $protocol );
 
-	if ( version_compare( phpversion(), '4.3.0', '>=' ) )
-		return @header( $status_header, true, $header );
-	else
-		return @header( $status_header );
+	return @header( $status_header, true, $header );
 }
 
 /**
