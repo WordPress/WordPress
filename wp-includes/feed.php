@@ -403,10 +403,10 @@ function rss_enclosure() {
 	foreach ( (array) get_post_custom() as $key => $val) {
 		if ($key == 'enclosure') {
 			foreach ( (array) $val as $enc ) {
-				$enclosure = split("\n", $enc);
+				$enclosure = explode("\n", $enc);
 
 				//only get the the first element eg, audio/mpeg from 'audio/mpeg mpga mp2 mp3'
-				$t = split('[ \t]', trim($enclosure[2]) );
+				$t = preg_split('/[ \t]/', trim($enclosure[2]) );
 				$type = $t[0];
 
 				echo apply_filters('rss_enclosure', '<enclosure url="' . trim(htmlspecialchars($enclosure[0])) . '" length="' . trim($enclosure[1]) . '" type="' . $type . '" />' . "\n");
