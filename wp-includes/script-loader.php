@@ -377,7 +377,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery-ui-draggable', 'jquery-ui-resizable' ), '20090113' );
 		$scripts->add_data( 'media', 'group', 1 );
-
+		
+		$scripts->add( 'codepress', '/wp-includes/js/codepress/codepress.js', false, '0.9.6' );
+		$scripts->add_data( 'codepress', 'group', 1 );
 	}
 }
 

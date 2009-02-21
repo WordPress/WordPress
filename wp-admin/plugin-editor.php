@@ -74,6 +74,8 @@ default:
 		exit;
 	}
 
+	wp_enqueue_script( 'codepress' );
+	add_action( 'admin_print_footer_scripts', 'codepress_footer_js' );
 	require_once('admin-header.php');
 
 	update_recently_edited(WP_PLUGIN_DIR . '/' . $file);
@@ -96,6 +98,7 @@ default:
 		}
 		
 		$content = htmlspecialchars( $content );
+		$codepress_lang = codepress_get_lang($real_file);
 	}
 
 	?>
@@ -145,7 +148,7 @@ default:
 <?php	if ( ! $error ) { ?>
 	<form name="template" id="template" action="plugin-editor.php" method="post">
 	<?php wp_nonce_field('edit-plugin_' . $file) ?>
-		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea>
+		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1" class="codepress <?php echo $codepress_lang ?>"><?php echo $content ?></textarea>
 		<input type="hidden" name="action" value="update" />
 		<input type="hidden" name="file" value="<?php echo $file ?>" />
 		</div>

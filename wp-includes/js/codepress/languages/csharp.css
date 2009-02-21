@@ -1,0 +1,9 @@
+/*
+ * CodePress color styles for Java syntax highlighting
+ * By Edwin de Jonge
+ */
+
+b {color:#7F0055;font-weight:bold;font-style:normal;} /* reserved words */
+a {color:#2A0088;font-weight:bold;font-style:normal;} /* types */
+i, i b, i s {color:#3F7F5F;font-weight:bold;} /* comments */
+s, s b {color:#2A00FF;font-weight:normal;} /* strings */

@@ -1,0 +1,13 @@
+/**
+ * CodePress color styles for AutoIt syntax highlighting
+ */
+
+u {font-style:normal;color:#000090;font-weight:bold;font-family:Monospace;}
+var {color:#AA0000;font-weight:bold;font-style:normal;}
+em {color:#FF33FF;}
+ins {color:#AC00A9;}
+i {color:#F000FF;}
+b {color:#FF0000;}
+a {color:#0080FF;font-weight:bold;}
+s, s u, s b {color:#9999CC;font-weight:normal;}
+cite, cite *{color:#009933;font-weight:normal;}

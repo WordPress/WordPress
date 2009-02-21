@@ -272,4 +272,47 @@ function wp_doc_link_parse( $content ) {
 	return $out;
 }
 
+/**
+ * Determines the language to use for CodePress syntax highlighting,
+ * based only on a filename.
+ * 
+ * @since 2.8
+ * 
+ * @param string $filename The name of the file to be highlighting
+**/
+function codepress_get_lang( $filename ) {
+	$codepress_supported_langs = apply_filters( 'codepress_supported_langs', 
+									array( 'css' => 'css',
+											'js' => 'javascript', 
+											'php' => 'php', 
+											'html' => 'html', 
+											'htm' => 'html', 
+											'txt' => 'text' 
+											) );
+	$extension = mb_substr( $filename, mb_strrpos( $filename, '.' ) + 1 );
+	return isset( $codepress_supported_langs[$extension] ) ? $codepress_supported_langs[$extension] : 'generic';
+}
+
+/**
+ * Adds Javascript required to make CodePress work on the theme/plugin editors.
+ * 
+ * This code is attached to the action admin_print_footer_scripts.
+ * 
+ * @since 2.8
+**/
+function codepress_footer_js() {
+	// Script-loader breaks CP's automatic path-detection, thus CodePress.path
+	// CP edits in an iframe, so we need to grab content back into normal form
+	?><script type="text/javascript">
+/* <![CDATA[ */
+var codepress_path = '<?php echo get_option('home') ?>/wp-includes/js/codepress/';
+jQuery('#template').submit(function(){
+	if (jQuery('#newcontent_cp').length)
+		jQuery('#newcontent_cp').val(newcontent.getCode()).removeAttr('disabled');
+});
+/* ]]> */
+</script>
+<?php
+}
+
 ?>
