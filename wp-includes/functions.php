@@ -1477,7 +1477,11 @@ function wp_get_nocache_headers() {
 		'Cache-Control' => 'no-cache, must-revalidate, max-age=0',
 		'Pragma' => 'no-cache',
 	);
-	return apply_filters('nocache_headers', $headers);	
+	
+	if ( function_exists('apply_filters') ) {
+		$headers = apply_filters('nocache_headers', $headers);
+	}
+	return $headers;
 }
 
 /**
