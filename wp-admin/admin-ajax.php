@@ -18,6 +18,8 @@ require_once('../wp-load.php');
 require_once('includes/admin.php');
 @header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
+do_action('admin_init');
+
 if ( ! is_user_logged_in() ) {
 
 	if ( $_POST['action'] == 'autosave' ) {
