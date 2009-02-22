@@ -228,19 +228,19 @@ class WP_Http {
 		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) ) {
+			if ( true === WP_Http_ExtHttp::test() ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test() && apply_filters('use_curl_transport', true) ) {
+			} else if ( true === WP_Http_Curl::test() ) {
 				$working_transport['curl'] = new WP_Http_Curl();
 				$blocking_transport[] = &$working_transport['curl'];
-			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
+			} else if ( true === WP_Http_Streams::test() ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fopen::test() && apply_filters('use_fopen_transport', true) && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fopen::test() && ( isset($args['ssl']) && !$args['ssl'] ) ) {
 				$working_transport['fopen'] = new WP_Http_Fopen();
 				$blocking_transport[] = &$working_transport['fopen'];
-			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fsockopen::test() && ( isset($args['ssl']) && !$args['ssl'] ) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
@@ -279,16 +279,16 @@ class WP_Http {
 		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() && apply_filters('use_http_extension_transport', true) ) {
+			if ( true === WP_Http_ExtHttp::test() ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test() && apply_filters('use_curl_transport', true) ) {
+			} else if ( true === WP_Http_Curl::test() ) {
 				$working_transport['curl'] = new WP_Http_Curl();
 				$blocking_transport[] = &$working_transport['curl'];
-			} else if ( true === WP_Http_Streams::test() && apply_filters('use_streams_transport', true) ) {
+			} else if ( true === WP_Http_Streams::test() ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fsockopen::test() && apply_filters('use_fsockopen_transport', true) && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fsockopen::test() && ( isset($args['ssl']) && !$args['ssl'] ) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
@@ -376,6 +376,9 @@ class WP_Http {
 
 		$arrURL = parse_url($url);
 
+		if ( $this->block_request( $url ) )
+			return new WP_Error('http_request_failed', 'User has blocked requests through HTTP.');
+
 		// Determine if this is a https call and pass that on to the transport functions
 		// so that we can blacklist the transports that do not support ssl verification
 		if ( $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl' )
@@ -400,7 +403,7 @@ class WP_Http {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
-		
+
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
@@ -514,9 +517,8 @@ class WP_Http {
 	/**
 	 * Transform header string into an array.
 	 *
-	 * If an array is given then it is assumed to be raw header data with
-	 * numeric keys with the headers as the values. No headers must be passed
-	 * that were already processed.
+	 * If an array is given then it is assumed to be raw header data with numeric keys with the
+	 * headers as the values. No headers must be passed that were already processed.
 	 *
 	 * @access public
 	 * @static
@@ -564,11 +566,13 @@ class WP_Http {
 	
 	/**
 	 * Takes the arguments for a ::request() and checks for the cookie array.
-	 * If it's found, then it's assumed to contain WP_Http_Cookie objects, which
-	 * are each parsed into strings and added to the Cookie: header (within the
-	 * arguments array). Edits the array by reference.
+	 *
+	 * If it's found, then it's assumed to contain WP_Http_Cookie objects, which are each parsed
+	 * into strings and added to the Cookie: header (within the arguments array). Edits the array by
+	 * reference.
 	 *
 	 * @access public
+	 * @version 2.8.0
 	 * @static
 	 *
 	 * @param array $r Full array of args passed into ::request()
@@ -583,7 +587,7 @@ class WP_Http {
 			$r['headers']['cookie'] = $cookies_header;
 		}
 	}
-	
+
 	/**
 	 * Decodes chunk transfer-encoding, based off the HTTP 1.1 specification.
 	 *
@@ -629,6 +633,54 @@ class WP_Http {
 				return $body;
 			}
 		}
+	}
+
+	/**
+	 * Block requests through the proxy.
+	 *
+	 * Those who are behind a proxy and want to prevent access to certain hosts may do so. This will
+	 * prevent plugins from working and core functionality, if you don't include api.wordpress.org.
+	 *
+	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL in your wp-config.php file
+	 * and this will only allow localhost and your blog to make requests. The constant
+	 * WP_ACCESSABLE_HOSTS will allow additional hosts to go through for requests.
+	 *
+	 * @since unknown
+	 * @link http://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
+	 *
+	 * @param string $uri URI of url.
+	 * @return bool True to block, false to allow.
+	 */
+	function block_request($uri) {
+		// We don't need to block requests, because nothing is blocked.
+		if ( ! defined('WP_HTTP_BLOCK_EXTERNAL') || ( defined('WP_HTTP_BLOCK_EXTERNAL') && WP_HTTP_BLOCK_EXTERNAL == false ) )
+			return false;
+
+		// parse_url() only handles http, https type URLs, and will emit E_WARNING on failure.
+		// This will be displayed on blogs, which is not reasonable.
+		$check = @parse_url($uri);
+
+		/* Malformed URL, can not process, but this could mean ssl, so let through anyway.
+		 *
+		 * This isn't very security sound. There are instances where a hacker might attempt
+		 * to bypass the proxy and this check. However, the reason for this behavior is that
+		 * WordPress does not do any checking currently for non-proxy requests, so it is keeps with
+		 * the default unsecure nature of the HTTP request.
+		 */
+		if ( $check === false )
+			return false;
+
+		$home = parse_url( get_bloginfo('site_url') );
+		
+		// Don't block requests back to ourselves by default
+		if ( $uri == 'localhost' || $uri == $home['host'] )
+			return apply_filters('block_local_requests', false);
+
+		if ( defined('WP_ACCESSABLE_HOSTS') && is_array( WP_ACCESSABLE_HOSTS ) && in_array( $check['host'], WP_ACCESSABLE_HOSTS ) ) {
+				return false;
+		}
+
+		return true;
 	}
 }
 
@@ -799,7 +851,7 @@ class WP_Http_Fsockopen {
 			return false;
 
 		if ( function_exists( 'fsockopen' ) )
-			return true;
+			return apply_filters('use_fsockopen_transport', true);
 
 		return false;
 	}
@@ -911,7 +963,7 @@ class WP_Http_Fopen {
 		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
-		return true;
+		return apply_filters('use_fopen_transport', true);
 	}
 }
 
@@ -955,7 +1007,7 @@ class WP_Http_Streams {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
-		
+
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
@@ -984,9 +1036,9 @@ class WP_Http_Streams {
 				'header' => $strHeaders,
 				'timeout' => $r['timeout'],
 				'ssl' => array(
-                                	'verify_peer' => apply_filters('https_ssl_verify', $r['sslverify']),
-	                                'verify_host' => apply_filters('https_ssl_verify', $r['sslverify'])
-	                        )
+						'verify_peer' => apply_filters('https_ssl_verify', $r['sslverify']),
+						'verify_host' => apply_filters('https_ssl_verify', $r['sslverify'])
+				)
 			)
 		);
 
@@ -1049,7 +1101,7 @@ class WP_Http_Streams {
 		if ( version_compare(PHP_VERSION, '5.0', '<') )
 			return false;
 
-		return true;
+		return apply_filters('use_streams_transport', true);
 	}
 }
 
@@ -1133,7 +1185,9 @@ class WP_Http_ExtHTTP {
 		else
 			$strResponse = http_request($r['method'], $url, $r['body'], $options, $info); //Emits warning level notices for max redirects and timeouts
 
-		if ( false === $strResponse || ! empty($info['error']) ) //Error may still be set, Response may return headers or partial document, and error contains a reason the request was aborted, eg, timeout expired or max-redirects reached
+		// Error may still be set, Response may return headers or partial document, and error
+		// contains a reason the request was aborted, eg, timeout expired or max-redirects reached.
+		if ( false === $strResponse || ! empty($info['error']) )
 			return new WP_Error('http_request_failed', $info['response_code'] . ': ' . $info['error']);
 
 		if ( ! $r['blocking'] )
@@ -1169,7 +1223,7 @@ class WP_Http_ExtHTTP {
 	 */
 	function test() {
 		if ( function_exists('http_request') )
-			return true;
+			return apply_filters('use_http_extension_transport', true);
 
 		return false;
 	}
@@ -1185,6 +1239,7 @@ class WP_Http_ExtHTTP {
  * @since 2.7
  */
 class WP_Http_Curl {
+
 	/**
 	 * Send a HTTP request to a URI using cURL extension.
 	 *
@@ -1212,7 +1267,7 @@ class WP_Http_Curl {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
-		
+
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
@@ -1321,7 +1376,7 @@ class WP_Http_Curl {
 	 */
 	function test() {
 		if ( function_exists('curl_init') && function_exists('curl_exec') )
-			return true;
+			return  apply_filters('use_curl_transport', true);
 
 		return false;
 	}
@@ -1329,58 +1384,110 @@ class WP_Http_Curl {
 
 
 /**
- * Internal representation of a cookie.
+ * Internal representation of a single cookie.
  *
  * Returned cookies are represented using this class, and when cookies are
  * set, if they are not already a WP_Http_Cookie() object, then they are turned
  * into one.
  *
+ * @todo The WordPress convention is to use underscores instead of camelCase for function and method
+ * names. Need to switch to use underscores instead for the methods.
+ *
  * @package WordPress
  * @subpackage HTTP
+ * @since 2.8.0
+ * @author Beau Lebens
  */
 class WP_Http_Cookie {
-	var $name,
-		$value,
-		$expires,
-		$path,
-		$domain;
-	
+
 	/**
-	 * PHP4 style Constructor - Calls PHP5 Style Constructor
+	 * Cookie name.
+	 *
+	 * @since 2.8.0
+	 * @var string
+	 */
+	var $name;
+
+	/**
+	 * Cookie value.
+	 *
+	 * @since 2.8.0
+	 * @var string
+	 */
+	var $value;
+
+	/**
+	 * When the cookie expires.
+	 *
+	 * @since 2.8.0
+	 * @var string
+	 */
+	var $expires;
+
+	/**
+	 * Cookie URL path.
+	 *
+	 * @since 2.8.0
+	 * @var string
+	 */
+	var $path;
+
+	/**
+	 * Cookie Domain.
+	 *
+	 * @since 2.8.0
+	 * @var string
+	 */
+	var $domain;
+
+	/**
+	 * PHP4 style Constructor - Calls PHP5 Style Constructor.
+	 *
+	 * @access public
+	 * @since 2.8.0
+	 * @param string|array $data Raw cookie data.
 	 */
 	function WP_Http_Cookie( $data ) {
-		return $this->__construct( $data );
+		$this->__construct( $data );
 	}
-	
+
 	/**
 	 * Sets up this cookie object.
 	 *
-	 * @access public
+	 * The parameter $data should be either an associative array containing the indices names below
+	 * or a header string detailing it.
 	 *
-	 * @param mixed $data Either an associative array describing the cookie, or a header-string detailing it.
-	 * 		If it's an array, it should include the following elements:
-	 * 			- name
-	 * 			- value [should NOT be urlencoded already]
-	 * 			- expires (optional) String or int (UNIX timestamp)
-	 * 			- path (optional)
-	 * 			- domain (optional)
+	 * If it's an array, it should include the following elements:
+	 * <ol>
+	 * <li>Name</li>
+	 * <li>Value - should NOT be urlencoded already.</li>
+	 * <li>Expires - (optional) String or int (UNIX timestamp).</li>
+	 * <li>Path (optional)</li>
+	 * <li>Domain (optional)</li>
+	 * </ol>
+	 *
+	 * @access public
+	 * @since 2.8.0
+	 *
+	 * @param string|array $data Raw cookie data.
 	 */
 	function __construct( $data ) {
 		if ( is_string( $data ) ) {
 			// Assume it's a header string direct from a previous request
 			$pairs = explode( ';', $data );
-			
+
 			// Special handling for first pair; name=value. Also be careful of "=" in value
 			$name  = trim( substr( $pairs[0], 0, strpos( $pairs[0], '=' ) ) );
 			$value = substr( $pairs[0], strpos( $pairs[0], '=' ) + 1 );
 			$this->name  = $name;
 			$this->value = urldecode( $value );
 			array_shift( $pairs ); //Removes name=value from items.
-			
+
 			// Set everything else as a property
 			foreach ( $pairs as $pair ) {
 				if ( empty($pair) ) //Handles the cookie ending in ; which results in a empty final pair
 					continue;
+
 				list( $key, $val ) = explode( '=', $pair );
 				$key = strtolower( trim( $key ) );
 				if ( 'expires' == $key )
@@ -1390,25 +1497,27 @@ class WP_Http_Cookie {
 		} else {
 			if ( !isset( $data['name'] ) )
 				return false;
-			
+
 			// Set properties based directly on parameters
 			$this->name   = $data['name'];
 			$this->value  = isset( $data['value'] ) ? $data['value'] : '';
 			$this->path   = isset( $data['path'] ) ? $data['path'] : '';
 			$this->domain = isset( $data['domain'] ) ? $data['domain'] : '';
+
 			if ( isset( $data['expires'] ) )
 				$this->expires = is_int( $data['expires'] ) ? $data['expires'] : strtotime( $data['expires'] );
 			else
 				$this->expires = null;
 		}
 	}
-	
+
 	/**
 	 * Confirms that it's OK to send this cookie to the URL checked against.
 	 * 
 	 * Decision is based on RFC 2109/2965, so look there for details on validity.
 	 *
 	 * @access public
+	 * @since 2.8.0
 	 *
 	 * @param string $url URL you intend to send this cookie to
 	 * @return boolean TRUE if allowed, FALSE otherwise.
@@ -1417,42 +1526,58 @@ class WP_Http_Cookie {
 		// Expires - if expired then nothing else matters
 		if ( time() > $this->expires )
 			return false;
-		
+
 		// Get details on the URL we're thinking about sending to
 		$url = parse_url( $url );
 		$url['port'] = isset( $url['port'] ) ? $url['port'] : 80;
 		$url['path'] = isset( $url['path'] ) ? $url['path'] : '/';
-		
-		 // Values to use for comparison against the URL
+
+		// Values to use for comparison against the URL
 		$path   = isset( $this->path )   ? $this->path   : '/';
 		$port   = isset( $this->port )   ? $this->port   : 80;
 		$domain = isset( $this->domain ) ? strtolower( $this->domain ) : strtolower( $url['host'] );
 		if ( false === stripos( $domain, '.' ) )
 			$domain .= '.local';
-		
+
 		// Host - very basic check that the request URL ends with the domain restriction (minus leading dot)
 		$domain = substr( $domain, 0, 1 ) == '.' ? substr( $domain, 1 ) : $domain;
 		if ( substr( $url['host'], -strlen( $domain ) ) != $domain )
 			return false;
-		
+
 		// Port - supports "port-lists" in the format: "80,8000,8080"
 		if ( !in_array( $url['port'], explode( ',', $port) ) )
 			return false;
-		
+
 		// Path - request path must start with path restriction
 		if ( substr( $url['path'], 0, strlen( $path ) ) != $path )
 			return false;
-		
+
 		return true;
 	}
-	
+
+	/**
+	 * Convert cookie name and value back to header string.
+	 *
+	 * @access public
+	 * @since 2.8.0
+	 *
+	 * @return string Header encoded cookie name and value.
+	 */
 	function getHeaderValue() {
 		if ( empty( $this->name ) || empty( $this->value ) )
 			return '';
 		
 		return $this->name . '=' . urlencode( $this->value );
 	}
-	
+
+	/**
+	 * Retrieve cookie header for usage in the rest of the WordPress HTTP API.
+	 *
+	 * @access public
+	 * @since 2.8.0
+	 *
+	 * @return string
+	 */
 	function getFullHeader() {
 		return 'Cookie: ' . $this->getHeaderValue();
 	}
