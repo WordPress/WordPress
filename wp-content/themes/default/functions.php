@@ -153,7 +153,7 @@ function kubrick_add_theme_page() {
 		}
 		add_action('admin_head', 'kubrick_theme_page_head');
 	}
-	add_theme_page(__('Customize Header'), __('Header Image and Color'), 'edit_themes', basename(__FILE__), 'kubrick_theme_page');
+	add_theme_page(__('Custom Header'), __('Custom Header'), 'edit_themes', basename(__FILE__), 'kubrick_theme_page');
 }
 
 function kubrick_theme_page_head() {
