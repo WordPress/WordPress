@@ -3507,7 +3507,8 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
 
 	$post = _wp_post_revision_fields( $post, $autosave );
-
+	$post = add_magic_quotes($post); //since data is from db
+	
 	$revision_id = wp_insert_post( $post );
 	if ( is_wp_error($revision_id) )
 		return $revision_id;
@@ -3583,6 +3584,8 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		return false;
 
 	$update['ID'] = $revision['post_parent'];
+	
+	$update = add_magic_quotes( $update ); //since data is from db
 
 	$post_id = wp_update_post( $update );
 	if ( is_wp_error( $post_id ) )
