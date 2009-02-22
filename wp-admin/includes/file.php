@@ -713,6 +713,7 @@ jQuery(function($){
 	jQuery("#ftp, #ftps").click(function () {
 		jQuery("#ssh_keys").hide();
 	});
+	jQuery('form input[value=""]:first').focus(); 
 });
 -->
 </script>
