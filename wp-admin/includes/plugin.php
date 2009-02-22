@@ -98,6 +98,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 				);
 	if ( $markup || $translate )
 		$plugin_data = _get_plugin_data_markup_translate($plugin_data, $markup, $translate);
+
 	return $plugin_data;
 }
 
@@ -138,6 +139,46 @@ function _get_plugin_data_markup_translate($plugin_data, $markup = true, $transl
 	$plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags);
 
 	return $plugin_data;
+}
+
+/**
+ * Get a list of a plugin's files.
+ *
+ * @since 2.8.0
+ *
+ * @param string $plugin Plugin ID
+ * @return array List of files relative to the plugin root.
+ */
+function get_plugin_files($plugin) {
+	$plugin_file = WP_PLUGIN_DIR . '/' . $plugin;
+	$dir = dirname($plugin_file);
+	$plugin_files = array($plugin);
+	if ( is_dir($dir) && $dir != WP_PLUGIN_DIR ) {
+		$plugins_dir = @ opendir( $dir );
+		if ( $plugins_dir ) {
+			while (($file = readdir( $plugins_dir ) ) !== false ) {
+				if ( substr($file, 0, 1) == '.' )
+					continue;
+				if ( is_dir( $dir . '/' . $file ) ) {
+					$plugins_subdir = @ opendir( $dir . '/' . $file );
+					if ( $plugins_subdir ) {
+						while (($subfile = readdir( $plugins_subdir ) ) !== false ) {
+							if ( substr($subfile, 0, 1) == '.' )
+								continue;
+							$plugin_files[] = plugin_basename("$dir/$file/$subfile");
+						}
+						@closedir( $plugins_subdir );
+					}
+				} else {
+					if ( plugin_basename("$dir/$file") != $plugin )
+						$plugin_files[] = plugin_basename("$dir/$file");
+				}
+			}
+			@closedir( $plugins_dir );
+		}
+	}
+
+	return $plugin_files;
 }
 
 /**
