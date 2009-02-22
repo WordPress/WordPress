@@ -462,18 +462,19 @@ if ( !defined( 'AUTOSAVE_INTERVAL' ) )
 require (ABSPATH . WPINC . '/vars.php');
 
 // Check for hacks file if the option is enabled
-if (get_option('hack_file')) {
-	if (file_exists(ABSPATH . 'my-hacks.php'))
+if ( get_option('hack_file') ) {
+	if ( file_exists(ABSPATH . 'my-hacks.php') )
 		require(ABSPATH . 'my-hacks.php');
 }
 
 if ( get_option('active_plugins') && !defined('WP_INSTALLING') ) {
 	$current_plugins = get_option('active_plugins');
 	if ( is_array($current_plugins) ) {
-		foreach ($current_plugins as $plugin) {
+		foreach ( $current_plugins as $plugin ) {
 			if ( '' != $plugin && 0 == validate_file($plugin) && file_exists(WP_PLUGIN_DIR . '/' . $plugin) )
 				include_once(WP_PLUGIN_DIR . '/' . $plugin);
 		}
+		unset($plugin);
 	}
 }
 
