@@ -89,9 +89,12 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 	ob_end_clean();
 
 	// Prophylactic.  Take out empty ids.
-	foreach ( (array) $_POST['widget-id'] as $key => $val )
-		if ( !$val )
-			unset($_POST['widget-id'][$key]);
+	if ( isset($_POST['widget-id']) ) {
+		foreach ( (array) $_POST['widget-id'] as $key => $val ) {
+			if ( !$val )
+				unset($_POST['widget-id'][$key]);
+		}
+	}
 
 	// Reset the key numbering and store
 	$new_sidebar = isset( $_POST['widget-id'] ) && is_array( $_POST['widget-id'] ) ? array_values( $_POST['widget-id'] ) : array();
