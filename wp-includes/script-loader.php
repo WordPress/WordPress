@@ -6,7 +6,18 @@
  * {@link http://backpress.automattic.com/ BackPress}. WordPress themes and
  * plugins will only be concerned about the filters and actions set in this
  * file.
- *
+ * 
+ * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
+ * define('SCRIPT_DEBUG', true); loads the develppment (non-minified) versions of all scripts
+ * define('CONCATENATE_SCRIPTS', false); disables both compression and cancatenating,
+ * define('COMPRESS_SCRIPTS', false); disables compression of scripts,
+ * define('COMPRESS_CSS', false); disables compression of CSS,
+ * define('ENFORCE_GZIP', true); forces gzip for compression (default is deflate).
+ * 
+ * The globals $concatenate_scripts, $compress_scripts and $compress_css can be set by plugins
+ * to temporarily override the above settings. Also a compression test is run once and the result is saved
+ * as option 'can_compress_scripts' (0/1). The test will run again if that option is deleted.
+ * 
  * @package WordPress
  */
 
@@ -29,6 +40,7 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  * Setup WordPress scripts to load by default for Administration Panels.
  *
  * Localizes a few of the scripts.
+ * $scripts->add_data( 'script-handle', 'group', 1 ); queues the script for the footer
  *
  * @since 2.6.0
  *
@@ -45,7 +57,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
 	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
-
 
 	$scripts->add( 'utils', "/wp-admin/js/utils$suffix.js", false, '20090102' );
 
@@ -536,10 +547,10 @@ function wp_style_loader_src( $src, $handle ) {
  * @see wp_print_scripts()
  */
 function print_head_scripts() {
+	global $wp_scripts, $concatenate_scripts;
+
 	if ( ! did_action('wp_print_scripts') )
 		do_action('wp_print_scripts');
-
-	global $wp_scripts, $concatenate_scripts;
 
 	if ( !is_a($wp_scripts, 'WP_Scripts') )
 		$wp_scripts = new WP_Scripts();
@@ -549,7 +560,7 @@ function print_head_scripts() {
 	$wp_scripts->do_head_items();
 
 	if ( apply_filters('print_head_scripts', true) )
-		_pring_scripts();
+		_print_scripts();
 
 	$wp_scripts->reset();
 	return $wp_scripts->done;
@@ -571,13 +582,13 @@ function print_footer_scripts() {
 	$wp_scripts->do_footer_items();
 
 	if ( apply_filters('print_footer_scripts', true) )
-		_pring_scripts();
+		_print_scripts();
 
 	$wp_scripts->reset();
 	return $wp_scripts->done;
 }
 
-function _pring_scripts() {
+function _print_scripts() {
 	global $wp_scripts, $compress_scripts;
 
 	$zip = $compress_scripts ? 1 : 0;
