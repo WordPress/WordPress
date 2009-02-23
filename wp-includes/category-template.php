@@ -659,10 +659,13 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	if ( 'DESC' == $order )
 		$tags = array_reverse( $tags, true );
 	elseif ( 'RAND' == $order ) {
-		$keys = array_rand( $tags, count( $tags ) );
+		$keys = (array) array_rand( $tags, count( $tags ) );
+		$temp = array();
 		foreach ( $keys as $key )
 			$temp[$key] = $tags[$key];
+
 		$tags = $temp;
+		$temp = null;
 		unset( $temp );
 	}
 
