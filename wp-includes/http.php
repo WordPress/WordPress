@@ -578,9 +578,9 @@ class WP_Http {
 	 * @param array $r Full array of args passed into ::request()
 	 */
 	function buildCookieHeader( &$r ) {
-		if ( isset($r['cookies']) && count( $r['cookies'] ) ) {
+		if ( ! empty($r['cookies']) ) {
 			$cookies_header = '';
-			foreach ( $r['cookies'] as $cookie ) {
+			foreach ( (array) $r['cookies'] as $cookie ) {
 				$cookies_header .= $cookie->getHeaderValue() . '; ';
 			}
 			$cookies_header = substr( $cookies_header, 0, -2 );
