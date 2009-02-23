@@ -124,6 +124,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
 		if ( $default_cat_id != $category->term_id )
 			$actions['delete'] = "<a class='delete:the-list:cat-$category->term_id submitdelete' href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->term_id", 'delete-category_' . $category->term_id) . "'>" . __('Delete') . "</a>";
+		$actions = apply_filters('cat_row_actions', $actions, $category);
 		$action_count = count($actions);
 		$i = 0;
 		$edit .= '<div class="row-actions">';
@@ -294,6 +295,7 @@ function link_cat_row( $category, $name_override = false ) {
 		$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
 		if ( $default_cat_id != $category->term_id )
 			$actions['delete'] = "<a class='delete:the-list:link-cat-$category->term_id submitdelete' href='" . wp_nonce_url("link-category.php?action=delete&amp;cat_ID=$category->term_id", 'delete-link-category_' . $category->term_id) . "'>" . __('Delete') . "</a>";
+		$actions = apply_filters('link_cat_row_actions', $actions, $category);
 		$action_count = count($actions);
 		$i = 0;
 		$edit .= '<div class="row-actions">';
@@ -623,6 +625,7 @@ function _tag_row( $tag, $class = '', $taxonomy = 'post_tag' ) {
 					$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __('Quick&nbsp;Edit') . '</a>';
 					$actions['delete'] = "<a class='delete:the-list:tag-$tag->term_id submitdelete' href='" . wp_nonce_url("edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id) . "'>" . __('Delete') . "</a>";
+					$actions = apply_filters('tag_row_actions', $actions, $tag);
 					$action_count = count($actions);
 					$i = 0;
 					$out .= '<div class="row-actions">';
@@ -1399,6 +1402,7 @@ function _post_row($a_post, $pending_comments, $mode) {
 			} else {
 				$actions['view'] = '<a href="' . get_permalink($post->ID) . '" title="' . attribute_escape(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 			}
+			$actions = apply_filters('post_row_actions', $actions, $post);
 			$action_count = count($actions);
 			$i = 0;
 			echo '<div class="row-actions">';
@@ -1594,6 +1598,7 @@ foreach ($posts_columns as $column_name=>$column_display_name) {
 		} else {
 			$actions['view'] = '<a href="' . get_permalink($page->ID) . '" title="' . attribute_escape(sprintf(__('View "%s"'), $title)) . '" rel="permalink">' . __('View') . '</a>';
 		}
+		$actions = apply_filters('page_row_actions', $actions, $page);
 		$action_count = count($actions);
 
 		$i = 0;
@@ -1832,6 +1837,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 		$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
 		if ( $current_user->ID != $user_object->ID )
 			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("users.php?action=delete&amp;user=$user_object->ID", 'bulk-users') . "'>" . __('Delete') . "</a>";
+		$actions = apply_filters('user_row_actions', $actions, $user_object);
 		$action_count = count($actions);
 		$i = 0;
 		$edit .= '<div class="row-actions">';
