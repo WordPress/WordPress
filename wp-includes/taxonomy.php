@@ -1451,6 +1451,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id, term_order) VALUES " . join(',', $values) . " ON DUPLICATE KEY UPDATE term_order = VALUES(term_order)");
 	}
 
+	do_action('set_object_terms', $object_id, $terms, $tt_ids, $taxonomy, $append);
 	return $tt_ids;
 }
 
