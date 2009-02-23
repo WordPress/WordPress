@@ -438,7 +438,9 @@ function wp_authenticate($username, $password) {
 		$user = new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Invalid username or incorrect password.'));
 	}
 
-	if (is_wp_error($user)) {
+	$ignore_codes = array('empty_username', 'empty_password');
+
+	if (is_wp_error($user) && !in_array($user->get_error_code(), $ignore_codes) ) {
 		do_action('wp_login_failed', $username);
 	}
 
