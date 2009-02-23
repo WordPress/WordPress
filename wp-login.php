@@ -58,7 +58,8 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 <div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><?php bloginfo('name'); ?></a></h1>
 <?php
-	if ( !empty( $message ) ) echo apply_filters('login_message', $message) . "\n";
+	$message = apply_filters('login_message', $message);
+	if ( !empty( $message ) ) echo $message . "\n";
 
 	// Incase a plugin uses $error rather than the $errors object
 	if ( !empty( $error ) ) {
