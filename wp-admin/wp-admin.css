@@ -1320,7 +1320,7 @@ table.form-table td .updated {
 }
 
 /* Post Screen */
-#normal-sortables {
+#post-body-content #normal-sortables {
 	min-height: 50px;
 }
 
@@ -1537,6 +1537,10 @@ table.form-table td .updated {
 .hndle a {
 	font-size: 11px;
 	font-weight: normal;
+}
+
+#dashboard-widgets .meta-box-sortables {
+	margin: 0 5px;
 }
 
 .meta-box-sortables .postbox .handlediv {
@@ -2967,4 +2971,21 @@ table.fixed {
 ol {
 	list-style-type: decimal;
 	margin-left: 2em;
+}
+
+.postbox-container {
+	float: left;
+	padding-right: 0.5%;
+}
+
+.postbox-container .meta-box-sortables {
+	min-height: 300px;
+}
+
+.temp-border {
+	border: 1px dotted #ccc;
+}
+
+.columns-prefs label {
+	padding: 0 5px;
 }

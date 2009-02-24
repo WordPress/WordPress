@@ -3300,6 +3300,7 @@ function screen_meta($screen) {
 ?>
 	<br class="clear" />
 	</div></form>
+<?php echo screen_layout($screen); ?>
 </div>
 
 <?php
@@ -3310,29 +3311,38 @@ function screen_meta($screen) {
 	if ( !isset($_wp_contextual_help) )
 		$_wp_contextual_help = array();
 
-	if ( !isset($_wp_contextual_help['post']) ) {
-		$help = drag_drop_help();
-		$help .= '<p>' . __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>') . '</p>';
-		$_wp_contextual_help['post'] = $help;
+	switch ( $screen ) {
+		case 'post':
+			if ( !isset($_wp_contextual_help['post']) ) {
+				$help = drag_drop_help();
+				$help .= '<p>' . __('<a href="http://codex.wordpress.org/Writing_Posts" target="_blank">Writing Posts</a>') . '</p>';
+				$_wp_contextual_help['post'] = $help;
+			}
+			break;
+		case 'page':
+			if ( !isset($_wp_contextual_help['page']) ) {
+				$help = drag_drop_help();
+				$_wp_contextual_help['page'] = $help;
+			}
+			break;
+		case 'dashboard':
+			if ( !isset($_wp_contextual_help['dashboard']) ) {
+				$help = '<p>' . __('The modules on this screen can be arranged in several columns. You can select the number of columns from the Screen Options tab.') . "</p>\n";
+				$help .= drag_drop_help();
+				$_wp_contextual_help['dashboard'] = $help;
+			}
+			break;
+		case 'link':
+			if ( !isset($_wp_contextual_help['link']) ) {
+				$help = drag_drop_help();
+				$_wp_contextual_help['link'] = $help;
+			}
+			break;
+		case 'options-general':
+			if ( !isset($_wp_contextual_help['options-general']) )
+				$_wp_contextual_help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+			break;
 	}
-
-	if ( !isset($_wp_contextual_help['page']) ) {
-		$help = drag_drop_help();
-		$_wp_contextual_help['page'] = $help;
-	}
-
-	if ( !isset($_wp_contextual_help['dashboard']) ) {
-		$help = drag_drop_help();
-		$_wp_contextual_help['dashboard'] = $help;
-	}
-
-	if ( !isset($_wp_contextual_help['link']) ) {
-		$help = drag_drop_help();
-		$_wp_contextual_help['link'] = $help;
-	}
-
-	if ( !isset($_wp_contextual_help['options-general']) )
-		$_wp_contextual_help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
 
 	$_wp_contextual_help = apply_filters('contextual_help_list', $_wp_contextual_help, $screen);
 	?>
@@ -3396,6 +3406,36 @@ function drag_drop_help() {
 	<p>' .	__('Most of the modules on this screen can be moved. If you hover your mouse over the title bar of a module you’ll notice the 4 arrow cursor appears to let you know it is movable. Click on it, hold down the mouse button and start dragging the module to a new location. As you drag the module, notice the dotted gray box that also moves. This box indicates where the module will be placed when you release the mouse button.') . '</p>
 	<p>' . __('The same modules can be expanded and collapsed by clicking once on their title bar and also completely hidden from the Screen Options tab.') . '</p>
 ';
+}
+
+
+function screen_layout($screen) {
+	global $screen_layout_columns;
+
+	if ( 'dashboard' == $screen ) {
+		$screen_layout_columns = get_user_option('screen_layout_dashboard');
+		$num = 4;
+/* add to the write pages?
+	} elseif ( in_array( $screen, array('post', 'page', 'link') ) ) {
+		$screen_layout_columns = get_user_option('screen_layout_write');
+		$num = 2;
+*/
+	} else {
+		$screen_layout_columns = 0;
+		return '';
+	}
+	
+	if ( ! $screen_layout_columns )
+			$screen_layout_columns = 2;
+
+	$i = 1;
+	$return = '<h5>' . __('Screen Layout') . "</h5>\n<div class='columns-prefs'>" . __('Number of Columns:') . "\n";
+	while ( $i <= $num ) {
+		$return .= "<label><input type='radio' name='screen_columns' value='$i'" . ( ($screen_layout_columns == $i) ? " checked='checked'" : "" ) . " /> $i</label>\n";
+		++$i;
+	}
+	$return .= "</div>\n";
+	return $return;
 }
 
 function screen_icon($name = '') {

@@ -143,24 +143,52 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
  * @since unknown
  */
 function wp_dashboard() {
-	echo "<div id='dashboard-widgets' class='metabox-holder'>\n\n";
+	global $screen_layout_columns;
 
-	echo "<div id='side-info-column' class='inner-sidebar'>\n\n";
-	$class = do_meta_boxes( 'dashboard', 'side', '' ) ? ' class="has-sidebar"' : '';
-	echo "</div>\n\n";
-
-	echo "<div id='post-body'$class>\n\n";
-	echo "<div id='dashboard-widgets-main-content' class='has-sidebar-content'>\n\n";
+	$hide2 = $hide3 = $hide4 = '';
+	switch ( $screen_layout_columns ) {
+		case 4:
+			$width = 'width:24.5%;';
+			break;
+		case 3:
+			$width = 'width:32.67%;';
+			$hide4 = 'display:none;';
+			break;
+		case 2:
+			$width = 'width:49%;';
+			$hide3 = $hide4 = 'display:none;';
+			break;
+		default:
+			$width = 'width:98%;';
+			$hide2 = $hide3 = $hide4 = 'display:none;';
+	}
+?>
+<div id='dashboard-widgets' class='metabox-holder'>
+<?php
+	echo "\t<div class='postbox-container' style='$width'>\n";
 	do_meta_boxes( 'dashboard', 'normal', '' );
-	echo "</div>\n\n";
-	echo "</div>\n\n";
+	
+	echo "\t</div><div class='postbox-container' style='{$hide2}$width'>\n";
+	do_meta_boxes( 'dashboard', 'side', '' );
 
-	echo "<form style='display: none' method='get' action=''>\n<p>\n";
+	echo "\t</div><div class='postbox-container' style='{$hide3}$width'>\n";
+	do_meta_boxes( 'dashboard', 'column3', '' );
+
+	echo "\t</div><div class='postbox-container' style='{$hide4}$width'>\n";
+	do_meta_boxes( 'dashboard', 'column4', '' );
+?>
+</div></div>
+
+<form style='display: none' method='get' action=''>
+	<p>
+<?php
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-	echo "</p>\n</form>\n";
+?>
+	</p>
+</form>
 
-	echo "</div>";
+<?php
 }
 
 /* Dashboard Widgets */

@@ -949,32 +949,63 @@ case 'autosave-generate-nonces' :
 break;
 case 'closed-postboxes' :
 	check_ajax_referer( 'closedpostboxes', 'closedpostboxesnonce' );
-	$closed = isset( $_POST['closed'] )? $_POST['closed'] : '';
+	$closed = isset( $_POST['closed'] ) ? $_POST['closed'] : '';
 	$closed = explode( ',', $_POST['closed'] );
-	$hidden = isset( $_POST['hidden'] )? $_POST['hidden'] : '';
+	$hidden = isset( $_POST['hidden'] ) ? $_POST['hidden'] : '';
 	$hidden = explode( ',', $_POST['hidden'] );
-	$page = isset( $_POST['page'] )? $_POST['page'] : '';
-	if ( !preg_match( '/^[a-z-_]+$/', $page ) ) {
+	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+
+	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
 		die(-1);
-	}
-	$current_user = wp_get_current_user();
+
+	if ( ! $user = wp_get_current_user() )
+		die(-1);
+
 	if ( is_array($closed) )
-		update_usermeta($current_user->ID, 'closedpostboxes_'.$page, $closed);
+		update_usermeta($user->ID, 'closedpostboxes_'.$page, $closed);
+
 	if ( is_array($hidden) )
-		update_usermeta($current_user->ID, 'meta-box-hidden_'.$page, $hidden);
-break;
+		update_usermeta($user->ID, 'meta-box-hidden_'.$page, $hidden);
+
+	die('1');
+	break;
 case 'hidden-columns' :
 	check_ajax_referer( 'hiddencolumns', 'hiddencolumnsnonce' );
-	$hidden = isset( $_POST['hidden'] )? $_POST['hidden'] : '';
+	$hidden = isset( $_POST['hidden'] ) ? $_POST['hidden'] : '';
 	$hidden = explode( ',', $_POST['hidden'] );
-	$page = isset( $_POST['page'] )? $_POST['page'] : '';
-	if ( !preg_match( '/^[a-z_-]+$/', $page ) ) {
+	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+
+	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
 		die(-1);
-	}
-	$current_user = wp_get_current_user();
+
+	if ( ! $user = wp_get_current_user() )
+		die(-1);
+
 	if ( is_array($hidden) )
-		update_usermeta($current_user->ID, "manage-$page-columns-hidden", $hidden);
-break;
+		update_usermeta($user->ID, "manage-$page-columns-hidden", $hidden);
+
+	die('1');
+	break;
+case 'meta-box-order':
+	check_ajax_referer( 'meta-box-order' );
+	$order = isset( $_POST['order'] ) ? (array) $_POST['order'] : false;
+	$page_columns = isset( $_POST['page_columns'] ) ? (int) $_POST['page_columns'] : 0;
+	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
+
+	if ( !preg_match( '/^[a-z_-]+$/', $page ) )
+		die(-1);
+
+	if ( ! $user = wp_get_current_user() )
+		die(-1);
+
+	if ( $order )
+		update_user_option($user->ID, "meta-box-order_$page", $order);
+
+	if ( $page_columns )
+		update_usermeta($user->ID, "screen_layout_$page", $page_columns);
+
+	die('1');
+	break;
 case 'get-permalink':
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
@@ -1105,11 +1136,6 @@ case 'inline-save-tax':
 	}
 
 	exit;
-	break;
-case 'meta-box-order':
-	check_ajax_referer( 'meta-box-order' );
-	update_user_option( $GLOBALS['current_user']->ID, "meta-box-order_$_POST[page]", $_POST['order'] );
-	die('1');
 	break;
 case 'find_posts':
 	check_ajax_referer( 'find-posts' );
