@@ -228,19 +228,19 @@ class WP_Http {
 		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() ) {
+			if ( true === WP_Http_ExtHttp::test($args) ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test() ) {
+			} else if ( true === WP_Http_Curl::test($args) ) {
 				$working_transport['curl'] = new WP_Http_Curl();
 				$blocking_transport[] = &$working_transport['curl'];
-			} else if ( true === WP_Http_Streams::test() ) {
+			} else if ( true === WP_Http_Streams::test($args) ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fopen::test() && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fopen::test($args) ) {
 				$working_transport['fopen'] = new WP_Http_Fopen();
 				$blocking_transport[] = &$working_transport['fopen'];
-			} else if ( true === WP_Http_Fsockopen::test() && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fsockopen::test($args) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
@@ -279,16 +279,16 @@ class WP_Http {
 		static $working_transport, $blocking_transport, $nonblocking_transport;
 
 		if ( is_null($working_transport) ) {
-			if ( true === WP_Http_ExtHttp::test() ) {
+			if ( true === WP_Http_ExtHttp::test($args) ) {
 				$working_transport['exthttp'] = new WP_Http_ExtHttp();
 				$blocking_transport[] = &$working_transport['exthttp'];
-			} else if ( true === WP_Http_Curl::test() ) {
+			} else if ( true === WP_Http_Curl::test($args) ) {
 				$working_transport['curl'] = new WP_Http_Curl();
 				$blocking_transport[] = &$working_transport['curl'];
-			} else if ( true === WP_Http_Streams::test() ) {
+			} else if ( true === WP_Http_Streams::test($args) ) {
 				$working_transport['streams'] = new WP_Http_Streams();
 				$blocking_transport[] = &$working_transport['streams'];
-			} else if ( true === WP_Http_Fsockopen::test() && ( isset($args['ssl']) && !$args['ssl'] ) ) {
+			} else if ( true === WP_Http_Fsockopen::test($args) ) {
 				$working_transport['fsockopen'] = new WP_Http_Fsockopen();
 				$blocking_transport[] = &$working_transport['fsockopen'];
 			}
@@ -385,6 +385,12 @@ class WP_Http {
 			$r['ssl'] = true;
 		else
 			$r['ssl'] = false;
+
+                // Determine if this request is to OUR install of WordPress
+                if ( stristr(get_bloginfo('url'), $arrURL['host']) )
+                        $r['local'] = true;
+                else
+                        $r['local'] = false;
 
 		if ( is_null( $r['headers'] ) )
 			$r['headers'] = array();
@@ -846,11 +852,11 @@ class WP_Http_Fsockopen {
 	 * @static
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test() {
+	function test($args = array()) {
 		if ( false !== ($option = get_option( 'disable_fsockopen' )) && time()-$option < 43200 ) // 12 hours
 			return false;
 
-		if ( function_exists( 'fsockopen' ) )
+		if ( function_exists( 'fsockopen' ) && ( isset($args['ssl']) && !$args['ssl'] ) )
 			return apply_filters('use_fsockopen_transport', true);
 
 		return false;
@@ -963,7 +969,15 @@ class WP_Http_Fopen {
 		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
-		return apply_filters('use_fopen_transport', true);
+		        if (
+                                ( isset($args['ssl']) && !$args['ssl'] ) ||
+                                ( isset($args['local']) && $args['local'] == true && apply_filters('https_local_ssl_verify', true) != true ) ||
+                                ( isset($args['local']) && $args['local'] == false && apply_filters('https_ssl_verify', true) != true ) ||
+                                ( isset($args['sslverify']) && !$args['sslverify'] )
+                        )
+				return apply_filters('use_fopen_transport', true);
+
+		return false;
 	}
 }
 
@@ -1094,7 +1108,7 @@ class WP_Http_Streams {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test() {
+	function test($args = array()) {
 		if ( ! function_exists('fopen') || (function_exists('ini_get') && true != ini_get('allow_url_fopen')) )
 			return false;
 
@@ -1221,7 +1235,7 @@ class WP_Http_ExtHTTP {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test() {
+	function test($args = array()) {
 		if ( function_exists('http_request') )
 			return apply_filters('use_http_extension_transport', true);
 
@@ -1374,7 +1388,7 @@ class WP_Http_Curl {
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
-	function test() {
+	function test($args = array()) {
 		if ( function_exists('curl_init') && function_exists('curl_exec') )
 			return  apply_filters('use_curl_transport', true);
 
