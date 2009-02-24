@@ -282,15 +282,18 @@ function wp_doc_link_parse( $content ) {
 **/
 function codepress_get_lang( $filename ) {
 	$codepress_supported_langs = apply_filters( 'codepress_supported_langs', 
-									array( 'css' => 'css',
-											'js' => 'javascript', 
-											'php' => 'php', 
-											'html' => 'html', 
-											'htm' => 'html', 
-											'txt' => 'text' 
+									array( '.css' => 'css',
+											'.js' => 'javascript', 
+											'.php' => 'php', 
+											'.html' => 'html', 
+											'.htm' => 'html', 
+											'.txt' => 'text' 
 											) );
-	$extension = mb_substr( $filename, mb_strrpos( $filename, '.' ) + 1 );
-	return isset( $codepress_supported_langs[$extension] ) ? $codepress_supported_langs[$extension] : 'generic';
+	$extension = substr( $filename, strrpos( $filename, '.' ) );
+	if ( $extension && array_key_exists( $extension, $codepress_supported_langs ) )
+		return $codepress_supported_langs[$extension];
+	
+	return 'generic';
 }
 
 /**
@@ -305,7 +308,7 @@ function codepress_footer_js() {
 	// CP edits in an iframe, so we need to grab content back into normal form
 	?><script type="text/javascript">
 /* <![CDATA[ */
-var codepress_path = '<?php echo get_option('home') ?>/wp-includes/js/codepress/';
+var codepress_path = '<?php echo includes_url('js/codepress/'); ?>';
 jQuery('#template').submit(function(){
 	if (jQuery('#newcontent_cp').length)
 		jQuery('#newcontent_cp').val(newcontent.getCode()).removeAttr('disabled');
