@@ -816,7 +816,7 @@ class LJ_API_Import {
 			<form action="admin.php?import=livejournal" method="post" id="ljapi-auto-repost">
 			<?php wp_nonce_field( 'lj-api-import' ) ?>
 			<input type="hidden" name="step" id="step" value="1" />
-			<p><input type="submit" class="button-primary" value="<?php echo attribute_escape( __( 'Import the next batch &raquo;' ) ) ?>" /> <span id="auto-message"></span></p>
+			<p><input type="submit" class="button-primary" value="<?php echo attribute_escape( __( 'Import the next batch' ) ) ?>" /> <span id="auto-message"></span></p>
 			</form>
 			<?php $this->auto_ajax( 'ljapi-auto-repost', 'auto-message', 0 ); ?>
 		<?php
@@ -866,7 +866,7 @@ class LJ_API_Import {
 			<p><strong><?php printf( __( 'Imported comment batch %d of <strong>approximately</strong> %d' ), get_option( 'ljapi_comment_batch' ), $batch ) ?></strong></p>
 			<?php wp_nonce_field( 'lj-api-import' ) ?>
 			<input type="hidden" name="step" id="step" value="2" />
-			<p><input type="submit" class="button-primary" value="<?php echo attribute_escape( __( 'Import the next batch &raquo;' ) ) ?>" /> <span id="auto-message"></span></p>
+			<p><input type="submit" class="button-primary" value="<?php echo attribute_escape( __( 'Import the next batch' ) ) ?>" /> <span id="auto-message"></span></p>
 			</form>
 			<?php $this->auto_ajax( 'ljapi-auto-repost', 'auto-message', 0 ); ?>
 		<?php
