@@ -488,6 +488,9 @@ function wp_list_authors($args = '') {
 	}
 
 	foreach ( (array) $authors as $author ) {
+		
+		$link = ''; 
+		
 		$author = get_userdata( $author->ID );
 		$posts = (isset($author_count[$author->ID])) ? $author_count[$author->ID] : 0;
 		$name = $author->display_name;
@@ -547,7 +550,7 @@ function wp_list_authors($args = '') {
 
 		if ( !($posts == 0 && $hide_empty) && 'list' == $style )
 			$return .= $link . '</li>';
-		else
+		else if ( ! $hide_empty )
 			$return .= $link . ', ';
 	}
 
