@@ -287,7 +287,7 @@ function wp_update_theme($theme, $feedback = '') {
 		add_filter('update_feedback', $feedback);
 
 	// Is an update available?
-	$current = get_option( 'update_themes' );
+	$current = get_transient( 'update_themes' );
 	if ( !isset( $current->response[ $theme ] ) )
 		return new WP_Error('up_to_date', __('The theme is at the latest version.'));
 
@@ -388,7 +388,7 @@ function wp_update_theme($theme, $feedback = '') {
 	$wp_filesystem->delete($working_dir, true);
 
 	// Force refresh of plugin update information
-	delete_option('update_themes');
+	delete_transient('update_themes');
 
 	/*if( empty($filelist) )
 		return false; //We couldnt find any files in the working dir, therefor no plugin installed? Failsafe backup.
