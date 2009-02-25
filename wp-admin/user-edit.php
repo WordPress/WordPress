@@ -365,7 +365,7 @@ if ( $show_password_fields ) :
 	}
 ?>
 
-<?php if (count($profileuser->caps) > count($profileuser->roles)): ?>
+<?php if (count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true)): ?>
 <br class="clear" />
 	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
 		<tr>
