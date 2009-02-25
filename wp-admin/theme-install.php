@@ -35,7 +35,7 @@ $tabs['featured'] = __('Featured');
 $tabs['new']      = __('Newest');
 $tabs['updated']  = __('Recently Updated');
 
-$nonmenu_tabs = array('install', 'theme-information', 'upload'); //Valid actions to perform which do not have a Menu item.
+$nonmenu_tabs = array('install', 'theme-information', 'do_upload'); //Valid actions to perform which do not have a Menu item.
 
 $tabs = apply_filters('install_themes_tabs', $tabs );
 $nonmenu_tabs = apply_filters('install_themes_nonmenu_tabs', $nonmenu_tabs);

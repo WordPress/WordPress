@@ -242,11 +242,11 @@ function install_themes_updated($page = 1) {
 }
 
 add_action('install_themes_upload', 'install_themes_upload', 10, 1);
-function install_themes_upload() {
+function install_themes_upload($page = 1) {
 ?>
 	<h4><?php _e('Install a theme in .zip format') ?></h4>
 	<p><?php _e('If you have a theme in a .zip format, You may install it by uploading it here.') ?></p>
-	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('theme-install.php?tab=upload') ?>">
+	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('theme-install.php?tab=do_upload') ?>">
 		<?php wp_nonce_field( 'theme-upload') ?>
 		<input type="file" name="themezip" />
 		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
@@ -520,7 +520,7 @@ function install_theme_information() {
 }
 
 
-add_action('install_themes_upload', 'upload_theme');
+add_action('install_themes_do_upload', 'upload_theme');
 function upload_theme() {
 
 	if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
