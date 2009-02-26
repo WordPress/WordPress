@@ -1067,6 +1067,8 @@ EOD;
 		log_app('function',"get_feed($page, '$post_type')");
 		ob_start();
 
+		$this->ENTRY_PATH = $post_type;
+
 		if(!isset($page)) {
 			$page = 1;
 		}
@@ -1136,6 +1138,7 @@ EOD;
 				$varname = 'p';
 				break;
 			case 'attachment':
+				$this->ENTRY_PATH = 'attachment';
 				$varname = 'attachment_id';
 				break;
 		}
