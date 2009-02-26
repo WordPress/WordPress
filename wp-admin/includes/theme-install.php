@@ -299,54 +299,74 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 ?>
 		<br class="clear" />
 	</div>
-	<div class="theme-listing">
+	<table id="availablethemes" cellspacing="0" cellpadding="0">
 		<?php
 		$in_column = 0;
-		foreach ( $themes as $theme ) {
-			//var_dump($theme);
-			
-			$name = wp_kses($theme->name, $themes_allowedtags);
-			$desc = wp_kses($theme->description, $themes_allowedtags);
-			//if ( strlen($desc) > 30 )
-			//	$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
-
-			$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
-			$action_links = array();
-			$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-								'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="button thickbox onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
-			$action_links[] = '<a href="' . $preview_link . '" class="button thickbox thickbox-preview onclick previewlink" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
-
-			$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
-			$actions = implode ( ' ', $action_links );
-			echo "
-		<div class='theme-item available-theme'>
-			<a class='thickbox thickbox-preview screenshot' href='$preview_link' title='" . attribute_escape(sprintf(__('Preview "%s"'), $name)) . "'>
-			<img src='{$theme->screenshot_url}' width='150' />
-			</a>
-			<h3>{$name}</h3>
-			<span class='action-links'>$actions</span>
-			<div class='theme-item-info'>
-				{$desc}
-			</div>
-		</div>";
-		/*
-		object(stdClass)[59]
-		  public 'name' => string 'Magazine Basic' (length=14)
-		  public 'slug' => string 'magazine-basic' (length=14)
-		  public 'version' => string '1.1' (length=3)
-		  public 'author' => string 'tinkerpriest' (length=12)
-		  public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
-		  public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
-		  public 'rating' => float 80
-		  public 'num_ratings' => int 1
-		  public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
-		  public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
-		  public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
-		  */
+		$rows = ceil(count($themes) / 3);
+		$i = 0;
+		for ( $row = 1; $row <= $rows; $row++ ) {
+			for ( $col = 1; $col <= 3; $col++ ) {
+				$table[$row][$col] = $i;
+				$i++;
+			}
 		}
-		
-		?>
-	</div>
+
+		foreach ( $table as $row => $cols ) {
+?>
+<tr>
+<?php
+			foreach ( $cols as $col => $theme_index ) {
+				$class = array('available-theme');
+				if ( $row == 1 ) $class[] = 'top';
+				if ( $col == 1 ) $class[] = 'left';
+				if ( $row == $rows ) $class[] = 'bottom';
+				if ( $col == 3 ) $class[] = 'right';
+				$theme = $themes[$theme_index];
+?>
+	<td class="<?php echo join(' ', $class); ?>">
+<?php
+					//var_dump($theme);
+			
+				$name = wp_kses($theme->name, $themes_allowedtags);
+				$desc = wp_kses($theme->description, $themes_allowedtags);
+				//if ( strlen($desc) > 30 )
+				//	$desc =  substr($desc, 0, 30) . '<span class="dots">...</span><span>' . substr($desc, 30) . '</span>';
+
+				$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
+				$action_links = array();
+				$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
+									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="button thickbox onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
+				$action_links[] = '<a href="' . $preview_link . '" class="button thickbox thickbox-preview onclick previewlink" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
+	
+				$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
+				$actions = implode ( ' ', $action_links );
+				echo "
+				<a class='thickbox thickbox-preview screenshot' href='$preview_link' title='" . attribute_escape(sprintf(__('Preview "%s"'), $name)) . "'>
+				<img src='{$theme->screenshot_url}' width='150' />
+				</a>
+				<h3>{$name}</h3>
+				<span class='action-links'>$actions</span>
+					<p>{$desc}</p>";
+			/*
+			object(stdClass)[59]
+			  public 'name' => string 'Magazine Basic' (length=14)
+			  public 'slug' => string 'magazine-basic' (length=14)
+			  public 'version' => string '1.1' (length=3)
+			  public 'author' => string 'tinkerpriest' (length=12)
+			  public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
+			  public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
+			  public 'rating' => float 80
+			  public 'num_ratings' => int 1
+			  public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
+			  public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
+			  public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
+			  */
+?>
+	</td>
+<?php } // end foreach $cols ?>
+</tr>
+<?php } // end foreach $table ?>
+</table>
 
 	<div class="tablenav">
 		<?php if ( $page_links )
