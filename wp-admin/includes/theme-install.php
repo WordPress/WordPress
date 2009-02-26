@@ -342,8 +342,11 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 				<h3><?php echo $name ?></h3>
 				<span class='action-links'><?php echo $actions ?></span>
 				<p><?php echo $desc ?></p>
+				<a href="#theme_detail" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
+				<div id="themedetaildiv" class="hide-if-js">
 				<p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
 				<p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
+				</div>
 <?php
 			/*
 			object(stdClass)[59]

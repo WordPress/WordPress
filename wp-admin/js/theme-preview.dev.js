@@ -37,6 +37,16 @@ jQuery(document).ready(function($) {
 	} );
 
 	$(window).resize( function() { thickDims() } );
+
+	// Theme details disclosure
+	$('.theme-detail').click(function () {
+		if ($(this).parents('.available-theme').find('#themedetaildiv').is(":hidden")) {
+			$(this).parents('.available-theme').find('#themedetaildiv').slideDown("normal");
+			$(this).hide();
+		}
+
+		return false;
+	});
 });
 
 function tb_position() {
