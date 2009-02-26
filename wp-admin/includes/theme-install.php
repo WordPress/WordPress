@@ -268,11 +268,6 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 
 	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
-
-	$themes_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()),'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array());
-
 ?>
 	<div class="tablenav">
 		<div class="alignleft actions">
@@ -335,18 +330,21 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 				$preview_link = $theme->preview_url . '?TB_iframe=true&amp;width=600&amp;height=400';
 				$action_links = array();
 				$action_links[] = '<a href="' . admin_url('theme-install.php?tab=theme-information&amp;theme=' . $theme->slug .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="button thickbox onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
-				$action_links[] = '<a href="' . $preview_link . '" class="button thickbox thickbox-preview onclick previewlink" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
+									'&amp;TB_iframe=true&amp;width=600&amp;height=800') . '" class="thickbox onclick" title="' . attribute_escape(sprintf(__('Install "%s"'), $name)) . '">' . __('Install') . '</a>';
+				$action_links[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview onclick previewlink" title="' . attribute_escape(sprintf(__('Preview "%s"'), $name)) . '">' . __('Preview') . '</a>';
 	
 				$action_links = apply_filters('theme_install_action_links', $action_links, $theme);
-				$actions = implode ( ' ', $action_links );
-				echo "
-				<a class='thickbox thickbox-preview screenshot' href='$preview_link' title='" . attribute_escape(sprintf(__('Preview "%s"'), $name)) . "'>
-				<img src='{$theme->screenshot_url}' width='150' />
+				$actions = implode ( ' | ', $action_links );
+?>
+				<a class='thickbox thickbox-preview screenshot' href='<? echo clean_url($preview_link) ?>' title='<?php attribute_escape(sprintf(__('Preview "%s"'), $name)) ?>'>
+				<img src='<?php echo clean_url($theme->screenshot_url) ?>' width='150' />
 				</a>
-				<h3>{$name}</h3>
-				<span class='action-links'>$actions</span>
-					<p>{$desc}</p>";
+				<h3><?php echo $name ?></h3>
+				<span class='action-links'><?php echo $actions ?></span>
+				<p><?php echo $desc ?></p>
+				<p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
+				<p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
+<?php
 			/*
 			object(stdClass)[59]
 			  public 'name' => string 'Magazine Basic' (length=14)
