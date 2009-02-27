@@ -385,6 +385,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	$year = get_query_var('year');
 	$monthnum = get_query_var('monthnum');
 	$day = get_query_var('day');
+	$search = get_query_var('s');
 	$title = '';
 
 	$t_sep = '%WP_TITILE_SEP%'; // Temporary separator, for accurate flipping, if necessary
@@ -455,6 +456,11 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$term = $wp_query->get_queried_object();
 		$term = $term->name;
 		$title = "$tax$t_sep$term";
+	}
+	
+	//If it's a search
+	if ( is_search() ) {
+		$title = sprintf(__('Search Results %s %s'), $t_sep, strip_tags($search));
 	}
 
 	if ( is_404() ) {
