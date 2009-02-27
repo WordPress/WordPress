@@ -7,11 +7,18 @@
  */
 
 $themes_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
-								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
-								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
+	'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
+	'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
+	'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
+	'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
+	'img' => array('src' => array(), 'class' => array(), 'alt' => array())
+);
+
+$theme_field_defaults = array( 'description' => true, 'sections' => false, 'tested' => true, 'requires' => true,
+	'rating' => true, 'downloaded' => true, 'downloadlink' => true, 'last_updated' => true, 'homepage' => true,
+	'tags' => true, 'num_ratings' => true
+);
+ 
 
 /**
  * Retrieve theme installer pages from WordPress Themes API.
@@ -67,11 +74,14 @@ function themes_api($action, $args = null) {
  * @return array
  */
 function install_themes_popular_tags( $args = array() ) {
+	global $theme_field_defaults;
 	if ( !$cache = get_option('wporg_theme_popular_tags') )
 		add_option('wporg_theme_popular_tags', array(), '', 'no'); ///No autoload.
 
 	if ( $cache && $cache->timeout + 3 * 60 * 60 > time() )
 		return $cache->cached;
+
+	$args['fields'] = $theme_field_defaults;
 
 	$tags = themes_api('hot_tags', $args);
 
@@ -115,6 +125,7 @@ function install_theme_search($page) {
 	}
 
 	$args['page'] = $page;
+	$args['fields'] = $theme_field_defaults;
 
 	$api = themes_api('query_themes', $args);
 
@@ -194,7 +205,8 @@ add_action('install_themes_featured', 'install_themes_featured', 10, 1);
  * @param string $page
  */
 function install_themes_featured($page = 1) {
-	$args = array('browse' => 'featured', 'page' => $page);
+	global $theme_field_defaults;
+	$args = array('browse' => 'featured', 'page' => $page, 'fields' => $theme_field_defaults);
 	$api = themes_api('query_themes', $args);
 	if ( is_wp_error($api) )
 		wp_die($api);
@@ -210,7 +222,8 @@ add_action('install_thems_popular', 'install_themes_popular', 10, 1);
  * @param string $page
  */
 function install_themes_popular($page = 1) {
-	$args = array('browse' => 'popular', 'page' => $page);
+	global $theme_field_defaults;
+	$args = array('browse' => 'popular', 'page' => $page, 'fields' => $theme_field_defaults);
 	$api = themes_api('query_themes', $args);
 	display_themes($api->themes, $api->info['page'], $api->info['pages']);
 }
@@ -224,7 +237,8 @@ add_action('install_themes_new', 'install_themes_new', 10, 1);
  * @param string $page
  */
 function install_themes_new($page = 1) {
-	$args = array('browse' => 'new', 'page' => $page);
+	global $theme_field_defaults;
+	$args = array('browse' => 'new', 'page' => $page, 'fields' => $theme_field_defaults);
 	$api = themes_api('query_themes', $args);
 	if ( is_wp_error($api) )
 		wp_die($api);
@@ -240,7 +254,8 @@ add_action('install_themes_updated', 'install_themes_updated', 10, 1);
  * @param string $page
  */
 function install_themes_updated($page = 1) {
-	$args = array('browse' => 'updated', 'page' => $page);
+	global $theme_field_defaults;
+	$args = array('browse' => 'updated', 'page' => $page, 'fields' => $theme_field_defaults);
 	$api = themes_api('query_themes', $args);
 	display_themes($api->themes, $api->info['page'], $api->info['pages']);
 }
@@ -291,6 +306,22 @@ function display_theme($theme, $actions = null, $show_details = true) {
 <div id="themedetaildiv" class="hide-if-js">
 <p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
 <p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
+<p><strong><?php _e('Last Updated:') ?></strong> <span title="<?php echo $theme->last_updated ?>"><?php printf( __('%s ago'), human_time_diff(strtotime($theme->last_updated)) ) ?></span></p>
+<?php if ( ! empty($theme->requires) ) : ?>   	   	 
+<p><strong><?php _e('Requires WordPress Version:') ?></strong> <?php printf(__('%s or higher'), $theme->requires) ?></p> 	  	 
+<?php endif; if ( ! empty($theme->tested) ) : ?>  	  	 
+<p><strong><?php _e('Compatible up to:') ?></strong> <?php echo $theme->tested ?></p>  	  	 	
+<?php endif; if ( !empty($theme->downloaded) ) : ?>
+<p><strong><?php _e('Downloaded:') ?></strong> <?php printf(_n('%s time', '%s times', $theme->downloaded), number_format_i18n($theme->downloaded)) ?></p>
+<?php endif; ?>
+<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $theme->num_ratings), number_format_i18n($theme->num_ratings)) ?>">
+	<div class="star star-rating" style="width: <?php echo attribute_escape($theme->rating) ?>px"></div>
+	<div class="star star5"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('5 stars') ?>" /></div>
+	<div class="star star4"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('4 stars') ?>" /></div>
+	<div class="star star3"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('3 stars') ?>" /></div>
+	<div class="star star2"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('2 stars') ?>" /></div>
+	<div class="star star1"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('1 star') ?>" /></div>
+</div>
 </div>
 <?php }
 	/*
