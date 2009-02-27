@@ -1195,17 +1195,17 @@ function wp_widget_categories_control( $widget_args ) {
 
 			<p>
 				<label for="categories-dropdown-<?php echo $number; ?>">
-					<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][dropdown]"<?php checked( $dropdown, true ); ?> />
+					<input type="checkbox" class="checkbox" id="categories-dropdown-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][dropdown]"<?php checked( $dropdown ); ?> />
 					<?php _e( 'Show as dropdown' ); ?>
 				</label>
 				<br />
 				<label for="categories-count-<?php echo $number; ?>">
-					<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][count]"<?php checked( $count, true ); ?> />
+					<input type="checkbox" class="checkbox" id="categories-count-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][count]"<?php checked( $count ); ?> />
 					<?php _e( 'Show post counts' ); ?>
 				</label>
 				<br />
 				<label for="categories-hierarchical-<?php echo $number; ?>">
-					<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][hierarchical]"<?php checked( $hierarchical, true ); ?> />
+					<input type="checkbox" class="checkbox" id="categories-hierarchical-<?php echo $number; ?>" name="widget-categories[<?php echo $number; ?>][hierarchical]"<?php checked( $hierarchical ); ?> />
 					<?php _e( 'Show hierarchy' ); ?>
 				</label>
 			</p>

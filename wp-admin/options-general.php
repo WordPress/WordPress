@@ -153,7 +153,7 @@ foreach ( $offset_range as $offset ) {
 	}
 
 	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
-	checked( $custom, TRUE );
+	checked( $custom );
 	echo '/> ' . __('Custom:') . ' </label><input type="text" name="date_format_custom" value="' . attribute_escape( get_option('date_format') ) . '" class="small-text" /> ' . date_i18n( get_option('date_format') ) . "\n";
 
 	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Save Changes" to update sample output.') . "</p>\n";
@@ -185,7 +185,7 @@ foreach ( $offset_range as $offset ) {
 	}
 
 	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
-	checked( $custom, TRUE );
+	checked( $custom );
 	echo '/> ' . __('Custom:') . ' </label><input type="text" name="time_format_custom" value="' . attribute_escape( get_option('time_format') ) . '" class="small-text" /> ' . date_i18n( get_option('time_format') ) . "\n";
 ?>
 	</fieldset>
