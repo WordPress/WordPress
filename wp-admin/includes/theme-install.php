@@ -249,7 +249,7 @@ add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 function install_themes_upload($page = 1) {
 	?>
 <h4><?php _e('Install a theme in .zip format') ?></h4>
-<p><?php _e('If you have a theme in a .zip format, You may install it by uploading it here.') ?></p>
+<p><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.') ?></p>
 <form method="post" enctype="multipart/form-data"
 	action="<?php echo admin_url('theme-install.php?tab=do_upload') ?>"><?php wp_nonce_field( 'theme-upload') ?>
 <input type="file" name="themezip" /> <input type="submit"
@@ -488,7 +488,7 @@ function upload_theme() {
 	check_admin_referer('theme-upload');
 
 	echo '<div class="wrap">';
-	echo '<h2>', sprintf( __('Installing Theme from file: %s'), basename($filename) ), '</h2>';
+	echo '<h2>', sprintf( __('Installing theme from file: %s'), basename($filename) ), '</h2>';
 
 	//Handle a newly uploaded file, Else assume it was
 	if ( !empty($_FILES) ) {
@@ -524,7 +524,7 @@ function install_theme() {
 		wp_die($api);
 
 	echo '<div class="wrap">';
-	echo '<h2>', sprintf( __('Installing Theme: %s'), $api->name . ' ' . $api->version ), '</h2>';
+	echo '<h2>', sprintf( __('Installing theme: %s'), $api->name . ' ' . $api->version ), '</h2>';
 
 	do_theme_install($api->download_link, $api);
 	echo '</div>';
@@ -543,7 +543,7 @@ function do_theme_install($download_url, $theme_information = null) {
 	global $wp_filesystem;
 
 	if ( empty($download_url) ) {
-		show_message( __('No theme Specified') );
+		show_message( __('No theme specified') );
 		return;
 	}
 
@@ -578,7 +578,7 @@ function do_theme_install($download_url, $theme_information = null) {
 
 		$install_actions = apply_filters('install_theme_complete_actions', array(
 		//'activate_theme' => '<a href="' . wp_nonce_url('themes.php?action=activate&amp;theme=' . $theme_file, 'activate-theme_' . $theme_file) . '" title="' . attribute_escape(__('Activate this theme')) . '" target="_parent">' . __('Activate Theme') . '</a>',
-			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . attribute_escape(__('Goto themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>'
+			'themes_page' => '<a href="' . admin_url('themes.php') . '" title="' . attribute_escape(__('Return to Themes page')) . '" target="_parent">' . __('Return to Themes page') . '</a>'
 			), $theme_information, $theme_file);
 			if ( ! empty($install_actions) )
 			show_message('<strong>' . __('Actions:') . '</strong> ' . implode(' | ', (array)$install_actions));
@@ -598,7 +598,7 @@ function do_theme_install_local_package($package, $filename = '') {
 	global $wp_filesystem;
 
 	if ( empty($package) ) {
-		show_message( __('No theme Specified') );
+		show_message( __('No theme specified') );
 		return;
 	}
 
@@ -669,12 +669,12 @@ function wp_install_theme($package, $feedback = '') {
 	// Get the base theme folder
 	$themes_dir = $wp_filesystem->wp_themes_dir();
 	if ( empty($themes_dir) )
-		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress Theme directory.'));
+		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress themes directory.'));
 
 	// And the same for the Content directory.
 	$content_dir = $wp_filesystem->wp_content_dir();
 	if ( empty($content_dir) )
-		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
+		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress content directory (wp-content).'));
 
 	$themes_dir = trailingslashit( $themes_dir );
 	$content_dir = trailingslashit( $content_dir );
@@ -769,12 +769,12 @@ function wp_install_theme_local_package($package, $feedback = '') {
 	//Get the base theme folder
 	$themes_dir = $wp_filesystem->wp_themes_dir();
 	if ( empty($themes_dir) )
-		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress Theme directory.'));
+		return new WP_Error('fs_no_themes_dir', __('Unable to locate WordPress themes directory.'));
 
 	//And the same for the Content directory.
 	$content_dir = $wp_filesystem->wp_content_dir();
 	if ( empty($content_dir) )
-		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress Content directory (wp-content).'));
+		return new WP_Error('fs_no_content_dir', __('Unable to locate WordPress content directory (wp-content).'));
 
 	$themes_dir = trailingslashit( $themes_dir );
 	$content_dir = trailingslashit( $content_dir );
