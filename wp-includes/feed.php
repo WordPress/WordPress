@@ -534,4 +534,18 @@ function feed_content_type( $type = '' ) {
 	return apply_filters( 'feed_content_type', $content_type, $type );
 }
 
+function fetch_feed($url) {
+	require_once (ABSPATH . WPINC . '/class-feed.php');
+
+	$feed = new SimplePie();
+	$feed->set_feed_url($url);
+	$feed->set_cache_class('WP_Feed_Cache');
+	$feed->set_cache_duration(43200);
+	$feed->set_useragent('WordPress/' . $GLOBALS['wp_version']);
+	$feed->init();
+	$feed->handle_content_type();
+
+	return $feed;
+}
+
 ?>

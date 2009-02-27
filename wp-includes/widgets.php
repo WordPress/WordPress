@@ -1501,16 +1501,14 @@ function wp_widget_rss($args, $widget_args = 1) {
 	if ( empty($url) )
 		return;
 
-	require_once(ABSPATH . WPINC . '/rss.php');
-
-	$rss = fetch_rss($url);
-	$link = clean_url(strip_tags($rss->channel['link']));
+	$rss = fetch_feed($url);
+	$link = clean_url(strip_tags($rss->get_permalink()));
 	while ( strstr($link, 'http') != $link )
 		$link = substr($link, 1);
-	$desc = attribute_escape(strip_tags(html_entity_decode($rss->channel['description'], ENT_QUOTES)));
+	$desc = attribute_escape(strip_tags(html_entity_decode($rss->get_description(), ENT_QUOTES)));
 	$title = $options[$number]['title'];
 	if ( empty($title) )
-		$title = htmlentities(strip_tags($rss->channel['title']));
+		$title = htmlentities(strip_tags($rss->get_title()));
 	if ( empty($title) )
 		$title = $desc;
 	if ( empty($title) )
@@ -1541,13 +1539,11 @@ function wp_widget_rss($args, $widget_args = 1) {
  */
 function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_string( $rss ) ) {
-		require_once(ABSPATH . WPINC . '/rss.php');
-		if ( !$rss = fetch_rss($rss) )
+		if ( !$rss = fetch_feed($rss) )
 			return;
 	} elseif ( is_array($rss) && isset($rss['url']) ) {
-		require_once(ABSPATH . WPINC . '/rss.php');
 		$args = $rss;
-		if ( !$rss = fetch_rss($rss['url']) )
+		if ( !$rss = fetch_feed($rss['url']) )
 			return;
 	} elseif ( !is_object($rss) ) {
 		return;
@@ -1564,66 +1560,57 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	$show_author   = (int) $show_author;
 	$show_date     = (int) $show_date;
 
-	if ( is_array( $rss->items ) && !empty( $rss->items ) ) {
-		$rss->items = array_slice($rss->items, 0, $items);
-		echo '<ul>';
-		foreach ( (array) $rss->items as $item ) {
-			while ( strstr($item['link'], 'http') != $item['link'] )
-				$item['link'] = substr($item['link'], 1);
-			$link = clean_url(strip_tags($item['link']));
-			$title = attribute_escape(strip_tags($item['title']));
-			if ( empty($title) )
-				$title = __('Untitled');
-			$desc = '';
-			if ( isset( $item['description'] ) && is_string( $item['description'] ) )
-				$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['description'], ENT_QUOTES))));
-			elseif ( isset( $item['summary'] ) && is_string( $item['summary'] ) )
-				$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['summary'], ENT_QUOTES))));
-			if ( 360 < strlen( $desc ) )
-				$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
-			$summary = $desc;
-
-			if ( $show_summary ) {
-				$desc = '';
-				$summary = wp_specialchars( $summary );
-				$summary = "<div class='rssSummary'>$summary</div>";
-			} else {
-				$summary = '';
-			}
-
-			$date = '';
-			if ( $show_date ) {
-				if ( isset($item['pubdate']) )
-					$date = $item['pubdate'];
-				elseif ( isset($item['published']) )
-					$date = $item['published'];
-
-				if ( $date ) {
-					if ( $date_stamp = strtotime( $date ) )
-						$date = ' <span class="rss-date">' . date_i18n( get_option( 'date_format' ), $date_stamp ) . '</span>';
-					else
-						$date = '';
-				}
-			}
-
-			$author = '';
-			if ( $show_author ) {
-				if ( isset($item['dc']['creator']) )
-					$author = ' <cite>' . wp_specialchars( strip_tags( $item['dc']['creator'] ) ) . '</cite>';
-				elseif ( isset($item['author_name']) )
-					$author = ' <cite>' . wp_specialchars( strip_tags( $item['author_name'] ) ) . '</cite>';
-			}
-
-			if ( $link == '' ) {
-				echo "<li>$title{$date}{$summary}{$author}</li>";
-			} else {
-				echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>";
-			}
-}
-		echo '</ul>';
-	} else {
+	if ( !$rss->get_item_quantity() ) {
 		echo '<ul><li>' . __( 'An error has occurred; the feed is probably down. Try again later.' ) . '</li></ul>';
+		return;
 	}
+
+	echo '<ul>';
+	foreach ( $rss->get_items(0, $items) as $item ) {
+		$link = $item->get_link();
+		while ( strstr($link, 'http') != $link )
+			$link = substr($link, 1);
+		$link = clean_url(strip_tags($link));
+		$title = attribute_escape(strip_tags($item->get_title()));
+		if ( empty($title) )
+			$title = __('Untitled');
+
+		$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES))));
+		$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
+		$desc = wp_specialchars( $desc );
+
+		if ( $show_summary ) {
+			$summary = "<div class='rssSummary'>$desc</div>";
+		} else {
+			$summary = '';
+		}
+
+		$date = '';
+		if ( $show_date ) {
+			$date = $item->get_date();
+
+			if ( $date ) {
+				if ( $date_stamp = strtotime( $date ) )
+					$date = ' <span class="rss-date">' . date_i18n( get_option( 'date_format' ), $date_stamp ) . '</span>';
+				else
+					$date = '';
+			}
+		}
+
+		$author = '';
+		if ( $show_author ) {
+			$author = $item->get_author();
+			$author = $author->get_name();
+			$author = ' <cite>' . wp_specialchars( strip_tags( $author ) ) . '</cite>';
+		}
+
+		if ( $link == '' ) {
+			echo "<li>$title{$date}{$summary}{$author}</li>";
+		} else {
+			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>";
+		}
+	}
+	echo '</ul>';
 }
 
 /**
@@ -1810,15 +1797,14 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	$show_date     = (int) $widget_rss['show_date'];
 
 	if ( $check_feed ) {
-		require_once(ABSPATH . WPINC . '/rss.php');
-		$rss = fetch_rss($url);
+		$rss = fetch_feed($url);
 		$error = false;
 		$link = '';
 		if ( !is_object($rss) ) {
 			$url = wp_specialchars(__('Error: could not find an RSS or ATOM feed at that URL.'), 1);
 			$error = sprintf(__('Error in RSS %1$d'), $widget_number );
 		} else {
-			$link = clean_url(strip_tags($rss->channel['link']));
+			$link = clean_url(strip_tags($rss->get_permalink()));
 			while ( strstr($link, 'http') != $link )
 				$link = substr($link, 1);
 		}

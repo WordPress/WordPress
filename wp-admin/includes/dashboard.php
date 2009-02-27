@@ -598,60 +598,55 @@ function wp_dashboard_incoming_links() {
 function wp_dashboard_incoming_links_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
 	@extract( @$widgets['dashboard_incoming_links'], EXTR_SKIP );
-	$rss = @fetch_rss( $url );
-	if ( isset($rss->items) && 0 < count($rss->items) )  {
+	$rss = fetch_feed( $url );
 
-		echo "<ul>\n";
+	if ( !$rss->get_item_quantity() ) {
+		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. It has found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
+		return;
+	}
 
-		$rss->items = array_slice($rss->items, 0, $items);
-		foreach ( $rss->items as $item ) {
-			$publisher = '';
-			$site_link = '';
-			$link = '';
-			$content = '';
-			$date = '';
-			$link = clean_url( strip_tags( $item['link'] ) );
+	echo "<ul>\n";
 
-			if ( isset( $item['author_uri'] ) )
-				$site_link = clean_url( strip_tags( $item['author_uri'] ) );
+	$count = 0;
+	foreach ( $rss->get_items() as $item ) {
+		$publisher = '';
+		$site_link = '';
+		$link = '';
+		$content = '';
+		$date = '';
+		$link = clean_url( strip_tags( $item->get_link() ) );
 
-			if ( !$publisher = wp_specialchars( strip_tags( isset($item['dc']['publisher']) ? $item['dc']['publisher'] : $item['author_name'] ) ) )
-				$publisher = __( 'Somebody' );
-			if ( $site_link )
-				$publisher = "<a href='$site_link'>$publisher</a>";
-			else
-				$publisher = "<strong>$publisher</strong>";
+		$author = $item->get_author();
+		$site_link = clean_url( strip_tags( $author->get_link() ) );
 
-			if ( isset($item['description']) )
-				$content = $item['description'];
-			elseif ( isset($item['summary']) )
-				$content = $item['summary'];
-			elseif ( isset($item['atom_content']) )
-				$content = $item['atom_content'];
-			else
-				$content = __( 'something' );
-			$content = wp_html_excerpt($content, 50) . ' ...';
-			if ( $link )
-				$text = _c( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"|feed_display' );
-			else
-				$text = _c( '%1$s linked here saying, "%3$s"|feed_display' );
+		if ( !$publisher = wp_specialchars( strip_tags( $author->get_name() ) ) )
+			$publisher = __( 'Somebody' );
+		if ( $site_link )
+			$publisher = "<a href='$site_link'>$publisher</a>";
+		else
+			$publisher = "<strong>$publisher</strong>";
 
-			if ( $show_date ) {
-				if ( $show_author || $show_summary )
-					$text .= _c( ' on %4$s|feed_display' );
-				$date = wp_specialchars( strip_tags( isset($item['pubdate']) ? $item['pubdate'] : $item['published'] ) );
-				$date = strtotime( $date );
-				$date = gmdate( get_option( 'date_format' ), $date );
-			}
+		$content = $item->get_content();
+		$content = wp_html_excerpt($content, 50) . ' ...';
 
-			echo "\t<li>" . sprintf( _c( "$text|feed_display" ), $publisher, $link, $content, $date ) . "</li>\n";
+		if ( $link )
+			$text = _c( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"|feed_display' );
+		else
+			$text = _c( '%1$s linked here saying, "%3$s"|feed_display' );
+
+		if ( $show_date ) {
+			if ( $show_author || $show_summary )
+				$text .= _c( ' on %4$s|feed_display' );
+			$date = wp_specialchars( strip_tags( $item->get_date() ) );
+			$date = strtotime( $date );
+			$date = gmdate( get_option( 'date_format' ), $date );
 		}
 
-		echo "</ul>\n";
-
-	} else {
-		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. It has found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
+		echo "\t<li>" . sprintf( _c( "$text|feed_display" ), $publisher, $link, $content, $date ) . "</li>\n";
 	}
+
+	echo "</ul>\n";
+
 }
 
 function wp_dashboard_incoming_links_control() {
@@ -698,20 +693,10 @@ function wp_dashboard_secondary_control() {
 function wp_dashboard_secondary_output() {
 	$widgets = get_option( 'dashboard_widget_options' );
 	@extract( @$widgets['dashboard_secondary'], EXTR_SKIP );
-	$rss = @fetch_rss( $url );
+	$rss = @fetch_feed( $url );
 
-	if ( !isset($rss->items) || 0 == count($rss->items) )
+	if ( !$rss->get_item_quantity() )
 		return false;
-
-	$rss->items = array_slice($rss->items, 0, $items);
-
-	if ( 'http://planet.wordpress.org/' == $rss->channel['link'] ) {
-		foreach ( array_keys($rss->items) as $i ) {
-			list($site, $description) = explode( ':', wp_specialchars($rss->items[$i]['title']), 2 );
-			$rss->items[$i]['dc']['creator'] = trim($site);
-			$rss->items[$i]['title'] = trim($description);
-		}
-	}
 
 	echo "<div class='rss-widget'>";
 	wp_widget_rss_output( $rss, $widgets['dashboard_secondary'] );
@@ -732,36 +717,36 @@ function wp_dashboard_plugins() {
  * @since unknown
  */
 function wp_dashboard_plugins_output() {
-	$popular = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
-	$new     = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
-	$updated = @fetch_rss( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
+	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
+	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+	$updated = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
 
 	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) {
-		if ( !isset($$feed->items) || 0 == count($$feed->items) )
+		if ( !$$feed->get_item_quantity() )
 			continue;
 
-		$$feed->items = array_slice($$feed->items, 0, 5);
-		$item_key = array_rand($$feed->items);
+		$items = $$feed->get_items(0, 5);
+		$item_key = array_rand($items);
 
 		// Eliminate some common badly formed plugin descriptions
-		while ( ( null !== $item_key = array_rand($$feed->items) ) && false !== strpos( $$feed->items[$item_key]['description'], 'Plugin Name:' ) )
-			unset($$feed->items[$item_key]);
+		while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
+			unset($items[$item_key]);
 
-		if ( !isset($$feed->items[$item_key]) )
+		if ( !isset($items[$item_key]) )
 			continue;
 
-		$item = $$feed->items[$item_key];
+		$item = $items[$item_key];
 
 		// current bbPress feed item titles are: user on "topic title"
-		if ( preg_match( '/"(.*)"/s', $item['title'], $matches ) )
+		if ( preg_match( '/&quot;(.*)&quot;/s', $item->get_title(), $matches ) )
 			$title = $matches[1];
 		else // but let's make it forward compatible if things change
-			$title = $item['title'];
+			$title = $item->get_title();
 		$title = wp_specialchars( $title );
 
-		$description = wp_specialchars( strip_tags(html_entity_decode($item['description'], ENT_QUOTES)) );
+		$description = wp_specialchars( strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES)) );
 
-		list($link, $frag) = explode( '#', $item['link'] );
+		list($link, $frag) = explode( '#', $item->get_link() );
 
 		$link = clean_url($link);
 		if( preg_match('|/([^/]+?)/?$|', $link, $matches) )
@@ -806,18 +791,19 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 	}
 
 
-	require_once( ABSPATH . WPINC . '/rss.php' );
-	init(); // initialize rss constants
-
-	$cache = new RSSCache( MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE );
-
+	/* TODO Cache check here.
 	foreach ( $check_urls as $check_url ) {
-		$status = $cache->check_cache( $check_url );
+
 		if ( 'HIT' !== $status ) {
 			echo $loading;
 			return false;
 		}
 	}
+	*/
+
+	// Always load async until above fixed.
+	echo $loading;
+	return false;
 
 	if ( $callback && is_callable( $callback ) ) {
 		$args = array_slice( func_get_args(), 2 );
@@ -872,9 +858,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
 		// title is optional.  If black, fill it if possible
 		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
-			require_once(ABSPATH . WPINC . '/rss.php');
-			$rss = fetch_rss($widget_options[$widget_id]['url']);
-			$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->channel['title']));
+			$rss = fetch_feed($widget_options[$widget_id]['url']);
+			$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
 	}
