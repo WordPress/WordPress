@@ -365,29 +365,58 @@ function link_cat_row( $category, $name_override = false ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the html checked attribute.
  *
+ * Compares the first two arguments and if identical marks as checked
+ * 
  * @since unknown
  *
- * @param unknown_type $checked
- * @param unknown_type $current
+ * @param any $checked One of the values to compare
+ * @param any $current (true) The other value to compare if not just true
+ * @param bool $echo Whether or not to echo or just return the string
  */
-function checked( $checked, $current) {
-	if ( $checked == $current)
-		echo ' checked="checked"';
+function checked( $checked, $current = true, $echo = true) {
+	return __checked_selected_helper( $checked, $current, $echo, 'checked' );
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the html selected attribute.
+ * 
+ * Compares the first two arguments and if identical marks as selected
  *
  * @since unknown
  *
- * @param unknown_type $selected
- * @param unknown_type $current
+ * @param any $checked One of the values to compare
+ * @param any $current (true) The other value to compare if not just true
+ * @param bool $echo Whether or not to echo or just return the string
  */
-function selected( $selected, $current) {
-	if ( $selected == $current)
-		echo ' selected="selected"';
+function selected( $selected, $current = true, $echo = true) {
+	return __checked_selected_helper( $selected, $current, $echo, 'selected' );
+}
+
+/**
+ * Private helper function for checked and selected.
+ * 
+ * Compares the first two arguments and if identical marks as $type
+ *
+ * @since unknown
+ * @access private
+ *
+ * @param any $checked One of the values to compare
+ * @param any $current (true) The other value to compare if not just true
+ * @param bool $echo Whether or not to echo or just return the string
+ * @param string $type The type of checked|selected we are doing.
+ */
+function __checked_selected_helper( $helper, $current, $echo, $type) {
+	if ( $helper == $current)
+		$result = " $type='$type'";
+	else
+		$result = '';
+	
+	if ($echo)
+		echo $result;
+	
+	return $result;
 }
 
 //
