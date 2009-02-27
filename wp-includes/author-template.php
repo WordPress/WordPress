@@ -51,6 +51,35 @@ function the_author($deprecated = '', $deprecated_echo = true) {
 }
 
 /**
+ * Retrieve the author who last edited the current post.
+ *
+ * @since 2.8
+ * @uses $post The current post's DB object.
+ * @uses get_post_meta() Retrieves the ID of the author who last edited the current post.
+ * @uses get_userdata() Retrieves the author's DB object.
+ * @uses apply_filters() Calls 'the_modified_author' hook on the author display name.
+ * @return string The author's display name.
+ */
+function get_the_modified_author() {
+	global $post;
+	if ( $last_id = get_post_meta($post->ID, '_edit_last', true) ) {
+		$last_user = get_userdata($last_id);
+		return apply_filters('the_modified_author', $last_user->display_name);
+	}
+}
+
+/**
+ * Display the name of the author who last edited the current post.
+ *
+ * @since 2.8
+ * @see get_the_author()
+ * @return string The author's display name, from get_the_modified_author().
+ */
+function the_modified_author() {
+	echo get_the_modified_author();
+}
+
+/**
  * Retrieve the description of the author of the current post.
  *
  * @since 1.5
