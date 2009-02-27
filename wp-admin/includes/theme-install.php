@@ -275,6 +275,8 @@ function install_themes_upload($page = 1) {
 function display_theme($theme, $actions = null, $show_details = true) {
 	global $themes_allowedtags;
 
+	if ( empty($theme) )
+		return;
 	//var_dump($theme);
 
 	$name = wp_kses($theme->name, $themes_allowedtags);
