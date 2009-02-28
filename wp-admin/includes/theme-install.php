@@ -308,8 +308,9 @@ function display_theme($theme, $actions = null, $show_details = true) {
 <div id="themedetaildiv" class="hide-if-js">
 <p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
 <p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
+<?php if ( ! empty($theme->last_updated) ) : ?> 
 <p><strong><?php _e('Last Updated:') ?></strong> <span title="<?php echo $theme->last_updated ?>"><?php printf( __('%s ago'), human_time_diff(strtotime($theme->last_updated)) ) ?></span></p>
-<?php if ( ! empty($theme->requires) ) : ?>   	   	 
+<?php endif; if ( ! empty($theme->requires) ) : ?>   	   	 
 <p><strong><?php _e('Requires WordPress Version:') ?></strong> <?php printf(__('%s or higher'), $theme->requires) ?></p> 	  	 
 <?php endif; if ( ! empty($theme->tested) ) : ?>  	  	 
 <p><strong><?php _e('Compatible up to:') ?></strong> <?php echo $theme->tested ?></p>  	  	 	
