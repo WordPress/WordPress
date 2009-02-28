@@ -534,6 +534,14 @@ function feed_content_type( $type = '' ) {
 	return apply_filters( 'feed_content_type', $content_type, $type );
 }
 
+/**
+ * Build SimplePie object based on RSS or Atom feed from URL.
+ *
+ * @since 2.8
+ *
+ * @param string $url URL to retrieve feed
+ * @return WP_Error|SimplePie WP_Error object on failure or SimplePie object on success
+ */
 function fetch_feed($url) {
 	require_once (ABSPATH . WPINC . '/class-feed.php');
 
@@ -544,6 +552,9 @@ function fetch_feed($url) {
 	$feed->set_useragent('WordPress/' . $GLOBALS['wp_version']);
 	$feed->init();
 	$feed->handle_content_type();
+
+	if ( $feed->error() )
+		return new WP_Error('simplepie-error', $feed->error());
 
 	return $feed;
 }
