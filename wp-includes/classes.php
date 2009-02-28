@@ -304,6 +304,8 @@ class WP {
 	function send_headers() {
 		$headers = array('X-Pingback' => get_bloginfo('pingback_url'));
 		$status = null;
+		$exit_required = false;
+
 		if ( is_user_logged_in() )
 			$headers = array_merge($headers, wp_get_nocache_headers());
 		if ( !empty($this->query_vars['error']) && '404' == $this->query_vars['error'] ) {
@@ -349,7 +351,7 @@ class WP {
 					 (($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
 					 (($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
 				$status = 304;
-				add_action('send_headers', 'exit', 1);
+				$exit_required = true;
 			}
 		}
 
@@ -359,6 +361,9 @@ class WP {
 			status_header( $status );
 		foreach( (array) $headers as $name => $field_value )
 			@header("{$name}: {$field_value}");
+
+		if ($exit_required)
+			exit();
 
 		do_action_ref_array('send_headers', array(&$this));
 	}
