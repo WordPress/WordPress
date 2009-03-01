@@ -381,10 +381,17 @@ function display_themes($themes, $page = 1, $totalpages = 1) {
 		echo "\t\t<div class='tablenav-pages'>$page_links</div>";
 	?> <br class="clear" />
 </div>
+<?php
+	if ( empty($themes) ) {
+		_e('No themes found');
+		return;
+	}
+?>
 <table id="availablethemes" cellspacing="0" cellpadding="0">
 <?php
 	$in_column = 0;
 	$rows = ceil(count($themes) / 3);
+	$table = array();
 	$i = 0;
 	for ( $row = 1; $row <= $rows; $row++ ) {
 		for ( $col = 1; $col <= 3; $col++ ) {
