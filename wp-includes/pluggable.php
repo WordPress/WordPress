@@ -1237,7 +1237,7 @@ function wp_salt($scheme = 'auth') {
 			$secret_key = SECURE_AUTH_KEY;
 
 		if ( defined('SECURE_AUTH_SALT') ) {
-			$salt = SECRET_AUTH_SALT;
+			$salt = SECURE_AUTH_SALT;
 		} else {
 			$salt = get_option('secure_auth_salt');
 			if ( empty($salt) ) {
