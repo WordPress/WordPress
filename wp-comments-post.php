@@ -52,7 +52,7 @@ if ( $user->ID ) {
 		}
 	}
 } else {
-	if ( get_option('comment_registration') )
+	if ( get_option('comment_registration') || 'private' == $status->post_status )
 		wp_die( __('Sorry, you must be logged in to post a comment.') );
 }
 
