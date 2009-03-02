@@ -735,7 +735,8 @@ function tag_rows( $page = 1, $pagesize = 20, $searchterms = '', $taxonomy = 'po
 function wp_manage_posts_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
-	$posts_columns['title'] = _c('Post|noun');
+	/* translators: manage posts column name */
+	$posts_columns['title'] = _x('Post', 'column name');
 	$posts_columns['author'] = __('Author');
 	$posts_columns['categories'] = __('Categories');
 	$posts_columns['tags'] = __('Tags');
@@ -759,13 +760,16 @@ function wp_manage_media_columns() {
 	$posts_columns = array();
 	$posts_columns['cb'] = '<input type="checkbox" />';
 	$posts_columns['icon'] = '';
-	$posts_columns['media'] = _c('File|media column header');
+	/* translators: column name */
+	$posts_columns['media'] = _x('File', 'column name');
 	$posts_columns['author'] = __('Author');
 	//$posts_columns['tags'] = _c('Tags|media column header');
-	$posts_columns['parent'] = _c('Attached to|media column header');
+	/* translators: column name */
+	$posts_columns['parent'] = _x('Attached to', 'column name');
 	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
 	//$posts_columns['comments'] = __('Comments');
-	$posts_columns['date'] = _c('Date|media column header');
+	/* translators: column name */
+	$posts_columns['date'] = _x('Date', 'column name');
 	$posts_columns = apply_filters('manage_media_columns', $posts_columns);
 
 	return $posts_columns;
@@ -823,7 +827,8 @@ function get_column_headers($page) {
 			$_wp_column_headers[$page] = array(
 				'cb' => '<input type="checkbox" />',
 				'author' => __('Author'),
-				'comment' => _c('Comment|noun'),
+				/* translators: column name */
+				'comment' => _x('Comment', 'column name'),
 				//'date' => __('Submitted'),
 				'response' => __('In Response To')
 			);
@@ -1060,8 +1065,12 @@ function inline_edit_row( $type ) {
 				<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
 			</label>
 
-			<em style="margin:5px 10px 0 0" class="alignleft"><?php echo _c( '&ndash;OR&ndash;|Between password field and private checkbox on post quick edit interface' ); ?></em>
-
+			<em style="margin:5px 10px 0 0" class="alignleft">
+				<?php
+				/* translators: Between password field and private checkbox on post quick edit interface */
+				echo __( '&ndash;OR&ndash;' );
+				?>
+			</em>
 			<label class="alignleft inline-edit-private">
 				<input type="checkbox" name="keep_private" value="private" />
 				<span class="checkbox-title"><?php echo $is_page ? __('Private page') : __('Private post'); ?></span>
@@ -2104,7 +2113,7 @@ function _wp_comment_row( $comment_id, $mode, $comment_status, $checkbox = true,
 						}
 					}
 					if ( 'spam' != $the_comment_status )
-						$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . _c( 'Spam|verb' ) . '</a>';
+						$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
 					$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
 					$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
 					$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$post->ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick&nbsp;Edit') . '</a>';
@@ -2509,7 +2518,8 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	$year = '<input type="text" ' . ( $multi ? '' : 'id="aa" ' ) . 'name="aa" value="' . $aa . '" size="4" maxlength="5"' . $tab_index_attribute . ' autocomplete="off" />';
 	$hour = '<input type="text" ' . ( $multi ? '' : 'id="hh" ' ) . 'name="hh" value="' . $hh . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off" />';
 	$minute = '<input type="text" ' . ( $multi ? '' : 'id="mn" ' ) . 'name="mn" value="' . $mn . '" size="2" maxlength="2"' . $tab_index_attribute . ' autocomplete="off" />';
-	printf(_c('%1$s%2$s, %3$s @ %4$s : %5$s|1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input'), $month, $day, $year, $hour, $minute);
+	/* translators: 1: month input, 2: day input, 3: year input, 4: hour input, 5: minute input */
+	printf(__('%1$s%2$s, %3$s @ %4$s : %5$s'), $month, $day, $year, $hour, $minute);
 
 	echo '<input type="hidden" id="ss" name="ss" value="' . $ss . '" />';
 
@@ -3278,7 +3288,8 @@ function _post_states($post) {
 	if ( 'draft' == $post->post_status && 'draft' != $post_status )
 		$post_states[] = __('Draft');
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
-		$post_states[] = _c('Pending|post state');
+		/* translators: post state */
+		$post_states[] = _x('Pending', 'post state');
 	if ( is_sticky($post->ID) )
 		$post_states[] = __('Sticky');
 

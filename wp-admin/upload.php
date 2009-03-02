@@ -302,8 +302,8 @@ foreach ($arc_result as $arc_row) {
 <tr>
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"></th>
-	<th scope="col"><?php echo _c('Media|media column header'); ?></th>
-	<th scope="col"><?php echo _c('Date Added|media column header'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ echo _x('Media', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ echo _x('Date Added', 'media column name'); ?></th>
 </tr>
 </thead>
 
@@ -311,8 +311,8 @@ foreach ($arc_result as $arc_row) {
 <tr>
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"></th>
-	<th scope="col"><?php echo _c('Media|media column header'); ?></th>
-	<th scope="col"><?php echo _c('Date Added|media column header'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ echo _x('Media', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ echo _x('Date Added', 'media column name'); ?></th>
 </tr>
 </tfoot>
 

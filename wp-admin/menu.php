@@ -31,7 +31,8 @@ $menu[4] = array( '', 'read', '', '', 'wp-menu-separator' );
 
 $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'wp-menu-open menu-top', 'menu-posts', 'div' );
 	$submenu['edit.php'][5]  = array( __('Edit'), 'edit_posts', 'edit.php' );
-	$submenu['edit.php'][10]  = array( _c('Add New|post'), 'edit_posts', 'post-new.php' );
+	/* translators: add new post */
+	$submenu['edit.php'][10]  = array( _x('Add New', 'post'), 'edit_posts', 'post-new.php' );
 
 	$i = 15;
 	foreach ( $wp_taxonomies as $tax ) {
@@ -46,16 +47,19 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'wp-menu-open menu-
 
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top', 'menu-media', 'div' );
 	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
-	$submenu['upload.php'][10] = array( _c('Add New|file'), 'upload_files', 'media-new.php');
+	/* translators: add new file */
+	$submenu['upload.php'][10] = array( _x('Add New', 'file'), 'upload_files', 'media-new.php');
 
 $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-top', 'menu-links', 'div' );
 	$submenu['link-manager.php'][5] = array( __('Edit'), 'manage_links', 'link-manager.php' );
-	$submenu['link-manager.php'][10] = array( _c('Add New|links'), 'manage_links', 'link-add.php' );
+	/* translators: add new links */
+	$submenu['link-manager.php'][10] = array( _x('Add New', 'links'), 'manage_links', 'link-add.php' );
 	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-link-categories.php' );
 
 $menu[20] = array( __('Pages'), 'edit_pages', 'edit-pages.php', '', 'menu-top', 'menu-pages', 'div' );
 	$submenu['edit-pages.php'][5] = array( __('Edit'), 'edit_pages', 'edit-pages.php' );
-	$submenu['edit-pages.php'][10] = array( _c('Add New|page'), 'edit_pages', 'page-new.php' );
+	/* translators: add new page */
+	$submenu['edit-pages.php'][10] = array( _x('Add New', 'page'), 'edit_pages', 'page-new.php' );
 
 $menu[25] = array( sprintf( __('Comments %s'), "<span id='awaiting-mod' class='count-$awaiting_mod'><span class='pending-count'>" . number_format_i18n($awaiting_mod) . "</span></span>" ), 'edit_posts', 'edit-comments.php', '', 'menu-top', 'menu-comments', 'div' );
 
@@ -75,7 +79,8 @@ if ( !empty($update_plugins->response) )
 
 $menu[65] = array( sprintf( __('Plugins %s'), "<span class='update-plugins count-$update_count'><span class='plugin-count'>" . number_format_i18n($update_count) . "</span></span>" ), 'activate_plugins', 'plugins.php', '', 'menu-top', 'menu-plugins', 'div' );
 	$submenu['plugins.php'][5]  = array( __('Installed'), 'activate_plugins', 'plugins.php' );
-	$submenu['plugins.php'][10] = array(_c('Add New|plugin'), 'install_plugins', 'plugin-install.php');
+	/* translators: add new plugin */
+	$submenu['plugins.php'][10] = array(_x('Add New', 'plugin'), 'install_plugins', 'plugin-install.php');
 	$submenu['plugins.php'][15] = array( __('Editor'), 'edit_plugins', 'plugin-editor.php' );
 
 if ( current_user_can('edit_users') )

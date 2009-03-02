@@ -191,7 +191,8 @@ if ( 'private' == $post->post_status ) {
 
 
 <?php
-$datef = _c( 'M j, Y @ G:i|Publish box date format');
+// translators: Publish box date formt, see http://php.net/date
+$datef = __( 'M j, Y @ G:i' );
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
 		$stamp = __('Scheduled for: <b>%1$s</b>');
@@ -468,7 +469,9 @@ function post_comment_meta_box($post) {
 <thead>
 	<tr>
     <th scope="col" class="column-author"><?php _e('Author') ?></th>
-    <th scope="col" class="column-comment"><?php echo _c('Comment|noun') ?></th>
+    <th scope="col" class="column-comment">
+		<?php /* translators: field name in comment form */ echo _x('Comment', 'noun'); ?>
+	</th>
   </tr>
 </thead>
 <tbody id="the-comment-list" class="list:comment">

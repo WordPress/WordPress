@@ -526,7 +526,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . __('Edit comment') . "'>". __('Edit') . '</a>';
 		//$actions['quickedit'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\',\'edit\');return false;" class="vim-q" title="'.__('Quick Edit').'" href="#">' . __('Quick&nbsp;Edit') . '</a>';
 		$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" title="'.__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
-		$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . _c( 'Spam|verb' ) . '</a>';
+		$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */  _x( 'Spam', 'verb' ) . '</a>';
 		$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID delete vim-d vim-destructive'>" . __('Delete') . '</a>';
 
 		$actions = apply_filters( 'comment_row_actions', $actions, $comment );
@@ -566,8 +566,8 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				endswitch;
 				$type = wp_specialchars( $type );
 			?>
-
-			<h4 class="comment-meta"><?php printf( __( '%1$s on %2$s' ), "<strong>$type</strong>", $comment_post_link ); ?></h4>
+			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
+			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></h4>
 			<p class="comment-author"><?php comment_author_link(); ?></p>
 
 			<?php endif; // comment_type ?>
@@ -630,19 +630,22 @@ function wp_dashboard_incoming_links_output() {
 		$content = wp_html_excerpt($content, 50) . ' ...';
 
 		if ( $link )
-			$text = _c( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"|feed_display' );
+			/* translators: incoming links feed, %1$s is other person, %3$s is content */
+			$text = __( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"' );
 		else
-			$text = _c( '%1$s linked here saying, "%3$s"|feed_display' );
+			/* translators: incoming links feed, %1$s is other person, %3$s is content */
+			$text = __( '%1$s linked here saying, "%3$s"' );
 
 		if ( $show_date ) {
 			if ( $show_author || $show_summary )
-				$text .= _c( ' on %4$s|feed_display' );
+				/* translators: incoming links feed, %4$s is the date */
+				$text .= ' ' . __( 'on %4$s' );
 			$date = wp_specialchars( strip_tags( $item->get_date() ) );
 			$date = strtotime( $date );
 			$date = gmdate( get_option( 'date_format' ), $date );
 		}
 
-		echo "\t<li>" . sprintf( _c( "$text|feed_display" ), $publisher, $link, $content, $date ) . "</li>\n";
+		echo "\t<li>" . sprintf( $text, $publisher, $link, $content, $date ) . "</li>\n";
 	}
 
 	echo "</ul>\n";

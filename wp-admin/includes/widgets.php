@@ -263,7 +263,8 @@ function wp_widget_control( $sidebar_args ) {
 	unset($wp_registered_widgets[$widget_id]['_callback']);
 
 	if ( $widget_title && $widget_title != $sidebar_args['widget_name'] )
-		$widget_title = sprintf( _c('%1$s: %2$s|1: widget name, 2: widget title' ), $sidebar_args['widget_name'], $widget_title );
+		/* translators: 1: widget name, 2: widget title */
+		$widget_title = sprintf( _x('%1$s: %2$s', 'widget' ), $sidebar_args['widget_name'], $widget_title );
 	else
 		$widget_title = wp_specialchars( strip_tags( $sidebar_args['widget_name'] ) );
 
