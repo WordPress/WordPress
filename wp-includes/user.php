@@ -89,9 +89,9 @@ function wp_authenticate_username_password($user, $username, $password) {
 		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
 	}
 
-	$user = apply_filters('wp_authenticate_user', $user, $password);
-	if ( is_wp_error($user) ) {
-		return $user;
+	$userdata = apply_filters('wp_authenticate_user', $userdata, $password);
+	if ( is_wp_error($userdata) ) {
+		return $userdata;
 	}
 
 	if ( !wp_check_password($password, $userdata->user_pass, $userdata->ID) ) {
