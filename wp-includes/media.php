@@ -378,7 +378,7 @@ function image_resize( $file, $max_w, $max_h, $crop=false, $suffix=null, $dest_p
 	else {
 		// all other formats are converted to jpg
 		$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
-		if (!imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality ) ) )
+		if (!imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	}
 
