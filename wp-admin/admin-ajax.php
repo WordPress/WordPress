@@ -314,8 +314,14 @@ case 'delete-page' :
 		die('0');
 	break;
 case 'dim-comment' : // On success, die with time() instead of 1
-	if ( !$comment = get_comment( $id ) )
-		die('0');
+
+	if ( !$comment = get_comment( $id ) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'comment',
+			'id' => new WP_Error('invalid_comment', sprintf(__('Comment %d does not exist'), $id))
+		) );
+		$x->send();
+	}
 
 	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
@@ -329,15 +335,21 @@ case 'dim-comment' : // On success, die with time() instead of 1
 	$r = 0;
 	if ( in_array( $current, array( 'unapproved', 'spam' ) ) ) {
 		check_ajax_referer( "approve-comment_$id" );
-		if ( wp_set_comment_status( $comment->comment_ID, 'approve' ) )
-			$r = 1;
+		$result = wp_set_comment_status( $comment->comment_ID, 'approve', true );
 	} else {
 		check_ajax_referer( "unapprove-comment_$id" );
-		if ( wp_set_comment_status( $comment->comment_ID, 'hold' ) )
-			$r = 1;
+		$result = wp_set_comment_status( $comment->comment_ID, 'hold', true );
 	}
-	if ( $r ) // Decide if we need to send back '1' or a more complicated response including page links and comment counts
-		_wp_ajax_delete_comment_response( $comment->comment_ID );
+	if ( is_wp_error($result) ) {
+		$x = new WP_Ajax_Response( array(
+			'what' => 'comment',
+			'id' => $result
+		) );
+		$x->send();
+	}
+
+	// Decide if we need to send back '1' or a more complicated response including page links and comment counts
+	_wp_ajax_delete_comment_response( $comment->comment_ID );
 	die( '0' );
 	break;
 case 'add-category' : // On the Fly

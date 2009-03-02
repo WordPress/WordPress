@@ -1014,9 +1014,10 @@ function wp_new_comment( $commentdata ) {
  *
  * @param int $comment_id Comment ID.
  * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'delete'.
+ * @param bool $wp_error Whether to return a WP_Error object if there is a failure. Default is false.
  * @return bool False on failure or deletion and true on success.
  */
-function wp_set_comment_status($comment_id, $comment_status) {
+function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
 
 	switch ( $comment_status ) {
@@ -1040,8 +1041,12 @@ function wp_set_comment_status($comment_id, $comment_status) {
 			return false;
 	}
 
-	if ( !$wpdb->query($query) )
-		return false;
+	if ( !$wpdb->query($query) ) {
+		if ( $wp_error )
+			return new WP_Error('db_update_error', __('Could not update comment status'), $wpdb->last_error);
+		else
+			return false;
+	}
 
 	clean_comment_cache($comment_id);
 
