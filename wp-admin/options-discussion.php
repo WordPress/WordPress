@@ -36,7 +36,7 @@ include('admin-header.php');
 <br />
 <label for="default_comment_status">
 <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_option('default_comment_status')); ?> />
-<?php _e('Allow people to post comments on the article') ?></label>
+<?php _e('Allow people to post comments on new articles') ?></label>
 <br />
 <small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
 </fieldset></td>
