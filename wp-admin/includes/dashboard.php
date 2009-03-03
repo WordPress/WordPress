@@ -747,7 +747,7 @@ function wp_dashboard_plugins_output() {
 			$title = $item->get_title();
 		$title = wp_specialchars( $title );
 
-		$description = wp_specialchars( strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES)) );
+		$description = wp_specialchars( strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
 
 		list($link, $frag) = explode( '#', $item->get_link() );
 

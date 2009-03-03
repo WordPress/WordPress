@@ -1505,7 +1505,7 @@ function wp_widget_rss($args, $widget_args = 1) {
 	$link = clean_url(strip_tags($rss->get_permalink()));
 	while ( strstr($link, 'http') != $link )
 		$link = substr($link, 1);
-	$desc = attribute_escape(strip_tags(html_entity_decode($rss->get_description(), ENT_QUOTES)));
+	$desc = attribute_escape(strip_tags(html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
 	$title = $options[$number]['title'];
 	if ( empty($title) )
 		$title = htmlentities(strip_tags($rss->get_title()));
@@ -1575,7 +1575,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		if ( empty($title) )
 			$title = __('Untitled');
 
-		$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES))));
+		$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset')))));
 		$desc = wp_html_excerpt( $desc, 360 ) . ' [&hellip;]';
 		$desc = wp_specialchars( $desc );
 

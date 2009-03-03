@@ -437,7 +437,7 @@ class Blogger_Import {
 				if ( count( $matches[1] ) )
 					foreach ( $matches[1] as $match )
 						if ( preg_match('/rel=.previous./', $match) )
-							$query = html_entity_decode( preg_replace('/^.*href=[\'"].*\?(.+)[\'"].*$/', '$1', $match) );
+							$query = html_entity_decode( preg_replace('/^.*href=[\'"].*\?(.+)[\'"].*$/', '$1', $match), ENT_COMPAT, get_option('blog_charset') );
 
 				if ( $query ) {
 					parse_str($query, $q);
@@ -495,7 +495,7 @@ class Blogger_Import {
 				if ( count( $matches[1] ) )
 					foreach ( $matches[1] as $match )
 						if ( preg_match('/rel=.previous./', $match) )
-							$query = html_entity_decode( preg_replace('/^.*href=[\'"].*\?(.+)[\'"].*$/', '$1', $match) );
+							$query = html_entity_decode( preg_replace('/^.*href=[\'"].*\?(.+)[\'"].*$/', '$1', $match), ENT_COMPAT, get_option('blog_charset') );
 
 				parse_str($query, $q);
 
@@ -545,7 +545,7 @@ class Blogger_Import {
 		}
 
 		$post_date    = $this->convert_date( $entry->published );
-		$post_content = trim( addslashes( $this->no_apos( html_entity_decode( $entry->content ) ) ) );
+		$post_content = trim( addslashes( $this->no_apos( html_entity_decode( $entry->content, ENT_COMPAT, get_option('blog_charset') ) ) ) );
 		$post_title   = trim( addslashes( $this->no_apos( $this->min_whitespace( $entry->title ) ) ) );
 		$post_status  = isset( $entry->draft ) ? 'draft' : 'publish';
 
@@ -600,7 +600,7 @@ class Blogger_Import {
 		$comment_author  = addslashes( $this->no_apos( strip_tags( (string) $matches[1] ) ) );
 		$comment_author_url = addslashes( $this->no_apos( strip_tags( (string) $matches[2] ) ) );
 		$comment_date    = $this->convert_date( $entry->updated );
-		$comment_content = addslashes( $this->no_apos( html_entity_decode( $entry->content ) ) );
+		$comment_content = addslashes( $this->no_apos( html_entity_decode( $entry->content, ENT_COMPAT, get_option('blog_charset') ) ) );
 
 		// Clean up content
 		$comment_content = preg_replace_callback('|<(/?[A-Z]+)|', create_function('$match', 'return "<" . strtolower($match[1]);'), $comment_content);
