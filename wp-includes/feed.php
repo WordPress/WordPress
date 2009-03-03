@@ -548,8 +548,8 @@ function fetch_feed($url) {
 	$feed = new SimplePie();
 	$feed->set_feed_url($url);
 	$feed->set_cache_class('WP_Feed_Cache');
+	$feed->set_file_class('WP_SimplePie_File');
 	$feed->set_cache_duration(43200);
-	$feed->set_useragent('WordPress/' . $GLOBALS['wp_version']);
 	$feed->init();
 	$feed->handle_content_type();
 
@@ -558,5 +558,3 @@ function fetch_feed($url) {
 
 	return $feed;
 }
-
-?>
