@@ -607,9 +607,9 @@ if ( !function_exists('wp_set_auth_cookie') ) :
  */
 function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	if ( $remember ) {
-		$expiration = $expire = time() + 1209600;
+		$expiration = $expire = time() + apply_filters('auth_cookie_expiration', 1209600, $user_id, $remember);
 	} else {
-		$expiration = time() + 172800;
+		$expiration = time() + apply_filters('auth_cookie_expiration', 172800, $user_id, $remember);
 		$expire = 0;
 	}
 
