@@ -30,7 +30,7 @@ get_header();
 						This entry was posted
 						<?php /* This is commented, because it requires a little adjusting sometimes.
 							You'll need to download this plugin, and follow the instructions:
-							http://binarybonsai.com/archives/2004/08/17/time-since-plugin/ */
+							http://binarybonsai.com/wordpress/time-since/ */
 							/* $entry_datetime = abs(strtotime($post->post_date) - (60*120)); echo time_since($entry_datetime); echo ' ago'; */ ?>
 						on <?php the_time('l, F jS, Y') ?> at <?php the_time() ?>
 						and is filed under <?php the_category(', ') ?>.
