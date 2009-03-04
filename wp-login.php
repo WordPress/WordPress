@@ -435,7 +435,7 @@ default:
 
 	if ( !is_wp_error($user) ) {
 		// If the user can't edit posts, send them to their profile.
-		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
+		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) )
 			$redirect_to = admin_url('profile.php');
 		wp_safe_redirect($redirect_to);
 		exit();
