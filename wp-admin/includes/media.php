@@ -1506,7 +1506,7 @@ var addExtImage = {
 
 <div id="media-items">
 <div class="media-item media-blank">
-<?php echo call_user_func($callback); ?>
+<?php echo apply_filters($callback, call_user_func($callback)); ?>
 </div>
 </div>
 </form>
