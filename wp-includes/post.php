@@ -2381,7 +2381,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 		while ($post_name_check) {
 			$alt_post_name = $post_name . "-$suffix";
 			// expected_slashed ($alt_post_name, $post_name)
-			$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_status = 'inherit' AND ID != %d AND post_parent = %d LIMIT 1", $alt_post_name, $post_ID, $post_parent));
+			$post_name_check = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_status = 'inherit' AND ID != %d LIMIT 1", $alt_post_name, $post_ID, $post_parent));
 			$suffix++;
 		}
 		$post_name = $alt_post_name;
