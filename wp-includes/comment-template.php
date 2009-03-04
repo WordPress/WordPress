@@ -902,9 +902,6 @@ function comments_popup_script($width=400, $height=400, $file='') {
 function comments_popup_link( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $css_class = '', $none = 'Comments Off' ) {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post;
 
-	if ( is_single() || is_page() )
-		return;
-
 	$number = get_comments_number( $id );
 
 	if ( 0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status ) {
