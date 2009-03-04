@@ -698,12 +698,19 @@ function wp_dashboard_secondary_output() {
 	@extract( @$widgets['dashboard_secondary'], EXTR_SKIP );
 	$rss = @fetch_feed( $url );
 
-	if ( !$rss->get_item_quantity() )
+	if ( is_wp_error($rss) ) {
+		if ( is_admin() || current_user_can('manage_options') ) {
+			echo '<div class="rss-widget"><p>';
+			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
+			echo '</p></div>';
+		}
+	} elseif ( !$rss->get_item_quantity() ) {
 		return false;
-
-	echo "<div class='rss-widget'>";
-	wp_widget_rss_output( $rss, $widgets['dashboard_secondary'] );
-	echo "</div>";
+	} else {
+		echo '<div class="rss-widget">';
+		wp_widget_rss_output( $rss, $widgets['dashboard_secondary'] );
+		echo '</div>';
+	}
 }
 
 function wp_dashboard_plugins() {

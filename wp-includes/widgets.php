@@ -1549,6 +1549,15 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		return;
 	}
 
+	if ( is_wp_error($rss) ) {
+		if ( is_admin() || current_user_can('manage_options') ) {
+			echo '<p>';
+			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
+			echo '</p>';
+		}
+		return;
+	}
+
 	$default_args = array( 'show_author' => 0, 'show_date' => 0, 'show_summary' => 0 );
 	$args = wp_parse_args( $args, $default_args );
 	extract( $args, EXTR_SKIP );
