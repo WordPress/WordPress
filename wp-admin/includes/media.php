@@ -464,6 +464,7 @@ function media_upload_image() {
 		}
 		if ( !empty($src) )
 			$html = "<img src='$src' alt='$alt'$class />";
+		$html = apply_filters('image_send_to_editor_url', $html, $src, $alt, $align);
 		return media_send_to_editor($html);
 	}
 
@@ -555,6 +556,7 @@ function media_upload_audio() {
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
 			$html = "<a href='$href' >$title</a>";
+		$html = apply_filters('audio_send_to_editor_url', $html, $href, $title);
 		return media_send_to_editor($html);
 	}
 
@@ -608,6 +610,7 @@ function media_upload_video() {
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
 			$html = "<a href='$href' >$title</a>";
+		$html = apply_filters('video_send_to_editor_url', $html, $href, $title);
 		return media_send_to_editor($html);
 	}
 
@@ -661,6 +664,7 @@ function media_upload_file() {
 			$title = basename($href);
 		if ( !empty($title) && !empty($href) )
 			$html = "<a href='$href' >$title</a>";
+		$html = apply_filters('file_send_to_editor_url', $html, $href, $title);
 		return media_send_to_editor($html);
 	}
 
