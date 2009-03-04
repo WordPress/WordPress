@@ -838,6 +838,9 @@ function image_link_input_fields($post, $url_type='') {
 function image_attachment_fields_to_edit($form_fields, $post) {
 	if ( substr($post->post_mime_type, 0, 5) == 'image' ) {
 		$form_fields['post_title']['required'] = true;
+		$file = wp_get_attachment_url($post->ID);
+
+		$form_fields['image_url']['value'] = $file;
 
 		$form_fields['post_excerpt']['label'] = __('Caption');
 		$form_fields['post_excerpt']['helps'][] = __('Also used as alternate text for the image');
@@ -868,6 +871,11 @@ add_filter('attachment_fields_to_edit', 'image_attachment_fields_to_edit', 10, 2
  */
 function media_single_attachment_fields_to_edit( $form_fields, $post ) {
 	unset($form_fields['url'], $form_fields['align'], $form_fields['image-size']);
+	return $form_fields;
+}
+
+function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
+	unset($form_fields['image_url']);
 	return $form_fields;
 }
 
@@ -943,6 +951,8 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	if ( is_array($post) )
 		$post = (object) $post;
 
+	$image_url = wp_get_attachment_url($post->ID);
+
 	$edit_post = sanitize_post($post, 'edit');
 
 	$form_fields = array(
@@ -969,6 +979,13 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 			'label'      => __('Order'),
 			'value'      => $edit_post->menu_order
 		),
+		'image_url'	=> array(
+			'label'      => __('File URL'),
+			'input'      => 'html',
+			'html'       => "<input type='text' class='urlfield' readonly='readonly' name='attachments[$post->ID][url]' value='" . attribute_escape($image_url) . "' /><br />",
+			'value'      => $edit_post->post_url,
+			'helps'      => __('Location of the uploaded file.'),
+		)
 	);
 
 	foreach ( get_attachment_taxonomies($post) as $taxonomy ) {
@@ -1371,6 +1388,7 @@ jQuery(function($){
 <?php
 if ( $id ) {
 	if ( !is_wp_error($id) ) {
+		add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2);
 		echo get_media_items( $id, $errors );
 	} else {
 		echo '<div id="media-upload-error">'.wp_specialchars($id->get_error_message()).'</div>';
@@ -1537,6 +1555,7 @@ jQuery(function($){
 </tr></thead>
 </table>
 <div id="media-items">
+<?php add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2); ?>
 <?php echo get_media_items($post_id, $errors); ?>
 </div>
 
@@ -1770,6 +1789,7 @@ jQuery(function($){
 </script>
 
 <div id="media-items">
+<?php add_filter('attachment_fields_to_edit', 'media_post_single_attachment_fields_to_edit', 10, 2); ?>
 <?php echo get_media_items(null, $errors); ?>
 </div>
 <p class="ml-submit">
