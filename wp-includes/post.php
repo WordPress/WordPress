@@ -510,6 +510,9 @@ function get_posts($args = null) {
  * @return bool False for failure. True for success.
  */
 function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
+	if ( !$meta_key )
+		return false;
+	
 	global $wpdb;
 
 	// make sure meta is added to the post, not a revision
@@ -558,6 +561,9 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 	$meta_key = stripslashes( $meta_key );
 	$meta_value = maybe_serialize( stripslashes_deep($meta_value) );
 
+	if ( !$meta_key )
+		return false;
+	
 	if ( empty( $meta_value ) )
 		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
 	else
@@ -589,6 +595,9 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
  */
 function get_post_meta($post_id, $key, $single = false) {
+	if ( !$key )
+		return '';
+	
 	$post_id = (int) $post_id;
 
 	$meta_cache = wp_cache_get($post_id, 'post_meta');
@@ -637,6 +646,9 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	// expected_slashed ($meta_key)
 	$meta_key = stripslashes($meta_key);
 
+	if ( !$meta_key )
+		return false;
+	
 	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) ) {
 		return add_post_meta($post_id, $meta_key, $meta_value);
 	}
@@ -666,6 +678,9 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
  * @return bool Whether the post meta key was deleted from the database
  */
 function delete_post_meta_by_key($post_meta_key) {
+	if ( !$post_meta_key )
+		return false;
+	
 	global $wpdb;
 	if ( $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key)) ) {
 		/** @todo Get post_ids and delete cache */
@@ -739,6 +754,9 @@ function get_post_custom_keys( $post_id = 0 ) {
  * @return array Meta field values.
  */
 function get_post_custom_values( $key = '', $post_id = 0 ) {
+	if ( !$key )
+		return null;
+	
 	$custom = get_post_custom($post_id);
 
 	return isset($custom[$key]) ? $custom[$key] : null;
