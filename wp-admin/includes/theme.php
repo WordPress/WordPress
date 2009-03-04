@@ -66,10 +66,6 @@ function get_page_templates() {
 			if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) )
 				$name = $name[1];
 
-			$description = '';
-			if( preg_match( '|Description:(.*)$|mi', $template_data, $description ) )
-				$description = $description[1];
-
 			if ( !empty( $name ) ) {
 				$page_templates[trim( $name )] = basename( $template );
 			}
