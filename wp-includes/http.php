@@ -13,159 +13,26 @@
  */
 
 /**
- * Implementation for deflate and gzip transfer encodings.
- *
- * Includes RFC 1950, RFC 1951, and RFC 1952.
- *
- * @since unknown
- * @package WordPress
- * @subpackage HTTP
- */
-class WP_Http_Encoding {
-
-	/**
-	 * Compress raw string using the deflate format.
-	 *
-	 * Supports the RFC 1951 standard.
-	 *
-	 * @since unknown
-	 *
-	 * @param string $raw String to compress.
-	 * @param int $level Optional, default is 9. Compression level, 9 is highest.
-	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
-	 * @return string|bool False on failure.
-	 */
-	function compress( $raw, $level = 9, $supports = null ) {
-		return gzdeflate( $raw, $level );
-	}
-
-	/**
-	 * Decompression of deflated string.
-	 *
-	 * Will attempt to decompress using the RFC 1950 standard, and if that fails
-	 * then the RFC 1951 standard deflate will be attempted. Finally, the RFC
-	 * 1952 standard gzip decode will be attempted. If all fail, then the
-	 * original compressed string will be returned.
-	 *
-	 * @since unknown
-	 *
-	 * @param string $compressed String to decompress.
-	 * @param int $length The optional length of the compressed data.
-	 * @return string|bool False on failure.
-	 */
-	function decompress( $compressed, $length = null ) {
-		$decompressed = gzinflate( $compressed );
-
-		if( false !== $decompressed )
-			return $decompressed;
-
-		$decompressed = gzuncompress( $compressed );
-
-		if( false !== $decompressed )
-			return $decompressed;
-
-		$decompressed = gzdecode( $compressed );
-
-		if( false !== $decompressed )
-			return $decompressed;
-
-		return $compressed;
-	}
-
-	/**
-	 * What encoding types to accept and their priority values.
-	 *
-	 * @since unknown
-	 *
-	 * @return string Types of encoding to accept.
-	 */
-	function accept_encoding() {
-		$type = array();
-		if( function_exists( 'gzinflate' ) )
-			$type[] = 'deflate;q=1.0';
-
-		if( function_exists( 'gzuncompress' ) )
-			$type[] = 'compress;q=0.5';
-
-		if( function_exists( 'gzdecode' ) )
-			$type[] = 'gzip;q=0.5';
-
-		return implode(', ', $type);
-	}
-
-	/**
-	 * What enconding the content used when it was compressed to send in the headers.
-	 *
-	 * @since unknown
-	 *
-	 * @return string Content-Encoding string to send in the header.
-	 */
-	function content_encoding() {
-		return 'deflate';
-	}
-
-	/**
-	 * Whether the content be decoded based on the headers.
-	 *
-	 * @since unknown
-	 *
-	 * @param array|string $headers All of the available headers.
-	 * @return bool
-	 */
-	function should_decode($headers) {
-		if( is_array( $headers ) ) {
-			if( array_key_exists('content-encoding', $headers) && ! empty( $headers['content-encoding'] ) )
-				return true;
-		} else if( is_string( $headers ) ) {
-			return ( stripos($headers, 'content-encoding:') !== false );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Whether decompression and compression are supported by the PHP version.
-	 *
-	 * Each function is tested instead of checking for the zlib extension, to
-	 * ensure that the functions all exist in the PHP version and aren't
-	 * disabled.
-	 *
-	 * @since unknown
-	 *
-	 * @return bool
-	 */
-	function is_available() {
-		return ( function_exists('gzuncompress') || function_exists('gzdeflate') ||
-				 function_exists('gzinflate') );
-	}
-}
-
-/**
  * WordPress HTTP Class for managing HTTP Transports and making HTTP requests.
  *
- * This class is called for the functionality of making HTTP requests and should
- * replace Snoopy functionality, eventually. There is no available functionality
- * to add HTTP transport implementations, since most of the HTTP transports are
- * added and available for use.
+ * This class is called for the functionality of making HTTP requests and should replace Snoopy
+ * functionality, eventually. There is no available functionality to add HTTP transport
+ * implementations, since most of the HTTP transports are added and available for use.
  *
- * The exception is that cURL is not available as a transport and lacking an
- * implementation. It will be added later and should be a patch on the WordPress
- * Trac.
+ * The exception is that cURL is not available as a transport and lacking an implementation. It will
+ * be added later and should be a patch on the WordPress Trac.
  *
- * There are no properties, because none are needed and for performance reasons.
- * Some of the functions are static and while they do have some overhead over
- * functions in PHP4, the purpose is maintainability. When PHP5 is finally the
- * requirement, it will be easy to add the static keyword to the code. It is not
- * as easy to convert a function to a method after enough code uses the old way.
+ * There are no properties, because none are needed and for performance reasons. Some of the
+ * functions are static and while they do have some overhead over functions in PHP4, the purpose is
+ * maintainability. When PHP5 is finally the requirement, it will be easy to add the static keyword
+ * to the code. It is not as easy to convert a function to a method after enough code uses the old
+ * way.
  *
- * Debugging includes several actions, which pass different variables for
- * debugging the HTTP API.
+ * Debugging includes several actions, which pass different variables for debugging the HTTP API.
  *
- * <strong>http_transport_get_debug</strong> - gives working, nonblocking, and
- * blocking transports.
+ * <strong>http_transport_get_debug</strong> - gives working, nonblocking, and blocking transports.
  *
- * <strong>http_transport_post_debug</strong> - gives working, nonblocking, and
- * blocking transports.
+ * <strong>http_transport_post_debug</strong> - gives working, nonblocking, and blocking transports.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -311,40 +178,35 @@ class WP_Http {
 	/**
 	 * Send a HTTP request to a URI.
 	 *
-	 * The body and headers are part of the arguments. The 'body' argument is
-	 * for the body and will accept either a string or an array. The 'headers'
-	 * argument should be an array, but a string is acceptable. If the 'body'
-	 * argument is an array, then it will automatically be escaped using
-	 * http_build_query().
+	 * The body and headers are part of the arguments. The 'body' argument is for the body and will
+	 * accept either a string or an array. The 'headers' argument should be an array, but a string
+	 * is acceptable. If the 'body' argument is an array, then it will automatically be escaped
+	 * using http_build_query().
 	 *
-	 * The only URI that are supported in the HTTP Transport implementation are
-	 * the HTTP and HTTPS protocols. HTTP and HTTPS are assumed so the server
-	 * might not know how to handle the send headers. Other protocols are
-	 * unsupported and most likely will fail.
+	 * The only URI that are supported in the HTTP Transport implementation are the HTTP and HTTPS
+	 * protocols. HTTP and HTTPS are assumed so the server might not know how to handle the send
+	 * headers. Other protocols are unsupported and most likely will fail.
 	 *
-	 * The defaults are 'method', 'timeout', 'redirection', 'httpversion',
-	 * 'blocking' and 'user-agent'.
+	 * The defaults are 'method', 'timeout', 'redirection', 'httpversion', 'blocking' and
+	 * 'user-agent'.
 	 *
-	 * Accepted 'method' values are 'GET', 'POST', and 'HEAD', some transports
-	 * technically allow others, but should not be assumed. The 'timeout' is
-	 * used to sent how long the connection should stay open before failing when
-	 * no response. 'redirection' is used to track how many redirects were taken
-	 * and used to sent the amount for other transports, but not all transports
+	 * Accepted 'method' values are 'GET', 'POST', and 'HEAD', some transports technically allow
+	 * others, but should not be assumed. The 'timeout' is used to sent how long the connection
+	 * should stay open before failing when no response. 'redirection' is used to track how many
+	 * redirects were taken and used to sent the amount for other transports, but not all transports
 	 * accept setting that value.
 	 *
-	 * The 'httpversion' option is used to sent the HTTP version and accepted
-	 * values are '1.0', and '1.1' and should be a string. Version 1.1 is not
-	 * supported, because of chunk response. The 'user-agent' option is the
-	 * user-agent and is used to replace the default user-agent, which is
+	 * The 'httpversion' option is used to sent the HTTP version and accepted values are '1.0', and
+	 * '1.1' and should be a string. Version 1.1 is not supported, because of chunk response. The
+	 * 'user-agent' option is the user-agent and is used to replace the default user-agent, which is
 	 * 'WordPress/WP_Version', where WP_Version is the value from $wp_version.
 	 *
-	 * 'blocking' is the default, which is used to tell the transport, whether
-	 * it should halt PHP while it performs the request or continue regardless.
-	 * Actually, that isn't entirely correct. Blocking mode really just means
-	 * whether the fread should just pull what it can whenever it gets bytes or
-	 * if it should wait until it has enough in the buffer to read or finishes
-	 * reading the entire content. It doesn't actually always mean that PHP will
-	 * continue going after making the request.
+	 * 'blocking' is the default, which is used to tell the transport, whether it should halt PHP
+	 * while it performs the request or continue regardless. Actually, that isn't entirely correct.
+	 * Blocking mode really just means whether the fread should just pull what it can whenever it
+	 * gets bytes or if it should wait until it has enough in the buffer to read or finishes reading
+	 * the entire content. It doesn't actually always mean that PHP will continue going after making
+	 * the request.
 	 *
 	 * @access public
 	 * @since 2.7.0
@@ -569,7 +431,7 @@ class WP_Http {
 
 		return array('response' => $response, 'headers' => $newheaders, 'cookies' => $cookies);
 	}
-	
+
 	/**
 	 * Takes the arguments for a ::request() and checks for the cookie array.
 	 *
@@ -597,9 +459,8 @@ class WP_Http {
 	/**
 	 * Decodes chunk transfer-encoding, based off the HTTP 1.1 specification.
 	 *
-	 * Based off the HTTP http_encoding_dechunk function. Does not support
-	 * UTF-8. Does not support returning footer headers. Shouldn't be too
-	 * difficult to support it though.
+	 * Based off the HTTP http_encoding_dechunk function. Does not support UTF-8. Does not support
+	 * returning footer headers. Shouldn't be too difficult to support it though.
 	 *
 	 * @todo Add support for footer chunked headers.
 	 * @access public
@@ -651,7 +512,7 @@ class WP_Http {
 	 * and this will only allow localhost and your blog to make requests. The constant
 	 * WP_ACCESSABLE_HOSTS will allow additional hosts to go through for requests.
 	 *
-	 * @since unknown
+	 * @since 2.8.0
 	 * @link http://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
 	 *
 	 * @param string $uri URI of url.
@@ -693,8 +554,8 @@ class WP_Http {
 /**
  * HTTP request method uses fsockopen function to retrieve the url.
  *
- * This would be the preferred method, but the fsockopen implementation has the
- * most overhead of all the HTTP transport implementations.
+ * This would be the preferred method, but the fsockopen implementation has the most overhead of all
+ * the HTTP transport implementations.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -751,25 +612,35 @@ class WP_Http_Fsockopen {
 				$arrURL['port'] = apply_filters('http_request_default_port', 80);
 			}
 		} else {
-			$arrURL['port'] = apply_filters('http_request_port', $arrURL['port']);
+			$arrURL['port'] = apply_filters('http_request_port', $arrURL['port'], $arrURL['host']);
 		}
 
-		// There are issues with the HTTPS and SSL protocols that cause errors
-		// that can be safely ignored and should be ignored.
+		// There are issues with the HTTPS and SSL protocols that cause errors that can be safely
+		// ignored and should be ignored.
 		if ( true === $secure_transport )
 			$error_reporting = error_reporting(0);
 
 		$startDelay = time();
 
-		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) )
-			$handle = @fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
-		else
-			$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+		$proxy = new WP_HTTP_Proxy();
+
+		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) {
+			if( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
+				$handle = @fsockopen($proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
+			else
+				$handle = @fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+		}
+		else {
+			if( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
+				$handle = fsockopen($proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
+			else
+				$handle = fsockopen($arrURL['host'], $arrURL['port'], $iError, $strError, $r['timeout'] );
+		}
 
 		$endDelay = time();
 
-		// If the delay is greater than the timeout then fsockopen should't be
-		// used, because it will cause a long delay.
+		// If the delay is greater than the timeout then fsockopen should't be used, because it will
+		// cause a long delay.
 		$elapseDelay = ($endDelay-$startDelay) > $r['timeout'];
 		if ( true === $elapseDelay )
 			add_option( 'disable_fsockopen', $endDelay, null, true );
@@ -777,8 +648,8 @@ class WP_Http_Fsockopen {
 		if ( false === $handle )
 			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
 
-		// WordPress supports PHP 4.3, which has this function. Removed sanity
-		// checking for performance reasons.
+		// WordPress supports PHP 4.3, which has this function. Removed sanity checking for
+		// performance reasons.
 		stream_set_timeout($handle, $r['timeout'] );
 
 		$requestPath = $arrURL['path'] . ( isset($arrURL['query']) ? '?' . $arrURL['query'] : '' );
@@ -786,7 +657,11 @@ class WP_Http_Fsockopen {
 
 		$strHeaders = '';
 		$strHeaders .= strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
-		$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
+
+		if( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
+			$strHeaders .= 'Host: ' . $arrURL['host'] .':'. $arrURL['port'] . "\r\n";
+		else
+			$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
 
 		if( isset($r['user-agent']) )
 			$strHeaders .= 'User-agent: ' . $r['user-agent'] . "\r\n";
@@ -796,6 +671,10 @@ class WP_Http_Fsockopen {
 				$strHeaders .= $header . ': ' . $headerValue . "\r\n";
 		} else {
 			$strHeaders .= $r['headers'];
+		}
+
+		if ( $proxy->use_authentication() ) {
+			$strHeaders .= $proxy->authentication_header() . "\r\n";
 		}
 
 		$strHeaders .= "\r\n";
@@ -866,9 +745,9 @@ class WP_Http_Fsockopen {
 /**
  * HTTP request method uses fopen function to retrieve the url.
  *
- * Requires PHP version greater than 4.3.0 for stream support. Does not allow
- * for $context support, but should still be okay, to write the headers, before
- * getting the response. Also requires that 'allow_url_fopen' to be enabled.
+ * Requires PHP version greater than 4.3.0 for stream support. Does not allow for $context support,
+ * but should still be okay, to write the headers, before getting the response. Also requires that
+ * 'allow_url_fopen' to be enabled.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -878,8 +757,8 @@ class WP_Http_Fopen {
 	/**
 	 * Send a HTTP request to a URI using fopen().
 	 *
-	 * This transport does not support sending of headers and body, therefore
-	 * should not be used in the instances, where there is a body and headers.
+	 * This transport does not support sending of headers and body, therefore should not be used in
+	 * the instances, where there is a body and headers.
 	 *
 	 * Notes: Does not support non-blocking mode. Ignores 'redirection' option.
 	 *
@@ -984,8 +863,8 @@ class WP_Http_Fopen {
 /**
  * HTTP request method uses Streams to retrieve the url.
  *
- * Requires PHP 5.0+ and uses fopen with stream context. Requires that
- * 'allow_url_fopen' PHP setting to be enabled.
+ * Requires PHP 5.0+ and uses fopen with stream context. Requires that 'allow_url_fopen' PHP setting
+ * to be enabled.
  *
  * Second preferred method for getting the URL, for PHP 5.
  *
@@ -1056,6 +935,17 @@ class WP_Http_Streams {
 			)
 		);
 
+		$proxy = new WP_HTTP_Proxy();
+
+		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) { 
+			$arrContext['http']['proxy'] = 'tcp://'.$proxy->host().':'.$proxy->port();
+
+			// We only support Basic authentication so this will only work if that is what your proxy supports.
+			if ( $proxy->use_authentication() ) {
+				$arrContext['http']['header'] .= $proxy->authentication_header() . "\r\n";
+			}
+		}
+
 		if ( ! is_null($r['body']) && ! empty($r['body'] ) )
 			$arrContext['http']['content'] = $r['body'];
 
@@ -1069,8 +959,8 @@ class WP_Http_Streams {
 		if ( ! $handle)
 			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
 
-		// WordPress supports PHP 4.3, which has this function. Removed sanity
-		// checking for performance reasons.
+		// WordPress supports PHP 4.3, which has this function. Removed sanity checking for
+		// performance reasons.
 		stream_set_timeout($handle, $r['timeout'] );
 
 		if ( ! $r['blocking'] ) {
@@ -1122,10 +1012,9 @@ class WP_Http_Streams {
 /**
  * HTTP request method uses HTTP extension to retrieve the url.
  *
- * Requires the HTTP extension to be installed. This would be the preferred
- * transport since it can handle a lot of the problems that forces the others to
- * use the HTTP version 1.0. Even if PHP 5.2+ is being used, it doesn't mean
- * that the HTTP extension will be enabled.
+ * Requires the HTTP extension to be installed. This would be the preferred transport since it can
+ * handle a lot of the problems that forces the others to use the HTTP version 1.0. Even if PHP 5.2+
+ * is being used, it doesn't mean that the HTTP extension will be enabled.
  *
  * @package WordPress
  * @subpackage HTTP
@@ -1161,7 +1050,7 @@ class WP_Http_ExtHTTP {
 			$r['user-agent'] = $r['headers']['user-agent'];
 			unset($r['headers']['user-agent']);
 		}
-		
+
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
@@ -1193,6 +1082,20 @@ class WP_Http_ExtHTTP {
 				'verifyhost' => apply_filters('https_ssl_verify', $r['sslverify'])
 			)
 		);
+
+		// The HTTP extensions offers really easy proxy support.
+		$proxy = new WP_HTTP_Proxy();
+
+		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
+			$options['proxyhost'] = $proxy->host();
+			$options['proxyport'] = $proxy->port();
+			$options['proxytype'] = HTTP_PROXY_HTTP;
+
+			if ( $proxy->use_authentication() ) {
+				$options['proxyauth'] = $proxy->authentication();
+				$options['proxyauthtype'] = HTTP_AUTH_BASIC;
+			}
+		}
 
 		if ( !defined('WP_DEBUG') || ( defined('WP_DEBUG') && false === WP_DEBUG ) ) //Emits warning level notices for max redirects and timeouts
 			$strResponse = @http_request($r['method'], $url, $r['body'], $options, $info);
@@ -1282,15 +1185,39 @@ class WP_Http_Curl {
 			unset($r['headers']['user-agent']);
 		}
 
-		// Construct Cookie: header if any cookies are set
+		// Construct Cookie: header if any cookies are set.
 		WP_Http::buildCookieHeader( $r );
 
-		// cURL extension will sometimes fail when the timeout is less than 1 as
-		// it may round down to 0, which gives it unlimited timeout.
+		// cURL extension will sometimes fail when the timeout is less than 1 as it may round down
+		// to 0, which gives it unlimited timeout.
 		if ( $r['timeout'] > 0 && $r['timeout'] < 1 )
 			$r['timeout'] = 1;
 
 		$handle = curl_init();
+
+		// cURL offers really easy proxy support.
+		$proxy = new WP_HTTP_Proxy();
+
+		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
+			curl_setopt( $handle, CURLOPT_HTTPPROXYTUNNEL, true );
+
+			$isPHP5 = version_compare(PHP_VERSION, '5.0.0', '>=');
+
+			if ( $isPHP5 ) {
+				curl_setopt( $handle, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
+				curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() );
+				curl_setopt( $handle, CURLOPT_PROXYPORT, $proxy->port() );
+			} else {
+				curl_setopt( $handle, CURLOPT_PROXY, $proxy->host() .':'. $proxy->port() );
+			}
+
+			if ( $proxy->use_authentication() ) {
+				if ( $isPHP5 )
+					curl_setopt( $handle, CURLOPT_PROXYAUTH, CURLAUTH_BASIC );
+
+				curl_setopt( $handle, CURLOPT_PROXYUSERPWD, $proxy->authentication() );
+			}
+		}
 
 		curl_setopt( $handle, CURLOPT_URL, $url);
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
@@ -1334,13 +1261,11 @@ class WP_Http_Curl {
 		else
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
-		// Cookies are not handled by the HTTP API currently. Allow for plugin
-		// authors to handle it themselves... Although, it is somewhat pointless
-		// without some reference.
+		// Cookies are not handled by the HTTP API currently. Allow for plugin authors to handle it
+		// themselves... Although, it is somewhat pointless without some reference.
 		do_action_ref_array( 'http_api_curl', array(&$handle) );
 
-		// We don't need to return the body, so don't. Just execute request
-		// and return.
+		// We don't need to return the body, so don't. Just execute request and return.
 		if ( ! $r['blocking'] ) {
 			curl_exec( $handle );
 			curl_close( $handle );
@@ -1350,6 +1275,8 @@ class WP_Http_Curl {
 		$theResponse = curl_exec( $handle );
 
 		if ( !empty($theResponse) ) {
+			$parts = explode("\r\n\r\n", $theResponse);
+			
 			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
 			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
 			$theBody = substr( $theResponse, $headerLength );
@@ -1396,13 +1323,189 @@ class WP_Http_Curl {
 	}
 }
 
+/**
+ * Adds Proxy support to the WordPress HTTP API.
+ *
+ * There are caveats to proxy support. It requires that defines be made in the wp-config.php file to
+ * enable proxy support. There are also a few filters that plugins can hook into for some of the
+ * constants.
+ *
+ * The constants are as follows:
+ * <ol>
+ * <li>WP_PROXY_HOST - Enable proxy support and host for connecting.</li>
+ * <li>WP_PROXY_PORT - Proxy port for connection. No default, must be defined.</li>
+ * <li>WP_PROXY_USERNAME - Proxy username, if it requires authentication.</li>
+ * <li>WP_PROXY_PASSWORD - Proxy password, if it requires authentication.</li>
+ * <li>WP_PROXY_BYPASS_HOSTS - Will prevent the hosts in this list from going through the proxy.
+ * You do not need to have localhost and the blog host in this list, because they will not be passed
+ * through the proxy.</li>
+ * </ol>
+ *
+ * An example can be as seen below.
+ * <code>
+ * define('WP_PROXY_HOST', '192.168.84.101');
+ * define('WP_PROXY_PORT', '8080');
+ * define('WP_PROXY_BYPASS_HOSTS', array('localhost', 'www.example.com'));
+ * </code>
+ *
+ * @link http://core.trac.wordpress.org/ticket/4011 Proxy support ticket in WordPress.
+ * @since 2.8
+ */
+class WP_HTTP_Proxy {
+
+	function WP_HTTP_Proxy() {
+		$this->__construct();
+	}
+
+	function __construct() {
+		
+	}
+
+	/**
+	 * Whether proxy connection should be used.
+	 *
+	 * @since 2.8
+	 * @use WP_PROXY_HOST
+	 * @use WP_PROXY_PORT
+	 *
+	 * @return bool
+	 */
+	function is_enabled() {
+		return ( defined('WP_PROXY_HOST') && defined('WP_PROXY_PORT') );
+	}
+
+	/**
+	 * Whether authentication should be used.
+	 *
+	 * @since 2.8
+	 * @use WP_PROXY_USERNAME
+	 * @use WP_PROXY_PASSWORD
+	 *
+	 * @return bool
+	 */
+	function use_authentication() {
+		return ( defined('WP_PROXY_USERNAME') && defined('WP_PROXY_PASSWORD') );
+	}
+
+	/**
+	 * Retrieve the host for the proxy server.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string
+	 */
+	function host() {
+		if( defined('WP_PROXY_HOST') )
+			return WP_PROXY_HOST;
+
+		return '';
+	}
+
+	/**
+	 * Retrieve the port for the proxy server.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string
+	 */
+	function port() {
+		if( defined('WP_PROXY_PORT') )
+			return WP_PROXY_PORT;
+
+		return '';
+	}
+
+	/**
+	 * Retrieve the username for proxy authentication.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string
+	 */
+	function username() {
+		if( defined('WP_PROXY_USERNAME') )
+			return WP_PROXY_USERNAME;
+
+		return '';
+	}
+
+	/**
+	 * Retrieve the password for proxy authentication.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string
+	 */
+	function password() {
+		if( defined('WP_PROXY_PASSWORD') )
+			return WP_PROXY_PASSWORD;
+
+		return '';
+	}
+
+	/**
+	 * Retrieve authentication string for proxy authentication.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string
+	 */
+	function authentication() {
+		return $this->username() .':'. $this->password();
+	}
+
+	/**
+	 * Retrieve header string for proxy authentication.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string
+	 */
+	function authentication_header() {
+		return 'Proxy-Authentication: Basic '. base64_encode( $this->authentication() );
+	}
+
+	/**
+	 * Whether URL should be sent through the proxy server.
+	 *
+	 * We want to keep localhost and the blog URL from being sent through the proxy server, because
+	 * some proxies can not handle this. We also have the constant available for defining other
+	 * hosts that won't be sent through the proxy.
+	 *
+	 * @uses WP_PROXY_BYPASS_HOSTS
+	 * @since unknown
+	 *
+	 * @param string $uri URI to check.
+	 * @return bool True, to send through the proxy and false if, the proxy should not be used.
+	 */
+	function send_through_proxy( $uri ) {
+		// parse_url() only handles http, https type URLs, and will emit E_WARNING on failure.
+		// This will be displayed on blogs, which is not reasonable.
+		$check = @parse_url($uri);
+
+		// Malformed URL, can not process, but this could mean ssl, so let through anyway.
+		if( $check === false )
+			return true;
+
+		$home = parse_url( get_bloginfo('site_url') );
+
+		if ( $uri == 'localhost' || $uri == $home['host'] )
+			return false;
+
+		if ( defined('WP_PROXY_BYPASS_HOSTS') && is_array( WP_PROXY_BYPASS_HOSTS ) && in_array( $check['host'], WP_PROXY_BYPASS_HOSTS ) ) {
+			return false;
+		}
+
+		return true;
+	}
+}
+
 
 /**
  * Internal representation of a single cookie.
  *
- * Returned cookies are represented using this class, and when cookies are
- * set, if they are not already a WP_Http_Cookie() object, then they are turned
- * into one.
+ * Returned cookies are represented using this class, and when cookies are set, if they are not
+ * already a WP_Http_Cookie() object, then they are turned into one.
  *
  * @todo The WordPress convention is to use underscores instead of camelCase for function and method
  * names. Need to switch to use underscores instead for the methods.
@@ -1594,6 +1697,134 @@ class WP_Http_Cookie {
 	 */
 	function getFullHeader() {
 		return 'Cookie: ' . $this->getHeaderValue();
+	}
+}
+
+/**
+ * Implementation for deflate and gzip transfer encodings.
+ *
+ * Includes RFC 1950, RFC 1951, and RFC 1952.
+ *
+ * @since 2.8
+ * @package WordPress
+ * @subpackage HTTP
+ */
+class WP_Http_Encoding {
+
+	/**
+	 * Compress raw string using the deflate format.
+	 *
+	 * Supports the RFC 1951 standard.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string $raw String to compress.
+	 * @param int $level Optional, default is 9. Compression level, 9 is highest.
+	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
+	 * @return string|bool False on failure.
+	 */
+	function compress( $raw, $level = 9, $supports = null ) {
+		return gzdeflate( $raw, $level );
+	}
+
+	/**
+	 * Decompression of deflated string.
+	 *
+	 * Will attempt to decompress using the RFC 1950 standard, and if that fails
+	 * then the RFC 1951 standard deflate will be attempted. Finally, the RFC
+	 * 1952 standard gzip decode will be attempted. If all fail, then the
+	 * original compressed string will be returned.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string $compressed String to decompress.
+	 * @param int $length The optional length of the compressed data.
+	 * @return string|bool False on failure.
+	 */
+	function decompress( $compressed, $length = null ) {
+		$decompressed = gzinflate( $compressed );
+
+		if( false !== $decompressed )
+			return $decompressed;
+
+		$decompressed = gzuncompress( $compressed );
+
+		if( false !== $decompressed )
+			return $decompressed;
+
+		$decompressed = gzdecode( $compressed );
+
+		if( false !== $decompressed )
+			return $decompressed;
+
+		return $compressed;
+	}
+
+	/**
+	 * What encoding types to accept and their priority values.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string Types of encoding to accept.
+	 */
+	function accept_encoding() {
+		$type = array();
+		if( function_exists( 'gzinflate' ) )
+			$type[] = 'deflate;q=1.0';
+
+		if( function_exists( 'gzuncompress' ) )
+			$type[] = 'compress;q=0.5';
+
+		if( function_exists( 'gzdecode' ) )
+			$type[] = 'gzip;q=0.5';
+
+		return implode(', ', $type);
+	}
+
+	/**
+	 * What enconding the content used when it was compressed to send in the headers.
+	 *
+	 * @since 2.8
+	 *
+	 * @return string Content-Encoding string to send in the header.
+	 */
+	function content_encoding() {
+		return 'deflate';
+	}
+
+	/**
+	 * Whether the content be decoded based on the headers.
+	 *
+	 * @since 2.8
+	 *
+	 * @param array|string $headers All of the available headers.
+	 * @return bool
+	 */
+	function should_decode($headers) {
+		if( is_array( $headers ) ) {
+			if( array_key_exists('content-encoding', $headers) && ! empty( $headers['content-encoding'] ) )
+				return true;
+		} else if( is_string( $headers ) ) {
+			return ( stripos($headers, 'content-encoding:') !== false );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether decompression and compression are supported by the PHP version.
+	 *
+	 * Each function is tested instead of checking for the zlib extension, to
+	 * ensure that the functions all exist in the PHP version and aren't
+	 * disabled.
+	 *
+	 * @since 2.8
+	 *
+	 * @return bool
+	 */
+	function is_available() {
+		return ( function_exists('gzuncompress') || function_exists('gzdeflate') ||
+				 function_exists('gzinflate') );
 	}
 }
 
