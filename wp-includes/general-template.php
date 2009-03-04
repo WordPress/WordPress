@@ -930,14 +930,17 @@ function get_calendar($initial = true) {
 	if ( !is_array($cache) )
 		$cache = array();
 
-	ob_start();
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
-		if ( !$gotsome )
+		$gotsome = $wpdb->get_var("SELECT 1 FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
+		if ( !$gotsome ) {
+			$cache[ $key ] = '';
+			wp_cache_set( 'get_calendar', $cache, 'calendar' );
 			return;
+		}
 	}
 
+	ob_start();
 	if ( isset($_GET['w']) )
 		$w = ''.intval($_GET['w']);
 
