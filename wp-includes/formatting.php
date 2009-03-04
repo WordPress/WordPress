@@ -2251,7 +2251,7 @@ function wp_sprintf_l($pattern, $args) {
  */
 function wp_html_excerpt( $str, $count ) {
 	$str = strip_tags( $str );
-	$str = mb_strcut( $str, 0, $count );
+	$str = mb_substr( $str, 0, $count );
 	// remove part of an entity at the end
 	$str = preg_replace( '/&[^;\s]{0,6}$/', '', $str );
 	return $str;
