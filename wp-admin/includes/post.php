@@ -397,30 +397,42 @@ function get_post_to_edit( $id ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Determine if a post exists based on title, content, and date
  *
  * @since unknown
  *
- * @param unknown_type $title
- * @param unknown_type $content
- * @param unknown_type $post_date
- * @return unknown
+ * @param string $title Post title
+ * @param string $content Optional post content
+ * @param string $date Optional post date
+ * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists($title, $content = '', $post_date = '') {
+function post_exists($title, $content = '', $date = '') {
 	global $wpdb;
 
-	$title = stripslashes($title);
-	$content = stripslashes($content);
-	$post_date = stripslashes($post_date);
+	$post_title = stripslashes( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
+	$post_content = stripslashes( sanitize_post_field( 'post_content', $content, 0, 'db' ) );    
+	$post_date = stripslashes( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
 
-	if (!empty ($post_date))
-		$post_date = $wpdb->prepare("AND post_date = %s", $post_date);
+	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
+	$args = array();
 
-	if (!empty ($title))
-		return $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s $post_date", $title) );
-	else
-		if (!empty ($content))
-			return $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_content = %s $post_date", $content) );
+	if ( !empty ( $date ) ) {
+		$query .= ' AND post_date = %s';
+		$args[] = $post_date;
+	}
+
+	if ( !empty ( $title ) ) {
+		$query .= ' AND post_title = %s';
+		$args[] = $post_title;
+	}
+
+	if ( !empty ( $content ) ) {
+		$query .= 'AND post_content = %s';
+		$args[] = $post_content;
+	}
+    
+	if ( !empty ( $args ) )
+		return $wpdb->get_var( $wpdb->prepare($query, $args) );
 
 	return 0;
 }

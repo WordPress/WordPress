@@ -19,6 +19,9 @@
 function comment_exists($comment_author, $comment_date) {
 	global $wpdb;
 
+	$comment_author = stripslashes($comment_author);
+	$comment_date = stripslashes($comment_date);
+
 	return $wpdb->get_var( $wpdb->prepare("SELECT comment_post_ID FROM $wpdb->comments
 			WHERE comment_author = %s AND comment_date = %s", $comment_author, $comment_date) );
 }
