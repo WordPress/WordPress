@@ -43,7 +43,7 @@ if ( ! is_user_logged_in() ) {
 if ( isset( $_GET['action'] ) ) :
 switch ( $action = $_GET['action'] ) :
 case 'ajax-tag-search' :
-	if ( !current_user_can( 'manage_categories' ) )
+	if ( !current_user_can( 'edit_posts' ) )
 		die('-1');
 
 	$s = $_GET['q']; // is this slashed already?
