@@ -179,13 +179,20 @@ foreach ( $cols as $col => $theme_name ) {
 	$thickbox_class = 'thickbox thickbox-preview';
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=".urlencode($template)."&amp;stylesheet=".urlencode($stylesheet), 'switch-theme_' . $template);
 	$activate_text = attribute_escape( sprintf( __('Activate "%s"'), $title ) );
+	$actions = array();
+	$actions[] = '<a href="' . $activate_link .  '" title="' . $activate_text . '">' . __('Activate') . '</a>';
+	$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attribute_escape(sprintf(__('Preview "%s"'), $theme_name)) . '">' . __('Preview') . '</a>';
+	$actions = apply_filters('theme_action_links', $actions, $themes[$theme_name]);
+
+	$actions = implode ( ' | ', $actions );
 ?>
 		<a href="<?php echo $activate_link; ?>" class="<?php echo $thickbox_class; ?> screenshot">
 <?php if ( $screenshot ) : ?>
 			<img src="<?php echo WP_CONTENT_URL . $stylesheet_dir . '/' . $screenshot; ?>" alt="" />
 <?php endif; ?>
 		</a>
-		<h3><a class="<?php echo $thickbox_class; ?>" href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
+		<h3><?php echo $title; ?></h3>
+		<span class='action-links'><?php echo $actions ?></span>
 		<p><?php echo $description; ?></p>
 <?php if ( $tags ) : ?>
 		<p><?php _e('Tags:'); ?> <?php echo join(', ', $tags); ?></p>
