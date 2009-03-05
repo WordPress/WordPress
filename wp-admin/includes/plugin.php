@@ -471,7 +471,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s'), implode(', ', $errors)) );
 
 	// Force refresh of plugin update information
-	delete_option('update_plugins');
+	delete_transient('update_plugins');
 
 	return true;
 }

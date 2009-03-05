@@ -17,7 +17,11 @@ if ( isset($_GET['action']) ) {
 		exit;
 	} else if ( 'delete' == $_GET['action'] ) {
 		check_admin_referer('delete-theme_' . $_GET['template']);
-		die('Not implemented');
+		if ( !current_user_can('update_themes') )
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		delete_theme($_GET['template']);
+		wp_redirect('themes.php?deleted=true');
+		exit;
 	}
 }
 
@@ -34,6 +38,8 @@ require_once('admin-header.php');
 <div id="message1" class="updated fade"><p><?php _e('The active theme is broken.  Reverting to the default theme.'); ?></p></div>
 <?php elseif ( isset($_GET['activated']) ) : ?>
 <div id="message2" class="updated fade"><p><?php printf(__('New theme activated. <a href="%s">Visit site</a>'), get_bloginfo('url') . '/'); ?></p></div>
+<?php elseif ( isset($_GET['deleted']) ) : ?>
+<div id="message3" class="updated fade"><p><?php _e('Theme deleted.') ?></p></div>
 <?php endif; ?>
 
 <?php
