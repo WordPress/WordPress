@@ -10,12 +10,14 @@
 require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
-	check_admin_referer('switch-theme_' . $_GET['template']);
-
-	if ('activate' == $_GET['action']) {
+	if ( 'activate' == $_GET['action'] ) {
+		check_admin_referer('switch-theme_' . $_GET['template']);
 		switch_theme($_GET['template'], $_GET['stylesheet']);
 		wp_redirect('themes.php?activated=true');
 		exit;
+	} else if ( 'delete' == $_GET['action'] ) {
+		check_admin_referer('delete-theme_' . $_GET['template']);
+		die('Not implemented');
 	}
 }
 
@@ -182,6 +184,8 @@ foreach ( $cols as $col => $theme_name ) {
 	$actions = array();
 	$actions[] = '<a href="' . $activate_link .  '" title="' . $activate_text . '">' . __('Activate') . '</a>';
 	$actions[] = '<a href="' . $preview_link . '" class="thickbox thickbox-preview" title="' . attribute_escape(sprintf(__('Preview "%s"'), $theme_name)) . '">' . __('Preview') . '</a>';
+	if ( current_user_can('update_themes') )
+		$actions[] = '<a class="submitdelete deletion" href="' . wp_nonce_url("themes.php?action=delete&amp;template=$template", 'delete-theme_' . $template) . '" onclick="' . "if ( confirm('" . js_escape(sprintf( __("You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete."), $theme_name )) . "') ) {return true;}return false;" . '">' . __('Delete') . '</a>';	
 	$actions = apply_filters('theme_action_links', $actions, $themes[$theme_name]);
 
 	$actions = implode ( ' | ', $actions );
