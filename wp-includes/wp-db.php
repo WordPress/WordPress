@@ -699,12 +699,19 @@ class wpdb {
 	 *
 	 * @param string $table WARNING: not sanitized!
 	 * @param array $data Should not already be SQL-escaped
+	 * @param array|string $format The format of the field values.
 	 * @return mixed Results of $this->query()
 	 */
-	function insert($table, $data) {
-		$data = $this->_escape($data);
+	function insert($table, $data, $format = '%s') {
+		$format = (array) $format;
 		$fields = array_keys($data);
-		return $this->query("INSERT INTO $table (`" . implode('`,`',$fields) . "`) VALUES ('".implode("','",$data)."')");
+		$formatted_fields = array();
+		foreach ( $data as $field ) {
+			$form = ( $form = array_shift($format) ) ? $form : $formatted_fields[0];
+			$formatted_fields[] = $form;
+		}
+		$sql = "INSERT INTO $table (`" . implode( '`,`', $fields ) . "`) VALUES ('" . implode( "','", $formatted_fields ) . "')";
+		return $this->query( $this->prepare( $sql, $data) );
 	}
 
 	/**
@@ -715,21 +722,29 @@ class wpdb {
 	 * @param string $table WARNING: not sanitized!
 	 * @param array $data Should not already be SQL-escaped
 	 * @param array $where A named array of WHERE column => value relationships.  Multiple member pairs will be joined with ANDs.  WARNING: the column names are not currently sanitized!
+	 * @param array|string $format The format of the field values.
+	 * @param array|string $where_format The format of the where field values.
 	 * @return mixed Results of $this->query()
 	 */
-	function update($table, $data, $where){
-		$data = $this->_escape($data);
-		$bits = $wheres = array();
-		foreach ( (array) array_keys($data) as $k )
-			$bits[] = "`$k` = '$data[$k]'";
-
-		if ( is_array( $where ) )
-			foreach ( $where as $c => $v )
-				$wheres[] = "$c = '" . $this->_escape( $v ) . "'";
-		else
+	function update($table, $data, $where, $format = '%s', $where_format = '%s') {
+		if ( !is_array( $where ) )
 			return false;
 
-		return $this->query( "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres ) );
+		$formats = $format = (array) $format;
+		$bits = $wheres = array();
+		foreach ( (array) array_keys($data) as $k ) {
+			$form = ( $form = array_shift($formats) ) ? $form : $format[0];
+			$bits[] = "`$k` = {$form}";
+		}
+
+		$where_formats = $where_format = (array) $where_format;
+		foreach ( $where as $c => $v ) {
+			$form = ( $form = array_shift($where_formats) ) ? $form : $where_format[0];
+			$wheres[] = "$c = {$form}";
+		}
+
+		$sql = "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
+		return $this->query( $this->prepare( $sql, array_merge(array_values($data), array_values($where))) );
 	}
 
 	/**
