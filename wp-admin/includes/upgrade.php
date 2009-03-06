@@ -150,7 +150,7 @@ function wp_install_defaults($user_id) {
 								'link_rss' => '',
 								'link_notes' =>'');
 
-	foreach ( default_links as $link ) {
+	foreach ( $default_links as $link ) {
 		$wpdb->insert( $wpdb->links, $link);
 		$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => 2, 'object_id' => $wpdb->insert_id) );
 	}
