@@ -216,7 +216,7 @@ case 'approvecomment' :
 case 'editedcomment' :
 
 	$comment_id = absint( $_POST['comment_ID'] );
-	$comment_post_id = absint( $_POST['comment_post_id'] );
+	$comment_post_id = absint( $_POST['comment_post_ID'] );
 
 	check_admin_referer( 'update-comment_' . $comment_id );
 

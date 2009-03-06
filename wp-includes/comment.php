@@ -880,14 +880,12 @@ function wp_insert_comment($commentdata) {
 	if ( ! isset($comment_type) )
 		$comment_type = '';
 
-	$result = $wpdb->query( $wpdb->prepare("INSERT INTO $wpdb->comments
-	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id)
-	VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %d, %d)",
-	$comment_post_ID, $comment_author, $comment_author_email, $comment_author_url, $comment_author_IP, $comment_date, $comment_date_gmt, $comment_content, $comment_karma, $comment_approved, $comment_agent, $comment_type, $comment_parent, $user_id) );
+	$data = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_karma', 'comment_approved', 'comment_agent', 'comment_type', 'comment_parent', 'user_id');
+	$wpdb->insert($wpdb->comments, $data);
 
 	$id = (int) $wpdb->insert_id;
 
-	if ( $comment_approved == 1)
+	if ( $comment_approved == 1 )
 		wp_update_comment_count($comment_post_ID);
 
 	$comment = get_comment($id);
@@ -1080,8 +1078,7 @@ function wp_update_comment($commentarr) {
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
 
 	// Escape data pulled from DB.
-	foreach ( (array) $comment as $key => $value )
-		$comment[$key] = $wpdb->escape($value);
+	$comment = $wpdb->escape($comment);
 
 	// Merge old and new fields with new fields overwriting old ones.
 	$commentarr = array_merge($comment, $commentarr);
@@ -1102,25 +1099,8 @@ function wp_update_comment($commentarr) {
 	else if ( 'approve' == $comment_approved )
 		$comment_approved = 1;
 
-	$wpdb->query( $wpdb->prepare("UPDATE $wpdb->comments SET
-			comment_content      = %s,
-			comment_author       = %s,
-			comment_author_email = %s,
-			comment_approved     = %s,
-			comment_karma        = %d,
-			comment_author_url   = %s,
-			comment_date         = %s,
-			comment_date_gmt     = %s
-		WHERE comment_ID = %d",
-			$comment_content,
-			$comment_author,
-			$comment_author_email,
-			$comment_approved,
-			$comment_karma,
-			$comment_author_url,
-			$comment_date,
-			$comment_date_gmt,
-			$comment_ID) );
+	$data = compact('comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt');
+	$wpdb->update($wpdb->comments, $data, compact('comment_ID'));
 
 	$rval = $wpdb->rows_affected;
 
@@ -1219,7 +1199,7 @@ function wp_update_comment_count_now($post_id) {
 
 	$old = (int) $post->comment_count;
 	$new = (int) $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1'", $post_id) );
-	$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET comment_count = %d WHERE ID = %d", $new, $post_id) );
+	$wpdb->update( $wpdb->posts, array('comment_count' => $new), array('ID' => $post_id) );
 
 	if ( 'page' == $post->post_type )
 		clean_page_cache( $post_id );
