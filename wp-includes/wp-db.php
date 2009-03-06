@@ -503,7 +503,7 @@ class wpdb {
 		$args = func_get_args();
 		$query = array_shift($args);
 		// If args were passed as an array, move them up
-		if ( is_array($args[0]) )
+		if ( isset($args[0]) && is_array($args[0]) )
 			$args = $args[0];
 		$query = str_replace("'%s'", '%s', $query); // in case someone mistakenly already singlequoted it
 		$query = str_replace('"%s"', '%s', $query); // doublequote unquoting
