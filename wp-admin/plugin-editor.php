@@ -91,10 +91,10 @@ default:
 
 	if ( ! $error ) {
 		$content = file_get_contents( $real_file );
-		
-		if ( 'php' == mb_substr( $real_file, mb_strrpos( $real_file, '.' ) + 1 ) ) {
+
+		if ( '.php' == substr( $real_file, strrpos( $real_file, '.' ) ) ) {
 			$functions = wp_doc_link_parse( $content );
-			
+
 			$docs_select = '<select name="docs-list" id="docs-list">';
 			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
 			foreach ( $functions as $function) {
@@ -102,7 +102,7 @@ default:
 			}
 			$docs_select .= '</select>';
 		}
-		
+
 		$content = htmlspecialchars( $content );
 		$codepress_lang = codepress_get_lang($real_file);
 	}

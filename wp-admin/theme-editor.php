@@ -83,19 +83,19 @@ default:
 
 	update_recently_edited($file);
 
-	if (!is_file($real_file))
+	if ( !is_file($real_file) )
 		$error = 1;
 
-	if (!$error && filesize($real_file) > 0) {
+	if ( !$error && filesize($real_file) > 0 ) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));
 
-		if ( 'php' == mb_substr( $real_file, mb_strrpos( $real_file, '.' ) + 1 ) ) {
+		if ( '.php' == substr( $real_file, strrpos( $real_file, '.' ) ) ) {
 			$functions = wp_doc_link_parse( $content );
-			
+
 			$docs_select = '<select name="docs-list" id="docs-list">';
 			$docs_select .= '<option value="">' . __( 'Function Name...' ) . '</option>';
-			foreach ( $functions as $function) {					
+			foreach ( $functions as $function ) {
 				$docs_select .= '<option value="' . urlencode( $function ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}
 			$docs_select .= '</select>';
