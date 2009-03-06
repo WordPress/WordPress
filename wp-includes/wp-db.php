@@ -718,7 +718,6 @@ class wpdb {
 			$formatted_fields[] = $form;
 		}
 		$sql = "INSERT INTO $table (`" . implode( '`,`', $fields ) . "`) VALUES ('" . implode( "','", $formatted_fields ) . "')";
-		error_log($sql);
 		return $this->query( $this->prepare( $sql, $data) );
 	}
 
@@ -764,7 +763,6 @@ class wpdb {
 		}
 
 		$sql = "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
-		error_log($sql);
 		return $this->query( $this->prepare( $sql, array_merge(array_values($data), array_values($where))) );
 	}
 

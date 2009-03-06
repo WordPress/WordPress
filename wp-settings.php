@@ -247,11 +247,14 @@ require (ABSPATH . WPINC . '/compat.php');
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/classes.php');
 
-$db_field_types = array( 'post_author' => '%d', 'post_date' => '%s', 'post_date_gmt' => '%s', 'post_content' => '%s', 'post_content_filtered' => '%s', 'post_title' => '%s',
-		'post_excerpt' => '%s', 'post_status' => '%s', 'post_type' => '%s', 'comment_status' => '%s', 'ping_status' => '%s', 'post_password' => '%s', 'post_name' => '%s',
-		'to_ping' => '%s', 'pinged' => '%s', 'post_modified' => '%s', 'post_modified_gmt' => '%s', 'post_parent' => '%d', 'menu_order' => '%d', 'guid' => '%s', 'term_id' => '%d',
-		'name' => '%s', 'slug' => '%s', 'term_group' => '%d', 'term_taxonomy_id' => '%d', 'description' => '%s', 'taxonomy' => '%s', 'parent' => '%d', 'count' => '%d',
-		'object_id' => '%d', 'term_order' => '%d');
+/**
+ * Format specifiers for DB columns. Columns not listed here default to %s.
+ * @since 2.8.0
+ */
+$db_field_types = array( 'post_author' => '%d', 'post_parent' => '%d', 'menu_order' => '%d', 'term_id' => '%d', 'term_group' => '%d', 'term_taxonomy_id' => '%d',
+	'parent' => '%d', 'count' => '%d','object_id' => '%d', 'term_order' => '%d', 'ID' => '%d', 'commment_ID' => '%d', 'comment_post_ID' => '%d', 'comment_parent' => '%d',
+	'user_id' => '%d', 'link_id' => '%d', 'link_owner' => '%d', 'link_rating' => '%d', 'option_id' => '%d', 'blog_id' => '%d', 'meta_id' => '%d', 'post_id' => '%d',
+	'user_status' => '%d', 'umeta_id' => '%d');
 
 require_wp_db();
 
