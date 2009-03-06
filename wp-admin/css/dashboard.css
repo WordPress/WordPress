@@ -210,7 +210,7 @@ div.postbox div.inside {
 }
 
 #the-comment-list .comment-item {
-	padding: 1em 10px 1em 70px;
+	padding: 1em 10px;
 	border-top: 1px solid;
 }
 
@@ -229,7 +229,7 @@ div.postbox div.inside {
 
 #the-comment-list .comment-item .avatar {
 	float: left;
-	margin-left: -60px;
+	margin: 0 10px 5px 0;
 }
 
 #the-comment-list .comment-item h4 {
@@ -394,3 +394,9 @@ a.rsswidget {
 	margin: 0 0 1.4em;
 	line-height: 1.4em;
 }
+
+.dashboard-comment-wrap {
+	overflow: hidden;
+	word-wrap: break-word;
+}
+

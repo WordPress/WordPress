@@ -550,6 +550,8 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
 			<?php echo get_avatar( $comment, 50 ); ?>
+
+			<div class="dashboard-comment-wrap">
 			<h4 class="comment-meta"><?php printf( __( 'From %1$s on %2$s%3$s' ), '<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link." ".$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?></h4>
 
 			<?php
@@ -566,6 +568,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				endswitch;
 				$type = wp_specialchars( $type );
 			?>
+			<div class="dashboard-comment-wrap">
 			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
 			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></h4>
 			<p class="comment-author"><?php comment_author_link(); ?></p>
@@ -581,7 +584,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				<div class="author-url"><?php echo attribute_escape( $comment->comment_author_url ); ?></div>
 				<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
 			</div>
-
+			</div>
 		</div>
 <?php
 }
