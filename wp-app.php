@@ -1200,9 +1200,7 @@ list($content_type, $content) = prep_atom_text_construct(get_the_content()); ?>
 <?php endif; ?>
 <?php } ?>
 	<link rel="edit" href="<?php $this->the_entry_url() ?>" />
-<?php foreach(get_the_category() as $category) { ?>
-	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->name?>" />
-<?php } ?>
+	<?php the_category_rss( 'atom' ); ?>
 <?php list($content_type, $content) = prep_atom_text_construct(get_the_excerpt()); ?>
 	<summary type="<?php echo $content_type ?>"><?php echo $content ?></summary>
 </entry>
