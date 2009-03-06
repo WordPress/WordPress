@@ -702,15 +702,23 @@ class wpdb {
 	 * @param array|string $format The format of the field values.
 	 * @return mixed Results of $this->query()
 	 */
-	function insert($table, $data, $format = '%s') {
-		$format = (array) $format;
+	function insert($table, $data, $format = null) {
+		global $db_field_types;
+
+		$formats = $format = (array) $format;
 		$fields = array_keys($data);
 		$formatted_fields = array();
-		foreach ( $data as $field ) {
-			$form = ( $form = array_shift($format) ) ? $form : $formatted_fields[0];
+		foreach ( $fields as $field ) {
+			if ( !empty($format) )
+				$form = ( $form = array_shift($formats) ) ? $form : $format[0];
+			elseif ( isset($db_field_types[$field]) )
+				$form = $db_field_types[$field];
+			else
+				$form = '%s';
 			$formatted_fields[] = $form;
 		}
 		$sql = "INSERT INTO $table (`" . implode( '`,`', $fields ) . "`) VALUES ('" . implode( "','", $formatted_fields ) . "')";
+		error_log($sql);
 		return $this->query( $this->prepare( $sql, $data) );
 	}
 
@@ -726,24 +734,37 @@ class wpdb {
 	 * @param array|string $where_format The format of the where field values.
 	 * @return mixed Results of $this->query()
 	 */
-	function update($table, $data, $where, $format = '%s', $where_format = '%s') {
+	function update($table, $data, $where, $format = null, $where_format = null) {
+		global $db_field_types;
+
 		if ( !is_array( $where ) )
 			return false;
 
 		$formats = $format = (array) $format;
 		$bits = $wheres = array();
-		foreach ( (array) array_keys($data) as $k ) {
-			$form = ( $form = array_shift($formats) ) ? $form : $format[0];
-			$bits[] = "`$k` = {$form}";
+		foreach ( (array) array_keys($data) as $field ) {
+			if ( !empty($format) )
+				$form = ( $form = array_shift($formats) ) ? $form : $format[0];
+			elseif ( isset($db_field_types[$field]) )
+				$form = $db_field_types[$field];
+			else
+				$form = '%s';
+			$bits[] = "`$field` = {$form}";
 		}
 
 		$where_formats = $where_format = (array) $where_format;
-		foreach ( $where as $c => $v ) {
-			$form = ( $form = array_shift($where_formats) ) ? $form : $where_format[0];
-			$wheres[] = "$c = {$form}";
+		foreach ( (array) array_keys($where) as $field ) {
+			if ( !empty($where_format) )
+				$form = ( $form = array_shift($where_formats) ) ? $form : $where_format[0];
+			elseif ( isset($db_field_types[$field]) )
+				$form = $db_field_types[$field];
+			else
+				$form = '%s';
+			$wheres[] = "$field = {$form}";
 		}
 
 		$sql = "UPDATE $table SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
+		error_log($sql);
 		return $this->query( $this->prepare( $sql, array_merge(array_values($data), array_values($where))) );
 	}
 

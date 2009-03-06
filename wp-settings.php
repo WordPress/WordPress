@@ -247,6 +247,12 @@ require (ABSPATH . WPINC . '/compat.php');
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/classes.php');
 
+$db_field_types = array( 'post_author' => '%d', 'post_date' => '%s', 'post_date_gmt' => '%s', 'post_content' => '%s', 'post_content_filtered' => '%s', 'post_title' => '%s',
+		'post_excerpt' => '%s', 'post_status' => '%s', 'post_type' => '%s', 'comment_status' => '%s', 'ping_status' => '%s', 'post_password' => '%s', 'post_name' => '%s',
+		'to_ping' => '%s', 'pinged' => '%s', 'post_modified' => '%s', 'post_modified_gmt' => '%s', 'post_parent' => '%d', 'menu_order' => '%d', 'guid' => '%s', 'term_id' => '%d',
+		'name' => '%s', 'slug' => '%s', 'term_group' => '%d', 'term_taxonomy_id' => '%d', 'description' => '%s', 'taxonomy' => '%s', 'parent' => '%d', 'count' => '%d',
+		'object_id' => '%d', 'term_order' => '%d');
+
 require_wp_db();
 
 if ( !empty($wpdb->error) )

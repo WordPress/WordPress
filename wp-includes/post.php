@@ -1499,20 +1499,14 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	}
 
 	// expected_slashed (everything!)
-	$fields = array( 'post_author' => '%d', 'post_date' => '%s', 'post_date_gmt' => '%s', 'post_content' => '%s', 'post_content_filtered' => '%s', 'post_title' => '%s',
-		'post_excerpt' => '%s', 'post_status' => '%s', 'post_type' => '%s', 'comment_status' => '%s', 'ping_status' => '%s', 'post_password' => '%s', 'post_name' => '%s',
-		'to_ping' => '%s', 'pinged' => '%s', 'post_modified' => '%s', 'post_modified_gmt' => '%s', 'post_parent' => '%d', 'menu_order' => '%d', 'guid' => '%s' );
-	$data = compact( array_keys( $fields) );
-	$data_formats = array_values( $fields );
+	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
 	$data = apply_filters('wp_insert_post_data', $data, $postarr);
 	$data = stripslashes_deep( $data );
-	error_log(var_export($data, true));
 	$where = array( 'ID' => $post_ID );
-	$where_formats = array('%d');
 
-	if ( $update ) {
+	if ($update) {
 		do_action( 'pre_post_update', $post_ID );
-		if ( false === $wpdb->update( $wpdb->posts, $data, $where, $data_formats, $where_formats ) ) {
+		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error )
 				return new WP_Error('db_update_error', __('Could not update post in the database'), $wpdb->last_error);
 			else
@@ -1528,7 +1522,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 				$data['ID'] = $import_id;
 			}
 		}
-		if ( false === $wpdb->insert( $wpdb->posts, $data, $data_formats ) ) {
+		if ( false === $wpdb->insert( $wpdb->posts, $data ) ) {
 			if ( $wp_error )
 				return new WP_Error('db_insert_error', __('Could not insert post into the database'), $wpdb->last_error);
 			else
