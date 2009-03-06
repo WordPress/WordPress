@@ -140,7 +140,7 @@ function retrieve_password() {
 		$key = wp_generate_password(20, false);
 		do_action('retrieve_password_key', $user_login, $key);
 		// Now insert the new md5 key into the db
-		$wpdb->query($wpdb->prepare("UPDATE $wpdb->users SET user_activation_key = %s WHERE user_login = %s", $key, $user_login));
+		$wpdb->update($wpdb->users, array('user_activation_key' => $key), array('user_login' => $user_login));
 	}
 	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
 	$message .= get_option('siteurl') . "\r\n\r\n";

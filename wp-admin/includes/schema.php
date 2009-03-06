@@ -310,9 +310,8 @@ function populate_options() {
 
 	// Set up a few options not to load by default
 	$fatoptions = array( 'moderation_keys', 'recently_edited', 'blacklist_keys' );
-	foreach ($fatoptions as $fatoption) :
-		$wpdb->query("UPDATE $wpdb->options SET `autoload` = 'no' WHERE option_name = '$fatoption'");
-	endforeach;
+	foreach ($fatoptions as $fatoption)
+		$wpdb->update( $wpdb->options, array('autoload' => 'no'), array('option_name' => $fatoption) );
 }
 
 /**

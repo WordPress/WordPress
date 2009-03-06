@@ -424,7 +424,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
 	global $wpdb;
 
 	$post_type = sanitize_post_field('post_type', $post_type, $post_id, 'db');
-	$return = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_type = %s WHERE ID = %d", $post_type, $post_id) );
+	$return = $wpdb->update($wpdb->posts, array('post_type' => $post_type), array('ID' => $post_id) );
 
 	if ( 'page' == $post_type )
 		clean_page_cache($post_id);

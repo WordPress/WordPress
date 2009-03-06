@@ -1020,19 +1020,20 @@ function wp_new_comment( $commentdata ) {
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
 
+	$status = '0';
 	switch ( $comment_status ) {
 		case 'hold':
-			$query = $wpdb->prepare("UPDATE $wpdb->comments SET comment_approved='0' WHERE comment_ID = %d LIMIT 1", $comment_id);
+			$status = '0';
 			break;
 		case 'approve':
-			$query = $wpdb->prepare("UPDATE $wpdb->comments SET comment_approved='1' WHERE comment_ID = %d LIMIT 1", $comment_id);
+			$status = '1';
 			if ( get_option('comments_notify') ) {
 				$comment = get_comment($comment_id);
 				wp_notify_postauthor($comment_id, $comment->comment_type);
 			}
 			break;
 		case 'spam':
-			$query = $wpdb->prepare("UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID = %d LIMIT 1", $comment_id);
+			$status = 'spam';
 			break;
 		case 'delete':
 			return wp_delete_comment($comment_id);
@@ -1041,7 +1042,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 			return false;
 	}
 
-	if ( !$wpdb->query($query) ) {
+	if ( !$wpdb->update( $wpdb->comments, array('comment_approved' => $status), array('comment_ID' => $comment_id) ) ) {
 		if ( $wp_error )
 			return new WP_Error('db_update_error', __('Could not update comment status'), $wpdb->last_error);
 		else
@@ -1350,7 +1351,7 @@ function do_trackbacks($post_id) {
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
 	if ( empty($to_ping) ) {
-		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET to_ping = '' WHERE ID = %d", $post_id) );
+		$wpdb->update($wpdb->posts, array('to_ping' => ''), array('ID' => $post_id) ); 
 		return;
 	}
 

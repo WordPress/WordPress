@@ -517,7 +517,8 @@ function update_option( $option_name, $newvalue ) {
 		wp_cache_set( $option_name, $newvalue, 'options' );
 	}
 
-	$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->options SET option_value = %s WHERE option_name = %s", $newvalue, $option_name ) );
+	$wpdb->update($wpdb->options, array('option_value' => $newvalue), array('option_name' => $option_name) );
+
 	if ( $wpdb->rows_affected == 1 ) {
 		do_action( "update_option_{$option_name}", $oldvalue, $_newvalue );
 		return true;
@@ -584,7 +585,7 @@ function add_option( $name, $value = '', $deprecated = '', $autoload = 'yes' ) {
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
-	$wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES (%s, %s, %s)", $name, $value, $autoload ) );
+	$wpdb->insert($wpdb->options, array('option_name' => $name, 'option_value' => $value, 'autoload' => $autoload) );
 
 	do_action( "add_option_{$name}", $name, $value );
 	return;
@@ -1090,12 +1091,11 @@ function do_enclose( $content, $post_ID ) {
 		if ( $url != '' && !$wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, $url . '%' ) ) ) {
 			if ( $headers = wp_get_http_headers( $url) ) {
 				$len = (int) $headers['content-length'];
-				$type = $wpdb->escape( $headers['content-type'] );
+				$type = $headers['content-type'];
 				$allowed_types = array( 'video', 'audio' );
 				if ( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
 					$meta_value = "$url\n$len\n$type\n";
-					$wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->postmeta` ( `post_id` , `meta_key` , `meta_value` )
-					VALUES ( %d, 'enclosure' , %s)", $post_ID, $meta_value ) );
+					$wpdb->insert($wpdb->postmeta, array('post_id' => $post_ID, 'meta_key' => 'enclosure', 'meta_value' => $meta_value) );
 				}
 			}
 		}

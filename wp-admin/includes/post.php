@@ -756,7 +756,7 @@ function _relocate_children( $old_ID, $new_ID ) {
 	global $wpdb;
 	$old_ID = (int) $old_ID;
 	$new_ID = (int) $new_ID;
-	return $wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_parent = %d WHERE post_parent = %d", $new_ID, $old_ID) );
+	return $wpdb->update($wpdb->posts, array('post_parent' => $new_ID), array('post_parent' => $old_ID) );
 }
 
 /**
