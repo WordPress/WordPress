@@ -303,6 +303,7 @@ foreach ($arc_result as $arc_row) {
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"></th>
 	<th scope="col"><?php /* translators: column name in media */ echo _x('Media', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ echo _x('Author', 'media column name'); ?></th>
 	<th scope="col"><?php /* translators: column name in media */ echo _x('Date Added', 'media column name'); ?></th>
 </tr>
 </thead>
@@ -312,6 +313,7 @@ foreach ($arc_result as $arc_row) {
 	<th scope="col" class="check-column"><input type="checkbox" /></th>
 	<th scope="col"></th>
 	<th scope="col"><?php /* translators: column name in media */ echo _x('Media', 'media column name'); ?></th>
+	<th scope="col"><?php /* translators: column name in media */ echo _x('Author', 'media column name'); ?></th>
 	<th scope="col"><?php /* translators: column name in media */ echo _x('Date Added', 'media column name'); ?></th>
 </tr>
 </tfoot>
@@ -331,10 +333,10 @@ foreach ($arc_result as $arc_row) {
 			<a href="media.php?action=edit&amp;attachment_id=<?php echo $post->ID; ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $thumb; ?></a>
 <?php	} ?></td>
 
-		<td><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
+		<td class="media column-media"><strong><a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo attribute_escape(sprintf(__('Edit "%s"'), $att_title)); ?>"><?php echo $att_title; ?></a></strong><br />
 		<?php echo strtoupper(preg_replace('/^.*?\.(\w+)$/', '$1', get_attached_file($post->ID))); ?>
 
-		<p>
+		<div class="row-actions">
 		<?php
 		$actions = array();
 		if ( current_user_can('edit_post', $post->ID) )
@@ -352,8 +354,8 @@ foreach ($arc_result as $arc_row) {
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
 			echo "<span class='$action'>$link$sep</span>";
 		} ?>
-		</p></td>
-
+		</div></td>
+		<td class="author column-author"><?php $author = get_userdata($post->post_author); echo $author->display_name; ?></td>
 <?php	if ( '0000-00-00 00:00:00' == $post->post_date && 'date' == $column_name ) {
 			$t_time = $h_time = __('Unpublished');
 		} else {
@@ -369,7 +371,7 @@ foreach ($arc_result as $arc_row) {
 				$h_time = mysql2date(__('Y/m/d'), $m_time);
 			}
 		} ?>
-		<td><?php echo $h_time ?></td>
+		<td class="date column-date"><?php echo $h_time ?></td>
 	</tr>
 <?php	}
 
