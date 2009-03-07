@@ -356,6 +356,41 @@ if ( !defined('PLUGINDIR') )
 	define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
 
 /**
+ * Allows for the mu-plugins directory to be moved from the default location.
+ *
+ * @since 2.8.0
+ */
+if ( !defined('WPMU_PLUGIN_DIR') )
+	define( 'WPMU_PLUGIN_DIR', WP_CONTENT_DIR . '/mu-plugins' ); // full path, no trailing slash
+
+/**
+ * Allows for the mu-plugins directory to be moved from the default location.
+ *
+ * @since 2.8.0
+ */
+if ( !defined('WPMU_PLUGIN_URL') )
+	define( 'WPMU_PLUGIN_URL', WP_CONTENT_URL . '/mu-plugins' ); // full url, no trailing slash
+
+/**
+ * Allows for the mu-plugins directory to be moved from the default location.
+ *
+ * @since 2.8.0
+ */
+if ( !defined( 'MUPLUGINDIR' ) ) 
+	define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH.  For back compat.
+
+if ( is_dir( WPMU_PLUGIN_DIR ) ) {
+	if ( $dh = opendir( WPMU_PLUGIN_DIR ) ) {
+		while ( ( $plugin = readdir( $dh ) ) !== false ) {
+			if ( substr( $plugin, -4 ) == '.php' ) {
+				include_once( WPMU_PLUGIN_DIR . '/' . $plugin );
+			}
+		}
+	}
+}
+do_action('muplugins_loaded');
+
+/**
  * Used to guarantee unique hash cookies
  * @since 1.5
  */
