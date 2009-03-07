@@ -603,6 +603,15 @@ function wp_dashboard_incoming_links_output() {
 	@extract( @$widgets['dashboard_incoming_links'], EXTR_SKIP );
 	$rss = fetch_feed( $url );
 
+	if ( is_wp_error($rss) ) {
+		if ( is_admin() || current_user_can('manage_options') ) {
+			echo '<p>';
+			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
+			echo '</p>';
+		}
+		return;
+	}
+
 	if ( !$rss->get_item_quantity() ) {
 		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. It has found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
 		return;
@@ -740,7 +749,7 @@ function wp_dashboard_plugins_output() {
 	}
 
 	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) {
-		if ( !$$feed->get_item_quantity() )
+		if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
 			continue;
 
 		$items = $$feed->get_items(0, 5);
@@ -898,7 +907,10 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		// title is optional.  If black, fill it if possible
 		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
 			$rss = fetch_feed($widget_options[$widget_id]['url']);
-			$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
+			if ( ! is_wp_error($rss) )
+				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
+			else
+				$widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
 	}

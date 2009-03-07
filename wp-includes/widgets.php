@@ -1541,29 +1541,30 @@ function wp_widget_rss($args, $widget_args = 1) {
 		return;
 
 	$url = $options[$number]['url'];
-	while ( strstr($url, 'http') != $url )
+	while ( stristr($url, 'http') != $url )
 		$url = substr($url, 1);
 	if ( empty($url) )
 		return;
 
 	$rss = fetch_feed($url);
-	$link = clean_url(strip_tags($rss->get_permalink()));
-	while ( strstr($link, 'http') != $link )
-		$link = substr($link, 1);
-	$desc = attribute_escape(strip_tags(html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
 	$title = $options[$number]['title'];
-	if ( empty($title) )
-		$title = htmlentities(strip_tags($rss->get_title()));
+	$desc = '';
+	$link = '';
+	if ( ! is_wp_error($rss) ) {
+		$desc = attribute_escape(strip_tags(html_entity_decode($rss->get_description(), ENT_QUOTES, get_option('blog_charset'))));
+		if ( empty($title) )
+			$title = htmlentities(strip_tags($rss->get_title()));
+		$link = clean_url(strip_tags($rss->get_permalink()));
+		while ( stristr($link, 'http') != $link )
+			$link = substr($link, 1);
+	}
 	if ( empty($title) )
 		$title = $desc;
 	if ( empty($title) )
 		$title = __('Unknown Feed');
 	$title = apply_filters('widget_title', $title );
 	$url = clean_url(strip_tags($url));
-	if ( file_exists(dirname(__FILE__) . '/rss.png') )
-		$icon = str_replace(ABSPATH, site_url() . '/', dirname(__FILE__)) . '/rss.png';
-	else
-		$icon = includes_url('images/rss.png');
+	$icon = includes_url('images/rss.png');
 	$title = "<a class='rsswidget' href='$url' title='" . attribute_escape(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 
 	echo $before_widget;
@@ -1584,12 +1585,10 @@ function wp_widget_rss($args, $widget_args = 1) {
  */
 function wp_widget_rss_output( $rss, $args = array() ) {
 	if ( is_string( $rss ) ) {
-		if ( !$rss = fetch_feed($rss) )
-			return;
+		$rss = fetch_feed($rss);
 	} elseif ( is_array($rss) && isset($rss['url']) ) {
 		$args = $rss;
-		if ( !$rss = fetch_feed($rss['url']) )
-			return;
+		$rss = fetch_feed($rss['url']);
 	} elseif ( !is_object($rss) ) {
 		return;
 	}
@@ -1622,7 +1621,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	echo '<ul>';
 	foreach ( $rss->get_items(0, $items) as $item ) {
 		$link = $item->get_link();
-		while ( strstr($link, 'http') != $link )
+		while ( stristr($link, 'http') != $link )
 			$link = substr($link, 1);
 		$link = clean_url(strip_tags($link));
 		$title = attribute_escape(strip_tags($item->get_title()));
@@ -1854,12 +1853,12 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 		$rss = fetch_feed($url);
 		$error = false;
 		$link = '';
-		if ( !is_object($rss) ) {
+		if ( is_wp_error($rss) ) {
 			$url = wp_specialchars(__('Error: could not find an RSS or ATOM feed at that URL.'), 1);
 			$error = sprintf(__('Error in RSS %1$d'), $widget_number );
 		} else {
 			$link = clean_url(strip_tags($rss->get_permalink()));
-			while ( strstr($link, 'http') != $link )
+			while ( stristr($link, 'http') != $link )
 				$link = substr($link, 1);
 		}
 	}
