@@ -212,8 +212,9 @@ $active_plugins = array();
 $inactive_plugins = array();
 $recent_plugins = array();
 $recently_activated = (array) get_option('recently_activated');
+set_transient( 'plugin_slugs', array_keys($all_plugins), 86400 );
 
-//Clean out any plugins which were deactivated over a week ago.
+// Clean out any plugins which were deactivated over a week ago.
 foreach ( $recently_activated as $key => $time )
 	if ( $time + (7*24*60*60) < time() ) //1 week
 		unset($recently_activated[ $key ]);

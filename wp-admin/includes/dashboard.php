@@ -734,12 +734,48 @@ function wp_dashboard_plugins_output() {
 	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
 	$updated = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/updated/' );
 
+	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
+		$plugin_slugs = array_keys( get_plugins() );
+		set_transient( 'plugin_slugs', $plugin_slugs, 86400 );
+	}
+
 	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins'), 'updated' => __('Recently Updated') ) as $feed => $label ) {
 		if ( !$$feed->get_item_quantity() )
 			continue;
 
 		$items = $$feed->get_items(0, 5);
-		$item_key = array_rand($items);
+
+		// Pick a random, non-installed plugin
+		while ( true ) {
+			// Abort this foreach loop iteration if there's no plugins left of this type
+			if ( 0 == count($items) )
+				continue 2;
+
+			$item_key = array_rand($items);
+			$item = $items[$item_key];
+
+			list($link, $frag) = explode( '#', $item->get_link() );
+
+			$link = clean_url($link);
+			if ( preg_match( '|/([^/]+?)/?$|', $link, $matches ) )
+				$slug = $matches[1];
+			else {
+				unset( $items[$item_key] );
+				continue;
+			}
+
+			// Is this random plugin's slug already installed? If so, try again.
+			reset( $plugin_slugs );
+			foreach ( $plugin_slugs as $plugin_slug ) {
+				if ( $slug == substr( $plugin_slug, 0, strlen( $slug ) ) ) {
+					unset( $items[$item_key] );
+					continue 2;
+				}
+			}
+
+			// If we get to this point, then the random plugin isn't installed and we can stop the while().
+			break;
+		}
 
 		// Eliminate some common badly formed plugin descriptions
 		while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
@@ -747,8 +783,6 @@ function wp_dashboard_plugins_output() {
 
 		if ( !isset($items[$item_key]) )
 			continue;
-
-		$item = $items[$item_key];
 
 		// current bbPress feed item titles are: user on "topic title"
 		if ( preg_match( '/&quot;(.*)&quot;/s', $item->get_title(), $matches ) )
@@ -758,14 +792,6 @@ function wp_dashboard_plugins_output() {
 		$title = wp_specialchars( $title );
 
 		$description = wp_specialchars( strip_tags(html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
-
-		list($link, $frag) = explode( '#', $item->get_link() );
-
-		$link = clean_url($link);
-		if( preg_match('|/([^/]+?)/?$|', $link, $matches) )
-			$slug = $matches[1];
-		else
-			$slug = '';
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
 							'&amp;TB_iframe=true&amp;width=600&amp;height=800';
