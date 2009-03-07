@@ -1382,6 +1382,7 @@ function get_status_header_desc( $code ) {
 		$wp_header_to_desc = array(
 			100 => 'Continue',
 			101 => 'Switching Protocols',
+			102 => 'Processing',
 
 			200 => 'OK',
 			201 => 'Created',
@@ -1390,6 +1391,8 @@ function get_status_header_desc( $code ) {
 			204 => 'No Content',
 			205 => 'Reset Content',
 			206 => 'Partial Content',
+			207 => 'Multi-Status',
+			226 => 'IM Used',
 
 			300 => 'Multiple Choices',
 			301 => 'Moved Permanently',
@@ -1397,10 +1400,12 @@ function get_status_header_desc( $code ) {
 			303 => 'See Other',
 			304 => 'Not Modified',
 			305 => 'Use Proxy',
+			306 => 'Reserved',
 			307 => 'Temporary Redirect',
 
 			400 => 'Bad Request',
 			401 => 'Unauthorized',
+			402 => 'Payment Required',
 			403 => 'Forbidden',
 			404 => 'Not Found',
 			405 => 'Method Not Allowed',
@@ -1416,13 +1421,20 @@ function get_status_header_desc( $code ) {
 			415 => 'Unsupported Media Type',
 			416 => 'Requested Range Not Satisfiable',
 			417 => 'Expectation Failed',
+			422 => 'Unprocessable Entity',
+			423 => 'Locked',
+			424 => 'Failed Dependency',
+			426 => 'Upgrade Required',
 
 			500 => 'Internal Server Error',
 			501 => 'Not Implemented',
 			502 => 'Bad Gateway',
 			503 => 'Service Unavailable',
 			504 => 'Gateway Timeout',
-			505 => 'HTTP Version Not Supported'
+			505 => 'HTTP Version Not Supported',
+			506 => 'Variant Also Negotiates',
+			507 => 'Insufficient Storage',
+			510 => 'Not Extended'
 		);
 	}
 
