@@ -1765,6 +1765,12 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	$show_author    = (int) $show_author;
 	$show_date      = (int) $show_date;
 
+	if ( !empty($error) ) {
+		$message = sprintf( __('Error in RSS Widget: %s'), $error);
+		echo "<div class='error'><p>$message</p></div>";
+		echo "<p class='hide-if-no-js'><strong>$message</strong></p>";
+	}
+
 	if ( $inputs['url'] ) :
 ?>
 	<p>
@@ -1854,8 +1860,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 		$error = false;
 		$link = '';
 		if ( is_wp_error($rss) ) {
-			$url = wp_specialchars(__('Error: could not find an RSS or ATOM feed at that URL.'), 1);
-			$error = sprintf(__('Error in RSS %1$d'), $widget_number );
+			$error = $rss->get_error_message();
 		} else {
 			$link = clean_url(strip_tags($rss->get_permalink()));
 			while ( stristr($link, 'http') != $link )
