@@ -514,9 +514,10 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
 }
 
 /**
- * Retrieve img HTML content for an image to represent an attachment.
+ * Get an HTML img element representing an image attachment
  *
- * @see wp_get_attachment_image_src() Returns img HTML element based on array.
+ * @uses apply_filters() Calls 'wp_get_attachment_image_attributes' hook on attributes array
+ * @uses wp_get_attachment_image_src() Gets attachment file URL and dimensions
  * @since 2.5.0
  *
  * @param int $attachment_id Image attachment ID.
@@ -533,7 +534,20 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		$hwstring = image_hwstring($width, $height);
 		if ( is_array($size) )
 			$size = join('x', $size);
-		$html = '<img src="'.attribute_escape($src).'" '.$hwstring.'class="attachment-'.attribute_escape($size).'" alt="" />';
+		$attachment =& get_post($attachment_id);
+		$attr = array(
+			'src'	=> $src,
+			'class'	=> "attachment-$size",
+			'alt'	=> trim(strip_tags( $attachment->post_excerpt )),
+			'title'	=> trim(strip_tags( $attachment->post_title )),
+			);
+		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
+		$attr = array_map( 'attribute_escape', $attr );
+		$html = rtrim("<img $hwstring");
+		foreach ( $attr as $name => $value ) {
+			$html .= " $name=" . '"' . $value . '"';
+		}
+		$html .= ' />';
 	}
 
 	return $html;
