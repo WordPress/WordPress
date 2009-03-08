@@ -70,7 +70,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", false, '1.6.1' );
 	$scripts->add_data( 'sack', 'group', 1 );
 
-	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20090102' );
+	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", false, '20090307' );
 	$scripts->localize( 'quicktags', 'quicktagsL10n', array(
 		'quickLinks' => __('(Quick Links)'),
 		'wordLookup' => __('Enter a word to look up:'),
