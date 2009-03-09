@@ -1,6 +1,6 @@
 <?php
 
-require_once (ABSPATH . WPINC . '/simplepie.inc');
+require_once (ABSPATH . WPINC . '/class-simplepie.php');
 
 class WP_Feed_Cache extends SimplePie_Cache {
 	/**
