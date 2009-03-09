@@ -705,7 +705,7 @@ EOD;
 		extract($entry);
 
 		$post_title = $parsed->title[1];
-		$post_content = $parsed->content[1];
+		$post_content = $parsed->summary[1];
 		$pubtimes = $this->get_publish_time($parsed->updated);
 		$post_modified = $pubtimes[0];
 		$post_modified_gmt = $pubtimes[1];
