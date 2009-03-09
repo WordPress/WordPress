@@ -815,7 +815,9 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = 'date';
 	}
 
-	wp("post_type=post&what_to_show=posts$post_status_q&posts_per_page=15&order=$order&orderby=$orderby");
+	$posts_per_page = apply_filters('edit_posts_per_page', 15);
+
+	wp("post_type=post&what_to_show=posts$post_status_q&posts_per_page=$posts_per_page&order=$order&orderby=$orderby");
 
 	return array($post_stati, $avail_post_stati);
 }
