@@ -1597,8 +1597,9 @@ jQuery(function($){
 	<td class="field">
 		<select id="orderby" name="orderby">
 			<option value="menu_order" selected="selected"><?php _e('Menu order'); ?></option>
-			<option value="post_name"><?php _e('Name'); ?></option>
+			<option value="title"><?php _e('Title'); ?></option>
 			<option value="ID"><?php _e('Date/Time'); ?></option>
+			<option value="rand"><?php _e('Random'); ?></option>
 		</select>
 	</td>
 	</tr>
