@@ -478,6 +478,8 @@ EOD;
 		// this could affect our ability to send back the right headers
 		@wp_set_post_categories($postID, $post_category);
 
+		do_action( 'atompub_create_post', $postID, $entry );
+
 		$output = $this->get_entry($postID);
 
 		log_app('function',"create_post($postID)");
@@ -555,6 +557,8 @@ EOD;
 		if (!$result) {
 			$this->internal_error(__('For some strange yet very annoying reason, this post could not be edited.'));
 		}
+
+		do_action( 'atompub_put_post', $ID, $parsed );
 
 		log_app('function',"put_post($postID)");
 		$this->ok();
