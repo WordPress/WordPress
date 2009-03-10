@@ -133,17 +133,56 @@ foreach ( $offset_range as $offset ) {
 <?php 
 else: // looks like we can do nice timezone selection!
 $current_offset = get_option('gmt_offset');
+$tzstring = get_option('timezone_string');
+if (empty($tzstring)) { // set the Etc zone if no timezone string exists
+	if ($current_offset < 0) $offnum = ceil($current_offset);
+	else $offnum = floor($current_offset);
+	$tzstring = 'Etc/GMT' . (($offnum >= 0) ? '+' : '') . $offnum;
+}
 ?>
 <th scope="row"><label for="timezone_string"><?php _e('Timezone') ?></label></th>
 <td>
 
 <select id="timezone_string" name="timezone_string">
-<?php echo wp_timezone_choice(get_option('timezone_string')); ?>
+<?php echo wp_timezone_choice($tzstring); ?>
 </select>
 
 <span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n(__('Y-m-d G:i:s'), false, 'gmt')); ?></span>
 <?php if (get_option('timezone_string')) : ?>
-	<span id="local-time"><?php printf(__('Current time in %1$s is <code>%2$s</code>'), get_option('timezone_string'), date_i18n(__('Y-m-d G:i:s'))); ?></span>
+	<span id="local-time"><?php printf(__('Current time in %1$s is <code>%2$s</code>'), get_option('timezone_string'), date_i18n(__('Y-m-d G:i:s'))); ?>
+	<br />
+	<?php
+	_e('This timezone is currently in ');
+	$now = localtime(time(),true);
+	if ($now['tm_isdst']) _e('daylight savings');
+	else _e('standard');
+	_e(' time.');
+	?>
+	<br />
+	<?php
+	if (function_exists('timezone_transitions_get') && $tzstring) { 
+		$dateTimeZoneSelected = new DateTimeZone($tzstring);
+		foreach (timezone_transitions_get($dateTimeZoneSelected) as $tr) {
+			if ($tr['ts'] > time()) {
+			    	$found = true;
+				break;
+			}
+		}
+	
+		if ($found) {
+			_e('This timezone switches to ');
+			$tr['isdst'] ? _e('daylight savings time') : _e('standard time');
+			_e(' on: ');
+			$tz = new DateTimeZone($tzstring);
+			$d = new DateTime( "@{$tr['ts']}" );
+			$d->setTimezone($tz);
+			echo date_i18n(__('Y-m-d \a\t g:i a T'),$d->format('U'));
+		} else {
+			_e('This timezone does not observe daylight savings time.');
+		}
+	}
+	?>
+	</span>
 <?php endif; ?>
 <br/>
 <span class="setting-description"><?php _e('Choose a city in the same timezone as you.'); ?></span>

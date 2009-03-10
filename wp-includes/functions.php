@@ -3108,7 +3108,7 @@ function wp_timezone_choice($selectedzone) {
 		$zonen[$i]['subcity'] = isset($zone[2]) ? $zone[2] : '';
 		$i++;
 	}
-
+	
 	asort($zonen);
 	$structure = '';
 	$pad = '&nbsp;&nbsp;&nbsp;';
@@ -3133,9 +3133,9 @@ function wp_timezone_choice($selectedzone) {
 			if ( !empty($subcity) ) {
 				$city = $city . '/'. $subcity;
 			}
-			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected "':'')." value=\"".($continent.'/'.$city)."\">$pad".str_replace('_',' ',$city)."</option>\n"; //Timezone
+			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected"':'')." value=\"".($continent.'/'.$city)."\">$pad".str_replace('_',' ',$city)."</option>\n"; //Timezone
 		} else {
-			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected "':'')." value=\"".$continent."\">".$continent."</option>\n"; //Timezone
+			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected"':'')." value=\"".$continent."\">".$continent."</option>\n"; //Timezone
 		}
 	}
 
