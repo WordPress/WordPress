@@ -739,6 +739,13 @@ function wp_delete_comment($comment_id) {
 	if ( ! $wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id) ) )
 		return false;
 
+	// Move children up a level.
+	$children = $wpdb->get_col( $wpdb->prepare("SELECT comment_ID FROM $wpdb->comments WHERE comment_parent = %d", $comment_id) );
+	if ( !empty($children) ) {
+		$wpdb->update($wpdb->comments, array('comment_parent' => $comment->comment_parent), array('comment_parent' => $comment_id));
+		clean_comment_cache($children);
+	}
+
 	$post_id = $comment->comment_post_ID;
 	if ( $post_id && $comment->comment_approved == 1 )
 		wp_update_comment_count($post_id);
@@ -1546,10 +1553,11 @@ function weblog_ping($server = '', $path = '') {
  * @package WordPress
  * @subpackage Cache
  *
- * @param int $id Comment ID to remove from cache
+ * @param int|array $id Comment ID or array of comment IDs to remove from cache
  */
-function clean_comment_cache($id) {
-	wp_cache_delete($id, 'comment');
+function clean_comment_cache($ids) {
+	foreach ( (array) $ids as $id )
+		wp_cache_delete($id, 'comment');
 }
 
 /**
