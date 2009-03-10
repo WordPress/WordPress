@@ -739,67 +739,70 @@ function wp_widget_pages_control() {
 }
 
 /**
- * Display links widget.
- *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- */
-function wp_widget_links($args) {
-	extract($args, EXTR_SKIP);
-
-	$link_options = get_option('widget_links');
-	$show_description = isset($link_options['description']) ? $link_options['description'] : false;
-	$show_name = isset($link_options['name']) ? $link_options['name'] : false;
-	$show_rating = isset($link_options['rating']) ? $link_options['rating'] : false;
-	$show_images = isset($link_options['images']) ? $link_options['images'] : true;
-
-	$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
-	wp_list_bookmarks(apply_filters('widget_links_args', array(
-		'title_before' => $before_title, 'title_after' => $after_title,
-		'category_before' => $before_widget, 'category_after' => $after_widget,
-		'show_images' => $show_images, 'show_description' => $show_description,
-		'show_name' => $show_name, 'show_rating' => $show_rating,
-		'class' => 'linkcat widget'
-	)));
-}
-
-/**
- * Display and process links widget options form.
+ * Links widget class
  *
  * @since 2.8.0
  */
-function wp_widget_links_control() {
-	$options = $newoptions = get_option('widget_links');
+class WP_Widget_Links extends WP_Widgets {
+	
+	function widget( $args, $instance ) {
+		extract($args, EXTR_SKIP);
 
-	//Defaults
-	if ( ! $newoptions )
-		$newoptions = array( 'images' => true, 'name' => true, 'description' => false, 'rating' => false);
+		$show_description = isset($instance['description']) ? $instance['description'] : false;
+		$show_name = isset($instance['name']) ? $instance['name'] : false;
+		$show_rating = isset($instance['rating']) ? $instance['rating'] : false;
+		$show_images = isset($instance['images']) ? $instance['images'] : true;
+	
+		$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
+		wp_list_bookmarks(apply_filters('widget_links_args', array(
+			'title_before' => $before_title, 'title_after' => $after_title,
+			'category_before' => $before_widget, 'category_after' => $after_widget,
+			'show_images' => $show_images, 'show_description' => $show_description,
+			'show_name' => $show_name, 'show_rating' => $show_rating,
+			'class' => 'linkcat widget'
+		)));
+	}
+	
+	function update( $new_instance, $old_instance ) {
+		if( !isset($new_instance['submit']) ) // user clicked cancel?
+			return false;
 
-	if ( isset($_POST['links-submit']) ) {
-		$newoptions['description'] = isset($_POST['links-description']);
-		$newoptions['name'] = isset($_POST['links-name']);
-		$newoptions['rating'] = isset($_POST['links-rating']);
-		$newoptions['images'] = isset($_POST['links-images']);
+		return $new_instance;
 	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_links', $options);
-	}
+	
+	function form( $instance ) {
+
+		//Defaults
+		$instance = wp_parse_args( (array) $instance, array( 'images' => true, 'name' => true, 'description' => false, 'rating' => false) );
+/*
+		if ( isset($_POST['links-submit']) ) {
+			$newoptions = array();
+			$newoptions['description'] = isset($_POST['links-description']);
+			$newoptions['name'] = isset($_POST['links-name']);
+			$newoptions['rating'] = isset($_POST['links-rating']);
+			$newoptions['images'] = isset($_POST['links-images']);
+
+			if ( $instance != $newoptions ) {
+				$instance = $newoptions;
+				update_option('widget_links', $instance);
+			}
+		}
+*/
 ?>
-			<p>
-				<label for="links-images"><input class="checkbox" type="checkbox" <?php checked($options['images'], true) ?> id="links-images" name="links-images" /> <?php _e('Show Link Image'); ?></label>
-				<br />
-				<label for="links-name"><input class="checkbox" type="checkbox" <?php checked($options['name'], true) ?> id="links-name" name="links-name" /> <?php _e('Show Link Name'); ?></label>
-				<br />
-				<label for="links-description"><input class="checkbox" type="checkbox" <?php checked($options['description'], true) ?> id="links-description" name="links-description" /> <?php _e('Show Link Description'); ?></label>
-				<br />
-				<label for="links-rating"><input class="checkbox" type="checkbox" <?php checked($options['rating'], true) ?> id="links-rating" name="links-rating" /> <?php _e('Show Link Rating'); ?></label>
-			</p>
-			<input type="hidden" id="links-submit" name="links-submit" value="1" />
+		<p>
+		<label for="<?php echo $this->get_field_id('images'); ?>">
+		<input class="checkbox" type="checkbox" <?php checked($instance['images'], true) ?> id="<?php echo $this->get_field_id('images'); ?>" name="<?php echo $this->get_field_name('images'); ?>" /> <?php _e('Show Link Image'); ?></label><br />
+		<label for="<?php echo $this->get_field_id('name'); ?>">
+		<input class="checkbox" type="checkbox" <?php checked($instance['name'], true) ?> id="<?php echo $this->get_field_id('name'); ?>" name="<?php echo $this->get_field_name('name'); ?>" /> <?php _e('Show Link Name'); ?></label><br />
+		<label for="<?php echo $this->get_field_id('description'); ?>">
+		<input class="checkbox" type="checkbox" <?php checked($instance['description'], true) ?> id="<?php echo $this->get_field_id('description'); ?>" name="<?php echo $this->get_field_name('description'); ?>" /> <?php _e('Show Link Description'); ?></label><br />
+		<label for="<?php echo $this->get_field_id('rating'); ?>">
+		<input class="checkbox" type="checkbox" <?php checked($instance['rating'], true) ?> id="<?php echo $this->get_field_id('rating'); ?>" name="<?php echo $this->get_field_name('rating'); ?>" /> <?php _e('Show Link Rating'); ?></label>
+		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
+		</p>
 <?php
+	}
 }
-
 
 /**
  * Display search widget.
@@ -1970,9 +1973,9 @@ function wp_widgets_init() {
 	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $widget_ops);
 	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control' );
 
-	$widget_ops = array('classname' => 'widget_links', 'description' => __( "Your blogroll") );
-	wp_register_sidebar_widget('links', __('Links'), 'wp_widget_links', $widget_ops);
-	wp_register_widget_control('links', __('Links'), 'wp_widget_links_control' );
+	$widget_ops = array('description' => __( "Your blogroll" ) );
+	$wp_widget_links = new WP_Widget_Links('links', __('Links'), $widget_ops);
+	$wp_widget_links->register();
 
 	$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
 	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
