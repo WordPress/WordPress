@@ -3094,11 +3094,15 @@ function wp_timezone_supported() {
  *
  */
 function wp_timezone_choice($selectedzone) {
+	$continents = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc');
+
 	$all = timezone_identifiers_list();
 
 	$i = 0;
 	foreach ( $all as $zone ) {
 		$zone = explode('/',$zone);
+		if ( ! in_array($zone[0], $continents) )
+			continue;
 		$zonen[$i]['continent'] = isset($zone[0]) ? $zone[0] : '';
 		$zonen[$i]['city'] = isset($zone[1]) ? $zone[1] : '';
 		$zonen[$i]['subcity'] = isset($zone[2]) ? $zone[2] : '';
@@ -3109,14 +3113,10 @@ function wp_timezone_choice($selectedzone) {
 	$structure = '';
 	$pad = '&nbsp;&nbsp;&nbsp;';
 
-	$continents = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc');
-
 	if ( empty($selectedzone) )
 		$structure .= '<option selected="selected" value="">' . __('Select a city') . "</option>\n";
 	foreach ( $zonen as $zone ) {
 		extract($zone);
-		if ( ! in_array($continent, $continents) )
-			continue;
 		if ( empty($selectcontinent) && !empty($city) ) {
 			$selectcontinent = $continent;
 			$structure .= '<optgroup label="'.$continent.'">' . "\n"; // continent
