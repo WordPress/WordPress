@@ -336,11 +336,11 @@ function get_the_category_rss($type = 'rss') {
 
 	foreach ( $cat_names as $cat_name ) {
 		if ( 'rdf' == $type )
-			$the_list .= "\n\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
+			$the_list .= "\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
 		elseif ( 'atom' == $type )
 			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', attribute_escape( apply_filters( 'get_bloginfo_rss', get_bloginfo( 'url' ) ) ), attribute_escape( $cat_name ) );
 		else
-			$the_list .= "\n\t\t<category><![CDATA[" . html_entity_decode( $cat_name, ENT_COMPAT, get_option('blog_charset') ) . "]]></category>\n";
+			$the_list .= "\t\t<category><![CDATA[" . html_entity_decode( $cat_name, ENT_COMPAT, get_option('blog_charset') ) . "]]></category>\n";
 	}
 
 	return apply_filters('the_category_rss', $the_list, $type);
