@@ -203,4 +203,6 @@ add_action('edit_post', 'wp_check_for_changed_slugs');
 add_action('edit_form_advanced', 'wp_remember_old_slug');
 add_action('init', '_show_post_preview');
 
+add_filter('pre_option_gmt_offset','wp_timezone_override_offset');
+
 ?>

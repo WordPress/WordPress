@@ -3049,5 +3049,96 @@ function update_site_option( $key, $value ) {
 	return update_option($key, $value);
 }
 
+/**
+ * gmt_offset modification for smart timezone handling
+ * 
+ * Overrides the gmt_offset option if we have a timezone_string available
+ */
+function wp_timezone_override_offset() {
+	if (!wp_timezone_supported()) return false;
+
+	$tz = get_option('timezone_string');
+	if (empty($tz)) return false;
+
+	@date_default_timezone_set($tz);
+		
+	$dateTimeZoneSelected = timezone_open($tz);
+	$dateTimeServer = date_create();
+	if ($dateTimeZoneSelected === false || $dateTimeServer === false) return false;
+		
+	$timeOffset = timezone_offset_get($dateTimeZoneSelected, $dateTimeServer);
+	$timeOffset = $timeOffset / 3600;
+		
+	return $timeOffset;
+}
+
+/**
+ * Check for PHP timezone support
+ * 
+ */
+function wp_timezone_supported() {
+	if (function_exists('date_default_timezone_set') 
+		&& function_exists('timezone_identifiers_list')
+		&& function_exists('timezone_open') 
+		&& function_exists('timezone_offset_get')
+		) 
+		return true;
+
+	return false;
+}
+
+/**
+ * Gives a nicely formatted list of timezone strings // temporary! Not in final
+ *
+ * @param string $selectedzone - which zone should be the selected one
+ *
+ */
+function wp_timezone_choice($selectedzone) {
+	$all = timezone_identifiers_list();
+
+	$i = 0;
+	foreach ( $all as $zone ) {
+		$zone = explode('/',$zone);
+		$zonen[$i]['continent'] = isset($zone[0]) ? $zone[0] : '';
+		$zonen[$i]['city'] = isset($zone[1]) ? $zone[1] : '';
+		$zonen[$i]['subcity'] = isset($zone[2]) ? $zone[2] : '';
+		$i++;
+	}
+
+	asort($zonen);
+	$structure = '';
+	$pad = '&nbsp;&nbsp;&nbsp;';
+
+	if ( empty($selectedzone) )
+		$structure .= '<option selected="selected" value="">' . __('Select a city') . "</option>\n";
+	foreach ( $zonen as $zone ) {
+		extract($zone);
+		if ( empty($selectcontinent) && !empty($city) ) {
+			$selectcontinent = $continent;
+			$structure .= '<optgroup label="'.$continent.'">' . "\n"; // continent
+		} elseif ( !empty($selectcontinent) && $selectcontinent != $continent ) {
+			$structure .= "</optgroup>\n";
+			$selectcontinent = '';
+			if ( !empty($city) ) {
+				$selectcontinent = $continent;
+				$structure .= '<optgroup label="'.$continent.'">' . "\n"; // continent
+			}
+		}
+
+		if ( !empty($city) ) {
+			if ( !empty($subcity) ) {
+				$city = $city . '/'. $subcity;
+			}
+			$structure .= "\t<option ".((($continent.'/'.$city)==$selectedzone)?'selected="selected "':'')." value=\"".($continent.'/'.$city)."\">$pad".str_replace('_',' ',$city)."</option>\n"; //Timezone
+		} else {
+			$structure .= "<option ".(($continent==$selectedzone)?'selected="selected "':'')." value=\"".$continent."\">".$continent."</option>\n"; //Timezone
+		}
+	}
+
+	if ( !empty($selectcontinent) )
+		$structure .= "</optgroup>\n";
+	return $structure;
+}
+
 
 ?>

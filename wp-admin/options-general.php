@@ -93,6 +93,9 @@ include('./admin-header.php');
 </td>
 </tr>
 <tr>
+<?php 
+if (!wp_timezone_supported()) : // no magic timezone support here 
+?>
 <th scope="row"><label for="gmt_offset"><?php _e('Timezone') ?> </label></th>
 <td>
 <select name="gmt_offset" id="gmt_offset">
@@ -127,6 +130,26 @@ foreach ( $offset_range as $offset ) {
 <br/>
 <span class="setting-description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
 </td>
+<?php 
+else: // looks like we can do nice timezone selection!
+$current_offset = get_option('gmt_offset');
+?>
+<th scope="row"><label for="timezone_string"><?php _e('Timezone') ?></label></th>
+<td>
+
+<select id="timezone_string" name="timezone_string">
+<?php echo wp_timezone_choice(get_option('timezone_string')); ?>
+</select>
+
+<span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n(__('Y-m-d G:i:s'), false, 'gmt')); ?></span>
+<?php if (get_option('timezone_string')) : ?>
+	<span id="local-time"><?php printf(__('Current time in %1$s is <code>%2$s</code>'), get_option('timezone_string'), date_i18n(__('Y-m-d G:i:s'))); ?></span>
+<?php endif; ?>
+<br/>
+<span class="setting-description"><?php _e('Choose a city in the same timezone as you.'); ?></span>
+</td>
+
+<?php endif; ?>
 </tr>
 <tr>
 <th scope="row"><?php _e('Date Format') ?></th>
