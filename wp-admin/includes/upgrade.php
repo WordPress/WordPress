@@ -94,14 +94,16 @@ function wp_install_defaults($user_id) {
 
 	// Default category
 	$cat_name = __('Uncategorized');
-	$cat_slug = sanitize_title(_c('Uncategorized|Default category slug'));
+	/* translators: Default category slug */
+	$cat_slug = sanitize_title(_x('Uncategorized', 'Default category slug'));
 	
 	$wpdb->insert( $wpdb->terms, array('name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
 	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => '1', 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
 
 	// Default link category
 	$cat_name = __('Blogroll');
-	$cat_slug = sanitize_title(_c('Blogroll|Default link category slug'));
+	/* translators: Default link category slug */
+	$cat_slug = sanitize_title(_x('Blogroll', 'Default link category slug'));
 	
 	$wpdb->insert( $wpdb->terms, array('name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
 	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => '2', 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 7));
@@ -168,7 +170,8 @@ function wp_install_defaults($user_id) {
 								'post_excerpt' => '',
 								'post_title' => __('Hello world!'),
 								'post_category' => 0,
-								'post_name' => _c('hello-world|Default post slug'),
+								/* translators: Default post slug */
+								'post_name' => _x('hello-world', 'Default post slug'),
 								'post_modified' => $now,
 								'post_modified_gmt' => $now_gmt,
 								'guid' => $first_post_guid,
@@ -199,7 +202,8 @@ function wp_install_defaults($user_id) {
 								'post_excerpt' => '',
 								'post_title' => __('About'),
 								'post_category' => '',
-								'post_name' => _c('about|Default page slug'),
+								/* translators: Default page slug */
+								'post_name' => _x('about', 'Default page slug'),
 								'post_modified' => $now,
 								'post_modified_gmt' => $now_gmt,
 								'guid' => $first_post_guid,

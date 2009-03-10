@@ -176,7 +176,7 @@ function __ngettext() {
 function _n($single, $plural, $number, $domain = 'default') {
 	$translations = &get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number );
-	return apply_filters( 'ngettext', $translation, $single, $plural, $number );
+	return apply_filters( 'ngettext', $translation, $single, $plural, $number, $domain );
 }
 
 /**
@@ -191,7 +191,7 @@ function _nc( $single, $plural, $number, $domain = 'default' ) {
 function _nx($single, $plural, $number, $context, $domain = 'default') {
 	$translations = &get_translations_for_domain( $domain );
 	$translation = $translations->translate_plural( $single, $plural, $number, $context );
-	return apply_filters( 'ngettext_with_context ', $translation, $single, $plural, $number, $context );
+	return apply_filters( 'ngettext_with_context ', $translation, $single, $plural, $number, $context, $domain );
 }
 
 /**
@@ -340,4 +340,17 @@ function get_translations_for_domain( $domain ) {
 	return isset($l10n[$domain])? $l10n[$domain] : $empty;
 }
 
+/**
+ * Translates role name. Since the role names are in the database and
+ * not in the source there are dummy gettext calls to get them into the POT
+ * file and this function properly translates them back.
+ * 
+ * The before_last_bar() call is needed, because older installs keep the roles
+ * using the old context format: 'Role name|User role' and just skipping the
+ * content after the last bar is easier than fixing them in the DB. New installs
+ * won't suffer from that problem.
+ */
+function translate_user_role( $name ) {
+	return before_last_bar( translate_with_gettext_context( $name, 'User role' ) );
+}
 ?>

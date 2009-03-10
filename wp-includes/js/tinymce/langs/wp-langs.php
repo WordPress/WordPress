@@ -179,7 +179,7 @@ desc:"' . mce_escape( __('Insert page break.') ) . '"
 }}});
 
 tinyMCE.addI18n("' . $language . '.advanced",{
-style_select:"' . mce_escape( __('Styles') ) . '",
+style_select:"' . mce_escape( /* translators: TinyMCE font styles */ _x('Styles', 'TinyMCE font styles') ) . '",
 font_size:"' . mce_escape( __('Font size') ) . '",
 fontdefault:"' . mce_escape( __('Font family') ) . '",
 block:"' . mce_escape( __('Format') ) . '",

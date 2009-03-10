@@ -2214,9 +2214,12 @@ function wp_sprintf_l($pattern, $args) {
 
 	// Translate and filter the delimiter set (avoid ampersands and entities here)
 	$l = apply_filters('wp_sprintf_l', array(
-		'between'          => _c(', |between list items'),
-		'between_last_two' => _c(', and |between last two list items'),
-		'between_only_two' => _c(' and |between only two list items'),
+		/* translators: used between list items, there is a space after the coma */
+		'between'          => __(', '),
+		/* translators: used between list items, there is a space after the and */
+		'between_last_two' => __(', and '),
+		/* translators: used between only two list items, there is a space after the and */
+		'between_only_two' => __(' and '),
 		));
 
 	$args = (array) $args;

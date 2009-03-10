@@ -763,7 +763,7 @@ function wp_manage_media_columns() {
 	/* translators: column name */
 	$posts_columns['media'] = _x('File', 'column name');
 	$posts_columns['author'] = __('Author');
-	//$posts_columns['tags'] = _c('Tags|media column header');
+	//$posts_columns['tags'] = _x('Tags', 'column name');
 	/* translators: column name */
 	$posts_columns['parent'] = _x('Attached to', 'column name');
 	$posts_columns['comments'] = '<div class="vers"><img alt="Comments" src="images/comment-grey-bubble.png" /></div>';
@@ -1892,7 +1892,7 @@ function user_row( $user_object, $style = '', $role = '' ) {
 	} else {
 		$edit = '<strong>' . $user_object->user_login . '</strong>';
 	}
-	$role_name = isset($wp_roles->role_names[$role]) ? translate_with_context($wp_roles->role_names[$role]) : __('None');
+	$role_name = isset($wp_roles->role_names[$role]) ? translate_user_role($wp_roles->role_names[$role] ) : __('None');
 	$r = "<tr id='user-$user_object->ID'$style>";
 	$columns = get_column_headers('users');
 	$hidden = get_hidden_columns('users');
@@ -2679,7 +2679,7 @@ function wp_dropdown_roles( $selected = false ) {
 	$editable_roles = get_editable_roles();
 
 	foreach( $editable_roles as $role => $details ) {
-		$name = translate_with_context($details['name']);
+		$name = translate_user_role($details['name'] );
 		if ( $selected == $role ) // Make default first in list
 			$p = "\n\t<option selected='selected' value='$role'>$name</option>";
 		else
