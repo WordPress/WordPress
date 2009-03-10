@@ -3109,10 +3109,14 @@ function wp_timezone_choice($selectedzone) {
 	$structure = '';
 	$pad = '&nbsp;&nbsp;&nbsp;';
 
+	$continents = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific', 'Etc');
+
 	if ( empty($selectedzone) )
 		$structure .= '<option selected="selected" value="">' . __('Select a city') . "</option>\n";
 	foreach ( $zonen as $zone ) {
 		extract($zone);
+		if ( ! in_array($continent, $continents) )
+			continue;
 		if ( empty($selectcontinent) && !empty($city) ) {
 			$selectcontinent = $continent;
 			$structure .= '<optgroup label="'.$continent.'">' . "\n"; // continent
