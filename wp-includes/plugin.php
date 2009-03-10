@@ -497,6 +497,32 @@ function plugin_basename($file) {
 }
 
 /**
+ * Gets the filesystem directory path (with trailing slash) for the plugin __FILE__ passed in
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 2.8
+ *
+ * @param string $file The filename of the plugin (__FILE__)
+ * @return string the filesystem path of the directory that contains the plugin
+ */
+function plugin_dir_path( $file ) {
+	return trailingslashit( dirname( $file ) );
+}
+
+/**
+ * Gets the URL directory path (with trailing slash) for the plugin __FILE__ passed in
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 2.8
+ *
+ * @param string $file The filename of the plugin (__FILE__)
+ * @return string the URL path of the directory that contains the plugin
+ */
+function plugin_dir_url( $file ) {
+	return trailingslashit( plugins_url( '', $file ) );
+}
+
+/**
  * Set the activation hook for a plugin.
  *
  * When a plugin is activated, the action 'activate_PLUGINNAME' hook is
