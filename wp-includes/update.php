@@ -30,7 +30,7 @@ function wp_version_check() {
 	if ( ! is_object($current) )
 		$current = new stdClass;
 
-	$locale = get_locale();
+	$locale = apply_filters( 'core_version_check_locale', get_locale() );
 	if (
 		isset( $current->last_checked ) &&
 		43200 > ( time() - $current->last_checked ) &&
