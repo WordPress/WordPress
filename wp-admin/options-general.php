@@ -152,11 +152,9 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	<span id="local-time"><?php printf(__('Current time in %1$s is <code>%2$s</code>'), get_option('timezone_string'), date_i18n(__('Y-m-d G:i:s'))); ?>
 	<br />
 	<?php
-	_e('This timezone is currently in ');
 	$now = localtime(time(),true);
-	if ($now['tm_isdst']) _e('daylight savings');
-	else _e('standard');
-	_e(' time.');
+	if ($now['tm_isdst']) _e('This timezone is currently in daylight savings time.');
+	else _e('This timezone is currently in standard time.');
 	?>
 	<br />
 	<?php
@@ -170,13 +168,14 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 		}
 	
 		if ($found) {
-			_e('This timezone switches to ');
-			$tr['isdst'] ? _e('daylight savings time') : _e('standard time');
-			_e(' on: ');
+			_e(' ');
+			$message = $tr['isdst'] ?
+				__('This timezone switches to daylight savings time on: %s.') :
+				__('This timezone switches to standard time on: %s.');
 			$tz = new DateTimeZone($tzstring);
 			$d = new DateTime( "@{$tr['ts']}" );
 			$d->setTimezone($tz);
-			echo date_i18n(__('Y-m-d \a\t g:i a T'),$d->format('U'));
+			printf( $message, date_i18n(__('Y-m-d \a\t g:i a T'), $d->format('U') ) );
 		} else {
 			_e('This timezone does not observe daylight savings time.');
 		}
