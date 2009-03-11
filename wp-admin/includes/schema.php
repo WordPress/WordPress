@@ -308,35 +308,37 @@ function populate_options() {
 	'widget_rss' => array()
 	);
 
+	// Set autoload to no for these options
+	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys' );
+
 	$existing_options = $wpdb->get_col("SELECT option_name FROM $wpdb->options");
 
 	$insert = '';
 	foreach ( $options as $option => $value ) {
 		if ( in_array($option, $existing_options) )
 			continue;
+		if ( in_array($option, $fat_options) )
+			$autoload = 'no';
+		else
+			$autoload = 'yes';
+
 		$option = $wpdb->escape($option);
 		$value = $wpdb->escape($value);
 		if ( !empty($insert) )
 			$insert .= ', '; 
-		$insert .= "('$option', '$value')";
+		$insert .= "('$option', '$value', '$autoload')";
 	}
 
 	if ( !empty($insert) )
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value) VALUES " . $insert);
+		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert);
 
 	// in case it is set, but blank, update "home"
 	if ( !__get_option('home') ) update_option('home', $guessurl);
 
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat', 'default_geourl_lon', 'use_default_geourl', 'weblogs_xml_url', 'new_users_can_blog', '_wpnonce', '_wp_http_referer', 'Update', 'action', 'rich_editing', 'autosave_interval', 'deactivated_plugins', 'can_compress_scripts');
-	foreach ($unusedoptions as $option) :
+	foreach ($unusedoptions as $option)
 		delete_option($option);
-	endforeach;
-
-	// Set up a few options not to load by default
-	$fatoptions = array( 'moderation_keys', 'recently_edited', 'blacklist_keys' );
-	foreach ($fatoptions as $fatoption)
-		$wpdb->update( $wpdb->options, array('autoload' => 'no'), array('option_name' => $fatoption) );
 }
 
 /**

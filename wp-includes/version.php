@@ -15,6 +15,6 @@ $wp_version = '2.8-bleeding-edge';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 10733;
+$wp_db_version = 10738;
 
 ?>
