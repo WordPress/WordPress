@@ -442,7 +442,7 @@ function comment_ID() {
  *
  * @param object|string|int $comment Comment to retrieve.
  * @param array $args Optional args.
- * @return string The permalink to the current comment
+ * @return string The permalink to the given comment.
  */
 function get_comment_link( $comment = null, $args = array() ) {
 	global $wp_rewrite, $in_comment_loop;
@@ -472,12 +472,14 @@ function get_comment_link( $comment = null, $args = array() ) {
 			$args['page'] = ( !empty($in_comment_loop) ) ? get_query_var('cpage') : get_page_of_comment( $comment->comment_ID, $args );
 
 		if ( $wp_rewrite->using_permalinks() )
-			return user_trailingslashit( trailingslashit( get_permalink( $comment->comment_post_ID ) ) . 'comment-page-' . $args['page'], 'comment' ) . '#comment-' . $comment->comment_ID;
+			$link = user_trailingslashit( trailingslashit( get_permalink( $comment->comment_post_ID ) ) . 'comment-page-' . $args['page'], 'comment' );
 		else
-			return add_query_arg( 'cpage', $args['page'], get_permalink( $comment->comment_post_ID ) ) . '#comment-' . $comment->comment_ID;
+			$link = add_query_arg( 'cpage', $args['page'], get_permalink( $comment->comment_post_ID ) );
 	} else {
-		return get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment->comment_ID;
+		$link = get_permalink( $comment->comment_post_ID );
 	}
+
+	return apply_filters( 'get_comment_link', $link . '#comment-' . $comment->comment_ID, $comment, $args );
 }
 
 /**
