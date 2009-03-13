@@ -2019,7 +2019,7 @@ class WP_Query {
 			$q['orderby'] = "$wpdb->posts.post_date ".$q['order'];
 		} else {
 			// Used to filter values
-			$allowed_keys = array('author', 'date', 'category', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand');
+			$allowed_keys = array('author', 'date', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand');
 			if ( !empty($q['meta_key']) ) {
 				$allowed_keys[] = $q['meta_key'];
 				$allowed_keys[] = 'meta_value';
