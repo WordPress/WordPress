@@ -1649,11 +1649,11 @@ class WP_Widgets {
 	function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$this->id_base = $id_base;
 		$this->name = $name;
-		$this->option_name = 'wp_widget_' . $id_base;
+		$this->option_name = 'widget_' . $id_base;
 		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
 		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
 
-		//add_action( 'widgets_init', array( &$this, 'register' ) );
+		add_action( 'widgets_init', array( &$this, 'register' ) );
 	}
 
 	/** Helper function to be called by form().
@@ -1671,25 +1671,20 @@ class WP_Widgets {
 	/** Registers this widget-type.
 	 *	Called during the 'widgets_init' action. */
 	function register() {
-		if ( ! $all_instances = get_option($this->option_name) )
-			$all_instances = array();
+		$settings = $this->get_settings();
 
-		$registered = false;
-		foreach( array_keys($all_instances) as $number ) {
-			// Old widgets can have null values for some reason
-			if ( !isset($all_instances[$number]['_multiwidget']) )
-				continue;
-
-			$this->_set($number);
-			$registered = true;
-			$this->_register_one($number);
-		}
-
-		// If there are none, we register the widget's existance with a
-		// generic template
-		if ( !$registered ) {
+		if ( empty($settings) ) {
+			// If there are none, we register the widget's existance with a
+			// generic template
 			$this->_set(1);
 			$this->_register_one();
+		} elseif ( is_array($settings) ) {
+			foreach ( array_keys($settings) as $number ) {
+				if ( is_numeric($number) ) {
+					$this->_set($number);
+					$this->_register_one($number);
+				}
+			}
 		}
 	}
 
@@ -1717,12 +1712,10 @@ class WP_Widgets {
 
 		$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 		$this->_set( $widget_args['number'] );
+		$settings = $this->get_settings();
 
-		// Data is stored as array:
-		//	array( number => data for that instance of the widget, ... )
-		$all_instances = get_option($this->option_name);
-		if ( isset($all_instances[$this->number]) )
-			$this->widget($args, $all_instances[$this->number]);
+		if ( array_key_exists( $this->number, $settings ) )
+			$this->widget($args, $settings[$this->number]);
 	}
 
 	/** Deal with changed settings and generate the control form.
@@ -1734,15 +1727,11 @@ class WP_Widgets {
 			$widget_args = array( 'number' => $widget_args );
 
 		$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-
-		// Data is stored as array:
-		//	array( number => data for that instance of the widget, ... )
-		$all_instances = get_option($this->option_name);
-		if ( !is_array($all_instances) )
-			$all_instances = array();
+		$all_instances = $this->get_settings();
 
 		// We need to update the data
 		if ( !$this->updated && !empty($_POST['sidebar']) ) {
+
 			// Tells us what sidebar to put the data in
 			$sidebar = (string) $_POST['sidebar'];
 
@@ -1753,8 +1742,8 @@ class WP_Widgets {
 				$this_sidebar = array();
 
 			foreach ( $this_sidebar as $_widget_id )	{
-				// Remove all widgets of this type from the sidebar.	We'll add the
-				// new data in a second.	This makes sure we don't get any duplicate
+				// Remove all widgets of this type from the sidebar. We'll add the
+				// new data in a second. This makes sure we don't get any duplicate
 				// data since widget ids aren't necessarily persistent across multiple
 				// updates
 				if ( $this->_get_display_callback() == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
@@ -1773,26 +1762,24 @@ class WP_Widgets {
 				else
 					$instance = $this->update($new_instance, array());
 
-				if ( !empty($instance) )	{
-					$instance['_multiwidget'] = $number;
+				if ( !empty($instance) )
 					$all_instances[$number] = $instance;
-				}
 			}
 
-			update_option($this->option_name, $all_instances);
-			$this->updated = true; // So that we don't go through this more than once
+			$this->save_settings($all_instances);
+			$this->updated = true;
 		}
 
 		// Here we echo out the form
 		if ( -1 == $widget_args['number'] ) {
-			// We echo out a template for a form which can be converted to a
-			// specific form later via JS
+			// We echo out a form where 'number' can be set later via JS
 			$this->_set('%i%');
 			$instance = array();
 		} else {
 			$this->_set($widget_args['number']);
 			$instance = $all_instances[ $widget_args['number'] ];
 		}
+
 		$this->form($instance);
 	}
 
@@ -1801,7 +1788,26 @@ class WP_Widgets {
 		wp_register_sidebar_widget(	$this->id, $this->name,	$this->_get_display_callback(), $this->widget_options, array( 'number' => $number ) );
 		wp_register_widget_control(	$this->id, $this->name,	$this->_get_control_callback(),	$this->control_options,	array( 'number' => $number ) );
 	}
+	
+	function save_settings($settings) {
+		$settings['_multiwidget'] = 1;
+		update_option( $this->option_name, $settings );
+	}
 
+	function get_settings() {
+		$settings = get_option($this->option_name);	
+
+		if ( !is_array($settings) )
+			return array();
+
+		if ( !array_key_exists('_multiwidget', $settings) ) {
+			// old format, conver if single widget
+			$settings = wp_convert_widget_settings($this->id_base, $this->option_name, $settings);
+		}
+
+		unset($settings['_multiwidget']);
+		return $settings;
+	}
 }
 
 ?>

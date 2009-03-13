@@ -657,6 +657,47 @@ function wp_get_widget_defaults() {
 	return $defaults;
 }
 
+/**
+ * Convert the widget settings from single to multi-widget format.
+ *
+ * @since 2.8.0
+ *
+ * @return array
+ */
+function wp_convert_widget_settings($base_name, $option_name, $settings) {
+	// This test may need expanding.
+	$single = false;
+	foreach ( array_keys($settings) as $number ) {
+		if ( !is_numeric($number) ) {
+			$single = true;
+			break;
+		}
+	}
+
+	if ( $single ) {
+		$settings = array( 2 => $settings );
+		
+		$sidebars_widgets = get_option('sidebars_widgets');
+		foreach ( (array) $sidebars_widgets as $index => $sidebar ) {
+			if ( is_array($sidebar) ) {
+				foreach ( $sidebar as $i => $name ) {
+					if ( $base_name == $name ) {
+						$sidebars_widgets[$index][$i] = "$name-2";
+						break 2;
+					}
+				}
+			}
+		}
+
+		update_option('sidebars_widgets', $sidebars_widgets);
+	}
+
+	$settings['_multiwidget'] = 1;
+	update_option( $option_name, $settings );
+	
+	return $settings;
+}
+
 /* Default Widgets */
 
 /**
@@ -767,27 +808,20 @@ class WP_Widget_Links extends WP_Widgets {
 		if( !isset($new_instance['submit']) ) // user clicked cancel?
 			return false;
 
-		return $new_instance;
+		$new_instance = (array) $new_instance;
+		$instance = array( 'images' => 0, 'name' => 0, 'description' => 0, 'rating' => 0);
+		foreach ( $instance as $field => $val ) {
+			if ( isset($new_instance[$field]) )
+				$instance[$field] = 1;
+		}
+	
+		return $instance;
 	}
 	
 	function form( $instance ) {
 
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'images' => true, 'name' => true, 'description' => false, 'rating' => false) );
-/*
-		if ( isset($_POST['links-submit']) ) {
-			$newoptions = array();
-			$newoptions['description'] = isset($_POST['links-description']);
-			$newoptions['name'] = isset($_POST['links-name']);
-			$newoptions['rating'] = isset($_POST['links-rating']);
-			$newoptions['images'] = isset($_POST['links-images']);
-
-			if ( $instance != $newoptions ) {
-				$instance = $newoptions;
-				update_option('widget_links', $instance);
-			}
-		}
-*/
 ?>
 		<p>
 		<label for="<?php echo $this->get_field_id('images'); ?>">
@@ -1975,7 +2009,7 @@ function wp_widgets_init() {
 
 	$widget_ops = array('description' => __( "Your blogroll" ) );
 	$wp_widget_links = new WP_Widget_Links('links', __('Links'), $widget_ops);
-	$wp_widget_links->register();
+	//$wp_widget_links->register();
 
 	$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
 	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
