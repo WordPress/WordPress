@@ -231,7 +231,8 @@ function wp_default_scripts( &$scripts ) {
 			'empty' => __('Strength indicator'),
 			'short' => __('Very weak'),
 			'bad' => __('Weak'),
-			'good' => _c('Medium|password strength'),
+			/* translators: password strength */
+			'good' => _x('Medium', 'password strength'),
 			'strong' => __('Strong'),
 			'l10n_print_after' => 'try{convertEntities(pwsL10n);}catch(e){};'
 		) );

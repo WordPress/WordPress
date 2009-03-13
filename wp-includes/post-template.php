@@ -1193,9 +1193,12 @@ function wp_post_revision_title( $revision, $link = true ) {
 	if ( !in_array( $revision->post_type, array( 'post', 'page', 'revision' ) ) )
 		return false;
 
-	$datef = _c( 'j F, Y @ G:i|revision date format');
-	$autosavef = __( '%s [Autosave]' );
-	$currentf  = __( '%s [Current Revision]' );
+	/* translators: revision date format, see http://php.net/date */
+	$datef = _x( 'j F, Y @ G:i', 'revision date format');
+	/* translators: 1: date */
+	$autosavef = __( '%1$s [Autosave]' );
+	/* translators: 1: date */
+	$currentf  = __( '%1$s [Current Revision]' );
 
 	$date = date_i18n( $datef, strtotime( $revision->post_modified_gmt . ' +0000' ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
@@ -1260,7 +1263,8 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 		break;
 	}
 
-	$titlef = _c( '%1$s by %2$s|post revision 1:datetime, 2:name' );
+	/* translators: post revision: 1: when, 2: author name */
+	$titlef = _x( '%1$s by %2$s', 'post revision' );
 
 	if ( $parent )
 		array_unshift( $revisions, $post );

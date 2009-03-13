@@ -743,7 +743,7 @@ function media_upload_library() {
  */
 function image_align_input_fields($post, $checked='') {
 
-	$alignments = array('none' => 'None', 'left' => 'Left', 'center' => 'Center', 'right' => 'Right');
+	$alignments = array('none' => __('None'), 'left' => __('Left'), 'center' => __('Center'), 'right' => __('Right'));
 	if ( !array_key_exists($checked, $alignments) )
 		$checked = 'none';
 
@@ -752,7 +752,7 @@ function image_align_input_fields($post, $checked='') {
 
 		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
 		 	( $checked == $name ? " checked='checked'" : "" ) .
-			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . __($label) . "</label>";
+			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>" . $label . "</label>";
 	}
 	return join("\n", $out);
 }

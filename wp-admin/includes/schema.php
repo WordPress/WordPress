@@ -216,8 +216,11 @@ function populate_options() {
 	'default_post_edit_rows' => 10,
 	'posts_per_page' => 10,
 	'what_to_show' => 'posts',
+	/* translators: default date format, see http://php.net/date */
 	'date_format' => __('F j, Y'),
+	/* translators: default time format, see http://php.net/date */
 	'time_format' => __('g:i a'),
+	/* translators: links last updated date format, see http://php.net/date */
 	'links_updated_date_format' => __('F j, Y g:i a'),
 	'links_recently_updated_prepend' => '<em>',
 	'links_recently_updated_append' => '</em>',

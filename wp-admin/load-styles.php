@@ -17,6 +17,12 @@ function _c() {}
 /**
  * @ignore
  */
+function _x() {}
+
+
+/**
+ * @ignore
+ */
 function add_filter() {}
 
 /**

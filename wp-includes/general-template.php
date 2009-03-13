@@ -984,8 +984,10 @@ function get_calendar($initial = true) {
 			ORDER	BY post_date ASC
 			LIMIT 1");
 
+	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
+	$calendar_caption = _x('%1$s %2$s', 'calendar caption');
 	echo '<table id="wp-calendar" summary="' . __('Calendar') . '">
-	<caption>' . sprintf(_c('%1$s %2$s|Used as a calendar caption'), $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
+	<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
 	<thead>
 	<tr>';
 
@@ -1412,7 +1414,8 @@ function automatic_feed_links( $add = true ) {
  */
 function feed_links( $args ) {
 	$defaults = array(
-		'seperator' => _c('&raquo;|Seperator character for feed titles in theme head'),
+		/* translators: Separator between blog name and feed type in feed links */
+		'separator'   => _x('&raquo;', 'feed link'),
 		'feedtitle' => __('%s Feed'),
 		'comstitle' => __('%s Comments Feed'),
 	);
@@ -1432,11 +1435,17 @@ function feed_links( $args ) {
  */
 function feed_links_extra( $args ) {
 	$defaults = array(
-		'seperator'   => _c('&raquo;|Seperator character for feed titles in theme head'),
+		/* translators: Separator between blog name and feed type in feed links */
+		'separator'   => _x('&raquo;', 'feed link'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: post title */
 		'singletitle' => __('%1$s %2$s %3$s Comments Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: category name */
 		'cattitle'    => __('%1$s %2$s %3$s Category Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: tag name */
 		'tagtitle'    => __('%1$s %2$s %3$s Tag Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
 		'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
 		'searchtitle' => __('%1$s %2$s Search Results for &quot;%3$s&quot; Feed'),
 	);
 
@@ -1446,27 +1455,27 @@ function feed_links_extra( $args ) {
 		$post = &get_post( $id = 0 );
 
 		if ( comments_open() || pings_open() || $post->comment_count > 0 ) {
-			$title = attribute_escape(sprintf( $args['singletitle'], get_bloginfo('name'), $args['seperator'], wp_specialchars( get_the_title() ) ));
+			$title = attribute_escape(sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], wp_specialchars( get_the_title() ) ));
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_category() ) {
 		$cat_id = intval( get_query_var('cat') );
 
-		$title = attribute_escape(sprintf( $args['cattitle'], get_bloginfo('name'), $args['seperator'], get_cat_name( $cat_id ) ));
+		$title = attribute_escape(sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], get_cat_name( $cat_id ) ));
 		$href = get_category_feed_link( $cat_id );
 	} elseif ( is_tag() ) {
 		$tag_id = intval( get_query_var('tag_id') );
 		$tag = get_tag( $tag_id );
 
-		$title = attribute_escape(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['seperator'], $tag->name ));
+		$title = attribute_escape(sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $tag->name ));
 		$href = get_tag_feed_link( $tag_id );
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
-		$title = attribute_escape(sprintf( $args['authortitle'], get_bloginfo('name'), $args['seperator'], get_author_name( $author_id ) ));
+		$title = attribute_escape(sprintf( $args['authortitle'], get_bloginfo('name'), $args['separator'], get_author_name( $author_id ) ));
 		$href = get_author_feed_link( $author_id );
 	} elseif ( is_search() ) {
-		$title = attribute_escape(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['seperator'], get_search_query() ));
+		$title = attribute_escape(sprintf( $args['searchtitle'], get_bloginfo('name'), $args['separator'], get_search_query() ));
 		$href = get_search_feed_link();
 	}
 

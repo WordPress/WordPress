@@ -869,7 +869,9 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$do_lock = true;
 
 	$data = '';
-	$message = sprintf( __('Draft Saved at %s.'), date_i18n( __('g:i:s a') ) );
+	/* translators: draft saved date format, see http://php.net/date */
+	$draft_saved_date_format = __('g:i:s a');
+	$message = sprintf( __('Draft Saved at %s.'), date_i18n( $draft_saved_date_format ) );
 
 	$supplemental = array();
 
@@ -1200,6 +1202,7 @@ case 'find_posts':
 		if ( '0000-00-00 00:00:00' == $post->post_date ) {
 			$time = '';
 		} else {
+			/* translators: date format in table columns, see http://php.net/date */
 			$time = mysql2date(__('Y/m/d'), $post->post_date);
 		}
 

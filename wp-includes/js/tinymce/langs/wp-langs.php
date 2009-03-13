@@ -150,8 +150,8 @@ desc:"' . mce_escape( __('Toggle fullscreen mode') ) . ' (Alt+Shift+G)"
 },
 media:{
 desc:"' . mce_escape( __('Insert / edit embedded media') ) . '",
-delta_width:"' . mce_escape( _c('0| Extra width for the media popup in pixels') ) . '",
-delta_height:"' . mce_escape( _c('0| Extra height for the media popup in pixels') ) . '",
+delta_width:"' . /* translators: Extra width for the media popup in pixels */ mce_escape( _x('0', 'media popup width') ) . '",
+delta_height:"' . /* translators: Extra height for the media popup in pixels */ mce_escape( _x('0', 'media popup height') ) . '",
 edit:"' . mce_escape( __('Edit embedded media') ) . '"
 },
 fullpage:{
@@ -213,12 +213,12 @@ indent_desc:"' . mce_escape( __('Indent') ) . '",
 undo_desc:"' . mce_escape( __('Undo') ) . ' (Ctrl+Z)",
 redo_desc:"' . mce_escape( __('Redo') ) . ' (Ctrl+Y)",
 link_desc:"' . mce_escape( __('Insert/edit link') ) . ' (Alt+Shift+A)",
-link_delta_width:"' . mce_escape( _c('0| Extra width for the link popup in pixels') ) . '",
-link_delta_height:"' . mce_escape( _c('0| Extra height for the link popup in pixels') ) . '",
+link_delta_width:"' . /* translators: Extra width for the link popup in pixels */ mce_escape( _x('0', 'link popup width') ) . '",
+link_delta_height:"' . /* translators: Extra height for the link popup in pixels */ mce_escape( _x('0', 'link popup height') ) . '",
 unlink_desc:"' . mce_escape( __('Unlink') ) . ' (Alt+Shift+S)",
 image_desc:"' . mce_escape( __('Insert/edit image') ) . ' (Alt+Shift+M)",
-image_delta_width:"' . mce_escape( _c('0| Extra width for the image popup in pixels') ) . '",
-image_delta_height:"' . mce_escape( _c('0| Extra height for the image popup in pixels') ) . '",
+image_delta_width:"' . /* translators: Extra width for the image popup in pixels */ mce_escape( _x('0', 'image popup width') ) . '",
+image_delta_height:"' . /* translators: Extra height for the image popup in pixels */ mce_escape( _x('0', 'image popup height') ) . '",
 cleanup_desc:"' . mce_escape( __('Cleanup messy code') ) . '",
 code_desc:"' . mce_escape( __('Edit HTML Source') ) . '",
 sub_desc:"' . mce_escape( __('Subscript') ) . '",
@@ -242,8 +242,8 @@ path:"' . mce_escape( __('Path') ) . '",
 newdocument:"' . mce_escape( __('Are you sure you want to clear all contents?') ) . '",
 toolbar_focus:"' . mce_escape( __('Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X') ) . '",
 more_colors:"' . mce_escape( __('More colors') ) . '",
-colorpicker_delta_width:"' . mce_escape( _c('0| Extra width for the colorpicker popup in pixels') ) . '",
-colorpicker_delta_height:"' . mce_escape( _c('0| Extra height for the colorpicker popup in pixels') ) . '"
+colorpicker_delta_width:"' . /* translators: Extra width for the colorpicker popup in pixels */ mce_escape( _x('0', 'colorpicker popup width') ) . '",
+colorpicker_delta_height:"' . /* translators: Extra height for the colorpicker popup in pixels */ mce_escape( _x('0', 'colorpicker popup height') ) . '"
 });
 
 tinyMCE.addI18n("' . $language . '.advanced_dlg",{

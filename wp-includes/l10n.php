@@ -222,13 +222,21 @@ function __ngettext_noop() {
  * @since 2.5
  * @param $single Single form to be i18ned
  * @param $plural Plural form to be i18ned
- * @param $number Not used, here for compatibility with _n, optional
- * @param $domain Not used, here for compatibility with _n, optional
  * @return array array($single, $plural)
  */
-function _n_noop( $single, $plural, $number = 1, $domain = 'default' ) {
+function _n_noop( $single, $plural ) {
 	return array( $single, $plural );
 }
+
+/**
+ * Register plural strings with context in POT file, but don't translate them.
+ * 
+ * @see _n_noop()
+ */
+function _nx_noop( $single, $plural, $context ) {
+	return array( $single, $plural, $context );
+}
+
 
 /**
  * Loads MO file into the list of domains.

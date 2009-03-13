@@ -184,104 +184,104 @@ function link_xfn_meta_box($link) {
 ?>
 <table class="editform" style="width: 100%;" cellspacing="2" cellpadding="5">
 	<tr>
-		<th style="width: 20%;" scope="row"><label for="link_rel"><?php _e('rel:') ?></label></th>
+		<th style="width: 20%;" scope="row"><label for="link_rel"><?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('rel:') ?></label></th>
 		<td style="width: 80%;"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo ( isset( $link->link_rel ) ? $link->link_rel : ''); ?>" /></td>
 	</tr>
 	<tr>
 		<td colspan="2">
 			<table cellpadding="3" cellspacing="5" class="form-table">
 				<tr>
-					<th scope="row"> <?php _e('identity') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('identity') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('identity') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('identity') ?> </legend>
 						<label for="me">
 						<input type="checkbox" name="identity" value="me" id="me" <?php xfn_check('identity', 'me'); ?> />
 						<?php _e('another web address of mine') ?></label>
 					</fieldset></td>
 				</tr>
 				<tr>
-					<th scope="row"> <?php _e('friendship') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('friendship') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('friendship') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('friendship') ?> </legend>
 						<label for="contact">
-						<input class="valinp" type="radio" name="friendship" value="contact" id="contact" <?php xfn_check('friendship', 'contact', 'radio'); ?> /> <?php _e('contact') ?></label>
+						<input class="valinp" type="radio" name="friendship" value="contact" id="contact" <?php xfn_check('friendship', 'contact', 'radio'); ?> /> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('contact') ?></label>
 						<label for="acquaintance">
-						<input class="valinp" type="radio" name="friendship" value="acquaintance" id="acquaintance" <?php xfn_check('friendship', 'acquaintance', 'radio'); ?> />  <?php _e('acquaintance') ?></label>
+						<input class="valinp" type="radio" name="friendship" value="acquaintance" id="acquaintance" <?php xfn_check('friendship', 'acquaintance', 'radio'); ?> />  <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('acquaintance') ?></label>
 						<label for="friend">
-						<input class="valinp" type="radio" name="friendship" value="friend" id="friend" <?php xfn_check('friendship', 'friend', 'radio'); ?> /> <?php _e('friend') ?></label>
+						<input class="valinp" type="radio" name="friendship" value="friend" id="friend" <?php xfn_check('friendship', 'friend', 'radio'); ?> /> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('friend') ?></label>
 						<label for="friendship">
-						<input name="friendship" type="radio" class="valinp" value="" id="friendship" <?php xfn_check('friendship', '', 'radio'); ?> /> <?php _e('none') ?></label>
+						<input name="friendship" type="radio" class="valinp" value="" id="friendship" <?php xfn_check('friendship', '', 'radio'); ?> /> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('none') ?></label>
 					</fieldset></td>
 				</tr>
 				<tr>
-					<th scope="row"> <?php _e('physical') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('physical') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('physical') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('physical') ?> </legend>
 						<label for="met">
 						<input class="valinp" type="checkbox" name="physical" value="met" id="met" <?php xfn_check('physical', 'met'); ?> />
-						<?php _e('met') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('met') ?></label>
 					</fieldset></td>
 				</tr>
 				<tr>
-					<th scope="row"> <?php _e('professional') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('professional') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('professional') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('professional') ?> </legend>
 						<label for="co-worker">
 						<input class="valinp" type="checkbox" name="professional" value="co-worker" id="co-worker" <?php xfn_check('professional', 'co-worker'); ?> />
-						<?php _e('co-worker') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('co-worker') ?></label>
 						<label for="colleague">
 						<input class="valinp" type="checkbox" name="professional" value="colleague" id="colleague" <?php xfn_check('professional', 'colleague'); ?> />
-						<?php _e('colleague') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('colleague') ?></label>
 					</fieldset></td>
 				</tr>
 				<tr>
-					<th scope="row"> <?php _e('geographical') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('geographical') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('geographical') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('geographical') ?> </legend>
 						<label for="co-resident">
 						<input class="valinp" type="radio" name="geographical" value="co-resident" id="co-resident" <?php xfn_check('geographical', 'co-resident', 'radio'); ?> />
-						<?php _e('co-resident') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('co-resident') ?></label>
 						<label for="neighbor">
 						<input class="valinp" type="radio" name="geographical" value="neighbor" id="neighbor" <?php xfn_check('geographical', 'neighbor', 'radio'); ?> />
-						<?php _e('neighbor') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('neighbor') ?></label>
 						<label for="geographical">
 						<input class="valinp" type="radio" name="geographical" value="" id="geographical" <?php xfn_check('geographical', '', 'radio'); ?> />
-						<?php _e('none') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('none') ?></label>
 					</fieldset></td>
 				</tr>
 				<tr>
-					<th scope="row"> <?php _e('family') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('family') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('family') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('family') ?> </legend>
 						<label for="child">
 						<input class="valinp" type="radio" name="family" value="child" id="child" <?php xfn_check('family', 'child', 'radio'); ?>  />
-						<?php _e('child') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('child') ?></label>
 						<label for="kin">
 						<input class="valinp" type="radio" name="family" value="kin" id="kin" <?php xfn_check('family', 'kin', 'radio'); ?>  />
-						<?php _e('kin') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('kin') ?></label>
 						<label for="parent">
 						<input class="valinp" type="radio" name="family" value="parent" id="parent" <?php xfn_check('family', 'parent', 'radio'); ?> />
-						<?php _e('parent') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('parent') ?></label>
 						<label for="sibling">
 						<input class="valinp" type="radio" name="family" value="sibling" id="sibling" <?php xfn_check('family', 'sibling', 'radio'); ?> />
-						<?php _e('sibling') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('sibling') ?></label>
 						<label for="spouse">
 						<input class="valinp" type="radio" name="family" value="spouse" id="spouse" <?php xfn_check('family', 'spouse', 'radio'); ?> />
-						<?php _e('spouse') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('spouse') ?></label>
 						<label for="family">
 						<input class="valinp" type="radio" name="family" value="" id="family" <?php xfn_check('family', '', 'radio'); ?> />
-						<?php _e('none') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('none') ?></label>
 					</fieldset></td>
 				</tr>
 				<tr>
-					<th scope="row"> <?php _e('romantic') ?> </th>
-					<td><fieldset><legend class="hidden"> <?php _e('romantic') ?> </legend>
+					<th scope="row"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('romantic') ?> </th>
+					<td><fieldset><legend class="hidden"> <?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('romantic') ?> </legend>
 						<label for="muse">
 						<input class="valinp" type="checkbox" name="romantic" value="muse" id="muse" <?php xfn_check('romantic', 'muse'); ?> />
-						<?php _e('muse') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('muse') ?></label>
 						<label for="crush">
 						<input class="valinp" type="checkbox" name="romantic" value="crush" id="crush" <?php xfn_check('romantic', 'crush'); ?> />
-						<?php _e('crush') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('crush') ?></label>
 						<label for="date">
 						<input class="valinp" type="checkbox" name="romantic" value="date" id="date" <?php xfn_check('romantic', 'date'); ?> />
-						<?php _e('date') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('date') ?></label>
 						<label for="romantic">
 						<input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="romantic" <?php xfn_check('romantic', 'sweetheart'); ?> />
-						<?php _e('sweetheart') ?></label>
+						<?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('sweetheart') ?></label>
 					</fieldset></td>
 				</tr>
 			</table>

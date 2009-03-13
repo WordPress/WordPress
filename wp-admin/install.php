@@ -51,7 +51,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 function display_setup_form( $error = null ) {
 	if ( ! is_null( $error ) ) {
 ?>
-<p><strong><?php _e('ERROR'); ?></strong>: <?php echo $error; ?></p>
+<p><?php printf( __('<strong>ERROR</strong>: %s'), $error); ?></p>
 <?php } ?>
 <form id="setup" method="post" action="install.php?step=2">
 	<table class="form-table">
