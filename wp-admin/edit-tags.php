@@ -43,7 +43,14 @@ case 'delete':
 
 	wp_delete_term( $tag_ID, 'post_tag');
 
-	wp_redirect('edit-tags.php?message=2');
+	$location = 'edit-tags.php';
+	if ( $referer = wp_get_referer() ) {
+		if ( false !== strpos($referer, 'edit-tags.php') )
+			$location = $referer;
+	}
+
+	$location = add_query_arg('message', 2, $location);
+	wp_redirect($location);
 	exit;
 
 break;
@@ -260,13 +267,13 @@ else
 <div class="form-field form-required">
 	<label for="name"><?php _e('Tag name') ?></label>
 	<input name="name" id="name" type="text" value="" size="40" aria-required="true" />
-    <p><?php _e('The name is how the tag appears on your site.'); ?></p>
+	<p><?php _e('The name is how the tag appears on your site.'); ?></p>
 </div>
 
 <div class="form-field">
 	<label for="slug"><?php _e('Tag slug') ?></label>
 	<input name="slug" id="slug" type="text" value="" size="40" />
-    <p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
+	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 
 <p class="submit"><input type="submit" class="button" name="submit" value="<?php _e('Add Tag'); ?>" /></p>
