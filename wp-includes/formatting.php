@@ -1516,7 +1516,8 @@ function sanitize_email( $email ) {
 
 	// LOCAL PART
 	// Test for invalid characters
-	if ( !preg_match( '/^[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]+$/', $local ) ) {
+	$local = preg_replace( '/[^a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]/', '', $local );
+	if ( '' === $local ) {
 		return apply_filters( 'sanitize_email', '', $email, 'local_invalid_chars' );
 	}
 
