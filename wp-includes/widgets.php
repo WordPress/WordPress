@@ -73,12 +73,12 @@ class WP_Widget {
 	 *	This function should check that $new_instance is set correctly.
 	 *	The newly calculated value of $instance should be returned. */
 	function update($new_instance, $old_instance) {
-		die('function WP_Widget::update() must be over-ridden in a sub-class.');
+		return $new_instance;
 	}
 
 	/** Echo a control form for the current instance. */
 	function form($instance) {
-		die('function WP_Widget::form() must be over-ridden in a sub-class.');
+		echo '<p>' . __('There are no options for this widget.') . '</p>';
 	}
 
 	// Functions you'll need to call.
@@ -251,7 +251,7 @@ class WP_Widget {
 		$settings = get_option($this->option_name);	
 
 		if ( !is_array($settings) )
-			return array();
+			$settings = array();
 
 		if ( !array_key_exists('_multiwidget', $settings) ) {
 			// old format, conver if single widget
@@ -888,10 +888,14 @@ function wp_get_widget_defaults() {
 function wp_convert_widget_settings($base_name, $option_name, $settings) {
 	// This test may need expanding.
 	$single = false;
-	foreach ( array_keys($settings) as $number ) {
-		if ( !is_numeric($number) ) {
-			$single = true;
-			break;
+	if ( empty($settings) ) {
+		$single = true;
+	} else {
+		foreach ( array_keys($settings) as $number ) {
+			if ( !is_numeric($number) ) {
+				$single = true;
+				break;
+			}
 		}
 	}
 
@@ -1006,7 +1010,12 @@ function wp_widget_pages_control() {
  * @since 2.8.0
  */
 class WP_Widget_Links extends WP_Widget {
-	
+
+	function WP_Widget_Links() {
+		$widget_ops = array('description' => __( "Your blogroll" ) );
+		$this->WP_Widget('links', __('Links'), $widget_ops);
+	}
+
 	function widget( $args, $instance ) {
 		extract($args, EXTR_SKIP);
 
@@ -1060,20 +1069,26 @@ class WP_Widget_Links extends WP_Widget {
 }
 
 /**
- * Display search widget.
+ * Search widget class
  *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
+ * @since 2.8.0
  */
-function wp_widget_search($args) {
-	extract($args);
-	echo $before_widget;
+class WP_Widget_Search extends WP_Widget {
 
-	// Use current theme search form if it exists
-	get_search_form();
+	function WP_Widget_Search() {
+		$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your blog") );
+		$this->WP_Widget('search', __('Search'), $widget_ops);
+	}
 
-	echo $after_widget;
+	function widget( $args, $instance ) {
+		extract($args);
+		echo $before_widget;
+
+		// Use current theme search form if it exists
+		get_search_form();
+
+		echo $after_widget;	
+	}
 }
 
 /**
@@ -2228,16 +2243,13 @@ function wp_widgets_init() {
 	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $widget_ops);
 	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control' );
 
-	$widget_ops = array('description' => __( "Your blogroll" ) );
-	$wp_widget_links = new WP_Widget_Links('links', __('Links'), $widget_ops);
-	//$wp_widget_links->register();
+	new WP_Widget_Links();
 
 	$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
 	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
 	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control' );
 
-	$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your blog") );
-	wp_register_sidebar_widget('search', __('Search'), 'wp_widget_search', $widget_ops);
+	new WP_Widget_Search();
 
 	$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
 	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $widget_ops);
