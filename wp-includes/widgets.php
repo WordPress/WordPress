@@ -927,85 +927,6 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 /* Default Widgets */
 
 /**
- * Display pages widget.
- *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- */
-function wp_widget_pages( $args ) {
-	extract( $args );
-	$options = get_option( 'widget_pages' );
-
-	$title = empty( $options['title'] ) ? __( 'Pages' ) : apply_filters('widget_title', $options['title']);
-	$sortby = empty( $options['sortby'] ) ? 'menu_order' : $options['sortby'];
-	$exclude = empty( $options['exclude'] ) ? '' : $options['exclude'];
-
-	if ( $sortby == 'menu_order' ) {
-		$sortby = 'menu_order, post_title';
-	}
-
-	$out = wp_list_pages( array('title_li' => '', 'echo' => 0, 'sort_column' => $sortby, 'exclude' => $exclude) );
-
-	if ( !empty( $out ) ) {
-?>
-	<?php echo $before_widget; ?>
-		<?php echo $before_title . $title . $after_title; ?>
-		<ul>
-			<?php echo $out; ?>
-		</ul>
-	<?php echo $after_widget; ?>
-<?php
-	}
-}
-
-/**
- * Display and process pages widget options form.
- *
- * @since 2.2.0
- */
-function wp_widget_pages_control() {
-	$options = $newoptions = get_option('widget_pages');
-	if ( isset($_POST['pages-submit']) ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST['pages-title']));
-
-		$sortby = stripslashes( $_POST['pages-sortby'] );
-
-		if ( in_array( $sortby, array( 'post_title', 'menu_order', 'ID' ) ) ) {
-			$newoptions['sortby'] = $sortby;
-		} else {
-			$newoptions['sortby'] = 'menu_order';
-		}
-
-		$newoptions['exclude'] = strip_tags( stripslashes( $_POST['pages-exclude'] ) );
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_pages', $options);
-	}
-	$title = attribute_escape($options['title']);
-	$exclude = attribute_escape( $options['exclude'] );
-?>
-		<p><label for="pages-title"><?php _e('Title:'); ?> <input class="widefat" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
-		<p>
-			<label for="pages-sortby"><?php _e( 'Sort by:' ); ?>
-				<select name="pages-sortby" id="pages-sortby" class="widefat">
-					<option value="post_title"<?php selected( $options['sortby'], 'post_title' ); ?>><?php _e('Page title'); ?></option>
-					<option value="menu_order"<?php selected( $options['sortby'], 'menu_order' ); ?>><?php _e('Page order'); ?></option>
-					<option value="ID"<?php selected( $options['sortby'], 'ID' ); ?>><?php _e( 'Page ID' ); ?></option>
-				</select>
-			</label>
-		</p>
-		<p>
-			<label for="pages-exclude"><?php _e( 'Exclude:' ); ?> <input type="text" value="<?php echo $exclude; ?>" name="pages-exclude" id="pages-exclude" class="widefat" /></label>
-			<br />
-			<small><?php _e( 'Page IDs, separated by commas.' ); ?></small>
-		</p>
-		<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
-<?php
-}
-
-/**
  * Pages widget class
  *
  * @since 2.8.0
@@ -2313,9 +2234,6 @@ function wp_widgets_init() {
 	if ( !is_blog_installed() )
 		return;
 
-	//$widget_ops = array('classname' => 'widget_pages', 'description' => __( "Your blog's WordPress Pages") );
-	//wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $widget_ops);
-	//wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control' );
 	new WP_Widget_Pages();
 
 	$widget_ops = array('classname' => 'widget_calendar', 'description' => __( "A calendar of your blog's posts") );
