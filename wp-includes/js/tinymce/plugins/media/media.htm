@@ -2,14 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#media_dlg.title}</title>
-	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=3211"></script>
-	<script type="text/javascript" src="js/media.js?ver=3211"></script>
-	<script type="text/javascript" src="../../utils/mctabs.js?ver=3211"></script>
-	<script type="text/javascript" src="../../utils/validate.js?ver=3211"></script>
-	<script type="text/javascript" src="../../utils/form_utils.js?ver=3211"></script>
-	<script type="text/javascript" src="../../utils/editable_selects.js?ver=3211"></script>
-	<link href="css/media.css?ver=3211" rel="stylesheet" type="text/css" />
-	<base target="_self" />
+	<script type="text/javascript" src="../../tiny_mce_popup.js?ver=322"></script>
+	<script type="text/javascript" src="js/media.js?ver=322"></script>
+	<script type="text/javascript" src="../../utils/mctabs.js?ver=322"></script>
+	<script type="text/javascript" src="../../utils/validate.js?ver=322"></script>
+	<script type="text/javascript" src="../../utils/form_utils.js?ver=322"></script>
+	<script type="text/javascript" src="../../utils/editable_selects.js?ver=322"></script>
+	<link href="css/media.css?ver=322" rel="stylesheet" type="text/css" />
 </head>
 <body style="display: none">
     <form onsubmit="insertMedia();return false;" action="#">
@@ -52,7 +51,7 @@
 							</tr>
 							<tr id="linklistrow">
 								<td><label for="linklist">{#media_dlg.list}</label></td>
-								<td id="linklistcontainer">&nbsp;</td>
+								<td id="linklistcontainer"><select id="linklist"><option value=""></option></select></td>
 							</tr>
 							<tr>
 								<td><label for="width">{#media_dlg.size}</label></td>
@@ -260,8 +259,7 @@
 							<td><label for="flv_defaultvolume">{#media_dlg.flv_defaultvolume}</label></td>
 							<td><input type="text" id="flv_defaultvolume" name="flv_defaultvolume" onchange="generatePreview();" /></td>
 
-							<td><label for="flv_starttime">{#media_dlg.flv_starttime}</label></td>
-							<td><input type="text" id="flv_starttime" name="flv_starttime" onchange="generatePreview();" /></td>
+
 						</tr>
 
 						<tr>

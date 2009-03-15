@@ -11,6 +11,7 @@ td {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px;}
 textarea {resize:none;outline:none;}
 a:link, a:visited {color:black;}
 a:hover {color:#2B6FB6;}
+.nowrap {white-space: nowrap}
 
 /* Forms */
 fieldset {margin:0; padding:4px; border:1px solid #dfdfdf; font-family:Verdana, Arial; font-size:10px;}
@@ -35,6 +36,7 @@ input.checkbox {border:1px none #000000; background:transparent; vertical-align:
 	width:94px; 
 	height:24px;
 	background:url(img/fade-butt.png) 0 0;
+	color:#000;
 	cursor:pointer;
 	-moz-border-radius: 3px;
 	-khtml-border-radius: 3px;
@@ -55,7 +57,7 @@ a.browse:hover span.disabled {border:1px solid white; background-color:transpare
 a.pickcolor span {display:block; width:20px; height:16px; background:url(../../img/icons.gif) -840px 0; margin-left:2px;}
 .mceOldBoxModel a.pickcolor span {width:21px; height:17px;}
 a.pickcolor:hover span {background-color:#B2BBD0;}
-a.pickcolor:hover span.disabled {}
+a.pickcolor, a.browse {text-decoration:none}
 
 /* Charmap */
 table.charmap {border:1px solid #AAA; text-align:center}

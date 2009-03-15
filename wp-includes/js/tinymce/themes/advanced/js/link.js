@@ -53,6 +53,7 @@ var LinkDialog = {
 
 		// Create new anchor elements
 		if (e == null) {
+			ed.getDoc().execCommand("unlink", false, null);
 			tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 			tinymce.each(ed.dom.select("a"), function(n) {
@@ -92,7 +93,7 @@ var LinkDialog = {
 		if (n.value && Validator.isEmail(n) && !/^\s*mailto:/i.test(n.value) && confirm(tinyMCEPopup.getLang('advanced_dlg.link_is_email')))
 			n.value = 'mailto:' + n.value;
 
-		if (/^\s*www./i.test(n.value) && confirm(tinyMCEPopup.getLang('advanced_dlg.link_is_external')))
+		if (/^\s*www\./i.test(n.value) && confirm(tinyMCEPopup.getLang('advanced_dlg.link_is_external')))
 			n.value = 'http://' + n.value;
 	},
 

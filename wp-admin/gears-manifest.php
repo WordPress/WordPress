@@ -251,6 +251,8 @@ header( 'Content-Type: application/x-javascript; charset=UTF-8' );
 { "url" : "../wp-includes/js/tinymce/plugins/spellchecker/editor_plugin.js", "src" : "../wp-includes/js/tinymce/plugins/spellchecker/editor_plugin.js?ver=<?php echo $mce_ver; ?>", "ignoreQuery" : true },
 { "url" : "../wp-includes/js/tinymce/plugins/spellchecker/css/content.css", "src" : "../wp-includes/js/tinymce/plugins/spellchecker/css/content.css?ver=<?php echo $mce_ver; ?>", "ignoreQuery" : true },
 
+{ "url" : "../wp-includes/js/tinymce/plugins/tabfocus/editor_plugin.js", "src" : "../wp-includes/js/tinymce/plugins/tabfocus/editor_plugin.js?ver=<?php echo $mce_ver; ?>", "ignoreQuery" : true },
+
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/editor_plugin.js", "src" : "../wp-includes/js/tinymce/plugins/wordpress/editor_plugin.js?ver=<?php echo $mce_ver; ?>", "ignoreQuery" : true },
 { "url" : "../wp-includes/js/tinymce/plugins/wordpress/css/content.css", "src" : "../wp-includes/js/tinymce/plugins/wordpress/css/content.css?ver=<?php echo $mce_ver; ?>", "ignoreQuery" : true },
 

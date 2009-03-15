@@ -218,7 +218,7 @@ function insertMedia() {
 				break;
 		}
 
-		if (fe.width != f.width.value || fe.height != f.height.height)
+		if (fe.width != f.width.value || fe.height != f.height.value)
 			ed.execCommand('mceRepaint');
 
 		fe.title = serializeParameters();
@@ -469,7 +469,7 @@ function setBool(pl, p, n) {
 	if (typeof(pl[n]) == "undefined")
 		return;
 
-	document.forms[0].elements[p + "_" + n].checked = pl[n];
+	document.forms[0].elements[p + "_" + n].checked = pl[n] != 'false';
 }
 
 function setStr(pl, p, n) {
@@ -490,7 +490,7 @@ function getBool(p, n, d, tv, fv) {
 	tv = typeof(tv) == 'undefined' ? 'true' : "'" + jsEncode(tv) + "'";
 	fv = typeof(fv) == 'undefined' ? 'false' : "'" + jsEncode(fv) + "'";
 
-	return (v == d) ? '' : n + (v ? ':' + tv + ',' : ':' + fv + ',');
+	return (v == d) ? '' : n + (v ? ':' + tv + ',' : ":\'" + fv + "\',");
 }
 
 function getStr(p, n, d) {

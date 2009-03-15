@@ -2,7 +2,7 @@ tinyMCEPopup.requireLangPack();
 tinyMCEPopup.onInit.add(onLoadInit);
 
 function saveContent() {
-	tinyMCEPopup.editor.setContent(document.getElementById('htmlSource').value);
+	tinyMCEPopup.editor.setContent(document.getElementById('htmlSource').value, {source_view : true});
 	tinyMCEPopup.close();
 }
 
@@ -13,7 +13,7 @@ function onLoadInit() {
 	if (tinymce.isGecko)
 		document.body.spellcheck = tinyMCEPopup.editor.getParam("gecko_spellcheck");
 
-	document.getElementById('htmlSource').value = tinyMCEPopup.editor.getContent();
+	document.getElementById('htmlSource').value = tinyMCEPopup.editor.getContent({source_view : true});
 
 	if (tinyMCEPopup.editor.getParam("theme_advanced_source_editor_wrap", true)) {
 		setWrap('soft');

@@ -15,7 +15,7 @@
 				author : 'Moxiecode Systems AB',
 				authorurl : 'http://tinymce.moxiecode.com',
 				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/spellchecker',
-				version : "2.0.2"
+				version : tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},
 

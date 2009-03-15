@@ -1164,7 +1164,7 @@ function wp_tiny_mce( $teeny = false ) {
 		$plugins = apply_filters( 'teeny_mce_plugins', array('safari', 'inlinepopups', 'media', 'autosave', 'fullscreen') );
 		$ext_plugins = '';
 	} else {
-		$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery' );
+		$plugins = array( 'safari', 'inlinepopups', 'autosave', 'spellchecker', 'paste', 'wordpress', 'media', 'fullscreen', 'wpeditimage', 'wpgallery', 'tabfocus' );
 
 		/*
 		The following filter takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
@@ -1296,7 +1296,8 @@ function wp_tiny_mce( $teeny = false ) {
 		'gecko_spellcheck' => true,
 		'entities' => '38,amp,60,lt,62,gt',
 		'accessibility_focus' => true,
-		'tab_focus' => ':prev,:next',
+		'tabfocus_elements' => 'major-publishing-actions',
+		'media_strict' => false,
 		'save_callback' => 'switchEditors.saveCallback',
 		'wpeditimage_disable_captions' => $no_captions,
 		'plugins' => "$plugins"
