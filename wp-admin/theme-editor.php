@@ -202,9 +202,13 @@ if ($allowed_files) :
 		 <input type="hidden" name="file" value="<?php echo $file ?>" />
 		 <input type="hidden" name="theme" value="<?php echo $theme ?>" />
 		 </div>
-		<?php if ( count( $functions ) ) : ?>
-		<div id="documentation"><label for="docs-list">Documentation:</label> <?php echo $docs_select ?> <input type="button" class="button" value=" <?php _e( 'Lookup' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" /></div>
-		<?php endif; ?>
+	<?php if ( isset($functions ) && count($functions) ) { ?>
+		<div id="documentation">
+		<label for="docs-list">Documentation:</label>
+		<?php echo $docs_select; ?>
+		<input type="button" class="button" value=" <?php _e( 'Lookup' ); ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&locale=<?php echo urlencode( get_locale() ) ?>&version=<?php echo urlencode( $wp_version ) ?>&redirect=true'); }" />
+		</div>
+	<?php } ?>
 
 		<div>
 <?php if ( is_writeable($real_file) ) : ?>
