@@ -1355,8 +1355,10 @@ function wp_widget_text_control($widget_args) {
  * @since 2.2.0
  */
 function wp_widget_text_register() {
-	if ( !$options = get_option('widget_text') )
+	$options = get_option('widget_text');
+	if ( !is_array($options) )
 		$options = array();
+
 	$widget_ops = array('classname' => 'widget_text', 'description' => __('Arbitrary text or HTML'));
 	$control_ops = array('width' => 400, 'height' => 350, 'id_base' => 'text');
 	$name = __('Text');
@@ -2153,8 +2155,10 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
  * @since 2.2.0
  */
 function wp_widget_rss_register() {
-	if ( !$options = get_option('widget_rss') )
+	$options = get_option('widget_rss');
+	if ( !is_array($options) )
 		$options = array();
+
 	$widget_ops = array('classname' => 'widget_rss', 'description' => __( 'Entries from any RSS or Atom feed' ));
 	$control_ops = array('width' => 400, 'height' => 200, 'id_base' => 'rss');
 	$name = __('RSS');
