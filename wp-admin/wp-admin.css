@@ -15,6 +15,23 @@ p, ul, ol, blockquote { font-size: 12px; }
 	padding: 0;
 }
 
+.plugins .desc p {
+	margin: 0 0 10px;
+}
+
+.plugins td.desc {
+	line-height: 1.5em;
+}
+
+.plugins .desc ul,
+.plugins .desc ol {
+	margin: 0 0 0 2em;
+}
+
+.plugins .desc ul {
+	list-style-type: disc;
+}
+
 .plugins .action-links { 
 	white-space: nowrap;
 }

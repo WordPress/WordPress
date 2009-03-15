@@ -250,7 +250,8 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 
 	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array(), 'target' => array()),
 								'abbr' => array('title' => array()),'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array());
+								'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array(),
+								'ul' => array(), 'ol' => array(), 'li' => array(), 'p' => array(), 'br' => array());
 
 ?>
 	<div class="tablenav">
@@ -343,7 +344,7 @@ function display_plugins_table($plugins, $page = 1, $totalpages = 1){
 						<div class="star star1"><img src="<?php echo admin_url('images/star.gif'); ?>" alt="<?php _e('1 star') ?>" /></div>
 					</div>
 				</td>
-				<td class="desc"><p><?php echo $description, $author; ?></p></td>
+				<td class="desc"><?php echo $description, $author; ?></td>
 				<td class="action-links"><?php if ( !empty($action_links) )	echo implode(' | ', $action_links); ?></td>
 			</tr>
 			<?php
