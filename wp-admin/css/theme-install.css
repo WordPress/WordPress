@@ -75,3 +75,25 @@ div.star img {
 	border-bottom: thin solid #ccc;
 	margin-bottom: 3px;
 }
+
+#search-field {
+	padding: 1px;
+}
+
+p.popular-tags {
+	line-height: 1.8em;
+}
+
+.available-theme {
+	text-align: center;
+}
+
+#theme-information .available-theme a.screenshot {
+	border: 0 none;
+	display: inline;
+}
+
+#theme-information .available-theme h3 {
+	margin: 1em 0;
+}
+

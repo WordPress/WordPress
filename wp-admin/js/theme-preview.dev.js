@@ -24,9 +24,13 @@ jQuery(document).ready(function($) {
 
 	thickDims()
 	.click( function() {
-		var alink = $(this).parents('.available-theme').find('.activatelink'), url = alink.attr('href'), text = alink.html();
+		var alink = $(this).parents('.available-theme').find('.activatelink'), url = '', text = '';
 
-		if ( null == text ) text = '';
+		if ( alink.length ) {
+			url = alink.attr('href') || '';
+			text = alink.html() || '';
+		}
+		
 		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
 		$('#TB_closeAjaxWindow').css({'float':'left'});
 		$('#TB_ajaxWindowTitle').css({'float':'right'})
@@ -40,11 +44,7 @@ jQuery(document).ready(function($) {
 
 	// Theme details disclosure
 	$('.theme-detail').click(function () {
-		if ($(this).parents('.available-theme').find('#themedetaildiv').is(":hidden")) {
-			$(this).parents('.available-theme').find('#themedetaildiv').slideDown("normal");
-			$(this).hide();
-		}
-
+		$(this).siblings('.themedetaildiv').toggle();
 		return false;
 	});
 });

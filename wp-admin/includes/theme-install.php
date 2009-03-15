@@ -142,13 +142,7 @@ function install_themes_dashboard() {
 	?>
 <p><?php _e('Search for themes by keyword, author, or tag.') ?></p>
 
-	<?php install_theme_search_form('<a href="' . add_query_arg('show-help', !isset($_REQUEST['show-help'])) .'" onclick="jQuery(\'#search-help\').toggle(); return false;">' . __('[need help?]') . '</a>') ?>
-<div id="search-help" style="display: <?php echo isset($_REQUEST['show-help']) ? 'block' : 'none'; ?>;">
-<p><?php _e('You may search based on 3 criteria:') ?><br />
-	<?php _e('<strong>Term:</strong> Searches theme names and descriptions for the specified term') ?><br />
-	<?php _e('<strong>Tag:</strong> Searches for themes tagged as such') ?><br />
-	<?php _e('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') ?></p>
-</div>
+	<?php install_theme_search_form(); ?>
 
 <h4><?php _e('Advanced Search') ?></h4>
 <p><?php _e('Tag filter goes here') ?></p>
@@ -168,7 +162,7 @@ function install_themes_dashboard() {
 								'id' => sanitize_title_with_dashes($tag['name']),
 								'count' => $tag['count'] );
 	}
-	echo '<p>';
+	echo '<p class="popular-tags">';
 	echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d theme'), 'multiple_text' => __('%d themes') ) );
 	echo '</p><br class="clear" />';
 }
@@ -305,7 +299,7 @@ function display_theme($theme, $actions = null, $show_details = true) {
 <p><?php echo $desc ?></p>
 <?php if ( $show_details ) { ?>
 <a href="#theme_detail" class="theme-detail hide-if-no-js" tabindex='4'><?php _e('Details') ?></a>
-<div id="themedetaildiv" class="hide-if-js">
+<div class="themedetaildiv hide-if-js">
 <p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
 <p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
 <?php if ( ! empty($theme->last_updated) ) : ?> 

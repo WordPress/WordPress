@@ -353,7 +353,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n_print_after' => 'try{convertEntities(wpGearsL10n);}catch(e){};'
 		));
 
-		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20090225' );
+		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), '20090314' );
 		$scripts->add_data( 'theme-preview', 'group', 1 );
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery-form', 'suggest' ), '20090125' );
@@ -446,7 +446,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20081210' );
 	$styles->add( 'login', '/wp-admin/css/login.css', array(), '20081210' );
 	$styles->add( 'plugin-install', '/wp-admin/css/plugin-install.css', array(), '20081210' );
-	$styles->add( 'theme-install', '/wp-admin/css/theme-install.css', array(), '20090227' );
+	$styles->add( 'theme-install', '/wp-admin/css/theme-install.css', array(), '20090314' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.2' );
 
 	foreach ( $rtl_styles as $rtl_style )

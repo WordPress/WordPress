@@ -125,13 +125,7 @@ function install_dashboard() {
 	<p><?php _e('Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via this page.') ?></p>
 
 	<h4><?php _e('Search') ?></h4>
-	<?php install_search_form('<a href="' . add_query_arg('show-help', !isset($_REQUEST['show-help'])) .'" onclick="jQuery(\'#search-help\').toggle(); return false;">' . __('[need help?]') . '</a>') ?>
-	<div id="search-help" style="display: <?php echo isset($_REQUEST['show-help']) ? 'block' : 'none'; ?>;">
-	<p>	<?php _e('You may search based on 3 criteria:') ?><br />
-		<?php _e('<strong>Term:</strong> Searches plugins names and descriptions for the specified term') ?><br />
-		<?php _e('<strong>Tag:</strong> Searches for plugins tagged as such') ?><br />
-		<?php _e('<strong>Author:</strong> Searches for plugins created by the Author, or which the Author contributed to.') ?></p>
-	</div>
+	<?php install_search_form(); ?>
 
 	<h4><?php _e('Install a plugin in .zip format') ?></h4>
 	<p><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>

@@ -3380,7 +3380,17 @@ function screen_meta($screen) {
 			break;
 		case 'options-general':
 			if ( !isset($_wp_contextual_help['options-general']) )
-				$_wp_contextual_help['options-general'] =  __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+				$_wp_contextual_help['options-general'] = __('<a href="http://codex.wordpress.org/Settings_General_SubPanel" target="_blank">General Settings</a>');
+			break;
+		case 'theme-install':
+		case 'plugin-install':
+			if ( !isset($_GET['tab']) || 'dashboard' == $_GET['tab'] )
+				$_wp_contextual_help[$screen] = '
+		<p><strong>' . __('Search help') . '</strong></p>' .
+		'<p>' . __('You may search based on 3 criteria:') . '<br />' .
+		__('<strong>Term:</strong> Searches theme names and descriptions for the specified term') . '<br />' .
+		__('<strong>Tag:</strong> Searches for themes tagged as such') . '<br />' .
+		__('<strong>Author:</strong> Searches for themes created by the Author, or which the Author contributed to.') . "</p>\n";
 			break;
 	}
 
@@ -3447,7 +3457,6 @@ function drag_drop_help() {
 	<p>' . __('The same modules can be expanded and collapsed by clicking once on their title bar and also completely hidden from the Screen Options tab.') . '</p>
 ';
 }
-
 
 function screen_layout($screen) {
 	global $screen_layout_columns;
