@@ -1095,65 +1095,68 @@ class WP_Widget_Search extends WP_Widget {
 }
 
 /**
- * Display archives widget.
+ * Archives widget class
  *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
+ * @since 2.8.0
  */
-function wp_widget_archives($args) {
-	extract($args);
-	$options = get_option('widget_archives');
-	$c = $options['count'] ? '1' : '0';
-	$d = $options['dropdown'] ? '1' : '0';
-	$title = empty($options['title']) ? __('Archives') : apply_filters('widget_title', $options['title']);
+class WP_Widget_Archives extends WP_Widget {
 
-	echo $before_widget;
-	echo $before_title . $title . $after_title;
+	function WP_Widget_Archives() {
+		$widget_ops = array('classname' => 'widget_archive', 'description' => __( "A monthly archive of your blog's posts") );
+		$this->WP_Widget('archives', __('Archives'), $widget_ops);
+	}
 
-	if($d) {
+	function widget( $args, $instance ) {
+		extract($args);
+		$c = $instance['count'] ? '1' : '0';
+		$d = $instance['dropdown'] ? '1' : '0';
+		$title = empty($instance['title']) ? __('Archives') : apply_filters('widget_title', $instance['title']);
+
+		echo $before_widget;
+		echo $before_title . $title . $after_title;
+
+		if ( $d ) {
 ?>
 		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo attribute_escape(__('Select Month')); ?></option> <?php wp_get_archives("type=monthly&format=option&show_post_count=$c"); ?> </select>
 <?php
-	} else {
+		} else {
 ?>
 		<ul>
 		<?php wp_get_archives("type=monthly&show_post_count=$c"); ?>
 		</ul>
 <?php
+		}
+
+		echo $after_widget;
 	}
 
-	echo $after_widget;
-}
+	function update( $new_instance, $old_instance ) {
+		if ( !isset($new_instance['submit']) ) // user clicked cancel?
+			return false;
 
-/**
- * Display and process archives widget options form.
- *
- * @since 2.2.0
- */
-function wp_widget_archives_control() {
-	$options = $newoptions = get_option('widget_archives');
-	if ( isset($_POST["archives-submit"]) ) {
-		$newoptions['count'] = isset($_POST['archives-count']);
-		$newoptions['dropdown'] = isset($_POST['archives-dropdown']);
-		$newoptions['title'] = strip_tags(stripslashes($_POST["archives-title"]));
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['count'] = $new_instance['count'] ? 1 : 0;
+		$instance['dropdown'] = $new_instance['dropdown'] ? 1 : 0;
+
+		return $instance;
 	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_archives', $options);
-	}
-	$count = $options['count'] ? 'checked="checked"' : '';
-	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
-	$title = attribute_escape($options['title']);
+
+	function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'count' => 0, 'dropdown' => '') );
+		$title = strip_tags($instance['title']);
+		$count = $instance['count'] ? 'checked="checked"' : '';
+		$dropdown = $instance['dropdown'] ? 'checked="checked"' : '';
 ?>
-			<p><label for="archives-title"><?php _e('Title:'); ?> <input class="widefat" id="archives-title" name="archives-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p>
-				<label for="archives-count"><input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /> <?php _e('Show post counts'); ?></label>
-				<br />
-				<label for="archives-dropdown"><input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="archives-dropdown" name="archives-dropdown" /> <?php _e('Display as a drop down'); ?></label>
-			</p>
-			<input type="hidden" id="archives-submit" name="archives-submit" value="1" />
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+		<p>
+			<label for="<?php echo $this->get_field_id('count'); ?>"><input class="checkbox" type="checkbox" <?php echo $count; ?> id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" /> <?php _e('Show post counts'); ?></label>
+			<br />
+			<label for="<?php echo $this->get_field_id('dropdown'); ?>"><input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>" /> <?php _e('Display as a drop down'); ?></label>
+		</p>
+		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
+	}
 }
 
 /**
@@ -2244,9 +2247,7 @@ function wp_widgets_init() {
 	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $widget_ops);
 	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control' );
 
-	$widget_ops = array('classname' => 'widget_archive', 'description' => __( "A monthly archive of your blog's posts") );
-	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $widget_ops);
-	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control' );
+	new WP_Widget_Archives();
 
 	new WP_Widget_Links();
 
