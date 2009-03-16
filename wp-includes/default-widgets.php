@@ -290,6 +290,59 @@ function wp_widget_meta_control() {
 }
 
 /**
+ * Meta widget class
+ *
+ * Displays log in/out, RSS feed links, etc.
+ * 
+ * @since 2.8.0
+ */
+class WP_Widget_Meta extends WP_Widget {
+
+	function WP_Widget_Meta() {
+		$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
+		$this->WP_Widget('meta', __('Meta'), $widget_ops);
+	}
+
+	function widget( $args, $instance ) {
+		extract($args);
+		$title = empty($instance['title']) ? __('Meta') : apply_filters('widget_title', $instance['title']);
+
+		echo $before_widget;
+		echo $before_title . $title . $after_title;
+?>
+			<ul>
+			<?php wp_register(); ?>
+			<li><?php wp_loginout(); ?></li>
+			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attribute_escape(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attribute_escape(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="http://wordpress.org/" title="<?php echo attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li>
+			<?php wp_meta(); ?>
+			</ul>
+<?php
+		echo $after_widget;
+	}
+
+	function update( $new_instance, $old_instance ) {
+		if ( !isset($new_instance['submit']) ) // user clicked cancel?
+			return false;
+
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+
+		return $instance;
+	}
+
+	function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+		$title = strip_tags($instance['title']);
+?>
+			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+			<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
+<?php
+	}
+}
+
+/**
  * Display calendar widget.
  *
  * @since 2.2.0
@@ -1332,9 +1385,10 @@ function wp_widgets_init() {
 
 	new WP_Widget_Links();
 
-	$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
-	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
-	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control' );
+	//$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
+	//wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
+	//wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control' );
+	new WP_Widget_Meta();
 
 	new WP_Widget_Search();
 
