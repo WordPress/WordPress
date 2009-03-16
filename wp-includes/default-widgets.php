@@ -241,55 +241,6 @@ class WP_Widget_Archives extends WP_Widget {
 }
 
 /**
- * Display meta widget.
- *
- * Displays log in/out, RSS feed links, etc.
- *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- */
-function wp_widget_meta($args) {
-	extract($args);
-	$options = get_option('widget_meta');
-	$title = empty($options['title']) ? __('Meta') : apply_filters('widget_title', $options['title']);
-?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
-			<ul>
-			<?php wp_register(); ?>
-			<li><?php wp_loginout(); ?></li>
-			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attribute_escape(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attribute_escape(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="http://wordpress.org/" title="<?php echo attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li>
-			<?php wp_meta(); ?>
-			</ul>
-		<?php echo $after_widget; ?>
-<?php
-}
-
-/**
- * Display and process meta widget options form.
- *
- * @since 2.2.0
- */
-function wp_widget_meta_control() {
-	$options = $newoptions = get_option('widget_meta');
-	if ( isset($_POST["meta-submit"]) ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["meta-title"]));
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_meta', $options);
-	}
-	$title = attribute_escape($options['title']);
-?>
-			<p><label for="meta-title"><?php _e('Title:'); ?> <input class="widefat" id="meta-title" name="meta-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<input type="hidden" id="meta-submit" name="meta-submit" value="1" />
-<?php
-}
-
-/**
  * Meta widget class
  *
  * Displays log in/out, RSS feed links, etc.
@@ -1385,9 +1336,6 @@ function wp_widgets_init() {
 
 	new WP_Widget_Links();
 
-	//$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Log in/out, admin, feed and WordPress links") );
-	//wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $widget_ops);
-	//wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control' );
 	new WP_Widget_Meta();
 
 	new WP_Widget_Search();
