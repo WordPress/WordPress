@@ -2614,10 +2614,10 @@ function wp_parse_args( $args, $defaults = '' ) {
  * @uses add_action() Calls '_admin_menu' hook with 'wp_widgets_add_menu' value.
  */
 function wp_maybe_load_widgets() {
-	if ( !function_exists( 'dynamic_sidebar' ) ) {
-		require_once( ABSPATH . WPINC . '/widgets.php' );
-		add_action( '_admin_menu', 'wp_widgets_add_menu' );
-	}
+	if ( ! apply_filters('load_default_widgets', true) )
+		return;
+	require_once( ABSPATH . WPINC . '/default-widgets.php' );
+	add_action( '_admin_menu', 'wp_widgets_add_menu' );
 }
 
 /**
