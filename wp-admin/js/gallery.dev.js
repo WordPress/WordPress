@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-	var gallerySortable, gallerySortableInit, galleryReorder, w;
+	var gallerySortable, gallerySortableInit, galleryReorder, w, desc = false;
 
 	gallerySortableInit = function() {
 		gallerySortable = $('#media-items').sortable( {
@@ -13,17 +13,35 @@ jQuery(document).ready(function($) {
 
 	// When an update has occurred, adjust the order for each item
 	galleryReorder = function(e, sort) {
-		jQuery.each(sort['element'].sortable('toArray'), function(i, id) {
-			jQuery('#' + id + ' .menu_order input')[0].value = (1+i);
+		var all = sort['element'].sortable('toArray'), len = all.length;
+		$.each(all, function(i, id) {
+			var order = desc ? (len - i) : (1 + i);
+			$('#' + id + ' .menu_order input').val(order);
 		});
 	}
 
+	sortIt = function() {
+		var all = $('.menu_order_input'), len = all.length;
+		all.each(function(i){
+			var order = desc ? (len - i) : (1 + i);
+			$(this).val(order);
+		});
+	}
+
+	clearAll = function(c) {
+		c = c || 0;
+		$('.menu_order_input').each(function(){
+			if ( this.value == '0' || c ) this.value = '';
+		});
+	}
+
+	$('#asc').click(function(){desc = false; sortIt(); return false;});
+	$('#desc').click(function(){desc = true; sortIt(); return false;});
+	$('#clear').click(function(){clearAll(1); return false;});
+
 	// initialize sortable
 	gallerySortableInit();
-
-	$('.menu_order_input').each(function(){
-		if ( this.value == '0' ) this.value = '';
-	});
+	clearAll();
 
 	if ( $('#media-items>*').length > 1 ) {
 		w = wpgallery.getWin();

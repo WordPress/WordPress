@@ -424,3 +424,16 @@ h3.media-title  {
 #gallery-settings select#columns {
 	width: 6em;
 }
+
+#sort-buttons {
+	font-size: 0.8em;
+	margin: 3px 25px -8px 0;
+	text-align: right;
+	max-width: 625px;
+}
+
+#sort-buttons a {
+	padding: 0 2px;
+	text-decoration: none;
+}
+
