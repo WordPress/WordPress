@@ -1562,6 +1562,9 @@ function wp_update_term( $term, $taxonomy, $args = array() ) {
 	// First, get all of the original args
 	$term = get_term ($term_id, $taxonomy, ARRAY_A);
 
+	if ( is_wp_error( $term ) )
+		return $term;
+
 	// Escape data pulled from DB.
 	$term = add_magic_quotes($term);
 
