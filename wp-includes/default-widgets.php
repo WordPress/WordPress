@@ -336,6 +336,48 @@ function wp_widget_calendar_control() {
 }
 
 /**
+ * Calendar widget class
+ *
+ * @since 2.8.0
+ */
+class WP_Widget_Calendar extends WP_Widget {
+
+	function WP_Widget_Calendar() {
+		$widget_ops = array('classname' => 'widget_calendar', 'description' => __( "A calendar of your blog's posts") );
+		$this->WP_Widget('calendar', __('Calendar'), $widget_ops);
+	}
+
+	function widget( $args, $instance ) {
+		extract($args);
+		$title = empty($instance['title']) ? '&nbsp;' : apply_filters('widget_title', $instance['title']);
+		echo $before_widget . $before_title . $title . $after_title;
+		echo '<div id="calendar_wrap">';
+		get_calendar();
+		echo '</div>';
+		echo $after_widget;
+	}
+
+	function update( $new_instance, $old_instance ) {
+		if ( !isset($new_instance['submit']) ) // user clicked cancel?
+			return false;
+
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+
+		return $instance;
+	}
+
+	function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
+		$title = strip_tags($instance['title']);
+?>
+			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+			<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
+<?php
+	}
+}
+
+/**
  * Display the Text widget, depending on the widget number.
  *
  * Supports multiple text widgets and keeps track of the widget number by using
@@ -1329,9 +1371,7 @@ function wp_widgets_init() {
 
 	new WP_Widget_Pages();
 
-	$widget_ops = array('classname' => 'widget_calendar', 'description' => __( "A calendar of your blog's posts") );
-	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $widget_ops);
-	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control' );
+	new WP_Widget_Calendar();
 
 	new WP_Widget_Archives();
 
