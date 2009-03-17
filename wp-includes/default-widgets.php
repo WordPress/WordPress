@@ -44,9 +44,6 @@ class WP_Widget_Pages extends WP_Widget {
 	}
 	
 	function update( $new_instance, $old_instance ) {
-		if ( !isset($new_instance['submit']) ) // user clicked cancel?
-			return false;
-
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		if ( in_array( $new_instance['sortby'], array( 'post_title', 'menu_order', 'ID' ) ) ) {
@@ -119,9 +116,6 @@ class WP_Widget_Links extends WP_Widget {
 	}
 	
 	function update( $new_instance, $old_instance ) {
-		if( !isset($new_instance['submit']) ) // user clicked cancel?
-			return false;
-
 		$new_instance = (array) $new_instance;
 		$instance = array( 'images' => 0, 'name' => 0, 'description' => 0, 'rating' => 0);
 		foreach ( $instance as $field => $val ) {
@@ -212,9 +206,6 @@ class WP_Widget_Archives extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		if ( !isset($new_instance['submit']) ) // user clicked cancel?
-			return false;
-
 		$instance = $old_instance;
 		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'count' => 0, 'dropdown' => '') );
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -275,9 +266,6 @@ class WP_Widget_Meta extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		if ( !isset($new_instance['submit']) ) // user clicked cancel?
-			return false;
-
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 
@@ -318,9 +306,6 @@ class WP_Widget_Calendar extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		if ( !isset($new_instance['submit']) ) // user clicked cancel?
-			return false;
-
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 

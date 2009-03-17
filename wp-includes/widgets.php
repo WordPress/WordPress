@@ -213,9 +213,13 @@ class WP_Widget {
 				}
 			}
 
-			foreach( (array) $_POST['widget-' . $this->id_base] as $number => $new_instance ) {
+			foreach ( (array) $_POST['widget-' . $this->id_base] as $number => $new_instance ) {
 				$new_instance = stripslashes_deep($new_instance);
 				$this->_set($number);
+
+				if ( !isset($new_instance['submit']) )
+					continue;
+
 				if ( isset($all_instances[$number]) )
 					$instance = $this->update($new_instance, $all_instances[$number]);
 				else
