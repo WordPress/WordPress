@@ -1219,19 +1219,19 @@ function wp_widgets_init() {
 	if ( !is_blog_installed() )
 		return;
 
-	new WP_Widget_Pages();
+	register_widget('WP_Widget_Pages');
 
-	new WP_Widget_Calendar();
+	register_widget('WP_Widget_Calendar');
 
-	new WP_Widget_Archives();
+	register_widget('WP_Widget_Archives');
 
-	new WP_Widget_Links();
+	register_widget('WP_Widget_Links');
 
-	new WP_Widget_Meta();
+	register_widget('WP_Widget_Meta');
 
-	new WP_Widget_Search();
+	register_widget('WP_Widget_Search');
 
-	new WP_Widget_Text();
+	register_widget('WP_Widget_Text');
 
 	$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
 	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $widget_ops);

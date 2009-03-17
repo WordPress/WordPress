@@ -589,6 +589,13 @@ $wp_rewrite   =& new WP_Rewrite();
  */
 $wp           =& new WP();
 
+/**
+ * WordPress Widget Factory Object
+ * @global object $wp_widget_factory
+ * @since 2.8.0
+ */
+$wp_widget_factory =& new WP_Widget_Factory();
+
 do_action('setup_theme');
 
 /**

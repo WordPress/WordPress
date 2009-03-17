@@ -44,6 +44,30 @@ $wp_registered_widget_controls = array();
 $wp_registered_widget_updates = array();
 
 /**
+ * Singleton that registers and instantiates WP_Widget classes.
+ * 
+ * @package WordPress
+ * @subpackage Widgets
+ * @since 2.8
+ */
+class WP_Widget_Factory {
+	var $widgets = array();
+
+	function WP_Widget_Factory() {
+		add_action( 'widgets_init', array( &$this, '_register_widgets' ), 100 );
+	}
+
+	function register($widget_class) {
+		$this->widgets[] = new $widget_class();
+	}
+
+	function _register_widgets() {
+		foreach ( $this->widgets as $widget )
+			$widget->_register();
+	}
+}
+
+/**
  * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
  * and WP_Widget::form() need to be over-ridden.
  * 
@@ -107,7 +131,7 @@ class WP_Widget {
 		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
 		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
 
-		add_action( 'widgets_init', array( &$this, 'register' ) );
+		//add_action( 'widgets_init', array( &$this, '_register' ) );
 	}
 
 	/** Helper function to be called by form().
@@ -124,7 +148,7 @@ class WP_Widget {
 
 	/** Registers this widget-type.
 	 *	Called during the 'widgets_init' action. */
-	function register() {
+	function _register() {
 		$settings = $this->get_settings();
 
 		if ( empty($settings) ) {
@@ -287,6 +311,25 @@ class WP_Widget {
 }
 
 /* Template tags & API functions */
+
+/**
+ * Register a widget
+ * 
+ * Registers a WP_Widget widget
+ * 
+ * @since 2.8.0
+ * 
+ * @see WP_Widget
+ * @see WP_Widget_Factory
+ * @uses WP_Widget_Factory
+ * 
+ * @param string $widget_class The name of a class that extends WP_Widget
+ */
+function register_widget($widget_class) {
+	global $wp_widget_factory;
+
+	$wp_widget_factory->register($widget_class);
+}
 
 /**
  * Creates multiple sidebars.
