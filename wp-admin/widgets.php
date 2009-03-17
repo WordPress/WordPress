@@ -73,7 +73,7 @@ if ( $http_post && isset($sidebars_widgets[$_POST['sidebar']]) ) {
 		 */
 		$already_done = array();
 
-		foreach ( $wp_registered_widget_controls as $name => $control ) {
+		foreach ( $wp_registered_widget_updates as $name => $control ) {
 			if ( in_array( $control['callback'], $already_done ) )
 				continue;
 

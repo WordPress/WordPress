@@ -216,6 +216,7 @@ class WP_Widget_Archives extends WP_Widget {
 			return false;
 
 		$instance = $old_instance;
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'count' => 0, 'dropdown' => '') );
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['count'] = $new_instance['count'] ? 1 : 0;
 		$instance['dropdown'] = $new_instance['dropdown'] ? 1 : 0;
