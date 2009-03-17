@@ -636,8 +636,9 @@ function sanitize_user( $username, $strict = false ) {
  * @return string The sanitized string.
  */
 function sanitize_title($title, $fallback_title = '') {
+	$raw_title = $title;
 	$title = strip_tags($title);
-	$title = apply_filters('sanitize_title', $title);
+	$title = apply_filters('sanitize_title', $title, $raw_title);
 
 	if ( '' === $title || false === $title )
 		$title = $fallback_title;
