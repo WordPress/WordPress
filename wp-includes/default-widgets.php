@@ -78,7 +78,6 @@ class WP_Widget_Pages extends WP_Widget {
 			<br />
 			<small><?php _e( 'Page IDs, separated by commas.' ); ?></small>
 		</p>
-		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
 	}
 
@@ -140,7 +139,6 @@ class WP_Widget_Links extends WP_Widget {
 		<input class="checkbox" type="checkbox" <?php checked($instance['description'], true) ?> id="<?php echo $this->get_field_id('description'); ?>" name="<?php echo $this->get_field_name('description'); ?>" /> <?php _e('Show Link Description'); ?></label><br />
 		<label for="<?php echo $this->get_field_id('rating'); ?>">
 		<input class="checkbox" type="checkbox" <?php checked($instance['rating'], true) ?> id="<?php echo $this->get_field_id('rating'); ?>" name="<?php echo $this->get_field_name('rating'); ?>" /> <?php _e('Show Link Rating'); ?></label>
-		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 		</p>
 <?php
 	}
@@ -227,7 +225,6 @@ class WP_Widget_Archives extends WP_Widget {
 			<br />
 			<label for="<?php echo $this->get_field_id('dropdown'); ?>"><input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>" /> <?php _e('Display as a drop down'); ?></label>
 		</p>
-		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
 	}
 }
@@ -277,7 +274,6 @@ class WP_Widget_Meta extends WP_Widget {
 		$title = strip_tags($instance['title']);
 ?>
 			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
-			<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
 	}
 }
@@ -316,7 +312,6 @@ class WP_Widget_Calendar extends WP_Widget {
 		$title = strip_tags($instance['title']);
 ?>
 			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
-			<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
 	}
 }
@@ -362,7 +357,6 @@ class WP_Widget_Text extends WP_Widget {
 ?>
 			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
 			<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea>
-			<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
 	}
 }

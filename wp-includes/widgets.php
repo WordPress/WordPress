@@ -253,6 +253,9 @@ class WP_Widget {
 		}
 
 		$this->form($instance);
+?>
+		<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
+<?php
 	}
 
 	/** Helper function: Registers a single instance. */
