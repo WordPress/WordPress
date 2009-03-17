@@ -294,46 +294,6 @@ class WP_Widget_Meta extends WP_Widget {
 	}
 }
 
-/**
- * Display calendar widget.
- *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- */
-function wp_widget_calendar($args) {
-	extract($args);
-	$options = get_option('widget_calendar');
-	$title = apply_filters('widget_title', $options['title']);
-	if ( empty($title) )
-		$title = '&nbsp;';
-	echo $before_widget . $before_title . $title . $after_title;
-	echo '<div id="calendar_wrap">';
-	get_calendar();
-	echo '</div>';
-	echo $after_widget;
-}
-
-/**
- * Display and process calendar widget options form.
- *
- * @since 2.2.0
- */
-function wp_widget_calendar_control() {
-	$options = $newoptions = get_option('widget_calendar');
-	if ( isset($_POST["calendar-submit"]) ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["calendar-title"]));
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_calendar', $options);
-	}
-	$title = attribute_escape($options['title']);
-?>
-			<p><label for="calendar-title"><?php _e('Title:'); ?> <input class="widefat" id="calendar-title" name="calendar-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<input type="hidden" id="calendar-submit" name="calendar-submit" value="1" />
-<?php
-}
 
 /**
  * Calendar widget class
