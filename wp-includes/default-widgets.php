@@ -282,7 +282,6 @@ class WP_Widget_Meta extends WP_Widget {
 	}
 }
 
-
 /**
  * Calendar widget class
  *
@@ -323,136 +322,48 @@ class WP_Widget_Calendar extends WP_Widget {
 }
 
 /**
- * Display the Text widget, depending on the widget number.
+ * Text widget class
  *
- * Supports multiple text widgets and keeps track of the widget number by using
- * the $widget_args parameter. The option 'widget_text' is used to store the
- * content for the widgets. The content and title are passed through the
- * 'widget_text' and 'widget_title' filters respectively.
- *
- * @since 2.2.0
- *
- * @param array $args Widget arguments.
- * @param int $number Widget number.
+ * @since 2.8.0
  */
-function wp_widget_text($args, $widget_args = 1) {
-	extract( $args, EXTR_SKIP );
-	if ( is_numeric($widget_args) )
-		$widget_args = array( 'number' => $widget_args );
-	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-	extract( $widget_args, EXTR_SKIP );
+class WP_Widget_Text extends WP_Widget {
 
-	$options = get_option('widget_text');
-	if ( !isset($options[$number]) )
-		return;
+	function WP_Widget_Text() {
+		$widget_ops = array('classname' => 'widget_text', 'description' => __('Arbitrary text or HTML'));
+		$control_ops = array('width' => 400, 'height' => 350);
+		$this->WP_Widget('text', __('Text'), $widget_ops, $control_ops);
+	}
 
-	$title = apply_filters('widget_title', $options[$number]['title']);
-	$text = apply_filters( 'widget_text', $options[$number]['text'] );
-?>
-		<?php echo $before_widget; ?>
-			<?php if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
+	function widget( $args, $instance ) {
+		extract($args);
+		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
+		$text = apply_filters( 'widget_text', $instance['text'] );
+		echo $before_widget;
+		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
 			<div class="textwidget"><?php echo $text; ?></div>
-		<?php echo $after_widget; ?>
-<?php
-}
+		<?php
+		echo $after_widget;
+	}
 
-/**
- * Display and process text widget options form.
- *
- * @since 2.2.0
- *
- * @param int $widget_args Widget number.
- */
-function wp_widget_text_control($widget_args) {
-	global $wp_registered_widgets;
-	static $updated = false;
-
-	if ( is_numeric($widget_args) )
-		$widget_args = array( 'number' => $widget_args );
-	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-	extract( $widget_args, EXTR_SKIP );
-
-	$options = get_option('widget_text');
-	if ( !is_array($options) )
-		$options = array();
-
-	if ( !$updated && !empty($_POST['sidebar']) ) {
-		$sidebar = (string) $_POST['sidebar'];
-
-		$sidebars_widgets = wp_get_sidebars_widgets();
-		if ( isset($sidebars_widgets[$sidebar]) )
-			$this_sidebar =& $sidebars_widgets[$sidebar];
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		if ( current_user_can('unfiltered_html') )
+			$instance['text'] =  $new_instance['text'];
 		else
-			$this_sidebar = array();
-
-		foreach ( (array) $this_sidebar as $_widget_id ) {
-			if ( 'wp_widget_text' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
-				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				if ( !in_array( "text-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed.
-					unset($options[$widget_number]);
-			}
-		}
-
-		foreach ( (array) $_POST['widget-text'] as $widget_number => $widget_text ) {
-			if ( !isset($widget_text['text']) && isset($options[$widget_number]) ) // user clicked cancel
-				continue;
-			$title = strip_tags(stripslashes($widget_text['title']));
-			if ( current_user_can('unfiltered_html') )
-				$text = stripslashes( $widget_text['text'] );
-			else
-				$text = stripslashes(wp_filter_post_kses( $widget_text['text'] ));
-			$options[$widget_number] = compact( 'title', 'text' );
-		}
-
-		update_option('widget_text', $options);
-		$updated = true;
+			$instance['text'] = wp_filter_post_kses( $new_instance['text'] );
+		return $instance;
 	}
 
-	if ( -1 == $number ) {
-		$title = '';
-		$text = '';
-		$number = '%i%';
-	} else {
-		$title = attribute_escape($options[$number]['title']);
-		$text = format_to_edit($options[$number]['text']);
-	}
+	function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'text' => '' ) );
+		$title = strip_tags($instance['title']);
+		$text = format_to_edit($instance['text']);
 ?>
-		<p>
-			<input class="widefat" id="text-title-<?php echo $number; ?>" name="widget-text[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" />
-			<textarea class="widefat" rows="16" cols="20" id="text-text-<?php echo $number; ?>" name="widget-text[<?php echo $number; ?>][text]"><?php echo $text; ?></textarea>
-			<input type="hidden" name="widget-text[<?php echo $number; ?>][submit]" value="1" />
-		</p>
+			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+			<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo $text; ?></textarea>
+			<input type="hidden" id="<?php echo $this->get_field_id('submit'); ?>" name="<?php echo $this->get_field_name('submit'); ?>" value="1" />
 <?php
-}
-
-/**
- * Register text widget on startup.
- *
- * @since 2.2.0
- */
-function wp_widget_text_register() {
-	$options = get_option('widget_text');
-	if ( !is_array($options) )
-		$options = array();
-
-	$widget_ops = array('classname' => 'widget_text', 'description' => __('Arbitrary text or HTML'));
-	$control_ops = array('width' => 400, 'height' => 350, 'id_base' => 'text');
-	$name = __('Text');
-
-	$id = false;
-	foreach ( (array) array_keys($options) as $o ) {
-		// Old widgets can have null values for some reason
-		if ( !isset($options[$o]['title']) || !isset($options[$o]['text']) )
-			continue;
-		$id = "text-$o"; // Never never never translate an id
-		wp_register_sidebar_widget($id, $name, 'wp_widget_text', $widget_ops, array( 'number' => $o ));
-		wp_register_widget_control($id, $name, 'wp_widget_text_control', $control_ops, array( 'number' => $o ));
-	}
-
-	// If there are none, we register the widget's existance with a generic template
-	if ( !$id ) {
-		wp_register_sidebar_widget( 'text-1', $name, 'wp_widget_text', $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( 'text-1', $name, 'wp_widget_text_control', $control_ops, array( 'number' => -1 ) );
 	}
 }
 
@@ -1326,6 +1237,8 @@ function wp_widgets_init() {
 
 	new WP_Widget_Search();
 
+	new WP_Widget_Text();
+
 	$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your blog") );
 	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $widget_ops);
 	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control' );
@@ -1335,7 +1248,6 @@ function wp_widgets_init() {
 	wp_register_widget_control('tag_cloud', __('Tag Cloud'), 'wp_widget_tag_cloud_control' );
 
 	wp_widget_categories_register();
-	wp_widget_text_register();
 	wp_widget_rss_register();
 	wp_widget_recent_comments_register();
 
