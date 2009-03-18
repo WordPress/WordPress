@@ -88,20 +88,34 @@ class WP_Widget {
 
 	// Member functions that you must over-ride.
 
-	/** Echo the actual widget content. Subclasses should over-ride this function
-	 *	to generate their widget code. */
+	/** Echo the widget content.
+	 * 
+	 * Subclasses should over-ride this function to generate their widget code.
+	 *
+	 * @param array $args Display arguments including before_title, after_title, before_widget, and after_widget.
+	 * @param array $instance The settings for the particular instance of the widget
+	 */
 	function widget($args, $instance) {
 		die('function WP_Widget::widget() must be over-ridden in a sub-class.');
 	}
 
 	/** Update a particular instance.
-	 *	This function should check that $new_instance is set correctly.
-	 *	The newly calculated value of $instance should be returned. */
+	 * 
+	 * This function should check that $new_instance is set correctly.
+	 * The newly calculated value of $instance should be returned.
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via form()
+	 * @param array $old_instance Old settings for this instance
+	 * @return array Settings to save
+	 */
 	function update($new_instance, $old_instance) {
 		return $new_instance;
 	}
 
-	/** Echo a control form for the current instance. */
+	/** Echo the settings update form
+	 * 
+	 * @param array $instance Current settings 
+	 */
 	function form($instance) {
 		echo '<p>' . __('There are no options for this widget.') . '</p>';
 	}
@@ -134,20 +148,30 @@ class WP_Widget {
 		//add_action( 'widgets_init', array( &$this, '_register' ) );
 	}
 
-	/** Helper function to be called by form().
-	 *	Returns an HTML name for the field. */
+	/** Constructs name attributes for use in form() fields
+	 * 
+	 * This function should be used in form() methods to create name attributes for fields to be saved by update()
+	 * 
+	 * @param string $field_name Field name
+	 * @return string Name attribute for $field_name
+	 */
 	function get_field_name($field_name) {
 		return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
 	}
 
-	/** Helper function to be called by form().
-	 *	Returns an HTML id for the field. */
+	/** Constructs id attributes for use in form() fields
+	 * 
+	 * This function should be used in form() methods to create id attributes for fields to be saved by update()
+	 * 
+	 * @param string $field_name Field name
+	 * @return string ID attribute for $field_name
+	 */
 	function get_field_id($field_name) {
 		return 'widget-' . $this->id_base . '-' . $this->number . '-' . $field_name;
 	}
 
-	/** Registers this widget-type.
-	 *	Called during the 'widgets_init' action. */
+	// Private Functions. Don't worry about these.
+
 	function _register() {
 		$settings = $this->get_settings();
 
@@ -165,8 +189,6 @@ class WP_Widget {
 			}
 		}
 	}
-
-	// Private Functions. Don't worry about these.
 
 	function _set($number) {
 		$this->number = $number;
