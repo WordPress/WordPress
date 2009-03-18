@@ -1029,7 +1029,7 @@ function get_post_reply_link($args = array(), $post = null) {
 	$args = wp_parse_args($args, $defaults);
 	extract($args, EXTR_SKIP);
 	$post = get_post($post);
-	
+
 	if ( !comments_open($post->ID) )
 		return false;
 

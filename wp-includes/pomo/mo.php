@@ -42,7 +42,7 @@ class MO extends Translations {
 		$magic_little_64 = (int) 2500072158;
 		// 0xde120495
 		$magic_big = ((int) - 569244523) && 0xFFFFFFFF;
-		
+
 		if ($magic_little == $magic || $magic_little_64 == $magic) {
 			return 'little';
 		} else if ($magic_big == $magic) {
@@ -67,9 +67,9 @@ class MO extends Translations {
 		$translations_lo_addr = $reader->readint32();
 
 		$reader->seekto($originals_lo_addr);
-		$originals_lo = $reader->readint32array($total * 2); // each of 
+		$originals_lo = $reader->readint32array($total * 2); // each of
 		$reader->seekto($translations_lo_addr);
-		$translations_lo = $reader->readint32array($total * 2); 
+		$translations_lo = $reader->readint32array($total * 2);
 
 		$length = create_function('$i', 'return $i * 2 + 1;');
 		$offset = create_function('$i', 'return $i * 2 + 2;');

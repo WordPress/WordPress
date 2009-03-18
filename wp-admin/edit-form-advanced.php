@@ -269,35 +269,35 @@ add_meta_box('submitdiv', __('Publish'), 'post_submit_meta_box', 'post', 'side',
  * @param object $post
  */
 function post_tags_meta_box($post, $box) {
-	$tax_name = substr($box['id'], 8); 
+	$tax_name = substr($box['id'], 8);
 	$taxonomy = get_taxonomy($tax_name);
 	$helps = isset($taxonomy->helps) ? attribute_escape($taxonomy->helps) : __('Separate tags with commas.');
 ?>
-<div class="tagsdiv" id="<?php echo $tax_name; ?>"> 
+<div class="tagsdiv" id="<?php echo $tax_name; ?>">
 	<p class="jaxtag">
 		<label class="hidden" for="newtag"><?php _e( $box['title'] ); ?></label>
-		<input type="hidden" name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" value="<?php echo get_terms_to_edit( $post->ID, $tax_name ); ?>" /> 
-	 
+		<input type="hidden" name="<?php echo "tax_input[$tax_name]"; ?>" class="the-tags" id="tax-input[<?php echo $tax_name; ?>]" value="<?php echo get_terms_to_edit( $post->ID, $tax_name ); ?>" />
+
 	<span class="ajaxtag">
 		<input type="text" name="newtag[<?php echo $tax_name; ?>]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
 		<input type="button" class="button tagadd" value="<?php _e('Add'); ?>" tabindex="3" />
 	</span></p>
 	<p class="howto"><?php echo $helps; ?></p>
-	<div class="tagchecklist"></div> 
-</div> 
+	<div class="tagchecklist"></div>
+</div>
 <p class="tagcloud-link hide-if-no-js"><a href="#titlediv" class="tagcloud-link" id="link-<?php echo $tax_name; ?>"><?php printf( __('Choose from the most used tags in %s'), $box['title'] ); ?></a></p>
 <?php
 }
 
-// all tag-style post taxonomies 
-foreach ( get_object_taxonomies('post') as $tax_name ) { 
-	if ( !is_taxonomy_hierarchical($tax_name) ) { 
+// all tag-style post taxonomies
+foreach ( get_object_taxonomies('post') as $tax_name ) {
+	if ( !is_taxonomy_hierarchical($tax_name) ) {
 		$taxonomy = get_taxonomy($tax_name);
 		$label = isset($taxonomy->label) ? attribute_escape($taxonomy->label) : $tax_name;
 
-		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', 'post', 'side', 'core'); 
-	} 
-} 
+		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', 'post', 'side', 'core');
+	}
+}
 
 /**
  * Display post categories form fields.

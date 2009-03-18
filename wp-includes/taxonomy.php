@@ -535,7 +535,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * 'exclude' is ignored.
  *
  * exclude_tree - A comma- or space-delimited string of term ids to exclude
- * from the return array, along with all of their descendant terms according to 
+ * from the return array, along with all of their descendant terms according to
  * the primary taxonomy.  If 'include' is non-empty, 'exclude_tree' is ignored.
  *
  * include - Default is an empty string.  A comma- or space-delimited string
@@ -692,7 +692,7 @@ function &get_terms($taxonomies, $args = '') {
 	if ( ! empty( $exclude_tree ) ) {
 		$excluded_trunks = preg_split('/[\s,]+/',$exclude_tree);
 		foreach( (array) $excluded_trunks as $extrunk ) {
-			$excluded_children = (array) get_terms($taxonomies[0], array('child_of' => intval($extrunk), 'fields' => 'ids'));	
+			$excluded_children = (array) get_terms($taxonomies[0], array('child_of' => intval($extrunk), 'fields' => 'ids'));
 			$excluded_children[] = $extrunk;
 			foreach( (array) $excluded_children as $exterm ) {
 				if ( empty($exclusions) )
@@ -736,7 +736,7 @@ function &get_terms($taxonomies, $args = '') {
 	if ( $hide_empty && !$hierarchical )
 		$where .= ' AND tt.count > 0';
 
-	// don't limit the query results when we have to descend the family tree 
+	// don't limit the query results when we have to descend the family tree
 	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' == $parent ) {
 		if( $offset )
 			$limit = 'LIMIT ' . $offset . ',' . $number;

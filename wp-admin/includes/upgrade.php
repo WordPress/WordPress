@@ -96,7 +96,7 @@ function wp_install_defaults($user_id) {
 	$cat_name = __('Uncategorized');
 	/* translators: Default category slug */
 	$cat_slug = sanitize_title(_x('Uncategorized', 'Default category slug'));
-	
+
 	$wpdb->insert( $wpdb->terms, array('name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
 	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => '1', 'taxonomy' => 'category', 'description' => '', 'parent' => 0, 'count' => 1));
 
@@ -104,7 +104,7 @@ function wp_install_defaults($user_id) {
 	$cat_name = __('Blogroll');
 	/* translators: Default link category slug */
 	$cat_slug = sanitize_title(_x('Blogroll', 'Default link category slug'));
-	
+
 	$wpdb->insert( $wpdb->terms, array('name' => $cat_name, 'slug' => $cat_slug, 'term_group' => 0) );
 	$wpdb->insert( $wpdb->term_taxonomy, array('term_id' => '2', 'taxonomy' => 'link_category', 'description' => '', 'parent' => 0, 'count' => 7));
 
@@ -117,7 +117,7 @@ function wp_install_defaults($user_id) {
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/development/',
-								'link_name' => 'Development Blog', 
+								'link_name' => 'Development Blog',
 								'link_category' => 0,
 								'link_rss' => 'http://wordpress.org/development/feed/',
 								'link_notes' => '');
@@ -161,7 +161,7 @@ function wp_install_defaults($user_id) {
 	$now = date('Y-m-d H:i:s');
 	$now_gmt = gmdate('Y-m-d H:i:s');
 	$first_post_guid = get_option('home') . '/?p=1';
-	
+
 	$wpdb->insert( $wpdb->posts, array(
 								'post_author' => $user_id,
 								'post_date' => $now,
@@ -176,7 +176,7 @@ function wp_install_defaults($user_id) {
 								'post_modified_gmt' => $now_gmt,
 								'guid' => $first_post_guid,
 								'comment_count' => 1,
-								'to_ping' => '', 
+								'to_ping' => '',
 								'pinged' => '',
 								'post_content_filtered' => ''
 								));
@@ -208,7 +208,7 @@ function wp_install_defaults($user_id) {
 								'post_modified_gmt' => $now_gmt,
 								'guid' => $first_post_guid,
 								'post_type' => 'page',
-								'to_ping' => '', 
+								'to_ping' => '',
 								'pinged' => '',
 								'post_content_filtered' => ''
 								));
@@ -518,7 +518,7 @@ function upgrade_130() {
 		foreach($comments as $comment) {
 			$comment_content = deslash($comment->comment_content);
 			$comment_author = deslash($comment->comment_author);
-			
+
 			$wpdb->update($wpdb->comments, compact('comment_content', 'comment_author'), array('comment_ID' => $comment->comment_ID) );
 		}
 	}
@@ -529,7 +529,7 @@ function upgrade_130() {
 		foreach($links as $link) {
 			$link_name = deslash($link->link_name);
 			$link_description = deslash($link->link_description);
-			
+
 			$wpdb->update( $wpdb->links, compact('link_name', 'link_description'), array('link_id' => $link->link_id) );
 		}
 	}
@@ -641,7 +641,7 @@ function upgrade_160() {
 		$objects = $wpdb->get_results("SELECT ID, post_type FROM $wpdb->posts WHERE post_status = 'object'");
 		foreach ($objects as $object) {
 			$wpdb->update( $wpdb->posts, array(	'post_status' => 'attachment',
-												'post_mime_type' => $object->post_type, 
+												'post_mime_type' => $object->post_type,
 												'post_type' => ''),
 										 array( 'ID' => $object->ID ) );
 

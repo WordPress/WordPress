@@ -512,7 +512,7 @@ function get_posts($args = null) {
 function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	if ( !$meta_key )
 		return false;
-	
+
 	global $wpdb;
 
 	// make sure meta is added to the post, not a revision
@@ -563,7 +563,7 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 
 	if ( !$meta_key )
 		return false;
-	
+
 	if ( empty( $meta_value ) )
 		$meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = %s", $post_id, $meta_key ) );
 	else
@@ -597,7 +597,7 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 function get_post_meta($post_id, $key, $single = false) {
 	if ( !$key )
 		return '';
-	
+
 	$post_id = (int) $post_id;
 
 	$meta_cache = wp_cache_get($post_id, 'post_meta');
@@ -648,7 +648,7 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 
 	if ( !$meta_key )
 		return false;
-	
+
 	if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d", $meta_key, $post_id ) ) ) {
 		return add_post_meta($post_id, $meta_key, $meta_value);
 	}
@@ -680,7 +680,7 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 function delete_post_meta_by_key($post_meta_key) {
 	if ( !$post_meta_key )
 		return false;
-	
+
 	global $wpdb;
 	if ( $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->postmeta WHERE meta_key = %s", $post_meta_key)) ) {
 		/** @todo Get post_ids and delete cache */
@@ -756,7 +756,7 @@ function get_post_custom_keys( $post_id = 0 ) {
 function get_post_custom_values( $key = '', $post_id = 0 ) {
 	if ( !$key )
 		return null;
-	
+
 	$custom = get_post_custom($post_id);
 
 	return isset($custom[$key]) ? $custom[$key] : null;
@@ -1546,7 +1546,7 @@ function wp_insert_post($postarr = array(), $wp_error = false) {
 	// new-style support for all tag-like taxonomies
 	if ( !empty($tax_input) ) {
 		foreach ( $tax_input as $taxonomy => $tags ) {
-			wp_set_post_terms( $post_ID, $tags, $taxonomy );			
+			wp_set_post_terms( $post_ID, $tags, $taxonomy );
 		}
 	}
 
@@ -3526,7 +3526,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 
 	$post = _wp_post_revision_fields( $post, $autosave );
 	$post = add_magic_quotes($post); //since data is from db
-	
+
 	$revision_id = wp_insert_post( $post );
 	if ( is_wp_error($revision_id) )
 		return $revision_id;
@@ -3602,7 +3602,7 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		return false;
 
 	$update['ID'] = $revision['post_parent'];
-	
+
 	$update = add_magic_quotes( $update ); //since data is from db
 
 	$post_id = wp_update_post( $update );

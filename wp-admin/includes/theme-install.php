@@ -18,7 +18,7 @@ $theme_field_defaults = array( 'description' => true, 'sections' => false, 'test
 	'rating' => true, 'downloaded' => true, 'downloadlink' => true, 'last_updated' => true, 'homepage' => true,
 	'tags' => true, 'num_ratings' => true
 );
- 
+
 
 /**
  * Retrieve theme installer pages from WordPress Themes API.
@@ -302,12 +302,12 @@ function display_theme($theme, $actions = null, $show_details = true) {
 <div class="themedetaildiv hide-if-js">
 <p><strong><?php _e('Version:') ?></strong> <?php echo wp_kses($theme->version, $themes_allowedtags) ?></p>
 <p><strong><?php _e('Author:') ?></strong> <?php echo wp_kses($theme->author, $themes_allowedtags) ?></p>
-<?php if ( ! empty($theme->last_updated) ) : ?> 
+<?php if ( ! empty($theme->last_updated) ) : ?>
 <p><strong><?php _e('Last Updated:') ?></strong> <span title="<?php echo $theme->last_updated ?>"><?php printf( __('%s ago'), human_time_diff(strtotime($theme->last_updated)) ) ?></span></p>
-<?php endif; if ( ! empty($theme->requires) ) : ?>   	   	 
-<p><strong><?php _e('Requires WordPress Version:') ?></strong> <?php printf(__('%s or higher'), $theme->requires) ?></p> 	  	 
-<?php endif; if ( ! empty($theme->tested) ) : ?>  	  	 
-<p><strong><?php _e('Compatible up to:') ?></strong> <?php echo $theme->tested ?></p>  	  	 	
+<?php endif; if ( ! empty($theme->requires) ) : ?>
+<p><strong><?php _e('Requires WordPress Version:') ?></strong> <?php printf(__('%s or higher'), $theme->requires) ?></p>
+<?php endif; if ( ! empty($theme->tested) ) : ?>
+<p><strong><?php _e('Compatible up to:') ?></strong> <?php echo $theme->tested ?></p>
 <?php endif; if ( !empty($theme->downloaded) ) : ?>
 <p><strong><?php _e('Downloaded:') ?></strong> <?php printf(_n('%s time', '%s times', $theme->downloaded), number_format_i18n($theme->downloaded)) ?></p>
 <?php endif; ?>
@@ -843,7 +843,7 @@ function wp_install_theme_local_package($package, $feedback = '') {
 		$wp_filesystem->delete($working_dir, true);
 		return new WP_Error('install_folder_exists', __('Folder already exists.'), $filelist[0] );
 	}
-	
+
 	apply_filters('install_feedback', __('Installing the theme'));
 	// Copy new version of theme into place.
 	$result = copy_dir($working_dir, $themes_dir);

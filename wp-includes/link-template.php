@@ -1528,7 +1528,7 @@ function plugins_url($path = '', $plugin = '') {
 		if ('.' != $folder)
 			$url .= '/' . ltrim($folder, '/');
 	}
-	
+
 	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
 		$url .= '/' . ltrim($path, '/');
 

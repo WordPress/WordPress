@@ -241,7 +241,7 @@ function show_message($message) {
 function wp_doc_link_parse( $content ) {
 	if ( !is_string( $content ) || empty( $content ) )
 		return array();
-		
+
 	$tokens = token_get_all( $content );
 	$functions = array();
 	$ignore_functions = array();
@@ -256,51 +256,51 @@ function wp_doc_link_parse( $content ) {
 			$functions[] = $tokens[$t][1];
 		}
 	}
-	
+
 	$functions = array_unique( $functions );
 	sort( $functions );
 	$ignore_functions = apply_filters( 'documentation_ignore_functions', $ignore_functions );
 	$ignore_functions = array_unique( $ignore_functions );
-	
+
 	$out = array();
 	foreach ( $functions as $function ) {
 		if ( in_array( $function, $ignore_functions ) )
 			continue;
 		$out[] = $function;
 	}
-	
+
 	return $out;
 }
 
 /**
  * Determines the language to use for CodePress syntax highlighting,
  * based only on a filename.
- * 
+ *
  * @since 2.8
- * 
+ *
  * @param string $filename The name of the file to be highlighting
 **/
 function codepress_get_lang( $filename ) {
-	$codepress_supported_langs = apply_filters( 'codepress_supported_langs', 
+	$codepress_supported_langs = apply_filters( 'codepress_supported_langs',
 									array( '.css' => 'css',
-											'.js' => 'javascript', 
-											'.php' => 'php', 
-											'.html' => 'html', 
-											'.htm' => 'html', 
-											'.txt' => 'text' 
+											'.js' => 'javascript',
+											'.php' => 'php',
+											'.html' => 'html',
+											'.htm' => 'html',
+											'.txt' => 'text'
 											) );
 	$extension = substr( $filename, strrpos( $filename, '.' ) );
 	if ( $extension && array_key_exists( $extension, $codepress_supported_langs ) )
 		return $codepress_supported_langs[$extension];
-	
+
 	return 'generic';
 }
 
 /**
  * Adds Javascript required to make CodePress work on the theme/plugin editors.
- * 
+ *
  * This code is attached to the action admin_print_footer_scripts.
- * 
+ *
  * @since 2.8
 **/
 function codepress_footer_js() {

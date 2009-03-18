@@ -218,7 +218,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 
 	if ( is_wp_error($tags) )
 		return $tags;
-	
+
 	foreach ( $tags as $tag )
 		$tag_names[] = $tag->name;
 	$tags_to_edit = join( ',', $tag_names );

@@ -156,15 +156,15 @@ function do_shortcode($content) {
  *
  * The regular expression combines the shortcode tags in the regular expression
  * in a regex class.
- * 
+ *
  * The regular expresion contains 6 different sub matches to help with parsing.
- * 
+ *
  * 1/6 - An extra [ or ] to allow for escaping shortcodes with double [[]]
  * 2 - The shortcode name
  * 3 - The shortcode argument list
  * 4 - The self closing /
  * 5 - The content of a shortcode when it wraps some content.
- * 
+ *
  * @since 2.5
  * @uses $shortcode_tags
  *
@@ -196,7 +196,7 @@ function do_shortcode_tag($m) {
 	if ($m[1] == '[' && $m[6] == ']') {
 		return substr($m[0], 1, -1);
 	}
-	
+
 	$tag = $m[2];
 	$attr = shortcode_parse_atts($m[3]);
 

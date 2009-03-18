@@ -230,7 +230,7 @@ function _n_noop( $single, $plural ) {
 
 /**
  * Register plural strings with context in POT file, but don't translate them.
- * 
+ *
  * @see _n_noop()
  */
 function _nx_noop( $single, $plural, $context ) {
@@ -260,13 +260,13 @@ function load_textdomain($domain, $mofile) {
 	global $l10n;
 
 	if ( !is_readable($mofile)) return;
-	
+
 	$mo = new MO();
 	$mo->import_from_file( $mofile );
 
 	if (isset($l10n[$domain]))
 		$mo->merge_with( $l10n[$domain] );
-		
+
 	$l10n[$domain] = &$mo;
 }
 
@@ -338,7 +338,7 @@ function load_theme_textdomain($domain, $path = false) {
 /**
  * Returns the Translations instance for a domain. If there isn't one,
  * returns empty Translations instance.
- * 
+ *
  * @param string $domain
  * @return object A Translation instance
  */
@@ -352,7 +352,7 @@ function get_translations_for_domain( $domain ) {
  * Translates role name. Since the role names are in the database and
  * not in the source there are dummy gettext calls to get them into the POT
  * file and this function properly translates them back.
- * 
+ *
  * The before_last_bar() call is needed, because older installs keep the roles
  * using the old context format: 'Role name|User role' and just skipping the
  * content after the last bar is easier than fixing them in the DB. New installs

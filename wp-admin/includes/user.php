@@ -10,7 +10,7 @@
  * Creates a new user from the "Users" form using $_POST information.
  *
  * It seems that the first half is for backwards compatibility, but only
- * has the ability to alter the user's role. Wordpress core seems to 
+ * has the ability to alter the user's role. Wordpress core seems to
  * use this function only in the second way, running edit_user() with
  * no id so as to create a new user.
  *
@@ -31,7 +31,7 @@ function add_user() {
 				$editable_roles = get_editable_roles();
 				if (!$editable_roles[$_POST['role']])
 					wp_die(__('You can&#8217;t give users that role.'));
-				
+
 				$user = new WP_User( $user_id );
 				$user->set_role( $_POST['role'] );
 			}
@@ -77,7 +77,7 @@ function edit_user( $user_id = 0 ) {
 
 		// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
 		if( $user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap( 'edit_users' ))
-			$user->role = $_POST['role']; 
+			$user->role = $_POST['role'];
 
 		// If the new role isn't editable by the logged-in user die with error
 		$editable_roles = get_editable_roles();
@@ -258,16 +258,16 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 }
 
 /**
- * Fetch a filtered list of user roles that the current user is 
- * allowed to edit. 
+ * Fetch a filtered list of user roles that the current user is
+ * allowed to edit.
  *
- * Simple function who's main purpose is to allow filtering of the 
+ * Simple function who's main purpose is to allow filtering of the
  * list of roles in the $wp_roles object so that plugins can remove
  * innappropriate ones depending on the situation or user making edits.
  * Specifically because without filtering anyone with the edit_users
  * capability can edit others to be administrators, even if they are
  * only editors or authors. This filter allows admins to delegate
- * user management. 
+ * user management.
  *
  * @since 2.8
  *
@@ -277,8 +277,8 @@ function get_editable_roles() {
 	global $wp_roles;
 
 	$all_roles = $wp_roles->roles;
-	$editable_roles = apply_filters('editable_roles', $all_roles);	
-	
+	$editable_roles = apply_filters('editable_roles', $all_roles);
+
 	return $editable_roles;
 }
 

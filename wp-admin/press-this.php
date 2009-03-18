@@ -488,16 +488,16 @@ var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
 			<div id="tagsdiv-post_tag" class="stuffbox" >
 				<h3><span><?php _e('Post Tags'); ?></span></h3>
 				<div class="inside">
-					<div class="tagsdiv" id="post_tag"> 
+					<div class="tagsdiv" id="post_tag">
 						<p class="jaxtag">
 							<label class="hidden" for="newtag"><?php _e('Post Tags'); ?></label>
-							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" /> 
+							<input type="hidden" name="tax_input[post_tag]" class="the-tags" id="tax-input[post_tag]" value="" />
 							<span class="ajaxtag" style="display:none;">
 								<input type="text" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="<?php _e('Add new tag'); ?>" />
 								<input type="button" class="button tagadd" value="Add" tabindex="3" />
 							</span>
-						</p> 
-						<div class="tagchecklist"></div> 
+						</p>
+						<div class="tagchecklist"></div>
 					</div>
 					<p class="tagcloud-link"><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php _e('Choose from the most used tags in Post Tags'); ?></a></p>
 				</div>

@@ -411,7 +411,7 @@ function post_exists($title, $content = '', $date = '') {
 	global $wpdb;
 
 	$post_title = stripslashes( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
-	$post_content = stripslashes( sanitize_post_field( 'post_content', $content, 0, 'db' ) );    
+	$post_content = stripslashes( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
 	$post_date = stripslashes( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
@@ -431,7 +431,7 @@ function post_exists($title, $content = '', $date = '') {
 		$query .= 'AND post_content = %s';
 		$args[] = $post_content;
 	}
-    
+
 	if ( !empty ( $args ) )
 		return $wpdb->get_var( $wpdb->prepare($query, $args) );
 
@@ -924,7 +924,7 @@ function get_sample_permalink($id, $title=null, $name = null) {
 		$post->post_name = sanitize_title($name? $name : $title, $post->ID);
 	}
 
-	$post->filter = 'sample'; 
+	$post->filter = 'sample';
 
 	$permalink = get_permalink($post, true);
 
@@ -963,7 +963,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 	if ( 'publish' == $post->post_status )
 		$view_post = 'post' == $post->post_type ? __('View Post') : __('View Page');
-	
+
 	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink">' . $permalink . "</span>\n";
 		$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
@@ -1144,7 +1144,7 @@ function post_preview() {
  */
 function wp_tiny_mce( $teeny = false ) {
 	global $concatenate_scripts, $compress_scripts;
-	
+
 	if ( ! user_can_richedit() )
 		return;
 

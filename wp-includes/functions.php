@@ -651,7 +651,7 @@ function delete_transient($transient) {
  *
  * If the transient does not exist or does not have a value, then the return value
  * will be false.
- * 
+ *
  * @since 2.8.0
  * @package WordPress
  * @subpackage Transient
@@ -710,7 +710,7 @@ function set_transient($transient, $value, $expiration = 0) {
 		if ( false === get_option( $safe_transient ) ) {
 			$autoload = 'yes';
 			if ( 0 != $expiration ) {
-				$autoload = 'no'; 
+				$autoload = 'no';
 				add_option($transient_timeout, time() + $expiration, '', 'no');
 			}
 			return add_option($transient, $value, '', $autoload);
@@ -1489,7 +1489,7 @@ function wp_get_nocache_headers() {
 		'Cache-Control' => 'no-cache, must-revalidate, max-age=0',
 		'Pragma' => 'no-cache',
 	);
-	
+
 	if ( function_exists('apply_filters') ) {
 		$headers = apply_filters('nocache_headers', $headers);
 	}
@@ -1507,8 +1507,8 @@ function wp_get_nocache_headers() {
  */
 function nocache_headers() {
 	$headers = wp_get_nocache_headers();
-	foreach( (array) $headers as $name => $field_value ) 
-		@header("{$name}: {$field_value}");		
+	foreach( (array) $headers as $name => $field_value )
+		@header("{$name}: {$field_value}");
 }
 
 /**
@@ -3051,7 +3051,7 @@ function update_site_option( $key, $value ) {
 
 /**
  * gmt_offset modification for smart timezone handling
- * 
+ *
  * Overrides the gmt_offset option if we have a timezone_string available
  */
 function wp_timezone_override_offset() {
@@ -3061,27 +3061,27 @@ function wp_timezone_override_offset() {
 	if (empty($tz)) return false;
 
 	@date_default_timezone_set($tz);
-		
+
 	$dateTimeZoneSelected = timezone_open($tz);
 	$dateTimeServer = date_create();
 	if ($dateTimeZoneSelected === false || $dateTimeServer === false) return false;
-		
+
 	$timeOffset = timezone_offset_get($dateTimeZoneSelected, $dateTimeServer);
 	$timeOffset = $timeOffset / 3600;
-		
+
 	return $timeOffset;
 }
 
 /**
  * Check for PHP timezone support
- * 
+ *
  */
 function wp_timezone_supported() {
-	if (function_exists('date_default_timezone_set') 
+	if (function_exists('date_default_timezone_set')
 		&& function_exists('timezone_identifiers_list')
-		&& function_exists('timezone_open') 
+		&& function_exists('timezone_open')
 		&& function_exists('timezone_offset_get')
-		) 
+		)
 		return true;
 
 	return false;
@@ -3108,7 +3108,7 @@ function wp_timezone_choice($selectedzone) {
 		$zonen[$i]['subcity'] = isset($zone[2]) ? $zone[2] : '';
 		$i++;
 	}
-	
+
 	asort($zonen);
 	$structure = '';
 	$pad = '&nbsp;&nbsp;&nbsp;';

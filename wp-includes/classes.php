@@ -355,9 +355,9 @@ class WP {
 			}
 		}
 
-		$headers = apply_filters('wp_headers', $headers, $this); 
+		$headers = apply_filters('wp_headers', $headers, $this);
 
-		if ( ! empty( $status ) ) 
+		if ( ! empty( $status ) )
 			status_header( $status );
 		foreach( (array) $headers as $name => $field_value )
 			@header("{$name}: {$field_value}");

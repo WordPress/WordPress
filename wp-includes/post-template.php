@@ -360,12 +360,12 @@ function body_class( $class = '' ) {
  */
 function get_body_class( $class = '' ) {
 	global $wp_query, $current_user;
-	
+
 	$classes = array();
-	
+
 	if ( 'rtl' == get_bloginfo('text_direction') )
 		$classes[] = 'rtl';
-	
+
 	if ( is_front_page() )
 		$classes[] = 'home';
 	if ( is_home() )
@@ -382,19 +382,19 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'attachment';
 	if ( is_404() )
 		$classes[] = 'error404';
-	
+
 	if ( is_single() ) {
 		the_post();
-		
+
 		$postID = $wp_query->post->ID;
 		$classes[] = 'single postid-' . $postID;
-		
+
 		if ( is_attachment() ) {
 			$mime_type = get_post_mime_type();
 			$mime_prefix = array( 'application/', 'image/', 'text/', 'audio/', 'video/', 'music/' );
 			$classes[] = 'attachmentid-' . $postID . ' attachment-' . str_replace( $mime_prefix, "", "$mime_type" );
 		}
-		
+
 		rewind_posts();
 	} elseif ( is_archive() ) {
 		if ( is_author() ) {
@@ -412,42 +412,42 @@ function get_body_class( $class = '' ) {
 		}
 	} elseif ( is_page() ) {
 		the_post();
-		
+
 		$pageID = $wp_query->post->ID;
 		$page_children = wp_list_pages("child_of=$pageID&echo=0");
-		
+
 		if ( $page_children )
 			$classes[] = 'page-parent';
-		
+
 		if ( $wp_query->post->post_parent )
 			$classes[] = 'page-child parent-pageid-' . $wp_query->post->post_parent;
-		
+
 		if ( is_page_template() )
 			$classes[] = 'page-template page-template-' . str_replace( '.php', '-php', get_post_meta( $pageID, '_wp_page_template', true ) );
-		
+
 		rewind_posts();
 	} elseif ( is_search() ) {
 		the_post();
-		
+
 		if ( have_posts() )
 			$classes[] = 'search-results';
 		else
 			$classes[] = 'search-no-results';
-		
+
 		rewind_posts();
 	}
-	
+
 	if ( is_user_logged_in() )
 		$classes[] = 'logged-in';
-	
+
 	$page = $wp_query->get('page');
-	
+
 	if ( !$page || $page < 2)
 		$page = $wp_query->get('paged');
-	
+
 	if ( $page && $page > 1 ) {
 		$classes[] = 'paged-' . $page;
-		
+
 		if ( is_single() )
 			$classes[] = 'single-paged-' . $page;
 		elseif ( is_page() )
@@ -463,13 +463,13 @@ function get_body_class( $class = '' ) {
 		elseif ( is_search() )
 			$classes[] = 'search-paged-' . $page;
 	}
-	
+
 	if ( !empty($class) ) {
 		if ( !is_array( $class ) )
 			$class = preg_split('#\s+#', $class);
 		$classes = array_merge($classes, $class);
 	}
-	
+
 	return apply_filters('body_class', $classes, $class);
 }
 
@@ -854,7 +854,7 @@ function wp_page_menu( $args = array() ) {
  * @see Walker_Page::walk() for parameters and return description.
  */
 function walk_page_tree($pages, $depth, $current_page, $r) {
-	if ( empty($r['walker']) ) 
+	if ( empty($r['walker']) )
 		$walker = new Walker_Page;
 	else
 		$walker = $r['walker'];
@@ -925,7 +925,7 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 		$url = get_attachment_link($_post->ID);
 
 	$post_title = attribute_escape($_post->post_title);
-	
+
 	if ( $text ) {
 		$link_text = attribute_escape($text);
 	} elseif ( ( is_int($size) && $size != 0 ) or ( is_string($size) && $size != 'none' ) or $size != false ) {
@@ -934,7 +934,7 @@ function wp_get_attachment_link($id = 0, $size = 'thumbnail', $permalink = false
 
 	if( trim($link_text) == '' )
 		$link_text = $_post->post_title;
-	
+
 	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
 

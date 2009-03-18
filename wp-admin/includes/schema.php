@@ -328,7 +328,7 @@ function populate_options() {
 		$option = $wpdb->escape($option);
 		$value = $wpdb->escape($value);
 		if ( !empty($insert) )
-			$insert .= ', '; 
+			$insert .= ', ';
 		$insert .= "('$option', '$value', '$autoload')";
 	}
 

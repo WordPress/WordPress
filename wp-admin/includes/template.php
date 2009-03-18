@@ -368,7 +368,7 @@ function link_cat_row( $category, $name_override = false ) {
  * Outputs the html checked attribute.
  *
  * Compares the first two arguments and if identical marks as checked
- * 
+ *
  * @since unknown
  *
  * @param any $checked One of the values to compare
@@ -381,7 +381,7 @@ function checked( $checked, $current = true, $echo = true) {
 
 /**
  * Outputs the html selected attribute.
- * 
+ *
  * Compares the first two arguments and if identical marks as selected
  *
  * @since unknown
@@ -396,7 +396,7 @@ function selected( $selected, $current = true, $echo = true) {
 
 /**
  * Private helper function for checked and selected.
- * 
+ *
  * Compares the first two arguments and if identical marks as $type
  *
  * @since unknown
@@ -412,10 +412,10 @@ function __checked_selected_helper( $helper, $current, $echo, $type) {
 		$result = " $type='$type'";
 	else
 		$result = '';
-	
+
 	if ($echo)
 		echo $result;
-	
+
 	return $result;
 }
 
@@ -2751,8 +2751,8 @@ function wp_import_upload_form( $action ) {
 	$upload_dir = wp_upload_dir();
 	if ( ! empty( $upload_dir['error'] ) ) :
 		?><div class="error"><p><?php _e('Before you can upload your import file, you will need to fix the following error:'); ?></p>
-		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php 
-	else : 
+		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php
+	else :
 ?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo attribute_escape($action) ?>">
 <p>
@@ -3473,7 +3473,7 @@ function screen_layout($screen) {
 		$screen_layout_columns = 0;
 		return '';
 	}
-	
+
 	if ( ! $screen_layout_columns )
 			$screen_layout_columns = 2;
 

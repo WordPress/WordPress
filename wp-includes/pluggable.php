@@ -330,11 +330,11 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	/* If we don't have an email from the input headers default to wordpress@$sitename
 	 * Some hosts will block outgoing mail from this address if it doesn't exist but
-	 * there's no easy alternative. Defaulting to admin_email might appear to be another 
+	 * there's no easy alternative. Defaulting to admin_email might appear to be another
 	 * option but some hosts may refuse to relay mail from an unknown domain. See
 	 * http://trac.wordpress.org/ticket/5007.
 	 */
-	
+
 	if ( !isset( $from_email ) ) {
 		// Get the site domain and get rid of www.
 		$sitename = strtolower( $_SERVER['SERVER_NAME'] );
@@ -1383,7 +1383,7 @@ if ( !function_exists('wp_generate_password') ) :
  * @since 2.5
  *
  * @param int $length The length of password to generate
- * @param bool $special_chars Whether to include standard special characters 
+ * @param bool $special_chars Whether to include standard special characters
  * @return string The random password
  **/
 function wp_generate_password($length = 12, $special_chars = true) {
@@ -1518,7 +1518,7 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 	}
 
  	if ( is_ssl() )
-		$host = 'https://secure.gravatar.com'; 
+		$host = 'https://secure.gravatar.com';
 	else
 		$host = 'http://www.gravatar.com';
 

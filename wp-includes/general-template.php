@@ -457,7 +457,7 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$term = $term->name;
 		$title = "$tax$t_sep$term";
 	}
-	
+
 	//If it's a search
 	if ( is_search() ) {
 		$title = sprintf(__('Search Results %s %s'), $t_sep, strip_tags($search));

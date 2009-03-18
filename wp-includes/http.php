@@ -302,7 +302,7 @@ class WP_Http {
 		$response = array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		foreach( (array) $transports as $transport ) {
 			$response = $transport->request($url, $r);
-			
+
 			if( has_action('http_api_debug') )
 				do_action( 'http_api_debug', $response, 'response', get_class($transport) );
 
@@ -538,7 +538,7 @@ class WP_Http {
 			return false;
 
 		$home = parse_url( get_bloginfo('site_url') );
-		
+
 		// Don't block requests back to ourselves by default
 		if ( $uri == 'localhost' || $uri == $home['host'] )
 			return apply_filters('block_local_requests', false);
@@ -937,7 +937,7 @@ class WP_Http_Streams {
 
 		$proxy = new WP_HTTP_Proxy();
 
-		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) { 
+		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
 			$arrContext['http']['proxy'] = 'tcp://'.$proxy->host().':'.$proxy->port();
 
 			// We only support Basic authentication so this will only work if that is what your proxy supports.
@@ -1077,7 +1077,7 @@ class WP_Http_ExtHTTP {
 			'redirect' => $r['redirection'],
 			'useragent' => $r['user-agent'],
 			'headers' => $r['headers'],
-			'ssl' => array( 
+			'ssl' => array(
 				'verifypeer' => apply_filters('https_ssl_verify', $r['sslverify']),
 				'verifyhost' => apply_filters('https_ssl_verify', $r['sslverify'])
 			)
@@ -1276,7 +1276,7 @@ class WP_Http_Curl {
 
 		if ( !empty($theResponse) ) {
 			$parts = explode("\r\n\r\n", $theResponse);
-			
+
 			$headerLength = curl_getinfo($handle, CURLINFO_HEADER_SIZE);
 			$theHeaders = trim( substr($theResponse, 0, $headerLength) );
 			$theBody = substr( $theResponse, $headerLength );
@@ -1358,7 +1358,7 @@ class WP_HTTP_Proxy {
 	}
 
 	function __construct() {
-		
+
 	}
 
 	/**
@@ -1630,7 +1630,7 @@ class WP_Http_Cookie {
 
 	/**
 	 * Confirms that it's OK to send this cookie to the URL checked against.
-	 * 
+	 *
 	 * Decision is based on RFC 2109/2965, so look there for details on validity.
 	 *
 	 * @access public
@@ -1683,7 +1683,7 @@ class WP_Http_Cookie {
 	function getHeaderValue() {
 		if ( empty( $this->name ) || empty( $this->value ) )
 			return '';
-		
+
 		return $this->name . '=' . urlencode( $this->value );
 	}
 

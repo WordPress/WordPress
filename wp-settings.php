@@ -202,7 +202,7 @@ if (defined('WP_DEBUG') and WP_DEBUG == true) {
 	error_reporting(E_ALL);
 } else {
 	// Unicode Extension is in PHP 6.0 only or do version check when this changes.
-	if ( function_exists('unicode_decode') ) 
+	if ( function_exists('unicode_decode') )
 		error_reporting( E_ALL ^ E_DEPRECATED ^ E_NOTICE ^ E_USER_NOTICE ^ E_STRICT );
 	else if ( defined( 'E_DEPRECATED' ) ) // Introduced in PHP 5.3
 		error_reporting( E_ALL ^ E_DEPRECATED ^ E_NOTICE ^ E_USER_NOTICE );
@@ -377,7 +377,7 @@ if ( !defined('WPMU_PLUGIN_URL') )
  *
  * @since 2.8.0
  */
-if ( !defined( 'MUPLUGINDIR' ) ) 
+if ( !defined( 'MUPLUGINDIR' ) )
 	define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH.  For back compat.
 
 if ( is_dir( WPMU_PLUGIN_DIR ) ) {

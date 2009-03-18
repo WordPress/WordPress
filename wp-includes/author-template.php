@@ -517,9 +517,9 @@ function wp_list_authors($args = '') {
 	}
 
 	foreach ( (array) $authors as $author ) {
-		
-		$link = ''; 
-		
+
+		$link = '';
+
 		$author = get_userdata( $author->ID );
 		$posts = (isset($author_count[$author->ID])) ? $author_count[$author->ID] : 0;
 		$name = $author->display_name;

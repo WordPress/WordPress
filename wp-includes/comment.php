@@ -1340,7 +1340,7 @@ function do_trackbacks($post_id) {
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
 	if ( empty($to_ping) ) {
-		$wpdb->update($wpdb->posts, array('to_ping' => ''), array('ID' => $post_id) ); 
+		$wpdb->update($wpdb->posts, array('to_ping' => ''), array('ID' => $post_id) );
 		return;
 	}
 

@@ -130,7 +130,7 @@ class Translations {
 	/**
 	 * Adds parantheses to the inner parts of ternary operators in
 	 * plural expressions, because PHP evaluates ternary oerators from left to right
-	 * 
+	 *
 	 * @param string $expression the expression without parentheses
 	 * @return string the expression with parentheses added
 	 */
@@ -158,7 +158,7 @@ class Translations {
 		}
 		return rtrim($res, ';');
 	}
-	
+
 	/**
 	 * Merge $other in the current object.
 	 *

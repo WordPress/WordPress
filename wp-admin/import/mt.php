@@ -438,10 +438,10 @@ class MT_Import {
 				$ping->comment_author = $blog;
 			} else {
 				// Processing multi-line field, check context.
-				
+
 				if( !empty($line) )
 					$line .= "\n";
-					
+
 				if ( 'body' == $context ) {
 					$post->post_content .= $line;
 				} else if ( 'extended' ==  $context ) {

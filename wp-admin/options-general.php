@@ -93,8 +93,8 @@ include('./admin-header.php');
 </td>
 </tr>
 <tr>
-<?php 
-if (!wp_timezone_supported()) : // no magic timezone support here 
+<?php
+if (!wp_timezone_supported()) : // no magic timezone support here
 ?>
 <th scope="row"><label for="gmt_offset"><?php _e('Timezone') ?> </label></th>
 <td>
@@ -130,7 +130,7 @@ foreach ( $offset_range as $offset ) {
 <br/>
 <span class="setting-description"><?php _e('Unfortunately, you have to manually update this for Daylight Savings Time. Lame, we know, but will be fixed in the future.'); ?></span>
 </td>
-<?php 
+<?php
 else: // looks like we can do nice timezone selection!
 $current_offset = get_option('gmt_offset');
 $tzstring = get_option('timezone_string');
@@ -158,7 +158,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 	?>
 	<br />
 	<?php
-	if (function_exists('timezone_transitions_get') && $tzstring) { 
+	if (function_exists('timezone_transitions_get') && $tzstring) {
 		$dateTimeZoneSelected = new DateTimeZone($tzstring);
 		foreach (timezone_transitions_get($dateTimeZoneSelected) as $tr) {
 			if ($tr['ts'] > time()) {
@@ -166,7 +166,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 				break;
 			}
 		}
-	
+
 		if ($found) {
 			_e(' ');
 			$message = $tr['isdst'] ?

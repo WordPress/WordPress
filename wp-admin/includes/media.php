@@ -1549,9 +1549,9 @@ jQuery(function($){
 -->
 </script>
 <div id="sort-buttons" class="hide-if-no-js">
-<?php _e('Sort Order:'); ?> 
-<a href="#" id="asc"><?php _e('Ascending'); ?></a> 
-<a href="#" id="desc"><?php _e('Descending'); ?></a> 
+<?php _e('Sort Order:'); ?>
+<a href="#" id="asc"><?php _e('Ascending'); ?></a>
+<a href="#" id="desc"><?php _e('Descending'); ?></a>
 <a href="#" id="clear"><?php _e('Clear'); ?></a>
 </div>
 <form enctype="multipart/form-data" method="post" action="<?php echo attribute_escape($form_action_url); ?>" class="media-upload-form validate" id="gallery-form">

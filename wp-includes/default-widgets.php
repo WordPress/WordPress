@@ -1,7 +1,7 @@
 <?php
 
-/** 
- * Default Widgets 
+/**
+ * Default Widgets
  *
  * @package WordPress
  * @subpackage Widgets
@@ -42,7 +42,7 @@ class WP_Widget_Pages extends WP_Widget {
 			echo $after_widget;
 		}
 	}
-	
+
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -56,7 +56,7 @@ class WP_Widget_Pages extends WP_Widget {
 
 		return $instance;
 	}
-	
+
 	function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'sortby' => 'post_title', 'title' => '', 'exclude' => '') );
@@ -102,7 +102,7 @@ class WP_Widget_Links extends WP_Widget {
 		$show_name = isset($instance['name']) ? $instance['name'] : false;
 		$show_rating = isset($instance['rating']) ? $instance['rating'] : false;
 		$show_images = isset($instance['images']) ? $instance['images'] : true;
-	
+
 		$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
 		wp_list_bookmarks(apply_filters('widget_links_args', array(
 			'title_before' => $before_title, 'title_after' => $after_title,
@@ -112,7 +112,7 @@ class WP_Widget_Links extends WP_Widget {
 			'class' => 'linkcat widget'
 		)));
 	}
-	
+
 	function update( $new_instance, $old_instance ) {
 		$new_instance = (array) $new_instance;
 		$instance = array( 'images' => 0, 'name' => 0, 'description' => 0, 'rating' => 0);
@@ -120,10 +120,10 @@ class WP_Widget_Links extends WP_Widget {
 			if ( isset($new_instance[$field]) )
 				$instance[$field] = 1;
 		}
-	
+
 		return $instance;
 	}
-	
+
 	function form( $instance ) {
 
 		//Defaults
@@ -162,7 +162,7 @@ class WP_Widget_Search extends WP_Widget {
 		// Use current theme search form if it exists
 		get_search_form();
 
-		echo $after_widget;	
+		echo $after_widget;
 	}
 }
 
@@ -232,7 +232,7 @@ class WP_Widget_Archives extends WP_Widget {
  * Meta widget class
  *
  * Displays log in/out, RSS feed links, etc.
- * 
+ *
  * @since 2.8.0
  */
 class WP_Widget_Meta extends WP_Widget {
@@ -414,9 +414,9 @@ class WP_Widget_Categories extends WP_Widget {
 <?php
 		}
 
-		echo $after_widget;		
+		echo $after_widget;
 	}
-	
+
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -426,7 +426,7 @@ class WP_Widget_Categories extends WP_Widget {
 
 		return $instance;
 	}
-	
+
 	function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );

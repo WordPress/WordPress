@@ -45,7 +45,7 @@ $wp_registered_widget_updates = array();
 
 /**
  * Singleton that registers and instantiates WP_Widget classes.
- * 
+ *
  * @package WordPress
  * @subpackage Widgets
  * @since 2.8
@@ -70,7 +70,7 @@ class WP_Widget_Factory {
 /**
  * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
  * and WP_Widget::form() need to be over-ridden.
- * 
+ *
  * @package WordPress
  * @subpackage Widgets
  * @since 2.8
@@ -288,14 +288,14 @@ class WP_Widget {
 		_register_widget_update_callback(	$this->id, $this->name,	$this->_get_update_callback(), $this->control_options, array( 'number' => $number ) );
 		_register_widget_form_callback(	$this->id, $this->name,	$this->_get_form_callback(), $this->control_options, array( 'number' => $number ) );
 	}
-	
+
 	function save_settings($settings) {
 		$settings['_multiwidget'] = 1;
 		update_option( $this->option_name, $settings );
 	}
 
 	function get_settings() {
-		$settings = get_option($this->option_name);	
+		$settings = get_option($this->option_name);
 
 		if ( !is_array($settings) )
 			$settings = array();
@@ -314,15 +314,15 @@ class WP_Widget {
 
 /**
  * Register a widget
- * 
+ *
  * Registers a WP_Widget widget
- * 
+ *
  * @since 2.8.0
- * 
+ *
  * @see WP_Widget
  * @see WP_Widget_Factory
  * @uses WP_Widget_Factory
- * 
+ *
  * @param string $widget_class The name of a class that extends WP_Widget
  */
 function register_widget($widget_class) {
@@ -922,7 +922,7 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 
 	if ( $single ) {
 		$settings = array( 2 => $settings );
-		
+
 		$sidebars_widgets = get_option('sidebars_widgets');
 		foreach ( (array) $sidebars_widgets as $index => $sidebar ) {
 			if ( is_array($sidebar) ) {
@@ -940,14 +940,14 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 
 	$settings['_multiwidget'] = 1;
 	update_option( $option_name, $settings );
-	
+
 	return $settings;
 }
 
 /**
  * Deprecated API
  */
- 
+
 /**
  * Register widget for sidebar with backwards compatibility.
  *

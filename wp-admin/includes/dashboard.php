@@ -167,7 +167,7 @@ function wp_dashboard() {
 <?php
 	echo "\t<div class='postbox-container' style='$width'>\n";
 	do_meta_boxes( 'dashboard', 'normal', '' );
-	
+
 	echo "\t</div><div class='postbox-container' style='{$hide2}$width'>\n";
 	do_meta_boxes( 'dashboard', 'side', '' );
 

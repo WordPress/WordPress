@@ -435,7 +435,7 @@ class wpdb {
 		if ( $this->dbh && $this->real_escape )
 			return mysql_real_escape_string( $string, $this->dbh );
 		else
-			return addslashes( $string );	
+			return addslashes( $string );
 	}
 
 	function _escape($data) {

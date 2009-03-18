@@ -17,7 +17,7 @@ ini_set('auto_detect_line_endings', 1);
  * Routines for working with PO files
  */
 class PO extends Translations {
-	
+
 
 	/**
 	 * Exports headers to a PO entry
@@ -94,7 +94,7 @@ class PO extends Translations {
 			"$tab" 		=> '\t',
 			"$quote"	=> "$slash$quote",
 		);
-		$string = str_replace(array_keys($replaces), array_values($replaces), $string);	
+		$string = str_replace(array_keys($replaces), array_values($replaces), $string);
 
 		$po = array();
 		foreach (explode($newline, $string) as $line) {
@@ -111,7 +111,7 @@ class PO extends Translations {
 	}
 
 	/**
-	 * Inserts $with in the beginning of every new line of $string and 
+	 * Inserts $with in the beginning of every new line of $string and
 	 * returns the modified string
 	 *
 	 * @static
@@ -153,7 +153,7 @@ class PO extends Translations {
 	 */
 	function export_entry(&$entry) {
 		if (is_null($entry->singular)) return false;
-		$po = array();	
+		$po = array();
 		if (!empty($entry->translator_comments)) $po[] = PO::comment_block($entry->translator_comments);
 		if (!empty($entry->extracted_comments)) $po[] = PO::comment_block($entry->extracted_comments, '.');
 		if (!empty($entry->references)) $po[] = PO::comment_block(implode(' ', $entry->references), ':');
