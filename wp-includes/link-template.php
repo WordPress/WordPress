@@ -909,6 +909,242 @@ function get_adjacent_post($in_same_cat = false, $excluded_categories = '', $pre
 }
 
 /**
+ * Get adjacent post relational link.
+ *
+ * Can either be next or previous post relational link.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param bool $previous Optional, default is true. Whether display link to previous post.
+ * @return string
+ */
+function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $previous = true) {
+	if ( $previous && is_attachment() )
+		$post = & get_post($GLOBALS['post']->post_parent);
+	else
+		$post = get_adjacent_post($in_same_cat,$excluded_categories,$previous);
+
+	if ( empty($post) )
+		return;
+
+	if ( empty($post->post_title) )
+		$post->post_title = $previous ? __('Previous Post') : __('Next Post');
+
+	$date = mysql2date(get_option('date_format'), $post->post_date);
+	
+	$title = str_replace('%title', $post->post_title, $title);
+	$title = str_replace('%date', $date, $title);
+	$title = apply_filters('the_title', $title, $post);
+
+	$link = $previous ? "<link rel='prev' title='" : "<link rel='next' title='";
+	$link .= $title;
+	$link .= "' href='" . get_permalink($post) . "' />\n";
+
+        $adjacent = $previous ? 'previous' : 'next';
+        return apply_filters( "{$adjacent}_post_rel_link", $link );
+}
+
+/**
+ * Display relational links for the posts adjacent to the current post.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ */
+function adjacent_posts_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
+	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', true);
+	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', false);
+}
+
+/**
+ * Display relational link for the next post adjacent to the current post.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ */
+function next_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
+	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', false);
+}
+
+/**
+ * Display relational link for the previous post adjacent to the current post.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ */
+function prev_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
+	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', true);
+}
+
+/**
+ * Retrieve boundary post.
+ *
+ * Boundary being either the first or last post by publish date within the contraitns specified
+ * by in same category or excluded categories.
+ *
+ * @since 2.8.0
+ *
+ * @param bool $in_same_cat Optional. Whether returned post should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param bool $previous Optional. Whether to retrieve first post.
+ * @return object
+ */
+function get_boundary_post($in_same_cat = false, $excluded_categories = '', $start = true) {
+        global $post, $wpdb;
+
+        if( empty($post) || !is_single() || is_attachment() )
+                return null;
+
+	$cat_array = array();
+	$excluded_categories = array();
+        if ( !empty($in_same_cat) || !empty($excluded_categories) ) {
+                if ( !empty($in_same_cat) ) {
+                        $cat_array = wp_get_object_terms($post->ID, 'category', 'fields=ids');
+                }
+
+                if ( !empty($excluded_categories) ) {
+                        $excluded_categories = array_map('intval', explode(',', $excluded_categories));
+
+                        if ( !empty($cat_array) ) {
+                                $excluded_categories = array_diff($excluded_categories, $cat_array);
+                        }
+
+                        $inverse_cats = array();
+                        foreach ( $excluded_categories as $excluded_category) {
+                                $inverse_cats[] = $excluded_category * -1;
+                        }
+                        $excluded_categories = $inverse_cats;
+                }
+        }
+
+	$categories = array_merge($cat_array, $excluded_categories);
+
+        $order = $start ? 'ASC' : 'DESC';
+
+	return get_posts("numberposts=1&order=$order&orderby=ID&category=$categories");
+}
+
+/**
+ * Get boundary post relational link.
+ *
+ * Can either be start or end post relational link.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param bool $start Optional, default is true. Whether display link to first post.
+ * @return string
+ */
+function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
+        $posts = get_boundary_post($in_same_cat,$excluded_categories,$start);
+	// Even though we limited get_posts to return only 1 item it still returns an array of objects.  
+	$post = $posts[0];	
+
+        if ( empty($post) )
+                return;
+
+        if ( empty($post->post_title) )
+                $post->post_title = $start ? __('First Post') : __('Last Post');
+
+        $date = mysql2date(get_option('date_format'), $post->post_date);
+
+        $title = str_replace('%title', $post->post_title, $title);
+        $title = str_replace('%date', $date, $title);
+        $title = apply_filters('the_title', $title, $post);
+
+        $link = $start ? "<link rel='start' title='" : "<link rel='end' title='";
+        $link .= $title;
+        $link .= "' href='" . get_permalink($post) . "' />\n";
+
+        $boundary = $start ? 'start' : 'end';
+        return apply_filters( "{$boundary}_post_rel_link", $link );
+}
+
+/**
+ * Display relational link for the first post.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ */
+function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
+	echo get_boundary_post_rel_link($title, $in_same_cat, $excluded_categories, true);
+}
+
+/**
+ * Get site index relational link.
+ *
+ * @since 2.8.0
+ *
+ * @return string
+ */
+function get_index_rel_link() {
+	$link = "<link rel='index' title='" . get_bloginfo('name') . "' href='" . get_bloginfo('siteurl') . "' />\n";
+	return apply_filters( "index_rel_link", $link );
+}
+
+/**
+ * Display relational link for the site index.
+ *
+ * @since 2.8.0
+ */
+function index_rel_link() {
+	echo get_index_rel_link(); 
+}
+
+/**
+ * Get parent post relational link.
+ *
+ * @since 2.8.0
+ *
+ * @param string $title Optional. Link title format.
+ * @return string
+ */
+function get_parent_post_rel_link($title = '%title') {
+	if ( ! empty( $GLOBALS['post'] ) && ! empty( $GLOBALS['post']->post_parent ) )
+		$post = & get_post($GLOBALS['post']->post_parent);
+
+	if ( empty($post) )
+		return;
+
+        $date = mysql2date(get_option('date_format'), $post->post_date);
+
+        $title = str_replace('%title', $post->post_title, $title);
+        $title = str_replace('%date', $date, $title);
+        $title = apply_filters('the_title', $title, $post);
+
+        $link = "<link rel='up' title='";
+        $link .= $title;
+        $link .= "' href='" . get_permalink($post) . "' />\n";
+
+        return apply_filters( "parent_post_rel_link", $link );
+}
+
+/**
+ * Display relational link for parent item
+ *
+ * @since 2.8.0
+ */
+function parent_post_rel_link($title = '%title') {
+	echo get_parent_post_rel_link($title);
+}
+
+/**
  * Display previous post link that is adjacent to the current post.
  *
  * @since 1.5.0
