@@ -1172,18 +1172,20 @@ class Walker_Page extends Walker {
 			$indent = '';
 
 		extract($args, EXTR_SKIP);
-		$css_class = 'page_item page-item-'.$page->ID;
+		$css_class = array('page_item', 'page-item-'.$page->ID);
 		if ( !empty($current_page) ) {
 			$_current_page = get_page( $current_page );
 			if ( isset($_current_page->ancestors) && in_array($page->ID, (array) $_current_page->ancestors) )
-				$css_class .= ' current_page_ancestor';
+				$css_class[] = 'current_page_ancestor';
 			if ( $page->ID == $current_page )
-				$css_class .= ' current_page_item';
+				$css_class[] = 'current_page_item';
 			elseif ( $_current_page && $page->ID == $_current_page->post_parent )
-				$css_class .= ' current_page_parent';
+				$css_class[] = 'current_page_parent';
 		} elseif ( $page->ID == get_option('page_for_posts') ) {
-			$css_class .= ' current_page_parent';
+			$css_class[] = 'current_page_parent';
 		}
+		
+		$css_class = implode(' ', apply_filters('page_css_class', $css_class, $page)); 
 
 		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . attribute_escape(apply_filters('the_title', $page->post_title)) . '">' . $link_before . apply_filters('the_title', $page->post_title) . $link_after . '</a>';
 
