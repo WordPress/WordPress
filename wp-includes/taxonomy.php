@@ -1059,7 +1059,9 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  *
  * The $args 'default' will only override the terms found, if there is only one
  * term found. Any other and the found terms are used.
- *
+ * 
+ * The $args 'force_default' will force the term supplied as default to be
+ * assigned even if the object was not going to be termless
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3.0
@@ -1110,10 +1112,13 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	foreach ( (array) $objects as $object ) {
 		$terms = wp_get_object_terms($object, $taxonomy, 'fields=ids');
-		if ( 1 == count($terms) && isset($default) )
+		if ( 1 == count($terms) && isset($default) ) {
 			$terms = array($default);
-		else
+		} else {
 			$terms = array_diff($terms, array($term));
+			if (isset($default) && isset($force_default) && $force_default)
+				$terms = array_merge($terms, array($default));
+		}
 		$terms = array_map('intval', $terms);
 		wp_set_object_terms($object, $terms, $taxonomy);
 	}
