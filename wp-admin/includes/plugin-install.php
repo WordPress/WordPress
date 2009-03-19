@@ -418,11 +418,13 @@ function install_plugin_information() {
 			$type = 'install';
 			//Check to see if this plugin is known to be installed, and has an update awaiting it.
 			$update_plugins = get_option('update_plugins');
-			foreach ( (array)$update_plugins->response as $file => $plugin ) {
-				if ( $plugin->slug === $api->slug ) {
-					$type = 'update_available';
-					$update_file = $file;
-					break;
+			if ( is_object( $update_plugins ) ) {
+				foreach ( (array)$update_plugins->response as $file => $plugin ) {
+					if ( $plugin->slug === $api->slug ) {
+						$type = 'update_available';
+						$update_file = $file;
+						break;
+					}
 				}
 			}
 			if ( 'install' == $type && is_dir( WP_PLUGIN_DIR  . '/' . $api->slug ) ) {
