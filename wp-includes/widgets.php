@@ -13,60 +13,6 @@
  * @subpackage Widgets
  */
 
-/* Global Variables */
-
-/** @ignore */
-global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates;
-
-/**
- * Stores the sidebars, since many themes can have more than one.
- *
- * @global array $wp_registered_sidebars
- * @since 2.2.0
- */
-$wp_registered_sidebars = array();
-
-/**
- * Stores the registered widgets.
- *
- * @global array $wp_registered_widgets
- * @since 2.2.0
- */
-$wp_registered_widgets = array();
-
-/**
- * Stores the registered widget control (options).
- *
- * @global array $wp_registered_widget_controls
- * @since 2.2.0
- */
-$wp_registered_widget_controls = array();
-$wp_registered_widget_updates = array();
-
-/**
- * Singleton that registers and instantiates WP_Widget classes.
- *
- * @package WordPress
- * @subpackage Widgets
- * @since 2.8
- */
-class WP_Widget_Factory {
-	var $widgets = array();
-
-	function WP_Widget_Factory() {
-		add_action( 'widgets_init', array( &$this, '_register_widgets' ), 100 );
-	}
-
-	function register($widget_class) {
-		$this->widgets[] = new $widget_class();
-	}
-
-	function _register_widgets() {
-		foreach ( $this->widgets as $widget )
-			$widget->_register();
-	}
-}
-
 /**
  * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
  * and WP_Widget::form() need to be over-ridden.
@@ -331,6 +277,60 @@ class WP_Widget {
 		return $settings;
 	}
 }
+
+/**
+ * Singleton that registers and instantiates WP_Widget classes.
+ *
+ * @package WordPress
+ * @subpackage Widgets
+ * @since 2.8
+ */
+class WP_Widget_Factory {
+	var $widgets = array();
+
+	function WP_Widget_Factory() {
+		add_action( 'widgets_init', array( &$this, '_register_widgets' ), 100 );
+	}
+
+	function register($widget_class) {
+		$this->widgets[] = new $widget_class();
+	}
+
+	function _register_widgets() {
+		foreach ( $this->widgets as $widget )
+			$widget->_register();
+	}
+}
+
+/* Global Variables */
+
+/** @ignore */
+global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates;
+
+/**
+ * Stores the sidebars, since many themes can have more than one.
+ *
+ * @global array $wp_registered_sidebars
+ * @since 2.2.0
+ */
+$wp_registered_sidebars = array();
+
+/**
+ * Stores the registered widgets.
+ *
+ * @global array $wp_registered_widgets
+ * @since 2.2.0
+ */
+$wp_registered_widgets = array();
+
+/**
+ * Stores the registered widget control (options).
+ *
+ * @global array $wp_registered_widget_controls
+ * @since 2.2.0
+ */
+$wp_registered_widget_controls = array();
+$wp_registered_widget_updates = array();
 
 /* Template tags & API functions */
 
