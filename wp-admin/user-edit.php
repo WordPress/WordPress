@@ -317,17 +317,17 @@ else
 </tr>
 
 <tr>
-	<th><label for="aim"><?php _e('AIM') ?></label></th>
+	<th><label for="aim"><?php echo apply_filters('user_aim_label', __('AIM')); ?></label></th>
 	<td><input type="text" name="aim" id="aim" value="<?php echo $profileuser->aim ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
-	<th><label for="yim"><?php _e('Yahoo IM') ?></label></th>
+	<th><label for="yim"><?php echo apply_filters('user_yim_label', __('Yahoo IM')); ?></label></th>
 	<td><input type="text" name="yim" id="yim" value="<?php echo $profileuser->yim ?>" class="regular-text" /></td>
 </tr>
 
 <tr>
-	<th><label for="jabber"><?php _e('Jabber / Google Talk') ?></label></th>
+	<th><label for="jabber"><?php echo apply_filters('user_jabber_label', __('Jabber / Google Talk')); ?></label></th>
 	<td><input type="text" name="jabber" id="jabber" value="<?php echo $profileuser->jabber ?>" class="regular-text" /></td>
 </tr>
 </table>
