@@ -377,7 +377,9 @@ h6 {
 	border-bottom-right-radius: 4px;
 }
 
-.widefat td p {
+.widefat td p,
+.widefat td ol,
+.widefat td ul {
 	font-size: 11px;
 }
 
