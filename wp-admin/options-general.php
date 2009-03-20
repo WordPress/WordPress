@@ -167,7 +167,7 @@ if (empty($tzstring)) { // set the Etc zone if no timezone string exists
 			}
 		}
 
-		if ($found) {
+		if ( isset($found) && $found === true ) {
 			_e(' ');
 			$message = $tr['isdst'] ?
 				__('This timezone switches to daylight savings time on: %s.') :
