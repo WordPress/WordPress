@@ -249,7 +249,7 @@ function wp_doc_link_parse( $content ) {
 		if ( !is_array( $tokens[$t] ) ) continue;
 		if ( T_STRING == $tokens[$t][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
 			// If it's a function or class defined locally, there's not going to be any docs available
-			if ( 'class' == $tokens[ $t - 2 ][1] || 'function' == $tokens[ $t - 2 ][1] || T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) {
+			if ( ( isset( $tokens[ $t - 2 ][1] ) && in_array( $tokens[ $t - 2 ][1], array( 'function', 'class' ) ) ) || ( isset( $tokens[ $t - 2 ][0] ) && T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) ) {
 				$ignore_functions[] = $tokens[$t][1];
 			}
 			// Add this to our stack of unique references
