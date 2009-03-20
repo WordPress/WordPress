@@ -128,14 +128,6 @@ function install_dashboard() {
 	<p class="install-help"><?php _e('Search for plugins by keyword, author, or tag.') ?></p>
 	<?php install_search_form(); ?>
 
-	<h4><?php _e('Install a plugin in .zip format') ?></h4>
-	<p class="install-help"><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
-	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('plugin-install.php?tab=upload') ?>">
-		<?php wp_nonce_field( 'plugin-upload') ?>
-		<input type="file" name="pluginzip" />
-		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
-	</form>
-
 	<h4><?php _e('Popular tags') ?></h4>
 	<p class="install-help"><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
 	<?php
@@ -203,6 +195,25 @@ function install_popular($page = 1) {
 	$args = array('browse' => 'popular', 'page' => $page);
 	$api = plugins_api('query_plugins', $args);
 	display_plugins_table($api->plugins, $api->info['page'], $api->info['pages']);
+}
+
+add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
+/**
+ * Upload from zip
+ * @since 2.8.0
+ * 
+ * @param string $page
+ */
+function install_plugins_upload( $page = 1 ) {
+?>
+	<h4><?php _e('Install a plugin in .zip format') ?></h4>
+	<p class="install-help"><?php _e('If you have a plugin in a .zip format, You may install it by uploading it here.') ?></p>
+	<form method="post" enctype="multipart/form-data" action="<?php echo admin_url('plugin-install.php?tab=do_upload') ?>">
+		<?php wp_nonce_field( 'plugin-upload') ?>
+		<input type="file" name="pluginzip" />
+		<input type="submit" class="button" value="<?php _e('Install Now') ?>" />
+	</form>
+<?php
 }
 
 add_action('install_plugins_new', 'install_new', 10, 1);
@@ -535,7 +546,7 @@ function install_plugin_information() {
 }
 
 
-add_action('install_plugins_upload', 'upload_plugin');
+add_action('install_plugins_do_upload', 'upload_plugin');
 function upload_plugin() {
 
 	if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
